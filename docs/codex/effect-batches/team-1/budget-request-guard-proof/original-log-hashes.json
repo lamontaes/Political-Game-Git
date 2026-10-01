@@ -1,0 +1,80 @@
+[
+  {
+    "originalPath": "/tmp/team1-budget-guards-initial.log",
+    "sha256": "6de0efba24ec7301f0d558cbb8777d0d0d8999b7581dd3bb431fe7dd7412b09e",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/initial.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-expanded.log",
+    "sha256": "8f5d089c0b9e1ca766e96a9c9bfd29a7b6823ac2afddbe1c09c99c0e6a276fec",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/expanded.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-corrected.log",
+    "sha256": "588cd02beb9d12d2080c2ffbb64c75995f9c8770443dea6247945c3edc11dc97",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/corrected.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-registry.log",
+    "sha256": "9a0ad8cfc4e7e087c0530581dba52ece9a53df92ad622293945849d3e9069c99",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/registry.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-published-source-tests.log",
+    "sha256": "4e7763e498bd7e967746f1522de77e150430efc0c4950437c87af28cac3bfbb5",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/published-source-tests.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-published-source-types.log",
+    "sha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/published-source-types.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-lint-final.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/lint-final.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-format.log",
+    "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/format.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-release.log",
+    "sha256": "47948287e6aef30e7a854e11c4a0269d6ae6b22911babbd47a1dc5ddcc7009ee",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/release.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-zero-dice.log",
+    "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/zero-dice.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-spelling.log",
+    "sha256": "fd7967f81b2b0fa0647b3ea074d4b840225d5e17cbe64b7ccc01a2cf4de138fe",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/spelling.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-report.log",
+    "sha256": "40b05c5932aa3856170aea03331e7d04988a403e73e42b51dccbac1e0f2a2e05",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/report.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  },
+  {
+    "originalPath": "/tmp/team1-budget-guards-final-spelling.log",
+    "sha256": "fd7967f81b2b0fa0647b3ea074d4b840225d5e17cbe64b7ccc01a2cf4de138fe",
+    "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/final-spelling.log",
+    "normalization": "Trailing blank lines only; raw original retained."
+  }
+]

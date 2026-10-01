@@ -1,0 +1,968 @@
+[
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "UT",
+    "governorName": "Reese Kelley",
+    "governorPersonId": "person_0cc49832706cb142",
+    "measureId": "legislative-measure_81b1b18b40f593bd",
+    "designation": "HB 2",
+    "requestEventId": "event_3d320184ab774562",
+    "sourceFiscalYear": 2027,
+    "fiscalWindow": {
+      "fiscalYear": 2027,
+      "startsOn": "2026-07-01",
+      "endsOn": "2027-06-30"
+    },
+    "adoptedAnnualProgramLines": [
+      {
+        "program": "schools",
+        "provisionKey": "budget-2027-schools:amount-provided",
+        "annualMinorUnits": 73101610000
+      },
+      {
+        "program": "higherEducation",
+        "provisionKey": "budget-2027-higher-education:amount-provided",
+        "annualMinorUnits": 739241265700
+      },
+      {
+        "program": "welfareAndMedicaid",
+        "provisionKey": "budget-2027-welfare-and-medicaid:amount-provided",
+        "annualMinorUnits": 738304521700
+      },
+      {
+        "program": "healthAndHospitals",
+        "provisionKey": "budget-2027-health-and-hospitals:amount-provided",
+        "annualMinorUnits": 421226535600
+      },
+      {
+        "program": "highways",
+        "provisionKey": "budget-2027-highways:amount-provided",
+        "annualMinorUnits": 169305621000
+      },
+      {
+        "program": "transit",
+        "provisionKey": "budget-2027-transit:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "police",
+        "provisionKey": "budget-2027-police:amount-provided",
+        "annualMinorUnits": 23572749500
+      },
+      {
+        "program": "fire",
+        "provisionKey": "budget-2027-fire:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "corrections",
+        "provisionKey": "budget-2027-corrections:amount-provided",
+        "annualMinorUnits": 52003129600
+      },
+      {
+        "program": "parks",
+        "provisionKey": "budget-2027-parks:amount-provided",
+        "annualMinorUnits": 10572955200
+      },
+      {
+        "program": "housing",
+        "provisionKey": "budget-2027-housing:amount-provided",
+        "annualMinorUnits": 13829820700
+      },
+      {
+        "program": "naturalResources",
+        "provisionKey": "budget-2027-natural-resources:amount-provided",
+        "annualMinorUnits": 34797868300
+      },
+      {
+        "program": "administration",
+        "provisionKey": "budget-2027-administration:amount-provided",
+        "annualMinorUnits": 173981436400
+      },
+      {
+        "program": "otherPrograms",
+        "provisionKey": "budget-2027-other-programs:amount-provided",
+        "annualMinorUnits": 112804538900
+      },
+      {
+        "program": "localAid",
+        "provisionKey": "budget-2027-local-aid:amount-provided",
+        "annualMinorUnits": 651189118500
+      },
+      {
+        "program": "pensionContribution",
+        "provisionKey": "budget-2027-pension-contribution:amount-provided",
+        "annualMinorUnits": 51060562500
+      },
+      {
+        "program": "interest",
+        "provisionKey": "budget-2027-interest:amount-provided",
+        "annualMinorUnits": 21772819700
+      },
+      {
+        "program": "programUnknown",
+        "provisionKey": "budget-2027-program-unknown:amount-provided",
+        "annualMinorUnits": 0
+      }
+    ],
+    "scheduledStepId": "future-due-item_44e04db675c29288",
+    "limits": "Controlled actual session request; real February season handler and recorded choice file through canonical driver. Five eligible annual places; saved first-year dates. No natural year, passage, cash or final-main proof."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "MO",
+    "governorName": "Dakota Park",
+    "governorPersonId": "person_00b3fef47a7754bb",
+    "measureId": "legislative-measure_cd8214f0ae415663",
+    "designation": "HB 2",
+    "requestEventId": "event_e272cc441c2e413b",
+    "sourceFiscalYear": 2027,
+    "fiscalWindow": {
+      "fiscalYear": 2027,
+      "startsOn": "2026-07-01",
+      "endsOn": "2027-06-30"
+    },
+    "adoptedAnnualProgramLines": [
+      {
+        "program": "schools",
+        "provisionKey": "budget-2027-schools:amount-provided",
+        "annualMinorUnits": 131697608200
+      },
+      {
+        "program": "higherEducation",
+        "provisionKey": "budget-2027-higher-education:amount-provided",
+        "annualMinorUnits": 392929066200
+      },
+      {
+        "program": "welfareAndMedicaid",
+        "provisionKey": "budget-2027-welfare-and-medicaid:amount-provided",
+        "annualMinorUnits": 1314201859100
+      },
+      {
+        "program": "healthAndHospitals",
+        "provisionKey": "budget-2027-health-and-hospitals:amount-provided",
+        "annualMinorUnits": 607921206200
+      },
+      {
+        "program": "highways",
+        "provisionKey": "budget-2027-highways:amount-provided",
+        "annualMinorUnits": 186924324700
+      },
+      {
+        "program": "transit",
+        "provisionKey": "budget-2027-transit:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "police",
+        "provisionKey": "budget-2027-police:amount-provided",
+        "annualMinorUnits": 37021299200
+      },
+      {
+        "program": "fire",
+        "provisionKey": "budget-2027-fire:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "corrections",
+        "provisionKey": "budget-2027-corrections:amount-provided",
+        "annualMinorUnits": 81056160800
+      },
+      {
+        "program": "parks",
+        "provisionKey": "budget-2027-parks:amount-provided",
+        "annualMinorUnits": 4510656700
+      },
+      {
+        "program": "housing",
+        "provisionKey": "budget-2027-housing:amount-provided",
+        "annualMinorUnits": 61792604600
+      },
+      {
+        "program": "naturalResources",
+        "provisionKey": "budget-2027-natural-resources:amount-provided",
+        "annualMinorUnits": 42929242000
+      },
+      {
+        "program": "administration",
+        "provisionKey": "budget-2027-administration:amount-provided",
+        "annualMinorUnits": 118097808900
+      },
+      {
+        "program": "otherPrograms",
+        "provisionKey": "budget-2027-other-programs:amount-provided",
+        "annualMinorUnits": 235544455300
+      },
+      {
+        "program": "localAid",
+        "provisionKey": "budget-2027-local-aid:amount-provided",
+        "annualMinorUnits": 933918430100
+      },
+      {
+        "program": "pensionContribution",
+        "provisionKey": "budget-2027-pension-contribution:amount-provided",
+        "annualMinorUnits": 191036040900
+      },
+      {
+        "program": "interest",
+        "provisionKey": "budget-2027-interest:amount-provided",
+        "annualMinorUnits": 29929828200
+      },
+      {
+        "program": "programUnknown",
+        "provisionKey": "budget-2027-program-unknown:amount-provided",
+        "annualMinorUnits": 0
+      }
+    ],
+    "scheduledStepId": "future-due-item_d8766744891bcfb6",
+    "limits": "Controlled actual session request; real February season handler and recorded choice file through canonical driver. Five eligible annual places; saved first-year dates. No natural year, passage, cash or final-main proof."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "MS",
+    "governorName": "Adrian McGee",
+    "governorPersonId": "person_03dffcc86d97bf75",
+    "measureId": "legislative-measure_284392a50c712637",
+    "designation": "HB 2",
+    "requestEventId": "event_f36e86fcdd6af1e3",
+    "sourceFiscalYear": 2027,
+    "fiscalWindow": {
+      "fiscalYear": 2027,
+      "startsOn": "2026-07-01",
+      "endsOn": "2027-06-30"
+    },
+    "adoptedAnnualProgramLines": [
+      {
+        "program": "schools",
+        "provisionKey": "budget-2027-schools:amount-provided",
+        "annualMinorUnits": 78596583800
+      },
+      {
+        "program": "higherEducation",
+        "provisionKey": "budget-2027-higher-education:amount-provided",
+        "annualMinorUnits": 222330362900
+      },
+      {
+        "program": "welfareAndMedicaid",
+        "provisionKey": "budget-2027-welfare-and-medicaid:amount-provided",
+        "annualMinorUnits": 683240766500
+      },
+      {
+        "program": "healthAndHospitals",
+        "provisionKey": "budget-2027-health-and-hospitals:amount-provided",
+        "annualMinorUnits": 212291803800
+      },
+      {
+        "program": "highways",
+        "provisionKey": "budget-2027-highways:amount-provided",
+        "annualMinorUnits": 102904805700
+      },
+      {
+        "program": "transit",
+        "provisionKey": "budget-2027-transit:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "police",
+        "provisionKey": "budget-2027-police:amount-provided",
+        "annualMinorUnits": 16865486300
+      },
+      {
+        "program": "fire",
+        "provisionKey": "budget-2027-fire:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "corrections",
+        "provisionKey": "budget-2027-corrections:amount-provided",
+        "annualMinorUnits": 31420954800
+      },
+      {
+        "program": "parks",
+        "provisionKey": "budget-2027-parks:amount-provided",
+        "annualMinorUnits": 3624134900
+      },
+      {
+        "program": "housing",
+        "provisionKey": "budget-2027-housing:amount-provided",
+        "annualMinorUnits": 24243399900
+      },
+      {
+        "program": "naturalResources",
+        "provisionKey": "budget-2027-natural-resources:amount-provided",
+        "annualMinorUnits": 32366765600
+      },
+      {
+        "program": "administration",
+        "provisionKey": "budget-2027-administration:amount-provided",
+        "annualMinorUnits": 55543550200
+      },
+      {
+        "program": "otherPrograms",
+        "provisionKey": "budget-2027-other-programs:amount-provided",
+        "annualMinorUnits": 56088643700
+      },
+      {
+        "program": "localAid",
+        "provisionKey": "budget-2027-local-aid:amount-provided",
+        "annualMinorUnits": 769752800500
+      },
+      {
+        "program": "pensionContribution",
+        "provisionKey": "budget-2027-pension-contribution:amount-provided",
+        "annualMinorUnits": 226818180300
+      },
+      {
+        "program": "interest",
+        "provisionKey": "budget-2027-interest:amount-provided",
+        "annualMinorUnits": 31529537400
+      },
+      {
+        "program": "programUnknown",
+        "provisionKey": "budget-2027-program-unknown:amount-provided",
+        "annualMinorUnits": 0
+      }
+    ],
+    "scheduledStepId": "future-due-item_959232194a48fa72",
+    "limits": "Controlled actual session request; real February season handler and recorded choice file through canonical driver. Five eligible annual places; saved first-year dates. No natural year, passage, cash or final-main proof."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "LA",
+    "governorName": "Lance Sanchez",
+    "governorPersonId": "person_36e3dc6b1ebb24c3",
+    "measureId": "legislative-measure_5e6fb74356f07b97",
+    "designation": "HB 2",
+    "requestEventId": "event_54a046aa3970d55e",
+    "sourceFiscalYear": 2027,
+    "fiscalWindow": {
+      "fiscalYear": 2027,
+      "startsOn": "2026-07-01",
+      "endsOn": "2027-06-30"
+    },
+    "adoptedAnnualProgramLines": [
+      {
+        "program": "schools",
+        "provisionKey": "budget-2027-schools:amount-provided",
+        "annualMinorUnits": 152094477900
+      },
+      {
+        "program": "higherEducation",
+        "provisionKey": "budget-2027-higher-education:amount-provided",
+        "annualMinorUnits": 474897951900
+      },
+      {
+        "program": "welfareAndMedicaid",
+        "provisionKey": "budget-2027-welfare-and-medicaid:amount-provided",
+        "annualMinorUnits": 1833272268800
+      },
+      {
+        "program": "healthAndHospitals",
+        "provisionKey": "budget-2027-health-and-hospitals:amount-provided",
+        "annualMinorUnits": 149441696400
+      },
+      {
+        "program": "highways",
+        "provisionKey": "budget-2027-highways:amount-provided",
+        "annualMinorUnits": 186710774700
+      },
+      {
+        "program": "transit",
+        "provisionKey": "budget-2027-transit:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "police",
+        "provisionKey": "budget-2027-police:amount-provided",
+        "annualMinorUnits": 40036980600
+      },
+      {
+        "program": "fire",
+        "provisionKey": "budget-2027-fire:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "corrections",
+        "provisionKey": "budget-2027-corrections:amount-provided",
+        "annualMinorUnits": 74713340300
+      },
+      {
+        "program": "parks",
+        "provisionKey": "budget-2027-parks:amount-provided",
+        "annualMinorUnits": 35001700900
+      },
+      {
+        "program": "housing",
+        "provisionKey": "budget-2027-housing:amount-provided",
+        "annualMinorUnits": 5615888500
+      },
+      {
+        "program": "naturalResources",
+        "provisionKey": "budget-2027-natural-resources:amount-provided",
+        "annualMinorUnits": 109980319400
+      },
+      {
+        "program": "administration",
+        "provisionKey": "budget-2027-administration:amount-provided",
+        "annualMinorUnits": 98683474000
+      },
+      {
+        "program": "otherPrograms",
+        "provisionKey": "budget-2027-other-programs:amount-provided",
+        "annualMinorUnits": 306511391100
+      },
+      {
+        "program": "localAid",
+        "provisionKey": "budget-2027-local-aid:amount-provided",
+        "annualMinorUnits": 1094798538300
+      },
+      {
+        "program": "pensionContribution",
+        "provisionKey": "budget-2027-pension-contribution:amount-provided",
+        "annualMinorUnits": 197348165300
+      },
+      {
+        "program": "interest",
+        "provisionKey": "budget-2027-interest:amount-provided",
+        "annualMinorUnits": 69443925600
+      },
+      {
+        "program": "programUnknown",
+        "provisionKey": "budget-2027-program-unknown:amount-provided",
+        "annualMinorUnits": 0
+      }
+    ],
+    "scheduledStepId": "future-due-item_d3175f43d76a37b0",
+    "limits": "Controlled actual session request; real February season handler and recorded choice file through canonical driver. Five eligible annual places; saved first-year dates. No natural year, passage, cash or final-main proof."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "WV",
+    "governorName": "Avery Farmer",
+    "governorPersonId": "person_610f58ab60d57126",
+    "measureId": "legislative-measure_a523555d4d81df09",
+    "designation": "HB 2",
+    "requestEventId": "event_4caa80bb574ed511",
+    "sourceFiscalYear": 2027,
+    "fiscalWindow": {
+      "fiscalYear": 2027,
+      "startsOn": "2026-07-01",
+      "endsOn": "2027-06-30"
+    },
+    "adoptedAnnualProgramLines": [
+      {
+        "program": "schools",
+        "provisionKey": "budget-2027-schools:amount-provided",
+        "annualMinorUnits": 113694096600
+      },
+      {
+        "program": "higherEducation",
+        "provisionKey": "budget-2027-higher-education:amount-provided",
+        "annualMinorUnits": 194649283500
+      },
+      {
+        "program": "welfareAndMedicaid",
+        "provisionKey": "budget-2027-welfare-and-medicaid:amount-provided",
+        "annualMinorUnits": 698804334000
+      },
+      {
+        "program": "healthAndHospitals",
+        "provisionKey": "budget-2027-health-and-hospitals:amount-provided",
+        "annualMinorUnits": 59935195000
+      },
+      {
+        "program": "highways",
+        "provisionKey": "budget-2027-highways:amount-provided",
+        "annualMinorUnits": 183253140900
+      },
+      {
+        "program": "transit",
+        "provisionKey": "budget-2027-transit:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "police",
+        "provisionKey": "budget-2027-police:amount-provided",
+        "annualMinorUnits": 10782275600
+      },
+      {
+        "program": "fire",
+        "provisionKey": "budget-2027-fire:amount-provided",
+        "annualMinorUnits": 0
+      },
+      {
+        "program": "corrections",
+        "provisionKey": "budget-2027-corrections:amount-provided",
+        "annualMinorUnits": 37972620400
+      },
+      {
+        "program": "parks",
+        "provisionKey": "budget-2027-parks:amount-provided",
+        "annualMinorUnits": 9025824200
+      },
+      {
+        "program": "housing",
+        "provisionKey": "budget-2027-housing:amount-provided",
+        "annualMinorUnits": 3358446200
+      },
+      {
+        "program": "naturalResources",
+        "provisionKey": "budget-2027-natural-resources:amount-provided",
+        "annualMinorUnits": 25823995700
+      },
+      {
+        "program": "administration",
+        "provisionKey": "budget-2027-administration:amount-provided",
+        "annualMinorUnits": 100133578000
+      },
+      {
+        "program": "otherPrograms",
+        "provisionKey": "budget-2027-other-programs:amount-provided",
+        "annualMinorUnits": 92606777400
+      },
+      {
+        "program": "localAid",
+        "provisionKey": "budget-2027-local-aid:amount-provided",
+        "annualMinorUnits": 417828321900
+      },
+      {
+        "program": "pensionContribution",
+        "provisionKey": "budget-2027-pension-contribution:amount-provided",
+        "annualMinorUnits": 43517867500
+      },
+      {
+        "program": "interest",
+        "provisionKey": "budget-2027-interest:amount-provided",
+        "annualMinorUnits": 34189397200
+      },
+      {
+        "program": "programUnknown",
+        "provisionKey": "budget-2027-program-unknown:amount-provided",
+        "annualMinorUnits": 0
+      }
+    ],
+    "scheduledStepId": "future-due-item_469f1f428f7b8d47",
+    "limits": "Controlled actual session request; real February season handler and recorded choice file through canonical driver. Five eligible annual places; saved first-year dates. No natural year, passage, cash or final-main proof."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "UT",
+    "governorName": "Reese Kelley",
+    "governorPersonId": "person_0cc49832706cb142",
+    "pendingRequestId": "event_0c86ada47e8b8928",
+    "decisionId": "event_3d320184ab774562",
+    "filedMeasureId": "legislative-measure_81b1b18b40f593bd",
+    "introducedAt": "2027-02-15",
+    "lapsedRequestId": "event_c1239b64de6c06c6",
+    "limits": "Production intake and actual recorded player decision; no NPC choice, natural year, passage, cash or delivered service claim."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "MO",
+    "governorName": "Dakota Park",
+    "governorPersonId": "person_00b3fef47a7754bb",
+    "pendingRequestId": "event_73bdf7be43bfa951",
+    "decisionId": "event_e272cc441c2e413b",
+    "filedMeasureId": "legislative-measure_cd8214f0ae415663",
+    "introducedAt": "2027-02-15",
+    "lapsedRequestId": "event_757aa9dd2fb4b0e6",
+    "limits": "Production intake and actual recorded player decision; no NPC choice, natural year, passage, cash or delivered service claim."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "MS",
+    "governorName": "Adrian McGee",
+    "governorPersonId": "person_03dffcc86d97bf75",
+    "pendingRequestId": "event_ac659853594aeed9",
+    "decisionId": "event_f36e86fcdd6af1e3",
+    "filedMeasureId": "legislative-measure_284392a50c712637",
+    "introducedAt": "2027-02-15",
+    "lapsedRequestId": "event_0f67d9f82ace31da",
+    "limits": "Production intake and actual recorded player decision; no NPC choice, natural year, passage, cash or delivered service claim."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "LA",
+    "governorName": "Lance Sanchez",
+    "governorPersonId": "person_36e3dc6b1ebb24c3",
+    "pendingRequestId": "event_ae24260497aea1dc",
+    "decisionId": "event_54a046aa3970d55e",
+    "filedMeasureId": "legislative-measure_5e6fb74356f07b97",
+    "introducedAt": "2027-02-15",
+    "lapsedRequestId": "event_b9283ee487bb8b54",
+    "limits": "Production intake and actual recorded player decision; no NPC choice, natural year, passage, cash or delivered service claim."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "WV",
+    "governorName": "Avery Farmer",
+    "governorPersonId": "person_610f58ab60d57126",
+    "pendingRequestId": "event_4cd1361b00c098a7",
+    "decisionId": "event_4caa80bb574ed511",
+    "filedMeasureId": "legislative-measure_a523555d4d81df09",
+    "introducedAt": "2027-02-15",
+    "lapsedRequestId": "event_7b7d97bfcea497c1",
+    "limits": "Production intake and actual recorded player decision; no NPC choice, natural year, passage, cash or delivered service claim."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "UT",
+    "governorPersonId": "person_0cc49832706cb142",
+    "intakeKey": "us-ut-governor:2027-02-15",
+    "matterId": "event_0c86ada47e8b8928",
+    "decisionId": "event_3d320184ab774562",
+    "choice": "budget:appropriations",
+    "result": "Unsupported changed amounts refused; existing authority unchanged."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "UT",
+    "governorPersonId": "person_0cc49832706cb142",
+    "februaryMatterId": "event_0c86ada47e8b8928",
+    "marchMatterId": "event_53796d9af8205c41",
+    "result": "Separate pending matters; repeat/reload unchanged."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "UT",
+    "governorPersonId": "person_0cc49832706cb142",
+    "originalMeasureId": "legislative-measure_81b1b18b40f593bd",
+    "originalSourceEventId": "event_3d320184ab774562",
+    "marchRequestEventId": "event_f7b9229a231af30b",
+    "result": "Source-mismatched reuse refused; original draft and provisions unchanged."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "IN",
+    "governorName": "Jasmine Maxwell",
+    "filedMeasureId": "legislative-measure_71965bce9c0e96f3",
+    "first": {
+      "fiscalYear": 2027,
+      "startsOn": "2026-07-01",
+      "endsOn": "2027-06-30",
+      "adoptedOn": "2026-11-30",
+      "basis": "opening",
+      "expectedRevenue": [
+        13605207489, 1782791436, 12030276931, 5240978194, 18403934, 1010782274,
+        4556686482, 2856035546, 28317359798, 96242215, 0
+      ],
+      "appropriations": [
+        1904678726, 7630158128, 21908212530, 1192260532, 3146114206, 0,
+        390461458, 0, 850819383, 66571746, 597444691, 476749574, 944066219,
+        1667463725, 14887268525, 1240143734, 325295501, 0
+      ],
+      "reserveDeposit": 0,
+      "pensionRequired": 1037864034,
+      "pensionShare": 1.1949,
+      "economyAtAdoption": null,
+      "laws": {
+        "balanced": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IN:us-policy-positions:fiscal.balanced-operating-budget",
+          "level": "state-statute"
+        },
+        "reserve": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IN:us-policy-positions:fiscal.minimum-reserve-balance",
+          "level": "state-statute"
+        },
+        "pensions": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IN:us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "level": "state-statute"
+        }
+      }
+    },
+    "second": {
+      "fiscalYear": 2028,
+      "startsOn": "2027-07-01",
+      "endsOn": "2028-06-30",
+      "adoptedOn": "2027-02-15",
+      "basis": "automatic",
+      "expectedRevenue": [
+        13605207489, 1782791436, 12030276931, 5240978194, 18403934, 1010782274,
+        4556686482, 2856035546, 28317359798, 96242215, 0
+      ],
+      "appropriations": [
+        1904678727, 7630158130, 21908212533, 1192260536, 3146114211, 6,
+        390461465, 8, 850819392, 66571756, 597444702, 476749586, 944066232,
+        1667463739, 14887268540, 1240143750, 325295518, 18
+      ],
+      "reserveDeposit": 0,
+      "pensionRequired": 1037864034,
+      "pensionShare": 1.1949,
+      "economyAtAdoption": null,
+      "laws": {
+        "balanced": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IN:us-policy-positions:fiscal.balanced-operating-budget",
+          "level": "state-statute"
+        },
+        "reserve": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IN:us-policy-positions:fiscal.minimum-reserve-balance",
+          "level": "state-statute"
+        },
+        "pensions": {
+          "answer": "yes",
+          "measureId": "starting-law:US-IN:us-policy-positions:fiscal.fund-pensions-to-schedule",
+          "level": "state-statute"
+        }
+      }
+    },
+    "limits": "Controlled distinct second-year adoption; both actual saved arrays copied independently. No enacted authority or natural year claimed."
+  },
+  {
+    "seed": "team1-current-services-budget-20261001",
+    "place": "UT",
+    "governorName": "Reese Kelley",
+    "governorPersonId": "person_0cc49832706cb142",
+    "measureId": "legislative-measure_81b1b18b40f593bd",
+    "enactmentId": "legislative-enactment_1b0ab2dbbef53f85",
+    "finalAuthorityLines": [
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "schools",
+        "amountMinorUnits": 73101610000,
+        "provisionId": "legislative-provision_28a36253e636b8d9"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "higherEducation",
+        "amountMinorUnits": 739241265700,
+        "provisionId": "legislative-provision_38b2ef558ce88d14"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "welfareAndMedicaid",
+        "amountMinorUnits": 738304521700,
+        "provisionId": "legislative-provision_0be8cfdf377e5d33"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "healthAndHospitals",
+        "amountMinorUnits": 421226535600,
+        "provisionId": "legislative-provision_08de0f0cc4c31660"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "highways",
+        "amountMinorUnits": 169305621000,
+        "provisionId": "legislative-provision_d4799b6403489814"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "police",
+        "amountMinorUnits": 23572749500,
+        "provisionId": "legislative-provision_c86efdd426971a0e"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "corrections",
+        "amountMinorUnits": 52003129600,
+        "provisionId": "legislative-provision_a2968c095f801539"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "parks",
+        "amountMinorUnits": 10572955200,
+        "provisionId": "legislative-provision_11c984fb56dd3b3d"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "housing",
+        "amountMinorUnits": 13829820700,
+        "provisionId": "legislative-provision_65253ed862893587"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "naturalResources",
+        "amountMinorUnits": 34797868300,
+        "provisionId": "legislative-provision_96e3abdd9e335009"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "administration",
+        "amountMinorUnits": 173981436400,
+        "provisionId": "legislative-provision_0758261e112ce762"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "otherPrograms",
+        "amountMinorUnits": 112804538900,
+        "provisionId": "legislative-provision_2609a2271a70626c"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "localAid",
+        "amountMinorUnits": 651189118500,
+        "provisionId": "legislative-provision_dc64a3140b6de8d0"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "pensionContribution",
+        "amountMinorUnits": 51060562500,
+        "provisionId": "legislative-provision_6c1e642cacf448db"
+      },
+      {
+        "fiscalYear": 2027,
+        "startsOn": "2026-07-01",
+        "endsOn": "2027-06-30",
+        "program": "interest",
+        "amountMinorUnits": 21772819700,
+        "provisionId": "legislative-provision_2c0a3b6e3d6f4906"
+      }
+    ],
+    "appropriationRecords": [
+      {
+        "id": "public-program-record_f0f8ee2137b89f49",
+        "programKey": "budget-schools:ut",
+        "amountMinorUnits": 73101610000,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_35518c6656b6a1d1",
+        "programKey": "budget-higher-education:ut",
+        "amountMinorUnits": 739241265700,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_7d015d6ac9a472a5",
+        "programKey": "budget-welfare-and-medicaid:ut",
+        "amountMinorUnits": 738304521700,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_12bc8754ef741b85",
+        "programKey": "budget-health-and-hospitals:ut",
+        "amountMinorUnits": 421226535600,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_fbb09842cf43b715",
+        "programKey": "budget-highways:ut",
+        "amountMinorUnits": 169305621000,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_033cc8357e5a21c5",
+        "programKey": "budget-police:ut",
+        "amountMinorUnits": 23572749500,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_e5274ba87dc1d141",
+        "programKey": "budget-corrections:ut",
+        "amountMinorUnits": 52003129600,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_fdb8f5e5bff170f9",
+        "programKey": "budget-parks:ut",
+        "amountMinorUnits": 10572955200,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_9dfc89ef951e69f5",
+        "programKey": "budget-housing:ut",
+        "amountMinorUnits": 13829820700,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_13586449ed109e31",
+        "programKey": "budget-natural-resources:ut",
+        "amountMinorUnits": 34797868300,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_b6dead627dc3fd2d",
+        "programKey": "budget-administration:ut",
+        "amountMinorUnits": 173981436400,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_5fb3acb99348ac4d",
+        "programKey": "budget-other-programs:ut",
+        "amountMinorUnits": 112804538900,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_972b0dceb800e6c3",
+        "programKey": "budget-local-aid:ut",
+        "amountMinorUnits": 651189118500,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_cdf4e65362c72a85",
+        "programKey": "budget-pension-contribution:ut",
+        "amountMinorUnits": 51060562500,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      },
+      {
+        "id": "public-program-record_d1152fdf8881911d",
+        "programKey": "budget-interest:ut",
+        "amountMinorUnits": 21772819700,
+        "availableFrom": "2027-05-05",
+        "availableThrough": "2027-06-30",
+        "sourceMeasureId": "legislative-measure_81b1b18b40f593bd"
+      }
+    ],
+    "limits": "Controlled committee/floor votes and executive signature through canonical writers; actual named governor and seated rosters. Authority only; no cash, natural passage, two-year or national budget proof."
+  }
+]
