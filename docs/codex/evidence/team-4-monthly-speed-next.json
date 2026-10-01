@@ -1,0 +1,448 @@
+{
+  "kind": "Read-only monthly speed baseline and diagnostic; no retained production candidate",
+  "sourceHead": "b99761aa570fd3f9c0633509145ac2675dff5d08",
+  "branch": "codex/team-4-monthly-speed-next",
+  "seed": "b18-f375512c",
+  "place": "4272168",
+  "days": 30,
+  "through": "2026-02-04",
+  "baselineSeconds": 28.844403281,
+  "baselineExit": 1,
+  "limitSeconds": 15,
+  "profileSeconds": 30.260028615,
+  "profileExit": 0,
+  "fingerprint": "517608f7b7b5ad266671ff7f3de4181654dc188b0b51cbebb1e3db29214274c3",
+  "counts": {
+    "people": 15024,
+    "decisions": 9218,
+    "events": 20025
+  },
+  "comparison": {
+    "errors": [],
+    "positions": [],
+    "fingerprintsIdentical": true
+  },
+  "profile": {
+    "sourceHead": "b99761aa570fd3f9c0633509145ac2675dff5d08",
+    "kind": "CPU samples within advanceObservedWorld only; diagnostic, not isolated gain",
+    "advanceMilliseconds": 29075.21800000035,
+    "self": [
+      {
+        "frame": "createCharacterHistoryContextPeople simulation/character-history.ts:1",
+        "milliseconds": 3631.8220000000056
+      },
+      {
+        "frame": "confidantsOf simulation/confidants.ts:1",
+        "milliseconds": 1981.9820000000025
+      },
+      {
+        "frame": "(anonymous) simulation/district-residence.ts:1",
+        "milliseconds": 1776.3270000000025
+      },
+      {
+        "frame": "(anonymous) nationwide-world/state-legislature-opening.ts:1",
+        "milliseconds": 969.7799999999991
+      },
+      {
+        "frame": "fork simulation/rng.ts:1",
+        "milliseconds": 959.0400000000005
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1",
+        "milliseconds": 729.2330000000004
+      },
+      {
+        "frame": "prepareStateCandidateSlates nationwide-world/state-legislature-candidates.ts:1",
+        "milliseconds": 670.2799999999997
+      },
+      {
+        "frame": "adoptFromPrefix simulation/history-index.ts:1",
+        "milliseconds": 666.3909999999996
+      },
+      {
+        "frame": "openingSeatViews nationwide-world/state-legislature-opening.ts:1",
+        "milliseconds": 515.8480000000008
+      },
+      {
+        "frame": "normalizeSeed simulation/rng.ts:1",
+        "milliseconds": 506.86600000000027
+      },
+      {
+        "frame": "recordsByStringField simulation/history-index.ts:1",
+        "milliseconds": 490.2640000000001
+      },
+      {
+        "frame": "(anonymous) living-world/party-evolution.ts:1",
+        "milliseconds": 460.38600000000037
+      },
+      {
+        "frame": "upbringingFor simulation/people-upbringing.ts:1",
+        "milliseconds": 440.4820000000001
+      },
+      {
+        "frame": "(anonymous) simulation/world.ts:1",
+        "milliseconds": 439.94400000000013
+      },
+      {
+        "frame": "jsonSafetyFailure simulation/world.ts:1",
+        "milliseconds": 409.0310000000003
+      },
+      {
+        "frame": "establishDistrictResidence simulation/district-residence.ts:1",
+        "milliseconds": 404.8090000000003
+      },
+      {
+        "frame": "recordById simulation/history-index.ts:1",
+        "milliseconds": 393.2469999999998
+      },
+      {
+        "frame": "growingIndex simulation/history-index.ts:1",
+        "milliseconds": 386.38600000000037
+      },
+      {
+        "frame": "(anonymous) nominations/candidate-pool.ts:1",
+        "milliseconds": 382.03100000000006
+      },
+      {
+        "frame": "(anonymous) districts/query.ts:1",
+        "milliseconds": 359.4660000000002
+      },
+      {
+        "frame": "eventIndexOf simulation/event-index.ts:1",
+        "milliseconds": 344.14099999999985
+      },
+      {
+        "frame": "createOrganizationParticipations simulation/life.ts:1",
+        "milliseconds": 333.80799999999977
+      }
+    ],
+    "inclusive": [
+      {
+        "frame": "advanceObservedWorld presentation/observer-world.ts:1",
+        "milliseconds": 29075.21800000035
+      },
+      {
+        "frame": "main speed-years/month.ts:1",
+        "milliseconds": 29075.21800000035
+      },
+      {
+        "frame": "(root) :0",
+        "milliseconds": 29075.21800000035
+      },
+      {
+        "frame": "advanceWithWorldIntegrityAtEnd simulation/world.ts:1",
+        "milliseconds": 29074.108000000353
+      },
+      {
+        "frame": "passOrdinaryDays presentation/ordinary-life.ts:1",
+        "milliseconds": 29074.108000000353
+      },
+      {
+        "frame": "advanceOrdinaryDays presentation/ordinary-life.ts:1",
+        "milliseconds": 28526.061000000318
+      },
+      {
+        "frame": "advanceStoppingAtOwnDeath presentation/ordinary-life.ts:1",
+        "milliseconds": 28526.061000000318
+      },
+      {
+        "frame": "passOrdinaryDaysUnchecked presentation/ordinary-life.ts:1",
+        "milliseconds": 28526.061000000318
+      },
+      {
+        "frame": "(anonymous) presentation/ordinary-life.ts:1",
+        "milliseconds": 28526.061000000318
+      },
+      {
+        "frame": "withWorldIntegrityDeferred simulation/world.ts:1",
+        "milliseconds": 28526.061000000318
+      },
+      {
+        "frame": "advanceStoppingAtNewCommitments simulation/time-work.ts:1",
+        "milliseconds": 28520.20100000031
+      },
+      {
+        "frame": "resolveAdvanceWithRoutine simulation/time-work.ts:1",
+        "milliseconds": 28520.20100000031
+      },
+      {
+        "frame": "(anonymous) simulation/time-work.ts:1",
+        "milliseconds": 28520.20100000031
+      },
+      {
+        "frame": "advanceWorldMinutes simulation/time-work.ts:1",
+        "milliseconds": 28520.20100000031
+      },
+      {
+        "frame": "advanceCanonicalMinutes simulation/time-work.ts:1",
+        "milliseconds": 28519.08800000031
+      },
+      {
+        "frame": "setCurrentMoment simulation/time-work.ts:1",
+        "milliseconds": 22604.023999999965
+      },
+      {
+        "frame": "applyStateLegislatureTurnover nationwide-world/state-legislature-turnover.ts:1",
+        "milliseconds": 21670.17299999994
+      },
+      {
+        "frame": "prepareStateIntake nationwide-world/state-legislature-turnover.ts:1",
+        "milliseconds": 19389.15399999982
+      },
+      {
+        "frame": "prepareStateCandidateSlates nationwide-world/state-legislature-candidates.ts:1",
+        "milliseconds": 13147.014999999876
+      },
+      {
+        "frame": "resolveFutureDueItemsThrough simulation/future-transitions.ts:1",
+        "milliseconds": 5913.974000000018
+      },
+      {
+        "frame": "(anonymous) simulation/future-transitions.ts:1",
+        "milliseconds": 5904.177000000021
+      },
+      {
+        "frame": "ensureOfficeholderPrinciples governing/officeholder-principles.ts:1",
+        "milliseconds": 4504.148000000005
+      }
+    ],
+    "callers": [
+      {
+        "frame": "createCharacterHistoryContextPeople simulation/character-history.ts:1 <- prepareStateCandidateSlates nationwide-world/state-legislature-candidates.ts:1 <- prepareStateIntake nationwide-world/state-legislature-turnover.ts:1 <- applyStateLegislatureTurnover nationwide-world/state-legislature-turnover.ts:1 <- setCurrentMoment simulation/time-work.ts:1",
+        "milliseconds": 4030.5480000000052
+      },
+      {
+        "frame": "confidantsOf simulation/confidants.ts:1 <- principlePullsOf simulation/principles-from-life.ts:1 <- (anonymous) simulation/principles-from-life.ts:1 <- formPrinciplesFromLife simulation/principles-from-life.ts:1 <- ensureOfficeholderPrinciples governing/officeholder-principles.ts:1",
+        "milliseconds": 2405.089000000004
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendHistoricalEvent simulation/history.ts:1 <- recordWorldEvent simulation/world.ts:1 <- prepareStateCandidateSlates nationwide-world/state-legislature-candidates.ts:1 <- prepareStateIntake nationwide-world/state-legislature-turnover.ts:1",
+        "milliseconds": 201.93999999999994
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendHistoricalEvent simulation/history.ts:1 <- recordWorldEvent simulation/world.ts:1 <- recordFictionalResidence nationwide-world/state-legislature-candidates.ts:1 <- prepareStateCandidateSlates nationwide-world/state-legislature-candidates.ts:1",
+        "milliseconds": 117.35099999999994
+      },
+      {
+        "frame": "createCharacterHistoryContextPeople simulation/character-history.ts:1 <- prepareCongressCandidateSlates living-world/congress-candidates.ts:1 <- prepareCongressIntake living-world/congress-turnover.ts:1 <- applyCongressTurnover living-world/congress-turnover.ts:1 <- setCurrentMoment simulation/time-work.ts:1",
+        "milliseconds": 106.39099999999996
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendHistoricalEvent simulation/history.ts:1 <- recordWorldEvent simulation/world.ts:1 <- prepareStateIntake nationwide-world/state-legislature-turnover.ts:1 <- applyStateLegislatureTurnover nationwide-world/state-legislature-turnover.ts:1",
+        "milliseconds": 104.63899999999992
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendPersonalityTendencyRecord simulation/history.ts:1 <- recordPersonalityTendency simulation/mind.ts:1 <- seedSalientQualities simulation/people-traits.ts:1 <- seedPeopleTraits simulation/people-traits.ts:1",
+        "milliseconds": 92.64599999999997
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendPersonalityTendencyRecord simulation/history.ts:1 <- recordPersonalityTendency simulation/mind.ts:1 <- seedPeopleTraits simulation/people-traits.ts:1 <- ensurePeopleTraits simulation/people-traits.ts:1",
+        "milliseconds": 91.14699999999999
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendPersonalityTendencyRecord simulation/history.ts:1 <- recordPersonalityTendency simulation/mind.ts:1 <- seedPeopleTraits simulation/people-traits.ts:1 <- (anonymous) simulation/people-traits.ts:1",
+        "milliseconds": 53.944999999999986
+      },
+      {
+        "frame": "appendHistoryView simulation/history-index.ts:1 <- appendedList simulation/history-index.ts:1 <- appendPersonalityTendencyRecord simulation/history.ts:1 <- recordPersonalityTendency simulation/mind.ts:1 <- seedPeopleTraits simulation/people-traits.ts:1",
+        "milliseconds": 39.32
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendDecisionTraceRecord simulation/history.ts:1 <- recordDurableDecisionTrace simulation/decisions.ts:1 <- decideAnotherTerm careers/another-term.ts:1 <- prepareStateIntake nationwide-world/state-legislature-turnover.ts:1",
+        "milliseconds": 31.724
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendDecisionTraceRecord simulation/history.ts:1 <- recordDurableDecisionTrace simulation/decisions.ts:1 <- recordProspectRunChoice simulation/election-candidate-prospect.ts:1 <- prepareStateCandidateSlates nationwide-world/state-legislature-candidates.ts:1",
+        "milliseconds": 23.228
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendOne simulation/life.ts:1 <- createHousehold simulation/life.ts:1 <- recordFictionalResidence nationwide-world/state-legislature-candidates.ts:1 <- prepareStateCandidateSlates nationwide-world/state-legislature-candidates.ts:1",
+        "milliseconds": 23.092
+      },
+      {
+        "frame": "appendHistoryView simulation/history-index.ts:1 <- appendedList simulation/history-index.ts:1 <- appendPersonalityTendencyRecord simulation/history.ts:1 <- recordPersonalityTendency simulation/mind.ts:1 <- seedSalientQualities simulation/people-traits.ts:1",
+        "milliseconds": 20.647
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendOne simulation/life.ts:1 <- recordFictionalResidence nationwide-world/state-legislature-candidates.ts:1 <- prepareStateCandidateSlates nationwide-world/state-legislature-candidates.ts:1 <- prepareStateIntake nationwide-world/state-legislature-turnover.ts:1",
+        "milliseconds": 17.923000000000002
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendHistoricalEvent simulation/history.ts:1 <- recordWorldEvent simulation/world.ts:1 <- prepareCongressCandidateSlates living-world/congress-candidates.ts:1 <- prepareCongressIntake living-world/congress-turnover.ts:1",
+        "milliseconds": 7.695
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendDecisionTraceRecord simulation/history.ts:1 <- recordDurableDecisionTrace simulation/decisions.ts:1 <- decideSelfStarterRun nominations/field-entry.ts:1 <- (anonymous) nationwide-world/state-legislature-candidates.ts:1",
+        "milliseconds": 6.5520000000000005
+      },
+      {
+        "frame": "createCharacterHistoryContextPeople simulation/character-history.ts:1 <- generateBoardPeople macro-economy/central-bank.ts:1 <- ensureReserveBankPresidents macro-economy/central-bank.ts:1 <- stepCentralBankSeats macro-economy/central-bank.ts:1 <- (anonymous) macro-economy/producer.ts:1",
+        "milliseconds": 4.335
+      },
+      {
+        "frame": "createCharacterHistoryContextPeople simulation/character-history.ts:1 <- generateBoardPeople macro-economy/central-bank.ts:1 <- ensureCentralBankSeated macro-economy/central-bank.ts:1 <- (anonymous) macro-economy/producer.ts:1 <- (anonymous) simulation/future-transitions.ts:1",
+        "milliseconds": 4.328
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendHistoricalEvent simulation/history.ts:1 <- recordWorldEvent simulation/world.ts:1 <- recordSeatCandidacyIntent living-world/congress-turnover.ts:1 <- prepareCongressIntake living-world/congress-turnover.ts:1",
+        "milliseconds": 4.327
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendHistoricalEvent simulation/history.ts:1 <- recordWorldEvent simulation/world.ts:1 <- requestSubjectResponse press/desk.ts:1 <- assignStory press/desk.ts:1",
+        "milliseconds": 2.204
+      },
+      {
+        "frame": "appendedList simulation/history-index.ts:1 <- appendDecisionTraceRecord simulation/history.ts:1 <- recordDurableDecisionTrace simulation/decisions.ts:1 <- recordProspectRunChoice simulation/election-candidate-prospect.ts:1 <- prospectDecision living-world/congress-candidates.ts:1",
+        "milliseconds": 2.1900000000000004
+      }
+    ]
+  },
+  "syntheticScreen": {
+    "kind": "synthetic screen only; no monthly gain",
+    "sourceHead": "b99761aa570fd3f9c0633509145ac2675dff5d08",
+    "count": 15024,
+    "copiesPerRound": 100,
+    "rounds": 10,
+    "alternating": true,
+    "rows": {
+      "current": [
+        336.384415, 324.7118439999999, 312.3414519999999, 316.94631400000026,
+        335.3790979999999, 333.261563, 345.02814800000033, 308.0687660000003,
+        301.70664900000065, 301.1748699999998
+      ],
+      "unroll4": [
+        323.3687249999999, 333.63844200000005, 322.9091719999999,
+        324.53000499999985, 335.88533400000006, 326.9029720000003,
+        341.3780049999996, 334.86664700000074, 356.4564929999997,
+        332.4895320000005
+      ]
+    },
+    "stats": {
+      "current": {
+        "medianMilliseconds": 320.8290790000001,
+        "minMilliseconds": 301.1748699999998,
+        "maxMilliseconds": 345.02814800000033
+      },
+      "unroll4": {
+        "medianMilliseconds": 333.0639870000003,
+        "minMilliseconds": 322.9091719999999,
+        "maxMilliseconds": 356.4564929999997
+      }
+    },
+    "orderIdentity": true,
+    "ordinaryPrototype": true
+  },
+  "notRun": [
+    "new monthly candidate",
+    "full suite",
+    "annual run",
+    "browser",
+    "random-place acceptance",
+    "independent prose reviewer"
+  ],
+  "artifacts": [
+    {
+      "path": "test-results/speed/monthly-next-before.log",
+      "bytes": 601,
+      "sha256": "70d5a272f94e82d611384ad1da9e2f641fb9e48c1aea07f22d67da27daf9dce8"
+    },
+    {
+      "path": "test-results/speed/monthly-next-before.json",
+      "bytes": 8496498,
+      "sha256": "e59d5fd33eb292c442fe1da0987add6bcdad8b1a8b234dde491a1f587efa7c97"
+    },
+    {
+      "path": "test-results/speed/monthly-next-profile.log",
+      "bytes": 328,
+      "sha256": "a75355e4329f45560e50029f17ec7851acf3873316ce534ab2c6223dc2f12493"
+    },
+    {
+      "path": "test-results/speed/monthly-next-profile.json",
+      "bytes": 8496498,
+      "sha256": "dab8e8bafc01791f0fa2b28597d338768b5653fc9c4811d81750619f20d22d3e"
+    },
+    {
+      "path": "test-results/speed/monthly-next-profile.json.comparison.json",
+      "bytes": 57,
+      "sha256": "a8a59c56f958d3ff48c6f06049b45af87b5b53977f0c7defae69d1dc81af5f2d"
+    },
+    {
+      "path": "test-results/speed/monthly-next-main.cpuprofile",
+      "bytes": 3655609,
+      "sha256": "8a8040ff09fb1daf1b711184f7d66a4df7d4ddc7cedfa4cd33851e5977e6a1e6"
+    },
+    {
+      "path": "test-results/speed/monthly-next-main-summary.txt",
+      "bytes": 4855,
+      "sha256": "63d82ce0f8c0f731e81071b42a72b9253acca4866b963f92c449854d4c833114"
+    },
+    {
+      "path": "test-results/speed/monthly-next-scoped-profile.json",
+      "bytes": 13135,
+      "sha256": "d2050f894d4c5484f6dd36df533dfbbff61775170f7dd36ffe0ad9c32027f4b3"
+    },
+    {
+      "path": "test-results/speed/monthly-next-roster-unroll-screen.json",
+      "bytes": 1140,
+      "sha256": "b5f71a64c8106ac75ae8083291bff60d9a39bfd4896a9c7bf6eb42cdfb021f25"
+    },
+    {
+      "path": "test-results/speed/monthly-next-confidants-equivalence.json",
+      "bytes": 1549,
+      "sha256": "2c92d7f134ae3e2a52473d49611dc97f340edf8dcbf9ba3adf65ea95f1feba4f"
+    }
+  ],
+  "continuedReadOnlyProbe": {
+    "kind": "read-only existing-helper equivalence probe; synthetic fixtures, no runtime or monthly gain",
+    "sourceHead": "b99761aa570fd3f9c0633509145ac2675dff5d08",
+    "householdGlobalOrder": {
+      "original": ["a", "b", "c"],
+      "naiveGrouped": ["a", "c", "b"],
+      "equal": false
+    },
+    "interactionDuplicateIds": {
+      "linear": ["i1", "i2"],
+      "indexed": ["i1", "i2"]
+    },
+    "append": {
+      "linear": ["i1", "i2", "i4"],
+      "indexed": ["i1", "i2", "i4"]
+    },
+    "branch": {
+      "linear": ["i1", "i2", "i5"],
+      "indexed": ["i1", "i2", "i5"]
+    },
+    "oldAfterGrowth": {
+      "linear": ["i1", "i2"],
+      "indexed": ["i1", "i2"]
+    },
+    "malformedHouseholdShortCircuit": {
+      "original": {
+        "value": ["found"]
+      },
+      "indexed": {
+        "value": ["found"]
+      }
+    },
+    "sparseInteractions": {
+      "linear": {
+        "error": "Cannot read properties of undefined (reading 'personIds')"
+      },
+      "indexed": {
+        "error": "Cannot read properties of undefined (reading 'personIds')"
+      }
+    },
+    "errorPrecedence": {
+      "original": {
+        "error": "earlier usable reader failure"
+      },
+      "naiveIndex": {
+        "error": "Cannot read properties of null (reading 'personIds')"
+      },
+      "fallback": {
+        "error": "earlier usable reader failure"
+      }
+    },
+    "recordIdentity": true
+  }
+}
