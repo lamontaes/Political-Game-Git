@@ -42,7 +42,7 @@ export interface LawExposureInput {
 /**
  * How big a law's effect felt to the person, as a share of a month's pay.
  *
- * ESTIMATED FROM AVERAGE (research: felt-size-of-non-money-law-effects): a
+ * PLACEHOLDER (research: felt-size-of-non-money-law-effects): a
  * law that took away or granted a right or an eligibility, with no money on
  * the record, is felt like a tenth of a month's pay, the loss at which a
  * money effect starts to count (Fable audit, card L3). One size, read by every
@@ -51,7 +51,7 @@ export interface LawExposureInput {
  */
 export const NON_MONEY_FELT_SIZE = {
   monthsOfPay: 0.1,
-  basis: "ESTIMATED FROM AVERAGE",
+  basis: "PLACEHOLDER",
   researchQuestionId: "felt-size-of-non-money-law-effects",
 } as const;
 

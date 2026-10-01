@@ -15,7 +15,7 @@ import { reactionLens } from "./official-views";
 
 /**
  * Organized interests (spec 5): people a law costs a real share of their pay,
- * or a right or an eligibility (felt, ESTIMATED, like a tenth of a month's
+ * or a right or an eligibility (felt, PLACEHOLDER, like a tenth of a month's
  * pay; `NON_MONEY_FELT_SIZE`), band together against it.
  *
  * APPROVED provisional values (Claude CTO, September 28, 2026, 4:57 a.m.

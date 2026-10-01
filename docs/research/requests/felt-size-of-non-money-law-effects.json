@@ -3,7 +3,7 @@
   "impact": "shapes-design",
   "lane": "law effects and public opinion",
   "notes": [
-    "Under A159 (Fable audit, card L3) a law effect recorded with no money (a right or an eligibility lost or granted) is felt like a tenth of a month's pay. The size is one constant, NON_MONEY_FELT_SIZE in src/simulation/law-exposure.ts, marked ESTIMATED FROM AVERAGE, and read through lawExposureFeltSize by both readers: the official views a person forms (living-world/official-views.ts) and whether they band together against the law (living-world/law-interest-groups.ts).",
+    "Under A159 (Fable audit, card L3) a law effect recorded with no money (a right or an eligibility lost or granted) is felt like a tenth of a month's pay. The size is one constant, NON_MONEY_FELT_SIZE in src/simulation/law-exposure.ts, marked PLACEHOLDER, and read through lawExposureFeltSize by both readers: the official views a person forms (living-world/official-views.ts) and whether they band together against the law (living-world/law-interest-groups.ts).",
     "A tenth of a month's pay is where a money loss starts to count toward a group and where a view feels it fully; it was chosen so a lost right is never smaller than the smallest money loss that matters. It is a placeholder, not a measured equivalence.",
     "Every non-money effect is the same size today. A lost vote, a lost license and a lost benefit eligibility likely differ by a large factor, and by the person's circumstances."
   ],
