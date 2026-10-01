@@ -1,96 +1,139 @@
-import { addDays } from "./dates";
-import { recordById } from "./history-index";
+import { addDays, daysBetween } from "./dates";
+import { recordById, recordsWithFieldValue } from "./history-index";
 import { recordLawExposure } from "./law-exposure";
 import { money } from "./resources";
-import type { EntityId, IsoDate, World } from "./types";
+import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
 
-/**
- * A law that changed someone's pay reaches that person.
- *
- * The writers that carry out a law (a minimum wage raising town pay, a raise
- * on the player's own job) record the new pay terms and cite the law's
- * enactment as their cause. Until now nothing told the person: the paycheck
- * rose and nobody connected it to the lawmakers, so no view of an official
- * formed and nobody told a friend. This reads those records after each payday
- * and writes the exposure: the person, the law, and the monthly difference it
- * made next to their pay. Their partner hears of it at home.
- *
- * Nothing is drawn. Only a record that names an enacted law counts, and a
- * change the record does not tie to a law is left alone.
- */
-
-export const LAW_EFFECTS_NOTICED_VERSION = "law-effects-noticed/v1";
-
-/*
- * How far back a payday looks for new terms. Paydays come at least monthly
- * (town-pay.ts), so five weeks covers the longest gap with room to spare;
- * the stable key keeps a change from being noticed twice.
- */
-const LOOK_BACK_DAYS = 35;
-
-/** Pay periods in a year, read from the flow's cadence. */
-function periodsPerYear(cadenceKind: string): number | null {
-  const match = /(semimonthly|biweekly|weekly|monthly)/.exec(cadenceKind);
-  if (!match) return null;
-  return { weekly: 52, biweekly: 26, semimonthly: 24, monthly: 12 }[
-    match[1] as "weekly" | "biweekly" | "semimonthly" | "monthly"
-  ];
+/** Law-attributed changes between actual, comparable completed paychecks. */
+export interface RecordedLawPayChange {
+  readonly personId: EntityId;
+  readonly measureId: EntityId;
+  readonly termsId: EntityId;
+  readonly previousOutcomeId: EntityId;
+  readonly sourceRecordId: EntityId;
+  readonly at: IsoDate;
+  readonly amount: MoneyAmount;
+  readonly direction: "gain" | "cost";
 }
 
+export const LAW_EFFECTS_NOTICED_VERSION = "law-effects-noticed/v1";
+const LOOK_BACK_DAYS = 35;
+
 /**
- * Records an exposure for every pay change since `since` whose record cites an
- * enacted law. Idempotent.
+ * Terms alone are a promise. A change is supported only by an enacted cause
+ * and completed paychecks at both contract amounts, with the same currency,
+ * cadence and period length. Missing or partial pay remains unsupported.
+ * This reader writes no pay and invents no tax counterfactual or monthly sum.
  */
-export function noticeLawPayChanges(world: World, since: IsoDate): World {
+export function recordedLawPayChanges(
+  world: World,
+  since: IsoDate,
+  through = world.currentDate,
+): readonly RecordedLawPayChange[] {
   const lawOfEvent = new Map<EntityId, EntityId>();
-  for (const enactment of world.history.legislativeEnactments ?? []) {
-    if (enactment.outcome === "enacted" && enactment.outcomeEventId)
+  for (const enactment of world.history.legislativeEnactments ?? [])
+    if (enactment.outcome === "enacted" && enactment.resolvedAt <= through)
       lawOfEvent.set(enactment.outcomeEventId, enactment.measureId);
-  }
-  if (lawOfEvent.size === 0) return world;
-  const from = addDays(since, -LOOK_BACK_DAYS);
-  // Read only when a term names a law: every payday passes through here, and
-  // listing every flow and term in the world each time grew with its years.
-  let noticed: Set<string> | null = null;
-  let next = world;
+  const changes: RecordedLawPayChange[] = [];
   for (const row of world.history.resourceFlowTerms) {
-    if (row.effectiveAt < from || row.effectiveAt > world.currentDate) continue;
-    if (row.provenance.kind !== "simulated-event") continue;
+    if (row.effectiveAt > through || row.provenance.kind !== "simulated-event")
+      continue;
     const measureId = lawOfEvent.get(row.provenance.eventId);
-    if (!measureId || !row.supersedesTermsId) continue;
+    if (!measureId || !row.supersedesTermsId || row.status !== "active")
+      continue;
+    const before = recordById(
+      world.history.resourceFlowTerms,
+      row.supersedesTermsId,
+    );
     const flow = recordById(world.history.resourceFlows, row.resourceFlowId);
     if (
+      !before ||
+      before.status !== "active" ||
+      before.cadenceKind !== row.cadenceKind ||
+      before.amount.currency !== row.amount.currency ||
       !flow ||
       flow.basisReference.kind !== "work" ||
       flow.recipient.kind !== "person"
     )
       continue;
-    const personId = flow.recipient.personId;
-    const stableKey = `${LAW_EFFECTS_NOTICED_VERSION}:${row.id}`;
-    noticed ??= new Set(
-      (world.history.lawExposures ?? []).map((exposure) => exposure.stableKey),
+    const outcomes = recordsWithFieldValue(
+      world.history.resourceTransferOutcomes,
+      "resourceFlowId",
+      flow.id,
     );
-    if (noticed.has(stableKey) || !next.people[personId]) continue;
-    const before = recordById(
+    const prior = outcomes
+      .filter(
+        (outcome) =>
+          outcome.status === "completed" &&
+          outcome.periodStartsAt >= before.effectiveAt &&
+          outcome.periodEndsAt < row.effectiveAt &&
+          outcome.transferredAmount.currency === before.amount.currency &&
+          outcome.transferredAmount.minorUnits === before.amount.minorUnits,
+      )
+      .at(-1);
+    if (!prior) continue;
+    // Stop at the next terms revision: its pay cannot be assigned to this law.
+    const following = recordsWithFieldValue(
       world.history.resourceFlowTerms,
-      row.supersedesTermsId,
+      "resourceFlowId",
+      flow.id,
+    ).find((terms) => terms.supersedesTermsId === row.id);
+    const paid = outcomes.find(
+      (outcome) =>
+        outcome.status === "completed" &&
+        outcome.periodStartsAt >= row.effectiveAt &&
+        (!following || outcome.periodEndsAt < following.effectiveAt) &&
+        outcome.occurredAt >= since &&
+        outcome.occurredAt <= through &&
+        outcome.transferredAmount.currency === row.amount.currency &&
+        outcome.transferredAmount.minorUnits === row.amount.minorUnits &&
+        daysBetween(outcome.periodStartsAt, outcome.periodEndsAt) ===
+          daysBetween(prior.periodStartsAt, prior.periodEndsAt),
     );
-    const periods = periodsPerYear(row.cadenceKind);
-    if (!before || periods === null) continue;
-    const change = row.amount.minorUnits - before.amount.minorUnits;
-    if (change === 0) continue;
+    if (!paid) continue;
+    const delta =
+      paid.transferredAmount.minorUnits - prior.transferredAmount.minorUnits;
+    if (delta === 0) continue;
+    changes.push({
+      personId: flow.recipient.personId,
+      measureId,
+      termsId: row.id,
+      previousOutcomeId: prior.id,
+      sourceRecordId: paid.id,
+      at: paid.occurredAt,
+      amount: money(Math.abs(delta), paid.transferredAmount.currency),
+      direction: delta > 0 ? "gain" : "cost",
+    });
+  }
+  return changes;
+}
+
+/**
+ * The existing payday caller notices completed law-caused pay. The existing
+ * law exposure schedules the one reflection on recorded signatures and votes,
+ * through the same belief pipeline as other lived outcomes. No second writer,
+ * reflection, attribution rule or belief weight is added.
+ */
+export function noticeLawPayChanges(world: World, since: IsoDate): World {
+  let next = world;
+  const noticed = new Set(
+    (world.history.lawExposures ?? []).map((row) => row.stableKey),
+  );
+  for (const change of recordedLawPayChanges(
+    world,
+    addDays(since, -LOOK_BACK_DAYS),
+  )) {
+    const stableKey = `${LAW_EFFECTS_NOTICED_VERSION}:paid:${change.termsId}`;
+    if (noticed.has(stableKey) || !world.people[change.personId]) continue;
     next = recordLawExposure(next, {
       stableKey,
-      personId,
-      measureId,
+      personId: change.personId,
+      measureId: change.measureId,
       channel: "paycheck",
-      direction: change > 0 ? "gain" : "cost",
-      amount: money(
-        Math.round((Math.abs(change) * periods) / 12),
-        row.amount.currency,
-      ),
-      cadence: "monthly",
-      sourceRecordId: row.id,
+      direction: change.direction,
+      amount: change.amount,
+      cadence: "one-time",
+      sourceRecordId: change.sourceRecordId,
     });
     noticed.add(stableKey);
   }
