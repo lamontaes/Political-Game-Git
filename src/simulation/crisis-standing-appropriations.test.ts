@@ -9,7 +9,13 @@ import { resourcePositionAt } from "./resource-queries";
 import { money } from "./resources";
 import { stableHash } from "./ids";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import { ensurePublicBudgets } from "./public-budgets";
+import {
+  BUDGET_PROGRAMS,
+  PUBLIC_BUDGETS_VERSION,
+  ensurePublicBudgets,
+  withOpenedBudgets,
+} from "./public-budgets";
+import { readMonthFlows, settleGovernmentMonth } from "./public-budgets/month";
 import { ensureWorldStartingConditions } from "./world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
 import {
@@ -232,10 +238,50 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
       programPosition(paid.world, appropriation.programKey, appropriation.id)
         .posted,
     ).toEqual(money(100, "USD"));
+    const store = withOpenedBudgets(
+      paid.world,
+      {
+        version: PUBLIC_BUDGETS_VERSION,
+        cursor: { flows: 0, outcomes: 0 },
+        governments: [],
+        adjustments: [],
+        unknown: [],
+      },
+      paid.world.currentDate,
+    );
+    const government = store.governments.find(
+      (g) => g.key === selected.row.placeKey,
+    )!;
+    const { flows, cursor } = readMonthFlows(paid.world, store);
+    const health = BUDGET_PROGRAMS.indexOf("healthAndHospitals");
+    expect(
+      flows.recorded?.get(government.key)?.spendingMinorUnits[health],
+    ).toBe(100);
+    expect(flows.recorded?.get(government.key)?.sourceRecordIds).toEqual(
+      expect.arrayContaining([outcome.id, paid.installment.resourceFlowId]),
+    );
+    const savedGovernment = settleGovernmentMonth(
+      paid.world,
+      government,
+      makeIsoDate(`${paid.world.currentDate.slice(0, 7)}-01`),
+      flows,
+    ).government;
+    expect(savedGovernment.months.at(-1)!.spending[health]).toBe(1);
+    expect(savedGovernment.months.at(-1)!.balance).toBe(0);
+    const savedWorld = {
+      ...paid.world,
+      publicBudgets: {
+        ...store,
+        cursor,
+        governments: store.governments.map((g) =>
+          g.key === government.key ? savedGovernment : g,
+        ),
+      },
+    };
     expect(settleProgramInstallment(paid.world, funded.recordId, 0).world).toBe(
       paid.world,
     );
-    const restored = deserializeWorld(serializeWorld(paid.world));
+    const restored = deserializeWorld(serializeWorld(savedWorld));
     expect(settleProgramInstallment(restored, funded.recordId, 0).world).toBe(
       restored,
     );
