@@ -2282,7 +2282,7 @@ function validateHistoryIntegrity(
   assertOfficialViewIntegrity(world, ids);
   assertLawPermissionIntegrity(world, ids);
   assertLegalOutcomeConsequenceIntegrity(world);
-  assertWorkPayCoverageIntegrity(world);
+  assertWorkPayCoverageIntegrity(world, ids);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
