@@ -1,0 +1,61 @@
+{
+  "compositionHead": "72a0e396a4b3741c8be7d19a5a8b0a62831765ec",
+  "status": "WIP; actual annual payday is blocked before payment by missing Ohio starting target minor/hour.",
+  "receipts": [
+    {
+      "receipt": "docs/codex/effect-batches/team-3/annual-terms-r2.txt",
+      "sourceHead": "a04284177ee0b9f30ee6d4a64322dba71a5a1f8e",
+      "passed": 7,
+      "failed": 5,
+      "skipped": 0,
+      "rawSha256": "e4a3e0c5b216125ebac48580e6e8bab9af479ce6423a0fc043541d5008f798a2",
+      "rawTrailingLinefeeds": 2,
+      "rawPath": "/workspace/scratch/team3-office-annual-r2.log",
+      "claim": "Source-bound native fixture evidence; not final main or ordinary clock proof."
+    },
+    {
+      "receipt": "docs/codex/effect-batches/team-3/annual-default-r4.txt",
+      "sourceHead": "a2f864380a895c8cc3182735b693c6476753ca49",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 5,
+      "rawSha256": "a4e99054526f769f96268d59350915446005ae7f5c1b94e5658ceee444465470",
+      "rawTrailingLinefeeds": 2,
+      "rawPath": "/workspace/scratch/team3-office-annual-adapter-r4.log",
+      "claim": "Source-bound native fixture evidence; not final main or ordinary clock proof."
+    },
+    {
+      "receipt": "docs/codex/effect-batches/team-3/annual-live-caller-r1.txt",
+      "sourceHead": "28236ff5da1e4add3dbe59ef87eeb39611465813",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 12,
+      "rawSha256": "f83f5c2be772afa6eb58c3afe92b49de26c0856cfee6a0d35f7ab24bdbfe447b",
+      "rawTrailingLinefeeds": 2,
+      "rawPath": "/workspace/scratch/team3-office-live-caller-r1.log",
+      "claim": "Source-bound native fixture evidence; not final main or ordinary clock proof."
+    },
+    {
+      "receipt": "docs/codex/effect-batches/team-3/office-caller-parity-r2.txt",
+      "sourceHead": "28236ff5da1e4add3dbe59ef87eeb39611465813",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "rawSha256": "0e6cc652bc160e61ca77d385152e3dad98232f36b4c4de901408e7a6422ccb20",
+      "rawTrailingLinefeeds": 2,
+      "rawPath": "/workspace/scratch/team3-office-live-baseline-r2.log",
+      "claim": "Source-bound native fixture evidence; not final main or ordinary clock proof."
+    },
+    {
+      "receipt": "docs/codex/effect-batches/team-3/annual-payment-copy-r1.txt",
+      "sourceHead": "72a0e396a4b3741c8be7d19a5a8b0a62831765ec",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "rawSha256": "bb61dc32aadc1e2260119e8ff904f901858b58044920a88799a892629861b7f5",
+      "rawTrailingLinefeeds": 2,
+      "rawPath": "/workspace/scratch/team3-annual-payment-propagation-r1.log",
+      "claim": "Source-bound native fixture evidence; not final main or ordinary clock proof."
+    }
+  ]
+}

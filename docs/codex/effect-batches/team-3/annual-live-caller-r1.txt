@@ -1,0 +1,43 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 1150000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2836000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 5363000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2938000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 3451000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 refuses a salary change limited to terms beginning after its date
+ ↓ src/simulation/office-annual-pay.test.ts > A38 reads the actual office role at the earlier payroll date
+ ↓ src/simulation/office-annual-pay.test.ts > A38 dispatches the actual office measure through the default pay registration
+ × src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 1150000 3622ms
+   → Missing pay final law term 'target' (minor/hour)
+ ↓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 2836000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 5363000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 2938000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 3451000
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 1150000
+Error: Missing pay final law term 'target' (minor/hour)
+ ❯ Object.resolvePayConsequences [as resolve] src/simulation/law-consequences/pay.ts:229:15
+    227|       });
+    228|       if (!term)
+    229|         throw new Error(`Missing pay final law term '${key}' (${unit})…
+       |               ^
+    230|       legalTerms[key] = { value: term.value, unit: term.unit };
+    231|       sourceRecordIds.push(...term.sourceRecordIds);
+ ❯ applyLawConsequences src/simulation/enacted-law-effects.ts:895:37
+ ❯ settleTownCompensations src/simulation/living-world/town-pay.ts:1567:12
+ ❯ settleOne src/simulation/office-salary.ts:196:12
+ ❯ settleOfficeSalaries src/simulation/office-salary.ts:163:12
+ ❯ src/simulation/office-annual-pay.test.ts:585:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  07:14:42
+   Duration  15.92s (transform 9.91s, setup 20ms, import 12.15s, tests 3.62s, environment 0ms)
