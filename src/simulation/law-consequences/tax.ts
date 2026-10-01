@@ -2,6 +2,8 @@ import { lawInForce } from "../governing/law-in-force";
 import { recordById, recordsByStringField } from "../history-index";
 import { canonicalJson } from "../canonical-json";
 import { assessTaxBase, effectiveTaxPolicy, previewTax } from "../tax-policy";
+import { bindTaxLawTerms } from "../tax-law-term-binding";
+import { currentLifeCutoff } from "../life-queries";
 import type {
   LawConsequenceContext,
   LawConsequenceKindRegistration,
@@ -107,6 +109,18 @@ export function resolveTaxConsequences(
       proposal.terms.baseKey !== base.baseKey
     )
       continue;
+    // New catalog tax questions require their actual adopted term binding.
+    // Missing canonical categories remain unavailable, never filed defaults.
+    const binding = context.questionKey.startsWith("us-tax-terms:")
+      ? bindTaxLawTerms(world, {
+          law,
+          questionKey: context.questionKey,
+          proposalId: proposal.id,
+          onDate: base.occurredAt,
+          cutoff: currentLifeCutoff(world),
+        })
+      : null;
+    if (binding?.kind === "unavailable") continue;
     const policy = effectiveTaxPolicy(
       world,
       base.jurisdictionId,
@@ -152,6 +166,7 @@ export function resolveTaxConsequences(
         proposal.levyProvisionId,
         policy.id,
         policy.enactmentId,
+        ...(binding?.kind === "available" ? binding.sourceRecordIds : []),
       ],
       value: {
         type: "amount",

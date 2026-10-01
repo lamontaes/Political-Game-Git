@@ -1,5 +1,6 @@
 import { canonicalJson } from "./canonical-json";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
+import type { FinalEnactedLawCategories } from "./governing/automatic-legislation";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import {
   currentLifeCutoff,
@@ -35,12 +36,7 @@ export type ReadAdoptedTaxCategory = (
     readonly onDate: IsoDate;
     readonly cutoff: HistoricalCutoff;
   },
-) => {
-  readonly values: readonly string[];
-  readonly measureId: EntityId;
-  readonly provisionId: EntityId;
-  readonly sourceRecordIds: readonly EntityId[];
-} | null;
+) => FinalEnactedLawCategories | null;
 
 export type TaxLawTermBinding =
   | { readonly kind: "unavailable"; readonly reason: string }
@@ -171,11 +167,16 @@ export function bindTaxLawTerms(
     number
   >;
   for (const term of TAX_NUMERIC_LAW_TERMS) {
-    const read = readFinalEnactedLawTerm(world, input.law, {
+    // Carry the published extended request. The current-only guard above stays
+    // until the shared query and governing-law cutoff contract land on main.
+    const request = {
       questionKey: input.questionKey,
       termKey: term.key,
       unit: term.unit,
-    });
+      onDate: input.onDate,
+      cutoff: input.cutoff,
+    };
+    const read = readFinalEnactedLawTerm(world, input.law, request);
     if (
       !read ||
       read.measureId !== proposal.measureId ||

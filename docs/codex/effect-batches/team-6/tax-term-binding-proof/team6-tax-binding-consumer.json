@@ -1,0 +1,239 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 17,
+  "numPassedTests": 16,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790867975086,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["adopted tax term consumer"],
+          "fullName": "adopted tax term consumer binds exact numeric units and declared categories to the actual saved proposal recipient without writes",
+          "status": "passed",
+          "title": "binds exact numeric units and declared categories to the actual saved proposal recipient without writes",
+          "duration": 6.984548999998879,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adopted tax term consumer"],
+          "fullName": "adopted tax term consumer refuses the absent canonical category query and historical numeric signature",
+          "status": "passed",
+          "title": "refuses the absent canonical category query and historical numeric signature",
+          "duration": 1.0900750000000698,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adopted tax term consumer"],
+          "fullName": "adopted tax term consumer does not substitute a missing allowance, a mismatched unit or a conflicting adopted numeric section",
+          "status": "passed",
+          "title": "does not substitute a missing allowance, a mismatched unit or a conflicting adopted numeric section",
+          "duration": 1.4332930000000488,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adopted tax term consumer"],
+          "fullName": "adopted tax term consumer refuses missing exemptions and invented or ambiguous recipients",
+          "status": "passed",
+          "title": "refuses missing exemptions and invented or ambiguous recipients",
+          "duration": 1.6552670000000944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adopted tax term consumer"],
+          "fullName": "adopted tax term consumer refuses absent or closed saved public accounts",
+          "status": "passed",
+          "title": "refuses absent or closed saved public accounts",
+          "duration": 0.6846829999994952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adopted tax term consumer"],
+          "fullName": "adopted tax term consumer refuses unsupported authority, a different law and wrong category provenance",
+          "status": "passed",
+          "title": "refuses unsupported authority, a different law and wrong category provenance",
+          "duration": 0.4204139999983454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adopted tax term consumer"],
+          "fullName": "adopted tax term consumer validates exact shares and refuses adopted term repricing of the saved proposal",
+          "status": "passed",
+          "title": "validates exact shares and refuses adopted term repricing of the saved proposal",
+          "duration": 0.7091099999997823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adopted tax term consumer"],
+          "fullName": "adopted tax term consumer binds an explicitly adopted zero rate without rewriting retained liabilities or payments",
+          "status": "passed",
+          "title": "binds an explicitly adopted zero rate without rewriting retained liabilities or payments",
+          "duration": 0.4217869999993127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790867988342,
+      "endTime": 1790867988355.4219,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/tax-law-term-binding.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection refuses an actual catalog-tax proposal for its named payer while the adopted-category binding is absent",
+          "status": "failed",
+          "title": "refuses an actual catalog-tax proposal for its named payer while the adopted-category binding is absent",
+          "duration": 229.42615500000102,
+          "failureMessages": [
+            "AssertionError: Target cannot be null or undefined.\n    at Proxy.<anonymous> (file:///workspace/Political-Game-Git/node_modules/@vitest/expect/dist/index.js:1388:20)\n    at Proxy.<anonymous> (file:///workspace/Political-Game-Git/node_modules/@vitest/expect/dist/index.js:1155:15)\n    at Proxy.methodWrapper (file:///workspace/Political-Game-Git/node_modules/chai/index.js:1700:25)\n    at /workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts:286:42\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection assesses the named payer once, then collects actual cash after Save/Continue",
+          "status": "passed",
+          "title": "assesses the named payer once, then collects actual cash after Save/Continue",
+          "duration": 172.69231600000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection keeps 'blocked' distinct from positive collection",
+          "status": "passed",
+          "title": "keeps 'blocked' distinct from positive collection",
+          "duration": 10.407203999999183,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection keeps 'zero' distinct from positive collection",
+          "status": "passed",
+          "title": "keeps 'zero' distinct from positive collection",
+          "duration": 9.394254999999248,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection refuses absent authority, wrong questions, unrecorded activities and unrelated subjects",
+          "status": "passed",
+          "title": "refuses absent authority, wrong questions, unrecorded activities and unrelated subjects",
+          "duration": 6.098673000000417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection does not assess before the typed policy and governing law are operative",
+          "status": "passed",
+          "title": "does not assess before the typed policy and governing law are operative",
+          "duration": 4.059014999998908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection rejects forged amounts and source IDs, and leaves existing liabilities frozen",
+          "status": "passed",
+          "title": "rejects forged amounts and source IDs, and leaves existing liabilities frozen",
+          "duration": 7.084480000001349,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection preserves an earlier assessment while an explicitly zero-rate successor governs future bases",
+          "status": "passed",
+          "title": "preserves an earlier assessment while an explicitly zero-rate successor governs future bases",
+          "duration": 102.82372000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "tax kind uses saved typed levies, assessments and due collection"
+          ],
+          "fullName": "tax kind uses saved typed levies, assessments and due collection refuses unsupported expression/rate inference instead of using a catalog yes as a rate",
+          "status": "passed",
+          "title": "refuses unsupported expression/rate inference instead of using a catalog yes as a rate",
+          "duration": 6.073995000002469,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790867998417,
+      "endTime": 1790867998966.074,
+      "status": "failed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/law-consequences/tax.test.ts"
+    }
+  ]
+}
