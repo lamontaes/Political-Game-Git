@@ -22,6 +22,20 @@ vi.mock("../../../data/research/laws/starting-law-2026.json", () => ({
               },
             ],
             before: { answer: "no" },
+            phases: [
+              {
+                answer: "yes",
+                operativeAt: "2027-07-01",
+                lawTerms: [
+                  {
+                    questionKey: "test:rate",
+                    key: "rate",
+                    value: 1600,
+                    unit: "minor",
+                  },
+                ],
+              },
+            ],
           },
           "US-DUPLICATE": {
             answer: "yes",
@@ -87,6 +101,21 @@ describe("canonical starting law numeric text", () => {
         },
         request,
       ),
+    ).toBeNull();
+  });
+  it("reads a scheduled phase only from its own date and refuses stale authority", () => {
+    const phased = {
+      ...law,
+      operativeAt: "2027-07-01" as LawInForce["operativeAt"],
+    };
+    expect(
+      readFinalEnactedLawTerm(world("2027-06-30"), law, request)?.value,
+    ).toBe(1500);
+    expect(
+      readFinalEnactedLawTerm(world("2027-07-01"), phased, request)?.value,
+    ).toBe(1600);
+    expect(
+      readFinalEnactedLawTerm(world("2027-07-01"), law, request),
     ).toBeNull();
   });
   it("requires an exact question, term and unit", () => {
