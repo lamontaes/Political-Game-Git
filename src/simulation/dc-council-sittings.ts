@@ -1,18 +1,13 @@
 import { addDays } from "./dates";
-import { nextMeasureNumbering } from "./measure-numbering";
+import { fileMemberAgendaBills } from "./governing/member-agenda";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
 import {
   COUNCIL_VOTE_NOTE,
-  councilFilings,
   decideCouncilVote,
   ensureCouncilPrinciples,
 } from "./governing/council-lawmaking";
-import {
-  introduceMeasure,
-  measurePosition,
-  placeMeasureOnCalendar,
-} from "./legislation";
+import { measurePosition, placeMeasureOnCalendar } from "./legislation";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,
@@ -130,41 +125,23 @@ function fileActs(world: World): World {
   const player =
     world.control.kind === "person" ? world.control.personId : null;
   const members = councilMembers(world);
-  let next = ensureCouncilPrinciples(world, members);
-  const filings = councilFilings(next, {
-    stableKey: `${DC_COUNCIL_SITTINGS_VERSION}:${next.currentDate}:filings`,
+  return fileMemberAgendaBills(world, {
     jurisdictionId,
-    members,
-    questions: districtQuestions(next, jurisdictionId),
-    measures: municipalMeasures(next, DC_GOVERNMENT_KEY),
-    playerPersonId: player,
+    intakeKey: `${DC_COUNCIL_SITTINGS_VERSION}:${world.currentDate}:filings`,
+    chamberKey: "council",
+    council: {
+      pack: rules.pack,
+      members,
+      questions: districtQuestions(world, jurisdictionId).map(
+        (question) => question.id,
+      ),
+      measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
+      playerPersonId: player,
+      title: dcCouncilActTitle,
+      measureKey: (numbering) =>
+        municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
+    },
   });
-  const year = next.currentDate.slice(0, 4);
-  for (const filing of filings) {
-    const numbering = nextMeasureNumbering(next, {
-      jurisdictionId,
-      originChamber: rules.pack.chambers[0]!,
-      rulePackId: rules.pack.packId,
-    });
-    const title = dcCouncilActTitle(filing.proposition.name, year);
-    next = introduceMeasure(next, {
-      stableKey: municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
-      jurisdictionId,
-      rulePackId: rules.pack.packId,
-      ...numbering,
-      shortTitle: filing.answer === "yes" ? title : `Repeal: ${title}`,
-      summary: `Answers "${filing.proposition.question}" with ${filing.answer}.`,
-      origin: "member-introduction",
-      subjectClass: "general-policy",
-      originChamberKey: "council",
-      sponsorPersonId: filing.sponsorPersonId,
-      propositionIds: [filing.proposition.id],
-      propositionAnswers: [
-        { propositionId: filing.proposition.id, answer: filing.answer },
-      ],
-    });
-  }
-  return next;
 }
 
 /** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */

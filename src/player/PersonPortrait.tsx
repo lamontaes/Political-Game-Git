@@ -113,7 +113,11 @@ export function PersonPortrait({
           className="person-portrait-mark"
           style={{ position: "relative", overflow: "hidden", flexShrink: 0 }}
         >
-          <EnginePortrait recipe={engine} testId="person-portrait-engine" />
+          <EnginePortrait
+            recipe={engine}
+            testId="person-portrait-engine"
+            fallback={initials(person.givenName, person.familyName)}
+          />
         </span>
         <figcaption>
           <strong>{name}</strong>

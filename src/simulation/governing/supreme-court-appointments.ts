@@ -1,3 +1,25 @@
+import {
+  SUPREME_COURT_APPOINTMENTS_VERSION,
+  ASSOCIATE_JUSTICE_NOMINATION,
+  ASSOCIATE_JUSTICE_CONFIRMATION,
+  SUPREME_COURT_NOMINATED_EVENT,
+  SUPREME_COURT_VOTE_EVENT,
+  SUPREME_COURT_SEATED_EVENT,
+  SUPREME_COURT_VACANCY_EVENT,
+  SUPREME_COURT_ID,
+  SUPREME_COURT_APPOINTMENT_PROFILE,
+} from "./supreme-court-appointment-profile";
+export {
+  SUPREME_COURT_APPOINTMENTS_VERSION,
+  ASSOCIATE_JUSTICE_NOMINATION,
+  ASSOCIATE_JUSTICE_CONFIRMATION,
+  SUPREME_COURT_NOMINATED_EVENT,
+  SUPREME_COURT_VOTE_EVENT,
+  SUPREME_COURT_SEATED_EVENT,
+  SUPREME_COURT_VACANCY_EVENT,
+  SUPREME_COURT_ID,
+  SUPREME_COURT_APPOINTMENT_PROFILE,
+} from "./supreme-court-appointment-profile";
 import { addDays, makeIsoDate } from "../dates";
 import { evaluateDecision } from "../decisions";
 import { currentFederalTenure } from "../federal-tenures";
@@ -14,7 +36,7 @@ import {
 } from "../judiciary/courts";
 import { currentPresidentOf } from "../crisis/offices";
 import { seatedCongressChamber } from "./congress-chambers";
-import { publicPartyOf } from "./chamber-votes";
+import { decideChamberVote, publicPartyOf } from "./chamber-votes";
 import {
   ensureOfficeholderPrinciples,
   principleAgreement,
@@ -71,31 +93,6 @@ import { recordWorldEvent } from "../world";
  * player who is a senator is recorded absent, and the player's character is
  * not in the nominee pool.
  */
-export const SUPREME_COURT_APPOINTMENTS_VERSION =
-  "governing-supreme-court-appointments-v1";
-export const ASSOCIATE_JUSTICE_NOMINATION =
-  "governing:associate-justice-nomination" as const;
-export const ASSOCIATE_JUSTICE_CONFIRMATION =
-  "governing:associate-justice-confirmation" as const;
-export const SUPREME_COURT_NOMINATED_EVENT =
-  "governing.supreme-court-nominated" as const;
-export const SUPREME_COURT_VOTE_EVENT =
-  "governing.supreme-court-confirmation-vote" as const;
-export const SUPREME_COURT_SEATED_EVENT =
-  "governing.supreme-court-seated" as const;
-export const SUPREME_COURT_VACANCY_EVENT =
-  "governing.supreme-court-vacancy" as const;
-
-export const SUPREME_COURT_ID = "us-supreme-court";
-
-export const SUPREME_COURT_APPOINTMENT_PROFILE = {
-  id: "ocd-supreme-court-appointment/v1",
-  /** PLACEHOLDER: game profile. */
-  daysFromVacancyToNomination: 30,
-  /** MEASURED: median, 17 confirmations 1975-2022 (senate.gov). */
-  daysFromNominationToVote: 66,
-} as const;
-
 const ASSOCIATE_TITLE = "Associate Justice of the Supreme Court";
 
 const CONTEXT = {
@@ -332,15 +329,10 @@ function benchOf(world: World, personId: EntityId): BenchService {
   );
 }
 
-const VOTE_OPTIONS = [
-  { key: "vote-yea", label: "Vote yes", description: "Confirm the nominee." },
-  { key: "vote-nay", label: "Vote no", description: "Reject the nominee." },
-] as const;
-
 export interface ConfirmationBallot {
   readonly personId: EntityId;
   readonly memberKey: string;
-  readonly ballot: "yea" | "nay" | "absent";
+  readonly ballot: "yea" | "nay" | "absent" | "present-not-voting";
   readonly reason: string;
 }
 
@@ -458,47 +450,6 @@ function senatorReasons(
   return reasons;
 }
 
-function decide(
-  world: World,
-  stableKey: string,
-  actorPersonId: EntityId,
-  considerations: readonly DecisionConsideration[],
-): "yea" | "nay" {
-  const evaluation = evaluateDecision(world, {
-    stableKey,
-    decisionType: "governing.supreme-court-confirmation-vote",
-    actorPersonId,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:supreme-court-nomination",
-      key: stableKey,
-      entityId: null,
-    },
-    options: [...VOTE_OPTIONS],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
-  });
-  return evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
-}
-
-function strongestReason(
-  considerations: readonly DecisionConsideration[],
-  optionKey: string,
-): string {
-  const weight = (c: DecisionConsideration): number =>
-    ({ slight: 1, moderate: 2, strong: 4, decisive: 6 })[c.importance] *
-    { low: 1, medium: 2, high: 3 }[c.confidence];
-  return (
-    considerations
-      .filter((c) => c.optionKey === optionKey)
-      .sort((a, b) => weight(b) - weight(a))[0]?.stableKey ??
-    "senator:no-reason"
-  );
-}
-
 /**
  * The seated Senate votes on a nomination. Returns null when the World has no
  * seated Senate (an older save), so a caller can keep its earlier rule.
@@ -509,6 +460,8 @@ export function senateConfirmationVote(
     readonly stableKey: string;
     readonly nomineeId: EntityId;
     readonly presidentId: EntityId;
+    readonly nominationEventId: EntityId;
+    readonly officeKey: string;
   },
 ): ConfirmationVote | null {
   const senate = seatedCongressChamber(world, "senate");
@@ -516,39 +469,46 @@ export function senateConfirmationVote(
   const presidentParty = publicPartyOf(world, input.presidentId);
   const bench = benchOf(world, input.nomineeId);
   const player = controlledPersonId(world);
-  const ballots: ConfirmationBallot[] = [];
-  for (const member of senate.body.members) {
-    if (!member.personId) continue;
-    if (member.personId === player) {
-      ballots.push({
-        personId: member.personId,
-        memberKey: member.memberKey,
-        ballot: "absent",
-        reason: "senator:player-not-asked",
-      });
-      continue;
-    }
-    const considerations = senatorReasons(world, {
-      personId: member.personId,
-      partyKey: member.partyKey ?? publicPartyOf(world, member.personId),
-      stateUsps: /us-senate:([A-Z]{2}):/.exec(member.memberKey)?.[1] ?? null,
-      nomineeId: input.nomineeId,
-      presidentParty,
-      bench,
-    });
-    const ballot = decide(
-      world,
-      `${input.stableKey}:${member.memberKey}`,
-      member.personId,
-      considerations,
-    );
-    ballots.push({
-      personId: member.personId,
-      memberKey: member.memberKey,
-      ballot,
-      reason: strongestReason(considerations, `vote-${ballot}`),
-    });
-  }
+  const considerationsByMember = new Map(
+    senate.body.members
+      .filter((member) => member.personId !== null)
+      .map((member) => [
+        member.memberKey,
+        senatorReasons(world, {
+          personId: member.personId!,
+          partyKey: member.partyKey ?? publicPartyOf(world, member.personId!),
+          stateUsps:
+            /us-senate:([A-Z]{2}):/.exec(member.memberKey)?.[1] ?? null,
+          nomineeId: input.nomineeId,
+          presidentParty,
+          bench,
+        }),
+      ]),
+  );
+  const chamberInput = {
+    ...input,
+    kind: "nomination" as const,
+    considerationsByMember,
+  };
+  const ballots: ConfirmationBallot[] = decideChamberVote(world, {
+    ...chamberInput,
+    members: senate.body.members,
+    playerPersonId: player,
+  }).flatMap((row) =>
+    row.personId === null
+      ? []
+      : [
+          {
+            personId: row.personId,
+            memberKey: row.memberKey,
+            ballot: row.disposition === "excused" ? "absent" : row.disposition,
+            reason:
+              row.personId === player
+                ? "senator:player-not-asked"
+                : (row.reason ?? "senator:no-reason"),
+          },
+        ],
+  );
   const yeas = ballots.filter((b) => b.ballot === "yea").length;
   const nays = ballots.filter((b) => b.ballot === "nay").length;
   let tieBreaker: ConfirmationVote["tieBreaker"] = null;
@@ -563,15 +523,24 @@ export function senateConfirmationVote(
         presidentParty,
         bench,
       });
-      tieBreaker = {
-        personId: vice,
-        ballot: decide(
-          world,
-          `${input.stableKey}:vice-president`,
-          vice,
-          considerations,
-        ),
-      };
+      const viceMemberKey = `${input.stableKey}:vice-president`;
+      const disposition = decideChamberVote(world, {
+        ...chamberInput,
+        stableKey: viceMemberKey,
+        members: [
+          {
+            memberKey: viceMemberKey,
+            personId: vice,
+            name: personName(world.people[vice]!),
+            partyKey: publicPartyOf(world, vice),
+            caucusLabel: "Vice President",
+          },
+        ],
+        considerationsByMember: new Map([[viceMemberKey, considerations]]),
+        playerPersonId: player,
+      })[0]!.disposition;
+      if (disposition === "yea" || disposition === "nay")
+        tieBreaker = { personId: vice, ballot: disposition };
     }
   }
   return {
@@ -611,6 +580,7 @@ export function recordConfirmationVote(
 ): { readonly world: World; readonly eventId: EntityId } {
   const nominee = world.people[input.nomineeId]!;
   const { vote } = input;
+  const pending = vote.yeas + vote.nays === 0;
   const tie = vote.tieBreaker
     ? ` The Vice President broke the tie by voting ${vote.tieBreaker.ballot === "yea" ? "yes" : "no"}.`
     : "";
@@ -653,9 +623,15 @@ export function recordConfirmationVote(
       ...input.tags,
       `yeas:${vote.yeas}`,
       `nays:${vote.nays}`,
-      vote.confirmed ? "outcome:confirmed" : "outcome:rejected",
+      pending
+        ? "outcome:pending"
+        : vote.confirmed
+          ? "outcome:confirmed"
+          : "outcome:rejected",
     ],
-    summary: `The Senate ${vote.confirmed ? "confirmed" : "rejected"} ${personName(nominee)} as ${input.officeTitle}, ${vote.yeas} to ${vote.nays}.${tie}`,
+    summary: pending
+      ? `The Senate recorded no yes or no vote on ${personName(nominee)} for ${input.officeTitle}; the nomination remains pending.`
+      : `The Senate ${vote.confirmed ? "confirmed" : "rejected"} ${personName(nominee)} as ${input.officeTitle}, ${vote.yeas} to ${vote.nays}.${tie}`,
     context: CONTEXT,
   });
   return { world: next, eventId: next.history.events.at(-1)!.id };
@@ -917,7 +893,7 @@ export function confirmAssociateJustice(
     return resolved(world, "The seat is already filled.");
   const vacancyTag = `vacancy:${ordinal}:${vacancyDate}`;
   const president = currentPresidentOf(world);
-  const nominatedBy = world.history.events
+  const nomination = world.history.events
     .filter(
       (event) =>
         event.type === SUPREME_COURT_NOMINATED_EVENT &&
@@ -926,8 +902,10 @@ export function confirmAssociateJustice(
           (row) => row.role === "focus:subject" && row.personId === nomineeId,
         ),
     )
-    .at(-1)
-    ?.participants.find((row) => row.role === "focus:actor")?.personId;
+    .at(-1);
+  const nominatedBy = nomination?.participants.find(
+    (row) => row.role === "focus:actor",
+  )?.personId;
   const nominee = world.people[nomineeId];
   if (
     !nominee ||
@@ -953,6 +931,8 @@ export function confirmAssociateJustice(
     stableKey: due.stableKey,
     nomineeId,
     presidentId: president.personId,
+    nominationEventId: nomination!.id,
+    officeKey: seatId,
   });
   if (!vote)
     return {
@@ -972,6 +952,15 @@ export function confirmAssociateJustice(
   });
   let next = recorded.world;
   const voteEventId = recorded.eventId;
+  if (vote.yeas + vote.nays === 0)
+    return {
+      world: next,
+      status: "blocked",
+      reasonKey: "governing:senate-no-decision",
+      context:
+        "The Senate recorded no yes or no vote; the nomination remains pending.",
+      outcomeEventId: voteEventId,
+    };
   if (!vote.confirmed)
     return resolved(
       scheduleAssociateNomination(

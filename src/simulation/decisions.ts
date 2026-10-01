@@ -387,7 +387,10 @@ function canonicalDecisionContext(input: DecisionContext): DecisionContext {
   };
 }
 
-function considerationScore(consideration: DecisionConsideration): number {
+/** The signed weight one consideration adds to its option's score. */
+export function considerationScore(
+  consideration: DecisionConsideration,
+): number {
   const magnitude =
     IMPORTANCE_WEIGHT[consideration.importance] *
     CONFIDENCE_WEIGHT[consideration.confidence];
