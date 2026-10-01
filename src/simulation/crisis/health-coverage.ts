@@ -478,7 +478,7 @@ export function recordHealthCoverage(
     onDate,
     activity: "application",
     activityId: causeId,
-    subjectIds: world.personOrder,
+    subjectIds: [...world.personOrder],
   });
   const cutoff = {
     asOfDate: onDate,
