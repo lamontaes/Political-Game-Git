@@ -1,0 +1,51 @@
+{
+  "status": "PREPARED \u2014 shared runtime dependencies missing; not READY",
+  "base": "7910ea6b0724d695f49c8c9e073a2244bf8e178b",
+  "preservedDonor": "d61d1e44b963b3463dd7e932eeebcd18d7dc62cc",
+  "sourceSha256": {
+    "src/simulation/living-world/town-pay.ts": "be8cf473ebaca17e67707af58a4b4b27f24abe1cd4d3a42498a7bf91bfe9c1cc",
+    "src/simulation/completed-hourly-gross.ts": "0109687ed90af1b68d9e9ea645dec8d6ad831c236ed6ed2ce4394275c0f62fb0",
+    "src/simulation/completed-hourly-gross.test.ts": "bec8194a22f4113f4a9dd129797ae59edff06f2659f1017bfa40ea917201e738"
+  },
+  "originalProspectiveHourlyTail": {
+    "byteEqual": true,
+    "sha256": "d8b575b8f8f175225b30839ebb4fd66063a3eac8145b5660bee1a9b765db76af"
+  },
+  "nativeFormula": {
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/completed-hourly-gross.test.ts --maxWorkers=1 --silent=false",
+    "passed": 3,
+    "failed": 0,
+    "durationMs": 168,
+    "firstAttempt": "NOT RUN: sandbox spawnSync git EPERM before collection; authorized escalation rerun passed"
+  },
+  "scopedTypes": {
+    "roots": 2,
+    "loadedFiles": 691,
+    "diagnostics": 3,
+    "exitCode": 1,
+    "receipt": "scoped-types.txt"
+  },
+  "integration": "NOT RUN on main-based branch: root runtime/pay admission/validator/guard dependencies absent",
+  "priorActualPayment": {
+    "testedSource": "107d599acaf06aae010634a813146f41feb446d2",
+    "publishedSource": "d61d1e44b963b3463dd7e932eeebcd18d7dc62cc",
+    "passed": 2,
+    "deliberatelyNotRun": 11,
+    "durationSeconds": 20.67,
+    "sourceBound": "Old qualified composition only; not evidence for this extraction"
+  },
+  "guardComposition": {
+    "receivedSource": "e8963da37341a0c5309a79728a2314ac80514f2f",
+    "testedSource": "88a4fedcada32fea8cefda10a9c9ae2839ec43c8",
+    "ownCodeBlobsUnchangedFrom": "88200273fa244b50b514e8d8faf50c01c00a9e85",
+    "scopedTypes": {
+      "roots": 2,
+      "loadedFiles": 699,
+      "diagnostics": 0,
+      "exitCode": 0,
+      "receipt": "scoped-types-after-guard.txt"
+    },
+    "lightQuery": "earned-law-pay-integrity imports governing/final-law-term-query; workPayCoverageAt is sole read-only pay-coverage-query export",
+    "runtime": "NOT RUN: pay registry slot still empty; runtime resolved/context completion forwarding not yet admitted; no coverage producer imported"
+  }
+}

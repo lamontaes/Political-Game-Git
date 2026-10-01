@@ -1,0 +1,37 @@
+{
+  "testedSource": "f6f1f50be5bb4ed5b70b65516ac0a9b7fe1380e1",
+  "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/earned-law-pay-payment.test.ts src/simulation/minimum-wage-canonical-matrix.test.ts --maxWorkers=1 --silent=false",
+  "native": {
+    "passed": 16,
+    "failed": 0,
+    "durationSeconds": 23.24,
+    "cases": "13 canonical consumer; exact2 original named-worker assertions;1 actual shift payday caller"
+  },
+  "types": {
+    "roots": 5,
+    "loadedFiles": 1045,
+    "diagnostics": 0
+  },
+  "sha256": {
+    "data/research/laws/starting-law-2026.json": "244eb6d663b3037dd13c88a88e9096923ab949ae172a62fbc38699fcb8573897",
+    "src/simulation/minimum-wage.ts": "98c02b861d7123920377e0a90b6439448a4dcd3766a7fcedff3fba0364cbd850",
+    "src/simulation/living-world/town-pay.ts": "71e23e3f0e97d9adcd015555c0f4a946f0f9f3b9425add9d07fb5841373bca3c",
+    "src/simulation/life-paths2.ts": "0bdafa50ab3e029957ebaf25424401e737c6fcd92f933b1a0f529e9906cea4a3",
+    "src/simulation/pay-coverage.ts": "bb4028e2cfe4f0390a046ae19fd86bfcbeb03c4f78840269ff854599b9b259e3",
+    "src/simulation/life.ts": "8a7a92212de17752af10e9e845e9dbcc10b58412f85606d4513e549e28be42f6",
+    "src/simulation/earned-law-pay-payment.test.ts": "512643dc7d5ad43284fbf5400110ceb696b0b2d9da00384d988b73e9b9248dff",
+    "src/simulation/minimum-wage-canonical-matrix.test.ts": "28dd5374ba40513e53883a19f46b71c622a0426cd373ef62c119057d2611c809"
+  },
+  "receiptSha256": {
+    "types-r1.txt": "b520db3313ed3d65569d07528d55dfdfebf9b856a1542fa7406e19213480d402",
+    "native-r1.txt": "9e595f91b5ba272b767bff1b0922242a9fed6d34e5cf630ffb870ceb9cb74ef1"
+  },
+  "limits": [
+    "controlled authored NE saved hourly rule and recorded worker/cash/contract",
+    "opening patch payload not applied here",
+    "AS special-federal applicability and NY/OR regional selection unresolved",
+    "lower employer categories need actual saved facts/authored exception rows",
+    "not natural enactment/year/all56 person-payroll/current-main acceptance",
+    "root owns single vertical PR; no separate Team3 plumbing PR"
+  ]
+}

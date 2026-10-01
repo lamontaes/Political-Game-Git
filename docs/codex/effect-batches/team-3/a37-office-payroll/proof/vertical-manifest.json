@@ -1,0 +1,26 @@
+{
+  "testedSourceHead": "fee98d7b00cf272020ccd7a117196dbfac9f08bd",
+  "coordinatorVertical": "3c2e2c255170be9d2f1ef62be3bf0beb574ca1c3",
+  "passed": 8,
+  "failed": 0,
+  "durationSeconds": 15.74,
+  "types": {
+    "roots": 3,
+    "files": 753,
+    "diagnostics": 0
+  },
+  "sourceSha256": {
+    "src/simulation/office-salary.ts": "67551124a1133511d619e9291e3435297763cc13b42cf22d0fca57e0e1ebc804",
+    "src/simulation/living-world/town-pay.ts": "8ed27d3f841bca0e9e4b21967ab1130bc5ec1a19e76ddca8b3b37a1ed0bca387",
+    "src/simulation/office-salary-payroll.test.ts": "03c8bfe650e5be54403d3b166b9e9a851b195e14a629bb495a1812ece5d68247"
+  },
+  "logsSha256": {
+    "vertical-pass.txt": "0bb7409dc0a0b90a85205518d92a859e563c7ebac0d8724c0e255c2089cd91ce",
+    "vertical-types.txt": "441bd3644069f7df870a7b0cf8f1a3b7f0505f2cf4fb2b34c31ca525695b311e"
+  },
+  "limits": [
+    "Only owned office/town regression renewed; root seven-file receipt remains inherited evidence.",
+    "No AS/NY/OR category/global readiness or annual dispatch admission.",
+    "Local-economy work-binding and monthly interval contract awaits Audit."
+  ]
+}

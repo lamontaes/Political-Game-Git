@@ -1,13 +1,15 @@
-import { assessPaycheckTaxes } from "./statutory-tax";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { currentLifeCutoff, workStatusAt } from "./life-queries";
 import { officePayInForce } from "./office-pay";
 import {
+  settleTownCompensations,
+  type TownCompensationPeriod,
+} from "./living-world/town-pay";
+import {
   createWorkCompensation,
   money,
   recordResourceFlowTerms,
-  resolveWorkCompensationPeriod,
 } from "./resources";
 import { resourceFlowTermsHistory } from "./resource-queries";
 import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
@@ -52,7 +54,6 @@ export const PAID_OFFICE_KINDS: readonly string[] = [
 ];
 
 const WEEK_DAYS = 7;
-const CATCH_UP_LIMIT_WEEKS = 520;
 
 /**
  * The annual pay for an office on a date: what the state's pay law says if one
@@ -189,34 +190,29 @@ function settleOne(world: World, work: WorkRelationship): World {
       daysBetween(flow.startsAt, outcome.periodStartsAt) / WEEK_DAYS + 1;
     if (week > paidWeeks) paidWeeks = week;
   }
-  for (
-    let week = paidWeeks + 1;
-    week <= paidWeeks + CATCH_UP_LIMIT_WEEKS;
-    week += 1
-  ) {
+  const dueWeeks = Math.floor(
+    daysBetween(flow.startsAt, next.currentDate) / WEEK_DAYS,
+  );
+  const periods: TownCompensationPeriod[] = [];
+  for (let week = paidWeeks + 1; week <= dueWeeks; week += 1) {
     const periodStartsAt = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
     const dueOn = addDays(flow.startsAt, week * WEEK_DAYS);
     if (dueOn > next.currentDate) break;
     // A week that ends after the office did is not paid, and nothing later is.
     if (!isActiveOn(next, work.id, addDays(dueOn, -1))) break;
     next = raiseToPayInForce(next, work, flow.id, periodStartsAt);
-    next = resolveWorkCompensationPeriod(next, {
+    periods.push({
       stableKey: `${flow.stableKey}:${periodStartsAt}`,
-      workRelationshipId: work.id,
+      payFlowId: flow.id,
+      activityId: flow.id,
       periodStartsAt,
       periodEndsAt: addDays(dueOn, -1),
-      occurredAt: dueOn,
-      status: "completed",
-      reasonKind: null,
+      onDate: dueOn,
       note: "Salary for the week.",
       provenance: flow.provenance,
     });
-    next = assessPaycheckTaxes(
-      next,
-      next.history.resourceTransferOutcomes.at(-1)!.id,
-    );
   }
-  return next;
+  return settleTownCompensations(next, periods);
 }
 
 /**
