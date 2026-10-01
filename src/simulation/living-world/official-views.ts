@@ -3,6 +3,7 @@ import {
   OFFICIAL_VIEW_TRANSITION_KEY,
   lawExposureFeltSize,
   monthlyPay,
+  type LawExposureFeltSize,
   officialViewReflectionKey,
   recordHeardExposure,
 } from "../law-exposure";
@@ -20,6 +21,17 @@ import {
 import { officialOpinionSubject } from "../political-opinion-subjects";
 import { recordWorldEvent } from "../world";
 import { joinLawInterestGroup } from "./law-interest-groups";
+import {
+  LIVED_OUTCOME_REFLECTION_TRANSITION_KEY,
+  livedOutcomeReflectionKey,
+} from "./lived-outcome-schedule";
+import {
+  LIVED_OUTCOME_ANSWERED_BY,
+  LIVED_OUTCOME_SUMMARY,
+  livedOutcomesOf,
+  officialAnsweringFor,
+  type LivedOutcome,
+} from "./lived-outcomes";
 import { confidantsOf } from "../confidants";
 import {
   activePartnershipsAt,
@@ -71,6 +83,20 @@ export {
   OFFICIAL_VIEW_TRANSITION_KEY,
   scheduleOfficialViewReflection,
 } from "../law-exposure";
+export { LIVED_OUTCOME_REFLECTION_TRANSITION_KEY } from "./lived-outcome-schedule";
+
+export const LIVED_OUTCOME_REFLECTION_EVENT_TYPE =
+  "people.lived-outcome-reflection";
+/** Prefix of the reflection's tag naming the record it reflects on. */
+export const LIVED_OUTCOME_SOURCE_TAG = "lived-outcome-source:";
+
+/** The dated event of a person thinking over one thing that happened to them. */
+export function livedOutcomeReflectionEventKey(
+  personId: EntityId,
+  outcome: Pick<LivedOutcome, "sourceRecordId">,
+): string {
+  return `${V}:lived-outcome-reflection:${outcome.sourceRecordId}:${personId}`;
+}
 export {
   assertOfficialViewIntegrity,
   netViewOnLaw,
@@ -103,6 +129,10 @@ const HEARD_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
 // PLACEHOLDER, approved provisional: partisans are anchored. Blame for their
 // own party's official, and credit for the other party's, count half.
 const PARTY_ANCHOR = 0.5;
+// PLACEHOLDER (research: who-answers-for-what-happened-to-me): what happened
+// to a person weighs on the official who answers for it at less than a law
+// that official signed; how much less is unmeasured.
+const ANSWERING_OFFICE_VISIBILITY = 0.4;
 // PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a
 // quarter of full weight rather than guessed.
 const UNMEASURED_WEIGHT = 0.25;
@@ -388,10 +418,35 @@ function formViewOfOfficial(
 ): World {
   const law = lawFactor(world, exposure, act, eventId);
   if (!law) return world;
-  const subject = officialOpinionSubject(act.officialId);
-  const prior = viewOfOfficial(world, exposure.personId, act.officialId).belief;
-  const factors: PoliticalBeliefFormationFactor[] = [law.factor];
-  const credit = law.factor.favors === "support";
+  return formViewFromFactor(
+    world,
+    exposure.personId,
+    act.officialId,
+    law,
+    `${V}:${exposure.id}:${act.officialId}`,
+    "What this law did runs against the view of this official the person already held.",
+  );
+}
+
+/**
+ * One reason to credit or blame an official, weighed by the belief pipeline
+ * with the view of them the person already holds, and saved.
+ */
+function formViewFromFactor(
+  world: World,
+  personId: EntityId,
+  officialId: EntityId,
+  reason: {
+    readonly factor: PoliticalBeliefFormationFactor;
+    readonly felt: number;
+  },
+  stableKey: string,
+  tornBecause: string,
+): World {
+  const subject = officialOpinionSubject(officialId);
+  const prior = viewOfOfficial(world, personId, officialId).belief;
+  const factors: PoliticalBeliefFormationFactor[] = [reason.factor];
+  const credit = reason.factor.favors === "support";
   // New evidence against a view already held leaves the person torn, as much
   // as the new evidence weighs.
   const priorSide =
@@ -400,19 +455,18 @@ function formViewOfOfficial(
       : prior?.position === "oppose"
         ? "opposition"
         : null;
-  if (priorSide && priorSide !== law.factor.favors)
+  if (priorSide && priorSide !== reason.factor.favors)
     factors.push({
-      ...law.factor,
-      stableKey: `${law.factor.stableKey}:torn`,
+      ...reason.factor,
+      stableKey: `${reason.factor.stableKey}:torn`,
       favors: "conflicted",
-      explanation:
-        "What this law did runs against the view of this official the person already held.",
+      explanation: tornBecause,
     });
   if (!prior) {
-    const legacy = legacyFactor(world, exposure.personId, act.officialId);
+    const legacy = legacyFactor(world, personId, officialId);
     if (legacy) factors.push(legacy);
   }
-  const salience = salienceFor(law.felt, prior, credit);
+  const salience = salienceFor(reason.felt, prior, credit);
   const firm: PoliticalBeliefDimensions = {
     conviction: "moderate",
     salience,
@@ -428,14 +482,144 @@ function formViewOfOfficial(
     "tentative-opposition": { ...firm, conviction: "tentative" },
   };
   const proposal = evaluatePoliticalBeliefFormation(world, {
-    stableKey: `${V}:${exposure.id}:${act.officialId}`,
-    personId: exposure.personId,
+    stableKey,
+    personId,
     subject,
     randomness: "none",
     beliefDimensionsByOutcome: byOutcome,
     factors,
   });
   return applyNpcPoliticalBeliefFormation(world, proposal);
+}
+
+/**
+ * A few days after something happened to a person that an official answers
+ * for (a job they did not choose to leave), they think it over: the outcome
+ * is a factor in the one belief pipeline for their view of that official,
+ * weighed like a law's effect, by how hard it landed next to their pay and
+ * through their temperament and party. The reflection is a dated event in
+ * their life, and the view is saved as a private belief.
+ */
+export function livedOutcomeReflectionHandler(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (dueItem.transitionKey !== LIVED_OUTCOME_REFLECTION_TRANSITION_KEY)
+    throw new Error(
+      "The lived-outcome reflection handler received another transition.",
+    );
+  const done = (
+    next: World,
+    reason: string,
+  ): FutureTransitionHandlerResult => ({
+    world: next,
+    status: "resolved",
+    reasonKey: `${V}:lived-outcome-${reason}`,
+    context: null,
+    outcomeEventId: null,
+  });
+  const personId = dueItem.entityIds[0];
+  if (!personId || !world.people[personId])
+    return done(world, "person-not-present");
+  if (world.control.kind === "person" && world.control.personId === personId)
+    return done(world, "controlled-person");
+  const outcome = livedOutcomesOf(world, personId).find(
+    (row) =>
+      livedOutcomeReflectionKey(personId, row.sourceRecordId) ===
+      dueItem.stableKey,
+  );
+  if (!outcome) return done(world, "outcome-not-present");
+  const officialId = officialAnsweringFor(
+    world,
+    personId,
+    LIVED_OUTCOME_ANSWERED_BY[outcome.kind],
+  );
+  if (!officialId || officialId === personId || !world.people[officialId])
+    return done(world, "no-official");
+  let next = recordWorldEvent(world, {
+    stableKey: livedOutcomeReflectionEventKey(personId, outcome),
+    type: LIVED_OUTCOME_REFLECTION_EVENT_TYPE,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [personId, officialId],
+    participants: [{ personId, role: "focus:subject", detail: null }],
+    personFactConstraints: [],
+    visibility: "private",
+    // The record it reflects on is named in a tag: a work status or a
+    // coverage row is not an entity an event may involve.
+    tags: [
+      "people.official-view",
+      `lived-outcome:${outcome.kind}`,
+      `${LIVED_OUTCOME_SOURCE_TAG}${outcome.sourceRecordId}`,
+    ],
+    summary: `Thought over ${LIVED_OUTCOME_SUMMARY[outcome.kind]}, and who answers for it.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const eventId = next.history.events.at(-1)!.id;
+  const reason = outcomeFactor(next, personId, officialId, outcome, eventId);
+  if (!reason) return done(next, "not-felt");
+  next = formViewFromFactor(
+    next,
+    personId,
+    officialId,
+    reason,
+    `${V}:lived-outcome:${outcome.sourceRecordId}:${officialId}`,
+    "What happened to them runs against the view of this official the person already held.",
+  );
+  return done(next, "reflected");
+}
+
+/**
+ * What happened to the person, as a reason to blame (or credit) the official
+ * who answers for it: as hard as it landed next to their pay, at the weight
+ * an answering office carries, through their temperament, and anchored by
+ * party as a law's effect is.
+ */
+function outcomeFactor(
+  world: World,
+  personId: EntityId,
+  officialId: EntityId,
+  outcome: LivedOutcome,
+  eventId: EntityId,
+): {
+  readonly factor: PoliticalBeliefFormationFactor;
+  readonly felt: number;
+} | null {
+  const credit = outcome.direction === "gain";
+  let felt =
+    feltFromShare(outcome.felt) *
+    ANSWERING_OFFICE_VISIBILITY *
+    reactionLens(world, personId);
+  const mine = affiliationAt(world, personId).partyOrganizationId;
+  const theirs = affiliationAt(world, officialId).partyOrganizationId;
+  const anchored =
+    mine !== null &&
+    theirs !== null &&
+    ((mine === theirs && !credit) || (mine !== theirs && credit));
+  if (anchored) felt *= PARTY_ANCHOR;
+  if (felt <= 0) return null;
+  return {
+    felt,
+    factor: {
+      stableKey: `lived-outcome:${outcome.sourceRecordId}`,
+      favors: credit ? "support" : "opposition",
+      sourceType: "information:lived-outcome",
+      importance: IMPORTANCE_FROM.find(([from]) => felt >= from)![1],
+      confidence: "high",
+      explanation: `This official answers for ${LIVED_OUTCOME_SUMMARY[outcome.kind]}${
+        anchored ? "; the person's party loyalty tempers it" : ""
+      }.`,
+      sourceRefs: [{ kind: "historical-event", eventId }],
+    },
+  };
 }
 
 /**
@@ -583,7 +767,11 @@ function felt01(world: World, exposure: LawExposureRecord): number {
     exposure,
     (exposure.monthlyPay?.minorUnits ?? 0) + household,
   );
-  if (felt === null) return 0;
+  return felt === null ? 0 : feltFromShare(felt);
+}
+
+/** How hard an effect landed, 0 to 1, from its size next to pay. */
+function feltFromShare(felt: Exclude<LawExposureFeltSize, null>): number {
   if (felt === "unmeasured") return UNMEASURED_WEIGHT;
   // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
   // square root keeps small amounts noticeable.

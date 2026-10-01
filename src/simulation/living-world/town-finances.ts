@@ -34,12 +34,11 @@
  * closures and unemployment feed upward.
  */
 
-import { recordJobEndedNews } from "../neighbor-news";
 import townBusinessResearch from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
 import { privacyInitialOccurrence } from "../federal-data-privacy-law";
 import { addDays } from "../dates";
 import { acuteWeight } from "../outcome-web";
-import { recordOrganizationProfile, recordWorkStatus } from "../life";
+import { recordOrganizationProfile } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
@@ -73,7 +72,11 @@ import {
   townBusinessKindBooks,
 } from "./town-business-books";
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
-import { activeTownJobs, TOWN_JOB_END_REASONS } from "./town-labor-market";
+import {
+  activeTownJobs,
+  recordTownJobLoss,
+  TOWN_JOB_END_REASONS,
+} from "./town-labor-market";
 
 export const TOWN_FINANCES_VERSION = "town-finances-v1" as const;
 
@@ -1331,8 +1334,8 @@ function closeOrganization(
     closed: { reason },
   });
   const jobs = activeJobsAt(next, organizationId);
-  for (const job of jobs) {
-    next = recordWorkStatus(next, {
+  for (const job of jobs)
+    next = recordTownJobLoss(next, {
       stableKey: `${stableKey}:job-ended:${job.relationshipId}`,
       workRelationshipId: job.relationshipId,
       effectiveAt: next.currentDate,
@@ -1341,10 +1344,6 @@ function closeOrganization(
       supersedesStatusId: job.status.id,
       provenance,
     });
-    next = recordJobEndedNews(next, next.history.workStatuses.at(-1)!.id, {
-      closedBusiness: true,
-    });
-  }
   return { world: next, jobsLost: jobs.length };
 }
 

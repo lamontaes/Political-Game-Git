@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-10-01T20:50:00.000Z",
+  "impact": "shapes-design",
+  "lane": "law effects and public opinion",
+  "notes": [
+    "Under LIVES slice step 3 (Fable audit, Part 5, Social, gap 6) a resident's recorded job loss (a layoff or a closed workplace) becomes a belief factor about the official who answers for it. Which office answers is LIVED_OUTCOME_ANSWERED_BY in src/simulation/living-world/lived-outcomes.ts (a lost job: the governor); how much it weighs next to a law that official signed is ANSWERING_OFFICE_VISIBILITY (0.4) in src/simulation/living-world/official-views.ts. Both are PLACEHOLDER.",
+    "The literature ties voters' judgment of governors to their state's economy, but it measures aggregate vote shares, not how one person's own lost job moves their view of one official, nor how that compares with a law the official signed.",
+    "Coverage loss, a rent increase and being a crime victim will join through the same table; each needs its own answering office and weight."
+  ],
+  "priority": "P2",
+  "question": "When something happens to a person (they lose a job, lose health coverage, see their rent rise, or are the victim of a crime), which official do they hold responsible (governor, mayor, president, legislator), and how much does their own experience move their approval of that official, compared with a law that official enacted that cost them the same?",
+  "questionId": "who-answers-for-what-happened-to-me",
+  "relatedQuestionIds": ["felt-size-of-non-money-law-effects"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "Wolfers, Are Voters Rational? Evidence from Gubernatorial Elections, Stanford GSB Working Paper, 2002",
+      "whatItDidNotSettle": "Shows state economic conditions move governors' vote shares in aggregate; gives no individual-level effect of one's own job loss."
+    },
+    {
+      "source": "Ebeid and Rodden, Economic Geography and Economic Voting, British Journal of Political Science, 2006",
+      "whatItDidNotSettle": "Shows when voters hold governors to account for the state economy; does not size a personal outcome against a law."
+    }
+  ],
+  "title": "Who a person blames for what happened to them, and how much",
+  "usableAnswer": "Panel or survey estimates of the change in approval of a named office after a respondent's own job loss, coverage loss, rent increase or victimization, by office, so LIVED_OUTCOME_ANSWERED_BY and ANSWERING_OFFICE_VISIBILITY can become measured values by kind of outcome.",
+  "whyItMatters": "Without it, a governor whose state sheds jobs would face no lost support from the people laid off, and a player in office would never feel the lives their economy touched."
+}

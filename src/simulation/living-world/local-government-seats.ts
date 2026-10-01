@@ -119,6 +119,26 @@ export function organizationIdFor(
 }
 
 /** Who holds a seat in this town's government today, members and mayor. */
+/**
+ * Who heads a resident's local government: the chief executive of their
+ * town's own government (or their county's, where the town has none), or
+ * else the first seated member of its governing body. Null where no local
+ * government is seated.
+ */
+export function localHeadOfGovernment(
+  world: World,
+  residentId: EntityId,
+): EntityId | null {
+  const home = homeLocalGovernmentUnits(world, residentId);
+  const units = home.municipal.length > 0 ? home.municipal : home.counties;
+  const officers = units.flatMap((unit) => sittingLocalOfficers(world, unit));
+  return (
+    officers.find((officer) => officer.mayor)?.personId ??
+    officers[0]?.personId ??
+    null
+  );
+}
+
 export function sittingLocalOfficers(
   world: World,
   unit: GovernmentUnitIdentity,

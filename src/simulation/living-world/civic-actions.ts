@@ -10,7 +10,10 @@ import {
 } from "../official-view-reads";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
-import { sittingLocalOfficers } from "./local-government-seats";
+import {
+  localHeadOfGovernment,
+  sittingLocalOfficers,
+} from "./local-government-seats";
 import { reactionLens } from "./official-views";
 
 /**
@@ -181,8 +184,7 @@ export function reviewTownCivicActions(
   // local government is seated, to their state's or territory's governor.
   const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
   const headOfTown =
-    officers.find((officer) => officer.mayor)?.personId ??
-    officers[0]?.personId ??
+    localHeadOfGovernment(world, residents[0]!) ??
     (stateKey ? currentGovernorOf(world, stateKey.slice(3)) : null)?.personId ??
     null;
   const groupMembers = lawInterestMembersInTown(world, town);
