@@ -224,9 +224,9 @@ function enactFromDocket(
       continue;
     }
     if (step === "record-enactment" && legacyNullEffectiveDate) {
-      // Current state procedure supplies an effective date. Recreate an older
-      // saved enactment with that field missing before any effect is applied,
-      // so this test still checks that the effect gateway does not guess one.
+      // Remove the saved source-resolved date while preserving its real basis.
+      // Unlike a legacy null without that basis, this cannot be redated from
+      // the state rule or a game fallback by the canonical operative reader.
       const enacted = recordEnactment(world, {
         stableKey: nextMeasureStableKey(
           world,
@@ -235,6 +235,11 @@ function enactFromDocket(
         ),
         measureId,
       });
+      const saved = enacted.history.legislativeEnactments!.find(
+        (row) => row.measureId === measureId,
+      )!;
+      expect(saved.effectiveDateBasis).toBe("source-default");
+      expect(saved.effectiveAt).not.toBeNull();
       world = applyEnactedLawEffects(
         {
           ...enacted,
@@ -623,7 +628,7 @@ describe("a law the player passes changes what it governs", () => {
 
   it("does not invent a state transit start date when the enactment has none", () => {
     const { world, measureId } = enactFromDocket(
-      "nebraska",
+      "alaska",
       {
         familyKey: "appropriations",
         variantKey: "transit-staged-service-v2",
@@ -636,6 +641,14 @@ describe("a law the player passes changes what it governs", () => {
       world.history.legislativeEnactments!.find(
         (row) => row.measureId === measureId,
       )!.effectiveAt,
+    ).toBeNull();
+    expect(
+      operativeDateInWorld(
+        world,
+        world.history.legislativeEnactments!.find(
+          (row) => row.measureId === measureId,
+        )!,
+      ),
     ).toBeNull();
     expect(appropriations(world, measureId)).toHaveLength(0);
   });
