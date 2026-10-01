@@ -50,7 +50,7 @@ The coordinator's published earned-pay vertical was received additively at `fee9
 
 The same eight office/town tests passed in 15.74 seconds against the newer coverage guard. Three strict roots again loaded 753 files with zero diagnostics. The exact receipt is `proof/vertical-manifest.json`. The coordinator's other test results remain inherited evidence. This renewal does not establish annual dispatch admission or American Samoa and New York/Oregon special-scope coverage.
 
-The local-economy worker wage creation and delegation hunks are now released. Their exact saved-work binding and monthly interval contract are with Audit before edits. Revenue and owner-draw hunks remain protected. Release checking found the inherited `ci-changed-tests-only.md` prose error. The zero-dice guard found no new lines and five stale removed-line entries; its baseline was not edited.
+The local-economy worker wage creation and delegation hunks are released. The creation-time binding is delivered below; the monthly interval and withholding contract remains with Audit. Revenue and owner-draw hunks remain protected. Release checking found the inherited `ci-changed-tests-only.md` prose error. The zero-dice guard found no new lines and five stale removed-line entries; its baseline was not edited.
 
 ## Creation-time worker binding
 
