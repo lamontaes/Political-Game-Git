@@ -14,7 +14,6 @@ import { currentStateExecutiveHolders } from "../nationwide-world/state-executiv
 import {
   federalDebtHeldByPublic,
   openFederalTreasury,
-  settleFederalTreasuryMonth,
 } from "./federal-treasury";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
@@ -206,12 +205,8 @@ export function settlePublicBudgets(start: World, month: IsoDate): World {
     governments,
     adjustments,
     ...(federalGovernment ? { federalGovernment } : {}),
-    // Preserve the legacy forecast until saved-payment parity and caller conversion.
-    federal: settleFederalTreasuryMonth(
-      world,
-      store.federal ?? openFederalTreasury(month),
-      month,
-    ),
+    // Legacy forecast bytes remain readable, but only the common government
+    // account settles. Missing cash never creates a forecast transaction.
   };
   return {
     ...world,

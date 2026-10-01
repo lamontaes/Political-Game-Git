@@ -77,7 +77,6 @@ import {
   FEDERAL_RECEIPTS,
   FEDERAL_OUTLAYS,
   openFederalTreasury,
-  settleFederalTreasuryMonth,
 } from "./federal-treasury";
 import { PUBLIC_BUDGETS_VERSION, type PublicBudgetStore } from "./store";
 import type { World } from "../types";
@@ -110,6 +109,44 @@ function account(world: World, stableKey: string, openingMinor = 10000) {
 }
 
 describe("M5 federal government uses the same saved-payment settler", () => {
+  it("keeps legacy forecast bytes frozen when no federal cash account exists", () => {
+    const world = createWorld({
+      seed: "a47:missing-federal-cash",
+      currentDate: date,
+      jurisdictions: [NATIONAL_ELECTION_JURISDICTION],
+      people: [],
+    });
+    const store = withOpenedBudgets(
+      world,
+      {
+        version: PUBLIC_BUDGETS_VERSION,
+        cursor: { flows: 0, outcomes: 0 },
+        governments: [],
+        adjustments: [],
+        unknown: [],
+        federal: openFederalTreasury(date),
+      },
+      month,
+    );
+    const source = { ...world, publicBudgets: store };
+    const before = serializeWorld(source);
+    const settled = settlePublicBudgets(source, month);
+    expect(settled.publicBudgets!.federal).toEqual(store.federal);
+    expect(settled.publicBudgets!.federalGovernment!.months).toEqual([]);
+    expect(settled.publicBudgets!.federalGovernment!.balance).toBeNull();
+    expect(settled.history.resourceTransferOutcomes).toEqual(
+      source.history.resourceTransferOutcomes,
+    );
+    expect(settled.history.resourcePositions).toEqual(
+      source.history.resourcePositions,
+    );
+    expect(serializeWorld(source)).toBe(before);
+    const loaded = deserializeWorld(serializeWorld(settled));
+    const repeated = settlePublicBudgets(loaded, month);
+    expect(repeated.publicBudgets).toEqual(settled.publicBudgets);
+    expect(serializeWorld(repeated)).toBe(serializeWorld(loaded));
+  });
+
   it("retains an actual partial outlay when its mapped category is unregistered", () => {
     const nation = NATIONAL_ELECTION_JURISDICTION;
     let world = createWorld({
@@ -715,12 +752,8 @@ describe("M5 federal government uses the same saved-payment settler", () => {
           money(0, "USD").currency,
         )!.liquidBalance.minorUnits,
       ).toBe(9675);
-      // Integration preserves the old forecast unchanged while the cash path is compared.
-      const expectedLegacy = settleFederalTreasuryMonth(
-        world,
-        store.federal!,
-        month,
-      );
+      // The sole live settler preserves archived forecast bytes without advancing them.
+      const expectedLegacy = store.federal;
       const integrated = settlePublicBudgets(
         { ...world, publicBudgets: store },
         month,
@@ -728,7 +761,7 @@ describe("M5 federal government uses the same saved-payment settler", () => {
       expect(integrated.publicBudgets!.federal).toEqual(expectedLegacy);
       expect(integrated.publicBudgets!.federalGovernment).toEqual(result);
       const repeated = settlePublicBudgets(integrated, month);
-      expect(repeated.publicBudgets!.federal!.months).toHaveLength(1);
+      expect(repeated.publicBudgets!.federal!.months).toHaveLength(0);
       expect(repeated.publicBudgets!.federalGovernment!.months).toHaveLength(1);
       expect(repeated.publicBudgets).toEqual(integrated.publicBudgets);
       // An old save still reads the federal payment before advancing its cursor.
