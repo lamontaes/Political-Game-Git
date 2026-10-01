@@ -2,11 +2,7 @@ import { appendFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 import { observerPlace } from "../../presentation/observer-world";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import data from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
@@ -18,6 +14,7 @@ import {
   recordHouseholdLocation,
   startHouseholdMembership,
 } from "../life";
+import { annualPovertyLineMinor } from "../household-pay";
 import { isLawEffectStamp } from "../law-effect-stamp";
 import { STATES } from "../state-reference";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -33,14 +30,18 @@ import { isPersonAliveAt } from "../vitality";
 import { advanceWorld, createWorld, createWorldId } from "../world";
 import { MULTIPLIER_ONE } from "./hazard";
 import {
-  annualPovertyLineMinor,
   coverageHazardIntervals,
   healthCoverageRecords,
   MEDICAID_EXPANSION_RULES,
   medicaidCoverageDecision,
   recordHealthCoverage,
+  scheduleHealthCoveragePass,
 } from "./health-coverage";
-import { hazardMultipliersOf, mortalityCrossingDay } from "./mortality";
+import {
+  ensureCrisisMortality,
+  hazardMultipliersOf,
+  mortalityCrossingDay,
+} from "./mortality";
 import type { HealthCoverageRecord } from "./types";
 
 const LONG = 900_000;
@@ -58,23 +59,34 @@ function watchedPlace(answer: "yes" | "no") {
     const seed = `medicaid-${n}`;
     const place = observerPlace(seed);
     const stateKey = place.stateJurisdictionKey ?? "";
-    // Kentucky is the explicit scenario, never a watched default.
-    if (stateKey !== "US-KY" && ANSWERS[stateKey]?.answer === answer)
-      return { seed, place };
+    if (ANSWERS[stateKey]?.answer === answer) return { seed, place };
   }
   throw new Error(`No watched place answers ${answer}.`);
 }
 
 function openWorld(seed: string, placeKey: string): World {
-  return generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey,
-      startAge: 35,
-      depth: "summarize-earlier-life",
-    }),
-  ).game!.world;
+  const fixture = smallWorld({
+    place: placeKey,
+    seed,
+    people: 12,
+    household: true,
+  });
+  const home = fixture.world.history.households.at(-1)!;
+  const located = recordHouseholdLocation(fixture.world, {
+    stableKey: "fixture:watched-coverage-home",
+    householdId: home.id,
+    effectiveAt: fixture.world.currentDate,
+    jurisdictionId: fixture.jurisdictionId,
+    label: "Fixture home",
+    kind: "residence:fixture",
+    provenance: { kind: "authored", note: "Bounded watched coverage fixture." },
+    supersedesLocationId: null,
+  });
+  return scheduleHealthCoveragePass(
+    ensureCrisisMortality(located),
+    located.currentDate,
+    located.id,
+  );
 }
 
 /**
@@ -243,6 +255,8 @@ describe("coverage consequence law stamps", () => {
       expect(JSON.stringify(world)).toBe(before);
       const first = healthCoverageRecords(covered).at(-1)!;
       expect(first.covered).toBe(true);
+      expect(first.hazardMultiplierMicros).toBe(MULTIPLIER_ONE);
+      expect(first.hazardFrom).toBe(date);
       expect(first.lawEffectStamps).toHaveLength(1);
       const stamp = first.lawEffectStamps![0]!;
       expect(isLawEffectStamp(stamp)).toBe(true);
@@ -335,13 +349,12 @@ describe("coverage consequence law stamps", () => {
 });
 
 describe("Medicaid expansion coverage reaches named people", () => {
-  it("counts a covered year off a covered 55-to-64-year-old's hazard, and only while covered and in that age", () => {
+  it("keeps eligibility separate from individual hazard, including legacy saved multipliers", () => {
     const record = {
       covered: true,
       effectiveAt: makeIsoDate("2026-04-01"),
       hazardFrom: makeIsoDate("2026-04-01"),
-      hazardMultiplierMicros:
-        MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
+      hazardMultiplierMicros: 906_000,
     } as HealthCoverageRecord;
     const lost = {
       covered: false,
@@ -352,14 +365,9 @@ describe("Medicaid expansion coverage reaches named people", () => {
     // Turns 55 on 1/1/2027.
     expect(
       coverageHazardIntervals(makeIsoDate("1972-01-01"), [record, lost]),
-    ).toEqual([
-      {
-        start: "2027-01-01",
-        end: "2028-01-01",
-        micros: MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
-      },
-    ]);
-    expect(MEDICAID_EXPANSION_RULES.mortality.multiplierMicros).toBe(906_000);
+    ).toEqual([]);
+    expect(record.hazardMultiplierMicros).toBe(906_000);
+    expect(record.covered).toBe(true);
     // The HHS guideline, and a state's own where it has one.
     const day = makeIsoDate("2026-06-01");
     expect(annualPovertyLineMinor("US-OH", 1, day)).toBe(1_596_000);
@@ -391,8 +399,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
         expect(row.stateKey).toBe(stateKey);
       }
 
-      // Death risk: a covered 55-to-64-year-old's hazard carries the
-      // multiplier, and their crossing day never comes sooner for it.
+      // Eligibility alone does not change a covered adult's clinical hazard.
       const older = covered.filter((row) => {
         const age = ageOnDate(
           world.people[row.personId]!.birthDate,
@@ -400,6 +407,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
         );
         return age >= 55 && age <= 64;
       });
+      expect(older.length).toBeGreaterThan(0);
       const without = {
         ...world,
         history: {
@@ -412,13 +420,11 @@ describe("Medicaid expansion coverage reaches named people", () => {
       const horizon = addDays(world.currentDate, 365 * 12);
       let later = 0;
       for (const row of older) {
-        expect(
-          hazardMultipliersOf(world, row.personId).some(
-            (change) =>
-              change.micros ===
-              MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
-          ),
-        ).toBe(true);
+        expect(row.hazardMultiplierMicros).toBe(MULTIPLIER_ONE);
+        expect(row.hazardFrom).toBe(row.effectiveAt);
+        expect(hazardMultipliersOf(world, row.personId)).toEqual(
+          hazardMultipliersOf(without, row.personId),
+        );
         const withCoverage = mortalityCrossingDay(
           world,
           row.personId,
@@ -431,8 +437,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
           world.currentDate,
           horizon,
         );
-        if (uncovered !== null)
-          expect(withCoverage === null || withCoverage >= uncovered).toBe(true);
+        expect(withCoverage).toBe(uncovered);
         if (uncovered !== null && withCoverage !== uncovered) later += 1;
       }
 
@@ -453,7 +458,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
       expect(lostToHours.length).toBeGreaterThan(0);
 
       // A repeal enacted in play ends everyone's coverage at the next pass,
-      // and with it the lower hazard.
+      // without asserting a clinical benefit.
       const repealAt = addDays(world.currentDate, 30);
       const passAt = addDays(world.currentDate, 60);
       world = withStateLaw(world, stateKey, "no", repealAt);
@@ -479,12 +484,13 @@ describe("Medicaid expansion coverage reaches named people", () => {
       expect(ended.filter((row) => !row.covered).length).toBe(alive.length);
       expect(ended.every((row) => !row.covered)).toBe(true);
       for (const row of older) {
-        // The lower hazard ends at the repeal's pass, or sooner at 65.
-        const last = hazardMultipliersOf(repealed, row.personId).at(-1)!;
-        expect(last.micros).toBe(MULTIPLIER_ONE);
-        expect(last.effectiveAt <= passAt).toBe(true);
+        // Ending eligibility contributes no hazard change either.
+        expect(hazardMultipliersOf(repealed, row.personId)).toEqual(
+          hazardMultipliersOf(without, row.personId),
+        );
       }
 
+      expect(later).toBe(0);
       write({
         seed,
         place: place.key,
