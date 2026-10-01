@@ -1,3 +1,38 @@
+# Payroll integration has resumed after the restart
+
+The rebuild remains incomplete. The shared pay contract includes shift-completion identifiers. Team 3’s writer integration remains pending. This checkpoint does not establish that payments saved or consumed those identifiers. The interrupted local service check has no recoverable result, so its repair remains draft. Cloud messaging works again, and previously idle teams have received the decisions that clear their next builds.
+
+## MERGED
+
+GitHub confirms that the privacy research, privacy implementation and previous coordinator checkpoint merged: #1518 at 719901ee6cf6223f543f1245bfa3fd2ebcae5149, #1523 at 1bcc9a6cbb8024cae4135a55f01aa069942994b5 and #1525 at c4b3437ae4c0b06b92083b2dbf1b4f80db8b9067. These merges do not establish complete law coverage or ordinary-player acceptance.
+
+## CONNECTIONS TABLE
+
+| Producer | Consumer | Verified state and next action |
+| --- | --- | --- |
+| Coordinator saved hourly authority and completion evidence | Team 3 common pay writer | Published completion contract bb5e17a7529d30fc41c93b48d06520ae7f0ba811; follow-up 701103d83e9c62d26e1741104b32ba53a4c47300 corrects the recorded workplace city-to-state lookup. Runtime remains pending. Completion event and earned terms identify the historical work, coverage and pay terms. Team 3 acknowledged the earlier authority head and began service checks on composition 657247d9b5ffd73a790e589ce1c52ff2eacc49ba. New completion-contract integration remains pending. |
+| Coordinator service-authority guard | Team 3 payroll prerequisite | #1530 remains draft at 34879816f9232f1240137b793dec2482799f8637. Cloud composition 657247 has 112 failed receipt assertions and five passed row cases. Three scoped type roots pass. Audit must establish baseline attribution before a repair is accepted. |
+| Team 1 starting-law compiler | Shared foundation | Published integration ed503c51ed5eb76fbe4c2781482ff707c79784a6 preserves the exact owned compiler changes. Its historical 50-case pass is source-bound, not current-main acceptance. Budget and threshold work resumed by dispatch. |
+| Audit election-count repair | Automatic election resolution | CTO released the evaluator, automatic resolver and scheduled-handler hunks. Unsupported counts must remain unresolved. The release was sent to Audit. |
+| Team 6 merged privacy work | Budget fixture repair | Canonical World fixture repair was explicitly approved. Team 6 received the twelve case areas and the narrow no-draw assertion correction. |
+
+## BLOCKED
+
+The local restart erased the coordinator's temporary service-test log. That run is NO RESULT. Published source survives. No local simulation was restarted by the coordinator; the CTO's behavior runs retain priority.
+
+The CTO returned #1527 for five failing cases and strict test-type errors involving duty and authorizesSpending. Team 2 acknowledged the repair and draft instruction. The coordinator verified the interim draft state. Team 2 then published repaired READY head d2ac0ba217585e812c38f09e558905aa57af8fee, reporting 12 selected passes and three strict roots with zero diagnostics; renewed CTO review remains required.
+
+The completed-shift contract uses the saved completion cutoff for work, coverage and contractual terms. Existing legal readers accept a date but no sequence cutoff. Audit received the specific question about a law recorded later on the same date. No retroactivity rule or alternate legal reader was invented.
+
+## EFFECTS
+
+No complete-law, nationwide, final-main or named-person delivery total is established. The saved hourly regression still requires the actual recorded wage to reach the worker's payment. A successful dispatch or active chat is not that proof.
+
+## Method and next actions
+
+Checkpoint prepared October 1, 2026, after reading the CTO's restart notice and live cloud snapshots. The shared checkout remains at ad75e8e377881724246022b8345476de4f1356e4 with 224 dirty entries preserved. The published contract changed only the coordinator-owned shared types and pay resolver through an isolated index. Format and whitespace checks passed; composed payroll runtime and strict checks are pending Team 3. The separate service result is recorded above. Team 9 received the actual-governor fixture correction, and Team 4 received its next bounded business-caller task.
+
+
 ## October 1, 6:09 a.m. rebuild checkpoint
 
 The rebuild is incomplete. The foundation's dated wage data is repaired, but a completed-shift caller still needs restoration and runtime proof. Privacy and payroll pieces are published for review. Coordination now uses [00d](https://docs.google.com/document/d/1RxVEUcyebasz0-6C0zyHv40d4LwrB2PJXzji17saVdk/edit).
