@@ -38,7 +38,7 @@ import {
   stateJurisdictionForKey,
 } from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import type { EntityId, IsoDate, World } from "./types";
+import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 
 /** The policy question a federal minimum wage raise answers. */
 export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
@@ -290,6 +290,7 @@ export function stateMinimumSettingAt(
   world: World,
   stateKey: string,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): StateMinimumSetting | null {
   const enactments = world.history.legislativeEnactments;
   let cache: Map<string, StateMinimumSetting | null> | null = null;
@@ -301,9 +302,9 @@ export function stateMinimumSettingAt(
     }
   }
   const cacheKey = `${stateKey}:${onDate}`;
-  if (cache?.has(cacheKey)) return cache.get(cacheKey)!;
-  const setting = computeStateMinimumSetting(world, stateKey, onDate);
-  cache?.set(cacheKey, setting);
+  if (!cutoff && cache?.has(cacheKey)) return cache.get(cacheKey)!;
+  const setting = computeStateMinimumSetting(world, stateKey, onDate, cutoff);
+  if (!cutoff) cache?.set(cacheKey, setting);
   return setting;
 }
 
@@ -311,6 +312,7 @@ function computeStateMinimumSetting(
   world: World,
   stateKey: string,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): StateMinimumSetting | null {
   const stateId = stateJurisdictionForKey(stateKey)?.id ?? null;
   const starting = startingStateMinimumHourly(stateKey);
@@ -323,6 +325,7 @@ function computeStateMinimumSetting(
           officeKey: laborLawOfficeKey(stateKey.slice(3)),
           field: "labor.minimumWage.hourlyCents",
           onDate,
+          cutoff,
         },
         null,
       )
@@ -347,6 +350,7 @@ function computeStateMinimumSetting(
       proposition.id,
       onDate,
       "enacted-only",
+      cutoff,
     );
     if (law?.origin === "enacted" && law.answer === "yes") {
       const measure = world.history.legislativeMeasures?.find(

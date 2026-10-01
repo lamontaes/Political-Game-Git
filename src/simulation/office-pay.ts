@@ -17,7 +17,13 @@ import {
   type AmendableRuleField,
   type RuleChangeApplicability,
 } from "./enacted-rule-changes";
-import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
+import type {
+  EntityId,
+  HistoricalCutoff,
+  IsoDate,
+  World,
+  WorkRelationship,
+} from "./types";
 
 export { OFFICE_PAY_META };
 
@@ -189,8 +195,9 @@ const GOVERNOR_OCCUPATION = /^service:us-([a-z]{2})-governor$/;
 export function paidOfficeOf(
   world: World,
   work: WorkRelationship,
+  cutoff?: HistoricalCutoff,
 ): { readonly office: PaidOffice; readonly state: string } | null {
-  const role = workRoleAt(world, work.id);
+  const role = workRoleAt(world, work.id, cutoff);
   if (!role) return null;
   if (work.kind === "employment:congress-member")
     return { office: "member-of-congress", state: "US" };
