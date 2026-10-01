@@ -247,6 +247,12 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
  * jury statute draws its panels by lot. The draw picks who sits; it decides
  * nothing any of them does.
  */
+/** Existing blanket panel target; jurisdiction-specific legal sizes are unread. */
+export const UNRESEARCHED_JURY_PANEL = {
+  size: 12,
+  provenance: "unresearched-existing-panel-size",
+} as const;
+
 export function empanelJury(
   world: World,
   courtCase: CourtCase,
@@ -258,7 +264,7 @@ export function empanelJury(
   );
   const drawn: EntityId[] = [];
   const remaining = [...pool];
-  while (drawn.length < 12 && remaining.length > 0)
+  while (drawn.length < UNRESEARCHED_JURY_PANEL.size && remaining.length > 0)
     drawn.push(remaining.splice(rng.integer(0, remaining.length), 1)[0]!);
   return drawn;
 }

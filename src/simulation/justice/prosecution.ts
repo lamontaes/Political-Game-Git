@@ -55,6 +55,7 @@ import {
   CONVICT,
   PLEA,
   PRETRIAL_HOLD,
+  UNRESEARCHED_JURY_PANEL,
   SENTENCE_JAIL,
   type CourtCase,
   type EvidenceStrength,
@@ -568,13 +569,21 @@ function holdTrial(
   trialNumber: number,
 ): {
   readonly world: World;
-  readonly verdict: typeof ACQUIT | typeof CONVICT | "hung";
+  readonly verdict: typeof ACQUIT | typeof CONVICT | "hung" | "pending";
   readonly jurors: number;
   readonly firstBallot: JuryRoom | null;
   readonly finalBallot: JuryRoom | null;
 } {
   let next = world;
   const jurors = empanelJury(next, courtCase, trialNumber);
+  if (jurors.length < UNRESEARCHED_JURY_PANEL.size)
+    return {
+      world: next,
+      verdict: "pending",
+      jurors: jurors.length,
+      firstBallot: null,
+      finalBallot: null,
+    };
   next = prepareJurors(next, jurors);
   const ballot = (
     number: number,
@@ -609,14 +618,6 @@ function holdTrial(
       } satisfies JuryRoom,
     };
   };
-  if (jurors.length === 0)
-    return {
-      world: next,
-      verdict: "hung",
-      jurors: 0,
-      firstBallot: null,
-      finalBallot: null,
-    };
   const first = ballot(1, null, null);
   const final =
     first.room.convictVotes === 0 || first.room.acquitVotes === 0
@@ -782,6 +783,8 @@ export function advanceProsecutions(
       const trialNumber = mistrials.length + 1;
       const trial = holdTrial(next, courtCase, trialNumber);
       next = trial.world;
+      // An incomplete panel has not deliberated and cannot count as a mistrial.
+      if (trial.verdict === "pending") continue;
       if (trial.verdict === "hung") {
         if (trialNumber < rule.hungJuriesBeforeDismissal) {
           next = followUp(next, last, referral, PROSECUTION_MISTRIAL_EVENT, {
