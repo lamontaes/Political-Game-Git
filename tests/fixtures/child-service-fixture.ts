@@ -121,14 +121,14 @@ export function childServiceFixture(
   });
   const votePlan: LegislativeProcedureContext["votePlan"] = Object.fromEntries(
     pack.chambers.flatMap((chamber) => [
-      [
-        `floor:${chamber.chamberKey}:final-passage`,
+      ...chamber.floorStages.map((stage) => [
+        `floor:${chamber.chamberKey}:${stage.stageKey}`,
         {
           yea: bodies.find((body) => body.chamberKey === chamber.chamberKey)!
             .members.length,
           nay: 0,
         },
-      ],
+      ]),
       ...chamber.committees.map((committee) => [
         `committee:${committee.committeeKey}`,
         { yea: committee.appointedMembers ?? 7, nay: 0 },
