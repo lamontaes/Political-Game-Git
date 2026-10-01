@@ -184,6 +184,7 @@ export function resolvePayConsequences(
         questionKey: proposition.stableKey,
         termKey: key,
         unit,
+        onDate: context.onDate,
       });
       if (!term)
         throw new Error(`Missing pay final law term '${key}' (${unit})`);

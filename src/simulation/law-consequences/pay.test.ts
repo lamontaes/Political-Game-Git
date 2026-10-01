@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import minimumWages from "../../../data/research/money/minimum-wage-2026.json" with { type: "json" };
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -8,6 +7,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import { addDays, simulationMomentOnLocalDate } from "../dates";
 import { cancelFutureDueItem } from "../future-transitions";
 import { lawInForce } from "../governing/law-in-force";
+import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
 import { lifePlaceByKey } from "../life-places";
 import { resourceFlowTermsAt, resourcePositionAt } from "../resource-queries";
 import {
@@ -55,7 +55,7 @@ const canonicalDispatch = applyLawConsequences;
 afterEach(() => vi.restoreAllMocks());
 
 describe.each(sampled)("pay kind in %s", (placeKey) => {
-  it("uses the approved starting state source on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity", () => {
+  it("uses canonical dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity", () => {
     const seed = `pay-kind:${placeKey}`;
     const game = generateOpeningLife(
       prepareOpeningLife({
@@ -110,11 +110,6 @@ describe.each(sampled)("pay kind in %s", (placeKey) => {
       subjectIds: [work.personId],
     };
     const place = lifePlaceByKey(placeKey)!;
-    const source = minimumWages.places as Record<
-      string,
-      { basicHourly: number | null }
-    >;
-    const hourly = source[place.stateJurisdictionKey!]!.basicHourly;
     const governing = lawInForce(
       world,
       place.context.jurisdiction.id,
@@ -124,16 +119,30 @@ describe.each(sampled)("pay kind in %s", (placeKey) => {
       expect(resolvePayConsequences(world, row, context)).toEqual([]);
       return;
     }
-    if (hourly === null) {
-      expect(() => resolvePayConsequences(world, row, context)).toThrow(
-        "Missing sourced starting pay floor",
-      );
-      return;
-    }
+    const finalTerm = readFinalEnactedLawTerm(world, governing, {
+      questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+      termKey: "target",
+      unit: "minor/hour",
+      onDate: since,
+    });
+    console.info("PAY_STARTING_TERM_RECEIPT", {
+      placeKey,
+      onDate: since,
+      jurisdictionId: place.context.jurisdiction.id,
+      questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+      termKey: "target",
+      unit: "minor/hour",
+      governingLawKey: governing.measureId,
+      finalTerm,
+    });
+    expect(
+      finalTerm,
+      "missing canonical dated starting wage text",
+    ).not.toBeNull();
     const input = resolvePayConsequences(world, row, context)[0]!;
     expect(input.law.origin).toBe("in-force-at-start");
     expect(input.value).toMatchObject({
-      value: Math.round(hourly * 100),
+      value: finalTerm!.value,
       unit: "minor/hour",
     });
     const raised = applyLawConsequences(world, context, registrations);
