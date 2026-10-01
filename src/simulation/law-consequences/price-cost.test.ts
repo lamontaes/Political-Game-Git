@@ -212,6 +212,80 @@ describe("the shared price-cost handler reuses saved flow terms", () => {
       resolvePriceCostConsequences(updated, unsupported, context),
     ).toThrow("Missing law amount capability: term:priceMinor");
   });
+  it("rejects conflicting units for a repeated term in a nested price expression", () => {
+    const { world, context, proposition } = setup(places[0]!);
+    const conflicting: LawConsequenceRow = {
+      ...row,
+      amount: {
+        op: "product",
+        left: { op: "term", key: "priceMinor", unit: "minor" },
+        right: {
+          op: "minimum",
+          operands: [{ op: "term", key: "priceMinor", unit: "ratio" }],
+        },
+      },
+    };
+    const updated: World = {
+      ...world,
+      policyCatalog: {
+        ...world.policyCatalog,
+        propositions: {
+          ...world.policyCatalog.propositions,
+          [proposition.id]: { ...proposition, consequences: [conflicting] },
+        },
+      },
+    };
+    expect(() =>
+      resolvePriceCostConsequences(updated, conflicting, context),
+    ).toThrow("Price-cost term 'priceMinor' has conflicting units");
+    expect(updated.history.resourceFlowTerms).toBe(
+      world.history.resourceFlowTerms,
+    );
+  });
+  it("reads flow-ID activities at their date and preserves later contract terms", () => {
+    const { world, context, flow } = setup(places[0]!);
+    const renewal = resourceFlowTermsAt(world, flow.id)!;
+    const tomorrow = addDays(world.currentDate, 1);
+    // A controlled record-native fixture, not a simulated clock advance.
+    const later = recordResourceFlowTerms(
+      {
+        ...world,
+        currentDate: tomorrow,
+        currentMoment: { ...world.currentMoment, date: tomorrow },
+      },
+      {
+        stableKey: "fixture:priced-contract:later-renewal",
+        resourceFlowId: flow.id,
+        effectiveAt: tomorrow,
+        status: "active",
+        amount: money(300_000, "USD"),
+        cadenceKind: renewal.cadenceKind,
+        reason:
+          "Controlled later contract terms for dated activity resolution.",
+        provenance: flow.provenance,
+        supersedesTermsId: renewal.id,
+      },
+    );
+    const current = later;
+    const resolved = resolvePriceCostConsequences(current, row, {
+      ...context,
+      activityId: flow.id,
+    })[0]!;
+    expect(resolved.value).toMatchObject({ value: 200_000, currency: "USD" });
+    expect(resolved.sourceRecordIds).toContain(renewal.id);
+    expect(resolved.sourceRecordIds).not.toContain(
+      later.history.resourceFlowTerms.at(-1)!.id,
+    );
+    expect(() => applyPriceCostConsequence(current, resolved)).toThrow(
+      "no longer names the latest flow terms",
+    );
+    expect(resourceFlowTermsAt(current, flow.id)!.amount.minorUnits).toBe(
+      300_000,
+    );
+    expect(current.history.resourceFlowTerms).toBe(
+      later.history.resourceFlowTerms,
+    );
+  });
   it("rejects wrong units, stale values and unrelated subject/basis without fabricating a result", () => {
     const { world, context } = setup(places[0]!);
     const resolved = resolvePriceCostConsequences(world, row, context)[0]!;
