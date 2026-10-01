@@ -42,6 +42,10 @@ import {
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
 import { assertLegalOutcomeConsequenceIntegrity } from "./law-consequences/legal-outcome";
 import {
+  assertChildhoodRecordIntegrity,
+  childhoodRecordEntries,
+} from "./childhood-record";
+import {
   assertLawPermissionIntegrity,
   lawPermissionRecords,
 } from "./law-consequences/permission-records";
@@ -2101,6 +2105,7 @@ function validateHistoryIntegrity(
         ...permitApplications(world),
         ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
+        ...childhoodRecordEntries(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2294,6 +2299,9 @@ function validateHistoryIntegrity(
   assertLawPermissionIntegrity(world, ids);
   assertPermitIntegrity(world, ids);
   assertLegalOutcomeConsequenceIntegrity(world);
+  for (const entry of childhoodRecordEntries(world))
+    assertUniqueId(ids, entry.id);
+  assertChildhoodRecordIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {

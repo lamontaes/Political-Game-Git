@@ -1,3 +1,4 @@
+import { childhoodRecordEntries } from "./childhood-record";
 import { addDays, ageOnDate, makeIsoDate } from "./dates";
 import {
   futureDueItemStateAt,
@@ -10,6 +11,7 @@ import {
 } from "./life";
 import { residentNameForJurisdiction } from "./life-places";
 import {
+  educationEnrollmentHistoryForPerson,
   educationEnrollmentStateAt,
   organizationProfileAt,
 } from "./life-queries";
@@ -140,6 +142,26 @@ function onCalendar(year: number, which: "starts" | "ends"): IsoDate {
         termStartsIn(year - 1),
         SCHOOL_STAGE_CALENDAR.termEnds.weeksLong * 7 - 3,
       );
+}
+
+/**
+ * The school year in session on this date, from the one calendar every child
+ * shares: the first day through the last day of instruction. Null in the
+ * summer between them.
+ */
+export function schoolTermOn(date: IsoDate): {
+  readonly schoolYear: number;
+  readonly startsAt: IsoDate;
+  readonly endsAt: IsoDate;
+} | null {
+  const year = Number(date.slice(0, 4));
+  for (const schoolYear of [year - 1, year]) {
+    const startsAt = onCalendar(schoolYear, "starts");
+    const endsAt = onCalendar(schoolYear + 1, "ends");
+    if (date >= startsAt && date <= endsAt)
+      return { schoolYear, startsAt, endsAt };
+  }
+  return null;
 }
 
 /**
@@ -411,6 +433,62 @@ export function highSchoolEndsAt(
       })?.status === "scheduled",
   );
   return scheduled?.dueAt ?? schoolStageEndsAt(world, personId, "high");
+}
+
+/**
+ * A pupil who moves away leaves the school they attended, and the place
+ * waiting for them in the fall, as transferred.
+ *
+ * The childhood record says whether the move landed in the middle of a school
+ * year (`school-move-to-scores`, W-S29): a move with a `school-year-move`
+ * entry citing it is marked on the study record as a mid-year transfer, with
+ * the grade it interrupted; any other move is a change of school over the
+ * summer. Enrolling at a school in the new place is not built yet.
+ */
+export function leaveSchoolOnMove(
+  world: World,
+  personId: EntityId,
+  moveEventId: EntityId,
+  date: IsoDate,
+): World {
+  const midYear = childhoodRecordEntries(world).find(
+    (entry) =>
+      entry.kind === "school-year-move" &&
+      entry.personId === personId &&
+      entry.sourceRecordId === moveEventId,
+  );
+  const reason =
+    midYear?.kind === "school-year-move"
+      ? `Moved away in the middle of the ${midYear.schoolYear}-${midYear.schoolYear + 1} school year, in ${gradeName(midYear.grade)}.`
+      : "Moved away between school years.";
+  let next = world;
+  for (const enrollment of educationEnrollmentHistoryForPerson(
+    world,
+    personId,
+  )) {
+    if (!enrollment.programKind.startsWith("schooling:")) continue;
+    const previous = educationEnrollmentStateAt(next, enrollment.id);
+    if (previous?.status !== "active" && previous?.status !== "expected")
+      continue;
+    next = recordEducationEnrollmentState(next, {
+      stableKey: `${enrollment.stableKey}:transferred:${moveEventId}`,
+      enrollmentId: enrollment.id,
+      effectiveAt: date,
+      status: "transferred",
+      contextKind: previous.contextKind,
+      reason,
+      provenance: { kind: "simulated-event", eventId: moveEventId },
+      supersedesStateId: previous.id,
+    });
+  }
+  return next;
+}
+
+function gradeName(grade: number): string {
+  if (grade === 0) return "kindergarten";
+  const suffix =
+    grade === 1 ? "st" : grade === 2 ? "nd" : grade === 3 ? "rd" : "th";
+  return `${grade}${suffix} grade`;
 }
 
 /** Everybody in the same class at the same school: started there together. */

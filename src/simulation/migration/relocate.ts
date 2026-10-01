@@ -18,7 +18,15 @@
  * The single-move public writer `relocateHousehold` asserts once itself.
  */
 
+import { appendChildhoodEntry } from "../childhood-record";
+import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
+import {
+  currentSchooling,
+  leaveSchoolOnMove,
+  schoolGradeOn,
+  schoolTermOn,
+} from "../school-stages";
 import {
   buildHouseholdLocationRecord,
   recordOrganizationParticipationState,
@@ -223,7 +231,13 @@ export function moveTieReader(world: World): MoveTieReader {
         )
       )
         return "has a job";
-      if (activeEducationEnrollmentsAt(world, personId).length > 0)
+      // A pupil in grade school goes with their family and leaves the school
+      // (`leaveSchoolOnMove`); a college or other program still holds them.
+      if (
+        activeEducationEnrollmentsAt(world, personId).some(
+          (active) => !active.enrollment.programKind.startsWith("schooling:"),
+        )
+      )
         return "is enrolled in school";
       // A member or participant leaves an organization or party behind
       // when they move; a leader or an advisor is still held by the role.
@@ -532,6 +546,30 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   const event = next.history.events.at(-1)!;
   if (event.stableKey !== eventStableKey)
     throw new Error("The move event was not the last event written.");
+
+  // A pupil's childhood record notes a move that lands while school is in
+  // session, and the school they leave reads it.
+  const term = schoolTermOn(date);
+  for (const personId of move.personIds) {
+    const schooling = currentSchooling(next, personId);
+    if (!schooling) continue;
+    const grade = schoolGradeOn(next, personId, date);
+    const child =
+      ageOnDate(next.people[personId]!.birthDate, date) < 18;
+    if (term && child && schooling.status === "active" && grade !== null)
+      next = appendChildhoodEntry(next, {
+        kind: "school-year-move",
+        stableKey: `${eventStableKey}:childhood:${personId}`,
+        personId,
+        effectiveAt: date,
+        sourceRecordId: event.id,
+        fromJurisdictionId: move.fromJurisdictionId,
+        toJurisdictionId: move.toJurisdictionId,
+        schoolYear: term.schoolYear,
+        grade,
+      });
+    next = leaveSchoolOnMove(next, personId, event.id, date);
+  }
 
   // Housing ends before the people move, so each writer's integrity check
   // sees a world that is whole: the event written, nobody half-moved.
