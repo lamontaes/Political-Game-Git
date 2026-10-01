@@ -4,12 +4,8 @@ import { createOrganization, recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import { personName } from "../people";
 import { currentResourceCutoff, resourcePositionAt } from "../resource-queries";
-import {
-  createResourceFlow,
-  makeCurrencyCode,
-  money,
-  recordResourceTransferOutcome,
-} from "../resources";
+import { makeCurrencyCode } from "../resources";
+import { recordMediaPurchasePayment } from "./media-purchase-payment";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -865,34 +861,15 @@ export function purchaseOutlet(
     },
   });
   const event = next.history.events.at(-1)!;
-  const amount = money(terms.priceMinorUnits, USD);
-  next = createResourceFlow(next, {
-    stableKey: `${input.stableKey}:payment`,
-    source: { kind: "person", personId: buyer.id },
-    recipient: { kind: "organization", organizationId: seller.organizationId },
-    startsAt: next.currentDate,
-    initialStatus: "active",
-    amount,
-    cadenceKind: "schedule:one-time",
-    basisKind: "custom:outlet-purchase",
-    basisReference: { kind: "general" },
-    restrictionKind: null,
+  next = recordMediaPurchasePayment(next, {
+    stableKey: input.stableKey,
+    buyerPersonId: buyer.id,
+    sellerOrganizationId: seller.organizationId,
+    sellerName: seller.name,
+    outletName: outlet.name,
     jurisdictionId: outlet.primaryJurisdictionIds[0] ?? null,
-    provenance: { kind: "simulated-event", eventId: event.id },
-  });
-  const flow = next.history.resourceFlows.at(-1)!;
-  next = recordResourceTransferOutcome(next, {
-    stableKey: `${input.stableKey}:paid`,
-    resourceFlowId: flow.id,
-    periodStartsAt: next.currentDate,
-    periodEndsAt: next.currentDate,
-    occurredAt: next.currentDate,
-    status: "completed",
-    attemptedAmount: amount,
-    transferredAmount: amount,
-    reasonKind: null,
-    note: `Paid to ${seller.name} for ${outlet.name}.`,
-    provenance: { kind: "simulated-event", eventId: event.id },
+    eventId: event.id,
+    priceMinorUnits: terms.priceMinorUnits,
   });
   return appendPressRecord(next, "outlet-ownership", {
     stableKey: `${HOLDING_KEY}${outlet.id}:${holding.sequence}`,

@@ -19,7 +19,6 @@
  */
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import { daysBetween } from "./dates";
-import { SeededRng } from "./rng";
 import { activePartnershipsAt, householdMembershipsAt } from "./life-queries";
 import { childrenOf } from "./people-family";
 import type { EntityId, ResourceTransferOutcome, World } from "./types";
@@ -166,8 +165,8 @@ export function stateScheduleForFilingStatus(
  * AVERAGE rather than UNKNOWN, and the schedule says so:
  * - a state whose single filer has no standard deduction ("n.a." in the
  *   compilation; it uses personal exemptions or credits, not yet read) takes
- *   the average read deduction of the states with its kind of tax, moved by
- *   the world's seed within half a standard deviation of their spread;
+ *   the plain average read deduction of the states with its kind of tax,
+ *   rounded to whole dollars (owner's September 30 representative-data ruling);
  * - another filing status follows `STATE_FILING_STATUS_NOTE`.
  * A place outside the compilation (the territories) stays UNKNOWN: no state
  * is like a territory's own income tax.
@@ -185,6 +184,8 @@ export function stateIncomeTaxSchedule(
     }
   | { readonly kind: "none" }
   | { readonly kind: "unknown"; readonly researchQuestionId: string } {
+  // Preserve the existing caller signature; the estimate no longer uses a seed.
+  void worldSeed;
   const place = STATE_PLACES[stateKey];
   if (!place)
     return {
@@ -197,15 +198,10 @@ export function stateIncomeTaxSchedule(
   if (deductionDollars === null) {
     const shape = place.wageIncomeTax === "flat" ? "flat" : "graduated";
     const spread = stateDeductionSpread(shape);
-    const draw = new SeededRng(worldSeed)
-      .fork(`state-deduction-estimate:${stateKey}`)
-      .next();
-    deductionDollars = Math.round(
-      spread.mean + (draw - 0.5) * spread.standardDeviation,
-    );
+    deductionDollars = Math.round(spread.mean);
     notes.push(
       `ESTIMATED FROM AVERAGE: the state's personal exemptions or credits are not read, so its single filer takes a standard deduction of $${deductionDollars.toLocaleString("en-US")}, ` +
-        `from the average of the ${spread.count} states with a ${shape} tax whose deduction was read ($${Math.round(spread.mean).toLocaleString("en-US")}), moved by the world's seed within half the spread between them. ` +
+        `from the plain average of the ${spread.count} states with a ${shape} tax whose deduction was read ($${Math.round(spread.mean).toLocaleString("en-US")}), rounded to whole dollars. ` +
         "Source: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026.",
     );
   }
