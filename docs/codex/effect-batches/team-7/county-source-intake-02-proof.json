@@ -1,0 +1,31 @@
+{
+  "base": "9891ad2ebdfde4bb79869ae290d26ba98eefe425",
+  "changedStates": [
+    "AR",
+    "CO",
+    "IL",
+    "IN",
+    "IA",
+    "NM"
+  ],
+  "counts": {
+    "partially-inspected": 28,
+    "unread": 21,
+    "not-applicable-county-board": 1
+  },
+  "stateIdentityCount": 50,
+  "dcPreserved": true,
+  "priorClaimsPreserved": true,
+  "matrixSha256": "c9f519c588962e493f7b78a137acac335df45ad17010969cb8b15b507abfcabd",
+  "productionProfilesAdmitted": 0,
+  "validation": "JSON parsed; all 50 state keys unchanged; prior claims unchanged; D.C. separate; claim URLs/read dates/status present",
+  "notRun": [
+    "native gameplay",
+    "district/electorate binding",
+    "natural filing",
+    "year",
+    "browser",
+    "full suite",
+    "final-main acceptance"
+  ]
+}

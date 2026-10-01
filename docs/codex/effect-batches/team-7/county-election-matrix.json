@@ -119,8 +119,23 @@
       ]
     },
     "AR": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "primary": {
+          "value": "Official 2026 calendar: preferential primary March 3; general primary March 31; general election November 3; county/municipal general runoff December 1. Specific quorum-court seat phase and runoff threshold not established here.",
+          "url": "https://www.sos.arkansas.gov/uploads/elections/2026_Election_Calendar_Rev._6-2025_.pdf",
+          "section": "pages 1-2, revised June 2025",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualifying": {
+          "value": "Partisan filing begins November 3, 2025 at noon and ends November 12, 2025 at noon after holiday extension. Calendar page 5 and current SOS candidate notice agree. FAQ still describes gubernatorial-year filing near end of February: stale/conflicting general guidance retained, not used. County filing is with county clerk. Independent route separate; no common filing window inferred.",
+          "url": "https://www.sos.arkansas.gov/elections/for-candidates",
+          "section": "Candidate Filing Notice; 2026 calendar pages 4-5; FAQ /40 county filing location",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -134,7 +149,18 @@
         "termStart",
         "qualifications",
         "charterExceptions"
-      ]
+      ],
+      "retrievalGaps": [
+        {
+          "url": "https://sbec.arkansas.gov/wp-content/uploads/2025-Running-for-Public-Office-8-13-25-FINAL-small.pdf",
+          "result": "403 Forbidden from official current handbook link; term, qualifications, applicability and current legal provisions not read.",
+          "readOn": "2026-10-01"
+        }
+      ],
+      "conflictingGuidance": {
+        "url": "https://www.sos.arkansas.gov/frequently-asked-questions/40",
+        "value": "FAQ says gubernatorial-year filing near late February; current candidate notice and dated 2026 calendar specify November 2025. Preserve difference; no general recurrence rule admitted."
+      }
     },
     "CA": {
       "status": "partially-inspected",
@@ -178,21 +204,48 @@
       ]
     },
     "CO": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "url": "https://www.larimer.gov/clerk/elections/2026-county-candidate-qualifications",
+          "section": "2026 County Commissioner requirements and additional information, citing ArticleXIV6/10,CRS1-4-205/1-1-201",
+          "readOn": "2026-10-01",
+          "status": "county-official-guidance-read-statutes-not-yet-verified",
+          "value": "Larimer commission four-year term; actual three commissioners. Not a universal county composition."
+        },
+        "stagger": {
+          "url": "https://www.larimer.gov/clerk/elections/2026-county-candidate-qualifications",
+          "section": "2026 County Commissioner requirements and additional information, citing ArticleXIV6/10,CRS1-4-205/1-1-201",
+          "readOn": "2026-10-01",
+          "status": "county-official-guidance-read-statutes-not-yet-verified",
+          "value": "LarimerDistrict1 elected2026;Districts2/3 elected2028. Guide anchors one commission election1982+4n/two1984+4n."
+        },
+        "termStart": {
+          "url": "https://www.larimer.gov/clerk/elections/2026-county-candidate-qualifications",
+          "section": "2026 County Commissioner requirements and additional information, citing ArticleXIV6/10,CRS1-4-205/1-1-201",
+          "readOn": "2026-10-01",
+          "status": "county-official-guidance-read-statutes-not-yet-verified",
+          "value": "Larimer commissioner secondTuesdayJanuary following election; no inferred application to home-rule/citycounties."
+        },
+        "qualifications": {
+          "url": "https://www.larimer.gov/clerk/elections/2026-county-candidate-qualifications",
+          "section": "2026 County Commissioner requirements and additional information, citing ArticleXIV6/10,CRS1-4-205/1-1-201",
+          "readOn": "2026-10-01",
+          "status": "county-official-guidance-read-statutes-not-yet-verified",
+          "value": "Registered elector and commissioner-district residence at least1yr prior election; UScitizen; elector at least18 and fullofficequalifications bytermstart. Actualsavedhome/district proof still missing."
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
-        "term",
         "cycle",
         "dateRule",
         "primary",
         "runoff",
         "qualifying",
-        "stagger",
-        "termStart",
-        "qualifications",
-        "charterExceptions"
+        "charterExceptions",
+        "underlying-statute-validation",
+        "other-county-phase-and-charter-bindings"
       ]
     },
     "CT": {
@@ -394,11 +447,40 @@
         "termStart",
         "qualifications",
         "charterExceptions"
+      ],
+      "retrievalGaps": [
+        {
+          "url": "https://www.elections.il.gov/ElectionOperations/CandidatePortal.aspx",
+          "readOn": "2026-10-01",
+          "result": "403 Forbidden; indexed 2026 guide link only. No qualification/date facts admitted."
+        }
       ]
     },
     "IN": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "qualifications": {
+          "value": "Commissioner: county residence one year and district residence six months before election. Council: same county requirement and district requirement if applicable. Registered in election district by filing deadline; additional disqualification and CAN-12 rules apply. Guide reflects July 1, 2025 law, current statutes not independently renewed.",
+          "url": "https://www.in.gov/dA/1eada35c3e/2026-Candidate-Guide.FINAL.pdf?language_id=1",
+          "section": "printed pages 80-82; IC 3-8-1-21/22/1/5/33",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualifying": {
+          "value": "Democratic/Republican county primary May 5, 2026; CAN-2 and CAN-12 filing January 7 through February 6, 2026 at noon prevailing local time, county election board. Other routes separate.",
+          "url": "https://www.in.gov/dA/1eada35c3e/2026-Candidate-Guide.FINAL.pdf?language_id=1",
+          "section": "printed page 83",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "electorate": {
+          "value": "Commissioner residential district differs from countywide election district except Lake and St. Joseph; actual county plan and saved person district still unbound.",
+          "url": "https://www.in.gov/dA/1eada35c3e/2026-Candidate-Guide.FINAL.pdf?language_id=1",
+          "section": "printed page 86 independent petition note",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -415,8 +497,30 @@
       ]
     },
     "IA": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "qualifications": {
+          "value": "Supervisor: U.S. citizen, Iowa resident and 18 at election; registered voter of county/supervisor district when sworn in. Four-year term shown. Actual county representation plan and saved voter/residence bindings remain unread.",
+          "url": "https://sos.iowa.gov/sites/default/files/2026-07/2026%20General%20Candidate%27s%20Guide.pdf",
+          "section": "printed page 4; revised February 4, 2026",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "qualifying": {
+          "value": "County NPPO/petition general-election nominations: March 2 through June 2, 2026 at 5 p.m., county auditor, no fee. Primary nominees need not refile; this is not the primary filing window.",
+          "url": "https://sos.iowa.gov/sites/default/files/2026-07/2026%20General%20Candidate%27s%20Guide.pdf",
+          "section": "printed pages 2 and 19; current SOS general-election page agrees",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "term": {
+          "value": "2026 Code: board ordinarily three members, may increase to five. Supervisor term four years, with initial two-year terms when representation plan or board size changes. Registered voter of represented county/district. Actual county plan and stagger remain unbound.",
+          "url": "https://www.legis.iowa.gov/docs/code/2026/331.201.pdf",
+          "section": "331.201 subsections 1, 2, 4, December 12, 2025 publication",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -430,7 +534,11 @@
         "termStart",
         "qualifications",
         "charterExceptions"
-      ]
+      ],
+      "supersededLead": {
+        "url": "https://sos.iowa.gov/sites/default/files/2026-01/Candidate%27s%20Guide_General%202026_010726.pdf",
+        "value": "January 7 revision stated February 23 county filing start; current linked February 4 revision corrects it to March 2. Retained as superseded, no unresolved current-source date conflict."
+      }
     },
     "KS": {
       "status": "unread",
@@ -899,21 +1007,54 @@
       ]
     },
     "NM": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "term": {
+          "url": "https://www.sos.nm.gov/wp-content/uploads/2026/04/2026-Primary-Candidate-Guide_Final-.pdf",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified",
+          "value": "Guide lists county commissioner four-year terms and two-term limit; cited constitution/statute not independently verified here.",
+          "section": "page26 specific eligibility, Art.V13/VII2A and4-38-3"
+        },
+        "stagger": {
+          "url": "https://www.sos.nm.gov/wp-content/uploads/2026/04/2026-Primary-Candidate-Guide_Final-.pdf",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified",
+          "value": "2026 county districts differ: DonaAna1/3,SanJuan1/2,SantaFe1/3,Roosevelt3/4/5. LosAlamos seven-member county council has at-large positions1/2/3/6 in2026. No statewide district-parity assumption.",
+          "section": "pages21-23 county ballot list"
+        },
+        "qualifying": {
+          "url": "https://www.sos.nm.gov/wp-content/uploads/2026/04/2026-Primary-Candidate-Guide_Final-.pdf",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified",
+          "value": "Other major-party candidates file March10 2026,9am-5pm with appropriate county clerk. Independent/minor-party county candidates June25,9am-5pm per current SOS webpage; distinct route, not universal deadline.",
+          "section": "pages36-38 filing officer/day"
+        },
+        "primary": {
+          "url": "https://www.sos.nm.gov/candidate-and-campaigns/how-to-become-a-candidate/2026-elections-candidate-information/",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified",
+          "value": "2026 primaryJune2/generalNovember3 per current SOS election page. No county-cycle/term-start extrapolation.",
+          "section": "current SOS 2026 election overview"
+        },
+        "applicability": {
+          "value": "Current SOS Local Election Act page excludes a county from regular-local-election participating governments. Do not copy odd-year municipal/local date to county offices. LosAlamos council exception still requires its own governing profile.",
+          "url": "https://www.sos.nm.gov/voting-and-elections/local-election-act-information/",
+          "section": "Local governments that can participate in Regular Local Election, first definition",
+          "readOn": "2026-10-01",
+          "status": "official-guidance-read-statutes-not-yet-verified"
+        }
+      },
       "openFields": [
-        "applicability",
         "officeFamily",
-        "term",
         "cycle",
         "dateRule",
-        "primary",
         "runoff",
-        "qualifying",
-        "stagger",
         "termStart",
         "qualifications",
-        "charterExceptions"
+        "charterExceptions",
+        "underlying-statute-validation",
+        "full33-county-phase-binding"
       ]
     },
     "NY": {
