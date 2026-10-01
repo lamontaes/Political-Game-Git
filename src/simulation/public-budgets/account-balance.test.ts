@@ -20,6 +20,8 @@ import { withOpenedBudgets } from "./index";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
 import {
   PUBLIC_BUDGETS_VERSION,
+  BUDGET_SOURCES,
+  BUDGET_PROGRAMS,
   type PublicBudgetGovernment,
   type PublicBudgetStore,
 } from "./store";
@@ -90,16 +92,16 @@ describe("M5 saved government cash replaces a separate budget stock", () => {
         previousBudgetReserve: government.reserve,
         accountBalanceMinorUnits: 100000,
       });
-      // Only cash stock changes here: existing revenue/spending forecasts survive.
-      const legacy = settleGovernmentMonth(world, government, month, {
-        ...read.flows,
-        cash: undefined,
-      }).government;
+      // The adopted plan survives; no forecast is recorded as a paid receipt/outlay.
+      expect(settled.years).toEqual(government.years);
       expect(settled.months.at(-1)!.revenue).toEqual(
-        legacy.months.at(-1)!.revenue,
+        BUDGET_SOURCES.map(() => 0),
       );
       expect(settled.months.at(-1)!.spending).toEqual(
-        legacy.months.at(-1)!.spending,
+        BUDGET_PROGRAMS.map(() => 0),
+      );
+      expect(settled.months.at(-1)!.cashSettlement?.sourceRecordIds).toEqual(
+        [],
       );
       const migration = settled.publicAccountMigration;
       world = deserializeWorld(
@@ -171,6 +173,26 @@ describe("M5 saved government cash replaces a separate budget stock", () => {
       )!.liquidBalance.minorUnits;
       expect(next.balance + next.reserve).toBe(cash / 100);
       expect(cash).toBe(100125);
+      expect(
+        next.months.at(-1)!.revenue[
+          BUDGET_SOURCES.indexOf("individualIncomeTax")
+        ],
+      ).toBe(1.25);
+      expect(next.months.at(-1)!.spending).toEqual(
+        BUDGET_PROGRAMS.map(() => 0),
+      );
+      expect(next.months.at(-1)!.cashSettlement?.sourceRecordIds).toEqual([
+        world.history.resourceFlows.at(-1)!.id,
+        world.history.resourceTransferOutcomes.at(-1)!.id,
+      ]);
+      expect(
+        settleGovernmentMonth(
+          world,
+          next,
+          makeIsoDate("2026-03-01"),
+          nextFlows.flows,
+        ).government,
+      ).toBe(next);
       expect(next.publicAccountMigration).toEqual(migration);
       expect(next.months.at(-1)!.balance + next.months.at(-1)!.reserve).toBe(
         cash / 100,

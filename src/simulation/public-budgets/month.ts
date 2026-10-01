@@ -1,3 +1,7 @@
+import { FEDERAL_EMPLOYMENT_RULES } from "../statutory-tax-rules";
+import { federalProgramCostsForMonth } from "../federal-cost-ledger";
+import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
+import { federalProgramLine } from "./federal-treasury";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
 import { ageVerificationCostForMonth } from "./age-verification-cost";
 import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
@@ -48,6 +52,8 @@ import {
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
+  GOVERNMENT_BUDGET_CATEGORIES,
+  type FederalBudgetGovernment,
   BUDGET_LAW_KEYS,
   BUDGET_PROGRAMS,
   BUDGET_SOURCES,
@@ -124,6 +130,16 @@ export interface MonthFlows {
       readonly balanceMinorUnits: number;
     }
   >;
+  /** Exact paid cash by category; forecasts never enter these totals. */
+  readonly recorded?: ReadonlyMap<
+    string,
+    {
+      readonly revenueMinorUnits: readonly number[];
+      readonly spendingMinorUnits: readonly number[];
+      readonly sourceRecordIds: readonly EntityId[];
+      readonly lawEffectStamps: readonly LawEffectStamp[];
+    }
+  >;
   readonly paidLeavePaymentStamps?: ReadonlyMap<
     string,
     readonly LawEffectStamp[]
@@ -165,8 +181,13 @@ export function readMonthFlows(
   const history = world.history;
   const accountOwner = new Map<EntityId, string>();
   const byStableKey = new Map<string, string>();
-  const budgetKeys = new Set(store.governments.map((row) => row.key));
-  for (const government of store.governments) {
+  const governments = [
+    ...store.governments,
+    ...(store.federalGovernment ? [store.federalGovernment] : []),
+  ];
+  const budgetKeys = new Set(governments.map((row) => row.key));
+  const federalKey = store.federalGovernment?.key;
+  for (const government of governments) {
     byStableKey.set(
       publicOrganizationKey(government.jurisdictionId),
       government.key,
@@ -234,6 +255,54 @@ export function readMonthFlows(
   const payers = new Map<string, Set<EntityId>>();
   const levies = new Map<string, number[]>();
   const payments = new Map<string, number[]>();
+  const recorded = new Map<
+    string,
+    {
+      revenueMinorUnits: number[];
+      spendingMinorUnits: number[];
+      sourceRecordIds: EntityId[];
+      lawEffectStamps: LawEffectStamp[];
+    }
+  >();
+  const cashRow = (key: string) => {
+    let row = recorded.get(key);
+    if (!row) {
+      row = {
+        revenueMinorUnits: (key === federalKey
+          ? GOVERNMENT_BUDGET_CATEGORIES.federal.receipts
+          : BUDGET_SOURCES
+        ).map(() => 0),
+        spendingMinorUnits: (key === federalKey
+          ? GOVERNMENT_BUDGET_CATEGORIES.federal.outlays
+          : BUDGET_PROGRAMS
+        ).map(() => 0),
+        sourceRecordIds: [],
+        lawEffectStamps: [],
+      };
+      recorded.set(key, row);
+    }
+    return row;
+  };
+  const taxPaymentsByOutcome = new Map<
+    EntityId,
+    NonNullable<World["history"]["statutoryTaxPayments"]>[number][]
+  >();
+  for (const payment of history.statutoryTaxPayments ?? []) {
+    const rows = taxPaymentsByOutcome.get(payment.resourceOutcomeId) ?? [];
+    rows.push(payment);
+    taxPaymentsByOutcome.set(payment.resourceOutcomeId, rows);
+  }
+  const federalCostsByTransfer = new Map(
+    [
+      ...new Set(
+        history.resourceTransferOutcomes
+          .slice(store.cursor.outcomes)
+          .map((row) => `${row.occurredAt.slice(0, 7)}-01` as IsoDate),
+      ),
+    ]
+      .flatMap((month) => federalProgramCostsForMonth(world, month))
+      .map((cost) => [cost.transferId, cost] as const),
+  );
   const paidLeavePaymentStamps = new Map<string, LawEffectStamp[]>();
   for (
     let at = store.cursor.outcomes;
@@ -275,6 +344,85 @@ export function readMonthFlows(
       flow.source.kind === "organization"
         ? accountOwner.get(flow.source.organizationId)
         : undefined;
+    // Transfers within one government's accounts do not create revenue or cost.
+    if (outcome.transferredAmount.currency === "USD" && into !== outOf) {
+      const savedStamps = (
+        (outcome as typeof outcome & LawEffectStampedRecord).lawEffectStamps ??
+        []
+      ).filter(isLawEffectStamp);
+      if (into) {
+        const row = cashRow(into);
+        const source =
+          flow.basisKind === "custom:tax-withholding"
+            ? "individualIncomeTax"
+            : flow.basisKind === "custom:tax-collection"
+              ? levySource(world, flow)
+              : outOf
+                ? "intergovernmental"
+                : "sourceUnknown";
+        if (into === federalKey) {
+          // Read the saved payment allocations; a flow's label alone does not
+          // prove which federal tax was paid. Unclassified cash stays explicit.
+          const payments = taxPaymentsByOutcome.get(outcome.id) ?? [];
+          let allocated = 0;
+          for (const payment of payments) {
+            const liability = recordById(
+              history.statutoryTaxLiabilities ?? [],
+              payment.liabilityId,
+            );
+            const category =
+              liability?.taxKey === FEDERAL_INCOME_TAX_KEY
+                ? "individualIncomeTax"
+                : FEDERAL_EMPLOYMENT_RULES.some(
+                      (rule) => rule.taxKey === liability?.taxKey,
+                    )
+                  ? "payrollTaxes"
+                  : "miscellaneousReceipts";
+            const amount =
+              payment.amount.currency === "USD" ? payment.amount.minorUnits : 0;
+            row.revenueMinorUnits[
+              GOVERNMENT_BUDGET_CATEGORIES.federal.receipts.indexOf(category)
+            ]! += amount;
+            allocated += amount;
+            row.sourceRecordIds.push(payment.id, payment.liabilityId);
+            row.lawEffectStamps.push(
+              ...(liability?.lawEffectStamps ?? []).filter(isLawEffectStamp),
+            );
+          }
+          row.revenueMinorUnits[
+            GOVERNMENT_BUDGET_CATEGORIES.federal.receipts.indexOf(
+              "miscellaneousReceipts",
+            )
+          ]! += outcome.transferredAmount.minorUnits - allocated;
+        } else {
+          row.revenueMinorUnits[BUDGET_SOURCES.indexOf(source)]! +=
+            outcome.transferredAmount.minorUnits;
+        }
+        row.sourceRecordIds.push(flow.id, outcome.id);
+        row.lawEffectStamps.push(...savedStamps);
+      }
+      if (outOf) {
+        const row = cashRow(outOf);
+        const paymentIndex =
+          outOf === federalKey
+            ? GOVERNMENT_BUDGET_CATEGORIES.federal.outlays.indexOf(
+                federalProgramLine(paymentProgramKey(world, flow) ?? ""),
+              )
+            : BUDGET_PROGRAMS.indexOf(paymentProgram(world, flow));
+        row.spendingMinorUnits[paymentIndex]! +=
+          outcome.transferredAmount.minorUnits;
+        row.sourceRecordIds.push(flow.id, outcome.id);
+        row.lawEffectStamps.push(...savedStamps);
+        if (outOf === federalKey) {
+          const cost = federalCostsByTransfer.get(outcome.id);
+          if (cost) {
+            row.sourceRecordIds.push(...cost.sourceRecordIds);
+            if (!savedStamps.length)
+              row.lawEffectStamps.push(...cost.lawEffectStamps);
+          }
+        }
+      }
+    }
     if (into && flow.basisKind === "custom:tax-withholding") {
       withheld.set(into, (withheld.get(into) ?? 0) + dollars);
       if (flow.source.kind === "person") {
@@ -314,6 +462,7 @@ export function readMonthFlows(
       levies,
       payments,
       cash,
+      recorded,
       paidLeavePaymentStamps,
     },
     cursor: {
@@ -343,19 +492,21 @@ function levySource(world: World, flow: ResourceFlow): BudgetSource {
   );
 }
 
-function paymentProgram(world: World, flow: ResourceFlow): BudgetProgram {
+function paymentProgramKey(world: World, flow: ResourceFlow): string | null {
   const reference = flow.basisReference;
-  if (reference.kind === "public-funding")
-    return budgetProgramFor(reference.mandate.programKey);
+  if (reference.kind === "public-funding") return reference.mandate.programKey;
   if (reference.kind === "public-program") {
     const commitment = world.history.publicProgramRecords?.find(
       (row) => row.id === reference.commitmentId,
     );
-    return commitment
-      ? budgetProgramFor(commitment.programKey)
-      : "otherPrograms";
+    return commitment?.programKey ?? null;
   }
-  return "otherPrograms";
+  return null;
+}
+
+function paymentProgram(world: World, flow: ResourceFlow): BudgetProgram {
+  const program = paymentProgramKey(world, flow);
+  return program === null ? "otherPrograms" : budgetProgramFor(program);
 }
 
 /** The change in a state's borrowing cost since the start, as a rate. */
@@ -597,14 +748,85 @@ interface Settled {
  */
 export function settleGovernmentMonth(
   world: World,
+  government: FederalBudgetGovernment,
+  month: IsoDate,
+  flows: MonthFlows,
+): {
+  readonly government: FederalBudgetGovernment;
+  readonly adjustments: readonly BudgetAdjustment[];
+};
+export function settleGovernmentMonth(
+  world: World,
   government: PublicBudgetGovernment,
   month: IsoDate,
   flows: MonthFlows,
+  state?: PublicBudgetGovernment | null,
+): Settled;
+export function settleGovernmentMonth(
+  world: World,
+  government: PublicBudgetGovernment | FederalBudgetGovernment,
+  month: IsoDate,
+  flows: MonthFlows,
   state: PublicBudgetGovernment | null = null,
-): Settled {
+): {
+  readonly government: PublicBudgetGovernment | FederalBudgetGovernment;
+  readonly adjustments: readonly BudgetAdjustment[];
+} {
   if (government.months.some((row) => row.month === month))
     return { government, adjustments: [] };
+  if (government.level === "federal") {
+    const cash = flows.cash?.get(government.key);
+    // Absence of a saved account is unknown, not zero or forecast cash.
+    if (!cash || !flows.recorded) return { government, adjustments: [] };
+    const paid = flows.recorded.get(government.key);
+    const categories = GOVERNMENT_BUDGET_CATEGORIES.federal;
+    const balance = cash.balanceMinorUnits / 100;
+    const row = {
+      month,
+      revenue: categories.receipts.map(
+        (_, at) => (paid?.revenueMinorUnits[at] ?? 0) / 100,
+      ),
+      spending: categories.outlays.map(
+        (_, at) => (paid?.spendingMinorUnits[at] ?? 0) / 100,
+      ),
+      balance,
+      reserve: null,
+      debt: government.debt,
+      cashSettlement: {
+        organizationId: cash.organizationId,
+        positionId: cash.positionId,
+        sourceRecordIds: [...new Set(paid?.sourceRecordIds ?? [])],
+      },
+      ...(paid?.lawEffectStamps.length
+        ? { lawEffectStamps: paid.lawEffectStamps }
+        : {}),
+    };
+    return {
+      government: {
+        ...government,
+        balance,
+        ...(!government.publicAccountMigration
+          ? {
+              publicAccountMigration: {
+                onDate: firstOfNextMonth(month),
+                organizationId: cash.organizationId,
+                positionId: cash.positionId,
+                previousBudgetBalance: government.balance,
+                previousBudgetReserve: null,
+                accountBalanceMinorUnits: cash.balanceMinorUnits,
+              },
+            }
+          : {}),
+        months: [...government.months, row],
+      },
+      adjustments: [],
+    };
+  }
   const adjustments: BudgetAdjustment[] = [];
+  const publicCash = flows.cash?.get(government.key);
+  // A missing recorded map means an older caller still supplies forecasts.
+  const cashSettled = publicCash !== undefined && flows.recorded !== undefined;
+  const recorded = flows.recorded?.get(government.key);
   const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;
   const year = government.years.at(-1)!;
   const asOf = firstOfNextMonth(month);
@@ -767,9 +989,9 @@ export function settleGovernmentMonth(
           },
         )
       : null;
-  const cannabisStamps = [cannabisStamp, cannabisCostStamp].filter(
-    (stamp): stamp is NonNullable<typeof stamp> => stamp !== null,
-  );
+  const cannabisStamps = (
+    cashSettled ? [] : [cannabisStamp, cannabisCostStamp]
+  ).filter((stamp): stamp is NonNullable<typeof stamp> => stamp !== null);
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -810,7 +1032,13 @@ export function settleGovernmentMonth(
     if (value !== 0)
       spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
-  const publicCash = flows.cash?.get(government.key);
+  if (cashSettled) {
+    // Adopted plans remain forecasts; a settled row records only paid transfers.
+    for (const at of BUDGET_SOURCES.keys())
+      revenue[at] = (recorded?.revenueMinorUnits[at] ?? 0) / 100;
+    for (const at of BUDGET_PROGRAMS.keys())
+      spending[at] = (recorded?.spendingMinorUnits[at] ?? 0) / 100;
+  }
   // The reserve earmarks this account's cash; it is not a second cash asset.
   let reserve = publicCash
     ? Math.min(government.reserve, publicCash.balanceMinorUnits / 100)
@@ -925,11 +1153,9 @@ export function settleGovernmentMonth(
   const paidLeaveStamps = (
     flows.paidLeavePaymentStamps?.get(government.key) ?? []
   ).map((stamp) => ({ ...stamp, appliedAt: asOf }));
-  const ageVerificationCost = ageVerificationCostForMonth(
-    world,
-    government,
-    month,
-  );
+  const ageVerificationCost = cashSettled
+    ? null
+    : ageVerificationCostForMonth(world, government, month);
   const row: BudgetMonthRow &
     LawEffectStampedRecord & {
       readonly cannabisRevenue?: number;
@@ -946,25 +1172,41 @@ export function settleGovernmentMonth(
       ? { townSales: Math.round(townSales * 10000) / 10000 }
       : {}),
     represented,
+    ...(cashSettled
+      ? {
+          cashSettlement: {
+            organizationId: publicCash!.organizationId,
+            positionId: publicCash!.positionId,
+            sourceRecordIds: [...new Set(recorded?.sourceRecordIds ?? [])],
+          },
+        }
+      : {}),
     ...(ageVerificationCost
       ? { lawCostAttributions: [ageVerificationCost] }
       : {}),
-    ...(zeroOpeningSelectiveTax &&
+    ...(!cashSettled &&
+    zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
       ? { cannabisRevenue }
       : {}),
-    ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
-    ...(cannabisStamps.length || paidLeaveStamps.length || ageVerificationCost
+    ...(!cashSettled && cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
+    ...(cannabisStamps.length ||
+    paidLeaveStamps.length ||
+    ageVerificationCost ||
+    recorded?.lawEffectStamps.length
       ? {
           lawEffectStamps: [
             ...cannabisStamps,
             ...paidLeaveStamps,
+            ...(cashSettled ? (recorded?.lawEffectStamps ?? []) : []),
             ...(ageVerificationCost?.lawEffectStamps ?? []),
           ],
         }
       : {}),
   };
-  const settledRow = appendConsumerPrivacyCostToMonth(world, government, row);
+  const settledRow = cashSettled
+    ? row
+    : appendConsumerPrivacyCostToMonth(world, government, row);
   let next: PublicBudgetGovernment = {
     ...government,
     ...(publicCash && !government.publicAccountMigration
