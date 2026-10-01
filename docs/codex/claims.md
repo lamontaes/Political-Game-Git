@@ -1,3 +1,9 @@
+## October 1, A8 ordinary-life pay caller transfer closed
+
+Team 3 owns only the `settleJobPay` import and its wrapping call around `advanceApplications` in `src/presentation/ordinary-life.ts`. Team 7 confirmed no unpublished overlap, an empty shared-file diff and no occurrence in its county or held caller branches. Coordinator delivered the release to Team 3.
+
+Preserve action time, mood, routines, monthly schedules and every other import. The removal must retain the recorded shared-clock payment route and pass its affected caller regression. This is not whole-file ownership, a new pay mechanism or permission to drop earned pay.
+
 ## October 1, budget option-selection transfer closed
 
 Team 1 owns only the budget-family option-selection hunk in `governingNpcDecisionHandler` in `src/simulation/governing/state-governing.ts`. Team 2 explicitly released it at 5bf0c950d19aab23fd4f8d8aec2aab6da7deb457, reporting no unpublished bytes and a blob matching main. All other governing families and executive paths remain protected.
