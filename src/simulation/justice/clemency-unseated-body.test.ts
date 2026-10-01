@@ -20,6 +20,18 @@ import {
 } from "./clemency";
 import { clemencyAuthorityFor, EXECUTIVE_BODY } from "./clemency-rules";
 import { answersTo } from "./clemency-records";
+import { composeWorldTimeHandlers } from "../campaigns";
+import {
+  cancelFutureDueItem,
+  futureDueItemStateAt,
+  resolveFutureDueItemsThrough,
+} from "../future-transitions";
+import { currentLifeCutoff } from "../life-queries";
+import {
+  currentGoverningOffices,
+  governingMatters,
+} from "../governing/state-governing";
+import { CLEMENCY_PETITION_TRANSITION_KEY } from "./clemency-transitions";
 import { sentencesOf } from "./jail-terms";
 import {
   advanceProsecutions,
@@ -38,6 +50,141 @@ afterAll(() => {
       JSON.stringify(receipts, null, 2),
     );
 });
+
+function caseFixture(
+  state: ReturnType<typeof lifePlaceStateIdentities>[number],
+) {
+  const place =
+    searchLifePlaces("", 5000, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
+    })[0] ??
+    searchLifePlaces("", 5, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "state",
+    })[0]!;
+  const game = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: `team9-a98-unseated:${state.jurisdictionKey}`,
+      placeKey: place.key,
+      startAge: 40,
+      questionnaire: "skipped",
+    }),
+  ).game!;
+  const petitionerId = game.playerPersonId;
+  const referred = referForProsecution(game.world, {
+    stableKey: "fixture:g12-executive-case",
+    subjectPersonId: petitionerId,
+    jurisdictionId: game.world.people[petitionerId]!.homeJurisdictionId,
+    offenseKey: "campaign-funds-personal-use",
+    referredBy: {
+      kind: "regulator",
+      label: "state regulator",
+      personId: null,
+    },
+    basisEventIds: [],
+    evidence: "documentary",
+    standingFindings: 6,
+  });
+  const stale: World = {
+    ...referred.world,
+    history: {
+      ...referred.world.history,
+      events: referred.world.history.events.map((event) =>
+        event.id === referred.referralId
+          ? {
+              ...event,
+              occurredAt: addDays(game.world.currentDate, -200),
+            }
+          : event,
+      ),
+    },
+  };
+  const charged = advanceProsecutions(stale);
+  const plea = enterPlea(charged, {
+    personId: petitionerId,
+    referralId: referred.referralId,
+    plea: "guilty",
+  });
+  expect(plea.ok).toBe(true);
+  const trialDue: World = {
+    ...plea.world,
+    history: {
+      ...plea.world.history,
+      events: plea.world.history.events.map((event) =>
+        event.type === PROSECUTION_CHARGED_EVENT &&
+        event.involvedEntityIds.includes(petitionerId)
+          ? {
+              ...event,
+              occurredAt: addDays(
+                plea.world.currentDate,
+                -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+              ),
+            }
+          : event,
+      ),
+    },
+  };
+  const sentenced = advanceProsecutions(trialDue);
+  const actualSentence = sentenced.history.events.find(
+    (event) =>
+      event.type === PROSECUTION_SENTENCED_EVENT &&
+      event.involvedEntityIds.includes(petitionerId),
+  );
+  expect(actualSentence).toBeDefined();
+  const sentenceId = actualSentence!.id;
+  const term = sentencesOf(sentenced, petitionerId).find(
+    (sentence) => sentence.sentencedEventId === sentenceId,
+  )!;
+  // Authored older-save fixture: the real sentence has already reached
+  // the existing body's service gate. No outcome or new wait is invented.
+  const sentenceDate = addDays(
+    sentenced.currentDate,
+    -Math.ceil(daysBetween(term.from, term.until) / 2) - 1,
+  );
+  const served: World = {
+    ...sentenced,
+    history: {
+      ...sentenced.history,
+      events: sentenced.history.events.map((event) =>
+        event.id === referred.referralId
+          ? {
+              ...event,
+              occurredAt: addDays(
+                sentenceDate,
+                -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
+                  UNRESEARCHED_PROSECUTION.resolveAfterDays,
+              ),
+            }
+          : event.type === PROSECUTION_CHARGED_EVENT &&
+              event.involvedEntityIds.includes(petitionerId)
+            ? {
+                ...event,
+                occurredAt: addDays(
+                  sentenceDate,
+                  -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                ),
+              }
+            : event.id === sentenceId
+              ? {
+                  ...event,
+                  occurredAt: sentenceDate,
+                }
+              : event,
+      ),
+    },
+  };
+  const filed = fileClemencyPetition(served, {
+    personId: petitionerId,
+    sentencedEventId: sentenceId,
+  });
+  expect(filed.ok).toBe(true);
+  if (!filed.ok) throw new Error(filed.reason);
+  const petitionId = filed.petitionId;
+
+  return { filed, petitionerId, sentenceId, petitionId };
+}
 
 describe("unseated required pardon bodies cannot answer", () => {
   const places = lifePlaceStateIdentities();
@@ -58,134 +205,8 @@ describe("unseated required pardon bodies cannot answer", () => {
   it.each(states)(
     "retains the actual petition without a board answer in $jurisdictionKey",
     (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: `team9-a98-unseated:${state.jurisdictionKey}`,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      const petitionerId = game.playerPersonId;
-      const referred = referForProsecution(game.world, {
-        stableKey: "fixture:g12-executive-case",
-        subjectPersonId: petitionerId,
-        jurisdictionId: game.world.people[petitionerId]!.homeJurisdictionId,
-        offenseKey: "campaign-funds-personal-use",
-        referredBy: {
-          kind: "regulator",
-          label: "state regulator",
-          personId: null,
-        },
-        basisEventIds: [],
-        evidence: "documentary",
-        standingFindings: 6,
-      });
-      const stale: World = {
-        ...referred.world,
-        history: {
-          ...referred.world.history,
-          events: referred.world.history.events.map((event) =>
-            event.id === referred.referralId
-              ? {
-                  ...event,
-                  occurredAt: addDays(game.world.currentDate, -200),
-                }
-              : event,
-          ),
-        },
-      };
-      const charged = advanceProsecutions(stale);
-      const plea = enterPlea(charged, {
-        personId: petitionerId,
-        referralId: referred.referralId,
-        plea: "guilty",
-      });
-      expect(plea.ok).toBe(true);
-      const trialDue: World = {
-        ...plea.world,
-        history: {
-          ...plea.world.history,
-          events: plea.world.history.events.map((event) =>
-            event.type === PROSECUTION_CHARGED_EVENT &&
-            event.involvedEntityIds.includes(petitionerId)
-              ? {
-                  ...event,
-                  occurredAt: addDays(
-                    plea.world.currentDate,
-                    -UNRESEARCHED_PROSECUTION.resolveAfterDays,
-                  ),
-                }
-              : event,
-          ),
-        },
-      };
-      const sentenced = advanceProsecutions(trialDue);
-      const actualSentence = sentenced.history.events.find(
-        (event) =>
-          event.type === PROSECUTION_SENTENCED_EVENT &&
-          event.involvedEntityIds.includes(petitionerId),
-      );
-      expect(actualSentence).toBeDefined();
-      const sentenceId = actualSentence!.id;
-      const term = sentencesOf(sentenced, petitionerId).find(
-        (sentence) => sentence.sentencedEventId === sentenceId,
-      )!;
-      // Authored older-save fixture: the real sentence has already reached
-      // the existing body's service gate. No outcome or new wait is invented.
-      const sentenceDate = addDays(
-        sentenced.currentDate,
-        -Math.ceil(daysBetween(term.from, term.until) / 2) - 1,
-      );
-      const served: World = {
-        ...sentenced,
-        history: {
-          ...sentenced.history,
-          events: sentenced.history.events.map((event) =>
-            event.id === referred.referralId
-              ? {
-                  ...event,
-                  occurredAt: addDays(
-                    sentenceDate,
-                    -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                      UNRESEARCHED_PROSECUTION.resolveAfterDays,
-                  ),
-                }
-              : event.type === PROSECUTION_CHARGED_EVENT &&
-                  event.involvedEntityIds.includes(petitionerId)
-                ? {
-                    ...event,
-                    occurredAt: addDays(
-                      sentenceDate,
-                      -UNRESEARCHED_PROSECUTION.resolveAfterDays,
-                    ),
-                  }
-                : event.id === sentenceId
-                  ? {
-                      ...event,
-                      occurredAt: sentenceDate,
-                    }
-                  : event,
-          ),
-        },
-      };
-      const filed = fileClemencyPetition(served, {
-        personId: petitionerId,
-        sentencedEventId: sentenceId,
-      });
-      expect(filed.ok).toBe(true);
-      if (!filed.ok) throw new Error(filed.reason);
-      const petitionId = filed.petitionId;
+      const { filed, petitionerId, sentenceId, petitionId } =
+        caseFixture(state);
 
       const pending = advanceClemencyPetition(filed.world, petitionId);
       expect(clemencyPetitionStatus(pending, petitionId)).toBe("open");
@@ -219,4 +240,106 @@ describe("unseated required pardon bodies cannot answer", () => {
       });
     },
   );
+});
+
+it("Kansas waits for the sourced advisory deadline before reaching the actual executive", () => {
+  const state = lifePlaceStateIdentities().find(
+    (row) => row.jurisdictionKey === "US-KS",
+  )!;
+  const { filed, petitionerId, sentenceId, petitionId } = caseFixture(state);
+  const authority = clemencyAuthorityFor(state.jurisdictionKey)!;
+  const cap = authority.gates.find(
+    (gate) => gate.advisory?.reportWithinDays !== undefined,
+  )!.advisory!.reportWithinDays!;
+  expect(cap).toBe(120);
+  const petition = filed.world.history.events.find(
+    (row) => row.id === petitionId,
+  )!;
+  const deadline = addDays(petition.occurredAt, cap);
+  expect(nextClemencyPetitionDueAt(filed.world, petitionId)).toBe(deadline);
+  const actualDue = filed.world.history.futureDueItems.find(
+    (item) =>
+      item.transitionKey === CLEMENCY_PETITION_TRANSITION_KEY &&
+      item.stableKey.startsWith(
+        `${CLEMENCY_PETITION_TRANSITION_KEY}:${petitionId}:`,
+      ) &&
+      item.dueAt === deadline,
+  );
+  expect(actualDue).toBeDefined();
+  expect(actualDue!.entityIds).toContain(petitionerId);
+  let isolated = filed.world;
+  for (const item of isolated.history.futureDueItems) {
+    if (item.id === actualDue!.id) continue;
+    if (
+      futureDueItemStateAt(isolated, item.id, currentLifeCutoff(isolated))
+        ?.status !== "scheduled"
+    )
+      continue;
+    isolated = cancelFutureDueItem(isolated, {
+      stableKey: `fixture:a98-kansas-isolate:${item.id}`,
+      dueItemId: item.id,
+      effectiveAt: isolated.currentDate,
+      reasonKey: "fixture:isolated-kansas-advisory",
+      context:
+        "Retain the actual petition's due item and isolate unrelated commitments.",
+    });
+  }
+  expect(
+    futureDueItemStateAt(isolated, actualDue!.id, currentLifeCutoff(isolated))
+      ?.status,
+  ).toBe("scheduled");
+  const registry = composeWorldTimeHandlers();
+  const early = resolveFutureDueItemsThrough(
+    isolated,
+    addDays(deadline, -1),
+    registry,
+  );
+  const noBypass = advanceClemencyPetition(early, petitionId);
+  expect(clemencyPetitionStatus(noBypass, petitionId)).toBe("open");
+  expect(answersTo(noBypass, petitionId)).toEqual([]);
+  expect(
+    governingMatters(noBypass).filter(
+      (row) =>
+        row.family === "clemency" &&
+        row.openedEvent.tags.includes(`source-event:${petitionId}`),
+    ),
+  ).toEqual([]);
+  const atDeadline = resolveFutureDueItemsThrough(noBypass, deadline, registry);
+  const matter = governingMatters(atDeadline).find(
+    (row) =>
+      row.family === "clemency" &&
+      row.openedEvent.tags.includes(`source-event:${petitionId}`),
+  );
+  expect(matter).toBeDefined();
+  const office = currentGoverningOffices(atDeadline).find(
+    (row) => row.stateUsps === "KS",
+  )!;
+  expect(matter!.holderPersonId).toBe(office.holderPersonId);
+  expect(matter!.openedEvent.occurredAt).toBe(deadline);
+  expect(matter!.status).toBe("open");
+  expect(clemencyPetitionStatus(atDeadline, petitionId)).toBe("open");
+  expect(answersTo(atDeadline, petitionId)).toEqual([]);
+  const saved = deserializeWorld(serializeWorld(atDeadline));
+  assertWorldIntegrity(saved);
+  expect(advanceClemencyPetition(saved, petitionId)).toBe(saved);
+  expect(saved.history.events.find((row) => row.id === petitionId)).toEqual(
+    petition,
+  );
+  receipts.push({
+    place: "US-KS",
+    name: personName(saved.people[petitionerId]!),
+    petitionerId,
+    sentenceId,
+    petitionId,
+    source: "K.S.A.22-3701(d), existing authority record",
+    advisoryDays: cap,
+    deadline,
+    earlyDate: noBypass.currentDate,
+    bodyAnswers: answersTo(saved, petitionId).length,
+    executiveHolderId: matter!.holderPersonId,
+    executiveMatterId: matter!.id,
+    executiveOpenedAt: matter!.openedEvent.occurredAt,
+    reloadRepeat: "unchanged",
+    registry: "composeWorldTimeHandlers",
+  });
 });
