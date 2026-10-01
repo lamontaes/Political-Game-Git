@@ -1,0 +1,179 @@
+{
+  "auditId": "A57",
+  "status": "PREPARED_NOT_RUNNABLE_NOT_FOR_BLIND_IMPORT",
+  "sourceHead": "852d71359093f9f2b62951c94c82c756ee579c8c",
+  "consumerSourceHead": "d3955a5c753d147a2ef8b8e693af7bee6b929ad4",
+  "sharedFileOwner": "coordinator",
+  "sharedEdits": [
+    {
+      "path": "data/research/laws/starting-law-2026.json",
+      "pointer": "/questions/us-policy-positions:housing-land-use.rent-stabilization/answers/US-OR",
+      "expected": {
+        "answer": "yes",
+        "operativeAt": "2019-02-28",
+        "preempts": false,
+        "cite": "ORS 90.323 (SB 608, 2019; amended by SB 611, 2023)",
+        "source": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608/Enrolled",
+        "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
+      },
+      "proposed": {
+        "answer": "yes",
+        "operativeAt": "2019-02-28",
+        "preempts": false,
+        "cite": "ORS 90.323 (SB 608, 2019; amended by SB 611, 2023)",
+        "source": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608/Enrolled",
+        "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control.",
+        "phases": [
+          {
+            "answer": "yes",
+            "operativeAt": "2026-01-01",
+            "preempts": false,
+            "cite": "ORS 90.323 / 90.324; DAS corrected 2026 rent stabilization publication",
+            "source": "https://apps.oregon.gov/oregon-newsroom/OR/DAS/Posts/Post/Correction-2026-Rent-Stabilization-Percentages",
+            "lawTerms": [
+              {
+                "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+                "key": "cap",
+                "unit": "ratio",
+                "value": 0.095
+              }
+            ],
+            "note": "2026 ordinary tenancy / facility with 30 or fewer spaces ONLY, after actual statutory coverage, exemption, notice and timing facts resolve. More than 30 spaces has a separate 6% cap; infrastructure exception requires actual votes/project records."
+          },
+          {
+            "answer": "yes",
+            "operativeAt": "2027-01-01",
+            "preempts": false,
+            "lawTerms": [],
+            "note": "The 2026 published numeric limit expires; no 2027 limit was verified in this packet. Law remains in force, numeric cap unsupported until sourced."
+          }
+        ]
+      }
+    },
+    {
+      "path": "data/research/laws/starting-law-2026.json",
+      "pointer": "/questions/us-policy-positions:housing-land-use.rent-stabilization/answers/US-CA",
+      "expected": {
+        "answer": "yes",
+        "operativeAt": "2020-01-01",
+        "preempts": false,
+        "cite": "Cal. Civ. Code \u00a7 1947.12 (AB 1482, Tenant Protection Act of 2019)",
+        "source": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201920200AB1482",
+        "note": "Caps increases at 5% plus local CPI or 10%, whichever is lower, on most units 15+ years old; exempts qualifying owner-noticed single-family homes and condos; sunsets 2030-01-01."
+      },
+      "proposed": {
+        "answer": "yes",
+        "operativeAt": "2020-01-01",
+        "preempts": false,
+        "cite": "California Civil Code 1947.12 (current section, SB 567)",
+        "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1947.12.&lawCode=CIV",
+        "note": "Cap = min(5 percentage points + applicable dated CPI, 10%), applied to actual lowest gross rent in prior 12 months, subject to actual statutory scope/exemptions and stricter local ordinance. No dated local CPI verified in packet852d7135; no operative numeric cap supplied. Section repeals January 1, 2030."
+      }
+    }
+  ],
+  "catalogBinding": {
+    "path": "src/simulation/policy-pack-us-policy-positions.ts",
+    "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+    "existingParameters": [
+      {
+        "key": "cap",
+        "value": "annual-percentage-increase"
+      },
+      {
+        "key": "coverage",
+        "value": "covered-tenancy-and-building-categories"
+      }
+    ],
+    "handler": "price-cost",
+    "selector": "person-price-flows",
+    "action": "set-resource-flow-price",
+    "activity": "renewal",
+    "activityProducer": "renewTownLeases -> saved resourceFlowTerms renewal.id -> applyLawConsequences",
+    "unsupportedRowProposal": {
+      "id": "rent-stabilization:covered-market-renewal",
+      "kind": "price-cost",
+      "when": "renewal",
+      "who": {
+        "selector": "person-price-flows",
+        "predicates": []
+      },
+      "what": "set-resource-flow-price",
+      "amount": {
+        "op": "minimum",
+        "operands": [
+          {
+            "op": "record",
+            "key": "current-flow-minor",
+            "unit": "minor"
+          },
+          {
+            "op": "sum",
+            "operands": [
+              {
+                "op": "record",
+                "key": "prior-flow-minor",
+                "unit": "minor"
+              },
+              {
+                "op": "product",
+                "left": {
+                  "op": "record",
+                  "key": "prior-flow-minor",
+                  "unit": "minor"
+                },
+                "right": {
+                  "op": "term",
+                  "key": "cap",
+                  "unit": "ratio"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "conditions": [
+        {
+          "capability": "price-flow-basis",
+          "parameters": {
+            "basisKind": "housing:lease-1-bedroom-market"
+          }
+        }
+      ],
+      "lag": {
+        "days": 0,
+        "sourceIds": []
+      },
+      "onRepeal": "recompute-prospective",
+      "evidence": {
+        "sourceIds": [
+          "https://apps.oregon.gov/oregon-newsroom/OR/DAS/Posts/Post/Correction-2026-Rent-Stabilization-Percentages",
+          "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1947.12.&lawCode=CIV"
+        ],
+        "population": "Actual legally covered existing market tenancy, not every housing flow",
+        "scope": "Proposal only; coverage and legal base capability must be supplied before admission",
+        "why": "A legally covered landlord may not raise actual rent beyond the operative statutory limit.",
+        "uncertainty": "OR large-facility/exception branch; CA dated CPI/base; actual scope and minor-unit rounding remain unsupported."
+      }
+    },
+    "warning": "Do not append this row with only price-flow-basis: basisKind does not prove statutory eligibility. Existing ratio expression may produce fractional minor units, which handler refuses. CA must use actual gross 12-month base, not prior-flow-minor."
+  },
+  "missingCapabilities": [
+    {
+      "id": "A57-coverage",
+      "requires": "Actual dated certificate, tenancy, notice, exemptions, local ordinance and OR facility-space/vote/project facts. No generic classification or establishedAt substitution."
+    },
+    {
+      "id": "A57-ca-cap",
+      "requires": "Applicable geographic CPI series, dated published change and statutory rounding. Ceiling 10% is not the cap."
+    },
+    {
+      "id": "A57-ca-base",
+      "requires": "Actual lowest gross rent in previous 12 months, separately identified concessions and lawful prior-tenant possession."
+    },
+    {
+      "id": "A57-currency-rounding",
+      "requires": "Approved whole-minor-unit treatment after legal percentage calculation; no borrowed whole-dollar rounding."
+    }
+  ],
+  "admissionGate": "Same PR must contain tested actual coverage/base binding and old fixed-cap removal; no data-only publication. OR numeric phase must not govern larger facilities or dates after 2026."
+}
