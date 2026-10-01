@@ -1,0 +1,32 @@
+{
+  "compositionHead": "18f46d855235bdb0d30d1b0c6d068e6281fbea73",
+  "testBlob": "11d746985b0102341358642d387011a93f73de10",
+  "diagnostic": "Untracked temporary Vite transform logs local variables at existing missing-term throw; tracked source/assertions untouched",
+  "canonicalConnecticut": "FAILED with same missing-target error",
+  "auxiliaryConnecticutUnit": "PASSED",
+  "notRun": 69,
+  "durationSeconds": 51.54,
+  "context": {
+    "worldCurrentDate": "2027-01-08",
+    "activity": {
+      "onDate": "2026-12-26",
+      "activity": "payroll",
+      "activityId": "resource-flow_32d83c2fe2c2b728",
+      "subjectIds": ["person_6e426d77a2d771ba"],
+      "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage"
+    },
+    "rowId": "pay:us-policy-positions:labor-workforce.raise-minimum-wage",
+    "termKey": "target",
+    "unit": "minor/hour",
+    "law": {
+      "answer": "yes",
+      "measureId": "starting-law:US-CT:us-policy-positions:labor-workforce.raise-minimum-wage",
+      "origin": "in-force-at-start",
+      "level": "state-statute",
+      "operativeAt": "2000-01-01",
+      "operativeBasis": "enacted-date"
+    }
+  },
+  "correctionOwner": "Coordinator reader/admission correction",
+  "log": "/tmp/team9-a19-ct-context.log:5"
+}
