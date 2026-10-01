@@ -8,9 +8,12 @@ import {
   openObserverWorld,
 } from "../../src/presentation/observer-world";
 import { addDays } from "../../src/simulation/dates";
+import { MIGRATION_REVIEW_INTERVAL_DAYS } from "../../src/simulation/migration/review";
 import { acuteWeight } from "../../src/simulation/outcome-web";
+import { townBusinesses } from "../../src/simulation/living-world/town-businesses";
 import {
   TOWN_FINANCE_POLICY,
+  stepTownFinances,
   townCreditLineDays,
 } from "../../src/simulation/living-world/town-finances";
 import type { TownMarketBooks } from "../../src/simulation/living-world/town-finance-types";
@@ -83,14 +86,40 @@ describe.each(SEEDS)("watched world, seed %s", (seed) => {
       console.log(
         `A71 watched place: ${place.displayName} (${place.key}), seed ${seed}`,
       );
-      let world: World = openObserverWorld(
-        observerSetup(seed, place.key),
-      ).world;
-      for (let month = 0; month < 4; month += 1)
-        world = advanceObservedWorld(world, 30);
+      const opened = openObserverWorld(observerSetup(seed, place.key));
+      const town =
+        opened.world.people[opened.anchorPersonId]!.homeJurisdictionId!;
+      const businessesOf = (from: World) =>
+        townBusinesses(from, town).map((business) => ({
+          organizationId: business.organizationId,
+          kind: business.workplace.key,
+          newcomer: business.outlet >= business.workplace.outlets,
+        }));
+      // The quarterly review's own books step (`stepTownFinances`), run
+      // on the pay the world recorded in its first 45 days. The test holds
+      // the clock at the first review's date, 91 days in, to open the books,
+      // the banks' lines and the markets, and four weeks after that for the
+      // one market step it watches: by then the 91-day window holds fewer
+      // of the recorded paychecks, so the town's pay reads lower and its
+      // sales must start to follow. Simulating only 45 days keeps the test
+      // under five minutes.
+      const recorded = advanceObservedWorld(opened.world, 45);
+      const at = (from: World, days: number): World => ({
+        ...from,
+        currentDate: addDays(recorded.currentDate, days),
+      });
+      const step = (from: World, round: string): World =>
+        stepTownFinances(from, town, businessesOf(from), new Set(), round)
+          .world;
+      let world = step(
+        at(recorded, MIGRATION_REVIEW_INTERVAL_DAYS - 45),
+        "a71-open",
+      );
       const before = markets(world);
-      for (let month = 0; month < 4; month += 1)
-        world = advanceObservedWorld(world, 30);
+      world = step(
+        at(world, MIGRATION_REVIEW_INTERVAL_DAYS - 45 + 28),
+        "a71-watch",
+      );
       const after = markets(world);
 
       // Credit lines: every business with a line has its kind's sourced
