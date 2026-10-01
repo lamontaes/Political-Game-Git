@@ -1,0 +1,85 @@
+{
+  "base": "9891ad2ebdfde4bb79869ae290d26ba98eefe425",
+  "mode": "exact current-main Git objects plus three owned callers, two changed tests and five exact Audit boundary overlays; no dirty source reads",
+  "dependency": {
+    "pr": 1358,
+    "head": "92233b4994be09c6c592a804452ecc045f517ecb",
+    "sourceSha256": {
+      "src/simulation/future-transition-registry.ts": "d5c5b72380b63b29233a8d5d0d66c6b63f2be9055baa40ffa7c3c6c34421cb46",
+      "src/simulation/future-transitions.ts": "20b47bcde636da07b25724bf76fe9a960625e3e7e79d96dbeaa78a846a059e02",
+      "src/simulation/routine-hook-members.ts": "a0513e9e0a116613ba13804c5f0e2e2a36acda1bd316bb3a7615e8bf5b2ad5f9",
+      "src/simulation/semantic-transition-key.ts": "9aa2457cedec6e31cc204203a25b14078b0de7a6506e970bd48533c7a4408960",
+      "src/simulation/world-metrics.ts": "d45462b2e8f483b57edbc884f90354f6d5bc1de1b98bdc61ea466f7adc2a04a5"
+    },
+    "publishedInTeam7Branch": false
+  },
+  "runtime": {
+    "files": 2,
+    "passed": 8,
+    "failed": 0,
+    "durationSeconds": 66.89,
+    "session": 27116,
+    "exitCode": 0
+  },
+  "cold": {
+    "passed": 1,
+    "skipped": 6,
+    "durationSeconds": 71.25,
+    "session": 68369,
+    "exitCode": 0
+  },
+  "types": {
+    "roots": 10,
+    "files": 797,
+    "diagnostics": 0,
+    "session": 80749,
+    "exitCode": 0,
+    "childTestRenewal": {
+      "roots": 1,
+      "files": 796,
+      "diagnostics": 0,
+      "session": 25510,
+      "exitCode": 0
+    }
+  },
+  "failuresRetained": {
+    "initialCombined": "5 PASS / 2 FAIL, fixture birth date contradicted generated person facts, session63126 exit1",
+    "fixtureRepair": "canonical createStartingPerson, 2 PASS, 39.15 seconds, session78478 exit0",
+    "lintRepair": "removed now-unused makeIsoDate import from repaired fixture"
+  },
+  "sha256": {
+    "src/simulation/demo.ts": "87b1a10caf236db6966c2d4390602a4a594ee897fe8e98be58bb22a41f60a97d",
+    "src/simulation/character-history.ts": "2fa66ccc1c088aafaff99e14ff6cc58e37bd8cee2509f3fead9f635a58d32231",
+    "src/simulation/people-continuation.ts": "54ecae20f1398f47a104898e3b41f8217b106cba59c81951c515b7d3313b7779",
+    "src/simulation/day-caller-migration.test.ts": "3b7e4f5bafbbc5365271785fc4448393d2a3b2a1612b704b325fd946a4b1d4a7",
+    "src/simulation/day-caller-child-parity.test.ts": "33144efee17b1682e5090082bb9f671d5d877a773734fd9b2830f6d78fc21e8a"
+  },
+  "notRun": [
+    "native clean main",
+    "legacy day full-history parity",
+    "400-day populated parity",
+    "exclusive speed comparison",
+    "all56 worlds",
+    "browser",
+    "full release gate",
+    "full suite"
+  ],
+  "readiness": "DRAFT; depends on Audit import-boundary admission and composition, no team merge",
+  "zeroDice": {
+    "files": 1086,
+    "summary": {
+      "baseline": {
+        "added": 2,
+        "stale": 5
+      },
+      "candidate": {
+        "added": 2,
+        "stale": 5
+      }
+    },
+    "session": 79310,
+    "exitCode": 1,
+    "result": "Whole gate FAIL on unchanged main findings/stale entries; allowlist untouched",
+    "firstHarnessFailure": "Set-valued overlay path caused ENOENT; corrected before scan completed"
+  }
+}
