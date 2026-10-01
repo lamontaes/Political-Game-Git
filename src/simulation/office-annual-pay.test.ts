@@ -296,6 +296,8 @@ function fixture(
       note: "Explicit funded payroll control; not ordinary government revenue.",
     },
   });
+  // This authored law begins after the recorded office term began.
+  world = atControlledDate(world, addDays(world.currentDate, 1));
   world = enact(world, 1, 52_000, applicability);
   const clause = world.history.ruleChangeProvisions!.at(-1)!;
   const enactment = world.history.legislativeEnactments!.find(
@@ -464,5 +466,50 @@ it("A38 refuses a salary change limited to terms beginning after its date", () =
   });
   expect(() => applyLawPayConsequence(f.world, f.resolved)).toThrow(
     /actual-operative-binding/,
+  );
+});
+
+it("A38 reads the actual office role at the earlier payroll date", () => {
+  const f = fixture(sampled[0]!);
+  const earlier = {
+    asOfDate: f.resolved.effectiveAt,
+    historySequenceExclusive: f.world.history.nextSequence,
+  };
+  const oldRole = f.world.history.workRoles.find(
+    (row) => row.workRelationshipId === f.work.id,
+  )!;
+  const laterDate = addDays(f.world.currentDate, 7);
+  const laterJurisdiction = stateJurisdictionForKey("US-NJ")!;
+  let changed = ensureJurisdiction(
+    atControlledDate(f.world, laterDate),
+    laterJurisdiction,
+  );
+  changed = recordWorkRole(changed, {
+    stableKey: `fixture:annual:later-role:${f.work.id}`,
+    workRelationshipId: f.work.id,
+    effectiveAt: laterDate,
+    title: "Later review New Jersey office role",
+    occupationClassification: "service:us-nj-governor",
+    locationJurisdictionId: laterJurisdiction.id,
+    timeDemand: {
+      ...oldRole.timeDemand,
+      locationJurisdictionId: laterJurisdiction.id,
+    },
+    provenance: {
+      kind: "authored",
+      note: "Explicit later role for historical-read regression; not an election.",
+    },
+    supersedesRoleId: oldRole.id,
+  });
+  expect(paidOfficeOf(changed, f.work)!.state).toBe("NJ");
+  const dated = paidOfficeOf(changed, f.work, {
+    ...earlier,
+    historySequenceExclusive: changed.history.nextSequence,
+  })!;
+  expect(dated.state).toBe("OH");
+  expect(PAY_LAW_FIELD[dated.office]).toBe(f.clause.field);
+  const revised = applyLawPayConsequence(changed, f.resolved);
+  expect(resourceFlowTermsAt(revised, f.flow.id)!.amount.minorUnits).toBe(
+    100_000,
   );
 });
