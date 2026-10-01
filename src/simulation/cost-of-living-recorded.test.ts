@@ -8,6 +8,7 @@ import {
   livingCostsFlowFor,
   settleLivingCosts,
   LIVING_COSTS_PLACEHOLDER,
+  initializeLivingCostsFlow,
 } from "./cost-of-living";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
@@ -91,9 +92,15 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
         });
       }
       const originalFlows = world.history.resourceFlows;
+      const initialized = initializeLivingCostsFlow(world, personId);
       const changed = settleLivingCosts(world, personId);
+      expect(initialized).toEqual(changed);
+      expect(initializeLivingCostsFlow(initialized, personId)).toBe(
+        initialized,
+      );
       const flow = livingCostsFlowFor(changed, personId)!;
       expect(flow).toBeDefined();
+      expect(flow.startsAt).toBe(world.currentDate);
       expect(resourceFlowTermsAt(changed, flow.id)!.amount.minorUnits).toBe(
         LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
           LIVING_COSTS_PLACEHOLDER.housingShareMinor,
@@ -116,6 +123,7 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
           resourceFlowTermsAt(changed, flow.id),
         );
         expect(settleLivingCosts(reopened, personId)).toBe(reopened);
+        expect(initializeLivingCostsFlow(reopened, personId)).toBe(reopened);
       }
     },
   );
