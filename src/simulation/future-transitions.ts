@@ -1,3 +1,5 @@
+import { COMBINED_ROUTINE_MEMBERS } from "./routine-hook-members";
+import { assertSemanticTransitionKey } from "./semantic-transition-key";
 import { crisisAmbientHandler } from "./crisis/ambient";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { worldIntegrityCheckMode } from "./world-integrity-changed";
@@ -46,7 +48,6 @@ import type {
   World,
 } from "./types";
 import {
-  assertSemanticTransitionKey,
   worldMetricEntityAvailableAt,
   worldMetricEntityExists,
 } from "./world-metrics";
@@ -151,10 +152,6 @@ export const EMPTY_FUTURE_TRANSITION_HANDLERS =
  * earlier routine is dropped, so the earlier one (the job) keeps its hours
  * and the later one loses that session.
  */
-const COMBINED_ROUTINE_MEMBERS = new WeakMap<
-  RoutineTimeHook,
-  readonly RoutineTimeHook[]
->();
 
 function combineRoutineHooks(
   supplied: readonly RoutineTimeHook[],

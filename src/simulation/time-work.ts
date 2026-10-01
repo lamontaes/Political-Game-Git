@@ -59,6 +59,7 @@ import {
   assertWorldIntegrity,
   recordWorldEvent,
 } from "./world";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -1111,7 +1112,7 @@ export function controlledCommitmentsBlockingMinuteAdvance(
 export function advanceWorldMinutes(
   world: World,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   return advanceWithWorldIntegrityAtEnd(() => {
     if (!transitionHandlers.routine) {
