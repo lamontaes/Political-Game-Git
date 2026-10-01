@@ -935,27 +935,6 @@ export function applyLawPayConsequence(
   const effectiveAt = makeIsoDate(resolved.effectiveAt);
   if (effectiveAt > world.currentDate) refuse("pay.activity.current-or-past");
   let governing: Parameters<typeof lawEffectStamp>[0] = null;
-  if (resolved.action === "raise-hourly-floor") {
-    const question = Object.values(world.policyCatalog.propositions).find(
-      (row) => row.stableKey === resolved.questionKey,
-    );
-    if (!question) refuse("pay.question.canonical");
-    const law = lawInForce(
-      world,
-      resolved.jurisdictionId,
-      question!.id,
-      effectiveAt,
-    );
-    if (
-      !law ||
-      law.measureId !== resolved.law.measureId ||
-      law.origin !== resolved.law.origin ||
-      law.operativeAt !== resolved.law.operativeAt ||
-      law.answer !== resolved.law.answer
-    )
-      refuse("pay.law.operative");
-    governing = law;
-  }
   const work = recordById(world.history.workRelationships, resolved.workId);
   const flow = recordById(world.history.resourceFlows, resolved.payFlowId);
   if (!world.people[resolved.personId] || work?.personId !== resolved.personId)
@@ -977,6 +956,29 @@ export function applyLawPayConsequence(
     asOfDate: effectiveAt,
     historySequenceExclusive: world.history.nextSequence,
   };
+  if (resolved.action === "raise-hourly-floor") {
+    const question = Object.values(world.policyCatalog.propositions).find(
+      (row) => row.stableKey === resolved.questionKey,
+    );
+    if (!question) refuse("pay.question.canonical");
+    const law = lawInForce(
+      world,
+      resolved.jurisdictionId,
+      question!.id,
+      effectiveAt,
+      "all",
+      cutoff,
+    );
+    if (
+      !law ||
+      law.measureId !== resolved.law.measureId ||
+      law.origin !== resolved.law.origin ||
+      law.operativeAt !== resolved.law.operativeAt ||
+      law.answer !== resolved.law.answer
+    )
+      refuse("pay.law.operative");
+    governing = law;
+  }
   const role = workRoleAt(world, resolved.workId, cutoff);
   if (
     !role ||
@@ -1000,6 +1002,7 @@ export function applyLawPayConsequence(
       officeKey: authority.officeKey,
       field: authority.field,
       onDate: effectiveAt,
+      cutoff,
     });
     if (
       authority.kind !== "enacted-office-rule" ||
@@ -1067,6 +1070,7 @@ export function applyLawPayConsequence(
       officeKey: authority.officeKey,
       field: authority.field,
       onDate: effectiveAt,
+      cutoff,
     });
     if (
       authority.kind !== "enacted-hourly-pay-rule" ||
