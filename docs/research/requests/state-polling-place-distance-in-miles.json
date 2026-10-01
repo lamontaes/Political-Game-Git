@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-10-01T19:42:00.000Z",
+  "impact": "shapes-design",
+  "lane": "outcome web",
+  "notes": [
+    "Adding a base row for voting.polling-place-distance-miles to data/research/outcome-web/place-outcome-bases-2024.json is all it takes to make polling-distance-to-turnout run; no code is needed."
+  ],
+  "priority": "P2",
+  "question": "For each state, D.C. and territory, is there a public source for the average distance, in miles, from a voter's home to the polling place they are assigned, for the 2024 general election or the latest year measured (population-weighted, so it describes voters rather than land)? If no state-level distance exists, what is the closest published measure (average minutes to travel to the polling place, voters per polling place, polling places per square mile) and how can it be converted to miles without inventing the conversion?",
+  "questionId": "state-polling-place-distance-in-miles",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Claude subagent for Claude CTO, outcome-web bases for measures its links name (2026-10-01)",
+  "sourcesChecked": [
+    {
+      "source": "U.S. Election Assistance Commission, Election Administration and Policy Survey (EAVS) 2022 and 2024, polling places by state (https://www.eac.gov/research-and-data/datasets-codebooks-and-surveys)",
+      "whatItDidNotSettle": "Counts polling places per state, not the distance voters travel; a distance from land area per polling place would treat people as spread evenly over the land and is not a measurement."
+    },
+    {
+      "source": "Cantoni 2020, Precinct Consolidation and Turnout (AEJ: Applied) and Brady and McNulty 2011 (APSR)",
+      "whatItDidNotSettle": "Give the effect of distance on turnout in a few Massachusetts, Minnesota and Los Angeles cases, not a level for any state."
+    },
+    {
+      "source": "Survey of the Performance of American Elections (MIT Election Data and Science Lab)",
+      "whatItDidNotSettle": "Asks about waiting time in line, not the distance travelled, and state samples are small."
+    }
+  ],
+  "title": "How far voters travel to their polling place, state by state",
+  "usableAnswer": "One row per place: the average (or median) miles from a voter's address to the assigned polling place, the year, the source and table, and how it was computed (survey, GIS of polling-place and voter-file locations, or other). Where a place has no value, say so, and give the national figure with its source so the game can start the place from it, marked ESTIMATED FROM NATIONAL AVERAGE.",
+  "whyItMatters": "The outcome web has a researched link, polling-distance-to-turnout (Cantoni 2020: about -14% of ballots per added mile), whose cause measure, voting.polling-place-distance-miles, has no starting value for any place. Until one exists the link cannot run, and a law that closes or moves polling places has nothing to act on. The owner's rule is real, latest data with its source, or nothing: a distance computed from land area would be invented."
+}
