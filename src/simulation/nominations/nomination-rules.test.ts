@@ -7,7 +7,10 @@ import {
 } from "../enacted-rule-changes";
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
+import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
+import { STATES } from "../state-reference";
+import { drawRandomPlace } from "../../../tests/support/random-place";
 import type { EntityId, HistoricalEvent, World } from "../types";
 import { createWorld, createWorldId } from "../world";
 import { dateFromElectionRule, type ElectionDateRule } from "./date-rules";
@@ -251,31 +254,63 @@ describe("party nomination rules, 2026", () => {
 });
 
 describe("A114: a primary is decided by the entrants' records, not a draw", () => {
-  const texas = createStableId("jurisdiction", "US-TX");
-  // One world holds the same four people every time; only its seed, the
-  // input the old campaign draw read, differs between runs.
+  const planOf = (usps: string) =>
+    nominationPlan(createMinimalWorld(), {
+      stateUsps: usps,
+      family: "us-house",
+      year: 2026,
+      onDate: makeIsoDate("2026-01-06"),
+    });
+  type KnownPlan = Extract<ReturnType<typeof planOf>, { known: true }>;
+  /**
+   * A place drawn at random from all 56 by `seed`, among those whose 2026
+   * House plan fits; the test title names it with its seed.
+   */
+  const placeWhere = (seed: string, fits: (plan: KnownPlan) => boolean) => {
+    const place = drawRandomPlace(seed, (candidate) => {
+      const plan = planOf(candidate.stateJurisdictionKey!.slice(3));
+      return plan.known && fits(plan);
+    });
+    const usps = place.stateJurisdictionKey!.slice(3);
+    const plan = planOf(usps);
+    if (!plan.known) throw new Error("The drawn place's plan is read.");
+    return { usps, plan, seed, name: place.displayName };
+  };
+  const partyPrimary = (plan: KnownPlan) => plan.method === "party-primary";
+  /** A runoff, held without a request, that a lead of `permille` misses. */
+  const runoffMissedAt = (permille: number) => (plan: KnownPlan) =>
+    partyPrimary(plan) &&
+    plan.runoff !== null &&
+    plan.runoff.date !== null &&
+    !plan.runoff.onRequest &&
+    (plan.runoff.outright === "at-least"
+      ? permille < plan.runoff.thresholdPercent * 10
+      : permille <= plan.runoff.thresholdPercent * 10);
+
+  // The same four people every time; only the world's seed, the input the
+  // old campaign draw read, differs between runs. A person's id comes from
+  // the world id and their index, not from where they live.
   const worldId = createWorldId("a114-entrants");
-  const people = [0, 1, 2, 3].map((index) =>
+  const person = (index: number, homeJurisdictionId: EntityId) =>
     createLightweightPerson({
       worldId,
       worldSeed: "a114-entrants",
       index,
       currentDate: makeIsoDate("2026-01-05"),
-      homeJurisdictionId: texas,
-    }),
-  );
-  const entrantsWorld = createWorld({
-    seed: "a114-entrants",
-    currentDate: makeIsoDate("2026-05-26"),
-    people,
-    jurisdictions: Object.values(createMinimalWorld().jurisdictions),
-  });
-  const [first, second, third, fourth] = people.map((person) => person.id) as [
-    EntityId,
-    EntityId,
-    EntityId,
-    EntityId,
-  ];
+      homeJurisdictionId,
+    });
+  const entrantsWorld = (usps: string) => {
+    const state = stateJurisdictionForKey(`US-${usps}`)!;
+    return createWorld({
+      seed: "a114-entrants",
+      currentDate: makeIsoDate("2026-12-31"),
+      people: [0, 1, 2, 3].map((index) => person(index, state.id)),
+      jurisdictions: [state],
+    });
+  };
+  const [first, second, third, fourth] = [0, 1, 2, 3].map(
+    (index) => person(index, stateJurisdictionForKey("US-DC")!.id).id,
+  ) as [EntityId, EntityId, EntityId, EntityId];
   const entrant = (
     personId: EntityId,
     party: string,
@@ -287,21 +322,20 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
     partyBacked: standing === "recruit",
   });
 
-  /** Texas's 2026 House primary on March 3, held in a world on May 26. */
-  function primary(seed: string, entrants: readonly NominationEntrant[]) {
-    const world: World = { ...entrantsWorld, seed };
-    const plan = nominationPlan(world, {
-      stateUsps: "TX",
-      family: "us-house",
-      year: 2026,
-      onDate: makeIsoDate("2026-01-06"),
-    });
-    if (!plan.known) throw new Error("Texas's plan is read.");
+  /** The place's 2026 House primary, and its runoff when one is left open. */
+  function primary(
+    usps: string,
+    plan: KnownPlan,
+    seed: string,
+    entrants: readonly NominationEntrant[],
+  ) {
+    const base = entrantsWorld(usps);
+    const world: World = { ...base, seed };
     const input = {
-      stableKey: "a114:us-house-tx-07:2026",
-      seatKey: "us-house-tx-07",
-      title: "Texas's 7th District",
-      jurisdictionId: texas,
+      stableKey: `a114:us-house-${usps}-01:2026`,
+      seatKey: `us-house-${usps}-01`,
+      title: `${STATES[usps]!.name}'s 1st District`,
+      jurisdictionId: stateJurisdictionForKey(`US-${usps}`)!.id,
       involvedEntityIds: [],
     };
     const held = holdNominationPrimary(world, {
@@ -327,16 +361,37 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
       (event) => event.stableKey === `${stableKey}:runoff`,
     );
 
-  it("nominates the same person with the same shares under two seeds", () => {
+  const outright = placeWhere(
+    "a114-outright",
+    (plan) =>
+      partyPrimary(plan) &&
+      (plan.runoff === null || !runoffMissedAt(556)(plan)),
+  );
+  const withRunoff = placeWhere("a114-runoff", runoffMissedAt(400));
+  const noRunoff = placeWhere(
+    "a114-no-runoff",
+    (plan) => partyPrimary(plan) && plan.runoff === null,
+  );
+  const runoffAtHalf = placeWhere("a114-runoff-tie", runoffMissedAt(500));
+  const where = (drawn: { usps: string; name: string; seed: string }) =>
+    `${drawn.name}, ${drawn.usps}, place seed ${drawn.seed}`;
+
+  it(`nominates the same person with the same shares under two seeds (${where(outright)})`, () => {
     const field = [
       entrant(first, "republican", "incumbent"),
       entrant(second, "republican", "self-starter"),
       entrant(third, "democratic", "recruit"),
       entrant(fourth, "democratic", "self-starter"),
     ];
-    const one = primary("a114-first-seed", field);
-    const two = primary("a114-second-seed", field);
-    // A sitting member 1.5 to 1; a party recruit 1.25 to 1.
+    const one = primary(outright.usps, outright.plan, "a114-first-seed", field);
+    const two = primary(
+      outright.usps,
+      outright.plan,
+      "a114-second-seed",
+      field,
+    );
+    // Shares are per 1,000 primary votes in each party: a sitting member 1.5
+    // to 1, a party recruit 1.25 to 1.
     expect(results(one.record)).toEqual({
       [first]: "republican|600|nominated",
       [second]: "republican|400|lost",
@@ -349,13 +404,18 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
     );
   });
 
-  it("decides a runoff by each finalist's recorded share of the primary vote", () => {
-    const { world, record, stableKey } = primary("a114-runoff", [
-      entrant(first, "republican", "incumbent"),
-      entrant(second, "republican", "recruit"),
-      entrant(third, "republican", "self-starter"),
-    ]);
-    // Nobody reached half of the vote, so the top two meet again.
+  it(`decides a runoff by each finalist's recorded share of the primary vote (${where(withRunoff)})`, () => {
+    const { world, record, stableKey } = primary(
+      withRunoff.usps,
+      withRunoff.plan,
+      "a114-runoff",
+      [
+        entrant(first, "republican", "incumbent"),
+        entrant(second, "republican", "recruit"),
+        entrant(third, "republican", "self-starter"),
+      ],
+    );
+    // Nobody reached the place's threshold, so the top two meet again.
     expect(results(record)).toEqual({
       [first]: "republican|400|runoff",
       [second]: "republican|333|runoff",
@@ -371,13 +431,39 @@ describe("A114: a primary is decided by the entrants' records, not a draw", () =
     ]);
   });
 
-  it("records an exact tie as tied and nominates nobody, not a coin toss", () => {
-    const { world, record, stableKey } = primary("a114-tie", [
-      entrant(first, "republican", "incumbent"),
-      entrant(second, "democratic", "self-starter"),
-      entrant(third, "democratic", "self-starter"),
+  it(`records a tied primary as tied and nominates nobody, not a coin toss (${where(noRunoff)})`, () => {
+    const { world, record, stableKey } = primary(
+      noRunoff.usps,
+      noRunoff.plan,
+      "a114-tie",
+      [
+        entrant(first, "republican", "incumbent"),
+        entrant(second, "democratic", "self-starter"),
+        entrant(third, "democratic", "self-starter"),
+      ],
+    );
+    expect(results(record)).toEqual({
+      [first]: "republican|1000|unopposed",
+      [second]: "democratic|500|tied",
+      [third]: "democratic|500|tied",
+    });
+    expect(record.summary).toContain("ended in a tie");
+    expect(nominationNominees(world, stableKey)).toEqual([
+      { personId: first, party: "republican" },
     ]);
-    // Texas sends a tied primary to its runoff, where the two tie again.
+  });
+
+  it(`sends a tie to the runoff where the law holds one, and a tied runoff nominates nobody (${where(runoffAtHalf)})`, () => {
+    const { world, record, stableKey } = primary(
+      runoffAtHalf.usps,
+      runoffAtHalf.plan,
+      "a114-runoff-tie",
+      [
+        entrant(first, "republican", "incumbent"),
+        entrant(second, "democratic", "self-starter"),
+        entrant(third, "democratic", "self-starter"),
+      ],
+    );
     expect(results(record)).toEqual({
       [first]: "republican|1000|unopposed",
       [second]: "democratic|500|runoff",
