@@ -517,14 +517,12 @@ export function paydayHandler(
   if (dueItem.transitionKey !== PAYDAY_TRANSITION_KEY)
     throw new Error("Payday received another transition.");
   const since = makeIsoDate(dueItem.stableKey.slice(PAYDAY_KEY_PREFIX.length));
-  const played =
-    world.control.kind === "person" ? world.control.personId : null;
-  let next = startTownJobPay(world, played, since);
-  next = raiseTownPayToMinimum(next, played);
-  next = raiseTeacherPayToFloor(next, played);
+  let next = startTownJobPay(world, null, since);
+  next = raiseTownPayToMinimum(next, null);
+  next = raiseTeacherPayToFloor(next, null);
   // A raise a law made reaches the person it raised.
   next = noticeLawPayChanges(next, since);
-  next = payTownPaydays(next, since, played);
+  next = payTownPaydays(next, since, null);
   next = scheduleFutureDueItem(next, {
     stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}`,
     dueAt: nextPaydayDate(next.currentDate),
