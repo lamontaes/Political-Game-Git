@@ -1,5 +1,6 @@
 import { makeIsoDate } from "./dates";
 import type { LawInForce } from "./governing/law-in-force";
+import type { StandingProgramAuthority } from "./law-consequence-types";
 import type { EntityId, IsoDate } from "./types";
 
 /** Attribution on an actual saved consequence, not a claim that it occurred. */
@@ -7,9 +8,10 @@ export interface LawEffectStamp {
   readonly version: "law-effect-stamp/v1";
   /** Exact enacted measure ID or canonical starting-law key; never a new ID. */
   readonly governingLawKey: EntityId;
-  readonly source: LawInForce["origin"];
+  readonly source: LawInForce["origin"] | "standing-appropriation";
+  readonly standingAuthority?: StandingProgramAuthority;
   readonly effectKind: string;
-  readonly questionKey: string;
+  readonly questionKey: string | null;
   /** The jurisdiction where the consequence applies, including federal effects. */
   readonly jurisdictionId: EntityId;
   readonly operativeAt: IsoDate;
@@ -20,7 +22,7 @@ export interface LawEffectStamp {
 
 export interface LawEffectContext {
   readonly effectKind: string;
-  readonly questionKey: string;
+  readonly questionKey: string | null;
   readonly jurisdictionId: EntityId;
   readonly appliedAt: IsoDate;
   readonly sourceRecordIds?: readonly EntityId[];
@@ -38,18 +40,38 @@ export interface LawEffectStampedRecord {
  * saved consequence. Unknown or not-yet-operative law produces no stamp.
  */
 export function lawEffectStamp(
-  law: LawInForce | null,
+  law:
+    | Pick<LawInForce, "measureId" | "origin" | "operativeAt">
+    | StandingProgramAuthority
+    | null,
   context: LawEffectContext,
 ): LawEffectStamp | null {
   if (!law) return null;
+  const standing = "kind" in law ? law : null;
+  const measure = "measureId" in law ? law : null;
   const stamp: LawEffectStamp = {
     version: "law-effect-stamp/v1",
-    governingLawKey: law.measureId,
-    source: law.origin,
+    governingLawKey: standing ? standing.appropriationId : measure!.measureId,
+    source: standing ? "standing-appropriation" : measure!.origin,
+    ...(standing
+      ? {
+          standingAuthority: {
+            ...standing,
+            sourceBasis: { ...standing.sourceBasis },
+            ...(standing.publicGovernmentIdentity
+              ? {
+                  publicGovernmentIdentity: {
+                    ...standing.publicGovernmentIdentity,
+                  },
+                }
+              : {}),
+          },
+        }
+      : {}),
     effectKind: context.effectKind,
     questionKey: context.questionKey,
     jurisdictionId: context.jurisdictionId,
-    operativeAt: law.operativeAt,
+    operativeAt: standing ? standing.availableFrom : measure!.operativeAt,
     appliedAt: context.appliedAt,
     ...(context.sourceRecordIds === undefined
       ? {}
@@ -65,9 +87,11 @@ export function isLawEffectStamp(value: unknown): value is LawEffectStamp {
   if (
     row.version !== "law-effect-stamp/v1" ||
     !nonempty(row.governingLawKey) ||
-    (row.source !== "enacted" && row.source !== "in-force-at-start") ||
+    (row.source !== "enacted" &&
+      row.source !== "in-force-at-start" &&
+      row.source !== "standing-appropriation") ||
     !nonempty(row.effectKind) ||
-    !nonempty(row.questionKey) ||
+    !validSubject(row) ||
     !nonempty(row.jurisdictionId) ||
     !validDate(row.operativeAt) ||
     !validDate(row.appliedAt) ||
@@ -76,6 +100,11 @@ export function isLawEffectStamp(value: unknown): value is LawEffectStamp {
     return false;
   const startingKey = row.governingLawKey.startsWith("starting-law:");
   if (startingKey !== (row.source === "in-force-at-start")) return false;
+  if (
+    row.source !== "standing-appropriation" &&
+    row.standingAuthority !== undefined
+  )
+    return false;
   return (
     row.sourceRecordIds === undefined ||
     (Array.isArray(row.sourceRecordIds) && row.sourceRecordIds.every(nonempty))
@@ -94,4 +123,39 @@ function validDate(value: unknown): value is IsoDate {
   } catch {
     return false;
   }
+}
+
+function validSubject(row: Record<string, unknown>): boolean {
+  if (row.source === "standing-appropriation") {
+    if (
+      row.questionKey !== null ||
+      row.ruleAuthority !== undefined ||
+      row.effectKind !== "service-delivered"
+    )
+      return false;
+    const authority = row.standingAuthority;
+    if (!authority || typeof authority !== "object") return false;
+    const ref = authority as Record<string, unknown>;
+    const basis = ref.sourceBasis as Record<string, unknown> | undefined;
+    return (
+      ref.kind === "standing-program-appropriation" &&
+      nonempty(ref.appropriationId) &&
+      ref.appropriationId === row.governingLawKey &&
+      nonempty(ref.programKey) &&
+      nonempty(ref.accountOrganizationId) &&
+      ref.jurisdictionId === row.jurisdictionId &&
+      validDate(ref.availableFrom) &&
+      validDate(ref.availableThrough) &&
+      ref.availableFrom === row.operativeAt &&
+      ref.availableFrom <= ref.availableThrough &&
+      validDate(row.appliedAt) &&
+      row.appliedAt <= ref.availableThrough &&
+      !!basis &&
+      basis.kind === "sourced" &&
+      nonempty(basis.note) &&
+      Array.isArray(row.sourceRecordIds) &&
+      row.sourceRecordIds.includes(ref.appropriationId)
+    );
+  }
+  return nonempty(row.questionKey);
 }
