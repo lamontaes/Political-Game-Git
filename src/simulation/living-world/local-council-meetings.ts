@@ -1,40 +1,30 @@
+import { applyInstitutionStep } from "../governing/legislative-clock";
+import {
+  councilRules,
+  lawJurisdiction,
+  unitById,
+  type CouncilRules,
+} from "./local-council-binding";
 import { addDays } from "../dates";
 import { fileMemberAgendaBills } from "../governing/member-agenda";
-import { councilBallotPartisanship } from "../governing/body-partisanship";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { mayAnswerQuestion } from "../governing/question-authority";
-import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
-import {
-  COUNCIL_VOTE_NOTE,
-  decideCouncilVote,
-  ensureCouncilPrinciples,
-} from "../governing/council-lawmaking";
 import {
   introduceMeasure,
   measurePosition,
   placeMeasureOnCalendar,
-  takeFloorVote,
 } from "../legislation";
 import { chamberByKey } from "../legislature-rules";
 import { rulePackById } from "../legislature-rule-packs";
 import { nextMeasureNumbering } from "../measure-numbering";
-import { municipalRulePackFor } from "../municipal-government";
-import {
-  completeCouncilPassage,
-  recordCouncilReadingVote,
-} from "../municipal-ordinance-procedure";
+import { completeCouncilPassage } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import {
   homeLocalGovernmentUnits,
   localGovernmentDisplayName,
-  localGovernmentJurisdiction,
 } from "../nationwide-world/local-governments";
-import { municipioUnit } from "../nationwide-world/county-governing-body-rules";
 import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
-import { ensureJurisdiction } from "../national-election-geography";
-import { municipalGovernmentForUnit } from "../rule-capability-resolver";
-import { townCouncilProfilePackId } from "../town-council-profile";
 import type {
   EntityId,
   FutureDueItem,
@@ -102,29 +92,6 @@ export function postedMeetingOrdinanceKey(town: EntityId): string {
 /* Which rules the council plays under                                         */
 /* -------------------------------------------------------------------------- */
 
-interface CouncilRules {
-  readonly packId: string;
-  /** Set when the town's compiled charter runs the procedure. */
-  readonly governmentKey: string | null;
-}
-
-function councilRules(unit: GovernmentUnitIdentity): CouncilRules | null {
-  const compiled = municipalGovernmentForUnit(unit);
-  if (compiled) {
-    const pack = municipalRulePackFor(compiled);
-    if (pack.ok)
-      return {
-        // The pack the charter resolved to: its sourced pack, or the labeled
-        // game profile where the charter's procedure was not read.
-        packId: pack.pack.packId,
-        governmentKey: compiled.key,
-      };
-  }
-  if (!localGoverningBodyIdentity(unit) && !boardGoverningBodyRules(unit))
-    return null;
-  return { packId: townCouncilProfilePackId(unit), governmentKey: null };
-}
-
 /** The body's name and its government's, for a town council or a county board. */
 function bodyNames(unit: GovernmentUnitIdentity): {
   readonly bodyName: string;
@@ -137,36 +104,6 @@ function bodyNames(unit: GovernmentUnitIdentity): {
     bodyName: boardGoverningBodyRules(unit)?.bodyName ?? "governing body",
     governmentName: localGovernmentDisplayName(unit),
   };
-}
-
-/**
- * Where the body's ordinances are recorded: the town, or the town, township
- * or county a place with no town government lives under (`law-in-force.ts`
- * reads their ordinances for it). That jurisdiction is registered in the
- * world the first time its board acts.
- */
-function lawJurisdiction(
-  world: World,
-  unit: GovernmentUnitIdentity,
-  town: EntityId,
-): { readonly world: World; readonly jurisdictionId: EntityId } {
-  if (unit.unitType === "municipality") return { world, jurisdictionId: town };
-  const county = localGovernmentJurisdiction(unit);
-  if (!county) return { world, jurisdictionId: town };
-  return {
-    world: ensureJurisdiction(world, county),
-    jurisdictionId: county.id,
-  };
-}
-
-/** A government unit by the id a meeting was scheduled under. */
-function unitById(id: string): GovernmentUnitIdentity | null {
-  return (
-    governmentUnit(id) ??
-    (id.startsWith("municipio:")
-      ? municipioUnit(id.slice("municipio:".length))
-      : null)
-  );
 }
 
 function members(world: World, unit: GovernmentUnitIdentity) {
@@ -343,63 +280,26 @@ function moveOrdinances(
   for (const measure of councilMeasures(world, rules, law)) {
     if (player && measure.sponsorPersonId === player) continue;
     const phase = measurePosition(next, measure.id).phase;
-    if (phase === "awaiting-referral") {
-      next = placeMeasureOnCalendar(next, {
-        stableKey: `${measure.stableKey}:agenda`,
-        measureId: measure.id,
-        rationale: `Placed on the council's agenda for its next meeting (${P.id}).`,
-      });
-      continue;
-    }
-    if (phase !== "on-floor") continue;
+    if (phase !== "awaiting-referral" && phase !== "on-floor") continue;
     // Taken up at a meeting after the one it was introduced at.
-    if (measure.introducedAt >= next.currentDate) continue;
-    const seats = members(next, unit);
-    if (seats.length === 0) continue;
-    const mayor =
-      sittingLocalOfficers(next, unit).find((seat) => seat.mayor)?.personId ??
-      null;
-    next = ensureCouncilPrinciples(next, [
-      ...seats,
-      ...(mayor ? [{ personId: mayor }] : []),
-    ]);
-    const voteInput: Parameters<typeof decideCouncilVote>[1] = {
-      stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
-      measureId: measure.id,
-      jurisdictionId: town,
-      members: seats,
-      playerPersonId: player,
-      questionLabel: `Adopt ${measure.designation}`,
-      executivePersonId: mayor,
-      nonpartisan: councilBallotPartisanship(unit).nonpartisan,
-    };
-    const dispositions = decideCouncilVote(next, voteInput);
-    const provenance = {
-      method: "member-decisions" as const,
-      note: COUNCIL_VOTE_NOTE,
-      sourceEntityIds: [measure.id],
-    };
-    if (rules.governmentKey) {
-      const result = recordCouncilReadingVote(next, {
-        governmentKey: rules.governmentKey,
-        measureId: measure.id,
-        dispositions,
-        provenance,
-      });
-      // A reading that may not be taken yet waits for a later meeting.
-      if (result.ok) next = result.world;
+    if (phase === "on-floor" && measure.introducedAt >= next.currentDate)
       continue;
-    }
-    next = takeFloorVote(next, {
-      stableKey: `${measure.stableKey}:adoption:${next.currentDate}`,
-      measureId: measure.id,
-      dispositions,
-      presentMembers: dispositions.filter((row) => row.disposition !== "absent")
-        .length,
-      electedMembers: seats.length,
-      provenance,
-    });
-    if (measurePosition(next, measure.id).phase !== "failed")
+    const result = applyInstitutionStep(
+      next,
+      measure.id,
+      (unchanged) => unchanged,
+      {
+        localCouncil: {
+          governmentUnitId: unit.id,
+          townJurisdictionId: town,
+          playerPersonId: player,
+        },
+      },
+    );
+    // The shared writer preserves every compiled reading interval and quorum.
+    if (result.kind !== "applied") continue;
+    next = result.world;
+    if (measurePosition(next, measure.id).phase === "awaiting-enrollment")
       next = completeCouncilPassage(next, measure, rules.governmentKey);
   }
   return next;
