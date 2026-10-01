@@ -4,6 +4,8 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
+import { lawInForce } from "../governing/law-in-force";
 import {
   addDays,
   daysBetween,
@@ -35,6 +37,49 @@ import {
 const registrations = [...LAW_CONSEQUENCE_REGISTRATIONS, PAY_REGISTRATION];
 const dispatch = lawEffects.applyLawConsequences;
 afterEach(() => vi.restoreAllMocks());
+
+it.each([
+  { placeKey: "1571550", state: "HI", before: 1400, after: 1600 },
+  { placeKey: "0644000", state: "CA", before: 1650, after: 1690 },
+])(
+  "reads $state's sourced January phase without backdating its rate",
+  (sample) => {
+    const world = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        placeKey: sample.placeKey,
+        seed: `pay-starting-phases:${sample.state}`,
+        startAge: 30,
+        questionnaire: "skipped",
+      }),
+    ).game!.world;
+    const jurisdictionId =
+      world.people[world.personOrder[0]!]!.homeJurisdictionId;
+    const question = Object.values(world.policyCatalog.propositions).find(
+      (row) => row.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+    )!;
+    for (const [date, value] of [
+      ["2025-12-31", sample.before],
+      ["2026-01-01", sample.after],
+    ] as const) {
+      const onDate = makeIsoDate(date);
+      const law = lawInForce(world, jurisdictionId, question.id, onDate)!;
+      expect(law.origin).toBe("in-force-at-start");
+      const term = readFinalEnactedLawTerm(world, law, {
+        questionKey: question.stableKey,
+        termKey: "target",
+        unit: "minor/hour",
+        onDate,
+      });
+      expect(term).toMatchObject({
+        value,
+        unit: "minor/hour",
+        provisionId: null,
+      });
+      expect(term!.sourceRecordIds).toEqual([law.measureId]);
+    }
+  },
+);
 
 it("pays Alaska's actual dated starting floors and retains the earlier floor for catch-up work", () => {
   const game = generateOpeningLife(

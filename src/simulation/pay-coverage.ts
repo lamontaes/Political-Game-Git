@@ -17,7 +17,10 @@ import {
   PAY_SELECTOR,
   PAY_ACTION,
 } from "./law-consequences/pay-rows";
-import { matchPayCoveragePredicates } from "./pay-coverage-predicates";
+import {
+  matchPayCoveragePredicates,
+  payWorkplaceAt,
+} from "./pay-coverage-predicates";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 import { assertWorldIntegrity } from "./world";
@@ -89,10 +92,9 @@ export function determineWorkPayCoverage(
     )
       continue;
     const role = workRoleAt(world, workId, cutoff);
-    if (!role?.locationJurisdictionId)
-      throw new Error(
-        "Pay coverage requires its actual workplace jurisdiction",
-      );
+    if (!role)
+      throw new Error("Pay coverage requires its actual dated work role");
+    const workplace = payWorkplaceAt(world, workId, cutoff);
     const profile = organizationProfileAt(world, work.organizationId, cutoff);
     const factRecordIds = [
       work.id,
@@ -106,12 +108,14 @@ export function determineWorkPayCoverage(
       [];
     const sources = new Set(SOURCES);
     for (const proposition of propositions) {
-      const law = lawInForce(
-        world,
-        role.locationJurisdictionId,
-        proposition.id,
-        world.currentDate,
-      );
+      const law = workplace.jurisdictionId
+        ? lawInForce(
+            world,
+            workplace.jurisdictionId,
+            proposition.id,
+            world.currentDate,
+          )
+        : null;
       if (!law || law.answer !== "yes") continue;
       governingLaws.push({
         questionKey: proposition.stableKey,
@@ -160,7 +164,7 @@ export function determineWorkPayCoverage(
       personId: work.personId,
       employerOrganizationId: work.organizationId,
       workRoleId: role.id,
-      jurisdictionId: role.locationJurisdictionId,
+      jurisdictionId: workplace.jurisdictionId,
       determinedAt: world.currentDate,
       reason,
       defaultCategory: "standard",
@@ -245,6 +249,12 @@ export function assertWorkPayCoverageIntegrity(
     );
     const role = recordById(world.history.workRoles, record.workRoleId);
     const date: IsoDate = makeIsoDate(record.determinedAt);
+    const cutoff = {
+      asOfDate: date,
+      historySequenceExclusive: record.sequence,
+    };
+    const workplace =
+      work && role ? payWorkplaceAt(world, work.id, cutoff) : null;
     if (
       seen.has(record.workRelationshipId) ||
       !work ||
@@ -252,7 +262,8 @@ export function assertWorkPayCoverageIntegrity(
       work.personId !== record.personId ||
       work.organizationId !== record.employerOrganizationId ||
       role.workRelationshipId !== work.id ||
-      role.locationJurisdictionId !== record.jurisdictionId ||
+      workplace?.jurisdictionId !== record.jurisdictionId ||
+      workRoleAt(world, work.id, cutoff)?.id !== record.workRoleId ||
       role.sequence >= record.sequence ||
       work.sequence >= record.sequence ||
       role.effectiveAt > date ||
