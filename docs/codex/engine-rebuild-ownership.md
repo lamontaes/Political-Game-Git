@@ -150,4 +150,3 @@ No generic resource creation hook is transferred. Opening and later hires both r
 ## A102 reference-channel clarification
 
 Team 4 confirmed that its judgment-only rentEvent release at f417d5f2183bc5ec3e2cfa263629321d0528463e includes provenance tags for actual court, seat and tenure records. Audit identified existing court and seat tag conventions. Historical filing IDs are also saved records, not canonical entities. Team 9 keeps the actual judge person as an entity and participant, validates the dated assignment before writing, and preserves base tags and nonjudgment branches. No registry, shared guard or civil-case schema expansion is granted. Tags preserve evidence; they do not establish authority.
-
