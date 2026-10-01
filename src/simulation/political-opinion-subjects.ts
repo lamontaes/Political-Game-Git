@@ -6,9 +6,21 @@ export interface PartyOpinionSubject {
   readonly key: string;
 }
 
+/** What a person thinks of one official: credit, blame, or both at once. */
+export interface OfficialOpinionSubject {
+  readonly kind: "official";
+  readonly personId: EntityId;
+}
+
 export function partyOpinionSubject(key: string): PartyOpinionSubject {
   requirePartyQuestion(key);
   return { kind: "party-question", key };
+}
+
+export function officialOpinionSubject(
+  personId: EntityId,
+): OfficialOpinionSubject {
+  return { kind: "official", personId };
 }
 
 export function requirePartyQuestion(key: string) {
@@ -21,11 +33,14 @@ export function privateBeliefSubjectId(
   belief: Pick<PrivateBeliefRecord, "propositionId" | "subject">,
 ): EntityId {
   if (belief.subject) {
-    if (
-      belief.subject.kind !== "party-question" ||
-      belief.propositionId !== null
-    )
-      throw new Error("Party opinions cannot reference policy propositions.");
+    if (belief.propositionId !== null)
+      throw new Error(
+        "Party and official opinions cannot reference policy propositions.",
+      );
+    if (belief.subject.kind === "official")
+      return `official:${belief.subject.personId}` as EntityId;
+    if (belief.subject.kind !== "party-question")
+      throw new Error("Invalid political opinion subject kind.");
     requirePartyQuestion(belief.subject.key);
     return `party-question:${belief.subject.key}` as EntityId;
   }
@@ -38,11 +53,21 @@ export function validatePrivateBeliefSubject(
   world: World,
   belief: Pick<
     PrivateBeliefRecord,
-    "propositionId" | "subject" | "optionKey" | "position"
+    "propositionId" | "subject" | "optionKey" | "position" | "personId"
   >,
 ): void {
   privateBeliefSubjectId(belief);
-  if (belief.subject) {
+  if (belief.subject?.kind === "official") {
+    if (
+      !world.people[belief.subject.personId] ||
+      belief.subject.personId === belief.personId ||
+      belief.optionKey !== undefined ||
+      belief.position === "uncertain"
+    )
+      throw new Error(
+        "A view of an official names another person in the world and takes a side.",
+      );
+  } else if (belief.subject) {
     if (
       belief.position !== "support" ||
       !requirePartyQuestion(belief.subject.key).options.some(

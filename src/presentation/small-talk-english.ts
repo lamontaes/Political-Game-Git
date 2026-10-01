@@ -1,6 +1,15 @@
 import { ageOnDate } from "../simulation";
 import { readRelationshipStanding } from "../simulation/relationship-standing";
-import type { OfficialViewRecord } from "../simulation/types";
+import {
+  officialViewReflectionEventKey,
+  strongestOfficialStanding,
+} from "../simulation/official-view-reads";
+import { officialsBehind } from "../simulation/living-world/official-views";
+import type {
+  LawExposureRecord,
+  OfficialViewRecord,
+  PrivateBeliefRecord,
+} from "../simulation/types";
 import type { EntityId, HistoricalEvent, World } from "../simulation";
 import {
   composeGroundedLine,
@@ -427,36 +436,66 @@ const OFFICIAL_VIEW: ComposedLineBank = {
 };
 
 /**
- * The view the speaker holds most strongly over one law: the official and law
- * whose reflections add up furthest from zero, the later one on a tie.
+ * The view the speaker holds most strongly of an official, with the law and
+ * the exposure behind it: their saved view (a private belief formed through
+ * the belief pipeline) and the reflection that formed it, or, in a save from
+ * before saved views, their latest old reflection row.
  */
 export function strongestOfficialView(
   world: World,
   speakerId: EntityId,
 ): {
-  readonly rows: readonly OfficialViewRecord[];
+  readonly officialId: EntityId;
   readonly points: number;
+  readonly belief: PrivateBeliefRecord | null;
+  readonly measureId: EntityId;
+  readonly act: OfficialViewRecord["act"];
+  readonly exposure: LawExposureRecord;
+  /** The saved view, or the old reflection row, the line speaks from. */
+  readonly sourceRecordId: EntityId;
 } | null {
-  const groups = new Map<string, OfficialViewRecord[]>();
-  for (const row of world.history.officialViews ?? []) {
-    if (row.personId !== speakerId || row.recordedAt > world.currentDate)
-      continue;
-    const key = `${row.officialId}:${row.measureId}`;
-    groups.set(key, [...(groups.get(key) ?? []), row]);
+  const view = strongestOfficialStanding(world, speakerId);
+  if (!view) return null;
+  if (view.belief) {
+    const formedFrom = new Set(view.belief.formation.relevantEventIds);
+    const reflection = world.history.events.find(
+      (event) =>
+        formedFrom.has(event.id) && event.type === "people.law-reflection",
+    );
+    const exposure = reflection
+      ? world.history.lawExposures?.find(
+          (row) => officialViewReflectionEventKey(row) === reflection.stableKey,
+        )
+      : undefined;
+    if (!exposure) return null;
+    const act = officialsBehind(world, exposure.measureId).find(
+      (row) => row.officialId === view.officialId,
+    )?.act;
+    if (!act) return null;
+    return {
+      officialId: view.officialId,
+      points: view.points,
+      belief: view.belief,
+      measureId: exposure.measureId,
+      act,
+      exposure,
+      sourceRecordId: view.belief.id,
+    };
   }
-  let best: { rows: OfficialViewRecord[]; points: number } | null = null;
-  for (const rows of groups.values()) {
-    const points = rows.reduce((sum, row) => sum + row.points, 0);
-    if (points === 0) continue;
-    if (
-      !best ||
-      Math.abs(points) > Math.abs(best.points) ||
-      (Math.abs(points) === Math.abs(best.points) &&
-        rows.at(-1)!.sequence > best.rows.at(-1)!.sequence)
-    )
-      best = { rows, points };
-  }
-  return best;
+  const latest = view.rows.at(-1);
+  const exposure = latest
+    ? world.history.lawExposures?.find((row) => row.id === latest.exposureId)
+    : undefined;
+  if (!latest || !exposure) return null;
+  return {
+    officialId: view.officialId,
+    points: view.points,
+    belief: null,
+    measureId: latest.measureId,
+    act: latest.act,
+    exposure,
+    sourceRecordId: latest.id,
+  };
 }
 
 /** A person saying what they think of an official over a law, or null. */
@@ -468,31 +507,28 @@ export function officialViewLine(
 ): SmallTalkLine | null {
   const view = strongestOfficialView(world, speakerId);
   if (!view) return null;
-  const latest = view.rows.at(-1)!;
-  const official = world.people[latest.officialId];
+  const official = world.people[view.officialId];
   const measure = world.history.legislativeMeasures?.find(
-    (row) => row.id === latest.measureId,
+    (row) => row.id === view.measureId,
   );
-  const exposure = world.history.lawExposures?.find(
-    (row) => row.id === latest.exposureId,
-  );
-  if (!official || !measure || !exposure) return null;
+  const exposure = view.exposure;
+  if (!official || !measure) return null;
   const via = exposure.viaPersonId ? world.people[exposure.viaPersonId] : null;
-  const sources = [latest.id, exposure.id];
+  const sources = [view.sourceRecordId, exposure.id];
   const flag = (key: string, ids: readonly EntityId[] = sources) => ({
     [key]: { text: key, sourceRecordIds: ids },
   });
   const facts: GroundedEnglishPacket["facts"] = {
     "official-name": {
       text: `${official.givenName} ${official.familyName}`,
-      sourceRecordIds: [latest.officialId, latest.id],
+      sourceRecordIds: [view.officialId, view.sourceRecordId],
     },
     "law-name": {
       text: measure.shortTitle,
       sourceRecordIds: [measure.id],
     },
     ...flag(view.points < 0 ? "blame" : "credit"),
-    ...flag(latest.act),
+    ...flag(view.act),
     ...flag(exposure.relation),
     ...(exposure.direction === "none" ? {} : flag(exposure.direction)),
     ...(via && exposure.relation === "family"
@@ -514,7 +550,7 @@ export function officialViewLine(
   };
   const packet: GroundedEnglishPacket = {
     surface: "dialogue",
-    momentKey: `official-view:${speakerId}:${playerPersonId}:${latest.id}:${history.length}`,
+    momentKey: `official-view:${speakerId}:${playerPersonId}:${view.sourceRecordId}:${history.length}`,
     worldSeed: world.seed,
     bankVersion: OFFICIAL_VIEW.version,
     stage: stageOf(world, speakerId),
@@ -522,7 +558,7 @@ export function officialViewLine(
     facts,
     speaker: { personId: speakerId, traits: {} },
     viewer: { personId: playerPersonId, traits: {} },
-    // The speaker's own reflection and exposure are the record of their
+    // The speaker's own saved view and exposure are the record of their
     // learning each of these: whom they judged, for what, and how it reached
     // them.
     knowledge: Object.keys(facts).map((factKey) => ({
