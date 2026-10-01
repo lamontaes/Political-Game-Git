@@ -1,4 +1,5 @@
-import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import { monthKeyOf, monthStart, nextMonthKey } from "./macro-economy/store";
+import { addDays, ageOnDate } from "./dates";
 import {
   futureDueItemStateAt,
   scheduleFutureDueItem,
@@ -325,15 +326,6 @@ function monthStartsCrossed(from: IsoDate, through: IsoDate): number {
 export const SPEECH_RETELLING_TRANSITION_KEY =
   "speech:monthly-retelling" as const;
 
-function nextRetellingDate(date: IsoDate): IsoDate {
-  const [year, month] = date.split("-").map(Number) as [number, number];
-  return makeIsoDate(
-    month === 12
-      ? `${year + 1}-01-01`
-      : `${year}-${String(month + 1).padStart(2, "0")}-01`,
-  );
-}
-
 function scheduleSpeechRetelling(world: World, dueAt: IsoDate): World {
   return scheduleFutureDueItem(world, {
     stableKey: `speech:monthly-retelling:${dueAt}`,
@@ -359,7 +351,10 @@ export function ensureSpeechRetellingSchedule(world: World): World {
     )
   )
     return world;
-  return scheduleSpeechRetelling(world, nextRetellingDate(world.currentDate));
+  return scheduleSpeechRetelling(
+    world,
+    monthStart(nextMonthKey(monthKeyOf(world.currentDate))),
+  );
 }
 
 /** The existing due resolver dates each pass and visits every crossed month. */
@@ -371,7 +366,7 @@ export function speechRetellingHandler(
     throw new Error("Speech retelling received another transition.");
   const next = scheduleSpeechRetelling(
     retellSpeeches(world),
-    nextRetellingDate(item.dueAt),
+    monthStart(nextMonthKey(monthKeyOf(item.dueAt))),
   );
   return {
     world: next,
