@@ -2,6 +2,8 @@ import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
+import type { ResolvedLawPayConsequence } from "../law-consequence-types";
+import { createStableId } from "../ids";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
  *
@@ -51,6 +53,7 @@ import { countyGeoidsForPlace } from "../government-units";
 import {
   growingIndex,
   hasStableKey,
+  recordById,
   recordsWithFieldValue,
   type GrowingIndexKind,
 } from "../history-index";
@@ -58,6 +61,7 @@ import {
   currentLifeCutoff,
   organizationProfileAt,
   workStatusAt,
+  workRoleAt,
 } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
@@ -844,6 +848,167 @@ const LAST_PERIOD_PAID: GrowingIndexKind<Map<EntityId, IsoDate>> = {
  * NOT MODELED: back pay. A law whose effective date comes before the day it
  * was recorded raises pay from the first period after it was recorded.
  */
+/** Applies one resolved legal floor to an actual job's prospective pay terms. */
+export function applyLawPayConsequence(
+  world: World,
+  resolved: ResolvedLawPayConsequence,
+): World {
+  const refuse = (capability: string): never => {
+    throw new Error(`Law pay consequence requires capability: ${capability}`);
+  };
+  if (resolved.action !== "raise-hourly-floor")
+    refuse("pay.raise-hourly-floor");
+  if (!resolved.rowId.trim() || !resolved.activityId.trim())
+    refuse("pay.row-and-activity-identity");
+  if (
+    resolved.amount.unit !== "minor/hour" ||
+    resolved.amount.currency !== "USD"
+  )
+    refuse("pay.amount.minor-per-hour-USD");
+  if (!Number.isFinite(resolved.amount.value) || resolved.amount.value < 0)
+    refuse("pay.amount.finite-nonnegative");
+  const effectiveAt = makeIsoDate(resolved.effectiveAt);
+  if (effectiveAt > world.currentDate) refuse("pay.activity.current-or-past");
+  const question = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === resolved.questionKey,
+  );
+  if (!question) refuse("pay.question.canonical");
+  const governing = lawInForce(
+    world,
+    resolved.jurisdictionId,
+    question!.id,
+    effectiveAt,
+  );
+  if (
+    !governing ||
+    governing.measureId !== resolved.law.measureId ||
+    governing.origin !== resolved.law.origin ||
+    governing.operativeAt !== resolved.law.operativeAt ||
+    governing.answer !== resolved.law.answer
+  )
+    refuse("pay.law.operative");
+  const work = recordById(world.history.workRelationships, resolved.workId);
+  const flow = recordById(world.history.resourceFlows, resolved.payFlowId);
+  if (!world.people[resolved.personId] || work?.personId !== resolved.personId)
+    refuse("pay.worker-and-job.binding");
+  if (
+    !flow ||
+    flow.recipient.kind !== "person" ||
+    flow.recipient.personId !== resolved.personId ||
+    flow.basisReference.kind !== "work" ||
+    flow.basisReference.workRelationshipId !== resolved.workId ||
+    flow.source.kind !== "organization" ||
+    flow.source.organizationId !== work!.organizationId
+  )
+    refuse("pay.flow-worker-employer.binding");
+  const cutoff = {
+    asOfDate: effectiveAt,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const role = workRoleAt(world, resolved.workId, cutoff);
+  if (
+    !role ||
+    work!.startedAt > effectiveAt ||
+    workStatusAt(world, resolved.workId, cutoff)?.status !== "active"
+  )
+    refuse("pay.job.active-with-recorded-hours");
+  const current = resourceFlowTermsAt(world, flow!.id);
+  if (!current || current.status !== "active") refuse("pay.flow.active-terms");
+  if (current!.amount.currency !== resolved.amount.currency)
+    refuse("pay.flow.currency-matches-amount");
+  const note = payNoteOf(current!.cadenceKind);
+  if (!note) refuse("pay.cadence.town-pay-period");
+  const weeklyHours = weeklyHoursOf(role!);
+  if (!Number.isFinite(weeklyHours) || weeklyHours <= 0)
+    refuse("pay.job.positive-recorded-hours");
+  const amount = Math.round(
+    (resolved.amount.value * weeklyHours * 52) / PERIODS_PER_YEAR[note!.period],
+  );
+  if (!Number.isSafeInteger(amount)) refuse("pay.period.amount-safe-integer");
+  // A floor cannot cut an existing contractual wage, including after repeal.
+  if (amount <= current!.amount.minorUnits) return world;
+  if (effectiveAt < current!.effectiveAt || effectiveAt < flow!.startsAt)
+    refuse("pay.terms.prospective");
+  if (
+    effectiveAt !== flow!.startsAt &&
+    !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase)
+  )
+    refuse("pay.period.starts-on-effective-date");
+  if (
+    recordsWithFieldValue(
+      world.history.resourceTransferOutcomes,
+      "resourceFlowId",
+      flow!.id,
+    ).some(
+      (paid) =>
+        paid.transferredAmount.minorUnits > 0 &&
+        paid.periodStartsAt <= effectiveAt &&
+        effectiveAt <= paid.periodEndsAt,
+    )
+  )
+    refuse("pay.period.unpaid");
+  const revision = createStableId(
+    "resource-flow-terms",
+    `law-pay-revision:${JSON.stringify([
+      resolved.law.measureId,
+      resolved.law.operativeAt,
+      [...new Set(resolved.sourceRecordIds)].sort(),
+    ])}`,
+  );
+  const stableKey = `law-pay:${resolved.rowId}:${revision}:${flow!.id}:${resolved.activityId}:${effectiveAt}`;
+  if (hasStableKey(world.history.resourceFlowTerms, stableKey))
+    refuse("pay.revision.unique-amount");
+  const enactment =
+    resolved.law.origin === "enacted"
+      ? recordsWithFieldValue(
+          world.history.legislativeEnactments ?? [],
+          "measureId",
+          resolved.law.measureId,
+        ).at(-1)
+      : undefined;
+  if (
+    resolved.law.origin === "enacted" &&
+    (!enactment || enactment.resolvedAt > effectiveAt)
+  )
+    refuse("pay.law.recorded-enactment");
+  const sourceRecordIds = [
+    ...new Set([
+      ...resolved.sourceRecordIds,
+      resolved.activityId,
+      work!.id,
+      role!.id,
+      flow!.id,
+      current!.id,
+      ...(enactment ? [enactment.id] : []),
+    ]),
+  ];
+  const stamp = lawEffectStamp(governing, {
+    effectKind: "law.pay-compensation",
+    questionKey: resolved.questionKey,
+    jurisdictionId: resolved.jurisdictionId,
+    appliedAt: effectiveAt,
+    sourceRecordIds,
+  });
+  if (!stamp) refuse("pay.attribution.canonical");
+  return recordResourceFlowTerms(world, {
+    stableKey,
+    resourceFlowId: flow!.id,
+    effectiveAt,
+    status: "active",
+    amount: money(amount, current!.amount.currency),
+    cadenceKind: current!.cadenceKind,
+    reason: `The operative law's pay floor applies through ${resolved.rowId}.`,
+    provenance: enactment
+      ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
+      : {
+          kind: "authored",
+          note: `Starting law ${resolved.law.measureId}; resolved pay row ${resolved.rowId}.`,
+        },
+    supersedesTermsId: current!.id,
+    lawEffectStamps: [stamp!],
+  });
+}
+
 export function raiseTownPayToMinimum(
   world: World,
   exceptPersonId: EntityId | null,
