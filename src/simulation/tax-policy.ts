@@ -632,7 +632,9 @@ export function assessTaxBase(
     subjectIds: [
       base.payer.kind === "person"
         ? base.payer.personId
-        : base.payer.organizationId,
+        : base.payer.kind === "household"
+          ? base.payer.householdId
+          : base.payer.organizationId,
     ],
     governingLawId: proposal.measureId,
   });
@@ -787,7 +789,9 @@ export function taxCollectionTransition(
       subjectIds: [
         base.payer.kind === "person"
           ? base.payer.personId
-          : base.payer.organizationId,
+          : base.payer.kind === "household"
+            ? base.payer.householdId
+            : base.payer.organizationId,
         proposal.publicOrganizationId,
       ],
       governingLawId: proposal.measureId,

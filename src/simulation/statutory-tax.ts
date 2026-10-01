@@ -19,6 +19,7 @@
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
 import { applyLawConsequences } from "./enacted-law-effects";
+import type { LawConsequenceContext } from "./law-consequence-types";
 import { createStableId } from "./ids";
 import { appendedList, recordById } from "./history-index";
 import {
@@ -203,16 +204,23 @@ function applySavedTaxActivities(
   liabilities: readonly StatutoryTaxLiabilityRecord[],
   payments: readonly StatutoryTaxPaymentRecord[],
 ): World {
-  let next = world;
+  const activities: { sequence: number; context: LawConsequenceContext }[] = [];
   for (const liability of liabilities) {
     const payer = liability.payer;
-    next = applyLawConsequences(next, {
-      onDate: liability.occurredAt,
-      activity: "assessment",
-      activityId: liability.id,
-      subjectIds: [
-        payer.kind === "person" ? payer.personId : payer.organizationId,
-      ],
+    activities.push({
+      sequence: liability.sequence,
+      context: {
+        onDate: liability.occurredAt,
+        activity: "assessment",
+        activityId: liability.id,
+        subjectIds: [
+          payer.kind === "person"
+            ? payer.personId
+            : payer.kind === "household"
+              ? payer.householdId
+              : payer.organizationId,
+        ],
+      },
     });
   }
   const seen = new Set<EntityId>();
@@ -220,12 +228,12 @@ function applySavedTaxActivities(
     if (seen.has(payment.resourceOutcomeId)) continue;
     seen.add(payment.resourceOutcomeId);
     const transfer = recordById(
-      next.history.resourceTransferOutcomes,
+      world.history.resourceTransferOutcomes,
       payment.resourceOutcomeId,
     );
     if (!transfer || transfer.transferredAmount.minorUnits <= 0) continue;
     const flow = recordById(
-      next.history.resourceFlows,
+      world.history.resourceFlows,
       transfer.resourceFlowId,
     );
     if (
@@ -234,14 +242,22 @@ function applySavedTaxActivities(
       flow.recipient.kind !== "organization"
     )
       continue;
-    next = applyLawConsequences(next, {
-      onDate: transfer.occurredAt,
-      activity: "payment",
-      activityId: transfer.id,
-      subjectIds: [flow.source.personId, flow.recipient.organizationId],
+    activities.push({
+      sequence: transfer.sequence,
+      context: {
+        onDate: transfer.occurredAt,
+        activity: "payment",
+        activityId: transfer.id,
+        subjectIds: [flow.source.personId, flow.recipient.organizationId],
+      },
     });
   }
-  return next;
+  // Bulk list commits do not change the canonical writer order of activities.
+  activities.sort((left, right) => left.sequence - right.sequence);
+  return activities.reduce(
+    (next, activity) => applyLawConsequences(next, activity.context),
+    world,
+  );
 }
 
 interface PendingTaxRows {
