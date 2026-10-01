@@ -19,8 +19,8 @@ import {
  * place. Each now starts every one of the 56 places at the latest published
  * level; a place no source reports starts at the national average and says so
  * in its row's note. Two researched links (police to violent crime, the speed
- * limit to traffic deaths) and one sized stand-in now act without new code,
- * because adding a base makes a measure readable and produced.
+ * limit to traffic deaths) now act without new code, because adding a base
+ * makes a measure readable and produced.
  */
 
 const PLACES = [
@@ -181,12 +181,16 @@ describe("the links these measures switch on", () => {
       expect(status(key), key).toBe("cause-not-recorded");
   });
 
-  it("a federal cut to mandatory minimums now reaches the state prison rate as a stand-in", () => {
+  it("a federal cut to mandatory minimums does not move the state prison rate: it waits for a federal-prisoner measure", () => {
     const link = OUTCOME_LINKS.find(
       (row) => row.key === "mandatory-minimum-cut-to-federal-prisoners",
     )!;
-    expect(link.to).toBe("justice.incarcerated-per-100k");
-    expect(outcomeLinkStatus(link)).toBe("built");
+    // Federal sentences change who is in federal prison, not state prisons.
+    expect(link.to).toBe("justice.federal-incarcerated-per-100k");
+    expect(PLACE_OUTCOME_BASES[link.to]).toBeUndefined();
+    expect(outcomeLinkStatus(link)).toBe("outcome-not-produced");
+    // The state prison measure itself is still recorded and produced.
+    expect(OUTCOMES_PRODUCED.has("justice.incarcerated-per-100k")).toBe(true);
   });
 });
 

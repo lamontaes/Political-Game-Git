@@ -19,5 +19,4 @@ drifts with the times, as the game's other measures do.
 
 Two effects now act. A state that hires more officers than it started with sees less
 violent crime, about 3.4% less for each 10% more. A state that raises its rural interstate
-speed limit sees more traffic deaths, about 3.8% more for each 5 miles an hour. A federal
-cut to mandatory minimum sentences now lowers each state's prison rate by about 0.8%.
+speed limit sees more traffic deaths, about 3.8% more for each 5 miles an hour.

@@ -3230,8 +3230,8 @@
     },
     {
       "key": "mandatory-minimum-cut-to-federal-prisoners",
-      "status": "built",
-      "unsupportedReason": null,
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3245,9 +3245,9 @@
       "source": "CBO cost estimate, Smarter Sentencing Act of 2014 (S. 1410); BJS Prisoners in 2022",
       "evidence": "provisional",
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "to": "justice.incarcerated-per-100k",
+      "to": "justice.federal-incarcerated-per-100k",
       "range": [-0.012, -0.004],
-      "notes": "Acts as a stand-in: the recorded measure is the BJS state imprisonment rate (state prisoners, 2023), which leaves out federal prisoners, and federal counts are kept by the prison's location, not the prisoner's home state. The link's 0.8% is the fall in the total (state plus federal) prison rate, so it is applied to each state's rate as the nearest recorded level. A national federal-prisoner measure would be the exact target."
+      "notes": "Waiting on a federal-prisoner measure: a federal sentencing cut changes who is in federal prison, not state prisons, so this link points at justice.federal-incarcerated-per-100k (federal prisoners per 100,000 residents), which the game does not record yet. The recorded prison measure, justice.incarcerated-per-100k, is the BJS state imprisonment rate and leaves out federal prisoners, so moving it would be a fake effect. Federal counts are kept by the prison's location, not the prisoner's home state, so a state-level federal measure needs its own source before the link can act."
     },
     {
       "key": "power-plant-carbon-to-emissions",
