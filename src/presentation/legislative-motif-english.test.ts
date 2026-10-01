@@ -19,7 +19,7 @@ import {
 import { observerPlace } from "./observer-world";
 
 /**
- * A160 part 2: four bargaining beats are worded by the English engine from
+ * A160 parts 2 and 3: seven bargaining beats are worded by the English engine from
  * their fact packets. Every part of every line copies a packet fact, and a
  * line asserts a state of the bill (nothing written for a place, a section
  * put in) only when the packet records it. The place is drawn from all 56 by
@@ -38,6 +38,7 @@ const speaker = createStableId("person", "a160b:speaker");
 const listener = createStableId("person", "a160b:listener");
 const measure = createStableId("legislative-measure", "a160b:measure");
 const provision = createStableId("legislative-provision", "a160b:provision");
+const analyst = createStableId("person", "a160b:analyst");
 
 const ALWAYS = {
   designation: { text: "HB 214", sourceRecordIds: [measure] },
@@ -45,6 +46,10 @@ const ALWAYS = {
   "section-label": { text: "Section 4", sourceRecordIds: [measure] },
   chamber: { text: "House of Representatives", sourceRecordIds: [measure] },
   "next-step": { text: "third reading", sourceRecordIds: [measure] },
+  "section-heading": {
+    text: "Local project match",
+    sourceRecordIds: [measure],
+  },
 } as const;
 
 const OPTIONAL: Readonly<Partial<Record<MotifFactKey, GroundedEnglishFact>>> = {
@@ -54,6 +59,8 @@ const OPTIONAL: Readonly<Partial<Record<MotifFactKey, GroundedEnglishFact>>> = {
   },
   place: { text: place.displayName, sourceRecordIds: [measure] },
   amount: { text: "$600,000", sourceRecordIds: [measure] },
+  "bill-amount": { text: "$8,600,000", sourceRecordIds: [provision] },
+  analyst: { text: "Rowe", sourceRecordIds: [analyst] },
   "stated-ground": {
     text: "The authority cannot raise the match from fare revenue.",
     sourceRecordIds: [measure],
@@ -196,6 +203,7 @@ describe("the bargaining room speaks these beats through the engine", () => {
       listenerPersonId: listener,
       measureId: measure,
       billAmountSourceIds: [measure],
+      analystPersonId: analyst,
       requestedSection: { adoptedProvisionId: adopted ? provision : null },
     },
   });
