@@ -10,6 +10,7 @@ export function recordEarnedPayObservations(
   world: World,
   outcomeIds: readonly EntityId[],
 ): World {
+  if (outcomeIds.length === 0) return world;
   const metricId = createStableId(
     "world-metric-definition",
     "definition:labor.aggregate-income",

@@ -526,6 +526,14 @@ it("A38 earned law raises only the actual completed interval without changing it
       .jurisdictionId,
   );
   expect(recordEarnedPayObservations(paid, [outcome.id])).toBe(paid);
+  expect(recordEarnedPayObservations(paid, [])).toBe(paid);
+  expect(observedPay[0]!.scope.segmentKey).toBe("payroll.earned.usd");
+  expect(observedPay[0]!.underlyingStateId).toBeNull();
+  expect(observedPay[0]!.referencePeriod).toEqual({
+    kind: "interval",
+    startsAt: period.periodStartsAt,
+    endsAt: period.periodEndsAt,
+  });
   expect(assessment.lawEffectStamps[0]!.sourceRecordIds).toEqual(
     expect.arrayContaining([
       assessment.id,
