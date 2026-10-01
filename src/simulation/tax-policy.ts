@@ -289,16 +289,19 @@ export function attachTaxProposal(
     },
     fiscalExposureLabel: null,
     fiscalExposureMinorUnits: null,
-    ...(exciseQuestion ? {
-      lawTerms: TAX_NUMERIC_LAW_TERMS.map((term) => ({
-        questionKey: exciseQuestion.stableKey,
-        key: term.key,
-        value: term.field === "effectiveDelayDays"
-          ? input.terms.effectiveDelayDays ?? 90
-          : input.terms[term.field],
-        unit: term.unit,
-      })),
-    } : {}),
+    ...(exciseQuestion
+      ? {
+          lawTerms: TAX_NUMERIC_LAW_TERMS.map((term) => ({
+            questionKey: exciseQuestion.stableKey,
+            key: term.key,
+            value:
+              term.field === "effectiveDelayDays"
+                ? (input.terms.effectiveDelayDays ?? 90)
+                : input.terms[term.field],
+            unit: term.unit,
+          })),
+        }
+      : {}),
     operativeEffect: { kind: "tax-policy" },
   });
   const levy = currentMeasureProvisions(next, measure.id).find(

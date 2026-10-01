@@ -1,5 +1,9 @@
 import { canonicalJson } from "./canonical-json";
-import { readFinalEnactedLawTerm, finalTermEnactment, finalTermProvisions } from "./governing/final-law-term-query";
+import {
+  readFinalEnactedLawTerm,
+  finalTermEnactment,
+  finalTermProvisions,
+} from "./governing/final-law-term-query";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import {
   currentLifeCutoff,
@@ -12,7 +16,12 @@ import {
   publicGovernmentIdentityForRecord,
   publicGovernmentOrganizationKey,
 } from "./public-government-identity";
-import { assertTaxTerms, taxPowerEvidenceFor, effectiveTaxPolicy, taxLevyText } from "./tax-policy";
+import {
+  assertTaxTerms,
+  taxPowerEvidenceFor,
+  effectiveTaxPolicy,
+  taxLevyText,
+} from "./tax-policy";
 import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import type { TaxTerms } from "./tax-types";
 import type {
@@ -144,15 +153,37 @@ export function bindTaxLawTerms(
     );
 
   const enactment = finalTermEnactment(world, input.law, input.questionKey);
-  const policy = effectiveTaxPolicy(world, proposal.jurisdictionId, proposal.terms.seriesKey, input.onDate);
-  const provision = enactment ? finalTermProvisions(world, proposal.measureId, enactment.sequence)
-    .find((row) => row.id === proposal.levyProvisionId) : undefined;
-  if (!enactment || !policy || policy.proposalId !== proposal.id ||
-      policy.enactmentId !== enactment.id || policy.recordedAt > input.onDate ||
-      policy.sequence >= input.cutoff.historySequenceExclusive || !provision ||
-      provision.text !== taxLevyText(proposal.terms) || provision.operativeEffect?.kind !== "tax-policy")
-    return unavailable("The exact adopted levy and saved operative tax policy must bind this proposal.");
-  const sourceIds: EntityId[] = [proposal.id, organization.id, profile.id, policy.id];
+  const policy = effectiveTaxPolicy(
+    world,
+    proposal.jurisdictionId,
+    proposal.terms.seriesKey,
+    input.onDate,
+  );
+  const provision = enactment
+    ? finalTermProvisions(world, proposal.measureId, enactment.sequence).find(
+        (row) => row.id === proposal.levyProvisionId,
+      )
+    : undefined;
+  if (
+    !enactment ||
+    !policy ||
+    policy.proposalId !== proposal.id ||
+    policy.enactmentId !== enactment.id ||
+    policy.recordedAt > input.onDate ||
+    policy.sequence >= input.cutoff.historySequenceExclusive ||
+    !provision ||
+    provision.text !== taxLevyText(proposal.terms) ||
+    provision.operativeEffect?.kind !== "tax-policy"
+  )
+    return unavailable(
+      "The exact adopted levy and saved operative tax policy must bind this proposal.",
+    );
+  const sourceIds: EntityId[] = [
+    proposal.id,
+    organization.id,
+    profile.id,
+    policy.id,
+  ];
   const numeric = {} as Record<
     (typeof TAX_NUMERIC_LAW_TERMS)[number]["field"],
     number
@@ -189,7 +220,13 @@ export function bindTaxLawTerms(
       "The adopted values are not valid existing typed TaxTerms.",
     );
   }
-  if (canonicalJson(terms) !== canonicalJson({ ...proposal.terms, effectiveDelayDays: proposal.terms.effectiveDelayDays ?? 90 }))
+  if (
+    canonicalJson(terms) !==
+    canonicalJson({
+      ...proposal.terms,
+      effectiveDelayDays: proposal.terms.effectiveDelayDays ?? 90,
+    })
+  )
     return unavailable(
       "Adopted terms differ from this frozen typed proposal; a supported revision is required.",
     );

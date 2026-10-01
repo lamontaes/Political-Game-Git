@@ -63,12 +63,20 @@ export function fileTaxProposalFromOffice(
   }
   if (!power || power.instrument !== "selective-excise")
     throw new Error("This filing requires sourced selective-excise authority.");
-  const level = power.level === "STATE" ? "state" : power.level === "COUNTY" ? "county" : "city";
+  const level =
+    power.level === "STATE"
+      ? "state"
+      : power.level === "COUNTY"
+        ? "county"
+        : "city";
   const questionKey = `us-tax-terms:${level}.excise-tax-terms`;
   const question = Object.values(world.policyCatalog.propositions).find(
     (row) => row.stableKey === questionKey,
   );
-  if (!question) throw new Error("The actual excise question is missing from this world's catalog.");
+  if (!question)
+    throw new Error(
+      "The actual excise question is missing from this world's catalog.",
+    );
   const sequence = (world.history.taxProposals ?? []).length + 1;
   let next = introduceMeasure(world, {
     stableKey: `${input.stableKey}:measure`,

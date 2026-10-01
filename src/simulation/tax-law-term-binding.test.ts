@@ -62,9 +62,17 @@ function fixture() {
     history: {
       nextSequence: 20,
       taxProposals: [proposal],
-      taxPolicies: [{ id: id("policy"), proposalId: proposal.id,
-        enactmentId: id("enactment"), sequence: 7, recordedAt: date,
-        effectiveAt: date, supersedesPolicyId: null }],
+      taxPolicies: [
+        {
+          id: id("policy"),
+          proposalId: proposal.id,
+          enactmentId: id("enactment"),
+          sequence: 7,
+          recordedAt: date,
+          effectiveAt: date,
+          supersedesPolicyId: null,
+        },
+      ],
       organizations: [
         {
           id: id("recipient"),
@@ -192,29 +200,32 @@ describe("adopted tax term consumer", () => {
 
   it("refuses an absent operative policy and historical numeric signature", () => {
     const f = fixture();
-    expectUnavailable(bindTaxLawTerms({ ...f.world, history: { ...f.world.history, taxPolicies: [] } }, f.input), "operative tax policy");
     expectUnavailable(
       bindTaxLawTerms(
-        f.world,
-        {
-          ...f.input,
-          cutoff: { ...f.input.cutoff, historySequenceExclusive: 10 },
-        },
+        { ...f.world, history: { ...f.world.history, taxPolicies: [] } },
+        f.input,
       ),
+      "operative tax policy",
+    );
+    expectUnavailable(
+      bindTaxLawTerms(f.world, {
+        ...f.input,
+        cutoff: { ...f.input.cutoff, historySequenceExclusive: 10 },
+      }),
       "historical",
     );
     expectUnavailable(
-      bindTaxLawTerms(
-        f.world,
-        { ...f.input, onDate: "2026-09-30" as World["currentDate"] },
-      ),
+      bindTaxLawTerms(f.world, {
+        ...f.input,
+        onDate: "2026-09-30" as World["currentDate"],
+      }),
       "historical",
     );
     expectUnavailable(
-      bindTaxLawTerms(
-        f.world,
-        { ...f.input, law: { ...f.input.law, origin: "in-force-at-start" } },
-      ),
+      bindTaxLawTerms(f.world, {
+        ...f.input,
+        law: { ...f.input.law, origin: "in-force-at-start" },
+      }),
       "Starting-law",
     );
   });
@@ -251,25 +262,32 @@ describe("adopted tax term consumer", () => {
                 ],
         },
       };
-      expectUnavailable(
-        bindTaxLawTerms(f.world, f.input),
-        "numeric term",
-      );
+      expectUnavailable(bindTaxLawTerms(f.world, f.input), "numeric term");
     }
   });
 
   it("refuses changed adopted text, a wrong levy and a mismatched policy", () => {
     for (const mutation of ["text", "levy", "policy"] as const) {
       const f = fixture();
-      f.world = { ...f.world, history: { ...f.world.history,
-        legislativeProvisions: f.world.history.legislativeProvisions!.map((row) => ({ ...row,
-          ...(mutation === "text" ? { text: "Changed levy" } : {}),
-          ...(mutation === "levy" ? { id: id("other-levy") } : {}),
-        })),
-        taxPolicies: f.world.history.taxPolicies!.map((row) => ({ ...row,
-          ...(mutation === "policy" ? { enactmentId: id("other-enactment") } : {}),
-        })),
-      }};
+      f.world = {
+        ...f.world,
+        history: {
+          ...f.world.history,
+          legislativeProvisions: f.world.history.legislativeProvisions!.map(
+            (row) => ({
+              ...row,
+              ...(mutation === "text" ? { text: "Changed levy" } : {}),
+              ...(mutation === "levy" ? { id: id("other-levy") } : {}),
+            }),
+          ),
+          taxPolicies: f.world.history.taxPolicies!.map((row) => ({
+            ...row,
+            ...(mutation === "policy"
+              ? { enactmentId: id("other-enactment") }
+              : {}),
+          })),
+        },
+      };
       expectUnavailable(bindTaxLawTerms(f.world, f.input), "adopted levy");
     }
   });
@@ -300,17 +318,17 @@ describe("adopted tax term consumer", () => {
   it("refuses unsupported authority, a different law and a wrong saved recipient", () => {
     const f = fixture();
     expectUnavailable(
-      bindTaxLawTerms(
-        f.world,
-        { ...f.input, questionKey: "us-tax-terms:state.income-tax-terms" },
-      ),
+      bindTaxLawTerms(f.world, {
+        ...f.input,
+        questionKey: "us-tax-terms:state.income-tax-terms",
+      }),
       "canonical tax question",
     );
     expectUnavailable(
-      bindTaxLawTerms(
-        f.world,
-        { ...f.input, law: { ...f.input.law, measureId: id("other") } },
-      ),
+      bindTaxLawTerms(f.world, {
+        ...f.input,
+        law: { ...f.input.law, measureId: id("other") },
+      }),
       "belong",
     );
     expectUnavailable(
@@ -326,9 +344,21 @@ describe("adopted tax term consumer", () => {
       ),
       "unsupported",
     );
-    expectUnavailable(bindTaxLawTerms({ ...f.world, history: {
-      ...f.world.history, taxProposals: [{ ...f.proposal, publicOrganizationId: id("other") }],
-    }}, f.input), "actual public account");
+    expectUnavailable(
+      bindTaxLawTerms(
+        {
+          ...f.world,
+          history: {
+            ...f.world.history,
+            taxProposals: [
+              { ...f.proposal, publicOrganizationId: id("other") },
+            ],
+          },
+        },
+        f.input,
+      ),
+      "actual public account",
+    );
   });
 
   it("validates exact shares and refuses adopted term repricing of the saved proposal", () => {

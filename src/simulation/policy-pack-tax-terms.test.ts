@@ -36,7 +36,8 @@ it("loads tax questions without assigning any rates or replacing existing questi
     if (row.key.endsWith(".excise-tax-terms")) {
       expect(row.consequences).toHaveLength(1);
       expect(row.consequences![0]).toMatchObject({
-        kind: "tax", when: "assessment",
+        kind: "tax",
+        when: "assessment",
         who: { selector: "recorded-tax-base-payer" },
         what: "assess-enacted-tax-base",
         amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
