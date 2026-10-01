@@ -50,4 +50,3 @@ Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
       Tests  59 passed (59)
    Start at  11:20:08
    Duration  11.64s (transform 8.34s, setup 19ms, import 10.32s, tests 1.19s, environment 0ms)
-
