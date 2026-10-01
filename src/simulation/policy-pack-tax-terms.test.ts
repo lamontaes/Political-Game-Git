@@ -49,3 +49,49 @@ it("keeps exact rational rates separate from occurrence allowances and timing", 
     ),
   ).toBe(false);
 });
+
+it("keeps state tax questions at their own level across all 56 jurisdictions", async () => {
+  const { createProductionPolicyCatalog } =
+    await import("./production-catalog");
+  const { stateJurisdictionForKey } = await import("./life-places");
+  const { STATES } = await import("./state-reference");
+  const { questionAuthority } = await import("./governing/question-authority");
+  const { NATIONAL_ELECTION_JURISDICTION } =
+    await import("./national-election-geography");
+  const policyCatalog = createProductionPolicyCatalog();
+  const world = { policyCatalog };
+  const stateQuestion = Object.values(policyCatalog.propositions).find(
+    (p) => p.stableKey === "us-tax-terms:state.income-tax-terms",
+  )!;
+  const federalQuestion = Object.values(policyCatalog.propositions).find(
+    (p) => p.stableKey === "us-tax-terms:federal.income-tax-terms",
+  )!;
+  expect(stateQuestion).toBeDefined();
+  expect(federalQuestion).toBeDefined();
+  let checked = 0;
+  for (const usps of Object.keys(STATES)) {
+    const place = stateJurisdictionForKey(`US-${usps}`)!;
+    expect(place).toBeDefined();
+    const withPlaces = { ...world, jurisdictions: { [place.id]: place } };
+    expect(
+      questionAuthority(withPlaces, place.id, federalQuestion.id).may,
+    ).toBe("no");
+    expect(questionAuthority(withPlaces, place.id, stateQuestion.id).dial).toBe(
+      "income-tax",
+    );
+    checked += 1;
+  }
+  expect(checked).toBe(56);
+  expect(
+    questionAuthority(
+      {
+        ...world,
+        jurisdictions: {
+          [NATIONAL_ELECTION_JURISDICTION.id]: NATIONAL_ELECTION_JURISDICTION,
+        },
+      },
+      NATIONAL_ELECTION_JURISDICTION.id,
+      stateQuestion.id,
+    ).may,
+  ).toBe("no");
+});
