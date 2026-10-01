@@ -1,0 +1,224 @@
+{
+  "baseMain": "b0477bb31c4a178720dd0b7483527d33d555ae24",
+  "sourceBlobs": {
+    "src/simulation/justice/clemency.ts": "764023762cf6b774119f55bfa34cd195b187ea7a",
+    "src/simulation/governing/state-governing.ts": "669f718ca8fc5110a510b896205ce34b41ecc7ed",
+    "src/simulation/justice/clemency-activation.test.ts": "12401ab68b3415b6b8f63ce3c27d63291bd58161"
+  },
+  "selectedPassed": 5,
+  "priorTestsNotRun": 15,
+  "durationSeconds": 97.88,
+  "command": "G12_ACTIVATION_PROOF_PATH=/tmp/team9-a10-office-main.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/clemency-activation.test.ts -t 'actual saved desk opening' --reporter=default --reporter=json --outputFile=/tmp/team9-a10-office-main-results.json",
+  "budgetsUnchanged": true,
+  "receipts": [
+    {
+      "source": "actual saved office opening",
+      "place": "US-IA",
+      "seed": "setup-v3:03167620dcc69a50:{\"v\":3,\"seed\":\"team9-g12-activation:US-IA\",\"placeKey\":\"1900190\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_b8877ba1e529462b",
+        "name": "Kendall Sharpe"
+      },
+      "successor": {
+        "id": "person_1dd7b31fc6f7c358",
+        "name": "Manuel Sharpe"
+      },
+      "officeTermId": "work-relationship_3c3c7e3eecce890c",
+      "openingDueId": "future-due-item_c7444d5c4c378ede",
+      "decisionId": "decision-trace_bddac3e2ccb59208",
+      "selectedOptionKey": "petition",
+      "newPetitionIds": ["event_f224bd7d4564bd14"],
+      "oldPetitionId": "event_965d733c27c36ea9",
+      "oldPetitionUnchanged": true,
+      "repeatedConsumer": "unchanged",
+      "staleSavedTerm": "unchanged",
+      "replay": "unchanged"
+    },
+    {
+      "source": "actual saved office opening",
+      "place": "US-LA",
+      "seed": "setup-v3:054d2986ef351724:{\"v\":3,\"seed\":\"team9-g12-activation:US-LA\",\"placeKey\":\"2200100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_15900ad6552ceb6b",
+        "name": "Solomon Villegas"
+      },
+      "successor": {
+        "id": "person_125ff26c1d3cbc18",
+        "name": "Monique Villegas"
+      },
+      "officeTermId": "work-relationship_ce1e2cdd64641108",
+      "openingDueId": "future-due-item_d28c44a0c565e86b",
+      "decisionId": "decision-trace_8df9fa284bdc79c2",
+      "selectedOptionKey": "petition",
+      "newPetitionIds": ["event_f012f3bbca25a63e"],
+      "oldPetitionId": "event_89ee74398a0e2be5",
+      "oldPetitionUnchanged": true,
+      "repeatedConsumer": "unchanged",
+      "staleSavedTerm": "unchanged",
+      "replay": "unchanged"
+    },
+    {
+      "source": "actual saved office opening",
+      "place": "US-TX",
+      "seed": "setup-v3:f645cf4998988163:{\"v\":3,\"seed\":\"team9-g12-activation:US-TX\",\"placeKey\":\"4800100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_941840896b7d59bc",
+        "name": "Emil Akhtar"
+      },
+      "successor": {
+        "id": "person_5dc92ab0a405224d",
+        "name": "Stella Akhtar"
+      },
+      "officeTermId": "work-relationship_831c3caaba50db03",
+      "openingDueId": "future-due-item_1c2f7e04e3f1f377",
+      "decisionId": "decision-trace_a4ae6e997e599609",
+      "selectedOptionKey": "petition",
+      "newPetitionIds": ["event_736dbbc86fd10633"],
+      "oldPetitionId": "event_c72b92519da5f629",
+      "oldPetitionUnchanged": true,
+      "repeatedConsumer": "unchanged",
+      "staleSavedTerm": "unchanged",
+      "replay": "unchanged"
+    },
+    {
+      "source": "actual saved office opening",
+      "place": "US-ND",
+      "seed": "setup-v3:ef5db13044d3125e:{\"v\":3,\"seed\":\"team9-g12-activation:US-ND\",\"placeKey\":\"3800100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_f36a897870e73d84",
+        "name": "Noor Long"
+      },
+      "successor": {
+        "id": "person_107692aaa7f60bb5",
+        "name": "Samuel Long"
+      },
+      "officeTermId": "work-relationship_225840718933d837",
+      "openingDueId": "future-due-item_041a12d54190113f",
+      "decisionId": "decision-trace_3c6a3c4dfcbfb559",
+      "selectedOptionKey": "petition",
+      "newPetitionIds": ["event_598bfa1a39fb1677"],
+      "oldPetitionId": "event_bcc77e1c2166e77a",
+      "oldPetitionUnchanged": true,
+      "repeatedConsumer": "unchanged",
+      "staleSavedTerm": "unchanged",
+      "replay": "unchanged"
+    },
+    {
+      "source": "actual saved office opening",
+      "place": "US-NJ",
+      "seed": "setup-v3:43ed6a73dd091626:{\"v\":3,\"seed\":\"team9-g12-activation:US-NJ\",\"placeKey\":\"3400160\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_9502f107c24ba5dc",
+        "name": "Monique Reeves"
+      },
+      "successor": {
+        "id": "person_88dcc27c5f2b9bed",
+        "name": "Jonah Reeves"
+      },
+      "officeTermId": "work-relationship_a9d3f9685f759f1f",
+      "openingDueId": "future-due-item_6961f1d587721aae",
+      "decisionId": "decision-trace_46b54e168fc5de16",
+      "selectedOptionKey": "petition",
+      "newPetitionIds": ["event_7b76ee76f54e3630"],
+      "oldPetitionId": "event_d85d07b67f69b839",
+      "oldPetitionUnchanged": true,
+      "repeatedConsumer": "unchanged",
+      "staleSavedTerm": "unchanged",
+      "replay": "unchanged"
+    }
+  ],
+  "limits": [
+    "Authored recorded successor election and dated term fixture, not natural election proof",
+    "Controlled person switches to actual saved successor",
+    "Unrelated saved due records canonically canceled for boundary isolation",
+    "No sentence callback included in production prosecution.ts",
+    "Exact Audit selected Iowa PASS read; no native five-case acceptance or profiling cause; opening/load integration remains separate",
+    "Existing A98 unseated-board gap not repaired",
+    "Weekly request producer and court fallbacks remain",
+    "No year/browser/whole-suite/national completion"
+  ],
+  "scopedChecks": {
+    "typeRoots": 3,
+    "typeDiagnostics": 0,
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "whitespace": "PASS",
+    "report": "0 errors, 0 warnings",
+    "release": "PASS before source commit; declaration range renewed after commit",
+    "zeroDice": "FAIL: 0 new, 5 inherited removed allowlisted lines; baseline untouched"
+  },
+  "externalAuditReceipt": {
+    "sourceHead": "af96d169c695bc5ed6063740919d14811e733f40",
+    "session": 44878,
+    "exitCode": 0,
+    "method": "Read-only Git-backed loader; untouched terminal saves; advanceObservedWorld(world,1) via default composeWorldTimeHandlers; existing due resolver repeat",
+    "command": "npm run storage -- run test -- node --expose-gc /tmp/audit-clemency-saved-run.mjs",
+    "heapMegabytes": 6144,
+    "originalCampaignHead": "2ce5f65",
+    "team9Execution": false,
+    "readFrom": "00c saved clemency boundary receipt",
+    "boundaries": [
+      {
+        "place": "Proctor, Vermont",
+        "person": "Elizabeth Snider",
+        "personId": "person_780d00d28a0edae5",
+        "date": "2028-03-12",
+        "dueItemId": "future-due-item_78ca9d04d7363952",
+        "reason": "justice:clemency-already-closed",
+        "statesAfterDay": 2,
+        "statesAfterRepeat": 2,
+        "outcomeEventId": null
+      },
+      {
+        "place": "Fair Oaks, Oklahoma",
+        "person": "Ryan Banks",
+        "personId": "person_7330e7c9b63fb8a7",
+        "date": "2027-10-08",
+        "dueItemId": "future-due-item_83e65efacc58d96d",
+        "reason": "justice:clemency-reviewed",
+        "statesAfterDay": 2,
+        "statesAfterRepeat": 2,
+        "outcomeEventId": "event_76fbdca39efaac33"
+      },
+      {
+        "place": "Derry, New Hampshire",
+        "person": "Eric Underwood",
+        "personId": "person_975396b34d15cdb1",
+        "date": "2028-02-07",
+        "dueItemId": "future-due-item_2310ab2f7eb442f0",
+        "reason": "justice:clemency-already-closed",
+        "statesAfterDay": 2,
+        "statesAfterRepeat": 2,
+        "outcomeEventId": null
+      }
+    ],
+    "scope": "Observed missing-handler boundaries only; no granted-clemency, Iowa-timing, opening/load-overdue or five-year claim"
+  },
+  "externalIowaReceipt": {
+    "sourceHead": "c4b2d86d40b100a55b1e7c86a1f2aac98115784b",
+    "operatorSession": 16908,
+    "exitCode": 0,
+    "selectedPassed": 1,
+    "unselected": 4,
+    "caseSeconds": 15.47,
+    "totalSeconds": 40.38,
+    "importSeconds": 24.77,
+    "originalTest": "src/simulation/justice/clemency-request-activities.test.ts",
+    "originalAssertionExpressionParents": 19,
+    "testTimeoutMilliseconds": 30000,
+    "originalTestSha256": "2644a16b9786262cf8c21ddd9a7f2eb555e32957becb6e5be71d85295e6f8572",
+    "originalShaVerifiedByTeam9": true,
+    "instrumentedTestSha256": "3496c930a105d4a813f27d98e217eba29bee572b9198fe2e09381d126ccf6ad0",
+    "method": "Read-only Git loader with original assertion parents and private measurement wrappers; installed tooling remains physical",
+    "command": "NODE_OPTIONS=--max-old-space-size=4096 VITE_CONFIG_NATIVE_IGNORE_WARNING=true OCD_STORAGE_STATE_DIR=/workspace/Political-Game-Git/docs/codex/audit-systems/storage-state npm run storage -- run test -- npx --no-install vitest run --config /tmp/audit-iowa-profile.config.mts scripts/engine-proof/iowa-request-profile.test.ts -t US-IA",
+    "profile": "NO RESULT; no phase observations emitted",
+    "team9Execution": false,
+    "petitionerIdentityExported": false,
+    "limits": [
+      "No native clean-checkout or five-case acceptance",
+      "No earlier-timeout cause inferred",
+      "No repeated run solely for timing logs",
+      "No petitioner identity borrowed from another receipt"
+    ]
+  }
+}

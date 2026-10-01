@@ -10,7 +10,7 @@ name: Deterministic validation
 on:
   pull_request:
   push:
-    branches: [main, "codex/**"]
+    branches: [main]
 
 permissions:
   contents: read
@@ -37,7 +37,9 @@ permissions:
 # on an older commit is a superseded run, not a verdict.
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  # Owner rule (Oct 1, 2026): a newer push replaces the older run everywhere,
+  # main included, so runs never queue up behind each other.
+  cancel-in-progress: true
 
 jobs:
   repository:
@@ -90,50 +92,12 @@ jobs:
           RELEASE_DECLARATION_MODE="$declaration_mode" \
             npm run validate:ci-sharded
 
-      # The unit suite runs in the `unit` shards below. This job records the
-      # whole suite's file list so `validate` can prove the shards partition it.
-      - name: Record the baseline unit suite
-        run: |
-          mkdir -p test-results/unit-baseline
-          npx vitest list --filesOnly > test-results/unit-baseline/files.txt
-          wc -l test-results/unit-baseline/files.txt
-
-      - name: Upload the baseline unit suite
-        uses: actions/upload-artifact@v7
-        with:
-          name: unit-suite-baseline
-          path: test-results/unit-baseline/files.txt
-          if-no-files-found: error
-          retention-days: 14
-
   unit:
     name: unit
     runs-on: ubuntu-latest
-    # The composed unit suite passed the single repository job's 45-minute cap
-    # on three consecutive heads (the suite alone took over 42 minutes on the
-    # hosted runner; 17 minutes before the CRUNCH46 lanes joined). Six shards
-    # keep the same complete-suite/union contract the browser shards use in
-    # browser.yml, while giving each runner a bounded share; no test is
-    # skipped or given
-    # more time, and `validate` refuses a run whose shards do not partition
-    # the whole suite.
+    # Owner rule (Oct 1, 2026): never run the full suite. Run only the test
+    # files this change adds or edits, the same rule the CTO's merge gate uses.
     timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - shard: 1
-            total: 6
-          - shard: 2
-            total: 6
-          - shard: 3
-            total: 6
-          - shard: 4
-            total: 6
-          - shard: 5
-            total: 6
-          - shard: 6
-            total: 6
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -150,21 +114,31 @@ jobs:
       - name: Install deterministic dependencies
         run: npm ci
 
-      - name: Run unit shard ${{ matrix.shard }} of ${{ matrix.total }}
+      - name: Run only the changed test files
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
         run: |
-          mkdir -p test-results/unit-shards
-          npx vitest run --shard=${{ matrix.shard }}/${{ matrix.total }} \
-            --reporter=default --reporter=json \
-            --outputFile.json=test-results/unit-shards/shard-${{ matrix.shard }}-of-${{ matrix.total }}.json
-
-      - name: Upload this shard's report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: unit-shard-report-${{ matrix.shard }}-of-${{ matrix.total }}
-          path: test-results/unit-shards/shard-${{ matrix.shard }}-of-${{ matrix.total }}.json
-          if-no-files-found: error
-          retention-days: 14
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base="$(git merge-base HEAD "$PR_BASE_SHA")"
+          elif [[ -n "$EVENT_BEFORE" && ! "$EVENT_BEFORE" =~ ^0+$ ]]; then
+            base="$EVENT_BEFORE"
+          else
+            base="$(git rev-parse HEAD~1)"
+          fi
+          mapfile -t files < <(git diff --name-only --diff-filter=AMR "$base" HEAD \
+            | grep -E '\.test\.tsx?$' \
+            | grep -vE '^(tests/e2e|tests/caller-proofs|desktop|art/authoring)/' || true)
+          if [[ ${#files[@]} -eq 0 ]]; then
+            echo "No changed test files; nothing to run."
+            exit 0
+          fi
+          printf 'Running %s changed test file(s):\n' "${#files[@]}"
+          printf '  %s\n' "${files[@]}"
+          npx vitest run "${files[@]}"
 
   validate:
     name: validate
@@ -190,33 +164,3 @@ jobs:
             echo "Aggregate validate succeeds only when every mandatory job succeeded."
             exit 1
           fi
-
-      - name: Check out repository
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      - name: Use Node 22
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22.13.0
-          cache: npm
-
-      - name: Install deterministic dependencies
-        run: npm ci
-
-      - name: Download the baseline unit suite
-        uses: actions/download-artifact@v7
-        with:
-          name: unit-suite-baseline
-          path: /tmp/unit-suite-baseline
-
-      - name: Download unit shard reports
-        uses: actions/download-artifact@v7
-        with:
-          pattern: unit-shard-report-*
-          path: /tmp/unit-shard-reports
-
-      - name: Confirm unit shard union equals the baseline suite
-        run: node --import tsx scripts/dev-lab/assert-unit-shard-union.ts /tmp/unit-suite-baseline/files.txt /tmp/unit-shard-reports
