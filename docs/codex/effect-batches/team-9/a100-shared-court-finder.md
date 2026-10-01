@@ -66,3 +66,7 @@ The civil guard is the already-published A102 source at `5fd1c48a5e8074cd5a7fc9d
 Remaining A100 gaps are the admitted federal review question/precedent binding and actual federal trial forum. A103 remains blocked on the explicit schema and decision contract; A10 load recovery remains separately routed to Audit. No merge, full-row closure, or new runtime rate is claimed.
 
 Scoped TypeScript checked 1,152 files with 0 diagnostics. Six-file lint and formatting, zero-dice, diff check, and the report checker passed. Release check fails on unchanged main declaration `ci-changed-tests-only.md` for the word “merge.” Candidate and main share blob `d6c9921a82b800d9c0b27d0a9da55c2feb676ff8`, and the main-to-main comparison reproduces the same failure. No unrelated declaration is modified.
+
+## Ordered A10 composition renewal
+
+The ordered A10 payload at cc763a1e30e07558ca904a3f2272b6a4c129cf91 is now composed additively at 9028c327fa668df88576db55c1b7ff59ee90a763. The same three complete focused files passed 16/16 in 185.90 seconds with unchanged 30-second limits and one worker. The original 8643/e800 candidate and 16/16 receipt remain preserved in history. A10 retains its exact 13/13 separate receipt; this court-lookup renewal does not rerun that separate boundary proof or establish browser/final-main acceptance. Both candidates remain draft pending CTO review. A103 preparation follows this ordered bounded renewal.
