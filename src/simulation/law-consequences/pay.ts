@@ -46,6 +46,7 @@ import {
 import {
   stateJurisdictionForKey,
   stateKeyForJurisdiction,
+  lifePlaceByJurisdictionId,
 } from "../life-places";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import { resourceTransferTermsCutoff } from "../resources";
@@ -524,7 +525,11 @@ export function resolveSavedHourlyPayConsequences(
     const place = workplace.jurisdictionId
       ? world.jurisdictions[workplace.jurisdictionId]
       : null;
-    const stateKey = place ? stateKeyForJurisdiction(place) : null;
+    const stateKey = place
+      ? (stateKeyForJurisdiction(place) ??
+        lifePlaceByJurisdictionId(place.id)?.stateJurisdictionKey ??
+        null)
+      : null;
     if (!stateKey) continue;
     const match = matchPayCoveragePredicates(
       world,
