@@ -1,3 +1,39 @@
+## October 1, 5:34 a.m. adult opening transfer CLOSED
+
+Team 4 owns only the normal adult-start import and seatLocalBusinesses invocation ordering around hireAtAdultStart in src/presentation/production-world.ts. Audit released this exact scope with no unpublished overlap. Coordinator verified main 072634b352c182c0ee75abe59e1e73e772ed73e4 blob 74ad6aef164a2bb568952ed3fe229be9c73fd399.
+
+Audit retains its unpublished terminal-opening hook at 3c5b61e2, source blob 1b367ff884ac7553fb3b18092f1927b0e44859f0. Preserve age and adultStartWorkVersion guards, both pre-start paths, salary, living costs, monthly scheduling, coverage, final law dispatch and load recovery. The actual employer producer precedes adult hiring. Team 4 owns the matching opening-life-recorded-employer.test.ts; no substitute employers or post-opening repair writer is admitted.
+
+Release delivered to Team 4. Runtime integration and natural-opening proof remain pending.
+
+## October 1, 5:30 a.m. subject-response caller and core repair
+
+Team 8 owns only the existing answer adapter in src/presentation/office-response.ts and MatterItem.answer argument/statement forwarding in src/player/PressDeskPanel.tsx. It reports both paths clean in its leased workspace and shared checkout, matching main 072634b352c182c0ee75abe59e1e73e772ed73e4. Preserve confirmation, the world callback and exact chosen words. This does not grant a new scheduler or a broad player-workspace rewrite. NPC finding-boundary admission remains separate.
+
+Coordinator resolved only enacted-law-effects.ts, law-consequence-types.ts, law-effect-stamp.ts and its test for Team 3's pending main merge. Published 714d393fe5bf4c770ac432c29aa60034ecabba4b preserves both authority contracts. Team 3 may receive these exact four blobs while retaining all its own unpublished city/default-test bytes.
+
+Team 4 owns opening-life-recorded-employer.test.ts preparation. Production caller transfer remains pending the exact Audit receipt; Audit reports no overlap with its unpublished terminal-law hook. No whole-file transfer is inferred.
+
+## October 1, 5:17 a.m. privacy caller transfer CLOSED
+
+Team 1 released to Team 6 only the privacyLaw import/read, recurring privacyCost calculation, saved business occurrence/stamp append in src/simulation/living-world/town-finances.ts, and the necessary optional historical privacy-occurrence field in town-finance-types.ts. All other treasury, pay, ledger, business and type hunks remain protected. The separate bank release is unchanged.
+
+Published source: main 9891ad2ebdfde4bb79869ae290d26ba98eefe425. Coordinator independently verified blobs fc4c88b8147210dcba41250e2f0efa86cc4355d6 and 554bf9b1a595135eb8333050708548dcabccfe98. Team 1 reports those match clean local f7e13aba37955556fca1d879cfdad4ecec5aed58 with no unpublished overlap. Release relayed to Team 6; implementation must refuse a charge without admitted applicability evidence.
+
+## October 1, 5:01 a.m. shared predicate and integration ownership
+
+The coordinator owns pay.ts, pay-rows.ts and the approved elective-office case in pay-coverage-predicates.ts. Team 3 acknowledged no overlap and retains minimum-wage readers and actual payroll tests. Published exception: 4d150a17f06d83407c58425d243051b7c1f84c81. City admission composition: 44e9a2f70239212e2cf20576c515520dd76cb03d.
+
+Team 8's existing press ownership includes one additive export in press/index.ts for finding-subject-response. Team 9's prosecution and clemency scheduling remains protected. Audit owns the caller-contract analysis, not a parallel subject scheduler.
+
+Team 6's additional town-finances privacy-cost caller transfer is requested from Team 1 and remains pending. Its previously released drawBankShape call/helper/import remains separate. Preserve all other financial writers and unpublished work.
+
+## October 1, 4:24 a.m. budget consumer transfer
+
+Team 6 released to Team 1 only the general-budget recognition, final enacted program-clause loop and necessary imports inside appropriationFromEnactedMeasure in program-governing.ts. The clean published release is 583cdf069234a2d1f28b88721106c50b17ad23e4, with file blob 7a78c1c8663a1cc952b1cab5df991921e6964687. Team 6 confirmed no unpublished bytes or competing edits in this part. Team 1 received the transfer and owns that adapter now.
+
+Preserve all service, operator, capacity, transit and other appropriation paths. The existing adopted-appropriation writer remains the survivor. This transfer does not authorize invented spending, governor requests or fiscal dates. The biennial authority-window question remains with the CTO.
+
 ## October 1, 4:12 a.m. current transfers and overrides
 
 - CTO 3:41 defers groundwater. This supersedes the older 3:20 Team 4 assignment below. Preserve its source; no new parcel or well proxy.

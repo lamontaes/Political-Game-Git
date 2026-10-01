@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { CRISIS_FUNDING_ROWS } from "./crisis-response-funding-rows";
-import { ensureCrisisStandingAppropriations } from "./crisis-standing-appropriations";
+import {
+  ensureCrisisStandingAppropriations,
+  standingCrisisAuthority,
+} from "./crisis-standing-appropriations";
+import { applyLawConsequences } from "./enacted-law-effects";
+import { lawEffectStamp } from "./law-effect-stamp";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
 import { stateJurisdictionForKey } from "./life-places";
 import { createWorld } from "./world";
@@ -73,6 +78,31 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
       expect(record.sourceMeasureId).toBeNull();
       expect(record.basis.kind).toBe("sourced");
       expect(record.basis.note).toContain(amount.sourceQuote);
+      expect(standingCrisisAuthority(world, record.id, date)).toEqual({
+        kind: "standing-program-appropriation",
+        appropriationId: record.id,
+        programKey: record.programKey,
+        jurisdictionId: record.jurisdictionId,
+        accountOrganizationId: record.accountOrganizationId,
+        publicGovernmentIdentity: record.publicGovernmentIdentity,
+        availableFrom: record.availableFrom,
+        availableThrough: record.availableThrough,
+        sourceBasis: record.basis,
+      });
+      expect(
+        standingCrisisAuthority(
+          world,
+          record.id,
+          addDays(record.recordedAt, -1),
+        ),
+      ).toBeNull();
+      expect(
+        standingCrisisAuthority(
+          world,
+          record.id,
+          addDays(record.availableThrough, 1),
+        ),
+      ).toBeNull();
       expect(
         resourcePositionAt(
           world,
@@ -235,6 +265,48 @@ describe("sourced standing 988 authority uses the existing appropriation path", 
     expect(paid.installment.status).toBe("posted");
     const outcome = paid.world.history.resourceTransferOutcomes.at(-1)!;
     expect(outcome.transferredAmount).toEqual(money(100, "USD"));
+    const authority = standingCrisisAuthority(
+      paid.world,
+      appropriation.id,
+      paid.world.currentDate,
+    );
+    expect(authority).not.toBeNull();
+    expect(
+      standingCrisisAuthority(
+        paid.world,
+        funded.recordId,
+        paid.world.currentDate,
+      ),
+    ).toBeNull();
+    // Payment is a saved financial fact, not a completed recipient activity.
+    expect(
+      lawEffectStamp(authority, {
+        effectKind: "government-program-payment",
+        questionKey: null,
+        jurisdictionId: appropriation.jurisdictionId,
+        appliedAt: paid.world.currentDate,
+        sourceRecordIds: [appropriation.id, appropriation.eventId, outcome.id],
+      }),
+    ).toBeNull();
+    const paymentBytes = serializeWorld(paid.world);
+    const attemptDelivery = (input: typeof paid.world) =>
+      applyLawConsequences(input, {
+        onDate: input.currentDate,
+        activity: "service",
+        activityId: paid.installment.id,
+        subjectIds: [governor.personId],
+        standingAppropriationId: appropriation.id,
+      });
+    expect(serializeWorld(attemptDelivery(paid.world))).toBe(paymentBytes);
+    const paymentReloaded = deserializeWorld(paymentBytes);
+    expect(serializeWorld(attemptDelivery(paymentReloaded))).toBe(paymentBytes);
+    expect(
+      standingCrisisAuthority(
+        paymentReloaded,
+        appropriation.id,
+        paymentReloaded.currentDate,
+      ),
+    ).toEqual(authority);
     expect(
       programPosition(paid.world, appropriation.programKey, appropriation.id)
         .posted,

@@ -11,9 +11,12 @@ import { publicProgramRecords } from "./public-program-integrity";
 import { residenceStateKey } from "./statutory-tax";
 import { createScheduledActivity } from "./time-work";
 import { recordWorldEvent } from "./world";
+import { standingCrisisAuthority } from "./crisis-standing-appropriations";
+import type { StandingProgramAuthority } from "./law-consequence-types";
 import {
   SERVICE_RECIPIENT_KIND,
   SERVICE_REQUEST_FORMS,
+  standingServiceProgram,
 } from "./law-consequences/service-delivered-data";
 import type {
   EntityId,
@@ -101,8 +104,78 @@ export function serviceLawForCommitment(
   return null;
 }
 
+/**
+ * What lets this commitment's money buy a service a resident can ask for:
+ * the service law in force it was appropriated under, or a standing, sourced
+ * appropriation of a service program (988 crisis response) whose recipient is
+ * a kind of organization that can operate that service.
+ */
+export type ServiceAuthority =
+  | {
+      readonly kind: "law";
+      readonly appropriation: PublicProgramAppropriationRecord;
+      readonly questionKey: string;
+      readonly law: LawInForce;
+    }
+  | {
+      readonly kind: "standing";
+      readonly appropriation: PublicProgramAppropriationRecord;
+      readonly questionKey: string;
+      readonly standing: StandingProgramAuthority;
+    };
+
+export function serviceAuthorityForCommitment(
+  world: World,
+  commitment: PublicProgramCommitmentRecord,
+  onDate: World["currentDate"],
+): ServiceAuthority | null {
+  const enacted = serviceLawForCommitment(world, commitment, onDate);
+  if (enacted) return { kind: "law", ...enacted };
+  const appropriation = recordById(
+    publicProgramRecords(world),
+    commitment.appropriationId,
+  );
+  if (
+    !appropriation ||
+    appropriation.kind !== "appropriation" ||
+    appropriation.jurisdictionId !== commitment.jurisdictionId
+  )
+    return null;
+  const program = standingServiceProgram(appropriation.programKey);
+  const standing = program
+    ? standingCrisisAuthority(world, appropriation.id, onDate)
+    : null;
+  if (!program || !standing) return null;
+  return {
+    kind: "standing",
+    appropriation,
+    questionKey: program.questionKey,
+    standing,
+  };
+}
+
+/** The recipient is a kind of organization that can operate this service. */
+export function eligibleServiceOperator(
+  world: World,
+  authority: ServiceAuthority,
+  organizationId: EntityId,
+  onDate: World["currentDate"] = world.currentDate,
+): boolean {
+  if (authority.kind === "law") return true;
+  const program = standingServiceProgram(authority.appropriation.programKey);
+  const classification = organizationProfileAt(world, organizationId, {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  })?.classification;
+  return (
+    !!program &&
+    !!classification &&
+    program.operatorClassifications.includes(classification)
+  );
+}
+
 /** The person's recorded home is in the place the program serves. */
-function livesInServiceArea(
+export function livesInServiceArea(
   world: World,
   personId: EntityId,
   jurisdictionId: EntityId,
@@ -159,10 +232,18 @@ export function requestPublicService(
     return unsupported(
       "This commitment pays no operator, so no service can run.",
     );
-  const served = serviceLawForCommitment(world, commitment, world.currentDate);
+  const served = serviceAuthorityForCommitment(
+    world,
+    commitment,
+    world.currentDate,
+  );
   if (!served)
     return unsupported(
-      "No service law in force appropriated the money behind this commitment.",
+      "No service law in force or standing service authority appropriated the money behind this commitment.",
+    );
+  if (!eligibleServiceOperator(world, served, operatorId))
+    return unsupported(
+      "The paid recipient is not a kind of organization that can provide this service.",
     );
   const form = SERVICE_REQUEST_FORMS[served.questionKey];
   if (!form)

@@ -8,12 +8,14 @@ import {
   recordProgramAppropriation,
 } from "./governing/public-program";
 import { stateJurisdictionForKey } from "./life-places";
+import type { StandingProgramAuthority } from "./law-consequence-types";
+import { publicProgramRecords } from "./public-program-integrity";
 import { money } from "./resources";
 import {
   ensurePublicGovernmentAccount,
   publicTaxAccountForIdentity,
 } from "./tax-policy";
-import type { World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
 /** Authority only: no grant receipt, commitment, staff or service is inferred. */
 export function ensureCrisisStandingAppropriations(world: World): World {
@@ -63,4 +65,44 @@ export function ensureCrisisStandingAppropriations(world: World): World {
     }
   }
   return next;
+}
+
+/**
+ * Read the actual saved authority for the existing service handler. This does
+ * not resolve attendance, create a service row, or stamp an operating payment
+ * as delivery. The shared dispatcher validates this authority against the same
+ * saved record and requires its actual appropriation/event source IDs.
+ */
+export function standingCrisisAuthority(
+  world: World,
+  appropriationId: EntityId,
+  onDate: IsoDate,
+): StandingProgramAuthority | null {
+  const record = publicProgramRecords(world).find(
+    (candidate) => candidate.id === appropriationId,
+  );
+  if (
+    record?.kind !== "appropriation" ||
+    !record.programKey.startsWith("behavioral-health-crisis-response:") ||
+    record.sourceMeasureId != null ||
+    record.basis.kind !== "sourced" ||
+    !record.basis.note.trim() ||
+    record.recordedAt > onDate ||
+    record.availableFrom > onDate ||
+    record.availableThrough < onDate
+  )
+    return null;
+  return {
+    kind: "standing-program-appropriation",
+    appropriationId: record.id,
+    programKey: record.programKey,
+    jurisdictionId: record.jurisdictionId,
+    accountOrganizationId: record.accountOrganizationId,
+    publicGovernmentIdentity: record.publicGovernmentIdentity
+      ? { ...record.publicGovernmentIdentity }
+      : undefined,
+    availableFrom: record.availableFrom,
+    availableThrough: record.availableThrough,
+    sourceBasis: { ...record.basis },
+  };
 }
