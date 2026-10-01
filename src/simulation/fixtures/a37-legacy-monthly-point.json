@@ -1,0 +1,31 @@
+{
+  "sourceHead": "da390c83ec2ca740dc9ad10adb554d1881c9bca7",
+  "worldId": "world_69cc912c37086d1b",
+  "resourceFlowId": "resource-flow_a62d6d66a4256118",
+  "baseHistorySha256": "573e0f69f67e2b4250de8c45d59079ad47dc776ed568b719932555d92697b268",
+  "outcome": {
+    "stableKey": "fixture:legacy-paid",
+    "resourceFlowId": "resource-flow_a62d6d66a4256118",
+    "periodStartsAt": "2026-01-20",
+    "periodEndsAt": "2026-01-20",
+    "occurredAt": "2026-01-20",
+    "status": "completed",
+    "attemptedAmount": {
+      "minorUnits": 500000,
+      "currency": "USD"
+    },
+    "transferredAmount": {
+      "minorUnits": 500000,
+      "currency": "USD"
+    },
+    "reasonKind": null,
+    "note": "Explicit saved legacy payment",
+    "provenance": {
+      "kind": "authored",
+      "note": "Explicit monthly contract/cash controls; not observed business income."
+    },
+    "id": "resource-transfer-outcome_048583668b6a1214",
+    "sequence": 13
+  },
+  "nextSequence": 14
+}

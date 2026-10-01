@@ -1,4 +1,6 @@
 import { expect, it } from "vitest";
+import { createHash } from "node:crypto";
+import legacyMonthlyPoint from "./fixtures/a37-legacy-monthly-point.json";
 import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
@@ -24,11 +26,10 @@ import {
   createResourceFlow,
   createResourcePosition,
   money,
-  recordResourceTransferOutcome,
   recordResourceFlowTerms,
 } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import type { EntityId, World } from "./types";
+import type { EntityId, ResourceTransferOutcome, World } from "./types";
 import { recordPersonDeath } from "./vitality";
 import { advanceWorld, createWorld, createWorldId } from "./world";
 const authored = {
@@ -412,19 +413,25 @@ it("A37 month-end pay counts only actual active days before the job ended", () =
 it("A37 preserves a legacy paid point date and begins the next interval the following day", () => {
   const f = fixture("1150000");
   let world = advanceWorld(f.world, 4, registry);
-  world = recordResourceTransferOutcome(world, {
-    stableKey: "fixture:legacy-paid",
-    resourceFlowId: f.flow.id,
-    periodStartsAt: world.currentDate,
-    periodEndsAt: world.currentDate,
-    occurredAt: world.currentDate,
-    status: "completed",
-    attemptedAmount: money(500000, "USD"),
-    transferredAmount: money(500000, "USD"),
-    reasonKind: null,
-    note: "Explicit saved legacy payment",
-    provenance: authored,
-  });
+  // Actual pre-change canonical-writer output, not a new off-payday transfer.
+  expect(world.id).toBe(legacyMonthlyPoint.worldId);
+  expect(f.flow.id).toBe(legacyMonthlyPoint.resourceFlowId);
+  expect(
+    createHash("sha256").update(JSON.stringify(world.history)).digest("hex"),
+  ).toBe(legacyMonthlyPoint.baseHistorySha256);
+  world = deserializeWorld(
+    serializeWorld({
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: legacyMonthlyPoint.nextSequence,
+        resourceTransferOutcomes: [
+          ...world.history.resourceTransferOutcomes,
+          legacyMonthlyPoint.outcome as ResourceTransferOutcome,
+        ],
+      },
+    }),
+  );
   const legacy = world.history.resourceTransferOutcomes.at(-1)!;
   const paid = advanceWorld(world, 11, registry);
   const outcomes = paid.history.resourceTransferOutcomes.filter(
