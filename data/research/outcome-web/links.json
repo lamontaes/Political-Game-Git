@@ -644,15 +644,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.81,
       "per": "covered",
       "lagMonths": 0,
       "group": "low-income adults",
       "owner": "F",
-      "anchor": "Medicaid nearly eliminated bills over 30% of income",
-      "source": "Oregon Health Insurance Experiment",
+      "anchor": "Oregon lottery: Medicaid cut the share with out-of-pocket medical spending over 30% of income by 4.48 points (95% CI -8.26 to -0.69) from a control mean of 5.5%, a drop of about 81%. The range is that interval as a share of the control mean, capped at a 100% drop.",
+      "source": "Baicker et al. 2013 (NEJM), Oregon Health Insurance Experiment, table 4",
       "from": "health.coverage",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-1, -0.13]
     },
     {
       "key": "coverage-to-medical-debt",
@@ -1639,15 +1640,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "rate",
+      "size": 0.17,
+      "per": "percentage point of effective property tax rate (tax as a share of home value)",
       "lagMonths": 12,
       "group": "renters",
       "owner": "M",
-      "anchor": "Split between owners and renters (to confirm)",
-      "source": "to confirm",
+      "anchor": "Across U.S. cities, a 0.34-point higher effective property tax rate (one standard deviation, mean 1.4%) raises rents $402 to $451 a year on a mean of $7,347, about 17% per point. In Boston-area towns only about 15 cents of each tax dollar reached rents, about 2% of rent per point. Most studies sit between, so contested.",
+      "source": "Tsoodle and Turner 2008 (Real Estate Economics); Carroll and Yinger 1994 (National Tax Journal)",
       "from": "tax.property-rate",
-      "evidence": "to-confirm"
+      "evidence": "contested",
+      "range": [0.02, 0.18]
     },
     {
       "key": "transit-loss-to-unemployment",
@@ -1879,15 +1881,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.007,
       "per": "law in force",
       "lagMonths": 0,
       "group": "men in same-sex couples",
       "owner": "C",
-      "anchor": "More coverage, access and use of care",
-      "source": "Carpenter et al. 2021 (JPAM)",
+      "anchor": "Legal same-sex marriage raised health insurance among sexual-minority men by 4.2 points, with no change for sexual-minority women (BRFSS 2000 to 2016). Gay and bisexual men are about 2% of adults, so a state's uninsured rate (about 8%) falls about 0.06 points, or 0.7%. Conversion to the whole population is ours, so provisional.",
+      "source": "Carpenter, Eppink, Gonzales and McKay 2021 (JPAM)",
       "from": "law.marriage-equality",
-      "evidence": "researched"
+      "evidence": "provisional",
+      "range": [-0.012, -0.002]
     },
     {
       "key": "abortion-ban-to-births",
@@ -2274,13 +2277,13 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.34,
       "per": "law in force",
       "lagMonths": 6,
       "group": "low-income adults",
       "owner": "F",
-      "anchor": "ACA expansion: -$3.4 billion in collections in its first 2 years; better credit and loan terms",
-      "source": "Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
+      "anchor": "States that expanded Medicaid in 2014 saw mean medical debt in collections fall 34 percentage points more than non-expansion states from 2013 to 2020 ($330 to $175, against $613 to $550). Newly covered people: about $1,140 less in collections; ACA expansion cut collections about $3.4 billion in its first 2 years. The range is the default 25% spread around the measured gap; the brief reports no interval.",
+      "source": "Kluender, Mahoney, Wong and Yin 2021 (JAMA); Hu, Kaestner, Mazumder, Miller and Wong 2018 (JPubE); Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
       "evidence": "researched",
       "from": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
       "to": "finance.medical-debt-in-collections",
@@ -2288,7 +2291,7 @@
         "Expansion makes insured care available.",
         "Insurance pays covered costs that a patient would otherwise owe.",
         "Smaller unpaid patient balances can mean fewer bills sent to collections.",
-        "The terminal is an actual covered bill and payment; the dollar total in the study lacks the denominator needed by this proportional link."
+        "The terminal is an actual covered bill and payment; the proportional size comes from mean medical debt in collections per person (Kluender et al. 2021), not the $3.4 billion total, which has no denominator."
       ],
       "conditions": "Preserve the existing per-world/per-place draw and recorded range where present. Statutory reach, actual eligible people and service capacity differ; no blanket state coverage is inferred.",
       "reverseOnRepeal": "Remove or replace the current legal exposure prospectively; enrollment, services, contracts and accumulated outcomes need their own records, not an immediate numerical inverse.",
@@ -2297,7 +2300,8 @@
         "months": 6,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": false
+      "aboutZero": false,
+      "range": [-0.42, -0.25]
     },
     {
       "key": "snap-work-requirement-to-participation",
@@ -2377,14 +2381,14 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.07,
       "per": "law in force",
       "lagMonths": 12,
       "group": "low-income districts",
       "owner": "M",
-      "anchor": "School finance reforms raised spending and achievement in low-income districts (to confirm)",
-      "source": "Lafortune, Rothstein and Schanzenbach 2018 (to confirm)",
-      "evidence": "to-confirm",
+      "anchor": "Post-1990 school finance reforms brought sharp, immediate and lasting spending rises: about $1,200 more per pupil in low-income districts and about $500 in higher-income ones, against average spending near $11,000 a pupil, so about +7% across the state (low end the higher-income districts' rise, high end the low-income districts'). Conversion to a statewide share is ours, so provisional.",
+      "source": "Lafortune, Rothstein and Schanzenbach 2018 (AEJ: Applied)",
+      "evidence": "provisional",
       "from": "law:us-policy-positions:education.equalize-school-funding",
       "to": "school.spending-per-student",
       "why": [
@@ -2408,7 +2412,8 @@
       "reverseOnRepeal": "Repeal changes future allocation authority. It does not remove money already received by a district or supplies already bought. The existing aggregate law-answer reversal must not rewrite budget history.",
       "who": "Qualifying districts and their enrolled pupils; residents funding the state budget bear the financing trade-off.",
       "lagWhy": "The existing12-month lag stands for an allocation/budget cycle; it is not a verified causal delay. Team9 must provide timing and per-pupil funding contrast from the cited reform study.",
-      "aboutZero": false
+      "aboutZero": false,
+      "range": [0.04, 0.11]
     },
     {
       "key": "end-cash-bail-to-pretrial-detention",
@@ -2416,16 +2421,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.2,
       "per": "law in force",
       "lagMonths": 0,
       "group": "defendants",
       "owner": "O",
-      "anchor": "Fewer people held before trial (to confirm the size)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "Illinois ended cash bail in September 2023: within a year pretrial jail populations fell about 14% in Cook and the collar counties and about 25% in rural counties; people still held three days after arrest fell from 33% to 9% of defendants. New Jersey nearly ended money bail in 2017: pretrial jail population down 43.9% from 2015 to 2018, part of it before the reform; MDRC found detention below the pre-reform trend. Before-and-after counts, not a controlled estimate, so provisional.",
+      "source": "Loyola University Chicago Center for Criminal Justice 2024 (Illinois Pretrial Fairness Act, first year); New Jersey Judiciary 2018 Criminal Justice Reform Report to the Governor and Legislature; MDRC 2019 New Jersey pretrial evaluation",
+      "evidence": "provisional",
       "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
-      "to": "justice.pretrial-detained"
+      "to": "justice.pretrial-detained",
+      "range": [-0.44, -0.14]
     },
     {
       "key": "mandatory-minimums-to-incarceration",
@@ -2662,16 +2668,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.02,
       "per": "law in force",
       "lagMonths": 12,
       "group": "new mothers",
       "owner": "B",
-      "anchor": "Mixed evidence (to confirm)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "California paid family leave raised mothers' return to work within a year of a birth (Baum and Ruhm: 13 to 18% more likely among those who worked during pregnancy) and the hours of mothers of 1- to 3-year-olds by about 10 to 17% (Rossin-Slater, Ruhm and Waldfogel), but tax records show first-time mothers' employment 5 to 7% lower up to ten years later (Bailey, Byker, Patel and Ramnath). Short-run gains, long-run losses; the size is small and positive with a range that crosses zero.",
+      "source": "Rossin-Slater, Ruhm and Waldfogel 2013 (JPAM); Baum and Ruhm 2016 (JPAM); Bailey, Byker, Patel and Ramnath 2019 (NBER w26416)",
+      "evidence": "contested",
       "from": "law:us-policy-positions:labor-workforce.paid-family-leave",
-      "to": "labor.mothers-participation"
+      "to": "labor.mothers-participation",
+      "range": [-0.06, 0.1]
     },
     {
       "key": "carbon-price-to-emissions",
@@ -2834,16 +2841,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.08,
       "per": "a raise to about $15",
       "lagMonths": 24,
       "group": "teens, least skilled",
       "owner": "B",
-      "anchor": "CBO median: about 1.3 million fewer jobs in a typical week (range from none to 3.7 million); bunching studies find little job loss at moderate levels",
-      "source": "CBO 2019; Cengiz et al. 2019",
+      "anchor": "CBO 2021 (Raise the Wage Act, $15 by 2025): 1.4 million fewer jobs in its central estimate, likely range near zero to 2.7 million, among the 17 million workers who would otherwise earn under $15, so about -8% (0 to -16%). Bunching studies of state raises find little job loss at moderate levels.",
+      "source": "CBO 2021, The Budgetary Effects of the Raise the Wage Act of 2021; CBO 2019; Cengiz, Dube, Lindner and Zipperer 2019 (QJE)",
       "evidence": "contested",
       "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
-      "to": "labor.low-wage-jobs"
+      "to": "labor.low-wage-jobs",
+      "range": [-0.16, 0]
     },
     {
       "key": "mandatory-minimum-cut-to-federal-prisoners",
@@ -2851,16 +2859,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.008,
       "per": "law in force",
       "lagMonths": 12,
       "group": "federal prisoners",
       "owner": "O",
-      "anchor": "Shorter federal minimums lower the federal prison count (to confirm); crime is about unchanged (see incarceration-to-crime)",
-      "source": "to confirm",
-      "evidence": "to-confirm",
+      "anchor": "CBO scored the Smarter Sentencing Act (drug minimums of 5, 10 and 20 years cut to 2, 5 and 10) at $4 billion less prison spending over 2015 to 2024, about 250,000 people released earlier. At about $30,000 a prisoner-year that is roughly 13,000 fewer federal prisoners on an average day, about 6% of the federal count then; federal prisoners are about 13% of all U.S. prisoners (BJS 2022), so the total prison rate falls about 0.8%. Crime is about unchanged (see incarceration-to-crime).",
+      "source": "CBO cost estimate, Smarter Sentencing Act of 2014 (S. 1410); BJS Prisoners in 2022",
+      "evidence": "provisional",
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "to": "justice.incarcerated-per-100k"
+      "to": "justice.incarcerated-per-100k",
+      "range": [-0.012, -0.004]
     },
     {
       "key": "power-plant-carbon-to-emissions",
