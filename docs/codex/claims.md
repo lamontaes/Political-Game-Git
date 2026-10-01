@@ -1,3 +1,9 @@
+## October 1, 7:30 a.m. A111 campaign support transfer closed
+
+Audit owns only the four campaign-support hunks in `src/simulation/campaigns.ts`: opening support, action support effect, latest saved-support reading and election-night support. Team 7 explicitly confirmed no unpublished overlap in 00d; its county and held caller branches exclude these functions. Coordinator delivered this exact release to Audit.
+
+Preserve unrelated campaign, composition and county work, including the two unrelated additions Audit identified. This is an ownership transfer only. Numerical and semantic changes still require CTO review; it grants no invented turnout, counts, confidence, tie rule or new money level.
+
 ## October 1, 7:19 a.m. A58 refresh caller transfer closed
 
 Team 4 owns only the `refreshLocalEconomy` import and call inside `refreshLifeOpportunities` in `src/simulation/life-opportunities.ts`. Team 3 explicitly reported no unpublished overlap at its preserved 916dcab source. Team 7 confirmed its shared file diff is empty, county candidate excludes the file and held caller PR 1510 changes only other named files. Both released these exact hunks in 00d. Coordinator delivered the closed transfer to Team 4.
