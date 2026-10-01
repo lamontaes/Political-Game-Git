@@ -132,6 +132,35 @@
       "originalSha256": "e0e6b8318b98e382d322d37bb282cebea38b010eb007a1d9f5ee8b8ca2bc9649",
       "publishedSha256": "e0e6b8318b98e382d322d37bb282cebea38b010eb007a1d9f5ee8b8ca2bc9649",
       "normalization": "Trailing blank lines only in log copies."
+    },
+    "current-main-after.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-820-main.log",
+      "originalSha256": "48cee07b82449eb90683b9d7bc8fb3b450272e447d5c2f93b9e239be5349815d",
+      "publishedSha256": "3114427171efe7a40d916699b4c7b9ca878d320e28b495bc517398ebfb71e4d0",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "current-main-types.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-820-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "current-main-release.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-820-release.log",
+      "originalSha256": "6170a0a43cef91d55abcd27b954b1539186a3670842481f3c8fbbfd2f5fda545",
+      "publishedSha256": "6170a0a43cef91d55abcd27b954b1539186a3670842481f3c8fbbfd2f5fda545",
+      "normalization": "Trailing blank lines only in log copies."
     }
+  },
+  "renewal": {
+    "executedHead": "ed413b86734a58be5a2375ed0ab5baac3ce3e42d",
+    "main": "820fb93fdd35522dca20df9b2178fa926f73e92e",
+    "passed": 63,
+    "failed": 0,
+    "seconds": 22.99,
+    "strictRoots": 1,
+    "scopedDiagnostics": 0,
+    "importedDiagnostics": 0,
+    "runtimeChange": "None; additive main A97 duty fix received."
   }
 }
