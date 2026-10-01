@@ -637,8 +637,15 @@ export function recordedPaycheckTaxInput(world: World, outcomeId: EntityId) {
         transfer &&
         (transfer.status === "completed" || transfer.status === "partial") &&
         transfer.transferredAmount.minorUnits > 0 &&
-        canonicalJson(transfer.transferredAmount) ===
-          canonicalJson(payment.amount)
+        payment.sequence > transfer.sequence &&
+        payment.amount.minorUnits > 0 &&
+        payment.amount.currency === transfer.transferredAmount.currency &&
+        recordsByStringField(
+          world.history.statutoryTaxPayments ?? [],
+          "resourceOutcomeId",
+          transfer.id,
+        ).reduce((sum, allocation) => sum + allocation.amount.minorUnits, 0) <=
+          transfer.transferredAmount.minorUnits
       );
     }),
   );

@@ -6,6 +6,7 @@ import { stateJurisdictionForKey } from "./life-places";
 import { createLightweightPerson, personName } from "./people";
 import {
   createResourceFlow,
+  createResourcePosition,
   createWorkCompensation,
   money,
   recordResourceTransferOutcome,
@@ -122,6 +123,13 @@ function fixture(
         provenance,
       });
   const flowId = world.history.resourceFlows.at(-1)!.id;
+  world = createResourcePosition(world, {
+    stableKey: "a33:worker-account",
+    owner: { kind: "person", personId: person.id },
+    openedAt: date,
+    openingBalance: money(0, "USD"),
+    provenance,
+  });
   world = recordResourceTransferOutcome(world, {
     stableKey: "a33:actual-pay",
     resourceFlowId: flowId,
