@@ -21,6 +21,7 @@ import { createVitalityCatalog } from "./vitality-catalog";
 import {
   createWorldMetricCatalog,
   governmentFiscalMetricDefinitions,
+  laborIncomeMetricDefinition,
 } from "./world-metrics";
 import { canonicalJson } from "./canonical-json";
 import { createStableId } from "./ids";
@@ -84,6 +85,7 @@ export const SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS: readonly string[] = [
   // Exact sums of completed modeled tax receipts and public-program payments.
   "government.revenue",
   "government.outlays",
+  "labor.aggregate-income",
   // T's exact paid physical contract quantity; not an empirical measurement.
   TRANSIT_METRIC_INPUT.stableKey,
   // src/simulation/pressure/ladder.ts — PRESSURE_ANGER_METRIC_STABLE_KEY: the
@@ -139,7 +141,10 @@ export function createProductionMindCatalog(): MindCatalog {
 
 export function createProductionWorldMetricCatalog(): WorldMetricCatalog {
   return createWorldMetricCatalog({
-    definitions: [...governmentFiscalMetricDefinitions()],
+    definitions: [
+      ...governmentFiscalMetricDefinitions(),
+      laborIncomeMetricDefinition(),
+    ],
   });
 }
 
@@ -166,10 +171,9 @@ export function createProductionVitalityCatalog(): VitalityCatalog {
 /** Metric definitions a production world did not establish for itself. */
 function simulationEstablishedMetricCount(catalog: WorldMetricCatalog): number {
   const exactFiscalDefinitions = new Map(
-    governmentFiscalMetricDefinitions().map((definition) => [
-      definition.stableKey,
-      canonicalJson(definition),
-    ]),
+    [...governmentFiscalMetricDefinitions(), laborIncomeMetricDefinition()].map(
+      (definition) => [definition.stableKey, canonicalJson(definition)],
+    ),
   );
   return catalog.definitionOrder.filter((id) => {
     const definition = catalog.definitions[id];

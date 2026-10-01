@@ -1,3 +1,4 @@
+import { recordEarnedPayObservations } from "../earned-pay-observations";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
@@ -1792,6 +1793,7 @@ export function settleTownCompensations(
   const ids = next.history.resourceTransferOutcomes
     .slice(first)
     .map((outcome) => outcome.id);
+  next = recordEarnedPayObservations(next, ids);
   next = assessPaychecksTaxes(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.

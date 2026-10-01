@@ -487,6 +487,15 @@ it("A38 earned law raises only the actual completed interval without changing it
   expect(outcome.attemptedAmount.minorUnits).toBe(8000);
   expect(outcome.transferredAmount.minorUnits).toBe(8000);
   expect(outcome.status).toBe("completed");
+  const observedPay = paid.history.metricObservations.filter(
+    (row) => row.sourceSeriesKey === "payroll.completed-gross",
+  );
+  expect(observedPay).toHaveLength(1);
+  expect(observedPay[0]!.value).toEqual({
+    kind: "money",
+    money: money(8000, "USD"),
+  });
+  expect(observedPay[0]!.sourceReference.locator).toContain(outcome.id);
   const assessment = paid.history.earnedLawPayAssessments!.find(
     (row) => row.id === outcome.earnedLawPayAssessmentId,
   )!;
