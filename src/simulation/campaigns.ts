@@ -1,3 +1,4 @@
+import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
   householdLoanMonthHandler,
@@ -30,6 +31,7 @@ import {
   withProgramMatters,
 } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { PUBLIC_SERVICE_HANDLERS } from "./public-service-producer";
 import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
@@ -2189,6 +2191,7 @@ export function composeWorldTimeHandlers(
         settlePublicResourcePayment(world, input, resolver),
       ),
       createTaxTransitionHandlerRegistry(),
+      createProsecutionTransitionRegistry(),
       LIFE_PATHS2_HANDLERS,
       // D-11: the candidate's standing campaign hours, after the day job's.
       createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
@@ -2224,6 +2227,8 @@ export function composeWorldTimeHandlers(
           ...LOCAL_COUNCIL_MEETING_HANDLERS,
         ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
         ...PUBLIC_PROGRAM_HANDLERS,
+        // Residents ask for a paid public service, then take part in it.
+        ...PUBLIC_SERVICE_HANDLERS,
         // An enacted law's duty falling due on the bodies it covers.
         ...ENACTED_DUTY_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,

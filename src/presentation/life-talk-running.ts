@@ -4,7 +4,7 @@ import { personTrait } from "../simulation/people-traits";
 import { latestGoalStatesForPerson } from "../simulation/queries";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../simulation";
 import { projectCampaignOffices } from "./campaign-office-discovery";
-import { campaignElectionDate } from "./campaign-projection";
+import { availableCampaignElectionDate } from "./campaign-projection";
 import { conversationStanding } from "./conversation-consequences";
 import { currentKnownMatter, matterAwareness } from "./current-matters";
 import { MATTER_CHOICE_PREFIX } from "./life-conversation";
@@ -169,10 +169,15 @@ function electionAhead(
       .sort()[0];
     const date =
       recorded ??
-      campaignElectionDate(world, person.homeJurisdictionId, office.officeKey);
+      availableCampaignElectionDate(
+        world,
+        person.homeJurisdictionId,
+        office.officeKey,
+      );
     // Never a date that has come and gone, and never today: an election on
     // the day of the talk is not something to be "thinking of" running in.
-    if (tenseOf(date, world.currentDate) !== "upcoming") continue;
+    if (date === null || tenseOf(date, world.currentDate) !== "upcoming")
+      continue;
     if (!best || date < best.date) best = { title: office.title, date };
   }
   return best;

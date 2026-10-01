@@ -1,3 +1,29 @@
+## October 1, 4:24 a.m. budget consumer transfer
+
+Team 6 released to Team 1 only the general-budget recognition, final enacted program-clause loop and necessary imports inside appropriationFromEnactedMeasure in program-governing.ts. The clean published release is 583cdf069234a2d1f28b88721106c50b17ad23e4, with file blob 7a78c1c8663a1cc952b1cab5df991921e6964687. Team 6 confirmed no unpublished bytes or competing edits in this part. Team 1 received the transfer and owns that adapter now.
+
+Preserve all service, operator, capacity, transit and other appropriation paths. The existing adopted-appropriation writer remains the survivor. This transfer does not authorize invented spending, governor requests or fiscal dates. The biennial authority-window question remains with the CTO.
+
+## October 1, 4:12 a.m. current transfers and overrides
+
+- CTO 3:41 defers groundwater. This supersedes the older 3:20 Team 4 assignment below. Preserve its source; no new parcel or well proxy.
+- Team 3 released the A45 estimate-draw hunks at f76bc5b63f21ab6171ade6e8ca8e5dc9377b0c09 in state-paid-leave-law.ts and paid-leave-benefits.ts to Team 6. The transfer excludes current law terms, claims and financial writers. Team 6 published #1491.
+- Audit retains world.ts, time-work.ts, default composition, day bridge and opening clock work. References to Audit's root mean the Audit lead, not the coordinator.
+- Team 7 owns only the released advancement calls/imports in demo.ts, people-continuation.ts and character-history.ts. Preserve exact local date/time and complete handler composition; no competing clock.
+- Team 7 retains the narrow county timing/qualification consumer hunks in campaign-projection.ts, campaign-office-discovery.ts, life-talk-running.ts and CampaignWorkspace.tsx. Its #1492 does not admit unknown district qualifications.
+- Coordinator retains canonical starting-law JSON and shared final-law reader integration. Team 3 owns minimum-wage.ts dated consumer changes. Published coordinator wage head is dbc66c17a8285cb8b856796c09239ced96a50023.
+- Team 1 builds the CTO 4:08 session budget intake in its existing survivors. Audit answers code-contract questions; no duplicate filer or manufactured budget amounts.
+
+## October 1, 3:38 ownership additions
+
+- Coordinator owns the standing-appropriation additions to law-consequence-types.ts, enacted-law-effects.ts and law-effect-stamp.ts, the pay authority discriminator and corresponding contract tests. Published d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec is WIP. Team 5 owns its existing service resolver and consumer; Team 6 owns actual authority and payment records. No synthetic bill or second service engine.
+- Coordinator owns the approved resources.ts payment-stamp kind correction and resource-law-stamps.test.ts composition at 3cd6d09c37f0b197e45d3d381c9bedea3d6b0dbd. Team 3 retains office-salary.ts, town-pay.ts and its caller tests.
+- X5 owns the standalone minimum-wage-dated-matrix-2026.json research file. Coordinator alone admits its verified dates and tiers into canonical starting-law terms and the shared reader. Observation dates must not be silently backdated.
+- Team 1 released only presentation/legislation-session.ts await-executive-decision lines 474–497 and unused related imports to Team 2, clean at a522ed5be56ab97afedc24d8d73e847a7586852a. Preserve all other presentation work.
+- Team 7 released only PressWorkspace.tsx zero-journalist button lines 279–291 and the unused import to Team 8. Preserve the no-role message and remaining form. Team 7's county election work does not own Audit's clock entry points.
+- CTO 3:20 assigns actual groundwater meter compliance costs to Team 4 through the existing price-cost path, after sourced cost and actual irrigating-farm exposure are available. No generic farm-classification proxy.
+- Team 6's requested A45 estimate hunks are pending Team 3's exact release. No transfer is recorded as complete here.
+
 # Current engine rebuild ownership
 
 The following transfers preserve one writer for each named part of the rebuild. They override older entries only for the exact functions and changes listed. They record ownership, not completion or approval to merge.

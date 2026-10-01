@@ -748,23 +748,9 @@ export function fileMemberAgendaBills(
         );
       },
     );
-    const selected = settings.individualAgenda
-      ? [...proposals].sort(
-          (a, b) =>
-            b.pressure - a.pressure ||
-            members.indexOf(a.sponsor) - members.indexOf(b.sponsor),
-        )[0]
-      : majorityAgendaChoice(members, caucus, proposals, (member, proposal) => {
-          if (member.personId === playerId) return false;
-          const score = leaningFor(
-            member.personId!,
-            proposal.propositionId,
-          ).score;
-          return (proposal.answer === "yes" ? score : -score) > 0;
-        });
     const claimedMembers = new Set<EntityId>();
     const claimedQuestions = new Set<EntityId>();
-    const selections = input.council
+    const selections = settings.individualAgenda
       ? [...proposals]
           .sort(
             (a, b) =>
@@ -781,9 +767,22 @@ export function fileMemberAgendaBills(
             claimedQuestions.add(proposal.propositionId);
             return true;
           })
-      : selected
-        ? [selected]
-        : [];
+      : (() => {
+          const selected = majorityAgendaChoice(
+            members,
+            caucus,
+            proposals,
+            (member, proposal) => {
+              if (member.personId === playerId) return false;
+              const score = leaningFor(
+                member.personId!,
+                proposal.propositionId,
+              ).score;
+              return (proposal.answer === "yes" ? score : -score) > 0;
+            },
+          );
+          return selected ? [selected] : [];
+        })();
     for (const selected of selections) {
       const sponsor = selected.sponsor;
       const best = selected.proposal;
