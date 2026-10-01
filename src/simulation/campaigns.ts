@@ -6,7 +6,7 @@ import {
 } from "./household-loans";
 import { PAYDAY_HANDLERS } from "./living-world/town-pay";
 import { RENT_DAY_HANDLERS } from "./living-world/town-rent";
-import { HOUSEHOLD_POVERTY_HANDLERS } from "./household-poverty";
+import { householdPovertyHandlers } from "./household-poverty";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -2253,7 +2253,7 @@ export function composeWorldTimeHandlers(
         // RENT DAY: every renting household pays its landlord on the first.
         ...RENT_DAY_HANDLERS,
         // YOUR MONEY: each household's month measured against the poverty line.
-        ...HOUSEHOLD_POVERTY_HANDLERS,
+        ...householdPovertyHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

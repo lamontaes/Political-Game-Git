@@ -6,6 +6,8 @@ import { annualPovertyLineMinor } from "./crisis/health-coverage";
 import { addDays, makeIsoDate } from "./dates";
 import {
   ensureHouseholdPovertySchedule,
+  householdPovertyHandlers,
+  householdPovertyHandler,
   recordHouseholdPoverty,
   HOUSEHOLD_POVERTY_TRANSITION_KEY,
   personPovertyStatusAt,
@@ -101,6 +103,13 @@ describe("the HHS 2026 poverty guideline (91 FR 1797)", () => {
 const DRAW_SEED = "slice1:household-poverty:1";
 
 describe("each household's month, saved on the clock", () => {
+  it("builds the same handler list on first use and reuses it", () => {
+    const handlers = householdPovertyHandlers();
+    expect(handlers).toEqual([
+      [HOUSEHOLD_POVERTY_TRANSITION_KEY, householdPovertyHandler],
+    ]);
+    expect(householdPovertyHandlers()).toBe(handlers);
+  });
   const states = lifePlaceStateIdentities();
   const state = states[new SeededRng(DRAW_SEED).integer(0, states.length)]!;
   const label = `${state.name} (seed ${DRAW_SEED})`;

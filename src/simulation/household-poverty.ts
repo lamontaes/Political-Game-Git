@@ -12,7 +12,9 @@ import { residenceStateKey } from "./statutory-tax";
 import type {
   EntityId,
   FutureDueItem,
+  FutureTransitionHandler,
   FutureTransitionHandlerResult,
+  FutureTransitionKey,
   HistoricalCutoff,
   HouseholdPovertyRecord,
   IsoDate,
@@ -227,9 +229,19 @@ export function householdPovertyHandler(
   };
 }
 
-export const HOUSEHOLD_POVERTY_HANDLERS = [
-  [HOUSEHOLD_POVERTY_TRANSITION_KEY, householdPovertyHandler],
-] as const;
+let householdPovertyHandlersCache:
+  | readonly (readonly [FutureTransitionKey, FutureTransitionHandler])[]
+  | undefined;
+
+/** Build after module loading, so import cycles cannot capture an unset key. */
+export function householdPovertyHandlers(): readonly (readonly [
+  FutureTransitionKey,
+  FutureTransitionHandler,
+])[] {
+  return (householdPovertyHandlersCache ??= [
+    [HOUSEHOLD_POVERTY_TRANSITION_KEY, householdPovertyHandler],
+  ] as const);
+}
 
 /* -------------------------------------------------------------------------- */
 /* Readers                                                                     */
