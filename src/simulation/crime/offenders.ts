@@ -1,5 +1,6 @@
 import { addDays, ageOnDate } from "../dates";
 import { createStableId } from "../ids";
+import { DEGREE_LEVELS, degreeProgramFor } from "../degree-levels";
 import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
@@ -7,7 +8,14 @@ import {
   peopleInHouseholdAt,
 } from "../life-queries";
 import { latestPersonalityTendency } from "../queries";
-import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
+import type {
+  EducationProgramKind,
+  EntityId,
+  HistoricalCutoff,
+  HistoricalEvent,
+  IsoDate,
+  World,
+} from "../types";
 import { eventsOfType, jailTermOn } from "../justice/jail-terms";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { isPersonAliveAt } from "../vitality";
@@ -67,6 +75,106 @@ export const UNRESEARCHED_OFFENDERS = {
 } as const;
 
 const W = UNRESEARCHED_OFFENDERS.weight;
+
+/**
+ * ESTIMATED FROM AVERAGE: how a recorded high-school diploma bears on
+ * offending.
+ *
+ * Source: Lance Lochner and Enrico Moretti, "The Effect of Education on
+ * Crime: Evidence from Prison Inmates, Arrests, and Self-Reports," American
+ * Economic Review 94(1), 2004 (NBER working paper 8605). Using changes in
+ * state compulsory-schooling laws, finishing high school lowers the chance
+ * of being in prison, and the self-reports show it is less offending, not
+ * less getting caught. The study's average effect is used for everybody; the
+ * game weighs nobody by race (the split the study reports is filed as a
+ * research note, `does-a-diploma-change-who-offends`).
+ *
+ * The gap between a graduate and someone who left school without one is
+ * `gap` points of offender weight, the slightest size the weights above use,
+ * split evenly either side of the blanket weights: a graduate half a point
+ * below, a dropout half a point above. A resident whose schooling is not on
+ * record keeps the blanket weights: no change, never a guess. Centering on
+ * the real share of adults with a diploma (91 percent of adults 25 and older,
+ * Census Bureau, Educational Attainment in the United States: 2022) waits on
+ * that figure being read from place data rather than written here.
+ */
+export const DIPLOMA_OFFENDING_ESTIMATE = {
+  provenance: "estimated-from-average",
+  source:
+    "Lochner and Moretti 2004, American Economic Review 94(1), NBER working paper 8605",
+  gap: 1,
+  researchQuestions: [
+    "does-a-diploma-change-who-offends",
+    "who-commits-local-crime",
+  ],
+} as const;
+
+/** Programs whose completion shows a finished high school. */
+const DIPLOMA_PROGRAMS: ReadonlySet<EducationProgramKind> = new Set([
+  "schooling:secondary",
+  ...DEGREE_LEVELS.flatMap((level) => [
+    level.equivalentProgram,
+    degreeProgramFor(level),
+  ]),
+]);
+
+/** What the record says about a resident's high school. */
+export type RecordedDiploma = "graduated" | "left-without" | "not-on-record";
+
+/**
+ * Each resident's recorded high school, read from the education enrollments
+ * in one pass: graduated (a completed high school, or a completed degree that
+ * required one), left without (withdrew from high school and finished
+ * nothing that shows a diploma), or absent when nothing settles it.
+ */
+export function recordedDiplomas(
+  world: World,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): ReadonlyMap<EntityId, Exclude<RecordedDiploma, "not-on-record">> {
+  const latest = new Map<
+    EntityId,
+    { effectiveAt: string; sequence: number; status: string }
+  >();
+  for (const state of world.history.educationEnrollmentStates) {
+    if (
+      state.sequence >= cutoff.historySequenceExclusive ||
+      state.effectiveAt > cutoff.asOfDate
+    )
+      continue;
+    const prior = latest.get(state.enrollmentId);
+    if (
+      !prior ||
+      state.effectiveAt > prior.effectiveAt ||
+      (state.effectiveAt === prior.effectiveAt &&
+        state.sequence > prior.sequence)
+    )
+      latest.set(state.enrollmentId, state);
+  }
+  const diplomas = new Map<EntityId, "graduated" | "left-without">();
+  for (const enrollment of world.history.educationEnrollments) {
+    if (!DIPLOMA_PROGRAMS.has(enrollment.programKind)) continue;
+    const status = latest.get(enrollment.id)?.status;
+    if (status === "completed") diplomas.set(enrollment.personId, "graduated");
+    else if (
+      status === "withdrawn" &&
+      enrollment.programKind === "schooling:secondary" &&
+      !diplomas.has(enrollment.personId)
+    )
+      diplomas.set(enrollment.personId, "left-without");
+  }
+  return diplomas;
+}
+
+/**
+ * The offender weight a recorded diploma adds: a graduate below the blanket
+ * weights, a dropout above them, nobody without a record moved.
+ */
+export function diplomaWeight(diploma: RecordedDiploma): number {
+  const { gap } = DIPLOMA_OFFENDING_ESTIMATE;
+  if (diploma === "graduated") return -gap / 2;
+  if (diploma === "left-without") return gap / 2;
+  return 0;
+}
 
 const TAKES_MONEY: Readonly<Record<CrimeOffense, boolean>> = {
   assault: false,
@@ -180,6 +288,7 @@ export function offenderForVictims(
   // The youngest the police charge as an adult is the law's, where the
   // offense happened; a younger offender belongs to the juvenile court.
   const youngestCharged = adultCourtAgeAt(world, town, incident.occurredAt);
+  const diplomas = recordedDiplomas(world, cutoff);
   let best: NamedOffender | null = null;
   for (const personId of Object.keys(world.people).sort() as EntityId[]) {
     const person = world.people[personId]!;
@@ -192,41 +301,73 @@ export function offenderForVictims(
     if (lastReferral && lastReferral >= busyFrom) continue;
     // Someone serving a jail term is not in town to offend.
     if (jailTermOn(world, personId, incident.occurredAt)) continue;
-    let score = 0;
-    const reasons: string[] = [];
-    const { peakAges, nextAges } = UNRESEARCHED_OFFENDERS;
-    if (age >= peakAges.from && age <= peakAges.to) {
-      score += W.peakAge;
-      reasons.push(`is ${age}`);
-    } else if (age >= nextAges.from && age <= nextAges.to) score += W.nextAge;
-    if (activeWorkRelationshipsAt(world, personId).length === 0) {
-      score += W.outOfWork + (TAKES_MONEY[offense] ? W.needsMoney : 0);
-      reasons.push("has no work");
-    }
     const priorRecord = lastReferral !== undefined;
-    if (priorRecord) {
-      score += W.priorRecord;
-      reasons.push("has been charged before");
-    }
     const knowsVictim = knownToVictims.has(personId);
-    if (knowsVictim) {
-      score += W.knowsVictim;
-      reasons.push("knows the victim");
-    }
-    const risk = latestPersonalityTendency(
-      world,
-      personId,
-      RISK_TENDENCY_ID,
-    )?.expressionKey;
-    if (risk === "risk-seeking") {
-      score += W.riskSeeking;
-      reasons.push("takes chances");
-    } else if (risk === "cautious") score += W.cautious;
+    const { score, reasons } = offenderWeight(world, personId, offense, {
+      age,
+      priorRecord,
+      knowsVictim,
+      diploma: diplomas.get(personId) ?? "not-on-record",
+    });
     if (score < UNRESEARCHED_OFFENDERS.nameAt) continue;
     if (!best || score > best.score)
       best = { personId, score, reasons, knowsVictim, priorRecord };
   }
   return best;
+}
+
+/** What the world records about one resident, beyond the person record. */
+export interface OffenderFacts {
+  /** Age on the day of the offense. */
+  readonly age: number;
+  readonly priorRecord: boolean;
+  readonly knowsVictim: boolean;
+  readonly diploma: RecordedDiploma;
+}
+
+/**
+ * How strongly one resident's circumstances point to them for `offense`,
+ * with the circumstances in plain words. Pure.
+ */
+export function offenderWeight(
+  world: World,
+  personId: EntityId,
+  offense: CrimeOffense,
+  facts: OffenderFacts,
+): { readonly score: number; readonly reasons: readonly string[] } {
+  let score = 0;
+  const reasons: string[] = [];
+  const { peakAges, nextAges } = UNRESEARCHED_OFFENDERS;
+  const { age } = facts;
+  if (age >= peakAges.from && age <= peakAges.to) {
+    score += W.peakAge;
+    reasons.push(`is ${age}`);
+  } else if (age >= nextAges.from && age <= nextAges.to) score += W.nextAge;
+  if (activeWorkRelationshipsAt(world, personId).length === 0) {
+    score += W.outOfWork + (TAKES_MONEY[offense] ? W.needsMoney : 0);
+    reasons.push("has no work");
+  }
+  if (facts.priorRecord) {
+    score += W.priorRecord;
+    reasons.push("has been charged before");
+  }
+  if (facts.knowsVictim) {
+    score += W.knowsVictim;
+    reasons.push("knows the victim");
+  }
+  const risk = latestPersonalityTendency(
+    world,
+    personId,
+    RISK_TENDENCY_ID,
+  )?.expressionKey;
+  if (risk === "risk-seeking") {
+    score += W.riskSeeking;
+    reasons.push("takes chances");
+  } else if (risk === "cautious") score += W.cautious;
+  const diploma = diplomaWeight(facts.diploma);
+  score += diploma;
+  if (diploma > 0) reasons.push("left school without a diploma");
+  return { score, reasons };
 }
 
 /**
