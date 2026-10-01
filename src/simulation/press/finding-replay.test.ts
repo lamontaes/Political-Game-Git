@@ -21,9 +21,22 @@ import {
   createWorldId,
   recordWorldEvent,
 } from "../world";
-import { applyFindingConsequences } from "./finding-consequences";
+import { applyFindingConsequences as applyPressConsequences } from "./finding-consequences";
+import { applyFindingRestitution } from "../governing/finding-restitution";
 import { advanceProceeding } from "./procedures";
 import { appendPressRecord } from "./store";
+
+// Controlled institutional invocation retains every original assertion.
+const applyFindingConsequences = (
+  ...args: Parameters<typeof applyPressConsequences>
+) =>
+  applyPressConsequences(
+    args[0],
+    args[1],
+    args[2],
+    args[3],
+    applyFindingRestitution,
+  );
 
 const USD = makeCurrencyCode("USD");
 const seed = "team8-n3-finding-replay-all56";

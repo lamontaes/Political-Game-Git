@@ -26,8 +26,9 @@ import {
 } from "../press/shared";
 import { pressRecordsOfKind, requirePressRecord } from "../press/store";
 
-// Mechanical extraction of the existing adjudicated order/payment survivor.
-// Institutional caller/authority admission is pending; no new authority here.
+// The saved institutional proceeding supplies this adapter in its existing
+// restitution slot. Procedure availability is not a new sanction grant;
+// this preserves the existing adjudicated order/payment survivor only.
 interface MisusedMoney {
   readonly organizationId: EntityId;
   readonly amount: MoneyAmount;

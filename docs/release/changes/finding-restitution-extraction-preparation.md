@@ -3,4 +3,4 @@ id: finding-restitution-extraction-preparation
 impact: none
 ---
 
-Mechanical extraction preparation only. Existing adjudicated liabilities and payment behavior remain unchanged; institutional caller admission is pending. No player-facing behavior change is declared.
+Internal ownership change: the saved institutional proceeding supplies the existing restitution writer in its original consequence slot. Institutional liability and payment behavior remain unchanged; direct press reporting does not issue a monetary order.

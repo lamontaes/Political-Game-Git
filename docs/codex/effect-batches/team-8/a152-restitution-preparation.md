@@ -1,35 +1,35 @@
-# A152 restitution extraction preparation
+# A152 institutional restitution slot
 
-Before: The press consequence module contained the adjudicated order, obligation and payment implementation.
+Before: Press reporting contained and directly invoked the adjudicated money writer.
 
-After: That implementation lives once in the reserved governing module. The existing press caller temporarily imports it. Recorded debtor, creditor, amounts, event identities and payment behavior are preserved. This is preparation; the institution's authority binding and entrypoint remain pending, so A152 is not complete.
+After: The saved institutional proceeding supplies the governing adapter to the existing restitution slot between support and prosecution. Press-only calls issue no monetary order. Actual creditor, debtor, liability and payment behavior remain unchanged. The bounded restitution migration is connected; other A152 effects remain outside this proof.
 
 ## 1. Why-chain
 
-The order sums only the respondent's actual linked completed campaign payments, by original organization and currency. The adjudicated amount remains owed when payer cash is absent. Settlement requires real cash; missing cash never creates a balance. A missing creditor remains unsupported.
+The existing adjudicated order sums only the respondent's actual linked completed campaign payments by original organization and currency. An unpaid order remains owed even if payer cash is absent. Settlement requires recorded cash; missing cash never creates a balance. A missing creditor remains unsupported.
 
-## 2. Existing records
+## 2. Existing authority and records
 
-The extraction retains the saved matter, proceeding, respondent, step, evidence links, original flows/outcomes, government organization and payer cash lookup. It preserves the dependent civil-penalty helper to keep one order/payment writer; no penalty amount or authority is newly authored.
+The institutional producer is advanceProceeding with its existing admission and closed guards. It saves the actual event, step and evidence before supplying the adapter. canInstitutionAct authorizes the planned procedure, not a new restitution sanction. This preserves the existing adjudicated order and owner financial ruling; no broader sanction authority, institution or account is created.
 
-## 3. Mechanical scope
+## 3. Production connection
 
-The reserved governing/finding-restitution.ts exports applyFindingRestitution(world, proceeding, respondentId, step). The original press module imports that function in its unchanged support, restitution, referral and social sequence. No procedure caller, scheduler, schema, financial core or authority producer changed. The old monetary implementation was removed from press, not duplicated.
+The existing applyFindingConsequences orchestrator keeps support, restitution, prosecution, social and denial order. It accepts the governing adapter only from the saved institutional caller in procedures.ts. The adapter occupies the original restitution slot once; no payment call is appended after the orchestrator. Press has only a type import of the monetary writer, and its default entrypoint has no restitution callback. The old monetary implementation is removed, not duplicated.
 
 ## 4. Liability and payment
 
-Existing actual orders, flows and unpaid obligations retain their IDs and creditor/debtor identities. Missing payer cash leaves no new account or transfer outcome. Recorded sufficient cash pays through the same writer; recorded insufficient cash retains the same blocked outcome and unpaid liability. Direct invocation is not newly idempotent; replay still relies on the authoritative closed proceeding guard.
+Existing orders, flows, unpaid obligations and government recipients retain their IDs and creditor/debtor identities. Missing payer cash creates no account or transfer outcome. Sufficient cash pays through the same resource writer; insufficient recorded cash retains the same blocked outcome and unpaid liability. Direct payment invocation is not newly idempotent; replay remains the authoritative closed proceeding guard.
 
-## 5. Admission still needed
+## 5. Scope and remaining gaps
 
-Audit/coordinator must confirm the actual saved issuing-authority binding and institutional post-saved-step entrypoint, preserving the existing consequence order. Until then the press still invokes the monetary engine; merely moving the function does not establish an institution-only writer or read-only press. No institution, factual authority, wealth or personal words are invented.
+The new module retains the dependent existing civil-penalty helper so the payment implementation remains singular; neither its amounts nor authority assumptions are expanded. Support, referrals and social consequence extraction are not completed here. Controlled saved institutional cases do not prove natural investigation, collection or nationwide outcomes. The prior conciliation stage and its 30-day interval are explicitly authored fixture/cadence facts, not a newly researched deadline.
 
 ## 6. Executed proof
 
-The new focused module tests and unchanged existing finding-replay tests passed 17/17 in 18.99 seconds. All five original funded full-save hashes remain identical. Existing missing-cash, missing-creditor, partial/complete repayment and canonical reload/repeat cases pass unchanged. Three actual-source strict roots have zero diagnostics; lint, format and whitespace pass. Initial unused imports were removed before the exact-source renewal.
+The focused institutional extension passes the press-only no-order case and the saved advanceProceeding cases with recorded cash, absent payer cash and absent creditor. Reese Shaffer is the actual controlled respondent in American Samoa. The $250 order follows the saved institutional step, uses the original creditor/debtor flow and closes once. Missing cash retains $250 debt without a fabricated payment; missing creditor creates no order. Canonical reload and repeat add nothing. Original ten liability/payment assertions and all five funded full-save hashes remain unchanged. Final exact-source tests passed 21/21 in 13.55 seconds. Five scoped actual-source type roots have zero diagnostics; lint, formatting, whitespace and report checks pass. Zero-dice reports zero new flags and five inherited stale entries; its baseline is unchanged.
 
 ## 7. Worked example
 
-The existing controlled American Samoa case owes its actual linked $250. Without payer cash the same creditor/debtor order and $250 obligation persist, without a fabricated account or payment. In funded cases the original full-save result remains byte-identical. These fixtures prove extraction parity, not natural institutional authority or nationwide play.
+Reese Shaffer's actual linked completed $250 payment is the order amount. A saved FEC conciliation stage reaches the existing file-release step through advanceProceeding, which supplies the governing writer in the original slot. With no payer cash, the same $250 outstanding obligation persists. The retained original payment cases pay $100 and leave $150, or pay $250 and leave zero. These are controlled saved facts, not inferred wealth or natural collection proof.
 
-Method: based on preserved #1409 head 3b12a5cf9ff4186785ff2d7ad8b5a24b8a9f3ffc in the same leased workspace; original branch heads unchanged. Logs: /tmp/team8-a152-mechanical-final.log and /tmp/team8-a152-mechanical-zero-dice.log. Zero-dice exits 1 with zero new flags and five inherited stale entries, baseline unchanged. Release checking before commit covered an empty range and is not candidate proof. The committed candidate subsequently passed release checking against the preserved predecessor with an explicit none declaration: behavior is unchanged and institutional admission is pending. Latest-main composition, institutional production caller, natural play, browser, year, nationwide and final-main acceptance are NOT RUN.
+Method: preserved #1409 head 3b12a5cf9ff4186785ff2d7ad8b5a24b8a9f3ffc in the same leased workspace; predecessor branch unchanged. Initial new tests incorrectly read amount on a flow rather than its terms; the canonical terms query corrected that test error before renewal. No production assertion, timeout or validation was weakened. Latest-main composition, natural investigation/play, browser, year, nationwide and final-main acceptance are NOT RUN. Stacked on #1409; no independent merge or overall A152 closure.

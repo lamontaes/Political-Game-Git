@@ -1,4 +1,4 @@
-import { applyFindingRestitution } from "../governing/finding-restitution";
+import type { applyFindingRestitution } from "../governing/finding-restitution";
 import { campaigns, campaignState } from "../campaign-queries";
 import { recordSupportLoss } from "../campaign-support";
 import { recheckRoutedClaims } from "../claim-contradictions";
@@ -55,6 +55,7 @@ export function applyFindingConsequences(
   proceeding: MatterProceedingRecord,
   step: ProceedingStepRecord,
   event: HistoricalEvent,
+  restitution?: typeof applyFindingRestitution,
 ): World {
   if (!isAdversePublicStep(step)) return world;
   const outcome = step.outcome as AdversePublicOutcome;
@@ -62,8 +63,10 @@ export function applyFindingConsequences(
   for (const respondentId of proceeding.respondentPersonIds) {
     if (!next.people[respondentId]) continue;
     next = supportConsequence(next, respondentId, outcome, step, event);
-    if (outcome === "finding" || outcome === "conciliation") {
-      next = applyFindingRestitution(next, proceeding, respondentId, step);
+    if (restitution && (outcome === "finding" || outcome === "conciliation")) {
+      // The saved institutional caller supplies its governing writer here,
+      // in the original slot. Press alone does not issue a monetary order.
+      next = restitution(next, proceeding, respondentId, step);
     }
     if (outcome === "finding") {
       next = referralConsequence(next, proceeding, respondentId, step, event);

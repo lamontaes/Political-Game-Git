@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { addDays, makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { createStableId } from "../ids";
 import { createOrganization } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
-import { createLightweightPerson } from "../people";
+import { createLightweightPerson, personName } from "../people";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -12,7 +12,7 @@ import {
   money,
   recordResourceTransferOutcome,
 } from "../resources";
-import { outstandingDebtAt } from "../resource-queries";
+import { outstandingDebtAt, resourceFlowTermsAt } from "../resource-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { STATES } from "../state-reference";
 import {
@@ -24,6 +24,7 @@ import {
 import { applyFindingRestitution } from "./finding-restitution";
 import { advanceProceeding } from "../press/procedures";
 import { appendPressRecord } from "../press/store";
+import { applyFindingConsequences as applyPressConsequences } from "../press/finding-consequences";
 
 const USD = makeCurrencyCode("USD");
 const seed = "team8-n3-finding-replay-all56";
@@ -37,6 +38,7 @@ const places = Object.keys(STATES)
 function fixture(
   usps: string,
   accounts: "both" | "missing-payer" | "missing-recipient" = "both",
+  closed = true,
 ) {
   const state = stateJurisdictionForKey(`US-${usps}`)!;
   const date = makeIsoDate("2026-01-05");
@@ -227,14 +229,25 @@ function fixture(
     step: "conciliation",
     at: date,
     eventId: event.id,
-    nextDueAt: null,
-    nextDueBasis: null,
+    nextDueAt: closed ? null : addDays(date, 30),
+    nextDueBasis: closed ? null : "authored",
     outcome: "conciliation",
-    closes: true,
-    publicStep: true,
+    closes: closed,
+    publicStep: closed,
     evidenceArtifactIds: [],
   });
   world = step.world;
+  if (!closed) {
+    const currentDate = addDays(date, 30);
+    world = {
+      ...world,
+      currentDate,
+      currentMoment: simulationMomentOnLocalDate(
+        world.currentMoment,
+        currentDate,
+      ),
+    };
+  }
   assertWorldIntegrity(world);
   return {
     world,
@@ -246,6 +259,93 @@ function fixture(
   };
 }
 describe("A152 mechanically extracted adjudicated restitution", () => {
+  it("does not issue a restitution order from the press-only entrypoint", () => {
+    const f = fixture(places[0]!);
+    const after = applyPressConsequences(
+      f.world,
+      f.proceeding,
+      f.step,
+      f.event,
+    );
+    expect(
+      after.history.events.filter(
+        (row) => row.type === "matter.restitution-ordered",
+      ),
+    ).toHaveLength(0);
+    expect(after.history.resourceFlows).toBe(f.world.history.resourceFlows);
+    expect(after.history.resourceTransferOutcomes).toBe(
+      f.world.history.resourceTransferOutcomes,
+    );
+    expect(after.history.resourceObligations).toBe(
+      f.world.history.resourceObligations,
+    );
+  });
+  it.each(["both", "missing-payer", "missing-recipient"] as const)(
+    "uses the saved institutional path once with %s",
+    (accounts) => {
+      const f = fixture(places[0]!, accounts, false);
+      expect(personName(f.person)).toBe("Reese Shaffer");
+      const result = advanceProceeding(f.world, f.proceeding.id);
+      expect(result.step?.step).toBe("file-released");
+      expect(result.step?.closes).toBe(true);
+      const after = result.world;
+      const orders = after.history.events.filter(
+        (row) => row.type === "matter.restitution-ordered",
+      );
+      expect(orders).toHaveLength(accounts === "missing-recipient" ? 0 : 1);
+      if (orders.length) {
+        expect(orders[0]!.sequence).toBeGreaterThan(result.step!.sequence);
+        expect(orders[0]!.summary).toContain(personName(f.person));
+        const flow = after.history.resourceFlows.find(
+          (row) => row.basisKind === "custom:ethics-restitution",
+        )!;
+        expect(flow.source).toEqual({ kind: "person", personId: f.person.id });
+        expect(flow.recipient).toEqual({
+          kind: "organization",
+          organizationId: f.government!.id,
+        });
+        expect(resourceFlowTermsAt(after, flow.id)!.amount).toEqual(
+          money(25000, USD),
+        );
+        process.stdout.write(
+          "A152 institutional receipt " +
+            JSON.stringify({
+              personId: f.person.id,
+              name: personName(f.person),
+              proceedingId: f.proceeding.id,
+              stepId: result.step!.id,
+              orderEventId: orders[0]!.id,
+              flowId: flow.id,
+              accounts,
+            }) +
+            "\n",
+        );
+        if (accounts === "missing-payer") {
+          expect(after.history.resourcePositions).toBe(
+            f.world.history.resourcePositions,
+          );
+          expect(after.history.resourceTransferOutcomes).toBe(
+            f.world.history.resourceTransferOutcomes,
+          );
+          const obligation = after.history.resourceObligations.find(
+            (row) => row.resourceFlowId === flow.id,
+          )!;
+          expect(outstandingDebtAt(after, obligation.id)!.minorUnits).toBe(
+            25000,
+          );
+        } else {
+          expect(
+            after.history.resourceTransferOutcomes.filter(
+              (row) => row.resourceFlowId === flow.id,
+            ),
+          ).toHaveLength(1);
+        }
+      }
+      assertWorldIntegrity(after);
+      const loaded = deserializeWorld(serializeWorld(after));
+      expect(advanceProceeding(loaded, f.proceeding.id).world).toBe(loaded);
+    },
+  );
   it.each(places)(
     "retains the existing full-save restitution result in %s",
     (usps) => {
