@@ -150,3 +150,9 @@ No generic resource creation hook is transferred. Opening and later hires both r
 ## A102 reference-channel clarification
 
 Team 4 confirmed that its judgment-only rentEvent release at f417d5f2183bc5ec3e2cfa263629321d0528463e includes provenance tags for actual court, seat and tenure records. Audit identified existing court and seat tag conventions. Historical filing IDs are also saved records, not canonical entities. Team 9 keeps the actual judge person as an entity and participant, validates the dated assignment before writing, and preserves base tags and nonjudgment branches. No registry, shared guard or civil-case schema expansion is granted. Tags preserve evidence; they do not establish authority.
+
+## October 1: starting-law reader dependency handoff
+
+Coordinator released the already-published starting-term reader hunks from 8f3957b1bcd161cb95c597b97fd306b6a1b277cb to Team 1. Scope: automatic-legislation.ts startingLawTerms import, nullable provision ID and dated reader; law-in-force.ts dated starting-row and term helpers; starting-law-terms.test.ts. Preserve newer compiler work. This is not a whole-file transfer. Coordinator will not concurrently edit these reader hunks.
+
+The extraction excludes handlers, registry, resource writers, canonical JSON and new HistoricalCutoff schema. Team 1 tests its exact composition. No composition pass, numeric increment or merge approval is implied.
