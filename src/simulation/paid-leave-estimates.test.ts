@@ -20,6 +20,7 @@ import {
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { personName } from "./people";
 import { pay } from "../../tests/fixtures/public-program-fixture";
+import type { EntityId } from "./types";
 
 describe("paid-leave fallback rates read sourced peers without a draw", () => {
   it("ranks the same-program sources and retains actual employee zero shares", () => {
@@ -55,13 +56,30 @@ describe("paid-leave fallback rates read sourced peers without a draw", () => {
     const state = chiefExecutiveJurisdiction("OR")!;
     let world = createScenarioWorld(seed, place.context, { peopleCount: 3 });
     const recipient = world.personOrder[0]!;
+    const original = world.policyCatalog!;
+    const registry = loadedPolicyRegistry();
+    // Preserve the demo's saved exposures; append canonical pack definitions.
+    const merge = <T extends { id: EntityId }>(
+      old: readonly T[],
+      added: readonly T[],
+    ) => [...new Map([...old, ...added].map((row) => [row.id, row])).values()];
     world = {
       ...world,
       jurisdictions: { ...world.jurisdictions, [state.id]: state },
       jurisdictionOrder: [...world.jurisdictionOrder, state.id],
       policyCatalog: createPolicyCatalog({
-        ...loadedPolicyRegistry(),
         catalogVersion: "team6-a45-fixture/v1",
+        domains: merge(Object.values(original.domains), registry.domains),
+        issues: merge(Object.values(original.issues), registry.issues),
+        propositions: merge(
+          Object.values(original.propositions),
+          registry.propositions,
+        ),
+        subjects: merge(Object.values(original.subjects), registry.subjects),
+        principles: merge(
+          Object.values(original.principles),
+          registry.principles,
+        ),
       }),
     };
     world = ensureTaxPublicAccount(world, state.id);
