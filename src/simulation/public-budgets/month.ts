@@ -8,7 +8,11 @@ import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
-import { publicOrganizationKey } from "../tax-policy";
+import {
+  publicOrganizationKey,
+  publicTaxAccountForIdentity,
+} from "../tax-policy";
+import { publicGovernmentIdentityForRecord } from "../public-government-identity";
 import { recordById } from "../history-index";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
@@ -186,6 +190,7 @@ export function readMonthFlows(
     ...(store.federalGovernment ? [store.federalGovernment] : []),
   ];
   const budgetKeys = new Set(governments.map((row) => row.key));
+  const governmentByKey = new Map(governments.map((row) => [row.key, row]));
   const federalKey = store.federalGovernment?.key;
   for (const government of governments) {
     byStableKey.set(
@@ -199,6 +204,8 @@ export function readMonthFlows(
   }
   for (const organization of history.organizations) {
     let key = byStableKey.get(organization.stableKey);
+    let identity:
+      ReturnType<typeof publicGovernmentIdentityForRecord> | undefined;
     const localPrefix = "public-government:local:";
     if (!key && organization.stableKey.startsWith(localPrefix)) {
       const governmentKey = decodeURIComponent(
@@ -214,9 +221,32 @@ export function readMonthFlows(
             : municipal?.placeGeoid
               ? `place:${municipal.placeGeoid}`
               : null;
-      if (budgetKey && budgetKeys.has(budgetKey)) key = budgetKey;
+      if (budgetKey && budgetKeys.has(budgetKey)) {
+        const government = governmentByKey.get(budgetKey)!;
+        // The named identity comes from this saved account's stable key and
+        // the existing compiled-government relation, not geographic aliasing.
+        identity = publicGovernmentIdentityForRecord({
+          jurisdictionId: government.jurisdictionId,
+          publicGovernmentIdentity: {
+            kind: "local-government",
+            governmentKey,
+            jurisdictionId: government.jurisdictionId,
+          },
+        });
+        key = budgetKey;
+      }
     }
-    if (key) accountOwner.set(organization.id, key);
+    if (key) {
+      const government = governmentByKey.get(key)!;
+      if (government.level === "county" || government.level === "city") {
+        const account = publicTaxAccountForIdentity(
+          world,
+          identity ?? publicGovernmentIdentityForRecord(government),
+        );
+        if (account?.organizationId !== organization.id) continue;
+      }
+      accountOwner.set(organization.id, key);
+    }
   }
   const cash = new Map<
     string,
@@ -833,6 +863,13 @@ export function settleGovernmentMonth(
   }
   const adjustments: BudgetAdjustment[] = [];
   const publicCash = flows.cash?.get(government.key);
+  // A local government cannot settle from a forecast or an ambiguous/missing
+  // account. Its month must use recorded cash; never create an account here.
+  if (
+    (government.level === "county" || government.level === "city") &&
+    (flows.recorded === undefined || publicCash === undefined)
+  )
+    return { government, adjustments: [] };
   // A missing recorded map means an older caller still supplies forecasts.
   const cashSettled = publicCash !== undefined && flows.recorded !== undefined;
   const recorded = flows.recorded?.get(government.key);
