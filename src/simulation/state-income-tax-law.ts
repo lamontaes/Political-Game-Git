@@ -35,6 +35,8 @@ import stateHouseholdIncome2023 from "../../data/research/money/state-household-
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import {
   annualTax,
+  reciprocalRankedReferences,
+  weightedReferenceMean,
   STATE_FILING_STATUS_NOTE,
   stateScheduleForFilingStatus,
   type FilingStatus,
@@ -208,31 +210,24 @@ function scheduleReferences(
   ) =>
     Number(b.sameRegion) - Number(a.sameRegion) ||
     a.incomeDistanceDollars - b.incomeDistanceDollars;
-  const candidates = Object.entries(STATE_PLACES)
-    .flatMap(([key, place]) =>
-      place.wageIncomeTax === shape &&
-      (income === undefined || HOUSEHOLD_INCOMES[key] !== undefined)
-        ? [
-            {
-              stateKey: key,
-              place,
-              sameRegion:
-                income !== undefined && censusRegionOf(key.slice(3)) === region,
-              incomeDistanceDollars:
-                income === undefined
-                  ? 0
-                  : Math.abs(HOUSEHOLD_INCOMES[key]! - income),
-            },
-          ]
-        : [],
-    )
-    .sort((a, b) => compare(a, b) || a.stateKey.localeCompare(b.stateKey));
-  let rank = 1;
-  return candidates.map((candidate, index) => {
-    if (index > 0 && compare(candidate, candidates[index - 1]!) !== 0)
-      rank = index + 1;
-    return { ...candidate, rank, weight: 1 / rank };
-  });
+  const candidates = Object.entries(STATE_PLACES).flatMap(([key, place]) =>
+    place.wageIncomeTax === shape &&
+    (income === undefined || HOUSEHOLD_INCOMES[key] !== undefined)
+      ? [
+          {
+            stateKey: key,
+            place,
+            sameRegion:
+              income !== undefined && censusRegionOf(key.slice(3)) === region,
+            incomeDistanceDollars:
+              income === undefined
+                ? 0
+                : Math.abs(HOUSEHOLD_INCOMES[key]! - income),
+          },
+        ]
+      : [],
+  );
+  return reciprocalRankedReferences(candidates, compare, (row) => row.stateKey);
 }
 
 /**
@@ -251,14 +246,6 @@ function estimatedSchedule(
   const references = scheduleReferences(stateKey, shape);
   if (references.length === 0)
     throw new Error("No sourced state income-tax schedules for this shape.");
-  const weightedMean = (
-    rows: readonly ScheduleReference[],
-    value: (reference: ScheduleReference) => number,
-  ) =>
-    rows.reduce(
-      (sum, reference) => sum + value(reference) * reference.weight,
-      0,
-    ) / rows.reduce((sum, reference) => sum + reference.weight, 0);
   const deductions = references.filter(
     (reference) => reference.place.standardDeductionSingle !== null,
   );
@@ -267,13 +254,13 @@ function estimatedSchedule(
   const deductionDollars =
     ownDeductionDollars ??
     Math.round(
-      weightedMean(
+      weightedReferenceMean(
         deductions,
         (reference) => reference.place.standardDeductionSingle!,
       ),
     );
   const weightedTaxMinor = (dollars: number) =>
-    weightedMean(references, (reference) =>
+    weightedReferenceMean(references, (reference) =>
       annualTax(dollars * 100, bracketsOf(reference.place)),
     );
   const brackets: readonly IncomeTaxBracket[] =
@@ -282,7 +269,7 @@ function estimatedSchedule(
           {
             overMinor: 0,
             rateBasisPoints: Math.round(
-              weightedMean(
+              weightedReferenceMean(
                 references,
                 (reference) => reference.place.brackets[0]!.ratePercent,
               ) * 100,
@@ -296,7 +283,7 @@ function estimatedSchedule(
             rateBasisPoints:
               next === undefined
                 ? Math.round(
-                    weightedMean(
+                    weightedReferenceMean(
                       references,
                       (reference) =>
                         reference.place.brackets.at(-1)!.ratePercent,
