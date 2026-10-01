@@ -125,7 +125,8 @@ function fundedFixture(saveAppropriation = true) {
   const enactment = world.history.legislativeEnactments!.find(
     (row) => row.measureId === measureId && row.outcome === "enacted",
   )!;
-  if (!enactment) throw new Error("The funding fixture did not enact its appropriation.");
+  if (!enactment)
+    throw new Error("The funding fixture did not enact its appropriation.");
   const availableAt = addDays(enactment.resolvedAt, 90);
   const adopted = saveAppropriation
     ? recordAdoptedAppropriation(world, {
