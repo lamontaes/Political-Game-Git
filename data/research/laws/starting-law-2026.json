@@ -2779,7 +2779,17 @@
         "US-AL": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-AR": {
           "answer": "yes",
@@ -2805,7 +2815,192 @@
           "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
           "note": "American Samoa has no territorial minimum wage; its industry rates are set by federal law and stay below $7.25 (for example $6.20 for retail since September 30, 2024) until they reach the federal rate.",
           "wageTermsStatus": "Federal authority only; no state numeric term. Industry-specific federal rates need actual saved scope.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS",
+          "scopeEvidence": {
+            "kind": "unresolved-industry",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/bottling",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/1",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/2",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/construction",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/3",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/4",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/finance",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/5",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/6",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/fish-canning",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/7",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/8",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/garment",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/9",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/10",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/government",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/11",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/12",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/hotel",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/13",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/14",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/petroleum",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/15",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/16",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/printing",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/17",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/18",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/private-hospitals",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/19",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/20",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/publishing",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/21",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/22",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/23",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/24",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/ship-maintenance",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/25",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/26",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/27",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/28",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/29",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/30",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/31",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/32",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/tour-travel",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/33",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/34",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/miscellaneous",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/35",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              }
+            ]
+          }
         },
         "US-AZ": {
           "answer": "yes",
@@ -3242,7 +3437,17 @@
         "US-LA": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-MA": {
           "answer": "yes",
@@ -3414,7 +3619,17 @@
         "US-MS": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-MT": {
           "answer": "yes",
@@ -3683,7 +3898,27 @@
         "US-NY": {
           "answer": "yes",
           "wageTermsStatus": "Unbound regional scope; no universal state amount.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY",
+          "scopeEvidence": {
+            "kind": "unresolved-regional",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/0",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/1",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/2",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              }
+            ]
+          }
         },
         "US-OH": {
           "answer": "yes",
@@ -3742,7 +3977,42 @@
         "US-OR": {
           "answer": "yes",
           "wageTermsStatus": "Unbound regional scope; no universal state amount.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR",
+          "scopeEvidence": {
+            "kind": "unresolved-regional",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/0",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/1",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/2",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/3",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/4",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/5",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              }
+            ]
+          }
         },
         "US-PA": {
           "answer": "no",
@@ -3837,7 +4107,17 @@
         "US-SC": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-SD": {
           "answer": "yes",
@@ -3860,7 +4140,17 @@
         "US-TN": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-TX": {
           "answer": "no",
