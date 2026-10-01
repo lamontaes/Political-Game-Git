@@ -148,41 +148,52 @@ export const MEDICAID_EXPANSION_RULES = {
  * A year's guideline: the contiguous states' amounts, and a first-person
  * amount for each state that has its own, keyed by the state's name.
  */
+type GuidelineRow = {
+  readonly "1": number;
+  /** Published with each table since 2026; derived before that. */
+  readonly eachAdditional?: number;
+};
 type Guideline = {
-  readonly contiguous: {
-    readonly "1": number;
-    readonly eachAdditional: number;
-  };
-} & Readonly<Record<string, { readonly "1": number }>>;
+  readonly contiguous: GuidelineRow & { readonly eachAdditional: number };
+} & Readonly<Record<string, GuidelineRow>>;
 
+/**
+ * The HHS poverty guidelines by year, from the date each took effect (the
+ * 2026 table on January 13, 2026; a year without a recorded date from
+ * January 1).
+ */
 const GUIDELINES = Object.entries(
   programs.federal.povertyGuidelines as unknown as Record<
     string,
-    { readonly value?: Guideline }
+    { readonly value?: Guideline; readonly effective?: string }
   >,
 )
   .flatMap(([year, row]) =>
     /^\d{4}$/.test(year) && row.value
-      ? [[Number(year), row.value] as const]
+      ? [[row.effective ?? `${year}-01-01`, row.value] as const]
       : [],
   )
-  .sort((a, b) => a[0] - b[0]);
+  .sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
 
-/** The annual poverty line for a household, in cents. */
+/**
+ * The annual poverty line for a household, in cents. Alaska and Hawaii have
+ * their own tables; every other place, the territories included (HHS defines
+ * none for them), reads the 48-state and D.C. table.
+ */
 export function annualPovertyLineMinor(
   stateKey: string,
   householdSize: number,
   onDate: IsoDate,
 ): number {
-  const year = yearOf(onDate);
-  const guideline = (GUIDELINES.filter(([read]) => read <= year).at(-1) ??
+  const guideline = (GUIDELINES.filter(([from]) => from <= onDate).at(-1) ??
     GUIDELINES[0]!)[1];
   const contiguous = guideline.contiguous;
   const name = stateJurisdictionForKey(stateKey)?.name.toLowerCase();
   const own = name && name !== "contiguous" ? guideline[name] : undefined;
   const first = own?.["1"] ?? contiguous["1"];
   const added = own
-    ? (contiguous.eachAdditional * own["1"]) / contiguous["1"]
+    ? (own.eachAdditional ??
+      (contiguous.eachAdditional * own["1"]) / contiguous["1"])
     : contiguous.eachAdditional;
   return Math.round((first + Math.max(0, householdSize - 1) * added) * 100);
 }

@@ -67,6 +67,7 @@ import {
 import { assertStatutoryTaxIntegrity } from "./statutory-tax";
 import { assertHouseholdLoanIntegrity } from "./household-loans";
 import { assertLawExposureIntegrity } from "./law-exposure";
+import { assertHouseholdPovertyIntegrity } from "./household-poverty";
 import { assertOfficialViewIntegrity } from "./official-view-reads";
 import {
   addDays,
@@ -2020,6 +2021,7 @@ function validateHistoryIntegrity(
     : [
         ...taxHistoryRecords(world),
         ...(history.lawExposures ?? []),
+        ...(history.householdPoverty ?? []),
         ...(history.officialViews ?? []),
         ...jobMarketHistoryRecords(world),
         ...lifeHistoryRecords(world),
@@ -2241,6 +2243,7 @@ function validateHistoryIntegrity(
   for (const record of crisisRecords(world)) assertUniqueId(ids, record.id);
   assertCrisisIntegrity(world);
   assertLawExposureIntegrity(world, ids);
+  assertHouseholdPovertyIntegrity(world, ids);
   assertOfficialViewIntegrity(world, ids);
   assertLawPermissionIntegrity(world, ids);
   assertPermitIntegrity(world, ids);

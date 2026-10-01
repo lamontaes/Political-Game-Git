@@ -117,6 +117,7 @@ export type EntityKind =
   | "loan-repayment-allocation"
   | "loan-discharge"
   | "law-exposure"
+  | "household-poverty"
   | "official-view"
   | "job-opening"
   | "job-application"
@@ -969,6 +970,37 @@ export interface LawExposureRecord {
   readonly monthlyPay: MoneyAmount | null;
   /** The record showing the effect happened (a tax collection, a paycheck). */
   readonly sourceRecordId: EntityId;
+}
+
+/**
+ * One household's poverty status for one month: its members' recorded pay
+ * against the federal poverty guideline for its size and state. Written once
+ * a month by `household-poverty.ts`; read by the outcome web and opinion code.
+ */
+export interface HouseholdPovertyRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly householdId: EntityId;
+  /** Where the household lives: its first member's home jurisdiction. */
+  readonly jurisdictionId: EntityId;
+  /** The calendar month, "YYYY-MM". */
+  readonly month: string;
+  /** The state key whose guideline applied ("US-AK", "US-PR"). */
+  readonly stateKey: string;
+  /** Living resident members on the month's last day. */
+  readonly memberIds: readonly EntityId[];
+  /** The guideline for this household's size, a month's share, in cents. */
+  readonly monthlyGuidelineMinor: number;
+  /**
+   * The members' recorded pay for the month, in cents: four weeks of actual
+   * paychecks scaled to a month. Null when a working member has no recorded
+   * paycheck yet: unknown, never zero.
+   */
+  readonly monthlyPayMinor: number | null;
+  /** Below the guideline, at or above it, or unknown (pay not recorded). */
+  readonly status: "below" | "at-or-above" | "pay-unrecorded";
 }
 
 /** Why a person's view of an official moved (spec 5, "Reasons for a view"). */
@@ -4433,6 +4465,8 @@ export interface HistoryStore {
   readonly loanDischarges?: readonly LoanDischargeRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
+  /** Optional: monthly household poverty status; see `household-poverty.ts`. */
+  readonly householdPoverty?: readonly HouseholdPovertyRecord[];
   /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */
   readonly officialViews?: readonly OfficialViewRecord[];
   /** Optional: job openings and applications; see `job-market.ts`. */
