@@ -8,6 +8,7 @@ import { recordEventKnowledge } from "../records";
 import { resourcePositionAt } from "../resource-queries";
 import {
   createResourceFlow,
+  createResourceObligation,
   recordResourceTransferOutcome,
 } from "../resources";
 import { publicOrganizationKey } from "../tax-policy";
@@ -363,7 +364,7 @@ function restitutionConsequence(
       basisKind: "custom:ethics-restitution",
       restrictionKind: "purpose:general",
       paidSummary: `${name} paid ${dollars}, the campaign money found misused, to the ${governmentName}, as the ${proceeding.institutionLabel} required.`,
-      unpaidSummary: `The ${proceeding.institutionLabel} required ${name} to pay ${dollars}, the campaign money found misused, to the ${governmentName}; ${name} did not have it, and the debt stands unpaid.`,
+      unpaidSummary: `The ${proceeding.institutionLabel} required ${name} to pay ${dollars}, the campaign money found misused, to the ${governmentName}; the debt stands unpaid.`,
       motivation:
         "Forfeiture of the misused amount itself, ordered with the finding.",
     });
@@ -420,7 +421,7 @@ function civilPenaltyConsequence(
     basisKind: "custom:civil-penalty",
     restrictionKind: "purpose:general",
     paidSummary: `The ${proceeding.institutionLabel} fined ${name} ${dollars} for ${count} of campaign money used for personal expenses, and ${name} paid it.`,
-    unpaidSummary: `The ${proceeding.institutionLabel} fined ${name} ${dollars} for ${count} of campaign money used for personal expenses; ${name} did not have it, and the fine stands unpaid.`,
+    unpaidSummary: `The ${proceeding.institutionLabel} fined ${name} ${dollars} for ${count} of campaign money used for personal expenses; the fine stands unpaid.`,
     motivation:
       prior > 0
         ? "A civil penalty for each payment found, raised for a repeat offense."
@@ -451,8 +452,9 @@ interface PaymentOrder {
 
 /**
  * Records the order in public, then the respondent's payment through the
- * existing money writers: completed when they hold the money, blocked (the
- * debt stands) when they do not. Tracked positions never overdraw.
+ * existing money writers. An unpaid order becomes an outstanding obligation;
+ * missing cash leaves settlement unsupported, not the liability. Recorded
+ * insufficient cash keeps a blocked outcome. Tracked positions never overdraw.
  */
 function orderPayment(
   world: World,
@@ -460,7 +462,7 @@ function orderPayment(
   respondentId: EntityId,
   order: PaymentOrder,
 ): World {
-  // Missing cash or recipient records do not establish a payable obligation.
+  // An actual order survives missing payer cash. Settlement needs recorded cash.
   const payer = { kind: "person" as const, personId: respondentId };
   const position = resourcePositionAt(world, payer, order.amount.currency);
   const recipient = world.history.organizations.find(
@@ -468,7 +470,7 @@ function orderPayment(
       row.id === order.recipientOrganizationId &&
       row.formedAt <= world.currentDate,
   );
-  if (!position || !recipient) return world;
+  if (!recipient) return world;
   let next = world;
   const paid =
     position !== undefined &&
@@ -489,7 +491,7 @@ function orderPayment(
       {
         personId: respondentId,
         role: "focus:respondent",
-        detail: paid ? "Paid as ordered" : "Could not pay in full",
+        detail: paid ? "Paid as ordered" : "Payment remains outstanding",
       },
     ],
     personFactConstraints: [],
@@ -527,25 +529,37 @@ function orderPayment(
     provenance: { kind: "simulated-event", eventId: orderEvent.id },
   });
   const flow = next.history.resourceFlows.at(-1)!;
-  next = recordResourceTransferOutcome(next, {
-    stableKey: `${order.key}:transfer`,
-    resourceFlowId: flow.id,
-    periodStartsAt: next.currentDate,
-    periodEndsAt: next.currentDate,
-    occurredAt: next.currentDate,
-    attemptedAmount: order.amount,
-    transferredAmount: paid
-      ? order.amount
-      : { minorUnits: 0, currency: order.amount.currency },
-    status: paid ? "completed" : "blocked",
-    reasonKind: paid ? null : "capacity:restitution-unavailable",
-    note: paid
-      ? "Paid as ordered."
-      : position
-        ? "Insufficient funds to pay."
-        : "No account to pay from.",
-    provenance: { kind: "simulated-event", eventId: orderEvent.id },
-  });
+  if (!paid)
+    next = createResourceObligation(next, {
+      stableKey: `${order.key}:obligation`,
+      resourceFlowId: flow.id,
+      establishedAt: next.currentDate,
+      basisKind: order.basisKind,
+      principal: order.amount,
+      careResponsibilityId: null,
+      housingTenureId: null,
+      provenance: { kind: "simulated-event", eventId: orderEvent.id },
+    });
+  if (position)
+    next = recordResourceTransferOutcome(next, {
+      stableKey: `${order.key}:transfer`,
+      resourceFlowId: flow.id,
+      periodStartsAt: next.currentDate,
+      periodEndsAt: next.currentDate,
+      occurredAt: next.currentDate,
+      attemptedAmount: order.amount,
+      transferredAmount: paid
+        ? order.amount
+        : { minorUnits: 0, currency: order.amount.currency },
+      status: paid ? "completed" : "blocked",
+      reasonKind: paid ? null : "capacity:restitution-unavailable",
+      note: paid
+        ? "Paid as ordered."
+        : position
+          ? "Insufficient funds to pay."
+          : "No account to pay from.",
+      provenance: { kind: "simulated-event", eventId: orderEvent.id },
+    });
   return recordEventKnowledge(next, {
     stableKey: `${order.key}:respondent-knows`,
     personId: respondentId,

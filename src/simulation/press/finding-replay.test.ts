@@ -12,7 +12,7 @@ import {
   money,
   recordResourceTransferOutcome,
 } from "../resources";
-import { resourcePositionAt } from "../resource-queries";
+import { outstandingDebtAt, resourcePositionAt } from "../resource-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { STATES } from "../state-reference";
 import {
@@ -308,34 +308,171 @@ describe("finding consequences use saved payments and authoritative closed guard
       );
     },
   );
-  it.each(["missing-payer", "missing-recipient"] as const)(
-    "keeps missing financial records unsupported: %s",
-    (accounts) => {
-      const f = fixture(places[0]!, accounts);
+  it("keeps a missing actual creditor unsupported", () => {
+    const f = fixture(places[0]!, "missing-recipient");
+    const after = applyFindingConsequences(
+      f.world,
+      f.proceeding,
+      f.step,
+      f.event,
+    );
+    expect(after.history.organizations).toEqual(f.world.history.organizations);
+    expect(after.history.resourcePositions).toEqual(
+      f.world.history.resourcePositions,
+    );
+    expect(after.history.resourceFlows).toEqual(f.world.history.resourceFlows);
+    expect(after.history.resourceTransferOutcomes).toEqual(
+      f.world.history.resourceTransferOutcomes,
+    );
+    expect(
+      after.history.events.filter(
+        (row) => row.type === "matter.restitution-ordered",
+      ),
+    ).toHaveLength(0);
+    assertWorldIntegrity(after);
+  });
+  it.each(["missing", "insufficient"] as const)(
+    "retains the adjudicated obligation when payer cash is %s",
+    (cash) => {
+      const f = fixture(places[0]!, "missing-payer");
+      let before = f.world;
+      if (cash === "insufficient")
+        before = createResourcePosition(before, {
+          stableKey: "fixture:known-empty-cash",
+          owner: { kind: "person", personId: f.person.id },
+          openedAt: before.currentDate,
+          openingBalance: money(0, USD),
+          provenance: {
+            kind: "authored",
+            note: "Explicit controlled cash record.",
+          },
+        });
       const after = applyFindingConsequences(
+        before,
+        f.proceeding,
+        f.step,
+        f.event,
+      );
+      const flows = after.history.resourceFlows.filter(
+        (row) => row.basisKind === "custom:ethics-restitution",
+      );
+      expect(flows).toHaveLength(1);
+      const flow = flows[0]!;
+      expect(flow.source).toEqual({ kind: "person", personId: f.person.id });
+      expect(flow.recipient).toEqual({
+        kind: "organization",
+        organizationId: f.government!.id,
+      });
+      const obligations = after.history.resourceObligations.filter(
+        (row) => row.resourceFlowId === flow.id,
+      );
+      expect(obligations).toHaveLength(1);
+      const obligation = obligations[0]!;
+      expect(obligation.principal).toEqual(money(25_000, USD));
+      expect(outstandingDebtAt(after, obligation.id)).toEqual(
+        money(25_000, USD),
+      );
+      const order = after.history.events.find(
+        (row) => row.type === "matter.restitution-ordered",
+      )!;
+      expect(obligation.provenance).toEqual({
+        kind: "simulated-event",
+        eventId: order.id,
+      });
+      expect(order.summary).toContain("the debt stands unpaid");
+      expect(order.summary).not.toContain("did not have it");
+      const outcomes = after.history.resourceTransferOutcomes.filter(
+        (row) => row.resourceFlowId === flow.id,
+      );
+      expect(outcomes).toHaveLength(cash === "missing" ? 0 : 1);
+      if (cash === "insufficient")
+        expect(outcomes[0]).toMatchObject({
+          status: "blocked",
+          transferredAmount: money(0, USD),
+        });
+      expect(after.history.resourcePositions).toEqual(
+        before.history.resourcePositions,
+      );
+      expect(after.history.organizations).toEqual(before.history.organizations);
+      assertWorldIntegrity(after);
+      const loaded = deserializeWorld(serializeWorld(after));
+      expect(outstandingDebtAt(loaded, obligation.id)).toEqual(
+        money(25_000, USD),
+      );
+      expect(advanceProceeding(loaded, f.proceeding.id).world).toBe(loaded);
+      expect(serializeWorld(loaded)).toBe(serializeWorld(after));
+    },
+  );
+  it.each([10_000, 25_000])(
+    "reduces only the same outstanding obligation by the recorded later payment of %s cents",
+    (paid) => {
+      const f = fixture(places[0]!, "missing-payer");
+      let world = applyFindingConsequences(
         f.world,
         f.proceeding,
         f.step,
         f.event,
       );
-      expect(after.history.organizations).toEqual(
-        f.world.history.organizations,
-      );
-      expect(after.history.resourcePositions).toEqual(
-        f.world.history.resourcePositions,
-      );
-      expect(after.history.resourceFlows).toEqual(
-        f.world.history.resourceFlows,
-      );
-      expect(after.history.resourceTransferOutcomes).toEqual(
-        f.world.history.resourceTransferOutcomes,
+      const flow = world.history.resourceFlows.find(
+        (row) => row.basisKind === "custom:ethics-restitution",
+      )!;
+      const obligation = world.history.resourceObligations.find(
+        (row) => row.resourceFlowId === flow.id,
+      )!;
+      const order = world.history.events.find(
+        (row) => row.type === "matter.restitution-ordered",
+      )!;
+      world = createResourcePosition(world, {
+        stableKey: "fixture:subsequently-recorded-cash",
+        owner: { kind: "person", personId: f.person.id },
+        openedAt: world.currentDate,
+        openingBalance: money(25_000, USD),
+        provenance: {
+          kind: "authored",
+          note: "Explicit controlled subsequently recorded cash, not inferred from liability.",
+        },
+      });
+      world = recordResourceTransferOutcome(world, {
+        stableKey: "fixture:subsequent-order-payment",
+        resourceFlowId: flow.id,
+        periodStartsAt: world.currentDate,
+        periodEndsAt: world.currentDate,
+        occurredAt: world.currentDate,
+        attemptedAmount: money(25_000, USD),
+        transferredAmount: money(paid, USD),
+        status: paid === 25_000 ? "completed" : "partial",
+        reasonKind: paid === 25_000 ? null : "capacity:fixture-partial-payment",
+        note: "Actual controlled payment against the original order.",
+        provenance: { kind: "simulated-event", eventId: order.id },
+      });
+      expect(outstandingDebtAt(world, obligation.id)).toEqual(
+        money(25_000 - paid, USD),
       );
       expect(
-        after.history.events.filter(
-          (row) => row.type === "matter.restitution-ordered",
+        resourcePositionAt(
+          world,
+          { kind: "person", personId: f.person.id },
+          USD,
+        )?.liquidBalance,
+      ).toEqual(money(25_000 - paid, USD));
+      expect(
+        resourcePositionAt(
+          world,
+          { kind: "organization", organizationId: f.government!.id },
+          USD,
+        )?.liquidBalance,
+      ).toEqual(money(paid, USD));
+      expect(
+        world.history.resourceObligations.filter(
+          (row) => row.resourceFlowId === flow.id,
         ),
-      ).toHaveLength(0);
-      assertWorldIntegrity(after);
+      ).toHaveLength(1);
+      assertWorldIntegrity(world);
+      const loaded = deserializeWorld(serializeWorld(world));
+      expect(outstandingDebtAt(loaded, obligation.id)).toEqual(
+        money(25_000 - paid, USD),
+      );
+      expect(advanceProceeding(loaded, f.proceeding.id).world).toBe(loaded);
     },
   );
 });
