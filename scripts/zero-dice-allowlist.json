@@ -927,34 +927,6 @@
       "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
     },
     {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"era\").next() < t.eraJumpMonthlyChance)"
-    },
-    {
-      "file": "src/simulation/macro-economy/kernel.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"price-shock\").next() < i.shockMonthlyChance)"
-    },
-    {
-      "file": "src/simulation/macro-economy/policy.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "eraJumpMonthlyChance: 0.00125,"
-    },
-    {
-      "file": "src/simulation/macro-economy/policy.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "shockMonthlyChance: 0.003,"
-    },
-    {
       "file": "src/simulation/migration/review.ts",
       "kind": "fixed-share",
       "build": "Build 24",
@@ -1088,11 +1060,11 @@
       "code": "if (place.stateJurisdictionKey === \"US-DC\") return null;"
     },
     {
-      "file": "src/simulation/outcome-web/place-outcomes.ts",
+      "file": "src/simulation/people-upbringing.ts",
       "kind": "roll",
-      "build": "Build 2",
+      "build": "Build 7",
       "count": 1,
-      "code": "rng.fork(\"wave\").next() < drift.waveMonthlyChance"
+      "code": "return roll < 15 ? \"severe-scarcity\" : roll < 35 ? \"strained\" : \"secure\";"
     },
     {
       "file": "src/simulation/people-upbringing.ts",

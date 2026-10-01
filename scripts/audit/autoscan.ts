@@ -35,6 +35,8 @@
  *   npm run audit:scan -- --only A124,A125     # some items
  *   npm run audit:scan -- --changed a.ts,b.ts  # which audit items these changed files move
  *   npm run audit:scan -- --changed-range <base>..<head>   # the same, from git
+ *     add --claimed "<pull request title>" to check the audit IDs it names,
+ *     and --markdown for a check summary
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -555,6 +557,48 @@ export function changedItems(
   return out;
 }
 
+/** The changed-files result as a check summary, in Markdown. */
+export function changedMarkdown(
+  moved: readonly ChangedItem[],
+  claimed: readonly string[],
+  changedCount: number,
+): string {
+  const cell = (text: string) => text.replace(/\|/g, "\\|");
+  const out = [
+    "### Audit items this pull request moves",
+    "",
+    `${changedCount} changed files move ${moved.length} audit ${moved.length === 1 ? "item" : "items"}.`,
+    "",
+  ];
+  if (moved.length) {
+    out.push(
+      "| Item | Engine, step | Status on this head | Owner | Moved by |",
+      "| --- | --- | --- | --- | --- |",
+      ...moved.map(
+        (item) =>
+          `| ${item.id} | ${cell(item.engine)} #${item.seq} | ${item.scanned} | ${cell(item.owner)} | ${cell(item.via.join("; "))} |`,
+      ),
+      "",
+    );
+  }
+  if (claimed.length) {
+    const ids = new Set(moved.map((item) => item.id));
+    out.push(
+      "Audit IDs claimed in the title:",
+      "",
+      ...claimed.map((id) =>
+        ids.has(id)
+          ? `- ${id}: moved by these files.`
+          : `- ${id}: no rule or evidence of ${id} names these files.`,
+      ),
+      "",
+    );
+  } else {
+    out.push("The title claims no audit ID.", "");
+  }
+  return out.join("\n");
+}
+
 /** Lines a git range added or removed, per file, with comments left in. */
 function changedLinesIn(range: string): Map<string, string[]> {
   const diff = execFileSync("git", ["diff", "-U0", range], {
@@ -607,6 +651,13 @@ async function main(): Promise<void> {
       files,
       range ? changedLinesIn(range) : undefined,
     );
+    const claimed = auditIdsIn(value("--claimed") ?? "");
+    const movedIds = new Set(moved.map((item) => item.id));
+    const changedCount = files.filter((file) => file.trim()).length;
+    if (args.includes("--markdown")) {
+      console.log(changedMarkdown(moved, claimed, changedCount));
+      return;
+    }
     console.log(
       moved.length
         ? table(
@@ -621,8 +672,14 @@ async function main(): Promise<void> {
           )
         : "No audit item names these files.",
     );
+    for (const id of claimed)
+      console.log(
+        movedIds.has(id)
+          ? `Claimed ${id}: moved by these files.`
+          : `Claimed ${id}: no rule or evidence of ${id} names these files.`,
+      );
     console.log(
-      `\n${files.filter(Boolean).length} changed files move ${moved.length} audit items (${Date.now() - started} ms).`,
+      `\n${changedCount} changed files move ${moved.length} audit items (${Date.now() - started} ms).`,
     );
     return;
   }
