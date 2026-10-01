@@ -1207,8 +1207,6 @@ export function applyLawPayConsequence(
       },
     };
   }
-  if (resolved.action !== "raise-hourly-floor")
-    return refuse("pay.saved-hourly-rule.requires-completed-shift");
   const note = payNoteOf(current!.cadenceKind);
   const weekly = current!.cadenceKind === "schedule:weekly";
   if (!note && !weekly) refuse("pay.cadence.recorded-pay-period");
@@ -1249,8 +1247,8 @@ export function applyLawPayConsequence(
   const revision = createStableId(
     "resource-flow-terms",
     `law-pay-revision:${JSON.stringify([
-      resolved.law.measureId,
-      resolved.law.operativeAt,
+      governing!.measureId,
+      governing!.operativeAt,
       [...new Set(resolved.sourceRecordIds)].sort(),
     ])}`,
   );
@@ -1258,15 +1256,15 @@ export function applyLawPayConsequence(
   if (hasStableKey(world.history.resourceFlowTerms, stableKey))
     refuse("pay.revision.unique-amount");
   const enactment =
-    resolved.law.origin === "enacted"
+    governing!.origin === "enacted"
       ? recordsWithFieldValue(
           world.history.legislativeEnactments ?? [],
           "measureId",
-          resolved.law.measureId,
+          governing!.measureId,
         ).at(-1)
       : undefined;
   if (
-    resolved.law.origin === "enacted" &&
+    governing!.origin === "enacted" &&
     (!enactment || enactment.resolvedAt > effectiveAt)
   )
     refuse("pay.law.recorded-enactment");
@@ -1282,8 +1280,18 @@ export function applyLawPayConsequence(
     ]),
   ];
   const stamp = lawEffectStamp(governing, {
-    effectKind: "law.pay-compensation",
-    questionKey: resolved.questionKey,
+    effectKind: "pay",
+    questionKey:
+      resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
+    ...(resolved.action === "raise-saved-rule-hourly-floor"
+      ? {
+          ruleAuthority: {
+            ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
+            enactmentId: resolved.authority.enactmentId,
+            field: resolved.authority.field,
+          },
+        }
+      : {}),
     jurisdictionId: resolved.jurisdictionId,
     appliedAt: effectiveAt,
     sourceRecordIds,
@@ -1301,7 +1309,7 @@ export function applyLawPayConsequence(
       ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
       : {
           kind: "authored",
-          note: `Starting law ${resolved.law.measureId}; resolved pay row ${resolved.rowId}.`,
+          note: `Starting law ${governing!.measureId}; resolved pay row ${resolved.rowId}.`,
         },
     supersedesTermsId: current!.id,
     lawEffectStamps: [stamp!],
