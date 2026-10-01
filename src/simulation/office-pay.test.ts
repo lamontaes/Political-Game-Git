@@ -126,12 +126,13 @@ describe("what states pay for an office", () => {
       provenance,
       initialRole: {
         title: "Authored legislative salary-reader fixture",
+        occupationClassification: null,
         locationJurisdictionId: jurisdictionId,
         timeDemand: {
           expectedWeekly: { minimumHours: 40, maximumHours: 40 },
           attention: "high",
-          concurrency: "exclusive",
-          scheduleRigidity: "fixed",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
           interruptibility: "limited",
           locationJurisdictionId: jurisdictionId,
         },
