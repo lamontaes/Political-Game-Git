@@ -1,0 +1,69 @@
+{
+  "sourceHead": "790c1866cf50d64f4bd11399ba2376c16b39c43c",
+  "runtimeParent": "d454da976daaf74bc38462947a6fb69b7fb01dd5",
+  "runtimeOwnedDirtyBytesMatchSourceHead": true,
+  "currentMain": "493621af2e9ddb4fb7429c49747fceb61372a9f3",
+  "mainComposition": "a401743b2de32face910d465a2ab2c2d7df791c4",
+  "mainCompositionChangedSimulationSources": false,
+  "dependency": {
+    "pr": 1518,
+    "head": "30d190a13fc4722f58371ada8656f9f741ed2d6c",
+    "rowBlob": "4c67ea3d64c8580d0b607a178a6f13ca4aaf6aa5"
+  },
+  "sourceBlobs": {
+    "src/simulation/federal-data-privacy-law.ts": "82f8929b6c4752113467f053fe5069332b3874d2",
+    "src/simulation/federal-data-privacy-law.test.ts": "57f75607b8997146f3476100c5e9b42cc9ef423f",
+    "src/simulation/privacy-initial-compliance-estimate.test.ts": "583edb033203a2746d272732dc96c5d615f467ca",
+    "src/simulation/privacy-initial-compliance-writer.test.ts": "ed2fb51721dd7dd6e90a2a1c59330e80942c118b",
+    "src/simulation/living-world/town-finances.ts": "7403229c213074c26d27fab937ff86eab479e27f",
+    "src/simulation/living-world/town-finance-types.ts": "423308d8da13fae340fee6c9e7ad06d40621c2e2",
+    "data/research/money/privacy-law-compliance-cost-ccpa-2019.json": "4c67ea3d64c8580d0b607a178a6f13ca4aaf6aa5"
+  },
+  "command": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run test -- npx vitest run src/simulation/federal-data-privacy-law.test.ts src/simulation/privacy-initial-compliance-estimate.test.ts src/simulation/privacy-initial-compliance-writer.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-a28-writer-final.json",
+  "terminalExitCode": 0,
+  "passed": 22,
+  "failed": 0,
+  "perFile": [
+    {
+      "path": "src/simulation/federal-data-privacy-law.test.ts",
+      "durationMs": 88.285400390625,
+      "maxTestMs": 49.83927700000277
+    },
+    {
+      "path": "src/simulation/privacy-initial-compliance-estimate.test.ts",
+      "durationMs": 7.374755859375,
+      "maxTestMs": 6.663251999998465
+    },
+    {
+      "path": "src/simulation/privacy-initial-compliance-writer.test.ts",
+      "durationMs": 412.505859375,
+      "maxTestMs": 87.60374099999899
+    }
+  ],
+  "quietRunner": false,
+  "exclusiveSpeedRun": false,
+  "typecheck": {
+    "roots": 6,
+    "loadedFiles": 1040,
+    "ownedDiagnostics": 0,
+    "globalClaim": false
+  },
+  "notRun": [
+    "browser",
+    "full suite",
+    "game-year speed",
+    "56 populated worlds",
+    "natural firm qualification",
+    "own-law applicability adapter",
+    "effective-day scheduler"
+  ],
+  "scope": "Authored law passage, firm books and employment; actual canonical month, expense writer, Save/Continue, repeat and prospective repeal. No vendor payment, wage loss or natural qualification claimed.",
+  "static": {
+    "lint": "PASS",
+    "format": "PASS",
+    "report": "0 errors, 0 warnings",
+    "zeroDice": "0 new findings, 5 stale entries; identical to exact current main",
+    "spelling": "21 inherited findings on unowned paths; no owned finding",
+    "releaseDeclaration": "parser PASS; PR range pending final metadata commit"
+  }
+}

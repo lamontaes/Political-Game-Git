@@ -1,35 +1,47 @@
-# A privacy compliance cost changes when only the seed changes
+# Covered firms record one initial privacy expense
 
-The same recorded privacy law produces different compliance costs when only the world's seed changes. The new regression exposes that defect while retaining the existing stamp and inactive-law checks. The production sizing code is unchanged. Its replacement needs a sourced central estimate or approved mechanism; the published research range alone supplies neither.
+Saved firms above the approved estimated revenue threshold now incur one initial compliance expense when their existing financial review reads an operative privacy law. The books retain the law, the source and the employee count. Repeated reviews and repeal preserve the completed expense without charging it again. Five controlled place fixtures passed the expense, reload and repeal checks. Natural firm qualification and the law's own coverage adapter remain unproved.
 
-## What the checks established
+## What changed
 
-The original three privacy tests passed on main `cee1d4f1c46abf3c4333b25cc59841ead53d36aa`. Those tests included an assertion reproducing the old random calculation. The changed file replaces that assertion with read-only repeatability and seed invariance.
+The existing town-business writer subtracts the initial expense from net income and cash. It saves an optional occurrence and a law-effect stamp instead of charging a recurring share of payroll and other costs. The occurrence retains the saved revenue base, estimated threshold, actual employee count, source page, applicability citation and source limits. Historical fields and previous stamps remain intact.
 
-The changed file produced three passes and one failure. The failure changes only the seed of an otherwise identical controlled world. The cost share changes from `0.0019369796683313327` to `0.0018672662544995547`; the measure and stamp fields remain equal. These are measured outputs of the existing faulty draw, not calibration estimates.
+The reader uses saved private organizations, saved business books and unique named people with active paid employment. It refuses absent books, missing employees, invalid revenue, a future or repealed law, and final own-law terms that lack an admitted coverage adapter. The temporary rule is strictly above $25 million, labeled ESTIMATED. Saved modeled annual revenue substitutes for gross receipts; preceding-year gross receipts, indexed thresholds and data-trading coverage are not established by those books.
 
-The remaining cases preserve repeated-read and JSON-reload stability, the controlling federal measure's stamp at the application place, and refusal before effectiveness or after a no answer. This controlled read is not a completed business payment, a named person's observed consequence or a nationwide watched-world proof.
+## Sources and boundaries
 
-## Ownership and next dependency
+The CCPA August 2019 SRIA gives initial dollars per firm on page 11. The approved bands are fewer than 20 employees at $50,000; 20–99 at $100,000; 100–500 at $450,000; and above 500 at $2 million. No annualization, gross-state-product conversion, coverage lottery or price-year conversion is applied. The SRIA warns that its estimates may overstate smaller firms' costs.
 
-The CTO approved one-time initial compliance costs by employee-size band at the 4:51 checkpoint. The published CCPA research row supplies those initial costs; it supplies no recurring annual figure. The owned reader exposes unambiguous source bands with their one-time timing, source page and small-firm caveat. Exactly 100 employees matches both printed bands and now returns no estimate pending an explicit CTO convention. Exactly 500 employees falls unambiguously in the 100–500 band, because the next band is above 500. Zero, fractional and missing counts do not supply a band.
+X5's exact dependency is #1518 at `30d190a13fc4722f58371ada8656f9f741ed2d6c`. Its row cites Census SUSB 2022 enterprise bands and Cal. Civ. Code section 1798.140(d)(1)(A). SUSB prints 20–99, 100–499 and 500+. The CTO's October 1 ruling puts exactly 100 and exactly 500 at $450,000. Exactly 500 is recorded as the explicit CTO/SRIA exception, never as belonging to SUSB's printed 100–499 band.
 
-The earlier reader's two focused estimate cases passed. That version used X5's lower-class convention for exactly 100 employees; the convention was not a source finding and has been removed pending approval. The retained four privacy cases produced three passes and the same seed-invariance failure. That combined run produced five passes and one failure in 12.86 seconds; `/tmp/team6-a28-initial-band.log` and `.json` preserve the historical result. Three strict roots loaded 737 files with zero owned diagnostics.
+## Executed financial proof
 
-The renewed boundary file passed all three tests in 13.41 seconds. Two strict roots loaded 736 files with zero owned diagnostics. Evidence is retained in `/tmp/team6-a28-boundary.log`, `.json` and `/tmp/team6-a28-boundary-types.log`. The unrelated recurring-share regression was not rerun for this band-only correction; its last executed result remains the recorded failure above.
+The existing observer-place selector chose five places from the saved seed series. Each fixture authors its firm revenue and employment and passes a controlled law through canonical procedure. The real clock writes one macro month. The actual quarterly financial writer then records the expense.
 
-This is a supported estimate-reader component, not the completed expense writer. The recurring-share caller still exists in the protected town-finance writer. Its exact privacy expense/occurrence seam was requested from Coordinator. Audit must bind the law's admitted applicability terms and saved firm facts; no California threshold, vendor, annualization or price conversion was invented. The candidate remains **NOT READY** until the approved one-time writer replaces that recurring path and passes its saved-record proof.
+| Seed suffix | Place                     | Named saved employee | Firm ID                       | Saved initial expense |
+| ----------- | ------------------------- | -------------------- | ----------------------------- | --------------------- |
+| 0           | Pasadena, Texas           | Rene Griffith        | organization_5637e519f7846687 | $50,000               |
+| 1           | Charlestown, Rhode Island | Naomi Rosario        | organization_5edf48dd8abf4dfb | $50,000               |
+| 2           | Wyndham, Virginia         | Ruby Shields         | organization_a4f099051459f86d | $50,000               |
+| 3           | New Milford, New Jersey   | Laila O'Donnell      | organization_7c4dc3ba2cbc08c4 | $50,000               |
+| 4           | Many Farms, Arizona       | Aditi Griffin        | organization_862b945226dc6608 | $50,000               |
 
-Team1 released only the RNG/fallback-share seam in `src/simulation/federal-data-privacy-law.ts`. No production code, privacy writer or stamp was changed for this checkpoint. Team1 owns the separate general-budget consumer transfer in `program-governing.ts`.
+The seed prefix is `team6-a28-one-time:`. Each positive case asserts that the expense lowers cash and net income by $50,000 relative to the below-threshold control. It checks the saved law stamp and named employee source, canonical Save/Continue, an identical repeated round, and no second expense at another review. A prospective repeal stops new expense and preserves the completed occurrence. Reader cases also reject missing facts and revenue at or below the threshold. The boundary cases cover exactly 100 and exactly 500.
 
-The legacy source still contains the GDPR comparison range `0.001–0.006`. The newer CCPA source supplies one-time dollars per firm, not a central annual share. An arithmetic midpoint is not presented as an empirical estimate. This checkpoint does not complete A28.
+The final three-file run passed 22 of 22 tests in 32.02 seconds. The writer's 15 tests took 412.51 milliseconds in total; its longest test took 87.60 milliseconds. This was not an exclusive quiet runner or a game-year speed measurement. Six strict roots loaded 1,040 files with zero owned diagnostics. Scoped lint, formatting and whitespace checks passed.
 
-## Method and retained evidence
+## Preserved failures and limits
 
-- Original native focused file: three passes, 11.19 seconds; `/tmp/team6-a28-privacy-before.log` and `.json`.
-- Changed native focused file: three passes and one failure, 10.64 seconds; `/tmp/team6-a28-privacy-regression.log` and `.json`.
-- Both commands used the existing storage-guarded native Vitest route and only `src/simulation/federal-data-privacy-law.test.ts`.
-- Scoped ESLint, Prettier and whitespace checks passed. One strict test root loaded 733 files with zero owned diagnostics; `/tmp/team6-a28-privacy-types.log` preserves that receipt.
-- No browser, full-suite, year run or production finance writer execution was performed.
+The original seed-invariance regression measured shares changing from `0.0019369796683313327` to `0.0018672662544995547` with the same saved law. That failure remains in the raw evidence. The new implementation draws no compliance level and supplies no recurring charge.
 
-All source and evidence remain in the existing workspace. No shared registry, catalog, outcome map, budget consumer or CI snapshot was edited.
+Initial writer fixtures failed before discovery on the generic Congress-seat helper and absent executive decision. Subsequent fixtures reached the real expense writer but failed strict save validation on an authored macro period and skipped due item. The final fixture uses the actual clock and macro writer; validation was not weakened. The old annual-share nationwide test is archived byte-for-byte as historical evidence, with no live coverage claim.
+
+This is a book expense, not a saved vendor transfer or a lost paycheck. The named employees establish the actual size base and stamp sources; no household cash consequence is claimed. The existing quarterly review remains the caller. An effective-day scheduler, full nationwide population proof and natural qualifying firms were not built or tested. An own-law applicability adapter remains a separate contract dependency. Recurring compliance expense remains an evidence gap, not a measured zero. A61 remains blocked by the absent raw ASSET/CERT bank packet.
+
+## Method and next action
+
+The native checks covered the exact owned source bytes recorded in the receipt. Current main was then composed additively. That composition changed no simulation source or privacy row; final publication adds documentation and receipts only.
+
+Raw terminal logs, JSON results, source hashes and per-test times are preserved in `docs/codex/effect-batches/team-6/a28-proof/receipt.json` and its adjacent files. The global zero-dice check has zero new findings and five stale entries, identical to exact current main; no allowlist was changed. The spelling check lists 21 inherited findings on unowned paths and none on the owned changes. Browser, full-suite, year, all-56-world and final rebuilt-game acceptance runs were not performed.
+
+The bounded expense survivor requires exact-head CTO mechanism review. Its research dependency must land before integration. The next financial endpoint is Audit's remaining budget failures; their exact current-main failing IDs and contracts are required before an overlapping repair. No team merge or bank ranking is authorized by this handback.
