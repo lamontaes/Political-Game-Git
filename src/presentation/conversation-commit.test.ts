@@ -8,6 +8,7 @@ import {
   shortPersonName,
 } from "./conversation-subjects";
 import { createNewGameWorld } from "./new-game";
+import { openNextLifeScene } from "./life-scene-flow";
 import { householdConversationRoom, openOrdinaryLife } from "./ordinary-life";
 import { RUN_B_CONVERSATION_INTENTS } from "./run-b-conversation";
 import {
@@ -38,7 +39,10 @@ function household(seed: string) {
     givenName: null,
     familyName: null,
   });
-  const world = openOrdinaryLife(game.world, game.playerPersonId);
+  const world = openNextLifeScene(
+    openOrdinaryLife(game.world, game.playerPersonId),
+    game.playerPersonId,
+  );
   const room = householdConversationRoom(world, game.playerPersonId)!;
   return { world, personId: game.playerPersonId, room };
 }

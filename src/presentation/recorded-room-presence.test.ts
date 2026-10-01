@@ -5,6 +5,8 @@ import {
   deserializeWorld,
   didPeopleShareEducationOrganization,
   lifePlaceStateIdentities,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
   recordWorldEvent,
   serializeWorld,
   type EntityId,
@@ -14,8 +16,18 @@ import { schoolConversationRoom } from "./formative-play";
 import { createNewGameWorld } from "./new-game";
 import { sampledProofLocalityForState } from "./new-game-geography";
 import { recordedRoomPresence } from "./recorded-room-presence";
+import {
+  householdConversationRoom,
+  neighborhoodConversationRoom,
+  openOrdinaryLife,
+} from "./ordinary-life";
 
-function schoolPresence(world: World, ids: EntityId[], key = "n1-school") {
+function schoolPresence(
+  world: World,
+  ids: EntityId[],
+  key = "n1-school",
+  setting: "school" | "home" | "neighborhood" = "school",
+) {
   const jurisdictionId = world.people[ids[0]!]!.homeJurisdictionId;
   return recordWorldEvent(world, {
     stableKey: key,
@@ -34,7 +46,7 @@ function schoolPresence(world: World, ids: EntityId[], key = "n1-school") {
     tags: [`moment:${JSON.stringify(world.currentMoment)}`],
     summary: "The recorded participants are at school.",
     context: {
-      location: { jurisdictionId, label: "School", setting: "school" },
+      location: { jurisdictionId, label: setting, setting },
       socialContext: null,
       pressure: null,
       choice: null,
@@ -44,11 +56,11 @@ function schoolPresence(world: World, ids: EntityId[], key = "n1-school") {
   });
 }
 
-function pupil(placeKey: string, seed: string) {
+function pupil(placeKey: string, seed: string, startAge = 15) {
   return createNewGameWorld({
     startKind: "custom",
     placeKey,
-    startAge: 15,
+    startAge,
     depth: "play-formative-years",
     startingLife: "ordinary-life",
     household: "shares-a-home",
@@ -59,6 +71,47 @@ function pupil(placeKey: string, seed: string) {
 }
 
 describe("N1 school presence", () => {
+  it("does not place a neighbor at the doorstep merely because a meeting is posted", () => {
+    const game = pupil("kentucky", "n1-neighbor-presence", 34);
+    const id = game.playerPersonId;
+    const world = openOrdinaryLife(game.world, id);
+    expect(neighborhoodConversationRoom(world, id)).toBeNull();
+    const alone = schoolPresence(world, [id], "doorstep-alone", "neighborhood");
+    const before = serializeWorld(alone);
+    expect(neighborhoodConversationRoom(alone, id)).toBeNull();
+    expect(serializeWorld(alone)).toBe(before);
+  });
+  it("does not infer home presence from shared household membership", () => {
+    const game = pupil("kentucky", "n1-home-presence", 34);
+    const id = game.playerPersonId;
+    const membership = householdMembershipsAt(game.world, id).find(
+      (entry) => entry.state.residenceRole === "primary",
+    )!;
+    const companions = peopleInHouseholdAt(
+      game.world,
+      membership.household.id,
+    ).filter((candidate) => candidate !== id);
+    expect(companions.length).toBeGreaterThan(0);
+    expect(householdConversationRoom(game.world, id)).toBeNull();
+    const alone = schoolPresence(game.world, [id], "home-alone", "home");
+    expect(householdConversationRoom(alone, id)).toBeNull();
+    const together = schoolPresence(
+      alone,
+      [id, companions[0]!],
+      "home-together",
+      "home",
+    );
+    const before = serializeWorld(together);
+    const room = householdConversationRoom(together, id)!;
+    expect(room.eligibleAddresseePersonIds).toEqual([companions[0]]);
+    expect([...room.normalHearingPersonIds].sort()).toEqual(
+      [id, companions[0]!].sort(),
+    );
+    expect(householdConversationRoom(deserializeWorld(before), id)).toEqual(
+      room,
+    );
+    expect(serializeWorld(together)).toBe(before);
+  });
   it("requires saved presence across all 56 places and survives Save/Continue", () => {
     const places = lifePlaceStateIdentities();
     expect(places).toHaveLength(56);
