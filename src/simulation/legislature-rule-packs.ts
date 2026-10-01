@@ -103,6 +103,17 @@ const KY_HOUSE_RULES_TITLE =
 const KY_SENATE_RULES_TITLE =
   "Rules of the Senate of the Commonwealth of Kentucky (2024)";
 
+const KY_QUORUM: RuleSourceRef = {
+  authority: "constitution",
+  citation: "Ky. Const. Sec. 37",
+  sourceTitle: "Kentucky Constitution, Section 37",
+  sourceUrl:
+    "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=41",
+  retrievedAt: "2026-10-01",
+  verification: "verified",
+  note: '"Not less than a majority of the members of each House ... shall constitute a quorum to do business." Members means actual members entitled to serve, mapped to members-elected; it does not mean attendees or silently assume every authorized seat is filled. The vacancy mapping is an explicit interpretation for CTO review.',
+};
+
 const KY_SEC_46 = source(
   "constitution",
   "Ky. Const. Sec. 46",
@@ -349,8 +360,13 @@ function kentuckyChamber(
     seats: unknownRule(
       "The game does not know how many seats Kentucky's chamber formally has, and it will not guess a number.",
     ),
-    quorum: unknownRule(
-      "The game does not know what fraction of Kentucky's chamber makes a quorum.",
+    quorum: knownRule(
+      majorityOf(
+        "members-elected",
+        "not less than a majority of the members of each House",
+        KY_QUORUM,
+      ),
+      KY_QUORUM,
     ),
     introductionAllowed,
     referral: {
@@ -510,6 +526,7 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
     source: KY_SEC_42,
   },
   sources: [
+    KY_QUORUM,
     KY_SEC_46,
     KY_SEC_88,
     KY_SEC_88_OPERATIVE,
@@ -535,7 +552,6 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
     KY_SENATE_RULE_60,
   ],
   unresolvedGaps: [
-    "Constitutional quorum fraction is unresolved.",
     "Default effective-date rule is unresolved; Sec. 55 is the section to review.",
     "What becomes of a pending measure at adjournment is unresolved.",
     "Conference committee composition and report rules are unresolved, and conference is not modeled.",
@@ -551,6 +567,16 @@ const NE_CONST_URL =
   "https://nebraskalegislature.gov/laws/browse-constitution.php";
 const NE_RULES_URL = "https://nebraskalegislature.gov/about/rules.php";
 const NE_LAWMAKING_URL = "https://nebraskalegislature.gov/about/lawmaking.php";
+
+const NE_QUORUM: RuleSourceRef = {
+  authority: "constitution",
+  citation: "Neb. Const. Art. III, Sec. 10",
+  sourceTitle: "Nebraska Constitution, Article III, Section 10",
+  sourceUrl: "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
+  retrievedAt: "2026-10-01",
+  verification: "verified",
+  note: '"A majority of the members elected to the Legislature shall constitute a quorum." This expressly uses members elected, so a vacancy changes the denominator; neither attendance nor authorized seats substitutes for elected members.',
+};
 
 const NE_LAWMAKING = source(
   "parliamentary-fallback",
@@ -627,8 +653,13 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
       name: "Legislature",
       billDesignationPrefix: "LB",
       seats: knownRule(49, NE_ART3_SEC6),
-      quorum: unknownRule(
-        "Nebraska's quorum fraction was not resolved for this pack.",
+      quorum: knownRule(
+        majorityOf(
+          "members-elected",
+          "a majority of the members elected to the Legislature",
+          NE_QUORUM,
+        ),
+        NE_QUORUM,
       ),
       introductionAllowed: true,
       referral: {
@@ -769,6 +800,7 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
     source: NE_ART3_SEC10,
   },
   sources: [
+    NE_QUORUM,
     NE_LAWMAKING,
     NE_ART3_SEC14,
     NE_ART4_SEC15,
@@ -777,7 +809,6 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
     NE_RULE_6,
   ],
   unresolvedGaps: [
-    "Quorum fraction is unresolved.",
     "Post-adjournment gubernatorial action period is unresolved.",
     "Default effective-date rule is unresolved.",
     "Whether every referred bill is guaranteed a hearing is unresolved; the official explanation says most bills, with exceptions.",
@@ -805,6 +836,16 @@ const AK_ART2_SEC1: RuleSourceRef = {
   retrievedAt: "2026-09-06",
   verification: "verified",
   note: 'Legislative power and membership: "The legislative power of the State is vested in a legislature consisting of a senate with a membership of twenty and a house of representatives with a membership of forty." The constitution fixes both formal chamber counts.',
+};
+
+const AK_QUORUM: RuleSourceRef = {
+  authority: "uniform-rules",
+  citation: "Alaska Const. Art. II, Sec. 12; Uniform Rule 14(a)",
+  sourceTitle: "Uniform Rules of the Alaska State Legislature, Rule 14",
+  sourceUrl: AK_UNIFORM_URL,
+  retrievedAt: "2026-10-01",
+  verification: "verified",
+  note: 'Article II, Section 12 says a majority of each house membership. Uniform Rule 14(a) expressly says "A majority of the full membership of the house constitutes a quorum." The existing minimumVotes field carries the majority of the formal constitutional seats: 21 of 40 House seats or 11 of 20 Senate seats. Vacancies do not lower this floor; elected-member and full-membership denominators are not treated as equivalent.',
 };
 
 const AK_ART2_SEC14 = source(
@@ -907,8 +948,16 @@ function alaskaChamber(
     name,
     billDesignationPrefix,
     seats: knownRule(seats, AK_ART2_SEC1),
-    quorum: unknownRule(
-      "Alaska's quorum fraction was not resolved for this pack.",
+    quorum: knownRule(
+      {
+        ...majorityOf(
+          "members-elected",
+          "a majority of the full membership of the house",
+          AK_QUORUM,
+        ),
+        minimumVotes: Math.floor(seats / 2) + 1,
+      },
+      AK_QUORUM,
     ),
     introductionAllowed: true,
     referral: {
@@ -1060,6 +1109,7 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
     source: AK_ART2_SEC8,
   },
   sources: [
+    AK_QUORUM,
     AK_ART2_SEC1,
     AK_ART2_SEC14,
     AK_ART2_SEC15,
@@ -1074,7 +1124,6 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
     AK_PROCESS,
   ],
   unresolvedGaps: [
-    "Quorum fraction is unresolved.",
     "The authority for floor amendments is unresolved, so this pack does not permit them.",
     "Whether every referred bill is guaranteed a hearing is unresolved.",
     "Whether measures carry over within a legislature is unresolved.",
