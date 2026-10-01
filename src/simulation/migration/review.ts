@@ -17,6 +17,7 @@
  * quarter's arrivals.
  */
 
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { reviewTownCivicActions } from "../living-world/civic-actions";
 import {
   characterHistoryContextPersonId,
@@ -84,6 +85,11 @@ import {
   type CauseReader,
   type LeaveCause,
 } from "./causes";
+import {
+  answerOfferElsewhere,
+  openOfferElsewhere,
+  reviewJobSearchElsewhere,
+} from "./job-offers";
 import { ensurePeopleTraits } from "../people-traits";
 import { reviewTownJobs } from "../living-world/town-labor-market";
 import { staffPublicJobs } from "../public-budgets/staffing";
@@ -374,14 +380,27 @@ export function reviewTown(
 
   // Everybody else reviewed this quarter: an adult leaves only when a
   // recorded cause pushes them past their own bar, to the cause's place.
+  const reviewed = residents.filter(
+    (personId) =>
+      !moving.has(personId) &&
+      reviewQuarter(personId) === index % MIGRATION_REVIEWS_PER_YEAR &&
+      ageOnDate(next.people[personId]!.birthDate, next.currentDate) >= 18,
+  );
+  // First, who looks for work outside town, and what employers there answer
+  // (`job-offers.ts`): an offer is a recorded cause to weigh below.
+  const before = next;
+  let kinReader: CauseReader | null = null;
+  next = reviewJobSearchElsewhere(
+    next,
+    town,
+    String(index),
+    reviewed,
+    () => (kinReader ??= causeReader(before, town)),
+  );
   let causes: CauseReader | null = null;
+  const offers: { personId: EntityId; placeId: EntityId }[] = [];
   const candidates: { personId: EntityId; found: readonly LeaveCause[] }[] = [];
-  for (const personId of residents) {
-    if (moving.has(personId)) continue;
-    if (reviewQuarter(personId) !== index % MIGRATION_REVIEWS_PER_YEAR)
-      continue;
-    if (ageOnDate(next.people[personId]!.birthDate, next.currentDate) < 18)
-      continue;
+  for (const personId of reviewed) {
     causes ??= causeReader(next, town);
     const found = causes.causesFor(personId);
     if (found.length > 0) candidates.push({ personId, found });
@@ -431,6 +450,8 @@ export function reviewTown(
         },
         place,
       );
+      const offer = found.find((cause) => cause.kind === "job-offer");
+      if (offer) offers.push({ personId, placeId: offer.placeId! });
       if (!decision.leaves) continue;
       planned(
         planMove(
@@ -452,6 +473,17 @@ export function reviewTown(
     }
   }
   next = applyMoves(next, moves);
+  // Whoever moved to an offer's place takes it and starts there; whoever
+  // stayed turns it down.
+  for (const { personId, placeId } of offers) {
+    const offer = openOfferElsewhere(next, personId, town);
+    if (!offer || offer.placeId !== placeId) continue;
+    next = answerOfferElsewhere(
+      next,
+      offer.applicationId,
+      next.people[personId]!.homeJurisdictionId === placeId,
+    );
+  }
 
   const arrivals = arrivalInputs(
     next,
@@ -782,10 +814,6 @@ function arrivalInputs(
   const inputs: CharacterHistoryContextPersonInput[] = [];
   for (let n = 0; n < count; n += 1) {
     const personRng = rng.fork(`newcomer:${n}`);
-    const age = personRng.integer(
-      BLANKET_ARRIVAL_AGE[0],
-      BLANKET_ARRIVAL_AGE[1],
-    );
     const origin = chooseDestination(personRng.fork("origin"), pool, "push");
     inputs.push({
       stableKey: `migration:newcomer:${town}:${index}:${n}`,
@@ -793,9 +821,10 @@ function arrivalInputs(
         personRng.fork("name"),
         generatePersonIdentity(personRng.fork("identity")),
       ),
-      birthDate: makeIsoDate(
-        `${year - age}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
-      ),
+      birthDate: inventedPersonBirthDate(personRng, {
+        role: "migration-newcomer",
+        referenceDate: makeIsoDate(`${year}-01-01`),
+      }),
       homeJurisdictionId: town,
       birthplaceJurisdictionId: origin,
     });

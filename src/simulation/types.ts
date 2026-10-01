@@ -2116,8 +2116,7 @@ export type IncidentSemanticKey = `${string}:${string}`;
  * with no draw and no actor. It is the mode for conditions that last, where
  * the design sets how bad counts as bad but never the chance of an outcome.
  */
-export type IncidentOccurrenceMode =
-  "probabilistic" | "actor-initiated" | "condition";
+export type IncidentOccurrenceMode = "actor-initiated" | "condition";
 export type IncidentStatus = "active" | "resolved";
 export type IncidentRuleComparison = "at-least" | "at-most";
 
@@ -2327,6 +2326,10 @@ export interface IncidentLikelihoodModifierEvaluation {
   readonly sourceEntityIds: readonly EntityId[];
 }
 
+/**
+ * A draw an old save recorded before incidents stopped being drawn (A134).
+ * Read as recorded; nothing writes one now.
+ */
 export interface IncidentRngResult {
   readonly key: string;
   readonly draw: number;
@@ -5527,6 +5530,7 @@ export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
   | "adult.eviction-case"
+  | "adult.crime-report"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"

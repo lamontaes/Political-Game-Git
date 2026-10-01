@@ -1,0 +1,222 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > covers all 56 real starting jurisdictions 1ms
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > respects both actual mayor player choices and records late inaction without a fabricated signature 232ms
+   → expected undefined to be defined
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AL' 42ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AK' 23ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AS' 20ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AZ' 22ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AR' 22ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CA' 34ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CO' 24ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CT' 20ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-DE' 17ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-DC' 16ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-FL' 19ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-GA' 17ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-GU' 16ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-HI' 16ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ID' 16ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IL' 20ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IN' 16ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IA' 16ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-KS' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-KY' 17ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-LA' 19ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ME' 15ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MD' 16ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MA' 14ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MI' 15ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MN' 14ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MS' 15ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MO' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MT' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NE' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NV' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NH' 18ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NJ' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NM' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NY' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NC' 15ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ND' 18ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MP' 14ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OH' 14ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OK' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OR' 12ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-PA' 12ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-PR' 16ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-RI' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-SC' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-SD' 12ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-TN' 12ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-TX' 19ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VI' 12ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-UT' 12ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VT' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VA' 13ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WA' 17ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WV' 14ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WI' 17ms
+   → World jurisdiction order and record keys disagree.
+ × src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WY' 13ms
+   → World jurisdiction order and record keys disagree.
+{"seed":"A80-town-passage-survivor","state":"US-PA","place":"Abbottstown, Pennsylvania","sponsor":"Noah Benton","measureId":"legislative-measure_6efe1626bd2f6c5a","eventId":"event_c1c1003cde86c6e9","summary":"ORD A80 fixture was not presented to the Mayor under this profile."}
+ ✓ src/simulation/governing/local-member-agenda-integration.test.ts > ordinary local member fiscal agenda > A80 records the actual town meeting's no-presentment outcome and keeps it after Continue 2568ms
+ ✓ src/simulation/governing/local-member-agenda-integration.test.ts > ordinary local member fiscal agenda > schedules the admitted city's own quarterly intake 4542ms
+ ✓ src/simulation/governing/local-member-agenda-integration.test.ts > ordinary local member fiscal agenda > files a reasoned plain bill without a numeric reference and saves the council decision 4605ms
+ ✓ src/simulation/governing/local-member-agenda-integration.test.ts > a council's plain position bills > keeps mapped and unsupported questions separate without inventing numeric terms 5097ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 57 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > respects both actual mayor player choices and records late inaction without a fabricated signature
+AssertionError: expected undefined to be defined
+ ❯ presentedAct src/presentation/mayor-executive-decision.test.ts:192:22
+    190|       a.localeCompare(b),
+    191|   )[0]!;
+    192|   expect(questionId).toBeDefined();
+       |                      ^
+    193|   // Explicit authored held principles form one adversarial input BEFO…
+    194|   // arms. This is decision-mechanism parity, not natural mayor veto f…
+ ❯ src/presentation/mayor-executive-decision.test.ts:323:46
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/57]⎯
+
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AL'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AK'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AS'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AZ'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-AR'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CA'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CO'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-CT'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-DE'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-DC'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-FL'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-GA'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-GU'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-HI'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ID'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IL'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IN'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-IA'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-KS'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-KY'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-LA'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ME'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MD'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MA'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MI'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MN'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MS'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MO'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MT'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NE'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NV'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NH'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NJ'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NM'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NY'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-NC'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-ND'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-MP'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OH'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OK'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-OR'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-PA'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-PR'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-RI'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-SC'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-SD'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-TN'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-TX'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VI'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-UT'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VT'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-VA'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WA'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WV'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WI'
+ FAIL  src/presentation/mayor-executive-decision.test.ts > municipal executives use the shared bill evaluator > non-neutral old/new mayor comparison from 'US-WY'
+Error: World jurisdiction order and record keys disagree.
+ ❯ orderedRecords src/simulation/world.ts:1993:11
+    1991|   const orderedIds = [...order].sort();
+    1992|   if (JSON.stringify(recordIds) !== JSON.stringify(orderedIds)) {
+    1993|     throw new Error(`World ${label} order and record keys disagree.`);
+       |           ^
+    1994|   }
+    1995|   return order.map((id) => {
+ ❯ validateWorldIntegrity src/simulation/world.ts:818:27
+ ❯ assertWorldIntegrity src/simulation/world.ts:650:3
+ ❯ createCharacterHistoryContextPerson src/simulation/character-history.ts:645:3
+ ❯ applyCharacterHistoryPlan src/simulation/character-history.ts:1723:16
+ ❯ ensureStateExecutiveIncumbent src/simulation/nationwide-world/state-executives.ts:326:10
+ ❯ src/presentation/mayor-executive-decision.test.ts:139:5
+ ❯ profile src/presentation/mayor-executive-decision.test.ts:76:12
+ ❯ presentedAct src/presentation/mayor-executive-decision.test.ts:138:11
+ ❯ src/presentation/mayor-executive-decision.test.ts:421:66
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/57]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  57 failed | 5 passed (62)
+   Start at  18:13:41
+   Duration  31.94s (transform 9.44s, setup 24ms, import 13.70s, tests 17.97s, environment 1ms)
+

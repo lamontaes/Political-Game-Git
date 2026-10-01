@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { contactBases } from "./people-contact";
-import { ensurePeopleTraits } from "./people-traits";
+import { ageOnDate } from "./dates";
+import {
+  ensurePeopleTraits,
+  notableQualityRoom,
+  upbringingQualities,
+} from "./people-traits";
 import { latestPersonalityTendenciesForPerson } from "./queries";
 import { traitDefinitionFromPack } from "./trait-packs";
 import { traitRegistryFor } from "./trait-registry";
@@ -53,22 +58,25 @@ function expectNotableTraits(
   id: EntityId,
 ) {
   const records = notableRecords(world, id);
-  expect(records.length).toBeGreaterThanOrEqual(3);
-  expect(records.length).toBeLessThanOrEqual(5);
-  const inborn = records.filter(({ scopeTags }) =>
-    scopeTags.includes("personality-v1.inborn"),
+  const room = notableQualityRoom(
+    ageOnDate(world.people[id]!.birthDate, world.currentDate),
   );
-  expect(inborn.length).toBeGreaterThanOrEqual(1);
-  expect(inborn.length).toBeLessThanOrEqual(3);
-  expect(
-    records.every(({ scopeTags }) =>
-      scopeTags.some(
-        (tag) =>
-          tag === "personality-v1.inborn" ||
-          tag === "personality-v1.upbringing",
-      ),
-    ),
-  ).toBe(true);
+  expect(records.length).toBeGreaterThanOrEqual(1);
+  expect(records.length).toBeLessThanOrEqual(room);
+  // Every notable quality is one the upbringing leans toward; none is drawn.
+  const leans = new Set(
+    upbringingQualities(upbringingFor(world, id)).map(({ trait }) => trait),
+  );
+  const keyOf = new Map(
+    [...traitRegistryFor(world).traits.values()].map((trait) => [
+      traitDefinitionFromPack(trait).id,
+      trait.qualifiedKey,
+    ]),
+  );
+  for (const record of records) {
+    expect(record.scopeTags).toContain("personality-v1.upbringing");
+    expect(leans.has(keyOf.get(record.tendencyId)!)).toBe(true);
+  }
 }
 
 /** A person's notable traits without the record ids a history assigns. */
@@ -85,7 +93,7 @@ function drawn(world: ReturnType<typeof adultLife>["world"], id: EntityId) {
 }
 
 describe("upbringing and starting traits", () => {
-  it("gives every generated NPC three to five notable traits: the player's contacts at opening, anyone else when first needed", () => {
+  it("gives every generated NPC the notable traits their upbringing leans toward: the player's contacts at opening, anyone else when first needed", () => {
     const { world, playerId } = adultLife("upbringing-ordinary-route");
     const contacts = new Set(
       contactBases(world, playerId).map(({ personId }) => personId),
@@ -149,7 +157,7 @@ describe("upbringing and starting traits", () => {
     expect(others.length).toBeGreaterThan(1);
     const [later, alongside] = others;
     const alone = drawn(ensurePeopleTraits(first.world, [later!]), later!);
-    expect(alone.length).toBeGreaterThanOrEqual(3);
+    expect(alone.length).toBeGreaterThanOrEqual(1);
     expect(drawn(ensurePeopleTraits(second.world, [later!]), later!)).toEqual(
       alone,
     );

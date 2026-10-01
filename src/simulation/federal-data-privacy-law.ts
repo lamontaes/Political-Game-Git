@@ -15,7 +15,7 @@ import {
   workStatusAt,
 } from "./life-queries";
 import type { TownBusinessBooks } from "./living-world/town-finance-types";
-import ccpaCosts from "../../data/research/money/privacy-law-compliance-cost-ccpa-2019.json";
+import ccpaCosts from "../../data/research/money/privacy-law-compliance-cost-ccpa-2019.json" with { type: "json" };
 import type {
   EntityId,
   IsoDate,

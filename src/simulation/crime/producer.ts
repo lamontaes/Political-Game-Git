@@ -1,4 +1,4 @@
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, makeIsoDate, spokenDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
@@ -120,6 +120,11 @@ export interface SampledCrime {
   readonly victimPersonIds: readonly EntityId[];
   readonly occurredAt: IsoDate;
   readonly reported: boolean;
+  /**
+   * The played person, when it happened to them and nobody else reported
+   * it: the choice to report is put to them in play.
+   */
+  readonly playerChooses: EntityId | null;
 }
 
 function monthlyChance(annualRate: number): number {
@@ -167,21 +172,24 @@ export function sampleMonthlyCrime(
     const occurredAt = makeIsoDate(
       `${monthStart.slice(0, 7)}-${String(day).padStart(2, "0")}`,
     );
+    // The victims decide, from what was done to them, whether it happened
+    // before, their past with police and their temperament (`./reporting`);
+    // nothing is drawn. The played person decides in play.
+    const decision = decideReport(world, {
+      offense,
+      jurisdictionId,
+      occurredAt,
+      targetId,
+      victimPersonIds,
+    });
     sampled.push({
       offense,
       jurisdictionId,
       targetId,
       victimPersonIds,
       occurredAt,
-      // The victims decide, from their own tie to the offender, their past
-      // with police and their temperament (`./reporting`); nothing is drawn.
-      reported: decideReport(world, {
-        offense,
-        jurisdictionId,
-        occurredAt,
-        targetId,
-        victimPersonIds,
-      }).reported,
+      reported: decision.reported,
+      playerChooses: decision.playerChooses,
     });
   };
 
@@ -361,6 +369,26 @@ function incidentKey(monthStart: IsoDate, crime: SampledCrime): string {
   return `${CRIME_CONTRACT_VERSION}:${monthKeyOf(monthStart)}:${crime.offense}:${crime.targetId}`;
 }
 
+/**
+ * One offense from the month starting `monthStart`, on record: the incident,
+ * and, when it happened to the played person and nobody else reported it,
+ * their own choice whether to.
+ */
+export function recordSampledCrime(
+  world: World,
+  monthStart: IsoDate,
+  crime: SampledCrime,
+): World {
+  const next = recordIncident(world, monthStart, crime);
+  return crime.playerChooses && !crime.reported
+    ? recordReportChoice(
+        next,
+        incidentKey(monthStart, crime),
+        crime.playerChooses,
+      )
+    : next;
+}
+
 function recordIncident(
   world: World,
   monthStart: IsoDate,
@@ -419,6 +447,157 @@ function recordIncident(
     });
   }
   return known;
+}
+
+/**
+ * The played person's own choice whether to report an offense against them
+ * (A131, CTO Ruling 11). Nobody decides it for them: the offense stays
+ * unreported until they report it, and reporting it is a police report made
+ * that day.
+ */
+export const CRIME_REPORT_CHOICE_TAG = "life.opportunity:crime-report";
+export const CRIME_REPORT_ANSWER = "adult.crime-report";
+export const CRIME_REPORT_CHOICE_EVENT = "crime.report-choice";
+
+/** What the played person knows happened to them, said to them. */
+const TO_THE_VICTIM: Readonly<Record<CrimeOffense, string>> = {
+  assault: "You were assaulted in {place} on {date}.",
+  robbery: "You were robbed in {place} on {date}.",
+  burglary: "Someone broke into your home in {place} on {date}.",
+  vandalism: "Someone vandalized your home in {place} on {date}.",
+};
+
+/** The offense put to the played person as their choice to report. */
+function recordReportChoice(
+  world: World,
+  incidentStableKey: string,
+  personId: EntityId,
+): World {
+  const incident = world.history.events.find(
+    (event) => event.stableKey === incidentStableKey,
+  );
+  const offense = incident ? offenseOf(incident) : null;
+  if (!incident || !offense || !incident.jurisdictionId) return world;
+  const stableKey = `${incidentStableKey}:report-choice`;
+  const others = incident.participants.filter(
+    (row) => row.personId !== personId,
+  ).length;
+  const summary = `${TO_THE_VICTIM[offense]
+    .replace("{place}", placeName(incident.jurisdictionId))
+    .replace("{date}", spokenDate(incident.occurredAt))} ${
+    others > 0
+      ? "Nobody in your home has told the police."
+      : "You have not told the police."
+  }`;
+  const next = recordWorldEvent(world, {
+    stableKey,
+    type: CRIME_REPORT_CHOICE_EVENT,
+    occurredAt: incident.occurredAt,
+    recordedAt: incident.occurredAt,
+    jurisdictionId: incident.jurisdictionId,
+    involvedEntityIds: [personId],
+    participants: [
+      { personId, role: "focus:subject", detail: "Deciding whether to report" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      CRIME_REPORT_CHOICE_TAG,
+      `${CRIME_INCIDENT_TAG_PREFIX}${incidentStableKey}`,
+      `${CRIME_OFFENSE_TAG_PREFIX}${offense}`,
+      `policy:${CRIME_CONTRACT_VERSION}`,
+    ],
+    summary,
+    context: EMPTY_CONTEXT,
+  });
+  return recordEventKnowledge(next, {
+    stableKey: `${stableKey}:knows:${personId}`,
+    personId,
+    eventId: next.history.events.at(-1)!.id,
+    learnedAt: incident.occurredAt,
+    believedSummary: summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+}
+
+function lateReportKey(incidentStableKey: string): string {
+  return `${incidentStableKey}:reported-later`;
+}
+
+/**
+ * The latest offense put to `personId` that they have not yet reported, or
+ * null. Read-only.
+ */
+export function unreportedOffenseFor(
+  world: World,
+  personId: EntityId,
+): HistoricalEvent | null {
+  const choices = world.history.events.filter(
+    (event) =>
+      event.type === CRIME_REPORT_CHOICE_EVENT &&
+      event.involvedEntityIds.includes(personId),
+  );
+  for (const choice of [...choices].reverse()) {
+    const incidentStableKey = choice.tags
+      .find((tag) => tag.startsWith(CRIME_INCIDENT_TAG_PREFIX))
+      ?.slice(CRIME_INCIDENT_TAG_PREFIX.length);
+    if (!incidentStableKey) continue;
+    if (
+      world.history.events.some(
+        (event) => event.stableKey === lateReportKey(incidentStableKey),
+      )
+    )
+      continue;
+    const incident = world.history.events.find(
+      (event) => event.stableKey === incidentStableKey,
+    );
+    if (incident?.type === CRIME_EVENT_TYPES.unreported) return incident;
+  }
+  return null;
+}
+
+/**
+ * The played person reports the offense against them to police, today. A
+ * public police report, read by the paper, the arrest pass the month after
+ * and the state's fear like any other. Writes nothing when nothing is open.
+ */
+export function reportOffenseToPolice(world: World, personId: EntityId): World {
+  const incident = unreportedOffenseFor(world, personId);
+  const offense = incident ? offenseOf(incident) : null;
+  if (!incident || !offense || !incident.jurisdictionId) return world;
+  const place = placeName(incident.jurisdictionId);
+  return recordWorldEvent(world, {
+    stableKey: lateReportKey(incident.stableKey),
+    type: CRIME_EVENT_TYPES.reported,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: incident.jurisdictionId,
+    involvedEntityIds: [...incident.involvedEntityIds],
+    // The offense itself is already on record against its victims; this is
+    // the report, made by the person who chose to make it.
+    participants: incident.participants.map((row) => ({
+      personId: row.personId,
+      role:
+        row.personId === personId
+          ? ("agency:crime-reporter" as const)
+          : ("presence:crime-victim" as const),
+      detail: null,
+    })),
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      CRIME_TAG,
+      `${CRIME_INCIDENT_TAG_PREFIX}${incident.stableKey}`,
+      `${CRIME_OFFENSE_TAG_PREFIX}${offense}`,
+      "crime:reported",
+      "crime:reported-later",
+      `policy:${CRIME_CONTRACT_VERSION}`,
+    ],
+    summary: `Police in ${place} took a report of ${REPORTED_OFFENSE_PHRASE[offense]} on ${spokenDate(incident.occurredAt)}.`,
+    context: EMPTY_CONTEXT,
+  });
 }
 
 /** "Ana Ruiz", "Ana Ruiz and Ben Ruiz", "Ana Ruiz, Ben Ruiz, and Cy Ruiz". */
@@ -647,7 +826,7 @@ export function crimeSampleHandler(
   let recorded = 0;
   for (const crime of sampleMonthlyCrime(next, sampledMonth)) {
     if (openedAt !== null && crime.occurredAt < openedAt) continue;
-    next = recordIncident(next, sampledMonth, crime);
+    next = recordSampledCrime(next, sampledMonth, crime);
     recorded += 1;
   }
   for (const entry of sampleTownPoliceLog(next, sampledMonth)) {

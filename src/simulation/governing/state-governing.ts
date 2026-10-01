@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
@@ -64,10 +65,7 @@ import {
   evaluateClemency,
 } from "../justice/clemency-reasoning";
 import { isCongressMeasure } from "./congress-chambers";
-import {
-  CONGRESS_LAWMAKING_HANDLERS,
-  presidentDesk,
-} from "./congress-lawmaking";
+import { congressLawmakingHandlers, presidentDesk } from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
   type StateExecutiveHolderRecord,
@@ -1173,10 +1171,6 @@ function emptyContext() {
   };
 }
 
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
-}
-
 export function createCandidates(
   world: World,
   office: Pick<GoverningOffice, "holderPersonId" | "jurisdictionId">,
@@ -1202,9 +1196,10 @@ export function createCandidates(
               rng.fork("name"),
               generatePersonIdentity(rng.fork("identity")),
             ),
-            birthDate: makeIsoDate(
-              `${anchorYear - rng.integer(34, 62)}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-            ),
+            birthDate: inventedPersonBirthDate(rng, {
+              role: "appointment-candidate",
+              referenceDate: makeIsoDate(`${anchorYear}-01-01`),
+            }),
             homeJurisdictionId: office.jurisdictionId,
           },
         },
@@ -3013,7 +3008,7 @@ export function stateGoverningHandlers() {
         LEGISLATIVE_INSTITUTION_STEP,
         createInstitutionStepHandler(executiveDesk),
       ],
-      ...CONGRESS_LAWMAKING_HANDLERS,
+      ...congressLawmakingHandlers(),
       [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
       [GOVERNING_SEASON, governingSeasonHandler],
       [GOVERNING_TRANSITION, governingTransitionHandler],

@@ -1,6 +1,10 @@
 import { eventById } from "../event-index";
 import { addDays, spokenDate } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { personName } from "../people";
 import { correctPublication, publishPublicEvent } from "../public-information";
@@ -380,6 +384,7 @@ export function assignStory(world: World, leadId: EntityId): World {
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
   if (evaluation.selectedOptionKey !== "take") {
@@ -783,6 +788,7 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
       randomness: "close-choices",
       retention: "durable",
     });
+    if (!isSelectedDecision(evaluation)) continue;
     next = recordDurableDecisionTrace(next, evaluation);
     if (evaluation.selectedOptionKey === "no-response") continue;
     const dispute = evaluation.selectedOptionKey === "dispute";
@@ -980,9 +986,18 @@ function editorialDecision(
     randomness: "none",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) {
+    return {
+      world: world,
+      status: "blocked",
+      reasonKey: "press:decision-undecided",
+      context: null,
+      outcomeEventId: null,
+    };
+  }
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
-  const choice = evaluation.selectedOptionKey ?? "decline";
+  const choice = evaluation.selectedOptionKey;
   if (choice === "hold") {
     next = writeDisposition(next, lead, "held", {
       reporterPersonId: reporterId,

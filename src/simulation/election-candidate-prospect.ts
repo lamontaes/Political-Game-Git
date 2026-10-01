@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "./invented-person-age";
 import { lifeWeighsAgainstOffice } from "./careers/another-term";
 import type { CharacterHistoryContextPersonInput } from "./character-history";
 import { makeIsoDate } from "./dates";
@@ -16,17 +17,17 @@ export function electionProspectInput(args: {
   readonly homeJurisdictionId: EntityId;
 }): CharacterHistoryContextPersonInput {
   const rng = new SeededRng(args.world.seed).fork(args.stableKey);
-  const age = rng.integer(args.minimumAge + 3, 71);
-  const pad = (value: number) => String(value).padStart(2, "0");
   return {
     stableKey: args.stableKey,
     ...drawCanonicalNamedIdentity(
       rng.fork("name"),
       generatePersonIdentity(rng.fork("identity")),
     ),
-    birthDate: makeIsoDate(
-      `${args.year - age}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-    ),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "background-seat-prospect",
+      referenceDate: makeIsoDate(`${args.year}-01-01`),
+      legalMinimumAge: args.minimumAge,
+    }),
     homeJurisdictionId: args.homeJurisdictionId,
   };
 }

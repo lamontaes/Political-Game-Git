@@ -1,0 +1,14 @@
+
+ RUN  v4.1.1 /private/tmp/team7-county-source-intake-02
+
+ ✓ src/simulation/day-caller-child-parity.test.ts (3 tests) 264ms
+ ✓ scripts/engine-proof/day-adapter.test.ts (2 tests) 375ms
+     ✓ matches complete saved state for thirty daily presses and emits only minute completion  349ms
+ ✓ src/simulation/day-caller-migration.test.ts (5 tests) 247ms
+
+ Test Files  3 passed (3)
+      Tests  10 passed (10)
+   Start at  12:25:34
+   Duration  34.07s (transform 24.63s, setup 0ms, import 32.46s, tests 885ms, environment 0ms)
+
+JSON report written to /private/tmp/team7-county-source-intake-02/a3-unfiltered-runtime.json

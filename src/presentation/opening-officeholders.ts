@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import {
   nationalOfficeHolder,
   NATIONAL_ELECTION_SOURCES,
@@ -121,7 +122,11 @@ export function establishOpeningOfficeholders(
         input: {
           stableKey: personKey,
           ...drawGeneratedPersonName(rng),
-          birthDate: makeIsoDate(`${startYear - rng.integer(45, 70)}-01-01`),
+          birthDate: inventedPersonBirthDate(rng, {
+            role: "executive-officeholder-at-opening",
+            referenceDate: makeIsoDate(`${startYear}-01-01`),
+            placement: { monthDay: "01-01" },
+          }),
           ...(geography
             ? {
                 homeJurisdictionId: geography.homeJurisdictionId,

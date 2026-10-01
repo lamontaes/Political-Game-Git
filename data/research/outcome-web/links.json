@@ -47,6 +47,10 @@
     "labor.unemployment-pct": {
       "value": 4,
       "note": "The unemployment rate the base rates were calibrated at: crime's base rates, and the town's birth rates by age (national figures from a year near 4%)."
+    },
+    "labor.minimum-wage-to-median": {
+      "value": 0,
+      "note": "Not a starting level. The one link that reads this measure is a threshold: it acts only on how far the ratio sits above its own threshold (0.59), so no change from a start is taken and zero only lets the link be read."
     }
   },
   "links": [
@@ -129,8 +133,8 @@
     },
     {
       "key": "police-to-violent-crime",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "strength": "moderate",
       "shape": {
@@ -152,16 +156,16 @@
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
         "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
-        "status": "shape-connected-cause-reader-missing",
-        "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
+        "status": "connected",
+        "requiredConnection": "Connected: each state's sworn officers per 1,000 people is now recorded (FBI 2024 Police Employee Data, place-outcome-bases-2024.json) and drifts from there, so the elasticity has a positive same-jurisdiction baseline. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
       "range": [-0.536, -0.144],
-      "notes": "Elasticity uses proportional change from a positive recorded cause baseline. The range is study-estimate uncertainty, not measured place heterogeneity. No officer-density producer or baseline is currently registered, so this link remains cause-not-recorded."
+      "notes": "Elasticity uses proportional change from a positive recorded cause baseline: a state's officers per 1,000 people starts at the FBI's 2024 count and drifts, and violent crime moves 0.34% for each 1% change in it. The range is study-estimate uncertainty, not measured place heterogeneity."
     },
     {
       "key": "police-to-property-crime",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "crime.property",
       "strength": "moderate",
       "shape": {
@@ -183,11 +187,11 @@
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
         "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
-        "status": "shape-connected-cause-reader-missing",
-        "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
+        "status": "cause-connected-outcome-not-produced",
+        "requiredConnection": "The cause is now recorded: each state's sworn officers per 1,000 people (FBI 2024 Police Employee Data, place-outcome-bases-2024.json). Property crime is not a kept place outcome, so the link has nothing to move. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
       "range": [-0.3464, 0.0064],
-      "notes": "Elasticity uses proportional change from a positive recorded cause baseline. The range is study-estimate uncertainty, not measured place heterogeneity. No officer-density producer or baseline is currently registered, so this link remains cause-not-recorded."
+      "notes": "Sized, with its cause recorded and its outcome missing: officers per 1,000 people is now a place outcome, but property crime is not (the game keeps burglary, robbery, assault and vandalism separately), so the link moves nothing until a property crime outcome is produced. Elasticity uses proportional change from a positive recorded cause baseline; the range is study-estimate uncertainty."
     },
     {
       "key": "police-to-low-level-arrests",
@@ -207,7 +211,7 @@
       "source": "Chalfin, Hansen, Weisburst and Williams 2022",
       "from": "police.officers-per-1000",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the study counts arrests per added officer, but the game records no officers per 1,000 people by place and keeps no low-level arrest rate, so there is nothing to read or move."
+      "notes": "Unsupported until measured: the study counts arrests per added officer. The game now records sworn officers per 1,000 people by place, but it keeps no low-level arrest rate and the link has no size per officer, so there is nothing to move."
     },
     {
       "key": "summer-jobs-to-youth-violence",
@@ -453,8 +457,8 @@
     },
     {
       "key": "speed-limit-to-traffic-deaths",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "traffic.fatality-rate",
       "strength": "strong",
       "shape": {
@@ -469,7 +473,7 @@
       "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
       "evidence": "researched",
-      "notes": "Sized, waiting on its cause and outcome: the game records no maximum speed limit by place and keeps no traffic fatality rate, so the link moves nothing until both exist.",
+      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit.",
       "range": [0.0056, 0.017]
     },
     {
@@ -576,7 +580,7 @@
       "source": "Currie et al. 2013 (CJE)",
       "from": "env.drinking-water-violations",
       "evidence": "researched",
-      "notes": "Unsupported until sized and measured: the study finds lower birth weight per violation during pregnancy without a slope on the game's violations-per-system measure, and low birth weight is not a kept place outcome."
+      "notes": "Unsupported until sized: the study finds lower birth weight per violation during pregnancy without a slope on the game's violations-per-system measure. Low birth weight is now a place outcome (CDC, 2023), so the outcome side is ready once a size is set."
     },
     {
       "key": "heat-to-deaths",
@@ -600,7 +604,7 @@
       },
       "from": "env.hot-days",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game records no count of hot days by place and keeps no heat-death rate, and the study's finding is about air conditioning removing most of the toll, not a per-day slope."
+      "notes": "Unsupported until sized and measured: days with a high of 90 degrees or more are now recorded by place (NOAA 1991-2020), as is the share of homes with air conditioning, but the game keeps no heat-death rate, and the study's finding is about air conditioning removing most of the toll, not a per-day slope."
     },
     {
       "key": "carbon-monoxide-to-absence",
@@ -661,7 +665,7 @@
       "source": "to confirm",
       "from": "energy.electricity-price",
       "evidence": "to-confirm",
-      "notes": "Unsupported until confirmed: the price effect on air conditioning use is marked to confirm, with no published slope found, and the share of homes with AC is not a kept place outcome."
+      "notes": "Unsupported until confirmed: the price effect on air conditioning use is marked to confirm, with no published slope found. The share of homes with air conditioning is now a place outcome (EIA RECS 2020), so the outcome side is ready once a size is confirmed."
     },
     {
       "key": "disaster-to-public-transfers",
@@ -980,7 +984,7 @@
       "from": "program.eitc-dollars",
       "evidence": "contested",
       "range": [-0.03, 0],
-      "notes": "Unsupported until measured: the game records no EITC dollars by place, and low birth weight is not a kept place outcome; the size is kept for when both exist."
+      "notes": "Unsupported until measured: the game records no EITC dollars by place. Low birth weight is now a place outcome (CDC, 2023), so the link acts once EITC dollars are recorded; the size is kept until then."
     },
     {
       "key": "child-food-stamps-to-adult-health",
@@ -1064,8 +1068,8 @@
     },
     {
       "key": "minimum-wage-to-low-wage-jobs",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "labor.low-wage-jobs",
       "strength": "weak",
       "shape": {
@@ -1082,7 +1086,7 @@
       "from": "labor.minimum-wage-to-median",
       "evidence": "contested",
       "range": [-0.5, 0],
-      "notes": "Unsupported until measured: the game records no minimum wage as a share of the place's median wage, and low-wage jobs are not a kept place outcome."
+      "notes": "The cause is read: the state's minimum wage in force over the place's recorded median earnings spread over a 2,080-hour year (outcome-web labor.minimum-wage-to-median). Median earnings include part-year workers, so the ratio reads a little above one built on full-time hourly pay. Waiting on its outcome: low-wage jobs are not a kept place outcome, so nothing moves until a producer reads this link."
     },
     {
       "key": "unemployment-to-poverty",
@@ -1410,7 +1414,7 @@
       "from": "health.blood-lead",
       "evidence": "provisional",
       "range": [0.065, 0.26],
-      "notes": "Unsupported until measured: the game records no blood lead levels by place, and the share far below proficient is not a kept place outcome."
+      "notes": "Unsupported until measured: the game records no blood lead levels by place, and the share far below proficient is not a kept place outcome. CDC publishes only the share of tested children at or above 3.5 micrograms per deciliter, not the mean level this link is sized on; filed as research question state-average-child-blood-lead-level."
     },
     {
       "key": "heat-to-learning",
@@ -1856,8 +1860,8 @@
     },
     {
       "key": "property-tax-to-rent",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "housing.rent",
       "strength": "weak",
       "shape": {
@@ -1873,7 +1877,7 @@
       "from": "tax.property-rate",
       "evidence": "contested",
       "range": [0.02, 0.18],
-      "notes": "Unsupported until measured: the game records no effective property tax rate by place, and rent is not a kept place outcome."
+      "notes": "Sized, with its cause recorded and its outcome missing: each place's effective property tax rate on homes is now a place outcome (Tax Foundation, 2024), but rent is not a kept place outcome, so the link moves nothing until one is produced."
     },
     {
       "key": "transit-loss-to-unemployment",
@@ -1957,8 +1961,8 @@
     },
     {
       "key": "corporate-tax-incidence",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "labor.wages",
       "strength": "moderate",
       "shape": {
@@ -1974,7 +1978,7 @@
       "from": "tax.state-corporate-rate",
       "evidence": "researched",
       "range": [0, 0.7],
-      "notes": "Unsupported until measured: the game records no state corporate tax rate by place, and wages by this key are not a kept place outcome."
+      "notes": "Sized, with its cause recorded and its outcome missing: each place's top corporate income tax rate is now a place outcome (Tax Foundation, 2026), but wages by this key are not a kept place outcome (median earnings is a different measure), so the link moves nothing until one is produced."
     },
     {
       "key": "incentive-deal-to-industry-jobs",
@@ -2355,7 +2359,7 @@
       "from": "voting.polling-place-distance-miles",
       "evidence": "researched",
       "range": [-0.2, -0.08],
-      "notes": "Unsupported until measured: the game records no average distance to a polling place by place; turnout is kept, so this acts once one exists."
+      "notes": "Unsupported until measured: no public source gives the average distance to a polling place by state, so no starting value was added; filed as research question state-polling-place-distance-in-miles. Turnout is kept, so this acts once one exists."
     },
     {
       "key": "newspaper-closure-to-borrowing-cost",
@@ -3245,9 +3249,9 @@
       "source": "CBO cost estimate, Smarter Sentencing Act of 2014 (S. 1410); BJS Prisoners in 2022",
       "evidence": "provisional",
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "to": "justice.incarcerated-per-100k",
+      "to": "justice.federal-incarcerated-per-100k",
       "range": [-0.012, -0.004],
-      "notes": "Unsupported: the game's prison measure is the BJS state imprisonment rate, which leaves out federal prisoners, and federal counts are kept by the prison's location, not the prisoner's home state, so there is no state level for a cut in federal sentences to move; it needs a national federal-prisoner measure."
+      "notes": "Waiting on a federal-prisoner measure: a federal sentencing cut changes who is in federal prison, not state prisons, so this link points at justice.federal-incarcerated-per-100k (federal prisoners per 100,000 residents), which the game does not record yet. The recorded prison measure, justice.incarcerated-per-100k, is the BJS state imprisonment rate and leaves out federal prisoners, so moving it would be a fake effect. Federal counts are kept by the prison's location, not the prisoner's home state, so a state-level federal measure needs its own source before the link can act."
     },
     {
       "key": "power-plant-carbon-to-emissions",
