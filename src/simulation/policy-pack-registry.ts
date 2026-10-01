@@ -1,3 +1,4 @@
+import { MINIMUM_WAGE_PAY_ROWS } from "./law-consequences/pay-rows";
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import {
@@ -38,12 +39,14 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
       const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
       const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
-      if (!coverage && service.length === 0) return row;
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
+      if (!coverage && !pay && service.length === 0) return row;
       return {
         ...row,
         consequences: [
           ...(row.consequences ?? []),
           ...(coverage ? [coverage] : []),
+          ...(pay ? [pay] : []),
           ...service,
         ],
       };
@@ -62,9 +65,17 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
     propositions: US_FEDERAL_POSITIONS_PACK.propositions?.map((row) => {
       const key = `${US_FEDERAL_POSITIONS_PACK.pack}:${row.key}`;
       const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
-      return service.length === 0
+      const pay = MINIMUM_WAGE_PAY_ROWS[key];
+      return !pay && service.length === 0
         ? row
-        : { ...row, consequences: [...(row.consequences ?? []), ...service] };
+        : {
+            ...row,
+            consequences: [
+              ...(row.consequences ?? []),
+              ...(pay ? [pay] : []),
+              ...service,
+            ],
+          };
     }),
   },
 ];
