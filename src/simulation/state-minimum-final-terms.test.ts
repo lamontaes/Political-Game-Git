@@ -183,16 +183,22 @@ it("A39 does not derive a numeric raise from a plain yes answer", () => {
   const f = enactedTarget("state-target:missing");
   const setting = stateMinimumSettingAt(f.world, stateKey, f.effectiveAt)!;
   expect(setting.hourlyMinor).toBe(
-    Math.round(startingStateMinimumHourly(stateKey)! * 100),
+    Math.round(
+      startingStateMinimumHourly(stateKey, f.world, f.effectiveAt)! * 100,
+    ),
   );
   expect(setting.measureId).toBeNull();
 });
 
 it("A39 refuses a target in the wrong unit", () => {
   const f = enactedTarget("state-target:unit", 1775, "minor");
-  expect(
-    stateMinimumSettingAt(f.world, stateKey, f.effectiveAt)!.measureId,
-  ).toBeNull();
+  expect(stateMinimumSettingAt(f.world, stateKey, f.effectiveAt)).toMatchObject(
+    {
+      measureId: null,
+      hourlyMinor:
+        startingStateMinimumHourly(stateKey, f.world, f.effectiveAt)! * 100,
+    },
+  );
 });
 
 it("A39 activates a future adopted target only on its date after an earlier read", () => {
@@ -202,9 +208,7 @@ it("A39 activates a future adopted target only on its date after an earlier read
   ).toBeNull();
   // The shared final-term reader refuses future activity dates. This miss
   // must not poison the cache when the same saved enactments reach that date.
-  expect(
-    stateMinimumSettingAt(f.world, stateKey, f.effectiveAt)!.measureId,
-  ).toBeNull();
+  expect(stateMinimumSettingAt(f.world, stateKey, f.effectiveAt)).toBeNull();
   const arrived = later(f.world, f.effectiveAt);
   expect(stateMinimumSettingAt(arrived, stateKey, f.effectiveAt)).toMatchObject(
     {
@@ -223,18 +227,25 @@ it.each(sampled)(
     const observed = stateJurisdictionForKey(observedKey)!;
     expect(f.world.jurisdictions[observed.id]).toBeDefined();
     expect(observedKey).not.toBe(stateKey);
-    const setting = stateMinimumSettingAt(f.world, observedKey, f.effectiveAt)!;
-    expect(setting.hourlyMinor).toBe(
-      Math.round(startingStateMinimumHourly(observedKey)! * 100),
+    const setting = stateMinimumSettingAt(f.world, observedKey, f.effectiveAt);
+    const starting = startingStateMinimumHourly(
+      observedKey,
+      f.world,
+      f.effectiveAt,
     );
-    expect(setting.measureId).toBeNull();
+    if (starting === null) expect(setting).toBeNull();
+    else
+      expect(setting).toMatchObject({
+        hourlyMinor: Math.round(starting * 100),
+        measureId: null,
+      });
     console.info("A39_STATE_TERM_SCOPE", {
       sampleSeed: "pay-kind-five-places",
       placeKey,
       observedKey,
       actualLawJurisdiction: stateKey,
       measureId: f.measureId,
-      unchangedMinor: setting.hourlyMinor,
+      unchangedMinor: setting?.hourlyMinor ?? null,
       fixture: "canonical legal reader; not a paycheck or natural enactment",
     });
   },

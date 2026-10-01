@@ -40,6 +40,7 @@ import {
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
+  stateKeyForJurisdiction,
 } from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { EntityId, IsoDate, World } from "./types";
@@ -205,17 +206,64 @@ export function federalMinimumHourlyMinorAt(
  */
 export function startingMinimumHourly(
   jurisdictionId: EntityId | null,
+  world?: World,
+  onDate: IsoDate | undefined = world?.currentDate,
 ): number | null {
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
-  return startingStateMinimumHourly(place?.stateJurisdictionKey ?? null);
+  return startingStateMinimumHourly(
+    place?.stateJurisdictionKey ?? null,
+    world,
+    onDate,
+  );
 }
 
-/** The same, for a state named by its key (`US-NE`). */
+const startingViews = new WeakMap<World, World>();
+
+/**
+ * Starting law at the actual date, without enactments made in play. The
+ * context-free signature remains only for legacy initial wage distribution
+ * callers; dated legal/pay readers must supply their world and activity date.
+ */
 export function startingStateMinimumHourly(
   stateKey: string | null,
+  world?: World,
+  onDate: IsoDate | undefined = world?.currentDate,
 ): number | null {
+  if (world && onDate) {
+    if (!stateKey) return federalMinimumHourlyMinorAt(world, onDate) / 100;
+    const stateId = stateJurisdictionForKey(stateKey)?.id;
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+    );
+    if (!stateId || !proposition) return null;
+    let startingWorld = startingViews.get(world);
+    if (!startingWorld) {
+      // Read-only view: ignore play enactments when identifying the legal
+      // starting baseline. No records, jurisdictions or dates are created.
+      startingWorld = {
+        ...world,
+        history: { ...world.history, legislativeEnactments: [] },
+      };
+      startingViews.set(world, startingWorld);
+    }
+    const law = lawInForce(startingWorld, stateId, proposition.id, onDate);
+    if (!law || law.origin !== "in-force-at-start") return null;
+    const term = readFinalEnactedLawTerm(startingWorld, law, {
+      questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+      termKey: "target",
+      unit: "minor/hour",
+      onDate,
+    });
+    if (term && Number.isSafeInteger(term.value) && term.value >= 0)
+      return term.value / 100;
+    // A state without its own floor is covered by federal law, not a
+    // manufactured state statute. Conditional/undated state rates stay null.
+    return law.answer === "no"
+      ? federalMinimumHourlyMinorAt(world, onDate) / 100
+      : null;
+  }
   if (!stateKey || !(stateKey in TOWN_MINIMUM_WAGES))
     return FEDERAL_MINIMUM_HOURLY;
   const state = TOWN_MINIMUM_WAGES[stateKey];
@@ -309,7 +357,7 @@ function computeStateMinimumSetting(
   onDate: IsoDate,
 ): StateMinimumSetting | null {
   const stateId = stateJurisdictionForKey(stateKey)?.id ?? null;
-  const starting = startingStateMinimumHourly(stateKey);
+  const starting = startingStateMinimumHourly(stateKey, world, onDate);
   const beforeMinor = starting === null ? null : Math.round(starting * 100);
   const filed = /^US-[A-Z]{2}$/.test(stateKey)
     ? ruleValueInWorld(
@@ -336,7 +384,7 @@ function computeStateMinimumSetting(
   ).find(
     (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
   );
-  if (proposition && stateId && beforeMinor !== null) {
+  if (proposition && stateId) {
     const law = lawInForce(
       world,
       stateId,
@@ -357,7 +405,7 @@ function computeStateMinimumSetting(
       if (term && Number.isSafeInteger(term.value) && term.value >= 0)
         return {
           hourlyMinor: term.value,
-          beforeMinor,
+          beforeMinor: beforeMinor ?? term.value,
           measureId: law.measureId,
           designation: measure?.designation ?? "A state law",
           effectiveAt: law.operativeAt,
@@ -468,7 +516,11 @@ export function minimumWageSettingAt(
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
-  const key = place?.stateJurisdictionKey ?? null;
+  const key =
+    place?.stateJurisdictionKey ??
+    (jurisdictionId && world.jurisdictions[jurisdictionId]
+      ? stateKeyForJurisdiction(world.jurisdictions[jurisdictionId]!)
+      : null);
   const stateSetting =
     key && /^US-[A-Z]{2}$/.test(key)
       ? stateMinimumSettingAt(world, key, onDate)
@@ -481,7 +533,9 @@ export function minimumWageSettingAt(
     effectiveAt: stateSetting.effectiveAt,
   };
   if (!state) {
-    const starting = startingMinimumHourly(jurisdictionId);
+    const starting = key
+      ? startingMinimumHourly(jurisdictionId, world, onDate)
+      : federal.hourlyMinor / 100;
     if (starting === null) return null;
     state = {
       hourlyMinor: Math.round(starting * 100),

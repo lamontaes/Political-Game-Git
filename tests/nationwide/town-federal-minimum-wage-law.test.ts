@@ -22,13 +22,16 @@ import {
   raiseTownPayToMinimum,
   type TownPayPeriod,
 } from "../../src/simulation/living-world/town-pay";
-import { TOWN_MINIMUM_WAGES } from "../../src/simulation/living-world/town-pay.generated";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   federalMinimumSchedule,
   minimumHourlyAt,
+  startingStateMinimumHourly,
 } from "../../src/simulation/minimum-wage";
-import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../../src/simulation/national-election-geography";
 import { recordWorkStatus } from "../../src/simulation/life";
 import { workStatusAt } from "../../src/simulation/life-queries";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
@@ -133,7 +136,7 @@ function nashvilleWithFederalRaise(effectiveInDays: number) {
     )!.id,
   };
   let world = {
-    ...recorded,
+    ...ensureNationalElectionJurisdiction(recorded),
     policyCatalog: POLICY,
     history: {
       ...recorded.history,
@@ -255,7 +258,11 @@ describe("the federal minimum wage is the floor everywhere", () => {
         stateJurisdictionKey: state.jurisdictionKey,
       }).find((place) => place.scope !== "state")!;
       const jurisdiction = town.context.jurisdiction.id;
-      const own = TOWN_MINIMUM_WAGES[state.jurisdictionKey];
+      const own = startingStateMinimumHourly(
+        state.jurisdictionKey,
+        arrived,
+        effectiveAt,
+      );
       const floor = minimumHourlyAt(arrived, jurisdiction, effectiveAt);
       if (own === null) expect(floor, state.jurisdictionKey).toBeNull();
       else
