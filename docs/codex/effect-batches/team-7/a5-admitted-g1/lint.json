@@ -1,0 +1,48 @@
+{
+  "head": "663b138ef2ce61e07af79f05c456f7c0123431b4",
+  "main": "1c2d7ddf5e5ef636efd927d262a8dcbc62b2dff6",
+  "files": [
+    {
+      "path": "src/simulation/campaigns.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/life-opportunities.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/player-monthly-money-routes.test.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/player-monthly-money.test.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/player-monthly-money.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/player-monthly-new-office.test.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    }
+  ]
+}
