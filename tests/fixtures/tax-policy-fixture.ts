@@ -1,3 +1,4 @@
+import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import { createLegislativeScenario } from "../../src/simulation/legislation-scenarios";
 import {
   introduceMeasure,
@@ -7,7 +8,11 @@ import {
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
 import { publishLegislativeTransition } from "../../src/presentation/publish-legislative-transition";
-import { advanceWorld, assertWorldIntegrity } from "../../src/simulation/world";
+import {
+  advanceWorld,
+  createWorld,
+  assertWorldIntegrity,
+} from "../../src/simulation/world";
 import { daysBetween, makeIsoDate } from "../../src/simulation/dates";
 import {
   createTaxTransitionHandlerRegistry,
@@ -39,11 +44,28 @@ export const TEST_TAX_TERMS: TaxTerms = {
 export function proposalFixture(terms: TaxTerms = TEST_TAX_TERMS) {
   const scenario = createLegislativeScenario("alaska");
   let world = advanceWorld(
-    scenario.world,
+    createWorld({
+      seed: scenario.world.seed,
+      currentDate: scenario.world.currentDate,
+      jurisdictions: scenario.world.jurisdictionOrder.map(
+        (id) => scenario.world.jurisdictions[id]!,
+      ),
+      people: scenario.world.personOrder.map(
+        (id) => scenario.world.people[id]!,
+      ),
+      policyCatalog: createProductionPolicyCatalog(),
+    }),
     daysBetween(scenario.world.currentDate, makeIsoDate("2027-01-20")),
     createTaxTransitionHandlerRegistry(),
   );
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (entry) => entry.stableKey === "us-tax-terms:state.excise-tax-terms",
+  );
+  if (!proposition)
+    throw new Error("Production excise tax question is missing.");
   world = introduceMeasure(world, {
+    propositionIds: [proposition.id],
+    propositionAnswers: [{ propositionId: proposition.id, answer: "yes" }],
     stableKey: "tax-test:measure",
     jurisdictionId: scenario.world.jurisdictionOrder[0]!,
     rulePackId: scenario.pack.packId,
