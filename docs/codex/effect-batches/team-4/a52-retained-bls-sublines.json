@@ -1,0 +1,170 @@
+{
+  "auditId": "A52",
+  "source": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx",
+  "sheet": "Table 1800",
+  "sourceYear": 2024,
+  "unit": "annual-usd-per-consumer-unit",
+  "workbookSha256": "9d7cbb5437dd975b918d11c454e74c626e9809e1418887ae05da00a7b35c0843",
+  "ownerRuling": "CTO October 1 2:02 a.m. ruling3",
+  "retainedSubLines": [
+    {
+      "key": "food",
+      "label": "Food",
+      "cell": "B56",
+      "annualUsd": 10169,
+      "condition": "retained"
+    },
+    {
+      "key": "apparelAndServices",
+      "label": "Apparel and services",
+      "cell": "B344",
+      "annualUsd": 2001,
+      "condition": "retained"
+    },
+    {
+      "key": "miscellaneous",
+      "label": "Miscellaneous",
+      "cell": "B542",
+      "annualUsd": 1218,
+      "condition": "retained"
+    },
+    {
+      "key": "gasoline",
+      "label": "Gasoline",
+      "cell": "B420",
+      "annualUsd": 2411,
+      "condition": "retained"
+    },
+    {
+      "key": "maintenanceAndRepairs",
+      "label": "Maintenance and repairs",
+      "cell": "B435",
+      "annualUsd": 984,
+      "condition": "retained"
+    },
+    {
+      "key": "drugs",
+      "label": "Drugs",
+      "cell": "B471",
+      "annualUsd": 658,
+      "condition": "retained"
+    },
+    {
+      "key": "medicalSupplies",
+      "label": "Medical supplies",
+      "cell": "B476",
+      "annualUsd": 233,
+      "condition": "retained"
+    },
+    {
+      "key": "healthInsurance",
+      "label": "Health insurance",
+      "cell": "B461",
+      "annualUsd": 4055,
+      "condition": "exclude when actual recorded same-category charge exists"
+    },
+    {
+      "key": "medicalServices",
+      "label": "Medical services",
+      "cell": "B466",
+      "annualUsd": 1252,
+      "condition": "exclude when actual recorded same-category charge exists"
+    }
+  ],
+  "unsupportedBindings": [
+    {
+      "key": "publicTransit",
+      "reason": "B450 is Public and other transportation ($1131), which cannot be relabeled public-transit-only. Team9 exact retained figure requested."
+    },
+    {
+      "key": "alreadyRecordedHealthCharges",
+      "reason": "Audit exact dated resource-flow/obligation/category contract requested; no guessed basis or note parsing."
+    }
+  ],
+  "excluded": [
+    "Vehicle purchases (net outlay)",
+    "Vehicle finance charges",
+    "Vehicle insurance",
+    "Vehicle rental, leases, licenses, and other charges",
+    "Other fuels"
+  ],
+  "productionStatus": "bounded retained-category consumer candidate; premiums/services and transit not included; needs CTO regional numerical review",
+  "regionalRetainedInputs": {
+    "national": {
+      "annualUsdPerConsumerUnit": {
+        "food": 10169,
+        "apparelAndServices": 2001,
+        "miscellaneous": 1218,
+        "gasoline": 2411,
+        "maintenanceAndRepairs": 984,
+        "drugs": 658,
+        "medicalSupplies": 233
+      },
+      "peoplePerConsumerUnit": 2.4,
+      "childrenUnder18PerConsumerUnit": 0.6
+    },
+    "northeast": {
+      "annualUsdPerConsumerUnit": {
+        "food": 11372,
+        "apparelAndServices": 2420,
+        "miscellaneous": 1069,
+        "gasoline": 2103,
+        "maintenanceAndRepairs": 986,
+        "drugs": 661,
+        "medicalSupplies": 220
+      },
+      "peoplePerConsumerUnit": 2.4,
+      "childrenUnder18PerConsumerUnit": 0.5
+    },
+    "midwest": {
+      "annualUsdPerConsumerUnit": {
+        "food": 9677,
+        "apparelAndServices": 1962,
+        "miscellaneous": 1142,
+        "gasoline": 2349,
+        "maintenanceAndRepairs": 1037,
+        "drugs": 662,
+        "medicalSupplies": 262
+      },
+      "peoplePerConsumerUnit": 2.4,
+      "childrenUnder18PerConsumerUnit": 0.6
+    },
+    "south": {
+      "annualUsdPerConsumerUnit": {
+        "food": 9003,
+        "apparelAndServices": 1759,
+        "miscellaneous": 1029,
+        "gasoline": 2395,
+        "maintenanceAndRepairs": 822,
+        "drugs": 629,
+        "medicalSupplies": 217
+      },
+      "peoplePerConsumerUnit": 2.4,
+      "childrenUnder18PerConsumerUnit": 0.6
+    },
+    "west": {
+      "annualUsdPerConsumerUnit": {
+        "food": 11746,
+        "apparelAndServices": 2137,
+        "miscellaneous": 1744,
+        "gasoline": 2740,
+        "maintenanceAndRepairs": 1222,
+        "drugs": 703,
+        "medicalSupplies": 244
+      },
+      "peoplePerConsumerUnit": 2.6,
+      "childrenUnder18PerConsumerUnit": 0.6
+    }
+  },
+  "regionalColumns": {
+    "national": "B",
+    "northeast": "C",
+    "midwest": "D",
+    "south": "E",
+    "west": "F"
+  },
+  "adultDenominatorCells": {
+    "people": 16,
+    "childrenUnder18": 17
+  }
+}
