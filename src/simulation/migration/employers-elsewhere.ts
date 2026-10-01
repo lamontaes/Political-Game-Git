@@ -18,13 +18,8 @@
  * their years in that line of work.
  */
 
-import { daysBetween } from "../dates";
+import { daysInLine } from "../job-market";
 import { createOrganization } from "../life";
-import {
-  workRelationshipHistoryForPerson,
-  workRoleAt,
-  workStatusAt,
-} from "../life-queries";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceStateIdentities,
@@ -65,9 +60,6 @@ export const NO_CREDENTIAL_OCCUPATIONS: ReadonlySet<OccupationClassification> =
     "occupation:retail-sales",
     "service:food-server",
   ]);
-
-/** The weekly hours a business's full-time worker is hired for. */
-const FULL_TIME = { minimumHours: 35, maximumHours: 40 } as const;
 
 /**
  * ESTIMATED FROM AVERAGE: where BLS publishes no wage for the place (American
@@ -152,27 +144,6 @@ function largestInCountry(): readonly LifePlace[] {
   return (country = sized.slice(0, 2).map((row) => row.place));
 }
 
-/** Days this person has worked in `occupation`, from their work record. */
-function daysIn(
-  world: World,
-  personId: EntityId,
-  occupation: OccupationClassification,
-): number {
-  let days = 0;
-  for (const work of workRelationshipHistoryForPerson(world, personId)) {
-    if (!work.kind.startsWith("employment:")) continue;
-    if (workRoleAt(world, work.id)?.occupationClassification !== occupation)
-      continue;
-    const status = workStatusAt(world, work.id);
-    const end =
-      status?.status === "ended" && status.effectiveAt < world.currentDate
-        ? status.effectiveAt
-        : world.currentDate;
-    days += Math.max(0, daysBetween(work.startedAt, end));
-  }
-  return days;
-}
-
 /** What one kind of employer elsewhere would offer this person. */
 export interface EmployerOffer {
   readonly kind: LocalBusinessKind;
@@ -243,19 +214,25 @@ export function bestEmployerFor(
   for (const kind of LOCAL_BUSINESS_KINDS) {
     const row = supply?.find((entry) => entry.kind === kind.key) ?? null;
     if (supply && (!row || Math.round(row.expected) < 1)) continue;
-    const daysInLine = daysIn(world, personId, kind.workerOccupation);
-    if (
-      daysInLine <= 0 &&
-      !NO_CREDENTIAL_OCCUPATIONS.has(kind.workerOccupation)
-    )
+    // Experience as the employer reads it (`daysInLine`, the job market's).
+    const days = daysInLine(
+      world,
+      personId,
+      {
+        title: kind.workerTitle,
+        occupationClassification: kind.workerOccupation,
+      },
+      world.currentDate,
+    );
+    if (days <= 0 && !NO_CREDENTIAL_OCCUPATIONS.has(kind.workerOccupation))
       continue;
-    const pay = offeredPay(world, kind, placeId, daysInLine);
+    const pay = offeredPay(world, kind, placeId, days);
     if (!pay) continue;
     options.push({
       kind,
       placeId,
       ...pay,
-      daysInLine,
+      daysInLine: days,
       expected: row?.expected ?? null,
     });
   }
@@ -326,6 +303,3 @@ export function ensureEmployerElsewhere(
   });
   return { world: next, organizationId: next.history.organizations.at(-1)!.id };
 }
-
-/** The full-time hours the offer is for. */
-export const EMPLOYER_ELSEWHERE_HOURS = FULL_TIME;

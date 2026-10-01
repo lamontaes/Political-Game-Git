@@ -69,10 +69,10 @@ import type {
   OccupationClassification,
   World,
 } from "../types";
+import { FULL_TIME } from "../local-economy";
 import type { CauseReader } from "./causes";
 import {
   bestEmployerFor,
-  EMPLOYER_ELSEWHERE_HOURS,
   ensureEmployerElsewhere,
   NO_CREDENTIAL_OCCUPATIONS,
   PAY_ESTIMATE_SPREAD,
@@ -420,7 +420,8 @@ export function reviewJobSearchElsewhere(
       title: offer.kind.workerTitle,
       occupationClassification: offer.kind.workerOccupation,
       pay: { basis: "hourly", amount: money(offer.hourlyMinor, "USD") },
-      weeklyHours: EMPLOYER_ELSEWHERE_HOURS,
+      // The full-time hours the place's businesses hire for.
+      weeklyHours: FULL_TIME.expectedWeekly,
       note:
         offer.payBasis === "published"
           ? "The place's published wage for the occupation (BLS OEWS, May 2025) at their years in the line of work."

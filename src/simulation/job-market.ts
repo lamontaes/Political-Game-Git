@@ -1253,10 +1253,14 @@ export function holdsWork(world: World, personId: EntityId): boolean {
  * Days the person has done this line of work, from their recorded jobs: the
  * same title, or the same occupation when the opening names one.
  */
-function daysInLine(
+/**
+ * Days `personId` has worked, by `on`, in the opening's line of work: a job
+ * with the same title or occupation. What an employer reads as experience.
+ */
+export function daysInLine(
   world: World,
   personId: EntityId,
-  opening: JobOpeningRecord,
+  opening: Pick<JobOpeningRecord, "title" | "occupationClassification">,
   on: IsoDate,
 ): number {
   let days = 0;
