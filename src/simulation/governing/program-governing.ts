@@ -6,6 +6,10 @@ import {
 } from "../legislation-draft-lineage";
 import { addYears } from "../legislation-drafting";
 import { currentMeasureProvisions } from "../legislative-politics";
+import {
+  currentServicesBudgetAuthority,
+  CURRENT_SERVICES_BUDGET_VERSION,
+} from "./current-services-budget";
 import { operativeDateInWorld } from "./law-in-force";
 import {
   lifePlaceByJurisdictionId,
@@ -242,6 +246,43 @@ export function appropriationFromEnactedMeasure(
   const governmentScope = publicProgramGovernmentScope(world, measure);
   if (!governmentScope) return world;
   const stateUsps = governmentScope.stateUsps;
+  if (measure.stableKey.startsWith(`${CURRENT_SERVICES_BUDGET_VERSION}:`)) {
+    const authority = currentServicesBudgetAuthority(world, measureId);
+    const operative = operativeDateInWorld(world, enactment);
+    if (
+      !authority ||
+      governmentScope.kind !== "state" ||
+      !stateUsps ||
+      !operative ||
+      operative.basis === "game-default"
+    )
+      return world;
+    let next = world;
+    for (const line of authority.lines) {
+      const adoptedOn =
+        operative.date > line.startsOn ? operative.date : line.startsOn;
+      if (adoptedOn > line.endsOn) continue;
+      const programName = line.program.replace(
+        /[A-Z]/g,
+        (letter) => `-${letter.toLowerCase()}`,
+      );
+      const written = recordAdoptedAppropriation(next, {
+        familyKey: "appropriations",
+        stateUsps,
+        jurisdictionId: measure.jurisdictionId,
+        publicGovernmentIdentity: governmentScope.identity,
+        programKey: `budget-${programName}:${stateUsps.toLowerCase()}`,
+        amountMinorUnits: line.amountMinorUnits,
+        adoptedOn,
+        availableThrough: line.endsOn,
+        edition: `${measure.id}-${line.fiscalYear}-${programName}`,
+        basisNote: `${CURRENT_SERVICES_BUDGET_VERSION}: ${measure.designation}, final ${line.program} clause ${line.provisionId}. Fiscal ${line.fiscalYear} final stated amount; authority only, not cash or delivered services.`,
+        sourceMeasureId: measureId,
+      });
+      next = written?.world ?? next;
+    }
+    return next;
+  }
   const provisions = currentMeasureProvisions(world, measureId);
   if (governmentScope.kind === "local") {
     const admission = admitLocalFiscalMeasure(

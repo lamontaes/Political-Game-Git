@@ -1,0 +1,117 @@
+[
+  {
+    "path": "docs/audits/2026-09-30/bedrock.md",
+    "word": "labelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/audits/2026-09-30/bedrock.md",
+    "word": "behaviour",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/audits/2026-09-30/dice.md",
+    "word": "favourite",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/audits/2026-09-30/dice.md",
+    "word": "favourite",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/audits/2026-09-30/dice.md",
+    "word": "catalogue",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/audits/2026-09-30/dice.md",
+    "word": "Honourable",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/audits/2026-09-30/engines.md",
+    "word": "behaviour",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/audits/2026-09-30/golden-rule.md",
+    "word": "behaviour",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json",
+    "word": "Honourable",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json",
+    "word": "Cancelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/codex/effect-batches/team-9/a10-composer-proof.json",
+    "word": "cancelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/codex/effect-batches/team-9/michigan-cpl-source.json",
+    "word": "analogue",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/release/changes/plain-american-wording.md",
+    "word": "favour",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/release/changes/plain-american-wording.md",
+    "word": "neighbour",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/release/changes/plain-american-wording.md",
+    "word": "whilst",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/release/changes/plain-american-wording.md",
+    "word": "programme",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "docs/release/changes/team2-governing-reports-require-recorded-actions.md",
+    "word": "Cancelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "src/presentation/mayor-executive-decision.test.ts",
+    "word": "cancelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "src/presentation/president-player-desk.test.ts",
+    "word": "cancelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "src/presentation/president-player-desk.test.ts",
+    "word": "cancelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "src/simulation/governing/recorded-governing-action.test.ts",
+    "word": "cancelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "src/simulation/governing/state-governing.ts",
+    "word": "cancelled",
+    "wordPresentInIntegrationBase": true
+  },
+  {
+    "path": "src/simulation/justice/prosecution-composer.test.ts",
+    "word": "cancelled",
+    "wordPresentInIntegrationBase": true
+  }
+]

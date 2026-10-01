@@ -22,7 +22,7 @@ import { publicGovernmentIdentityForRecord } from "../public-government-identity
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng } from "../rng";
 import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
@@ -96,6 +96,11 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import { publicPartyOf } from "./chamber-votes";
+import { hasStableKey } from "../history-index";
+import {
+  recordCurrentServicesBudgetDraft,
+  currentServicesBudgetFiscalWindow,
+} from "./current-services-budget";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -463,6 +468,7 @@ import {
 } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
+import { recordedBudgetProgramFamilies } from "./budget-subjects";
 import {
   openAppropriationsFor,
   programAlternativesFor,
@@ -2045,6 +2051,17 @@ function recordDecision(
     option ? "completed" : "cancelled",
   );
   const outcome = applyConsequence(next, office, matter, option, decision.id);
+  if (matter.family === "budget" && option) {
+    const intake = [...outcome.history.events]
+      .reverse()
+      .find(
+        (event) =>
+          event.tags.includes("budget:awaiting-request") &&
+          event.tags.includes(`matter:${matter.id}`),
+      );
+    const intakeKey = intake ? tagValue(intake, "budget-intake:") : null;
+    if (intakeKey) return fileSessionBudgetRequest(outcome, office, intakeKey);
+  }
   if (matter.family === "clemency" && option) {
     const petitionId = tagValue(matter.openedEvent, "source-event:");
     if (petitionId)
@@ -2141,6 +2158,206 @@ export function decideGoverningMatter(
     ok: true,
     world: decided,
   };
+}
+
+function lapseBudgetRequest(
+  world: World,
+  matter: GoverningMatter,
+): GoverningActionResult {
+  const reason =
+    "The governor who made this request no longer holds the office on the filing date.";
+  const stableKey = `${matter.stableKey}:budget-request-lapsed`;
+  const next = hasStableKey(world.history.events, stableKey)
+    ? world
+    : recordWorldEvent(world, {
+        stableKey,
+        type: GOVERNING_OUTCOME,
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: matter.openedEvent.jurisdictionId,
+        involvedEntityIds: [matter.holderPersonId],
+        participants: [
+          {
+            personId: matter.holderPersonId,
+            role: "impact:former-officeholder",
+            detail: reason,
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [
+          STATE_GOVERNING_VERSION,
+          "matter-family:budget",
+          `office:${matter.officeKey}`,
+          `matter:${matter.id}`,
+          ...(matter.decision ? [`source-event:${matter.decision.id}`] : []),
+          "budget:request-lapsed",
+        ],
+        summary: `${personName(world.people[matter.holderPersonId]!)}'s budget request lapsed. ${reason}`,
+        context: { ...emptyContext(), choice: reason },
+      });
+  return { ok: false, world: next, reason };
+}
+
+/** Move an actual recorded budget request through the existing bill driver. */
+export function fileRecordedGoverningBudgetRequest(
+  world: World,
+  input: {
+    readonly matterId: EntityId;
+    readonly fiscalWindow: {
+      readonly startsOn: IsoDate;
+      readonly endsOn: IsoDate;
+    };
+  },
+): GoverningActionResult {
+  const matter = governingMatterById(world, input.matterId);
+  const office = matter ? governingOfficeByKey(world, matter.officeKey) : null;
+  if (
+    matter?.family === "budget" &&
+    (!office || office.holderPersonId !== matter.holderPersonId)
+  )
+    return lapseBudgetRequest(world, matter);
+  if (
+    !matter ||
+    matter.family !== "budget" ||
+    matter.status !== "decided" ||
+    !matter.decision ||
+    !office ||
+    office.holderPersonId !== matter.holderPersonId
+  )
+    return {
+      ok: false,
+      world,
+      reason: "No current governor's recorded budget request is available.",
+    };
+  const filed = recordCurrentServicesBudgetDraft(world, {
+    jurisdictionId: office.jurisdictionId,
+    governorPersonId: office.holderPersonId,
+    requestEventId: matter.decision.id,
+    fiscalWindow: input.fiscalWindow,
+  });
+  return filed
+    ? { ok: true, world: scheduleInstitutionStep(filed.world, filed.measureId) }
+    : {
+        ok: false,
+        world,
+        reason:
+          "The recorded request has no adopted current-services lines or seated originating chamber.",
+      };
+}
+
+/** Intake uses the current holder's saved request and the government's own cycle. */
+function fileSessionBudgetRequest(
+  world: World,
+  office: GoverningOffice,
+  intakeKey: string,
+): World {
+  let next = world;
+  const requests = governingMatters(world, office.officeKey).filter(
+    (matter) => matter.family === "budget",
+  );
+  const fiscalWindow = currentServicesBudgetFiscalWindow(
+    world,
+    office.jurisdictionId,
+  );
+  for (const matter of requests.filter(
+    (matter) => matter.holderPersonId !== office.holderPersonId,
+  ))
+    next = lapseBudgetRequest(next, matter).world;
+  const request = requests
+    .filter(
+      (matter) =>
+        matter.holderPersonId === office.holderPersonId &&
+        matter.status === "decided" &&
+        matter.decision,
+    )
+    .sort(
+      (left, right) => right.decision!.sequence - left.decision!.sequence,
+    )[0];
+  const result =
+    request && fiscalWindow
+      ? fileRecordedGoverningBudgetRequest(next, {
+          matterId: request.id,
+          fiscalWindow,
+        })
+      : null;
+  if (result?.ok) return result.world;
+  next = result?.world ?? next;
+  let pending =
+    !request && fiscalWindow
+      ? requests
+          .filter(
+            (matter) =>
+              matter.holderPersonId === office.holderPersonId &&
+              matter.status === "open",
+          )
+          .sort(
+            (left, right) =>
+              right.openedEvent.sequence - left.openedEvent.sequence,
+          )[0]
+      : undefined;
+  if (!request && fiscalWindow && !pending) {
+    next = openMatter(next, office, {
+      family: "budget",
+      instance: `session-budget:${intakeKey}`,
+      programKeys: recordedBudgetProgramFamilies(
+        next,
+        office.jurisdictionId,
+        currentPriority(next, office),
+      ),
+    });
+    pending = governingMatters(next, office.officeKey).find(
+      (matter) =>
+        matter.family === "budget" &&
+        matter.holderPersonId === office.holderPersonId &&
+        matter.openedEvent.stableKey ===
+          matterStableKey(office, "budget", `session-budget:${intakeKey}`),
+    );
+  }
+  const reason = pending
+    ? "The current governor's budget request awaits their recorded decision."
+    : !request
+      ? "The current governor has no decided budget request on record."
+      : !fiscalWindow
+        ? "The government has no adopted current-year lines and declared budget cycle."
+        : result!.reason;
+  const stableKey = `${STATE_GOVERNING_VERSION}:budget-intake:${intakeKey}:unfiled${pending ? `:request:${pending.id}` : ""}`;
+  if (hasStableKey(next.history.events, stableKey)) return next;
+  return recordWorldEvent(next, {
+    stableKey,
+    type: GOVERNING_OUTCOME,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: office.jurisdictionId,
+    involvedEntityIds: [office.holderPersonId],
+    participants: [
+      {
+        personId: office.holderPersonId,
+        role: "agency:officeholder",
+        detail: reason,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      STATE_GOVERNING_VERSION,
+      "matter-family:budget",
+      `office:${office.officeKey}`,
+      "budget:unfiled",
+      ...(pending
+        ? [
+            "budget:awaiting-request",
+            `matter:${pending.id}`,
+            `budget-intake:${intakeKey}`,
+          ]
+        : []),
+      ...(request
+        ? [`matter:${request.id}`, `source-event:${request.decision!.id}`]
+        : []),
+    ],
+    summary: `No general appropriations bill was filed at this intake. ${reason}`,
+    context: { ...emptyContext(), choice: reason },
+  });
 }
 
 /** Hand the matter to the chief of staff, who takes their own recommendation. */
@@ -2467,14 +2684,22 @@ function recordedProgramFollowUp(
   const records = (world.history.publicProgramRecords ?? []).filter(
     (record) => record.recordedAt <= world.currentDate,
   );
+  const budgetMeasureId =
+    matter.family === "budget"
+      ? (world.history.legislativeMeasures?.find(
+          (measure) =>
+            measure.sourceDocumentKey === decision.id &&
+            measure.jurisdictionId === matter.openedEvent.jurisdictionId,
+        )?.id ?? null)
+      : null;
+  const measureId = matter.measureId ?? budgetMeasureId;
   const appropriations = records.filter(
     (record): record is PublicProgramAppropriationRecord =>
       record.kind === "appropriation" &&
       record.jurisdictionId === matter.openedEvent.jurisdictionId &&
       (matter.appropriationId !== null
         ? record.id === matter.appropriationId
-        : matter.measureId !== null &&
-          record.sourceMeasureId === matter.measureId),
+        : measureId !== null && record.sourceMeasureId === measureId),
   );
   if (matter.family === "budget") {
     const adopted = [...appropriations]
@@ -2827,17 +3052,11 @@ export function governingSeasonHandler(
       Number(due.dueAt.slice(0, 4)),
     );
   if (kind === "budget" && office) {
-    const rng = new SeededRng(`${due.stableKey}:subject`);
-    const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
-    const priority = currentPriority(world, office);
-    const programKeys = [
-      ...(priority ? [priority] : []),
-      ...pickDistinct(
-        rng.fork("budget"),
-        pool.filter((key) => key !== priority),
-        priority ? 1 : 2,
-      ),
-    ];
+    const programKeys = recordedBudgetProgramFamilies(
+      world,
+      office.jurisdictionId,
+      currentPriority(world, office),
+    );
     next = openMatter(next, office, {
       family: "budget",
       instance: due.dueAt,
@@ -2866,6 +3085,7 @@ export function governingSeasonHandler(
       subjectPersonId
     )
       next = ensureStateLegislatureOpening(next, subjectPersonId, stateUsps);
+    if (office) next = fileSessionBudgetRequest(next, office, intake.intakeKey);
     const filedBefore = next.history.legislativeMeasures?.length ?? 0;
     // Only seated members file, from their own recorded principles.
     next = fileMemberAgendaBill(next, intake);

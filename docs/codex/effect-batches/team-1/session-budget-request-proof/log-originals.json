@@ -1,0 +1,20 @@
+[
+  {
+    "published": "first-native.txt",
+    "rawOriginal": "/tmp/team1-session-request-r1.log",
+    "rawOriginalSha256": "f81c17a88a09c12cb47752befea374e36627e69035a0f48433fe071005cb1f32",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original retained unchanged."
+  },
+  {
+    "published": "native.txt",
+    "rawOriginal": "/tmp/team1-session-request-published-source.log",
+    "rawOriginalSha256": "c2128a0689d707bbd5f56bd68af7feccf625948b5dd841bdce04bdbe6ab39f88",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original retained unchanged."
+  },
+  {
+    "published": "subjects.txt",
+    "rawOriginal": "/tmp/team1-budget-request-subjects.log",
+    "rawOriginalSha256": "976ecce287fd7176df1bf647df8a1311ef7d9eeeffe77f4fd9282af28ebfe790",
+    "normalization": "Only extra blank lines at EOF removed from published copy; original retained unchanged."
+  }
+]
