@@ -49,6 +49,8 @@ import {
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
+import { lawEffectStamp } from "../law-effect-stamp";
+import { settleCoverageEligibilitySubjects } from "../law-consequences/coverage-eligibility";
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
@@ -472,6 +474,22 @@ export function recordHealthCoverage(
   onDate: IsoDate,
   causeId: EntityId,
 ): World {
+  return settleCoverageEligibilitySubjects(
+    world,
+    onDate,
+    causeId,
+    world.personOrder,
+  );
+}
+
+/** Existing writer, scoped by the shared coverage kind to actual subjects. */
+export function recordHealthCoverageForSubjects(
+  world: World,
+  onDate: IsoDate,
+  causeId: EntityId,
+  subjectIds: readonly EntityId[],
+  sourceRecordIds: readonly EntityId[] = [],
+): World {
   const cutoff = {
     asOfDate: onDate,
     historySequenceExclusive: world.history.nextSequence,
@@ -483,7 +501,7 @@ export function recordHealthCoverage(
   const latest = latestCoverage(world);
   const rules = MEDICAID_EXPANSION_RULES.mortality;
   let next = world;
-  for (const personId of world.personOrder) {
+  for (const personId of new Set(subjectIds)) {
     const person = world.people[personId];
     if (!person || person.birthDate > onDate) continue;
     const prior = latest.get(personId);
@@ -512,6 +530,35 @@ export function recordHealthCoverage(
           ),
         ].sort()[1]!
       : null;
+    const state = decision.stateKey
+      ? stateJurisdictionForKey(decision.stateKey)
+      : null;
+    const laws = decision.stateKey
+      ? statePrograms(world, decision.stateKey, onDate, cache)
+      : null;
+    // Attribute the governing rule, preserving the original change cause.
+    // A work-rule loss/restoration belongs to that rule, not to expansion.
+    const workRuleChangedCoverage =
+      decision.reasonKey === "lost:work-requirement" ||
+      (decision.covered && prior?.reasonKey === "lost:work-requirement");
+    const stamp =
+      state && laws
+        ? lawEffectStamp(laws[workRuleChangedCoverage ? 1 : 0], {
+            effectKind: "health-coverage",
+            questionKey: workRuleChangedCoverage
+              ? WORK_REQUIREMENT_QUESTION
+              : EXPANSION_QUESTION,
+            jurisdictionId: state.id,
+            appliedAt: onDate,
+            sourceRecordIds: [
+              ...new Set([
+                causeId,
+                ...sourceRecordIds,
+                ...(prior ? [prior.id] : []),
+              ]),
+            ],
+          })
+        : null;
     next = appendCrisisRecord(next, {
       kind: "health-coverage",
       stableKey: `${HEALTH_COVERAGE_VERSION}:${personId}:${onDate}`,
@@ -520,6 +567,7 @@ export function recordHealthCoverage(
       visibility: "private",
       eventId: null,
       personId,
+      ...(stamp ? { lawEffectStamps: [stamp] } : {}),
       program: "medicaid-expansion",
       covered: decision.covered,
       reasonKey: decision.reasonKey,
