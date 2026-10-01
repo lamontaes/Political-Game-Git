@@ -18,11 +18,7 @@ import {
   pressLedgerReviewHandler,
   produceCampaignFinanceScrutiny,
 } from "./matters";
-import {
-  ensurePressHomeCoverage,
-  ensurePressLocalCoverage,
-  ensurePressMediaOpening,
-} from "./outlets";
+import { ensurePressLocalCoverage, ensurePressMediaOpening } from "./outlets";
 import {
   ensureMediaOwnership,
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
@@ -33,7 +29,6 @@ import { advanceClemency } from "../justice/clemency";
 import { advanceProsecutions } from "../justice/prosecution";
 import { produceCaughtLyingLeads } from "./caught-lying";
 import { produceCampaignSpendingReports } from "./spending-reports";
-import { ensurePressExposureCoverage } from "./views";
 import { produceMogulOffers } from "../moguls";
 import {
   PRESS_PROCEEDING_TRANSITION_KEY,
@@ -42,26 +37,21 @@ import {
 
 /**
  * The weekly desk sweep also lets a rival decide about a complaint and
- * keeps the player's own town and state covered, materializes coverage for
- * newly exposed state politics, and gives any new
- * outlet its founding owner, before the outlets look at the week's public
- * record.
+ * reads existing town/state newsroom records. Opening owns newsroom and
+ * reporter creation; the weekly sweep never manufactures missing coverage.
+ * Existing outlets look at the week's public record.
  */
 function pressWeeklyHandler(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
   const prepared = ensureMediaOwnership(
-    ensurePressExposureCoverage(
-      ensurePressHomeCoverage(
-        produceCaughtLyingLeads(
-          produceMogulOffers(
-            produceCampaignFinanceScrutiny(
-              produceCampaignSpendingReports(
-                applyPendingDisasterHandlingReactions(
-                  advanceClemency(advanceProsecutions(world)),
-                ),
-              ),
+    produceCaughtLyingLeads(
+      produceMogulOffers(
+        produceCampaignFinanceScrutiny(
+          produceCampaignSpendingReports(
+            applyPendingDisasterHandlingReactions(
+              advanceClemency(advanceProsecutions(world)),
             ),
           ),
         ),

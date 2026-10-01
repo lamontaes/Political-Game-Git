@@ -13,6 +13,7 @@ import {
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
 import { openingWorkLocation } from "./opening-work-location";
+import { recordedRoomPresence } from "./recorded-room-presence";
 import {
   currentOpeningLifeScene,
   openingLifeLocation,
@@ -97,7 +98,8 @@ export function resolveOpeningPlaySceneContext(
       : null;
   const ids =
     opening?.presentPersonIds ??
-    (setting === "home" ? [...householdResidentIds(world, personId)] : []);
+    recordedRoomPresence(world, personId)?.personIds ??
+    [];
   const presentPeople = ids.flatMap((id): ScenePerson[] => {
     if (id === personId || !world.people[id]) return [];
     const context = describePersonContext(world, personId, id);

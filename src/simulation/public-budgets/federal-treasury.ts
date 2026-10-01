@@ -291,6 +291,7 @@ export function settleFederalTreasuryMonth(
   treasury: FederalTreasury,
   month: IsoDate,
 ): FederalTreasury {
+  if (treasury.months.some((row) => row.month === month)) return treasury;
   const laws: FederalTreasuryMonth["laws"][number][] = [];
   const debtBefore = federalDebtHeldByPublic(treasury);
   const programCosts = federalProgramCostsForMonth(world, month);
@@ -377,7 +378,7 @@ export function settleFederalTreasuryMonth(
 }
 
 /** Existing intercity rail payments use transportation; unclassified ones remain explicit. */
-function federalProgramLine(programKey: string): FederalOutlay {
+export function federalProgramLine(programKey: string): FederalOutlay {
   return programKey.split(":")[0] === "passenger-rail"
     ? "transportation"
     : "otherPrograms";

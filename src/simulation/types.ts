@@ -1,5 +1,8 @@
 import type { LawAmountUnit, LawConsequenceRow } from "./law-consequence-types";
-import type { LawEffectStampedRecord } from "./law-effect-stamp";
+import type {
+  LawEffectStamp,
+  LawEffectStampedRecord,
+} from "./law-effect-stamp";
 import type { CrisisRecord } from "./crisis/types";
 import type {
   CampaignLifeActivityRecord,
@@ -310,6 +313,8 @@ export interface PolicyIssueDefinition {
 export interface PropositionParameter {
   readonly key: string;
   readonly value: string;
+  /** Closed modeled choices; omission leaves categorical terms unsupported. */
+  readonly allowedValues?: readonly string[];
 }
 
 /**
@@ -4275,6 +4280,23 @@ export type PersonnelRecord =
   | PersonnelReinstatementOfferRecord
   | PersonnelOfferResponseRecord;
 
+/** A saved legal permission for an actual subject; absence conveys no permission. */
+export interface LawPermissionRecord extends LawEffectStampedRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly subject: {
+    readonly kind: "person" | "organization";
+    readonly id: EntityId;
+  };
+  readonly permissionKey: string;
+  readonly status: "permitted" | "prohibited";
+  readonly effectiveAt: IsoDate;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly [LawEffectStamp];
+}
+
 export interface HistoryStore {
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
@@ -4447,6 +4469,8 @@ export interface HistoryStore {
   readonly publicProgramRecords?: readonly PublicProgramRecord[];
   /** Duties and who-qualifies rules an enacted law sets, and what each covered body did. */
   readonly enactedDutyRecords?: readonly EnactedDutyRecord[];
+  /** Optional so older saves do not acquire inferred permission decisions. */
+  readonly lawPermissionRecords?: readonly LawPermissionRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -5011,6 +5035,12 @@ export type LegislativeProvisionEffectIntent =
   | { readonly kind: "public-program-appropriation" };
 
 export interface LegislativeProvisionRecord {
+  /** This version's explicit categories; omission clears a revised rule. */
+  readonly lawCategories?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly values: readonly string[];
+  }[];
   /** This version's explicit numeric rules; omission clears a revised rule. */
   readonly lawTerms?: readonly {
     readonly questionKey: string;
