@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import * as lawEffects from "./enacted-law-effects";
+afterEach(() => vi.restoreAllMocks());
 import {
   enactedTaxFixture,
   TEST_TAX_TERMS,
@@ -321,6 +323,7 @@ describe("shared public cash settlement for T", () => {
     expect(serializeWorld(world)).toBe(before);
   });
   it("spends actual collected public cash once and reloads with reconciled funding/debit identity", () => {
+    const activity = vi.spyOn(lawEffects, "applyLawConsequences");
     const fixture = fundedFixture();
     let world = declarePersonalTaxOccurrence(fixture.world, {
       personId: fixture.personId,
@@ -339,6 +342,23 @@ describe("shared public cash settlement for T", () => {
     );
     expect(result.kind).toBe("paid");
     if (result.kind !== "paid") throw new Error(result.reason);
+    const paymentHooks = () =>
+      activity.mock.calls.filter(
+        ([, context]) => context.activityId === result.outcomeId,
+      );
+    expect(paymentHooks()).toHaveLength(1);
+    expect(paymentHooks()[0]![1]).toEqual({
+      onDate: result.world.currentDate,
+      activity: "payment",
+      activityId: result.outcomeId,
+      subjectIds: [result.publicOrganizationId, fixture.personId],
+      governingLawId: fixture.mandate.measureId,
+    });
+    expect(
+      paymentHooks()[0]![0].history.resourceTransferOutcomes.some(
+        (row) => row.id === result.outcomeId,
+      ),
+    ).toBe(true);
     expect(
       resourcePositionAt(
         result.world,
@@ -361,6 +381,7 @@ describe("shared public cash settlement for T", () => {
     }));
     expect(replay).toMatchObject({ kind: "paid", outcomeId: result.outcomeId });
     expect(replay.world).toBe(loaded);
+    expect(paymentHooks()).toHaveLength(1);
     expect(
       settlePublicResourcePayment(
         loaded,

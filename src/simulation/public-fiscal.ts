@@ -1,3 +1,4 @@
+import { applyLawConsequences } from "./enacted-law-effects";
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
 import { operativeDateInWorld } from "./governing/law-in-force";
@@ -351,10 +352,26 @@ export function settlePublicResourcePayment(
     note: `Operative funding ${mandate.fundingId}; government administrative mandate, not member spending authority.`,
     provenance: flow.provenance,
   });
+  const transfer = next.history.resourceTransferOutcomes.at(-1)!;
+  const recipient = flow.recipient;
+  next = applyLawConsequences(next, {
+    onDate: transfer.occurredAt,
+    activity: "payment",
+    activityId: transfer.id,
+    subjectIds: [
+      account.organizationId,
+      recipient.kind === "person"
+        ? recipient.personId
+        : recipient.kind === "household"
+          ? recipient.householdId
+          : recipient.organizationId,
+    ],
+    governingLawId: mandate.measureId,
+  });
   return {
     kind: "paid",
     world: next,
-    outcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
+    outcomeId: transfer.id,
     publicOrganizationId: account.organizationId,
   };
 }

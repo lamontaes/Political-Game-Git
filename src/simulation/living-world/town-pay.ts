@@ -2,6 +2,7 @@ import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
+import { applyLawConsequences } from "../enacted-law-effects";
 import type { ResolvedLawPayConsequence } from "../law-consequence-types";
 import { createStableId } from "../ids";
 /**
@@ -1325,6 +1326,7 @@ export function payTownPaydays(
   const inputs: RecordResourceTransferOutcomeInput[] = [];
   const claims: PaidLeaveClaim[] = [];
   const recipients = new Set<EntityId>();
+  let next = world;
   // Days missed to the illness, read once per pay period.
   const absencesByWindow = new Map<
     string,
@@ -1368,13 +1370,22 @@ export function payTownPaydays(
       if (lastDay !== null && lastDay < window.endsAt) continue;
       const stableKey = `${flow.stableKey}:${window.startsAt}`;
       if (hasStableKey(outcomes, stableKey)) continue;
+      const recipientId = (flow.recipient as { personId: EntityId }).personId;
+      next = applyLawConsequences(next, {
+        onDate: window.startsAt,
+        activity: "payroll",
+        activityId: flow.id,
+        subjectIds: [recipientId],
+      });
       // A raise takes effect on the first day of a period, and a period is
       // paid at the terms in force the day it began.
-      const terms = termsOn(history, window.startsAt);
+      const terms = resourceFlowTermsAt(next, flow.id, {
+        asOfDate: window.startsAt,
+        historySequenceExclusive: next.history.nextSequence,
+      });
       if (!terms || terms.status !== "active") continue;
       // Days out sick, or home with a sick child, go unpaid in a job that
       // carries no paid sick leave.
-      const recipientId = (flow.recipient as { personId: EntityId }).personId;
       const absence = absencesIn(window.startsAt, window.endsAt).get(
         recipientId,
       );
@@ -1449,8 +1460,7 @@ export function payTownPaydays(
       recipients.add((flow.recipient as { personId: EntityId }).personId);
     }
   }
-  if (inputs.length === 0) return world;
-  let next = world;
+  if (inputs.length === 0) return next;
   for (const personId of recipients)
     next = ensureLifePathPersonalPosition(
       next,
