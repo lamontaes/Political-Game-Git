@@ -32,15 +32,22 @@ interface PlaceRow {
   readonly pending?: readonly unknown[];
 }
 
+/** A lookup that must exist: fails the test, and narrows the type, when it does not. */
+function defined<T>(value: T | undefined, label: string): T {
+  expect(value, label).toBeDefined();
+  if (value === undefined) throw new Error(`${label} is missing`);
+  return value;
+}
+
 const places = ranges.places as unknown as Readonly<Record<string, PlaceRow>>;
 const crimeKeys = Object.keys(REPORTED_OFFENSE_PHRASE).map(
   (offense) => `crime:${offense}`,
 );
 const sourcedCodes = Object.keys(places).filter(
-  (code) => places[code].basis === SOURCED,
+  (code) => defined(places[code], code).basis === SOURCED,
 );
 const estimatedCodes = Object.keys(places).filter(
-  (code) => places[code].basis === ESTIMATED,
+  (code) => defined(places[code], code).basis === ESTIMATED,
 );
 
 function wellFormedRange(row: RangeFields): void {
@@ -70,9 +77,10 @@ function wellSourced(row: RangeFields, label: string): void {
 function resolve(place: PlaceRow, row: OffenseRow): RangeFields {
   if (row.maxMonths !== undefined || row.maxLife) return row;
   expect(row.class, `${row.offense} names a class`).toBeDefined();
-  const range = place.classes[row.class as string];
-  expect(range, `class ${row.class} is in the classes table`).toBeDefined();
-  return range;
+  return defined(
+    place.classes[row.class as string],
+    `class ${row.class} is in the classes table`,
+  );
 }
 
 function mean(values: readonly number[]): number {
@@ -102,11 +110,10 @@ describe("statutory sentencing ranges research (A103)", () => {
       ]),
     );
     for (const code of sourcedCodes) {
-      const place = places[code];
+      const place = defined(places[code], code);
       expect(place.pending, code).toBeUndefined();
       for (const key of crimeKeys) {
-        const row = place.offenses[key];
-        expect(row, `${code} ${key}`).toBeDefined();
+        const row = defined(place.offenses[key], `${code} ${key}`);
         wellSourced(row, `${code} ${key}`);
         wellFormedRange(resolve(place, row));
       }
@@ -122,13 +129,17 @@ describe("statutory sentencing ranges research (A103)", () => {
       const mins: number[] = [];
       const maxs: number[] = [];
       for (const code of sourcedCodes) {
-        const range = resolve(places[code], places[code].offenses[key]);
+        const place = defined(places[code], code);
+        const range = resolve(
+          place,
+          defined(place.offenses[key], `${code} ${key}`),
+        );
         mins.push(range.minMonths as number);
         if (!range.maxLife) maxs.push(range.maxMonths as number);
       }
       for (const code of estimatedCodes) {
-        const place = places[code];
-        const row = place.offenses[key];
+        const place = defined(places[code], code);
+        const row = defined(place.offenses[key], `${code} ${key}`);
         expect(place.unreadReason?.length, code).toBeGreaterThan(20);
         expect(row.basis).toBe(ESTIMATED);
         expect(row.method).toContain(ESTIMATED);
