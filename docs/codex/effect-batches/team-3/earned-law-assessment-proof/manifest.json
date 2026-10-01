@@ -1,0 +1,26 @@
+{
+  "testedHead": "def43a3b589130792e5a5495e91a11d5bd4bca5d",
+  "branch": "codex/team-3-a38-hourly-shift-writer",
+  "scope": "Assessment producer only; increased payment, integrity reload and historical resolver composition NOT RUN.",
+  "sourceBlobs": {
+    "src/simulation/living-world/town-pay.ts": "9770129d65ddee1e56ded2b90a19ab79234b684e",
+    "src/simulation/completed-hourly-gross.ts": "d9503f5f108a20925787e7146591f624a3eacd55",
+    "src/simulation/completed-hourly-gross.test.ts": "3aa4c9fa37553bcfae667c4d0ad0099b8ecb0293",
+    "src/simulation/law-consequences/pay-city.test.ts": "0e07cdefe844c34d253170ab42e3337505b9e950"
+  },
+  "evidenceSHA256": {
+    "team3-earned-assessment-types-r1.log": "9e4c3d27850c9c19df2684a324aba668ad88c8390c60a1627752aa5f52a051ab",
+    "team3-earned-assessment-types-r3.log": "4e883cf8078343e21c1782771f27c9bab3dc68555e6b133e272fc0988866ceed",
+    "team3-earned-assessment-types-r3.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "team3-earned-assessment-types-r2.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "team3-completed-hourly-gross-r1.log": "f65306b1c956c6811637502873940f2e5d6d50e9d1acd75a85bc8a3bb263665e",
+    "team3-earned-assessment-before-r1.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "team3-earned-assessment-producer-r1.log": "03915f0ddfd1d8436cd7cc5b34ff932bec5056f5c5264a246a0480218055d0b6",
+    "team3-earned-assessment-types-r1.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "team3-earned-assessment-types-r2.log": "bbb648329c26d9e8dca54beaf4757678a49bc4c41e381f28b468dd81e8c8a5b8",
+    "team3-completed-hourly-gross-r1.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "team3-earned-assessment-producer-r1.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "scoped-types.mjs": "99cc74cf1982937db4e1b164f720211e411256405390dd33f40643493caba552",
+    "team3-earned-assessment-before-r1.log": "3b6f2e4ef8ac1a2589e411a0cc0497440f5b1669a7dfb3fd4f39bcefe2af86c3"
+  }
+}
