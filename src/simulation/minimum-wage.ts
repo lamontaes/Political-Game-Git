@@ -10,7 +10,7 @@ import {
  *
  * - Federal: $7.25 an hour since July 24, 2009, until an Act of Congress that
  *   answers "should the federal minimum wage go up?" with yes takes effect;
- *   then `FEDERAL_RAISE_PLACEHOLDER`. A later Act answering no ends the raise
+ *   then the Act's exact adopted hourly floor. A later Act answering no ends the raise
  *   for new work, and cuts nobody's pay (callers only ever raise).
  * - State: the state's basic rate on file (`minimum-wage-2026.json`), or the
  *   rate a state law the game enacted set, from the day it takes effect.
@@ -75,18 +75,6 @@ export const FEDERAL_MINIMUM_HOURLY_MINOR = Math.round(
   FEDERAL_MINIMUM_HOURLY * 100,
 );
 
-/**
- * PLACEHOLDER(research: federal-minimum-wage-raise-level). The federal rate an
- * Act that answers yes to raising the minimum wage sets, until ChatGPT says
- * what level the game's Congress bills carry. $15.00 an hour is the level the
- * outcome web's minimum-wage links are calibrated for (CBO 2019, "a raise to
- * about $15"); it is not a claim about any bill.
- */
-export const FEDERAL_RAISE_PLACEHOLDER = {
-  researchQuestionId: "federal-minimum-wage-raise-level",
-  hourlyMinor: 1500,
-} as const;
-
 /** One step of the federal minimum: the rate from a date until the next step. */
 export interface FederalMinimumStep {
   readonly from: IsoDate;
@@ -95,7 +83,14 @@ export interface FederalMinimumStep {
   readonly designation: string;
 }
 
-const schedules = new WeakMap<object, readonly FederalMinimumStep[]>();
+const schedules = new WeakMap<
+  object,
+  {
+    readonly readAt: IsoDate;
+    readonly nextEffectiveAt: IsoDate | null;
+    readonly steps: readonly FederalMinimumStep[];
+  }
+>();
 const NO_ENACTMENTS: readonly FederalMinimumStep[] = [];
 
 /**
@@ -108,13 +103,19 @@ export function federalMinimumSchedule(
   const enactments = world.history.legislativeEnactments;
   if (!enactments?.length) return NO_ENACTMENTS;
   const cached = schedules.get(enactments);
-  if (cached) return cached;
+  if (
+    cached &&
+    cached.readAt <= world.currentDate &&
+    (!cached.nextEffectiveAt || world.currentDate < cached.nextEffectiveAt)
+  )
+    return cached.steps;
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
   ).find(
     (definition) => definition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   );
   const steps: FederalMinimumStep[] = [];
+  let nextEffectiveAt: IsoDate | null = null;
   if (proposition) {
     const dates = new Set<IsoDate>();
     for (const enactment of enactments) {
@@ -130,6 +131,10 @@ export function federalMinimumSchedule(
       );
     }
     for (const from of [...dates].sort()) {
+      if (from > world.currentDate) {
+        nextEffectiveAt ??= from;
+        continue;
+      }
       const law = lawInForce(
         world,
         NATIONAL_ELECTION_JURISDICTION.id,
@@ -140,18 +145,33 @@ export function federalMinimumSchedule(
       const measure = world.history.legislativeMeasures?.find(
         (entry) => entry.id === law.measureId,
       );
+      const term =
+        law.answer === "yes"
+          ? readFinalEnactedLawTerm(world, law, {
+              questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+              termKey: "floor",
+              unit: "minor/hour",
+              onDate: from,
+            })
+          : null;
+      if (
+        law.answer === "yes" &&
+        (!term || !Number.isSafeInteger(term.value) || term.value < 0)
+      )
+        continue;
       steps.push({
         from,
-        hourlyMinor:
-          law.answer === "yes"
-            ? FEDERAL_RAISE_PLACEHOLDER.hourlyMinor
-            : FEDERAL_MINIMUM_HOURLY_MINOR,
+        hourlyMinor: term?.value ?? FEDERAL_MINIMUM_HOURLY_MINOR,
         measureId: law.measureId,
         designation: measure?.designation ?? "A federal law",
       });
     }
   }
-  schedules.set(enactments, steps);
+  schedules.set(enactments, {
+    readAt: world.currentDate,
+    nextEffectiveAt,
+    steps,
+  });
   return steps;
 }
 
