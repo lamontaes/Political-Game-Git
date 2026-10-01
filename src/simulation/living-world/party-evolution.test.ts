@@ -4,6 +4,7 @@ import {
 } from "../political-belief-formation";
 import { partyOpinionSubject } from "../political-opinion-subjects";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { scheduleFutureDueItem } from "../future-transitions";
 import { beforeAll, describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -150,6 +151,50 @@ function foundParty(
 }
 
 describe("WORLD46 party organizations", () => {
+  it(
+    "a due review with no formed views resolves without inventing a decision and schedules its next review",
+    () => {
+      const chapter = homePartyChapters(unformedBase)[0]!;
+      const anchor = partyBodyMembers(unformedBase, chapter.organizationId)[0]!;
+      const scheduled = scheduleFutureDueItem(unformedBase, {
+        stableKey: "test:party-review-without-views",
+        dueAt: addDays(unformedBase.currentDate, 1),
+        transitionKey: PARTY_BODY_REVIEW_TRANSITION_KEY,
+        entityIds: [chapter.organizationId, anchor].sort(),
+        jurisdictionId: unformedBase.people[anchor]!.homeJurisdictionId,
+        provenance: {
+          kind: "initialization",
+          reference: "Explicit next-day review fixture",
+        },
+      });
+      const dueId = scheduled.history.futureDueItems.at(-1)!.id;
+      const next = advanceWorld(
+        scheduled,
+        1,
+        createCampaignElectionTransitionRegistry(),
+      );
+      expect(
+        next.history.futureDueItemStates.find(
+          (state) => state.dueItemId === dueId && state.status === "resolved",
+        )?.reasonKey,
+      ).toBe("party-life:no-formed-opinions");
+      expect(partyBodyDecisions(next, chapter.organizationId)).toHaveLength(0);
+      expect(
+        next.history.futureDueItems.filter(
+          (item) =>
+            item.transitionKey === PARTY_BODY_REVIEW_TRANSITION_KEY &&
+            item.entityIds.includes(chapter.organizationId),
+        ),
+      ).toHaveLength(3);
+      expect(
+        next.history.privateBeliefs.filter(
+          (belief) => belief.subject?.kind === "party-question",
+        ),
+      ).toHaveLength(0);
+      assertWorldIntegrity(deserializeWorld(serializeWorld(next)));
+    },
+    LONG,
+  );
   it("an all-abstaining body records no-opinion, creates no platform, and does not reroll after SaveContinue", () => {
     const chapter = homePartyChapters(unformedBase)[0]!;
     const questionKey = PARTY_QUESTIONS[0]!.key;
