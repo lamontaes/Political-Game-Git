@@ -139,6 +139,13 @@ export interface TownMarketBooks {
    * spending follows it. Absent in books from older saves.
    */
   readonly townPay?: number;
+  /**
+   * The town pay (or, before pay was read, the town jobs) its sales have
+   * caught up to: the long-run response to pay builds over quarters. Absent
+   * in books from older saves, which start from `townPay` (or `townJobs`).
+   */
+  readonly townPayReached?: number;
+  readonly townJobsReached?: number;
   /** What a job in town paid a year on average, in current dollars. */
   readonly averagePay?: number;
   /** The nation's price index when it was last read. */

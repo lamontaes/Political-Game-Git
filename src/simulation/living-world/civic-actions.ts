@@ -4,7 +4,10 @@ import { lifePlaceByJurisdictionId } from "../life-places";
 import { activeWorkRelationshipsAt } from "../life-queries";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import { homeJurisdictionResidenceSince } from "../nationwide-world/residence-duration";
-import { lawInterestMembersInTown } from "../official-view-reads";
+import {
+  lawInterestMembersInTown,
+  strongestOfficialStanding,
+} from "../official-view-reads";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { sittingLocalOfficers } from "./local-government-seats";
@@ -59,22 +62,13 @@ const STRONG_VIEW_FACTOR = 2;
 // town's yearly totals land near the approved shares above.
 const MEASURE = { contacted: 14, attended: 13 } as const;
 
-/** The official this person holds the strongest view of, if any. */
+/** The official this person holds the strongest saved view of, if any. */
 function strongestViewOf(
   world: World,
   personId: EntityId,
 ): { readonly officialId: EntityId; readonly points: number } | null {
-  const sums = new Map<EntityId, number>();
-  for (const view of world.history.officialViews ?? [])
-    if (view.personId === personId && view.recordedAt <= world.currentDate)
-      sums.set(view.officialId, (sums.get(view.officialId) ?? 0) + view.points);
-  let best: { officialId: EntityId; points: number } | null = null;
-  for (const [officialId, points] of [...sums].sort(([a], [b]) =>
-    a.localeCompare(b),
-  ))
-    if (points !== 0 && (!best || Math.abs(points) > Math.abs(best.points)))
-      best = { officialId, points };
-  return best;
+  const view = strongestOfficialStanding(world, personId);
+  return view ? { officialId: view.officialId, points: view.points } : null;
 }
 
 interface CivicStake {
