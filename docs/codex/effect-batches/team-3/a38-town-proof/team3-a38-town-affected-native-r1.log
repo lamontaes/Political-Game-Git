@@ -1,0 +1,163 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/runtime-art-build" without a file extension (vite.config.ts:1:33). Add the file extension
+  - import "./scripts/dev-lab/runtime-content-origin" without a file extension (vite.config.ts:2:38). Add the file extension
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:19:33). Add the file extension
+  - import "./scripts/dev-lab/art-desk-bridge" without a file extension (vite.config.ts:20:31). Add the file extension
+  - import "./scripts/dev-lab/artbench-bridge" without a file extension (vite.config.ts:21:32). Add the file extension
+  - import "./scripts/dev-lab/round-robin-sequencer" without a file extension (vite.config.ts:22:37). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:33:8). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-bridge.ts:19:8). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-bridge.ts:34:30). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-bridge.ts:26:8). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-bridge.ts:27:36). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:36:43). Add the file extension
+  - import "./art-desk-bridge" without a file extension (scripts/dev-lab/artbench-bridge.ts:28:50). Add the file extension
+  - import "./artbench-store" without a file extension (scripts/dev-lab/artbench-bridge.ts:36:8). Add the file extension
+  - import "./artbench-thumbnails" without a file extension (scripts/dev-lab/artbench-bridge.ts:37:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-inputs.ts:14:30). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-request-code.ts:1:35). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-cards.ts:1:35). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-store.ts:63:8). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-request-code.ts:2:41). Add the file extension
+  - import "./art-desk-usage" without a file extension (src/authoring/art-desk-cards.ts:2:55). Add the file extension
+  - import "../../src/authoring/asset-request" without a file extension (scripts/dev-lab/artbench-store.ts:64:35). Add the file extension
+  - import "./art-desk-request-code" without a file extension (src/authoring/art-desk-cards.ts:6:8). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-store.ts:68:8). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:15:8). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-store.ts:69:40). Add the file extension
+  - import "../../src/authoring/asset-review" without a file extension (scripts/dev-lab/artbench-store.ts:70:42). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:16:34). Add the file extension
+  - import "../../src/authoring/art-desk-notifications" without a file extension (scripts/dev-lab/artbench-store.ts:71:38). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/artbench-store.ts:72:27). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/artbench-store.ts:73:50). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-usage.ts:1:61). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/artbench.ts:18:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-notifications.ts:1:59). Add the file extension
+  - import "./asset-review" without a file extension (src/authoring/artbench.ts:19:42). Add the file extension
+  - import "./art-desk-cards" without a file extension (src/authoring/art-desk-notifications.ts:7:8). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ tests/nationwide/town-minimum-wage-law.test.ts (3 tests | 1 failed) 18884ms
+     × Nebraska raises the floor to $18.00 and every job paid below it is raised from its first pay period after 6655ms
+ ❯ tests/nationwide/player-town-payroll.test.ts (56 tests | 2 failed) 383665ms
+     × matches the NPC's gross, tax rows, net and employer cash and survives reopening 3996ms
+     × matches the NPC's gross, tax rows, net and employer cash and survives reopening 2933ms
+ ❯ tests/nationwide/town-federal-minimum-wage-law.test.ts (5 tests | 4 failed) 9141ms
+     × is $7.25 until an Act raises it, then the raise, and never below a state's own rate 2219ms
+     × a law that repeals the raise ends the floor and cuts nobody's pay 1662ms
+     × raises every Tennessee town job paid below $15.00 an hour from its first pay period after the law, and records each as a pay-term change 1723ms
+     × does not raise the pay of a job that has ended 1752ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/nationwide/player-town-payroll.test.ts > one payroll for a played worker in '36' ('player-town-payroll:3651000') > matches the NPC's gross, tax rows, net and employer cash and survives reopening
+ FAIL  tests/nationwide/player-town-payroll.test.ts > one payroll for a played worker in '41' ('player-town-payroll:4159000') > matches the NPC's gross, tax rows, net and employer cash and survives reopening
+Error: Missing pay final law term 'target' (minor/hour)
+ ❯ Object.resolvePayConsequences [as resolve] src/simulation/law-consequences/pay.ts:287:15
+    285|       });
+    286|       if (!term)
+    287|         throw new Error(`Missing pay final law term '${key}' (${unit})…
+       |               ^
+    288|       legalTerms[key] = { value: term.value, unit: term.unit };
+    289|       sourceRecordIds.push(...term.sourceRecordIds);
+ ❯ applyLawConsequences src/simulation/enacted-law-effects.ts:873:37
+ ❯ settleTownCompensations src/simulation/living-world/town-pay.ts:1648:12
+ ❯ payTownPaydays src/simulation/living-world/town-pay.ts:1533:10
+ ❯ previousPayday tests/nationwide/player-town-payroll.test.ts:80:10
+ ❯ tests/nationwide/player-town-payroll.test.ts:184:9
+ ❯ withWorldIntegrityDeferred src/simulation/world.ts:587:12
+ ❯ tests/nationwide/player-town-payroll.test.ts:183:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > is $7.25 until an Act raises it, then the raise, and never below a state's own rate
+AssertionError: expected null to be 7.25 // Object.is equality
+
+- Expected:
+7.25
+
++ Received:
+null
+
+ ❯ tests/nationwide/town-federal-minimum-wage-law.test.ts:201:55
+    199|     ]);
+    200|     const nashville = lifePlaceByKey(NASHVILLE)!.context.jurisdiction.…
+    201|     expect(minimumHourlyAt(world, nashville, opened)).toBe(7.25);
+       |                                                       ^
+    202|     expect(minimumHourlyAt(world, nashville, addDays(effectiveAt, -1))…
+    203|       7.25,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > a law that repeals the raise ends the floor and cuts nobody's pay
+AssertionError: expected null to be 15 // Object.is equality
+
+- Expected:
+15
+
++ Received:
+null
+
+ ❯ tests/nationwide/town-federal-minimum-wage-law.test.ts:259:68
+    257|     } as World;
+    258|     const nashville = lifePlaceByKey(NASHVILLE)!.context.jurisdiction.…
+    259|     expect(minimumHourlyAt(later, nashville, addDays(repeal, -1))).toB…
+       |                                                                    ^
+    260|     expect(minimumHourlyAt(later, nashville, repeal)).toBe(7.25);
+    261|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > raises every Tennessee town job paid below $15.00 an hour from its first pay period after the law, and records each as a pay-term change
+AssertionError: expected 0 to be greater than 20
+ ❯ tests/nationwide/town-federal-minimum-wage-law.test.ts:283:31
+    281|         ),
+    282|       );
+    283|       expect(payFlows.length).toBeGreaterThan(20);
+       |                               ^
+    284|       expect(raises.length).toBeGreaterThan(0);
+    285|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > does not raise the pay of a job that has ended
+AssertionError: expected 0 to be greater than 1
+ ❯ tests/nationwide/town-federal-minimum-wage-law.test.ts:380:29
+    378|         ),
+    379|       );
+    380|       expect(raises.length).toBeGreaterThan(1);
+       |                             ^
+    381|       const endedFlow = flowOf(raised, raises[0]!.resourceFlowId);
+    382|       expect(endedFlow.basisReference.kind).toBe("work");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/nationwide/town-minimum-wage-law.test.ts > a state minimum-wage law raises town paychecks on its effective date > Nebraska raises the floor to $18.00 and every job paid below it is raised from its first pay period after
+AssertionError: expected 15 to be null // Object.is equality
+
+- Expected:
+null
+
++ Received:
+15
+
+ ❯ tests/nationwide/town-minimum-wage-law.test.ts:266:59
+    264|       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
+    265|       // Nebraska's own rate before the law, the law's rate from its e…
+    266|       expect(townMinimumHourlyAt(enacted, omaha, opened)).toBe(
+       |                                                           ^
+    267|         townMinimumHourly(omaha),
+    268|       );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  7 failed | 57 passed (64)
+   Start at  20:08:29
+   Duration  427.86s (transform 9.46s, setup 31ms, import 15.76s, tests 411.69s, environment 1ms)
+

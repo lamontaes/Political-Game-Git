@@ -1,0 +1,56 @@
+roots=5 files=1059 diagnostics=10
+[96mtests/nationwide/town-federal-minimum-wage-law.test.ts[0m:[93m169[0m:[93m36[0m - [91merror[0m[90m TS2352: [0mConversion of type '{ stableKey: string; transitionKey: "living-world:payday"; }' to type 'FutureDueItem' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ stableKey: string; transitionKey: "living-world:payday"; }' is missing the following properties from type 'FutureDueItem': id, sequence, scheduledAt, dueAt, and 3 more.
+
+[7m169[0m       world = paydayHandler(world, {
+[7m   [0m [91m                                   ~[0m
+[7m170[0m         stableKey: `town-pay-v2:payday:${paidThrough}`,
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m171[0m         transitionKey: PAYDAY_TRANSITION_KEY,
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m172[0m       } as FutureDueItem).world;
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96mtests/nationwide/town-federal-minimum-wage-law.test.ts[0m:[93m349[0m:[93m46[0m - [91merror[0m[90m TS2339: [0mProperty 'findLast' does not exist on type 'readonly WorkRoleRecord[]'.
+
+[7m349[0m         const role = world.history.workRoles.findLast(
+[7m   [0m [91m                                             ~~~~~~~~[0m
+[96mtests/nationwide/town-federal-minimum-wage-law.test.ts[0m:[93m350[0m:[93m12[0m - [91merror[0m[90m TS7006: [0mParameter 'row' implicitly has an 'any' type.
+
+[7m350[0m           (row) => row.workRelationshipId === workId,
+[7m   [0m [91m           ~~~[0m
+[96mtests/nationwide/town-federal-minimum-wage-law.test.ts[0m:[93m352[0m:[93m55[0m - [91merror[0m[90m TS2339: [0mProperty 'findLast' does not exist on type 'readonly ResourceFlowTermsRecord[]'.
+
+[7m352[0m         const terms = world.history.resourceFlowTerms.findLast(
+[7m   [0m [91m                                                      ~~~~~~~~[0m
+[96mtests/nationwide/town-federal-minimum-wage-law.test.ts[0m:[93m353[0m:[93m12[0m - [91merror[0m[90m TS7006: [0mParameter 'row' implicitly has an 'any' type.
+
+[7m353[0m           (row) => row.resourceFlowId === flow.id,
+[7m   [0m [91m           ~~~[0m
+[96mtests/nationwide/town-minimum-wage-law.test.ts[0m:[93m232[0m:[93m36[0m - [91merror[0m[90m TS2352: [0mConversion of type '{ stableKey: string; transitionKey: "living-world:payday"; }' to type 'FutureDueItem' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ stableKey: string; transitionKey: "living-world:payday"; }' is missing the following properties from type 'FutureDueItem': id, sequence, scheduledAt, dueAt, and 3 more.
+
+[7m232[0m       world = paydayHandler(world, {
+[7m   [0m [91m                                   ~[0m
+[7m233[0m         stableKey: `town-pay-v2:payday:${paidThrough}`,
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m234[0m         transitionKey: PAYDAY_TRANSITION_KEY,
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m235[0m       } as FutureDueItem).world;
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96mtests/nationwide/town-minimum-wage-law.test.ts[0m:[93m336[0m:[93m46[0m - [91merror[0m[90m TS2339: [0mProperty 'findLast' does not exist on type 'readonly WorkRoleRecord[]'.
+
+[7m336[0m         const role = world.history.workRoles.findLast(
+[7m   [0m [91m                                             ~~~~~~~~[0m
+[96mtests/nationwide/town-minimum-wage-law.test.ts[0m:[93m337[0m:[93m12[0m - [91merror[0m[90m TS7006: [0mParameter 'row' implicitly has an 'any' type.
+
+[7m337[0m           (row) => row.workRelationshipId === workId,
+[7m   [0m [91m           ~~~[0m
+[96mtests/nationwide/town-minimum-wage-law.test.ts[0m:[93m339[0m:[93m55[0m - [91merror[0m[90m TS2339: [0mProperty 'findLast' does not exist on type 'readonly ResourceFlowTermsRecord[]'.
+
+[7m339[0m         const terms = world.history.resourceFlowTerms.findLast(
+[7m   [0m [91m                                                      ~~~~~~~~[0m
+[96mtests/nationwide/town-minimum-wage-law.test.ts[0m:[93m340[0m:[93m12[0m - [91merror[0m[90m TS7006: [0mParameter 'row' implicitly has an 'any' type.
+
+[7m340[0m           (row) => row.resourceFlowId === flow.id,
+[7m   [0m [91m           ~~~[0m
+

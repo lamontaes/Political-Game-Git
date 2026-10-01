@@ -1,0 +1,110 @@
+{
+  "sourceCheckpoint": "75f10a48741c6224694c208fca7f8ba201fce076",
+  "compatibilityHead": "a592d4c7814889cffb2c654958700d818cf72d3c",
+  "baselineProduction": "1f7dfcc3064637af7870cb474cff78aba0d13821",
+  "sourceBlobs": {
+    "src/simulation/living-world/town-pay.ts": "22862ace65859228523e657d4defa79dafc4bf41",
+    "src/simulation/town-pay-floor-retirement.test.ts": "95a38af1b25a0a0c94a37192bdee07d0ff9fa79c",
+    "tests/nationwide/player-town-payroll.test.ts": "c414ddb0833d0eade1f041b25335782ccdf49a6d",
+    "tests/nationwide/town-minimum-wage-law.test.ts": "24ab68cd3ebf56f65f1927bdafe759fce817bf95",
+    "tests/nationwide/town-federal-minimum-wage-law.test.ts": "26891eade24a78663b237b4f60cd03648e6c916a"
+  },
+  "receipts": {
+    "actualBaseline": "5PASS1FAIL19.73s missing canonical enacted stamp, fixture prior failures retained",
+    "retirement": "6PASS19.72s unchanged original assertions",
+    "strengthened": "6PASS21.79s exact production/newtest at75f, plus two old fixture type corrections not imported by this file",
+    "broadAffected": "57PASS7FAIL427.86s at75f, same failed assertions retained; not rerun after compatibility-only successor",
+    "typesInitialBroader": "5roots1059files10 old fixture errors",
+    "typesFinal": "5roots1059files0",
+    "lintFormatWhitespace": "PASS",
+    "nodeWorldLoad": "FAIL Congress sitting initialization TDZ",
+    "macroLoad": "FAIL undefined semantic transition key, no assertion execution",
+    "release": "FAIL unchanged inherited release note merge prose",
+    "zeroDice": "0new5gone, shared allowlist untouched"
+  },
+  "failingBroaderCases": [
+    "player-town-payroll NY3651000 missing target",
+    "player-town-payroll OR4159000 missing target",
+    "federal pre/post rate null instead7.25",
+    "federal repeal prior rate null instead15",
+    "federal payroll0flows instead>20",
+    "federal ended-job0raises instead>1",
+    "state NE dated15 vs undatednull"
+  ],
+  "commands": {
+    "native": "storage run test -- node node_modules/vitest/vitest.mjs run <named files> --maxWorkers=1; stock limits",
+    "nodeLoad": "node --import tsx -e import(world.ts)",
+    "macroLoad": "storage run test -- vitest list src/simulation/macro-economy/macro-economy.test.ts --json",
+    "types": "tsconfig.app strict five roots, no diagnostic filters"
+  },
+  "limits": [
+    "WIP, not READY",
+    "No root-current-main or browser Your Money end-to-end proof",
+    "No new wage data, regional/industry scope, registry, teacher or T6 withholding edit",
+    "Native console did not print named worker/tax amounts; no invented quoted evidence",
+    "Old assertions not skipped or removed",
+    "Inherited untracked config untouched"
+  ],
+  "rawLogs": [
+    {
+      "path": "team3-a38-town-baseline-native-r1.log",
+      "sha256": "132fc3175ed7b269b4a47ec2007292c0e3975407f7f13b7879974e49dafb3c7c"
+    },
+    {
+      "path": "team3-a38-town-baseline-native-r2.log",
+      "sha256": "3ffef811495e3a5160f48228e1ce736bca70d35ada0a354f66dadb4e67f8d1f4"
+    },
+    {
+      "path": "team3-a38-town-baseline-native-r3.log",
+      "sha256": "437f899203973e76bf066d752c2e064494d49feba638d3650e32f4bce60efff8"
+    },
+    {
+      "path": "team3-a38-town-retirement-native-r1.log",
+      "sha256": "ab63bc8f0e1cd7df6feee8f77e232ae7a15fc8a4a4ab333e7d916d6495ffd152"
+    },
+    {
+      "path": "team3-a38-town-retirement-native-r2.log",
+      "sha256": "78ab2f772d873c82ed72ed837b015843a9bae0f622df9bbe45eff16900ee1362"
+    },
+    {
+      "path": "team3-a38-town-affected-native-r1.log",
+      "sha256": "6218e4cba2196d9ea690248dea997f53d1e82fadf2c783898dad34a437fb2bc2"
+    },
+    {
+      "path": "team3-a38-town-types-r2.log",
+      "sha256": "6c1207378712a2bb0ad3b18e250cdbcde731551428109c4919316aa412a418ca"
+    },
+    {
+      "path": "team3-a38-town-types-r3.log",
+      "sha256": "1426c5d5cc7e18792ccc9f6b4e39a5af5405a1b16d6f97ad09f170375fb9a2f8"
+    },
+    {
+      "path": "team3-a38-town-types-r4.log",
+      "sha256": "fb041c31f3692acc06b68946cef9bba19e92699fa6356504860ba669eedf48b2"
+    },
+    {
+      "path": "team3-a38-town-lint-r4.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a38-town-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "team3-a38-town-macro-load-r1.log",
+      "sha256": "22a5a6a4fc91da5c1a7c9e69316e59b0559f4ab66919fffaa7c56bf0e75bf2b4"
+    },
+    {
+      "path": "team3-a38-town-world-node-load-r1.log",
+      "sha256": "4c3c7b93a6919d7c5456cc25f787daa57d81f3c096789a3e80c2e9e69f3daab4"
+    },
+    {
+      "path": "team3-a38-town-release.log",
+      "sha256": "7bd883acbb8b02889c9e7df56860ec64c0a25e4eba8c97ec0f20927495bd4385"
+    },
+    {
+      "path": "team3-a38-town-zero-dice.log",
+      "sha256": "ea9cca37ed30c9c299b8b2686e9afeec8bcc94952fae10221408d469a418e428"
+    }
+  ]
+}
