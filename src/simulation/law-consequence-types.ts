@@ -1,3 +1,4 @@
+import type { RuleChangeApplicability } from "./enacted-rule-changes";
 import type { LawInForce } from "./governing/law-in-force";
 import type {
   EntityId,
@@ -104,6 +105,30 @@ export interface ResolvedLawPayConsequence {
   amount: { value: number; unit: "minor/hour"; currency: "USD" };
   sourceRecordIds: EntityId[];
   action: "raise-hourly-floor";
+}
+
+/** Exact completed-work identity retained by an earned assessment. */
+export interface ResolvedHourlyLawPayConsequence extends ResolvedLawPayConsequence {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
+}
+
+/** Saved hourly-rule authority, without a synthetic policy question. */
+export interface ResolvedSavedHourlyPayConsequence extends Omit<
+  ResolvedHourlyLawPayConsequence,
+  "law" | "questionKey" | "action"
+> {
+  action: "raise-saved-rule-hourly-floor";
+  authority: {
+    kind: "enacted-hourly-pay-rule";
+    ruleChangeProvisionId: EntityId;
+    enactmentId: EntityId;
+    measureId: EntityId;
+    officeKey: string;
+    stateUsps: string;
+    field: "labor.minimumWage.hourlyCents";
+    operativeAt: IsoDate;
+    applicability: RuleChangeApplicability;
+  };
 }
 
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
