@@ -5,6 +5,7 @@ import {
   createWorldSnapshot,
   deserializeWorld,
   serializeWorldSnapshotPayload,
+  type WorldPayload,
 } from "../simulation/serialization";
 import type { EntityId, IsoDate, World } from "../simulation/types";
 
@@ -107,42 +108,53 @@ export class SqliteWorldRepository {
   }
 
   load(worldId: EntityId): World | null {
-    const row = this.#database
-      .prepare(
-        "SELECT payload, payload_chunk_count FROM world_snapshots WHERE world_id = ?",
-      )
-      .get(worldId) as
-      | { readonly payload: string; readonly payload_chunk_count: number }
-      | undefined;
-    if (!row) return null;
-    if (
-      !Number.isSafeInteger(row.payload_chunk_count) ||
-      row.payload_chunk_count < 0
-    ) {
-      throw new Error("Invalid SQLite world payload chunk count.");
+    let payload: WorldPayload | null = null;
+    this.#database.exec("BEGIN");
+    try {
+      const row = this.#database
+        .prepare(
+          "SELECT payload, payload_chunk_count FROM world_snapshots WHERE world_id = ?",
+        )
+        .get(worldId) as
+        | { readonly payload: string; readonly payload_chunk_count: number }
+        | undefined;
+      if (row) {
+        if (
+          !Number.isSafeInteger(row.payload_chunk_count) ||
+          row.payload_chunk_count < 0
+        ) {
+          throw new Error("Invalid SQLite world payload chunk count.");
+        }
+        if (row.payload_chunk_count === 0) {
+          payload = row.payload;
+        } else {
+          const chunks = this.#database
+            .prepare(
+              `SELECT chunk_index, payload FROM world_snapshot_chunks
+               WHERE world_id = ? ORDER BY chunk_index`,
+            )
+            .all(worldId) as unknown as readonly {
+            readonly chunk_index: number;
+            readonly payload: string;
+          }[];
+          if (
+            row.payload !== "" ||
+            chunks.length !== row.payload_chunk_count ||
+            chunks.some((chunk, index) => chunk.chunk_index !== index)
+          ) {
+            throw new Error("Incomplete SQLite world payload chunks.");
+          }
+          payload = chunks.map((chunk) => chunk.payload);
+        }
+      }
+      this.#database.exec("COMMIT");
+    } catch (error) {
+      this.#database.exec("ROLLBACK");
+      throw error;
     }
-    if (row.payload_chunk_count === 0) {
-      return migrateUnpinnedAppearanceCatalog(deserializeWorld(row.payload));
-    }
-    const chunks = this.#database
-      .prepare(
-        `SELECT chunk_index, payload FROM world_snapshot_chunks
-         WHERE world_id = ? ORDER BY chunk_index`,
-      )
-      .all(worldId) as unknown as readonly {
-      readonly chunk_index: number;
-      readonly payload: string;
-    }[];
-    if (
-      row.payload !== "" ||
-      chunks.length !== row.payload_chunk_count ||
-      chunks.some((chunk, index) => chunk.chunk_index !== index)
-    ) {
-      throw new Error("Incomplete SQLite world payload chunks.");
-    }
-    return migrateUnpinnedAppearanceCatalog(
-      deserializeWorld(chunks.map((chunk) => chunk.payload)),
-    );
+    return payload === null
+      ? null
+      : migrateUnpinnedAppearanceCatalog(deserializeWorld(payload));
   }
 
   list(): readonly StoredWorldSummary[] {
