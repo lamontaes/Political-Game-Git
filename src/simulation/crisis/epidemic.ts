@@ -26,10 +26,14 @@ import { recordWorldEvent } from "../world";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { createStableId } from "../ids";
-import { beginHealthEpisode } from "./health";
+import { PROVISIONAL_SIMULATION_COURSES, beginHealthEpisode } from "./health";
 import { latestHealthState } from "./health-queries";
 import { crisisRecords } from "./records";
-import type { HealthEpisodeRecord, HealthSeverity } from "./types";
+import type {
+  HealthCourseStep,
+  HealthEpisodeRecord,
+  HealthSeverity,
+} from "./types";
 
 /**
  * Epidemics among the people the world names.
@@ -665,9 +669,17 @@ export function epidemicSeriousness(age: number, alreadyIll: boolean): number {
   return 1 - (1 - infant) * (1 - old) * (alreadyIll ? 0 : 1);
 }
 
+/** The value `seriousness` of the way from the acute level to the serious one. */
+function between(acute: number, serious: number, seriousness: number): number {
+  return acute + seriousness * (serious - acute);
+}
+
 /**
- * How hard a case hits, from the person: its seriousness, the added risk
- * of dying that slides with it, and the word for it.
+ * How hard a case hits, from the person: its seriousness, and everything
+ * that slides with it between the ordinary and the serious case: the added
+ * risk of dying, how many days it keeps them in bed, and when they begin to
+ * recover and are well. The word for it ("serious" from one half up) is for
+ * the telling only; nothing mechanical reads it.
  */
 export function epidemicCaseSeverity(
   world: World,
@@ -677,18 +689,67 @@ export function epidemicCaseSeverity(
   readonly seriousness: number;
   readonly severity: "serious" | "acute";
   readonly hazardMicros: number;
+  /** Days from onset that the case keeps the person incapacitated. */
+  readonly incapacitatedDays: number;
+  readonly initialLimitation: "incapacitated" | "limited";
+  readonly course: readonly HealthCourseStep[];
 } {
   const seriousness = epidemicSeriousness(
     exactAge(world, personId),
     alreadyIll.has(personId),
   );
+  const severity: "serious" | "acute" =
+    seriousness >= 0.5 ? "serious" : "acute";
+  const [acuteRecovering, acuteWell] = PROVISIONAL_SIMULATION_COURSES.acute;
+  const [seriousRecovering, seriousWell] =
+    PROVISIONAL_SIMULATION_COURSES.serious;
+  const recoveringAfter = Math.round(
+    between(
+      acuteRecovering!.afterDays,
+      seriousRecovering!.afterDays,
+      seriousness,
+    ),
+  );
+  const wellAfter = Math.max(
+    recoveringAfter + 1,
+    Math.round(
+      between(acuteWell!.afterDays, seriousWell!.afterDays, seriousness),
+    ),
+  );
+  // A serious case keeps its person in bed until they begin to recover; an
+  // ordinary one not at all. In between, the days in bed slide with it.
+  const incapacitatedDays = Math.round(seriousness * recoveringAfter);
+  const eases: HealthCourseStep[] =
+    incapacitatedDays > 0 && incapacitatedDays < recoveringAfter
+      ? [
+          {
+            afterDays: incapacitatedDays,
+            state: severity,
+            functionalLimitation: "limited" as const,
+          },
+        ]
+      : [];
   return {
     seriousness,
-    severity: seriousness >= 0.5 ? "serious" : "acute",
+    severity,
     hazardMicros: Math.round(
-      U.hazardMicros.acute +
-        seriousness * (U.hazardMicros.serious - U.hazardMicros.acute),
+      between(U.hazardMicros.acute, U.hazardMicros.serious, seriousness),
     ),
+    incapacitatedDays,
+    initialLimitation: incapacitatedDays > 0 ? "incapacitated" : "limited",
+    course: [
+      ...eases,
+      {
+        afterDays: recoveringAfter,
+        state: "recovering",
+        functionalLimitation: "limited",
+      },
+      {
+        afterDays: wellAfter,
+        state: "recovered",
+        functionalLimitation: "none",
+      },
+    ],
   };
 }
 
@@ -784,11 +845,8 @@ function recordCase(
 ): World {
   const person = world.people[found.personId]!;
   const town = person.homeJurisdictionId;
-  const { severity, seriousness, hazardMicros } = epidemicCaseSeverity(
-    world,
-    found.personId,
-    alreadyIll,
-  );
+  const { severity, seriousness, hazardMicros, initialLimitation, course } =
+    epidemicCaseSeverity(world, found.personId, alreadyIll);
   const household = householdMembershipsAt(world, found.personId).flatMap(
     (membership) => peopleInHouseholdAt(world, membership.household.id),
   );
@@ -798,7 +856,8 @@ function recordCase(
     stableKey: key,
     personId: found.personId,
     severity,
-    initialLimitation: severity === "serious" ? "incapacitated" : "limited",
+    initialLimitation,
+    course,
     origin: {
       kind: "authored",
       note: `${ORIGIN_PREFIX}${found.outbreakKey}`,

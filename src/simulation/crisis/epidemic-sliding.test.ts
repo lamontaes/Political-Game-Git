@@ -119,6 +119,22 @@ describe("the epidemic's scales slide", () => {
         expect(Math.abs(on.hazardMicros - before.hazardMicros)).toBeLessThan(
           (U.hazardMicros.serious - U.hazardMicros.acute) / 100,
         );
+        // Old: no days in bed against 30, and well after 21 days against 90.
+        // Now the days in bed, the turn to recovery and being well each
+        // move by a day at most.
+        expect(
+          Math.abs(on.incapacitatedDays - before.incapacitatedDays),
+        ).toBeLessThanOrEqual(1);
+        const days = (found: typeof on) =>
+          found.course
+            .filter(
+              (step) =>
+                step.state === "recovering" || step.state === "recovered",
+            )
+            .map((step) => step.afterDays);
+        days(on).forEach((day, index) =>
+          expect(Math.abs(day - days(before)[index]!)).toBeLessThanOrEqual(1),
+        );
       }
     }
   });
