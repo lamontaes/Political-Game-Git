@@ -4,7 +4,7 @@ import {
   coverageDecisionsForSubjects,
   recordHealthCoverageForSubjects,
 } from "../crisis/health-coverage";
-import { lawInForce } from "../governing/law-in-force";
+import { readEligibilityLawsInForce } from "../enacted-eligibility";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { householdMembershipsAt } from "../life-queries";
 import { stateJurisdictionForKey } from "../life-places";
@@ -16,11 +16,15 @@ import type {
 } from "../law-consequence-types";
 import type { EntityId, IsoDate, World } from "../types";
 
-const SELECTORS = {
-  "medicaid-expansion-person":
+export const COVERAGE_QUESTION_KEYS = {
+  expansion:
     "us-policy-positions:health-human-services.expand-medicaid-eligibility",
-  "medicaid-work-rule-person":
+  workRequirement:
     "us-policy-positions:health-human-services.medicaid-work-requirement",
+} as const;
+const SELECTORS = {
+  "medicaid-expansion-person": COVERAGE_QUESTION_KEYS.expansion,
+  "medicaid-work-rule-person": COVERAGE_QUESTION_KEYS.workRequirement,
 } as const;
 const ACTION = "recompute-medicaid-coverage";
 const DECISION = "medicaid-coverage-decision";
@@ -115,7 +119,12 @@ export function resolveCoverageEligibility(
     if (governingQuestion !== questionKey || !decision.stateKey) continue;
     const state = stateJurisdictionForKey(decision.stateKey);
     if (!state) continue;
-    const law = lawInForce(world, state.id, proposition.id, context.onDate);
+    const law = readEligibilityLawsInForce(
+      world,
+      state.id,
+      [questionKey],
+      context.onDate,
+    ).get(questionKey);
     if (!law) continue;
     const sourceRecordIds = [
       context.activityId,

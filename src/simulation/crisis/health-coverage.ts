@@ -48,7 +48,9 @@ import {
   yearOf,
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { lawInForce, type LawInForce } from "../governing/law-in-force";
+import type { LawInForce } from "../governing/law-in-force";
+import { readEligibilityLawsInForce } from "../enacted-eligibility";
+import { COVERAGE_QUESTION_KEYS } from "../law-consequences/coverage-eligibility";
 import { lawEffectStamp } from "../law-effect-stamp";
 import {
   activeEducationEnrollmentsAt,
@@ -112,11 +114,6 @@ export function ensureHealthCoveragePass(
     return world;
   return scheduleHealthCoveragePass(world, world.currentDate, sourceEntityId);
 }
-
-const EXPANSION_QUESTION =
-  "us-policy-positions:health-human-services.expand-medicaid-eligibility";
-const WORK_REQUIREMENT_QUESTION =
-  "us-policy-positions:health-human-services.medicaid-work-requirement";
 
 const MEDICAID = programs.federal.medicaid;
 const MORTALITY_LINK = (
@@ -276,14 +273,6 @@ interface PassCache {
   readonly laws: Map<string, readonly [LawInForce | null, LawInForce | null]>;
 }
 
-function propositionId(world: World, stableKey: string): EntityId | null {
-  return (
-    Object.values(world.policyCatalog?.propositions ?? {}).find(
-      (row) => row.stableKey === stableKey,
-    )?.id ?? null
-  );
-}
-
 function statePrograms(
   world: World,
   stateKey: string,
@@ -293,13 +282,17 @@ function statePrograms(
   const cached = cache.laws.get(stateKey);
   if (cached) return cached;
   const state = stateJurisdictionForKey(stateKey);
-  const read = (question: string) => {
-    const id = propositionId(world, question);
-    return state && id ? lawInForce(world, state.id, id, onDate) : null;
-  };
+  const read = state
+    ? readEligibilityLawsInForce(
+        world,
+        state.id,
+        Object.values(COVERAGE_QUESTION_KEYS),
+        onDate,
+      )
+    : new Map<string, LawInForce | null>();
   const laws = [
-    read(EXPANSION_QUESTION),
-    read(WORK_REQUIREMENT_QUESTION),
+    read.get(COVERAGE_QUESTION_KEYS.expansion) ?? null,
+    read.get(COVERAGE_QUESTION_KEYS.workRequirement) ?? null,
   ] as const;
   cache.laws.set(stateKey, laws);
   return laws;
@@ -599,8 +592,8 @@ export function recordHealthCoverageForSubjects(
         ? lawEffectStamp(laws[workRuleChangedCoverage ? 1 : 0], {
             effectKind: "health-coverage",
             questionKey: workRuleChangedCoverage
-              ? WORK_REQUIREMENT_QUESTION
-              : EXPANSION_QUESTION,
+              ? COVERAGE_QUESTION_KEYS.workRequirement
+              : COVERAGE_QUESTION_KEYS.expansion,
             jurisdictionId: state.id,
             appliedAt: onDate,
             sourceRecordIds: [
