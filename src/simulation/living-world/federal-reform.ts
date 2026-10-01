@@ -21,7 +21,12 @@ import {
   stateVoice,
   type Voter,
 } from "../governing/article-v";
-import { decideChamberVote, publicPartyOf } from "../governing/chamber-votes";
+import {
+  decideChamberVote,
+  publicPartyOf,
+  stateConstitutionalRoster,
+} from "../governing/chamber-votes";
+import { legislativePackForJurisdiction } from "../legislative-institutions";
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { relationshipConsiderations } from "../governing/standing-considerations";
@@ -366,6 +371,108 @@ export function termLimitCount(
     );
   });
   return { world: next, measureId: measure.id, houses, carries };
+}
+
+/**
+ * Decide actual state members on a saved Article V proposal. This supplies
+ * member ballots, not state approval: ratification thresholds and chamber
+ * aggregation require their own sourced binding, not the proposal rule.
+ * Missing state institutions or a current subject holder stay unsupported.
+ */
+export function decideArticleVStateMemberVotes(
+  world: World,
+  measureId: EntityId,
+  jurisdictionId: EntityId,
+): {
+  readonly world: World;
+  readonly chambers: readonly {
+    readonly bodyKey: string;
+    readonly eligibleMembers: number;
+    readonly sourceRecordIds: readonly EntityId[];
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+  }[];
+} | null {
+  const measure = world.history.constitutionalMeasures?.find(
+    (row) => row.id === measureId,
+  );
+  const pack = legislativePackForJurisdiction(jurisdictionId);
+  const holder = currentPresidentOf(world)?.personId;
+  const delta = measure?.ruleDelta;
+  if (
+    !measure ||
+    measure.processKind !== "federal-amendment" ||
+    measure.ratificationMode !== "state-legislatures" ||
+    constitutionalPosition(world, measureId).phase !== "ratification" ||
+    !pack ||
+    !ARTICLE_V_STATE_KEYS.includes(pack.jurisdictionKey) ||
+    !holder ||
+    delta?.kind !== "rule-field" ||
+    delta.officeKey !== PRESIDENT_OFFICE_KEY ||
+    delta.field !== "executive.term.limit"
+  )
+    return null;
+  const rosters = pack.chambers.map((body) => ({
+    bodyKey: body.chamberKey,
+    roster: stateConstitutionalRoster(world, jurisdictionId, body.chamberKey),
+  }));
+  if (!rosters.length || rosters.some(({ roster }) => roster === null))
+    return null;
+  const next = ensureOfficeholderPrinciples(
+    world,
+    rosters.flatMap(({ roster }) =>
+      roster!.seated.body.members.flatMap((member) =>
+        member.personId ? [member.personId] : [],
+      ),
+    ),
+  );
+  const cause = {
+    direction:
+      delta.applicability?.appliesTo === "immediately"
+        ? ("extend" as const)
+        : ("restore" as const),
+    holderPersonId: holder,
+  };
+  return {
+    world: next,
+    chambers: rosters.map(({ bodyKey, roster }) => {
+      const members = roster!.seated.body.members;
+      return {
+        bodyKey,
+        eligibleMembers: roster!.seated.seats,
+        sourceRecordIds: [measure.id, ...roster!.sourceRecordIds],
+        dispositions: decideChamberVote(next, {
+          kind: "constitutional",
+          stableKey: `${measure.stableKey}:${jurisdictionId}:${bodyKey}:ratification`,
+          constitutionalMeasureId: measure.id,
+          ratificationJurisdictionId: jurisdictionId,
+          bodyKey,
+          purpose: "ratification",
+          members,
+          playerPersonId:
+            next.control.kind === "person" ? next.control.personId : null,
+          considerationsByMember: new Map(
+            members.flatMap((member) =>
+              member.personId
+                ? [
+                    [
+                      member.memberKey,
+                      termLimitConsiderations(
+                        next,
+                        {
+                          memberKey: member.memberKey,
+                          personId: member.personId,
+                        },
+                        cause,
+                      ),
+                    ] as const,
+                  ]
+                : [],
+            ),
+          ),
+        }),
+      };
+    }),
+  };
 }
 
 /** Whose term limit a member is voting on, for the reasons they write. */

@@ -1,0 +1,32 @@
+{
+  "branch": "codex/team2-a79-state-ratification-shared-vote",
+  "worktreeBase": "072a2d976a40e24e8764e24981c1554828495fa7",
+  "main": "e5a40e9eede733eba8272161f5f4679d21c5401b",
+  "sourceBlobs": {
+    "src/simulation/governing/chamber-votes.ts": "6ba97ca211f53d683919a59db6a90bbc155fd03c",
+    "src/simulation/living-world/federal-reform.ts": "39d03355ce0534a347819c5b5c501869dbf89f61",
+    "src/simulation/living-world/federal-term-limit-chamber-vote.test.ts": "75948b8753a9e6f9f636863f4f376a96a72238e9"
+  },
+  "completeChangedFile": "src/simulation/living-world/federal-term-limit-chamber-vote.test.ts",
+  "final": {
+    "passed": 4,
+    "failed": 1,
+    "skipped": 0,
+    "seconds": 45.89,
+    "supportedStates": 49,
+    "ineligibleJurisdictions": 6,
+    "unsupportedStates": [
+      "US-CA"
+    ],
+    "comparedMembers": 7266,
+    "ballotOrReasonChanges": 0,
+    "stateApprovalsDerived": 0
+  },
+  "scopedTypeRoots": 3,
+  "typeDiagnostics": 0,
+  "status": "DRAFT; failing diagnostic; production caller not migrated",
+  "blockers": [
+    "Sourced per-body ratification denominator/rounding/quorum/aggregation",
+    "California ordinary saved body differs from proposal-profile roster keys"
+  ]
+}

@@ -5,11 +5,17 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import {
+  ARTICLE_V_STATE_KEYS,
   constitutionalActions,
   constitutionalPosition,
 } from "../constitutional-process";
 import { currentPresidentOf } from "../crisis/offices";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+  stateJurisdictionForKey,
+} from "../life-places";
+import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
 import { ensureNationalElectionJurisdiction } from "../national-election-geography";
 import { createOrganizationParticipations } from "../life";
 import { personName } from "../people";
@@ -21,6 +27,7 @@ import * as chamber from "../governing/chamber-votes";
 import { congressVoters } from "../governing/article-v";
 import {
   proposeAndVote,
+  decideArticleVStateMemberVotes,
   termLimitBallot,
   termLimitCount,
   type FederalReformCause,
@@ -233,6 +240,192 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
       ),
     ).toEqual(due);
     expect(proposeAndVote(loaded, 2027, cause)).toBe(loaded);
+
+    // A supplied successful federal proposal; the state body is produced by
+    // its ordinary saved legislature opening, not a congressional proxy.
+    const jurisdiction = stateJurisdictionForKey("US-NE")!;
+    if (result.control.kind !== "person")
+      throw Error("The fixture must retain its actual controlled person.");
+    const at = ensureStateLegislatureOpening(
+      result,
+      result.control.personId,
+      "NE",
+    );
+    const spy = vi.spyOn(chamber, "decideChamberVote");
+    let stateVotes: ReturnType<typeof decideArticleVStateMemberVotes>;
+    try {
+      stateVotes = decideArticleVStateMemberVotes(
+        at,
+        measure.id,
+        jurisdiction.id,
+      );
+      expect(stateVotes).not.toBeNull();
+      expect(spy).toHaveBeenCalledTimes(stateVotes!.chambers.length);
+      expect(stateVotes!.chambers).toHaveLength(1);
+      for (const [voteWorld, input] of spy.mock.calls) {
+        expect(input).toMatchObject({
+          kind: "constitutional",
+          purpose: "ratification",
+          constitutionalMeasureId: measure.id,
+          ratificationJurisdictionId: jurisdiction.id,
+        });
+        const roster = chamber.stateConstitutionalRoster(
+          voteWorld,
+          jurisdiction.id,
+          (input as chamber.ChamberConstitutionalVoteInput).bodyKey,
+        )!;
+        expect(input.members).toEqual(roster.seated.body.members);
+      }
+    } finally {
+      spy.mockRestore();
+    }
+    for (const body of stateVotes!.chambers) {
+      expect(body.dispositions).toHaveLength(body.eligibleMembers);
+      expect(body.sourceRecordIds).toContain(measure.id);
+      for (const row of body.dispositions) {
+        if (!row.personId) continue;
+        const old = termLimitBallot(
+          stateVotes!.world,
+          `old:ratification:${row.memberKey}`,
+          { memberKey: row.memberKey, personId: row.personId },
+          cause,
+        );
+        expect(row.disposition).toBe(old.ballot);
+        expect(row.reason).toBe(old.reason);
+      }
+    }
+    const reloaded = deserializeWorld(serializeWorld(stateVotes!.world));
+    expect(
+      decideArticleVStateMemberVotes(reloaded, measure.id, jurisdiction.id)
+        ?.chambers,
+    ).toEqual(stateVotes!.chambers);
+    // Ballots cannot imply state approval without a sourced ratification rule.
+    expect(
+      constitutionalActions(stateVotes!.world, measure.id).filter(
+        (action) => action.detail.kind === "state-ratification",
+      ),
+    ).toHaveLength(0);
+    // Deliberately incomplete identity input, never saved as a valid world.
+    // The federal delegation remains present and must not replace this body.
+    const missingBody: World = {
+      ...at,
+      history: {
+        ...at.history,
+        ruleChangeConsequenceBindings:
+          at.history.ruleChangeConsequenceBindings?.filter(
+            (row) => row.jurisdictionId !== jurisdiction.id,
+          ),
+      },
+    };
+    expect(
+      decideArticleVStateMemberVotes(missingBody, measure.id, jurisdiction.id),
+    ).toBeNull();
+    const body = stateVotes!.chambers[0]!;
+    const member = body.dispositions.find((row) => row.personId)!;
+    const controlled: World = {
+      ...stateVotes!.world,
+      control: { kind: "person", personId: member.personId! },
+    };
+    expect(
+      decideArticleVStateMemberVotes(
+        controlled,
+        measure.id,
+        jurisdiction.id,
+      )?.chambers[0]?.dispositions.find(
+        (row) => row.memberKey === member.memberKey,
+      ),
+    ).toMatchObject({
+      disposition: "absent",
+      reason: "member:player-not-present",
+    });
+    expect(() =>
+      chamber.decideChamberVote(stateVotes!.world, {
+        kind: "constitutional",
+        stableKey: "a79:invalid-congressional-proxy",
+        constitutionalMeasureId: measure.id,
+        purpose: "ratification",
+        ratificationJurisdictionId: jurisdiction.id,
+        bodyKey: body.bodyKey,
+        members: congressVoters(stateVotes!.world, "house").map((voter) => ({
+          ...voter,
+          name: personName(stateVotes!.world.people[voter.personId]!),
+          caucusLabel: "",
+        })),
+        considerationsByMember: new Map(),
+      }),
+    ).toThrow(/dated state body and seated members/);
+    console.info(
+      "A79 state ratification member comparison",
+      JSON.stringify({
+        seed,
+        startingPlace: place.displayName,
+        ratifyingState: "US-NE",
+        body: body.bodyKey,
+        compared: body.dispositions.length,
+        changed: 0,
+        example: personName(stateVotes!.world.people[member.personId!]!),
+        ballot: member.disposition,
+        reason: member.reason,
+        measureId: measure.id,
+        stateApproval: "NOT DERIVED: sourced ratification rules missing",
+      }),
+    );
+    let statesWithActualBallots = 0;
+    let ineligiblePlaces = 0;
+    let comparedStateMembers = 0;
+    const unsupportedStateBodies: string[] = [];
+    for (const identity of lifePlaceStateIdentities()) {
+      const stateJurisdiction = stateJurisdictionForKey(
+        identity.jurisdictionKey,
+      )!;
+      const ballots = decideArticleVStateMemberVotes(
+        stateVotes!.world,
+        measure.id,
+        stateJurisdiction.id,
+      );
+      if (!ARTICLE_V_STATE_KEYS.includes(identity.jurisdictionKey)) {
+        expect(ballots).toBeNull();
+        ineligiblePlaces += 1;
+        continue;
+      }
+      if (!ballots) {
+        unsupportedStateBodies.push(identity.jurisdictionKey);
+        continue;
+      }
+      statesWithActualBallots += 1;
+      for (const chamberVotes of ballots!.chambers) {
+        expect(chamberVotes.dispositions).toHaveLength(
+          chamberVotes.eligibleMembers,
+        );
+        for (const row of chamberVotes.dispositions) {
+          if (!row.personId) continue;
+          const old = termLimitBallot(
+            ballots!.world,
+            `old:state:${row.memberKey}`,
+            { memberKey: row.memberKey, personId: row.personId },
+            cause,
+          );
+          expect(row.disposition).toBe(old.ballot);
+          expect(row.reason).toBe(old.reason);
+          comparedStateMembers += 1;
+        }
+      }
+    }
+    console.info(
+      "A79 all starting jurisdictions member comparison",
+      JSON.stringify({
+        seed,
+        statesWithActualBallots,
+        ineligiblePlaces,
+        comparedStateMembers,
+        unsupportedStateBodies,
+        changed: 0,
+        stateApprovalsDerived: 0,
+      }),
+    );
+    expect(unsupportedStateBodies).toEqual([]);
+    expect(statesWithActualBallots).toBe(50);
+    expect(ineligiblePlaces).toBe(6);
   });
 
   it("preserves a controlled member's absence and never votes for the player", () => {
