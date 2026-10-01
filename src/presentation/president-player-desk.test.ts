@@ -317,6 +317,40 @@ describe("player President shares the executive desk and legal window", () => {
       expect(
         deserializeWorld(serializeWorld(lapsed)).history.executiveDispositions,
       ).toEqual(lapsed.history.executiveDispositions);
+      if (state === places[0]!.state) {
+        // An already waiting bill from an old save must not schedule a due item in the past.
+        const previouslyWaiting = { ...late, history: fixture.world.history };
+        // Use the canonical isolation records already built above, then remove only this test's newly opened desk path by starting from the actual presented world.
+        let oldSave = fixture.world;
+        for (const item of fixture.world.history.futureDueItems) {
+          if (
+            item.dueAt >= due.dueAt ||
+            futureDueItemStateAt(oldSave, item.id, {
+              asOfDate: oldSave.currentDate,
+              historySequenceExclusive: oldSave.history.nextSequence,
+            })?.status !== "scheduled"
+          )
+            continue;
+          oldSave = cancelFutureDueItem(oldSave, {
+            stableKey: `test:old-desk:isolate:${item.id}`,
+            dueItemId: item.id,
+            effectiveAt: oldSave.currentDate,
+            reasonKey: "civic:fixture-isolation",
+            context:
+              "Old-save executive fixture; all other due families are explicitly cancelled.",
+          });
+        }
+        oldSave = {
+          ...oldSave,
+          currentDate: previouslyWaiting.currentDate,
+          currentMoment: previouslyWaiting.currentMoment,
+        };
+        const reopened = presidentDesk(oldSave, measure);
+        expect(reopened.history.executiveDispositions!.at(-1)!.action).toBe(
+          "became-law-without-signature",
+        );
+        expect(presidentDesk(reopened, measure)).toBe(reopened);
+      }
       const basis = vi
         .spyOn(procedures, "legislativeRulePackForWorld")
         .mockReturnValue({

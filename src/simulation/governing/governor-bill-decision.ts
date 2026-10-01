@@ -356,6 +356,7 @@ export function executiveBillActionWindow(
   if (
     days.kind !== "known" ||
     basis?.kind !== "known" ||
+    !["CALENDAR", "BUSINESS", "SUNDAYS_EXCEPTED"].includes(basis.value) ||
     !Number.isInteger(days.value) ||
     days.value < 0
   )

@@ -257,11 +257,24 @@ export function openPresidentBillMatter(
     measurePosition(world, measure.id).phase !== "awaiting-executive"
   )
     return world;
-  return openMatter(world, office, {
+  const next = openMatter(world, office, {
     family: "bill",
     instance: `measure:${measure.id}`,
     measureId: measure.id,
   });
+  const window = executiveBillActionWindow(next, measure);
+  if (!window || next.currentDate <= window.lastActionDate) return next;
+  const matter = governingMatters(next, office.officeKey).find(
+    (m) => m.measureId === measure.id && m.status === "open",
+  );
+  const due = matter
+    ? next.history.futureDueItems.find(
+        (d) =>
+          d.transitionKey === GOVERNING_DEADLINE &&
+          d.entityIds.includes(matter.id),
+      )
+    : undefined;
+  return due ? governingDeadlineHandler(next, due).world : next;
 }
 
 export function governingOfficeForPerson(
@@ -1260,7 +1273,10 @@ function openMatter(
   if (measure && executiveWindow) {
     next = scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
-      dueAt: executiveWindow.inactionAt,
+      dueAt:
+        executiveWindow.inactionAt < next.currentDate
+          ? next.currentDate
+          : executiveWindow.inactionAt,
       transitionKey: GOVERNING_DEADLINE,
       entityIds: [opened.id],
       jurisdictionId: office.jurisdictionId,

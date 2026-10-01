@@ -23,7 +23,6 @@ import {
   CONGRESS_SITTING_TRANSITION,
   isCongressMeasure,
   scheduleCongressSitting,
-  seatedCongressChamber,
   withSittingSeating,
 } from "./congress-chambers";
 import {
@@ -32,12 +31,14 @@ import {
   scheduleInstitutionStep,
 } from "./legislative-clock";
 import { hasStableKey } from "../history-index";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import { openPresidentBillMatter } from "./state-governing";
 import { recordDurableDecisionTrace } from "../decisions";
 import {
   BILL_SIGN,
   BILL_RETURN,
   evaluateGovernorBill,
+  executiveBillActionWindow,
 } from "./governor-bill-decision";
 
 /**
@@ -108,6 +109,9 @@ export function presidentDesk(
     return world;
   const president = currentPresidentOf(world);
   if (!president) return world;
+  const window = executiveBillActionWindow(world, measure);
+  if (window && world.currentDate > window.lastActionDate)
+    return openPresidentBillMatter(world, measure);
   if (president.personId === controlledPersonId(world))
     return openPresidentBillMatter(world, measure);
   const principled = ensureOfficeholderPrinciples(world, [president.personId]);
