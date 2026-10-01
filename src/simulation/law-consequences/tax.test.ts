@@ -76,15 +76,20 @@ const ROW: LawConsequenceRow = {
   },
 };
 
-let cache:
-  | {
-      world: World;
-      personId: World["personOrder"][number];
-      measureId: World["personOrder"][number];
-      propositionId: World["personOrder"][number];
-    }
-  | undefined;
-function fixture(opening = 10000, amount = 2100, effective = true) {
+type CachedTaxFixture = {
+  world: World;
+  personId: World["personOrder"][number];
+  measureId: World["personOrder"][number];
+  propositionId: World["personOrder"][number];
+};
+const fixtureCache = new Map<string, CachedTaxFixture>();
+function fixture(
+  opening = 10000,
+  amount = 2100,
+  effective = true,
+  questionKey = QUESTION,
+) {
+  let cache = fixtureCache.get(questionKey);
   if (!cache) {
     const scenario = createLegislativeScenario("alaska");
     let world = createWorld({
@@ -99,7 +104,7 @@ function fixture(opening = 10000, amount = 2100, effective = true) {
       policyCatalog: createProductionPolicyCatalog(),
     });
     const proposition = Object.values(world.policyCatalog.propositions).find(
-      (entry) => entry.stableKey === QUESTION,
+      (entry) => entry.stableKey === questionKey,
     )!;
     expect(proposition).toBeDefined();
     world = introduceMeasure(world, {
@@ -122,7 +127,9 @@ function fixture(opening = 10000, amount = 2100, effective = true) {
       measureId,
       sponsorPersonId: scenario.playerPersonId,
       power: taxPowerEvidenceFor("US-AK")!,
-      terms: TEST_TAX_TERMS,
+      terms: questionKey.startsWith("us-tax-terms:")
+        ? { ...TEST_TAX_TERMS, effectiveDelayDays: 90 }
+        : TEST_TAX_TERMS,
     });
     const procedure = {
       ...scenario,
@@ -163,6 +170,7 @@ function fixture(opening = 10000, amount = 2100, effective = true) {
       measureId,
       propositionId: proposition.id,
     };
+    fixtureCache.set(questionKey, cache);
   }
   let world = cache.world;
   const policy = world.history.taxPolicies![0]!;
@@ -234,7 +242,7 @@ function fixture(opening = 10000, amount = 2100, effective = true) {
     activity: "assessment",
     activityId: world.history.taxBases!.at(-1)!.id,
     subjectIds: [cache.personId],
-    questionKey: QUESTION,
+    questionKey,
     governingLawId: cache.measureId,
   };
   assertWorldIntegrity(world);
@@ -262,6 +270,50 @@ function balances(world: World, personId: World["personOrder"][number]) {
 }
 
 describe("tax kind uses saved typed levies, assessments and due collection", () => {
+  it("assesses and collects the actual excise question through its adopted typed levy", () => {
+    const f = fixture(10000, 2100, true, "us-tax-terms:state.excise-tax-terms");
+    expect(personName(f.world.people[f.personId]!)).toBeTruthy();
+    let world = dispatch(f.world, f.context);
+    expect(world.history.taxAssessments).toHaveLength(1);
+    expect(world.history.taxAssessments![0]!.taxAmount.minorUnits).toBe(100);
+    expect(
+      world.history.taxAssessments![0]!.lawEffectStamps![0]!.governingLawKey,
+    ).toBe(f.measureId);
+    expect(balances(world, f.personId)).toEqual([10000, 0]);
+    const saved = serializeWorld(world);
+    expect(serializeWorld(dispatch(deserializeWorld(saved), f.context))).toBe(
+      saved,
+    );
+    world = advanceWorld(
+      deserializeWorld(saved),
+      2,
+      createTaxTransitionHandlerRegistry(),
+    );
+    expect(world.history.taxCollections).toHaveLength(1);
+    expect(world.history.taxCollections![0]!.status).toBe("collected");
+    expect(world.history.taxCollections![0]!.transferredAmount.minorUnits).toBe(
+      100,
+    );
+    expect(balances(world, f.personId)).toEqual([9900, 100]);
+    assertWorldIntegrity(world);
+  });
+  it("refuses a catalog levy missing its adopted numeric terms", () => {
+    const f = fixture(10000, 2100, true, "us-tax-terms:state.excise-tax-terms");
+    const world = {
+      ...f.world,
+      history: {
+        ...f.world.history,
+        legislativeProvisions: f.world.history.legislativeProvisions!.map(
+          (row) => ({ ...row, lawTerms: [] }),
+        ),
+      },
+    };
+    expect(resolveTaxConsequences(world, ROW, f.context)).toEqual([]);
+    expect(serializeWorld(dispatch(world, f.context))).toBe(
+      serializeWorld(world),
+    );
+    expect(balances(world, f.personId)).toEqual([10000, 0]);
+  });
   it("assesses the named payer once, then collects actual cash after Save/Continue", () => {
     const f = fixture();
     expect(f.world.people[f.personId]).toBeDefined();
