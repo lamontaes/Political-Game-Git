@@ -22,10 +22,10 @@ import { workPayCoverageAt } from "../pay-coverage-query";
 import {
   matchPayCoveragePredicates,
   payWorkplaceAt,
-  PAY_COVERAGE_PREDICATES,
 } from "../pay-coverage-predicates";
 import { applyLawPayConsequence } from "../living-world/town-pay";
 import {
+  PAY_COVERAGE_PREDICATES,
   PAY_SELECTOR,
   PAY_ACTION,
   NON_ELECTIVE_PAY_PREDICATE,
