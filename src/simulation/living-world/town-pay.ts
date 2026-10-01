@@ -276,8 +276,10 @@ function interpolate(cells: Cells, percentile: number): number | null {
 /** The state's basic minimum wage, or the federal one; null when unknown. */
 export function townMinimumHourly(
   jurisdictionId: EntityId | null,
+  world?: World,
+  onDate: IsoDate | undefined = world?.currentDate,
 ): number | null {
-  return startingMinimumHourly(jurisdictionId);
+  return startingMinimumHourly(jurisdictionId, world, onDate);
 }
 
 /**

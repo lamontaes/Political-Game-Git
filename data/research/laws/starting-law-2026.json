@@ -2721,179 +2721,1464 @@
       }
     },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
-      "source": "data/research/money/minimum-wage-2026.json (U.S. Department of Labor, July 1, 2026): yes where the state's basic rate is above the federal $7.25.",
-      "note": "",
+      "source": "data/research/money/minimum-wage-dated-matrix-2026.json; dated official rows published c4e1a148049a654920a9811c8d2a25aec44c8c96. Numeric terms carry source effective dates, not the research as-of date.",
+      "note": "Standard category is the approved default. Lower or exceptional categories require actual saved facts and an authored canonical exception row. Regional and industry-only matrices without a bound standard remain unbound; their research tiers are preserved, not applied universally. No state statute is fabricated where federal law alone supplies the floor.",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://www.elections.alaska.gov/doc/oep/2024/Ballot%20Measure%201_Eng.pdf",
+          "quote": "The Act raises it to $13.00 per hour on July 1, 2025.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1300,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "source": "https://labor.alaska.gov/lss/whhome.htm",
+              "quote": "As of July 1, 2026, The Alaska minimum wage is increasing from $13.00 to $14.00 per hour.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-07-01",
+              "source": "https://www.elections.alaska.gov/doc/oep/2024/Ballot%20Measure%201_Eng.pdf",
+              "quote": "The Act raises it to $15.00 per hour on July 1, 2027.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AK"
         },
         "US-AL": {
-          "answer": "no"
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL"
         },
         "US-AR": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2021-01-01",
+          "source": "https://labor.arkansas.gov/labor/labor-standards/minimum-wage-and-overtime/",
+          "quote": "Effective January 1, 2021, the minimum wage in Arkansas is $11.00 per hour. The Arkansas Minimum Wage Act covers employers with 4 or more employees.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "four-or-more-employees",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1100,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AR"
         },
         "US-AS": {
           "answer": "no",
           "cite": "Pub. L. 110-28 § 8103, as amended by Pub. L. 114-61; 29 U.S.C. § 206 note",
           "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
-          "note": "American Samoa has no territorial minimum wage; its industry rates are set by federal law and stay below $7.25 (for example $6.20 for retail since September 30, 2024) until they reach the federal rate."
+          "note": "American Samoa has no territorial minimum wage; its industry rates are set by federal law and stay below $7.25 (for example $6.20 for retail since September 30, 2024) until they reach the federal rate.",
+          "wageTermsStatus": "Federal authority only; no state numeric term. Industry-specific federal rates need actual saved scope.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS"
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.azica.gov/news/2026-minimum-wage-increase-effective-january-1-2026",
+          "quote": "2026 Minimum Wage Increase - Effective January 1, 2026",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1515,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AZ"
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.dir.ca.gov/dlse/faq_minimumwage.htm",
+          "quote": "Effective January 1, 2026, the minimum wage is $16.90 per hour for all employers",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1690,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://dir.ca.gov/DIRNews/2026/2026-66.html",
+              "quote": "Beginning January 1, 2027, California’s statewide minimum wage will increase to $17.40 per hour",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1740,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-CA"
         },
         "US-CO": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://cdle.colorado.gov/sites/cdle/files/adopted_2026_temporary_pay_calc_order_7_ccr_1103-14_12.12.2025.pdf",
+          "quote": "Adopted as temporary rules on December 12, 2025; effective January 1, 2026 ... Minimum Pay Level in 2026 Level Future Annual COMPS Order Rule (Yearly Calculation) Adjustments $15.16 per hour",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1516,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-CO"
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://portal.ct.gov/dol/divisions/wage-and-workplace-standards",
+          "quote": "$16.94 effective on January 1, 2026",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1694,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://portal.ct.gov/governor/news/press-releases/2026/08-2026/governor-lamont-announces-minimum-wage-will-increase",
+              "quote": "Connecticut’s minimum wage will adjust to $17.48 per hour beginning January 1, 2027",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1748,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-CT"
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2025%20Minimum%20Wage%20Increase%20Notice_7.1.25.pdf",
+          "quote": "Beginning July 1, 2025, the minimum wage in the District of Columbia will increase from $17.50 per hour to $17.95 per hour for all workers, regardless of size of employer.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1795,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2026%20Minimum%20Wage%20Increase%20Notice_0.pdf",
+              "quote": "Beginning July 1, 2026, the minimum wage in the District of Columbia will increase from $17.95 per hour to $18.40 per hour for all workers, regardless of size of employer.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1840,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-DC"
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "source": "https://industrialaffairs.delaware.gov/en-us/knowledgebase-employee/what-is-the-current-minimum-wage-in-delaware",
+          "quote": "As of January 1, 2025, the minimum wage is $15.00 per hour",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-DE"
         },
         "US-FL": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-09-30",
+          "source": "https://www.floridajobs.org/docs/default-source/business-growth-and-partnerships/for-employers/posters-and-required-notices/2025-minimum-wage/2025-minimum-wage-announcement.pdf",
+          "quote": "Effective September 30, 2025, the Florida minimum wage will be $14.00 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1400,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-09-30",
+              "source": "https://floridajobs.org/florida-minimum-wage",
+              "quote": "The $15.00 per hour will be effective from September 30, 2026, to December 31, 2027.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-FL"
         },
         "US-GA": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Georgia ... 2024: $5.15(d) ... (d) - Rates applicable to employers of six or more. In West Virginia, applicable to employers of six or more in one location.",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "six-or-more-employees-not-flsa-covered",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 515,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://dol.georgia.gov/minimum-wage",
+              "quote": "Georgia's minimum wage is $5.15 per hour, however, with some limited exceptions, the federal minimum wage rate applies.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "six-or-more-employees-not-flsa-covered",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 515,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-GA"
         },
         "US-GU": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2021-09-01",
+          "source": "https://dol.guam.gov/compliance/whd/frequently-asked-questions/",
+          "quote": "As of September 01, 2021, the current minimum wage rate is $9.25 (Guam P.L. 36-1).",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 925,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-GU"
         },
         "US-HI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.hawaii.gov/wsd/minimum-wage/",
+          "quote": "$16.00 per hour beginning January 1, 2026",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1600,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://labor.hawaii.gov/wsd/minimum-wage/",
+              "quote": "$18.00 per hour beginning January 1, 2028",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1800,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-HI"
         },
         "US-IA": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Iowa ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://dial.iowa.gov/hearings/wage-and-child-labor/wages",
+              "quote": "What is the current minimum wage? $7.25 per hour.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-IA"
         },
         "US-ID": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Idaho ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://www.labor.idaho.gov/businesses/labor-laws/labor-laws-faq/",
+              "quote": "The current Idaho state minimum wage is $7.25 per hour.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-ID"
         },
         "US-IL": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "source": "https://labor.illinois.gov/faqs/minimum-wage-overtime-faq.html",
+          "quote": "Beginning January 1, 2025, the minimum wage in Illinois is $15.00 per hour for those individuals who are 18 years and older.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "four-or-more-employees-adults",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-IL"
         },
         "US-IN": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://www.in.gov/dol/files/updated-pdfs-4-7-2026/Indiana2009MinimumWage.pdf",
+          "quote": "Both the federal and Indiana state minimum wage increased from $6.55 per hour to $7.25 per hour, effective July 24, 2009.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "two-or-more-employees",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-IN"
         },
         "US-KS": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2010-01-01",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch44/044_012_0003.html",
+          "quote": "on and after January 1, 2010, employee wages shall be paid at a rate of not less than $7.25 an hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "not-flsa-covered",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-KS"
         },
         "US-KY": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2009-07-01",
+          "source": "https://elc.ky.gov/workplace-standards/Pages/Wages-and-Hours.aspx",
+          "quote": "Effective July 1, 2009, the minimum wage is $7.25 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-KY"
         },
         "US-LA": {
-          "answer": "no"
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA"
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Massachusetts ... 2024: $15.00",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-10-01",
+              "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151/Section1",
+              "quote": "A wage of less than $15.00 per hour, in any occupation, as defined in this chapter, shall conclusively be presumed to be oppressive and unreasonable",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MA"
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gle&section=3-413&enactments=false",
+          "quote": "(ii) beginning January 1, 2024, $15.00 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MD"
         },
         "US-ME": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.maine.gov/labor/news_events/article.shtml?id=13338762",
+          "quote": "Effective tomorrow, January 1, 2026, the state minimum wage will increase from $14.65 to $15.10 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1510,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-ME"
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.michigan.gov/leo/bureaus-agencies/ber/wage-and-hour/min-wage",
+          "quote": "Effective January 1, 2026, the minimum wage rate is $13.73 per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1373,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.michigan.gov/leo/bureaus-agencies/ber/wage-and-hour/min-wage",
+              "quote": "Effective January 1, 2027, the minimum wage rate is $15.00 per hour.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MI"
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.dli.mn.gov/business/employment-practices/minimum-wage-minnesota",
+          "quote": "Amount as of Jan. 1, 2026 Amount as of Jan. 1, 2027 State minimum wage $11.41 an hour $11.87 an hour",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "all-employers",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1141,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.dli.mn.gov/business/employment-practices/minimum-wage-minnesota",
+              "quote": "Effective Jan. 1, 2027 , Minnesota’s minimum-wage rate will be adjusted for inflation to $11.87 an hour for all employers in the state.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "all-employers",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1187,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MN"
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=290.502",
+          "quote": "increased by $1.25 per hour, to $15.00 per hour, effective January 1, 2026.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MO"
         },
         "US-MP": {
-          "answer": "no"
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MP"
         },
         "US-MS": {
-          "answer": "no"
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS"
         },
         "US-MT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://erd.dli.mt.gov/_docs/labor-standards/2026-MINIMUM-WAGE-POSTER.pdf",
+          "quote": "MONTANA’S MINIMUM WAGE (Effective 1/1/2026) $10.85",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1085,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MT"
         },
         "US-NC": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... North Carolina ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://www.labor.nc.gov/workplace-rights/employee-rights-regarding-time-worked-and-wages-earned/minimum-wage-nc",
+              "quote": "The minimum wage in North Carolina is currently $7.25 an hour.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NC"
         },
         "US-ND": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... North Dakota ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://www.nd.gov/labor/sites/www/files/documents/Brochures/Wage&Hour%20and%20Equal%20Emp.pdf",
+              "quote": "The minimum wage in North Dakota is $7.25 per",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-ND"
         },
         "US-NE": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+          "quote": "July 18, 2026 $15.00* ... *Unchanged from January 1, 2026.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "quote": "January 1, 2027 $15.26",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1526,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "quote": "January 1, 2028 $15.53",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1553,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2029-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "quote": "January 1, 2029 $15.80",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1580,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2030-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "quote": "January 1, 2030 $16.08",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1608,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NE"
         },
         "US-NH": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... New Hampshire ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-07-01",
+              "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+              "quote": "Basic Minimum Rate (per hour): $7.25",
+              "operativeBasis": "in-force-as-of-source-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NH"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "quote": "New Jersey’s statewide minimum wage will increase by $0.43 to $15.92 per hour for most employees, effective January 1, 2026.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "most-employers",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1592,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NJ"
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "source": "https://www.dws.nm.gov/Minimum-Wage-Information",
+          "quote": "New Mexico state minimum wage $12.00 per hour effective January 1, 2023",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1200,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NM"
         },
         "US-NV": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "source": "https://labor.nv.gov/",
+          "quote": "Minimum wage in the state of Nevada increased to $12.00 an hour on July 1, 2024.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1200,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NV"
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "wageTermsStatus": "Unbound regional scope; no universal state amount.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY"
         },
         "US-OH": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://com.ohio.gov/about-us/media-center/news/ohio-minimum-wage-set-to-increase-in-2026-11",
+          "quote": "Ohio’s minimum wage is scheduled to increase Jan. 1, 2026, to $11 per hour for non-tipped employees ... Effective Jan. 1, 2026, the Ohio minimum wage will apply to businesses with annual gross receipts of more than $405,000",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "above-small-employer-threshold",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1100,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://ohio.gov/home/news-and-events/all-news/com-2027-minimum-wage-sept26",
+              "quote": "the Ohio Department of Commerce announced the 2027 Ohio minimum wage that will go into effect on Jan. 1. The adjusted amounts, $11.40 per hour for non-tipped employees",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "above-small-employer-threshold",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1140,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OH"
         },
         "US-OK": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://oklahoma.gov/labor/workplace-rights/wage-hour/faqs---wage-and-hour.html",
+          "quote": "The federal and state minimum wage of $7.25 per hour has been in effect since July 24, 2000.",
+          "operativeBasis": "statute-date-corrected-to-federal",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OK"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "wageTermsStatus": "Unbound regional scope; no universal state amount.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR"
         },
         "US-PA": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Pennsylvania ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://www.pa.gov/agencies/dli/resources/compliance-laws-and-regulations/labor-management-relations/pennsylvania-s-minimum-wage-act",
+              "quote": "Employees being paid less than $7.25/hour",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-PA"
         },
         "US-PR": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "source": "https://bvirtualogp.pr.gov/ogp/bvirtual/leyesreferencia/pdf/47-2021.pdf",
+          "quote": "Para el 1 de julio de 2024, el aumento al salario mínimo de Puerto Rico será a diez dólares con cincuenta centavos la hora ($10.50/hr)",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1050,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-PR"
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-12/28-12-3.htm",
+          "quote": "(p) Commencing January 1, 2026, the minimum wage is sixteen dollars ($16.00) per hour.",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1600,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-12/28-12-3.htm",
+              "quote": "(q) Commencing January 1, 2027, the minimum wage is seventeen dollars ($17.00) per",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1700,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-RI"
         },
         "US-SC": {
-          "answer": "no"
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC"
         },
         "US-SD": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://dlr.sd.gov/employment_laws/minimum_wage.aspx",
+          "quote": "The minimum wage for non-tipped employees in South Dakota is $11.85/hour . (Effective Jan. 1, 2026.)",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1185,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SD"
         },
         "US-TN": {
-          "answer": "no"
+          "answer": "no",
+          "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN"
         },
         "US-TX": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TX"
         },
         "US-UT": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Utah ... 2024: $7.25",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-07-01",
+              "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+              "quote": "Basic Minimum Rate (per hour): $7.25",
+              "operativeBasis": "in-force-as-of-source-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 725,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-UT"
         },
         "US-VA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://doli.virginia.gov/2025/07/29/virginia-minimum-wage-rate-increasing-effective-january-1-2026/",
+          "quote": "The Virginia adjusted state hourly minimum wage rate for January 1, 2026 until January 1, 2027 is $12.77",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1277,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.governor.virginia.gov/newsroom/news-releases/2026/april-releases/name-1116004-en.html",
+              "quote": "The legislation will then increase the minimum wage to $13.75 per hour on January 1, 2027",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1375,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://www.governor.virginia.gov/newsroom/news-releases/2026/april-releases/name-1116004-en.html",
+              "quote": "subsequently increase the minimum wage to $15.00 per hour on January 1, 2028",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-VA"
         },
         "US-VI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... U.S. Virgin Islands ... 2024: $10.50(j)",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1050,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-04-24",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "quote": "$12.00 per hour – Effective April 24, 2026",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1200,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-06-01",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "quote": "$14.00 per hour – Effective June 1, 2027",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-06-01",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "quote": "$15.00 per hour – Effective June 1, 2028",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-VI"
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.vermont.gov/press-release/vermont-department-labor-announces-minimum-wage-increase-starting-january-2026",
+          "quote": "Beginning January 1, 2026, the State’s minimum wage will increase from $14.01 to $14.42 per hour",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1442,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-VT"
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/",
+          "quote": "The 2026 minimum wage in the state of Washington is $17.13 per hour.",
+          "operativeBasis": "source-stated-year",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1713,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/",
+              "quote": "The new minimum wage for 2027 will be $17.73 an hour for most workers. The minimum wage for 14-and 15-year-old workers will be $15.07 an hour. These changes take effect Jan. 1, 2027.",
+              "operativeBasis": "source-stated-effective-date",
+              "coverageTier": "statewide",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1773,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-WA"
         },
         "US-WI": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://dwd.wisconsin.gov/er/laborstandards/minimumwage.htm",
+          "quote": "Wisconsin's Current Minimum Wage Rates Rate Type As of 7/24/09 Adult $7.25",
+          "operativeBasis": "source-stated-effective-date",
+          "coverageTier": "statewide",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-WI"
         },
         "US-WV": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... West Virginia ... 2024: $8.75 ... (d) - Rates applicable to employers of six or more. In West Virginia, applicable to employers of six or more in one location.",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "six-or-more-employees-per-location",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 875,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-10-01",
+              "source": "https://labor.wv.gov/wage-hour/jobs-act/minimum-wage",
+              "quote": "the state minimum wage of $8.75 will apply whenever there are six (6) or more non-exempt employees",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "six-or-more-employees-per-location",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 875,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-WV"
         },
         "US-WY": {
-          "answer": "no"
+          "answer": "no",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "quote": "Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 ... Wage rates are for January 1 of each year except 1968 and 1972, which show rates as of February. ... Wyoming ... 2024: $5.15",
+          "operativeBasis": "dol-history-table-january-1",
+          "coverageTier": "not-flsa-covered",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 515,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "no",
+              "operativeAt": "2026-10-01",
+              "source": "https://dws.wyo.gov/dws-division/labor-standards/workers-and-job-seekers/faq/",
+              "quote": "Wyoming law sets the minimum wage at $5.15 per hour, but most workers must be paid at least the federal minimum wage of $7.25 per hour.",
+              "operativeBasis": "in-force-as-read",
+              "coverageTier": "not-flsa-covered",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 515,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "wageTermsStatus": "Standard/default category admitted; saved exceptions require separate canonical scoped rows.",
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-WY"
         }
       }
     },
@@ -18035,6 +19320,27 @@
           "answer": "no",
           "preempts": false,
           "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
+        }
+      }
+    },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+      "note": "The question asks whether to raise the federal floor, so no preserves its existing sourced amount.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "lawTerms": [
+            {
+              "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "key": "floor",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Federal covered-nonexempt standard. Territory-specific industry schedules and actual saved exceptions must be resolved before applying this standard; no state statute is inferred."
         }
       }
     }
