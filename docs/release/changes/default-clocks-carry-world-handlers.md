@@ -1,5 +1,6 @@
 ---
-impact: player-visible
+id: default-clocks-carry-world-handlers
+impact: patch
 section: Fixed
 title: Default clock advances carry scheduled consequences
 ---
