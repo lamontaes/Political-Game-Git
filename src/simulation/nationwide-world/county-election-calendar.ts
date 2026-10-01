@@ -1,3 +1,4 @@
+import calendarProfiles from "../../../data/research/government/county-election-calendar-profiles.json";
 import { makeIsoDate } from "../dates";
 import type { GovernmentUnitIdentity } from "../government-units";
 import type { IsoDate } from "../types";
@@ -40,51 +41,78 @@ export function nextCountyElection(
 ): CountyElectionCalendarRead {
   if (unit.unitType !== "county" || !unit.functionalActive)
     return { status: "unknown", reason: "No active county government." };
-  // DeSoto's actual police jury: the published 2027 calendar includes the
-  // prohibited-day adjustments. Do not extrapolate the unadjusted statute.
-  if (unit.stateUsps === "LA" && unit.countyGeoid === "22031") {
-    if (onDate < makeIsoDate("2027-10-09"))
-      return {
-        status: "read",
-        dates: {
-          electionDate: makeIsoDate("2027-11-20"),
-          primaryDate: makeIsoDate("2027-10-09"),
-          qualifyingOpens: makeIsoDate("2027-08-03"),
-          qualifyingCloses: makeIsoDate("2027-08-05"),
-          termStarts: weekday(2028, 1, 1, 2),
-          termYears: 4,
-          sourceUrls: [
-            "https://www.sos.la.gov/media/byfpyc5f/elections-calendar-2027.pdf",
-            "https://legis.la.gov/Legis/Law.aspx?d=88684",
-            "https://www.legis.la.gov/Legis/Law.aspx?d=88690",
-          ],
-        },
-      };
-    return {
-      status: "unknown",
-      reason:
-        "Next police-jury primary calendar, including prohibited-day adjustments, is unread.",
-    };
-  }
-  // Loudon's official 2026 commission ballot binds the ordinary state cycle
-  // to this county. No other Tennessee charter/phase is inferred from it.
-  if (unit.stateUsps === "TN" && unit.countyGeoid === "47105") {
-    let year = Number(onDate.slice(0, 4));
-    while (year % 4 !== 2 || weekday(year, 8, 4, 1) <= onDate) year += 1;
+  const profile = calendarProfiles.profiles.find(
+    (entry) =>
+      entry.stateUsps === unit.stateUsps &&
+      entry.countyGeoid === unit.countyGeoid,
+  );
+  if (
+    profile &&
+    (!Number.isSafeInteger(profile.termYears) || profile.termYears <= 0)
+  )
+    return { status: "unknown", reason: "County term length is invalid." };
+  if (
+    profile?.kind === "published-dates" &&
+    profile.primaryDate &&
+    profile.electionDate &&
+    profile.termStarts
+  ) {
+    if (onDate >= makeIsoDate(profile.primaryDate))
+      return { status: "unknown", reason: profile.unreadLaterReason! };
     return {
       status: "read",
       dates: {
-        electionDate: weekday(year, 8, 4, 1),
+        electionDate: makeIsoDate(profile.electionDate),
+        primaryDate: makeIsoDate(profile.primaryDate),
+        qualifyingOpens: profile.qualifyingOpens
+          ? makeIsoDate(profile.qualifyingOpens)
+          : null,
+        qualifyingCloses: profile.qualifyingCloses
+          ? makeIsoDate(profile.qualifyingCloses)
+          : null,
+        termStarts: makeIsoDate(profile.termStarts),
+        termYears: profile.termYears,
+        sourceUrls: [...profile.sourceUrls],
+      },
+    };
+  }
+  if (
+    profile?.kind === "recurring-weekday" &&
+    profile.cycleAnchorYear !== undefined &&
+    profile.electionMonth !== undefined &&
+    profile.electionWeekday !== undefined &&
+    profile.electionWeekdayOrdinal !== undefined &&
+    profile.termStartMonth !== undefined &&
+    profile.termStartDay !== undefined
+  ) {
+    let year = Number(onDate.slice(0, 4));
+    while (
+      (year - profile.cycleAnchorYear) % profile.termYears !== 0 ||
+      weekday(
+        year,
+        profile.electionMonth,
+        profile.electionWeekday,
+        profile.electionWeekdayOrdinal,
+      ) <= onDate
+    )
+      year += 1;
+    return {
+      status: "read",
+      dates: {
+        electionDate: weekday(
+          year,
+          profile.electionMonth,
+          profile.electionWeekday,
+          profile.electionWeekdayOrdinal,
+        ),
         primaryDate: null,
         qualifyingOpens: null,
         qualifyingCloses: null,
-        termStarts: makeIsoDate(`${year}-09-01`),
-        termYears: 4,
-        sourceUrls: [
-          "https://www.ctas.tennessee.edu/eli/membership-clb",
-          "https://www.ctas.tennessee.edu/eli/dates-regular-elections",
-          "https://loudoncountyvotes.com/files/August_2026_SampleBallot_General.pdf",
-        ],
+        termStarts: makeIsoDate(
+          `${year}-${String(profile.termStartMonth).padStart(2, "0")}-${String(profile.termStartDay).padStart(2, "0")}`,
+        ),
+        termYears: profile.termYears,
+        sourceUrls: [...profile.sourceUrls],
       },
     };
   }

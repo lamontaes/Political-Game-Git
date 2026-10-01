@@ -951,7 +951,10 @@ export function applyLawConsequences(
             `Consequence ${row.id}: unsupported saved-rule amount unit`,
           );
         if (input.effectiveAt > context.onDate) continue;
-        if (authority.kind === "enacted-office-rule") {
+        if (
+          authority.kind === "enacted-office-rule" ||
+          authority.kind === "enacted-hourly-pay-rule"
+        ) {
           if (
             context.origin === "in-force-at-start" ||
             context.standingAppropriationId
