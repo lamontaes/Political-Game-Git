@@ -45,7 +45,12 @@ import { paidOfficeOf, PAY_LAW_FIELD } from "../office-pay";
  * last day of each month), each writing all of that day's paychecks.
  */
 
-import { addDays, daysBetween, makeIsoDate } from "../dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  simulationMinutesBetween,
+} from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   enactedRuleChanges,
@@ -96,6 +101,7 @@ import {
   money,
   recordResourceFlowTerms,
   recordResourceTransferOutcomes,
+  resourceTransferTermsCutoff,
   type CreateResourceFlowInput,
   type RecordResourceTransferOutcomeInput,
 } from "../resources";
@@ -858,6 +864,63 @@ const LAST_PERIOD_PAID: GrowingIndexKind<Map<EntityId, IsoDate>> = {
  * NOT MODELED: back pay. A law whose effective date comes before the day it
  * was recorded raises pay from the first period after it was recorded.
  */
+/** Completed pay reads the actual linked activity and its earned history frontier. */
+function completedPayShift(
+  world: World,
+  flow: ResourceFlow,
+  shift: NonNullable<ResolvedLawPayConsequence["completedShift"]>,
+  onDate: IsoDate,
+) {
+  const completion = recordById(world.history.events, shift.eventId);
+  if (
+    !completion ||
+    completion.type !== "life-paths2.work-session" ||
+    completion.occurredAt !== onDate
+  )
+    throw new Error("Completed pay requires its actual work-session event.");
+  const cutoff = resourceTransferTermsCutoff(world, flow, onDate, onDate, {
+    kind: "simulated-event",
+    eventId: completion.id,
+  });
+  const terms = resourceFlowTermsAt(world, flow.id, cutoff);
+  if (!terms || terms.id !== shift.termsId || terms.status !== "active")
+    throw new Error("Completed pay requires its actual earned terms.");
+  const workId =
+    flow.basisReference.kind === "work"
+      ? flow.basisReference.workRelationshipId
+      : null;
+  const activities = completion.involvedEntityIds.flatMap((id) => {
+    const activity = recordById(world.history.scheduledActivities, id);
+    return activity ? [activity] : [];
+  });
+  if (activities.length !== 1)
+    throw new Error("Completed pay requires exactly one saved work activity.");
+  const activity = activities[0]!;
+  const state = recordsWithFieldValue(
+    world.history.scheduledActivityStates,
+    "activityId",
+    activity.id,
+  )
+    .filter((row) => row.sequence < cutoff.historySequenceExclusive)
+    .at(-1);
+  if (
+    !workId ||
+    flow.recipient.kind !== "person" ||
+    activity.sequence >= completion.sequence ||
+    !activity.sourceEntityIds.includes(workId) ||
+    !activity.participantPersonIds.includes(flow.recipient.personId) ||
+    !state ||
+    state.status !== "completed"
+  )
+    throw new Error(
+      "Completed pay must bind the worker and performed activity.",
+    );
+  const minutes = simulationMinutesBetween(state.start, state.end);
+  if (!Number.isSafeInteger(minutes) || minutes <= 0)
+    throw new Error("Completed pay requires a positive actual work interval.");
+  return { completion, cutoff, terms, activity, state, minutes };
+}
+
 /** Applies one resolved legal floor to an actual job's prospective pay terms. */
 export function applyLawPayConsequence(
   world: World,
@@ -916,7 +979,10 @@ export function applyLawPayConsequence(
     flow.source.organizationId !== work!.organizationId
   )
     refuse("pay.flow-worker-employer.binding");
-  const cutoff = {
+  const completed = resolved.completedShift
+    ? completedPayShift(world, flow!, resolved.completedShift, effectiveAt)
+    : null;
+  const cutoff = completed?.cutoff ?? {
     asOfDate: effectiveAt,
     historySequenceExclusive: world.history.nextSequence,
   };
@@ -991,9 +1057,12 @@ export function applyLawPayConsequence(
     const jurisdiction = workplace.jurisdictionId
       ? world.jurisdictions[workplace.jurisdictionId]
       : null;
-    const stateKey = jurisdiction
-      ? stateKeyForJurisdiction(jurisdiction)
-      : null;
+    const stateKey =
+      (workplace.jurisdictionId
+        ? lifePlaceByJurisdictionId(workplace.jurisdictionId)
+            ?.stateJurisdictionKey
+        : null) ??
+      (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null);
     const clause = recordById(
       world.history.ruleChangeProvisions ?? [],
       authority.ruleChangeProvisionId,
@@ -1049,10 +1118,30 @@ export function applyLawPayConsequence(
     };
   }
   if (!governing) refuse("pay.law.operative");
-  const current = resourceFlowTermsAt(world, flow!.id);
+  const current = completed?.terms ?? resourceFlowTermsAt(world, flow!.id);
   if (!current || current.status !== "active") refuse("pay.flow.active-terms");
   if (current!.amount.currency !== resolved.amount.currency)
     refuse("pay.flow.currency-matches-amount");
+  if (completed) {
+    if (!hourly || current!.cadenceKind !== "work:completed-shift")
+      refuse("pay.completed-shift.hourly-earned-cadence");
+    if (governing!.origin === "enacted") {
+      const enactment = recordsWithFieldValue(
+        world.history.legislativeEnactments ?? [],
+        "measureId",
+        governing!.measureId,
+      ).at(-1);
+      if (!enactment || enactment.sequence >= cutoff.historySequenceExclusive)
+        refuse("pay.completed-shift.authority-at-earned-sequence");
+    }
+    const floor = Math.round((resolved.amount.value * completed.minutes) / 60);
+    if (!Number.isSafeInteger(floor))
+      refuse("pay.completed-shift.amount-safe-integer");
+    if (floor <= current!.amount.minorUnits) return world;
+    // The immutable earned contract cannot be backdated. Increased gross needs
+    // the shared transfer writer's admitted earned-law assessment record.
+    refuse("pay.completed-shift.saved-earned-law-assessment");
+  }
   const note = payNoteOf(current!.cadenceKind);
   const jobWeekly = current!.cadenceKind === "schedule:weekly";
   if (!note && !jobWeekly) refuse("pay.cadence.recorded-pay-period");
@@ -1617,6 +1706,13 @@ export function settleTownCompensations(
       throw new Error(
         "Completed shift pay must bind its saved work and earned terms.",
       );
+    if (period.completedShift)
+      completedPayShift(
+        next,
+        flow,
+        period.completedShift,
+        period.periodStartsAt,
+      );
     const window = {
       startsAt: period.periodStartsAt,
       endsAt: period.periodEndsAt,
@@ -1630,6 +1726,14 @@ export function settleTownCompensations(
       activity: "payroll",
       activityId: period.activityId,
       subjectIds: [recipientId],
+      ...(period.completedShift
+        ? {
+            completedShift: {
+              eventId: period.completedShift.eventId,
+              termsId: period.completedShift.termsId,
+            },
+          }
+        : {}),
     });
     // A raise takes effect on the first day of a period, and a period is
     // paid at the terms in force the day it began.
