@@ -1,3 +1,25 @@
+import {
+  SUPREME_COURT_APPOINTMENTS_VERSION,
+  ASSOCIATE_JUSTICE_NOMINATION,
+  ASSOCIATE_JUSTICE_CONFIRMATION,
+  SUPREME_COURT_NOMINATED_EVENT,
+  SUPREME_COURT_VOTE_EVENT,
+  SUPREME_COURT_SEATED_EVENT,
+  SUPREME_COURT_VACANCY_EVENT,
+  SUPREME_COURT_ID,
+  SUPREME_COURT_APPOINTMENT_PROFILE,
+} from "./supreme-court-appointment-profile";
+export {
+  SUPREME_COURT_APPOINTMENTS_VERSION,
+  ASSOCIATE_JUSTICE_NOMINATION,
+  ASSOCIATE_JUSTICE_CONFIRMATION,
+  SUPREME_COURT_NOMINATED_EVENT,
+  SUPREME_COURT_VOTE_EVENT,
+  SUPREME_COURT_SEATED_EVENT,
+  SUPREME_COURT_VACANCY_EVENT,
+  SUPREME_COURT_ID,
+  SUPREME_COURT_APPOINTMENT_PROFILE,
+} from "./supreme-court-appointment-profile";
 import { addDays, makeIsoDate } from "../dates";
 import { evaluateDecision } from "../decisions";
 import { currentFederalTenure } from "../federal-tenures";
@@ -71,31 +93,6 @@ import { recordWorldEvent } from "../world";
  * player who is a senator is recorded absent, and the player's character is
  * not in the nominee pool.
  */
-export const SUPREME_COURT_APPOINTMENTS_VERSION =
-  "governing-supreme-court-appointments-v1";
-export const ASSOCIATE_JUSTICE_NOMINATION =
-  "governing:associate-justice-nomination" as const;
-export const ASSOCIATE_JUSTICE_CONFIRMATION =
-  "governing:associate-justice-confirmation" as const;
-export const SUPREME_COURT_NOMINATED_EVENT =
-  "governing.supreme-court-nominated" as const;
-export const SUPREME_COURT_VOTE_EVENT =
-  "governing.supreme-court-confirmation-vote" as const;
-export const SUPREME_COURT_SEATED_EVENT =
-  "governing.supreme-court-seated" as const;
-export const SUPREME_COURT_VACANCY_EVENT =
-  "governing.supreme-court-vacancy" as const;
-
-export const SUPREME_COURT_ID = "us-supreme-court";
-
-export const SUPREME_COURT_APPOINTMENT_PROFILE = {
-  id: "ocd-supreme-court-appointment/v1",
-  /** PLACEHOLDER: game profile. */
-  daysFromVacancyToNomination: 30,
-  /** MEASURED: median, 17 confirmations 1975-2022 (senate.gov). */
-  daysFromNominationToVote: 66,
-} as const;
-
 const ASSOCIATE_TITLE = "Associate Justice of the Supreme Court";
 
 const CONTEXT = {
