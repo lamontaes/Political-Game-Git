@@ -7,6 +7,7 @@ import {
   chamberByKey,
   assessCommitment,
   commitmentsKnownTo,
+  createStableId,
   currentMeasureProvisions,
   currentProvisionByKey,
   deserializeWorld,
@@ -51,6 +52,7 @@ import {
   legislativeMotifLine,
   motifFamilies,
   type LegislativeMotifFacts,
+  type LegislativeMotifGrounding,
 } from "./legislative-dialogue-motifs";
 
 /**
@@ -835,6 +837,15 @@ describe("the motif layer", () => {
     nextStep: "third reading",
     priorStatement: "“Fix Section 4 and I'm with you.”",
   };
+  const grounding: LegislativeMotifGrounding = {
+    worldSeed: "motif-layer",
+    speakerPersonId: createStableId("person", "motif:speaker"),
+    listenerPersonId: createStableId("person", "motif:listener"),
+    measureId: createStableId("legislative-measure", "motif:measure"),
+    billAmountSourceIds: [
+      createStableId("legislative-measure", "motif:measure"),
+    ],
+  };
 
   it("has a usable line for every family and voice, from the bill alone", () => {
     const bare: LegislativeMotifFacts = {
@@ -859,6 +870,7 @@ describe("the motif layer", () => {
           priorFamily: null,
           variantSeed: `${family}:${voice}`,
           facts: bare,
+          grounding,
         });
         expect(line.length, `${family}/${voice}`).toBeGreaterThan(20);
         expectNoDeveloperLeak(line);
@@ -867,7 +879,12 @@ describe("the motif layer", () => {
   });
 
   it("gives two members different words for the same move", () => {
-    const shared = { audience: "limited", priorFamily: null, facts } as const;
+    const shared = {
+      audience: "limited",
+      priorFamily: null,
+      facts,
+      grounding,
+    } as const;
     const advocate = legislativeMotifLine({
       ...shared,
       family: "qualified-commitment",
@@ -893,6 +910,7 @@ describe("the motif layer", () => {
       priorFamily: null,
       variantSeed: "seed",
       facts: { ...facts, amount: null },
+      grounding,
     });
     expect(keys).not.toContain("capped");
   });
