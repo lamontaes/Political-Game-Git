@@ -16,6 +16,7 @@ import {
 } from "./life-queries";
 import { drawCanonicalNameForGender, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
+import { peopleTiedTo, tellPeopleOf } from "./neighbor-news";
 import { recordEventKnowledge } from "./records";
 import { SeededRng } from "./rng";
 import type {
@@ -399,8 +400,9 @@ export function recordFamilyAddition(
     }
   }
 
-  // The parents, and whoever lives with them, know it happened. Nobody else
-  // learns of it from this record.
+  // The parents, and whoever lives with them, know it happened. So do the
+  // people the parents are tied to by a record (family and close friends),
+  // told by the parent; nobody with no recorded tie learns of it.
   const informed = [
     ...new Set([...parents.map((parent) => parent.id), ...householdPeople]),
   ].filter((id) => next.people[id] && alive(next, id, next.currentDate));
@@ -418,6 +420,13 @@ export function recordFamilyAddition(
         : { kind: "told-by", sourcePersonId: parents[0]!.id, claimId: null },
     });
   }
+  next = tellPeopleOf(next, event.id, {
+    tied: peopleTiedTo(
+      next,
+      parents.map((parent) => parent.id),
+    ).filter((id) => id !== childId),
+    teller: parents[0]!.id,
+  });
   return { world: next, childPersonId: childId, eventId: event.id };
 }
 

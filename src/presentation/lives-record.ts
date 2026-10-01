@@ -1,5 +1,6 @@
 import { addDays } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
+import { JOB_ENDED_EVENT } from "../simulation/neighbor-news";
 import { eventById } from "../simulation/event-index";
 import { MIGRATION_MOVED_EVENT } from "../simulation/migration/contract";
 import { strongestObservedTraitLabels } from "../simulation/people-traits";
@@ -45,13 +46,7 @@ export interface LivesRecord {
 export const AROUND_YOU_DAYS = 365;
 const AROUND_YOU_LIMIT = 12;
 
-/**
- * The town events a person can be told of. A job ending is a work status, not
- * an event, so nobody can be told of one yet: `JOB_ENDED_EVENT` is the type a
- * producer must write (and a knowledge writer must tell of) before a layoff or
- * a closure can reach this screen. Nothing writes it today.
- */
-export const JOB_ENDED_EVENT = "work.job-ended";
+/** The town events a person can be told of, each written with its tellers by its producer. */
 const TOWN_EVENT_KINDS = new Map<string, LivesRecordLine["kind"]>([
   [FAMILY_MEMBER_ADDED_EVENT, "birth"],
   [MIGRATION_MOVED_EVENT, "move"],

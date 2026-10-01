@@ -25,6 +25,7 @@
  * work-status record, with its reason, on the day of the review.
  */
 
+import { recordJobEndedNews } from "../neighbor-news";
 import { recordWorkStatus } from "../life";
 import {
   macroConditionsAt,
@@ -235,6 +236,15 @@ export function reviewTownJobs(
         generatorKey: TOWN_EMPLOYMENT_VERSION,
       },
     });
+    // A layoff or a closure is news to the people tied to the worker: the
+    // job-ended event is written here, as the job ends, and they are told.
+    if (
+      reason === TOWN_JOB_END_REASONS.laidOff ||
+      reason === TOWN_JOB_END_REASONS.businessClosed
+    )
+      next = recordJobEndedNews(next, next.history.workStatuses.at(-1)!.id, {
+        closedBusiness: reason === TOWN_JOB_END_REASONS.businessClosed,
+      });
     const organizationId = employerOf.get(job.relationshipId);
     if (organizationId)
       staffAt.set(organizationId, (staffAt.get(organizationId) ?? 1) - 1);

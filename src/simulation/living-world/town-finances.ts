@@ -34,6 +34,7 @@
  * closures and unemployment feed upward.
  */
 
+import { recordJobEndedNews } from "../neighbor-news";
 import townBusinessResearch from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
 import { privacyInitialOccurrence } from "../federal-data-privacy-law";
 import { addDays } from "../dates";
@@ -1330,7 +1331,7 @@ function closeOrganization(
     closed: { reason },
   });
   const jobs = activeJobsAt(next, organizationId);
-  for (const job of jobs)
+  for (const job of jobs) {
     next = recordWorkStatus(next, {
       stableKey: `${stableKey}:job-ended:${job.relationshipId}`,
       workRelationshipId: job.relationshipId,
@@ -1340,6 +1341,10 @@ function closeOrganization(
       supersedesStatusId: job.status.id,
       provenance,
     });
+    next = recordJobEndedNews(next, next.history.workStatuses.at(-1)!.id, {
+      closedBusiness: true,
+    });
+  }
   return { world: next, jobsLost: jobs.length };
 }
 

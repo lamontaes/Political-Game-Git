@@ -26,7 +26,8 @@ import { SeededRng, pickDistinct } from "../simulation/rng";
 import type { EntityId, World } from "../simulation/types";
 import { recordEventKnowledge } from "../simulation/records";
 import { recordWorldEvent } from "../simulation/world";
-import { JOB_ENDED_EVENT, projectLivesRecord } from "./lives-record";
+import { JOB_ENDED_EVENT } from "../simulation/neighbor-news";
+import { projectLivesRecord } from "./lives-record";
 
 /**
  * LIVES step 5: what the screen reads. One place per file, drawn from all 56
