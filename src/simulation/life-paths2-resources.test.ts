@@ -179,7 +179,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
     ).toBe(repaired);
     // This is a historical-transfer recovery test, not 161 more days of work.
     const workId = w.history.workRelationships.at(-1)!.id;
-    const left = changeLifePathStatus(w, workId, "leave");
+    const left = changeLifePathStatus(repaired, workId, "leave");
     expect(left.ok, left.message).toBe(true);
     const study = enterLifePath(
       deserializeWorld(serializeWorld(left.world)),
