@@ -8,10 +8,18 @@ import {
   scheduleLifePathSession,
   performLifePathSession,
 } from "./life-paths2";
-import { resolvePayConsequences } from "./law-consequences/pay";
+import { lawInForce } from "./governing/law-in-force";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
+import {
+  payWorkplaceAt,
+  matchPayCoveragePredicates,
+} from "./pay-coverage-predicates";
+import { workPayCoverageAt } from "./pay-coverage";
+import { evaluateLawAmount } from "./law-consequence-amount";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-  MINIMUM_WAGE_PAY_ROWS,
+  NON_ELECTIVE_PAY_PREDICATE,
 } from "./law-consequences/pay-rows";
 import { assessedCompletedHourlyGrossMinor } from "./completed-hourly-gross";
 import { recordById, recordsWithFieldValue } from "./history-index";
@@ -79,41 +87,95 @@ beforeAll(() => {
   )
     .filter((s) => s.sequence < cutoff.historySequenceExclusive)
     .at(-1)!;
-  const resolved = resolvePayConsequences(
+  // The assessment is an explicit validator input, not a runtime pay dispatch.
+  // Bind its authority and source frontier through the same read-only queries.
+  const question = Object.values(base.policyCatalog.propositions).find(
+    (p) => p.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  )!;
+  const row = question.consequences!.find(
+    (r) => r.id === `pay:${FEDERAL_MINIMUM_WAGE_QUESTION_KEY}`,
+  )!;
+  const workplace = payWorkplaceAt(base, work.id, cutoff);
+  const jurisdictionId =
+    workplace.jurisdictionId ?? NATIONAL_ELECTION_JURISDICTION.id;
+  const law = lawInForce(
     base,
-    MINIMUM_WAGE_PAY_ROWS[FEDERAL_MINIMUM_WAGE_QUESTION_KEY]!,
-    {
-      onDate: completion.occurredAt,
-      activity: "payroll",
-      activityId: work.id,
-      subjectIds: [work.personId],
-      completedShift: { eventId: completion.id, termsId: terms.id },
-    },
-  )[0]!;
-  expect(resolved).toBeDefined();
+    jurisdictionId,
+    question.id,
+    cutoff.asOfDate,
+    "all",
+    cutoff,
+  )!;
+  expect(law).toBeDefined();
+  const coverage = workPayCoverageAt(base, work.id, cutoff);
+  const predicates = [...row.who.predicates, ...row.conditions];
+  const office = matchPayCoveragePredicates(
+    base,
+    work.id,
+    predicates.filter((p) => p.capability === NON_ELECTIVE_PAY_PREDICATE),
+    cutoff,
+  );
+  const others = predicates.filter(
+    (p) => p.capability !== NON_ELECTIVE_PAY_PREDICATE,
+  );
+  const match = matchPayCoveragePredicates(base, work.id, others, cutoff);
+  const exception = coverage?.exceptions.find(
+    (e) => e.questionKey === question.stableKey,
+  );
   if (
-    resolved.value.type !== "amount" ||
-    resolved.value.unit !== "minor/hour" ||
-    resolved.value.currency !== "USD"
+    !office.matches ||
+    (coverage
+      ? exception
+        ? exception.rowId !== row.id
+        : others.length > 0
+      : !match.matches)
   )
-    throw new Error("Missing canonical federal hourly fixture resolution");
+    throw new Error("Missing canonical federal worker coverage");
+  if (row.amount?.op !== "term")
+    throw new Error(
+      "Federal hourly fixture requires the canonical numeric term row",
+    );
+  const term = readFinalEnactedLawTerm(base, law, {
+    questionKey: question.stableKey,
+    termKey: row.amount.key,
+    unit: row.amount.unit,
+    onDate: cutoff.asOfDate,
+    cutoff,
+  });
+  if (!term || term.unit !== "minor/hour")
+    throw new Error("Missing canonical federal hourly fixture term");
+  const amount = evaluateLawAmount(row.amount, {
+    term: { [row.amount.key]: { value: term.value, unit: term.unit } },
+    record: {},
+    capacity: {},
+    exposure: {},
+  });
+  if (amount.unit !== "minor/hour")
+    throw new Error("Missing canonical federal hourly fixture amount");
   const typed: ResolvedHourlyLawPayConsequence = {
-    rowId: resolved.row.id,
-    questionKey: resolved.questionKey,
-    jurisdictionId: resolved.jurisdictionId,
-    law: resolved.law,
+    rowId: row.id,
+    questionKey: question.stableKey,
+    jurisdictionId,
+    law,
     personId: work.personId,
     workId: work.id,
     payFlowId: flow.id,
     activityId: work.id,
     completedShift: { eventId: completion.id, termsId: terms.id },
     effectiveAt: completion.occurredAt,
-    amount: {
-      value: resolved.value.value,
-      unit: "minor/hour",
-      currency: "USD",
-    },
-    sourceRecordIds: resolved.sourceRecordIds,
+    amount: { value: amount.value, unit: "minor/hour", currency: "USD" },
+    sourceRecordIds: [
+      ...new Set([
+        work.id,
+        role.id,
+        flow.id,
+        terms.id,
+        ...(coverage ? coverage.factRecordIds : match.factRecordIds),
+        ...(coverage ? [coverage.id] : []),
+        ...workplace.factRecordIds,
+        ...term.sourceRecordIds,
+      ]),
+    ],
     action: "raise-hourly-floor",
   };
   const stableKey = `earned-law-pay:${flow.id}:${completion.id}:${terms.id}:${typed.rowId}:${typed.law.measureId}`;
