@@ -458,6 +458,53 @@ describe("a commitment is a claim about the future, not the future", () => {
       cappedVote.memberAccounts.map((account) => account.disposition),
     ).toEqual(["yea", "yea"]);
   });
+
+  it("has a member answer for their own words only as the record stands (A160)", () => {
+    // Unmet: the player never carries the amendment the member asked for.
+    const unmet = openSession();
+    speak(unmet, unmet.fixture.advocatePersonId, "offer-targeted-provision");
+    const said = measureCommitments(unmet.world, unmet.fixture.measureId).at(
+      -1,
+    )!;
+    expect(assessCommitment(unmet.world, said.id).standing).toBe(
+      "conditions-unmet",
+    );
+    const confronted = speak(
+      unmet,
+      unmet.fixture.advocatePersonId,
+      "remind-of-commitment",
+    ).presentation.beat!.dialogue;
+    // Their own recorded words, quoted inside the line, and what is missing.
+    expect(confronted).toContain(
+      said.statement.replace(/“/g, "‘").replace(/”/g, "’"),
+    );
+    expect(confronted).toMatch(/hasn't happened|is still not in/);
+    expect(confronted).not.toMatch(/voted/);
+    expectNoDeveloperLeak(confronted);
+
+    // Honored: the section went in and the member voted as they said.
+    const kept = openSession();
+    speak(kept, kept.fixture.advocatePersonId, "offer-targeted-provision");
+    const amended = offerNegotiatedAmendment(
+      kept.world,
+      kept.fixture,
+      kept.progress,
+      "as-asked",
+    );
+    kept.world = takeNegotiatedFloorVote(
+      amended.world,
+      kept.fixture,
+      kept.progress,
+    ).world;
+    const reminded = speak(
+      kept,
+      kept.fixture.advocatePersonId,
+      "remind-of-commitment",
+    ).presentation.beat!.dialogue;
+    expect(reminded).toContain("I voted the way I said I would");
+    expect(reminded).not.toMatch(/hasn't happened|voted the other way/);
+    expectNoDeveloperLeak(reminded);
+  });
 });
 
 // 6, 7, 8 --------------------------------------------------------------------

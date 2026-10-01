@@ -10,7 +10,7 @@ import type {
 } from "./grounded-english";
 
 /**
- * Bargaining-room beats worded by the English engine (A160, part 2).
+ * Bargaining-room beats worded by the English engine (A160, parts 2 to 4).
  *
  * These four beats used to be banks of whole authored lines, and their lines
  * stated things no record held: a garage "on a replacement list since before
@@ -27,7 +27,12 @@ export type EnglishMotifFamily =
   | "timing-warning"
   | "refuse-to-commit-yet"
   | "object-on-implementation"
-  | "accept-principle-reject-mechanism";
+  | "accept-principle-reject-mechanism"
+  | "demand-narrower-scope"
+  | "press-visibility-concern"
+  | "remind-of-commitment"
+  | "confront-broken-commitment"
+  | "defend-broken-commitment";
 
 export const ENGLISH_MOTIF_FAMILIES: readonly EnglishMotifFamily[] = [
   "district-beneficiary-concern",
@@ -37,6 +42,11 @@ export const ENGLISH_MOTIF_FAMILIES: readonly EnglishMotifFamily[] = [
   "refuse-to-commit-yet",
   "object-on-implementation",
   "accept-principle-reject-mechanism",
+  "demand-narrower-scope",
+  "press-visibility-concern",
+  "remind-of-commitment",
+  "confront-broken-commitment",
+  "defend-broken-commitment",
 ];
 
 export type MotifVoice =
@@ -46,9 +56,9 @@ export type MotifVoice =
   | "procedural-institutionalist";
 
 /**
- * Packet facts. The plain ones are words copied into the line; the last two
- * are states the line may assert ("nothing in it is written for…", "you put
- * it in…"), present only when the record shows them.
+ * Packet facts. The plain ones are words copied into the line; the states
+ * (section absent or adopted, a commitment honored or departed from) are
+ * things the line may assert, present only when the record shows them.
  */
 export type MotifFactKey =
   | "designation"
@@ -64,7 +74,12 @@ export type MotifFactKey =
   | "analyst"
   | "bill-amount"
   | "section-absent"
-  | "section-adopted";
+  | "section-adopted"
+  | "reach"
+  | "prior-statement"
+  | "unmet-condition"
+  | "commitment-honored"
+  | "commitment-departed";
 
 export interface MotifEnglishInput {
   readonly family: EnglishMotifFamily;
@@ -433,6 +448,215 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
         },
       ),
     },
+  },
+
+  "demand-narrower-scope": {
+    shared: bank("legislative.demand-narrower-scope", "suggest-another-way", {
+      opener: {
+        variants: [{ key: "name", kind: "template", text: "{{listener}}," }],
+      },
+      core: {
+        variants: [
+          {
+            key: "narrow-it",
+            kind: "template",
+            text: "narrow {{section-label}} and I can defend it.",
+          },
+        ],
+      },
+      reason: {
+        variants: [
+          {
+            key: "as-drafted",
+            kind: "template",
+            text: "As drafted it reaches {{reach}}.",
+          },
+        ],
+      },
+    }),
+    byVoice: {
+      "fiscal-guardian": bank(
+        "legislative.demand-narrower-scope.fiscal-guardian",
+        "suggest-another-way",
+        {
+          opener: {
+            variants: [
+              { key: "name", kind: "template", text: "{{listener}}," },
+            ],
+          },
+          core: {
+            variants: [
+              {
+                key: "who-it-reaches",
+                kind: "template",
+                text: "tighten who {{section-label}} reaches.",
+              },
+            ],
+          },
+          reason: {
+            variants: [
+              {
+                key: "reach-and-total",
+                kind: "template",
+                text: "As drafted it reaches {{reach}}, and {{designation}} reads {{bill-amount}} now.",
+              },
+            ],
+          },
+        },
+      ),
+      "implementation-realist": bank(
+        "legislative.demand-narrower-scope.implementation-realist",
+        "suggest-another-way",
+        {
+          opener: {
+            variants: [
+              { key: "name", kind: "template", text: "{{listener}}," },
+            ],
+          },
+          core: {
+            variants: [
+              {
+                key: "pilot-first",
+                kind: "template",
+                text: "start {{section-label}} as a pilot before it reaches {{reach}}.",
+              },
+            ],
+          },
+        },
+      ),
+    },
+  },
+
+  "press-visibility-concern": {
+    shared: bank("legislative.press-visibility-concern", "tell", {
+      core: {
+        variants: [
+          {
+            key: "named-line",
+            kind: "template",
+            text: "a section naming {{beneficiary}} in {{designation}} is the part people will read about.",
+          },
+          {
+            key: "merits",
+            kind: "template",
+            text: "I can defend {{section-label}} on the merits. I'd rather do it in the {{chamber}} than in a headline.",
+          },
+        ],
+      },
+    }),
+  },
+
+  // The three commitment beats speak about the member's own recorded words
+  // and where they stand. A line says a vote was kept, or was not, only when
+  // the commitment's assessment records it; with no commitment the member
+  // speaks about the bill and claims nothing.
+  "remind-of-commitment": {
+    shared: bank("legislative.remind-of-commitment", "tell", {
+      core: {
+        variants: [
+          {
+            key: "i-said",
+            kind: "template",
+            text: "I said this to you: {{prior-statement}}",
+          },
+          {
+            key: "where-we-stand",
+            kind: "template",
+            text: "let's be clear about where each of us stands on {{designation}}.",
+          },
+        ],
+      },
+      // Said whenever the record shows the vote kept the word, and only then.
+      reason: {
+        variants: [
+          {
+            key: "kept",
+            kind: "template",
+            text: "I voted the way I said I would on {{designation}}.",
+            requiresFacts: ["commitment-honored"],
+          },
+        ],
+      },
+      closer: {
+        variants: [
+          {
+            key: "count",
+            kind: "template",
+            text: "I'd like that to count for something on {{designation}}.",
+            requiresFacts: ["prior-statement"],
+          },
+        ],
+      },
+    }),
+  },
+
+  "confront-broken-commitment": {
+    shared: bank("legislative.confront-broken-commitment", "complain", {
+      core: {
+        variants: [
+          {
+            key: "leaves-us",
+            kind: "template",
+            text: "I'd like to know where {{designation}} leaves the two of us.",
+          },
+        ],
+      },
+      reason: {
+        variants: [
+          {
+            key: "not-happened",
+            kind: "template",
+            text: "What I asked for hasn't happened: {{unmet-condition}}.",
+          },
+          {
+            key: "still-absent",
+            kind: "template",
+            text: "{{section-label}} is still not in {{designation}}.",
+            requiresFacts: ["section-absent"],
+          },
+        ],
+      },
+      closer: {
+        variants: [
+          {
+            key: "remember",
+            kind: "template",
+            text: "I told you {{prior-statement}} I'm going to remember it.",
+          },
+        ],
+      },
+    }),
+  },
+
+  "defend-broken-commitment": {
+    shared: bank("legislative.defend-broken-commitment", "answer", {
+      core: {
+        variants: [
+          {
+            key: "own-ground",
+            kind: "template",
+            text: "I'll answer for where I stand on {{designation}}.",
+          },
+        ],
+      },
+      // Which account is honest is the record's: a vote against words whose
+      // conditions were all met, or a condition that never came true.
+      reason: {
+        variants: [
+          {
+            key: "voted-other-way",
+            kind: "template",
+            text: "I said {{prior-statement}} I voted the other way, and that's mine to answer for.",
+            requiresFacts: ["commitment-departed"],
+          },
+          {
+            key: "condition",
+            kind: "template",
+            text: "What I said was {{prior-statement}} What I asked for hasn't happened: {{unmet-condition}}.",
+          },
+        ],
+      },
+    }),
   },
 };
 

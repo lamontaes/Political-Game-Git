@@ -13,17 +13,18 @@ import {
 import type { GroundedEnglishFact } from "./grounded-english";
 import {
   eligibleMotifVariantKeys,
+  engineLine,
   legislativeMotifLine,
   type LegislativeMotifContext,
 } from "./legislative-dialogue-motifs";
 import { observerPlace } from "./observer-world";
 
 /**
- * A160 parts 2 and 3: seven bargaining beats are worded by the English engine from
- * their fact packets. Every part of every line copies a packet fact, and a
- * line asserts a state of the bill (nothing written for a place, a section
- * put in) only when the packet records it. The place is drawn from all 56 by
- * the seed.
+ * A160 parts 2 to 4: twelve bargaining beats are worded by the English engine
+ * from their fact packets. Every part of every line copies a packet fact, and
+ * a line asserts a state of the bill (nothing written for a place, a section
+ * put in) or of a member's word (kept, departed from, waiting on a condition)
+ * only when the packet records it. The place is drawn from all 56 by the seed.
  */
 const SEED = "a160-motifs-part-2-1";
 const place = observerPlace(SEED);
@@ -39,6 +40,7 @@ const listener = createStableId("person", "a160b:listener");
 const measure = createStableId("legislative-measure", "a160b:measure");
 const provision = createStableId("legislative-provision", "a160b:provision");
 const analyst = createStableId("person", "a160b:analyst");
+const commitment = createStableId("legislative-commitment", "a160d:commitment");
 
 const ALWAYS = {
   designation: { text: "HB 214", sourceRecordIds: [measure] },
@@ -65,13 +67,45 @@ const OPTIONAL: Readonly<Partial<Record<MotifFactKey, GroundedEnglishFact>>> = {
     text: "The authority cannot raise the match from fare revenue.",
     sourceRecordIds: [measure],
   },
+  reach: {
+    text: "every rider enrolled in a state assistance program",
+    sourceRecordIds: [measure],
+  },
 };
 
-/** The two states a line may assert; never both, as in the room. */
+/** The member's own recorded words, present only with a commitment. */
+const SAID = {
+  "prior-statement": {
+    text: "‘Fix Section 4 and I'm with you.’",
+    sourceRecordIds: [commitment],
+  },
+} as const;
+
+/** The states a line may assert, in the combinations the record allows. */
 const STATES = [
   {},
   { "section-absent": { text: "absent", sourceRecordIds: [measure] } },
   { "section-adopted": { text: "adopted", sourceRecordIds: [provision] } },
+  SAID,
+  {
+    ...SAID,
+    "commitment-honored": { text: "honored", sourceRecordIds: [commitment] },
+  },
+  {
+    ...SAID,
+    "commitment-departed": {
+      text: "departed-from",
+      sourceRecordIds: [commitment],
+    },
+  },
+  {
+    ...SAID,
+    "section-absent": { text: "absent", sourceRecordIds: [measure] },
+    "unmet-condition": {
+      text: "Section 4 is written in for the authority and adopted by the House of Representatives",
+      sourceRecordIds: [commitment],
+    },
+  },
 ] as const;
 
 function input(
@@ -91,6 +125,14 @@ function input(
     facts: { ...ALWAYS, ...(optional ? OPTIONAL : {}), ...state },
   };
 }
+
+/** Facts that back an assertion rather than lend words. */
+const STATE_KEYS: readonly string[] = [
+  "section-absent",
+  "section-adopted",
+  "commitment-honored",
+  "commitment-departed",
+];
 
 const SLOT = /\{\{([a-z][a-z0-9-]*)\}\}/g;
 
@@ -139,8 +181,19 @@ describe(`bargaining beats worded from their packets (${place.displayName}, ${pl
                 expect(line.text).not.toMatch(/nowhere in|Nothing in it/);
               if (!("section-adopted" in state))
                 expect(line.text).not.toMatch(/you put .* in for/);
+              // A member's word is quoted, kept or broken only on the record.
+              if (!("prior-statement" in state))
+                expect(line.text).not.toContain("‘");
+              if (!("commitment-honored" in state))
+                expect(line.text).not.toMatch(/voted the way I said/);
+              if (!("commitment-departed" in state))
+                expect(line.text).not.toMatch(/voted the other way/);
+              if (!("unmet-condition" in state))
+                expect(line.text).not.toMatch(/hasn't happened/);
             }
-    expect(lines).toBe(ENGLISH_MOTIF_FAMILIES.length * 4 * 2 * 3 * 16);
+    expect(lines).toBe(
+      ENGLISH_MOTIF_FAMILIES.length * 4 * 2 * STATES.length * 16,
+    );
     const all = MOTIF_ENGLISH_BANKS.flatMap((bank) =>
       Object.entries(bank.parts).flatMap(([part, partBank]) =>
         partBank!.variants.map(
@@ -160,7 +213,7 @@ describe(`bargaining beats worded from their packets (${place.displayName}, ${pl
         for (const key of part.usedFactKeys) {
           const fact = packet.facts[key]!;
           // A state fact backs an assertion; a word fact is copied.
-          if (key !== "section-absent" && key !== "section-adopted")
+          if (!STATE_KEYS.includes(key))
             expect(part.text, `${part.partKey}/${key}`).toContain(fact.text);
         }
       // The same turn says the same words.
@@ -224,5 +277,63 @@ describe("the bargaining room speaks these beats through the engine", () => {
     expect(
       legislativeMotifLine(context("district-beneficiary-concern", false)),
     ).toContain(place.displayName);
+  });
+
+  it("words a member's commitment only from its record", () => {
+    const withCommitment = (
+      family: (typeof ENGLISH_MOTIF_FAMILIES)[number],
+      standing: "honored" | "departed-from" | "conditions-unmet",
+    ): LegislativeMotifContext => {
+      const base = context(family, false);
+      return {
+        ...base,
+        facts: {
+          ...base.facts,
+          priorStatement: "“Fix Section 4 and I'm with you.”",
+        },
+        grounding: {
+          ...base.grounding,
+          commitment: {
+            commitmentId: commitment,
+            standing,
+            unmetCondition:
+              standing === "conditions-unmet"
+                ? "Section 4 is written in for the authority and adopted by the House of Representatives."
+                : null,
+          },
+        },
+      };
+    };
+    for (const family of [
+      "remind-of-commitment",
+      "confront-broken-commitment",
+      "defend-broken-commitment",
+    ] as const) {
+      // With no commitment on record, nobody quotes or answers for one.
+      const bare = engineLine(context(family, false));
+      expect(bare.text, family).not.toMatch(/‘|voted|hasn't happened/);
+      expect(bare.sourceRecordIds).not.toContain(commitment);
+      for (const standing of [
+        "honored",
+        "departed-from",
+        "conditions-unmet",
+      ] as const) {
+        const line = engineLine(withCommitment(family, standing));
+        if (standing !== "honored")
+          expect(line.text).not.toMatch(/voted the way I said/);
+        if (standing !== "departed-from")
+          expect(line.text).not.toMatch(/voted the other way/);
+        if (standing !== "conditions-unmet")
+          expect(line.text).not.toMatch(/hasn't happened/);
+        if (/‘|voted|hasn't happened/.test(line.text))
+          expect(line.sourceRecordIds).toContain(commitment);
+      }
+    }
+    // The member who departed from their word says so, and the record backs it.
+    const departed = engineLine(
+      withCommitment("defend-broken-commitment", "departed-from"),
+    );
+    expect(departed.text).toMatch(/voted the other way/);
+    expect(departed.text).toContain("‘Fix Section 4 and I'm with you.’");
   });
 });

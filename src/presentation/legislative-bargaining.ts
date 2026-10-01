@@ -959,6 +959,12 @@ function motifFacts(
     nextStep: facts.nextStepLabel,
     priorStatement: held.at(-1)?.statement ?? null,
     statedGround: isAdvocate ? facts.requestedStatedGround : null,
+    // Who the speaker's own section is written for, in the bill's words.
+    sectionReach: isAdvocate
+      ? facts.requestedBeneficiaryLabel
+      : facts.programReach.startsWith("language reaching ")
+        ? facts.programReach.slice("language reaching ".length)
+        : null,
   };
 }
 
@@ -972,7 +978,23 @@ function motifGrounding(
   const committing = currentMeasureProvisions(world, facts.measureId).filter(
     (provision) => (provision.fiscalExposureMinorUnits ?? 0) !== 0,
   );
+  const latest = commitmentsHeldBy(world, speakerPersonId, facts.measureId).at(
+    -1,
+  );
+  const assessment = latest ? assessCommitment(world, latest.id) : null;
   return {
+    // The speaker's latest words on this bill, and where the record says they
+    // stand now.
+    commitment: assessment
+      ? {
+          commitmentId: assessment.commitmentId,
+          standing: assessment.standing,
+          unmetCondition:
+            assessment.conditions.find(
+              (condition) => condition.state === "unmet",
+            )?.description ?? null,
+        }
+      : null,
     worldSeed: world.seed,
     speakerPersonId,
     listenerPersonId:

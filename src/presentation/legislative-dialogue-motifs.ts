@@ -1,5 +1,9 @@
 import { stableHash } from "../simulation";
-import type { ClaimAudience, EntityId } from "../simulation";
+import type {
+  ClaimAudience,
+  EntityId,
+  LegislativeCommitmentStanding,
+} from "../simulation";
 import { composeCostObjection } from "./legislative-cost-objection-english";
 import {
   ENGLISH_MOTIF_FAMILIES,
@@ -85,6 +89,12 @@ export interface LegislativeMotifFacts {
   readonly priorStatement: string | null;
   /** The ground the requested section states for itself, when it states one. */
   readonly statedGround?: string | null;
+  /**
+   * Who the speaker's own section reaches, as the bill names them ("every
+   * rider enrolled in a state assistance program"). Null when the bill names
+   * no one.
+   */
+  readonly sectionReach?: string | null;
 }
 
 /**
@@ -109,6 +119,16 @@ export interface LegislativeMotifGrounding {
   readonly analystPersonId?: EntityId;
   readonly requestedSection?: {
     readonly adoptedProvisionId: EntityId | null;
+  } | null;
+  /**
+   * The speaker's latest commitment on this measure and where it stands, as
+   * `assessCommitment` reads it. Absent when they have said nothing binding.
+   */
+  readonly commitment?: {
+    readonly commitmentId: EntityId;
+    readonly standing: LegislativeCommitmentStanding;
+    /** The first condition the record shows unmet, as the record words it. */
+    readonly unmetCondition: string | null;
   } | null;
 }
 
@@ -156,8 +176,6 @@ const hasAmount = (facts: LegislativeMotifFacts) => facts.amount !== null;
 const hasBeneficiary = (facts: LegislativeMotifFacts) =>
   facts.beneficiary !== null;
 const hasPlace = (facts: LegislativeMotifFacts) => facts.place !== null;
-const hasPrior = (facts: LegislativeMotifFacts) =>
-  facts.priorStatement !== null;
 const hasBillAmount = (facts: LegislativeMotifFacts) =>
   facts.billAmount !== null;
 
@@ -242,32 +260,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
           key: "if-germane",
           line: (f) =>
             `“If it's offered as a proper committee substitute and not tacked on at ${f.nextStep}, you have me. I'm not going to help you do it the sloppy way.”`,
-        },
-      ],
-    },
-  },
-
-  "demand-narrower-scope": {
-    shared: [
-      {
-        key: "too-broad",
-        line: (f) =>
-          `“${f.sectionLabel} is written for everybody, which means it's written for nobody in particular. Narrow it and I can defend it.”`,
-      },
-    ],
-    byVoice: {
-      "fiscal-guardian": [
-        {
-          key: "eligibility",
-          line: (f) =>
-            `“Tighten who's eligible. As drafted, ${f.reach.replace(/^language /, "")} — and that's a number nobody in this building has actually costed.”`,
-        },
-      ],
-      "implementation-realist": [
-        {
-          key: "pilot-first",
-          line: (f) =>
-            `“Make it a pilot with a defined population. If ${f.sectionLabel} opens statewide on day one, the first thing that breaks is the intake.”`,
         },
       ],
     },
@@ -367,22 +359,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
     ],
   },
 
-  "press-visibility-concern": {
-    shared: [
-      {
-        key: "how-it-reads",
-        needs: hasBeneficiary,
-        line: (f) =>
-          `“Understand how this reads. A line naming ${f.beneficiary} in a statewide bill is going to be the whole story, whatever the merits are.”`,
-      },
-      {
-        key: "explain-it",
-        line: (f) =>
-          `“I can defend ${f.sectionLabel} on the merits. I'd just rather do it in committee than in a headline.”`,
-      },
-    ],
-  },
-
   "refuse-quid-pro-quo": {
     shared: [
       {
@@ -394,53 +370,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
         key: "line",
         line: () =>
           `“I'll trade votes with you all day. That's the job. What you just described isn't, and I'm going to act like you misspoke.”`,
-      },
-    ],
-  },
-
-  "remind-of-commitment": {
-    shared: [
-      {
-        key: "i-said",
-        needs: hasPrior,
-        line: (f) =>
-          `“I said this to you, in this room: ${f.priorStatement} I meant it then and I have not moved since, and I'd like that to count for something.”`,
-      },
-      {
-        key: "held-up",
-        line: (f) =>
-          `“I did what you asked on ${f.sectionLabel}. I'd like to think that still counts for something.”`,
-      },
-    ],
-  },
-
-  "confront-broken-commitment": {
-    shared: [
-      {
-        key: "never-arrived",
-        line: (f) =>
-          `“${f.sectionLabel} is not in that bill. You told me you would carry it, and it never reached the floor. I'm not angry. I'm going to remember it.”`,
-      },
-      {
-        key: "explain-it-to-them",
-        needs: hasPlace,
-        line: (f) =>
-          `“I have to go back to ${f.place} and explain a vote I took on the understanding that something would be in this bill. Tell me what you'd like me to say.”`,
-      },
-    ],
-  },
-
-  "defend-broken-commitment": {
-    shared: [
-      {
-        key: "bill-changed",
-        line: (f) =>
-          `“The bill I said yes to isn't the bill that came to the floor. ${f.sectionLabel} changed after we spoke, and my answer went with it.”`,
-      },
-      {
-        key: "condition",
-        line: () =>
-          `“I told you what I needed. I didn't get it. That isn't a broken promise; that's a promise that was never triggered, and you knew the difference when you asked.”`,
       },
     ],
   },
@@ -490,6 +419,7 @@ export function engineLine(context: LegislativeMotifContext) {
     const word = (text: string | null | undefined, ids = measure) =>
       text ? { text, sourceRecordIds: ids } : undefined;
     const requested = grounding.requestedSection ?? null;
+    const commitment = grounding.commitment ?? null;
     const packetFacts: Partial<Record<MotifFactKey, GroundedEnglishFact>> = {
       designation: word(facts.designation),
       listener: word(facts.listener, [grounding.listenerPersonId]),
@@ -515,6 +445,25 @@ export function engineLine(context: LegislativeMotifContext) {
       "section-adopted": requested?.adoptedProvisionId
         ? word("adopted", [requested.adoptedProvisionId])
         : undefined,
+      reach: word(facts.sectionReach),
+      // The speaker's own words, and where the record says they stand.
+      "prior-statement": commitment
+        ? word(quotedWithin(facts.priorStatement), [commitment.commitmentId])
+        : undefined,
+      "unmet-condition":
+        commitment?.standing === "conditions-unmet"
+          ? word(withoutFinalStop(commitment.unmetCondition), [
+              commitment.commitmentId,
+            ])
+          : undefined,
+      "commitment-honored":
+        commitment?.standing === "honored"
+          ? word("honored", [commitment.commitmentId])
+          : undefined,
+      "commitment-departed":
+        commitment?.standing === "departed-from"
+          ? word("departed-from", [commitment.commitmentId])
+          : undefined,
     };
     return composeMotifEnglish({
       family: context.family as (typeof ENGLISH_MOTIF_FAMILIES)[number],
@@ -551,6 +500,15 @@ export function engineLine(context: LegislativeMotifContext) {
           : { text: facts.place, sourceRecordIds: measure },
     },
   });
+}
+
+/** A statement spoken inside a quoted line takes the inner quotation marks. */
+function quotedWithin(statement: string | null): string | null {
+  return statement ? statement.replace(/“/g, "‘").replace(/”/g, "’") : null;
+}
+
+function withoutFinalStop(text: string | null): string | null {
+  return text ? text.replace(/\.$/, "") : null;
 }
 
 function eligibleVariants(
