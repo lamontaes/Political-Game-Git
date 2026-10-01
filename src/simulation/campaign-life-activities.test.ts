@@ -58,8 +58,10 @@ import {
   addDays,
   ageOnDate,
   compareSimulationMoments,
+  daysBetween,
   simulationMomentAtLocalTime,
 } from "./dates";
+import { characterHistoryContextPersonId } from "./character-history";
 import { publicPartyAffiliation } from "./living-world/congress";
 import {
   CHAPTER_MEMBERSHIP_KIND,
@@ -1240,6 +1242,83 @@ describe(
       }
       expect(CAMPAIGN_LIFE_CATALOG["door-canvass"].defaultMinutes).toBe(90);
       expect(CAMPAIGN_LIFE_CATALOG["phone-shift"].defaultMinutes).toBe(60);
+    });
+  },
+);
+
+describe(
+  "A122: field work and party outreach follow the records, not draws",
+  { timeout: 900_000 },
+  () => {
+    it("reaches out a week after the chapter knows someone, then two weeks after an unanswered call", () => {
+      for (const seed of ["a122-outreach-a", "a122-outreach-b"]) {
+        const life = adultLife(seed);
+        const scheduled = ensureCampaignLifeOutreach(
+          life.world,
+          life.personId,
+          life.chapterId,
+        );
+        const first = scheduled.history.futureDueItems.at(-1)!;
+        expect(daysBetween(scheduled.currentDate, first.dueAt)).toBe(7);
+        const evaluate = decisionEngine.evaluateDecision;
+        const spy = vi
+          .spyOn(decisionEngine, "evaluateDecision")
+          .mockImplementation((world, context) => {
+            const result = evaluate(world, context);
+            return context.decisionType === "campaign.organizer-outreach"
+              ? { ...result, outcomeKind: "undecided", selectedOptionKey: null }
+              : result;
+          });
+        try {
+          const result = campaignLifeOutreachTransitionHandler(
+            scheduled,
+            first,
+          );
+          expect(result.reasonKey).toBe("campaign:organizer-undecided");
+          const next = result.world.history.futureDueItems.at(-1)!;
+          expect(daysBetween(scheduled.currentDate, next.dueAt)).toBe(14);
+        } finally {
+          spy.mockRestore();
+        }
+      }
+    });
+
+    it("the host's two volunteers take turns once the roster grows, under any seed", () => {
+      const slots = (seed: string) => {
+        const life = adultLife(seed);
+        const host = life.world.history.organizations.find(
+          (organization) => organization.id === life.chapterId,
+        )!;
+        const volunteer = (n: number) =>
+          characterHistoryContextPersonId(
+            life.world,
+            `${host.stableKey}:campaign-life:volunteer:${n}`,
+          );
+        let world = life.world;
+        const seen: number[] = [];
+        for (let shift = 1; shift <= 6; shift += 1) {
+          world = attend(
+            offer(
+              life,
+              world,
+              "door-canvass",
+              evening(world, 1),
+              `test:a122:canvass:${shift}`,
+              { origin: "subject-request" },
+            ),
+            life.personId,
+          );
+          const met =
+            campaignLifeOutcomeRecords(world).at(-1)!.contactPersonIds;
+          seen.push(
+            met.includes(volunteer(2)) ? 2 : met.includes(volunteer(1)) ? 1 : 0,
+          );
+        }
+        return seen;
+      };
+      // Three shifts with the first volunteer, then the two take turns.
+      expect(slots("a122-roster-a")).toEqual([1, 1, 1, 2, 1, 2]);
+      expect(slots("a122-roster-b")).toEqual([1, 1, 1, 2, 1, 2]);
     });
   },
 );

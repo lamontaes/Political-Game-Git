@@ -140,9 +140,15 @@ export const CAMPAIGN_LIFE_LATEST_END_MINUTE = 21 * 60;
 /** Authored cadence for this fictional setting, not a claim about any party. */
 const LIFE = {
   minimumAge: 18,
-  firstOutreachDays: [5, 12],
+  /**
+   * PLACEHOLDER: an organizer first reaches out a week after the chapter
+   * knows of someone, and two weeks after each invitation after that: the
+   * midpoints of the authored 5 to 12 and 10 to 21 days these were once
+   * drawn from, rounded down to whole weeks.
+   */
+  firstOutreachDays: 7,
   deferDays: 7,
-  nextOutreachDays: [10, 21],
+  nextOutreachDays: 14,
   offerDays: [2, 9],
   requestWindowDays: 14,
   inPersonStartMinute: 18 * 60 + 30,
@@ -1418,7 +1424,7 @@ function supportRequestDecision(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return evaluation.selectedOptionKey === "grant"
@@ -1700,11 +1706,12 @@ export function recordCampaignLifeAttendance(
         FIELD_FORMS.includes(prior.form)
       );
     }).length;
+    // HARDWIRED: once the roster has grown past its first shifts, the host's
+    // two volunteers take turns, counted from the recorded shifts: the
+    // first shift past the threshold is the second volunteer's.
     const second =
       priorShifts >= LIFE.rosterThreshold &&
-      new SeededRng(world.seed)
-        .fork(`campaign-life-roster:${outcomeId}`)
-        .integer(0, 2) === 1;
+      (priorShifts - LIFE.rosterThreshold) % 2 === 0;
     addContact(`${orgKey}:campaign-life:volunteer`, second ? 2 : 1);
   } else if (record.form === "fundraiser") {
     addContact(`${orgKey}:campaign-life:donor`, 1);
@@ -1811,15 +1818,12 @@ export function recordCampaignLifeAttendance(
   let supportStateIds: readonly EntityId[] = [];
   if (FIELD_FORMS.includes(record.form) && openCampaign) {
     const workers = 2 + contactPersonIds.length;
-    const swing = new SeededRng(world.seed)
-      .fork(`campaign-life-field:${outcomeId}`)
-      .integer(60, 141);
+    // The player's own outreach formula (`campaigns.ts`
+    // requestedGainBasisPoints), with no swing.
     const shift = recordSupportShift(next, openCampaign, {
       stableKeyBase: keyBase,
       gainerPersonId: openCampaign.candidatePersonId,
-      gainBasisPoints: Math.floor(
-        ((minutes * workers * 3) / 2) * (swing / 100),
-      ),
+      gainBasisPoints: Math.floor((minutes * workers * 3) / 2),
       sourceEntityIds: [outcomeEvent.id],
     });
     next = shift.world;
@@ -2191,12 +2195,7 @@ export function ensureCampaignLifeOutreach(
     ) + 1;
   const next = scheduleFutureDueItem(world, {
     stableKey: `${prefix}${n}`,
-    dueAt: addDays(
-      world.currentDate,
-      new SeededRng(world.seed)
-        .fork(`${prefix}${n}:first`)
-        .integer(LIFE.firstOutreachDays[0], LIFE.firstOutreachDays[1] + 1),
-    ),
+    dueAt: addDays(world.currentDate, LIFE.firstOutreachDays),
     transitionKey: CAMPAIGN_LIFE_OUTREACH_KEY,
     entityIds: [
       chapter.organizerPersonId,
@@ -2265,9 +2264,6 @@ export function campaignLifeOutreachTransitionHandler(
     dueItem.stableKey.lastIndexOf(":") + 1,
   );
   const n = Number(dueItem.stableKey.slice(prefix.length)) + 1;
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-life-outreach:${dueItem.stableKey}`,
-  );
   const reschedule = (next: World, days: number): World =>
     scheduleFutureDueItem(next, {
       stableKey: `${prefix}${n}`,
@@ -2277,10 +2273,7 @@ export function campaignLifeOutreachTransitionHandler(
       jurisdictionId: chapter.jurisdictionId,
       provenance: { kind: "simulated", sourceEntityIds: [hostId] },
     });
-  const nextGap = () =>
-    rng
-      .fork("next")
-      .integer(LIFE.nextOutreachDays[0], LIFE.nextOutreachDays[1] + 1);
+  const nextGap = () => LIFE.nextOutreachDays;
   const deferred = (
     reason: string,
     days: number,
@@ -2389,7 +2382,7 @@ export function campaignLifeOutreachTransitionHandler(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (
