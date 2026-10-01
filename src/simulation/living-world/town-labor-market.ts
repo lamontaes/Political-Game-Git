@@ -25,7 +25,12 @@
  * work-status record, with its reason, on the day of the review.
  */
 
-import { recordWorkStatus } from "../life";
+import { recordWorkStatus, type RecordWorkStatusInput } from "../life";
+import {
+  workRelationshipHistoryForPerson,
+  workStatusHistory,
+} from "../life-queries";
+import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,
@@ -76,6 +81,58 @@ export const TOWN_JOB_END_REASONS = {
   retired: "labor:retired",
   died: "labor:died",
 } as const;
+
+/** A job the worker did not choose to leave: a layoff or a closed business. */
+export const TOWN_JOB_LOSS_REASONS: ReadonlySet<string> = new Set([
+  TOWN_JOB_END_REASONS.laidOff,
+  TOWN_JOB_END_REASONS.businessClosed,
+]);
+
+/**
+ * Ends a job the worker did not choose to leave, and schedules the worker's
+ * reflection on the official who answers for it. Every layoff and closing
+ * writes through here, so no lost job goes unweighed.
+ */
+export function recordTownJobLoss(
+  world: World,
+  input: RecordWorkStatusInput & { readonly reason: string },
+): World {
+  if (input.status !== "ended" || !TOWN_JOB_LOSS_REASONS.has(input.reason))
+    throw new Error("A job loss ends a job by layoff or closing.");
+  const next = recordWorkStatus(world, input);
+  const status = next.history.workStatuses.find(
+    (row) => row.stableKey === input.stableKey,
+  )!;
+  const personId = next.history.workRelationships.find(
+    (row) => row.id === input.workRelationshipId,
+  )?.personId;
+  return personId
+    ? scheduleLivedOutcomeReflection(next, personId, status.id)
+    : next;
+}
+
+/**
+ * The jobs a person lost, oldest first: each ended work status whose reason
+ * is a layoff or a closing, in effect on or before `through`. The one reader
+ * of a lost job, for the principles a life forms and for the view of the
+ * official who answers for it.
+ */
+export function jobsLostBy(
+  world: World,
+  personId: EntityId,
+  through = world.currentDate,
+): readonly WorkStatusRecord[] {
+  return workRelationshipHistoryForPerson(world, personId).flatMap(
+    (relationship) =>
+      workStatusHistory(world, relationship.id).filter(
+        (status) =>
+          status.status === "ended" &&
+          status.reason !== null &&
+          TOWN_JOB_LOSS_REASONS.has(status.reason) &&
+          status.effectiveAt <= through,
+      ),
+  );
+}
 
 /** Reasons that are not a lost job for anyone deciding whether to move. */
 export const TOWN_JOB_ENDS_NOT_LOST: ReadonlySet<string> = new Set([
@@ -223,7 +280,10 @@ export function reviewTownJobs(
   let next = world;
   const rehire = new Set<EntityId>();
   const end = (job: TownJob, reason: string) => {
-    next = recordWorkStatus(next, {
+    const write = TOWN_JOB_LOSS_REASONS.has(reason)
+      ? recordTownJobLoss
+      : recordWorkStatus;
+    next = write(next, {
       stableKey: `${reviewKey}:end:${job.relationshipId}`,
       workRelationshipId: job.relationshipId,
       effectiveAt: today,
