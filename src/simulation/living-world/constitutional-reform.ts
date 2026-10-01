@@ -25,7 +25,17 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { dispositionsFromCounts } from "../legislation-scenarios";
 import { resolveRequiredVotes } from "../legislature-rules";
 import { isEligibleVoterIn } from "../issue-record";
-import { memberBallot, stateVoice, type Voter } from "../governing/article-v";
+import {
+  constitutionalMemberConsiderations,
+  memberBallot,
+  stateVoice,
+  type Voter,
+} from "../governing/article-v";
+import {
+  decideChamberVote,
+  stateConstitutionalBody,
+  stateConstitutionalRoster,
+} from "../governing/chamber-votes";
 import {
   ensureOfficeholderPrinciples,
   principledLeaning,
@@ -731,6 +741,19 @@ function reviewBackground(
   routeOpen: RouteCheck,
 ): FutureTransitionHandlerResult | string {
   const voice = legislatureVoice(world, stateUsps);
+  if (voice.estimated)
+    return "The actual state legislature is not seated; a congressional delegation cannot cast its constitutional votes.";
+  const profile = stateAmendmentProfile(`US-${stateUsps}`);
+  const jurisdictionId = chiefExecutiveJurisdictionId(stateUsps);
+  if (
+    !profile ||
+    !jurisdictionId ||
+    profile.bodies.some(
+      (body) =>
+        !stateConstitutionalRoster(voice.world, jurisdictionId, body.bodyKey),
+    )
+  )
+    return "The actual state chamber, seat tenure or institution binding is missing; no constitutional vote can be recorded.";
   const found = principlesAmendment(
     voice.world,
     stateUsps,
@@ -750,6 +773,87 @@ function reviewBackground(
     proposeAndVote(voice.world, stateUsps, year, spec, count),
     `An amendment on ${spec.shortTitle.toLowerCase()} was proposed, from the legislators' own principles.`,
   );
+}
+
+/** Record an already saved policy proposal with its actual state members. */
+export function recordStatePolicyProposalVotes(
+  world: World,
+  measureId: EntityId,
+): World {
+  const measure = world.history.constitutionalMeasures?.find(
+    (row) => row.id === measureId,
+  );
+  if (
+    !measure ||
+    measure.processKind !== "state-amendment" ||
+    measure.ruleDelta.kind !== "policy-provision"
+  )
+    throw new Error(
+      "State policy ballots require an actual saved state policy proposal.",
+    );
+  const profile = stateAmendmentProfile(measure.jurisdictionKey);
+  if (!profile)
+    throw new Error("The state constitutional body profile is missing.");
+  // Validate every body before writing any rollcall. A missing roster is not
+  // filled with the state's congressional delegation or a numeric estimate.
+  const bodies = profile.bodies.map((body) => ({
+    body,
+    ...stateConstitutionalBody(world, measureId, body.bodyKey),
+  }));
+  const delta = measure.ruleDelta;
+  const extra = rejectionReasons(
+    votersJustRejected(world, measure.jurisdictionKey.slice(3), delta),
+  );
+  let next = world;
+  for (const { body, seated, sourceRecordIds, profileBasis } of bodies) {
+    if (
+      constitutionalActions(next, measure.id).some(
+        (action) =>
+          action.detail.kind === "proposal-vote" &&
+          action.detail.bodyKey === body.bodyKey,
+      )
+    )
+      continue;
+    if (constitutionalPosition(next, measure.id).phase !== "consideration")
+      return next;
+    const dispositions = decideChamberVote(next, {
+      kind: "constitutional",
+      stableKey: measure.stableKey,
+      constitutionalMeasureId: measure.id,
+      bodyKey: body.bodyKey,
+      purpose: "proposal",
+      members: seated.body.members,
+      playerPersonId:
+        next.control.kind === "person" ? next.control.personId : null,
+      considerationsByMember: new Map(
+        seated.body.members
+          .filter((member) => member.personId !== null)
+          .map((member) => [
+            member.memberKey,
+            constitutionalMemberConsiderations(
+              next,
+              member.personId!,
+              delta.propositionId,
+              delta.stance === "adopt" ? "yes" : "no",
+              extra,
+            ),
+          ]),
+      ),
+    });
+    next = recordConstitutionalProposalVote(
+      next,
+      measure.id,
+      body.bodyKey,
+      dispositions,
+      seated.seats,
+      {
+        method: "member-decisions",
+        note: `Actual saved state members decided through the shared chamber vote; constitutional profile basis: ${profileBasis}. No delegation or synthetic seats were used.`,
+        sourceEntityIds: sourceRecordIds,
+      },
+    );
+  }
+  return next;
 }
 
 function proposeAndVote(
@@ -798,43 +902,49 @@ function proposeAndVoteUnchecked(
     ordinaryMeasureId: null,
   });
   const measureId = next.history.constitutionalMeasures!.at(-1)!.id;
-  const reasons = new Map<string, number>();
-  for (const member of count.members)
-    if (member.ballot === "yea")
-      reasons.set(member.reason, (reasons.get(member.reason) ?? 0) + 1);
-  const leading = [...reasons.entries()].sort(
-    (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
-  )[0]?.[0];
-  for (const body of count.bodies) {
-    const members = Array.from({ length: body.seats }, (_, index) => ({
-      memberKey: `${body.bodyKey}:seat:${index + 1}`,
-      name: `Seat ${index + 1}`,
-      personId: null,
-      caucusLabel: "",
-    }));
-    next = recordConstitutionalProposalVote(
-      next,
-      measureId,
-      body.bodyKey,
-      dispositionsFromCounts(members, {
-        yea: body.yea,
-        nay: body.seats - body.yea,
-      }),
-      body.seats,
-      {
-        method: "authored-fixture",
-        note: `Each member of the ${
-          count.estimated
-            ? "state's delegation to Congress, ESTIMATED as the legislature's voice"
-            : "legislature"
-        } decided for their own reasons${
-          leading ? `, most often ${leading}` : ""
-        }; the chamber divides as they did, scaled to its seats, and is recorded by seat.`,
-        sourceEntityIds: count.members.map((member) => member.personId),
-      },
-    );
+  if (policy) {
+    next = recordStatePolicyProposalVotes(next, measureId);
     if (constitutionalPosition(next, measureId).phase === "rejected")
       return next;
+  } else {
+    const reasons = new Map<string, number>();
+    for (const member of count.members)
+      if (member.ballot === "yea")
+        reasons.set(member.reason, (reasons.get(member.reason) ?? 0) + 1);
+    const leading = [...reasons.entries()].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    )[0]?.[0];
+    for (const body of count.bodies) {
+      const members = Array.from({ length: body.seats }, (_, index) => ({
+        memberKey: `${body.bodyKey}:seat:${index + 1}`,
+        name: `Seat ${index + 1}`,
+        personId: null,
+        caucusLabel: "",
+      }));
+      next = recordConstitutionalProposalVote(
+        next,
+        measureId,
+        body.bodyKey,
+        dispositionsFromCounts(members, {
+          yea: body.yea,
+          nay: body.seats - body.yea,
+        }),
+        body.seats,
+        {
+          method: "authored-fixture",
+          note: `Each member of the ${
+            count.estimated
+              ? "state's delegation to Congress, ESTIMATED as the legislature's voice"
+              : "legislature"
+          } decided for their own reasons${
+            leading ? `, most often ${leading}` : ""
+          }; the chamber divides as they did, scaled to its seats, and is recorded by seat.`,
+          sourceEntityIds: count.members.map((member) => member.personId),
+        },
+      );
+      if (constitutionalPosition(next, measureId).phase === "rejected")
+        return next;
+    }
   }
   const electionDay = nextGeneralElectionDay(
     addDays(next.currentDate, CONSTITUTIONAL_REFORM_PROFILE.ballotLeadDays),

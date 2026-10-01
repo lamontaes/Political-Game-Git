@@ -373,7 +373,7 @@ export function memberBallot(
   return { ballot, reason };
 }
 
-function constitutionalMemberConsiderations(
+export function constitutionalMemberConsiderations(
   world: World,
   personId: EntityId,
   propositionId: EntityId,
