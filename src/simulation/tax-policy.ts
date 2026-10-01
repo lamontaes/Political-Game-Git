@@ -1,3 +1,8 @@
+import wageAuthority from "../../data/research/money/wage-income-authority.json" with { type: "json" };
+import {
+  queryFiscalAuthority,
+  type PortableFiscalAuthorityRecord,
+} from "../fiscal-authority/query";
 import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import { eventById } from "./event-index";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
@@ -80,7 +85,50 @@ export const publicOrganizationKeyForIdentity = publicGovernmentOrganizationKey;
 
 export function taxPowerEvidenceFor(
   jurisdictionKey: string,
+  selection?: {
+    readonly instrument: TaxPowerEvidence["instrument"];
+    readonly asOf: IsoDate;
+  },
 ): TaxPowerEvidence | null {
+  if (selection?.instrument === "wage-income") {
+    const federal = jurisdictionKey === "US";
+    if (!federal && !/^US-[A-Z]{2}$/.test(jurisdictionKey)) return null;
+    const result = queryFiscalAuthority(
+      wageAuthority.records as readonly PortableFiscalAuthorityRecord[],
+      {
+        stateUsps: federal ? "US" : jurisdictionKey.slice(3),
+        level: federal ? "FEDERAL" : "STATE",
+        instrument: "INDIVIDUAL_INCOME_TAX",
+        asOfDate: selection.asOf,
+      },
+    );
+    if (
+      result.state !== "IN_FORCE" ||
+      result.record.kind !== "TAX_INSTRUMENT" ||
+      result.record.authorization !== "AUTHORIZED"
+    )
+      return null;
+    const artifact = wageAuthority.artifacts.find(
+      (row) => row.artifactId === result.record.source.artifactId,
+    );
+    if (!artifact) return null;
+    return {
+      key: result.record.recordId,
+      jurisdictionKey,
+      level: federal ? "FEDERAL" : "STATE",
+      instrument: "wage-income",
+      asOf: selection.asOf,
+      sourceArtifactId: artifact.artifactId,
+      sourceSha256: artifact.sha256,
+      sourceUrl: result.record.source.url,
+      citations: [
+        result.record.source.citation,
+        result.record.source.evidenceLocator,
+      ],
+      constraints: [...result.record.constraints],
+    };
+  }
+  if (selection && selection.instrument !== "selective-excise") return null;
   const source = powerProjection.powers.find(
     (row) => row.jurisdictionKey === jurisdictionKey,
   );
@@ -222,7 +270,10 @@ export function attachTaxProposal(
     throw new Error(
       "Tax authority is unsupported by the available research for this government and instrument.",
     );
-  const expected = taxPowerEvidenceFor(input.power.jurisdictionKey);
+  const expected = taxPowerEvidenceFor(input.power.jurisdictionKey, {
+    instrument: input.power.instrument,
+    asOf: world.currentDate,
+  });
   if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
     throw new Error("The tax power is not a supported sourced contract.");
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
@@ -242,7 +293,10 @@ export function attachTaxProposal(
     );
   if (
     input.power &&
-    jurisdiction.id !== stateJurisdictionForKey(input.power.jurisdictionKey)?.id
+    jurisdiction.id !==
+      (input.power.level === "FEDERAL" && input.power.jurisdictionKey === "US"
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : stateJurisdictionForKey(input.power.jurisdictionKey)?.id)
   )
     throw new Error("The tax power belongs to another jurisdiction.");
   if (input.power && world.currentDate < input.power.asOf)
@@ -1666,7 +1720,10 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
     );
     const sourcePower = proposal.power;
     const expected = sourcePower
-      ? taxPowerEvidenceFor(sourcePower.jurisdictionKey)
+      ? taxPowerEvidenceFor(sourcePower.jurisdictionKey, {
+          instrument: sourcePower.instrument,
+          asOf: proposal.recordedAt,
+        })
       : null;
     const measureJurisdictionKey = measure
       ? rulePackById(measure.rulePackId).jurisdictionKey
@@ -1691,7 +1748,9 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       rulePackById(measure.rulePackId).jurisdictionKey ===
         sourcePower.jurisdictionKey &&
       proposal.jurisdictionId ===
-        stateJurisdictionForKey(sourcePower.jurisdictionKey)?.id &&
+        (sourcePower.level === "FEDERAL" && sourcePower.jurisdictionKey === "US"
+          ? NATIONAL_ELECTION_JURISDICTION.id
+          : stateJurisdictionForKey(sourcePower.jurisdictionKey)?.id) &&
       proposal.recordedAt >= sourcePower.asOf &&
       proposal.terms.legalBaselineAssumption ===
         "carry-forward-acquired-baseline-in-game" &&

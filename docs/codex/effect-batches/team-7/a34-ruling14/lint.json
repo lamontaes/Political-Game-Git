@@ -1,0 +1,104 @@
+{
+  "head": "88a407f5f63331be49159587892dc4473db57df8",
+  "main": "88c6f106ba81dba230a3627eb0caaf797938d442",
+  "files": [
+    {
+      "path": "scripts/engine-proof/day-adapter.test.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "scripts/engine-proof/default-payday.test.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/character-history.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/day-caller-child-parity.test.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/day-caller-migration.test.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/demo.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/future-transition-registry.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/future-transitions.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/people-continuation.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/routine-hook-members.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/semantic-transition-key.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/time-work.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/world-metrics.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    },
+    {
+      "path": "src/simulation/world.ts",
+      "lintExit": 0,
+      "lint": "",
+      "formatExit": 0,
+      "formatted": true
+    }
+  ]
+}

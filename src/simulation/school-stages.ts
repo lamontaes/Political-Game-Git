@@ -39,8 +39,11 @@ import type {
  * PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses
  * (`how-a-summarized-childhood-varies`): a child who is five by September 1
  * starts kindergarten that fall; middle school six years on, high school three
- * after that, graduation four after that; school years start between August
- * 15 and September 8 and end between May 20 and June 15.
+ * after that, graduation four after that. A school year starts on the first
+ * Monday on or after August 24 and ends on the Friday of its fortieth week
+ * (May 28 to June 3), the same days for every child in the district: one
+ * calendar a year, not one drawn per child (A140). Every district keeps the
+ * same rule until district calendars are researched.
  */
 export const SCHOOL_STAGE_TRANSITION_KEY = "schooling:stage-change" as const;
 
@@ -63,8 +66,13 @@ export type SchoolStageVersion =
 
 export const SCHOOL_STAGE_CALENDAR = {
   schoolAgeCutoff: "09-01",
-  termStarts: { month: 8, day: 15, spreadDays: 25 },
-  termEnds: { month: 5, day: 20, spreadDays: 27 },
+  /** The first Monday on or after this day. */
+  termStarts: { month: 8, day: 24 },
+  /**
+   * A school year runs forty weeks, to the Friday of the last: about 180
+   * days of instruction and twenty of holidays and breaks.
+   */
+  termEnds: { weeksLong: 40 },
   /** Years after kindergarten begins that each stage ends. */
   endsAfterYears: { elementary: 6, middle: 9, high: 13 },
   /** Years after kindergarten begins that each stage starts. */
@@ -106,26 +114,32 @@ export function kindergartenYear(birthDate: IsoDate): number {
     : year + 6;
 }
 
-function onCalendar(
-  world: World,
-  personId: EntityId,
-  year: number,
-  range: {
-    readonly month: number;
-    readonly day: number;
-    readonly spreadDays: number;
-  },
-  suffix: string,
-): IsoDate {
-  const spread = new SeededRng(world.seed)
-    .fork(`schooling:stages:${personId}:${year}:${suffix}`)
-    .integer(0, range.spreadDays + 1);
-  return addDays(
-    makeIsoDate(
-      `${String(year).padStart(4, "0")}-${String(range.month).padStart(2, "0")}-${String(range.day).padStart(2, "0")}`,
-    ),
-    spread,
+/**
+ * The first day of the school year that starts in `year`: the first Monday on
+ * or after August 24. Every child in a district shares it, so classmates start
+ * and finish together; nothing is drawn per child or per school (A140).
+ */
+function termStartsIn(year: number): IsoDate {
+  const { month, day } = SCHOOL_STAGE_CALENDAR.termStarts;
+  const earliest = makeIsoDate(
+    `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
   );
+  const weekday = new Date(`${earliest}T00:00:00Z`).getUTCDay();
+  return addDays(earliest, (8 - weekday) % 7);
+}
+
+/**
+ * A date on the school calendar: the first day of the school year that
+ * starts in `year`, or the last day of the one that ends in `year`, the
+ * Friday of its fortieth week.
+ */
+function onCalendar(year: number, which: "starts" | "ends"): IsoDate {
+  return which === "starts"
+    ? termStartsIn(year)
+    : addDays(
+        termStartsIn(year - 1),
+        SCHOOL_STAGE_CALENDAR.termEnds.weeksLong * 7 - 3,
+      );
 }
 
 /**
@@ -142,22 +156,10 @@ export function schoolStageEndsAt(
   let year =
     kindergartenYear(person.birthDate) +
     SCHOOL_STAGE_CALENDAR.endsAfterYears[stage];
-  let date = onCalendar(
-    world,
-    personId,
-    year,
-    SCHOOL_STAGE_CALENDAR.termEnds,
-    "ends",
-  );
+  let date = onCalendar(year, "ends");
   while (date <= world.currentDate) {
     year += 1;
-    date = onCalendar(
-      world,
-      personId,
-      year,
-      SCHOOL_STAGE_CALENDAR.termEnds,
-      "ends",
-    );
+    date = onCalendar(year, "ends");
   }
   return date;
 }
@@ -169,11 +171,8 @@ export function schoolStageCalendarStart(
   stage: SchoolStageKey,
 ): IsoDate {
   return onCalendar(
-    world,
-    personId,
     kindergartenYear(world.people[personId]!.birthDate) +
       SCHOOL_STAGE_CALENDAR.startsAfterYears[stage],
-    SCHOOL_STAGE_CALENDAR.termStarts,
     "starts",
   );
 }
@@ -185,11 +184,8 @@ export function schoolStageCalendarEnd(
   stage: SchoolStageKey,
 ): IsoDate {
   return onCalendar(
-    world,
-    personId,
     kindergartenYear(world.people[personId]!.birthDate) +
       SCHOOL_STAGE_CALENDAR.endsAfterYears[stage],
-    SCHOOL_STAGE_CALENDAR.termEnds,
     "ends",
   );
 }
@@ -235,28 +231,12 @@ export function scheduleSchoolStageBegin(
   });
 }
 
-function schoolYearStartsAfter(
-  world: World,
-  personId: EntityId,
-  date: IsoDate,
-): IsoDate {
+function schoolYearStartsAfter(date: IsoDate): IsoDate {
   let year = Number(date.slice(0, 4));
-  let start = onCalendar(
-    world,
-    personId,
-    year,
-    SCHOOL_STAGE_CALENDAR.termStarts,
-    "starts",
-  );
+  let start = onCalendar(year, "starts");
   while (start <= date) {
     year += 1;
-    start = onCalendar(
-      world,
-      personId,
-      year,
-      SCHOOL_STAGE_CALENDAR.termStarts,
-      "starts",
-    );
+    start = onCalendar(year, "starts");
   }
   return start;
 }
@@ -315,13 +295,7 @@ export function schoolGradeOn(
   const person = world.people[personId];
   if (!person) return null;
   const year = Number(date.slice(0, 4));
-  const starts = onCalendar(
-    world,
-    personId,
-    year,
-    SCHOOL_STAGE_CALENDAR.termStarts,
-    "starts",
-  );
+  const starts = onCalendar(year, "starts");
   const schoolYear = date >= starts ? year : year - 1;
   const grade = schoolYear - kindergartenYear(person.birthDate);
   return grade >= 0 && grade <= 12 ? grade : null;
@@ -559,7 +533,7 @@ export function schoolStageTransitionHandler(
       )?.id
     : undefined;
   if (!following || !school) return done(next, FINISHED[stage]);
-  const startsAt = schoolYearStartsAfter(next, personId!, today);
+  const startsAt = schoolYearStartsAfter(today);
   for (const enrollment of classmates) {
     next = createEducationEnrollment(next, {
       stableKey: `${schoolKey}:${following}:${enrollment.personId}`,
@@ -608,13 +582,7 @@ function stageOnCalendar(
     STAGES.find(
       (stage) =>
         world.currentDate <
-        onCalendar(
-          world,
-          personId,
-          start + SCHOOL_STAGE_CALENDAR.endsAfterYears[stage],
-          SCHOOL_STAGE_CALENDAR.termEnds,
-          "ends",
-        ),
+        onCalendar(start + SCHOOL_STAGE_CALENDAR.endsAfterYears[stage], "ends"),
     ) ?? null
   );
 }
