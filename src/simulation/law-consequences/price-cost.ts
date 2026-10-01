@@ -8,6 +8,7 @@ import type {
   ResolvedLawConsequence,
 } from "../law-consequence-types";
 import { lawInForce } from "../governing/law-in-force";
+import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
 import { recordById, recordByStableKey } from "../history-index";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { resourceFlowTermsAt } from "../resource-queries";
@@ -144,14 +145,29 @@ export function resolvePriceCostConsequences(
   if (!terms || terms.status !== "active" || flow.startsAt > context.onDate)
     return [];
   const requestedTerms = requiredTermUnits(row.amount);
-  // The approved final-provision reader must supply these bindings. Until its
-  // producer is available, numeric terms remain explicitly unsupported.
-  for (const key of requestedTerms.keys())
-    throw new Error(`Missing law amount capability: term:${key}`);
+  const legalTerms = [...requestedTerms].map(([termKey, unit]) => {
+    const term = readFinalEnactedLawTerm(world, law, {
+      questionKey: proposition.stableKey,
+      termKey,
+      unit,
+    });
+    if (!term)
+      throw new Error(`Missing law amount capability: term:${termKey}`);
+    if (term.measureId !== law.measureId || term.unit !== unit)
+      throw new Error(
+        `Price-cost term '${termKey}' differs from its governing law`,
+      );
+    return { termKey, term };
+  });
   // No catalog parameter declaration is mistaken for an operative numeric value.
   // Unsupported term, capacity or exposure keys fail in the shared evaluator.
   const amount = evaluateLawAmount(row.amount, {
-    term: {},
+    term: Object.fromEntries(
+      legalTerms.map(({ termKey, term }) => [
+        termKey,
+        { value: term.value, unit: term.unit },
+      ]),
+    ),
     record: {
       ...(prior
         ? {
@@ -188,6 +204,12 @@ export function resolvePriceCostConsequences(
         terms.id,
         flow.source.personId,
         ...(prior ? [prior.id] : []),
+        ...new Set(
+          legalTerms.flatMap(({ term }) => [
+            term.provisionId,
+            ...term.sourceRecordIds,
+          ]),
+        ),
       ],
       value: {
         type: "amount",
