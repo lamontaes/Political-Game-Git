@@ -155,6 +155,13 @@ export function measureStepOwner(
   switch (position.phase) {
     case "awaiting-referral":
     case "awaiting-floor":
+      // An executive's budget request belongs to the legislature once filed;
+      // the governor does not perform a member's referral/calendar action.
+      if (
+        measure.origin === "executive-request" &&
+        measure.subjectClass === "appropriation"
+      )
+        return "institution";
       return position.chamberKey === sponsorChamberKey
         ? "sponsor-office"
         : "institution";

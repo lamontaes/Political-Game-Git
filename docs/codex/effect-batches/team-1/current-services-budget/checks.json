@@ -1,0 +1,68 @@
+{
+  "sourceHead": "f7e13aba37955556fca1d879cfdad4ecec5aed58",
+  "mainParent": "9891ad2ebdfde4bb79869ae290d26ba98eefe425",
+  "ownedSourceCommit": "77b7fec04",
+  "seed": "team1-current-services-budget-20261001",
+  "sourceHashes": {
+    "src/simulation/governing/current-services-budget.ts": "01b897025bdeb41f18aa707d44b2c3fe8dc89e593679ffa2d33f772c2bed768c",
+    "src/simulation/governing/current-services-budget.test.ts": "0824b63d0250a264134a87c4da51d2ed52c74c6c8dc59dea33a1f978920dc630",
+    "src/simulation/governing/state-governing.ts": "f083ff591ff6721682f183e5d4f54f754bd215e407914c1abe94eb652c1febdf",
+    "src/simulation/governing/program-governing.ts": "9501c14139c2e895bb0bae2e280ae7b40c901d319ceedd87146731504ee12474",
+    "src/simulation/governing/legislative-clock.ts": "b9670116c555808c8eb3ee38c4b0db998e66168aac8102528fd31a23bd3bd8be"
+  },
+  "native": {
+    "tests": 125,
+    "passed": 125,
+    "durationSeconds": 18.89,
+    "files": [
+      "current-services-budget.test.ts",
+      "budget-subjects.test.ts",
+      "member-agenda-state-intake.test.ts"
+    ]
+  },
+  "types": {
+    "ownedRoots": 5,
+    "ownedDiagnostics": 0,
+    "inheritedDiagnostics": 0
+  },
+  "notRun": [
+    "browser",
+    "full suite",
+    "exclusive year speed comparison",
+    "latest-main after named parent"
+  ],
+  "limits": [
+    "Five seeded eligible annual places; one separate biennial carried-year clause test",
+    "One canonical enactment uses explicitly authored fixture votes/signature",
+    "No cash, service delivery or named paycheck follows merely from authority"
+  ],
+  "zeroDice": {
+    "ownedNew": 0,
+    "inheritedCountyNew": 2,
+    "staleRemoved": 5,
+    "exitCode": 1,
+    "mainCountyBlobVerified": true,
+    "allowlistEdited": false
+  },
+  "reportCheck": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "releaseCheck": "PASS before evidence-only commit; same owned source",
+  "naturalTwoYear": {
+    "sourceHead": "4e7111a2338847d954d5af246d4a5189628ef5db",
+    "complete": true,
+    "days": 730,
+    "endedOn": "2028-01-05",
+    "elapsedSeconds": 687.314343263,
+    "stopped": null,
+    "budgetBills": 41,
+    "budgetEnacted": 35,
+    "budgetAuthorityRecords": 264,
+    "unfiledEvents": 165,
+    "lapseEvents": 9,
+    "everySeatedLegislatureFiled": false,
+    "missingMemberFiling": ["NJ", "US"],
+    "sessionBudgetGate": "NOT ESTABLISHED: calendar-item reasons do not prove historical seated-body denominator or end-session stalemate"
+  }
+}
