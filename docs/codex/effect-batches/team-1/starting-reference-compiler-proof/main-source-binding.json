@@ -1,0 +1,12 @@
+{
+  "src/simulation/governing/automatic-legislation.ts": {
+    "candidateBackup": "/tmp/team1-starting-compiler-candidate-0.ts",
+    "candidateSha256": "6c92c3571fb0596551ff18db216ea76cef814bd3722fd3eb2e09ee7bf9581e03",
+    "mainSha256": "9bf71e1ba8e62454d5d34f6b51ab27cdd6fa0fc7375faf0e1d1a7bec445d6a30"
+  },
+  "src/simulation/governing/law-in-force.ts": {
+    "candidateBackup": "/tmp/team1-starting-compiler-candidate-1.ts",
+    "candidateSha256": "29586379e93c04f15833e733ae22f6c9ac7e131bdc28199c952f5099cdef8c5f",
+    "mainSha256": "b4d7e232397d826e4d5cbdbb5f1b0a7576fdc36b5b31744c0cde505693874def"
+  }
+}

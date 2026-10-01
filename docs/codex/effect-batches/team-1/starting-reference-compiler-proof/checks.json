@@ -1,0 +1,134 @@
+{
+  "runtimeHead": "32259eec4db3c95e34dc40cd0f5770c787300466",
+  "mainBase": "33e8d56c6b38f7f636e28e8c421e29268f958565",
+  "readerSource": "8f3957b1bcd161cb95c597b97fd306b6a1b277cb",
+  "ownedCompilerSource": "ed503c51ed5eb76fbe4c2781482ff707c79784a6",
+  "before": {
+    "failed": 5,
+    "reason": "Starting origin returns null"
+  },
+  "after": {
+    "passedChangedCases": 13,
+    "oldCasesSkipped": 16,
+    "oldSuiteFailures": 2,
+    "seconds": 23.24
+  },
+  "cleanMainRegression": {
+    "suiteFailures": 2,
+    "skippedCases": 16,
+    "seconds": 22.44,
+    "failures": [
+      "No enactment in VT",
+      "Controlled bill did not reach enactment."
+    ]
+  },
+  "types": {
+    "roots": 4,
+    "scoped": 0,
+    "imported": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "release": "PASS",
+  "diff": "PASS",
+  "zeroDice": {
+    "new": 0,
+    "inheritedStale": 5
+  },
+  "notRun": [
+    "natural filing",
+    "passage",
+    "government cash",
+    "transit service",
+    "full 56 jurisdictions",
+    "national year",
+    "browser",
+    "speed",
+    "whole suite"
+  ],
+  "logs": [
+    {
+      "original": "/tmp/team1-reader-extraction-tests.log",
+      "sha256": "2a8dc33d3a0dc5407b9ddb6ae625aeab574125af9e8733357a2e4df24a1135de",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/reader.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-before.log",
+      "sha256": "c42849b31a9053a1de19e8ed693baec66bbf64353841fb95adef50d77ac4df0c",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/before.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-after.log",
+      "sha256": "2c786a056fddfea96933816fafdf90c8c75a1add601cc05970f4c36e9bef5795",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/after.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-main-regression.log",
+      "sha256": "fbe988febc13f1cf9016d47f8ce59a8511ad19c47a7d99fcfcb1d001764b7ef8",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/main-regression.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-types.log",
+      "sha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/types.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/lint.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/format.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-release.log",
+      "sha256": "15b5005b4f17ec282770d8bfd988772dec16428f3f3f52b9158c5612989ad8a1",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/release.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-zero-dice.log",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/zero-dice.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-report.log",
+      "sha256": "9dfb4c70c78be939b482963b079b8990771a305efec6ab4b7c19b8c7b78d4790",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/report.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-spelling-actual.log",
+      "sha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/spelling.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-starting-compiler-spelling.log",
+      "sha256": "5eda80ad7fa05c3dc1704ce2ce07cf869b63a0aa71188494fc3d5b7f564e425b",
+      "published": "docs/codex/effect-batches/team-1/starting-reference-compiler-proof/spelling-sandbox-failure.log",
+      "normalization": "Trailing blank lines only; original retained."
+    }
+  ],
+  "runtimeSourceSha256": {
+    "src/simulation/governing/automatic-legislation.ts": "6c92c3571fb0596551ff18db216ea76cef814bd3722fd3eb2e09ee7bf9581e03",
+    "src/simulation/governing/law-in-force.ts": "29586379e93c04f15833e733ae22f6c9ac7e131bdc28199c952f5099cdef8c5f",
+    "src/simulation/governing/starting-law-terms.test.ts": "ff362852968c70b438464f99fc58febd17ef1b9c07daf8b68414f88f4d822036",
+    "src/simulation/governing/automatic-legislation-starting-predecessor.test.ts": "107ca30700b3f3379531104096a76b45cf68fcb5c141597a3e28e779468bc2c8"
+  },
+  "spelling": {
+    "inheritedFindings": 24,
+    "new": 0,
+    "verification": "All finding words exist in the same base files."
+  }
+}
