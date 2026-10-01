@@ -55,14 +55,13 @@ export const LOCAL_REVENUE_RULE =
   "local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)";
 
 /**
- * Pension opening. The actuarial liability as a multiple of a year's general
- * spending, the assumed return, and the amortization period for the unfunded
- * part. PLACEHOLDER, research: public-pension-funding-by-state. Each
- * government's normal cost and benefits paid are its own plans'
- * (`pensionFlows` in `pension-share.ts`).
+ * Pension opening. The assumed return and the amortization period for the
+ * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state. The
+ * liability's size against spending is measured (`openingLiabilityToSpending`
+ * in `pension-share.ts`), and each government's normal cost and benefits paid
+ * are its own plans' (`pensionFlows`).
  */
 export const PENSION = {
-  liabilityToSpending: 1.2,
   assumedReturn: 0.07,
   amortizationYears: 30,
 } as const;
