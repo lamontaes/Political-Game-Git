@@ -1,7 +1,5 @@
 # A finding's unpaid liability survives missing cash records
 
-Historical dependency receipt: the source locations and runtime results below describe #1409 at its named heads. The current A152 main-based port moves this writer into governing/finding-restitution.ts; its renewed proof is in a152-restitution-preparation.md.
-
 Before: The finding adapter skipped the entire order when the respondent had no cash record. This erased the liability along with unsupported settlement.
 
 After: An actual order with a recorded creditor persists as an outstanding obligation. Missing cash creates no account or payment. Recorded payments reduce the original debt. CTO exact-head review is the next action; the resignation caller remains separately with Audit.
@@ -42,3 +40,5 @@ Measured American Samoa fixture Reese Shaffer owes the actual linked $250. With 
 Next: CTO reviews the exact published source for Merge. Audit still owns canonical resignation-caller selection. This does not complete all A152 finding transfers or the rebuild.
 
 Method: native test output is /tmp/team8-finding-liability-test.log. Two scoped strict type roots produced zero diagnostics; ESLint and whitespace passed. The original candidate was 719521c874cbaf89057cfe1b9adf0c1c16282386 on main 556d2f26de928fb76a82a729b78ea73f7ab0f0ef. The governing ruling is October 1 at 4:51 a.m. Eastern. Formatting and the report check passed. Zero-dice exited 1 on two inherited county flags and five stale entries; no finding line was flagged and the baseline is unchanged. Main advanced to 9891ad2ebdfde4bb79869ae290d26ba98eefe425; that newer composition, natural collection, browser, long-clock, full suite and final-main proof are NOT RUN. No team merge or automatic collection is claimed.
+
+Historical dependency receipt: the source locations and runtime results below describe #1409 at its named heads. The current A152 main-based port moves this writer into governing/finding-restitution.ts; its renewed proof is in a152-restitution-preparation.md.
