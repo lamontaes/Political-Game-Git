@@ -1,6 +1,6 @@
 # Council ballots must keep their actual members
 
-Before: the local clock parity test compares saved bills and votes, but does not require every floor ballot to match the council's actual seat records. After: it also requires exact member and participation identities to remain intact across equivalent clock routes and saved games. The common-clock caller replacement remains blocked on its local-government binding. This preparation does not change a production driver or choose a new roster contract.
+Before: the local clock parity test compares saved bills and votes, but does not require every floor ballot to match the council's actual seat records. After: it also requires exact member and participation identities to remain intact across equivalent clock routes and saved games. The existing caller now names its unchanged council vote input using the existing decider’s parameter type. The common-clock caller replacement remains blocked on its local-government binding. This preparation does not change a production driver or choose a new roster contract.
 
 ## MERGED
 
@@ -12,7 +12,7 @@ No new simulation outcome is claimed. The existing controlled council fixture su
 
 ## VITAL STATISTICS
 
-The complete changed test file failed its one case at an existing bill-shape assertion after 5.46 seconds in the case. Exact main failed at the same assertion after 5.63 seconds. The prepared roster checks before that assertion passed; the later ballot and reload checks were not reached. One strict root had zero scoped or imported diagnostics. Changed-file lint and formatting passed. The temporary main-test substitution was restored with its original hash verified. No nationwide, year, browser or final common-driver proof was run.
+The complete changed test file failed its one case at an existing bill-shape assertion after 5.46 seconds in the case. Exact main failed at the same assertion after 5.63 seconds. The prepared roster checks before that assertion passed; the later ballot and reload checks were not reached. One strict root had zero scoped or imported diagnostics for the test preparation. After the caller input extraction, both changed roots had zero diagnostics. A parser comparison confirms that the world argument and every authority and decision input are unchanged. Native runtime was not repeated after this type-only extraction. Changed-file lint and formatting passed. The temporary main-test substitution was restored with its original hash verified. No nationwide, year, browser or final common-driver proof was run.
 
 ## 1. Why-chain (five whys, to bedrock)
 
@@ -36,7 +36,8 @@ The existing fixture has no seat turnover. The test therefore checks that its fu
 2. Check that jump and daily routes retain those participation identities.
 3. Require every saved floor roll call to contain exactly those people once and retain member-decision provenance.
 4. Check the same seat records after canonical reload.
-5. Leave the production caller replacement pending the exact authority and decision binding.
+5. Name the existing council vote input with Parameters<typeof decideCouncilVote>[1], preserving every field and the existing decider.
+6. Leave the common-clock caller replacement pending the exact authority and decision binding.
 
 ## 5. Simulated, records, world pieces, checks
 
@@ -52,4 +53,4 @@ The existing place is 0162328 and the existing seed is legislative-clock-30-day-
 
 The fixture's saved council members hold the existing controlled fiscal-restraint and environmental-stewardship principles. Each recorded floor ballot must identify one of those same members, with no duplicate or borrowed voter. Their existing bill's fiscal amount and enactment remain subject to the original assertions. The run stopped at the existing bill-shape assertion, so no later ballot, named-person or new money result is claimed.
 
-Method: the owned change is only the existing local-law-clock-parity test. Audit received the exact missing roster signature and council authority inputs; no new builder or decision engine was added. Source review is performed directly under the owner's no-helper instruction.
+Method: the owned changes are the existing local-law-clock-parity test and the released local caller’s unchanged vote-input extraction. Audit received the exact missing roster signature and council authority inputs; no new builder or decision engine was added. Source review is performed directly under the owner's no-helper instruction.

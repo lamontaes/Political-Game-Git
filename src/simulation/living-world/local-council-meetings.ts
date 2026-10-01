@@ -382,7 +382,7 @@ function moveOrdinances(
       ...seats,
       ...(mayor ? [{ personId: mayor }] : []),
     ]);
-    const dispositions = decideCouncilVote(next, {
+    const voteInput: Parameters<typeof decideCouncilVote>[1] = {
       stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
       measureId: measure.id,
       jurisdictionId: town,
@@ -391,7 +391,8 @@ function moveOrdinances(
       questionLabel: `Adopt ${measure.designation}`,
       executivePersonId: mayor,
       nonpartisan: councilBallotPartisanship(unit).nonpartisan,
-    });
+    };
+    const dispositions = decideCouncilVote(next, voteInput);
     const provenance = {
       method: "member-decisions" as const,
       note: COUNCIL_VOTE_NOTE,
