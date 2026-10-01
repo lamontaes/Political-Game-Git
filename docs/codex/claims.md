@@ -1,3 +1,13 @@
+## October 1: worker-pay and council handoffs closed
+
+Team 4 released only local-economy.ts worker-wage actual-work binding and settleFlows wage delegation to Team 3, reporting clean working/index bytes at 4c87202d4531278db04665ff2d2fb673fca4b12f. Revenue, owner draws, other creation and rent remain protected. Actual work identity must come from the existing producer; ambiguous job matching is not authorized.
+
+Team 2 released A77 council roster/decision and A76 title hunks to Team 1 with no unpublished overlap. Preserve Team 2's A80 afterAdoption executive presentment imports and call. Team 1 retains its declared title-only leaf, format data and caller changes.
+
+Audit released only world.ts advanceWorld/advanceWorldUnchecked and necessary clock imports to Team 7, approving its portable patch as source only. Receive the five #1358 import-boundary prerequisite files; preserve coordinator earned-pay and county enumeration/integrity hooks. Team 7 owns no whole-world replacement. Audit retains minute-clock/full-composer and terminal opening boundaries.
+
+Team 8 has the reserved governing/finding-restitution.ts destination and focused test, with press restitution extraction and the post-saved finding procedure call only. Institutional authority/entrypoint remains an Audit contract; no new financial writer is authorized.
+
 ## October 1: payroll fixture initialization repair
 
 Coordinator owns only the optional policyCatalog input and its forwarding to createWorld in src/simulation/demo.ts, plus the received earned-law-pay-payment.test.ts setup. The final catalog must exist before jobs write coverage records. No payment assertions or integrity guard are relaxed. Team 3 keeps its A37 office-pay adapter and previously declared writer ownership; coordinator receives coverage and opening changes from its published handoff.

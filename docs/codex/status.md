@@ -1,3 +1,19 @@
+## October 1: payroll assertions pass after two fixture repairs
+
+All seven changed payroll test files have passing results. The remaining nationwide applicability decisions still prevent calling the whole wage system complete. The worker-pay, council and clock ownership handoffs are now explicit so teams can proceed without replacing each other's work.
+
+### Exact evidence
+
+Payroll draft #1575 is published at 3c2e2c255170be9d2f1ef62be3bf0beb574ca1c3. Current-main composition f6c5e3b ran 123 tests: 122 passed and the empty-catalog cutoff fixture failed. Repair 6c9e651 changed only that setup; its 73-test file passed in 42.55 seconds. The other six files passed 50 tests and are unchanged. Four production roots passed across 1,153 files; the final cutoff test root passed across 852 files. Later commits only corrected the release declaration. The release check now reports only the unchanged malformed research2-campaign-action-catalog.md header.
+
+The earlier combined run's three payment failures and its final-catalog-before-jobs repair are preserved. Neither repair removed assertions or weakened the coverage guard. AS industry and NY/OR regional applicability remain unresolved; there is no nationwide or natural-year payroll acceptance.
+
+Team 8 resumed after its verified model-capacity failure and published #1458 at 7f5db507cd5114b7a21bd14c33e642d7651e9104, reporting 28/28. Team 6 published ready #1440 at 8c1088e6cc85797eb1dde8b0a71c859b4ba3792c, reporting 84 passes and a rail timeout also reproduced on main. Coordinator inspected the removed duplicate treasury calls; neither receipt is an independent coordinator rerun.
+
+Team 2's #1576 has only three selected passing tests and 59 unrun cases; coordinator requested the actual changed files without a name filter. Team 4 proceeds to authorized A52 while A57 legal coverage is unresolved. Team 7 has Audit source approval for A3 and the precise county acquisition-date correction; runtime acceptance remains pending.
+
+Effects remain the audited 94 of 220 executing links. A13 typed-levy authority and A15 actual farm beneficiary/payment admission are explicit CTO decisions, not fabricated mappings. No coordinator merge has occurred.
+
 ## October 1: effect labels restricted; payroll composition found a fixture-order failure
 
 The shared stamp writer now rejects new bespoke labels at type checking. Its ready pull request needs CTO review. The combined payroll proof found three failures where a fixture replaced the policy catalog after saving job coverage. The repair supplies the final catalog before job creation and is being checked with the same assertions.
