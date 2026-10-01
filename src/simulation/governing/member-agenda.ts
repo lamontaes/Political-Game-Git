@@ -350,10 +350,9 @@ function alreadyFiledForIntake(world: World, batchKey: string): boolean {
 }
 
 /**
- * At one real legislative intake, each majority member brings their best open
- * proposal. Each chamber takes the strongest proposal backed by more than
- * half that caucus and by a chamber majority; this does not promise a bill or
- * enactment in each jurisdiction or season.
+ * At one real intake, seated members bring supported open questions under
+ * their existing level settings. Canonical pending-question and sourced member
+ * limits guard admission; filing does not promise passage or enactment.
  */
 export function fileMemberAgendaBills(
   world: World,
@@ -811,19 +810,8 @@ export function fileMemberAgendaBills(
         originChamber: chamber,
         rulePackId: pack.packId,
       });
-      if (
-        !memberFilingCap(next.history.legislativeMeasures ?? [], {
-          place: pack.jurisdictionKey,
-          jurisdictionId: input.jurisdictionId,
-          chamberKey: chamber.chamberKey,
-          sponsorPersonId: sponsor.personId!,
-          subjectClass: best.draft?.subjectClass ?? best.subjectClass,
-          introducedAt: next.currentDate,
-          numberingSession: numbering.numberingSession,
-        }).allowed
-      )
-        continue;
       if (input.council) stableKey = input.council.measureKey(numbering);
+      const beforeIntroduction = next;
       if (!input.council && input.localGovernmentKey)
         next = withLocalSponsorControl(next, sponsor.personId!);
       let measureId: EntityId | null = null;
@@ -880,11 +868,27 @@ export function fileMemberAgendaBills(
         });
         measureId = next.history.legislativeMeasures!.at(-1)!.id;
       }
-      claimedMembers.add(sponsor.personId!);
-      claimedQuestions.add(best.propositionId);
       const measure = next.history.legislativeMeasures!.find(
         (row) => row.id === measureId,
       )!;
+      // Inspect the actual compiled subject, then admit the pure writer result.
+      // A rejected candidate has no saved bill, terms, control or reason side effects.
+      if (
+        !memberFilingCap(beforeIntroduction.history.legislativeMeasures ?? [], {
+          place: pack.jurisdictionKey,
+          jurisdictionId: input.jurisdictionId,
+          chamberKey: chamber.chamberKey,
+          sponsorPersonId: sponsor.personId!,
+          subjectClass: measure.subjectClass,
+          introducedAt: measure.introducedAt,
+          numberingSession: numbering.numberingSession,
+        }).allowed
+      ) {
+        next = beforeIntroduction;
+        continue;
+      }
+      claimedMembers.add(sponsor.personId!);
+      claimedQuestions.add(best.propositionId);
       next = recordAgendaSupport(
         next,
         measure,
