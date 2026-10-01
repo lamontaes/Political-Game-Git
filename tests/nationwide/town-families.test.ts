@@ -284,20 +284,6 @@ function onDate(world: World, date: string): World {
  */
 const ranPlanItems = new Set<EntityId>();
 
-/** The family plan's own due item for `date`, run the way the clock runs it. */
-function runPlanDay(world: World, planEventId: EntityId): World {
-  const item = world.history.futureDueItems.find(
-    (entry) =>
-      entry.transitionKey === FAMILY_RESOLUTION_TRANSITION_KEY &&
-      entry.dueAt === world.currentDate &&
-      entry.entityIds.includes(planEventId) &&
-      !ranPlanItems.has(entry.id),
-  );
-  if (!item) return world;
-  ranPlanItems.add(item.id);
-  return familyPlanTransitionHandler(world, item).world;
-}
-
 /**
  * Every family-plan day up to `through`, in date order, run the way the
  * clock runs it: an answer two days after a plan is raised, a birth on the
@@ -391,12 +377,10 @@ function onePlaceEach(): readonly string[] {
   return [...largest.values()].map(([key]) => key).sort();
 }
 
-const PLAN_SEED = process.env.A136_SEED ?? "a136-family-plan";
-
 /**
- * Seats two unpartnered adults in town as a married couple of three years in
- * her home, through the life writers play uses: he leaves his household for
- * hers, and the marriage is recorded from three years back.
+ * Seats two unpartnered adults in town as a newly married couple in her
+ * home, through the life writers play uses: he leaves his household for
+ * hers, and the marriage is recorded on the day.
  */
 function seatCouple(world: World, woman: EntityId, man: EntityId): World {
   const provenance = {
@@ -433,7 +417,7 @@ function seatCouple(world: World, woman: EntityId, man: EntityId): World {
   return createPartnership(next, {
     stableKey: `a136-seat:${woman}:${man}:married`,
     personIds: [woman, man].sort() as [EntityId, EntityId],
-    startedAt: addDays(next.currentDate, -3 * 365),
+    startedAt: next.currentDate,
     kind: "legal:marriage",
     provenance,
   });
@@ -465,79 +449,101 @@ function single(
   });
 }
 
-describe(
-  "a child is born only from a couple's recorded family plan",
-  { timeout: 240_000 },
-  () => {
+const PLAN_SEEDS = process.env.A136_SEED
+  ? [process.env.A136_SEED]
+  : ["a136-family-plan", "check-two", "check-five"];
+
+describe.each(PLAN_SEEDS)(
+  "a child is born only from a couple's recorded family plan (seed %s)",
+  { timeout: 60_000 },
+  (seed) => {
     // One of the 56 (each state's, D.C.'s and each territory's largest
     // place) drawn by the seed; the place and seed are named on failure.
     const places = onePlaceEach();
-    const placeKey = new SeededRng(`a136:${PLAN_SEED}`).pick(places);
-    const label = `place ${placeKey}, seed ${PLAN_SEED}`;
-    const opened = openAt(placeKey, PLAN_SEED);
+    const placeKey = new SeededRng(`a136:${seed}`).pick(places);
+    const label = `place ${placeKey}, seed ${seed}`;
+    const opened = openAt(placeKey, seed);
     const { personId, town } = opened;
     const start = opened.world.currentDate;
-    const reviewOn = addDays(start, 91);
-    let couples: [EntityId, EntityId][] = [];
+    const firstReview = addDays(start, 91);
+    const couples = townCouples(opened.world, town, personId);
+    const before = (couple: [EntityId, EntityId]) =>
+      childrenTogether(opened.world, couple[0], couple[1]).length;
+
+    // The opening quarter: the town's own couples, as the world opened.
+    const opening = { raised: 0, agreed: 0, births: 0, expected: 0 };
+    withWorldIntegrityDeferred(() => {
+      let w = onDate(opened.world, firstReview);
+      opening.expected = expectedQuarterBirths(w, town, personId);
+      w = reviewTownFamilies(w, town, personId, "opening-review");
+      const raised = w.history.events.filter(
+        (event) =>
+          event.type === "life.family-intended" &&
+          event.occurredAt === firstReview,
+      );
+      opening.raised = raised.length;
+      w = runPlanItemsThrough(w, addDays(firstReview, 300));
+      opening.agreed = w.history.events.filter(
+        (event) =>
+          event.type === "life.family-intent-answered" &&
+          event.tags.includes("family-plan.agreed") &&
+          raised.some((plan) => event.tags.includes(`family-plan:${plan.id}`)),
+      ).length;
+      opening.births = describeTownFamilies(w, town).births;
+    });
+
+    // The proof: a couple seated with the life writers on the opening day
+    // weighs it on each quarterly review until their own circumstances turn
+    // them toward it; the partner answers; the child comes on the plan's day.
     let seated: [EntityId, EntityId] | null = null;
-    let tried = 0;
     let planEventId: EntityId | null = null;
+    let raisedOn: string | null = null;
     let resolvesOn: string | null = null;
     let childrenBeforeTheDay = -1;
-    let raisedInTown = 0;
-    let expectedInQuarter = 0;
     let world = opened.world;
     withWorldIntegrityDeferred(() => {
-      couples = townCouples(opened.world, town, personId);
       const women = single(opened.world, town, personId, "female", 26, 32);
       const men = single(opened.world, town, personId, "male", 27, 36);
-      // Seat a couple, let the town's quarterly review weigh it, and let the
-      // partner answer two days later from their own temperament. A couple
-      // whose own circumstances or answer say not now is a real outcome; the
-      // next pair is seated instead, from the same opening world.
-      for (const woman of women) {
-        for (const man of men) {
-          if (seated || tried >= 12) break;
+      const pairs: [EntityId, EntityId][] = [];
+      for (const woman of women)
+        for (const man of men)
           if (
-            opened.world.history.kinshipRelationships.some(
+            !opened.world.history.kinshipRelationships.some(
               (row) =>
                 row.personIds.includes(woman) && row.personIds.includes(man),
             )
           )
-            continue;
-          tried += 1;
-          let trial = seatCouple(opened.world, woman, man);
-          trial = onDate(trial, reviewOn);
-          trial = reviewTownFamilies(trial, town, personId, "plan-review");
-          const plan = familyPlans(trial, woman).find((row) =>
-            row.personIds.includes(man),
-          );
-          if (!plan) continue;
-          trial = onDate(trial, addDays(reviewOn, 2));
-          trial = runPlanDay(trial, plan.eventId);
-          const settled = familyPlans(trial, woman).find(
-            (row) => row.eventId === plan.eventId,
-          )!;
-          if (settled.answer !== "agreed" || !settled.resolvesOn) continue;
-          seated = [woman, man];
-          planEventId = plan.eventId;
-          resolvesOn = settled.resolvesOn;
-          world = trial;
+            pairs.push([woman, man]);
+      for (const [woman, man] of pairs.slice(0, 6)) {
+        let trial = seatCouple(opened.world, woman, man);
+        let plan = null;
+        for (let round = 1; round <= 8 && !plan; round += 1) {
+          const date = addDays(start, 91 * round);
+          trial = runPlanItemsThrough(trial, date);
+          trial = onDate(trial, date);
+          trial = reviewTownFamilies(trial, town, personId, `seat-${round}`);
+          plan =
+            familyPlans(trial, woman).find((row) =>
+              row.personIds.includes(man),
+            ) ?? null;
         }
+        if (!plan) continue;
+        const raised = trial.history.events.find(
+          (event) => event.id === plan.eventId,
+        )!.occurredAt;
+        trial = runPlanItemsThrough(trial, addDays(raised, 2));
+        const settled = familyPlans(trial, woman).find(
+          (row) => row.eventId === plan.eventId,
+        )!;
+        if (settled.answer !== "agreed" || !settled.resolvesOn) continue;
+        seated = [woman, man];
+        planEventId = plan.eventId;
+        raisedOn = raised;
+        resolvesOn = settled.resolvesOn;
+        world = trial;
+        break;
       }
-      if (!seated || !planEventId || !resolvesOn) return;
-      expectedInQuarter = expectedQuarterBirths(
-        onDate(opened.world, reviewOn),
-        town,
-        personId,
-      );
-      raisedInTown = world.history.events.filter(
-        (event) =>
-          event.type === "life.family-intended" &&
-          event.occurredAt === reviewOn,
-      ).length;
-      // Every other plan the review raised runs too, on its own days; then
-      // the seated couple's own day.
+      if (!seated || !resolvesOn) return;
       world = runPlanItemsThrough(
         world,
         addDays(resolvesOn as World["currentDate"], -1),
@@ -545,17 +551,27 @@ describe(
       childrenBeforeTheDay = childrenTogether(world, ...seated).length;
       world = runPlanItemsThrough(world, resolvesOn);
     });
-    const before = (couple: [EntityId, EntityId]) =>
-      childrenTogether(opened.world, couple[0], couple[1]).length;
 
-    it("a seated couple weighs it on the town's review, raises it, and the partner agrees", () => {
-      expect(places, label).toHaveLength(56);
+    it("the opening quarter's plans that agree check against the real birth rates", () => {
       console.log(
-        `A136 plan births: ${label}; seated ${seated?.join(" + ") ?? "none"} ` +
-          `after ${tried} tries; ${couples.length} town couples could plan; ` +
-          `the review raised ${raisedInTown} plans; ` +
-          `${describeTownFamilies(world, town).births} births by ${resolvesOn} ` +
-          `against ${expectedInQuarter.toFixed(1)} a quarter at the real rates`,
+        `A136 opening quarter: ${label}; ${couples.length} couples could plan; ` +
+          `${opening.raised} raised, ${opening.agreed} agreed, ` +
+          `${opening.births} births against ${opening.expected.toFixed(1)} ` +
+          `a quarter at the real rates`,
+      );
+      expect(places, label).toHaveLength(56);
+      // Small towns: a quarter's real-rate births is about one, so the check
+      // allows what a quarter can hold, never a boom of every ready couple.
+      expect(opening.births, label).toBeLessThanOrEqual(
+        Math.ceil(3 * opening.expected),
+      );
+      expect(opening.births, label).toBe(opening.agreed);
+    });
+
+    it("a seated couple weighs it on the town's reviews, raises it, and the partner agrees", () => {
+      console.log(
+        `A136 plan proof: ${label}; seated ${seated?.join(" + ") ?? "none"}, ` +
+          `raised ${raisedOn}, born ${resolvesOn}`,
       );
       expect(seated, label).not.toBeNull();
     });

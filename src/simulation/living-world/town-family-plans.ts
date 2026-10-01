@@ -14,8 +14,10 @@
  *
  * - the ages of the one who would carry the child (or, with nobody who
  *   would, the younger of the two, and the plan is an adoption);
- * - the children they already have and how long since the last one;
- * - how long they have been together, and whether they are married;
+ * - the children they already have, and how long since the last one (or
+ *   since they got together, with none yet), which argues against it at
+ *   first, most for it a couple of years on, and less again long after;
+ * - whether they are married;
  * - what the household earns a month, what its rent takes of that, and the
  *   cash the two of them hold;
  * - the room in a rented home, by its bedrooms on the lease;
@@ -32,6 +34,13 @@
  * the same. The partner whose side leans further toward raising it is the
  * one who does; if neither leans toward it, nobody raises it this quarter.
  *
+ * A couple acts on what changed. If a partner's side already leaned toward
+ * it at the last review's day, that call was made then: they raised it, or
+ * they had a child, or they let it be. So a world that has just opened does
+ * not have every ready couple raise it in the same quarter, and a couple
+ * comes back to it as their youngest grows, a "not now" fades, or their pay,
+ * rent or the law changes.
+ *
  * The weights are GAME ASSUMPTIONS until the research request
  * `when-a-couple-plans-a-child` answers them. The real birth rates by
  * mother's age never decide a couple: they check the town's total in the
@@ -39,7 +48,7 @@
  * a rate, so it is not read here either.
  */
 
-import { ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../dates";
 import { considerationScore, evaluateDecision } from "../decisions";
 import { activeHealthEpisodes } from "../crisis/health-queries";
 import { outcomeFactor } from "../outcome-web";
@@ -68,6 +77,9 @@ export const TOWN_FAMILY_PLANS_VERSION = "town-family-plans-v1";
 
 const USD = money(0, "USD").currency;
 
+/** The town's family review comes round every quarter. */
+const REVIEW_DAYS = 91;
+
 /** The two choices a partner weighs. */
 export const FAMILY_PLAN_OPTIONS = {
   raise: "raise-it",
@@ -93,13 +105,20 @@ export const FAMILY_PLAN_WEIGHTS = {
    * third against.
    */
   children: 2,
-  /** A child just born; it fades by half in about a year. */
-  newbornAtHome: 6,
-  newbornHalfLifeYears: 1,
+  /**
+   * Timing: the years since their last child, or since they got together
+   * when they have none. It argues against it at first (a newborn, a new
+   * couple), most for it near `timingPeakYears`, and against it again long
+   * after, the way births bunch after a wedding and space after a child.
+   */
+  timing: 4,
+  /**
+   * PLACEHOLDER near the US spacing between births (about 2.5 to 3 years,
+   * NCHS interpregnancy and birth-interval reports); see the research request.
+   */
+  timingPeakYears: 2.5,
   /** Being married. */
   married: 2,
-  /** A first year living together; it fades as years together grow. */
-  newCouple: 2,
   /** Earning twice the national median household pay (or half). */
   pay: 2,
   /** National median household income, cents a month (Census 2023, $80,610). */
@@ -177,9 +196,12 @@ const coupleKey = (a: EntityId, b: EntityId) =>
   a < b ? `${a}|${b}` : `${b}|${a}`;
 
 /** One pass over the family-plan records, once a review. */
-function planHistory(world: World): PlanHistory {
+function planHistory(world: World, today: IsoDate): PlanHistory {
   const intentions = new Map<EntityId, string>();
-  const answered = new Map<EntityId, { agreed: boolean; on: IsoDate }>();
+  const answered = new Map<
+    EntityId,
+    { agreed: boolean; on: IsoDate; due: IsoDate | null }
+  >();
   const resolved = new Set<EntityId>();
   for (const event of world.history.events) {
     if (event.type === FAMILY_INTENTION_EVENT) {
@@ -194,6 +216,10 @@ function planHistory(world: World): PlanHistory {
       answered.set(intentionId, {
         agreed: event.tags.includes("family-plan.agreed"),
         on: event.occurredAt,
+        due:
+          (event.tags
+            .find((entry) => entry.startsWith("family-plan.on:"))
+            ?.slice("family-plan.on:".length) as IsoDate | undefined) ?? null,
       });
     else if (event.type === "life.family-member-added")
       resolved.add(intentionId);
@@ -202,7 +228,15 @@ function planHistory(world: World): PlanHistory {
   const declinedOn = new Map<string, IsoDate>();
   for (const [intentionId, key] of intentions) {
     const answer = answered.get(intentionId);
-    if (!answer || (answer.agreed && !resolved.has(intentionId))) open.add(key);
+    // An agreed plan is open until its day; one whose day passed with no
+    // child (an adoption with nobody to place) lapsed and closes.
+    if (
+      !answer ||
+      (answer.agreed &&
+        !resolved.has(intentionId) &&
+        (answer.due === null || answer.due >= today))
+    )
+      open.add(key);
     else if (!answer.agreed && (declinedOn.get(key) ?? "") < answer.on)
       declinedOn.set(key, answer.on);
   }
@@ -251,20 +285,18 @@ function circumstances(
     w.children * (1.2 - 0.8 * count),
     count === 0 ? "They have no child yet." : "The children they already have.",
   );
-  const last = births.at(-1);
-  if (last)
-    add(
-      "newborn",
-      -w.newbornAtHome *
-        0.5 ** (yearsSince(last, today) / w.newbornHalfLifeYears),
-      "Their youngest is still small.",
-    );
-  if (couple.married) add("married", w.married, "They are married.");
-  add(
-    "together",
-    -w.newCouple * Math.exp(-yearsSince(couple.startedAt, today)),
-    "They have not been together long.",
+  const since = Math.max(
+    0,
+    yearsSince(births.at(-1) ?? couple.startedAt, today) / w.timingPeakYears,
   );
+  add(
+    "timing",
+    w.timing * (2 * since * Math.exp(1 - since) - 1),
+    births.length > 0
+      ? "How long since their last child."
+      : "How long they have been together.",
+  );
+  if (couple.married) add("married", w.married, "They are married.");
   if (context.payMinor !== null && context.payMinor > 0) {
     add(
       "pay",
@@ -320,7 +352,7 @@ function circumstances(
     -w.unemployment * Math.log2(context.unemploymentPressure),
     "How many people in town are out of work.",
   );
-  if (context.declinedOn)
+  if (context.declinedOn && context.declinedOn <= today)
     add(
       "declined",
       -w.declined *
@@ -396,21 +428,30 @@ export function weighTownFamilyPlans(
       }),
   );
   if (eligible.length === 0) return world;
-  const history = planHistory(world);
+  const history = planHistory(world, today);
   const waiting = eligible.filter(
     (couple) => !history.open.has(coupleKey(...couple.personIds)),
   );
   if (waiting.length === 0) return world;
 
-  const facts = householdHousingFacts(world, today);
-  const bedrooms = new Map<EntityId, number>();
-  for (const lease of townLeases(world, today))
-    if (!lease.ended && lease.flow.startsAt <= today)
-      bedrooms.set(lease.householdId, lease.bedrooms);
-  const reading = outcomeFactor(world, town, "births.rate", today);
-  const links = reading.causes
-    .filter((cause) => cause.key !== "births-level-to-births")
-    .map((cause) => ({ key: cause.key, factor: cause.factor }));
+  // What the town records on a date: today, and the last review's day, so a
+  // couple acts on what changed since they last weighed it.
+  const townAt = (date: IsoDate) => {
+    const bedrooms = new Map<EntityId, number>();
+    for (const lease of townLeases(world, date))
+      if (!lease.ended && lease.flow.startsAt <= date)
+        bedrooms.set(lease.householdId, lease.bedrooms);
+    return {
+      date,
+      facts: householdHousingFacts(world, date),
+      bedrooms,
+      links: outcomeFactor(world, town, "births.rate", date)
+        .causes.filter((cause) => cause.key !== "births-level-to-births")
+        .map((cause) => ({ key: cause.key, factor: cause.factor })),
+    };
+  };
+  const now = townAt(today);
+  const before = townAt(addDays(today, -REVIEW_DAYS));
   const pressure = townUnemploymentPressure(world, town);
   const traditionId =
     Object.values(world.policyCatalog?.principles ?? {}).find(
@@ -441,10 +482,12 @@ export function weighTownFamilyPlans(
       (person) => person.identity?.gender === "female",
     );
     const kind: FamilyPlanKind = carriers.length > 0 ? "birth" : "adoption";
-    const ages = (carriers.length > 0 ? carriers : people).map((person) =>
-      ageOnDate(person.birthDate, today),
-    );
-    const household = facts.get(couple.householdId);
+    const carrierAgeOn = (date: IsoDate) =>
+      Math.min(
+        ...(carriers.length > 0 ? carriers : people).map((person) =>
+          ageOnDate(person.birthDate, date),
+        ),
+      );
     let cash: number | null = null;
     for (const id of couple.personIds) {
       const position = resourcePositionAt(
@@ -454,18 +497,28 @@ export function weighTownFamilyPlans(
       );
       if (position) cash = (cash ?? 0) + position.liquidBalance.minorUnits;
     }
-    const rows = circumstances(next, couple, {
-      today,
-      carrierAge: Math.min(...ages),
-      payMinor: household?.payMinor ?? null,
-      rentMinor: household?.rentMinor ?? null,
-      members: household?.members ?? 2,
-      bedrooms: bedrooms.get(couple.householdId) ?? null,
-      cashMinor: cash,
-      links,
-      unemploymentPressure: pressure,
-      declinedOn: history.declinedOn.get(coupleKey(a, b)) ?? null,
-    });
+    const rowsAt = (town: ReturnType<typeof townAt>) => {
+      const household = town.facts.get(couple.householdId);
+      return circumstances(next, couple, {
+        today: town.date,
+        carrierAge: carrierAgeOn(town.date),
+        payMinor: household?.payMinor ?? null,
+        rentMinor: household?.rentMinor ?? null,
+        members: household?.members ?? 2,
+        bedrooms: town.bedrooms.get(couple.householdId) ?? null,
+        cashMinor: cash,
+        links: town.links,
+        unemploymentPressure: pressure,
+        declinedOn: history.declinedOn.get(coupleKey(a, b)) ?? null,
+      });
+    };
+    const rows = rowsAt(now);
+    // At the last review's day: a couple already together then, whose own
+    // side already leaned toward it, made that call then. Only a change
+    // since (a child growing, a "not now" fading, pay, rent, the law) turns
+    // a couple toward it now.
+    const together = couple.startedAt < before.date;
+    const rowsBefore = together ? rowsAt(before) : null;
     // Each partner weighs it from their own side: the shared circumstances,
     // their own temperament and their own view of tradition.
     let best: { actor: EntityId; margin: number } | null = null;
@@ -540,6 +593,13 @@ export function weighTownFamilyPlans(
       });
       if (evaluation.selectedOptionKey !== FAMILY_PLAN_OPTIONS.raise) continue;
       const lean = margin(list);
+      if (rowsBefore) {
+        const earlier = [
+          ...considerations(rowsBefore, `${prefix}:before`),
+          ...list.filter((row) => !row.sourceType.startsWith("context:")),
+        ];
+        if (margin(earlier) > 0) continue;
+      }
       if (
         !best ||
         lean > best.margin ||
