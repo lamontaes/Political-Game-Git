@@ -1,0 +1,70 @@
+{
+  "sourceHead": "26e77e1a03fdafe9a03f608f78a93fcb8a70e89e",
+  "base": "184487dafa734cc5121e57ca7e1aec72baa37fe0",
+  "pr": 1661,
+  "sourceBlobs": {
+    "src/simulation/living-world/town-pay.ts": "dafa010001b598590359108677c8f38c0c6a7d2c",
+    "src/simulation/town-pay-placement.test.ts": "9081aad8524918143f57fe08dd1921b22880cfa6",
+    "tests/nationwide/town-pay.test.ts": "d0e5c4419c09a84b37ba3f80ade03fe86e771336"
+  },
+  "nativeReceipt": "9PASS3FAIL36.75s before older fixture ID type correction; new test/production identical to published source",
+  "newCases": "DC/WA/MO/NJ PASS; MS2836000 no initial flow (minimum reader null), unchanged sample",
+  "typesFinal": "3roots906files0",
+  "typesPrior": "5 older fixture ID diagnostics",
+  "loadReceipts": {
+    "Node world": "FAIL Congress initialization TDZ",
+    "macro collection": "FAIL undefined semantic key, zero assertions executed"
+  },
+  "checks": "lint/format/whitespace PASS;zero-dice0new5gone",
+  "limits": [
+    "DRAFT/WIP, not full A40",
+    "Existing tenure numeric assumption retained, credential mapping not invented",
+    "Actual initial-flow seed invariance; no payday/browser/final-main proof",
+    "No root registry/resources/teacher/T6 withholding/TeamE poverty edits",
+    "Two old undated table/OEWS assertions remain failed",
+    "Native combined file not rerun after type-only guards",
+    "No completed percentage inferred"
+  ],
+  "rawLogs": [
+    {
+      "path": "team3-a40-placement-native-r1.log",
+      "sha256": "4ea7aec5c0b51fea6fb6bfb8f8972fd5d15cebd0ed8991b45c1e5fbf1d90696c"
+    },
+    {
+      "path": "team3-a40-placement-native-r2.log",
+      "sha256": "fdede8682c922a71ce6cf4451a4101de55fcf9bf7ba3a3e7d0d81da303821f20"
+    },
+    {
+      "path": "team3-a40-placement-native-r3.log",
+      "sha256": "3c0fc2dd1901f1971b57e26b137fcb6dec3ca41112dae94f97c61f3631ac14b5"
+    },
+    {
+      "path": "team3-a40-placement-types-r1.log",
+      "sha256": "75aa5e0f27dc14197218e94765afe9ecc11e785bd547f825d2426734c1c6eb3e"
+    },
+    {
+      "path": "team3-a40-placement-types-r2.log",
+      "sha256": "1ed230d651fcddea76c6af23d9006e268e0862420943dc3bdb7b4e5ba27b72f1"
+    },
+    {
+      "path": "team3-a40-placement-lint-r3.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a40-placement-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "team3-a40-placement-macro-load.log",
+      "sha256": "00699414cf32ad4efff8e85245fb4d0efe30bf88ddfb9998d34a87f31a91791c"
+    },
+    {
+      "path": "team3-a40-placement-world-node-load.log",
+      "sha256": "4c3c7b93a6919d7c5456cc25f787daa57d81f3c096789a3e80c2e9e69f3daab4"
+    },
+    {
+      "path": "team3-a40-placement-zero-dice.log",
+      "sha256": "ea9cca37ed30c9c299b8b2686e9afeec8bcc94952fae10221408d469a418e428"
+    }
+  ]
+}
