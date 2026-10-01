@@ -1,3 +1,11 @@
+## October 1: one earned-pay slice and exact consumer ownership
+
+The CTO's 10:51 instruction supersedes separate plumbing publication. Coordinator integrates historical law arguments, stamps, transfer guard, validator, hourly dispatcher and Team 3's existing writer into one earned-pay slice. Team 3 owns the completed-work caller, common pay writer and dated 56-place minimum-wage matrix consumer. No annual office-pay migration is included in this hourly slice.
+
+Team 3 released the existing coverage query and integrity guard with no unpublished overlap. Coordinator owns their sole pay-coverage-query.ts destination, optional world enumeration and integrity hook. Audit owns adversarial validator fixtures. Coverage exceptions must be checked against actual canonical rows and dated facts before payment trusts them.
+
+Team 6 now owns only src/simulation/tax-law-term-binding.ts and its focused test. This supersedes the earlier coordinator binding claim. Coordinator retains the shared dated numeric/category query and question catalog routing. Team 7 retains only its previously released three county world hunks, preserving separate earned-pay hooks.
+
 ## October 1, 10:54 a.m. exact reader and county transfers
 
 Team 3 released the existing `workPayCoverageAt` query to the coordinator, with no unpublished overlap. Coordinator moves it unchanged into `pay-coverage-query.ts`; the future producer must import/reexport this one reader. The release includes only the query dependency, its existing record shape and optional history collection, not the coverage producer.

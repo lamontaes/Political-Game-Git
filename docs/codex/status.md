@@ -1,3 +1,13 @@
+## October 1: earned-pay pieces are being connected to actual payment
+
+The next earned-pay submission combines the law reader, saved assessment, payment guard and existing writer. The payment case is not yet run on this combined source. Team 3 is connecting the dated minimum-wage matrix and completed-work caller; Audit is checking forged coverage evidence.
+
+Six main merges were verified during 10:00–11:00 Eastern: 1563, 1564, 1565, 1566, 1562 and 1545. The inspected main head is 8c44a3d24f9808962a839bc035bbcfdb009d1aa9.
+
+The cutoff and stamp composition b60a7e9e0d74e643ca5ee4965d76ac3e92eb4c99 passed 79 tests and five strict type roots. Receiving the existing writer and coverage guard produced f250306951c0855a85d191dbc92a352f774eea80, which passed four strict roots across 803 files. Later hourly dispatcher integration at 89b49336c6e4e1e5d9b74341b397cd918297317f is under typecheck. Canonical pay-row registration is added at df5b923473b00706fccd9761bdc6c54d298a7d1e. These are local integration commits, not payment acceptance or READY pull requests.
+
+Team 1's published cap reader e162d71223ab416cc166822489d2453d6325dc41 has a requested one-year actual filing audit routed to the existing Audit session. No audit start is inferred. Team 6 accepted the narrow tax binding build. Team 4 and Team 9 received the CTO's rent-cap and sentencing reader priorities. Team 5 awaits the CTO's A/B decision about its slow election-clock fixture.
+
 ## October 1, 10:54 a.m. coordinator integration checkpoint
 
 Verified merged: schema 1563, member-limit research 1564, law-term reader extraction 1565, exemption bindings 1566 and tax question registration 1562. Main is `44918cd48b5ca0e48b004c0aeb7b3667d6e56f77`. Five merges since 10:00; the hour is incomplete.
