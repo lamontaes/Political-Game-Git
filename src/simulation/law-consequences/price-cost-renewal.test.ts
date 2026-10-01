@@ -1,3 +1,5 @@
+/// <reference types="node" />
+import { writeFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import {
   generateOpeningLife,
@@ -51,6 +53,7 @@ import { stateJurisdictionForKey } from "../life-places";
 import { recordWorldEvent } from "../world";
 import { playerRequiredWorkIds, releasePlayerRequiredWork } from "../time-work";
 import type { World } from "../types";
+import { resolvePriceCostConsequences } from "./price-cost";
 
 const controlled = vi.hoisted(
   () =>
@@ -408,9 +411,17 @@ describe("the actual lease renewal activity hook", () => {
       }
       return isolated;
     });
-    const lease = townLeases(initial).find(
-      (entry) => entry.regime === "market" && !entry.ended,
-    )!;
+    const lease = townLeases(initial).find((entry) => {
+      const home = initial.history.dwellings.find(
+        (record) => record.id === entry.dwellingId,
+      );
+      return (
+        entry.regime === "market" &&
+        !entry.ended &&
+        home?.builtYear != null &&
+        Number(initial.currentDate.slice(0, 4)) - home.builtYear >= 15
+      );
+    })!;
     expect(lease).toBeDefined();
     const enacted = enactCapOnLeaseWorld(initial, placeKey);
     initial = withWorldIntegrityDeferred(() => {
@@ -474,6 +485,10 @@ describe("the actual lease renewal activity hook", () => {
           capability: "price-flow-basis",
           parameters: { basisKind: lease.flow.basisKind },
         },
+        {
+          capability: "housing-built-at-least-years-ago",
+          parameters: { years: 15 },
+        },
       ],
       lag: { days: 0, sourceIds: [] },
       onRepeal: "recompute-prospective",
@@ -525,7 +540,9 @@ describe("the actual lease renewal activity hook", () => {
           expect(terms.amount.minorUnits).toBe(
             Math.round((old * 1.2) / 100) * 100,
           );
-        return nativeDispatch(world, context);
+        return terms.resourceFlowId === lease.flow.id
+          ? nativeDispatch(world, context)
+          : world;
       });
     try {
       const changed = withWorldIntegrityDeferred(() =>
@@ -539,6 +556,38 @@ describe("the actual lease renewal activity hook", () => {
         (record) => record.governingLawKey === enacted.measureId,
       )!;
       expect(stamp.source).toBe("enacted");
+      expect(stamp.sourceRecordIds).toContain(lease.dwellingId);
+      expect(stamp.sourceRecordIds).toContain(lease.tenureId);
+      const actualActivity = changed.history.resourceFlowTerms.find((record) =>
+        record.stableKey.startsWith(`${lease.flow.stableKey}:renewal:`),
+      )!;
+      const actualContext = {
+        activity: "renewal" as const,
+        activityId: actualActivity.id,
+        subjectIds: [lease.leaseholderId],
+        onDate: day,
+      };
+      // Controlled alternative facts test the predicate; they are not saved
+      // into the watched world's actual sourced dwelling.
+      const withBuiltYear = (builtYear: number | null) => ({
+        ...changed,
+        history: {
+          ...changed.history,
+          dwellings: changed.history.dwellings.map((record) =>
+            record.id === lease.dwellingId ? { ...record, builtYear } : record,
+          ),
+        },
+      });
+      expect(
+        resolvePriceCostConsequences(
+          withBuiltYear(Number(day.slice(0, 4))),
+          row,
+          actualContext,
+        ),
+      ).toEqual([]);
+      expect(() =>
+        resolvePriceCostConsequences(withBuiltYear(null), row, actualContext),
+      ).toThrow("saved building-year fact");
       expect(stamp.sourceRecordIds).toContain(
         changed.history.legislativeEnactments!.find(
           (record) => record.measureId === enacted.measureId,
@@ -553,6 +602,43 @@ describe("the actual lease renewal activity hook", () => {
       const reopened = deserializeWorld(serializeWorld(changed));
       expect(renewTownLeases(reopened, day)).toBe(reopened);
       expect(calls).toHaveLength(count);
+      if (process.env.TEAM4_A57_WATCHED_RECEIPT)
+        writeFileSync(
+          process.env.TEAM4_A57_WATCHED_RECEIPT,
+          JSON.stringify(
+            {
+              seed,
+              placeKey,
+              place: game.world.jurisdictions[lease.town]?.name,
+              personId: lease.leaseholderId,
+              person: personName(changed.people[lease.leaseholderId]!),
+              dwelling: changed.history.dwellings.find(
+                (record) => record.id === lease.dwellingId,
+              ),
+              measureId: enacted.measureId,
+              governorId:
+                enacted.world.control.kind === "person"
+                  ? enacted.world.control.personId
+                  : null,
+              actualRenewalId: actualActivity.id,
+              pricedTermsId: priced.id,
+              flowId: lease.flow.id,
+              obligationId: lease.obligationId,
+              tenureId: lease.tenureId,
+              onDate: day,
+              oldMinor: old,
+              finalMinor: priced.amount.minorUnits,
+              stamp,
+              cashUnchanged: true,
+              repeatIdentity: true,
+              canonicalContinueIdentity: true,
+              scope:
+                "Controlled3% bill/votes on actual lease world; isolated anniversary, not natural-year or actual OR/CA cap.",
+            },
+            null,
+            2,
+          ) + "\n",
+        );
       console.log(
         `M10 actual renewal hook seed=${seed}: ${calls.length} saved activities, ${personName(changed.people[lease.leaseholderId]!)} in ${game.world.jurisdictions[lease.town]?.name}, ${day}. Controlled enacted 3% bill via actual governor desk; no real statutory rate or natural-year proof.`,
       );

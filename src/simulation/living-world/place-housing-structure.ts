@@ -1,5 +1,5 @@
 import type { DwellingClassification, IsoDate } from "../types";
-import { SeededRng } from "../rng";
+import type { SeededRng } from "../rng";
 import {
   PLACE_HOUSING_STRUCTURE_BANDS,
   PLACE_HOUSING_STRUCTURE_ROWS,
@@ -22,13 +22,13 @@ export function placeHousingStructureRow(geoid: string): SourceRow | null {
 function chooseBand(
   cells: Cells | null,
   indexes: readonly number[],
-  rng: SeededRng,
+  percentile: number,
 ) {
   if (!cells || indexes.some((index) => cells[2 + index * 2] == null))
     return null;
   const total = indexes.reduce((sum, index) => sum + cells[2 + index * 2]!, 0);
   if (total <= 0) return null;
-  let remaining = rng.next() * total;
+  let remaining = percentile * total;
   for (const index of indexes) {
     remaining -= cells[2 + index * 2]!;
     if (remaining < 0) return index;
@@ -55,7 +55,7 @@ export function openingDwellingStructure(
   const yearIndex = chooseBand(
     row?.[1] ?? null,
     PLACE_HOUSING_STRUCTURE_BANDS.B25034.map((_, index) => index),
-    rng.fork("built-year-band"),
+    rng.fork("built-year-band").next(),
   );
   const yearBand =
     yearIndex == null ? null : PLACE_HOUSING_STRUCTURE_BANDS.B25034[yearIndex]!;
@@ -76,7 +76,7 @@ export function openingDwellingStructure(
   const unitIndex = chooseBand(
     row?.[2] ?? null,
     structureIndexes,
-    rng.fork("structure-band"),
+    rng.fork("structure-band").next(),
   );
   const unitBand =
     unitIndex == null ? null : PLACE_HOUSING_STRUCTURE_BANDS.B25024[unitIndex]!;

@@ -1,0 +1,59 @@
+{
+  "seed": "team4-m10-renewal-activity-20260930",
+  "placeKey": "3124530",
+  "place": "Jansen, Nebraska",
+  "personId": "person_438089874cb5d871",
+  "person": "Kelly Goodwin",
+  "dwelling": {
+    "id": "dwelling_b27eed91660a2ec5",
+    "stableKey": "town-homes-v1:jurisdiction_b40d1e81f25885f7:opening:household_a16c94d3b4bba2f6:dwelling",
+    "sequence": 602,
+    "establishedAt": "2026-01-05",
+    "jurisdictionId": "jurisdiction_b40d1e81f25885f7",
+    "locationLabel": "A rowhouse in Jansen, Nebraska",
+    "classification": "residential:rowhouse",
+    "builtYear": 1989,
+    "unitsInBuilding": null,
+    "provenance": {
+      "kind": "source-record",
+      "reference": "ACS2024-5year:place:3124530:B25034:B25034_006:B25024:unavailable:estimated-from-place-marginals",
+      "asOf": "2026-01-05"
+    }
+  },
+  "measureId": "legislative-measure_27d09bf0e5511c6d",
+  "governorId": "person_23212a762b89e3dc",
+  "actualRenewalId": "resource-flow-terms_c63021fe4c70a7cf",
+  "pricedTermsId": "resource-flow-terms_a24739173558b066",
+  "flowId": "resource-flow_016104fdbbe72e1e",
+  "obligationId": "resource-obligation_084428c82cf95c02",
+  "tenureId": "housing-tenure_6af1a807d0541d4f",
+  "onDate": "2027-01-01",
+  "oldMinor": 90700,
+  "finalMinor": 93421,
+  "stamp": {
+    "version": "law-effect-stamp/v1",
+    "governingLawKey": "legislative-measure_27d09bf0e5511c6d",
+    "source": "enacted",
+    "effectKind": "price-cost",
+    "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+    "jurisdictionId": "jurisdiction_b40d1e81f25885f7",
+    "operativeAt": "2026-01-14",
+    "appliedAt": "2027-01-01",
+    "sourceRecordIds": [
+      "resource-flow_016104fdbbe72e1e",
+      "resource-flow-terms_c63021fe4c70a7cf",
+      "person_438089874cb5d871",
+      "resource-obligation_084428c82cf95c02",
+      "housing-tenure_6af1a807d0541d4f",
+      "dwelling_b27eed91660a2ec5",
+      "resource-flow-terms_3e646549c63d16db",
+      "legislative-measure_27d09bf0e5511c6d",
+      "legislative-enactment_a59d81674bac96fc",
+      "legislative-provision_c1cb9680d5467a80"
+    ]
+  },
+  "cashUnchanged": true,
+  "repeatIdentity": true,
+  "canonicalContinueIdentity": true,
+  "scope": "Controlled3% bill/votes on actual lease world; isolated anniversary, not natural-year or actual OR/CA cap."
+}

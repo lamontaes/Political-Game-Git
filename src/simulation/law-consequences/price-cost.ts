@@ -13,11 +13,12 @@ import { recordById, recordByStableKey } from "../history-index";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { resourceFlowTermsAt } from "../resource-queries";
 import { money, recordResourceFlowTerms } from "../resources";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 
 const SELECTOR = "person-price-flows";
 const ACTION = "set-resource-flow-price";
 const BASIS = "price-flow-basis";
+const BUILDING_AGE = "housing-built-at-least-years-ago";
 
 /** The kind requests only the typed terms its amount expression actually reads. */
 function requiredTermUnits(
@@ -94,17 +95,67 @@ export function resolvePriceCostConsequences(
     throw new Error(
       "Price-cost requires an explicit flow-basis coverage predicate",
     );
+  const coverageSourceIds: EntityId[] = [];
   for (const condition of conditions) {
-    if (condition.capability !== BASIS)
-      throw new Error(`Missing price-cost predicate: ${condition.capability}`);
-    if (
-      Object.keys(condition.parameters).length !== 1 ||
-      typeof condition.parameters.basisKind !== "string"
-    )
-      throw new Error(
-        "Price-cost flow-basis predicate requires only basisKind",
+    if (condition.capability === BASIS) {
+      if (
+        Object.keys(condition.parameters).length !== 1 ||
+        typeof condition.parameters.basisKind !== "string"
+      )
+        throw new Error(
+          "Price-cost flow-basis predicate requires only basisKind",
+        );
+      if (condition.parameters.basisKind !== flow.basisKind) return [];
+      continue;
+    }
+    if (condition.capability === BUILDING_AGE) {
+      const { years, exceptClassification } = condition.parameters;
+      if (
+        typeof years !== "number" ||
+        !Number.isSafeInteger(years) ||
+        years < 0 ||
+        Object.keys(condition.parameters).some(
+          (key) => key !== "years" && key !== "exceptClassification",
+        ) ||
+        (exceptClassification !== undefined &&
+          typeof exceptClassification !== "string")
+      )
+        throw new Error(
+          "Price-cost building-age predicate requires whole years and optional exceptClassification",
+        );
+      const obligations = world.history.resourceObligations.filter(
+        (record) =>
+          record.resourceFlowId === flow.id &&
+          record.establishedAt <= context.onDate &&
+          record.housingTenureId !== null,
       );
-    if (condition.parameters.basisKind !== flow.basisKind) return [];
+      if (obligations.length !== 1)
+        throw new Error("Missing price-cost unique actual housing obligation");
+      const obligation = obligations[0]!;
+      const tenure = recordById(
+        world.history.housingTenures,
+        obligation.housingTenureId!,
+      );
+      const dwelling =
+        tenure && recordById(world.history.dwellings, tenure.dwellingId);
+      if (
+        !tenure ||
+        !dwelling ||
+        tenure.startedAt > context.onDate ||
+        dwelling.establishedAt > context.onDate
+      )
+        throw new Error("Missing price-cost actual dated tenure/dwelling join");
+      coverageSourceIds.push(obligation.id, tenure.id, dwelling.id);
+      if (dwelling.classification === exceptClassification) continue;
+      if (dwelling.builtYear == null)
+        throw new Error(
+          "Missing price-cost saved building-year fact; record creation is not construction",
+        );
+      if (Number(context.onDate.slice(0, 4)) - dwelling.builtYear < years)
+        return [];
+      continue;
+    }
+    throw new Error(`Missing price-cost predicate: ${condition.capability}`);
   }
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
@@ -204,6 +255,7 @@ export function resolvePriceCostConsequences(
         flow.id,
         terms.id,
         flow.source.personId,
+        ...coverageSourceIds,
         ...(prior ? [prior.id] : []),
         ...new Set(legalTerms.flatMap(({ term }) => term.sourceRecordIds)),
       ],
@@ -318,7 +370,7 @@ export const TEAM_4_PRICE_COST_REGISTRATION: LawConsequenceKindRegistration = {
   owner: "Team4",
   selectors: [SELECTOR],
   actions: [ACTION],
-  predicates: [BASIS],
+  predicates: [BASIS, BUILDING_AGE],
   units: ["minor"],
   resolve: resolvePriceCostConsequences,
   apply: applyPriceCostConsequence,
