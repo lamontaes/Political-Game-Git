@@ -1021,6 +1021,9 @@ it("A38 earned law raises only the actual completed interval without changing it
     ]),
   );
   expect(settleTownCompensations(paid, [period])).toBe(paid);
+  const reopenedPaid = deserializeWorld(serializeWorld(paid));
+  expect(serializeWorld(reopenedPaid)).toBe(serializeWorld(paid));
+  expect(settleTownCompensations(reopenedPaid, [period])).toBe(reopenedPaid);
   console.info("EARNED_LAW_SHIFT_PAY", {
     person: personName(paid.people[f.personId]!),
     workId,
