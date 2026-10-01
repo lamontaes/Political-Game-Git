@@ -391,6 +391,7 @@ export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
 export function enactmentStatuteDateContext(
   world: World,
   enactment: LegislativeEnactmentRecord,
+  cutoff?: HistoricalCutoff,
 ): StatuteDateContext {
   return {
     finalPassageAt: () => enactment.finalPassageAt ?? null,
@@ -399,7 +400,7 @@ export function enactmentStatuteDateContext(
         (row) => row.id === enactment.measureId,
       );
       const adjourned = measure
-        ? recordedSessionAdjournment(world, measure.rulePackId, year)
+        ? recordedSessionAdjournment(world, measure.rulePackId, year, cutoff)
         : null;
       return adjourned ? [adjourned.adjournedOn] : null;
     },
