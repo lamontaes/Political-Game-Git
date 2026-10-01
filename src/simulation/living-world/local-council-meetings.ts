@@ -1,4 +1,5 @@
 import { addDays } from "../dates";
+import { fileMemberAgendaBills } from "../governing/member-agenda";
 import { councilBallotPartisanship } from "../governing/body-partisanship";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -8,7 +9,6 @@ import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import {
   COUNCIL_VOTE_NOTE,
-  councilFilings,
   decideCouncilVote,
   ensureCouncilPrinciples,
 } from "../governing/council-lawmaking";
@@ -289,7 +289,7 @@ function introduce(
 
 /**
  * Members other than the player file what their principles press them to,
- * at most one ordinance each (`councilFilings`).
+ * at most one ordinance each through the shared member filer.
  */
 function fileOrdinances(
   world: World,
@@ -300,27 +300,23 @@ function fileOrdinances(
 ): World {
   const seats = members(world, unit);
   const law = lawJurisdiction(world, unit, town);
-  let next = ensureCouncilPrinciples(law.world, seats);
-  const filings = councilFilings(next, {
-    stableKey: `${V}:${unit.id}:${next.currentDate}:filings`,
+  return fileMemberAgendaBills(law.world, {
     jurisdictionId: law.jurisdictionId,
-    members: seats,
-    questions: townQuestions(next, law.jurisdictionId),
-    measures: councilMeasures(next, rules, law.jurisdictionId),
-    playerPersonId: player,
+    intakeKey: `${V}:${unit.id}:${law.world.currentDate}:filings`,
+    chamberKey: "council",
+    council: {
+      pack: rulePackById(rules.packId),
+      members: seats,
+      questions: townQuestions(law.world, law.jurisdictionId).map(
+        (question) => question.id,
+      ),
+      measures: councilMeasures(law.world, rules, law.jurisdictionId),
+      playerPersonId: player,
+      title: ordinanceTitle,
+      measureKey: (numbering) =>
+        `${V}:${unit.id}:${numbering.numberingSession.key}:${numbering.designation}`,
+    },
   });
-  for (const filing of filings)
-    next = introduce(next, unit, town, rules, {
-      sponsorPersonId: filing.sponsorPersonId,
-      shortTitle:
-        filing.answer === "yes"
-          ? ordinanceTitle(filing.proposition.name)
-          : `Repeal: ${ordinanceTitle(filing.proposition.name)}`,
-      summary: `Answers "${filing.proposition.question}" with ${filing.answer}.`,
-      proposition: filing.proposition,
-      answer: filing.answer,
-    });
-  return next;
 }
 
 function councilMeasures(
