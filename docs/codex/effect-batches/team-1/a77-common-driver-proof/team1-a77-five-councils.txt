@@ -71,4 +71,3 @@ stdout | src/simulation/governing/local-law-clock-parity.test.ts > automatic loc
       Tests  5 passed | 1 skipped (6)
    Start at  19:25:30
    Duration  32.12s (transform 9.57s, setup 18ms, import 12.08s, tests 19.91s, environment 0ms)
-

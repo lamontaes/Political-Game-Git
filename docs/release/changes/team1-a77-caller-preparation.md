@@ -1,5 +1,8 @@
 ---
+id: team1-a77-caller-preparation
 impact: none
+section: Changed
+title: Council caller preparation preserves actual seats
 ---
 
 A77 preparation checks actual council seats and names the unchanged existing vote input without changing simulation behavior.

@@ -86,4 +86,3 @@ Error: No registered legislature for 'institution:us-al-town-council-profile-v1:
       Tests  1 failed | 1 skipped (2)
    Start at  19:11:10
    Duration  17.80s (transform 9.69s, setup 18ms, import 11.88s, tests 5.79s, environment 0ms)
-
