@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { homeSceneFixture } from "../../tests/fixtures/home-scene";
 import {
   enterSupportedTerm,
   recordedTermFixture,
@@ -72,7 +73,10 @@ function say(
 describe("after an election", () => {
   it("a win asks when the term starts, and the answer is the recorded date", () => {
     const fixture = recordedTermFixture("player");
-    const world = passOrdinaryDays(fixture.world, 1);
+    const world = homeSceneFixture(
+      passOrdinaryDays(fixture.world, 1),
+      fixture.personId,
+    );
     const view = projectPlayerConversation(
       world,
       fixture.personId,
@@ -100,7 +104,10 @@ describe("after an election", () => {
 
   it("a loss is met differently, with no date and no truth marking", () => {
     const fixture = recordedTermFixture("rival");
-    const world = passOrdinaryDays(fixture.world, 1);
+    const world = homeSceneFixture(
+      passOrdinaryDays(fixture.world, 1),
+      fixture.personId,
+    );
     const view = projectPlayerConversation(
       world,
       fixture.personId,
@@ -297,9 +304,10 @@ describe("a reporter's question about an actual promise", () => {
   it("a denial is a claim the world contradicts, and the reporter calls back only after a source confirms", () => {
     const willing = sourceWho(["conflict", 2]);
     const denied = say(willing, player, "scene-reporter-question", "deny");
-    const denial = denied.history.events.findLast(
-      (event) => claimStanceOf(event)?.intent === "deceive",
-    )!;
+    const denial = denied.history.events
+      .slice()
+      .reverse()
+      .find((event) => claimStanceOf(event)?.intent === "deceive")!;
     const stance = claimStanceOf(denial)!;
     const reporter = stance.recipientPersonIds[0]!;
     expect(stance.statement).toMatch(/^No\./);
@@ -311,9 +319,10 @@ describe("a reporter's question about an actual promise", () => {
         reporter,
       ).at(-1)?.playerLine,
     ).toBe(stance.statement);
-    const claim = denied.history.claims.findLast(
-      (entry) => entry.speakerPersonId === player,
-    )!;
+    const claim = denied.history.claims
+      .slice()
+      .reverse()
+      .find((entry) => entry.speakerPersonId === player)!;
     expect(claim.relationshipToTruth).toBe("contradicts");
     let world = deserializeWorld(serializeWorld(denied));
     expect(
@@ -436,9 +445,10 @@ describe("a reporter's question about an actual promise", () => {
         (event) => event.type === CLAIM_CONTRADICTION_EVENT,
       ),
     ).toEqual([]);
-    const claim = world.history.claims.findLast(
-      (entry) => entry.speakerPersonId === player,
-    )!;
+    const claim = world.history.claims
+      .slice()
+      .reverse()
+      .find((entry) => entry.speakerPersonId === player)!;
     expect(claim.relationshipToTruth).toBe("contradicts");
   });
 });
