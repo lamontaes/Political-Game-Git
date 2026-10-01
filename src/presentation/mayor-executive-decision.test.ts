@@ -2,7 +2,7 @@
 import { writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
-import { adultLifeAt } from "../../tests/fixtures/state-executive-entry";
+import { createScenarioWorld } from "../simulation/demo";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,
@@ -114,9 +114,14 @@ function isolateAt(world: World, date: IsoDate, except?: EntityId): World {
 
 function presentedAct(seed: string, openingPlaceKey = "1150000") {
   const place = requireLifePlace("1150000");
-  let world = profile("adult-life-opening", () =>
-    adultLifeAt(openingPlaceKey, seed),
-  ).world;
+  // This is an executive mechanism fixture, not a generated life journey.
+  // Use the existing canonical small-world primitive; the actual mayor,
+  // council seats, terms and actions still come from their production writers.
+  let world = profile("canonical-small-world-opening", () =>
+    createScenarioWorld(seed, requireLifePlace(openingPlaceKey).context, {
+      peopleCount: 4,
+    }),
+  );
   // Materialize the same real D.C. government in each starting world through
   // its existing opening writer; this is not 56 different municipal powers.
   if (!world.jurisdictions[place.context.jurisdiction.id])
@@ -127,9 +132,9 @@ function presentedAct(seed: string, openingPlaceKey = "1150000") {
         [place.context.jurisdiction.id]: place.context.jurisdiction,
       },
     };
-  if (world.control.kind !== "person")
-    throw new Error("Actual opening subject required.");
-  const openingPersonId = world.control.personId;
+  const openingPersonId = world.personOrder[0];
+  if (!openingPersonId || !world.people[openingPersonId])
+    throw new Error("Actual saved opening subject required.");
   world = profile("actual-mayor-opening", () =>
     ensureStateExecutiveIncumbent(world, openingPersonId, "DC"),
   );
