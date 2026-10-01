@@ -1,0 +1,56 @@
+{
+  "auditId": "A58",
+  "scope": "remove sole production refreshLocalEconomy caller/import only",
+  "before": {
+    "localHead": "f9c5d0baefb9a19719907bb9200aa83d2fafee8b",
+    "sourceBlob": "10915544c37976b1097279e19e716cce3afb4343",
+    "tests": {
+      "passed": 0,
+      "failed": 5,
+      "seconds": 21.71
+    },
+    "firstFailure": "legacy local-business organizations added; downstream job/pay/reload checks not reached",
+    "logSha256": "c0b096b9093798f6f4e20792fdd2b63fce3c7a206481da907da66e54732d7de4"
+  },
+  "after": {
+    "sourceBlob": "ee1fe565dedc4d1c4544d5fda53052d5551e988c",
+    "tests": {
+      "passed": 5,
+      "failed": 0,
+      "seconds": 44.85
+    },
+    "assertionsPassed": [
+      "no additional legacy business organizations",
+      "same actual work relationship",
+      "same compensation flow",
+      "same pay terms",
+      "same canonical town businesses",
+      "canonical integrity",
+      "serialized repeat equality",
+      "canonical reload and repeat equality"
+    ],
+    "logSha256": "95c73890b5e7301d98516c8912ec3ebd81ad93b3ad11c48f04196002f912b434"
+  },
+  "test": {
+    "path": "src/simulation/life-opportunities-recorded-business.test.ts",
+    "sha256": "99b1743bc48dc1c7e59573e87e980adc021f3e515160fa40619aed8b810f5684",
+    "unchangedBetweenRuns": true,
+    "placeKeys": ["5553000", "1304000", "4159000", "0820000", "1921000"],
+    "seedPrefix": "team4-a58-refresh-parity-20261001"
+  },
+  "prerequisite": {
+    "pr": 1520,
+    "head": "8777bd4743689742d40c61661a2b0f96ebe301e7"
+  },
+  "currentMainSourceVerification": {
+    "head": "543557ce134a40fcffaf48de794f11a749f62668",
+    "lifeOpportunitiesBlob": "10915544c37976b1097279e19e716cce3afb4343"
+  },
+  "limits": [
+    "exact foundation2c5 reader and admitted crisis-parent overlays; not full current-main proof",
+    "no paycheck/cash settlement parity or natural year",
+    "new generated person/flow IDs not collected by this parity file",
+    "other legacy business callers and historical tests remain",
+    "no speed comparison; differing full-file timing is not a speed claim"
+  ]
+}
