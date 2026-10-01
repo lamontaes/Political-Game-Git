@@ -1,4 +1,5 @@
 import { ageOnDate } from "../simulation/dates";
+import { loanTermsAt } from "../simulation/household-loans";
 import {
   HOME_BUYING_AGE,
   HOME_PURCHASE_PLACEHOLDER,
@@ -7,6 +8,7 @@ import {
   homePurchaseTerms,
   moneyIsTracked,
   ownedHomeFor,
+  type HomeMortgageInput,
 } from "../simulation/home-purchase";
 import { householdMembershipsAt } from "../simulation/life-queries";
 import { outstandingDebtAt } from "../simulation/resource-queries";
@@ -34,6 +36,7 @@ export type HomePurchaseView =
 export function projectHomePurchase(
   world: World,
   personId: EntityId,
+  mortgage?: HomeMortgageInput,
 ): HomePurchaseView | null {
   if (world.control.kind !== "person" || world.control.personId !== personId)
     return null;
@@ -46,7 +49,8 @@ export function projectHomePurchase(
     const obligation = world.history.resourceObligations.find(
       (record) =>
         record.housingTenureId === owned.id &&
-        record.basisKind === MORTGAGE_BASIS,
+        (record.basisKind === MORTGAGE_BASIS ||
+          record.basisKind === "debt:mortgage"),
     );
     const owed = obligation ? outstandingDebtAt(world, obligation.id) : null;
     return {
@@ -56,7 +60,9 @@ export function projectHomePurchase(
         owed === null
           ? null
           : owed.minorUnits > 0
-            ? `${dollars(owed)} is left on the mortgage.`
+            ? loanTermsAt(world, obligation!.id, world.currentDate)
+              ? `${dollars(owed)} is left on the mortgage.`
+              : `${dollars(owed)} is left on the mortgage. Its payment terms are not available.`
             : "The mortgage is paid off.",
     };
   }
@@ -70,12 +76,14 @@ export function projectHomePurchase(
     return null;
   if (!moneyIsTracked(world, personId)) return null;
   const currency = HOME_PURCHASE_PLACEHOLDER.currency;
-  const terms = homePurchaseTerms(world, person.homeJurisdictionId);
-  const reason = homePurchaseReason(world, personId);
+  const terms = homePurchaseTerms(world, person.homeJurisdictionId, mortgage);
+  const reason = homePurchaseReason(world, personId, mortgage);
   return {
     kind: reason ? "cannot-buy" : "can-buy",
     headline: "Buy a home",
-    terms: `A house costs ${dollars(money(terms.priceMinor, currency))}. You pay ${dollars(money(terms.downPaymentMinor, currency))} down, then ${dollars(money(terms.monthlyPaymentMinor, currency))} a month on the mortgage instead of rent.`,
+    terms: terms.financingSupported
+      ? `A house costs ${dollars(money(terms.priceMinor, currency))}. You pay ${dollars(money(terms.downPaymentMinor, currency))} down, then ${dollars(money(terms.monthlyPaymentMinor, currency))} a month on the mortgage instead of rent.`
+      : `A house costs ${dollars(money(terms.priceMinor, currency))}. Financing terms are not available for this purchase.`,
     reason,
   };
 }
