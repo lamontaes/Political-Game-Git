@@ -1,0 +1,136 @@
+{
+  "version": "a108-council-action-extraction/v1",
+  "status": "extraction-only; no production consumer or approved pack-field contract",
+  "extractedFrom": {
+    "main": "1c2d7ddf5e5ef636efd927d262a8dcbc62b2dff6",
+    "path": "src/simulation/municipal-ordinance-procedure.ts",
+    "blob": "71e3ec494cb959fc102997a5ace92b2e6f9b6e62"
+  },
+  "scope": "Existing read rules only. Missing government rows remain unsupported; these rows are not national default law.",
+  "records": [
+    {
+      "governmentKey": "us-dc-washington",
+      "congressionalReview": {
+        "ordinaryDays": 30,
+        "criminalCodeDays": 60,
+        "sources": [
+          {
+            "artifactId": "dc-code-1-206-02",
+            "artifactPath": "data/source/municipal-governance/raw/dc-code-1-206-02.xml",
+            "sha256": "e393d8d0372b2261a76f3d085d5a8b0ed8ff92190fe387c553b60db8a4cdb12a",
+            "citation": "D.C. Code § 1-206.02(c)(1)–(2)"
+          }
+        ],
+        "legalDayExclusions": [
+          "Saturdays",
+          "Sundays",
+          "holidays",
+          "days neither House is in session"
+        ],
+        "existingOperation": "Count weekdays only; count weekday transmittal as day one; effective on following day.",
+        "unresolved": [
+          "No holiday calendar or congressional sitting calendar is consumed.",
+          "No enacted disapproval resolution is consumed."
+        ],
+        "criminalCodeClassifier": {
+          "basis": "authored game inference from recorded question issue, not a recorded Code title",
+          "issueKeys": [
+            "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
+            "us-state-and-local:justice-public-safety.prosecution-and-defense",
+            "us-state-and-local:justice-public-safety.corrections-and-prisons",
+            "us-state-and-local:justice-public-safety.reentry"
+          ],
+          "sourceGap": "An act records questions, not the Code title it amends."
+        }
+      },
+      "overrideWindow": {
+        "days": 30,
+        "dayBasis": "CALENDAR",
+        "sources": [
+          {
+            "artifactId": "dc-code-1-204-04",
+            "artifactPath": "data/source/municipal-governance/raw/dc-code-1-204-04.xml",
+            "sha256": "3374f87ef76d93fcb1fb360519d79dc4dba823cdb47092a0068b6816954d2517",
+            "citation": "D.C. Code § 1-204.04(e)"
+          }
+        ]
+      }
+    },
+    {
+      "governmentKey": "us-va-charlottesville",
+      "ordinaryOrdinance": {
+        "voteBasis": "MAJORITY_PRESENT_AND_VOTING",
+        "recordedYeaNay": true,
+        "minimumInterveningDays": 3,
+        "vetoApplies": false,
+        "sources": [
+          {
+            "artifactId": "va-code-15-2-1427",
+            "artifactPath": "data/source/municipal-governance/raw/va-code-15-2-1427.html",
+            "sha256": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff",
+            "citation": "Code of Virginia § 15.2-1427(A)"
+          },
+          {
+            "artifactId": "va-charlottesville-city-code-ch2",
+            "artifactPath": "data/source/municipal-governance/raw/va-charlottesville-city-code-ch2.json",
+            "sha256": "028cafbacde26c095da6592fb7117339df032fe75da8f637ffc0e2edd7b2e5a7",
+            "citation": "City Code §§ 2-78, 2-97"
+          },
+          {
+            "artifactId": "va-charlottesville-charter",
+            "artifactPath": "data/source/municipal-governance/raw/va-charlottesville-charter.html",
+            "sha256": "4d36b728a582d1c5e8b71306f6e111bf1208b5c77d95d15e57f5e03c46f26183",
+            "citation": "Charter § 12"
+          }
+        ],
+        "unresolved": [
+          "City Code § 2-97 four-fifths same-day exception does not establish what the fraction counts."
+        ]
+      },
+      "stateFiscalRule": {
+        "actions": ["APPROPRIATION", "TAX_LEVY", "BORROWING"],
+        "appropriationAmountUsdStrictlyAbove": 500,
+        "voteBasis": "MAJORITY_OF_ALL_ELECTED_MEMBERS",
+        "recordedYeaNay": true,
+        "sources": [
+          {
+            "artifactId": "va-code-15-2-1428",
+            "artifactPath": "data/source/municipal-governance/raw/va-code-15-2-1428.html",
+            "sha256": "9fc0803c359a620c751fa24ac3cb88793704e4fce6ec1e0afa4124069aecff43",
+            "citation": "Code of Virginia § 15.2-1428"
+          }
+        ]
+      },
+      "cityFiscalRule": {
+        "actions": ["APPROPRIATION", "TAX_LEVY", "BORROWING"],
+        "readTextAmendedOn": "2026-02-02",
+        "appropriationAmountUsdStrictlyAbove": 100,
+        "voteBasis": "MAJORITY_OF_ALL_ELECTED_MEMBERS",
+        "recordedYeaNay": true,
+        "sources": [
+          {
+            "artifactId": "va-charlottesville-city-code-ch2",
+            "artifactPath": "data/source/municipal-governance/raw/va-charlottesville-city-code-ch2.json",
+            "sha256": "028cafbacde26c095da6592fb7117339df032fe75da8f637ffc0e2edd7b2e5a7",
+            "citation": "City Code § 2-98(a)"
+          }
+        ],
+        "priorText": "UNKNOWN; no acquired text before the observed amendment date."
+      },
+      "cityFiscalDelay": {
+        "actions": ["APPROPRIATION", "TAX_LEVY", "BORROWING"],
+        "readTextAmendedOn": "2026-02-02",
+        "appropriationAmountUsdStrictlyAbove": 5000,
+        "minimumInterveningDays": 3,
+        "sources": [
+          {
+            "artifactId": "va-charlottesville-city-code-ch2",
+            "artifactPath": "data/source/municipal-governance/raw/va-charlottesville-city-code-ch2.json",
+            "sha256": "028cafbacde26c095da6592fb7117339df032fe75da8f637ffc0e2edd7b2e5a7",
+            "citation": "City Code § 2-98"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "sourceMain": "1c2d7ddf5e5ef636efd927d262a8dcbc62b2dff6",
+  "sourceBlob": "71e3ec494cb959fc102997a5ace92b2e6f9b6e62",
+  "records": 2,
+  "verifiedArtifacts": {
+    "dc-code-1-206-02": "e393d8d0372b2261a76f3d085d5a8b0ed8ff92190fe387c553b60db8a4cdb12a",
+    "dc-code-1-204-04": "3374f87ef76d93fcb1fb360519d79dc4dba823cdb47092a0068b6816954d2517",
+    "va-code-15-2-1427": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff",
+    "va-charlottesville-city-code-ch2": "028cafbacde26c095da6592fb7117339df032fe75da8f637ffc0e2edd7b2e5a7",
+    "va-charlottesville-charter": "4d36b728a582d1c5e8b71306f6e111bf1208b5c77d95d15e57f5e03c46f26183",
+    "va-code-15-2-1428": "9fc0803c359a620c751fa24ac3cb88793704e4fce6ec1e0afa4124069aecff43"
+  },
+  "checks": [
+    "Ordinary/criminal review days match original literals",
+    "Override window matches original literal",
+    "Amendment cutoff matches original literal",
+    "All3 appropriation thresholds match original literals",
+    "Action keys are existing CouncilActionKind values",
+    "All6 raw artifact SHA256 digests match locked manifest"
+  ],
+  "runtimeStatus": "NOT RUN; JSON not imported; production unchanged",
+  "scope": "D.C. and Charlottesville only; no national default or invented prior text"
+}
