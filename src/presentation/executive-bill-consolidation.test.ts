@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import { afterAll, describe, expect, it } from "vitest";
 import { adultLifeAt } from "../../tests/fixtures/state-executive-entry";
 import {
@@ -218,15 +219,18 @@ const comparisons: {
   reasons: string[];
 }[] = [];
 afterAll(() => {
-  console.log(
-    "G6_SAME_SEED_COMPARISON " +
-      JSON.stringify({
-        source: "a20dad95b8251f76acc8e775c041163d95a1cad7",
-        total: comparisons.length,
-        changed: comparisons.filter((r) => r.old !== r.next).length,
-        rows: comparisons,
-      }),
-  );
+  const report = {
+    source: "a20dad95b8251f76acc8e775c041163d95a1cad7",
+    total: comparisons.length,
+    changed: comparisons.filter((r) => r.old !== r.next).length,
+    rows: comparisons,
+  };
+  if (process.env.G6_COMPARISON_REPORT_PATH)
+    writeFileSync(
+      process.env.G6_COMPARISON_REPORT_PATH,
+      JSON.stringify(report, null, 2),
+    );
+  console.log("G6_SAME_SEED_COMPARISON " + JSON.stringify(report));
 });
 
 describe("Congress uses the surviving executive decision", () => {
