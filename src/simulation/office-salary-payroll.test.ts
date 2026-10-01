@@ -52,7 +52,12 @@ const provenance = {
   note: "A37 controlled saved office work, contract and employer cash; not an election or opening proof.",
 };
 
-function fixture(placeKey: string, weeks = 2, amountMinor = 10000) {
+function fixture(
+  placeKey: string,
+  weeks = 2,
+  amountMinor = 10000,
+  cadenceKind: "schedule:weekly" | "schedule:town-weekly" = "schedule:weekly",
+) {
   const place = requireLifePlace(placeKey);
   const seed = `a37-office-payroll:${placeKey}`;
   // Only reuse generated people; the production catalog precedes all saved work.
@@ -60,10 +65,19 @@ function fixture(placeKey: string, weeks = 2, amountMinor = 10000) {
     peopleCount: 3,
   });
   const personId = identities.personOrder[0]!;
+  // The town's recorded weekly cadence starts Saturday; use the same actual
+  // interval for both contracts instead of changing either payday calendar.
+  const startsAt = addDays(
+    identities.currentDate,
+    (6 - new Date(`${identities.currentDate}T00:00:00Z`).getUTCDay() + 7) % 7,
+  );
   let world = createWorld({
     seed,
-    currentDate: identities.currentDate,
-    currentMoment: identities.currentMoment,
+    currentDate: startsAt,
+    currentMoment: simulationMomentOnLocalDate(
+      identities.currentMoment,
+      startsAt,
+    ),
     people: Object.values(identities.people),
     jurisdictions: [
       place.context.jurisdiction,
@@ -115,7 +129,7 @@ function fixture(placeKey: string, weeks = 2, amountMinor = 10000) {
     workRelationshipId: work.id,
     startsAt: world.currentDate,
     amount: money(amountMinor, "USD"),
-    cadenceKind: "schedule:weekly",
+    cadenceKind,
     restrictionKind: null,
     jurisdictionId: null,
     provenance,
@@ -161,12 +175,34 @@ it.each(sampled)(
     const shared = settleTownCompensations(f.world, f.periods);
     const office = settleOfficeSalaries(f.world, f.personId);
     expect(serializeWorld(office)).toBe(serializeWorld(shared));
+    const townFixture = fixture(placeKey, 2, 10000, "schedule:town-weekly");
+    const town = settleTownCompensations(
+      townFixture.world,
+      townFixture.periods,
+    );
     const paid = office.history.resourceTransferOutcomes.filter(
       (row) => row.resourceFlowId === f.flow.id,
     );
     expect(paid).toHaveLength(2);
     const stubs = recordedPayStubs(office, f.personId);
     expect(stubs).toHaveLength(2);
+    const financialLines = (stub: (typeof stubs)[number]) => ({
+      gross: stub.paidGross,
+      withheld: stub.withheld,
+      net: stub.netPaid,
+      taxes: stub.taxes.map((tax) => ({
+        key: tax.liability.taxKey,
+        amount: tax.withheld,
+      })),
+      laws: stub.laws.map((law) => ({
+        governingLawKey: law.stamp.governingLawKey,
+        questionKey: law.stamp.questionKey,
+        jurisdictionId: law.stamp.jurisdictionId,
+      })),
+    });
+    expect(stubs.map(financialLines)).toEqual(
+      recordedPayStubs(town, townFixture.personId).map(financialLines),
+    );
     for (const stub of stubs) {
       expect(stub.paidGross.minorUnits).toBeGreaterThan(10000);
       expect(stub.assessmentStatus).toBe("recorded");
@@ -185,6 +221,13 @@ it.each(sampled)(
       resourcePositionAt(
         office,
         { kind: "organization", organizationId: f.organizationId },
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits,
+    ).toBe(1_000_000_000 - gross);
+    expect(
+      resourcePositionAt(
+        town,
+        { kind: "organization", organizationId: townFixture.organizationId },
         money(0, "USD").currency,
       )!.liquidBalance.minorUnits,
     ).toBe(1_000_000_000 - gross);
