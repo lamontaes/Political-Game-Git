@@ -1,3 +1,38 @@
+## Current engine rebuild routing — October 1, 1:50 a.m. Eastern
+
+This section supersedes the historical roster and status entries below. Read current CTO decisions in [00c](https://docs.google.com/document/d/1L5IksyT3b-NydhTq8Px3pVT4s8MxCZ9oAj-wqNm5AM4/edit). The old Team 5 replacement entry is historical: its Codex session is stopped; Standby Claude Team 5 owns service, attendance and assigned opinion work. Do not restart it.
+
+| Lane | Existing chat ID | Host |
+| --- | --- | --- |
+| Team 1 | 01a0f110-800f-73d5-bc95-e63ac4e160cc | durable |
+| Team 2 | 01a0f111-398b-7417-a1f6-dc61533ac0dc | durable |
+| Team 3 | 01a0f111-abf7-70c1-b648-e8d4a41bd0dc | durable |
+| Team 4 | 01a0f112-2b2c-70fa-9c11-5f406ec0c0f2 | durable |
+| Team 6 | 01a0f112-ac3c-7054-af78-9dcebb1a30d7 | durable |
+| Team 7 | 01a0ef18-7d76-7220-9e0b-f89ad55bc6c3 | local |
+| Team 8 | 01a0f112-db5b-7030-b9e8-38027ef090ca | durable |
+| Team 9 | 01a0f113-051b-71e6-b663-8ab0a0a990c5 | durable |
+| AUDIT/SYSTEMS | 01a0f364-0f5e-7172-b8a5-3792039aa0dc | durable |
+| Merge | 01a0f113-5d55-7686-9094-92bf1b52e0e9 | durable |
+
+### Connections and outstanding proof
+
+- Foundation composition d31087be66377def5b999aad0383dcc219e97746 contains Team 3's corrected federal-floor consumer and main e457, retaining both permit and coverage histories. Audit owns terminal opening proof; no root runtime pass is claimed.
+- The service completion hook #1408 and proof #1422 were reported merged by CTO. Team 5 reported four focused completion cases and eight request cases passing; source review confirms no manual dispatcher call in the new completion test. This does not establish real crisis funding or library institutions.
+- Team 6's historical account seam and Team 2's saved delivery callback are released by CTO18. Their new composed runtime results must be read live. Team 6's earlier unapplied undefined-cutoff writer hunk was removed at 1e089b47.
+- Team 8's crisis parent repair #1431 admits existing resourceFlowTerms only. Team 8 reports eight focused passes and the original failed rent case passing within its unchanged limit. Coordinator verified the one-line production scope; final-main acceptance remains separate.
+- Team 4's scheduled-rent fixture is preserved in draft #1430 at b7433fa9c557140858295065fb7750bfaa970c7d. Remote tree a52ba93b7b5654acc6e49bcf95ae76109ce046a7 matches the team's reported preserved local tree; the commit metadata differs. One case timed out, four were not run. CTO disposition of the metadata-only replacement was requested.
+- Team 1 is waiting for Audit's first concrete G5 calendar contract. Its numbering PR #1411 was reported merged by CTO; final browser vote/reload proof was blocked by the appointment import cycle. Team 2's repair #1428 requires live merge and affected-test verification.
+- Audit reports one serial five-year measurement running on pinned main 2ce5f65c30b8dc6b094d444ee274219110394760 in Proctor, Vermont; Fair Oaks, Oklahoma; and Derry, New Hampshire. No multi-year pass or scene-rendering proof is claimed. Audit also owns the approved general activity completion path for all people; Team 5 consumes it for preschool attendance.
+
+### Failing checks and completion
+
+Track the appointment-module load failure in constitutional-reform.test.ts and the political-reflection-roll-call.test.ts regression separately, with current heads and actual terminal results. Latest observed main 1140c45bd8a2d985bcb1f21ae745985fbbae7a88 had Release, Deterministic validation and Browser proofs pending; predecessor cancellations are not passes.
+
+Completion requires every rebuild step, every effects-map link running or explicitly unsupported with a reason, passing multi-year behavior checks, and green checks on final main. Coordinator never merges. Read live CTO heartbeat time: after 60 minutes of silence only previously authorized work continues under the narrowed merge rule; after 120 minutes finish, publish and stop for renewed direction.
+
+## Historical status below
+
 ## Team 5 replacement — current roster override
 
 Owner replaced the bugged Team 5 chat. Active Team 5: `01a0f509-a0a4-7627-937d-65bb2bb5301a`, host `durable`, Sol 6.1 Medium. Assignment/handoff delivered; report automation retargeted ACTIVE. Old `01a0f112-863d-70a1-8c5f-d764c17080ea` archived; preserve its published source and workspace. Use the replacement for all future routing. Active chats renamed Team 1–9, AUDIT/SYSTEMS, Merge, Coordinator.

@@ -1,3 +1,17 @@
+import {
+  CHIEF_JUSTICE_VACANCY_VERSION,
+  CHIEF_JUSTICE_NOMINATION,
+  CHIEF_JUSTICE_CONFIRMATION,
+  CHIEF_JUSTICE_NOMINATED_EVENT,
+  CHIEF_JUSTICE_VACANCY_PROFILE,
+} from "./supreme-court-appointment-profile";
+export {
+  CHIEF_JUSTICE_VACANCY_VERSION,
+  CHIEF_JUSTICE_NOMINATION,
+  CHIEF_JUSTICE_CONFIRMATION,
+  CHIEF_JUSTICE_NOMINATED_EVENT,
+  CHIEF_JUSTICE_VACANCY_PROFILE,
+} from "./supreme-court-appointment-profile";
 import { addDays, makeIsoDate } from "../dates";
 import { currentPresidentOf } from "../crisis/offices";
 import {
@@ -25,7 +39,6 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import {
-  SUPREME_COURT_APPOINTMENT_PROFILE,
   SUPREME_COURT_VOTE_EVENT,
   associateJusticeSeatsHeldBy,
   briefSenateOnNominee,
@@ -56,23 +69,6 @@ import {
  * Still not modeled: a vacancy with no sitting President waits, and the game
  * does not yet reopen the nomination when a President takes office.
  */
-export const CHIEF_JUSTICE_VACANCY_VERSION =
-  "governing-chief-justice-vacancy-v1";
-export const CHIEF_JUSTICE_NOMINATION =
-  "governing:chief-justice-nomination" as const;
-export const CHIEF_JUSTICE_CONFIRMATION =
-  "governing:chief-justice-confirmation" as const;
-export const CHIEF_JUSTICE_NOMINATED_EVENT =
-  "governing.chief-justice-nominated" as const;
-
-export const CHIEF_JUSTICE_VACANCY_PROFILE = {
-  id: "ocd-chief-justice-vacancy-game-profile/v1",
-  daysFromVacancyToNomination:
-    SUPREME_COURT_APPOINTMENT_PROFILE.daysFromVacancyToNomination,
-  daysFromNominationToConfirmation:
-    SUPREME_COURT_APPOINTMENT_PROFILE.daysFromNominationToVote,
-} as const;
-
 const ADULT_AGE = 18;
 
 const CHIEF_JUSTICE_TITLE = "Chief Justice of the United States";
