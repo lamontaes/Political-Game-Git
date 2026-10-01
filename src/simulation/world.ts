@@ -1,3 +1,4 @@
+import { assertWorkPayCoverageIntegrity } from "./pay-coverage";
 import { applyDateBoundary } from "./time-work";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
@@ -2088,6 +2089,7 @@ function validateHistoryIntegrity(
         ...enactedDutyRecords(world),
         ...lawPermissionRecords(world),
         ...(history.legalOutcomeConsequences ?? []),
+        ...(history.workPayCoverageDeterminations ?? []),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2280,6 +2282,7 @@ function validateHistoryIntegrity(
   assertOfficialViewIntegrity(world, ids);
   assertLawPermissionIntegrity(world, ids);
   assertLegalOutcomeConsequenceIntegrity(world);
+  assertWorkPayCoverageIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {

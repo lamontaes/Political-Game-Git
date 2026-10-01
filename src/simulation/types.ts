@@ -1,3 +1,4 @@
+import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawAmountUnit, LawConsequenceRow } from "./law-consequence-types";
 import type {
   LawEffectStamp,
@@ -4314,6 +4315,7 @@ export interface LegalOutcomeConsequenceRecord {
 }
 
 export interface HistoryStore {
+  readonly workPayCoverageDeterminations?: readonly WorkPayCoverageDeterminationRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
