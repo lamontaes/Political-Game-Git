@@ -157,7 +157,8 @@ export interface StatutoryTaxLiabilityRecord
 }
 
 /** Money that actually moved against one liability. */
-export interface StatutoryTaxPaymentRecord extends TaxHistoryRoot {
+export interface StatutoryTaxPaymentRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly liabilityId: EntityId;
   readonly method: "withholding";
   readonly amount: MoneyAmount;
