@@ -3247,6 +3247,8 @@ export interface LoanTermsRecord {
   readonly kind: HouseholdLoanKind;
   readonly lenderKind: LenderKind;
   readonly annualRateBasisPoints: number;
+  /** One-time principal credit written by this revision, never a payment. */
+  readonly principalReduction?: MoneyAmount;
   /** "capped" when a rate cap in force held the rate below the market. */
   readonly rateBasis: "written" | "capped";
   /** The measure whose cap applied, when `rateBasis` is "capped". */

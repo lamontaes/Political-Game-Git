@@ -255,6 +255,7 @@ export function reviseLoanTerms(
       | "rateCapMeasureId"
       | "repayment"
       | "lateFee"
+      | "principalReduction"
     >
   >,
   stableKey: string,
@@ -262,6 +263,42 @@ export function reviseLoanTerms(
 ): World {
   const current = loanTermsAt(world, resourceObligationId, world.currentDate);
   if (!current) throw new Error("This debt has no loan terms to revise.");
+  if (change.principalReduction) {
+    if (
+      (world.history.debtCharges ?? []).some(
+        (row) =>
+          row.resourceObligationId === resourceObligationId &&
+          row.chargedAt <= world.currentDate,
+      )
+    )
+      throw new Error(
+        "Principal-only forgiveness needs a recorded principal/interest allocation for a charged debt.",
+      );
+    const reduction = change.principalReduction;
+    const balance = outstandingDebtAt(world, resourceObligationId);
+    const obligation = world.history.resourceObligations.find(
+      (row) => row.id === resourceObligationId,
+    );
+    const previousReductions = (world.history.loanTerms ?? [])
+      .filter((row) => row.resourceObligationId === resourceObligationId)
+      .reduce(
+        (total, row) => total + (row.principalReduction?.minorUnits ?? 0),
+        0,
+      );
+    if (
+      !balance ||
+      !obligation?.principal ||
+      reduction.currency !== balance.currency ||
+      !Number.isSafeInteger(reduction.minorUnits) ||
+      reduction.minorUnits <= 0 ||
+      reduction.minorUnits > balance.minorUnits ||
+      reduction.minorUnits >
+        obligation.principal.minorUnits - previousReductions
+    )
+      throw new Error(
+        "A principal reduction must fit the recorded debt and original principal.",
+      );
+  }
   const revised = { ...current, ...change };
   assertTermsInput(revised);
   return appendLoanTerms(world, {
@@ -275,11 +312,45 @@ export function reviseLoanTerms(
     rateCapMeasureId: revised.rateCapMeasureId,
     repayment: revised.repayment,
     lateFee: revised.lateFee,
+    ...(change.principalReduction
+      ? { principalReduction: { ...change.principalReduction } }
+      : {}),
     missedPaymentsToDefault: current.missedPaymentsToDefault,
     missedPaymentsToCollections: current.missedPaymentsToCollections,
     provenance,
     supersedesTermsId: current.id,
   });
+}
+
+/** A repeatable principal credit; it transfers no money and edits no old terms. */
+export function reduceLoanPrincipal(
+  world: World,
+  resourceObligationId: EntityId,
+  amount: MoneyAmount,
+  stableKey: string,
+  provenance: LifeRecordProvenance,
+): World {
+  const existing = (world.history.loanTerms ?? []).find(
+    (row) => row.stableKey === stableKey,
+  );
+  if (existing) {
+    if (
+      existing.resourceObligationId !== resourceObligationId ||
+      existing.principalReduction?.minorUnits !== amount.minorUnits ||
+      existing.principalReduction?.currency !== amount.currency
+    )
+      throw new Error(
+        "A principal-reduction identity cannot be reused for another credit.",
+      );
+    return world;
+  }
+  return reviseLoanTerms(
+    world,
+    resourceObligationId,
+    { principalReduction: amount },
+    stableKey,
+    provenance,
+  );
 }
 
 export function loanTermsAt(
@@ -758,6 +829,7 @@ export function assertHouseholdLoanIntegrity(
   const terms = new Map(
     (world.history.loanTerms ?? []).map((row) => [row.id, row]),
   );
+  const reductions = new Map<EntityId, number>();
   for (const row of world.history.loanTerms ?? []) {
     const debt = debts.get(row.resourceObligationId);
     if (!debt?.principal || debt.sequence >= row.sequence)
@@ -768,6 +840,23 @@ export function assertHouseholdLoanIntegrity(
       (row.rateBasis === "capped") !== (row.rateCapMeasureId !== null)
     )
       throw new Error("Loan terms carry an invalid rate.");
+    if (row.principalReduction) {
+      const amount = row.principalReduction;
+      const total = (reductions.get(debt.id) ?? 0) + amount.minorUnits;
+      if (
+        !Number.isSafeInteger(amount.minorUnits) ||
+        amount.minorUnits <= 0 ||
+        amount.currency !== debt.principal.currency ||
+        !Number.isSafeInteger(total) ||
+        total > debt.principal.minorUnits ||
+        !row.supersedesTermsId ||
+        row.effectiveAt < debt.establishedAt
+      )
+        throw new Error(
+          "Loan principal reductions must be positive, dated credits within original principal.",
+        );
+      reductions.set(debt.id, total);
+    }
   }
   for (const row of world.history.debtCharges ?? []) {
     const governing = terms.get(row.loanTermsId);

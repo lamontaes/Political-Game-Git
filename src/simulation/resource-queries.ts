@@ -263,8 +263,19 @@ export function outstandingDebtAt(
     )
       charged = addExact(charged, charge.amount.minorUnits);
   }
+  // Each revision's principal credit is an event, not a carried-forward term.
+  let reduced = 0;
+  for (const terms of world.history.loanTerms ?? []) {
+    if (
+      terms.resourceObligationId === obligation.id &&
+      terms.principalReduction &&
+      availableOn(terms, terms.effectiveAt, cutoff)
+    ) {
+      reduced = addExact(reduced, terms.principalReduction.minorUnits);
+    }
+  }
   return money(
-    Math.max(0, obligation.principal.minorUnits + charged - paid),
+    Math.max(0, obligation.principal.minorUnits + charged - paid - reduced),
     obligation.principal.currency,
   );
 }
