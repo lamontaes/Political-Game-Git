@@ -325,6 +325,9 @@ function enactedByQuestion(
 }
 
 interface StartingLawRow {
+  readonly phases?: readonly (Omit<StartingLawRow, "phases" | "before"> & {
+    readonly operativeAt: string;
+  })[];
   readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly answer: PropositionAnswer;
   readonly operativeAt?: string;
@@ -384,6 +387,39 @@ export function startingLawPlaceKey(
   return startingLawPlaceKeys.get(jurisdictionId);
 }
 
+/** The same dated legal text is used by authority selection and numeric readers. */
+function startingLawRowAt(
+  dated: StartingLawRow,
+  onDate: IsoDate,
+): {
+  readonly row: StartingLawRow;
+  readonly operativeAt: IsoDate;
+} | null {
+  const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
+  const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
+  let selected: { row: StartingLawRow; operativeAt: IsoDate } | null =
+    answerAt <= onDate
+      ? { row: dated, operativeAt: answerAt }
+      : dated.before && defaultAt <= onDate
+        ? { row: dated.before, operativeAt: defaultAt }
+        : null;
+  const seen = new Set<string>([answerAt]);
+  for (const phase of dated.phases ?? []) {
+    const operativeAt = makeIsoDate(phase.operativeAt);
+    if (operativeAt <= answerAt || seen.has(operativeAt))
+      throw new Error(
+        "Starting law phases require distinct dates after the initial rule",
+      );
+    seen.add(operativeAt);
+    if (
+      operativeAt <= onDate &&
+      (!selected || operativeAt > selected.operativeAt)
+    )
+      selected = { row: phase, operativeAt };
+  }
+  return selected;
+}
+
 /** Numeric text belonging to the canonical starting row, not an invented enactment. */
 export function startingLawTerms(
   law: LawInForce,
@@ -398,11 +434,14 @@ export function startingLawTerms(
   const placeKey = law.measureId.slice(prefix.length, -suffix.length);
   const dated = STARTING_LAW.questions[questionKey]?.answers[placeKey];
   if (!dated) return [];
-  const answerAt = makeIsoDate(
-    dated.operativeAt ?? STARTING_LAW.defaultOperativeAt,
-  );
-  const row = answerAt > onDate ? dated.before : dated;
-  if (!row || row.answer !== law.answer) return [];
+  const selected = startingLawRowAt(dated, onDate);
+  if (
+    !selected ||
+    selected.row.answer !== law.answer ||
+    selected.operativeAt !== law.operativeAt
+  )
+    return [];
+  const row = selected.row;
   return row.lawTerms ?? [];
 }
 
@@ -431,15 +470,9 @@ function startingLawCandidate(
       const placeKey = startingLawPlaceKey(placeId);
       const dated = placeKey ? starting.answers[placeKey] : undefined;
       if (!dated) continue;
-      const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
-      const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
-      // Before its answer takes effect, a row says what held until then.
-      const row =
-        answerAt > onDate && dated.before
-          ? { ...dated.before, operativeAt: undefined }
-          : dated;
-      const operativeAt = row === dated ? answerAt : defaultAt;
-      if (operativeAt > onDate) continue;
+      const selected = startingLawRowAt(dated, onDate);
+      if (!selected) continue;
+      const { row, operativeAt } = selected;
       const candidate: Candidate = {
         answer: row.answer,
         measureId: `starting-law:${placeKey}:${questionKey}` as EntityId,
