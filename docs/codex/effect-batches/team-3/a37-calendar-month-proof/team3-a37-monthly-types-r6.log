@@ -1,0 +1,12 @@
+roots=3 files=759 diagnostics=1
+[96msrc/simulation/local-economy-monthly-payroll.test.ts[0m:[93m155[0m:[93m5[0m - [91merror[0m[90m TS2322: [0mType 'string' is not assignable to type 'EntityId'.
+  Type 'string' is not assignable to type '{ readonly [entityIdBrand]: true; }'.
+
+[7m155[0m     resourceFlowId,
+[7m   [0m [91m    ~~~~~~~~~~~~~~[0m
+
+  [96msrc/simulation/monthly-work-pay.ts[0m:[93m8[0m:[93m12[0m
+    [7m8[0m   readonly resourceFlowId: EntityId;
+    [7m [0m [96m           ~~~~~~~~~~~~~~[0m
+    The expected type comes from property 'resourceFlowId' which is declared here on type 'MonthlyWorkPayInput'
+

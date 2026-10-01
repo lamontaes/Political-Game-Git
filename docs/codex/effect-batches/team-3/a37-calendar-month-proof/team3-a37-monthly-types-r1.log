@@ -1,0 +1,39 @@
+roots=3 files=758 diagnostics=5
+[96msrc/simulation/local-economy-monthly-payroll.test.ts[0m:[93m42[0m:[93m5[0m - [91merror[0m[90m TS2554: [0mExpected 2 arguments, but got 3.
+
+[7m42[0m     place.context.jurisdiction,
+[7m  [0m [91m    ~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/simulation/local-economy-monthly-payroll.test.ts[0m:[93m109[0m:[93m5[0m - [91merror[0m[90m TS2353: [0mObject literal may only specify known properties, and 'purposeKind' does not exist in type 'CreateResourceFlowInput'.
+
+[7m109[0m     purposeKind: "purpose:income",
+[7m   [0m [91m    ~~~~~~~~~~~[0m
+[96msrc/simulation/local-economy-monthly-payroll.test.ts[0m:[93m124[0m:[93m7[0m - [91merror[0m[90m TS2353: [0mObject literal may only specify known properties, and 'asOf' does not exist in type 'CreateResourcePositionInput'.
+
+[7m124[0m       asOf: currentDate,
+[7m   [0m [91m      ~~~~[0m
+[96msrc/simulation/local-economy-monthly-payroll.test.ts[0m:[93m272[0m:[93m15[0m - [91merror[0m[90m TS2322: [0mType '"external"' is not assignable to type '"household" | "organization" | "person"'.
+
+[7m272[0m     source: { kind: "external", externalKey: "fixture:recorded-sales" },
+[7m   [0m [91m              ~~~~[0m
+
+  [96msrc/simulation/types.ts[0m:[93m3107[0m:[93m16[0m
+    [7m3107[0m   | { readonly kind: "person"; readonly personId: EntityId }
+    [7m    [0m [96m               ~~~~[0m
+    The expected type comes from property 'kind' which is declared here on type 'ResourceEndpoint'
+[96msrc/simulation/local-economy.ts[0m:[93m875[0m:[93m9[0m - [91merror[0m[90m TS2322: [0mType '{ kind: "other"; input: RecordResourceTransferOutcomeInput; onDate: string; revenue: boolean; }[]' is not assignable to type 'Due[]'.
+  Type '{ kind: "other"; input: RecordResourceTransferOutcomeInput; onDate: string; revenue: boolean; }' is not assignable to type 'Due'.
+    Type '{ kind: "other"; input: RecordResourceTransferOutcomeInput; onDate: string; revenue: boolean; }' is not assignable to type '{ kind: "other"; input: RecordResourceTransferOutcomeInput; onDate: IsoDate; revenue: boolean; }'.
+      Types of property 'onDate' are incompatible.
+        Type 'string' is not assignable to type 'IsoDate'.
+          Type 'string' is not assignable to type '{ readonly [isoDateBrand]: true; }'.
+
+[7m875[0m       : dueOutcomes(world, flow, latest.get(flow.id) ?? null).map((input) => ({
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m876[0m           kind: "other",
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m879[0m           revenue: flow.basisKind === BUSINESS_REVENUE_BASIS,
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m880[0m         })),
+[7m   [0m [91m~~~~~~~~~~~[0m
+

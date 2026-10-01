@@ -1,0 +1,1 @@
+{"id":"team-3-a37-calendar-month-payroll","impact":"patch","section":"Fixed","title":"Business payroll uses the month-end payday","body":"Business wages use the existing month-end payday and the same withholding records as other paychecks.","path":"docs/release/changes/team-3-a37-calendar-month-payroll.md"}

@@ -1,0 +1,6 @@
+roots=3 files=760 diagnostics=1
+[96msrc/simulation/local-economy-monthly-payroll.test.ts[0m:[93m2[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module 'node:crypto' or its corresponding type declarations.
+
+[7m2[0m import { createHash } from "node:crypto";
+[7m [0m [91m                           ~~~~~~~~~~~~~[0m
+
