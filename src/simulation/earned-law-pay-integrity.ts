@@ -7,7 +7,7 @@ import { workRoleAt, workStatusAt } from "./life-queries";
 import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
 import { lawInForce } from "./governing/law-in-force";
 import type { LawInForce } from "./governing/law-in-force";
-import { readFinalEnactedLawTerm } from "./governing/automatic-legislation";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { evaluateLawAmount, type LawAmount } from "./law-consequence-amount";
 import type { LawAmountExpression } from "./law-consequence-types";
 import { enactedRuleChangeAt, laborLawOfficeKey } from "./enacted-rule-changes";
