@@ -1,0 +1,59 @@
+{
+  "sourceCommit": "67572907d51f8fdddec731ab2f64890edd0c122c",
+  "executedHead": "de9e8ced61617925eb6acfa4d6ec7394891d0243",
+  "mode": "Native tests before source commit with owned two-file overlay, now bound to committed blobs.",
+  "main": "123f7dc77e80fb1d9abd78e34956f91afceb3e60",
+  "tests": {
+    "passed": 16,
+    "failed": 0,
+    "files": 2,
+    "seconds": 31.91
+  },
+  "types": {
+    "roots": 6,
+    "scoped": 0,
+    "imported": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "files": {
+    "src/simulation/governing/member-filing-caps.ts": {
+      "blob": "0d042038303a348e68b80e03d5f6650de3109429",
+      "sha256": "c5d8c6c7d1ce4bccddf2cbc36fa730c98cea9a03d5c1d73ca6ac321840c96aaf"
+    },
+    "src/simulation/governing/member-filing-caps.test.ts": {
+      "blob": "6c8ccc46cc0b585e229675970b9b1b94e270db16",
+      "sha256": "74c86c23f9fba1b3566cb9384b8035cb736188a232438a48a8e8c769adad2f15"
+    },
+    "src/simulation/governing/member-agenda.ts": {
+      "blob": "1c9ed02a442150a3a0b362f35092ddd3f248a23f",
+      "sha256": "150dea366130204cdb2536efd64d3bd284ab4faa8058d0b7a01d8e3c115ab170"
+    },
+    "src/simulation/governing/member-agenda-individual.test.ts": {
+      "blob": "50b8d334581d4db6acb79252fc2555a6b83cd485",
+      "sha256": "84f2c890c61543b323c08f791e2431775a75480431bb507a4ce7652eb7416730"
+    }
+  },
+  "logs": {
+    "tests.log": {
+      "originalPath": "/tmp/team1-cap-unbound-test.log",
+      "originalSha256": "e63cb9d98642da6f28253132b10b713cb797a49ae3aeb9382807243401bb2ac7",
+      "publishedSha256": "d966063e8009479870d4d871c17e3800bd72e32a67f581dd42f44686232362f4"
+    },
+    "types.log": {
+      "originalPath": "/tmp/team1-cap-unbound-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd"
+    },
+    "lint.log": {
+      "originalPath": "/tmp/team1-cap-unbound-lint.log",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "format.log": {
+      "originalPath": "/tmp/team1-cap-unbound-format.log",
+      "originalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "publishedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    }
+  }
+}

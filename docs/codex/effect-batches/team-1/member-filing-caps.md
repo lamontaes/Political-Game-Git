@@ -14,7 +14,7 @@ HARDWIRED: an authored two-bill test rule limited each named member to two actua
 
 ## VITAL STATISTICS
 
-Fifteen of fifteen focused cases passed in 31.05 seconds. Six strict roots had zero scoped or imported diagnostics. Scoped lint, formatting and report checks passed. The adjacent receipt records source hashes and the main composition. Controlled state selection used team1-distinct-member-intakes. The fixtures start directly on their declared dates; no local year is advanced. Sourced production caps, natural one-year filings, full jurisdiction behavior, browser, speed and whole-suite checks remain NOT RUN.
+The initial fifteen focused cases passed in 31.05 seconds. The unbound-exemption contract successor passed sixteen of sixteen in 31.91 seconds. Six strict roots had zero scoped or imported diagnostics. Scoped lint, formatting and report checks passed. The adjacent receipt records source hashes and the main composition. Controlled state selection used team1-distinct-member-intakes. The fixtures start directly on their declared dates; no local year is advanced. Sourced production caps, natural one-year filings, full jurisdiction behavior, browser, speed and whole-suite checks remain NOT RUN.
 
 ## 1. Why-chain (five whys, to bedrock)
 
@@ -44,6 +44,8 @@ The filer checks the actual compiled subject, avoiding an inferred exemption fro
 ## 5. Simulated, records, world pieces, checks
 
 SIMULATED: the real filer chooses from actual seated members’ saved principles. RECORDS: canonical bills, sponsor IDs, subject classes and numbering sessions supply the count. WORLD PIECES: X5’s researched rows and any actual biennium window are future inputs. CHECKS: wrong member, place, chamber, period and future records cannot consume a cap; joint and unicameral rows apply; declared exemptions do not override another binding cap.
+
+X5 supplies quoted unboundExemptions separately from executable subject-class exemptions. They remain labeled in the reader result. Below the declared cap, filing remains supported; at the cap, an unbound exception returns unbound-rule instead of silently applying it.
 
 Free-text local-bill exemptions lack a canonical saved classification. Their binding and actual biennium windows were requested from X5 and Audit. No runnable exception was invented. The empty table is immediately usable and changes no cap outcome.
 
