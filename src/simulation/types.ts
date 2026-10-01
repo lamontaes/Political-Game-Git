@@ -1,3 +1,4 @@
+import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type {
   PermitApplicationRecord,
   PermitStatusRecord,
@@ -237,6 +238,7 @@ export type EntityKind =
   | "resource-obligation-state"
   | "resource-position"
   | "earned-law-pay-assessment"
+  | "work-pay-coverage"
   | "resource-transfer-outcome"
   | "scheduled-activity"
   | "scheduled-activity-state"
@@ -4457,6 +4459,7 @@ export type ChildhoodRecordEntry =
     });
 
 export interface HistoryStore {
+  readonly workPayCoverageDeterminations?: readonly WorkPayCoverageDeterminationRecord[];
   /** Childhood entries, one record per person, read with `childhoodRecord`. */
   readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
   readonly permitApplications?: readonly PermitApplicationRecord[];

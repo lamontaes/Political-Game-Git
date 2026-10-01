@@ -113,6 +113,7 @@ export interface LawConsequenceRow {
   onward?: LawConsequenceRow[];
 }
 export interface LawConsequenceContext {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
@@ -169,6 +170,7 @@ export type ResolvedLawValue =
   | { type: "boolean"; value: boolean }
   | { type: "decision"; value: string };
 export interface ResolvedLawConsequence {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
   row: LawConsequenceRow;
   law: LawInForce;
   questionKey: string;
@@ -200,6 +202,12 @@ export interface ResolvedStandingServiceConsequence extends Omit<
 > {
   authority: StandingProgramAuthority;
 }
+export interface ResolvedSavedRuleConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: ResolvedSavedHourlyPayConsequence["authority"];
+}
 /** Actual adopted typed levy, without fabricating a catalog question. */
 export interface ResolvedTypedTaxConsequence extends Omit<
   ResolvedLawConsequence,
@@ -215,9 +223,13 @@ export interface ResolvedTypedTaxConsequence extends Omit<
   };
 }
 export type ResolvedSavedLawConsequence =
-  ResolvedStandingServiceConsequence | ResolvedTypedTaxConsequence;
+  | ResolvedStandingServiceConsequence
+  | ResolvedTypedTaxConsequence
+  | ResolvedSavedRuleConsequence;
 export type ResolvedAnyLawConsequence =
   ResolvedLawConsequence | ResolvedSavedLawConsequence;
+
+export type ResolvedSavedAuthorityConsequence = ResolvedSavedLawConsequence;
 
 export type LawConsequenceHandler = (
   world: World,

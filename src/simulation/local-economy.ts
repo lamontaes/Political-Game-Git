@@ -1,9 +1,9 @@
+import { addDays, makeIsoDate } from "./dates";
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
   type InventedPersonRole,
 } from "./invented-person-age";
-import { makeIsoDate } from "./dates";
 import {
   createCharacterHistoryContextPeople,
   characterHistoryContextPersonId,
@@ -22,7 +22,14 @@ import {
   workRoleAt,
 } from "./life-queries";
 import { localBusinessSupplyFor } from "./local-business-counts";
-import { townJobRate } from "./living-world/town-pay";
+import {
+  townJobRate,
+  payPeriodEndingOn,
+  settleTownCompensations,
+  type TownCompensationPeriod,
+} from "./living-world/town-pay";
+import { recordById } from "./history-index";
+import { legacyMonthlyPayCoverage } from "./monthly-work-pay";
 import { townBusinesses } from "./living-world/town-businesses";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
@@ -550,6 +557,7 @@ function seatMissingLocalBusinesses(
 
   const jobs: CreateWorkRelationshipInput[] = [];
   const flows: CreateResourceFlowInput[] = [];
+  const wageWorkKeys = new Map<string, string>();
   for (const plan of plans) {
     const key = businessKey(jurisdictionId, plan.kind, plan.planned.index);
     const provenance = provenanceFor(plan.planned);
@@ -616,8 +624,10 @@ function seatMissingLocalBusinesses(
     });
     plan.workers.forEach(({ input, since }, index) => {
       const workerId = personId(input);
+      const workKey = `${key}:worker:${index + 1}:work`;
+      const wageKey = `${key}:worker:${index + 1}:wages`;
       jobs.push({
-        stableKey: `${key}:worker:${index + 1}:work`,
+        stableKey: workKey,
         personId: workerId,
         organizationId,
         startedAt: since,
@@ -635,7 +645,7 @@ function seatMissingLocalBusinesses(
         },
       });
       flows.push({
-        stableKey: `${key}:worker:${index + 1}:wages`,
+        stableKey: wageKey,
         source: business,
         recipient: { kind: "person", personId: workerId },
         startsAt: today,
@@ -650,13 +660,41 @@ function seatMissingLocalBusinesses(
         jurisdictionId,
         provenance,
       });
+      wageWorkKeys.set(wageKey, workKey);
     });
   }
   // One integrity check for each batch rather than one per record: a town
   // is about sixty records, and seating them one by one cost a new life a
   // fifth of a second.
+  const firstWork = next.history.workRelationships.length;
   next = createWorkRelationships(next, jobs);
-  return createResourceFlows(next, flows);
+  const createdWork = new Map(
+    next.history.workRelationships
+      .slice(firstWork)
+      .map((work) => [work.stableKey, work]),
+  );
+  return createResourceFlows(
+    next,
+    flows.map((flow) => {
+      const workKey = wageWorkKeys.get(flow.stableKey);
+      if (!workKey) return flow;
+      const work = createdWork.get(workKey);
+      if (
+        !work ||
+        flow.source.kind !== "organization" ||
+        work.organizationId !== flow.source.organizationId ||
+        flow.recipient.kind !== "person" ||
+        work.personId !== flow.recipient.personId
+      )
+        throw new Error(
+          "Local worker wages require their actual newly saved work relationship.",
+        );
+      return {
+        ...flow,
+        basisReference: { kind: "work", workRelationshipId: work.id },
+      };
+    }),
+  );
 }
 
 function firstOfNextMonth(date: IsoDate): IsoDate {
@@ -702,6 +740,49 @@ function dueOutcomes(
     dueOn = firstOfNextMonth(dueOn);
   }
   return due;
+}
+
+/** Calendar-month wages use the existing month-end payroll, after the last saved day. */
+function dueWagePeriods(
+  world: World,
+  flow: ResourceFlow,
+  lastPaidDay: IsoDate | null,
+): TownCompensationPeriod[] {
+  if (flow.basisReference.kind !== "work")
+    throw new Error(
+      "Monthly business wages require their actual saved work reference.",
+    );
+  const work = recordById(
+    world.history.workRelationships,
+    flow.basisReference.workRelationshipId,
+  );
+  if (!work)
+    throw new Error("Monthly business wages require their actual saved work.");
+  let start = [
+    flow.startsAt,
+    work.startedAt,
+    ...(lastPaidDay ? [addDays(lastPaidDay, 1)] : []),
+  ].reduce((a, b) => (a > b ? a : b));
+  const periods: TownCompensationPeriod[] = [];
+  while (start <= world.currentDate) {
+    const monthEnd = addDays(firstOfNextMonth(start), -1);
+    if (monthEnd > world.currentDate) break;
+    const calendar = payPeriodEndingOn("monthly", monthEnd, 0)!;
+    const periodStartsAt =
+      start > calendar.startsAt ? start : calendar.startsAt;
+    periods.push({
+      stableKey: `${flow.stableKey}:calendar-month:${periodStartsAt}:${calendar.endsAt}`,
+      payFlowId: flow.id,
+      activityId: flow.id,
+      periodStartsAt,
+      periodEndsAt: calendar.endsAt,
+      onDate: monthEnd,
+      note: "Pay for the calendar month.",
+      provenance: flow.provenance,
+    });
+    start = addDays(calendar.endsAt, 1);
+  }
+  return periods;
 }
 
 /** Whether the game keeps a balance for either end of this flow. */
@@ -754,28 +835,100 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
   const tracked = flows.filter((flow) => touchesTrackedMoney(world, flow));
   if (tracked.length === 0) return world;
   const latest = new Map<EntityId, IsoDate>();
+  const wageLastDays = new Map<EntityId, IsoDate>();
   const ids = new Set(tracked.map((flow) => flow.id));
   for (const outcome of world.history.resourceTransferOutcomes) {
     if (!ids.has(outcome.resourceFlowId)) continue;
     const seen = latest.get(outcome.resourceFlowId);
     if (seen === undefined || outcome.periodStartsAt > seen)
       latest.set(outcome.resourceFlowId, outcome.periodStartsAt);
+    const lastDay = wageLastDays.get(outcome.resourceFlowId);
+    const legacyCoverage = legacyMonthlyPayCoverage(world, outcome.id);
+    const coveredThrough = legacyCoverage
+      ? addDays(legacyCoverage.nextPeriodStartsAt, -1)
+      : outcome.periodEndsAt;
+    if (!lastDay || coveredThrough > lastDay)
+      wageLastDays.set(outcome.resourceFlowId, coveredThrough);
   }
-  const due = tracked.flatMap((flow) =>
-    dueOutcomes(world, flow, latest.get(flow.id) ?? null).map((input) => ({
-      input,
-      revenue: flow.basisKind === BUSINESS_REVENUE_BASIS,
-    })),
+  type Due =
+    | {
+        kind: "wage";
+        period: TownCompensationPeriod;
+        onDate: IsoDate;
+        revenue: false;
+      }
+    | {
+        kind: "other";
+        input: RecordResourceTransferOutcomeInput;
+        onDate: IsoDate;
+        revenue: boolean;
+      };
+  const due: Due[] = tracked.flatMap((flow): Due[] =>
+    flow.basisKind === BUSINESS_WAGES_BASIS
+      ? dueWagePeriods(world, flow, wageLastDays.get(flow.id) ?? null).map(
+          (period) => ({
+            kind: "wage",
+            period,
+            onDate: period.onDate,
+            revenue: false,
+          }),
+        )
+      : dueOutcomes(world, flow, latest.get(flow.id) ?? null).map((input) => ({
+          kind: "other",
+          input,
+          onDate: makeIsoDate(input.occurredAt),
+          revenue: flow.basisKind === BUSINESS_REVENUE_BASIS,
+        })),
   );
   due.sort(
     (a, b) =>
-      a.input.periodStartsAt.localeCompare(b.input.periodStartsAt) ||
-      Number(b.revenue) - Number(a.revenue),
+      a.onDate.localeCompare(b.onDate) || Number(b.revenue) - Number(a.revenue),
   );
-  return recordResourceTransferOutcomes(
-    world,
-    due.map((entry) => entry.input),
+  return writeWithWorldIntegrityOnce(world, () => {
+    let next = world;
+    for (let index = 0; index < due.length;) {
+      const entry = due[index]!;
+      const end = index + 1;
+      if (entry.kind === "wage") {
+        const periods = [entry.period];
+        index = end;
+        while (
+          index < due.length &&
+          due[index]!.kind === "wage" &&
+          due[index]!.onDate === entry.onDate
+        ) {
+          periods.push((due[index]! as Extract<Due, { kind: "wage" }>).period);
+          index += 1;
+        }
+        next = settleTownCompensations(next, periods);
+      } else {
+        const inputs = [entry.input];
+        index = end;
+        while (
+          index < due.length &&
+          due[index]!.kind === "other" &&
+          due[index]!.onDate === entry.onDate
+        ) {
+          inputs.push((due[index]! as Extract<Due, { kind: "other" }>).input);
+          index += 1;
+        }
+        next = recordResourceTransferOutcomes(next, inputs);
+      }
+    }
+    return next;
+  });
+}
+
+/** Existing month-end payday settles businesses that have actual saved wage flows. */
+export function settleTrackedBusinessPayroll(world: World): World {
+  const organizations = new Set(
+    world.history.organizations
+      .filter((organization) =>
+        organization.stableKey.startsWith("local-business:"),
+      )
+      .map((organization) => organization.id),
   );
+  return settleFlows(world, businessFlowsOf(world, organizations));
 }
 
 /**
