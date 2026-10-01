@@ -44,11 +44,13 @@ Measured: the fixture selects a starting state from all 56 identities and a muni
 
 ## Proof run
 
-Measured: two of two selected council cases pass (/tmp/team2-a80-shared-passage-final-tests.log:8). The new watched town case records enactment, no executive disposition, canonical Continue and repeat identity. The existing member-agenda case retains actual filing and council voting. Two unrelated cases remain unselected.
+Measured: both complete changed test files pass all 62 cases in 33.33 seconds, with no filters, skips or raised timeouts (a80-shared-council-passage-proof/renewed-full.log:70). The watched town case records enactment, no executive disposition, canonical Continue and repeat identity. The member-agenda cases retain actual filing and council voting.
 
-Measured: one of one selected D.C. mayor cases passes separately (/tmp/team2-a80-presentment-tests.log:7). Its act has exactly one presentment and no no-presentment event. The retained deadline handler matches the shared executive evaluator, records the actual holder's decision and preserves Continue and repeat behavior. The other 57 mayor cases were NOT RUN.
+Measured: all 58 mayor cases pass in that same process, including every starting identity and the controlled player case (a80-shared-council-passage-proof/renewed-full.log:12). Each act has one presentment and no no-presentment event. The deadline handler matches the shared executive evaluator, records the actual holder's decision and preserves Continue and repeat behavior.
 
-Measured: four strict roots have zero diagnostics (/tmp/team2-a80-shared-passage-types.log:1). Owned lint, formatting and whitespace checks pass. Raw counts, source pins and prior fixture failures are retained in the companion proof file.
+Measured: the 56 adversarial comparisons produce vetoes where the removed placeholder signed every act (a80-shared-council-passage-proof/final-decisions.json:2). These are supplied held-principle inputs, not a natural veto rate. The same real D.C. government is materialized in each starting world; this does not prove 56 different municipal powers.
+
+Measured: four strict roots have zero diagnostics (a80-shared-council-passage-proof/types.log:1). Four changed source/test files pass lint and formatting. Raw counts, source pins and prior fixture failures remain in the companion proof file.
 
 ## Worked example
 
@@ -62,10 +64,18 @@ Audit gap A80. Initial runtime source 2c7aae6d1d70ee7d919c11fd4fa59990d12523ba s
 
 The initial new fixture failed on an unrelated missing political-reflection handler (a80-shared-council-passage-proof.json:16). Two strict fixture errors concerned a branded principle ID and place label. Those exact fixture errors were repaired; no production decision or assertion was weakened. No timeout increased.
 
-Full suite, browser, natural political filing, a year run, year-speed and all-56 populated-world execution were NOT RUN. A79's general-policy proposal ordering and state-ratification body admission remain exact questions posted to Audit and CTO. This A80 repair does not close those member-vote gaps.
+Full suite, browser, natural political filing, a year run, year-speed and all-56 populated-world execution were NOT RUN. A79's general-policy proposal ordering has since landed. State-ratification body admission remains a separate Audit/CTO question. This A80 repair does not close that gap.
 
 The two initial failure logs were overwritten by repaired scratch runs. Their observed error summaries and terminal handles are preserved in the proof file; complete raw failure logs are unavailable. Final passing logs are retained in full.
 
-Current-main renewal: b04da9ccabb2ece9baaeba575ec2647c7ee34bf5 receives main 800bb5a0c57f6301db18e1bd769565386c3e39dd additively, with no conflicts or owned code changes. Three of three selected cases pass in 41.82 seconds; 59 cases are unselected (/tmp/team2-a80-current-main-tests.log:8). Four strict roots have zero diagnostics (/tmp/team2-a80-current-main-types.log:1).
+Historical selected checkpoint: b04da9ccabb2ece9baaeba575ec2647c7ee34bf5 received main 800bb5a0c57f6301db18e1bd769565386c3e39dd additively, with no conflicts or owned code changes. Three of three selected cases passed in 41.82 seconds; 59 cases were unselected (/tmp/team2-a80-current-main-tests.log:8). Four strict roots had zero diagnostics (/tmp/team2-a80-current-main-types.log:1).
 
-Current release checking retains only main's inherited CI declaration prose failure. Zero-dice reports zero new findings and five inherited stale entries. Spelling reports 26 existing findings and zero added by this patch. Full output is retained in a80-shared-council-passage-proof.json under currentMainRenewal. Exact-head CTO review remains required.
+Historical selected-run release checking retained main's inherited CI declaration prose failure. Zero-dice reports zero new findings and five inherited stale entries. Spelling reports 26 existing findings and zero added by this patch. Full output is retained in a80-shared-council-passage-proof.json under currentMainRenewal. Exact-head CTO review remains required.
+
+Full-file renewal executed f819843b60b6737d66b09278a75b400ae69e5e0b on main a1e49ab1887298de93e15b85870d19998f0bba9c. The earlier populated run reached the unchanged 300-second cap with 31 passing cases and 31 without results. The Guam profile measured life opening at 3.33 seconds, reload at 1.49 seconds and serialization at 0.74 seconds (a80-shared-council-passage-proof/gu-profile.json:4).
+
+The fixture now uses existing canonical world/person primitives with four opening residents and the production policy catalog. Actual mayor and council writers still create the office, body and seats. No assertion was removed. Two interim runs each passed five cases and failed 57: the old jurisdiction insertion omitted canonical order, then the demo catalog lacked an authorized municipal question. Their raw logs remain preserved.
+
+The full static audit scanned all 149 items. A80 passed three of five patterns and remains partly (a80-shared-council-passage-proof/audit-all.json:1). Two patterns expect inline town rule/evaluator calls; the actual town caller delegates to the shared passage handler. The scanner is unchanged. Runtime proof and scanner coverage remain separate.
+
+Latest renewal received main 8606cc734 additively without conflicts. ONE native process passed both complete files again: 62 of 62 cases in 33.33 seconds at source 2c735124372306d957f5dcd31ec9f606fa3908ca. The earlier 35.14-second receipt is preserved separately. Release checking and zero-dice now pass after the shared main repairs; the old failing receipts remain historical. Scoped types and the full static audit are renewed against this source before READY. Exact-head CTO cloud admission remains separate from this team proof.
