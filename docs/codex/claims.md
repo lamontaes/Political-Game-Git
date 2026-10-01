@@ -1,3 +1,21 @@
+# Ratification and tax ownership transfers
+
+The ratification writer now has one assigned builder. The tax integration has a narrow receiving boundary. Existing records, unrelated branches and unpublished work remain protected.
+
+## Exact transfers
+
+- Team 1 released to Team 2 only ConstitutionalActionDetail's state-ratification fields in constitutional-types.ts and the corresponding validation, clone preservation and recordArticleVRatification in constitutional-process.ts. Published donor: 38cee9bcaf38eac8f35942b863d230524edd68b4. Statewide-vote, recall and all other branches remain with their current owners. Audit is resolving the actual chamber threshold contract.
+- Team 6 released to Coordinator tax-policy.ts taxPowerEvidenceFor and its necessary query import; the selector arguments in attachTaxProposal and assertTaxPolicyIntegrity; and sourceAuthorityValid's jurisdiction, date and evidence checks. Donor: ed100d549bd10457cbbf0b7608a855bd10e801a8. Other proposal guards, profileAuthorityValid, source admission, second-assessment prevention and saved levy helpers remain Team 6's.
+- Coordinator retains tests/fixtures/tax-policy-fixture.ts. Team 6 confirmed no active or unpublished overlap. The funding fixture uses the production excise question and retains the controlled character, original terms and actual collection path.
+- Team 7 continues A5 in its released clock registration and caller surfaces. The proposed small-world fixture dependency remains pending CTO admission; no duplicate helper is authorized.
+- Coordinator's law-effects-noticed.ts consumer transfer remains requested, not granted.
+
+## Decisions still required
+
+The CTO must admit an append-only attribution contract for existing statutory tax records and a saved-only discriminator for historical monthly payments. No authority source, applicability interval, payment or history rewrite is implied by these releases.
+
+## Earlier checkpoints
+
 # Current Government and payroll handoffs
 
 Team 1 can now build the local-government connection. Audit supplied the existing council decision contract. Monthly payroll also has a shared query contract, with separate owners for the producer and guards.
