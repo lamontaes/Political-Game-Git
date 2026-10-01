@@ -8,6 +8,10 @@ import { advanceWorld } from "../world";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import { settleJobPay } from "../job-market";
 import {
+  fileRuleChangeProvision,
+  laborLawOfficeKey,
+} from "../enacted-rule-changes";
+import {
   availableMeasureSteps,
   introduceMeasure,
   measurePosition,
@@ -34,6 +38,7 @@ import {
 import {
   LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
   localMinimumSettingAt,
+  stateMinimumSettingAt,
 } from "../minimum-wage";
 import {
   municipalGovernmentForLifePlace,
@@ -61,6 +66,7 @@ import {
   CITY_MINIMUM_WAGE_QUESTION_KEY,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   MINIMUM_WAGE_PAY_ROWS,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
 } from "./pay-rows";
 
 const provenance = {
@@ -121,11 +127,12 @@ function enact(
   questionKey: string,
   amount: number | null,
   answer: "yes" | "no" = "yes",
+  savedStateRule?: string,
 ) {
   const proposition = Object.values(start.policyCatalog.propositions).find(
     (p) => p.stableKey === questionKey,
   )!;
-  const key = `fixture:city-pay-law:${questionKey}:${amount}`;
+  const key = `fixture:city-pay-law:${questionKey}:${amount}${savedStateRule ? ":saved-rule" : ""}`;
   let world = introduceMeasure(start, {
     stableKey: key,
     jurisdictionId,
@@ -138,11 +145,21 @@ function enact(
     subjectClass: "general-policy",
     sponsorPersonId: start.personOrder[0]!,
     originChamberKey: pack.chamberOrder[0]!,
-    propositionIds: [proposition.id],
-    propositionAnswers: [{ propositionId: proposition.id, answer }],
+    propositionIds: savedStateRule ? [] : [proposition.id],
+    propositionAnswers: savedStateRule
+      ? []
+      : [{ propositionId: proposition.id, answer }],
   });
   const measureId = world.history.legislativeMeasures!.at(-1)!.id;
-  if (amount !== null)
+  if (savedStateRule && amount !== null)
+    world = fileRuleChangeProvision(world, {
+      stableKey: `${key}:term`,
+      measureId,
+      officeKey: laborLawOfficeKey(savedStateRule),
+      field: "labor.minimumWage.hourlyCents",
+      value: amount,
+    });
+  else if (amount !== null)
     world = recordFiledProvision(world, {
       stableKey: `${key}:term`,
       measureId,
@@ -381,6 +398,53 @@ it("A39 default city row pays the explicit ordinance amount and retains repeat/r
   payment(
     worker(law.world, o.place.context.jurisdiction.id),
     75_000,
+    law.measureId,
+  );
+});
+
+it("A38 saved state wage rule reaches scheduled actual payroll", () => {
+  const o = opened("3137000");
+  const stateId = stateJurisdictionForKey("US-NE")!.id;
+  const law = enact(
+    o.world,
+    legislativeBlueprint("nebraska").pack,
+    stateId,
+    STATE_MINIMUM_WAGE_QUESTION_KEY,
+    1800,
+    "yes",
+    "NE",
+  );
+  expect(
+    stateMinimumSettingAt(law.world, "US-NE", law.world.currentDate)
+      ?.hourlyMinor,
+  ).toBe(1800);
+  const f = worker(law.world, o.place.context.jurisdiction.id, true);
+  const paid = advanceWorld(
+    ensurePaydaySchedule(f.world),
+    14,
+    createCampaignElectionTransitionRegistry(),
+  );
+  const stubs = recordedPayStubs(paid, f.personId).filter(
+    (row) => row.paycheck.resourceFlowId === f.flow.id,
+  );
+  expect(stubs.length).toBe(1);
+  const clause = paid.history.ruleChangeProvisions!.find(
+    (row) => row.measureId === law.measureId,
+  )!;
+  console.info("SAVED_RULE_SCHEDULED_PAY", {
+    person: personName(paid.people[f.personId]!),
+    measureId: law.measureId,
+    provisionId: clause.id,
+    field: clause.field,
+    statutoryHourlyMinor: 1800,
+    actualGrossMinor: stubs[0]!.paidGross.minorUnits,
+    termsKind:
+      resourceFlowTermsAt(paid, f.flow.id)!.lawEffectStamps?.[0]?.effectKind ??
+      null,
+  });
+  expect(stubs[0]!.paidGross.minorUnits).toBe(72_000);
+  expect(stubs[0]!.paycheck.lawEffectStamps?.at(-1)?.effectKind).toBe("pay");
+  expect(stubs[0]!.paycheck.lawEffectStamps?.at(-1)?.governingLawKey).toBe(
     law.measureId,
   );
 });
