@@ -44,6 +44,7 @@ import {
 import { ensureMigrationSchedule } from "../simulation/migration";
 import { ensurePaydaySchedule } from "../simulation/living-world/town-pay";
 import { ensureRentDaySchedule } from "../simulation/living-world/town-rent";
+import { ensureHouseholdPovertySchedule } from "../simulation/household-poverty";
 import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
@@ -456,12 +457,14 @@ function openedWorld(
   );
   // Payday starts with the same opening, so a watched world's jobs pay too,
   // and so does rent day, so its renters pay their landlords.
-  const opened = ensureRentDaySchedule(
-    ensurePaydaySchedule(
-      ensureMigrationSchedule(
-        ensureLocalCouncilMeetings(
-          ensureLocalElectionCalendar(seated, playerPersonId),
-          playerPersonId,
+  const opened = ensureHouseholdPovertySchedule(
+    ensureRentDaySchedule(
+      ensurePaydaySchedule(
+        ensureMigrationSchedule(
+          ensureLocalCouncilMeetings(
+            ensureLocalElectionCalendar(seated, playerPersonId),
+            playerPersonId,
+          ),
         ),
       ),
     ),

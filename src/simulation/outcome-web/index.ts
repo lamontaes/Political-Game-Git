@@ -1,4 +1,5 @@
 import web from "../../../data/research/outcome-web/links.json" with { type: "json" };
+import { recordedPovertyShare } from "../household-poverty";
 import { addDays, daysBetween } from "../dates";
 import {
   macroConditionsAt,
@@ -233,6 +234,17 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
       if (earnings === null || !(earnings.value > 0)) return null;
       return minimum.now / (earnings.value / WORK_HOURS_PER_YEAR);
     },
+  },
+
+  "household.recorded-poverty-share": {
+    key: "household.recorded-poverty-share",
+    unit: "share of the place's households whose recorded pay last month was below the federal poverty guideline for their size",
+    // Read from the saved monthly household records (`household-poverty.ts`):
+    // members' actual paychecks against the HHS guideline. Households whose
+    // pay is not recorded yet are left out of both counts. Null until a month
+    // is recorded there.
+    read: (world, jurisdictionId, asOf) =>
+      recordedPovertyShare(world, jurisdictionId, asOf),
   },
 
   "budget.parks-added-pct": {

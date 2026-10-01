@@ -1,7 +1,7 @@
 {
   "id": "public-programs-2026",
   "asOf": "2026-09-28",
-  "method": "All values come from web search result snippets of the named pages. WebFetch and curl to ssa.gov, cms.gov, govinfo.gov, federalregister.gov, macpac.gov, kff.org, fns.usda.gov, aspe.hhs.gov and congress.gov were refused by the session egress proxy (403 policy denial), so no page was opened in full. Status SNIPPET = official source, snippet only; SECONDARY = non-government source, calibration only; UNKNOWN = not verified, never zero.",
+  "method": "All values come from web search result snippets of the named pages. WebFetch and curl to ssa.gov, cms.gov, govinfo.gov, federalregister.gov, macpac.gov, kff.org, fns.usda.gov, aspe.hhs.gov and congress.gov were refused by the session egress proxy (403 policy denial), so no page was opened in full. Status OFFICIAL = official source opened in full (noted on its source); SNIPPET = official source, snippet only; SECONDARY = non-government source, calibration only; UNKNOWN = not verified, never zero.",
   "sources": [
     {
       "key": "ssa-cola-2026",
@@ -241,6 +241,14 @@
       "publisher": "HHS ASPE",
       "url": "https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines",
       "retrieved": "2026-09-28 via WebSearch result snippets; the page itself could not be opened (WebFetch and curl are blocked by the session egress proxy)",
+      "kind": "official"
+    },
+    {
+      "key": "fr-pg-2026",
+      "title": "Annual Update of the HHS Poverty Guidelines (91 FR 1797, FR Doc. 2026-00755, 01/15/2026)",
+      "publisher": "HHS, Federal Register (govinfo.gov)",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-01-15/html/2026-00755.htm",
+      "retrieved": "2026-10-01, opened in full; the three guideline tables and the effective date were read from the notice itself",
       "kind": "official"
     },
     {
@@ -954,21 +962,50 @@
         "value": {
           "contiguous": {
             "1": 15960,
+            "2": 21640,
+            "3": 27320,
             "4": 33000,
+            "5": 38680,
+            "6": 44360,
+            "7": 50040,
+            "8": 55720,
             "eachAdditional": 5680
           },
           "alaska": {
-            "1": 19950
+            "1": 19950,
+            "2": 27050,
+            "3": 34150,
+            "4": 41250,
+            "5": 48350,
+            "6": 55450,
+            "7": 62550,
+            "8": 69650,
+            "eachAdditional": 7100
           },
           "hawaii": {
-            "1": 18360
+            "1": 18360,
+            "2": 24890,
+            "3": 31420,
+            "4": 37950,
+            "5": 44480,
+            "6": 51010,
+            "7": 57540,
+            "8": 64070,
+            "eachAdditional": 6530
           }
         },
-        "source": "aspe-pg-2026",
-        "status": "SNIPPET",
-        "note": "eachAdditional 5680 is derived as (33000-15960)/3; one snippet said 6530, which does not fit the published family-of-4 figure. Published 01/15/2026 (FR 2026-00755); October 2025 CPI missing due to shutdown."
+        "source": "fr-pg-2026",
+        "status": "OFFICIAL",
+        "effective": "2026-01-13",
+        "note": "Read in full from the Federal Register notice (91 FR 1797). Effective January 13, 2026, unless a program sets its own date. The notice says the guidelines are not defined for Puerto Rico or other outlying jurisdictions; the game applies the 48-state guideline there, marked ESTIMATED FROM AVERAGE (the territories key below)."
       },
-      "note": "Medicaid and the ACA use the prior-year guideline for coverage years in part; the game should key each program to its own guideline year."
+      "note": "Medicaid and the ACA use the prior-year guideline for coverage years in part; the game should key each program to its own guideline year.",
+      "territories": {
+        "value": "contiguous",
+        "source": "fr-pg-2026",
+        "status": "ESTIMATED",
+        "note": "ESTIMATED FROM AVERAGE: HHS defines no guideline for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands, so the game applies the 48-state and D.C. guideline to them until a researched figure replaces it."
+      }
     },
     "acaMarketplace": {
       "enhancedCreditsStatus": {
