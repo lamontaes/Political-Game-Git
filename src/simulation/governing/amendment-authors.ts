@@ -26,7 +26,7 @@ import { measureAnswersAt } from "../vote-bundle";
 import {
   decideChamberVote,
   publicPartyOf,
-  type ChamberVoteInput,
+  type ChamberBillVoteInput,
 } from "./chamber-votes";
 import { holdsPrinciples, principleView } from "./officeholder-principles";
 
@@ -412,7 +412,7 @@ export function planFloorAmendment(
   const countedBy = (
     reading: string,
     member: SeatedMember,
-    vote: Omit<ChamberVoteInput, "members" | "only">,
+    vote: Omit<ChamberBillVoteInput, "members" | "only">,
   ): readonly LegislativeVoteDisposition[] => {
     const first = readings.get(reading);
     if (!first || first.by === member.memberKey) {

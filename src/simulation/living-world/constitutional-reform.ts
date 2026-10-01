@@ -24,7 +24,7 @@ import {
 import { scheduleFutureDueItem } from "../future-transitions";
 import { dispositionsFromCounts } from "../legislation-scenarios";
 import { resolveRequiredVotes } from "../legislature-rules";
-import { SeededRng } from "../rng";
+import { isEligibleVoterIn } from "../issue-record";
 import { memberBallot, stateVoice, type Voter } from "../governing/article-v";
 import {
   ensureOfficeholderPrinciples,
@@ -38,6 +38,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  PrivateBeliefRecord,
   World,
 } from "../types";
 import { chiefExecutiveJurisdictionId } from "../nationwide-world/government-jurisdiction";
@@ -104,8 +105,11 @@ import {
  *   referral.
  * - Each member's own chamber. Chambers divide as the whole legislature
  *   does, and members are recorded by seat with no person named.
- * - The voters' own choice. The statewide yes share is still a keyed draw
- *   within a hand-set range: the game has no model of a state's electorate.
+ * - The wider electorate. The statewide yes share is counted from the
+ *   recorded views of the eligible voters the World holds
+ *   (`recordedBallotTally`); with none on record the ballot is unsupported
+ *   and nothing is decided. A term-limit amendment answers no catalog
+ *   question, so its ballot stays unsupported until such views exist.
  * - Turnout. The statewide result is recorded as shares of 10,000, as
  *   simulated elections are, not as ballots cast.
  * - Which ballot a referred measure goes on. The first November general
@@ -138,12 +142,6 @@ export const CONSTITUTIONAL_REFORM_PROFILE = {
   restoredLimit: 2,
   /** No extension goes past this many terms. */
   highestExtendedLimit: 4,
-  /** The voters' yes share, per mille, by direction. */
-  ballotYesPermille: {
-    extend: [300, 600],
-    restore: [500, 800],
-    background: [350, 650],
-  },
   /** The ballot is at least this many days after the last chamber vote. */
   ballotLeadDays: 90,
 } as const;
@@ -851,6 +849,66 @@ function proposeAndVoteUnchecked(
   });
 }
 
+/**
+ * The state's voters, each by their own recorded view. A voter is a person
+ * eligible to vote in the state on election day (age, alive, residence) who
+ * holds a saved private belief, formed through the one belief pipeline, on
+ * the question the amendment writes in or takes out: support or opposition
+ * becomes a yes or a no. A voter with no view, or an undecided one, casts no
+ * counted ballot. The controlled person casts their own vote, so they are not
+ * counted here. Null where nobody counts: a term-limit amendment answers no
+ * catalog question, so no view on it can be on record yet.
+ */
+export function recordedBallotTally(
+  world: World,
+  measure: ConstitutionalMeasureRecord,
+): {
+  readonly yes: number;
+  readonly no: number;
+  readonly beliefIds: readonly EntityId[];
+} | null {
+  const delta = measure.ruleDelta;
+  if (delta.kind !== "policy-provision") return null;
+  const player =
+    world.control.kind === "person" ? world.control.personId : null;
+  const latest = new Map<EntityId, PrivateBeliefRecord>();
+  for (const belief of world.history.privateBeliefs) {
+    if (
+      belief.propositionId !== delta.propositionId ||
+      belief.personId === player ||
+      belief.formedAt > world.currentDate
+    )
+      continue;
+    const prior = latest.get(belief.personId);
+    if (!prior || prior.sequence < belief.sequence)
+      latest.set(belief.personId, belief);
+  }
+  let yes = 0;
+  let no = 0;
+  const beliefIds: EntityId[] = [];
+  for (const [personId, belief] of [...latest].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    if (belief.position !== "support" && belief.position !== "oppose") continue;
+    if (
+      !isEligibleVoterIn(
+        world,
+        personId,
+        measure.jurisdictionId,
+        world.currentDate,
+      )
+    )
+      continue;
+    // Adopting writes the policy in; repealing takes it out.
+    const favors =
+      (belief.position === "support") === (delta.stance === "adopt");
+    if (favors) yes += 1;
+    else no += 1;
+    beliefIds.push(belief.id);
+  }
+  return yes + no === 0 ? null : { yes, no, beliefIds };
+}
+
 /** Election day: the voters decide a referred amendment. */
 export function constitutionalReformBallotHandler(
   world: World,
@@ -865,21 +923,18 @@ export function constitutionalReformBallotHandler(
   if (constitutionalPosition(world, measure.id).phase !== "ratification")
     return done(world, "The amendment is no longer before the voters.");
   const delta = measure.ruleDelta;
-  const direction: ReformDirection = isPolicyReform(measure.stableKey)
-    ? "background"
-    : delta.kind === "rule-field" &&
-        delta.applicability?.appliesTo === "immediately"
-      ? "extend"
-      : "restore";
-  // PLACEHOLDER: the voters' share is a keyed draw within a hand-set range;
-  // the game has no model of a state's electorate to decide it.
-  const [low, high] =
-    CONSTITUTIONAL_REFORM_PROFILE.ballotYesPermille[direction];
-  const yesPermille = new SeededRng(world.seed)
-    .fork(`${measure.stableKey}:ballot`)
-    .integer(low, high);
-  // Shares of 10,000, not ballots: turnout is not modeled.
-  const yes = yesPermille * 10;
+  // The voters decide from their own recorded views. With none on record the
+  // result is unsupported: nothing is drawn and the measure stays before the
+  // voters, unratified and unrejected.
+  const tally = recordedBallotTally(world, measure);
+  if (!tally)
+    return done(
+      world,
+      `Unsupported: no eligible voter holds a recorded view on ${measure.designation}, so no result is recorded.`,
+    );
+  // Shares of 10,000 among voters holding a view, not ballots: turnout is
+  // not modeled. A tie is not a majority, so it fails.
+  const yes = Math.round((tally.yes * 10_000) / (tally.yes + tally.no));
   // Two measures changing the same rule cannot both pass at one election
   // until reconciliation is modeled; if another already has, this one goes
   // to the next general election instead of stopping the clock.

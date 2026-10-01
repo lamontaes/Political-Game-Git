@@ -2,7 +2,11 @@ import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
 import { addSimulationMinutes } from "./dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { recordEvidenceArtifact, recordEvidenceDiscovery } from "./evidence";
 import { createStableId } from "./ids";
 import { createWorkRelationship, recordWorkStatus } from "./life";
@@ -1194,6 +1198,7 @@ function employeeAppealChoice(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   if (evaluation.selectedOptionKey !== "appeal") return next;
   const traceId = next.history.decisionTraces.at(-1)!.id;
@@ -1369,6 +1374,7 @@ function commissionerDecision(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
   const decision =
