@@ -756,7 +756,18 @@ describe("A79 shared saved state policy proposal votes", () => {
         delta.stance === "adopt" ? "yes" : "no",
       ),
     );
-    expect(old.every((row) => row.ballot === "nay")).toBe(true);
+    const oldForecast = actualBodies(saved).flatMap(({ seated }) =>
+      seated.body.members.map((member) =>
+        legacyPolicyMemberBallot(
+          saved,
+          `${proposal.stableKey}:${member.memberKey}`,
+          member.personId!,
+          delta.propositionId,
+          delta.stance === "adopt" ? "yes" : "no",
+        ),
+      ),
+    );
+    expect(oldForecast.every((row) => row.ballot === "nay")).toBe(true);
     expect(vote.detail.vote.dispositions.map((row) => row.disposition)).toEqual(
       old.map((row) => row.ballot),
     );
@@ -799,6 +810,8 @@ describe("A79 shared saved state policy proposal votes", () => {
         propositionId: proposal.ruleDelta.propositionId,
         phase: "rejected",
         recordedMembers: actual.length,
+        oldForecastMembers: oldForecast.length,
+        question: saved.policyCatalog.propositions[delta.propositionId]!.name,
         oldPrefilingGate:
           "suppressed proposal because every forecast ballot was nay",
         example: actual[0]!.name,
