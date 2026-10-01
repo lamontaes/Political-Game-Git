@@ -5,10 +5,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import {
-  openOrdinaryLife,
-  passOrdinaryDays,
-} from "../../presentation/ordinary-life";
+import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -16,7 +13,6 @@ import {
 import { declareHazardEpisode } from "../crisis/disaster";
 import { crisisRecords } from "../crisis/records";
 import { makeIsoDate } from "../dates";
-import { recordOrganizationParticipationState } from "../life";
 import { CRIME_EVENT_TYPES } from "../crime/producer";
 import { recordWorldEvent } from "../world";
 import {
@@ -36,6 +32,7 @@ import {
 import { factsForPerson } from "../people";
 import { stateJurisdictionForKey } from "../life-places";
 import { serializeWorld } from "../serialization";
+import type { MacroMonthRecord } from "../macro-economy/types";
 import type { EntityId, World } from "../types";
 import { advanceWithWorldIntegrityAtEnd, assertWorldIntegrity } from "../world";
 import {
@@ -229,41 +226,53 @@ describe("migration scaffold", () => {
     ).toBe(Math.floor(0.37 * 40));
   }, 60_000);
 
-  it("a membership that has ended no longer holds a person in town", () => {
+  it("a member leaves a membership behind on a move; a leader is still held by the role", () => {
     const reader = moveTieReader(opened.world);
     const member = opened.world.personOrder.find(
       (id) =>
         opened.world.people[id]!.homeJurisdictionId === town &&
         id !== opened.playerId &&
-        reader.bindingTie(id) === "belongs to an organization or party" &&
-        activeOrganizationParticipationsAt(opened.world, id).length > 0,
-    )!;
-    expect(member, "the opening seats a party member in town").toBeDefined();
-    let world = opened.world;
-    for (const active of activeOrganizationParticipationsAt(world, member))
-      world = recordOrganizationParticipationState(world, {
-        stableKey: `migration-test:left:${active.participation.id}`,
-        participationId: active.participation.id,
-        effectiveAt: world.currentDate,
-        status: "ended",
-        roleKind: active.state.roleKind,
-        context: null,
-        provenance: { kind: "authored", note: "migration test" },
-        supersedesStateId: active.state.id,
-      });
-    // Before, any record at all, ended or not, held them.
-    expect(moveTies(world, [member]).get(member)).toBeUndefined();
-    expect(
-      world.history.organizationParticipations.some(
-        (record) => record.personId === member,
+        reader.membershipsLeftBehind(id).length > 0 &&
+        reader.bindingTie(id) === null &&
+        reader.housingTie(id) === null &&
+        peopleInHouseholdAt(
+          opened.world,
+          householdMembershipsAt(opened.world, id)[0]?.household.id ??
+            ("none" as EntityId),
+        ).every((other) => other === id || !reader.bindingTie(other)),
+    );
+    expect(member, "the opening seats a free member in town").toBeDefined();
+    const left = reader.membershipsLeftBehind(member!);
+    const moved = relocateHousehold(opened.world, {
+      stableKey: "migration-test:member-moves",
+      personId: member!,
+      toJurisdictionId: oregon,
+      reason: "work:transfer",
+      waveKey: null,
+    });
+    expect(moved.people[member!]!.homeJurisdictionId).toBe(oregon);
+    // The membership ended on the move, and is still on record.
+    expect(activeOrganizationParticipationsAt(moved, member!)).toEqual([]);
+    for (const id of left)
+      expect(
+        moved.history.organizationParticipations.some(
+          (record) => record.id === id,
+        ),
+      ).toBe(true);
+    // A leader's role still holds them in town.
+    const leader = opened.world.personOrder.find((id) =>
+      activeOrganizationParticipationsAt(opened.world, id).some(
+        (active) => active.state.roleKind?.startsWith("leader:") ?? false,
       ),
-    ).toBe(true);
+    );
+    if (leader) expect(reader.bindingTie(leader)).not.toBeNull();
   });
 
   it("a disaster that wrecks newcomers' homes sends some away for good", () => {
-    // A year of arrivals, so the town holds households a disaster can reach.
+    // A quarter of arrivals at one newcomer for every four residents a year,
+    // so the town holds newcomers' households a disaster can reach.
     const settled = review(opened.world, 0, {
-      arrivalsPerResidentPerYear: 6,
+      arrivalsPerResidentPerYear: 0.25,
     });
     const newcomers = settled.history.events
       .filter((event) => event.type === "migration.arrived")
@@ -325,10 +334,13 @@ describe("migration scaffold", () => {
         ? [record]
         : [],
     );
+    // Read once: each is a pass over the whole world's records.
+    const struckOccupancies = activeDwellingOccupanciesAt(struck);
+    const struckTies = moveTieReader(struck);
     const householdsHit = (record: (typeof wrecked)[number]) =>
       record.targetKind === "household"
         ? [record.targetId]
-        : activeDwellingOccupanciesAt(struck).flatMap((occupancy) =>
+        : struckOccupancies.flatMap((occupancy) =>
             occupancy.dwellingId === record.targetId &&
             occupancy.occupant.kind === "household"
               ? [occupancy.occupant.householdId]
@@ -354,7 +366,7 @@ describe("migration scaffold", () => {
         // The flood's dead keep their jobs on the books; they bind nobody.
         peopleInHouseholdAt(struck, householdId)
           .filter((id) => !died.has(id))
-          .every((id) => !moveTieReader(struck).bindingTie(id)) &&
+          .every((id) => !struckTies.bindingTie(id)) &&
         peopleInHouseholdAt(struck, householdId).some((id) => !died.has(id)) &&
         !peopleInHouseholdAt(struck, householdId).includes(opened.playerId),
     );
@@ -395,12 +407,27 @@ describe("migration scaffold", () => {
   }, 60_000);
 
   it("unemployment in town above the nation's pushes people out", () => {
-    // A month of play, so the economy has recorded a national month.
-    const played = passOrdinaryDays(opened.world, 35);
+    // An authored national month, carrying only the fields the reader
+    // uses, in place of a month of play: the case measures the reader, not
+    // the economy (which `macro-economy` tests run).
+    expect(townJobsPush(opened.world, town)).toBe(1);
+    const nation = {
+      key: "migration-test:nation",
+      scope: "national",
+      periodEnd: opened.world.currentDate,
+      recordedAt: opened.world.currentDate,
+      unemploymentPct: 4.2,
+    } as unknown as MacroMonthRecord;
+    const played: World = {
+      ...opened.world,
+      macroEconomy: {
+        ...(opened.world.macroEconomy ??
+          ({} as NonNullable<World["macroEconomy"]>)),
+        months: [nation],
+      },
+    };
     expect(townJobsPush(played, town)).toBe(1);
-    const months = played.macroEconomy?.months ?? [];
-    const nation = months.filter((row) => row.scope === "national").at(-1)!;
-    expect(nation, "the opening records a national month").toBeDefined();
+    const months = played.macroEconomy!.months;
     const withTownMonth = (unemploymentPct: number) => ({
       ...played,
       macroEconomy: {
@@ -423,7 +450,7 @@ describe("migration scaffold", () => {
     expect(
       townJobsPush(withTownMonth(nation.unemploymentPct - 2), town),
     ).toBeCloseTo(0.9);
-  }, 120_000);
+  });
 
   it("an unusually bad quarter of crime in town pushes people out", () => {
     expect(townCrimePush(opened.world, town)).toBe(1);

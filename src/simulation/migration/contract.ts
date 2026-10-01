@@ -102,7 +102,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "Jobs, schooling, housing tenure, organization and party membership, dwellings and office tie a person to a place.",
     status: "not-built",
-    rule: "Anybody with such a record active today is not eligible to move, and neither is their household; a job, school, membership, lease or campaign that has ended holds nobody. Moving would leave a job or a seat in the old town, so the move is refused with that reason rather than half-done. Housing is ended on the move only for a household a disaster displaced.",
+    rule: "Anybody with such a record active today is not eligible to move, and neither is their household; a job, school, membership, lease or campaign that has ended holds nobody. Moving would leave a job or a seat in the old town, so the move is refused with that reason rather than half-done. A town job, a town home and an ordinary membership (a member or participant, not a leader or an advisor) end on the move instead of holding anyone. Other housing is ended on the move only for a household a disaster displaced.",
     where: "src/simulation/migration/relocate.ts moveTieReader()",
   },
   {

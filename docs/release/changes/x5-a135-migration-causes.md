@@ -12,7 +12,8 @@ household earns, or a brother, sister, parent or child who moved away. What
 keeps them is how rarely people their age in their state move, a home they own,
 children at home and their own appetite for risk. They go where the cause
 points: to the relative they follow, or to where their closest family lives.
-With no family elsewhere, they go to another part of their own state. A person
-with nothing pushing them stays put. Newcomers still arrive at the rate the
+With no family elsewhere, they go to another part of their own state. Someone
+who moves leaves their club or party membership behind, though a leader stays
+held by the role. A person with nothing pushing them stays put. Newcomers still arrive at the rate the
 state's survey gives. They are counted the same way every time, so the town
 never gains or loses one by chance. Saves made before this change still load.

@@ -68,6 +68,7 @@ import type {
   IsoDate,
   World,
 } from "../types";
+import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { MIGRATION_MOVED_EVENT, type MoveReasonKey } from "./contract";
 
 /** The event `town-rent.ts` writes when a household is evicted. */
@@ -331,11 +332,19 @@ export interface LeaveBar {
 }
 
 /**
- * HARDWIRED, a PLACEHOLDER(research: why-americans-move-causes-and-strengths):
- * the mover rate at which age weighs nothing on staying. Survey rates for
- * adults run from about 2 to 20 percent a year.
+ * MEASURED: the age at which leaving weighs least is the one the nation moves
+ * most at, 18 and 19 (American Community Survey 2024, table B07401, the
+ * national row of `mover-rates-acs-2024.json`). A resident's age bar is how
+ * far their own state's rate for their age falls below that peak, so a state
+ * where people move less holds its people more.
  */
-export const AGE_RATE_FOR_NO_BAR = 0.25;
+export const AGE_RATE_FOR_NO_BAR = Math.max(
+  ...Object.values(
+    moverRates.national.departurePerYearByAge as Readonly<
+      Record<string, number>
+    >,
+  ),
+);
 
 export interface LeaveDecision {
   readonly leaves: boolean;
@@ -385,9 +394,20 @@ export function decideToLeave(
     "keep-home",
     clamp01(1 - bar.ageMoverRate / AGE_RATE_FOR_NO_BAR),
     `few people their age in their state move away (${Math.round(bar.ageMoverRate * 1000) / 10} percent a year)`,
+    // HARDWIRED, a PLACEHOLDER(research: why-americans-move-causes-and-
+    // strengths): what a person sees of their age group is weighed with
+    // less certainty than what happened to them.
+    "medium",
   );
   if (bar.ownsHome)
-    add("bar:owns-home", "keep-home", 0.5, "they own their home");
+    add(
+      "bar:owns-home",
+      "keep-home",
+      0.5,
+      "they own their home",
+      // PLACEHOLDER(research: why-americans-move-causes-and-strengths).
+      "medium",
+    );
   if (bar.childrenAtHome > 0)
     add(
       "bar:children",
