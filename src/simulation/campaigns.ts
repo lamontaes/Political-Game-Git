@@ -15,6 +15,7 @@ import {
   migrationReviewHandler,
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
+import { createClemencyTransitionRegistry } from "./justice/clemency-transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
 import { campaignPollingQuality } from "./campaign-polling";
 import { doorKnockingReturn } from "./campaign-recognition";
@@ -2188,6 +2189,7 @@ export function composeWorldTimeHandlers(
         settlePublicResourcePayment(world, input, resolver),
       ),
       createTaxTransitionHandlerRegistry(),
+      createClemencyTransitionRegistry(),
       LIFE_PATHS2_HANDLERS,
       // D-11: the candidate's standing campaign hours, after the day job's.
       createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
