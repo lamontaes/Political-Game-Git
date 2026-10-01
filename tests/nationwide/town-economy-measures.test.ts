@@ -36,7 +36,7 @@ import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/pla
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import {
   OUTCOME_LINKS,
-  drawnLinkSize,
+  researchedLinkSize,
   outcomeFactor,
 } from "../../src/simulation/outcome-web";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
@@ -203,7 +203,7 @@ describe("births follow the outcome web", () => {
     );
     // Each world draws its own size from the link's range (#880).
     const link = OUTCOME_LINKS.find((l) => l.key === "unemployment-to-births")!;
-    const size = drawnLinkSize(world, link, town);
+    const size = researchedLinkSize(world, link, town);
     expect(size).toBeLessThan(0);
     expect(high.multiplier).toBeCloseTo(1 + size * 4, 10);
     expect(others(high.causes).map((cause) => cause.key)).toEqual([
