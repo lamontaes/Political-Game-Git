@@ -2213,7 +2213,7 @@ function completeActivity(
     stableKey,
     sequence: next.history.nextSequence,
     activityId,
-    recordedAt: cloneMoment(at),
+    recordedAt: cloneMoment(next.currentMoment),
     start: previous.start,
     end: previous.end,
     status: "completed",

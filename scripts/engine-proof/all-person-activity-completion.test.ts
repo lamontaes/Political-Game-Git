@@ -19,6 +19,7 @@ import {
 import {
   advanceWorldMinutes,
   cancelScheduledActivity,
+  completeResidentScheduledActivity,
   createScheduledActivity,
   rescheduleScheduledActivity,
   scheduledActivityState,
@@ -145,6 +146,76 @@ function assertCompletedOnce(
 }
 
 describe("canonical clock completes saved activities for all participants", () => {
+  it.each(["saved", "reloaded"] as const)(
+    "records late resident recovery at processing time while preserving occurrence: %s",
+    (route) => {
+      let world = fixture("late-resident-recovery");
+      const npcId = world.personOrder[1]!;
+      const end = addSimulationMinutes(world.currentMoment, 45);
+      const saved = activity(
+        world,
+        "resident:legacy-overdue",
+        [npcId],
+        addSimulationMinutes(world.currentMoment, 15),
+        end,
+      );
+      const processing = addSimulationMinutes(end, 1440);
+      // Authored legacy snapshot: occurrence passed before its producer recovered.
+      world = {
+        ...saved.world,
+        currentMoment: processing,
+        currentDate: processing.date,
+      };
+      if (route === "reloaded") world = deserializeWorld(serializeWorld(world));
+      const completed = completeResidentScheduledActivity(world, saved.id);
+      const state = scheduledActivityState(completed, saved.id);
+      expect(state.status).toBe("completed");
+      expect(state.recordedAt).toEqual(processing);
+      expect(state.end).toEqual(end);
+      const event = completed.history.events.find(
+        (row) => row.id === state.outcomeEventId,
+      )!;
+      expect(event.occurredAt).toBe(end.date);
+      expect(event.recordedAt).toBe(processing.date);
+      expect(
+        completed.history.scheduledActivityStates.filter(
+          (row) => row.activityId === saved.id && row.status === "completed",
+        ),
+      ).toHaveLength(1);
+      expect(
+        completed.history.events.filter(
+          (row) =>
+            row.type === "schedule.activity-completed" &&
+            row.involvedEntityIds.includes(saved.id),
+        ),
+      ).toHaveLength(1);
+      expect(completeResidentScheduledActivity(completed, saved.id)).toBe(
+        completed,
+      );
+      const loaded = deserializeWorld(serializeWorld(completed));
+      expect(completeResidentScheduledActivity(loaded, saved.id)).toBe(loaded);
+    },
+  );
+
+  it("shares the normal clock completion with the later resident callback", () => {
+    const world = fixture("resident-callback-after-clock");
+    const end = addSimulationMinutes(world.currentMoment, 45);
+    const saved = activity(
+      world,
+      "resident:normal-clock",
+      [world.personOrder[1]!],
+      addSimulationMinutes(world.currentMoment, 15),
+      end,
+    );
+    const completed = advanceWorldMinutes(saved.world, 60, EMPTY);
+    assertCompletedOnce(completed, saved.id, end);
+    expect(completeResidentScheduledActivity(completed, saved.id)).toBe(
+      completed,
+    );
+    const loaded = deserializeWorld(serializeWorld(completed));
+    expect(completeResidentScheduledActivity(loaded, saved.id)).toBe(loaded);
+  });
+
   it.each(["saved", "reloaded"] as const)(
     "preserves explicit optional performance across a due producer: %s",
     (route) => {
