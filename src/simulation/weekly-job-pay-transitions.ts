@@ -1,10 +1,8 @@
+import { createFutureTransitionHandlerRegistry } from "./future-transition-registry";
 import { addDays, daysBetween } from "./dates";
 import { workStatusAt } from "./life-queries";
 import { resourceFlowTermsAt } from "./resource-queries";
-import {
-  createFutureTransitionHandlerRegistry,
-  scheduleFutureDueItem,
-} from "./future-transitions";
+import { scheduleFutureDueItem } from "./future-transitions";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
 
 export const WEEKLY_JOB_PAY_TRANSITION_KEY = "job-pay:weekly-period";
