@@ -31,6 +31,7 @@ import {
   ruleChangeConsequenceBindingHistoryRecords,
 } from "./enacted-rule-changes";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
+import { assertLegalOutcomeConsequenceIntegrity } from "./law-consequences/legal-outcome";
 import {
   assertLawPermissionIntegrity,
   lawPermissionRecords,
@@ -2088,6 +2089,7 @@ function validateHistoryIntegrity(
         ...publicProgramRecords(world),
         ...enactedDutyRecords(world),
         ...lawPermissionRecords(world),
+        ...(history.legalOutcomeConsequences ?? []),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2279,6 +2281,7 @@ function validateHistoryIntegrity(
   assertLawExposureIntegrity(world, ids);
   assertOfficialViewIntegrity(world, ids);
   assertLawPermissionIntegrity(world, ids);
+  assertLegalOutcomeConsequenceIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {

@@ -20,10 +20,8 @@ import {
 } from "../municipal-government";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { placePopulation } from "../nationwide-world/place-population";
-import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
-import { standardNormal } from "../world-setup/deterministic-math";
 import {
   openingFundedRatio,
   openingPaidShare,
@@ -40,14 +38,12 @@ import {
   DEFAULT_INTEREST_RATE,
   LOCAL_PROGRAM_SPLIT,
   LOCAL_REVENUE_RULE,
-  OPENING_DRAW_SD,
   PENSION,
 } from "./rules";
 import {
   BUDGET_PROGRAMS,
   BUDGET_SOURCES,
   PROTECTED_PROGRAMS,
-  PUBLIC_BUDGETS_VERSION,
   sum,
   type AdoptedBudget,
   type BudgetLevel,
@@ -535,26 +531,6 @@ function titleCase(name: string): string {
     .join(" ");
 }
 
-/**
- * An opening amount. A figure read for this government itself opens exactly
- * as read. An estimate from an average (a county's or city's share of its
- * state's local finances, an unsurveyed territory) opens with a per-world
- * spread around the average, so two worlds do not share one made-up number.
- */
-function opened(
-  world: World,
-  governmentKey: string,
-  line: string,
-  amount: number,
-  read: "read" | "estimated",
-): number {
-  if (read === "read" || !world.seed || amount === 0) return Math.round(amount);
-  const rng = new SeededRng(world.seed).fork(
-    `${PUBLIC_BUDGETS_VERSION}:open:${governmentKey}:${line}`,
-  );
-  return Math.round(amount * Math.exp(standardNormal(rng) * OPENING_DRAW_SD));
-}
-
 function emptyRevenue(): number[] {
   return BUDGET_SOURCES.map(() => 0);
 }
@@ -642,7 +618,6 @@ interface OpeningAmounts {
 }
 
 function stateOpening(
-  world: World,
   candidate: BudgetCandidate,
   base: PlaceBase,
 ): OpeningAmounts | string {
@@ -659,28 +634,10 @@ function stateOpening(
   if (column && population > 0) {
     const scale = population * BUDGET_CALIBRATION;
     for (const [at, source] of BUDGET_SOURCES.entries())
-      revenue[at] = opened(
-        world,
-        candidate.key,
-        source,
-        (column.revenue[source] ?? 0) * scale,
-        "read",
-      );
+      revenue[at] = Math.round((column.revenue[source] ?? 0) * scale);
     for (const [at, program] of BUDGET_PROGRAMS.entries())
-      spending[at] = opened(
-        world,
-        candidate.key,
-        program,
-        (column.spending[program] ?? 0) * scale,
-        "read",
-      );
-    debt = opened(
-      world,
-      candidate.key,
-      "debt",
-      column.debt * population,
-      "read",
-    );
+      spending[at] = Math.round((column.spending[program] ?? 0) * scale);
+    debt = Math.round(column.debt * population);
     const interest = column.spending.interest ?? 0;
     if (column.debt > 0 && interest > 0) interestRate = interest / column.debt;
     notes.push(
@@ -705,19 +662,9 @@ function stateOpening(
     const revenueToSpending = surveyed
       ? general.revenues! / general.expenditures!
       : ISLAND_AREA_AVERAGE.revenueToSpending;
-    spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = opened(
-      world,
-      candidate.key,
-      "programUnknown",
-      total,
-      surveyed ? "read" : "estimated",
-    );
-    revenue[BUDGET_SOURCES.indexOf("sourceUnknown")] = opened(
-      world,
-      candidate.key,
-      "sourceUnknown",
+    spending[BUDGET_PROGRAMS.indexOf("programUnknown")] = Math.round(total);
+    revenue[BUDGET_SOURCES.indexOf("sourceUnknown")] = Math.round(
       total * revenueToSpending,
-      surveyed ? "read" : "estimated",
     );
     notes.push(
       surveyed
@@ -767,7 +714,6 @@ function stateOpening(
 }
 
 function localOpening(
-  world: World,
   candidate: BudgetCandidate,
   base: PlaceBase,
 ): OpeningAmounts | string {
@@ -800,13 +746,7 @@ function localOpening(
   const spending = emptySpending();
   for (const [at, program] of BUDGET_PROGRAMS.entries()) {
     const share = LOCAL_PROGRAM_SPLIT[program]?.[level] ?? 0;
-    spending[at] = opened(
-      world,
-      candidate.key,
-      program,
-      (local.spending[program] ?? 0) * share * scale,
-      "estimated",
-    );
+    spending[at] = Math.round((local.spending[program] ?? 0) * share * scale);
   }
   const localSpendingPerResident = sum(
     BUDGET_PROGRAMS.map((program) =>
@@ -819,20 +759,8 @@ function localOpening(
       : 0;
   const revenue = emptyRevenue();
   for (const [at, source] of BUDGET_SOURCES.entries())
-    revenue[at] = opened(
-      world,
-      candidate.key,
-      source,
-      (local.revenue[source] ?? 0) * scale * share,
-      "estimated",
-    );
-  const debt = opened(
-    world,
-    candidate.key,
-    "debt",
-    local.debt * population * share,
-    "estimated",
-  );
+    revenue[at] = Math.round((local.revenue[source] ?? 0) * scale * share);
+  const debt = Math.round(local.debt * population * share);
   const interest = local.spending.interest ?? 0;
   const general = base.generalFundFY2026Millions;
   const stateSpend = general.expenditures;
@@ -896,8 +824,8 @@ export function openGovernmentBudget(
   if (!base) return "Not in the budget research.";
   const opening =
     candidate.level === "state"
-      ? stateOpening(world, candidate, base)
-      : localOpening(world, candidate, base);
+      ? stateOpening(candidate, base)
+      : localOpening(candidate, base);
   if (typeof opening === "string") return opening;
   const { start, basis } = fiscalStartFor(candidate, base);
   const year = fiscalYearContaining(today, start);

@@ -4301,7 +4301,24 @@ export interface LawPermissionRecord extends LawEffectStampedRecord {
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }
 
+/** Append-only attribution of a sentence already written by the court. */
+export interface LegalOutcomeConsequenceRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly sentenceEventId: EntityId;
+  readonly subjectPersonId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly appliedAt: IsoDate;
+  readonly effectKind: "minimum-custody-months";
+  readonly minimumMonths: number;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly [LawEffectStamp];
+}
+
 export interface HistoryStore {
+  readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
   readonly constitutionalRuleVersions?: readonly ConstitutionalRuleVersionRecord[];

@@ -1555,7 +1555,9 @@ export function settleTownCompensations(
         unpaidDays === 0
           ? (period.note ?? "Pay for the period.")
           : `Pay for the period, less ${unpaidDays} unpaid ${unpaidDays === 1 ? "day" : "days"} ${caring ? "home with a sick child" : "out sick"}.`,
-      provenance: period.provenance ?? flow.provenance,
+      provenance: completion
+        ? { kind: "simulated-event", eventId: completion.id }
+        : (period.provenance ?? flow.provenance),
     });
     recipients.add((flow.recipient as { personId: EntityId }).personId);
     pending.add(stableKey);

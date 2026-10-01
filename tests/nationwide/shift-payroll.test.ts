@@ -118,6 +118,10 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
         due.entityIds.includes(row.id) &&
         row.type === "life-paths2.work-session",
     )!;
+    expect(outcome.provenance).toEqual({
+      kind: "simulated-event",
+      eventId: completion.id,
+    });
     const payday = addDays(base.currentDate, 1);
     // Explicit payday context tests a later-day recorded contract before settling
     // the actual saved due item. The ordinary clock route is tested above.
@@ -152,6 +156,7 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
     )!;
     expect(laterOutcome.attemptedAmount).toEqual(earned.amount);
     expect(laterOutcome.transferredAmount).toEqual(earned.amount);
+    expect(laterOutcome.provenance).toEqual(outcome.provenance);
     expect(serializeWorld(deserializeWorld(serializeWorld(laterPaid)))).toBe(
       serializeWorld(laterPaid),
     );

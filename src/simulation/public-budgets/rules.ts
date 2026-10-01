@@ -55,13 +55,6 @@ export const LOCAL_REVENUE_RULE =
   "local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)";
 
 /**
- * How far each opening amount is drawn around its research figure: one
- * log-normal draw per line with this standard deviation. PLACEHOLDER, a game
- * profile choice pending research: local-government-finances-by-type.
- */
-export const OPENING_DRAW_SD = 0.05;
-
-/**
  * Pension opening. The actuarial liability as a multiple of a year's general
  * spending, the assumed return, and the amortization period for the unfunded
  * part. PLACEHOLDER, research: public-pension-funding-by-state. Each
