@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import calendarProfiles from "../../data/research/government/county-election-calendar-profiles.json";
 import { makeIsoDate } from "./dates";
 import { governmentUnit, countyGovernmentUnit } from "./government-units";
 import { nextCountyElection } from "./nationwide-world/county-election-calendar";
@@ -72,4 +73,36 @@ describe("sourced county dates remain distinct from municipal defaults", () => {
       dates: { sourceUrls: original },
     });
   });
+});
+
+it("refuses invalid profile term lengths before date reads or recurring search", () => {
+  for (const unit of [deSoto, loudon]) {
+    const profile = calendarProfiles.profiles.find(
+      (entry) =>
+        entry.stateUsps === unit.stateUsps &&
+        entry.countyGeoid === unit.countyGeoid,
+    )!;
+    const original = profile.termYears;
+    try {
+      for (const invalid of [
+        0,
+        -1,
+        0.5,
+        NaN,
+        Infinity,
+        Number.MAX_SAFE_INTEGER + 1,
+      ]) {
+        profile.termYears = invalid;
+        expect(nextCountyElection(unit, makeIsoDate("2026-01-01"))).toEqual({
+          status: "unknown",
+          reason: "County term length is invalid.",
+        });
+      }
+    } finally {
+      profile.termYears = original;
+    }
+    expect(nextCountyElection(unit, makeIsoDate("2026-01-01")).status).toBe(
+      "read",
+    );
+  }
 });

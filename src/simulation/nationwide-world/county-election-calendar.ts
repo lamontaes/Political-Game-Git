@@ -47,6 +47,11 @@ export function nextCountyElection(
       entry.countyGeoid === unit.countyGeoid,
   );
   if (
+    profile &&
+    (!Number.isSafeInteger(profile.termYears) || profile.termYears <= 0)
+  )
+    return { status: "unknown", reason: "County term length is invalid." };
+  if (
     profile?.kind === "published-dates" &&
     profile.primaryDate &&
     profile.electionDate &&

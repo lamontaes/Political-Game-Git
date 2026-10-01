@@ -3,17 +3,17 @@
   "mode": "exact Git parent plus3owned overlays; no shared source reads/native checkout",
   "runtime": {
     "changedFiles": 1,
-    "passed": 5,
+    "passed": 6,
     "failed": 0,
-    "durationSeconds": 3.43,
-    "session": 26728,
+    "durationSeconds": 2.48,
+    "session": 53281,
     "exitCode": 0
   },
   "types": {
     "roots": 2,
     "files": 701,
     "diagnostics": 0,
-    "session": 57161,
+    "session": 79481,
     "exitCode": 0
   },
   "lint": {
@@ -27,7 +27,7 @@
     "candidateAdded": 0,
     "baselineStale": 5,
     "candidateStale": 5,
-    "session": 28616,
+    "session": 4238,
     "exitCode": 1,
     "wholeGate": "FAIL on same inherited stale entries; allowlist untouched"
   },
@@ -37,8 +37,21 @@
     "county district admission and three-caller clock import remedy remain separate"
   ],
   "sha256": {
-    "src/simulation/nationwide-world/county-election-calendar.ts": "b9ab31d0eb9da980ec0a866a5ac0ef4cbeb591135d9a7ee4146880660f7a6f5a",
-    "src/simulation/county-election-calendar.test.ts": "bfb19727efbf92ee5f191b4ba13bccf4deec094ada9488c6c3e04bc65b1b340a",
+    "src/simulation/nationwide-world/county-election-calendar.ts": "e0cdc3fa45ee558e3af123465cc76f6ffd9107acedbed6b4e7feaf7db096feae",
+    "src/simulation/county-election-calendar.test.ts": "c9725673e3ff87b7d3cddc768cb4bec4c78ccde5aaaa83a34d05bceb76a06e24",
     "data/research/government/county-election-calendar-profiles.json": "22fb4d88e303d3b421f0ae5078d379171121957f418f0af360148a3d815845cd"
+  },
+  "reviewFollowup": {
+    "parent": "6c83c6d93d91242bdd6243d9b8f6a2c6343f9af9",
+    "change": "Reject invalid termYears before returning dates or recurring search",
+    "invalidValues": [
+      "0",
+      "-1",
+      "0.5",
+      "NaN",
+      "Infinity",
+      "MAX_SAFE_INTEGER+1"
+    ],
+    "profilesTested": 2
   }
 }
