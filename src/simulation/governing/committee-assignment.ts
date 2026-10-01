@@ -1,5 +1,69 @@
 import { SeededRng } from "../rng";
 import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
+import type { EntityId, IsoDate, World } from "../types";
+import { stateLegislators } from "../nationwide-world/state-legislature-opening";
+import { currentHistoricalCutoff } from "../queries";
+import { institutionOfficeBindingAt } from "../enacted-rule-changes";
+import { workStatusAt } from "../life-queries";
+import { recordById } from "../history-index";
+
+/** An ephemeral view of an actual saved service relationship, not a new
+ * tenure record or a claim about the member's elected-term commencement. */
+export interface CommitteeServiceEvidence {
+  readonly workRelationshipId: EntityId;
+  readonly startedAt: IsoDate;
+  readonly provenance: World["history"]["workRelationships"][number]["provenance"];
+}
+
+/** Existing state member-to-work join, with dated actual body identity.
+ * Missing or mismatched evidence cannot manufacture a seniority ranking. */
+export function recordedCommitteeService(
+  world: World,
+  rulePackId: string,
+  jurisdictionId: EntityId,
+  body: SeatedBody,
+): ReadonlyMap<string, CommitteeServiceEvidence> | null {
+  const cutoff = currentHistoricalCutoff(world);
+  const officeKey = `${rulePackId}:${body.chamberKey}`;
+  const binding = institutionOfficeBindingAt(
+    world,
+    officeKey,
+    jurisdictionId,
+    cutoff,
+  );
+  if (!binding) return null;
+  const holders = stateLegislators(world, `${rulePackId}:candidacy`).filter(
+    (row) => row.officeKey === officeKey,
+  );
+  const evidence = new Map<string, CommitteeServiceEvidence>();
+  for (const member of body.members) {
+    if (!member.personId) continue;
+    const holder = holders.find(
+      (row) =>
+        row.personId === member.personId &&
+        member.memberKey === `${row.officeKey}:seat:${row.ordinal}`,
+    );
+    const work =
+      holder &&
+      recordById(world.history.workRelationships, holder.workRelationshipId);
+    if (
+      !work ||
+      work.personId !== member.personId ||
+      work.organizationId !== binding.organizationId ||
+      work.startedAt > cutoff.asOfDate ||
+      work.recordedAt > cutoff.asOfDate ||
+      work.sequence >= cutoff.historySequenceExclusive ||
+      workStatusAt(world, work.id, cutoff)?.status !== "active"
+    )
+      return null;
+    evidence.set(member.memberKey, {
+      workRelationshipId: work.id,
+      startedAt: work.startedAt,
+      provenance: work.provenance,
+    });
+  }
+  return evidence;
+}
 
 /**
  * Who sits on which committee. No acquired source establishes the roster of a

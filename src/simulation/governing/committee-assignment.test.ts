@@ -1,9 +1,18 @@
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { lifePlaceStateIdentities } from "../life-places";
+import { legislativePackForJurisdiction } from "../legislative-institutions";
+import { seatedChamberForPack } from "./chamber-votes";
+import { SeededRng } from "../rng";
+import { serializeWorld, deserializeWorld } from "../serialization";
+import { personName } from "../people";
+import type { World } from "../types";
 import { describe, expect, it } from "vitest";
 
 import type { SeatedBody } from "../legislation-scenarios";
 import type { EntityId } from "../types";
 import {
   committeeRoster,
+  recordedCommitteeService,
   committeeRosters,
   committeesForMember,
   committeesForPerson,
@@ -143,4 +152,152 @@ describe("GOVERNING D1: committees have rosters, not the first names on the list
       committeeRoster(chamber(20), COMMITTEES, "not-a-committee", "pack:house"),
     ).toEqual([]);
   });
+});
+
+const serviceSeed = "A94-recorded-service-seniority";
+const servicePool = [...lifePlaceStateIdentities()];
+const serviceRng = new SeededRng(serviceSeed);
+const servicePlaces = Array.from(
+  { length: 5 },
+  () => servicePool.splice(serviceRng.integer(0, servicePool.length), 1)[0]!,
+);
+
+describe("A94 committee seniority reads saved service, not an invented term date", () => {
+  it.each(servicePlaces)(
+    "retains actual work identity and provenance in $jurisdictionKey",
+    (place) => {
+      const fixture = smallWorld({
+        place: place.jurisdictionKey,
+        seed: serviceSeed,
+        offices: ["state-legislature"],
+      });
+      const world = fixture.world;
+      const pack = legislativePackForJurisdiction(fixture.stateJurisdictionId);
+      if (!pack)
+        throw Error("The fixture needs its own admitted pack, not a proxy.");
+      const chamber = pack.chambers[0]!;
+      const seated = seatedChamberForPack(
+        world,
+        pack.packId,
+        chamber.chamberKey,
+        chamber.name,
+      );
+      if (!seated) {
+        expect(
+          recordedCommitteeService(
+            world,
+            pack.packId,
+            fixture.stateJurisdictionId,
+            {
+              chamberKey: chamber.chamberKey,
+              chamberName: chamber.name,
+              members: [],
+            },
+          ),
+        ).toBeNull();
+        console.info(
+          "A94 actual service",
+          JSON.stringify({
+            seed: serviceSeed,
+            place: place.jurisdictionKey,
+            unsupported: "No actual recorded state chamber.",
+          }),
+        );
+        return;
+      }
+      const evidence = recordedCommitteeService(
+        world,
+        pack.packId,
+        fixture.stateJurisdictionId,
+        seated.body,
+      );
+      expect(evidence).not.toBeNull();
+      expect(evidence!.size).toBe(
+        seated.body.members.filter((member) => member.personId).length,
+      );
+      for (const member of seated.body.members) {
+        if (!member.personId) continue;
+        const row = evidence!.get(member.memberKey)!;
+        const work = world.history.workRelationships.find(
+          (work) => work.id === row.workRelationshipId,
+        )!;
+        expect(work.personId).toBe(member.personId);
+        expect(row.startedAt).toBe(work.startedAt);
+        expect(row.provenance).toEqual(work.provenance);
+      }
+      expect([
+        ...recordedCommitteeService(
+          world,
+          pack.packId,
+          fixture.stateJurisdictionId,
+          seated.body,
+        )!,
+      ]).toEqual([...evidence!]);
+      const loaded = deserializeWorld(serializeWorld(world));
+      expect([
+        ...recordedCommitteeService(
+          loaded,
+          pack.packId,
+          fixture.stateJurisdictionId,
+          seated.body,
+        )!,
+      ]).toEqual([...evidence!]);
+      const oldest = [...evidence!].sort(
+        ([a, x], [b, y]) =>
+          x.startedAt.localeCompare(y.startedAt) || a.localeCompare(b),
+      )[0]!;
+      const member = seated.body.members.find(
+        (member) => member.memberKey === oldest[0],
+      )!;
+      console.info(
+        "A94 actual service",
+        JSON.stringify({
+          seed: serviceSeed,
+          place: place.jurisdictionKey,
+          members: evidence!.size,
+          person: personName(world.people[member.personId!]!),
+          workId: oldest[1].workRelationshipId,
+          serviceSince: oldest[1].startedAt,
+          provenance: oldest[1].provenance,
+          assignment: "NOT ACTIVATED: caller release pending",
+        }),
+      );
+      const incomplete: World = {
+        ...world,
+        history: {
+          ...world.history,
+          workRelationships: world.history.workRelationships.filter(
+            (work) => work.id !== oldest[1].workRelationshipId,
+          ),
+        },
+      };
+      expect(
+        recordedCommitteeService(
+          incomplete,
+          pack.packId,
+          fixture.stateJurisdictionId,
+          seated.body,
+        ),
+      ).toBeNull();
+      const future: World = {
+        ...world,
+        history: {
+          ...world.history,
+          workRelationships: world.history.workRelationships.map((work) =>
+            work.id === oldest[1].workRelationshipId
+              ? { ...work, recordedAt: "2099-01-01" as typeof work.recordedAt }
+              : work,
+          ),
+        },
+      };
+      expect(
+        recordedCommitteeService(
+          future,
+          pack.packId,
+          fixture.stateJurisdictionId,
+          seated.body,
+        ),
+      ).toBeNull();
+    },
+  );
 });
