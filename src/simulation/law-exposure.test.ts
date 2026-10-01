@@ -421,7 +421,7 @@ describe("a law reaches a person", () => {
     // One felt size for every reader, labeled an estimate.
     expect(NON_MONEY_FELT_SIZE.basis).toBe("ESTIMATED FROM AVERAGE");
     expect(lawExposureFeltSize({ direction: "cost", amount: null }, 0)).toEqual(
-      { share: NON_MONEY_FELT_SIZE.shareOfMonthlyPay, estimated: true },
+      { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true },
     );
     expect(lawExposureFeltSize({ direction: "none", amount: null }, 0)).toBe(
       null,

@@ -50,7 +50,7 @@ export interface LawExposureInput {
  * view and a group weigh the same loss the same way.
  */
 export const NON_MONEY_FELT_SIZE = {
-  shareOfMonthlyPay: 0.1,
+  monthsOfPay: 0.1,
   basis: "ESTIMATED FROM AVERAGE",
   researchQuestionId: "felt-size-of-non-money-law-effects",
 } as const;
@@ -73,7 +73,7 @@ export function lawExposureFeltSize(
 ): LawExposureFeltSize {
   if (exposure.direction === "none") return null;
   if (exposure.amount === null)
-    return { share: NON_MONEY_FELT_SIZE.shareOfMonthlyPay, estimated: true };
+    return { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true };
   if (monthlyPayMinor <= 0) return "unmeasured";
   return {
     share: exposure.amount.minorUnits / monthlyPayMinor,
