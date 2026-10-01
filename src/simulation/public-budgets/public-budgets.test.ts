@@ -28,9 +28,12 @@ import {
 import {
   MEDIAN_BENEFIT_SHARE,
   MEDIAN_FUNDED_RATIO,
+  MEDIAN_LIABILITY_TO_SPENDING,
   MEDIAN_NORMAL_COST_SHARE,
   MEDIAN_PAID_SHARE,
+  openingLiabilityToSpending,
 } from "./pension-share";
+import { SeededRng } from "../rng";
 import {
   MEDIAN_RESERVE_DEPOSIT,
   MEDIAN_RESERVE_TARGET,
@@ -1315,5 +1318,42 @@ describe("a government with no recorded debt opens at the measured national rate
         government.interestRate === fallback,
       );
     }
+  });
+});
+
+describe("a government's opening pension liability is measured, not 1.2 times its spending (A23)", () => {
+  it("opens each state at its own plans' ratio and an unlisted place at the states' median, marked estimated", () => {
+    const seed = "a23-pension-liability-1";
+    const world = opened(worldAt("2026-01-05", { seed }));
+    const states = world.publicBudgets!.governments.filter(
+      (government) => government.level === "state",
+    );
+    expect(states.length).toBeGreaterThan(0);
+    // Three states drawn by the named seed from those the budget opens.
+    const rng = new SeededRng(seed);
+    for (let draw = 0; draw < 3; draw += 1) {
+      const government = states[rng.integer(0, states.length)]!;
+      const size = openingLiabilityToSpending(government.stateKey);
+      const opening = government.years[0]!;
+      expect(
+        government.pension.liability / sum(opening.appropriations),
+        `${government.stateKey} (${seed})`,
+      ).toBeCloseTo(size.liabilityToSpending, 2);
+      expect(government.openingNotes.join(" ")).toContain(
+        size.basis === "state-plans"
+          ? `Pension liability: ${size.liabilityToSpending} times`
+          : "Pension liability: ESTIMATED FROM AVERAGE",
+      );
+    }
+    // Measured ratios differ by state; none is the old flat 1.2.
+    expect(openingLiabilityToSpending("US-IN").liabilityToSpending).not.toBe(
+      openingLiabilityToSpending("US-IL").liabilityToSpending,
+    );
+    expect(openingLiabilityToSpending("US-IL").basis).toBe("state-plans");
+    // A territory has no listed plan: the median, marked estimated.
+    expect(openingLiabilityToSpending("US-GU")).toEqual({
+      liabilityToSpending: MEDIAN_LIABILITY_TO_SPENDING,
+      basis: "estimated-from-average",
+    });
   });
 });

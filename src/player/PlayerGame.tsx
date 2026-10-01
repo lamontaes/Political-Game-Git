@@ -1619,7 +1619,14 @@ function PlayingScreen({
             (playScene.purpose !== "activity"
               ? electionNightLocationKey(session.world, session.personId)
               : null) ??
-              (playScene.purpose === "home" ? "home" : playScene.locationKey),
+              // An unspecified moment resolves to the home room above it in
+              // play-scene-context, so its place picture is home too; without
+              // this a person whose last recorded place had no plate (a shift
+              // the day before) woke to a blank screen.
+              (playScene.purpose === "home" ||
+              playScene.purpose === "unspecified"
+                ? "home"
+                : playScene.locationKey),
           ),
     [
       sceneHasPlate,
