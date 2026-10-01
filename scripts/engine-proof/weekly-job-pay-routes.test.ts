@@ -7,7 +7,10 @@ import {
   createWorkRelationship,
   recordWorkStatus,
 } from "../../src/simulation/life";
-import { workStatusAt } from "../../src/simulation/life-queries";
+import {
+  activeWorkRelationshipsAt,
+  workStatusAt,
+} from "../../src/simulation/life-queries";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -46,7 +49,13 @@ function fixture(seed: string) {
   const place = requireLifePlace("3137000");
   const base = createScenarioWorld(seed, place.context, { peopleCount: 8 });
   const adults = base.personOrder.filter(
-    (id) => ageOnDate(base.people[id]!.birthDate, base.currentDate) >= 21,
+    (id) =>
+      ageOnDate(base.people[id]!.birthDate, base.currentDate) >= 21 &&
+      !activeWorkRelationshipsAt(base, id).some(
+        (row) =>
+          row.relationship.kind.startsWith("employment:") &&
+          row.relationship.compensation === "paid",
+      ),
   );
   expect(adults.length).toBeGreaterThanOrEqual(2);
   const personId = adults[0]!,
@@ -165,16 +174,22 @@ describe("A8 saved weekly jobs on the ordinary clock", () => {
   });
 
   it("schedules current-date activation after saved work status and pays without a presentation refresh", () => {
-    const f = jobContract(fixture("a8:activation-clock"), "expected");
+    const start = fixture("a8:activation-clock");
+    const f = jobContract(
+      start,
+      "expected",
+      addDays(start.world.currentDate, 1),
+    );
     expect(ensureSavedWeeklyJobPayCalendar(f.world)).toBe(f.world);
     expect(jobItems(f.world, f.flow.id)).toHaveLength(0);
-    const active = recordWorkStatus(f.world, {
+    const ready = advanceWorld(f.world, 1);
+    const active = recordWorkStatus(ready, {
       stableKey: "a8:activate",
       workRelationshipId: f.work.id,
-      effectiveAt: f.world.currentDate,
+      effectiveAt: ready.currentDate,
       status: "active",
       reason: null,
-      supersedesStatusId: workStatusAt(f.world, f.work.id)!.id,
+      supersedesStatusId: workStatusAt(ready, f.work.id)!.id,
       provenance,
     });
     expect(jobItems(active, f.flow.id)).toHaveLength(1);
@@ -230,7 +245,7 @@ describe("A8 saved weekly jobs on the ordinary clock", () => {
       f.personId,
     );
     const offer = latestApplicationStep(world, application.id)!;
-    expect(offer.kind).toBe("offered");
+    expect(offer.kind, JSON.stringify(offer)).toBe("offered");
     const accepted = answerJobOffer(world, application.id, true);
     expect(accepted.ok).toBe(true);
     world = advanceWorld(
