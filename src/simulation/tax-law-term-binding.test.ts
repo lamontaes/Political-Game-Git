@@ -1,12 +1,9 @@
 import { describe, expect, it } from "vitest";
-import {
-  bindTaxLawTerms,
-  type ReadAdoptedTaxCategory,
-} from "./tax-law-term-binding";
+import { bindTaxLawTerms } from "./tax-law-term-binding";
 import { TAX_LAW_TERM_KEYS, TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import { currentLifeCutoff } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
-import { taxPowerEvidenceFor } from "./tax-policy";
+import { taxPowerEvidenceFor, taxLevyText } from "./tax-policy";
 import { lawInForce } from "./governing/law-in-force";
 import type { EntityId, World } from "./types";
 import type { TaxTerms } from "./tax-types";
@@ -16,7 +13,7 @@ const id = (value: string) => value as EntityId;
 
 /** Controlled read-only conversion records, not naturally enacted taxes or
  * earned bases. Numeric queries use production adopted-text reading. The
- * category callback models the missing shared query contract explicitly.
+ * existing typed proposal and policy join supplies dynamic record identities.
  */
 function fixture() {
   const jurisdiction = stateJurisdictionForKey("US-AK")!;
@@ -63,6 +60,9 @@ function fixture() {
     history: {
       nextSequence: 20,
       taxProposals: [proposal],
+      taxPolicies: [{ id: id("policy"), proposalId: proposal.id,
+        enactmentId: id("enactment"), sequence: 7, recordedAt: date,
+        effectiveAt: date, supersedesPolicyId: null }],
       organizations: [
         {
           id: id("recipient"),
@@ -94,6 +94,9 @@ function fixture() {
       legislativeProvisions: [
         {
           id: id("levy"),
+          provisionKey: "tax-levy",
+          text: taxLevyText(terms),
+          operativeEffect: { kind: "tax-policy" },
           measureId: id("measure"),
           sequence: 5,
           recordedAt: date,
@@ -146,23 +149,7 @@ function fixture() {
     onDate: world.currentDate,
     cutoff: currentLifeCutoff(world),
   };
-  const values: Record<string, readonly string[]> = {
-    [TAX_LAW_TERM_KEYS.seriesKey]: [terms.seriesKey],
-    [TAX_LAW_TERM_KEYS.baseKey]: [terms.baseKey],
-    [TAX_LAW_TERM_KEYS.exemptBaseKeys]: [],
-    [TAX_LAW_TERM_KEYS.publicOrganizationId]: [proposal.publicOrganizationId],
-    [TAX_LAW_TERM_KEYS.governmentKey]: [],
-  };
-  const readCategory: ReadAdoptedTaxCategory = (_world, _law, request) =>
-    Object.hasOwn(values, request.termKey)
-      ? {
-          values: values[request.termKey]!,
-          measureId: proposal.measureId,
-          provisionId: proposal.levyProvisionId,
-          sourceRecordIds: [id("measure"), id("enactment"), id("levy")],
-        }
-      : null;
-  return { world, input, terms, proposal, values, readCategory };
+  return { world, input, terms, proposal };
 }
 
 function expectUnavailable(
@@ -174,10 +161,10 @@ function expectUnavailable(
 }
 
 describe("adopted tax term consumer", () => {
-  it("binds exact numeric units and declared categories to the actual saved proposal recipient without writes", () => {
+  it("binds exact numeric units and saved typed levy identities to the actual saved proposal recipient without writes", () => {
     const f = fixture();
     const before = JSON.stringify(f.world);
-    const result = bindTaxLawTerms(f.world, f.input, f.readCategory);
+    const result = bindTaxLawTerms(f.world, f.input);
     expect(result).toEqual({
       kind: "available",
       terms: f.terms,
@@ -191,18 +178,19 @@ describe("adopted tax term consumer", () => {
         id("proposal"),
         id("recipient"),
         id("recipient-profile"),
+        id("policy"),
         id("measure"),
         id("enactment"),
         id("levy"),
       ],
     });
-    expect(bindTaxLawTerms(f.world, f.input, f.readCategory)).toEqual(result);
+    expect(bindTaxLawTerms(f.world, f.input)).toEqual(result);
     expect(JSON.stringify(f.world)).toBe(before);
   });
 
-  it("refuses the absent canonical category query and historical numeric signature", () => {
+  it("refuses an absent operative policy and historical numeric signature", () => {
     const f = fixture();
-    expectUnavailable(bindTaxLawTerms(f.world, f.input), "category");
+    expectUnavailable(bindTaxLawTerms({ ...f.world, history: { ...f.world.history, taxPolicies: [] } }, f.input), "operative tax policy");
     expectUnavailable(
       bindTaxLawTerms(
         f.world,
@@ -210,7 +198,6 @@ describe("adopted tax term consumer", () => {
           ...f.input,
           cutoff: { ...f.input.cutoff, historySequenceExclusive: 10 },
         },
-        f.readCategory,
       ),
       "historical",
     );
@@ -218,7 +205,6 @@ describe("adopted tax term consumer", () => {
       bindTaxLawTerms(
         f.world,
         { ...f.input, onDate: "2026-09-30" as World["currentDate"] },
-        f.readCategory,
       ),
       "historical",
     );
@@ -226,7 +212,6 @@ describe("adopted tax term consumer", () => {
       bindTaxLawTerms(
         f.world,
         { ...f.input, law: { ...f.input.law, origin: "in-force-at-start" } },
-        f.readCategory,
       ),
       "Starting-law",
     );
@@ -265,37 +250,25 @@ describe("adopted tax term consumer", () => {
         },
       };
       expectUnavailable(
-        bindTaxLawTerms(f.world, f.input, f.readCategory),
+        bindTaxLawTerms(f.world, f.input),
         "numeric term",
       );
     }
   });
 
-  it("refuses missing exemptions and invented or ambiguous recipients", () => {
-    for (const mutation of [
-      "missing-exemptions",
-      "wrong-recipient",
-      "ambiguous",
-      "state-alias",
-    ] as const) {
+  it("refuses changed adopted text, a wrong levy and a mismatched policy", () => {
+    for (const mutation of ["text", "levy", "policy"] as const) {
       const f = fixture();
-      if (mutation === "missing-exemptions")
-        delete f.values[TAX_LAW_TERM_KEYS.exemptBaseKeys];
-      if (mutation === "wrong-recipient")
-        f.values[TAX_LAW_TERM_KEYS.publicOrganizationId] = ["other"];
-      if (mutation === "ambiguous")
-        f.values[TAX_LAW_TERM_KEYS.seriesKey] = [
-          f.terms.seriesKey,
-          "tax:other",
-        ];
-      if (mutation === "state-alias")
-        f.values[TAX_LAW_TERM_KEYS.governmentKey] = [
-          "invented-local-government",
-        ];
-      expectUnavailable(
-        bindTaxLawTerms(f.world, f.input, f.readCategory),
-        mutation === "missing-exemptions" ? "categorical term" : "unambiguous",
-      );
+      f.world = { ...f.world, history: { ...f.world.history,
+        legislativeProvisions: f.world.history.legislativeProvisions!.map((row) => ({ ...row,
+          ...(mutation === "text" ? { text: "Changed levy" } : {}),
+          ...(mutation === "levy" ? { id: id("other-levy") } : {}),
+        })),
+        taxPolicies: f.world.history.taxPolicies!.map((row) => ({ ...row,
+          ...(mutation === "policy" ? { enactmentId: id("other-enactment") } : {}),
+        })),
+      }};
+      expectUnavailable(bindTaxLawTerms(f.world, f.input), "adopted levy");
     }
   });
 
@@ -316,19 +289,18 @@ describe("adopted tax term consumer", () => {
         },
       };
       expectUnavailable(
-        bindTaxLawTerms(f.world, f.input, f.readCategory),
+        bindTaxLawTerms(f.world, f.input),
         "actual public account",
       );
     }
   });
 
-  it("refuses unsupported authority, a different law and wrong category provenance", () => {
+  it("refuses unsupported authority, a different law and a wrong saved recipient", () => {
     const f = fixture();
     expectUnavailable(
       bindTaxLawTerms(
         f.world,
         { ...f.input, questionKey: "us-tax-terms:state.income-tax-terms" },
-        f.readCategory,
       ),
       "canonical tax question",
     );
@@ -336,7 +308,6 @@ describe("adopted tax term consumer", () => {
       bindTaxLawTerms(
         f.world,
         { ...f.input, law: { ...f.input.law, measureId: id("other") } },
-        f.readCategory,
       ),
       "belong",
     );
@@ -350,17 +321,12 @@ describe("adopted tax term consumer", () => {
           },
         },
         f.input,
-        f.readCategory,
       ),
       "unsupported",
     );
-    expectUnavailable(
-      bindTaxLawTerms(f.world, f.input, (_world, _law, request) => ({
-        ...f.readCategory(_world, _law, request)!,
-        measureId: id("other"),
-      })),
-      "categorical term",
-    );
+    expectUnavailable(bindTaxLawTerms({ ...f.world, history: {
+      ...f.world.history, taxProposals: [{ ...f.proposal, publicOrganizationId: id("other") }],
+    }}, f.input), "actual public account");
   });
 
   it("validates exact shares and refuses adopted term repricing of the saved proposal", () => {
@@ -384,7 +350,7 @@ describe("adopted tax term consumer", () => {
       };
       const before = JSON.stringify(f.world);
       expectUnavailable(
-        bindTaxLawTerms(f.world, f.input, f.readCategory),
+        bindTaxLawTerms(f.world, f.input),
         numerator === 101 ? "valid existing" : "frozen",
       );
       expect(JSON.stringify(f.world)).toBe(before);
@@ -403,6 +369,7 @@ describe("adopted tax term consumer", () => {
         legislativeProvisions: f.world.history.legislativeProvisions!.map(
           (row) => ({
             ...row,
+            text: taxLevyText({ ...f.terms, rateNumerator: 0 }),
             lawTerms: row.lawTerms!.map((term) =>
               term.key === TAX_LAW_TERM_KEYS.rateNumerator
                 ? { ...term, value: 0 }
@@ -413,7 +380,7 @@ describe("adopted tax term consumer", () => {
       },
     };
     const before = JSON.stringify(f.world);
-    const result = bindTaxLawTerms(f.world, f.input, f.readCategory);
+    const result = bindTaxLawTerms(f.world, f.input);
     expect(result.kind).toBe("available");
     if (result.kind === "available") expect(result.terms.rateNumerator).toBe(0);
     expect(JSON.stringify(f.world)).toBe(before);

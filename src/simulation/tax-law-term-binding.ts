@@ -1,6 +1,5 @@
 import { canonicalJson } from "./canonical-json";
-import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
-import type { FinalEnactedLawCategories } from "./governing/automatic-legislation";
+import { readFinalEnactedLawTerm, finalTermEnactment, finalTermProvisions } from "./governing/final-law-term-query";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import {
   currentLifeCutoff,
@@ -13,8 +12,8 @@ import {
   publicGovernmentIdentityForRecord,
   publicGovernmentOrganizationKey,
 } from "./public-government-identity";
-import { assertTaxTerms, taxPowerEvidenceFor } from "./tax-policy";
-import { TAX_LAW_TERM_KEYS, TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
+import { assertTaxTerms, taxPowerEvidenceFor, effectiveTaxPolicy, taxLevyText } from "./tax-policy";
+import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import type { TaxTerms } from "./tax-types";
 import type {
   EntityId,
@@ -23,20 +22,6 @@ import type {
   PublicGovernmentIdentity,
   World,
 } from "./types";
-
-/** Dependency for the coordinator's canonical adopted-category query.
- * No category history scan or catalog-parameter fallback is implemented here.
- */
-export type ReadAdoptedTaxCategory = (
-  world: World,
-  law: LawInForce,
-  input: {
-    readonly questionKey: string;
-    readonly termKey: string;
-    readonly onDate: IsoDate;
-    readonly cutoff: HistoricalCutoff;
-  },
-) => FinalEnactedLawCategories | null;
 
 export type TaxLawTermBinding =
   | { readonly kind: "unavailable"; readonly reason: string }
@@ -61,7 +46,6 @@ export function bindTaxLawTerms(
     readonly onDate: IsoDate;
     readonly cutoff: HistoricalCutoff;
   },
-  readCategory?: ReadAdoptedTaxCategory,
 ): TaxLawTermBinding {
   const unavailable = (reason: string): TaxLawTermBinding => ({
     kind: "unavailable",
@@ -77,8 +61,6 @@ export function bindTaxLawTerms(
     );
   if (input.law.origin !== "enacted")
     return unavailable("Starting-law tax proposal binding is not admitted.");
-  if (!readCategory)
-    return unavailable("The canonical adopted-category query is not supplied.");
   const proposition = Object.values(world.policyCatalog.propositions).find(
     (row) => row.stableKey === input.questionKey,
   );
@@ -161,7 +143,16 @@ export function bindTaxLawTerms(
       "The proposal recipient must be this saved government's actual public account.",
     );
 
-  const sourceIds: EntityId[] = [proposal.id, organization.id, profile.id];
+  const enactment = finalTermEnactment(world, input.law, input.questionKey);
+  const policy = effectiveTaxPolicy(world, proposal.jurisdictionId, proposal.terms.seriesKey, input.onDate);
+  const provision = enactment ? finalTermProvisions(world, proposal.measureId, enactment.sequence)
+    .find((row) => row.id === proposal.levyProvisionId) : undefined;
+  if (!enactment || !policy || policy.proposalId !== proposal.id ||
+      policy.enactmentId !== enactment.id || policy.recordedAt > input.onDate ||
+      policy.sequence >= input.cutoff.historySequenceExclusive || !provision ||
+      provision.text !== taxLevyText(proposal.terms) || provision.operativeEffect?.kind !== "tax-policy")
+    return unavailable("The exact adopted levy and saved operative tax policy must bind this proposal.");
+  const sourceIds: EntityId[] = [proposal.id, organization.id, profile.id, policy.id];
   const numeric = {} as Record<
     (typeof TAX_NUMERIC_LAW_TERMS)[number]["field"],
     number
@@ -188,55 +179,9 @@ export function bindTaxLawTerms(
     numeric[term.field] = read.value;
     sourceIds.push(...read.sourceRecordIds);
   }
-  const categories = new Map<string, readonly string[]>();
-  for (const termKey of [
-    TAX_LAW_TERM_KEYS.seriesKey,
-    TAX_LAW_TERM_KEYS.baseKey,
-    TAX_LAW_TERM_KEYS.exemptBaseKeys,
-    TAX_LAW_TERM_KEYS.publicOrganizationId,
-    TAX_LAW_TERM_KEYS.governmentKey,
-  ]) {
-    const read = readCategory(world, input.law, {
-      questionKey: input.questionKey,
-      termKey,
-      onDate: input.onDate,
-      cutoff: input.cutoff,
-    });
-    if (
-      !read ||
-      read.measureId !== proposal.measureId ||
-      !read.sourceRecordIds.includes(read.measureId) ||
-      !read.sourceRecordIds.includes(read.provisionId) ||
-      !Array.isArray(read.values) ||
-      read.values.some((value) => typeof value !== "string" || !value.trim())
-    )
-      return unavailable(
-        `The adopted categorical term ${termKey} is absent or invalid.`,
-      );
-    categories.set(termKey, read.values);
-    sourceIds.push(...read.sourceRecordIds);
-  }
-  const series = categories.get(TAX_LAW_TERM_KEYS.seriesKey)!;
-  const base = categories.get(TAX_LAW_TERM_KEYS.baseKey)!;
-  const recipient = categories.get(TAX_LAW_TERM_KEYS.publicOrganizationId)!;
-  const government = categories.get(TAX_LAW_TERM_KEYS.governmentKey)!;
-  if (
-    series.length !== 1 ||
-    base.length !== 1 ||
-    recipient.length !== 1 ||
-    recipient[0] !== proposal.publicOrganizationId ||
-    government.length !== 0
-  )
-    return unavailable(
-      "Adopted series, base and exact recipient identity must be unambiguous.",
-    );
-  const terms: TaxTerms = {
-    ...proposal.terms,
-    ...numeric,
-    seriesKey: series[0]!,
-    baseKey: base[0]!,
-    exemptBaseKeys: [...categories.get(TAX_LAW_TERM_KEYS.exemptBaseKeys)!],
-  };
+  // Dynamic base/series/recipient identities are frozen by the existing typed
+  // proposal and its adopted levy join above. They are not closed catalog enums.
+  const terms: TaxTerms = { ...proposal.terms, ...numeric };
   try {
     assertTaxTerms(terms);
   } catch {
