@@ -47,6 +47,10 @@
     "labor.unemployment-pct": {
       "value": 4,
       "note": "The unemployment rate the base rates were calibrated at: crime's base rates, and the town's birth rates by age (national figures from a year near 4%)."
+    },
+    "labor.minimum-wage-to-median": {
+      "value": 0,
+      "note": "Not a starting level. The one link that reads this measure is a threshold: it acts only on how far the ratio sits above its own threshold (0.59), so no change from a start is taken and zero only lets the link be read."
     }
   },
   "links": [
@@ -1064,8 +1068,8 @@
     },
     {
       "key": "minimum-wage-to-low-wage-jobs",
-      "status": "cause-not-recorded",
-      "unsupportedReason": "cause-not-recorded",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "labor.low-wage-jobs",
       "strength": "weak",
       "shape": {
@@ -1082,7 +1086,7 @@
       "from": "labor.minimum-wage-to-median",
       "evidence": "contested",
       "range": [-0.5, 0],
-      "notes": "Unsupported until measured: the game records no minimum wage as a share of the place's median wage, and low-wage jobs are not a kept place outcome."
+      "notes": "The cause is read: the state's minimum wage in force over the place's recorded median earnings spread over a 2,080-hour year (outcome-web labor.minimum-wage-to-median). Median earnings include part-year workers, so the ratio reads a little above one built on full-time hourly pay. Waiting on its outcome: low-wage jobs are not a kept place outcome, so nothing moves until a producer reads this link."
     },
     {
       "key": "unemployment-to-poverty",
