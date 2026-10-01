@@ -145,6 +145,7 @@ export function resolvePayConsequences(
       historySequenceExclusive: world.history.nextSequence,
     };
     const role = workRoleAt(world, work.id, cutoff);
+    if (!role) throw new Error("Missing pay recorded work role capability");
     const workplace = payWorkplaceAt(world, work.id, cutoff);
     const jurisdictionId = workplace.jurisdictionId;
     if (!jurisdictionId)
