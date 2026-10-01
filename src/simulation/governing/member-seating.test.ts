@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import { recordedTermFixture } from "../../../tests/fixtures/recorded-legislative-term";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
@@ -12,7 +13,20 @@ import {
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { SeededRng } from "../rng";
 import { personName } from "../people";
-import { makeIsoDate } from "../dates";
+import { addDays, daysBetween, makeIsoDate } from "../dates";
+import { advanceWorld } from "../world";
+import {
+  enterLegislativeTermLate,
+  LEGISLATIVE_TERM_ENTRY,
+  legislativeTermForRelationship,
+} from "../legislative-office-terms";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { workStatusAt } from "../life-queries";
+import { lateTermEntryKey } from "../late-term-entry-events";
+import {
+  composeFutureTransitionHandlerRegistries,
+  createFutureTransitionHandlerRegistry,
+} from "../future-transitions";
 import type { World } from "../types";
 import { stateMemberSeatingEvidence } from "./member-seating";
 import { seatedChamberForPack } from "./chamber-votes";
@@ -196,7 +210,135 @@ describe("A94 tenure reads an actual seating event", () => {
   it.todo(
     "reads a later elected member after its ordinary seating event producer exists",
   );
-  it.todo(
-    "proves individual late-entry seating through the actual late-entry writer",
-  );
+  it("reads the actual late-entry event after an explicitly supplied blocked entry", () => {
+    const fixture = recordedTermFixture();
+    const work = fixture.world.history.workRelationships.find((row) =>
+      legislativeTermForRelationship(fixture.world, row.id),
+    )!;
+    const term = legislativeTermForRelationship(fixture.world, work.id)!;
+    const base = createCampaignElectionTransitionRegistry();
+    const originalEntry = base.get(LEGISLATIVE_TERM_ENTRY)!;
+    const handlers = composeFutureTransitionHandlerRegistries(
+      createFutureTransitionHandlerRegistry([
+        [
+          LEGISLATIVE_TERM_ENTRY,
+          (world, due) =>
+            due.id === term.entry.id
+              ? {
+                  world,
+                  status: "blocked",
+                  reasonKey: "test:isolated-blocked-entry",
+                  context:
+                    "Supplied entry refusal isolates the existing late-entry writer; not a naturally refused qualification.",
+                  outcomeEventId: null,
+                }
+              : originalEntry(world, due),
+        ],
+      ]),
+      base,
+    );
+    const delayed = advanceWorld(
+      fixture.world,
+      daysBetween(fixture.world.currentDate, addDays(term.startsAt, 1)),
+      handlers,
+    );
+    expect(workStatusAt(delayed, work.id)?.status).toBe("expected");
+    const entered = enterLegislativeTermLate(delayed, work.id);
+    expect(workStatusAt(entered, work.id)?.status).toBe("active");
+    const holder = stateLegislators(entered, term.pack.packId).find(
+      (row) => row.workRelationshipId === work.id,
+    );
+    expect(holder).toBeDefined();
+    const event = entered.history.events.find(
+      (row) => row.stableKey === lateTermEntryKey(work.id),
+    )!;
+    const evidence = stateMemberSeatingEvidence(
+      entered,
+      term.pack.packId,
+      term.governing.id,
+      holder!,
+    );
+    expect(evidence).toEqual({
+      eventId: event.id,
+      workRelationshipId: work.id,
+      occurredAt: entered.currentDate,
+      kind: "late-term-entry",
+    });
+    const missingEvent: World = {
+      ...entered,
+      history: {
+        ...entered.history,
+        events: entered.history.events.filter((row) => row.id !== event.id),
+      },
+    };
+    expect(
+      stateMemberSeatingEvidence(
+        missingEvent,
+        term.pack.packId,
+        term.governing.id,
+        holder!,
+      ),
+    ).toBeNull();
+    const wrongContest: World = {
+      ...entered,
+      history: {
+        ...entered.history,
+        events: entered.history.events.map((row) =>
+          row.id === event.id
+            ? {
+                ...row,
+                involvedEntityIds: row.involvedEntityIds.filter(
+                  (id) => id !== term.contest.id,
+                ),
+              }
+            : row,
+        ),
+      },
+    };
+    expect(
+      stateMemberSeatingEvidence(
+        wrongContest,
+        term.pack.packId,
+        term.governing.id,
+        holder!,
+      ),
+    ).toBeNull();
+    const loaded = deserializeWorld(serializeWorld(entered));
+    const pack = legislativePackForJurisdiction(term.governing.id)!;
+    const chamber = pack.chambers.find(
+      (row) => `${pack.packId}:${row.chamberKey}` === holder!.officeKey,
+    )!;
+    // This recorded campaign fixture has a real elected term but no opening
+    // roster. Its individual event does not fabricate a whole chamber.
+    expect(
+      seatedChamberForPack(
+        loaded,
+        pack.packId,
+        chamber.chamberKey,
+        chamber.name,
+      ),
+    ).toBeNull();
+    expect(
+      stateMemberSeatingEvidence(
+        loaded,
+        term.pack.packId,
+        term.governing.id,
+        holder!,
+      ),
+    ).toEqual(evidence);
+    expect(enterLegislativeTermLate(loaded, work.id)).toBe(loaded);
+    console.info(
+      "A94 late seating",
+      JSON.stringify({
+        seed: fixture.world.seed,
+        place: term.pack.jurisdictionKey,
+        person: personName(entered.people[holder!.personId]!),
+        workId: work.id,
+        seatingEventId: event.id,
+        scheduledTermStart: term.startsAt,
+        seatedAt: event.occurredAt,
+        suppliedBlockedEntry: true,
+      }),
+    );
+  });
 });

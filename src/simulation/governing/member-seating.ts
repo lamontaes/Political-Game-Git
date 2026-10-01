@@ -51,9 +51,8 @@ export function stateMemberSeatingEvidence(
   if (
     !holder ||
     !work ||
-    !binding ||
     work.personId !== holder.personId ||
-    work.organizationId !== binding.organizationId ||
+    (binding && work.organizationId !== binding.organizationId) ||
     work.kind !== "employment:legislative-member" ||
     work.startedAt > cutoff.asOfDate ||
     work.recordedAt > cutoff.asOfDate ||
@@ -78,6 +77,7 @@ export function stateMemberSeatingEvidence(
   );
   if (
     !holder.byCampaign &&
+    binding &&
     work.stableKey ===
       `${STATE_LEGISLATURE_KEYS.seat(holder.officeKey, holder.ordinal)}:tenure` &&
     visible(opening) &&
