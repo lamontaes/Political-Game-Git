@@ -242,7 +242,7 @@ export interface CoverageDecision {
    * `covered`, `lost:work-requirement`, or why the person is outside the
    * program: `outside:age`, `outside:no-expansion`, `outside:income`,
    * `outside:income-unrecorded`, `outside:no-household`,
-   * `outside:no-residence`.
+   * `outside:no-residence`, `outside:law-unrecorded`.
    */
   readonly reasonKey: string;
   readonly stateKey: string | null;
@@ -311,18 +311,19 @@ function decide(
     return outside("outside:age", residenceStateKey(world, personId));
   const stateKey = residenceStateKey(world, personId);
   if (!stateKey) return outside("outside:no-residence");
+  // Nobody's income is known without a household the World records: the
+  // officials and public figures it holds by name only are left undecided.
+  const household = householdMembershipsAt(world, personId, cutoff)[0];
+  if (!household) return outside("outside:no-household", stateKey);
   const [expansion, requirement] = statePrograms(
     world,
     stateKey,
     onDate,
     cache,
   );
-  if (expansion?.answer !== "yes")
+  if (!expansion) return outside("outside:law-unrecorded", stateKey);
+  if (expansion.answer !== "yes")
     return outside("outside:no-expansion", stateKey);
-  // Nobody's income is known without a household the World records: the
-  // officials and public figures it holds by name only are left undecided.
-  const household = householdMembershipsAt(world, personId, cutoff)[0];
-  if (!household) return outside("outside:no-household", stateKey);
   const members = peopleInHouseholdAt(
     world,
     household.household.id,
@@ -498,6 +499,15 @@ export function recordHealthCoverage(
       continue;
     if (!isPersonAliveAt(world, personId, cutoff)) continue;
     const decision = decide(world, personId, onDate, cutoff, cache);
+    // Missing facts cannot revoke an existing entitlement. Wait for the
+    // person's recorded residence, household, income or governing law.
+    if (
+      decision.reasonKey === "outside:no-residence" ||
+      decision.reasonKey === "outside:no-household" ||
+      decision.reasonKey === "outside:income-unrecorded" ||
+      decision.reasonKey === "outside:law-unrecorded"
+    )
+      continue;
     if (decision.covered === (prior?.covered ?? false)) continue;
     if (!decision.covered && !prior) {
       // Never covered: only a loss to the work requirement is a change worth
