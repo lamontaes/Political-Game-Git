@@ -424,16 +424,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "55 to 65 mph",
+      "size": 0.0076,
+      "per": "mile per hour of the maximum (rural interstate) speed limit",
       "lagMonths": 0,
       "group": "place",
       "owner": "M",
-      "anchor": "+35% fatality rate",
-      "source": "Ashenfelter and Greenstone 2004 (JPE)",
+      "anchor": "Across 1993-2017 state panels, each 5 mph higher maximum state speed limit raised fatality rates per mile driven 8.5% on interstates and freeways and 2.8% on other roads. Interstates and freeways carried 17.6% of 2022 traffic deaths (7,484 of 42,514), so all roads move about 3.8% per 5 mph, 0.76% per mph. The range runs from other roads alone (0.56% per mph) to interstates alone (1.7% per mph); Ashenfelter and Greenstone's +35% for 55 to 65 mph on rural interstates (3.5% per mph) is the rural-interstate-only check.",
+      "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the +35% is for the step from 55 to 65 mph, but the game records no rural speed limit by place and keeps no traffic fatality rate."
+      "notes": "Sized, waiting on its cause and outcome: the game records no maximum speed limit by place and keeps no traffic fatality rate, so the link moves nothing until both exist.",
+      "range": [0.0056, 0.017]
     },
     {
       "key": "particles-to-infant-deaths",
@@ -1672,16 +1673,18 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "+$10,000: +5%",
-      "lagMonths": 0,
+      "size": 0.05,
+      "per": "$10,000 higher metro home prices",
+      "lagMonths": 12,
       "group": "owners",
       "owner": "B",
-      "anchor": "+5% births for owners",
-      "source": "Dettling and Kearney 2014 (JPubE)",
+      "anchor": "Metro-area panel, 1990s-2000s: a $10,000 rise in house prices raised births among homeowners 5% the next year (a wealth effect) and lowered them 2.4% among non-owners (a price effect); at the U.S. ownership rate the net is +0.8%. The study gives no interval here, so the range is the default 25% spread for researched links.",
+      "source": "Dettling and Kearney 2014 (Journal of Public Economics); NBER w17485",
       "from": "housing.home-prices",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game keeps no home price level by place and splits births by neither owners nor renters."
+      "notes": "Sized, waiting on its cause and outcome: the game keeps no home price level by place and does not split births between owners and renters.",
+      "range": [0.0375, 0.0625],
+      "lagWhy": "The study relates home prices in one year to births in the next."
     },
     {
       "key": "home-prices-to-renter-births",
@@ -1690,16 +1693,18 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "+$10,000: -2.4%",
-      "lagMonths": 0,
+      "size": -0.024,
+      "per": "$10,000 higher metro home prices",
+      "lagMonths": 12,
       "group": "renters",
       "owner": "B",
-      "anchor": "-2.4% births for renters",
-      "source": "Dettling and Kearney 2014 (JPubE)",
+      "anchor": "Metro-area panel: a $10,000 rise in house prices lowered births among non-owners 2.4% the next year while raising them 5% among owners. The study gives no interval here, so the range is the default 25% spread for researched links.",
+      "source": "Dettling and Kearney 2014 (Journal of Public Economics); NBER w17485",
       "from": "housing.home-prices",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game keeps no home price level by place and splits births by neither owners nor renters."
+      "notes": "Sized, waiting on its cause and outcome: the game keeps no home price level by place and does not split births between owners and renters.",
+      "range": [-0.03, -0.018],
+      "lagWhy": "The study relates home prices in one year to births in the next."
     },
     {
       "key": "property-tax-to-rent",
@@ -1934,7 +1939,7 @@
       "source": "Milligan 2005",
       "from": "program.birth-bonus-dollars",
       "evidence": "researched",
-      "notes": "Unsupported until a bill sets the bonus: Quebec's +5 to 10% came from its own payment schedule, and the game records no birth bonus dollars by place."
+      "notes": "Unsupported as a straight line: Milligan finds +16.9% births per C$1,000 of first-year benefit (an elasticity near 0.11) around Quebec's own amounts, which would overstate a large U.S. bonus if applied per dollar; it needs a bill's own payment schedule, and the game records no birth bonus dollars by place."
     },
     {
       "key": "marriage-equality-to-marriages",
@@ -2182,16 +2187,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "closure",
+      "size": -0.006,
+      "per": "local daily newspaper closing",
       "lagMonths": 12,
       "group": "place",
       "owner": "C",
-      "anchor": "Fewer candidates, less knowledge, lower local turnout",
-      "source": "Hayes and Lawless 2021",
+      "anchor": "U.S. dailies 1869-2004: one more newspaper raised presidential and congressional turnout about 0.3 points, mostly from a market's first paper. A closure is read as -0.3 points on a turnout near 50%, about -0.6%. It is provisional because the measured turnout is federal, not local; local races may lose more (Rubado and Jennings 2020 find fewer mayoral candidates and suggestive turnout losses where newsrooms shrank), so the range runs to twice the size, and to zero for a market that keeps another paper.",
+      "source": "Gentzkow, Shapiro and Sinkinson 2011 (AER); Rubado and Jennings 2020 (Urban Affairs Review); Hayes and Lawless 2021",
       "from": "press.local-newspaper",
-      "evidence": "researched",
-      "notes": "Unsupported until measured: the game records no local newspapers by place and keeps no local turnout outcome."
+      "evidence": "provisional",
+      "notes": "Sized, waiting on its cause and outcome: the game records no local newspapers by place and keeps no local turnout outcome.",
+      "range": [-0.012, 0]
     },
     {
       "key": "exposed-corruption-to-reelection",
