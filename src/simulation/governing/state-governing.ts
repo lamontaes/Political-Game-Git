@@ -27,6 +27,7 @@ import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
   committeeHearingTransitionHandler,
+  recordExecutiveInaction,
   measurePosition,
 } from "../legislation";
 import { createWorkItem, workItemState } from "../time-work";
@@ -46,6 +47,8 @@ import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordDurableDecisionTrace } from "../decisions";
 import {
   BILL_SIGN,
+  BILL_RETURN,
+  executiveBillActionWindow,
   evaluateGovernorBill,
   ownPartyPassageVote,
 } from "./governor-bill-decision";
@@ -883,7 +886,19 @@ function matterFromEvent(
     ask: text.ask,
     ifIgnored:
       family === "bill" && measureId
-        ? "No deadline for acting is established for this state's governor in the game, so the bill waits on your desk."
+        ? (() => {
+            const measure = world.history.legislativeMeasures?.find(
+              (m) => m.id === measureId,
+            );
+            const window = measure
+              ? executiveBillActionWindow(world, measure)
+              : null;
+            return window
+              ? window.inactionOutcome === "becomes-law-without-signature"
+                ? "After the pack's action window ends, the bill becomes law without your signature."
+                : "The action window is known, but its inaction outcome is unsupported; the bill stays pending."
+              : "No executable action window is established, so the bill waits on your desk.";
+          })()
         : text.ifIgnored,
     options: optionsFor(world, family, event),
     subjectKey,
@@ -1183,7 +1198,16 @@ function openMatter(
   const stableKey = matterStableKey(office, input.family, input.instance);
   if (world.history.events.some((event) => event.stableKey === stableKey))
     return world;
-  const deadline = addDays(world.currentDate, DEADLINE_DAYS[input.family]);
+  const measure =
+    input.family === "bill" && input.measureId
+      ? world.history.legislativeMeasures?.find((m) => m.id === input.measureId)
+      : undefined;
+  const executiveWindow = measure
+    ? executiveBillActionWindow(world, measure)
+    : null;
+  const deadline =
+    executiveWindow?.lastActionDate ??
+    addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
   const title = text.title(
     input.titleSubject ??
@@ -1233,6 +1257,16 @@ function openMatter(
     context: emptyContext(),
   });
   const opened = next.history.events.at(-1)!;
+  if (measure && executiveWindow) {
+    next = scheduleFutureDueItem(next, {
+      stableKey: `${stableKey}:deadline`,
+      dueAt: executiveWindow.inactionAt,
+      transitionKey: GOVERNING_DEADLINE,
+      entityIds: [opened.id],
+      jurisdictionId: office.jurisdictionId,
+      provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
+    });
+  }
   if (office.controlledByPlayer) {
     next = createWorkItem(next, {
       stableKey: `${stableKey}:work`,
@@ -1253,26 +1287,29 @@ function openMatter(
       blocker: null,
       scheduledActivityId: null,
     });
-    // A real bill's action deadline is the state's law, which the game does
-    // not compile: the bill waits on the desk rather than lapsing by rule.
-    if (input.family === "bill" && input.measureId) return next;
+    // A real bill lapses only through an executable, declared legal window.
+    if (measure) return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
-      dueAt: deadline,
+      dueAt: executiveWindow?.inactionAt ?? deadline,
       transitionKey: GOVERNING_DEADLINE,
       entityIds: [opened.id],
       jurisdictionId: office.jurisdictionId,
       provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
     });
   }
-  // An officeholder the game plays takes the matter up the day before its
-  // deadline (hand-set: the whole window to weigh it, no draw of the day).
+  // Keep the existing workflow interval, bounded by the actual legal last day.
+  const workflowDate = addDays(
+    world.currentDate,
+    Math.max(3, DEADLINE_DAYS[input.family] - 1),
+  );
+  const npcDate =
+    executiveWindow && executiveWindow.lastActionDate < workflowDate
+      ? executiveWindow.lastActionDate
+      : workflowDate;
   return scheduleFutureDueItem(next, {
     stableKey: `${stableKey}:npc`,
-    dueAt: addDays(
-      world.currentDate,
-      Math.max(3, DEADLINE_DAYS[input.family] - 1),
-    ),
+    dueAt: npcDate < world.currentDate ? world.currentDate : npcDate,
     transitionKey: GOVERNING_NPC_DECISION,
     entityIds: [opened.id],
     jurisdictionId: office.jurisdictionId,
@@ -1315,7 +1352,7 @@ export function openClemencyMatter(
  */
 export function openTransitionMatters(world: World, officeKey: string): World {
   const office = governingOfficeByKey(world, officeKey);
-  if (!office) return world;
+  if (!office || !office.organizationId) return world;
   const key = matterStableKey(office, "chief-of-staff", "transition");
   if (world.history.events.some((event) => event.stableKey === key))
     return world;
@@ -1659,7 +1696,8 @@ function applyConsequence(
   decisionEventId: EntityId,
 ): World {
   if (!option) {
-    // A lapsed bill still becomes law, so the agencies still get the work.
+    if (matter.family === "bill" && matter.measureId) return world;
+    // Legacy abstract matters retain their existing agency workflow.
     return matter.family === "bill" && matter.subjectKey
       ? openMatter(world, office, {
           family: "implementation",
@@ -1942,11 +1980,16 @@ function openMatterForPlayer(
   if (matter.status !== "open") return "That matter has already been settled.";
   if (controlledPersonId(world) !== matter.holderPersonId)
     return "Only the officeholder can decide this.";
-  // A bill bound to a real measure waits on the desk: the game compiles no
-  // action deadline for it, so the matter's own date cannot refuse a decision.
+  const measure =
+    matter.family === "bill" && matter.measureId
+      ? world.history.legislativeMeasures?.find(
+          (m) => m.id === matter.measureId,
+        )
+      : undefined;
+  const window = measure ? executiveBillActionWindow(world, measure) : null;
   if (
-    world.currentDate > matter.deadline &&
-    !(matter.family === "bill" && matter.measureId)
+    world.currentDate > (window?.lastActionDate ?? matter.deadline) &&
+    (!measure || window)
   )
     return "The deadline has passed.";
   return matter;
@@ -1963,8 +2006,37 @@ export function decideGoverningMatter(
   const option = matter.options.find((o) => o.key === optionKey);
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
+  let next = world;
+  if (matter.family === "bill" && matter.measureId) {
+    const measure = world.history.legislativeMeasures?.find(
+      (m) => m.id === matter.measureId,
+    );
+    if (!measure || (option.key !== BILL_SIGN && option.key !== BILL_RETURN))
+      return { ok: false, world, reason: "This bill action is not supported." };
+    const evaluation = evaluateGovernorBill(world, {
+      stableKey: matter.stableKey,
+      governorId: matter.holderPersonId,
+      executiveTitle: governingOfficeByKey(world, matter.officeKey)?.title,
+      measure,
+      staff: staffRecommendation(world, matter),
+      playerChoice: {
+        optionKey: option.key,
+        matterEventId: matter.openedEvent.id,
+      },
+    });
+    next = recordDurableDecisionTrace(world, evaluation);
+    if (
+      evaluation.outcomeKind !== "selected" ||
+      evaluation.selectedOptionKey !== option.key
+    )
+      return {
+        ok: false,
+        world: next,
+        reason: "The executive decision remains pending.",
+      };
+  }
   const decided = recordDecision(
-    world,
+    next,
     matter,
     option,
     "player",
@@ -2101,6 +2173,37 @@ export function governingDeadlineHandler(
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
     return resolved(world, "The office changed hands before the deadline.");
+  if (matter.family === "bill" && matter.measureId) {
+    const measure = world.history.legislativeMeasures?.find(
+      (m) => m.id === matter.measureId,
+    );
+    if (
+      !measure ||
+      measurePosition(world, measure.id).phase !== "awaiting-executive"
+    )
+      return resolved(world, "The bill is no longer on the executive desk.");
+    const window = executiveBillActionWindow(world, measure);
+    if (!window || window.inactionOutcome !== "becomes-law-without-signature")
+      return resolved(
+        world,
+        "The applicable inaction rule remains unsupported; the bill stays pending.",
+      );
+    if (world.currentDate <= window.lastActionDate)
+      return resolved(world, "The legal time to act has not passed.");
+    const inactive = recordExecutiveInaction(world, {
+      stableKey: `${matter.stableKey}:executive-inaction`,
+      measureId: measure.id,
+      rationale:
+        "The declared executive action window ended without a decision; the pack makes the bill law without a signature.",
+    });
+    return resolved(
+      scheduleInstitutionStep(
+        recordDecision(inactive, matter, null, "lapsed", matter.holderPersonId),
+        measure.id,
+      ),
+      "The legal window ended without executive action.",
+    );
+  }
   return resolved(
     recordDecision(world, matter, null, "lapsed", matter.holderPersonId),
     "The deadline passed without a decision.",
@@ -2147,9 +2250,16 @@ export function governingNpcDecisionHandler(
       },
     );
     const traced = recordDurableDecisionTrace(principled, evaluation);
+    if (evaluation.outcomeKind !== "selected" || !evaluation.selectedOptionKey)
+      return resolved(traced, "The executive decision remains pending.");
     const option = matter.options.find(
-      (o) => o.key === (evaluation.selectedOptionKey ?? CLEMENCY_DENY),
+      (o) => o.key === evaluation.selectedOptionKey,
     );
+    if (!option)
+      return resolved(
+        traced,
+        "The selected executive choice is unavailable; the matter remains pending.",
+      );
     return resolved(
       recordDecision(
         traced,
@@ -2183,9 +2293,16 @@ export function governingNpcDecisionHandler(
       staff: advice,
     });
     const traced = recordDurableDecisionTrace(principled, evaluation);
+    if (evaluation.outcomeKind !== "selected" || !evaluation.selectedOptionKey)
+      return resolved(traced, "The executive decision remains pending.");
     const option = matter.options.find(
-      (o) => o.key === (evaluation.selectedOptionKey ?? BILL_SIGN),
+      (o) => o.key === evaluation.selectedOptionKey,
     );
+    if (!option)
+      return resolved(
+        traced,
+        "The selected executive choice is unavailable; the matter remains pending.",
+      );
     return resolved(
       recordDecision(
         traced,
