@@ -1,6 +1,6 @@
 # County source intake keeps real seat plans open
 
-The matrix adds dated county election and qualification evidence. It keeps actual county phase and residence bindings open. These readings grant no filing permission. The research contains 30 partially inspected states, 19 unread states and one county-board exception. D.C. remains separate. No complete production profile is admitted.
+The matrix adds dated county election and qualification evidence. It keeps actual county phase and residence bindings open. These readings grant no filing permission. The research contains 33 partially inspected states, 16 unread states and one county-board exception. D.C. remains separate. No complete production profile is admitted.
 
 ## What the new reads establish
 
@@ -16,9 +16,13 @@ Minnesota's official 2025 statutes distinguish ordinary terms from initial stagg
 
 Nebraska distinguishes commissioners from county supervisors. Supervisor district residence is required while holding office, but not when filing under section 23-268. Large-county commissioners have a separate six-month filing requirement. The matrix preserves those stages and actual county dependencies.
 
+Minnesota's current candidate page separates age at officeholding from district residence before election. Kansas requires district residence during candidacy and office, with charter and statutory exceptions still open. Missouri distinguishes district commissioners from the countywide presiding commissioner. Its November director filing window does not apply to ordinary commissioners.
+
+New Jersey's official reproduction retains legacy terminology and an optional voter-adopted four-year arrangement. Actual county adoption and current consolidated text remain open. These facts cannot become one universal county calendar.
+
 ## Checks and limits
 
-The proof parses the JSON, preserves all 50 state keys and D.C., verifies prior claims unchanged and checks source fields. The first publication changed six records: Arkansas, Colorado, Illinois, Indiana, Iowa and New Mexico. This renewal adds Minnesota and Nebraska without changing prior claims. Simulation and private source packs are unchanged.
+The proof parses the JSON, preserves all 50 state keys and D.C., verifies prior claims unchanged and checks source fields. The first publication changed six records: Arkansas, Colorado, Illinois, Indiana, Iowa and New Mexico. The first renewal added Minnesota and Nebraska. The next adds New Jersey, Kansas, Missouri and Minnesota candidate stages without changing prior claims. Simulation and private source packs are unchanged.
 
 Natural filing, district residence, electorate, election outcomes, browser play, a year and final-main acceptance are not run. CTO owns admission of core record mechanisms. No team merge or art approval is requested.
 

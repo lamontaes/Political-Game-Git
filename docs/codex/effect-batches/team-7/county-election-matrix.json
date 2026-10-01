@@ -528,8 +528,30 @@
       }
     },
     "KS": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryTermsAndResidence": {
+          "value": "Section 19-202 provides three, five or seven commissioners; except 19-204b, each represents a district and remains a district-resident qualified elector during candidacy and office. Ordinary terms last four years starting the second Monday in January after election; staggering prevents more than a simple majority at one general election. Section 19-203a exceptions and charter modifications to size/stagger/term remain open; actual county plan is unbound.",
+          "url": "https://kslegislature.gov/b2025_26/laws/019_000_0000_chapter/019_002_0000_article/019_002_0002_section/019_002_0002_k",
+          "section": "19-202(a)-(e); 2026 edition",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "2026Dates": {
+          "value": "Official 2026 statewide primary August 4 and general November 3. Calendar gives June 1 noon candidate deadline; actual county seat availability and alternate nomination routes remain separate.",
+          "url": "https://www.sos.ks.gov/elections/important-election-dates.html",
+          "section": "2026 Primary Election; General Election",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "2026LocalFiling": {
+          "value": "May 1, 2026 Secretary of State notice directs local candidates to their county election offices by June 1 noon. This dated primary-cycle notice does not establish all alternate filing routes or future years.",
+          "url": "https://www.sos.ks.gov/media/press-releases/2026/05-01-26-one-month-countdown-until-candidate-filing-deadline.html",
+          "section": "May 1, 2026 opening paragraph",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -824,6 +846,13 @@
           "section": "375.03 subdivisions 1-2; 2025 edition",
           "readOn": "2026-10-01",
           "status": "read"
+        },
+        "candidateStages2026": {
+          "value": "County candidates must be eligible Minnesota voters, have no other primary/general filing, be 21 on assuming office, and reside in their district for 30 days before the general election. File with the home county auditor May 19-June 2, 2026, closing 5 p.m.; $50 fee or petition with at least 500 signatures. Special-election filing differs. Other qualifications and actual seat plan still require verification.",
+          "url": "https://www.sos.mn.gov/election-administration-campaigns/become-a-candidate/filing-for-county-offices/",
+          "section": "Qualifications; How to File; special-election caveat",
+          "readOn": "2026-10-01",
+          "status": "read"
         }
       },
       "openFields": [
@@ -885,8 +914,23 @@
       ]
     },
     "MO": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryCommissionerTerms": {
+          "value": "Under chapter 49, district commissioners use 1996 plus four-year election increments and district voters; presiding commissioners use 1882 plus four-year increments and countywide voters. Both serve four years until successors qualify and begin duties January 1 after election. County residence is required; district members also reside in their districts. Actual county form/charter applicability and other qualifications remain open.",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=49.020",
+          "section": "49.020; displayed effective August 28, 1995",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "2026Calendar": {
+          "value": "Primary August 4, 2026, filing February 24-March 31. General November 3. County independent/new-party petitions go to the county clerk/election board by July 27, 2026, 5 p.m. The July 7-28 general-table filing applies to authorized November director offices, not an ordinary commissioner window. Charter-county calendars and actual seat phases require separate binding.",
+          "url": "https://www.sos.mo.gov/elections/calendar.html",
+          "section": "2026 calendar table, county petition paragraph and asterisk note",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1027,8 +1071,16 @@
       ]
     },
     "NJ": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "ordinaryAndOptionalTerms": {
+          "value": "Department of State reproduction uses legacy chosen-freeholder terminology: 40:20-23 gives three-year terms beginning at the next annual stated meeting under that article. Sections 40:20-20.4/.5 allow voter-adopted four-year staggered biennial terms for non-Optional-County-Charter counties; later terms start January 1, with separate first-election transition. Actual county adoption, current consolidated text and charter rules remain open; no universal three-year profile admitted.",
+          "url": "https://www.nj.gov/state/dos-statutes-elections-40.shtml",
+          "section": "40:20-20.4, 40:20-20.5, 40:20-23",
+          "readOn": "2026-10-01",
+          "status": "read-legacy-reproduction-applicability-open"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1634,6 +1686,12 @@
       "state": "AK",
       "url": "https://www.akleg.gov/statutesPDF/Title-29.pdf",
       "result": "tool Internal Error; indexed snippet not full statute admission",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "KS",
+      "url": "https://kslegislature.gov/b2025_26/laws/019_000_0000_chapter/019_002_0000_article/019_002_0003a_section/019_002_0003a_k/",
+      "result": "tool Internal Error; 19-203a exception not admitted from search lead",
       "readOn": "2026-10-01"
     }
   ]

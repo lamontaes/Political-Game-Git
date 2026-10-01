@@ -33,5 +33,18 @@
     "matrixSha256": "95bf666cecc3a17ca80000adf7e47d3594dab0b3d5980ff31915da4adbec5985",
     "productionProfilesAdmitted": 0,
     "validation": "JSON parsed; 50 state identities and D.C. preserved; every prior claim unchanged; source fields verified; no runtime change"
+  },
+  "renewal03": {
+    "previousHead": "5a2c767af9b34ff8919b59ec7b81032e3e3d2bd4",
+    "changedStates": ["MN", "NJ", "KS", "MO"],
+    "counts": {
+      "partially-inspected": 33,
+      "unread": 16,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed; 50 identities and D.C. preserved; prior claims unchanged; URLs/read dates/status present; no runtime change",
+    "matrixSha256": "e79896f93cc7d889e11a77ad33b3aae56e7cbac330c3d8cb6cd6a9f6bd110ce1"
   }
 }
