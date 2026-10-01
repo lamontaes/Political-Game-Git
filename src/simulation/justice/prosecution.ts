@@ -33,7 +33,6 @@ import {
   evaluateDetention,
   evaluatePlea,
   evaluateSentence,
-  mandatoryJailUnderLaw,
   prepareJudge,
   prepareJurors,
   sentencingJudge,
@@ -634,6 +633,15 @@ export function advanceProsecutions(world: World): World {
     if (addDays(last.occurredAt, rule.resolveAfterDays) > next.currentDate)
       continue;
 
+    // A due case still needs a sitting, unrecused judge before the court
+    // can conduct a trial or accept a plea. Vacant seats leave it pending.
+    // Legacy worlds without a seated bench use the existing opening writer.
+    if (!next.judiciary?.seatTenures.length)
+      next = ensureOpeningJudiciary(next);
+    const turn = eventsOfType(next, PROSECUTION_SENTENCED_EVENT).length;
+    const judgeId = sentencingJudge(next, courtCase, turn);
+    if (!judgeId) continue;
+
     // The defendant decides once, before the first trial. A plea they
     // entered themselves stands. Nobody decides for the player: with no plea
     // entered, the court enters not guilty (Fed. R. Crim. P. 11(a)(4)) and
@@ -696,32 +704,13 @@ export function advanceProsecutions(world: World): World {
     }
     const ended = next.history.events.at(-1)!;
 
-    // The judge chooses the sentence. A world opened before the courts were
-    // seated seats them now, once, the same way an opening does.
-    if (!next.judiciary?.seatTenures.length)
-      next = ensureOpeningJudiciary(next);
-    const turn = eventsOfType(next, PROSECUTION_SENTENCED_EVENT).length;
-    const judgeId = sentencingJudge(next, courtCase, turn);
-    let kind: SentenceKind;
-    let motivation: string | null = null;
-    if (judgeId) {
-      next = prepareJudge(next, judgeId);
-      const sentence = evaluateSentence(next, judgeId, courtCase, pleaded);
-      next = recordDurableDecisionTrace(next, sentence);
-      kind =
-        sentence.selectedOptionKey === SENTENCE_JAIL ? "jail" : "probation";
-      motivation = chosenReasons(sentence);
-    } else {
-      // PLACEHOLDER: every seat on the state's trial court is vacant, or
-      // every judge knows the defendant. The court gives the lesser
-      // sentence, as the law's parsimony rule leans, unless the law in force
-      // sets a jail term no court may go below.
-      const bound = mandatoryJailUnderLaw(next, courtCase);
-      kind = bound ? "jail" : "probation";
-      motivation = bound
-        ? `No judge on the state's trial court could hear the case. ${bound}`
-        : "No judge on the state's trial court could hear the case, so the court gave the lesser sentence.";
-    }
+    // The sitting judge who allowed this case to proceed chooses the sentence.
+    next = prepareJudge(next, judgeId);
+    const sentence = evaluateSentence(next, judgeId, courtCase, pleaded);
+    next = recordDurableDecisionTrace(next, sentence);
+    const kind: SentenceKind =
+      sentence.selectedOptionKey === SENTENCE_JAIL ? "jail" : "probation";
+    const motivation = chosenReasons(sentence);
     const months = termMonths(kind, courtCase.standingFindings);
     next = followUp(next, ended, referral, PROSECUTION_SENTENCED_EVENT, {
       summary:
@@ -733,7 +722,7 @@ export function advanceProsecutions(world: World): World {
         `${SENTENCE_MONTHS_TAG}${months}`,
       ],
       motivation,
-      decidedBy: judgeId ? { personId: judgeId, role: "Judge" } : null,
+      decidedBy: { personId: judgeId, role: "Judge" },
     });
     if (kind === "jail")
       next = removeFromOffice(next, subjectId, next.history.events.at(-1)!);
