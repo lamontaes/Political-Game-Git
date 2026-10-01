@@ -1658,6 +1658,14 @@
           "section": "CTAS-2152; TCA8-18-101 and2-2-122",
           "readOn": "2026-10-01",
           "status": "official-source-inspected-not-production-admitted"
+        },
+        "loudonSeparateMap": {
+          "value": "Election Commission separately links countywide commissioner/precinct map, created January25,2022, Tennessee Comptroller author. Full rendered map inspected. No byteidentity with missing resolution attachment, geometric home join, voter count or saved voter fact admitted.",
+          "url": "https://loudoncountyvotes.com/files/maps/2022_Redistricting_CountyWide_Map.pdf",
+          "sha256": "b367ddfa1e172948c90a3d246101c90d4b47ee9d9370dd3b029bdcecaf32fdf1",
+          "section": "Single-page map, title/legend/footer",
+          "readOn": "2026-10-01",
+          "status": "official-source-inspected-not-production-admitted"
         }
       },
       "openFields": [

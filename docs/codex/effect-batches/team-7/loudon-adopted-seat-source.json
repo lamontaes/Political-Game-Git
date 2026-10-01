@@ -102,5 +102,21 @@
       "status": "official-source-inspected-not-production-admitted"
     }
   },
-  "productionAdmission": false
+  "productionAdmission": false,
+  "separatePublishedMap": {
+    "url": "https://loudoncountyvotes.com/files/maps/2022_Redistricting_CountyWide_Map.pdf",
+    "sha256": "b367ddfa1e172948c90a3d246101c90d4b47ee9d9370dd3b029bdcecaf32fdf1",
+    "bytes": 3696253,
+    "pages": 1,
+    "retrievedOn": "2026-10-01",
+    "createdOn": "2022-01-25",
+    "linkedFrom": "https://loudoncountyvotes.com/maps.php",
+    "linkLabel": "County-Wide District Map",
+    "title": "Current County Commission Districts and Voting Precincts",
+    "verification": "Text and full rendered map inspected; map attachment in 2021 minutes still absent",
+    "author": "Tennessee Comptroller of the Treasury",
+    "metadataCaution": "2020 total population/precinct table and a district-table heading of 2010 coexist; no population or voter inference admitted",
+    "homeJoinAdmitted": false,
+    "relationshipToResolution": "Separate current-map publication, not byte-identified as missing Exhibit A"
+  }
 }

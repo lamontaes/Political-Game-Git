@@ -14,7 +14,9 @@ Measured source: [CTAS-12](https://www.ctas.tennessee.edu/eli/qualifications-clb
 
 ## Next
 
-Retrieve the actual adopted map and any later superseding record before joining a home. Bind the qualification requirements to their actual filing stage and canonical evidence producer. The ten-seat research packet admits no production seats, voter eligibility or complete county profile.
+The [Election Commission maps page](https://loudoncountyvotes.com/maps.php) separately links a countywide map created January 25, 2022. Its text and full rendered page were inspected. It is a separate publication; byte identity with the missing attachment is unproved. Its population table headings also retain a vintage inconsistency. No population or voter conclusion is admitted.
+
+Validate geometric home joins and any superseding record before joining a home. Bind the qualification requirements to their actual filing stage and canonical evidence producer. The ten-seat research packet admits no production seats, voter eligibility or complete county profile.
 
 ## Method
 
