@@ -17,6 +17,7 @@ import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
   householdMembershipsAt,
+  peopleInHouseholdAt,
   organizationProfileAt,
 } from "./life-queries";
 import {
@@ -29,11 +30,16 @@ import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
 } from "./life-places";
+import {
+  activeHealthEpisodes,
+  latestHealthState,
+} from "./crisis/health-queries";
 import { publicProgramRecords } from "./public-program-integrity";
 import {
   livesInServiceArea,
   requestPublicService,
-  serviceLawForCommitment,
+  eligibleServiceOperator,
+  serviceAuthorityForCommitment,
 } from "./public-service-requests";
 import {
   cancelScheduledActivity,
@@ -92,9 +98,16 @@ export function serviceRequestFormForCommitment(
   world: World,
   commitment: PublicProgramCommitmentRecord,
 ): ServiceRequestForm | null {
-  if (!commitment.recipientOrganizationId) return null;
-  const served = serviceLawForCommitment(world, commitment, world.currentDate);
-  return served ? (SERVICE_REQUEST_FORMS[served.questionKey] ?? null) : null;
+  const operatorId = commitment.recipientOrganizationId;
+  if (!operatorId) return null;
+  const served = serviceAuthorityForCommitment(
+    world,
+    commitment,
+    world.currentDate,
+  );
+  return served && eligibleServiceOperator(world, served, operatorId)
+    ? (SERVICE_REQUEST_FORMS[served.questionKey] ?? null)
+    : null;
 }
 
 /**
@@ -111,7 +124,7 @@ export function scheduleResidentServiceRequests(
   if (commitment.installments[installmentIndex]?.purpose !== "operating")
     return world;
   const form = serviceRequestFormForCommitment(world, commitment);
-  if (!form || form.need === "on-call") return world;
+  if (!form) return world;
   const stableKey = `${commitment.stableKey}:installment:${installmentIndex}${REQUESTS_SUFFIX}`;
   if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
   return scheduleFutureDueItem(world, {
@@ -146,7 +159,7 @@ export function produceResidentServiceRequests(
   if (!commitment || commitment.kind !== "commitment") return empty;
   const operatorId = commitment.recipientOrganizationId;
   const form = serviceRequestFormForCommitment(world, commitment);
-  if (!operatorId || !form || form.need === "on-call") return empty;
+  if (!operatorId || !form) return empty;
   const asked: EntityId[] = [];
   const declined: EntityId[] = [];
   const undecided: EntityId[] = [];
@@ -312,7 +325,8 @@ function residentRecordIndex(world: World): ResidentRecordIndex {
 }
 
 function lifeRef(
-  family: "work-role" | "education-enrollment" | "kinship",
+  family:
+    "work-role" | "education-enrollment" | "kinship" | "household-membership",
   recordId: EntityId,
 ): MindSourceReference {
   return { kind: "life-history", reference: { family, recordId } };
@@ -378,6 +392,58 @@ function needConsiderations(
       (place ? stateKeyForJurisdiction(place) : null);
     return !!servedState && state === servedState;
   };
+
+  if (form.need === "on-call") {
+    // A crisis team is asked for from the person's own health record: an
+    // episode that is acute or serious today. Someone else living at home is
+    // help already in the house. The episode names no condition (no
+    // researched condition pack is installed), so it is weighed as being
+    // unwell, never as a diagnosis.
+    for (const episode of activeHealthEpisodes(world, personId)) {
+      const state =
+        latestHealthState(world, episode.id)?.state ?? episode.severity;
+      if ((state !== "acute" && state !== "serious") || !episode.eventId)
+        continue;
+      out.push(
+        consideration(
+          personId,
+          `health:${episode.id}`,
+          "ask",
+          state === "acute" ? "strong" : "moderate",
+          "high",
+          state === "acute"
+            ? "Is acutely unwell right now."
+            : "Is seriously unwell right now.",
+          [{ kind: "historical-event", eventId: episode.eventId }],
+          "context:health",
+        ),
+      );
+    }
+    if (out.length === 0) return out;
+    for (const entry of householdMembershipsAt(world, personId)) {
+      const others = peopleInHouseholdAt(world, entry.household.id).filter(
+        (id) =>
+          id !== personId &&
+          !records.dead.has(id) &&
+          ageOnDate(world.people[id]!.birthDate, world.currentDate) >=
+            ADULT_AGE,
+      );
+      if (others.length > 0)
+        out.push(
+          consideration(
+            personId,
+            `household:${entry.membership.id}`,
+            "wait",
+            "slight",
+            "high",
+            "Another adult at home can help.",
+            [lifeRef("household-membership", entry.membership.id)],
+            "social:family",
+          ),
+        );
+    }
+    return out;
+  }
 
   if (form.need === "travel") {
     for (const { relationship, role } of work) {

@@ -7,7 +7,13 @@ import {
 import { addYears } from "../legislation-drafting";
 import { currentMeasureProvisions } from "../legislative-politics";
 import { operativeDateInWorld } from "./law-in-force";
-import { stateJurisdictionForKey } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction,
+} from "../life-places";
+import { organizationProfileAt } from "../life-queries";
+import { standingServiceProgram } from "../law-consequences/service-delivered-data";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   STATE_TRANSIT_VARIANT_KEY,
@@ -1046,6 +1052,11 @@ export function programOperatorOrganization(
       ? `local:${encodeURIComponent(identity.governmentKey)}:`
       : "";
   const operatorKey = `operator:${operatorScope}${programKey}`;
+  // A standing service program is carried out by an organization that can
+  // lawfully provide it (a crisis team by a health department, clinic or
+  // hospital) already working in the place, never by a provider made up here.
+  const clinical = eligibleStandingOperator(world, programKey, jurisdictionId);
+  if (clinical) return { world, organizationId: clinical };
   const stableKey = `${PROGRAM_GOVERNING_VERSION}:${operatorKey}`;
   const existing = world.history.organizations.find(
     (row) => row.stableKey === stableKey,
@@ -1085,6 +1096,42 @@ export function programOperatorOrganization(
     world: next,
     organizationId,
   };
+}
+
+/**
+ * The existing organization that can operate a standing service program in
+ * this place: the program's first listed kind that is present, then the
+ * earliest formed. Only real organizations already on record are chosen.
+ */
+export function eligibleStandingOperator(
+  world: World,
+  programKey: string,
+  jurisdictionId: EntityId,
+): EntityId | null {
+  const program = standingServiceProgram(programKey);
+  if (!program) return null;
+  const served = world.jurisdictions[jurisdictionId];
+  const servedState = served ? stateKeyForJurisdiction(served) : null;
+  const inPlace = (id: EntityId | null) => {
+    if (!id) return false;
+    if (id === jurisdictionId) return true;
+    const place = world.jurisdictions[id];
+    const state =
+      lifePlaceByJurisdictionId(id)?.stateJurisdictionKey ??
+      (place ? stateKeyForJurisdiction(place) : null);
+    return !!servedState && state === servedState;
+  };
+  let best: { rank: number; id: EntityId } | null = null;
+  for (const organization of world.history.organizations) {
+    if (organization.formedAt > world.currentDate) continue;
+    const profile = organizationProfileAt(world, organization.id);
+    const rank = profile
+      ? program.operatorClassifications.indexOf(profile.classification)
+      : -1;
+    if (rank < 0 || !inPlace(profile!.locationJurisdictionId)) continue;
+    if (!best || rank < best.rank) best = { rank, id: organization.id };
+  }
+  return best?.id ?? null;
 }
 
 function ensureProgramOperatorResourcePosition(
