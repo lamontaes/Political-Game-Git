@@ -1,3 +1,17 @@
+import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import {
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "../simulation/time-work";
+import { personName } from "../simulation/people";
+import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/state-executives";
+import {
+  governorOfficeForJurisdiction,
+  governingMatters,
+  decideGoverningMatter,
+} from "../simulation/governing/state-governing";
+import { BILL_SIGN } from "../simulation/governing/governor-bill-decision";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -41,7 +55,7 @@ import {
   placeMunicipalOrdinanceOnAgenda,
 } from "../simulation/municipal-ordinance-procedure";
 import { requireLifePlace } from "../simulation/life-places";
-import { advanceWorld } from "../simulation/world";
+import { advanceWorld, recordWorldEvent } from "../simulation/world";
 import type {
   LegislativeVoteDisposition,
   LegislativeVoteProvenance,
@@ -54,6 +68,122 @@ import type {
  *
  * Nebraska and Alaska, not Kentucky: the owner asked that tests span places.
  */
+
+/** Record the fixture's control change without rewriting pending work. */
+function controlForFixture(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  const previous =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (previous === personId) return world;
+  const handoff = recordWorldEvent(world, {
+    stableKey,
+    type: "test.control-moved",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [
+      personId,
+      ...(previous
+        ? [previous, ...playerRequiredWorkIds(world, previous)]
+        : []),
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary:
+      "Controlled downstream fixture moves play to the actual actor for its next recorded action.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const released = previous
+    ? releasePlayerRequiredWork(handoff, {
+        personId: previous,
+        stableKeyPrefix: `${stableKey}:released`,
+        outcomeEventId: handoff.history.events.at(-1)!.id,
+      })
+    : handoff;
+  return { ...released, control: { kind: "person", personId } };
+}
+
+/** A controlled actual-office signature for downstream law-effect fixtures. */
+function signAtActualGovernorDesk(
+  scenario: ReturnType<typeof createLegislativeScenario>,
+  start: World,
+  measureId: EntityId,
+): World {
+  let world = ensureStateExecutiveIncumbent(
+    start,
+    scenario.playerPersonId,
+    scenario.pack.jurisdictionKey.slice(3),
+  );
+  const office = governorOfficeForJurisdiction(
+    world,
+    scenario.pack.jurisdictionKey,
+  );
+  expect(
+    office,
+    "A recorded governor is required for this controlled signature.",
+  ).not.toBeNull();
+  world = controlForFixture(
+    world,
+    office!.holderPersonId,
+    `a80:governor-control:${measureId}`,
+  );
+  world = applyLegislativeStep(
+    { ...scenario, measureId },
+    world,
+    "await-executive-decision",
+  ).world;
+  const matter = governingMatters(world, office!.officeKey).find(
+    (row) => row.measureId === measureId && row.status === "open",
+  );
+  expect(
+    matter,
+    "The actual bill must reach its recorded governor's desk.",
+  ).toBeDefined();
+  const decision = decideGoverningMatter(world, matter!.id, BILL_SIGN);
+  expect(decision.ok, decision.ok ? "" : decision.reason).toBe(true);
+  const next = decision.world;
+  expect(measurePosition(next, measureId).phase).toBe("awaiting-enactment");
+  const recorded = next.history.events.find(
+    (event) =>
+      event.tags.includes(`matter:${matter!.id}`) &&
+      event.tags.includes(`choice:${BILL_SIGN}`),
+  );
+  expect(
+    recorded?.participants.some(
+      (participant) =>
+        participant.personId === office!.holderPersonId &&
+        participant.role === "agency:decider",
+    ),
+  ).toBe(true);
+  console.info(
+    "A80 actual governor fixture",
+    JSON.stringify({
+      seed: next.seed,
+      scenario: scenario.scenarioKey,
+      measureId,
+      matterId: matter!.id,
+      governor: personName(next.people[office!.holderPersonId]!),
+      governorId: office!.holderPersonId,
+      decisionEventId: recorded!.id,
+      choice: BILL_SIGN,
+      phase: measurePosition(next, measureId).phase,
+      controlledChoice: true,
+    }),
+  );
+  return next;
+}
 
 function enactFromDocket(
   scenarioKey: "nebraska" | "alaska",
@@ -86,10 +216,17 @@ function enactFromDocket(
       (key) => key !== "offer-amendment",
     );
     if (!step) break;
+    if (step === "await-executive-decision") {
+      world = publishLegislativeTransition(
+        world,
+        signAtActualGovernorDesk(scenario, world, measureId),
+      );
+      continue;
+    }
     if (step === "record-enactment" && legacyNullEffectiveDate) {
-      // Current state procedure supplies an effective date. Recreate an older
-      // saved enactment with that field missing before any effect is applied,
-      // so this test still checks that the effect gateway does not guess one.
+      // Remove the saved source-resolved date while preserving its real basis.
+      // Unlike a legacy null without that basis, this cannot be redated from
+      // the state rule or a game fallback by the canonical operative reader.
       const enacted = recordEnactment(world, {
         stableKey: nextMeasureStableKey(
           world,
@@ -98,6 +235,11 @@ function enactFromDocket(
         ),
         measureId,
       });
+      const saved = enacted.history.legislativeEnactments!.find(
+        (row) => row.measureId === measureId,
+      )!;
+      expect(saved.effectiveDateBasis).toBe("source-default");
+      expect(saved.effectiveAt).not.toBeNull();
       world = applyEnactedLawEffects(
         {
           ...enacted,
@@ -136,12 +278,48 @@ function enactFromDocket(
       applyLegislativeStep(context, world, step).world,
     );
   }
+  const enactment = world.history.legislativeEnactments?.find(
+    (row) => row.measureId === measureId,
+  );
+  console.info(
+    "A80 fixture law records",
+    JSON.stringify({
+      file: "enacted-law-effects",
+      measureId,
+      currentDate: world.currentDate,
+      lineages: world.history.legislativeDraftLineages?.filter(
+        (row) => row.measureId === measureId,
+      ),
+      enactment: enactment ?? null,
+      operative: enactment ? operativeDateInWorld(world, enactment) : null,
+      appropriations:
+        world.history.publicProgramRecords?.filter(
+          (row) =>
+            row.kind === "appropriation" && row.sourceMeasureId === measureId,
+        ) ?? [],
+      availabilityClauses: currentMeasureProvisions(world, measureId)
+        .filter(
+          (row) =>
+            row.provisionKey === "availability" || row.provisionKey === "lapse",
+        )
+        .map((row) => ({
+          id: row.id,
+          provisionKey: row.provisionKey,
+          text: row.text,
+        })),
+    }),
+  );
   return { world, measureId };
 }
 
 const appropriations = (world: World, measureId: EntityId) =>
   (world.history.publicProgramRecords ?? []).filter(
-    (row) => row.kind === "appropriation" && row.sourceMeasureId === measureId,
+    (
+      row,
+    ): row is Extract<
+      NonNullable<World["history"]["publicProgramRecords"]>[number],
+      { kind: "appropriation" }
+    > => row.kind === "appropriation" && row.sourceMeasureId === measureId,
   );
 
 const MUNICIPAL_PROVENANCE: LegislativeVoteProvenance = {
@@ -333,6 +511,13 @@ describe("a law the player passes changes what it governs", () => {
         (key) => key !== "offer-amendment",
       );
       if (!step) break;
+      if (step === "await-executive-decision") {
+        world = publishLegislativeTransition(
+          world,
+          signAtActualGovernorDesk(scenario, world, measureId),
+        );
+        continue;
+      }
       if (step === "record-enactment") {
         world = publishLegislativeTransition(
           world,
@@ -418,7 +603,11 @@ describe("a law the player passes changes what it governs", () => {
       reason: `This appropriation takes effect on ${enactment.effectiveAt}.`,
       amountMinorUnits: null,
     });
-    const operative = advanceWorld(world, 13);
+    const operative = advanceWorld(
+      world,
+      13,
+      createCampaignElectionTransitionRegistry(),
+    );
     expect(
       enactedLawEffects(operative, measureId)?.lines.find(
         (line) => line.kind === "transit",
@@ -439,7 +628,7 @@ describe("a law the player passes changes what it governs", () => {
 
   it("does not invent a state transit start date when the enactment has none", () => {
     const { world, measureId } = enactFromDocket(
-      "nebraska",
+      "alaska",
       {
         familyKey: "appropriations",
         variantKey: "transit-staged-service-v2",
@@ -452,6 +641,14 @@ describe("a law the player passes changes what it governs", () => {
       world.history.legislativeEnactments!.find(
         (row) => row.measureId === measureId,
       )!.effectiveAt,
+    ).toBeNull();
+    expect(
+      operativeDateInWorld(
+        world,
+        world.history.legislativeEnactments!.find(
+          (row) => row.measureId === measureId,
+        )!,
+      ),
     ).toBeNull();
     expect(appropriations(world, measureId)).toHaveLength(0);
   });
