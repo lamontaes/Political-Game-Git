@@ -47,13 +47,13 @@ describe("what states pay for an office", () => {
     const world = (seed: string) => ({ seed }) as unknown as World;
     const utah = estimatedStatePay(world("a"), "state-legislator", "UT")!;
     expect(utah.basis).toMatch(
-      /^ESTIMATED FROM AVERAGE: between the 25th and 75th percentile/,
+      /^ESTIMATED FROM AVERAGE: .*ranked by Census region/,
     );
-    // Inside the middle half of what the 40 publishing states pay.
+    // An annual estimate from actual same-office salaries, never a pay law.
     expect(utah.annualDollars).toBeGreaterThan(20_000);
     expect(utah.annualDollars).toBeLessThan(75_000);
     expect(utah.annualDollars % 100).toBe(0);
-    // The same on every replay of a world; not the same in every world.
+    // The same sourced estimate across all worlds; no seed chooses pay.
     expect(estimatedStatePay(world("a"), "state-legislator", "UT")).toEqual(
       utah,
     );
@@ -64,7 +64,14 @@ describe("what states pay for an office", () => {
             .annualDollars,
       ),
     );
-    expect(others.size).toBeGreaterThan(1);
+    expect(others.size).toBe(1);
+    expect(utah.basis).toContain("not statutory salary authority");
+    // A territory without sourced CPS income gets an actual same-office mean.
+    const territory = estimatedStatePay(world("a"), "state-legislator", "AS")!;
+    expect(territory.basis).toContain("same-office plain mean");
+    expect(estimatedStatePay(world("b"), "state-legislator", "AS")).toEqual(
+      territory,
+    );
     // Congress is set by statute, never estimated.
     expect(
       estimatedStatePay(world("a"), "member-of-congress", "US"),
