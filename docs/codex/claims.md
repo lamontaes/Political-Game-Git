@@ -1,3 +1,11 @@
+## October 1, 10:54 a.m. exact reader and county transfers
+
+Team 3 released the existing `workPayCoverageAt` query to the coordinator, with no unpublished overlap. Coordinator moves it unchanged into `pay-coverage-query.ts`; the future producer must import/reexport this one reader. The release includes only the query dependency, its existing record shape and optional history collection, not the coverage producer.
+
+Team 7 may receive Audit head `6b5b3d53830227f50fd2f6fbc587128a0f335daf`'s three county-only `world.ts` insertions in existing PR 1540: validator import, optional county record enumeration and validator invocation. Receive these as hunks, never a whole donor file. Preserve coordinator's separate earned-pay validator import, enumeration and invocation. Team 7 owns its county tests and publication; this grants no registration/qualification schema or unrelated world changes.
+
+Coordinator retains the main-based earned-pay transfer guard, validator integration, historical reader arguments and tax-term binding. Team 3 retains the common pay writer. Audit retains validator fixture adaptation; no second pay resolver or writer is authorized.
+
 ## October 1, earned-pay and tax integration ownership
 
 Under CTO 9:28 and 9:52 rulings, the coordinator owns earned-pay assessment schema and EntityKind, the exact resources.ts transfer-reference guard, pay resolver cutoff forwarding, and the tax catalog question/term bindings. Team 3 retains the sole pay assessment writer and the shared completed-hourly-gross calculation. Audit owns the independent earned assessment validator, resource-integrity equality join and world history enumeration. No second calculation or transfer writer is authorized.

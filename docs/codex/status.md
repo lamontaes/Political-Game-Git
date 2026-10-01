@@ -1,3 +1,13 @@
+## October 1, 10:54 a.m. coordinator integration checkpoint
+
+Verified merged: schema 1563, member-limit research 1564, law-term reader extraction 1565, exemption bindings 1566 and tax question registration 1562. Main is `44918cd48b5ca0e48b004c0aeb7b3667d6e56f77`. Five merges since 10:00; the hour is incomplete.
+
+Tax registration at `bffa6f8af61f0cba16f61479c3e072c51306be46` passed 3/3 focused tests in 15.44 seconds and four strict roots/844 files with zero diagnostics. Dated adopted terms still need binding to tax proposals/assessments; school and special district routing is unfinished. Catalog loading is not tax payment proof.
+
+Earned-pay integration is prepared locally at `cb590dc134922d29f3b1f851aafa42221ac80fb9`, not published or READY. The predecessor main-based dependency composition passed five strict roots/848 files; revised narrower wage/office reader types and changed law/stamp tests are running. Validator fixture adaptation remains with Audit; actual payment admission remains with Team 3. Existing ordinary transfer stamp behavior is preserved when no assessment is referenced.
+
+Team 3 published its main-based common-writer WIP at `88200273fa244b50b514e8d8faf50c01c00a9e85`, formula 3/3 reported; shared contract integration is incomplete. Team 7 received the three-hunk county world release after its reported 18/18 predecessor receipt; final 19-case proof is pending. Team 1 received the exact merged exemption-binding schema and the instruction that unapplied rows cannot block bills. Team 2 received the approved PR 1545 conflict repair request.
+
 ## October 1, 10:04 a.m. coordinator integration checkpoint
 
 MERGED: fetched main 123f7dc77e80fb1d9abd78e34956f91afceb3e60 contains tax registration #1556, Team 6 handler #1552, amendment views #1439 and research #1558. Nine first-parent PR merges were recorded from 9:00 through 10:00 a.m. Eastern, against the CTO target of sixteen per hour. PR merges do not establish gameplay completion.
