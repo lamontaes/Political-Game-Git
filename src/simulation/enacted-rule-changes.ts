@@ -692,13 +692,16 @@ function appendInstitutionBinding(
   const existing = ruleChangeConsequenceBindingHistoryRecords(world);
   const prior = existing.find((record) => record.stableKey === input.stableKey);
   if (prior) {
-    const {
-      id: _id,
-      sequence: _sequence,
-      recordedAt: _recordedAt,
-      ...original
-    } = prior;
-    if (JSON.stringify(original) === JSON.stringify(input)) return world;
+    if (
+      JSON.stringify(prior) ===
+      JSON.stringify({
+        ...input,
+        id: prior.id,
+        sequence: prior.sequence,
+        recordedAt: prior.recordedAt,
+      })
+    )
+      return world;
     throw new Error(
       "Institution binding key already records another consequence",
     );

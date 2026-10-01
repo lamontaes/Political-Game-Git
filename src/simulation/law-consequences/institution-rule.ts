@@ -81,9 +81,9 @@ export function resolveLawInstitutionRuleConsequences(
     throw new Error(
       "Institution-rule requires its recorded enactment activity",
     );
-  const measure = world.history.legislativeMeasures?.find(
+  const measure = (world.history.legislativeMeasures ?? []).find(
     (record) => record.id === enactment.measureId,
-  )!;
+  );
   if (!measure || !world.jurisdictions[measure.jurisdictionId])
     throw new Error(
       "Institution-rule requires an actual government jurisdiction",
