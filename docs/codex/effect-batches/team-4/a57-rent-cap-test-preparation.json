@@ -40,5 +40,31 @@
     "path": "tests/nationwide/town-rent.test.ts",
     "beforeBlob": "e070d3bd063e89ea3064dcc955cc011ed8d7b29e",
     "replacement": "Replace fixed universal 5pp/CPI expectation with uncapped market proposal; actual statutory cap must be proved through same PR native-kind ordinary renewal test, not this helper."
+  },
+  "engineOrder": {
+    "dispatch": "CTO October 1, 1:24 p.m. Eastern",
+    "first": "A57",
+    "sequence": [
+      "A57",
+      "A52",
+      "A54/A56",
+      "A53",
+      "A58",
+      "A59",
+      "A21",
+      "A63/A64"
+    ],
+    "exception": "Published A58 main-port1596 at a31ea174a6fad353285e35bc04a9a795c28d3977 is preserved for explicit CTO1:07 delivery review; no new downstream PR."
+  },
+  "nextOwnedBuild": {
+    "path": "src/simulation/law-consequences/price-cost-renewal.test.ts",
+    "existingPR": 1572,
+    "publishedHead": "5ea8178fed52bb584762f69eaeae7d6bf659c63a",
+    "base": "main",
+    "actualNextEdit": "Extend the existing controlled 3% renewal proof with an enacted final-term case using canonical measure/provision/adoption/enactment writers on the actual saved lease world. Assert final provenance, ordinary renewal-to-native dispatch, payment identity, repeat and canonical reload.",
+    "testInput": "Authored 3% contract only; not statutory OR/CA coverage or a production numeric row.",
+    "dependency": "Audit canonical controlled-enactment attachment contract for the existing saved lease world; current automatic-legislation term fixture uses its own standalone scenario world. No copied or fabricated legislative actors/coverage records.",
+    "status": "PREPARATION_ONLY_NOT_RUN",
+    "priorReceipt": "2/2 PASS28.84s on declared dependency overlay; controlled STARTING-law fixture, not an enacted-bill producer proof."
   }
 }
