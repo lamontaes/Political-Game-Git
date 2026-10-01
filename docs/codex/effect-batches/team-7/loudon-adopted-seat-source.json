@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "stage": "research-not-production",
+  "countyGeoid": "47105",
+  "readOn": "2026-10-01",
+  "adoption": {
+    "url": "https://loudoncounty-tn.gov/documentsAndForms/documents/CommissionMeetingDocuments/20211101_CommissionMeeting_Minutes.pdf",
+    "bytes": 24263929,
+    "pages": 88,
+    "sha256": "85dad2ed49cd9b7edc868e577f6208d4c5e770e5dcf5fd9fd6963bf00b3b3bee",
+    "retrievedOn": "2026-10-01",
+    "documentId": "Loudon-Resolution-110121-D",
+    "adoptedOn": "2021-11-01",
+    "effectiveOn": "2021-11-01",
+    "resolutionPage": 13,
+    "votePage": 3,
+    "vote": "8-1"
+  },
+  "seats": [
+    {
+      "district": 1,
+      "designation": "A",
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 1,
+      "designation": "B",
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 2,
+      "designation": "A",
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 2,
+      "designation": "B",
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 3,
+      "designation": null,
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 4,
+      "designation": null,
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 5,
+      "designation": "A",
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 5,
+      "designation": "B",
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 6,
+      "designation": null,
+      "electorateKind": "district",
+      "domicileKind": "district"
+    },
+    {
+      "district": 7,
+      "designation": null,
+      "electorateKind": "district",
+      "domicileKind": "district"
+    }
+  ],
+  "geometry": null,
+  "homeJoin": null,
+  "voterEvidenceProducer": null,
+  "mapGap": {
+    "page": 14,
+    "verified": "Rendered page is map attachment placeholder; no actual map",
+    "boundaryAmendment": "Page3 describes Adesa Boulevard/I75 district2 amendment; no geometric inference"
+  },
+  "qualificationsSources": {
+    "districtResidenceAndVoter": {
+      "value": "County commissioner must reside within and be a qualified voter of represented district. Cross-references general office qualifications. County employee permitted except specified director-of-schools rule; simultaneous countywide office restriction and oath requirements also recorded. No voter producer admitted.",
+      "url": "https://www.ctas.tennessee.edu/eli/qualifications-clb",
+      "section": "CTAS-12; TCA5-5-102/5-5-111",
+      "readOn": "2026-10-01",
+      "status": "official-source-inspected-not-production-admitted"
+    },
+    "generalQualifications": {
+      "value": "CTAS-2152:18+,US/TN citizenship, qualifying county voter and county residence one year before qualifying deadline for most county offices. General disqualifications and election residence principles remain separate. Full statute/applicability to actual filing stage still requires source binding.",
+      "url": "https://www.ctas.tennessee.edu/eli/qualifications",
+      "section": "CTAS-2152; TCA8-18-101 and2-2-122",
+      "readOn": "2026-10-01",
+      "status": "official-source-inspected-not-production-admitted"
+    }
+  },
+  "productionAdmission": false
+}
