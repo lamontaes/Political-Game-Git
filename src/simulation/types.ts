@@ -979,10 +979,12 @@ export interface OfficialViewReason {
 }
 
 /**
- * One reflection on one official: what the official did about a law that
- * reached this person, how far it moved the person's view of them, and why.
- * A person's standing view of an official is the sum of these rows; nothing
- * fades on its own (no passive decay).
+ * One reflection on one official, as saves from before A158 kept it: what the
+ * official did about a law that reached this person, how far it moved the
+ * person's view of them, and why. Nothing writes these any more; a view of an
+ * official is now a private belief whose subject is the official. Old rows
+ * still load and are read for a person who has formed no saved view of that
+ * official since (`official-view-reads.ts`).
  */
 export interface OfficialViewRecord {
   readonly id: EntityId;
