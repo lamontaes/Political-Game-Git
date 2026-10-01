@@ -29,7 +29,10 @@ export function enactCostLawFixture(
   const pack = rulePackById(input.rulePackId);
   if (!pack)
     throw new Error("The fixture needs an existing registered rule pack.");
-  const on = input.introducedAt;
+  const on =
+    input.introducedAt > base.currentDate
+      ? input.introducedAt
+      : base.currentDate;
   let world = introduceMeasure(
     {
       ...base,
@@ -86,9 +89,12 @@ export function enactCostLawFixture(
       world = recordEnactment(world, {
         stableKey: input.stableKey + ":law",
         measureId: measure.id,
-        effectiveAt: on,
+        effectiveAt: input.introducedAt,
       });
-      const currentDate = makeIsoDate("2026-06-01");
+      const currentDate =
+        world.currentDate > makeIsoDate("2026-06-01")
+          ? world.currentDate
+          : makeIsoDate("2026-06-01");
       return {
         measure,
         world: {
