@@ -11,6 +11,7 @@ import {
 import { publicGovernmentOrganizationKey } from "./public-government-identity";
 import {
   householdLoansOf,
+  loanTermsAt,
   reduceLoanPrincipal,
   reviseLoanTerms,
 } from "./household-loans";
@@ -228,6 +229,12 @@ describe("recorded student tuition financing", () => {
     expect(outstandingDebtAt(credited, debt.id, cutoff)).toEqual(
       money(100_000, USD),
     );
+    expect(loanTermsAt(credited, debt.id, cutoff)).toBe(
+      funded.history.loanTerms!.at(-1),
+    );
+    expect(loanTermsAt(credited, debt.id, credited.currentDate)).toBe(
+      credited.history.loanTerms!.at(-1),
+    );
     expect(credited.history.resourceTransferOutcomes).toBe(
       funded.history.resourceTransferOutcomes,
     );
@@ -254,6 +261,13 @@ describe("recorded student tuition financing", () => {
       repriced.history.loanTerms!.at(-1)!.principalReduction,
     ).toBeUndefined();
     expect(outstandingDebtAt(repriced, debt.id)).toEqual(money(60_000, USD));
+    expect(loanTermsAt(repriced, debt.id, cutoff)!.annualRateBasisPoints).toBe(
+      600,
+    );
+    expect(
+      loanTermsAt(repriced, debt.id, repriced.currentDate)!
+        .annualRateBasisPoints,
+    ).toBe(500);
     const saved = deserializeWorld(serializeWorld(repriced));
     expect(outstandingDebtAt(saved, debt.id)).toEqual(money(60_000, USD));
     expect(

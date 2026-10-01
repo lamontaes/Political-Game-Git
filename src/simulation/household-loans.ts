@@ -30,6 +30,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   HouseholdLoanKind,
+  HistoricalCutoff,
   IsoDate,
   LenderKind,
   LifeRecordProvenance,
@@ -356,13 +357,19 @@ export function reduceLoanPrincipal(
 export function loanTermsAt(
   world: World,
   resourceObligationId: EntityId,
-  date: IsoDate,
+  date: IsoDate | HistoricalCutoff,
 ): LoanTermsRecord | undefined {
+  const asOfDate = typeof date === "string" ? date : date.asOfDate;
+  const frontier =
+    typeof date === "string"
+      ? world.history.nextSequence
+      : date.historySequenceExclusive;
   return (world.history.loanTerms ?? [])
     .filter(
       (row) =>
         row.resourceObligationId === resourceObligationId &&
-        row.effectiveAt <= date,
+        row.effectiveAt <= asOfDate &&
+        row.sequence < frontier,
     )
     .at(-1);
 }
