@@ -51,12 +51,7 @@ import {
   advanceWorld,
   withWorldIntegrityDeferred,
 } from "../../src/simulation/world";
-import type {
-  EntityId,
-  FutureDueItem,
-  IsoDate,
-  World,
-} from "../../src/simulation";
+import type { EntityId, IsoDate, World } from "../../src/simulation";
 
 const AUTHORED = {
   method: "authored-fixture" as const,
@@ -229,10 +224,15 @@ function runPaydays(
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
+      const due = world.history.futureDueItems.find(
+        (item) => item.transitionKey === PAYDAY_TRANSITION_KEY,
+      );
+      expect(due).toBeDefined();
       world = paydayHandler(world, {
+        ...due!,
         stableKey: `town-pay-v2:payday:${paidThrough}`,
         transitionKey: PAYDAY_TRANSITION_KEY,
-      } as FutureDueItem).world;
+      }).world;
       paidThrough = payday;
     }
   });
@@ -333,12 +333,12 @@ describe(
       for (const flow of payFlows) {
         if (flow.basisReference.kind !== "work") continue;
         const workId = flow.basisReference.workRelationshipId;
-        const role = world.history.workRoles.findLast(
-          (row) => row.workRelationshipId === workId,
-        )!;
-        const terms = world.history.resourceFlowTerms.findLast(
-          (row) => row.resourceFlowId === flow.id,
-        )!;
+        const role = world.history.workRoles
+          .filter((row) => row.workRelationshipId === workId)
+          .at(-1)!;
+        const terms = world.history.resourceFlowTerms
+          .filter((row) => row.resourceFlowId === flow.id)
+          .at(-1)!;
         const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
         const period = /town-(\w+?)(?:-\d)?$/.exec(terms.cadenceKind)![1]!;
         const floor = Math.round(
