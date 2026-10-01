@@ -1,5 +1,5 @@
 {
-  "about": "Research data files under data/research that no non-test file in src/ or scripts/ reads, and why (tests/guards/research-data-has-reader.test.ts). rawSource entries are evidence the game is not meant to read. awaitingReader entries are research waiting for the code that should read it: that list may only shrink, so an entry must leave in the same change that gives its file a reader. A new data file with no reader and no entry fails the guard.",
+  "about": "Research data files under data/research that no non-test file in src/ or scripts/ reads, and why (tests/guards/research-data-has-reader.test.ts). rawSource entries are evidence the game is not meant to read. awaitingReader entries are research waiting for the code that should read it: that list may only shrink (the guard holds it at or under its ceiling), so an entry must leave in the same change that gives its file a reader. Each names its engine and the squad that owns its reader, from docs/codex/audit-by-engine-2026-10-01.md. A new data file with no reader and no entry fails the guard.",
   "rawSource": [
     {
       "file": "data/research/bill-samples/city/alexandria-virginia.json",
@@ -97,47 +97,69 @@
   "awaitingReader": [
     {
       "file": "data/research/justice/sentencing-ranges-2026.json",
-      "reason": "Statutory first-offense sentence ranges for the offense keys in src/simulation/justice/prosecution.ts; prosecution does not read them yet."
+      "engine": "Government",
+      "readerOwner": "Team 9",
+      "reason": "Statutory first-offense sentence ranges for the offense keys in src/simulation/justice/prosecution.ts; prosecution does not read them yet. Owner: courts read sentencing."
     },
     {
       "file": "data/research/laws/catalog-terms-batch-02.json",
-      "reason": "Law catalog terms, batch 2; src/simulation/law-consequences/legal-outcome.ts cites it as a source but nothing reads the file."
+      "engine": "Government",
+      "readerOwner": "Coordinator",
+      "reason": "Law catalog terms, batch 2; src/simulation/law-consequences/legal-outcome.ts cites it as a source but nothing reads the file. Owner: the Coordinator owns the shared law path the catalog feeds."
     },
     {
       "file": "data/research/laws/catalog-terms-batch-01.json",
-      "reason": "Law catalog terms, batch 1; no catalog code reads any batch yet."
+      "engine": "Government",
+      "readerOwner": "Coordinator",
+      "reason": "Law catalog terms, batch 1; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
     },
     {
       "file": "data/research/laws/catalog-terms-batch-03.json",
-      "reason": "Law catalog terms, batch 3; no catalog code reads any batch yet."
+      "engine": "Government",
+      "readerOwner": "Coordinator",
+      "reason": "Law catalog terms, batch 3; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
     },
     {
       "file": "data/research/laws/catalog-terms-batch-04.json",
-      "reason": "Law catalog terms, batch 4; no catalog code reads any batch yet."
+      "engine": "Government",
+      "readerOwner": "Coordinator",
+      "reason": "Law catalog terms, batch 4; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
     },
     {
       "file": "data/research/laws/catalog-terms-batch-05.json",
-      "reason": "Law catalog terms, batch 5; no catalog code reads any batch yet."
+      "engine": "Government",
+      "readerOwner": "Coordinator",
+      "reason": "Law catalog terms, batch 5; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
     },
     {
       "file": "data/research/laws/rent-cap-terms-2026.json",
-      "reason": "Sourced rent-cap statutory terms; the file itself says it has no runtime integration yet."
+      "engine": "Financial",
+      "readerOwner": "Team 4",
+      "reason": "Sourced rent-cap statutory terms; the file itself says it has no runtime integration yet. Owner: Team 4 owns prices, housing, business and loans."
     },
     {
       "file": "data/research/levers/lever-table.json",
-      "reason": "The 61 kinds of bill part (04 SYSTEM SPECS, spec 3); no bill builder reads it yet."
+      "engine": "Government",
+      "readerOwner": "Team 1",
+      "reason": "The 61 kinds of bill part (04 SYSTEM SPECS, spec 3); no bill builder reads it yet. Owner: Team 1 owns lawmaking, where bill parts are built."
     },
     {
       "file": "data/research/money/debt-and-credit-2026.json",
-      "reason": "Debt and credit figures for 2026; no money code reads them yet."
+      "engine": "Financial",
+      "readerOwner": "Team 4",
+      "reason": "Debt and credit figures for 2026; no money code reads them yet. Owner: Team 4 owns prices, housing, business and loans."
     },
     {
       "file": "data/research/money/minimum-wage-dated-matrix-2026.json",
-      "reason": "Dated minimum-wage rows for all 56 places, to be integrated into the starting-law wage terms; the file says no game code reads it."
+      "engine": "Financial",
+      "readerOwner": "Team 3",
+      "reason": "Dated minimum-wage rows for all 56 places, to be integrated into the starting-law wage terms; the file says no game code reads it. Owner: Team 3 owns pay and jobs."
     },
     {
       "file": "data/research/money/population-2024.json",
-      "reason": "State populations for 2024; nothing reads them yet."
+      "engine": "Elections",
+      "readerOwner": "Cloud C",
+      "reason": "State populations for 2024; nothing reads them yet. Owner: an electorate is population times turnout (A110)."
     }
   ]
 }
