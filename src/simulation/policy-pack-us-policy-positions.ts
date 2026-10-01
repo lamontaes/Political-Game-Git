@@ -1258,7 +1258,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       key: "justice-public-safety.mandatory-minimum-sentences",
       parameters: [
         { key: "floor", value: "months-of-custody" },
-        { key: "coverage", value: "covered-offense-categories" },
+        {
+          key: "coverage",
+          value: "covered-offense-categories",
+          allowedValues: ["assault", "robbery", "burglary", "vandalism"],
+        },
       ],
       issue:
         "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
