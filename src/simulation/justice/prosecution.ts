@@ -1,4 +1,5 @@
 import { addDays } from "../dates";
+import { applyLawConsequences } from "../enacted-law-effects";
 import { recordDurableDecisionTrace } from "../decisions";
 import {
   officesHeldBy,
@@ -327,7 +328,7 @@ interface FollowUpDetail {
   readonly ordinal?: number;
 }
 
-function followUp(
+function recordFollowUp(
   world: World,
   after: HistoricalEvent,
   referral: HistoricalEvent,
@@ -418,6 +419,28 @@ function followUp(
       events: [...recorded.history.events.slice(0, -1), stampedEvent],
     },
   };
+}
+
+/** Run consequence rows only after the court has saved its actual stage. */
+function followUp(
+  world: World,
+  after: HistoricalEvent,
+  referral: HistoricalEvent,
+  type: FollowUpType,
+  detail: FollowUpDetail,
+): World {
+  const recorded = recordFollowUp(world, after, referral, type, detail);
+  if (recorded === world) return world;
+  const activity = recorded.history.events.at(-1);
+  if (!activity || activity.type !== type) return recorded;
+  return applyLawConsequences(recorded, {
+    onDate: activity.occurredAt,
+    activity: "case-stage",
+    activityId: activity.id,
+    subjectIds: activity.participants
+      .filter((participant) => participant.role === "focus:defendant")
+      .map((participant) => participant.personId),
+  });
 }
 
 function outcomeLine(
