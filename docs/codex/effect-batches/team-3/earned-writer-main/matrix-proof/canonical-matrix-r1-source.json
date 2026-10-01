@@ -1,8 +1,0 @@
-{
-  "data/research/laws/starting-law-2026.json": "244eb6d663b3037dd13c88a88e9096923ab949ae172a62fbc38699fcb8573897",
-  "src/simulation/minimum-wage.ts": "77f3efe3cb7881fcf877b9970eb9d6d96ca43fd33b9754936392da7367c8be65",
-  "src/simulation/living-world/town-pay.ts": "71e23e3f0e97d9adcd015555c0f4a946f0f9f3b9425add9d07fb5841373bca3c",
-  "src/simulation/life-paths2.ts": "0bdafa50ab3e029957ebaf25424401e737c6fcd92f933b1a0f529e9906cea4a3",
-  "src/simulation/earned-law-pay-payment.test.ts": "8dccf518525c40045540b61f2837fed2ec58947cf55e7dcc266d126e69de1632",
-  "src/simulation/minimum-wage-canonical-matrix.test.ts": "403946bbcc445247b5ee756f93963b089b17c18aacd07fb3a143d6c2362137f5"
-}
