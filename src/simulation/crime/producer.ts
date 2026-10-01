@@ -33,6 +33,7 @@ import {
 } from "./contract";
 import { crimeRateMultiplier } from "./causes";
 import { offenderFor, policeCanName } from "./offenders";
+import { decideReport } from "./reporting";
 
 /**
  * Ordinary local crime, as background life.
@@ -163,15 +164,24 @@ export function sampleMonthlyCrime(
     const rate = rule.annualRate * multiplier(jurisdictionId, offense);
     if (rng.next() >= monthlyChance(rate)) return;
     const day = rng.integer(1, days + 1);
+    const occurredAt = makeIsoDate(
+      `${monthStart.slice(0, 7)}-${String(day).padStart(2, "0")}`,
+    );
     sampled.push({
       offense,
       jurisdictionId,
       targetId,
       victimPersonIds,
-      occurredAt: makeIsoDate(
-        `${monthStart.slice(0, 7)}-${String(day).padStart(2, "0")}`,
-      ),
-      reported: rng.next() < rule.reportedShare,
+      occurredAt,
+      // The victims decide, from their own tie to the offender, their past
+      // with police and their temperament (`./reporting`); nothing is drawn.
+      reported: decideReport(world, {
+        offense,
+        jurisdictionId,
+        occurredAt,
+        targetId,
+        victimPersonIds,
+      }).reported,
     });
   };
 

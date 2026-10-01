@@ -6,17 +6,17 @@ import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-packs";
 import { isMayorSeatClass } from "./local-chief-executive-rules";
 import {
-  draw,
+  modalShare,
   typicalShares,
   type LocalRuleValue,
 } from "./typical-council-size";
 
 export {
+  TYPICAL_COUNCIL_SOURCE,
   localGoverningBodyReadSpread,
   type LocalRuleBasis,
   type LocalRuleValue,
 } from "./typical-council-size";
-import { placePopulation } from "./place-population";
 
 /**
  * How big a town's governing body is and how long its terms run, for every
@@ -27,23 +27,19 @@ import { placePopulation } from "./place-population";
  * - **Read.** The game has compiled this town's own government, and its
  *   reading states the number of seats or the term. That is the town's rule.
  * - **Typical.** Nothing about this town has been read. Rather than leave a
- *   gap, the town is given a value drawn from the national shares of
+ *   gap, the town is given the modal value of the national shares of
  *   municipal councils in ICMA's 2018 Municipal Form of Government Survey,
  *   as ChatGPT reported them on 2026-09-22 (answer to
  *   `local-executive-and-council-rules`; the file is kept verbatim under
- *   docs/research/chatgpt-answers/2026-09-22-nationwide-2235/). The draw is
- *   stable per town, so a town keeps its council across saves and reloads.
+ *   docs/research/chatgpt-answers/2026-09-22-nationwide-2235/): 5 seats and
+ *   4-year terms, ESTIMATED FROM AVERAGE (`TYPICAL_COUNCIL_SOURCE`). No hash
+ *   or draw picks it, so a town keeps its council across saves and reloads.
  *
  * What that answer does not settle stays marked here rather than made up:
  *
- * - The survey gives "4 or fewer" and "8 or more" as bands, not sizes. The
- *   game draws 4 for the first and, for the second, a size the councils it
- *   has read actually have between 8 and 15, so a village is never handed a
- *   big city's thirty seats.
- * - Shares by town size are not published, so every town draws from the
- *   same national shares. PLACEHOLDER pending research question
+ * - Shares by town size are not published, so every unread town takes the
+ *   same national mode, large or small. ESTIMATE pending research question
  *   `town-council-size-by-town-size`.
- * - "Other" term lengths (1.9%) are left out of the draw.
  *
  * A typical value is labeled as typical wherever it is shown, and it never
  * enters the town's candidacy pack as though the town recorded it. Reading a
@@ -75,20 +71,9 @@ function readTerm(government: MunicipalGovernment): number | null {
 
 /**
  * The governing body's size and term for one town, read where the game has
- * read it and typical otherwise. Null for anything that is not an active
- * municipal government.
+ * read it and typical (the national mode) otherwise. Null for anything that is
+ * not an active municipal government.
  */
-/**
- * ICMA's smallest population group. A town known to be smaller than this
- * never draws the "8 or more" band: councils that large belong to bigger
- * places (the band's read sizes all come from cities), and a village of 60
- * people with eleven council seats would be most of its adults. A small town
- * that lands in that band is drawn again from the smaller bands, at their
- * national shares. PLACEHOLDER, pending research question
- * `town-council-size-by-town-size`.
- */
-export const SMALL_TOWN_POPULATION = 2_500;
-
 export function localGoverningBodyRules(
   unit: GovernmentUnitIdentity,
 ): LocalGoverningBodyRules | null {
@@ -101,27 +86,17 @@ export function localGoverningBodyRules(
       : null;
   const readYears = government ? readTerm(government) : null;
   const typical = typicalShares();
-  const population = unit.placeGeoid ? placePopulation(unit.placeGeoid) : null;
-  const small = population !== null && population < SMALL_TOWN_POPULATION;
-  // A small town keeps its draw unless it lands in the large band; only then
-  // is it drawn again from the smaller ones, so no other town's council moves.
-  const drawnSeats = draw(typical.seats, unit.id, "seats");
-  const seats =
-    small && drawnSeats && drawnSeats.value >= 8
-      ? draw(
-          typical.seats.filter((share) => share.value < 8),
-          unit.id,
-          "seats:small-town",
-        )
-      : drawnSeats;
   return {
     unitId: unit.id,
     researchedGovernmentKey: government?.key ?? null,
-    seats: readSeats !== null ? { value: readSeats, basis: "read" } : seats,
+    seats:
+      readSeats !== null
+        ? { value: readSeats, basis: "read" }
+        : modalShare(typical.seats),
     termYears:
       readYears !== null
         ? { value: readYears, basis: "read" }
-        : draw(typical.termYears, unit.id, "term"),
+        : modalShare(typical.termYears),
   };
 }
 

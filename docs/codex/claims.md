@@ -1,3 +1,36 @@
+# Narrow transfers for the current rebuild
+
+Each owner keeps the existing writer except for the exact functions released below. No transfer permits replacing another owner's whole file.
+
+## Current transfers
+
+- Coordinator received Team 9's prosecution.ts followUp wrapper and import only. The hook dispatches after the saved stage; current sentencing and clemency code remains intact.
+- Coordinator received Team 6's public-fiscal.ts post-transfer payment hook and Team 8's health-coverage.ts renewal hook. Both owners confirmed no unpublished overlap. Receiving physical files were clean; all shared dirty files were preserved.
+- Team 9 owns legal-record.ts termLine and servingNow life-term handling, plus only the jailed.until display sentence in campaign-projection.ts. Team 7 retains the separate county qualification and timing consumers.
+- Team 4 owns only Dwelling builtYear and unitsInBuilding, and their CreateDwellingInput/createDwelling validation and copy. Coordinator retains the disjoint payment-stamp hunk in resources.ts.
+- Team 6 owns the A33 tax-policy consumer and test. Team 3 released one town-pay consumer import and call seam; the CTO's newer one-withholding-path rule requires exact handled-levy replacement, not duplicate collection. Audit supplies that contract. Team 3 retains period and payroll writer work.
+- Coordinator's A35 pay-notice consumer release is requested, not granted. Existing law-exposure.ts ownership remains unchanged.
+
+## Gate authority
+
+Codex Merge is now Cloud Checker 3. It runs only CTO-assigned gates and never merges or approves. The CTO routes PRs to cloud checkers; no new Mac runtime gate is authorized by this ledger.
+
+## Earlier checkpoints
+
+# Exact ownership for the ordered engine work
+
+Each transfer below covers only its named functions or files. Existing financial, court and narrative writers remain with their owners.
+
+## October 1 transfers
+
+- Team 7 owns undecided-result guards at the eight existing decision calls in press/matters.ts, press/desk.ts and press/responses.ts, necessary imports and a forced-tie test. Team 8 confirmed no owned unpublished overlap; its executor failure prevented a fresh filesystem check. Team 7 must preserve unrelated shared bytes. This includes the eighth publication caller found during source inspection; it changes no decision score or engine.
+- Team 8 owns the new justice/finding-referral.ts and finding-referral.test.ts, its narrow finding-consequences extraction and existing procedures adapter call. Team 9 confirmed no overlapping work. The canonical referral writer and scheduling are unchanged.
+- Team 6 owns only appropriatedAgainst in enacted-appropriations.ts and its narrow tests, following Audit clean-file receipt f5b0621e56f86269a7b6788fa96c95071e28abd9. Preserve exact saved authority, source and component isolation. This does not transfer applyFamilyAppropriations or the whole file.
+- Coordinator owns law-exposure.ts and law-exposure.test.ts for A35 under the CTO transfer. Team 3 released both without active or unpublished changes at 453c694e4c197123bbf8b9a4da008e6349fbc020. No pay-window replacement is authorized by that transfer.
+- Team 3 retains the A38 ordinary-period arm in town-pay.ts. Coordinator retains the received payroll composition and registry surfaces. The actual-work binding delta is received in 6a178706; monthly settlement remains pending the CTO contract.
+
+## Earlier claims
+
 # Elections transfers to Cloud C
 
 The CTO assigned one owner to the Elections engine. Existing teams must preserve unfinished work on transferred items and stop overlapping implementation. The named exceptions below remain with their current owners.
