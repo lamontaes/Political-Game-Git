@@ -1,0 +1,117 @@
+{
+  "sourceHead": "0e36226721663969944770aaa4a8276dedf9b7ae",
+  "legacyQueryCommit": "343f3e55e526fa235a4aadf4544932806a394b0d",
+  "weeklyBase": "343f3e55e526fa235a4aadf4544932806a394b0d",
+  "sourceBlobs": {
+    "src/simulation/job-market.ts": "fe078e40573d13b250bebb9f193b72a27cbba46a",
+    "src/simulation/job-market-pay-floor.test.ts": "311da620314f0d8493961b4c38f0f885fd8f73f6",
+    "src/simulation/monthly-work-pay.ts": "ec716333b2b996e37e6552bdb16895bb831499ec",
+    "src/simulation/legacy-monthly-pay-coverage.test.ts": "23a5a9f0b493f93d4087041fd628a17e933880f0"
+  },
+  "receipts": {
+    "weeklyBaseline": "5FAIL: four production missing-stamp failures; one test used nonexistent measureId field",
+    "correctedFederalBaseline": "1PASS4NOTRUN10.64s",
+    "weeklyInitialCanonical": "5PASS11.02s, broader amount bound",
+    "weeklyFinalCanonical": "5PASS13.15s, exact sourced Jan16 gross",
+    "legacyQueryInitial": "4FAIL10.47s, invalid fixture catalog before query",
+    "legacyQueryFinal": "4PASS12.30s",
+    "weeklyTypes": "2roots759files0diagnostics",
+    "queryTypes": "2roots758files0diagnostics",
+    "release": "FAIL unchanged ci-changed-tests-only.md merge prose; base/current blob d6c9921a82b800d9c0b27d0a9da55c2feb676ff8",
+    "zeroDice": "0new5inheritedGone; no allowlist edit"
+  },
+  "commands": {
+    "native": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run <one changed file> --maxWorkers=1",
+    "federalBaselineFilter": "-t 'A38 2836000'",
+    "finalNativeFiles": [
+      "src/simulation/job-market-pay-floor.test.ts",
+      "src/simulation/legacy-monthly-pay-coverage.test.ts"
+    ],
+    "types": "strict parsed tsconfig.app with two exact changed roots; no diagnostic filtering"
+  },
+  "notRun": [
+    "A8 clock-only scheduler retirement",
+    "Jan20 repaired compatibility",
+    "complete monthly file at this head",
+    "whole suite",
+    "year",
+    "browser",
+    "final main",
+    "all56 payroll"
+  ],
+  "names": "Read-only reconstruction of person-v5:0 first two corpus draws from unchanged createLightweightPerson algorithm; not an additional payment run. Direct Node full people graph failed module initialization; no identity or payment PASS claimed from that attempt.",
+  "rawLogs": [
+    {
+      "path": "team3-a38-weekly-zero.log",
+      "sha256": "ea9cca37ed30c9c299b8b2686e9afeec8bcc94952fae10221408d469a418e428"
+    },
+    {
+      "path": "team3-a38-weekly-release.log",
+      "sha256": "7bd883acbb8b02889c9e7df56860ec64c0a25e4eba8c97ec0f20927495bd4385"
+    },
+    {
+      "path": "team3-a38-weekly-lint-r3.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a38-weekly-types-r3.log",
+      "sha256": "2fb9e5df78a898d08b4c24bcb31d0d35c9017351e7b595fc537cd64a8c16111d"
+    },
+    {
+      "path": "team3-a38-weekly-canonical-native-r2.log",
+      "sha256": "e2f3160c17990b76ee292562315663562397808a6962b24d28c56a7055c95652"
+    },
+    {
+      "path": "team3-a38-weekly-lint-r2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a38-weekly-types-r2.log",
+      "sha256": "2fb9e5df78a898d08b4c24bcb31d0d35c9017351e7b595fc537cd64a8c16111d"
+    },
+    {
+      "path": "team3-a38-weekly-canonical-native-r1.log",
+      "sha256": "b6ba7c3f09f1722a64250a76610a94407ce370ea5eee88f1dd16044dce44b068"
+    },
+    {
+      "path": "team3-a38-weekly-baseline-ms-native-r1.log",
+      "sha256": "2abf72f070089950180410def19f01bf3b430fab910b080ac797a38ed8887c02"
+    },
+    {
+      "path": "team3-a38-weekly-lint-r1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a38-weekly-types-r1.log",
+      "sha256": "7f7dc12455d2e9ad6fc7c0925790706f550ff3c869ad71deb3fbcbb9650b6175"
+    },
+    {
+      "path": "team3-a38-weekly-baseline-native-r1.log",
+      "sha256": "a3c5cd4cecf960ef6136d7574ba2bf90b562c52ba310308ded3e413d9be6b21e"
+    },
+    {
+      "path": "team3-a37-legacy-query-lint-r2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a37-legacy-query-types-r2.log",
+      "sha256": "74af45d936ebdc82facc956e992cf59adfef4f6278f3c637fe310519ac9fd219"
+    },
+    {
+      "path": "team3-a37-legacy-query-native-r2.log",
+      "sha256": "ea06a3704970f9e4ca57bae98d4734e110362ddc30efeb8b9b6ae59ca77c674f"
+    },
+    {
+      "path": "team3-a37-legacy-query-lint-r1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a37-legacy-query-types-r1.log",
+      "sha256": "7bc2c7f11219088122e8bb7958c88193ab824f71f79b653d24e77027368af287"
+    },
+    {
+      "path": "team3-a37-legacy-query-native-r1.log",
+      "sha256": "31e611a1fb4ee393f3045e8f0ee5d64f4b962af3cabbf4c30e50c823b993cd45"
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/runtime-art-build" without a file extension (vite.config.ts:1:33). Add the file extension
+  - import "./scripts/dev-lab/runtime-content-origin" without a file extension (vite.config.ts:2:38). Add the file extension
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:19:33). Add the file extension
+  - import "./scripts/dev-lab/art-desk-bridge" without a file extension (vite.config.ts:20:31). Add the file extension
+  - import "./scripts/dev-lab/artbench-bridge" without a file extension (vite.config.ts:21:32). Add the file extension
+  - import "./scripts/dev-lab/round-robin-sequencer" without a file extension (vite.config.ts:22:37). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:33:8). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-bridge.ts:19:8). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-bridge.ts:34:30). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-bridge.ts:26:8). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:36:43). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-bridge.ts:27:36). Add the file extension
+  - import "./art-desk-bridge" without a file extension (scripts/dev-lab/artbench-bridge.ts:28:50). Add the file extension
+  - import "./artbench-store" without a file extension (scripts/dev-lab/artbench-bridge.ts:36:8). Add the file extension
+  - import "./artbench-thumbnails" without a file extension (scripts/dev-lab/artbench-bridge.ts:37:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-inputs.ts:14:30). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-cards.ts:1:35). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-request-code.ts:1:35). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-store.ts:63:8). Add the file extension
+  - import "./art-desk-usage" without a file extension (src/authoring/art-desk-cards.ts:2:55). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-request-code.ts:2:41). Add the file extension
+  - import "../../src/authoring/asset-request" without a file extension (scripts/dev-lab/artbench-store.ts:64:35). Add the file extension
+  - import "./art-desk-request-code" without a file extension (src/authoring/art-desk-cards.ts:6:8). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-store.ts:68:8). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:15:8). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-store.ts:69:40). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:16:34). Add the file extension
+  - import "../../src/authoring/asset-review" without a file extension (scripts/dev-lab/artbench-store.ts:70:42). Add the file extension
+  - import "../../src/authoring/art-desk-notifications" without a file extension (scripts/dev-lab/artbench-store.ts:71:38). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/artbench-store.ts:72:27). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/artbench-store.ts:73:50). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/artbench.ts:18:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-usage.ts:1:61). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-notifications.ts:1:59). Add the file extension
+  - import "./asset-review" without a file extension (src/authoring/artbench.ts:19:42). Add the file extension
+  - import "./art-desk-cards" without a file extension (src/authoring/art-desk-notifications.ts:7:8). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/job-market-pay-floor.test.ts (5 tests | 5 failed) 355ms
+   × A38 1150000 weekly job consumer preserves canonical floor authority on terms and pay 217ms
+   × A38 2836000 weekly job consumer preserves canonical floor authority on terms and pay 53ms
+   × A38 5363000 weekly job consumer preserves canonical floor authority on terms and pay 28ms
+   × A38 2938000 weekly job consumer preserves canonical floor authority on terms and pay 27ms
+   × A38 3451000 weekly job consumer preserves canonical floor authority on terms and pay 30ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/job-market-pay-floor.test.ts > A38 1150000 weekly job consumer preserves canonical floor authority on terms and pay
+ FAIL  src/simulation/job-market-pay-floor.test.ts > A38 5363000 weekly job consumer preserves canonical floor authority on terms and pay
+ FAIL  src/simulation/job-market-pay-floor.test.ts > A38 2938000 weekly job consumer preserves canonical floor authority on terms and pay
+ FAIL  src/simulation/job-market-pay-floor.test.ts > A38 3451000 weekly job consumer preserves canonical floor authority on terms and pay
+AssertionError: expected undefined to deeply equal ArrayContaining{…}
+
+- Expected:
+ArrayContaining [
+  ObjectContaining {
+    "effectKind": "pay",
+  },
+]
+
++ Received:
+undefined
+
+ ❯ src/simulation/job-market-pay-floor.test.ts:123:35
+    121|     const terms = resourceFlowTermsAt(paid, f.flow.id)!;
+    122|     expect(terms.amount.minorUnits).toBeGreaterThan(10000);
+    123|     expect(terms.lawEffectStamps).toEqual(
+       |                                   ^
+    124|       expect.arrayContaining([expect.objectContaining({ effectKind: "p…
+    125|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/simulation/job-market-pay-floor.test.ts > A38 2836000 weekly job consumer preserves canonical floor authority on terms and pay
+AssertionError: expected [ { …(9) } ] to deeply equal ArrayContaining{…}
+
+- Expected
++ Received
+
+- ArrayContaining [
+-   ObjectContaining {
++ [
++   {
++     "appliedAt": "2026-01-23",
+      "effectKind": "pay",
+-     "measureId": undefined,
+-     "sourceRecordIds": ArrayContaining [
+-       "resource-flow_82945bc0e0cd5101",
++     "governingLawKey": "starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
++     "jurisdictionId": "jurisdiction_0206095076b1bcc4",
++     "operativeAt": "2009-07-24",
++     "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
++     "source": "in-force-at-start",
++     "sourceRecordIds": [
+        "work-relationship_a291aef88d1ecc4c",
++       "work-role_56745938d3be4dbe",
++       "resource-flow_82945bc0e0cd5101",
++       "resource-flow-terms_0de6a687327cd430",
++       "work-status_cd6f29916a960dd2",
++       "organization-profile_3a552bc7642e1352",
++       "work-pay-coverage_f8575d43cb6bd0fa",
++       "starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+        "resource-flow-terms_0d0d15b9e25619e1",
+        "resource-transfer-outcome_8039b1b5b64a69b9",
+      ],
++     "version": "law-effect-stamp/v1",
+    },
+  ]
+
+ ❯ src/simulation/job-market-pay-floor.test.ts:137:42
+    135|       transferredAmount: terms.amount,
+    136|     });
+    137|     expect(outcomes[0]!.lawEffectStamps).toEqual(
+       |                                          ^
+    138|       expect.arrayContaining([
+    139|         expect.objectContaining({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  19:10:25
+   Duration  10.95s (transform 8.44s, setup 20ms, import 10.45s, tests 355ms, environment 0ms)
+

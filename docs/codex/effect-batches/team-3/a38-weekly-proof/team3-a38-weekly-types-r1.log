@@ -1,0 +1,6 @@
+roots=2 files=759 diagnostics=1
+[96msrc/simulation/job-market-pay-floor.test.ts[0m:[93m141[0m:[93m49[0m - [91merror[0m[90m TS2339: [0mProperty 'measureId' does not exist on type 'LawEffectStamp'.
+
+[7m141[0m           measureId: terms.lawEffectStamps![0]!.measureId,
+[7m   [0m [91m                                                ~~~~~~~~~[0m
+

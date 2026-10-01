@@ -1,0 +1,121 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/runtime-art-build" without a file extension (vite.config.ts:1:33). Add the file extension
+  - import "./scripts/dev-lab/runtime-content-origin" without a file extension (vite.config.ts:2:38). Add the file extension
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:19:33). Add the file extension
+  - import "./scripts/dev-lab/art-desk-bridge" without a file extension (vite.config.ts:20:31). Add the file extension
+  - import "./scripts/dev-lab/artbench-bridge" without a file extension (vite.config.ts:21:32). Add the file extension
+  - import "./scripts/dev-lab/round-robin-sequencer" without a file extension (vite.config.ts:22:37). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:33:8). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-bridge.ts:19:8). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-bridge.ts:34:30). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-bridge.ts:26:8). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:36:43). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-bridge.ts:27:36). Add the file extension
+  - import "./art-desk-bridge" without a file extension (scripts/dev-lab/artbench-bridge.ts:28:50). Add the file extension
+  - import "./artbench-store" without a file extension (scripts/dev-lab/artbench-bridge.ts:36:8). Add the file extension
+  - import "./artbench-thumbnails" without a file extension (scripts/dev-lab/artbench-bridge.ts:37:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-inputs.ts:14:30). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-request-code.ts:1:35). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-cards.ts:1:35). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-store.ts:63:8). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-request-code.ts:2:41). Add the file extension
+  - import "./art-desk-usage" without a file extension (src/authoring/art-desk-cards.ts:2:55). Add the file extension
+  - import "../../src/authoring/asset-request" without a file extension (scripts/dev-lab/artbench-store.ts:64:35). Add the file extension
+  - import "./art-desk-request-code" without a file extension (src/authoring/art-desk-cards.ts:6:8). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-store.ts:68:8). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:15:8). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-store.ts:69:40). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:16:34). Add the file extension
+  - import "../../src/authoring/asset-review" without a file extension (scripts/dev-lab/artbench-store.ts:70:42). Add the file extension
+  - import "../../src/authoring/art-desk-notifications" without a file extension (scripts/dev-lab/artbench-store.ts:71:38). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/artbench-store.ts:72:27). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/artbench-store.ts:73:50). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/artbench.ts:18:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-usage.ts:1:61). Add the file extension
+  - import "./asset-review" without a file extension (src/authoring/artbench.ts:19:42). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-notifications.ts:1:59). Add the file extension
+  - import "./art-desk-cards" without a file extension (src/authoring/art-desk-notifications.ts:7:8). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/legacy-monthly-pay-coverage.test.ts (4 tests | 4 failed) 30ms
+   × A37 Ruling20 reads the preceding month without changing the saved point, money or history 24ms
+   × A37 Ruling20 keeps the year boundary and next strict interval contiguous 2ms
+   × A37 Ruling20 does not admit the retained January20 point 1ms
+   × A37 Ruling20 refuses weekly terms and a reference to a record outside saved outcomes 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/legacy-monthly-pay-coverage.test.ts > A37 Ruling20 reads the preceding month without changing the saved point, money or history
+Error: Policy catalog version must be a non-empty string.
+ ❯ assertNonEmpty src/simulation/policy.ts:694:11
+    692| ): asserts value is string {
+    693|   if (typeof value !== "string" || value.trim().length === 0) {
+    694|     throw new Error(`${label} must be a non-empty string.`);
+       |           ^
+    695|   }
+    696| }
+ ❯ assertPolicyCatalogIntegrity src/simulation/policy.ts:169:3
+ ❯ createWorld src/simulation/world.ts:499:3
+ ❯ savedPoint src/simulation/legacy-monthly-pay-coverage.test.ts:33:15
+ ❯ src/simulation/legacy-monthly-pay-coverage.test.ts:90:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/simulation/legacy-monthly-pay-coverage.test.ts > A37 Ruling20 keeps the year boundary and next strict interval contiguous
+Error: Policy catalog version must be a non-empty string.
+ ❯ assertNonEmpty src/simulation/policy.ts:694:11
+    692| ): asserts value is string {
+    693|   if (typeof value !== "string" || value.trim().length === 0) {
+    694|     throw new Error(`${label} must be a non-empty string.`);
+       |           ^
+    695|   }
+    696| }
+ ❯ assertPolicyCatalogIntegrity src/simulation/policy.ts:169:3
+ ❯ createWorld src/simulation/world.ts:499:3
+ ❯ savedPoint src/simulation/legacy-monthly-pay-coverage.test.ts:33:15
+ ❯ src/simulation/legacy-monthly-pay-coverage.test.ts:105:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/simulation/legacy-monthly-pay-coverage.test.ts > A37 Ruling20 does not admit the retained January20 point
+Error: Policy catalog version must be a non-empty string.
+ ❯ assertNonEmpty src/simulation/policy.ts:694:11
+    692| ): asserts value is string {
+    693|   if (typeof value !== "string" || value.trim().length === 0) {
+    694|     throw new Error(`${label} must be a non-empty string.`);
+       |           ^
+    695|   }
+    696| }
+ ❯ assertPolicyCatalogIntegrity src/simulation/policy.ts:169:3
+ ❯ createWorld src/simulation/world.ts:499:3
+ ❯ savedPoint src/simulation/legacy-monthly-pay-coverage.test.ts:33:15
+ ❯ src/simulation/legacy-monthly-pay-coverage.test.ts:113:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/simulation/legacy-monthly-pay-coverage.test.ts > A37 Ruling20 refuses weekly terms and a reference to a record outside saved outcomes
+Error: Policy catalog version must be a non-empty string.
+ ❯ assertNonEmpty src/simulation/policy.ts:694:11
+    692| ): asserts value is string {
+    693|   if (typeof value !== "string" || value.trim().length === 0) {
+    694|     throw new Error(`${label} must be a non-empty string.`);
+       |           ^
+    695|   }
+    696| }
+ ❯ assertPolicyCatalogIntegrity src/simulation/policy.ts:169:3
+ ❯ createWorld src/simulation/world.ts:499:3
+ ❯ savedPoint src/simulation/legacy-monthly-pay-coverage.test.ts:33:15
+ ❯ src/simulation/legacy-monthly-pay-coverage.test.ts:117:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  19:23:02
+   Duration  10.47s (transform 8.34s, setup 22ms, import 10.29s, tests 30ms, environment 0ms)
+

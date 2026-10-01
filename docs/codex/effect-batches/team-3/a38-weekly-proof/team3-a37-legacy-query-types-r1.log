@@ -1,0 +1,11 @@
+roots=2 files=758 diagnostics=1
+[96msrc/simulation/legacy-monthly-pay-coverage.test.ts[0m:[93m42[0m:[93m5[0m - [91merror[0m[90m TS2740: [0mType 'never[]' is missing the following properties from type 'PolicyCatalog': catalogVersion, domains, domainOrder, issues, and 7 more.
+
+[7m42[0m     policyCatalog: [],
+[7m  [0m [91m    ~~~~~~~~~~~~~[0m
+
+  [96msrc/simulation/world.ts[0m:[93m374[0m:[93m12[0m
+    [7m374[0m   readonly policyCatalog?: PolicyCatalog;
+    [7m   [0m [96m           ~~~~~~~~~~~~~[0m
+    The expected type comes from property 'policyCatalog' which is declared here on type 'CreateWorldInput'
+
