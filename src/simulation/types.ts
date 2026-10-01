@@ -1,3 +1,5 @@
+import type { CountyHomeDistrictEvidenceRecord } from "./county-home-evidence";
+import type { DistrictSeatBinding as CanonicalDistrictSeatBinding } from "../districts/types";
 import type {
   PermitApplicationRecord,
   PermitStatusRecord,
@@ -135,6 +137,7 @@ export type EntityKind =
   | "decision-trace"
   | "development-proposal"
   | "district-residence"
+  | "county-home-district-evidence"
   | "dwelling"
   | "dwelling-occupancy"
   | "dwelling-occupancy-state"
@@ -3664,14 +3667,7 @@ export type ControlState =
 
 export type ElectionContestStatus = "pending" | "resolved" | "cancelled";
 
-export interface DistrictSeatBinding {
-  readonly vintage: "census-gazetteer-2025";
-  readonly compilerVersion: string;
-  readonly chamber: "congressional" | "state-lower" | "state-upper";
-  readonly geoid: string;
-  readonly recordId: string;
-  readonly stateUsps: string;
-}
+export type DistrictSeatBinding = CanonicalDistrictSeatBinding;
 
 /**
  * `split-home-assignment`: the home place crosses several districts of the
@@ -3685,7 +3681,8 @@ export type DistrictResidenceProvenanceMethod =
   | "authored"
   | "simulated-event"
   | "canonical-home-join"
-  | "split-home-assignment";
+  | "split-home-assignment"
+  | "county-home-join";
 
 export interface DistrictResidenceProvenance {
   readonly method: DistrictResidenceProvenanceMethod;
@@ -4392,6 +4389,7 @@ export interface LegalOutcomeConsequenceRecord {
 }
 
 export interface HistoryStore {
+  readonly countyHomeDistrictEvidence?: readonly CountyHomeDistrictEvidenceRecord[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];

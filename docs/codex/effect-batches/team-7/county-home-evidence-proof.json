@@ -1,0 +1,189 @@
+{
+  "baseline": "a8ff6bfd6a144ccbfe5a60e91431c730c739403e",
+  "executedMain": "c5730faf39de4e923af28e0ebff41ca99950dec2",
+  "latestFetchedMain": "2e78c9c155e6dcfbf400f21cad56266c2dcfc97b",
+  "pendingOverlaySha256": {
+    "src/simulation/county-home-evidence.ts": "cbc43f6cb5bed27ed4c9dd96d6186af391e37fc2456b190d50f60036265fc12c",
+    "src/simulation/county-home-evidence.test.ts": "68e12c3723f0dc2528cbf9238e8d145d2aeaa750ee2bf2d81ecd640592e341e5",
+    "src/simulation/types.ts": "168a8a648b53cc0aa5d8229f3b7b4de471f677301f5eb7ce24d35cfde7edce22",
+    "src/simulation/history.ts": "305756a0dc669aa54b27da43985685fad4579c662e983951da44255c6a057f7a",
+    "src/simulation/district-residence.ts": "77807f88dea84b7bc7d866db1e1d42f587cb6fb216ea6d501095cce8a98309f5"
+  },
+  "types": {
+    "head": "a8ff6bfd6a144ccbfe5a60e91431c730c739403e",
+    "roots": [
+      "src/simulation/county-home-evidence.ts",
+      "src/simulation/county-home-evidence.test.ts",
+      "src/simulation/history.ts",
+      "src/districts/loudon-seat-candidate.ts",
+      "src/districts/county-seat-types.ts",
+      "src/districts/county-seat-catalog.ts",
+      "src/districts/county-seat-binding.test.ts",
+      "src/districts/types.ts",
+      "src/districts/query.ts",
+      "src/simulation/types.ts",
+      "src/simulation/district-residence.ts",
+      "src/simulation/world.ts",
+      "src/simulation/candidacy.ts",
+      "src/simulation/county-residence-binding.test.ts",
+      "src/presentation/campaign-projection.ts"
+    ],
+    "files": 844,
+    "diagnostics": 0,
+    "sourceMode": "pinned a8ff Git objects with five explicit uncommitted owned overlays",
+    "pendingOverlaySha256": {
+      "src/simulation/county-home-evidence.ts": "cbc43f6cb5bed27ed4c9dd96d6186af391e37fc2456b190d50f60036265fc12c",
+      "src/simulation/county-home-evidence.test.ts": "68e12c3723f0dc2528cbf9238e8d145d2aeaa750ee2bf2d81ecd640592e341e5",
+      "src/simulation/types.ts": "168a8a648b53cc0aa5d8229f3b7b4de471f677301f5eb7ce24d35cfde7edce22",
+      "src/simulation/history.ts": "305756a0dc669aa54b27da43985685fad4579c662e983951da44255c6a057f7a",
+      "src/simulation/district-residence.ts": "77807f88dea84b7bc7d866db1e1d42f587cb6fb216ea6d501095cce8a98309f5"
+    }
+  },
+  "runtime": {
+    "tests": 14,
+    "passed": 12,
+    "failed": 2,
+    "files": 3,
+    "durationSeconds": 36.12,
+    "exitCode": 1,
+    "failure": "History sequence is not contiguous and append-oriented.",
+    "dependencyOwner": "Audit world.ts global array enumeration and integrity hook"
+  },
+  "notRun": [
+    "ordinary county filing",
+    "browser",
+    "full suite",
+    "year",
+    "nationwide",
+    "speed"
+  ],
+  "candidateOnly": true,
+  "activeCountyCatalogCount": 0,
+  "safeguards": {
+    "baseline": "c20a935cd96aaf74f5dc0932c02d28d58852e6be",
+    "main": "123f7dc77e80fb1d9abd78e34956f91afceb3e60",
+    "pendingOverlaySha256": {
+      "src/simulation/county-home-evidence.ts": "ffaf758dee1f850461cc60fd4600735080cd82f28d0e881263cd6694564a097d",
+      "src/simulation/county-home-evidence.test.ts": "6bca05285f4cfe97a7b4a76a465014b30d06994535358e95ff47ecf3324405c9"
+    },
+    "types": {
+      "head": "c20a935cd96aaf74f5dc0932c02d28d58852e6be",
+      "roots": [
+        "src/simulation/county-home-evidence.ts",
+        "src/simulation/county-home-evidence.test.ts",
+        "src/simulation/history.ts",
+        "src/districts/loudon-seat-candidate.ts",
+        "src/districts/county-seat-types.ts",
+        "src/districts/county-seat-catalog.ts",
+        "src/districts/county-seat-binding.test.ts",
+        "src/districts/types.ts",
+        "src/districts/query.ts",
+        "src/simulation/types.ts",
+        "src/simulation/district-residence.ts",
+        "src/simulation/world.ts",
+        "src/simulation/candidacy.ts",
+        "src/simulation/county-residence-binding.test.ts",
+        "src/presentation/campaign-projection.ts"
+      ],
+      "files": 845,
+      "diagnostics": 0,
+      "sourceMode": "pinned c20a Git objects plus two explicit owned overlays"
+    },
+    "before": [
+      {
+        "case": "future occupancy end",
+        "result": "FAILED expected refused, received recorded",
+        "durationSeconds": 34.83,
+        "laterAssertions": "NOT RUN"
+      },
+      {
+        "case": "forged binding wrong state",
+        "result": "FAILED expected unknown, received known",
+        "durationSeconds": 39.5,
+        "laterAssertions": "NOT RUN"
+      }
+    ],
+    "after": {
+      "selectedTests": 2,
+      "passed": 2,
+      "failed": 0,
+      "notSelected": 14,
+      "durationSeconds": 29.92,
+      "exitCode": 0
+    },
+    "worldIntegration": "NOT RERUN; original two failures await Audit exact global enumeration/validator hook",
+    "lint": "PASS module and test",
+    "interfaceUnchanged": true,
+    "noAssertionsRemoved": true
+  },
+  "countyIntegration": {
+    "source": "72754d1a13e81832cba66efe540acff04096bbc0",
+    "main": "8c44a3d24f9808962a839bc035bbcfdb009d1aa9",
+    "auditSource": "6b5b3d53830227f50fd2f6fbc587128a0f335daf",
+    "received": "exact three world import/inventory/validator insertions",
+    "runtime": {
+      "passed": 19,
+      "failed": 0,
+      "files": 3,
+      "durationSeconds": 85.35,
+      "exitCode": 0
+    },
+    "types": {
+      "roots": 15,
+      "files": 848,
+      "diagnostics": 0
+    }
+  },
+  "sourceDateRegression": {
+    "status": "REPAIRED at named source; historical failure retained",
+    "source": "72754d1a13e81832cba66efe540acff04096bbc0",
+    "testOverlaySha256": "808a1a51fb8b06fac125498e679ac8c437f16af248fe93c82cb3b44874713543",
+    "selectedFailed": 1,
+    "notSelected": 19,
+    "durationSeconds": 110.69,
+    "exitCode": 1,
+    "observed": "expected recorded, received refused",
+    "cause": "source readOn acquisition metadata compared to game recordedAt date",
+    "laterAssertions": "NOT RUN",
+    "repair": {
+      "source": "67cd0ebe51c9e3b6f891371775e32f67860ccef6",
+      "main": "800bb5a0c57f6301db18e1bd769565386c3e39dd",
+      "delta": "remove only source.readOn > record.recordedAt",
+      "runtime": {
+        "passed": 20,
+        "failed": 0,
+        "files": 3,
+        "durationSeconds": 25.6,
+        "exitCode": 0
+      },
+      "types": {
+        "head": "67cd0ebe51c9e3b6f891371775e32f67860ccef6",
+        "roots": [
+          "src/simulation/county-home-evidence.ts",
+          "src/simulation/county-home-evidence.test.ts",
+          "src/simulation/history.ts",
+          "src/districts/loudon-seat-candidate.ts",
+          "src/districts/county-seat-types.ts",
+          "src/districts/county-seat-catalog.ts",
+          "src/districts/county-seat-binding.test.ts",
+          "src/districts/types.ts",
+          "src/districts/query.ts",
+          "src/simulation/types.ts",
+          "src/simulation/district-residence.ts",
+          "src/simulation/world.ts",
+          "src/simulation/candidacy.ts",
+          "src/simulation/county-residence-binding.test.ts",
+          "src/presentation/campaign-projection.ts"
+        ],
+        "files": 848,
+        "diagnostics": 0,
+        "sourceMode": "exact committed Git objects; no dirty source reads"
+      },
+      "writerAndSavedReader": "PASS",
+      "futureEffectiveRefusal": "PASS",
+      "appendDateSequence": "unchanged",
+      "productionAdmission": "NOT CLAIMED"
+    }
+  },
+  "currentMainRenewal": "NOT RUN"
+}

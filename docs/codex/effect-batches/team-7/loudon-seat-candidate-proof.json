@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "stage": "review-candidate-not-production-admitted",
+  "sourceHead": "e48d4561dfe1dda82799125f3fcb77eb51ec3bc5",
+  "testedComposition": "1b0ae6d10ae4ac86fd3e6c94990e4a6f81bdcaa4",
+  "testedMain": "2b28298d55c8d5fd88af84b71a12196f31914aac",
+  "sourceMode": "exact committed Git objects; installed node_modules reused; shared dirty source not read",
+  "candidateCount": 10,
+  "activeCatalogCount": 0,
+  "homeMembership": null,
+  "voterEvidence": null,
+  "termChanges": null,
+  "sourceApplicability": {
+    "resolution": "Loudon-110121-D",
+    "adoptedAndEffectiveOn": "2021-11-01",
+    "resolutionSha256": "85dad2ed49cd9b7edc868e577f6208d4c5e770e5dcf5fd9fd6963bf00b3b3bee",
+    "ballotUrl": "https://loudoncountyvotes.com/files/August_2026_SampleBallot_General.pdf",
+    "ballotElectionDate": "2026-08-06",
+    "ballotSha256": "63284ff62d2e83ca8dbc3a93d32bee033dbdeced4c8e53749d7da067b1158b6d",
+    "ballotUse": "seat-label corroboration only; not historical effective interval",
+    "futureValidity": "unproved",
+    "geometryAdmitted": false
+  },
+  "checks": {
+    "runtime": {
+      "passed": 9,
+      "failed": 0,
+      "files": 2,
+      "fixtureSource": "county-seat-binding.test.ts and county-residence-binding.test.ts",
+      "receiptSha256": "502c156346e29ac0945c3ea82ebb7c71a2e85020ba31ec38f69b13ccd02659c9"
+    },
+    "types": {
+      "head": "1b0ae6d10ae4ac86fd3e6c94990e4a6f81bdcaa4",
+      "roots": [
+        "src/districts/loudon-seat-candidate.ts",
+        "src/districts/county-seat-types.ts",
+        "src/districts/county-seat-catalog.ts",
+        "src/districts/county-seat-binding.test.ts",
+        "src/districts/types.ts",
+        "src/districts/query.ts",
+        "src/simulation/types.ts",
+        "src/simulation/district-residence.ts",
+        "src/simulation/world.ts",
+        "src/simulation/candidacy.ts",
+        "src/simulation/county-residence-binding.test.ts",
+        "src/presentation/campaign-projection.ts"
+      ],
+      "files": 842,
+      "diagnostics": 0,
+      "sourceMode": "exact committed Git objects; no dirty source reads"
+    },
+    "lint": "0 errors, 0 warnings for two changed TypeScript files via exact stdin",
+    "format": "two TypeScript files PASS",
+    "report": "mechanical0errors0warnings; no independent helper reviewer under standing limit",
+    "zeroDice": {
+      "added": 0,
+      "stale": 5,
+      "sameAsTestedMain": true,
+      "fullPass": false
+    }
+  },
+  "notRun": [
+    "browser",
+    "ordinary-player county filing",
+    "full suite",
+    "year",
+    "nationwide",
+    "speed"
+  ],
+  "approval": "CTO review pending; no merge or runtime admission",
+  "sharedPreserved": true,
+  "currentMainRevalidation": {
+    "main": "8a02acfa4548185e4f0b5f12a678bf6c822a9128",
+    "source": "9d074654457303cc913c37a91464ac15a1d40e6e",
+    "composition": "631ebe3ec2e72c00ce14c3b4ff7f53f2573063b8",
+    "overlayPaths": [
+      "src/districts/county-seat-binding.test.ts",
+      "src/districts/county-seat-catalog.ts",
+      "src/districts/county-seat-types.ts",
+      "src/districts/loudon-seat-candidate.ts",
+      "src/districts/query.ts",
+      "src/districts/types.ts",
+      "src/simulation/candidacy.ts",
+      "src/simulation/county-residence-binding.test.ts",
+      "src/simulation/district-residence.ts",
+      "src/simulation/types.ts",
+      "src/simulation/world.ts"
+    ],
+    "runtime": {
+      "passed": 9,
+      "failed": 0,
+      "files": 2,
+      "exitCode": 0,
+      "receiptSha256": "645fb3be2521c603a80d4ebefd5b1758ee1ed555575d1e015ea1e5b2e49d40fe",
+      "durationSeconds": 14.02
+    },
+    "types": {
+      "head": "631ebe3ec2e72c00ce14c3b4ff7f53f2573063b8",
+      "roots": [
+        "src/districts/loudon-seat-candidate.ts",
+        "src/districts/county-seat-types.ts",
+        "src/districts/county-seat-catalog.ts",
+        "src/districts/county-seat-binding.test.ts",
+        "src/districts/types.ts",
+        "src/districts/query.ts",
+        "src/simulation/types.ts",
+        "src/simulation/district-residence.ts",
+        "src/simulation/world.ts",
+        "src/simulation/candidacy.ts",
+        "src/simulation/county-residence-binding.test.ts",
+        "src/presentation/campaign-projection.ts"
+      ],
+      "files": 842,
+      "diagnostics": 0,
+      "sourceMode": "exact committed Git objects; no dirty source reads"
+    },
+    "sourceMode": "exact Git-object composition; installed dependencies reused; shared dirty source not loaded",
+    "sharedPreserved": true,
+    "zeroDice": "not rerun; older result retained at its named heads",
+    "fullMetadataGate": "not rerun for receipt-only update",
+    "notRun": [
+      "ordinary-player county filing",
+      "browser",
+      "full suite",
+      "year",
+      "nationwide",
+      "speed"
+    ],
+    "admission": "unchanged: catalog0, missing home/voter refusal, CTO review pending"
+  }
+}

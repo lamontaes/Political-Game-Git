@@ -1,3 +1,5 @@
+import type { CountySeatBinding } from "./county-seat-types";
+
 /**
  * Runtime district identity. Geography identity is not election outcome,
  * legal power, or proof that a home sits inside the district.
@@ -29,7 +31,7 @@ export interface DistrictIdentity {
  * Versioned seat-to-district binding. Chamber stays in the key because the
  * three Gazetteer files reuse GEOIDs across congressional, upper and lower.
  */
-export interface DistrictSeatBinding {
+export interface GazetteerDistrictSeatBinding {
   readonly vintage: typeof DISTRICT_IDENTITY_VINTAGE;
   readonly compilerVersion: string;
   readonly chamber: DistrictChamber;
@@ -50,7 +52,7 @@ export type DistrictBindingRefusalKind =
 export interface DistrictBindingAcceptance {
   readonly kind: "accepted";
   readonly identity: DistrictIdentity;
-  readonly binding: DistrictSeatBinding;
+  readonly binding: GazetteerDistrictSeatBinding;
 }
 
 export interface DistrictBindingRefusal {
@@ -61,3 +63,6 @@ export interface DistrictBindingRefusal {
 
 export type DistrictBindingResolution =
   DistrictBindingAcceptance | DistrictBindingRefusal;
+
+export type DistrictSeatBinding =
+  GazetteerDistrictSeatBinding | CountySeatBinding;
