@@ -1915,6 +1915,52 @@ export function settleJobPay(world: World, personId: EntityId): World {
   );
 }
 
+/**
+ * Settles one due week of an already saved work/flow pair. The clock adapter
+ * owns scheduling; this entry point neither creates a job nor opens pay terms.
+ */
+export function settleSavedWeeklyJobPay(
+  world: World,
+  workRelationshipId: EntityId,
+  resourceFlowId: EntityId,
+  dueOn: IsoDate,
+): World {
+  const work = world.history.workRelationships.find(
+    (row) => row.id === workRelationshipId,
+  );
+  const flow = world.history.resourceFlows.find(
+    (row) => row.id === resourceFlowId,
+  );
+  if (
+    !work ||
+    !flow ||
+    flow.basisKind !== "compensation:work" ||
+    flow.basisReference.kind !== "work" ||
+    flow.basisReference.workRelationshipId !== work.id ||
+    flow.recipient.kind !== "person" ||
+    flow.recipient.personId !== work.personId ||
+    flow.source.kind !== "organization" ||
+    flow.source.organizationId !== work.organizationId
+  )
+    throw new Error(
+      "Weekly job pay requires its saved work and compensation flow",
+    );
+  const elapsedDays = daysBetween(flow.startsAt, dueOn);
+  if (elapsedDays < WEEK_DAYS || elapsedDays % WEEK_DAYS !== 0)
+    throw new Error(
+      "Weekly job pay requires a due date from its saved flow start",
+    );
+  if (dueOn > world.currentDate) return world;
+  return settleRecordedJobPay(
+    world,
+    work.personId,
+    (candidateFlow, candidateWork) =>
+      candidateFlow.id === flow.id && candidateWork.id === work.id,
+    addDays(dueOn, -1),
+    (candidateDueOn) => candidateDueOn === dueOn,
+  );
+}
+
 function settleRecordedJobPay(
   world: World,
   personId: EntityId,

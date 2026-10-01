@@ -6,7 +6,7 @@ import { createScenarioWorld } from "../demo";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { advanceWorld } from "../world";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
-import { settleJobPay } from "../job-market";
+import { settleJobPay, settleSavedWeeklyJobPay } from "../job-market";
 import {
   fileRuleChangeProvision,
   laborLawOfficeKey,
@@ -760,6 +760,59 @@ it("A38 scheduled town payday preserves the city law's canonical pay terms", () 
       })),
     ),
   ).toBe(paid);
+});
+
+it("A8 saved weekly adapter reuses the actual contract and common payment writer", () => {
+  const o = opened("3137000");
+  const f = worker(o.world, o.place.context.jurisdiction.id, false, true);
+  if (f.flow.basisReference.kind !== "work")
+    throw new Error("Missing fixture work binding");
+  const workId = f.flow.basisReference.workRelationshipId;
+  const dueOn = addDays(f.flow.startsAt, 7);
+  expect(settleSavedWeeklyJobPay(f.world, workId, f.flow.id, dueOn)).toBe(
+    f.world,
+  );
+  expect(() =>
+    settleSavedWeeklyJobPay(f.world, f.flow.id, f.flow.id, dueOn),
+  ).toThrow("requires its saved work and compensation flow");
+  expect(() =>
+    settleSavedWeeklyJobPay(f.world, workId, f.flow.id, addDays(dueOn, -1)),
+  ).toThrow("requires a due date from its saved flow start");
+  const before = advanceWorld(
+    f.world,
+    7,
+    createCampaignElectionTransitionRegistry(),
+  );
+  const paid = settleSavedWeeklyJobPay(before, workId, f.flow.id, dueOn);
+  expect(serializeWorld(paid)).toBe(
+    serializeWorld(settleJobPay(before, f.personId)),
+  );
+  const outcomes = paid.history.resourceTransferOutcomes.filter(
+    (row) => row.resourceFlowId === f.flow.id,
+  );
+  expect(outcomes).toHaveLength(1);
+  expect(outcomes[0]!.periodStartsAt).toBe(f.flow.startsAt);
+  expect(outcomes[0]!.periodEndsAt).toBe(addDays(dueOn, -1));
+  expect(outcomes[0]!.occurredAt).toBe(dueOn);
+  expect(outcomes[0]!.status).toBe("completed");
+  expect(settleSavedWeeklyJobPay(paid, workId, f.flow.id, dueOn)).toBe(paid);
+  expect(
+    serializeWorld(
+      settleSavedWeeklyJobPay(
+        deserializeWorld(serializeWorld(before)),
+        workId,
+        f.flow.id,
+        dueOn,
+      ),
+    ),
+  ).toBe(serializeWorld(paid));
+  console.info("A8_SAVED_WEEK_ADAPTER", {
+    person: personName(paid.people[f.personId]!),
+    workId,
+    flowId: f.flow.id,
+    dueOn,
+    paidMinor: outcomes[0]!.transferredAmount.minorUnits,
+  });
 });
 
 it("A8 saved job contract pays from the actual clock before a presentation refresh", () => {
