@@ -4,7 +4,7 @@ import {
   availableLifeSituations,
   formativeIntervalAt,
 } from "../simulation/character-history";
-import { evaluateDecision } from "../simulation/decisions";
+import { evaluateDecision, isSelectedDecision } from "../simulation/decisions";
 import { activeChildAuthoritiesAt } from "../simulation/life-queries";
 import {
   ensurePeopleTraits,
@@ -148,6 +148,7 @@ export function playChildhoodMoment(
     );
   }
   const chosen = caregiverChoice(world, input.personId, moment, scene);
+  if (chosen === null) return world;
   return chooseFormativeOption(world, {
     personId: input.personId,
     situationKey: scene.situationKey,
@@ -268,7 +269,7 @@ export function caregiverChoice(
   personId: EntityId,
   moment: ChildhoodMoment,
   scene: FormativeScene,
-): string {
+): string | null {
   const caregiverId = moment.caregiverPersonId;
   const options = scene.options.map((option) => ({
     key: option.key,
@@ -311,7 +312,7 @@ export function caregiverChoice(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  return evaluation.selectedOptionKey ?? options[0]!.key;
+  return isSelectedDecision(evaluation) ? evaluation.selectedOptionKey : null;
 }
 
 /** Whether this person is young enough that the years are still forming. */

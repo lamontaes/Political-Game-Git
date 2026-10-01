@@ -1,3 +1,4 @@
+import { ageOnDate } from "../dates";
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import {
   PROVISIONAL_DISASTER_POLICY,
@@ -458,7 +459,8 @@ export function crisisProtectedDecisions(
     if (
       record.sequence > afterSequence &&
       record.kind === "health-episode" &&
-      record.personId === personId
+      record.personId === personId &&
+      ageOnDate(world.people[personId]!.birthDate, record.effectiveAt) >= 18
     )
       decisions.push({
         key: `crisis:decision:disclose:${record.id}`,

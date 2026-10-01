@@ -120,8 +120,12 @@ function MatterCard({
         <GuideTermText text={matter.ask} />
       </p>
       <p className="game-note">
-        {`Decide by ${matter.deadline}`}
-        {matter.daysLeft >= 0 ? ` (${matter.daysLeft} days).` : "."}
+        {matter.deadline
+          ? `Decide by ${matter.deadline}`
+          : "No deadline is established"}
+        {matter.daysLeft !== null && matter.daysLeft >= 0
+          ? ` (${matter.daysLeft} days).`
+          : "."}
       </p>
       {matter.recommendation ? (
         <p data-testid="governing-recommendation">

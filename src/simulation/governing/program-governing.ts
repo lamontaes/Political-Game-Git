@@ -6,8 +6,15 @@ import {
 } from "../legislation-draft-lineage";
 import { addYears } from "../legislation-drafting";
 import { currentMeasureProvisions } from "../legislative-politics";
+import { programHasEnded } from "../enacted-program-terms";
 import { operativeDateInWorld } from "./law-in-force";
-import { stateJurisdictionForKey } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction,
+} from "../life-places";
+import { organizationProfileAt } from "../life-queries";
+import { standingServiceProgram } from "../law-consequences/service-delivered-data";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   STATE_TRANSIT_VARIANT_KEY,
@@ -30,6 +37,7 @@ import { stableHash } from "../ids";
 import { programFamilyTitle } from "./program-families";
 import {
   programVariant,
+  legalInstrumentRule,
   standingAuthority,
   type ProgramVariant,
 } from "../legislation-program-families";
@@ -271,6 +279,15 @@ export function appropriationFromEnactedMeasure(
       : world.currentDate;
   const editionBase = `measure-${measure.designation.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
 
+  const compiledAvailabilityOpensOn = (
+    lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+  ): IsoDate | null | undefined =>
+    lineage.familyKey === "appropriations" &&
+    (lineage.variantKey === "single-programme" ||
+      lineage.variantKey === "supplemental")
+      ? (operativeDateInWorld(world, enactment)?.date ?? null)
+      : undefined;
+
   const statedAvailability = (
     lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
     componentKey?: string,
@@ -301,11 +318,12 @@ export function appropriationFromEnactedMeasure(
       term.years <= 0
     )
       return null;
-    // The term runs from the day the appropriation opens (the law's effective
-    // date, or today when it is already in force), the same as one that states
-    // no term, and not from the day the bill was filed.
-    const through = addDays(addYears(adoptedOn, term.years), -1);
-    return through >= adoptedOn ? through : null;
+    // The compiler wrote an absolute, inclusive last day from the filed
+    // date. Enactment must not rewrite that unchanged final clause. Only the
+    // opening date follows the law's actual operative date.
+    const opensOn = compiledAvailabilityOpensOn(lineage);
+    const through = addYears(lineage.compiledAt, term.years);
+    return opensOn && through >= opensOn ? through : null;
   };
 
   // A measure that carries parts is applied part by part. Each component's
@@ -354,7 +372,7 @@ export function appropriationFromEnactedMeasure(
       const programKey =
         serviceProfile?.programKey ??
         transitProfile?.programKey ??
-        programKeyForEnactedAppropriation(lineage, governmentScope);
+        programKeyForEnactedAppropriation(next, lineage, governmentScope);
       if (!programKey) continue;
       const written = recordAdoptedAppropriation(next, {
         familyKey: lineage.familyKey,
@@ -365,7 +383,7 @@ export function appropriationFromEnactedMeasure(
         amountMinorUnits: amount,
         adoptedOn: transitProfile
           ? operativeDateInWorld(world, enactment)!.date
-          : adoptedOn,
+          : (compiledAvailabilityOpensOn(lineage) ?? adoptedOn),
         ...(availableThrough !== undefined
           ? { availableThrough }
           : transitProfile
@@ -460,7 +478,7 @@ export function appropriationFromEnactedMeasure(
     serviceProfile?.programKey ??
     transitProfile?.programKey ??
     (lineage
-      ? programKeyForEnactedAppropriation(lineage, governmentScope)
+      ? programKeyForEnactedAppropriation(world, lineage, governmentScope)
       : programKeyForGovernment(familyKey, governmentScope));
   if (!programKey) return world;
   const written = recordAdoptedAppropriation(world, {
@@ -472,7 +490,9 @@ export function appropriationFromEnactedMeasure(
     amountMinorUnits: amount,
     adoptedOn: transitProfile
       ? operativeDateInWorld(world, enactment)!.date
-      : (pinnedOperativeDate ?? adoptedOn),
+      : ((lineage && compiledAvailabilityOpensOn(lineage)) ??
+        pinnedOperativeDate ??
+        adoptedOn),
     ...(availableThrough !== undefined
       ? { availableThrough }
       : transitProfile
@@ -1005,15 +1025,86 @@ function programKeyForGovernment(
 /**
  * A spending authority belongs to one program, not to every appropriation in
  * its state. A standing key names one authored program, so later bills against
- * that same key keep its identity. A docket measure may contain several
- * programs; its bill ID and aggregate ceiling are not a target program.
+ * that same key keep its identity. A saved docket target must identify one
+ * enacted program with a final authorization in the same government; a
+ * bundled bill's aggregate ceiling does not identify such a program.
  */
 function programKeyForEnactedAppropriation(
+  world: World,
   lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
   scope: PublicProgramGovernmentScope,
 ): string | null {
-  if (lineage.authorityMeasureId !== undefined || !lineage.authorityKey)
-    return null;
+  if (lineage.authorityMeasureId !== undefined) {
+    const targetId = lineage.authorityMeasureId;
+    const target = (world.history.legislativeMeasures ?? []).find(
+      (row) => row.id === targetId,
+    );
+    const targetEnactment = (world.history.legislativeEnactments ?? []).find(
+      (row) => row.measureId === targetId && row.outcome === "enacted",
+    );
+    const receivingEnactment = (world.history.legislativeEnactments ?? []).find(
+      (row) => row.measureId === lineage.measureId && row.outcome === "enacted",
+    );
+    const targetLineage = draftLineageForMeasure(world, targetId);
+    if (!target || !targetEnactment || !receivingEnactment || !targetLineage)
+      return null;
+    const targetScope = publicProgramGovernmentScope(world, target);
+    if (
+      !targetScope ||
+      !samePublicGovernmentIdentity(targetScope.identity, scope.identity) ||
+      targetEnactment.sequence >= receivingEnactment.sequence ||
+      !measureMayEnact(target.rulePackId, targetLineage)
+    )
+      return null;
+    const opensOn = operativeDateInWorld(world, receivingEnactment)?.date;
+    const targetOpensOn = operativeDateInWorld(world, targetEnactment)?.date;
+    if (
+      !opensOn ||
+      !targetOpensOn ||
+      targetOpensOn > opensOn ||
+      programHasEnded(
+        { ...world, currentDate: opensOn },
+        { measureId: targetId },
+      )
+    )
+      return null;
+    let variant: ProgramVariant;
+    try {
+      const configuration = programVariant(
+        targetLineage.familyKey,
+        targetLineage.variantKey,
+      );
+      if (configuration.family.familyVersion !== targetLineage.familyVersion)
+        return null;
+      variant = configuration.variant;
+    } catch {
+      return null;
+    }
+    const rule = legalInstrumentRule(variant.instrument);
+    if (
+      !variant.authorizesAppropriation ||
+      !rule.mayAuthorizeAppropriation ||
+      rule.requiresPredicateAuthority
+    )
+      return null;
+    const finalProvisions = currentMeasureProvisions(world, targetId);
+    const ceilings = finalProvisions.filter(
+      (row) => (row.fiscalExposureMinorUnits ?? 0) > 0,
+    );
+    if (ceilings.length !== 1) return null;
+    const ceiling = ceilings[0]!;
+    if (
+      ceiling.fiscalPeriod === "annual" ||
+      !variant.clauses.some(
+        (clause) =>
+          clause.provisionKey === ceiling.provisionKey &&
+          clause.dimension === "funding-cap",
+      )
+    )
+      return null;
+    return programKeyForGovernment(targetLineage.familyKey, targetScope);
+  }
+  if (!lineage.authorityKey) return null;
   const authority = standingAuthority(lineage.authorityKey);
   if (authority?.kind !== "standing-statute" || !authority.authorizesSpending)
     return null;
@@ -1046,6 +1137,23 @@ export function programOperatorOrganization(
       ? `local:${encodeURIComponent(identity.governmentKey)}:`
       : "";
   const operatorKey = `operator:${operatorScope}${programKey}`;
+  // A standing service program is carried out by an organization that can
+  // lawfully provide it (a crisis team by a health department, clinic or
+  // hospital) already working in the place, never by a provider made up here.
+  // With none on record the program stays unsupported: callers check
+  // standingProgramUnsupported first, and no substitute is ever created.
+  if (standingServiceProgram(programKey)) {
+    const clinical = eligibleStandingOperator(
+      world,
+      programKey,
+      jurisdictionId,
+    );
+    if (!clinical)
+      throw new Error(
+        "No eligible operator is on record for this standing service program.",
+      );
+    return { world, organizationId: clinical };
+  }
   const stableKey = `${PROGRAM_GOVERNING_VERSION}:${operatorKey}`;
   const existing = world.history.organizations.find(
     (row) => row.stableKey === stableKey,
@@ -1085,6 +1193,71 @@ export function programOperatorOrganization(
     world: next,
     organizationId,
   };
+}
+
+/**
+ * True when the program is a standing service program and no organization
+ * that can lawfully provide it is on record in the place. Its money is then
+ * not committed to anyone.
+ */
+export function standingProgramUnsupported(
+  world: World,
+  programKey: string,
+  jurisdictionId: EntityId,
+): boolean {
+  return (
+    !!standingServiceProgram(programKey) &&
+    !eligibleStandingOperator(world, programKey, jurisdictionId)
+  );
+}
+
+/**
+ * The existing organization that can operate a standing service program in
+ * this place: the program's first listed kind that is present, then the
+ * earliest formed, then the lowest organization ID. Only real organizations
+ * already on record are chosen.
+ */
+export function eligibleStandingOperator(
+  world: World,
+  programKey: string,
+  jurisdictionId: EntityId,
+): EntityId | null {
+  const program = standingServiceProgram(programKey);
+  if (!program) return null;
+  const served = world.jurisdictions[jurisdictionId];
+  const servedState = served ? stateKeyForJurisdiction(served) : null;
+  const inPlace = (id: EntityId | null) => {
+    if (!id) return false;
+    if (id === jurisdictionId) return true;
+    const place = world.jurisdictions[id];
+    const state =
+      lifePlaceByJurisdictionId(id)?.stateJurisdictionKey ??
+      (place ? stateKeyForJurisdiction(place) : null);
+    return !!servedState && state === servedState;
+  };
+  let best: { rank: number; formedAt: string; id: EntityId } | null = null;
+  for (const organization of world.history.organizations) {
+    if (organization.formedAt > world.currentDate) continue;
+    const profile = organizationProfileAt(world, organization.id);
+    const rank = profile
+      ? program.operatorClassifications.indexOf(profile.classification)
+      : -1;
+    if (rank < 0 || !inPlace(profile!.locationJurisdictionId)) continue;
+    const candidate = {
+      rank,
+      formedAt: organization.formedAt,
+      id: organization.id,
+    };
+    if (
+      !best ||
+      rank < best.rank ||
+      (rank === best.rank &&
+        (candidate.formedAt < best.formedAt ||
+          (candidate.formedAt === best.formedAt && candidate.id < best.id)))
+    )
+      best = candidate;
+  }
+  return best?.id ?? null;
 }
 
 function ensureProgramOperatorResourcePosition(

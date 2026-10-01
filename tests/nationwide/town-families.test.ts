@@ -14,25 +14,40 @@ import {
   activePartnershipsAt,
   householdMembershipsAt,
 } from "../../src/simulation/life-queries";
-import { YOUNGEST_AGE_AT_BIRTH } from "../../src/simulation/birth-rates";
-import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import {
-  MINIMUM_PARENT_AGE_AT_BIRTH,
-  parentsOf,
-} from "../../src/simulation/people-family";
+  BIRTH_RATES_BY_MOTHER_AGE,
+  YOUNGEST_AGE_AT_BIRTH,
+} from "../../src/simulation/birth-rates";
+import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
+import { SeededRng } from "../../src/simulation/rng";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import {
-  TOWN_BIRTH_RATES_BY_AGE,
+  MINIMUM_PARENT_AGE_AT_BIRTH,
+  childrenOf,
+  parentsOf,
+} from "../../src/simulation/people-family";
+import {
+  FAMILY_RESOLUTION_TRANSITION_KEY,
+  childrenTogether,
+  familyPlanTransitionHandler,
+  familyPlans,
+} from "../../src/simulation/people-family-plan";
+import {
   TOWN_FAMILIES_VERSION,
   TOWN_FAMILY_EVENTS,
   describeTownFamilies,
+  isTownBirth,
   reviewTownFamilies,
 } from "../../src/simulation/living-world/town-families";
+import {
+  createPartnership,
+  recordHouseholdMembershipState,
+  startHouseholdMembership,
+} from "../../src/simulation/life";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { EntityId, World } from "../../src/simulation";
 
 const LEXINGTON = "2146027";
-const BOISE = "1608830";
 const QUARTERS = 20;
 
 function openAt(placeKey: string, seed: string) {
@@ -67,20 +82,24 @@ describe(
     // Only the calendar moves, and only the review writes. The whole-world
     // check is deferred because the world's other due items are not run here;
     // the watched-world report runs this review on the real clock.
+    let expectedBirths = 0;
     withWorldIntegrityDeferred(() => {
       for (let round = 0; round < QUARTERS; round += 1) {
         const date = addDays(world.currentDate, 91);
+        // The family plans' own days in the quarter: answers, then births.
+        world = runPlanItemsThrough(world, date);
         world = {
           ...world,
           currentDate: date,
           currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
         };
+        expectedBirths += expectedQuarterBirths(world, town, personId);
         world = reviewTownFamilies(world, town, personId, `test-${round}`);
         snapshots.push(world);
       }
     });
 
-    it("couples date, move in, marry and part, and children are born", () => {
+    it("couples date, move in, marry and part, and children are born from their plans", () => {
       const counts = describeTownFamilies(world, town);
       expect(counts[TOWN_FAMILY_EVENTS.startedDating] ?? 0).toBeGreaterThan(0);
       expect(counts[TOWN_FAMILY_EVENTS.movedIn] ?? 0).toBeGreaterThan(0);
@@ -89,7 +108,35 @@ describe(
         (counts[TOWN_FAMILY_EVENTS.brokeUp] ?? 0) +
           (counts[TOWN_FAMILY_EVENTS.divorced] ?? 0),
       ).toBeGreaterThan(0);
-      expect(counts.births).toBeGreaterThan(0);
+      // A child comes only from a couple's recorded family plan, on the
+      // plan's own day.
+      const births = world.history.events.filter(
+        (event) => event.type === "life.family-member-added",
+      );
+      expect(births.length).toBeGreaterThan(0);
+      expect(counts.births).toBe(births.length);
+      for (const birth of births)
+        expect(birth.tags.some((tag) => tag.startsWith("family-plan:"))).toBe(
+          true,
+        );
+    });
+
+    it("five years of births check against the real birth rates", () => {
+      // The rates never decide a couple; they check the town's total.
+      const births = describeTownFamilies(world, town).births;
+      const answers = world.history.events.filter(
+        (event) => event.type === "life.family-intent-answered",
+      );
+      console.log(
+        `A136 Lexington (place ${LEXINGTON}, seed families-lexington): ` +
+          `${births} births in five years against ` +
+          `${expectedBirths.toFixed(1)} at the real rates; plans raised ` +
+          `${world.history.events.filter((event) => event.type === "life.family-intended").length}, ` +
+          `agreed ${answers.filter((event) => event.tags.includes("family-plan.agreed")).length}, ` +
+          `not now ${answers.filter((event) => !event.tags.includes("family-plan.agreed")).length}`,
+      );
+      expect(births).toBeGreaterThan(expectedBirths / 3);
+      expect(births).toBeLessThan(expectedBirths * 3);
     });
 
     it("every change is dated on its review, and nobody has two partners", () => {
@@ -104,34 +151,6 @@ describe(
         expect(activePartnershipsAt(world, id).length, id).toBeLessThanOrEqual(
           1,
         );
-      }
-    });
-
-    it("a newborn has its mother, her partner when they live together, and her home", () => {
-      const births = familyEvents(world, town).filter(
-        (event) => event.type === "life.family-member-added",
-      );
-      expect(births.length).toBeGreaterThan(0);
-      for (const birth of births) {
-        const child = birth.participants.find(
-          (row) => row.role === "focus:subject",
-        )!.personId!;
-        const parents = parentsOf(world, child);
-        expect(parents.length).toBeGreaterThanOrEqual(1);
-        expect(parents.length).toBeLessThanOrEqual(2);
-        const mother = parents.find(
-          (id) => world.people[id]!.identity?.gender === "female",
-        )!;
-        const age = ageOnDate(
-          world.people[mother]!.birthDate,
-          birth.occurredAt,
-        );
-        expect(age).toBeGreaterThanOrEqual(MINIMUM_PARENT_AGE_AT_BIRTH);
-        expect(age).toBeLessThanOrEqual(49);
-        const home = (id: EntityId) =>
-          householdMembershipsAt(world, id)[0]?.household.id;
-        // A later breakup may move one parent out; the child keeps a parent.
-        expect(parents.map(home)).toContain(home(child));
       }
     });
 
@@ -160,7 +179,7 @@ describe(
         (event) => event.type === TOWN_FAMILY_EVENTS.divorced,
       );
       for (const parting of partings) {
-        const [a, b] = parting.involvedEntityIds as EntityId[];
+        const [a, b] = parting.involvedEntityIds as [EntityId, EntityId];
         const home = (id: EntityId) =>
           householdMembershipsAt(world, id)[0]?.household.id;
         if (
@@ -186,7 +205,7 @@ describe(
             (event.type === TOWN_FAMILY_EVENTS.divorced ||
               event.type === TOWN_FAMILY_EVENTS.brokeUp),
         )) {
-          const [a, b] = parting.involvedEntityIds as EntityId[];
+          const [a, b] = parting.involvedEntityIds as [EntityId, EntityId];
           const homeOf = (w: World, id: EntityId) =>
             householdMembershipsAt(w, id).find(
               (entry) => entry.state.residenceRole === "primary",
@@ -238,6 +257,110 @@ describe(
   },
 );
 
+describe("the youngest parent is one rule, read from the birth table", () => {
+  it("the family writer's youngest parent is the table's first age", () => {
+    const first = BIRTH_RATES_BY_MOTHER_AGE.find(([, rate]) => rate > 0)![0];
+    expect(MINIMUM_PARENT_AGE_AT_BIRTH).toBe(first);
+    expect(YOUNGEST_AGE_AT_BIRTH).toBe(first);
+  });
+});
+
+/** Move the calendar, and only the calendar, to `date`. */
+function onDate(world: World, date: string): World {
+  return {
+    ...world,
+    currentDate: date as World["currentDate"],
+    currentMoment: simulationMomentOnLocalDate(
+      world.currentMoment,
+      date as World["currentDate"],
+    ),
+  };
+}
+
+/**
+ * Family-plan due items already run, by item. The clock runs each item once;
+ * the handler tells an answer from a birth by what is already recorded, so a
+ * second run of an answer's item would be a birth.
+ */
+const ranPlanItems = new Set<EntityId>();
+
+/**
+ * Every family-plan day up to `through`, in date order, run the way the
+ * clock runs it: an answer two days after a plan is raised, a birth on the
+ * plan's date.
+ */
+function runPlanItemsThrough(world: World, through: string): World {
+  let next = world;
+  for (;;) {
+    const item = next.history.futureDueItems
+      .filter(
+        (entry) =>
+          entry.transitionKey === FAMILY_RESOLUTION_TRANSITION_KEY &&
+          !ranPlanItems.has(entry.id) &&
+          entry.dueAt >= world.currentDate &&
+          entry.dueAt <= through,
+      )
+      .sort((a, b) => a.dueAt.localeCompare(b.dueAt))[0];
+    if (!item) return next;
+    ranPlanItems.add(item.id);
+    next = onDate(next, item.dueAt);
+    next = familyPlanTransitionHandler(next, item).world;
+  }
+}
+
+/** Births per 1,000 women a year at `age`, from the birth table. */
+function realRate(age: number): number {
+  let rate = 0;
+  for (const [from, value] of BIRTH_RATES_BY_MOTHER_AGE)
+    if (age >= from) rate = value;
+  return rate;
+}
+
+/** A quarter's births in town at the real rates by mother's age. */
+function expectedQuarterBirths(
+  world: World,
+  town: EntityId,
+  player: EntityId,
+): number {
+  let expected = 0;
+  for (const id of world.personOrder) {
+    const person = world.people[id]!;
+    if (person.homeJurisdictionId !== town || id === player) continue;
+    if (person.identity?.gender !== "female") continue;
+    if (world.history.personDeaths.some((row) => row.personId === id)) continue;
+    expected += realRate(ageOnDate(person.birthDate, world.currentDate)) / 4000;
+  }
+  return expected;
+}
+
+/**
+ * Couples in town who could plan a child under the family-plan rule: a
+ * current partnership, one shared home, both 18 to 45, and neither the
+ * player.
+ */
+function townCouples(world: World, town: EntityId, player: EntityId) {
+  const seen = new Set<string>();
+  const couples: [EntityId, EntityId][] = [];
+  for (const id of world.personOrder) {
+    const person = world.people[id]!;
+    if (id === player || person.homeJurisdictionId !== town) continue;
+    for (const partnership of activePartnershipsAt(world, id)) {
+      const [a, b] = partnership.personIds;
+      if (a === player || b === player || seen.has(`${a}:${b}`)) continue;
+      seen.add(`${a}:${b}`);
+      const ages = [a, b].map((who) =>
+        ageOnDate(world.people[who]!.birthDate, world.currentDate),
+      );
+      if (ages.some((age) => age < 18 || age > 45)) continue;
+      const homes = (who: EntityId) =>
+        householdMembershipsAt(world, who).map((row) => row.household.id);
+      if (!homes(a).some((home) => homes(b).includes(home))) continue;
+      couples.push([a, b]);
+    }
+  }
+  return couples;
+}
+
 /** The largest place of each state and D.C., Honolulu, and one per territory. */
 function onePlaceEach(): readonly string[] {
   const largest = new Map<string, [string, number]>();
@@ -254,108 +377,246 @@ function onePlaceEach(): readonly string[] {
   return [...largest.values()].map(([key]) => key).sort();
 }
 
-/** Every woman in town but the player is made `age` before each review. */
-function reviewAtAge(
-  placeKey: string,
-  seed: string,
-  age: number,
-  rounds: number,
-) {
-  const opened = openAt(placeKey, seed);
-  const { personId, town } = opened;
-  const women = opened.world.personOrder.filter((id) => {
-    const person = opened.world.people[id]!;
-    return (
-      id !== personId &&
-      person.homeJurisdictionId === town &&
-      person.identity?.gender === "female"
-    );
+/**
+ * Seats two unpartnered adults in town as a newly married couple in her
+ * home, through the life writers play uses: he leaves his household for
+ * hers, and the marriage is recorded on the day.
+ */
+function seatCouple(world: World, woman: EntityId, man: EntityId): World {
+  const provenance = {
+    kind: "authored" as const,
+    note: "A136 fixture: a couple seated for the family-plan proof.",
+  };
+  const home = householdMembershipsAt(world, woman).find(
+    (entry) => entry.state.residenceRole === "primary",
+  )!.household.id;
+  let next = world;
+  const his = householdMembershipsAt(next, man).find(
+    (entry) => entry.state.residenceRole === "primary",
+  );
+  if (his)
+    next = recordHouseholdMembershipState(next, {
+      stableKey: `a136-seat:${man}:left`,
+      membershipId: his.membership.id,
+      effectiveAt: next.currentDate,
+      status: "ended",
+      residenceRole: his.state.residenceRole,
+      kind: his.state.kind,
+      provenance,
+      supersedesStateId: his.state.id,
+    });
+  next = startHouseholdMembership(next, {
+    stableKey: `a136-seat:${man}:joined`,
+    personId: man,
+    householdId: home,
+    startedAt: next.currentDate,
+    residenceRole: "primary",
+    kind: "resident:partner",
+    provenance,
   });
-  let world = opened.world;
-  const parentAges: number[] = [];
-  withWorldIntegrityDeferred(() => {
-    for (let round = 0; round < rounds; round += 1) {
-      const date = addDays(world.currentDate, 91);
-      const birthDate = addDays(date, -(age * 365 + 100));
-      const people = { ...world.people };
-      for (const id of women) people[id] = { ...people[id]!, birthDate };
-      world = {
-        ...world,
-        people,
-        currentDate: date,
-        currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
-      };
-      world = reviewTownFamilies(world, town, personId, `young-${round}`);
-      // Ages are read on the day, before the next round re-ages the women.
-      for (const event of familyEvents(world, town))
-        if (
-          event.type === "life.family-member-added" &&
-          event.occurredAt === date
-        )
-          for (const row of event.participants)
-            if (row.role === "agency:parent")
-              parentAges.push(
-                ageOnDate(world.people[row.personId!]!.birthDate, date),
-              );
-    }
+  return createPartnership(next, {
+    stableKey: `a136-seat:${woman}:${man}:married`,
+    personIds: [woman, man].sort() as [EntityId, EntityId],
+    startedAt: next.currentDate,
+    kind: "legal:marriage",
+    provenance,
   });
-  return { world, town, women, parentAges };
 }
 
-describe(
-  "the youngest parent is one rule, read from the birth table, in every place",
-  { timeout: 900_000 },
-  () => {
-    it("the family writer's youngest parent is the table's first age", () => {
-      const first = TOWN_BIRTH_RATES_BY_AGE.find(([, rate]) => rate > 0)![0];
-      expect(MINIMUM_PARENT_AGE_AT_BIRTH).toBe(first);
-      expect(YOUNGEST_AGE_AT_BIRTH).toBe(first);
-    });
+/** Unpartnered adults in town of `gender` within the ages, and childless. */
+function single(
+  world: World,
+  town: EntityId,
+  player: EntityId,
+  gender: string,
+  from: number,
+  to: number,
+): EntityId[] {
+  return world.personOrder.filter((id) => {
+    const person = world.people[id]!;
+    if (id === player || person.homeJurisdictionId !== town) return false;
+    if (person.identity?.gender !== gender) return false;
+    const age = ageOnDate(person.birthDate, world.currentDate);
+    return (
+      age >= from &&
+      age <= to &&
+      activePartnershipsAt(world, id).length === 0 &&
+      childrenOf(world, id).length === 0 &&
+      householdMembershipsAt(world, id).some(
+        (entry) => entry.state.residenceRole === "primary",
+      )
+    );
+  });
+}
 
-    it("in all 56 places, the youngest mothers the table allows are recorded and the world goes on", () => {
-      // Before the fix the table started at 15 and the writer at 16, so a
-      // 15-year-old's draw stopped watched worlds in Seattle and Philadelphia
-      // ("would be under 16 at the birth").
-      const places = onePlaceEach();
-      expect(places).toHaveLength(56);
-      let births = 0;
-      for (const placeKey of places) {
-        const { world, town, women, parentAges } = reviewAtAge(
-          placeKey,
-          `youngest-${placeKey}`,
-          MINIMUM_PARENT_AGE_AT_BIRTH,
-          4,
-        );
-        expect(
-          familyEvents(world, town).filter(
-            (event) => event.type === TOWN_FAMILY_EVENTS.birthRefused,
-          ),
-          placeKey,
-        ).toEqual([]);
-        births += parentAges.length;
-        for (const age of parentAges)
-          expect(age, placeKey).toBeGreaterThanOrEqual(
-            MINIMUM_PARENT_AGE_AT_BIRTH,
-          );
-        expect(women.length, placeKey).toBeGreaterThan(0);
-      }
-      expect(births).toBeGreaterThan(0);
-    });
+const PLAN_SEEDS = process.env.A136_SEED
+  ? [process.env.A136_SEED]
+  : ["a136-family-plan", "check-two", "check-five"];
 
-    it("nobody younger than the table's first age is ever drawn", () => {
-      const { world, town } = reviewAtAge(
-        BOISE,
-        "families-too-young",
-        MINIMUM_PARENT_AGE_AT_BIRTH - 1,
-        QUARTERS,
+describe.each(PLAN_SEEDS)(
+  "a child is born only from a couple's recorded family plan (seed %s)",
+  { timeout: 60_000 },
+  (seed) => {
+    // One of the 56 (each state's, D.C.'s and each territory's largest
+    // place) drawn by the seed; the place and seed are named on failure.
+    const places = onePlaceEach();
+    const placeKey = new SeededRng(`a136:${seed}`).pick(places);
+    const label = `place ${placeKey}, seed ${seed}`;
+    const opened = openAt(placeKey, seed);
+    const { personId, town } = opened;
+    const start = opened.world.currentDate;
+    const firstReview = addDays(start, 91);
+    const couples = townCouples(opened.world, town, personId);
+    const before = (couple: [EntityId, EntityId]) =>
+      childrenTogether(opened.world, couple[0], couple[1]).length;
+
+    // The opening quarter: the town's own couples, as the world opened.
+    const opening = { raised: 0, agreed: 0, births: 0, expected: 0 };
+    withWorldIntegrityDeferred(() => {
+      let w = onDate(opened.world, firstReview);
+      opening.expected = expectedQuarterBirths(w, town, personId);
+      w = reviewTownFamilies(w, town, personId, "opening-review");
+      const raised = w.history.events.filter(
+        (event) =>
+          event.type === "life.family-intended" &&
+          event.occurredAt === firstReview,
       );
+      opening.raised = raised.length;
+      w = runPlanItemsThrough(w, addDays(firstReview, 300));
+      opening.agreed = w.history.events.filter(
+        (event) =>
+          event.type === "life.family-intent-answered" &&
+          event.tags.includes("family-plan.agreed") &&
+          raised.some((plan) => event.tags.includes(`family-plan:${plan.id}`)),
+      ).length;
+      opening.births = describeTownFamilies(w, town).births;
+    });
+
+    // The proof: a couple seated with the life writers on the opening day
+    // weighs it on each quarterly review until their own circumstances turn
+    // them toward it; the partner answers; the child comes on the plan's day.
+    let seated: [EntityId, EntityId] | null = null;
+    let planEventId: EntityId | null = null;
+    let raisedOn: string | null = null;
+    let resolvesOn: string | null = null;
+    let childrenBeforeTheDay = -1;
+    let world = opened.world;
+    withWorldIntegrityDeferred(() => {
+      const women = single(opened.world, town, personId, "female", 26, 32);
+      const men = single(opened.world, town, personId, "male", 27, 36);
+      const pairs: [EntityId, EntityId][] = [];
+      for (const woman of women)
+        for (const man of men)
+          if (
+            !opened.world.history.kinshipRelationships.some(
+              (row) =>
+                row.personIds.includes(woman) && row.personIds.includes(man),
+            )
+          )
+            pairs.push([woman, man]);
+      for (const [woman, man] of pairs.slice(0, 6)) {
+        let trial = seatCouple(opened.world, woman, man);
+        let plan = null;
+        for (let round = 1; round <= 8 && !plan; round += 1) {
+          const date = addDays(start, 91 * round);
+          trial = runPlanItemsThrough(trial, date);
+          trial = onDate(trial, date);
+          trial = reviewTownFamilies(trial, town, personId, `seat-${round}`);
+          plan =
+            familyPlans(trial, woman).find((row) =>
+              row.personIds.includes(man),
+            ) ?? null;
+        }
+        if (!plan) continue;
+        const raised = trial.history.events.find(
+          (event) => event.id === plan.eventId,
+        )!.occurredAt;
+        trial = runPlanItemsThrough(trial, addDays(raised, 2));
+        const settled = familyPlans(trial, woman).find(
+          (row) => row.eventId === plan.eventId,
+        )!;
+        if (settled.answer !== "agreed" || !settled.resolvesOn) continue;
+        seated = [woman, man];
+        planEventId = plan.eventId;
+        raisedOn = raised;
+        resolvesOn = settled.resolvesOn;
+        world = trial;
+        break;
+      }
+      if (!seated || !resolvesOn) return;
+      world = runPlanItemsThrough(
+        world,
+        addDays(resolvesOn as World["currentDate"], -1),
+      );
+      childrenBeforeTheDay = childrenTogether(world, ...seated).length;
+      world = runPlanItemsThrough(world, resolvesOn);
+    });
+
+    it("the opening quarter's plans that agree check against the real birth rates", () => {
+      console.log(
+        `A136 opening quarter: ${label}; ${couples.length} couples could plan; ` +
+          `${opening.raised} raised, ${opening.agreed} agreed, ` +
+          `${opening.births} births against ${opening.expected.toFixed(1)} ` +
+          `a quarter at the real rates`,
+      );
+      expect(places, label).toHaveLength(56);
+      // Small towns: a quarter's real-rate births is about one, so the check
+      // allows what a quarter can hold, never a boom of every ready couple.
+      expect(opening.births, label).toBeLessThanOrEqual(
+        Math.ceil(3 * opening.expected),
+      );
+      expect(opening.births, label).toBe(opening.agreed);
+    });
+
+    it("a seated couple weighs it on the town's reviews, raises it, and the partner agrees", () => {
+      console.log(
+        `A136 plan proof: ${label}; seated ${seated?.join(" + ") ?? "none"}, ` +
+          `raised ${raisedOn}, born ${resolvesOn}`,
+      );
+      expect(seated, label).not.toBeNull();
+    });
+
+    it("the couple with a plan has their child on the plan's date, not before", () => {
+      const [a, b] = seated!;
+      expect(childrenBeforeTheDay, label).toBe(0);
+      const children = childrenTogether(world, a, b);
+      expect(children, label).toHaveLength(1);
+      const child = world.people[children[0]!]!;
+      expect(child.birthDate, label).toBe(resolvesOn);
       expect(
-        familyEvents(world, town).filter(
-          (event) =>
-            event.type === "life.family-member-added" ||
-            event.type === TOWN_FAMILY_EVENTS.birthRefused,
-        ),
-      ).toEqual([]);
+        familyPlans(world, a).find((row) => row.eventId === planEventId)!
+          .childPersonId,
+        label,
+      ).toBe(child.id);
+      expect(parentsOf(world, child.id).sort(), label).toEqual([a, b].sort());
+    });
+
+    it("a couple without a plan never has a child", () => {
+      const planned = new Set(
+        world.history.events
+          .filter((event) => event.type === "life.family-intended")
+          .flatMap((event) => event.involvedEntityIds),
+      );
+      const unplanned = couples.filter(
+        (couple) => !couple.some((id) => planned.has(id)),
+      );
+      expect(unplanned.length, label).toBeGreaterThan(0);
+      for (const couple of unplanned)
+        expect(childrenTogether(world, ...couple).length, label).toBe(
+          before(couple),
+        );
+      const births = world.history.events.filter(
+        (event) =>
+          event.type === "life.family-member-added" && event.occurredAt > start,
+      );
+      expect(births.length, label).toBeGreaterThan(0);
+      for (const birth of births) {
+        expect(
+          birth.tags.some((tag) => tag.startsWith("family-plan:")),
+          label,
+        ).toBe(true);
+        expect(isTownBirth(birth, town), label).toBe(true);
+      }
     });
   },
 );

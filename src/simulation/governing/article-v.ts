@@ -9,8 +9,6 @@ import {
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision } from "../decisions";
-import { currentHistoricalCutoff } from "../queries";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {
@@ -34,6 +32,10 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { seatedCongressChamber } from "./congress-chambers";
+import {
+  decideChamberVote,
+  type ChamberConstitutionalVoteInput,
+} from "./chamber-votes";
 import { lawInForce } from "./law-in-force";
 import {
   ensureOfficeholderPrinciples,
@@ -128,11 +130,6 @@ const CONTEXT = {
   motivation: null,
   immediateReaction: null,
 } as const;
-
-const VOTE_OPTIONS = [
-  { key: "vote-yea", label: "Vote yes", description: "Propose it." },
-  { key: "vote-nay", label: "Vote no", description: "Leave it out." },
-] as const;
 
 function done(world: World, context: string): FutureTransitionHandlerResult {
   return {
@@ -329,17 +326,23 @@ export const CONSTITUTIONAL_BAR: DecisionConsideration = {
 };
 
 /**
- * A member's vote on writing a policy into a constitution, or, with the
- * answer "no", on taking it out.
+ * A saved constitutional chamber vote through the common member evaluator.
+ * The caller supplies the actual proposal, body and unchanged considerations.
  */
 export function memberBallot(
   world: World,
-  stableKey: string,
+  input: ChamberConstitutionalVoteInput,
+): readonly LegislativeVoteDisposition[] {
+  return decideChamberVote(world, input);
+}
+
+export function constitutionalMemberConsiderations(
+  world: World,
   personId: EntityId,
   propositionId: EntityId,
-  answer: "yes" | "no" = "yes",
+  answer: "yes" | "no",
   extra: readonly DecisionConsideration[] = [],
-): { readonly ballot: "yea" | "nay"; readonly reason: string } {
+): DecisionConsideration[] {
   const principle = principleAnswersConsideration(world, personId, [
     { propositionId, answer },
   ]);
@@ -360,29 +363,46 @@ export function memberBallot(
     CONSTITUTIONAL_BAR,
     ...extra,
   ];
-  const evaluation = evaluateDecision(world, {
-    stableKey,
-    decisionType: "governing.constitutional-amendment-vote",
-    actorPersonId: personId,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:constitutional-amendment",
-      key: stableKey,
-      entityId: null,
-    },
-    options: [...VOTE_OPTIONS],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
+  return considerations;
+}
+
+/** The actual recorded congressional proposal, through the shared member vote. */
+export function articleVProposalBallots(
+  world: World,
+  measureId: EntityId,
+  bodyKey: "house" | "senate",
+): readonly LegislativeVoteDisposition[] {
+  const measure = world.history.constitutionalMeasures?.find(
+    (row) => row.id === measureId,
+  );
+  const body = seatedCongressChamber(world, bodyKey)?.body;
+  if (!measure || measure.ruleDelta.kind !== "policy-provision" || !body)
+    throw new Error(
+      "Article V proposal ballots require a recorded policy proposal and seated chamber.",
+    );
+  const members = body.members.filter((member) => member.personId !== null);
+  const answer = measure.ruleDelta.stance === "adopt" ? "yes" : "no";
+  const propositionId = measure.ruleDelta.propositionId;
+  return memberBallot(world, {
+    kind: "constitutional",
+    stableKey: measure.stableKey,
+    constitutionalMeasureId: measure.id,
+    bodyKey,
+    purpose: "proposal",
+    members,
+    playerPersonId: controlledPersonId(world),
+    considerationsByMember: new Map(
+      members.map((member) => [
+        member.memberKey,
+        constitutionalMemberConsiderations(
+          world,
+          member.personId!,
+          propositionId,
+          answer,
+        ),
+      ]),
+    ),
   });
-  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
-  const reason =
-    considerations.find(
-      (consideration) => consideration.optionKey === `vote-${ballot}`,
-    )?.stableKey ?? "member:no-reason";
-  return { ballot, reason };
 }
 
 function proposalText(world: World, propositionId: EntityId): string {
@@ -490,8 +510,7 @@ function congressRoute(world: World, year: number): World {
   // rejection.
   const best =
     ranked.find(
-      (row) =>
-        !repeatsLastRejection(world, row.id, measureKey, { house, senate }),
+      (row) => !repeatsLastRejection(world, row.id, { house, senate }),
     ) ?? null;
   if (!best) return world;
   const proposed = propose(world, {
@@ -501,31 +520,11 @@ function congressRoute(world: World, year: number): World {
   });
   const measureId = proposed.measureId;
   let next = proposed.world;
-  const player = controlledPersonId(next);
   for (const [bodyKey, voters] of [
     ["house", house],
     ["senate", senate],
   ] as const) {
-    const dispositions: LegislativeVoteDisposition[] = voters.map((voter) => {
-      if (voter.personId === player)
-        return {
-          memberKey: voter.memberKey,
-          personId: voter.personId,
-          disposition: "absent" as const,
-        };
-      const { ballot, reason } = memberBallot(
-        next,
-        `${measureKey}:${voter.memberKey}`,
-        voter.personId,
-        best!.id,
-      );
-      return {
-        memberKey: voter.memberKey,
-        personId: voter.personId,
-        disposition: ballot,
-        reason,
-      };
-    });
+    const dispositions = articleVProposalBallots(next, measureId, bodyKey);
     next = recordConstitutionalProposalVote(
       next,
       measureId,
@@ -548,10 +547,9 @@ function congressRoute(world: World, year: number): World {
  * Whether Congress last rejected this question and every member who voted
  * then would cast the same ballot now, with no member added or gone.
  */
-function repeatsLastRejection(
+export function repeatsLastRejection(
   world: World,
   propositionId: EntityId,
-  measureKey: string,
   voters: {
     readonly house: readonly Voter[];
     readonly senate: readonly Voter[];
@@ -568,10 +566,10 @@ function repeatsLastRejection(
     .at(-1);
   if (!last || constitutionalPosition(world, last.id).phase !== "rejected")
     return false;
-  const player = controlledPersonId(world);
   for (const action of constitutionalActions(world, last.id)) {
     if (action.detail.kind !== "proposal-vote") continue;
     const bodyKey = action.detail.bodyKey;
+    if (bodyKey !== "house" && bodyKey !== "senate") return false;
     const now = bodyKey === "house" ? voters.house : voters.senate;
     const then = new Map(
       action.detail.vote.dispositions.map((row) => [
@@ -580,18 +578,16 @@ function repeatsLastRejection(
       ]),
     );
     if (then.size !== now.length) return false;
+    const currentVotes = new Map(
+      articleVProposalBallots(world, last.id, bodyKey).map((vote) => [
+        vote.personId,
+        vote.disposition,
+      ]),
+    );
     for (const voter of now) {
       const before = then.get(voter.personId);
       if (before === undefined) return false;
-      const ballot =
-        voter.personId === player
-          ? "absent"
-          : memberBallot(
-              world,
-              `${measureKey}:${voter.memberKey}`,
-              voter.personId,
-              propositionId,
-            ).ballot;
+      const ballot = currentVotes.get(voter.personId);
       if (ballot !== before) return false;
     }
   }

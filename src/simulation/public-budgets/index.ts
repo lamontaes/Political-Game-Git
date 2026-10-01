@@ -8,13 +8,14 @@ import type {
 } from "../types";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { ensureCrisisStandingAppropriations } from "../crisis-standing-appropriations";
 import { firstOfNextMonth, firstOfPreviousMonth } from "./fiscal";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import {
   federalDebtHeldByPublic,
-  openFederalTreasury,
-  settleFederalTreasuryMonth,
+  FEDERAL_INTEREST_RATE,
+  FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC,
 } from "./federal-treasury";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
@@ -98,7 +99,6 @@ function withFederalBudget(
   today: IsoDate,
 ): PublicBudgetStore {
   const nation = world.jurisdictions[NATIONAL_ELECTION_JURISDICTION.id];
-  const treasury = store.federal ?? openFederalTreasury(today);
   return {
     ...store,
     ...(nation && !store.federalGovernment
@@ -113,8 +113,10 @@ function withFederalBudget(
             balance: null,
             reserve: null,
             pension: null,
-            debt: federalDebtHeldByPublic(treasury),
-            interestRate: treasury.interestRate,
+            debt: store.federal
+              ? federalDebtHeldByPublic(store.federal)
+              : FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC,
+            interestRate: store.federal?.interestRate ?? FEDERAL_INTEREST_RATE,
             months: [],
           },
         }
@@ -127,6 +129,7 @@ export function ensurePublicBudgets(world: World): World {
   if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION)
     return world;
   if (world.publicBudgets) return world;
+  world = ensureCrisisStandingAppropriations(world);
   const today = makeIsoDate(world.currentDate);
   const empty: PublicBudgetStore = {
     version: PUBLIC_BUDGETS_VERSION,
@@ -138,7 +141,6 @@ export function ensurePublicBudgets(world: World): World {
     governments: [],
     adjustments: [],
     unknown: [],
-    federal: openFederalTreasury(today),
   };
   const opened: World = {
     ...world,
@@ -206,12 +208,8 @@ export function settlePublicBudgets(start: World, month: IsoDate): World {
     governments,
     adjustments,
     ...(federalGovernment ? { federalGovernment } : {}),
-    // Preserve the legacy forecast until saved-payment parity and caller conversion.
-    federal: settleFederalTreasuryMonth(
-      world,
-      store.federal ?? openFederalTreasury(month),
-      month,
-    ),
+    // Legacy forecast bytes remain readable, but only the common government
+    // account settles. Missing cash never creates a forecast transaction.
   };
   return {
     ...world,

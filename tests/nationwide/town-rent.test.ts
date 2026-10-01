@@ -164,8 +164,12 @@ describe("rent arithmetic", () => {
     expect(ordinary.amountMinor).toBe(2080_00);
   });
 
-  it("fits a home's bedrooms to the recorded household without a draw", () => {
-    expect([1, 2, 4, 6].map(bedroomsForHousehold)).toEqual([0, 1, 2, 3]);
+  it("fits a home's bedrooms to who first rents it", () => {
+    // The household's recorded size decides, two people to a bedroom (A56).
+    const sizes = [1, 2, 4, 6].map((people) => bedroomsForHousehold(people));
+    expect(sizes).toEqual([0, 1, 2, 3]);
+    expect(bedroomsForHousehold(1)).toBe(0);
+    expect(bedroomsForHousehold(11)).toBe(4);
     expect(bedroomsForHousehold(12)).toBe(4);
     expect(() => bedroomsForHousehold(0)).toThrow("recorded household members");
   });

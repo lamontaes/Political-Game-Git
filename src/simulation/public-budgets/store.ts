@@ -1,5 +1,7 @@
-import type { LawEffectStampedRecord } from "../law-effect-stamp";
-import type { GovernmentLawCostAttribution } from "./age-verification-cost";
+import type {
+  LawEffectStamp,
+  LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
 import {
@@ -8,6 +10,14 @@ import {
   type FederalTreasury,
 } from "./federal-treasury";
 import type { StatehoodCertification } from "./statehood-funds";
+
+/** Historical attribution bytes remain readable; they are never new invoices. */
+export interface GovernmentLawCostAttribution {
+  readonly program: BudgetProgram;
+  readonly amountUsd: number;
+  readonly basis: string;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
 
 /**
  * PUBLIC BUDGETS: every state, D.C., territory, county and city government in
@@ -366,11 +376,11 @@ export interface PublicBudgetStore {
    */
   readonly staffing?: readonly StaffingBaseline[];
   /**
-   * The federal government's books (`federal-treasury.ts`). Absent in a world
-   * opened before it existed; the next monthly pass opens it.
+   * Archived federal forecast bytes from older saves. New worlds never open
+   * these books, and monthly passes preserve them without advancing them.
    */
   readonly federal?: FederalTreasury;
-  /** Federal saved-payment path, alongside the legacy forecast pending parity. */
+  /** The sole live federal budget, settled from the saved government account. */
   readonly federalGovernment?: FederalBudgetGovernment;
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {

@@ -5,7 +5,7 @@ import {
 import { validateLawConsequences } from "./law-consequence-validation";
 import type {
   LawConsequenceContext,
-  LawConsequenceKindRegistration,
+  AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
 import {
@@ -27,10 +27,7 @@ import {
 } from "./enacted-eligibility";
 import { programLastDay, programTermChangeOf } from "./enacted-program-terms";
 import { enactedRuleChanges } from "./enacted-rule-changes";
-import {
-  draftLineageComponents,
-  draftLineageForMeasure,
-} from "./legislation-draft-lineage";
+import { draftLineageComponents } from "./legislation-draft-lineage";
 import { programFamilies } from "./legislation-program-families";
 import type { ClauseDimension } from "./legislation-content-contracts";
 import { currentMeasureProvisions } from "./legislative-politics";
@@ -39,13 +36,6 @@ import { stateKeyForJurisdictionSlug } from "./life-places";
 import { isTerritoryUsps } from "./state-reference";
 import { adoptEnactedTaxPolicy } from "./tax-policy";
 import { taxActivationReadiness } from "./tax-policy-activation";
-import {
-  TRANSIT_FAMILY_KEY,
-  TRANSIT_PROGRAM_KEY,
-  STATE_TRANSIT_VARIANT_KEY,
-  TRANSIT_VARIANT_KEY,
-} from "./legislation-transit-families";
-import { resolveTransitFunding } from "./transit-funding";
 import type {
   EntityId,
   IsoDate,
@@ -119,13 +109,6 @@ export type LawEffectLine =
       readonly unitsRestored: number;
       /** Exact delivery facts from new, labeled outturn records. */
       readonly deliveredServices: readonly DeliveredServiceFact[];
-    }
-  | {
-      /** The pinned transit program, which reads its own enacted clause. */
-      readonly kind: "transit";
-      readonly status: "available" | "unavailable";
-      readonly reason: string | null;
-      readonly amountMinorUnits: number | null;
     }
   | {
       /** A rule the game reads (seats, terms, qualifications) that the law changed. */
@@ -267,14 +250,12 @@ export function applyEnactedLawEffects(
   // enactment back or silently install the old tax effect.
   if (proposal && taxActivationReadiness(next, proposal.id).kind === "ready")
     next = adoptEnactedTaxPolicy(next, proposal.id);
-  // Every enacted amount has one saved program authority. The pinned transit
-  // request consumes that same record and shares its committed balance.
+  // Every enacted amount has one saved program authority, transit included.
   next = appropriationFromEnactedMeasure(next, measureId);
   // A family's own appropriating section, e.g. "There is appropriated to a
-  // service line replacement fund a sum not to exceed ...". The pinned transit
-  // clause already wrote its one authority above.
-  if (!isPinnedTransitMeasure(next, measureId))
-    next = applyFamilyAppropriations(next, measureId);
+  // service line replacement fund a sum not to exceed ...". A generic
+  // "amount provided" clause is not one, so nothing is written twice.
+  next = applyFamilyAppropriations(next, measureId);
   // A section that places a duty on a class of body.
   next = applyEnactedDuties(next, measureId);
   // A section that says who qualifies for, or is subject to, the Act.
@@ -303,20 +284,6 @@ export function applyNewlyEnactedLawEffects(
     next = applyEnactedLawEffects(next, enactment.measureId);
   }
   return next;
-}
-
-function isPinnedTransitMeasure(world: World, measureId: EntityId): boolean {
-  // The same test `resolveTransitFunding` applies: a single-family measure
-  // only. A bundle's transit part gets generic authority like its other
-  // parts, as it always has, and skipping it would drop them all.
-  const lineage = draftLineageForMeasure(world, measureId);
-  return (
-    lineage?.familyKey === TRANSIT_FAMILY_KEY &&
-    (lineage.variantKey === TRANSIT_VARIANT_KEY ||
-      lineage.variantKey === STATE_TRANSIT_VARIANT_KEY) &&
-    lineage.authorityKey === TRANSIT_PROGRAM_KEY &&
-    !lineage.authorityMeasureId
-  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -366,27 +333,8 @@ export function enactedLawEffects(
     lines.push(taxLine(world, proposal.id, proposal.terms.baseLabel));
   }
 
-  // Transit (pinned program), or generic spending authority.
-  if (isPinnedTransitMeasure(world, measureId)) {
-    const resolution = resolveTransitFunding(world, measureId);
-    for (const provision of provisions)
-      if (isMoneyClause(provision)) consumed.add(provision.id);
-    lines.push(
-      resolution.kind === "available"
-        ? {
-            kind: "transit",
-            status: "available",
-            reason: null,
-            amountMinorUnits: resolution.mandate.amount.minorUnits,
-          }
-        : {
-            kind: "transit",
-            status: "unavailable",
-            reason: resolution.reason,
-            amountMinorUnits: null,
-          },
-    );
-  } else {
+  // Spending authority, the same for every program.
+  {
     const appropriations = (world.history.publicProgramRecords ?? []).filter(
       (row): row is PublicProgramAppropriationRecord =>
         row.kind === "appropriation" && row.sourceMeasureId === measureId,
@@ -618,23 +566,6 @@ function operativeEffectOutcomes(
       ];
     }
 
-    if (isPinnedTransitMeasure(world, measureId)) {
-      const resolution = resolveTransitFunding(world, measureId);
-      return [
-        {
-          provisionId: provision.id,
-          provisionKey: provision.provisionKey,
-          effectKind: effect.kind,
-          status:
-            resolution.kind === "available"
-              ? ("applied" as const)
-              : ("refused" as const),
-          refusalReason:
-            resolution.kind === "available" ? null : resolution.reason,
-        },
-      ];
-    }
-
     const appropriation = appropriations.find(
       (record) =>
         !matchedAppropriationIds.has(record.id) &&
@@ -844,13 +775,14 @@ function levelOfGovernment(
 export function applyLawConsequences(
   world: World,
   context: LawConsequenceContext,
-  registrations: readonly LawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
   const registry = createLawConsequenceRegistry(registrations);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
     const proposition = world.policyCatalog.propositions[id];
     if (
+      context.standingAppropriationId ||
       !proposition ||
       (context.questionKey && proposition.stableKey !== context.questionKey)
     )
@@ -890,6 +822,80 @@ export function applyLawConsequences(
         if (
           input.effectiveAt > context.onDate ||
           input.law.operativeAt > context.onDate
+        )
+          continue;
+        next = registration.apply(next, input);
+      }
+    }
+  }
+  if (
+    !context.questionKey &&
+    !context.governingLawId &&
+    context.origin !== "enacted"
+  ) {
+    for (const registration of registry.handlers.values()) {
+      if (!registration.resolveSavedRules) continue;
+      for (const input of registration.resolveSavedRules(next, context)) {
+        const { row, authority } = input;
+        const errors = validateLawConsequences([row], registry.capabilities);
+        if (errors.length) throw new Error(errors.join("; "));
+        if (row.onward?.length)
+          throw new Error(
+            `Consequence ${row.id}: unsupported standing onward dispatch`,
+          );
+        if (
+          row.kind !== registration.kind ||
+          row.when !== context.activity ||
+          input.activityId !== context.activityId ||
+          !context.subjectIds.includes(input.subject.id)
+        )
+          throw new Error(
+            `Consequence ${row.id}: inconsistent saved authority`,
+          );
+        if (
+          input.value.type === "amount" &&
+          !registration.units.includes(input.value.unit)
+        )
+          throw new Error(
+            `Consequence ${row.id}: unsupported saved authority unit`,
+          );
+        if (input.effectiveAt > context.onDate) continue;
+        if (
+          context.standingAppropriationId &&
+          context.standingAppropriationId !== authority.appropriationId
+        )
+          continue;
+        const saved = (next.history.publicProgramRecords ?? []).find(
+          (record) => record.id === authority.appropriationId,
+        );
+        if (
+          authority.kind !== "standing-program-appropriation" ||
+          row.kind !== "service-delivered" ||
+          context.activity !== "service" ||
+          saved?.kind !== "appropriation" ||
+          saved.sourceMeasureId != null ||
+          saved.basis.kind !== "sourced" ||
+          !saved.basis.note.trim() ||
+          saved.recordedAt > context.onDate ||
+          authority.programKey !== saved.programKey ||
+          authority.jurisdictionId !== saved.jurisdictionId ||
+          input.jurisdictionId !== saved.jurisdictionId ||
+          authority.accountOrganizationId !== saved.accountOrganizationId ||
+          authority.availableFrom !== saved.availableFrom ||
+          authority.availableThrough !== saved.availableThrough ||
+          authority.sourceBasis.kind !== saved.basis.kind ||
+          authority.sourceBasis.note !== saved.basis.note ||
+          JSON.stringify(authority.publicGovernmentIdentity) !==
+            JSON.stringify(saved.publicGovernmentIdentity) ||
+          !input.sourceRecordIds.includes(saved.id) ||
+          !input.sourceRecordIds.includes(saved.eventId)
+        )
+          throw new Error(
+            `Consequence ${row.id}: inconsistent standing appropriation`,
+          );
+        if (
+          input.effectiveAt < saved.availableFrom ||
+          input.effectiveAt > saved.availableThrough
         )
           continue;
         next = registration.apply(next, input);
