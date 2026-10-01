@@ -97,7 +97,12 @@ export function createPolicyPropositionDefinition(
     issueId,
     name,
     question,
-    parameters: parameters.map((parameter) => ({ ...parameter })),
+    parameters: parameters.map((parameter) => ({
+      ...parameter,
+      ...(parameter.allowedValues !== undefined
+        ? { allowedValues: [...parameter.allowedValues] }
+        : {}),
+    })),
     tags: canonical(tags),
     // Omitted, not written empty: a proposition whose pack declares no
     // principle has to serialize byte-for-byte as it did before the field
@@ -197,6 +202,16 @@ export function assertPolicyCatalogIntegrity(catalog: PolicyCatalog): void {
     for (const parameter of proposition.parameters) {
       assertNonEmpty(parameter.key, "Proposition parameter key");
       assertNonEmpty(parameter.value, "Proposition parameter value");
+      if (parameter.allowedValues !== undefined) {
+        if (!Array.isArray(parameter.allowedValues))
+          throw new Error(
+            "Proposition parameter allowed values must be an array.",
+          );
+        assertUniqueStrings(
+          parameter.allowedValues,
+          "Proposition parameter allowed value",
+        );
+      }
       if (parameterKeys.has(parameter.key)) {
         throw new Error(
           `Policy proposition contains a duplicate parameter: ${proposition.id}`,
@@ -261,6 +276,9 @@ export function clonePolicyCatalog(catalog: PolicyCatalog): PolicyCatalog {
             : {}),
           parameters: proposition.parameters.map((parameter) => ({
             ...parameter,
+            ...(parameter.allowedValues !== undefined
+              ? { allowedValues: [...parameter.allowedValues] }
+              : {}),
           })),
           tags: [...proposition.tags],
         },

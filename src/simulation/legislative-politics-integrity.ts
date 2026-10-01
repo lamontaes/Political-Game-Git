@@ -1,5 +1,6 @@
 import { makeIsoDate } from "./dates";
 import {
+  assertProvisionLawCategories,
   assertProvisionLawTerms,
   isDecidableConditionKind,
 } from "./legislative-politics";
@@ -62,6 +63,7 @@ export function assertLegislativePoliticsIntegrity(
   const amendmentCarriedBy = new Map<string, EntityId>();
 
   for (const provision of provisions) {
+    assertProvisionLawCategories(world, provision.lawCategories);
     assertProvisionLawTerms(world, provision.lawTerms);
     assertIdentity(ids, provision, RECORD_KINDS.provision);
     provisionById.set(provision.id, provision);
