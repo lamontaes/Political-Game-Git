@@ -1,0 +1,880 @@
+{
+  "sourceHead": "a522ed5be56ab97afedc24d8d73e847a7586852a",
+  "readerHead": "d1e5e1ddb931b0aab47c803d42c8125922efe280",
+  "observerSeed": "team1-member-filing-20261001",
+  "placeKey": "4434660",
+  "terminalDate": "2028-01-05",
+  "limits": "Read only from the retained terminal canonical snapshot. Exact saved state chains and linked outcome events, not schedule-only inference. Starting procedures are the existing immutable saved record; operative-date comparison is explicit. No person history, catalog or invented proposals. No additional year or changed filing threshold. A generic resolved-state context is not evidence that any measure was filed. A generic resolved-state context is not evidence that any measure was filed.",
+  "intakes": [
+    {
+      "place": "NJ",
+      "dueItem": {
+        "id": "future-due-item_a7b0ba48e8ddf499",
+        "stableKey": "state-governing/v1:season:us-nj-governor:bill:2026-02-15",
+        "sequence": 60496,
+        "scheduledAt": "2026-01-06",
+        "dueAt": "2026-02-15",
+        "transitionKey": "governing:season",
+        "entityIds": ["jurisdiction_8a587db997485af7"],
+        "jurisdictionId": "jurisdiction_8a587db997485af7",
+        "provenance": {
+          "kind": "authored",
+          "note": "ocd-state-governing-calendar/v1: the game's bill presentment day, not a state's law."
+        }
+      },
+      "states": [
+        {
+          "id": "future-due-item-state_2c98c382ed06e387",
+          "stableKey": "state-governing/v1:season:us-nj-governor:bill:2026-02-15:state:scheduled",
+          "sequence": 60497,
+          "dueItemId": "future-due-item_a7b0ba48e8ddf499",
+          "effectiveAt": "2026-01-06",
+          "status": "scheduled",
+          "reasonKey": null,
+          "context": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "future-due-item-state_bdd7e81a30551c6a",
+          "stableKey": "state-governing/v1:season:us-nj-governor:bill:2026-02-15:state:resolved:2026-02-15",
+          "sequence": 180731,
+          "dueItemId": "future-due-item_a7b0ba48e8ddf499",
+          "effectiveAt": "2026-02-15",
+          "status": "resolved",
+          "reasonKey": null,
+          "context": "The bill season arrived.",
+          "outcomeEventId": null,
+          "supersedesStateId": "future-due-item-state_2c98c382ed06e387"
+        }
+      ],
+      "outcomeEvents": [],
+      "startingProcedureRecord": {
+        "id": "world-condition_3848605782a2bf38",
+        "sequence": 660,
+        "recordedAt": "2026-01-05",
+        "effectiveDate": "2026-01-05",
+        "contractVersion": "ocd-legislative-starting-procedures/v1",
+        "operativeOnDueDate": true
+      },
+      "startingProcedureEntry": {
+        "jurisdictionKey": "US-NJ",
+        "jurisdictionId": "jurisdiction_8a587db997485af7",
+        "baselinePack": {
+          "packId": "us-nj-legislature-profile-v1",
+          "jurisdictionKey": "US-NJ",
+          "displayName": "New Jersey Legislature",
+          "basis": "game-profile",
+          "structure": "bicameral",
+          "chambers": [
+            {
+              "chamberKey": "house",
+              "name": "Assembly",
+              "billDesignationPrefix": "A",
+              "seats": {
+                "kind": "known",
+                "value": 80,
+                "source": {
+                  "authority": "research-reference",
+                  "citation": "The Book of the States 2023, Table 3.3",
+                  "sourceTitle": "The Legislators: Numbers, Terms and Party Affiliations: 2023 (The Council of State Governments)",
+                  "sourceUrl": "https://bookofthestates.org/tables/2023-3-3/",
+                  "retrievedAt": "2026-09-29",
+                  "verification": "verified",
+                  "note": "Each chamber's total seats as the Council of State Governments compiled them from the legislatures in 2023. A compiled survey, not the state's own constitution or apportionment statute. The rest of this legislature is the game's own."
+                }
+              },
+              "quorum": {
+                "kind": "known",
+                "value": {
+                  "numerator": 1,
+                  "denominatorParts": 2,
+                  "countedAgainst": "members-elected",
+                  "rounding": "strictly-greater-than-fraction",
+                  "label": "a majority of the members elected to the chamber",
+                  "source": {
+                    "authority": "game-profile",
+                    "citation": "Quorum",
+                    "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                    "sourceUrl": null,
+                    "retrievedAt": null,
+                    "verification": "game-profile",
+                    "note": "A majority of the members elected to a chamber is a quorum. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                  }
+                },
+                "source": {
+                  "authority": "game-profile",
+                  "citation": "Quorum",
+                  "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                  "sourceUrl": null,
+                  "retrievedAt": null,
+                  "verification": "game-profile",
+                  "note": "A majority of the members elected to a chamber is a quorum. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                }
+              },
+              "introductionAllowed": true,
+              "referral": {
+                "authorityLabel": "Set by the chamber's own rules of proceeding",
+                "multipleReferralAllowed": {
+                  "kind": "unknown",
+                  "note": "Whether one measure may be referred to several committees is set by this chamber's own rules, which have not been read."
+                },
+                "everyMeasureMustBeHeard": {
+                  "kind": "unknown",
+                  "note": "Whether every referred measure is guaranteed a hearing is set by this chamber's own rules, which have not been read."
+                },
+                "source": {
+                  "authority": "game-profile",
+                  "citation": "Referral",
+                  "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                  "sourceUrl": null,
+                  "retrievedAt": null,
+                  "verification": "game-profile",
+                  "note": "A measure is referred to committee before it reaches the floor. Which committee, and on what terms, comes from chamber rules that have not been read."
+                }
+              },
+              "committees": [
+                {
+                  "committeeKey": "house-standing",
+                  "name": "Standing committee",
+                  "appointedMembers": 13,
+                  "membershipBasis": "scenario-fixture",
+                  "reportThreshold": {
+                    "numerator": 1,
+                    "denominatorParts": 2,
+                    "countedAgainst": "committee-members-appointed",
+                    "rounding": "strictly-greater-than-fraction",
+                    "label": "a majority of the committee's membership",
+                    "source": {
+                      "authority": "game-profile",
+                      "citation": "Committees",
+                      "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                      "sourceUrl": null,
+                      "retrievedAt": null,
+                      "verification": "game-profile",
+                      "note": "The game's standing rule until this chamber's rules are read: one standing committee hears every bill and reports it on a majority of its members. This is not a reading of the state's law."
+                    }
+                  },
+                  "chairMayDeclineToHear": {
+                    "kind": "unknown",
+                    "note": "Whether a committee chair may decline to take a bill up is set by this chamber's own rules, which have not been read."
+                  },
+                  "publicHearingNotice": {
+                    "kind": "unknown",
+                    "note": "How much notice a committee hearing takes is set by this chamber's own rules, which have not been read."
+                  }
+                }
+              ],
+              "floorStages": [
+                {
+                  "stageKey": "final-passage",
+                  "label": "Final passage",
+                  "amendable": {
+                    "kind": "known",
+                    "value": true,
+                    "source": {
+                      "authority": "game-profile",
+                      "citation": "Passage",
+                      "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                      "sourceUrl": null,
+                      "retrievedAt": null,
+                      "verification": "game-profile",
+                      "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                    }
+                  },
+                  "separateLegislativeDayRequired": true,
+                  "vote": {
+                    "kind": "known",
+                    "value": {
+                      "numerator": 1,
+                      "denominatorParts": 2,
+                      "countedAgainst": "members-elected",
+                      "rounding": "strictly-greater-than-fraction",
+                      "label": "a majority of the members elected to the chamber",
+                      "source": {
+                        "authority": "game-profile",
+                        "citation": "Passage",
+                        "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                        "sourceUrl": null,
+                        "retrievedAt": null,
+                        "verification": "game-profile",
+                        "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                      }
+                    },
+                    "source": {
+                      "authority": "game-profile",
+                      "citation": "Passage",
+                      "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                      "sourceUrl": null,
+                      "retrievedAt": null,
+                      "verification": "game-profile",
+                      "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                    }
+                  },
+                  "source": {
+                    "authority": "game-profile",
+                    "citation": "Passage",
+                    "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                    "sourceUrl": null,
+                    "retrievedAt": null,
+                    "verification": "game-profile",
+                    "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                  }
+                }
+              ],
+              "amendments": {
+                "floorAmendmentsAllowed": {
+                  "kind": "known",
+                  "value": true,
+                  "source": {
+                    "authority": "game-profile",
+                    "citation": "Passage",
+                    "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                    "sourceUrl": null,
+                    "retrievedAt": null,
+                    "verification": "game-profile",
+                    "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                  }
+                },
+                "germanenessStandard": {
+                  "kind": "unknown",
+                  "note": "The germaneness standard applied to an amendment is set by this chamber's own rules, which have not been read."
+                },
+                "source": {
+                  "authority": "game-profile",
+                  "citation": "Passage",
+                  "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                  "sourceUrl": null,
+                  "retrievedAt": null,
+                  "verification": "game-profile",
+                  "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                }
+              }
+            },
+            {
+              "chamberKey": "senate",
+              "name": "Senate",
+              "billDesignationPrefix": "S",
+              "seats": {
+                "kind": "known",
+                "value": 40,
+                "source": {
+                  "authority": "research-reference",
+                  "citation": "The Book of the States 2023, Table 3.3",
+                  "sourceTitle": "The Legislators: Numbers, Terms and Party Affiliations: 2023 (The Council of State Governments)",
+                  "sourceUrl": "https://bookofthestates.org/tables/2023-3-3/",
+                  "retrievedAt": "2026-09-29",
+                  "verification": "verified",
+                  "note": "Each chamber's total seats as the Council of State Governments compiled them from the legislatures in 2023. A compiled survey, not the state's own constitution or apportionment statute. The rest of this legislature is the game's own."
+                }
+              },
+              "quorum": {
+                "kind": "known",
+                "value": {
+                  "numerator": 1,
+                  "denominatorParts": 2,
+                  "countedAgainst": "members-elected",
+                  "rounding": "strictly-greater-than-fraction",
+                  "label": "a majority of the members elected to the chamber",
+                  "source": {
+                    "authority": "game-profile",
+                    "citation": "Quorum",
+                    "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                    "sourceUrl": null,
+                    "retrievedAt": null,
+                    "verification": "game-profile",
+                    "note": "A majority of the members elected to a chamber is a quorum. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                  }
+                },
+                "source": {
+                  "authority": "game-profile",
+                  "citation": "Quorum",
+                  "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                  "sourceUrl": null,
+                  "retrievedAt": null,
+                  "verification": "game-profile",
+                  "note": "A majority of the members elected to a chamber is a quorum. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                }
+              },
+              "introductionAllowed": true,
+              "referral": {
+                "authorityLabel": "Set by the chamber's own rules of proceeding",
+                "multipleReferralAllowed": {
+                  "kind": "unknown",
+                  "note": "Whether one measure may be referred to several committees is set by this chamber's own rules, which have not been read."
+                },
+                "everyMeasureMustBeHeard": {
+                  "kind": "unknown",
+                  "note": "Whether every referred measure is guaranteed a hearing is set by this chamber's own rules, which have not been read."
+                },
+                "source": {
+                  "authority": "game-profile",
+                  "citation": "Referral",
+                  "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                  "sourceUrl": null,
+                  "retrievedAt": null,
+                  "verification": "game-profile",
+                  "note": "A measure is referred to committee before it reaches the floor. Which committee, and on what terms, comes from chamber rules that have not been read."
+                }
+              },
+              "committees": [
+                {
+                  "committeeKey": "senate-standing",
+                  "name": "Standing committee",
+                  "appointedMembers": 7,
+                  "membershipBasis": "scenario-fixture",
+                  "reportThreshold": {
+                    "numerator": 1,
+                    "denominatorParts": 2,
+                    "countedAgainst": "committee-members-appointed",
+                    "rounding": "strictly-greater-than-fraction",
+                    "label": "a majority of the committee's membership",
+                    "source": {
+                      "authority": "game-profile",
+                      "citation": "Committees",
+                      "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                      "sourceUrl": null,
+                      "retrievedAt": null,
+                      "verification": "game-profile",
+                      "note": "The game's standing rule until this chamber's rules are read: one standing committee hears every bill and reports it on a majority of its members. This is not a reading of the state's law."
+                    }
+                  },
+                  "chairMayDeclineToHear": {
+                    "kind": "unknown",
+                    "note": "Whether a committee chair may decline to take a bill up is set by this chamber's own rules, which have not been read."
+                  },
+                  "publicHearingNotice": {
+                    "kind": "unknown",
+                    "note": "How much notice a committee hearing takes is set by this chamber's own rules, which have not been read."
+                  }
+                }
+              ],
+              "floorStages": [
+                {
+                  "stageKey": "final-passage",
+                  "label": "Final passage",
+                  "amendable": {
+                    "kind": "known",
+                    "value": true,
+                    "source": {
+                      "authority": "game-profile",
+                      "citation": "Passage",
+                      "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                      "sourceUrl": null,
+                      "retrievedAt": null,
+                      "verification": "game-profile",
+                      "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                    }
+                  },
+                  "separateLegislativeDayRequired": true,
+                  "vote": {
+                    "kind": "known",
+                    "value": {
+                      "numerator": 1,
+                      "denominatorParts": 2,
+                      "countedAgainst": "members-elected",
+                      "rounding": "strictly-greater-than-fraction",
+                      "label": "a majority of the members elected to the chamber",
+                      "source": {
+                        "authority": "game-profile",
+                        "citation": "Passage",
+                        "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                        "sourceUrl": null,
+                        "retrievedAt": null,
+                        "verification": "game-profile",
+                        "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                      }
+                    },
+                    "source": {
+                      "authority": "game-profile",
+                      "citation": "Passage",
+                      "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                      "sourceUrl": null,
+                      "retrievedAt": null,
+                      "verification": "game-profile",
+                      "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                    }
+                  },
+                  "source": {
+                    "authority": "game-profile",
+                    "citation": "Passage",
+                    "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                    "sourceUrl": null,
+                    "retrievedAt": null,
+                    "verification": "game-profile",
+                    "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                  }
+                }
+              ],
+              "amendments": {
+                "floorAmendmentsAllowed": {
+                  "kind": "known",
+                  "value": true,
+                  "source": {
+                    "authority": "game-profile",
+                    "citation": "Passage",
+                    "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                    "sourceUrl": null,
+                    "retrievedAt": null,
+                    "verification": "game-profile",
+                    "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                  }
+                },
+                "germanenessStandard": {
+                  "kind": "unknown",
+                  "note": "The germaneness standard applied to an amendment is set by this chamber's own rules, which have not been read."
+                },
+                "source": {
+                  "authority": "game-profile",
+                  "citation": "Passage",
+                  "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                  "sourceUrl": null,
+                  "retrievedAt": null,
+                  "verification": "game-profile",
+                  "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+                }
+              }
+            }
+          ],
+          "chamberOrder": ["house", "senate"],
+          "origination": {
+            "generalOrigination": {
+              "kind": "known",
+              "value": ["house", "senate"],
+              "source": {
+                "authority": "game-profile",
+                "citation": "Origination",
+                "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                "sourceUrl": null,
+                "retrievedAt": null,
+                "verification": "game-profile",
+                "note": "A measure may start in either chamber. The game applies this where a state's own origination rule has not been read; a state that confines a class of measure to one chamber will say so once its instruments are compiled."
+              }
+            },
+            "subjectRestrictions": [],
+            "source": {
+              "authority": "game-profile",
+              "citation": "Origination",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "A measure may start in either chamber. The game applies this where a state's own origination rule has not been read; a state that confines a class of measure to one chamber will say so once its instruments are compiled."
+            }
+          },
+          "interChamber": {
+            "kind": "second-chamber",
+            "concurrenceThreshold": {
+              "numerator": 1,
+              "denominatorParts": 2,
+              "countedAgainst": "members-elected",
+              "rounding": "strictly-greater-than-fraction",
+              "label": "a majority of the members elected to the second chamber",
+              "source": {
+                "authority": "game-profile",
+                "citation": "Passage",
+                "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                "sourceUrl": null,
+                "retrievedAt": null,
+                "verification": "game-profile",
+                "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+              }
+            },
+            "conference": {
+              "kind": "unknown",
+              "note": "How this legislature resolves a difference between its chambers is set by joint rules that have not been read, so conference is not modeled."
+            },
+            "source": {
+              "authority": "game-profile",
+              "citation": "Passage",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+            }
+          },
+          "executive": {
+            "titleLabel": "Governor",
+            "presentmentRequired": {
+              "kind": "known",
+              "value": true,
+              "source": {
+                "authority": "game-profile",
+                "citation": "Veto and override",
+                "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                "sourceUrl": null,
+                "retrievedAt": null,
+                "verification": "game-profile",
+                "note": "The governor has 45 days to act on a measure during session and 30 after adjournment, as The Book of the States 2023, Table 3.16 gives them. The table gives no figure after adjournment here, so that figure is the most common one it gives for other places (ESTIMATED FROM AVERAGE)."
+              }
+            },
+            "actionWindowDaysInSession": {
+              "kind": "known",
+              "value": 45,
+              "source": {
+                "authority": "game-profile",
+                "citation": "Veto and override",
+                "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                "sourceUrl": null,
+                "retrievedAt": null,
+                "verification": "game-profile",
+                "note": "The governor has 45 days to act on a measure during session and 30 after adjournment, as The Book of the States 2023, Table 3.16 gives them. The table gives no figure after adjournment here, so that figure is the most common one it gives for other places (ESTIMATED FROM AVERAGE)."
+              }
+            },
+            "actionWindowDaysAfterAdjournment": {
+              "kind": "known",
+              "value": 30,
+              "source": {
+                "authority": "game-profile",
+                "citation": "Veto and override",
+                "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                "sourceUrl": null,
+                "retrievedAt": null,
+                "verification": "game-profile",
+                "note": "The governor has 45 days to act on a measure during session and 30 after adjournment, as The Book of the States 2023, Table 3.16 gives them. The table gives no figure after adjournment here, so that figure is the most common one it gives for other places (ESTIMATED FROM AVERAGE)."
+              }
+            },
+            "inactionOutcomeInSession": {
+              "kind": "known",
+              "value": "becomes-law-without-signature",
+              "source": {
+                "authority": "game-profile",
+                "citation": "Veto and override",
+                "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                "sourceUrl": null,
+                "retrievedAt": null,
+                "verification": "game-profile",
+                "note": "The governor has 45 days to act on a measure during session and 30 after adjournment, as The Book of the States 2023, Table 3.16 gives them. The table gives no figure after adjournment here, so that figure is the most common one it gives for other places (ESTIMATED FROM AVERAGE)."
+              }
+            },
+            "lineItemVeto": {
+              "kind": "unknown",
+              "note": "Whether this governor may object to a single item of an appropriation has not been read, and the game claims neither the power nor its absence."
+            },
+            "override": {
+              "kind": "each-chamber",
+              "threshold": {
+                "numerator": 2,
+                "denominatorParts": 3,
+                "countedAgainst": "members-elected",
+                "rounding": "at-least-fraction",
+                "label": "2 of 3 of all the members of the house of origin",
+                "source": {
+                  "authority": "constitution",
+                  "citation": "Article V, section I, paragraph 14",
+                  "sourceTitle": "New Jersey \u2014 veto override, read from the instrument",
+                  "sourceUrl": "https://www.njleg.state.nj.us/constitution",
+                  "retrievedAt": null,
+                  "verification": "partial",
+                  "note": "Read for the override threshold only (official-text-read). The rest of this legislature is the game's own."
+                }
+              }
+            },
+            "source": {
+              "authority": "game-profile",
+              "citation": "Veto and override",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "The governor has 45 days to act on a measure during session and 30 after adjournment, as The Book of the States 2023, Table 3.16 gives them. The table gives no figure after adjournment here, so that figure is the most common one it gives for other places (ESTIMATED FROM AVERAGE)."
+            }
+          },
+          "enactment": {
+            "effectiveDateDistinctFromEnactment": {
+              "kind": "unknown",
+              "note": "When an act of this legislature takes effect has not been read."
+            },
+            "defaultEffectiveRule": {
+              "kind": "unknown",
+              "note": "This state's default effective date has not been read."
+            },
+            "source": {
+              "authority": "game-profile",
+              "citation": "Session",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law."
+            }
+          },
+          "session": {
+            "sessionLabel": "Regular session",
+            "adjournmentRule": {
+              "kind": "known",
+              "value": "The legislature sits in a regular session each year and adjourns sine die at its close.",
+              "source": {
+                "authority": "game-profile",
+                "citation": "Session",
+                "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                "sourceUrl": null,
+                "retrievedAt": null,
+                "verification": "game-profile",
+                "note": "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law."
+              }
+            },
+            "measuresDieAtAdjournment": {
+              "kind": "known",
+              "value": true,
+              "source": {
+                "authority": "game-profile",
+                "citation": "Session",
+                "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+                "sourceUrl": null,
+                "retrievedAt": null,
+                "verification": "game-profile",
+                "note": "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law."
+              }
+            },
+            "source": {
+              "authority": "game-profile",
+              "citation": "Session",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law."
+            }
+          },
+          "sources": [
+            {
+              "authority": "game-profile",
+              "citation": "Quorum",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "A majority of the members elected to a chamber is a quorum. Every researched state says so, and the game applies it where a state's own rule has not been read."
+            },
+            {
+              "authority": "game-profile",
+              "citation": "Passage",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "A measure passes a chamber on a majority of the members elected to it. Every researched state says so, and the game applies it where a state's own rule has not been read."
+            },
+            {
+              "authority": "game-profile",
+              "citation": "Origination",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "A measure may start in either chamber. The game applies this where a state's own origination rule has not been read; a state that confines a class of measure to one chamber will say so once its instruments are compiled."
+            },
+            {
+              "authority": "game-profile",
+              "citation": "Session",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law."
+            },
+            {
+              "authority": "game-profile",
+              "citation": "Veto and override",
+              "sourceTitle": "Our Civic Duty legislature profile (ocd-legislature-game-profile/v1)",
+              "sourceUrl": null,
+              "retrievedAt": null,
+              "verification": "game-profile",
+              "note": "The governor has 45 days to act on a measure during session and 30 after adjournment, as The Book of the States 2023, Table 3.16 gives them. The table gives no figure after adjournment here, so that figure is the most common one it gives for other places (ESTIMATED FROM AVERAGE)."
+            },
+            {
+              "authority": "constitution",
+              "citation": "Article V, section I, paragraph 14",
+              "sourceTitle": "New Jersey \u2014 veto override, read from the instrument",
+              "sourceUrl": "https://www.njleg.state.nj.us/constitution",
+              "retrievedAt": null,
+              "verification": "partial",
+              "note": "Read for the override threshold only (official-text-read). The rest of this legislature is the game's own."
+            }
+          ],
+          "unresolvedGaps": [
+            "This legislature has not been compiled from its state's own constitution or rules. Its structure, seat counts, veto windows and override threshold are the game's own, drawn from the range the compiled states span, and none of them is a claim about this state's law.",
+            "The chamber names and bill prefixes come from this state's recorded enacted-bill samples and chamber-name research where those record them; a chamber they do not record keeps a labeled game default.",
+            "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
+            "Conference between the chambers is not modeled.",
+            "How often this legislature meets and whether a pending measure carries over after adjournment have not been read; the annual session with bills dying at adjournment is the game's standing rule until they are.",
+            "Whether this state overrides a veto in joint session rather than chamber by chamber has not been read; the generated pack uses the chamber-by-chamber form every compiled state but one uses."
+          ]
+        },
+        "effectiveDateDays": 90,
+        "sessionCadence": "annual",
+        "sessionYearParity": null,
+        "regularSessionCutoff": {
+          "month": 4,
+          "day": 15
+        },
+        "measuresCarryOver": false,
+        "procedureProvenance": {
+          "kind": "game-profile",
+          "version": "ocd-legislative-starting-procedures/v1"
+        }
+      },
+      "activePackSession": {
+        "sessionLabel": "Regular session",
+        "adjournmentRule": {
+          "kind": "known",
+          "value": "Regular sessions occur every year.",
+          "source": {
+            "authority": "game-profile",
+            "citation": "Saved starting procedure US-NJ",
+            "sourceTitle": "Our Civic Duty starting procedure (ocd-legislative-starting-procedures/v1)",
+            "sourceUrl": null,
+            "retrievedAt": null,
+            "verification": "game-profile",
+            "note": "This saved world's rule is a bounded game variation from the reference pack, not a statement of current law."
+          }
+        },
+        "measuresDieAtAdjournment": {
+          "kind": "known",
+          "value": true,
+          "source": {
+            "authority": "game-profile",
+            "citation": "Saved starting procedure US-NJ",
+            "sourceTitle": "Our Civic Duty starting procedure (ocd-legislative-starting-procedures/v1)",
+            "sourceUrl": null,
+            "retrievedAt": null,
+            "verification": "game-profile",
+            "note": "This saved world's rule is a bounded game variation from the reference pack, not a statement of current law."
+          }
+        },
+        "source": {
+          "authority": "game-profile",
+          "citation": "Saved starting procedure US-NJ",
+          "sourceTitle": "Our Civic Duty starting procedure (ocd-legislative-starting-procedures/v1)",
+          "sourceUrl": null,
+          "retrievedAt": null,
+          "verification": "game-profile",
+          "note": "This saved world's rule is a bounded game variation from the reference pack, not a statement of current law."
+        },
+        "regularSessionYears": {
+          "kind": "known",
+          "value": "annual",
+          "source": {
+            "authority": "game-profile",
+            "citation": "Saved starting procedure US-NJ",
+            "sourceTitle": "Our Civic Duty starting procedure (ocd-legislative-starting-procedures/v1)",
+            "sourceUrl": null,
+            "retrievedAt": null,
+            "verification": "game-profile",
+            "note": "This saved world's rule is a bounded game variation from the reference pack, not a statement of current law."
+          }
+        },
+        "regularSessionLatestAdjournment": {
+          "kind": "known",
+          "value": {
+            "oddYear": {
+              "month": 4,
+              "day": 15
+            },
+            "evenYear": {
+              "month": 4,
+              "day": 15
+            }
+          },
+          "source": {
+            "authority": "game-profile",
+            "citation": "Saved starting procedure US-NJ",
+            "sourceTitle": "Our Civic Duty starting procedure (ocd-legislative-starting-procedures/v1)",
+            "sourceUrl": null,
+            "retrievedAt": null,
+            "verification": "game-profile",
+            "note": "This saved world's rule is a bounded game variation from the reference pack, not a statement of current law."
+          }
+        }
+      },
+      "activePackSource": "saved starting-procedure overlay",
+      "outcomeEventEvidence": "NO LINKED OUTCOME EVENT: all saved outcomeEventId fields in this chain are null."
+    },
+    {
+      "place": "US",
+      "dueItem": {
+        "id": "future-due-item_c7f42c65de67b35c",
+        "stableKey": "congress-intake/v1:intake:2026-02-01",
+        "sequence": 60724,
+        "scheduledAt": "2026-01-06",
+        "dueAt": "2026-02-01",
+        "transitionKey": "congress:intake",
+        "entityIds": ["jurisdiction_55aa1fe9dcedd760"],
+        "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+        "provenance": {
+          "kind": "authored",
+          "note": "ocd-congress-lawmaking/v1: members of Congress file bills on the first of the month. The game's calendar, not Congress's."
+        }
+      },
+      "states": [
+        {
+          "id": "future-due-item-state_0744c91c93cd8342",
+          "stableKey": "congress-intake/v1:intake:2026-02-01:state:scheduled",
+          "sequence": 60725,
+          "dueItemId": "future-due-item_c7f42c65de67b35c",
+          "effectiveAt": "2026-01-06",
+          "status": "scheduled",
+          "reasonKey": null,
+          "context": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "future-due-item-state_6d81d756030b0536",
+          "stableKey": "congress-intake/v1:intake:2026-02-01:state:resolved:2026-02-01",
+          "sequence": 144538,
+          "dueItemId": "future-due-item_c7f42c65de67b35c",
+          "effectiveAt": "2026-02-01",
+          "status": "resolved",
+          "reasonKey": null,
+          "context": "Members of Congress filed their bills.",
+          "outcomeEventId": null,
+          "supersedesStateId": "future-due-item-state_0744c91c93cd8342"
+        }
+      ],
+      "outcomeEvents": [],
+      "startingProcedureRecord": {
+        "id": "world-condition_3848605782a2bf38",
+        "sequence": 660,
+        "recordedAt": "2026-01-05",
+        "effectiveDate": "2026-01-05",
+        "contractVersion": "ocd-legislative-starting-procedures/v1",
+        "operativeOnDueDate": true
+      },
+      "startingProcedureEntry": null,
+      "activePackSession": {
+        "sessionLabel": "Session of Congress",
+        "adjournmentRule": {
+          "kind": "known",
+          "value": "Congress assembles at least once every year, beginning on January 3 unless a law sets a different day.",
+          "source": {
+            "authority": "constitution",
+            "citation": "U.S. Const. amend. XX, \u00a7 2",
+            "sourceTitle": "Amendments 11-27",
+            "sourceUrl": "https://www.archives.gov/founding-docs/amendments-11-27",
+            "retrievedAt": null,
+            "verification": "partial",
+            "note": "Congress assembles at least once every year, beginning at noon on January 3 unless a law appoints a different day."
+          }
+        },
+        "measuresDieAtAdjournment": {
+          "kind": "unknown",
+          "note": "A pending bill dies when the two-year Congress ends, not at each session's adjournment; the session vocabulary cannot yet say so."
+        },
+        "source": {
+          "authority": "constitution",
+          "citation": "U.S. Const. amend. XX, \u00a7 2",
+          "sourceTitle": "Amendments 11-27",
+          "sourceUrl": "https://www.archives.gov/founding-docs/amendments-11-27",
+          "retrievedAt": null,
+          "verification": "partial",
+          "note": "Congress assembles at least once every year, beginning at noon on January 3 unless a law appoints a different day."
+        }
+      },
+      "activePackSource": "existing static pack: no saved starting-procedure entry for this body",
+      "outcomeEventEvidence": "NO LINKED OUTCOME EVENT: all saved outcomeEventId fields in this chain are null."
+    }
+  ]
+}
