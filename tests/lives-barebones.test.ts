@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { smallWorld } from "./fixtures/small-world";
 import { composeWorldTimeHandlers } from "../src/simulation/campaigns";
+import { childhoodRecord } from "../src/simulation/childhood-record-queries";
 import { ageOnDate, addDays, makeIsoDate } from "../src/simulation/dates";
 import { resolveFutureDueItemsThrough } from "../src/simulation/future-transitions";
 import {
@@ -78,9 +79,24 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
     ).toBeInstanceOf(Array);
     assertWorldIntegrity(small.world);
   });
-  it.todo(
-    "step 1b: the full childhood record (coverage spells, school years, moves) - producer: claude/team5-childhood-record",
-  );
+  it("step 1b: reads the player's childhood record: the span on record, eligible days and entries", () => {
+    const small = world();
+    const record = childhoodRecord(small.world, small.personId)!;
+    expect(record.personId).toBe(small.personId);
+    expect(
+      record.witnessedFrom <= record.witnessedThrough ||
+        record.yearsWitnessed === 0,
+    ).toBe(true);
+    // Every entry cites a record the World holds.
+    for (const entry of record.entries)
+      expect(
+        small.world.history.events.some(
+          (event) => event.id === entry.sourceRecordId,
+        ),
+      ).toBe(true);
+    expect(record.daysEligibleForCoverage).toBeGreaterThanOrEqual(0);
+    expect(childhoodRecord(small.world, small.personId)).toEqual(record);
+  });
 
   it("step 2: a child is born to named parents through the family-plan path", () => {
     const small = world(6);
@@ -165,6 +181,14 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
     );
     expect(childrenOf(born, second)).toContain(childId);
     expect(householdMembershipsAt(born, childId!).length).toBeGreaterThan(0);
+    // The birth is the first line of the child's childhood record.
+    expect(childhoodRecord(born, childId!)!.entries).toEqual([
+      expect.objectContaining({
+        kind: "birth",
+        birthDate: child.birthDate,
+        jurisdictionId: born.people[first]!.homeJurisdictionId,
+      }),
+    ]);
     assertWorldIntegrity(born);
   });
 
