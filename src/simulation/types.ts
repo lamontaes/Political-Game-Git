@@ -237,6 +237,7 @@ export type EntityKind =
   | "value-definition"
   | "partnership"
   | "partnership-state"
+  | "work-pay-coverage"
   | "work-relationship"
   | "work-role"
   | "work-status"
