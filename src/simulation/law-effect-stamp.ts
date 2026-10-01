@@ -9,7 +9,13 @@ export interface LawEffectStamp {
   readonly governingLawKey: EntityId;
   readonly source: LawInForce["origin"];
   readonly effectKind: string;
-  readonly questionKey: string;
+  readonly questionKey: string | null;
+  /** Present only for a real enacted rule with no policy question. */
+  readonly ruleAuthority?: {
+    readonly ruleChangeProvisionId: EntityId;
+    readonly enactmentId: EntityId;
+    readonly field: string;
+  };
   /** The jurisdiction where the consequence applies, including federal effects. */
   readonly jurisdictionId: EntityId;
   readonly operativeAt: IsoDate;
@@ -20,7 +26,13 @@ export interface LawEffectStamp {
 
 export interface LawEffectContext {
   readonly effectKind: string;
-  readonly questionKey: string;
+  readonly questionKey: string | null;
+  /** Present only for a real enacted rule with no policy question. */
+  readonly ruleAuthority?: {
+    readonly ruleChangeProvisionId: EntityId;
+    readonly enactmentId: EntityId;
+    readonly field: string;
+  };
   readonly jurisdictionId: EntityId;
   readonly appliedAt: IsoDate;
   readonly sourceRecordIds?: readonly EntityId[];
@@ -38,7 +50,7 @@ export interface LawEffectStampedRecord {
  * saved consequence. Unknown or not-yet-operative law produces no stamp.
  */
 export function lawEffectStamp(
-  law: LawInForce | null,
+  law: Pick<LawInForce, "measureId" | "origin" | "operativeAt"> | null,
   context: LawEffectContext,
 ): LawEffectStamp | null {
   if (!law) return null;
@@ -48,6 +60,9 @@ export function lawEffectStamp(
     source: law.origin,
     effectKind: context.effectKind,
     questionKey: context.questionKey,
+    ...(context.ruleAuthority
+      ? { ruleAuthority: { ...context.ruleAuthority } }
+      : {}),
     jurisdictionId: context.jurisdictionId,
     operativeAt: law.operativeAt,
     appliedAt: context.appliedAt,
@@ -67,7 +82,7 @@ export function isLawEffectStamp(value: unknown): value is LawEffectStamp {
     !nonempty(row.governingLawKey) ||
     (row.source !== "enacted" && row.source !== "in-force-at-start") ||
     !nonempty(row.effectKind) ||
-    !nonempty(row.questionKey) ||
+    !validSubject(row) ||
     !nonempty(row.jurisdictionId) ||
     !validDate(row.operativeAt) ||
     !validDate(row.appliedAt) ||
@@ -94,4 +109,25 @@ function validDate(value: unknown): value is IsoDate {
   } catch {
     return false;
   }
+}
+
+function validSubject(row: Record<string, unknown>): boolean {
+  if (nonempty(row.questionKey)) return row.ruleAuthority === undefined;
+  if (
+    row.questionKey !== null ||
+    row.source !== "enacted" ||
+    row.effectKind !== "pay"
+  )
+    return false;
+  const authority = row.ruleAuthority;
+  if (!authority || typeof authority !== "object") return false;
+  const ref = authority as Record<string, unknown>;
+  return (
+    nonempty(ref.ruleChangeProvisionId) &&
+    nonempty(ref.enactmentId) &&
+    nonempty(ref.field) &&
+    Array.isArray(row.sourceRecordIds) &&
+    row.sourceRecordIds.includes(ref.ruleChangeProvisionId) &&
+    row.sourceRecordIds.includes(ref.enactmentId)
+  );
 }
