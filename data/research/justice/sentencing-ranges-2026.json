@@ -1,0 +1,1584 @@
+{
+  "id": "sentencing-ranges-2026",
+  "version": "sentencing-ranges-2026-v1",
+  "asOf": "2026-10-01",
+  "about": "Statutory first-offense sentence ranges, in months of incarceration, for the offense keys the game uses (src/simulation/justice/prosecution.ts OFFENSE_LABELS), by place. Research only: nothing reads this file yet, and UNRESEARCHED_PROSECUTION in prosecution.ts stays in force until the wiring is ruled on. Each offense row names the grade read, the statute section, the official source URL and a verbatim quote cut from that source. A row either points at a class in the place's classes table (where the place sets penalties by class) or carries its own minMonths and maxMonths. Nothing here is shown to a player.",
+  "offenseDefinitions": {
+    "crime:robbery": "The least serious robbery grade: taking by force or threat with no weapon and no serious injury.",
+    "crime:burglary": "The base grade that covers unlawful entry into a dwelling with intent to commit a crime, with no weapon and no assault.",
+    "crime:assault": "The lowest felony-type assault for injuring, or assaulting, another with a deadly or dangerous weapon (the place's nearest grade where it has none).",
+    "crime:vandalism": "The lowest criminal mischief or property damage grade that carries any incarceration.",
+    "campaign-funds-personal-use": "Not yet read for any place; the federal and state campaign-finance penalty sections are the next research item."
+  },
+  "conventions": {
+    "units": "Months of incarceration. Years are multiplied by 12; a day count is converted to whole months and the note gives the days.",
+    "firstOffense": "Ranges are for a first offense with no enhancement (habitual, hate, victim-class, or weapon-use add-ons excluded).",
+    "minMonths": "The statutory minimum term; 0 where the statute sets only a maximum or allows probation or jail instead.",
+    "maxLife": "Where the maximum is life imprisonment, maxMonths is null and maxLife is true.",
+    "presumptiveMonths": "Set only where the statute itself names a presumptive term.",
+    "grid": "Places with a sentencing grid or guideline system record the statutory class or offense maximum here, with gridNote naming the grid; grid cells are not parsed.",
+    "quoteCheck": "Every quote was cut programmatically from the fetched official page text, so it appears verbatim in the source (with whitespace collapsed).",
+    "estimated": "No row is ESTIMATED FROM AVERAGE: every place recorded was read from its statute. Places not yet read are listed under remaining, not estimated."
+  },
+  "coverage": {
+    "places": 56,
+    "sourced": 23,
+    "estimatedFromAverage": 0,
+    "remaining": 33
+  },
+  "places": {
+    "US-AZ": {
+      "name": "Arizona",
+      "system": "classes",
+      "classes": {
+        "class 3 felony": {
+          "class": "class 3 felony",
+          "minMonths": 30,
+          "maxMonths": 84,
+          "citation": "A.R.S. 13-702(D)",
+          "source": "https://www.azleg.gov/ars/13/00702.htm",
+          "quote": "Felony Mitigated Minimum Presumptive Maximum Aggravated Class 2 3 years 4 years 5 years 10 years 12.5 years Class 3 2 years 2.5 years 3.5 years 7 years 8.75 years Class 4 1 year 1.5 years 2.5 years 3 years 3.75 years Class 5 .5 years .75 years 1.5 years 2 years 2.5 years Class 6 .33 years .5 years 1 year 1.5 years 2 years",
+          "quoteCheck": "text",
+          "presumptiveMonths": 42,
+          "note": "First felony offense; mitigated 24 months and aggravated 105 months with findings."
+        },
+        "class 4 felony": {
+          "class": "class 4 felony",
+          "minMonths": 18,
+          "maxMonths": 36,
+          "citation": "A.R.S. 13-702(D)",
+          "source": "https://www.azleg.gov/ars/13/00702.htm",
+          "quote": "Felony Mitigated Minimum Presumptive Maximum Aggravated Class 2 3 years 4 years 5 years 10 years 12.5 years Class 3 2 years 2.5 years 3.5 years 7 years 8.75 years Class 4 1 year 1.5 years 2.5 years 3 years 3.75 years Class 5 .5 years .75 years 1.5 years 2 years 2.5 years Class 6 .33 years .5 years 1 year 1.5 years 2 years",
+          "quoteCheck": "text",
+          "presumptiveMonths": 30,
+          "note": "First felony offense; mitigated 12 months and aggravated 45 months with findings."
+        },
+        "class 2 misdemeanor": {
+          "class": "class 2 misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 4,
+          "citation": "A.R.S. 13-707(A)(2)",
+          "source": "https://www.azleg.gov/ars/13/00707.htm",
+          "quote": "2. For a class 2 misdemeanor, four months.",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery",
+          "citation": "A.R.S. 13-1902",
+          "source": "https://www.azleg.gov/ars/13/01902.htm",
+          "quote": "B. Robbery is a class 4 felony.",
+          "quoteCheck": "text",
+          "class": "class 4 felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary in the second degree (residential structure)",
+          "citation": "A.R.S. 13-1507",
+          "source": "https://www.azleg.gov/ars/13/01507.htm",
+          "quote": "A person commits burglary in the second degree by entering or remaining unlawfully in or on a residential structure with the intent to commit any theft or any felony therein. B. Burglary in the second degree is a class 3 felony.",
+          "quoteCheck": "text",
+          "class": "class 3 felony"
+        },
+        "crime:assault": {
+          "offense": "aggravated assault with a deadly weapon or dangerous instrument",
+          "citation": "A.R.S. 13-1204(A)(2), (F)",
+          "source": "https://www.azleg.gov/ars/13/01204.htm",
+          "quote": "aggravated assault pursuant to subsection A, paragraph 1 or 2, paragraph 9, subdivision (a) or paragraph 11 of this section is a class 3 felony",
+          "quoteCheck": "text",
+          "class": "class 3 felony"
+        },
+        "crime:vandalism": {
+          "offense": "criminal damage, lowest grade",
+          "citation": "A.R.S. 13-1602(B)(6)",
+          "source": "https://www.azleg.gov/ars/13/01602.htm",
+          "quote": "6. In all other cases criminal damage is a class 2 misdemeanor.",
+          "quoteCheck": "text",
+          "class": "class 2 misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "system": "offense-specific",
+      "gridNote": "The D.C. Voluntary Sentencing Guidelines grid recommends terms within these statutory ranges.",
+      "classes": {},
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery",
+          "citation": "D.C. Code 22-2801",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/22-2801",
+          "quote": "shall suffer imprisonment for not less than 2 years nor more than 15 years.",
+          "quoteCheck": "text",
+          "minMonths": 24,
+          "maxMonths": 180
+        },
+        "crime:burglary": {
+          "offense": "burglary in the second degree",
+          "citation": "D.C. Code 22-801(b)",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/22-801",
+          "quote": "Burglary in the second degree shall be punished by imprisonment for not less than 2 years nor more than 15 years.",
+          "quoteCheck": "text",
+          "minMonths": 24,
+          "maxMonths": 180
+        },
+        "crime:assault": {
+          "offense": "assault with a dangerous weapon",
+          "citation": "D.C. Code 22-402",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/22-402",
+          "quote": "Every person convicted of an assault with intent to commit mayhem, or of an assault with a dangerous weapon, shall be sentenced to imprisonment for not more than 10 years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 120
+        },
+        "crime:vandalism": {
+          "offense": "destruction of property with some value under $1,000",
+          "citation": "D.C. Code 22-303",
+          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/22-303",
+          "quote": "and if the property has some value shall be fined not more than the amount set forth in § 22-3571.01 or imprisoned for not more than 180 days",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 6,
+          "note": "180 days, recorded as 6 months."
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "system": "classes",
+      "gridNote": "Delaware's SENTAC benchmarks recommend terms within these statutory class ranges.",
+      "classes": {
+        "class D felony": {
+          "class": "class D felony",
+          "minMonths": 0,
+          "maxMonths": 96,
+          "citation": "11 Del. C. 4205(b)(4)",
+          "source": "https://delcode.delaware.gov/title11/c042/index.html",
+          "quote": "(4) For a class D felony up to 8 years to be served at Level V.",
+          "quoteCheck": "text"
+        },
+        "class E felony": {
+          "class": "class E felony",
+          "minMonths": 0,
+          "maxMonths": 60,
+          "citation": "11 Del. C. 4205(b)(5)",
+          "source": "https://delcode.delaware.gov/title11/c042/index.html",
+          "quote": "(5) For a class E felony up to 5 years to be served at Level V.",
+          "quoteCheck": "text"
+        },
+        "unclassified misdemeanor": {
+          "class": "unclassified misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 1,
+          "citation": "11 Del. C. 4206(c)",
+          "source": "https://delcode.delaware.gov/title11/c042/index.html",
+          "quote": "If no sentence is specified in such law, the sentence may include up to 30 days incarceration at Level V",
+          "quoteCheck": "text",
+          "note": "30 days, recorded as 1 month."
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery in the second degree",
+          "citation": "11 Del. C. 831(b)",
+          "source": "https://delcode.delaware.gov/title11/c005/sc03/index.html",
+          "quote": "(b) Except as provided in paragraph (d) of this section, robbery second degree is a class E felony.",
+          "quoteCheck": "text",
+          "class": "class E felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary in the second degree: entering a dwelling with intent to commit a crime",
+          "citation": "11 Del. C. 825",
+          "source": "https://delcode.delaware.gov/title11/c005/sc03/index.html",
+          "quote": "§ 825. Burglary in the second degree; class D felony. (a) A person is guilty of burglary in the second degree when the person knowingly enters or remains unlawfully in a dwelling with intent to commit a crime therein.",
+          "quoteCheck": "text",
+          "class": "class D felony"
+        },
+        "crime:assault": {
+          "offense": "assault in the second degree: injury by means of a deadly weapon",
+          "citation": "11 Del. C. 612(a)(2)",
+          "source": "https://delcode.delaware.gov/title11/c005/sc02/index.html",
+          "quote": "Assault in the second degree is a class D felony, unless the offense is a class C felony as described in paragraph (a)(12) of this section.",
+          "quoteCheck": "text",
+          "class": "class D felony"
+        },
+        "crime:vandalism": {
+          "offense": "criminal mischief, loss of $1,000 or less",
+          "citation": "11 Del. C. 811(b)(4)",
+          "source": "https://delcode.delaware.gov/title11/c005/sc03/index.html",
+          "quote": "(4) Criminal mischief is an unclassified misdemeanor if paragraphs (b)(1) through (b)(3) of this section do not apply.",
+          "quoteCheck": "text",
+          "class": "unclassified misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-FL": {
+      "name": "Florida",
+      "system": "classes",
+      "gridNote": "Florida's Criminal Punishment Code scoresheet (Fla. Stat. 921.0024) sets a lowest permissible sentence; the statutory degree maximum caps it.",
+      "classes": {
+        "felony of the second degree": {
+          "class": "felony of the second degree",
+          "minMonths": 0,
+          "maxMonths": 180,
+          "citation": "Fla. Stat. 775.082(3)(d)",
+          "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0700-0799/0775/Sections/0775.082.html",
+          "quote": "(d) For a felony of the second degree, by a term of imprisonment not exceeding 15 years.",
+          "quoteCheck": "text"
+        },
+        "felony of the third degree": {
+          "class": "felony of the third degree",
+          "minMonths": 0,
+          "maxMonths": 60,
+          "citation": "Fla. Stat. 775.082(3)(e)",
+          "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0700-0799/0775/Sections/0775.082.html",
+          "quote": "(e) For a felony of the third degree, by a term of imprisonment not exceeding 5 years.",
+          "quoteCheck": "text"
+        },
+        "misdemeanor of the second degree": {
+          "class": "misdemeanor of the second degree",
+          "minMonths": 0,
+          "maxMonths": 2,
+          "citation": "Fla. Stat. 775.082(4)(b)",
+          "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0700-0799/0775/Sections/0775.082.html",
+          "quote": "(b) For a misdemeanor of the second degree, by a definite term of imprisonment not exceeding 60 days.",
+          "quoteCheck": "text",
+          "note": "60 days, recorded as 2 months."
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery with no firearm or weapon",
+          "citation": "Fla. Stat. 812.13(2)(c)",
+          "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0800-0899/0812/Sections/0812.13.html",
+          "quote": "(c) If in the course of committing the robbery the offender carried no firearm, deadly weapon, or other weapon, then the robbery is a felony of the second degree",
+          "quoteCheck": "text",
+          "class": "felony of the second degree"
+        },
+        "crime:burglary": {
+          "offense": "unarmed burglary of a dwelling without assault",
+          "citation": "Fla. Stat. 810.02(3)(b)",
+          "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0800-0899/0810/Sections/0810.02.html",
+          "quote": "(3) Burglary is a felony of the second degree, punishable as provided in s. 775.082 , s. 775.083 , or s. 775.084 , if, in the course of committing the offense, the offender does not make an assault or battery and is not and does not become armed with a dangerous weapon or explosive, and the offender enters or remains in a: (a) Dwelling, and there is another person in the dwelling at the time the offender enters or remains; (b) Dwelling, and there is not another person in the dwelling at the time the offender enters or remains;",
+          "quoteCheck": "text",
+          "class": "felony of the second degree"
+        },
+        "crime:assault": {
+          "offense": "aggravated assault with a deadly weapon without intent to kill",
+          "citation": "Fla. Stat. 784.021",
+          "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0700-0799/0784/Sections/0784.021.html",
+          "quote": "(2) A person who commits aggravated assault commits a felony of the third degree",
+          "quoteCheck": "text",
+          "class": "felony of the third degree"
+        },
+        "crime:vandalism": {
+          "offense": "criminal mischief, damage of $200 or less",
+          "citation": "Fla. Stat. 806.13(1)(b)1.",
+          "source": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0800-0899/0806/Sections/0806.13.html",
+          "quote": "(b)1. If the damage to such property is $200 or less, it is a misdemeanor of the second degree",
+          "quoteCheck": "text",
+          "class": "misdemeanor of the second degree"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "system": "classes",
+      "classes": {
+        "class C felony": {
+          "class": "class C felony",
+          "minMonths": 0,
+          "maxMonths": 120,
+          "citation": "Iowa Code 902.9(1)(d)",
+          "source": "https://www.legis.iowa.gov/docs/code/902.9.pdf",
+          "quote": "d. A class “C” felon, not an habitual offender, shall be confined for no more than ten years,",
+          "quoteCheck": "text"
+        },
+        "class D felony": {
+          "class": "class D felony",
+          "minMonths": 0,
+          "maxMonths": 60,
+          "citation": "Iowa Code 902.9(1)(e)",
+          "source": "https://www.legis.iowa.gov/docs/code/902.9.pdf",
+          "quote": "e. A class “D” felon, not an habitual offender, shall be confined for no more than five years,",
+          "quoteCheck": "text"
+        },
+        "aggravated misdemeanor": {
+          "class": "aggravated misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 24,
+          "citation": "Iowa Code 903.1(2)",
+          "source": "https://www.legis.iowa.gov/docs/code/903.1.pdf",
+          "quote": "aggravated misdemeanor, and a specific penalty is not provided for, the maximum penalty shall be imprisonment not to exceed two years.",
+          "quoteCheck": "text"
+        },
+        "simple misdemeanor": {
+          "class": "simple misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 1,
+          "citation": "Iowa Code 903.1(1)(a)",
+          "source": "https://www.legis.iowa.gov/docs/code/903.1.pdf",
+          "quote": "The court may order imprisonment not to exceed thirty days in lieu of a fine or in addition to a fine.",
+          "quoteCheck": "text",
+          "note": "30 days, recorded as 1 month."
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery in the second degree",
+          "citation": "Iowa Code 711.3",
+          "source": "https://www.legis.iowa.gov/docs/code/711.3.pdf",
+          "quote": "Robbery in the second degree is a class “C” felony.",
+          "quoteCheck": "text",
+          "class": "class C felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary in the third degree",
+          "citation": "Iowa Code 713.6A(1)",
+          "source": "https://www.legis.iowa.gov/docs/code/713.6A.pdf",
+          "quote": "Burglary in the third degree is a class “D” felony, except as provided in subsection 2.",
+          "quoteCheck": "text",
+          "class": "class D felony"
+        },
+        "crime:assault": {
+          "offense": "assault using or displaying a dangerous weapon",
+          "citation": "Iowa Code 708.2(3)",
+          "source": "https://www.legis.iowa.gov/docs/code/708.2.pdf",
+          "quote": "3. A person who commits an assault, as defined in section 708.1, and uses or displays a dangerous weapon in connection with the assault, is guilty of an aggravated misdemeanor.",
+          "quoteCheck": "text",
+          "class": "aggravated misdemeanor"
+        },
+        "crime:vandalism": {
+          "offense": "criminal mischief in the fifth degree",
+          "citation": "Iowa Code 716.6",
+          "source": "https://www.legis.iowa.gov/docs/code/716.6.pdf",
+          "quote": "Criminal mischief in the fifth degree is a simple misdemeanor.",
+          "quoteCheck": "text",
+          "class": "simple misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "system": "offense-specific",
+      "gridNote": "Massachusetts advisory sentencing guidelines recommend terms within these statutory maxima.",
+      "classes": {},
+      "offenses": {
+        "crime:robbery": {
+          "offense": "unarmed robbery",
+          "citation": "Mass. Gen. Laws ch. 265, 19(b)",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter265/Section19",
+          "quote": "(b) Whoever, not being armed with a dangerous weapon, by force and violence, or by assault and putting in fear, robs, steals or takes from the person of another, or from his immediate control, money or other property which may be the subject of larceny, shall be punished by imprisonment in the state prison for life or for any term of years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": null,
+          "note": "Life or any term of years; maxMonths is null and maxLife is true.",
+          "maxLife": true
+        },
+        "crime:burglary": {
+          "offense": "unarmed burglary of a dwelling at night",
+          "citation": "Mass. Gen. Laws ch. 266, 15",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter266/Section15",
+          "quote": "Whoever breaks and enters a dwelling house in the night time, with the intent mentioned in the preceding section, or, having entered with such intent, breaks such dwelling house in the night time, the offender not being armed, nor arming himself in such house, with a dangerous weapon, nor making an assault upon a person lawfully therein, shall be punished by imprisonment in the state prison for not more than twenty years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 240,
+          "note": "Daytime breaking and entering of a dwelling is charged under ch. 266, 18."
+        },
+        "crime:assault": {
+          "offense": "assault and battery by means of a dangerous weapon",
+          "citation": "Mass. Gen. Laws ch. 265, 15A(b)",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter265/Section15A",
+          "quote": "(b) Whoever commits an assault and battery upon another by means of a dangerous weapon shall be punished by imprisonment in the state prison for not more than 10 years or in the house of correction for not more than 21/2 years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 120,
+          "note": "Up to 10 years in state prison or up to 2.5 years in the house of correction."
+        },
+        "crime:vandalism": {
+          "offense": "wanton destruction of property, damage not over $1,200",
+          "citation": "Mass. Gen. Laws ch. 266, 127",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleI/Chapter266/Section127",
+          "quote": "if the value of the damage to the property so destroyed or injured is not alleged to exceed $1,200, the punishment shall be by a fine of 3 times the value of the damage to property or by imprisonment for not more than 21/2 years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 30,
+          "note": "The source text renders two and one-half years as 21/2."
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "system": "offense-specific",
+      "gridNote": "Maryland's voluntary sentencing guidelines recommend terms within these statutory maxima.",
+      "classes": {},
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery",
+          "citation": "Md. Code, Crim. Law 3-402(b)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcr&section=3-402&enactments=false",
+          "quote": "(b) A person who violates this section is guilty of a felony and on conviction is subject to imprisonment not exceeding 15 years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 180,
+          "note": "Armed robbery (3-403) carries up to 20 years."
+        },
+        "crime:burglary": {
+          "offense": "burglary in the first degree: breaking and entering a dwelling with intent to commit theft",
+          "citation": "Md. Code, Crim. Law 6-202(c)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcr&section=6-202&enactments=false",
+          "quote": "(c) A person who violates subsection (a) of this section is guilty of the felony of burglary in the first degree and on conviction is subject to imprisonment not exceeding 20 years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 240
+        },
+        "crime:assault": {
+          "offense": "assault in the second degree",
+          "citation": "Md. Code, Crim. Law 3-203(b)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcr&section=3-203&enactments=false",
+          "quote": "guilty of the misdemeanor of assault in the second degree and on conviction is subject to imprisonment not exceeding 10 years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 120,
+          "note": "Maryland has no separate deadly-weapon assault grade below first degree, which requires a firearm or serious physical injury (3-202, up to 25 years)."
+        },
+        "crime:vandalism": {
+          "offense": "malicious destruction of property, damage under $1,000",
+          "citation": "Md. Code, Crim. Law 6-301(c)",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcr&section=6-301&enactments=false",
+          "quote": "(c) A person who, in violation of this section, causes damage of less than $1,000 to the property is guilty of a misdemeanor and on conviction is subject to imprisonment not exceeding 60 days",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 2
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-ME": {
+      "name": "Maine",
+      "system": "classes",
+      "classes": {
+        "Class B crime": {
+          "class": "Class B crime",
+          "minMonths": 0,
+          "maxMonths": 120,
+          "citation": "17-A M.R.S. 1604(1)(B)",
+          "source": "https://legislature.maine.gov/statutes/17-A/title17-Asec1604.html",
+          "quote": "B. In the case of a Class B crime, 10 years;",
+          "quoteCheck": "text"
+        },
+        "Class D crime": {
+          "class": "Class D crime",
+          "minMonths": 0,
+          "maxMonths": 12,
+          "citation": "17-A M.R.S. 1604(1)(D)",
+          "source": "https://legislature.maine.gov/statutes/17-A/title17-Asec1604.html",
+          "quote": "D. In the case of a Class D crime, less than one year;",
+          "quoteCheck": "text",
+          "note": "Less than one year; recorded as 12 months."
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery by recklessly inflicting bodily injury or threatening force",
+          "citation": "17-A M.R.S. 651(1)(A)-(B)",
+          "source": "https://legislature.maine.gov/statutes/17-A/title17-Asec651.html",
+          "quote": "A. The actor recklessly inflicts bodily injury on another. Violation of this paragraph is a Class B crime;",
+          "quoteCheck": "text",
+          "class": "Class B crime"
+        },
+        "crime:burglary": {
+          "offense": "burglary of a dwelling place",
+          "citation": "17-A M.R.S. 401(1)(B)(4)",
+          "source": "https://legislature.maine.gov/statutes/17-A/title17-Asec401.html",
+          "quote": "(4) The violation is against a structure that is a dwelling place. Violation of this subparagraph is a Class B crime;",
+          "quoteCheck": "text",
+          "class": "Class B crime"
+        },
+        "crime:assault": {
+          "offense": "aggravated assault: bodily injury with a dangerous weapon",
+          "citation": "17-A M.R.S. 208(1)(B)",
+          "source": "https://legislature.maine.gov/statutes/17-A/title17-Asec208.html",
+          "quote": "B. Bodily injury to another with use of a dangerous weapon. Violation of this paragraph is a Class B crime;",
+          "quoteCheck": "text",
+          "class": "Class B crime"
+        },
+        "crime:vandalism": {
+          "offense": "criminal mischief",
+          "citation": "17-A M.R.S. 806(2)",
+          "source": "https://legislature.maine.gov/statutes/17-A/title17-Asec806.html",
+          "quote": "Criminal mischief is a Class D crime.",
+          "quoteCheck": "text",
+          "class": "Class D crime"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "system": "offense-specific",
+      "gridNote": "Michigan's sentencing guidelines (MCL 777) set minimum-term ranges within these statutory maxima.",
+      "classes": {},
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery",
+          "citation": "MCL 750.530",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-750-530",
+          "quote": "is guilty of a felony punishable by imprisonment for not more than 15 years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 180
+        },
+        "crime:burglary": {
+          "offense": "home invasion in the second degree",
+          "citation": "MCL 750.110a(6)",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-750-110a",
+          "quote": "(6) Home invasion in the second degree is a felony punishable by imprisonment for not more than 15 years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 180
+        },
+        "crime:assault": {
+          "offense": "felonious assault with a dangerous weapon",
+          "citation": "MCL 750.82",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-750-82",
+          "quote": "felony punishable by imprisonment for not more than 4 years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 48
+        },
+        "crime:vandalism": {
+          "offense": "malicious destruction of property under $200",
+          "citation": "MCL 750.377a(1)(e)",
+          "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-750-377a",
+          "quote": "(e) If the amount of the destruction or injury is less than $200.00, the person is guilty of a misdemeanor punishable by imprisonment for not more than 93 days",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 3,
+          "note": "93 days, recorded as 3 months."
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "system": "grid",
+      "gridNote": "Felony terms are presumed from the Minnesota Sentencing Guidelines grid by severity level and criminal history; the range here is the statutory maximum.",
+      "classes": {
+        "misdemeanor": {
+          "class": "misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 3,
+          "citation": "Minn. Stat. 609.03(3)",
+          "source": "https://www.revisor.mn.gov/statutes/cite/609.03",
+          "quote": "(3) If the crime is a misdemeanor, to imprisonment for not more than 90 days",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "simple robbery",
+          "citation": "Minn. Stat. 609.24",
+          "source": "https://www.revisor.mn.gov/statutes/cite/609.24",
+          "quote": "is guilty of robbery and may be sentenced to imprisonment for not more than ten years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 120
+        },
+        "crime:burglary": {
+          "offense": "burglary in the second degree: a dwelling",
+          "citation": "Minn. Stat. 609.582, subd. 2(a)(1)",
+          "source": "https://www.revisor.mn.gov/statutes/cite/609.582",
+          "quote": "commits burglary in the second degree and may be sentenced to imprisonment for not more than ten years or to payment of a fine of not more than $20,000, or both, if: (1) the building is a dwelling;",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 120
+        },
+        "crime:assault": {
+          "offense": "assault in the second degree: dangerous weapon",
+          "citation": "Minn. Stat. 609.222, subd. 1",
+          "source": "https://www.revisor.mn.gov/statutes/cite/609.222",
+          "quote": "Subdivision 1. Dangerous weapon. Whoever assaults another with a dangerous weapon may be sentenced to imprisonment for not more than seven years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 84
+        },
+        "crime:vandalism": {
+          "offense": "criminal damage to property in the fourth degree",
+          "citation": "Minn. Stat. 609.595, subd. 3",
+          "source": "https://www.revisor.mn.gov/statutes/cite/609.595",
+          "quote": "Whoever intentionally causes damage described in subdivision 2 under any other circumstances is guilty of a misdemeanor.",
+          "quoteCheck": "text",
+          "class": "misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "system": "classes",
+      "notes": "Read the versions in force on 10/01/2026: 558.011 effective 8/28/2021 (a 1/1/2028 version is enacted) and 565.052 effective 1/1/2017 (a 7/1/2027 version is enacted).",
+      "classes": {
+        "class B felony": {
+          "class": "class B felony",
+          "minMonths": 60,
+          "maxMonths": 180,
+          "citation": "Mo. Rev. Stat. 558.011.1(2)",
+          "source": "https://revisor.mo.gov/main/PageSelect.aspx?section=558.011&bid=50128",
+          "quote": "(2) For a class B felony, a term of years not less than five years and not to exceed fifteen years",
+          "quoteCheck": "text"
+        },
+        "class D felony": {
+          "class": "class D felony",
+          "minMonths": 0,
+          "maxMonths": 84,
+          "citation": "Mo. Rev. Stat. 558.011.1(4)",
+          "source": "https://revisor.mo.gov/main/PageSelect.aspx?section=558.011&bid=50128",
+          "quote": "(4) For a class D felony, a term of years not to exceed seven years",
+          "quoteCheck": "text"
+        },
+        "class B misdemeanor": {
+          "class": "class B misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 6,
+          "citation": "Mo. Rev. Stat. 558.011.1(7)",
+          "source": "https://revisor.mo.gov/main/PageSelect.aspx?section=558.011&bid=50128",
+          "quote": "(7) For a class B misdemeanor, a term not to exceed six months",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery in the second degree",
+          "citation": "Mo. Rev. Stat. 570.025",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=570.025",
+          "quote": "2. The offense of robbery in the second degree is a class B felony.",
+          "quoteCheck": "text",
+          "class": "class B felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary in the second degree (building or inhabitable structure)",
+          "citation": "Mo. Rev. Stat. 569.170",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=569.170",
+          "quote": "(1) Except as provided in subdivision (2) of this subsection, the offense of burglary in the second degree is a class D felony.",
+          "quoteCheck": "text",
+          "class": "class D felony"
+        },
+        "crime:assault": {
+          "offense": "assault in the second degree (physical injury by a deadly weapon)",
+          "citation": "Mo. Rev. Stat. 565.052",
+          "source": "https://revisor.mo.gov/main/PageSelect.aspx?section=565.052&bid=29281",
+          "quote": "(2) Attempts to cause or knowingly causes physical injury to another person by means of a deadly weapon or dangerous instrument; ... 3. The offense of assault in the second degree is a class D felony,",
+          "quoteCheck": "text",
+          "class": "class D felony"
+        },
+        "crime:vandalism": {
+          "offense": "property damage in the second degree",
+          "citation": "Mo. Rev. Stat. 569.120",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=569.120",
+          "quote": "2. The offense of property damage in the second degree is a class B misdemeanor",
+          "quoteCheck": "text",
+          "class": "class B misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "system": "classes",
+      "classes": {
+        "class C felony": {
+          "class": "class C felony",
+          "minMonths": 0,
+          "maxMonths": 60,
+          "citation": "N.D.C.C. 12.1-32-01(4)",
+          "source": "https://ndlegis.gov/cencode/t12-1c32.pdf",
+          "quote": "4. Class C felony, for which a maximum penalty of five years' imprisonment,",
+          "quoteCheck": "text"
+        },
+        "class B misdemeanor": {
+          "class": "class B misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 1,
+          "citation": "N.D.C.C. 12.1-32-01(6)",
+          "source": "https://ndlegis.gov/cencode/t12-1c32.pdf",
+          "quote": "6. Class B misdemeanor, for which a maximum penalty of thirty days' imprisonment,",
+          "quoteCheck": "text",
+          "note": "30 days, recorded as 1 month."
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery (unarmed, no bodily injury)",
+          "citation": "N.D.C.C. 12.1-22-01(2)",
+          "source": "https://ndlegis.gov/cencode/t12-1c22.pdf",
+          "quote": "Otherwise robbery is a class C felony.",
+          "quoteCheck": "text",
+          "class": "class C felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary (not a dwelling at night, unarmed)",
+          "citation": "N.D.C.C. 12.1-22-02(2)",
+          "source": "https://ndlegis.gov/cencode/t12-1c22.pdf",
+          "quote": "Otherwise burglary is a class C felony.",
+          "quoteCheck": "text",
+          "class": "class C felony",
+          "note": "Burglary of a dwelling at night is a class B felony (10 years)."
+        },
+        "crime:assault": {
+          "offense": "aggravated assault: bodily injury with a dangerous weapon",
+          "citation": "N.D.C.C. 12.1-17-02(1)(b)",
+          "source": "https://ndlegis.gov/cencode/t12-1c17.pdf",
+          "quote": "1. Except as provided in subsection 2, a person is guilty of a class C felony if that person: a. Willfully causes serious bodily injury to another human being; b. Knowingly causes bodily injury or substantial bodily injury to another human being with a dangerous weapon",
+          "quoteCheck": "text",
+          "class": "class C felony"
+        },
+        "crime:vandalism": {
+          "offense": "criminal mischief, lowest grade",
+          "citation": "N.D.C.C. 12.1-21-05(2)",
+          "source": "https://ndlegis.gov/cencode/t12-1c21.pdf",
+          "quote": "Otherwise the offense is a class B misdemeanor.",
+          "quoteCheck": "text",
+          "class": "class B misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "system": "classes",
+      "classes": {
+        "Class II felony": {
+          "class": "Class II felony",
+          "minMonths": 12,
+          "maxMonths": 600,
+          "citation": "Neb. Rev. Stat. 28-105(1)",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=28-105",
+          "quote": "Class II felony Maximum—fifty years imprisonment Minimum—one year imprisonment",
+          "quoteCheck": "text"
+        },
+        "Class IIA felony": {
+          "class": "Class IIA felony",
+          "minMonths": 0,
+          "maxMonths": 240,
+          "citation": "Neb. Rev. Stat. 28-105(1)",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=28-105",
+          "quote": "Class IIA felony Maximum—twenty years imprisonment Minimum—none",
+          "quoteCheck": "text"
+        },
+        "Class III misdemeanor": {
+          "class": "Class III misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 3,
+          "citation": "Neb. Rev. Stat. 28-106(1)",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=28-106",
+          "quote": "Class III misdemeanor...... Maximum—three months imprisonment",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery",
+          "citation": "Neb. Rev. Stat. 28-324",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=28-324",
+          "quote": "(2) Robbery is a Class II felony.",
+          "quoteCheck": "text",
+          "class": "Class II felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary",
+          "citation": "Neb. Rev. Stat. 28-507",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=28-507",
+          "quote": "(2) Burglary is a Class IIA felony.",
+          "quoteCheck": "text",
+          "class": "Class IIA felony"
+        },
+        "crime:assault": {
+          "offense": "assault in the second degree: bodily injury with a dangerous instrument",
+          "citation": "Neb. Rev. Stat. 28-309",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=28-309",
+          "quote": "(a) Intentionally or knowingly causes bodily injury to another person with a dangerous instrument; ... (2) Assault in the second degree shall be a Class IIA felony.",
+          "quoteCheck": "text",
+          "class": "Class IIA felony"
+        },
+        "crime:vandalism": {
+          "offense": "criminal mischief, loss under $500",
+          "citation": "Neb. Rev. Stat. 28-519(7)",
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=28-519",
+          "quote": "(7) Criminal mischief is a Class III misdemeanor if the actor intentionally, maliciously, or recklessly causes pecuniary loss in an amount of less than five hundred dollars,",
+          "quoteCheck": "text",
+          "class": "Class III misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "system": "classes",
+      "classes": {
+        "class B felony": {
+          "class": "class B felony",
+          "minMonths": 0,
+          "maxMonths": 84,
+          "citation": "RSA 651:2, II(b)",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/LXII/651/651-2.htm",
+          "quote": "II. If a sentence of imprisonment is imposed, the court shall fix the maximum thereof which is not to exceed: (a) Fifteen years for a class A felony, (b) Seven years for a class B felony, (c) One year for a class A misdemeanor,",
+          "quoteCheck": "text",
+          "note": "The court also sets a minimum not over half the maximum."
+        },
+        "class A misdemeanor": {
+          "class": "class A misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 12,
+          "citation": "RSA 651:2, II(c)",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/LXII/651/651-2.htm",
+          "quote": "II. If a sentence of imprisonment is imposed, the court shall fix the maximum thereof which is not to exceed: (a) Fifteen years for a class A felony, (b) Seven years for a class B felony, (c) One year for a class A misdemeanor,",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery (unarmed, no serious injury)",
+          "citation": "RSA 636:1, III",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/LXII/636/636-1.htm",
+          "quote": "III. Robbery is a class B felony,",
+          "quoteCheck": "text",
+          "class": "class B felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary (not in a dwelling at night, unarmed)",
+          "citation": "RSA 635:1, II",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/LXII/635/635-1.htm",
+          "quote": "II. Burglary is a class B felony unless it is perpetrated in the dwelling of another at night,",
+          "quoteCheck": "text",
+          "class": "class B felony",
+          "note": "Burglary of a dwelling at night is a class A felony (15 years)."
+        },
+        "crime:assault": {
+          "offense": "second degree assault: bodily injury by means of a deadly weapon",
+          "citation": "RSA 631:2, I(b)",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/LXII/631/631-2.htm",
+          "quote": "I. A person is guilty of a class B felony if he or she: (a) Knowingly or recklessly causes serious bodily injury to another; or (b) Recklessly causes bodily injury to another by means of a deadly weapon,",
+          "quoteCheck": "text",
+          "class": "class B felony"
+        },
+        "crime:vandalism": {
+          "offense": "criminal mischief (misdemeanor)",
+          "citation": "RSA 634:2, III; RSA 625:9, IV(c)",
+          "source": "https://www.gencourt.state.nh.us/rsa/html/LXII/634/634-2.htm",
+          "quote": "III. All other criminal mischief is a misdemeanor. ... (c) Any crime designated within or outside this code as a misdemeanor without specification of the classification shall be presumed to be a class B misdemeanor unless:",
+          "quoteCheck": "text",
+          "class": "class A misdemeanor",
+          "note": "An unclassified misdemeanor is a class B misdemeanor (no jail) unless charged as class A under RSA 625:9, IV(c); the lowest grade carrying jail is the class A misdemeanor."
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "system": "offense-specific",
+      "classes": {
+        "misdemeanor": {
+          "class": "misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 6,
+          "citation": "NRS 193.150(1)",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-193.html",
+          "quote": "1. Every person convicted of a misdemeanor shall be punished by imprisonment in the county jail for not more than 6 months,",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery",
+          "citation": "NRS 200.380(2)",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-200.html#NRS200Sec380",
+          "quote": "who commits robbery is guilty of a category B felony and shall be punished by imprisonment in the state prison for a minimum term of not less than 2 years and a maximum term of not more than 15 years.",
+          "quoteCheck": "text",
+          "minMonths": 24,
+          "maxMonths": 180,
+          "note": "Category B felony; the minimum term imposed may not exceed 40 percent of the maximum imposed (NRS 193.130(1))."
+        },
+        "crime:burglary": {
+          "offense": "residential burglary",
+          "citation": "NRS 205.060(2)(d)",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-205.html#NRS205Sec060",
+          "quote": "(d) Residential burglary is guilty of a category B felony and shall be punished by imprisonment in the state prison for a minimum term of not less than 1 year and a maximum term of not more than 10 years.",
+          "quoteCheck": "text",
+          "minMonths": 12,
+          "maxMonths": 120
+        },
+        "crime:assault": {
+          "offense": "battery with a deadly weapon, no substantial bodily harm",
+          "citation": "NRS 200.481(2)(e)(1)",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-200.html#NRS200Sec481",
+          "quote": "(e) If the battery is committed with the use of a deadly weapon, and: (1) No substantial bodily harm to the victim results, for a category B felony by imprisonment in the state prison for a minimum term of not less than 2 years and a maximum term of not more than 10 years,",
+          "quoteCheck": "text",
+          "minMonths": 24,
+          "maxMonths": 120
+        },
+        "crime:vandalism": {
+          "offense": "injury to property, loss $25 to $250",
+          "citation": "NRS 206.310; NRS 193.155(3)",
+          "source": "https://www.leg.state.nv.us/NRS/NRS-193.html#NRS193Sec155",
+          "quote": "3. Where the value of the loss is $25 or more but less than $250, for a misdemeanor.",
+          "quoteCheck": "text",
+          "class": "misdemeanor",
+          "note": "Below $25 the penalty is a fine of not more than $500 (NRS 193.155(4)); the misdemeanor is the lowest grade carrying jail."
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "system": "classes",
+      "classes": {
+        "felony of the second degree": {
+          "class": "felony of the second degree",
+          "minMonths": 24,
+          "maxMonths": 96,
+          "citation": "Ohio Rev. Code 2929.14(A)(2)(a)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2929.14",
+          "quote": "(2)(a) For a felony of the second degree committed on or after March 22, 2019, the prison term shall be an indefinite prison term with a stated minimum term selected by the court of two, three, four, five, six, seven, or eight years",
+          "quoteCheck": "text",
+          "note": "Indefinite term: the court picks a stated minimum of 2 to 8 years and the maximum adds half of it (2929.144); maxMonths here is the largest stated minimum."
+        },
+        "felony of the third degree": {
+          "class": "felony of the third degree",
+          "minMonths": 9,
+          "maxMonths": 36,
+          "citation": "Ohio Rev. Code 2929.14(A)(3)(b)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2929.14",
+          "quote": "(b) For a felony of the third degree that is not an offense for which division (A)(3)(a) of this section applies, the prison term shall be a definite term of nine, twelve, eighteen, twenty-four, thirty, or thirty-six months.",
+          "quoteCheck": "text"
+        },
+        "misdemeanor of the second degree": {
+          "class": "misdemeanor of the second degree",
+          "minMonths": 0,
+          "maxMonths": 3,
+          "citation": "Ohio Rev. Code 2929.24(A)(2)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2929.24",
+          "quote": "(2) For a misdemeanor of the second degree, not more than ninety days;",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery by force or threat of force",
+          "citation": "Ohio Rev. Code 2911.02(A)(3)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2911.02",
+          "quote": "A violation of division (A)(3) of this section is a felony of the third degree.",
+          "quoteCheck": "text",
+          "class": "felony of the third degree"
+        },
+        "crime:burglary": {
+          "offense": "burglary of an occupied structure",
+          "citation": "Ohio Rev. Code 2911.12(A)(3)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2911.12",
+          "quote": "A violation of division (A)(3) of this section is a felony of the third degree.",
+          "quoteCheck": "text",
+          "class": "felony of the third degree"
+        },
+        "crime:assault": {
+          "offense": "felonious assault (physical harm by a deadly weapon)",
+          "citation": "Ohio Rev. Code 2903.11(A)(2), (D)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2903.11",
+          "quote": "felonious assault is a felony of the second degree.",
+          "quoteCheck": "text",
+          "class": "felony of the second degree"
+        },
+        "crime:vandalism": {
+          "offense": "criminal damaging or endangering",
+          "citation": "Ohio Rev. Code 2909.06(B)",
+          "source": "https://codes.ohio.gov/ohio-revised-code/section-2909.06",
+          "quote": "Whoever violates this section is guilty of criminal damaging or endangering, a misdemeanor of the second degree.",
+          "quoteCheck": "text",
+          "class": "misdemeanor of the second degree"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "system": "grid",
+      "gridNote": "Felony terms come from the Oregon sentencing guidelines grid (OAR chapter 213) by crime seriousness and criminal history; the class range here is the statutory maximum, raised to a mandatory minimum where ORS 137.700 applies.",
+      "classes": {
+        "Class A felony": {
+          "class": "Class A felony",
+          "minMonths": 0,
+          "maxMonths": 240,
+          "citation": "ORS 161.605(1)",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors161.html",
+          "quote": "(1) For a Class A felony, 20 years.",
+          "quoteCheck": "text"
+        },
+        "Class B felony": {
+          "class": "Class B felony",
+          "minMonths": 0,
+          "maxMonths": 120,
+          "citation": "ORS 161.605(2)",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors161.html",
+          "quote": "(2) For a Class B felony, 10 years.",
+          "quoteCheck": "text"
+        },
+        "Class C felony": {
+          "class": "Class C felony",
+          "minMonths": 0,
+          "maxMonths": 60,
+          "citation": "ORS 161.605(3)",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors161.html",
+          "quote": "(3) For a Class C felony, 5 years.",
+          "quoteCheck": "text"
+        },
+        "Class C misdemeanor": {
+          "class": "Class C misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 1,
+          "citation": "ORS 161.615(3)",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors161.html",
+          "quote": "(3) For a Class C misdemeanor, 30 days.",
+          "quoteCheck": "text",
+          "note": "30 days, recorded as 1 month."
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery in the third degree",
+          "citation": "ORS 164.395",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors164.html",
+          "quote": "Robbery in the third degree is a Class C felony.",
+          "quoteCheck": "text",
+          "class": "Class C felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary in the first degree (dwelling)",
+          "citation": "ORS 164.225",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors164.html",
+          "quote": "164.225 Burglary in the first degree. (1) A person commits the crime of burglary in the first degree if the person violates ORS 164.215 and the building is a dwelling, ... Burglary in the first degree is a Class A felony.",
+          "quoteCheck": "text",
+          "class": "Class A felony"
+        },
+        "crime:assault": {
+          "offense": "assault in the second degree: physical injury by a deadly or dangerous weapon",
+          "citation": "ORS 163.175(1)(b); ORS 137.700(2)(a)",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors163.html",
+          "quote": "(b) Intentionally or knowingly causes physical injury to another by means of a deadly or dangerous weapon; ... Assault in the second degree is a Class B felony.",
+          "quoteCheck": "text",
+          "minMonths": 70,
+          "maxMonths": 120,
+          "note": "Class B felony (10 years) with the ORS 137.700 mandatory minimum of 70 months: 'Assault in the second degree, as defined in ORS 163.175. 70 months' (https://www.oregonlegislature.gov/bills_laws/ors/ors137.html)."
+        },
+        "crime:vandalism": {
+          "offense": "criminal mischief in the third degree",
+          "citation": "ORS 164.345",
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors164.html",
+          "quote": "Criminal mischief in the third degree is a Class C misdemeanor.",
+          "quoteCheck": "text",
+          "class": "Class C misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "system": "offense-specific",
+      "classes": {},
+      "offenses": {
+        "crime:robbery": {
+          "offense": "second degree robbery: no weapon, no injury",
+          "citation": "R.I. Gen. Laws 11-39-1(b)",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE11/11-39/11-39-1.htm",
+          "quote": "shall be guilty of second degree robbery and shall be imprisoned for not less than five (5) years nor more than thirty (30) years",
+          "quoteCheck": "text",
+          "minMonths": 60,
+          "maxMonths": 360
+        },
+        "crime:burglary": {
+          "offense": "burglary",
+          "citation": "R.I. Gen. Laws 11-8-1",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE11/11-8/11-8-1.htm",
+          "quote": "Every person who shall commit burglary shall be imprisoned for life or for any term not less than five (5) years.",
+          "quoteCheck": "text",
+          "minMonths": 60,
+          "maxMonths": null,
+          "note": "Maximum is life imprisonment (maxLife).",
+          "maxLife": true
+        },
+        "crime:assault": {
+          "offense": "felony assault with a dangerous weapon, no serious bodily injury",
+          "citation": "R.I. Gen. Laws 11-5-2(a)",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE11/11-5/11-5-2.htm",
+          "quote": "Every other felony assault which results in bodily injury or no injury shall be punished by imprisonment for not more than six (6) years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 72
+        },
+        "crime:vandalism": {
+          "offense": "vandalism",
+          "citation": "R.I. Gen. Laws 11-44-1(a)",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE11/11-44/11-44-1.htm",
+          "quote": "shall be guilty of a misdemeanor and shall be fined not exceeding one thousand dollars ($1,000) and/or be imprisoned not exceeding one year",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 12
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "system": "offense-specific",
+      "classes": {},
+      "offenses": {
+        "crime:robbery": {
+          "offense": "common law robbery",
+          "citation": "S.C. Code 16-11-325",
+          "source": "https://www.scstatehouse.gov/code/t16c011.php",
+          "quote": "The common law offense of robbery is a felony. Upon conviction, a person must be imprisoned not more than fifteen years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 180
+        },
+        "crime:burglary": {
+          "offense": "burglary in the second degree: entering a dwelling",
+          "citation": "S.C. Code 16-11-312(A), (C)(1)",
+          "source": "https://www.scstatehouse.gov/code/t16c011.php",
+          "quote": "Burglary in the second degree pursuant to subsection (A) is a felony punishable by imprisonment for not more than ten years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 120
+        },
+        "crime:assault": {
+          "offense": "assault and battery of a high and aggravated nature",
+          "citation": "S.C. Code 16-3-600(B)",
+          "source": "https://www.scstatehouse.gov/code/t16c003.php",
+          "quote": "(b) the act is accomplished by means likely to produce death or great bodily injury. (2) A person who violates this subsection is guilty of a felony, and, upon conviction, must be imprisoned for not more than twenty years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 240
+        },
+        "crime:vandalism": {
+          "offense": "malicious injury to personal property, $2,000 or less",
+          "citation": "S.C. Code 16-11-510(B)(3)",
+          "source": "https://www.scstatehouse.gov/code/t16c011.php",
+          "quote": "if the injury to the property or the property loss is worth two thousand dollars or less. Upon conviction, the person must be fined not more than one thousand dollars, or imprisoned, not more than thirty days, or both.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 1,
+          "note": "30 days, recorded as 1 month."
+        }
+      },
+      "notes": "South Carolina's class table (S.C. Code 16-1-20) covers only offenses listed in 16-1-90 and 16-1-100; the offenses here carry their own statutory terms.",
+      "basis": "SOURCED"
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "system": "classes",
+      "gridNote": "Virginia's discretionary sentencing guidelines (Va. Code 19.2-298.01) recommend terms within these statutory ranges.",
+      "classes": {
+        "Class 6 felony": {
+          "class": "Class 6 felony",
+          "minMonths": 0,
+          "maxMonths": 60,
+          "citation": "Va. Code 18.2-10(f)",
+          "source": "https://law.lis.virginia.gov/vacode/title18.2/chapter1/section18.2-10/",
+          "quote": "(f) For Class 6 felonies, a term of imprisonment of not less than one year nor more than five years, or in the discretion of the jury or the court trying the case without a jury, confinement in jail for not more than 12 months",
+          "quoteCheck": "text",
+          "note": "Prison of 1 to 5 years, or jail of up to 12 months instead; minMonths 0 reflects the jail option."
+        },
+        "Class 1 misdemeanor": {
+          "class": "Class 1 misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 12,
+          "citation": "Va. Code 18.2-11(a)",
+          "source": "https://law.lis.virginia.gov/vacode/title18.2/chapter1/section18.2-11/",
+          "quote": "(a) For Class 1 misdemeanors, confinement in jail for not more than twelve months",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery by threat or intimidation, no deadly weapon",
+          "citation": "Va. Code 18.2-58(B)(4)",
+          "source": "https://law.lis.virginia.gov/vacode/title18.2/chapter4/section18.2-58/",
+          "quote": "4. Any person who commits robbery by using threat or intimidation or any other means not involving a deadly weapon is guilty of a Class 6 felony.",
+          "quoteCheck": "text",
+          "class": "Class 6 felony",
+          "note": "Robbery by physical force without serious injury is a Class 5 felony (1 to 10 years)."
+        },
+        "crime:burglary": {
+          "offense": "statutory burglary: entering a dwelling with intent to commit larceny",
+          "citation": "Va. Code 18.2-91",
+          "source": "https://law.lis.virginia.gov/vacode/title18.2/chapter5/section18.2-91/",
+          "quote": "he shall be guilty of statutory burglary, punishable by confinement in a state correctional facility for not less than one or more than twenty years",
+          "quoteCheck": "text",
+          "minMonths": 12,
+          "maxMonths": 240,
+          "note": "Breaking into a dwelling at night is common-law burglary, a Class 3 felony (5 to 20 years), Va. Code 18.2-89."
+        },
+        "crime:assault": {
+          "offense": "unlawful wounding",
+          "citation": "Va. Code 18.2-51",
+          "source": "https://law.lis.virginia.gov/vacode/title18.2/chapter4/section18.2-51/",
+          "quote": "If such act be done unlawfully but not maliciously, with the intent aforesaid, the offender shall be guilty of a Class 6 felony.",
+          "quoteCheck": "text",
+          "class": "Class 6 felony",
+          "note": "Malicious wounding is a Class 3 felony (5 to 20 years)."
+        },
+        "crime:vandalism": {
+          "offense": "intentional property damage under $1,000",
+          "citation": "Va. Code 18.2-137(B)",
+          "source": "https://law.lis.virginia.gov/vacode/title18.2/chapter5/section18.2-137/",
+          "quote": "B. If any person who is not the owner of such property intentionally causes such injury, he is guilty of (i) a Class 1 misdemeanor if the value of or damage to the property, memorial, or monument is less than $1,000",
+          "quoteCheck": "text",
+          "class": "Class 1 misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "system": "offense-specific",
+      "classes": {},
+      "offenses": {
+        "crime:robbery": {
+          "offense": "assault and robbery (unarmed)",
+          "citation": "13 V.S.A. 608(a)",
+          "source": "https://legislature.vermont.gov/statutes/section/13/013/00608",
+          "quote": "(a) A person who assaults another and robs, steals, or takes from his or her person or in his or her presence money or other property that may be the subject of larceny shall be imprisoned for not more than 10 years.",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 120
+        },
+        "crime:burglary": {
+          "offense": "burglary into an occupied dwelling",
+          "citation": "13 V.S.A. 1201(c)(3)(A)",
+          "source": "https://legislature.vermont.gov/statutes/section/13/023/01201",
+          "quote": "(3) A person convicted of burglary into an occupied dwelling: (A) shall be imprisoned not more than 25 years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 300
+        },
+        "crime:assault": {
+          "offense": "aggravated assault: bodily injury with a deadly weapon",
+          "citation": "13 V.S.A. 1024(a)(2), (b)",
+          "source": "https://legislature.vermont.gov/statutes/section/13/019/01024",
+          "quote": "(b) A person found guilty of violating a provision of subdivision (a)(1) or (2) of this section shall be imprisoned for not more than 15 years",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 180
+        },
+        "crime:vandalism": {
+          "offense": "unlawful mischief, $250 or less",
+          "citation": "13 V.S.A. 3701(c)",
+          "source": "https://legislature.vermont.gov/statutes/section/13/081/03701",
+          "quote": "intentionally does any damage to property of any value not exceeding $250.00 shall be imprisoned for not more than six months",
+          "quoteCheck": "text",
+          "minMonths": 0,
+          "maxMonths": 6
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-WA": {
+      "name": "Washington",
+      "system": "grid",
+      "gridNote": "Actual felony terms come from the Sentencing Reform Act grid (RCW 9.94A.510) by seriousness level and offender score; the class range here is the statutory maximum.",
+      "classes": {
+        "class B felony": {
+          "class": "class B felony",
+          "minMonths": 0,
+          "maxMonths": 120,
+          "citation": "RCW 9A.20.021(1)(b)",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=9A.20.021",
+          "quote": "(b) For a class B felony, by confinement in a state correctional institution for a term of ten years",
+          "quoteCheck": "text"
+        },
+        "gross misdemeanor": {
+          "class": "gross misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 12,
+          "citation": "RCW 9A.20.021(2)",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=9A.20.021",
+          "quote": "gross misdemeanor defined in Title 9A RCW shall be punished by imprisonment in the county jail for a maximum term fixed by the court of up to three hundred sixty-four days",
+          "quoteCheck": "text",
+          "note": "364 days, recorded as 12 months."
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery in the second degree",
+          "citation": "RCW 9A.56.210",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=9A.56.210",
+          "quote": "Robbery in the second degree is a class B felony.",
+          "quoteCheck": "text",
+          "class": "class B felony"
+        },
+        "crime:burglary": {
+          "offense": "residential burglary",
+          "citation": "RCW 9A.52.025",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=9A.52.025",
+          "quote": "Residential burglary is a class B felony.",
+          "quoteCheck": "text",
+          "class": "class B felony"
+        },
+        "crime:assault": {
+          "offense": "assault in the second degree (assault with a deadly weapon)",
+          "citation": "RCW 9A.36.021(1)(c), (2)(a)",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=9A.36.021",
+          "quote": "(2)(a) Except as provided in (b) of this subsection, assault in the second degree is a class B felony.",
+          "quoteCheck": "text",
+          "class": "class B felony"
+        },
+        "crime:vandalism": {
+          "offense": "malicious mischief in the third degree",
+          "citation": "RCW 9A.48.090",
+          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=9A.48.090",
+          "quote": "Malicious mischief in the third degree is a gross misdemeanor.",
+          "quoteCheck": "text",
+          "class": "gross misdemeanor"
+        }
+      },
+      "basis": "SOURCED"
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "system": "classes",
+      "classes": {
+        "Class E felony": {
+          "class": "Class E felony",
+          "minMonths": 0,
+          "maxMonths": 180,
+          "citation": "Wis. Stat. 939.50(3)(e)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/939/iv/50",
+          "quote": "(e) For a Class E felony, a fine not to exceed $50,000 or imprisonment not to exceed 15 years, or both.",
+          "quoteCheck": "text"
+        },
+        "Class F felony": {
+          "class": "Class F felony",
+          "minMonths": 0,
+          "maxMonths": 150,
+          "citation": "Wis. Stat. 939.50(3)(f)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/939/iv/50",
+          "quote": "(f) For a Class F felony, a fine not to exceed $25,000 or imprisonment not to exceed 12 years and 6 months, or both.",
+          "quoteCheck": "text"
+        },
+        "Class A misdemeanor": {
+          "class": "Class A misdemeanor",
+          "minMonths": 0,
+          "maxMonths": 9,
+          "citation": "Wis. Stat. 939.51(3)(a)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/939/iv/51",
+          "quote": "(a) For a Class A misdemeanor, a fine not to exceed $10,000 or imprisonment not to exceed 9 months, or both.",
+          "quoteCheck": "text"
+        }
+      },
+      "offenses": {
+        "crime:robbery": {
+          "offense": "robbery",
+          "citation": "Wis. Stat. 943.32(1)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/943/iii/32",
+          "quote": "(1) Whoever, with intent to steal, takes property from the person or presence of the owner by either of the following means is guilty of a Class E felony:",
+          "quoteCheck": "text",
+          "class": "Class E felony"
+        },
+        "crime:burglary": {
+          "offense": "burglary of a building or dwelling",
+          "citation": "Wis. Stat. 943.10(1m)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/943/i/10",
+          "quote": "(1m) Whoever intentionally enters any of the following places without the consent of th ... is guilty of a Class F felony:",
+          "quoteCheck": "text",
+          "class": "Class F felony"
+        },
+        "crime:vandalism": {
+          "offense": "damage to property",
+          "citation": "Wis. Stat. 943.01(1)",
+          "source": "https://docs.legis.wisconsin.gov/statutes/statutes/943/i/01",
+          "quote": "(1) Whoever intentionally causes damage to any physical property of another without the person’s consent is guilty of a Class A misdemeanor.",
+          "quoteCheck": "text",
+          "class": "Class A misdemeanor"
+        }
+      },
+      "pending": [
+        {
+          "offenseKey": "crime:assault",
+          "reason": "Wis. Stat. 940.19 (battery) returned 404 or 503 from docs.legis.wisconsin.gov on 10/01/2026 and the chapter PDF's two-column text could not be cut into a verbatim quote."
+        }
+      ],
+      "basis": "SOURCED"
+    }
+  },
+  "remaining": [
+    {
+      "place": "US-AL",
+      "name": "Alabama",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-AK",
+      "name": "Alaska",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-AR",
+      "name": "Arkansas",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-CA",
+      "name": "California",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-CO",
+      "name": "Colorado",
+      "status": "The Colorado title 18 printout read was the 2023 edition; the edition in force must be read before its rows are recorded."
+    },
+    {
+      "place": "US-CT",
+      "name": "Connecticut",
+      "status": "cga.ct.gov did not answer the research fetch on 10/01/2026."
+    },
+    {
+      "place": "US-GA",
+      "name": "Georgia",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-HI",
+      "name": "Hawaii",
+      "status": "capitol.hawaii.gov returned 403 to the research fetch on 10/01/2026."
+    },
+    {
+      "place": "US-ID",
+      "name": "Idaho",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-IL",
+      "name": "Illinois",
+      "status": "ilga.gov timed out on the research fetch on 10/01/2026."
+    },
+    {
+      "place": "US-IN",
+      "name": "Indiana",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-KS",
+      "name": "Kansas",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-KY",
+      "name": "Kentucky",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-LA",
+      "name": "Louisiana",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-MS",
+      "name": "Mississippi",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-MT",
+      "name": "Montana",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-NJ",
+      "name": "New Jersey",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-NM",
+      "name": "New Mexico",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-NY",
+      "name": "New York",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-NC",
+      "name": "North Carolina",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-OK",
+      "name": "Oklahoma",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-PA",
+      "name": "Pennsylvania",
+      "status": "legis.state.pa.us returned an empty page shell to the research fetch on 10/01/2026."
+    },
+    {
+      "place": "US-SD",
+      "name": "South Dakota",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-TN",
+      "name": "Tennessee",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-TX",
+      "name": "Texas",
+      "status": "statutes.capitol.texas.gov served only a script shell to the research fetch on 10/01/2026."
+    },
+    {
+      "place": "US-UT",
+      "name": "Utah",
+      "status": "le.utah.gov serves the code through a script the research fetch could not run on 10/01/2026."
+    },
+    {
+      "place": "US-WV",
+      "name": "West Virginia",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-WY",
+      "name": "Wyoming",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-PR",
+      "name": "Puerto Rico",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-GU",
+      "name": "Guam",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-VI",
+      "name": "U.S. Virgin Islands",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-AS",
+      "name": "American Samoa",
+      "status": "Not yet read."
+    },
+    {
+      "place": "US-MP",
+      "name": "Northern Mariana Islands",
+      "status": "Not yet read."
+    }
+  ]
+}
