@@ -669,6 +669,112 @@ export function recordedPaycheckTaxInput(world: World, outcomeId: EntityId) {
   };
 }
 
+/** Levy identity is independent of the law edition and any collection amount.
+ * This is a lookup request, not evidence that an authority can impose a levy.
+ */
+export interface PaycheckTaxLevyIdentity {
+  readonly outcomeId: EntityId;
+  readonly authorityKey: string;
+  readonly taxKey: string;
+  readonly payer: ResourcePositionOwner;
+}
+
+/** Exact saved-levy matching for a future per-levy caller partition.
+ * A missing match authorizes neither assessment nor exclusion from statutory
+ * withholding. Unknown and zero rows keep their original status and amount.
+ */
+export function matchRecordedPaycheckLevy(
+  world: World,
+  identity: PaycheckTaxLevyIdentity,
+) {
+  const input = recordedPaycheckTaxInput(world, identity.outcomeId);
+  if (input.kind === "unavailable") return input;
+  const rows = input.statutoryLiabilityIds
+    .map((id) => recordById(world.history.statutoryTaxLiabilities ?? [], id)!)
+    .filter(
+      (row) =>
+        row.authorityKey === identity.authorityKey &&
+        row.taxKey === identity.taxKey &&
+        canonicalJson(row.payer) === canonicalJson(identity.payer),
+    );
+  if (rows.length > 1)
+    return {
+      kind: "ambiguous" as const,
+      identity,
+      reason:
+        "Several saved liabilities match one paycheck levy; no row is selected.",
+    };
+  const row = rows[0];
+  if (!row)
+    return {
+      kind: "not-recorded" as const,
+      identity,
+      input,
+      reason:
+        "No matching saved levy. Legal admission and occurrence binding remain required before dispatch or statutory exclusion.",
+    };
+  return {
+    kind: "recorded-levy" as const,
+    identity,
+    input,
+    liabilityId: row.id,
+    status: row.status,
+    liability: row.liability,
+    lawMeasureIds: row.lawMeasureIds ?? [],
+    collections: input.statutoryCollections.filter(
+      (collection) => collection.liabilityId === row.id,
+    ),
+  };
+}
+
+/** A read-only partition for contract review, never a withholding selector.
+ * Entries in missing require an admitted law/activity mapping; entries in
+ * existing carry their saved unknown/zero/assessed status without repricing.
+ * No proposed identity becomes a handled levy through this function.
+ */
+export function preparePaycheckLevyPartition(
+  world: World,
+  outcomeIds: readonly EntityId[],
+  requestedLevies: readonly PaycheckTaxLevyIdentity[],
+) {
+  const allowedOutcomes = new Set(outcomeIds);
+  const seen = new Set<string>();
+  const existing: Extract<
+    ReturnType<typeof matchRecordedPaycheckLevy>,
+    { kind: "recorded-levy" }
+  >[] = [];
+  const missing: Extract<
+    ReturnType<typeof matchRecordedPaycheckLevy>,
+    { kind: "not-recorded" }
+  >[] = [];
+  const refused: {
+    readonly identity: PaycheckTaxLevyIdentity;
+    readonly reason: string;
+  }[] = [];
+  for (const identity of requestedLevies) {
+    const key = canonicalJson({
+      outcomeId: identity.outcomeId,
+      authorityKey: identity.authorityKey,
+      taxKey: identity.taxKey,
+      payer: identity.payer,
+    });
+    if (!allowedOutcomes.has(identity.outcomeId) || seen.has(key)) {
+      refused.push({
+        identity,
+        reason:
+          "A levy request must name an outcome in the actual batch exactly once.",
+      });
+      continue;
+    }
+    seen.add(key);
+    const matched = matchRecordedPaycheckLevy(world, identity);
+    if (matched.kind === "recorded-levy") existing.push(matched);
+    else if (matched.kind === "not-recorded") missing.push(matched);
+    else refused.push({ identity, reason: matched.reason });
+  }
+  return { existing, missing, refused };
+}
+
 /** Reconciles the existing wage-income liability without collecting it again.
  * The source event and wage TaxTerms admission are separate missing contracts;
  * neither an outcome ID nor a differently labeled excise proposal supplies them.

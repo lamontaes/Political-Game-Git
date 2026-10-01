@@ -16,6 +16,8 @@ import { STATES } from "./state-reference";
 import { assessPaychecksTaxes } from "./statutory-tax";
 import {
   preparePaycheckTaxAssessment,
+  matchRecordedPaycheckLevy,
+  preparePaycheckLevyPartition,
   recordedPaycheckTaxInput,
 } from "./tax-policy";
 import {
@@ -178,6 +180,19 @@ describe("A33 saved paycheck and existing withholding lineage", () => {
         (row) => row.taxKey === `us-${place.toLowerCase()}:wage-income-tax`,
       )!;
       expect(income).toBeDefined();
+      expect(
+        matchRecordedPaycheckLevy(paid, {
+          outcomeId: f.outcomeId,
+          authorityKey: income.authorityKey,
+          taxKey: income.taxKey,
+          payer: income.payer,
+        }),
+      ).toMatchObject({
+        kind: "recorded-levy",
+        liabilityId: income.id,
+        status: income.status,
+        liability: income.liability,
+      });
       const prepared = preparePaycheckTaxAssessment(
         paid,
         f.outcomeId,
@@ -262,6 +277,67 @@ describe("A33 saved paycheck and existing withholding lineage", () => {
       transferOutcomeId: collection.resourceOutcomeId,
       collectedMinor: collection.amount.minorUnits,
     });
+  });
+  it("partitions exact levy and payer identities without suppressing other paycheck taxes", () => {
+    const f = fixture(places[0], 120_000, true, 240_000);
+    const paid = assessPaychecksTaxes(f.world, [f.outcomeId]);
+    const input = recordedPaycheckTaxInput(paid, f.outcomeId);
+    if (input.kind !== "recorded") throw new Error(input.reason);
+    const liabilities = paid.history.statutoryTaxLiabilities!.filter(
+      (row) => row.sourceOutcomeId === f.outcomeId,
+    );
+    const requests = liabilities.map((row) => ({
+      outcomeId: row.sourceOutcomeId,
+      authorityKey: row.authorityKey,
+      taxKey: row.taxKey,
+      payer: row.payer,
+    }));
+    const before = serializeWorld(paid);
+    const partition = preparePaycheckLevyPartition(
+      paid,
+      [f.outcomeId],
+      requests,
+    );
+    expect(partition.existing.map((row) => row.liabilityId)).toEqual(
+      liabilities.map((row) => row.id),
+    );
+    expect(partition.missing).toEqual([]);
+    expect(partition.refused).toEqual([]);
+    const employee = requests.find(
+      (row) => row.taxKey === "us-federal:social-security-employee",
+    )!;
+    const employer = requests.find(
+      (row) => row.taxKey === "us-federal:social-security-employer",
+    )!;
+    expect(employee.payer.kind).toBe("person");
+    expect(employer.payer.kind).toBe("organization");
+    expect(
+      matchRecordedPaycheckLevy(paid, { ...employee, payer: employer.payer })
+        .kind,
+    ).toBe("not-recorded");
+    const missing = { ...employee, taxKey: "test:unadmitted-levy" };
+    expect(
+      preparePaycheckLevyPartition(paid, [f.outcomeId], [missing]),
+    ).toMatchObject({
+      existing: [],
+      refused: [],
+      missing: [{ kind: "not-recorded", identity: missing }],
+    });
+    const duplicate = preparePaycheckLevyPartition(
+      paid,
+      [f.outcomeId],
+      [employee, employee],
+    );
+    expect(duplicate.existing).toHaveLength(1);
+    expect(duplicate.refused).toHaveLength(1);
+    const outside = preparePaycheckLevyPartition(paid, [], [employee]);
+    expect(outside.existing).toEqual([]);
+    expect(outside.refused).toHaveLength(1);
+    const loaded = deserializeWorld(before);
+    expect(
+      preparePaycheckLevyPartition(loaded, [f.outcomeId], requests),
+    ).toEqual(partition);
+    expect(serializeWorld(loaded)).toBe(before);
   });
   it("does not turn an outcome ID into an event or admit an arbitrary wage base", () => {
     const f = fixture();
