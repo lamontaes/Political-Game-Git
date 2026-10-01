@@ -10,7 +10,7 @@ This build is unmerged and held for the missing institution binding. Earlier sou
 
 ## WHAT EMERGED
 
-DECIDED: in Worcester, Ethan Watkins answered yea with the saved reason `member:own-bill`. Theodore Whitley answered yea with `member:council-deference`. The same named members gave the same answers through the prior writer and the shared driver.
+DECIDED: in Worcester, Ethan Watkins answered yea with the saved reason `member:own-bill`. Bo Whitley answered yea with `member:council-deference`. The same named members gave the same answers through the prior writer and the shared driver.
 
 HARDWIRED: the controlled proposal is an authored, nonfiscal meeting-room proposal in the test. It proves decision and writing parity, not natural filing, spending or a policy effect. The five recorded councils use admitted local-ordinance game packs. Their procedure is not represented as sourced charter law.
 
@@ -18,7 +18,7 @@ The meeting route saves a floor vote and follows its existing passage route. No 
 
 ## VITAL STATISTICS
 
-Five council cases passed in 19.91 seconds of test time, with 32.12 seconds total. Every new case keeps the stock 30-second limit. The selected places are Worcester, Boise, Fort Smith, Tallahassee and Annapolis. Selection considers recorded municipalities across all 56 jurisdictions, then retains admitted packs. Five executed places do not prove 56 runtime jurisdictions.
+Five council cases passed in 19.18 seconds of test time, with 32.49 seconds total after receiving current main. The prior composition passed in 19.91 seconds of test time. Every new case keeps the stock 30-second limit. The selected places are Worcester, Boise, Fort Smith, Tallahassee and Annapolis. Selection considers recorded municipalities across all 56 jurisdictions, then retains admitted packs. Five executed places do not prove 56 runtime jurisdictions.
 
 The earlier Charlottesville controlled case passed in 4.24 seconds. It preserved the declared four-day introduction guard. Strict checking reported zero diagnostics across four changed roots and their imports. Changed-file lint passed. The complete static audit scanned all 149 rules; it reported 20 done, 39 partial, 89 not started and one unknown. Those are static findings, not gameplay results.
 
