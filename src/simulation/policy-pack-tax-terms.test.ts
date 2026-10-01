@@ -8,13 +8,22 @@ import {
 import { TAX_LAW_TERM_KEYS, TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 
 it("loads tax questions without assigning any rates or replacing existing questions", () => {
-  const original = loadPolicyPacks(POLICY_PACKS);
-  const next = loadPolicyPacks([...POLICY_PACKS, TAX_TERMS_POLICY_PACK]);
+  const original = loadPolicyPacks(
+    POLICY_PACKS.filter((pack) => pack.pack !== TAX_TERMS_POLICY_PACK.pack),
+  );
+  const next = loadPolicyPacks(POLICY_PACKS);
   expect(next.report.rejections).toEqual([]);
   for (const row of original.propositions) {
     expect(next.propositions.find((entry) => entry.id === row.id)).toEqual(row);
   }
   expect(TAX_TERM_QUESTION_ROWS.length).toBeGreaterThan(0);
+  for (const row of TAX_TERM_QUESTION_ROWS) {
+    expect(
+      next.propositions.some(
+        (p) => p.stableKey === `${TAX_TERMS_POLICY_PACK.pack}:${row.key}`,
+      ),
+    ).toBe(true);
+  }
   for (const row of TAX_TERM_QUESTION_ROWS) {
     expect(row.parameters?.map((term) => term.key)).toEqual(
       Object.values(TAX_LAW_TERM_KEYS),
