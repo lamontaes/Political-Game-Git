@@ -47,7 +47,7 @@
       "inheritedGone": 5,
       "baselineModified": false
     },
-    "release": "renewal pending docs commit"
+    "release": "PASS against 2c5cf28d at f1244dd"
   },
   "notRun": [
     "ordinary clock",
