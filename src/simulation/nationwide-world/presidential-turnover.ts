@@ -1134,7 +1134,6 @@ export const PRESIDENTIAL_TURNOVER_HANDLERS = [
 /** Noon on January 20 has passed: a living winner takes the oath. */
 function swearInWinners(world: World): World {
   let next = world;
-  let sworn = false;
   for (const plan of nationalRecords(world).filter(
     (record): record is NationalTermPlan => record.kind === "term-plan",
   )) {
@@ -1166,9 +1165,8 @@ function swearInWinners(world: World): World {
         note: `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the counted winner is sworn in at the term's start.`,
       },
     });
-    sworn = true;
   }
-  return sworn ? applyNationalTermTransitions(next) : next;
+  return next;
 }
 
 /**
@@ -1184,9 +1182,14 @@ function swearInWinners(world: World): World {
 export function applyPresidentialTurnover(
   before: IsoDate,
   world: World,
+  consumeTermBoundary = true,
 ): World {
-  if (!hasPresidency(world)) return world;
-  let next = swearInWinners(world);
+  const sworn = hasPresidency(world) ? swearInWinners(world) : world;
+  let next =
+    consumeTermBoundary || sworn !== world
+      ? applyNationalTermTransitions(sworn)
+      : sworn;
+  if (!hasPresidency(world)) return next;
   if (world.currentDate <= before) return next;
   const cycle = nextPresidentialCycle(next);
   if (electionForCycle(next, cycle)) return next;
