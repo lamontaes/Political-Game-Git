@@ -1,0 +1,44 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/law-consequences/tax.test.ts src/simulation/tax-kind-contract.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-m7-tax-current-main.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > assesses the named payer once, then collects actual cash after Save/Continue
+TEAM6_TAX_PROOF {"seed":"legislative-core-alaska-2026","personName":"Elijah Peterson","personId":"person_f7f9336dc0144486","jurisdictionId":"jurisdiction_7a7ff2336824055b","measureId":"legislative-measure_06e94e77c6966d47","questionKey":"us-policy-positions:business-commerce.legalize-cannabis-sales","operativeAt":"2027-05-04","baseId":"tax-base_75fabca1d035e3b8","policyId":"tax-policy_a8eb9f5acc9b2ef0","proposalId":"tax-proposal_1e7fba97546782c0","assessmentId":"tax-assessment_215d9afcc3500d4a","dueId":"future-due-item_7a35dba5b01de0b6","dueAt":"2027-05-06","collectionId":"tax-collection_40ab19ea1b98f576","transferOutcomeId":"resource-transfer-outcome_eacab8c5a2b18fee","resourceFlowId":"resource-flow_e0b7679e820ff1bb","recipientOrganizationId":"organization_4332dce65bd207f7","assessedMinorUnits":100,"collectedMinorUnits":100,"beforeBalances":[10000,0],"afterBalances":[9900,100],"assessmentStamp":{"version":"law-effect-stamp/v1","governingLawKey":"legislative-measure_06e94e77c6966d47","source":"enacted","effectKind":"tax-assessment","questionKey":"us-policy-positions:business-commerce.legalize-cannabis-sales","jurisdictionId":"jurisdiction_7a7ff2336824055b","operativeAt":"2027-05-04","appliedAt":"2027-05-04","sourceRecordIds":["tax-base_75fabca1d035e3b8","event_559dcd50cd05ffa3","tax-policy_a8eb9f5acc9b2ef0","legislative-enactment_995556f552b6a86f","tax-proposal_1e7fba97546782c0","legislative-provision_f232e419c577f2fa"]},"collectionStamp":{"version":"law-effect-stamp/v1","governingLawKey":"legislative-measure_06e94e77c6966d47","source":"enacted","effectKind":"tax-collection","questionKey":"us-policy-positions:business-commerce.legalize-cannabis-sales","jurisdictionId":"jurisdiction_7a7ff2336824055b","operativeAt":"2027-05-04","appliedAt":"2027-05-06","sourceRecordIds":["tax-base_75fabca1d035e3b8","event_559dcd50cd05ffa3","tax-policy_a8eb9f5acc9b2ef0","legislative-enactment_995556f552b6a86f","tax-proposal_1e7fba97546782c0","legislative-provision_f232e419c577f2fa","tax-assessment_215d9afcc3500d4a","resource-transfer-outcome_eacab8c5a2b18fee","event_cfabd568b131e258"]},"scope":"Controlled authored scenario, typed test levy and recorded test base; not natural earnings, catalog admission or complete M7."}
+
+ ✓ src/simulation/law-consequences/tax.test.ts (8 tests) 573ms
+     ✓ assesses the named payer once, then collects actual cash after Save/Continue  356ms
+ ❯ src/simulation/tax-kind-contract.test.ts (3 tests | 3 skipped) 23067ms
+     ↓ reads the rate fraction and annual threshold from the enacted provision with exact source IDs
+     ↓ refuses different units or undeclared aliases instead of inferring a tax amount
+     ↓ requires an actual saved occurrence, assesses once, and preserves a completed assessment through later policy and reload
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/tax-kind-contract.test.ts [ src/simulation/tax-kind-contract.test.ts ]
+Error: This scenario has no recorded decisions for 'override:house'.
+ ❯ counts src/presentation/legislation-session.ts:71:11
+     69|   const plan = scenario.votePlan[key];
+     70|   if (!plan) {
+     71|     throw new Error(`This scenario has no recorded decisions for '${ke…
+       |           ^
+     72|   }
+     73|   return plan;
+ ❯ recordedDispositions src/presentation/legislation-session.ts:119:5
+ ❯ src/presentation/legislation-session.ts:519:36
+ ❯ applyLegislativeStep src/presentation/legislation-session.ts:517:31
+ ❯ federalTopRateTermsFixture tests/fixtures/team6-tax-kind-fixture.ts:131:13
+ ❯ src/simulation/tax-kind-contract.test.ts:27:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  8 passed | 3 skipped (11)
+   Start at  13:06:05
+   Duration  46.40s (transform 34.11s, setup 38ms, import 46.35s, tests 23.64s, environment 1ms)
+
+JSON report written to /tmp/team6-m7-tax-current-main.json

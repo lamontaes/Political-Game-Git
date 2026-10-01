@@ -34,8 +34,10 @@
  * closures and unemployment feed upward.
  */
 
+import townBusinessResearch from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
 import { privacyInitialOccurrence } from "../federal-data-privacy-law";
 import { addDays } from "../dates";
+import { acuteWeight } from "../outcome-web";
 import { recordOrganizationProfile, recordWorkStatus } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
@@ -73,6 +75,12 @@ import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
 import { activeTownJobs, TOWN_JOB_END_REASONS } from "./town-labor-market";
 
 export const TOWN_FINANCES_VERSION = "town-finances-v1" as const;
+
+/** The A71 research answers the books read (CTO ruling, 10/1). */
+const TOWN_BUSINESS_RESEARCH = {
+  creditLine: townBusinessResearch.answers["small-business-credit-line-size"],
+  localSales: townBusinessResearch.answers["local-sales-response-to-town-pay"],
+} as const;
 export { BANK_FAILED_EVENT, BUSINESS_CLOSED_EVENT };
 
 export const TOWN_FINANCE_CLOSING_REASONS = {
@@ -116,14 +124,39 @@ export const TOWN_FINANCE_POLICY = {
       realty: 47,
       "*": 27,
     } as Readonly<Record<string, number>>,
-    /** PLACEHOLDER: a line of credit up to this many days of revenue. */
-    creditLineDaysOfRevenue: 36.5,
     /**
-     * PLACEHOLDER: how far a business's revenue follows what the town's
-     * employers pay: the percent its sales move for each percent the town's
-     * pay moves (the rest comes from outside or does not follow).
+     * MEASURED (A71, CTO ruling 10/1): a business's line of credit is its
+     * kind's median days of revenue among small firms that hold one, times
+     * its own revenue (`townCreditLineDays`, read from
+     * data/research/money/town-business-a71-2026.json: Federal Reserve 2003
+     * Survey of Small Business Finances, limit over sales). A kind with too
+     * few firms on file takes the all-industry 48.7 days (ESTIMATED FROM
+     * AVERAGE). Gap filed as `town-bank-line-underwriting`: about a third of
+     * small firms hold a line, but the bank's decision does not yet weigh a
+     * business's own books, so every business whose bank lends gets one.
      */
-    localDemandElasticity: 0.5,
+    creditLineDaysByKind: Object.fromEntries(
+      Object.entries(TOWN_BUSINESS_RESEARCH.creditLine.byGameKind).map(
+        ([kind, row]) => [kind, row.medianDays],
+      ),
+    ) as Readonly<Record<string, number>>,
+    /**
+     * MEASURED (A71, CTO ruling 10/1): the long-run percent a business's
+     * sales move for each percent the town's pay moves, 0.335 (Moretti,
+     * "Local Multipliers," AER P&P 2010, Table 1, IV), read from the A71
+     * research file. It is a decade-long response, so it builds over time
+     * (`localDemandHalfLifeDays`) instead of landing in full each quarter.
+     */
+    localDemandElasticity: TOWN_BUSINESS_RESEARCH.localSales.value,
+    /**
+     * PLACEHOLDER, pending research question
+     * `local-sales-response-timing`: half the gap between the sales the
+     * town's pay supports in the long run and the sales its pay has already
+     * reached closes in this many days, on the outcome web's half-life shape
+     * (`acuteWeight`). Three years leaves about 10 percent of the response
+     * still to come at Moretti's ten-year measuring window.
+     */
+    localDemandHalfLifeDays: 1095,
     /**
      * GAME ASSUMPTION: the share of a new business's sales that is new
      * spending in town. Zero: a newcomer takes its sales from the businesses
@@ -599,6 +632,31 @@ function lenderOf(
   return best;
 }
 
+/**
+ * Where a quarter leaves the level local sales have caught up to: part of
+ * the way from what they had reached toward what the town now pays (or
+ * employs), by the outcome web's half-life shape over the quarter's 91
+ * days. Nothing is drawn; a level that has not moved stays where it is.
+ */
+function buildToward(reached: number, target: number, today: IsoDate): number {
+  if (!(reached > 0) || !(target > 0)) return target > 0 ? target : reached;
+  const left = acuteWeight(
+    TOWN_FINANCE_POLICY.business.localDemandHalfLifeDays,
+    addDays(today, -91),
+    today,
+  );
+  return reached * (target / reached) ** (1 - left);
+}
+
+/**
+ * How many days of its revenue a business of this kind can borrow on its
+ * line: its kind's sourced median, or the all-industry median.
+ */
+export function townCreditLineDays(kind: string): number {
+  const days = TOWN_FINANCE_POLICY.business.creditLineDaysByKind;
+  return days[kind] ?? days["*"]!;
+}
+
 function openBusinessBooks(
   world: World,
   organizationId: EntityId,
@@ -630,7 +688,7 @@ function openBusinessBooks(
     openingShare: 1,
     openingMarketSales: round2(annualRevenue),
     bankId,
-    lineLimit: round2((annualRevenue * P.creditLineDaysOfRevenue) / 365),
+    lineLimit: round2((annualRevenue * townCreditLineDays(kind)) / 365),
     lastQuarterNet: 0,
     lastQuarterPay: round2(quarterPay),
     lastRound: round,
@@ -893,6 +951,8 @@ export function stepTownFinances(
         members: now,
         townJobs,
         townPay,
+        townPayReached: townPay,
+        townJobsReached: townJobs,
         averagePay: round2(averagePay),
         priceIndexSeen: economy.priceIndex,
         lastRound: round,
@@ -904,13 +964,24 @@ export function stepTownFinances(
     const current = new Set(now);
     // Residents spend from what they earn: the town's local share of
     // spending follows its pay (books opened before pay was read follow
-    // its jobs until then).
+    // its jobs until then). The response builds: each quarter the sales
+    // close part of the gap to what the town's pay supports in the long
+    // run, on the outcome web's half-life shape. Books from older saves
+    // start building from the pay they last read.
+    const usePay =
+      market.townPay !== undefined && market.townPay > 0 && townPay > 0;
+    const reachedBefore = usePay
+      ? (market.townPayReached ?? market.townPay!)
+      : (market.townJobsReached ?? market.townJobs);
+    const reachedNow = buildToward(
+      reachedBefore,
+      usePay ? townPay : townJobs,
+      world.currentDate,
+    );
     const incomeFactor =
-      market.townPay !== undefined && market.townPay > 0 && townPay > 0
-        ? (townPay / market.townPay) ** P.localDemandElasticity
-        : market.townJobs > 0 && townJobs > 0
-          ? (townJobs / market.townJobs) ** P.localDemandElasticity
-          : 1;
+      reachedBefore > 0 && reachedNow > 0
+        ? (reachedNow / reachedBefore) ** P.localDemandElasticity
+        : 1;
     // Customers buy less of a kind whose prices rose against everything
     // else, and spend more or less on it by the elasticity.
     const stayed = now.filter((id) => before.has(id));
@@ -952,6 +1023,9 @@ export function stepTownFinances(
       members: now,
       townJobs,
       townPay,
+      ...(usePay
+        ? { townPayReached: round2(reachedNow) }
+        : { townJobsReached: round6(reachedNow) }),
       averagePay: round2(averagePay),
       priceIndexSeen: economy.priceIndex,
       lastRound: round,
@@ -1028,7 +1102,7 @@ export function stepTownFinances(
     const lineLimit =
       existing.lineLimit > 0 || !lends(bank, economy)
         ? existing.lineLimit
-        : round2((existing.capacity * P.creditLineDaysOfRevenue) / 365);
+        : round2((existing.capacity * townCreditLineDays(kind)) / 365);
     if (cash < 0) {
       const room = Math.max(0, lineLimit - debt);
       if (honorsLine(bank) && room >= -cash) {
