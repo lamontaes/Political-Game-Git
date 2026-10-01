@@ -2,6 +2,7 @@ import { addDays } from "../dates";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
 import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
+import { custodyFloorAt } from "../law-consequences/legal-outcome";
 import { recordDurableDecisionTrace } from "../decisions";
 import {
   officesHeldBy,
@@ -223,6 +224,18 @@ export function termMonths(
     rule.jailMonths.max +
     rule.jailMonths.perStandingFinding * Math.max(0, standingFindings - 1);
   return Math.round((rule.jailMonths.min + max) / 2);
+}
+
+/** The existing sentence writer, bounded by the operative law's recorded floor. */
+export function sentenceMonthsForCase(
+  world: World,
+  kind: SentenceKind,
+  courtCase: CourtCase,
+): number {
+  const ordinary = termMonths(kind, courtCase.standingFindings);
+  if (kind !== "jail") return ordinary;
+  const floor = custodyFloorAt(world, courtCase);
+  return Math.max(ordinary, floor?.months ?? 0);
 }
 
 /** The stable key a referral is recorded under. */
@@ -490,7 +503,7 @@ function courtCaseOf(
       (tagValue(referral, EVIDENCE_TAG) as EvidenceStrength | null) ??
       "circumstantial",
     standingFindings: Number(tagValue(referral, STANDING_TAG) ?? "1"),
-    venueJurisdictionId: world.people[subjectId]?.homeJurisdictionId ?? venue,
+    venueJurisdictionId: venue,
     stateKey,
   };
 }
@@ -746,7 +759,7 @@ export function advanceProsecutions(
     const kind: SentenceKind =
       sentence.selectedOptionKey === SENTENCE_JAIL ? "jail" : "probation";
     const motivation = chosenReasons(sentence);
-    const months = termMonths(kind, courtCase.standingFindings);
+    const months = sentenceMonthsForCase(next, kind, courtCase);
     next = followUp(next, ended, referral, PROSECUTION_SENTENCED_EVENT, {
       summary:
         kind === "jail"
