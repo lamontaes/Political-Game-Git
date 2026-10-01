@@ -2871,7 +2871,19 @@
           "answer": "yes"
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.mo.gov/news/press-releases/minimum-wage-increases-1500-hour-2026",
+          "cite": "Missouri Department of Labor, November 3, 2025; HB 567 (2025)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard statutory hourly floor effective January 1, 2026. HB 567 ends annual CPI adjustment and includes previously exempt public employers. This numeric term does not itself establish worker coverage, exemptions or tipped cash obligations."
         },
         "US-MP": {
           "answer": "no"
