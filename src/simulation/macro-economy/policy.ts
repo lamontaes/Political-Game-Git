@@ -40,7 +40,6 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
     inflationPersistence: 0.95,
     /** Okun-style lag: unemployment responds to the PREVIOUS month's growth gap. */
     unemploymentGrowthGapCoefficient: 0.04,
-    innovationSdPp: { growth: 0.15, unemployment: 0.04, inflation: 0.04 },
   },
   bounds: { unemploymentPct: { min: 0, max: 100 } },
 } as const;
@@ -269,20 +268,23 @@ export const GAMEPLAY_SECTORS: readonly GameplaySectorKey[] = [
 /**
  * THE ECONOMY'S ERAS (04 SYSTEM SPECS part 6, "the entire world changes").
  *
- * The anchors the monthly step pulls toward are not fixed. Trend growth
- * wanders and now and then jumps into a new productivity era; the normal
- * unemployment rate drifts and is scarred by long slumps; the inflation
- * anchor drifts and comes loose when inflation runs hot. Recessions are not
- * drawn here: since Build 19 they come from credit, demand and the central
- * bank's decisions (`credit.ts`, `central-bank.ts`). A century run is several different economies, not one
- * number with noise around it.
+ * The anchors the monthly step pulls toward are not fixed. Trend growth, the
+ * normal unemployment rate and the inflation anchor each ease toward a
+ * long-run level; the normal unemployment rate is scarred by long slumps and
+ * the inflation anchor comes loose when inflation runs hot. None of it is
+ * drawn: no monthly wander, no jump into a new era, no price shock. What
+ * changes the economy is a recorded cause: a dated shock (a disaster, a trade
+ * break, public money), the credit and demand stocks, and the central bank's
+ * decisions (`credit.ts`, `central-bank.ts`). Recessions are not drawn
+ * either: since Build 19 they come from those stocks and decisions.
  *
  * PROVISIONAL sizes, calibrated to the broad U.S. record rather than fitted:
- * decade growth from about 4.5% (1960s) to about 1.9% (2000s); NBER postwar
- * expansions about 64 months and recessions about 10 to 11; the Great
+ * the long-run levels and the pull toward them. The record they are read
+ * against: decade growth from about 4.5% (1960s) to about 1.9% (2000s); NBER
+ * postwar expansions about 64 months and recessions about 10 to 11; the Great
  * Recession about 5 points below trend for 18 months and the Depression about
- * 11 for 43; decade inflation from 1.8% (2010s) to 7.1% (1970s). Filed for research as
- * society-wide-waves-causes-pace-scale.
+ * 11 for 43; decade inflation from 1.8% (2010s) to 7.1% (1970s). Filed for
+ * research as society-wide-waves-causes-pace-scale.
  */
 export const MACRO_ERA_POLICY = {
   version: "macro-eras-provisional-v1",
@@ -294,16 +296,12 @@ export const MACRO_ERA_POLICY = {
   trend: {
     longRunPct: 2.5,
     monthlyPull: 0.002,
-    monthlySdPp: 0.07,
-    eraJumpMonthlyChance: 0.00125,
-    eraJumpSdPp: 1,
     minPct: -0.5,
     maxPct: 6,
   },
   natural: {
     longRunPct: 4.8,
     monthlyPull: 0.01,
-    monthlySdPp: 0.03,
     /**
      * Rise per month for each point output runs below trend beyond
      * MACRO_ERA_CONDITIONS.scarringAbovePp (hysteresis).
@@ -315,20 +313,11 @@ export const MACRO_ERA_POLICY = {
   inflation: {
     longRunPct: 2,
     monthlyPull: 0.004,
-    monthlySdPp: 0.03,
     /** When inflation runs this far from the anchor, the anchor follows it. */
     deanchorGapPp: 1.5,
     deanchorRate: 0.06,
     minPct: -1,
     maxPct: 14,
-    /**
-     * A price shock (an oil embargo, a war, a supply collapse): its chance a
-     * month, its size range in points, and how much of it stays each month.
-     */
-    shockMonthlyChance: 0.003,
-    shockMinPp: 3,
-    shockMaxPp: 10,
-    shockMonthlyRetention: 0.96,
     /** Inflation given up per point of recession depth (disinflation). */
     recessionDisinflationPerGapPp: 0.3,
   },
@@ -344,7 +333,7 @@ export const MACRO_ERA_CONDITIONS = {
   version: "macro-eras-conditions-v1",
   /**
    * PLACEHOLDER: growth this many points under trend before a month scars
-   * the normal unemployment rate, so ordinary monthly noise does not.
+   * the normal unemployment rate, so an ordinary soft month does not.
    */
   scarringAbovePp: 1,
 } as const;

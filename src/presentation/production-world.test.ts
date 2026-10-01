@@ -6,6 +6,8 @@ import {
   activeWorkRelationshipsAt,
   ageOnDate,
   assertWorldIntegrity,
+  characterHistoryContextPersonId,
+  educationEnrollmentStateAt,
   createSyntheticPolicyCatalog,
   createSyntheticVitalityCatalog,
   createWorldId,
@@ -14,9 +16,14 @@ import {
   worldLineage,
 } from "../simulation";
 import type { World } from "../simulation";
-import { createNewGameWorld } from "./new-game";
+import { createNewGameWorld, otherParentQuestionApplies } from "./new-game";
+import type { NewGameOtherParent, NewGameSetup } from "./new-game";
+import {
+  decodeReplayDescriptor,
+  encodeReplayDescriptor,
+} from "./new-game-identity";
+import { observerPlace } from "./observer-world";
 import { openOrdinaryLife } from "./ordinary-life";
-import type { NewGameSetup } from "./new-game";
 
 /**
  * Proof that a new game is a new game.
@@ -385,7 +392,112 @@ describe("The production world is not a renamed fixture", () => {
       );
       expect(enrollments.length, `${earlierLifeGenerationVersion}`).toBe(1);
       expect(enrollments[0]!.programKind).toBe("schooling:general");
-      expect(enrollments[0]!.endedAt ?? null).toBeNull();
+      // Still in school: its latest state is a current one, not a finished one.
+      expect(["expected", "active"]).toContain(
+        educationEnrollmentStateAt(child.world, enrollments[0]!.id)?.status,
+      );
     }
+  });
+});
+
+/**
+ * A148: whether the parent who is not raising the character is alive, living
+ * elsewhere or dead is the player's own fact, asked in setup. The world never
+ * draws it, so no setup records a death the player did not state. The place
+ * is drawn from all 56 by the seed.
+ */
+/** Setups whose opening family has one parent, in places drawn by seed. */
+const ONE_PARENT_SETUPS: readonly NewGameSetup[] = (() => {
+  const found: NewGameSetup[] = [];
+  for (let index = 0; found.length < 3 && index < 200; index += 1) {
+    const seed = `a148-other-parent-${index}`;
+    const setup: NewGameSetup = {
+      ...BASE,
+      seed,
+      placeKey: observerPlace(seed).key,
+      startAge: 6 + (index % 11),
+    };
+    if (otherParentQuestionApplies(setup)) found.push(setup);
+  }
+  return found;
+})();
+const DRAWN = ONE_PARENT_SETUPS.map(
+  (setup) => `${setup.placeKey} (seed ${setup.seed}, age ${setup.startAge})`,
+).join("; ");
+
+describe(`the other parent is the player's answer, never a draw: ${DRAWN}`, () => {
+  function oneParentSetups(count: number): NewGameSetup[] {
+    expect(ONE_PARENT_SETUPS.length).toBeGreaterThanOrEqual(count);
+    return ONE_PARENT_SETUPS.slice(0, count);
+  }
+
+  function otherParentRecords(world: World) {
+    const id = characterHistoryContextPersonId(
+      world,
+      "production:initial-life:nonresident-parent",
+    );
+    return {
+      parents: world.people[id] ? [id] : [],
+      deaths: world.history.personDeaths.filter((row) => row.personId === id),
+    };
+  }
+
+  it("records no death and no other parent when the player says nothing", () => {
+    for (const setup of oneParentSetups(3)) {
+      const { world } = createNewGameWorld(setup);
+      const where = `${setup.placeKey}, seed ${setup.seed}`;
+      expect(world.history.personDeaths, where).toHaveLength(0);
+      expect(otherParentRecords(world).parents, where).toEqual([]);
+    }
+  });
+
+  it("records exactly what the player said about the other parent", () => {
+    const [setup] = oneParentSetups(1);
+    const built = (otherParent: NewGameOtherParent) =>
+      createNewGameWorld({ ...setup!, otherParent });
+    const where = `${setup!.placeKey}, seed ${setup!.seed}`;
+
+    const living = built("living");
+    expect(otherParentRecords(living.world).parents, where).toEqual([]);
+    expect(living.world.history.personDeaths).toHaveLength(0);
+
+    const elsewhere = built("nonresident");
+    const away = otherParentRecords(elsewhere.world);
+    expect(away.parents, where).toHaveLength(1);
+    expect(away.deaths).toHaveLength(0);
+
+    const died = built("deceased");
+    const gone = otherParentRecords(died.world);
+    expect(gone.parents, where).toHaveLength(1);
+    expect(gone.deaths).toHaveLength(1);
+    expect(gone.deaths[0]!.causeKey).toBe("cause:unknown");
+    expect(died.world.history.personDeaths).toHaveLength(1);
+  });
+
+  it("asks only where one parent raises the child, and keeps the answer in a replay", () => {
+    // The answer never decides whether it is asked: the world's identity does.
+    const [setup] = oneParentSetups(1);
+    for (const otherParent of ["living", "nonresident", "deceased"] as const)
+      expect(otherParentQuestionApplies({ ...setup!, otherParent })).toBe(true);
+    expect(otherParentQuestionApplies({ ...setup!, startAge: 4 })).toBe(false);
+    expect(otherParentQuestionApplies({ ...setup!, startAge: 30 })).toBe(false);
+    const replayed = decodeReplayDescriptor(
+      encodeReplayDescriptor({ ...setup!, otherParent: "deceased" }),
+    );
+    expect(replayed?.otherParent).toBe("deceased");
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(setup!))?.otherParent,
+    ).toBeUndefined();
+  });
+
+  it("has no seeded pick for the other parent left in the world builder", () => {
+    const source = readFileSync(
+      resolve(
+        dirname(new URL(import.meta.url).pathname),
+        "production-world.ts",
+      ),
+      "utf8",
+    );
+    expect(source).not.toContain("opening-life-other-parent-v1");
   });
 });

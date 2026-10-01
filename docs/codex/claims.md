@@ -1,3 +1,16 @@
+# Current ownership corrections
+
+The latest transfers below supersede the historical checkpoints retained afterward.
+
+## Closed transfers and receiving owners
+
+- Team 2 owns only A108 municipalRulePackFor council-action projection and the released council action/date hunks: CONGRESSIONAL_REVIEW, OVERRIDE_WINDOW_DAYS, CVILLE_2_98_AMENDED_ON, councilActEffectiveDate, override-date and admitCouncilAction named branches/imports. Team 1 released these cleanly. Floors, quorum, titles, fiscal writers, general legal clocks and executive decisions remain protected. The optional councilActions field still requires CTO approval.
+- Team 8 owns press/law-effect-news.ts and confirmed it clean. Its actual saved story/follower binding is pending Audit. Coordinator owns law-exposure.ts; law-effects-noticed.ts remains unreleased.
+- Coordinator received Team 3's exact A37 producer and fixture deltas in #1575 at 5109e05933e53ca643c95cc27654c4c14af4585d. Team 3 continues A38 town-floor retirement; Coordinator retains resource guards and the sole registry. New payment admission remains strict.
+- Team 6 requested five exact tax-agency captures. Coordinator's source-only broker branch 2270f838ea57c32bb6b4ade3fabab81b7da585f0 contains Vermont bytes, inert text and the failed-source manifest. Team 6 owns legal review and receipt into its packet; no parallel authority admission or PR is implied.
+
+## Historical checkpoints
+
 # Current permission, compliance and financial transfers
 
 The permission handler has one receiving owner, and the compliance reader has one builder. Approved saved-record contracts now separate historical admission from new writes.
@@ -274,7 +287,6 @@ The following transfers preserve one writer for each named part of the rebuild. 
 - Team 8 completed and returned the narrow coverage-catalog-admission.test.ts wage-row expectation and right-permission.test.ts default-registry proof. Both are integrated in foundation 2c5cf28db1c4048eea89033cb6262064fa83e3ae. Coordinator retains policy-pack and registry composition.
 - Team 2 owns only nullable deadline display/day-count guards in presentation/governing-briefing.ts and player/GoverningBriefing.tsx alongside its bill-deadline changes. Team 2 separately released only governingTransitionHandler's post-openTransitionMatters callback and required clemency import to Team 9, clean at 5d3facee5516e28b06b21c7a6829afe204db5b08. Preserve the actual office/holder guards and all other governing changes.
 - For A19, Team 3 owns the canonical pay stamp in its converted pay writer; Team 8 owns the canonical coverage stamp in coverage-eligibility.ts; Team 9 owns canonical legal-outcome stamps in legal-outcome.ts. Each changes only its converted writer and focused assertions. Coordinator retains the shared stamp contract. Historical saved records and unconverted readers are not silently rewritten.
-
 
 - Team 7 released only the saved-staff fixture setup at presentation/contextual-scene-variants.test.ts:190 and contextual-scenes-public.test.ts:214, plus necessary test-only imports, to Team 8. The release was clean at ad75e8e; downstream assertions, production and art remain protected.
 - Coordinator received the seven released A19 stamp files in 18f46d855235bdb0d30d1b0c6d068e6281fbea73: Team 3 pay label and assertion, Team 8 coverage resolver/actual writer/test, and Team 9 legal stamp/test. Combined checks are pending; unrelated ongoing owner edits remain theirs.
