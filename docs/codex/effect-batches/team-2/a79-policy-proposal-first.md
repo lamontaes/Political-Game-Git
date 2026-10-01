@@ -52,7 +52,7 @@ Initial executed proof: both changed test files passed all 17 cases in 57.05 sec
 
 Measured: the same-input parity fixtures retain 535 congressional member decisions and 90 actual Oregon member decisions, with zero direction changes (`a79-policy-proposal-proof/current-main-tests.log`). The existing controlled chamber-disagreement case still rejects in the real Senate even when old whole-state scaling predicts passage. Those are fixture-scoped results, not a nationwide behavioral total.
 
-Measured: the new rejected-filing case supplies slight held preferences through canonical principle records (`state-constitutional-vote.test.ts:677`). It invokes the actual saved scheduled review. The proposal precedes its recorded House vote, no voter-ballot item is created, and repeated review after Continue keeps the original proposal and actions.
+Measured: the new rejected-filing case supplies slight held preferences through canonical principle records (`state-constitutional-vote.test.ts:685`). It invokes the actual saved scheduled review. The proposal precedes its recorded House vote, no voter-ballot item is created, and repeated review after Continue keeps the original proposal and actions.
 
 ## Worked example
 
@@ -60,7 +60,7 @@ Measured current-main run: in Adair Village, Oregon, the proposal to "Adopt a st
 
 ## Vital statistics and method
 
-A79 bounded policy/memberBallot slice. Executed source b39e171cccc8dd341ce960159fb7b89ab19b3900 contains main 0b423d735822264668b44b5cd583f385c5bae643. Exact final checks are recorded in the companion proof receipt. Five strict roots have zero diagnostics; changed lint, format, whitespace and report checks pass. The report reviewer returned PASS.
+A79 bounded policy/memberBallot slice. Executed source b39e171cccc8dd341ce960159fb7b89ab19b3900 contains main 0b423d735822264668b44b5cd583f385c5bae643. Exact final checks are recorded in the companion proof receipt. Five strict roots have zero diagnostics; changed lint, format, source/document whitespace and report checks pass. Raw test logs retain their terminal blank lines; the whole-diff whitespace check reports those two evidence lines. The report reviewer returned PASS.
 
 Release checking fails on inherited merge-bookkeeping prose in the CI declaration. The same main-ref check fails on that byte-identical file; no source was changed for it. Zero-dice reports no new findings and five stale entries, exiting 1. Spelling reports 78 existing findings, none in this slice, exiting 1. These limits are retained in the proof receipt. Current main was received additively; no other writer's changes were replaced. A80 remains on its separate published head under CTO's checker, and Team 1's released roster/title hunks are untouched.
 

@@ -76,7 +76,9 @@
       "mainAndCandidateBlob": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8",
       "reason": "Inherited player-facing merge-bookkeeping wording",
       "proofLimit": "Main-ref declaration invocation in same workspace plus byte-identical failing manifest; no independent whole-main suite claim"
-    }
+    },
+    "sourceDocumentWhitespace": "PASS",
+    "wholeDiffWhitespace": "2raw-log terminalblanklines retained verbatim"
   },
   "remaining": "termLimitBallot private state-ratification caller retained; actual ratification-purpose and saved per-chamber rollcall contract requested from Audit/CTO, no fake measure/roster. Not fullA79 closure.",
   "preserved": "A80 #1576 exact8f2 owned by CTO checker2; Team1 released roster/title hunks untouched",
@@ -107,9 +109,9 @@
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/report.log": "4f19b1c859e181c6233239d6caa13a6150bf26ee917fdfa9c78fcaec6936d737",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/initial-report-errors.log": "34276e9500aa3f83fb7b4a559b5488e0693bd73655d40121127e8f4cb064b2f7",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/initial-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/typecheck.mjs": "e1b5c36b5ae1374c9aded124a15cf5b4a2f446d8f8393966a1d7373da6f0a9c4",
+    "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/typecheck.mjs": "5fd8ae68f39bd5c731e8b7f5cbb0435aee0d48acf394f7dfc1b45e04533dc610",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
-  "reportReviewer": "PASS",
+  "reportReviewer": "PASS final method reviewed",
   "prepublicationMain": "0b423d735822264668b44b5cd583f385c5bae643"
 }
