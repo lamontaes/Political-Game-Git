@@ -17,8 +17,8 @@
  *   body (`<Town> Housing Authority`). A home keeps its landlord from one
  *   tenant to the next; when a person landlord dies or leaves town, or a firm
  *   closes, the home is sold to a new one.
- * - The bedrooms: fixed for the home by its first lease, drawn by the kind of
- *   home and the size of the household that first rented it.
+ * - The bedrooms: fixed for the home by its first lease, using the size of
+ *   the household that first rented it and the representative occupancy rule.
  * - The rent, one of three ways:
  *   - market: the county's HUD Fair Market Rent for that many bedrooms
  *     (`town-rent.generated.ts`), carried forward with the town's home
@@ -194,22 +194,6 @@ export const LANDLORD_SHARES: Readonly<
   "large-house": { person: 0.8, business: 0.2, public: 0 },
   "mobile-home": { person: 0.6, business: 0.4, public: 0 },
   "rural-farmhouse": { person: 0.92, business: 0.08, public: 0 },
-};
-
-/**
- * PLACEHOLDER(research: bedrooms-by-kind-of-home). The share of each kind of
- * home with an efficiency and one to four bedrooms. Not read from the
- * American Community Survey table that answers it.
- */
-export const BEDROOM_SHARES: Readonly<
-  Record<TownHomeKind, readonly [number, number, number, number, number]>
-> = {
-  "small-apartment": [0.1, 0.45, 0.37, 0.08, 0],
-  rowhouse: [0, 0.08, 0.42, 0.42, 0.08],
-  "suburban-house": [0, 0.03, 0.2, 0.55, 0.22],
-  "large-house": [0, 0, 0.05, 0.4, 0.55],
-  "mobile-home": [0, 0.08, 0.5, 0.4, 0.02],
-  "rural-farmhouse": [0, 0.03, 0.22, 0.5, 0.25],
 };
 
 /** The Brooke rule: public housing rent is 30% of monthly income. */
@@ -522,28 +506,15 @@ function pick<K extends string>(
   return entries.at(-1)![0];
 }
 
-/** The bedrooms a home gets at its first lease, fitted to who rents it. */
-export function drawBedrooms(
-  kind: TownHomeKind,
-  people: number,
-  draw: number,
-): number {
-  // HUD's rule of thumb, two people a bedroom; one person fits an efficiency.
-  const need = people <= 1 ? 0 : Math.ceil(people / 2);
-  const weights = BEDROOM_SHARES[kind].map((share, bedrooms) => {
-    let weight = share;
-    if (bedrooms < need) weight *= 0.25;
-    if (bedrooms > need + 1) weight *= 0.5;
-    return weight;
-  });
-  const total = weights.reduce((sum, weight) => sum + weight, 0);
-  if (total <= 0) return Math.min(4, need);
-  let point = draw * total;
-  for (let bedrooms = 0; bedrooms < weights.length; bedrooms += 1) {
-    point -= weights[bedrooms]!;
-    if (point < 0) return bedrooms;
-  }
-  return Math.min(4, need);
+/**
+ * Representative occupancy rule for a first lease, not measured unit geometry.
+ * Preserve the existing two-people-per-bedroom rule and HUD table's 0–4 range.
+ * Once recorded, the home's bedrooms survive later leases and renewals.
+ */
+export function bedroomsForHousehold(people: number): number {
+  if (!Number.isSafeInteger(people) || people < 1)
+    throw new Error("First lease requires recorded household members");
+  return people === 1 ? 0 : Math.min(4, Math.ceil(people / 2));
 }
 
 /** The price level on `date` over the world's first month, or 1. */
@@ -1240,8 +1211,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     const previous = lastOnHome.get(dwelling.id);
     const kind = homeKindOf(dwelling.classification);
     const bedrooms =
-      previous?.bedrooms ??
-      drawBedrooms(kind, household.length, rng.fork("bedrooms").next());
+      previous?.bedrooms ?? bedroomsForHousehold(household.length);
 
     // The landlord: the home's own, unless it no longer can hold it.
     let landlord: ResourceEndpoint | null =
