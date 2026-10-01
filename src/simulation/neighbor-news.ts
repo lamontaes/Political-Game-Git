@@ -1,9 +1,14 @@
-import { recordById } from "./history-index";
-import { organizationProfileAt } from "./life-queries";
+import {
+  hasStableKey,
+  recordById,
+  recordsByStringField,
+} from "./history-index";
+import { currentLifeCutoff, organizationProfileAt } from "./life-queries";
 import { personName } from "./people";
 import { recordEventKnowledge } from "./records";
 import { familyAndFriendsNearby, householdmatesOf } from "./speech-reception";
 import type { EntityId, World } from "./types";
+import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
 
 /**
@@ -26,10 +31,7 @@ export const JOB_ENDED_STATUS_TAG = "work-status:";
 function alive(world: World, personId: EntityId): boolean {
   return (
     world.people[personId] !== undefined &&
-    !world.history.personDeaths.some(
-      (death) =>
-        death.personId === personId && death.diedAt <= world.currentDate,
-    )
+    isPersonAliveAt(world, personId, currentLifeCutoff(world))
   );
 }
 
@@ -69,9 +71,9 @@ export function tellPeopleOf(
   if (!event) throw new Error(`No event ${eventId} to tell of.`);
   let next = world;
   const have = new Set(
-    world.history.knowledge
-      .filter((row) => row.eventId === eventId)
-      .map((row) => row.personId),
+    recordsByStringField(world.history.knowledge, "eventId", eventId).map(
+      (row) => row.personId,
+    ),
   );
   const write = (personId: EntityId, source: "direct" | "told") => {
     if (have.has(personId) || !alive(next, personId)) return;
@@ -125,8 +127,7 @@ export function recordJobEndedNews(
     : `${who} was laid off${employer ? ` from ${employer}` : ""}.`;
   const eventKey = `${JOB_ENDED_STATUS_TAG}${status.id}:event`;
   // One event per ended job: asking again writes nothing.
-  if (world.history.events.some((event) => event.stableKey === eventKey))
-    return world;
+  if (hasStableKey(world.history.events, eventKey)) return world;
   const tied = peopleTiedTo(world, [job.personId]);
   const next = recordWorldEvent(world, {
     stableKey: eventKey,
