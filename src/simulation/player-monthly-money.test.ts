@@ -26,6 +26,21 @@ function fixture() {
 }
 
 describe("monthly money schedule recovery", () => {
+  it("shows pending reviews only for the controlled person, without changing saved state", () => {
+    const { personId, world } = fixture();
+    const before = serializeWorld(world);
+    expect(playerMoneySchedule(world, personId)).toHaveLength(1);
+    const otherPerson = world.personOrder.find((id) => id !== personId)!;
+    expect(playerMoneySchedule(world, otherPerson)).toEqual([]);
+    expect(
+      playerMoneySchedule(
+        { ...world, control: { kind: "observer" } },
+        personId,
+      ),
+    ).toEqual([]);
+    expect(serializeWorld(world)).toBe(before);
+  });
+
   it("restores a future first-of-month review after control leaves and returns", () => {
     const { personId, world } = fixture();
     const due = world.history.futureDueItems.find(

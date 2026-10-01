@@ -31,9 +31,14 @@ import {
   createResourcePosition,
   createResourceFlow,
   recordResourceTransferOutcome,
+  recordResourceFlowTerms,
   money,
 } from "./resources";
-import { resourceFlowTermsAt, resourcePositionAt } from "./resource-queries";
+import {
+  outstandingDebtAt,
+  resourceFlowTermsAt,
+  resourcePositionAt,
+} from "./resource-queries";
 import {
   ensurePlayerMonthlyMoneySchedule,
   PLAYER_MONTHLY_MONEY_KEY,
@@ -249,6 +254,57 @@ function moneyResult(world: World) {
 }
 
 describe("player money on the first through existing time controls", () => {
+  it("removes a paid-off mortgage from upcoming bills and does not charge it again", () => {
+    const obligation = starting.history.resourceObligations.find(
+      (row) => row.resourceFlowId === mortgageId,
+    )!;
+    const debt = outstandingDebtAt(starting, obligation.id)!;
+    const terms = resourceFlowTermsAt(starting, mortgageId)!;
+    const payoff = recordResourceFlowTerms(starting, {
+      stableKey: "c9:mortgage-payoff-terms",
+      resourceFlowId: mortgageId,
+      effectiveAt: starting.currentDate,
+      status: "active",
+      amount: debt,
+      cadenceKind: terms.cadenceKind,
+      reason: "Recorded early payoff agreement.",
+      provenance: {
+        kind: "authored",
+        note: "Paid-off mortgage route fixture.",
+      },
+      supersedesTermsId: terms.id,
+    });
+    const world = recordResourceTransferOutcome(payoff, {
+      stableKey: "c9:mortgage-paid-off",
+      resourceFlowId: mortgageId,
+      periodStartsAt: starting.currentDate,
+      periodEndsAt: starting.currentDate,
+      occurredAt: starting.currentDate,
+      status: "completed",
+      attemptedAmount: debt,
+      transferredAmount: debt,
+      reasonKind: null,
+      note: "Recorded early mortgage payoff from the player's account.",
+      provenance: {
+        kind: "authored",
+        note: "Paid-off mortgage route fixture.",
+      },
+    });
+    const before = serializeWorld(world);
+    expect(
+      playerMoneySchedule(world, playerId)[0]!.bills.map((bill) => bill.flowId),
+    ).toEqual([livingId]);
+    expect(serializeWorld(world)).toBe(before);
+    const paid = passOrdinaryDays(deserializeWorld(before), 7);
+    expect(
+      payments(paid).filter((row) => row.resourceFlowId === mortgageId),
+    ).toHaveLength(1);
+    expect(outstandingDebtAt(paid, obligation.id)!.minorUnits).toBe(0);
+    expect(
+      playerMoneySchedule(paid, playerId)[0]!.bills.map((bill) => bill.flowId),
+    ).toEqual([livingId]);
+  }, 60_000);
+
   it("records unfunded bills as missed once and schedules the next review", () => {
     let world = settleOfficeSalaries(starting, playerId);
     const salary = world.history.resourceFlows.find(
