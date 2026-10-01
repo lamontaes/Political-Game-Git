@@ -18,7 +18,7 @@ import type { World } from "../../src/simulation/types";
  * on, in a place drawn by seed from all 56 (set A71_SEED to watch another).
  */
 
-const SEED = process.env.A71_SEED ?? "a71-town-credit-1";
+const SEED = process.env.A71_SEED ?? "a71-town-credit-9";
 const SOURCE = readFileSync(
   "src/simulation/living-world/town-finances.ts",
   "utf8",
@@ -67,15 +67,23 @@ describe(`watched world, seed ${SEED}`, () => {
       console.log(
         `A71 ${place.displayName}: ${businesses.length} business books, ${banked.length} with a credit line`,
       );
+      expect(
+        banked.length,
+        `${place.displayName}, seed ${SEED}`,
+      ).toBeGreaterThan(0);
+      // The line is sized from the unrounded revenue, so allow the cent the
+      // stored revenue was rounded to.
       for (const books of banked)
         expect(
-          [
-            sized(books.annualRevenue),
-            sized(books.capacity),
-            sized(books.openingMarketSales),
-          ],
+          Math.min(
+            ...[
+              books.annualRevenue,
+              books.capacity,
+              books.openingMarketSales,
+            ].map((amount) => Math.abs(sized(amount) - books.lineLimit)),
+          ),
           books.organizationId,
-        ).toContain(books.lineLimit);
+        ).toBeLessThanOrEqual(0.011);
     },
   );
 });
