@@ -1,31 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
-
-// Authored numeric-term fixture using the already-cited LA/TX/VT ceilings.
-// Coordinator integration into the shared production rows is a separate gate.
-vi.mock(
-  "../../../data/research/laws/starting-law-2026.json",
-  async (original) => {
-    const module = await original<{ default: Record<string, unknown> }>();
-    const data = structuredClone(module.default) as {
-      questions: Record<
-        string,
-        { answers: Record<string, Record<string, unknown>> }
-      >;
-    };
-    const questionKey =
-      "us-policy-positions:justice-public-safety.raise-juvenile-court-age";
-    for (const [place, age] of [
-      ["US-LA", 16],
-      ["US-TX", 16],
-      ["US-VT", 18],
-    ] as const) {
-      data.questions[questionKey]!.answers[place]!.lawTerms = [
-        { questionKey, key: "age", value: age, unit: "years" },
-      ];
-    }
-    return { default: data };
-  },
-);
+import { describe, expect, it } from "vitest";
 
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { makeIsoDate } from "../dates";
@@ -108,20 +81,24 @@ describe("general adult age comes from the dated numeric juvenile ceiling", () =
     ["US-LA", 17],
     ["US-TX", 17],
     ["US-VT", 19],
-  ] as const)("reads the sourced fixture ceiling in %s", (place, adultAge) => {
-    const small = smallWorld({ place, seed: `team9-a25-numeric:${place}` });
-    expect(adultCourtAgeAt(small.world, small.jurisdictionId)).toBe(adultAge);
-    const restored = deserializeWorld(serializeWorld(small.world));
-    expect(adultCourtAgeAt(restored, small.jurisdictionId)).toBe(adultAge);
-    // Future-law lookup cannot be admitted by a present-world record.
-    expect(
-      adultCourtAgeAt(
-        restored,
-        small.jurisdictionId,
-        makeIsoDate("2030-01-01"),
-      ),
-    ).toBeNull();
-  });
+    ["US-AK", 18],
+  ] as const)(
+    "reads the production sourced ceiling in %s",
+    (place, adultAge) => {
+      const small = smallWorld({ place, seed: `team9-a25-numeric:${place}` });
+      expect(adultCourtAgeAt(small.world, small.jurisdictionId)).toBe(adultAge);
+      const restored = deserializeWorld(serializeWorld(small.world));
+      expect(adultCourtAgeAt(restored, small.jurisdictionId)).toBe(adultAge);
+      // Future-law lookup cannot be admitted by a present-world record.
+      expect(
+        adultCourtAgeAt(
+          restored,
+          small.jurisdictionId,
+          makeIsoDate("2030-01-01"),
+        ),
+      ).toBeNull();
+    },
+  );
 
   it("does not read Louisiana's later operative ceiling before its saved date", () => {
     const small = smallWorld({ place: "US-LA", seed: "team9-a25-dated" });
@@ -141,7 +118,7 @@ describe("general adult age comes from the dated numeric juvenile ceiling", () =
     ).toBe(17);
   });
 
-  it.each(["US-AS", "US-VI", "US-AK"])(
+  it.each(["US-AS", "US-VI"])(
     "refuses a Boolean-only row and adult offender admission in %s",
     (place) => {
       const small = smallWorld({ place, seed: `team9-a25-unknown:${place}` });

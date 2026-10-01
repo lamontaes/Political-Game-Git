@@ -5,4 +5,4 @@ section: Fixed
 title: Juvenile age requires a numeric legal ceiling
 ---
 
-Adult offender eligibility reads the dated law's numeric juvenile age instead of deriving an age from a yes/no answer. An unknown threshold remains unsupported. Shared sourced starting-law integration and saved transfer authority are still pending.
+Adult offender eligibility reads the dated law's numeric juvenile age instead of deriving an age from a yes/no answer. An unknown threshold remains unsupported. The released sourced starting-law rows are connected to that reader. Saved transfer authority remains unsupported.
