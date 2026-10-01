@@ -30,6 +30,7 @@ import {
 } from "../legislation-scenarios";
 import { seatsForChamber } from "../legislature-game-profile";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
+import { recordGovernorDecisionOnMeasure } from "../governing/legislative-clock";
 import { assertWorldIntegrity } from "../world";
 import * as lifePlaces from "../life-places";
 import * as simulation from "../index";
@@ -73,9 +74,15 @@ const places = Object.keys(
   startingLaw.questions[cashBailQuestion].answers,
 ).sort();
 const namedProofs: unknown[] = [];
+const nativeDiagnostics: unknown[] = [];
 afterAll(() => {
   const target = process.env.G10_PROOF_REPORT_PATH;
   if (target) writeFileSync(target, JSON.stringify(namedProofs, null, 2));
+  if (process.env.G10_DIAGNOSTIC_REPORT_PATH)
+    writeFileSync(
+      process.env.G10_DIAGNOSTIC_REPORT_PATH,
+      JSON.stringify(nativeDiagnostics, null, 2),
+    );
 });
 
 describe("recorded floors reach saved sentences", () => {
@@ -243,6 +250,17 @@ describe("recorded floors reach saved sentences", () => {
         measurePosition(world, measured.id).phase !== "awaiting-enactment";
         guard++
       ) {
+        if (
+          measurePosition(world, measured.id).phase === "awaiting-executive"
+        ) {
+          world = recordGovernorDecisionOnMeasure(
+            world,
+            measured.id,
+            "signed",
+            "Authored test approval: the governor signs the minimum-custody act.",
+          );
+          continue;
+        }
         const step = availableMeasureSteps(world, measured.id).find(
           (key) => key !== "offer-amendment",
         );
@@ -252,6 +270,9 @@ describe("recorded floors reach saved sentences", () => {
           );
         world = applyLegislativeStep(procedure, world, step).world;
       }
+      expect(measurePosition(world, measured.id).phase).toBe(
+        "awaiting-enactment",
+      );
       world = recordEnactment(world, {
         stableKey: "g10:canonical-floor:enacted",
         measureId: measured.id,
@@ -301,8 +322,61 @@ describe("recorded floors reach saved sentences", () => {
             (p) => p.role === "focus:defendant" && p.personId === personId,
           ),
       );
+      const nativeCase: CourtCase = {
+        caseKey: `prosecution-decided-v3:referral:g10-floor-fixture`,
+        defendantId: personId,
+        offenseKey: "crime:robbery",
+        offenseLabel: "robbery",
+        evidence: "documentary",
+        standingFindings: 6,
+        venueJurisdictionId: venue,
+        stateKey: state.jurisdictionKey,
+      };
+      nativeDiagnostics.push({
+        seed,
+        state: state.jurisdictionKey,
+        personId,
+        measureId: measured.id,
+        currentDate: sentenced.currentDate,
+        effectiveAt: world.currentDate,
+        referralId: referred.referralId,
+        range: sentencingRangeForCase(nativeCase),
+        floor: custodyFloorAt(sentenced, nativeCase),
+        bounds: sourcedCustodyBoundsForCase(sentenced, nativeCase),
+        selectedSentence: event ?? null,
+        caseStages: sentenced.history.events.filter((entry) =>
+          entry.tags.includes(`justice.referral:${referred.referralId}`),
+        ),
+        termDecisions: sentenced.history.decisionTraces.filter((entry) =>
+          entry.context.stableKey.includes("g10-floor-fixture:custody-term"),
+        ),
+      });
       expect(event, `${seed}, person ${personId}`).toBeDefined();
-      expect(event!.tags).toContain(`${SENTENCE_MONTHS_TAG}120`);
+      const months = Number(
+        event!.tags
+          .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
+          ?.slice(SENTENCE_MONTHS_TAG.length),
+      );
+      const bounds = sourcedCustodyBoundsForCase(sentenced, nativeCase)!;
+      expect(Number.isFinite(months)).toBe(true);
+      expect(months).toBeGreaterThanOrEqual(bounds.minimumMonths);
+      if (bounds.maximumMonths !== null)
+        expect(months).toBeLessThanOrEqual(bounds.maximumMonths);
+      const decisionKey = event!.tags
+        .find((tag) => tag.startsWith("justice.sentence-term-decision:"))!
+        .slice("justice.sentence-term-decision:".length);
+      const choice = sentenced.history.decisionTraces.find(
+        (trace) => trace.context.stableKey === decisionKey,
+      )!;
+      expect(choice).toBeDefined();
+      expect(choice.context.randomness).toBe("none");
+      expect(
+        choice.context.options.find(
+          (option) => option.key === choice.selectedOptionKey,
+        )?.label,
+      ).toBe(`${months} months`);
+      // CTO ruling 26 keeps Iowa's actual minimum choice exactly 120.
+      if (state.jurisdictionKey === "US-IA") expect(months).toBe(120);
       const resolved = legalOutcomeRegistration.resolve(
         sentenced,
         minimumCustodyRow,
@@ -332,7 +406,7 @@ describe("recorded floors reach saved sentences", () => {
       const saved = reloaded.history.events.find(
         (entry) => entry.id === event!.id,
       )!;
-      expect(saved.summary).toContain("120 months");
+      expect(saved.summary).toContain(`${months} months`);
       expect(saved).toEqual(event);
       expect(saved).not.toHaveProperty("lawEffectStamps");
       const consequence = reloaded.history.legalOutcomeConsequences!.find(
@@ -352,7 +426,12 @@ describe("recorded floors reach saved sentences", () => {
         personId,
         name: personName(reloaded.people[personId]!),
         sentenceId: saved.id,
-        months: 120,
+        months,
+        recordedChoice: choice.selectedOptionKey,
+        operativeBounds: {
+          minimumMonths: bounds.minimumMonths,
+          maximumMonths: bounds.maximumMonths,
+        },
         measureId: measured.id,
         summary: saved.summary,
         consequenceId: consequence.id,
@@ -636,12 +715,11 @@ describe("recorded custody floors through the existing sentence writer", () => {
       const range = sentencingRangeForCase(courtCase)!;
       expect(range).not.toBeNull();
       const bounds = sourcedCustodyBoundsForCase(world, courtCase);
-      if (range.maxMonths !== null && range.maxMonths < 120) {
-        expect(bounds).toBeNull(); // Conflicting floor/ceiling is not permission.
-      } else {
-        expect(bounds?.minimumMonths).toBe(Math.max(120, range.minMonths));
-        expect(bounds?.range).toEqual(range);
-      }
+      expect(bounds?.minimumMonths).toBe(Math.max(120, range.minMonths));
+      expect(bounds?.maximumMonths).toBe(
+        range.maxMonths === null ? null : Math.max(120, range.maxMonths),
+      );
+      expect(bounds?.range).toEqual(range); // Source row is never relabeled.
       const uncovered = { ...courtCase, offenseKey: "crime:vandalism" };
       expect(custodyFloorAt(world, uncovered)).toBeNull();
       expect(sourcedCustodyBoundsForCase(world, uncovered)).toBeNull();
@@ -685,6 +763,9 @@ describe("recorded custody floors through the existing sentence writer", () => {
       expect(
         sourcedCustodyBoundsForCase(repealed, courtCase)?.minimumMonths,
       ).toBe(range.minMonths);
+      expect(
+        sourcedCustodyBoundsForCase(repealed, courtCase)?.maximumMonths,
+      ).toBe(range.maxMonths);
     },
   );
 });
