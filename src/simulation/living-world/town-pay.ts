@@ -989,7 +989,7 @@ export function applyLawPayConsequence(
     ]),
   ];
   const stamp = lawEffectStamp(governing, {
-    effectKind: "law.pay-compensation",
+    effectKind: "pay",
     questionKey: resolved.questionKey,
     jurisdictionId: resolved.jurisdictionId,
     appliedAt: effectiveAt,
