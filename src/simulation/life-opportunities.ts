@@ -1,4 +1,5 @@
 import { ensurePlayerMonthlyMoneySchedule } from "./player-monthly-money";
+import { initializeOfficeSalaryFlows } from "./office-salary";
 import { ensurePostedMeetingOnCouncilAgenda } from "./living-world/local-council-meetings";
 import {
   lifeRequestDetailsTag,
@@ -448,6 +449,7 @@ export function refreshLifeOpportunities(
 
   let next = refreshLocalEconomy(world, personId);
   next = advanceJobMarket(next, personId);
+  next = initializeOfficeSalaryFlows(next, personId);
   next = ensurePlayerMonthlyMoneySchedule(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;
