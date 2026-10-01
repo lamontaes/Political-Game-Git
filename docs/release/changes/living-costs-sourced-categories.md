@@ -1,6 +1,8 @@
 ---
 id: living-costs-sourced-categories
 impact: patch
+section: Changed
+title: Nonhousing bills use sourced spending categories
 ---
 
 The separate nonhousing charge uses representative 2024 BLS national spending
