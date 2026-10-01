@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate, addDays } from "../dates";
+import { makeIsoDate, addDays, ageOnDate } from "../dates";
 import { lawInForce } from "../governing/law-in-force";
 import {
   createHousehold,
+  createOrganization,
+  createWorkRelationship,
+  recordWorkStatus,
   recordHouseholdLocation,
   startHouseholdMembership,
 } from "../life";
@@ -250,5 +253,163 @@ describe("right permission kind mechanism", () => {
         },
       ),
     ).toThrow(/scope/);
+  });
+  it("reads age from the recorded birth date at the review date without assuming a permit", () => {
+    const { world, context, input, activityId } = fixture();
+    const age = ageOnDate(
+      world.people[input.subject.id]!.birthDate,
+      world.currentDate,
+    );
+    const activity = {
+      onDate: world.currentDate,
+      activity: "renewal" as const,
+      activityId,
+      subjectIds: [input.subject.id],
+      questionKey: context.questionKey,
+    };
+    const withAge = (years: number): LawConsequenceRow => ({
+      ...row,
+      who: {
+        ...row.who,
+        predicates: [
+          { capability: "permission-minimum-age", parameters: { years } },
+        ],
+      },
+    });
+    expect(resolveRightPermission(world, withAge(age), activity)).toHaveLength(
+      1,
+    );
+    expect(resolveRightPermission(world, withAge(age + 1), activity)).toEqual(
+      [],
+    );
+    expect(() =>
+      resolveRightPermission(
+        world,
+        {
+          ...row,
+          conditions: [
+            { capability: "permission-issued-permit", parameters: {} },
+          ],
+        },
+        activity,
+      ),
+    ).toThrow(/scope/);
+    expect(() => resolveRightPermission(world, withAge(-1), activity)).toThrow(
+      /years/,
+    );
+  });
+  it("reads actual dated work/status/role and stamps their IDs; later ended work cannot alter an earlier review", () => {
+    const f = fixture();
+    const start = f.world.currentDate;
+    const provenance = {
+      kind: "authored",
+      note: "Saved employment fixture, not permit issuance.",
+    } as const;
+    let world = createOrganization(f.world, {
+      stableKey: "permission-fixture:employer",
+      formedAt: start,
+      provenance,
+      initialProfile: {
+        name: "Recorded fixture employer",
+        classification: "sector:government",
+        locationJurisdictionId: f.context.jurisdictionId,
+      },
+    });
+    const organization = world.history.organizations.at(-1)!;
+    world = createWorkRelationship(world, {
+      stableKey: "permission-fixture:work-scope",
+      personId: f.input.subject.id,
+      organizationId: organization.id,
+      startedAt: start,
+      kind: "employment:staff",
+      compensation: "unpaid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "Recorded worker",
+        occupationClassification: null,
+        locationJurisdictionId: f.context.jurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 0, maximumHours: 0 },
+          attention: "moderate",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: f.context.jurisdictionId,
+        },
+      },
+    });
+    const work = world.history.workRelationships.at(-1)!;
+    const status = world.history.workStatuses.at(-1)!;
+    const role = world.history.workRoles.at(-1)!;
+    const activity = {
+      onDate: start,
+      activity: "renewal" as const,
+      activityId: f.activityId,
+      subjectIds: [f.input.subject.id],
+      questionKey: f.context.questionKey,
+    };
+    const scoped = {
+      ...row,
+      who: {
+        ...row.who,
+        predicates: [
+          {
+            capability: "permission-active-work",
+            parameters: { workKind: work.kind },
+          },
+        ],
+      },
+    };
+    const resolved = resolveRightPermission(world, scoped, activity)[0]!;
+    expect(resolved.sourceRecordIds).toEqual(
+      expect.arrayContaining([work.id, status.id, role.id]),
+    );
+    const saved = applyRightPermission(world, resolved);
+    expect(
+      latestLawPermission(saved, f.input.subject, f.context.questionKey)
+        ?.lawEffectStamps[0].sourceRecordIds,
+    ).toEqual(expect.arrayContaining([work.id, status.id, role.id]));
+    expect(
+      applyRightPermission(deserializeWorld(serializeWorld(saved)), resolved)
+        .history.lawPermissionRecords,
+    ).toEqual(saved.history.lawPermissionRecords);
+    world = advanceWorld(world, 1);
+    world = recordWorkStatus(world, {
+      stableKey: "permission-fixture:work-ended",
+      workRelationshipId: work.id,
+      effectiveAt: world.currentDate,
+      status: "ended",
+      reason: "Recorded end",
+      provenance,
+      supersedesStatusId: status.id,
+    });
+    expect(resolveRightPermission(world, scoped, activity)).toHaveLength(1);
+    expect(
+      resolveRightPermission(world, scoped, {
+        ...activity,
+        onDate: world.currentDate,
+      }),
+    ).toEqual([]);
+    expect(
+      resolveRightPermission(
+        world,
+        {
+          ...scoped,
+          who: {
+            ...scoped.who,
+            predicates: [
+              {
+                capability: "permission-active-work",
+                parameters: { organizationId: world.id },
+              },
+            ],
+          },
+        },
+        activity,
+      ),
+    ).toEqual([]);
   });
 });

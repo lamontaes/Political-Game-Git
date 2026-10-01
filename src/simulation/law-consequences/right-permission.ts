@@ -1,5 +1,7 @@
+import { ageOnDate } from "../dates";
 import { lawInForce } from "../governing/law-in-force";
 import {
+  activeWorkRelationshipsAt,
   householdLocationAt,
   householdMembershipsAt,
   organizationProfileAt,
@@ -8,6 +10,7 @@ import type {
   LawConsequenceContext,
   LawConsequenceKindRegistration,
   LawConsequenceRow,
+  LawConsequencePredicate,
   ResolvedLawConsequence,
 } from "../law-consequence-types";
 import type { EntityId, World } from "../types";
@@ -19,6 +22,10 @@ import {
 const SELECTORS = [
   "recorded-person-permission",
   "recorded-organization-permission",
+] as const;
+const PREDICATES = [
+  "permission-minimum-age",
+  "permission-active-work",
 ] as const;
 const ACTIONS = ["permit-on-yes", "prohibit-on-yes"] as const;
 
@@ -36,9 +43,35 @@ function checkRow(row: LawConsequenceRow): void {
     row.decision.type !== "boolean"
   )
     throw new Error("Permission requires the canonical boolean law answer.");
+  for (const predicate of [...row.who.predicates, ...row.conditions]) {
+    const parameters = predicate.parameters;
+    if (predicate.capability === "permission-minimum-age") {
+      if (
+        Object.keys(parameters).some((key) => key !== "years") ||
+        typeof parameters.years !== "number" ||
+        !Number.isSafeInteger(parameters.years) ||
+        parameters.years < 0
+      )
+        throw new Error(
+          "Minimum-age scope requires an explicit nonnegative integer years term.",
+        );
+    } else if (predicate.capability === "permission-active-work") {
+      if (
+        Object.entries(parameters).some(
+          ([key, value]) =>
+            !["organizationId", "workKind"].includes(key) ||
+            typeof value !== "string" ||
+            !value.trim(),
+        )
+      )
+        throw new Error(
+          "Active-work scope requires exact saved organizationId/workKind values.",
+        );
+    } else throw new Error("Unimplemented permission scope predicate.");
+    if (row.who.selector !== "recorded-person-permission")
+      throw new Error("Person age/work scope cannot qualify an organization.");
+  }
   if (
-    row.who.predicates.length ||
-    row.conditions.length ||
     row.lag.days !== 0 ||
     row.onward?.length ||
     row.onRepeal !== "recompute-prospective"
@@ -46,6 +79,41 @@ function checkRow(row: LawConsequenceRow): void {
     throw new Error(
       "Unimplemented permission scope, lag, onward or repeal capability.",
     );
+}
+
+function scopeSources(
+  world: World,
+  personId: EntityId,
+  predicates: readonly LawConsequencePredicate[],
+  context: LawConsequenceContext,
+): EntityId[] | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const sources: EntityId[] = [];
+  for (const predicate of predicates) {
+    if (predicate.capability === "permission-minimum-age") {
+      if (
+        ageOnDate(person.birthDate, context.onDate) <
+        Number(predicate.parameters.years)
+      )
+        return null;
+    } else {
+      const work = activeWorkRelationshipsAt(world, personId, {
+        asOfDate: context.onDate,
+        historySequenceExclusive: world.history.nextSequence,
+      }).find(
+        ({ relationship }) =>
+          (predicate.parameters.organizationId === undefined ||
+            relationship.organizationId ===
+              predicate.parameters.organizationId) &&
+          (predicate.parameters.workKind === undefined ||
+            relationship.kind === predicate.parameters.workKind),
+      );
+      if (!work) return null;
+      sources.push(work.relationship.id, work.status.id, work.role.id);
+    }
+  }
+  return sources;
 }
 
 /** Caller supplies actual saved activity subjects; broader actor selection is never inferred. */
@@ -92,6 +160,14 @@ export function resolveRightPermission(
     const sourceRecordIds: EntityId[] = [context.activityId];
     if (row.who.selector === "recorded-person-permission") {
       if (!world.people[subjectId]) continue;
+      const scope = scopeSources(
+        world,
+        subjectId,
+        [...row.who.predicates, ...row.conditions],
+        context,
+      );
+      if (!scope) continue;
+      sourceRecordIds.push(...scope);
       const member = householdMembershipsAt(world, subjectId, cutoff)[0];
       if (!member) continue;
       const location = householdLocationAt(
@@ -188,7 +264,7 @@ export const RIGHT_PERMISSION_REGISTRATION: LawConsequenceKindRegistration = {
   owner: "Team 8",
   selectors: SELECTORS,
   actions: ACTIONS,
-  predicates: [],
+  predicates: PREDICATES,
   units: [],
   resolve: resolveRightPermission,
   apply: applyRightPermission,
