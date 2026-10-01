@@ -1,0 +1,374 @@
+{
+  "auditIds": ["A100", "preserved A102 dependency"],
+  "testedCommit": "6a464573f5bb8b8767b0254fd72e4f8d46411aa8",
+  "baseMain": "59ce2b5571eb598d62856b56e22402040e624fea",
+  "productionAndTestBlobs": {
+    "src/simulation/judiciary/court-for.ts": "59230445afc1b6935c3da6ce27de22a56ebb05bc",
+    "src/simulation/judiciary/court-for.test.ts": "9b9b9754aaa0c0072355ca0157b93f43a941d634",
+    "src/simulation/judiciary/judicial-review.ts": "49f69e63672f4445762f48cbc9e7de7e5bc7c1d3",
+    "src/simulation/justice/court-reasoning.ts": "e81bb2fd39fbf12c0cb36d0984702644f4b8339f",
+    "src/simulation/living-world/town-rent.ts": "0bf1c01845cf35f5b13d3934476f0efdc829e009",
+    "src/simulation/living-world/town-rent-civil-actors.test.ts": "db7f5604d615d2b8e30692bd6c560a52d8290138"
+  },
+  "command": "OCD_STORAGE_STATE_DIR=/tmp/team9-storage VITE_CONFIG_NATIVE_IGNORE_WARNING=true A100_PROOF_PATH=/tmp/team9-a100-composed-proof.json A102_PROOF_PATH=/tmp/team9-a100-civil-proof.json node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/judiciary/court-for.test.ts src/simulation/judiciary/judicial-review.test.ts src/simulation/living-world/town-rent-civil-actors.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team9-a100-composed-tests.json",
+  "timeoutMs": 30000,
+  "result": {
+    "passed": 16,
+    "failed": 0,
+    "durationSeconds": 190.03,
+    "tests": [
+      {
+        "name": "one finder reads saved courts retains the existing trial court family in all 56 places",
+        "status": "passed",
+        "durationMs": 2789.289625999998
+      },
+      {
+        "name": "one finder reads saved courts routes national review to the saved Supreme Court without assigning a district",
+        "status": "passed",
+        "durationMs": 1.268591000000015
+      },
+      {
+        "name": "one finder reads saved courts the actual saved venue owns the criminal judge in 'US-ND'",
+        "status": "passed",
+        "durationMs": 10766.525986
+      },
+      {
+        "name": "one finder reads saved courts the actual saved venue owns the criminal judge in 'US-MA'",
+        "status": "passed",
+        "durationMs": 11746.523536
+      },
+      {
+        "name": "one finder reads saved courts the actual saved venue owns the criminal judge in 'US-HI'",
+        "status": "passed",
+        "durationMs": 9595.997882000003
+      },
+      {
+        "name": "one finder reads saved courts the actual saved venue owns the criminal judge in 'US-IA'",
+        "status": "passed",
+        "durationMs": 10548.1403
+      },
+      {
+        "name": "one finder reads saved courts the actual saved venue owns the criminal judge in 'US-CA'",
+        "status": "passed",
+        "durationMs": 9278.402791999993
+      },
+      {
+        "name": "court review (seed judicial-review-watch-1, opened in 3338420, law in US-FL) names a seated highest court for every one of the 56 places",
+        "status": "passed",
+        "durationMs": 13.030111000000034
+      },
+      {
+        "name": "court review (seed judicial-review-watch-1, opened in 3338420, law in US-FL) rules the day before the law takes effect, each justice for their own reasons",
+        "status": "passed",
+        "durationMs": 15.544537000001583
+      },
+      {
+        "name": "court review (seed judicial-review-watch-1, opened in 3338420, law in US-FL) strikes a law when the justices' own principles and the rulings run against it, and upholds it when they run for it",
+        "status": "passed",
+        "durationMs": 2.4345610000000306
+      },
+      {
+        "name": "court review (seed judicial-review-watch-1, opened in 3338420, law in US-FL) upholds a law the U.S. Supreme Court has held valid",
+        "status": "passed",
+        "durationMs": 3.7751770000013494
+      },
+      {
+        "name": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 4055000",
+        "status": "passed",
+        "durationMs": 18850.637996
+      },
+      {
+        "name": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 1304000",
+        "status": "passed",
+        "durationMs": 16106.863915000002
+      },
+      {
+        "name": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 5363000",
+        "status": "passed",
+        "durationMs": 13622.704324000006
+      },
+      {
+        "name": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 2255000",
+        "status": "passed",
+        "durationMs": 15365.701665999994
+      },
+      {
+        "name": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 3825700",
+        "status": "passed",
+        "durationMs": 15020.262770000001
+      }
+    ]
+  },
+  "criminal": [
+    {
+      "seed": "team9-a100-saved-court-finder-20261001",
+      "place": "3800100",
+      "state": "US-ND",
+      "defendantId": "person_5a1142e471747aec",
+      "name": "Anika Terry",
+      "courtId": "us-nd:general_trial",
+      "judgeId": "person_6789e98e03db96de",
+      "judgeName": "Thomas Allen",
+      "referralId": "event_3595a2f44257638a",
+      "chargeId": "event_1dbb406401a71843",
+      "sentenceId": "event_332d67876eea8e84",
+      "sentenceJudgeId": "person_6789e98e03db96de",
+      "sentenceJudgeName": "Thomas Allen",
+      "sentenceSummary": "Anika Terry was sentenced to 15 months in jail for robbery.",
+      "sentenceMotivation": "They had been found at fault for the same thing before. The offense was violent.",
+      "trialAt": "2026-07-04",
+      "venueJurisdictionId": "jurisdiction_7e617609be5671dd",
+      "dueAt": "2026-03-06",
+      "missingJudgePending": true,
+      "missingVenueSelectorNull": true,
+      "repeatReload": true
+    },
+    {
+      "seed": "team9-a100-saved-court-finder-20261001",
+      "place": "2500135",
+      "state": "US-MA",
+      "defendantId": "person_5a1142e471747aec",
+      "name": "Anika Terry",
+      "courtId": "us-ma:general_trial",
+      "judgeId": "person_f434a76cd2f0b926",
+      "judgeName": "Robert McMillan",
+      "referralId": "event_3591b7f442539e62",
+      "chargeId": "event_81715572ff601ceb",
+      "sentenceId": "event_01be2be6515899dc",
+      "sentenceJudgeId": "person_f434a76cd2f0b926",
+      "sentenceJudgeName": "Robert McMillan",
+      "sentenceSummary": "Anika Terry was sentenced to 15 months in jail for robbery.",
+      "sentenceMotivation": "They had been found at fault for the same thing before. The offense was violent.",
+      "trialAt": "2026-07-04",
+      "venueJurisdictionId": "jurisdiction_660e18bc5aac592d",
+      "dueAt": "2026-03-06",
+      "missingJudgePending": true,
+      "missingVenueSelectorNull": true,
+      "repeatReload": true
+    },
+    {
+      "seed": "team9-a100-saved-court-finder-20261001",
+      "place": "1500400",
+      "state": "US-HI",
+      "defendantId": "person_5a1142e471747aec",
+      "name": "Anika Terry",
+      "courtId": "us-hi:general_trial",
+      "judgeId": "person_eecc6c9ad0df488b",
+      "judgeName": "Nicholas Holloway",
+      "referralId": "event_3580b3f442452463",
+      "chargeId": "event_71ce4a3e864b309a",
+      "sentenceId": "event_59c8b64bbaa82c89",
+      "sentenceJudgeId": "person_eecc6c9ad0df488b",
+      "sentenceJudgeName": "Nicholas Holloway",
+      "sentenceSummary": "Anika Terry was sentenced to 15 months in jail for robbery.",
+      "sentenceMotivation": "They had been found at fault for the same thing before. The offense was violent.",
+      "trialAt": "2026-07-04",
+      "venueJurisdictionId": "jurisdiction_8f69e03a6d262848",
+      "dueAt": "2026-03-06",
+      "missingJudgePending": true,
+      "missingVenueSelectorNull": true,
+      "repeatReload": true
+    },
+    {
+      "seed": "team9-a100-saved-court-finder-20261001",
+      "place": "1900190",
+      "state": "US-IA",
+      "defendantId": "person_5a1142e471747aec",
+      "name": "Anika Terry",
+      "courtId": "us-ia:general_trial",
+      "judgeId": "person_ee252f9df41d9022",
+      "judgeName": "Jason Fowler",
+      "referralId": "event_35849ff44248eb3e",
+      "chargeId": "event_75c13b5c117ac14f",
+      "sentenceId": "event_f0457754ca593d30",
+      "sentenceJudgeId": "person_ee252f9df41d9022",
+      "sentenceJudgeName": "Jason Fowler",
+      "sentenceSummary": "Anika Terry was sentenced to 15 months in jail for robbery.",
+      "sentenceMotivation": "They had been found at fault for the same thing before. The offense was violent.",
+      "trialAt": "2026-07-04",
+      "venueJurisdictionId": "jurisdiction_a3e4f4601cec2839",
+      "dueAt": "2026-03-06",
+      "missingJudgePending": true,
+      "missingVenueSelectorNull": true,
+      "repeatReload": true
+    },
+    {
+      "seed": "team9-a100-saved-court-finder-20261001",
+      "place": "0600135",
+      "state": "US-CA",
+      "defendantId": "person_5a1142e471747aec",
+      "name": "Anika Terry",
+      "courtId": "us-ca:general_trial",
+      "judgeId": "person_1c9fa7afdf04a3f0",
+      "judgeName": "Stephen Dominguez",
+      "referralId": "event_356fbbf44236bec8",
+      "chargeId": "event_857819efc31edf09",
+      "sentenceId": "event_136b57b6777b14be",
+      "sentenceJudgeId": "person_1c9fa7afdf04a3f0",
+      "sentenceJudgeName": "Stephen Dominguez",
+      "sentenceSummary": "Anika Terry was sentenced to 15 months in jail for robbery.",
+      "sentenceMotivation": "They had been found at fault for the same thing before. The offense was violent.",
+      "trialAt": "2026-07-04",
+      "venueJurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+      "dueAt": "2026-03-06",
+      "missingJudgePending": true,
+      "missingVenueSelectorNull": true,
+      "repeatReload": true
+    }
+  ],
+  "civil": [
+    {
+      "seed": "team9-a102-saved-civil-actors",
+      "placeKey": "4055000",
+      "town": "Oklahoma City, Oklahoma",
+      "tenantId": "person_00176a68546b414c",
+      "tenant": "Sandra Byrd",
+      "leaseFlowId": "resource-flow_72d82fe2056a16ba",
+      "housingTenureId": "housing-tenure_1df9b5553dbd300c",
+      "dwellingId": "dwelling_8200f6a1d73d6c3e",
+      "filingId": "event_563931e0a0facb1c",
+      "courtId": "us-ok:general_trial",
+      "seatId": "us-ok:general_trial:seat:1",
+      "tenureId": "judicial-tenure:us-ok:general_trial:seat:1:2026-04-01:person_a3b93f013ff4bad1",
+      "judgeId": "person_a3b93f013ff4bad1",
+      "judge": "Mary Mathews",
+      "judgmentId": "event_39f8c56daf1f9a94",
+      "hearingOn": "2026-05-01",
+      "counselAdmission": "missing; no representation inferred",
+      "fixture": "authored vacancy/zero cash/reappointment through existing writers; not natural play"
+    },
+    {
+      "seed": "team9-a102-saved-civil-actors",
+      "placeKey": "1304000",
+      "town": "Atlanta, Georgia",
+      "tenantId": "person_30e16589f874080f",
+      "tenant": "Ryan Ingram",
+      "leaseFlowId": "resource-flow_8e8c2ada2742f8a0",
+      "housingTenureId": "housing-tenure_dba3db9c69ca283b",
+      "dwellingId": "dwelling_c4c11cf60a2640dd",
+      "filingId": "event_5c862465be360ede",
+      "courtId": "us-ga:general_trial",
+      "seatId": "us-ga:general_trial:seat:1",
+      "tenureId": "judicial-tenure:us-ga:general_trial:seat:1:2026-04-01:person_04d80b66ef7aaba7",
+      "judgeId": "person_04d80b66ef7aaba7",
+      "judge": "Sage Pierce",
+      "judgmentId": "event_d93971d9b60c336a",
+      "hearingOn": "2026-05-01",
+      "counselAdmission": "missing; no representation inferred",
+      "fixture": "authored vacancy/zero cash/reappointment through existing writers; not natural play"
+    },
+    {
+      "seed": "team9-a102-saved-civil-actors",
+      "placeKey": "5363000",
+      "town": "Seattle, Washington",
+      "tenantId": "person_4b673e8c284a9aa6",
+      "tenant": "Damian Walton",
+      "leaseFlowId": "resource-flow_4f1b1184dee49972",
+      "housingTenureId": "housing-tenure_669882be534f9337",
+      "dwellingId": "dwelling_f0755f983f2df509",
+      "filingId": "event_944200c6587f8b44",
+      "courtId": "us-wa:general_trial",
+      "seatId": "us-wa:general_trial:seat:1",
+      "tenureId": "judicial-tenure:us-wa:general_trial:seat:1:2026-04-01:person_354335170e589769",
+      "judgeId": "person_354335170e589769",
+      "judge": "Michelle Tyson",
+      "judgmentId": "event_461892e586edcf8c",
+      "hearingOn": "2026-05-01",
+      "counselAdmission": "missing; no representation inferred",
+      "fixture": "authored vacancy/zero cash/reappointment through existing writers; not natural play"
+    },
+    {
+      "seed": "team9-a102-saved-civil-actors",
+      "placeKey": "2255000",
+      "town": "New Orleans, Louisiana",
+      "tenantId": "person_bce0b053477aa40a",
+      "tenant": "Grace Harmon",
+      "leaseFlowId": "resource-flow_0b5f091bfc2a33c4",
+      "housingTenureId": "housing-tenure_455c6984689a15d1",
+      "dwellingId": "dwelling_b7e5d999969cefeb",
+      "filingId": "event_db2daebb558f8dd2",
+      "courtId": "us-la:general_trial",
+      "seatId": "us-la:general_trial:seat:1",
+      "tenureId": "judicial-tenure:us-la:general_trial:seat:1:2026-04-01:person_e428bac31863f376",
+      "judgeId": "person_e428bac31863f376",
+      "judge": "Helen Nichols",
+      "judgmentId": "event_a4c0ae25c8ac4046",
+      "hearingOn": "2026-05-01",
+      "counselAdmission": "missing; no representation inferred",
+      "fixture": "authored vacancy/zero cash/reappointment through existing writers; not natural play"
+    },
+    {
+      "seed": "team9-a102-saved-civil-actors",
+      "placeKey": "3825700",
+      "town": "Fargo, North Dakota",
+      "tenantId": "person_e16b57577788face",
+      "tenant": "James Gardner",
+      "leaseFlowId": "resource-flow_c53c028c4d531eee",
+      "housingTenureId": "housing-tenure_687b0ac988059694",
+      "dwellingId": "dwelling_35378d581ba99182",
+      "filingId": "event_a34746d50a8983c4",
+      "courtId": "us-nd:general_trial",
+      "seatId": "us-nd:general_trial:seat:1",
+      "tenureId": "judicial-tenure:us-nd:general_trial:seat:1:2026-04-01:person_41cc0cfc5db23d01",
+      "judgeId": "person_41cc0cfc5db23d01",
+      "judge": "Aiden Cooper",
+      "judgmentId": "event_2ab37f3d064de10c",
+      "hearingOn": "2026-05-01",
+      "counselAdmission": "missing; no representation inferred",
+      "fixture": "authored vacancy/zero cash/reappointment through existing writers; not natural play"
+    }
+  ],
+  "all56": "existing local general-trial family parity, not nationwide natural-play cases",
+  "national": "saved Supreme Court query and missing Supreme Court / unbound federal district refusal; no federal-law ruling asserted",
+  "checks": {
+    "scopedTypeScript": {
+      "files": 1152,
+      "diagnostics": 0
+    },
+    "eslint": "PASS: six changed TypeScript files",
+    "prettier": "PASS: six changed TypeScript files",
+    "zeroDice": "PASS: 0 new, 5 gone inherited baseline entries",
+    "diffCheck": "PASS",
+    "reportCheck": "0 errors, 0 warnings"
+  },
+  "preservedEarlierReceipts": [
+    {
+      "path": "/tmp/team9-a100-tests.json",
+      "passed": 6,
+      "failed": 5,
+      "source": "first uncommitted fixture on base59ce",
+      "failure": "authored locality venues absent from saved observer world; no production guard weakened"
+    },
+    {
+      "path": "/tmp/team9-a100-sentence-tests.json",
+      "result": "11PASS, 106.86s before explicit saved sentence-actor assertions"
+    },
+    {
+      "path": "/tmp/team9-a100-final-tests.json",
+      "result": "7PASS, 100.76s; owned finder/review/criminal source at df1cc3cb174e96defa0d086bd990374afbb1f906"
+    }
+  ],
+  "civilDependency": {
+    "pr": 1546,
+    "head": "5fd1c48a5e8074cd5a7fc9d946fee256364a8271",
+    "preservedTestBlob": "db7f5604d615d2b8e30692bd6c560a52d8290138",
+    "method": "narrow git diff 5fc4dfe..5fd1c48a for two owned runtime/test files, then released court-selection/import hunk only",
+    "differenceFrom1546Rent": "4 additions, 5 deletions in import and trialJudge selection",
+    "team4": "portable selector receipt matches main6cc29 old selector; no unpublished A56 landlord bytes copied"
+  },
+  "remaining": [
+    "A103 actual referral/incident applicability record and numeric judge option/value contract require CTO decision per Audit17:10",
+    "A100 actual federal trial forum binding remains absent; no state or ID-order proxy",
+    "A100 no researched review question with federal authority; Audit/CTO binding required",
+    "A10 production load/opening recovery caller separately routed to Audit"
+  ],
+  "NOT_RUN": [
+    "nationwide natural play",
+    "year run",
+    "browser actions",
+    "actual federal-law ruling",
+    "federal trial forum assignment",
+    "A103 runtime range reader",
+    "A10 load recovery integration"
+  ]
+}
