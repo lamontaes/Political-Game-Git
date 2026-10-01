@@ -7,7 +7,7 @@ import {
   privateBeliefSubjectId,
   validatePrivateBeliefSubject,
 } from "./political-opinion-subjects";
-import { applyDateBoundary } from "./time-work";
+import { applyDateBoundariesThrough } from "./time-work";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
   changedHistoryCheckCounts,
@@ -128,12 +128,10 @@ import {
   publicInformationHistoryRecords,
 } from "./public-information-integrity";
 import {
-  EMPTY_FUTURE_TRANSITION_HANDLERS,
   assertFutureTransitionIntegrity,
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
   futureTransitionHistoryRecords,
-  resolveFutureDueItemsThrough,
 } from "./future-transitions";
 import {
   appendHistoricalEvent,
@@ -270,6 +268,7 @@ import type {
   WorldGeneratorVersion,
   WorldLineage,
 } from "./types";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
   "birth-date",
@@ -1386,7 +1385,7 @@ export function recordWorldEvent(
 export function advanceWorld(
   world: World,
   days: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   if (!Number.isSafeInteger(days) || days <= 0) {
     throw new Error(
@@ -1412,9 +1411,9 @@ function advanceWorldUnchecked(
   const nextDate = addDays(world.currentDate, days);
   const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
   const primaryJurisdictionId = world.jurisdictionOrder[0] ?? null;
-  const transitioned = resolveFutureDueItemsThrough(
+  const transitioned = applyDateBoundariesThrough(
     world,
-    nextDate,
+    nextMoment,
     transitionHandlers,
   );
   const advanced: World = {
@@ -1424,7 +1423,7 @@ function advanceWorldUnchecked(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applyDateBoundary(world.currentDate, advanced);
+  const continued = advanced;
   return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",

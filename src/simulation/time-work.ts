@@ -4,7 +4,7 @@ import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
-import { applyNationalTermTransitions } from "./national-election-consumer";
+import { nationalRecords } from "./national-elections";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
@@ -15,6 +15,7 @@ import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
+import { growingIndex, type GrowingIndexKind } from "./history-index";
 import {
   addDays,
   addSimulationMinutes,
@@ -60,6 +61,7 @@ import {
   assertWorldIntegrity,
   recordWorldEvent,
 } from "./world";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -1112,7 +1114,7 @@ export function controlledCommitmentsBlockingMinuteAdvance(
 export function advanceWorldMinutes(
   world: World,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   return advanceWithWorldIntegrityAtEnd(() => {
     if (!transitionHandlers.routine) {
@@ -1439,11 +1441,115 @@ interface ExactTransition {
   readonly stableId: string;
   readonly kind:
     | "date-boundary"
+    | "national-term-boundary"
     | "work-completion"
     | "work-progress"
     | "activity-completion";
   readonly entityId: EntityId | null;
   readonly completedEffortMinutes: number | null;
+}
+
+function compareExactTransitions(
+  left: ExactTransition,
+  right: ExactTransition,
+) {
+  return (
+    compareSimulationMoments(left.at, right.at) ||
+    left.priority - right.priority ||
+    left.creationSequence - right.creationSequence ||
+    left.stableId.localeCompare(right.stableId)
+  );
+}
+
+/** Only saved term and qualification instants drive sub-day office consumers. */
+function nationalBoundaryMoments(
+  world: World,
+  before: SimulationMoment,
+  through: SimulationMoment,
+): readonly SimulationMoment[] {
+  const moments = new Map<number, SimulationMoment>();
+  for (const record of nationalRecords(world)) {
+    const saved =
+      record.kind === "term-plan"
+        ? [record.startsAt, record.endsAt]
+        : record.kind === "qualification"
+          ? [record.effectiveAt]
+          : [];
+    for (const at of saved) {
+      if (
+        compareSimulationMoments(before, at) < 0 &&
+        compareSimulationMoments(at, through) <= 0
+      ) {
+        const local = addSimulationMinutes(
+          before,
+          simulationMinutesBetween(before, at),
+        );
+        moments.set(simulationMomentEpochMinute(at), local);
+      }
+    }
+  }
+  return [...moments.values()].sort(compareSimulationMoments);
+}
+
+function addNationalBoundaryTransitions(
+  transitions: ExactTransition[],
+  world: World,
+  before: SimulationMoment,
+  through: SimulationMoment,
+): void {
+  const represented = new Set(
+    transitions
+      .filter(
+        (t) =>
+          t.kind === "date-boundary" || t.kind === "national-term-boundary",
+      )
+      .map((t) => simulationMomentEpochMinute(t.at)),
+  );
+  for (const at of nationalBoundaryMoments(world, before, through)) {
+    const instant = simulationMomentEpochMinute(at);
+    if (represented.has(instant)) continue;
+    represented.add(instant);
+    transitions.push({
+      at,
+      priority: 0,
+      creationSequence: 0,
+      stableId: `national-term:${instant}`,
+      kind: "national-term-boundary",
+      entityId: null,
+      completedEffortMinutes: null,
+    });
+  }
+}
+
+/** The day clock visits the same date/noon boundaries without completing
+ * minute-clock work or appending a second clock action. */
+export function applyDateBoundariesThrough(
+  initial: World,
+  through: SimulationMoment,
+  handlers: FutureTransitionHandlerRegistry,
+): World {
+  let world = initial;
+  while (compareSimulationMoments(world.currentMoment, through) < 0) {
+    const before = world.currentMoment;
+    const tomorrow = simulationMomentAtLocalTime({
+      date: addDays(before.date, 1),
+      minuteOfDay: 0,
+      timeZone: before.timeZone,
+      preferredUtcOffsetMinutes: before.utcOffsetMinutes,
+    });
+    const firstTerm = nationalBoundaryMoments(world, before, through)[0];
+    let at =
+      compareSimulationMoments(tomorrow, through) <= 0 ? tomorrow : through;
+    if (firstTerm && compareSimulationMoments(firstTerm, at) < 0)
+      at = firstTerm;
+    world = setCurrentMoment(
+      resolveFutureDueItemsThrough(world, at.date, handlers),
+      at,
+      before.date,
+      before,
+    );
+  }
+  return world;
 }
 
 /**
@@ -1522,6 +1628,106 @@ function advanceStoppingAtNewCommitments(
   throw new Error("Advancing to a newly scheduled activity did not converge.");
 }
 
+interface ActivityCompletionIndex {
+  readonly latest: Map<EntityId, ScheduledActivityStateRecord>;
+  readonly byUtcDay: Map<number, Map<EntityId, ScheduledActivityStateRecord>>;
+}
+
+const ACTIVITY_COMPLETION_RECORDS: GrowingIndexKind<
+  Map<EntityId, ScheduledActivityRecord>
+> = {
+  create: () => new Map(),
+  add(index, record) {
+    const activity = record as ScheduledActivityRecord;
+    index.set(activity.id, activity);
+  },
+};
+
+const ACTIVITY_COMPLETION_INDEX: GrowingIndexKind<ActivityCompletionIndex> = {
+  create: () => ({ latest: new Map(), byUtcDay: new Map() }),
+  add(index, record) {
+    const state = record as ScheduledActivityStateRecord;
+    const previous = index.latest.get(state.activityId);
+    if (previous?.status === "scheduled") {
+      const day = Math.floor(simulationMomentEpochMinute(previous.end) / 1440);
+      const bucket = index.byUtcDay.get(day);
+      bucket?.delete(state.activityId);
+      if (bucket?.size === 0) index.byUtcDay.delete(day);
+    }
+    index.latest.set(state.activityId, state);
+    if (state.status !== "scheduled") return;
+    const day = Math.floor(simulationMomentEpochMinute(state.end) / 1440);
+    let bucket = index.byUtcDay.get(day);
+    if (!bucket) {
+      bucket = new Map();
+      index.byUtcDay.set(day, bucket);
+    }
+    bucket.set(state.activityId, state);
+  },
+};
+
+function addActivityCompletionTransitions(
+  transitions: ExactTransition[],
+  world: World,
+  after: SimulationMoment,
+  through: SimulationMoment,
+  includeCurrentBoundary = false,
+  performedActivityId: EntityId | null = null,
+): void {
+  const index = growingIndex(
+    ACTIVITY_COMPLETION_INDEX,
+    world.history.scheduledActivityStates,
+  );
+  const activities = growingIndex(
+    ACTIVITY_COMPLETION_RECORDS,
+    world.history.scheduledActivities,
+  );
+  const firstDay = Math.floor(simulationMomentEpochMinute(after) / 1440);
+  const lastDay = Math.floor(simulationMomentEpochMinute(through) / 1440);
+  for (let day = firstDay; day <= lastDay; day++) {
+    for (const state of index.byUtcDay.get(day)?.values() ?? []) {
+      if (
+        compareSimulationMoments(state.end, after) < 0 ||
+        (!includeCurrentBoundary && sameSimulationMoment(state.end, after)) ||
+        compareSimulationMoments(state.end, through) > 0
+      )
+        continue;
+      const activity = activities.get(state.activityId);
+      if (!activity)
+        throw new Error("Scheduled completion activity identity is missing.");
+      // A saved optional invitation is not attendance. Travel commits only
+      // when its saved destination is a confirmed activity for this roster.
+      const committedTravel =
+        activity.kind === "travel" &&
+        activity.sourceEntityIds.some((sourceId) => {
+          const destination = activities.get(sourceId);
+          return (
+            destination?.kind === "confirmed" &&
+            activity.participantPersonIds.every((personId) =>
+              destination.participantPersonIds.includes(personId),
+            ) &&
+            index.latest.get(sourceId)?.status !== "cancelled"
+          );
+        });
+      if (
+        activity.id !== performedActivityId &&
+        activity.kind !== "confirmed" &&
+        !committedTravel
+      )
+        continue;
+      transitions.push({
+        at: state.end,
+        priority: 2,
+        creationSequence: activity.sequence,
+        stableId: activity.id,
+        kind: "activity-completion",
+        entityId: activity.id,
+        completedEffortMinutes: null,
+      });
+    }
+  }
+}
+
 function advanceCanonicalMinutes(
   inputWorld: World,
   minutes: number,
@@ -1539,7 +1745,7 @@ function advanceCanonicalMinutes(
   const transitions: ExactTransition[] = [];
   for (
     let date = addDays(start.date, 1);
-    date < target.date;
+    date <= target.date;
     date = addDays(date, 1)
   ) {
     const boundary = simulationMomentAtLocalTime({
@@ -1560,6 +1766,7 @@ function advanceCanonicalMinutes(
       });
     }
   }
+  addNationalBoundaryTransitions(transitions, inputWorld, start, target);
   for (const progress of projectStaffProgress(inputWorld, start, target)) {
     transitions.push({
       at: progress.completed ? progress.at : target,
@@ -1584,36 +1791,42 @@ function advanceCanonicalMinutes(
         "Performed activity must resolve at its exact scheduled end.",
       );
     }
-    transitions.push({
-      at: target,
-      priority: 2,
-      creationSequence: activity.sequence,
-      stableId: completedActivityId,
-      kind: "activity-completion",
-      entityId: completedActivityId,
-      completedEffortMinutes: null,
-    });
   }
-  transitions.sort(
-    (left, right) =>
-      compareSimulationMoments(left.at, right.at) ||
-      left.priority - right.priority ||
-      left.creationSequence - right.creationSequence ||
-      left.stableId.localeCompare(right.stableId),
+  addActivityCompletionTransitions(
+    transitions,
+    inputWorld,
+    start,
+    target,
+    false,
+    completedActivityId,
   );
+  transitions.sort(compareExactTransitions);
 
   let world = inputWorld;
-  for (const transition of transitions) {
-    if (transition.kind === "date-boundary") {
+  for (let index = 0; index < transitions.length; index++) {
+    const transition = transitions[index]!;
+    const activitiesBefore = world.history.scheduledActivities;
+    const activityStatesBefore = world.history.scheduledActivityStates;
+    const nationalRecordsBefore = world.history.nationalElectionRecords;
+    if (
+      transition.kind === "date-boundary" ||
+      transition.kind === "national-term-boundary"
+    ) {
       // Resolving due items moves the date to each due day; the continuity
       // producers must still see the whole span this boundary crossed.
       const crossedFrom = world.currentDate;
+      const crossedMoment = world.currentMoment;
       world = resolveFutureDueItemsThrough(
         world,
         transition.at.date,
         transitionHandlers,
       );
-      world = setCurrentMoment(world, transition.at, crossedFrom);
+      world = setCurrentMoment(
+        world,
+        transition.at,
+        crossedFrom,
+        crossedMoment,
+      );
     } else if (transition.kind === "work-completion" && transition.entityId) {
       world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeStaffWork(
@@ -1634,6 +1847,12 @@ function advanceCanonicalMinutes(
       transition.kind === "activity-completion" &&
       transition.entityId
     ) {
+      const state = latestActivityStateUnchecked(world, transition.entityId);
+      if (
+        state?.status !== "scheduled" ||
+        !sameSimulationMoment(state.end, transition.at)
+      )
+        continue;
       world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeActivity(
         world,
@@ -1645,6 +1864,50 @@ function advanceCanonicalMinutes(
           world,
           transition.entityId,
         );
+    }
+    // A normal completion changes only its own terminal state. Keep its
+    // already queued peers instead of scanning/sorting them once per person.
+    const completedOnlyThisActivity =
+      transition.kind === "activity-completion" &&
+      world.history.scheduledActivities === activitiesBefore &&
+      world.history.scheduledActivityStates.length ===
+        activityStatesBefore.length + 1 &&
+      world.history.scheduledActivityStates.at(-1)?.activityId ===
+        transition.entityId &&
+      world.history.scheduledActivityStates.at(-1)?.status === "completed";
+    const activitiesChanged =
+      world.history.scheduledActivities !== activitiesBefore ||
+      (world.history.scheduledActivityStates !== activityStatesBefore &&
+        !completedOnlyThisActivity);
+    const termsChanged =
+      world.history.nationalElectionRecords !== nationalRecordsBefore ||
+      transition.kind === "date-boundary" ||
+      transition.kind === "national-term-boundary";
+    if (activitiesChanged || termsChanged) {
+      const remaining = transitions
+        .slice(index + 1)
+        .filter(
+          (candidate) =>
+            !activitiesChanged || candidate.kind !== "activity-completion",
+        );
+      if (termsChanged)
+        addNationalBoundaryTransitions(
+          remaining,
+          world,
+          world.currentMoment,
+          target,
+        );
+      if (activitiesChanged)
+        addActivityCompletionTransitions(
+          remaining,
+          world,
+          world.currentMoment,
+          target,
+          true,
+          completedActivityId,
+        );
+      remaining.sort(compareExactTransitions);
+      transitions.splice(index + 1, transitions.length, ...remaining);
     }
   }
   world = setCurrentMomentWithDue(world, target, transitionHandlers);
@@ -1950,7 +2213,7 @@ function completeActivity(
     stableKey,
     sequence: next.history.nextSequence,
     activityId,
-    recordedAt: cloneMoment(at),
+    recordedAt: cloneMoment(next.currentMoment),
     start: previous.start,
     end: previous.end,
     status: "completed",
@@ -2005,10 +2268,12 @@ function setCurrentMomentWithDue(
 ): World {
   if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
   const crossedFrom = world.currentDate;
+  const crossedMoment = world.currentMoment;
   return setCurrentMoment(
     resolveFutureDueItemsThrough(world, moment.date, transitionHandlers),
     moment,
     crossedFrom,
+    crossedMoment,
   );
 }
 
@@ -2016,12 +2281,17 @@ function setCurrentMoment(
   world: World,
   moment: SimulationMoment,
   crossedFrom: World["currentDate"] = world.currentDate,
+  crossedMoment: SimulationMoment = world.currentMoment,
 ): World {
-  return applyDateBoundary(crossedFrom, {
-    ...world,
-    currentDate: moment.date,
-    currentMoment: cloneMoment(moment),
-  });
+  return applyDateBoundary(
+    crossedFrom,
+    {
+      ...world,
+      currentDate: moment.date,
+      currentMoment: cloneMoment(moment),
+    },
+    crossedMoment,
+  );
 }
 
 /** The canonical consequences of moving between dates. Callers pass the date
@@ -2029,8 +2299,17 @@ function setCurrentMoment(
 export function applyDateBoundary(
   crossedFrom: World["currentDate"],
   world: World,
+  crossedMoment?: SimulationMoment,
 ): World {
-  const moved = applyNationalTermTransitions(world);
+  const termBoundary = crossedMoment
+    ? nationalBoundaryMoments(world, crossedMoment, world.currentMoment)
+        .length > 0
+    : true;
+  if (world.currentDate <= crossedFrom)
+    return termBoundary
+      ? applyPresidentialTurnover(world.currentDate, world, true)
+      : world;
+  const moved = world;
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
@@ -2059,6 +2338,7 @@ export function applyDateBoundary(
                           applyStateLegislatureTurnover(crossedFrom, moved),
                         ),
                       ),
+                      termBoundary,
                     ),
                   ),
                 ),
@@ -2443,7 +2723,7 @@ export function assertTimeWorkIntegrity(
       } else if (state.change === "completed") {
         if (
           state.status !== "completed" ||
-          !sameSimulationMoment(state.recordedAt, state.end) ||
+          compareSimulationMoments(state.recordedAt, state.end) < 0 ||
           state.outcomeEventId === null
         ) {
           throw new Error(`Invalid activity completion: ${state.id}`);
@@ -2457,7 +2737,7 @@ export function assertTimeWorkIntegrity(
       state.outcomeEventId,
       activity.id,
       state.sequence,
-      state.recordedAt,
+      state.change === "completed" ? state.end : state.recordedAt,
     );
     prior.push(state);
     activityStates.set(activity.id, prior);
