@@ -238,7 +238,10 @@ describe("shared public cash settlement for T", () => {
       fixture.input,
       fixture.resolver,
     );
-    expect(first.kind).toBe("paid");
+    expect(
+      first.kind,
+      first.kind === "refused" ? first.reason : undefined,
+    ).toBe("paid");
     if (first.kind !== "paid") throw new Error(first.reason);
     const attempted = commitPublicProgram(first.world, {
       appropriationId: fixture.mandate.appropriationId!,
@@ -356,7 +359,10 @@ describe("shared public cash settlement for T", () => {
       fixture.input,
       fixture.resolver,
     );
-    expect(result.kind).toBe("paid");
+    expect(
+      result.kind,
+      result.kind === "refused" ? result.reason : undefined,
+    ).toBe("paid");
     if (result.kind !== "paid") throw new Error(result.reason);
     const paymentHooks = () =>
       activity.mock.calls.filter(
