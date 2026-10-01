@@ -257,7 +257,9 @@ export function congressSittingHandler(
   };
 }
 
-export const CONGRESS_LAWMAKING_HANDLERS = [
-  [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
-  [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
-] as const;
+export function congressLawmakingHandlers() {
+  return [
+    [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
+    [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
+  ] as const;
+}

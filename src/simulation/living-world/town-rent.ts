@@ -1040,9 +1040,9 @@ export function rentDayHandler(
   };
 }
 
-export const RENT_DAY_HANDLERS = [
-  [RENT_DAY_TRANSITION_KEY, rentDayHandler],
-] as const;
+export function rentDayHandlers() {
+  return [[RENT_DAY_TRANSITION_KEY, rentDayHandler]] as const;
+}
 
 // ─── Rent day ───────────────────────────────────────────────────────────
 

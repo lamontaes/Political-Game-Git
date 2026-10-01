@@ -1383,10 +1383,12 @@ export function programDeliveryHandler(
   );
 }
 
-export const PUBLIC_PROGRAM_HANDLERS = [
-  [PUBLIC_PROGRAM_INSTALLMENT, programInstallmentHandler],
-  [PUBLIC_PROGRAM_DELIVERY, programDeliveryHandler],
-] as const;
+export function publicProgramHandlers() {
+  return [
+    [PUBLIC_PROGRAM_INSTALLMENT, programInstallmentHandler],
+    [PUBLIC_PROGRAM_DELIVERY, programDeliveryHandler],
+  ] as const;
+}
 
 /** Months between two dates, for monthly schedules supplied by callers. */
 export function monthlyAfterDays(from: IsoDate, months: number): number {

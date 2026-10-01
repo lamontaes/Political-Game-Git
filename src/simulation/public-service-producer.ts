@@ -715,7 +715,9 @@ export function serviceAttendanceHandler(
   );
 }
 
-export const PUBLIC_SERVICE_HANDLERS = [
-  [PUBLIC_SERVICE_RESIDENT_REQUESTS, residentServiceRequestsHandler],
-  [PUBLIC_SERVICE_ATTENDANCE, serviceAttendanceHandler],
-] as const;
+export function publicServiceHandlers() {
+  return [
+    [PUBLIC_SERVICE_RESIDENT_REQUESTS, residentServiceRequestsHandler],
+    [PUBLIC_SERVICE_ATTENDANCE, serviceAttendanceHandler],
+  ] as const;
+}

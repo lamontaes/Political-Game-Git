@@ -4,8 +4,8 @@ import {
   HOUSEHOLD_LOAN_MONTH_KEY,
   householdLoanMonthHandler,
 } from "./household-loans";
-import { PAYDAY_HANDLERS } from "./living-world/town-pay";
-import { RENT_DAY_HANDLERS } from "./living-world/town-rent";
+import { paydayHandlers } from "./living-world/town-pay";
+import { rentDayHandlers } from "./living-world/town-rent";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -31,26 +31,26 @@ import {
   stateGoverningHandlers,
   withProgramMatters,
 } from "./governing/state-governing";
-import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
-import { PUBLIC_SERVICE_HANDLERS } from "./public-service-producer";
-import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
-import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
-import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
-import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
-import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
-import { ARTICLE_V_HANDLERS } from "./governing/article-v";
+import { publicProgramHandlers } from "./governing/public-program";
+import { publicServiceHandlers } from "./public-service-producer";
+import { enactedDutyHandlers } from "./enacted-duties";
+import { officeContinuityHandlers } from "./governing/office-continuity";
+import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
+import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
+import { federalReformHandlers } from "./living-world/federal-reform";
+import { articleVHandlers } from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
 } from "./living-world/political-reflection";
-import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-turnover";
-import { RECALL_HANDLERS } from "./recall";
-import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
-import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
-import { LOCAL_COUNCIL_MEETING_HANDLERS } from "./living-world/local-council-meetings";
+import { presidentialTurnoverHandlers } from "./nationwide-world/presidential-turnover";
+import { recallHandlers } from "./recall";
+import { councilActHandlers } from "./municipal-ordinance-procedure";
+import { dcCouncilSittingHandlers } from "./dc-council-sittings";
+import { localCouncilMeetingHandlers } from "./living-world/local-council-meetings";
 import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import {
-  LOCAL_MEMBER_AGENDA_HANDLERS,
+  localMemberAgendaHandlers,
   scheduleLocalMemberAgendaIntakes,
 } from "./governing/member-agenda";
 import {
@@ -63,13 +63,13 @@ import { createTaxTransitionHandlerRegistry } from "./tax-policy";
 import { createCrisisTransitionRegistry } from "./crisis";
 import { createClemencyTransitionRegistry } from "./justice/clemency-transitions";
 import { composeExecutiveWorkHandlers } from "./executive-work";
-import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
+import { lifePaths2Handlers } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
-  LOCAL_ELECTION_HANDLERS,
+  localElectionHandlers,
   localCampaignSeat,
   localSeatHolder,
   withdrawTownRaceForCampaign,
@@ -133,10 +133,10 @@ import {
   recordOrganizationParticipationState,
   recordWorkStatus,
 } from "./life";
-import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
+import { lifeTransitionHandlers } from "./life-callbacks";
 import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
-import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
+import { peopleFamilyHandlers } from "./people-family-plan";
 import {
   CLAIM_CONTRADICTION_TRANSITION_KEY,
   claimContradictionTransitionHandler,
@@ -228,7 +228,7 @@ import {
   assertWorldIntegrity,
   recordWorldEvent,
 } from "./world";
-import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
+import { campaignLifeHandlers } from "./campaign-life-handlers";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
   SUPPORT_DENOMINATOR,
@@ -2184,7 +2184,7 @@ export function composeWorldTimeHandlers(
       ),
       createTaxTransitionHandlerRegistry(),
       createProsecutionTransitionRegistry(),
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
       // D-11: the candidate's standing campaign hours, after the day job's.
       createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
@@ -2195,35 +2195,35 @@ export function composeWorldTimeHandlers(
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),
-        ...GOVERNOR_TURNOVER_HANDLERS,
+        ...governorTurnoverHandlers(),
         // A legislature and voters changing the governor's term limit.
-        ...CONSTITUTIONAL_REFORM_HANDLERS,
+        ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
-        ...FEDERAL_REFORM_HANDLERS,
-        ...ARTICLE_V_HANDLERS,
-        ...PRESIDENTIAL_TURNOVER_HANDLERS,
+        ...federalReformHandlers(),
+        ...articleVHandlers(),
+        ...presidentialTurnoverHandlers(),
         // Voters recalling a town official: petition, then recall election.
-        ...RECALL_HANDLERS,
+        ...recallHandlers(),
         // The player's town electing its council and mayor on its own.
-        ...LOCAL_ELECTION_HANDLERS,
+        ...localElectionHandlers(),
         // Local councils enact on their own clocks. Money they appropriate
         // goes to their executive the same day, as a legislature's does.
         ...[
           // Scheduled council readings and executive/return deadlines.
-          ...COUNCIL_ACT_HANDLERS,
+          ...councilActHandlers(),
           // The Council of the District of Columbia sitting on its own.
-          ...DC_COUNCIL_SITTING_HANDLERS,
+          ...dcCouncilSittingHandlers(),
           // Admitted city and county councils use a separate quarterly game clock.
-          ...LOCAL_MEMBER_AGENDA_HANDLERS,
+          ...localMemberAgendaHandlers(),
           // The player's town council meeting and voting on ordinances.
-          ...LOCAL_COUNCIL_MEETING_HANDLERS,
+          ...localCouncilMeetingHandlers(),
         ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
-        ...PUBLIC_PROGRAM_HANDLERS,
+        ...publicProgramHandlers(),
         // Residents ask for a paid public service, then take part in it.
-        ...PUBLIC_SERVICE_HANDLERS,
+        ...publicServiceHandlers(),
         // An enacted law's duty falling due on the bodies it covers.
-        ...ENACTED_DUTY_HANDLERS,
-        ...OFFICE_CONTINUITY_HANDLERS,
+        ...enactedDutyHandlers(),
+        ...officeContinuityHandlers(),
         [
           POLITICAL_REFLECTION_TRANSITION_KEY,
           politicalReflectionTransitionHandler,
@@ -2248,11 +2248,11 @@ export function composeWorldTimeHandlers(
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
-        ...PAYDAY_HANDLERS,
+        ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
-        ...RENT_DAY_HANDLERS,
+        ...rentDayHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
-        ...CAMPAIGN_LIFE_HANDLERS,
+        ...campaignLifeHandlers(),
       ]),
       // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
       createPressTransitionRegistry(),
@@ -2261,8 +2261,8 @@ export function composeWorldTimeHandlers(
       // 1A PEOPLE: residents take their own steps toward private goals.
       PEOPLE_GOAL_HANDLERS,
       // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
-      PEOPLE_FAMILY_HANDLERS,
-      LIFE_TRANSITION_HANDLERS,
+      peopleFamilyHandlers(),
+      lifeTransitionHandlers(),
     ),
   );
   return additional

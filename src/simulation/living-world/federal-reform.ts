@@ -679,7 +679,9 @@ export function federalReformStateActionHandler(
   );
 }
 
-export const FEDERAL_REFORM_HANDLERS = [
-  [FEDERAL_REFORM_REVIEW, federalReformReviewHandler],
-  [FEDERAL_REFORM_STATE_ACTION, federalReformStateActionHandler],
-] as const;
+export function federalReformHandlers() {
+  return [
+    [FEDERAL_REFORM_REVIEW, federalReformReviewHandler],
+    [FEDERAL_REFORM_STATE_ACTION, federalReformStateActionHandler],
+  ] as const;
+}
