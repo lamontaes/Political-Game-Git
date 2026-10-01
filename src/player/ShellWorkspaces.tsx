@@ -874,7 +874,6 @@ export function CalendarWorkspaceSurface({
                         onApplyNow={applyNow}
                         world={world}
                         personId={personId}
-                        interruptions={interruptions}
                         onOpenBlockingActivity={(id) => {
                           setSelectedDate(null);
                           setSelectedId(id);
@@ -1105,7 +1104,6 @@ function CalendarEventActions({
   onApplyNow,
   world,
   personId,
-  interruptions,
   onOpenBlockingActivity,
 }: {
   readonly selected: CalendarEntry;
@@ -1118,7 +1116,6 @@ function CalendarEventActions({
   }) => void;
   readonly world: World;
   readonly personId: EntityId;
-  readonly interruptions: InterruptionPreferences;
   readonly onOpenBlockingActivity: (id: EntityId) => void;
 }) {
   const personalWorkSession = world.history.scheduledActivities.some(
@@ -1136,7 +1133,6 @@ function CalendarEventActions({
     world,
     personId,
     selected.activityId,
-    interruptions,
   );
   const skip = previewTimeCommand(world, personId, {
     kind: "until-activity",
@@ -1156,7 +1152,7 @@ function CalendarEventActions({
     world,
     personId,
     selected.activityId,
-    interruptionHandlers(interruptions),
+    interruptionHandlers(),
   );
   const laneRoute = campaignLife?.needsLaneRoute ? campaignLife : null;
   const attendNote = laneRoute
@@ -1330,7 +1326,6 @@ function CalendarEventActions({
                   current,
                   personId,
                   selected.activityId,
-                  interruptions,
                 ),
               onReport,
             )

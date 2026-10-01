@@ -15,7 +15,6 @@ import {
   establishOpeningOfficeholders,
 } from "./opening-officeholders";
 import { projectContacts } from "./people-contacts";
-import { DEFAULT_INTERRUPTIONS } from "./shell-navigation";
 
 /**
  * UI36 adapters: the interruption checklist and the person card's real
@@ -45,8 +44,8 @@ function childAtHome(seed: string) {
   const game = createNewGameWorld({
     placeKey: "kentucky",
     startAge: 10,
-    depth: "play-from-childhood",
-    startingLife: "opening-life",
+    depth: "play-formative-years",
+    startingLife: "ordinary-life",
     household: "shares-a-home",
     seed,
     givenName: null,
@@ -61,11 +60,9 @@ function childAtHome(seed: string) {
 }
 
 describe("interruption preferences", () => {
-  it("leaves routine work automatic when only tentative holds are requested", () => {
-    const relaxed = interruptionHandlers(DEFAULT_INTERRUPTIONS);
-    const strict = interruptionHandlers({
-      stopForTentativeHolds: true,
-    });
+  it("keeps routine auto-resolution stable across registry composition", () => {
+    const relaxed = interruptionHandlers();
+    const strict = interruptionHandlers();
     const { world } = ordinaryAdult("ui36-policy");
     for (const activity of world.history.scheduledActivities) {
       const base = relaxed.routine?.isAutoResolvableActivity(
