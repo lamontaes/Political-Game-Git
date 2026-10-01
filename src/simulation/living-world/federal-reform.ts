@@ -15,7 +15,6 @@ import {
   type TermLimitRule,
 } from "../enacted-rule-changes";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { considerationScore, evaluateDecision } from "../decisions";
 import {
   CONSTITUTIONAL_BAR,
   congressVoters,
@@ -38,7 +37,6 @@ import type { ConstitutionalRatificationChamberVote } from "../constitutional-ty
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { relationshipConsiderations } from "../governing/standing-considerations";
-import { currentHistoricalCutoff } from "../queries";
 import {
   NATIONAL_ELECTION_JURISDICTION,
   ensureNationalElectionJurisdiction,
@@ -578,64 +576,6 @@ const PRESIDENT: TermLimitHolder = {
   decisionType: "governing.presidential-term-limit-vote",
   keyWord: "president",
 };
-
-/**
- * How a member votes on an officeholder's term limit. HAND-SET weights on the
- * shared decision scale: the officeholder's party "strong", a relationship at
- * its recorded strength, the constitutional bar "moderate".
- */
-export function termLimitBallot(
-  world: World,
-  stableKey: string,
-  voter: Voter,
-  cause: {
-    readonly direction: "extend" | "restore";
-    readonly holderPersonId: EntityId;
-  },
-  holder: TermLimitHolder = PRESIDENT,
-  extra: readonly DecisionConsideration[] = [],
-): { readonly ballot: "yea" | "nay" | "absent"; readonly reason: string } {
-  const player =
-    world.control.kind === "person" ? world.control.personId : null;
-  if (voter.personId === player)
-    return { ballot: "absent", reason: "member:player-not-asked" };
-  const considerations = termLimitConsiderations(
-    world,
-    voter,
-    cause,
-    holder,
-    extra,
-  );
-  const evaluation = evaluateDecision(world, {
-    stableKey,
-    decisionType: holder.decisionType,
-    actorPersonId: voter.personId,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:constitutional-amendment",
-      key: stableKey,
-      entityId: null,
-    },
-    options: [
-      { key: "vote-yea", label: "Vote yes", description: "Propose it." },
-      { key: "vote-nay", label: "Vote no", description: "Leave it out." },
-    ],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
-  });
-  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
-  const reason =
-    considerations
-      .filter((c) => c.optionKey === `vote-${ballot}`)
-      .sort(
-        (a, b) =>
-          Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
-      )[0]?.stableKey ?? "member:no-reason";
-  return { ballot, reason };
-}
 
 /** Existing term-limit reasons, also used by actual state chamber rollcalls. */
 export function termLimitConsiderations(
