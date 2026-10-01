@@ -135,6 +135,7 @@ function presentedBill(
     shortTitle: "Neutral executive fixture",
     summary: "Supplied procedure for executive parity.",
     propositionAnswers,
+    propositionIds: propositionAnswers?.map((row) => row.propositionId),
     origin: "member-introduction",
     subjectClass: "general-policy",
     originChamberKey: "house",
