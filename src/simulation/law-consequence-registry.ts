@@ -4,17 +4,17 @@ import type {
 } from "./law-consequence-types";
 import type { LawConsequenceCapabilities } from "./law-consequence-validation";
 
-/** Sole registration surface. Each kind owner appends its export; coordinator reviews the composition. */
+/** Sole registration surface. Coordinator appends reviewed kind exports here. */
 export const LAW_CONSEQUENCE_REGISTRATIONS: readonly LawConsequenceKindRegistration[] =
   [
-    // pay: Team3
-    // tax: Team6
-    // price-cost: Team4
-    // coverage-eligibility: Team8
-    // right-permission: Team8
-    // service-delivered: Team5
+    // pay: Team2
     // legal-outcome: Team9
-    // institution-rule: Team2
+    // coverage-eligibility: Team8
+    // tax: Team3
+    // price-cost: Team4
+    // service-delivered: Team5 (Team6 transit contributor)
+    // right-permission: Team1
+    // institution-rule: Team1
   ];
 
 export function createLawConsequenceRegistry(
