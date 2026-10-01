@@ -8,7 +8,12 @@ import { addDays, makeIsoDate } from "../dates";
 import { createDemoWorld } from "../demo";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, IsoDate, Person, World } from "../types";
-import { isPersonAliveAt, personFunctionalCapacityAt } from "../vitality";
+import * as vitality from "../vitality";
+import {
+  isPersonAliveAt,
+  MORTALITY_TRANSITION_KEY,
+  personFunctionalCapacityAt,
+} from "../vitality";
 import {
   advanceWorld,
   assertWorldIntegrity,
@@ -236,6 +241,91 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
     },
     SLOW,
   );
+});
+
+describe("one death engine (A130)", () => {
+  it("writes every ordinary death through crisis/mortality.ts, and nothing schedules or handles an annual check", () => {
+    // The annual check's writer and handler are gone from the code.
+    expect(vitality).not.toHaveProperty("schedulePersonMortalityCheck");
+    expect(vitality).not.toHaveProperty("mortalityTransitionHandler");
+    expect(vitality).not.toHaveProperty("mortalityRngForPlan");
+    // The clock a player's day runs on has no handler for one.
+    expect(
+      createCampaignElectionTransitionRegistry().get(MORTALITY_TRANSITION_KEY),
+    ).toBeUndefined();
+    expect(REGISTRY.get(MORTALITY_TRANSITION_KEY)).toBeUndefined();
+
+    const run = advanceWorld(
+      cohortWorld("a130-one-engine").world,
+      800,
+      REGISTRY,
+    );
+    expect(run.history.personDeaths.length).toBeGreaterThan(0);
+    for (const death of run.history.personDeaths) {
+      // The stable key crisis/mortality.ts writes, with a crisis cause.
+      expect(death.stableKey).toBe(
+        `crisis:mortality:death:${death.personId}:${death.diedAt}`,
+      );
+      expect([
+        DEATH_CAUSE_ILLNESS_WITH_COURSE,
+        DEATH_CAUSE_SUDDEN_ILLNESS,
+        DEATH_CAUSE_INJURY,
+      ]).toContain(death.causeKey);
+    }
+    expect(run.history.mortalityCheckPlans).toEqual([]);
+    expect(run.history.mortalityCheckResults).toEqual([]);
+    expect(
+      run.history.futureDueItems.some(
+        (item) => item.transitionKey === MORTALITY_TRANSITION_KEY,
+      ),
+    ).toBe(false);
+  }, 60_000);
+
+  it("still opens a save whose death the annual check wrote, and writes nothing new for it", async () => {
+    // Written by the annual check before it was removed: one person, a
+    // certain-death life table, the check's plan, its died result, the death.
+    const fixture = await import("./fixtures/dormant-annual-check-save.json");
+    const old = deserializeWorld(JSON.stringify(fixture.default));
+    expect(() => assertWorldIntegrity(old)).not.toThrow();
+    expect(old.history.mortalityCheckPlans).toHaveLength(1);
+    const result = old.history.mortalityCheckResults[0]!;
+    expect(result.outcome).toBe("died");
+    const death = old.history.personDeaths.find(
+      (row) => row.id === result.deathRecordId,
+    )!;
+    expect(
+      isPersonAliveAt(old, death.personId, {
+        asOfDate: old.currentDate,
+        historySequenceExclusive: old.history.nextSequence,
+      }),
+    ).toBe(false);
+
+    // A year on, the save keeps its records as written and gains none.
+    const later = advanceWorld(ensureCrisisMortality(old), 365, REGISTRY);
+    expect(later.history.mortalityCheckPlans).toEqual(
+      old.history.mortalityCheckPlans,
+    );
+    expect(later.history.mortalityCheckResults).toEqual(
+      old.history.mortalityCheckResults,
+    );
+    expect(
+      later.history.futureDueItems.filter(
+        (item) => item.transitionKey === MORTALITY_TRANSITION_KEY,
+      ),
+    ).toEqual(
+      old.history.futureDueItems.filter(
+        (item) => item.transitionKey === MORTALITY_TRANSITION_KEY,
+      ),
+    );
+    expect(
+      later.history.personDeaths.filter(
+        (row) => row.personId === death.personId,
+      ),
+    ).toEqual([death]);
+    expect(() =>
+      assertWorldIntegrity(deserializeWorld(serializeWorld(later))),
+    ).not.toThrow();
+  }, 60_000);
 });
 
 describe("CRISIS K2 health, disclosure, recovery and death", () => {

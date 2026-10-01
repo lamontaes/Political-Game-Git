@@ -889,13 +889,6 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "if (rng.fork(\"child\").next() >= chance) continue;"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
       "code": "if (rng.fork(\"looks\").next() >= chance) continue;"
     },
     {
