@@ -1,11 +1,14 @@
 import { evaluateLawAmount } from "../law-consequence-amount";
 import type {
+  LawAmountExpression,
+  LawAmountUnit,
   LawConsequenceContext,
   LawConsequenceKindRegistration,
   LawConsequenceRow,
   ResolvedLawConsequence,
 } from "../law-consequence-types";
 import { lawInForce } from "../governing/law-in-force";
+import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
 import { recordById, recordByStableKey } from "../history-index";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { resourceFlowTermsAt } from "../resource-queries";
@@ -15,6 +18,41 @@ import type { World } from "../types";
 const SELECTOR = "person-price-flows";
 const ACTION = "set-resource-flow-price";
 const BASIS = "price-flow-basis";
+
+/** The kind requests only the typed terms its amount expression actually reads. */
+function requiredTermUnits(
+  expression: LawAmountExpression,
+): ReadonlyMap<string, LawAmountUnit> {
+  const units = new Map<string, LawAmountUnit>();
+  function visit(node: LawAmountExpression): void {
+    switch (node.op) {
+      case "term": {
+        const prior = units.get(node.key);
+        if (prior && prior !== node.unit)
+          throw new Error(
+            `Price-cost term '${node.key}' has conflicting units`,
+          );
+        units.set(node.key, node.unit);
+        return;
+      }
+      case "sum":
+      case "minimum":
+      case "maximum":
+        node.operands.forEach(visit);
+        return;
+      case "difference":
+      case "product":
+      case "ratio":
+        visit(node.left);
+        visit(node.right);
+        return;
+      default:
+        return;
+    }
+  }
+  visit(expression);
+  return units;
+}
 
 /** Resolves one actual priced flow activity, not every flow in the world. */
 export function resolvePriceCostConsequences(
@@ -91,7 +129,12 @@ export function resolvePriceCostConsequences(
   if (!law || law.answer !== "yes") return [];
   if (context.governingLawId && context.governingLawId !== law.measureId)
     return [];
-  const terms = activity ?? resourceFlowTermsAt(world, flow.id);
+  const terms =
+    activity ??
+    resourceFlowTermsAt(world, flow.id, {
+      asOfDate: context.onDate,
+      historySequenceExclusive: world.history.nextSequence,
+    });
   if (activity && activity.effectiveAt !== context.onDate)
     throw new Error(
       "Price-cost renewal activity must be the current saved terms record",
@@ -101,10 +144,30 @@ export function resolvePriceCostConsequences(
     : undefined;
   if (!terms || terms.status !== "active" || flow.startsAt > context.onDate)
     return [];
+  const requestedTerms = requiredTermUnits(row.amount);
+  const legalTerms = [...requestedTerms].map(([termKey, unit]) => {
+    const term = readFinalEnactedLawTerm(world, law, {
+      questionKey: proposition.stableKey,
+      termKey,
+      unit,
+    });
+    if (!term)
+      throw new Error(`Missing law amount capability: term:${termKey}`);
+    if (term.measureId !== law.measureId || term.unit !== unit)
+      throw new Error(
+        `Price-cost term '${termKey}' differs from its governing law`,
+      );
+    return { termKey, term };
+  });
   // No catalog parameter declaration is mistaken for an operative numeric value.
   // Unsupported term, capacity or exposure keys fail in the shared evaluator.
   const amount = evaluateLawAmount(row.amount, {
-    term: {},
+    term: Object.fromEntries(
+      legalTerms.map(({ termKey, term }) => [
+        termKey,
+        { value: term.value, unit: term.unit },
+      ]),
+    ),
     record: {
       ...(prior
         ? {
@@ -141,6 +204,7 @@ export function resolvePriceCostConsequences(
         terms.id,
         flow.source.personId,
         ...(prior ? [prior.id] : []),
+        ...new Set(legalTerms.flatMap(({ term }) => term.sourceRecordIds)),
       ],
       value: {
         type: "amount",
@@ -210,7 +274,13 @@ export function applyPriceCostConsequence(
   );
   const flowId = activity?.resourceFlowId ?? current.activityId;
   const previous = resourceFlowTermsAt(world, flowId)!;
-  if (activity && previous.id !== activity.id)
+  const pricedTerms =
+    activity ??
+    resourceFlowTermsAt(world, flowId, {
+      asOfDate: current.effectiveAt,
+      historySequenceExclusive: world.history.nextSequence,
+    });
+  if (previous.id !== pricedTerms?.id)
     throw new Error(
       "Price-cost activity no longer names the latest flow terms",
     );

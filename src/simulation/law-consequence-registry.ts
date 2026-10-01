@@ -1,3 +1,7 @@
+import { INSTITUTION_RULE_REGISTRATION } from "./law-consequences/institution-rule";
+import { legalOutcomeRegistration } from "./law-consequences/legal-outcome";
+import { SERVICE_DELIVERED_REGISTRATION } from "./law-consequences/service-delivered";
+import { COVERAGE_ELIGIBILITY_REGISTRATION } from "./law-consequences/coverage-eligibility";
 import { TEAM_4_PRICE_COST_REGISTRATION } from "./law-consequences/price-cost";
 import type {
   LawConsequenceKind,
@@ -9,13 +13,13 @@ import type { LawConsequenceCapabilities } from "./law-consequence-validation";
 export const LAW_CONSEQUENCE_REGISTRATIONS: readonly LawConsequenceKindRegistration[] =
   [
     // pay: Team2
-    // legal-outcome: Team9
-    // coverage-eligibility: Team8
+    legalOutcomeRegistration,
+    COVERAGE_ELIGIBILITY_REGISTRATION,
     // tax: Team3
     TEAM_4_PRICE_COST_REGISTRATION,
-    // service-delivered: Team5 (Team6 transit contributor)
+    SERVICE_DELIVERED_REGISTRATION,
     // right-permission: Team1
-    // institution-rule: Team1
+    INSTITUTION_RULE_REGISTRATION,
   ];
 
 export function createLawConsequenceRegistry(

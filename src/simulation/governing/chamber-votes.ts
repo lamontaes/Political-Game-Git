@@ -1,4 +1,5 @@
 import { evaluateDecision } from "../decisions";
+import { constitutionalEntityAvailableAt } from "../constitutional-process";
 import { requireMeasure } from "../legislation";
 import {
   memberVoteConsiderations,
@@ -30,6 +31,7 @@ import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
 import type {
   DecisionConsideration,
+  DecisionSubject,
   EntityId,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
@@ -147,9 +149,8 @@ export function publicPartyOf(world: World, personId: EntityId): string | null {
  */
 const PUBLIC_PARTIES = new WeakMap<World, Map<EntityId, string | null>>();
 
-export interface ChamberVoteInput {
+interface ChamberVoteCommonInput {
   readonly stableKey: string;
-  readonly question: MemberVoteQuestion;
   readonly members: readonly SeatedMember[];
   /**
    * Decide only these members (by member key). The whole chamber still names
@@ -160,6 +161,11 @@ export interface ChamberVoteInput {
   readonly playerPersonId?: EntityId | null;
   /** The player's own ballot, when they cast one. */
   readonly playerBallot?: LegislativeMemberDisposition | null;
+}
+
+export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
+  readonly kind?: "bill";
+  readonly question: MemberVoteQuestion;
   /**
    * Whether the parties line up against each other on this question. Absent,
    * only a veto override divides by party.
@@ -183,6 +189,139 @@ export interface ChamberVoteInput {
   readonly nonpartisan?: boolean;
 }
 
+export interface ChamberNominationVoteInput extends ChamberVoteCommonInput {
+  readonly kind: "nomination";
+  readonly nominationEventId: EntityId;
+  readonly nomineeId: EntityId;
+  readonly presidentId: EntityId;
+  readonly officeKey: string;
+  readonly considerationsByMember: ReadonlyMap<
+    string,
+    readonly DecisionConsideration[]
+  >;
+}
+
+export interface ChamberConstitutionalVoteInput extends ChamberVoteCommonInput {
+  readonly kind: "constitutional";
+  readonly constitutionalMeasureId: EntityId;
+  readonly bodyKey: "house" | "senate";
+  readonly purpose: "proposal";
+  readonly considerationsByMember: ReadonlyMap<
+    string,
+    readonly DecisionConsideration[]
+  >;
+}
+
+export type ChamberVoteInput =
+  | ChamberBillVoteInput
+  | ChamberNominationVoteInput
+  | ChamberConstitutionalVoteInput;
+
+interface ChamberVoteContext {
+  readonly subject: DecisionSubject;
+  readonly committee: DecisionConsideration | null;
+  memberInputs(member: SeatedMember): {
+    readonly views: readonly DecisionConsideration[];
+    readonly cues: readonly DecisionConsideration[];
+  };
+}
+
+function constitutionalVoteContext(
+  world: World,
+  input: ChamberConstitutionalVoteInput,
+): ChamberVoteContext {
+  const cutoff = currentHistoricalCutoff(world);
+  const measure = world.history.constitutionalMeasures?.find(
+    (row) => row.id === input.constitutionalMeasureId,
+  );
+  const body = seatedCongressChamber(world, input.bodyKey)?.body;
+  const members = new Map(
+    body?.members.map((member) => [member.memberKey, member.personId]),
+  );
+  if (
+    !measure ||
+    !constitutionalEntityAvailableAt(
+      world,
+      measure.id,
+      cutoff.asOfDate,
+      cutoff.historySequenceExclusive,
+    ) ||
+    measure.processKind !== "federal-amendment" ||
+    measure.proposedBy === "convention" ||
+    measure.proposalRule === null ||
+    input.purpose !== "proposal" ||
+    (input.bodyKey !== "house" && input.bodyKey !== "senate") ||
+    !body ||
+    new Set(input.members.map((member) => member.memberKey)).size !==
+      input.members.length ||
+    input.members.some(
+      (member) =>
+        !members.has(member.memberKey) ||
+        members.get(member.memberKey) !== member.personId,
+    )
+  )
+    throw new Error(
+      "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
+    );
+  return {
+    subject: {
+      kind: "context:constitutional-amendment",
+      key: `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
+      entityId: null,
+    },
+    committee: null,
+    memberInputs: (member) => ({
+      views: input.considerationsByMember.get(member.memberKey) ?? [],
+      cues: [],
+    }),
+  };
+}
+
+function nominationVoteContext(
+  world: World,
+  input: ChamberNominationVoteInput,
+): ChamberVoteContext {
+  const event = world.history.events.find(
+    (row) => row.id === input.nominationEventId,
+  );
+  const chief = input.officeKey === "us-chief-justice";
+  if (
+    !event ||
+    event.recordedAt > world.currentDate ||
+    event.occurredAt > world.currentDate ||
+    !world.people[input.nomineeId] ||
+    !world.people[input.presidentId] ||
+    event.type !==
+      (chief
+        ? "governing.chief-justice-nominated"
+        : "governing.supreme-court-nominated") ||
+    !event.tags.includes(
+      chief ? "office:us-chief-justice" : `judicial-seat:${input.officeKey}`,
+    ) ||
+    !event.participants.some(
+      (row) => row.role === "focus:actor" && row.personId === input.presidentId,
+    ) ||
+    !event.participants.some(
+      (row) => row.role === "focus:subject" && row.personId === input.nomineeId,
+    )
+  )
+    throw new Error(
+      "A chamber nomination vote requires its actual dated nomination event, actor, nominee and office.",
+    );
+  return {
+    subject: {
+      kind: "context:supreme-court-nomination",
+      key: event.stableKey,
+      entityId: null,
+    },
+    committee: null,
+    memberInputs: (member) => ({
+      views: input.considerationsByMember.get(member.memberKey) ?? [],
+      cues: [],
+    }),
+  };
+}
+
 const OPTIONS = [
   { key: "vote-yea", label: "Vote yes", description: "Vote for the question." },
   { key: "vote-nay", label: "Vote no", description: "Vote against it." },
@@ -193,10 +332,10 @@ const OPTIONS = [
   },
 ] as const;
 
-export function decideChamberVote(
+function billVoteContext(
   world: World,
-  input: ChamberVoteInput,
-): readonly LegislativeVoteDisposition[] {
+  input: ChamberBillVoteInput,
+): ChamberVoteContext {
   const measure = requireMeasure(world, input.question.question.measureId);
   // A Congress bill's backers may sit in the other House, and a member of
   // Congress holds their party on the seat roll rather than as a
@@ -263,7 +402,6 @@ export function decideChamberVote(
     (input.question.question.purpose === "veto-override" ||
       acrossTheAisle ||
       budget);
-  const cutoff = currentHistoricalCutoff(world);
   // What the question puts on the table: an amendment's own sections, or the
   // bill as it reads (and would read, for a prediction), sections an adopted
   // amendment carried in included (Build 25 step 1).
@@ -293,6 +431,84 @@ export function decideChamberVote(
           answersOnTable,
         )
       : null;
+
+  return {
+    subject: {
+      kind: "context:legislative-question",
+      key: `${measure.stableKey}:${input.question.question.purpose}`,
+      entityId: measure.id,
+    },
+    committee: committeeRecommendation(world, measure.id, asked.purpose),
+    memberInputs(member) {
+      const party = partyCue(
+        member.personId!,
+        partyOf(member.personId!),
+        cueSponsor,
+        cueCosponsors,
+        cueParties,
+        contested,
+        input.nonpartisan ?? false,
+      );
+      // A member's own view is worked out only when it is needed: when the
+      // member decides, or when an undecided member who trusts them asks how
+      // they voted. A named few (`only`) no longer costs every member's view.
+      const personId = member.personId!;
+      let views: readonly DecisionConsideration[] | undefined;
+      const viewsOf = (): readonly DecisionConsideration[] =>
+        (views ??= [
+          ...memberVoteConsiderations(world, {
+            stableKey: `${input.stableKey}:${member.memberKey}`,
+            personId,
+            question: input.question,
+          }).filter(
+            (consideration) =>
+              consideration.stableKey !== "member:nothing-decisive",
+          ),
+          // GAME ASSUMPTION (Build 25): a member's principles are what they are
+          // known to stand for, so a colleague predicting the vote reads them;
+          // a member's private views on a question are not known and are not.
+          ...[
+            principleVoteConsideration(
+              world,
+              personId,
+              measure,
+              answersOnTable,
+            ),
+            budget ? spendingPrincipleConsideration(world, personId) : null,
+          ].filter((consideration) => consideration !== null),
+          ...party.filter((consideration) =>
+            OWN_BILL_KEYS.has(consideration.stableKey),
+          ),
+        ]);
+      const cues = [
+        ...party.filter(
+          (consideration) => !OWN_BILL_KEYS.has(consideration.stableKey),
+        ),
+        ...(constituents ? [constituents] : []),
+        ...(executive ? [executive] : []),
+        ...(deadline ? [deadline] : []),
+      ];
+      return {
+        get views() {
+          return viewsOf();
+        },
+        cues,
+      };
+    },
+  };
+}
+
+export function decideChamberVote(
+  world: World,
+  input: ChamberVoteInput,
+): readonly LegislativeVoteDisposition[] {
+  const cutoff = currentHistoricalCutoff(world);
+  const context =
+    input.kind === "nomination"
+      ? nominationVoteContext(world, input)
+      : input.kind === "constitutional"
+        ? constitutionalVoteContext(world, input)
+        : billVoteContext(world, input);
 
   // First pass: each member's own view (their principles, what they said on
   // the record, a formed belief, their own bill) and the cues every member
@@ -324,55 +540,13 @@ export function decideChamberVote(
               reason: "member:player-not-present",
             }) satisfies LegislativeVoteDisposition,
       };
-    const party = partyCue(
-      member.personId,
-      partyOf(member.personId),
-      cueSponsor,
-      cueCosponsors,
-      cueParties,
-      contested,
-      input.nonpartisan ?? false,
-    );
-    // A member's own view is worked out only when it is needed: when the
-    // member decides, or when an undecided member who trusts them asks how
-    // they voted. A named few (`only`) no longer costs every member's view.
-    const personId = member.personId;
-    let views: readonly DecisionConsideration[] | undefined;
-    const viewsOf = (): readonly DecisionConsideration[] =>
-      (views ??= [
-        ...memberVoteConsiderations(world, {
-          stableKey: `${input.stableKey}:${member.memberKey}`,
-          personId,
-          question: input.question,
-        }).filter(
-          (consideration) =>
-            consideration.stableKey !== "member:nothing-decisive",
-        ),
-        // GAME ASSUMPTION (Build 25): a member's principles are what they are
-        // known to stand for, so a colleague predicting the vote reads them;
-        // a member's private views on a question are not known and are not.
-        ...[
-          principleVoteConsideration(world, personId, measure, answersOnTable),
-          budget ? spendingPrincipleConsideration(world, personId) : null,
-        ].filter((consideration) => consideration !== null),
-        ...party.filter((consideration) =>
-          OWN_BILL_KEYS.has(consideration.stableKey),
-        ),
-      ]);
-    const cues = [
-      ...party.filter(
-        (consideration) => !OWN_BILL_KEYS.has(consideration.stableKey),
-      ),
-      ...(constituents ? [constituents] : []),
-      ...(executive ? [executive] : []),
-      ...(deadline ? [deadline] : []),
-    ];
+    const memberInputs = context.memberInputs(member);
     return {
       member,
       get views() {
-        return viewsOf();
+        return memberInputs.views;
       },
-      cues,
+      cues: memberInputs.cues,
       settled: null,
     };
   });
@@ -399,7 +573,7 @@ export function decideChamberVote(
   // real members use: the committee's report, and how the colleagues they
   // trust voted from views of their own. Nobody leans yes by default; a
   // member with no reason at all answers present.
-  const committee = committeeRecommendation(world, measure.id, asked.purpose);
+  const committee = context.committee;
   const hasViews = (row: (typeof first)[number]): boolean =>
     !row.settled && row.views !== undefined && row.views.length > 0;
   const rowsOf = new Map<EntityId, (typeof first)[number][]>();
@@ -457,11 +631,7 @@ export function decideChamberVote(
       decisionType: "legislation.member-vote",
       actorPersonId: member.personId!,
       cutoff,
-      subject: {
-        kind: "context:legislative-question",
-        key: `${measure.stableKey}:${input.question.question.purpose}`,
-        entityId: measure.id,
-      },
+      subject: context.subject,
       options: [...OPTIONS],
       constraints: [],
       considerations: [...considerations],
@@ -510,6 +680,7 @@ const KEPT_REASON_PREFIXES = [
   "member:constituents:",
   "member:executive:",
   "member:trusted-colleague:",
+  "senator:",
 ];
 
 /**

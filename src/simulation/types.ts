@@ -1,5 +1,12 @@
+import type {
+  PermitApplicationRecord,
+  PermitStatusRecord,
+} from "./permit-types";
 import type { LawAmountUnit, LawConsequenceRow } from "./law-consequence-types";
-import type { LawEffectStampedRecord } from "./law-effect-stamp";
+import type {
+  LawEffectStamp,
+  LawEffectStampedRecord,
+} from "./law-effect-stamp";
 import type { CrisisRecord } from "./crisis/types";
 import type {
   CampaignLifeActivityRecord,
@@ -23,7 +30,10 @@ import type {
   ConstitutionalActionRecord,
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
-import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
+import type {
+  RuleChangeProvisionRecord,
+  RuleChangeConsequenceBindingRecord,
+} from "./enacted-rule-changes";
 import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
@@ -88,6 +98,7 @@ export type EntityKind =
   | "crisis-record"
   | "constitutional-rule-version"
   | "rule-change-provision"
+  | "rule-change-consequence-binding"
   | "tax-proposal"
   | "tax-policy"
   | "tax-base"
@@ -98,6 +109,8 @@ export type EntityKind =
   | "loan-terms"
   | "debt-charge"
   | "debt-standing"
+  | "loan-repayment-allocation"
+  | "loan-discharge"
   | "law-exposure"
   | "official-view"
   | "job-opening"
@@ -310,6 +323,8 @@ export interface PolicyIssueDefinition {
 export interface PropositionParameter {
   readonly key: string;
   readonly value: string;
+  /** Closed modeled choices; omission leaves categorical terms unsupported. */
+  readonly allowedValues?: readonly string[];
 }
 
 /**
@@ -983,7 +998,10 @@ export interface PrivateBeliefRecord {
   readonly stableKey: string;
   readonly sequence: number;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  /** Absent on legacy policy beliefs; party questions have no proposition. */
+  readonly subject?: { readonly kind: "party-question"; readonly key: string };
+  readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
   readonly conviction: BeliefConviction;
@@ -3244,6 +3262,8 @@ export interface LoanTermsRecord {
   readonly kind: HouseholdLoanKind;
   readonly lenderKind: LenderKind;
   readonly annualRateBasisPoints: number;
+  /** Legacy draft credit only. New credits use LoanDischargeRecord. */
+  readonly principalReduction?: MoneyAmount;
   /** "capped" when a rate cap in force held the rate below the market. */
   readonly rateBasis: "written" | "capped";
   /** The measure whose cap applied, when `rateBasis` is "capped". */
@@ -3257,6 +3277,34 @@ export interface LoanTermsRecord {
   readonly missedPaymentsToCollections: number;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesTermsId: EntityId | null;
+}
+
+/** Cash allocation links the actual repayment; unknown old-save components stay null. */
+export interface LoanRepaymentAllocationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly occurredAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly resourceTransferOutcomeId: EntityId;
+  readonly fees: MoneyAmount | null;
+  readonly interest: MoneyAmount | null;
+  readonly principal: MoneyAmount | null;
+  readonly unsupportedReason: "missing-prior-repayment-allocation" | null;
+}
+
+/** Forgiveness changes owed components without pretending that cash was paid. */
+export interface LoanDischargeRecord extends LawEffectStampedRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly effectiveAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly principal: MoneyAmount;
+  readonly interest: MoneyAmount;
+  readonly provenance: LifeRecordProvenance;
 }
 
 /** Interest or a fee added to a debt's balance for one month. */
@@ -4275,12 +4323,49 @@ export type PersonnelRecord =
   | PersonnelReinstatementOfferRecord
   | PersonnelOfferResponseRecord;
 
+/** A saved legal permission for an actual subject; absence conveys no permission. */
+export interface LawPermissionRecord extends LawEffectStampedRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly subject: {
+    readonly kind: "person" | "organization";
+    readonly id: EntityId;
+  };
+  readonly permissionKey: string;
+  readonly status: "permitted" | "prohibited";
+  readonly effectiveAt: IsoDate;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly [LawEffectStamp];
+}
+
+/** Append-only attribution of a sentence already written by the court. */
+export interface LegalOutcomeConsequenceRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly sentenceEventId: EntityId;
+  readonly subjectPersonId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly appliedAt: IsoDate;
+  readonly effectKind: "minimum-custody-months";
+  readonly minimumMonths: number;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly [LawEffectStamp];
+}
+
 export interface HistoryStore {
+  readonly permitApplications?: readonly PermitApplicationRecord[];
+  readonly permitStatuses?: readonly PermitStatusRecord[];
+  readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
   readonly constitutionalRuleVersions?: readonly ConstitutionalRuleVersionRecord[];
   /** Rule changes filed on ordinary bills; see `enacted-rule-changes.ts`. */
   readonly ruleChangeProvisions?: readonly RuleChangeProvisionRecord[];
+  readonly ruleChangeConsequenceBindings?: readonly RuleChangeConsequenceBindingRecord[];
   /** Optional, preserving pre-tax snapshots without fabricating money/history. */
   readonly taxProposals?: readonly TaxProposalRecord[];
   readonly taxPolicies?: readonly TaxPolicyRecord[];
@@ -4293,6 +4378,8 @@ export interface HistoryStore {
   readonly loanTerms?: readonly LoanTermsRecord[];
   readonly debtCharges?: readonly DebtChargeRecord[];
   readonly debtStandings?: readonly DebtStandingRecord[];
+  readonly loanRepaymentAllocations?: readonly LoanRepaymentAllocationRecord[];
+  readonly loanDischarges?: readonly LoanDischargeRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
   /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */
@@ -4447,6 +4534,8 @@ export interface HistoryStore {
   readonly publicProgramRecords?: readonly PublicProgramRecord[];
   /** Duties and who-qualifies rules an enacted law sets, and what each covered body did. */
   readonly enactedDutyRecords?: readonly EnactedDutyRecord[];
+  /** Optional so older saves do not acquire inferred permission decisions. */
+  readonly lawPermissionRecords?: readonly LawPermissionRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -5011,6 +5100,12 @@ export type LegislativeProvisionEffectIntent =
   | { readonly kind: "public-program-appropriation" };
 
 export interface LegislativeProvisionRecord {
+  /** This version's explicit categories; omission clears a revised rule. */
+  readonly lawCategories?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly values: readonly string[];
+  }[];
   /** This version's explicit numeric rules; omission clears a revised rule. */
   readonly lawTerms?: readonly {
     readonly questionKey: string;

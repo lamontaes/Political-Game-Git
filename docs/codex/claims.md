@@ -1,3 +1,48 @@
+## October 1, 4:24 a.m. budget consumer transfer
+
+Team 6 released to Team 1 only the general-budget recognition, final enacted program-clause loop and necessary imports inside appropriationFromEnactedMeasure in program-governing.ts. The clean published release is 583cdf069234a2d1f28b88721106c50b17ad23e4, with file blob 7a78c1c8663a1cc952b1cab5df991921e6964687. Team 6 confirmed no unpublished bytes or competing edits in this part. Team 1 received the transfer and owns that adapter now.
+
+Preserve all service, operator, capacity, transit and other appropriation paths. The existing adopted-appropriation writer remains the survivor. This transfer does not authorize invented spending, governor requests or fiscal dates. The biennial authority-window question remains with the CTO.
+
+## October 1, 4:12 a.m. current transfers and overrides
+
+- CTO 3:41 defers groundwater. This supersedes the older 3:20 Team 4 assignment below. Preserve its source; no new parcel or well proxy.
+- Team 3 released the A45 estimate-draw hunks at f76bc5b63f21ab6171ade6e8ca8e5dc9377b0c09 in state-paid-leave-law.ts and paid-leave-benefits.ts to Team 6. The transfer excludes current law terms, claims and financial writers. Team 6 published #1491.
+- Audit retains world.ts, time-work.ts, default composition, day bridge and opening clock work. References to Audit's root mean the Audit lead, not the coordinator.
+- Team 7 owns only the released advancement calls/imports in demo.ts, people-continuation.ts and character-history.ts. Preserve exact local date/time and complete handler composition; no competing clock.
+- Team 7 retains the narrow county timing/qualification consumer hunks in campaign-projection.ts, campaign-office-discovery.ts, life-talk-running.ts and CampaignWorkspace.tsx. Its #1492 does not admit unknown district qualifications.
+- Coordinator retains canonical starting-law JSON and shared final-law reader integration. Team 3 owns minimum-wage.ts dated consumer changes. Published coordinator wage head is dbc66c17a8285cb8b856796c09239ced96a50023.
+- Team 1 builds the CTO 4:08 session budget intake in its existing survivors. Audit answers code-contract questions; no duplicate filer or manufactured budget amounts.
+
+## October 1, 3:38 ownership additions
+
+- Coordinator owns the standing-appropriation additions to law-consequence-types.ts, enacted-law-effects.ts and law-effect-stamp.ts, the pay authority discriminator and corresponding contract tests. Published d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec is WIP. Team 5 owns its existing service resolver and consumer; Team 6 owns actual authority and payment records. No synthetic bill or second service engine.
+- Coordinator owns the approved resources.ts payment-stamp kind correction and resource-law-stamps.test.ts composition at 3cd6d09c37f0b197e45d3d381c9bedea3d6b0dbd. Team 3 retains office-salary.ts, town-pay.ts and its caller tests.
+- X5 owns the standalone minimum-wage-dated-matrix-2026.json research file. Coordinator alone admits its verified dates and tiers into canonical starting-law terms and the shared reader. Observation dates must not be silently backdated.
+- Team 1 released only presentation/legislation-session.ts await-executive-decision lines 474–497 and unused related imports to Team 2, clean at a522ed5be56ab97afedc24d8d73e847a7586852a. Preserve all other presentation work.
+- Team 7 released only PressWorkspace.tsx zero-journalist button lines 279–291 and the unused import to Team 8. Preserve the no-role message and remaining form. Team 7's county election work does not own Audit's clock entry points.
+- CTO 3:20 assigns actual groundwater meter compliance costs to Team 4 through the existing price-cost path, after sourced cost and actual irrigating-farm exposure are available. No generic farm-classification proxy.
+- Team 6's requested A45 estimate hunks are pending Team 3's exact release. No transfer is recorded as complete here.
+
+# Current engine rebuild ownership
+
+The following transfers preserve one writer for each named part of the rebuild. They override older entries only for the exact functions and changes listed. They record ownership, not completion or approval to merge.
+
+## October 1 transfers
+
+- CTO took over the clemency handler registration under the October 1 2:21 ruling. PR #1452 is merged at 22ec7c06d26b5dcb39afb109bb583e32449492b3. Team 9 retains only the prosecution registration seam and the separately released post-office-opening callback; it must preserve any unique #1403 work without duplicating the CTO repair. Other handler registrations remain protected. Audit owns the three saved-boundary checks.
+- Coordinator owns pay.ts handler/action dispatch and the pay-rows.ts annual-action export. Team 3 released these unchanged at fa47a1c5f0915917254ebae122f09a39709efe09 and retains town-pay.ts, office-salary migration and payroll tests. The CTO approved the annual rule-origin contract at 2:21. Coordinator WIP e508bd9e07117f0aa422f4e9e1bcbfb53df0b2fa carries real clause/enactment authority; its dispatcher integration is incomplete. No invented policy proposition or second payroll writer is authorized.
+- Team 8 completed and returned the narrow coverage-catalog-admission.test.ts wage-row expectation and right-permission.test.ts default-registry proof. Both are integrated in foundation 2c5cf28db1c4048eea89033cb6262064fa83e3ae. Coordinator retains policy-pack and registry composition.
+- Team 2 owns only nullable deadline display/day-count guards in presentation/governing-briefing.ts and player/GoverningBriefing.tsx alongside its bill-deadline changes. Team 2 separately released only governingTransitionHandler's post-openTransitionMatters callback and required clemency import to Team 9, clean at 5d3facee5516e28b06b21c7a6829afe204db5b08. Preserve the actual office/holder guards and all other governing changes.
+- For A19, Team 3 owns the canonical pay stamp in its converted pay writer; Team 8 owns the canonical coverage stamp in coverage-eligibility.ts; Team 9 owns canonical legal-outcome stamps in legal-outcome.ts. Each changes only its converted writer and focused assertions. Coordinator retains the shared stamp contract. Historical saved records and unconverted readers are not silently rewritten.
+
+
+- Team 7 released only the saved-staff fixture setup at presentation/contextual-scene-variants.test.ts:190 and contextual-scenes-public.test.ts:214, plus necessary test-only imports, to Team 8. The release was clean at ad75e8e; downstream assertions, production and art remain protected.
+- Coordinator received the seven released A19 stamp files in 18f46d855235bdb0d30d1b0c6d068e6281fbea73: Team 3 pay label and assertion, Team 8 coverage resolver/actual writer/test, and Team 9 legal stamp/test. Combined checks are pending; unrelated ongoing owner edits remain theirs.
+- CTO 2:34 prioritizes Team 1's existing member-filer behavior repair, retaining the current threshold and question-open guard. Team 8 owns the adult health-disclosure gate; any new guardian consumer requires the requested exact contract. Team 7 owns the existing local-election adaptation after Audit supplies the actual county calendar/office contract. No invented election dates or additional engine is authorized.
+
+## Historical claims
+
 ## September 30, 2:00 Team7 Here-panel removal
 
 Under CTO1:46, Team7 owns ONLY the StorySceneDayPanel import removal and its sole five-line mount removal in PlayerGame.tsx, composed from current main in its temporary source candidate. OrdinaryMeetingPanel and every other renderer hunk remain untouched. Shared dirty PlayerGame.tsx is not overwritten. Existing renderer owners retain their unrelated work. Exact-main browser proof requires a matching runtime; older shared checkout is not proof.
@@ -943,3 +988,12 @@ Coordinator sole law-consequence-registry.ts append/sharedengine/schema/catalog;
 ## Engine rebuild narrow releases — September 30 night
 
 Current function-level ownership is in [engine-rebuild-ownership.md](engine-rebuild-ownership.md), including the released executive, payment, completed-service, permission integrity and juvenile-filter hunks. These supersede earlier whole-file claims only for the named hunks. Coordinator owns registry and catalog admission; Audit owns clock and analysis. No other surface is transferred.
+
+## Accepted narrow transfers after CTO check-in 12
+
+- Team 1 released the state-legislature-opening.ts required import and post-createWorkRelationships/createOrganizationParticipations hook before the opening event. Team 2 accepted this exact G9 scope. The release was clean at 87a4bdb6e58d7e8a1b482fd2cd89f4423b0dd8b3. Join actual saved seat work relationships to the existing shared legislature body, profile and state. Keep the state-profile guard. Member, name and party generation remain excluded.
+- Coordinator retains the shared starting-law numeric reader and dated starting-law data. Team 3 consumes that reader in the pay handler. Team 4 owns the price-cost consumer sourceRecordIds compatibility fix. Worker coverage and statutory exceptions require actual recorded predicates; a standard rate alone does not prove coverage.
+- Coordinator remains the sole law-consequence-registry.ts writer. Legal-outcome registration is published separately in PR 1378; Team 9 must not duplicate it. Registration publication is not composed runtime acceptance.
+- Audit owns the C8 paired execution and the three unchanged job-offer cases. Team 7 owns its candidate and subsequent repair, with no concurrent duplicate runner. G12 opening/load recovery remains Audit-owned; Team 7 owns the composition only.
+
+These are accepted ownership boundaries, not completion, merge or runtime claims. Team 1's requested G3 shared timing and rule-pack hunks remain pending release and are not granted by this entry.

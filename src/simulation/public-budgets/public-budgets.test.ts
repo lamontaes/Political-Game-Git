@@ -28,16 +28,24 @@ import {
 import {
   MEDIAN_BENEFIT_SHARE,
   MEDIAN_FUNDED_RATIO,
+  MEDIAN_LIABILITY_TO_SPENDING,
   MEDIAN_NORMAL_COST_SHARE,
   MEDIAN_PAID_SHARE,
+  openingLiabilityToSpending,
 } from "./pension-share";
+import { SeededRng } from "../rng";
 import {
   MEDIAN_RESERVE_DEPOSIT,
   MEDIAN_RESERVE_TARGET,
   reserveRule,
 } from "./reserve-rule";
 import { fundingGovernment } from "./staffing";
-import { SPENDING_QUESTION_EFFECTS, TAX_QUESTION_EFFECTS } from "./rules";
+import {
+  DEFAULT_LOCAL_INTEREST_RATE,
+  DEFAULT_STATE_INTEREST_RATE,
+  SPENDING_QUESTION_EFFECTS,
+  TAX_QUESTION_EFFECTS,
+} from "./rules";
 
 // A seated governor, for the tests that need one; the partial world here
 // records no executive office.
@@ -1278,5 +1286,74 @@ describe("public budgets", () => {
     expect(budgetProgramFor("transit-access:il")).toBe("transit");
     expect(budgetProgramFor("bridge-maintenance:il")).toBe("highways");
     expect(budgetProgramFor("broadband-access:il")).toBe("otherPrograms");
+  });
+});
+
+describe("a government with no recorded debt opens at the measured national rate, marked estimated (A71)", () => {
+  it("reads the default rates from Census and notes where each government's rate came from", () => {
+    // Census 2022, United States: interest on debt over debt outstanding.
+    expect(DEFAULT_STATE_INTEREST_RATE).toBeCloseTo(
+      39_876_656_000 / 1_113_243_076_000,
+      10,
+    );
+    expect(DEFAULT_LOCAL_INTEREST_RATE).toBeCloseTo(
+      80_069_542_000 / 2_042_814_731_000,
+      10,
+    );
+    const seed = "a71-interest-1";
+    const world = opened(worldAt("2026-01-05", { seed }));
+    const governments = world.publicBudgets!.governments;
+    expect(governments.length).toBeGreaterThan(0);
+    for (const government of governments) {
+      if (government.level === "federal") continue;
+      const note = government.openingNotes.find((line) =>
+        line.startsWith("Interest rate:"),
+      );
+      expect(note, `${government.key} (${seed})`).toBeDefined();
+      const fallback =
+        government.level === "state"
+          ? DEFAULT_STATE_INTEREST_RATE
+          : DEFAULT_LOCAL_INTEREST_RATE;
+      expect(note!.includes("ESTIMATED FROM AVERAGE")).toBe(
+        government.interestRate === fallback,
+      );
+    }
+  });
+});
+
+describe("a government's opening pension liability is measured, not 1.2 times its spending (A23)", () => {
+  it("opens each state at its own plans' ratio and an unlisted place at the states' median, marked estimated", () => {
+    const seed = "a23-pension-liability-1";
+    const world = opened(worldAt("2026-01-05", { seed }));
+    const states = world.publicBudgets!.governments.filter(
+      (government) => government.level === "state",
+    );
+    expect(states.length).toBeGreaterThan(0);
+    // Three states drawn by the named seed from those the budget opens.
+    const rng = new SeededRng(seed);
+    for (let draw = 0; draw < 3; draw += 1) {
+      const government = states[rng.integer(0, states.length)]!;
+      const size = openingLiabilityToSpending(government.stateKey);
+      const opening = government.years[0]!;
+      expect(
+        government.pension.liability / sum(opening.appropriations),
+        `${government.stateKey} (${seed})`,
+      ).toBeCloseTo(size.liabilityToSpending, 2);
+      expect(government.openingNotes.join(" ")).toContain(
+        size.basis === "state-plans"
+          ? `Pension liability: ${size.liabilityToSpending} times`
+          : "Pension liability: ESTIMATED FROM AVERAGE",
+      );
+    }
+    // Measured ratios differ by state; none is the old flat 1.2.
+    expect(openingLiabilityToSpending("US-IN").liabilityToSpending).not.toBe(
+      openingLiabilityToSpending("US-IL").liabilityToSpending,
+    );
+    expect(openingLiabilityToSpending("US-IL").basis).toBe("state-plans");
+    // A territory has no listed plan: the median, marked estimated.
+    expect(openingLiabilityToSpending("US-GU")).toEqual({
+      liabilityToSpending: MEDIAN_LIABILITY_TO_SPENDING,
+      basis: "estimated-from-average",
+    });
   });
 });

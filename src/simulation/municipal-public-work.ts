@@ -75,6 +75,7 @@ import { introduceMeasure } from "./legislation";
 import type {
   EntityId,
   IsoDate,
+  LegislativeMeasureNumberingSession,
   LegislativeVoteDisposition,
   LifeRecordProvenance,
   Organization,
@@ -1718,6 +1719,7 @@ export function introduceMunicipalOrdinance(
   input: {
     readonly governmentKey: string;
     readonly designation: string;
+    readonly numberingSession?: LegislativeMeasureNumberingSession;
     readonly shortTitle: string;
     readonly summary: string;
   },
@@ -1768,6 +1770,9 @@ export function introduceMunicipalOrdinance(
       jurisdictionId,
       rulePackId: rules.pack.packId,
       designation: input.designation,
+      ...(input.numberingSession
+        ? { numberingSession: input.numberingSession }
+        : {}),
       shortTitle: input.shortTitle,
       summary: input.summary,
       origin: "member-introduction",

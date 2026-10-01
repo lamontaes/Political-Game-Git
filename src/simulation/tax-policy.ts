@@ -16,7 +16,6 @@ import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "./world-setup/types";
 import { stateFundedServiceGameProfileForJurisdictionKey } from "./state-funded-service-game-profiles";
 import {
-  stateTaxServiceProfileByRef,
   stateTaxServiceProfileForJurisdictionKey,
   stateTaxServiceStartingConditions,
 } from "./world-setup/state-tax-service-profiles";
@@ -40,13 +39,19 @@ import {
 } from "./future-transitions";
 import { publishPublicEvent } from "./public-information";
 import { recordLawExposure } from "./law-exposure";
-import { householdMembershipsAt } from "./life-queries";
+import {
+  currentLifeCutoff,
+  householdMembershipsAt,
+  organizationsAt,
+  organizationProfileAt,
+} from "./life-queries";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import { recordDailyGovernmentFiscalFlow } from "./government-fiscal-metrics";
 import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
+  HistoricalCutoff,
   IsoDate,
   PublicGovernmentIdentity,
   ResourcePositionOwner,
@@ -210,34 +215,13 @@ export function attachTaxProposal(
     throw new Error(
       "A tax proposal requires the actual sponsor of a canonical revenue measure.",
     );
-  const gameProfileRef = input.gameProfileRef ?? null;
-  if ((input.power === null) === (gameProfileRef === null))
+  if (!input.power || input.gameProfileRef)
     throw new Error(
-      "A tax proposal requires exactly one sourced power or versioned game-profile reference.",
+      "Tax authority is unsupported by the available research for this government and instrument.",
     );
-  const expected = input.power
-    ? taxPowerEvidenceFor(input.power.jurisdictionKey)
-    : null;
-  if (
-    input.power &&
-    (!expected || canonicalJson(expected) !== canonicalJson(input.power))
-  )
+  const expected = taxPowerEvidenceFor(input.power.jurisdictionKey);
+  if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
     throw new Error("The tax power is not a supported sourced contract.");
-  const profile = gameProfileRef
-    ? stateTaxServiceProfileByRef(world, gameProfileRef)
-    : null;
-  if (
-    gameProfileRef &&
-    (!profile ||
-      canonicalJson(profile.ref) !== canonicalJson(gameProfileRef) ||
-      profile.jurisdictionKey !==
-        rulePackById(measure.rulePackId).jurisdictionKey ||
-      profile.jurisdictionId !== measure.jurisdictionId ||
-      canonicalJson(profile.taxTerms) !== canonicalJson(input.terms))
-  )
-    throw new Error(
-      "The tax proposal must match this save's exact fictional state profile, including its terms and digest.",
-    );
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction)
     throw new Error("The tax proposal belongs to an unknown jurisdiction.");
@@ -322,7 +306,7 @@ export function attachTaxProposal(
       : {}),
     publicOrganizationId: organization.id,
     power: input.power ? structuredClone(input.power) : null,
-    gameProfileRef: gameProfileRef ? structuredClone(gameProfileRef) : null,
+    gameProfileRef: null,
     terms: structuredClone(input.terms),
     levyProvisionId: levy.id,
   };
@@ -1559,35 +1543,51 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
 export function publicTaxAccountForJurisdiction(
   world: World,
   jurisdictionId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): { organizationId: EntityId } | null {
-  return publicTaxAccountForIdentity(world, {
-    kind: "jurisdiction",
-    jurisdictionId,
-  });
+  return publicTaxAccountForIdentity(
+    world,
+    { kind: "jurisdiction", jurisdictionId },
+    cutoff,
+  );
 }
 
 export function publicTaxAccountForIdentity(
   world: World,
   identity: PublicGovernmentIdentity,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): { organizationId: EntityId } | null {
+  const evidence = publicTaxAccountEvidenceForIdentity(world, identity, cutoff);
+  return evidence ? { organizationId: evidence.organizationId } : null;
+}
+
+/** Saved ownership evidence only; it does not establish tax or spending authority. */
+export function publicTaxAccountEvidenceForIdentity(
+  world: World,
+  identity: PublicGovernmentIdentity,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): {
+  readonly organizationId: EntityId;
+  readonly profileId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
+} | null {
   try {
-    assertPublicGovernmentIdentity(world, identity);
+    // Identity and account ownership must use the same actual activity cutoff.
+    assertPublicGovernmentIdentity(world, identity, cutoff);
   } catch {
     return null;
   }
-  const organization = world.history.organizations.find(
+  const organization = organizationsAt(world, cutoff).find(
     (row) => row.stableKey === publicGovernmentOrganizationKey(identity),
   );
   if (!organization) return null;
-  const profile = world.history.organizationProfiles
-    .filter(
-      (row) =>
-        row.organizationId === organization.id &&
-        row.effectiveAt <= world.currentDate,
-    )
-    .at(-1);
+  const profile = organizationProfileAt(world, organization.id, cutoff);
   return profile?.classification === "sector:government" &&
     profile.locationJurisdictionId === identity.jurisdictionId
-    ? { organizationId: organization.id }
+    ? {
+        organizationId: organization.id,
+        profileId: profile.id,
+        sourceRecordIds: [organization.id, profile.id],
+      }
     : null;
 }

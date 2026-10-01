@@ -1,6 +1,7 @@
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
+import { resourceTransferTermsCutoff } from "./resources";
 import { createStableId } from "./ids";
 import { recordById, recordsWithFieldValue } from "./history-index";
 import {
@@ -58,6 +59,8 @@ export function resourceHousingHistoryRecords(world: World): readonly {
     ...(h.loanTerms ?? []),
     ...(h.debtCharges ?? []),
     ...(h.debtStandings ?? []),
+    ...(h.loanRepaymentAllocations ?? []),
+    ...(h.loanDischarges ?? []),
   ];
 }
 
@@ -351,10 +354,15 @@ export function assertResourceHousingIntegrity(
     money(outcome.transferredAmount, "transferred resource amount");
     if (outcome.attemptedAmount.currency !== outcome.transferredAmount.currency)
       throw new Error(`Resource outcome currencies disagree: ${outcome.id}`);
-    const terms = resourceFlowTermsAt(world, flow.id, {
-      asOfDate: outcome.periodStartsAt,
-      historySequenceExclusive: outcome.sequence,
-    });
+    const termsCutoff = resourceTransferTermsCutoff(
+      world,
+      flow,
+      outcome.periodStartsAt,
+      outcome.periodEndsAt,
+      outcome.provenance,
+      outcome.sequence,
+    );
+    const terms = resourceFlowTermsAt(world, flow.id, termsCutoff);
     if (
       recordsWithFieldValue(
         h.resourceFlowTerms,
@@ -362,7 +370,7 @@ export function assertResourceHousingIntegrity(
         flow.id,
       ).some(
         (record) =>
-          record.sequence < outcome.sequence &&
+          record.sequence < termsCutoff.historySequenceExclusive &&
           record.effectiveAt > outcome.periodStartsAt &&
           record.effectiveAt <= outcome.periodEndsAt,
       )

@@ -348,6 +348,10 @@ export interface FloorStageRule {
    */
   readonly amendable: RuleValue<boolean>;
   readonly separateLegislativeDayRequired: boolean;
+  /** Minimum elapsed days after the preceding reading, from a declared rule. */
+  readonly readingIntervalDays?: RuleValue<number>;
+  /** Minimum elapsed days from introduction to this stage, from a declared rule. */
+  readonly minimumDaysFromIntroduction?: RuleValue<number>;
   /** Absent for advancement stages decided without a recorded threshold. */
   readonly vote: RuleValue<VoteThresholdRule>;
   readonly source: RuleSourceRef;
@@ -476,6 +480,12 @@ export interface ExecutiveRule {
   readonly presentmentRequired: RuleValue<boolean>;
   readonly actionWindowDaysInSession: RuleValue<number>;
   readonly actionWindowDaysAfterAdjournment: RuleValue<number>;
+  readonly actionWindowDayBasisInSession?: RuleValue<
+    "CALENDAR" | "BUSINESS" | "SUNDAYS_EXCEPTED"
+  >;
+  readonly actionWindowDayBasisAfterAdjournment?: RuleValue<
+    "CALENDAR" | "BUSINESS" | "SUNDAYS_EXCEPTED"
+  >;
   readonly inactionOutcomeInSession: RuleValue<ExecutiveInactionOutcome>;
   readonly lineItemVeto: RuleValue<boolean>;
   readonly override: OverrideForum;
@@ -976,6 +986,22 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
         stage.amendable,
         `floor stage '${stage.stageKey}' amendability`,
       );
+      for (const [name, interval] of [
+        ["reading interval", stage.readingIntervalDays],
+        ["introduction interval", stage.minimumDaysFromIntroduction],
+      ] as const) {
+        if (interval)
+          assertRuleValue(
+            interval,
+            `floor stage '${stage.stageKey}' ${name}`,
+            (days) => {
+              if (!Number.isSafeInteger(days) || days < 0)
+                throw new Error(
+                  `Floor stage '${stage.stageKey}' ${name} must be a nonnegative integer.`,
+                );
+            },
+          );
+      }
       if (stage.vote.kind === "known") votingStages += 1;
     }
     if (votingStages === 0) {

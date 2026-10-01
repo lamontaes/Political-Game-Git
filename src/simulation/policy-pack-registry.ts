@@ -1,3 +1,5 @@
+import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
+import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -30,7 +32,23 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // before the stances that point at it. The positions pack declares its own
   // principles, so it resolves those against itself in the same pass.
   US_STATE_AND_LOCAL_POLICY_PACK,
-  US_POLICY_POSITIONS_PACK,
+  {
+    ...US_POLICY_POSITIONS_PACK,
+    propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
+      const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
+      const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
+      if (!coverage && service.length === 0) return row;
+      return {
+        ...row,
+        consequences: [
+          ...(row.consequences ?? []),
+          ...(coverage ? [coverage] : []),
+          ...service,
+        ],
+      };
+    }),
+  },
   // Federal government, in its own namespace. It references nothing in the
   // packs above and nothing above references it, so its place here decides
   // only where its rows sit in the catalog order: after, so every id the
@@ -39,7 +57,16 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // Positions on federal questions. Last, because it points into both packs
   // above: the federal issues and the principles the state and local
   // positions declare.
-  US_FEDERAL_POSITIONS_PACK,
+  {
+    ...US_FEDERAL_POSITIONS_PACK,
+    propositions: US_FEDERAL_POSITIONS_PACK.propositions?.map((row) => {
+      const key = `${US_FEDERAL_POSITIONS_PACK.pack}:${row.key}`;
+      const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
+      return service.length === 0
+        ? row
+        : { ...row, consequences: [...(row.consequences ?? []), ...service] };
+    }),
+  },
 ];
 
 let cached: PolicyRegistry | null = null;
