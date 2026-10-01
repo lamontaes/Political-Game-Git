@@ -1,0 +1,3 @@
+Ignored evidence: test-results/team8/finding-office-response-final.jsonl
+SHA256: 5d417cc5b32d81f6d5f9baefbf3d0e633f9003c4c6ac487ccd5b8b4f6062a26f
+Five controlled recorded-tenure fixtures; not natural elected-office proof.

@@ -13,6 +13,7 @@ import type {
 import { recordWorldEvent } from "../world";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { applyFindingConsequences } from "./finding-consequences";
+import { recordFindingSubjectResponses } from "./finding-subject-response";
 import {
   canInstitutionAct,
   type AccountableInstitution,
@@ -917,6 +918,12 @@ export function advanceProceeding(
     }).world;
   }
   next = applyFindingConsequences(next, proceeding, appended.record, event);
+  next = recordFindingSubjectResponses(
+    next,
+    proceeding,
+    appended.record,
+    event,
+  );
   if (nextDueAt) {
     next = scheduleFutureDueItem(next, {
       stableKey: `press46:proceeding:${proceeding.id}:${steps.length + 1}`,

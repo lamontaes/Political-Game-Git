@@ -404,6 +404,8 @@ function MatterItem({
         personId,
         matterId: matter.matterId,
         kind,
+        statement: office?.options.find((option) => option.kind === kind)
+          ?.statement,
       });
       setOfficeLine(said.line);
       setConfirmingResignation(false);
