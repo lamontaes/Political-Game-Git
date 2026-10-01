@@ -39,9 +39,17 @@ afterAll(() => {
       JSON.stringify(receipts, null, 2),
     );
 });
-const states = pickDistinct(new SeededRng(SEED), lifePlaceStateIdentities(), 5);
+const states = pickDistinct(
+  new SeededRng(SEED),
+  lifePlaceStateIdentities(),
+  56,
+);
 
 describe("incomplete actual-person panels leave trials pending", () => {
+  it("covers all 56 jurisdiction keys with the seeded rule", () => {
+    expect(states).toHaveLength(56);
+    expect(new Set(states.map((state) => state.jurisdictionKey)).size).toBe(56);
+  });
   it.each(states)(
     "keeps the original case pending in $jurisdictionKey",
     (state) => {
