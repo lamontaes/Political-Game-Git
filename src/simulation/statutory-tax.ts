@@ -421,11 +421,13 @@ function paycheckLiabilities(
       researchQuestionId: null,
       lawMeasureIds: underLaw.lawMeasureIds,
     });
-  else if (underLaw.kind === "estimated")
+  else if (underLaw.kind === "estimated" || underLaw.kind === "enacted")
     rows.push(
       incomeTax(placeTaxKey, stateKey, underLaw.schedule, {
         lawMeasureIds: underLaw.lawMeasureIds,
-        estimatedFromAverage: underLaw.estimatedFromAverage,
+        ...(underLaw.estimatedFromAverage
+          ? { estimatedFromAverage: underLaw.estimatedFromAverage }
+          : {}),
       }),
     );
   else if (place.status === "not-imposed")
