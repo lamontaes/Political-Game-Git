@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import { jailTermOn } from "./justice/jail-terms";
 import {
@@ -23,7 +24,7 @@ import {
 } from "./campaign-queries";
 import { planCampaignOperatingWeek } from "./campaign-operating-costs";
 import { recordSupportShift } from "./campaign-support";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
 import {
   electionContestById,
@@ -373,9 +374,10 @@ function ensureOpponent(
     givenName: lead.givenName,
     familyName: lead.familyName,
     identity: lead.identity,
-    birthDate: makeIsoDate(
-      `${Number(date.slice(0, 4)) - leadRng.integer(24, 61)}-${String(leadRng.integer(1, 13)).padStart(2, "0")}-${String(leadRng.integer(1, 29)).padStart(2, "0")}`,
-    ),
+    birthDate: inventedPersonBirthDate(leadRng, {
+      role: "campaign-field-lead",
+      referenceDate: date,
+    }),
     homeJurisdictionId: contest.jurisdictionId,
   });
   const fieldLeadPersonId = characterHistoryContextPersonId(next, leadKey);

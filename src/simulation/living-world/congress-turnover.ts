@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -177,10 +178,6 @@ function aliveOn(world: World, personId: EntityId, date: IsoDate): boolean {
       personId,
     ).some((death) => death.diedAt <= date)
   );
-}
-
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
 }
 
 interface SeatOutcome {
@@ -848,7 +845,6 @@ function holdCongressElection(world: World, year: number): World {
     (outcome) => {
       if (!outcome.successorKey) return [];
       const rng = new SeededRng(world.seed).fork(outcome.successorKey);
-      const age = rng.integer(MINIMUM_AGE[outcome.seat.chamberKey] + 3, 70);
       return [
         {
           stableKey: outcome.successorKey,
@@ -856,9 +852,11 @@ function holdCongressElection(world: World, year: number): World {
             rng.fork("name"),
             generatePersonIdentity(rng.fork("identity")),
           ),
-          birthDate: makeIsoDate(
-            `${year - age}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-          ),
+          birthDate: inventedPersonBirthDate(rng, {
+            role: "legislative-successor",
+            referenceDate: makeIsoDate(`${year}-01-01`),
+            legalMinimumAge: MINIMUM_AGE[outcome.seat.chamberKey],
+          }),
           homeJurisdictionId: stateJurisdictionForKey(
             `US-${outcome.seat.stateUsps}`,
           )!.id,
