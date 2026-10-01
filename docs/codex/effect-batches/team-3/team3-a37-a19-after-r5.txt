@@ -187,4 +187,3 @@ A37_OFFICE_PAYROLL {
       Tests  15 passed (15)
    Start at  06:23:52
    Duration  205.16s (transform 10.32s, setup 25ms, import 14.69s, tests 190.21s, environment 1ms)
-

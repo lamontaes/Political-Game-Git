@@ -209,4 +209,3 @@ Received: "work-compensation-payment"
       Tests  5 failed | 9 passed (14)
    Start at  06:17:06
    Duration  152.26s (transform 9.32s, setup 22ms, import 13.36s, tests 138.66s, environment 1ms)
-
