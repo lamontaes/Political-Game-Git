@@ -31,6 +31,15 @@ import { recordFiledProvision } from "../simulation/legislative-politics";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import type { World } from "../simulation/types";
 
+type SerializedTaxPins = {
+  history: {
+    legislativeDraftLineages: Array<{
+      familyVersion: string;
+      parameters: Array<Record<string, unknown>>;
+    }>;
+  };
+};
+
 function filed(chamber = "house") {
   const member = suppliedLegislativeSeat("US-AK", chamber);
   const beforeWorld = advanceWorld(
@@ -204,11 +213,11 @@ describe("F pinned ordinary revenue identity and explicit S input contract", () 
   it("refuses tampered compiler/source/terms pins on import", () => {
     const result = filed();
     for (const alter of [
-      (world: World) => {
+      (world: SerializedTaxPins) => {
         world.history.legislativeDraftLineages![0]!.familyVersion =
           "false-version";
       },
-      (world: World) => {
+      (world: SerializedTaxPins) => {
         world.history.legislativeDraftLineages![0]!.parameters[0] = {
           ...world.history.legislativeDraftLineages![0]!.parameters[0]!,
           value: "false-source",
@@ -216,7 +225,7 @@ describe("F pinned ordinary revenue identity and explicit S input contract", () 
       },
     ]) {
       const snapshot = JSON.parse(serializeWorld(result.world)) as {
-        world: World;
+        world: SerializedTaxPins;
         snapshotId: string;
       };
       alter(snapshot.world);
