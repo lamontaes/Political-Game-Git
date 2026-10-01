@@ -1,6 +1,8 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import * as decisionEngine from "./decisions";
-import { simulationMomentOnLocalDate } from "./dates";
+import { daysBetween } from "./dates";
+import { composeWorldTimeHandlers } from "./campaigns";
+import { advanceWorld } from "./world";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   generateOpeningLife,
@@ -63,11 +65,27 @@ beforeAll(() => {
       supersedesStatusId: status.id,
     });
   }
-  world = recordGoalState(world, {
+  world = openWeeklyListings(world, game.playerPersonId);
+  const opening = openJobListings(world, worker).find(
+    (row) => residentApplicationBlocked(world, worker, row.id) === null,
+  )!;
+  expect(opening).toBeDefined();
+  const applied = applyForJobAsResident(world, worker, opening.id);
+  expect(applied.ok).toBe(true);
+  const application = applicationsFor(applied.world, worker).at(-1)!;
+  applicationId = application.id;
+  const decisionWorld = advanceWorld(
+    applied.world,
+    daysBetween(applied.world.currentDate, application.decisionAt),
+    composeWorldTimeHandlers(),
+  );
+  expect(decisionWorld.currentDate).toBe(application.decisionAt);
+  offered = advanceApplications(decisionWorld, worker);
+  offered = recordGoalState(offered, {
     stableKey: "c8:seek-work",
     personId: worker,
     goalKey: LIVELIHOOD_GOAL_KEY,
-    recordedAt: world.currentDate,
+    recordedAt: offered.currentDate,
     objective: "Find paid work",
     domain: LIVELIHOOD_GOAL_DOMAIN,
     scope: "personal",
@@ -82,26 +100,6 @@ beforeAll(() => {
     replacesGoalId: null,
     supersedesGoalStateId: null,
   });
-  world = openWeeklyListings(world, game.playerPersonId);
-  const opening = openJobListings(world, worker).find(
-    (row) => residentApplicationBlocked(world, worker, row.id) === null,
-  )!;
-  expect(opening).toBeDefined();
-  const applied = applyForJobAsResident(world, worker, opening.id);
-  expect(applied.ok).toBe(true);
-  const application = applicationsFor(applied.world, worker).at(-1)!;
-  applicationId = application.id;
-  offered = advanceApplications(
-    {
-      ...applied.world,
-      currentDate: application.decisionAt,
-      currentMoment: simulationMomentOnLocalDate(
-        applied.world.currentMoment,
-        application.decisionAt,
-      ),
-    },
-    worker,
-  );
   expect(latestApplicationStep(offered, applicationId)?.kind).toBe("offered");
 }, 30_000);
 
