@@ -257,7 +257,14 @@ export function congressSittingHandler(
   };
 }
 
-export const CONGRESS_LAWMAKING_HANDLERS = [
-  [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
-  [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
-] as const;
+/**
+ * Congress's handlers, built when a registry asks for them rather than when
+ * this module loads: the sitting key comes from congress-chambers, which is
+ * still loading when an import cycle reaches this module first.
+ */
+export function congressLawmakingHandlers() {
+  return [
+    [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
+    [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
+  ] as const;
+}

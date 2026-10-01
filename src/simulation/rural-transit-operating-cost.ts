@@ -1,4 +1,4 @@
-import observations from "../../data/research/transit/ntd-2023-rural-demand-response-costs.json";
+import observations from "../../data/research/transit/ntd-2023-rural-demand-response-costs.json" with { type: "json" };
 import type { ExactQuantity, MoneyAmount } from "./types";
 
 /** Calibration only. Actual expenses divided by actual delivered hours.

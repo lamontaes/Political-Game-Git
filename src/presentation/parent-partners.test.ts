@@ -4,7 +4,11 @@ import { COUPLE_KIND } from "../simulation/couples";
 import { searchLifePlaces } from "../simulation/life-places";
 import { partnershipStateHistory } from "../simulation/life-queries";
 import type { EntityId, World } from "../simulation/types";
-import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+  type NewGameOtherParent,
+} from "./new-game";
 
 /**
  * A new Ketchikan life lived with her father; her other father was listed as
@@ -19,7 +23,13 @@ const PLACES = [
   ["Charleston", "SC"],
 ] as const;
 
-function start(name: string, state: string, seed: string, withRepair: boolean) {
+function start(
+  name: string,
+  state: string,
+  seed: string,
+  withRepair: boolean,
+  otherParent: NewGameOtherParent,
+) {
   const place = searchLifePlaces(name, 20, {
     stateJurisdictionKey: `US-${state}`,
   }).find((candidate) => candidate.displayName.startsWith(name))!;
@@ -31,6 +41,9 @@ function start(name: string, state: string, seed: string, withRepair: boolean) {
     seed,
     startAge: 8,
     placeKey: place.key,
+    // The other parent is the player's answer (A148); a life with one parent
+    // at home records what was said, and any other life ignores it.
+    otherParent,
   });
   return { world: game.world, playerId: game.playerPersonId };
 }
@@ -78,6 +91,7 @@ function lives(withRepair: boolean) {
         state,
         `parent-partners:${name}:${index}`,
         withRepair,
+        index % 2 === 0 ? "deceased" : "nonresident",
       );
       found.push(parents(world, playerId));
     }

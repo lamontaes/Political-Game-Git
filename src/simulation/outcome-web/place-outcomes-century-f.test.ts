@@ -10,11 +10,12 @@ import {
 } from "./place-outcomes";
 
 /*
- * A century in ten worlds, one measure at a time: CLOUD F's health, schooling,
- * earnings, broadband and transit outcomes each start at their real 2024
- * level, drift every month, and nothing pulls them back. So the same place ends in
- * different places in different worlds (spread), never leaves the measure's
- * plausible range (bounds), and is not held at its start (no pinning).
+ * A century, one measure at a time: CLOUD F's health, schooling, earnings,
+ * broadband and transit outcomes each start at their real 2024 level and, with
+ * no law change and no crisis, stay exactly there for a hundred years, in every
+ * place they are measured and in every world. Nothing is drawn, so two worlds
+ * with different seeds are the same record for record, and nothing leaves the
+ * measure's plausible range (bounds).
  */
 
 const MEASURES = [
@@ -31,21 +32,10 @@ const MEASURES = [
   "gov.borrowing-cost",
 ] as const;
 
-const WORLDS = [
-  "century-1",
-  "century-2",
-  "century-3",
-  "century-4",
-  "century-5",
-  "century-6",
-  "century-7",
-  "century-8",
-  "century-9",
-  "century-10",
-];
 const MONTHS = 1200;
+const TEN_YEARS = 120;
 
-/** A seeded world with no laws and no recorded economy: drift alone. */
+/** A seeded world with no laws and no recorded economy. */
 function emptyWorld(seed: string): World {
   return {
     seed,
@@ -62,18 +52,20 @@ function nextMonth(month: IsoDate): IsoDate {
 }
 
 /**
- * Every place's record for one measure at year 10 and year 100, and whether
- * any month left the bounds. Only the last month is kept in the world, which
- * is all the monthly pass reads.
+ * Every place's record for one measure over `months` months of a world, month
+ * by month, keeping the first ten years and the last month (only the last
+ * month is kept in the world, which is all the monthly pass reads). Also the
+ * records that left the bounds or moved off their start.
  */
-function century(seed: string, measure: string) {
+function century(seed: string, measure: string, months: number) {
   let world = emptyWorld(seed);
   let month = makeIsoDate("2026-01-01");
   const decade: PlaceOutcomeRecord[] = [];
   let outOfBounds: PlaceOutcomeRecord[] = [];
+  let moved: PlaceOutcomeRecord[] = [];
   let records: readonly PlaceOutcomeRecord[] = [];
   const drift = PLACE_OUTCOME_BASES[measure]!.drift!;
-  for (let index = 0; index < MONTHS; index += 1) {
+  for (let index = 0; index < months; index += 1) {
     records = placeOutcomesForMonth(world, month, [measure]);
     outOfBounds = outOfBounds.concat(
       records.filter(
@@ -83,7 +75,16 @@ function century(seed: string, measure: string) {
           record.structural! > drift.maxPct,
       ),
     );
-    if (index === 119) decade.push(...records);
+    moved = moved.concat(
+      records.filter(
+        (record) =>
+          record.structural !== record.base ||
+          record.multiplier !== 1 ||
+          record.value !== record.base ||
+          record.causes.length > 0,
+      ),
+    );
+    if (index < TEN_YEARS) decade.push(...records);
     world = {
       ...world,
       currentDate: month,
@@ -91,34 +92,10 @@ function century(seed: string, measure: string) {
     } as World;
     month = nextMonth(month);
   }
-  return { decade, end: records, outOfBounds };
+  return { decade, end: records, outOfBounds, moved };
 }
 
-/**
- * A level in the space it drifts in: log-odds for a share (a percent), logs
- * for a rate. A share near its ceiling moves little in logs but as freely as
- * any other in log-odds.
- */
-function driftSpace(measure: string, value: number): number {
-  const scale = PLACE_OUTCOME_BASES[measure]!.scale;
-  if (scale === "level") return value;
-  if (scale === "rate") return Math.log(value);
-  const share = value / 100;
-  return Math.log(share / (1 - share));
-}
-
-const logMove = (record: PlaceOutcomeRecord) =>
-  Math.abs(
-    driftSpace(record.measure, record.structural!) -
-      driftSpace(record.measure, record.base),
-  );
-
-const median = (values: readonly number[]) => {
-  const sorted = [...values].sort((a, b) => a - b);
-  return sorted[Math.floor(sorted.length / 2)]!;
-};
-
-describe("food, reading, degrees, broadband, asthma, overdoses, earnings and transit over a century in ten worlds", () => {
+describe("food, reading, degrees, broadband, asthma, overdoses, earnings and transit over a century with nothing to move them", () => {
   it("a level adds each link's effect in its own unit, so a law reads the same way below zero", () => {
     const level = PLACE_OUTCOME_BASES["gov.borrowing-cost"]!;
     expect(level.scale).toBe("level");
@@ -133,7 +110,7 @@ describe("food, reading, degrees, broadband, asthma, overdoses, earnings and tra
     expect(placeOutcomeValue(share, 10, 0.98, [0.98])).toBeCloseTo(9.8, 10);
   });
 
-  it("each is a place outcome with its own drift and plausible bounds, starting from real bases only", () => {
+  it("each is a place outcome with its own plausible bounds, starting from real bases only", () => {
     for (const measure of MEASURES) {
       const definition = PLACE_OUTCOME_BASES[measure];
       expect(definition, measure).toBeDefined();
@@ -153,39 +130,29 @@ describe("food, reading, degrees, broadband, asthma, overdoses, earnings and tra
   });
 
   for (const measure of MEASURES) {
-    it(`${measure}: worlds end apart, nothing leaves its range, and nothing is pinned to its start`, () => {
-      const runs = WORLDS.map((seed) => century(seed, measure));
-      const places = Object.keys(PLACE_OUTCOME_BASES[measure]!.places);
+    it(`${measure}: every place stays exactly at its start for a hundred years, whatever the seed`, () => {
+      const run = century("century-1", measure, MONTHS);
+      const other = century("century-2", measure, TEN_YEARS);
+      const places = Object.keys(PLACE_OUTCOME_BASES[measure]!.places).sort();
 
-      // Bounds: every month of every world.
-      for (const run of runs) expect(run.outOfBounds).toEqual([]);
+      // Every place the measure has a base for has a record, every month.
+      expect(run.end.map((record) => record.placeKey).sort()).toEqual(places);
+      expect(run.decade).toHaveLength(places.length * TEN_YEARS);
 
-      // Spread: each place ends somewhere different in each world, far apart.
-      for (const placeKey of places) {
-        const ends = runs.map((run) =>
-          run.end.find((record) => record.placeKey === placeKey)!,
-        );
-        expect(new Set(ends.map((record) => record.structural)).size).toBe(
-          WORLDS.length,
-        );
-        const logs = ends.map((record) =>
-          driftSpace(measure, record.structural!),
-        );
-        expect(
-          Math.max(...logs) - Math.min(...logs),
-          `${placeKey} spread`,
-        ).toBeGreaterThan(0.25);
-      }
+      // Bounds: every month of the world.
+      expect(run.outOfBounds).toEqual([]);
 
-      // No pinning: the distance from the start keeps growing over the
-      // century instead of settling back, and almost no place sits at it.
-      const tenYears = median(runs.flatMap((run) => run.decade.map(logMove)));
-      const hundredYears = median(runs.flatMap((run) => run.end.map(logMove)));
-      expect(hundredYears).toBeGreaterThan(tenYears * 1.5);
-      const nearStart = runs
-        .flatMap((run) => run.end)
-        .filter((record) => logMove(record) < 0.02).length;
-      expect(nearStart / (runs.length * places.length)).toBeLessThan(0.1);
+      // No drift: nothing is drawn, so with no law and no crisis no place
+      // moves in any month of the century, and none is pulled back either.
+      expect(run.moved).toEqual([]);
+      for (const record of run.end)
+        expect(record.value, record.placeKey).toBe(record.base);
+
+      // The seed is not a cause: a world with another seed is the same for
+      // its first ten years, and the first ten years of this one are the
+      // start, repeated.
+      expect(other.decade).toEqual(run.decade);
+      expect(other.moved).toEqual([]);
     }, 240_000);
   }
 });
