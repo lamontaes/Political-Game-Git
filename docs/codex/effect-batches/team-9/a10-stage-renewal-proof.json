@@ -1,0 +1,114 @@
+{
+  "auditId": "A10",
+  "executedHead": "8fd006b910d7ef185bb383d2ac2a20ae0bb7ba26",
+  "base": "37a25100b5ad7e6e0981fd0404f72b73e4721d3c",
+  "command": "G12_PROOF_PATH=/tmp/team9-a10-current-stage.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/prosecution-transitions.test.ts src/simulation/justice/no-judge-pending.test.ts",
+  "result": {
+    "tests": 20,
+    "passed": 20,
+    "failed": 0,
+    "processSeconds": 223.34
+  },
+  "clockReceipts": [
+    {
+      "seed": "team9-g12-case-clock:US-IA",
+      "place": "1900190",
+      "personId": "person_d27c0229e3aed8c5",
+      "name": "George Vance",
+      "referralId": "event_508362cfc0ad0f28",
+      "dueItemId": "future-due-item_0eafa86ae7b62b80",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_383e21e622802fe9",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_48d281ecf91e3cc4",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "reloadedRepeatCalls": 1
+    },
+    {
+      "seed": "team9-g12-case-clock:US-LA",
+      "place": "2200100",
+      "personId": "person_004be1608679147c",
+      "name": "Ray Patel",
+      "referralId": "event_768194fc976d6e37",
+      "dueItemId": "future-due-item_43fda7a00ec78ff5",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_13a49ea2ef9c4946",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_f46bb0368b442dea",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "reloadedRepeatCalls": 1
+    },
+    {
+      "seed": "team9-g12-case-clock:US-TX",
+      "place": "4800100",
+      "personId": "person_5e6238ca9658ec72",
+      "name": "Nina Gray",
+      "referralId": "event_afdd8ae87cb91df1",
+      "dueItemId": "future-due-item_044c472d2a42bcec",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_916ab3d123564198",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_c1ac6c30a5dc473f",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "reloadedRepeatCalls": 1
+    },
+    {
+      "seed": "team9-g12-case-clock:US-CT",
+      "place": "0901150",
+      "personId": "person_fc288b6c7a59b3b1",
+      "name": "Mara Sanchez",
+      "referralId": "event_757858221c79c0dc",
+      "dueItemId": "future-due-item_2f952dac5f2278ff",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_32afa745c863c495",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_bddc60c8e4b57b47",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "reloadedRepeatCalls": 1
+    },
+    {
+      "seed": "team9-g12-case-clock:US-ND",
+      "place": "3800100",
+      "personId": "person_41ff66c2986c5bfe",
+      "name": "Sean Sinclair",
+      "referralId": "event_147cb17f07df7635",
+      "dueItemId": "future-due-item_ea91aa77868d52bf",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_e7fb77b741d0aa04",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_13958dd62dd2434e",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "reloadedRepeatCalls": 1
+    }
+  ],
+  "checks": {
+    "ownedTypeRoots": 5,
+    "ownedTypeErrors": 0,
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "diff": "PASS"
+  },
+  "notRun": [
+    "Shared composer integration",
+    "Opening/load integration",
+    "Whole suite",
+    "Browser",
+    "Year speed",
+    "Final main"
+  ],
+  "remaining": [
+    "Team7 compositor renewal",
+    "Audit opening/load composition",
+    "Move NPC request creation to actual saved activity before deleting weekly caller"
+  ],
+  "preserved": [
+    "Full cash-bail deposit/refund writers",
+    "Weekly fallback",
+    "Unrelated replacement-intake bytes"
+  ]
+}

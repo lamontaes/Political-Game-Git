@@ -1,0 +1,108 @@
+{
+  "auditId": "A10",
+  "base": "a721474cf9518f6c64ac325e851845250d0b4d36",
+  "parent": "9af62dbe104e3fe2fab6e23362dabb017e18445f",
+  "sourceBlobs": {
+    "src/simulation/campaigns.ts": "826bd46a716cd857b9c4d18c331065e106d8b40c",
+    "src/simulation/justice/prosecution-composer.test.ts": "73825cb419eb71f714617a28b8f75868ab421585",
+    "src/simulation/justice/prosecution.ts": "b0298124b4633ab3a88875c630f20b9a6b502dd5",
+    "src/simulation/justice/prosecution-transitions.ts": "ad16e52b42c520a7e3a88ae285b0905b7af74a94"
+  },
+  "command": "A10_COMPOSER_PROOF_PATH=/tmp/team9-a10-composer-five.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/prosecution-composer.test.ts",
+  "tests": {
+    "passed": 5,
+    "failed": 0,
+    "processSeconds": 100.22
+  },
+  "ownedTypeRoots": 2,
+  "ownedTypeErrors": 0,
+  "receipts": [
+    {
+      "seed": "team9-a10-composed-case:US-IA",
+      "place": "1900190",
+      "personId": "person_c21d2bde7ae14866",
+      "name": "Alan Kennedy",
+      "referralId": "event_c5d8c1cea7495621",
+      "dueItemId": "future-due-item_bbb073dbd9c6fe9b",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_09730ab62781d468",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_b256d7259aac9bb6",
+      "trialDueAt": "2026-07-04",
+      "composer": "composeWorldTimeHandlers",
+      "savedStageReplay": "unchanged"
+    },
+    {
+      "seed": "team9-a10-composed-case:US-LA",
+      "place": "2200100",
+      "personId": "person_b6f3eb953ae01a52",
+      "name": "Delaney Pickett",
+      "referralId": "event_80fe2427d1a32e49",
+      "dueItemId": "future-due-item_0c2461e982a7a30b",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_cec955ae2241b2a0",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_04b7b43e0d82d964",
+      "trialDueAt": "2026-07-04",
+      "composer": "composeWorldTimeHandlers",
+      "savedStageReplay": "unchanged"
+    },
+    {
+      "seed": "team9-a10-composed-case:US-TX",
+      "place": "4800100",
+      "personId": "person_35ce0b0caf7f54fa",
+      "name": "Devon Li",
+      "referralId": "event_ca8e259873297cbd",
+      "dueItemId": "future-due-item_3eb2b58dfe176c0e",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_079f8fce9285b21c",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_0661cdd18c47a002",
+      "trialDueAt": "2026-07-04",
+      "composer": "composeWorldTimeHandlers",
+      "savedStageReplay": "unchanged"
+    },
+    {
+      "seed": "team9-a10-composed-case:US-CT",
+      "place": "0901150",
+      "personId": "person_3c7f308fb0bfe886",
+      "name": "Anika Mullins",
+      "referralId": "event_c5af5e421de3fa49",
+      "dueItemId": "future-due-item_9e24fa56c78eb3a6",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_e067fdf64dd57ea0",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_c2f2f783c8a4edfc",
+      "trialDueAt": "2026-07-04",
+      "composer": "composeWorldTimeHandlers",
+      "savedStageReplay": "unchanged"
+    },
+    {
+      "seed": "team9-a10-composed-case:US-ND",
+      "place": "3800100",
+      "personId": "person_2e12ba6ed8e276a6",
+      "name": "Ayanna Roy",
+      "referralId": "event_7c854d5a9dcf5b19",
+      "dueItemId": "future-due-item_ee037efcab8cbfb4",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_dec258efe1f93e90",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_97821cdd8c2b0a68",
+      "trialDueAt": "2026-07-04",
+      "composer": "composeWorldTimeHandlers",
+      "savedStageReplay": "unchanged"
+    }
+  ],
+  "scope": "Production composer; unrelated saved opening commitments cancelled canonically. Not a complete world/year or opening/load proof.",
+  "remaining": [
+    "Audit opening/load integration",
+    "Clemency composer admission",
+    "Move NPC petition creation to an actual saved activity before weekly removal"
+  ],
+  "preserved": [
+    "G11 cash deposits/refunds",
+    "All other composer handlers",
+    "Both weekly fallback callers",
+    "NPC produceRequests"
+  ]
+}

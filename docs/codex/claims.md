@@ -1,3 +1,13 @@
+## October 1, 3:38 ownership additions
+
+- Coordinator owns the standing-appropriation additions to law-consequence-types.ts, enacted-law-effects.ts and law-effect-stamp.ts, the pay authority discriminator and corresponding contract tests. Published d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec is WIP. Team 5 owns its existing service resolver and consumer; Team 6 owns actual authority and payment records. No synthetic bill or second service engine.
+- Coordinator owns the approved resources.ts payment-stamp kind correction and resource-law-stamps.test.ts composition at 3cd6d09c37f0b197e45d3d381c9bedea3d6b0dbd. Team 3 retains office-salary.ts, town-pay.ts and its caller tests.
+- X5 owns the standalone minimum-wage-dated-matrix-2026.json research file. Coordinator alone admits its verified dates and tiers into canonical starting-law terms and the shared reader. Observation dates must not be silently backdated.
+- Team 1 released only presentation/legislation-session.ts await-executive-decision lines 474–497 and unused related imports to Team 2, clean at a522ed5be56ab97afedc24d8d73e847a7586852a. Preserve all other presentation work.
+- Team 7 released only PressWorkspace.tsx zero-journalist button lines 279–291 and the unused import to Team 8. Preserve the no-role message and remaining form. Team 7's county election work does not own Audit's clock entry points.
+- CTO 3:20 assigns actual groundwater meter compliance costs to Team 4 through the existing price-cost path, after sourced cost and actual irrigating-farm exposure are available. No generic farm-classification proxy.
+- Team 6's requested A45 estimate hunks are pending Team 3's exact release. No transfer is recorded as complete here.
+
 # Current engine rebuild ownership
 
 The following transfers preserve one writer for each named part of the rebuild. They override older entries only for the exact functions and changes listed. They record ownership, not completion or approval to merge.

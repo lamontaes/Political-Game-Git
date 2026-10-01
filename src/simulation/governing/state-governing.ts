@@ -2892,17 +2892,9 @@ export function governorOfficeForJurisdiction(
 
 /**
  * A bill on the governor's desk. Whoever holds the governorship, player or
- * not, decides it through the same bound matter. Only where no governorship
- * has been materialized does a bill's authored disposition still stand, so an
- * older save keeps its scripted ending and nothing is invented for it.
- *
- * The authored dispositions were written for developer scenarios that set out
- * to demonstrate a veto and an override, so almost all of them are vetoes. A
- * sitting non-player governor used to replay them, which is how an observed
- * Nebraska world saw 31 of 32 bills vetoed in 13 years and nothing become law.
- * How often a real governor signs is not settled here: the ordinary decision
- * this now reaches is a marked placeholder, filed as
- * `why-a-governor-signs-or-vetoes`.
+ * not, decides it through the same bound matter. Without an actual seated
+ * executive, the bill stays pending. An authored scenario ending cannot
+ * supply a governor's signature or veto.
  */
 export const governorDesk: ExecutiveDeskHandler = (
   world,
@@ -2926,15 +2918,6 @@ export const governorDesk: ExecutiveDeskHandler = (
       instance: `measure:${measure.id}`,
       measureId: measure.id,
     });
-  if (blueprint.governorAction) {
-    const next = recordGovernorDecisionOnMeasure(
-      world,
-      measure.id,
-      blueprint.governorAction,
-      blueprint.governorRationale,
-    );
-    return scheduleInstitutionStep(next, measure.id);
-  }
   return world;
 };
 
@@ -2944,7 +2927,11 @@ export const governorDesk: ExecutiveDeskHandler = (
  * day, rather than waiting for the next season.
  */
 /** The governor's desk for a state bill, the President's for a federal one. */
-const executiveDesk: ExecutiveDeskHandler = (world, measure, blueprint) =>
+export const executiveDesk: ExecutiveDeskHandler = (
+  world,
+  measure,
+  blueprint,
+) =>
   isCongressMeasure(measure)
     ? presidentDesk(world, measure)
     : governorDesk(world, measure, blueprint);

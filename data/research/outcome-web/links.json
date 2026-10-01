@@ -368,7 +368,7 @@
       },
       "aboutZero": false,
       "researchActivationLimit": "Cause law.stand-your-ground has no recorded runtime reader. This coefficient is sized, not a claim of activation. Repeal and transport beyond the study require review before enabling a reader.",
-      "notes": "Unsupported until a law is recorded: no shipped policy question covers stand-your-ground, so the cause has no reader; firearm homicide also has no starting level, because CDC WONDER's state rates cannot be pulled through its API."
+      "notes": "Unsupported until a law is recorded: no shipped policy question covers stand-your-ground, so the cause law.stand-your-ground has no reader; firearm homicide is kept, so this acts once one exists."
     },
     {
       "key": "min-age-to-youth-gun-suicide",
@@ -1777,8 +1777,7 @@
       "source": "Dettling 2017 (ILR Review)",
       "from": "broadband.home-access",
       "evidence": "researched",
-      "range": [0.0005, 0.0009],
-      "notes": "Waiting on a base: married women's labor force participation by state has no starting level yet; ACS table B12006 (marital status by labor force status) is the candidate source."
+      "range": [0.0005, 0.0009]
     },
     {
       "key": "road-condition-to-vehicle-costs",
@@ -2405,8 +2404,7 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "range": [-0.42, -0.25],
-      "notes": "Waiting on a base: the Urban Institute state series was not reachable, and the 2023 credit-reporting changes (some states now report zero) make medical debt in collections a poor starting level."
+      "range": [-0.42, -0.25]
     },
     {
       "key": "snap-work-requirement-to-participation",
@@ -2573,8 +2571,7 @@
       "evidence": "provisional",
       "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
       "to": "crime.firearm-homicide",
-      "range": [-0.11, -0.045],
-      "notes": "Waiting on a base: state firearm homicide rates come only from CDC WONDER's web form, whose API refuses state groupings, so the outcome has no starting level."
+      "range": [-0.11, -0.045]
     },
     {
       "key": "voter-id-to-registration",
@@ -2703,7 +2700,7 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
       "to": "housing.eviction",
-      "notes": "Waiting on a base: no complete state series of eviction filings exists (the Eviction Lab covers some states and cities only), so the outcome has no starting level."
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead."
     },
     {
       "key": "housing-first-to-homelessness",

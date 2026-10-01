@@ -1,3 +1,4 @@
+import stateLocalFinances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
 import { MILEAGE_FEE_QUESTION, ROAD_CHARGE_BASIS } from "./road-usage-charge";
 import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
@@ -55,14 +56,13 @@ export const LOCAL_REVENUE_RULE =
   "local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)";
 
 /**
- * Pension opening. The actuarial liability as a multiple of a year's general
- * spending, the assumed return, and the amortization period for the unfunded
- * part. PLACEHOLDER, research: public-pension-funding-by-state. Each
- * government's normal cost and benefits paid are its own plans'
- * (`pensionFlows` in `pension-share.ts`).
+ * Pension opening. The assumed return and the amortization period for the
+ * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state. The
+ * liability's size against spending is measured (`openingLiabilityToSpending`
+ * in `pension-share.ts`), and each government's normal cost and benefits paid
+ * are its own plans' (`pensionFlows`).
  */
 export const PENSION = {
-  liabilityToSpending: 1.2,
   assumedReturn: 0.07,
   amortizationYears: 30,
 } as const;
@@ -248,5 +248,17 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
   },
 ];
 
-/** An interest rate for a government whose research shows no debt. */
-export const DEFAULT_INTEREST_RATE = 0.04;
+const NATIONAL_DEBT = stateLocalFinances.places.US.dollars;
+
+/**
+ * The interest rate a government opens with when its own Census column
+ * shows no debt or no interest: ESTIMATED FROM AVERAGE, the national
+ * effective rate for its level, interest paid on debt over debt outstanding
+ * (Census, State and Local Government Finances 2022, United States total;
+ * `data/research/money/state-local-finances-2022.json`). About 3.6% for
+ * states and 3.9% for local governments, against the 4% set by hand before.
+ */
+export const DEFAULT_STATE_INTEREST_RATE =
+  NATIONAL_DEBT.state.interestOnDebt / NATIONAL_DEBT.state.debtOutstanding;
+export const DEFAULT_LOCAL_INTEREST_RATE =
+  NATIONAL_DEBT.local.interestOnDebt / NATIONAL_DEBT.local.debtOutstanding;
