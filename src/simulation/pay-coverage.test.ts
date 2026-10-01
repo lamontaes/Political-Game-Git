@@ -29,6 +29,7 @@ import { serializeWorld, deserializeWorld } from "./serialization";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
+import { assertWorldIntegrity } from "./world";
 import type { World } from "./types";
 
 const places = new Map<string, [string, number]>();
@@ -162,6 +163,26 @@ it.each(sampled)(
         },
       }),
     ).toThrow("Duplicate world entity ID");
+    const event = recorded.history.events[0]!;
+    expect(event).toBeDefined();
+    expect(() =>
+      assertWorldIntegrity({
+        ...recorded,
+        history: {
+          ...recorded.history,
+          nextSequence: recorded.history.nextSequence + 1,
+          events: [
+            ...recorded.history.events,
+            {
+              ...event,
+              id: record.id,
+              stableKey: `${event.stableKey}:forged-coverage-collision`,
+              sequence: recorded.history.nextSequence,
+            },
+          ],
+        },
+      }),
+    ).toThrow(/Duplicate.*ID/);
   },
 );
 
