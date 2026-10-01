@@ -6,6 +6,8 @@ import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
 import { publicOrganizationKey } from "../tax-policy";
 import { recordById } from "../history-index";
+import { resourcePositionAt } from "../resource-queries";
+import { money } from "../resources";
 import { governmentUnit } from "../government-units";
 import { municipalGovernmentByKey } from "../municipal-government";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
@@ -113,6 +115,15 @@ export interface MonthFlows {
   readonly represented: ReadonlyMap<string, number>;
   readonly levies: ReadonlyMap<string, readonly number[]>;
   readonly payments: ReadonlyMap<string, readonly number[]>;
+  /** Available only when one saved USD account unambiguously owns the cash. */
+  readonly cash?: ReadonlyMap<
+    string,
+    {
+      readonly organizationId: EntityId;
+      readonly positionId: EntityId;
+      readonly balanceMinorUnits: number;
+    }
+  >;
   readonly paidLeavePaymentStamps?: ReadonlyMap<
     string,
     readonly LawEffectStamp[]
@@ -185,6 +196,39 @@ export function readMonthFlows(
       if (budgetKey && budgetKeys.has(budgetKey)) key = budgetKey;
     }
     if (key) accountOwner.set(organization.id, key);
+  }
+  const cash = new Map<
+    string,
+    {
+      organizationId: EntityId;
+      positionId: EntityId;
+      balanceMinorUnits: number;
+    }
+  >();
+  const accountIds = new Map<string, EntityId[]>();
+  for (const [id, key] of accountOwner) {
+    const ids = accountIds.get(key) ?? [];
+    ids.push(id);
+    accountIds.set(key, ids);
+  }
+  for (const [key, ids] of accountIds) {
+    // Consolidating two saved accounts is a separate recorded migration.
+    if (ids.length !== 1 || !history.resourcePositions) continue;
+    const organizationId = ids[0]!;
+    const position = resourcePositionAt(
+      world,
+      {
+        kind: "organization",
+        organizationId,
+      },
+      money(0, "USD").currency,
+    );
+    if (position)
+      cash.set(key, {
+        organizationId,
+        positionId: position.positionId,
+        balanceMinorUnits: position.liquidBalance.minorUnits,
+      });
   }
   const withheld = new Map<string, number>();
   const payers = new Map<string, Set<EntityId>>();
@@ -269,6 +313,7 @@ export function readMonthFlows(
       ),
       levies,
       payments,
+      cash,
       paidLeavePaymentStamps,
     },
     cursor: {
@@ -765,8 +810,14 @@ export function settleGovernmentMonth(
     if (value !== 0)
       spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
-  let balance = government.balance + sum(revenue) - sum(spending);
-  let reserve = government.reserve;
+  const publicCash = flows.cash?.get(government.key);
+  // The reserve earmarks this account's cash; it is not a second cash asset.
+  let reserve = publicCash
+    ? Math.min(government.reserve, publicCash.balanceMinorUnits / 100)
+    : government.reserve;
+  let balance = publicCash
+    ? publicCash.balanceMinorUnits / 100 - reserve
+    : government.balance + sum(revenue) - sum(spending);
   let debt = government.debt;
   let interestRate = government.interestRate;
   let cut = government.cut;
@@ -916,6 +967,18 @@ export function settleGovernmentMonth(
   const settledRow = appendConsumerPrivacyCostToMonth(world, government, row);
   let next: PublicBudgetGovernment = {
     ...government,
+    ...(publicCash && !government.publicAccountMigration
+      ? {
+          publicAccountMigration: {
+            onDate: asOf,
+            organizationId: publicCash.organizationId,
+            positionId: publicCash.positionId,
+            previousBudgetBalance: government.balance,
+            previousBudgetReserve: government.reserve,
+            accountBalanceMinorUnits: publicCash.balanceMinorUnits,
+          },
+        }
+      : {}),
     balance,
     reserve,
     debt,

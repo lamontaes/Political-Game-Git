@@ -253,6 +253,15 @@ export interface PublicBudgetGovernment {
   readonly budgetCycle: "annual" | "biennial" | null;
   /** How each opening amount was reached, placeholders named. */
   readonly openingNotes: readonly string[];
+  /** One recorded correction from the old cash forecast to a saved account. */
+  readonly publicAccountMigration?: {
+    readonly onDate: IsoDate;
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly previousBudgetBalance: number;
+    readonly previousBudgetReserve: number;
+    readonly accountBalanceMinorUnits: number;
+  };
   readonly balance: number;
   readonly reserve: number;
   readonly debt: number;
