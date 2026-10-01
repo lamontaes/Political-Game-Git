@@ -1,13 +1,6 @@
 {
   "base": "9891ad2ebdfde4bb79869ae290d26ba98eefe425",
-  "changedStates": [
-    "AR",
-    "CO",
-    "IL",
-    "IN",
-    "IA",
-    "NM"
-  ],
+  "changedStates": ["AR", "CO", "IL", "IN", "IA", "NM"],
   "counts": {
     "partially-inspected": 28,
     "unread": 21,
@@ -27,5 +20,18 @@
     "browser",
     "full suite",
     "final-main acceptance"
-  ]
+  ],
+  "renewal": {
+    "previousHead": "cb37eea23b98899c1394a756510b9fed205c9e6c",
+    "changedStates": ["MN", "NE"],
+    "counts": {
+      "partially-inspected": 30,
+      "unread": 19,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "matrixSha256": "95bf666cecc3a17ca80000adf7e47d3594dab0b3d5980ff31915da4adbec5985",
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed; 50 state identities and D.C. preserved; every prior claim unchanged; source fields verified; no runtime change"
+  }
 }

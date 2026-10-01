@@ -259,9 +259,7 @@
           "status": "official-source-inspected-not-production-admitted"
         }
       },
-      "openFields": [
-        "distinctPlanningRegionCouncilSemanticsNotCountyElection"
-      ]
+      "openFields": ["distinctPlanningRegionCouncilSemanticsNotCountyElection"]
     },
     "DE": {
       "status": "partially-inspected",
@@ -370,19 +368,8 @@
           "value": {
             "termYears": 4,
             "termStart": "noon January2 after election",
-            "districts2026": [
-              2,
-              4,
-              6,
-              8
-            ],
-            "districts2028": [
-              1,
-              3,
-              5,
-              7,
-              9
-            ],
+            "districts2026": [2, 4, 6, 8],
+            "districts2028": [1, 3, 5, 7, 9],
             "primary2026": "2026-08-08",
             "general2026": "2026-11-03"
           },
@@ -822,8 +809,23 @@
       ]
     },
     "MN": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "officeFamilyAndTerm": {
+          "value": "County commissioners generally form five-member boards with four-year terms until successors qualify. Anoka, Hennepin, Ramsey and St. Louis have seven members. Official page is the 2025 edition; 2026 session-law renewal remains open.",
+          "url": "https://www.revisor.mn.gov/statutes/cite/375.01",
+          "section": "375.01; 2025 edition",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "initialStaggerAndVacancies": {
+          "value": "New counties and enlarged boards initially elect odd districts for two years and even districts for four years, then four-year terms. Vacancy elections fill only the remainder. This section expressly excludes Ramsey County; actual county phases are not established.",
+          "url": "https://www.revisor.mn.gov/statutes/cite/375.03",
+          "section": "375.03 subdivisions 1-2; 2025 edition",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -919,8 +921,44 @@
       ]
     },
     "NE": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "commissionerTermAndStagger": {
+          "value": "Ordinary commissioner terms are four years; initial adoption and enlargement differ. Three-member boards elect two seats in 1994 plus four-year increments and one in 1996 plus four-year increments; five-member boards split three/two. Seven-or-more boards split odd/even districts on those anchors. Population above 150,000 through 400,000 uses 2010 odd/2012 even anchors. Partisan district electorate. Actual board size, census category, seat identity and phase require binding. The appointment-expiry date in subsection 4 is not admitted as an ordinary term-start rule.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-528",
+          "section": "32-528(1)-(5)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "supervisorTermAndStagger": {
+          "value": "County supervisors use partisan district elections and ordinary four-year terms. Initial township-organization terms differ; odd districts next elect two years after the first general election and even districts four years after it, recurring every four years. Actual county adoption anchor remains unbound.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-529",
+          "section": "32-529",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "supervisorResidenceStage": {
+          "value": "A supervisor elected after November 1986 need not live in the district when filing, but must live in the district whose office is held. Other eligibility conditions remain open; this fact alone does not grant filing permission.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=23-268",
+          "section": "23-268",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "commissionerQualifications": {
+          "value": "Commissioners must be registered voters and district residents. Above 400,000 inhabitants under the latest federal decennial census, candidates need six months of district residence before the required filing date; appointees before assuming office. The statute also specifies compliance within six months after the population determination. Other eligibility and actual population category remain open.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=23-150",
+          "section": "23-150(1)-(3)",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "residenceDurationCeiling": {
+          "value": "Non-state elected or primary-nominated candidates cannot face a residence requirement longer than six months. This ceiling does not itself establish each office requirement or eliminate other qualifications.",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-501",
+          "section": "32-501",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",

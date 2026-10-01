@@ -1,6 +1,6 @@
 # County source intake keeps real seat plans open
 
-The matrix adds dated county election and qualification evidence. It keeps actual county phase and residence bindings open. These readings grant no filing permission. The research contains 28 partially inspected states, 21 unread states and one county-board exception. D.C. remains separate. No complete production profile is admitted.
+The matrix adds dated county election and qualification evidence. It keeps actual county phase and residence bindings open. These readings grant no filing permission. The research contains 30 partially inspected states, 19 unread states and one county-board exception. D.C. remains separate. No complete production profile is admitted.
 
 ## What the new reads establish
 
@@ -12,15 +12,19 @@ Iowa's current guide corrects the January guide's county nomination opening date
 
 Illinois remains unread after its official portal returned a forbidden response. The matrix records exact primary URLs, sections, read dates and limitations.
 
+Minnesota's official 2025 statutes distinguish ordinary terms from initial staggering and expressly exclude Ramsey from the initial-stagger section. The 2026 session-law renewal and actual county plans remain open.
+
+Nebraska distinguishes commissioners from county supervisors. Supervisor district residence is required while holding office, but not when filing under section 23-268. Large-county commissioners have a separate six-month filing requirement. The matrix preserves those stages and actual county dependencies.
+
 ## Checks and limits
 
-The proof parses the JSON, preserves all 50 state keys and D.C., verifies prior claims unchanged and checks source fields. Six records changed: Arkansas, Colorado, Illinois, Indiana, Iowa and New Mexico. Simulation and private source packs are unchanged.
+The proof parses the JSON, preserves all 50 state keys and D.C., verifies prior claims unchanged and checks source fields. The first publication changed six records: Arkansas, Colorado, Illinois, Indiana, Iowa and New Mexico. This renewal adds Minnesota and Nebraska without changing prior claims. Simulation and private source packs are unchanged.
 
 Natural filing, district residence, electorate, election outcomes, browser play, a year and final-main acceptance are not run. CTO owns admission of core record mechanisms. No team merge or art approval is requested.
 
 ## Next
 
-Continue unread states and actual county bindings. Consume Audit's published import repair for the three released callers, then run cold import and formative/continuation parity. Research counts do not complete the county assignment.
+Continue unread states and actual county bindings. The three released callers have separate controlled proof in draft 1510. They still depend on Audit's unmerged import repair; actual-main integration remains open. Research counts do not complete the county assignment.
 
 ## Delivery
 
