@@ -23,6 +23,69 @@ export interface MonthlyWorkPayResult {
   readonly gross: MoneyAmount;
 }
 
+export interface LegacyMonthlyPayCoverage {
+  readonly outcomeId: EntityId;
+  readonly resourceFlowId: EntityId;
+  readonly termsId: EntityId;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly nextPeriodStartsAt: IsoDate;
+  readonly gross: MoneyAmount;
+}
+
+/** Ruling 20: interpret an already-saved first-of-month wage point, read-only.
+ * The old local-business writer used general flow references, so this query
+ * does not manufacture a work binding. It is not permission for a new write;
+ * the payment writer remains strict and admission belongs to saved-record integrity.
+ */
+export function legacyMonthlyPayCoverage(
+  world: World,
+  outcomeId: EntityId,
+): LegacyMonthlyPayCoverage | null {
+  const outcome = recordById(world.history.resourceTransferOutcomes, outcomeId);
+  if (
+    !outcome ||
+    outcome.sequence >= world.history.nextSequence ||
+    outcome.occurredAt > world.currentDate ||
+    !outcome.occurredAt.endsWith("-01") ||
+    outcome.periodStartsAt !== outcome.occurredAt ||
+    outcome.periodEndsAt !== outcome.occurredAt ||
+    outcome.earnedLawPayAssessmentId !== undefined
+  )
+    return null;
+  const flow = recordById(world.history.resourceFlows, outcome.resourceFlowId);
+  if (
+    !flow ||
+    flow.sequence >= outcome.sequence ||
+    flow.startsAt >= outcome.occurredAt ||
+    flow.basisKind !== "compensation:wages" ||
+    flow.source.kind !== "organization" ||
+    flow.recipient.kind !== "person" ||
+    outcome.stableKey !== `${flow.stableKey}:${outcome.occurredAt}`
+  )
+    return null;
+  const terms = resourceFlowTermsAt(world, flow.id, {
+    asOfDate: outcome.occurredAt,
+    historySequenceExclusive: outcome.sequence,
+  });
+  if (
+    !terms ||
+    terms.status !== "active" ||
+    terms.cadenceKind !== "schedule:monthly"
+  )
+    return null;
+  const periodEndsAt = addDays(outcome.occurredAt, -1);
+  return {
+    outcomeId: outcome.id,
+    resourceFlowId: flow.id,
+    termsId: terms.id,
+    periodStartsAt: makeIsoDate(`${periodEndsAt.slice(0, 8)}01`),
+    periodEndsAt,
+    nextPeriodStartsAt: outcome.occurredAt,
+    gross: terms.amount,
+  };
+}
+
 /** Read-only calendar earnings from saved work and terms, never a supplied gross.
  * Both payment and reload validation must use their own history frontier.
  * No pay-writer, resource-writer, or world-writer imports belong in this leaf.
