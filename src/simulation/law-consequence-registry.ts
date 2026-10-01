@@ -1,3 +1,4 @@
+import { INSTITUTION_RULE_REGISTRATION } from "./law-consequences/institution-rule";
 import { legalOutcomeRegistration } from "./law-consequences/legal-outcome";
 import { SERVICE_DELIVERED_REGISTRATION } from "./law-consequences/service-delivered";
 import { COVERAGE_ELIGIBILITY_REGISTRATION } from "./law-consequences/coverage-eligibility";
@@ -18,7 +19,7 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly LawConsequenceKindRegistrat
     TEAM_4_PRICE_COST_REGISTRATION,
     SERVICE_DELIVERED_REGISTRATION,
     // right-permission: Team1
-    // institution-rule: Team1
+    INSTITUTION_RULE_REGISTRATION,
   ];
 
 export function createLawConsequenceRegistry(
