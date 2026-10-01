@@ -31,7 +31,10 @@ import {
   worldMetricStateForPeriodAt,
   worldMetricStateHistory,
 } from "./index";
-import { setFutureDueItemTerminalState } from "./future-transitions";
+import {
+  setFutureDueItemTerminalState,
+  futureTransitionEntityExists,
+} from "./future-transitions";
 import type {
   EntityId,
   ExactQuantity,
@@ -865,6 +868,45 @@ describe("Stage 6 Run A future due items and authoritative time", () => {
       };
     };
   }
+
+  it("keeps due-item indexes independent across branches and earlier cutoffs", () => {
+    const first = schedule(
+      bareWorld("due-index-branches"),
+      "due:first",
+      "2026-01-15",
+    );
+    const item = first.history.futureDueItems.at(-1)!;
+    const before = currentHistoricalCutoff(first);
+    expect(futureTransitionEntityExists(first, item.id)).toBe(true);
+    const cancelled = cancelFutureDueItem(first, {
+      stableKey: "due:first:cancel",
+      dueItemId: item.id,
+      effectiveAt: first.currentDate,
+      reasonKey: "custom:test-cancel",
+      context: null,
+    });
+    const second = schedule(first, "due:second", "2026-01-16");
+    const extra = second.history.futureDueItems.at(-1)!;
+    expect(futureTransitionEntityExists(second, extra.id)).toBe(true);
+    expect(futureTransitionEntityExists(first, extra.id)).toBe(false);
+    expect(futureDueItemStateAt(first, item.id, before)?.status).toBe(
+      "scheduled",
+    );
+    expect(futureDueItemStateAt(cancelled, item.id, before)?.status).toBe(
+      "scheduled",
+    );
+    expect(
+      futureDueItemStateAt(
+        cancelled,
+        item.id,
+        currentHistoricalCutoff(cancelled),
+      )?.status,
+    ).toBe("cancelled");
+    expect(
+      futureDueItemStateAt(second, item.id, currentHistoricalCutoff(second))
+        ?.status,
+    ).toBe("scheduled");
+  });
 
   it("schedules, waits, resolves once through advanceWorld, and links ordinary history", () => {
     let world = bareWorld("stage-6-due-resolution");

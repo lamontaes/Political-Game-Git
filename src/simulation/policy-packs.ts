@@ -1,3 +1,4 @@
+import type { LawConsequenceRow } from "./law-consequence-types";
 import {
   createKnowledgeSubjectDefinition,
   createPolicyDomainDefinition,
@@ -104,6 +105,8 @@ export interface PolicyIssueRow {
 
 /** One principle a proposition engages, as a pack writes it. */
 export interface PropositionPrincipleRow {
+  /** Authored relevance of this principle to this question; omitted means 1. */
+  readonly weight?: number;
   /** Qualified `pack:key`, or a bare key meaning this pack's own. */
   readonly principle: string;
   /** Which way AGREEING with the question cuts. */
@@ -112,6 +115,7 @@ export interface PropositionPrincipleRow {
 
 /** A specific thing that could be done about an issue. */
 export interface PolicyPropositionRow {
+  readonly consequences?: readonly LawConsequenceRow[];
   readonly key: string;
   /** Qualified `pack:key`, or a bare key meaning this pack's own. */
   readonly issue: string;
@@ -473,6 +477,22 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
       // Resolved before the proposition is admitted, so a row naming a
       // principle nobody declares is rejected whole rather than admitted
       // with the relation quietly missing.
+      if (
+        (row.principles ?? []).some(
+          (relation) =>
+            relation.weight !== undefined &&
+            (!Number.isFinite(relation.weight) ||
+              relation.weight < 0 ||
+              relation.weight > 1),
+        )
+      ) {
+        rejections.push({
+          pack: pack.pack,
+          where: `proposition "${row.key}"`,
+          reason: "principle weight must be a finite number from 0 to 1",
+        });
+        continue;
+      }
       const bearings: PropositionPrincipleBearing[] = [];
       let unknownPrinciple: string | null = null;
       for (const relation of row.principles ?? []) {
@@ -485,6 +505,7 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
         bearings.push({
           principleId: principle.id,
           bearing: relation.bearing,
+          ...(relation.weight === undefined ? {} : { weight: relation.weight }),
         });
       }
       if (unknownPrinciple !== null) {
@@ -507,6 +528,7 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
           row.parameters ?? [],
           row.tags ?? [],
           bearings,
+          row.consequences ?? [],
         ),
       );
       propositionsByIssue.set(

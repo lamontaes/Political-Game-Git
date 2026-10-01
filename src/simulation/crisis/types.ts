@@ -1,5 +1,6 @@
 import type { EntityId, EventVisibility, IsoDate } from "../types";
 import type { MortalityCalibrationCategory } from "./mortality-table";
+import type { LawEffectStampedRecord } from "../law-effect-stamp";
 
 /**
  * CRISIS canonical records.
@@ -92,6 +93,30 @@ export interface HealthEpisodeRecord extends CrisisRecordBase {
   readonly hazardBasis: string;
   /** Authored review steps after onset; empty for a continuing condition. */
   readonly course: readonly HealthCourseStep[];
+}
+
+/**
+ * A change in a person's public health coverage, written by the quarterly
+ * coverage pass (`health-coverage.ts`). While covered, the multiplier applies
+ * to their all-cause hazard from `hazardFrom` within the program's ages.
+ */
+export interface HealthCoverageRecord
+  extends CrisisRecordBase, LawEffectStampedRecord {
+  readonly kind: "health-coverage";
+  readonly personId: EntityId;
+  readonly program: "medicaid-expansion";
+  readonly covered: boolean;
+  readonly reasonKey: string;
+  readonly stateKey: string | null;
+  readonly householdSize: number;
+  readonly monthlyIncomeMinor: number;
+  readonly monthlyWorkHours: number | null;
+  /** Millionths applied to all-cause hazard while covered. */
+  readonly hazardMultiplierMicros: number;
+  readonly hazardFrom: IsoDate | null;
+  readonly hazardBasis: string;
+  /** Why the person holds or lost coverage, in plain words. */
+  readonly basis: string;
 }
 
 export interface HealthStateRecord extends CrisisRecordBase {
@@ -322,6 +347,7 @@ export type CrisisRecord =
   | HealthEpisodeRecord
   | HealthStateRecord
   | HealthDisclosureRecord
+  | HealthCoverageRecord
   | OfficialContinuityRecord;
 
 export type CrisisRecordKind = CrisisRecord["kind"];

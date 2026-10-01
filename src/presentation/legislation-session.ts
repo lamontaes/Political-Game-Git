@@ -10,7 +10,6 @@ import {
   recordCommitteeDisposition,
   recordConcurrenceVote,
   recordEnactment,
-  recordExecutiveAction,
   referMeasure,
   scheduleCommitteeHearing,
   takeFloorVote,
@@ -32,22 +31,21 @@ import {
   type SeatedMember,
 } from "../simulation/legislation-scenarios";
 import { chamberByKey, floorStageByKey } from "../simulation/legislature-rules";
-import {
-  createFutureTransitionHandlerRegistry,
-  futureDueItemStateAt,
-} from "../simulation/future-transitions";
+import { futureDueItemStateAt } from "../simulation/future-transitions";
 import { passOrdinaryDays } from "./ordinary-life";
-import {
-  COMMITTEE_HEARING_TRANSITION_KEY,
-  committeeHearingTransitionHandler,
-} from "../simulation/legislation";
+import { COMMITTEE_HEARING_TRANSITION_KEY } from "../simulation/legislation";
 import { addDays, daysBetween } from "../simulation/dates";
+import { typedTaxEnactmentDate } from "../simulation/tax-policy-activation";
 import type {
   LegislativeQuestionIdentity,
   LegislativeVoteDisposition,
   World,
 } from "../simulation/types";
 import { decideChamberVote } from "../simulation/governing/chamber-votes";
+import { committeeRoster } from "../simulation/governing/committee-assignment";
+import { memberBallotOn } from "../simulation/governing/member-ballots";
+import { executiveDesk } from "../simulation/governing/state-governing";
+import { legislativeBlueprintForMeasure } from "../simulation/governing/legislative-clock";
 import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
 /**
@@ -61,10 +59,6 @@ import { dispositionsHonoringOfficeInstructions } from "./office-vote-instructio
  * who saves, reloads and carries on gets the same next key as one who never
  * left. Identity belongs to the world, not to the browser tab.
  */
-
-const HEARING_HANDLERS = createFutureTransitionHandlerRegistry([
-  [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-]);
 
 export interface StepResult {
   readonly world: World;
@@ -97,19 +91,27 @@ function recordedDispositions(
   },
 ): readonly LegislativeVoteDisposition[] {
   if (scenario.memberDecisions && decided) {
+    const ballotQuestion = {
+      ...decided.question,
+      measureId: scenario.measureId,
+    };
+    const playerPersonId = scenario.memberDecisions.playerPersonId;
     return decideChamberVote(decided.world, {
       stableKey: decided.stableKey,
       question: {
         question: {
-          ...decided.question,
-          measureId: scenario.measureId,
+          ...ballotQuestion,
           amendmentStableKey: null,
           provisionKey: null,
         },
         questionLabel: question,
       },
       members,
-      playerPersonId: scenario.memberDecisions.playerPersonId,
+      playerPersonId,
+      playerBallot:
+        playerPersonId === null
+          ? null
+          : memberBallotOn(decided.world, playerPersonId, ballotQuestion),
     });
   }
   const dispositions = dispositionsFromCounts(
@@ -204,7 +206,6 @@ export function applyLegislativeStep(
       const next = passOrdinaryDays(
         scheduled,
         Math.max(1, daysBetween(world.currentDate, hearingDate)),
-        HEARING_HANDLERS,
       );
       return {
         world: next,
@@ -214,8 +215,19 @@ export function applyLegislativeStep(
       };
     }
     case "move-committee-report": {
-      const committee = chamber.committees[0]!;
+      const committee =
+        chamber.committees.find(
+          (entry) => entry.committeeKey === position.committeeKey,
+        ) ?? chamber.committees[0]!;
       const body = bodyForChamber(scenario, chamberKey);
+      const members = scenario.memberDecisions
+        ? committeeRoster(
+            body,
+            chamber.committees,
+            committee.committeeKey,
+            `${pack.packId}:${chamberKey}`,
+          )
+        : committeeMembers(body, committee.appointedMembers);
       const stableKey = key(`committee:${chamberKey}`);
       const next = recordCommitteeDisposition(world, {
         stableKey,
@@ -223,7 +235,7 @@ export function applyLegislativeStep(
         recommendation: "favorable",
         dispositions: recordedDispositions(
           scenario,
-          committeeMembers(body, committee.appointedMembers),
+          members,
           votePlanKeyForCommittee(committee.committeeKey),
           {
             world,
@@ -315,7 +327,7 @@ export function applyLegislativeStep(
       }
       const days = Math.max(1, daysBetween(world.currentDate, until));
       const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
-      const next = passOrdinaryDays(world, days, HEARING_HANDLERS);
+      const next = passOrdinaryDays(world, days);
       return {
         world: next,
         message:
@@ -461,25 +473,18 @@ export function applyLegislativeStep(
         message: `Your bill is on the ${pack.executive.titleLabel}'s desk.`,
       };
     case "await-executive-decision": {
-      // The player waits. What the Governor then does is the Governor's, and
-      // it is only revealed once the wait is over.
-      const action = scenario.governorAction;
-      if (action === null)
-        throw new Error(
-          "No executive disposition has been supplied for this bill.",
-        );
-      const next = recordExecutiveAction(world, {
-        stableKey: key("governor"),
-        measureId,
-        action,
-        rationale: scenario.governorRationale,
-      });
+      if (!measure) throw new Error("This bill is not on record.");
+      const next = executiveDesk(
+        world,
+        measure,
+        legislativeBlueprintForMeasure(world, measure),
+      );
       return {
         world: next,
         message:
-          action === "signed"
-            ? `The ${pack.executive.titleLabel} signed your bill.`
-            : `The ${pack.executive.titleLabel} vetoed your bill. ${scenario.governorRationale}`,
+          measurePosition(next, measureId).phase === "awaiting-executive"
+            ? "Your bill is awaiting an executive decision."
+            : "The bill's executive action has been recorded.",
       };
     }
     case "move-veto-override": {
@@ -551,9 +556,11 @@ export function applyLegislativeStep(
       };
     }
     case "record-enactment": {
+      const typedTaxDate = typedTaxEnactmentDate(world, measureId);
       const next = recordEnactment(world, {
         stableKey: key("enactment"),
         measureId,
+        ...(typedTaxDate ? { effectiveAt: typedTaxDate } : {}),
       });
       return { world: next, message: "Your bill is now law." };
     }

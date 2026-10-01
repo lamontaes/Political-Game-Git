@@ -3,8 +3,12 @@ import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import type { AdultAftermathKind } from "./adult-situations";
 import { applyCharacterHistoryPlan } from "./character-history";
 import { addDays, makeIsoDate } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
+import {
+  assessUndertaking,
+  undertakingForLifeCommitment,
+} from "./undertakings";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeLifeCommitmentsAt,
@@ -452,6 +456,16 @@ export function lifeCallbackTransitionHandler(
       dueItem,
       situationTag ?? "life.callback",
     );
+    if (raised === null) {
+      return {
+        world,
+        status: "blocked",
+        reasonKey: "life:decision-undecided",
+        context:
+          "Diagnostic: no answer was selected about raising this earlier matter.",
+        outcomeEventId: null,
+      };
+    }
     if (!raised) {
       return {
         world,
@@ -584,7 +598,7 @@ function counterpartRaisesIt(
   counterpartId: EntityId,
   dueItem: FutureDueItem,
   situationTag: string,
-): boolean {
+): boolean | null {
   const between = world.history.relationshipInteractions.filter(
     (interaction) =>
       interaction.personIds.includes(personId) &&
@@ -607,6 +621,39 @@ function counterpartRaisesIt(
       ],
     }),
   );
+
+  // What became of the promise itself, when the choice made one to this
+  // person. A promise they saw kept gives them nothing to bring up; one they
+  // saw broken is the likeliest thing of all to be raised. Read from the
+  // record of the act, never from the callback that is now asking.
+  const promised = world.history.lifeCommitments.find(
+    (record) =>
+      record.stableKey ===
+        dueItem.stableKey.replace(/:callback$/, ":commitment") &&
+      record.undertaking?.owedToPersonIds.includes(counterpartId),
+  );
+  const undertaking = promised
+    ? undertakingForLifeCommitment(world, promised.id)
+    : null;
+  const promisedInEvent =
+    promised?.provenance.kind === "simulated-event"
+      ? promised.provenance.eventId
+      : null;
+  if (undertaking && promisedInEvent !== null) {
+    const assessed = assessUndertaking(world, undertaking);
+    if (assessed.standing === "broken" || assessed.standing === "kept") {
+      considerations.push({
+        stableKey: `${dueItem.stableKey}:consideration:undertaking`,
+        optionKey: assessed.standing === "broken" ? "raise-it" : "let-it-lie",
+        sourceType: "social:relationship",
+        direction: "supports",
+        importance: assessed.standing === "broken" ? "strong" : "moderate",
+        confidence: "high",
+        explanation: assessed.account,
+        sourceRefs: [{ kind: "historical-event", eventId: promisedInEvent }],
+      });
+    }
+  }
 
   considerations.push(
     ...traitConsiderations(world, counterpartId, dueItem.stableKey, [
@@ -658,5 +705,8 @@ function counterpartRaisesIt(
     randomness: "none",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) {
+    return null;
+  }
   return evaluation.selectedOptionKey !== "let-it-lie";
 }

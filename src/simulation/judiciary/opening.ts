@@ -4,6 +4,8 @@ import {
   type CharacterHistoryContextPersonInput,
 } from "../character-history";
 import { makeIsoDate } from "../dates";
+import { birthCohortGivenName } from "../given-name-cohorts";
+import type { LivingWorldMemberNameVersion } from "../living-world/opening";
 import { createStableId } from "../ids";
 import {
   drawCanonicalNameForGender,
@@ -88,8 +90,15 @@ interface OpeningJudgePlan {
   readonly homeJurisdictionId: EntityId;
 }
 
-/** Seat fictional opening judges once through the world's person writer. */
-export function ensureOpeningJudiciary(world: World): World {
+/**
+ * Seat fictional opening judges once through the world's person writer. Under
+ * the same name policy as the opening's legislators, a judge's given name then
+ * follows the year the judge was born.
+ */
+export function ensureOpeningJudiciary(
+  world: World,
+  nameVersion?: LivingWorldMemberNameVersion,
+): World {
   if (world.judiciary?.seatTenures.length) return world;
   let next = buildOpeningCourtCatalog(world);
   const seats = Object.values(next.judiciary!.seats)
@@ -120,11 +129,21 @@ export function ensureOpeningJudiciary(world: World): World {
       DISTINCT_GIVEN_NAME_GENERATION_VERSION,
     );
     const homeJurisdictionId = homeForSeat(next, seat, rng.fork("home"));
+    const stableKey = `judicial-opening:v1:${seat.seatId}:holder`;
     return {
       seat,
       person: {
-        stableKey: `judicial-opening:v1:${seat.seatId}:holder`,
+        stableKey,
         ...name,
+        ...(nameVersion === "cohort-v1"
+          ? {
+              givenName: birthCohortGivenName(next.seed, stableKey, {
+                ...name,
+                birthDate,
+                gender: identity.gender,
+              }),
+            }
+          : {}),
         birthDate,
         identity,
         homeJurisdictionId,

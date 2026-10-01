@@ -16,6 +16,7 @@
  * writer for the quarter's arrivals.
  */
 
+import { reviewTownCivicActions } from "../living-world/civic-actions";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -87,27 +88,83 @@ import {
   TOWN_JOB_ENDS_NOT_LOST,
   reviewTownJobs,
 } from "../living-world/town-labor-market";
+import { staffPublicJobs } from "../public-budgets/staffing";
 import {
   reviewTownBusinesses,
   reviewTownGroups,
 } from "../living-world/town-businesses";
 import { reviewTownFamilies } from "../living-world/town-families";
 import { reviewTownHomes } from "../living-world/town-homes";
+import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 
 /**
- * BLANKET: the chance an eligible adult resident leaves town in a year.
- *
- * Not researched. Chosen so a town visibly turns over across a career rather
- * than never or all at once. The research question
- * `migration-rates-and-reasons` asks for the real rate by age and distance.
+ * MEASURED (A165): the yearly share of a place's residents in each age band
+ * who move to another county or state, and the newcomers it gains from
+ * another county, state or abroad per resident, from the American Community
+ * Survey 2024 one-year estimates for its own state, D.C. or Puerto Rico
+ * (data/research/migration/mover-rates-acs-2024.json, tables B07401 and
+ * B07001). Guam, the Virgin Islands, American Samoa and the Northern Mariana
+ * Islands, which the survey does not cover, take the national rates, marked
+ * ESTIMATED FROM AVERAGE there. Answers `migration-rates-and-reasons`
+ * (1) and (2).
  */
-export const BLANKET_DEPARTURE_CHANCE_PER_YEAR = 0.04;
+type MoverRates = {
+  readonly departurePerYearByAge: Readonly<Record<string, number>>;
+  readonly arrivalsPerResidentPerYear: number;
+};
+const MOVER_PLACES = moverRates.places as Readonly<Record<string, MoverRates>>;
+
+/** A place's own mover rates, or the nation's where it has none on file. */
+function moverRatesFor(stateKey: string | null | undefined): MoverRates {
+  return (stateKey ? MOVER_PLACES[stateKey] : undefined) ?? moverRates.national;
+}
+
+/** The survey's age band an age falls in, from 18 and 19 up to 75 and over. */
+function moverAgeBand(age: number): string {
+  if (age >= 75) return "75+";
+  if (age < 20) return "18-19";
+  const low = Math.floor(age / 5) * 5;
+  return `${low}-${low + 4}`;
+}
 
 /**
- * BLANKET: newcomers per resident per year. Equal to the departure chance so
- * the recorded town is replaced rather than emptied. Not researched.
+ * The yearly share of residents of this age in the place's state who move
+ * to another county or state: how strongly a resident's age weighs on
+ * leaving, before the town's own pushes.
  */
-export const BLANKET_ARRIVALS_PER_RESIDENT_PER_YEAR = 0.04;
+export function moverDepartureRate(
+  stateKey: string | null | undefined,
+  age: number,
+): number {
+  return moverRatesFor(stateKey).departurePerYearByAge[moverAgeBand(age)]!;
+}
+
+/**
+ * The yearly chance the review weighs for one adult resident: the share of
+ * people their age in their state who move away, times the town's pushes,
+ * and more after a lost job. A scenario's flat rate replaces the share.
+ */
+export function residentDepartureChance(
+  world: World,
+  stateKey: string | null | undefined,
+  personId: EntityId,
+  townPush: number,
+  jobLost: boolean,
+  rates: MigrationRates = PLACE_MIGRATION_RATES,
+): number {
+  const chance =
+    (rates.departureChancePerYear ??
+      moverDepartureRate(
+        stateKey,
+        ageOnDate(world.people[personId]!.birthDate, world.currentDate),
+      )) * townPush;
+  return jobLost ? chance * BLANKET_JOB_LOSS_MULTIPLIER : chance;
+}
+
+/** Newcomers per resident per year for the place's state. */
+export function moverArrivalRate(stateKey: string | null | undefined): number {
+  return moverRatesFor(stateKey).arrivalsPerResidentPerYear;
+}
 
 /** BLANKET: share of departures that stay in their own state. Not researched. */
 export const BLANKET_SAME_STATE_SHARE = 0.5;
@@ -204,9 +261,14 @@ export function migrationReviewHandler(
     next = reviewTownBusinesses(next, town, player, String(index));
     next = reviewTownGroups(next, town, player, String(index));
     next = reviewTownJobs(next, town, player, String(index));
+    // Then its budgets' funded public jobs: police and teachers are hired or
+    // laid off to what the budgets fund this quarter.
+    next = staffPublicJobs(next, town, player, String(index));
     next = reviewTownFamilies(next, town, player, String(index));
     // And its homes: newcomers and new households move in, others move.
     next = reviewTownHomes(next, town, String(index));
+    // And its civic life: residents contact officials and attend meetings.
+    next = reviewTownCivicActions(next, town, player, String(index));
   }
   next = scheduleFutureDueItem(next, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,
@@ -243,30 +305,32 @@ export function migrationTown(world: World): EntityId | null {
   return kind === "census-place" || kind === "territory-place" ? home : null;
 }
 
-/** The yearly rates a review applies before wave pressure. */
+/**
+ * Rates a scenario or a test sets in place of the place's measured ones:
+ * a flat yearly departure chance for every adult, newcomers per resident.
+ * Play sets neither and reads the place's rates by age.
+ */
 export interface MigrationRates {
-  readonly departureChancePerYear: number;
-  readonly arrivalsPerResidentPerYear: number;
+  readonly departureChancePerYear?: number;
+  readonly arrivalsPerResidentPerYear?: number;
   readonly displacedLeaveChance?: Readonly<
     Record<keyof typeof BLANKET_DISPLACED_LEAVE_CHANCE, number>
   >;
 }
 
-export const BLANKET_MIGRATION_RATES: MigrationRates = {
-  departureChancePerYear: BLANKET_DEPARTURE_CHANCE_PER_YEAR,
-  arrivalsPerResidentPerYear: BLANKET_ARRIVALS_PER_RESIDENT_PER_YEAR,
+export const PLACE_MIGRATION_RATES: MigrationRates = {
   displacedLeaveChance: BLANKET_DISPLACED_LEAVE_CHANCE,
 };
 
 /**
  * One review of the player's town on the world's current date, as the
  * quarterly handler runs it. `index` is the review's count since opening. Exposed so a
- * scenario or a test can apply other rates; play always uses the blanket.
+ * scenario or a test can apply other rates; play reads the place's own.
  */
 export function reviewTown(
   world: World,
   index: number,
-  rates: MigrationRates = BLANKET_MIGRATION_RATES,
+  rates: MigrationRates = PLACE_MIGRATION_RATES,
 ): World {
   const town = migrationTown(world);
   if (!town) return world;
@@ -287,8 +351,10 @@ export function reviewTown(
   // Read only once somebody's draw says they leave; most reviews move nobody.
   let context: Parameters<typeof planMove>[2] | null = null;
   const destinations = destinationPool(next, town);
-  const chance =
-    rates.departureChancePerYear *
+  const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
+  // A resident's own age sets how strongly leaving weighs on them; the
+  // town's waves, state, crime and jobs scale it for everyone alike.
+  const townPush =
     departure.multiplier *
     statePushOnTown(next, town) *
     townCrimePush(next, town) *
@@ -356,7 +422,14 @@ export function reviewTown(
       `${MIGRATION_CONTRACT_VERSION}:depart:${index}:${personId}`,
     );
     const jobLost = lostJobWithinYear(next, personId);
-    const own = jobLost ? chance * BLANKET_JOB_LOSS_MULTIPLIER : chance;
+    const own = residentDepartureChance(
+      next,
+      stateKey,
+      personId,
+      townPush,
+      jobLost,
+      rates,
+    );
     if (rng.next() >= own) continue;
     context ??= {
       ties: moveTieReader(next),
@@ -397,7 +470,8 @@ export function reviewTown(
     town,
     index,
     residents.length,
-    rates.arrivalsPerResidentPerYear * arrival.multiplier,
+    (rates.arrivalsPerResidentPerYear ?? moverArrivalRate(stateKey)) *
+      arrival.multiplier,
     destinations,
   );
   if (arrivals.length === 0) return next;

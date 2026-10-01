@@ -41,6 +41,7 @@ import {
   fillKey,
   inspectRegion,
   measureSponsorIds,
+  placeKindLabel,
   playerGeography,
   projectPoliticalMap,
   regionLabel,
@@ -809,6 +810,9 @@ export function PoliticalMap(props: PoliticalMapProps) {
           {days === 0
             ? "There is no earlier day to look back to."
             : `You can look back to ${proseDate(earliest)}. Each past day shows the map as it stood then.`}
+          {mode === "house"
+            ? " District outlines are the lines drawn for 2026 on every day."
+            : ""}
         </span>
       </div>
 
@@ -884,6 +888,21 @@ export function PoliticalMap(props: PoliticalMapProps) {
                     className="pg-map-stripe-b"
                   />
                 </pattern>
+                {detailOutline.length ? (
+                  <clipPath id="pg-map-state-clip">
+                    {detailOutline.map((feature) => (
+                      <path
+                        key={`clip-${feature.geoid}`}
+                        clipRule="evenodd"
+                        d={featurePath(
+                          statePack as MapGeometryPack,
+                          "state",
+                          feature,
+                        )}
+                      />
+                    ))}
+                  </clipPath>
+                ) : null}
               </defs>
 
               {contextStates.map((feature) => (
@@ -899,43 +918,55 @@ export function PoliticalMap(props: PoliticalMapProps) {
                 />
               ))}
 
-              {features.map((feature) => {
-                const region = model.regions.get(feature.geoid);
-                const fill = region?.fill ?? { kind: "not-recorded" as const };
-                const slot =
-                  fill.kind === "party"
-                    ? model.partySlots.get(fill.organizationId)
-                    : undefined;
-                const key = `${layer}:${feature.geoid}`;
-                const selected =
-                  selection?.layer === layer &&
-                  selection.geoid === feature.geoid;
-                const classes = [
-                  "pg-map-region",
-                  fillClass(fill),
-                  selected ? "pg-map-selected" : "",
-                  highlightKeys.has(key) ? "pg-map-highlight" : "",
-                  candidateKeys.has(feature.geoid) ? "pg-map-candidate" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ");
-                return (
-                  <path
-                    key={key}
-                    d={featurePath(drawPack as MapGeometryPack, layer, feature)}
-                    className={classes}
-                    style={slotStyle(slot?.slot, slot?.patternIndex)}
-                    strokeWidth={strokeWidth}
-                    data-geoid={feature.geoid}
-                    data-fill={fillKey(fill)}
-                    onClick={() => {
-                      if (!drag.current?.moved) select(feature, layer);
-                    }}
-                  >
-                    <title>{`${regionLabel(layer, feature)}: ${region?.summary ?? ""}`}</title>
-                  </path>
-                );
-              })}
+              <g
+                clipPath={
+                  detailOutline.length ? "url(#pg-map-state-clip)" : undefined
+                }
+              >
+                {features.map((feature) => {
+                  const region = model.regions.get(feature.geoid);
+                  const fill = region?.fill ?? {
+                    kind: "not-recorded" as const,
+                  };
+                  const slot =
+                    fill.kind === "party"
+                      ? model.partySlots.get(fill.organizationId)
+                      : undefined;
+                  const key = `${layer}:${feature.geoid}`;
+                  const selected =
+                    selection?.layer === layer &&
+                    selection.geoid === feature.geoid;
+                  const classes = [
+                    "pg-map-region",
+                    fillClass(fill),
+                    selected ? "pg-map-selected" : "",
+                    highlightKeys.has(key) ? "pg-map-highlight" : "",
+                    candidateKeys.has(feature.geoid) ? "pg-map-candidate" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ");
+                  return (
+                    <path
+                      key={key}
+                      d={featurePath(
+                        drawPack as MapGeometryPack,
+                        layer,
+                        feature,
+                      )}
+                      className={classes}
+                      style={slotStyle(slot?.slot, slot?.patternIndex)}
+                      strokeWidth={strokeWidth}
+                      data-geoid={feature.geoid}
+                      data-fill={fillKey(fill)}
+                      onClick={() => {
+                        if (!drag.current?.moved) select(feature, layer);
+                      }}
+                    >
+                      <title>{`${regionLabel(layer, feature)}: ${region?.summary ?? ""}`}</title>
+                    </path>
+                  );
+                })}
+              </g>
 
               {detailOutline.map((feature) => (
                 <path
@@ -1119,7 +1150,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
               ) : null}
               <p className="pg-map-muted">
                 {selection.layer === "state"
-                  ? `${selection.stateUsps === "DC" ? "Federal district" : "State"} · Census GEOID ${selection.geoid}`
+                  ? `${placeKindLabel(selection.stateUsps)} · Census GEOID ${selection.geoid}`
                   : `${stateNameForUsps(selection.stateUsps)} · Census GEOID ${selection.geoid}`}
                 {selectionFeature?.sessionYear
                   ? ` · districts as of ${selectionFeature.sessionYear}`

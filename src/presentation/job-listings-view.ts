@@ -13,6 +13,11 @@ import {
   startBlocked,
 } from "../simulation/job-market";
 import type { JobOpeningRecord } from "../simulation/job-market-types";
+import { addDays } from "../simulation/dates";
+import {
+  FEDERAL_MINIMUM_HOURLY_MINOR,
+  minimumWageSettingAt,
+} from "../simulation/minimum-wage";
 import { residentNameForJurisdiction } from "../simulation/life-places";
 import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import type { EntityId, World } from "../simulation/types";
@@ -62,6 +67,11 @@ export interface HeldJobView {
 
 export interface JobMarketView {
   readonly townName: string;
+  /**
+   * The lowest legal pay where the player lives and the law that sets it, or
+   * null where the state's rate is not known (never read as zero).
+   */
+  readonly payFloor: string | null;
   readonly listings: readonly JobListingView[];
   readonly applications: readonly JobApplicationView[];
   readonly heldJobs: readonly HeldJobView[];
@@ -200,6 +210,61 @@ function applicationView(
   }
 }
 
+const HOURLY = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+const dollarsAnHour = (minor: number) =>
+  `${HOURLY.format(minor / 100)} an hour`;
+
+/**
+ * What the lowest legal pay is here and which law set it. A law enacted in
+ * play says what it changed the rate from and the day it took effect; a rate
+ * on file from the start says whose law it is. Reads the same derived rate
+ * the paychecks use, so the line and the pay cannot disagree.
+ */
+export function payFloorSentence(
+  world: World,
+  personId: EntityId,
+): string | null {
+  const person = world.people[personId];
+  return person ? payFloorSentenceAt(world, person.homeJurisdictionId) : null;
+}
+
+export function payFloorSentenceAt(
+  world: World,
+  jurisdictionId: EntityId,
+): string | null {
+  const now = minimumWageSettingAt(world, jurisdictionId, world.currentDate);
+  if (!now) return null;
+  // A state with no minimum of its own, or one at the federal floor, is held
+  // to the federal rate: the record ties to the state, the law is federal.
+  const federal =
+    now.level === "federal" ||
+    (!now.measureId && now.hourlyMinor === FEDERAL_MINIMUM_HOURLY_MINOR);
+  const levelLaw = federal
+    ? "Federal law"
+    : now.level === "local"
+      ? "Local law"
+      : "State law";
+  if (now.measureId && now.effectiveAt) {
+    const before = minimumWageSettingAt(
+      world,
+      jurisdictionId,
+      addDays(now.effectiveAt, -1),
+    );
+    const from =
+      before && before.hourlyMinor !== now.hourlyMinor
+        ? ` from ${dollarsAnHour(before.hourlyMinor)}`
+        : "";
+    return `The lowest legal pay here is ${dollarsAnHour(now.hourlyMinor)}. ${levelLaw} set it${from} on ${proseDate(now.effectiveAt)}.`;
+  }
+  return `The lowest legal pay here is ${dollarsAnHour(now.hourlyMinor)}, set by ${levelLaw.toLowerCase()}.`;
+}
+
 export function projectJobMarket(
   world: World,
   personId: EntityId,
@@ -229,5 +294,6 @@ export function projectJobMarket(
       heading: `${workRoleAt(world, work.id)?.title ?? "Job"}, ${employerDisplayName(world, work.organizationId!)}`,
       status: `You have worked here since ${proseDate(work.startedAt)}.`,
     }));
-  return { townName, listings, applications, heldJobs };
+  const payFloor = payFloorSentence(world, personId);
+  return { townName, payFloor, listings, applications, heldJobs };
 }

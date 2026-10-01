@@ -1,3 +1,5 @@
+import { nextCountyElection } from "../simulation/nationwide-world/county-election-calendar";
+import { electionSpeechWords } from "./election-speech-english";
 import {
   legacyLegislativeSeat,
   legislativeTermDates,
@@ -65,6 +67,7 @@ import type {
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
 import { personPronouns } from "../simulation/person-identity";
+import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { stateSeatsInDistrict } from "../simulation/nationwide-world/state-legislature-opening";
 
@@ -265,6 +268,8 @@ export interface CampaignView {
   readonly placeName: string | null;
   /** The office on offer, or the one being stood for. */
   readonly officeTitle: string | null;
+  /** The chosen council seat carried by this campaign's saved contest. */
+  readonly seatTarget: string | null;
   /** How the game knows this office exists at all. */
   readonly officeAuthority: string | null;
   /** What the game admits it does not know about standing here. */
@@ -289,6 +294,15 @@ export interface CampaignView {
     readonly kind: ElectionSpeechKind;
     readonly winnerName: string;
     readonly given: string | null;
+    /**
+     * The speech in words: its opening, the whole text, and who heard it,
+     * when recorded.
+     */
+    readonly words: {
+      readonly opening: string;
+      readonly text: string;
+      readonly heard: string | null;
+    } | null;
   } | null;
 }
 
@@ -496,6 +510,12 @@ export function projectCampaign(
     candidateName,
     placeName,
     officeTitle: contest.office.title,
+    seatTarget: contest.office.seatKey
+      ? (municipalSeatChoiceByKey(
+          contest.office.officeKey,
+          contest.office.seatKey,
+        )?.label ?? null)
+      : null,
     officeAuthority: option ? officeAuthority(option) : null,
     openQuestions: option ? [...option.unresolvedGaps] : [],
     campaignId: campaign.id,
@@ -525,6 +545,10 @@ export function projectCampaign(
             winnerName: displayName(world, result.winnerPersonId),
             given:
               electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
+            words: (() => {
+              const event = electionSpeechGiven(world, contest.id, personId);
+              return event ? electionSpeechWords(world, event) : null;
+            })(),
           }
         : null,
     tallies: (() => {
@@ -687,6 +711,7 @@ function notYetFiled(
     officeTitle:
       option?.office.title ??
       (options.map((item) => item.office.title).join(" or ") || null),
+    seatTarget: null,
     officeAuthority: option
       ? officeAuthority(option)
       : /* Offices with no known seat count now contribute nothing, so they are
@@ -932,6 +957,36 @@ function latestReading(
  * day where the state's municipal election law puts it there, and otherwise
  * on the short placeholder schedule until the town's calendar is read.
  */
+/** County identity and calendar do not establish qualification or district domicile. */
+export function countyCandidacyUnavailableReason(
+  officeKey: string,
+): string | null {
+  return localGoverningBodyIdentityForOfficeKey(officeKey)?.unit.unitType ===
+    "county"
+    ? "The requirements for this county office have not been established."
+    : null;
+}
+
+/** A missing county calendar remains unknown for read-only consumers. */
+export function availableCampaignElectionDate(
+  world: World,
+  jurisdictionId: EntityId,
+  officeKey: string,
+  districtBinding: DistrictSeatBinding | null = null,
+): IsoDate | null {
+  const local = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (local?.unit.unitType === "county") {
+    const read = nextCountyElection(local.unit, world.currentDate);
+    return read.status === "read" ? read.dates.electionDate : null;
+  }
+  return campaignElectionDate(
+    world,
+    jurisdictionId,
+    officeKey,
+    districtBinding,
+  );
+}
+
 export function campaignElectionDate(
   world: World,
   jurisdictionId: EntityId,
@@ -941,6 +996,12 @@ export function campaignElectionDate(
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
   const town = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (town?.unit.unitType === "county") {
+    const read = nextCountyElection(town.unit, world.currentDate);
+    if (read.status === "unknown")
+      throw new Error("The county election calendar has not been read.");
+    return read.dates.electionDate;
+  }
   if (town) {
     // The state's municipal election law where it fixes the day; otherwise
     // the marked placeholder in town-election-calendar.ts.
@@ -989,6 +1050,7 @@ export function fileForOffice(
    * office's own calendar. Play never passes it.
    */
   authoredElectionDate: IsoDate | null = null,
+  municipalSeatKey: string | null = null,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -999,22 +1061,27 @@ export function fileForOffice(
   if (!option) {
     throw new Error("There is no office here the game has read the rules for.");
   }
+  // Refuse new admission before generating opponents or writing a candidate.
+  // Existing recorded campaigns are not changed by this filing preflight.
+  const countyRefusal = countyCandidacyUnavailableReason(option.officeKey);
+  if (countyRefusal) throw new Error(countyRefusal);
   const stableKey = `candidacy:${personId}:${world.currentDate}`;
+  const electionDate =
+    authoredElectionDate ??
+    campaignElectionDate(world, jurisdictionId, officeKey, districtBinding);
   const opponents = ensureCampaignOpponents(world, {
     stableKey,
     jurisdictionId,
     count: 1,
     excludePersonIds: [personId],
   });
-  const electionDate =
-    authoredElectionDate ??
-    campaignElectionDate(world, jurisdictionId, officeKey, districtBinding);
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,
     jurisdictionId,
     officeKey: option.officeKey,
     districtBinding,
+    municipalSeatKey,
     electionDate,
     rivalPersonIds: opponents.personIds,
     existingContestId: null,

@@ -12,6 +12,11 @@ import {
   type World,
 } from "../simulation";
 import { plainCandidateGuidance } from "./candidate-guidance-prose";
+import {
+  lawExposureSentence,
+  paycheckLawLines,
+  rentAndPayLawLines,
+} from "./law-exposure-lines";
 import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
 import { crimeJournalLine } from "../simulation/crime/journal";
 import { ownElectionResultSentence } from "./own-election";
@@ -353,6 +358,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     latestBelief.set(belief.propositionId, belief);
   }
   for (const belief of latestBelief.values()) {
+    if (belief.propositionId === null) continue;
     const proposition = world.policyCatalog.propositions[belief.propositionId];
     if (!proposition) continue;
     entries.push({
@@ -422,6 +428,27 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       sourceId: result.id,
     });
   }
+  // Every time an enacted law reached this person (their own paycheck, tax,
+  // rent or benefit, or a partner's), as the exposure record shows it.
+  for (const exposure of world.history.lawExposures ?? []) {
+    if (exposure.personId !== personId) continue;
+    if (exposure.recordedAt > world.currentDate) continue;
+    const text = lawExposureSentence(world, personId, exposure);
+    if (!text) continue;
+    entries.push({
+      id: `law-exposure:${exposure.id}`,
+      at: exposure.recordedAt,
+      sequence: exposure.sequence,
+      kind: "event",
+      text,
+      sourceId: exposure.id,
+    });
+  }
+  for (const line of [
+    ...paycheckLawLines(world, personId),
+    ...rentAndPayLawLines(world, personId),
+  ])
+    entries.push({ ...line, kind: "event" });
   const sorted = entries.sort(
     (a, b) =>
       a.at.localeCompare(b.at) ||

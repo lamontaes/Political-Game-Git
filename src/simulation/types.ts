@@ -1,9 +1,24 @@
+import type {
+  PermitApplicationRecord,
+  PermitStatusRecord,
+} from "./permit-types";
+import type {
+  LawAmountUnit,
+  LawConsequenceRow,
+  ResolvedHourlyLawPayConsequence,
+  ResolvedSavedHourlyPayConsequence,
+} from "./law-consequence-types";
+import type {
+  LawEffectStamp,
+  LawEffectStampedRecord,
+} from "./law-effect-stamp";
 import type { CrisisRecord } from "./crisis/types";
 import type {
   CampaignLifeActivityRecord,
   CampaignLifeOutcomeRecord,
   CampaignOpponentRecord,
   CampaignOpponentStepRecord,
+  CampaignRoutineRecord,
   CampaignWeeklyPlanRecord,
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
@@ -20,11 +35,16 @@ import type {
   ConstitutionalActionRecord,
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
-import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
+import type {
+  RuleChangeProvisionRecord,
+  RuleChangeConsequenceBindingRecord,
+} from "./enacted-rule-changes";
 import type { PlaceOutcomeStore } from "./outcome-web/place-outcome-store";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
+import type { TownFinanceStore } from "./living-world/town-finance-types";
+import type { PublicBudgetStore } from "./public-budgets/store";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -48,6 +68,20 @@ export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
 export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 
+/**
+ * Identity for a public account or program owner. Most existing records are
+ * scoped to a geographic jurisdiction. A local government's geography alone
+ * is not unique, so new local records also carry that government's canonical
+ * key. This identity records ownership; it grants no taxing or spending power.
+ */
+export type PublicGovernmentIdentity =
+  | { readonly kind: "jurisdiction"; readonly jurisdictionId: EntityId }
+  | {
+      readonly kind: "local-government";
+      readonly jurisdictionId: EntityId;
+      readonly governmentKey: string;
+    };
+
 export interface SimulationMoment {
   readonly date: IsoDate;
   readonly minuteOfDay: number;
@@ -69,6 +103,7 @@ export type EntityKind =
   | "crisis-record"
   | "constitutional-rule-version"
   | "rule-change-provision"
+  | "rule-change-consequence-binding"
   | "tax-proposal"
   | "tax-policy"
   | "tax-base"
@@ -79,6 +114,8 @@ export type EntityKind =
   | "loan-terms"
   | "debt-charge"
   | "debt-standing"
+  | "loan-repayment-allocation"
+  | "loan-discharge"
   | "law-exposure"
   | "official-view"
   | "job-opening"
@@ -115,6 +152,7 @@ export type EntityKind =
   | "campaign-life-activity"
   | "campaign-life-outcome"
   | "campaign-weekly-plan"
+  | "campaign-routine"
   | "campaign-opponent"
   | "campaign-opponent-step"
   | "national-election"
@@ -131,6 +169,9 @@ export type EntityKind =
   | "legislative-measure"
   | "legislative-negotiation"
   | "legislative-provision"
+  | "chamber-rule-change"
+  | "session-adjournment"
+  | "item-veto"
   | "legislative-referral"
   | "legislative-vote"
   | "fact"
@@ -158,6 +199,7 @@ export type EntityKind =
   | "organization-participation-state"
   | "organization-profile"
   | "office-briefing-inspection"
+  | "favor"
   | "office-vote-instruction"
   | "office-workflow-preference"
   | "office-staff-position"
@@ -193,6 +235,7 @@ export type EntityKind =
   | "resource-obligation"
   | "resource-obligation-state"
   | "resource-position"
+  | "earned-law-pay-assessment"
   | "resource-transfer-outcome"
   | "scheduled-activity"
   | "scheduled-activity-state"
@@ -255,6 +298,7 @@ export interface PolicyDomainDefinition {
 export const POLICY_GOVERNMENT_LEVELS = [
   "federal",
   "state",
+  "territory",
   "county",
   "municipality",
   "school-district",
@@ -285,6 +329,8 @@ export interface PolicyIssueDefinition {
 export interface PropositionParameter {
   readonly key: string;
   readonly value: string;
+  /** Closed modeled choices; omission leaves categorical terms unsupported. */
+  readonly allowedValues?: readonly string[];
 }
 
 /**
@@ -307,11 +353,14 @@ export type PrincipleBearing = "consistent-with" | "against";
  * there is no separate row for the opposing side.
  */
 export interface PropositionPrincipleBearing {
+  /** Authored question relevance, 0–1; omitted means 1 for older packs/saves. */
+  readonly weight?: number;
   readonly principleId: EntityId;
   readonly bearing: PrincipleBearing;
 }
 
 export interface PolicyPropositionDefinition {
+  readonly consequences?: readonly LawConsequenceRow[];
   readonly id: EntityId;
   readonly stableKey: string;
   readonly issueId: EntityId;
@@ -572,6 +621,19 @@ export interface EngineAppearanceChoice {
   readonly outfit?: string;
   /** Fabric color per garment part (top, bottom, suit, shirt, tie, coat...). */
   readonly colors?: Readonly<Record<string, string>>;
+  /** A facial hair style (appearance-engine/pack.ts), or "none". */
+  readonly facialHair?: string;
+  /** A glasses frame id, or "none". */
+  readonly glasses?: string;
+  /** Whether the glasses are worn all day or only to read. */
+  readonly glassesWear?: "always" | "reading";
+  /**
+   * The jewelry and watch worn, as accessory ids (appearance-engine/pack.ts
+   * ACCESSORY_KINDS): "earrings-pearl", "watch-steel". A list that is present
+   * is a choice, so an empty one means wearing none; absent, the person's seed
+   * decides.
+   */
+  readonly accessories?: readonly string[];
 }
 
 export type PersonGenerationProfile = "production" | "stress";
@@ -654,7 +716,7 @@ export interface EventContext {
   readonly immediateReaction: string | null;
 }
 
-export interface HistoricalEvent {
+export interface HistoricalEvent extends LawEffectStampedRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -917,10 +979,12 @@ export interface OfficialViewReason {
 }
 
 /**
- * One reflection on one official: what the official did about a law that
- * reached this person, how far it moved the person's view of them, and why.
- * A person's standing view of an official is the sum of these rows; nothing
- * fades on its own (no passive decay).
+ * One reflection on one official, as saves from before A158 kept it: what the
+ * official did about a law that reached this person, how far it moved the
+ * person's view of them, and why. Nothing writes these any more; a view of an
+ * official is now a private belief whose subject is the official. Old rows
+ * still load and are read for a person who has formed no saved view of that
+ * official since (`official-view-reads.ts`).
  */
 export interface OfficialViewRecord {
   readonly id: EntityId;
@@ -937,12 +1001,26 @@ export interface OfficialViewRecord {
   readonly reasons: readonly OfficialViewReason[];
 }
 
+/**
+ * What a private belief is about, when it is not a policy proposition: a
+ * party question, or one official (what a person thinks of them).
+ */
+export type PrivateBeliefSubject =
+  | { readonly kind: "party-question"; readonly key: string }
+  | { readonly kind: "official"; readonly personId: EntityId };
+
 export interface PrivateBeliefRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  /**
+   * Absent on legacy policy beliefs. Party questions and officials have no
+   * proposition.
+   */
+  readonly subject?: PrivateBeliefSubject;
+  readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
   readonly conviction: BeliefConviction;
@@ -1000,6 +1078,8 @@ export interface PrincipleRecord {
   readonly principleId: EntityId;
   readonly formedAt: IsoDate;
   readonly stance: PrincipleStance;
+  /** Held support on [0, 1]; stance supplies its direction. */
+  readonly strength: number;
   readonly conviction: BeliefConviction;
   readonly flexibility: PoliticalFlexibility;
   readonly qualification: string | null;
@@ -1678,6 +1758,141 @@ export interface LifeCommitmentRecord {
   readonly label: string;
   readonly timeDemand: TimeDemandProfile;
   readonly provenance: LifeRecordProvenance;
+  /**
+   * What was promised, to whom, and what would answer it.
+   *
+   * Absent on a commitment nobody was promised (a standing Tuesday choir, a
+   * generated background's volunteering). Present when somebody said, to
+   * somebody, that they would do a thing: then the record carries who it was
+   * owed to, the act, the words, and who heard them, matching the legislative
+   * commitment record, so kept or broken can be read from later events.
+   */
+  readonly undertaking?: UndertakingTerms;
+}
+
+/**
+ * How firmly something was said.
+ *
+ * Words, not a probability, and the same four words the legislative record
+ * uses, so one type serves both.
+ */
+export type UndertakingFirmness = LegislativeCommitmentFirmness;
+
+/**
+ * The act an undertaking promises, in terms the world can later check.
+ *
+ * Each kind names what canonical record would answer it. An act the world
+ * cannot check (`help` with no activity to attend) stays outstanding until
+ * its end, then lapses; it is never marked kept or broken on a guess.
+ */
+export type UndertakingAct =
+  | {
+      /** Be present at a scheduled activity: a posted meeting, a hearing. */
+      readonly kind: "attend";
+      /** The activity's stable key, which exists before or after the promise. */
+      readonly activityStableKey: string;
+      readonly description: string;
+    }
+  | {
+      /** Give time or labor that no single record answers. */
+      readonly kind: "help";
+      readonly description: string;
+    }
+  | {
+      /** Vote a stated way on one legislative question. */
+      readonly kind: "vote";
+      readonly question: LegislativeQuestionIdentity;
+      readonly direction: "yea" | "nay";
+      readonly description: string;
+    }
+  | {
+      /** Return an earlier favor. Answered by a later favor in return for it. */
+      readonly kind: "repay";
+      readonly favorId: EntityId;
+      readonly description: string;
+    };
+
+export interface UndertakingTerms {
+  /** Who it was promised to. Usually one person; a crowd for a public vow. */
+  readonly owedToPersonIds: readonly EntityId[];
+  readonly act: UndertakingAct;
+  readonly firmness: UndertakingFirmness;
+  /** A private word and a public pledge are different undertakings. */
+  readonly audience: ClaimAudience;
+  /** The people who actually heard it said. */
+  readonly heardByPersonIds: readonly EntityId[];
+  /** What was said, in plain words, for the record and any later reckoning. */
+  readonly statement: string;
+  /** The claim carrying the words, when the holder's words were recorded. */
+  readonly claimId: EntityId | null;
+  /** How much it mattered to the person it was promised to. */
+  readonly mattered: FavorWeight;
+  /** The last day it can be answered, when it names one. */
+  readonly dueBy: IsoDate | null;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Favors                                                                      */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * What kind of help a favor was. Open, namespaced like a life-commitment kind:
+ * `public:appointment`, `political:endorsement`, `personal:help`.
+ */
+export type FavorNamespace = "public" | "political" | "private" | "personal";
+export type FavorKind = `${FavorNamespace}:${string}`;
+
+/**
+ * Why the giver helped. The giver's own reason, which the receiver may never
+ * learn; it is never shown to the receiver as a fact.
+ */
+export type FavorMotive =
+  "kindness" | "shared-belief" | "trade" | "corruption" | "unknown";
+
+/** How much a favor mattered to the one who received it, in words. */
+export type FavorWeight = "slight" | "moderate" | "great" | "life-changing";
+
+/** What a favor was about, when it was about a canonical thing. */
+export type FavorSubject =
+  | {
+      readonly kind: "office";
+      readonly officeId: EntityId;
+      readonly tenureId: EntityId | null;
+    }
+  | { readonly kind: "measure"; readonly measureId: EntityId }
+  | { readonly kind: "organization"; readonly organizationId: EntityId }
+  | { readonly kind: "none" };
+
+/**
+ * One person helped another.
+ *
+ * Stores what happened, never a balance. How much the receiver still feels
+ * they owe and how much the giver now expects are read from this record, the
+ * time since, both people's temperaments and what has passed between them
+ * since (`favorStandingBetween`).
+ */
+export interface FavorRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly giverPersonId: EntityId;
+  readonly receiverPersonId: EntityId;
+  readonly kind: FavorKind;
+  /** What was done, in plain words. */
+  readonly description: string;
+  readonly givenAt: IsoDate;
+  /** The canonical event that did it. */
+  readonly eventId: EntityId;
+  readonly subject: FavorSubject;
+  readonly motive: FavorMotive;
+  readonly weight: FavorWeight;
+  readonly audience: ClaimAudience;
+  /** People who saw it done, beyond the two of them. */
+  readonly witnessPersonIds: readonly EntityId[];
+  /** The earlier favor this one returns, when it returns one. */
+  readonly inReturnForFavorId: EntityId | null;
+  /** The undertaking it was given against, when there was one. */
+  readonly undertakingId: EntityId | null;
 }
 
 export type LifeLoadContributor =
@@ -1896,7 +2111,13 @@ export interface EffectActivationRecord {
 }
 
 export type IncidentSemanticKey = `${string}:${string}`;
-export type IncidentOccurrenceMode = "probabilistic" | "actor-initiated";
+/**
+ * `condition`: occurs whenever its prerequisites hold and no blocker does,
+ * with no draw and no actor. It is the mode for conditions that last, where
+ * the design sets how bad counts as bad but never the chance of an outcome.
+ */
+export type IncidentOccurrenceMode =
+  "probabilistic" | "actor-initiated" | "condition";
 export type IncidentStatus = "active" | "resolved";
 export type IncidentRuleComparison = "at-least" | "at-most";
 
@@ -2679,10 +2900,11 @@ export interface LegislativeDraftLineageRecord {
    * one.
    *
    * Optional, so every lineage written before instruments existed reads back
-   * unchanged. `authorityKey` identifies a standing statute declared in the
-   * content bank; `authorityMeasureId` is present instead when the bill was
-   * written against another measure on the same docket, which is what lets a
-   * saved appropriation still say which of the player's own bills it funds.
+   * unchanged. `authorityKey` identifies either a content-bank standing
+   * authority or an explicitly versioned game-profile authority; in the latter
+   * case the measure's jurisdiction and rule-pack id bind it to one exact
+   * government. `authorityMeasureId` is present when the bill was written
+   * against another measure on the same docket.
    */
   readonly authorityKey?: string;
   readonly authorityMeasureId?: EntityId;
@@ -2837,7 +3059,7 @@ export type FutureTransitionHandler = (
  */
 export interface RoutineWindow {
   readonly relationshipId: EntityId;
-  readonly kind: "work" | "study";
+  readonly kind: "work" | "study" | "campaign";
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
   readonly autoResolvable: boolean;
@@ -2954,7 +3176,7 @@ export interface ResourceFlow {
 
 export type ResourceFlowStatus = "expected" | "active" | "ended";
 
-export interface ResourceFlowTermsRecord {
+export interface ResourceFlowTermsRecord extends LawEffectStampedRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -2975,7 +3197,36 @@ export type ResourceOutcomeReasonNamespace =
 export type ResourceOutcomeReasonKind =
   `${ResourceOutcomeReasonNamespace}:${string}`;
 
-export interface ResourceTransferOutcome {
+/** Later legal determination of actual completed work; never revised earned terms.
+ * Team 3 owns writing this append-only record from saved work and resolved law.
+ * A transfer must independently validate every join before using assessed gross.
+ */
+export interface EarnedLawPayAssessmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  readonly workRelationshipId: EntityId;
+  readonly resourceFlowId: EntityId;
+  readonly earnedTermsId: EntityId;
+  readonly completionEventId: EntityId;
+  readonly scheduledActivityId: EntityId;
+  readonly scheduledActivityStateId: EntityId;
+  readonly earnedCutoff: HistoricalCutoff;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly workedMinutes: number;
+  readonly contractualGross: MoneyAmount;
+  readonly assessedGross: MoneyAmount;
+  readonly resolvedConsequence:
+    ResolvedHourlyLawPayConsequence | ResolvedSavedHourlyPayConsequence;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
+
+export interface ResourceTransferOutcome extends LawEffectStampedRecord {
+  readonly earnedLawPayAssessmentId?: EntityId;
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -3059,6 +3310,8 @@ export interface LoanTermsRecord {
   readonly kind: HouseholdLoanKind;
   readonly lenderKind: LenderKind;
   readonly annualRateBasisPoints: number;
+  /** Legacy draft credit only. New credits use LoanDischargeRecord. */
+  readonly principalReduction?: MoneyAmount;
   /** "capped" when a rate cap in force held the rate below the market. */
   readonly rateBasis: "written" | "capped";
   /** The measure whose cap applied, when `rateBasis` is "capped". */
@@ -3072,6 +3325,34 @@ export interface LoanTermsRecord {
   readonly missedPaymentsToCollections: number;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesTermsId: EntityId | null;
+}
+
+/** Cash allocation links the actual repayment; unknown old-save components stay null. */
+export interface LoanRepaymentAllocationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly occurredAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly resourceTransferOutcomeId: EntityId;
+  readonly fees: MoneyAmount | null;
+  readonly interest: MoneyAmount | null;
+  readonly principal: MoneyAmount | null;
+  readonly unsupportedReason: "missing-prior-repayment-allocation" | null;
+}
+
+/** Forgiveness changes owed components without pretending that cash was paid. */
+export interface LoanDischargeRecord extends LawEffectStampedRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly effectiveAt: IsoDate;
+  readonly resourceObligationId: EntityId;
+  readonly principal: MoneyAmount;
+  readonly interest: MoneyAmount;
+  readonly provenance: LifeRecordProvenance;
 }
 
 /** Interest or a fee added to a debt's balance for one month. */
@@ -3343,7 +3624,8 @@ export interface DecisionSourceSnapshot {
   readonly content: string;
 }
 
-export type DecisionOutcomeKind = "selected" | "no-available-option";
+export type DecisionOutcomeKind =
+  "selected" | "no-available-option" | "undecided";
 
 export interface DecisionEvaluation {
   readonly decisionId: EntityId;
@@ -3753,6 +4035,8 @@ interface PublicProgramRecordBase {
   /** `namespace:name`, e.g. `transit:bus-service`. */
   readonly programKey: string;
   readonly jurisdictionId: EntityId;
+  /** Missing in legacy saves; those records remain jurisdiction-scoped. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly recordedAt: IsoDate;
   /** The ordinary event written with this record. */
   readonly eventId: EntityId;
@@ -3818,6 +4102,10 @@ export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordB
   readonly unitsOperational: number;
   /** Units returned to service; null when no restoration cost was declared. */
   readonly restoredUnits: number | null;
+  /** Snapshots on newly written outturns; absent on older saves. */
+  readonly serviceLabel?: string;
+  readonly unitLabel?: string;
+  readonly placeLabel?: string;
 }
 
 /**
@@ -4083,12 +4371,49 @@ export type PersonnelRecord =
   | PersonnelReinstatementOfferRecord
   | PersonnelOfferResponseRecord;
 
+/** A saved legal permission for an actual subject; absence conveys no permission. */
+export interface LawPermissionRecord extends LawEffectStampedRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly subject: {
+    readonly kind: "person" | "organization";
+    readonly id: EntityId;
+  };
+  readonly permissionKey: string;
+  readonly status: "permitted" | "prohibited";
+  readonly effectiveAt: IsoDate;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly [LawEffectStamp];
+}
+
+/** Append-only attribution of a sentence already written by the court. */
+export interface LegalOutcomeConsequenceRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly sentenceEventId: EntityId;
+  readonly subjectPersonId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly appliedAt: IsoDate;
+  readonly effectKind: "minimum-custody-months";
+  readonly minimumMonths: number;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly lawEffectStamps: readonly [LawEffectStamp];
+}
+
 export interface HistoryStore {
+  readonly permitApplications?: readonly PermitApplicationRecord[];
+  readonly permitStatuses?: readonly PermitStatusRecord[];
+  readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
   readonly constitutionalRuleVersions?: readonly ConstitutionalRuleVersionRecord[];
   /** Rule changes filed on ordinary bills; see `enacted-rule-changes.ts`. */
   readonly ruleChangeProvisions?: readonly RuleChangeProvisionRecord[];
+  readonly ruleChangeConsequenceBindings?: readonly RuleChangeConsequenceBindingRecord[];
   /** Optional, preserving pre-tax snapshots without fabricating money/history. */
   readonly taxProposals?: readonly TaxProposalRecord[];
   readonly taxPolicies?: readonly TaxPolicyRecord[];
@@ -4101,6 +4426,8 @@ export interface HistoryStore {
   readonly loanTerms?: readonly LoanTermsRecord[];
   readonly debtCharges?: readonly DebtChargeRecord[];
   readonly debtStandings?: readonly DebtStandingRecord[];
+  readonly loanRepaymentAllocations?: readonly LoanRepaymentAllocationRecord[];
+  readonly loanDischarges?: readonly LoanDischargeRecord[];
   /** Optional: when an enacted law reached a person; see `law-exposure.ts`. */
   readonly lawExposures?: readonly LawExposureRecord[];
   /** Optional: credit or blame for officials; see `living-world/official-views.ts`. */
@@ -4136,6 +4463,8 @@ export interface HistoryStore {
   readonly resourceFlows: readonly ResourceFlow[];
   readonly resourceFlowTerms: readonly ResourceFlowTermsRecord[];
   readonly resourceTransferOutcomes: readonly ResourceTransferOutcome[];
+  /** Absent in saves made before earned-law assessments were recorded. */
+  readonly earnedLawPayAssessments?: readonly EarnedLawPayAssessmentRecord[];
   readonly resourceObligations: readonly ResourceObligation[];
   readonly resourceObligationStates: readonly ResourceObligationStateRecord[];
   readonly dwellings: readonly Dwelling[];
@@ -4186,6 +4515,8 @@ export interface HistoryStore {
   readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
   readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];
   readonly campaignWeeklyPlans?: readonly CampaignWeeklyPlanRecord[];
+  /** D-11; optional so earlier saves read as having no campaign routine. */
+  readonly campaignRoutines?: readonly CampaignRoutineRecord[];
   readonly campaignOpponents?: readonly CampaignOpponentRecord[];
   readonly campaignOpponentSteps?: readonly CampaignOpponentStepRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
@@ -4200,6 +4531,21 @@ export interface HistoryStore {
   readonly committeeActions?: readonly CommitteeActionRecord[];
   readonly legislativeAmendments?: readonly LegislativeAmendmentRecord[];
   readonly legislativeProvisions?: readonly LegislativeProvisionRecord[];
+  /**
+   * Changes a chamber made to its own procedure in play: a rules package, a
+   * vote to drop the germaneness rule, a new habit of closed rules. Each is
+   * a record, so the rule a chamber works under always traces to the real
+   * 2026 rule or to the change that replaced it. Optional; absent in saves
+   * written before chambers could change their rules.
+   */
+  readonly chamberRuleChanges?: readonly ChamberRuleChangeRecord[];
+  /**
+   * A legislature's regular session ending on the day its leaders chose,
+   * before its legal limit. A session with no record ran to its limit.
+   * Optional; absent in saves written before leaders could adjourn.
+   */
+  readonly sessionAdjournments?: readonly SessionAdjournmentRecord[];
+  readonly itemVetoes?: readonly ItemVetoRecord[];
   readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
   /**
    * Player office workflow preferences. Optional on old saves. Bound to a
@@ -4219,6 +4565,8 @@ export interface HistoryStore {
    */
   readonly officeBriefingInspections?: readonly OfficeBriefingInspectionRecord[];
   readonly legislativeCommitments?: readonly LegislativeCommitmentRecord[];
+  /** Help between people. Optional; a world with none has no favors yet. */
+  readonly favors?: readonly FavorRecord[];
   readonly legislativeNegotiations?: readonly LegislativeNegotiationRecord[];
   readonly legislativeVotes?: readonly LegislativeVoteRecord[];
   readonly executiveDispositions?: readonly ExecutiveDispositionRecord[];
@@ -4236,6 +4584,8 @@ export interface HistoryStore {
   readonly publicProgramRecords?: readonly PublicProgramRecord[];
   /** Duties and who-qualifies rules an enacted law sets, and what each covered body did. */
   readonly enactedDutyRecords?: readonly EnactedDutyRecord[];
+  /** Optional so older saves do not acquire inferred permission decisions. */
+  readonly lawPermissionRecords?: readonly LawPermissionRecord[];
   readonly futureDueItems: readonly FutureDueItem[];
   readonly futureDueItemStates: readonly FutureDueItemStateRecord[];
   readonly events: readonly HistoricalEvent[];
@@ -4466,6 +4816,41 @@ export interface LegislativeAmendmentRecord {
   readonly description: string;
   readonly status: LegislativeAmendmentStatus;
   readonly voteId: EntityId;
+  /**
+   * The sections the amendment would put into the bill, as offered, so the
+   * record of its vote says what was on the table even when the chamber
+   * rejected it and the text never entered the bill. Omitted for an amendment
+   * offered by description only, which is how every amendment before this
+   * field was recorded.
+   */
+  readonly proposedSections?: readonly LegislativeProposedSection[];
+  /**
+   * Why a computer-run member offered it, where one did: to pass the bill,
+   * to sink it, to put the other side on the record, or to ride a bill that
+   * has to pass. Omitted for the player's amendments and older records.
+   */
+  readonly authorMotive?: LegislativeAmendmentMotive;
+}
+
+export type LegislativeAmendmentMotive = "pass" | "sink" | "record" | "ride";
+
+/**
+ * Which way one part of a bill answers a policy question: enacting the part
+ * does what the question proposes ("yes"), or the reverse ("no").
+ */
+export interface PropositionAnswerRef {
+  readonly propositionId: EntityId;
+  readonly answer: "yes" | "no";
+}
+
+/** One section an amendment would add to a bill, or rewrite in it. */
+export interface LegislativeProposedSection {
+  readonly provisionKey: string;
+  readonly heading: string;
+  /** The current section it would replace; null when it adds a new one. */
+  readonly supersedesProvisionId: EntityId | null;
+  /** The policy question the section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 export type LegislativeVoteForum =
@@ -4581,10 +4966,23 @@ export interface LegislativeEnactmentRecord {
   /** Chapter or act designation when the measure became law. */
   readonly actDesignation: string | null;
   /**
-   * When the act takes effect. Null means the rule pack did not resolve a
-   * default effective-date rule, which is not the same as taking effect now.
+   * When the act takes effect. New enactments record a concrete date; older
+   * saves may carry null and retain their original game-interval reading.
    */
   readonly effectiveAt: IsoDate | null;
+  /** New records distinguish source dates from game defaults. */
+  readonly effectiveDateBasis?: "source-default" | "game-default";
+  /** A new game's fallback stays fixed when future profiles change. */
+  readonly effectiveDateGameProfile?: {
+    readonly version: string;
+    readonly days: number;
+  };
+  /**
+   * The legislature's final passing vote: the last chamber passage or
+   * concurrence before enactment. A state that dates its acts from passage
+   * (Illinois) counts from it. Absent on records written before it was kept.
+   */
+  readonly finalPassageAt?: IsoDate | null;
   readonly outcomeEventId: EntityId;
 }
 
@@ -4745,7 +5143,26 @@ export type LegislativeProvisionBeneficiary =
  * version it replaces, so the bill's text has a history for the same reason its
  * procedural position does, and nothing is quietly rewritten in place.
  */
+export type LegislativeProvisionEffectIntent =
+  /** This section is the exact levy clause of a linked TaxProposalRecord. */
+  | { readonly kind: "tax-policy" }
+  /** This section explicitly grants a public program its stated amount. */
+  | { readonly kind: "public-program-appropriation" };
+
 export interface LegislativeProvisionRecord {
+  /** This version's explicit categories; omission clears a revised rule. */
+  readonly lawCategories?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly values: readonly string[];
+  }[];
+  /** This version's explicit numeric rules; omission clears a revised rule. */
+  readonly lawTerms?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly value: number;
+    readonly unit: LawAmountUnit;
+  }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
   readonly id: EntityId;
@@ -4769,6 +5186,12 @@ export interface LegislativeProvisionRecord {
   readonly fiscalExposureLabel: string | null;
   /** The same exposure as a checkable amount, so a ceiling can be tested. */
   readonly fiscalExposureMinorUnits: number | null;
+  /**
+   * Explicit executable intent from a typed clause template. Missing on old
+   * saves and on provisions with no registered consumer. A new revision must
+   * supply its own intent; omission clears an earlier revision's intent.
+   */
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
   readonly recordedAt: IsoDate;
   /** The earlier version this replaces; null for a section as filed. */
   readonly supersedesProvisionId: EntityId | null;
@@ -4778,6 +5201,81 @@ export interface LegislativeProvisionRecord {
    * except through the ordinary amendment path.
    */
   readonly originAmendmentId: EntityId | null;
+  readonly eventId: EntityId;
+  /**
+   * The policy question this section answers, and which way. This is what
+   * lets a section added by amendment enter the voting record: a vote for a
+   * bill carrying a work requirement is a vote for the work requirement,
+   * whatever the bill was filed to do. Omitted when the section answers no
+   * catalog question, which is true of every section recorded before it.
+   */
+  readonly answers?: PropositionAnswerRef;
+}
+
+/** A procedural rule a chamber can change for itself in play. */
+export type ChamberProcedureRuleKey = "germaneness" | "amendment-access";
+
+/**
+ * One change a chamber made to its own procedure. `value` is the rule's new
+ * setting: for germaneness "required", "not-required" or
+ * "appropriations-only"; for amendment access "open", "structured" or
+ * "closed".
+ */
+export interface ChamberRuleChangeRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly rulePackId: string;
+  readonly chamberKey: string;
+  readonly rule: ChamberProcedureRuleKey;
+  readonly value: string;
+  readonly adoptedAt: IsoDate;
+  /** The recorded vote that adopted it, where one did. */
+  readonly adoptedByVoteId: EntityId | null;
+  /** Why, in plain words, as the chamber's record would give it. */
+  readonly rationale: string;
+  readonly eventId: EntityId;
+}
+
+/**
+ * A legislature adjourning its regular session sine die on the day its
+ * leaders decided to, within the session's legal limit. The session's end,
+ * and every date counted from it, is this day.
+ */
+export interface SessionAdjournmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly rulePackId: string;
+  readonly jurisdictionId: EntityId;
+  /** The calendar year of the regular session. */
+  readonly sessionYear: number;
+  readonly adjournedOn: IsoDate;
+  /** The appropriation the session passed before the leaders adjourned. */
+  readonly budgetMeasureId: EntityId;
+  /** Bills still before the chambers that the leaders did not wait for. */
+  readonly leftPendingMeasureIds: readonly EntityId[];
+  /** Why, in plain words, as the legislature's record would give it. */
+  readonly rationale: string;
+  readonly eventId: EntityId;
+}
+
+/**
+ * An executive's veto of one section of a bill it otherwise signed, where the
+ * constitution gives an item veto (Build 25 step 5). The section stays on the
+ * record of every vote taken before the signing and is not part of the law.
+ */
+export interface ItemVetoRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly executiveDispositionId: EntityId;
+  /** The signing's own sequence: the section is out of the law from it on. */
+  readonly dispositionSequence: number;
+  readonly actorPersonId: EntityId | null;
+  readonly rationale: string;
   readonly eventId: EntityId;
 }
 
@@ -5028,6 +5526,7 @@ export type FormativeLifeSituationKey =
 export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
+  | "adult.eviction-case"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"
@@ -5179,8 +5678,18 @@ export interface World {
   /** Place outcomes by month (outcome-web/place-outcome-store.ts). */
   readonly placeOutcomes?: PlaceOutcomeStore;
   /**
+   * Every government's budget by month (public-budgets/store.ts). Optional
+   * and additive: a world written before it existed keeps no budgets.
+   */
+  readonly publicBudgets?: PublicBudgetStore;
+  /**
    * The pressure layer (2026-09-22). Optional and additive: a world written
    * before it existed has no readings and is never retrofitted.
    */
   readonly pressure?: PressureStore;
+  /**
+   * The seated town's businesses' and banks' books (Build 19). Optional and
+   * additive: opened at a town's first quarterly review after it existed.
+   */
+  readonly townFinances?: TownFinanceStore;
 }

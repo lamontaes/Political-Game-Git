@@ -3,7 +3,10 @@ import {
   resolveActiveMemberSeat,
 } from "./legislative-member-seat";
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import { legislativeProcedureRefusal } from "./legislative-procedure-availability";
+import {
+  canonicalStateExecutiveWaitAvailable,
+  legislativeProcedureRefusal,
+} from "./legislative-procedure-availability";
 import {
   legislativePackForJurisdiction,
   legislativeWorkKey,
@@ -21,18 +24,25 @@ import {
   createStableId,
   chamberByKey,
   defaultOriginChamber,
-  drawCanonicalNameForGender,
+  drawGeneratedPersonName,
   catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
   legislativeScenarioKeysForPlace,
   makeIsoDate,
   measurePosition,
+  rulePackForMeasure,
   nextMeasureNumbering,
   personName,
   seatBodyForPack,
   SeededRng,
+  simulationMinutesBetween,
+  simulationMomentAtLocalTime,
 } from "../simulation";
+import {
+  legislativeProcedureForPack,
+  legislativeRulePackForWorld,
+} from "../simulation/legislative-procedure-world";
 import type {
   EntityId,
   IsoDate,
@@ -45,6 +55,7 @@ import type {
 } from "../simulation";
 import { applyLegislativeStep } from "./legislation-session";
 import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
+import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
   measureSessionIsClosed,
@@ -52,7 +63,12 @@ import {
   scheduleInstitutionStep,
 } from "../simulation/governing/legislative-clock";
 import { futureDueItemStateAt } from "../simulation/future-transitions";
-import { passOrdinaryDays } from "./ordinary-life";
+import {
+  CONGRESS_SITTING_TRANSITION,
+  isCongressMeasure,
+} from "../simulation/governing/congress-chambers";
+import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
+import { describeRoutineOutcome } from "./routine-outcome";
 import { BARGAINING_BRIEF_SCENARIO_KEY } from "./legislative-bargaining-brief";
 import {
   readRecordedLegislativeSitting,
@@ -263,6 +279,7 @@ export function openLegislativeWork(
   input: OpenLegislativeWorkInput,
 ): { readonly world: World; readonly assignment: LegislativeAssignment } {
   const blueprint = legislativeBlueprint(input.scenarioKey);
+  const activePack = legislativeRulePackForWorld(world, blueprint.pack.packId);
   const institutional = input.scenarioKey.startsWith("institution:");
   const membership = resolveActiveMemberSeat(world, input.playerPersonId, {
     governingJurisdictionId: input.jurisdictionId,
@@ -331,7 +348,7 @@ export function openLegislativeWork(
     latest !== undefined &&
     (measurePosition(world, latest.id).terminal ||
       measureSessionIsClosed(world, latest.id).closed) &&
-    regularSessionActionRefusal(blueprint.pack, world.currentDate) === null;
+    regularSessionActionRefusal(activePack, world.currentDate) === null;
   const measureStableKey =
     latest === undefined
       ? baseKey
@@ -399,7 +416,7 @@ export function openLegislativeWork(
   }
 
   const sessionRefusal = regularSessionActionRefusal(
-    blueprint.pack,
+    activePack,
     world.currentDate,
   );
   if (sessionRefusal) throw new RegularSessionUnavailableError(sessionRefusal);
@@ -407,7 +424,7 @@ export function openLegislativeWork(
   const rng = new SeededRng(world.seed).fork(
     `legislative-member:${input.scenarioKey}`,
   );
-  const name = drawCanonicalNameForGender(rng, "unstated");
+  const name = drawGeneratedPersonName(rng);
   // The office's member is the same person for every bill it files.
   const sponsorExists =
     !institutional &&
@@ -426,6 +443,7 @@ export function openLegislativeWork(
                 stableKey: sponsorKey,
                 givenName: name.givenName,
                 familyName: name.familyName,
+                identity: name.identity,
                 birthDate: memberBirthDate(world.currentDate),
                 homeJurisdictionId: input.jurisdictionId,
               },
@@ -520,6 +538,15 @@ export function institutionOwnsStep(
   step: MeasureStepKey,
 ): boolean {
   if (assignment.procedure.recordedSittingEventId) return false;
+  // A bill on a seated governor's desk is the governor's to decide, on the
+  // world's clock, the same desk every other bill reaches; the office waits.
+  if (step === "await-executive-decision")
+    return (
+      governorOfficeForJurisdiction(
+        world,
+        assignment.procedure.pack.jurisdictionKey,
+      ) !== null
+    );
   if (WAIT_STEPS.includes(step)) return false;
   const measure = world.history.legislativeMeasures?.find(
     (entry) => entry.id === assignment.measureId,
@@ -542,11 +569,18 @@ function awaitInstitution(
   assignment: LegislativeAssignment,
 ): LegislativeCommandResult {
   const scheduled = scheduleInstitutionStep(world, assignment.measureId);
+  const measure = scheduled.history.legislativeMeasures?.find(
+    (entry) => entry.id === assignment.measureId,
+  );
+  const congress = measure !== undefined && isCongressMeasure(measure);
   const pending = scheduled.history.futureDueItems
     .filter(
       (item) =>
-        item.transitionKey === LEGISLATIVE_INSTITUTION_STEP &&
-        item.entityIds.includes(assignment.measureId) &&
+        (congress
+          ? item.transitionKey === CONGRESS_SITTING_TRANSITION &&
+            item.jurisdictionId === measure?.jurisdictionId
+          : item.transitionKey === LEGISLATIVE_INSTITUTION_STEP &&
+            item.entityIds.includes(assignment.measureId)) &&
         futureDueItemStateAt(scheduled, item.id, {
           asOfDate: scheduled.currentDate,
           historySequenceExclusive: scheduled.history.nextSequence,
@@ -566,6 +600,21 @@ function awaitInstitution(
     ),
   );
   const next = passOrdinaryDays(scheduled, days);
+  // Use the same target and outcome reader as Day/Week. A protected personal
+  // commitment may stop this wait early, including without advancing at all.
+  const target = simulationMomentAtLocalTime({
+    date: addDays(scheduled.currentDate, days),
+    minuteOfDay: ORDINARY_DAY_START_MINUTE,
+    timeZone: scheduled.currentMoment.timeZone,
+    preferredUtcOffsetMinutes: scheduled.currentMoment.utcOffsetMinutes,
+  });
+  const requestedMinutes = simulationMinutesBetween(
+    scheduled.currentMoment,
+    target,
+  );
+  const interrupted =
+    simulationMinutesBetween(scheduled.currentMoment, next.currentMoment) <
+    requestedMinutes;
   const after = measurePosition(next, assignment.measureId);
   const moved =
     after.phase !== before.phase ||
@@ -574,9 +623,16 @@ function awaitInstitution(
     after.hearingHeld !== before.hearingHeld;
   return {
     world: next,
-    message: moved
-      ? "Time passed while the institution acted on the bill."
-      : "Time passed. The institution has not acted on the bill yet.",
+    message:
+      interrupted && next.control.kind === "person"
+        ? `${describeRoutineOutcome(scheduled, next, next.control.personId, requestedMinutes)}\n${
+            moved
+              ? "The institution acted on the bill."
+              : "The institution has not acted on the bill yet."
+          }`
+        : moved
+          ? "Time passed while the institution acted on the bill."
+          : "Time passed. The institution has not acted on the bill yet.",
   };
 }
 const RECORDED_CHAMBER_STEPS: readonly MeasureStepKey[] = [
@@ -628,6 +684,15 @@ export function applyLegislativeCommand(
   ) {
     throw new Error("That is not something this surface can do.");
   }
+  if (
+    command.step === "offer-amendment" &&
+    !assignment.procedure.recordedSittingEventId &&
+    legislativeProcedureForPack(world, assignment.procedure.pack.packId)
+  ) {
+    throw new RegularSessionUnavailableError(
+      "No recorded amendment vote is available for this bill.",
+    );
+  }
   if (command.kind === "await-institution") {
     if (!institutionOwnsStep(world, assignment, command.step))
       throw new RegularSessionUnavailableError(
@@ -640,10 +705,15 @@ export function applyLegislativeCommand(
     command.step !== "await-executive-decision"
   ) {
     const session = measureSessionIsClosed(world, assignment.measureId);
-    if (session.closed)
+    if (session.closed) {
+      const pack = rulePackForMeasure(world, assignment.measureId);
       throw new RegularSessionUnavailableError(
-        `The session ended on ${session.closedOn}. Whether this bill carries over is not established, so it does not move again; the office can file a new bill next session.`,
+        legislativeProcedureForPack(world, pack.packId)
+          ? (regularSessionActionRefusal(pack, world.currentDate) ??
+              `This bill's prior regular session ended on ${session.closedOn}.`)
+          : `The session ended on ${session.closedOn}. Whether this bill carries over is not established, so it does not move again; the office can file a new bill next session.`,
       );
+    }
   }
   if (
     command.kind === "take-step" &&
@@ -743,6 +813,12 @@ export function applyLegislativeCommand(
   );
   if (procedureRefusal)
     throw new RegularSessionUnavailableError(procedureRefusal);
+  if (
+    command.kind === "take-step" &&
+    command.step === "await-executive-decision" &&
+    canonicalStateExecutiveWaitAvailable(world, assignment.procedure)
+  )
+    return awaitInstitution(world, assignment);
   const regularSessionSteps: readonly MeasureStepKey[] = [
     "request-referral",
     "request-committee-hearing",
@@ -788,7 +864,11 @@ function assignmentFor(
   sponsorPersonId: EntityId,
   playerPersonId: EntityId,
 ): LegislativeAssignment {
-  const seated = seatedBodies(world, blueprint);
+  const activeBlueprint = {
+    ...blueprint,
+    pack: rulePackForMeasure(world, measureId),
+  };
+  const seated = seatedBodies(world, activeBlueprint);
   return {
     scenarioKey: blueprint.scenarioKey,
     label: blueprint.label,
@@ -796,13 +876,13 @@ function assignmentFor(
     measureId,
     sponsorPersonId,
     procedure: {
-      pack: blueprint.pack,
+      pack: activeBlueprint.pack,
       measureId,
       bodies:
         seated ??
         seatBodies(
           world,
-          blueprint,
+          activeBlueprint,
           sponsorPersonId,
           measureId,
           playerPersonId,
@@ -810,7 +890,8 @@ function assignmentFor(
       ...(seated ? { memberDecisions: { playerPersonId } } : {}),
       committeeMemberCount: blueprint.scenarioKey.startsWith("institution:")
         ? null
-        : (blueprint.pack.chambers[0]?.committees[0]?.appointedMembers ?? null),
+        : (activeBlueprint.pack.chambers[0]?.committees[0]?.appointedMembers ??
+          null),
       votePlan: blueprint.votePlan,
       governorAction: blueprint.governorAction,
       governorRationale: blueprint.governorRationale,

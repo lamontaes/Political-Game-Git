@@ -1,3 +1,4 @@
+import { sameJsonChunks } from "../simulation/json-chunks";
 import type { EntityId } from "../simulation/types";
 
 /**
@@ -43,9 +44,9 @@ export const BROWSER_WORLD_TOMBSTONE_KIND =
  * added the persisted generation and the tombstone, which is what makes a
  * slot mean the same thing in every tab.
  */
-export const BROWSER_WORLD_RECORD_VERSION = 3;
+export const BROWSER_WORLD_RECORD_VERSION = 4;
 /** Versions this build can read, after migration. */
-export const READABLE_RECORD_VERSIONS: readonly number[] = [1, 2, 3];
+export const READABLE_RECORD_VERSIONS: readonly number[] = [1, 2, 3, 4];
 
 /**
  * The generation a record written before generations existed is treated as.
@@ -72,13 +73,41 @@ export type SlotState =
   | {
       readonly kind: "present";
       readonly generation: number;
-      readonly payload: string;
+      readonly payload: string | readonly string[];
       readonly contentId: EntityId | null;
       readonly createdAt: string | null;
       readonly savedAt: string | null;
       readonly lastPlayedAt: string | null;
     }
   | { readonly kind: "unreadable"; readonly generation: number };
+
+/**
+ * A stored world: one string, or for a world too long for one string, the
+ * same text in pieces.
+ */
+export function isWorldPayload(
+  value: unknown,
+): value is string | readonly string[] {
+  return (
+    typeof value === "string" ||
+    (Array.isArray(value) &&
+      value.length > 0 &&
+      value.every((piece) => typeof piece === "string"))
+  );
+}
+
+/** Whether two stored worlds hold the same text, however each was cut. */
+function samePayload(
+  left: string | readonly string[],
+  right: string | readonly string[],
+): boolean {
+  if (typeof left === "string" && typeof right === "string")
+    return left === right;
+  return sameJsonChunks(
+    typeof left === "string" ? [left] : left,
+    typeof right === "string" ? [right] : right,
+  );
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -114,7 +143,7 @@ export function readSlotState(value: unknown): SlotState {
     value.kind !== BROWSER_WORLD_RECORD_KIND ||
     typeof value.recordVersion !== "number" ||
     !READABLE_RECORD_VERSIONS.includes(value.recordVersion) ||
-    typeof value.payload !== "string"
+    !isWorldPayload(value.payload)
   ) {
     return { kind: "unreadable", generation: generationOf(value) };
   }
@@ -170,7 +199,7 @@ const SLOT_UNREADABLE =
 export function decideWrite(
   state: SlotState,
   expected: number | null,
-  payload: string,
+  payload: string | readonly string[],
 ): WriteVerdict {
   switch (state.kind) {
     case "deleted":
@@ -189,7 +218,7 @@ export function decideWrite(
       // writer wants stored is character-for-character what is stored. That
       // is true however the slot got there, so it is safe to report even to a
       // writer whose generation is behind — it has lost nothing.
-      if (state.payload === payload) {
+      if (samePayload(state.payload, payload)) {
         return { kind: "already-durable", generation: state.generation };
       }
       if (expected === null) {

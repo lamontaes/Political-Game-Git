@@ -2,9 +2,9 @@ import {
   activeWorkRelationshipsAt,
   chamberByKey,
   electionContestById,
-  rulePackById,
 } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
+import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
 import { committeesForPerson } from "../simulation/governing/committee-assignment";
 import { US_CONGRESS_PACK_ID } from "../simulation/congress-rule-pack";
@@ -110,7 +110,10 @@ export function projectLegislativeOfficeContext(
     );
     const jurisdiction = world.jurisdictions[seat.governingJurisdictionId];
     if (contest && work && jurisdiction) {
-      const pack = rulePackById(seat.legislativeRulePackId);
+      const pack = legislativeRulePackForWorld(
+        world,
+        seat.legislativeRulePackId,
+      );
       const chamber = chamberByKey(pack, seat.chamberKey);
       member = {
         kind: "member",
@@ -141,7 +144,7 @@ export function projectLegislativeOfficeContext(
     >["lastRecordedReferral"] = null;
     if (referral) {
       const chamber = chamberByKey(
-        rulePackById(record.rulePackId),
+        legislativeRulePackForWorld(world, record.rulePackId),
         referral.chamberKey,
       );
       const committee = chamber.committees.find(
@@ -213,7 +216,7 @@ function committeeMembershipFor(
   rulePackId: string,
   chamberKey: string,
 ): LegislativeOfficeContext["committeeMembership"] {
-  const pack = rulePackById(rulePackId);
+  const pack = legislativeRulePackForWorld(world, rulePackId);
   const chamber = chamberByKey(pack, chamberKey);
   if (chamber.committees.length === 0)
     return {

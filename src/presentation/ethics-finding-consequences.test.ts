@@ -33,11 +33,10 @@ import {
   spendCampaignFundsPersonally,
   UNRESEARCHED_FINDING_EFFECTS,
   UNRESEARCHED_REPEAT_OFFENSE,
-  UNRESEARCHED_STATE_OVERSIGHT,
+  STATE_OVERSIGHT_RULE,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import {
-  caseCourse,
   jailTermOn,
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_DECLINED_EVENT,
@@ -45,7 +44,6 @@ import {
   PROSECUTION_REFERRED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   referForProsecution,
-  referralStableKey,
   regulatorRefers,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
@@ -358,7 +356,13 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     // An empty loop below would pass on nothing, so somebody must distance.
     expect(distanced.length).toBeGreaterThan(0);
     const people = projectPeopleDirectory(run.after, run.personId).people;
-    for (const response of distanced) {
+    // Somebody who distances again after a later update has still kept away
+    // since the first time, so the line keeps the first date.
+    const firstDistance = new Map<string, (typeof distanced)[number]>();
+    for (const response of distanced)
+      if (!firstDistance.has(response.actorPersonId))
+        firstDistance.set(response.actorPersonId, response);
+    for (const response of firstDistance.values()) {
       const given = run.after.people[response.actorPersonId]!.givenName;
       const line = `${given} has kept away from you since ${proseDate(response.respondedAt)}, after the case against you became public.`;
       expect(
@@ -385,12 +389,14 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     );
   }, 900_000);
 
+  // Writing and reading back a campaign-season world took 5.8 seconds on a
+  // busy machine on 9/29, past the 5-second default; the check is unchanged.
   it("survives a save", () => {
     const reopened = deserializeWorld(serializeWorld(run.after));
     expect(publicAdverseFindingsAgainst(reopened, run.personId)).toEqual(
       publicAdverseFindingsAgainst(run.after, run.personId),
     );
-  });
+  }, 60_000);
 });
 
 /**
@@ -514,86 +520,99 @@ describe("a Washington candidate who keeps taking after a finding", () => {
     expect(leads.length).toBeGreaterThan(0);
   });
 
-  it("may go to prosecutors, and the case runs the course drawn for it", () => {
-    // Whether each finding is referred, and how a case ends, are chances
-    // drawn from the world's seed: this run's own draws, not a fixed rule.
+  it("goes to prosecutors once a finding shows they knew, and people decide the case", () => {
+    // The first finding settles itself; the second, taken after the first
+    // told them the rule, is knowing and willful and goes to prosecutors.
     const events = (w: World, type: string) =>
       w.history.events.filter(
         (event) =>
           event.type === type &&
           event.participants.some((entry) => entry.personId === run.personId),
       );
-    const expected = findings.filter((step, index) =>
-      regulatorRefers(world, `${step.stableKey}:${run.personId}`, index + 1),
+    const expected = findings.filter((_, index) =>
+      regulatorRefers({ standingFindings: index + 1, deniedIt: false }),
     );
+    expect(expected).toHaveLength(findings.length - 1);
     const referrals = events(world, PROSECUTION_REFERRED_EVENT);
     expect(referrals.map((event) => event.occurredAt)).toEqual(
       expected.map((step) => step.at),
     );
+    // Run on until every case has had time to be charged and to reach its
+    // plea or trial (60 and 120 days), which a referral made during these
+    // months also needs.
     let later = world;
-    for (let month = 0; month < 7; month += 1)
+    const settled = (w: World) =>
+      events(w, PROSECUTION_REFERRED_EVENT).every(
+        (referral) =>
+          addDays(
+            referral.occurredAt,
+            UNRESEARCHED_PROSECUTION.chargeDecisionDays +
+              UNRESEARCHED_PROSECUTION.resolveAfterDays +
+              14,
+          ) <= w.currentDate,
+      );
+    for (
+      let month = 0;
+      month < 7 || (month < 14 && !settled(later));
+      month += 1
+    )
       later = passOrdinaryDays(later, 30);
+    expect(settled(later)).toBe(true);
     for (const referral of events(later, PROSECUTION_REFERRED_EVENT)) {
       expect(referral.visibility).toBe("private");
-      const course = caseCourse(
-        later,
-        referral.stableKey,
-        "documentary",
-        Number(
-          referral.tags
-            .find((tag) => tag.startsWith("justice.standing-findings:"))!
-            .split(":")[1],
-        ),
-      );
       const after = (type: string) =>
         later.history.events.filter(
           (event) =>
             event.type === type &&
             event.tags.includes(`justice.referral:${referral.id}`),
         );
-      expect(after(PROSECUTION_CHARGED_EVENT)).toHaveLength(
-        course.charged ? 1 : 0,
+      // The committee's own reports are documentary evidence, which meets
+      // the charging standard.
+      expect(after(PROSECUTION_CHARGED_EVENT)).toHaveLength(1);
+      expect(after(PROSECUTION_DECLINED_EVENT)).toHaveLength(0);
+      const [ended] = after(PROSECUTION_ENDED_EVENT);
+      expect(ended).toBeDefined();
+      // The candidate is the player, and nobody pleads for the player: the
+      // court enters not guilty, and twelve jurors decide, each vote a
+      // recorded decision with its reasons.
+      expect(later.control).toEqual({ kind: "person", personId: run.personId });
+      const plea = later.history.decisionTraces.find(
+        (trace) => trace.context.stableKey === `${referral.stableKey}:plea`,
       );
-      expect(after(PROSECUTION_DECLINED_EVENT)).toHaveLength(
-        course.charged ? 0 : 1,
+      expect(plea).toBeUndefined();
+      expect(ended!.tags).not.toContain("justice.outcome:plea");
+      const votes = later.history.decisionTraces.filter((trace) =>
+        trace.context.stableKey.startsWith(`${referral.stableKey}:trial:`),
       );
-      expect(after(PROSECUTION_ENDED_EVENT).map((e) => e.tags)).toEqual(
-        course.outcome
-          ? [expect.arrayContaining([`justice.outcome:${course.outcome}`])]
-          : [],
-      );
-      expect(after(PROSECUTION_SENTENCED_EVENT)).toHaveLength(
-        course.sentence ? 1 : 0,
-      );
+      expect(votes.length).toBeGreaterThan(0);
+      const sentenced = after(PROSECUTION_SENTENCED_EVENT);
+      if (ended!.tags.includes("justice.outcome:acquitted"))
+        expect(sentenced).toHaveLength(0);
+      else {
+        expect(sentenced).toHaveLength(1);
+        expect(sentenced[0]!.context.motivation).toBeTruthy();
+      }
     }
   }, 900_000);
 
   it("takes a jailed candidate off the campaign trail but not the ballot", () => {
-    // A referral whose drawn course ends in jail, made directly.
-    let key = "";
-    for (let index = 0; index < 500 && !key; index += 1) {
-      const course = caseCourse(
-        run.after,
-        referralStableKey(`jail-test:${index}`),
-        "documentary",
-        1,
-      );
-      if (course.sentence?.kind === "jail") key = `jail-test:${index}`;
-    }
-    expect(key).not.toBe("");
+    // A violent offense with two findings already standing: every judge the
+    // game seats weighs both toward jail (court-reasoning.ts), so this case
+    // ends in jail whichever judge sentences it and however the candidate
+    // pleads.
     const referred = referForProsecution(run.after, {
-      stableKey: key,
+      stableKey: "jail-test",
       subjectPersonId: run.personId,
       jurisdictionId: run.campaign.jurisdictionId,
-      offenseKey: "campaign-funds-personal-use",
+      offenseKey: "crime:robbery",
       referredBy: {
-        kind: "regulator",
-        label: "Washington State Public Disclosure Commission",
+        kind: "police",
+        label: "Police",
         personId: null,
       },
       basisEventIds: [],
       evidence: "documentary",
-      standingFindings: 1,
+      standingFindings: 3,
     }).world;
     const jailed = passOrdinaryDays(
       referred,
@@ -646,6 +665,16 @@ describe("a Washington candidate who lies to reporters about the money", () => {
         event.tags.includes(`${CLAIM_EVIDENCE_TAG_PREFIX}${run.step.eventId}`),
       ),
     ).toBe(true);
+  });
+
+  it("goes to prosecutors on the first finding, because the denial shows they knew", () => {
+    const referrals = run.after.history.events.filter(
+      (event) =>
+        event.type === PROSECUTION_REFERRED_EVENT &&
+        event.participants.some((entry) => entry.personId === run.personId),
+    );
+    expect(referrals).toHaveLength(1);
+    expect(referrals[0]!.tags).toContain("justice.standing-findings:1");
   });
 
   it("gives the reporter who was lied to a follow-up story", () => {
@@ -731,7 +760,7 @@ describe("a Washington candidate the player stops playing after taking money", (
 });
 
 describe("a generated oversight body", () => {
-  it("is the same body for a state every time and differs between states", () => {
+  it("names each state's own regulator and gives every state the same rule", () => {
     const { world } = adultLifeIn("OR", "generated-body-or");
     const withStates = ["NM", "GA", "ME"].reduce(
       (w, usps) => ensureStateJurisdiction(w, usps),
@@ -754,23 +783,17 @@ describe("a generated oversight body", () => {
       stateJurisdictionForKey("US-GA")!.id,
     );
     expect(again).toEqual(bodies[1]);
-    const rule = UNRESEARCHED_STATE_OVERSIGHT;
+    // No state is drawn a calendar or a penalty of its own (Rule 0): each
+    // follows the one rule until its own is researched.
     for (const body of bodies) {
-      expect(body.reportReviewDays).toBeGreaterThanOrEqual(
-        rule.reportReviewDays[0],
-      );
-      expect(body.reportReviewDays).toBeLessThanOrEqual(
-        rule.reportReviewDays[1],
-      );
-      expect(body.civilPenaltyPerPaymentMinorUnits).toBeGreaterThanOrEqual(
-        rule.civilPenaltyPerPaymentMinorUnits[0],
-      );
-      expect(body.civilPenaltyPerPaymentMinorUnits).toBeLessThanOrEqual(
-        rule.civilPenaltyPerPaymentMinorUnits[1],
+      expect(body.intervalDays).toEqual(STATE_OVERSIGHT_RULE.intervalDays);
+      expect(body.reportReviewDays).toBe(STATE_OVERSIGHT_RULE.reportReviewDays);
+      expect(body.civilPenaltyPerPaymentMinorUnits).toBe(
+        STATE_OVERSIGHT_RULE.civilPenaltyPerPaymentMinorUnits,
       );
     }
-    expect(
-      new Set(bodies.map((body) => JSON.stringify(body.intervalDays))).size,
-    ).toBeGreaterThan(1);
+    // The federal notice and answer periods, 52 U.S.C. 30109(a)(1).
+    expect(STATE_OVERSIGHT_RULE.intervalDays.intake).toBe(5);
+    expect(STATE_OVERSIGHT_RULE.intervalDays.notice).toBe(15);
   });
 });

@@ -7,6 +7,16 @@ import {
 export const TRANSIT_FAMILY_KEY = "appropriations";
 export const TRANSIT_FAMILY_VERSION = "v3";
 export const TRANSIT_VARIANT_KEY = "transit-staged-service-v1";
+/**
+ * The one state the explicit ninety-day transit clause (variant v1) was
+ * authored and compiled for; every other state's transit bill is the
+ * state-profile variant (v2).
+ */
+export const LEGACY_TRANSIT_COMPILED_STATE = "US-AK";
+export const STATE_TRANSIT_VARIANT_KEY = "transit-staged-service-v2";
+/** The catalog question a state transit service bill answers. */
+export const STATE_TRANSIT_SERVICE_QUESTION =
+  "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours";
 export const TRANSIT_PROGRAM_KEY = "standing:rural-transit-assistance";
 /** Prices and scope are authored contract terms, never empirical effectiveness. */
 export const TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR = 10_000;
@@ -38,6 +48,9 @@ function clause(text: string, amount: number | null = null): ClauseRendering {
 }
 export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
   variantKey: TRANSIT_VARIANT_KEY,
+  propositionKeys: [
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+  ],
   label: "Two periods of additional service",
   instrument: "appropriation",
   synopsis:
@@ -102,10 +115,16 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
         const v = r.values.appropriation;
         if (v?.kind !== "money")
           throw new Error("Missing transit appropriation amount.");
-        return clause(
+        const amountClause = clause(
           `There is appropriated ${r.money("appropriation")} from collected, unrestricted state public receipts for additional service under the program named in section 1. This Act creates no cash and dedicates no tax revenue.`,
           v.minorUnits,
         );
+        return v.minorUnits > 0
+          ? {
+              ...amountClause,
+              operativeEffect: { kind: "public-program-appropriation" },
+            }
+          : amountClause;
       },
     },
     {
@@ -166,4 +185,48 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
       "The report shall include the date of each completed service period.",
     evidence,
   },
+};
+
+/**
+ * The state-wide version follows each saved act's effective date. The Alaska
+ * v1 clause remains the pinned source-specific route; removing its Alaska
+ * guard would apply that explicit ninety-day clause to other states.
+ */
+export const STATE_TRANSIT_SERVICE_VARIANT: ProgramVariant = {
+  ...TRANSIT_SERVICE_VARIANT,
+  variantKey: STATE_TRANSIT_VARIANT_KEY,
+  // An adopted invitation is scoped by jurisdiction and segment key, not by
+  // variant. Keep Alaska v1's saved key and give this state-wide v2 its own.
+  amendmentInvitation: {
+    ...TRANSIT_SERVICE_VARIANT.amendmentInvitation,
+    segmentKey: "transit.state-service-reporting",
+  },
+  npcEligibility: [
+    {
+      propositionKey:
+        "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      answer: "yes",
+      governmentLevel: "state",
+      authorityKind: "game-profile",
+      authorityKey: null,
+      operativeEffectKind: "public-program-appropriation",
+      effectProvisionKey: "amount-provided",
+      effectParameterKey: "appropriation",
+    },
+  ],
+  label: "State transit service by recorded effective date",
+  synopsis:
+    "Provides state transit spending authority from the effective date recorded for the enacted measure.",
+  shortTitle: "State Transit Appropriation",
+  clauses: TRANSIT_SERVICE_VARIANT.clauses.map((item) =>
+    item.provisionKey === "transit-effective-date"
+      ? {
+          ...item,
+          render: () =>
+            clause(
+              "This appropriation is available from this Act's recorded effective date.",
+            ),
+        }
+      : item,
+  ),
 };

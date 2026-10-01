@@ -1,0 +1,300 @@
+{
+  "id": "state-paid-leave-premiums-2026",
+  "asOf": "2026-09-29",
+  "sourceKind": "official-state-program-pages",
+  "scope": "Employee and employer payroll premiums of the state paid family and medical leave programs in the starting-law file, 2026, read with curl from each program's own pages on September 28 and 29, 2026. Each place quotes the sentence that gives its rate.",
+  "places": {
+    "US-CA": {
+      "status": "read",
+      "ratePercent": 1.3,
+      "employeePercent": 1.3,
+      "employerPercent": 0,
+      "wageCapDollars": null,
+      "smallEmployerExemption": null,
+      "contributionsBeginAt": "2004-07-01",
+      "sourceUrl": "https://edd.ca.gov/en/payroll_taxes/rates_and_withholding/",
+      "quote": "The SDI withholding rate for 2026 is 1.3 percent. Effective January 1, 2024, all wages are subject to SDI contributions.",
+      "benefit": {
+        "replacement": "Your weekly benefit amount (WBA) is about 70–90% (depending on income) of wages you earned 5 to 18 months before your claim start date and up to the maximum WBA.",
+        "maxWeeklyDollars": 1765,
+        "sourceUrl": "https://edd.ca.gov/en/disability/Calculating_PFL_Benefit_Payment_Amounts/",
+        "maxWeeklyQuote": "Maximum Weekly Benefit Amount (WBA) $1,765",
+        "maxWeeklyQuoteUrl": "https://edd.ca.gov/en/disability/Contribution_Rates_and_Benefit_Amounts/"
+      },
+      "notes": "Recorded: State Disability Insurance (SDI), one employee-paid payroll withholding that funds both Disability Insurance and Paid Family Leave. Employees pay all of it; no employer share. All wages are subject since 1/1/2024 (the EDD page states the taxable wage ceiling was eliminated by SB 951). Contribution start date is NOT stated on the pages read: 2004-07-01 is when PFL benefits began (background knowledge, unverified against a fetched page); SDI withholding itself is much older.",
+      "dateRead": "2026-09-29"
+    },
+    "US-CO": {
+      "status": "read",
+      "ratePercent": 0.88,
+      "employeePercent": 0.44,
+      "employerPercent": 0.44,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": "Employers with nine or fewer employees pay no employer share; they remit only the 0.44% withheld from employees (or their own 0.44% if they choose to cover it).",
+      "contributionsBeginAt": "2023-01-01",
+      "sourceUrl": "https://famli.colorado.gov/employers",
+      "quote": "The premiums are set to 0.88% of the employee’s wage, with 0.44% paid by the employer and 0.44% paid by the employee.",
+      "benefit": {
+        "replacement": "the first $804.46 of an individual’s average weekly wage will be replaced at a rate of 90%, and the rest will be replaced at 50%, up to the maximum benefit amount of $1,448.02.",
+        "maxWeeklyDollars": 1448.02,
+        "sourceUrl": "https://famli.colorado.gov/individuals-and-families/how-famli-works/premium-and-benefits-calculator"
+      },
+      "notes": "Cap: page says premiums are paid on wages up to the federal Social Security wage cap; the 2026 figure of $184,500 comes from the Oregon and Washington pages (both state $184,500 for 2026), not from the FAMLI page. Start year: FAMLI employer FAQ says \"Both employers and employees began paying into the fund in 2023\" (https://famli.colorado.gov/employers/employer-faqs); exact day 1/1/2023 is an assumption. Colorado law caps the total rate at 1.2%. The benefit figures on the calculator page are labeled for 2026-2027.",
+      "dateRead": "2026-09-29"
+    },
+    "US-CT": {
+      "status": "read",
+      "ratePercent": 0.5,
+      "employeePercent": 0.5,
+      "employerPercent": 0,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": null,
+      "contributionsBeginAt": "2021-01-01",
+      "sourceUrl": "https://www.ctpaidleave.org/how-ct-paid-leave-works/contributions",
+      "quote": "The CT Paid Leave Board of Directors has voted to maintain the contribution rate at 0.5% for 2026.",
+      "benefit": {
+        "replacement": "the weekly benefit rate will be 95%. (average weekly wage at or below 40 x CT minimum wage, $677.60 as of 1/1/2026); above that, the page says the benefit is 95% of the first 40 x minimum wage plus 60% of the excess",
+        "maxWeeklyDollars": 1016.4,
+        "sourceUrl": "https://www.ctpaidleave.org/claims/before-you-apply",
+        "maxWeeklyQuote": "the weekly benefit is capped at 60 times the CT minimum wage (i.e. $1,016.40 as of 1/1/2026)"
+      },
+      "notes": "Employee-only payroll deduction: page says \"Employers deduct 0.5% from an employee's pay\" and no employer share is described. Cap is the Social Security contribution limit (\"Employees contribute until they reach the Social Security contribution limit\"); the dollar figure $184,500 for 2026 is from the Oregon/Washington pages, not the CT page. Start date 2021-01-01 is background knowledge (deductions began January 2021), not on the fetched pages. Employers may run an approved private plan instead.",
+      "dateRead": "2026-09-29"
+    },
+    "US-DC": {
+      "status": "read",
+      "ratePercent": 0.75,
+      "employeePercent": 0,
+      "employerPercent": 0.75,
+      "wageCapDollars": null,
+      "smallEmployerExemption": null,
+      "contributionsBeginAt": "2019-04-01",
+      "sourceUrl": "https://dcpaidfamilyleave.dc.gov/employer-information/",
+      "quote": "On July 1, 2024, the Paid Family Leave (PFL) tax rate increased from 0.26% (0.0026) to 0.75% (0.0075) of the wage paid to each covered employee",
+      "benefit": {
+        "replacement": "Sliding scale wage replacement, up to 90% of wages (DC page: \"Sliding scale wage replacement (up to 90%) remains unchanged\"). Weekly maximum is $1,190 now and drops to $1,100 for claims from October 1, 2026.",
+        "maxWeeklyDollars": 1190,
+        "maxWeeklyAfter2026_10_01": 1100,
+        "sourceUrl": "https://dcpaidfamilyleave.dc.gov/program-updates/"
+      },
+      "notes": "Employer-funded tax; the DC Paid Family Leave program page says \"PFL remains fully employer-funded, with no payroll deductions required from employees\" (https://dcpaidfamilyleave.dc.gov/program-updates/). Rate is 0.75% in all four 2026 quarters per the DC rate table. No wage cap and no small-employer exemption appear on the pages read (absence, not a confirmed negative). Start: the DC historical rate table lists 2019 Quarter 2 as its first row; my recollection is that the tax began July 1, 2019, so treat 2019-04-01 as the page-listed first quarter. Surprise: FY2027 Budget Support Act cuts family leave to 6 weeks, medical to 10 weeks and the weekly max to $1,100 effective Oct 1, 2026. Benefits page also says the max is $1,190 (min wage $18.40).",
+      "dateRead": "2026-09-29"
+    },
+    "US-DE": {
+      "status": "read",
+      "ratePercent": 0.8,
+      "employeePercent": 0.4,
+      "employerPercent": 0.4,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": "Employers with nine or fewer employees are exempt (may join voluntarily). Employers with 10 to 24 employees only have to provide parental leave, at a lower rate.",
+      "contributionsBeginAt": "2025-01-01",
+      "sourceUrl": "https://laborfiles.delaware.gov/main/pfl/FAQs/DDOL41583_HowPaidLeaveWorks_FAQs_v1.pdf",
+      "quote": "The rates are guaranteed through 2026 at 0.8% of wages, and there are component rates for each line of coverage. Employers can require their employees to pay up to 50% of the cost of the program through payroll deductions.",
+      "benefit": {
+        "replacement": "the employee can receive 80% of their weekly wages, up to $900 per week.",
+        "maxWeeklyDollars": 900,
+        "sourceUrl": "https://laborfiles.delaware.gov/main/pfl/FAQs/DDOL41583_HowPaidLeaveWorks_FAQs_v1.pdf"
+      },
+      "notes": "The employer is legally responsible for all contributions; it may require employees to pay up to half, so employee 0.4% is a maximum and employer 0.4% is the minimum. Cap: the FAQ says contributions are based on wages \"established by FICA rules\"; the $184,500 figure is inferred from the 2026 Social Security wage base stated on the Oregon/Washington pages. Begin date: key-dates FAQ (https://laborfiles.delaware.gov/main/pfl/FAQs/DDOL41583_KeyDates_FAQs_v1.pdf) says that on January 1, 2025 employers who share cost began deducting employee contributions. Exemption text from https://labor.delaware.gov/delaware-paid-leave/employers/ (\"Employers with nine or fewer employees\"); the 10-24 rule is from the FAQ above. Benefits began 2026-01-01 (not verified on a page).",
+      "dateRead": "2026-09-29"
+    },
+    "US-MA": {
+      "status": "read",
+      "ratePercent": 0.88,
+      "employeePercent": 0.46,
+      "employerPercent": 0.42,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": "Employers with fewer than 25 covered individuals pay no employer share: total effective rate 0.46% of eligible wages, all of it withholdable from employees.",
+      "contributionsBeginAt": "2019-07-01",
+      "sourceUrl": "https://www.mass.gov/info-details/paid-family-and-medical-leave-employer-contribution-rates-and-calculator",
+      "quote": "Employers with 25 or more covered individuals must send to DFML a contribution of 0.88% of eligible wages",
+      "benefit": {
+        "replacement": "The portion of your IAWW that is equal to or less than 50% of the SAWW is replaced at a rate of 80%; the portion above 50% of SAWW is replaced at 50%; maximum is 64% of SAWW",
+        "maxWeeklyDollars": 1230.39,
+        "sourceUrl": "https://www.mass.gov/info-details/how-pfml-weekly-benefit-amounts-are-calculated-andor-changed",
+        "maxWeeklyQuote": "In 2026, the maximum weekly benefit is $1,230.39.",
+        "maxWeeklyQuoteUrl": "https://www.mass.gov/info-details/paid-family-and-medical-leave-pfml-overview-and-benefits"
+      },
+      "notes": "Split for 25+ employers: employees may bear up to 100% of family leave (0.18%) and up to 40% of medical leave (0.28%) = 0.46% of wages; employer pays the remaining 60% of medical (0.42%). The page says the same structure applies to 2025 and 2026. Cap is the Social Security taxable maximum (page text); $184,500 figure is from Oregon/Washington pages. Begin date 2019-07-01 is background knowledge, not on the fetched pages. Chapter 101 of the Acts of 2026 shifts employer contributions from medical to family leave effective January 1, 2027 (the 2027 total rate is not yet set).",
+      "dateRead": "2026-09-29"
+    },
+    "US-MD": {
+      "status": "read",
+      "ratePercent": 0.9,
+      "employeePercent": 0.45,
+      "employerPercent": 0.45,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": "Employers with fewer than 15 total employees remit only 50% of the contribution rate (the employee half); no employer share.",
+      "contributionsBeginAt": "2027-01-01",
+      "sourceUrl": "https://paidleave.maryland.gov/employers/make-contributions/",
+      "quote": "MD Labor set the initial contribution rate at 0.9% of wages up to the Social Security wage cap. The contribution amount is split equally between employers and employees (0.45% each).",
+      "benefit": {
+        "replacement": "Not read: fetched pages say only \"up to $1,000 per week\" and up to 12 weeks, benefits from January 2028.",
+        "maxWeeklyDollars": 1000,
+        "sourceUrl": "https://paidleave.maryland.gov/employees/"
+      },
+      "notes": "NOTHING is collected in 2026. The 0.9% rate applies to wages paid January 1, 2027 through December 31, 2027; first payment due April 30, 2027. Rate figures are recorded for the 2027 start, not 2026. Wage cap is the Social Security wage cap for the year in question; the 2027 dollar figure is not published on the pages read, so wageCapDollars is null. Total rate cannot exceed 1.2%. MD Labor announces the following year's rate each November starting November 2027. Employer size counted per quarter in 2027, averaged from 2028. wageCapDollars is the 2026 Social Security wage base, from the quoted \"up to the Social Security wage cap\"; the base for 2027, when collection begins, has not been read.",
+      "dateRead": "2026-09-29"
+    },
+    "US-ME": {
+      "status": "read",
+      "ratePercent": 1,
+      "employeePercent": 0.5,
+      "employerPercent": 0.5,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": "Employers with fewer than 15 employees remit 0.5% of wages and may deduct all of it from employees, so they pay no employer share.",
+      "contributionsBeginAt": "2025-01-01",
+      "sourceUrl": "https://www.maine.gov/paidleave/docs/2026/employers/faq/employerFAQenglish.pdf",
+      "quote": "Employers with 15 or more employees will contribute 1 percent of wages and may deduct up to half of the contribution from the employees’ wages.",
+      "benefit": {
+        "replacement": "Tier 1: 90% wage replacement on earnings up to 50% of SAWW; Tier 2: 66% wage replacement on earnings exceeding 50% of the SAWW; maximum weekly benefit equals the State Average Weekly Wage",
+        "maxWeeklyDollars": 1198,
+        "sourceUrl": "https://www.maine.gov/paidleave/docs/2026/employers/MainePFMLBenefitsWebinar03232026.pdf"
+      },
+      "notes": "For 2025-2027 the FAQ says the joint rate is 0.5 or 1 percent by employer size, with no more than 0.5 percent from the employee. Cap is the Social Security base (Employers Guide: https://www.maine.gov/paidleave/docs/2024/EmployersGuidetoMainePFMLContributions.pdf); $184,500 from the Oregon/Washington pages. Employer page says \"January 2025 Contributions began\" and \"May 2026 Benefits phase begins\" (https://www.maine.gov/paidleave/employers/index.shtml). maxWeeklyDollars 1198 is the cap shown in the webinar example (\"Max is $1,198\"), which I take to be the SAWW used for 2026; the page does not label it as such.",
+      "dateRead": "2026-09-29"
+    },
+    "US-MN": {
+      "status": "read",
+      "ratePercent": 0.88,
+      "employeePercent": 0.44,
+      "employerPercent": 0.44,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": "Not an exemption: small employers (30 or fewer workers each quarter and average wage at most 150% of the statewide average wage) pay a reduced total rate of 0.66%; employees may still be charged 0.44%, so the employer share can be as low as 0.22%.",
+      "contributionsBeginAt": "2026-01-01",
+      "sourceUrl": "https://pl.mn.gov/resources/calculators/premium-rate-and-contributions",
+      "quote": "For 2026 and 2027, the Paid Leave premium rate is 0.88%. This rate covers Family Leave (0.27%) and Medical Leave (0.61%). Small employers pay less. The Paid Leave small employer rate is 0.66%. The premiums are split between employers and employees. Under the Paid Leave law, employers can collect up to 0.44% from employees, or employers can choose to cover more.",
+      "benefit": {
+        "replacement": "Most people will receive between 55% and 90% of their regular wages while on leave, with a maximum amount set at the state's average wage.",
+        "maxWeeklyDollars": 1423,
+        "sourceUrl": "https://pl.mn.gov/individuals/how-paid-leave-works",
+        "maxWeeklyQuote": "Right now, this is $1,423 per week."
+      },
+      "notes": "Employer share is at least 50% for regular employers and 33% for small employers (calculator text). Premiums are capped at the OASDI limit; $184,500 from the Oregon/Washington pages, not stated on the MN page. First premiums (for 2026 wages) were due April 30, 2026 per the MN page, so contributions began with wages from January 1, 2026 (date inferred). Family 0.27% and medical 0.61% components. mn13 page: https://pl.mn.gov/employers/small-employers.",
+      "dateRead": "2026-09-29"
+    },
+    "US-NJ": {
+      "status": "read",
+      "ratePercent": 0.23,
+      "employeePercent": 0.23,
+      "employerPercent": 0,
+      "wageCapDollars": 171100,
+      "smallEmployerExemption": null,
+      "contributionsBeginAt": "2009-01-01",
+      "sourceUrl": "https://nj.gov/labor/myleavebenefits/employer/",
+      "quote": "For 2026, workers contribute 0.23% on the first $171,100 ( wage cap ) in covered wages earned during this calendar year.",
+      "benefit": {
+        "replacement": "Claimants are paid 85% of their average weekly wage up to the maximum weekly benefit rate set for that calendar year.",
+        "maxWeeklyDollars": 1119,
+        "sourceUrl": "https://nj.gov/labor/myleavebenefits/employer/",
+        "maxWeeklyQuote": "In 2026, the maximum weekly benefit rate is $1,119 per week."
+      },
+      "notes": "Recorded: Family Leave Insurance (FLI) only, which is a SEPARATE deduction from Temporary Disability Insurance (TDI). FLI is 100% worker-paid. TDI 2026 (separate): employers 0.10% to 0.75% on the first $44,800 per employee ($44.80 to $336.00); employees 0.19% on the first $171,100 (max $325.09). Page text: \"Family Leave Insurance: Employers: No contribution. Employees: 0.23% on the first $171,100 in covered wages (max $393.53).\" Start date 2009-01-01 is background knowledge, not on the fetched page. The 85% / $1,119 sentence is in the same page as both programs; NJ uses the same benefit formula for TDI and FLI (assumption for FLI).",
+      "dateRead": "2026-09-29"
+    },
+    "US-NY": {
+      "status": "read",
+      "ratePercent": 0.432,
+      "employeePercent": 0.432,
+      "employerPercent": 0,
+      "wageCapDollars": 95349,
+      "smallEmployerExemption": null,
+      "contributionsBeginAt": "2018-01-01",
+      "sourceUrl": "https://paidfamilyleave.ny.gov/2026",
+      "quote": "For 2026, employees will contribute 0.432 % of their gross wages per pay period, with a maximum annual contribution of $411.91.",
+      "benefit": {
+        "replacement": "Employees taking Paid Family Leave receive 67% of their average weekly wage, up to a cap of 67% of the current New York State Average Weekly Wage (NYSAWW).",
+        "maxWeeklyDollars": 1228.53,
+        "sourceUrl": "https://paidfamilyleave.ny.gov/2026",
+        "maxWeeklyQuote": "the maximum weekly benefit is $1,228.53"
+      },
+      "notes": "Employee-paid (payroll deduction); NY page describes no employer contribution to PFL. wageCapDollars is derived: the page gives a $411.91 annual maximum and says the NYSAWW of $1,833.63 is \"about $95,300 a year\"; 52 x 1,833.63 = $95,348.76, rounded to 95,349. Start: page says PFL first launched in 2018 (benefits); 2018-01-01 is the launch date, and payroll deductions began earlier (my recollection: mid-2017, not on the page). NY TDI (disability) is a separate deduction and is NOT included.",
+      "dateRead": "2026-09-29"
+    },
+    "US-OR": {
+      "status": "read",
+      "ratePercent": 1,
+      "employeePercent": 0.6,
+      "employerPercent": 0.4,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": "Employers with fewer than 25 employees on average pay no employer share (they still remit the employee 0.6%).",
+      "contributionsBeginAt": "2022-01-01",
+      "sourceUrl": "https://paidleave.oregon.gov/employers-overview/",
+      "quote": "The total contribution rate for 2026 is 1% of gross wages up to $184,500 (This may change from year to year, but the rate will never be more than 1%.) Large employers (25 or more employees on average) pay 40% of the total 1% contribution rate and employees pay 60% of the 1% contribution rate",
+      "benefit": {
+        "replacement": "Sliding scale using base-year wages and the state average weekly wage (calculator page); maximum is 120% of the state average weekly wage. The exact replacement percentages and the 2026 dollar maximum were not on the pages fetched.",
+        "maxWeeklyDollars": null,
+        "sourceUrl": "https://paidleave.oregon.gov/resources/common-questions.html",
+        "maxWeeklyQuote": "The maximum amount an employee will be paid is 120% of the state average weekly wage"
+      },
+      "notes": "Rate cannot exceed 1% by law (page). Employer share 0.4% applies only to employers with 25+ employees. Start date 2022-01-01 is background knowledge (contributions began January 2022; benefits September 2023), not on the fetched pages.",
+      "dateRead": "2026-09-29"
+    },
+    "US-RI": {
+      "status": "unread",
+      "ratePercent": null,
+      "employeePercent": null,
+      "employerPercent": null,
+      "wageCapDollars": null,
+      "smallEmployerExemption": null,
+      "contributionsBeginAt": null,
+      "sourceUrl": null,
+      "quote": null,
+      "benefit": {
+        "replacement": null,
+        "maxWeeklyDollars": null,
+        "sourceUrl": null
+      },
+      "triedUrls": [
+        "https://tdi.ri.gov/ (proxy CONNECT refused, 502)",
+        "https://dlt.ri.gov/ (403, Cloudflare \"Just a moment\" challenge)",
+        "https://dlt.ri.gov/individuals/temporary-disability-insurance-caregiver-insurance (403)",
+        "https://dlt.ri.gov/employers/temporary-disability-insurance-tdi-caregiver-insurance-tci-employers (403)",
+        "https://dlt.ri.gov/tdi (403)",
+        "https://tax.ri.gov/ (403)",
+        "https://tax.ri.gov/tax-sections/employer-tax/temporary-disability-insurance (403)",
+        "https://labor.ri.gov/ (proxy refused)",
+        "https://webserver.rilegislature.gov/Statutes/TITLE28/28-39/28-39-7.htm (read, but it only creates the reserve fund and gives no rate)"
+      ],
+      "notes": "Unread: every Rhode Island Department of Labor and Training page blocks curl. RI TDI/TCI is a single employee-paid payroll deduction (TCI, the caregiver program, shares the TDI deduction), but no 2026 rate, cap or benefit figure was read, so none is recorded.",
+      "dateRead": "2026-09-29"
+    },
+    "US-VA": {
+      "status": "read",
+      "ratePercent": null,
+      "employeePercent": null,
+      "employerPercent": null,
+      "wageCapDollars": null,
+      "smallEmployerExemption": "Employers with 10 or fewer employees are not required to pay the employer contribution.",
+      "contributionsBeginAt": "2028-04-01",
+      "sourceUrl": "https://www.vec.virginia.gov/pfml",
+      "quote": "April 1, 2028 Payroll contributions begin for covered employers and employees.",
+      "benefit": {
+        "replacement": "It is designed to provide wage replacement of up to 80% of the employee’s average weekly wage, up to a cap of the state’s average weekly wage.",
+        "maxWeeklyDollars": null,
+        "sourceUrl": "https://www.vec.virginia.gov/pfml"
+      },
+      "notes": "Nothing collected in 2026. Rate not set yet: \"The VEC Commissioner will establish the Paid Family and Medical Leave contribution rate for calendar year 2028\" by October 1, 2027, and annually by October 1 after that. FAQ (https://www.vec.virginia.gov/pfml-faq, PDF): contribution \"typically split 50/50\", employers may pay a larger share, small businesses exempt from employer contributions; benefits about 80% of weekly wages, capped at 100% of the statewide average weekly wage. Benefits available from December 1, 2028; program administration starts January 1, 2028.",
+      "dateRead": "2026-09-29"
+    },
+    "US-WA": {
+      "status": "read",
+      "ratePercent": 1.13,
+      "employeePercent": 0.8071,
+      "employerPercent": 0.3229,
+      "wageCapDollars": 184500,
+      "smallEmployerExemption": "Employers with fewer than 50 employees pay no employer share (they remit the employee share).",
+      "contributionsBeginAt": "2019-01-01",
+      "sourceUrl": "https://paidleave.wa.gov/app/uploads/2021/12/Employer-Wage-Reporting-and-Premiums-Toolkit-v25.1-2026.06.26.pdf",
+      "quote": "For 2026, the premium rate is 1.13 percent of each employee’s gross wages (excluding tips), up to the Social Security cap.",
+      "benefit": {
+        "replacement": "Your employee will receive up to 90 percent of their weekly pay, up to the maximum weekly benefit amount, which is updated yearly.",
+        "maxWeeklyDollars": 1647,
+        "sourceUrl": "https://paidleave.wa.gov/how-paid-leave-works/",
+        "maxWeeklyQuote": "2026 = $1,647 / week"
+      },
+      "notes": "Employee share 71.43% and employer share 28.57% of the total premium (toolkit formulas \"Gross wages x 0.0113 x 0.7143\" and the remainder), so 0.8071% and 0.3229% of wages are computed by me. Cap: toolkit says \"In 2026 the social security cap is $184,500.\" Small-employer text: \"Businesses with fewer than 50 employees (as calculated by the department) are exempt from the employer portion of the Paid Leave premium.\" Start date 2019-01-01 inferred from the toolkit historical premium table, which starts in 2019 (benefits began 2020). WA Cares long-term-care premium (0.58%, employee-only) is separate and not included.",
+      "dateRead": "2026-09-29"
+    }
+  }
+}

@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as legislativeProcedureWorld from "./legislative-procedure-world";
 
 import {
   bodyForChamber,
@@ -11,7 +12,7 @@ import {
   type LegislativeScenario,
 } from "./legislation-scenarios";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
-import { daysBetween } from "./dates";
+import { addDays, daysBetween } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   attemptVetoOverride,
@@ -296,10 +297,34 @@ describe("Kentucky bicameral path", () => {
       action: "signed",
       rationale: "The Governor supported the transit pilot.",
     });
+    expect(() =>
+      recordEnactment(world, {
+        stableKey: "conflicting-date",
+        measureId: scenario.measureId,
+        effectiveAt: world.currentDate,
+        effectiveDateGameProfile: {
+          version: "fixture-kentucky-date/v1",
+          days: 45,
+        },
+      }),
+    ).toThrow(/either an explicit effective date or a game profile/);
     world = recordEnactment(world, {
       stableKey: "enactment",
       measureId: scenario.measureId,
       actDesignation: "2026 Ky. Acts ch. 14",
+      effectiveDateGameProfile: {
+        version: "fixture-kentucky-date/v1",
+        days: 45,
+      },
+    });
+
+    expect(world.history.legislativeEnactments?.at(-1)).toMatchObject({
+      effectiveAt: addDays(world.currentDate, 45),
+      effectiveDateBasis: "game-default",
+      effectiveDateGameProfile: {
+        version: "fixture-kentucky-date/v1",
+        days: 45,
+      },
     });
 
     position = measurePosition(world, scenario.measureId);
@@ -308,6 +333,25 @@ describe("Kentucky bicameral path", () => {
     expect(position.outcome).toBe("enacted");
     expect(availableMeasureSteps(world, scenario.measureId)).toEqual([]);
     expect(() => assertWorldIntegrity(world)).not.toThrow();
+    const enactment = world.history.legislativeEnactments!.at(-1)!;
+    const altered = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeEnactments: [
+          {
+            ...enactment,
+            effectiveDateGameProfile: {
+              version: "fixture-kentucky-date/v1",
+              days: 46,
+            },
+          },
+        ],
+      },
+    } satisfies World;
+    expect(() => assertWorldIntegrity(altered)).toThrow(
+      /effective date does not match its profile/,
+    );
   });
 
   it("applies each chamber's own denominator on the floor", () => {
@@ -639,6 +683,43 @@ describe("Nebraska unicameral path", () => {
 describe("Alaska joint-session override", () => {
   const scenario = createLegislativeScenario("alaska");
 
+  it("records the source-backed ninety-day effective date and keeps it through reload", () => {
+    let world = toFloor(scenario, scenario.world, "house", 4);
+    world = clearFloor(scenario, world, "house", 25);
+    world = transmitMeasure(world, {
+      stableKey: "effective:transmit",
+      measureId: scenario.measureId,
+    });
+    world = toFloor(scenario, world, "senate", 4);
+    world = clearFloor(scenario, world, "senate", 15);
+    world = enrollMeasure(world, {
+      stableKey: "effective:enroll",
+      measureId: scenario.measureId,
+    });
+    world = presentMeasureToExecutive(world, {
+      stableKey: "effective:present",
+      measureId: scenario.measureId,
+    });
+    world = recordExecutiveAction(world, {
+      stableKey: "effective:sign",
+      measureId: scenario.measureId,
+      action: "signed",
+      rationale: "The Governor signed the measure.",
+    });
+    world = recordEnactment(world, {
+      stableKey: "effective:enact",
+      measureId: scenario.measureId,
+    });
+    const enactment = world.history.legislativeEnactments!.at(-1)!;
+    expect(enactment.effectiveAt).toBe(addDays(enactment.resolvedAt, 90));
+    expect(enactment.effectiveDateBasis).toBe("source-default");
+    expect(
+      deserializeWorld(serializeWorld(world)).history.legislativeEnactments?.at(
+        -1,
+      ),
+    ).toEqual(enactment);
+  });
+
   function toVeto(): World {
     let world = toFloor(scenario, scenario.world, "house", 4);
     world = clearFloor(scenario, world, "house", 25);
@@ -807,6 +888,114 @@ describe("Procedural discipline", () => {
         provenance: AUTHORED,
       }),
     ).toThrow(/Member voted twice/);
+  });
+
+  it.each([
+    {
+      key: "kentucky",
+      chamberKey: "house",
+      committeeYeas: 9,
+      elected: 60,
+      short: 30,
+      required: 31,
+    },
+    {
+      key: "nebraska",
+      chamberKey: "legislature",
+      committeeYeas: 5,
+      elected: 47,
+      short: 23,
+      required: 24,
+    },
+    {
+      key: "alaska",
+      chamberKey: "house",
+      committeeYeas: 4,
+      elected: 35,
+      short: 20,
+      required: 21,
+    },
+  ])(
+    "preserves $key's declared vacancy denominator in an actual floor record",
+    ({ key, chamberKey, committeeYeas, elected, short, required }) => {
+      const fixture = createLegislativeScenario(key);
+      const ready = toFloor(fixture, fixture.world, chamberKey, committeeYeas);
+      const members = bodyForChamber(fixture, chamberKey).members.slice(
+        0,
+        elected,
+      );
+      const input = {
+        stableKey: `${key}:vacant-seats`,
+        measureId: fixture.measureId,
+        electedMembers: elected,
+        provenance: AUTHORED,
+      };
+      expect(() =>
+        takeFloorVote(ready, {
+          ...input,
+          presentMembers: short,
+          dispositions: dispositionsFromCounts(members, { yea: short, nay: 0 }),
+        }),
+      ).toThrow(`${short} present, ${required} required`);
+      const passed = takeFloorVote(ready, {
+        ...input,
+        presentMembers: required,
+        dispositions: dispositionsFromCounts(members, {
+          yea: required,
+          nay: 0,
+        }),
+      });
+      expect(measureVotes(passed, fixture.measureId).at(-1)?.tally.yea).toBe(
+        required,
+      );
+      expect(deserializeWorld(serializeWorld(passed))).toEqual(passed);
+    },
+  );
+
+  it("does not treat an unresolved quorum as permission to transact business", () => {
+    const world = toFloor(scenario, scenario.world, "house", 9);
+    const body = bodyForChamber(scenario, "house");
+    const resolvePack = legislativeProcedureWorld.legislativeRulePackForWorld;
+    const spy = vi
+      .spyOn(legislativeProcedureWorld, "legislativeRulePackForWorld")
+      .mockImplementation((current, packId) => {
+        const pack = resolvePack(current, packId);
+        return packId !== scenario.pack.packId
+          ? pack
+          : {
+              ...pack,
+              chambers: pack.chambers.map((chamber) => ({
+                ...chamber,
+                quorum: unknownRule(
+                  "This bounded fixture leaves the quorum unresolved.",
+                ),
+              })),
+            };
+      });
+    try {
+      expect(() =>
+        takeFloorVote(world, {
+          stableKey: "unresolved-quorum",
+          measureId: scenario.measureId,
+          dispositions: dispositionsFromCounts(body.members, {
+            yea: body.members.length,
+            nay: 0,
+          }),
+          presentMembers: body.members.length,
+          electedMembers: body.members.length,
+          provenance: AUTHORED,
+        }),
+      ).toThrow(/quorum is unknown/);
+      expect(
+        measureVotes(world, scenario.measureId).filter(
+          (vote) => vote.purpose === "floor-stage",
+        ),
+      ).toEqual([]);
+      expect(measurePosition(world, scenario.measureId).phase).toBe("on-floor");
+      expect(deserializeWorld(serializeWorld(world))).toEqual(world);
+    } finally {
+      spy.mockRestore();
+    }
   });
 
   it("records an amendment and its own vote at an amendable stage", () => {

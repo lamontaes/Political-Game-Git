@@ -1,0 +1,83 @@
+{
+  "status": "three production rent writers scoped-ready; permit helper has no caller",
+  "questions": [
+    "us-policy-positions:housing-land-use.rent-stabilization",
+    "us-policy-positions:housing-land-use.inclusionary-requirement",
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction"
+  ],
+  "productionWriters": [
+    "town-rent.ts::startTownLeases",
+    "town-rent.ts::renewTownLeases",
+    "town-rent.ts::actOnArrears -> rentEvent"
+  ],
+  "proof": "Generated five-state controlled fixtures, authored legislative enactments and price-path inputs; JSON persistence. Not natural enactment, canonical legislative fixture reopening or nationwide proof. Integrity deferral remains confined to existing fixture composition.",
+  "checks": {
+    "affectedFourFiles": "27/27 PASS 54.05 seconds",
+    "finalNamedReceipt": "5/5 PASS 24.43 seconds",
+    "strictRoots": 4,
+    "typeDiagnostics": 0,
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "whitespace": "PASS"
+  },
+  "places": [
+    {
+      "placeKey": "1921000",
+      "placeName": "Des Moines, Iowa",
+      "tenantPersonId": "person_d675f558fe2a542b",
+      "tenantName": "Travis Tate"
+    },
+    {
+      "placeKey": "0203000",
+      "placeName": "Anchorage, Alaska",
+      "tenantPersonId": "person_6338400112c73877",
+      "tenantName": "Ray Wilkins"
+    },
+    {
+      "placeKey": "4260000",
+      "placeName": "Philadelphia, Pennsylvania",
+      "tenantPersonId": "person_65dc979370d88ea1",
+      "tenantName": "Cheryl Hester"
+    },
+    {
+      "placeKey": "2836000",
+      "placeName": "Jackson, Mississippi",
+      "tenantPersonId": "person_56308da3f4145f33",
+      "tenantName": "Amber Cortez"
+    },
+    {
+      "placeKey": "5010675",
+      "placeName": "Burlington, Vermont",
+      "tenantPersonId": "person_4eff9d09c7798d02",
+      "tenantName": "Quinn Lewis"
+    }
+  ],
+  "fixtureFailuresPreserved": [
+    "jurisdiction stableKey lookup",
+    "future renewal clock",
+    "missing enactment provenance event",
+    "empty event entity list",
+    "same-date repeal tie",
+    "income predates housing tenure",
+    "reused flow/obligation identity",
+    "duplicate tenant cash position",
+    "case filed on last observed month",
+    "unknown position uses undefined rather than null",
+    "new affordable-renewal expectation omitted existing whole-dollar rounding"
+  ],
+  "productionRegression": "Existing rent suite exposed eager OUTCOME_LINKS import-cycle failure; fixed in owned helper with lazy immutable lookup. Four-file regression now passes.",
+  "notRun": [
+    "nationwide",
+    "browser",
+    "speed owner-paused",
+    "independent reviewer owner forbids new helpers",
+    "production permit helper caller"
+  ],
+  "ownership": "Only granted town-rent saved consequence stamping, owned housing-market helper and focused tests. No shared resources/world/types/budgets/catalog/maps changed.",
+  "selectedStampedRecords": 20,
+  "currentMainCompared": "b0fb2464f682f72e6a970a87b353074fa530034f",
+  "sharedGateLimits": {
+    "release": "unchanged malformed wave1-playtest-copy header, exit1",
+    "zeroDice": "0new/5gone, exit1 inherited stale baseline"
+  }
+}

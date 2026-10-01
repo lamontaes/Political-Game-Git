@@ -1,0 +1,127 @@
+{
+  "sourceHead": "fee2a82fe5e3527e0085a407386dcc1f089b708c",
+  "status": "Research contracts only; no runtime activation or measured zero",
+  "removedLink": "social-media-age-check-to-graduation",
+  "replacements": [
+    {
+      "key": "social-media-age-verification-to-platform-compliance-cost",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "business.age-verification-compliance-cost",
+      "why": [
+        "Covered platforms must operate an age-assurance or consent process.",
+        "The process uses a verifier, staff or technical system.",
+        "Their actual invoices, labor and implementation records create compliance costs."
+      ],
+      "who": "Covered platforms and their verification vendors.",
+      "reverseOnRepeal": "Repeal can end prospective verification duties; sunk implementation costs and existing contracts do not instantly disappear.",
+      "conditions": [
+        "Only platforms/users covered by the operative statute, accounting for exclusions and consent alternatives.",
+        "Unknown authority is not permission; read canonical law at the applicable level and date.",
+        "Apply only where the relevant provision is operative and enforceable."
+      ],
+      "lagWhy": "Implementation follows the legal operative date; startup and recurring costs must be separated.",
+      "aboutZero": false,
+      "size": null,
+      "range": null,
+      "per": "completed verification / platform implementation",
+      "numericStatus": "NOT_SIZED_NOT_ENABLED",
+      "missingResearch": "Implementation cost per platform and recurring cost per completed verification, with estimate and uncertainty; no empirical per-world range available in the read source.",
+      "source": "Existing per-state legal corpus; Florida Statutes501.1736, Virginia Code59.1-577.1, NetChoice v.Griffin and applicable state-specific court orders cited there.",
+      "namedPersonConsumer": "No person feels this yet: no canonical platform account/access/identity-submission reader was found in the inspected source.",
+      "runtimePiecesMissing": [
+        "canonical platform/user decision and consequence records",
+        "consumer/news adapter for actual named affected records"
+      ]
+    },
+    {
+      "key": "social-media-age-verification-to-teen-account-access",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "person.social-media-account-access",
+      "why": [
+        "The law sets age and parental-consent conditions on covered accounts.",
+        "A platform checks the actual user's age and required consent.",
+        "It permits, refuses or terminates that person's account according to the legal rule."
+      ],
+      "who": "Actual teen users and guardians with recorded platform/account requests.",
+      "reverseOnRepeal": "Repeal removes prospective legal restrictions; an account must still be requested or restored and platform rules may persist.",
+      "conditions": [
+        "Read actual birth date, platform coverage, consent and exemption records; no blanket teen ban.",
+        "Unknown authority is not permission; read canonical law at the applicable level and date.",
+        "Apply only where the relevant provision is operative and enforceable."
+      ],
+      "lagWhy": "At a recorded account or verification decision after the law becomes operative.",
+      "aboutZero": false,
+      "size": null,
+      "range": null,
+      "per": "actual saved account or data-collection decision",
+      "numericStatus": "NOT_SIZED_NOT_ENABLED",
+      "missingResearch": "Rate of actual access refusals/restorations among covered users, with uncertainty; exact legal age boundaries are rules, not a guessed population effect.",
+      "source": "Existing per-state legal corpus; Florida Statutes501.1736, Virginia Code59.1-577.1, NetChoice v.Griffin and applicable state-specific court orders cited there.",
+      "namedPersonConsumer": "No person feels this yet: no canonical platform account/access/identity-submission reader was found in the inspected source.",
+      "runtimePiecesMissing": [
+        "canonical platform/user decision and consequence records",
+        "consumer/news adapter for actual named affected records"
+      ]
+    },
+    {
+      "key": "social-media-age-verification-to-id-privacy-exposure",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "person.identity-verification-data-exposure",
+      "why": [
+        "A chosen compliance method requests identity or age evidence.",
+        "The user or guardian supplies evidence to the platform or verifier.",
+        "Recorded collection, storage and sharing create an identity-data exposure; a breach requires its own event."
+      ],
+      "who": "Users and guardians who actually submit identity/age evidence.",
+      "reverseOnRepeal": "Ending the mandate does not erase already held data; retention/deletion follows actual records and legal obligations.",
+      "conditions": [
+        "Privacy-preserving methods may avoid identity document collection; do not equate age verification with every user uploading ID.",
+        "Unknown authority is not permission; read canonical law at the applicable level and date.",
+        "Apply only where the relevant provision is operative and enforceable."
+      ],
+      "lagWhy": "At recorded collection; retention and any breach have separate dates.",
+      "aboutZero": false,
+      "size": null,
+      "range": null,
+      "per": "actual saved account or data-collection decision",
+      "numericStatus": "NOT_SIZED_NOT_ENABLED",
+      "missingResearch": "Method-specific identity-data collection/retention rates and costs; no breach rate or universal identity-upload assumption is supported.",
+      "source": "Existing per-state legal corpus; Florida Statutes501.1736, Virginia Code59.1-577.1, NetChoice v.Griffin and applicable state-specific court orders cited there.",
+      "namedPersonConsumer": "No person feels this yet: no canonical platform account/access/identity-submission reader was found in the inspected source.",
+      "runtimePiecesMissing": [
+        "canonical platform/user decision and consequence records",
+        "consumer/news adapter for actual named affected records"
+      ]
+    },
+    {
+      "key": "social-media-age-verification-injunction-to-operation",
+      "from": "law:us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "to": "law.social-media-age-verification-operative-status",
+      "why": [
+        "A court order can enjoin the covered provisions.",
+        "The order binds the defendants and scope it actually names.",
+        "The legal reader must treat those provisions as unenforceable during the order's operative interval."
+      ],
+      "who": "Covered platforms, enforcing agencies and users within the actual order's reach.",
+      "reverseOnRepeal": "Lifting an injunction restores enforceability only as its order and statute allow; repeal removes the statutory duty.",
+      "conditions": [
+        "Court injunction, statutory preemption and lack of local authority are separate legal conditions; none establishes the others.",
+        "Unknown authority is not permission; read canonical law at the applicable level and date.",
+        "Apply only where the relevant provision is operative and enforceable."
+      ],
+      "lagWhy": "Use the exact court-order dates, stays, appeals and effective statutory dates.",
+      "aboutZero": false,
+      "size": null,
+      "range": null,
+      "per": "operative legal provision",
+      "numericStatus": "NOT_SIZED_NOT_ENABLED",
+      "missingResearch": "No population coefficient is needed for this legal gate. Exact scope, operative intervals and authorized levels must come from a court/statutory record; do not invent an effect-size range.",
+      "source": "Existing per-state legal corpus; Florida Statutes501.1736, Virginia Code59.1-577.1, NetChoice v.Griffin and applicable state-specific court orders cited there.",
+      "namedPersonConsumer": "No person feels this yet: no canonical platform account/access/identity-submission reader was found in the inspected source.",
+      "runtimePiecesMissing": [
+        "dated court-order scope/enforceability reader distinct from preemption"
+      ]
+    }
+  ],
+  "sourceLimits": "Existing legal corpus mixes primary statutes/orders and secondary trackers. Links below require actual platform/account/privacy/court records; none is fabricated or implemented by this batch."
+}

@@ -106,8 +106,88 @@ export const BODY_POSES = [
   "podium",
   "seated-leaning",
   "seated-legs-crossed",
+  "hands-in-pockets",
+  "seated-ankle-on-knee",
+  // What a seated person is doing (Sept. 29, 2026 sheets): each is painted
+  // for both presentations.
+  "seated-reading",
+  "seated-writing",
+  "seated-phone",
+  "seated-hands-folded",
+  "seated-listening",
+  "seated-relaxed",
 ] as const;
 export type BodyPose = (typeof BODY_POSES)[number];
+
+/**
+ * Each presentation's own body language (Lamontae, Sept. 28, 2026: the men
+ * read effeminate in the women's poses). A man puts his hands in his pockets
+ * where a woman rests a hand on her hip, and sits with an ankle on his knee
+ * where she crosses her legs; the rest they share, each painted for their
+ * own bodies.
+ */
+export const POSES_BY_PRESENTATION: Readonly<
+  Record<BodyPresentation, readonly BodyPose[]>
+> = {
+  feminine: [
+    "standing",
+    "seated",
+    "arms-folded",
+    "explaining",
+    "hand-on-hip",
+    "podium",
+    "seated-leaning",
+    "seated-legs-crossed",
+    "seated-reading",
+    "seated-writing",
+    "seated-phone",
+    "seated-hands-folded",
+    "seated-listening",
+    "seated-relaxed",
+  ],
+  masculine: [
+    "standing",
+    "seated",
+    "arms-folded",
+    "explaining",
+    "hands-in-pockets",
+    "podium",
+    "seated-leaning",
+    "seated-ankle-on-knee",
+    "seated-reading",
+    "seated-writing",
+    "seated-phone",
+    "seated-hands-folded",
+    "seated-listening",
+    "seated-relaxed",
+  ],
+};
+
+/** The same gesture in the other presentation's set. */
+const COUNTERPART: Partial<Record<BodyPose, BodyPose>> = {
+  "hand-on-hip": "hands-in-pockets",
+  "hands-in-pockets": "hand-on-hip",
+  "seated-legs-crossed": "seated-ankle-on-knee",
+  "seated-ankle-on-knee": "seated-legs-crossed",
+};
+
+/**
+ * A pose as this presentation strikes it: the pose itself when it is theirs,
+ * otherwise its counterpart in their set.
+ */
+export function presentationPose(
+  pose: BodyPose,
+  presentation: BodyPresentation,
+): BodyPose {
+  const own = POSES_BY_PRESENTATION[presentation];
+  if (own.includes(pose)) return pose;
+  const counterpart = COUNTERPART[pose];
+  return counterpart && own.includes(counterpart)
+    ? counterpart
+    : isSeatedPose(pose)
+      ? "seated"
+      : "standing";
+}
 /** The poses the pack keeps in its `poses` tables: all but the first two. */
 export type NamedBodyPose = Exclude<BodyPose, "standing" | "seated">;
 
@@ -115,6 +195,13 @@ const SEATED_POSES: ReadonlySet<BodyPose> = new Set([
   "seated",
   "seated-leaning",
   "seated-legs-crossed",
+  "seated-ankle-on-knee",
+  "seated-reading",
+  "seated-writing",
+  "seated-phone",
+  "seated-hands-folded",
+  "seated-listening",
+  "seated-relaxed",
 ]);
 
 export function isSeatedPose(pose: BodyPose): boolean {
@@ -150,6 +237,14 @@ export const POSE_PAINTED_TOWARD: Readonly<
   podium: null,
   "seated-leaning": null,
   "seated-legs-crossed": null,
+  "hands-in-pockets": null,
+  "seated-ankle-on-knee": null,
+  "seated-reading": null,
+  "seated-writing": null,
+  "seated-phone": null,
+  "seated-hands-folded": null,
+  "seated-listening": null,
+  "seated-relaxed": null,
 };
 
 export interface PackBody {
@@ -246,6 +341,79 @@ export interface PackHair {
 }
 
 /**
+ * Facial hair styles, painted in dark brown like the hair and recolored with
+ * it (so a beard grays when the hair does).
+ */
+export const FACIAL_HAIR_STYLES = [
+  "stubble",
+  "mustache",
+  "goatee",
+  "short-beard",
+  "full-beard",
+] as const;
+export type FacialHairStyle = (typeof FACIAL_HAIR_STYLES)[number];
+
+/**
+ * A layer drawn on the head, over the face and under the front hair: a
+ * facial hair style or a pair of glasses, painted for the view's canonical
+ * head (facial-hair-masculine-full-beard.png, glasses-round.png, and
+ * -three-quarter at the end for a turned head).
+ */
+export interface PackHeadLayer {
+  readonly id: string;
+  readonly file: string;
+}
+
+/**
+ * The kinds of thing a person can wear beyond the outfit. A kind may be
+ * painted in several variants (earrings-pearl, earrings-hoop): a variant's id
+ * is its kind, then a dash and its name.
+ */
+export const ACCESSORY_KINDS = [
+  "earrings",
+  "necklace",
+  "watch",
+  "ring",
+  "lapel-pin",
+] as const;
+export type AccessoryKind = (typeof ACCESSORY_KINDS)[number];
+
+/** Earrings sit on the head; the rest sit on the body. */
+export function accessoryPlacement(kind: AccessoryKind): "head" | "body" {
+  return kind === "earrings" ? "head" : "body";
+}
+
+/**
+ * Something worn beyond the outfit. Earrings sit on the head and are painted
+ * once per view, aligned to the head like glasses. A watch, a ring, a
+ * necklace or a lapel pin sits on the body, where the wrist, the hand and the
+ * lapel are in a different place in every pose and on every build, so it is
+ * painted per build and per pose like an outfit
+ * (accessory-<presentation>-<id>-<build>[-<pose>].png). Whatever has no
+ * painting for the pose and build being drawn draws no layer.
+ */
+export interface PackAccessory {
+  readonly id: string;
+  readonly kind: AccessoryKind;
+  readonly placement: "head" | "body";
+  /** A head accessory's painting. */
+  readonly file?: string;
+  /** A body accessory's paintings, standing, per build. */
+  readonly builds?: Partial<
+    Readonly<Record<BodyBuild, { readonly file: string }>>
+  >;
+  /** And in each other pose it has been painted in. */
+  readonly poses?: Partial<
+    Readonly<
+      Record<
+        Exclude<BodyPose, "standing">,
+        Partial<Readonly<Record<BodyBuild, { readonly file: string }>>>
+      >
+    >
+  >;
+}
+
+/**
  * The whole person turned: every piece of them painted in the view, file
  * names ending in the view id (body-feminine-lean-three-quarter.png,
  * body-feminine-lean-explaining-three-quarter.png, face-...-three-quarter.png).
@@ -256,6 +424,9 @@ export interface PackView extends PackPostures {
   /** Faces and hair by the same ids as the front ones. */
   readonly faces: readonly PackFace[];
   readonly hair: readonly PackHair[];
+  readonly facialHair?: readonly PackHeadLayer[];
+  readonly glasses?: readonly PackHeadLayer[];
+  readonly accessories?: readonly PackAccessory[];
   /** The side of the picture the painted person is turned toward. */
   readonly toward: "left" | "right";
 }
@@ -265,6 +436,12 @@ export interface PackPresentation extends PackPostures {
   readonly canonical: BodyAnchors;
   readonly faces: readonly PackFace[];
   readonly hair: readonly PackHair[];
+  /** Facial hair styles painted for this presentation, when any are. */
+  readonly facialHair?: readonly PackHeadLayer[];
+  /** Glasses frames painted for this presentation's heads, when any are. */
+  readonly glasses?: readonly PackHeadLayer[];
+  /** Earrings, watches, rings, necklaces and pins, when any are painted. */
+  readonly accessories?: readonly PackAccessory[];
   /** Every outfit style, in the order the creator's arrows step through. */
   readonly outfits: readonly PackOutfit[];
   /** The whole person turned, when it has been painted. */
@@ -319,6 +496,14 @@ export type OutfitBuilds = Partial<
   >
 >;
 
+/** Whether the glasses a recipe owns are on its face right now. */
+export function glassesOn(recipe: EngineRecipe): boolean {
+  return (
+    recipe.glasses !== undefined &&
+    (recipe.glassesWear !== "reading" || recipe.reading === true)
+  );
+}
+
 /** A pose's body for a build, or undefined when that body is not painted. */
 function poseBody(
   postures: PackPostures,
@@ -370,7 +555,9 @@ export function posedPieces(
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
   const views: readonly BodyView[] =
     recipe.view && recipe.view !== "front" ? [recipe.view, "front"] : ["front"];
-  for (const pose of poseFallbacks(recipe.pose ?? "standing"))
+  for (const pose of poseFallbacks(
+    presentationPose(recipe.pose ?? "standing", recipe.presentation),
+  ))
     for (const view of views) {
       const turned = view === "front" ? undefined : pack.views?.[view];
       if (view !== "front" && !turned) continue;
@@ -400,7 +587,42 @@ export function posedPieces(
       )
         continue;
       const expressed = expressedFace(viewFace, recipe.expression, available);
+      const headLayer = (
+        layers: readonly PackHeadLayer[] | undefined,
+        id: string | undefined,
+      ) => {
+        if (!id) return undefined;
+        const layer = layers?.find((entry) => entry.id === id);
+        return layer && available(layer.file) ? layer : undefined;
+      };
+      const postured: {
+        readonly facialHair?: readonly PackHeadLayer[];
+        readonly glasses?: readonly PackHeadLayer[];
+        readonly accessories?: readonly PackAccessory[];
+      } = turned ?? pack;
+      const wornAccessories = (recipe.accessories ?? []).flatMap((id) => {
+        const accessory = postured.accessories?.find(
+          (entry) => entry.id === id,
+        );
+        if (!accessory) return [];
+        const file =
+          accessory.placement === "head"
+            ? accessory.file
+            : (pose === "standing"
+                ? accessory.builds
+                : accessory.poses?.[pose])?.[recipe.build]?.file;
+        return file && available(file)
+          ? [{ id, placement: accessory.placement, file }]
+          : [];
+      });
       return {
+        /** Accessories drawn: those worn that this pose and view have. */
+        accessories: wornAccessories,
+        /** Absent when not worn, or when this view has no painting of it. */
+        facialHair: headLayer(postured.facialHair, recipe.facialHair),
+        glasses: glassesOn(recipe)
+          ? headLayer(postured.glasses, recipe.glasses)
+          : undefined,
         body,
         outfit: worn,
         face: expressed.face,
@@ -576,6 +798,16 @@ export interface EngineRecipe {
   readonly view?: BodyView;
   /** Neutral unless the moment shows on their face (expression-chooser.ts). */
   readonly expression?: FaceExpression;
+  /** A facial hair style (FACIAL_HAIR_STYLES), when they wear one. */
+  readonly facialHair?: string;
+  /** A glasses frame id, when they own glasses. */
+  readonly glasses?: string;
+  /** Glasses worn only to read; absent means worn all day. */
+  readonly glassesWear?: "reading";
+  /** Reading or at a desk now, so reading glasses are on. */
+  readonly reading?: boolean;
+  /** Accessory ids worn now (face-extras.ts accessoriesFor), in any order. */
+  readonly accessories?: readonly string[];
   /** The whole figure flipped left to right, to turn the other way. */
   readonly mirrored?: boolean;
 }
@@ -594,6 +826,11 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
     ...(recipe.expression && recipe.expression !== "neutral"
       ? [`face:${recipe.expression}`]
       : []),
+    ...(recipe.facialHair ? [`beard:${recipe.facialHair}`] : []),
+    ...(recipe.accessories?.length
+      ? [`wears:${[...recipe.accessories].sort().join("+")}`]
+      : []),
+    ...(glassesOn(recipe) ? [`glasses:${recipe.glasses}`] : []),
     ...(recipe.mirrored ? ["mirrored"] : []),
     ...Object.entries(recipe.colors ?? {})
       .sort()
@@ -608,12 +845,16 @@ export function recipeFiles(
   available?: (file: string) => boolean,
 ): readonly string[] {
   const pack = manifest.presentations[recipe.presentation];
-  const { body, outfit, face, hair } = posedPieces(pack, recipe, available);
+  const { body, outfit, face, hair, facialHair, glasses, accessories } =
+    posedPieces(pack, recipe, available);
   return [
     body.file,
     face.file,
     hair.back,
     hair.front,
+    ...(facialHair ? [facialHair.file] : []),
+    ...(glasses ? [glasses.file] : []),
+    ...accessories.map((accessory) => accessory.file),
     ...(outfit ? outfitFiles(outfit) : []),
   ];
 }
@@ -704,6 +945,9 @@ export function composeEnginePerson(
     view,
     expression,
     seated,
+    facialHair,
+    glasses,
+    accessories,
   } = posedPieces(pack, recipe, available);
   const ramp =
     SKIN_RAMPS[Math.min(SKIN_RAMPS.length, Math.max(1, recipe.shade)) - 1]!;
@@ -744,6 +988,33 @@ export function composeEnginePerson(
       raster: recolorSkin(image(face.file), ramp, face.skin),
       authoredFor: canonical,
     },
+    ...(facialHair
+      ? [
+          {
+            slot: "facial-hair" as const,
+            raster: tint(image(facialHair.file)),
+            authoredFor: canonical,
+          },
+        ]
+      : []),
+    ...(glasses
+      ? [
+          {
+            slot: "glasses" as const,
+            raster: image(glasses.file),
+            authoredFor: canonical,
+          },
+        ]
+      : []),
+    ...accessories.map((accessory) =>
+      accessory.placement === "head"
+        ? {
+            slot: "earrings" as const,
+            raster: image(accessory.file),
+            authoredFor: canonical,
+          }
+        : { slot: "jewelry" as const, raster: image(accessory.file) },
+    ),
     {
       slot: "front-hair",
       raster: tint(front),

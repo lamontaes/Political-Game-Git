@@ -49,9 +49,9 @@
   align-items: baseline;
   text-align: left;
   padding: 0.5rem 0.65rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0.35rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(92 64 28 / 4%);
   color: inherit;
   font: inherit;
   cursor: pointer;
@@ -59,11 +59,11 @@
 
 .docket-entry-button:hover,
 .docket-entry-button:focus-visible {
-  background: rgba(255, 255, 255, 0.09);
+  background: rgb(92 64 28 / 8%);
 }
 
 .docket-entry-open .docket-entry-button {
-  border-color: rgba(255, 255, 255, 0.45);
+  border-color: rgb(111 85 42 / 45%);
 }
 
 .docket-designation {
@@ -79,10 +79,10 @@
 
 .docket-bill,
 .drafting {
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0.4rem;
   padding: 0.75rem;
-  background: rgba(0, 0, 0, 0.12);
+  background: rgb(92 64 28 / 4%);
 }
 
 .docket-bill-heading {
@@ -122,7 +122,7 @@
   flex-direction: column;
   gap: 0.2rem;
   padding-inline-start: 0.6rem;
-  border-inline-start: 2px solid rgba(255, 255, 255, 0.22);
+  border-inline-start: 2px solid rgb(111 85 42 / 28%);
 }
 
 .docket-clause-heading {
@@ -154,7 +154,7 @@
 .docket-error {
   margin: 0.35rem 0;
   padding: 0.4rem 0.55rem;
-  border-inline-start: 3px solid rgba(255, 140, 120, 0.85);
+  border-inline-start: 3px solid rgb(111 85 42 / 85%);
   background: rgba(255, 140, 120, 0.1);
 }
 
@@ -169,6 +169,168 @@
   gap: 0.4rem;
 }
 
+.drafting-browser {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.drafting-browser-modes,
+.drafting-subject-list,
+.drafting-topic-list,
+.drafting-shared-group-list,
+.drafting-selected-crosslinks,
+.drafting-selected-groups {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.drafting-browser-mode,
+.drafting-subject,
+.drafting-topic,
+.drafting-shared-group,
+.drafting-location-link,
+.drafting-selected-crosslinks button,
+.drafting-selected-groups button {
+  max-width: 100%;
+  padding: 0.32rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.drafting-browser-mode:hover,
+.drafting-browser-mode:focus-visible,
+.drafting-subject:hover,
+.drafting-subject:focus-visible,
+.drafting-topic:hover,
+.drafting-topic:focus-visible,
+.drafting-shared-group:hover,
+.drafting-shared-group:focus-visible,
+.drafting-location-link:hover,
+.drafting-location-link:focus-visible,
+.drafting-selected-crosslinks button:hover,
+.drafting-selected-crosslinks button:focus-visible,
+.drafting-selected-groups button:hover,
+.drafting-selected-groups button:focus-visible {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.drafting-browser-mode-current,
+.drafting-subject-current,
+.drafting-shared-group-current {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.drafting-topic-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.84rem;
+  opacity: 0.9;
+}
+
+.drafting-topic-breadcrumbs > :not(:first-child)::before {
+  content: "›";
+  padding-inline-end: 0.35rem;
+  opacity: 0.65;
+}
+
+.drafting-topic-breadcrumbs button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  cursor: pointer;
+}
+
+.drafting-topic-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.drafting-topic {
+  min-height: 2.25rem;
+}
+
+.drafting-content-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.035);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.drafting-content-link:hover,
+.drafting-content-link:focus-visible {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.drafting-content-link-location {
+  font-size: 0.76rem;
+  opacity: 0.72;
+}
+
+.drafting-topic-links > ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.drafting-selection-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  margin: 0.65rem 0;
+  padding: 0.55rem;
+  border-inline-start: 2px solid rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.82rem;
+}
+
+.drafting-selection-context > p {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.drafting-selected-crosslinks > span,
+.drafting-selected-groups > span {
+  font-weight: 600;
+}
+
+.drafting-selected-crosslinks button,
+.drafting-selected-groups button,
+.drafting-location-link {
+  font-size: 0.78rem;
+}
+
+.drafting-empty {
+  margin: 0.35rem 0;
+  opacity: 0.8;
+}
+
 .drafting-option {
   width: 100%;
   height: 100%;
@@ -177,9 +339,9 @@
   gap: 0.15rem;
   text-align: left;
   padding: 0.55rem 0.65rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 0.35rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(92 64 28 / 4%);
   color: inherit;
   font: inherit;
   cursor: pointer;
@@ -187,12 +349,12 @@
 
 .drafting-option:hover,
 .drafting-option:focus-visible {
-  background: rgba(255, 255, 255, 0.09);
+  background: rgb(92 64 28 / 8%);
 }
 
 .drafting-option-chosen {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.11);
+  border-color: rgb(111 85 42 / 50%);
+  background: rgb(92 64 28 / 10%);
 }
 
 .drafting-option-family {
@@ -252,7 +414,7 @@
   text-align: left;
   vertical-align: top;
   padding: 0.4rem 0.5rem;
-  border-block-end: 1px solid rgba(255, 255, 255, 0.12);
+  border-block-end: 1px solid rgb(111 85 42 / 28%);
   line-height: 1.4;
 }
 
@@ -323,8 +485,8 @@
   font: inherit;
   padding: 0.3rem 0.4rem;
   border-radius: 0.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgb(111 85 42 / 28%);
+  background: rgb(92 64 28 / 8%);
   color: inherit;
 }
 
@@ -374,13 +536,13 @@
   cursor: pointer;
   padding: 0.5rem 0.6rem;
   border-radius: 0.3rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgb(111 85 42 / 28%);
+  background: rgb(92 64 28 / 4%);
 }
 
 .drafting-authority-chosen {
-  border-color: rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgb(111 85 42 / 55%);
+  background: rgb(92 64 28 / 9%);
 }
 
 .drafting-authority-citation {
@@ -401,13 +563,24 @@
   overscroll-behavior: contain;
 }
 
+@media (max-width: 42rem) {
+  .drafting-topic-list {
+    grid-template-columns: 1fr;
+  }
+
+  .drafting-selection-context {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 .docket-estimate-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
   margin: 0.75rem 0;
   padding: 0.65rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgb(111 85 42 / 28%);
 }
 
 .docket-estimate-controls p {

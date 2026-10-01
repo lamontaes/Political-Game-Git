@@ -69,9 +69,10 @@ export function TransitWorkspace({
       <p className="game-note">
         A service appropriation is a proposed fictional law for an explicitly
         authored standing program. It supplies spending authority after
-        enactment and its effective date; payments require collected public
-        cash. The authored contract price is $100 per additional vehicle-service
-        hour. Reports describe contract service, without inferring ridership or
+        enactment and its effective date; payments require recorded public cash
+        in that government's account. The authored contract price is $100 per
+        additional vehicle-service hour. Reports show paid contract hours and
+        recorded resident use, without predicting broader ridership or
         effectiveness.
       </p>
       {view.office.kind === "unavailable" ? (

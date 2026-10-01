@@ -1,6 +1,8 @@
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
+import { nationalMoodDemocraticShift } from "../national-mood";
 import { candidacyPackById } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { decideAnotherTerm } from "../careers/another-term";
 import { legislativeTermDates } from "../legislative-office-terms";
 import {
   createOrganizationParticipations,
@@ -22,13 +24,13 @@ import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { createStableId } from "../ids";
 import { bindingFromIdentity } from "../../districts/query";
-import { SeededRng } from "../rng";
 import {
-  clampShare,
-  logit,
-  logistic,
-  standardNormal,
-} from "../world-setup/deterministic-math";
+  legislativeTermLimitBar,
+  LEGISLATIVE_TERM_LIMIT_QUESTION,
+} from "./state-legislative-term-limits";
+import { lawInForce } from "../governing/law-in-force";
+import { lawEffectStamp } from "../law-effect-stamp";
+import { clampShare, logit, logistic } from "../world-setup/deterministic-math";
 import {
   isStateLegislativeSeatDue,
   stateLegislativeElectionRule,
@@ -46,17 +48,31 @@ import {
   stateLegislativeSeats,
   stateSeatsInDistrict,
 } from "./state-legislature-opening";
-import { electionContestResult } from "../election-contests";
+import {
+  electionContestResult,
+  resolveElectionContest,
+  scheduleElectionContest,
+} from "../election-contests";
+import { fieldIntakeDay, filingWindowOpens } from "../nominations/field-entry";
+import { nominationPlan } from "../nominations/nomination-rules";
+import { holdFiledNominations } from "../nominations/party-nominations";
 import {
   prepareStateCandidateSlates,
   stateCandidateIntakeDay,
   stateCandidateSeatKey,
   stateCandidateSlate,
-  stateCandidates,
+  stateGeneralCandidates,
   stateSeatDemocraticShare,
+  stateSlateKey,
   STATE_LEGISLATURE_CANDIDATE_PROFILE,
   type StateCandidateSeatPlan,
 } from "./state-legislature-candidates";
+import {
+  hasStableKey,
+  recordByStableKey,
+  recordsWithFieldValue,
+  withHistoryAppendTransaction,
+} from "../history-index";
 
 /**
  * STATE LEGISLATIVE CONTINUITY: the regular elections for the chambers an
@@ -96,13 +112,10 @@ export const STATE_LEGISLATURE_TURNOVER_VERSION =
 const V = STATE_LEGISLATURE_TURNOVER_VERSION;
 
 export const STATE_LEGISLATURE_TURNOVER_PROFILE = {
-  id: "ocd-state-legislature-turnover-game-profile/v2",
-  /** Members this old or older retire. */
-  retirementAge: 82,
-  retirementPreferenceAge: 77,
-  // PLACEHOLDER(overnight): deterministic election-to-election variation and
-  // a small incumbency effect around the save's recorded generated seat view.
-  electionSwingLogit: 0.5,
+  id: "ocd-state-legislature-turnover-game-profile/v3",
+  // PLACEHOLDER(overnight): a small incumbency effect around the save's
+  // recorded generated seat view. The seeded swing that varied each election
+  // is gone (Rule 0): a seat's own count decides it.
   incumbencyBonusLogit: 0.18,
 } as const;
 
@@ -114,11 +127,6 @@ const OPENING_EVENT = "world.state-legislature-opening";
 const resultsKey = (packId: string, electionDay: IsoDate) =>
   `${V}:${packId}:results:${electionDay}`;
 
-function ageOn(birthDate: IsoDate, date: IsoDate): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
-}
-
 function tagValue(event: HistoricalEvent, prefix: string): string | null {
   const tag = event.tags.find((candidate) => candidate.startsWith(prefix));
   return tag ? tag.slice(prefix.length) : null;
@@ -127,8 +135,11 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
 /** The candidacy packs whose legislatures an opening seated in this save. */
 function seatedPacks(world: World): string[] {
   const packs: string[] = [];
-  for (const event of world.history.events) {
-    if (event.type !== OPENING_EVENT) continue;
+  for (const event of recordsWithFieldValue(
+    world.history.events,
+    "type",
+    OPENING_EVENT,
+  )) {
     if (!event.tags.includes(STATE_LEGISLATURE_OPENING_VERSION)) continue;
     const packId = tagValue(event, "pack:");
     if (packId && !packs.includes(packId)) packs.push(packId);
@@ -251,7 +262,74 @@ function prepareStateIntake(
   );
   const campaignHolders = campaignSeatHolders(world, packId);
   const plans: StateCandidateSeatPlan[] = [];
-  let next = world;
+  // Seed once before the decision loop, keeping each actor's original date.
+  // Only actors whose original route would ask for a decision are included.
+  const seedDates = new Map<EntityId, IsoDate>();
+  for (const row of due) {
+    const localKey = `${row.officeKey}|${row.ordinal}`;
+    const seat = seats.get(localKey);
+    if (contested.has(localKey) || !seat) continue;
+    const through = campaignHolders
+      .filter(
+        (holder) =>
+          holder.officeKey === row.officeKey && holder.ordinal === row.ordinal,
+      )
+      .reduce<IsoDate | null>(
+        (latest, holder) =>
+          latest === null || holder.endsAt > latest ? holder.endsAt : latest,
+        null,
+      );
+    if (through !== null && through > termStartOf(row.officeKey, electionDay))
+      continue;
+    const seatKey = stateCandidateSeatKey(packId, row.officeKey, row.ordinal);
+    if (stateCandidateSlate(world, seatKey, year)) continue;
+    const id = seat.member?.personId;
+    if (
+      !id ||
+      !world.people[id] ||
+      (world.control.kind === "person" && world.control.personId === id)
+    )
+      continue;
+    if (
+      recordsWithFieldValue(world.history.personDeaths, "personId", id).some(
+        (death) => death.diedAt <= row.intakeDate,
+      )
+    )
+      continue;
+    const term = legislativeTermDates(row.officeKey, electionDay);
+    if (
+      term &&
+      legislativeTermLimitBar(world, {
+        stateUsps: pack.jurisdictionKey.replace(/^US-/, ""),
+        packId,
+        officeKey: row.officeKey,
+        personId: id,
+        termStartsAt: term.startsAt,
+        termEndsAt: term.endsAt,
+      }) !== null
+    )
+      continue;
+    if (
+      recordByStableKey(
+        world.history.decisionTraces,
+        `${stateIntentKey(seatKey, year)}:decision:trace`,
+      )
+    )
+      continue;
+    if (!seedDates.has(id))
+      seedDates.set(
+        id,
+        row.intakeDate < world.currentDate ? row.intakeDate : world.currentDate,
+      );
+  }
+  let next = seedDates.size
+    ? withHistoryAppendTransaction(
+        ensurePeopleTraitCatalog(world),
+        ["personalityTendencies"],
+        (prepared) =>
+          ensurePeopleTraits(prepared, [...seedDates.keys()], seedDates),
+      )
+    : world;
   for (const row of due) {
     const localKey = `${row.officeKey}|${row.ordinal}`;
     if (contested.has(localKey)) continue;
@@ -275,103 +353,82 @@ function prepareStateIntake(
     const incumbent = incumbentId ? next.people[incumbentId] : undefined;
     const alive =
       incumbentId !== null &&
-      !next.history.personDeaths.some(
-        (death) =>
-          death.personId === incumbentId && death.diedAt <= row.intakeDate,
-      );
-    const tooOld =
-      incumbent !== undefined &&
-      ageOn(incumbent.birthDate, electionDay) >=
-        STATE_LEGISLATURE_TURNOVER_PROFILE.retirementAge;
+      !recordsWithFieldValue(
+        next.history.personDeaths,
+        "personId",
+        incumbentId,
+      ).some((death) => death.diedAt <= row.intakeDate);
     const controlled =
       incumbentId !== null &&
       next.control.kind === "person" &&
       next.control.personId === incumbentId;
     let seeking = false;
     let decisionTraceId: EntityId | null = null;
-    if (incumbent && alive && !tooOld && !controlled) {
+    const nextTerm = legislativeTermDates(row.officeKey, electionDay);
+    // Whether the member MAY stand is the state's term limit under the law
+    // in force; whether they WANT to is their own decision below.
+    const barredByLimit =
+      incumbent && alive && nextTerm
+        ? legislativeTermLimitBar(next, {
+            stateUsps: pack.jurisdictionKey.replace(/^US-/, ""),
+            packId,
+            officeKey: row.officeKey,
+            personId: incumbent.id,
+            termStartsAt: nextTerm.startsAt,
+            termEndsAt: nextTerm.endsAt,
+          })
+        : null;
+    if (incumbent && alive && !controlled && barredByLimit === null) {
       const key = `${stateIntentKey(seatKey, year)}:decision`;
-      const serviceStart = next.history.workRelationships.find(
-        (work) => work.id === seat.member?.workRelationshipId,
-      )?.startedAt;
-      const serviceYears = serviceStart
-        ? Math.max(0, year - Number(serviceStart.slice(0, 4)))
-        : 0;
-      const evaluation = evaluateDecision(next, {
+      const decided = decideAnotherTerm(next, {
+        personId: incumbent.id,
+        traitsPrepared: seedDates.has(incumbent.id),
         stableKey: key,
+        subjectKey: seatKey,
         decisionType: "election.consider-another-state-legislative-term",
-        actorPersonId: incumbent.id,
-        cutoff: {
-          asOfDate: row.intakeDate,
-          historySequenceExclusive: next.history.nextSequence,
-        },
-        subject: { kind: "context:life", key: seatKey, entityId: null },
-        options: [
-          {
-            key: "seek",
-            label: "Seek another term",
-            description: "Run again.",
-          },
-          {
-            key: "step-down",
-            label: "Step down",
-            description: "Leave the seat.",
-          },
-        ],
-        constraints: [],
-        considerations: [
+        onDate: row.intakeDate,
+        termEnds:
+          nextTerm?.endsAt ??
+          makeIsoDate(`${Number(electionDay.slice(0, 4)) + 3}-01-01`),
+        serving: [
           {
             stableKey: `${key}:serving`,
             optionKey: "seek",
             sourceType: "context:current-office",
             direction: "supports",
-            importance: "strong",
+            importance: "moderate",
             confidence: "high",
             explanation: "They are serving in this seat.",
             sourceRefs: [],
           },
-          ...(ageOn(incumbent.birthDate, electionDay) >=
-          STATE_LEGISLATURE_TURNOVER_PROFILE.retirementPreferenceAge
-            ? [
-                {
-                  stableKey: `${key}:retirement`,
-                  optionKey: "step-down" as const,
-                  sourceType: "context:age" as const,
-                  direction: "supports" as const,
-                  importance: "decisive" as const,
-                  confidence: "medium" as const,
-                  explanation: "They are considering retirement.",
-                  sourceRefs: [],
-                },
-              ]
-            : []),
-          ...(serviceYears >= 10
-            ? [
-                {
-                  stableKey: `${key}:long-service`,
-                  optionKey: "step-down" as const,
-                  sourceType: "context:service-tenure" as const,
-                  direction: "supports" as const,
-                  importance: "decisive" as const,
-                  confidence: "medium" as const,
-                  explanation:
-                    "They have served for a long period and are considering leaving.",
-                  sourceRefs: [],
-                },
-              ]
-            : []),
         ],
-        perceptionIds: [],
-        randomness: "none",
-        retention: "durable",
       });
-      next = recordDurableDecisionTrace(next, evaluation);
-      decisionTraceId = next.history.decisionTraces.at(-1)!.id;
-      seeking = evaluation.selectedOptionKey === "seek";
+      next = decided.world;
+      decisionTraceId = decided.decisionTraceId;
+      seeking = decided.seeks;
     }
     const intentKey = stateIntentKey(seatKey, year);
-    if (!next.history.events.some((event) => event.stableKey === intentKey)) {
+    if (!hasStableKey(next.history.events, intentKey)) {
+      const question = barredByLimit
+        ? Object.values(next.policyCatalog.propositions).find(
+            (candidate) =>
+              candidate.stableKey === LEGISLATIVE_TERM_LIMIT_QUESTION,
+          )
+        : null;
+      const law = question
+        ? lawInForce(next, jurisdiction.id, question.id, row.intakeDate)
+        : null;
+      const stamp =
+        law?.answer === "yes"
+          ? lawEffectStamp(law, {
+              effectKind: "election.state-legislative-candidacy-intent",
+              questionKey: LEGISLATIVE_TERM_LIMIT_QUESTION,
+              jurisdictionId: jurisdiction.id,
+              appliedAt: row.intakeDate,
+            })
+          : null;
       next = recordWorldEvent(next, {
+        ...(stamp ? { lawEffectStamps: [stamp] } : {}),
         stableKey: intentKey,
         type: "election.state-legislative-candidacy-intent",
         occurredAt: row.intakeDate,
@@ -394,6 +451,7 @@ function prepareStateIntake(
           STATE_LEGISLATURE_TURNOVER_PROFILE.id,
           `seat:${seatKey}`,
           `intent:${seeking ? "seeking" : "not-seeking"}`,
+          ...(barredByLimit ? ["barred:term-limit"] : []),
           ...(seeking
             ? ["qualification:incumbent-provisional-game-profile"]
             : []),
@@ -401,9 +459,11 @@ function prepareStateIntake(
         ],
         summary: seeking
           ? `The holder of ${seat.title} is seeking another term.`
-          : incumbentId
-            ? `The holder of ${seat.title} is not seeking another term.`
-            : `No sitting member is seeking ${seat.title}.`,
+          : barredByLimit
+            ? `The holder of ${seat.title} may not seek another term: ${barredByLimit}`
+            : incumbentId
+              ? `The holder of ${seat.title} is not seeking another term.`
+              : `No sitting member is seeking ${seat.title}.`,
         context: {
           location: null,
           socialContext: null,
@@ -449,20 +509,141 @@ function prepareStateIntake(
       incumbentParty: seat.member?.party ?? null,
       incumbentSeeking: seeking,
       intakeDate: row.intakeDate,
+      nomination: stateNominationPlan(next, pack.jurisdictionKey, year),
     });
   }
   return prepareStateCandidateSlates(next, year, plans);
 }
 
 /** Election day: the regular seats due in these chambers are decided. */
+/**
+ * The ballot is set when military and overseas ballots go out, 45 days before
+ * a federal general election (52 U.S.C. § 20302(a)(8)); a state prints one
+ * ballot, so its legislative races are set the same day. GAME ASSUMPTION for
+ * a state that elects its legislature in an odd year, where that federal
+ * deadline does not bind: the same 45 days.
+ */
+export const STATE_BALLOT_SET_DAYS = 45;
+
+const stateBallotKey = (seatKey: string, year: number) =>
+  `${V}:ballot:${seatKey}:${year}`;
+
+/**
+ * Whether any state ballot for this year (in one pack, when named) is already
+ * set. Ballots open once, on the day they are set; a game that opens after
+ * that day sets them on its first day instead.
+ */
+function stateBallotsSet(world: World, year: number, packId?: string): boolean {
+  const prefix = `${V}:ballot:${packId ? `${packId}|` : ""}`;
+  const suffix = `:${year}`;
+  return (world.history.electionContests ?? []).some(
+    (contest) =>
+      contest.stableKey.startsWith(prefix) &&
+      contest.stableKey.endsWith(suffix),
+  );
+}
+
+/**
+ * Each seat due this year whose nominees stand under different parties gets a
+ * ballot of its own, counted on election day from the seat's voters
+ * (`stateSeatElectorate`). A seat a campaign already holds on this ballot, a
+ * field with two nominees of one party (a top-two primary's general), or a
+ * seat with no recorded lean keeps the legislature's own decision below.
+ */
+function openStateBallots(
+  world: World,
+  packId: string,
+  electionDay: IsoDate,
+): World {
+  const pack = candidacyPackById(packId);
+  const jurisdiction = pack
+    ? stateJurisdictionForKey(pack.jurisdictionKey)
+    : null;
+  if (!pack || !jurisdiction) return world;
+  const year = Number(electionDay.slice(0, 4));
+  const contested = contestedStateSeats(world, packId, electionDay);
+  let next = world;
+  for (const seat of regularSeatsDue(world, packId, year)) {
+    if (contested.has(`${seat.officeKey}|${seat.ordinal}`)) continue;
+    const seatKey = stateCandidateSeatKey(packId, seat.officeKey, seat.ordinal);
+    const stableKey = stateBallotKey(seatKey, year);
+    if (hasStableKey(next.history.electionContests ?? [], stableKey)) continue;
+    const nominees = stateGeneralCandidates(next, seatKey, year).filter(
+      (candidate) =>
+        !recordsWithFieldValue(
+          next.history.personDeaths,
+          "personId",
+          candidate.personId,
+        ).some((death) => death.diedAt <= next.currentDate),
+    );
+    const parties = nominees.map((candidate) => candidate.party);
+    if (
+      nominees.length === 0 ||
+      parties.some((party) => party === null) ||
+      new Set(parties).size !== parties.length ||
+      stateSeatDemocraticShare(next, packId, seat.officeKey, seat.ordinal) ===
+        null
+    )
+      continue;
+    next = scheduleElectionContest(next, {
+      stableKey,
+      jurisdictionId: jurisdiction.id,
+      office: {
+        officeKey: seat.officeKey,
+        title: seat.title,
+        seatKey,
+        occupationClassification: null,
+      },
+      electionDate: electionDay,
+      candidatePersonIds: nominees.map((candidate) => candidate.personId),
+      provenance: {
+        method: "simulated",
+        sourceEntityIds: [],
+        note: "The seat's nominees, set on the ballot 45 days before election day.",
+      },
+    });
+  }
+  return next;
+}
+
+/** The winner a seat's own counted ballot chose, counting it if it is not yet. */
+function countedStateBallot(
+  world: World,
+  seatKey: string,
+  year: number,
+  electionDay: IsoDate,
+): { readonly world: World; readonly winnerPersonId: EntityId | null } {
+  const contest = recordByStableKey(
+    world.history.electionContests ?? [],
+    stateBallotKey(seatKey, year),
+  );
+  if (!contest) return { world, winnerPersonId: null };
+  let next = world;
+  if (!electionContestResult(next, contest.id))
+    next = resolveElectionContest(next, {
+      stableKey: `${contest.stableKey}:count`,
+      contestId: contest.id,
+      resolvedAt: electionDay,
+      provenance: {
+        method: "simulated",
+        sourceEntityIds: [contest.id],
+        note: "Counted on election day from the seat's own voters.",
+      },
+    });
+  return {
+    world: next,
+    winnerPersonId:
+      electionContestResult(next, contest.id)?.winnerPersonId ?? null,
+  };
+}
+
 function holdStateLegislativeElection(
   world: World,
   packId: string,
   electionDay: IsoDate,
 ): World {
   const key = resultsKey(packId, electionDay);
-  if (world.history.events.some((event) => event.stableKey === key))
-    return world;
+  if (hasStableKey(world.history.events, key)) return world;
   const pack = candidacyPackById(packId);
   const jurisdiction = pack
     ? stateJurisdictionForKey(pack.jurisdictionKey)
@@ -515,26 +696,28 @@ function holdStateLegislativeElection(
       seat.officeKey,
       seat.ordinal,
     );
-    const candidates = stateCandidates(next, canonicalKey, year).filter(
+    const candidates = stateGeneralCandidates(next, canonicalKey, year).filter(
       (candidate) =>
-        !next.history.personDeaths.some(
-          (death) =>
-            death.personId === candidate.personId &&
-            death.diedAt <= electionDay,
-        ),
+        !recordsWithFieldValue(
+          next.history.personDeaths,
+          "personId",
+          candidate.personId,
+        ).some((death) => death.diedAt <= electionDay),
     );
     if (candidates.length === 0) {
       unfilled.push(`${seatKey}|${termStartOf(seat.officeKey, electionDay)}`);
       continue;
     }
+    const counted = countedStateBallot(next, canonicalKey, year, electionDay);
+    next = counted.world;
+    const ballotWinner = candidates.find(
+      (candidate) => candidate.personId === counted.winnerPersonId,
+    );
     const share = stateSeatDemocraticShare(
       next,
       packId,
       seat.officeKey,
       seat.ordinal,
-    );
-    const electionRng = new SeededRng(next.seed).fork(
-      `${V}:${packId}:${seat.officeKey}:${seat.ordinal}:${electionDay}:view`,
     );
     const incumbentBonus =
       sitting?.party === "democratic"
@@ -546,10 +729,12 @@ function holdStateLegislativeElection(
       share === null
         ? null
         : logistic(
-            logit(clampShare(share, 1e-6)) +
-              STATE_LEGISLATURE_TURNOVER_PROFILE.electionSwingLogit *
-                standardNormal(electionRng) +
-              incumbentBonus,
+            logit(
+              clampShare(
+                share + nationalMoodDemocraticShift(world, electionDay),
+                1e-6,
+              ),
+            ) + incumbentBonus,
           );
     // PLACEHOLDER(overnight): the saved generated seat lean chooses between
     // living candidates. A missing lean keeps the incumbent if they filed,
@@ -560,7 +745,9 @@ function holdStateLegislativeElection(
         : electionShare >= 0.5
           ? "democratic"
           : "republican";
+    // The seat's own count decides where there was one.
     const winner =
+      ballotWinner ??
       candidates.find((candidate) => candidate.party === preferredParty) ??
       [...candidates].sort((left, right) =>
         left.personId.localeCompare(right.personId),
@@ -668,8 +855,7 @@ function seatStateLegislativeWinners(
     cause: "no-living-candidate" | "member-elect-died",
   ) => {
     const vacancyKey = `${V}:${packId}:${officeKey}:${ordinal}:vacancy:${termStart}`;
-    if (next.history.events.some((event) => event.stableKey === vacancyKey))
-      return;
+    if (hasStableKey(next.history.events, vacancyKey)) return;
     const incumbent = current.get(`${officeKey}|${ordinal}`)?.member;
     if (incumbent) {
       const status = workStatusAt(next, incumbent.workRelationshipId);
@@ -719,28 +905,28 @@ function seatStateLegislativeWinners(
     if (startsOn && startsOn !== termStart) continue;
     const ordinal = Number(ordinalText);
     if (
-      next.history.personDeaths.some(
-        (death) =>
-          death.personId === participant.personId && death.diedAt <= termStart,
-      )
+      recordsWithFieldValue(
+        next.history.personDeaths,
+        "personId",
+        participant.personId,
+      ).some((death) => death.diedAt <= termStart)
     ) {
       vacate(officeKey, ordinal, "member-elect-died");
       continue;
     }
     if (kind !== "new") continue;
     const tenureKey = `${STATE_LEGISLATURE_KEYS.seat(officeKey, ordinal)}:tenure:${termStart}`;
-    if (next.history.workRelationships.some((w) => w.stableKey === tenureKey))
-      continue;
+    if (hasStableKey(next.history.workRelationships, tenureKey)) continue;
     const seat = current.get(`${officeKey}|${ordinal}`);
     // The member leaving the seat stops serving the day the new term begins.
     const leaving = seat?.member ?? null;
     const leftBeforeTerm =
       leaving !== null &&
-      next.history.personDeaths.some(
-        (death) =>
-          death.personId === leaving.personId &&
-          death.diedAt <= addDays(termStart, -1),
-      );
+      recordsWithFieldValue(
+        next.history.personDeaths,
+        "personId",
+        leaving.personId,
+      ).some((death) => death.diedAt <= addDays(termStart, -1));
     // A campaign's winner leaves when their own term expires.
     if (seat?.member && !seat.member.byCampaign && !leftBeforeTerm) {
       const status = workStatusAt(next, seat.member.workRelationshipId);
@@ -814,9 +1000,11 @@ function seatStateLegislativeWinners(
       const status = workStatusAt(next, work.id);
       if (!status || status.status === "ended") continue;
       if (
-        next.history.personDeaths.some(
-          (death) => death.personId === work.personId,
-        )
+        recordsWithFieldValue(
+          next.history.personDeaths,
+          "personId",
+          work.personId,
+        ).length > 0
       )
         continue;
       next = recordWorkStatus(next, {
@@ -859,11 +1047,11 @@ function seatStateLegislativeWinners(
         continue;
       if (work.personId === winner || work.startedAt >= termStart) continue;
       if (
-        next.history.personDeaths.some(
-          (death) =>
-            death.personId === work.personId &&
-            death.diedAt <= addDays(termStart, -1),
-        )
+        recordsWithFieldValue(
+          next.history.personDeaths,
+          "personId",
+          work.personId,
+        ).some((death) => death.diedAt <= addDays(termStart, -1))
       )
         continue;
       const status = workStatusAt(next, work.id);
@@ -891,8 +1079,9 @@ function seatStateLegislativeWinners(
     );
     if (
       seatedByCampaign ||
-      next.history.workRelationships.some((w) => w.stableKey === tenureKey) ||
-      next.history.personDeaths.some((death) => death.personId === winner)
+      hasStableKey(next.history.workRelationships, tenureKey) ||
+      recordsWithFieldValue(next.history.personDeaths, "personId", winner)
+        .length > 0
     )
       continue;
     seats.push({
@@ -967,14 +1156,19 @@ export function nextStateSeatFilling(
     const termStart =
       legislativeTermDates(officeKey, electionDay)?.startsAt ??
       makeIsoDate(`${year + 1}-01-01`);
-    const results = world.history.events.find(
-      (event) => event.stableKey === resultsKey(packId, electionDay),
+    const results = recordByStableKey(
+      world.history.events,
+      resultsKey(packId, electionDay),
     );
     if (results && electionDay <= today && today < termStart) {
       // Only a living winner who has not yet taken this seat fills it.
       const alive = (personId: EntityId) =>
-        !world.history.personDeaths.some(
-          (death) => death.personId === personId,
+        !(
+          recordsWithFieldValue(
+            world.history.personDeaths,
+            "personId",
+            personId,
+          ).length > 0
         );
       const drawn = results.participants.some((participant) => {
         const [key, seat, , kind] = (participant.detail ?? "").split("|");
@@ -1009,25 +1203,137 @@ export function nextStateSeatFilling(
  * seated legislature's regular election and seats its winners when the term
  * begins. Only dates actually crossed act.
  */
+/** The nomination plan for a state's legislative seats in one year. */
+function stateNominationPlan(
+  world: World,
+  jurisdictionKey: string,
+  year: number,
+) {
+  const usps = jurisdictionKey.replace(/^US-/, "");
+  const rule = stateLegislativeElectionRule(usps);
+  return nominationPlan(world, {
+    stateUsps: usps,
+    family: "state-legislature",
+    year,
+    // The law in force when the cycle's filing opens governs the whole cycle.
+    onDate: filingWindowOpens(year),
+    generalDay: generalElectionDay(rule, year),
+  });
+}
+
+const STATE_SLATE_EVENT = "election.state-legislative-candidate-slate";
+
+/**
+ * The nomination stage for the legislative fields filed this year: each
+ * state's primary on its own date, and any runoff it leaves open.
+ */
+function holdStateLegislativeNominations(before: IsoDate, world: World): World {
+  const after = world.currentDate;
+  let next = world;
+  for (
+    let year = Number(before.slice(0, 4));
+    year <= Number(after.slice(0, 4));
+    year += 1
+  ) {
+    // Primaries and runoffs fall between the first filing and November.
+    if (after < `${year}-02-01` || before >= `${year}-11-30`) continue;
+    const titles = new Map<string, Map<string, string>>();
+    const titleOf = (packId: string, officeKey: string, ordinal: number) => {
+      let byPack = titles.get(packId);
+      if (!byPack) {
+        byPack = new Map(
+          stateLegislativeSeats(world, packId).map((seat) => [
+            `${seat.officeKey}|${seat.ordinal}`,
+            seat.title,
+          ]),
+        );
+        titles.set(packId, byPack);
+      }
+      return byPack.get(`${officeKey}|${ordinal}`) ?? null;
+    };
+    next = holdFiledNominations(before, next, {
+      fieldType: STATE_SLATE_EVENT,
+      stableKeySuffix: `:${year}`,
+      seatFor: (field) => {
+        const seatKey = tagValue(field, "seat:");
+        if (!seatKey || field.stableKey !== stateSlateKey(seatKey, year))
+          return null;
+        const [packId, officeKey, ordinalText] = seatKey.split("|");
+        const pack = packId ? candidacyPackById(packId) : null;
+        const ordinal = Number(ordinalText);
+        const title = pack ? titleOf(packId!, officeKey!, ordinal) : null;
+        const jurisdiction = pack
+          ? stateJurisdictionForKey(pack.jurisdictionKey)
+          : null;
+        if (!pack || !title || !jurisdiction) return null;
+        return {
+          seatKey,
+          title,
+          jurisdictionId: jurisdiction.id,
+          involvedEntityIds: [
+            createStableId(
+              "organization",
+              `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId!)}`,
+            ),
+          ],
+          plan: () => stateNominationPlan(world, pack.jurisdictionKey, year),
+          partyShare: (party) => {
+            const share = stateSeatDemocraticShare(
+              world,
+              packId!,
+              officeKey!,
+              ordinal,
+            );
+            if (share === null) return null;
+            return party === "democratic"
+              ? share
+              : party === "republican"
+                ? 1 - share
+                : null;
+          },
+          aliveOn: (personId, date) =>
+            Boolean(world.people[personId]) &&
+            !world.history.personDeaths.some(
+              (death) => death.personId === personId && death.diedAt <= date,
+            ),
+        };
+      },
+    });
+  }
+  return next;
+}
+
 export function applyStateLegislatureTurnover(
   before: IsoDate,
-  world: World,
+  start: World,
 ): World {
-  const after = world.currentDate;
-  if (after <= before) return world;
+  const after = start.currentDate;
+  if (after <= before) return start;
+  const world = holdStateLegislativeNominations(before, start);
   // Cheap window test before any history scan: the game-profile prospect
   // window, a regular election, or a term beginning is due.
+  // A field can file from its filing window in the year before (decision
+  // D-9), so next year's window counts too.
   let crossesAny = false;
   for (
     let year = Number(before.slice(0, 4));
-    year <= Number(after.slice(0, 4)) && !crossesAny;
+    year <= Number(after.slice(0, 4)) + 1 && !crossesAny;
     year += 1
   ) {
     const january = `${year}-01-01`;
     crossesAny =
       (before < january && january <= after) ||
-      (before < `${year}-03-07` && `${year}-01-06` <= after) ||
-      (before < `${year}-11-08` && `${year}-11-02` <= after);
+      (before < `${year}-03-07` && filingWindowOpens(year) <= after) ||
+      (before < `${year}-11-08` && `${year}-11-02` <= after) ||
+      // The ballot is set 45 days before an early-November election day,
+      // or on a game's first day when it opens after that.
+      (before < addDays(makeIsoDate(`${year}-11-08`), -STATE_BALLOT_SET_DAYS) &&
+        addDays(makeIsoDate(`${year}-11-02`), -STATE_BALLOT_SET_DAYS) <=
+          after) ||
+      (addDays(makeIsoDate(`${year}-11-02`), -STATE_BALLOT_SET_DAYS) <=
+        before &&
+        after < `${year}-11-02` &&
+        !stateBallotsSet(start, year));
   }
   if (!crossesAny) return world;
   const packs = seatedPacks(world);
@@ -1039,27 +1345,55 @@ export function applyStateLegislatureTurnover(
     const usps = pack.jurisdictionKey.replace(/^US-/, "");
     const rule = stateLegislativeElectionRule(usps);
     const firstYear = Number(before.slice(0, 4)) - 4;
-    const lastYear = Number(after.slice(0, 4));
+    const lastYear =
+      Number(after.slice(0, 4)) +
+      (after >= filingWindowOpens(Number(after.slice(0, 4)) + 1) ? 1 : 0);
     for (let year = firstYear; year <= lastYear; year += 1) {
       // Every reviewed seat cycle is a subset of the state's regular general
       // election years; this cheap check avoids a national seat scan each day.
       if (!isElectionYear(rule, year)) continue;
       const electionDay = generalElectionDay(rule, year);
+      let plan: ReturnType<typeof stateNominationPlan> | null = null;
       const due = stateLegislativeSeats(next, packId).flatMap((seat, index) => {
         if (
           !isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year)
         )
           return [];
-        const intakeDate = stateCandidateIntakeDay(year, index);
-        return before < intakeDate && intakeDate <= after
-          ? [{ officeKey: seat.officeKey, ordinal: seat.ordinal, intakeDate }]
+        const base = stateCandidateIntakeDay(year, index);
+        // The field never files later than the game's own intake day.
+        if (base <= before) return [];
+        plan ??= stateNominationPlan(next, pack.jurisdictionKey, year);
+        const intakeDate = fieldIntakeDay(base, plan, year);
+        const entry = {
+          officeKey: seat.officeKey,
+          ordinal: seat.ordinal,
+          intakeDate,
+        };
+        if (before < intakeDate && intakeDate <= after) return [entry];
+        // Decision D-9: a game that opens after the state's real deadline
+        // starts with the field already filed, dated on the deadline.
+        return intakeDate <= before &&
+          !stateCandidateSlate(
+            next,
+            stateCandidateSeatKey(packId, seat.officeKey, seat.ordinal),
+            year,
+          )
+          ? [entry]
           : [];
       });
       next = prepareStateIntake(next, packId, electionDay, due);
+      const ballotDay = addDays(electionDay, -STATE_BALLOT_SET_DAYS);
+      if (
+        ballotDay <= after &&
+        after < electionDay &&
+        (before < ballotDay || !stateBallotsSet(next, year, packId))
+      )
+        next = openStateBallots(next, packId, electionDay);
       if (before < electionDay && electionDay <= after)
         next = holdStateLegislativeElection(next, packId, electionDay);
-      const results = next.history.events.find(
-        (event) => event.stableKey === resultsKey(packId, electionDay),
+      const results = recordByStableKey(
+        next.history.events,
+        resultsKey(packId, electionDay),
       );
       if (!results) continue;
       for (const tag of results.tags) {

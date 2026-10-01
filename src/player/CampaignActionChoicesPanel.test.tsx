@@ -11,6 +11,11 @@ import {
 } from "../presentation/campaign-life-actions";
 import { fileForOffice } from "../presentation/campaign-projection";
 import {
+  bindingForDistrict,
+  offeredDistricts,
+  recordedDistrictForOffice,
+} from "../presentation/district-selection";
+import {
   addDays,
   campaignLifeActivityRecords,
   campaignLifeOutcomeRecords,
@@ -45,10 +50,18 @@ beforeAll(() => {
   const office = candidacyPackForJurisdiction(
     opening.world.people[personId]!.homeJurisdictionId,
   )!.offices[0]!;
+  const homeJurisdictionId = opening.world.people[personId]!.homeJurisdictionId;
+  // A numbered chamber seat is filed against a recorded Gazetteer district.
+  const district =
+    recordedDistrictForOffice(opening.world, personId, office.officeKey)
+      ?.binding ??
+    bindingForDistrict(
+      offeredDistricts(opening.world, homeJurisdictionId, office.officeKey)[0]!,
+    );
   unhostedWorld = fileForOffice(
     opening.world,
     personId,
-    null,
+    district,
     office.officeKey,
     addDays(opening.world.currentDate, 28),
   );
@@ -140,9 +153,13 @@ describe("campaign choices in the player UI", () => {
     expect(html).toContain('data-testid="campaign-book-phone-shift"');
     expect(html).not.toContain('data-testid="campaign-week-field"');
     expect(html).not.toContain('data-testid="campaign-week-commit"');
-    expect(html).not.toContain('data-testid="campaign-offers"');
-    expect(html).toContain('data-testid="campaign-paid-advertising"');
-    expect(html).toContain('data-testid="campaign-advertising-buy"');
+    // Where the work goes, and doing one piece of it now, stay beside the
+    // week: the priority and geography controls and the "Do this now" row,
+    // advertising included, with the standing campaign hours above them.
+    expect(html).toContain('data-testid="campaign-hours"');
+    expect(html).toContain('data-testid="campaign-strategy"');
+    expect(html).toContain('data-testid="campaign-offers"');
+    expect(html).toContain('data-testid="campaign-advertising"');
     expect(html).toContain('data-testid="campaign-own-money"');
   });
 

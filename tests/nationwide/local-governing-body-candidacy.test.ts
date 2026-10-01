@@ -312,10 +312,11 @@ describe("standing again after a race is over", () => {
       expect(localGoverningSeatFor(world, personId)).not.toBeNull();
     }
 
-    // The seat reads as an office everywhere the life is described.
+    // The seat reads as an office everywhere the life is described. A small
+    // town's council is part-time, so the job the person started with stays.
     const name = personName(world.people[personId]!);
     expect(projectWorkRole(world, personId).sentence).toBe(
-      "Your role: Member of the City Council, City of Ely.",
+      "Your roles: Sales clerk; Member of the City Council, City of Ely.",
     );
     const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
       (entry) => entry.key === `unit:${body.unit.id}`,

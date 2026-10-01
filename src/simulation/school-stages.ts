@@ -98,8 +98,8 @@ const PROVENANCE = {
   generatorKey: "school-stages-v1",
 };
 
-/** The fall a child starts kindergarten. */
-function kindergartenYear(birthDate: IsoDate): number {
+/** The fall a child starts kindergarten, which is also the class they are in. */
+export function kindergartenYear(birthDate: IsoDate): number {
   const year = Number(birthDate.slice(0, 4));
   return birthDate.slice(5) <= SCHOOL_STAGE_CALENDAR.schoolAgeCutoff
     ? year + 5

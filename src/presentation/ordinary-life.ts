@@ -1,3 +1,4 @@
+import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import {
   advanceApplications,
   settleHouseholdAdultJobPay,
@@ -30,7 +31,6 @@ import {
   addDays,
   advanceWorldMinutes,
   compareSimulationMoments,
-  createCampaignElectionTransitionRegistry,
   ageOnDate,
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
@@ -50,7 +50,9 @@ import type {
   World,
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
+import { recordedRoomPresence } from "./recorded-room-presence";
 import { shortPersonName } from "./conversation-subjects";
+import { dayOpeningLine } from "./day-opening-english";
 import {
   lapseVenueActivity,
   releaseMissedHolds,
@@ -261,29 +263,38 @@ export function projectOrdinaryDay(
   const companion = companionPersonId
     ? world.people[companionPersonId]
     : undefined;
-  const pending = workPendingEntriesFor(world, personId)
-    .filter((entry) => entry.state.status !== "completed")
-    .map((entry) => {
-      const waitingOnSomeoneElse = entry.state.waitingOnPersonIds.length > 0;
-      const daysStanding = daysBetween(
-        entry.item.createdAt.date,
-        world.currentDate,
-      );
-      const answeredBy = calendarAnswer(world, entry.item);
-      return {
-        key: entry.item.stableKey,
-        sentence:
-          answeredBy === "declined"
-            ? `${entry.item.title}: you decided not to go.`
-            : answeredBy === "lapsed"
-              ? `${entry.item.title}: the time came and went without an answer.`
-              : `${entry.item.summary}${standingClause(daysStanding, waitingOnSomeoneElse)}`,
-        waitingOnSomeoneElse,
-        openedOn: entry.item.createdAt.date,
-        daysStanding,
-        answeredBy,
-      };
-    });
+  const open = workPendingEntriesFor(world, personId).filter(
+    (entry) =>
+      entry.state.status !== "completed" &&
+      !(
+        entry.item.focus.kind === "calendar-item" &&
+        entry.item.focus.scheduledActivityId &&
+        scheduledActivityState(world, entry.item.focus.scheduledActivityId)
+          .status === "completed"
+      ),
+  );
+  const pendingIds = open.map((entry) => entry.item.id);
+  const pending = open.map((entry) => {
+    const waitingOnSomeoneElse = entry.state.waitingOnPersonIds.length > 0;
+    const daysStanding = daysBetween(
+      entry.item.createdAt.date,
+      world.currentDate,
+    );
+    const answeredBy = calendarAnswer(world, entry.item);
+    return {
+      key: entry.item.stableKey,
+      sentence:
+        answeredBy === "declined"
+          ? `${entry.item.title}: you decided not to go.`
+          : answeredBy === "lapsed"
+            ? `${entry.item.title}: the time came and went without an answer.`
+            : `${entry.item.summary}${standingClause(daysStanding, waitingOnSomeoneElse)}`,
+      waitingOnSomeoneElse,
+      openedOn: entry.item.createdAt.date,
+      daysStanding,
+      answeredBy,
+    };
+  });
 
   return {
     personName: personName(person),
@@ -294,11 +305,15 @@ export function projectOrdinaryDay(
     // The same name the conversation below uses. Calling one person "Emmanuel"
     // on one line and "Day" on the next leaves a player unable to tell they
     // are the same person.
-    opening: openingLine(
+    opening: dayOpeningLine(world, personId, {
       placeName,
-      pending.length,
-      companion ? shortPersonName(world, companion.id) : undefined,
-    ),
+      placeJurisdictionId: placeName ? person.homeJurisdictionId : null,
+      waitingIds: pendingIds,
+      housemateName: companion ? shortPersonName(world, companion.id) : null,
+      housemateSourceIds: companion
+        ? [companion.id, ...householdSourceIds(world, personId)]
+        : [],
+    }),
     pending,
     companionPersonId,
     companionName: companion ? personName(companion) : null,
@@ -374,8 +389,9 @@ export function passOrdinaryDays(
   days = 1,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
 ): World {
-  return advanceWithWorldIntegrityAtEnd(() =>
-    passOrdinaryDaysUnchecked(world, days, supplied),
+  return advanceWithWorldIntegrityAtEnd(
+    () => passOrdinaryDaysUnchecked(world, days, supplied),
+    world,
   );
 }
 
@@ -490,13 +506,7 @@ function advanceOrdinaryDays(
   // behavior that keeps a scheduled consequence from being lost. The campaign
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
-  const ordinaryHandlers = createCampaignElectionTransitionRegistry();
-  const composed = options.handlers
-    ? composeFutureTransitionHandlerRegistries(
-        options.handlers,
-        ordinaryHandlers,
-      )
-    : ordinaryHandlers;
+  const composed = composeWorldTimeHandlers(options.handlers);
   // Asked to stop at civic holds, the advance also stops at one it posts on
   // the way, so the check below sees it come due instead of it being run past.
   const handlers: FutureTransitionHandlerRegistry = options.stopForCivicHolds
@@ -621,19 +631,6 @@ function advanceOrdinaryDays(
   throw new Error("Ordinary time advancement did not converge.");
 }
 
-function openingLine(
-  placeName: string | null,
-  pendingCount: number,
-  companionName: string | undefined,
-): string {
-  const where = placeName ? ` in ${placeName}` : "";
-  const who = companionName ? ` ${companionName} is in the next room.` : "";
-  if (pendingCount === 0) {
-    return `A day${where} with nothing on it that anyone is waiting for.${who}`;
-  }
-  return `A day${where}, and a short list of things nobody else is going to do.${who}`;
-}
-
 function longDate(date: string): string {
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
@@ -655,10 +652,8 @@ function clockTime(minuteOfDay: number): string {
 /**
  * The kitchen, as a room the conversation engine understands.
  *
- * Everybody the character currently lives with, not merely the first person the
- * world happens to list. A household of three has three people in it, and a
- * conversation surface that could only ever address one of them was making the
- * other two scenery.
+ * Household membership identifies housemates; the current scene/arrival
+ * record identifies who is actually present to talk or hear.
  *
  * Privacy is a fact about the room rather than a setting. Two people in a house
  * can say something meant for one of them; three cannot, not without leaving,
@@ -675,18 +670,22 @@ export function householdConversationRoom(
   // This adult room supports home conversations about recorded life events.
   // A dependent child is not routed through the adult scene family.
   if (activeChildAuthoritiesAt(world, personId).length > 0) return null;
+  const presence = recordedRoomPresence(world, personId);
+  if (presence?.location.setting !== "home") return null;
   // People the character actually lives with, not merely other people in the
   // world. A forty-one-year-old was holding a conversation "at home" with the
   // parent from their own summarized childhood — a household they had already
   // moved out of.
-  const companionIds = currentHouseholdCompanions(world, personId);
+  const companionIds = currentHouseholdCompanions(world, personId).filter(
+    (id) => presence.personIds.includes(id),
+  );
   if (companionIds.length === 0) return null;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const jurisdictionId =
-    place?.context.jurisdiction.id ?? person.homeJurisdictionId;
-  if (!world.jurisdictions[jurisdictionId]) return null;
-  const present = [personId, ...companionIds];
-  const others = companionIds
+  const jurisdictionId = presence.location.jurisdictionId;
+  if (jurisdictionId === null || !world.jurisdictions[jurisdictionId])
+    return null;
+  const present = presence.personIds;
+  const others = present
+    .filter((id) => id !== personId && id !== companionIds[0])
     .map((id) => world.people[id])
     .filter((candidate) => candidate !== undefined);
   return {
@@ -694,7 +693,7 @@ export function householdConversationRoom(
     // A kitchen has other people in it, and they are not briefing leads. The
     // named part points at whoever the subject will speak to first.
     roles: { "the-other-person": companionIds[0]! },
-    locationLabel: "Home",
+    locationLabel: presence.location.label,
     jurisdictionId,
     playerPersonId: personId,
     physicallyPresentPersonIds: present,
@@ -705,15 +704,12 @@ export function householdConversationRoom(
     // recorded as overhearing. Inventing an eavesdropper would be inventing a
     // fact about a room the world has never described.
     quietAmbientHearingPersonIds: [],
-    privateAvailable: companionIds.length === 1,
+    privateAvailable: present.length === 2,
     privateUnavailableReason:
-      companionIds.length === 1
+      present.length === 2
         ? null
-        : `${others
-            .slice(1)
-            .map((other) => other!.givenName)
-            .join(" and ")} ${
-            others.length > 2 ? "are" : "is"
+        : `${others.map((other) => other!.givenName).join(" and ")} ${
+            others.length > 1 ? "are" : "is"
           } in the house too, and the rooms here do not really close.`,
   };
 }
@@ -732,6 +728,8 @@ export function neighborhoodConversationRoom(
 ): ConversationRoomContext | null {
   const person = world.people[personId];
   if (!person) return null;
+  const presence = recordedRoomPresence(world, personId);
+  if (presence?.location.setting !== "neighborhood") return null;
   const meeting = world.history.scheduledActivities.find(
     (activity) =>
       activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
@@ -744,17 +742,16 @@ export function neighborhoodConversationRoom(
     compareSimulationMoments(world.currentMoment, meetingState.start) >= 0
   )
     return null;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const jurisdictionId =
-    place?.context.jurisdiction.id ?? person.homeJurisdictionId;
-  if (!world.jurisdictions[jurisdictionId]) return null;
+  const jurisdictionId = presence.location.jurisdictionId;
+  if (jurisdictionId === null || !world.jurisdictions[jurisdictionId])
+    return null;
   const cutoff = currentLifeCutoff(world);
   const household = new Set(
     householdMembershipsAt(world, personId, cutoff).map(
       (entry) => entry.membership.householdId,
     ),
   );
-  const neighborId = world.personOrder.find((candidateId) => {
+  const neighborId = presence.personIds.find((candidateId) => {
     if (candidateId === personId) return false;
     const candidate = world.people[candidateId];
     if (!candidate) return false;
@@ -768,11 +765,11 @@ export function neighborhoodConversationRoom(
   });
   if (!neighborId) return null;
 
-  const present = [personId, neighborId];
+  const present = presence.personIds;
   return {
     sceneKey: "ordinary-life:doorstep",
     roles: { "the-other-person": neighborId },
-    locationLabel: place?.displayName ?? "The street",
+    locationLabel: presence.location.label,
     jurisdictionId,
     playerPersonId: personId,
     physicallyPresentPersonIds: present,
@@ -796,6 +793,13 @@ export function neighborhoodConversationRoom(
  * outcome, and better than putting somebody who moved out decades ago in the
  * next room.
  */
+/** The player's own household records, which put a housemate at home. */
+function householdSourceIds(world: World, personId: EntityId): EntityId[] {
+  return householdMembershipsAt(world, personId, currentLifeCutoff(world)).map(
+    (entry) => entry.membership.id,
+  );
+}
+
 function currentHouseholdCompanions(
   world: World,
   personId: EntityId,

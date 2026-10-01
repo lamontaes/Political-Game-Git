@@ -110,6 +110,7 @@ export function playCalendarActivity(
   world: World,
   personId: EntityId,
   activityId: EntityId,
+  finishMeeting = false,
 ): CalendarTimeResult {
   const before = world;
   const entry = venueActivities(world, personId).find(
@@ -126,7 +127,7 @@ export function playCalendarActivity(
   try {
     const openingMeeting =
       entry?.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
-      projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+      !finishMeeting;
     const openingGuidance =
       campaignLifeActivityForScheduledActivity(world, activityId)?.form ===
         "candidate-guidance" &&
@@ -135,7 +136,9 @@ export function playCalendarActivity(
       ? arriveAtOrdinaryMeeting(world, personId, activityId)
       : openingGuidance
         ? arriveAtCandidateGuidance(world, personId, activityId)
-        : performVenueActivity(world, personId, activityId);
+        : performVenueActivity(world, personId, activityId, undefined, {
+            finishMeeting,
+          });
   } catch (error) {
     // A writer that refuses (a buy the committee can no longer pay for, a
     // session that is not the week's next) says why, and nothing is written:

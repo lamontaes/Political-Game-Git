@@ -74,6 +74,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "meeting-agenda-item",
   "candidacy-approach",
   "household-shortfall",
+  "eviction-case",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -89,6 +90,9 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   // Written by the weekly living costs in `cost-of-living.ts`, not by the
   // candidate writer below: the first week a life cannot cover.
   "household-shortfall": "adult.household-money-shortfall",
+  // Written by the rent day in `living-world/town-rent.ts` when a landlord
+  // files against the lease the played person holds.
+  "eviction-case": "adult.eviction-case",
 };
 
 /**
@@ -110,6 +114,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "meeting-agenda-item": false,
   "candidacy-approach": false,
   "household-shortfall": false,
+  "eviction-case": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -369,7 +374,7 @@ export function openOrdinaryLifeRecords(
   // Existing saves retain their original meeting; only new notices get this leg.
   next = createScheduledActivity(next, {
     stableKey: `${PUBLIC_MEETING_KEY}:journey`,
-    title: "Journey to the public meeting",
+    title: "Trip to the public meeting",
     summary: "About twenty minutes to get to the meeting room.",
     kind: "travel",
     start: momentAt(world, 18, 10, addDays(world.currentDate, 1)),

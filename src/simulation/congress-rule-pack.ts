@@ -1,3 +1,4 @@
+import statehood from "../../data/research/congress/statehood-seats.json" with { type: "json" };
 import {
   fractionOf,
   knownRule,
@@ -308,6 +309,7 @@ function chamber(input: {
   readonly name: string;
   readonly prefix: string;
   readonly seats: ChamberRule["seats"];
+  readonly seatsMayGrowBy?: number;
   readonly referralAuthority: string;
   readonly referralSource: RuleSourceRef;
   readonly committees: readonly CommitteeRule[];
@@ -318,6 +320,9 @@ function chamber(input: {
     name: input.name,
     billDesignationPrefix: input.prefix,
     seats: input.seats,
+    ...(input.seatsMayGrowBy === undefined
+      ? {}
+      : { seatsMayGrowBy: input.seatsMayGrowBy }),
     quorum: knownRule(
       majorityOf("members-elected", "a majority of each House", ART1_SEC5),
       ART1_SEC5,
@@ -386,6 +391,7 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
       name: "Senate",
       prefix: "S.",
       seats: knownRule(100, ART1_SEC3),
+      seatsMayGrowBy: statehood.senateSeats,
       referralAuthority: "The presiding officer",
       referralSource: SENATE_RULE_XVII,
       // PLACEHOLDER committee size; see CONGRESS_COMMITTEE_BY_DOMAIN.
@@ -450,6 +456,10 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
     titleLabel: "President",
     presentmentRequired: knownRule(true, ART1_SEC7),
     actionWindowDaysInSession: knownRule(10, ART1_SEC7),
+    actionWindowDayBasisInSession: knownRule("SUNDAYS_EXCEPTED", ART1_SEC7),
+    actionWindowDayBasisAfterAdjournment: unknownRule(
+      "Adjournment's effect on the presentment window remains unresolved.",
+    ),
     actionWindowDaysAfterAdjournment: unknownRule(
       "A bill whose return an adjournment prevents does not become law (the pocket veto); the pocket veto is not modeled.",
     ),

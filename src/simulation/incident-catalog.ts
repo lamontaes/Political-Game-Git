@@ -219,7 +219,8 @@ export function assertIncidentCatalogIntegrity(catalog: IncidentCatalog): void {
     assertSemanticKey(definition.incidentKind, "Incident kind");
     if (
       definition.occurrenceMode !== "probabilistic" &&
-      definition.occurrenceMode !== "actor-initiated"
+      definition.occurrenceMode !== "actor-initiated" &&
+      definition.occurrenceMode !== "condition"
     ) {
       throw new Error(`Invalid incident occurrence mode: ${id}`);
     }

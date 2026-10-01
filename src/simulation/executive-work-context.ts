@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { recordById, recordsByKey } from "./history-index";
 import { activeLifePathWorkers } from "./life-paths2-workers";
 import { lateTermEntryRecorded } from "./late-term-entry-events";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -195,22 +196,31 @@ export function electedExecutiveTermForRelationship(
   world: World,
   relationshipId: EntityId,
 ) {
-  const entry = world.history.futureDueItems.find(
-    (due) =>
-      due.transitionKey === EXECUTIVE_ELECTED_TERM_ENTRY &&
-      due.entityIds.includes(relationshipId),
+  // Every governing office asks this of its holder several times a Day, so
+  // each lookup reads an index rather than every due item and contest.
+  const naming = recordsByKey(
+    world.history.futureDueItems,
+    "executive-terms:due-by-entity",
+    (due) => due.entityIds,
+    relationshipId,
   );
-  const expiry = world.history.futureDueItems.find(
-    (due) =>
-      due.transitionKey === EXECUTIVE_ELECTED_TERM_EXPIRY &&
-      due.entityIds.includes(relationshipId),
+  const entry = naming.find(
+    (due) => due.transitionKey === EXECUTIVE_ELECTED_TERM_ENTRY,
   );
-  const relationship = world.history.workRelationships.find(
-    (record) => record.id === relationshipId,
+  const expiry = naming.find(
+    (due) => due.transitionKey === EXECUTIVE_ELECTED_TERM_EXPIRY,
   );
-  const contest = (world.history.electionContests ?? []).find((record) =>
-    entry?.entityIds.includes(record.id),
+  const relationship = recordById(
+    world.history.workRelationships,
+    relationshipId,
   );
+  // The first contest in history order that the entry names.
+  const contest = entry
+    ? entry.entityIds
+        .map((id) => recordById(world.history.electionContests ?? [], id))
+        .filter((record) => record !== undefined)
+        .sort((left, right) => left.sequence - right.sequence)[0]
+    : undefined;
   const result = contest ? electionContestResult(world, contest.id) : null;
   const outcome = result && eventById(world, result.outcomeEventId);
   const office =
@@ -267,12 +277,23 @@ export function recordedExecutiveQualification(
 ) {
   const term = electedExecutiveTermForRelationship(world, relationshipId);
   if (!term) return null;
+  return qualificationForTerm(world, term);
+}
+
+function qualificationForTerm(
+  world: World,
+  term: NonNullable<ReturnType<typeof electedExecutiveTermForRelationship>>,
+) {
   return (
-    world.history.events.find(
+    recordsByKey(
+      world.history.events,
+      "executive-terms:qualification-by-person",
       (event) =>
-        event.type === EXECUTIVE_QUALIFICATION &&
+        event.type === EXECUTIVE_QUALIFICATION ? event.involvedEntityIds : [],
+      term.relationship.personId,
+    ).find(
+      (event) =>
         event.recordedAt <= world.currentDate &&
-        event.involvedEntityIds.includes(term.relationship.personId) &&
         event.involvedEntityIds.includes(term.contest.id) &&
         event.involvedEntityIds.includes(term.result.id),
     ) ?? null
@@ -290,7 +311,7 @@ export function activeElectedExecutiveTermEvidence(
     world.currentDate < term.startsAt ||
     world.currentDate >= term.endsAt ||
     workStatusAt(world, relationshipId)?.status !== "active" ||
-    !recordedExecutiveQualification(world, relationshipId) ||
+    !qualificationForTerm(world, term) ||
     !isPersonAliveAt(world, term.relationship.personId, {
       asOfDate: world.currentDate,
       historySequenceExclusive: world.history.nextSequence,
@@ -298,10 +319,13 @@ export function activeElectedExecutiveTermEvidence(
   )
     return null;
   const entered =
-    world.history.futureDueItemStates.some(
-      (state) =>
-        state.dueItemId === term.entry.id && state.status === "resolved",
-    ) || lateTermEntryRecorded(world, relationshipId);
+    recordsByKey(
+      world.history.futureDueItemStates,
+      "executive-terms:due-state-by-item",
+      (state) => [state.dueItemId],
+      term.entry.id,
+    ).some((state) => state.status === "resolved") ||
+    lateTermEntryRecorded(world, relationshipId);
   return entered ? term : null;
 }
 

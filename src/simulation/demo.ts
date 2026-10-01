@@ -1,7 +1,6 @@
 import { addDays, makeIsoDate } from "./dates";
 import {
   LEXINGTON_DEMO_CONTEXT,
-  LEXINGTON_PLACEHOLDER_ID,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
 
@@ -90,7 +89,11 @@ export interface CreateDemoWorldOptions extends CreateScenarioWorldOptions {
   readonly context?: DemoJurisdictionContext;
 }
 
-/** Compatibility entry point: omitted context preserves the primary fixture. */
+/**
+ * Developer and test fixture entry point: omitted context builds the
+ * Lexington-Fayette, Kentucky scenario. That is an explicit scenario, not a
+ * default for play; shipped code and tools name their place.
+ */
 export function createDemoWorld(
   seedInput = DEFAULT_DEMO_SEED,
   options?: CreateDemoWorldOptions,
@@ -273,6 +276,7 @@ export function createScenarioWorld(
     principleId: SYNTHETIC_POLICY_IDS.principles.reduceInequality,
     formedAt: world.currentDate,
     stance: "endorses",
+    strength: 0.5,
     conviction: "moderate",
     flexibility: "conditional",
     qualification: "Institutional stability also matters.",
@@ -711,11 +715,7 @@ export function advanceDemoWorld(world: World, days = 7): World {
     context: {
       location: {
         jurisdictionId,
-        // Retain the accepted primary fixture's exact historical copy.
-        label:
-          jurisdictionId === LEXINGTON_PLACEHOLDER_ID
-            ? "Lexington-Fayette community venue"
-            : `${jurisdiction.name} community venue`,
+        label: `${jurisdiction.name} community venue`,
         setting: "Public listening session",
       },
       socialContext:

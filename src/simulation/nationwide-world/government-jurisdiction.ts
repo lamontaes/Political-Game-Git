@@ -1,4 +1,4 @@
-import { createStableId } from "../ids";
+import { governmentUnitJurisdictionId } from "../government-units";
 import { stateJurisdictionForKey } from "../life-places";
 import type { EntityId, Jurisdiction } from "../types";
 import {
@@ -59,16 +59,7 @@ export function governingJurisdictionIdFor(
     return stateJurisdictionForKey(`US-${scope.stateUsps}`)?.id ?? null;
   }
   const { unit } = scope;
-  if (unit.unitType === "county" && unit.countyGeoid !== null) {
-    return createStableId(
-      "jurisdiction",
-      `national-county:${unit.countyGeoid}`,
-    );
-  }
-  if (unit.unitType === "municipality" && unit.placeGeoid !== null) {
-    return createStableId("jurisdiction", `national-place:${unit.placeGeoid}`);
-  }
-  return createStableId("jurisdiction", `government-unit:${unit.id}`);
+  return governmentUnitJurisdictionId(unit);
 }
 
 /**

@@ -15,6 +15,12 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 import type { PlaceDistrictRelationRecord } from "../../src/source/domains/sld-place-relations/index";
+import {
+  districtGeoid,
+  loadEnactmentDates,
+  loadLines2026,
+  statesByStartDate,
+} from "./lines-2026-overlay";
 import { readShapefileArchive } from "./shapefile";
 
 const ROOT = join(dirname(new URL(import.meta.url).pathname), "..", "..");
@@ -173,6 +179,38 @@ const pack = (
   );
 };
 
+// U.S. House lines for the 2026 elections: dated sets of county rows on top of
+// the baseline. Each holds the states that share a start day, the day their
+// plan became law, and a reader takes a state's set once the game date reaches
+// its `effectiveFrom`.
+const lines2026 = loadLines2026(ROOT);
+const enactment2026 = loadEnactmentDates(ROOT, lines2026);
+const datedSets = statesByStartDate(enactment2026).map(
+  ({ effectiveFrom, stateFips }) => {
+    const counties: [string, string | string[]][] = [];
+    for (const fips of stateFips) {
+      const state = lines2026.states[fips];
+      if (!state) throw new Error(`No compiled lines for state ${fips}.`);
+      for (const [code, value] of Object.entries(state.counties)) {
+        const districts = (typeof value === "string" ? [value] : value).map(
+          (district) => districtGeoid(fips, district),
+        );
+        counties.push([
+          `${fips}${code}`,
+          districts.length === 1 ? (districts[0] as string) : districts,
+        ]);
+      }
+    }
+    return {
+      vintage: lines2026.vintage,
+      effectiveFrom,
+      asOf: lines2026.asOf,
+      stateFips,
+      byState: pack(counties, 3),
+    };
+  },
+);
+
 const payload = {
   format: "ocd-map-membership-candidates/v2",
   countyCongressional: {
@@ -185,6 +223,7 @@ const payload = {
       ]),
       3,
     ),
+    dated: datedSets,
   },
   placeCongressional: {
     source: { artifactId: relation.artifactId, sha256: relation.sha256 },

@@ -8,6 +8,7 @@ import {
   type JobMarketResult,
 } from "../simulation/job-market";
 import { projectJobMarket } from "../presentation/job-listings-view";
+import { emptyJobListingsLine } from "../presentation/job-listings-english";
 
 /**
  * Jobs in the player's town: real openings at the town's own employers, with
@@ -26,6 +27,8 @@ export function JobListingsPanel({
   if (world.control.kind !== "person") return null;
   const personId = world.control.personId;
   const view = projectJobMarket(world, personId);
+  const emptyLine =
+    view.listings.length === 0 ? emptyJobListingsLine(world, personId) : null;
   const act = (result: JobMarketResult) => {
     setNotice(result.message);
     if (result.ok) onWorldChange(result.world);
@@ -33,6 +36,9 @@ export function JobListingsPanel({
   return (
     <section aria-label="Jobs" data-testid="job-listings">
       <h3>{view.townName ? `Jobs in ${view.townName}` : "Jobs"}</h3>
+      {view.payFloor ? (
+        <p data-testid="job-pay-floor">{view.payFloor}</p>
+      ) : null}
       <p role="status" aria-live="polite">
         {notice}
       </p>
@@ -103,9 +109,7 @@ export function JobListingsPanel({
         </>
       ) : null}
       <h4>Hiring now</h4>
-      {view.listings.length === 0 ? (
-        <p>Nobody here is advertising an opening right now.</p>
-      ) : null}
+      {emptyLine ? <p>{emptyLine}</p> : null}
       {view.listings.map((listing) => (
         <article key={listing.openingId} data-testid="job-listing">
           <h5>{listing.title}</h5>

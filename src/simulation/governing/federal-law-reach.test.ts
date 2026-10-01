@@ -7,7 +7,13 @@ import {
   stateJurisdictionForKey,
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import { outcomeMeasure } from "../outcome-web";
+import {
+  OUTCOME_LINKS,
+  OUTCOMES_PRODUCED,
+  outcomeFactor,
+  outcomeLinkStatus,
+  outcomeMeasure,
+} from "../outcome-web";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import type {
   EntityId,
@@ -137,6 +143,238 @@ describe("an Act of Congress reaches every place", () => {
         measure!.read(world, PLACES[0]!.id, makeIsoDate("2026-02-01")),
         key,
       ).toBeNull();
+    }
+  });
+});
+
+/**
+ * The federal rows Claude CTO approved on Sept. 28, 2026 (CLOUD C's research
+ * checkpoint 2): what each federal law now changes, or on purpose does not.
+ */
+describe("what federal laws change in the outcome web", () => {
+  const STATES = PLACES.filter((place) => /^US-[A-Z]{2}$/.test(place.name));
+  const acts = FEDERAL_QUESTIONS.map((id, index) => act(id, index + 1));
+  const world = {
+    currentDate: makeIsoDate("2032-01-01"),
+    policyCatalog: POLICY,
+    history: {
+      legislativeMeasures: acts.map((entry) => entry.measure),
+      legislativeEnactments: acts.map((entry) => entry.enactment),
+    },
+  } as unknown as World;
+  const link = (key: string) => OUTCOME_LINKS.find((row) => row.key === key)!;
+
+  it("raises poverty about 2% everywhere once a higher retirement age has phased in", () => {
+    const row = link("retirement-age-to-poverty");
+    expect(row).toMatchObject({ size: 0.02, lagMonths: 60, owner: "C" });
+    expect(outcomeLinkStatus(row)).toBe("built");
+    for (const place of STATES) {
+      // In force from March 1, 2026: five years later it has phased in.
+      const after = outcomeFactor(
+        world,
+        place.id,
+        "household.poverty-pct",
+        makeIsoDate("2031-03-02"),
+      ).causes.find((cause) => cause.key === row.key);
+      expect(after?.factor, place.name).toBeCloseTo(1.02, 10);
+      const before = outcomeFactor(
+        world,
+        place.id,
+        "household.poverty-pct",
+        makeIsoDate("2031-02-01"),
+      ).causes.find((cause) => cause.key === row.key);
+      expect(before, place.name).toBeUndefined();
+    }
+  });
+
+  it("changes nothing where the research finds nothing, in every state", () => {
+    const zeros = [
+      "immigration-to-crime",
+      "federal-mandatory-minimums-to-crime",
+      "top-income-tax-rate-to-poverty",
+      "student-loan-forgiveness-to-poverty",
+    ].map(link);
+    for (const row of zeros) {
+      expect(row, row?.key).toMatchObject({
+        size: 0,
+        strength: "about-zero",
+        evidence: "about-zero",
+      });
+      expect(outcomeLinkStatus(row)).toBe("about-zero");
+      for (const place of STATES)
+        expect(
+          outcomeFactor(world, place.id, row.to, world.currentDate).causes.map(
+            (cause) => cause.key,
+          ),
+          `${place.name}: ${row.key}`,
+        ).not.toContain(row.key);
+    }
+  });
+
+  it("leaves vouchers' effects on schooling and arrests as evidence gaps, not zeros, and they move nothing", () => {
+    // The Chicago lottery's schooling and arrest estimates were mostly
+    // insignificant, which is not a measured zero (CTO gap list A164).
+    const gaps = [
+      "housing-vouchers-to-graduation",
+      "housing-vouchers-to-crime",
+    ].map(link);
+    for (const row of gaps) {
+      expect(row, row?.key).toMatchObject({
+        size: null,
+        evidence: "to-confirm",
+      });
+      expect(outcomeLinkStatus(row)).not.toBe("built");
+      expect((row as unknown as { notes?: string }).notes, row.key).toMatch(
+        /^Evidence gap, not a measured zero/,
+      );
+      for (const place of STATES)
+        expect(
+          outcomeFactor(world, place.id, row.to, world.currentDate).causes.map(
+            (cause) => cause.key,
+          ),
+          `${place.name}: ${row.key}`,
+        ).not.toContain(row.key);
+    }
+  });
+
+  it("cuts homelessness where a voucher law is in force, now that the game records it", () => {
+    expect([
+      link("housing-vouchers-to-homelessness").size,
+      outcomeLinkStatus(link("housing-vouchers-to-homelessness")),
+    ]).toEqual([-0.3, "built"]);
+  });
+
+  it("moves the prices, drug costs, high-cost loans and older work of every place, once each law's lag has passed", () => {
+    // In force from March 1, 2026. Each row: the measure, the size, the lag.
+    const rows = [
+      ["tariffs-to-prices", "household.prices"],
+      ["drug-negotiation-to-out-of-pocket", "health.drug-out-of-pocket"],
+      ["federal-loan-cap-to-high-cost-loans", "finance.high-cost-loans"],
+      ["retirement-age-to-older-work", "labor.older-employment"],
+    ] as const;
+    for (const [key, measure] of rows) {
+      const row = link(key);
+      expect(row.to).toBe(measure);
+      expect(OUTCOMES_PRODUCED.has(measure), measure).toBe(true);
+      const lagged = new Date(Date.UTC(2026, 2, 2));
+      lagged.setUTCMonth(lagged.getUTCMonth() + row.lagMonths);
+      const after = makeIsoDate(lagged.toISOString().slice(0, 10));
+      let moved = 0;
+      for (const place of STATES) {
+        const cause = outcomeFactor(
+          world,
+          place.id,
+          measure,
+          after,
+        ).causes.find((entry) => entry.key === key);
+        // The loan cap acts only where the state has no cap of its own: a
+        // state that already caps rates gains nothing from the federal one.
+        const stateCaps =
+          row.moderator !== undefined &&
+          outcomeMeasure(row.moderator.measure)!.read(
+            world,
+            place.id,
+            after,
+          ) !== 0;
+        if (stateCaps) {
+          expect(cause?.factor ?? 1, `${place.name} ${key}`).toBeCloseTo(1, 10);
+          continue;
+        }
+        moved += 1;
+        expect(cause?.factor, `${place.name} ${key}`).toBeCloseTo(
+          1 + row.size!,
+          10,
+        );
+        const before = outcomeFactor(
+          world,
+          place.id,
+          measure,
+          makeIsoDate("2026-03-02"),
+        ).causes.find((entry) => entry.key === key);
+        if (row.lagMonths > 0)
+          expect(before, `${place.name} ${key}`).toBeUndefined();
+      }
+      expect(moved, key).toBeGreaterThan(0);
+    }
+  });
+
+  it("acts on the outcomes the game now keeps for them", () => {
+    expect(
+      Object.fromEntries(
+        [
+          "drug-negotiation-to-out-of-pocket",
+          "federal-loan-cap-to-high-cost-loans",
+          "retirement-age-to-older-work",
+          "tariffs-to-prices",
+        ].map((key) => [key, [link(key).size, outcomeLinkStatus(link(key))]]),
+      ),
+    ).toEqual({
+      "drug-negotiation-to-out-of-pocket": [-0.08, "built"],
+      "federal-loan-cap-to-high-cost-loans": [-0.32, "built"],
+      "retirement-age-to-older-work": [0.1, "built"],
+      "tariffs-to-prices": [0.008, "built"],
+    });
+  });
+});
+
+/**
+ * Laws change both ways (Claude CTO, Sept. 28, 2026): when Congress repeals a
+ * federal law, the effect it switched on ends the day the repeal takes effect,
+ * not a phase-in lag later.
+ */
+describe("a federal repeal ends the effect it switched on", () => {
+  const row = OUTCOME_LINKS.find(
+    (link) => link.key === "retirement-age-to-poverty",
+  )!;
+  const questionKey = row.from.replace(/^law:/, "");
+  const proposition = Object.values(POLICY.propositions).find(
+    (definition) => definition.stableKey === questionKey,
+  )!;
+  const STATES = PLACES.filter((place) => /^US-[A-Z]{2}$/.test(place.name));
+  const passed = act(proposition.id, 1);
+  const second = act(proposition.id, 2);
+  const repeal = {
+    measure: {
+      ...second.measure,
+      propositionAnswers: [{ propositionId: proposition.id, answer: "no" }],
+    },
+    enactment: {
+      ...second.enactment,
+      resolvedAt: makeIsoDate("2029-06-01"),
+      effectiveAt: makeIsoDate("2029-06-01"),
+    },
+  } as ReturnType<typeof act>;
+  const worldAt = (date: string, both: boolean) =>
+    ({
+      currentDate: makeIsoDate(date),
+      policyCatalog: POLICY,
+      history: {
+        legislativeMeasures: both
+          ? [passed.measure, repeal.measure]
+          : [passed.measure],
+        legislativeEnactments: both
+          ? [passed.enactment, repeal.enactment]
+          : [passed.enactment],
+      },
+    }) as unknown as World;
+  const cause = (world: World, id: EntityId, on: string) =>
+    outcomeFactor(world, id, row.to, makeIsoDate(on)).causes.find(
+      (entry) => entry.key === row.key,
+    );
+
+  it("keeps the effect while the law stands, and drops it once it is repealed", () => {
+    for (const place of STATES) {
+      // Never repealed: five years after March 1, 2026 the effect is in.
+      expect(
+        cause(worldAt("2032-01-01", false), place.id, "2031-03-02")?.factor,
+        place.name,
+      ).toBeCloseTo(1.02, 10);
+      // Repealed June 1, 2029, before the phase-in finished: nothing of it
+      // is left on March 2, 2031, the day it would have reached full size.
+      expect(
+        cause(worldAt("2032-01-01", true), place.id, "2031-03-02"),
+        place.name,
+      ).toBeUndefined();
     }
   });
 });

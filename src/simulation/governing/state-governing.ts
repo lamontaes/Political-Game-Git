@@ -1,6 +1,7 @@
+import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { createWorkRelationship, recordWorkStatus } from "../life";
@@ -10,25 +11,58 @@ import {
   workRoleAt,
   workStatusAt,
 } from "../life-queries";
+import { currentPresidentOf } from "../crisis/offices";
+import { currentFederalTenure } from "../federal-tenures";
+import { nationalOfficeHolder } from "../national-election-consumer";
+import {
+  municipalOrganizationFor,
+  municipalSeats,
+} from "../municipal-public-work";
+import { publicGovernmentIdentityForRecord } from "../public-government-identity";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
+import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
   committeeHearingTransitionHandler,
+  recordExecutiveInaction,
+  measurePosition,
 } from "../legislation";
 import { createWorkItem, workItemState } from "../time-work";
 import type {
   EntityId,
   FutureDueItem,
+  FutureTransitionHandler,
   FutureTransitionHandlerResult,
   HistoricalEvent,
   IsoDate,
+  PublicGovernmentIdentity,
   PublicProgramAppropriationRecord,
   World,
   WorkItemStateRecord,
 } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
+import { recordDurableDecisionTrace } from "../decisions";
+import {
+  BILL_SIGN,
+  BILL_RETURN,
+  executiveBillActionWindow,
+  evaluateGovernorBill,
+  ownPartyPassageVote,
+} from "./governor-bill-decision";
+import {
+  advanceClemencyPetition,
+  considerClemencyAfterExecutiveDesk,
+} from "../justice/clemency";
+import { CLEMENCY_KIND_TAG } from "../justice/jail-terms";
+import {
+  CLEMENCY_DENY,
+  CLEMENCY_GRANT,
+  clemencyQuestionFor,
+  evaluateClemency,
+} from "../justice/clemency-reasoning";
 import { isCongressMeasure } from "./congress-chambers";
 import {
   CONGRESS_LAWMAKING_HANDLERS,
@@ -43,28 +77,28 @@ import {
   stateExecutiveTermRuleNote,
 } from "../nationwide-world/state-executive-term-rules";
 import { governingJurisdictionIdFor } from "../nationwide-world/government-jurisdiction";
+import { stateExecutiveIdentityForOfficeKey } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
-  authoredMeasuresForJurisdiction,
   createInstitutionStepHandler,
-  fileLegislatureMeasure,
   recordGovernorDecisionOnMeasure,
   scheduleInstitutionStep,
   type ExecutiveDeskHandler,
 } from "./legislative-clock";
 import {
   GOVERNING_SEASON,
-  STATE_GOVERNING_CALENDAR,
   scheduleGoverningSeasons,
 } from "./governing-calendar";
-import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
+import {
+  ensureStateLegislatureOpening,
+  STATE_LEGISLATURE_OPENING_TRANSITION,
+  stateLegislatureOpeningHandler,
+} from "../nationwide-world/state-legislature-opening";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
-import {
-  ensureOfficeholderPrinciples,
-  principleVoteConsideration,
-} from "./officeholder-principles";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
+import { publicPartyOf } from "./chamber-votes";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -109,6 +143,8 @@ export const GOVERNING_OUTCOME = "governing.outcome" as const;
 export const GOVERNING_TRANSITION = "governing:transition" as const;
 export const GOVERNING_DEADLINE = "governing:matter-deadline" as const;
 export const GOVERNING_NPC_DECISION = "governing:npc-decision" as const;
+export const GOVERNING_PROGRAM_AVAILABLE =
+  "governing:program-available" as const;
 export const GOVERNING_FOLLOW_UP = "governing:follow-up" as const;
 
 export type GoverningMatterFamily =
@@ -117,14 +153,15 @@ export type GoverningMatterFamily =
   | "implementation"
   | "budget"
   | "bill"
-  | "program";
+  | "program"
+  | "clemency";
 
 export interface GoverningOffice {
   readonly officeKey: string;
   readonly stateUsps: string;
   readonly title: string;
   readonly jurisdictionId: EntityId;
-  readonly organizationId: EntityId;
+  readonly organizationId: EntityId | null;
   readonly holderPersonId: EntityId;
   /** The elected-term relationship or opening tenure event. */
   readonly termId: EntityId;
@@ -135,6 +172,8 @@ export interface GoverningOffice {
   readonly calendarBasis: "verified" | "game-profile" | "mixed";
   /** What to tell the holder about the rule dating this term. */
   readonly calendarNote: string | null;
+  /** Program-only federal/local desks keep their actual authority identity. */
+  readonly programOffice?: PublicProgramOffice;
 }
 
 function controlledPersonId(world: World): EntityId | null {
@@ -184,6 +223,54 @@ export function currentGoverningOffices(
   });
 }
 
+/** The recorded Presidency has a holder even when no staff organization exists. */
+function presidentGoverningOffice(world: World): GoverningOffice | null {
+  const president = currentPresidentOf(world);
+  if (!president) return null;
+  const election = nationalOfficeHolder(world, "president");
+  const tenure = currentFederalTenure(world, "us-president");
+  const termId = election?.plan.id ?? tenure?.event.id;
+  if (!termId) return null;
+  return {
+    officeKey: "us-president",
+    stateUsps: "",
+    title: president.title,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    organizationId: null,
+    holderPersonId: president.personId,
+    termId,
+    termStartedAt: null,
+    termEndsAt: null,
+    controlledByPlayer: controlledPersonId(world) === president.personId,
+    calendarBasis: "verified",
+    calendarNote: null,
+  };
+}
+
+/** Opens a passed federal bill on the same bound matter as a state bill. */
+export function openPresidentBillMatter(
+  world: World,
+  measure: Parameters<ExecutiveDeskHandler>[1],
+): World {
+  const office = presidentGoverningOffice(world);
+  if (
+    !office ||
+    measurePosition(world, measure.id).phase !== "awaiting-executive"
+  )
+    return world;
+  const next = openMatter(world, office, {
+    family: "bill",
+    instance: `measure:${measure.id}`,
+    measureId: measure.id,
+  });
+  const window = executiveBillActionWindow(next, measure);
+  if (!window || next.currentDate <= window.lastActionDate) return next;
+  const matter = governingMatters(next, office.officeKey).find(
+    (m) => m.measureId === measure.id && m.status === "open",
+  );
+  return matter ? applyExecutiveBillInaction(next, matter) : next;
+}
+
 export function governingOfficeForPerson(
   world: World,
   personId: EntityId,
@@ -191,7 +278,10 @@ export function governingOfficeForPerson(
   return (
     currentGoverningOffices(world).find(
       (office) => office.holderPersonId === personId,
-    ) ?? null
+    ) ??
+    (presidentGoverningOffice(world)?.holderPersonId === personId
+      ? presidentGoverningOffice(world)
+      : null)
   );
 }
 
@@ -199,11 +289,104 @@ function governingOfficeByKey(
   world: World,
   officeKey: string,
 ): GoverningOffice | null {
-  return (
-    currentGoverningOffices(world).find(
-      (office) => office.officeKey === officeKey,
-    ) ?? null
+  const governor = currentGoverningOffices(world).find(
+    (office) => office.officeKey === officeKey,
   );
+  if (governor) return governor;
+  if (officeKey === "us-president") return presidentGoverningOffice(world);
+  // A program desk is resolved from the same saved appropriation and current
+  // holder that opened it. It never joins the governor calendar or bill desk.
+  for (const record of world.history.publicProgramRecords ?? []) {
+    if (record.kind !== "appropriation") continue;
+    const office = programOfficeForAppropriation(world, record);
+    if (office?.officeKey === officeKey) return office;
+  }
+  return null;
+}
+
+function programOfficeForAppropriation(
+  world: World,
+  appropriation: PublicProgramAppropriationRecord,
+): GoverningOffice | null {
+  const identity = publicGovernmentIdentityForRecord(appropriation);
+  if (identity.kind === "local-government") {
+    const descriptor: PublicProgramOffice = {
+      kind: "municipal",
+      governmentKey: identity.governmentKey,
+    };
+    const organization = municipalOrganizationFor(
+      world,
+      identity.governmentKey,
+    );
+    if (!organization) return null;
+    const eligible = municipalSeats(world, identity.governmentKey).filter(
+      (seat) =>
+        (seat.role === "mayor" || seat.role === "professional-manager") &&
+        programAuthority(world, seat.personId, descriptor, appropriation)
+          .status === "available",
+    );
+    const holders = new Set(eligible.map((seat) => seat.personId));
+    if (holders.size !== 1) return null;
+    const seat = eligible[0]!;
+    return {
+      officeKey: `program-office:local:${encodeURIComponent(identity.governmentKey)}`,
+      stateUsps: "",
+      title: seat.role === "mayor" ? "Mayor" : "Manager",
+      jurisdictionId: appropriation.jurisdictionId,
+      organizationId: organization.id,
+      holderPersonId: seat.personId,
+      termId: seat.participationId,
+      termStartedAt: null,
+      termEndsAt: null,
+      controlledByPlayer: controlledPersonId(world) === seat.personId,
+      calendarBasis: "game-profile",
+      calendarNote: null,
+      programOffice: descriptor,
+    };
+  }
+  if (appropriation.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id) {
+    const president = currentPresidentOf(world);
+    const descriptor: PublicProgramOffice = { kind: "federal-executive" };
+    if (
+      !president ||
+      programAuthority(world, president.personId, descriptor, appropriation)
+        .status !== "available"
+    )
+      return null;
+    const termId =
+      nationalOfficeHolder(world, "president")?.plan.id ??
+      currentFederalTenure(world, "us-president")?.event.id ??
+      president.personId;
+    return {
+      officeKey: "program-office:us-president",
+      stateUsps: "",
+      title: president.title,
+      jurisdictionId: appropriation.jurisdictionId,
+      // The public account is the saved federal organization available to a
+      // program matter; the Presidency has no separate organization record.
+      organizationId: appropriation.accountOrganizationId,
+      holderPersonId: president.personId,
+      termId,
+      termStartedAt: null,
+      termEndsAt: null,
+      controlledByPlayer: controlledPersonId(world) === president.personId,
+      calendarBasis: "game-profile",
+      calendarNote: null,
+      programOffice: descriptor,
+    };
+  }
+  const office = currentGoverningOffices(world).find(
+    (candidate) => candidate.jurisdictionId === appropriation.jurisdictionId,
+  );
+  return office &&
+    programAuthority(
+      world,
+      office.holderPersonId,
+      { kind: "state-executive" },
+      appropriation,
+    ).status === "available"
+    ? office
+    : null;
 }
 
 /* ------------------------------------------------------------------ *
@@ -218,7 +401,9 @@ export function chiefOfStaffFor(
   world: World,
   office: Pick<GoverningOffice, "organizationId">,
 ): EntityId | null {
-  return chiefOfStaffWork(world, office.organizationId)[0]?.personId ?? null;
+  return office.organizationId
+    ? (chiefOfStaffWork(world, office.organizationId)[0]?.personId ?? null)
+    : null;
 }
 
 /** Every active chief-of-staff job in the office, in person order. */
@@ -278,7 +463,6 @@ function isSittingChief(
 import {
   generateStaffCandidateHistory,
   staffAssessment,
-  staffKnowsLegislature,
 } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
@@ -286,10 +470,13 @@ import {
   openAppropriationsFor,
   programAlternativesFor,
   programOperatorOrganization,
+  standingProgramUnsupported,
 } from "./program-governing";
 import {
   commitPublicProgram,
   forecastProgramAlternative,
+  programAuthority,
+  type PublicProgramOffice,
 } from "./public-program";
 import {
   establishOfficeStaffPositions,
@@ -337,7 +524,7 @@ export interface GoverningMatter {
   readonly officeKey: string;
   readonly holderPersonId: EntityId;
   readonly openedAt: IsoDate;
-  readonly deadline: IsoDate;
+  readonly deadline: IsoDate | null;
   readonly title: string;
   readonly ask: string;
   /** What happens if nobody decides by the deadline. */
@@ -365,6 +552,15 @@ function measureTitle(world: World, measureId: EntityId | null): string | null {
     (record) => record.id === measureId,
   );
   return measure ? `${measure.designation}, ${measure.shortTitle}` : null;
+}
+
+/** The person a clemency matter is about, by name. */
+function petitionerLabel(world: World, event: HistoricalEvent): string {
+  const personId = event.participants.find(
+    (participant) => participant.role === "focus:candidate",
+  )?.personId;
+  const person = personId ? world.people[personId] : undefined;
+  return person ? personName(person) : "someone under sentence";
 }
 
 function subjectLabel(subjectKey: string | null): string {
@@ -476,23 +672,31 @@ function optionsFor(
           record.id === appropriationId && record.kind === "appropriation",
       );
       if (!appropriation) return [];
-      return programAlternativesFor(world, appropriation).map((alternative) => {
-        const forecast = forecastProgramAlternative(
-          world,
-          appropriation,
-          alternative,
-        );
-        return {
-          key: `program:${alternative.key}`,
-          label: alternative.title,
-          effect: forecast.lines[0] ?? "Nothing is committed.",
-          tradeoff:
-            forecast.lines.slice(1).join(" ") ||
-            "The rest of the appropriation stays uncommitted.",
-          personId: null,
-          assessment: null,
-        };
-      });
+      return programAlternativesFor(world, appropriation)
+        .filter((alternative) =>
+          alternative.installments.every(
+            (plan) =>
+              addDays(world.currentDate, plan.afterDays) <=
+              appropriation.availableThrough,
+          ),
+        )
+        .map((alternative) => {
+          const forecast = forecastProgramAlternative(
+            world,
+            appropriation,
+            alternative,
+          );
+          return {
+            key: `program:${alternative.key}`,
+            label: alternative.title,
+            effect: forecast.lines[0] ?? "Nothing is committed.",
+            tradeoff:
+              forecast.lines.slice(1).join(" ") ||
+              "The rest of the appropriation stays uncommitted.",
+            personId: null,
+            assessment: null,
+          };
+        });
     }
     case "bill":
       return [
@@ -515,6 +719,31 @@ function optionsFor(
           assessment: null,
         },
       ];
+    case "clemency": {
+      const commutation = event.tags.includes(
+        `${CLEMENCY_KIND_TAG}commutation`,
+      );
+      return [
+        {
+          key: CLEMENCY_GRANT,
+          label: commutation ? "Shorten the sentence" : "Grant the pardon",
+          effect: commutation
+            ? "The jail term ends now."
+            : "The sentence ends now and is forgiven.",
+          tradeoff: "Mercy is noticed, and so is who received it.",
+          personId: null,
+          assessment: null,
+        },
+        {
+          key: CLEMENCY_DENY,
+          label: "Turn it down",
+          effect: "The sentence stands as it was handed down.",
+          tradeoff: "Nothing changes, and the person asking knows you said no.",
+          personId: null,
+          assessment: null,
+        },
+      ];
+    }
     case "implementation":
       return [
         {
@@ -584,6 +813,12 @@ const FAMILY_TEXT: Record<
     ifIgnored:
       "Nothing is committed, and the money stays unspent until the appropriation lapses.",
   },
+  clemency: {
+    title: (subject) => `A request for clemency from ${subject}`,
+    ask: "They are asking you to use the clemency power on their sentence.",
+    ifIgnored:
+      "The request goes unanswered, and the sentence stands as it was handed down.",
+  },
   implementation: {
     title: (subject) => `Direct the agencies on ${subject}`,
     ask: "The agencies are ready to act on your priority and need to know how fast to move.",
@@ -591,14 +826,19 @@ const FAMILY_TEXT: Record<
   },
 };
 
-const DEADLINE_DAYS: Record<GoverningMatterFamily, number> = {
+const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
   "chief-of-staff": 21,
   agenda: 30,
   implementation: 30,
   budget: 30,
-  bill: 10,
   program: 45,
+  // PLACEHOLDER: no state gives a governor a deadline on a clemency request
+  // that the game has read; this is how long it waits on the desk.
+  clemency: 60,
 };
+
+// Preserve the existing NPC review pace; this is not a legal action window.
+const BILL_REVIEW_DAYS = 9;
 
 function isFamily(value: string | null): value is GoverningMatterFamily {
   return value !== null && value in FAMILY_TEXT;
@@ -611,14 +851,31 @@ function matterFromEvent(
   const family = tagValue(event, "matter-family:");
   const officeKey = tagValue(event, "office:");
   const deadline = tagValue(event, "deadline:");
-  if (!isFamily(family) || !officeKey || !deadline) return null;
+  if (!isFamily(family) || !officeKey || (!deadline && family !== "bill"))
+    return null;
   const holderPersonId = event.participants.find(
     (participant) => participant.role === "agency:officeholder",
   )?.personId;
   if (!holderPersonId) return null;
   const subjectKey = tagValue(event, "subject:");
   const measureId = tagValue(event, "measure:") as EntityId | null;
+  const measure =
+    family === "bill" && measureId
+      ? world.history.legislativeMeasures?.find((m) => m.id === measureId)
+      : undefined;
+  const executiveWindow = measure
+    ? executiveBillActionWindow(world, measure)
+    : null;
   const appropriationId = tagValue(event, "appropriation:") as EntityId | null;
+  // A commitment made through the public-program route already answers this
+  // appropriation's matter. Its own saved record is the decision evidence;
+  // the later NPC due item must not make another choice for the same money.
+  // A decision to commit nothing answers only the matter it was made on: the
+  // review a month later is a new question.
+  const programCommitted =
+    family === "program" &&
+    appropriationId !== null &&
+    hasProgramCommitment(world, appropriationId, event.sequence);
   const decision =
     world.history.events.find(
       (candidate) =>
@@ -637,14 +894,23 @@ function matterFromEvent(
     officeKey,
     holderPersonId,
     openedAt: event.occurredAt,
-    deadline: makeIsoDate(deadline),
+    deadline:
+      family === "bill"
+        ? (executiveWindow?.lastActionDate ?? null)
+        : makeIsoDate(deadline!),
     title: text.title(
-      measureTitle(world, measureId) ?? subjectLabel(subjectKey),
+      family === "clemency"
+        ? petitionerLabel(world, event)
+        : (measureTitle(world, measureId) ?? subjectLabel(subjectKey)),
     ),
     ask: text.ask,
     ifIgnored:
       family === "bill" && measureId
-        ? "No deadline for acting is established for this state's governor in the game, so the bill waits on your desk."
+        ? executiveWindow
+          ? executiveWindow.inactionOutcome === "becomes-law-without-signature"
+            ? "After the pack's action window ends, the bill becomes law without your signature."
+            : "The action window is known, but its inaction outcome is unsupported; the bill stays pending."
+          : "No executable action window is established, so the bill waits on your desk."
         : text.ifIgnored,
     options: optionsFor(world, family, event),
     subjectKey,
@@ -653,12 +919,33 @@ function matterFromEvent(
     openedEvent: event,
     workItemId: workItem?.id ?? null,
     decision,
-    status: !decision
-      ? "open"
-      : decision.tags.includes("choice:lapsed")
-        ? "lapsed"
-        : "decided",
+    status:
+      !decision && !programCommitted
+        ? "open"
+        : decision?.tags.includes("choice:lapsed")
+          ? "lapsed"
+          : "decided",
   };
+}
+
+/**
+ * Whether money was committed from this appropriation, or, when `since` is
+ * given, whether any decision on it (committing nothing included) was saved
+ * after that history sequence.
+ */
+function hasProgramCommitment(
+  world: World,
+  appropriationId: EntityId,
+  since = Number.POSITIVE_INFINITY,
+): boolean {
+  return (
+    world.history.publicProgramRecords?.some(
+      (record) =>
+        record.kind === "commitment" &&
+        record.appropriationId === appropriationId &&
+        (record.installments.length > 0 || record.sequence > since),
+    ) ?? false
+  );
 }
 
 export function governingMatters(
@@ -688,6 +975,66 @@ export function governingMatterById(
     : null;
 }
 
+/**
+ * The office's assigned decision work is completed only by its own recorded
+ * action. This receipt says nothing about money spent or service delivered.
+ * A lapse remains a cancelled work item, not fulfillment of the assignment.
+ */
+export function completedGoverningMatterWork(
+  world: World,
+  matterId: EntityId,
+): WorkItemStateRecord | null {
+  const matter = governingMatterById(world, matterId);
+  const decision = matter?.decision;
+  if (
+    !matter ||
+    !decision ||
+    !matter.workItemId ||
+    matter.status !== "decided" ||
+    decision.occurredAt > world.currentDate ||
+    decision.recordedAt > world.currentDate ||
+    decision.sequence <= matter.openedEvent.sequence ||
+    !decision.tags.includes(`office:${matter.officeKey}`) ||
+    !decision.tags.includes(`matter-family:${matter.family}`) ||
+    !decision.participants.some(
+      (row) => row.role === "agency:decider" && world.people[row.personId],
+    )
+  )
+    return null;
+  const work = world.history.workItems.find(
+    (item) => item.id === matter.workItemId,
+  );
+  if (
+    !work ||
+    !work.sourceEntityIds.includes(matter.id) ||
+    work.focus.kind !== "other" ||
+    work.focus.sourceEntityId !== matter.id ||
+    !world.history.workItemStates.some((state) => state.workItemId === work.id)
+  )
+    return null;
+  const state = workItemState(world, work.id);
+  return state.status === "completed" &&
+    state.outcomeEventId === decision.id &&
+    state.sequence > decision.sequence &&
+    compareSimulationMoments(state.recordedAt, world.currentMoment) <= 0
+    ? state
+    : null;
+}
+
+function billOpposedByOwnParty(
+  world: World,
+  office: GoverningOffice,
+  matter: GoverningMatter,
+): boolean {
+  if (!matter.measureId) return false;
+  const own = ownPartyPassageVote(
+    world,
+    matter.measureId,
+    publicPartyOf(world, office.holderPersonId),
+  );
+  return own.nay > own.yea;
+}
+
 /** What the chief of staff would do, with a reason; null without one. */
 export function staffRecommendation(
   world: World,
@@ -704,7 +1051,9 @@ export function staffRecommendation(
   const assessment = staffAssessment(world, chief);
   const rng = new SeededRng(`${matter.stableKey}:recommendation:${chief}`);
   switch (matter.family) {
+    // Clemency is the officeholder's own power; nobody decides it for them.
     case "chief-of-staff":
+    case "clemency":
       return null;
     case "agenda": {
       const real = matter.options.filter((o) => o.key !== "priority:none");
@@ -740,19 +1089,19 @@ export function staffRecommendation(
             byPersonId: chief,
             reason: "It moves the office's own priority.",
           }
-        : // PLACEHOLDER: three signatures in four. How often a governor signs
-          // what reaches the desk is filed as
-          // `why-a-governor-signs-or-vetoes`; no rate is approved.
-          rng.integer(0, 3) > 0
+        : // The chief reads the floor vote: a bill the governor's own party
+          // voted down is one to send back; any other is not worth a fight.
+          billOpposedByOwnParty(world, office, matter)
           ? {
+              optionKey: "bill:return",
+              byPersonId: chief,
+              reason:
+                "The governor's own party voted against it in the legislature.",
+            }
+          : {
               optionKey: "bill:sign",
               byPersonId: chief,
               reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
-            }
-          : {
-              optionKey: "bill:return",
-              byPersonId: chief,
-              reason: "Thinks the agencies cannot absorb it this year.",
             };
     case "program": {
       // The advice is about money that exists: a steady chief spreads it over
@@ -886,6 +1235,9 @@ interface OpenMatterInput {
   readonly sourceEventId?: EntityId | null;
   readonly measureId?: EntityId | null;
   readonly appropriationId?: EntityId | null;
+  /** What the title is about, where it is not a measure or a program. */
+  readonly titleSubject?: string;
+  readonly extraTags?: readonly string[];
 }
 
 function matterStableKey(
@@ -904,10 +1256,21 @@ function openMatter(
   const stableKey = matterStableKey(office, input.family, input.instance);
   if (world.history.events.some((event) => event.stableKey === stableKey))
     return world;
-  const deadline = addDays(world.currentDate, DEADLINE_DAYS[input.family]);
+  const measure =
+    input.family === "bill" && input.measureId
+      ? world.history.legislativeMeasures?.find((m) => m.id === input.measureId)
+      : undefined;
+  const executiveWindow = measure
+    ? executiveBillActionWindow(world, measure)
+    : null;
+  const deadline =
+    input.family === "bill"
+      ? (executiveWindow?.lastActionDate ?? null)
+      : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
   const title = text.title(
-    measureTitle(world, input.measureId ?? null) ??
+    input.titleSubject ??
+      measureTitle(world, input.measureId ?? null) ??
       subjectLabel(input.subjectKey ?? null),
   );
   let next = recordWorldEvent(world, {
@@ -918,7 +1281,7 @@ function openMatter(
     jurisdictionId: office.jurisdictionId,
     involvedEntityIds: [
       office.holderPersonId,
-      office.organizationId,
+      ...(office.organizationId ? [office.organizationId] : []),
       ...(input.candidatePersonIds ?? []),
     ],
     participants: [
@@ -939,7 +1302,7 @@ function openMatter(
       STATE_GOVERNING_VERSION,
       `matter-family:${input.family}`,
       `office:${office.officeKey}`,
-      `deadline:${deadline}`,
+      ...(deadline ? [`deadline:${deadline}`] : []),
       ...(input.subjectKey ? [`subject:${input.subjectKey}`] : []),
       ...(input.sourceEventId ? [`source-event:${input.sourceEventId}`] : []),
       ...(input.measureId ? [`measure:${input.measureId}`] : []),
@@ -947,11 +1310,29 @@ function openMatter(
         ? [`appropriation:${input.appropriationId}`]
         : []),
       ...(input.programKeys ?? []).map((key) => `program:${key}`),
+      ...(input.extraTags ?? []),
     ],
     summary: `${office.title}: ${title}.`,
     context: emptyContext(),
   });
   const opened = next.history.events.at(-1)!;
+  if (
+    measure &&
+    executiveWindow &&
+    executiveWindow.inactionAt > next.currentDate
+  ) {
+    next = scheduleFutureDueItem(next, {
+      stableKey: `${stableKey}:deadline`,
+      dueAt:
+        executiveWindow.inactionAt < next.currentDate
+          ? next.currentDate
+          : executiveWindow.inactionAt,
+      transitionKey: GOVERNING_DEADLINE,
+      entityIds: [opened.id],
+      jurisdictionId: office.jurisdictionId,
+      provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
+    });
+  }
   if (office.controlledByPlayer) {
     next = createWorkItem(next, {
       stableKey: `${stableKey}:work`,
@@ -972,29 +1353,71 @@ function openMatter(
       blocker: null,
       scheduledActivityId: null,
     });
-    // A real bill's action deadline is the state's law, which the game does
-    // not compile: the bill waits on the desk rather than lapsing by rule.
-    if (input.family === "bill" && input.measureId) return next;
+    // A real bill lapses only through an executable, declared legal window.
+    if (input.family === "bill") return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
-      dueAt: deadline,
+      dueAt: deadline!,
       transitionKey: GOVERNING_DEADLINE,
       entityIds: [opened.id],
       jurisdictionId: office.jurisdictionId,
       provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
     });
   }
-  const rng = new SeededRng(`${stableKey}:npc-timing`);
+  if (
+    measure &&
+    executiveWindow &&
+    world.currentDate > executiveWindow.lastActionDate
+  )
+    return next;
+  // Keep the existing workflow interval, bounded by the actual legal last day.
+  const workflowDate = addDays(
+    world.currentDate,
+    input.family === "bill"
+      ? BILL_REVIEW_DAYS
+      : Math.max(3, DEADLINE_DAYS[input.family] - 1),
+  );
+  const npcDate =
+    executiveWindow && executiveWindow.lastActionDate < workflowDate
+      ? executiveWindow.lastActionDate
+      : workflowDate;
   return scheduleFutureDueItem(next, {
     stableKey: `${stableKey}:npc`,
-    dueAt: addDays(
-      world.currentDate,
-      rng.integer(3, DEADLINE_DAYS[input.family]),
-    ),
+    dueAt:
+      npcDate <= world.currentDate ? addDays(world.currentDate, 1) : npcDate,
     transitionKey: GOVERNING_NPC_DECISION,
     entityIds: [opened.id],
     jurisdictionId: office.jurisdictionId,
     provenance: { kind: "simulated", sourceEntityIds: [opened.id] },
+  });
+}
+
+/**
+ * A request for clemency on the officeholder's desk, opened by the clemency
+ * route (`justice/clemency.ts`) when the law needs this office's answer. The
+ * player decides it; a governor the game plays decides it on their own
+ * principles, relationships and calendar. Idempotent on the instance.
+ */
+export function openClemencyMatter(
+  world: World,
+  officeKey: string,
+  input: {
+    readonly instance: string;
+    readonly petitionEventId: EntityId;
+    readonly petitionerId: EntityId;
+    readonly kind: "pardon" | "commutation";
+  },
+): World {
+  const office = governingOfficeByKey(world, officeKey);
+  const petitioner = world.people[input.petitionerId];
+  if (!office || !petitioner) return world;
+  return openMatter(world, office, {
+    family: "clemency",
+    instance: input.instance,
+    candidatePersonIds: [input.petitionerId],
+    sourceEventId: input.petitionEventId,
+    titleSubject: personName(petitioner),
+    extraTags: [`${CLEMENCY_KIND_TAG}${input.kind}`],
   });
 }
 
@@ -1004,7 +1427,7 @@ function openMatter(
  */
 export function openTransitionMatters(world: World, officeKey: string): World {
   const office = governingOfficeByKey(world, officeKey);
-  if (!office) return world;
+  if (!office || !office.organizationId) return world;
   const key = matterStableKey(office, "chief-of-staff", "transition");
   if (world.history.events.some((event) => event.stableKey === key))
     return world;
@@ -1048,29 +1471,160 @@ export function openTransitionMatters(world: World, officeKey: string): World {
 export function openProgramMatters(
   world: World,
   office: GoverningOffice,
+  identity?: PublicGovernmentIdentity,
 ): World {
   let next = world;
   for (const appropriation of openAppropriationsFor(
     world,
     office.jurisdictionId,
+    identity,
   )) {
-    const instance = `appropriation:${appropriation.id}`;
-    if (
-      next.history.events.some(
-        (event) =>
-          event.type === GOVERNING_MATTER_OPENED &&
-          event.stableKey === matterStableKey(office, "program", instance),
-      )
-    )
-      continue;
-    next = openMatter(next, office, {
-      family: "program",
-      instance,
-      appropriationId: appropriation.id,
-      subjectKey: appropriation.programKey.split(":")[0] ?? null,
-    });
+    next = openProgramMatter(next, office, appropriation);
   }
   return next;
+}
+
+function openProgramMatter(
+  world: World,
+  office: GoverningOffice,
+  appropriation: PublicProgramAppropriationRecord,
+): World {
+  if (hasProgramCommitment(world, appropriation.id)) return world;
+  if (world.currentDate < appropriation.availableFrom)
+    return scheduleProgramAvailability(world, appropriation);
+  const instance = programMatterInstance(world, office, appropriation);
+  if (!instance) return world;
+  const authority = programAuthority(
+    world,
+    office.holderPersonId,
+    office.programOffice ?? { kind: "state-executive" },
+    appropriation,
+  );
+  if (authority.status !== "available") return world;
+  return openMatter(world, office, {
+    family: "program",
+    instance,
+    appropriationId: appropriation.id,
+    subjectKey: appropriation.programKey.split(":")[0] ?? null,
+  });
+}
+
+/**
+ * Which program question this office should be asked about this money now,
+ * or null when none is due. The first is asked once the money is available.
+ * An office that committed nothing, or let the question lapse, is asked again
+ * PROGRAM_REVIEW_DAYS after that decision, for as long as uncommitted money
+ * remains and the appropriation has not lapsed: "Commit nothing for now" is
+ * not a decision never to spend it.
+ */
+function programMatterInstance(
+  world: World,
+  office: GoverningOffice,
+  appropriation: PublicProgramAppropriationRecord,
+): string | null {
+  const base = `appropriation:${appropriation.id}`;
+  let instance = base;
+  for (;;) {
+    const key = matterStableKey(office, "program", instance);
+    const opened = world.history.events.some(
+      (event) =>
+        event.type === GOVERNING_MATTER_OPENED && event.stableKey === key,
+    );
+    if (!opened) return instance;
+    const decided = world.history.events.find(
+      (event) =>
+        event.type === GOVERNING_MATTER_DECIDED &&
+        event.stableKey === `${key}:decided`,
+    );
+    if (!decided) return null;
+    const reviewOn = programReviewDate(decided.occurredAt);
+    if (world.currentDate < reviewOn) return null;
+    instance = `${base}:review:${reviewOn}`;
+  }
+}
+
+/** A month after an office commits nothing, the money is put to it again. */
+const PROGRAM_REVIEW_DAYS = 30;
+
+function programReviewDate(decidedOn: IsoDate): IsoDate {
+  return addDays(decidedOn, PROGRAM_REVIEW_DAYS);
+}
+
+function scheduleProgramAvailability(
+  world: World,
+  appropriation: PublicProgramAppropriationRecord,
+  dueAt: IsoDate = appropriation.availableFrom,
+): World {
+  const stableKey =
+    dueAt === appropriation.availableFrom
+      ? `${STATE_GOVERNING_VERSION}:program-available:${appropriation.id}`
+      : `${STATE_GOVERNING_VERSION}:program-review:${appropriation.id}:${dueAt}`;
+  return world.history.futureDueItems.some((due) => due.stableKey === stableKey)
+    ? world
+    : scheduleFutureDueItem(world, {
+        stableKey,
+        dueAt,
+        transitionKey: GOVERNING_PROGRAM_AVAILABLE,
+        entityIds: [appropriation.eventId],
+        jurisdictionId: appropriation.jurisdictionId,
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [appropriation.eventId],
+        },
+      });
+}
+
+/** Open adopted money for its current authorized holder on the normal clock. */
+export function openProgramMattersForAllOffices(
+  world: World,
+  onlyRecordIds?: ReadonlySet<EntityId>,
+): World {
+  let next = world;
+  for (const appropriation of world.history.publicProgramRecords ?? []) {
+    if (
+      appropriation.kind !== "appropriation" ||
+      (onlyRecordIds && !onlyRecordIds.has(appropriation.id))
+    )
+      continue;
+    if (next.currentDate < appropriation.availableFrom) {
+      // The holder may change before money becomes available. Schedule the
+      // opening, then resolve the current authorized office on that date.
+      // This comes before the open-money test, which counts only money
+      // already available: asked first, it skipped every law with a later
+      // effective date, and that money never reached an office.
+      next = scheduleProgramAvailability(next, appropriation);
+      continue;
+    }
+    const identity = publicGovernmentIdentityForRecord(appropriation);
+    if (
+      !openAppropriationsFor(
+        world,
+        appropriation.jurisdictionId,
+        identity,
+      ).some((record) => record.id === appropriation.id)
+    )
+      continue;
+    const office = programOfficeForAppropriation(next, appropriation);
+    if (!office) continue;
+    next = openProgramMatter(next, office, appropriation);
+  }
+  return next;
+}
+
+export function governingProgramAvailableHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const appropriation = (world.history.publicProgramRecords ?? []).find(
+    (record): record is PublicProgramAppropriationRecord =>
+      record.kind === "appropriation" && due.entityIds.includes(record.eventId),
+  );
+  if (!appropriation)
+    return resolved(world, "The appropriation for this date is unavailable.");
+  return resolved(
+    openProgramMattersForAllOffices(world, new Set([appropriation.id])),
+    "Available appropriations reached their current offices.",
+  );
 }
 
 export type GoverningDecisionMode = "player" | "delegated" | "officeholder";
@@ -1132,6 +1686,7 @@ function decisionSummary(
       const hired = option.personId ? world.people[option.personId] : null;
       if (
         hired &&
+        office.organizationId &&
         isSittingChief(world, office.organizationId, option.personId!)
       )
         return {
@@ -1183,6 +1738,18 @@ function decisionSummary(
             summary: `${who}, ${office.title}, committed money adopted for ${subjectLabel(matter.subjectKey)}: ${option.label.toLowerCase()}.`,
             visibility: "public",
           };
+    case "clemency": {
+      const petitioner = petitionerLabel(world, matter.openedEvent);
+      return option.key === CLEMENCY_GRANT
+        ? {
+            summary: `${who}, ${office.title}, agreed to a request for clemency from ${petitioner}.`,
+            visibility: "limited",
+          }
+        : {
+            summary: `${who}, ${office.title}, turned down a request for clemency from ${petitioner}.`,
+            visibility: "limited",
+          };
+    }
     case "implementation":
       return option.key === "pace:hold"
         ? {
@@ -1204,7 +1771,8 @@ function applyConsequence(
   decisionEventId: EntityId,
 ): World {
   if (!option) {
-    // A lapsed bill still becomes law, so the agencies still get the work.
+    if (matter.family === "bill" && matter.measureId) return world;
+    // Legacy abstract matters retain their existing agency workflow.
     return matter.family === "bill" && matter.subjectKey
       ? openMatter(world, office, {
           family: "implementation",
@@ -1215,7 +1783,12 @@ function applyConsequence(
       : world;
   }
   switch (matter.family) {
+    // The grant itself is written by the clemency route, which reads this
+    // decision on its own clock with every other body's answer.
+    case "clemency":
+      return world;
     case "chief-of-staff": {
+      if (!office.organizationId) return world;
       if (!option.personId || !world.people[option.personId]) return world;
       if (isSittingChief(world, office.organizationId, option.personId))
         return world;
@@ -1298,11 +1871,16 @@ function applyConsequence(
           matter.measureId,
           signed ? "signed" : "vetoed",
           signed
-            ? "The governor signed the bill."
-            : "The governor vetoed the bill and returned it.",
+            ? "The executive signed the bill."
+            : "The executive vetoed the bill and returned it.",
+          office.holderPersonId,
         );
+        // A signing governor with an item veto strikes the floor-added
+        // sections they cannot accept (Build 25 step 5).
+        if (signed)
+          next = applyItemVetoes(next, matter.measureId, office.holderPersonId);
         next = scheduleInstitutionStep(next, matter.measureId);
-        return signed
+        return signed && office.organizationId
           ? openMatter(next, office, {
               family: "implementation",
               instance: `law:${matter.id}`,
@@ -1332,22 +1910,43 @@ function applyConsequence(
         (candidate) => `program:${candidate.key}` === option.key,
       );
       if (!alternative) return world;
-      const operator = programOperatorOrganization(
+      // A standing service program with no lawful provider on record stays
+      // unsupported: nothing is committed and no provider is made up.
+      const paysOperator = alternative.installments.length > 0;
+      const unsupported = standingProgramUnsupported(
         world,
         appropriation.programKey,
         appropriation.jurisdictionId,
       );
-      const committed = commitPublicProgram(operator.world, {
-        appropriationId: appropriation.id,
-        alternative,
-        personId: office.holderPersonId,
-        office: { kind: "state-executive" },
-        recipientOrganizationId:
-          alternative.installments.length > 0 ? operator.organizationId : null,
-      });
+      const operator = unsupported
+        ? null
+        : programOperatorOrganization(
+            world,
+            appropriation.programKey,
+            appropriation.jurisdictionId,
+            publicGovernmentIdentityForRecord(appropriation),
+          );
+      const committed =
+        paysOperator && !operator
+          ? ({ ok: false } as const)
+          : commitPublicProgram(operator?.world ?? world, {
+              appropriationId: appropriation.id,
+              alternative,
+              personId: office.holderPersonId,
+              office: office.programOffice ?? { kind: "state-executive" },
+              recipientOrganizationId:
+                paysOperator && operator ? operator.organizationId : null,
+            });
       // A refusal is truthful: the money stays uncommitted and the office is
       // told why through the decision record already written.
-      return committed.ok ? committed.world : world;
+      const next = committed.ok ? committed.world : world;
+      // Money left uncommitted comes back to the office a month later while
+      // the appropriation can still be spent.
+      const reviewOn = programReviewDate(next.currentDate);
+      return hasProgramCommitment(next, appropriation.id) ||
+        reviewOn > appropriation.availableThrough
+        ? next
+        : scheduleProgramAvailability(next, appropriation, reviewOn);
     }
     case "implementation": {
       if (option.key === "pace:hold") return world;
@@ -1411,7 +2010,7 @@ function recordDecision(
     jurisdictionId: office.jurisdictionId,
     involvedEntityIds: [
       office.holderPersonId,
-      office.organizationId,
+      ...(office.organizationId ? [office.organizationId] : []),
       ...(matter.workItemId ? [matter.workItemId] : []),
       ...(option?.personId ? [option.personId] : []),
       ...(deciderPersonId !== office.holderPersonId ? [deciderPersonId] : []),
@@ -1448,7 +2047,17 @@ function recordDecision(
     decision.id,
     option ? "completed" : "cancelled",
   );
-  return applyConsequence(next, office, matter, option, decision.id);
+  const outcome = applyConsequence(next, office, matter, option, decision.id);
+  if (matter.family === "clemency" && option) {
+    const petitionId = tagValue(matter.openedEvent, "source-event:");
+    if (petitionId)
+      return advanceClemencyPetition(outcome, petitionId as EntityId);
+  }
+  // The commitment writer may refuse when authority, cash plans, or the
+  // availability window changed. A refused commitment is no decision.
+  return matter.family === "program" && option && outcome === next
+    ? world
+    : outcome;
 }
 
 export type GoverningActionResult =
@@ -1464,12 +2073,16 @@ function openMatterForPlayer(
   if (matter.status !== "open") return "That matter has already been settled.";
   if (controlledPersonId(world) !== matter.holderPersonId)
     return "Only the officeholder can decide this.";
-  // A bill bound to a real measure waits on the desk: the game compiles no
-  // action deadline for it, so the matter's own date cannot refuse a decision.
-  if (
-    world.currentDate > matter.deadline &&
-    !(matter.family === "bill" && matter.measureId)
-  )
+  const measure =
+    matter.family === "bill" && matter.measureId
+      ? world.history.legislativeMeasures?.find(
+          (m) => m.id === matter.measureId,
+        )
+      : undefined;
+  const window = measure ? executiveBillActionWindow(world, measure) : null;
+  const deadline =
+    matter.family === "bill" ? window?.lastActionDate : matter.deadline;
+  if (deadline && world.currentDate > deadline)
     return "The deadline has passed.";
   return matter;
 }
@@ -1485,15 +2098,51 @@ export function decideGoverningMatter(
   const option = matter.options.find((o) => o.key === optionKey);
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
+  let next = world;
+  if (matter.family === "bill" && matter.measureId) {
+    const measure = world.history.legislativeMeasures?.find(
+      (m) => m.id === matter.measureId,
+    );
+    if (!measure || (option.key !== BILL_SIGN && option.key !== BILL_RETURN))
+      return { ok: false, world, reason: "This bill action is not supported." };
+    const evaluation = evaluateGovernorBill(world, {
+      stableKey: matter.stableKey,
+      governorId: matter.holderPersonId,
+      executiveTitle: governingOfficeByKey(world, matter.officeKey)?.title,
+      measure,
+      staff: staffRecommendation(world, matter),
+      playerChoice: {
+        optionKey: option.key,
+        matterEventId: matter.openedEvent.id,
+      },
+    });
+    next = recordDurableDecisionTrace(world, evaluation);
+    if (
+      evaluation.outcomeKind !== "selected" ||
+      evaluation.selectedOptionKey !== option.key
+    )
+      return {
+        ok: false,
+        world: next,
+        reason: "The executive decision remains pending.",
+      };
+  }
+  const decided = recordDecision(
+    next,
+    matter,
+    option,
+    "player",
+    matter.holderPersonId,
+  );
+  if (decided === world)
+    return {
+      ok: false,
+      world,
+      reason: "This funding choice cannot be committed on the current record.",
+    };
   return {
     ok: true,
-    world: recordDecision(
-      world,
-      matter,
-      option,
-      "player",
-      matter.holderPersonId,
-    ),
+    world: decided,
   };
 }
 
@@ -1512,20 +2161,29 @@ export function delegateGoverningMatter(
       reason:
         matter.family === "chief-of-staff"
           ? "Choosing the chief of staff is yours to do."
-          : "There is no chief of staff to hand this to.",
+          : matter.family === "clemency"
+            ? "The clemency power is yours alone to use."
+            : "There is no chief of staff to hand this to.",
     };
   const option = matter.options.find(
     (o) => o.key === recommendation.optionKey,
   )!;
+  const decided = recordDecision(
+    world,
+    matter,
+    option,
+    "delegated",
+    recommendation.byPersonId,
+  );
+  if (decided === world)
+    return {
+      ok: false,
+      world,
+      reason: "This funding choice cannot be committed on the current record.",
+    };
   return {
     ok: true,
-    world: recordDecision(
-      world,
-      matter,
-      option,
-      "delegated",
-      recommendation.byPersonId,
-    ),
+    world: decided,
   };
 }
 
@@ -1592,8 +2250,42 @@ export function governingTransitionHandler(
       "The term this transition belonged to is not current.",
     );
   return resolved(
-    openTransitionMatters(world, office.officeKey),
+    considerClemencyAfterExecutiveDesk(
+      openTransitionMatters(world, office.officeKey),
+      office.termId,
+    ),
     "The new office's first matters were opened.",
+  );
+}
+
+function applyExecutiveBillInaction(
+  world: World,
+  matter: GoverningMatter,
+): World {
+  const measure = matter.measureId
+    ? world.history.legislativeMeasures?.find((m) => m.id === matter.measureId)
+    : undefined;
+  if (
+    !measure ||
+    measurePosition(world, measure.id).phase !== "awaiting-executive"
+  )
+    return world;
+  const window = executiveBillActionWindow(world, measure);
+  if (
+    !window ||
+    window.inactionOutcome !== "becomes-law-without-signature" ||
+    world.currentDate <= window.lastActionDate
+  )
+    return world;
+  const inactive = recordExecutiveInaction(world, {
+    stableKey: `${matter.stableKey}:executive-inaction`,
+    measureId: measure.id,
+    rationale:
+      "The declared executive action window ended without a decision; the pack makes the bill law without a signature.",
+  });
+  return scheduleInstitutionStep(
+    recordDecision(inactive, matter, null, "lapsed", matter.holderPersonId),
+    measure.id,
   );
 }
 
@@ -1607,6 +2299,15 @@ export function governingDeadlineHandler(
   const office = governingOfficeByKey(world, matter.officeKey);
   if (!office || office.holderPersonId !== matter.holderPersonId)
     return resolved(world, "The office changed hands before the deadline.");
+  if (matter.family === "bill" && matter.measureId) {
+    const next = applyExecutiveBillInaction(world, matter);
+    return resolved(
+      next,
+      next === world
+        ? "No executable inaction rule is due; the bill stays pending."
+        : "The legal window ended without executive action.",
+    );
+  }
   return resolved(
     recordDecision(world, matter, null, "lapsed", matter.holderPersonId),
     "The deadline passed without a decision.",
@@ -1628,41 +2329,129 @@ export function governingNpcDecisionHandler(
       recordDecision(world, matter, null, "lapsed", matter.holderPersonId),
       "No available choice.",
     );
-  let next = world;
-  let principled: GoverningMatter["options"][number] | undefined;
+  if (matter.family === "clemency") {
+    const petitionId = tagValue(matter.openedEvent, "source-event:");
+    const petition = petitionId
+      ? eventById(world, petitionId as EntityId)
+      : null;
+    const question = petition ? clemencyQuestionFor(world, petition) : null;
+    if (!question)
+      return resolved(
+        recordDecision(world, matter, null, "lapsed", matter.holderPersonId),
+        "The request is no longer on record.",
+      );
+    // The governor weighs their own principles, drawn once like a bill's.
+    const principled = ensureOfficeholderPrinciples(world, [
+      matter.holderPersonId,
+    ]);
+    const evaluation = evaluateClemency(
+      principled,
+      matter.holderPersonId,
+      question,
+      {
+        stateUsps: office.stateUsps,
+        termEndsAt: office.termEndsAt,
+      },
+    );
+    const traced = recordDurableDecisionTrace(principled, evaluation);
+    if (evaluation.outcomeKind !== "selected" || !evaluation.selectedOptionKey)
+      return resolved(traced, "The executive decision remains pending.");
+    const option = matter.options.find(
+      (o) => o.key === evaluation.selectedOptionKey,
+    );
+    if (!option)
+      return resolved(
+        traced,
+        "The selected executive choice is unavailable; the matter remains pending.",
+      );
+    return resolved(
+      recordDecision(
+        traced,
+        matter,
+        option ?? null,
+        option ? "officeholder" : "lapsed",
+        matter.holderPersonId,
+      ),
+      "The officeholder decided.",
+    );
+  }
   const measure =
     matter.family === "bill" && matter.measureId
-      ? next.history.legislativeMeasures?.find(
+      ? world.history.legislativeMeasures?.find(
           (entry) => entry.id === matter.measureId,
         )
       : undefined;
   if (measure) {
-    // A governor whose own principles bear on the bill more than slightly
-    // signs or returns it on them, whatever the staff advise.
-    next = ensureOfficeholderPrinciples(next, [matter.holderPersonId]);
-    const bearing = principleVoteConsideration(
-      next,
+    // The governor signs or vetoes for reasons, all of them written down:
+    // their principles, the bill's backers, their party's floor vote, the
+    // sponsor, the override count and the staff's advice
+    // (governor-bill-decision.ts).
+    const principled = ensureOfficeholderPrinciples(world, [
       matter.holderPersonId,
+    ]);
+    const advice = staffRecommendation(principled, matter);
+    const evaluation = evaluateGovernorBill(principled, {
+      stableKey: matter.stableKey,
+      governorId: matter.holderPersonId,
       measure,
+      staff: advice,
+    });
+    const traced = recordDurableDecisionTrace(principled, evaluation);
+    if (evaluation.outcomeKind !== "selected" || !evaluation.selectedOptionKey)
+      return resolved(traced, "The executive decision remains pending.");
+    const option = matter.options.find(
+      (o) => o.key === evaluation.selectedOptionKey,
     );
-    if (bearing && bearing.importance !== "slight")
-      principled = matter.options.find(
-        (o) =>
-          o.key ===
-          (bearing.optionKey === "vote-yea" ? "bill:sign" : "bill:return"),
+    if (!option)
+      return resolved(
+        traced,
+        "The selected executive choice is unavailable; the matter remains pending.",
       );
+    return resolved(
+      recordDecision(
+        traced,
+        matter,
+        option ?? null,
+        option ? "officeholder" : "lapsed",
+        matter.holderPersonId,
+      ),
+      "The officeholder decided.",
+    );
   }
+  // Other matters: the officeholder takes the advice of the staff they
+  // hired, and a new officeholder keeps or hires the steadiest candidate
+  // for chief of staff by their record.
+  const next = world;
   const recommendation = staffRecommendation(next, matter);
-  const rng = new SeededRng(`${matter.stableKey}:npc-choice`);
-  const recommended =
-    recommendation && rng.integer(0, 4) > 0
-      ? matter.options.find((o) => o.key === recommendation.optionKey)
+  const recommended = recommendation
+    ? matter.options.find((o) => o.key === recommendation.optionKey)
+    : undefined;
+  const steadiest =
+    matter.family === "chief-of-staff"
+      ? [...matter.options].sort(
+          (a, b) =>
+            (b.assessment?.steadiness ?? 0) - (a.assessment?.steadiness ?? 0),
+        )[0]
       : undefined;
-  const option = principled ?? recommended ?? rng.pick(matter.options);
-  return resolved(
-    recordDecision(next, matter, option, "officeholder", matter.holderPersonId),
-    "The officeholder decided.",
+  // PLACEHOLDER (zero-dice row, left): an agenda with no chief of staff to
+  // advise still falls to a seeded pick.
+  const option =
+    recommended ??
+    steadiest ??
+    new SeededRng(`${matter.stableKey}:npc-choice`).pick(matter.options);
+  const decided = recordDecision(
+    next,
+    matter,
+    option,
+    "officeholder",
+    matter.holderPersonId,
   );
+  if (decided === next && matter.family === "program")
+    return resolved(
+      recordDecision(next, matter, null, "lapsed", matter.holderPersonId),
+      "The funding choice could not be committed.",
+    );
+  return resolved(decided, "The officeholder decided.");
 }
 
 export type ImplementationResult = "progress" | "problem" | "stalled";
@@ -1670,89 +2459,104 @@ export type ImplementationResult = "progress" | "problem" | "stalled";
 interface FollowUpOutcome {
   readonly tag: string;
   readonly summary: string;
+  readonly sourceEventId?: EntityId;
+  readonly sourceRecordIds?: readonly EntityId[];
 }
 
-function implementationOutcome(
+/** A source-linked receipt, never a prediction from party, staff or pace. */
+function recordedProgramFollowUp(
   world: World,
   matter: GoverningMatter,
   decision: HistoricalEvent,
-  office: GoverningOffice | null,
-  rng: SeededRng,
-): FollowUpOutcome {
-  const pace = tagValue(decision, "choice:");
-  const chief = office ? chiefOfStaffFor(world, office) : null;
-  const steadiness = chief ? staffAssessment(world, chief).steadiness : 0;
-  const funded =
-    office && matter.subjectKey
-      ? world.history.events.some(
-          (event) =>
-            event.type === GOVERNING_OUTCOME &&
-            event.tags.includes(`office:${office.officeKey}`) &&
-            event.tags.includes(`funded:${matter.subjectKey}`),
-        )
-      : false;
-  // A careful plan, a steady chief of staff and money the legislature
-  // actually approved all lower the chance of an early problem; an office
-  // that changed hands lets the work stall.
-  const roll =
-    rng.integer(0, 10) +
-    (pace === "pace:careful" ? 3 : 0) +
-    steadiness +
-    (funded ? 2 : 0);
-  const result: ImplementationResult = !office
-    ? "stalled"
-    : roll >= 6
-      ? "progress"
-      : "problem";
-  const subject = subjectLabel(matter.subjectKey);
-  return {
-    tag: `implementation:${result}`,
-    summary:
-      result === "progress"
-        ? `State agencies reported steady early progress on ${subject}.`
-        : result === "problem"
-          ? `State agencies reported delays and a staffing gap in the early work on ${subject}.`
-          : `Work on ${subject} stalled after the office changed hands.`,
-  };
-}
-
-function budgetOutcome(
-  world: World,
-  decision: HistoricalEvent,
-  office: GoverningOffice | null,
-  rng: SeededRng,
-): FollowUpOutcome & { readonly funded: string | null } {
-  const choice = tagValue(decision, "choice:budget:");
-  const chief = office ? chiefOfStaffFor(world, office) : null;
-  const skilled = chief ? staffKnowsLegislature(world, chief) : false;
-  if (!choice || choice === "hold-flat")
-    return {
-      tag: "budget:passed-flat",
-      summary: "The legislature passed a budget that holds spending steady.",
-      funded: null,
-    };
-  const subject = subjectLabel(choice);
-  const passed = rng.integer(0, 10) + (skilled ? 3 : 0) >= 5;
-  return passed
+  outturnIds?: ReadonlySet<EntityId>,
+): FollowUpOutcome | null {
+  const records = (world.history.publicProgramRecords ?? []).filter(
+    (record) => record.recordedAt <= world.currentDate,
+  );
+  const appropriations = records.filter(
+    (record): record is PublicProgramAppropriationRecord =>
+      record.kind === "appropriation" &&
+      record.jurisdictionId === matter.openedEvent.jurisdictionId &&
+      (matter.appropriationId !== null
+        ? record.id === matter.appropriationId
+        : matter.measureId !== null &&
+          record.sourceMeasureId === matter.measureId),
+  );
+  if (matter.family === "budget") {
+    const adopted = [...appropriations]
+      .reverse()
+      .find(
+        (record) =>
+          record.sequence > decision.sequence &&
+          record.sourceMeasureId !== null &&
+          record.sourceMeasureId !== undefined &&
+          (world.history.legislativeEnactments ?? []).some(
+            (enactment) =>
+              enactment.measureId === record.sourceMeasureId &&
+              enactment.outcome === "enacted" &&
+              enactment.resolvedAt <= world.currentDate,
+          ),
+      );
+    const event = adopted ? eventById(world, adopted.eventId) : null;
+    return event && adopted
+      ? {
+          tag: "budget:appropriation-recorded",
+          summary: event.summary,
+          sourceEventId: event.id,
+          sourceRecordIds: [adopted.id],
+        }
+      : null;
+  }
+  const appropriationIds = new Set(appropriations.map((record) => record.id));
+  const commitmentIds = new Set(
+    records.flatMap((record) =>
+      record.kind === "commitment" &&
+      appropriationIds.has(record.appropriationId)
+        ? [record.id]
+        : [],
+    ),
+  );
+  const installmentIds = new Set(
+    records.flatMap((record) =>
+      record.kind === "installment" &&
+      record.status === "posted" &&
+      commitmentIds.has(record.commitmentId)
+        ? [record.id]
+        : [],
+    ),
+  );
+  const delivered = [...records]
+    .reverse()
+    .find(
+      (record) =>
+        record.kind === "capacity-outturn" &&
+        record.restoredUnits !== null &&
+        record.restoredUnits > 0 &&
+        (!outturnIds || outturnIds.has(record.id)) &&
+        record.sequence > decision.sequence &&
+        commitmentIds.has(record.commitmentId) &&
+        installmentIds.has(record.installmentId),
+    );
+  const event = delivered ? eventById(world, delivered.eventId) : null;
+  return event && delivered
     ? {
-        tag: "budget:passed-with-request",
-        summary: `The legislature passed a budget with more money for ${subject}, as the governor asked.`,
-        funded: choice,
+        tag: "implementation:delivery-recorded",
+        summary: event.summary,
+        sourceEventId: event.id,
+        sourceRecordIds: [delivered.id],
       }
-    : {
-        tag: "budget:request-cut",
-        summary: `The legislature passed a budget that cut the governor's request for ${subject}.`,
-        funded: null,
-      };
+    : null;
 }
 
 function returnedBillOutcome(
   matter: GoverningMatter,
-  rng: SeededRng,
 ): FollowUpOutcome & { readonly overridden: boolean } {
   const subject = subjectLabel(matter.subjectKey);
-  const overridden =
-    rng.integer(0, 100) < STATE_GOVERNING_CALENDAR.overrideSucceedsPercent;
+  // Only an older save still holds a bill with no measure behind it, so no
+  // member can vote to override it. ESTIMATED FROM AVERAGE: most vetoes are
+  // not overridden, so the veto stands. A real bill's override is its
+  // members' own vote (legislative-clock.ts).
+  const overridden = false;
   return overridden
     ? {
         tag: "bill:overridden",
@@ -1766,45 +2570,33 @@ function returnedBillOutcome(
       };
 }
 
-/** A dated follow-up: the recorded consequence of an earlier decision. */
-export function governingFollowUpHandler(
+function recordGoverningFollowUp(
   world: World,
-  due: FutureDueItem,
-): FutureTransitionHandlerResult {
-  const matter = matterForDue(world, due);
-  const decision = matter?.decision;
-  if (!matter || !decision)
-    return resolved(world, "No decided matter stands behind this report.");
-  const office = governingOfficeByKey(world, matter.officeKey);
-  const currentOffice =
-    office && office.holderPersonId === matter.holderPersonId ? office : null;
-  const rng = new SeededRng(`${due.stableKey}:outcome`);
-  let outcome: FollowUpOutcome;
-  let extraTags: string[] = [];
-  let reopen: "implementation" | null = null;
-  if (matter.family === "budget") {
-    const budget = budgetOutcome(world, decision, currentOffice, rng);
-    outcome = budget;
-    if (budget.funded) extraTags = [`funded:${budget.funded}`];
-  } else if (matter.family === "bill") {
-    const returned = returnedBillOutcome(matter, rng);
-    outcome = returned;
-    if (returned.overridden) reopen = "implementation";
-  } else {
-    outcome = implementationOutcome(
-      world,
-      matter,
-      decision,
-      currentOffice,
-      rng,
-    );
-  }
-  let next = recordWorldEvent(world, {
-    stableKey: `${due.stableKey}:outcome`,
+  matter: GoverningMatter,
+  decision: HistoricalEvent,
+  outcome: FollowUpOutcome,
+  stableKey: string,
+  jurisdictionId: EntityId | null = matter.openedEvent.jurisdictionId,
+): World {
+  if (
+    outcome.sourceRecordIds?.length &&
+    world.history.events.some(
+      (event) =>
+        event.type === GOVERNING_OUTCOME &&
+        event.tags.includes(`matter:${matter.id}`) &&
+        event.tags.includes(`decision:${decision.id}`) &&
+        outcome.sourceRecordIds!.every((id) =>
+          event.tags.includes(`source-record:${id}`),
+        ),
+    )
+  )
+    return world;
+  return recordWorldEvent(world, {
+    stableKey,
     type: GOVERNING_OUTCOME,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
-    jurisdictionId: due.jurisdictionId ?? matter.openedEvent.jurisdictionId,
+    jurisdictionId,
     involvedEntityIds: [matter.holderPersonId],
     participants: [
       {
@@ -1822,11 +2614,147 @@ export function governingFollowUpHandler(
       `matter:${matter.id}`,
       `decision:${decision.id}`,
       ...(matter.subjectKey ? [`subject:${matter.subjectKey}`] : []),
-      ...extraTags,
+      ...(outcome.sourceEventId
+        ? [`source-event:${outcome.sourceEventId}`]
+        : []),
+      ...(outcome.sourceRecordIds ?? []).map((id) => `source-record:${id}`),
     ],
     summary: outcome.summary,
     context: emptyContext(),
   });
+}
+
+/** Called at a saved delivery boundary, never as a daily or dated review. */
+export function reviewGoverningOutturns(
+  world: World,
+  newlySavedOutturnIds: ReadonlySet<EntityId>,
+): World {
+  if (newlySavedOutturnIds.size === 0) return world;
+  const records = world.history.publicProgramRecords ?? [];
+  const commitmentIds = new Set<EntityId>();
+  const outturnIds = new Set(
+    records.flatMap((record) => {
+      if (
+        !newlySavedOutturnIds.has(record.id) ||
+        record.kind !== "capacity-outturn" ||
+        record.recordedAt !== world.currentDate ||
+        record.restoredUnits === null ||
+        record.restoredUnits <= 0
+      )
+        return [];
+      commitmentIds.add(record.commitmentId);
+      return [record.id];
+    }),
+  );
+  if (outturnIds.size === 0) return world;
+  const appropriationIds = new Set(
+    records.flatMap((record) =>
+      record.kind === "commitment" && commitmentIds.has(record.id)
+        ? [record.appropriationId]
+        : [],
+    ),
+  );
+  const measureIds = new Set(
+    records.flatMap((record) =>
+      record.kind === "appropriation" &&
+      appropriationIds.has(record.id) &&
+      record.sourceMeasureId
+        ? [record.sourceMeasureId]
+        : [],
+    ),
+  );
+  let next = world;
+  for (const event of world.history.events) {
+    if (event.type !== GOVERNING_MATTER_OPENED) continue;
+    const appropriationId = tagValue(event, "appropriation:");
+    const measureId = tagValue(event, "measure:");
+    if (
+      !(appropriationId && appropriationIds.has(appropriationId as EntityId)) &&
+      !(measureId && measureIds.has(measureId as EntityId))
+    )
+      continue;
+    const matter = matterFromEvent(world, event);
+    if (
+      !matter ||
+      (matter.family !== "program" && matter.family !== "implementation") ||
+      matter.status !== "decided" ||
+      !matter.decision ||
+      (matter.workItemId && !completedGoverningMatterWork(world, matter.id))
+    )
+      continue;
+    const outcome = recordedProgramFollowUp(
+      next,
+      matter,
+      matter.decision,
+      outturnIds,
+    );
+    if (outcome)
+      next = recordGoverningFollowUp(
+        next,
+        matter,
+        matter.decision,
+        outcome,
+        `${matter.stableKey}:delivery:${outcome.sourceRecordIds!.join(":")}`,
+      );
+  }
+  return next;
+}
+
+/** A dated follow-up: the recorded consequence of an earlier decision. */
+export function governingFollowUpHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const matter = matterForDue(world, due);
+  const decision = matter?.decision;
+  if (!matter || !decision)
+    return resolved(world, "No decided matter stands behind this report.");
+  if (
+    matter.status !== "decided" ||
+    (matter.workItemId && !completedGoverningMatterWork(world, matter.id))
+  )
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "governing:no-completed-action",
+      context: "No completed recorded action stands behind this report.",
+      outcomeEventId: null,
+    };
+  const office = governingOfficeByKey(world, matter.officeKey);
+  const currentOffice =
+    office && office.holderPersonId === matter.holderPersonId ? office : null;
+  let outcome: FollowUpOutcome;
+  let reopen: "implementation" | null = null;
+  if (matter.family === "bill") {
+    const returned = returnedBillOutcome(matter);
+    outcome = returned;
+    if (returned.overridden) reopen = "implementation";
+  } else {
+    const receipt = recordedProgramFollowUp(world, matter, decision);
+    if (!receipt)
+      return {
+        world,
+        status: "blocked",
+        reasonKey:
+          matter.family === "budget"
+            ? "governing:no-appropriation-receipt"
+            : "governing:no-delivery-receipt",
+        context:
+          matter.family === "budget"
+            ? "No enacted appropriation is linked to this budget request yet."
+            : "No recorded delivery is linked to this matter yet.",
+        outcomeEventId: null,
+      };
+    outcome = receipt;
+  }
+  let next = recordGoverningFollowUp(
+    world,
+    matter,
+    decision,
+    outcome,
+    `${due.stableKey}:outcome`,
+    due.jurisdictionId ?? matter.openedEvent.jurisdictionId,
+  );
   if (reopen && currentOffice && matter.subjectKey)
     next = openMatter(next, currentOffice, {
       family: "implementation",
@@ -1888,80 +2816,114 @@ export function governingSeasonHandler(
   if (!match) return resolved(world, "Not a season item.");
   const [, officeKey, kind] = match;
   const office = governingOfficeByKey(world, officeKey!);
+  const identity = stateExecutiveIdentityForOfficeKey(officeKey!);
+  const stateUsps = office?.stateUsps ?? identity?.stateUsps ?? null;
+  const jurisdictionId =
+    office?.jurisdictionId ??
+    (stateUsps
+      ? governingJurisdictionIdFor({ kind: "state", stateUsps })
+      : null);
   let next = world;
-  if (office) {
+  const offCycleBill =
+    kind === "bill" &&
+    jurisdictionId !== null &&
+    !regularSessionYearForWorld(
+      world,
+      jurisdictionId,
+      Number(due.dueAt.slice(0, 4)),
+    );
+  if (kind === "budget" && office) {
     const rng = new SeededRng(`${due.stableKey}:subject`);
     const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
-    if (kind === "budget") {
-      const priority = currentPriority(world, office);
-      const programKeys = [
-        ...(priority ? [priority] : []),
-        ...pickDistinct(
-          rng.fork("budget"),
-          pool.filter((key) => key !== priority),
-          priority ? 1 : 2,
-        ),
-      ];
-      next = openMatter(next, office, {
-        family: "budget",
-        instance: due.dueAt,
-        programKeys,
-      });
-    } else {
-      const intake = {
-        jurisdictionId: office.jurisdictionId,
-        intakeKey: `${office.officeKey}:${due.dueAt}`,
-      };
-      // Every state's legislature sits, not only the home state's: one not
-      // yet seated is seated on its first bill day, the same way the home
-      // state's is at the opening. A legacy replay keeps the world it built.
-      if (worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION)
-        next = ensureStateLegislatureOpening(
-          next,
-          office.holderPersonId,
-          office.stateUsps,
-        );
-      const filedBefore = next.history.legislativeMeasures?.length ?? 0;
-      // A legislature with written measures files a real bill; it reaches
-      // the governor through the legislative clock.
-      if (authoredMeasuresForJurisdiction(office.jurisdictionId).length)
-        next = fileLegislatureMeasure(next, intake);
-      // A seated member also files a bill of their own, on the question
-      // their principles press hardest.
-      next = fileMemberAgendaBill(next, intake);
-      // Where nobody filed anything, no bill is invented. The office's other
-      // work continues, and the gap is stated once a year.
-      if ((next.history.legislativeMeasures?.length ?? 0) === filedBefore)
-        next = recordMissingLegislatureNote(next, office, due.dueAt);
-    }
-    next = openProgramMatters(next, office);
-    next = scheduleGoverningSeasons(next, officeKey!, office.jurisdictionId);
+    const priority = currentPriority(world, office);
+    const programKeys = [
+      ...(priority ? [priority] : []),
+      ...pickDistinct(
+        rng.fork("budget"),
+        pool.filter((key) => key !== priority),
+        priority ? 1 : 2,
+      ),
+    ];
+    next = openMatter(next, office, {
+      family: "budget",
+      instance: due.dueAt,
+      programKeys,
+    });
+  } else if (
+    kind === "bill" &&
+    !offCycleBill &&
+    jurisdictionId !== null &&
+    stateUsps
+  ) {
+    const intake = {
+      jurisdictionId,
+      intakeKey: `${officeKey}:${due.dueAt}`,
+    };
+    // Legislative business belongs to the seated chamber even while its
+    // executive office is vacant. A current save can still need a roster
+    // on this date if it began after the paced opening calendar.
+    const subjectPersonId =
+      office?.holderPersonId ??
+      (next.control.kind === "person"
+        ? next.control.personId
+        : next.personOrder.find((id) => !!next.people[id]));
+    if (
+      worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION &&
+      subjectPersonId
+    )
+      next = ensureStateLegislatureOpening(next, subjectPersonId, stateUsps);
+    const filedBefore = next.history.legislativeMeasures?.length ?? 0;
+    // Only seated members file, from their own recorded principles.
+    next = fileMemberAgendaBill(next, intake);
+    // Where nobody filed anything, no bill is invented. The office's other
+    // work continues, and the gap is stated once a year.
+    if (
+      office &&
+      (next.history.legislativeMeasures?.length ?? 0) === filedBefore
+    )
+      next = recordMissingLegislatureNote(next, office, due.dueAt);
   }
-  return resolved(next, `The ${kind} season arrived.`);
+  if (office) next = openProgramMatters(next, office);
+  if (jurisdictionId)
+    next = scheduleGoverningSeasons(next, officeKey!, jurisdictionId);
+  return resolved(
+    next,
+    offCycleBill
+      ? "The off-cycle bill date was skipped."
+      : `The ${kind} season arrived.`,
+  );
+}
+
+/**
+ * The seated governorship a state legislature's bills go to ("US-NE"), or
+ * null where none has been materialized.
+ */
+export function governorOfficeForJurisdiction(
+  world: World,
+  jurisdictionKey: string,
+): GoverningOffice | null {
+  const stateUsps = jurisdictionKey.replace(/^US-/, "");
+  return (
+    currentGoverningOffices(world).find(
+      (candidate) => candidate.stateUsps === stateUsps,
+    ) ?? null
+  );
 }
 
 /**
  * A bill on the governor's desk. Whoever holds the governorship, player or
- * not, decides it through the same bound matter. Only where no governorship
- * has been materialized does a bill's authored disposition still stand, so an
- * older save keeps its scripted ending and nothing is invented for it.
- *
- * The authored dispositions were written for developer scenarios that set out
- * to demonstrate a veto and an override, so almost all of them are vetoes. A
- * sitting non-player governor used to replay them, which is how an observed
- * Nebraska world saw 31 of 32 bills vetoed in 13 years and nothing become law.
- * How often a real governor signs is not settled here: the ordinary decision
- * this now reaches is a marked placeholder, filed as
- * `why-a-governor-signs-or-vetoes`.
+ * not, decides it through the same bound matter. Without an actual seated
+ * executive, the bill stays pending. An authored scenario ending cannot
+ * supply a governor's signature or veto.
  */
 export const governorDesk: ExecutiveDeskHandler = (
   world,
   measure,
   blueprint,
 ) => {
-  const stateUsps = blueprint.pack.jurisdictionKey.replace(/^US-/, "");
-  const office = currentGoverningOffices(world).find(
-    (candidate) => candidate.stateUsps === stateUsps,
+  const office = governorOfficeForJurisdiction(
+    world,
+    blueprint.pack.jurisdictionKey,
   );
   const alreadyOpen = world.history.events.some(
     (event) =>
@@ -1976,15 +2938,6 @@ export const governorDesk: ExecutiveDeskHandler = (
       instance: `measure:${measure.id}`,
       measureId: measure.id,
     });
-  if (blueprint.governorAction) {
-    const next = recordGovernorDecisionOnMeasure(
-      world,
-      measure.id,
-      blueprint.governorAction,
-      blueprint.governorRationale,
-    );
-    return scheduleInstitutionStep(next, measure.id);
-  }
   return world;
 };
 
@@ -1994,32 +2947,56 @@ export const governorDesk: ExecutiveDeskHandler = (
  * day, rather than waiting for the next season.
  */
 /** The governor's desk for a state bill, the President's for a federal one. */
-const executiveDesk: ExecutiveDeskHandler = (world, measure, blueprint) =>
+export const executiveDesk: ExecutiveDeskHandler = (
+  world,
+  measure,
+  blueprint,
+) =>
   isCongressMeasure(measure)
     ? presidentDesk(world, measure)
     : governorDesk(world, measure, blueprint);
 
-const institutionStepWithProgramMatters = (() => {
-  const step = createInstitutionStepHandler(executiveDesk);
+/**
+ * Puts money a step enacted in front of its executive the same day.
+ *
+ * Every route that can enact an appropriation needs this, not only the state
+ * legislature's: before it was shared, a law passed by Congress or a city or
+ * county council became spending authority that no office was ever asked to
+ * commit, so its money never moved.
+ */
+export function withProgramMatters(
+  handler: FutureTransitionHandler,
+): FutureTransitionHandler {
   return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
-    const result = step(world, due);
-    // Reading every office on every legislative step would cost the clock a
-    // scan per state for nothing: almost no step enacts an appropriation.
-    // The cheap record check comes first, and the offices are read only for
-    // the jurisdictions that actually have money waiting.
-    const jurisdictions = new Set(
-      (result.world.history.publicProgramRecords ?? [])
+    const result = handler(world, due);
+    // Appropriation records are only appended, so an unchanged count means
+    // the step enacted no money.
+    if (
+      (result.world.history.publicProgramRecords ?? []).length ===
+      (world.history.publicProgramRecords ?? []).length
+    )
+      return result;
+    // A step opens only the new money it enacted. The explicit opener and
+    // dated availability dues handle money already on record.
+    const prior = new Set(
+      (world.history.publicProgramRecords ?? [])
         .filter((record) => record.kind === "appropriation")
-        .map((record) => record.jurisdictionId),
+        .map((record) => record.id),
     );
-    if (jurisdictions.size === 0) return result;
-    let next = result.world;
-    for (const office of currentGoverningOffices(next))
-      if (jurisdictions.has(office.jurisdictionId))
-        next = openProgramMatters(next, office);
-    return { ...result, world: next };
+    const added = new Set(
+      (result.world.history.publicProgramRecords ?? [])
+        .filter(
+          (record) => record.kind === "appropriation" && !prior.has(record.id),
+        )
+        .map((record) => record.id),
+    );
+    if (added.size === 0) return result;
+    return {
+      ...result,
+      world: openProgramMattersForAllOffices(result.world, added),
+    };
   };
-})();
+}
 
 /**
  * The governing handlers, built when a registry asks for them rather than when
@@ -2027,16 +3004,25 @@ const institutionStepWithProgramMatters = (() => {
  * one, and are not defined yet while it is loading.
  */
 export function stateGoverningHandlers() {
-  return [
-    [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
-    ...CONGRESS_LAWMAKING_HANDLERS,
-    [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-    [GOVERNING_SEASON, governingSeasonHandler],
-    [GOVERNING_TRANSITION, governingTransitionHandler],
-    [GOVERNING_DEADLINE, governingDeadlineHandler],
-    [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
-    [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
-  ] as const;
+  // Any of these can enact money: the legislative step, Congress's sittings,
+  // and a governor's or President's signature on the desk.
+  return (
+    [
+      [STATE_LEGISLATURE_OPENING_TRANSITION, stateLegislatureOpeningHandler],
+      [
+        LEGISLATIVE_INSTITUTION_STEP,
+        createInstitutionStepHandler(executiveDesk),
+      ],
+      ...CONGRESS_LAWMAKING_HANDLERS,
+      [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
+      [GOVERNING_SEASON, governingSeasonHandler],
+      [GOVERNING_TRANSITION, governingTransitionHandler],
+      [GOVERNING_DEADLINE, governingDeadlineHandler],
+      [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
+      [GOVERNING_PROGRAM_AVAILABLE, governingProgramAvailableHandler],
+      [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+    ] as const
+  ).map(([key, handler]) => [key, withProgramMatters(handler)] as const);
 }
 
 /** Recorded decisions and outcomes for an office, newest first. */

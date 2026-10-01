@@ -4,12 +4,14 @@ import { describe, expect, it, vi } from "vitest";
 import manifestJson from "../../../art/people-engine/v1/manifest.json" with { type: "json" };
 import {
   BODY_BUILDS,
+  POSES_BY_PRESENTATION,
   composeEnginePerson,
   type NamedBodyPose,
   type OutfitPostures,
   type PackPostures,
   type PackPresentation,
   type PeoplePackManifest,
+  poseFallbacks,
 } from "./pack";
 import type { Raster } from "./raster";
 import type * as Runtime from "./runtime";
@@ -22,8 +24,18 @@ import type * as Runtime from "./runtime";
  */
 
 const today = manifestJson as unknown as PeoplePackManifest;
-const STANDING_POSES = ["arms-folded", "explaining", "hand-on-hip", "podium"];
-const SEATED_POSES = ["seated-leaning", "seated-legs-crossed"];
+const STANDING_POSES = [
+  "arms-folded",
+  "explaining",
+  "hand-on-hip",
+  "hands-in-pockets",
+  "podium",
+];
+const SEATED_POSES = [
+  "seated-leaning",
+  "seated-legs-crossed",
+  "seated-ankle-on-knee",
+];
 
 function everyPose(pack: PackPresentation): PackPostures {
   const posed = (pose: string) =>
@@ -159,10 +171,13 @@ describe("a conversation once the posed art lands", async () => {
       expect(speaker.engine!.mirrored).toBeUndefined();
       for (const listener of placed.filter((person) => person !== speaker)) {
         expect(listener.engine!.view).toBe("three-quarter");
+        // Each in their own presentation's poses.
+        const own = POSES_BY_PRESENTATION[listener.engine!.presentation];
+        expect(own).toContain(listener.engine!.pose);
         expect(
           listener.seated
-            ? ["seated-leaning", "seated-legs-crossed"]
-            : ["arms-folded", "hand-on-hip"],
+            ? ["seated-hands-folded", "seated-listening"]
+            : ["arms-folded", "hand-on-hip", "hands-in-pockets"],
         ).toContain(listener.engine!.pose);
         if (listener.engine!.pose === "arms-folded") folded += 1;
         // Turned right as painted, so mirrored exactly when the speaker is
@@ -170,12 +185,12 @@ describe("a conversation once the posed art lands", async () => {
         expect(listener.engine!.mirrored === true).toBe(
           x(speaker) < x(listener),
         );
-        // Drawn as asked: the pose and the turn, mirrored or not.
+        // Drawn as asked, turned: the pose itself, or plain seated when this
+        // outfit was not painted in it (the Sept. 29 seated poses cover six
+        // outfits for each presentation).
         const drawn = composeEnginePerson(LANDED, read, listener.engine!);
-        expect([drawn.pose, drawn.view]).toEqual([
-          listener.engine!.pose,
-          "three-quarter",
-        ]);
+        expect(drawn.view).toBe("three-quarter");
+        expect(poseFallbacks(listener.engine!.pose)).toContain(drawn.pose);
       }
     }
     // At least one listener folds their arms in this household.

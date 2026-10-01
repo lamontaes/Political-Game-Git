@@ -20,11 +20,13 @@ import type {
   LegislativeExchangeCharacter,
   LegislativeNegotiationDisposition,
   LegislativeNegotiationRecord,
+  LegislativeProvisionEffectIntent,
   LegislativeProvisionBeneficiary,
   LegislativeProvisionRecord,
   LegislativeQuestionIdentity,
   LegislativeVoteRecord,
   MetricScope,
+  PropositionAnswerRef,
   World,
 } from "./types";
 import { recordWorldEvent } from "./world";
@@ -55,6 +57,8 @@ import { recordWorldEvent } from "./world";
 // ---------------------------------------------------------------------------
 
 export interface RecordFiledProvisionInput {
+  readonly lawCategories?: LegislativeProvisionRecord["lawCategories"];
+  readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly stableKey: string;
   readonly measureId: EntityId;
   readonly provisionKey: string;
@@ -66,9 +70,16 @@ export interface RecordFiledProvisionInput {
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
   readonly fiscalPeriod?: "annual";
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
+  /** The catalog question this section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 export interface AdoptProvisionRevisionInput {
+  /** A revision supplies its own categories; omission clears earlier categories. */
+  readonly lawCategories?: LegislativeProvisionRecord["lawCategories"];
+  /** A revision supplies its own terms; omission clears earlier terms. */
+  readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly stableKey: string;
   readonly measureId: EntityId;
   /** The adopted amendment that carries this text into the bill. */
@@ -84,6 +95,10 @@ export interface AdoptProvisionRevisionInput {
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
   readonly fiscalPeriod?: "annual";
+  /** Omit to clear any prior intent on the newly adopted revision. */
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
+  /** The catalog question this section answers, when it answers one. */
+  readonly answers?: PropositionAnswerRef;
 }
 
 /** Records a section of a measure as filed, before anyone has amended it. */
@@ -190,6 +205,24 @@ export function adoptProvisionRevisions(
     }
     sectionNumbers.add(input.sectionNumber);
     validateProvisionContent(world, input);
+    // What the chamber adopted is what was offered. An amendment that
+    // recorded its sections when it was put carries exactly those sections,
+    // answering the same questions the same way.
+    if (amendment.proposedSections) {
+      const offered = amendment.proposedSections.find(
+        (section) => section.provisionKey === input.provisionKey,
+      );
+      if (
+        !offered ||
+        offered.supersedesProvisionId !== input.supersedesProvisionId ||
+        offered.answers?.propositionId !== input.answers?.propositionId ||
+        offered.answers?.answer !== input.answers?.answer
+      ) {
+        throw new Error(
+          `Amendment ${amendment.stableKey} did not offer section '${input.provisionKey}' as written.`,
+        );
+      }
+    }
     if (input.supersedesProvisionId !== null) {
       const superseded = current.find(
         (record) => record.id === input.supersedesProvisionId,
@@ -1012,10 +1045,145 @@ function validateProvisionContent(
   if (exposure !== null && (!Number.isSafeInteger(exposure) || exposure < 0)) {
     throw new Error("Stated fiscal exposure must be a non-negative integer.");
   }
+  if (
+    input.operativeEffect?.kind === "tax-policy" &&
+    input.provisionKey !== "tax-levy"
+  ) {
+    throw new Error(
+      "A tax-policy effect must be attached to the tax-levy provision.",
+    );
+  }
+  if (
+    input.operativeEffect?.kind === "public-program-appropriation" &&
+    input.provisionKey !== "amount-provided" &&
+    !input.provisionKey.endsWith(":amount-provided")
+  ) {
+    throw new Error(
+      "A public-program appropriation effect must be attached to its amount-provided provision.",
+    );
+  }
+  if (
+    input.operativeEffect?.kind === "public-program-appropriation" &&
+    (exposure === null || exposure <= 0)
+  ) {
+    throw new Error(
+      "A public-program appropriation effect requires a positive stated amount.",
+    );
+  }
   if ((exposure === null) !== ((input.fiscalExposureLabel ?? null) === null)) {
     throw new Error(
       "A provision states its fiscal exposure both in words and as an amount, or not at all.",
     );
+  }
+  if (input.answers) assertAnswerRef(world, input.answers);
+  assertProvisionLawTerms(world, input.lawTerms);
+  assertProvisionLawCategories(world, input.lawCategories);
+}
+
+/** Categorical rules are supported only by a closed catalog declaration. */
+export function assertProvisionLawCategories(
+  world: World,
+  categories: LegislativeProvisionRecord["lawCategories"],
+): void {
+  if (categories === undefined) return;
+  if (!Array.isArray(categories))
+    throw new Error("Provision law categories must be an array.");
+  const questions = new Map(
+    world.policyCatalog.propositionOrder.map((id) => [
+      world.policyCatalog.propositions[id]!.stableKey,
+      world.policyCatalog.propositions[id]!,
+    ]),
+  );
+  const seen = new Set<string>();
+  for (const category of categories) {
+    if (!category || typeof category.key !== "string" || !category.key.trim())
+      throw new Error(
+        "A provision law category needs a catalog question and parameter key.",
+      );
+    const parameter = questions
+      .get(category.questionKey)
+      ?.parameters.find((row) => row.key === category.key);
+    if (!parameter?.allowedValues?.length)
+      throw new Error(
+        "A provision law category needs declared catalog allowed values.",
+      );
+    if (
+      !Array.isArray(category.values) ||
+      category.values.some(
+        (value: unknown) =>
+          typeof value !== "string" ||
+          !parameter.allowedValues!.includes(value),
+      )
+    )
+      throw new Error("A provision law category contains an undeclared value.");
+    if (new Set(category.values).size !== category.values.length)
+      throw new Error("A provision law category cannot repeat a value.");
+    const key = `${category.questionKey}:${category.key}`;
+    if (seen.has(key))
+      throw new Error("A provision cannot repeat a law category.");
+    seen.add(key);
+  }
+}
+
+/** The writer and Save/Continue integrity gate share the same term contract. */
+export function assertProvisionLawTerms(
+  world: World,
+  terms: LegislativeProvisionRecord["lawTerms"],
+): void {
+  if (terms === undefined) return;
+  if (!Array.isArray(terms))
+    throw new Error("Provision law terms must be an array.");
+  const units = new Set([
+    "minor",
+    "minor/hour",
+    "hours",
+    "people",
+    "count",
+    "ratio",
+    "years",
+    "months",
+    "days",
+  ]);
+  const questionKeys = new Set(
+    world.policyCatalog.propositionOrder.map(
+      (id) => world.policyCatalog.propositions[id]!.stableKey,
+    ),
+  );
+  const seen = new Set<string>();
+  for (const term of terms) {
+    if (
+      !term ||
+      !questionKeys.has(term.questionKey) ||
+      typeof term.key !== "string" ||
+      !term.key.trim()
+    )
+      throw new Error(
+        "A provision law term needs a catalog question and term key.",
+      );
+    if (!Number.isFinite(term.value) || !units.has(term.unit))
+      throw new Error(
+        "A provision law term needs a finite value and a supported unit.",
+      );
+    if (
+      (term.unit === "minor" || term.unit === "minor/hour") &&
+      !Number.isSafeInteger(term.value)
+    )
+      throw new Error("A monetary law term must use safe integer minor units.");
+    const key = `${term.questionKey}:${term.key}`;
+    if (seen.has(key)) throw new Error("A provision cannot repeat a law term.");
+    seen.add(key);
+  }
+}
+
+/** A section can only answer a question the world's catalog actually asks. */
+export function assertAnswerRef(world: World, ref: PropositionAnswerRef): void {
+  if (!world.policyCatalog.propositions[ref.propositionId]) {
+    throw new Error(
+      `A section answers a question the catalog does not hold: ${ref.propositionId}`,
+    );
+  }
+  if (ref.answer !== "yes" && ref.answer !== "no") {
+    throw new Error("A section answers a question yes or no.");
   }
 }
 
@@ -1080,6 +1248,17 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
   }
 
   const record: LegislativeProvisionRecord = {
+    ...(input.lawTerms !== undefined
+      ? { lawTerms: input.lawTerms.map((term) => ({ ...term })) }
+      : {}),
+    ...(input.lawCategories !== undefined
+      ? {
+          lawCategories: input.lawCategories.map((category) => ({
+            ...category,
+            values: [...category.values],
+          })),
+        }
+      : {}),
     id: createStableId(
       "legislative-provision",
       `${measure.id}:${input.stableKey}`,
@@ -1095,6 +1274,9 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
     applicationScope: { ...input.applicationScope },
     fiscalExposureLabel: input.fiscalExposureLabel ?? null,
     fiscalExposureMinorUnits: exposure,
+    ...(input.operativeEffect
+      ? { operativeEffect: { ...input.operativeEffect } }
+      : {}),
     ...(input.fiscalPeriod !== undefined
       ? { fiscalPeriod: input.fiscalPeriod }
       : {}),
@@ -1102,6 +1284,7 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
     supersedesProvisionId: input.supersedesProvisionId,
     originAmendmentId: input.originAmendmentId,
     eventId: event.id,
+    ...(input.answers ? { answers: { ...input.answers } } : {}),
   };
   next = {
     ...next,
@@ -1420,28 +1603,52 @@ function laterRecordedVoteBy(
   world: World,
   commitment: LegislativeCommitmentRecord,
 ): LaterVote | null {
+  const vote = laterRecordedVoteOn(
+    world,
+    commitment.holderPersonId,
+    commitment.subject.question,
+    commitment.sequence,
+  );
+  return vote
+    ? { disposition: vote.disposition, questionLabel: vote.questionLabel }
+    : null;
+}
+
+/**
+ * The first yea or nay this person cast on exactly this question after a
+ * point in the record. Any undertaking about a vote, legislative or not, is
+ * answered by the same roll call.
+ */
+export function laterRecordedVoteOn(
+  world: World,
+  personId: EntityId,
+  question: LegislativeQuestionIdentity,
+  afterSequence: number,
+): {
+  readonly voteId: EntityId;
+  readonly disposition: "yea" | "nay";
+  readonly questionLabel: string;
+} | null {
   const votes = (world.history.legislativeVotes ?? [])
     .filter(
       (vote) =>
-        vote.sequence > commitment.sequence &&
-        legislativeQuestionAnswers(
-          commitment.subject.question,
-          questionPutByVote(world, vote),
-        ),
+        vote.sequence > afterSequence &&
+        legislativeQuestionAnswers(question, questionPutByVote(world, vote)),
     )
     .slice()
     .sort((a, b) => a.sequence - b.sequence);
   for (const vote of votes) {
     const disposition = vote.dispositions.find(
-      (record) => record.personId === commitment.holderPersonId,
+      (record) => record.personId === personId,
     );
     if (
       disposition &&
       (disposition.disposition === "yea" || disposition.disposition === "nay")
     ) {
       return {
+        voteId: vote.id,
         disposition: disposition.disposition,
-        questionLabel: questionInWords(commitment.subject.question),
+        questionLabel: questionInWords(question),
       };
     }
   }

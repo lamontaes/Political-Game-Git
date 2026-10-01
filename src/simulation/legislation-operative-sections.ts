@@ -3,11 +3,12 @@ import type { CompiledBillDraft } from "./legislation-drafting";
 import { BillConfigurationError } from "./legislation-drafting";
 import { stateJurisdictionForKey } from "./life-places";
 import { US_STATE_USPS } from "./nationwide-world/state-executive-candidacy-packs";
-import { PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY } from "./public-fiscal";
 import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_FAMILY_VERSION,
+  STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_VARIANT_KEY,
+  LEGACY_TRANSIT_COMPILED_STATE,
 } from "./legislation-transit-families";
 import type { EntityId } from "./types";
 
@@ -56,8 +57,11 @@ export function operativeSectionSupport(
     familyKey === TRANSIT_FAMILY_KEY
       ? GENERAL_APPROPRIATION_KEYS[variantKey]
       : undefined;
-  const pinnedTransit =
+  const legacyTransit =
     familyKey === TRANSIT_FAMILY_KEY && variantKey === TRANSIT_VARIANT_KEY;
+  const stateTransit =
+    familyKey === TRANSIT_FAMILY_KEY &&
+    variantKey === STATE_TRANSIT_VARIANT_KEY;
   return variant.clauses.map((clause) => {
     let reason: string | null = null;
     if (familyKey !== TRANSIT_FAMILY_KEY)
@@ -69,11 +73,17 @@ export function operativeSectionSupport(
     else if (jurisdictionState === null)
       reason =
         "No state appropriation consumer is compiled for this jurisdiction.";
-    else if (pinnedTransit) {
-      if (jurisdictionState !== PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY)
-        reason =
-          "The enacted service and availability rules for this transit program are compiled only for Alaska.";
-    } else if (!generalKeys?.includes(clause.provisionKey))
+    else if (
+      legacyTransit &&
+      jurisdictionState !== LEGACY_TRANSIT_COMPILED_STATE
+    )
+      reason =
+        "The explicit ninety-day transit clause is compiled only for Alaska.";
+    else if (
+      !legacyTransit &&
+      !stateTransit &&
+      !generalKeys?.includes(clause.provisionKey)
+    )
       reason =
         "This section has no canonical enacted-rule or delivery consumer yet.";
     return {
@@ -111,7 +121,8 @@ export function assertOperativeDraft(draft: CompiledBillDraft): void {
   }
   if (
     draft.familyKey === TRANSIT_FAMILY_KEY &&
-    draft.variantKey === TRANSIT_VARIANT_KEY &&
+    (draft.variantKey === TRANSIT_VARIANT_KEY ||
+      draft.variantKey === STATE_TRANSIT_VARIANT_KEY) &&
     draft.clauses.length !== support.length
   )
     throw new BillConfigurationError(

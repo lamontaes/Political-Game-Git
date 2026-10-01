@@ -6,7 +6,6 @@ import { projectCampaignOffices } from "../presentation/campaign-office-discover
 import { displayMoney } from "../presentation/money-display";
 
 import {
-  campaignElectionDate,
   fileForOffice,
   giveElectionSpeech,
   groupCampaignSessions,
@@ -27,10 +26,12 @@ import type {
   World,
 } from "../simulation";
 import { candidacyEligibility, districtSeatMustBeNamed } from "../simulation";
+import { municipalSeatChoices } from "../simulation/municipal-seat-identity";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
 import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
+import { CampaignHoursPanel } from "./CampaignHoursPanel";
 import { projectCampaignWeekPanel } from "../presentation/campaign-life-surface";
 import { projectCampaignWeekActions } from "../simulation";
 import {
@@ -163,19 +164,31 @@ export function CampaignWorkspace({
     null,
   );
   const [selectedSpending, setSelectedSpending] = useState<string | null>(null);
-  // Which numbered seat the player has named. A seat whose rules ask where the
-  // candidate lives cannot be filed for from a state-wide choice alone, so the
-  // filing button waits for this rather than sending null and being refused.
+  // Which numbered seat the player has named. Its election needs the recorded
+  // Gazetteer identity even when its qualification has no residence rule.
   const [districtBinding, setDistrictBinding] =
     useState<DistrictSeatBinding | null>(null);
+  const [selectedMunicipalSeatKey, setSelectedMunicipalSeatKey] = useState<
+    string | null
+  >(null);
   const person = world.people[personId] ?? null;
+  const municipalSeatOfficeKey = selectedOffice?.officeKey ?? null;
+  const municipalSeats = useMemo(
+    () =>
+      municipalSeatOfficeKey
+        ? municipalSeatChoices(world, personId, municipalSeatOfficeKey)
+        : [],
+    [world, personId, municipalSeatOfficeKey],
+  );
+  const chosenMunicipalSeat =
+    municipalSeats.find((seat) => seat.key === selectedMunicipalSeatKey) ??
+    null;
   const needsDistrict =
     person !== null &&
     selectedOffice !== null &&
     districtSeatMustBeNamed(
       person.homeJurisdictionId,
       selectedOffice.officeKey,
-      world.currentDate,
     );
   // The office list is checked before a seat is named, so it can say
   // "eligible" for a seat the named district then refuses. Ask again with the
@@ -212,11 +225,14 @@ export function CampaignWorkspace({
           personId,
           needsDistrict ? districtBinding : null,
           selectedOfficeKey,
+          null,
+          selectedMunicipalSeatKey,
         ),
       (next) => {
         // The choice is spent on this filing. Picking an office again once the
         // race is over is what offers the next filing.
         setSelectedOfficeKey(null);
+        setSelectedMunicipalSeatKey(null);
         onWorldChange(next);
       },
     );
@@ -229,9 +245,6 @@ export function CampaignWorkspace({
     : (strategy?.geographyChoices[0]?.key ?? null);
   const advertising = strategy?.priorityChoices.find(
     (choice) => choice.key === "advertising",
-  );
-  const advertisingOffer = view.offers.find(
-    (offer) => offer.kind === "advertising",
   );
   const advertisingSpendingKey = advertising?.spendingChoices.some(
     (choice) => choice.key === selectedSpending,
@@ -315,21 +328,18 @@ export function CampaignWorkspace({
   /*
    * One planning region, and one primary control in it.
    *
-   * The dated choices own the active route. Existing committed week sessions
-   * can still finish here; the old editing controls remain only for a World
-   * that cannot project the new choices.
+   * The standing hours and the dated choices come first and carry primary
+   * weight. The priority and geography controls and the "Do this now" row
+   * follow them: they are the only place a candidate says where the work goes
+   * and does one piece of it outside the standing hours, so they stay on the
+   * screen beside the hours rather than disappearing when the hours appear.
    */
   const planning = campaignPlanningLayout({
     weekPlanAvailable:
       view.phase === "active" &&
       (actionChoices !== null || Boolean(weekPanel?.committed)),
-    detailedEditingAvailable:
-      actionChoices === null &&
-      !weekPanel?.committed &&
-      Boolean(strategy) &&
-      view.offers.length > 0,
-    immediateActionsAvailable:
-      actionChoices === null && !weekPanel?.committed && view.offers.length > 0,
+    detailedEditingAvailable: Boolean(strategy) && view.offers.length > 0,
+    immediateActionsAvailable: view.offers.length > 0,
   });
 
   return (
@@ -385,6 +395,7 @@ export function CampaignWorkspace({
                           onChange={() => {
                             setSelectedOfficeKey(office.officeKey);
                             setDistrictBinding(null);
+                            setSelectedMunicipalSeatKey(null);
                             setProblem(null);
                           }}
                         />
@@ -475,6 +486,32 @@ export function CampaignWorkspace({
               onBindingChange={setDistrictBinding}
             />
           ) : null}
+          {municipalSeats.length > 0 ? (
+            <fieldset
+              className="game-campaign-strategy"
+              data-testid="municipal-seat-choices"
+            >
+              <legend>Which seat are you running for?</legend>
+              {municipalSeats.map((seat) => (
+                <label key={seat.key}>
+                  <input
+                    type="radio"
+                    name="municipal-seat"
+                    data-testid={`municipal-seat-choice-${seat.key}`}
+                    value={seat.key}
+                    checked={selectedMunicipalSeatKey === seat.key}
+                    disabled={!seat.eligible}
+                    onChange={() => {
+                      setSelectedMunicipalSeatKey(seat.key);
+                      setProblem(null);
+                    }}
+                  />
+                  {seat.label}
+                  {seat.reason ? ` — ${seat.reason}` : null}
+                </label>
+              ))}
+            </fieldset>
+          ) : null}
           <button
             type="button"
             data-testid="file-candidacy"
@@ -482,6 +519,7 @@ export function CampaignWorkspace({
             disabled={
               !selectedOffice?.eligible ||
               (needsDistrict && !districtBinding) ||
+              (municipalSeats.length > 0 && !chosenMunicipalSeat?.eligible) ||
               boundRefusal !== null
             }
             onClick={file}
@@ -498,10 +536,9 @@ export function CampaignWorkspace({
                 : "Put your name in"}
             </span>
             <span className="game-campaign-action-note">
-              {selectedOffice && person
-                ? `The election is ${readableCampaignDate(campaignElectionDate(world, person.homeJurisdictionId, selectedOffice.officeKey))}. `
+              {selectedOffice?.electionDate
+                ? `The election is ${readableCampaignDate(selectedOffice.electionDate)}. `
                 : ""}
-              The committee opens with nothing in it.
             </span>
           </button>
           {boundRefusal ? (
@@ -530,6 +567,11 @@ export function CampaignWorkspace({
               ? ` · ${view.daysLeft} ${view.daysLeft === 1 ? "day" : "days"} to go`
               : ` · decided ${readableCampaignDate(view.electionDate ?? "")}`}
           </p>
+          {view.seatTarget ? (
+            <p data-testid="campaign-seat-target">
+              Seat on the ballot: {view.seatTarget}.
+            </p>
+          ) : null}
           <p data-testid="campaign-opponents">
             Running against {view.opponentNames.join(", ")}.
           </p>
@@ -598,6 +640,13 @@ export function CampaignWorkspace({
                     : "false"
                 }
               >
+                {actionChoices ? (
+                  <CampaignHoursPanel
+                    world={world}
+                    personId={personId}
+                    onWorldChange={onWorldChange}
+                  />
+                ) : null}
                 {actionChoices ? (
                   <CampaignActionChoicesPanel
                     world={world}
@@ -738,77 +787,6 @@ export function CampaignWorkspace({
             ) : null}
           </div>
 
-          {actionChoices && advertising && advertisingOffer ? (
-            <section
-              className="game-campaign-strategy"
-              data-testid="campaign-paid-advertising"
-              aria-labelledby="campaign-paid-advertising-title"
-            >
-              <h3 id="campaign-paid-advertising-title">Paid advertising</h3>
-              <p>
-                Choose where the buy runs and the committee's spending ceiling.
-                This uses the recorded campaign account when you confirm it.
-              </p>
-              <fieldset>
-                <legend>Where it runs</legend>
-                {strategy!.geographyChoices.map((choice) => (
-                  <label key={choice.key}>
-                    <input
-                      type="radio"
-                      name="campaign-paid-advertising-geography"
-                      value={choice.key}
-                      checked={geographyKey === choice.key}
-                      onChange={() => setSelectedGeography(choice.key)}
-                    />
-                    <span>
-                      {choice.label}
-                      <small>{choice.explanation}</small>
-                    </span>
-                  </label>
-                ))}
-              </fieldset>
-              {advertising.spendingChoices.length > 0 ? (
-                <fieldset>
-                  <legend>Spending ceiling</legend>
-                  {advertising.spendingChoices.map((choice) => (
-                    <label key={choice.key}>
-                      <input
-                        type="radio"
-                        name="campaign-paid-advertising-ceiling"
-                        value={choice.key}
-                        checked={advertisingSpendingKey === choice.key}
-                        onChange={() => setSelectedSpending(choice.key)}
-                      />
-                      <span>
-                        {choice.label}
-                        <small>{choice.explanation}</small>
-                      </span>
-                    </label>
-                  ))}
-                </fieldset>
-              ) : null}
-              <button
-                type="button"
-                className="game-campaign-action"
-                data-testid="campaign-advertising-buy"
-                disabled={
-                  advertisingOffer.unavailable !== null ||
-                  !advertisingSpendingKey ||
-                  !geographyKey
-                }
-                title={advertisingOffer.unavailable ?? undefined}
-                onClick={() => doNow("advertising")}
-              >
-                <span className="game-campaign-action-label">
-                  {advertisingOffer.label}
-                </span>
-                <span className="game-campaign-action-note">
-                  {advertisingOffer.unavailable ?? advertisingOffer.cost}
-                </span>
-              </button>
-            </section>
-          ) : null}
-
           {/*
             The result leads. It used to sit below the whole session log, and
             a Presque Isle race put it under about three hundred lines.
@@ -829,9 +807,23 @@ export function CampaignWorkspace({
               </ul>
               {view.speech ? (
                 view.speech.given ? (
-                  <p className="game-note" data-testid="campaign-speech-given">
-                    {view.speech.given}
-                  </p>
+                  <div data-testid="campaign-speech-given">
+                    <p className="game-note">{view.speech.given}</p>
+                    {view.speech.words ? (
+                      <details data-testid="campaign-speech-words">
+                        <summary>{view.speech.words.opening}</summary>
+                        <p className="game-scene">{view.speech.words.text}</p>
+                      </details>
+                    ) : null}
+                    {view.speech.words?.heard ? (
+                      <p
+                        className="game-note"
+                        data-testid="campaign-speech-heard"
+                      >
+                        {view.speech.words.heard}
+                      </p>
+                    ) : null}
+                  </div>
                 ) : (
                   <button
                     type="button"

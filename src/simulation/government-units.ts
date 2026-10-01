@@ -22,6 +22,8 @@ import {
   PLACE_COUNTY_RELATIONS_META,
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "./place-county-relations.generated";
+import { createStableId } from "./ids";
+import type { EntityId } from "./types";
 
 export { GOVERNMENT_UNITS_META, PLACE_COUNTY_RELATIONS_META };
 
@@ -43,6 +45,23 @@ export interface GovernmentUnitIdentity {
   readonly publisherPlaceCode: string | null;
   readonly functionalActive: boolean;
   readonly asOf: typeof GOVERNMENT_UNITS_META.asOf;
+}
+
+/** The canonical jurisdiction ID of a catalog local-government unit. */
+export function governmentUnitJurisdictionId(
+  unit: Pick<
+    GovernmentUnitIdentity,
+    "id" | "unitType" | "countyGeoid" | "placeGeoid"
+  >,
+): EntityId {
+  if (unit.unitType === "county" && unit.countyGeoid !== null)
+    return createStableId(
+      "jurisdiction",
+      `national-county:${unit.countyGeoid}`,
+    );
+  if (unit.unitType === "municipality" && unit.placeGeoid !== null)
+    return createStableId("jurisdiction", `national-place:${unit.placeGeoid}`);
+  return createStableId("jurisdiction", `government-unit:${unit.id}`);
 }
 
 type Row = [
@@ -126,6 +145,11 @@ export function governmentUnitsForState(
   return load().byState.get(stateUsps) ?? [];
 }
 
+/** The postal codes of every state and territory the listing holds governments for. */
+export function governmentUnitStates(): readonly string[] {
+  return [...load().byState.keys()];
+}
+
 /**
  * The county government whose area has this GEOID, if the county has one.
  * Some county areas (consolidated or dissolved counties, independent cities'
@@ -190,6 +214,24 @@ export function countyGovernmentUnitsForPlace(
       right.landAreaShare - left.landAreaShare ||
       left.unit.id.localeCompare(right.unit.id),
   );
+}
+
+/**
+ * The county areas a Census place lies in with the share of the place's land
+ * in each, largest first. Geography only, like `countyGeoidsForPlace`; the
+ * shares sum to one. Empty when the place is not in the 2020 files.
+ */
+export function countyLandSharesForPlace(
+  placeGeoid: string,
+): readonly (readonly [countyGeoid: string, share: number])[] {
+  const parts = loadPlaceCountyParts().get(placeGeoid) ?? [];
+  const total = parts.reduce((sum, [, land]) => sum + land, 0);
+  if (total <= 0) return [];
+  return [...parts]
+    .sort(
+      (left, right) => right[1] - left[1] || left[0].localeCompare(right[0]),
+    )
+    .map(([countyGeoid, land]) => [countyGeoid, land / total] as const);
 }
 
 /**

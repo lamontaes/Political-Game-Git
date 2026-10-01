@@ -1,3 +1,7 @@
+import { applyLawConsequences } from "./enacted-law-effects";
+import { applySpeechRetelling } from "./speech-retelling";
+import { applyEnactedCourtSizes } from "./governing/court-size-law";
+import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -7,6 +11,7 @@ import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnov
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
+import { applyArticleV } from "./governing/article-v";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
@@ -1124,7 +1129,7 @@ export function advanceWorldMinutes(
       addSimulationMinutes(world.currentMoment, minutes),
       transitionHandlers,
     );
-  });
+  }, world);
 }
 
 /** Spend real time while joining one already-started commitment. The caller
@@ -1534,7 +1539,7 @@ function advanceCanonicalMinutes(
   const transitions: ExactTransition[] = [];
   for (
     let date = addDays(start.date, 1);
-    date <= target.date;
+    date < target.date;
     date = addDays(date, 1)
   ) {
     const boundary = simulationMomentAtLocalTime({
@@ -1610,7 +1615,7 @@ function advanceCanonicalMinutes(
       );
       world = setCurrentMoment(world, transition.at, crossedFrom);
     } else if (transition.kind === "work-completion" && transition.entityId) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeStaffWork(
         world,
         transition.entityId,
@@ -1618,7 +1623,7 @@ function advanceCanonicalMinutes(
         inputWorld.actionSequence,
       );
     } else if (transition.kind === "work-progress" && transition.entityId) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = recordStaffProgress(
         world,
         transition.entityId,
@@ -1629,7 +1634,7 @@ function advanceCanonicalMinutes(
       transition.kind === "activity-completion" &&
       transition.entityId
     ) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeActivity(
         world,
         transition.entityId,
@@ -1642,7 +1647,7 @@ function advanceCanonicalMinutes(
         );
     }
   }
-  world = setCurrentMoment(world, target);
+  world = setCurrentMomentWithDue(world, target, transitionHandlers);
   const actionSequence = inputWorld.actionSequence;
   world = { ...world, actionSequence: actionSequence + 1 };
   world = recordWorldEvent(world, {
@@ -1865,10 +1870,37 @@ function recordStaffProgress(
   });
 }
 
+/**
+ * A resident other than the played person takes part in an activity they
+ * asked for. Called on the clock once the activity's end has passed, by the
+ * due item its producer scheduled; the completion is dated at the
+ * activity's own end, exactly as a performed activity is. The played
+ * person's activities complete only through their own performance.
+ */
+export function completeResidentScheduledActivity(
+  world: World,
+  activityId: EntityId,
+): World {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  const state = latestActivityStateUnchecked(world, activityId);
+  if (!activity || state?.status !== "scheduled") return world;
+  if (compareSimulationMoments(state.end, world.currentMoment) > 0)
+    throw new Error("A resident's activity completes only after its end.");
+  if (
+    world.control.kind === "person" &&
+    activity.participantPersonIds.includes(world.control.personId)
+  )
+    throw new Error("The played person takes part only by their own act.");
+  return completeActivity(world, activityId, world.actionSequence, state.end);
+}
+
 function completeActivity(
   world: World,
   activityId: EntityId,
   actionSequence: number,
+  at: SimulationMoment = world.currentMoment,
 ): World {
   const activity = world.history.scheduledActivities.find(
     (candidate) => candidate.id === activityId,
@@ -1879,7 +1911,7 @@ function completeActivity(
   let next = recordWorldEvent(world, {
     stableKey: `${stableKey}:event`,
     type: "schedule.activity-completed",
-    occurredAt: world.currentDate,
+    occurredAt: at.date,
     recordedAt: world.currentDate,
     jurisdictionId: activity.location.jurisdictionId,
     involvedEntityIds: [
@@ -1918,7 +1950,7 @@ function completeActivity(
     stableKey,
     sequence: next.history.nextSequence,
     activityId,
-    recordedAt: cloneMoment(next.currentMoment),
+    recordedAt: cloneMoment(at),
     start: previous.start,
     end: previous.end,
     status: "completed",
@@ -1926,7 +1958,12 @@ function completeActivity(
     outcomeEventId: event.id,
     supersedesStateId: previous.id,
   });
-  return next;
+  return applyLawConsequences(next, {
+    activity: "service",
+    activityId: activity.id,
+    subjectIds: [...activity.participantPersonIds],
+    onDate: event.occurredAt,
+  });
 }
 
 function appendActivityState(
@@ -1961,34 +1998,69 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
   return next;
 }
 
+function setCurrentMomentWithDue(
+  world: World,
+  moment: SimulationMoment,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
+  const crossedFrom = world.currentDate;
+  return setCurrentMoment(
+    resolveFutureDueItemsThrough(world, moment.date, transitionHandlers),
+    moment,
+    crossedFrom,
+  );
+}
+
 function setCurrentMoment(
   world: World,
   moment: SimulationMoment,
   crossedFrom: World["currentDate"] = world.currentDate,
 ): World {
-  const moved = applyNationalTermTransitions({
+  return applyDateBoundary(crossedFrom, {
     ...world,
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
   });
+}
+
+/** The canonical consequences of moving between dates. Callers pass the date
+ * before due-item resolution, which may itself move the world's date. */
+export function applyDateBoundary(
+  crossedFrom: World["currentDate"],
+  world: World,
+): World {
+  const moved = applyNationalTermTransitions(world);
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
-  return applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        crossedFrom,
-        applyFederalReform(
-          crossedFrom,
-          applyConstitutionalReform(
-            crossedFrom,
-            applyPresidentialTurnover(
+  // D-3 step 7: a remembered speech is retold at each first of the month.
+  return applyJudicialReview(
+    crossedFrom,
+    applySpeechRetelling(
+      crossedFrom,
+      applyCrisisRepairFunding(
+        applyEnactedCourtSizes(
+          applyCrisisOfficeContinuity(
+            applyCongressLawmaking(
               crossedFrom,
-              applyGovernorTurnover(
+              applyFederalReform(
                 crossedFrom,
-                applyCongressTurnover(
+                applyArticleV(
                   crossedFrom,
-                  applyStateLegislatureTurnover(crossedFrom, moved),
+                  applyConstitutionalReform(
+                    crossedFrom,
+                    applyPresidentialTurnover(
+                      crossedFrom,
+                      applyGovernorTurnover(
+                        crossedFrom,
+                        applyCongressTurnover(
+                          crossedFrom,
+                          applyStateLegislatureTurnover(crossedFrom, moved),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

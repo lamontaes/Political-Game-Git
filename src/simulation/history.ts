@@ -1,4 +1,6 @@
+import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { createStableId } from "./ids";
+import { appendedList, hasStableKey, stableKeysOf } from "./history-index";
 import type {
   AppraisalMeaning,
   AppraisalRecord,
@@ -40,6 +42,7 @@ import type {
   PrincipleRecord,
   PrincipleStance,
   PrivateBeliefRecord,
+  PrivateBeliefSubject,
   PropositionExposureProvenance,
   PropositionExposureRecord,
   PublicPositionRecord,
@@ -65,7 +68,7 @@ import type {
   DecisionTraceRecord,
 } from "./types";
 
-export interface HistoricalEventInput {
+export interface HistoricalEventInput extends LawEffectStampedRecord {
   readonly stableKey: string;
   readonly type: EventType;
   readonly occurredAt: IsoDate;
@@ -129,7 +132,13 @@ export interface RelationshipInteractionInput {
 export interface PrivateBeliefRecordInput {
   readonly stableKey: string;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  /**
+   * Absent on legacy policy beliefs. Party questions and officials have no
+   * proposition.
+   */
+  readonly subject?: PrivateBeliefSubject;
+  readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
   readonly conviction: BeliefConviction;
@@ -181,6 +190,7 @@ export interface PrincipleRecordInput {
   readonly principleId: EntityId;
   readonly formedAt: IsoDate;
   readonly stance: PrincipleStance;
+  readonly strength: number;
   readonly conviction: BeliefConviction;
   readonly flexibility: PoliticalFlexibility;
   readonly qualification: string | null;
@@ -297,6 +307,7 @@ export interface DecisionTraceRecordInput extends DecisionEvaluation {
 export function createHistoryStore(): HistoryStore {
   return {
     nextSequence: 0,
+    ruleChangeConsequenceBindings: [],
     organizations: [],
     organizationProfiles: [],
     educationEnrollments: [],
@@ -323,6 +334,7 @@ export function createHistoryStore(): HistoryStore {
     resourceFlows: [],
     resourceFlowTerms: [],
     resourceTransferOutcomes: [],
+    earnedLawPayAssessments: [],
     resourceObligations: [],
     resourceObligationStates: [],
     dwellings: [],
@@ -395,7 +407,9 @@ export function appendPropositionExposureRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    propositionExposures: [...history.propositionExposures, exposure],
+    propositionExposures: appendedList(history.propositionExposures, [
+      exposure,
+    ]),
   };
 }
 
@@ -439,12 +453,22 @@ export function appendHistoricalEvent(
     tags: canonicalTags(input.tags),
     summary: input.summary,
     context: cloneEventContext(input.context),
+    ...(input.lawEffectStamps === undefined
+      ? {}
+      : {
+          lawEffectStamps: input.lawEffectStamps.map((stamp) => ({
+            ...stamp,
+            ...(stamp.sourceRecordIds === undefined
+              ? {}
+              : { sourceRecordIds: [...stamp.sourceRecordIds] }),
+          })),
+        }),
   };
 
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    events: [...history.events, event],
+    events: appendedList(history.events, [event]),
   };
 }
 
@@ -463,7 +487,7 @@ export function appendMemoryRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    memories: [...history.memories, memory],
+    memories: appendedList(history.memories, [memory]),
   };
 }
 
@@ -482,7 +506,7 @@ export function appendEventKnowledgeRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    knowledge: [...history.knowledge, knowledge],
+    knowledge: appendedList(history.knowledge, [knowledge]),
   };
 }
 
@@ -501,7 +525,7 @@ export function appendClaimRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    claims: [...history.claims, claim],
+    claims: appendedList(history.claims, [claim]),
   };
 }
 
@@ -526,10 +550,9 @@ export function appendRelationshipInteraction(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    relationshipInteractions: [
-      ...history.relationshipInteractions,
+    relationshipInteractions: appendedList(history.relationshipInteractions, [
       interaction,
-    ],
+    ]),
   };
 }
 
@@ -545,6 +568,7 @@ export function appendPrivateBeliefRecord(
   );
   const belief: PrivateBeliefRecord = {
     ...input,
+    ...(input.subject ? { subject: { ...input.subject } } : {}),
     id: createStableId("belief", `${worldId}:${input.stableKey}`),
     sequence: history.nextSequence,
     formation: cloneFormation(input.formation),
@@ -552,7 +576,7 @@ export function appendPrivateBeliefRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    privateBeliefs: [...history.privateBeliefs, belief],
+    privateBeliefs: appendedList(history.privateBeliefs, [belief]),
   };
 }
 
@@ -574,7 +598,7 @@ export function appendPublicPositionRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    publicPositions: [...history.publicPositions, position],
+    publicPositions: appendedList(history.publicPositions, [position]),
   };
 }
 
@@ -596,7 +620,9 @@ export function appendCampaignCommitmentRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    campaignCommitments: [...history.campaignCommitments, commitment],
+    campaignCommitments: appendedList(history.campaignCommitments, [
+      commitment,
+    ]),
   };
 }
 
@@ -619,8 +645,47 @@ export function appendPrincipleRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    principles: [...history.principles, principle],
+    principles: appendedList(history.principles, [principle]),
   };
+}
+
+/** Append a checked chamber's principle draw without copying the full ledger per row. */
+export function appendPrincipleRecords(
+  history: HistoryStore,
+  worldId: EntityId,
+  inputs: readonly PrincipleRecordInput[],
+  validateInput: (
+    priorHistory: HistoryStore,
+    input: PrincipleRecordInput,
+  ) => void,
+): HistoryStore {
+  if (inputs.length === 0) return history;
+  const principles = [...history.principles];
+  // Keys already in the ledger (an index that follows appends), and the
+  // keys this batch adds.
+  const existingKeys = stableKeysOf(history.principles);
+  const stableKeys = new Set<string>();
+  let nextSequence = history.nextSequence;
+  for (const input of inputs) {
+    validateInput({ ...history, principles, nextSequence }, input);
+    if (input.stableKey.trim().length === 0) {
+      throw new Error("principle record stable key must not be empty.");
+    }
+    if (existingKeys.has(input.stableKey) || stableKeys.has(input.stableKey)) {
+      throw new Error(
+        `principle record stable key already exists: ${input.stableKey}`,
+      );
+    }
+    stableKeys.add(input.stableKey);
+    principles.push({
+      ...input,
+      id: createStableId("principle", `${worldId}:${input.stableKey}`),
+      sequence: nextSequence,
+      formation: cloneFormation(input.formation),
+    });
+    nextSequence += 1;
+  }
+  return { ...history, nextSequence, principles };
 }
 
 export function appendSubjectKnowledgeRecord(
@@ -642,7 +707,7 @@ export function appendSubjectKnowledgeRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    subjectKnowledge: [...history.subjectKnowledge, knowledge],
+    subjectKnowledge: appendedList(history.subjectKnowledge, [knowledge]),
   };
 }
 
@@ -666,7 +731,9 @@ export function appendPersonalityTendencyRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    personalityTendencies: [...history.personalityTendencies, record],
+    personalityTendencies: appendedList(history.personalityTendencies, [
+      record,
+    ]),
   };
 }
 
@@ -689,7 +756,7 @@ export function appendPersonalValueRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    personalValues: [...history.personalValues, record],
+    personalValues: appendedList(history.personalValues, [record]),
   };
 }
 
@@ -708,7 +775,7 @@ export function appendGoalStateRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    goalStates: [...history.goalStates, record],
+    goalStates: appendedList(history.goalStates, [record]),
   };
 }
 
@@ -731,7 +798,7 @@ export function appendAppraisalRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    appraisals: [...history.appraisals, record],
+    appraisals: appendedList(history.appraisals, [record]),
   };
 }
 
@@ -750,7 +817,7 @@ export function appendPerceptionRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    perceptions: [...history.perceptions, record],
+    perceptions: appendedList(history.perceptions, [record]),
   };
 }
 
@@ -774,7 +841,7 @@ export function appendTemporaryStateRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    temporaryStates: [...history.temporaryStates, record],
+    temporaryStates: appendedList(history.temporaryStates, [record]),
   };
 }
 
@@ -798,7 +865,7 @@ export function appendDecisionTraceRecord(
   return {
     ...history,
     nextSequence: history.nextSequence + 1,
-    decisionTraces: [...history.decisionTraces, record],
+    decisionTraces: appendedList(history.decisionTraces, [record]),
   };
 }
 
@@ -987,7 +1054,7 @@ function assertUniqueStableKey(
   if (stableKey.trim().length === 0) {
     throw new Error(`${label} stable key must not be empty.`);
   }
-  if (records.some((record) => record.stableKey === stableKey)) {
+  if (hasStableKey(records, stableKey)) {
     throw new Error(`${label} stable key already exists: ${stableKey}`);
   }
 }

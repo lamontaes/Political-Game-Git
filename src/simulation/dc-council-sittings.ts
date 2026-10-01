@@ -1,17 +1,21 @@
 import { addDays } from "./dates";
+import { fileMemberAgendaBills } from "./governing/member-agenda";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
-import { stableHash } from "./ids";
 import {
-  introduceMeasure,
-  measurePosition,
-  placeMeasureOnCalendar,
-} from "./legislation";
+  COUNCIL_VOTE_NOTE,
+  decideCouncilVote,
+  ensureCouncilPrinciples,
+} from "./governing/council-lawmaking";
+import { measurePosition, placeMeasureOnCalendar } from "./legislation";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,
 } from "./municipal-government";
-import { recordCouncilReadingVote } from "./municipal-ordinance-procedure";
+import {
+  municipalExecutiveHolder,
+  recordCouncilReadingVote,
+} from "./municipal-ordinance-procedure";
 import {
   municipalGovernmentJurisdictionId,
   municipalMeasureKey,
@@ -22,11 +26,9 @@ import {
   DC_GOVERNMENT_KEY,
   dcCouncilSeated,
 } from "./nationwide-world/district-of-columbia-council-opening";
-import { SeededRng } from "./rng";
 import type {
   EntityId,
   FutureTransitionHandlerResult,
-  LegislativeVoteDisposition,
   PolicyPropositionDefinition,
   World,
 } from "./types";
@@ -38,16 +40,16 @@ import type {
  * those present and voting). Everything after passage (the Mayor, an
  * override, congressional review) is the shared procedure's.
  *
- * PLACEHOLDERS, pending `dc-council-legislative-volume` and
- * `dc-council-rules-of-organization-and-procedure`:
- * - The Council sits every 14 days and one member introduces one act at
- *   each sitting. Neither is the Council's schedule or volume.
- * - A member's ballot is a game-authored stand-in drawn from a stable hash of
- *   the world, the act and the member, so it is the same at both readings.
- *   It is disclosed on the vote, as the player's town-council route does.
- * - An act answers one question from the world's policy catalog that is
- *   decided at the state or municipal level; what the act does beyond being
- *   recorded is not modeled.
+ * Members file and vote for their own reasons, as a town council's do
+ * (`council-lawmaking.ts`): a member files on the question their principles
+ * press hardest where the District's law does not already say what they
+ * want, and every member votes through the legislatures' vote engine with
+ * the District's voters as their constituents. An act answers one question
+ * the District's own law may answer.
+ *
+ * PLACEHOLDER, pending `dc-council-legislative-volume` and
+ * `dc-council-rules-of-organization-and-procedure`: the Council sits every
+ * 14 days, which is not its schedule.
  */
 
 export const DC_COUNCIL_SITTING = "civic:dc-council-sitting" as const;
@@ -56,22 +58,7 @@ export const DC_COUNCIL_SITTINGS_VERSION = "dc-council-sittings/v1" as const;
 export const DC_COUNCIL_SITTING_PROFILE = {
   id: "ocd-dc-council-sitting-placeholder/v1",
   daysBetweenSittings: 14,
-  introductionsPerSitting: 1,
 } as const;
-
-export const DC_COUNCIL_AUTHORED_BALLOT_NOTE = `${DC_COUNCIL_SITTING_PROFILE.id}: each member's ballot is a game-authored stand-in, not any real Council member's position; how a member decides is not modeled yet.`;
-
-/** A seated member's authored ballot on one act, the same at every reading. */
-export function dcCouncilAuthoredBallot(
-  world: World,
-  measureStableKey: string,
-  personId: EntityId,
-): "yea" | "nay" {
-  const digest = stableHash(
-    `${world.id}:${measureStableKey}:authored-ballot:${personId}`,
-  );
-  return Number.parseInt(digest.slice(-1), 16) % 2 === 0 ? "yea" : "nay";
-}
 
 function councilMembers(world: World) {
   return municipalSeats(world, DC_GOVERNMENT_KEY).filter(
@@ -124,20 +111,8 @@ function districtQuestions(
     );
 }
 
-/** The game's own label for the next act this year: "Act 26-4". */
-export function nextDcCouncilDesignation(world: World): string {
-  const year = world.currentDate.slice(2, 4);
-  const taken = new Set(
-    municipalMeasures(world, DC_GOVERNMENT_KEY).map(
-      (measure) => measure.designation,
-    ),
-  );
-  let number = 1;
-  while (taken.has(`Act ${year}-${number}`)) number += 1;
-  return `Act ${year}-${number}`;
-}
-
-function introduceOne(world: World, index: number): World {
+/** Members other than the player file what their principles press them to. */
+function fileActs(world: World): World {
   const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY);
   if (!government) return world;
   const rules = municipalRulePackFor(government);
@@ -149,32 +124,23 @@ function introduceOne(world: World, index: number): World {
   if (!jurisdictionId) return world;
   const player =
     world.control.kind === "person" ? world.control.personId : null;
-  const sponsors = councilMembers(world).filter(
-    (seat) => seat.personId !== player,
-  );
-  const questions = districtQuestions(world, jurisdictionId);
-  if (sponsors.length === 0 || questions.length === 0) return world;
-  const rng = new SeededRng(world.seed).fork(
-    `${DC_COUNCIL_SITTINGS_VERSION}:${world.currentDate}:${index}`,
-  );
-  const sponsor = sponsors[rng.integer(0, sponsors.length)]!;
-  const question = questions[rng.integer(0, questions.length)]!;
-  const answer: "yes" | "no" = rng.integer(0, 2) === 0 ? "yes" : "no";
-  const designation = nextDcCouncilDesignation(world);
-  const year = world.currentDate.slice(0, 4);
-  return introduceMeasure(world, {
-    stableKey: municipalMeasureKey(DC_GOVERNMENT_KEY, designation),
+  const members = councilMembers(world);
+  return fileMemberAgendaBills(world, {
     jurisdictionId,
-    rulePackId: rules.pack.packId,
-    designation,
-    shortTitle: dcCouncilActTitle(question.name, year),
-    summary: `Answers "${question.question}" with ${answer === "yes" ? "yes" : "no"}.`,
-    origin: "member-introduction",
-    subjectClass: "general-policy",
-    originChamberKey: "council",
-    sponsorPersonId: sponsor.personId,
-    propositionIds: [question.id],
-    propositionAnswers: [{ propositionId: question.id, answer }],
+    intakeKey: `${DC_COUNCIL_SITTINGS_VERSION}:${world.currentDate}:filings`,
+    chamberKey: "council",
+    council: {
+      pack: rules.pack,
+      members,
+      questions: districtQuestions(world, jurisdictionId).map(
+        (question) => question.id,
+      ),
+      measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
+      playerPersonId: player,
+      title: dcCouncilActTitle,
+      measureKey: (numbering) =>
+        municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
+    },
   });
 }
 
@@ -211,23 +177,31 @@ function moveActs(world: World): World {
     }
     if (phase !== "on-floor") continue;
     const members = councilMembers(next);
-    const dispositions: LegislativeVoteDisposition[] = members.map(
-      (seat, index) => ({
-        memberKey: `council:${index + 1}`,
-        personId: seat.personId,
-        disposition:
-          seat.personId === player
-            ? "absent"
-            : dcCouncilAuthoredBallot(next, measure.stableKey, seat.personId),
-      }),
-    );
+    const mayor = municipalExecutiveHolder(next, DC_GOVERNMENT_KEY);
+    next = ensureCouncilPrinciples(next, [
+      ...members,
+      ...(mayor ? [{ personId: mayor }] : []),
+    ]);
+    const dispositions = decideCouncilVote(next, {
+      stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
+      measureId: measure.id,
+      jurisdictionId: measure.jurisdictionId,
+      members,
+      playerPersonId: player,
+      questionLabel: `Pass ${measure.designation}`,
+      executivePersonId: mayor,
+      // The Council is elected in party primaries, and the Home Rule Act
+      // limits how many at-large seats one party may hold (D.C. Code
+      // § 1-204.01), so its members' parties are cues.
+      nonpartisan: false,
+    });
     const result = recordCouncilReadingVote(next, {
       governmentKey: DC_GOVERNMENT_KEY,
       measureId: measure.id,
       dispositions,
       provenance: {
-        method: "authored-fixture",
-        note: DC_COUNCIL_AUTHORED_BALLOT_NOTE,
+        method: "member-decisions",
+        note: COUNCIL_VOTE_NOTE,
         sourceEntityIds: [measure.id],
       },
     });
@@ -250,12 +224,7 @@ export function dcCouncilSittingHandler(
     };
   }
   let next = moveActs(world);
-  for (
-    let index = 0;
-    index < DC_COUNCIL_SITTING_PROFILE.introductionsPerSitting;
-    index += 1
-  )
-    next = introduceOne(next, index);
+  next = fileActs(next);
   next = scheduleDcCouncilSitting(next);
   return {
     world: next,

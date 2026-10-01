@@ -1,0 +1,7 @@
+{
+  "filename": "team8-transfer-essential-evidence.zip",
+  "sha256": "1350b603d55d0c488cda6d4b533c826a6e3f80a8c6d0bb96f9a82048f8e19ae4",
+  "verification": "Predecessor-reported in END00; bundle absent from replacement workspace, so hash not recomputed here.",
+  "storage": "test-results/team8/team8-transfer-essential-evidence.zip (ignored cloud path; no repository ZIP or Drive upload)",
+  "contentsManifest": "Predecessor's transfer-evidence-manifest.json reportedly covers 13 files; absent here, so individual filenames and hashes are not reconstructed."
+}

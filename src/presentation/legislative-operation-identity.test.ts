@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { scheduleFutureDueItem } from "../simulation/future-transitions";
+import { addDays } from "../simulation/dates";
 import { createLegislativeScenario } from "../simulation/legislation-scenarios";
 import {
   introduceMeasure,
@@ -10,6 +12,43 @@ import { assertWorldIntegrity } from "../simulation/world";
 import { applyLegislativeStep } from "./legislation-session";
 
 describe("canonical multi-measure operation identity", () => {
+  it("reserves exact and colon-descendant keys while preserving older snapshots", () => {
+    const fixture = createLegislativeScenario("alaska");
+    const add = (world: typeof fixture.world, stableKey: string) =>
+      scheduleFutureDueItem(world, {
+        stableKey,
+        dueAt: addDays(world.currentDate, 1),
+        transitionKey: "custom:identity-test",
+        entityIds: [fixture.measureId],
+        jurisdictionId: world.jurisdictionOrder[0]!,
+        provenance: {
+          kind: "authored",
+          note: "Operation-key collision regression.",
+        },
+      });
+    let world = fixture.world;
+    for (const key of [
+      "operation:1-extra",
+      "operation:10",
+      "operation:2:descendant",
+    ])
+      world = add(world, key);
+    expect(nextMeasureStableKey(world, fixture.measureId, "operation")).toBe(
+      "operation:1",
+    );
+    const after = add(world, "operation:1");
+    expect(nextMeasureStableKey(after, fixture.measureId, "operation")).toBe(
+      "operation:3",
+    );
+    expect(nextMeasureStableKey(world, fixture.measureId, "operation")).toBe(
+      "operation:1",
+    );
+    const loaded = deserializeWorld(serializeWorld(after));
+    expect(nextMeasureStableKey(loaded, fixture.measureId, "operation")).toBe(
+      "operation:3",
+    );
+  });
+
   it("preserves legacy fixture keys and separates supplied non-docket measures after reload", () => {
     const fixture = createLegislativeScenario("alaska");
     let world = applyLegislativeStep(

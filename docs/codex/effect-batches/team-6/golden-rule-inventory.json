@@ -1,0 +1,35 @@
+{
+  "team": 6,
+  "supersededHead": "66d52e0a03f25fb922df1b8d1ccad9adae014936",
+  "pr": 1283,
+  "drawnOutcomeLevels": [
+    {
+      "file": "src/simulation/rural-transit-operating-cost.ts",
+      "function": "ruralTransitOperatingCostAt",
+      "level": "operating unit price",
+      "state": "Removed by this repair; helper now calibration-only"
+    }
+  ],
+  "derivedOutcomes": [
+    {
+      "file": "src/simulation/governing/public-program-transit.ts",
+      "level": "payment / drawn or fixed price -> service hours",
+      "state": "Removed; actual posted government cost stamp retained"
+    },
+    {
+      "file": "src/simulation/governing/public-program-transit.ts",
+      "level": "selected modeled rider -> trip -> appreciation",
+      "state": "Removed; no actual availability or trip record supports it"
+    }
+  ],
+  "mergedSourceRequiringRepair": "a79aedd4341ab22854c4d5ea1a3be6cef161d866 (1249): inherited fixed contract price and inferred rider chain",
+  "costMechanismMissing": [
+    "Actual operator driver-pay records",
+    "Actual fuel consumption and fuel-price transactions",
+    "Actual vehicle operating expenses",
+    "Actual delivered vehicle revenue hours"
+  ],
+  "remainingLawCostsDue": "2:30 p.m. Eastern",
+  "noNewSharedWrites": true,
+  "notProof": "Calibration helper has no production caller until actual inputs exist; no nationwide service proof."
+}

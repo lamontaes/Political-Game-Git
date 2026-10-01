@@ -9,6 +9,11 @@ import {
 } from "./legislation-operative-sections";
 import { standingAuthority } from "./legislation-program-families";
 import { stateJurisdictionForKey } from "./life-places";
+import { US_STATE_USPS } from "./nationwide-world/state-executive-candidacy-packs";
+import {
+  STATE_TRANSIT_VARIANT_KEY,
+  TRANSIT_VARIANT_KEY,
+} from "./legislation-transit-families";
 
 const alaska = stateJurisdictionForKey("US-AK")!.id;
 const kentucky = stateJurisdictionForKey("US-KY")!.id;
@@ -61,16 +66,29 @@ describe("operative section support", () => {
     expect(
       operativeSectionSupport(
         "appropriations",
-        "transit-staged-service-v1",
+        TRANSIT_VARIANT_KEY,
         alaska,
       ).every((row) => row.supported),
     ).toBe(true);
     expect(
       operativeSectionSupport(
         "appropriations",
-        "transit-staged-service-v1",
+        TRANSIT_VARIANT_KEY,
         kentucky,
       ).every((row) => !row.supported),
     ).toBe(true);
+  });
+
+  it("admits the complete recorded-date transit mandate in all fifty states", () => {
+    for (const stateUsps of US_STATE_USPS) {
+      const jurisdictionId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
+      const support = operativeSectionSupport(
+        "appropriations",
+        STATE_TRANSIT_VARIANT_KEY,
+        jurisdictionId,
+      );
+      expect(support.length).toBeGreaterThan(0);
+      expect(support.every((row) => row.supported)).toBe(true);
+    }
   });
 });

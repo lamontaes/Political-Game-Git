@@ -16,12 +16,15 @@ import {
 import { currentPresidentOf } from "../simulation/crisis/offices";
 import { makeIsoDate } from "../simulation/dates";
 import { dispositionsFromCounts } from "../simulation/legislation-scenarios";
+import { congressVoters } from "../simulation/governing/article-v";
+import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
 import {
   FEDERAL_REFORM_REVIEW,
   FEDERAL_REFORM_STATE_ACTION,
   federalReformCause,
   federalReformReviewHandler,
   federalReformStateActionHandler,
+  termLimitCount,
 } from "../simulation/living-world/federal-reform";
 import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
 import {
@@ -127,7 +130,7 @@ describe("Congress and the states amending the U.S. Constitution on their own", 
   });
 
   it(
-    "reads a ratified amendment as the presidency's term limit, and takes a proposal through Congress and the state legislatures",
+    "reads a ratified amendment as the presidency's term limit, and Congress and the state legislatures decide a proposal member by member",
     { timeout: 300_000 },
     () => {
       const opened = passOrdinaryDays(
@@ -160,61 +163,104 @@ describe("Congress and the states amending the U.S. Constitution on their own", 
         value: { maxLifetimeTerms: 2 },
       });
 
-      // Rare: across two hundred years with a cause, only a few proposals.
-      const proposedYears: number[] = [];
-      for (let year = 2027; year < 2227; year += 1) {
-        const result = federalReformReviewHandler(
-          limited,
-          review(limited, year),
-        );
-        if (result.world.history.constitutionalMeasures!.length > 1)
-          proposedYears.push(year);
-      }
-      expect(proposedYears.length).toBeGreaterThan(0);
-      expect(proposedYears.length).toBeLessThan(20);
-
-      const outcomes = proposedYears.map((year) => {
-        const world = federalReformReviewHandler(
-          limited,
-          review(limited, year),
-        ).world;
-        const id = world.history.constitutionalMeasures!.at(-1)!.id;
-        return { world, id, phase: constitutionalPosition(world, id).phase };
-      });
+      // Congress counts itself, member by member: the President's party is
+      // a reason to let them serve on, the other party a reason not to, and
+      // amending the Constitution is a higher bar than a law. The same
+      // Congress gives the same answer every year; no draw decides.
+      const first = federalReformReviewHandler(limited, review(limited, 2027));
+      const counted = ensureOfficeholderPrinciples(
+        limited,
+        (["house", "senate"] as const).flatMap((body) =>
+          congressVoters(limited, body).map((voter) => voter.personId),
+        ),
+      );
+      const cause = federalReformCause(limited)!;
+      const count = termLimitCount(counted, 2027, cause);
+      expect(count.houses.map((house) => house.rows.length)).toEqual([
+        congressVoters(limited, "house").length,
+        congressVoters(limited, "senate").length,
+      ]);
+      for (const house of count.houses)
+        for (const row of house.rows) expect(row.reason).toMatch(/^member:/);
+      // A losing proposal now retains its actual rejection rollcall.
+      expect(first.world.history.constitutionalMeasures).toHaveLength(2);
       expect(
-        outcomes.every((o) => ["ratification", "rejected"].includes(o.phase)),
-      ).toBe(true);
-      const proposed = outcomes.find((o) => o.phase === "ratification");
-      expect(proposed).toBeDefined();
-      const { world, id } = proposed!;
-      const votes = constitutionalActions(world, id).flatMap((action) =>
-        action.detail.kind === "proposal-vote" ? [action.detail.vote] : [],
-      );
-      expect(votes.map((vote) => vote.eligibleMembers)).toEqual([435, 100]);
-      expect(votes.every((vote) => vote.outcome !== "failed")).toBe(true);
-      expect(() => assertWorldIntegrity(world)).not.toThrow();
+        constitutionalPosition(
+          first.world,
+          first.world.history.constitutionalMeasures!.at(-1)!.id,
+        ).phase,
+      ).toBe(count.carries ? "ratification" : "rejected");
+      for (const year of [2031, 2071, 2151])
+        expect(
+          federalReformReviewHandler(limited, review(limited, year)).world
+            .history.constitutionalMeasures!.length,
+        ).toBe(first.world.history.constitutionalMeasures!.length);
 
-      // Every state legislature, and no one else, acts once.
-      const actions = world.history.futureDueItems
-        .filter((due) => due.transitionKey === FEDERAL_REFORM_STATE_ACTION)
-        .filter((due) =>
-          due.stableKey.startsWith(
-            world.history.constitutionalMeasures!.at(-1)!.stableKey,
+      // The states: a Congress that proposed it (a fixture), then each state
+      // legislature ratifies when most of those who speak for it would.
+      let world = proposeConstitutionalMeasure(limited, {
+        stableKey: "federal-reform/v1:US:2027",
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        jurisdictionKey: "US",
+        processKind: "federal-amendment",
+        designation: "Proposed Amendment to the Constitution (2027)",
+        shortTitle: "The President's term limit",
+        text: "No person shall be elected to the office of the President more than twice. Fictional test text.",
+        textVersion: "v1",
+        sponsoringAuthority: "The Congress of the United States",
+        sponsorPersonId: null,
+        ratificationMode: "state-legislatures",
+        deadlineAt: null,
+        delayedOperativeAt: null,
+        ruleDelta: {
+          kind: "rule-field",
+          officeKey: "us-president",
+          field: "executive.term.limit",
+          value: cause.value,
+          applicability: { appliesTo: "immediately", countsPriorService: true },
+        },
+        ordinaryMeasureId: null,
+      });
+      const id = world.history.constitutionalMeasures!.at(-1)!.id;
+      for (const [bodyKey, size] of [
+        ["house", 435],
+        ["senate", 100],
+      ] as const)
+        world = recordConstitutionalProposalVote(
+          world,
+          id,
+          bodyKey,
+          dispositionsFromCounts(
+            Array.from({ length: size }, (_, i) => ({
+              memberKey: `${bodyKey}:${i}`,
+              name: `Member ${i}`,
+              personId: null,
+              caucusLabel: "",
+            })),
+            { yea: size },
           ),
-        )
-        .sort((a, b) => a.dueAt.localeCompare(b.dueAt));
-      expect(actions).toHaveLength(50);
-      expect(actions.some((due) => due.stableKey.endsWith("US-DC"))).toBe(
-        false,
-      );
+          size,
+          FIXTURE,
+        );
+      expect(constitutionalPosition(world, id).phase).toBe("ratification");
       let decided = world;
-      for (const due of actions)
-        decided = federalReformStateActionHandler(decided, due).world;
+      for (const stateKey of ARTICLE_V_STATE_KEYS)
+        decided = federalReformStateActionHandler(decided, {
+          ...review(world, 2027),
+          stableKey: `federal-reform/v1:US:2027:state:${stateKey}`,
+          transitionKey: FEDERAL_REFORM_STATE_ACTION,
+        }).world;
       const position = constitutionalPosition(decided, id);
       const approvals = constitutionalActions(decided, id).filter(
         (action) =>
           action.detail.kind === "state-ratification" && action.detail.approved,
       ).length;
+      const stateActs = constitutionalActions(decided, id).filter(
+        (action) => action.detail.kind === "state-ratification",
+      );
+      // Each state acts once, until the 38th ratification makes it law.
+      expect(stateActs.length).toBeLessThanOrEqual(50);
+      if (approvals < 38) expect(stateActs).toHaveLength(50);
       if (approvals >= 38) {
         expect(position.phase).toBe("operative");
         expect(presidentialTermLimitAt(decided, nextTerm).limit).toMatchObject({
@@ -228,6 +274,7 @@ describe("Congress and the states amending the U.S. Constitution on their own", 
           maxLifetimeTerms: 1,
         });
       }
+      expect(() => assertWorldIntegrity(decided)).not.toThrow();
       const saved = deserializeWorld(serializeWorld(decided));
       expect(saved.history.constitutionalActions).toEqual(
         decided.history.constitutionalActions,

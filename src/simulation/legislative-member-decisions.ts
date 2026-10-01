@@ -1,8 +1,14 @@
-import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import {
+  considerationScore,
+  evaluateDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
+import { favorStandingBetween } from "./favors";
+import { favorEventRefs } from "./patronage/favor-refs";
 import { requireMeasure } from "./legislation";
 import { lawInForce } from "./governing/law-in-force";
 import { measurePropositionAnswer } from "./issue-record";
-import { netViewOnLaw } from "./official-view-reads";
+import { membersAgainstLaw, netViewOnLaw } from "./official-view-reads";
 import {
   assessCommitment,
   commitmentObligation,
@@ -12,12 +18,15 @@ import {
   legislativeQuestionAnswers,
 } from "./legislative-politics";
 import { currentHistoricalCutoff, latestPrivateBelief } from "./queries";
+import { measureAnswersAt } from "./vote-bundle";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
   EntityId,
   LegislativeMemberDisposition,
   LegislativeQuestionIdentity,
+  PropositionAnswerRef,
+  PublicPositionRecord,
   World,
 } from "./types";
 
@@ -60,7 +69,35 @@ export interface MemberVoteQuestion {
     readonly provisionKey: string;
     readonly beneficiaryLabels: readonly string[];
     readonly addsExposureMinorUnits: number;
+    /**
+     * The catalog questions the amendment's sections answer, and which way.
+     * A member with a view on one of them weighs the amendment by it, so an
+     * amendment the public likes costs a member who votes it down. Omitted
+     * for an amendment whose text answers no catalog question.
+     */
+    readonly answers?: readonly PropositionAnswerRef[];
   } | null;
+  /**
+   * A bill question asked as if the bill also carried these parts: what a
+   * colleague weighing an amendment predicts the bill's vote would be once it
+   * is adopted. Answers here govern over the bill's own on the same question.
+   */
+  readonly billAsItWouldRead?: readonly PropositionAnswerRef[];
+  /**
+   * Ask the question as this person would predict it, from what they can
+   * know. Another member's private view is not known to them: only a view the
+   * member has stated in public counts, and what people privately told that
+   * member about a law does not. The person's own view counts as their own.
+   * Omitted for the vote itself, where each member decides from their own
+   * mind.
+   */
+  readonly knownTo?: EntityId;
+  /**
+   * Who offered the amendment on an amendment question. Colleagues take
+   * their party cue from the author of the amendment, not from the bill's
+   * sponsor. Omitted where the author is not recorded as a person.
+   */
+  readonly offeredBy?: EntityId;
 }
 
 export interface DeriveMemberDispositionInput {
@@ -150,7 +187,10 @@ export function deriveMemberDisposition(
 
   const decisive = considerations
     .filter((consideration) => consideration.optionKey === selected)
-    .sort((a, b) => weight(b) - weight(a))
+    .sort(
+      (a, b) =>
+        Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
+    )
     .slice(0, 2)
     .map((consideration) => consideration.explanation);
 
@@ -163,14 +203,6 @@ export function deriveMemberDisposition(
         ? decisive.join(" ")
         : "Nothing in the current bill moved the member either way.",
   };
-}
-
-function weight(consideration: DecisionConsideration): number {
-  const importance = { slight: 1, moderate: 2, strong: 4, decisive: 6 }[
-    consideration.importance
-  ];
-  const confidence = { low: 1, medium: 2, high: 3 }[consideration.confidence];
-  return importance * confidence;
 }
 
 /**
@@ -291,76 +323,104 @@ function memberConsiderations(
   }
 
   // A catalog question alone does not say which way this bill answers it.
-  // Only the measure's explicit answer can connect a formed private view to
-  // this vote. An amendment may change the answer without updating that field,
-  // so its pending text cannot borrow this reason from the unamended measure.
-  if (asked.purpose !== "amendment" && pending === null) {
-    const measure = requireMeasure(world, measureId);
-    for (const answer of measure.propositionAnswers ?? []) {
-      const belief = latestPrivateBelief(
-        world,
-        input.personId,
-        answer.propositionId,
-      );
-      if (belief?.position !== "support" && belief?.position !== "oppose")
-        continue;
-      const proposition =
-        world.policyCatalog.propositions[answer.propositionId];
-      if (!proposition) continue;
-      const agrees =
-        (belief.position === "support" && answer.answer === "yes") ||
-        (belief.position === "oppose" && answer.answer === "no");
-      // PLACEHOLDER(overnight): map recorded conviction and salience to the
-      // decision engine's ordinal weight until voting calibration is approved.
-      const importance =
-        belief.salience === "central"
-          ? "decisive"
-          : belief.salience === "high"
-            ? "strong"
-            : belief.salience === "moderate"
-              ? "moderate"
-              : "slight";
-      const confidence =
-        belief.conviction === "settled" || belief.conviction === "strong"
-          ? "high"
-          : belief.conviction === "moderate"
-            ? "medium"
-            : "low";
-      considerations.push({
-        stableKey: `member:private-belief:${answer.propositionId}`,
-        optionKey: agrees ? "vote-yea" : "vote-nay",
-        sourceType: "belief:formed-position",
-        direction: "supports",
-        importance,
-        confidence,
-        explanation: agrees
-          ? `The member's own view agrees with the bill's answer to ${proposition.question}`
-          : `The member's own view conflicts with the bill's answer to ${proposition.question}`,
-        sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
-      });
+  // Only an explicit answer can connect a formed private view to this vote:
+  // the answers the bill was filed with and the ones its sections carry, on a
+  // question about the bill; the amendment's own sections' answers, on an
+  // amendment. An amendment that says nothing borrows nothing from the bill.
+  const answersOnTable: readonly PropositionAnswerRef[] =
+    asked.purpose === "amendment" || pending !== null
+      ? (pending?.answers ?? [])
+      : withParts(
+          measureAnswersAt(world, measureId, undefined, "all"),
+          input.question.billAsItWouldRead ?? [],
+        );
+  const predictor = input.question.knownTo ?? null;
+  const guessed = predictor !== null && predictor !== input.personId;
+  for (const answer of answersOnTable) {
+    if (guessed) {
+      const stated = statedPositionConsideration(world, input.personId, answer);
+      if (stated) considerations.push(stated);
+      continue;
     }
+    const belief = latestPrivateBelief(
+      world,
+      input.personId,
+      answer.propositionId,
+    );
+    if (belief?.position !== "support" && belief?.position !== "oppose")
+      continue;
+    const proposition = world.policyCatalog.propositions[answer.propositionId];
+    if (!proposition) continue;
+    const agrees =
+      (belief.position === "support" && answer.answer === "yes") ||
+      (belief.position === "oppose" && answer.answer === "no");
+    // PLACEHOLDER(overnight): map recorded conviction and salience to the
+    // decision engine's ordinal weight until voting calibration is approved.
+    const importance =
+      belief.salience === "central"
+        ? "decisive"
+        : belief.salience === "high"
+          ? "strong"
+          : belief.salience === "moderate"
+            ? "moderate"
+            : "slight";
+    const confidence =
+      belief.conviction === "settled" || belief.conviction === "strong"
+        ? "high"
+        : belief.conviction === "moderate"
+          ? "medium"
+          : "low";
+    considerations.push({
+      stableKey: `member:private-belief:${answer.propositionId}`,
+      optionKey: agrees ? "vote-yea" : "vote-nay",
+      sourceType: "belief:formed-position",
+      direction: "supports",
+      importance,
+      confidence,
+      explanation: agrees
+        ? `The member's own view agrees with the bill's answer to ${proposition.question}`
+        : `The member's own view conflicts with the bill's answer to ${proposition.question}`,
+      sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
+    });
   }
 
   // Spec 5: what the people an existing law reached told this member about
   // their part in it. A bill that would change that law answers them: blame
   // argues for changing it, credit for keeping it.
-  if (asked.purpose !== "amendment" && pending === null) {
+  if (asked.purpose !== "amendment" && pending === null && !guessed) {
     const measure = requireMeasure(world, measureId);
-    for (const answer of measure.propositionAnswers ?? []) {
+    for (const answer of answersOnTable) {
       const law = lawInForce(
         world,
         measure.jurisdictionId,
         answer.propositionId,
       );
       if (!law || law.measureId === measureId) continue;
-      const net = netViewOnLaw(world, input.personId, law.measureId);
-      if (net === 0) continue;
-      const billAnswer = measurePropositionAnswer(
+      const billAnswerForGroups = measurePropositionAnswer(
         measure,
         answer.propositionId,
       );
-      if (!billAnswer) continue;
-      const changes = law.answer !== billAnswer;
+      // Organized interests: the groups a law's cost-bearers formed lobby
+      // every member to change it.
+      const lobbying = membersAgainstLaw(world, law.measureId);
+      if (lobbying > 0 && billAnswerForGroups) {
+        const changesLaw = law.answer !== billAnswerForGroups;
+        considerations.push({
+          stableKey: `member:organized-interest:${law.measureId}:${answer.propositionId}`,
+          optionKey: changesLaw ? "vote-yea" : "vote-nay",
+          sourceType: "context:organized-interest",
+          direction: "supports",
+          // PLACEHOLDER: group members to the engine's ordinal weight.
+          importance:
+            lobbying >= 30 ? "strong" : lobbying >= 10 ? "moderate" : "slight",
+          confidence: "medium",
+          explanation: `Groups of people the current law cost want it ${changesLaw ? "changed, as this bill would" : "changed, and this bill would keep it"}.`,
+          sourceRefs: [],
+        });
+      }
+      const net = netViewOnLaw(world, input.personId, law.measureId);
+      if (net === 0) continue;
+      const changes = law.answer !== answer.answer;
       const yea = net < 0 ? changes : !changes;
       const proposition =
         world.policyCatalog.propositions[answer.propositionId];
@@ -480,6 +540,37 @@ function memberConsiderations(
     });
   }
 
+  // What the member owes the person carrying the bill: an appointment, a job,
+  // help when it counted (appointments-v1, through the one favor record). The
+  // debt is read as it stands today, faded or held, never as a count.
+  if (sponsorPersonId && sponsorPersonId !== input.personId) {
+    const owed = favorStandingBetween(
+      world,
+      input.personId,
+      sponsorPersonId,
+      world.currentDate,
+    ).receiverDebt;
+    const refs = favorEventRefs(world, input.personId, sponsorPersonId);
+    // A debt with no recorded moment behind it is not cited.
+    if (owed !== "none" && refs.length > 0)
+      considerations.push({
+        stableKey: "member:owes-sponsor",
+        optionKey: "vote-yea",
+        sourceType: "social:favor",
+        direction: "supports",
+        importance:
+          owed === "strong"
+            ? "strong"
+            : owed === "marked"
+              ? "moderate"
+              : "slight",
+        confidence: "medium",
+        explanation:
+          "The member owes the person carrying this bill for past help.",
+        sourceRefs: refs,
+      });
+  }
+
   if (considerations.length === 0) {
     considerations.push({
       stableKey: "member:nothing-decisive",
@@ -498,4 +589,56 @@ function memberConsiderations(
 
 function capitalize(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+/** The bill's answers with hypothetical parts laid over them. */
+export function withParts(
+  answers: readonly PropositionAnswerRef[],
+  parts: readonly PropositionAnswerRef[],
+): readonly PropositionAnswerRef[] {
+  if (parts.length === 0) return answers;
+  const byQuestion = new Map(
+    answers.map((answer) => [answer.propositionId, answer]),
+  );
+  for (const part of parts) byQuestion.set(part.propositionId, part);
+  return [...byQuestion.values()];
+}
+
+/**
+ * What a colleague can read of a member's view on a question: the member's
+ * latest public statement of it. Weighed as a moderate reason, because a
+ * public statement says which way a member leans and not how much it matters
+ * to them. PLACEHOLDER(build-25): the ordinal weight is the game's own until
+ * the research question on how legislators whip a count is answered.
+ */
+function statedPositionConsideration(
+  world: World,
+  personId: EntityId,
+  answer: PropositionAnswerRef,
+): DecisionConsideration | null {
+  let latest: PublicPositionRecord | null = null;
+  for (const record of world.history.publicPositions) {
+    if (
+      record.personId !== personId ||
+      record.propositionId !== answer.propositionId ||
+      record.audience !== "public" ||
+      record.statedAt > world.currentDate
+    )
+      continue;
+    if (!latest || record.sequence > latest.sequence) latest = record;
+  }
+  if (latest?.stance !== "support" && latest?.stance !== "oppose") return null;
+  const agrees = (latest.stance === "support") === (answer.answer === "yes");
+  return {
+    stableKey: `member:stated-position:${answer.propositionId}`,
+    optionKey: agrees ? "vote-yea" : "vote-nay",
+    sourceType: "context:stated-position",
+    direction: "supports",
+    importance: "moderate",
+    confidence: "medium",
+    explanation: agrees
+      ? "The member has said in public that they back what this part does."
+      : "The member has said in public that they oppose what this part does.",
+    sourceRefs: [],
+  };
 }

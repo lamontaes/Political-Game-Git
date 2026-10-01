@@ -1,0 +1,21 @@
+/* Family members illustrate their saved role; this is not room attendance. */
+.pg-orientation[data-step="parents"] .pg-orientation-cast {
+  gap: 1rem;
+}
+.pg-orientation[data-step="parents"] .pg-orientation-cast-member {
+  min-width: 0;
+}
+.pg-orientation[data-step="parents"] .pg-orientation-cast-label {
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  .pg-orientation[data-step="parents"] .pg-orientation-cast {
+    top: 4%;
+    bottom: auto;
+    height: 43cqh;
+  }
+  .pg-orientation[data-step="parents"] .pg-orientation-copy {
+    max-height: 43cqh;
+  }
+}

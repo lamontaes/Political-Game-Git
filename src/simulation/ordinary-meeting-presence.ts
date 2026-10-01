@@ -1,28 +1,15 @@
 import { eventById } from "./event-index";
 import {
-  characterHistoryContextPersonId,
-  createCharacterHistoryContextPerson,
-} from "./character-history";
-import {
   ageOnDate,
   compareSimulationMoments,
-  isoDateFromParts,
   simulationMinutesBetween,
-  yearOf,
 } from "./dates";
 import {
   PUBLIC_MEETING_AGENDA,
   PUBLIC_MEETING_KEY,
 } from "./life-opportunities";
-import { nameCorpusVersionForWorld } from "./place-name-corpus";
-import {
-  drawCanonicalNameForGender,
-  personName,
-  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-} from "./people";
-import { generatePersonIdentity } from "./person-identity";
+import { personName } from "./people";
 import { recordEventKnowledge } from "./records";
-import { SeededRng } from "./rng";
 import { canPersonAccess, scheduledActivityState } from "./time-work";
 import type {
   EntityId,
@@ -36,6 +23,8 @@ import {
   postedMeetingVote,
   postedMeetingVoteSentence,
 } from "./living-world/local-council-meetings";
+import { homeLocalGovernmentUnits } from "./nationwide-world/local-governments";
+import { sittingLocalOfficers } from "./living-world/local-government-seats";
 
 export const ORDINARY_MEETING_PRESENCE = "ordinary-meeting-presence-v1";
 
@@ -91,14 +80,34 @@ export function speakAtOrdinaryMeeting(
     world.history.events.some((event) => event.stableKey === stableKey)
   )
     return world;
+  const heardBy = [
+    ...new Set(
+      entry.participants
+        .filter(
+          (participant) =>
+            participant.role === "presence:participant" ||
+            participant.role === "coordination:chair",
+        )
+        .map((participant) => participant.personId),
+    ),
+  ];
   const next = recordWorldEvent(world, {
     stableKey,
     type: "civic.meeting-public-comment",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: offered.activity.location.jurisdictionId,
-    involvedEntityIds: [activityId, personId],
-    participants: [{ personId, role: "agency:actor", detail: words }],
+    involvedEntityIds: [...new Set([activityId, personId, ...heardBy])],
+    participants: [
+      { personId, role: "agency:actor", detail: words },
+      ...heardBy
+        .filter((id) => id !== personId)
+        .map((id) => ({
+          personId: id,
+          role: "observation:witness" as const,
+          detail: "Heard the public comment",
+        })),
+    ],
     personFactConstraints: [],
     visibility: "public",
     tags: [
@@ -114,20 +123,24 @@ export function speakAtOrdinaryMeeting(
       pressure: null,
       choice: words,
       motivation: null,
-      immediateReaction: "The chair heard your comment. No vote was taken.",
+      immediateReaction: "The people present heard your comment.",
     },
   });
   const comment = next.history.events.at(-1)!;
-  return recordEventKnowledge(next, {
-    stableKey: `${stableKey}:knowledge`,
-    personId,
-    eventId: comment.id,
-    learnedAt: next.currentDate,
-    believedSummary: comment.summary,
-    accuracy: "accurate",
-    confidence: "high",
-    source: { kind: "direct" },
-  });
+  let heard = next;
+  for (const listenerId of [...new Set([personId, ...heardBy])]) {
+    heard = recordEventKnowledge(heard, {
+      stableKey: `${stableKey}:knowledge:${listenerId}`,
+      personId: listenerId,
+      eventId: comment.id,
+      learnedAt: heard.currentDate,
+      believedSummary: comment.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  }
+  return heard;
 }
 
 /** Prospective attendance hook only. Requiring the pre-action World prevents
@@ -352,7 +365,84 @@ export function ordinaryMeetingEntry(
       event.type === "civic.meeting-notice" &&
       event.jurisdictionId === activity.location.jurisdictionId,
   );
-  return notice ? { activity, notice, arrival } : null;
+  return notice && meetingChairFor(world, personId, activity, notice)
+    ? { activity, notice, arrival }
+    : null;
+}
+
+function eligibleMeetingPerson(
+  world: World,
+  playerId: EntityId,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+): boolean {
+  return (
+    personId !== playerId &&
+    !!world.people[personId] &&
+    (world.people[personId]!.homeJurisdictionId === jurisdictionId ||
+      (() => {
+        const units = homeLocalGovernmentUnits(world, playerId);
+        return [...units.municipal, ...units.townships, ...units.counties].some(
+          (unit) =>
+            sittingLocalOfficers(world, unit).some(
+              (seat) => seat.personId === personId,
+            ),
+        );
+      })()) &&
+    ageOnDate(world.people[personId]!.birthDate, world.currentDate) >= 18 &&
+    !world.history.personDeaths.some(
+      (death) =>
+        death.personId === personId && death.diedAt <= world.currentDate,
+    )
+  );
+}
+
+function meetingChairFor(
+  world: World,
+  personId: EntityId,
+  activity: ScheduledActivityRecord,
+  notice: HistoricalEvent,
+): EntityId | null {
+  const jurisdictionId = activity.location.jurisdictionId;
+  if (!jurisdictionId) return null;
+  const earlierEntry = world.history.events.find(
+    (event) =>
+      event.stableKey === `${ORDINARY_MEETING_PRESENCE}:${activity.id}:entry`,
+  );
+  const named = [
+    ...(earlierEntry?.participants ?? []),
+    ...notice.participants,
+  ].find(
+    (actor) =>
+      [
+        "coordination:chair",
+        "coordination:host",
+        "coordination:organizer",
+      ].includes(actor.role) &&
+      eligibleMeetingPerson(world, personId, actor.personId, jurisdictionId),
+  );
+  if (named) return named.personId;
+  if (earlierEntry) return null;
+  const officer = localCouncilChair(world, jurisdictionId, personId);
+  if (
+    officer &&
+    eligibleMeetingPerson(world, personId, officer, jurisdictionId)
+  )
+    return officer;
+  // A district council can have canonical seats without the municipal vote
+  // adapter used by localCouncilChair. Read those same seats for this event.
+  const units = homeLocalGovernmentUnits(world, personId);
+  for (const unit of [
+    ...units.municipal,
+    ...units.townships,
+    ...units.counties,
+  ]) {
+    const seated = sittingLocalOfficers(world, unit).find((seat) =>
+      eligibleMeetingPerson(world, personId, seat.personId, jurisdictionId),
+    );
+    if (seated) return seated.personId;
+  }
+  return null;
 }
 
 function writePresence(
@@ -371,13 +461,7 @@ function writePresence(
   if (completed.history.events.some((event) => event.stableKey === stableKey))
     return completed;
   const available = (id: EntityId) =>
-    id !== personId &&
-    !!completed.people[id] &&
-    completed.people[id]!.homeJurisdictionId === jurisdictionId &&
-    ageOnDate(completed.people[id]!.birthDate, completed.currentDate) >= 18 &&
-    !completed.history.personDeaths.some(
-      (death) => death.personId === id && death.diedAt <= completed.currentDate,
-    );
+    eligibleMeetingPerson(completed, personId, id, jurisdictionId);
   const earlierEntry = completed.history.events.find(
     (event) => event.stableKey === `${baseKey}:entry`,
   );
@@ -388,47 +472,9 @@ function writePresence(
     arrival?.tags.includes("travel:late-meeting") ??
     earlierEntry?.tags.includes("attendance:late-entry") ??
     false;
-  const recordedChair = [
-    ...(earlierEntry?.participants ?? []),
-    ...notice.participants,
-  ].find(
-    (actor) =>
-      [
-        "coordination:chair",
-        "coordination:host",
-        "coordination:organizer",
-      ].includes(actor.role) && available(actor.personId),
-  );
-  if (earlierEntry && !recordedChair) return completed;
   let next = completed;
-  let chairId = recordedChair?.personId;
-  // Where the town's council is seated, the posted meeting is its meeting and
-  // its mayor or a member chairs it.
-  const councilChair = localCouncilChair(completed, jurisdictionId, personId);
-  if (!chairId && councilChair && available(councilChair))
-    chairId = councilChair;
-  if (!chairId) {
-    const key = `${baseKey}:chair`;
-    const rng = new SeededRng(completed.seed).fork(key);
-    const identity = generatePersonIdentity(rng.fork("identity"));
-    next = createCharacterHistoryContextPerson(completed, {
-      stableKey: key,
-      ...drawCanonicalNameForGender(
-        rng,
-        identity.gender,
-        nameCorpusVersionForWorld(completed, jurisdictionId),
-        DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-      ),
-      identity,
-      birthDate: isoDateFromParts(
-        yearOf(completed.currentDate) - rng.integer(30, 66),
-        rng.integer(1, 13),
-        rng.integer(1, 29),
-      ),
-      homeJurisdictionId: jurisdictionId,
-    });
-    chairId = characterHistoryContextPersonId(next, key);
-  }
+  const chairId = meetingChairFor(completed, personId, activity, notice);
+  if (!chairId) return completed;
   const recordedResidents = earlierEntry?.participants.filter(
     (actor) =>
       actor.role === "presence:participant" &&
@@ -436,42 +482,61 @@ function writePresence(
       available(actor.personId),
   );
   const residents = recordedResidents ?? [];
+  // Finishing the same meeting keeps the office provenance recorded on entry;
+  // it does not reconstruct attendance from any later change to the roster.
+  const attendanceSourceTags =
+    earlierEntry?.tags.filter((tag) => tag.startsWith("attendance-seat:")) ??
+    [];
   if (!earlierEntry) {
-    // PLACEHOLDER(overnight): These two game-authored residents and exact words
-    // await English review. They are written as event participants before a
-    // scene can show them; no reader creates a person or a line.
-    const lines = [
-      "I support opening this room one extra evening each week.",
-      "What hours are proposed, and who would pay for them?",
-    ];
-    for (const [index, line] of lines.entries()) {
-      const key = `${baseKey}:resident:${index}`;
-      const rng = new SeededRng(completed.seed).fork(key);
-      const identity = generatePersonIdentity(rng.fork("identity"));
-      next = createCharacterHistoryContextPerson(next, {
-        stableKey: key,
-        ...drawCanonicalNameForGender(
-          rng,
-          identity.gender,
-          nameCorpusVersionForWorld(completed, jurisdictionId),
-          DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-        ),
-        identity,
-        birthDate: isoDateFromParts(
-          yearOf(completed.currentDate) - rng.integer(30, 66),
-          rng.integer(1, 13),
-          rng.integer(1, 29),
-        ),
-        homeJurisdictionId: jurisdictionId,
-      });
+    // This is the council's prospective meeting writer. Its seated officers
+    // attend in their recorded official capacity; unrelated residents are not
+    // promoted into attendance from their number of group memberships.
+    const units = homeLocalGovernmentUnits(completed, personId);
+    const unit = [
+      ...units.municipal,
+      ...units.townships,
+      ...units.counties,
+    ].find((candidate) =>
+      sittingLocalOfficers(completed, candidate).some(
+        (seat) => seat.personId === chairId,
+      ),
+    );
+    const officers = unit ? sittingLocalOfficers(completed, unit) : [];
+    attendanceSourceTags.push(
+      ...officers
+        .map((seat) => seat.participationId)
+        .filter((id): id is EntityId => id !== undefined)
+        .map((id) => `attendance-seat:${id}`),
+    );
+    const participantIds = new Set([
+      ...officers.map((seat) => seat.personId),
+      ...activity.participantPersonIds,
+      ...notice.participants
+        .filter((actor) => actor.role === "presence:participant")
+        .map((actor) => actor.personId),
+    ]);
+    for (const id of participantIds) {
+      if (id === chairId || !available(id)) continue;
       residents.push({
-        personId: characterHistoryContextPersonId(next, key),
+        personId: id,
         role: "presence:participant",
-        detail: line,
+        detail: null,
       });
     }
   }
   const agenda = earlierEntry?.context.socialContext ?? PUBLIC_MEETING_AGENDA;
+  const recordedVote = postedMeetingVote(next, jurisdictionId);
+  const ballots =
+    recordedVote?.vote.takenAt === next.currentDate
+      ? recordedVote.vote.dispositions
+      : [];
+  const reportedBallot = (id: EntityId) => {
+    const ballot = ballots.find((item) => item.personId === id);
+    return ballot &&
+      ["yea", "nay", "present-not-voting"].includes(ballot.disposition)
+      ? `My recorded vote on ${recordedVote!.measure.designation} is ${ballot.disposition === "yea" ? "yes" : ballot.disposition === "nay" ? "no" : "present without voting"}.`
+      : null;
+  };
   // The council's roll call on the agenda item, when the council took one.
   const councilVote =
     phase === "active" ? null : postedMeetingVote(next, jurisdictionId);
@@ -489,6 +554,7 @@ function writePresence(
       personId,
       chairId,
       ...residents.map((resident) => resident.personId),
+      ...(recordedVote ? [recordedVote.vote.id] : []),
     ],
     participants: [
       {
@@ -507,7 +573,9 @@ function writePresence(
         personId: chairId,
         role: "coordination:chair",
         detail:
-          phase === "active" ? "Chairs this meeting" : "Chaired this meeting",
+          phase === "active"
+            ? `The posted agenda is: ${agenda}`
+            : "Chaired this meeting",
       },
       {
         personId: chairId,
@@ -519,7 +587,13 @@ function writePresence(
               : "Present as this meeting starts"
             : "Present as this meeting ended",
       },
-      ...residents,
+      ...residents.map((resident) => ({
+        ...resident,
+        detail:
+          phase === "active"
+            ? (reportedBallot(resident.personId) ?? resident.detail)
+            : resident.detail,
+      })),
     ],
     personFactConstraints: [],
     visibility: "private",
@@ -532,6 +606,7 @@ function writePresence(
       `notice:${notice.id}`,
       ...(lateArrival ? ["attendance:late-entry"] : []),
       ...(outcome ? [`completion:${outcome.id}`] : []),
+      ...attendanceSourceTags,
       ...(councilVote ? [`council-vote:${councilVote.vote.id}`] : []),
     ],
     summary:

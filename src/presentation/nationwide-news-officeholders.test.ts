@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   deserializeWorld,
   searchLifePlaces,
@@ -8,6 +8,9 @@ import {
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectWorld39News } from "./world39-news";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 describe("NATIONWIDE News names the home-state governor the World produced", () => {
   it("says who serves without inventing a since, and keeps it through reopen", () => {
@@ -39,6 +42,14 @@ describe("NATIONWIDE News names the home-state governor the World produced", () 
     expect(
       news.unfilledOffices.map((office) => office.displayName),
     ).not.toContain("Governor of Nevada");
+
+    // News reaches as far as the reader does: Nevada's governor and the
+    // nation's officers, not every other state's governor.
+    expect(
+      news.officeholders
+        .filter((holder) => /^Governor of /.test(holder.title))
+        .map((holder) => holder.title),
+    ).toEqual(["Governor of Nevada"]);
 
     // A dated federal office still reads with its start.
     const president = news.officeholders.find(

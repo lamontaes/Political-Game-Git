@@ -58,35 +58,165 @@ const SOURCED = new WeakMap<
   { sources: readonly unknown[]; value: unknown }
 >();
 
+/*
+ * A writer appends to a history family by making a new array that begins with
+ * every record of the old one. Rebuilding an index from scratch after each
+ * append made a big world's Day pay for every record of a family on every
+ * write: with every legislature seated, one Day rebuilt the due-item and
+ * legislative indexes thousands of times.
+ *
+ * So an index built for an array can move to the array that extends it. The
+ * move is made only after checking, record by record, that the new array
+ * starts with exactly the old one's records; anything else builds afresh, so
+ * the answer is always the one a fresh build would give. The old array loses
+ * its index and rebuilds it only if it is read again. Groups handed out
+ * earlier are never changed: a group that gains a record is copied.
+ */
+const RECENT_LIMIT = 16;
+
+function startsWith(
+  records: readonly unknown[],
+  prior: readonly unknown[],
+): boolean {
+  if (prior.length === 0 || prior.length > records.length) return false;
+  return beginsWith(records, prior);
+}
+
+/** Takes the index of a recently indexed array that `records` extends. */
+function adoptFromPrefix<V>(
+  cache: WeakMap<object, V>,
+  recent: (readonly unknown[])[],
+  records: readonly unknown[],
+): { readonly value: V; readonly from: number } | null {
+  for (let at = recent.length - 1; at >= 0; at -= 1) {
+    const prior = recent[at]!;
+    // Cheap rejections first: most recent arrays belong to other families.
+    if (
+      prior.length === 0 ||
+      prior.length > records.length ||
+      records[prior.length - 1] !== prior[prior.length - 1] ||
+      records[0] !== prior[0]
+    )
+      continue;
+    const value = cache.get(prior);
+    if (value === undefined || !startsWith(records, prior)) continue;
+    cache.delete(prior);
+    recent.splice(at, 1);
+    return { value, from: prior.length };
+  }
+  return null;
+}
+
+function remember(
+  recent: (readonly unknown[])[],
+  records: readonly unknown[],
+): void {
+  recent.push(records);
+  if (recent.length > RECENT_LIMIT) recent.shift();
+}
+
+/**
+ * The same move for any index over one history array. `build` makes the index
+ * from nothing; `extend` adds records[from..] to an index taken from the array
+ * this one extends, and must not change anything it has already handed out.
+ */
+export function indexFollowingAppends<V>(
+  cache: WeakMap<object, V>,
+  recent: (readonly unknown[])[],
+  records: readonly unknown[],
+  build: () => V,
+  extend: (index: V, from: number) => V,
+): V {
+  const cached = cache.get(records);
+  if (cached !== undefined) return cached;
+  const adopted = adoptFromPrefix(cache, recent, records);
+  const index = adopted ? extend(adopted.value, adopted.from) : build();
+  cache.set(records, index);
+  remember(recent, records);
+  return index;
+}
+
+/** Every stable key a history family holds, following appends. */
+export function stableKeysOf(
+  records: readonly { readonly stableKey: string }[],
+): ReadonlySet<string> {
+  return growingIndex(STABLE_KEYS, records) as ReadonlySet<string>;
+}
+
+const KEYED_INDEXES = new Map<
+  string,
+  {
+    readonly cache: WeakMap<object, Map<string, readonly unknown[]>>;
+    readonly recent: (readonly unknown[])[];
+  }
+>();
+
+/**
+ * Records grouped under the keys `keysOf` gives each one (none, one or
+ * several), in array order, following appends. `name` names the grouping;
+ * one name must always use the same `keysOf`.
+ */
+export function recordsByKey<T>(
+  records: readonly T[],
+  name: string,
+  keysOf: (record: T) => readonly string[],
+  key: string,
+): readonly T[] {
+  let slot = KEYED_INDEXES.get(name);
+  if (!slot) {
+    slot = { cache: new WeakMap(), recent: [] };
+    KEYED_INDEXES.set(name, slot);
+  }
+  const extend = (
+    groups: Map<string, readonly unknown[]>,
+    from: number,
+  ): Map<string, readonly unknown[]> => {
+    const grown = new Map<string, unknown[]>();
+    for (let at = from; at < records.length; at += 1) {
+      const record = records[at]!;
+      for (const recordKey of new Set(keysOf(record))) {
+        let group = grown.get(recordKey);
+        if (!group) {
+          group = [...(groups.get(recordKey) ?? [])];
+          grown.set(recordKey, group);
+        }
+        group.push(record);
+      }
+    }
+    for (const [recordKey, group] of grown) groups.set(recordKey, group);
+    return groups;
+  };
+  const groups = indexFollowingAppends(
+    slot.cache,
+    slot.recent,
+    records,
+    () => extend(new Map(), 0),
+    extend,
+  );
+  return (groups.get(key) ?? []) as readonly T[];
+}
+
 /**
  * First-record lookup for append-oriented histories. Array identity is the
- * cache boundary: a writer's new array receives a new index, while the many
- * reads of an unchanged family reuse the same one. Keeping the first record
- * preserves `records.find(record => record.id === id)` even for malformed
- * histories, which the integrity pass must still reject separately.
+ * cache boundary: a writer's new array receives the index of the array it
+ * extends (see above), while the many reads of an unchanged family reuse the
+ * same one. Keeping the first record preserves
+ * `records.find(record => record.id === id)` even for malformed histories,
+ * which the integrity pass must still reject separately.
  */
-const RECORDS_BY_ID = new WeakMap<object, ReadonlyMap<EntityId, unknown>>();
 
 export function recordById<T extends { readonly id: EntityId }>(
   records: readonly T[],
   id: EntityId,
 ): T | undefined {
-  let index = RECORDS_BY_ID.get(records);
-  if (!index) {
-    const built = new Map<EntityId, T>();
-    for (const record of records) {
-      if (!built.has(record.id)) built.set(record.id, record);
-    }
-    index = built;
-    RECORDS_BY_ID.set(records, index);
-  }
-  return index.get(id) as T | undefined;
+  return growingIndex(FIRST_RECORD_BY_ID, records).get(id) as T | undefined;
 }
 
 const RECORDS_BY_STRING_FIELD = new WeakMap<
   object,
-  Map<string, ReadonlyMap<string, readonly unknown[]>>
+  Map<string, Map<string, readonly unknown[]>>
 >();
+const RECENT_BY_STRING_FIELD: (readonly unknown[])[] = [];
 
 /** Preserve array order while narrowing a history scan to one owner. */
 export function recordsByStringField<T>(
@@ -96,26 +226,61 @@ export function recordsByStringField<T>(
 ): readonly T[] {
   let fields = RECORDS_BY_STRING_FIELD.get(records);
   if (!fields) {
+    const adopted = adoptFromPrefix(
+      RECORDS_BY_STRING_FIELD,
+      RECENT_BY_STRING_FIELD,
+      records,
+    );
     fields = new Map();
+    if (adopted) {
+      // Every field the old array was grouped by gains the appended records.
+      for (const [name, groups] of adopted.value) {
+        try {
+          fields.set(
+            name,
+            extendGroups(groups, records, adopted.from, name as keyof T),
+          );
+        } catch {
+          // A malformed appended record: leave this field to a fresh build,
+          // which reports it.
+        }
+      }
+    }
     RECORDS_BY_STRING_FIELD.set(records, fields);
+    remember(RECENT_BY_STRING_FIELD, records);
   }
   const fieldName = String(field);
   let groups = fields.get(fieldName);
   if (!groups) {
-    const built = new Map<string, T[]>();
-    for (const record of records) {
-      const key = record[field];
-      if (typeof key !== "string") {
-        throw new Error(`History field ${fieldName} must be a string.`);
-      }
-      const group = built.get(key) ?? [];
-      group.push(record);
-      built.set(key, group);
-    }
-    groups = built;
+    groups = extendGroups(new Map(), records, 0, field);
     fields.set(fieldName, groups);
   }
   return (groups.get(value) ?? []) as readonly T[];
+}
+
+/** Adds records[from..] to their groups, copying any group that grows. */
+function extendGroups<T>(
+  groups: Map<string, readonly unknown[]>,
+  records: readonly T[],
+  from: number,
+  field: keyof T,
+): Map<string, readonly unknown[]> {
+  const grown = new Map<string, unknown[]>();
+  for (let at = from; at < records.length; at += 1) {
+    const record = records[at]!;
+    const key = record[field];
+    if (typeof key !== "string") {
+      throw new Error(`History field ${String(field)} must be a string.`);
+    }
+    let group = grown.get(key);
+    if (!group) {
+      group = [...(groups.get(key) ?? [])];
+      grown.set(key, group);
+    }
+    group.push(record);
+  }
+  for (const [key, group] of grown) groups.set(key, group);
+  return groups;
 }
 
 export function indexOverArrays<T>(
@@ -133,4 +298,398 @@ export function indexOverArrays<T>(
   const value = build();
   SOURCED.set(anchor, { sources: [...sources], value });
   return value;
+}
+
+/**
+ * An index over a history list that follows the list as it grows.
+ *
+ * A writer appends by copying the list, so an index keyed by the list alone
+ * is rebuilt from every record after every write: checking one new record
+ * against a list of every paycheck cost a little more each Day a world ran.
+ * When a list begins with every record of a list already indexed, that index
+ * is extended with the new records instead, and the older list gives it up
+ * (asked about again, it builds its own). Whether the new list really begins
+ * with the old one is checked record by record, by identity.
+ */
+export interface GrowingIndexKind<I> {
+  readonly create: () => I;
+  readonly add: (index: I, record: unknown, position: number) => void;
+}
+
+interface GrowingIndexState<I> {
+  readonly byList: WeakMap<readonly unknown[], I>;
+  /** The indexed list each record is currently the last record of. */
+  readonly listEndingWith: WeakMap<object, readonly unknown[]>;
+}
+
+const GROWING_STATES = new WeakMap<object, GrowingIndexState<unknown>>();
+
+/** How far back from a list's end to look for the list it grew from. */
+const GROWING_LOOKBACK = 1024;
+
+export function growingIndex<I>(
+  kind: GrowingIndexKind<I>,
+  records: readonly unknown[],
+): I {
+  let state = GROWING_STATES.get(kind) as GrowingIndexState<I> | undefined;
+  if (!state) {
+    state = { byList: new WeakMap(), listEndingWith: new WeakMap() };
+    GROWING_STATES.set(kind, state as GrowingIndexState<unknown>);
+  }
+  const cached = state.byList.get(records);
+  if (cached !== undefined) return cached;
+  let index: I | undefined;
+  let from = 0;
+  const stop = Math.max(0, records.length - GROWING_LOOKBACK);
+  for (let at = records.length - 1; at >= stop; at -= 1) {
+    const record = records[at];
+    if (typeof record !== "object" || record === null) break;
+    const earlier = state.listEndingWith.get(record);
+    if (!earlier) continue;
+    if (earlier.length !== at + 1 || !beginsWith(records, earlier)) break;
+    index = state.byList.get(earlier);
+    if (index === undefined) break;
+    state.byList.delete(earlier);
+    state.listEndingWith.delete(record);
+    from = at + 1;
+    break;
+  }
+  if (index === undefined) {
+    index = kind.create();
+    from = 0;
+  }
+  for (let at = from; at < records.length; at += 1)
+    kind.add(index, records[at], at);
+  state.byList.set(records, index);
+  const last = records.at(-1);
+  if (typeof last === "object" && last !== null)
+    state.listEndingWith.set(last, records);
+  return index;
+}
+
+/**
+ * A new list: `records` followed by `added`. The list is remembered as a
+ * growth of `records`, so an index that followed `records` moves to it without
+ * rereading every record to prove it (see `beginsWith`).
+ */
+export function appendedList<T>(
+  records: readonly T[],
+  added: readonly T[],
+): T[] {
+  // `concat` copies a long list faster than spreading it; records are
+  // objects, never arrays, so nothing is flattened.
+  const stream = APPEND_TRANSACTION?.get(records);
+  const next = stream
+    ? appendHistoryView(stream, added)
+    : records.concat(added);
+  const from = LINES.get(records);
+  if (from && !from.grown) {
+    from.grown = true;
+    LINES.set(next, { line: from.line, grown: false });
+  } else {
+    // The first growth of a list starts a line. So does a second growth of
+    // the same list: the two new lists share a start but not each other.
+    const line = {};
+    if (!from) LINES.set(records, { line, grown: true });
+    LINES.set(next, { line, grown: false });
+  }
+  return next;
+}
+
+interface HistoryAppendStream {
+  readonly base: readonly unknown[];
+  readonly tail?: {
+    readonly prior: HistoryAppendStream;
+    readonly added: readonly unknown[];
+  };
+  readonly length: number;
+}
+
+let APPEND_TRANSACTION: WeakMap<object, HistoryAppendStream> | undefined;
+
+/** Keep each writer's immutable snapshot, copying this intake's list once. */
+export function withHistoryAppendTransaction(
+  world: World,
+  families: readonly (keyof World["history"])[],
+  run: (world: World) => World,
+): World {
+  const transaction = new WeakMap<object, HistoryAppendStream>();
+  for (const family of families) {
+    const records = world.history[family];
+    if (Array.isArray(records))
+      transaction.set(records, { base: records, length: records.length });
+  }
+  const outer = APPEND_TRANSACTION;
+  let result: World;
+  APPEND_TRANSACTION = transaction;
+  try {
+    result = run(world);
+  } finally {
+    APPEND_TRANSACTION = outer;
+  }
+  if (result === world) return world;
+  const history = { ...result.history };
+  for (const family of families) {
+    const records = result.history[family];
+    if (!Array.isArray(records)) continue;
+    const stream = transaction.get(records);
+    if (!stream?.tail) continue;
+    const chunks: (readonly unknown[])[] = [];
+    for (let at = stream; at.tail; at = at.tail.prior)
+      chunks.push(at.tail.added);
+    const added = chunks.reverse().flat();
+    const materialized = stream.base.concat(added);
+    // The plain list has exactly this immutable view's records and order.
+    // Preserve the append proof so the next reader transfers its index.
+    const lineage = LINES.get(records);
+    if (lineage) LINES.set(materialized, { ...lineage });
+    Object.assign(history, { [family]: materialized });
+  }
+  return { ...result, history };
+}
+
+function appendHistoryView<T>(
+  prior: HistoryAppendStream,
+  added: readonly T[],
+): T[] {
+  const stream: HistoryAppendStream = {
+    base: prior.base,
+    tail: { prior, added: [...added] },
+    length: prior.length + added.length,
+  };
+  const index = (key: string | symbol): number | undefined => {
+    if (typeof key !== "string" || !/^(0|[1-9]\d*)$/.test(key))
+      return undefined;
+    const value = Number(key);
+    return value < stream.length ? value : undefined;
+  };
+  const valueAt = (at: number): unknown => {
+    if (at < stream.base.length) return stream.base[at];
+    let current = stream;
+    while (current.tail) {
+      if (at >= current.tail.prior.length)
+        return current.tail.added[at - current.tail.prior.length];
+      current = current.tail.prior;
+    }
+    return undefined;
+  };
+  const view = new Proxy<T[]>([], {
+    get(target, key, receiver) {
+      if (key === "length") return stream.length;
+      if (key === Symbol.iterator)
+        return function* () {
+          yield* stream.base;
+          const chunks: (readonly unknown[])[] = [];
+          for (let at = stream; at.tail; at = at.tail.prior)
+            chunks.push(at.tail.added);
+          for (let at = chunks.length - 1; at >= 0; at -= 1) yield* chunks[at]!;
+        };
+      const at = index(key);
+      return at === undefined
+        ? Reflect.get(target, key, receiver)
+        : valueAt(at);
+    },
+    has(target, key) {
+      return index(key) !== undefined || Reflect.has(target, key);
+    },
+    ownKeys() {
+      return [
+        ...Array.from({ length: stream.length }, (_, at) => String(at)),
+        "length",
+      ];
+    },
+    getOwnPropertyDescriptor(target, key) {
+      const at = index(key);
+      return at === undefined
+        ? Reflect.getOwnPropertyDescriptor(target, key)
+        : {
+            configurable: true,
+            enumerable: true,
+            writable: false,
+            value: valueAt(at),
+          };
+    },
+    set() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+    deleteProperty() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+    defineProperty() {
+      throw new Error("A state-intake history snapshot is immutable");
+    },
+  });
+  APPEND_TRANSACTION!.set(view, stream);
+  return view;
+}
+
+/**
+ * Lists built by `appendedList`, grouped in lines: each list in a line is the
+ * one before it with records added, so a shorter list in a line begins every
+ * longer one. Only a line's newest list can grow it. The lists hold no
+ * reference to each other, so an old list is freed as usual.
+ */
+const LINES = new WeakMap<
+  readonly unknown[],
+  { readonly line: object; grown: boolean }
+>();
+
+/**
+ * Whether `records` begins with every record of `prefix`, by identity.
+ *
+ * Two lists on one line (`appendedList`) are proven by their lengths. Any
+ * other pair is compared record by record: proving a long list had only
+ * grown cost as much as the list, so a world's tenth year spent seconds on it
+ * (Build 18 profile, September 28, 2026).
+ */
+function beginsWith(
+  records: readonly unknown[],
+  prefix: readonly unknown[],
+): boolean {
+  const line = LINES.get(records)?.line;
+  if (
+    line !== undefined &&
+    LINES.get(prefix)?.line === line &&
+    prefix.length <= records.length
+  )
+    return true;
+  for (let at = prefix.length - 1; at >= 0; at -= 1)
+    if (records[at] !== prefix[at]) return false;
+  return true;
+}
+
+const STABLE_KEYS: GrowingIndexKind<Set<unknown>> = {
+  create: () => new Set(),
+  add: (keys, record) => {
+    keys.add((record as { readonly stableKey?: unknown }).stableKey);
+  },
+};
+
+/** True when a record in the list has this stable key. */
+export function hasStableKey(
+  records: readonly { readonly stableKey: string }[],
+  stableKey: string,
+): boolean {
+  return growingIndex(STABLE_KEYS, records).has(stableKey);
+}
+
+const FIRST_RECORD_BY_STABLE_KEY: GrowingIndexKind<Map<unknown, unknown>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const key = (record as { readonly stableKey?: unknown }).stableKey;
+    if (!index.has(key)) index.set(key, record);
+  },
+};
+
+/**
+ * The first record in the list with this stable key, as
+ * `records.find((record) => record.stableKey === stableKey)` returns it.
+ */
+export function recordByStableKey<T extends { readonly stableKey: string }>(
+  records: readonly T[],
+  stableKey: string,
+): T | undefined {
+  return growingIndex(FIRST_RECORD_BY_STABLE_KEY, records).get(stableKey) as
+    T | undefined;
+}
+
+const FIRST_RECORD_BY_ID: GrowingIndexKind<Map<unknown, unknown>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const id = (record as { readonly id?: unknown }).id;
+    if (!index.has(id)) index.set(id, record);
+  },
+};
+
+const GROUPED_BY_FIELD = new Map<
+  string,
+  GrowingIndexKind<Map<unknown, unknown[]>>
+>();
+
+/**
+ * The records whose `field` is `value`, in list order: what
+ * `records.filter((record) => record[field] === value)` returns, read from an
+ * index that follows the list as it grows.
+ */
+export function recordsWithFieldValue<T, K extends keyof T & string>(
+  records: readonly T[],
+  field: K,
+  value: T[K],
+): readonly T[] {
+  let kind = GROUPED_BY_FIELD.get(field);
+  if (!kind) {
+    kind = {
+      create: () => new Map(),
+      add: (index, record) => {
+        const key = (record as Record<string, unknown>)[field];
+        const group = index.get(key);
+        if (group) group.push(record);
+        else index.set(key, [record]);
+      },
+    };
+    GROUPED_BY_FIELD.set(field, kind);
+  }
+  if (typeof value === "number" && Number.isNaN(value)) return [];
+  return (growingIndex(kind, records).get(value) ?? []) as readonly T[];
+}
+
+interface PeopleReadIndex {
+  readonly order: World["personOrder"];
+  readonly value: unknown;
+  readonly extend: (
+    value: unknown,
+    next: World,
+    added: readonly EntityId[],
+  ) => unknown;
+}
+const PEOPLE_READ_INDEXES = new WeakMap<
+  World["people"],
+  Map<string, PeopleReadIndex>
+>();
+
+/** Read indexes for an immutable person table and its exact iteration order. */
+export function indexOverPeople<T>(
+  world: World,
+  name: string,
+  build: () => T,
+  extend: (value: T, next: World, added: readonly EntityId[]) => T,
+): T {
+  let indexes = PEOPLE_READ_INDEXES.get(world.people);
+  if (!indexes) {
+    indexes = new Map();
+    PEOPLE_READ_INDEXES.set(world.people, indexes);
+  }
+  const cached = indexes.get(name);
+  if (cached?.order === world.personOrder) return cached.value as T;
+  const value = build();
+  indexes.set(name, {
+    order: world.personOrder,
+    value,
+    extend: (prior, next, added) => extend(prior as T, next, added),
+  });
+  return value;
+}
+
+/**
+ * Only an append writer that copied the existing table unchanged may call this.
+ * It transfers reads without changing any previously returned index. External
+ * person edits have no transfer and therefore rebuild their own indexes.
+ */
+export function carryPeopleReadIndexesAfterAppend(
+  previous: World,
+  next: World,
+): void {
+  const prior = PEOPLE_READ_INDEXES.get(previous.people);
+  if (!prior || previous.people === next.people) return;
+  const added = next.personOrder.slice(previous.personOrder.length);
+  const indexes = new Map<string, PeopleReadIndex>();
+  for (const [name, index] of prior) {
+    if (index.order !== previous.personOrder) continue;
+    indexes.set(name, {
+      ...index,
+      order: next.personOrder,
+      value: index.extend(index.value, next, added),
+    });
+  }
+  PEOPLE_READ_INDEXES.set(next.people, indexes);
 }

@@ -1,0 +1,800 @@
+{
+  "schema": "team-8-law-ideology-proposal/v1",
+  "status": "AUTHORED_DESIGN_FOR_CTO_REVIEW_NOT_RUNTIME_WIRING",
+  "weightBasis": "Weights are authored design choices grounded in the cited canonical policy positions and stated legal/service stakes. They are not empirical estimates, polling, universal personal preferences or measured organizational endorsements.",
+  "sourcePositions": {
+    "path": "src/simulation/policy-pack-us-policy-positions.ts",
+    "pack": "us-policy-positions",
+    "blobSha": "a238d6e064823068103e1811078260c8382dd2a8"
+  },
+  "interestGroupBoundary": {
+    "path": "src/simulation/living-world/law-interest-groups.ts",
+    "blobSha": "5b725c9de7d5d0ce1a0728304d1b4030132f6b02",
+    "rule": "Canonical groups form from actual saved own cost exposures and town/measure keys. This payload does not create groups, memberships, exposures or fixed organization IDs. Nonmoney/supporter group formation is a missing runtime piece, not inferred from these constituency labels."
+  },
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Pool resources to make insurance available to low-income adults.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.expand-medicaid-eligibility",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "Reduce income barriers to obtaining covered care.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.expand-medicaid-eligibility",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Access to treatment can protect health.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.expand-medicaid-eligibility",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Expansion requires ongoing public funding and tradeoffs.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.expand-medicaid-eligibility",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "limited-government",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Opponents prefer a smaller public insurance role.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.expand-medicaid-eligibility",
+          "addedArgument": false
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "eligible low-income adults",
+          "direction": "support",
+          "why": "Coverage can pay otherwise unaffordable bills.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "health-care providers treating eligible adults",
+          "direction": "support",
+          "why": "Covered care can reduce uncompensated care.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "taxpayers prioritizing lower public spending",
+          "direction": "oppose",
+          "why": "They bear public funding tradeoffs.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "limited-government",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Condition public support on specified activity.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.medicaid-work-requirement",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "tradition",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Supporters emphasize work obligations attached to assistance.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.medicaid-work-requirement",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Supporters seek lower program spending; savings require actual records.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.medicaid-work-requirement",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "collective-provision",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Opponents prioritize continued access to insurance.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.medicaid-work-requirement",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "equal-opportunity",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Reporting barriers can exclude eligible adults.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.medicaid-work-requirement",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "personal-liberty",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "A recipient must document prescribed activity.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.medicaid-work-requirement",
+          "addedArgument": true
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "supporters of conditional assistance",
+          "direction": "support",
+          "why": "Prefer activity conditions on public coverage.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "affected Medicaid adults",
+          "direction": "oppose",
+          "why": "Face eligibility and reporting loss.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "providers serving affected adults",
+          "direction": "oppose",
+          "why": "Loss of coverage can increase unpaid care.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "limited-government",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Limit unconditional public assistance.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.work-requirement-for-assistance",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "tradition",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Connect benefits to work obligations.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.work-requirement-for-assistance",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Supporters seek reduced public outlays.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.work-requirement-for-assistance",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "collective-provision",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Preserve food and income support for eligible households.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.work-requirement-for-assistance",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "equal-opportunity",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Job scarcity and documentation can block access.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.work-requirement-for-assistance",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "worker-protection",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Irregular work schedules can fail rigid qualifying-hours rules.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.work-requirement-for-assistance",
+          "addedArgument": true
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "supporters of conditional assistance",
+          "direction": "support",
+          "why": "Prefer work or training conditions.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "recipients subject to the rule",
+          "direction": "oppose",
+          "why": "May lose food or income assistance.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "food-assistance service organizations",
+          "direction": "oppose",
+          "why": "Must serve households losing eligibility.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Provide appropriate response to health emergencies.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.fund-behavioral-health-crisis-response",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Fund shared dispatch and clinical capacity.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.fund-behavioral-health-crisis-response",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Health response can avoid unnecessary coercive encounters.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.fund-behavioral-health-crisis-response",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "A new response service competes for budget resources.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.fund-behavioral-health-crisis-response",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "limited-government",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Opponents may resist expanded government services.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.fund-behavioral-health-crisis-response",
+          "addedArgument": true
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "people needing behavioral-health crisis care",
+          "direction": "support",
+          "why": "Receive an alternative clinical response.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "crisis clinicians and service providers",
+          "direction": "support",
+          "why": "Need funded response capacity.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "taxpayers prioritizing spending restraint",
+          "direction": "oppose",
+          "why": "Concerned about ongoing appropriation.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Fund overdose reversal and sterile equipment access.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.harm-reduction-services",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Prevent avoidable poisoning and infection.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.harm-reduction-services",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Offer voluntary services without a sobriety prerequisite.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.harm-reduction-services",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "tradition",
+          "bearing": "against",
+          "strength": 0.75,
+          "why": "Opponents favor abstinence-centered approaches.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.harm-reduction-services",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Services require public resources.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.harm-reduction-services",
+          "addedArgument": true
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "people exposed to overdose or infection",
+          "direction": "support",
+          "why": "Have direct access to protective services.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "harm-reduction health providers",
+          "direction": "support",
+          "why": "Deliver the authorized services.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "constituents preferring abstinence-only services",
+          "direction": "oppose",
+          "why": "Disagree with the service approach.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Provide housing before treatment requirements.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.housing-first-homelessness",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Stable shelter can make work and treatment accessible.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.housing-first-homelessness",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "why": "Avoid making sobriety a precondition for housing.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.housing-first-homelessness",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "tradition",
+          "bearing": "against",
+          "strength": 0.75,
+          "why": "Opponents prefer treatment-first or sobriety conditions.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.housing-first-homelessness",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.75,
+          "why": "Housing and support services require continuing funding.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#health-human-services.housing-first-homelessness",
+          "addedArgument": true
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "people experiencing homelessness",
+          "direction": "support",
+          "why": "Can access housing without a treatment prerequisite.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "housing and supportive-service providers",
+          "direction": "support",
+          "why": "Deliver the funded placement and support.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "constituents preferring treatment-first conditions",
+          "direction": "oppose",
+          "why": "Prefer conditional eligibility.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Let people access, correct and delete their data.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.consumer-data-privacy-law",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "transparency",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Expose which data a company holds.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.consumer-data-privacy-law",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Give covered consumers consistent legal rights.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.consumer-data-privacy-law",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "market-competition",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Opponents emphasize restrictions and compliance barriers.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.consumer-data-privacy-law",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "limited-government",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Enforcement expands public regulation.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.consumer-data-privacy-law",
+          "addedArgument": true
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "consumers seeking control over their data",
+          "direction": "support",
+          "why": "Gain enforceable data rights.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "privacy advocates",
+          "direction": "support",
+          "why": "Seek limits on unconsented use.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "covered businesses prioritizing unrestricted data use",
+          "direction": "oppose",
+          "why": "Face compliance costs and use restrictions.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Supporters seek to protect minors on covered platforms.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.age-verification-for-social-media",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "tradition",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Supporters emphasize parental responsibility and safeguards.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.age-verification-for-social-media",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "personal-liberty",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Verification may constrain lawful access and anonymity.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.age-verification-for-social-media",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "transparency",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Opponents question handling of identity evidence.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.age-verification-for-social-media",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "market-competition",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Verification creates platform compliance costs.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.age-verification-for-social-media",
+          "addedArgument": false
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "parents favoring mandatory access safeguards",
+          "direction": "support",
+          "why": "Seek age-based protections.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "users prioritizing privacy and anonymous access",
+          "direction": "oppose",
+          "why": "May need to disclose identifying information.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "covered platforms opposed to verification mandates",
+          "direction": "oppose",
+          "why": "Must implement compliance systems.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "principleWeights": [
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Limit government biometric identification and surveillance.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.restrict-government-facial-recognition",
+          "addedArgument": false
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Limit unequal consequences from identification errors.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.restrict-government-facial-recognition",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "transparency",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Demand accountable use of surveillance tools.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.restrict-government-facial-recognition",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "limited-government",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "why": "Restrict an intrusive government power.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.restrict-government-facial-recognition",
+          "addedArgument": true
+        },
+        {
+          "pack": "us-policy-positions",
+          "principleKey": "public-safety",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Opponents emphasize investigative uses.",
+          "citation": "src/simulation/policy-pack-us-policy-positions.ts#technology-privacy.restrict-government-facial-recognition",
+          "addedArgument": false
+        }
+      ],
+      "interestedConstituencies": [
+        {
+          "label": "residents seeking surveillance limits",
+          "direction": "support",
+          "why": "Restrict government identification of their movements.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "civil-liberties advocates",
+          "direction": "support",
+          "why": "Seek controls on biometric surveillance.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        },
+        {
+          "label": "agencies favoring broader investigative authority",
+          "direction": "oppose",
+          "why": "Lose permitted uses of an investigative tool.",
+          "organizationId": null,
+          "canonicalGroupKey": null,
+          "basis": "Authored stakeholder-position proposal based on this law's legal/service stakes; no assertion that every member holds this view.",
+          "runtimeRequirement": "Read actual affected records and individual principles; do not instantiate membership from label alone."
+        }
+      ],
+      "proof": {
+        "runtimeApplied": false,
+        "nationwideAudit": "NOT_RUN",
+        "allFivePartsComplete": false
+      }
+    }
+  ],
+  "checks": {
+    "jsonRoundTrip": true,
+    "uniqueQuestionKeys": 9,
+    "lawCount": 9,
+    "weightsWithinZeroOne": true,
+    "canonicalPrincipleKeysChecked": true,
+    "runtimeTypecheck": "NOT_RUN",
+    "format": "NOT_RUN"
+  }
+}

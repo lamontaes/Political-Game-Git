@@ -55,6 +55,23 @@ const CONFIDENCE_WEIGHT: Record<MindConfidence, number> = {
 };
 const CLOSE_CHOICE_WINDOW = 2;
 
+/** Only a selected result authorizes an option's consequence. An undecided
+ * result has no selected key and leaves the actor's choice pending. */
+export function isSelectedDecision(
+  evaluation: Pick<DecisionEvaluation, "outcomeKind" | "selectedOptionKey">,
+): evaluation is Pick<
+  DecisionEvaluation,
+  "outcomeKind" | "selectedOptionKey"
+> & {
+  readonly outcomeKind: "selected";
+  readonly selectedOptionKey: string;
+} {
+  return (
+    evaluation.outcomeKind === "selected" &&
+    evaluation.selectedOptionKey !== null
+  );
+}
+
 export function evaluateDecision(
   world: World,
   contextInput: DecisionContext,
@@ -370,7 +387,10 @@ function canonicalDecisionContext(input: DecisionContext): DecisionContext {
   };
 }
 
-function considerationScore(consideration: DecisionConsideration): number {
+/** The signed weight one consideration adds to its option's score. */
+export function considerationScore(
+  consideration: DecisionConsideration,
+): number {
   const magnitude =
     IMPORTANCE_WEIGHT[consideration.importance] *
     CONFIDENCE_WEIGHT[consideration.confidence];

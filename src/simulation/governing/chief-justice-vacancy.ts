@@ -1,5 +1,26 @@
+import {
+  CHIEF_JUSTICE_VACANCY_VERSION,
+  CHIEF_JUSTICE_NOMINATION,
+  CHIEF_JUSTICE_CONFIRMATION,
+  CHIEF_JUSTICE_NOMINATED_EVENT,
+  CHIEF_JUSTICE_VACANCY_PROFILE,
+} from "./supreme-court-appointment-profile";
+export {
+  CHIEF_JUSTICE_VACANCY_VERSION,
+  CHIEF_JUSTICE_NOMINATION,
+  CHIEF_JUSTICE_CONFIRMATION,
+  CHIEF_JUSTICE_NOMINATED_EVENT,
+  CHIEF_JUSTICE_VACANCY_PROFILE,
+} from "./supreme-court-appointment-profile";
 import { addDays, makeIsoDate } from "../dates";
 import { currentPresidentOf } from "../crisis/offices";
+import {
+  appointmentCircle,
+  chooseAppointee,
+  recordAppointmentFavor,
+  recordPassedOver,
+} from "../patronage/appointments";
+import { federalColleaguesOf } from "../patronage/federal-circle";
 import {
   FEDERAL_TENURE_EVENT,
   FEDERAL_VACANCY_EVENT,
@@ -8,15 +29,25 @@ import {
 import { scheduleFutureDueItem } from "../future-transitions";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import { personName } from "../people";
-import { SeededRng } from "../rng";
 import type {
   EntityId,
   FutureDueItem,
+  FutureDueReasonKey,
   FutureTransitionHandlerResult,
   IsoDate,
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import {
+  SUPREME_COURT_VOTE_EVENT,
+  associateJusticeSeatsHeldBy,
+  briefSenateOnNominee,
+  choosePresidentialNominee,
+  leaveLowerBench,
+  openAssociateJusticeVacancy,
+  recordConfirmationVote,
+  senateConfirmationVote,
+} from "./supreme-court-appointments";
 
 /**
  * THE CHIEF JUSTICESHIP FALLS VACANT — U.S. Const. art. II, § 2, cl. 2: the
@@ -24,39 +55,20 @@ import { recordWorldEvent } from "../world";
  * Senate, shall appoint ... Judges of the supreme Court". The Constitution
  * sets no age, citizenship or residence requirement for a justice.
  *
- * The route is law; its pace and its choices are not, and each is marked:
+ * Since Build 27 (September 28, 2026) the Chief Justice is chosen the way
+ * every seat on the Court is (supreme-court-appointments.ts): the President
+ * weighs the sitting associate justices, federal appeals judges and state
+ * supreme court justices, and the seated Senate votes. A rejected nominee
+ * sends the nomination back to the President. A confirmed associate justice
+ * leaves that seat, which opens for its own nomination.
  *
- * PLACEHOLDER (filed as `chief-justice-vacancy-nomination-and-confirmation`):
- * - how long a President takes to name a nominee and how long the Senate
- *   takes to vote. The profile below is a game profile, not a finding.
- * - whom a President nominates. The game models no judges and has no rule for
- *   whom a President would choose. Blanket rule meanwhile: an even draw among
- *   every living adult in the World, other than the President, the Vice
- *   President and the player's own character, who would have to be asked,
- *   and sitting governors.
- * - how the Senate votes. Blanket rule meanwhile: the Senate confirms,
- *   unless the President who made the nomination has left office, in which
- *   case the nomination lapses and the new President nominates.
- * - a vacancy with no sitting President waits: nobody nominates, and the
- *   game does not yet reopen the nomination when a President takes office.
- * - a sitting associate justice being elevated, and the associate seat that
- *   would then open, are not modeled: the game seats no associate justices.
+ * An older save without judges can nominate an eligible recorded acquaintance
+ * through the existing appointment decision. Missing candidates or a seated
+ * Senate leave the vacancy pending; neither is replaced by a draw or consent.
+ *
+ * Still not modeled: a vacancy with no sitting President waits, and the game
+ * does not yet reopen the nomination when a President takes office.
  */
-export const CHIEF_JUSTICE_VACANCY_VERSION =
-  "governing-chief-justice-vacancy-v1";
-export const CHIEF_JUSTICE_NOMINATION =
-  "governing:chief-justice-nomination" as const;
-export const CHIEF_JUSTICE_CONFIRMATION =
-  "governing:chief-justice-confirmation" as const;
-export const CHIEF_JUSTICE_NOMINATED_EVENT =
-  "governing.chief-justice-nominated" as const;
-
-export const CHIEF_JUSTICE_VACANCY_PROFILE = {
-  id: "ocd-chief-justice-vacancy-game-profile/v1",
-  daysFromVacancyToNomination: 30,
-  daysFromNominationToConfirmation: 70,
-} as const;
-
 const ADULT_AGE = 18;
 
 const CHIEF_JUSTICE_TITLE = "Chief Justice of the United States";
@@ -85,6 +97,14 @@ function resolved(
     context,
     outcomeEventId,
   };
+}
+
+function pending(
+  world: World,
+  reasonKey: FutureDueReasonKey,
+  context: string,
+): FutureTransitionHandlerResult {
+  return { world, status: "blocked", reasonKey, context, outcomeEventId: null };
 }
 
 function ageOn(birthDate: IsoDate, date: IsoDate): number {
@@ -158,6 +178,69 @@ export function openChiefJusticeVacancy(
   return { world: next, presidentId: president?.personId ?? null };
 }
 
+const CHIEF_JUSTICE_POST = {
+  officeKey: "us-chief-justice",
+  title: "Chief Justice of the United States",
+} as const;
+
+/**
+ * For a World that seats no judges, the existing appointment decision can
+ * select an eligible recorded acquaintance. No candidate is drawn when that
+ * decision has no selected person.
+ */
+function legacyNominee(
+  world: World,
+  due: FutureDueItem,
+  presidentId: EntityId,
+): { readonly personId: EntityId; readonly world: World } | null {
+  const controlled =
+    world.control.kind === "person" ? world.control.personId : null;
+  const vice = currentFederalTenure(world, "us-vice-president")?.personId;
+  // A sitting governor is not drawn: the game has no route for them to give
+  // up the governorship.
+  const governors = new Set(
+    currentStateExecutiveHolders(world).map((holder) => holder.personId),
+  );
+  // Nor is a sitting member of Congress: no member may hold another federal
+  // office while serving (U.S. Const. art. I, sec. 6, cl. 2), and the game
+  // has no route for them to give up the seat. They can still be known to
+  // the President; they are only not eligible.
+  const colleagues = federalColleaguesOf(world);
+  const barred = new Set(colleagues);
+  const pool = Object.values(world.people)
+    .filter(
+      (person) =>
+        person.id !== presidentId &&
+        person.id !== controlled &&
+        person.id !== vice &&
+        !governors.has(person.id) &&
+        !barred.has(person.id) &&
+        !isDead(world, person.id) &&
+        ageOn(person.birthDate, world.currentDate) >= ADULT_AGE,
+    )
+    .map((person) => person.id)
+    .sort();
+  if (!pool.length) return null;
+  const eligible = new Set(pool);
+  const choice = chooseAppointee(world, {
+    stableKey: due.stableKey,
+    appointerPersonId: presidentId,
+    post: CHIEF_JUSTICE_POST,
+    circle: appointmentCircle(world, presidentId, colleagues),
+    eligible: (personId) => eligible.has(personId),
+  });
+  if (!choice) return null;
+  return {
+    personId: choice.personId,
+    world: recordPassedOver(choice.world, {
+      stableKey: due.stableKey,
+      appointerPersonId: presidentId,
+      passedOver: choice.passedOver,
+      post: CHIEF_JUSTICE_POST,
+    }),
+  };
+}
+
 /** The President names a nominee. */
 export function chiefJusticeNominationHandler(
   world: World,
@@ -174,33 +257,40 @@ export function chiefJusticeNominationHandler(
       world,
       "There is no sitting President to nominate a Chief Justice.",
     );
-  // PLACEHOLDER: whom the President chooses (see the profile above).
-  const controlled =
-    world.control.kind === "person" ? world.control.personId : null;
-  const vice = currentFederalTenure(world, "us-vice-president")?.personId;
-  // A sitting governor is not drawn: the game has no route for them to give
-  // up the governorship.
-  const governors = new Set(
-    currentStateExecutiveHolders(world).map((holder) => holder.personId),
-  );
-  const pool = Object.values(world.people)
+  const rejected = world.history.events
     .filter(
-      (person) =>
-        person.id !== president.personId &&
-        person.id !== controlled &&
-        person.id !== vice &&
-        !governors.has(person.id) &&
-        !isDead(world, person.id) &&
-        ageOn(person.birthDate, world.currentDate) >= ADULT_AGE,
+      (event) =>
+        event.type === SUPREME_COURT_VOTE_EVENT &&
+        event.tags.includes("office:us-chief-justice") &&
+        event.tags.includes(`vacancy:${vacancyDate}`) &&
+        event.tags.includes("outcome:rejected"),
     )
-    .map((person) => person.id)
-    .sort();
-  if (!pool.length)
-    return resolved(world, "Nobody in the World can be nominated.");
-  const nomineeId = new SeededRng(world.seed).fork(due.stableKey).pick(pool);
+    .flatMap((event) =>
+      event.participants
+        .filter((row) => row.role === "focus:subject")
+        .map((row) => row.personId),
+    );
+  const chosen = choosePresidentialNominee(world, {
+    stableKey: due.stableKey,
+    presidentId: president.personId,
+    office: "chief",
+    exclude: rejected,
+  });
+  const legacy =
+    chosen || world.judiciary
+      ? null
+      : legacyNominee(world, due, president.personId);
+  const nomineeId = chosen?.personId ?? legacy?.personId ?? null;
+  if (!nomineeId)
+    return pending(
+      world,
+      "governing:no-recorded-chief-justice-nominee",
+      "No Chief Justice nominee has been selected from recorded judges or eligible acquaintances.",
+    );
+  const chosenWorld = legacy?.world ?? world;
   const presidentName = personName(world.people[president.personId]!);
   const nomineeName = personName(world.people[nomineeId]!);
-  let next = recordWorldEvent(world, {
+  let next = recordWorldEvent(chosenWorld, {
     stableKey: `${due.stableKey}:nominated`,
     type: CHIEF_JUSTICE_NOMINATED_EVENT,
     occurredAt: world.currentDate,
@@ -226,6 +316,7 @@ export function chiefJusticeNominationHandler(
       "office:us-chief-justice",
       `vacancy:${vacancyDate}`,
       `provenance:${CHIEF_JUSTICE_VACANCY_PROFILE.id}`,
+      ...(chosen ? [`nominee-bench:${chosen.bench}`] : []),
     ],
     summary: `President ${presidentName} nominated ${nomineeName} to be Chief Justice of the United States. The Senate must confirm the nomination.`,
     context: CONTEXT,
@@ -267,7 +358,7 @@ export function confirmChiefJustice(
     return resolved(world, "The office of Chief Justice is already filled.");
   const nominee = world.people[nomineeId];
   const president = currentPresidentOf(world);
-  const nominatedBy = world.history.events
+  const nomination = world.history.events
     .filter(
       (event) =>
         event.type === CHIEF_JUSTICE_NOMINATED_EVENT &&
@@ -276,12 +367,16 @@ export function confirmChiefJustice(
           (row) => row.role === "focus:subject" && row.personId === nomineeId,
         ),
     )
-    .at(-1)
-    ?.participants.find((row) => row.role === "focus:actor")?.personId;
+    .at(-1);
+  const nominatedBy = nomination?.participants.find(
+    (row) => row.role === "focus:actor",
+  )?.personId;
   if (
     !nominee ||
     isDead(world, nomineeId) ||
-    nominatedBy !== president?.personId
+    !president ||
+    !nominatedBy ||
+    nominatedBy !== president.personId
   ) {
     return resolved(
       president
@@ -292,13 +387,51 @@ export function confirmChiefJustice(
         : "The President who made the nomination has left office; the nomination lapses.",
     );
   }
-  let next = recordWorldEvent(world, {
+  const briefed = briefSenateOnNominee(world, nomineeId);
+  const vote = senateConfirmationVote(briefed, {
+    stableKey: due.stableKey,
+    nomineeId,
+    presidentId: president.personId,
+    nominationEventId: nomination!.id,
+    officeKey: "us-chief-justice",
+  });
+  if (!vote)
+    return pending(
+      world,
+      "governing:senate-not-seated",
+      "The Chief Justice nomination remains pending until a seated Senate records its vote.",
+    );
+  let next = briefed;
+  next = recordConfirmationVote(next, {
+    stableKey: due.stableKey,
+    nomineeId,
+    officeTitle: CHIEF_JUSTICE_TITLE,
+    vote,
+    tags: ["office:us-chief-justice", `vacancy:${vacancyDate}`],
+  }).world;
+  if (vote.yeas + vote.nays === 0)
+    return {
+      world: next,
+      status: "blocked",
+      reasonKey: "governing:senate-no-decision",
+      context:
+        "The Senate recorded no yes or no vote; the Chief Justice nomination remains pending.",
+      outcomeEventId: next.history.events.at(-1)!.id,
+    };
+  if (!vote.confirmed)
+    return resolved(
+      scheduleNomination(next, vacancyDate, president.personId),
+      `The Senate rejected ${personName(nominee)}, ${vote.yeas} to ${vote.nays}.`,
+      next.history.events.at(-1)!.id,
+    );
+  const associateSeats = associateJusticeSeatsHeldBy(next, nomineeId);
+  next = recordWorldEvent(next, {
     stableKey: `${due.stableKey}:confirmed`,
     type: FEDERAL_TENURE_EVENT,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [nomineeId],
+    involvedEntityIds: [nomineeId, nominatedBy],
     participants: [
       {
         personId: nomineeId,
@@ -315,11 +448,27 @@ export function confirmChiefJustice(
       `vacancy:${vacancyDate}`,
       `provenance:${CHIEF_JUSTICE_VACANCY_PROFILE.id}`,
     ],
-    summary: `The Senate confirmed ${personName(nominee)} as Chief Justice of the United States.`,
+    summary: `The Senate confirmed ${personName(nominee)} as Chief Justice of the United States, ${vote.yeas} to ${vote.nays}.`,
     context: CONTEXT,
   });
   const confirmedEventId = next.history.events.at(-1)!.id;
-  next = leaveCongressSeat(next, nomineeId);
+  // The appointment is a favor from the President who named them.
+  next = recordAppointmentFavor(next, {
+    stableKey: `${due.stableKey}:appointed`,
+    appointerPersonId: nominatedBy,
+    appointeePersonId: nomineeId,
+    post: CHIEF_JUSTICE_POST,
+    eventId: confirmedEventId,
+    subject: { kind: "none" },
+  });
+  for (const seat of associateSeats)
+    next = openAssociateJusticeVacancy(next, {
+      seatId: seat.seatId,
+      vacancyDate: next.currentDate,
+      formerHolderId: nomineeId,
+      reason: "elevated",
+    }).world;
+  next = leaveCongressSeat(leaveLowerBench(next, nomineeId), nomineeId);
   return resolved(
     next,
     `${personName(nominee)} was confirmed as Chief Justice.`,

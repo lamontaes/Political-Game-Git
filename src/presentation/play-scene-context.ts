@@ -12,6 +12,8 @@ import {
 } from "../simulation";
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
+import { openingWorkLocation } from "./opening-work-location";
+import { recordedRoomPresence } from "./recorded-room-presence";
 import {
   currentOpeningLifeScene,
   openingLifeLocation,
@@ -96,7 +98,8 @@ export function resolveOpeningPlaySceneContext(
       : null;
   const ids =
     opening?.presentPersonIds ??
-    (setting === "home" ? [...householdResidentIds(world, personId)] : []);
+    recordedRoomPresence(world, personId)?.personIds ??
+    [];
   const presentPeople = ids.flatMap((id): ScenePerson[] => {
     if (id === personId || !world.people[id]) return [];
     const context = describePersonContext(world, personId, id);
@@ -119,6 +122,17 @@ export function resolveOpeningPlaySceneContext(
       { presentPeople },
       activityVenue,
     );
+
+  const workArrival = openingWorkLocation(world, personId);
+  if (workArrival?.context.location?.setting === "work")
+    return {
+      purpose: "activity",
+      locationKey: "life-circumstance:covered-shift",
+      sceneId: null,
+      reason: workArrival.summary,
+      placeLabel: workArrival.context.location.label,
+      presentPeople: [],
+    };
 
   if (setting === "neighborhood" || setting === null)
     return {

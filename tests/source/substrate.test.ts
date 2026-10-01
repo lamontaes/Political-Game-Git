@@ -365,16 +365,46 @@ describe("A19 — the missingness sweep", () => {
   });
 });
 
+const RAW_BUDGET_BYTES = 25 * 1024 * 1024;
+
+/**
+ * Domains whose locked publisher captures landed above the default budget
+ * (#701, September 27, 2026). The raw bytes are pinned by
+ * SHA-256 in each artifact lock, so they cannot be trimmed in place. Each
+ * ceiling is the domain's size when it landed: the domain may not grow, and
+ * shrinking below the default removes it from this list.
+ * PLACEHOLDER(main-green): whether these captures stay tracked or move out of
+ * the repository is Claude CTO's call.
+ */
+const RAW_BUDGET_EXCEPTIONS: Readonly<Record<string, number>> = {
+  "career-occupations": 49_123_907,
+  "public-employment": 47_866_035,
+};
+
 describe("the tracked source tree", () => {
   it("keeps every domain's raw artifacts within the per-domain size budget", () => {
-    for (const name of listDomainNames()) {
+    const names = listDomainNames();
+    for (const name of Object.keys(RAW_BUDGET_EXCEPTIONS))
+      expect(names, `${name} is not a source domain`).toContain(name);
+    for (const name of names) {
       const raw = resolve(DATA, name, "raw");
       if (!existsSync(raw)) continue;
       const bytes = everyFile(raw).reduce(
         (total, file) => total + statSync(file).size,
         0,
       );
-      expect(bytes).toBeLessThan(25 * 1024 * 1024);
+      const ceiling = RAW_BUDGET_EXCEPTIONS[name];
+      if (ceiling === undefined) {
+        expect(bytes, name).toBeLessThan(RAW_BUDGET_BYTES);
+      } else {
+        expect(bytes, `${name} grew past its ceiling`).toBeLessThanOrEqual(
+          ceiling,
+        );
+        expect(
+          bytes,
+          `${name} fits the default budget; drop its exception`,
+        ).toBeGreaterThanOrEqual(RAW_BUDGET_BYTES);
+      }
     }
   });
 });

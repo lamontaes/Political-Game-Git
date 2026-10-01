@@ -4,7 +4,7 @@ import {
   currentMeasureProvisions,
   createStableId,
   createWorkItem,
-  drawCanonicalNameForGender,
+  drawGeneratedPersonName,
   catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
@@ -40,6 +40,7 @@ import {
   type ProgramParameterValue,
 } from "../simulation/legislation-program-families";
 import {
+  assertOfficeForFiling,
   docketBill,
   docketKeyOf,
   docketMeasureStableKey,
@@ -329,7 +330,7 @@ export function fileBundleDraft(
     const rng = new SeededRng(next.seed).fork(
       `legislative-member:${input.scenarioKey}`,
     );
-    const name = drawCanonicalNameForGender(rng, "unstated");
+    const name = drawGeneratedPersonName(rng);
     next = applyCharacterHistoryPlan(next, {
       stableKey: sponsorKey,
       mode: "quick-generated",
@@ -341,6 +342,7 @@ export function fileBundleDraft(
             stableKey: sponsorKey,
             givenName: name.givenName,
             familyName: name.familyName,
+            identity: name.identity,
             birthDate: memberBirthDate(next.currentDate),
             homeJurisdictionId: input.jurisdictionId,
           },
@@ -390,6 +392,9 @@ export function fileBundleDraft(
         text: clause.text,
         ...(clause.fiscalPeriod !== undefined
           ? { fiscalPeriod: clause.fiscalPeriod }
+          : {}),
+        ...(clause.operativeEffect !== undefined
+          ? { operativeEffect: clause.operativeEffect }
           : {}),
         beneficiary: clause.beneficiary,
         applicationScope: {
@@ -490,6 +495,20 @@ export function fileBundleDraft(
 /* -------------------------------------------------------------------------- */
 /* Reading one back                                                            */
 /* -------------------------------------------------------------------------- */
+
+/**
+ * The docket action for a measure with parts: the same office check the
+ * single-bill action makes, then the bundle filer, which compiles the whole
+ * measure (the preview a drafter reads) before it writes anything. There is
+ * one drafting system; this only lets the player reach its bundle route.
+ */
+export function fileBundleDraftFromOffice(
+  world: World,
+  input: FileBundleDraftInput,
+): FileBundleDraftResult {
+  assertOfficeForFiling(world, input);
+  return fileBundleDraft(world, input);
+}
 
 /** Why a saved measure cannot be re-read as a bundle. Its filed text is unaffected. */
 export interface BundleUnavailable {

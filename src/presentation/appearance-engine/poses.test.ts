@@ -5,12 +5,14 @@ import manifestJson from "../../../art/people-engine/v1/manifest.json" with { ty
 import {
   BODY_BUILDS,
   BODY_POSES,
+  POSES_BY_PRESENTATION,
   composeEnginePerson,
   engineRecipeKey,
   isSeatedPose,
   mirrorToFace,
   posedPieces,
   poseFallbacks,
+  presentationPose,
   type BodyPose,
   type EngineRecipe,
   type PackPresentation,
@@ -59,6 +61,16 @@ function recipe(
  * The feminine pack with the arms-folded pose painted for the average body
  * and the first outfit, as the pack builder writes it.
  */
+/**
+ * An outfit with no posed or turned art, so a test can show the fallback for
+ * an outfit that has not been painted, whatever the shipped pack now holds.
+ */
+function unpainted(
+  outfit: PackPresentation["outfits"][number],
+): PackPresentation["outfits"][number] {
+  return { ...outfit, poses: undefined, views: undefined };
+}
+
 function withArmsFolded(pack: PackPresentation): PackPresentation {
   const body = pack.bodies.average;
   const worn = pack.outfits[0]!.builds.average!;
@@ -84,7 +96,7 @@ function withArmsFolded(pack: PackPresentation): PackPresentation {
           },
         },
       },
-      ...pack.outfits.slice(1),
+      ...pack.outfits.slice(1).map(unpainted),
     ],
   };
 }
@@ -100,9 +112,13 @@ describe("named poses", () => {
               pack,
               recipe(pack, { presentation, build, outfit: outfit.id, pose }),
             );
-            // Always a body, and always the outfit, in one of the pose's
-            // fallbacks; never nothing and never a layer from another pose.
-            expect(poseFallbacks(pose)).toContain(pieces.pose);
+            // Always a body, and always the outfit, in one of the fallbacks
+            // of the pose this presentation uses (a woman's hand on the hip
+            // for a man's hands in pockets); never nothing and never a layer
+            // from another pose.
+            expect(
+              poseFallbacks(presentationPose(pose, presentation)),
+            ).toContain(pieces.pose);
             expect(pieces.body.file.length).toBeGreaterThan(0);
             expect(pieces.outfit).toBeDefined();
             const suffix = pieces.pose === "standing" ? "" : `-${pieces.pose}`;
@@ -203,17 +219,82 @@ describe("the pose chooser", () => {
       expect(pose("idle")).toBe("standing");
       expect(pose("desk")).toBe("standing");
       expect(pose("speaking", true)).toBe("seated-leaning");
-      expect(["seated-leaning", "seated-legs-crossed"]).toContain(
+      expect(["seated-writing", "seated-reading"]).toContain(
         pose("desk", true),
       );
-      expect(["seated-leaning", "seated-legs-crossed"]).toContain(
+      expect(["seated-hands-folded", "seated-leaning"]).toContain(
         pose("meeting", true),
       );
-      expect(["seated-leaning", "seated-legs-crossed"]).toContain(
+      expect(["seated-hands-folded", "seated-listening"]).toContain(
         pose("listening", true),
       );
-      expect(pose("idle", true)).toBe("seated");
+      expect(["seated-legs-crossed", "seated-phone"]).toContain(
+        pose("waiting", true),
+      );
+      expect(["seated", "seated-relaxed"]).toContain(pose("idle", true));
     }
+  });
+
+  it("chooses only from each presentation's own poses", () => {
+    for (const presentation of ["feminine", "masculine"] as const)
+      for (const seed of seeds)
+        for (const activity of [
+          "speaking",
+          "listening",
+          "waiting",
+          "speech",
+          "desk",
+          "meeting",
+          "idle",
+        ] as const)
+          for (const seated of [false, true])
+            expect(POSES_BY_PRESENTATION[presentation]).toContain(
+              chooseBodyPose({ activity, seated, seed, presentation }),
+            );
+    // A man listening puts his hands in his pockets where a woman rests a
+    // hand on her hip; seated, he rests an ankle on his knee.
+    const men = seeds.map((seed) =>
+      chooseBodyPose({
+        activity: "listening",
+        seated: false,
+        seed,
+        presentation: "masculine",
+      }),
+    );
+    expect(new Set(men)).toEqual(new Set(["arms-folded", "hands-in-pockets"]));
+    expect(
+      new Set(
+        seeds.map((seed) =>
+          chooseBodyPose({
+            activity: "desk",
+            seated: true,
+            seed,
+            presentation: "masculine",
+          }),
+        ),
+      ),
+    ).toEqual(new Set(["seated-writing", "seated-reading"]));
+    // A seated man waiting crosses an ankle over his knee where a woman
+    // crosses her legs.
+    expect(
+      new Set(
+        seeds.map((seed) =>
+          chooseBodyPose({
+            activity: "waiting",
+            seated: true,
+            seed,
+            presentation: "masculine",
+          }),
+        ),
+      ),
+    ).toEqual(new Set(["seated-ankle-on-knee", "seated-phone"]));
+    // A pose from the other set, asked of the engine, is drawn as this one's.
+    expect(presentationPose("hand-on-hip", "masculine")).toBe(
+      "hands-in-pockets",
+    );
+    expect(presentationPose("seated-ankle-on-knee", "feminine")).toBe(
+      "seated-legs-crossed",
+    );
   });
 
   it("gives the same person the same pose every time, and a crowd both", () => {
@@ -379,7 +460,7 @@ function withThreeQuarter(pack: PackPresentation): PackPresentation {
           },
         },
       },
-      ...pack.outfits.slice(1),
+      ...pack.outfits.slice(1).map(unpainted),
     ],
   };
 }
@@ -510,7 +591,9 @@ describe("a conversation in a room", async () => {
     const listeners = talking.filter((person) => person !== speaker);
     expect(listeners.length).toBeGreaterThanOrEqual(1);
     for (const listener of listeners) {
-      expect(["arms-folded", "hand-on-hip"]).toContain(listener.engine!.pose);
+      expect(["arms-folded", "hand-on-hip", "hands-in-pockets"]).toContain(
+        listener.engine!.pose,
+      );
       expect(listener.engine!.view).toBe("three-quarter");
     }
     // Until the posed art lands everyone is drawn standing in front, and a

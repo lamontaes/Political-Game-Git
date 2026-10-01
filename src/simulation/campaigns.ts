@@ -1,8 +1,10 @@
+import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
   householdLoanMonthHandler,
 } from "./household-loans";
 import { PAYDAY_HANDLERS } from "./living-world/town-pay";
+import { RENT_DAY_HANDLERS } from "./living-world/town-rent";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -24,13 +26,18 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
-import { stateGoverningHandlers } from "./governing/state-governing";
+import {
+  stateGoverningHandlers,
+  withProgramMatters,
+} from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { PUBLIC_SERVICE_HANDLERS } from "./public-service-producer";
 import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
 import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
+import { ARTICLE_V_HANDLERS } from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -42,6 +49,10 @@ import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
 import { LOCAL_COUNCIL_MEETING_HANDLERS } from "./living-world/local-council-meetings";
 import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import {
+  LOCAL_MEMBER_AGENDA_HANDLERS,
+  scheduleLocalMemberAgendaIntakes,
+} from "./governing/member-agenda";
+import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
 } from "./national-election-consumer";
@@ -49,6 +60,7 @@ import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
 import { createCrisisTransitionRegistry } from "./crisis";
+import { createClemencyTransitionRegistry } from "./justice/clemency-transitions";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -66,18 +78,24 @@ import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-govern
 import {
   ensureLocalGovernmentOrganization,
   localGovernmentOrganizationKey,
+  municipalWorkspaceGovernmentForUnit,
 } from "./nationwide-world/local-governments";
-import { municipalGovernmentForUnit } from "./rule-capability-resolver";
 import { primaryReading } from "./municipal-government";
+import {
+  municipalSeatChoiceByKey,
+  municipalSeatMustBeNamed,
+} from "./municipal-seat-identity";
 import {
   installMunicipalGovernment,
   municipalOrganizationFor,
   municipalSeatKey,
+  municipalSeats,
 } from "./municipal-public-work";
 import { planOrdinaryStateExecutiveTerm } from "./nationwide-world/state-executive-terms";
 import {
   activeCampaignForCandidate,
   campaignActionById,
+  campaignActionForActivity,
   campaignActionResult,
   campaignActions,
   campaignById,
@@ -149,7 +167,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { drawCanonicalNameForGender } from "./people";
+import { drawGeneratedPersonName } from "./people";
 import { createExactQuantity } from "./quantity";
 import { positionOwnerEndpoint } from "./resource-queries";
 import {
@@ -158,6 +176,12 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import { recordEventKnowledge } from "./records";
+import {
+  CAMPAIGN_ROUTINE_WORK,
+  campaignRoutineBlockAt,
+  campaignRoutineSlots,
+  routineIdOfActivity,
+} from "./campaign-routine";
 import { SeededRng } from "./rng";
 import {
   cancelScheduledActivity,
@@ -186,6 +210,8 @@ import type {
   FutureTransitionHandlerResult,
   MetricSegmentKey,
   MoneyAmount,
+  RoutineTimeHook,
+  RoutineWindow,
   ScheduledActivityRecord,
   SimulationMoment,
   World,
@@ -198,7 +224,11 @@ import {
   recordWorldMetricObservation,
   recordWorldMetricState,
 } from "./world-metrics";
-import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  assertWorldIntegrity,
+  recordWorldEvent,
+} from "./world";
 import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
@@ -264,10 +294,12 @@ export interface FileCampaignInput {
    */
   readonly officeKey: string;
   /**
-   * Explicit Gazetteer district for this filing, when a sourced
-   * district-residence rule applies. Not inferred from state residence.
+   * Explicit Gazetteer district for a numbered chamber seat. It identifies
+   * the contested seat and is never inferred from state residence.
    */
   readonly districtBinding?: DistrictSeatBinding | null;
+  /** Chosen council seat identity, saved on the election contest. */
+  readonly municipalSeatKey?: string | null;
   readonly electionDate: string;
   readonly rivalPersonIds: readonly EntityId[];
   readonly existingContestId: EntityId | null;
@@ -291,6 +323,8 @@ export interface ScheduleCampaignActionInput {
   readonly spend: MoneyAmount | null;
   /** Optional explicit approval context for the bounded strategy interaction. */
   readonly strategy?: CampaignActionStrategyRecord | null;
+  /** The event of the standing routine that booked this session (D-11). */
+  readonly routineEventId?: EntityId;
 }
 
 export interface ScheduledCampaignActionResult {
@@ -504,12 +538,13 @@ export function ensureCampaignOpponents(
   for (let index = 0; index < input.count; index += 1) {
     const key = `${input.stableKey}:opponent:${index}`;
     const rng = new SeededRng(world.seed).fork(`campaign-opponent:${key}`);
-    const name = drawCanonicalNameForGender(rng, "unstated");
+    const name = drawGeneratedPersonName(rng);
     const before = next;
     next = createCharacterHistoryContextPerson(next, {
       stableKey: key,
       givenName: name.givenName,
       familyName: name.familyName,
+      identity: name.identity,
       // An adult, because the office is one. The exact age is a fact about
       // this person and says nothing else about them.
       birthDate: birthDateForAge(next.currentDate, rng.integer(32, 66)),
@@ -606,6 +641,7 @@ export function fileCampaign(
     alreadyACandidate:
       activeCampaignForCandidate(inputWorld, input.candidatePersonId) !== null,
     districtBinding: input.districtBinding ?? null,
+    municipalSeatKey: input.municipalSeatKey ?? null,
   });
   if (!eligibility.eligible || !eligibility.office || !eligibility.pack) {
     throw new Error(
@@ -613,20 +649,21 @@ export function fileCampaign(
     );
   }
 
-  // A district seat is recorded against a Gazetteer identity, so a filing for
-  // one has to name which. This sits after the honesty gate on purpose: a
-  // world that cannot say which district somebody lives in has a better
-  // sentence for them than this one, and should get to say it first.
+  // A numbered chamber seat needs a Gazetteer identity at filing. This sits
+  // after eligibility so a sourced residence refusal can speak first when it
+  // applies. Even without that rule, an unbound contest cannot identify the
+  // generated seat the winner would replace.
   if (
     (input.districtBinding ?? null) === null &&
-    districtSeatMustBeNamed(
-      input.jurisdictionId,
-      input.officeKey,
-      inputWorld.currentDate,
-    )
+    districtSeatMustBeNamed(input.jurisdictionId, input.officeKey)
   ) {
     throw new Error(
-      "This seat is filled by district, and the filing named none. The sourced district-residence rule needs the seat's own Gazetteer identity before a contest can be recorded against it.",
+      "This seat is filled by district, and the filing named none. Name its recorded Gazetteer district before filing so the election and winner belong to one seat.",
+    );
+  }
+  if (!input.municipalSeatKey && municipalSeatMustBeNamed(input.officeKey)) {
+    throw new Error(
+      "This council elects named seats. Choose a recorded at-large or ward seat before filing.",
     );
   }
   const option = eligibility.office;
@@ -934,6 +971,21 @@ export function scheduleCampaignAction(
   world: World,
   input: ScheduleCampaignActionInput,
 ): ScheduledCampaignActionResult {
+  // One booking calls several writers (the scheduled activity, the action,
+  // their events), and each checked the whole World again. They run with the
+  // check deferred, and the booked World is checked once against its input.
+  const booking: { result?: ScheduledCampaignActionResult } = {};
+  advanceWithWorldIntegrityAtEnd(() => {
+    booking.result = bookCampaignAction(world, input);
+    return booking.result.world;
+  }, world);
+  return booking.result!;
+}
+
+function bookCampaignAction(
+  world: World,
+  input: ScheduleCampaignActionInput,
+): ScheduledCampaignActionResult {
   const campaign = requireCampaign(world, input.campaignId);
   if (campaignState(world, campaign.id).status !== "active") {
     throw new Error("A finished campaign cannot take on more work.");
@@ -1029,7 +1081,10 @@ export function scheduleCampaignAction(
     participantPersonIds: participants,
     responsiblePersonId: campaign.candidatePersonId,
     location: input.plan.location,
-    sourceEntityIds: [campaign.filingEventId],
+    sourceEntityIds: [
+      campaign.filingEventId,
+      ...(input.routineEventId ? [input.routineEventId] : []),
+    ],
     flexibility: { kind: "fixed" },
     access: { kind: "private", personIds: participants },
   });
@@ -1328,6 +1383,16 @@ function actionMoney(
  * surface above says whose commitment it was.
  */
 export function performCampaignAction(world: World, actionId: EntityId): World {
+  // Doing the work calls a dozen writers (the activity, money, events, support
+  // and its observation), and each checked the whole World again. They run
+  // with the check deferred, and the result is checked once against its input.
+  return advanceWithWorldIntegrityAtEnd(
+    () => doCampaignAction(world, actionId),
+    world,
+  );
+}
+
+function doCampaignAction(world: World, actionId: EntityId): World {
   const action = campaignActionById(world, actionId);
   if (!action) throw new Error(`Campaign action not found: ${actionId}`);
   if (campaignActionResult(world, action.id)) {
@@ -1358,11 +1423,27 @@ export function performCampaignAction(world: World, actionId: EntityId): World {
     }
   }
 
-  let next = performScheduledActivity(
+  const performed = performScheduledActivity(
     world,
     action.scheduledActivityId,
     createCampaignElectionTransitionRegistry(),
   );
+  // A session the standing routine booked was written up by the routine the
+  // moment it finished.
+  if (campaignActionResult(performed, action.id)) return performed;
+  return recordCampaignActionOutcome(performed, campaign, action);
+}
+
+/**
+ * Everything a finished campaign session writes once its hours are done: the
+ * money, the outcome, the candidate's support and the field memo.
+ */
+function recordCampaignActionOutcome(
+  world: World,
+  campaign: CampaignRecord,
+  action: CampaignActionRecord,
+): World {
+  let next = world;
   const completionEventId = actionCompletionEvent(
     next,
     action.scheduledActivityId,
@@ -1744,9 +1825,9 @@ function seatTheWinner(
  * seat limit; any other town gets the government the Census listing records,
  * placed once.
  *
- * No term, ward or seat number is written, because none has been read. When a
- * read body is already full the result still stands and nobody is seated over
- * the limit, since the record's seat count is a fact and this election is not.
+ * No term, ward or seat number is written, because none has been read. A full
+ * fictional opening council yields one generated seat to a newly elected
+ * member. An older or otherwise populated council is not silently displaced.
  *
  * A town has one mayor, so a new mayor's term begins the day the sitting
  * mayor's ends. A council member who wins the mayoralty keeps the council
@@ -1765,7 +1846,14 @@ function seatOnLocalGoverningBody(
   const unit = office.unit;
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
-  const compiled = municipalGovernmentForUnit(unit);
+  const compiled = municipalWorkspaceGovernmentForUnit(unit);
+  const namedSeat = contest.office.seatKey
+    ? municipalSeatChoiceByKey(office.officeKey, contest.office.seatKey)
+    : null;
+  // An older unbound contest cannot silently take any D.C. ward or at-large
+  // place when its result arrives. Its win remains recorded without a seat.
+  if (!mayor && municipalSeatMustBeNamed(office.officeKey) && !namedSeat)
+    return world;
   let next = world;
   let organizationId: EntityId | undefined;
   let stableKey: string;
@@ -1804,9 +1892,32 @@ function seatOnLocalGoverningBody(
   // the seat the town's own elections left off this year's ballot for the
   // campaign; on a full body without one, the seat of the member who has held
   // theirs longest, whose term is the one most likely up.
-  const campaignSeat = localCampaignSeat(unit, mayor, contest.electionDate);
-  const campaignHolder =
-    campaignSeat === null ? null : localSeatHolder(next, unit, campaignSeat);
+  // A named seat (a D.C. ward or at-large place) displaces whoever holds that
+  // very seat; the town's own ballot seat applies only without one.
+  const namedHolder =
+    namedSeat && compiled
+      ? municipalSeats(next, compiled.key).filter(
+          (seat) =>
+            (seat.role === "member" || seat.role === "presiding-member") &&
+            seat.seatLabel === namedSeat.label,
+        )
+      : [];
+  if (namedHolder.length > 1)
+    throw new Error(
+      "More than one sitting councilor holds the contested seat.",
+    );
+  const campaignSeat = namedSeat
+    ? null
+    : localCampaignSeat(unit, mayor, contest.electionDate, {
+        world: next,
+        town: campaign.jurisdictionId,
+        personId: winnerPersonId,
+      });
+  const campaignHolder = namedSeat
+    ? (namedHolder[0] ?? null)
+    : campaignSeat === null
+      ? null
+      : localSeatHolder(next, unit, campaignSeat);
   const seatLimit = mayor
     ? 1
     : compiled
@@ -1876,11 +1987,13 @@ function seatOnLocalGoverningBody(
     kind: "leadership:municipal-office",
     roleKind,
     context:
-      mayor || campaignSeat === null
+      namedSeat?.label ??
+      (mayor || campaignSeat === null
         ? `Elected ${contest.electionDate}`
-        : `Elected ${contest.electionDate}, seat ${campaignSeat}`,
+        : `Elected ${contest.electionDate}, seat ${campaignSeat}`),
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
+  next = scheduleLocalMemberAgendaIntakes(next);
   assertWorldIntegrity(next);
   return next;
 }
@@ -2063,12 +2176,14 @@ export function campaignElectionTransitionHandler(
   };
 }
 
-export function createCampaignElectionTransitionRegistry(): FutureTransitionHandlerRegistry {
+export function composeWorldTimeHandlers(
+  additional?: FutureTransitionHandlerRegistry,
+): FutureTransitionHandlerRegistry {
   // A campaign is one more thing in a life, not a mode the world switches into,
   // so an advance that carries the election handler must also carry the ordinary
   // life handlers: election day and a promised conversation can fall due on the
   // same day, and time refuses to step over a due item it has no handler for.
-  return composeExecutiveWorkHandlers(
+  const ordinary = composeExecutiveWorkHandlers(
     composeFutureTransitionHandlerRegistries(
       createNationalElectionTransitionRegistry(),
       createLegislativeTermTransitionRegistry(),
@@ -2076,9 +2191,14 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         settlePublicResourcePayment(world, input, resolver),
       ),
       createTaxTransitionHandlerRegistry(),
+      createProsecutionTransitionRegistry(),
       LIFE_PATHS2_HANDLERS,
+      // D-11: the candidate's standing campaign hours, after the day job's.
+      createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
       createCrisisTransitionRegistry(),
+      // G12: a saved clemency petition comes due on its own court date.
+      createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
@@ -2088,18 +2208,27 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...CONSTITUTIONAL_REFORM_HANDLERS,
         // Congress and the states amending the U.S. Constitution.
         ...FEDERAL_REFORM_HANDLERS,
+        ...ARTICLE_V_HANDLERS,
         ...PRESIDENTIAL_TURNOVER_HANDLERS,
         // Voters recalling a town official: petition, then recall election.
         ...RECALL_HANDLERS,
-        // A council act on the executive's desk, or returned to the council.
-        ...COUNCIL_ACT_HANDLERS,
-        // The Council of the District of Columbia sitting on its own.
-        ...DC_COUNCIL_SITTING_HANDLERS,
         // The player's town electing its council and mayor on its own.
         ...LOCAL_ELECTION_HANDLERS,
-        // The player's town council meeting and voting on ordinances.
-        ...LOCAL_COUNCIL_MEETING_HANDLERS,
+        // Local councils enact on their own clocks. Money they appropriate
+        // goes to their executive the same day, as a legislature's does.
+        ...[
+          // Scheduled council readings and executive/return deadlines.
+          ...COUNCIL_ACT_HANDLERS,
+          // The Council of the District of Columbia sitting on its own.
+          ...DC_COUNCIL_SITTING_HANDLERS,
+          // Admitted city and county councils use a separate quarterly game clock.
+          ...LOCAL_MEMBER_AGENDA_HANDLERS,
+          // The player's town council meeting and voting on ordinances.
+          ...LOCAL_COUNCIL_MEETING_HANDLERS,
+        ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
         ...PUBLIC_PROGRAM_HANDLERS,
+        // Residents ask for a paid public service, then take part in it.
+        ...PUBLIC_SERVICE_HANDLERS,
         // An enacted law's duty falling due on the bodies it covers.
         ...ENACTED_DUTY_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
@@ -2128,6 +2257,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...PAYDAY_HANDLERS,
+        // RENT DAY: every renting household pays its landlord on the first.
+        ...RENT_DAY_HANDLERS,
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),
@@ -2142,6 +2273,14 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       LIFE_TRANSITION_HANDLERS,
     ),
   );
+  return additional
+    ? composeFutureTransitionHandlerRegistries(additional, ordinary)
+    : ordinary;
+}
+
+/** Compatibility name; all complete handler composition lives above. */
+export function createCampaignElectionTransitionRegistry(): FutureTransitionHandlerRegistry {
+  return composeWorldTimeHandlers();
 }
 
 /** Days between now and the contest, for a surface that wants to say so. */
@@ -2169,4 +2308,164 @@ export function campaignActionIsStale(
     state.status === "scheduled" &&
     compareSimulationMoments(state.start, world.currentMoment) < 0
   );
+}
+
+/* -------------------------------------------------------------------------- */
+/* D-11: the standing campaign routine on the ordinary clock                   */
+/* -------------------------------------------------------------------------- */
+
+function scheduledRoutineActivity(
+  world: World,
+  routineEventId: EntityId,
+): ScheduledActivityRecord | undefined {
+  return world.history.scheduledActivities.find(
+    (activity) =>
+      activity.sourceEntityIds.includes(routineEventId) &&
+      scheduledActivityState(world, activity.id).status === "scheduled",
+  );
+}
+
+/**
+ * The clock hook for a candidate's standing campaign hours. It offers the
+ * routine's sessions as routine windows, books each one as an ordinary
+ * campaign action when the clock reaches it, and writes the session up when
+ * its hours are done. A session something else already holds the time for is
+ * not offered, and a session whose start has gone by is lost.
+ */
+let sharedCampaignRoutineHook: RoutineTimeHook | null = null;
+
+/** One hook object, so registries composed together keep the hours once. */
+function campaignRoutineHook(): RoutineTimeHook {
+  sharedCampaignRoutineHook ??= createCampaignRoutineHook();
+  return sharedCampaignRoutineHook;
+}
+
+export function createCampaignRoutineHook(): RoutineTimeHook {
+  return {
+    isAutoResolvableActivity(world, activityId) {
+      if (world.control.kind !== "person") return false;
+      const activity = world.history.scheduledActivities.find(
+        (candidate) => candidate.id === activityId,
+      );
+      if (
+        !activity ||
+        activity.responsiblePersonId !== world.control.personId ||
+        !routineIdOfActivity(world, activity.sourceEntityIds)
+      )
+        return false;
+      const action = campaignActionForActivity(world, activityId);
+      return Boolean(action) && !campaignActionResult(world, action!.id);
+    },
+    projectWindows(world, target) {
+      if (world.control.kind !== "person") return [];
+      const campaign = activeCampaignForCandidate(
+        world,
+        world.control.personId,
+      );
+      if (!campaign) return [];
+      if (electionContestStatus(world, campaign.contestId) !== "pending")
+        return [];
+      const slots = campaignRoutineSlots(
+        world,
+        campaign,
+        world.currentMoment,
+        target,
+      );
+      const routineEventId = slots[0]?.eventId;
+      const booked = routineEventId
+        ? scheduledRoutineActivity(world, routineEventId)
+        : undefined;
+      const windows: RoutineWindow[] = [];
+      if (booked) {
+        const state = scheduledActivityState(world, booked.id);
+        windows.push({
+          relationshipId: routineEventId!,
+          kind: "campaign",
+          start: state.start,
+          end: state.end,
+          autoResolvable: true,
+        });
+      }
+      for (const slot of slots) {
+        if (
+          booked &&
+          compareSimulationMoments(
+            slot.start,
+            scheduledActivityState(world, booked.id).start,
+          ) === 0
+        )
+          continue;
+        if (jailTermOn(world, campaign.candidatePersonId, slot.start.date))
+          continue;
+        windows.push({
+          relationshipId: slot.eventId,
+          kind: "campaign",
+          start: slot.start,
+          end: slot.end,
+          autoResolvable: true,
+        });
+      }
+      return windows;
+    },
+    ensureScheduled(world, slot) {
+      if (slot.kind !== "campaign" || world.control.kind !== "person")
+        return world;
+      if (scheduledRoutineActivity(world, slot.relationshipId)) return world;
+      const campaign = activeCampaignForCandidate(
+        world,
+        world.control.personId,
+      );
+      const block = campaignRoutineBlockAt(
+        world,
+        slot.relationshipId,
+        slot.start,
+      );
+      if (!campaign || !block) return world;
+      if (compareSimulationMoments(slot.start, world.currentMoment) < 0)
+        return world;
+      const work = CAMPAIGN_ROUTINE_WORK[block.work];
+      try {
+        return scheduleCampaignAction(world, {
+          campaignId: campaign.id,
+          kind: block.work,
+          plan: {
+            start: slot.start,
+            end: slot.end,
+            location: {
+              locationKey: work.locationKey,
+              label: work.locationLabel,
+              jurisdictionId: campaign.jurisdictionId,
+            },
+            title: work.title,
+            summary: work.summary,
+          },
+          spend: null,
+          routineEventId: slot.relationshipId,
+        }).world;
+      } catch (error) {
+        // Something else holds the time, or the candidate cannot campaign
+        // that day: the session is lost, not moved.
+        if (
+          error instanceof Error &&
+          (error.message.startsWith("Scheduled activity conflicts with") ||
+            error.message.includes("cannot campaign"))
+        )
+          return world;
+        throw error;
+      }
+    },
+    afterActivityCompleted(world, activityId) {
+      const activity = world.history.scheduledActivities.find(
+        (candidate) => candidate.id === activityId,
+      );
+      if (!activity || !routineIdOfActivity(world, activity.sourceEntityIds))
+        return world;
+      const action = campaignActionForActivity(world, activityId);
+      if (!action || campaignActionResult(world, action.id)) return world;
+      const campaign = campaignById(world, action.campaignId);
+      if (!campaign || campaignState(world, campaign.id).status !== "active")
+        return world;
+      return recordCampaignActionOutcome(world, campaign, action);
+    },
+  };
 }

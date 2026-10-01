@@ -1,4 +1,9 @@
 import { makeIsoDate } from "../dates";
+import {
+  appendedList,
+  growingIndex,
+  type GrowingIndexKind,
+} from "../history-index";
 import { createStableId } from "../ids";
 import type { EntityId, IsoDate, World } from "../types";
 import { MORTALITY_CALIBRATION_CATEGORIES } from "./mortality-table";
@@ -32,22 +37,19 @@ export function crisisRecordId(world: World, stableKey: string): EntityId {
   return createStableId("crisis-record", `${world.id}:${stableKey}`);
 }
 
-const INDEX = new WeakMap<
-  readonly CrisisRecord[],
-  Map<EntityId, CrisisRecord>
->();
+/** Records by id (the last with each id), following the list as it grows. */
+const INDEX: GrowingIndexKind<Map<EntityId, CrisisRecord>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    index.set((record as CrisisRecord).id, record as CrisisRecord);
+  },
+};
 
-/** Records by id, cached per immutable record array. */
+/** Records by id, kept as the record list grows. */
 export function crisisRecordIndex(
   world: World,
 ): ReadonlyMap<EntityId, CrisisRecord> {
-  const records = crisisRecords(world);
-  let index = INDEX.get(records);
-  if (!index) {
-    index = new Map(records.map((record) => [record.id, record]));
-    INDEX.set(records, index);
-  }
-  return index;
+  return growingIndex(INDEX, crisisRecords(world));
 }
 
 export function crisisEntityExists(world: World, id: EntityId): boolean {
@@ -108,7 +110,7 @@ export function appendCrisisRecord(
     history: {
       ...world.history,
       nextSequence: world.history.nextSequence + 1,
-      crisisRecords: [...crisisRecords(world), record],
+      crisisRecords: appendedList(crisisRecords(world), [record]),
     },
   };
 }
@@ -133,6 +135,7 @@ function referenceSequences(world: World): ReadonlyMap<EntityId, number> {
     world.history.personDeaths,
     world.history.personFunctionalCapacities,
     world.history.incidents,
+    world.history.resourceFlowTerms,
   ] as readonly (readonly { id: EntityId; sequence: number }[])[])
     for (const record of family) sequences.set(record.id, record.sequence);
   return sequences;
@@ -293,6 +296,17 @@ function validateCrisisRecords(
         latestDisclosure.set(record.episodeId, record);
         break;
       }
+      case "health-coverage":
+        if (
+          !Number.isSafeInteger(record.hazardMultiplierMicros) ||
+          record.hazardMultiplierMicros < 0 ||
+          !record.hazardBasis.trim() ||
+          !record.basis.trim() ||
+          (record.covered && record.hazardFrom === null) ||
+          (record.hazardFrom !== null && record.hazardFrom < record.effectiveAt)
+        )
+          fail(record, "malformed health coverage");
+        break;
       case "hazard-episode":
         if (
           record.jurisdictionIds.length === 0 ||

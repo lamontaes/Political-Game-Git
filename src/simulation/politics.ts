@@ -1,8 +1,13 @@
+import {
+  privateBeliefSubjectId,
+  validatePrivateBeliefSubject,
+} from "./political-opinion-subjects";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
   appendCampaignCommitmentRecord,
   appendPrincipleRecord,
+  appendPrincipleRecords,
   appendPrivateBeliefRecord,
   appendPropositionExposureRecord,
   appendPublicPositionRecord,
@@ -96,7 +101,7 @@ export function recordPrivateBelief(
   input: PrivateBeliefRecordInput,
 ): World {
   requirePerson(world, input.personId);
-  requireProposition(world, input.propositionId);
+  validatePrivateBeliefSubject(world, input);
   assertRecordDate(
     world,
     input.formedAt,
@@ -123,10 +128,10 @@ export function recordPrivateBelief(
     world.history.privateBeliefs,
     input.supersedesBeliefId,
     input.personId,
-    input.propositionId,
+    privateBeliefSubjectId(input),
     input.formedAt,
     "private belief",
-    (record) => record.propositionId,
+    privateBeliefSubjectId,
     (record) => record.formedAt,
   );
   return validateNext(world, {
@@ -226,11 +231,15 @@ export function recordPrinciples(
   inputs: readonly PrincipleRecordInput[],
 ): World {
   if (inputs.length === 0) return world;
-  let history = world.history;
-  for (const input of inputs) {
-    checkPrincipleInput({ ...world, history }, input);
-    history = appendPrincipleRecord(history, world.id, input);
-  }
+  const history = appendPrincipleRecords(
+    world.history,
+    world.id,
+    inputs,
+    (priorHistory, input) => {
+      transferPoliticalIndex(world.history.principles, priorHistory.principles);
+      checkPrincipleInput({ ...world, history: priorHistory }, input);
+    },
+  );
   return validateNext(world, { ...world, history });
 }
 
@@ -246,6 +255,12 @@ function checkPrincipleInput(world: World, input: PrincipleRecordInput): void {
     input.personId,
   );
   assertMember(PRINCIPLE_STANCES, input.stance, "principle stance");
+  if (
+    !Number.isFinite(input.strength) ||
+    input.strength < 0 ||
+    input.strength > 1
+  )
+    throw new Error("Principle strength must be finite and in [0, 1].");
   assertMember(CONVICTIONS, input.conviction, "principle conviction");
   assertMember(FLEXIBILITIES, input.flexibility, "principle flexibility");
   assertOptional(input.qualification, "Principle qualification");
@@ -712,16 +727,9 @@ function validateSupersession<
   selectSubjectId: (record: T) => EntityId,
   selectDate: (record: T) => string,
 ): void {
-  const prior =
-    priorId === null
-      ? undefined
-      : records.find((record) => record.id === priorId);
-  const current = records
-    .filter(
-      (record) =>
-        record.personId === personId && selectSubjectId(record) === subjectId,
-    )
-    .at(-1);
+  const index = politicalSupersessionIndex(records, label, selectSubjectId);
+  const prior = priorId === null ? undefined : index.byId.get(priorId);
+  const current = index.latestByPerson.get(personId)?.get(subjectId);
   if (
     (current === undefined && priorId !== null) ||
     (current !== undefined && priorId !== current.id) ||
@@ -733,6 +741,66 @@ function validateSupersession<
   ) {
     throw new Error(`Invalid ${label} supersession reference: ${priorId}`);
   }
+}
+
+interface PoliticalSupersessionIndex<T> {
+  length: number;
+  readonly byId: Map<EntityId, T>;
+  readonly latestByPerson: Map<EntityId, Map<EntityId, T>>;
+}
+
+// recordPrinciples validates a batch against one append-only array. Update
+// its index for new rows as they arrive; rebuilding the entire political
+// history for every principle made a national bill day grow quadratically.
+const POLITICAL_SUPERSESSION_INDEX = new WeakMap<
+  object,
+  Map<string, PoliticalSupersessionIndex<unknown>>
+>();
+
+/** Move a disposable index along a writer's known append, never share mutable
+ * maps between immutable Worlds. An older snapshot rebuilds its own index if
+ * read again. This is called only after our own append writers copy the prefix. */
+function transferPoliticalIndex(previous: object, next: object): void {
+  if (previous === next || POLITICAL_SUPERSESSION_INDEX.has(next)) return;
+  const index = POLITICAL_SUPERSESSION_INDEX.get(previous);
+  if (!index) return;
+  POLITICAL_SUPERSESSION_INDEX.delete(previous);
+  POLITICAL_SUPERSESSION_INDEX.set(next, index);
+}
+
+function politicalSupersessionIndex<
+  T extends { readonly id: EntityId; readonly personId: EntityId },
+>(
+  records: readonly T[],
+  label: string,
+  subjectOf: (record: T) => EntityId,
+): PoliticalSupersessionIndex<T> {
+  let indexes = POLITICAL_SUPERSESSION_INDEX.get(records);
+  if (!indexes) {
+    indexes = new Map();
+    POLITICAL_SUPERSESSION_INDEX.set(records, indexes);
+  }
+  let index = indexes.get(label) as PoliticalSupersessionIndex<T> | undefined;
+  if (!index || index.length > records.length) {
+    index = {
+      length: 0,
+      byId: new Map(),
+      latestByPerson: new Map(),
+    };
+    indexes.set(label, index);
+  }
+  for (let offset = index.length; offset < records.length; offset += 1) {
+    const record = records[offset]!;
+    index.byId.set(record.id, record);
+    let bySubject = index.latestByPerson.get(record.personId);
+    if (!bySubject) {
+      bySubject = new Map();
+      index.latestByPerson.set(record.personId, bySubject);
+    }
+    bySubject.set(subjectOf(record), record);
+  }
+  index.length = records.length;
+  return index;
 }
 
 function requirePerson(world: World, personId: EntityId) {
@@ -787,7 +855,16 @@ function runtimeKind(value: never): string {
   return String((value as { readonly kind?: unknown }).kind);
 }
 
-function validateNext(_previous: World, next: World): World {
+function validateNext(previous: World, next: World): World {
+  transferPoliticalIndex(previous.history.principles, next.history.principles);
+  transferPoliticalIndex(
+    previous.history.publicPositions,
+    next.history.publicPositions,
+  );
+  transferPoliticalIndex(
+    previous.history.campaignCommitments,
+    next.history.campaignCommitments,
+  );
   assertWorldIntegrity(next);
   return next;
 }

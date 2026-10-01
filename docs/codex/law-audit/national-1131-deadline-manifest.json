@@ -1,0 +1,62 @@
+{
+  "head": "88a294907c57a45149bf417128488e5d1375607f",
+  "dirty": "",
+  "months": 24,
+  "worlds": [
+    {
+      "seed": "team2-national-20260930-1131-1",
+      "place": "1382916",
+      "startingState": "US-GA",
+      "startingPlace": "Wildwood, Georgia",
+      "unincorporated": true,
+      "output": "test-results/law-audit/national-1131-retry/world-1",
+      "status": "COMPLETED",
+      "exitCode": 0
+    },
+    {
+      "seed": "team2-national-20260930-1131-2",
+      "place": "3439360",
+      "startingState": "US-NJ",
+      "startingPlace": "Laurence Harbor, New Jersey",
+      "unincorporated": true,
+      "output": "test-results/law-audit/national-1131-retry/world-2",
+      "status": "COMPLETED",
+      "exitCode": 0
+    },
+    {
+      "seed": "team2-national-20260930-1131-3",
+      "place": "1212150",
+      "startingState": "US-FL",
+      "startingPlace": "Chokoloskee, Florida",
+      "unincorporated": true,
+      "output": "test-results/law-audit/national-1131-retry/world-3",
+      "status": "RUNNING",
+      "exitCode": null
+    },
+    {
+      "seed": "team2-national-20260930-1131-4",
+      "place": "4474300",
+      "startingState": "US-RI",
+      "startingPlace": "Warwick, Rhode Island",
+      "unincorporated": false,
+      "output": "test-results/law-audit/national-1131-retry/world-4",
+      "status": "RUNNING",
+      "exitCode": null
+    },
+    {
+      "seed": "team2-national-20260930-1131-5",
+      "place": "3737680",
+      "startingState": "US-NC",
+      "startingPlace": "Leland, North Carolina",
+      "unincorporated": false,
+      "output": "test-results/law-audit/national-1131-retry/world-5",
+      "status": "NOT RUN",
+      "exitCode": null
+    }
+  ],
+  "limits": [
+    "Every world covers all enacted jurisdictions, not only its starting state.",
+    "Running or failed worlds are not complete audit evidence.",
+    "Prior unstamped receipts are separate; a stamp alone is not proof."
+  ]
+}

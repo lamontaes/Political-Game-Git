@@ -1,6 +1,6 @@
 import { createOrganizationParticipation } from "../life";
 import { activeOrganizationParticipationsAt } from "../life-queries";
-import { primaryReading } from "../municipal-government";
+import { municipalProcedureReading } from "../municipal-government";
 import {
   installMunicipalGovernment,
   municipalOrganizationFor,
@@ -8,17 +8,21 @@ import {
   seatMunicipalMember,
 } from "../municipal-public-work";
 import type { GovernmentUnitIdentity } from "../government-units";
+import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
 import { localChiefExecutiveRules } from "../nationwide-world/local-chief-executive-rules";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
 import {
   ensureLocalGovernmentOrganization,
   homeLocalGovernmentUnits,
+  localGovernmentDisplayName,
   localGovernmentOrganizationKey,
+  municipalWorkspaceGovernmentForUnit,
 } from "../nationwide-world/local-governments";
 import { DC_GOVERNMENT_KEY } from "../nationwide-world/district-of-columbia-council-opening";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, World } from "../types";
+import { isPersonAliveAt } from "../vitality-integrity";
 import { recordWorldEvent } from "../world";
 import {
   materializeSettledTownHousehold,
@@ -26,6 +30,14 @@ import {
   townResidentId,
   townRosterPlace,
 } from "./town-residents";
+import {
+  councilWardPlan,
+  isWardSeat,
+  redrawTownWards,
+  seatWard,
+  townWardMap,
+  wardRange,
+} from "./town-wards";
 
 /**
  * The player's town government, seated with its own residents.
@@ -57,6 +69,9 @@ import {
 export const LOCAL_GOVERNMENT_SEATS_VERSION = "local-government-seats/v1";
 
 const V = LOCAL_GOVERNMENT_SEATS_VERSION;
+
+/** The role a county board member holds, beside a town's council roles. */
+export const COUNTY_BOARD_MEMBER = "leader:county-board-member";
 
 /** Grown-ups old enough to hold local office in every state. */
 const MINIMUM_AGE = 21;
@@ -92,7 +107,7 @@ export function organizationIdFor(
   world: World,
   unit: GovernmentUnitIdentity,
 ): EntityId | null {
-  const compiled = municipalGovernmentForUnit(unit);
+  const compiled = municipalWorkspaceGovernmentForUnit(unit);
   if (compiled)
     return municipalOrganizationFor(world, compiled.key)?.id ?? null;
   const key = localGovernmentOrganizationKey(unit);
@@ -122,7 +137,8 @@ export function sittingLocalOfficers(
     if (
       role !== "leader:municipal-member" &&
       role !== "leader:municipal-presiding-member" &&
-      role !== "leader:municipal-mayor"
+      role !== "leader:municipal-mayor" &&
+      role !== COUNTY_BOARD_MEMBER
     )
       continue;
     out.push({
@@ -149,6 +165,7 @@ export function drawTownResident(
   minimumAge: number,
   excluded: ReadonlySet<EntityId>,
   taken: Set<string> = new Set(),
+  range: readonly [number, number] | null = null,
 ): { readonly world: World; readonly personId: EntityId | null } {
   let next = world;
   for (let attempt = 0; attempt < 8; attempt += 1) {
@@ -159,12 +176,22 @@ export function drawTownResident(
       slot * 8 + attempt,
       (member) => member.role === "adult" && member.age >= minimumAge,
       taken,
+      range,
     );
     if (!found) return { world: next, personId: null };
     taken.add(`${found.household}:${found.member}`);
     next = materializeSettledTownHousehold(next, town, found.household);
     const personId = townResidentId(next, town, found.household, found.member);
     if (!next.people[personId] || excluded.has(personId)) continue;
+    // A household keeps its roster place after a member dies, so the draw
+    // skips anyone no longer living on the day it is made.
+    if (
+      !isPersonAliveAt(next, personId, {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      })
+    )
+      continue;
     return { world: next, personId };
   }
   return { world: next, personId: null };
@@ -178,7 +205,9 @@ function seatOne(
   mayor: boolean,
   seatLabel: string,
 ): World {
-  const compiled = municipalGovernmentForUnit(unit);
+  // The organization a campaign winner joins: a sourced government, or a
+  // matched city's game profile, which uses the same one.
+  const compiled = municipalWorkspaceGovernmentForUnit(unit);
   if (compiled) {
     let next = installMunicipalGovernment(world, {
       governmentKey: compiled.key,
@@ -186,7 +215,9 @@ function seatOne(
       formedAt: world.currentDate,
     });
     if (!mayor) {
-      const bodySize = primaryReading(compiled).bodySize;
+      // The same size seatMunicipalMember enforces: the body's procedure
+      // reading, which is its game profile where no source gave one.
+      const bodySize = municipalProcedureReading(compiled).bodySize;
       const seated = municipalSeats(next, compiled.key).filter(
         (seat) => seat.role === "member" || seat.role === "presiding-member",
       ).length;
@@ -250,8 +281,25 @@ export function ensureLocalGovernmentSeatsForUnit(
     ...sitting.map((seat) => seat.personId),
   ]);
   let next = world;
+  // A council elected by ward has its map before its ward seats are filled,
+  // and each ward seat is filled from its own ward (`town-wards.ts`).
+  const plan = councilWardPlan(unit);
+  if (plan && plan.wardSeats >= 2 && !townWardMap(next, unit))
+    next = redrawTownWards(next, {
+      unit,
+      town,
+      drawnBy: "council",
+      members: sitting.flatMap((seat) => {
+        const n = /seat (\d+)$/.exec(seat.seatLabel)?.[1];
+        return !seat.mayor && n
+          ? [{ seat: Number(n), personId: seat.personId }]
+          : [];
+      }),
+      reason: "when the council was seated",
+    });
+  const wardMap = townWardMap(next, unit);
   const seated: SeatedLocalOffice[] = [];
-  const draw = (slot: number): EntityId | null => {
+  const draw = (slot: number, seat: number | null = null): EntityId | null => {
     const found = drawTownResident(
       next,
       town,
@@ -260,6 +308,9 @@ export function ensureLocalGovernmentSeatsForUnit(
       MINIMUM_AGE,
       excluded,
       taken,
+      wardMap && seat !== null && isWardSeat(plan, seat)
+        ? wardRange(wardMap, seatWard(wardMap, seat))
+        : null,
     );
     next = found.world;
     if (found.personId) excluded.add(found.personId);
@@ -275,7 +326,7 @@ export function ensureLocalGovernmentSeatsForUnit(
     }
   }
   for (let n = 0; n < openMembers; n += 1) {
-    const personId = draw(slot++);
+    const personId = draw(slot++, sitting.length + n + 1);
     if (!personId) break;
     const label = `${identity.officeTitle}, seat ${sitting.length + n + 1}`;
     next = seatOne(next, unit, town, personId, false, label);
@@ -283,6 +334,9 @@ export function ensureLocalGovernmentSeatsForUnit(
   }
 
   const members = seated.filter((seat) => !seat.mayor).length;
+  // Nobody could be seated, so there is nobody for the record to name; the
+  // seats stay open and a later pass fills them.
+  if (seated.length === 0) return next;
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),
     type: "local.government-seated",
@@ -324,6 +378,146 @@ export function ensureLocalGovernmentSeatsForUnit(
 }
 
 /**
+ * Seat one county, town or township government, or one municipio: its board
+ * or municipal legislature at the size its law sets
+ * (`boardGoverningBodyRules`), and its
+ * mayor where the law elects one. Members are drawn from the residents of the
+ * player's own town, which lies in the county: the game holds no other
+ * roster there yet. Seats someone already holds are not filled again.
+ */
+export function ensureCountyGovernmentSeatsForUnit(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  town: EntityId,
+  excludePersonIds: readonly EntityId[] = [],
+): World {
+  if (localGovernmentSeated(world, unit.id)) return world;
+  const rules = boardGoverningBodyRules(unit);
+  if (!rules) return world;
+  const hasChief = rules.chiefTitle !== null;
+  let next = ensureLocalGovernmentOrganization(world, unit);
+  const organizationId = organizationIdFor(next, unit);
+  if (!organizationId) return world;
+  const sitting = sittingLocalOfficers(next, unit);
+  const openMembers = Math.max(
+    0,
+    rules.seats - sitting.filter((seat) => !seat.mayor).length,
+  );
+  const mayorOpen = hasChief && !sitting.some((seat) => seat.mayor);
+  const taken = new Set<string>();
+  const excluded = new Set([
+    ...excludePersonIds,
+    ...sitting.map((seat) => seat.personId),
+  ]);
+  const seated: SeatedLocalOffice[] = [];
+  const seat = (slot: number, mayor: boolean, label: string): boolean => {
+    const found = drawTownResident(
+      next,
+      town,
+      `local-government:${unit.id}`,
+      slot,
+      MINIMUM_AGE,
+      excluded,
+      taken,
+    );
+    next = found.world;
+    if (!found.personId) return false;
+    excluded.add(found.personId);
+    next = createOrganizationParticipation(next, {
+      stableKey: localGovernmentSeatKey(unit, found.personId, mayor),
+      personId: found.personId,
+      organizationId,
+      startedAt: next.currentDate,
+      kind: "leadership:municipal-office",
+      roleKind: mayor
+        ? "leader:municipal-mayor"
+        : hasChief || unit.unitType === "township"
+          ? "leader:municipal-member"
+          : COUNTY_BOARD_MEMBER,
+      context: label,
+      provenance: { kind: "generated", generatorKey: V },
+    });
+    seated.push({ personId: found.personId, mayor, seatLabel: label });
+    return true;
+  };
+  let slot = 0;
+  if (mayorOpen) seat(slot++, true, rules.chiefTitle!);
+  for (let n = 0; n < openMembers; n += 1)
+    if (
+      !seat(
+        slot++,
+        false,
+        `${rules.memberTitle}, seat ${sitting.length + n + 1}`,
+      )
+    )
+      break;
+
+  const members =
+    seated.filter((row) => !row.mayor).length +
+    sitting.filter((row) => !row.mayor).length;
+  // Nobody could be seated, so there is nobody for the record to name; the
+  // seats stay open and a later pass fills them.
+  if (seated.length === 0) return next;
+  const name = localGovernmentDisplayName(unit);
+  return recordWorldEvent(next, {
+    stableKey: localGovernmentSeatsKey(unit.id),
+    type: "local.government-seated",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: town,
+    involvedEntityIds: seated.map((row) => row.personId),
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      V,
+      `unit:${unit.id}`,
+      `seats:${rules.seats}`,
+      `seats-basis:${rules.basis}`,
+      `mayor:${hasChief ? "elected" : "not-elected"}`,
+    ],
+    summary: `The ${rules.bodyName} of ${name} is seated with ${members} of ${rules.seats} members${
+      hasChief && seated.some((row) => row.mayor)
+        ? `, and ${name} has a ${rules.chiefTitle!.toLowerCase()}`
+        : ""
+    }.`,
+    context: {
+      location: {
+        jurisdictionId: town,
+        label: name,
+        setting: null,
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+/**
+ * The player and everyone in the player's own household. Nobody among them
+ * is seated at the opening: a life that starts beside a sitting mayor is a
+ * story the player did not choose.
+ */
+export function playerHousemates(
+  world: World,
+  playerPersonId: EntityId,
+): readonly EntityId[] {
+  const households = new Set(
+    world.history.householdMemberships
+      .filter((membership) => membership.personId === playerPersonId)
+      .map((membership) => membership.householdId),
+  );
+  const housemates = new Set<EntityId>([playerPersonId]);
+  for (const membership of world.history.householdMemberships)
+    if (households.has(membership.householdId))
+      housemates.add(membership.personId);
+  return [...housemates];
+}
+
+/**
  * The player's town governments, seated once at the opening. Only the
  * governments of the town the player lives in are seated with individuals;
  * everywhere else stays modeled.
@@ -335,19 +529,15 @@ export function ensureLocalGovernmentSeats(
   const town = playerTown(world, playerPersonId);
   if (!town) return world;
   const units = homeLocalGovernmentUnits(world, playerPersonId);
-  // Nobody in the player's own household is seated at the opening: a life
-  // that starts beside a sitting mayor is a story the player did not choose.
-  const households = new Set(
-    world.history.householdMemberships
-      .filter((membership) => membership.personId === playerPersonId)
-      .map((membership) => membership.householdId),
-  );
-  const housemates = new Set<EntityId>([playerPersonId]);
-  for (const membership of world.history.householdMemberships)
-    if (households.has(membership.householdId))
-      housemates.add(membership.personId);
+  const housemates = playerHousemates(world, playerPersonId);
   let next = world;
   for (const unit of units.municipal)
-    next = ensureLocalGovernmentSeatsForUnit(next, unit, town, [...housemates]);
+    next = ensureLocalGovernmentSeatsForUnit(next, unit, town, housemates);
+  // The town or township board, the county board, or the municipio's
+  // legislature and mayor, is seated from the same town's residents.
+  for (const unit of units.townships)
+    next = ensureCountyGovernmentSeatsForUnit(next, unit, town, housemates);
+  for (const unit of units.counties)
+    next = ensureCountyGovernmentSeatsForUnit(next, unit, town, housemates);
   return next;
 }

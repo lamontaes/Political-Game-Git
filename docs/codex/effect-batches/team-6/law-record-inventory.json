@@ -1,0 +1,263 @@
+{
+  "team": 6,
+  "sourceHead": "8c085849bd91d2e0b0d761d1645590fce15c28cb",
+  "laws": [
+    {
+      "question": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "name": "Shift highway funds to transit",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "tradition",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      "name": "Additional rural transit service hours",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "name": "Fare-free transit",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "name": "Mileage fee instead of fuel tax",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "personal-liberty",
+          "bearing": "against"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "name": "Public broadband",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "collective-provision",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.fix-it-first",
+      "name": "Fix it first",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "fiscal-restraint",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "name": "Clean electricity standard",
+      "existingParameters": [
+        {
+          "key": "target",
+          "value": "share-by-year"
+        }
+      ],
+      "existingPrinciples": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "market-competition",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:environment-energy.price-carbon",
+      "name": "Price carbon emissions",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "name": "Ban new gas hookups",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "personal-liberty",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+      "name": "Restrict building in flood zones",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "public-safety",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "property-rights",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:environment-energy.bottle-deposit",
+      "name": "Container deposit",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "limited-government",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "name": "Limit groundwater withdrawal",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "property-rights",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "name": "Protect farmland from development",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "tradition",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "property-rights",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    },
+    {
+      "question": "us-policy-positions:agriculture-natural-resources.expand-public-land-access",
+      "name": "Expand public land access",
+      "existingParameters": [],
+      "existingPrinciples": [
+        {
+          "principle": "personal-liberty",
+          "bearing": "consistent-with"
+        },
+        {
+          "principle": "property-rights",
+          "bearing": "against"
+        },
+        {
+          "principle": "environmental-stewardship",
+          "bearing": "against"
+        }
+      ],
+      "notes": "Exact source catalog entries; absent strength/terms remain missing, no invented weights."
+    }
+  ],
+  "total": 14,
+  "allFivePartsComplete": 0,
+  "terms": "Current catalog parameters copied; full2026place amounts/authority not independently verified",
+  "effects": "Fourteen-law full effect list posted to coordinator1137comment5914069885; first3transit payload transit-01.json",
+  "cost": "Per-unit/range/coverage missing figures require Team9",
+  "ideology": "Existing principles copied; no new quantitative strength or interest-group weight guessed",
+  "proof": "Nationwide effect/cost audit NOTRUN; focused stamped transit test separate",
+  "coordinatorOwned": ["links.json", "catalog parameters"]
+}

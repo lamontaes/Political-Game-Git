@@ -1,7 +1,14 @@
 import type { EntityId, World } from "../simulation";
+import { lawEffectsHere } from "../presentation/law-effects-here";
 import { projectWorld39News } from "../presentation/world39-news";
-import { DIAGNOSTICS } from "./diagnostics-profile";
 import "./world39-readers.css";
+
+const LEVEL_LABEL = {
+  federal: "National law",
+  state: "State law",
+  territory: "Territorial law",
+  local: "Local law",
+} as const;
 
 /** Mount before the existing PressWorkspace and publication search/follow reader. */
 export function World39News({
@@ -14,6 +21,10 @@ export function World39News({
   readonly onOpenPerson: (id: EntityId) => void;
 }) {
   const model = projectWorld39News(world, personId);
+  const homeJurisdictionId = world.people[personId]?.homeJurisdictionId ?? null;
+  const lawEffects = homeJurisdictionId
+    ? lawEffectsHere(world, homeJurisdictionId).slice(0, 6)
+    : [];
   return (
     <section
       className="world39-reader"
@@ -43,59 +54,48 @@ export function World39News({
           ))}
         </section>
       ) : null}
-      <section aria-label="Current officeholders">
-        <h4>In office</h4>
-        {model.officeholders.length === 0 ? (
-          <p>No public officeholders are named here yet.</p>
-        ) : (
-          model.officeholders.map((holder) => (
+      {model.laws.length > 0 ? (
+        <section aria-label="Laws that reach you" data-testid="world39-laws">
+          <h4>Laws that reach you</h4>
+          {model.laws.map((law) => (
             <article
-              key={holder.termId}
-              data-tenure-id={holder.termId}
-              data-organization-id={holder.organizationId}
+              key={law.measureId}
+              data-measure-id={law.measureId}
+              data-level={law.level}
+              data-acts-in-world={law.actsInWorld ? "true" : "false"}
             >
-              <h5>{holder.headline}</h5>
-              <p>{holder.sentence}</p>
-              <button
-                type="button"
-                onClick={() => onOpenPerson(holder.personId)}
-              >
-                {holder.personName}
-              </button>
-              <details>
-                <summary>Office details</summary>
-                {holder.endExclusive ? (
-                  <p>The term runs until {world39Date(holder.endExclusive)}.</p>
-                ) : holder.termFactsUnknown.length > 0 ? (
-                  <p>The term dates are not established in this game yet.</p>
-                ) : (
-                  <p>The office has no fixed end date.</p>
-                )}
-                <p>
-                  The person is a character of this fictional world; the office
-                  itself is real.
-                </p>
-                {/*
-                  A separation, not a deletion. The institutional sources stay
-                  on the record and stay renderable, but a player is never
-                  shown where a fact came from — this surface is mounted for
-                  every life, so ungated they were the one place ordinary play
-                  named a source.
-                */}
-                {DIAGNOSTICS
-                  ? holder.sources.map((source, index) => (
-                      <p key={source}>
-                        <a href={source} target="_blank" rel="noreferrer">
-                          Institutional source {index + 1}
-                        </a>
-                      </p>
-                    ))
-                  : null}
-              </details>
+              <h5>{law.title}</h5>
+              <p className="world39-meta">
+                {law.designation} · {LEVEL_LABEL[law.level]} · Enacted{" "}
+                <time dateTime={law.enactedOn}>
+                  {world39Date(law.enactedOn)}
+                </time>
+              </p>
+              {law.sentences.map((sentence) => (
+                <p key={sentence}>{sentence}</p>
+              ))}
             </article>
-          ))
-        )}
-      </section>
+          ))}
+        </section>
+      ) : null}
+      {lawEffects.length > 0 ? (
+        <section
+          aria-label="What the laws changed"
+          data-testid="world39-law-effects"
+        >
+          <h4>What the laws changed</h4>
+          {lawEffects.map((effect) => (
+            <article
+              key={effect.key}
+              data-measure={effect.measure}
+              data-direction={effect.direction}
+            >
+              <h5>{effect.headline}</h5>
+              <p>{effect.sentence}</p>
+            </article>
+          ))}
+        </section>
+      ) : null}
       <section aria-label="Recent public events">
         <h4>Lately</h4>
         {model.publicEvents.length === 0 ? (

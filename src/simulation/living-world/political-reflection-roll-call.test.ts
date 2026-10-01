@@ -9,7 +9,11 @@ import { introduceMeasure, measurePosition } from "../legislation";
 import { legislativeBlueprint } from "../legislation-scenarios";
 import { defaultOriginChamber } from "../legislature-rules";
 import { stateLegislators } from "../nationwide-world/state-legislature-opening";
-import { createFormationContext, recordPrinciple } from "../politics";
+import {
+  createFormationContext,
+  recordPrinciple,
+  recordPrivateBelief,
+} from "../politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, LegislativeVoteRecord, World } from "../types";
 import { advanceWorld } from "../world";
@@ -99,6 +103,7 @@ describe("a recorded reflection reaches the chamber's saved roll call", () => {
               ? "endorses"
               : "rejects"
             : "conflicted",
+        strength: 0.25,
         conviction: "tentative",
         flexibility: "open",
         qualification: null,
@@ -140,6 +145,25 @@ describe("a recorded reflection reaches the chamber's saved roll call", () => {
     expect(belief?.position).toBe("support");
     if (!belief) throw new Error("The exposed member formed no view.");
 
+    // The rest of the chamber favors the contrary answer, so the measure
+    // leaves committee on its members' own views: a member with no view no
+    // longer votes yes by default.
+    for (const [index, other] of members.entries()) {
+      if (other.personId === member.personId) continue;
+      world = recordPrivateBelief(world, {
+        stableKey: `roll-call-proof:colleague:${index}`,
+        personId: other.personId,
+        propositionId: proposition.id,
+        formedAt: world.currentDate,
+        position: "oppose",
+        conviction: "strong",
+        salience: "moderate",
+        flexibility: "firm",
+        rationale: null,
+        formation: createFormationContext("reflection:initial"),
+        supersedesBeliefId: null,
+      });
+    }
     world = introduceMeasure(world, {
       stableKey: "roll-call-proof:contrary-measure",
       jurisdictionId: blueprint.context.jurisdiction.id,

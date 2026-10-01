@@ -1,5 +1,13 @@
-import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
-import { applyCrisisRepairFunding } from "./governing/repair-funding";
+import {
+  assertPermitIntegrity,
+  permitApplications,
+  permitStatuses,
+} from "./permits";
+import {
+  privateBeliefSubjectId,
+  validatePrivateBeliefSubject,
+} from "./political-opinion-subjects";
+import { applyDateBoundary } from "./time-work";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
   changedHistoryCheckCounts,
@@ -7,15 +15,7 @@ import {
   worldIntegrityCheckMode,
 } from "./world-integrity-changed";
 import type { ChangedHistoryFamily } from "./world-integrity-changed";
-import { applyCongressTurnover } from "./living-world/congress-turnover";
-import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
-import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
-import { applyCongressLawmaking } from "./governing/congress-lawmaking";
-import { applyConstitutionalReform } from "./living-world/constitutional-reform";
-import { applyFederalReform } from "./living-world/federal-reform";
-import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
-import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
   assertCrisisIntegrity,
   crisisEntityAvailableAt,
@@ -37,8 +37,14 @@ import {
 import {
   assertRuleChangeProvisionIntegrity,
   ruleChangeProvisionHistoryRecords,
+  ruleChangeConsequenceBindingHistoryRecords,
 } from "./enacted-rule-changes";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
+import { assertLegalOutcomeConsequenceIntegrity } from "./law-consequences/legal-outcome";
+import {
+  assertLawPermissionIntegrity,
+  lawPermissionRecords,
+} from "./law-consequences/permission-records";
 import {
   assertPublicProgramIntegrity,
   publicProgramRecords,
@@ -70,6 +76,7 @@ import {
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
+import { assertTownFinanceIntegrity } from "./living-world/town-finances";
 import { assertPressureIntegrity } from "./pressure/integrity";
 import {
   assertCausalEffectIntegrity,
@@ -600,6 +607,20 @@ export function advanceWithWorldIntegrityAtEnd(
   return result;
 }
 
+/**
+ * Runs a batch of writes to one World with each writer's check deferred, then
+ * checks the result once against its input. A batch that writes nothing is
+ * returned as it came, unchecked, as a writer that writes nothing would be.
+ */
+export function writeWithWorldIntegrityOnce(
+  previous: World,
+  run: () => World,
+): World {
+  const result = withWorldIntegrityDeferred(run);
+  if (result === previous) return previous;
+  return advanceWithWorldIntegrityAtEnd(() => result, previous);
+}
+
 /*
  * The newest World that passed a check. During play the next World to be
  * checked is almost always its descendant (a Day, a scene answer, a writer's
@@ -718,6 +739,7 @@ function validateWorldIntegrity(
   delta: AppendOnlyHistoryDelta | null = null,
   previous?: World,
 ): void {
+  if (delta) assertAppendedJsonSafe(delta.changed);
   assertJsonSafe(world, "world");
   if (
     world.contentPacks !== undefined &&
@@ -854,6 +876,7 @@ function validateWorldIntegrity(
   }
   if (!checkedChanges) validateHistoryIntegrity(world, delta, previous);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
+  assertTownFinanceIntegrity(world);
   if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
 
@@ -1401,32 +1424,7 @@ function advanceWorldUnchecked(
     actionSequence: actionSequence + 1,
   };
 
-  const continued = applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        world.currentDate,
-        applyFederalReform(
-          world.currentDate,
-          applyConstitutionalReform(
-            world.currentDate,
-            applyPresidentialTurnover(
-              world.currentDate,
-              applyGovernorTurnover(
-                world.currentDate,
-                applyCongressTurnover(
-                  world.currentDate,
-                  applyStateLegislatureTurnover(
-                    world.currentDate,
-                    applyNationalTermTransitions(advanced),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
+  const continued = applyDateBoundary(world.currentDate, advanced);
   return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
@@ -2088,6 +2086,7 @@ function validateHistoryIntegrity(
         ...legislationHistoryRecords(world),
         ...constitutionalHistoryRecords(world),
         ...ruleChangeProvisionHistoryRecords(world),
+        ...ruleChangeConsequenceBindingHistoryRecords(world),
         ...legislativePoliticsHistoryRecords(world),
         ...draftLineageHistoryRecords(world),
         ...futureTransitionHistoryRecords(world),
@@ -2098,12 +2097,20 @@ function validateHistoryIntegrity(
         ...crisisRecords(world),
         ...publicProgramRecords(world),
         ...enactedDutyRecords(world),
+        ...lawPermissionRecords(world),
+        ...permitApplications(world),
+        ...permitStatuses(world),
+        ...(history.legalOutcomeConsequences ?? []),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
         ...(history.officeStaffIncumbencies ?? []),
         ...(history.officeVoteInstructions ?? []),
         ...(history.officeBriefingInspections ?? []),
+        ...(history.chamberRuleChanges ?? []),
+        ...(history.sessionAdjournments ?? []),
+        ...(history.itemVetoes ?? []),
+        ...(history.favors ?? []),
         ...history.events,
         ...history.memories,
         ...history.knowledge,
@@ -2187,6 +2194,15 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertSequenceOrdered(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertSequenceOrdered(
+    history.sessionAdjournments ?? [],
+    "session adjournment",
+  );
+  assertSequenceOrdered(history.itemVetoes ?? [], "item veto");
+  assertSequenceOrdered(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2206,6 +2222,7 @@ function validateHistoryIntegrity(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
+  assertSequenceOrdered(history.favors ?? [], "favor");
   assertSequenceOrdered(
     history.legislativeNegotiations ?? [],
     "legislative negotiation",
@@ -2274,6 +2291,9 @@ function validateHistoryIntegrity(
   assertCrisisIntegrity(world);
   assertLawExposureIntegrity(world, ids);
   assertOfficialViewIntegrity(world, ids);
+  assertLawPermissionIntegrity(world, ids);
+  assertPermitIntegrity(world, ids);
+  assertLegalOutcomeConsequenceIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -2348,6 +2368,20 @@ function validateHistoryIntegrity(
       );
     }
   }
+  for (const record of history.favors ?? []) {
+    assertUniqueId(ids, record.id);
+    if (
+      !world.people[record.giverPersonId] ||
+      !world.people[record.receiverPersonId]
+    ) {
+      throw new Error(`Favor names a missing person: ${record.id}`);
+    }
+    if (
+      record.id !== createStableId("favor", `${world.id}:${record.stableKey}`)
+    ) {
+      throw new Error(`Favor ID does not match its stable key: ${record.id}`);
+    }
+  }
   for (const record of history.officeBriefingInspections ?? []) {
     assertUniqueId(ids, record.id);
     if (!world.people[record.personId]) {
@@ -2408,6 +2442,15 @@ function validateHistoryIntegrity(
     "legislative provision",
   );
   assertUniqueStableKeys(
+    history.chamberRuleChanges ?? [],
+    "chamber rule change",
+  );
+  assertUniqueStableKeys(
+    history.sessionAdjournments ?? [],
+    "session adjournment",
+  );
+  assertUniqueStableKeys(history.itemVetoes ?? [], "item veto");
+  assertUniqueStableKeys(
     history.legislativeDraftLineages ?? [],
     "legislative draft lineage",
   );
@@ -2427,6 +2470,7 @@ function validateHistoryIntegrity(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
+  assertUniqueStableKeys(history.favors ?? [], "favor");
   assertUniqueStableKeys(
     history.legislativeNegotiations ?? [],
     "legislative negotiation",
@@ -3259,11 +3303,7 @@ function validatePoliticalHistory(
       belief.formedAt,
       belief.id,
     );
-    if (!world.policyCatalog.propositions[belief.propositionId]) {
-      throw new Error(
-        `Private belief references a missing proposition: ${belief.id}`,
-      );
-    }
+    validatePrivateBeliefSubject(world, belief);
     assertMember(BELIEF_POSITIONS, belief.position, "belief position");
     assertMember(CONVICTIONS, belief.conviction, "belief conviction");
     assertMember(SALIENCES, belief.salience, "belief salience");
@@ -3291,7 +3331,7 @@ function validatePoliticalHistory(
       belief,
       belief.supersedesBeliefId,
       beliefsById,
-      (record) => record.propositionId,
+      privateBeliefSubjectId,
       (record) => record.formedAt,
       "private belief",
     );
@@ -3396,6 +3436,12 @@ function validatePoliticalHistory(
       );
     }
     assertMember(PRINCIPLE_STANCES, principle.stance, "principle stance");
+    if (
+      !Number.isFinite(principle.strength) ||
+      principle.strength < 0 ||
+      principle.strength > 1
+    )
+      throw new Error("Principle strength must be finite and in [0, 1].");
     assertMember(CONVICTIONS, principle.conviction, "principle conviction");
     assertMember(FLEXIBILITIES, principle.flexibility, "principle flexibility");
     validateOptionalString(principle.qualification, "Principle qualification");
@@ -4272,31 +4318,64 @@ export const EVENT_PROOF_MONOTONE_CHECKS_COMPOSED: readonly string[] = [
 
 const JSON_SAFE = new WeakSet<object>();
 
+/*
+ * How deep below a checked value an object is remembered as safe. The world's
+ * own lists and records sit within this depth, so an unchanged one is passed
+ * over next time; a record's inner objects are walked with it and not kept,
+ * because remembering every one of them made the set, and the collector's
+ * work on it, grow with every year the world ran.
+ */
+const REMEMBERED_DEPTH = 3;
+
 function assertJsonSafe(
   value: unknown,
   path: string,
   ancestors: Set<object> = new Set(),
+  depth = 0,
 ): void {
+  const failure = jsonSafetyFailure(value, ancestors, depth);
+  if (failure)
+    throw new Error(
+      `${failure.problem} at ${path}${failure.steps.reverse().join("")}.`,
+    );
+}
+
+interface JsonSafetyFailure {
+  readonly problem: string;
+  /** Path steps from the failing value up to the checked one, innermost first. */
+  readonly steps: string[];
+}
+
+/**
+ * The walk behind `assertJsonSafe`. A value's path is spelled out only when
+ * something inside it fails: building it for every nested field of every new
+ * record cost more than the check itself.
+ */
+function jsonSafetyFailure(
+  value: unknown,
+  ancestors: Set<object>,
+  depth: number,
+): JsonSafetyFailure | null {
   if (
     value === null ||
     typeof value === "string" ||
     typeof value === "boolean"
   ) {
-    return;
+    return null;
   }
   if (typeof value === "number") {
     if (!Number.isFinite(value)) {
-      throw new Error(`Non-finite number is not JSON-safe at ${path}.`);
+      return { problem: "Non-finite number is not JSON-safe", steps: [] };
     }
-    return;
+    return null;
   }
   if (typeof value !== "object") {
-    throw new Error(`Non-JSON-safe value at ${path}.`);
+    return { problem: "Non-JSON-safe value", steps: [] };
   }
   if (ancestors.has(value)) {
-    throw new Error(`Cyclic value is not JSON-safe at ${path}.`);
+    return { problem: "Cyclic value is not JSON-safe", steps: [] };
   }
-  if (JSON_SAFE.has(value)) return;
+  if (JSON_SAFE.has(value)) return null;
 
   const prototype = Object.getPrototypeOf(value);
   if (
@@ -4304,21 +4383,75 @@ function assertJsonSafe(
     prototype !== Object.prototype &&
     prototype !== null
   ) {
-    throw new Error(`Non-plain object is not JSON-safe at ${path}.`);
+    return { problem: "Non-plain object is not JSON-safe", steps: [] };
   }
 
   ancestors.add(value);
+  // An entry already known to be safe is passed over before its path is
+  // spelled out: a history list keeps its old records when it grows, and
+  // naming each of them again on every Day cost more the longer a world ran.
   if (Array.isArray(value)) {
-    value.forEach((entry, index) =>
-      assertJsonSafe(entry, `${path}[${index}]`, ancestors),
-    );
+    for (let index = 0; index < value.length; index += 1) {
+      const entry: unknown = value[index];
+      // A hole in a sparse list is passed over, as forEach would.
+      if (entry === undefined && !(index in value)) continue;
+      if (knownJsonSafe(entry, ancestors)) continue;
+      const failure = jsonSafetyFailure(entry, ancestors, depth + 1);
+      if (failure) {
+        failure.steps.push(`[${index}]`);
+        return failure;
+      }
+    }
   } else {
-    for (const [key, entry] of Object.entries(value)) {
-      assertJsonSafe(entry, `${path}.${key}`, ancestors);
+    // A plain object's prototype holds no enumerable keys, so for-in reads the
+    // same keys, in the same order, as Object.entries, without a copy of them.
+    const record = value as Record<string, unknown>;
+    for (const key in record) {
+      const entry = record[key];
+      if (knownJsonSafe(entry, ancestors)) continue;
+      const failure = jsonSafetyFailure(entry, ancestors, depth + 1);
+      if (failure) {
+        failure.steps.push(`.${key}`);
+        return failure;
+      }
     }
   }
   ancestors.delete(value);
-  JSON_SAFE.add(value);
+  if (depth <= REMEMBERED_DEPTH) JSON_SAFE.add(value);
+  return null;
+}
+
+/**
+ * A history list that only grew from a list already found JSON-safe needs
+ * only its new records checked; its old ones are the same objects. Without
+ * this, every list a Day added to was walked again record by record, a cost
+ * that grew with every year the world ran.
+ */
+function assertAppendedJsonSafe(
+  changed: readonly ChangedHistoryFamily[],
+): void {
+  for (const { key, before, after } of changed) {
+    if (!JSON_SAFE.has(before) || !Array.isArray(after)) continue;
+    for (let index = before.length; index < after.length; index += 1)
+      // A record sits at world.history.<list>[index], three levels down.
+      assertJsonSafe(
+        after[index],
+        `world.history.${key}[${index}]`,
+        new Set(),
+        REMEMBERED_DEPTH,
+      );
+    JSON_SAFE.add(after);
+  }
+}
+
+/** True when `assertJsonSafe` would accept the value without looking inside. */
+function knownJsonSafe(value: unknown, ancestors: Set<object>): boolean {
+  if (value === null || typeof value === "string" || typeof value === "boolean")
+    return true;
+  if (typeof value === "number") return Number.isFinite(value);
+  return (
+    typeof value === "object" && JSON_SAFE.has(value) && !ancestors.has(value)
+  );
 }
 
 function cloneFact(fact: PersonFact): PersonFact {

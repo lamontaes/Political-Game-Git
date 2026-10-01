@@ -1,3 +1,4 @@
+import { recordsByStringField } from "./history-index";
 import { eventById } from "./event-index";
 import { ageOnDate, makeIsoDate } from "./dates";
 import {
@@ -376,7 +377,11 @@ export function personalityTendencyHistory(
   cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
 ): readonly PersonalityTendencyRecord[] {
   validateHistoricalCutoff(world, personId, cutoff);
-  return world.history.personalityTendencies
+  return recordsByStringField(
+    world.history.personalityTendencies,
+    "personId",
+    personId,
+  )
     .filter(
       (record) =>
         record.personId === personId &&
@@ -615,17 +620,34 @@ export function decisionTraceById(
     : undefined;
 }
 
+/** Legacy policy-view projection; categorical opinions remain in privateBeliefs. */
 export function privateBeliefHistory(
   world: World,
   personId: EntityId,
   propositionId?: EntityId,
-): readonly PrivateBeliefRecord[] {
+): readonly (PrivateBeliefRecord & { readonly propositionId: EntityId })[] {
   return world.history.privateBeliefs
+    .filter(
+      (
+        belief,
+      ): belief is PrivateBeliefRecord & { readonly propositionId: EntityId } =>
+        belief.propositionId !== null,
+    )
     .filter(
       (belief) =>
         belief.personId === personId &&
         (propositionId === undefined || belief.propositionId === propositionId),
     )
+    .sort(byDateThenSequence);
+}
+
+/** The unified saved opinion family, including canonical non-policy subjects. */
+export function privateOpinionHistory(
+  world: World,
+  personId: EntityId,
+): readonly PrivateBeliefRecord[] {
+  return world.history.privateBeliefs
+    .filter((belief) => belief.personId === personId)
     .sort(byDateThenSequence);
 }
 

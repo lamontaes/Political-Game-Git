@@ -1,10 +1,19 @@
-import { addDays, candidacyPackForJurisdiction } from "../../src/simulation";
+import {
+  addDays,
+  candidacyPackForJurisdiction,
+  districtSeatMustBeNamed,
+  recordedDistrictMembership,
+} from "../../src/simulation";
 import type {
   DistrictSeatBinding,
   EntityId,
   World,
 } from "../../src/simulation";
 import { gazetteerChamberForOfficeChamberKey } from "../../src/districts/query";
+import {
+  bindingForDistrict,
+  offeredDistricts,
+} from "../../src/presentation/district-selection";
 import {
   fileForOffice as fileSelectedOffice,
   projectCampaign,
@@ -31,15 +40,44 @@ export function fileForOffice(
           ) === binding.chamber,
       )
     : offices.at(0);
+  const officeKey = option?.officeKey ?? "fixture:no-supported-office";
+  // The authored scenario explicitly chooses a Gazetteer seat. It prefers
+  // the World-recorded home district where one exists, and otherwise names
+  // the first published seat without claiming the home lies in it. Any real
+  // district-residence rule still decides eligibility in the filing writer.
+  const selectedBinding =
+    binding ?? namedSeatForFixture(world, personId, officeKey);
   // A short authored race, as these scenarios were written against. Play
   // files on the office's own election calendar; see campaign-calendar tests.
   return fileSelectedOffice(
     world,
     personId,
-    binding,
-    option?.officeKey ?? "fixture:no-supported-office",
+    selectedBinding,
+    officeKey,
     addDays(world.currentDate, 28),
   );
+}
+
+/** A test's explicit seat choice; never a new home-membership record. */
+export function namedSeatForFixture(
+  world: World,
+  personId: EntityId,
+  officeKey: string,
+): DistrictSeatBinding | null {
+  const home = world.people[personId]?.homeJurisdictionId;
+  if (!home || !districtSeatMustBeNamed(home, officeKey)) return null;
+  const chamberKey = officeKey.split(":").at(-1) ?? "";
+  const chamber = gazetteerChamberForOfficeChamberKey(chamberKey);
+  if (!chamber) return null;
+  const recorded = recordedDistrictMembership(
+    world,
+    personId,
+    chamber,
+    world.currentDate,
+  )?.binding;
+  if (recorded) return recorded;
+  const first = offeredDistricts(world, home, officeKey)[0];
+  return first ? bindingForDistrict(first) : null;
 }
 
 /**

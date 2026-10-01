@@ -12,6 +12,9 @@ import {
   lifePlaceByJurisdictionId,
 } from "../simulation";
 import type { EntityId, LifePlace, Person, World } from "../simulation";
+import { CONGRESS_MEMBER_WORK_KIND } from "../simulation/living-world/congress-member-work";
+import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
+import { resolveActiveMemberSeat } from "./legislative-member-seat";
 
 /**
  * What this life can currently do.
@@ -100,10 +103,19 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
   const formativeYears = formativeIntervalAt(world, personId) !== null;
 
   const work = activeWorkRelationshipsAt(world, personId);
-  const legislativeWork = work.find((entry) =>
-    entry.relationship.kind.startsWith(LEGISLATIVE_WORK_PREFIX),
+  const legislativeWork = work.find(
+    (entry) =>
+      entry.relationship.kind.startsWith(LEGISLATIVE_WORK_PREFIX) ||
+      entry.relationship.kind === CONGRESS_MEMBER_WORK_KIND,
   );
   const office = legislativeWork !== undefined;
+  const congressWork =
+    legislativeWork?.relationship.kind === CONGRESS_MEMBER_WORK_KIND;
+  const congressSeat = congressWork
+    ? resolveActiveMemberSeat(world, personId, {
+        relationshipId: legislativeWork.relationship.id,
+      })
+    : null;
 
   // The role says where the work happens. Only when it does not is the home
   // address used, and then as a fallback rather than an assumption.
@@ -120,12 +132,16 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
     workJurisdictionId !== person.homeJurisdictionId;
 
   const institutionalPack =
-    workJurisdictionId === null
-      ? null
-      : legislativePackForJurisdiction(workJurisdictionId);
+    congressWork && congressSeat?.kind === "seated"
+      ? legislativePackForJurisdiction(NATIONAL_ELECTION_JURISDICTION.id)
+      : workJurisdictionId === null
+        ? null
+        : legislativePackForJurisdiction(workJurisdictionId);
   const scenarioKey = institutionalPack
     ? legislativeWorkKey(institutionalPack)
-    : (workPlace?.capabilities.legislativeScenarioKey ?? null);
+    : congressWork
+      ? null
+      : (workPlace?.capabilities.legislativeScenarioKey ?? null);
   const legislation = office && scenarioKey !== null;
 
   // Where they live decides the ballot, so this reads the home jurisdiction
@@ -197,7 +213,9 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
     legislation,
     legislativeScenarioKey: legislation ? scenarioKey : null,
     legislativeJurisdictionId: legislation
-      ? (workJurisdictionId ?? workPlace?.context.jurisdiction.id ?? null)
+      ? congressWork
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : (workJurisdictionId ?? workPlace?.context.jurisdiction.id ?? null)
       : null,
     campaign,
     withheld,

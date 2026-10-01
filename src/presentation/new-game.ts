@@ -1,5 +1,8 @@
 import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
-import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
+import {
+  type SCHOOL_NAMES_V2_VERSION,
+  SCHOOL_NAMES_V3_VERSION,
+} from "../simulation/school-names";
 import {
   SCHOOL_STAGES_V2,
   type SchoolStageVersion,
@@ -43,6 +46,7 @@ import {
   buildProductionWorld,
   FAMILY_BIRTHDAYS_V1,
   PARENT_PARTNERS_V1,
+  ADULT_START_WORK_V1,
 } from "./production-world";
 import { assignSplitHomeDistricts } from "../simulation/district-residence";
 import {
@@ -217,9 +221,11 @@ export interface NewGameSetup {
   readonly partyChapterNameVersion?: PartyChapterNameVersion;
   /**
    * Absent keeps the v1 school names an old replay drew. New Game declares the
-   * measured draw, where a small town's high school is usually named for it.
+   * measured draw with historical honorees; explicit v2 replays keep their
+   * original generated person/family names.
    */
-  readonly schoolNameVersion?: typeof SCHOOL_NAMES_V2_VERSION;
+  readonly schoolNameVersion?:
+    typeof SCHOOL_NAMES_V2_VERSION | typeof SCHOOL_NAMES_V3_VERSION;
   /**
    * Absent keeps the national name corpus everywhere. New Game names a life
    * begun in Puerto Rico from the island's own names, with two surnames.
@@ -242,6 +248,11 @@ export interface NewGameSetup {
    */
   readonly parentPartnerVersion?: typeof PARENT_PARTNERS_V1;
   /**
+   * Absent keeps an old replay's grown-up start between jobs. New Game
+   * declares the start that holds a job in town. Office starts never do.
+   */
+  readonly adultStartWorkVersion?: typeof ADULT_START_WORK_V1;
+  /**
    * Absent keeps an old replay's home join to the state legislative chambers.
    * New Game declares the join that also records the U.S. House district when
    * the Census place file lists the home place with exactly one district.
@@ -259,6 +270,7 @@ export interface NewGameSetup {
    * replay link written before the field rebuilds what it described.
    * New Game stamps the current version.
    */
+  readonly openingWorkLocationVersion?: "schedule-v1";
   readonly worldOpeningVersion?: WorldOpeningVersion;
 }
 
@@ -297,11 +309,12 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // fixed offset this replaces.
   childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
   partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
-  schoolNameVersion: SCHOOL_NAMES_V2_VERSION,
+  schoolNameVersion: SCHOOL_NAMES_V3_VERSION,
   placeNameVersion: PLACE_NAMES_V1_VERSION,
   schoolStageVersion: SCHOOL_STAGES_V2,
   familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
   parentPartnerVersion: PARENT_PARTNERS_V1,
+  adultStartWorkVersion: ADULT_START_WORK_V1,
   districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
@@ -319,6 +332,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // and its tests stay so a replay written under it still rebuilds.
   questionnaireCopyVersion: "playtest65-v2",
   questionnaireSelectionVersion: "curated-v1",
+  openingWorkLocationVersion: "schedule-v1",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
   openingDataVersion: "playtest65-v3",
   livingWorldMemberNameVersion: "cohort-v1",
@@ -560,6 +574,11 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.parentPartnerVersion === undefined
       ? {}
       : { parentPartnerVersion: setup.parentPartnerVersion }),
+    // An office start is employed by its own initializer below, never twice.
+    ...(setup.adultStartWorkVersion === undefined ||
+    setup.startingLife !== "ordinary-life"
+      ? {}
+      : { adultStartWorkVersion: setup.adultStartWorkVersion }),
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),

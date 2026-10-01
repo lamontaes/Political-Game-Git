@@ -7,7 +7,7 @@ import {
   dispositionsFromCounts,
   type LegislativeScenario,
 } from "./legislation-scenarios";
-import { addDays, daysBetween, makeIsoDate } from "./dates";
+import { daysBetween, makeIsoDate } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
@@ -225,11 +225,23 @@ describe("A Kentucky bill changing the House's rules", () => {
     const world = enact(scenario, filed);
     const enactment = world.history.legislativeEnactments!.at(-1)!;
     expect(enactment.outcome).toBe("enacted");
-    // Nothing in play dates an act, and Kentucky's effective-date rule is not
-    // modeled, so the blanket ninety days applies and says so.
+    // Nothing in play dates an act, so Kentucky's own rule does: the day
+    // after ninety full days from the session's close, which the rule pack
+    // records as April 15 in an even year (Ky. Const. sec. 55; OAG 26-03).
     expect(enactment.effectiveAt).toBeNull();
-    const effectiveAt = addDays(enactment.resolvedAt, 90);
-    expect(enactedRuleChanges(world)[0]?.operativeBasis).toBe("game-default");
+    // The Senate's last floor vote is the final passage the record keeps.
+    const senateVotes = world.history.legislativeActions!.filter(
+      (action) =>
+        action.measureId === scenario.measureId &&
+        action.kind === "floor-stage-passed" &&
+        action.chamberKey === "senate",
+    );
+    expect(enactment.finalPassageAt).toBe(senateVotes.at(-1)!.occurredAt);
+    const effectiveAt = makeIsoDate("2026-07-15");
+    expect(enactedRuleChanges(world)[0]).toMatchObject({
+      operativeAt: effectiveAt,
+      operativeBasis: "state-rule",
+    });
 
     const seats = houseRule(world, "body.seats", effectiveAt);
     expect(seats).toMatchObject({
@@ -238,8 +250,9 @@ describe("A Kentucky bill changing the House's rules", () => {
       ruleScope: "state-statute",
       validFrom: effectiveAt,
     });
+    // An act dated by the game's own interval says so in its citation.
     expect(seats.source?.citation).toContain("2026 Ky. Acts ch. 40");
-    expect(seats.source?.citation).toContain("default of 90 days");
+    expect(seats.source?.citation).toContain("the date this state's law sets");
     expect(houseRule(world, "term.years", effectiveAt).value).toBe(4);
     // A term's end is derived from its length, so it follows.
     expect(houseRule(world, "term.expiry", effectiveAt).value).toEqual({

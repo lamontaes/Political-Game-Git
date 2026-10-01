@@ -20,6 +20,8 @@ import {
 } from "../living-world/congress-seats";
 import type { CongressSeat } from "../living-world/congress-seats";
 import { projectCongress } from "../living-world/congress";
+import { aggregateCongressAffiliation } from "../living-world/congress-aggregate-outcome";
+import { seatStartingCondition } from "../world-setup/conditions";
 import {
   CONGRESS_TURNOVER_PROFILE,
   congressionalElectionDay,
@@ -34,7 +36,35 @@ import {
   congressSeatTitle,
   livingWorldOrganizationId,
 } from "../living-world/opening";
-import { currentPresidentOf } from "../crisis/offices";
+import { currentGovernorOf, currentPresidentOf } from "../crisis/offices";
+import { publicPartyOf } from "./chamber-votes";
+import {
+  legislativeSenateElectionDay,
+  senateSelectionRuleAt,
+} from "./senate-selection";
+import {
+  electPresidingOfficer,
+  recordPresidingOfficerVote,
+} from "./presiding-officers";
+import {
+  jointAssemblyCandidates,
+  jointAssemblyVote,
+  recordJointAssemblyVote,
+  seatedStateLegislators,
+} from "./joint-assembly";
+import {
+  SENATE_APPOINTMENT_PLACEHOLDER_DAYS,
+  SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
+  senateVacancyLaw,
+} from "../nationwide-world/senate-vacancy-law";
+import { stateOfJurisdiction } from "../press/outlets";
+import {
+  appointmentCircle,
+  chooseAppointee,
+  recordAppointmentFavor,
+  recordPassedOver,
+} from "../patronage/appointments";
+import { federalColleaguesOf, nominatorOf } from "../patronage/federal-circle";
 import {
   FEDERAL_TENURE_EVENT,
   FEDERAL_VACANCY_EVENT,
@@ -61,6 +91,14 @@ import {
   confirmChiefJustice,
   openChiefJusticeVacancy,
 } from "./chief-justice-vacancy";
+import {
+  ASSOCIATE_JUSTICE_CONFIRMATION,
+  ASSOCIATE_JUSTICE_NOMINATION,
+  SUPREME_COURT_ID,
+  associateJusticeNominationHandler,
+  confirmAssociateJustice,
+  openAssociateJusticeVacancy,
+} from "./supreme-court-appointments";
 import type {
   EntityId,
   EventVisibility,
@@ -97,20 +135,44 @@ export const HOUSE_SPECIAL_ELECTION = "governing:house-special-election";
 export const HOUSE_SPECIAL_ELECTION_PROFILE = {
   id: "ocd-house-special-election-game-profile/v1",
   daysFromVacancyToElection: 90,
-  samePartyPermille: 750,
 } as const;
+
+/** The party a special election's voters return, from the seat's lean. */
+function voterChoice(
+  world: World,
+  seatKey: string,
+  priorParty: string | null,
+  majors: readonly string[],
+): string | null {
+  const condition = seatStartingCondition(world, seatKey);
+  const party = aggregateCongressAffiliation({
+    democraticShare: condition?.generatedShare ?? null,
+    baselineAffiliation: condition?.affiliation ?? priorParty,
+    incumbentAffiliation: priorParty,
+    incumbentSeeking: false,
+  });
+  return party && majors.includes(party)
+    ? party
+    : priorParty && majors.includes(priorParty)
+      ? priorParty
+      : null;
+}
 
 /**
  * A VACANT U.S. SENATE SEAT. The Seventeenth Amendment has the state's
  * governor issue writs of election, and lets the state's legislature let the
  * governor make a temporary appointment until the people fill the seat.
  *
- * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`).
- * Blanket rule until each state's law is compiled: the governor appoints a
- * drawn person of the departed senator's party ten days after the vacancy,
- * and a special election at the next regular November congressional election
- * chooses who serves the rest of the term. When the term ends at that
- * election anyway, the regular election fills the seat and no special is held.
+ * Since Build 27 (September 28, 2026) each state's own law decides
+ * (`nationwide-world/senate-vacancy-law.ts`): whether the governor may
+ * appoint, whether the appointee must share the departed senator's party,
+ * and when the special election falls. A governor free to choose appoints
+ * someone of the governor's own party. When the term ends at the regular
+ * election anyway, that election fills the seat and no special is held.
+ *
+ * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`):
+ * the appointee is still a generated person, not someone the governor
+ * knows, and the days to an appointment where the statute sets none.
  */
 export const SENATE_APPOINTMENT = "governing:senate-appointment";
 
@@ -374,7 +436,14 @@ function nextCongressionalElectionAfter(date: IsoDate): IsoDate {
   return day;
 }
 
-/** PLACEHOLDER (SENATE_VACANCY_PROFILE): appointment, then a special election. */
+/**
+ * A vacant U.S. Senate seat, filled under the state's own law
+ * (`senate-vacancy-law.ts`): an appointment where the governor may make one,
+ * then a special election, prompt or at the next regular November election
+ * as the state's statute says. PLACEHOLDER (SENATE_VACANCY_PROFILE) only
+ * where the law is silent or unrecorded: the days to an appointment with no
+ * statutory deadline, and a prompt election's unrecorded window.
+ */
 function openSenateVacancy(
   world: World,
   seat: CongressSeat,
@@ -385,9 +454,46 @@ function openSenateVacancy(
   const title = congressSeatTitle(seat);
   const from =
     world.currentDate > vacancyDate ? world.currentDate : vacancyDate;
+  // Where the Constitution in force has the legislatures choose senators,
+  // the state's legislature fills the seat (Act of July 25, 1866, sec. 2).
+  if (
+    senateSelectionRuleAt(world, vacancyDate).method === "state-legislature"
+  ) {
+    const day = legislativeSenateElectionDay(from);
+    const dueKey = specialElectionKey(seat, vacancyDate);
+    const next = world.history.futureDueItems.some(
+      (due) => due.stableKey === dueKey,
+    )
+      ? world
+      : scheduleFutureDueItem(world, {
+          stableKey: dueKey,
+          dueAt: day,
+          transitionKey: HOUSE_SPECIAL_ELECTION,
+          entityIds: [chamberId],
+          jurisdictionId: stateId,
+          provenance: {
+            kind: "authored",
+            note: "The state's legislature elects a senator in joint assembly on the second Tuesday after it has notice of the vacancy (Act of July 25, 1866, ch. 245, sec. 2).",
+          },
+        });
+    return {
+      world: next,
+      ruling: {
+        officeKey: seat.seatKey,
+        title,
+        outcome: "special-election",
+        sentence: `The seat is vacant. The state's legislature elects a senator in joint assembly on ${spokenDate(day)}.`,
+      },
+    };
+  }
+  const law = senateVacancyLaw(seat.stateUsps);
+  const appoints = law ? law.appointment !== "none" : true;
+  const deadline = law?.appointmentDeadlineDays ?? null;
   const appointmentDay = addDays(
     from,
-    SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
+    deadline === null
+      ? SENATE_APPOINTMENT_PLACEHOLDER_DAYS
+      : Math.min(SENATE_APPOINTMENT_PLACEHOLDER_DAYS, deadline),
   );
   const window = seatTermWindow(seat, vacancyDate);
   const regular = congressionalElectionDay(
@@ -396,6 +502,7 @@ function openSenateVacancy(
   let next = world;
   const appointmentKey = `${OFFICE_CONTINUITY_VERSION}:appointment:${seat.seatKey}:${vacancyDate}`;
   if (
+    appoints &&
     appointmentDay < window.endExclusive &&
     !next.history.futureDueItems.some((due) => due.stableKey === appointmentKey)
   )
@@ -407,10 +514,27 @@ function openSenateVacancy(
       jurisdictionId: stateId,
       provenance: {
         kind: "authored",
-        note: `${SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII); the appointment, its party and its ${SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment}-day interval are a game profile.`,
+        note: law
+          ? `${seat.stateUsps} law (${law.citation ?? law.source}): the governor makes a temporary appointment (U.S. Const. amend. XVII).`
+          : `${SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII); the appointment, its party and its ${SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment}-day interval are a game profile.`,
       },
     });
-  const special = nextCongressionalElectionAfter(appointmentDay);
+  const nextGeneral = nextCongressionalElectionAfter(
+    appoints ? appointmentDay : from,
+  );
+  const promptDate =
+    law?.specialElection.kind === "prompt"
+      ? addDays(
+          from,
+          law.specialElection.promptDays ??
+            SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS,
+        )
+      : null;
+  const special =
+    promptDate !== null && promptDate < nextGeneral ? promptDate : nextGeneral;
+  const appointee = appoints
+    ? "The governor appoints a senator to serve"
+    : `${stateJurisdictionForKey(`US-${seat.stateUsps}`)!.name} law gives the governor no appointment, so the seat stays empty`;
   if (special >= regular)
     return {
       world: next,
@@ -418,7 +542,7 @@ function openSenateVacancy(
         officeKey: seat.seatKey,
         title,
         outcome: "vacant",
-        sentence: `The seat is vacant. The governor appoints a senator to serve until the regular election on ${spokenDate(regular)} fills it for the next term.`,
+        sentence: `The seat is vacant. ${appointee} until the regular election on ${spokenDate(regular)} fills it for the next term.`,
       },
     };
   const dueKey = specialElectionKey(seat, vacancyDate);
@@ -431,7 +555,10 @@ function openSenateVacancy(
       jurisdictionId: stateId,
       provenance: {
         kind: "authored",
-        note: `${SENATE_VACANCY_PROFILE.id}: the governor issues writs of election (U.S. Const. amend. XVII); holding it at the next regular November election is a game profile.`,
+        note:
+          law && special === promptDate
+            ? `${seat.stateUsps} law (${law.citation ?? law.source}): a prompt special election${law.specialElection.kind === "prompt" && law.specialElection.promptDays === null ? `; the ${SENATE_SPECIAL_ELECTION_ESTIMATED_DAYS}-day interval is estimated from the median of other states' statutes` : ""}.`
+            : `${law ? `${seat.stateUsps} law (${law.citation ?? law.source})` : SENATE_VACANCY_PROFILE.id}: the governor issues writs of election (U.S. Const. amend. XVII) for the next regular November election.`,
       },
     });
   return {
@@ -440,7 +567,7 @@ function openSenateVacancy(
       officeKey: seat.seatKey,
       title,
       outcome: "special-election",
-      sentence: `The seat is vacant. The governor appoints a senator to serve until a special election on ${spokenDate(special)}.`,
+      sentence: `The seat is vacant. ${appointee} until a special election on ${spokenDate(special)}.`,
     },
   };
 }
@@ -511,35 +638,132 @@ function seatNewMember(
     )
     .at(-1);
   const priorParty = previous ? tagValue(previous, SEAT_PARTY_TAG) : null;
-  // PLACEHOLDER (SENATE_VACANCY_PROFILE): an appointee shares the departed
-  // member's party.
-  const party =
-    mode === "appointment" && priorParty
-      ? priorParty
-      : priorParty && majors.includes(priorParty)
-        ? rng.integer(0, 1000) <
-          HOUSE_SPECIAL_ELECTION_PROFILE.samePartyPermille
-          ? priorParty
-          : majors.find((key) => key !== priorParty)!
-        : rng.pick(majors);
+  // An appointee's party: the departed senator's where the state's law
+  // requires it; otherwise the governor's own, since the governor chooses.
+  // Without a known governor or party, the departed senator's.
+  const law = senateVacancyLaw(seat.stateUsps);
+  const governor = currentGovernorOf(world, seat.stateUsps);
+  const governorParty = governor
+    ? publicPartyOf(world, governor.personId)
+    : null;
+  const appointeeParty =
+    law?.appointment === "governor" && governorParty
+      ? governorParty
+      : priorParty;
+  // A legislature choosing senators votes in joint assembly, each member
+  // by their own caucus, relationships and principles (joint-assembly.ts).
+  // A governor's appointee holding the seat stands as a candidate. ESTIMATED
+  // where the state's legislature is not seated in this world: the state's
+  // own lean stands in for its majority, as at a regular election
+  // (congress-turnover.ts).
+  const legislatureChooses =
+    mode === "special-election" &&
+    seat.chamberKey === "us-senate" &&
+    senateSelectionRuleAt(world, vacancyDate).method === "state-legislature";
+  const legislators = legislatureChooses
+    ? seatedStateLegislators(world, seat.stateUsps)
+    : null;
+  const sittingAppointee =
+    heldByAppointee && latest
+      ? latest.participants.find((row) => row.role === "focus:subject")
+          ?.personId
+      : undefined;
+  const sittingParty = latest ? tagValue(latest, SEAT_PARTY_TAG) : null;
+  const legislatureVote = legislators
+    ? jointAssemblyVote(world, {
+        stableKey: `${due.stableKey}:joint-assembly`,
+        members: legislators,
+        candidates: jointAssemblyCandidates(
+          legislators,
+          sittingAppointee && sittingParty
+            ? { personId: sittingAppointee, party: sittingParty }
+            : null,
+        ),
+      })
+    : null;
+  if (legislatureVote && !legislatureVote.winner) {
+    const next = recordJointAssemblyVote(world, {
+      stableKey: `${due.stableKey}:joint-assembly`,
+      seatKey: seat.seatKey,
+      stateUsps: seat.stateUsps,
+      title: congressSeatTitle(seat),
+      occurredAt: world.currentDate,
+      vote: legislatureVote,
+      winnerPersonId: null,
+    });
+    return done(
+      next,
+      "The state legislature could not agree on a senator; the seat stays as it is.",
+      next.history.events.at(-1)!.id,
+    );
+  }
+  const condition =
+    legislatureChooses && !legislators
+      ? seatStartingCondition(world, seat.seatKey)
+      : null;
+  const legislatureParty = legislatureVote
+    ? legislatureVote.winner!.party
+    : legislatureChooses
+      ? aggregateCongressAffiliation({
+          democraticShare: condition?.generatedShare ?? null,
+          baselineAffiliation: condition?.affiliation ?? null,
+          incumbentAffiliation: priorParty,
+          incumbentSeeking: false,
+        })
+      : null;
+  const electedPersonId = legislatureVote?.winner?.personId ?? null;
+  const party = legislatureParty
+    ? legislatureParty
+    : mode === "appointment" && appointeeParty
+      ? appointeeParty
+      : // The voters choose as they would at a regular election: the seat's
+        // own two-party lean, with the prior party where the lean is even
+        // or unread (congress-aggregate-outcome.ts). No draw.
+        (voterChoice(world, seat.seatKey, priorParty, majors) ?? majors[0]!);
   const memberKey = `${due.stableKey}:member`;
+  const title = congressSeatTitle(seat);
+  // The governor names someone they know (appointments-v1): the state's
+  // members of the House, anyone the governor has a recorded tie or favor
+  // with who lives in the state. Only a governor who knows nobody eligible
+  // falls back to the drawn stranger below.
+  // Where the state's law requires the departed senator's party, the
+  // governor's choice must belong to it.
+  const requiredParty =
+    law && law.appointment !== "governor" ? priorParty : null;
+  const appointed =
+    mode === "appointment"
+      ? governorsSenateChoice(world, seat, title, due.stableKey, requiredParty)
+      : null;
+  const appointedParty = appointed
+    ? publicPartyOf(appointed.world, appointed.personId)
+    : null;
   const age = rng.integer(MINIMUM_AGE[seat.chamberKey] + 3, 70);
   const year = Number(world.currentDate.slice(0, 4));
-  let next = createCharacterHistoryContextPeople(world, [
-    {
-      stableKey: memberKey,
-      ...drawCanonicalNamedIdentity(
-        rng.fork("name"),
-        generatePersonIdentity(rng.fork("identity")),
-      ),
-      birthDate: makeIsoDate(
-        `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-      ),
-      homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
-    },
-  ]);
-  const winner = characterHistoryContextPersonId(next, memberKey);
-  const title = congressSeatTitle(seat);
+  let next = appointed
+    ? appointed.world
+    : electedPersonId
+      ? world
+      : createCharacterHistoryContextPeople(world, [
+          {
+            stableKey: memberKey,
+            ...drawCanonicalNamedIdentity(
+              rng.fork("name"),
+              generatePersonIdentity(rng.fork("identity")),
+            ),
+            birthDate: makeIsoDate(
+              `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
+            ),
+            homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!
+              .id,
+          },
+        ]);
+  const winner = appointed
+    ? appointed.personId
+    : (electedPersonId ?? characterHistoryContextPersonId(next, memberKey));
+  const seatParty = appointedParty ?? party;
+  const leftHouseSeat = appointed
+    ? congressSeatHeldBy(appointed.world, appointed.personId)
+    : undefined;
   const chamberId = livingWorldOrganizationId(
     next,
     LIVING_WORLD_KEYS.chamber(seat.chamberKey),
@@ -550,15 +774,17 @@ function seatNewMember(
     occurredAt: next.currentDate,
     recordedAt: next.currentDate,
     jurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
-    involvedEntityIds: [winner, chamberId],
+    involvedEntityIds: appointed
+      ? [winner, chamberId, appointed.governorId]
+      : [winner, chamberId],
     participants: [{ personId: winner, role: "focus:subject", detail: title }],
     personFactConstraints: [],
     visibility: "public",
     tags: [
       ...seatTags(seat, next.currentDate),
       `service-since:${next.currentDate}`,
-      `${SEAT_PARTY_TAG}${party}`,
-      `${SEAT_CAUCUS_TAG}${party}`,
+      `${SEAT_PARTY_TAG}${seatParty}`,
+      `${SEAT_CAUCUS_TAG}${seatParty}`,
       ...(mode === "appointment"
         ? [
             `${APPOINTED_FOR_TAG}${vacancyDate}`,
@@ -573,13 +799,102 @@ function seatNewMember(
         : `${personName(next.people[winner]!)} won the special election and serves the rest of the term as ${title}.`,
     context: CONTEXT,
   });
+  const seatedEventId = next.history.events.at(-1)!.id;
+  if (legislatureVote)
+    next = recordJointAssemblyVote(next, {
+      stableKey: `${due.stableKey}:joint-assembly`,
+      seatKey: seat.seatKey,
+      stateUsps: seat.stateUsps,
+      title: congressSeatTitle(seat),
+      occurredAt: next.currentDate,
+      vote: legislatureVote,
+      winnerPersonId: winner,
+    });
+  if (appointed) {
+    next = recordAppointmentFavor(next, {
+      stableKey: `${due.stableKey}:appointed`,
+      appointerPersonId: appointed.governorId,
+      appointeePersonId: winner,
+      post: { officeKey: seat.seatKey, title },
+      eventId: seatedEventId,
+      subject: { kind: "none" },
+    });
+    // A member of the House named to the Senate gives up the House seat.
+    if (leftHouseSeat)
+      next = vacateSeat(next, leftHouseSeat, {
+        effectiveDate: next.currentDate,
+        key: "member-appointed-to-senate",
+        clause: "after the member was appointed to the Senate",
+      }).world;
+  }
   return done(
     next,
     mode === "appointment"
       ? "The governor's appointee took the seat."
       : "The special election filled the seat.",
-    next.history.events.at(-1)!.id,
+    seatedEventId,
   );
+}
+
+/**
+ * Whom a governor names to a vacant Senate seat, from the people they know.
+ * Null when the governor is the player or knows nobody eligible.
+ */
+function governorsSenateChoice(
+  world: World,
+  seat: CongressSeat,
+  title: string,
+  stableKey: string,
+  requiredParty: string | null,
+): { world: World; personId: EntityId; governorId: EntityId } | null {
+  const governor = currentGovernorOf(world, seat.stateUsps);
+  if (!governor) return null;
+  const stateId = stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id;
+  const congress = projectCongress(world);
+  const delegation = (congress?.house.seats ?? []).flatMap((candidate) =>
+    candidate.stateUsps === seat.stateUsps &&
+    candidate.occupant.kind === "member"
+      ? [candidate.occupant.member.personId]
+      : [],
+  );
+  const delegationSet = new Set(delegation);
+  const controlled =
+    world.control.kind === "person" ? world.control.personId : null;
+  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  const choice = chooseAppointee(world, {
+    stableKey,
+    appointerPersonId: governor.personId,
+    post: { officeKey: seat.seatKey, title },
+    circle: appointmentCircle(world, governor.personId, delegation),
+    eligible: (personId) => {
+      const person = world.people[personId];
+      if (!person || personId === controlled || dead.has(personId))
+        return false;
+      if (
+        ageOn(person.birthDate, world.currentDate) <
+        MINIMUM_AGE[seat.chamberKey]
+      )
+        return false;
+      if (requiredParty && publicPartyOf(world, personId) !== requiredParty)
+        return false;
+      // U.S. Const. art. I, § 3, cl. 3: an inhabitant of the state.
+      return (
+        delegationSet.has(personId) ||
+        stateOfJurisdiction(world, person.homeJurisdictionId) === stateId
+      );
+    },
+  });
+  if (!choice) return null;
+  return {
+    world: recordPassedOver(choice.world, {
+      stableKey,
+      appointerPersonId: governor.personId,
+      passedOver: choice.passedOver,
+      post: { officeKey: seat.seatKey, title },
+    }),
+    personId: choice.personId,
+    governorId: governor.personId,
+  };
 }
 
 function presidentialRuling(
@@ -613,31 +928,22 @@ function presidentialRuling(
       record.id === office.termEvidenceId &&
       record.office === "president",
   );
-  const noVicePresident = {
-    world,
-    ruling: {
-      ...base,
-      outcome: "blocked" as const,
-      // PLACEHOLDER: the Speaker is next under 3 U.S.C. § 19, but that line of
-      // succession is not compiled. The sentence is printed to players.
-      sentence:
-        "The presidency is vacant, and with no sitting Vice President no successor has taken office.",
-    },
-  };
   if (!plan || plan.kind !== "term-plan") {
     // A President seated by tenure record: the opening's, or one who came to
     // the office by succession. The Vice President by tenure record succeeds.
     const vacated = latestFederalOfficeRecord(world, "us-president");
     const vice = currentFederalTenure(world, "us-vice-president");
     const termEnd = vacated ? federalTenureEnd("us-president", vacated) : null;
-    if (!vice || !termEnd) return noVicePresident;
+    if (!vice) return statutorySuccession(world, notice, base, termEnd);
+    if (!termEnd) return statutorySuccession(world, notice, base, null);
     return tenureSuccession(world, notice, base, vice.personId, termEnd);
   }
   const vice = nationalOfficeHolder(world, "vice-president");
   if (!vice || vice.plan.electionId !== plan.electionId) {
     // A Vice President confirmed under § 2 holds by tenure record.
     const confirmed = currentFederalTenure(world, "us-vice-president");
-    if (!confirmed) return noVicePresident;
+    if (!confirmed)
+      return statutorySuccession(world, notice, base, plan.endsAt.date);
     return tenureSuccession(
       world,
       notice,
@@ -692,6 +998,180 @@ function presidentialRuling(
       ...base,
       outcome: "succeeded",
       sentence: `${personName(world.people[vice.plan.personId]!)} became President under the Twenty-Fifth Amendment. ${VICE_PRESIDENCY_VACANT_SENTENCE}`,
+    },
+  };
+}
+
+/**
+ * The officer who acts as President when there is neither a President nor a
+ * Vice President: the Speaker of the House, "upon his resignation as Speaker
+ * and as Representative in Congress" (3 U.S.C. § 19(a)(1)); failing a
+ * Speaker, the President pro tempore of the Senate on the same terms
+ * (§ 19(b)). The Cabinet officers after them (§ 19(d)) are not seated in
+ * the game, so the line stops there.
+ *
+ * Each chamber elects its officer by vote, each member for their own
+ * reasons (`presiding-officers.ts`), and the vote is recorded. A chamber
+ * that elects nobody leaves the line to the next officer.
+ */
+function statutoryPresidentialSuccessor(
+  world: World,
+  stableKey: string,
+  occurredAt: IsoDate,
+): {
+  readonly world: World;
+  readonly successor: {
+    readonly personId: EntityId;
+    readonly seat: CongressSeat;
+    readonly office:
+      "Speaker of the House" | "President pro tempore of the Senate";
+    readonly basis: "3-usc-19-a-1" | "3-usc-19-b";
+  } | null;
+} {
+  const congress = projectCongress(world);
+  if (!congress) return { world, successor: null };
+  const chambers = [
+    {
+      chamberKey: "house",
+      view: congress.house,
+      office: "Speaker of the House" as const,
+      basis: "3-usc-19-a-1" as const,
+    },
+    {
+      chamberKey: "senate",
+      view: congress.senate,
+      office: "President pro tempore of the Senate" as const,
+      basis: "3-usc-19-b" as const,
+    },
+  ];
+  let next = world;
+  for (const { chamberKey, view, office, basis } of chambers) {
+    const sitting = view.seats.flatMap((seat) => {
+      if (seat.occupant.kind !== "member") return [];
+      const member = seat.occupant.member;
+      const caucus = member.caucusOrganizationId ?? member.partyOrganizationId;
+      return caucus
+        ? [
+            {
+              seatKey: seat.seatKey,
+              personId: member.personId,
+              party: caucus,
+              serviceSince: member.serviceSince ?? member.startedAt ?? null,
+            },
+          ]
+        : [];
+    });
+    if (sitting.length === 0) continue;
+    const voteKey = `${stableKey}:${chamberKey}:presiding-officer`;
+    const elected = electPresidingOfficer(next, {
+      stableKey: voteKey,
+      officeTitle: office,
+      members: sitting,
+    });
+    next = recordPresidingOfficerVote(elected.world, {
+      stableKey: voteKey,
+      chamberKey,
+      officeTitle: office,
+      occurredAt,
+      election: elected.election,
+    });
+    const holder = sitting.find(
+      (row) => row.personId === elected.election.winnerPersonId,
+    );
+    const seat = holder
+      ? congressSeats().find(
+          (candidate) => candidate.seatKey === holder.seatKey,
+        )
+      : undefined;
+    if (holder && seat)
+      return {
+        world: next,
+        successor: { personId: holder.personId, seat, office, basis },
+      };
+  }
+  return { world: next, successor: null };
+}
+
+/**
+ * Neither a President nor a Vice President: the statutory successor resigns
+ * as a presiding officer and member of Congress and acts as President for the
+ * rest of the term (3 U.S.C. § 19(c)). Their seat falls vacant and is filled
+ * like any other. The vice presidency stays vacant: the Twenty-Fifth
+ * Amendment's § 2 nomination belongs to "the President", and whether an
+ * acting President may make it is unsettled, so none is scheduled.
+ */
+function statutorySuccession(
+  world: World,
+  notice: OfficeContinuityNoticeInput,
+  base: { readonly officeKey: string; readonly title: string },
+  termEnd: IsoDate | null,
+): { world: World; ruling: OfficeContinuityRuling } {
+  const death = world.history.personDeaths.find(
+    (row) => row.id === notice.sourceRecordId,
+  );
+  const line =
+    death && termEnd
+      ? statutoryPresidentialSuccessor(
+          world,
+          `${OFFICE_CONTINUITY_VERSION}:acting-president:${death.id}`,
+          death.diedAt,
+        )
+      : { world, successor: null };
+  const successor = line.successor;
+  if (!death || !termEnd || !successor)
+    return {
+      world: line.world,
+      ruling: {
+        ...base,
+        outcome: "blocked",
+        sentence: !death
+          ? "The death this notice reports is not in the record."
+          : "The presidency is vacant. There is no Vice President, and no Speaker of the House or President pro tempore of the Senate is seated to act as President.",
+      },
+    };
+  const person = world.people[successor.personId]!;
+  const former = world.people[death.personId];
+  const stableKey = `${OFFICE_CONTINUITY_VERSION}:acting-president:${death.id}`;
+  let next = line.world;
+  if (!next.history.events.some((event) => event.stableKey === stableKey)) {
+    next = recordWorldEvent(next, {
+      stableKey,
+      type: FEDERAL_TENURE_EVENT,
+      occurredAt: death.diedAt,
+      recordedAt: next.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [successor.personId],
+      participants: [
+        {
+          personId: successor.personId,
+          role: "focus:subject",
+          detail: "Acting President of the United States",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        OFFICE_CONTINUITY_VERSION,
+        "office:us-president",
+        `term-end:${termEnd}`,
+        `basis:${successor.basis}`,
+        "acting:true",
+      ],
+      summary: `${personName(person)}, the ${successor.office}, resigned from Congress and is acting as President of the United States${former ? ` after the death of ${personName(former)}` : ""}, for the rest of the term.`,
+      context: CONTEXT,
+    });
+    next = vacateSeat(next, successor.seat, {
+      effectiveDate: death.diedAt,
+      key: "member-acting-as-president",
+      clause: "after the member resigned to act as President",
+    }).world;
+  }
+  return {
+    world: next,
+    ruling: {
+      ...base,
+      outcome: "succeeded",
+      sentence: `With no Vice President, ${personName(person)}, the ${successor.office}, resigned from Congress and is acting as President for the rest of the term.`,
     },
   };
 }
@@ -823,6 +1303,24 @@ function rulingFor(
       },
     };
   }
+  if (office.officeKey.startsWith(`${SUPREME_COURT_ID}:seat:`)) {
+    const opened = openAssociateJusticeVacancy(world, {
+      seatId: office.officeKey,
+      vacancyDate: notice.effectiveDate,
+      formerHolderId: notice.personId,
+      reason: "death",
+    });
+    return {
+      world: opened.world,
+      ruling: {
+        ...base,
+        outcome: "vacant",
+        sentence: opened.presidentId
+          ? "The seat on the Supreme Court is vacant until the Senate confirms the President's nominee."
+          : "The seat on the Supreme Court is vacant, and with no sitting President there is nobody to nominate a successor.",
+      },
+    };
+  }
   const seat = seatFor(office.officeKey);
   if (seat) return vacateSeat(world, seat, MEMBER_DIED(notice.effectiveDate));
   const governorship = governorOffice(office.officeKey);
@@ -880,11 +1378,10 @@ function rulingFor(
  *   to confirm one. The two times it has happened took 57 days (1973) and
  *   121 days (1974) from nomination to confirmation; the profile below sits
  *   between them and is not a finding.
- * - whom a President nominates. The amendment lets the President name anyone
- *   eligible to be Vice President; the game has no rule for whom a President
- *   would choose. Blanket rule meanwhile: an even draw among every living
- *   person in the World old enough for the office (35), other than the
- *   President, the player's own character, who would have to be asked, and
+ * - eligibility is incomplete. The President's existing appointment decision
+ *   selects among recorded colleagues and contacts. Without a selection, the
+ *   nomination is blocked and the office stays vacant. The eligible pool excludes
+ *   the President, the player's own character, who would have to be asked, and
  *   sitting governors. Citizenship and fourteen years' residence are not recorded on a person,
  *   so they are not checked. A nominee who sat in Congress leaves the seat,
  *   which is then filled the way any vacated seat is.
@@ -1032,11 +1529,11 @@ export function vicePresidentNominationHandler(
       world,
       "There is no sitting President to nominate a Vice President.",
     );
-  // PLACEHOLDER: whom the President chooses (see the profile above).
+  // Eligibility remains incomplete (see the profile above).
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
-  // A sitting governor is not drawn: the game has no route for them to give
+  // A sitting governor is not eligible here: the game has no route for them to give
   // up the governorship.
   const governors = new Set(
     currentStateExecutiveHolders(world).map((holder) => holder.personId),
@@ -1055,11 +1552,42 @@ export function vicePresidentNominationHandler(
     .sort();
   if (!pool.length)
     return resolved(world, "Nobody in the World is eligible to be nominated.");
-  const nomineeId = new SeededRng(world.seed).fork(due.stableKey).pick(pool);
+  // The President names someone they know: the people the game records them
+  // knowing, anyone they owe or who owes them, and the members of Congress
+  // and the governors they work with (appointments-v1). An empty decision
+  // does not authorize naming someone else.
+  const eligible = new Set(pool);
+  const choice = chooseAppointee(world, {
+    stableKey: due.stableKey,
+    appointerPersonId: president.personId,
+    post: VICE_PRESIDENT_POST,
+    circle: appointmentCircle(
+      world,
+      president.personId,
+      federalColleaguesOf(world),
+    ),
+    eligible: (personId) => eligible.has(personId),
+  });
+  if (!choice)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "government:vice-president-no-nominee",
+      context:
+        "The President has not selected a nominee; the vice presidency remains vacant.",
+      outcomeEventId: null,
+    };
+  const nomineeId = choice.personId;
+  const chosenWorld = recordPassedOver(choice.world, {
+    stableKey: due.stableKey,
+    appointerPersonId: president.personId,
+    passedOver: choice.passedOver,
+    post: VICE_PRESIDENT_POST,
+  });
   const nominee = { personId: nomineeId };
   const presidentName = personName(world.people[president.personId]!);
   const nomineeName = personName(world.people[nominee.personId]!);
-  let next = recordWorldEvent(world, {
+  let next = recordWorldEvent(chosenWorld, {
     stableKey: `${due.stableKey}:nominated`,
     type: VICE_PRESIDENT_NOMINATED_EVENT,
     occurredAt: world.currentDate,
@@ -1107,6 +1635,11 @@ export function vicePresidentNominationHandler(
   return resolved(next, `${nomineeName} was nominated.`, nominatedEventId);
 }
 
+const VICE_PRESIDENT_POST = {
+  officeKey: "us-vice-president",
+  title: "Vice President of the United States",
+} as const;
+
 /** The seat in Congress a person holds today, if any. */
 function congressSeatHeldBy(
   world: World,
@@ -1124,6 +1657,23 @@ function congressSeatHeldBy(
   return held
     ? congressSeats().find((candidate) => candidate.seatKey === held.seatKey)
     : undefined;
+}
+
+/** The Senate votes on an associate justice, who leaves any seat in Congress. */
+export function associateJusticeConfirmationHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return confirmAssociateJustice(world, due, (next, personId) => {
+    const seat = congressSeatHeldBy(next, personId);
+    return seat
+      ? vacateSeat(next, seat, {
+          effectiveDate: next.currentDate,
+          key: "member-became-justice",
+          clause: "after the member joined the Supreme Court",
+        }).world
+      : next;
+  });
 }
 
 /** The Senate confirms a Chief Justice, who leaves any seat in Congress. */
@@ -1176,13 +1726,21 @@ export function vicePresidentConfirmationHandler(
   // The seat in Congress the nominee leaves, if any, read before they take
   // the new office.
   const heldSeat = congressSeatHeldBy(world, nomineeId);
+  const nominatingPresident = nominatorOf(
+    world,
+    VICE_PRESIDENT_NOMINATED_EVENT,
+    `vacancy:${vacancyDate}`,
+    nomineeId,
+  );
   let next = recordWorldEvent(world, {
     stableKey: `${due.stableKey}:confirmed`,
     type: FEDERAL_TENURE_EVENT,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [nomineeId],
+    involvedEntityIds: nominatingPresident
+      ? [nomineeId, nominatingPresident]
+      : [nomineeId],
     participants: [
       {
         personId: nomineeId,
@@ -1204,6 +1762,17 @@ export function vicePresidentConfirmationHandler(
     context: CONTEXT,
   });
   const confirmedEventId = next.history.events.at(-1)!.id;
+  // The appointment is a favor from the President who named them, written
+  // when it takes effect: a nomination that fails gave nothing.
+  if (nominatingPresident)
+    next = recordAppointmentFavor(next, {
+      stableKey: `${due.stableKey}:appointed`,
+      appointerPersonId: nominatingPresident,
+      appointeePersonId: nomineeId,
+      post: VICE_PRESIDENT_POST,
+      eventId: confirmedEventId,
+      subject: { kind: "none" },
+    });
   if (heldSeat)
     next = vacateSeat(next, heldSeat, {
       effectiveDate: next.currentDate,
@@ -1317,4 +1886,6 @@ export const OFFICE_CONTINUITY_HANDLERS = [
   [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
   [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
   [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
+  [ASSOCIATE_JUSTICE_NOMINATION, associateJusticeNominationHandler],
+  [ASSOCIATE_JUSTICE_CONFIRMATION, associateJusticeConfirmationHandler],
 ] as const;

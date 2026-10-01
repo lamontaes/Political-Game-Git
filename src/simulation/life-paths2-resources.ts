@@ -1,5 +1,7 @@
 import { createResourcePosition, money } from "./resources";
-import { sameEndpoint } from "./resource-queries";
+import { recordById } from "./history-index";
+import { transferOutcomesOfPerson } from "./person-money-index";
+import { resourcePositionsOf, sameEndpoint } from "./resource-queries";
 import type { CurrencyCode, EntityId, World } from "./types";
 
 /** Start tracking only recorded money, never inferred initial wealth. Earlier
@@ -12,23 +14,27 @@ export function ensureLifePathPersonalPosition(
 ): World {
   const owner = { kind: "person" as const, personId };
   if (
-    world.history.resourcePositions.some(
-      (p) =>
-        sameEndpoint(p.owner, owner) && p.openingBalance.currency === currency,
+    resourcePositionsOf(world, owner).some(
+      (p) => p.openingBalance.currency === currency,
     )
   )
     return world;
   let balance = 0;
   const carried: EntityId[] = [];
-  for (const outcome of world.history.resourceTransferOutcomes) {
+  for (const outcome of transferOutcomesOfPerson(
+    world.history.resourceFlows,
+    world.history.resourceTransferOutcomes,
+    personId,
+  )) {
     if (
       outcome.occurredAt > world.currentDate ||
       outcome.transferredAmount.currency !== currency ||
       outcome.transferredAmount.minorUnits === 0
     )
       continue;
-    const flow = world.history.resourceFlows.find(
-      (f) => f.id === outcome.resourceFlowId,
+    const flow = recordById(
+      world.history.resourceFlows,
+      outcome.resourceFlowId,
     );
     if (!flow) continue;
     const direction =

@@ -70,6 +70,13 @@
     "evidence": "Somebody"
   },
   {
+    "id": "prose:conversation:contextual-scene:favor-0014#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "Somebody"
+  },
+  {
     "id": "prose:conversation:contextual-scene:homeEvening-0005#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",

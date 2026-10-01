@@ -10,7 +10,9 @@ import {
   electionContestResult,
   governingMatters,
   governingOfficeForPerson,
+  currentGoverningOffices,
   measurePosition,
+  measureActions,
   resolveCampaignElectionFromRecordedInput,
   searchLifePlaces,
   serializeWorld,
@@ -22,6 +24,9 @@ import type {
   World,
 } from "../simulation";
 import { LEGISLATIVE_INTAKE_VERSION } from "../simulation/governing/legislative-clock";
+import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
+import { stateJurisdictionForKey } from "../simulation/life-places";
+import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import {
   applyLegislativeCommand,
   institutionOwnsStep,
@@ -246,6 +251,114 @@ describe("GOVERNING 5: a real bill reaches the governor's desk", () => {
       (m) => m.family === "implementation" && m.measureId === measure.id,
     );
     expect(work?.status).toBe("open");
+  }, 900_000);
+
+  it("a nonhome Washington NPC governor decides a member bill from an ordinary opening", () => {
+    const place = searchLifePlaces("", 1, {
+      stateJurisdictionKey: "US-CO",
+      scope: "locality",
+    })[0]!;
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "governing-desk-nonhome-wa",
+        placeKey: place.key,
+        startAge: 40,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    const personId = game.playerPersonId;
+    const opening = openOrdinaryLife(game.world, personId);
+    const initialOffices = currentGoverningOffices(opening);
+    expect(initialOffices).toHaveLength(50);
+    expect(initialOffices.map((office) => office.stateUsps)).toContain("CO");
+    const washingtonAtOpening = initialOffices.find(
+      (office) => office.stateUsps === "WA",
+    );
+    expect(washingtonAtOpening).toBeDefined();
+    expect(washingtonAtOpening?.controlledByPlayer).toBe(false);
+
+    // The first ordinary clock advance schedules state seasons while keeping
+    // the executive materialized during opening.
+    let world = passOrdinaryDays(opening, 1);
+    const washingtonId = stateJurisdictionForKey("US-WA")!.id;
+    const washingtonOffice = currentGoverningOffices(world).find(
+      (office) => office.stateUsps === "WA",
+    );
+    expect(washingtonOffice).toBeDefined();
+    expect(washingtonOffice?.holderPersonId).toBe(
+      washingtonAtOpening!.holderPersonId,
+    );
+    expect(washingtonOffice?.controlledByPlayer).toBe(false);
+
+    const pack = legislativePackForJurisdiction(washingtonId)!;
+    const washingtonAgendaBills = (candidate: World) =>
+      (candidate.history.legislativeMeasures ?? []).filter(
+        (measure) =>
+          measure.jurisdictionId === washingtonId &&
+          measure.stableKey.endsWith(":agenda"),
+      );
+    for (
+      let step = 0;
+      step < 48 && washingtonAgendaBills(world).length === 0;
+      step += 1
+    )
+      world = passOrdinaryDays(world, 15);
+
+    const bill = washingtonAgendaBills(world)[0];
+    expect(
+      bill,
+      `Washington bill date reached ${world.currentDate}`,
+    ).toBeDefined();
+    expect(bill?.sponsorPersonId).not.toBe(personId);
+    const seatedWashingtonMembers = new Set(
+      stateLegislators(world, `${pack.packId}:candidacy`).map(
+        (member) => member.personId,
+      ),
+    );
+    expect(seatedWashingtonMembers.has(bill!.sponsorPersonId!)).toBe(true);
+
+    const billMatter = () =>
+      governingMatters(world, washingtonOffice!.officeKey).find(
+        (matter) => matter.family === "bill" && matter.measureId === bill!.id,
+      );
+    for (
+      let step = 0;
+      step < 48 && billMatter()?.status !== "decided";
+      step += 1
+    )
+      world = passOrdinaryDays(world, 3);
+
+    const matter = billMatter();
+    expect(matter?.status).toBe("decided");
+    const actions = measureActions(world, bill!.id);
+    const presented = actions.find(
+      (action) => action.kind === "presented-to-executive",
+    );
+    const executiveDecision = actions.find((action) =>
+      ["signed", "vetoed"].includes(action.kind),
+    );
+    expect(presented).toBeDefined();
+    expect(executiveDecision).toBeDefined();
+    expect(executiveDecision!.sequence).toBeGreaterThan(presented!.sequence);
+    expect(
+      currentGoverningOffices(world).find((office) => office.stateUsps === "WA")
+        ?.holderPersonId,
+    ).toBe(washingtonOffice!.holderPersonId);
+
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(measurePosition(reopened, bill!.id).phase).toBe(
+      measurePosition(world, bill!.id).phase,
+    );
+    expect(
+      reopened.history.executiveDispositions?.find(
+        (disposition) => disposition.measureId === bill!.id,
+      ),
+    ).toEqual(
+      world.history.executiveDispositions?.find(
+        (disposition) => disposition.measureId === bill!.id,
+      ),
+    );
   }, 900_000);
 });
 

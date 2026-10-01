@@ -136,11 +136,13 @@ describe("OPENING-LIFE1 canonical scenes", () => {
         firstChoice,
       );
       expect(currentOpeningLifeScene(world, game.playerPersonId)).toBeNull();
+      // The retired scene's moment is never offered again; a save that opened
+      // it is offered only its own follow-through.
       expect(
-        availableOpeningLifeScenes(world, game.playerPersonId).some(
-          (entry) => entry.definition.key === key,
-        ),
-      ).toBe(false);
+        availableOpeningLifeScenes(world, game.playerPersonId)
+          .filter((entry) => entry.definition.key === key)
+          .map((entry) => entry.beat.stageKey),
+      ).toEqual(["follow-through"]);
 
       world = deserializeWorld(
         serializeWorld(
@@ -336,6 +338,12 @@ describe("ordinary conversation follow-through", () => {
       expect(
         explained.intents.some((intent) => intent.key === "spendTime"),
       ).toBe(agreed);
+      // Saying no takes work: a refusal gives the person's own reason.
+      const answer = proposed.transcript.at(-1)!.reply;
+      if (!agreed)
+        expect(answer).toMatch(
+          /time to myself|on my own|something new|something different|game we both know|usual games/,
+        );
       if (agreed) {
         accepted = true;
         expect(explained.transcript.at(-1)!.reply).toContain(

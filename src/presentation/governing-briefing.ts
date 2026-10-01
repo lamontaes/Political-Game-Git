@@ -38,8 +38,8 @@ export interface BriefingMatter {
   readonly id: EntityId;
   readonly title: string;
   readonly ask: string;
-  readonly deadline: string;
-  readonly daysLeft: number;
+  readonly deadline: string | null;
+  readonly daysLeft: number | null;
   readonly ifIgnored: string;
   readonly options: readonly BriefingOption[];
   readonly recommendation: {
@@ -89,8 +89,10 @@ function view(world: World, matter: GoverningMatter): BriefingMatter {
     id: matter.id,
     title: matter.title,
     ask: matter.ask,
-    deadline: americanDate(matter.deadline),
-    daysLeft: daysUntil(world.currentDate, matter.deadline),
+    deadline: matter.deadline ? americanDate(matter.deadline) : null,
+    daysLeft: matter.deadline
+      ? daysUntil(world.currentDate, matter.deadline)
+      : null,
     ifIgnored: matter.ifIgnored,
     options: matter.options.map((option) => ({
       key: option.key,
@@ -122,7 +124,11 @@ export function projectGoverningBriefing(
       (matter) =>
         matter.status === "open" && matter.holderPersonId === personId,
     )
-    .sort((a, b) => a.deadline.localeCompare(b.deadline))
+    .sort((a, b) => {
+      if (!a.deadline) return b.deadline ? 1 : 0;
+      if (!b.deadline) return -1;
+      return a.deadline.localeCompare(b.deadline);
+    })
     .map((matter) => view(world, matter));
   const chief = chiefOfStaffFor(world, office);
   const chiefPerson = chief ? world.people[chief] : undefined;
@@ -131,21 +137,24 @@ export function projectGoverningBriefing(
     termLine: office.termEndsAt
       ? `Your term runs until ${americanDate(office.termEndsAt)}.`
       : "Your term's end date is not established.",
-    calendarNote: describeStateExecutiveTerm(
-      // The rule of the term being served, not of the next one: a law that
-      // lengthens terms from the next election does not change this one.
-      (office.termStartedAt
-        ? stateExecutiveTermRuleForElectionYear(
-            world,
-            office.stateUsps,
-            Number(office.termStartedAt.slice(0, 4)) - 1,
-          )
-        : stateExecutiveTermRuleInWorld(
-            world,
-            office.stateUsps,
-            world.currentDate,
-          )) ?? STATE_EXECUTIVE_GAME_PROFILE,
-    ),
+    calendarNote:
+      office.officeKey === "us-president"
+        ? office.calendarNote
+        : describeStateExecutiveTerm(
+            // The rule of the term being served, not of the next one: a law that
+            // lengthens terms from the next election does not change this one.
+            (office.termStartedAt
+              ? stateExecutiveTermRuleForElectionYear(
+                  world,
+                  office.stateUsps,
+                  Number(office.termStartedAt.slice(0, 4)) - 1,
+                )
+              : stateExecutiveTermRuleInWorld(
+                  world,
+                  office.stateUsps,
+                  world.currentDate,
+                )) ?? STATE_EXECUTIVE_GAME_PROFILE,
+          ),
     chiefOfStaff:
       chief && chiefPerson
         ? {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
 import { STATES } from "../state-reference";
@@ -11,18 +11,22 @@ import type {
 } from "../types";
 import {
   drawnLinkSize,
+  LAW_QUESTION_MEASURES,
   OUTCOME_LINKS,
   OUTCOME_WEB_CALIBRATED_AT,
   OUTCOMES_PRODUCED,
   outcomeFactor,
   outcomeLinkStatus,
+  outcomeLinksFedByQuestion,
   outcomeMeasure,
   outcomeWebStatus,
   shapedLinkFactor,
+  validateOutcomeLinkInventory,
 } from ".";
 
 const SHAPES = new Set([
   "linear",
+  "elasticity",
   "threshold",
   "diminishing",
   "exposure-years",
@@ -102,9 +106,10 @@ describe("the outcome web table", () => {
       expect(outcomeMeasure(row.from), row.key).not.toBeNull();
       expect(OUTCOMES_PRODUCED.has(row.to), row.key).toBe(true);
     }
-    // A ready link into an outcome nothing computes yet says so.
+    // A ready link into an outcome nothing computes yet says so: evictions
+    // are decided case by case in the rent code, never computed in the web.
     const ready = OUTCOME_LINKS.find(
-      (link) => link.key === "rent-control-to-rental-supply",
+      (link) => link.key === "right-to-counsel-to-evictions",
     )!;
     expect(outcomeLinkStatus(ready)).toBe("outcome-not-produced");
   });
@@ -159,6 +164,31 @@ describe("link shapes", () => {
   });
 });
 
+describe("questions fed by a bill term", () => {
+  it("the state minimum wage question feeds the links that read the wage its term sets", () => {
+    const fed = outcomeLinksFedByQuestion(
+      "us-policy-positions:labor-workforce.raise-minimum-wage",
+    );
+    expect(fed.map((link) => link.key)).toContain("minimum-wage-to-poverty");
+    expect(fed.some((link) => outcomeLinkStatus(link) === "built")).toBe(true);
+  });
+
+  it("a question with no bill term feeds only the links that read its answer", () => {
+    for (const link of outcomeLinksFedByQuestion(
+      "us-policy-positions:labor-workforce.right-to-work",
+    ))
+      expect(link.from).toBe(
+        "law:us-policy-positions:labor-workforce.right-to-work",
+      );
+  });
+
+  it("every measure a question names is one the web reads", () => {
+    for (const measures of Object.values(LAW_QUESTION_MEASURES))
+      for (const key of measures)
+        expect(outcomeMeasure(key), key).not.toBeNull();
+  });
+});
+
 describe("laws as causes", () => {
   it("every law cause is a policy question a bill can answer", () => {
     for (const link of OUTCOME_LINKS) {
@@ -179,13 +209,30 @@ describe("laws as causes", () => {
     "us-policy-positions:civil-family-community.restrict-abortion";
   const QUESTION = "proposition_restrict_abortion" as EntityId;
   const ohio = stateJurisdictionForKey("US-OH")!.id;
+  // A place whose starting law sets no limit, so a limit enacted in play is
+  // measured against none.
+  const noLimit = Object.keys(STATES)
+    .map((usps) => stateJurisdictionForKey(`US-${usps}`)!.id)
+    .find(
+      (place) =>
+        lawInForceAtStart(
+          worldWith("2027-03-01", null),
+          place,
+          QUESTION,
+          makeIsoDate("2027-03-01"),
+        ) === "no",
+    )!;
 
-  function worldWith(currentDate: string, answer: "yes" | "no" | null): World {
+  function worldWith(
+    currentDate: string,
+    answer: "yes" | "no" | null,
+    jurisdictionId: EntityId = ohio,
+  ): World {
     const measure: LegislativeMeasureRecord = {
       id: "measure_1" as EntityId,
       stableKey: "test:1",
       sequence: 1,
-      jurisdictionId: ohio,
+      jurisdictionId,
       rulePackId: "test",
       designation: "HB 1",
       shortTitle: "Restrict abortion",
@@ -225,16 +272,16 @@ describe("laws as causes", () => {
 
   it("a restrict-abortion law raises births about 2.3%, seven months after it takes effect", () => {
     const early = outcomeFactor(
-      worldWith("2026-12-01", "yes"),
-      ohio,
+      worldWith("2026-12-01", "yes", noLimit),
+      noLimit,
       "births.rate",
       makeIsoDate("2026-12-01"),
     );
     // Seven months before December 1 the law was not yet in force.
     expect(early.multiplier).toBe(1);
     const later = outcomeFactor(
-      worldWith("2027-03-01", "yes"),
-      ohio,
+      worldWith("2027-03-01", "yes", noLimit),
+      noLimit,
       "births.rate",
       makeIsoDate("2027-03-01"),
     );
@@ -247,13 +294,38 @@ describe("laws as causes", () => {
   it("a law that says no, or no law at all, leaves births at the base rate", () => {
     for (const answer of ["no", null] as const) {
       const reading = outcomeFactor(
-        worldWith("2027-03-01", answer),
-        ohio,
+        worldWith("2027-03-01", answer, noLimit),
+        noLimit,
         "births.rate",
         makeIsoDate("2027-03-01"),
       );
       expect(reading.multiplier, String(answer)).toBe(1);
     }
+  });
+
+  it("is measured from the law a place began with: in Ohio, which began with a limit, only a repeal moves births", () => {
+    expect(
+      lawInForceAtStart(
+        worldWith("2027-03-01", null),
+        ohio,
+        QUESTION,
+        makeIsoDate("2027-03-01"),
+      ),
+    ).toBe("yes");
+    const kept = outcomeFactor(
+      worldWith("2027-03-01", "yes"),
+      ohio,
+      "births.rate",
+      makeIsoDate("2027-03-01"),
+    );
+    expect(kept.multiplier).toBe(1);
+    const repealed = outcomeFactor(
+      worldWith("2027-03-01", "no"),
+      ohio,
+      "births.rate",
+      makeIsoDate("2027-03-01"),
+    );
+    expect(repealed.multiplier).toBeCloseTo(1 / 1.023, 2);
   });
 });
 
@@ -306,7 +378,25 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
   const all = OUTCOME_LINKS.filter((link) => link.owner === "F-cloud");
   // Rows into a measure another lane is adding: they switch on when it lands.
   const waiting = all.filter((link) => link.to === "housing.homelessness");
-  const rows = all.filter((link) => !waiting.includes(link));
+  // Rows re-marked as evidence gaps (CTO gap list A164): an earlier "about
+  // zero" no study measured. They stay off and say why in notes.
+  const gaps = all.filter((link) => link.evidence === "to-confirm");
+  const rows = all.filter(
+    (link) => !waiting.includes(link) && !gaps.includes(link),
+  );
+
+  it("evidence-gap rows have no size, do not act, and say why", () => {
+    expect(gaps.map((link) => link.key)).toEqual([
+      "library-materials-to-reading",
+    ]);
+    for (const link of gaps) {
+      expect(link.size, link.key).toBeNull();
+      expect(outcomeLinkStatus(link), link.key).not.toBe("built");
+      expect((link as unknown as { notes?: string }).notes, link.key).toMatch(
+        /^Evidence gap, not a measured zero/,
+      );
+    }
+  });
   const places = Object.keys(STATES).flatMap((usps) => {
     const id = stateJurisdictionForKey(`US-${usps}`)?.id;
     return id ? [{ key: `US-${usps}`, id }] : [];
@@ -428,24 +518,98 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
           );
         };
         const label = `${link.key} in ${place.key}`;
-        const startedYes =
+        const startingAnswer = (onDate: string) =>
           lawInForceAtStart(
             enacted(place.id, questionKey, "no", effectiveAt),
             place.id,
             `proposition:${questionKey}` as EntityId,
-            OUTCOME_WEB_CALIBRATED_AT,
-          ) === "yes";
+            makeIsoDate(onDate),
+          ) === "yes"
+            ? 1
+            : 0;
+        // The base is the law when the outcome data was measured.
+        const startedYes = startingAnswer(OUTCOME_WEB_CALIBRATED_AT) === 1;
         const yes = factorFor("yes");
         const no = factorFor("no");
         expect(yes - no, label).toBeCloseTo(link.size ?? 0, 10);
-        // The starting law is the base: keeping it changes nothing.
+        // Keeping the law the data was measured under changes nothing.
         expect(startedYes ? yes : no, label).toBeCloseTo(1, 10);
-        // Before the law takes effect and its lag passes, nothing moves.
-        expect(
-          factorFor(startedYes ? "no" : "yes", makeIsoDate("2029-12-01")),
-          label,
-        ).toBe(1);
+        // Before the new law takes effect and its lag passes, only a starting
+        // law that took effect after the data was measured (such as Maryland's
+        // facial recognition limits, 10/1/2024) moves the outcome.
+        const before = makeIsoDate("2029-12-01");
+        // The engine reads a law as of its lag, counting a month as 30.44 days.
+        const readAt = addDays(before, -Math.round(link.lagMonths * 30.44));
+        // A place with no starting law yet on record at that date (Colorado's
+        // county bargaining law began 7/1/2023) has no known law then, so
+        // nothing moves: an unknown law is not a "no".
+        const knownAtRead =
+          lawInForceAtStart(
+            enacted(place.id, questionKey, "no", effectiveAt),
+            place.id,
+            `proposition:${questionKey}` as EntityId,
+            readAt,
+          ) !== null;
+        const startingLawMoved = knownAtRead
+          ? startingAnswer(readAt) - startingAnswer(OUTCOME_WEB_CALIBRATED_AT)
+          : 0;
+        expect(factorFor(startedYes ? "no" : "yes", before), label).toBeCloseTo(
+          1 + (link.size ?? 0) * startingLawMoved,
+          10,
+        );
       }
     }
+  });
+});
+describe("declared outcome-link inventory", () => {
+  it("validates the actual catalog and exposes research evidence separately", () => {
+    expect(() => validateOutcomeLinkInventory(OUTCOME_LINKS)).not.toThrow();
+    const rows = outcomeWebStatus();
+    expect(rows).toHaveLength(OUTCOME_LINKS.length);
+    for (const evidence of ["provisional", "to-confirm"] as const) {
+      const link = OUTCOME_LINKS.find((row) => row.evidence === evidence)!;
+      expect(link).toBeDefined();
+      expect(rows.find((row) => row.key === link.key)!.evidence).toBe(evidence);
+    }
+  });
+
+  it("rejects a declared status that claims a different existing capability", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "built")!;
+    expect(() =>
+      validateOutcomeLinkInventory([{ ...link, status: "cause-not-recorded" }]),
+    ).toThrow(link.key);
+  });
+
+  it("requires a missing-size reason even when the existing shape is person-level", () => {
+    const link = OUTCOME_LINKS.find(
+      (row) => row.status === "person-level" && row.size === null,
+    )!;
+    expect(link).toBeDefined();
+    expect(link.unsupportedReason).toBe("size-not-set");
+    expect(outcomeLinkStatus(link)).toBe("person-level");
+    expect(() =>
+      validateOutcomeLinkInventory([{ ...link, unsupportedReason: null }]),
+    ).toThrow(link.key);
+  });
+
+  it("rejects an invented missing-cause reason on a structurally built link", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "built")!;
+    expect(() =>
+      validateOutcomeLinkInventory([
+        { ...link, unsupportedReason: "cause-not-recorded" },
+      ]),
+    ).toThrow(link.key);
+  });
+
+  it("keeps an unrecorded coefficient unavailable despite forged built metadata", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "size-not-set")!;
+    expect(link).toBeDefined();
+    const forged = {
+      ...link,
+      status: "built" as const,
+      unsupportedReason: null,
+    };
+    expect(outcomeLinkStatus(forged)).toBe("size-not-set");
+    expect(() => validateOutcomeLinkInventory([forged])).toThrow(link.key);
   });
 });

@@ -7,6 +7,9 @@ import {
 } from "../../presentation/opening-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { legislativeBlueprint } from "../legislation-scenarios";
+import { defaultOriginChamber } from "../legislature-rules";
+import { stateLegislators } from "../nationwide-world/state-legislature-opening";
+import { createFormationContext, recordPrivateBelief } from "../politics";
 import { fileMemberAgendaBill } from "../governing/member-agenda";
 import {
   OFFICEHOLDER_PRINCIPLES_VERSION,
@@ -92,6 +95,33 @@ describe("a generated member's bill and reflection", () => {
       ),
     ).toBe(true);
 
+    // The rest of the chamber holds the sponsor's view, so the bill leaves
+    // committee on its members' own views: a member with no view no longer
+    // votes yes by default.
+    const pack = blueprint.pack;
+    const chamber = defaultOriginChamber(pack);
+    stateLegislators(world, `${pack.packId}:candidacy`)
+      .filter(
+        (member) =>
+          member.officeKey === `${pack.packId}:${chamber.chamberKey}` &&
+          member.personId !== sponsorId &&
+          member.personId !== game.playerPersonId,
+      )
+      .forEach((member, index) => {
+        world = recordPrivateBelief(world, {
+          stableKey: `generated-member-reflection-route:colleague:${index}`,
+          personId: member.personId,
+          propositionId: answer!.propositionId,
+          formedAt: world.currentDate,
+          position: answer!.answer === "yes" ? "support" : "oppose",
+          conviction: "strong",
+          salience: "moderate",
+          flexibility: "firm",
+          rationale: null,
+          formation: createFormationContext("reflection:initial"),
+          supersedesBeliefId: null,
+        });
+      });
     for (let day = 0; day < 45 && !floorVote(world, measure!.id); day += 1)
       world = advanceWorld(
         world,

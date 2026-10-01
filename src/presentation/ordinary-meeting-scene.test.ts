@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  type EntityId,
   advanceWorldMinutes,
   deserializeWorld,
   serializeWorld,
@@ -18,6 +19,7 @@ import {
   recordOrdinaryMeetingPresence,
   enterOrdinaryMeeting,
   speakAtOrdinaryMeeting,
+  ordinaryMeetingEntry,
 } from "../simulation/ordinary-meeting-presence";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -30,6 +32,11 @@ import {
 } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { previewTimeCommand, submitTimeCommand } from "./time-command";
+import { observerPlace } from "./observer-world";
+import { activeOrganizationParticipationsAt } from "../simulation/life-queries";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { sittingLocalOfficers } from "../simulation/living-world/local-government-seats";
+import { personName } from "../simulation/people";
 
 function start(placeKey: string) {
   const game = generateOpeningLife(
@@ -49,7 +56,9 @@ function start(placeKey: string) {
   return { world, personId: game.playerPersonId, activity };
 }
 
-describe("prospective meeting presence", () => {
+// Each case opens a whole life and holds a council meeting whose members
+// decide through the vote engine: several seconds of real work.
+describe("prospective meeting presence", { timeout: 60_000 }, () => {
   it("opens the posted meeting at its start through the normal Attend command, then finishes on a second choice", () => {
     const { world, personId, activity } = start("2743000");
     const command = {
@@ -92,6 +101,29 @@ describe("prospective meeting presence", () => {
       "ask",
     );
     expect(spoken.history.events.at(-1)?.context.choice).toBe(words);
+    const comment = spoken.history.events.at(-1)!;
+    const entry = first.world.history.events.find(
+      (event) => event.id === active.eventId,
+    )!;
+    for (const listenerId of new Set(
+      entry.participants
+        .filter(
+          (participant) =>
+            participant.role === "presence:participant" ||
+            participant.role === "coordination:chair",
+        )
+        .map((participant) => participant.personId),
+    )) {
+      expect(comment.involvedEntityIds).toContain(listenerId);
+      expect(
+        spoken.history.knowledge.some(
+          (record) =>
+            record.eventId === comment.id &&
+            record.personId === listenerId &&
+            record.source.kind === "direct",
+        ),
+      ).toBe(true);
+    }
     expect(
       speakAtOrdinaryMeeting(spoken, personId, activity.id, "support"),
     ).toBe(spoken);
@@ -160,16 +192,35 @@ describe("prospective meeting presence", () => {
         expect(scene.caption).toContain("The discussion ended without a vote.");
       if (councilChair) expect(scene.actors[0]!.personId).toBe(councilChair);
       expect(scene.agendaText).toContain("one extra evening each week");
-      expect(scene.actors).toHaveLength(3);
-      expect(scene.actors.slice(1).every((actor) => actor.spokenLine)).toBe(
-        true,
+      const units = homeLocalGovernmentUnits(completed, personId);
+      const unit = [
+        ...units.municipal,
+        ...units.townships,
+        ...units.counties,
+      ].find((candidate) =>
+        sittingLocalOfficers(completed, candidate).some(
+          (seat) => seat.personId === scene.actors[0]!.personId,
+        ),
       );
+      const officerIds = unit
+        ? sittingLocalOfficers(completed, unit)
+            .map((seat) => seat.personId)
+            .filter((id) => id !== personId)
+        : [];
+      expect(scene.actors.map((actor) => actor.personId).sort()).toEqual(
+        [...new Set(officerIds)].sort(),
+      );
+      expect(
+        scene.actors.slice(1).every((actor) => actor.spokenLine === null),
+      ).toBe(true);
       expect(
         recorded.people[scene.actors[0]!.personId]!.homeJurisdictionId,
       ).toBe(activity.location.jurisdictionId);
-      expect(recorded.personOrder.length).toBe(
-        completed.personOrder.length + (councilChair ? 2 : 3),
-      );
+      // Everyone at the meeting is a neighbor already in the world: nobody
+      // is made up for the evening.
+      expect(recorded.personOrder).toEqual(completed.personOrder);
+      for (const actor of scene.actors)
+        expect(completed.people[actor.personId]!.homeJurisdictionId).toBe(town);
       expect(
         simulationMinutesBetween(
           completed.currentMoment,
@@ -233,6 +284,13 @@ describe("prospective meeting presence", () => {
       const scene = projectOrdinaryMeetingScene(entered, personId)!;
       expect(scene.phase).toBe("active");
       expect(scene.caption).toContain("chairs the meeting.");
+      const entryRecord = entered.history.events.find(
+        (event) => event.id === scene.eventId,
+      )!;
+      const seatTags = entryRecord.tags.filter((tag) =>
+        tag.startsWith("attendance-seat:"),
+      );
+      expect(seatTags.length).toBeGreaterThan(0);
       expect(enterOrdinaryMeeting(entered, personId, activity.id)).toBe(
         entered,
       );
@@ -245,6 +303,20 @@ describe("prospective meeting presence", () => {
       const after = projectOrdinaryMeetingScene(completed, personId)!;
       expect(after.phase).toBe("immediate-aftermath");
       expect(after.actors[0]!.personId).toBe(scene.actors[0]!.personId);
+      const attendanceRecord = completed.history.events.find(
+        (event) => event.id === after.eventId,
+      )!;
+      expect(
+        attendanceRecord.tags.filter((tag) =>
+          tag.startsWith("attendance-seat:"),
+        ),
+      ).toEqual(seatTags);
+      const reloaded = deserializeWorld(serializeWorld(completed));
+      expect(
+        reloaded.history.events.find(
+          (event) => event.id === attendanceRecord.id,
+        )?.tags,
+      ).toEqual(attendanceRecord.tags);
       expect(completed.personOrder).toEqual(entered.personOrder);
       expect(performVenueActivity(completed, personId, activity.id)).toBe(
         completed,
@@ -254,6 +326,97 @@ describe("prospective meeting presence", () => {
       );
     },
   );
+  // Places drawn by the watched-run rule: Hammond, Indiana and Tafuna,
+  // American Samoa.
+  it.each(["build-25:meeting:1", "build-25:meeting:2"])(
+    "records the seated council at the meeting in a watched place (%s)",
+    (seed) => {
+      const place = observerPlace(seed);
+      const { world, personId, activity } = start(place.key);
+      if (!activity) return;
+      const journey = world.history.scheduledActivities.find(
+        (entry) =>
+          entry.location.locationKey === "ordinary-life:to-meeting-room",
+      )!;
+      const completed = performScheduledActivity(
+        performVenueActivity(world, personId, journey.id),
+        activity.id,
+      );
+      const recorded = recordOrdinaryMeetingPresence(
+        world,
+        completed,
+        personId,
+        activity.id,
+      );
+      const scene = projectOrdinaryMeetingScene(recorded, personId);
+      const town = activity.location.jurisdictionId!;
+      const unitsAtHome = homeLocalGovernmentUnits(completed, personId);
+      if (
+        [
+          ...unitsAtHome.municipal,
+          ...unitsAtHome.townships,
+          ...unitsAtHome.counties,
+        ].every((unit) => sittingLocalOfficers(completed, unit).length === 0)
+      ) {
+        // This place has no recorded council or named notice host. The reader
+        // cannot manufacture an attendee to make an entry control work.
+        expect(recorded).toBe(completed);
+        expect(scene).toBeNull();
+        const arrived = performVenueActivity(world, personId, journey.id);
+        expect(ordinaryMeetingEntry(arrived, personId, activity.id)).toBeNull();
+        expect(enterOrdinaryMeeting(arrived, personId, activity.id)).toBe(
+          arrived,
+        );
+        expect(projectOrdinaryMeetingScene(arrived, personId)).toBeNull();
+        expect(deserializeWorld(serializeWorld(arrived))).toEqual(arrived);
+        return;
+      }
+      expect(scene).not.toBeNull();
+      const presentScene = scene!;
+      const belongs = (id: EntityId) =>
+        activeOrganizationParticipationsAt(completed, id).length;
+      console.log(
+        JSON.stringify({
+          seed,
+          place: `${place.displayName} (${place.key})`,
+          councilChair: localCouncilChair(completed, town, personId) !== null,
+          actors: presentScene.actors.map((actor) => ({
+            name: personName(recorded.people[actor.personId]!),
+            belongs: belongs(actor.personId),
+            line: actor.spokenLine ?? null,
+          })),
+        }),
+      );
+      expect(recorded.personOrder).toEqual(completed.personOrder);
+      for (const actor of presentScene.actors)
+        expect(completed.people[actor.personId]!.homeJurisdictionId).toBe(town);
+      const units = homeLocalGovernmentUnits(completed, personId);
+      const chairId = presentScene.actors[0]!.personId;
+      const unit = [
+        ...units.municipal,
+        ...units.townships,
+        ...units.counties,
+      ].find((candidate) =>
+        sittingLocalOfficers(completed, candidate).some(
+          (seat) => seat.personId === chairId,
+        ),
+      );
+      const officers = unit ? sittingLocalOfficers(completed, unit) : [];
+      expect(presentScene.actors.map((actor) => actor.personId).sort()).toEqual(
+        [
+          ...new Set(
+            officers
+              .map((seat) => seat.personId)
+              .filter((id) => id !== personId),
+          ),
+        ].sort(),
+      );
+      expect(
+        presentScene.actors.every((actor) => actor.spokenLine === null),
+      ).toBe(true);
+    },
+  );
+
   it("leaves without attendance credit, charges only the recorded return and refuses a changed home endpoint", () => {
     const { world, personId, activity } = start("2309585");
     const journey = world.history.scheduledActivities.find(

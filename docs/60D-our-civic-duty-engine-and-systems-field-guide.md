@@ -1899,7 +1899,9 @@ same order, so you can compare any two of them:
 9. **What it cannot do.** Age, sicken, or die in play (see System 21).
 10. **What breaks if it is wrong.** Two runs of the same seed give different
     people, and replay fails.
-11. **How to check it.** `npm run stress:persons`.
+11. **How to check it.** `npm run stress:persons` draws a place from all 56
+    jurisdictions and prints it with the seed that drew it; `--place <place key>`
+    or `--place-seed <seed>` repeats a run.
 
 ### SYSTEM 10 — NAMES DATA
 

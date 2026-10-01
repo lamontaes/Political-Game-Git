@@ -34,6 +34,15 @@ import {
 } from "./state-executives";
 import { generalElectionDay } from "./state-executive-term-rules";
 import { planOrdinaryStateExecutiveTerm } from "./state-executive-terms";
+import { decideAnotherTerm } from "../careers/another-term";
+import { createOrganizationParticipations } from "../life";
+import {
+  LIVING_WORLD_KEYS,
+  PARTY_AFFILIATION_KIND,
+  livingWorldOrganizationId,
+} from "../living-world/opening";
+import { personName } from "../people";
+import { majorPartyOf } from "../statewide-electorate";
 
 import {
   GOVERNOR_FIELD_CLOSE,
@@ -55,11 +64,6 @@ import {
  * ordinary course. No incumbent stays past the end of a term without an
  * election, and nothing is written for a date the clock has not crossed.
  */
-
-function ageOn(birthDate: IsoDate, date: IsoDate): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
-}
 
 function pad(value: number): string {
   return value.toString().padStart(2, "0");
@@ -138,7 +142,6 @@ function decideIncumbentGovernor(
   stateUsps: string,
   year: number,
   electionDay: IsoDate,
-  rng: SeededRng,
 ): {
   readonly world: World;
   readonly incumbentPersonId: EntityId | null;
@@ -150,40 +153,64 @@ function decideIncumbentGovernor(
   );
   const incumbent = holder ? world.people[holder.personId] : undefined;
   // Whether the incumbent MAY stand is the state's term limit for the term
-  // this election fills, under this World's law; whether they WANT to is the
-  // profile's age and chance below.
-  const termStartsAt = termDatesAfterElectionInWorld(
-    world,
-    stateUsps,
-    electionDay,
-  )?.startsAt;
+  // this election fills, under this World's law; whether they WANT to is
+  // their own decision below, from their office, health, age and family.
+  const term = termDatesAfterElectionInWorld(world, stateUsps, electionDay);
   const barredByLimit =
-    incumbent !== undefined && termStartsAt !== undefined
+    incumbent !== undefined && term !== null
       ? (checkExecutiveTermLimit(world, {
           stateUsps,
           personId: incumbent.id,
-          termStartsAt,
+          termStartsAt: term.startsAt,
         })?.barredReason ?? null)
       : null;
-  const tooOld =
-    incumbent !== undefined &&
-    ageOn(incumbent.birthDate, electionDay) >=
-      GOVERNOR_TURNOVER_PROFILE.retirementAge;
-  const eligible =
+  // The person being played decides their own candidacy.
+  const played =
     incumbent !== undefined &&
     world.control.kind === "person" &&
-    world.control.personId !== incumbent.id &&
-    !tooOld &&
-    barredByLimit === null;
-  const seeking =
-    eligible &&
-    rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;
+    world.control.personId === incumbent.id;
+  let current = world;
+  let seeking = false;
+  let reason =
+    incumbent === undefined
+      ? "no sitting governor is on record."
+      : barredByLimit !== null
+        ? "they have served the terms the state allows."
+        : "they are standing down.";
+  if (incumbent !== undefined && !played && barredByLimit === null) {
+    const key = `${turnoverContestKey(office.officeKey, year)}:another-term`;
+    const decided = decideAnotherTerm(current, {
+      personId: incumbent.id,
+      stableKey: key,
+      subjectKey: office.officeKey,
+      onDate: current.currentDate,
+      // PLACEHOLDER(build-24-step-4): a state whose term rule is not read
+      // here gets a four-year term, the length most governorships have.
+      termEnds: term?.endsAt ?? addDays(electionDay, 4 * 365),
+      serving: [
+        {
+          stableKey: `${key}:serving`,
+          optionKey: "seek",
+          sourceType: "context:current-office",
+          direction: "supports",
+          importance: "moderate",
+          confidence: "high",
+          explanation: `They are the sitting ${office.displayName}.`,
+          sourceRefs: [],
+        },
+      ],
+      decisionType: "election.consider-another-governor-term",
+    });
+    current = decided.world;
+    seeking = decided.seeks;
+    if (!seeking) reason = lowerFirst(decided.reason);
+  }
   // Standing again is a decision of its own, recorded before the contest and
   // separate from both its result and taking office.
   // The state jurisdiction is established before the intent is recorded: a
   // vacant office has no person to name, and the record still has to be about
   // the state whose office it is.
-  const withState = ensureStateJurisdiction(world, stateUsps);
+  const withState = ensureStateJurisdiction(current, stateUsps);
   const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   const next = recordGovernorCandidacyIntent(withState, {
     office,
@@ -191,22 +218,19 @@ function decideIncumbentGovernor(
     stateJurisdictionId: stateId,
     incumbentPersonId: incumbent?.id ?? null,
     seeking,
-    reason:
-      incumbent === undefined
-        ? "no sitting governor is on record."
-        : barredByLimit !== null
-          ? "they have served the terms the state allows."
-          : tooOld
-            ? "they are retiring."
-            : "they are standing down.",
+    reason,
   });
   return { world: next, incumbentPersonId: incumbent?.id ?? null, seeking };
 }
 
+function lowerFirst(text: string): string {
+  return text.charAt(0).toLowerCase() + text.slice(1);
+}
+
 /**
  * The sitting governor, when they stand again at the election the player is
- * filing for; null when the seat is open. Uses the same seeded decision the
- * regular contest makes, and records it.
+ * filing for; null when the seat is open. Reads the same decision the
+ * regular contest makes, made once and recorded.
  */
 export function incumbentGovernorStandingAgain(
   world: World,
@@ -216,16 +240,7 @@ export function incumbentGovernorStandingAgain(
   const office = stateExecutiveOffice(stateUsps);
   if (!office) return { world, incumbentPersonId: null };
   const year = Number(electionDay.slice(0, 4));
-  const rng = new SeededRng(world.seed).fork(
-    turnoverContestKey(office.officeKey, year),
-  );
-  const decided = decideIncumbentGovernor(
-    world,
-    stateUsps,
-    year,
-    electionDay,
-    rng,
-  );
+  const decided = decideIncumbentGovernor(world, stateUsps, year, electionDay);
   return {
     world: decided.world,
     incumbentPersonId: decided.seeking ? decided.incumbentPersonId : null,
@@ -252,18 +267,21 @@ function openRegularContest(
   )
     return world;
   const rng = new SeededRng(world.seed).fork(key);
-  const decided = decideIncumbentGovernor(
-    world,
-    stateUsps,
-    year,
-    electionDay,
-    rng,
-  );
+  const decided = decideIncumbentGovernor(world, stateUsps, year, electionDay);
   const incumbent = decided.incumbentPersonId
     ? world.people[decided.incumbentPersonId]
     : undefined;
   const incumbentRuns = decided.seeking;
-  const challengers = incumbentRuns ? 1 : 2;
+  // Each major party puts up a candidate, except the party of a governor who
+  // is running again: that governor is its candidate.
+  const incumbentParty =
+    incumbentRuns && incumbent
+      ? majorPartyOf(decided.world, incumbent.id, electionDay)
+      : null;
+  const challengerParties = MAJOR_PARTIES.filter(
+    (party) => party !== incumbentParty,
+  );
+  const challengers = incumbentRuns && incumbentParty ? 1 : 2;
   const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   let next = decided.world;
   const inputs = Array.from({ length: challengers }, (_, index) => {
@@ -283,6 +301,16 @@ function openRegularContest(
     };
   });
   next = createCharacterHistoryContextPeople(next, inputs);
+  next = affiliateChallengers(
+    next,
+    key,
+    inputs.map((input, index) => ({
+      personId: characterHistoryContextPersonId(next, input.stableKey),
+      party: challengerParties[index] ?? null,
+    })),
+    stateId,
+    electionDay,
+  );
   const candidatePersonIds = [
     ...(incumbentRuns && incumbent ? [incumbent.id] : []),
     ...inputs.map((input) =>
@@ -306,6 +334,81 @@ function openRegularContest(
       note: `${GOVERNOR_TURNOVER_PROFILE.id}: the regular election for ${office.displayName}, opened when the candidate field closed.`,
     },
   });
+}
+
+const MAJOR_PARTIES = ["democratic", "republican"] as const;
+
+/**
+ * Records each challenger as their party's candidate: a public affiliation
+ * with the party, cited to the event that names them. Skipped where this
+ * World has no national party to join (a world without its living politics).
+ */
+function affiliateChallengers(
+  world: World,
+  key: string,
+  challengers: readonly {
+    readonly personId: EntityId;
+    readonly party: (typeof MAJOR_PARTIES)[number] | null;
+  }[],
+  stateId: EntityId,
+  electionDay: IsoDate,
+): World {
+  let next = world;
+  for (const { personId, party } of challengers) {
+    if (!party) continue;
+    const partyId = livingWorldOrganizationId(
+      next,
+      LIVING_WORLD_KEYS.nationalParty(party),
+    );
+    if (
+      !next.history.organizations.some(
+        (organization) => organization.id === partyId,
+      ) ||
+      majorPartyOf(next, personId, electionDay) === party
+    )
+      continue;
+    const stableKey = `${key}:candidate:${personId}:party`;
+    next = recordWorldEvent(next, {
+      stableKey,
+      type: "election.party-candidate-named",
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: stateId,
+      involvedEntityIds: [personId, partyId],
+      participants: [
+        { personId, role: "focus:subject", detail: `candidate:${party}` },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["election.governor", `party:${party}`],
+      summary: `${personName(next.people[personId]!)} runs for governor as the ${party === "democratic" ? "Democratic" : "Republican"} candidate.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    next = createOrganizationParticipations(next, [
+      {
+        stableKey: `${stableKey}:affiliation`,
+        personId,
+        organizationId: partyId,
+        startedAt: next.currentDate,
+        initialStatus: "active",
+        kind: PARTY_AFFILIATION_KIND,
+        roleKind: "member:public-affiliation",
+        context: "Public party affiliation",
+        provenance: {
+          kind: "simulated-event",
+          eventId: next.history.events.at(-1)!.id,
+        },
+      },
+    ]);
+  }
+  return next;
 }
 
 function officeForDue(due: FutureDueItem) {

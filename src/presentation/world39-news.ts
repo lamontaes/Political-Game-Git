@@ -12,10 +12,12 @@ import {
   municipalGovernmentForLifePlace,
   primaryReading,
 } from "../simulation/municipal-government";
+import { enactedLawsWithEffects } from "../simulation/enacted-law-effects";
 import { stateOfJurisdiction } from "../simulation/press/outlets";
 import { resolvePublicationSource } from "../simulation/public-information-integrity";
 import { currentPublicOfficeholders } from "./opening-officeholders";
 import { projectPublicInformationPanel } from "./public-information-adapters";
+import { lawEffectSentences } from "./law-effects-prose";
 import { proseMonthYear } from "./prose-dates";
 
 /**
@@ -42,6 +44,56 @@ export interface World39UnfilledOffice {
 }
 
 /** Orientation is a read of the save, never an implicit publication. */
+/** One enacted law that reaches a resident, and what it did in the world. */
+export interface World39LawReach {
+  readonly measureId: EntityId;
+  readonly title: string;
+  readonly designation: string;
+  readonly level: "federal" | "state" | "territory" | "local";
+  readonly enactedOn: IsoDate;
+  /** Whether any part of the law changed a record the game acts on. */
+  readonly actsInWorld: boolean;
+  readonly sentences: readonly string[];
+}
+
+/**
+ * The laws that apply where a resident lives: national law, their state's,
+ * and their own town's, newest first. Laws with no part the game acts on are
+ * listed too, and say so, so the page never claims more than the world did.
+ */
+export function lawsReachingResident(
+  world: World,
+  jurisdictionId: EntityId | null,
+  limit = 8,
+): readonly World39LawReach[] {
+  const homeState = stateOfJurisdiction(world, jurisdictionId);
+  return enactedLawsWithEffects(world)
+    .filter((law) => {
+      if (law.level === "federal") return true;
+      const measure = (world.history.legislativeMeasures ?? []).find(
+        (row) => row.id === law.measureId,
+      );
+      if (!measure || jurisdictionId === null) return false;
+      return law.level === "local"
+        ? measure.jurisdictionId === jurisdictionId
+        : homeState !== null &&
+            stateOfJurisdiction(world, measure.jurisdictionId) === homeState;
+    })
+    .slice(0, limit)
+    .map((law) => ({
+      measureId: law.measureId,
+      title: law.shortTitle,
+      designation: law.designation,
+      level: law.level,
+      enactedOn: law.enactedOn,
+      actsInWorld: law.lines.some(
+        (line) =>
+          line.kind !== "not-modeled" && line.kind !== "no-operative-text",
+      ),
+      sentences: lawEffectSentences(world, law.measureId),
+    }));
+}
+
 export function projectWorld39News(world: World, personId: EntityId) {
   const person = world.people[personId] ?? null;
   const jurisdictionId = person?.homeJurisdictionId ?? null;
@@ -53,17 +105,28 @@ export function projectWorld39News(world: World, personId: EntityId) {
   const publishedEvents = new Set(
     publications.items.map((item) => item.sourceEventId),
   );
-  // Every materialized public officeholder, including state executives whose
-  // term dates are not established; the sentence never invents a "since".
+  // A resident's news is their own place, their state, the nation, and what
+  // concerns them by name. A House vacancy in another state is not news in
+  // Maine (Maine playthrough, 2026-09-22), and neither is another state's
+  // governor.
+  const homeState = stateOfJurisdiction(world, jurisdictionId);
+  // Every materialized public officeholder within the reader's reach,
+  // including state executives whose term dates are not established; the
+  // sentence never invents a "since".
   const officeholders = currentPublicOfficeholders(world)
     .filter((holder) => {
       const event = world.history.events.find(
         (entry) => entry.id === holder.termId,
       );
       // National term plans are already admitted by the shared current-holder reader.
+      if (!event) return true;
+      const holderState = event.jurisdictionId
+        ? stateOfJurisdiction(world, event.jurisdictionId)
+        : null;
       return (
-        !event ||
-        (event.visibility === "public" && event.recordedAt <= world.currentDate)
+        event.visibility === "public" &&
+        event.recordedAt <= world.currentDate &&
+        (holderState === null || holderState === homeState)
       );
     })
     .map((holder) => {
@@ -95,16 +158,17 @@ export function projectWorld39News(world: World, personId: EntityId) {
       )
       .map((entry) => entry.eventId),
   );
-  // A resident's news is their own place, their state, the nation, and what
-  // concerns them by name. A House vacancy in another state is not news in
-  // Maine (Maine playthrough, 2026-09-22).
-  const homeState = stateOfJurisdiction(world, jurisdictionId);
   const closeToHome = (event: (typeof world.history.events)[number]) =>
     event.jurisdictionId === null ||
     event.jurisdictionId === jurisdictionId ||
     (homeState !== null &&
       stateOfJurisdiction(world, event.jurisdictionId) === homeState) ||
     event.involvedEntityIds.includes(personId);
+  const nearness = (event: (typeof world.history.events)[number]) =>
+    event.jurisdictionId === jurisdictionId ||
+    event.involvedEntityIds.includes(personId)
+      ? 0
+      : 1;
   const publicEvents = world.history.events
     .filter(
       (event) =>
@@ -119,9 +183,14 @@ export function projectWorld39News(world: World, personId: EntityId) {
         closeToHome(event) &&
         resolvePublicationSource(world, event) !== null,
     )
+    // Newest first; on the same day, the player's own town and what names
+    // them come before the rest of the state, so a filing day across Texas
+    // does not push the town's own election result off the list.
     .sort(
       (a, b) =>
-        b.occurredAt.localeCompare(a.occurredAt) || b.sequence - a.sequence,
+        b.occurredAt.localeCompare(a.occurredAt) ||
+        nearness(a) - nearness(b) ||
+        b.sequence - a.sequence,
     )
     .slice(0, 8)
     .map((event) => ({
@@ -155,6 +224,7 @@ export function projectWorld39News(world: World, personId: EntityId) {
     publicEvents,
     learnedEventIds,
     unfilledOffices,
+    laws: lawsReachingResident(world, jurisdictionId),
   };
 }
 
@@ -271,8 +341,24 @@ function isPublicInstitutionClassification(classification: string): boolean {
   );
 }
 
+/**
+ * A government named for its form ("City of Minneapolis", "County of
+ * Hennepin") takes "the" in a sentence; a bare proper name does not.
+ */
+function governmentNameInSentence(
+  governmentName: string,
+  sentenceStart = false,
+): string {
+  if (
+    /^the\s/i.test(governmentName) ||
+    !/^[A-Z][\w ]*? of /.test(governmentName)
+  )
+    return governmentName;
+  return `${sentenceStart ? "The" : "the"} ${governmentName}`;
+}
+
 function governmentHeadline(placeName: string, governmentName: string): string {
-  return `${placeName} is governed by ${governmentName}`;
+  return `${placeName} is governed by ${governmentNameInSentence(governmentName)}`;
 }
 
 function governmentSentence(
@@ -287,7 +373,7 @@ function governmentSentence(
   ].filter((sentence): sentence is string => sentence !== null);
   return sentences.length > 0
     ? sentences.join(" ")
-    : `${governmentName} serves ${placeName}.`;
+    : `${governmentNameInSentence(governmentName, true)} serves ${placeName}.`;
 }
 
 function institutionSentence(

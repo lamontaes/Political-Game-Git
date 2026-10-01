@@ -1,4 +1,5 @@
 import {
+  enterOrdinaryMeeting,
   ordinaryMeetingEntry,
   recordOrdinaryMeetingPresence,
 } from "../simulation/ordinary-meeting-presence";
@@ -75,6 +76,12 @@ const ATTEND_JOURNEYS = [
     costDisclosure: "There is no fare.",
   },
   {
+    journeyLocationKey: "ordinary-life:to-meeting-room",
+    destinationLocationKey: "campaign-life:town-hall-school-gym",
+    destinationSetting: "school gym",
+    costDisclosure: "There is no fare.",
+  },
+  {
     journeyLocationKey: "office-to-east-end",
     destinationLocationKey: "east-end-community-room",
     destinationSetting: "community room",
@@ -147,13 +154,27 @@ function disclosedJourneyFor(
  * organizing meeting asked for, traveled to, and then permanently unkeepable.
  */
 /**
+ * What the button for a trip says, and what the record says the player
+ * chose: "Go to the public meeting". Built from the trip's own title, so it
+ * names where the player is going in plain words.
+ */
+export function goLabel(travel: {
+  readonly title: string;
+  readonly location: { readonly label: string };
+}): string {
+  const to = /^(?:journey|trip|travel) to\s+/i;
+  if (to.test(travel.title)) return `Go to ${travel.title.replace(to, "")}`;
+  return `Go to ${travel.location.label}`;
+}
+
+/**
  * `choice` is a parameter, from the client line, and must stay one. A journey
  * played on its own from the Calendar is the player choosing to make the
  * journey; writing "Attend <destination>" against their name there records a
  * decision they have not taken yet. Same mistake as a lapsed hold wearing a
  * refusal's clothes.
  */
-function recordJourneyArrival(
+export function recordJourneyArrival(
   world: World,
   travel: ScheduledActivityRecord,
   destination: ScheduledActivityRecord,
@@ -209,18 +230,21 @@ function arrivedDestinationFor(
   personId: EntityId,
   travel: ScheduledActivityRecord,
 ) {
-  const adapter = ATTEND_JOURNEYS.find(
+  // Several destinations can share one journey (the community room and the
+  // school gym), so look at every adapter for it.
+  for (const adapter of ATTEND_JOURNEYS.filter(
     (candidate) => candidate.journeyLocationKey === travel.location.locationKey,
-  );
-  if (!adapter) return null;
-  const destination = scheduledActivitiesVisibleTo(world, personId).find(
-    (candidate) =>
-      travel.sourceEntityIds.includes(candidate.id) &&
-      candidate.location.locationKey === adapter.destinationLocationKey &&
-      scheduledActivityState(world, candidate.id).status === "scheduled",
-  );
-  if (!destination) return null;
-  return { destination, destinationSetting: adapter.destinationSetting };
+  )) {
+    const destination = scheduledActivitiesVisibleTo(world, personId).find(
+      (candidate) =>
+        travel.sourceEntityIds.includes(candidate.id) &&
+        candidate.location.locationKey === adapter.destinationLocationKey &&
+        scheduledActivityState(world, candidate.id).status === "scheduled",
+    );
+    if (destination)
+      return { destination, destinationSetting: adapter.destinationSetting };
+  }
+  return null;
 }
 
 /** A player action over existing scheduled activity truth; no separate clock. */
@@ -507,6 +531,7 @@ export interface PerformVenueActivityOptions {
    * "condensed" produces the same outcome with less of the evening shown.
    */
   readonly attendance?: "attended" | "condensed";
+  readonly finishMeeting?: boolean;
 }
 
 export function performVenueActivity(
@@ -559,11 +584,11 @@ export function venueTimingLabel(
         scheduledActivityState(world, activityId).start,
       ) >= 0
     ) {
-      return ordinaryMeetingEntry(
-        world,
-        activity.responsiblePersonId,
-        activityId,
-      )
+      const location = openingLifeLocation(world, activity.responsiblePersonId);
+      const inRoom =
+        location?.label === activity.location.label &&
+        location.jurisdictionId === activity.location.jurisdictionId;
+      return inRoom
         ? `Takes ${formatRoutineElapsedMinutes(offer.elapsedMinutes)} to stay through the meeting.`
         : `Travel takes ${formatRoutineElapsedMinutes(offer.elapsedMinutes)}; the meeting will already be underway.`;
     }
@@ -678,6 +703,12 @@ function performVenueActivityOnce(
   )
     return world;
   const journey = entry.journey;
+  const opensMeeting =
+    entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+    attendance === "attended" &&
+    !options?.finishMeeting;
+  if (opensMeeting && ordinaryMeetingEntry(world, personId, activityId))
+    return enterOrdinaryMeeting(world, personId, activityId);
   if (!journey) {
     const lateMeeting =
       entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
@@ -712,6 +743,7 @@ function performVenueActivityOnce(
         : world;
     if (compareSimulationMoments(waited.currentMoment, start) < 0)
       return waited;
+    if (opensMeeting) return enterOrdinaryMeeting(waited, personId, activityId);
     // Campaign work is done in place by the campaign's own writer, so its
     // money and outreach are recorded; the bare calendar completion below
     // would mark it done with neither. No arrival is recorded: nobody went
@@ -744,13 +776,16 @@ function performVenueActivityOnce(
       return performed;
     const arrived = arrivedDestinationFor(performed, personId, entry.activity);
     if (!arrived) return performed;
-    return recordJourneyArrival(
+    const placed = recordJourneyArrival(
       performed,
       entry.activity,
       arrived.destination,
       arrived.destinationSetting,
-      "Make the journey",
+      goLabel(entry.activity),
     );
+    return arrived.destination.stableKey === `${PUBLIC_MEETING_KEY}:activity`
+      ? enterOrdinaryMeeting(placed, personId, arrived.destination.id)
+      : placed;
   }
 
   // Resolve the legitimate ordinary windows crossed while waiting to depart.
@@ -793,6 +828,7 @@ function performVenueActivityOnce(
     !canPersonAccess(refreshed.activity.access, personId)
   )
     return arrived;
+  if (opensMeeting) return enterOrdinaryMeeting(arrived, personId, activityId);
   // Preserve domain outcomes, then record the actual ordinary-meeting
   // aftermath. Neither hook adds another interval or creates a read-time fact.
   return recordOrdinaryMeetingPresence(

@@ -1,4 +1,6 @@
+import { eventById } from "../simulation/event-index";
 import { recentStrain } from "./relationship-strain";
+import { sponsoredLaws, type SponsoredLaw } from "./place-conditions";
 import {
   describeRelationshipStanding,
   readRelationshipStanding,
@@ -105,6 +107,8 @@ export interface PersonDossier {
   readonly strain: string | null;
   /** Canonical entities this dossier can route to. */
   readonly links: readonly ShellRef[];
+  /** Laws they sponsored that were enacted, and what each is doing. */
+  readonly laws: readonly SponsoredLaw[];
 }
 
 function describeInteraction(
@@ -218,27 +222,56 @@ function buildDetails(
   }
 
   const subject = world.people[personId];
-  if (subject && personId === playerId) {
-    let occupation = false;
-    let education = false;
+  const knownEvents = new Map(
+    world.history.knowledge
+      .filter(
+        (record) =>
+          record.personId === playerId && record.learnedAt <= world.currentDate,
+      )
+      .map((record) => [record.eventId, record]),
+  );
+  if (subject) {
     for (const fact of factsForPerson(subject)) {
-      if (fact.kind === "occupation" && !occupation) {
-        occupation = true;
+      if (fact.occurredAt > world.currentDate) continue;
+      const event = eventById(world, fact.provenance.sourceEventId);
+      const knowledge = event ? knownEvents.get(event.id) : undefined;
+      const publicFact =
+        event?.visibility === "public" &&
+        event.occurredAt <= world.currentDate &&
+        event.recordedAt <= world.currentDate;
+      // A heard account does not grant the underlying private biography.
+      const knownFact =
+        knowledge?.accuracy === "accurate" &&
+        event?.occurredAt !== undefined &&
+        event.occurredAt <= world.currentDate &&
+        event.recordedAt <= world.currentDate;
+      if (personId !== playerId && !publicFact && !knownFact) continue;
+      const attribution =
+        personId === playerId || knownFact
+          ? ("known" as const)
+          : ("record" as const);
+      if (fact.kind === "occupation") {
         details.push({
           key: `fact-${fact.id}`,
           text:
             fact.status === "ongoing"
-              ? `${fact.title} at ${fact.employer}.`
-              : `Worked as ${fact.title} at ${fact.employer}.`,
-          attribution: "known",
+              ? `${fact.title} at ${fact.employer}, since ${proseDate(fact.occurredAt)}.`
+              : `Worked as ${fact.title} at ${fact.employer}, from ${proseDate(fact.occurredAt)}${fact.endedAt ? ` to ${proseDate(fact.endedAt)}` : ""}.`,
+          attribution,
         });
       }
-      if (fact.kind === "education" && !education) {
-        education = true;
+      if (fact.kind === "education") {
         details.push({
           key: `fact-${fact.id}`,
           text: `${fact.institution}${fact.field ? `, ${fact.field}` : ""}.`,
-          attribution: "known",
+          attribution,
+        });
+      }
+      if (fact.kind !== "education" && fact.kind !== "occupation") {
+        details.push({
+          key: `fact-${fact.id}`,
+          text: fact.summary,
+          attribution,
         });
       }
     }
@@ -380,14 +413,15 @@ export function projectPersonDossier(
       .filter(
         (event) =>
           event.visibility === "public" &&
-          (event.type === "world.office-tenure" ||
-            event.type === "world.legislative-seat-tenure") &&
+          event.recordedAt <= world.currentDate &&
+          !/^(?:press|setup|simulation|evidence|information|time|claim|publication)\./.test(
+            event.type,
+          ) &&
           event.occurredAt <= world.currentDate &&
-          event.participants.some(
-            (participant) =>
-              participant.personId === personId &&
-              participant.role === "focus:subject",
-          ),
+          (event.involvedEntityIds.includes(personId) ||
+            event.participants.some(
+              (participant) => participant.personId === personId,
+            )),
       )
       .map((event) => ({
         eventId: event.id,
@@ -399,7 +433,9 @@ export function projectPersonDossier(
               participant.personId === personId &&
               participant.role === "focus:subject",
           )?.detail;
-          return office
+          return office &&
+            (event.type === "world.office-tenure" ||
+              event.type === "world.legislative-seat-tenure")
             ? `Took office as ${office}.`
             : event.summary.replace(/ in this fictional world\./g, ".");
         })(),
@@ -418,6 +454,11 @@ export function projectPersonDossier(
             subject.givenName,
           ),
     links: buildLinks(world, playerId, personId),
+    laws: sponsoredLaws(
+      world,
+      personId,
+      world.people[playerId]?.homeJurisdictionId ?? null,
+    ),
   };
 }
 

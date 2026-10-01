@@ -48,6 +48,12 @@ export interface MapDemographyMetric {
   readonly release: string;
   readonly retrievedAt: string;
   readonly publisherReleaseDate: string | null;
+  /**
+   * True when the edition on file came out after the date shown. The year's
+   * figure was public by then in an earlier edition we don't hold, so it is
+   * shown rounded, as an estimate.
+   */
+  readonly estimated?: boolean;
 }
 export interface MapPlaceDemography {
   readonly selection: MapDemographySelection;
@@ -97,24 +103,35 @@ function latestMetric(
   asOf: string,
   line: "2" | "3",
 ): MapDemographyMetric | null {
-  const eligible = rows
-    .filter((row) => {
-      const artifact = lock.artifacts.find(
-        (item) => item.artifactId === row.evidence?.artifactId,
-      );
-      return (
+  const series = rows
+    .filter(
+      (row) =>
         row.tableName === "CAINC1" &&
         row.lineCode === line &&
         row.geoFips === selected.geoid &&
         row.geographyLevel === selected.level &&
         /^\d{4}$/.test(row.year) &&
         `${row.year}-12-31` <= asOf &&
-        artifact &&
-        (!artifact.publisher.releaseDate ||
-          artifact.publisher.releaseDate <= asOf)
-      );
-    })
+        lock.artifacts.some(
+          (item) => item.artifactId === row.evidence?.artifactId,
+        ),
+    )
     .sort((a, b) => b.year.localeCompare(a.year));
+  const releaseOf = (row: BrowserBeaRecord) =>
+    lock.artifacts.find((item) => item.artifactId === row.evidence.artifactId)!
+      .publisher.releaseDate;
+  const released = series.filter((row) => {
+    const date = releaseOf(row);
+    return !date || date <= asOf;
+  });
+  // When the edition on file came out after this date, a year's figure was
+  // still public by the end of the next year (Census and BEA publish each
+  // year's count within about twelve months), so that year is shown as an
+  // estimate rather than nothing.
+  const estimated = released.length === 0;
+  const eligible = estimated
+    ? series.filter((row) => `${Number(row.year) + 1}-12-31` <= asOf)
+    : released;
   const row = eligible[0];
   if (
     !row ||
@@ -136,7 +153,13 @@ function latestMetric(
   )!;
   return {
     label: line === "2" ? "Population" : "Per-capita personal income",
-    value: row.value.value,
+    // A later edition's revision is rounded away: the nearest thousand
+    // people, or the nearest hundred dollars.
+    value: estimated
+      ? Math.round(row.value.value / (line === "2" ? 1000 : 100)) *
+        (line === "2" ? 1000 : 100)
+      : row.value.value,
+    ...(estimated ? { estimated: true } : {}),
     unit: row.unit,
     period: row.year,
     geography: {

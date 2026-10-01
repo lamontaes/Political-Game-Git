@@ -1,6 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as decisionEngine from "./decisions";
 
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  fileForOffice,
+  namedSeatForFixture,
+} from "../../tests/fixtures/campaign-fixture";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   generateOpeningLife,
@@ -39,6 +43,7 @@ import {
 } from "./campaign-queries";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { canonicalJson } from "./canonical-json";
+import { favorRecords } from "./favors";
 import { campaignCompliancePackFor } from "./campaign-compliance";
 import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
@@ -283,6 +288,12 @@ function staffedKentuckyCampaign(seed: string, advanceDays: number) {
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: candidacyPackById("us-ky-general-assembly-v1:candidacy")!
       .offices[0]!.officeKey,
+    districtBinding: namedSeatForFixture(
+      base,
+      candidatePersonId,
+      candidacyPackById("us-ky-general-assembly-v1:candidacy")!.offices[0]!
+        .officeKey,
+    ),
     electionDate: addDays(base.currentDate, 21),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
@@ -725,6 +736,12 @@ describe(
       expect(outcome.contactPersonIds).toHaveLength(1);
       expect(outcome.raisedAmount).toBeNull();
       expect(outcome.resourceFlowId).toBeNull();
+      // No money moved, so nobody gave anything.
+      expect(
+        favorRecords(first).some(
+          (favor) => favor.kind === "political:campaign-donation",
+        ),
+      ).toBe(false);
       expect(first.history.resourceFlows).toHaveLength(flowCount);
       expect(first.history.resourceTransferOutcomes).toHaveLength(
         transferCount,
@@ -865,6 +882,47 @@ describe(
       expect(event.recordedAt).toBe(later.currentDate);
     });
 
+    it.each(["no-available-option", "selected", "undecided"] as const)(
+      "leaves outreach unoffered when the organizer has no selected answer (%s)",
+      (outcomeKind) => {
+        const life = adultLife("life-a");
+        const scheduled = ensureCampaignLifeOutreach(
+          life.world,
+          life.personId,
+          life.chapterId,
+        );
+        const item = scheduled.history.futureDueItems.at(-1)!;
+        const evaluate = decisionEngine.evaluateDecision;
+        const spy = vi
+          .spyOn(decisionEngine, "evaluateDecision")
+          .mockImplementation((world, context) => {
+            const result = evaluate(world, context);
+            return context.decisionType === "campaign.organizer-outreach"
+              ? {
+                  ...result,
+                  outcomeKind,
+                  selectedOptionKey: null,
+                }
+              : result;
+          });
+        try {
+          const result = campaignLifeOutreachTransitionHandler(scheduled, item);
+          expect(result.reasonKey).toBe("campaign:organizer-undecided");
+          expect(campaignLifeActivityRecords(result.world)).toEqual(
+            campaignLifeActivityRecords(scheduled),
+          );
+          expect(result.world.history.events).toEqual(scheduled.history.events);
+          const later = result.world.history.futureDueItems.slice(
+            scheduled.history.futureDueItems.length,
+          );
+          expect(later).toHaveLength(1);
+          expect(later[0]!.dueAt > scheduled.currentDate).toBe(true);
+        } finally {
+          spy.mockRestore();
+        }
+      },
+    );
+
     it("the outreach handler is pure, reschedules forward and blocks without a host", () => {
       const life = adultLife("life-a");
       const scheduled = ensureCampaignLifeOutreach(
@@ -942,6 +1000,23 @@ describe(
           );
         }, 0);
       expect(total).toBe(10_000);
+      // Everyone who worked the doors for this candidate did them a favor;
+      // the candidate working for themselves did nobody one.
+      const favors = favorRecords(done).filter(
+        (favor) => favor.eventId === outcome.outcomeEventId,
+      );
+      expect(favors.length).toBeGreaterThan(0);
+      expect(favors.map((favor) => favor.giverPersonId).sort()).toEqual(
+        [...outcome.contactPersonIds].sort(),
+      );
+      for (const favor of favors) {
+        expect(favor).toMatchObject({
+          receiverPersonId: running.personId,
+          kind: "political:campaign-volunteering",
+          motive: "shared-belief",
+          weight: "slight",
+        });
+      }
     });
 
     it("a declined support request leaves the contest, ballot and campaign untouched", () => {
@@ -974,6 +1049,12 @@ describe(
         ),
       ).toBe(true);
       expect(outcome.supportStateIds).toEqual([]);
+      // A chapter that did not back the campaign did it no favor.
+      expect(
+        favorRecords(done).some(
+          (favor) => favor.kind === "political:chapter-backing",
+        ),
+      ).toBe(false);
       const untouched = (world: World) =>
         canonicalJson({
           campaigns: world.history.campaigns,

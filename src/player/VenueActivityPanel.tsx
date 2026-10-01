@@ -2,6 +2,7 @@ import { useState } from "react";
 import { completedActivityHere } from "../presentation/scene-venues";
 import type { EntityId, World } from "../simulation";
 import {
+  goLabel,
   performVenueActivity,
   venueActivities,
   venueTimingLabel,
@@ -56,9 +57,7 @@ export function VenueActivityPanel({
               }
             }}
           >
-            {activity.kind === "travel"
-              ? "Make the journey"
-              : "Carry out activity"}
+            {activity.kind === "travel" ? goLabel(activity) : "Start now"}
           </button>
           {abandonable ? (
             /*

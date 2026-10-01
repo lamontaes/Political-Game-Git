@@ -88,6 +88,9 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await expect(page.getByTestId("world-orientation")).toBeVisible({
     timeout: 90_000,
   });
+  // The opening begins with the year (Sept. 28), then the White House.
+  await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+  await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-executive")).toContainText(
     "White House",
   );
@@ -210,7 +213,7 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await page.getByTestId("calendar-simulate-day").click();
   await calendar
     .getByTestId(/^calendar-entry-/)
-    .filter({ hasText: "Journey to the public meeting" })
+    .filter({ hasText: "Trip to the public meeting" })
     .click();
   await page.getByTestId("calendar-play-event").click();
   await calendar

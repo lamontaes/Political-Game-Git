@@ -1,16 +1,20 @@
-import { makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { historyIndex } from "./history-index";
+import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import {
   assertOriginationPermitted,
   chamberByKey,
   committeeByKey,
   floorStageByKey,
+  fractionOf,
   requireKnown,
   resolveRequiredVotes,
+  type LegislativeRulePack,
   type VoteDenominator,
+  type VoteThresholdRule,
 } from "./legislature-rules";
-import { rulePackById } from "./legislature-rule-packs";
+import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import {
   measureActions,
   measurePosition,
@@ -57,6 +61,38 @@ function assertIdentity(
       `Record sequence must be a non-negative safe integer: ${record.id}`,
     );
   }
+}
+
+/**
+ * The override bar a generated legislature imposed when this vote was taken,
+ * where it differs from the bar it imposes today; null otherwise.
+ *
+ * A generated legislature is the game's own, and its rules can be corrected
+ * under the same pack: on September 29, 2026 the override bar the first
+ * profile drew was replaced by each state's constitution. That profile's
+ * bar was always "N of D of the members elected to each chamber", and a save
+ * made under it records that label. So such a vote is checked against the
+ * rule written in its own record, with every count still recomputed from it;
+ * a researched pack's votes are checked only against the pack.
+ */
+function profileOverrideTakenUnder(
+  pack: LegislativeRulePack,
+  vote: LegislativeVoteRecord,
+  today: VoteThresholdRule,
+): VoteThresholdRule | null {
+  if (pack.basis !== "game-profile" || vote.thresholdLabel === today.label)
+    return null;
+  const drawn = /^(\d+) of (\d+) of the members elected to each chamber$/.exec(
+    vote.thresholdLabel,
+  );
+  if (!drawn || vote.denominatorKind !== "members-elected") return null;
+  return fractionOf(
+    Number(drawn[1]),
+    Number(drawn[2]),
+    "members-elected",
+    vote.thresholdLabel,
+    today.source,
+  );
 }
 
 function denominatorValueFor(
@@ -121,7 +157,7 @@ export function assertLegislationIntegrity(
         `Legislative measure references a missing jurisdiction: ${measure.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     chamberByKey(pack, measure.originChamberKey);
     // Where the measure claims to have begun must satisfy the jurisdiction's
     // own sourced origination rule, whoever wrote the record. This holds even
@@ -185,7 +221,7 @@ export function assertLegislationIntegrity(
         `Legislative vote references a missing measure: ${vote.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     makeIsoDate(vote.takenAt);
 
     if (vote.dispositions.length === 0) {
@@ -265,7 +301,8 @@ export function assertLegislationIntegrity(
       const chamber = chamberByKey(pack, vote.forum.chamberKey);
       if (
         chamber.seats.kind === "known" &&
-        vote.eligibleMembers > chamber.seats.value
+        vote.eligibleMembers >
+          chamber.seats.value + (chamber.seatsMayGrowBy ?? 0)
       ) {
         throw new Error(
           `Vote ${vote.id} counts more members than the ${chamber.name} has formal seats.`,
@@ -278,7 +315,9 @@ export function assertLegislationIntegrity(
             `Vote ${vote.id} overrides per chamber, but ${pack.displayName} sits jointly.`,
           );
         }
-        threshold = override.threshold;
+        threshold =
+          profileOverrideTakenUnder(pack, vote, override.threshold) ??
+          override.threshold;
       } else if (vote.purpose === "concurrence") {
         if (pack.interChamber.kind !== "second-chamber") {
           throw new Error(
@@ -335,7 +374,7 @@ export function assertLegislationIntegrity(
         `Committee referral references a missing measure: ${referral.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     const chamber = chamberByKey(pack, referral.chamberKey);
     committeeByKey(chamber, referral.committeeKey);
     makeIsoDate(referral.referredAt);
@@ -381,7 +420,7 @@ export function assertLegislationIntegrity(
         `Amendment references a missing measure: ${amendment.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     const chamber = chamberByKey(pack, amendment.chamberKey);
     if (amendment.floorStageKey) {
       floorStageByKey(chamber, amendment.floorStageKey);
@@ -474,7 +513,7 @@ export function assertLegislationIntegrity(
         `Legislative action references a missing vote: ${action.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     if (action.chamberKey) chamberByKey(pack, action.chamberKey);
     makeIsoDate(action.occurredAt);
     actionsByMeasure.set(
@@ -500,6 +539,50 @@ export function assertLegislationIntegrity(
     if (enactment.effectiveAt !== null) {
       makeIsoDate(enactment.effectiveAt);
     }
+    const basis = enactment.effectiveDateBasis;
+    const profile = enactment.effectiveDateGameProfile;
+    if (
+      basis !== undefined &&
+      basis !== "source-default" &&
+      basis !== "game-default"
+    ) {
+      throw new Error(
+        `Enactment has an unknown effective-date basis: ${enactment.id}`,
+      );
+    }
+    if (profile) {
+      if (
+        basis !== "game-default" ||
+        typeof profile.version !== "string" ||
+        !profile.version.trim() ||
+        !Number.isSafeInteger(profile.days) ||
+        profile.days < 0 ||
+        enactment.effectiveAt !== addDays(enactment.resolvedAt, profile.days)
+      ) {
+        throw new Error(
+          `Enactment game effective date does not match its profile: ${enactment.id}`,
+        );
+      }
+    } else if (basis === "game-default") {
+      throw new Error(
+        `Enactment game effective date lacks its profile: ${enactment.id}`,
+      );
+    }
+    if (basis === "source-default") {
+      const resolved = resolveLegislativeEffectiveDate(
+        legislativeRulePackForWorld(world, measure.rulePackId),
+        enactment.resolvedAt,
+      );
+      if (
+        resolved.kind !== "source-default" ||
+        resolved.effectiveAt !== enactment.effectiveAt
+      ) {
+        throw new Error(
+          `Enactment source effective date does not match its rule: ${enactment.id}`,
+        );
+      }
+    }
+    if (enactment.finalPassageAt) makeIsoDate(enactment.finalPassageAt);
   }
 
   // A measure resolves once. Two enactment records, or an enactment record

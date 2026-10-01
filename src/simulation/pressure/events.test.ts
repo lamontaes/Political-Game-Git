@@ -17,18 +17,21 @@ import { householdLocationAt } from "../life-queries";
 import { searchLifePlaces } from "../life-places";
 import type { World } from "../types";
 import {
-  BLANKET_INTERNATIONAL_FRICTION,
   BLANKET_POLITICAL_VIOLENCE,
   POLITICAL_THREAT_EVENT,
   PRESSURE_CONTRACT_VERSION,
+  THREAT_ATTEMPTED_PHASE,
+  UNREST_CALMED_PHASE,
   UNREST_EVENT,
+  UNREST_LASTING_PHASE,
   causesInPeriod,
   internationalFriction,
-  latestReadings,
   prominentPeopleIn,
   stepPressure,
   stepInternationalFriction,
   stepPressureEvents,
+  threatAttemptLine,
+  threatStrain,
   worldStates,
 } from ".";
 
@@ -54,8 +57,11 @@ function openLife(seed: string) {
   return game;
 }
 
-function eventsOf(world: World, type: string) {
-  return world.history.events.filter((event) => event.type === type);
+/** The onset events of the ladder's incidents that carry `tag`. */
+function eventsOf(world: World, tag: string) {
+  return world.history.events.filter(
+    (event) => event.type === "incident.occurred" && event.tags.includes(tag),
+  );
 }
 
 /** Steps quarters by date alone, as the pressure layer's own test does. */
@@ -150,15 +156,30 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     const attempts = crisisRecords(world).filter(
       (record) => record.kind === "violence-attempt",
     );
-    expect(unrest.length).toBeGreaterThan(1);
+    expect(unrest.length).toBeGreaterThan(0);
     expect(threats.length).toBeGreaterThan(0);
     expect(attempts.length).toBeGreaterThan(0);
-    const quarter = (tags: readonly string[]) =>
-      Number(tags.find((tag) => tag.startsWith("quarter:"))!.slice(8));
+    const incidentOf = (eventId: string) =>
+      world.history.incidents.find((row) => row.onsetEventId === eventId)!;
+    const statesOf = (eventId: string) =>
+      world.history.incidentStates.filter(
+        (row) => row.incidentId === incidentOf(eventId).id,
+      );
     for (const threat of threats) {
-      const made = quarter(threat.tags);
-      expect(unrest.some((event) => quarter(event.tags) === made)).toBe(true);
-      expect(unrest.some((event) => quarter(event.tags) < made)).toBe(true);
+      // A threat comes only while unrest in its state has lasted.
+      const lasting = unrest.flatMap((event) =>
+        statesOf(event.id).filter(
+          (row) =>
+            row.phaseKey === UNREST_LASTING_PHASE &&
+            event.jurisdictionId === threat.jurisdictionId &&
+            row.sequence < threat.sequence,
+        ),
+      );
+      expect(lasting.length).toBeGreaterThan(0);
+      // Its target is named on the record, not drawn at the moment of harm.
+      expect(
+        threat.participants.some((row) => row.role === "impact:threatened"),
+      ).toBe(true);
     }
     for (const attempt of attempts) {
       if (attempt.kind !== "violence-attempt") continue;
@@ -168,21 +189,54 @@ describe("what pressure sets off", { timeout: LONG }, () => {
       expect(threat).toBeDefined();
       expect(threat.involvedEntityIds).toContain(attempt.targetPersonId);
       expect(threat.occurredAt < attempt.effectiveAt).toBe(true);
+      // The attempt came when the threat's strain crossed its own line, and
+      // the threat is resolved by it.
+      const threatRecord = incidentOf(threat.id);
+      expect(
+        threatStrain(world.pressure!.readings, threatRecord),
+      ).toBeGreaterThanOrEqual(threatAttemptLine());
+      expect(statesOf(threat.id).at(-1)).toMatchObject({
+        status: "resolved",
+        phaseKey: THREAT_ATTEMPTED_PHASE,
+      });
     }
     // No state that never crossed the anger line saw anything.
     const crossed = new Set(
       world.pressure!.readings.flatMap((reading) =>
         reading.levels.anger > BLANKET_POLITICAL_VIOLENCE.angerLine
-          ? [reading.stateKey]
+          ? [reading.jurisdictionId]
           : [],
       ),
     );
     for (const event of [...unrest, ...threats])
-      expect(
-        crossed.has(
-          event.tags.find((tag) => tag.startsWith("state:"))!.slice(6),
-        ),
-      ).toBe(true);
+      expect(crossed.has(event.jurisdictionId!)).toBe(true);
+  });
+
+  it("calms unrest once anger falls back, with no roll deciding it", () => {
+    const game = openLife("pressure-events-calm");
+    const state = worldStates(game.world).find(
+      (row) => row.stateKey === `US-${STATE}`,
+    )!;
+    let world: World = holdAnger(
+      seedAnger(game.world, [state.stateKey], 1),
+      [state.stateKey],
+      1,
+    );
+    const onset = eventsOf(world, UNREST_EVENT);
+    expect(onset).toHaveLength(1);
+    // Anger at the line: the unrest calms at the next re-check.
+    world = holdAnger(world, [state.stateKey], 0.2);
+    const incident = world.history.incidents.find(
+      (row) => row.onsetEventId === onset[0]!.id,
+    )!;
+    const last = world.history.incidentStates
+      .filter((row) => row.incidentId === incident.id)
+      .at(-1)!;
+    expect(last).toMatchObject({
+      status: "resolved",
+      phaseKey: UNREST_CALMED_PHASE,
+    });
+    expect(incident.occurrence.rng).toBeNull();
   });
 
   it("feeds an attack back into anger and fear where the target lived", () => {
@@ -213,33 +267,17 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     expect(governor.personId).toBeTruthy();
   });
 
-  it("escalates an open international development into one crisis, once", () => {
-    const game = openLife("pressure-events-international");
+  it("does not turn domestic anger into a canned foreign dispute", () => {
+    const game = openLife("pressure-events-international-retired");
     const states = worldStates(game.world).map((row) => row.stateKey);
-    const opened = latestReadings(game.world);
-    expect(opened.size).toBe(0);
-    const quiet = internationalFriction(game.world, []);
-    for (const { friction } of quiet.values())
-      expect(friction).toBeLessThanOrEqual(BLANKET_INTERNATIONAL_FRICTION.line);
-
-    // Fixture: anger across every state, as the readings would carry it,
-    // today. The step is run twice on the same quarter to prove a
-    // development starts one crisis at most.
     const angry = seedAnger(game.world, states, 3);
-    const once = stepInternationalFriction(angry);
-    const twice = stepInternationalFriction(once);
-    const crises = (world: World) =>
-      crisisRecords(world).filter(
+    expect(internationalFriction(angry, [])).toEqual(new Map());
+    expect(stepInternationalFriction(angry)).toBe(angry);
+    expect(
+      crisisRecords(angry).filter(
         (record) => record.kind === "international-crisis",
-      );
-    expect(quiet.size).toBeGreaterThan(0);
-    expect(crises(once).length).toBeGreaterThan(0);
-    expect(crises(once).length).toBeLessThanOrEqual(quiet.size);
-    expect(crises(twice)).toEqual(crises(once));
-    expect(crises(once)[0]).toMatchObject({
-      counterpartyLabel: "a foreign government",
-      tension: "high",
-    });
+      ),
+    ).toEqual([]);
   });
 });
 

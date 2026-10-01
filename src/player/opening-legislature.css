@@ -1,0 +1,21 @@
+/* Keep the illustrative representatives separate from their readable record. */
+.pg-orientation[data-step="legislature"] .pg-orientation-staged {
+  right: 48%;
+}
+.pg-orientation[data-step="legislature"] .scene-place-nameplate {
+  box-sizing: border-box;
+  width: 18%;
+}
+.pg-orientation[data-step="legislature"] .scene-place-nameplate-title {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  .pg-orientation[data-step="legislature"] .pg-orientation-staged {
+    right: 0;
+    bottom: auto;
+    height: min(50cqh, 71.8cqw);
+  }
+  .pg-orientation[data-step="legislature"] .pg-orientation-copy {
+    max-height: 40cqh;
+  }
+}

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   addDays,
@@ -52,7 +53,11 @@ function texasHouseWin(): {
   const filed = fileForOffice(
     game.world,
     personId,
-    null,
+    namedSeatForFixture(
+      game.world,
+      personId,
+      "us-tx-legislature-profile-v1:house",
+    ),
     "us-tx-legislature-profile-v1:house",
     addDays(game.world.currentDate, 21),
   );

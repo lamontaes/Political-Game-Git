@@ -20,6 +20,7 @@ import type { LegislativeAssignment } from "../presentation/legislation-world";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { MeasureStepKey } from "../simulation/legislation";
 import type { World } from "../simulation/types";
+import { legislativeProcedureForPack } from "../simulation/legislative-procedure-world";
 
 /**
  * The player's view of a bill.
@@ -53,43 +54,51 @@ export function LegislationWorkspace({
 
   const briefing = useMemo(() => {
     const briefing = projectMeasureBriefing(world, assignment.measureId);
+    const onRecordedMemberClock =
+      legislativeProcedureForPack(world, assignment.procedure.pack.packId) !==
+        null && !assignment.procedure.recordedSittingEventId;
     return {
       ...briefing,
-      options: briefing.options.map((option) => {
-        const awaitsOtherChamber = recordedInstitutionalStepRequiresWait(
-          world,
-          assignment,
-          option.actionKey,
-        );
-        const institutionActs = institutionOwnsStep(
-          world,
-          assignment,
-          option.actionKey,
-        );
-        const reason = legislativeProcedureRefusal(
-          world,
-          assignment.procedure,
-          option.actionKey,
-        );
-        return {
-          ...option,
-          ...(awaitsOtherChamber
-            ? {
-                playerMayAct: false,
-                label: `Wait for the other chamber: ${option.label}`,
-              }
-            : {}),
-          ...(institutionActs
-            ? {
-                playerMayAct: false,
-                label: `Wait while ${option.actorLabel} acts`,
-                detail:
-                  "This step is not your office's to take. Waiting lets time pass until they act.",
-              }
-            : {}),
-          ...(reason ? { disabledReason: reason } : {}),
-        };
-      }),
+      options: briefing.options
+        .filter(
+          (option) =>
+            !(onRecordedMemberClock && option.actionKey === "offer-amendment"),
+        )
+        .map((option) => {
+          const awaitsOtherChamber = recordedInstitutionalStepRequiresWait(
+            world,
+            assignment,
+            option.actionKey,
+          );
+          const institutionActs = institutionOwnsStep(
+            world,
+            assignment,
+            option.actionKey,
+          );
+          const reason = legislativeProcedureRefusal(
+            world,
+            assignment.procedure,
+            option.actionKey,
+          );
+          return {
+            ...option,
+            ...(awaitsOtherChamber
+              ? {
+                  playerMayAct: false,
+                  label: `Wait for the other chamber: ${option.label}`,
+                }
+              : {}),
+            ...(institutionActs
+              ? {
+                  playerMayAct: false,
+                  label: `Wait while ${option.actorLabel} acts`,
+                  detail:
+                    "This step is not your office's to take. Waiting lets time pass until they act.",
+                }
+              : {}),
+            ...(reason ? { disabledReason: reason } : {}),
+          };
+        }),
     };
   }, [world, assignment]);
 

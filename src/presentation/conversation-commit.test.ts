@@ -8,6 +8,7 @@ import {
   shortPersonName,
 } from "./conversation-subjects";
 import { createNewGameWorld } from "./new-game";
+import { openNextLifeScene } from "./life-scene-flow";
 import { householdConversationRoom, openOrdinaryLife } from "./ordinary-life";
 import { RUN_B_CONVERSATION_INTENTS } from "./run-b-conversation";
 import {
@@ -38,7 +39,10 @@ function household(seed: string) {
     givenName: null,
     familyName: null,
   });
-  const world = openOrdinaryLife(game.world, game.playerPersonId);
+  const world = openNextLifeScene(
+    openOrdinaryLife(game.world, game.playerPersonId),
+    game.playerPersonId,
+  );
   const room = householdConversationRoom(world, game.playerPersonId)!;
   return { world, personId: game.playerPersonId, room };
 }
@@ -47,7 +51,10 @@ describe("A conversation writes down what it was actually about", () => {
   it("gives every subject its own canonical vocabulary", () => {
     const contracts = [
       createRunBConversationProgress(),
-      createSchoolProjectProgress(),
+      createSchoolProjectProgress({
+        work: "The authored fixture worksheet",
+        deadline: "The recorded fixture due date",
+      }),
       createNeighborhoodMeetingProgress(),
     ].map(conversationCommitContract);
 
@@ -59,7 +66,12 @@ describe("A conversation writes down what it was actually about", () => {
   });
 
   it("refuses to describe an intent its subject does not offer", () => {
-    const contract = conversationCommitContract(createSchoolProjectProgress());
+    const contract = conversationCommitContract(
+      createSchoolProjectProgress({
+        work: "The authored fixture worksheet",
+        deadline: "The recorded fixture due date",
+      }),
+    );
     // Better a loud refusal than a sentence about somebody listening.
     expect(() =>
       contract.choice("discuss-provision", {
@@ -74,7 +86,10 @@ describe("A conversation writes down what it was actually about", () => {
     const written = new Set<string>();
     for (const progress of [
       createRunBConversationProgress(),
-      createSchoolProjectProgress(),
+      createSchoolProjectProgress({
+        work: "The authored fixture worksheet",
+        deadline: "The recorded fixture due date",
+      }),
       createNeighborhoodMeetingProgress(),
     ]) {
       const contract = conversationCommitContract(progress);
