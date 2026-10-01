@@ -250,6 +250,17 @@ function monthlyPayByPerson(
   return byPerson;
 }
 
+/**
+ * Each person's recorded pay a month on a date, in cents, read from their
+ * compensation terms. A person with no pay terms is absent, not zero.
+ */
+export function recordedMonthlyPayByPerson(
+  world: World,
+  onDate: IsoDate,
+): ReadonlyMap<EntityId, number> {
+  return monthlyPayByPerson(world, onDate);
+}
+
 // ─── Who is covered ─────────────────────────────────────────────────────
 
 export interface CoverageDecision {
