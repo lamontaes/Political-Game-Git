@@ -8,6 +8,7 @@ import type {
   CountySeatBinding,
   CountySeatIdentity,
 } from "./county-seat-types";
+import { LOUDON_SEAT_REVIEW_CANDIDATES } from "./loudon-seat-candidate";
 
 /** Controlled source packet, not an admitted Loudon legal/map profile. */
 function fixture(): { seat: CountySeatIdentity; binding: CountySeatBinding } {
@@ -49,6 +50,62 @@ function fixture(): { seat: CountySeatIdentity; binding: CountySeatBinding } {
 }
 
 describe("county seat source binding", () => {
+  it("keeps the ten sourced Loudon review seats outside production admission", () => {
+    expect(countySeatCatalog()).toHaveLength(0);
+    expect(LOUDON_SEAT_REVIEW_CANDIDATES.map((seat) => seat.seatKey)).toEqual([
+      "district-1-seat-A",
+      "district-1-seat-B",
+      "district-2-seat-A",
+      "district-2-seat-B",
+      "district-3",
+      "district-4",
+      "district-5-seat-A",
+      "district-5-seat-B",
+      "district-6",
+      "district-7",
+    ]);
+    for (const seat of LOUDON_SEAT_REVIEW_CANDIDATES) {
+      expect(seat.homeMembership).toBeUndefined();
+      const binding: CountySeatBinding = {
+        vintage: "county-seat-source-v1",
+        compilerVersion: "county-seat-binding-v1",
+        chamber: "county-governing-body",
+        geoid: seat.countyGeoid,
+        recordId: seat.recordId,
+        stateUsps: seat.stateUsps,
+        governmentUnitId: seat.governmentUnitId,
+        officeKey: seat.officeKey,
+        seatKey: seat.seatKey,
+        sourceVersion: seat.source.version,
+      };
+      expect(
+        resolveCountySeatBinding(
+          LOUDON_SEAT_REVIEW_CANDIDATES,
+          binding,
+          "2026-08-06",
+        ).kind,
+      ).toBe("accepted");
+      expect(
+        resolveCountySeatBinding(countySeatCatalog(), binding, "2026-08-06")
+          .kind,
+      ).toBe("refused");
+      expect(
+        resolveCountySeatBinding(
+          LOUDON_SEAT_REVIEW_CANDIDATES,
+          binding,
+          "2021-10-31",
+        ).kind,
+      ).toBe("refused");
+      expect(
+        resolveCountySeatBinding(
+          LOUDON_SEAT_REVIEW_CANDIDATES,
+          { ...binding, seatKey: "district-3-seat-A" },
+          "2026-08-06",
+        ).kind,
+      ).toBe("refused");
+    }
+  });
+
   it("keeps unsourced production seats refused", () => {
     const { binding } = fixture();
     expect(
