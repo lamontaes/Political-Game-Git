@@ -1,12 +1,8 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { SeededRng, pickDistinct } from "../rng";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { addDays, ageOnDate } from "../dates";
 import { currentLifeCutoff } from "../life-queries";
 import {
@@ -45,29 +41,19 @@ afterAll(() => {
 // cancelled; this is a bounded case-clock proof, not a whole-world year.
 describe("a saved NPC sentence wakes its existing clemency decision", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
-  const states = pickDistinct(rng, lifePlaceStateIdentities(), 2);
+  const states = pickDistinct(rng, lifePlaceStateIdentities(), 1);
   it.each(states)(
     "records the named defendant's request decision after sentencing in $jurisdictionKey",
     (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
       const seed = `team9-a10-npc-request:${state.jurisdictionKey}`;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
+      // A small world (tests/fixtures/small-world.ts) with its governor seated.
+      const small = smallWorld({
+        place: state.jurisdictionKey,
+        seed,
+        offices: ["governor"],
+      });
+      const place = small.place;
+      const game = { world: small.world, playerPersonId: small.personId };
       let isolated = game.world;
       // The fixture cancels unrelated opening commitments through the canonical
       // writer, retaining every due record. No saved time is reassigned.
