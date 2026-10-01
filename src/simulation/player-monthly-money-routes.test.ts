@@ -266,6 +266,44 @@ describe("player money on the first through existing time controls", () => {
   it.todo(
     "The player's what's-next screen displays the recorded bill schedule",
   );
+  it("settles the next recorded monthly period once after Continue, with no early bill", () => {
+    const paid = passOrdinaryDays(starting, 7);
+    const nextDue = playerMoneySchedule(paid, playerId)[0]!.dueAt;
+    const continued = deserializeWorld(serializeWorld(paid));
+    const beforeDue = passOrdinaryDays(
+      continued,
+      daysBetween(first, nextDue) - 1,
+    );
+    const billPayments = (world: World) =>
+      payments(world).filter((row) =>
+        [mortgageId, livingId].includes(row.resourceFlowId),
+      );
+    expect(billPayments(beforeDue)).toHaveLength(2);
+    const next = passOrdinaryDays(beforeDue, 1);
+    expect(next.currentDate).toBe(nextDue);
+    const bills = billPayments(next);
+    expect(bills).toHaveLength(4);
+    for (const flowId of [mortgageId, livingId]) {
+      expect(
+        bills
+          .filter((row) => row.resourceFlowId === flowId)
+          .map((row) => row.periodStartsAt),
+      ).toEqual([first, nextDue]);
+    }
+    const reloaded = deserializeWorld(serializeWorld(next));
+    expect(
+      serializeWorld(
+        settleLivingCosts(
+          settleMortgages(settleOfficeSalaries(reloaded, playerId), playerId),
+          playerId,
+        ),
+      ),
+    ).toBe(serializeWorld(reloaded));
+    expect(playerMoneySchedule(reloaded, playerId)[0]!.dueAt > nextDue).toBe(
+      true,
+    );
+  }, 60_000);
+
   it("removes a paid-off mortgage from upcoming bills and does not charge it again", () => {
     const obligation = starting.history.resourceObligations.find(
       (row) => row.resourceFlowId === mortgageId,
