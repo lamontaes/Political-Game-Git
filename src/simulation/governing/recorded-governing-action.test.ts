@@ -1,7 +1,9 @@
 /// <reference types="node" />
 import { createHash } from "node:crypto";
 import { writeFileSync } from "node:fs";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import * as programs from "./program-governing";
+import * as governing from "./state-governing";
 import {
   city,
   FIXTURE,
@@ -32,6 +34,7 @@ import {
   declareProgramCapacity,
   programInstallments,
   programOutturns,
+  programDeliveryHandler,
   recordProgramAppropriation,
 } from "./public-program";
 import {
@@ -48,6 +51,7 @@ import {
 } from "./state-governing";
 
 const baseline = process.env.G8_ACTION_BASELINE === "1";
+const receiptBaseline = process.env.G8_RECEIPT_BASELINE === "1";
 const seed = "G8-recorded-governing-action";
 const receipts: unknown[] = [];
 let opened: World;
@@ -282,6 +286,7 @@ describe("governing work and delivery require their own saved actions", () => {
 
   it("keeps the native lapsed decision cancelled rather than fulfilled", () => {
     const matter = governingMatterById(opened, matterId)!;
+    if (!matter.deadline) throw new Error("The program deadline is missing.");
     const lapsed = advanceWorld(
       opened,
       daysBetween(opened.currentDate, matter.deadline),
@@ -428,14 +433,21 @@ describe("governing work and delivery require their own saved actions", () => {
     expect(commitment.appropriationId).toBe(
       governingMatterById(arrived, matterId)!.appropriationId,
     );
-    // A blocked callback is not a polling or later-receipt retry mechanism.
-    expect(
-      arrived.history.events.filter(
-        (event) =>
-          event.type === GOVERNING_OUTCOME &&
-          event.tags.includes(`matter:${matterId}`),
-      ),
-    ).toHaveLength(0);
+    // The newly saved receipt reports directly; the blocked due stays intact.
+    const automatic = arrived.history.events.filter(
+      (event) =>
+        event.type === GOVERNING_OUTCOME &&
+        event.tags.includes(`matter:${matterId}`),
+    );
+    expect(automatic).toHaveLength(receiptBaseline ? 0 : 1);
+    if (!receiptBaseline) {
+      expect(automatic[0]!.occurredAt).toBe(delivery.dueAt);
+      expect(automatic[0]!.tags).toContain(`source-record:${outturn.id}`);
+      expect(automatic[0]!.tags).toContain(`source-event:${outturn.eventId}`);
+      expect(automatic[0]!.tags).toContain(
+        `decision:${governingMatterById(arrived, matterId)!.decision!.id}`,
+      );
+    }
     expect(
       futureDueItemStateAt(arrived, earlyDue.id, {
         asOfDate: arrived.currentDate,
@@ -465,8 +477,146 @@ describe("governing work and delivery require their own saved actions", () => {
       deliveryDate: outturn.recordedAt,
       laterReportDate: result.output.currentDate,
       earlyReports: early.outcomes.length,
-      automaticReportsAtDelivery: 0,
+      automaticReportsAtDelivery: automatic.length,
       laterReports: result.outcomes.length,
+      paidHash: hash(paid),
+      programRecordsHash: createHash("sha256")
+        .update(JSON.stringify(arrived.history.publicProgramRecords))
+        .digest("hex"),
+      flowsHash: createHash("sha256")
+        .update(JSON.stringify(arrived.history.resourceFlows))
+        .digest("hex"),
+      paymentIds: arrived.history.resourceTransferOutcomes.map((row) => row.id),
+    });
+  });
+
+  it("reports immediate native maintenance only after its actual governing work is complete", () => {
+    const alternatives = programs.programAlternativesFor;
+    // An explicitly supplied immediate-delivery fixture exercises the existing
+    // null-lead route; production alternatives and their timing are unchanged.
+    const immediate = vi
+      .spyOn(programs, "programAlternativesFor")
+      .mockImplementation((world, appropriation) =>
+        alternatives(world, appropriation).map((alternative) =>
+          alternative.key === "restore-units"
+            ? { ...alternative, deliveryLeadDays: null }
+            : alternative,
+        ),
+      );
+    let world: World;
+    try {
+      const result = decideGoverningMatter(
+        opened,
+        matterId,
+        "program:restore-units",
+      );
+      expect(result.ok).toBe(true);
+      world = result.world;
+    } finally {
+      immediate.mockRestore();
+    }
+    const outturn = programOutturns(world, TRANSIT).at(-1)!;
+    expect(outturn.restoredUnits).toBeGreaterThan(0);
+    expect(outturn.recordedAt).toBe(world.currentDate);
+    const completed = completedGoverningMatterWork(world, matterId)!;
+    const decision = governingMatterById(world, matterId)!.decision!;
+    expect(completed.outcomeEventId).toBe(decision.id);
+    expect(completed.sequence).toBeLessThan(outturn.sequence);
+    const outcomes = world.history.events.filter(
+      (event) =>
+        event.type === GOVERNING_OUTCOME &&
+        event.tags.includes(`matter:${matterId}`),
+    );
+    expect(outcomes).toHaveLength(receiptBaseline ? 0 : 1);
+    if (!receiptBaseline) {
+      expect(outcomes[0]!.tags).toContain(`source-record:${outturn.id}`);
+      expect(outcomes[0]!.sequence).toBeGreaterThan(outturn.sequence);
+      const saved = deserializeWorld(serializeWorld(world));
+      expect(
+        governing.reviewGoverningOutturns(saved, new Set([outturn.id])),
+      ).toBe(saved);
+      expect(governing.reviewGoverningOutturns(saved, new Set())).toBe(saved);
+      const appropriationId = governingMatterById(
+        saved,
+        matterId,
+      )!.appropriationId!;
+      expect(
+        governing.reviewGoverningOutturns(saved, new Set([appropriationId])),
+      ).toBe(saved);
+    }
+    receipts.push({
+      case: "immediate-receipt",
+      seed,
+      personId: managerId,
+      name: personName(world.people[managerId]!),
+      matterId,
+      workId,
+      decisionId: decision.id,
+      outturnId: outturn.id,
+      immediateReports: outcomes.length,
+    });
+  });
+  it("receipt identity survives reload and repeat of the actual scheduled delivery", () => {
+    const outturn = programOutturns(delivered, TRANSIT).at(-1)!;
+    const deliveryDue = delivered.history.futureDueItems.find(
+      (due) =>
+        due.transitionKey === PUBLIC_PROGRAM_DELIVERY &&
+        due.dueAt === outturn.recordedAt,
+    )!;
+    expect(deliveryDue).toBeDefined();
+    const continued = deserializeWorld(serializeWorld(delivered));
+    expect(programOutturns(continued, TRANSIT)).toEqual(
+      programOutturns(delivered, TRANSIT),
+    );
+    expect(continued.history.publicProgramRecords).toEqual(
+      delivered.history.publicProgramRecords,
+    );
+    expect(governingMatterById(continued, matterId)).toEqual(
+      governingMatterById(delivered, matterId),
+    );
+    expect(completedGoverningMatterWork(continued, matterId)).toEqual(
+      completedGoverningMatterWork(delivered, matterId),
+    );
+    // The first delivery was clock-driven. This replay checks the existing
+    // handler's duplicate guard without writing a report or new due item.
+    const repeated = programDeliveryHandler(continued, deliveryDue);
+    expect(repeated.status).toBe("resolved");
+    expect(repeated.outcomeEventId).toBeNull();
+    expect(repeated.world).toBe(continued);
+    const later = advanceWorld(
+      continued,
+      1,
+      createFutureTransitionHandlerRegistry([
+        ...PUBLIC_PROGRAM_HANDLERS,
+        [GOVERNING_DEADLINE, governingDeadlineHandler],
+        [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+      ]),
+    );
+    expect(programOutturns(later, TRANSIT)).toEqual(
+      programOutturns(continued, TRANSIT),
+    );
+    expect(later.history.publicProgramRecords).toEqual(
+      continued.history.publicProgramRecords,
+    );
+    expect(later.history.resourceFlows).toEqual(
+      continued.history.resourceFlows,
+    );
+    expect(later.history.resourceTransferOutcomes).toEqual(
+      continued.history.resourceTransferOutcomes,
+    );
+    receipts.push({
+      case: "delivery-repeat-identity",
+      seed,
+      personId: managerId,
+      name: personName(later.people[managerId]!),
+      matterId,
+      workId,
+      outturnId: outturn.id,
+      commitmentId: outturn.commitmentId,
+      installmentId: outturn.installmentId,
+      sourceEventId: outturn.eventId,
+      deliveryDueId: deliveryDue.id,
+      repeatedWorldUnchanged: repeated.world === continued,
     });
   });
 });

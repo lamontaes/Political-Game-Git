@@ -12,6 +12,7 @@ import { createWorkItem, workItemState } from "../time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
 import { recordPaidTransitProgramService } from "./public-program-transit";
+import { reviewGoverningOutturns } from "./state-governing";
 import {
   appropriationCommittedMinorUnits,
   appropriationPinnedPaymentsMinorUnits,
@@ -1172,7 +1173,7 @@ function recordCapacityOutturn(
       )
     : null;
   const stableKey = `${installment.stableKey}:capacity`;
-  return writeRecord(
+  const written = writeRecord(
     world,
     stableKey,
     {
@@ -1210,7 +1211,10 @@ function recordCapacityOutturn(
       unitsOperational: before + (restored ?? 0),
       restoredUnits: restored,
     },
-  ).world;
+  );
+  return written.world === world
+    ? world
+    : reviewGoverningOutturns(written.world, new Set([written.id]));
 }
 
 function closeWorkIfDone(
