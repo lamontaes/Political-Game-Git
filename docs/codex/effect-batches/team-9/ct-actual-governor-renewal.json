@@ -1,0 +1,81 @@
+{
+  "sourceHead": "c6da9950f6c3d59ff7cfb8f09e20f6be6bfcf30b",
+  "parent": "66de448561e3865426c00c34a3796bd55c188511",
+  "runtimeComposition": "d4483c28c9d65145f5b0e8acd531c60705607f1c + test-only fixture repair",
+  "foundationSource": "f694946fc662aafe2bf1e0ed61b8c3cd1e1f75f7",
+  "authority": "CTO6:23 Connecticut fixture ruling and Audit actual saved governor contract",
+  "changedFile": "src/simulation/law-consequences/legal-outcome.test.ts",
+  "fixture": "Stop at actual awaiting-executive, use governorOfficeForJurisdiction saved holder, recordExecutiveAction signed with actual actor, assert awaiting-enactment. Original enactment/sentence/stamp/reload assertions preserved. No production changes.",
+  "command": "G10_PROOF_REPORT_PATH=/tmp/team9-ct-actual-governor-proof.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/law-consequences/legal-outcome.test.ts -t 'saves the actual defendant.*US-CT' --reporter=default --reporter=json --outputFile=/tmp/team9-ct-actual-governor-results.json",
+  "passed": 1,
+  "failed": 0,
+  "notRun": [
+    "other70 legal cases",
+    "f835/current-main foundation composition",
+    "45datedreader cases",
+    "hourlypay writer",
+    "year",
+    "browser",
+    "wholeSuite",
+    "finalMain"
+  ],
+  "durationSeconds": 76.3,
+  "selectedCaseSeconds": 33.967,
+  "timeout": "Existing explicit120000ms selected case timeout unchanged; prior stock30 description inaccurate and corrected here.",
+  "namedProof": [
+    {
+      "seed": "team9-g10-floor:US-CT",
+      "place": "US-CT",
+      "personId": "person_8abe375183cc5b0b",
+      "name": "Jared Soto",
+      "sentenceId": "event_2eb4ebbe3249b727",
+      "months": 120,
+      "measureId": "legislative-measure_2b32817ec4702c59",
+      "governorId": "person_16d1267011fb483f",
+      "governorName": "Ravi Rosa",
+      "summary": "Jared Soto was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_aaae321fc40d9bfb",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_2b32817ec4702c59",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-01-19",
+          "sourceRecordIds": [
+            "event_2eb4ebbe3249b727",
+            "legislative-measure_2b32817ec4702c59",
+            "legislative-enactment_a671b45d5b6c302c",
+            "legislative-provision_03cadfe4be46331d"
+          ]
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "strictOwnedRoots": 1,
+    "files": 1146,
+    "ownedDiagnostics": 0,
+    "lint": "PASS",
+    "format": "PASS",
+    "whitespace": "PASS"
+  },
+  "sourceBlob": "063726c0110ff65b80bac3f8f367f2aa4c673ed9",
+  "baselinePreserved": {
+    "publishedHead": "66de448561e3865426c00c34a3796bd55c188511",
+    "path": "docs/codex/effect-batches/team-9/ct-foundation-f694-renewal.json",
+    "result": "1FAIL/70NOTRUN45.87s awaiting-executive",
+    "bytes": "unchanged"
+  },
+  "earlierBaselinePreserved": "18f46 original4PASS/CTFAIL/66NOTRUN remains on22a6WIP",
+  "ownerLimits": [
+    "Team3 hourlywriter untouched",
+    "No guard bypass or defendant/player signature",
+    "Signature is explicitly authored fixture action, not natural governor decision proof",
+    "No foundation readiness or team merge"
+  ],
+  "a98": "#1506 remains OPEN READY unchanged2ca; next A98 changes depend on CTO disposition, no new board actors invented"
+}
