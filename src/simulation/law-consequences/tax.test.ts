@@ -467,8 +467,8 @@ describe("tax kind uses saved typed levies, assessments and due collection", () 
         (key) => key !== "offer-amendment",
       );
       if (!step) throw new Error("No canonical successor step.");
-      // The fixture row is not admitted to the production registry. Use the
-      // same canonical adoption writer without default-kind dispatch here.
+      // Use canonical adoption independently of production registry admission.
+      // Handler dispatch below explicitly injects TAX_REGISTRATION.
       world = applyLegislativeStep(procedure, world, step).world;
     }
     world = adoptEnactedTaxPolicy(

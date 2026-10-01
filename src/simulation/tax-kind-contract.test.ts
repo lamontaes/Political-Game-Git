@@ -1,4 +1,6 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
+import { recordExecutiveAction } from "./legislation";
+import type * as LegislativeSession from "../presentation/legislation-session";
 import { federalTopRateTermsFixture } from "../../tests/fixtures/team6-tax-kind-fixture";
 import {
   enactedTaxFixture,
@@ -18,6 +20,34 @@ import {
 } from "./tax-policy";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
+
+// The predecessor declares authored executive decisions in its procedure
+// contexts. The production desk now reads real NPC decisions instead. Keep
+// this test's explicit authored boundary while retaining the canonical action,
+// enactment, typed policy, assessment and payment writers.
+vi.mock("../presentation/legislation-session", async (importOriginal) => {
+  const actual = await importOriginal<typeof LegislativeSession>();
+  return {
+    ...actual,
+    applyLegislativeStep: (
+      ...args: Parameters<typeof actual.applyLegislativeStep>
+    ) => {
+      const [procedure, world, step] = args;
+      if (step === "await-executive-decision" && procedure.governorAction) {
+        return {
+          world: recordExecutiveAction(world, {
+            stableKey: `team6-tax-kind:authored-executive:${procedure.measureId}`,
+            measureId: procedure.measureId,
+            action: procedure.governorAction,
+            rationale: `Controlled authored fixture decision: ${procedure.governorRationale ?? "No natural executive decision is claimed."}`,
+          }),
+          message: "The declared fixture executive action was recorded.",
+        };
+      }
+      return actual.applyLegislativeStep(...args);
+    },
+  };
+});
 
 // These fixtures exercise existing writers independently. They do not claim
 // that an annual marginal income-tax threshold maps to an excise occurrence
