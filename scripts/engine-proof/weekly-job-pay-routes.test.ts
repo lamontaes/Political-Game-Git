@@ -38,7 +38,7 @@ import {
   ensureSavedWeeklyJobPayCalendar,
   WEEKLY_JOB_PAY_TRANSITION_KEY,
 } from "../../src/simulation/weekly-job-pay-transitions";
-import type { World } from "../../src/simulation/types";
+import type { EntityId, World } from "../../src/simulation/types";
 
 const provenance = {
   kind: "authored" as const,
@@ -133,7 +133,7 @@ function jobContract(
   return { ...f, world, work, flow };
 }
 
-function jobItems(world: World, flowId: string) {
+function jobItems(world: World, flowId: EntityId) {
   return world.history.futureDueItems.filter(
     (row) =>
       row.transitionKey === WEEKLY_JOB_PAY_TRANSITION_KEY &&
@@ -144,7 +144,7 @@ function jobItems(world: World, flowId: string) {
 
 function verifyPaid(
   world: World,
-  flowId: string,
+  flowId: EntityId,
   startsAt: World["currentDate"],
 ) {
   const outcomes = world.history.resourceTransferOutcomes.filter(
@@ -282,15 +282,18 @@ describe("A8 saved weekly jobs on the ordinary clock", () => {
     );
     expect(startJob(paid, application.id).ok).toBe(false);
     expect(ensureSavedWeeklyJobPayCalendar(paid)).toBe(paid);
-    console.info("A8_LATER_HIRE", {
-      person: `${paid.people[f.personId]!.givenName} ${paid.people[f.personId]!.familyName}`,
-      employer: f.organizationId,
-      work: work.id,
-      flow: flow.id,
-      hiredOn: flow.startsAt,
-      paidOn: paid.currentDate,
-      transferredMinor: outcomes[0]!.transferredAmount.minorUnits,
-    });
+    process.stdout.write(
+      JSON.stringify({
+        receipt: "A8_LATER_HIRE",
+        person: `${paid.people[f.personId]!.givenName} ${paid.people[f.personId]!.familyName}`,
+        employer: f.organizationId,
+        work: work.id,
+        flow: flow.id,
+        hiredOn: flow.startsAt,
+        paidOn: paid.currentDate,
+        transferredMinor: outcomes[0]!.transferredAmount.minorUnits,
+      }) + "\n",
+    );
     assertWorldIntegrity(paid);
   });
 

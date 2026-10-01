@@ -131,7 +131,6 @@ import {
   publicInformationHistoryRecords,
 } from "./public-information-integrity";
 import {
-  EMPTY_FUTURE_TRANSITION_HANDLERS,
   assertFutureTransitionIntegrity,
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
