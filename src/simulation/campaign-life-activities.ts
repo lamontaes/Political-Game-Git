@@ -2394,6 +2394,11 @@ export function campaignLifeOutreachTransitionHandler(
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey === null
+  )
+    return deferred("organizer-undecided", nextGap());
   const chosen = evaluation.selectedOptionKey;
   if (!chosen || chosen === "not-now")
     return deferred("organizer-chose-not-now", nextGap());
