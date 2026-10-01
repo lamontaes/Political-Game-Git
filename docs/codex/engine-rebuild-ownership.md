@@ -146,3 +146,8 @@ Team 4 additionally confirmed the adjacent rentEvent judgment-only input and act
 Team 3 published the saved-work/flow wrapper at 5131c40cb818d10e3f7b999d6656a15f04740adb and reported its focused parity test passed. Audit owns the dated adapter and default composer. Team 3 clean-released only job-market.ts beginWork's post-createWorkCompensation hook before addStep, payWeekly's returned-world scheduling hook, and life.ts recordWorkStatus's post-coverage scheduling hook for actually activated work, plus required imports. Preserve existing-flow early return, stable keys, amounts, dates, coverage and status validation. Team 3 retains period arithmetic, pay terms and the common payment writer.
 
 No generic resource creation hook is transferred. Opening and later hires both require clock proof. The unchanged clock-only prerequisite previously failed; the held presentation caller retirement must not be applied until it passes. Wrapper parity is not clock integration completion.
+
+## A102 reference-channel clarification
+
+Team 4 confirmed that its judgment-only rentEvent release at f417d5f2183bc5ec3e2cfa263629321d0528463e includes provenance tags for actual court, seat and tenure records. Audit identified existing court and seat tag conventions. Historical filing IDs are also saved records, not canonical entities. Team 9 keeps the actual judge person as an entity and participant, validates the dated assignment before writing, and preserves base tags and nonjudgment branches. No registry, shared guard or civil-case schema expansion is granted. Tags preserve evidence; they do not establish authority.
+
