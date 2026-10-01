@@ -6,10 +6,14 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { addDays } from "../dates";
+import { composeWorldTimeHandlers } from "../campaigns";
+import { createPressTransitionRegistry } from "../press/transitions";
+import { PRESS_DESK_SWEEP_TRANSITION_KEY } from "../press/desk";
 import {
   cancelFutureDueItem,
   futureDueItemStateAt,
   resolveFutureDueItemsThrough,
+  scheduleFutureDueItem,
 } from "../future-transitions";
 import { currentLifeCutoff } from "../life-queries";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
@@ -26,7 +30,6 @@ import {
 } from "./clemency";
 import {
   CLEMENCY_PETITION_TRANSITION_KEY,
-  createClemencyTransitionRegistry,
   ensureClemencyPetitionSchedule,
 } from "./clemency-transitions";
 import {
@@ -163,10 +166,45 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
       expect(ensureClemencyPetitionSchedule(isolated, filed.petitionId)).toBe(
         isolated,
       );
+      const pressOnly = scheduleFutureDueItem(
+        cancelFutureDueItem(isolated, {
+          stableKey: `a10-fixture-cancel:${item.id}`,
+          dueItemId: item.id,
+          effectiveAt: isolated.currentDate,
+          reasonKey: "fixture:press-only",
+          context: "Isolate a newspaper sweep from the petition's due item.",
+        }),
+        {
+          stableKey: "press46:desk-sweep:900",
+          dueAt: due,
+          transitionKey: PRESS_DESK_SWEEP_TRANSITION_KEY,
+          entityIds: [isolated.id],
+          jurisdictionId: null,
+          provenance: { kind: "simulated", sourceEntityIds: [isolated.id] },
+        },
+      );
+      const swept = resolveFutureDueItemsThrough(
+        pressOnly,
+        due,
+        createPressTransitionRegistry(),
+      );
+      expect(swept.currentDate).toBe(due);
+      expect(clemencyPetitionStatus(swept, filed.petitionId)).toBe(
+        clemencyPetitionStatus(isolated, filed.petitionId),
+      );
+      expect(
+        swept.history.events.filter((event) =>
+          event.type.startsWith("justice."),
+        ),
+      ).toEqual(
+        pressOnly.history.events.filter((event) =>
+          event.type.startsWith("justice."),
+        ),
+      );
       const atDue = resolveFutureDueItemsThrough(
         isolated,
         due,
-        createClemencyTransitionRegistry(),
+        composeWorldTimeHandlers(),
       );
       expect(atDue.currentDate).toBe(due);
       expect(atDue.history.events.length).toBeGreaterThan(
@@ -183,7 +221,7 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
       const replay = resolveFutureDueItemsThrough(
         saved,
         due,
-        createClemencyTransitionRegistry(),
+        composeWorldTimeHandlers(),
       );
       expect(serializeWorld(replay)).toBe(serializeWorld(saved));
       receipts.push({
@@ -196,6 +234,8 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
         dueItemId: item.id,
         due,
         status: clemencyPetitionStatus(saved, filed.petitionId),
+        composedCourtHandler: true,
+        pressOnlyJusticeUnchanged: true,
         successor: nextClemencyPetitionDueAt(saved, filed.petitionId),
       });
     },

@@ -48,6 +48,7 @@ import type { LocalGoverningBodyIdentity } from "../nationwide-world/local-gover
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import {
+  FILING_LEAD_DAYS,
   nextTownElection,
   novemberGeneralElectionDay,
 } from "../nationwide-world/town-election-calendar";
@@ -128,7 +129,8 @@ import {
  * - Seats are staggered so that about the same share comes up each time, in
  *   seat order. No town's own stagger has been read.
  * - A primary is held `primaryLeadDays` before the general election, and the
- *   field closes `FILING_LEAD_DAYS` before the first vote.
+ *   field closes `FILING_LEAD_DAYS` (the national median filing lead,
+ *   ESTIMATED FROM AVERAGE) before the first vote.
  * - Who runs, who retires, who resigns and how many people vote are drawn from
  *   the shares in `LOCAL_ELECTIONS_PROFILE`, and the count gives a sitting
  *   member a fixed edge. None of these is a measured rate.
@@ -148,7 +150,8 @@ export const LOCAL_GOVERNMENT_YEAR = "civic:local-government-year" as const;
 
 export const LOCAL_ELECTIONS_PROFILE = {
   id: "ocd-local-elections-placeholder/v1",
-  filingLeadDays: 28,
+  /** ESTIMATED FROM AVERAGE: see `FILING_LEAD_DAYS` and its source. */
+  filingLeadDays: FILING_LEAD_DAYS,
   primaryLeadDays: 56,
   minimumCandidateAge: 21,
   /** How many neighbors file against a sitting member (index = count). */
@@ -166,7 +169,7 @@ export const LOCAL_ELECTIONS_PROFILE = {
 const P = LOCAL_ELECTIONS_PROFILE;
 
 type ElectionDayBasis =
-  "state-law-unverified" | "local-choice-drawn" | "game-default";
+  "state-law-unverified" | "local-choice-estimated" | "game-default";
 
 export interface TownElectionDay {
   readonly electionDate: IsoDate;

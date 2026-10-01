@@ -8,12 +8,16 @@ import {
 import { SeededRng, pickDistinct } from "../rng";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
 import { addDays } from "../dates";
+import { composeWorldTimeHandlers } from "../campaigns";
+import { createPressTransitionRegistry } from "../press/transitions";
+import { PRESS_DESK_SWEEP_TRANSITION_KEY } from "../press/desk";
 import { currentLifeCutoff } from "../life-queries";
 import {
   cancelFutureDueItem,
   createFutureTransitionHandlerRegistry,
   resolveFutureDueItemsThrough,
   futureDueItemStateAt,
+  scheduleFutureDueItem,
 } from "../future-transitions";
 import { assertWorldIntegrity } from "../world";
 import { serializeWorld, deserializeWorld } from "../serialization";
@@ -21,15 +25,13 @@ import { personName } from "../people";
 import type { World } from "../types";
 import {
   advanceProsecutions,
+  enterPlea,
   referForProsecution,
   PROSECUTION_CHARGED_EVENT,
   UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
-import {
-  prosecutionStageHandler,
-  PROSECUTION_STAGE_TRANSITION_KEY,
-} from "./prosecution-transitions";
+import { PROSECUTION_STAGE_TRANSITION_KEY } from "./prosecution-transitions";
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -40,7 +42,7 @@ afterAll(() => {
     );
 });
 
-// These are isolated real-clock adapter proofs, not complete composer/year runs.
+// Controlled real-clock proofs use the composed court handler, without a year run.
 describe("a saved prosecution stage owns its due item", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
   const states = pickDistinct(rng, lifePlaceStateIdentities(), 2);
@@ -118,19 +120,55 @@ describe("a saved prosecution stage owns its due item", () => {
       );
       let legacy: World | undefined;
       let calls = 0;
+      const courtHandler = composeWorldTimeHandlers().get(
+        PROSECUTION_STAGE_TRANSITION_KEY,
+      )!;
+      expect(courtHandler).toBeTypeOf("function");
       const registry = createFutureTransitionHandlerRegistry([
         [
           PROSECUTION_STAGE_TRANSITION_KEY,
           (world, due) => {
             calls++;
             legacy = advanceProsecutions(world);
-            const result = prosecutionStageHandler(world, due);
+            const result = courtHandler(world, due);
             expect(result.world.history.events).toEqual(legacy.history.events);
             return result;
           },
         ],
       ]);
       const reloaded = deserializeWorld(serializeWorld(referral.world));
+      const pressOnly = scheduleFutureDueItem(
+        cancelFutureDueItem(reloaded, {
+          stableKey: `a10-fixture-cancel:${item.id}`,
+          dueItemId: item.id,
+          effectiveAt: reloaded.currentDate,
+          reasonKey: "fixture:press-only",
+          context: "Isolate a newspaper sweep from the court's due item.",
+        }),
+        {
+          stableKey: "press46:desk-sweep:900",
+          dueAt: item.dueAt,
+          transitionKey: PRESS_DESK_SWEEP_TRANSITION_KEY,
+          entityIds: [reloaded.id],
+          jurisdictionId: null,
+          provenance: { kind: "simulated", sourceEntityIds: [reloaded.id] },
+        },
+      );
+      const swept = resolveFutureDueItemsThrough(
+        pressOnly,
+        item.dueAt,
+        createPressTransitionRegistry(),
+      );
+      expect(swept.currentDate).toBe(item.dueAt);
+      expect(
+        swept.history.events.filter((event) =>
+          event.type.startsWith("justice."),
+        ),
+      ).toEqual(
+        pressOnly.history.events.filter((event) =>
+          event.type.startsWith("justice."),
+        ),
+      );
       const before = resolveFutureDueItemsThrough(
         reloaded,
         addDays(item.dueAt, -1),
@@ -154,6 +192,13 @@ describe("a saved prosecution stage owns its due item", () => {
         `${seed}: ${personName(charged.people[subjectId]!)}`,
       ).toHaveLength(1);
       expect(events[0]!.occurredAt).toBe(item.dueAt);
+      expect(
+        enterPlea(charged, {
+          personId: subjectId,
+          referralId: referral.referralId,
+          plea: "not-guilty",
+        }).ok,
+      ).toBe(true);
       expect(
         futureDueItemStateAt(charged, item.id, currentLifeCutoff(charged))
           ?.status,
@@ -193,6 +238,9 @@ describe("a saved prosecution stage owns its due item", () => {
         trialDueItemId: trialItem.id,
         trialDueAt: trialItem.dueAt,
         legacyEventParity: true,
+        composedCourtHandler: true,
+        pressOnlyJusticeUnchanged: true,
+        pleaAvailableWithoutPress: true,
         reloadedRepeatCalls: calls,
       });
     },

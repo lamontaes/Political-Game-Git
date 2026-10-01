@@ -1,3 +1,73 @@
+# Current permission, compliance and financial transfers
+
+The permission handler has one receiving owner, and the compliance reader has one builder. Approved saved-record contracts now separate historical admission from new writes.
+
+## Exact ownership
+
+- Coordinator received Team 8's right-permission.ts and its test from 16f5fb09c493f1b4d0f5e5117e0eeb524673eaf8 and owns the sole-registry registration. Published draft #1636 at 0f54a7d785f0250a6d9a7ce56aa38d035c2b908e. No core/type replacement or new permission rows are included.
+- Team 2 released to Team 1 only settleEnactedDuty's compliance-outcome reader, required imports and staffed/no-duty-receipt/qualifying-receipt tests. Clean donor 072a2d976a40e24e8764e24981c1554828495fa7; source blob 7c3c52f36955a54f18828a8aff2d125a4bd45908 and test blob f34ab865fc557476157d7d738d05e3d3c3cd4549. Positive fulfillment still needs Audit's exact same-duty/body/Act receipt contract. Other duty writers, declarations and provenance stay with existing owners.
+- Team 2's requested A108 municipal council projection and action-date reader transfer is pending Team 1's exact clean release. No overlap is authorized.
+- CTO Ruling 19 authorizes Coordinator's append-only statutory tax attribution receipt, once per saved liability or payment. No amounts, cash or old records may change. Team 6 retains source admission and authority research; Coordinator retains the previously released tax authority selector and shared handler.
+- CTO Ruling 20 admits historical first-of-month monthly point payments read-only for the preceding calendar month. Team 3 owns the pure shared coverage query and producer; Coordinator owns the matching resource guards. January 20 remains outside that rule; all new writes remain strict.
+- CTO 3:24 assigns A63 drift to claude/a63-no-dice-drift, missing measure base data to claude/outcome-bases-new-measures and eight policy questions to claude/new-policy-questions-fable. Existing teams must not duplicate those surfaces.
+- Team 8's heard-exposure consumer request in press/law-effect-news.ts still needs the current owner's clean release. Coordinator retains law-exposure.ts; the separate law-effects-noticed.ts release also remains pending.
+
+## Earlier checkpoints
+
+# Ratification and tax ownership transfers
+
+The ratification writer now has one assigned builder. The tax integration has a narrow receiving boundary. Existing records, unrelated branches and unpublished work remain protected.
+
+## Exact transfers
+
+- Team 1 released to Team 2 only ConstitutionalActionDetail's state-ratification fields in constitutional-types.ts and the corresponding validation, clone preservation and recordArticleVRatification in constitutional-process.ts. Published donor: 38cee9bcaf38eac8f35942b863d230524edd68b4. Statewide-vote, recall and all other branches remain with their current owners. Audit is resolving the actual chamber threshold contract.
+- Team 6 released to Coordinator tax-policy.ts taxPowerEvidenceFor and its necessary query import; the selector arguments in attachTaxProposal and assertTaxPolicyIntegrity; and sourceAuthorityValid's jurisdiction, date and evidence checks. Donor: ed100d549bd10457cbbf0b7608a855bd10e801a8. Other proposal guards, profileAuthorityValid, source admission, second-assessment prevention and saved levy helpers remain Team 6's.
+- Coordinator retains tests/fixtures/tax-policy-fixture.ts. Team 6 confirmed no active or unpublished overlap. The funding fixture uses the production excise question and retains the controlled character, original terms and actual collection path.
+- Team 7 continues A5 in its released clock registration and caller surfaces. The proposed small-world fixture dependency remains pending CTO admission; no duplicate helper is authorized.
+- Coordinator's law-effects-noticed.ts consumer transfer remains requested, not granted.
+
+## Decisions still required
+
+The CTO must admit an append-only attribution contract for existing statutory tax records and a saved-only discriminator for historical monthly payments. No authority source, applicability interval, payment or history rewrite is implied by these releases.
+
+## Earlier checkpoints
+
+# Current Government and payroll handoffs
+
+Team 1 can now build the local-government connection. Audit supplied the existing council decision contract. Monthly payroll also has a shared query contract, with separate owners for the producer and guards.
+
+## Exact ownership
+
+- Team 1 owns only the localCouncil input, local body resolution and existing council decision branch in governing/legislative-clock.ts, plus its local-council-meetings.ts caller. Audit retains clock composition. Preserve actual unit identity, dated seats, town constituency and completeCouncilPassage.
+- Team 3 owns the new pure monthly-work-pay query and its town-pay.ts producer call. Coordinator owns only ordinary expected-payment selection in resources.ts and resource-integrity.ts. The query must use saved records before the supplied history frontier; completed-shift validation, equality, chronology, cash and overlapping-period checks remain intact.
+- Team 6 owns recordTaxBase and its integrity source admission in tax-policy.ts alongside its existing consumer. Coordinator owns the shared tax handler and wage-income authority admission. The CTO admits saved statutory liability IDs and saved payment resource-outcome IDs. Historical occurrence dates remain historical; no second collection is authorized.
+- Coordinator retains law-exposure.ts and its test. The law-effects-noticed.ts consumer release remains requested, not granted.
+
+## Validation routing
+
+The CTO assigned Cloud Checker 3 the age-helper change, followed by the coordinator's foundation renewal. Cloud Checker 2 owns Team 7's undecided-result change followed by Team 8's referral extraction. No competing local runtime gate is assigned here.
+
+## Earlier checkpoints
+
+# Narrow transfers for the current rebuild
+
+Each owner keeps the existing writer except for the exact functions released below. No transfer permits replacing another owner's whole file.
+
+## Current transfers
+
+- Coordinator received Team 9's prosecution.ts followUp wrapper and import only. The hook dispatches after the saved stage; current sentencing and clemency code remains intact.
+- Coordinator received Team 6's public-fiscal.ts post-transfer payment hook and Team 8's health-coverage.ts renewal hook. Both owners confirmed no unpublished overlap. Receiving physical files were clean; all shared dirty files were preserved.
+- Team 9 owns legal-record.ts termLine and servingNow life-term handling, plus only the jailed.until display sentence in campaign-projection.ts. Team 7 retains the separate county qualification and timing consumers.
+- Team 4 owns only Dwelling builtYear and unitsInBuilding, and their CreateDwellingInput/createDwelling validation and copy. Coordinator retains the disjoint payment-stamp hunk in resources.ts.
+- Team 6 owns the A33 tax-policy consumer and test. Team 3 released one town-pay consumer import and call seam; the CTO's newer one-withholding-path rule requires exact handled-levy replacement, not duplicate collection. Audit supplies that contract. Team 3 retains period and payroll writer work.
+- Coordinator's A35 pay-notice consumer release is requested, not granted. Existing law-exposure.ts ownership remains unchanged.
+
+## Gate authority
+
+Codex Merge is now Cloud Checker 3. It runs only CTO-assigned gates and never merges or approves. The CTO routes PRs to cloud checkers; no new Mac runtime gate is authorized by this ledger.
+
+## Earlier checkpoints
+
 # Exact ownership for the ordered engine work
 
 Each transfer below covers only its named functions or files. Existing financial, court and narrative writers remain with their owners.

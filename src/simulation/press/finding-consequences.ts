@@ -1,3 +1,4 @@
+import type { applyFindingReferral } from "../justice/finding-referral";
 import type { applyFindingRestitution } from "../governing/finding-restitution";
 import { campaigns, campaignState } from "../campaign-queries";
 import { recordSupportLoss } from "../campaign-support";
@@ -6,7 +7,6 @@ import { claimStancesBy } from "../claim-stances";
 import { electionContestStatus } from "../election-contests";
 import { recordEventKnowledge } from "../records";
 import type { EntityId, HistoricalEvent, World } from "../types";
-import { referForProsecution, regulatorRefers } from "../justice/prosecution";
 import {
   isAdversePublicStep,
   priorAdverseFindings,
@@ -25,7 +25,6 @@ import {
   produceMatterResponses,
 } from "./responses";
 import { sortedUnique } from "./shared";
-import { requirePressRecord } from "./store";
 
 /**
  * What a public adverse outcome does to the person it names, beyond the
@@ -56,6 +55,7 @@ export function applyFindingConsequences(
   step: ProceedingStepRecord,
   event: HistoricalEvent,
   restitution?: typeof applyFindingRestitution,
+  referral?: typeof applyFindingReferral,
 ): World {
   if (!isAdversePublicStep(step)) return world;
   const outcome = step.outcome as AdversePublicOutcome;
@@ -68,54 +68,13 @@ export function applyFindingConsequences(
       // in the original slot. Press alone does not issue a monetary order.
       next = restitution(next, proceeding, respondentId, step);
     }
-    if (outcome === "finding") {
-      next = referralConsequence(next, proceeding, respondentId, step, event);
+    if (referral && outcome === "finding") {
+      next = referral(next, proceeding, respondentId, step, event);
     }
     next = socialConsequence(next, proceeding, respondentId, event);
     next = deniedToConsequence(next, proceeding, respondentId, event);
   }
   return next;
-}
-
-/**
- * A finding that somebody took campaign money for themselves goes to
- * prosecutors (`justice/prosecution.ts`) when the record shows the violation
- * was knowing and willful: an earlier finding for the same thing stands, or
- * the person denied what this finding established (`regulatorRefers`). The
- * payments are on the committee's own filed reports, so the evidence is
- * documentary.
- */
-function referralConsequence(
-  world: World,
-  proceeding: MatterProceedingRecord,
-  respondentId: EntityId,
-  step: ProceedingStepRecord,
-  event: HistoricalEvent,
-): World {
-  const matter = requirePressRecord(world, "matter", proceeding.matterId);
-  if (matter.family !== "M1") return world;
-  const standing = priorAdverseFindings(world, respondentId, step).length + 1;
-  const key = `${step.stableKey}:${respondentId}`;
-  const deniedIt = claimStancesBy(world, respondentId).some(
-    ({ stance }) =>
-      stance.propositionKey === `matter:${proceeding.matterId}` &&
-      stance.asserted === "denies",
-  );
-  if (!regulatorRefers({ standingFindings: standing, deniedIt })) return world;
-  return referForProsecution(world, {
-    stableKey: key,
-    subjectPersonId: respondentId,
-    jurisdictionId: matter.jurisdictionId,
-    offenseKey: "campaign-funds-personal-use",
-    referredBy: {
-      kind: "regulator",
-      label: proceeding.institutionLabel,
-      personId: null,
-    },
-    basisEventIds: [event.id],
-    evidence: "documentary",
-    standingFindings: standing,
-  }).world;
 }
 
 /**

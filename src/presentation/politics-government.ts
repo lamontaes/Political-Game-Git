@@ -1,6 +1,10 @@
 import { personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
-import { municipalSeats } from "../simulation/municipal-public-work";
+import { localGovernmentGameProfileKey } from "../simulation/local-ordinance-game-profile";
+import {
+  municipalOrganizationKey,
+  municipalSeats,
+} from "../simulation/municipal-public-work";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -203,16 +207,25 @@ function localGoverningBodyMembers(
   unit: GovernmentUnitIdentity,
   roleKind: "leader:municipal-member" | "leader:municipal-mayor",
 ): readonly EntityId[] {
-  const organization = world.history.organizations.find(
-    (entry) => entry.stableKey === localGovernmentOrganizationKey(unit),
+  // A seat is recorded either in the government the listing names or, once
+  // the town's ordinary council is seated, in that council's own government,
+  // which an unread town keys by the same unit.
+  const keys = new Set([
+    localGovernmentOrganizationKey(unit),
+    municipalOrganizationKey(localGovernmentGameProfileKey(unit)),
+  ]);
+  const organizationIds = new Set(
+    world.history.organizations
+      .filter((entry) => keys.has(entry.stableKey))
+      .map((entry) => entry.id),
   );
-  if (!organization) return [];
+  if (!organizationIds.size) return [];
   return [
     ...new Set(
       world.history.organizationParticipations
         .filter(
           (participation) =>
-            participation.organizationId === organization.id &&
+            organizationIds.has(participation.organizationId) &&
             participation.startedAt <= world.currentDate &&
             world.people[participation.personId] !== undefined,
         )

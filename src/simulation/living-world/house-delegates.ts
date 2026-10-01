@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -194,10 +195,6 @@ function chamberOrganizationId(world: World): EntityId {
   return createStableId("organization", `${world.id}:${V}:chamber:us-house`);
 }
 
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
-}
-
 function tagValue(event: HistoricalEvent, prefix: string): string | null {
   const tag = event.tags.find((candidate) => candidate.startsWith(prefix));
   return tag ? tag.slice(prefix.length) : null;
@@ -256,17 +253,17 @@ function newMemberInput(
 ): CharacterHistoryContextPersonInput {
   const key = memberKey(seat, startsAt);
   const rng = new SeededRng(world.seed).fork(key);
-  const age = rng.integer(MINIMUM_AGE + 7, 72);
-  const year = Number(startsAt.slice(0, 4));
   return {
     stableKey: key,
     ...drawCanonicalNamedIdentity(
       rng.fork("name"),
       generatePersonIdentity(rng.fork("identity")),
     ),
-    birthDate: makeIsoDate(
-      `${year - age - 1}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-    ),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "new-legislative-member",
+      referenceDate: startsAt,
+      legalMinimumAge: MINIMUM_AGE,
+    }),
     homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
   };
 }

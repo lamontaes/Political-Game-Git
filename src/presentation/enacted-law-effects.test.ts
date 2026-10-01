@@ -1,6 +1,7 @@
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
+  performScheduledActivity,
   playerRequiredWorkIds,
   releasePlayerRequiredWork,
 } from "../simulation/time-work";
@@ -38,7 +39,47 @@ import { projectMeasureBriefing } from "./legislation-projection";
 import { applyLegislativeStep } from "./legislation-session";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 import { createScenarioWorld } from "../simulation/demo";
-import { addDays } from "../simulation/dates";
+import {
+  addDays,
+  addSimulationMinutes,
+  daysBetween,
+  makeIsoDate,
+} from "../simulation/dates";
+import { commitPublicProgram } from "../simulation/governing/public-program";
+import { programOperatorOrganization } from "../simulation/governing/program-governing";
+import { stableHash } from "../simulation/ids";
+import { seatsForChamber } from "../simulation/legislature-game-profile";
+import {
+  legislativePackForJurisdiction,
+  legislativeWorkKey,
+} from "../simulation/legislative-institutions";
+import { legislativeProcedureForJurisdiction } from "../simulation/legislative-procedure-world";
+import {
+  seatBodyForPack,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+  type LegislativeProcedureContext,
+} from "../simulation/legislation-scenarios";
+import {
+  STATE_TRANSIT_SERVICE_QUESTION,
+  STATE_TRANSIT_VARIANT_KEY,
+  TRANSIT_PROGRAM_KEY,
+} from "../simulation/legislation-transit-families";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+  stateJurisdictionForKey,
+} from "../simulation/life-places";
+import { currentStateExecutiveHolders } from "../simulation/nationwide-world/state-executives";
+import { recordGovernorDecisionOnMeasure } from "../simulation/governing/legislative-clock";
+import { requestPublicService } from "../simulation/public-service-requests";
+import { propositionIdFor } from "../simulation/public-budgets/fiscal";
+import { money } from "../simulation/resources";
+import { deserializeWorld } from "../simulation/serialization";
+import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../simulation/world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {
   programCapacity,
   programPosition,
@@ -59,6 +100,7 @@ import { advanceWorld, recordWorldEvent } from "../simulation/world";
 import type {
   LegislativeVoteDisposition,
   LegislativeVoteProvenance,
+  PublicProgramAppropriationRecord,
 } from "../simulation/types";
 
 /**
@@ -314,12 +356,8 @@ function enactFromDocket(
 
 const appropriations = (world: World, measureId: EntityId) =>
   (world.history.publicProgramRecords ?? []).filter(
-    (
-      row,
-    ): row is Extract<
-      NonNullable<World["history"]["publicProgramRecords"]>[number],
-      { kind: "appropriation" }
-    > => row.kind === "appropriation" && row.sourceMeasureId === measureId,
+    (row): row is PublicProgramAppropriationRecord =>
+      row.kind === "appropriation" && row.sourceMeasureId === measureId,
   );
 
 const MUNICIPAL_PROVENANCE: LegislativeVoteProvenance = {
@@ -591,33 +629,33 @@ describe("a law the player passes changes what it governs", () => {
     expect(position.appropriated.minorUnits).toBe(record.amount.minorUnits);
     expect(position.committed.minorUnits).toBe(0);
     expect(position.posted.minorUnits).toBe(0);
-    // The single-family transit law reads its pinned mandate. Its saved
-    // appropriation above is the same authority, not a second effect line.
-    expect(
-      enactedLawEffects(world, measureId)?.lines.find(
-        (line) => line.kind === "transit",
-      ),
-    ).toMatchObject({
-      kind: "transit",
-      status: "unavailable",
-      reason: `This appropriation takes effect on ${enactment.effectiveAt}.`,
-      amountMinorUnits: null,
-    });
+    // The transit law reads back like every other program: its one saved
+    // appropriation, scheduled until the effective date, then available.
+    const moneyLines = (at: World) =>
+      enactedLawEffects(at, measureId)!.lines.filter(
+        (line) => line.kind === "appropriation",
+      );
+    expect(moneyLines(world)).toMatchObject([
+      {
+        kind: "appropriation",
+        status: "scheduled",
+        programKey: "transit:ne",
+        amountMinorUnits: record.amount.minorUnits,
+      },
+    ]);
     const operative = advanceWorld(
       world,
       13,
       createCampaignElectionTransitionRegistry(),
     );
-    expect(
-      enactedLawEffects(operative, measureId)?.lines.find(
-        (line) => line.kind === "transit",
-      ),
-    ).toMatchObject({
-      kind: "transit",
-      status: "available",
-      reason: null,
-      amountMinorUnits: record.amount.minorUnits,
-    });
+    expect(moneyLines(operative)).toMatchObject([
+      {
+        kind: "appropriation",
+        status: "available",
+        programKey: "transit:ne",
+        amountMinorUnits: record.amount.minorUnits,
+      },
+    ]);
     expect(
       programPosition(operative, record.programKey, record.id),
     ).toMatchObject({
@@ -821,5 +859,259 @@ describe("a law the player passes changes what it governs", () => {
     expect(applyEnactedLawEffects(filed.world, filed.bill.measureId)).toBe(
       filed.world,
     );
+  });
+});
+
+/**
+ * A18: a pinned state transit law goes through the shared law entry point
+ * like any other program. Its one saved authority pays an operator, and a
+ * rider's completed trip is recorded by the shared service-delivered kind,
+ * also after Save/Continue. The place is drawn from all 56 by seed; a draw
+ * with no state legislature or no locality moves to the next seed.
+ */
+function drawTransitPlace(): { seed: string; usps: string } {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  for (let n = 1; n < 200; n++) {
+    const seed = `a18-transit-${n}`;
+    const place =
+      places[parseInt(stableHash(seed).slice(0, 8), 16) % places.length]!;
+    const jurisdictionId = stateJurisdictionForKey(place.jurisdictionKey)?.id;
+    if (
+      jurisdictionId &&
+      legislativePackForJurisdiction(jurisdictionId) &&
+      searchLifePlaces("", 1, {
+        stateJurisdictionKey: place.jurisdictionKey,
+        scope: "locality",
+      }).length > 0
+    )
+      return { seed, usps: place.usps };
+  }
+  throw new Error("No place with a legislature was drawn.");
+}
+
+/** Synthetic passage inputs: this tests the law's effects, not the votes. */
+function enactedPinnedTransit(seed: string, usps: string) {
+  const jurisdictionId = stateJurisdictionForKey(`US-${usps}`)!.id;
+  const place = searchLifePlaces("", 1, {
+    stateJurisdictionKey: `US-${usps}`,
+    scope: "locality",
+  })[0]!;
+  const game = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    seed,
+    placeKey: place.key,
+    startAge: 40,
+    questionnaire: "skipped",
+  });
+  let world = ensureWorldStartingConditions(game.world, {
+    openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+  const procedureRecord = legislativeProcedureForJurisdiction(
+    world,
+    jurisdictionId,
+  )!;
+  if (
+    procedureRecord.sessionCadence === "biennial" &&
+    procedureRecord.sessionYearParity === "odd"
+  )
+    world = advanceWorld(
+      world,
+      daysBetween(world.currentDate, makeIsoDate("2027-01-05")),
+      createCampaignElectionTransitionRegistry(),
+    );
+  world = ensureStateExecutiveIncumbent(world, game.playerPersonId, usps);
+  const pack = legislativePackForJurisdiction(jurisdictionId)!;
+  const filed = fileDraft(world, {
+    scenarioKey: legislativeWorkKey(pack),
+    playerPersonId: game.playerPersonId,
+    jurisdictionId,
+    familyKey: "appropriations",
+    variantKey: STATE_TRANSIT_VARIANT_KEY,
+    authorityKey: TRANSIT_PROGRAM_KEY,
+    parameterValues: {
+      appropriation: { kind: "money", minorUnits: 2_000_000, currency: "USD" },
+      "service-window": { kind: "enumerated", value: "weekday" },
+    },
+  });
+  world = filed.world;
+  const measureId = filed.bill.measureId;
+  // Authored saved answer, matching the automatic transit measures; the
+  // manual docket does not record one yet.
+  const propositionId = propositionIdFor(
+    world,
+    STATE_TRANSIT_SERVICE_QUESTION,
+  )!;
+  world = {
+    ...world,
+    history: {
+      ...world.history,
+      legislativeMeasures: world.history.legislativeMeasures!.map((row) =>
+        row.id === measureId
+          ? {
+              ...row,
+              propositionIds: [
+                ...new Set([...(row.propositionIds ?? []), propositionId]),
+              ],
+              propositionAnswers: [{ propositionId, answer: "yes" as const }],
+            }
+          : row,
+      ),
+    },
+  };
+  const bodies = pack.chambers.map((chamber) =>
+    seatBodyForPack(
+      chamber.chamberKey,
+      chamber.name,
+      seatsForChamber(pack, chamber.chamberKey)!.seats,
+      [],
+      pack.structure === "unicameral",
+    ),
+  );
+  const votePlan: Record<string, { readonly yea: number }> = {};
+  for (const chamber of pack.chambers) {
+    const seats = bodies.find((body) => body.chamberKey === chamber.chamberKey)!
+      .members.length;
+    for (const committee of chamber.committees)
+      votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+        yea: Math.min(seats, committee.appointedMembers),
+      };
+    for (const stage of chamber.floorStages)
+      votePlan[votePlanKeyForFloor(chamber.chamberKey, stage.stageKey)] = {
+        yea: seats,
+      };
+  }
+  const procedure: LegislativeProcedureContext = {
+    pack,
+    measureId,
+    bodies,
+    committeeMemberCount: null,
+    votePlan,
+    governorAction: "signed",
+    governorRationale: "Supplied fictional signature for the A18 fixture.",
+  };
+  for (let guard = 0; guard < 40; guard++) {
+    if (measurePosition(world, measureId).outcome === "enacted") break;
+    // The passed bill waits on the governor's desk; the seated governor's
+    // signature goes through the shared governor-decision writer.
+    if (measurePosition(world, measureId).phase === "awaiting-executive") {
+      world = publishLegislativeTransition(
+        world,
+        recordGovernorDecisionOnMeasure(
+          world,
+          measureId,
+          "signed",
+          "Supplied fictional signature for the A18 fixture.",
+        ),
+      );
+      continue;
+    }
+    const step = availableMeasureSteps(world, measureId).find(
+      (candidate) => candidate !== "offer-amendment",
+    );
+    if (!step)
+      throw new Error(
+        `US-${usps}: no passage step at ${JSON.stringify(measurePosition(world, measureId))}`,
+      );
+    world = publishLegislativeTransition(
+      world,
+      applyLegislativeStep(procedure, world, step).world,
+    );
+  }
+  expect(measurePosition(world, measureId), `US-${usps}`).toMatchObject({
+    outcome: "enacted",
+  });
+  return { world, measureId, jurisdictionId, player: game.playerPersonId };
+}
+
+describe("A18: pinned transit uses the shared law path", () => {
+  const { seed, usps } = drawTransitPlace();
+  it(`one authority and a delivered rider trip through the shared service kind (US-${usps}, seed ${seed})`, () => {
+    const enacted = enactedPinnedTransit(seed, usps);
+    let world = enacted.world;
+    const authority = appropriations(world, enacted.measureId);
+    expect(authority).toHaveLength(1);
+    const appropriation = authority[0]!;
+    // The law's effects read back one spending authority, nothing else.
+    expect(
+      enactedLawEffects(world, enacted.measureId)!.lines.filter(
+        (line) => line.kind === "appropriation",
+      ),
+    ).toHaveLength(1);
+    const enactment = world.history.legislativeEnactments!.find(
+      (row) => row.measureId === enacted.measureId,
+    )!;
+    const operativeAt = operativeDateInWorld(world, enactment)!.date;
+    const wait = daysBetween(world.currentDate, operativeAt);
+    if (wait > 0)
+      world = advanceWorld(
+        world,
+        wait,
+        createCampaignElectionTransitionRegistry(),
+      );
+    // Old saves: the enacted pinned law is saved and reloaded before any
+    // money moves, and the shared entry point writes nothing twice.
+    world = deserializeWorld(serializeWorld(world));
+    expect(applyEnactedLawEffects(world, enacted.measureId)).toBe(world);
+    const operator = programOperatorOrganization(
+      world,
+      appropriation.programKey,
+      enacted.jurisdictionId,
+    );
+    const governor = currentStateExecutiveHolders(operator.world).find(
+      (row) => row.stateUsps === usps,
+    )!;
+    const committed = commitPublicProgram(operator.world, {
+      appropriationId: appropriation.id,
+      alternative: {
+        key: "actual-operating-payment",
+        title: "Pay the saved operating commitment",
+        installments: [
+          { afterDays: 0, amount: money(10_000, "USD"), purpose: "operating" },
+        ],
+        deliveryLeadDays: null,
+      },
+      personId: governor.personId,
+      office: { kind: "state-executive" },
+      recipientOrganizationId: operator.organizationId,
+    });
+    if (!committed.ok) throw new Error(committed.reason);
+    world = committed.world;
+    const commitment = world.history.publicProgramRecords!.find(
+      (row) =>
+        row.kind === "commitment" && row.appropriationId === appropriation.id,
+    )!;
+    // The player, whose recorded home is in the state, asks for a trip and
+    // rides it.
+    const start = addSimulationMinutes(world.currentMoment, 60);
+    const rider = enacted.player;
+    const asked = requestPublicService(world, {
+      personId: rider,
+      commitmentId: commitment.id,
+      start,
+      end: addSimulationMinutes(start, 60),
+    });
+    if (asked.kind !== "scheduled") throw new Error(asked.reason);
+    world = performScheduledActivity(asked.world, asked.activityId);
+    const receipts = (at: World) =>
+      at.history.events.filter(
+        (event) => event.type === "service.delivery-recorded",
+      );
+    const [receipt, ...extra] = receipts(world);
+    expect(extra).toEqual([]);
+    expect(receipt!.participants[0]!.personId).toBe(rider);
+    expect(receipt!.lawEffectStamps?.[0]).toMatchObject({
+      governingLawKey: enacted.measureId,
+      questionKey: STATE_TRANSIT_SERVICE_QUESTION,
+      jurisdictionId: enacted.jurisdictionId,
+      effectKind: "service-delivered",
+    });
+    expect(receipt!.lawEffectStamps?.[0]?.sourceRecordIds).toEqual(
+      expect.arrayContaining([appropriation.id, commitment.id]),
+    );
+    const restored = deserializeWorld(serializeWorld(world));
+    expect(applyEnactedLawEffects(restored, enacted.measureId)).toBe(restored);
+    expect(receipts(restored)).toHaveLength(1);
   });
 });
