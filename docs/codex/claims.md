@@ -2,6 +2,17 @@
 
 The latest transfers below supersede the historical checkpoints retained afterward.
 
+## Closed slice transfers, October 1 at 5:16 p.m. Eastern
+
+- Coordinator owns the dated legal-reader extraction in #1679 at 40462483772ec3227302e412bbcf9fe45c851974. It includes existing law-in-force, final-law-term-query, question-authority, session-adjournments, policy-provisions, constitutionalPosition cutoff, and only enactmentStatuteDateContext's cutoff hunk. The two canonical wage question families are received without replacing newer unrelated rows. Team 4's dated rent consumer remains in #1673.
+- Team 3 released ONLY the completedPayShift declaration export in living-world/town-pay.ts. Coordinator published that one-line addition in #1575 at 44de52b98557c9ed1da8410acf1efe1afc7a21dc; the reader body and all payroll writers remain unchanged. Team 3 retains A43 fairness-pay-law work; its minimumWageSettingAt fallback remains separate from root's stateMinimumSettingAt and canonical data.
+- Team 2 owns ONLY the buildLegislativeVoteRecord genericPurpose literal admission for constitutional-ratification in legislation.ts. It does not own another vote threshold or tally path. The published receipt is b62cb23b87b902e41b566cbb36cc0495efed789b in #1637.
+- Team 6 owns ONLY PlayerGame's transit subItems admission, transit-withheld resident branch, and required imports. Tax/office permissions and other shell mounts remain protected. Its source work uses actual resident offers and saved trip/service records.
+- Overflow 5 inherits Claude G's story-heard API seam; Team 8's parked reader and Coordinator's starting-law identity work stay protected. Team 6 supplied the exact saved-work fixture release from 173fcd9d0231dffab14106878452118c06f0aff9. #1663 is verified merged at 5a2b2fa0596692fcba823f3755fe55082d5ffd64.
+- Overflow 6 owns coverage-lost, rent-raised and crime-suffered adapters only. Standby Team 5 retains job loss and the shared pipeline. Receivable seam: #1675 at 0ac5fe04ea171a334d6630fca2a594b0fcd2a769; scheduleLivedOutcomeReflection is now in law-exposure.ts and crimesSufferedBy in crime/reporting.ts. No duplicate scheduler is authorized.
+- Overflow 7 receives Team 7's #1353 at 7c04ea624dabb21b21f464a2d2f3799a88dc9b4e: player-monthly-money scheduling, handler and its three tests only. Keep existing salary, mortgage and living-cost settlement; underlying money writers remain Team 3's. Team 7 retains A9 speech work; Claude retains the held central registry changes.
+- Overflow 8 owns A54 home purchase-price callers from #1441. Replacement Team 4 retains rent, first-landlord and A57 work. No shared purchase/rent writer overlap is authorized.
+
 ## Replacement teams and narrow releases, October 1 at 4:41 p.m. Eastern
 
 - Team 1 is now the owner-created replacement chat 01a0f92d-7edc-707a-b728-03688195800c, Making Laws, Sol 6.1 High. Its A77 and A97 published work and exact existing claims transfer intact. The old chat receives no new work. Assignment delivery succeeded; a working-source receipt is pending.

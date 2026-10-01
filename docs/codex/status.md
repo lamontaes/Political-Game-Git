@@ -1,3 +1,35 @@
+# Dated law terms are ready for core review
+
+The shared reader now has a tested candidate for reading the law that applied when work was done. Housing can receive the same dated query after review. The story handoff has merged, and the belief team has its newly published dependency.
+
+## MERGED
+
+Verified on GitHub: ownership update #1667 and story work #1663. The latter merged at 5a2b2fa0596692fcba823f3755fe55082d5ffd64. No whole-slice acceptance follows from these merges.
+
+## CONNECTIONS TABLE
+
+| Producer | Consumer | Evidence and next action |
+| --- | --- | --- |
+| Canonical dated legal terms | Payroll and Team 4 rent | #1679 READY at 404624837; Checker 3 reports 80/80 changed tests and eight scoped roots with zero diagnostics; CTO review pending |
+| Saved completed shift | Shared payroll operation | Existing reader exported unchanged at 44de52b98; causal-operation identity mapping still requested from Audit |
+| Resident saved-work fixture | Story exposure | Team 6 donor received by Overflow 5; #1663 merged |
+| Standby lived-outcome pipeline | Overflow 6 adapters | Exact #1675 head 0ac5fe04 supplied; implementation receipt pending |
+| Team 7 existing bill settlement | Overflow 7 | Exact scheduling/test release supplied; receiving implementation remains unverified |
+
+## BLOCKED
+
+The CTO has requested extra load checks while the latest direct owner instruction permits only changed-file checks. The coordinator requested an explicit reconciliation; no full suite is authorized. Federal fallback scope metadata still needs the exact admission decision. The shared causal operation needs its existing saved identity mapping before actual payroll quantities can replace estimated realization.
+
+## EFFECTS
+
+The reader test covers historical enactment, constitutional and adjournment cutoffs, including a 56-jurisdiction loop and a dated starting-wage transition. These controlled checks do not prove actual pay, rent or browser behavior. #1575 remains a draft; its new export is not a fresh runtime pass.
+
+## Verification
+
+Updated October 1 at 5:16 p.m. Eastern. Main reference: 13a14f758749bf0a8ee92e78f952588bf933891a. Reader checks are Checker 3's reported results on main 13a14f758 and composition ec640ea085f6af73da7105fed9adfbacb4defcb3. Coordinator preserved the shared working files and index.
+
+## Historical checkpoints
+
 # Replacement builders have their preserved work
 
 The replacement lawmaking and housing chats have their assignments and preserved branches. The wage fallback has a named writer, and the speech work has been published for integration. These handoffs do not establish runtime completion.
