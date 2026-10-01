@@ -1,4 +1,8 @@
 import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+} from "../invented-person-age";
+import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -150,10 +154,6 @@ type SeatPlan =
       readonly birthDate: IsoDate;
     };
 
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
-}
-
 /**
  * Additive replay policy; absent means the original unrestricted name draw.
  * `identity-v1` draws each member's given name to agree with their gender;
@@ -282,7 +282,11 @@ export function ensureLivingWorldOpening(
       }
       const minimumAge = MINIMUM_AGE[seat.chamberKey];
       const termStartYear = Number(window.startsAt.slice(0, 4));
-      const ageAtTermStart = seatRng.integer(minimumAge + 7, 81);
+      const ageAtTermStart = inventedPersonAge(
+        seatRng,
+        "sitting-legislator-at-opening",
+        { legalMinimumAge: minimumAge },
+      );
       let priorTerms = seatRng.integer(
         0,
         PROFILE.priorTermsMax[seat.chamberKey] + 1,
@@ -292,9 +296,12 @@ export function ensureLivingWorldOpening(
         ageAtTermStart - priorTerms * window.years < minimumAge + 1
       )
         priorTerms -= 1;
-      const birthDate = makeIsoDate(
-        `${termStartYear - ageAtTermStart - 1}-${pad(seatRng.integer(1, 13))}-${pad(seatRng.integer(1, 29))}`,
-      );
+      const birthDate = inventedPersonBirthDate(seatRng, {
+        role: "sitting-legislator-at-opening",
+        referenceDate: window.startsAt,
+        legalMinimumAge: minimumAge,
+        age: ageAtTermStart,
+      });
       plans.push({
         kind: "member",
         seat,

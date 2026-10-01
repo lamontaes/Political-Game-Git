@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { recordsByKey, recordsByStringField } from "../history-index";
 import type { CharacterHistoryTransition } from "../character-history";
@@ -300,7 +301,11 @@ export function ensureStateExecutiveIncumbent(
       input: {
         stableKey: holderKey,
         ...drawGeneratedPersonName(rng),
-        birthDate: makeIsoDate(`${anchorYear - rng.integer(45, 70)}-01-01`),
+        birthDate: inventedPersonBirthDate(rng, {
+          role: "executive-officeholder-at-opening",
+          referenceDate: makeIsoDate(`${anchorYear}-01-01`),
+          placement: { monthDay: "01-01" },
+        }),
         homeJurisdictionId: office.jurisdictionId,
       },
     },
@@ -431,9 +436,11 @@ function seatOpeningGovernorElect(
         input: {
           stableKey: holderKey,
           ...drawGeneratedPersonName(rng),
-          birthDate: makeIsoDate(
-            `${Number(termEnds.slice(0, 4)) - rng.integer(45, 70)}-01-01`,
-          ),
+          birthDate: inventedPersonBirthDate(rng, {
+            role: "executive-officeholder-at-opening",
+            referenceDate: termEnds,
+            placement: { monthDay: "01-01" },
+          }),
           homeJurisdictionId: office.jurisdictionId,
         },
       },

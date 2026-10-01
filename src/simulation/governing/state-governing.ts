@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
@@ -1173,10 +1174,6 @@ function emptyContext() {
   };
 }
 
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
-}
-
 export function createCandidates(
   world: World,
   office: Pick<GoverningOffice, "holderPersonId" | "jurisdictionId">,
@@ -1202,9 +1199,10 @@ export function createCandidates(
               rng.fork("name"),
               generatePersonIdentity(rng.fork("identity")),
             ),
-            birthDate: makeIsoDate(
-              `${anchorYear - rng.integer(34, 62)}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-            ),
+            birthDate: inventedPersonBirthDate(rng, {
+              role: "appointment-candidate",
+              referenceDate: makeIsoDate(`${anchorYear}-01-01`),
+            }),
             homeJurisdictionId: office.jurisdictionId,
           },
         },

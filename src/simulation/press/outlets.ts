@@ -1,8 +1,8 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "../character-history";
-import { isoDateFromParts } from "../dates";
 import { createOrganization, createWorkRelationship } from "../life";
 import { activeWorkRelationshipsAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -14,7 +14,7 @@ import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executi
 import { drawCanonicalNameForGender, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, World } from "../types";
 import {
   isPersonAliveAt,
   personActionAvailabilityAt,
@@ -726,7 +726,11 @@ function hireReporter(
     stableKey: input.slotKey,
     givenName: name.givenName,
     familyName: name.familyName,
-    birthDate: birthDateForAge(world.currentDate, input.rng.integer(26, 64)),
+    birthDate: inventedPersonBirthDate(input.rng, {
+      role: "newsroom-staff",
+      referenceDate: world.currentDate,
+      placement: "reference-day",
+    }),
     homeJurisdictionId: input.homeJurisdictionId,
     identity,
   });
@@ -805,11 +809,4 @@ function firstStateJurisdiction(world: World): EntityId {
   const fallback = id ?? world.jurisdictionOrder[0];
   if (!fallback) throw new Error("A media outlet needs a jurisdiction.");
   return fallback;
-}
-
-function birthDateForAge(onDate: IsoDate, age: number): IsoDate {
-  const year = Number(onDate.slice(0, 4)) - age;
-  const month = Number(onDate.slice(5, 7));
-  const day = Math.min(Number(onDate.slice(8, 10)), 28);
-  return isoDateFromParts(year, month, day);
 }

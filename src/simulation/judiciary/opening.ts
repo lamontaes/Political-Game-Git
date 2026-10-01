@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -110,17 +111,16 @@ export function ensureOpeningJudiciary(
     );
     const retirement =
       next.judiciary!.courts[seat.courtId]!.rules.mandatoryRetirementAge;
-    const oldestExclusive =
-      retirement.state === "known" && retirement.value !== null
-        ? Math.min(71, retirement.value)
-        : 71;
-    if (oldestExclusive <= 45)
-      throw new Error(`No eligible opening age for ${seat.courtId}.`);
-    // PLACEHOLDER(overnight): Age 45-70 is a game-authored opening range.
-    const age = rng.integer(45, oldestExclusive);
-    const birthDate = makeIsoDate(
-      `${yearOf(next.currentDate) - age - 1}-06-15`,
-    );
+    // A mandatory retirement age ends the window early where the court's
+    // rules record one.
+    const birthDate = inventedPersonBirthDate(rng, {
+      role: "judge-at-opening",
+      referenceDate: next.currentDate,
+      ...(retirement.state === "known" && retirement.value !== null
+        ? { ceilingExclusive: retirement.value }
+        : {}),
+      placement: { monthDay: "06-15" },
+    });
     const identity = generatePersonIdentity(rng.fork("identity"));
     const name = drawCanonicalNameForGender(
       rng.fork("name"),
