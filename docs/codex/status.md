@@ -1,3 +1,33 @@
+# Teams resume blocked work; law connections remain under review
+
+The fiscal repair is on main. Monthly payroll, rent coverage and the referral extraction now have decisions or a working publication route. The foundation connects more saved activities, but its runtime checks are still pending.
+
+## Verified publications and remaining checks
+
+- Payroll #1575: 180d1f36c17638a6a49cd8aac141ae8f5398d94c retains the canonical pay stamp for ordinary payments. Two scoped roots, 1,153 files, zero type errors. Runtime at this head is NOT RUN; the prior clock-construction failure is still under Audit review.
+- Foundation renewal branch codex/coordinator-foundation-renewal: 2ac12d7e89fb1744f64e8681245881ef37fbd3b3 contains opening, saved court-stage, coverage-renewal and public-payment hooks. Three newly changed roots traversed 1,151 files with zero type errors. Earlier opening and court slices also passed scoped types. Runtime is NOT RUN. Original #1309 remains preserved; tax and application connections are not complete.
+- Team 7 published draft #1605 at 0b3db8b19c191be83e66821dad8360d68d9d10dd. Its full three-case press test awaits a cloud gate. A125 remains partly complete.
+- Team 8 published draft #1606 at e39eb393b2878f5b7020f35420cc0750ee0f4afa through the connector under CTO approval. Native checks are NOT RUN. The missing shell remains an environment defect; it no longer prevents source publication.
+- Team 2's #1592 is verified merged as be47a27146bdfecc8cf00c9645da281b2da2048e. CTO reported 131/131 on the composed fiscal repair. Its next council-passage run ended at the existing limit with 31 passes and 31 cases with no result; it is measuring fixture cost before repair.
+
+## Connections and decisions
+
+Team 3 builds calendar-month payroll under the CTO's approved partial-month rule. Team 6 builds one wage-tax consumer; handled levies replace the corresponding old withholding path, and already-collected records remain unchanged. Audit must close occurrence lineage and legal wage-base admission before activation.
+
+Team 4 adds actual home building facts under the approved ACS place-specific contract, then uses them in rent coverage. Team 9 builds sourced sentencing and life-term readers. Team 1 prepared its local roster assertions and awaits Audit's exact common-clock binding. Team 5/X5 is renewing transit #1579 for Cloud Checker 3.
+
+The starting-law exposure writer is prepared, but its pay-notice consumer still requires an enactment event. The coordinator requested that narrow consumer release from Team 5; no pre-law wage or monthly difference will be invented.
+
+## Gate routing
+
+The CTO moved PR gates to cloud checkers. The former Codex Merge session is Cloud Checker 3 and must never merge or approve. Its first assigned gate is #1579 after Team 5 confirms the renewed head. No new Mac runtime gate was started.
+
+## Method and limits
+
+Checkpoint: October 1, 2026, 2:17 p.m. Eastern. GitHub publications and team command activity were inspected; team-reported runtime results remain labeled. The shared checkout and its 224 dirty entries were preserved. No complete-engine or new effects-total claim is made.
+
+## Earlier checkpoints
+
 # Engine work now follows its prerequisite order
 
 The teams are building in the CTO's engine sequence. The governor repair has one remaining display-reader failure. Payroll now contains the exact saved-job binding, but three payment cases are blocked during clock-registry construction. Starting-law exposure is being repaired through the existing law-in-force reader.
