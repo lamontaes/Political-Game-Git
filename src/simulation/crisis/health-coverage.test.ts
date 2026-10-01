@@ -19,6 +19,9 @@ import {
   startHouseholdMembership,
 } from "../life";
 import { isLawEffectStamp } from "../law-effect-stamp";
+import { STATES } from "../state-reference";
+import { deserializeWorld, serializeWorld } from "../serialization";
+import { appendCrisisRecord } from "./records";
 import type {
   EntityId,
   IsoDate,
@@ -529,4 +532,76 @@ describe("Medicaid expansion coverage reaches named people", () => {
     },
     LONG,
   );
+});
+
+describe("missing coverage facts preserve recorded entitlement", () => {
+  it.each(Object.keys(STATES))(
+    "preserves a named adult without a household in %s, including Save/Continue",
+    (usps) => {
+      const state = stateJurisdictionForKey(`US-${usps}`)!;
+      expect(state).not.toBeNull();
+      const date = makeIsoDate("2026-01-05");
+      const seed = `coverage-missing-household:${usps}`;
+      const person = Array.from({ length: 12 }, (_, index) =>
+        createLightweightPerson({
+          worldId: createWorldId(seed),
+          worldSeed: seed,
+          index,
+          currentDate: date,
+          homeJurisdictionId: state.id,
+        }),
+      ).find(
+        (p) =>
+          ageOnDate(p.birthDate, date) >= 19 &&
+          ageOnDate(p.birthDate, date) <= 64,
+      )!;
+      expect(person).toBeDefined();
+      const initial = createWorld({
+        seed,
+        currentDate: date,
+        jurisdictions: [state],
+        people: [person],
+        policyCatalog: createProductionPolicyCatalog(),
+      });
+      // Authored existing entitlement; missing household records are the
+      // scenario, not evidence of zero income or a changed legal decision.
+      const world = appendCrisisRecord(initial, {
+        kind: "health-coverage",
+        stableKey: `fixture:existing-coverage:${usps}`,
+        effectiveAt: date,
+        causalParentIds: [],
+        visibility: "private",
+        eventId: null,
+        personId: person.id,
+        program: "medicaid-expansion",
+        covered: true,
+        reasonKey: "covered",
+        stateKey: `US-${usps}`,
+        householdSize: 1,
+        monthlyIncomeMinor: 0,
+        monthlyWorkHours: null,
+        hazardMultiplierMicros: MULTIPLIER_ONE,
+        hazardFrom: date,
+        hazardBasis: "Authored existing coverage; no modeled hazard change.",
+        basis:
+          "Authored existing entitlement before missing household records.",
+      });
+      expect(medicaidCoverageDecision(world, person.id, date).reasonKey).toBe(
+        "outside:no-household",
+      );
+      const before = serializeWorld(world);
+      expect(recordHealthCoverage(world, date, world.id)).toBe(world);
+      expect(serializeWorld(world)).toBe(before);
+      const continued = deserializeWorld(before);
+      expect(recordHealthCoverage(continued, date, continued.id)).toBe(
+        continued,
+      );
+      expect(healthCoverageRecords(continued)).toEqual(
+        healthCoverageRecords(world),
+      );
+      expect(healthCoverageRecords(continued)).toHaveLength(1);
+    },
+  );
+  it("covers all 56 jurisdictions", () =>
+    expect(Object.keys(STATES)).toHaveLength(56));
 });
