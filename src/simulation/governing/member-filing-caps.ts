@@ -5,7 +5,31 @@ import type {
   LegislativeMeasureNumberingSession,
   LegislativeMeasureRecord,
   LegislativeSubjectClass,
+  LegislativeMeasureOrigin,
 } from "../types";
+
+export type MemberLimitBinding =
+  | {
+      readonly kind: "subject";
+      readonly subjectClass: LegislativeSubjectClass;
+      readonly text?: string;
+    }
+  | {
+      readonly kind: "sponsor";
+      readonly sponsorKind: LegislativeMeasureOrigin;
+      readonly text?: string;
+    }
+  | {
+      readonly kind: "period";
+      readonly window: "session" | "year" | "biennium";
+      readonly condition?:
+        | {
+            readonly kind: "calendar-year-parity";
+            readonly of: "introducedAt";
+            readonly parity: "odd" | "even";
+          }
+        | { readonly kind: "unbound"; readonly text: string };
+    };
 
 /** X5 owns the sourced rows. No row is an approved absence of a recorded cap. */
 export interface MemberBillLimitRow {
@@ -16,6 +40,9 @@ export interface MemberBillLimitRow {
   readonly exempts: readonly string[];
   /** Quoted exceptions without an admitted saved-record binding. Never executable. */
   readonly unboundExemptions?: readonly string[];
+  readonly exemptionBindings?: readonly MemberLimitBinding[];
+  readonly applied?: boolean;
+  readonly notAppliedReason?: string;
   readonly status: "sourced" | "no-limit-found" | "unread";
   readonly citation: string;
   readonly url: string;
@@ -34,6 +61,7 @@ export interface MemberFilingCapInput {
   readonly chamberKey: string;
   readonly sponsorPersonId: EntityId;
   readonly subjectClass: LegislativeSubjectClass;
+  readonly origin: LegislativeMeasureOrigin;
   readonly introducedAt: IsoDate;
   readonly numberingSession: LegislativeMeasureNumberingSession;
   /** An actual recorded period, never inferred from odd/even calendar years. */
@@ -44,6 +72,7 @@ export interface MemberLimitNotApplied {
   readonly citation: string;
   readonly quote: string;
   readonly message: "limit not applied: exemption unread";
+  readonly detail?: string;
 }
 
 export type MemberFilingCapDecision = (
@@ -80,6 +109,7 @@ export type MemberFilingCapMeasure = Pick<
   | "introducedAt"
   | "subjectClass"
   | "numberingSession"
+  | "origin"
 >;
 
 function applicableChamber(
@@ -90,6 +120,63 @@ function applicableChamber(
     row.chamber === "joint" ||
     row.chamber === chamberKey ||
     (row.chamber === "unicameral" && chamberKey === "legislature")
+  );
+}
+
+function rowCondition(
+  row: MemberBillLimitRow,
+  introducedAt: IsoDate,
+): "yes" | "no" | "unbound" {
+  const periods = (row.exemptionBindings ?? []).filter(
+    (binding) => binding.kind === "period",
+  );
+  if (periods.length !== 1 || periods[0]!.window !== row.period)
+    return "unbound";
+  const condition = periods[0]!.condition;
+  if (!condition) return "yes";
+  if (
+    condition.kind !== "calendar-year-parity" ||
+    condition.of !== "introducedAt" ||
+    (condition.parity !== "odd" && condition.parity !== "even")
+  )
+    return "unbound";
+  const year = Number(introducedAt.slice(0, 4));
+  if (!Number.isSafeInteger(year)) return "unbound";
+  return (year % 2 === 1 ? "odd" : "even") === condition.parity ? "yes" : "no";
+}
+
+function bindingsReadable(row: MemberBillLimitRow): boolean {
+  return (
+    row.applied === true &&
+    !row.unboundExemptions?.length &&
+    row.exempts.every((value) => SUBJECT_CLASSES.includes(value)) &&
+    (row.exemptionBindings ?? []).every(
+      (binding) =>
+        binding.kind === "period" ||
+        (binding.kind === "subject" &&
+          SUBJECT_CLASSES.includes(binding.subjectClass)) ||
+        (binding.kind === "sponsor" &&
+          [
+            "member-introduction",
+            "committee-introduction",
+            "executive-request",
+          ].includes(binding.sponsorKind)),
+    )
+  );
+}
+
+function exemptFromRow(
+  row: MemberBillLimitRow,
+  bill: Pick<MemberFilingCapMeasure, "subjectClass" | "origin">,
+): boolean {
+  return (
+    row.exempts.includes(bill.subjectClass) ||
+    (row.exemptionBindings ?? []).some(
+      (binding) =>
+        (binding.kind === "subject" &&
+          binding.subjectClass === bill.subjectClass) ||
+        (binding.kind === "sponsor" && binding.sponsorKind === bill.origin),
+    )
   );
 }
 
@@ -109,30 +196,26 @@ export function memberFilingCap(
     (row) =>
       row.place === input.place && applicableChamber(row, input.chamberKey),
   );
-  const unboundExemptions = [
-    ...new Set(rows.flatMap((row) => row.unboundExemptions ?? [])),
-  ];
-  let applies = false;
-  let exempt = false;
   const notAppliedLimits: MemberLimitNotApplied[] = [];
-  const doNotApply = (row: MemberBillLimitRow) =>
+  const ignoredExemptions: string[] = [];
+  const doNotApply = (row: MemberBillLimitRow) => {
     notAppliedLimits.push({
       citation: row.citation,
       quote: row.quote,
       message: "limit not applied: exemption unread",
+      ...(row.notAppliedReason ? { detail: row.notAppliedReason } : {}),
     });
-  const sourcedRows = rows.filter(
-    (row) => row.status === "sourced" && row.limit !== null,
-  );
+    ignoredExemptions.push(...(row.unboundExemptions ?? []));
+  };
+  const usable: MemberBillLimitRow[] = [];
   for (const row of rows) {
     if (row.status !== "sourced" || row.limit === null) continue;
-    // CTO 10:30: a partially bound rule is not allowed to block an exempt bill.
-    // Multiple conditional rows need an actual declared period/condition selector.
-    // Quoted odd/even/session rules are not runnable predicates.
+    const condition = rowCondition(row, input.introducedAt);
+    // A known nonmatching period row is not a legal cap for this date.
+    if (condition === "no") continue;
     if (
-      sourcedRows.length > 1 ||
-      row.unboundExemptions?.length ||
-      row.exempts.some((value) => !SUBJECT_CLASSES.includes(value)) ||
+      condition === "unbound" ||
+      !bindingsReadable(row) ||
       !row.period ||
       (row.period === "biennium" &&
         (!input.bienniumWindow ||
@@ -150,7 +233,23 @@ export function memberFilingCap(
       !row.quote
     )
       return { allowed: false, reason: "unbound-rule", citation: row.citation };
-    if (row.exempts.includes(input.subjectClass)) {
+    usable.push(row);
+  }
+  // Never pick a smaller/larger quota between competing unselected conditions.
+  if (usable.length > 1) {
+    usable.forEach(doNotApply);
+    usable.length = 0;
+  }
+  const labels = () => ({
+    ...(ignoredExemptions.length
+      ? { unboundExemptions: [...new Set(ignoredExemptions)] }
+      : {}),
+    ...(notAppliedLimits.length ? { notAppliedLimits } : {}),
+  });
+  let applies = false;
+  let exempt = false;
+  for (const row of usable) {
+    if (exemptFromRow(row, input)) {
       applies = true;
       exempt = true;
       continue;
@@ -161,9 +260,9 @@ export function memberFilingCap(
         measure.sponsorPersonId === input.sponsorPersonId &&
         applicableChamber(row, measure.originChamberKey) &&
         measure.introducedAt <= input.introducedAt &&
-        !row.exempts.includes(measure.subjectClass),
+        rowCondition(row, measure.introducedAt) === "yes" &&
+        !exemptFromRow(row, measure),
     );
-    // A legacy measure with no recorded session cannot be silently counted as zero.
     if (
       row.period === "session" &&
       candidates.some((measure) => !measure.numberingSession)
@@ -184,19 +283,17 @@ export function memberFilingCap(
         measure.introducedAt <= input.bienniumWindow!.end
       );
     }).length;
-    if (count >= row.limit)
+    if (count >= row.limit!)
       return {
         allowed: false,
         reason: "cap-reached",
         citation: row.citation,
-        ...(unboundExemptions.length ? { unboundExemptions } : {}),
-        ...(notAppliedLimits.length ? { notAppliedLimits } : {}),
+        ...labels(),
       };
   }
   return {
     allowed: true,
-    ...(unboundExemptions.length ? { unboundExemptions } : {}),
-    ...(notAppliedLimits.length ? { notAppliedLimits } : {}),
+    ...labels(),
     reason: !applies
       ? notAppliedLimits.length
         ? "exemption-unread"

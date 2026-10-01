@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
+import actualTable from "../../../data/research/legislature/member-bill-limits-2026.json" with { type: "json" };
 import type { EntityId } from "../types";
 import {
   memberFilingCap,
@@ -16,6 +17,7 @@ const input: MemberFilingCapInput = {
   chamberKey: "house",
   sponsorPersonId: "controlled-member" as EntityId,
   subjectClass: "general-policy",
+  origin: "member-introduction",
   introducedAt: makeIsoDate("2027-02-01"),
   numberingSession: {
     key: "2027",
@@ -29,6 +31,8 @@ const row: MemberBillLimitRow = {
   limit: 2,
   period: "session",
   exempts: [],
+  applied: true,
+  exemptionBindings: [{ kind: "period", window: "session" }],
   status: "sourced",
   citation: "Authored test rule",
   url: "https://example.com/test-rule",
@@ -47,11 +51,119 @@ const bill = (
   originChamberKey: input.chamberKey,
   introducedAt: input.introducedAt,
   subjectClass: input.subjectClass,
+  origin: input.origin,
   numberingSession: input.numberingSession,
   ...changes,
 });
 
 describe("sourced member bill cap reader", () => {
+  it("reads the two admitted production rows and skips all 23 unbound rows", () => {
+    const data = actualTable as MemberBillLimitsTable;
+    const sourced = data.rows.filter((item) => item.status === "sourced");
+    expect(sourced.filter((item) => item.applied)).toHaveLength(2);
+    expect(sourced.filter((item) => !item.applied)).toHaveLength(23);
+    for (const item of sourced) {
+      const binding = item.exemptionBindings!.find(
+        (part) => part.kind === "period",
+      )!;
+      const even =
+        binding.kind === "period" &&
+        binding.condition?.kind === "calendar-year-parity" &&
+        binding.condition.parity === "even";
+      const date = makeIsoDate(even ? "2026-02-01" : "2027-02-01");
+      const context = {
+        ...input,
+        place: item.place,
+        chamberKey:
+          item.chamber === "joint"
+            ? "house"
+            : item.chamber === "unicameral"
+              ? "legislature"
+              : item.chamber,
+        introducedAt: date,
+      };
+      const records = Array.from({ length: item.limit! + 1 }, () =>
+        bill({ introducedAt: date, originChamberKey: context.chamberKey }),
+      );
+      const result = memberFilingCap(records, context, data);
+      if (item.applied)
+        expect(result).toMatchObject({
+          allowed: false,
+          reason: "cap-reached",
+          citation: item.citation,
+        });
+      else {
+        expect(result).toMatchObject({
+          allowed: true,
+          reason: "exemption-unread",
+        });
+        expect(
+          result.notAppliedLimits!.some(
+            (part) =>
+              part.quote === item.quote &&
+              part.detail === item.notAppliedReason,
+          ),
+        ).toBe(true);
+      }
+    }
+  });
+  it("uses actual sponsor origins and subject tokens from the admitted source", () => {
+    const data = actualTable as MemberBillLimitsTable;
+    const source = data.rows.find(
+      (item) =>
+        item.applied &&
+        item.exemptionBindings?.some((part) => part.kind === "sponsor"),
+    )!;
+    const context = { ...input, place: source.place };
+    const references = Array.from({ length: source.limit! }, () =>
+      bill({ origin: "committee-introduction" }),
+    );
+    expect(memberFilingCap(references, context, data)).toMatchObject({
+      allowed: true,
+      reason: "within-cap",
+    });
+    const full = Array.from({ length: source.limit! }, () => bill());
+    expect(
+      memberFilingCap(
+        full,
+        { ...context, origin: "committee-introduction" },
+        data,
+      ),
+    ).toMatchObject({ allowed: true, reason: "exempt" });
+    expect(
+      memberFilingCap(
+        full,
+        { ...context, subjectClass: "appropriation" },
+        data,
+      ),
+    ).toMatchObject({ allowed: true, reason: "exempt" });
+  });
+  it("selects the recorded odd-year condition without applying its unread even-year row", () => {
+    const data = actualTable as MemberBillLimitsTable;
+    const source = data.rows.find(
+      (item) =>
+        item.applied &&
+        item.exemptionBindings?.some(
+          (part) =>
+            part.kind === "period" &&
+            part.condition?.kind === "calendar-year-parity",
+        ),
+    )!;
+    const context = { ...input, place: source.place };
+    const full = Array.from({ length: source.limit! }, () => bill());
+    expect(memberFilingCap(full, context, data)).toMatchObject({
+      allowed: false,
+      reason: "cap-reached",
+    });
+    const even = makeIsoDate("2026-02-01");
+    expect(
+      memberFilingCap(
+        full.map((item) => ({ ...item, introducedAt: even })),
+        { ...context, introducedAt: even },
+        data,
+      ),
+    ).toMatchObject({ allowed: true, reason: "exemption-unread" });
+  });
   it("leaves empty, absent, unread and no-limit rows uncapped", () => {
     const many = Array.from({ length: 10 }, () => bill());
     for (const rows of [
@@ -145,19 +257,37 @@ describe("sourced member bill cap reader", () => {
           bill({ numberingSession: undefined }),
         ],
         input,
-        table([{ ...row, period: "year" }]),
+        table([
+          {
+            ...row,
+            period: "year",
+            exemptionBindings: [{ kind: "period", window: "year" }],
+          },
+        ]),
       ).allowed,
     ).toBe(true);
     expect(
       memberFilingCap(
         [bill(), bill()],
         input,
-        table([{ ...row, period: "year" }]),
+        table([
+          {
+            ...row,
+            period: "year",
+            exemptionBindings: [{ kind: "period", window: "year" }],
+          },
+        ]),
       ).allowed,
     ).toBe(false);
   });
   it("requires an actual biennium window instead of inferring parity", () => {
-    const limits = table([{ ...row, period: "biennium" }]);
+    const limits = table([
+      {
+        ...row,
+        period: "biennium",
+        exemptionBindings: [{ kind: "period", window: "biennium" }],
+      },
+    ]);
     expect(memberFilingCap([], input, limits)).toMatchObject({
       allowed: true,
       reason: "exemption-unread",

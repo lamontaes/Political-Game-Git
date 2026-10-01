@@ -197,6 +197,8 @@ describe("individual member agendas", () => {
                   limit: 2,
                   period: "session",
                   exempts: [],
+                  applied: true,
+                  exemptionBindings: [{ kind: "period", window: "session" }],
                   status: "sourced",
                   citation: "Authored focused cap control",
                   url: "https://example.com/test-rule",
@@ -248,6 +250,8 @@ describe("individual member agendas", () => {
                   unboundExemptions: [
                     "A quoted exception without an admitted saved-record binding.",
                   ],
+                  applied: true,
+                  exemptionBindings: [{ kind: "period", window: "session" }],
                   status: "sourced",
                   citation: "Authored unread-exemption control",
                   url: "https://example.com/test-rule",

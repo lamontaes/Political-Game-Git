@@ -881,6 +881,7 @@ export function fileMemberAgendaBills(
           chamberKey: chamber.chamberKey,
           sponsorPersonId: sponsor.personId!,
           subjectClass: measure.subjectClass,
+          origin: measure.origin,
           introducedAt: measure.introducedAt,
           numberingSession: numbering.numberingSession,
         },
