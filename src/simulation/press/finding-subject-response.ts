@@ -5,6 +5,7 @@ import {
   recordOfficeConsequence,
 } from "../governing/office-consequence";
 import type {
+  DecisionContext,
   DecisionOption,
   EntityId,
   HistoricalEvent,
@@ -91,6 +92,39 @@ export interface FindingOfficeResponseInput extends FindingOfficeResponseSubject
   readonly decisionTraceId: EntityId;
   /** The subject's actual words, preserved exactly. No generated reason. */
   readonly statement: string;
+}
+
+/** Prepare the NPC's own finding decision from saved identities. Source facts
+ * do not imply preference weights or personal words. Until an admitted source
+ * mapper supplies considerations, this context is pending and must not be
+ * evaluated: the legacy kernel can select from an empty context. */
+export function findingOfficeResponseDecisionContext(
+  world: World,
+  input: FindingOfficeResponseSubject,
+): DecisionContext | null {
+  if (
+    world.control.kind === "person" &&
+    world.control.personId === input.personId
+  )
+    return null;
+  const binding = findingOfficeResponseBinding(world, input);
+  if (!binding) return null;
+  return {
+    stableKey: `press46:finding-office-choice:${binding.step.id}:${input.personId}:${binding.office.officeKey}`,
+    decisionType: binding.decisionType,
+    actorPersonId: input.personId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: binding.subject,
+    options: binding.options,
+    constraints: [],
+    considerations: [],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  };
 }
 
 /** The saved finding boundary consumes a supported NPC choice, never authors one. */

@@ -26,6 +26,7 @@ import {
 import { appendPressRecord, pressRecordsOfKind } from "./store";
 import {
   findingOfficeResponseBinding,
+  findingOfficeResponseDecisionContext,
   recordFindingOfficeResponse,
   PRESS_MATTER_TAG,
   recordFindingSubjectResponses,
@@ -472,6 +473,62 @@ function claimedSubjectChoice(
   const binding = findingOfficeResponseBinding(d.world, f.subject)!;
   return { ...f, ...d, claim, binding };
 }
+
+describe("NPC finding decision boundary contract", () => {
+  it.each(places)(
+    "prepares the actual subject's own context without inferred reasons in %s",
+    (usps) => {
+      const f = fixture(usps);
+      const before = serializeWorld(f.world);
+      const binding = findingOfficeResponseBinding(f.world, f.subject)!;
+      const context = findingOfficeResponseDecisionContext(f.world, f.subject)!;
+      expect(context.actorPersonId).toBe(f.person.id);
+      expect(context.decisionType).toBe(binding.decisionType);
+      expect(context.subject).toEqual(binding.subject);
+      expect(context.subject.entityId).toBe(f.event.id);
+      expect(context.stableKey).toContain(binding.step.id);
+      expect(context.stableKey).toContain(binding.office.officeKey);
+      expect(context.cutoff).toEqual({
+        asOfDate: f.world.currentDate,
+        historySequenceExclusive: f.world.history.nextSequence,
+      });
+      expect(context.options.map((option) => option.key)).toEqual([
+        "resign",
+        "remain",
+      ]);
+      expect(context.randomness).toBe("none");
+      expect(context.retention).toBe("durable");
+      expect(context.considerations).toEqual([]);
+      expect(context.constraints).toEqual([]);
+      expect(context.perceptionIds).toEqual([]);
+      expect(serializeWorld(f.world)).toBe(before);
+      expect(f.world.history.decisionTraces).toHaveLength(0);
+      expect(pressRecordsOfKind(f.world, "matter-response")).toHaveLength(0);
+      const loaded = deserializeWorld(before);
+      expect(findingOfficeResponseDecisionContext(loaded, f.subject)).toEqual(
+        context,
+      );
+      expect(findingOfficeResponseDecisionContext(f.world, f.subject)).toEqual(
+        context,
+      );
+      expect(activeWorkRelationshipsAt(loaded, f.person.id)).toHaveLength(1);
+    },
+  );
+  it("leaves the controlled subject to the existing player adapter", () => {
+    const f = fixture(places[0]!, true);
+    expect(findingOfficeResponseDecisionContext(f.world, f.subject)).toBeNull();
+  });
+  it("requires the actual respondent, saved finding and currently held office", () => {
+    const f = fixture(places[0]!);
+    for (const subject of [
+      { ...f.subject, personId: createStableId("person", "missing-subject") },
+      { ...f.subject, stepId: createStableId("press-record", "missing-step") },
+      { ...f.subject, officeKey: "fixture:not-held" },
+    ])
+      expect(findingOfficeResponseDecisionContext(f.world, subject)).toBeNull();
+    expect(f.world.history.decisionTraces).toHaveLength(0);
+  });
+});
 
 describe("saved finding boundary consumes only the subject's own supported response", () => {
   it.each(places)(
