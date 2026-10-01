@@ -23,6 +23,9 @@ import { scheduleGoverningSeasons } from "./governing-calendar";
 import {
   currentGoverningOffices,
   currentPriority,
+  chiefOfStaffFor,
+  staffRecommendation,
+  CHIEF_OF_STAFF_CLASSIFICATION,
   stateGoverningHandlers,
   governingMatters,
   governingMatterById,
@@ -33,6 +36,7 @@ import {
 } from "./state-governing";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
 import type { EntityId, World } from "../types";
+import { createWorkRelationship } from "../life";
 import { personName } from "../people";
 
 let starting: World;
@@ -122,6 +126,38 @@ function appropriate(
       "Controlled ten-dollar authority fixture; not cash or researched costs.",
     sourceMeasureId,
   })!.world;
+}
+
+function withChief(world: World): World {
+  return createWorkRelationship(world, {
+    stableKey: "saved-budget-npc-choice:controlled-chief",
+    personId: world.personOrder[0]!,
+    organizationId: office.organizationId,
+    startedAt: world.currentDate,
+    initialStatus: "active",
+    kind: "employment:executive-staff",
+    compensation: "paid",
+    authority: "directs-others",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance: {
+      kind: "authored",
+      note: "Controlled actual person's chief-of-staff job; not natural hiring.",
+    },
+    initialRole: {
+      title: "Chief of Staff",
+      occupationClassification: CHIEF_OF_STAFF_CLASSIFICATION,
+      locationJurisdictionId: office.jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 45, maximumHours: 60 },
+        attention: "high",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: office.jurisdictionId,
+      },
+    },
+  });
 }
 
 function priority(
@@ -294,6 +330,40 @@ describe("a budget NPC selects only a backed saved priority", () => {
       });
     },
   );
+  it("does not convert the existing chief's missing-priority hold-flat advice into a choice", () => {
+    office = offices[0]!;
+    const original = starting;
+    try {
+      starting = withChief(starting);
+      const f = request(0);
+      expect(chiefOfStaffFor(f.world, office)).toBe(starting.personOrder[0]);
+      expect(staffRecommendation(f.world, f.matter)!.optionKey).toBe(
+        "budget:hold-flat",
+      );
+      expect(
+        governingMatterById(f.result.world, f.matter.id)!.decision,
+      ).toBeNull();
+      expect(serializeWorld(f.result.world)).toBe(serializeWorld(f.world));
+    } finally {
+      starting = original;
+    }
+  });
+  it("retains the existing chief's reason when advice matches the backed saved priority", () => {
+    office = offices[0]!;
+    const original = starting;
+    try {
+      starting = withChief(starting);
+      const f = request(0, "appropriations");
+      const advice = staffRecommendation(f.world, f.matter)!;
+      expect(advice.optionKey).toBe("budget:appropriations");
+      expect(f.result.context).toBe(advice.reason);
+      expect(
+        governingMatterById(f.result.world, f.matter.id)!.decision!.tags,
+      ).toContain("choice:budget:appropriations");
+    } finally {
+      starting = original;
+    }
+  });
   it("keeps an explicit priority:none pending", () => pending(0, "none"));
   it("keeps a saved priority without a backed matching option pending", () =>
     pending(0, "bridge-maintenance"));
