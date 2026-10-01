@@ -1,7 +1,7 @@
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { createWorkRelationship, recordWorkStatus } from "../life";
@@ -96,7 +96,6 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
 import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import { publicPartyOf } from "./chamber-votes";
-import { stateLegislatureMajority } from "./senate-selection";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -461,7 +460,6 @@ function isSittingChief(
 import {
   generateStaffCandidateHistory,
   staffAssessment,
-  staffKnowsLegislature,
 } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
@@ -965,6 +963,52 @@ export function governingMatterById(
   const event = eventById(world, matterId);
   return event && event.type === GOVERNING_MATTER_OPENED
     ? matterFromEvent(world, event)
+    : null;
+}
+
+/**
+ * The office's assigned decision work is completed only by its own recorded
+ * action. This receipt says nothing about money spent or service delivered.
+ * A lapse remains a cancelled work item, not fulfillment of the assignment.
+ */
+export function completedGoverningMatterWork(
+  world: World,
+  matterId: EntityId,
+): WorkItemStateRecord | null {
+  const matter = governingMatterById(world, matterId);
+  const decision = matter?.decision;
+  if (
+    !matter ||
+    !decision ||
+    !matter.workItemId ||
+    matter.status !== "decided" ||
+    decision.occurredAt > world.currentDate ||
+    decision.recordedAt > world.currentDate ||
+    decision.sequence <= matter.openedEvent.sequence ||
+    !decision.tags.includes(`office:${matter.officeKey}`) ||
+    !decision.tags.includes(`matter-family:${matter.family}`) ||
+    !decision.participants.some(
+      (row) => row.role === "agency:decider" && world.people[row.personId],
+    )
+  )
+    return null;
+  const work = world.history.workItems.find(
+    (item) => item.id === matter.workItemId,
+  );
+  if (
+    !work ||
+    !work.sourceEntityIds.includes(matter.id) ||
+    work.focus.kind !== "other" ||
+    work.focus.sourceEntityId !== matter.id ||
+    !world.history.workItemStates.some((state) => state.workItemId === work.id)
+  )
+    return null;
+  const state = workItemState(world, work.id);
+  return state.status === "completed" &&
+    state.outcomeEventId === decision.id &&
+    state.sequence > decision.sequence &&
+    compareSimulationMoments(state.recordedAt, world.currentMoment) <= 0
+    ? state
     : null;
 }
 
@@ -2388,86 +2432,91 @@ export type ImplementationResult = "progress" | "problem" | "stalled";
 interface FollowUpOutcome {
   readonly tag: string;
   readonly summary: string;
+  readonly sourceEventId?: EntityId;
+  readonly sourceRecordIds?: readonly EntityId[];
 }
 
-function implementationOutcome(
+/** A source-linked receipt, never a prediction from party, staff or pace. */
+function recordedProgramFollowUp(
   world: World,
   matter: GoverningMatter,
   decision: HistoricalEvent,
-  office: GoverningOffice | null,
-): FollowUpOutcome {
-  const pace = tagValue(decision, "choice:");
-  const chief = office ? chiefOfStaffFor(world, office) : null;
-  const steadiness = chief ? staffAssessment(world, chief).steadiness : 0;
-  const funded =
-    office && matter.subjectKey
-      ? world.history.events.some(
-          (event) =>
-            event.type === GOVERNING_OUTCOME &&
-            event.tags.includes(`office:${office.officeKey}`) &&
-            event.tags.includes(`funded:${matter.subjectKey}`),
-        )
-      : false;
-  // A careful plan, a steady chief of staff and money the legislature
-  // actually approved each make early progress; an office that changed hands
-  // lets the work stall. HAND-SET: two points of the three are needed (a
-  // careful plan counts three, approved money two, the chief's steadiness
-  // its own score), where a draw of 0 to 9 used to fill the gap.
-  const score =
-    (pace === "pace:careful" ? 3 : 0) + steadiness + (funded ? 2 : 0);
-  const result: ImplementationResult = !office
-    ? "stalled"
-    : score >= 2
-      ? "progress"
-      : "problem";
-  const subject = subjectLabel(matter.subjectKey);
-  return {
-    tag: `implementation:${result}`,
-    summary:
-      result === "progress"
-        ? `State agencies reported steady early progress on ${subject}.`
-        : result === "problem"
-          ? `State agencies reported delays and a staffing gap in the early work on ${subject}.`
-          : `Work on ${subject} stalled after the office changed hands.`,
-  };
-}
-
-function budgetOutcome(
-  world: World,
-  decision: HistoricalEvent,
-  office: GoverningOffice | null,
-): FollowUpOutcome & { readonly funded: string | null } {
-  const choice = tagValue(decision, "choice:budget:");
-  const chief = office ? chiefOfStaffFor(world, office) : null;
-  const skilled = chief ? staffKnowsLegislature(world, chief) : false;
-  if (!choice || choice === "hold-flat")
-    return {
-      tag: "budget:passed-flat",
-      summary: "The legislature passed a budget that holds spending steady.",
-      funded: null,
-    };
-  const subject = subjectLabel(choice);
-  // The legislature funds the request when the governor's party holds its
-  // majority, or a chief of staff who knows the legislature works it.
-  const majority = office
-    ? stateLegislatureMajority(world, office.stateUsps)?.party
-    : null;
-  const passed =
-    skilled ||
-    (!!office &&
-      !!majority &&
-      majority === publicPartyOf(world, office.holderPersonId));
-  return passed
+): FollowUpOutcome | null {
+  const records = (world.history.publicProgramRecords ?? []).filter(
+    (record) => record.recordedAt <= world.currentDate,
+  );
+  const appropriations = records.filter(
+    (record): record is PublicProgramAppropriationRecord =>
+      record.kind === "appropriation" &&
+      record.jurisdictionId === matter.openedEvent.jurisdictionId &&
+      (matter.appropriationId !== null
+        ? record.id === matter.appropriationId
+        : matter.measureId !== null &&
+          record.sourceMeasureId === matter.measureId),
+  );
+  if (matter.family === "budget") {
+    const adopted = [...appropriations]
+      .reverse()
+      .find(
+        (record) =>
+          record.sequence > decision.sequence &&
+          record.sourceMeasureId !== null &&
+          record.sourceMeasureId !== undefined &&
+          (world.history.legislativeEnactments ?? []).some(
+            (enactment) =>
+              enactment.measureId === record.sourceMeasureId &&
+              enactment.outcome === "enacted" &&
+              enactment.resolvedAt <= world.currentDate,
+          ),
+      );
+    const event = adopted ? eventById(world, adopted.eventId) : null;
+    return event && adopted
+      ? {
+          tag: "budget:appropriation-recorded",
+          summary: event.summary,
+          sourceEventId: event.id,
+          sourceRecordIds: [adopted.id],
+        }
+      : null;
+  }
+  const appropriationIds = new Set(appropriations.map((record) => record.id));
+  const commitmentIds = new Set(
+    records.flatMap((record) =>
+      record.kind === "commitment" &&
+      appropriationIds.has(record.appropriationId)
+        ? [record.id]
+        : [],
+    ),
+  );
+  const installmentIds = new Set(
+    records.flatMap((record) =>
+      record.kind === "installment" &&
+      record.status === "posted" &&
+      commitmentIds.has(record.commitmentId)
+        ? [record.id]
+        : [],
+    ),
+  );
+  const delivered = [...records]
+    .reverse()
+    .find(
+      (record) =>
+        record.kind === "capacity-outturn" &&
+        record.restoredUnits !== null &&
+        record.restoredUnits > 0 &&
+        record.sequence > decision.sequence &&
+        commitmentIds.has(record.commitmentId) &&
+        installmentIds.has(record.installmentId),
+    );
+  const event = delivered ? eventById(world, delivered.eventId) : null;
+  return event && delivered
     ? {
-        tag: "budget:passed-with-request",
-        summary: `The legislature passed a budget with more money for ${subject}, as the governor asked.`,
-        funded: choice,
+        tag: "implementation:delivery-recorded",
+        summary: event.summary,
+        sourceEventId: event.id,
+        sourceRecordIds: [delivered.id],
       }
-    : {
-        tag: "budget:request-cut",
-        summary: `The legislature passed a budget that cut the governor's request for ${subject}.`,
-        funded: null,
-      };
+    : null;
 }
 
 function returnedBillOutcome(
@@ -2501,22 +2550,43 @@ export function governingFollowUpHandler(
   const decision = matter?.decision;
   if (!matter || !decision)
     return resolved(world, "No decided matter stands behind this report.");
+  if (
+    matter.status !== "decided" ||
+    (matter.workItemId && !completedGoverningMatterWork(world, matter.id))
+  )
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "governing:no-completed-action",
+      context: "No completed recorded action stands behind this report.",
+      outcomeEventId: null,
+    };
   const office = governingOfficeByKey(world, matter.officeKey);
   const currentOffice =
     office && office.holderPersonId === matter.holderPersonId ? office : null;
   let outcome: FollowUpOutcome;
-  let extraTags: string[] = [];
   let reopen: "implementation" | null = null;
-  if (matter.family === "budget") {
-    const budget = budgetOutcome(world, decision, currentOffice);
-    outcome = budget;
-    if (budget.funded) extraTags = [`funded:${budget.funded}`];
-  } else if (matter.family === "bill") {
+  if (matter.family === "bill") {
     const returned = returnedBillOutcome(matter);
     outcome = returned;
     if (returned.overridden) reopen = "implementation";
   } else {
-    outcome = implementationOutcome(world, matter, decision, currentOffice);
+    const receipt = recordedProgramFollowUp(world, matter, decision);
+    if (!receipt)
+      return {
+        world,
+        status: "blocked",
+        reasonKey:
+          matter.family === "budget"
+            ? "governing:no-appropriation-receipt"
+            : "governing:no-delivery-receipt",
+        context:
+          matter.family === "budget"
+            ? "No enacted appropriation is linked to this budget request yet."
+            : "No recorded delivery is linked to this matter yet.",
+        outcomeEventId: null,
+      };
+    outcome = receipt;
   }
   let next = recordWorldEvent(world, {
     stableKey: `${due.stableKey}:outcome`,
@@ -2541,7 +2611,10 @@ export function governingFollowUpHandler(
       `matter:${matter.id}`,
       `decision:${decision.id}`,
       ...(matter.subjectKey ? [`subject:${matter.subjectKey}`] : []),
-      ...extraTags,
+      ...(outcome.sourceEventId
+        ? [`source-event:${outcome.sourceEventId}`]
+        : []),
+      ...(outcome.sourceRecordIds ?? []).map((id) => `source-record:${id}`),
     ],
     summary: outcome.summary,
     context: emptyContext(),
