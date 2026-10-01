@@ -204,4 +204,35 @@ describe("sourced member bill cap reader", () => {
       ),
     ).toMatchObject({ allowed: false, reason: "cap-reached" });
   });
+  it("labels quoted unbound exemptions without silently applying or dropping them", () => {
+    const limits = table([{ ...row, unboundExemptions: ["local bills"] }]);
+    expect(memberFilingCap([bill()], input, limits)).toEqual({
+      allowed: true,
+      reason: "within-cap",
+      unboundExemptions: ["local bills"],
+    });
+    expect(memberFilingCap([bill(), bill()], input, limits)).toEqual({
+      allowed: false,
+      reason: "unbound-rule",
+      citation: row.citation,
+      unboundExemptions: ["local bills"],
+    });
+    expect(
+      memberFilingCap(
+        [bill(), bill()],
+        input,
+        table([
+          {
+            ...row,
+            exempts: ["general-policy"],
+            unboundExemptions: ["local bills"],
+          },
+        ]),
+      ),
+    ).toEqual({
+      allowed: true,
+      reason: "exempt",
+      unboundExemptions: ["local bills"],
+    });
+  });
 });

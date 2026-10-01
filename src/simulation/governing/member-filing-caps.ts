@@ -14,6 +14,8 @@ export interface MemberBillLimitRow {
   readonly limit: number | null;
   readonly period: "session" | "year" | "biennium" | null;
   readonly exempts: readonly string[];
+  /** Quoted exceptions without an admitted saved-record binding. Never executable. */
+  readonly unboundExemptions?: readonly string[];
   readonly status: "sourced" | "no-limit-found" | "unread";
   readonly citation: string;
   readonly url: string;
@@ -38,7 +40,7 @@ export interface MemberFilingCapInput {
   readonly bienniumWindow?: { readonly start: IsoDate; readonly end: IsoDate };
 }
 
-export type MemberFilingCapDecision =
+export type MemberFilingCapDecision = (
   | {
       readonly allowed: true;
       readonly reason:
@@ -48,7 +50,8 @@ export type MemberFilingCapDecision =
       readonly allowed: false;
       readonly reason: "cap-reached" | "unbound-rule";
       readonly citation: string;
-    };
+    }
+) & { readonly unboundExemptions?: readonly string[] };
 
 const SUBJECT_CLASSES: readonly string[] = [
   "general-policy",
@@ -93,6 +96,9 @@ export function memberFilingCap(
     (row) =>
       row.place === input.place && applicableChamber(row, input.chamberKey),
   );
+  const unboundExemptions = [
+    ...new Set(rows.flatMap((row) => row.unboundExemptions ?? [])),
+  ];
   let applies = false;
   let exempt = false;
   for (const row of rows) {
@@ -144,10 +150,16 @@ export function memberFilingCap(
       );
     }).length;
     if (count >= row.limit)
-      return { allowed: false, reason: "cap-reached", citation: row.citation };
+      return {
+        allowed: false,
+        reason: row.unboundExemptions?.length ? "unbound-rule" : "cap-reached",
+        citation: row.citation,
+        ...(unboundExemptions.length ? { unboundExemptions } : {}),
+      };
   }
   return {
     allowed: true,
+    ...(unboundExemptions.length ? { unboundExemptions } : {}),
     reason: !applies
       ? rows.some((row) => row.status === "unread")
         ? "unread-cap"
