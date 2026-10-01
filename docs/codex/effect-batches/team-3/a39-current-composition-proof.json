@@ -1,0 +1,65 @@
+{
+  "codeHead": "6d2af92d39f309aff3e4b8a662820a7fa64c4db5",
+  "canonicalDependency": "69a4ce6434c4d0402d2e7bb0821e0affa00bf866",
+  "priorComposition": "96988857c8e96f5115558db4979d73eecee227e1",
+  "observedMain": "9891ad2ebdfde4bb79869ae290d26ba98eefe425",
+  "native": {
+    "passed": 31,
+    "failed": 0,
+    "skipped": 5,
+    "seconds": 50.71,
+    "files": 5,
+    "scope": "Wage numeric readers and authored legislative fixtures; not natural executive decisions, actual city payment or all-56 payroll."
+  },
+  "priorNative": {
+    "passed": 16,
+    "failed": 15,
+    "skipped": 5,
+    "seconds": 49.09,
+    "reason": "Authored fixtures attempted actual executive-decision UI without an actual executive."
+  },
+  "types": {
+    "ownedRoots": 5,
+    "diagnostics": 0,
+    "legacyCityTestHelper": "One prior exact-parent TS2352 incomplete due-item cast; not in five owned roots, not repaired or rechecked here."
+  },
+  "lint": "Two changed test files passed",
+  "format": "Two changed test files passed",
+  "whitespace": "Passed",
+  "zeroDice": {
+    "exit": 1,
+    "new": 2,
+    "gone": 5,
+    "scope": "Two county calendar flags are byte-identical at canonical dependency and observed main; no Team3 edits. Five stale removed findings retained."
+  },
+  "remaining": [
+    "Default city pay row admission remains coordinator-owned proposed payload",
+    "Elected-office exception candidate remains coordinator-owned and not consumed",
+    "Ohio actual annual-pay path awaits checked exception head",
+    "Context-free initial-distribution wage API still legacy",
+    "Five retained legacy payroll cases NOT RUN",
+    "Native clean-main, full clock, all-56 payroll, speed NOT RUN"
+  ],
+  "receipts": [
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-current-composition-r1.txt",
+      "rawSHA256": "05a16e5cf4b24d29e338a4f4d6045c1ff93848ea855a1894c4fa18c8833d22f6",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-current-composition-r2.txt",
+      "rawSHA256": "156c1716e2ae83fcc954f036cac016b2c6d7866668dc820da265d335aa309553",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-current-composition-types-r2.txt",
+      "rawSHA256": "17d9e35db3affccdc02d0d30ae9fca0872553edf58cf9438599545affffe22a2",
+      "rawTrailingLinefeeds": 1
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-current-composition-zero-dice.txt",
+      "rawSHA256": "a7dc21a7d15fd878f3b104409a8702e37c6b2e2953e3fd3d3994190ac3784044",
+      "rawTrailingLinefeeds": 1
+    }
+  ]
+}

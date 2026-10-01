@@ -6,6 +6,8 @@ import type {
   LawConsequenceKindRegistration,
   LawConsequenceRow,
   ResolvedLawConsequence,
+  ResolvedAnyLawConsequence,
+  ResolvedSavedRuleConsequence,
 } from "../law-consequence-types";
 import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
 import { lawInForce } from "../governing/law-in-force";
@@ -14,7 +16,7 @@ import {
   recordById,
   type GrowingIndexKind,
 } from "../history-index";
-import { workRoleAt } from "../life-queries";
+import { workRoleAt, workStatusAt } from "../life-queries";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { workPayCoverageAt } from "../pay-coverage";
 import {
@@ -26,10 +28,20 @@ import { applyLawPayConsequence } from "../living-world/town-pay";
 import {
   PAY_SELECTOR,
   PAY_ACTION,
+  NON_ELECTIVE_PAY_PREDICATE,
+  ANNUAL_OFFICE_PAY_ACTION,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
+  CITY_MINIMUM_WAGE_QUESTION_KEY,
 } from "./pay-rows";
 export { PAY_SELECTOR, PAY_ACTION, MINIMUM_WAGE_PAY_ROWS } from "./pay-rows";
+import { paidOfficeOf, officePayInForce, PAY_LAW_FIELD } from "../office-pay";
+import {
+  enactedRuleChangeAt,
+  officePayLawOfficeKey,
+  ruleChangeProvisionHistoryRecords,
+} from "../enacted-rule-changes";
+import { stateJurisdictionForKey } from "../life-places";
 import { resourceFlowTermsAt } from "../resource-queries";
 import type { EntityId, ResourceFlow, World } from "../types";
 
@@ -150,7 +162,8 @@ export function resolvePayConsequences(
     const workplace = payWorkplaceAt(world, work.id, cutoff);
     const minimum =
       proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY ||
-      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY;
+      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY ||
+      proposition.stableKey === CITY_MINIMUM_WAGE_QUESTION_KEY;
     // Federal law applies without inventing a missing workplace. The national
     // chain contains no state/local authority; the coverage fact stays null.
     const jurisdictionId =
@@ -161,7 +174,21 @@ export function resolvePayConsequences(
     if (!jurisdictionId && minimum) continue;
     if (!jurisdictionId)
       throw new Error("Missing pay recorded work jurisdiction capability");
-    const predicates = [...row.who.predicates, ...row.conditions];
+    const allPredicates = [...row.who.predicates, ...row.conditions];
+    const officePredicates = allPredicates.filter(
+      (predicate) => predicate.capability === NON_ELECTIVE_PAY_PREDICATE,
+    );
+    if (
+      officePredicates.length &&
+      !matchPayCoveragePredicates(world, work.id, officePredicates, cutoff)
+        .matches
+    )
+      continue;
+    // This universal exclusion remains separate from employer-specific saved
+    // exceptions, so an ordinary worker's standard coverage still admits the row.
+    const predicates = allPredicates.filter(
+      (predicate) => predicate.capability !== NON_ELECTIVE_PAY_PREDICATE,
+    );
     const match = matchPayCoveragePredicates(
       world,
       work.id,
@@ -254,11 +281,212 @@ export function resolvePayConsequences(
   return resolved;
 }
 
+/** Bind annual salary only to the actual held office and adopted saved clause. */
+export function resolveAnnualOfficePayConsequences(
+  world: World,
+  context: LawConsequenceContext,
+): readonly ResolvedSavedRuleConsequence[] {
+  if (
+    context.activity !== "payroll" ||
+    context.questionKey ||
+    context.origin === "in-force-at-start"
+  )
+    return [];
+  if (context.onDate > world.currentDate)
+    throw new Error("Pay activity cannot be in the future");
+  const cutoff = {
+    asOfDate: context.onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const results: ResolvedSavedRuleConsequence[] = [];
+  for (const flow of activityFlows(world, context.activityId)) {
+    if (
+      flow.basisReference.kind !== "work" ||
+      flow.recipient.kind !== "person" ||
+      flow.source.kind !== "organization"
+    )
+      continue;
+    const personId = flow.recipient.personId;
+    if (!context.subjectIds.includes(personId)) continue;
+    const work = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    );
+    if (
+      !work ||
+      work.personId !== personId ||
+      work.organizationId !== flow.source.organizationId
+    )
+      throw new Error("Office pay must bind its actual worker and employer");
+    if (workStatusAt(world, work.id, cutoff)?.status !== "active") continue;
+    const role = workRoleAt(world, work.id, cutoff);
+    const terms = resourceFlowTermsAt(world, flow.id, cutoff);
+    if (
+      !role ||
+      !terms ||
+      terms.status !== "active" ||
+      terms.amount.currency !== "USD"
+    )
+      continue;
+    const held = paidOfficeOf(world, work, cutoff);
+    if (!held) continue;
+    const field = PAY_LAW_FIELD[held.office];
+    if (!field) continue;
+    const officeKey = officePayLawOfficeKey(held.state);
+    const legal = officePayInForce(world, work, context.onDate);
+    if (!legal?.law) continue;
+    const rule = enactedRuleChangeAt(world, {
+      stateUsps: held.state,
+      officeKey,
+      field,
+      onDate: context.onDate,
+    });
+    if (
+      !rule ||
+      rule.measureId !== legal.law.measureId ||
+      rule.operativeAt !== legal.law.effectiveAt ||
+      rule.value !== legal.annualDollars
+    )
+      throw new Error("Office pay rule does not match the operative salary");
+    if (context.governingLawId && context.governingLawId !== rule.measureId)
+      continue;
+    const clauses = ruleChangeProvisionHistoryRecords(world).filter(
+      (p) =>
+        p.measureId === rule.measureId &&
+        p.stateUsps === held.state &&
+        p.officeKey === officeKey &&
+        p.field === field &&
+        p.filedAt <= context.onDate,
+    );
+    const enactments = (world.history.legislativeEnactments ?? []).filter(
+      (e) =>
+        e.measureId === rule.measureId &&
+        e.outcome === "enacted" &&
+        e.resolvedAt <= context.onDate,
+    );
+    if (clauses.length !== 1 || enactments.length !== 1)
+      throw new Error("Missing or ambiguous adopted office salary authority");
+    const clause = clauses[0]!,
+      enactment = enactments[0]!;
+    if (
+      clause.sequence >= enactment.sequence ||
+      clause.filedAt > enactment.resolvedAt ||
+      clause.value !== rule.value
+    )
+      throw new Error("Office salary clause was not adopted by this enactment");
+    const amount = legal.annualDollars * 100;
+    if (!Number.isSafeInteger(amount) || amount < 0)
+      throw new Error(
+        "Office annual salary must be nonnegative integer USD cents",
+      );
+    const jurisdiction = stateJurisdictionForKey(`US-${held.state}`);
+    if (!jurisdiction || !world.jurisdictions[jurisdiction.id])
+      throw new Error("Missing actual office salary jurisdiction");
+    const sourceRecordIds = [
+      ...new Set([
+        work.id,
+        role.id,
+        flow.id,
+        terms.id,
+        clause.id,
+        enactment.id,
+        rule.measureId,
+      ]),
+    ];
+    const row: LawConsequenceRow = {
+      id: `pay:office-rule:${clause.id}`,
+      kind: "pay",
+      when: "payroll",
+      who: { selector: PAY_SELECTOR, predicates: [] },
+      what: ANNUAL_OFFICE_PAY_ACTION,
+      amount: { op: "term", key: field, unit: "minor" },
+      conditions: [],
+      lag: { days: 0, sourceIds: [clause.id] },
+      onRepeal: "preserve-completed",
+      evidence: {
+        sourceIds: [clause.id, enactment.id],
+        population: "The actual holder of the salary-bearing office",
+        scope:
+          "The adopted office salary clause and its recorded applicability",
+        why: "The operative annual salary governs prospective compensation through the existing payroll cadence",
+        uncertainty: "No unrecorded office or salary is inferred",
+      },
+    };
+    results.push({
+      row,
+      authority: {
+        kind: "enacted-office-rule",
+        ruleChangeProvisionId: clause.id,
+        enactmentId: enactment.id,
+        measureId: rule.measureId,
+        officeKey,
+        stateUsps: held.state,
+        field,
+        operativeAt: rule.operativeAt,
+        applicability: rule.applicability,
+      },
+      jurisdictionId: jurisdiction.id,
+      subject: { kind: "person", id: personId },
+      activityId: context.activityId,
+      effectiveAt: context.onDate,
+      sourceRecordIds,
+      value: { type: "amount", value: amount, unit: "minor", currency: "USD" },
+    });
+  }
+  return results;
+}
+
 /** The existing pay-term writer remains the sole writer behind this kind. */
 export function applyPayConsequence(
   world: World,
-  resolved: ResolvedLawConsequence,
+  resolved: ResolvedAnyLawConsequence,
 ): World {
+  if ("authority" in resolved) {
+    if (resolved.authority.kind !== "enacted-office-rule")
+      throw new Error("Pay cannot consume standing service authority");
+    const current = resolveAnnualOfficePayConsequences(world, {
+      onDate: resolved.effectiveAt,
+      activity: "payroll",
+      activityId: resolved.activityId,
+      subjectIds: [resolved.subject.id],
+      governingLawId: resolved.authority.measureId,
+    }).find(
+      (input) =>
+        input.row.id === resolved.row.id &&
+        input.subject.id === resolved.subject.id,
+    );
+    if (!current || JSON.stringify(current) !== JSON.stringify(resolved))
+      throw new Error(
+        "Office salary resolution differs from its saved authority",
+      );
+    if (
+      current.value.type !== "amount" ||
+      current.value.unit !== "minor" ||
+      current.value.currency !== "USD"
+    )
+      throw new Error("Office salary requires annual USD cents");
+    const flow = activityFlows(world, current.activityId).find(
+      (f) =>
+        f.recipient.kind === "person" &&
+        f.recipient.personId === current.subject.id &&
+        current.sourceRecordIds.includes(f.id),
+    );
+    if (!flow || flow.basisReference.kind !== "work")
+      throw new Error("Missing actual office salary flow");
+    return applyLawPayConsequence(world, {
+      rowId: current.row.id,
+      jurisdictionId: current.jurisdictionId,
+      personId: current.subject.id,
+      workId: flow.basisReference.workRelationshipId,
+      payFlowId: flow.id,
+      activityId: current.activityId,
+      effectiveAt: current.effectiveAt,
+      amount: { value: current.value.value, unit: "minor", currency: "USD" },
+      sourceRecordIds: current.sourceRecordIds,
+      action: "set-annual-office-salary",
+      authority: current.authority,
+    });
+  }
   if (
     resolved.subject.kind !== "person" ||
     resolved.value.type !== "amount" ||
@@ -294,13 +522,15 @@ export function applyPayConsequence(
   });
 }
 
-export const PAY_REGISTRATION: LawConsequenceKindRegistration = {
-  kind: "pay",
-  owner: "Team3",
-  selectors: [PAY_SELECTOR],
-  actions: [PAY_ACTION],
-  predicates: PAY_COVERAGE_PREDICATES,
-  units: ["minor/hour"],
-  resolve: resolvePayConsequences,
-  apply: applyPayConsequence,
-};
+export const PAY_REGISTRATION: LawConsequenceKindRegistration<ResolvedAnyLawConsequence> =
+  {
+    kind: "pay",
+    owner: "Team3",
+    selectors: [PAY_SELECTOR],
+    actions: [PAY_ACTION, ANNUAL_OFFICE_PAY_ACTION],
+    predicates: PAY_COVERAGE_PREDICATES,
+    units: ["minor/hour", "minor"],
+    resolve: resolvePayConsequences,
+    resolveSavedRules: resolveAnnualOfficePayConsequences,
+    apply: applyPayConsequence,
+  };

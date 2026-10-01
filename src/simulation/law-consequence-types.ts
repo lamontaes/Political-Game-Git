@@ -1,5 +1,14 @@
+import type {
+  RuleChangeProvisionRecord,
+  RuleChangeApplicability,
+} from "./enacted-rule-changes";
 import type { LawInForce } from "./governing/law-in-force";
-import type { EntityId, IsoDate, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  World,
+  PublicProgramAppropriationRecord,
+} from "./types";
 
 export type LawConsequenceKind =
   | "pay"
@@ -83,10 +92,12 @@ export interface LawConsequenceContext {
   origin?: LawInForce["origin"];
   governingLawId?: EntityId;
   questionKey?: string;
+  /** Exact saved standing authority; never an invented legislative measure. */
+  standingAppropriationId?: EntityId;
 }
 
 /** The engine resolves legal authority and actual job records before invoking pay. */
-export interface ResolvedLawPayConsequence {
+export interface ResolvedHourlyLawPayConsequence {
   rowId: string;
   questionKey: string;
   jurisdictionId: EntityId;
@@ -100,6 +111,35 @@ export interface ResolvedLawPayConsequence {
   sourceRecordIds: EntityId[];
   action: "raise-hourly-floor";
 }
+
+/** Actual saved office rule authority; this is not a policy question. */
+export interface ResolvedAnnualOfficePayConsequence {
+  rowId: string;
+  jurisdictionId: EntityId;
+  personId: EntityId;
+  workId: EntityId;
+  payFlowId: EntityId;
+  activityId: EntityId;
+  effectiveAt: IsoDate;
+  amount: { value: number; unit: "minor"; currency: "USD" };
+  sourceRecordIds: EntityId[];
+  action: "set-annual-office-salary";
+  authority: {
+    kind: "enacted-office-rule";
+    ruleChangeProvisionId: EntityId;
+    enactmentId: EntityId;
+    measureId: EntityId;
+    officeKey: string;
+    stateUsps: string;
+    field: RuleChangeProvisionRecord["field"];
+    operativeAt: IsoDate;
+    applicability: RuleChangeApplicability;
+  };
+}
+
+/** Both actions use the existing pay writer and actual recorded pay cadence. */
+export type ResolvedLawPayConsequence =
+  ResolvedHourlyLawPayConsequence | ResolvedAnnualOfficePayConsequence;
 
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
 export type ResolvedLawValue =
@@ -120,11 +160,43 @@ export interface ResolvedLawConsequence {
   sourceRecordIds: EntityId[];
   value: ResolvedLawValue;
 }
+/** Actual enacted rule authority uses the same kind and subject contract. */
+export interface ResolvedSavedRuleConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: ResolvedAnnualOfficePayConsequence["authority"];
+}
+/** Actual sourced appropriation already saved by the common program writer. */
+export interface StandingProgramAuthority {
+  kind: "standing-program-appropriation";
+  appropriationId: EntityId;
+  programKey: string;
+  jurisdictionId: EntityId;
+  accountOrganizationId: EntityId;
+  publicGovernmentIdentity: PublicProgramAppropriationRecord["publicGovernmentIdentity"];
+  availableFrom: IsoDate;
+  availableThrough: IsoDate;
+  sourceBasis: PublicProgramAppropriationRecord["basis"];
+}
+export interface ResolvedStandingServiceConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: StandingProgramAuthority;
+}
+export type ResolvedSavedAuthorityConsequence =
+  ResolvedSavedRuleConsequence | ResolvedStandingServiceConsequence;
+export type ResolvedAnyLawConsequence =
+  ResolvedLawConsequence | ResolvedSavedAuthorityConsequence;
+
 export type LawConsequenceHandler = (
   world: World,
   resolved: ResolvedLawConsequence,
 ) => World;
-export interface LawConsequenceKindRegistration {
+export interface LawConsequenceKindRegistration<
+  T extends ResolvedAnyLawConsequence = ResolvedLawConsequence,
+> {
   kind: LawConsequenceKind;
   owner: string;
   selectors: readonly string[];
@@ -136,5 +208,18 @@ export interface LawConsequenceKindRegistration {
     row: LawConsequenceRow,
     context: LawConsequenceContext,
   ) => readonly ResolvedLawConsequence[];
-  apply: LawConsequenceHandler;
+  /** Only a kind admitting saved-authority inputs can supply this adapter. */
+  resolveSavedRules?: Extract<
+    T,
+    ResolvedSavedAuthorityConsequence
+  > extends never
+    ? never
+    : (
+        world: World,
+        context: LawConsequenceContext,
+      ) => readonly Extract<T, ResolvedSavedAuthorityConsequence>[];
+  apply(world: World, resolved: T): World;
 }
+
+export type AnyLawConsequenceKindRegistration =
+  LawConsequenceKindRegistration<ResolvedAnyLawConsequence>;

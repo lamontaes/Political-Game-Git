@@ -9,14 +9,21 @@ import {
   stateKeyForJurisdiction,
 } from "./life-places";
 import { workRoleAt } from "./life-queries";
-import { SeededRng } from "./rng";
+import stateHouseholdIncome2023 from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
+import { censusRegionOf } from "./world-setup/census-regions";
 import {
   officePayLawOfficeKey,
   ruleValueInWorld,
   type AmendableRuleField,
   type RuleChangeApplicability,
 } from "./enacted-rule-changes";
-import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  World,
+  WorkRelationship,
+  HistoricalCutoff,
+} from "./types";
 
 export { OFFICE_PAY_META };
 
@@ -94,8 +101,8 @@ export function statePayFor(
   return annualDollars === undefined ? null : { office, state, annualDollars };
 }
 
-/** The salaries the tables publish for an office, lowest first. */
-function publishedAnnualValues(office: PaidOffice): readonly number[] {
+/** Each government's sourced annual pay for this same office category. */
+function publishedAnnualPay(office: PaidOffice): readonly [string, number][] {
   governors ??= parse(GOVERNOR_SALARY_ROWS);
   legislators ??= parse(LEGISLATOR_SALARY_ROWS);
   judges ??= parse(TRIAL_JUDGE_SALARY_ROWS);
@@ -105,40 +112,81 @@ function publishedAnnualValues(office: PaidOffice): readonly number[] {
       : office === "trial-court-judge"
         ? judges
         : legislators;
-  return [...table.values()].sort((a, b) => a - b);
+  return [...table.entries()];
 }
+
+// Immutable source packets: rank once per office/state, not each paycheck.
+const ESTIMATED_OFFICE_PAY = new Map<
+  string,
+  OfficePay & { readonly basis: string }
+>();
 
 /**
  * A state's pay for an office when the tables give no annual figure for it:
- * ESTIMATED FROM AVERAGE. The estimate lies between the 25th and 75th percentile
- * of what the states that do publish one pay for the same office, at a point
- * this world's seed picks for this state, so it is a realistic salary, never
- * zero, and the same on every replay of the world. Research can replace it
- * (`state-legislator-per-day-pay` for legislators).
+ * ESTIMATED FROM AVERAGE. The owner's ranked-reference rule uses the same
+ * sourced office category, then Census region, then household-income distance.
+ * Reciprocal rank is the authored fallback from the accepted deduction reader,
+ * not an empirical salary coefficient. Equal closeness shares a rank/weight.
+ * With no sourced target income, use the same-office mean instead. The world's
+ * seed never chooses a salary. This estimate is not a researched pay law or a
+ * conversion of a per diem (`state-legislator-per-day-pay` remains needed).
  */
 export function estimatedStatePay(
-  world: World,
+  _world: World,
   office: PaidOffice,
   state: string,
 ): (OfficePay & { readonly basis: string }) | null {
   if (office === "member-of-congress") return null;
-  const values = publishedAnnualValues(office);
+  const key = `${office}:${state}`;
+  const cached = ESTIMATED_OFFICE_PAY.get(key);
+  if (cached) return cached;
+  const values = publishedAnnualPay(office);
   if (values.length < 4) return null;
-  const at = (fraction: number) =>
-    values[Math.min(values.length - 1, Math.floor(fraction * values.length))]!;
-  const low = at(0.25);
-  const high = at(0.75);
-  const rng = new SeededRng(world.seed).fork(
-    `office-pay-estimate:${office}:${state}`,
-  );
-  const annualDollars =
-    Math.round((low + (high - low) * rng.next()) / 100) * 100;
-  return {
+  const incomes: Readonly<Record<string, number>> =
+    stateHouseholdIncome2023.medianHouseholdIncomeDollarsByState;
+  const targetIncome = incomes[`US-${state}`];
+  const targetRegion =
+    targetIncome === undefined ? null : censusRegionOf(state);
+  const references = values.flatMap(([referenceState, annualDollars]) => {
+    const income = incomes[`US-${referenceState}`];
+    if (targetIncome !== undefined && income === undefined) return [];
+    return [
+      {
+        state: referenceState,
+        annualDollars,
+        sameRegion:
+          targetRegion !== null &&
+          censusRegionOf(referenceState) === targetRegion,
+        incomeDistance:
+          targetIncome === undefined ? 0 : Math.abs(income! - targetIncome),
+      },
+    ];
+  });
+  const compare = (
+    a: (typeof references)[number],
+    b: (typeof references)[number],
+  ) =>
+    Number(b.sameRegion) - Number(a.sameRegion) ||
+    a.incomeDistance - b.incomeDistance;
+  references.sort((a, b) => compare(a, b) || a.state.localeCompare(b.state));
+  let rank = 1;
+  const weighted = references.map((ref, index) => {
+    if (index > 0 && compare(ref, references[index - 1]!) !== 0)
+      rank = index + 1;
+    return { ...ref, weight: 1 / rank };
+  });
+  const mean =
+    weighted.reduce((sum, ref) => sum + ref.annualDollars * ref.weight, 0) /
+    weighted.reduce((sum, ref) => sum + ref.weight, 0);
+  const annualDollars = Math.round(mean / 100) * 100;
+  const estimate = {
     office,
     state,
     annualDollars,
-    basis: `ESTIMATED FROM AVERAGE: between the 25th and 75th percentile ($${low.toLocaleString("en-US")} to $${high.toLocaleString("en-US")}) of the ${values.length} states that publish this salary (${OFFICE_PAY_META.source}).`,
+    basis: `ESTIMATED FROM AVERAGE: ${weighted.length} sourced annual ${office} salaries (${OFFICE_PAY_META.source}); ${targetIncome === undefined ? "same-office plain mean; target household income is not read" : `ranked by Census region, then sourced household-income distance (${stateHouseholdIncome2023.source.url}); reciprocal-rank weights are an authored estimation rule`}. References: ${weighted.map((ref) => `${ref.state}:$${ref.annualDollars}, weight ${ref.weight}`).join("; ")}. This is not statutory salary authority.`,
   };
+  ESTIMATED_OFFICE_PAY.set(key, estimate);
+  return estimate;
 }
 
 const GOVERNOR_OCCUPATION = /^service:us-([a-z]{2})-governor$/;
@@ -147,8 +195,9 @@ const GOVERNOR_OCCUPATION = /^service:us-([a-z]{2})-governor$/;
 export function paidOfficeOf(
   world: World,
   work: WorkRelationship,
+  cutoff?: HistoricalCutoff,
 ): { readonly office: PaidOffice; readonly state: string } | null {
-  const role = workRoleAt(world, work.id);
+  const role = workRoleAt(world, work.id, cutoff);
   if (!role) return null;
   if (work.kind === "employment:congress-member")
     return { office: "member-of-congress", state: "US" };
@@ -195,12 +244,13 @@ export function publishedOfficePay(
 }
 
 /** The rule field a state's pay law sets for each office it can set. */
-const PAY_LAW_FIELD: Readonly<Partial<Record<PaidOffice, AmendableRuleField>>> =
-  {
-    governor: "pay.governor.annualDollars",
-    "state-legislator": "pay.stateLegislator.annualDollars",
-    "trial-court-judge": "pay.trialJudge.annualDollars",
-  };
+export const PAY_LAW_FIELD: Readonly<
+  Partial<Record<PaidOffice, AmendableRuleField>>
+> = {
+  governor: "pay.governor.annualDollars",
+  "state-legislator": "pay.stateLegislator.annualDollars",
+  "trial-court-judge": "pay.trialJudge.annualDollars",
+};
 
 /** What a state's pay law did to an office's salary, when one did. */
 export interface OfficePayLaw {
@@ -239,7 +289,10 @@ export function officePayInForce(
   work: WorkRelationship,
   onDate: IsoDate,
 ): OfficePayInForce | null {
-  const held = paidOfficeOf(world, work);
+  const held = paidOfficeOf(world, work, {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  });
   if (!held) return null;
   const stated = statePayFor(held.office, held.state);
   const estimate =

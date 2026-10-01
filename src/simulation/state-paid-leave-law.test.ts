@@ -143,6 +143,7 @@ describe("a state paid leave premium", () => {
       /^ESTIMATED FROM AVERAGE: the average employee premium of the 13 state paid leave programs read/,
     );
     expect(rhodeIsland.annualWageCapMinor).toBe(18_450_000);
+    expect(rhodeIsland.employeeRatePerMillion).toBe(4_709);
     // Virginia collects from April 1, 2028, at a rate not yet set.
     expect(paidLeavePremium(world, "US-VA", on("2028-03-31")).kind).toBe(
       "none",
@@ -150,8 +151,11 @@ describe("a state paid leave premium", () => {
     const virginia = premium(
       paidLeavePremium(world, "US-VA", on("2028-04-01")),
     );
-    expect(virginia.estimatedFromAverage).toBeDefined();
-    // Within half a standard deviation of the average, about 0.5%.
+    expect(virginia.estimatedFromAverage).toContain(
+      "authored reciprocal-rank weights",
+    );
+    expect(virginia.employeeRatePerMillion).toBe(4_444);
+    // The same-program ranked estimates remain inside the retained calibration bounds.
     for (const estimate of [rhodeIsland, virginia]) {
       expect(estimate.employeeRatePerMillion).toBeGreaterThan(3_500);
       expect(estimate.employeeRatePerMillion).toBeLessThan(6_500);
@@ -168,12 +172,13 @@ describe("a state paid leave premium", () => {
     expect(texas.lawMeasureIds).toEqual([law.measure.id]);
     expect(texas.estimatedFromAverage).toMatch(/^ESTIMATED FROM AVERAGE: /);
     expect(texas.sourceUrl).toBeNull();
-    // Another world draws its own premium within the same spread.
+    expect(texas.employeeRatePerMillion).toBe(4_386);
+    // A seed changes no legal rate or sourced comparison fact.
     expect(
       premium(
         paidLeavePremium(lawWorld([law], "other"), "US-TX", on("2027-01-15")),
       ).employeeRatePerMillion,
-    ).not.toBe(texas.employeeRatePerMillion);
+    ).toBe(texas.employeeRatePerMillion);
   });
 
   it("ends a program's premium when a law enacted in play repeals it", () => {

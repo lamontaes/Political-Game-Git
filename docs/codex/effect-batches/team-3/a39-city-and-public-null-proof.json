@@ -1,0 +1,79 @@
+{
+  "codeHead": "b8d4fc49d325ebb781859ab0cb6dea363b06571a",
+  "parent": "021c8494bad564b6292e04fb5fb81bc5332e9d20",
+  "native": {
+    "passed": 15,
+    "failed": 0,
+    "skipped": 1,
+    "seconds": 28.47,
+    "datedStateCases": 8,
+    "cityReaderCases": 7,
+    "scope": "Isolated legislative records and dated numeric reading; no city paycheck or natural procedure proof."
+  },
+  "publicFallbackComparison": {
+    "overlayMinimumWageHead": "04956b46797c4275df3bb69e89bd888203be1321",
+    "passed": 0,
+    "failed": 1,
+    "skipped": 7,
+    "seconds": 12.27,
+    "expected": null,
+    "actualMinor": 725,
+    "scope": "One exact old consumer file over the current graph, not clean-main proof.",
+    "firstAttempt": "Configuration failed before discovery; retained."
+  },
+  "types": {
+    "productionAndDatedRoots": 2,
+    "cityHelperRoots": 2,
+    "exactParentHelperRoots": 2,
+    "exactParentDiagnostics": 1,
+    "baselineCode": "TS2352 incomplete FutureDueItem cast in unchanged NOT RUN legacy payroll helper",
+    "helperBlobMatchesObservedOriginMain": "1b0eb7f23e674fcf51913d500828561bc8813761",
+    "scope": "Source overlay comparison, not clean-main typecheck.",
+    "productionAndDatedDiagnostics": 0,
+    "cityHelperDiagnostics": 1
+  },
+  "zeroDice": {
+    "new": 0,
+    "gone": 5,
+    "exit": 1
+  },
+  "remaining": [
+    "Context-free initial-distribution API",
+    "Default pay catalog city row not admitted",
+    "Conditional Ohio applicability and annual payment",
+    "Legacy city payroll case NOT RUN",
+    "Native clean checkout/current main, full clock, speed, all-56 payroll NOT RUN"
+  ],
+  "receipts": [
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-city-and-public-null-r1.txt",
+      "rawSHA256": "56ccb4ba609ffa1a7c53fe870a07341984d90bb2376f19f76e04061845118f8b",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-city-and-public-null-r3.txt",
+      "rawSHA256": "be2fc7e95d6f174635c096a019a7b1991f99509f7bddc0dea9d2814e37ef41c5",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-fl-public-parent-r1.txt",
+      "rawSHA256": "54ae4fe247709109a2b9ab940614da5fffd7ba771609375483520a0afc977c6d",
+      "rawTrailingLinefeeds": 4
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-fl-public-parent-r2.txt",
+      "rawSHA256": "97f19d1cb49e3b40a78f469549acf0c6c8c0520202e5cd07838454b2e5efbe07",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-city-helper-types-r2.txt",
+      "rawSHA256": "456e50a3a5a84fc271b3d39090088ac61c65e1c0230c0d309a51ae63c9772764",
+      "rawTrailingLinefeeds": 1
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-city-helper-parent-types-r2.txt",
+      "rawSHA256": "ecd7deb2c24c8be2f0b0858073038a06ab03cebd418b1ac907bdfbf57a2b39b7",
+      "rawTrailingLinefeeds": 1
+    }
+  ]
+}

@@ -22,14 +22,16 @@ import {
   raiseTownPayToMinimum,
   type TownPayPeriod,
 } from "../../src/simulation/living-world/town-pay";
-import { TOWN_MINIMUM_WAGES } from "../../src/simulation/living-world/town-pay.generated";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
-  FEDERAL_RAISE_PLACEHOLDER,
   federalMinimumSchedule,
   minimumHourlyAt,
+  startingStateMinimumHourly,
 } from "../../src/simulation/minimum-wage";
-import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../../src/simulation/national-election-geography";
 import { recordWorkStatus } from "../../src/simulation/life";
 import { workStatusAt } from "../../src/simulation/life-queries";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
@@ -46,6 +48,9 @@ import type {
   World,
 } from "../../src/simulation";
 
+import { recordFiledProvision } from "../../src/simulation/legislative-politics";
+
+const FICTIONAL_FEDERAL_FLOOR_MINOR = 1500;
 const NASHVILLE = "4752006";
 const POLICY = createProductionPolicyCatalog();
 const RAISE_QUESTION = POLICY.propositionOrder.find(
@@ -57,8 +62,9 @@ const RAISE_QUESTION = POLICY.propositionOrder.find(
 /**
  * A Nashville game in which Congress has answered "should the federal minimum
  * wage go up?" yes, in force `effectiveInDays` after the game opens. The Act
- * is recorded the way the legislative route records one; it carries no
- * dollar figure, so the raise is the marked placeholder rate.
+ * supplies explicit isolated legislative records and carries
+ * an explicit fictional $15.00 hourly term. This legacy isolated fixture is
+ * not evidence of natural legal adoption; canonical procedure is tested separately.
  */
 function nashvilleWithFederalRaise(effectiveInDays: number) {
   const game = generateOpeningLife(
@@ -129,8 +135,8 @@ function nashvilleWithFederalRaise(effectiveInDays: number) {
       (event) => event.stableKey === "event:test:federal-wage:enacted",
     )!.id,
   };
-  const world = {
-    ...recorded,
+  let world = {
+    ...ensureNationalElectionJurisdiction(recorded),
     policyCatalog: POLICY,
     history: {
       ...recorded.history,
@@ -138,12 +144,42 @@ function nashvilleWithFederalRaise(effectiveInDays: number) {
         ...(recorded.history.legislativeMeasures ?? []),
         measure,
       ],
+    },
+  } as World;
+  world = recordFiledProvision(world, {
+    stableKey: "test:federal-wage:explicit-floor",
+    measureId: measure.id,
+    provisionKey: "federal-hourly-floor",
+    sectionNumber: 1,
+    heading: "Fictional hourly floor",
+    text: "This fictional Act sets the hourly floor to $15.00.",
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: "covered work",
+    },
+    applicationScope: {
+      jurisdictionId: measure.jurisdictionId,
+      segmentKey: null,
+    },
+    lawTerms: [
+      {
+        questionKey: POLICY.propositions[RAISE_QUESTION]!.stableKey,
+        key: "floor",
+        value: FICTIONAL_FEDERAL_FLOOR_MINOR,
+        unit: "minor/hour",
+      },
+    ],
+  });
+  world = {
+    ...world,
+    history: {
+      ...world.history,
       legislativeEnactments: [
-        ...(recorded.history.legislativeEnactments ?? []),
+        ...(world.history.legislativeEnactments ?? []),
         enactment,
       ],
     },
-  } as World;
+  };
   return { world, opened, effectiveAt: enactment.effectiveAt! };
 }
 
@@ -194,7 +230,16 @@ function firstPeriodStart(cadenceKind: string, date: IsoDate): IsoDate {
 describe("the federal minimum wage is the floor everywhere", () => {
   it("is $7.25 until an Act raises it, then the raise, and never below a state's own rate", () => {
     const { world, opened, effectiveAt } = nashvilleWithFederalRaise(45);
-    expect(federalMinimumSchedule(world).map((step) => step.from)).toEqual([
+    expect(federalMinimumSchedule(world)).toEqual([]);
+    const arrived = {
+      ...world,
+      currentDate: effectiveAt,
+      currentMoment: simulationMomentOnLocalDate(
+        world.currentMoment,
+        effectiveAt,
+      ),
+    };
+    expect(federalMinimumSchedule(arrived).map((step) => step.from)).toEqual([
       effectiveAt,
     ]);
     const nashville = lifePlaceByKey(NASHVILLE)!.context.jurisdiction.id;
@@ -202,8 +247,8 @@ describe("the federal minimum wage is the floor everywhere", () => {
     expect(minimumHourlyAt(world, nashville, addDays(effectiveAt, -1))).toBe(
       7.25,
     );
-    expect(minimumHourlyAt(world, nashville, effectiveAt)).toBe(
-      FEDERAL_RAISE_PLACEHOLDER.hourlyMinor / 100,
+    expect(minimumHourlyAt(arrived, nashville, effectiveAt)).toBe(
+      FICTIONAL_FEDERAL_FLOOR_MINOR / 100,
     );
     // All 56 places: the higher of the raise and the state's own rate; a
     // state whose rate is unknown stays unknown (never zero, never the raise).
@@ -213,8 +258,12 @@ describe("the federal minimum wage is the floor everywhere", () => {
         stateJurisdictionKey: state.jurisdictionKey,
       }).find((place) => place.scope !== "state")!;
       const jurisdiction = town.context.jurisdiction.id;
-      const own = TOWN_MINIMUM_WAGES[state.jurisdictionKey];
-      const floor = minimumHourlyAt(world, jurisdiction, effectiveAt);
+      const own = startingStateMinimumHourly(
+        state.jurisdictionKey,
+        arrived,
+        effectiveAt,
+      );
+      const floor = minimumHourlyAt(arrived, jurisdiction, effectiveAt);
       if (own === null) expect(floor, state.jurisdictionKey).toBeNull();
       else
         expect(floor, state.jurisdictionKey).toBe(

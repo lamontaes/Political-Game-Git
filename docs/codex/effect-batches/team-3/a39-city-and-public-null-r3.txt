@@ -1,0 +1,25 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-01-01' reads its actual dated standard terms 64ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-06-30' reads its actual dated standard terms 12ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-07-01' reads its actual dated standard terms 21ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2025-09-30' reads its actual dated standard terms 14ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-29' reads its actual dated standard terms 9ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-30' reads its actual dated standard terms 10ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 does not backdate an unsupported Florida historical rate 1ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 leaves Ohio's conditional tier unsupported instead of reading the later snapshot 0ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > Omaha's isolated ordinance reads its explicit target on the effective date and a later no ends it 2533ms
+ ↓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > raises the pay of every town job below it, and names the ordinance
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > sets nothing where the state bars cities, until a state law lets them 2074ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > reaches the ordinance's own city alone 1901ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'explicit target' 2194ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'amountless yes' 1872ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'wrong unit' 2035ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > future misses do not poison the exact city target on its date 1846ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed | 1 skipped (16)
+   Start at  08:29:39
+   Duration  28.47s (transform 9.54s, setup 23ms, import 13.56s, tests 14.66s, environment 1ms)

@@ -1,0 +1,60 @@
+{
+  "fixtureSeed": "office-annual:1150000",
+  "placeKey": "1150000",
+  "actualDate": "2026-01-12",
+  "personId": "person_100c2106245f5bb3",
+  "workId": "work-relationship_d69843f31f8f253a",
+  "roleId": "work-role_1f76157c4ffdb650",
+  "employerOrganizationId": "organization_d07817435daf102c",
+  "coverage": {
+    "id": "work-pay-coverage_035d58966ff9eea3",
+    "stableKey": "work-pay-coverage:work-relationship_d69843f31f8f253a:initial",
+    "sequence": 48508,
+    "workRelationshipId": "work-relationship_d69843f31f8f253a",
+    "personId": "person_100c2106245f5bb3",
+    "employerOrganizationId": "organization_d07817435daf102c",
+    "workRoleId": "work-role_1f76157c4ffdb650",
+    "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+    "determinedAt": "2026-01-05",
+    "reason": "hire",
+    "defaultCategory": "standard",
+    "factRecordIds": [
+      "work-relationship_d69843f31f8f253a",
+      "work-role_1f76157c4ffdb650",
+      "work-status_bc4205fcb845d9e0",
+      "organization-profile_0f63c546b16f76d1"
+    ],
+    "sources": [
+      "https://www.dol.gov/agencies/whd/minimum-wage",
+      "https://www.dol.gov/agencies/whd/fact-sheets/14-flsa-coverage",
+      "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section206&num=0&edition=prelim"
+    ],
+    "governingLaws": [
+      {
+        "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+        "governingLawKey": "starting-law:US-OH:us-policy-positions:labor-workforce.raise-minimum-wage",
+        "origin": "in-force-at-start"
+      },
+      {
+        "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+        "governingLawKey": "starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+        "origin": "in-force-at-start"
+      }
+    ],
+    "exceptions": []
+  },
+  "office": {
+    "office": "governor",
+    "state": "OH"
+  },
+  "limit": "Reconstructed retained fixture, no payment or Ohio tier inference",
+  "consumerCodeHead": "04956b46797c4275df3bb69e89bd888203be1321",
+  "historicalFailureLog": "team3-office-annual-boundary-r3.log",
+  "receipt": {
+    "passed": 1,
+    "skipped": 13,
+    "seconds": 15.13,
+    "rawSHA256": "f96c3f757f1a56cb7adb40b4eabad9fdb5105b29626e3d52005d6878c5283138"
+  },
+  "diagnosticSourceHead": "c75d7d501661bed689a47b31fb9f4df542093aee"
+}

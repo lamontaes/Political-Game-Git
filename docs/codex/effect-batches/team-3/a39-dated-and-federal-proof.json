@@ -1,0 +1,71 @@
+{
+  "codeHead": "04956b46797c4275df3bb69e89bd888203be1321",
+  "canonicalDependency": "dbc66c17a8285cb8b856796c09239ced96a50023",
+  "native": {
+    "passed": 24,
+    "failed": 0,
+    "skipped": 4,
+    "seconds": 31.44,
+    "files": 4,
+    "scope": "Legal-reader and isolated legislative fixtures; not actual payment, ordinary clock or all-56 wage completeness."
+  },
+  "types": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "priorRuns": {
+    "federalDiscovery": "0 assertions; Congress seat helper failure",
+    "r2": "16 passed,8 failed,4 skipped",
+    "r3": "23 passed,1 failed,4 skipped"
+  },
+  "remaining": [
+    "City averaged premium",
+    "Context-free town initial-distribution API",
+    "Conditional Ohio terms/applicability",
+    "Actual annual office payment blocked by Ohio",
+    "Four legacy paycheck/repeal tests NOT RUN",
+    "Ordinary clock, speed, final-main NOT RUN"
+  ],
+  "receipts": [
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-dated-and-federal-r2.txt",
+      "rawSHA256": "c06ee671b0dd376e2000d112604505f70e80db9d746fc9dfbe0cf7d43fc8570d",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-dated-and-federal-r3.txt",
+      "rawSHA256": "f9ce54dc5bfe24b66c10e36ab162079a23cf73e2ce1b2f16fa22e6017458ad6b",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-dated-and-federal-r4.txt",
+      "rawSHA256": "ec6e00aa929ccb8eb9abc17c384cbba1e87af7acd06d8ca9790e69a52a9f4709",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-dated-types-r3.txt",
+      "rawSHA256": "d6cf816547f1ecd26b8b38c70a35791541b0793bf980431558eee5856a0dfa86",
+      "rawTrailingLinefeeds": 1
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/a39-federal-final-terms-r1.txt",
+      "rawSHA256": "8320c6288af57a61305c9053c08f87d62d631d245f2a8aeb4392ba392b59595c",
+      "rawTrailingLinefeeds": 2
+    }
+  ],
+  "additionalExtraction": {
+    "path": "docs/codex/effect-batches/team-3/a38-ohio-saved-applicability.json",
+    "sourceHead": "c75d7d501661bed689a47b31fb9f4df542093aee",
+    "typesRoots": 5,
+    "diagnostics": 0,
+    "nativePassed": 1,
+    "nativeSkipped": 13,
+    "seconds": 15.13
+  },
+  "zeroDice": {
+    "new": 0,
+    "gone": 5,
+    "exit": 1,
+    "sameInheritedFindingsAsStateSlice": true
+  }
+}

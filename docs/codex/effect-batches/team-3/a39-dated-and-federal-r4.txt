@@ -1,0 +1,92 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 reads the exact adopted hourly target rather than an average addition 115ms
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 1150000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '1150000',
+  observedKey: 'US-DC',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_1519fad497e0da65',
+  unchangedMinor: 1795,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2836000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '2836000',
+  observedKey: 'US-MS',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_84316fd14bc4b6b9',
+  unchangedMinor: 725,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 does not derive a numeric raise from a plain yes answer 14ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 refuses a target in the wrong unit 13ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 activates a future adopted target only on its date after an earlier read 13ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 1150000 55ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2836000 13ms
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 5363000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '5363000',
+  observedKey: 'US-WA',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_af9d5d8076cb29f9',
+  unchangedMinor: 1713,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2938000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '2938000',
+  observedKey: 'US-MO',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_4fceef37fb9ef6d6',
+  unchangedMinor: 1500,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 3451000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '3451000',
+  observedKey: 'US-NJ',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_371cdc038f95c65b',
+  unchangedMinor: 1592,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 5363000 11ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2938000 10ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 3451000 11ms
+ ✓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > is $7.25 until an Act raises it, then the raise, and never below a state's own rate 2788ms
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > a law that repeals the raise ends the floor and cuts nobody's pay
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > raises every Tennessee town job paid below $15.00 an hour from its first pay period after the law, and records each as a pay-term change
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > does not raise the pay of a job that has ended
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > pays nothing more before the law takes effect
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 reads the actual adopted federal floor, without a $15 fallback 102ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 leaves the sourced federal floor when a yes bill carries no amount 14ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 does not replace the last valid federal amount with an amountless yes 31ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 refuses the wrong federal unit 23ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 revisits the federal schedule at its actual future effective date 12ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 prospective repeal ends the raised legal floor 23ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-01-01' reads its actual dated standard terms 64ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-06-30' reads its actual dated standard terms 13ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-07-01' reads its actual dated standard terms 20ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2025-09-30' reads its actual dated standard terms 10ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-29' reads its actual dated standard terms 8ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-30' reads its actual dated standard terms 8ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 does not backdate an unsupported Florida historical rate 0ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 leaves Ohio's conditional tier unsupported instead of reading the later snapshot 0ms
+
+ Test Files  4 passed (4)
+      Tests  24 passed | 4 skipped (28)
+   Start at  08:11:47
+   Duration  31.44s (transform 15.53s, setup 32ms, import 27.32s, tests 3.62s, environment 1ms)

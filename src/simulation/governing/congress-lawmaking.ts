@@ -1,8 +1,6 @@
 import { makeIsoDate } from "../dates";
-import {
-  fileMemberAgendaBills,
-  MEMBER_AGENDA_LEVEL_SETTINGS,
-} from "./member-agenda";
+import { fileMemberAgendaBills } from "./member-agenda";
+import { MEMBER_AGENDA_LEVEL_SETTINGS } from "./member-agenda-settings";
 import { currentPresidentOf } from "../crisis/offices";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { measurePosition } from "../legislation";
