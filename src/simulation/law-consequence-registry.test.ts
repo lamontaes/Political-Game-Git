@@ -53,11 +53,11 @@ it("admits the reviewed tax handler only with its declared selector and action",
   const registry = createLawConsequenceRegistry();
   const handler = registry.handlers.get("tax");
   expect(handler?.owner).toBe("team-6");
-  expect(registry.capabilities.selectorsByKind.get("tax")).toEqual(
+  expect(registry.capabilities.selectorsByKind?.get("tax")).toEqual(
     new Set(["recorded-tax-base-payer"]),
   );
   expect(registry.capabilities.actions.get("tax")).toEqual(
     new Set(["assess-enacted-tax-base"]),
   );
-  expect(registry.capabilities.selectorsByKind.get("tax")?.has("work")).toBe(false);
+  expect(registry.capabilities.selectorsByKind?.get("tax")?.has("work")).toBe(false);
 });
