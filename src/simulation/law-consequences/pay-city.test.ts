@@ -839,6 +839,17 @@ it("A38 earned law raises only the actual completed interval without changing it
       amount: earned.amount,
     },
   };
+  expect(() =>
+    settleTownCompensations(worked.world, [
+      {
+        ...period,
+        completedShift: {
+          ...period.completedShift,
+          amount: money(8000, "USD"),
+        },
+      },
+    ]),
+  ).toThrow("Completed shift pay must bind its saved work and earned terms");
   const paid = settleTownCompensations(worked.world, [period]);
   const outcome = paid.history.resourceTransferOutcomes.find(
     (row) => row.stableKey === period.stableKey,

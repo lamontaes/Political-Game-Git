@@ -128,6 +128,7 @@ import {
   type WorkAbsence,
 } from "../crisis/epidemic";
 import type {
+  EarnedLawPayAssessmentRecord,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -1112,7 +1113,9 @@ export function applyLawPayConsequence(
   if (current!.amount.currency !== resolved.amount.currency)
     refuse("pay.flow.currency-matches-amount");
   if (completed) {
-    if (!hourly || current!.cadenceKind !== "work:completed-shift")
+    if (resolved.action === "set-annual-office-salary")
+      return refuse("pay.completed-shift.hourly-earned-cadence");
+    if (current!.cadenceKind !== "work:completed-shift")
       refuse("pay.completed-shift.hourly-earned-cadence");
     if (governing!.origin === "enacted") {
       const enactment = recordsWithFieldValue(
@@ -1127,9 +1130,122 @@ export function applyLawPayConsequence(
     if (!Number.isSafeInteger(floor))
       refuse("pay.completed-shift.amount-safe-integer");
     if (floor <= current!.amount.minorUnits) return world;
-    // The immutable earned contract cannot be backdated. Increased gross needs
-    // the shared transfer writer's admitted earned-law assessment record.
-    refuse("pay.completed-shift.saved-earned-law-assessment");
+    const stableKey = `earned-law-pay:${flow!.id}:${completed.completion.id}:${current!.id}:${resolved.rowId}:${governing!.measureId}`;
+    const id = createStableId(
+      "earned-law-pay-assessment",
+      `${world.id}:${stableKey}`,
+    );
+    const prior = (world.history.earnedLawPayAssessments ?? []).find(
+      (record) => record.stableKey === stableKey,
+    );
+    if (prior) {
+      if (
+        prior.id !== id ||
+        prior.personId !== work!.personId ||
+        prior.organizationId !== work!.organizationId ||
+        prior.workRelationshipId !== work!.id ||
+        prior.resourceFlowId !== flow!.id ||
+        prior.completionEventId !== completed.completion.id ||
+        prior.scheduledActivityId !== completed.activity.id ||
+        prior.scheduledActivityStateId !== completed.state.id ||
+        prior.earnedCutoff.asOfDate !== cutoff.asOfDate ||
+        prior.earnedCutoff.historySequenceExclusive !==
+          cutoff.historySequenceExclusive ||
+        prior.periodStartsAt !== completed.completion.occurredAt ||
+        prior.periodEndsAt !== completed.completion.occurredAt ||
+        prior.contractualGross.minorUnits !== current!.amount.minorUnits ||
+        prior.contractualGross.currency !== current!.amount.currency ||
+        prior.assessedGross.minorUnits !== floor ||
+        prior.assessedGross.currency !== current!.amount.currency ||
+        prior.workedMinutes !== completed.minutes ||
+        prior.earnedTermsId !== current!.id
+      )
+        refuse("pay.completed-shift.assessment-replay-equality");
+      return world;
+    }
+    const sourceRecordIds = [
+      ...new Set([
+        ...resolved.sourceRecordIds,
+        id,
+        resolved.activityId,
+        work!.id,
+        role!.id,
+        flow!.id,
+        current!.id,
+        completed.completion.id,
+        completed.activity.id,
+        completed.state.id,
+      ]),
+    ];
+    const stamp = lawEffectStamp(governing, {
+      effectKind: "pay",
+      questionKey:
+        resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
+      ...(resolved.action === "raise-saved-rule-hourly-floor"
+        ? {
+            ruleAuthority: {
+              ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
+              enactmentId: resolved.authority.enactmentId,
+              field: resolved.authority.field,
+            },
+          }
+        : {}),
+      jurisdictionId: resolved.jurisdictionId,
+      appliedAt: world.currentDate,
+      sourceRecordIds,
+    });
+    if (!stamp) refuse("pay.attribution.canonical");
+    const assessment: EarnedLawPayAssessmentRecord = {
+      id,
+      stableKey,
+      sequence: world.history.nextSequence,
+      recordedAt: world.currentDate,
+      personId: work!.personId,
+      organizationId: work!.organizationId!,
+      workRelationshipId: work!.id,
+      resourceFlowId: flow!.id,
+      earnedTermsId: current!.id,
+      completionEventId: completed.completion.id,
+      scheduledActivityId: completed.activity.id,
+      scheduledActivityStateId: completed.state.id,
+      earnedCutoff: { ...completed.cutoff },
+      periodStartsAt: completed.completion.occurredAt,
+      periodEndsAt: completed.completion.occurredAt,
+      workedMinutes: completed.minutes,
+      contractualGross: { ...current!.amount },
+      assessedGross: money(floor, current!.amount.currency),
+      resolvedConsequence:
+        resolved.action === "raise-hourly-floor"
+          ? {
+              ...resolved,
+              law: { ...resolved.law },
+              amount: { ...resolved.amount },
+              completedShift: { ...resolved.completedShift! },
+              sourceRecordIds: [...resolved.sourceRecordIds],
+            }
+          : {
+              ...resolved,
+              authority: {
+                ...resolved.authority,
+                applicability: { ...resolved.authority.applicability },
+              },
+              amount: { ...resolved.amount },
+              completedShift: { ...resolved.completedShift! },
+              sourceRecordIds: [...resolved.sourceRecordIds],
+            },
+      lawEffectStamps: [stamp!],
+    };
+    return {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: world.history.nextSequence + 1,
+        earnedLawPayAssessments: [
+          ...(world.history.earnedLawPayAssessments ?? []),
+          assessment,
+        ],
+      },
+    };
   }
   const note = payNoteOf(current!.cadenceKind);
   const jobWeekly = current!.cadenceKind === "schedule:weekly";
@@ -1701,7 +1817,8 @@ export function settleTownCompensations(
         earnedTerms.status !== "active" ||
         period.completedShift.amount.currency !== earnedTerms.amount.currency ||
         !Number.isSafeInteger(period.completedShift.amount.minorUnits) ||
-        period.completedShift.amount.minorUnits < earnedTerms.amount.minorUnits)
+        period.completedShift.amount.minorUnits !==
+          earnedTerms.amount.minorUnits)
     )
       throw new Error(
         "Completed shift pay must bind its saved work and earned terms.",
@@ -1755,7 +1872,27 @@ export function settleTownCompensations(
       absence && workdays > 0 && !jobPaysSickLeave(world, workId)
         ? Math.min(absence.missedDays, workdays)
         : 0;
-    const gross = period.completedShift?.amount ?? terms.amount;
+    const assessment = completion
+      ? (next.history.earnedLawPayAssessments ?? [])
+          .filter(
+            (record) =>
+              record.resourceFlowId === flow.id &&
+              record.earnedTermsId === earnedTerms?.id &&
+              record.completionEventId === completion.id &&
+              record.workRelationshipId === work.id &&
+              record.periodStartsAt === window.startsAt &&
+              record.periodEndsAt === window.endsAt,
+          )
+          .reduce<EarnedLawPayAssessmentRecord | null>(
+            (highest, record) =>
+              !highest ||
+              record.assessedGross.minorUnits > highest.assessedGross.minorUnits
+                ? record
+                : highest,
+            null,
+          )
+      : null;
+    const gross = assessment?.assessedGross ?? terms.amount;
     const amount =
       unpaidDays === 0
         ? gross
@@ -1818,6 +1955,7 @@ export function settleTownCompensations(
       provenance: completion
         ? { kind: "simulated-event", eventId: completion.id }
         : (period.provenance ?? flow.provenance),
+      ...(assessment ? { earnedLawPayAssessmentId: assessment.id } : {}),
     });
     recipients.add((flow.recipient as { personId: EntityId }).personId);
     pending.add(stableKey);
