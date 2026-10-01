@@ -1,6 +1,5 @@
 /// <reference types="node" />
 import { beforeAll, describe, expect, it, vi } from "vitest";
-import { smallWorld } from "../../../tests/fixtures/small-world";
 import { writeFileSync } from "node:fs";
 import { observerPlace } from "../../presentation/observer-world";
 import type * as LegislationIntegrity from "../legislation-integrity";
@@ -12,7 +11,16 @@ vi.mock("../legislation-integrity", async (importOriginal) => ({
   ...(await importOriginal<typeof LegislationIntegrity>()),
   assertLegislationIntegrity: () => undefined,
 }));
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import {
+  CRUNCH46_WORLD_OPENING_VERSION,
+  ensureWorldStartingConditions,
+  generatePoliticalStartingConditions,
+} from "../world-setup";
+import {
+  DEFAULT_NEW_GAME_SETUP,
+  createNewGameWorld,
+} from "../../presentation/new-game";
+import { establishOpeningOfficeholders } from "../../presentation/opening-officeholders";
 import { addDays, makeIsoDate } from "../dates";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { advanceWorld } from "../world";
@@ -35,6 +43,7 @@ import type {
 import { projectCongress } from "./congress";
 import { isLawEffectStamp } from "../law-effect-stamp";
 import { houseDelegateOccupant } from "./house-delegates";
+import { ensureLivingWorldOpening } from "./opening";
 import { STATEHOOD_ADMISSION_DAYS } from "../governing/statehood-admission";
 import {
   congressSeatsIn,
@@ -54,16 +63,24 @@ import {
 const QUESTION_KEY =
   "us-federal-positions:territories-culture.statehood-for-dc";
 let opened: World;
+let player: EntityId;
 
 beforeAll(() => {
-  // The opening's national offices and Congress, built by the same builders
-  // this fixture called, without a whole new game's households.
-  const small = smallWorld({
-    place: DEFAULT_NEW_GAME_SETUP.placeKey,
+  const created = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
     seed: "statehood-seats-a",
-    offices: ["congress"],
   });
-  opened = small.world;
+  player = created.playerPersonId;
+  opened = ensureLivingWorldOpening(
+    establishOpeningOfficeholders(
+      ensureWorldStartingConditions(created.world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+        political: generatePoliticalStartingConditions,
+      }),
+      player,
+    ),
+    player,
+  );
 }, 300_000);
 
 function enact(world: World, answer: "yes" | "no", effectiveAt: string): World {
@@ -370,11 +387,21 @@ describe("statehood named consequences across five drawn observer states", () =>
   it.each(proofPlaces)(
     "$seed $place.displayName retains actual member attribution",
     ({ seed, place }) => {
-      const opening = smallWorld({
-        place: place.key,
+      const created = createNewGameWorld({
+        ...DEFAULT_NEW_GAME_SETUP,
         seed,
-        offices: ["congress"],
-      }).world;
+        placeKey: place.key,
+      });
+      const opening = ensureLivingWorldOpening(
+        establishOpeningOfficeholders(
+          ensureWorldStartingConditions(created.world, {
+            openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+            political: generatePoliticalStartingConditions,
+          }),
+          created.playerPersonId,
+        ),
+        created.playerPersonId,
+      );
       const passed = enact(opening, "yes", effectiveFor(opening));
       const result = advanceWorld(
         passed,

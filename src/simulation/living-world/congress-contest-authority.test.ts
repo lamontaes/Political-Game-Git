@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { smallWorld } from "../../../tests/fixtures/small-world";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
 import {
   openOrdinaryLife,
   passOrdinaryDays,
@@ -23,14 +26,10 @@ const AUTHORED = {
 };
 
 function openingWorld(seed: string): World {
-  // The cases read the opening's Congress and home governor, not its
-  // households or town.
-  const small = smallWorld({
-    place: DEFAULT_NEW_GAME_SETUP.placeKey,
-    seed,
-    offices: ["congress", "governor"],
-  });
-  return openOrdinaryLife(small.world, small.personId);
+  const game = generateOpeningLife(
+    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
+  ).game!;
+  return openOrdinaryLife(game.world, game.playerPersonId);
 }
 
 function passTo(world: World, until: string): World {
