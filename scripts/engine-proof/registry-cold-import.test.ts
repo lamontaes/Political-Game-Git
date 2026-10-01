@@ -27,7 +27,9 @@ describe("registry construction on a life-path-first cold graph", () => {
   it("preserves duplicate rejection and first-registry handler precedence", () => {
     const key = "life-paths2:delegated-pay";
     const handler = LIFE_PATHS2_HANDLERS.get(key)!;
-    const later = LIFE_PATHS2_HANDLERS.get("education:study-period") ?? handler;
+    const later = LIFE_PATHS2_HANDLERS.get("life-paths2:pay")!;
+    expect(later).toBeTypeOf("function");
+    expect(later).not.toBe(handler);
     const first = createFutureTransitionHandlerRegistry([[key, handler]]);
     const second = createFutureTransitionHandlerRegistry([[key, later]]);
     expect(
