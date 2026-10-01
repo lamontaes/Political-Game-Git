@@ -954,30 +954,35 @@ export function confirmAssociateJustice(
     nomineeId,
     presidentId: president.personId,
   });
-  let next = briefed;
-  let voteEventId: EntityId | null = null;
-  if (vote) {
-    const recorded = recordConfirmationVote(next, {
-      stableKey: due.stableKey,
-      nomineeId,
-      officeTitle: ASSOCIATE_TITLE,
-      vote,
-      tags: [`judicial-seat:${seatId}`, vacancyTag],
-    });
-    next = recorded.world;
-    voteEventId = recorded.eventId;
-    if (!vote.confirmed)
-      return resolved(
-        scheduleAssociateNomination(
-          next,
-          ordinal,
-          vacancyDate,
-          president.personId,
-        ),
-        `The Senate rejected ${personName(nominee)}, ${vote.yeas} to ${vote.nays}.`,
-        voteEventId,
-      );
-  }
+  if (!vote)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "governing:senate-not-seated",
+      context:
+        "The Supreme Court nomination remains pending until a seated Senate records its vote.",
+      outcomeEventId: null,
+    };
+  const recorded = recordConfirmationVote(briefed, {
+    stableKey: due.stableKey,
+    nomineeId,
+    officeTitle: ASSOCIATE_TITLE,
+    vote,
+    tags: [`judicial-seat:${seatId}`, vacancyTag],
+  });
+  let next = recorded.world;
+  const voteEventId = recorded.eventId;
+  if (!vote.confirmed)
+    return resolved(
+      scheduleAssociateNomination(
+        next,
+        ordinal,
+        vacancyDate,
+        president.personId,
+      ),
+      `The Senate rejected ${personName(nominee)}, ${vote.yeas} to ${vote.nays}.`,
+      voteEventId,
+    );
   next = leaveCongressSeat(leaveLowerBench(next, nomineeId), nomineeId);
   next = seatJudge(next, {
     seatId,
@@ -989,9 +994,7 @@ export function confirmAssociateJustice(
       decisionRecordId: voteEventId,
       selectingPersonId: president.personId,
       contestId: null,
-      note: vote
-        ? `Confirmed by the Senate, ${vote.yeas} to ${vote.nays}.`
-        : "No seated Senate in this World; the nomination was confirmed without a roll call.",
+      note: `Confirmed by the Senate, ${vote.yeas} to ${vote.nays}.`,
     },
     termEndsAt: null,
     retentionDueAt: null,
