@@ -838,3 +838,60 @@ it("A38 ordinary weekly payment preserves actual saved-rule authority and withho
     netMinor: stub.netPaid.minorUnits,
   });
 });
+
+it("keeps completed earned pay from distinct work dates in separate observations", () => {
+  const first = completedEarnedLawFixture();
+  const paid = settleTownCompensations(first.worked.world, [first.period]);
+  const nextDate = advanceWorld(
+    paid,
+    1,
+    createFutureTransitionHandlerRegistry([]),
+  );
+  const scheduled = scheduleLifePathSession(nextDate, first.workId);
+  expect(scheduled.ok, scheduled.message).toBe(true);
+  const activity = scheduled.world.history.scheduledActivities.at(-1)!;
+  const worked = performLifePathSession(scheduled.world, activity.id);
+  expect(worked.ok, worked.message).toBe(true);
+  const completion = worked.world.history.events.find(
+    (row) =>
+      row.type === "life-paths2.work-session" &&
+      row.involvedEntityIds.includes(activity.id),
+  )!;
+  expect(completion).toBeDefined();
+  const terms = resourceFlowTermsAt(worked.world, first.f.flow.id, {
+    asOfDate: completion.occurredAt,
+    historySequenceExclusive: completion.sequence + 1,
+  })!;
+  const period = {
+    stableKey: `fixture:earned-law:${completion.id}`,
+    payFlowId: first.f.flow.id,
+    activityId: first.workId,
+    periodStartsAt: completion.occurredAt,
+    periodEndsAt: completion.occurredAt,
+    onDate: worked.world.currentDate,
+    completedShift: {
+      eventId: completion.id,
+      termsId: terms.id,
+      amount: terms.amount,
+    },
+  };
+  expect(period.periodStartsAt).not.toBe(first.period.periodStartsAt);
+  const secondPaid = settleTownCompensations(worked.world, [period]);
+  const observations = secondPaid.history.metricObservations.filter(
+    (row) => row.sourceSeriesKey === "payroll.completed-gross",
+  );
+  expect(observations).toHaveLength(2);
+  expect(
+    observations.every((row) => row.supersedesObservationId === null),
+  ).toBe(true);
+  for (const observation of observations) {
+    expect(observation.referencePeriod.kind).toBe("interval");
+    expect(observation.value).toEqual({
+      kind: "money",
+      money: money(8000, "USD"),
+    });
+  }
+  const reopened = deserializeWorld(serializeWorld(secondPaid));
+  expect(serializeWorld(reopened)).toBe(serializeWorld(secondPaid));
+  expect(settleTownCompensations(reopened, [period])).toBe(reopened);
+});
