@@ -72,6 +72,7 @@ import {
   seatLocalBusinesses,
 } from "../simulation/local-economy";
 import { hireAtAdultStart } from "../simulation/job-market";
+import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import type {
   CharacterHistoryTransition,
@@ -432,7 +433,7 @@ export function buildProductionWorld(
     ageOnDate(player.birthDate, world.currentDate) >= 19
   ) {
     // A grown-up start arrives with the job they hold, not between jobs.
-    world = hireAtAdultStart(seatLocalBusinesses(world, jurisdiction.id), {
+    world = hireAtAdultStart(ensureTownResidents(world, player.id), {
       personId: player.id,
       jurisdictionId: jurisdiction.id,
     });
