@@ -1,4 +1,5 @@
 import { addDays } from "./dates";
+import { nextMeasureNumbering } from "./measure-numbering";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
 import {
@@ -115,19 +116,6 @@ function districtQuestions(
     );
 }
 
-/** The game's own label for the next act this year: "Act 26-4". */
-export function nextDcCouncilDesignation(world: World): string {
-  const year = world.currentDate.slice(2, 4);
-  const taken = new Set(
-    municipalMeasures(world, DC_GOVERNMENT_KEY).map(
-      (measure) => measure.designation,
-    ),
-  );
-  let number = 1;
-  while (taken.has(`Act ${year}-${number}`)) number += 1;
-  return `Act ${year}-${number}`;
-}
-
 /** Members other than the player file what their principles press them to. */
 function fileActs(world: World): World {
   const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY);
@@ -153,13 +141,17 @@ function fileActs(world: World): World {
   });
   const year = next.currentDate.slice(0, 4);
   for (const filing of filings) {
-    const designation = nextDcCouncilDesignation(next);
+    const numbering = nextMeasureNumbering(next, {
+      jurisdictionId,
+      originChamber: rules.pack.chambers[0]!,
+      rulePackId: rules.pack.packId,
+    });
     const title = dcCouncilActTitle(filing.proposition.name, year);
     next = introduceMeasure(next, {
-      stableKey: municipalMeasureKey(DC_GOVERNMENT_KEY, designation),
+      stableKey: municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
       jurisdictionId,
       rulePackId: rules.pack.packId,
-      designation,
+      ...numbering,
       shortTitle: filing.answer === "yes" ? title : `Repeal: ${title}`,
       summary: `Answers "${filing.proposition.question}" with ${filing.answer}.`,
       origin: "member-introduction",

@@ -1,4 +1,9 @@
 import {
+  assertPermitIntegrity,
+  permitApplications,
+  permitStatuses,
+} from "./permits";
+import {
   privateBeliefSubjectId,
   validatePrivateBeliefSubject,
 } from "./political-opinion-subjects";
@@ -2094,6 +2099,8 @@ function validateHistoryIntegrity(
         ...publicProgramRecords(world),
         ...enactedDutyRecords(world),
         ...lawPermissionRecords(world),
+        ...permitApplications(world),
+        ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
         ...(history.workPayCoverageDeterminations ?? []),
         ...(history.districtResidenceIntervals ?? []),
@@ -2287,6 +2294,7 @@ function validateHistoryIntegrity(
   assertLawExposureIntegrity(world, ids);
   assertOfficialViewIntegrity(world, ids);
   assertLawPermissionIntegrity(world, ids);
+  assertPermitIntegrity(world, ids);
   assertLegalOutcomeConsequenceIntegrity(world);
   assertWorkPayCoverageIntegrity(world, ids);
   for (const interval of history.districtResidenceIntervals ?? []) {
