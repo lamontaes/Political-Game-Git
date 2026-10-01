@@ -20,8 +20,10 @@ import {
   availableMeasureSteps,
   measurePosition,
   recordEnactment,
+  recordExecutiveAction,
 } from "../legislation";
 import { recordFiledProvision } from "../legislative-politics";
+import { governorOfficeForJurisdiction } from "../governing/state-governing";
 import {
   seatBodyForPack,
   votePlanKeyForCommittee,
@@ -239,7 +241,8 @@ describe("recorded floors reach saved sentences", () => {
       for (
         let guard = 0;
         guard < 40 &&
-        measurePosition(world, measured.id).phase !== "awaiting-enactment";
+        measurePosition(world, measured.id).phase !== "awaiting-enactment" &&
+        measurePosition(world, measured.id).phase !== "awaiting-executive";
         guard++
       ) {
         const step = availableMeasureSteps(world, measured.id).find(
@@ -251,6 +254,34 @@ describe("recorded floors reach saved sentences", () => {
           );
         world = applyLegislativeStep(procedure, world, step).world;
       }
+      const governor = governorOfficeForJurisdiction(
+        world,
+        state.jurisdictionKey,
+      );
+      if (measurePosition(world, measured.id).phase === "awaiting-executive") {
+        expect(governor).not.toBeNull();
+        if (!governor) throw new Error("The fixture has no saved governor.");
+        expect(governor.holderPersonId).not.toBe(personId);
+        world = recordExecutiveAction(world, {
+          stableKey: "g10:canonical-floor:actual-governor-signature",
+          measureId: measured.id,
+          action: "signed",
+          actorPersonId: governor.holderPersonId,
+          rationale: "Authored fixture signature by the actual saved governor.",
+        });
+        const signed = world.history.events.find(
+          (event) =>
+            event.type === "legislation.measure-signed" &&
+            event.participants.some(
+              (participant) => participant.personId === governor.holderPersonId,
+            ),
+        );
+        expect(signed).toBeDefined();
+        expect(signed!.occurredAt).toBe(world.currentDate);
+      }
+      expect(measurePosition(world, measured.id).phase).toBe(
+        "awaiting-enactment",
+      );
       world = recordEnactment(world, {
         stableKey: "g10:canonical-floor:enacted",
         measureId: measured.id,
@@ -353,6 +384,10 @@ describe("recorded floors reach saved sentences", () => {
         sentenceId: saved.id,
         months: 120,
         measureId: measured.id,
+        governorId: governor?.holderPersonId,
+        governorName: governor
+          ? personName(world.people[governor.holderPersonId]!)
+          : null,
         summary: saved.summary,
         consequenceId: consequence.id,
         stamps: consequence.lawEffectStamps,
