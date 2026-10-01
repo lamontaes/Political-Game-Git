@@ -1,5 +1,6 @@
 /// <reference types="node" />
 import { writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
 import { adultLifeAt } from "../../tests/fixtures/state-executive-entry";
 import {
@@ -45,7 +46,10 @@ import {
 } from "../simulation/future-transitions";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
-import { recordWorldEvent } from "../simulation/world";
+import {
+  recordWorldEvent,
+  writeWithWorldIntegrityOnce,
+} from "../simulation/world";
 import {
   playerRequiredWorkIds,
   releasePlayerRequiredWork,
@@ -63,6 +67,7 @@ import {
 
 const governmentKey = "us-dc-washington";
 const profileCosts = new Map<string, number>();
+const profileWorlds: { state: string; seed: string; checksum: string }[] = [];
 function profile<T>(label: string, operation: () => T): T {
   if (!process.env.G6_MAYOR_PROFILE_PATH) return operation();
   const started = performance.now();
@@ -128,7 +133,9 @@ function presentedAct(seed: string, openingPlaceKey = "1150000") {
     ensureStateExecutiveIncumbent(world, openingPersonId, "DC"),
   );
   world = profile("actual-council-opening", () =>
-    ensureDistrictOfColumbiaCouncilOpening(world),
+    writeWithWorldIntegrityOnce(world, () =>
+      ensureDistrictOfColumbiaCouncilOpening(world),
+    ),
   );
   const mayor = municipalExecutiveHolder(world, governmentKey)!;
   expect(mayor).toBeTruthy();
@@ -291,6 +298,7 @@ afterAll(() => {
           phases: [...profileCosts]
             .map(([label, durationMs]) => ({ label, durationMs }))
             .sort((a, b) => b.durationMs - a.durationMs),
+          worlds: profileWorlds,
         },
         null,
         2,
@@ -457,6 +465,12 @@ describe("municipal executives use the shared bill evaluator", () => {
       const continued: World = profile("deserialize-world", () =>
         deserializeWorld(saved),
       );
+      if (process.env.G6_MAYOR_PROFILE_PATH)
+        profileWorlds.push({
+          state,
+          seed: world.seed,
+          checksum: createHash("sha256").update(saved).digest("hex"),
+        });
       expect(councilActExecutiveDeadlineHandler(continued, due).world).toBe(
         continued,
       );
