@@ -5,6 +5,7 @@ import {
   measurePosition,
 } from "../../src/simulation/legislation";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
+import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
 import { publishLegislativeTransition } from "../../src/presentation/publish-legislative-transition";
 import { advanceWorld, assertWorldIntegrity } from "../../src/simulation/world";
 import { daysBetween, makeIsoDate } from "../../src/simulation/dates";
@@ -88,6 +89,22 @@ export function enactedTaxFixture(
     measurePosition(world, fixture.procedure.measureId).phase !== "enacted";
     index++
   ) {
+    // A passed bill waits on the governor's desk. This procedure world seats
+    // no governor office to open a desk matter, so the governor's signature
+    // is recorded through the shared governor-decision writer, as the funded
+    // service fixture does.
+    if (
+      measurePosition(world, fixture.procedure.measureId).phase ===
+      "awaiting-executive"
+    ) {
+      world = recordGovernorDecisionOnMeasure(
+        world,
+        fixture.procedure.measureId,
+        "signed",
+        "Authored test contract: the governor signs the tax act.",
+      );
+      continue;
+    }
     const step = availableMeasureSteps(world, fixture.procedure.measureId).find(
       (key) => key !== "offer-amendment",
     );

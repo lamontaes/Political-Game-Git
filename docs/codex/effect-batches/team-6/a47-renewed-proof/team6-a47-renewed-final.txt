@@ -1,0 +1,154 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/public-budgets/federal-account.test.ts src/simulation/public-budgets/federal-law-cost-stamps.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team6-a47-renewed-final.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/public-budgets/federal-account.test.ts (61 tests | 1 failed) 34398ms
+     ✓ opens only the common federal budget without creating forecast books or cash 148ms
+     ✓ keeps legacy forecast bytes frozen when no federal cash account exists 41ms
+     ✓ retains an actual partial outlay when its mapped category is unregistered 27ms
+     × preserves the legacy federal paid component and authority IDs through the common cash settler 31199ms
+     ✓ joins a named worker's saved federal income and payroll payments to their actual account  421ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-AL 54ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-AK 50ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-AZ 53ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-AR 43ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-CA 51ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-CO 47ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-CT 47ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-DE 53ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-DC 44ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-FL 49ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-GA 53ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-HI 47ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-ID 40ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-IL 45ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-IN 43ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-IA 49ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-KS 48ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-KY 42ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-LA 42ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-ME 52ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-MD 52ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-MA 57ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-MI 45ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-MN 46ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-MS 51ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-MO 48ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-MT 41ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-NE 47ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-NV 40ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-NH 44ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-NJ 45ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-NM 40ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-NY 45ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-NC 49ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-ND 38ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-OH 39ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-OK 45ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-OR 45ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-PA 48ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-RI 49ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-SC 43ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-SD 44ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-TN 44ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-TX 40ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-UT 39ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-VT 45ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-VA 38ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-WA 37ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-WV 43ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-WI 39ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-WY 40ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-PR 42ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-GU 44ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-VI 49ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-AS 57ms
+     ✓ retains national cash, null state/local fields and replay safety alongside US-MP 48ms
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:defense.grow-def…' saves a changed federal budget row in 'Norman, North Carolina' ('team1-defense-cost-0')
+{"seed":"team1-defense-cost-0","place":"Norman, North Carolina","state":"US-NC","questionKey":"us-federal-positions:defense.grow-defense-spending","month":"2026-07-01","changedOutlays":1227805477,"extraBorrowing":1227805477,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:foreign-affairs.…' saves a changed federal budget row in 'Norman, North Carolina' ('team1-defense-cost-0')
+{"seed":"team1-defense-cost-0","place":"Norman, North Carolina","state":"US-NC","questionKey":"us-federal-positions:foreign-affairs.increase-foreign-aid","month":"2026-07-01","changedOutlays":252951391,"extraBorrowing":252951391,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:budget.pay-for-a…' saves a changed federal budget row in 'Norman, North Carolina' ('team1-defense-cost-0')
+{"seed":"team1-defense-cost-0","place":"Norman, North Carolina","state":"US-NC","questionKey":"us-federal-positions:budget.pay-for-a-higher-debt-limit","month":"2026-07-01","changedOutlays":-12499999999,"extraBorrowing":-12499999999,"stampedRows":11,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:agriculture.cut-…' saves a changed federal budget row in 'Norman, North Carolina' ('team1-defense-cost-0')
+{"seed":"team1-defense-cost-0","place":"Norman, North Carolina","state":"US-NC","questionKey":"us-federal-positions:agriculture.cut-farm-subsidies","month":"2026-07-01","changedOutlays":-323920040,"extraBorrowing":-323920040,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:defense.grow-def…' saves a changed federal budget row in 'Cottonwood, California' ('team1-defense-cost-1')
+{"seed":"team1-defense-cost-1","place":"Cottonwood, California","state":"US-CA","questionKey":"us-federal-positions:defense.grow-defense-spending","month":"2026-07-01","changedOutlays":1227805477,"extraBorrowing":1227805477,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:foreign-affairs.…' saves a changed federal budget row in 'Cottonwood, California' ('team1-defense-cost-1')
+{"seed":"team1-defense-cost-1","place":"Cottonwood, California","state":"US-CA","questionKey":"us-federal-positions:foreign-affairs.increase-foreign-aid","month":"2026-07-01","changedOutlays":252951391,"extraBorrowing":252951391,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:budget.pay-for-a…' saves a changed federal budget row in 'Cottonwood, California' ('team1-defense-cost-1')
+{"seed":"team1-defense-cost-1","place":"Cottonwood, California","state":"US-CA","questionKey":"us-federal-positions:budget.pay-for-a-higher-debt-limit","month":"2026-07-01","changedOutlays":-12499999999,"extraBorrowing":-12499999999,"stampedRows":11,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:agriculture.cut-…' saves a changed federal budget row in 'Cottonwood, California' ('team1-defense-cost-1')
+{"seed":"team1-defense-cost-1","place":"Cottonwood, California","state":"US-CA","questionKey":"us-federal-positions:agriculture.cut-farm-subsidies","month":"2026-07-01","changedOutlays":-323920040,"extraBorrowing":-323920040,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:defense.grow-def…' saves a changed federal budget row in 'Lakewood, New Jersey' ('team1-defense-cost-2')
+{"seed":"team1-defense-cost-2","place":"Lakewood, New Jersey","state":"US-NJ","questionKey":"us-federal-positions:defense.grow-defense-spending","month":"2026-07-01","changedOutlays":1227805477,"extraBorrowing":1227805477,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:foreign-affairs.…' saves a changed federal budget row in 'Lakewood, New Jersey' ('team1-defense-cost-2')
+{"seed":"team1-defense-cost-2","place":"Lakewood, New Jersey","state":"US-NJ","questionKey":"us-federal-positions:foreign-affairs.increase-foreign-aid","month":"2026-07-01","changedOutlays":252951391,"extraBorrowing":252951391,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:budget.pay-for-a…' saves a changed federal budget row in 'Lakewood, New Jersey' ('team1-defense-cost-2')
+{"seed":"team1-defense-cost-2","place":"Lakewood, New Jersey","state":"US-NJ","questionKey":"us-federal-positions:budget.pay-for-a-higher-debt-limit","month":"2026-07-01","changedOutlays":-12499999999,"extraBorrowing":-12499999999,"stampedRows":11,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:agriculture.cut-…' saves a changed federal budget row in 'Lakewood, New Jersey' ('team1-defense-cost-2')
+{"seed":"team1-defense-cost-2","place":"Lakewood, New Jersey","state":"US-NJ","questionKey":"us-federal-positions:agriculture.cut-farm-subsidies","month":"2026-07-01","changedOutlays":-323920040,"extraBorrowing":-323920040,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:defense.grow-def…' saves a changed federal budget row in 'Sellers, South Carolina' ('team1-defense-cost-3')
+{"seed":"team1-defense-cost-3","place":"Sellers, South Carolina","state":"US-SC","questionKey":"us-federal-positions:defense.grow-defense-spending","month":"2026-07-01","changedOutlays":1227805477,"extraBorrowing":1227805477,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:foreign-affairs.…' saves a changed federal budget row in 'Sellers, South Carolina' ('team1-defense-cost-3')
+{"seed":"team1-defense-cost-3","place":"Sellers, South Carolina","state":"US-SC","questionKey":"us-federal-positions:foreign-affairs.increase-foreign-aid","month":"2026-07-01","changedOutlays":252951391,"extraBorrowing":252951391,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:budget.pay-for-a…' saves a changed federal budget row in 'Sellers, South Carolina' ('team1-defense-cost-3')
+{"seed":"team1-defense-cost-3","place":"Sellers, South Carolina","state":"US-SC","questionKey":"us-federal-positions:budget.pay-for-a-higher-debt-limit","month":"2026-07-01","changedOutlays":-12499999999,"extraBorrowing":-12499999999,"stampedRows":11,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:agriculture.cut-…' saves a changed federal budget row in 'Sellers, South Carolina' ('team1-defense-cost-3')
+{"seed":"team1-defense-cost-3","place":"Sellers, South Carolina","state":"US-SC","questionKey":"us-federal-positions:agriculture.cut-farm-subsidies","month":"2026-07-01","changedOutlays":-323920040,"extraBorrowing":-323920040,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:defense.grow-def…' saves a changed federal budget row in 'Doe Valley, Kentucky' ('team1-defense-cost-4')
+{"seed":"team1-defense-cost-4","place":"Doe Valley, Kentucky","state":"US-KY","questionKey":"us-federal-positions:defense.grow-defense-spending","month":"2026-07-01","changedOutlays":1227805477,"extraBorrowing":1227805477,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:foreign-affairs.…' saves a changed federal budget row in 'Doe Valley, Kentucky' ('team1-defense-cost-4')
+{"seed":"team1-defense-cost-4","place":"Doe Valley, Kentucky","state":"US-KY","questionKey":"us-federal-positions:foreign-affairs.increase-foreign-aid","month":"2026-07-01","changedOutlays":252951391,"extraBorrowing":252951391,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:budget.pay-for-a…' saves a changed federal budget row in 'Doe Valley, Kentucky' ('team1-defense-cost-4')
+{"seed":"team1-defense-cost-4","place":"Doe Valley, Kentucky","state":"US-KY","questionKey":"us-federal-positions:budget.pay-for-a-higher-debt-limit","month":"2026-07-01","changedOutlays":-12499999999,"extraBorrowing":-12499999999,"stampedRows":11,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+stdout | src/simulation/public-budgets/federal-law-cost-stamps.test.ts > archived federal forecast laws retain compatibility stamps across five seeded states > 'us-federal-positions:agriculture.cut-…' saves a changed federal budget row in 'Doe Valley, Kentucky' ('team1-defense-cost-4')
+{"seed":"team1-defense-cost-4","place":"Doe Valley, Kentucky","state":"US-KY","questionKey":"us-federal-positions:agriculture.cut-farm-subsidies","month":"2026-07-01","changedOutlays":-323920040,"extraBorrowing":-323920040,"stampedRows":1,"scope":"controlled minimal budget fixture; legacy amount unrepaired","reloadAndRepeal":"PASS"}
+
+ ✓ src/simulation/public-budgets/federal-law-cost-stamps.test.ts (24 tests) 224ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/public-budgets/federal-account.test.ts > M5 federal government uses the same saved-payment settler > preserves the legacy federal paid component and authority IDs through the common cash settler
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/simulation/public-budgets/federal-account.test.ts:323:3
+    321|   });
+    322|
+    323|   it("preserves the legacy federal paid component and authority IDs th…
+       |   ^
+    324|     const game = generateOpeningLife(
+    325|       prepareOpeningLife({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 84 passed (85)
+   Start at  15:45:24
+   Duration  60.28s (transform 16.63s, setup 22ms, import 25.38s, tests 34.62s, environment 1ms)
+
+JSON report written to /tmp/team6-a47-renewed-final.json

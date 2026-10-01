@@ -1,5 +1,5 @@
 {
-  "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means the size is set when both measures exist in the world. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen. A cause named law:<qualified question key> is what the law in force says on a policy question (governing/law-in-force.ts): 1 when it says yes, 0 when it says no, and unrecorded where no law has answered it. A law cause is measured from the place's law on the calibration date (calibratedAt): its base data already includes the law in force then, so only a change from it moves the outcome. law:us-federal-positions:<key> is a question only Congress answers. A link's size is a baseline, not a literal number: each world draws the size for each place from the link's range (the spread the research reports), or from a default spread by evidence (researched 25% either way, provisional 50%, contested from none to twice the size). About-zero links stay at zero.",
+  "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means no numeric coefficient is recorded; the inventory does not infer one from the presence of measures. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen. A cause named law:<qualified question key> is what the law in force says on a policy question (governing/law-in-force.ts): 1 when it says yes, 0 when it says no, and unrecorded where no law has answered it. A law cause is measured from the place's law on the calibration date (calibratedAt): its base data already includes the law in force then, so only a change from it moves the outcome. law:us-federal-positions:<key> is a question only Congress answers. This inventory records structural capability and missing inputs; it does not change the effect-size reader. About-zero links stay at zero. status records the existing structural classifier, not proof that a law reached a person. evidence retains research confidence. unsupportedReason gives the existing missing-size, missing-cause or missing-outcome code; a person-level link can also lack a recorded numeric size.",
   "version": "outcome-web-v1",
   "targets": {
     "crime.burglary": {
@@ -52,6 +52,8 @@
   "links": [
     {
       "key": "unemployment-to-burglary",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.burglary",
       "strength": "moderate",
       "shape": {
@@ -70,6 +72,8 @@
     },
     {
       "key": "unemployment-to-vandalism",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.vandalism",
       "strength": "weak",
       "shape": {
@@ -87,6 +91,8 @@
     },
     {
       "key": "unemployment-to-robbery",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.robbery",
       "strength": "weak",
       "shape": {
@@ -104,6 +110,8 @@
     },
     {
       "key": "unemployment-to-assault",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.assault",
       "strength": "weak",
       "shape": {
@@ -121,6 +129,8 @@
     },
     {
       "key": "police-to-violent-crime",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "crime.violent",
       "strength": "moderate",
       "shape": {
@@ -150,6 +160,8 @@
     },
     {
       "key": "police-to-property-crime",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "crime.property",
       "strength": "moderate",
       "shape": {
@@ -179,6 +191,8 @@
     },
     {
       "key": "police-to-low-level-arrests",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "justice.low-level-arrests",
       "strength": "moderate",
       "shape": {
@@ -197,6 +211,8 @@
     },
     {
       "key": "summer-jobs-to-youth-violence",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "crime.youth-violent-arrests",
       "strength": "strong",
       "shape": {
@@ -215,6 +231,8 @@
     },
     {
       "key": "incarceration-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.all",
       "strength": "about-zero",
       "shape": {
@@ -232,6 +250,8 @@
     },
     {
       "key": "pretrial-detention-to-future-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.reoffense",
       "strength": "about-zero",
       "shape": {
@@ -249,6 +269,8 @@
     },
     {
       "key": "pretrial-detention-to-conviction",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "justice.conviction",
       "strength": "strong",
       "shape": {
@@ -268,6 +290,8 @@
     },
     {
       "key": "pretrial-detention-to-employment",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "labor.formal-employment",
       "strength": "strong",
       "shape": {
@@ -287,6 +311,8 @@
     },
     {
       "key": "release-lower-level-to-larceny",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "crime.larceny",
       "strength": "weak",
       "shape": {
@@ -306,6 +332,8 @@
     },
     {
       "key": "child-access-law-to-youth-gun-deaths",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.youth-firearm-deaths",
       "strength": "moderate",
       "shape": {
@@ -325,6 +353,8 @@
     },
     {
       "key": "stand-your-ground-to-homicide",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "crime.firearm-homicide",
       "strength": "moderate",
       "shape": {
@@ -372,6 +402,8 @@
     },
     {
       "key": "min-age-to-youth-gun-suicide",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.youth-firearm-suicide",
       "strength": "moderate",
       "shape": {
@@ -391,6 +423,8 @@
     },
     {
       "key": "crime-to-out-migration",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "population.out-migration",
       "strength": "strong",
       "shape": {
@@ -419,6 +453,8 @@
     },
     {
       "key": "speed-limit-to-traffic-deaths",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "traffic.fatality-rate",
       "strength": "strong",
       "shape": {
@@ -438,6 +474,8 @@
     },
     {
       "key": "particles-to-infant-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.infant-mortality",
       "strength": "strong",
       "shape": {
@@ -456,6 +494,8 @@
     },
     {
       "key": "congestion-to-premature-births",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.premature-births",
       "strength": "strong",
       "shape": {
@@ -500,6 +540,8 @@
     },
     {
       "key": "birth-year-pollution-to-adult-earnings",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "labor.earnings-at-30",
       "strength": "moderate",
       "shape": {
@@ -518,6 +560,8 @@
     },
     {
       "key": "water-violations-to-infant-health",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.low-birthweight",
       "strength": "moderate",
       "shape": {
@@ -536,6 +580,8 @@
     },
     {
       "key": "heat-to-deaths",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.heat-deaths",
       "strength": "moderate",
       "shape": {
@@ -558,6 +604,8 @@
     },
     {
       "key": "carbon-monoxide-to-absence",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.absence",
       "strength": "moderate",
       "shape": {
@@ -576,6 +624,8 @@
     },
     {
       "key": "emission-rules-to-particulates",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "env.particulates",
       "strength": "strong",
       "shape": {
@@ -595,6 +645,8 @@
     },
     {
       "key": "energy-price-to-ac-use",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "housing.ac-share",
       "strength": "moderate",
       "shape": {
@@ -613,6 +665,8 @@
     },
     {
       "key": "disaster-to-public-transfers",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "gov.nondisaster-transfers",
       "strength": "strong",
       "shape": {
@@ -632,6 +686,8 @@
     },
     {
       "key": "disaster-to-out-migration",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "population.out-migration",
       "strength": "moderate",
       "shape": {
@@ -651,6 +707,8 @@
     },
     {
       "key": "disaster-to-home-values",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "housing.home-prices",
       "strength": "moderate",
       "shape": {
@@ -670,6 +728,8 @@
     },
     {
       "key": "coverage-to-catastrophic-bills",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.catastrophic-medical-bills",
       "strength": "strong",
       "shape": {
@@ -689,6 +749,8 @@
     },
     {
       "key": "coverage-to-medical-debt",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "finance.medical-debt-in-collections",
       "strength": "strong",
       "shape": {
@@ -708,6 +770,8 @@
     },
     {
       "key": "coverage-to-depression",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.depression",
       "strength": "moderate",
       "shape": {
@@ -727,6 +791,8 @@
     },
     {
       "key": "coverage-to-blood-pressure",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "health.blood-pressure",
       "strength": "about-zero",
       "shape": {
@@ -744,6 +810,8 @@
     },
     {
       "key": "coverage-to-mortality-55-64",
+      "status": "person-level",
+      "unsupportedReason": null,
       "to": "health.mortality-55-64",
       "strength": "moderate",
       "shape": {
@@ -763,6 +831,8 @@
     },
     {
       "key": "work-requirement-to-coverage",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.uninsured-pct",
       "strength": "strong",
       "shape": {
@@ -800,6 +870,8 @@
     },
     {
       "key": "work-requirement-to-employment",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "labor.employment-rate",
       "strength": "about-zero",
       "shape": {
@@ -831,6 +903,8 @@
     },
     {
       "key": "job-loss-to-death-risk",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "health.death-risk",
       "strength": "strong",
       "shape": {
@@ -850,6 +924,8 @@
     },
     {
       "key": "recession-to-total-mortality",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "health.mortality-all",
       "strength": "about-zero",
       "shape": {
@@ -867,6 +943,8 @@
     },
     {
       "key": "long-hours-to-heart-and-stroke",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "health.stroke-and-heart-deaths",
       "strength": "moderate",
       "shape": {
@@ -885,6 +963,8 @@
     },
     {
       "key": "eitc-to-low-birthweight",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.low-birthweight",
       "strength": "weak",
       "shape": {
@@ -904,6 +984,8 @@
     },
     {
       "key": "child-food-stamps-to-adult-health",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "health.adult-metabolic-syndrome",
       "strength": "moderate",
       "shape": {
@@ -922,6 +1004,8 @@
     },
     {
       "key": "child-benefit-to-child-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "household.child-poverty",
       "strength": "strong",
       "shape": {
@@ -940,6 +1024,8 @@
     },
     {
       "key": "snap-to-food-insecurity",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "household.food-insecurity",
       "strength": "strong",
       "shape": {
@@ -958,6 +1044,8 @@
     },
     {
       "key": "minimum-wage-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "household.poverty-pct",
       "strength": "moderate",
       "shape": {
@@ -976,6 +1064,8 @@
     },
     {
       "key": "minimum-wage-to-low-wage-jobs",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "labor.low-wage-jobs",
       "strength": "weak",
       "shape": {
@@ -996,6 +1086,8 @@
     },
     {
       "key": "unemployment-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "household.poverty-pct",
       "strength": "strong",
       "shape": {
@@ -1014,6 +1106,8 @@
     },
     {
       "key": "parent-incarceration-to-household-income",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "household.income",
       "strength": "strong",
       "shape": {
@@ -1032,6 +1126,8 @@
     },
     {
       "key": "school-spending-to-attainment",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "school.years-completed",
       "strength": "strong",
       "shape": {
@@ -1072,6 +1168,8 @@
     },
     {
       "key": "child-coverage-to-graduation",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "school.graduation",
       "strength": "moderate",
       "shape": {
@@ -1090,6 +1188,8 @@
     },
     {
       "key": "teacher-quality-to-earnings",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "labor.earnings-at-28",
       "strength": "moderate",
       "shape": {
@@ -1108,6 +1208,8 @@
     },
     {
       "key": "class-size-to-scores",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.test-scores",
       "strength": "moderate",
       "shape": {
@@ -1148,6 +1250,8 @@
     },
     {
       "key": "prek-to-graduation",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.graduation",
       "strength": "moderate",
       "shape": {
@@ -1188,6 +1292,8 @@
     },
     {
       "key": "family-income-to-scores",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.test-scores",
       "strength": "moderate",
       "shape": {
@@ -1206,6 +1312,8 @@
     },
     {
       "key": "neighborhood-years-to-adult-outcomes",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "labor.adult-earnings",
       "strength": "strong",
       "shape": {
@@ -1224,6 +1332,8 @@
     },
     {
       "key": "homicide-nearby-to-scores",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "school.test-scores",
       "strength": "moderate",
       "shape": {
@@ -1243,6 +1353,8 @@
     },
     {
       "key": "police-killing-to-graduation",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.graduation",
       "strength": "moderate",
       "shape": {
@@ -1261,6 +1373,8 @@
     },
     {
       "key": "school-move-to-scores",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.test-scores",
       "strength": "weak",
       "shape": {
@@ -1279,6 +1393,8 @@
     },
     {
       "key": "lead-to-reading",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "school.far-below-proficient",
       "strength": "moderate",
       "shape": {
@@ -1298,6 +1414,8 @@
     },
     {
       "key": "heat-to-learning",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "school.learning",
       "strength": "weak",
       "shape": {
@@ -1321,6 +1439,8 @@
     },
     {
       "key": "home-internet-to-scores",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "school.test-scores",
       "strength": "about-zero",
       "shape": {
@@ -1338,6 +1458,8 @@
     },
     {
       "key": "enforcement-to-hispanic-enrollment",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "school.hispanic-enrollment",
       "strength": "strong",
       "shape": {
@@ -1357,6 +1479,8 @@
     },
     {
       "key": "daca-to-graduation",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.graduation",
       "strength": "strong",
       "shape": {
@@ -1375,6 +1499,8 @@
     },
     {
       "key": "graduation-to-earnings",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "labor.earnings",
       "strength": "strong",
       "shape": {
@@ -1415,6 +1541,8 @@
     },
     {
       "key": "graduation-to-incarceration",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "justice.incarceration-risk",
       "strength": "strong",
       "shape": {
@@ -1455,6 +1583,8 @@
     },
     {
       "key": "graduation-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "voting.turnout-pct",
       "strength": "moderate",
       "shape": {
@@ -1473,6 +1603,8 @@
     },
     {
       "key": "education-to-mortality",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.mortality-all",
       "strength": "weak",
       "shape": {
@@ -1491,6 +1623,8 @@
     },
     {
       "key": "new-apartments-to-nearby-rent",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "housing.rent",
       "strength": "moderate",
       "shape": {
@@ -1509,6 +1643,8 @@
     },
     {
       "key": "rent-control-to-rental-supply",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "housing.rental-supply",
       "strength": "moderate",
       "shape": {
@@ -1526,6 +1662,8 @@
     },
     {
       "key": "rent-control-to-tenant-stays",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "housing.renter-moves",
       "strength": "moderate",
       "shape": {
@@ -1543,6 +1681,8 @@
     },
     {
       "key": "rent-burden-to-homelessness",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "housing.homelessness",
       "strength": "strong",
       "shape": {
@@ -1564,6 +1704,8 @@
     },
     {
       "key": "eviction-to-homelessness",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "housing.homelessness",
       "strength": "strong",
       "shape": {
@@ -1616,6 +1758,8 @@
     },
     {
       "key": "eviction-to-hospital-visits",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.hospital-visits",
       "strength": "moderate",
       "shape": {
@@ -1668,6 +1812,8 @@
     },
     {
       "key": "home-prices-to-owner-births",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "births.owners",
       "strength": "moderate",
       "shape": {
@@ -1688,6 +1834,8 @@
     },
     {
       "key": "home-prices-to-renter-births",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "births.renters",
       "strength": "moderate",
       "shape": {
@@ -1708,6 +1856,8 @@
     },
     {
       "key": "property-tax-to-rent",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "housing.rent",
       "strength": "weak",
       "shape": {
@@ -1727,6 +1877,8 @@
     },
     {
       "key": "transit-loss-to-unemployment",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "labor.unemployment-pct",
       "strength": "moderate",
       "shape": {
@@ -1745,6 +1897,8 @@
     },
     {
       "key": "broadband-to-employment",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "labor.employment-rate",
       "strength": "moderate",
       "shape": {
@@ -1763,6 +1917,8 @@
     },
     {
       "key": "broadband-to-married-women-work",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "labor.married-women-participation",
       "strength": "moderate",
       "shape": {
@@ -1781,6 +1937,8 @@
     },
     {
       "key": "road-condition-to-vehicle-costs",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "household.vehicle-costs",
       "strength": "weak",
       "shape": {
@@ -1799,6 +1957,8 @@
     },
     {
       "key": "corporate-tax-incidence",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "labor.wages",
       "strength": "moderate",
       "shape": {
@@ -1818,6 +1978,8 @@
     },
     {
       "key": "incentive-deal-to-industry-jobs",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "labor.deal-industry-jobs",
       "strength": "weak",
       "shape": {
@@ -1836,6 +1998,8 @@
     },
     {
       "key": "incentive-deal-to-broad-growth",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "economy.broad-growth",
       "strength": "about-zero",
       "shape": {
@@ -1853,6 +2017,8 @@
     },
     {
       "key": "unemployment-to-births",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "births.rate",
       "strength": "moderate",
       "shape": {
@@ -1871,6 +2037,8 @@
     },
     {
       "key": "enforcement-to-undocumented-employment",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "labor.undocumented-employment",
       "strength": "moderate",
       "shape": {
@@ -1889,6 +2057,8 @@
     },
     {
       "key": "enforcement-to-us-born-employment",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "labor.us-born-employment",
       "strength": "weak",
       "shape": {
@@ -1907,6 +2077,8 @@
     },
     {
       "key": "child-tax-credit-to-births",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "births.rate",
       "strength": "about-zero",
       "shape": {
@@ -1924,6 +2096,8 @@
     },
     {
       "key": "baby-bonus-to-births",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "births.rate",
       "strength": "weak",
       "shape": {
@@ -1942,6 +2116,8 @@
     },
     {
       "key": "marriage-equality-to-marriages",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "family.same-sex-marriages",
       "strength": "strong",
       "shape": {
@@ -1960,6 +2136,8 @@
     },
     {
       "key": "marriage-equality-to-coverage",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.uninsured-pct",
       "strength": "moderate",
       "shape": {
@@ -1979,6 +2157,8 @@
     },
     {
       "key": "abortion-ban-to-births",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "births.rate",
       "strength": "moderate",
       "shape": {
@@ -1997,6 +2177,8 @@
     },
     {
       "key": "abortion-ban-to-infant-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.infant-mortality",
       "strength": "moderate",
       "shape": {
@@ -2014,6 +2196,8 @@
     },
     {
       "key": "abortion-denied-to-financial-distress",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "finance.past-due-debt",
       "strength": "strong",
       "shape": {
@@ -2033,6 +2217,8 @@
     },
     {
       "key": "universal-childcare-to-mothers-work",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "labor.mothers-participation",
       "strength": "strong",
       "shape": {
@@ -2072,6 +2258,8 @@
     },
     {
       "key": "voter-id-to-turnout",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "voting.turnout-pct",
       "strength": "about-zero",
       "shape": {
@@ -2089,6 +2277,8 @@
     },
     {
       "key": "same-day-registration-to-youth-turnout",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "voting.youth-turnout",
       "strength": "moderate",
       "shape": {
@@ -2108,6 +2298,8 @@
     },
     {
       "key": "all-mail-voting-to-turnout",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "voting.turnout-pct",
       "strength": "weak",
       "shape": {
@@ -2127,6 +2319,8 @@
     },
     {
       "key": "all-mail-voting-to-party-share",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "voting.party-share",
       "strength": "about-zero",
       "shape": {
@@ -2144,6 +2338,8 @@
     },
     {
       "key": "polling-distance-to-turnout",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "voting.turnout-pct",
       "strength": "moderate",
       "shape": {
@@ -2163,6 +2359,8 @@
     },
     {
       "key": "newspaper-closure-to-borrowing-cost",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "gov.borrowing-cost",
       "strength": "moderate",
       "shape": {
@@ -2181,6 +2379,8 @@
     },
     {
       "key": "newspaper-closure-to-engagement",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "voting.local-turnout",
       "strength": "moderate",
       "shape": {
@@ -2200,6 +2400,8 @@
     },
     {
       "key": "exposed-corruption-to-reelection",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "election.incumbent-reelection",
       "strength": "strong",
       "shape": {
@@ -2223,6 +2425,8 @@
     },
     {
       "key": "press-attacks-to-media-trust",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "press.media-trust",
       "strength": "moderate",
       "shape": {
@@ -2241,6 +2445,8 @@
     },
     {
       "key": "relief-spending-to-votes",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "election.incumbent-vote",
       "strength": "strong",
       "shape": {
@@ -2259,6 +2465,8 @@
     },
     {
       "key": "preparedness-spending-to-votes",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "election.incumbent-vote",
       "strength": "about-zero",
       "shape": {
@@ -2276,6 +2484,8 @@
     },
     {
       "key": "preparedness-to-disaster-damage",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "disaster.damage",
       "strength": "strong",
       "shape": {
@@ -2294,6 +2504,8 @@
     },
     {
       "key": "economy-to-approval",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "approval.incumbent",
       "strength": "strong",
       "shape": {
@@ -2312,6 +2524,8 @@
     },
     {
       "key": "medicaid-expansion-to-coverage",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2344,6 +2558,8 @@
     },
     {
       "key": "medicaid-expansion-to-mortality",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2376,6 +2592,8 @@
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2408,6 +2626,8 @@
     },
     {
       "key": "snap-work-requirement-to-participation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2440,6 +2660,8 @@
     },
     {
       "key": "universal-prek-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2480,6 +2702,8 @@
     },
     {
       "key": "equalized-funding-to-spending",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2520,6 +2744,8 @@
     },
     {
       "key": "end-cash-bail-to-pretrial-detention",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2539,6 +2765,8 @@
     },
     {
       "key": "mandatory-minimums-to-incarceration",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2557,6 +2785,8 @@
     },
     {
       "key": "concealed-carry-permit-to-firearm-homicide",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2575,6 +2805,8 @@
     },
     {
       "key": "voter-id-to-registration",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "strength": "about-zero",
       "shape": {
         "kind": "linear"
@@ -2592,6 +2824,8 @@
     },
     {
       "key": "automatic-registration-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2610,6 +2844,8 @@
     },
     {
       "key": "restore-voting-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2669,6 +2905,8 @@
     },
     {
       "key": "housing-by-right-to-new-buildings",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2686,6 +2924,8 @@
     },
     {
       "key": "right-to-counsel-to-evictions",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2704,6 +2944,8 @@
     },
     {
       "key": "housing-first-to-homelessness",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2736,6 +2978,8 @@
     },
     {
       "key": "cannabis-sales-to-youth-use",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "about-zero",
       "shape": {
         "kind": "linear"
@@ -2754,6 +2998,8 @@
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2772,6 +3018,8 @@
     },
     {
       "key": "paid-leave-to-mothers-work",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2790,6 +3038,8 @@
     },
     {
       "key": "carbon-price-to-emissions",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2808,6 +3058,8 @@
     },
     {
       "key": "container-deposit-to-litter",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2826,6 +3078,8 @@
     },
     {
       "key": "container-deposit-to-prices",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2844,6 +3098,8 @@
     },
     {
       "key": "clean-electricity-to-price",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2862,6 +3118,8 @@
     },
     {
       "key": "flood-zone-limits-to-damage",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2880,6 +3138,8 @@
     },
     {
       "key": "container-deposit-to-recycling",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:environment-energy.bottle-deposit",
       "to": "env.container-recycling-pct",
       "strength": "strong",
@@ -2900,6 +3160,8 @@
     },
     {
       "key": "unemployment-to-uninsured",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.uninsured-pct",
       "strength": "strong",
       "shape": {
@@ -2922,6 +3184,8 @@
     },
     {
       "key": "federal-minimum-wage-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2945,6 +3209,8 @@
     },
     {
       "key": "federal-minimum-wage-to-low-wage-jobs",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2964,6 +3230,8 @@
     },
     {
       "key": "mandatory-minimum-cut-to-federal-prisoners",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2983,6 +3251,8 @@
     },
     {
       "key": "power-plant-carbon-to-emissions",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -3001,6 +3271,8 @@
     },
     {
       "key": "power-plant-carbon-to-particulates",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3019,6 +3291,8 @@
     },
     {
       "key": "tariffs-to-prices",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3037,6 +3311,8 @@
     },
     {
       "key": "housing-vouchers-to-homelessness",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -3055,6 +3331,8 @@
     },
     {
       "key": "retirement-age-to-older-work",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3073,6 +3351,8 @@
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3091,6 +3371,8 @@
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -3114,6 +3396,8 @@
     },
     {
       "key": "student-debt-relief-to-finances",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3132,6 +3416,8 @@
     },
     {
       "key": "more-immigration-to-workforce",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3150,6 +3436,8 @@
     },
     {
       "key": "universal-prek-to-math-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -3190,6 +3478,8 @@
     },
     {
       "key": "universal-prek-to-reading-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:education.universal-preschool",
       "to": "school.reading-proficient-pct",
       "strength": "weak",
@@ -3230,6 +3520,8 @@
     },
     {
       "key": "universal-prek-to-violent-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:education.universal-preschool",
       "to": "crime.violent",
       "strength": "weak",
@@ -3270,6 +3562,8 @@
     },
     {
       "key": "equalized-funding-to-math-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3310,6 +3604,8 @@
     },
     {
       "key": "equalized-funding-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3350,6 +3646,8 @@
     },
     {
       "key": "vouchers-to-math-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -3390,6 +3688,8 @@
     },
     {
       "key": "vouchers-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -3430,6 +3730,8 @@
     },
     {
       "key": "poverty-to-math-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3448,6 +3750,8 @@
     },
     {
       "key": "uninsured-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -3466,6 +3770,8 @@
     },
     {
       "key": "graduation-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3484,6 +3790,8 @@
     },
     {
       "key": "crime-level-to-burglary",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "crime.violent:pct-of-start",
       "to": "crime.burglary",
       "strength": "strong",
@@ -3504,6 +3812,8 @@
     },
     {
       "key": "crime-level-to-robbery",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "crime.violent:pct-of-start",
       "to": "crime.robbery",
       "strength": "strong",
@@ -3524,6 +3834,8 @@
     },
     {
       "key": "crime-level-to-assault",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "crime.violent:pct-of-start",
       "to": "crime.assault",
       "strength": "strong",
@@ -3544,6 +3856,8 @@
     },
     {
       "key": "crime-level-to-vandalism",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "crime.violent:pct-of-start",
       "to": "crime.vandalism",
       "strength": "strong",
@@ -3564,6 +3878,8 @@
     },
     {
       "key": "births-level-to-births",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "births.rate-index",
       "to": "births.rate",
       "strength": "strong",
@@ -3582,6 +3898,8 @@
     },
     {
       "key": "right-to-work-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:labor-workforce.right-to-work",
       "to": "voting.turnout-pct",
       "strength": "moderate",
@@ -3600,6 +3918,8 @@
     },
     {
       "key": "public-bargaining-to-graduation",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
       "to": "school.graduation-pct",
       "strength": "about-zero",
@@ -3617,6 +3937,8 @@
     },
     {
       "key": "juvenile-court-age-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
       "to": "crime.violent",
       "strength": "about-zero",
@@ -3634,6 +3956,8 @@
     },
     {
       "key": "crisis-response-to-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
       "to": "crime.violent",
       "strength": "weak",
@@ -3666,6 +3990,8 @@
     },
     {
       "key": "curriculum-standards-to-math",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:education.state-curriculum-standards",
       "to": "school.math-proficient-pct",
       "strength": "about-zero",
@@ -3683,6 +4009,8 @@
     },
     {
       "key": "teacher-minimum-salary-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
       "to": "school.graduation-pct",
       "strength": "weak",
@@ -3723,6 +4051,8 @@
     },
     {
       "key": "property-tax-cap-to-math",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.cap-property-tax-growth",
       "to": "school.math-proficient-pct",
       "strength": "moderate",
@@ -3741,6 +4071,8 @@
     },
     {
       "key": "grocery-exemption-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3758,6 +4090,8 @@
     },
     {
       "key": "civilian-oversight-to-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
       "to": "crime.violent",
       "strength": "weak",
@@ -3776,6 +4110,8 @@
     },
     {
       "key": "harm-reduction-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
       "to": "crime.violent",
       "strength": "about-zero",
@@ -3807,6 +4143,8 @@
     },
     {
       "key": "licensing-reform-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:business-commerce.reduce-occupational-licensing",
       "to": "household.poverty-pct",
       "strength": "weak",
@@ -3825,6 +4163,8 @@
     },
     {
       "key": "independent-redistricting-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:government-operations.independent-redistricting",
       "to": "voting.turnout-pct",
       "strength": "weak",
@@ -3843,6 +4183,8 @@
     },
     {
       "key": "term-limits-to-turnout",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:government-operations.legislative-term-limits",
       "to": "voting.turnout-pct",
       "strength": "about-zero",
@@ -3860,6 +4202,8 @@
     },
     {
       "key": "library-funding-to-math",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
       "to": "school.math-proficient-pct",
       "strength": "about-zero",
@@ -3877,6 +4221,8 @@
     },
     {
       "key": "income-tax-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.adopt-income-tax",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3894,6 +4240,8 @@
     },
     {
       "key": "graduated-income-tax-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.graduated-income-tax",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3911,6 +4259,8 @@
     },
     {
       "key": "facial-recognition-limit-to-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
       "to": "crime.violent",
       "strength": "weak",
@@ -3943,6 +4293,8 @@
     },
     {
       "key": "anti-discrimination-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3960,6 +4312,8 @@
     },
     {
       "key": "incentive-cap-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:business-commerce.cap-development-incentives",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3977,6 +4331,8 @@
     },
     {
       "key": "by-right-permitting-to-homelessness",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:housing-land-use.by-right-permitting",
       "to": "housing.homelessness",
       "strength": "weak",
@@ -3995,6 +4351,8 @@
     },
     {
       "key": "housing-preemption-to-homelessness",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:housing-land-use.preempt-local-housing-limits",
       "to": "housing.homelessness",
       "strength": "weak",
@@ -4018,6 +4376,8 @@
     },
     {
       "key": "inclusionary-to-homelessness",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
       "to": "housing.homelessness",
       "strength": "about-zero",
@@ -4041,6 +4401,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "carry-permit-to-violent-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "size": -0.1,
       "range": [-0.15, -0.04],
@@ -4059,6 +4421,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "end-cash-bail-to-violent-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "size": 0,
       "per": "law in force",
@@ -4076,6 +4440,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "cannabis-sales-to-violent-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "size": 0,
       "per": "law in force",
@@ -4093,6 +4459,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "mandatory-minimums-to-violent-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "size": 0,
       "per": "law in force",
@@ -4110,6 +4478,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "clean-electricity-to-particulates",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "env.particulates",
       "size": -0.01,
       "range": [-0.03, 0],
@@ -4128,6 +4498,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "carbon-price-to-particulates",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "env.particulates",
       "size": -0.005,
       "range": [-0.02, 0],
@@ -4140,6 +4512,8 @@
     },
     {
       "key": "retirement-age-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "to": "household.poverty-pct",
       "strength": "moderate",
@@ -4158,6 +4532,8 @@
     },
     {
       "key": "immigration-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:immigration.admit-more-immigrants",
       "to": "crime.rate-index",
       "strength": "about-zero",
@@ -4175,6 +4551,8 @@
     },
     {
       "key": "federal-mandatory-minimums-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
       "to": "crime.rate-index",
       "strength": "about-zero",
@@ -4192,6 +4570,8 @@
     },
     {
       "key": "housing-vouchers-to-graduation",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "school.graduation-pct",
       "strength": "weak",
@@ -4210,6 +4590,8 @@
     },
     {
       "key": "housing-vouchers-to-crime",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "crime.rate-index",
       "strength": "weak",
@@ -4228,6 +4610,8 @@
     },
     {
       "key": "top-income-tax-rate-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:tax.raise-top-income-tax-rate",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -4245,6 +4629,8 @@
     },
     {
       "key": "student-loan-forgiveness-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:education.forgive-student-loans",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -4262,6 +4648,8 @@
     },
     {
       "key": "grocery-exemption-to-food-insecurity",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
       "to": "household.food-insecurity",
       "strength": "moderate",
@@ -4280,6 +4668,8 @@
     },
     {
       "key": "harm-reduction-to-overdose-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
       "to": "health.overdose-deaths",
       "strength": "weak",
@@ -4312,6 +4702,8 @@
     },
     {
       "key": "public-bargaining-to-earnings",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
       "to": "labor.median-earnings",
       "strength": "weak",
@@ -4330,6 +4722,8 @@
     },
     {
       "key": "library-funding-to-reading",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
       "to": "school.reading-proficient-pct",
       "strength": "weak",
@@ -4348,6 +4742,8 @@
     },
     {
       "key": "public-broadband-to-home-access",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:transportation-infrastructure.public-broadband",
       "to": "broadband.home-access",
       "strength": "weak",
@@ -4366,6 +4762,8 @@
     },
     {
       "key": "gas-hookup-ban-to-child-asthma",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
       "to": "health.child-asthma-pct",
       "strength": "weak",
@@ -4384,6 +4782,8 @@
     },
     {
       "key": "tuition-freeze-to-college-completion",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:education.freeze-public-tuition",
       "to": "school.college-completion-pct",
       "strength": "about-zero",
@@ -4401,6 +4801,8 @@
     },
     {
       "key": "income-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.adopt-income-tax",
       "to": "population.out-migration",
       "strength": "about-zero",
@@ -4418,6 +4820,8 @@
     },
     {
       "key": "graduated-income-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.graduated-income-tax",
       "to": "population.out-migration",
       "strength": "about-zero",
@@ -4435,6 +4839,8 @@
     },
     {
       "key": "balanced-budget-to-borrowing-cost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
       "to": "gov.borrowing-cost",
       "strength": "moderate",
@@ -4454,6 +4860,8 @@
     },
     {
       "key": "pension-funding-to-borrowing-cost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
       "to": "gov.borrowing-cost",
       "strength": "weak",
@@ -4473,6 +4881,8 @@
     },
     {
       "key": "reserve-balance-to-borrowing-cost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.minimum-reserve-balance",
       "to": "gov.borrowing-cost",
       "strength": "weak",
@@ -4492,6 +4902,8 @@
     },
     {
       "key": "fare-free-transit-to-ridership",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:transportation-infrastructure.fare-free-transit",
       "to": "transit.ridership",
       "strength": "strong",
@@ -4510,6 +4922,8 @@
     },
     {
       "key": "cannabis-sales-to-overdose-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.overdose-deaths",
       "strength": "weak",
@@ -4528,6 +4942,8 @@
     },
     {
       "key": "congress-stock-ban-to-member-returns",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
       "to": "government.member-market-returns",
       "strength": "weak",
@@ -4546,6 +4962,8 @@
     },
     {
       "key": "privacy-law-to-earnings",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
       "to": "labor.median-earnings",
       "strength": "about-zero",
@@ -4577,6 +4995,8 @@
     },
     {
       "key": "library-materials-to-reading",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
       "to": "school.reading-proficient-pct",
       "strength": "weak",
@@ -4595,6 +5015,8 @@
     },
     {
       "key": "city-anti-discrimination-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -4612,6 +5034,8 @@
     },
     {
       "key": "highway-money-for-transit-to-service",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
       "to": "transit.service-access",
       "strength": "moderate",
@@ -4630,6 +5054,8 @@
     },
     {
       "key": "farmland-easements-to-farmland-lost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
       "to": "farmland.developed-acres",
       "strength": "strong",
@@ -4648,6 +5074,8 @@
     },
     {
       "key": "groundwater-limits-to-irrigation-pumping",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
       "to": "water.irrigation-groundwater",
       "strength": "moderate",
@@ -4666,6 +5094,8 @@
     },
     {
       "key": "defense-contracts-to-earnings",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "federal.defense-boost-pct",
       "to": "labor.median-earnings",
       "strength": "moderate",
@@ -4683,6 +5113,8 @@
     },
     {
       "key": "farm-payments-cut-to-land-values",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "federal.farm-payments-cut-pct-of-land-value",
       "to": "farmland.value-per-acre",
       "strength": "moderate",
@@ -4701,6 +5133,8 @@
     },
     {
       "key": "transit-service-to-ridership",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "transit.service-access:pct-moved-by-causes",
       "to": "transit.ridership",
       "strength": "moderate",
@@ -4719,6 +5153,8 @@
     },
     {
       "key": "federal-deficit-to-borrowing-cost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "federal.deficit-change-pct-of-gdp",
       "to": "gov.borrowing-cost",
       "strength": "moderate",
@@ -4737,6 +5173,8 @@
     },
     {
       "key": "fix-it-first-to-poor-roads",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:transportation-infrastructure.fix-it-first",
       "to": "roads.poor-condition-pct",
       "strength": "moderate",
@@ -4755,6 +5193,8 @@
     },
     {
       "key": "poor-roads-to-prices",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "roads.poor-condition-pct:moved-by-causes",
       "to": "household.prices",
       "strength": "weak",
@@ -4773,6 +5213,8 @@
     },
     {
       "key": "federal-rail-expansion-to-riders",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "federal.rail-expansion-pct",
       "to": "rail.intercity-ridership",
       "strength": "moderate",
@@ -4791,6 +5233,8 @@
     },
     {
       "key": "parks-spending-to-exercise-access",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "budget.parks-added-pct",
       "to": "parks.access-to-exercise",
       "strength": "weak",

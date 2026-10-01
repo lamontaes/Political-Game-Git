@@ -1,6 +1,10 @@
 import { makeIsoDate } from "./dates";
 import type { LawInForce } from "./governing/law-in-force";
-import type { StandingProgramAuthority } from "./law-consequence-types";
+import type {
+  LawConsequenceKind,
+  LegacyEffectKind,
+  StandingProgramAuthority,
+} from "./law-consequence-types";
 import type { EntityId, IsoDate } from "./types";
 
 /** Attribution on an actual saved consequence, not a claim that it occurred. */
@@ -21,7 +25,7 @@ export interface LawEffectStamp {
 }
 
 export interface LawEffectContext {
-  readonly effectKind: string;
+  readonly effectKind: LawConsequenceKind | LegacyEffectKind;
   readonly questionKey: string | null;
   readonly jurisdictionId: EntityId;
   readonly appliedAt: IsoDate;
