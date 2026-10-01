@@ -69,7 +69,9 @@ describe("what the laws did here", () => {
       "Share of people without health insurance runs higher because of a change in the law",
     );
     expect(coverage.sentence).toContain(coverage.valueText);
-    expect(coverage.sentence).toContain(coverage.withoutLawText);
+    expect(coverage.sentence).toContain(
+      `The model estimates that without that change it would stand at ${coverage.withoutLawText}.`,
+    );
   });
 
   it("leaves a state without the expansion alone", () => {
