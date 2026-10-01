@@ -105,6 +105,8 @@ export interface LegislativeMotifGrounding {
    * now holds it (the adopted provision) or not. Null when the speaker is
    * talking about another section.
    */
+  /** Whoever would write the fiscal note, when the bargain names them. */
+  readonly analystPersonId?: EntityId;
   readonly requestedSection?: {
     readonly adoptedProvisionId: EntityId | null;
   } | null;
@@ -245,44 +247,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
     },
   },
 
-  "refuse-to-commit-yet": {
-    shared: [
-      {
-        key: "not-yet",
-        line: (f) =>
-          `“I'm not going to tell you yes today. Ask me again when ${f.sectionLabel} says what it's going to say.”`,
-      },
-      {
-        key: "no-promise",
-        line: () =>
-          `“I've been in rooms where somebody's yes turned into a two-hour argument. I'd rather not give you one I can't keep.”`,
-      },
-    ],
-    byVoice: {
-      "fiscal-guardian": [
-        {
-          key: "want-number",
-          line: (f) =>
-            `“No. Not until I see what ${f.designation} actually commits us to. I'm not going to be the one who finds out in the second year.”`,
-        },
-      ],
-      "implementation-realist": [
-        {
-          key: "want-agency",
-          line: (f) =>
-            `“Not yet. I want to hear from somebody who'd have to run this before I put my name on it. ${f.analyst} can get me that.”`,
-        },
-      ],
-      "procedural-institutionalist": [
-        {
-          key: "want-posture",
-          line: () =>
-            `“I'll tell you when I know how this is coming to the floor. Committing before that is how people end up voting twice on the same question.”`,
-        },
-      ],
-    },
-  },
-
   "demand-narrower-scope": {
     shared: [
       {
@@ -304,37 +268,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
           key: "pilot-first",
           line: (f) =>
             `“Make it a pilot with a defined population. If ${f.sectionLabel} opens statewide on day one, the first thing that breaks is the intake.”`,
-        },
-      ],
-    },
-  },
-
-  "object-on-implementation": {
-    shared: [
-      {
-        key: "who-runs-it",
-        line: (f) =>
-          `“Who administers ${f.sectionLabel}? Because the way it reads, three agencies each think it's one of the others.”`,
-      },
-    ],
-    byVoice: {
-      "implementation-realist": [
-        {
-          key: "staffing",
-          line: (f) =>
-            `“I've watched this department miss a deadline with twice the staff. ${f.sectionLabel} gives them a new program and no position count.”`,
-        },
-        {
-          key: "rulemaking",
-          line: () =>
-            `“Even if this passes in March, rulemaking takes the rest of the year. Whatever you're promising people, it isn't happening this year.”`,
-        },
-      ],
-      "procedural-institutionalist": [
-        {
-          key: "effective-date",
-          line: (f) =>
-            `“There's no effective date that matches the fiscal year in ${f.sectionLabel}. That alone will bring it back to us.”`,
         },
       ],
     },
@@ -432,25 +365,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
           `“It's two lines. Change ${f.sectionLabel}, leave the rest of ${f.designation} alone, and half this argument goes away.”`,
       },
     ],
-  },
-
-  "accept-principle-reject-mechanism": {
-    shared: [
-      {
-        key: "agree-not-this",
-        line: (f) =>
-          `“I agree with what you're trying to do. I don't agree that ${f.sectionLabel} is how you do it, and voting for the wrong mechanism doesn't get us the right one.”`,
-      },
-    ],
-    byVoice: {
-      "implementation-realist": [
-        {
-          key: "grant-vs-formula",
-          line: () =>
-            `“Grants mean somebody has to apply, and the places that need this least apply best. Do it by formula and I'm with you.”`,
-        },
-      ],
-    },
   },
 
   "press-visibility-concern": {
@@ -586,6 +500,14 @@ export function engineLine(context: LegislativeMotifContext) {
       place: word(facts.place),
       amount: word(facts.amount),
       "stated-ground": word(facts.statedGround),
+      "section-heading": word(facts.sectionHeading),
+      analyst: grounding.analystPersonId
+        ? word(facts.analyst, [grounding.analystPersonId])
+        : undefined,
+      "bill-amount":
+        grounding.billAmountSourceIds.length > 0
+          ? word(facts.billAmount, [...grounding.billAmountSourceIds])
+          : undefined,
       "section-absent":
         requested && requested.adoptedProvisionId === null
           ? word("absent")

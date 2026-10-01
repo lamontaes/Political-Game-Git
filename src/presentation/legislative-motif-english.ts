@@ -24,13 +24,19 @@ export type EnglishMotifFamily =
   | "district-beneficiary-concern"
   | "reciprocal-support"
   | "leadership-pressure"
-  | "timing-warning";
+  | "timing-warning"
+  | "refuse-to-commit-yet"
+  | "object-on-implementation"
+  | "accept-principle-reject-mechanism";
 
 export const ENGLISH_MOTIF_FAMILIES: readonly EnglishMotifFamily[] = [
   "district-beneficiary-concern",
   "reciprocal-support",
   "leadership-pressure",
   "timing-warning",
+  "refuse-to-commit-yet",
+  "object-on-implementation",
+  "accept-principle-reject-mechanism",
 ];
 
 export type MotifVoice =
@@ -54,6 +60,9 @@ export type MotifFactKey =
   | "place"
   | "amount"
   | "stated-ground"
+  | "section-heading"
+  | "analyst"
+  | "bill-amount"
   | "section-absent"
   | "section-adopted";
 
@@ -206,6 +215,224 @@ const BANKS: Readonly<Record<EnglishMotifFamily, FamilyBanks>> = {
         ],
       },
     }),
+  },
+  "refuse-to-commit-yet": {
+    shared: bank("legislative.refuse-to-commit-yet", "undecided", {
+      opener: {
+        variants: [{ key: "name", kind: "template", text: "{{listener}}," }],
+      },
+      core: {
+        variants: [
+          {
+            key: "not-today",
+            kind: "template",
+            text: "I'm not going to tell you yes on {{designation}} today.",
+          },
+          {
+            key: "not-yet",
+            kind: "template",
+            text: "not yet on {{designation}}.",
+          },
+        ],
+      },
+      reason: {
+        variants: [
+          {
+            key: "section-settles",
+            kind: "template",
+            text: "Ask me again when {{section-label}} says what it's going to say.",
+          },
+        ],
+      },
+    }),
+    byVoice: {
+      "fiscal-guardian": bank(
+        "legislative.refuse-to-commit-yet.fiscal-guardian",
+        "undecided",
+        {
+          opener: {
+            variants: [
+              { key: "name", kind: "template", text: "{{listener}}," },
+            ],
+          },
+          core: {
+            variants: [
+              {
+                key: "not-until-number",
+                kind: "template",
+                text: "not until I know what {{designation}} commits us to.",
+              },
+            ],
+          },
+          reason: {
+            variants: [
+              {
+                key: "reads-now",
+                kind: "template",
+                text: "As it reads now it's {{bill-amount}}, and I want to see that number hold.",
+              },
+            ],
+          },
+        },
+      ),
+      "implementation-realist": bank(
+        "legislative.refuse-to-commit-yet.implementation-realist",
+        "undecided",
+        {
+          opener: {
+            variants: [
+              { key: "name", kind: "template", text: "{{listener}}," },
+            ],
+          },
+          core: {
+            variants: [
+              {
+                key: "not-yet",
+                kind: "template",
+                text: "not yet on {{designation}}.",
+              },
+            ],
+          },
+          reason: {
+            variants: [
+              {
+                key: "analyst-first",
+                kind: "template",
+                text: "I want {{analyst}}'s read on {{section-label}} before I put my name on it.",
+              },
+            ],
+          },
+        },
+      ),
+      "procedural-institutionalist": bank(
+        "legislative.refuse-to-commit-yet.procedural-institutionalist",
+        "undecided",
+        {
+          opener: {
+            variants: [
+              { key: "name", kind: "template", text: "{{listener}}," },
+            ],
+          },
+          core: {
+            variants: [
+              {
+                key: "not-yet",
+                kind: "template",
+                text: "not yet on {{designation}}.",
+              },
+            ],
+          },
+          reason: {
+            variants: [
+              {
+                key: "how-it-comes",
+                kind: "template",
+                text: "I'll answer when I know how it comes to {{next-step}} in the {{chamber}}.",
+              },
+            ],
+          },
+        },
+      ),
+    },
+  },
+
+  "object-on-implementation": {
+    shared: bank("legislative.object-on-implementation", "complain", {
+      core: {
+        variants: [
+          {
+            key: "who-runs-it",
+            kind: "template",
+            text: "before I'm with you on {{designation}}, {{listener}}, I want to know who runs {{section-label}} and how.",
+          },
+          {
+            key: "heading",
+            kind: "template",
+            text: "{{section-label}}, {{section-heading}}: tell me who runs it.",
+          },
+        ],
+      },
+    }),
+    byVoice: {
+      "implementation-realist": bank(
+        "legislative.object-on-implementation.implementation-realist",
+        "complain",
+        {
+          core: {
+            variants: [
+              {
+                key: "hear-from-runner",
+                kind: "template",
+                text: "I want to hear from whoever would have to run {{section-label}} before I put my name on {{designation}}.",
+              },
+              {
+                key: "analyst",
+                kind: "template",
+                text: "{{analyst}} can tell us what it takes to stand up {{section-label}}. I'd like that before {{next-step}}.",
+              },
+            ],
+          },
+        },
+      ),
+      "procedural-institutionalist": bank(
+        "legislative.object-on-implementation.procedural-institutionalist",
+        "complain",
+        {
+          core: {
+            variants: [
+              {
+                key: "settle-first",
+                kind: "template",
+                text: "I'd like {{section-label}} settled before {{next-step}}, not fixed on the floor of the {{chamber}}.",
+              },
+            ],
+          },
+        },
+      ),
+    },
+  },
+
+  "accept-principle-reject-mechanism": {
+    shared: bank(
+      "legislative.accept-principle-reject-mechanism",
+      "suggest-another-way",
+      {
+        opener: {
+          variants: [{ key: "name", kind: "template", text: "{{listener}}," }],
+        },
+        core: {
+          variants: [
+            {
+              key: "agree-not-this",
+              kind: "template",
+              text: "I agree with what you're trying to do with {{designation}}. I don't agree that {{section-label}} is how you do it.",
+            },
+          ],
+        },
+      },
+    ),
+    byVoice: {
+      "implementation-realist": bank(
+        "legislative.accept-principle-reject-mechanism.implementation-realist",
+        "suggest-another-way",
+        {
+          opener: {
+            variants: [
+              { key: "name", kind: "template", text: "{{listener}}," },
+            ],
+          },
+          core: {
+            variants: [
+              {
+                key: "goal-not-part",
+                kind: "template",
+                text: "the goal of {{designation}} I can support. {{section-label}}, {{section-heading}}, is the part I can't.",
+              },
+            ],
+          },
+        },
+      ),
+    },
   },
 };
 
