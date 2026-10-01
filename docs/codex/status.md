@@ -1,3 +1,21 @@
+# Coordinator checkpoint — October 1, 8:03 a.m. Eastern
+
+Service and budget repairs are ready for review. The rebuild remains incomplete.
+
+- Service guard #1530 is READY at 1782e53f2658f47d48c2b186a903cce2f0223e70 under the CTO's explicit inherited-baseline condition. Team 3 executed original tests on that head and main 007aec6e29084d62ed4ebf0ef864beaeb5148204: both 112 failures and 5 passes, with identical ordered failures and assertions. Coordinator independently checked types: 793 files, zero diagnostics. Raw comparison is published at ece0eba30c52f363cfcc79021327eaadab376117. This is not a green runtime suite.
+- Team 5 service test repair #1537 is READY at 34c6bb949344491b846a516f20d06878ad252cab. Team-reported 115/115 tests and zero type errors; coordinator source review completed.
+- Team 6 budget fixtures #1531 are READY at 2297b54931913521fa26ece209641c89a17a3d2f. Team-reported 29/29 tests; original carry tolerance retained. Coordinator reviewed the funding reconciliation.
+- Team 1 received concrete guards for exact budget-intake/request reuse and explicit hold-flat-only unchanged drafts. Shared decision mapping, statutory timing and stalemate remain CTO decisions. #1541 remains partial.
+- Team 3 is testing the existing weekly-job settler entry. Audit consumes it in the dated adapter; current presentation caller stays until parity proof. Increased completed-shift pay still needs CTO approval for an append-only earned-law assessment and validated transfer reference. HistoricalCutoff approval is separate.
+- Team 9 received the A102 narrow ownership transfer described in engine-rebuild-ownership.md and the existing judge/venue contract. No new civil schema approved.
+- Team 8's immediate finding consumer does not establish a later natural subject-decision trigger. Audit verified the missing connection; #1505 remains partial.
+- Team 7 research #1508 is at 746b6120e11734cae296a29cbb1fb6bf06a7af23. No production home/voter admission; core #1540 remains draft.
+- Audit campaign #1542 d4f287ba39949cc677e84553d8ca9ceeb4f8217c stays draft for CTO numeric/core disposition. Removing noise does not prove actual voter turnout.
+
+Verified merge: #1539 at de850136539de7c9bb14abd69d64ec70ab3b361e. No newer merge is inferred. Team-reported tests above were not independently rerun unless expressly stated. Shared checkout's 224 dirty entries are preserved.
+
+---
+
 # Payroll integration has resumed after the restart
 
 The rebuild remains incomplete. The shared pay contract includes shift-completion identifiers. Team 3’s writer integration remains pending. This checkpoint does not establish that payments saved or consumed those identifiers. The interrupted local service check has no recoverable result, so its repair remains draft. Cloud messaging works again, and previously idle teams have received the decisions that clear their next builds.
