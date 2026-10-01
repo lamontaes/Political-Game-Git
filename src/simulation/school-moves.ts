@@ -31,6 +31,29 @@ export function holdsSchoolPlace(world: World, personId: EntityId): boolean {
   });
 }
 
+// Organizations by the place any of their profiles names, built once per
+// profile list (append-only, so a new list means a new index).
+const BY_PLACE = new WeakMap<
+  World["history"]["organizationProfiles"],
+  Map<EntityId, Set<EntityId>>
+>();
+
+function organizationsByPlace(world: World): Map<EntityId, Set<EntityId>> {
+  const profiles = world.history.organizationProfiles;
+  let index = BY_PLACE.get(profiles);
+  if (!index) {
+    index = new Map();
+    for (const profile of profiles) {
+      if (!profile.locationJurisdictionId) continue;
+      let set = index.get(profile.locationJurisdictionId);
+      if (!set) index.set(profile.locationJurisdictionId, (set = new Set()));
+      set.add(profile.organizationId);
+    }
+    BY_PLACE.set(profiles, index);
+  }
+  return index;
+}
+
 /**
  * The schools recorded in a place that teach a program: an organization
  * located there whose own pupils were enrolled in it. A building nobody has
@@ -41,13 +64,8 @@ function schoolsTeaching(
   jurisdictionId: EntityId,
   program: EducationEnrollment["programKind"],
 ): readonly { id: EntityId; pupils: number }[] {
-  const organizationIds = new Set(
-    recordsByStringField(
-      world.history.organizationProfiles,
-      "locationJurisdictionId",
-      jurisdictionId,
-    ).map((profile) => profile.organizationId),
-  );
+  const organizationIds =
+    organizationsByPlace(world).get(jurisdictionId) ?? new Set<EntityId>();
   const schools: { id: EntityId; pupils: number }[] = [];
   for (const id of organizationIds) {
     const profile = organizationProfileAt(world, id);
