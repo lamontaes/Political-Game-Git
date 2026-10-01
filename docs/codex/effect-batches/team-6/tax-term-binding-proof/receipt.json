@@ -1,0 +1,81 @@
+{
+  "scope": "A33 read-only term binding plus existing handler gate; no new catalog-tax assessment activation",
+  "testFiles": [
+    "src/simulation/tax-law-term-binding.test.ts",
+    "src/simulation/law-consequences/tax.test.ts"
+  ],
+  "final": {
+    "passed": 17,
+    "failed": 0,
+    "durationSeconds": 21.86,
+    "binder": 8,
+    "handler": 9
+  },
+  "retainedInitialFailure": {
+    "passed": 16,
+    "failed": 1,
+    "cause": "New test expected empty arrays; canonical untouched optional history arrays were absent."
+  },
+  "types": {
+    "roots": 4,
+    "traversedFiles": 1142,
+    "ownedDiagnostics": 0
+  },
+  "missing": [
+    "Canonical plural category query date/cutoff endpoint",
+    "Shared historical governing-law cutoff binding",
+    "Starting-law proposal binding",
+    "Authority outside existing sourced state-excise contract"
+  ],
+  "sourceSha256": {
+    "src/simulation/tax-law-term-binding.ts": "47473a0cd7589d020149f65c834ada623fedd8db7eef2e8638e8d327e37bb57f",
+    "src/simulation/tax-law-term-binding.test.ts": "396eb7db276e9d7e32a1c128d5797c75156eafdf8a022e406cb618b332c9b888",
+    "src/simulation/law-consequences/tax.ts": "82fcc348747522ea0935b5ecc42212c7c5aedb6e224e2a90e031d9d940d8ef8b",
+    "src/simulation/law-consequences/tax.test.ts": "79e4b70e2abc3dba2231db4d23c3235a6f3c04dbec4aef72e18fd1fd773c9b71"
+  },
+  "spellingInheritedMainBlobs": {
+    "docs/audits/2026-09-30/bedrock.md": true,
+    "docs/audits/2026-09-30/dice.md": true,
+    "docs/audits/2026-09-30/engines.md": true,
+    "docs/audits/2026-09-30/golden-rule.md": true,
+    "docs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json": true,
+    "docs/codex/effect-batches/team-9/a10-composer-proof.json": true,
+    "docs/codex/effect-batches/team-9/michigan-cpl-source.json": true,
+    "docs/release/changes/plain-american-wording.md": true,
+    "docs/release/changes/team2-governing-reports-require-recorded-actions.md": true,
+    "src/presentation/mayor-executive-decision.test.ts": true,
+    "src/presentation/president-player-desk.test.ts": true,
+    "src/simulation/governing/recorded-governing-action.test.ts": true,
+    "src/simulation/governing/state-governing.ts": true,
+    "src/simulation/justice/clemency-request-activities.test.ts": true,
+    "src/simulation/justice/prosecution-composer.test.ts": true
+  },
+  "notRun": [
+    "whole suite",
+    "game years",
+    "browser",
+    "nationwide natural tax activation"
+  ],
+  "noCompletedLiabilityRepricing": true,
+  "originalReceiptSha256": {
+    "team6-tax-binding-consumer.json": "caac6fad5a7185891c50d7294bb315e75d6bc976d8ff560870255116af5e4ef0",
+    "team6-tax-binding-consumer.log": "dbcaa6eb584672e34b82d790ffa9a790c8edabec6fc085291e1ba9f67a7ca9d6",
+    "team6-tax-binding-consumer-final.json": "858421f7b35c23db9e278dd1d546d8da76ccec32ad96f64317d99458751297c5",
+    "team6-tax-binding-consumer-final.log": "9a69f22f2872c66e4ae4820e5aeb67f35a7b3f65efdc94ee32814c0e7e73db2c",
+    "team6-tax-binding-consumer-types.log": "ffbec0ecac9b3e1341821fa7700dc3f09b2bb11a72fffcf06948dafc7b5196de",
+    "team6-tax-binding-release.log": "cb4a6bfe8b64ef56275b6daf5ae7e69bc17cdd7c8adea16075a5238c6d8febf6",
+    "team6-tax-binding-consumer-dice.log": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+    "team6-tax-binding-spelling.log": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1"
+  },
+  "publishedReceiptSha256": {
+    "team6-tax-binding-consumer.json": "0e42afa5a3c858467c9f69569b0a3cf593f6e82ebe9b4bac0daa05531f271788",
+    "team6-tax-binding-consumer.log": "dbcaa6eb584672e34b82d790ffa9a790c8edabec6fc085291e1ba9f67a7ca9d6",
+    "team6-tax-binding-consumer-final.json": "b2060ae06801df45309fbec770f340c37ffa72a3dfa3f7fa9dd3f5b540604807",
+    "team6-tax-binding-consumer-final.log": "9a69f22f2872c66e4ae4820e5aeb67f35a7b3f65efdc94ee32814c0e7e73db2c",
+    "team6-tax-binding-consumer-types.log": "ffbec0ecac9b3e1341821fa7700dc3f09b2bb11a72fffcf06948dafc7b5196de",
+    "team6-tax-binding-release.log": "cb4a6bfe8b64ef56275b6daf5ae7e69bc17cdd7c8adea16075a5238c6d8febf6",
+    "team6-tax-binding-consumer-dice.log": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+    "team6-tax-binding-spelling.log": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1"
+  },
+  "receiptFormatting": "JSON whitespace formatted; original byte hashes retained; logs copied byte-for-byte."
+}
