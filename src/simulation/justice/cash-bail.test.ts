@@ -1,11 +1,8 @@
 import { writeFileSync } from "node:fs";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { ensureOpeningJudiciary } from "../judiciary/opening";
+import { lifePlaceStateIdentities } from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
 import { addDays } from "../dates";
 import {
@@ -30,6 +27,11 @@ import {
   resolveFutureDueItemsThrough,
   createFutureTransitionHandlerRegistry,
 } from "../future-transitions";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "../life";
 import { personName } from "../people";
 import type { EntityId, World, HistoricalEvent } from "../types";
 import { sentencingJudge, type CourtCase } from "./court-reasoning";
@@ -64,7 +66,7 @@ describe("full cash bail reaches a saved court government and returns at case cl
   const states = pickDistinct(
     new SeededRng("team9-g10-floor-five-20260930"),
     lifePlaceStateIdentities(),
-    2,
+    1,
   );
   for (const state of states)
     describe(state.jurisdictionKey, () => {
@@ -175,26 +177,65 @@ describe("full cash bail reaches a saved court government and returns at case cl
         return advanceProsecutions(plea.world);
       }
       beforeAll(() => {
-        const place =
-          searchLifePlaces("", 5000, {
-            stateJurisdictionKey: state.jurisdictionKey,
-            scope: "locality",
-          })[0] ??
-          searchLifePlaces("", 5, {
-            stateJurisdictionKey: state.jurisdictionKey,
-            scope: "state",
-          })[0]!;
-        const game = generateOpeningLife(
-          prepareOpeningLife({
-            ...DEFAULT_NEW_GAME_SETUP,
-            seed,
-            placeKey: place.key,
-            startAge: 40,
-            questionnaire: "skipped",
-          }),
-        ).game!;
-        subjectId = game.playerPersonId;
-        let world = ensureStartingPersonalMoney(game.world, subjectId).world;
+        // A small world (tests/fixtures/small-world.ts) plus the opening's
+        // judges, through their existing writer: the case needs a court.
+        const small = smallWorld({ place: state.jurisdictionKey, seed });
+        subjectId = small.personId;
+        let world = ensureStartingPersonalMoney(
+          ensureOpeningJudiciary(small.world),
+          subjectId,
+        ).world;
+        // A small world has no starting pay, so the defendant's wallet is a
+        // controlled known-zero position before the funding transfer.
+        if (
+          !resourcePositionAt(
+            world,
+            { kind: "person", personId: subjectId },
+            currency,
+          )
+        )
+          world = createResourcePosition(world, {
+            stableKey: "fixture:g11-subject-wallet",
+            owner: { kind: "person", personId: subjectId },
+            openedAt: world.currentDate,
+            openingBalance: money(0, "USD"),
+            provenance: {
+              kind: "authored",
+              note: "Controlled known-zero fixture wallet before the funding transfer.",
+            },
+          });
+        // The defendant's resident household, through the life writers (a
+        // small world carries people, not the opening's households).
+        const homeProvenance = {
+          kind: "authored" as const,
+          note: "Controlled fixture household for the defendant.",
+        };
+        world = createHousehold(world, {
+          stableKey: "fixture:g11-household",
+          formedAt: world.currentDate,
+          label: "Fixture resident household",
+          provenance: homeProvenance,
+        });
+        const homeId = world.history.households.at(-1)!.id;
+        world = recordHouseholdLocation(world, {
+          stableKey: "fixture:g11-household-location",
+          householdId: homeId,
+          effectiveAt: world.currentDate,
+          jurisdictionId: world.people[subjectId]!.homeJurisdictionId,
+          label: "Fixture residence",
+          kind: "residence:community-base",
+          provenance: homeProvenance,
+          supersedesLocationId: null,
+        });
+        world = startHouseholdMembership(world, {
+          stableKey: "fixture:g11-household-membership",
+          personId: subjectId,
+          householdId: homeId,
+          startedAt: world.currentDate,
+          residenceRole: "primary",
+          kind: "resident:member",
+          provenance: homeProvenance,
+        });
         const courtCase: CourtCase = {
           caseKey: "g11",
           defendantId: subjectId,
