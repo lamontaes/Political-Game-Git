@@ -626,7 +626,6 @@ export function finalizePreStartPlayer(
     player.id,
     input.districtHomeJoinVersion,
   );
-  if (!opening.deferStartingLaws) world = applyStartingLawConsequences(world);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }
