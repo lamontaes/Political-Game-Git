@@ -48,3 +48,13 @@ Team 1 additionally owns only the legislative-politics-integrity.ts provision-lo
 - Team 5 continues N1 recorded scene companions and presence. Library decisions are unsupported tonight; no library body, title inventory or challenge producer is authorized. Team 8 retains press ownership until an exact newsroom lookup hunk is released.
 
 These are ownership and scope decisions, not evidence of completed implementation, tests or merges.
+
+## Confirmed narrow releases, September 30, 10:23 p.m. Eastern
+
+- Team 1 owns optional PropositionParameter.allowedValues declaration support, policy parameter cloning and validation, and the final categorical provision reader. Missing allowed values mean unsupported. Team 9 owns only the mandatory-minimum-sentences coverage parameter allowedValues in policy-pack-us-policy-positions.ts and its justice consumer, using the existing raw CrimeOffense kinds. Other catalog rows remain protected.
+- Team 4 owns the minimal recorded principal-reduction writer in household-loans.ts and its student-debt adapter. Recorded tuition shortfalls may use the approved existing federal lender and sourced Direct Loan limits and rates; cash-paid tuition never becomes debt. Existing loan writers remain intact.
+- Team 6 alone owns the estimatedDeduction fallback hunk in income-tax-withholding.ts: plain average of read states, preserving known deductions. Team 3 retains payroll call sites and shift pay; redundant M1b work was cancelled by the CTO at 10:17 p.m.
+- Team 8 owns press/media-purchase-payment.ts, its focused test, and the existing press/ownership.ts purchase caller. Extract the existing financial transfer path; no new money writer or generated buyer cash. Team 8 also owns weekly newsroom-generation caller removal. Team 5 needs no press lookup edit. Team 9 retains prosecution and clemency calls.
+- Audit owns the identical semantic transition-key validator extraction and re-export plus the future-transitions import required for cold-load repair. Team 7 owns the existing life-opportunities refresh call to Team 3’s salary initializer after a reproduced candidate regression. No second salary producer is released.
+
+These grants describe ownership, not completed proof or permission to merge.
