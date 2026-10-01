@@ -5,4 +5,4 @@ section: Fixed
 title: Day-based waiting follows the game clock
 ---
 
-Demo and childhood time advances and waits for a younger successor keep their local target date and time and use the same clock as other time advances.
+Day advancement and the demo, formative interval and successor wait now use the shared minute clock. Local target times survive daylight-saving changes. Advancement stops at the actual commitment frontier and keeps its saved result instead of skipping it.

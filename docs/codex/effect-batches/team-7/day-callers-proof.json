@@ -81,5 +81,92 @@
     "exitCode": 1,
     "result": "Whole gate FAIL on unchanged main findings/stale entries; allowlist untouched",
     "firstHarnessFailure": "Set-valued overlay path caused ENOENT; corrected before scan completed"
+  },
+  "A3Current": {
+    "source": "ee4344f33a1136456051380e22f04f2dd0b389de",
+    "main": "e1fc68cfc6c33b7d1bb867f01487ae6032db2a2a",
+    "runtime": {
+      "files": 3,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 34.07,
+      "exitCode": 0,
+      "filtered": false
+    },
+    "types": [
+      {
+        "head": "70cff27d5b2098cf26949eb9a1d14c2351fceb49",
+        "roots": [
+          "src/simulation/demo.ts",
+          "src/simulation/people-continuation.ts",
+          "src/simulation/character-history.ts",
+          "src/simulation/day-caller-migration.test.ts",
+          "src/simulation/day-caller-child-parity.test.ts",
+          "scripts/engine-proof/parity.test.ts",
+          "src/simulation/world.ts",
+          "src/simulation/future-transitions.ts",
+          "src/simulation/world-metrics.ts",
+          "src/simulation/future-transition-registry.ts",
+          "src/simulation/routine-hook-members.ts",
+          "src/simulation/semantic-transition-key.ts"
+        ],
+        "files": 879,
+        "diagnostics": 0,
+        "sourceMode": "exact committed Git objects; no dirty source reads"
+      },
+      {
+        "head": "ee4344f33a1136456051380e22f04f2dd0b389de",
+        "roots": ["scripts/engine-proof/day-adapter.test.ts"],
+        "files": 870,
+        "diagnostics": 0,
+        "sourceMode": "exact committed Git objects; no dirty source reads"
+      }
+    ],
+    "boundarySource": "92233b4994be09c6c592a804452ecc045f517ecb",
+    "received": "five import-boundary hunks, no time-work default hunk",
+    "adapter": "advanceWorld target local moment to elapsed minutes; return minute result; unchecked deleted",
+    "parityScope": "30-day empty-person fixture, canonical minute-route hash; not old legacy event-format parity",
+    "failuresRetained": [
+      {
+        "kind": "no discovered test inputs",
+        "result": "exit1; no tests"
+      },
+      {
+        "kind": "missing physical baseline artifact",
+        "passed": 8,
+        "failedSuites": 1,
+        "durationSeconds": 45.18
+      },
+      {
+        "kind": "wrong original-input stop expectation",
+        "passed": 9,
+        "failed": 1,
+        "skipped": 8,
+        "durationSeconds": 55.84
+      },
+      {
+        "kind": "app-only Node environment",
+        "diagnostics": 4
+      }
+    ],
+    "priorCorrectedSelected": {
+      "source": "70cff27d5b2098cf26949eb9a1d14c2351fceb49",
+      "passed": 10,
+      "skipped": 8,
+      "durationSeconds": 69.18
+    },
+    "fullFileSeparation": "old parity.test restored byte-identical to main; new day-adapter.test.ts",
+    "notRun": [
+      "browser",
+      "full suite",
+      "old independent-history parity",
+      "400-day populated parity",
+      "all56 worlds",
+      "speed",
+      "year"
+    ],
+    "sharedPreserved": true,
+    "approval": "Audit source boundary only; CTO core review pending"
   }
 }

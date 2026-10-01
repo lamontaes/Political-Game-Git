@@ -1,25 +1,35 @@
-# Three day callers reach the existing minute route
+# Day advancement uses the existing minute clock
 
-The demo, formative interval and successor waiting callers now advance through the existing minute route with the complete world-handler registry. Each keeps the requested local date and time across daylight saving changes. Positive whole-day refusals and caller follow-through remain. This draft depends on Audit's published import-boundary repair.
+Day advancement now follows the minute clock and returns its actual result. The demo, formative interval and successor wait use that same route. Thirty daily presses retain the same saved state as minute advancement. A controlled appointment stops advancement at its start instead of being skipped. The candidate is ready for CTO core review; deployment and full clock migration remain separate.
 
-## Before and after
+## Changed behavior
 
-These callers used the legacy day bridge. Their released replacements calculate the actual target moment and elapsed minutes, then call the existing minute writer with the canonical composer. Successor waiting also composes the supplied handlers. Demo occurrence processing, formative projections and the successor survival/handoff checks remain in their existing callers.
+Before: The day clock independently resolved due items, applied date boundaries and appended a separate day event. The three callers used that route. It could move beyond commitments that the minute route handles.
 
-## Executed proof
+After: The compatibility day entry validates positive whole days, derives the target local moment and delegates once to the existing minute clock. It returns the actual stopped world. The independent advanceWorldUnchecked implementation is deleted. The three callers retain their demo occurrence, formative projection and successor handoff behavior. Day advancement now records minute completion without a second legacy day event.
 
-The final two changed test files pass eight cases in 66.89 seconds. They cover cold imports, 1,380- and 1,500-minute DST days, deterministic demo occurrence, exact minute-route saved-state comparisons, formative projection, successor handoff, reload and invalid-day refusals. The reduced and young-person worlds are controlled fixtures, not natural births or player runs.
+## Measured results
 
-The first combined run passed five demo cases and failed two child fixtures because a changed birth date contradicted retained adult facts. The fixture now uses the canonical starting-person constructor. The repaired pair passed before the final combined run. Original assertions and timeout budgets remain.
+All three changed test files passed unfiltered: ten tests, zero skipped, in 34.07 seconds. Tests compare the complete canonical saved-state hash over thirty daily presses. They cover the actual sixty-minute appointment frontier, one action and one minute event, unchanged input, pending appointment, invalid-day refusal, DST days of 1,380 and 1,500 minutes, demo occurrences, formative projections, successor handoff and reload.
 
-Ten scoped strict roots contain 797 files and zero diagnostics. All ten overlaid TypeScript files passed actual stdin lint before the fixture correction; the changed child fixture passes renewed lint and formatting. The final child type receipt is recorded separately. No core body is authored here. The portability guard adds no findings relative to main. Both graphs retain two unallowlisted findings and five stale entries. The whole guard remains failed; its allowlist is unchanged.
+The thirty-day fixture has no people. The appointment fixture contains one controlled person and an authored commitment. These are bounded integration checks. They do not prove natural play, populated annual behavior, all jurisdictions, or old day-event-format parity.
 
-## Dependency and limits
+The original stopped-world expectation was wrong: the shared routine advances to the appointment start rather than returning an unchanged input. The recorded run passed nine tests and failed that expectation. The corrected fixture checks the exact surviving minute result and frontier. Production code did not change for this correction. All existing caller assertions remain, and time limits are unchanged.
 
-The proof uses main 9891ad2ebdfde4bb79869ae290d26ba98eefe425 and five exact import-boundary files from Audit #1358 at 92233b4994be09c6c592a804452ecc045f517ecb. Newer main campaign and time-work service code remains intact. The Team7 branch contains only three caller changes, two tests and delivery records; it does not duplicate Audit's core files.
+## Boundaries
 
-This is equivalence to the explicit canonical minute route in the named fixtures. Native clean-main execution, legacy full-history parity, populated 400-day parity, all 56 worlds, exclusive speed comparison, browser play and full suites are NOT RUN. Core review and approved dependency integration remain required before readiness.
+Audit approved the clock-only world adapter and supplied the published five-module import-boundary prerequisite. The existing compatibility exports and routine composition cache remain. Root's earned-pay and county enumeration and integrity hooks were preserved. Time-work default composition, full handler composition and terminal opening remain with their owners. The minute entry still defaults to an empty list on the tested main; A4 is next.
 
-## Next and delivery
+The existing heavyweight parity file is byte-identical to main. The two new cases live in a separate bounded test file so all changed files run without name filters. There is no new clock, registry mechanism, timezone fallback, forced target date or second completion event.
 
-CTO reviews the dependent caller patch with Audit. Merge owns integration. Team7 then renews the changed checks on the admitted main and continues the county assignment. An isolated index preserves the shared checkout and dirty work. No save, art or CI snapshot changes occur. No helper reviewer pass is claimed.
+## Remaining work
+
+CTO must review the consequential clock change. Only Merge may merge it. A3 remains a candidate until its production admission and replacement route are verified. A4 default minute handlers, A5 monthly player settlers and A125 remaining undecided callers remain separate pending items. Browser, full suite, old independent-history parity, 400-day populated parity, all 56 worlds, speed and year checks were not run. No helper reviewer, owner approval, merge, installation or wider rebuild completion is claimed.
+
+## Method
+
+Runtime source ee4344f33a1136456051380e22f04f2dd0b389de contains main e1fc68cfc6c33b7d1bb867f01487ae6032db2a2a. All tests load exact Git objects and reuse installed dependencies. Twelve scoped strict roots at preceding source 70cff27d5b2098cf26949eb9a1d14c2351fceb49 loaded 879 files with zero diagnostics. Production source bytes stayed identical through test separation. The new bounded test root at ee434 loaded 870 files with zero diagnostics. App strict options retain their strictness and use the repository's Node test types.
+
+Earlier discovery found no physical test inputs. A later parity-file collection failed because a baseline artifact existed only in Git objects. The temporary harness staged exact test inputs and corrected artifact URLs. The final separate test file needs neither that URL shim nor a filter. The initial app-only type configuration produced four Node-environment diagnostics; the corrected test configuration passed. Historical receipts remain named in the proof.
+
+The shared checkout, real index and 224 dirty entries remain intact. Team 7 created no checkout, canceled no GitHub run and changed no art or save. Later main integration will be reported separately from this executed source.
