@@ -1,0 +1,31 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > is $7.25 until an Act raises it, then the raise, and never below a state's own rate
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > a law that repeals the raise ends the floor and cuts nobody's pay
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > raises every Tennessee town job paid below $15.00 an hour from its first pay period after the law, and records each as a pay-term change
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > does not raise the pay of a job that has ended
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > pays nothing more before the law takes effect
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/federal-minimum-final-terms.test.ts [ src/simulation/federal-minimum-final-terms.test.ts ]
+Error: No positive authored scenario seat count exists for 'us-congress-v1/house'.
+ ❯ authoredScenarioSeatCount src/simulation/legislation-scenarios.ts:380:11
+    378|       : AUTHORED_SCENARIO_SEAT_COUNTS[pack.packId]?.[chamberKey];
+    379|   if (!Number.isSafeInteger(seats) || (seats ?? 0) <= 0) {
+    380|     throw new Error(
+       |           ^
+    381|       `No positive authored scenario seat count exists for '${pack.pac…
+    382|     );
+ ❯ src/simulation/federal-minimum-final-terms.test.ts:38:5
+ ❯ src/simulation/federal-minimum-final-terms.test.ts:34:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 skipped (2)
+      Tests  5 skipped (5)
+   Start at  07:59:12
+   Duration  21.53s (transform 15.17s, setup 22ms, import 11.62s, tests 0ms, environment 1ms)

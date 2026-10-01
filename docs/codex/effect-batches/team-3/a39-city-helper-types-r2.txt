@@ -1,0 +1,13 @@
+[96mtests/nationwide/city-minimum-wage-bill-terms.test.ts[0m:[93m166[0m:[93m36[0m - [91merror[0m[90m TS2352: [0mConversion of type '{ stableKey: string; transitionKey: "living-world:payday"; }' to type 'FutureDueItem' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type '{ stableKey: string; transitionKey: "living-world:payday"; }' is missing the following properties from type 'FutureDueItem': id, sequence, scheduledAt, dueAt, and 3 more.
+
+[7m166[0m       world = paydayHandler(world, {
+[7m   [0m [91m                                   ~[0m
+[7m167[0m         stableKey: `town-pay-v2:payday:${paidThrough}`,
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m168[0m         transitionKey: PAYDAY_TRANSITION_KEY,
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m169[0m       } as FutureDueItem).world;
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+2 scoped roots; 1 diagnostics

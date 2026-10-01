@@ -58,6 +58,8 @@ import { serializeWorld, deserializeWorld } from "./serialization";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
+import { workRoleAt } from "./life-queries";
+import { workPayCoverageAt } from "./pay-coverage";
 import { personName } from "./people";
 import { lawInForce } from "./governing/law-in-force";
 import { applyLawConsequences } from "./enacted-law-effects";
@@ -644,3 +646,36 @@ it.each(sampled)(
     });
   },
 );
+
+// Source extraction only. Reconstructs the retained seed/actual work fixture;
+// does not invoke payroll, resolve hourly terms, or rerun a blocked annual case.
+it("A38 extracts saved applicability facts from the retained Ohio fixture", () => {
+  const f = fixture("1150000");
+  const role = workRoleAt(f.world, f.work.id);
+  const coverage = workPayCoverageAt(f.world, f.work.id);
+  const office = paidOfficeOf(f.world, f.work);
+  expect(f.personId).toBe("person_100c2106245f5bb3");
+  expect(f.work.id).toBe("work-relationship_d69843f31f8f253a");
+  expect(role).toBeDefined();
+  expect(office).toEqual({ office: "governor", state: "OH" });
+  console.info(
+    "A38_SAVED_APPLICABILITY",
+    JSON.stringify(
+      {
+        fixtureSeed: f.seed,
+        placeKey: f.placeKey,
+        actualDate: f.world.currentDate,
+        personId: f.personId,
+        workId: f.work.id,
+        roleId: role?.id,
+        employerOrganizationId: f.work.organizationId,
+        coverage: coverage ?? null,
+        office,
+        limit:
+          "Reconstructed retained fixture, no payment or Ohio tier inference",
+      },
+      null,
+      2,
+    ),
+  );
+});

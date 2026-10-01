@@ -1,0 +1,210 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > Omaha's isolated ordinance reads its explicit target on the effective date and a later no ends it 2645ms
+ ↓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > raises the pay of every town job below it, and names the ordinance
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > sets nothing where the state bars cities, until a state law lets them 2008ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > reaches the ordinance's own city alone 1980ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'explicit target' 1764ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'amountless yes' 1705ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'wrong unit' 1609ms
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > future misses do not poison the exact city target on its date 1644ms
+ ✓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > is $7.25 until an Act raises it, then the raise, and never below a state's own rate 2866ms
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > a law that repeals the raise ends the floor and cuts nobody's pay
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > raises every Tennessee town job paid below $15.00 an hour from its first pay period after the law, and records each as a pay-term change
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > does not raise the pay of a job that has ended
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > pays nothing more before the law takes effect
+ × src/simulation/state-minimum-final-terms.test.ts > A39 reads the exact adopted hourly target rather than an average addition 49ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/state-minimum-final-terms.test.ts > A39 does not derive a numeric raise from a plain yes answer 13ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/state-minimum-final-terms.test.ts > A39 refuses a target in the wrong unit 12ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/state-minimum-final-terms.test.ts > A39 activates a future adopted target only on its date after an earlier read 11ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 1150000 12ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2836000 19ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 5363000 11ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2938000 9ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 3451000 10ms
+   → Controlled state wage bill did not reach enactment.
+ × src/simulation/federal-minimum-final-terms.test.ts > A39 reads the actual adopted federal floor, without a $15 fallback 66ms
+   → Controlled federal wage bill did not reach enactment.
+ × src/simulation/federal-minimum-final-terms.test.ts > A39 leaves the sourced federal floor when a yes bill carries no amount 18ms
+   → Controlled federal wage bill did not reach enactment.
+ × src/simulation/federal-minimum-final-terms.test.ts > A39 does not replace the last valid federal amount with an amountless yes 24ms
+   → Controlled federal wage bill did not reach enactment.
+ × src/simulation/federal-minimum-final-terms.test.ts > A39 refuses the wrong federal unit 12ms
+   → Controlled federal wage bill did not reach enactment.
+ × src/simulation/federal-minimum-final-terms.test.ts > A39 revisits the federal schedule at its actual future effective date 13ms
+   → Controlled federal wage bill did not reach enactment.
+ × src/simulation/federal-minimum-final-terms.test.ts > A39 prospective repeal ends the raised legal floor 10ms
+   → Controlled federal wage bill did not reach enactment.
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-01-01' reads its actual dated standard terms 58ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-06-30' reads its actual dated standard terms 11ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-07-01' reads its actual dated standard terms 19ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2025-09-30' reads its actual dated standard terms 9ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-29' reads its actual dated standard terms 8ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-30' reads its actual dated standard terms 8ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 does not backdate an unsupported Florida historical rate 1ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 leaves Ohio's conditional tier unsupported instead of reading the later snapshot 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 15 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/federal-minimum-final-terms.test.ts > A39 reads the actual adopted federal floor, without a $15 fallback
+Error: Controlled federal wage bill did not reach enactment.
+ ❯ enactFloor src/simulation/federal-minimum-final-terms.test.ts:163:9
+    161|     world = applyLegislativeStep(context, world, step).world;
+    162|   }
+    163|   throw new Error("Controlled federal wage bill did not reach enactmen…
+       |         ^
+    164| }
+    165|
+ ❯ src/simulation/federal-minimum-final-terms.test.ts:175:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/15]⎯
+
+ FAIL  src/simulation/federal-minimum-final-terms.test.ts > A39 leaves the sourced federal floor when a yes bill carries no amount
+Error: Controlled federal wage bill did not reach enactment.
+ ❯ enactFloor src/simulation/federal-minimum-final-terms.test.ts:163:9
+    161|     world = applyLegislativeStep(context, world, step).world;
+    162|   }
+    163|   throw new Error("Controlled federal wage bill did not reach enactmen…
+       |         ^
+    164| }
+    165|
+ ❯ src/simulation/federal-minimum-final-terms.test.ts:190:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/15]⎯
+
+ FAIL  src/simulation/federal-minimum-final-terms.test.ts > A39 does not replace the last valid federal amount with an amountless yes
+Error: Controlled federal wage bill did not reach enactment.
+ ❯ enactFloor src/simulation/federal-minimum-final-terms.test.ts:163:9
+    161|     world = applyLegislativeStep(context, world, step).world;
+    162|   }
+    163|   throw new Error("Controlled federal wage bill did not reach enactmen…
+       |         ^
+    164| }
+    165|
+ ❯ src/simulation/federal-minimum-final-terms.test.ts:198:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/15]⎯
+
+ FAIL  src/simulation/federal-minimum-final-terms.test.ts > A39 refuses the wrong federal unit
+Error: Controlled federal wage bill did not reach enactment.
+ ❯ enactFloor src/simulation/federal-minimum-final-terms.test.ts:163:9
+    161|     world = applyLegislativeStep(context, world, step).world;
+    162|   }
+    163|   throw new Error("Controlled federal wage bill did not reach enactmen…
+       |         ^
+    164| }
+    165|
+ ❯ src/simulation/federal-minimum-final-terms.test.ts:209:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/15]⎯
+
+ FAIL  src/simulation/federal-minimum-final-terms.test.ts > A39 revisits the federal schedule at its actual future effective date
+Error: Controlled federal wage bill did not reach enactment.
+ ❯ enactFloor src/simulation/federal-minimum-final-terms.test.ts:163:9
+    161|     world = applyLegislativeStep(context, world, step).world;
+    162|   }
+    163|   throw new Error("Controlled federal wage bill did not reach enactmen…
+       |         ^
+    164| }
+    165|
+ ❯ src/simulation/federal-minimum-final-terms.test.ts:214:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/15]⎯
+
+ FAIL  src/simulation/federal-minimum-final-terms.test.ts > A39 prospective repeal ends the raised legal floor
+Error: Controlled federal wage bill did not reach enactment.
+ ❯ enactFloor src/simulation/federal-minimum-final-terms.test.ts:163:9
+    161|     world = applyLegislativeStep(context, world, step).world;
+    162|   }
+    163|   throw new Error("Controlled federal wage bill did not reach enactmen…
+       |         ^
+    164| }
+    165|
+ ❯ src/simulation/federal-minimum-final-terms.test.ts:226:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/15]⎯
+
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 reads the exact adopted hourly target rather than an average addition
+Error: Controlled state wage bill did not reach enactment.
+ ❯ enactedTarget src/simulation/state-minimum-final-terms.test.ts:152:9
+    150|     world = applyLegislativeStep(context, world, step).world;
+    151|   }
+    152|   throw new Error("Controlled state wage bill did not reach enactment.…
+       |         ^
+    153| }
+    154|
+ ❯ src/simulation/state-minimum-final-terms.test.ts:164:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/15]⎯
+
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 does not derive a numeric raise from a plain yes answer
+Error: Controlled state wage bill did not reach enactment.
+ ❯ enactedTarget src/simulation/state-minimum-final-terms.test.ts:152:9
+    150|     world = applyLegislativeStep(context, world, step).world;
+    151|   }
+    152|   throw new Error("Controlled state wage bill did not reach enactment.…
+       |         ^
+    153| }
+    154|
+ ❯ src/simulation/state-minimum-final-terms.test.ts:183:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/15]⎯
+
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 refuses a target in the wrong unit
+Error: Controlled state wage bill did not reach enactment.
+ ❯ enactedTarget src/simulation/state-minimum-final-terms.test.ts:152:9
+    150|     world = applyLegislativeStep(context, world, step).world;
+    151|   }
+    152|   throw new Error("Controlled state wage bill did not reach enactment.…
+       |         ^
+    153| }
+    154|
+ ❯ src/simulation/state-minimum-final-terms.test.ts:194:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/15]⎯
+
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 activates a future adopted target only on its date after an earlier read
+Error: Controlled state wage bill did not reach enactment.
+ ❯ enactedTarget src/simulation/state-minimum-final-terms.test.ts:152:9
+    150|     world = applyLegislativeStep(context, world, step).world;
+    151|   }
+    152|   throw new Error("Controlled state wage bill did not reach enactment.…
+       |         ^
+    153| }
+    154|
+ ❯ src/simulation/state-minimum-final-terms.test.ts:205:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/15]⎯
+
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 1150000
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2836000
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 5363000
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2938000
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 3451000
+Error: Controlled state wage bill did not reach enactment.
+ ❯ enactedTarget src/simulation/state-minimum-final-terms.test.ts:152:9
+    150|     world = applyLegislativeStep(context, world, step).world;
+    151|   }
+    152|   throw new Error("Controlled state wage bill did not reach enactment.…
+       |         ^
+    153| }
+    154|
+ ❯ src/simulation/state-minimum-final-terms.test.ts:225:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/15]⎯
+
+
+ Test Files  2 failed | 3 passed (5)
+      Tests  15 failed | 16 passed | 5 skipped (36)
+   Start at  08:44:18
+   Duration  49.09s (transform 17.51s, setup 34ms, import 31.51s, tests 16.86s, environment 2ms)

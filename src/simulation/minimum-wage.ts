@@ -22,7 +22,6 @@ import {
  * time it is read.
  */
 
-import localPremium from "../../data/research/labor/local-minimum-wage-premium.json" with { type: "json" };
 import { addDays } from "./dates";
 import {
   laborLawOfficeKey,
@@ -61,15 +60,6 @@ export const LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY =
 /** The policy question a city's own minimum wage answers. */
 export const CITY_MINIMUM_WAGE_QUESTION_KEY =
   "us-policy-positions:labor-workforce.city-minimum-wage";
-
-/**
- * ESTIMATED FROM AVERAGE (`local-minimum-wage-premium.json`, UC Berkeley Labor
- * Center inventory, 40 California localities in July 2026): how far above the
- * higher of the federal and state rate a city ordinance that answers yes sets
- * its wage, as a share of that rate, when it names no figure. The research
- * question `local-minimum-wages-by-place` replaces it with the real rates.
- */
-export const CITY_PREMIUM_RATIO = localPremium.premiumRatio;
 
 /** The federal minimum wage an hour, in cents (Fair Labor Standards Act). */
 export const FEDERAL_MINIMUM_HOURLY_MINOR = Math.round(
@@ -213,7 +203,10 @@ export function startingMinimumHourly(
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
   return startingStateMinimumHourly(
-    place?.stateJurisdictionKey ?? null,
+    place?.stateJurisdictionKey ??
+      (world && jurisdictionId && world.jurisdictions[jurisdictionId]
+        ? stateKeyForJurisdiction(world.jurisdictions[jurisdictionId]!)
+        : null),
     world,
     onDate,
   );
@@ -444,9 +437,9 @@ const localSettings = new WeakMap<
  * city law in force does: an ordinance enacted in play that answered yes to
  * "should the city set its own minimum wage above the state's?", counted only
  * where the state's law lets cities set one (`question-authority.ts`), sets
- * the higher of the federal and state rate plus `CITY_PREMIUM_RATIO`, from its
- * effective date. A later ordinance that answers no, or a state law that
- * takes the authority away, ends it. Counties are NOT MODELED.
+ * its exact adopted target in minor units per hour, from its effective date.
+ * A yes answer without numeric text supplies no local rate. A later ordinance
+ * that answers no, or a state law that takes the authority away, ends it. Counties are NOT MODELED.
  */
 export function localMinimumSettingAt(
   world: World,
@@ -462,7 +455,8 @@ export function localMinimumSettingAt(
     localSettings.set(enactments, cache);
   }
   const cacheKey = `${jurisdictionId}:${baseMinor}:${onDate}`;
-  if (cache.has(cacheKey)) return cache.get(cacheKey)!;
+  const futureRead = onDate > world.currentDate;
+  if (!futureRead && cache.has(cacheKey)) return cache.get(cacheKey)!;
   let setting: MinimumWageSetting | null = null;
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
@@ -480,15 +474,22 @@ export function localMinimumSettingAt(
     const measure = world.history.legislativeMeasures?.find(
       (entry) => entry.id === law.measureId,
     );
-    setting = {
-      hourlyMinor: Math.round(baseMinor * (1 + CITY_PREMIUM_RATIO)),
-      level: "local",
-      measureId: law.measureId,
-      designation: measure?.designation ?? "A city ordinance",
-      effectiveAt: law.operativeAt,
-    };
+    const term = readFinalEnactedLawTerm(world, law, {
+      questionKey: CITY_MINIMUM_WAGE_QUESTION_KEY,
+      termKey: "target",
+      unit: "minor/hour",
+      onDate,
+    });
+    if (term && Number.isSafeInteger(term.value) && term.value >= 0)
+      setting = {
+        hourlyMinor: term.value,
+        level: "local",
+        measureId: law.measureId,
+        designation: measure?.designation ?? "A city ordinance",
+        effectiveAt: law.operativeAt,
+      };
   }
-  cache.set(cacheKey, setting);
+  if (!futureRead) cache.set(cacheKey, setting);
   return setting;
 }
 

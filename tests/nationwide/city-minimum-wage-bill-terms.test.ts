@@ -13,7 +13,12 @@ import {
   lifePlaceByKey,
   stateJurisdictionForKey,
 } from "../../src/simulation/life-places";
-import { CITY_PREMIUM_RATIO } from "../../src/simulation/minimum-wage";
+import {
+  localMinimumSettingAt,
+  startingMinimumHourly,
+} from "../../src/simulation/minimum-wage";
+import { recordFiledProvision } from "../../src/simulation/legislative-politics";
+import { ensureJurisdiction } from "../../src/simulation/national-election-geography";
 import {
   nextPaydayDate,
   PAYDAY_TRANSITION_KEY,
@@ -45,6 +50,8 @@ function lawOn(
   answer: "yes" | "no",
   effectiveAt: IsoDate,
   designation: string,
+  target: number | undefined = undefined,
+  unit: "minor/hour" | "minor" = "minor/hour",
 ): World {
   sequence += 1;
   const proposition = Object.values(world.policyCatalog.propositions).find(
@@ -54,7 +61,7 @@ function lawOn(
   const measure: LegislativeMeasureRecord = {
     id: measureId,
     stableKey: `test-city-wage:${sequence}`,
-    sequence: 90_000 + sequence,
+    sequence: world.history.nextSequence,
     jurisdictionId,
     rulePackId: "test",
     designation,
@@ -82,18 +89,41 @@ function lawOn(
     // No recorded event: the raise's provenance is then the authored note.
     outcomeEventId: "" as EntityId,
   } as LegislativeEnactmentRecord;
-  return {
+  let next: World = {
     ...world,
     history: {
       ...world.history,
+      nextSequence: world.history.nextSequence + 1,
       legislativeMeasures: [
         ...(world.history.legislativeMeasures ?? []),
         measure,
       ],
+    },
+  };
+  if (target !== undefined)
+    next = recordFiledProvision(next, {
+      stableKey: `${measure.stableKey}:target`,
+      measureId,
+      provisionKey: "city-hourly-floor",
+      sectionNumber: 1,
+      heading: "Explicit fictional hourly floor",
+      text: "The isolated fictional ordinance carries its exact hourly amount.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "covered city work",
+      },
+      applicationScope: { jurisdictionId, segmentKey: null },
+      lawTerms: [{ questionKey, key: "target", value: target, unit }],
+    });
+  return {
+    ...next,
+    history: {
+      ...next.history,
       legislativeEnactments: [
-        ...(world.history.legislativeEnactments ?? []),
-        enactment,
+        ...(next.history.legislativeEnactments ?? []),
+        { ...enactment, sequence: next.history.nextSequence },
       ],
+      nextSequence: next.history.nextSequence + 1,
     },
   };
 }
@@ -108,7 +138,14 @@ function omahaGame() {
       questionnaire: "skipped",
     }),
   ).game!;
-  return { world: game.world, opened: game.world.currentDate };
+  let world = game.world;
+  for (const jurisdiction of [
+    lifePlaceByKey("3137000")!.context.jurisdiction,
+    lifePlaceByKey("lexington-fayette")!.context.jurisdiction,
+    stateJurisdictionForKey("US-KY")!,
+  ])
+    world = ensureJurisdiction(world, jurisdiction);
+  return { world, opened: world.currentDate };
 }
 
 function runPaydays(start: World, since: IsoDate, days: number): World {
@@ -137,12 +174,18 @@ function runPaydays(start: World, since: IsoDate, days: number): World {
 }
 
 const town = (key: string) => lifePlaceByKey(key)!.context.jurisdiction.id;
+// Controlled read context only, not ordinary clock or save/continue proof.
+const readerOn = (world: World, onDate: IsoDate): World => ({
+  ...world,
+  currentDate: onDate,
+  currentMoment: simulationMomentOnLocalDate(world.currentMoment, onDate),
+});
 
 describe(
   "a city minimum wage ordinance sets the wage where the state lets cities set one",
   { timeout: 600_000 },
   () => {
-    it("Omaha's ordinance sets the state rate plus the average premium, from its effective date, and a later no ends it", () => {
+    it("Omaha's isolated ordinance reads its explicit target on the effective date and a later no ends it", () => {
       const { world: game, opened } = omahaGame();
       const omaha = town("3137000");
       const effectiveAt = addDays(opened, 30);
@@ -154,10 +197,19 @@ describe(
         "yes",
         effectiveAt,
         "Ordinance 1",
+        1800,
       );
       world = lawOn(world, omaha, CITY_WAGE, "no", repealAt, "Ordinance 2");
-      const before = townMinimumHourly(omaha)!;
-      const during = Math.round(before * 100 * (1 + CITY_PREMIUM_RATIO)) / 100;
+      const before = startingMinimumHourly(omaha, game, opened)!;
+      const during = 18;
+      world = {
+        ...world,
+        currentDate: repealAt,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          repealAt,
+        ),
+      };
       expect(townMinimumHourlyAt(world, omaha, addDays(effectiveAt, -1))).toBe(
         before,
       );
@@ -166,7 +218,9 @@ describe(
       expect(townMinimumHourlyAt(world, omaha, addDays(repealAt, -1))).toBe(
         during,
       );
-      expect(townMinimumHourlyAt(world, omaha, repealAt)).toBe(before);
+      expect(townMinimumHourlyAt(world, omaha, repealAt)).toBe(
+        startingMinimumHourly(omaha, world, repealAt),
+      );
     });
 
     it("raises the pay of every town job below it, and names the ordinance", () => {
@@ -180,6 +234,7 @@ describe(
         "yes",
         effectiveAt,
         "Ordinance 1",
+        1800,
       );
       const world = runPaydays(enacted, opened, 120);
       const raises = world.history.resourceFlowTerms.filter((terms) =>
@@ -208,11 +263,16 @@ describe(
         "yes",
         effectiveAt,
         "Ordinance 1",
+        1800,
       );
       const before = townMinimumHourly(lexington)!;
       // Kentucky's law bars a city wage: the ordinance is on the record and governs nothing.
       expect(
-        townMinimumHourlyAt(ordinance, lexington, addDays(effectiveAt, 200)),
+        townMinimumHourlyAt(
+          readerOn(ordinance, addDays(effectiveAt, 200)),
+          lexington,
+          addDays(effectiveAt, 200),
+        ),
       ).toBe(before);
       // A Kentucky law that lets cities set their own wage brings it to life.
       const allowed = lawOn(
@@ -224,10 +284,18 @@ describe(
         "HB 1",
       );
       expect(
-        townMinimumHourlyAt(allowed, lexington, addDays(effectiveAt, 59)),
+        townMinimumHourlyAt(
+          readerOn(allowed, addDays(effectiveAt, 59)),
+          lexington,
+          addDays(effectiveAt, 59),
+        ),
       ).toBe(before);
       expect(
-        townMinimumHourlyAt(allowed, lexington, addDays(effectiveAt, 60)),
+        townMinimumHourlyAt(
+          readerOn(allowed, addDays(effectiveAt, 60)),
+          lexington,
+          addDays(effectiveAt, 60),
+        ),
       ).toBeGreaterThan(before);
       // And a later state law that takes the authority away ends it again.
       const barred = lawOn(
@@ -239,7 +307,11 @@ describe(
         "HB 2",
       );
       expect(
-        townMinimumHourlyAt(barred, lexington, addDays(effectiveAt, 120)),
+        townMinimumHourlyAt(
+          readerOn(barred, addDays(effectiveAt, 120)),
+          lexington,
+          addDays(effectiveAt, 120),
+        ),
       ).toBe(before);
     });
 
@@ -253,12 +325,96 @@ describe(
         "yes",
         effectiveAt,
         "Ordinance 1",
+        1800,
       );
       for (const key of ["3651000", "0644000", "4819000", "5363000"])
         expect(
-          townMinimumHourlyAt(world, town(key), addDays(effectiveAt, 5)),
+          townMinimumHourlyAt(
+            readerOn(world, addDays(effectiveAt, 5)),
+            town(key),
+            addDays(effectiveAt, 5),
+          ),
           key,
-        ).toBe(townMinimumHourly(town(key)));
+        ).toBe(
+          startingMinimumHourly(
+            town(key),
+            readerOn(world, addDays(effectiveAt, 5)),
+            addDays(effectiveAt, 5),
+          ),
+        );
     });
   },
 );
+
+// Isolated legislative records exercise the existing reader. They do not
+// prove natural ordinance filing, council votes, a saved paycheck or a year.
+describe("A39 exact city target reading", () => {
+  it.each([
+    {
+      label: "explicit target",
+      target: 1875,
+      unit: "minor/hour" as const,
+      expected: 1875,
+    },
+    {
+      label: "amountless yes",
+      target: undefined,
+      unit: "minor/hour" as const,
+      expected: null,
+    },
+    {
+      label: "wrong unit",
+      target: 1875,
+      unit: "minor" as const,
+      expected: null,
+    },
+  ])("$label", ({ target, unit, expected }) => {
+    const { world: game, opened } = omahaGame();
+    const city = town("3137000");
+    const world = lawOn(
+      game,
+      city,
+      CITY_WAGE,
+      "yes",
+      opened,
+      "Controlled ordinance",
+      target,
+      unit,
+    );
+    const setting = localMinimumSettingAt(world, city, 1500, opened);
+    expect(setting?.hourlyMinor ?? null).toBe(expected);
+    if (expected === null) expect(setting).toBeNull();
+    else
+      expect(setting).toMatchObject({
+        level: "local",
+        designation: "Controlled ordinance",
+      });
+  });
+  it("future misses do not poison the exact city target on its date", () => {
+    const { world: game, opened } = omahaGame();
+    const city = town("3137000");
+    const effectiveAt = addDays(opened, 30);
+    const world = lawOn(
+      game,
+      city,
+      CITY_WAGE,
+      "yes",
+      effectiveAt,
+      "Controlled future ordinance",
+      1925,
+    );
+    expect(localMinimumSettingAt(world, city, 1500, opened)).toBeNull();
+    expect(localMinimumSettingAt(world, city, 1500, effectiveAt)).toBeNull();
+    const arrived = {
+      ...world,
+      currentDate: effectiveAt,
+      currentMoment: simulationMomentOnLocalDate(
+        world.currentMoment,
+        effectiveAt,
+      ),
+    };
+    expect(
+      localMinimumSettingAt(arrived, city, 1500, effectiveAt)?.hourlyMinor,
+    ).toBe(1925);
+  });
+});

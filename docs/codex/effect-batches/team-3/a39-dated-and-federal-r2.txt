@@ -1,0 +1,209 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 reads the actual adopted federal floor, without a $15 fallback 132ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 leaves the sourced federal floor when a yes bill carries no amount 17ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 does not replace the last valid federal amount with an amountless yes 39ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 refuses the wrong federal unit 15ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 revisits the federal schedule at its actual future effective date 17ms
+ ✓ src/simulation/federal-minimum-final-terms.test.ts > A39 prospective repeal ends the raised legal floor 49ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 reads the exact adopted hourly target rather than an average addition 102ms
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 1150000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '1150000',
+  observedKey: 'US-DC',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_1519fad497e0da65',
+  unchangedMinor: 1795,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 does not derive a numeric raise from a plain yes answer 18ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 refuses a target in the wrong unit 16ms
+ × src/simulation/state-minimum-final-terms.test.ts > A39 activates a future adopted target only on its date after an earlier read 30ms
+   → Cannot read properties of null (reading 'measureId')
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 1150000 40ms
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2836000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '2836000',
+  observedKey: 'US-MS',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_84316fd14bc4b6b9',
+  unchangedMinor: 725,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 5363000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '5363000',
+  observedKey: 'US-WA',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_af9d5d8076cb29f9',
+  unchangedMinor: 1713,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2938000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '2938000',
+  observedKey: 'US-MO',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_4fceef37fb9ef6d6',
+  unchangedMinor: 1500,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 3451000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '3451000',
+  observedKey: 'US-NJ',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_371cdc038f95c65b',
+  unchangedMinor: 1592,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2836000 14ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 5363000 16ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2938000 11ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 3451000 11ms
+ × tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > is $7.25 until an Act raises it, then the raise, and never below a state's own rate 2269ms
+   → A provision references a missing jurisdiction.
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > a law that repeals the raise ends the floor and cuts nobody's pay
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > raises every Tennessee town job paid below $15.00 an hour from its first pay period after the law, and records each as a pay-term change
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > does not raise the pay of a job that has ended
+ ↓ tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal raise changes named paychecks in Nashville > pays nothing more before the law takes effect
+ × src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-01-01' reads its actual dated standard terms 38ms
+   → expected 725 to be 1795 // Object.is equality
+ × src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-06-30' reads its actual dated standard terms 1ms
+   → expected 725 to be 1795 // Object.is equality
+ × src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-07-01' reads its actual dated standard terms 1ms
+   → expected 725 to be 1840 // Object.is equality
+ × src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2025-09-30' reads its actual dated standard terms 1ms
+   → expected 725 to be 1400 // Object.is equality
+ × src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-29' reads its actual dated standard terms 1ms
+   → expected 725 to be 1400 // Object.is equality
+ × src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-30' reads its actual dated standard terms 1ms
+   → expected 725 to be 1500 // Object.is equality
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 does not backdate an unsupported Florida historical rate 0ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 leaves Ohio's conditional tier unsupported instead of reading the later snapshot 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/nationwide/town-federal-minimum-wage-law.test.ts > the federal minimum wage is the floor everywhere > is $7.25 until an Act raises it, then the raise, and never below a state's own rate
+Error: A provision references a missing jurisdiction.
+ ❯ validateProvisionContent src/simulation/legislative-politics.ts:1036:11
+    1034|   }
+    1035|   if (!world.jurisdictions[input.applicationScope.jurisdictionId]) {
+    1036|     throw new Error("A provision references a missing jurisdiction.");
+       |           ^
+    1037|   }
+    1038|   const exposure = input.fiscalExposureMinorUnits ?? null;
+ ❯ appendProvision src/simulation/legislative-politics.ts:1192:3
+ ❯ recordFiledProvision src/simulation/legislative-politics.ts:120:10
+ ❯ nashvilleWithFederalRaise tests/nationwide/town-federal-minimum-wage-law.test.ts:146:11
+ ❯ tests/nationwide/town-federal-minimum-wage-law.test.ts:229:44
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-01-01' reads its actual dated standard terms
+ FAIL  src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-06-30' reads its actual dated standard terms
+AssertionError: expected 725 to be 1795 // Object.is equality
+
+- Expected
++ Received
+
+- 1795
++ 725
+
+ ❯ src/simulation/starting-state-minimum-dated.test.ts:58:7
+     56|     expect(
+     57|       minimumHourlyMinorAt(world, stateJurisdictionForKey(key)!.id, on…
+     58|     ).toBe(value);
+       |       ^
+     59|     expect(
+     60|       stateMinimumSettingAt(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-07-01' reads its actual dated standard terms
+AssertionError: expected 725 to be 1840 // Object.is equality
+
+- Expected
++ Received
+
+- 1840
++ 725
+
+ ❯ src/simulation/starting-state-minimum-dated.test.ts:58:7
+     56|     expect(
+     57|       minimumHourlyMinorAt(world, stateJurisdictionForKey(key)!.id, on…
+     58|     ).toBe(value);
+       |       ^
+     59|     expect(
+     60|       stateMinimumSettingAt(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2025-09-30' reads its actual dated standard terms
+ FAIL  src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-29' reads its actual dated standard terms
+AssertionError: expected 725 to be 1400 // Object.is equality
+
+- Expected
++ Received
+
+- 1400
++ 725
+
+ ❯ src/simulation/starting-state-minimum-dated.test.ts:58:7
+     56|     expect(
+     57|       minimumHourlyMinorAt(world, stateJurisdictionForKey(key)!.id, on…
+     58|     ).toBe(value);
+       |       ^
+     59|     expect(
+     60|       stateMinimumSettingAt(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-30' reads its actual dated standard terms
+AssertionError: expected 725 to be 1500 // Object.is equality
+
+- Expected
++ Received
+
+- 1500
++ 725
+
+ ❯ src/simulation/starting-state-minimum-dated.test.ts:58:7
+     56|     expect(
+     57|       minimumHourlyMinorAt(world, stateJurisdictionForKey(key)!.id, on…
+     58|     ).toBe(value);
+       |       ^
+     59|     expect(
+     60|       stateMinimumSettingAt(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/simulation/state-minimum-final-terms.test.ts > A39 activates a future adopted target only on its date after an earlier read
+TypeError: Cannot read properties of null (reading 'measureId')
+ ❯ src/simulation/state-minimum-final-terms.test.ts:208:60
+    206|   // must not poison the cache when the same saved enactments reach th…
+    207|   expect(
+    208|     stateMinimumSettingAt(f.world, stateKey, f.effectiveAt)!.measureId,
+       |                                                            ^
+    209|   ).toBeNull();
+    210|   const arrived = later(f.world, f.effectiveAt);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+
+ Test Files  3 failed | 1 passed (4)
+      Tests  8 failed | 16 passed | 4 skipped (28)
+   Start at  08:09:16
+   Duration  36.75s (transform 18.84s, setup 41ms, import 33.05s, tests 3.09s, environment 2ms)
