@@ -82,13 +82,16 @@ const row: LawConsequenceRow = {
 function setup(revision: "replace" | "omit" | "wrong-unit") {
   const scenario = createLegislativeScenario("kentucky");
   const state = stateJurisdictionForKey("US-KY")!;
-  const catalog = createProductionPolicyCatalog();
-  const proposition = Object.values(catalog.propositions).find(
+  const baseCatalog = createProductionPolicyCatalog();
+  const proposition = Object.values(baseCatalog.propositions).find(
     (p) => p.stableKey === QUESTION,
   )!;
-  catalog.propositions[proposition.id] = {
-    ...proposition,
-    consequences: [row],
+  const catalog = {
+    ...baseCatalog,
+    propositions: {
+      ...baseCatalog.propositions,
+      [proposition.id]: { ...proposition, consequences: [row] },
+    },
   };
   const jurisdictions = new Map(
     scenario.world.jurisdictionOrder.map((id) => [

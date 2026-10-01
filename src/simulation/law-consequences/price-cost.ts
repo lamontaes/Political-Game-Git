@@ -279,10 +279,13 @@ export function applyPriceCostConsequence(
   );
   const flowId = activity?.resourceFlowId ?? current.activityId;
   const previous = resourceFlowTermsAt(world, flowId)!;
-  if (
-    (activity && previous.id !== activity.id) ||
-    (!activity && !current.sourceRecordIds.includes(previous.id))
-  )
+  const pricedTerms =
+    activity ??
+    resourceFlowTermsAt(world, flowId, {
+      asOfDate: current.effectiveAt,
+      historySequenceExclusive: world.history.nextSequence,
+    });
+  if (previous.id !== pricedTerms?.id)
     throw new Error(
       "Price-cost activity no longer names the latest flow terms",
     );
