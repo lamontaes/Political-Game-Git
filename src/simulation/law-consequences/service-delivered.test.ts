@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { applyLawConsequences } from "../enacted-law-effects";
 import { addSimulationMinutes, daysBetween } from "../dates";
 import { createLegislativeScenario } from "../legislation-scenarios";
 import {
@@ -37,6 +38,7 @@ import {
   FUNDED_SERVICE,
   SERVICE_RECIPIENT_KIND,
   SERVICE_DELIVERED_LAW_ROWS,
+  SERVICE_DELIVERED_REGISTRATION,
 } from "./service-delivered";
 
 const questionKey =
@@ -233,6 +235,22 @@ function fixture(
   const personId = procedure.playerPersonId;
   world = { ...world, control: { kind: "person", personId } };
   world = enact(world, jurisdiction.id, "yes", keyOfQuestion);
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (p) => p.stableKey === keyOfQuestion,
+  )!;
+  world = {
+    ...world,
+    policyCatalog: {
+      ...world.policyCatalog,
+      propositions: {
+        ...world.policyCatalog.propositions,
+        [proposition.id]: {
+          ...proposition,
+          consequences: [...SERVICE_DELIVERED_LAW_ROWS[keyOfQuestion]!],
+        },
+      },
+    },
+  };
   const measureId = world.history.legislativeMeasures!.at(-1)!.id;
   const organization = (
     key: string,
@@ -397,7 +415,9 @@ describe("service kind reuses actual completion and recipient records", () => {
         value: 1,
         unit: "hours",
       });
-      const next = applyLawServiceConsequence(f.world, resolved[0]!);
+      const next = applyLawConsequences(f.world, context(f), [
+        SERVICE_DELIVERED_REGISTRATION,
+      ]);
       expect(next.history.events.length).toBe(
         f.world.history.events.length + 1,
       );
@@ -416,7 +436,11 @@ describe("service kind reuses actual completion and recipient records", () => {
         effectKind: "service-delivered",
       });
       const restored = deserializeWorld(serializeWorld(next));
-      expect(applyLawServiceConsequence(restored, resolved[0]!)).toBe(restored);
+      expect(
+        applyLawConsequences(restored, context(f), [
+          SERVICE_DELIVERED_REGISTRATION,
+        ]),
+      ).toBe(restored);
       const repealed = enact(restored, f.jurisdictionId, "no", key);
       expect(
         resolveLawServiceConsequence(repealed, row, {
