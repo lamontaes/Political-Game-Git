@@ -1,5 +1,7 @@
 # Current permission, compliance and financial transfers
 
+The permission handler has one receiving owner, and the compliance reader has one builder. Approved saved-record contracts now separate historical admission from new writes.
+
 ## Exact ownership
 
 - Coordinator received Team 8's right-permission.ts and its test from 16f5fb09c493f1b4d0f5e5117e0eeb524673eaf8 and owns the sole-registry registration. Published draft #1636 at 0f54a7d785f0250a6d9a7ce56aa38d035c2b908e. No core/type replacement or new permission rows are included.
