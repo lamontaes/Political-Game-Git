@@ -45,7 +45,7 @@ The ordinary sentence length remains the labeled UNRESEARCHED rule. This is not 
 
 The focused finder fixture uses `team9-a100-saved-court-finder-20261001` to select North Dakota, Massachusetts, Hawaii, Iowa, and California from all 56 places. It uses the actual saved state-court jurisdiction in the observer world. This is a controlled case fixture, not a claim that the sampled town was independently populated.
 
-The first run retained six passes and five failures because its authored referrals referenced unsaved towns. The repaired run passed eleven cases across finder and existing review tests. A subsequent seven-case finder run added actual sentence-actor and motivation assertions and passed. These source-bound receipts are retained separately. The final composition passed all 16 cases in 190.03 seconds: seven finder/canonical criminal cases, four existing review cases, and five civil actor cases. Its exact saved records and test durations are in `a100-shared-court-finder-proof.json`.
+The first run retained six passes and five failures because its authored referrals referenced unsaved towns. The repaired run passed eleven cases across finder and existing review tests. A subsequent seven-case finder run added actual sentence-actor and motivation assertions and passed. These source-bound receipts are retained separately. The prior composition passed all 16 cases in 190.03 seconds. The final exact-alias composition at `e8004019df34fd71d3df4d991ac490b0058c4cb4` passed all 16 in 178.61 seconds: seven finder/canonical criminal cases, four existing review cases, and five civil actor cases. Its exact saved records and test durations are in `a100-shared-court-finder-proof.json`.
 
 No test time limit is raised. A nationwide play run, year run, federal-law ruling, and federal trial forum assignment are not established here.
 
@@ -57,10 +57,12 @@ The civil fixtures separately require a saved filing and an actual seated judge 
 
 ## Source and remaining work
 
+CTO's 1:24 court order is A10, then A100, then A103. This candidate depends on the A10 newspaper-sweep removal in #1574 at `73cd92265b2a61d5cb436b1ff501d39ed48c2e60` and Audit’s published load/opening recovery source. Audit then published #1393 at `c22464d3652180419358c1489b5518b211c8352b`. Git fetch received that exact source and its five-file diff was verified against its published main parent. Team9 has not composed or executed that recovery source yet; no A10 closure is claimed. This A100 branch does not duplicate those owned clock/recovery changes. Its controlled tests cancel unrelated schedules; they do not establish that the old weekly caller is absent from the branch.
+
 Base: main `59ce2b5571eb598d62856b56e22402040e624fea`. Owned finder/review/criminal checkpoint: `df1cc3cb174e96defa0d086bd990374afbb1f906`. Civil composition: `6a464573f5bb8b8767b0254fd72e4f8d46411aa8`.
 
 The civil guard is the already-published A102 source at `5fd1c48a5e8074cd5a7fc9d946fee256364a8271` from #1546, applied as narrow patches. Against that exact rent file, A100 changes only the released court selection and imports. Its civil test blob remains `db7f5604d615d2b8e30692bd6c560a52d8290138`. Team4's unpublished landlord work is not copied. The A102 and A10 branches and both intake files remain preserved.
 
 Remaining A100 gaps are the admitted federal review question/precedent binding and actual federal trial forum. A103 remains blocked on the explicit schema and decision contract; A10 load recovery remains separately routed to Audit. No merge, full-row closure, or new runtime rate is claimed.
 
-Scoped TypeScript checked 1,152 files with 0 diagnostics. Six-file lint and formatting, zero-dice, diff check, and the report checker passed. Release-check disposition is recorded separately after the committed declaration comparison.
+Scoped TypeScript checked 1,152 files with 0 diagnostics. Six-file lint and formatting, zero-dice, diff check, and the report checker passed. Release check fails on unchanged main declaration `ci-changed-tests-only.md` for the word “merge.” Candidate and main share blob `d6c9921a82b800d9c0b27d0a9da55c2feb676ff8`, and the main-to-main comparison reproduces the same failure. No unrelated declaration is modified.
