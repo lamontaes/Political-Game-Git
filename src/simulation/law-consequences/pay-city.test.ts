@@ -857,6 +857,40 @@ it("A38 earned law raises only the actual completed interval without changing it
   expect(outcome.attemptedAmount.minorUnits).toBe(8000);
   expect(outcome.transferredAmount.minorUnits).toBe(8000);
   expect(outcome.status).toBe("completed");
+  const assessment = paid.history.earnedLawPayAssessments!.find(
+    (row) => row.id === outcome.earnedLawPayAssessmentId,
+  )!;
+  expect(assessment).toMatchObject({
+    personId: f.personId,
+    organizationId: f.organizationId,
+    workRelationshipId: workId,
+    resourceFlowId: f.flow.id,
+    earnedTermsId: earned.id,
+    completionEventId: completion.id,
+    scheduledActivityId: activity.id,
+    scheduledActivityStateId: state.id,
+    recordedAt: worked.world.currentDate,
+    earnedCutoff: {
+      asOfDate: completion.occurredAt,
+      historySequenceExclusive: completion.sequence + 1,
+    },
+    periodStartsAt: completion.occurredAt,
+    periodEndsAt: completion.occurredAt,
+    workedMinutes: 240,
+    contractualGross: money(7200, "USD"),
+    assessedGross: money(8000, "USD"),
+  });
+  expect(assessment.lawEffectStamps[0]!.sourceRecordIds).toEqual(
+    expect.arrayContaining([
+      assessment.id,
+      workId,
+      f.flow.id,
+      earned.id,
+      completion.id,
+      activity.id,
+      state.id,
+    ]),
+  );
   expect(paid.history.resourceFlowTerms).toEqual(
     worked.world.history.resourceFlowTerms,
   );
@@ -869,6 +903,17 @@ it("A38 earned law raises only the actual completed interval without changing it
     ]),
   );
   expect(settleTownCompensations(paid, [period])).toBe(paid);
+  console.info("EARNED_LAW_SHIFT_PAY", {
+    person: personName(paid.people[f.personId]!),
+    workId,
+    flowId: f.flow.id,
+    completionId: completion.id,
+    assessmentId: assessment.id,
+    workedMinutes: minutes,
+    contractualGrossMinor: earned.amount.minorUnits,
+    assessedGrossMinor: assessment.assessedGross.minorUnits,
+    transferredMinor: outcome.transferredAmount.minorUnits,
+  });
   expect(
     serializeWorld(
       settleTownCompensations(deserializeWorld(serializeWorld(worked.world)), [
