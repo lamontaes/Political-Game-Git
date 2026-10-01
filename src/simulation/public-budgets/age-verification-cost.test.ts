@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
+import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
-import { createWorld, recordWorldEvent } from "../world";
+import { createWorld } from "../world";
 import { createStableId } from "../ids";
+import { enactCostLawFixture } from "../../../tests/fixtures/enacted-cost-law-fixture";
 import { legislatureProfilePackId } from "../legislature-game-profile";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { type LawEffectStampedRecord } from "../law-effect-stamp";
@@ -18,12 +19,7 @@ import { SPENDING_QUESTION_EFFECTS } from "./rules";
 import { lawInForce } from "../governing/law-in-force";
 const AGE_VERIFICATION_COST_QUESTION =
   "us-policy-positions:technology-privacy.age-verification-for-social-media";
-import type {
-  EntityId,
-  World,
-  LegislativeMeasureRecord,
-  LegislativeEnactmentRecord,
-} from "../types";
+import type { EntityId, LegislativeMeasureRecord } from "../types";
 
 const FLOWS: MonthFlows = {
   withheld: new Map(),
@@ -81,64 +77,8 @@ describe("age-verification without an appropriation or actual hires produces no 
         propositionIds: [question.id],
         propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
       };
-      const enactment: LegislativeEnactmentRecord = {
-        id: createStableId(
-          "legislative-enactment",
-          "age-cost:" + stateKey + ":enacted",
-        ),
-        stableKey: "age-cost:" + stateKey + ":enacted",
-        sequence: base.history.nextSequence + 1,
-        measureId: measure.id,
-        resolvedAt: date,
-        outcome: "enacted",
-        actDesignation: null,
-        effectiveAt: date,
-        outcomeEventId: ("event_age_cost_" + stateKey) as EntityId,
-      };
-      let world: World = {
-        ...base,
-        currentDate: makeIsoDate("2026-06-01"),
-        currentMoment: simulationMomentOnLocalDate(
-          base.currentMoment,
-          makeIsoDate("2026-06-01"),
-        ),
-        history: {
-          ...base.history,
-          nextSequence: base.history.nextSequence + 2,
-          legislativeMeasures: [measure],
-          legislativeEnactments: [enactment],
-        },
-      };
-      world = recordWorldEvent(world, {
-        stableKey: enactment.stableKey + ":outcome",
-        type: "fixture.law-enacted",
-        occurredAt: date,
-        recordedAt: date,
-        jurisdictionId: state.id,
-        involvedEntityIds: [state.id],
-        participants: [],
-        personFactConstraints: [],
-        visibility: "public",
-        tags: [],
-        summary: "Authored enactment fixture, not ordinary political passage.",
-        context: {
-          location: null,
-          socialContext: null,
-          pressure: null,
-          choice: null,
-          motivation: null,
-          immediateReaction: null,
-        },
-      });
-      world = {
-        ...world,
-        history: {
-          ...world.history,
-          legislativeEnactments: [
-            { ...enactment, outcomeEventId: world.history.events.at(-1)!.id },
-          ],
-        },
-      };
+      const enacted = enactCostLawFixture(base, measure);
+      const world = enacted.world;
       const before = settleGovernmentMonth(
         { ...base, currentDate: world.currentDate },
         government,
@@ -153,7 +93,7 @@ describe("age-verification without an appropriation or actual hires produces no 
       ).government;
       const after = afterGovernment.months.at(-1)!;
       expect(lawInForce(world, state.id, question.id, date)?.measureId).toBe(
-        measure.id,
+        enacted.measure.id,
       );
       expect(
         SPENDING_QUESTION_EFFECTS.some(
@@ -215,31 +155,10 @@ describe("age-verification without an appropriation or actual hires produces no 
           propositionIds: [cannabis.id],
           propositionAnswers: [{ propositionId: cannabis.id, answer: "no" }],
         };
-        const enactedBan: LegislativeEnactmentRecord = {
-          ...enactment,
-          id: ("enactment_cannabis_ban_" + stateKey) as EntityId,
-          stableKey: ban.stableKey + ":enacted",
-          sequence: world.history.nextSequence + 1,
-          measureId: ban.id,
-          outcomeEventId: ("event_cannabis_ban_" + stateKey) as EntityId,
-        };
-        const together: World = {
-          ...world,
-          history: {
-            ...world.history,
-            nextSequence: world.history.nextSequence + 2,
-            legislativeMeasures: [measure, ban],
-            legislativeEnactments: [enactment, enactedBan],
-          },
-        };
-        const banOnly: World = {
-          ...together,
-          history: {
-            ...together.history,
-            legislativeMeasures: [ban],
-            legislativeEnactments: [enactedBan],
-          },
-        };
+        const together = enactCostLawFixture(world, ban).world;
+        const onlyBanFixture = enactCostLawFixture(base, ban);
+        const banOnly = onlyBanFixture.world;
+        const actualBanId = together.history.legislativeMeasures!.at(-1)!.id;
         const combined = settleGovernmentMonth(
           together,
           government,
@@ -258,7 +177,7 @@ describe("age-verification without an appropriation or actual hires produces no 
         expect(saved.lawEffectStamps).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              governingLawKey: ban.id,
+              governingLawKey: actualBanId,
               effectKind: "state-revenue-loss",
             }),
           ]),

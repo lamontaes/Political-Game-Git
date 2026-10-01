@@ -1,17 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
+import { makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
 import { lawInForce } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
-import type {
-  EntityId,
-  LegislativeEnactmentRecord,
-  LegislativeMeasureRecord,
-  World,
-} from "../types";
-import { createWorld, recordWorldEvent } from "../world";
+import type { EntityId, LegislativeMeasureRecord } from "../types";
+import { createWorld } from "../world";
 import { createStableId } from "../ids";
+import { enactCostLawFixture } from "../../../tests/fixtures/enacted-cost-law-fixture";
 import { legislatureProfilePackId } from "../legislature-game-profile";
 import { deserializeWorld, serializeWorld } from "../serialization";
 const AGE_VERIFICATION_COST_QUESTION =
@@ -91,80 +87,10 @@ describe("consumer privacy without an appropriation or actual hires produces no 
       });
       const ageMeasure = makeMeasure(age.id, "yes", 0);
       const privacyMeasure = makeMeasure(privacy.id, answer, 1);
-      const enact = (
-        measure: LegislativeMeasureRecord,
-      ): LegislativeEnactmentRecord => ({
-        id: createStableId(
-          "legislative-enactment",
-          measure.stableKey + ":enacted",
-        ),
-        stableKey: measure.stableKey + ":enacted",
-        sequence: measure.sequence + 1,
-        measureId: measure.id,
-        resolvedAt: month,
-        outcome: "enacted",
-        actDesignation: null,
-        effectiveAt: month,
-        outcomeEventId: `event_${measure.id}` as EntityId,
-      });
-      let world: World = {
-        ...base,
-        currentDate: makeIsoDate("2026-06-01"),
-        currentMoment: simulationMomentOnLocalDate(
-          base.currentMoment,
-          makeIsoDate("2026-06-01"),
-        ),
-        history: {
-          ...base.history,
-          nextSequence: base.history.nextSequence + 4,
-          legislativeMeasures: [ageMeasure, privacyMeasure],
-          legislativeEnactments: [enact(ageMeasure), enact(privacyMeasure)],
-        },
-      };
-      const canonicalEnactments: LegislativeEnactmentRecord[] = [];
-      for (const fixtureEnactment of world.history.legislativeEnactments!) {
-        world = recordWorldEvent(world, {
-          stableKey: fixtureEnactment.stableKey + ":outcome",
-          type: "fixture.law-enacted",
-          occurredAt: month,
-          recordedAt: month,
-          jurisdictionId: state.id,
-          involvedEntityIds: [state.id],
-          participants: [],
-          personFactConstraints: [],
-          visibility: "public",
-          tags: [],
-          summary:
-            "Authored enactment fixture, not ordinary political passage.",
-          context: {
-            location: null,
-            socialContext: null,
-            pressure: null,
-            choice: null,
-            motivation: null,
-            immediateReaction: null,
-          },
-        });
-        canonicalEnactments.push({
-          ...fixtureEnactment,
-          outcomeEventId: world.history.events.at(-1)!.id,
-        });
-      }
-      world = {
-        ...world,
-        history: {
-          ...world.history,
-          legislativeEnactments: canonicalEnactments,
-        },
-      };
-      const ageOnly: World = {
-        ...world,
-        history: {
-          ...world.history,
-          legislativeMeasures: [ageMeasure],
-          legislativeEnactments: [enact(ageMeasure)],
-        },
-      };
+      const ageFixture = enactCostLawFixture(base, ageMeasure);
+      const ageOnly = ageFixture.world;
+      const privacyFixture = enactCostLawFixture(ageOnly, privacyMeasure);
+      const world = privacyFixture.world;
       const government = withOpenedBudgets(
         base,
         {
@@ -190,7 +116,7 @@ describe("consumer privacy without an appropriation or actual hires produces no 
       ).government;
       const saved = savedGovernment.months.at(-1)!;
       expect(lawInForce(world, state.id, privacy.id, month)?.measureId).toBe(
-        privacyMeasure.id,
+        privacyFixture.measure.id,
       );
       expect(
         SPENDING_QUESTION_EFFECTS.some(
