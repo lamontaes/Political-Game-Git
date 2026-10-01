@@ -5,7 +5,7 @@
   "coverage": { "withRules": 149, "total": 149 },
   "counts": {
     "verified": { "partly": 33, "not-started": 100, "done": 16 },
-    "scanned": { "partly": 35, "not-started": 96, "done": 17, "unknown": 1 }
+    "scanned": { "partly": 35, "not-started": 95, "done": 18, "unknown": 1 }
   },
   "orderMatchesEngineDoc": true,
   "orderMismatches": [],
@@ -631,7 +631,7 @@
                 "why": "refreshLifeOpportunities settles office salary (life-opportunities.ts:452)"
               },
               "pass": false,
-              "at": ["src/simulation/life-opportunities.ts:452"]
+              "at": ["src/simulation/life-opportunities.ts:451"]
             },
             {
               "check": {
@@ -641,7 +641,7 @@
                 "why": "refreshLifeOpportunities settles the mortgage (life-opportunities.ts:454)"
               },
               "pass": false,
-              "at": ["src/simulation/life-opportunities.ts:454"]
+              "at": ["src/simulation/life-opportunities.ts:453"]
             },
             {
               "check": {
@@ -651,7 +651,7 @@
                 "why": "refreshLifeOpportunities settles living costs (life-opportunities.ts:455)"
               },
               "pass": false,
-              "at": ["src/simulation/life-opportunities.ts:455"]
+              "at": ["src/simulation/life-opportunities.ts:454"]
             }
           ],
           "step": "6"
@@ -3661,7 +3661,7 @@
                 "kind": "present",
                 "file": "src/simulation/governing/office-continuity.ts",
                 "pattern": "chooseAppointee\\(world,",
-                "why": "the nominee comes from the President's own appointment decision (office-continuity.ts:1556)"
+                "why": "the nominee comes from the President's own appointment decision (office-continuity.ts:1560)"
               },
               "pass": true,
               "at": [
@@ -5220,7 +5220,7 @@
                 "why": "the simulation path is called in production (life-opportunities.ts:453)"
               },
               "pass": true,
-              "at": ["src/simulation/life-opportunities.ts:453"]
+              "at": ["src/simulation/life-opportunities.ts:452"]
             },
             {
               "check": {
@@ -5528,7 +5528,7 @@
                 "why": "the $2,800 a month fallback wage (local-economy.ts:78)"
               },
               "pass": false,
-              "at": ["src/simulation/local-economy.ts:78"]
+              "at": ["src/simulation/local-economy.ts:79"]
             },
             {
               "check": {
@@ -5539,8 +5539,8 @@
               },
               "pass": false,
               "at": [
-                "src/simulation/local-economy.ts:86",
-                "src/simulation/local-economy.ts:103"
+                "src/simulation/local-economy.ts:87",
+                "src/simulation/local-economy.ts:104"
               ]
             },
             {
@@ -5564,7 +5564,7 @@
           "verified": "not-started",
           "scanned": "not-started",
           "after": "after A58 (business books)",
-          "afterSteps": [{ "id": "A58", "scanned": "not-started" }],
+          "afterSteps": [{ "id": "A58", "scanned": "partly" }],
           "afterDone": false,
           "drift": [],
           "covers": "part",
@@ -5632,7 +5632,7 @@
                 "kind": "absent",
                 "file": "src/simulation/living-world/town-labor-market.ts",
                 "pattern": "const byYouth\\s*=",
-                "why": "the youngest-quit-first ordering (town-labor-market.ts:288)"
+                "why": "the youngest-quit-first ordering (town-labor-market.ts:293; audit cited :288)"
               },
               "pass": false,
               "at": ["src/simulation/living-world/town-labor-market.ts:293"]
@@ -5642,7 +5642,7 @@
                 "kind": "absent",
                 "file": "src/simulation/living-world/town-labor-market.ts",
                 "pattern": "const byLatestHire\\s*=",
-                "why": "the last-hired-first-let-go ordering (town-labor-market.ts:262)"
+                "why": "the last-hired-first-let-go ordering (town-labor-market.ts:266; audit cited :262)"
               },
               "pass": false,
               "at": ["src/simulation/living-world/town-labor-market.ts:266"]
@@ -5652,7 +5652,7 @@
                 "kind": "absent",
                 "file": "src/simulation/living-world/town-labor-market.ts",
                 "pattern": "lastWorked\\.get\\(b\\.personId\\)",
-                "why": "the shortest-out-of-work-first call-back ordering (town-labor-market.ts:384)"
+                "why": "the shortest-out-of-work-first call-back ordering (town-labor-market.ts:397; audit cited :384)"
               },
               "pass": false,
               "at": ["src/simulation/living-world/town-labor-market.ts:397"]
@@ -5839,7 +5839,7 @@
                 "kind": "absent",
                 "file": "src/simulation/cost-of-living.ts",
                 "pattern": "monthlyCostMinor\\(\\)",
-                "why": "the zero-argument monthly charge (defined cost-of-living.ts:150, called :205): a real bill needs the household's region and size"
+                "why": "the zero-argument monthly charge (defined cost-of-living.ts:149, called :204 and :243): a real bill needs the household's region and size"
               },
               "pass": false,
               "at": [
@@ -5997,7 +5997,7 @@
                 "why": "the private player-only mortgage loop is still called from refreshLifeOpportunities (life-opportunities.ts:454)"
               },
               "pass": false,
-              "at": ["src/simulation/life-opportunities.ts:454"]
+              "at": ["src/simulation/life-opportunities.ts:453"]
             },
             {
               "check": {
@@ -6018,13 +6018,13 @@
           "short": "Retire the old fixed-revenue business engine",
           "owner": "Team 4",
           "verified": "not-started",
-          "scanned": "not-started",
+          "scanned": "partly",
           "after": "business books (X4)",
           "afterSteps": [],
           "afterDone": null,
           "drift": [],
           "covers": "whole",
-          "passed": 0,
+          "passed": 1,
           "checks": [
             {
               "check": {
@@ -6033,8 +6033,8 @@
                 "pattern": "refreshLocalEconomy\\(",
                 "why": "the old fixed-revenue business engine is still refreshed from refreshLifeOpportunities (life-opportunities.ts:451)"
               },
-              "pass": false,
-              "at": ["src/simulation/life-opportunities.ts:451"]
+              "pass": true,
+              "at": []
             },
             {
               "check": {
@@ -6058,14 +6058,14 @@
               },
               "pass": false,
               "at": [
-                "src/simulation/local-economy.ts:137",
-                "src/simulation/local-economy.ts:148",
-                "src/simulation/local-economy.ts:159",
-                "src/simulation/local-economy.ts:170",
-                "src/simulation/local-economy.ts:181",
-                "src/simulation/local-economy.ts:192",
-                "src/simulation/local-economy.ts:203",
-                "src/simulation/local-economy.ts:214"
+                "src/simulation/local-economy.ts:138",
+                "src/simulation/local-economy.ts:149",
+                "src/simulation/local-economy.ts:160",
+                "src/simulation/local-economy.ts:171",
+                "src/simulation/local-economy.ts:182",
+                "src/simulation/local-economy.ts:193",
+                "src/simulation/local-economy.ts:204",
+                "src/simulation/local-economy.ts:215"
               ]
             },
             {
@@ -6076,7 +6076,7 @@
                 "why": "every old-engine business flow is written 'completed' by default (local-economy.ts:698)"
               },
               "pass": false,
-              "at": ["src/simulation/local-economy.ts:698"]
+              "at": ["src/simulation/local-economy.ts:699"]
             },
             {
               "check": {
@@ -6099,7 +6099,7 @@
           "verified": "not-started",
           "scanned": "not-started",
           "after": "after A58",
-          "afterSteps": [{ "id": "A58", "scanned": "not-started" }],
+          "afterSteps": [{ "id": "A58", "scanned": "partly" }],
           "afterDone": false,
           "drift": ["dice"],
           "covers": "whole",
@@ -6749,12 +6749,12 @@
           "short": "Replace the most consequential hand-set numbers",
           "owner": "Standby Claude Team 5",
           "verified": "done",
-          "scanned": "partly",
+          "scanned": "done",
           "after": "done",
           "afterSteps": [],
           "afterDone": null,
           "drift": [],
-          "covers": "part",
+          "covers": "whole",
           "passed": 4,
           "checks": [
             {
@@ -9139,7 +9139,7 @@
                 "why": "the other parent 'deceased' pick, the bounded first step (production-world.ts:1198)"
               },
               "pass": false,
-              "at": ["src/presentation/production-world.ts:1198"]
+              "at": ["src/presentation/production-world.ts:1199"]
             },
             {
               "check": {
@@ -9149,7 +9149,7 @@
                 "why": "the opening family shape pick (production-world.ts:917)"
               },
               "pass": false,
-              "at": ["src/presentation/production-world.ts:917"]
+              "at": ["src/presentation/production-world.ts:918"]
             },
             {
               "check": {
@@ -10164,7 +10164,7 @@
           "verified": "partly",
           "scanned": "partly",
           "after": "after A58 business books",
-          "afterSteps": [{ "id": "A58", "scanned": "not-started" }],
+          "afterSteps": [{ "id": "A58", "scanned": "partly" }],
           "afterDone": false,
           "drift": ["dice"],
           "covers": "whole",

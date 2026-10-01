@@ -3408,7 +3408,7 @@
           "kind": "present",
           "file": "src/simulation/governing/office-continuity.ts",
           "pattern": "chooseAppointee\\(world,",
-          "why": "the nominee comes from the President's own appointment decision (office-continuity.ts:1556)"
+          "why": "the nominee comes from the President's own appointment decision (office-continuity.ts:1560)"
         },
         {
           "kind": "test",
@@ -3417,7 +3417,7 @@
           "why": "the proving test for the blocked, vacant outcome (#1485)"
         }
       ],
-      "note": "All four checks pass (pick removed in #1485, blocked reason at :1575, chooseAppointee at :1556, test exists): done, as verified."
+      "note": "All four checks pass (pick removed in #1485, blocked reason at :1575, chooseAppointee at :1560, test exists): done, as verified."
     },
     "A97": {
       "covers": "whole",
@@ -3756,19 +3756,19 @@
           "kind": "absent",
           "file": "src/simulation/living-world/town-labor-market.ts",
           "pattern": "const byYouth\\s*=",
-          "why": "the youngest-quit-first ordering (town-labor-market.ts:288)"
+          "why": "the youngest-quit-first ordering (town-labor-market.ts:293; audit cited :288)"
         },
         {
           "kind": "absent",
           "file": "src/simulation/living-world/town-labor-market.ts",
           "pattern": "const byLatestHire\\s*=",
-          "why": "the last-hired-first-let-go ordering (town-labor-market.ts:262)"
+          "why": "the last-hired-first-let-go ordering (town-labor-market.ts:266; audit cited :262)"
         },
         {
           "kind": "absent",
           "file": "src/simulation/living-world/town-labor-market.ts",
           "pattern": "lastWorked\\.get\\(b\\.personId\\)",
-          "why": "the shortest-out-of-work-first call-back ordering (town-labor-market.ts:384)"
+          "why": "the shortest-out-of-work-first call-back ordering (town-labor-market.ts:397; audit cited :384)"
         },
         {
           "kind": "present",
@@ -3777,7 +3777,7 @@
           "why": "each worker's own quit choice runs through the shared decision engine (none today)"
         }
       ],
-      "note": "All three HARDWIRED orderings are live (town-labor-market.ts:262 byLatestHire, :288 byYouth, :384 lastWorked) and the file never calls evaluateDecision: not-started. Whole means all three plus a decision call; replacing only the quit ordering (the next step) scans partly."
+      "note": "All three HARDWIRED orderings are live (town-labor-market.ts:266 byLatestHire, :293 byYouth, :397 lastWorked) and the file never calls evaluateDecision: not-started. Whole means all three plus a decision call; replacing only the quit ordering (the next step) scans partly."
     },
     "A10": {
       "covers": "whole",
@@ -3867,7 +3867,7 @@
           "why": "the proof the next step names: a national law goes to the federal court, or stays pending when none is seated"
         }
       ],
-      "note": "Three finders and the national skip are live (judicial-review.ts:113/371, court-reasoning.ts:427/437, town-rent.ts:2037/2044); no courtFor exists. The test check (national law goes to the federal court) is the one thing patterns cannot prove, so the item scans unknown, pending its proving test, instead of not-started."
+      "note": "Three finders and the national skip are live (judicial-review.ts:113/371, court-reasoning.ts:427/437, town-rent.ts:2037/2044); no courtFor exists: not-started, as verified (0 of 8). The test check (national law goes to the federal court) is the one thing patterns cannot prove; it is not on main yet."
     },
     "A103": {
       "covers": "whole",
@@ -3938,7 +3938,7 @@
           "why": "the proof the next step names: an unseated prosecutor's office leaves the case pending"
         }
       ],
-      "note": "prosecutorsCharge is defined and called (prosecution.ts:211, :685) and no justice code calls isSelectedDecision, so both code checks fail. The seated-prosecutor test is not on main, so the item scans unknown, pending its proving test."
+      "note": "prosecutorsCharge is defined and called (prosecution.ts:211, :685) and no justice code calls isSelectedDecision: not-started, as verified (0 of 3). The seated-prosecutor test is not on main yet; the item cannot reach done without it."
     },
     "A25": {
       "covers": "whole",
@@ -3968,7 +3968,7 @@
           "why": "the proof the next step names: two states with different 2026 ages differ with no law passed"
         }
       ],
-      "note": "The 18/17 constants are live (juvenile-court.ts:25-26), legal-outcome.ts has no juvenile row, and there is no juvenile-court.test.ts, so the item scans unknown, pending its proving test. No per-state juvenile table exists under data/research/, so there is no reader check; the test is what proves the table is read."
+      "note": "The 18/17 constants are live (juvenile-court.ts:25-26) and legal-outcome.ts has no juvenile row: not-started, as verified (0 of 4). No per-state juvenile table exists under data/research/, so there is no reader check; the juvenile-court.test.ts proof (not on main yet) is what shows a table is read."
     },
     "A101": {
       "covers": "whole",
@@ -3980,7 +3980,7 @@
           "why": "the proof the next step names: a law nobody is affected by is never reviewed. awaitingReview (judicial-review.ts:364-388) schedules every matching law with no filing, and no code line shows a filing gate by name, so only the test can prove it"
         }
       ],
-      "note": "Test-only rule: the evidence shows no line a pattern can name for a missing filing gate (judicial-review.ts:364-388 schedules from the precedent table alone). The existing judicial-review.test.ts has no 'never reviewed' title, so it scans unknown, pending its proving test."
+      "note": "Test-only rule: no code line can name a missing filing gate (judicial-review.ts:364-388 schedules from the precedent table alone). The existing judicial-review.test.ts has no 'never reviewed' title, so the item scans unknown (pending its proving test) rather than not-started; verified says not-started."
     },
     "A105": {
       "covers": "whole",
@@ -4043,7 +4043,7 @@
           "kind": "absent",
           "file": "src/simulation/cost-of-living.ts",
           "pattern": "monthlyCostMinor\\(\\)",
-          "why": "the zero-argument monthly charge (defined cost-of-living.ts:150, called :205): a real bill needs the household's region and size"
+          "why": "the zero-argument monthly charge (defined cost-of-living.ts:149, called :204 and :243): a real bill needs the household's region and size"
         },
         {
           "kind": "present",
@@ -4052,7 +4052,7 @@
           "why": "production code reads the BLS Consumer Expenditure regional corpus (data/source/consumer-expenditure/); nothing under src/ names it today"
         }
       ],
-      "note": "Housing check passes (mortgageFlows, cost-of-living.ts:131); the placeholder arithmetic (:151-152), monthlyCostMinor() (:150, :205) and the missing Consumer Expenditure reader fail: partly, as verified. The CE regional corpus lives in data/source/consumer-expenditure/, outside the reader index (data/research only), so the reader check is a source pattern in src/simulation/."
+      "note": "Housing check passes (mortgageFlows, cost-of-living.ts:117 and :133); the placeholder arithmetic (:151-152), monthlyCostMinor() (:149, :204, :243) and the missing Consumer Expenditure reader fail: partly, as verified. The CE regional corpus lives in data/source/consumer-expenditure/, outside the reader index (data/research only), so the reader check is a source pattern in src/simulation/."
     },
     "A57": {
       "covers": "part",
