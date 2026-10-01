@@ -1,6 +1,6 @@
 {
   "gap": "A97",
-  "runtimeSource": "836450e63f0a65ebca8b424cc1d13384fc9af592",
+  "runtimeSource": "0faac89354130399466c9847bd1a2b622def6eaf",
   "mainBase": "493621af2e9ddb4fb7429c49747fceb61372a9f3",
   "publicationRefreshMain": "e8b22a5f712a26bf72f86f028c0d1726682f2c1c",
   "fixture": {
@@ -31,14 +31,6 @@
       "durationSeconds": 25.4,
       "reason": "Expected enacted, received null before duty settlement at pass:128"
     }
-  },
-  "candidate": {
-    "newCasesPassed": 4,
-    "legacyFailed": 1,
-    "unselected": 77,
-    "commandExitCode": 1,
-    "durationSeconds": 53.75,
-    "terminalProcessHandle": 75687
   },
   "types": {
     "productionAndNewTestRoots": 2,
@@ -116,6 +108,105 @@
       "localPath": "/tmp/team2-a97-release.log",
       "sha256": "86882d1018e5862bec7e9a1beec814fc21f9a5d3c4a4df3aaead45b0d6ccf230",
       "text": "release:check \u2014 version 0.4.0, revision unknown, 1151 pending declaration(s), declaration range origin/main..HEAD (pr). OK.\n"
+    },
+    {
+      "name": "repair-before",
+      "localPath": "/tmp/team2-a97-repair-before.log",
+      "sha256": "22aa5413803d437ce15b1bcfdad225ba0f968dec4df68bd44ebd45c9de6aef73",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n \u276f src/presentation/enacted-duties.test.ts (78 tests | 5 failed | 73 skipped) 413ms\n     \u00d7 records the duty without mistaking workers for fulfillment 176ms\n     \u00d7 writes nothing twice 66ms\n     \u00d7 records coverage as unknown where the Act turns on a size the world does not hold 68ms\n     \u00d7 stands with no body under it when the Act reaches only bodies that act first 48ms\n     \u00d7 counts the bodies on record it names 53ms\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 5 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records the duty without mistaking workers for fulfillment\nAssertionError: expected null to be 'enacted' // Object.is equality\n\n- Expected:\n\"enacted\"\n\n+ Received:\nnull\n\n \u276f pass src/presentation/enacted-duties.test.ts:128:53\n    126|     );\n    127|   }\n    128|   expect(measurePosition(world, measureId).outcome).toBe(\"enacted\");\n       |                                                     ^\n    129|   return { world, measureId, docketKey: filed.bill.docketKey };\n    130| }\n \u276f enact src/presentation/enacted-duties.test.ts:150:32\n \u276f src/presentation/enacted-duties.test.ts:177:54\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/5]\u23af\n\n FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > writes nothing twice\nAssertionError: expected null to be 'enacted' // Object.is equality\n\n- Expected:\n\"enacted\"\n\n+ Received:\nnull\n\n \u276f pass src/presentation/enacted-duties.test.ts:128:53\n    126|     );\n    127|   }\n    128|   expect(measurePosition(world, measureId).outcome).toBe(\"enacted\");\n       |                                                     ^\n    129|   return { world, measureId, docketKey: filed.bill.docketKey };\n    130| }\n \u276f enact src/presentation/enacted-duties.test.ts:150:32\n \u276f src/presentation/enacted-duties.test.ts:231:34\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[2/5]\u23af\n\n FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records coverage as unknown where the Act turns on a size the world does not hold\nAssertionError: expected null to be 'enacted' // Object.is equality\n\n- Expected:\n\"enacted\"\n\n+ Received:\nnull\n\n \u276f pass src/presentation/enacted-duties.test.ts:128:53\n    126|     );\n    127|   }\n    128|   expect(measurePosition(world, measureId).outcome).toBe(\"enacted\");\n       |                                                     ^\n    129|   return { world, measureId, docketKey: filed.bill.docketKey };\n    130| }\n \u276f enact src/presentation/enacted-duties.test.ts:150:32\n \u276f src/presentation/enacted-duties.test.ts:247:34\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[3/5]\u23af\n\n FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > stands with no body under it when the Act reaches only bodies that act first\nAssertionError: expected null to be 'enacted' // Object.is equality\n\n- Expected:\n\"enacted\"\n\n+ Received:\nnull\n\n \u276f pass src/presentation/enacted-duties.test.ts:128:53\n    126|     );\n    127|   }\n    128|   expect(measurePosition(world, measureId).outcome).toBe(\"enacted\");\n       |                                                     ^\n    129|   return { world, measureId, docketKey: filed.bill.docketKey };\n    130| }\n \u276f enact src/presentation/enacted-duties.test.ts:150:32\n \u276f src/presentation/enacted-duties.test.ts:260:34\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[4/5]\u23af\n\n FAIL  src/presentation/enacted-duties.test.ts > a law that says who it applies to > counts the bodies on record it names\nAssertionError: expected null to be 'enacted' // Object.is equality\n\n- Expected:\n\"enacted\"\n\n+ Received:\nnull\n\n \u276f pass src/presentation/enacted-duties.test.ts:128:53\n    126|     );\n    127|   }\n    128|   expect(measurePosition(world, measureId).outcome).toBe(\"enacted\");\n       |                                                     ^\n    129|   return { world, measureId, docketKey: filed.bill.docketKey };\n    130| }\n \u276f enact src/presentation/enacted-duties.test.ts:150:32\n \u276f src/presentation/enacted-duties.test.ts:288:34\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[5/5]\u23af\n\n\n Test Files  1 failed (1)\n      Tests  5 failed | 73 skipped (78)\n   Start at  11:03:46\n   Duration  23.81s (transform 17.98s, setup 17ms, import 23.25s, tests 413ms, environment 0ms)\n\n"
+    },
+    {
+      "name": "repair-before-types",
+      "localPath": "/tmp/team2-a97-repair-before-types.log",
+      "sha256": "d1aff64a0cc608c5d51d9863a3c51c265bc9ebaa2c8b7044866cc3aa5a885574",
+      "text": "\u001b[96msrc/presentation/enacted-duties.test.ts\u001b[0m:\u001b[93m161\u001b[0m:\u001b[93m12\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'duty' does not exist on type '{ readonly duty: EnactedDutyRuleRecord; readonly findings: readonly EnactedDutyFindingRecord[]; } | undefined'.\n\n\u001b[7m161\u001b[0m   const [{ duty }] = enactedDutiesOf(world, measureId);\n\u001b[7m   \u001b[0m \u001b[91m           ~~~~\u001b[0m\n\u001b[96msrc/presentation/enacted-duties.test.ts\u001b[0m:\u001b[93m361\u001b[0m:\u001b[93m14\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'duty' does not exist on type '{ readonly duty: EnactedDutyRuleRecord; readonly findings: readonly EnactedDutyFindingRecord[]; } | undefined'.\n\n\u001b[7m361\u001b[0m     const [{ duty }] = enactedDutiesOf(world, measureId);\n\u001b[7m   \u001b[0m \u001b[91m             ~~~~\u001b[0m\n\u001b[96msrc/presentation/enacted-duties.test.ts\u001b[0m:\u001b[93m538\u001b[0m:\u001b[93m11\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'authorizesSpending' does not exist on type 'PredicateAuthority'.\n  Property 'authorizesSpending' does not exist on type '{ readonly kind: \"game-profile\"; readonly authorityKey: string; readonly authorityVersion: string; readonly profileVersion: string; readonly rulePackId: string; readonly governmentLevel?: \"county\" | \"municipality\" | \"federal\" | \"state\" | undefined; ... 6 more ...; readonly basis: \"game-profile\"; }'.\n\n\u001b[7m538\u001b[0m         ?.authorizesSpending,\n\u001b[7m   \u001b[0m \u001b[91m          ~~~~~~~~~~~~~~~~~~\u001b[0m\n\u001b[96msrc/presentation/enacted-duties.test.ts\u001b[0m:\u001b[93m551\u001b[0m:\u001b[93m58\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'authorizesSpending' does not exist on type 'PredicateAuthority'.\n  Property 'authorizesSpending' does not exist on type '{ readonly kind: \"game-profile\"; readonly authorityKey: string; readonly authorityVersion: string; readonly profileVersion: string; readonly rulePackId: string; readonly governmentLevel?: \"county\" | \"municipality\" | \"federal\" | \"state\" | undefined; ... 6 more ...; readonly basis: \"game-profile\"; }'.\n\n\u001b[7m551\u001b[0m       resolveAuthority(after, input(scenario), TRANSIT)?.authorizesSpending,\n\u001b[7m   \u001b[0m \u001b[91m                                                         ~~~~~~~~~~~~~~~~~~\u001b[0m\n\u001b[96msrc/presentation/enacted-duties.test.ts\u001b[0m:\u001b[93m617\u001b[0m:\u001b[93m9\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2322: \u001b[0mType 'string' is not assignable to type 'EntityId'.\n  Type 'string' is not assignable to type '{ readonly [entityIdBrand]: true; }'.\n\n\u001b[7m617\u001b[0m         jurisdictionId: \"jurisdiction_elsewhere\",\n\u001b[7m   \u001b[0m \u001b[91m        ~~~~~~~~~~~~~~\u001b[0m\nscoped roots 3; diagnostics 5\n"
+    },
+    {
+      "name": "repair-after",
+      "localPath": "/tmp/team2-a97-repair-after.log",
+      "sha256": "94a2095faf964163ab4f55f9fe644c9f4e3343df3a3739ee5ed1b4deb580e6cc",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n \u276f src/presentation/enacted-duties.test.ts (78 tests | 1 failed | 70 skipped) 641ms\n     \u00d7 records the duty without mistaking workers for fulfillment 237ms\nA97 evidence receipt {\"seed\":\"A97-staffing-is-not-performance\",\"state\":\"US-NM\",\"place\":\"Abeytas, New Mexico\",\"operator\":\"Erin Pace\",\"dutyId\":\"enacted-duty-record_6cd93f7e4ec0c2cc\",\"staffedId\":\"organization_d010c7ec069753bb\",\"coveredBodies\":2,\"complied\":0,\"complianceUnknown\":2,\"coverageUnknown\":1,\"fixture\":\"canonical supplied duty, no natural enactment or positive completion claim\"}\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 1 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/presentation/enacted-duties.test.ts > a law that places a duty on a class of body > records the duty without mistaking workers for fulfillment\nAssertionError: expected 'The duty: this applies to every opera\u2026' to contain 'Of those on record, 0 of 2 met it; fo\u2026'\n\nExpected: \"Of those on record, 0 of 2 met it; for 2, whether it was met is not known.\"\nReceived: \"The duty: this applies to every operator of a community water system, or a utility distributing electricity, in effect since January 14, 2026. Of those on record, for 2, whether it was met is not known. Operators covered: it applies to every operator of a community water system, or a utility distributing electricity. 2 are on record here.\"\n\n \u276f src/presentation/enacted-duties.test.ts:247:60\n    245|       complianceUnknown: 2,\n    246|     });\n    247|     expect(lawEffectSentences(after, measureId).join(\" \")).toContain(\n       |                                                            ^\n    248|       \"Of those on record, 0 of 2 met it; for 2, whether it was met is\u2026\n    249|     );\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n\n Test Files  1 failed | 1 passed (2)\n      Tests  1 failed | 11 passed | 70 skipped (82)\n   Start at  11:05:18\n   Duration  37.27s (transform 17.99s, setup 34ms, import 24.84s, tests 12.11s, environment 1ms)\n\n"
+    },
+    {
+      "name": "repair-after-types",
+      "localPath": "/tmp/team2-a97-repair-after-types.log",
+      "sha256": "144e4f3b535571757eed308cadac4b2fa5f2b5268defdaada3635b8ec41dada6",
+      "text": "scoped roots 3; diagnostics 0\n"
+    },
+    {
+      "name": "repair-final",
+      "localPath": "/tmp/team2-a97-repair-final.log",
+      "sha256": "3370c836350f2953a696ba1917cea19d4d0b21696b82562b9857501a393a9ff9",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA97 evidence receipt {\"seed\":\"A97-staffing-is-not-performance\",\"state\":\"US-NM\",\"place\":\"Abeytas, New Mexico\",\"operator\":\"Erin Pace\",\"dutyId\":\"enacted-duty-record_6cd93f7e4ec0c2cc\",\"staffedId\":\"organization_d010c7ec069753bb\",\"coveredBodies\":2,\"complied\":0,\"complianceUnknown\":2,\"coverageUnknown\":1,\"fixture\":\"canonical supplied duty, no natural enactment or positive completion claim\"}\n\n Test Files  2 passed (2)\n      Tests  12 passed | 70 skipped (82)\n   Start at  11:06:19\n   Duration  37.24s (transform 16.44s, setup 26ms, import 23.26s, tests 13.67s, environment 1ms)\n\n"
+    },
+    {
+      "name": "repair-lint",
+      "localPath": "/tmp/team2-a97-repair-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    {
+      "name": "repair-format",
+      "localPath": "/tmp/team2-a97-repair-format.log",
+      "sha256": "773cff305e1e384801ea09129135096bc71e0b5f6fa6c8fd66938c0de01cafbe",
+      "text": "Checking formatting...\nAll matched files use Prettier code style!\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+    },
+    {
+      "name": "repair-release",
+      "localPath": "/tmp/team2-a97-repair-release.log",
+      "sha256": "8ef1b4b494ea815228bd6555e160d586605cd0d2bd52a5fd1ab270ba913a5a02",
+      "text": "release:check \u2014 version 0.4.0, revision 49baf8a (dirty), 1154 pending declaration(s), declaration range origin/main..HEAD (pr). OK.\n"
+    },
+    {
+      "name": "repair-zero",
+      "localPath": "/tmp/team2-a97-repair-zero.log",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\n"
+    },
+    {
+      "name": "repair-spelling-final",
+      "localPath": "/tmp/team2-a97-repair-spelling-final.log",
+      "sha256": "056df64fe761e0dcc83c4225d4679f45d02b9089d73038dca65a988411b3a2b5",
+      "summary": "23 existing spelling findings; no changed A97 prose finding. Raw evidence preserved at path/hash."
     }
-  ]
+  ],
+  "historicalRuntimeSource": "836450e63f0a65ebca8b424cc1d13384fc9af592",
+  "repairMainBase": "1bcc9a6cbb8024cae4135a55f01aa069942994b5",
+  "repair": {
+    "passed": 12,
+    "failed": 0,
+    "unselected": 70,
+    "durationSeconds": 37.24,
+    "strictRoots": 3,
+    "strictDiagnostics": 0,
+    "selectedCases": "CTO five failures, four A97 evidence cases, three type-repaired cases",
+    "fixtureLimit": "Canonical supplied signature, no fabricated officeholder or ordinary governor proof",
+    "productionRule": "Staffing cannot establish compliance; positive receipt binding remains unadmitted",
+    "zeroDice": {
+      "new": 0,
+      "staleGone": 5,
+      "exitCode": 1
+    },
+    "spelling": {
+      "findings": 23,
+      "newA97ProseFindings": 0,
+      "exitCode": 1
+    },
+    "notRun": [
+      "Full suite",
+      "Ordinary executive passage",
+      "Ordinary year",
+      "Year-speed",
+      "All-56 populated worlds",
+      "Browser"
+    ]
+  },
+  "historicalCandidate": {
+    "newCasesPassed": 4,
+    "legacyFailed": 1,
+    "unselected": 77,
+    "commandExitCode": 1,
+    "durationSeconds": 53.75,
+    "terminalProcessHandle": 75687
+  }
 }

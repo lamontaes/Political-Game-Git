@@ -18,7 +18,9 @@ Measured source-contract finding: Audit identified no approved fulfillment recei
 
 Measured source finding: the old employment helper and its imports are removed (`enacted-duties.ts:19`). The writer's existing one-finding-per-body guard remains. Saved game-profile findings are not rewritten, including historical staffing-based claims. Correcting those prior claims or upgrading unknown to fulfilled needs a separate approved record contract.
 
-Measured source finding: the old presentation fixture still cannot reach enactment before settlement (`enacted-duties.test.ts:128`). It failed on unchanged A97 source and again on the candidate with the same null outcome. Its compliance assertions now require unknown for both utilities; the unrelated enactment fixture has not been bypassed or weakened.
+Measured fixture finding: all five cases returned a null enactment outcome because the supplied legislative scenario has no executive office (`/tmp/team2-a97-repair-before.log`). The downstream fixture now records an explicitly supplied signature through the canonical executive-action writer. It does not manufacture an officeholder or restore the production scenario fallback. This proves duty handling after a controlled signature, not an ordinary governor decision.
+
+Measured type finding: two optional duty entries needed checked narrowing, and two spending assertions needed their standing-statute discriminant (`enacted-duties.test.ts:176`). The other-jurisdiction case now uses Iowa's canonical jurisdiction identity instead of an untyped invented ID. Missing records throw; no assertion is discarded.
 
 ## What gets built
 
@@ -26,7 +28,7 @@ Measured source finding: the old presentation fixture still cannot reach enactme
 2. Write compliance-unknown with unknown basis when the fulfillment join is absent.
 3. Preserve both coverage-unknown paths, paired events, existing findings and repeat behavior.
 4. Add a counterexample using a named actual worker, plus coverage, Continue and legacy-history cases.
-5. Correct the old compliance assertions and disclose their existing enactment failure.
+5. Repair the controlled enactment fixture, strict type guards and expected unknown-compliance prose.
 
 ## Simulated, records, world pieces, checks
 
@@ -40,7 +42,11 @@ Measured: the fixture's supplied legacy game-profile finding survives settlement
 
 Measured: the baseline produced one failed counterexample and three passing preservation cases in 24.75 seconds (`/tmp/team2-a97-before.log`). The failed assertion received complied and game-profile for the staffed utility. That is the defect this patch removes.
 
-Measured: all four new cases passed in the 53.75-second combined command on the candidate composed from fetched main (`/tmp/team2-a97-main.log`). The combined command also selected one older integration case, which failed at its existing enactment assertion; 77 unrelated cases were deliberately unselected. The command exited 1 and is not an all-green integration result. No assertion was removed or timeout increased.
+Measured historical attempt: four new cases passed, while one selected older case failed before enactment (`/tmp/team2-a97-main.log`). The CTO returned the candidate for repair. That receipt is preserved and does not establish acceptance.
+
+Measured repair: all 12 selected cases passed in 37.24 seconds with 70 unselected cases (`/tmp/team2-a97-repair-final.log`). The selection covers the CTO's five failures, four focused evidence cases and three cases affected by type repairs. No timeout increased or compliance assertion weakened.
+
+Measured reader behavior: unknown performance reads “Of those on record, for 2, whether it was met is not known.” (`enacted-duties.test.ts:247`). The existing reader omits a zero compliance tally when performance is unknown.
 
 Measured: the seed A97-staffing-is-not-performance selected Abeytas, New Mexico, from all 56 starting jurisdiction identities (`enacted-duty-evidence.test.ts:32`). This is one populated world and a generic saved-duty settlement fixture. All-56 populated worlds, ordinary law passage and an ordinary year were NOT RUN.
 
@@ -52,8 +58,10 @@ Measured: the candidate retains the duty identity enacted-duty-record_6cd93f7e4e
 
 ## Method and handoff
 
-Audit gap A97. Runtime source is 836450e63f0a65ebca8b424cc1d13384fc9af592, based directly on main 493621af2e9ddb4fb7429c49747fceb61372a9f3. The earlier A79 state fixture and federal candidate remain on their preserved branches. This PR contains only the duty guard, focused tests, corrected compliance assertions, release declaration and evidence.
+Audit gap A97. Repaired runtime source is 0faac89354130399466c9847bd1a2b622def6eaf, composed additively with fetched main 1bcc9a6cbb8024cae4135a55f01aa069942994b5. The A79 state migration remains separate on its published branch. This PR contains the duty guard, focused tests, repaired fixture, release declaration and evidence.
 
-The repaired production file and new test have zero diagnostics across two strict roots. Including the older presentation test produces the same five diagnostics before and after the patch. Changed lint, format and whitespace passed. Release validation passed. Zero-dice has zero new findings and five inherited stale entries, exiting 1. Spelling found 21 inherited findings and none in the A97 files. The report passed its mechanical check and Light review.
+All three changed source/test roots have zero strict diagnostics, repaired from five (`/tmp/team2-a97-repair-after-types.log`). Changed lint, format, whitespace and release validation passed. Zero-dice has zero new findings and five inherited stale entries, exiting 1. The proof artifact preserves the individual validation receipts.
 
-The guarded native command selects the four A97 tests plus the old duty-recording case, with one worker and unchanged timeouts. Full suite, browser, ordinary enactment, year-speed and all-56 populated-world proof were NOT RUN. Next: exact-head review of the negative guard; Audit supplies the positive receipt binding and old enactment-fixture contract. Audit has now supplied the A79 saved-state roster contract. The state member-vote migration is the next independently authorized endpoint.
+The intermediate repair run passed 11 cases and failed the outdated prose expectation. That receipt remains preserved at /tmp/team2-a97-repair-after.log. Spelling reported 23 existing findings and none in changed A97 prose. The final report requires its mechanical check and Light review before publication.
+
+The guarded native command uses one worker and unchanged timeouts. Full suite, browser, ordinary enactment, year-speed and all-56 populated-world proof were NOT RUN. Next: renewed exact-head CTO review. Positive fulfillment still needs Audit’s approved duty-to-receipt binding. A supplied signature is not proof of an ordinary executive lifecycle.
