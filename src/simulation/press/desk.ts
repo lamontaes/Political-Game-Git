@@ -64,6 +64,7 @@ import {
   reportLawEffects,
   reportLawOutcomes,
 } from "./law-effect-news";
+import { recordStoryHeardExposure } from "./story-exposure";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -1274,6 +1275,16 @@ function recordProfessionalReaders(
         reference: publication.id,
       },
     });
+    // A story about what a law did is heard from the news (story-exposure.ts).
+    const knowledge = next.history.knowledge.find(
+      (row) => row.stableKey === `${publication.stableKey}:read:${personId}`,
+    );
+    if (knowledge)
+      for (const basisEventId of lead.basisEventIds)
+        next = recordStoryHeardExposure(next, {
+          knowledgeId: knowledge.id,
+          basisEventId,
+        });
   }
   if (lead.matterId) {
     next = produceMatterResponses(next, lead.matterId, story);
