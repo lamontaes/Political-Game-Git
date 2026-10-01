@@ -1,4 +1,7 @@
-import { describe, expect, it } from "vitest";
+/// <reference types="node" />
+import { livingCostsRegionForState } from "./living-costs-data";
+import { afterAll, describe, expect, it } from "vitest";
+import { writeFileSync } from "node:fs";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -7,12 +10,16 @@ import {
   recordedHouseholdHousingBillsAt,
   livingCostsFlowFor,
   settleLivingCosts,
-  LIVING_COSTS_PLACEHOLDER,
   initializeLivingCostsFlow,
 } from "./cost-of-living";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
-import { createResourcePosition, money } from "./resources";
+import {
+  createResourcePosition,
+  money,
+  recordResourceFlowTerms,
+} from "./resources";
+import { addDays, simulationMomentOnLocalDate } from "./dates";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { personName } from "./people";
@@ -27,6 +34,13 @@ import {
   townLeases,
 } from "./living-world/town-rent";
 import { lifePlaceByKey } from "./life-places";
+
+const watchedReceipts: Record<string, string | number>[] = [];
+afterAll(() => {
+  const output = process.env.TEAM4_A52_RECEIPT_PATH;
+  if (output)
+    writeFileSync(output, JSON.stringify(watchedReceipts, null, 2) + "\n");
+});
 
 const seed = "team4-m12-recorded-bills-20260930";
 const largest = new Map<string, [string, number]>();
@@ -71,6 +85,18 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
         household: "lives-alone",
         questionnaire: "skipped",
       });
+      // Independently rounded from retained Table1800 B–F cells.
+      const sourceAmounts = {
+        national: 81824,
+        northeast: 82592,
+        midwest: 79125,
+        south: 73398,
+        west: 85567,
+      };
+      const region = livingCostsRegionForState(
+        lifePlaceByKey(placeKey)?.stateJurisdictionKey ?? null,
+      );
+      const expected = sourceAmounts[region];
       const personId = game.playerPersonId;
       let world = game.world;
       if (
@@ -102,8 +128,7 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
       expect(flow).toBeDefined();
       expect(flow.startsAt).toBe(world.currentDate);
       expect(resourceFlowTermsAt(changed, flow.id)!.amount.minorUnits).toBe(
-        LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-          LIVING_COSTS_PLACEHOLDER.housingShareMinor,
+        expected,
       );
       expect(
         changed.history.resourceFlows.slice(0, originalFlows.length),
@@ -124,6 +149,86 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
         );
         expect(settleLivingCosts(reopened, personId)).toBe(reopened);
         expect(initializeLivingCostsFlow(reopened, personId)).toBe(reopened);
+
+        // Controlled dated legacy-save fixture, not a canonical-clock claim.
+        const openingTerms = resourceFlowTermsAt(changed, flow.id)!;
+        const legacy = recordResourceFlowTerms(changed, {
+          stableKey: `fixture:legacy-nonhousing:${personId}`,
+          resourceFlowId: flow.id,
+          effectiveAt: changed.currentDate,
+          amount: money(60_000, "USD"),
+          status: "active",
+          cadenceKind: openingTerms.cadenceKind,
+          supersedesTermsId: openingTerms.id,
+          reason: "Controlled old nonhousing stand-in.",
+          provenance: { kind: "authored", note: "Legacy-save fixture." },
+        });
+        const today = addDays(legacy.currentDate, 40);
+        const due = {
+          ...legacy,
+          currentDate: today,
+          currentMoment: simulationMomentOnLocalDate(
+            legacy.currentMoment,
+            today,
+          ),
+        };
+        const migrated = settleLivingCosts(due, personId);
+        expect(
+          migrated.history.resourceFlowTerms.slice(
+            0,
+            legacy.history.resourceFlowTerms.length,
+          ),
+        ).toEqual(legacy.history.resourceFlowTerms);
+        const latestTerms = resourceFlowTermsAt(migrated, flow.id)!;
+        expect(latestTerms.effectiveAt).toBe(today);
+        expect(latestTerms.amount.minorUnits).toBe(expected);
+        expect(latestTerms.provenance.kind).toBe("source-record");
+        const pastPayment = migrated.history.resourceTransferOutcomes.find(
+          (outcome) => outcome.resourceFlowId === flow.id,
+        )!;
+        expect(pastPayment.attemptedAmount.minorUnits).toBe(60_000);
+        expect(pastPayment.transferredAmount.minorUnits).toBeLessThanOrEqual(
+          60_000,
+        );
+        const laterDate = addDays(today, 40);
+        const later = settleLivingCosts(
+          {
+            ...migrated,
+            currentDate: laterDate,
+            currentMoment: simulationMomentOnLocalDate(
+              migrated.currentMoment,
+              laterDate,
+            ),
+          },
+          personId,
+        );
+        const newPayment = later.history.resourceTransferOutcomes
+          .filter((outcome) => outcome.resourceFlowId === flow.id)
+          .at(-1)!;
+        expect(newPayment.attemptedAmount.minorUnits).toBe(expected);
+        expect(newPayment.note).toMatch(/^Food and bills for /);
+        expect(newPayment.provenance.kind).toBe("source-record");
+        const resumed = deserializeWorld(serializeWorld(later));
+        expect(settleLivingCosts(resumed, personId)).toBe(resumed);
+        watchedReceipts.push({
+          placeKey,
+          region,
+          seed: `${seed}:${placeKey}`,
+          personId,
+          personName: personName(later.people[personId]!),
+          flowId: flow.id,
+          oldOutcomeId: pastPayment.id,
+          oldAttemptedMinor: pastPayment.attemptedAmount.minorUnits,
+          newOutcomeId: newPayment.id,
+          newAttemptedMinor: newPayment.attemptedAmount.minorUnits,
+          newTransferredMinor: newPayment.transferredAmount.minorUnits,
+          currentDate: later.currentDate,
+          prospectiveAt: today,
+          currency: "USD",
+        });
+        console.log(
+          `A52 retained-${region} fixture ${placeKey}, seed=${seed}:${placeKey}, ${personName(later.people[personId]!)}: actual flow ${flow.id}, legacy outcome ${pastPayment.id} stays60000, prospective outcome ${newPayment.id} attempts${expected} USD cents, paid${newPayment.transferredAmount.minorUnits}. Not an observed personal bill.`,
+        );
       }
     },
   );

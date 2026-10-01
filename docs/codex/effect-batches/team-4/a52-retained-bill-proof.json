@@ -1,0 +1,120 @@
+{
+  "auditId": "A52",
+  "sourceYear": 2024,
+  "classification": "bounded representative retained-category bill; not actual observed personal consumption",
+  "fullRun": {
+    "passed": 69,
+    "total": 69,
+    "durationSeconds": 268.77,
+    "source": "A52 owned candidate before optional receipt export; same production bytes"
+  },
+  "watchedExportRun": {
+    "passed": 5,
+    "excluded": 57,
+    "durationSeconds": 31.41,
+    "seed": "team4-m12-recorded-bills-20260930"
+  },
+  "presentationRun": {
+    "passed": 2,
+    "excluded": 9,
+    "failedSuites": 2,
+    "durationSeconds": 26.7,
+    "error": "chief-justice-vacancy.ts71 undefined SUPREME_COURT_APPOINTMENT_PROFILE at import; mortgage/wallet assertions not reached"
+  },
+  "baselineImportOnly": {
+    "sourceMain": "badcbc32b6799f0de411e3d6efda6085b5d12898",
+    "failedSuites": 2,
+    "executedTests": 0,
+    "durationSeconds": 9.06,
+    "qualification": "Exact captured main cost-of-living/home-purchase/ordinary files over same local dependency composition; not native whole-main proof"
+  },
+  "records": [
+    {
+      "placeKey": "1608830",
+      "region": "west",
+      "seed": "team4-m12-recorded-bills-20260930:1608830",
+      "personId": "person_3b1584ba9dfd861c",
+      "personName": "Kai Chen",
+      "flowId": "resource-flow_f0fe387264bf5e1c",
+      "oldOutcomeId": "resource-transfer-outcome_de06c790a0f2a31d",
+      "oldAttemptedMinor": 60000,
+      "newOutcomeId": "resource-transfer-outcome_25006f871a8d6c1c",
+      "newAttemptedMinor": 85567,
+      "newTransferredMinor": 0,
+      "currentDate": "2026-03-26",
+      "prospectiveAt": "2026-02-14",
+      "currency": "USD"
+    },
+    {
+      "placeKey": "2255000",
+      "region": "south",
+      "seed": "team4-m12-recorded-bills-20260930:2255000",
+      "personId": "person_46115b24e82b2f27",
+      "personName": "Jade Tyler",
+      "flowId": "resource-flow_44623ec80dc34445",
+      "oldOutcomeId": "resource-transfer-outcome_25e15620709613de",
+      "oldAttemptedMinor": 60000,
+      "newOutcomeId": "resource-transfer-outcome_83ffb629325f1b07",
+      "newAttemptedMinor": 73398,
+      "newTransferredMinor": 0,
+      "currentDate": "2026-03-26",
+      "prospectiveAt": "2026-02-14",
+      "currency": "USD"
+    },
+    {
+      "placeKey": "2404000",
+      "region": "south",
+      "seed": "team4-m12-recorded-bills-20260930:2404000",
+      "personId": "person_67286140515b503f",
+      "personName": "Nora James",
+      "flowId": "resource-flow_6019c30f7b1cb387",
+      "oldOutcomeId": "resource-transfer-outcome_a21c88ba0fe5ac40",
+      "oldAttemptedMinor": 60000,
+      "newOutcomeId": "resource-transfer-outcome_30c4a0c25c4c1201",
+      "newAttemptedMinor": 73398,
+      "newTransferredMinor": 0,
+      "currentDate": "2026-03-26",
+      "prospectiveAt": "2026-02-14",
+      "currency": "USD"
+    },
+    {
+      "placeKey": "2622000",
+      "region": "midwest",
+      "seed": "team4-m12-recorded-bills-20260930:2622000",
+      "personId": "person_38a9ae3c84423155",
+      "personName": "Maria Nash",
+      "flowId": "resource-flow_8577726c079e9bb1",
+      "oldOutcomeId": "resource-transfer-outcome_421bca3fc1ae34ce",
+      "oldAttemptedMinor": 60000,
+      "newOutcomeId": "resource-transfer-outcome_a1ed2a4884e8d077",
+      "newAttemptedMinor": 79125,
+      "newTransferredMinor": 0,
+      "currentDate": "2026-03-26",
+      "prospectiveAt": "2026-02-14",
+      "currency": "USD"
+    },
+    {
+      "placeKey": "3137000",
+      "region": "midwest",
+      "seed": "team4-m12-recorded-bills-20260930:3137000",
+      "personId": "person_7bfce251e940399e",
+      "personName": "Luke Hardy",
+      "flowId": "resource-flow_d15710dfbea3f872",
+      "oldOutcomeId": "resource-transfer-outcome_9d466ee8ce9f0463",
+      "oldAttemptedMinor": 60000,
+      "newOutcomeId": "resource-transfer-outcome_291f0edf6f1d273a",
+      "newAttemptedMinor": 79125,
+      "newTransferredMinor": 0,
+      "currentDate": "2026-03-26",
+      "prospectiveAt": "2026-02-14",
+      "currency": "USD"
+    }
+  ],
+  "limits": [
+    "Five exported later-period outcomes transferred zero; no new paid-wallet proof.",
+    "No natural clock/year, whole-suite or new mortgage mechanism proof.",
+    "Public transit-only and health premium/service bindings absent; not in retained basket.",
+    "Regional numerical amounts and per-derived-adult conversion need CTO review.",
+    "Actual couple/household-size scaling beyond existing per-adult share not proved."
+  ]
+}
