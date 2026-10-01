@@ -1,0 +1,21 @@
+[96msrc/presentation/enacted-law-effects.test.ts[0m:[93m484[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'availableFrom' does not exist on type 'PublicProgramRecord'.
+  Property 'availableFrom' does not exist on type 'PublicProgramCapacityRecord'.
+
+[7m484[0m     expect(record.availableFrom).toBe(enactment.effectiveAt);
+[7m   [0m [91m                  ~~~~~~~~~~~~~[0m
+[96msrc/presentation/enacted-law-effects.test.ts[0m:[93m485[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'availableThrough' does not exist on type 'PublicProgramRecord'.
+  Property 'availableThrough' does not exist on type 'PublicProgramCapacityRecord'.
+
+[7m485[0m     expect(record.availableThrough).toBe(addDays(enactment.effectiveAt!, 364));
+[7m   [0m [91m                  ~~~~~~~~~~~~~~~~[0m
+[96msrc/presentation/enacted-law-effects.test.ts[0m:[93m497[0m:[93m58[0m - [91merror[0m[90m TS2339: [0mProperty 'amount' does not exist on type 'PublicProgramRecord'.
+  Property 'amount' does not exist on type 'PublicProgramCapacityRecord'.
+
+[7m497[0m     expect(position.appropriated.minorUnits).toBe(record.amount.minorUnits);
+[7m   [0m [91m                                                         ~~~~~~[0m
+[96msrc/presentation/enacted-law-effects.test.ts[0m:[93m521[0m:[93m32[0m - [91merror[0m[90m TS2339: [0mProperty 'amount' does not exist on type 'PublicProgramRecord'.
+  Property 'amount' does not exist on type 'PublicProgramCapacityRecord'.
+
+[7m521[0m       amountMinorUnits: record.amount.minorUnits,
+[7m   [0m [91m                               ~~~~~~[0m
+scoped roots 2; diagnostics 4

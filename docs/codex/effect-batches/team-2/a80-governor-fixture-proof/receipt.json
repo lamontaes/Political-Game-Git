@@ -1,0 +1,95 @@
+{
+  "gap": "A80",
+  "status": "DRAFT: both changed files not yet green",
+  "branch": "codex/team2-a80-main-governor-fixtures",
+  "runtimeSource": "2691d22cc858b250cfb674cb2252f27491d1686e",
+  "main": "6cc29fb8a6e4efd149e8c916343d88922e2cad7c",
+  "native": {
+    "session": 7786,
+    "exit": 1,
+    "completeFiles": 2,
+    "passed": 89,
+    "failed": 3,
+    "skipped": 0,
+    "seconds": 34.18,
+    "startUtc": "2026-10-01 17:11:15",
+    "timeoutSeconds": 300,
+    "nameFilter": false
+  },
+  "strict": {
+    "roots": 2,
+    "diagnostics": 0
+  },
+  "checks": {
+    "lint": "PASS",
+    "format": "PASS",
+    "report": "0errors0warnings",
+    "reportReviewer": "PASS",
+    "release": "initial declaration not committed yet; recheck pending",
+    "zeroDice": {
+      "new": 0,
+      "gone": 5,
+      "exit": 1
+    },
+    "spelling": {
+      "findings": 78,
+      "ownedFindings": 0,
+      "exit": 1,
+      "rawPath": "/tmp/team2-a80-fixture-spelling.log",
+      "sha256": "d4cd4353440acd1b592e21ab35ecfd2211f441196a8a0bd73afc803b90969d37"
+    }
+  },
+  "failedCases": [
+    "counts what a later law appropriates against the ceiling",
+    "uses the selected availability clause's saved date and reports no omitted duty",
+    "honors a supplemental appropriation's shorter lapse section"
+  ],
+  "remainingOwner": "Team6 narrow date and saved docket-target fiscal producers; Team2 fixtures unchanged expectations",
+  "controlledExample": {
+    "seed": "legislative-core-nebraska-2026",
+    "governor": "Cameron Wilkerson",
+    "personId": "person_741ee32107d7d0be",
+    "firstMeasureId": "legislative-measure_adfcb2081a111735",
+    "laterMeasureId": "legislative-measure_b1734d8ac5697f10",
+    "firstFiledAt": "2026-01-05",
+    "firstEnactedAt": "2026-01-14",
+    "laterFiledAt": "2026-01-14",
+    "laterEnactedAt": "2026-01-23",
+    "operative": {
+      "date": "2026-07-18",
+      "basis": "state-rule"
+    },
+    "choice": "controlled bill:sign; not NPC behavior"
+  },
+  "ownership": [
+    "src/presentation/enacted-law-effects.test.ts",
+    "src/presentation/enacted-duties.test.ts",
+    "docs/codex/effect-batches/team-2/a80-*",
+    "docs/release/changes/team2-governor-downstream-fixtures.md"
+  ],
+  "notRun": [
+    "full suite",
+    "browser",
+    "year speed",
+    "natural NPC signing",
+    "unattended desk",
+    "combined Team6 producer repair"
+  ],
+  "command": "timeout --signal=TERM --kill-after=10s 300s env OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_WORKSPACE_OWNER=team-2 VITE_CONFIG_NATIVE_IGNORE_WARNING=true node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/presentation/enacted-law-effects.test.ts src/presentation/enacted-duties.test.ts --maxWorkers=1 --fileParallelism=false --disableConsoleIntercept --reporter=verbose",
+  "evidence": {
+    "registry-repaired-tests.log": "044e11b0cd9558b041e3e2f987ad194617d67ac109e9916b506e0ec7c0bb5097",
+    "initial-types.log": "17359cd52b515ff9fd8ce4c39f4959e24078d4eaa63fe4e7664cdd6de62b292a",
+    "responsibility-repaired-tests.log": "ee8fe57bb4515df0ba26ab08793059133204b1390bc388cdfb03973d73b780cc",
+    "saved-law-records.json": "7f3e72c568452775a7ab5e45613aa1cbaa2e85abfa653fe6698050cd8ac68113",
+    "dice.log": "946a257437c4a9458a454ab2d4ddb375ce392ae90358d24e9df70f6229770a36",
+    "registry-types.log": "c9d5c43bf5947ee2b29970955950b653de779813c7502001e4ab027c9f85dda3",
+    "initial-tests.log": "9d627c3d344c16109e5e57d0077e7978afedede2498018a6a00ad420bf0c712b",
+    "release-before-declaration-commit.log": "1e181fabc7a3af5bb7794e74c26ab4fae2418a299963d62956c7e1a6304015ff",
+    "report.log": "73bf71fd9ecefae616a9908d49accd08e64f140f49550d4c9dce2a407c3d3997",
+    "negative-date-repaired-tests.log": "538f1bdb9d35971cd997893cff817ac5ab14dfb00a5e78db999e3d5588c8732e",
+    "main-6cc29-types.log": "c9d5c43bf5947ee2b29970955950b653de779813c7502001e4ab027c9f85dda3",
+    "negative-date-types.log": "c9d5c43bf5947ee2b29970955950b653de779813c7502001e4ab027c9f85dda3",
+    "typecheck.mjs": "408987c6b518f85a8835d15e698b6c806413cc54a1f3085600b0bbedaa66a4d8",
+    "main-6cc29-tests.log": "211abd13d57c302ec1b6c517358e243a882dba9237d46399f19024ac35170966"
+  }
+}
