@@ -15,7 +15,12 @@ import {
   type RecordFiledProvisionInput,
 } from "../legislative-politics";
 import type { LawAmountUnit } from "../law-consequence-types";
-import { lawInForce, startingLawTerms, type LawInForce } from "./law-in-force";
+import {
+  lawInForce,
+  startingLawTerms,
+  startingLawPlaceKey,
+  type LawInForce,
+} from "./law-in-force";
 import { principledLeaning } from "./officeholder-principles";
 import {
   censusRegionOf,
@@ -985,11 +990,7 @@ export function compileAutomaticLawDraft(input: {
   });
   if (!candidates.length) return null;
   const currentLaw = lawInForce(world, input.jurisdictionId, proposition.id);
-  if (currentLaw?.origin !== "enacted") return null;
-  const currentMeasure = measureById(world, currentLaw.measureId);
-  // A higher-level law does not supply a fictitious local program or local budget.
-  if (!currentMeasure || currentMeasure.jurisdictionId !== input.jurisdictionId)
-    return null;
+  if (!currentLaw) return null;
   const targetPopulation = publicBudgetFor(
     world,
     input.jurisdictionId,
@@ -1000,33 +1001,99 @@ export function compileAutomaticLawDraft(input: {
     !Number.isFinite(targetPopulation)
   )
     return null;
-  const currentLineages = (world.history.legislativeDraftLineages ?? []).filter(
-    (row) =>
-      row.measureId === currentMeasure.id &&
-      row.componentKey === undefined &&
-      row.recordedAt <= world.currentDate &&
-      row.compiledAt <= world.currentDate,
-  );
-  if (currentLineages.length !== 1) return null;
-  const currentLineage = currentLineages[0]!;
-  const currentMapping = AUTOMATIC_LAW_POSITION_MAPPINGS.find(
-    (row) =>
-      row.familyKey === currentLineage.familyKey &&
-      row.variantKey === currentLineage.variantKey &&
-      row.propositionKey === proposition.stableKey &&
-      row.governmentLevel === governmentLevel &&
-      row.answer === currentLaw.answer,
-  );
-  if (!currentMapping) return null;
-  const current = verifiedReferenceDraft(
-    world,
-    currentMeasure,
-    currentLineage,
-    currentMapping,
-  );
-  const currentAmount =
-    current?.draft.parameterValues[currentMapping.effectParameterKey];
-  if (!current || currentAmount?.kind !== "money") return null;
+  const current = (() => {
+    if (currentLaw.origin === "in-force-at-start") {
+      const placeKey = startingLawPlaceKey(input.jurisdictionId);
+      // A higher-level starting law supplies no local program or local budget.
+      if (
+        !placeKey ||
+        currentLaw.level !==
+          (governmentLevel === "federal"
+            ? "federal-statute"
+            : "state-statute") ||
+        currentLaw.measureId !==
+          `starting-law:${placeKey}:${proposition.stableKey}`
+      )
+        return null;
+      const mappings = mappingsFor(
+        proposition.stableKey,
+        currentLaw.answer,
+        governmentLevel,
+      ).filter((mapping) => {
+        const context =
+          input.context ??
+          profileContextForMapping(world, input.jurisdictionId, mapping);
+        return (
+          context &&
+          contextSupportsMapping(context, input.jurisdictionId, mapping)
+        );
+      });
+      // An amount alone cannot choose between unrelated program families or term keys.
+      if (
+        !mappings.length ||
+        new Set(
+          mappings.map(
+            (mapping) => `${mapping.familyKey}:${mapping.effectParameterKey}`,
+          ),
+        ).size !== 1
+      )
+        return null;
+      const mapping = mappings[0]!;
+      const term = readFinalEnactedLawTerm(world, currentLaw, {
+        questionKey: proposition.stableKey,
+        termKey: mapping.effectParameterKey,
+        unit: "minor",
+      });
+      if (!term || !Number.isSafeInteger(term.value) || term.value < 0)
+        return null;
+      return {
+        mapping,
+        amount: {
+          kind: "money" as const,
+          minorUnits: term.value,
+          currency: "USD" as const,
+        },
+        sourceRecordIds: term.sourceRecordIds,
+      };
+    }
+    const currentMeasure = measureById(world, currentLaw.measureId);
+    if (
+      !currentMeasure ||
+      currentMeasure.jurisdictionId !== input.jurisdictionId
+    )
+      return null;
+    const lineages = (world.history.legislativeDraftLineages ?? []).filter(
+      (row) =>
+        row.measureId === currentMeasure.id &&
+        row.componentKey === undefined &&
+        row.recordedAt <= world.currentDate &&
+        row.compiledAt <= world.currentDate,
+    );
+    if (lineages.length !== 1) return null;
+    const lineage = lineages[0]!;
+    const mapping = AUTOMATIC_LAW_POSITION_MAPPINGS.find(
+      (row) =>
+        row.familyKey === lineage.familyKey &&
+        row.variantKey === lineage.variantKey &&
+        row.propositionKey === proposition.stableKey &&
+        row.governmentLevel === governmentLevel &&
+        row.answer === currentLaw.answer,
+    );
+    if (!mapping) return null;
+    const source = verifiedReferenceDraft(
+      world,
+      currentMeasure,
+      lineage,
+      mapping,
+    );
+    const amount = source?.draft.parameterValues[mapping.effectParameterKey];
+    return source && amount?.kind === "money"
+      ? { mapping, amount, sourceRecordIds: source.sourceRecordIds }
+      : null;
+  })();
+  if (!current) return null;
+  const currentMapping = current.mapping;
+  const currentAmount = current.amount;
   const references = (world.history.legislativeDraftLineages ?? []).flatMap(
     (lineage) => {
       if (
@@ -1038,7 +1105,7 @@ export function compileAutomaticLawDraft(input: {
       const measure = measureById(world, lineage.measureId);
       if (
         !measure ||
-        measure.id === currentMeasure.id ||
+        measure.id === currentLaw.measureId ||
         measure.introducedAt > world.currentDate ||
         !(measure.propositionAnswers ?? []).some(
           (row) =>
