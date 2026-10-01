@@ -3,7 +3,7 @@ import { currentGovernorOf } from "./crisis/offices";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";
 import { addDays, daysBetween } from "./dates";
-import { stableHash } from "./ids";
+import { createStableId, stableHash } from "./ids";
 import { lifePlaceStateIdentities } from "./life-places";
 import { legislatureForState } from "./legislature-game-profile";
 import { requireFormalSeatCount } from "./legislature-rules";
@@ -17,7 +17,11 @@ import {
 import {
   fileRuleChangeProvision,
   laborLawOfficeKey,
+  enactedRuleChangeAt,
 } from "./enacted-rule-changes";
+import { playerRequiredWorkIds, releasePlayerRequiredWork } from "./time-work";
+import { scheduleLifePathSession, performLifePathSession } from "./life-paths2";
+import type { LawEffectStamp } from "./law-effect-stamp";
 import { createOrganization, createWorkRelationship } from "./life";
 import {
   createResourcePosition,
@@ -26,7 +30,11 @@ import {
   resolveWorkCompensationPeriod,
 } from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
-import { advanceWorld, assertWorldIntegrityFully } from "./world";
+import {
+  advanceWorld,
+  assertWorldIntegrityFully,
+  recordWorldEvent,
+} from "./world";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { raiseTownPayToMinimum } from "./living-world/town-pay";
 import {
@@ -35,11 +43,16 @@ import {
 } from "./law-effects-noticed";
 import { livedOutcomesOf } from "./living-world/lived-outcomes";
 import { officialsBehind } from "./living-world/official-views";
-import { officialViewReflectionKey } from "./law-exposure";
+import { officialViewReflectionKey, recordLawExposure } from "./law-exposure";
 import { viewOfOfficial } from "./official-view-reads";
 import { recordRelationshipInteraction } from "./records";
 import { serializeWorld, deserializeWorld } from "./serialization";
-import type { World } from "./types";
+import type {
+  World,
+  EntityId,
+  EarnedLawPayAssessmentRecord,
+  ResourceTransferOutcome,
+} from "./types";
 
 const SEED = "overflow3:paid-law-voters:1";
 const states = lifePlaceStateIdentities();
@@ -248,6 +261,264 @@ function fixture() {
   };
 }
 
+/** Record the fixture's control change without rewriting pending work. */
+function controlForFixture(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  const previous =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (previous === personId) return world;
+  const handoff = recordWorldEvent(world, {
+    stableKey,
+    type: "test.control-moved",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [
+      personId,
+      ...(previous
+        ? [previous, ...playerRequiredWorkIds(world, previous)]
+        : []),
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary:
+      "Controlled downstream fixture moves play to the actual actor for its next recorded action.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const released = previous
+    ? releasePlayerRequiredWork(handoff, {
+        personId: previous,
+        stableKeyPrefix: `${stableKey}:released`,
+        outcomeEventId: handoff.history.events.at(-1)!.id,
+      })
+    : handoff;
+  return { ...released, control: { kind: "person", personId } };
+}
+
+/** Authored consumer contract control from #1575 aa548; not a producer pass. */
+function assessmentContractFixture() {
+  const f = fixture();
+  let world = move(f.enacted, 2);
+  const worker = f.worker;
+  world = controlForFixture(world, worker, "pay-law:fixture-before-work");
+  const employer =
+    world.history.organizations.find(
+      (row) => row.stableKey === "enterprise:shop",
+    )?.id ?? world.history.organizations.at(-1)!.id;
+  world = createWorkRelationship(world, {
+    stableKey: "pay-law:shift-work",
+    personId: worker,
+    organizationId: employer,
+    startedAt: world.currentDate,
+    kind: "employment:life-paths2-shop-assistant",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance,
+    initialRole: {
+      title: "Shop assistant",
+      occupationClassification: "occupation:retail-salesperson",
+      locationJurisdictionId: world.people[worker]!.homeJurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+        attention: "high",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "rigid",
+        interruptibility: "limited",
+        locationJurisdictionId: world.people[worker]!.homeJurisdictionId,
+      },
+    },
+  });
+  const work = world.history.workRelationships.at(-1)!;
+  world = createWorkCompensation(world, {
+    stableKey: "pay-law:shift-flow",
+    workRelationshipId: work.id,
+    startsAt: world.currentDate,
+    amount: money(7200, "USD"),
+    cadenceKind: "work:completed-shift",
+    restrictionKind: null,
+    jurisdictionId: null,
+    provenance,
+  });
+  const flow = world.history.resourceFlows.at(-1)!;
+  const scheduled = scheduleLifePathSession(
+    { ...world, control: { kind: "person", personId: worker } },
+    work.id,
+  );
+  expect(scheduled.ok, scheduled.message).toBe(true);
+  const activity = scheduled.world.history.scheduledActivities.at(-1)!;
+  const worked = performLifePathSession(scheduled.world, activity.id);
+  expect(worked.ok, worked.message).toBe(true);
+  world = worked.world;
+  const completion = world.history.events.find(
+    (row) =>
+      row.type === "life-paths2.work-session" &&
+      row.involvedEntityIds.includes(activity.id),
+  )!;
+  const cutoff = {
+    asOfDate: completion.occurredAt,
+    historySequenceExclusive: completion.sequence + 1,
+  };
+  const terms = resourceFlowTermsAt(world, flow.id, cutoff)!;
+  const activityState = world.history.scheduledActivityStates
+    .filter(
+      (row) =>
+        row.activityId === activity.id &&
+        row.sequence < cutoff.historySequenceExclusive,
+    )
+    .at(-1)!;
+  const change = enactedRuleChangeAt(world, {
+    stateUsps: state.usps,
+    officeKey: laborLawOfficeKey(state.usps),
+    field: "labor.minimumWage.hourlyCents",
+    onDate: cutoff.asOfDate,
+  })!;
+  const enactment = world.history.legislativeEnactments!.find(
+    (row) => row.measureId === f.measure,
+  )!;
+  const provision = world.history.ruleChangeProvisions!.find(
+    (row) => row.measureId === f.measure,
+  )!;
+  const assessmentId = createStableId(
+    "earned-law-pay-assessment",
+    "authored-consumer-assessment-control",
+  );
+  // #1575's saved-rule stamp has a null question and exact rule authority.
+  const stamp: LawEffectStamp & {
+    ruleAuthority: {
+      ruleChangeProvisionId: typeof provision.id;
+      enactmentId: typeof enactment.id;
+      field: string;
+    };
+  } = {
+    version: "law-effect-stamp/v1",
+    governingLawKey: f.measure,
+    source: "enacted",
+    effectKind: "pay",
+    questionKey: null,
+    jurisdictionId: world.people[worker]!.homeJurisdictionId!,
+    operativeAt: change.operativeAt,
+    appliedAt: world.currentDate,
+    ruleAuthority: {
+      ruleChangeProvisionId: provision.id,
+      enactmentId: enactment.id,
+      field: "labor.minimumWage.hourlyCents",
+    },
+    sourceRecordIds: [
+      assessmentId,
+      work.id,
+      flow.id,
+      terms.id,
+      completion.id,
+      activity.id,
+      activityState.id,
+    ],
+  };
+  const assessment: EarnedLawPayAssessmentRecord = {
+    id: assessmentId,
+    stableKey: "authored-consumer-assessment-control",
+    sequence: world.history.nextSequence,
+    recordedAt: world.currentDate,
+    personId: worker,
+    organizationId: employer,
+    workRelationshipId: work.id,
+    resourceFlowId: flow.id,
+    earnedTermsId: terms.id,
+    completionEventId: completion.id,
+    scheduledActivityId: activity.id,
+    scheduledActivityStateId: activityState.id,
+    earnedCutoff: cutoff,
+    periodStartsAt: completion.occurredAt,
+    periodEndsAt: completion.occurredAt,
+    workedMinutes: 240,
+    contractualGross: terms.amount,
+    assessedGross: money(12000, "USD"),
+    lawEffectStamps: [stamp],
+    resolvedConsequence: {
+      rowId: "authored:saved-hourly-control",
+      action: "raise-saved-rule-hourly-floor",
+      jurisdictionId: stamp.jurisdictionId,
+      personId: worker,
+      workId: work.id,
+      payFlowId: flow.id,
+      activityId: work.id,
+      effectiveAt: completion.occurredAt,
+      amount: { value: 3000, unit: "minor/hour", currency: "USD" },
+      sourceRecordIds: stamp.sourceRecordIds!.filter(
+        (id) => id !== assessmentId,
+      ),
+      completedShift: { eventId: completion.id, termsId: terms.id },
+      authority: {
+        kind: "enacted-hourly-pay-rule",
+        ruleChangeProvisionId: provision.id,
+        enactmentId: enactment.id,
+        measureId: f.measure,
+        officeKey: change.officeKey,
+        stateUsps: state.usps,
+        field: "labor.minimumWage.hourlyCents",
+        operativeAt: change.operativeAt,
+        applicability: change.applicability,
+      },
+    },
+  };
+  const payment: ResourceTransferOutcome = {
+    id: createStableId(
+      "resource-transfer-outcome",
+      "authored-consumer-full-gross-control",
+    ),
+    stableKey: "authored-consumer-full-gross-control",
+    sequence: assessment.sequence + 1,
+    resourceFlowId: flow.id,
+    periodStartsAt: completion.occurredAt,
+    periodEndsAt: completion.occurredAt,
+    occurredAt: world.currentDate,
+    status: "completed",
+    attemptedAmount: assessment.assessedGross,
+    transferredAmount: assessment.assessedGross,
+    earnedLawPayAssessmentId: assessment.id,
+    reasonKind: null,
+    note: "Authored consumer control, not a producer payment receipt.",
+    provenance,
+    lawEffectStamps: [stamp],
+  };
+  world = controlForFixture(
+    world,
+    f.enacted.control.kind === "person"
+      ? f.enacted.control.personId
+      : f.world.personOrder[0]!,
+    "pay-law:fixture-after-work",
+  );
+  world = {
+    ...world,
+    control: f.enacted.control,
+    history: {
+      ...world.history,
+      earnedLawPayAssessments: [
+        { ...assessment, sequence: world.history.nextSequence },
+      ],
+      resourceTransferOutcomes: [
+        ...world.history.resourceTransferOutcomes,
+        { ...payment, sequence: world.history.nextSequence + 1 },
+      ],
+      nextSequence: world.history.nextSequence + 2,
+    },
+  };
+  return { world, assessment, payment, terms, worker, measure: f.measure };
+}
+
 describe(`law-paid change and recorded voters in ${state.name} (seed ${SEED})`, () => {
   it("the actual wage raise reaches the worker once, then forms views of the recorded voters", () => {
     expect(states).toHaveLength(56);
@@ -343,6 +614,124 @@ describe(`law-paid change and recorded voters in ${state.name} (seed ${SEED})`, 
     };
     expect(recordedLawPayChanges(noEnactment, f.since)).toEqual([]);
   });
+  it("reads full assessment-linked gross without revising immutable earned terms", () => {
+    const f = assessmentContractFixture();
+    expect(f.payment.transferredAmount.minorUnits).not.toBe(
+      f.terms.amount.minorUnits,
+    );
+    expect(recordedLawPayChanges(f.world, f.world.currentDate)).toEqual([
+      expect.objectContaining({
+        personId: f.worker,
+        measureId: f.measure,
+        earnedLawPayAssessmentId: f.assessment.id,
+        termsId: f.terms.id,
+        sourceRecordId: f.payment.id,
+        amount: money(4800, "USD"),
+        direction: "gain",
+      }),
+    ]);
+  });
+  it.todo(
+    "the existing exposure/reflection writer accepts #1575's assessment-aware receiving graph and dedupes prior terms exposures",
+    () => {
+      const f = assessmentContractFixture();
+      const reached = noticeLawPayChanges(f.world, f.world.currentDate);
+      expect(reached.history.resourceFlowTerms).toBe(
+        f.world.history.resourceFlowTerms,
+      );
+      const own = (reached.history.lawExposures ?? []).filter(
+        (row) => row.personId === f.worker && row.relation === "own",
+      );
+      expect(own).toHaveLength(1);
+      expect(own[0]).toMatchObject({
+        measureId: f.measure,
+        sourceRecordId: f.payment.id,
+        amount: money(4800, "USD"),
+      });
+      expect(
+        reached.history.futureDueItems.filter(
+          (row) => row.stableKey === officialViewReflectionKey(own[0]!),
+        ),
+      ).toHaveLength(1);
+      expect(noticeLawPayChanges(reached, f.world.currentDate)).toBe(reached);
+      const legacy = recordLawExposure(f.world, {
+        stableKey: `law-effects-noticed/v1:paid:${f.terms.id}`,
+        personId: f.worker,
+        measureId: f.measure,
+        channel: "paycheck",
+        direction: "gain",
+        amount: money(4800, "USD"),
+        cadence: "one-time",
+        sourceRecordId: f.payment.id,
+      });
+      expect(noticeLawPayChanges(legacy, f.world.currentDate)).toBe(legacy);
+    },
+  );
+  it("rejects unpaid, partial and mismatched assessment bindings", () => {
+    const f = assessmentContractFixture();
+    const checks: World[] = [
+      {
+        ...f.world,
+        history: {
+          ...f.world.history,
+          resourceTransferOutcomes:
+            f.world.history.resourceTransferOutcomes.filter(
+              (row) => row.id !== f.payment.id,
+            ),
+        },
+      },
+      ...[
+        {
+          ...f.payment,
+          status: "partial" as const,
+          transferredAmount: money(10000, "USD"),
+        },
+        { ...f.payment, transferredAmount: money(10000, "USD") },
+        { ...f.payment, resourceFlowId: f.world.history.resourceFlows[0]!.id },
+      ].map((payment) => ({
+        ...f.world,
+        history: { ...f.world.history, resourceTransferOutcomes: [payment] },
+      })),
+      ...[
+        { ...f.assessment, personId: f.world.personOrder[0]! },
+        {
+          ...f.assessment,
+          earnedCutoff: {
+            ...f.assessment.earnedCutoff,
+            historySequenceExclusive:
+              f.assessment.earnedCutoff.historySequenceExclusive + 1,
+          },
+        },
+        {
+          ...f.assessment,
+          resolvedConsequence: {
+            ...f.assessment.resolvedConsequence,
+            personId: f.world.personOrder[0]!,
+          },
+        },
+        {
+          ...f.assessment,
+          lawEffectStamps: [
+            {
+              ...f.assessment.lawEffectStamps[0]!,
+              governingLawKey: createStableId(
+                "legislative-measure",
+                "unrelated-consumer-control",
+              ),
+            },
+          ],
+        },
+      ].map((assessment) => ({
+        ...f.world,
+        history: { ...f.world.history, earnedLawPayAssessments: [assessment] },
+      })),
+    ];
+    for (const world of checks)
+      expect(recordedLawPayChanges(world, world.currentDate)).toEqual([]);
+  });
+  it.todo(
+    "the exact #1575 published producer can initialize and supply its completed assessment-linked payment fixture; native and collection failure receipts remain open",
+  );
   it.todo(
     "a statutory-tax raise or cut has an actual saved before/after amount and source attribution before it becomes a pay factor",
   );
