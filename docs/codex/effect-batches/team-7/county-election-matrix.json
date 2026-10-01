@@ -1226,8 +1226,16 @@
       ]
     },
     "NC": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "structureTermsElectorate": {
+          "value": "Current official text retains actual1974county structure until lawfully changed. Optional structures allow two-year, four-year, overlapping four-year or mixed terms; mixed terms require countywide nomination/election and internally selected chair, with vote-ranking transition rules. Other modes distinguish district nomination/district election, district nomination/countywide election and residence-only districts with countywide nomination/election. Oath assembly is first Monday December after general election; approved structure changes take effect then. Actual county plan, qualification and filing rules remain open.",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_153A/Article_4.html",
+          "section": "153A-26,.34,.58-.62",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1310,8 +1318,16 @@
       ]
     },
     "OK": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "termAndStages": {
+          "value": "Official title19PDF: districts1/3elect November1990+4n; district2November1996+4n, all four-year terms beginning first business day January. Filing-stage registered elector/principal residence requires six months before first filing day in county and commissioner district under131(E)/131.1. Principal-residence evidence may include tax return, driver license or automobile registration.132requires qualified county voter at election/appointment. Actual district maps, filing calendar and full qualification renewal remain open.",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.pdf",
+          "section": "19-131(C),(E),131.1,132; PDFpages66-67,131.1includes2022amendment",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1429,8 +1445,16 @@
       ]
     },
     "SC": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "councilForms": {
+          "value": "Current official text:4-9-90default single-member districts elect by resident district electors, subject to4-9-10/court-plan exceptions. County-specific two/four-year terms beginJan2; four-year terms stagger with initial vote-ranking split; two-to-four conversion needs referendum. Separate council-administrator4-9-610 and manager4-9-810 text says Jan1; discrepancy retained for actual-form resolution. Article11board-of-commissioners is excluded by4-9-190;4-9-1020uses county-specific two/four-year terms with initial half two-year and entry Monday after election. Actual form, seat phases, filing and candidate qualifications remain open.",
+          "url": "https://www.scstatehouse.gov/code/t04c009.php",
+          "section": "4-9-90,.190,.610,.810,.1020; Jan1/Jan2 text conflict retained",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1579,8 +1603,16 @@
       ]
     },
     "UT": {
-      "status": "unread",
-      "claims": {},
+      "status": "partially-inspected",
+      "claims": {
+        "washington2026Commission": {
+          "value": "Actual Washington County2026official packet: generalNov3, commissionSeatsA/Bfour-year,$740.04fee, county clerk filing. Qualified-party filingJan2at8a.m.\u2013Jan8at5p.m.; registered-partythroughApr27, unaffiliatedthroughJun15, distinct nomination routes retained. Packet cites17-66-201/17-64-201: U.S.citizen, county registered voter, county resident one year by election, residence maintained in elected district, commissioner county voter registration one year before election. Exact electorate/entry, other counties and current recodified full statutes remain open. Superseded17-16/17-52a URLs are not admitted as current rules.",
+          "url": "https://www.washco.utah.gov/wp-content/uploads/2025/12/Declaration-of-Candidacy-Packet.pdf",
+          "section": "2026notice and filing qualifications, PDFpages0-2",
+          "readOn": "2026-10-01",
+          "status": "read"
+        }
+      },
       "openFields": [
         "applicability",
         "officeFamily",
@@ -1809,6 +1841,18 @@
       "state": "ID",
       "url": "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-703/",
       "result": "web reader Internal Error; direct official HTML succeeded; source hashes recorded",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "UT",
+      "url": "https://le.utah.gov/xcode/Title17/Chapter16/C17-16-S6.html",
+      "result": "web Internal Error; direct official HTTP404; superseded code not admitted; current county2026packet read instead",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "UT",
+      "url": "https://le.utah.gov/xcode/Title17/Chapter64/C17-64-S201.html",
+      "result": "web Internal Error; full current statute text remains open",
       "readOn": "2026-10-01"
     }
   ]
