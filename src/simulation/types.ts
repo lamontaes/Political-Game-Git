@@ -950,10 +950,11 @@ export interface LawExposureRecord {
   readonly sectionKey: string | null;
   readonly channel: LawExposureChannel;
   /**
-   * Their own money or service, a family member's, or something a person
-   * they know told them it did to them ("friend").
+   * Their own money or service, a family member's, something a person they
+   * know told them it did to them ("friend"), or a published story about what
+   * it did that they read ("news": heard from the news).
    */
-  readonly relation: "own" | "family" | "friend";
+  readonly relation: "own" | "family" | "friend" | "news";
   /** For a family or friend exposure, whose paycheck, bill or service it was. */
   readonly viaPersonId: EntityId | null;
   /** Whether the law cost them or paid them; "none" for a non-money effect. */
@@ -968,8 +969,23 @@ export interface LawExposureRecord {
    * landed on them.
    */
   readonly monthlyPay: MoneyAmount | null;
-  /** The record showing the effect happened (a tax collection, a paycheck). */
+  /**
+   * The record showing the effect happened (a tax collection, a paycheck);
+   * for a news exposure, the reader's knowledge of the story.
+   */
   readonly sourceRecordId: EntityId;
+  /** For a news exposure: the story it came from, record by record. */
+  readonly news?: LawExposureNewsProvenance;
+}
+
+/** Where a news exposure came from (`recordStoryHeardExposure`). */
+export interface LawExposureNewsProvenance {
+  /** The reader's knowledge of the story (EventKnowledgeRecord). */
+  readonly knowledgeId: EntityId;
+  readonly publicationId: EntityId;
+  readonly storyLeadId: EntityId;
+  /** The law-effect event the story reported. */
+  readonly basisEventId: EntityId;
 }
 
 /** Why a person's view of an official moved (spec 5, "Reasons for a view"). */
