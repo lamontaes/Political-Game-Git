@@ -169,14 +169,6 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
       },
     };
     expect(settleTownCompensations(laterPaid, [period])).toBe(laterPaid);
-    expect(() =>
-      settleTownCompensations(laterContract, [
-        {
-          ...period,
-          completedShift: { ...period.completedShift, termsId: flow.id },
-        },
-      ]),
-    ).toThrow("saved work and earned terms");
     const liabilities = paid.history.statutoryTaxLiabilities!.filter(
       (row) => row.sourceOutcomeId === outcome.id,
     );
@@ -238,3 +230,45 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
     }
   }, 120_000);
 });
+
+it.each(sampled)(
+  "rejects a completed-shift claim without saved completed work in %s",
+  (placeKey) => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startAge: 30,
+      placeKey,
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      questionnaire: "skipped",
+      priors: [],
+      seed: `shift-evidence:${placeKey}`,
+    });
+    const entered = enterLifePath(game.world, "shop-assistant");
+    expect(entered.ok, entered.message).toBe(true);
+    const work = entered.world.history.workRelationships.at(-1)!;
+    const flow = entered.world.history.resourceFlows.find(
+      (row) =>
+        row.basisReference.kind === "work" &&
+        row.basisReference.workRelationshipId === work.id,
+    )!;
+    const terms = resourceFlowTermsAt(entered.world, flow.id)!;
+    expect(() =>
+      settleTownCompensations(entered.world, [
+        {
+          payFlowId: flow.id,
+          activityId: work.id,
+          stableKey: `invalid-completion:${work.id}`,
+          periodStartsAt: entered.world.currentDate,
+          periodEndsAt: entered.world.currentDate,
+          onDate: entered.world.currentDate,
+          completedShift: {
+            eventId: work.id,
+            termsId: terms.id,
+            amount: terms.amount,
+          },
+        },
+      ]),
+    ).toThrow("saved work and earned terms");
+  },
+);
