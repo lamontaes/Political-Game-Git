@@ -25,6 +25,7 @@ import { assertWorldIntegrity } from "./world";
 const SOURCES = [
   "https://www.dol.gov/agencies/whd/minimum-wage",
   "https://www.dol.gov/agencies/whd/fact-sheets/14-flsa-coverage",
+  "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section206&num=0&edition=prelim",
 ];
 const QUESTIONS = new Set([
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
@@ -65,21 +66,26 @@ export function determineWorkPayCoverage(
   const propositions = Object.values(world.policyCatalog.propositions).filter(
     (entry) => QUESTIONS.has(entry.stableKey),
   );
-  const existing = new Set(
-    (world.history.workPayCoverageDeterminations ?? []).map(
-      (record) => record.workRelationshipId,
-    ),
-  );
+  const existing = new Set<EntityId>();
   const added: WorkPayCoverageDeterminationRecord[] = [];
   for (const workId of workIds) {
-    if (existing.has(workId)) continue;
+    if (
+      existing.has(workId) ||
+      recordsWithFieldValue(
+        world.history.workPayCoverageDeterminations ?? [],
+        "workRelationshipId",
+        workId,
+      ).length
+    )
+      continue;
     const work = recordById(world.history.workRelationships, workId);
     if (!work)
       throw new Error("Pay coverage requires an actual work relationship");
+    const status = workStatusAt(world, workId, cutoff);
     if (
       !work.organizationId ||
       (work.compensation !== "paid" && work.compensation !== "mixed") ||
-      workStatusAt(world, workId, cutoff)?.status !== "active"
+      status?.status !== "active"
     )
       continue;
     const role = workRoleAt(world, workId, cutoff);
@@ -88,7 +94,12 @@ export function determineWorkPayCoverage(
         "Pay coverage requires its actual workplace jurisdiction",
       );
     const profile = organizationProfileAt(world, work.organizationId, cutoff);
-    const factRecordIds = [work.id, role.id, ...(profile ? [profile.id] : [])];
+    const factRecordIds = [
+      work.id,
+      role.id,
+      status.id,
+      ...(profile ? [profile.id] : []),
+    ];
     const governingLaws: WorkPayCoverageDeterminationRecord["governingLaws"][number][] =
       [];
     const exceptions: WorkPayCoverageDeterminationRecord["exceptions"][number][] =
@@ -185,9 +196,49 @@ export function initializeWorkPayCoverage(world: World): World {
   );
 }
 
-export function assertWorkPayCoverageIntegrity(world: World): void {
+const VALIDATED = new WeakMap<
+  readonly WorkPayCoverageDeterminationRecord[],
+  {
+    work: World["history"]["workRelationships"];
+    roles: World["history"]["workRoles"];
+    profiles: World["history"]["organizationProfiles"];
+    statuses: World["history"]["workStatuses"];
+    latestDate: IsoDate;
+  }
+>();
+
+export function assertWorkPayCoverageIntegrity(
+  world: World,
+  ids: Set<EntityId> = new Set(),
+): void {
+  const records = world.history.workPayCoverageDeterminations;
+  if (!records?.length) return;
+  // Register identity on every call, even when the dated facts are cached.
+  for (const record of records) {
+    if (ids.has(record.id))
+      throw new Error(`Duplicate world entity ID: ${record.id}`);
+    const stableKey = `work-pay-coverage:${record.workRelationshipId}:initial`;
+    if (
+      record.stableKey !== stableKey ||
+      record.id !==
+        createStableId("work-pay-coverage", `${world.id}:${stableKey}`)
+    )
+      throw new Error("Pay coverage ID must match its canonical stable key");
+    ids.add(record.id);
+  }
+  const cached = VALIDATED.get(records);
+  if (
+    cached &&
+    cached.work === world.history.workRelationships &&
+    cached.roles === world.history.workRoles &&
+    cached.profiles === world.history.organizationProfiles &&
+    cached.statuses === world.history.workStatuses &&
+    cached.latestDate <= world.currentDate
+  )
+    return;
   const seen = new Set<EntityId>();
-  for (const record of world.history.workPayCoverageDeterminations ?? []) {
+  let latestDate = records[0]!.determinedAt;
+  for (const record of records) {
     const work = recordById(
       world.history.workRelationships,
       record.workRelationshipId,
@@ -216,5 +267,60 @@ export function assertWorkPayCoverageIntegrity(world: World): void {
         "Pay coverage determination must bind its actual dated work facts",
       );
     seen.add(record.workRelationshipId);
+    latestDate = date > latestDate ? date : latestDate;
+    for (const id of record.factRecordIds) {
+      const relatedWork = recordById(world.history.workRelationships, id);
+      const relatedRole = recordById(world.history.workRoles, id);
+      const relatedStatus = recordById(world.history.workStatuses, id);
+      const relatedProfile = recordById(world.history.organizationProfiles, id);
+      const fact =
+        relatedWork ?? relatedRole ?? relatedStatus ?? relatedProfile;
+      if (!fact || fact.sequence >= record.sequence)
+        throw new Error(
+          "Pay coverage evidence must be an actual prior saved fact",
+        );
+      if (
+        relatedWork &&
+        (relatedWork.organizationId !== work!.organizationId ||
+          relatedWork.recordedAt > date)
+      )
+        throw new Error(
+          "Pay coverage workforce evidence must belong to the dated employer",
+        );
+      if (
+        relatedProfile &&
+        (relatedProfile.organizationId !== work!.organizationId ||
+          relatedProfile.effectiveAt > date)
+      )
+        throw new Error(
+          "Pay coverage employer evidence must precede its determination",
+        );
+      if (
+        relatedRole &&
+        (relatedRole.workRelationshipId !== work!.id ||
+          relatedRole.effectiveAt > date)
+      )
+        throw new Error("Pay coverage role evidence must bind its dated work");
+      if (relatedStatus) {
+        const statusWork = recordById(
+          world.history.workRelationships,
+          relatedStatus.workRelationshipId,
+        );
+        if (
+          statusWork?.organizationId !== work!.organizationId ||
+          relatedStatus.effectiveAt > date
+        )
+          throw new Error(
+            "Pay coverage status evidence must bind the dated employer",
+          );
+      }
+    }
   }
+  VALIDATED.set(records, {
+    work: world.history.workRelationships,
+    roles: world.history.workRoles,
+    profiles: world.history.organizationProfiles,
+    statuses: world.history.workStatuses,
+    latestDate,
+  });
 }

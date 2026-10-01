@@ -18,6 +18,7 @@ import {
 import { SeededRng } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { personName } from "../people";
+import { determineWorkPayCoverage } from "../pay-coverage";
 import { withWorldIntegrityDeferred } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
 import * as lawEffects from "../enacted-law-effects";
@@ -102,6 +103,7 @@ describe.each(sampled)("pay kind in %s", (placeKey) => {
       },
     });
     const flow = world.history.resourceFlows.at(-1)!;
+    world = determineWorkPayCoverage(world, [work.id], "opening");
     const since = world.currentDate;
     const context = {
       onDate: since,

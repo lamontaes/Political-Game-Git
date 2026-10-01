@@ -72,7 +72,8 @@ export function matchPayCoveragePredicates(
             ? [{ work: entry, status }]
             : [];
         });
-        matches &&= active.length <= count;
+        matches &&=
+          new Set(active.map((entry) => entry.work.personId)).size <= count;
         factRecordIds.push(
           ...active.flatMap((entry) => [entry.work.id, entry.status.id]),
         );
