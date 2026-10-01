@@ -1,0 +1,30 @@
+import { execFileSync } from "node:child_process";
+import path from "node:path";
+import { mergeConfig } from "/workspace/Political-Game-Git/node_modules/vite/dist/node/index.js";
+import base from "/workspace/Political-Game-Git/vite.config";
+
+const root = "/workspace/Political-Game-Git";
+const head = "0e9e4e5e59741012582b6064140fcd26b31393c0";
+const files = new Set(execFileSync("git", ["ls-tree", "-r", "--name-only", head, "src", "data"], { cwd: root, encoding: "utf8" }).trim().split("\n"));
+const sources = new Map<string, string>();
+
+export default mergeConfig(base, {
+  plugins: [{
+    name: "team-3-city-head-plus-owned-tests-source-proof",
+    enforce: "pre" as const,
+    load(id: string) {
+      const clean = id.split("?")[0]!;
+      const relative = path.relative(root, clean);
+      if (relative === "src/simulation/law-consequences/pay-city.test.ts" || relative === "src/simulation/law-consequences/pay-default-registry.test.ts") return null;
+      if (!relative.startsWith("src/") && !relative.startsWith("data/")) return null;
+      if (!/\.(ts|tsx|js|jsx|json)$/.test(relative)) return null;
+      if (!files.has(relative)) throw new Error(`Pinned source ${head} has no ${relative}`);
+      let source = sources.get(relative);
+      if (source === undefined) {
+        source = execFileSync("git", ["show", `${head}:${relative}`], { cwd: root, encoding: "utf8", maxBuffer: 32 * 1024 * 1024 });
+        sources.set(relative, source);
+      }
+      return source;
+    },
+  }],
+});

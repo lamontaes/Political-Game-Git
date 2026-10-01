@@ -1,0 +1,2 @@
+
+4 scoped roots; 0 diagnostics

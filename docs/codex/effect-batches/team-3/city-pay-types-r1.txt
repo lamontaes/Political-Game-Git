@@ -1,0 +1,29 @@
+[96msrc/simulation/law-consequences/pay-city.test.ts[0m:[93m210[0m:[93m9[0m - [91merror[0m[90m TS2367: [0mThis comparison appears to be unintentional because the types '"file-measure" | "request-referral" | "request-committee-hearing" | "move-committee-report" | "request-calendar-placement" | "move-floor-vote" | "await-next-legislative-day" | ... 6 more ... | "record-enactment"' and '"wait-for-next-floor-day"' have no overlap.
+
+[7m210[0m     if (step === "wait-for-next-floor-day" && position.earliestNextFloorDate) {
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/simulation/law-consequences/pay-city.test.ts[0m:[93m251[0m:[93m5[0m - [91merror[0m[90m TS2322: [0mType '"carries-out"' is not assignable to type 'WorkAuthority'.
+
+[7m251[0m     authority: "carries-out",
+[7m   [0m [91m    ~~~~~~~~~[0m
+
+  [96msrc/simulation/life.ts[0m:[93m206[0m:[93m12[0m
+    [7m206[0m   readonly authority: WorkAuthority;
+    [7m   [0m [96m           ~~~~~~~~~[0m
+    The expected type comes from property 'authority' which is declared here on type 'CreateWorkRelationshipInput'
+[96msrc/simulation/law-consequences/pay-city.test.ts[0m:[93m263[0m:[93m9[0m - [91merror[0m[90m TS2820: [0mType '"fixed"' is not assignable to type 'ScheduleRigidity'. Did you mean '"mixed"'?
+
+[7m263[0m         scheduleRigidity: "fixed",
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/simulation/types.ts[0m:[93m1511[0m:[93m12[0m
+    [7m1511[0m   readonly scheduleRigidity: ScheduleRigidity;
+    [7m    [0m [96m           ~~~~~~~~~~~~~~~~[0m
+    The expected type comes from property 'scheduleRigidity' which is declared here on type 'TimeDemandProfile'
+[96msrc/simulation/law-consequences/pay-city.test.ts[0m:[93m328[0m:[93m7[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string' is not assignable to parameter of type 'CurrencyCode'.
+  Type 'string' is not assignable to type '{ readonly [currencyCodeBrand]: true; }'.
+
+[7m328[0m       "USD",
+[7m   [0m [91m      ~~~~~[0m
+
+1 scoped roots; 4 diagnostics
