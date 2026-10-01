@@ -6,7 +6,15 @@ import {
 } from "../presentation/opening-life";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 import { submitTimeCommand } from "../presentation/time-command";
-import { createOrganization, createWorkRelationship } from "./life";
+import {
+  createOrganization,
+  createWorkRelationship,
+  createHousehold,
+  recordHouseholdLocation,
+  recordHouseholdMembershipState,
+  startHouseholdMembership,
+} from "./life";
+import { householdMembershipsAt } from "./life-queries";
 import {
   initializeOfficeSalaryFlows,
   settleOfficeSalaries,
@@ -61,7 +69,46 @@ beforeAll(() => {
     kind: "authored" as const,
     note: "Recorded funded mortgage route fixture.",
   };
-  let world = createOrganization(game.world, {
+  let world = createHousehold(game.world, {
+    stableKey: "c9:buyer-household",
+    formedAt: game.world.currentDate,
+    label: "Fixture buyer's independent household",
+    provenance,
+  });
+  const buyingHouseholdId = world.history.households.at(-1)!.id;
+  world = recordHouseholdLocation(world, {
+    stableKey: "c9:buyer-household:location",
+    householdId: buyingHouseholdId,
+    effectiveAt: world.currentDate,
+    jurisdictionId: world.people[playerId]!.homeJurisdictionId!,
+    label: "Albuquerque",
+    kind: "residence:home",
+    provenance,
+    supersedesLocationId: null,
+  });
+  for (const entry of householdMembershipsAt(world, playerId)) {
+    if (entry.state.residenceRole !== "primary") continue;
+    world = recordHouseholdMembershipState(world, {
+      stableKey: `c9:left-household:${entry.membership.id}`,
+      membershipId: entry.membership.id,
+      effectiveAt: world.currentDate,
+      status: "ended",
+      residenceRole: entry.state.residenceRole,
+      kind: entry.state.kind,
+      provenance,
+      supersedesStateId: entry.state.id,
+    });
+  }
+  world = startHouseholdMembership(world, {
+    stableKey: "c9:buyer-household:member",
+    personId: playerId,
+    householdId: buyingHouseholdId,
+    startedAt: world.currentDate,
+    residenceRole: "primary",
+    kind: "resident:member",
+    provenance,
+  });
+  world = createOrganization(world, {
     stableKey: "c9:funding-source",
     formedAt: game.world.currentDate,
     provenance,
@@ -156,9 +203,14 @@ beforeAll(() => {
   world = initializeOfficeSalaryFlows(world, playerId);
   world = initializeLivingCostsFlow(world, playerId);
   world = ensurePlayerMonthlyMoneySchedule(world, playerId);
-  mortgageId = world.history.resourceFlows.find(
-    (flow) => flow.basisKind === MORTGAGE_BASIS,
-  )!.id;
+  const mortgages = world.history.resourceFlows.filter(
+    (flow) =>
+      flow.basisKind === MORTGAGE_BASIS &&
+      flow.source.kind === "person" &&
+      flow.source.personId === playerId,
+  );
+  expect(mortgages).toHaveLength(1);
+  mortgageId = mortgages[0]!.id;
   livingId = livingCostsFlowFor(world, playerId)!.id;
   salaryId = world.history.resourceFlows.find(
     (flow) => flow.stableKey === `office-salary:${workId}`,
