@@ -65,10 +65,7 @@ import {
   evaluateClemency,
 } from "../justice/clemency-reasoning";
 import { isCongressMeasure } from "./congress-chambers";
-import {
-  CONGRESS_LAWMAKING_HANDLERS,
-  presidentDesk,
-} from "./congress-lawmaking";
+import { congressLawmakingHandlers, presidentDesk } from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
   type StateExecutiveHolderRecord,
@@ -3006,7 +3003,7 @@ export function stateGoverningHandlers() {
         LEGISLATIVE_INSTITUTION_STEP,
         createInstitutionStepHandler(executiveDesk),
       ],
-      ...CONGRESS_LAWMAKING_HANDLERS,
+      ...congressLawmakingHandlers(),
       [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
       [GOVERNING_SEASON, governingSeasonHandler],
       [GOVERNING_TRANSITION, governingTransitionHandler],
