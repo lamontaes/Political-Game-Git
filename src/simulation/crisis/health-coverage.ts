@@ -50,7 +50,7 @@ import {
 import { scheduleFutureDueItem } from "../future-transitions";
 import type { LawInForce } from "../governing/law-in-force";
 import { readEligibilityLawsInForce } from "../enacted-eligibility";
-import { COVERAGE_QUESTION_KEYS } from "../law-consequences/coverage-eligibility";
+import { COVERAGE_QUESTION_KEYS } from "../law-consequences/coverage-eligibility-rows";
 import { lawEffectStamp } from "../law-effect-stamp";
 import {
   activeEducationEnrollmentsAt,

@@ -16,19 +16,16 @@ import type {
 } from "../law-consequence-types";
 import type { EntityId, IsoDate, World } from "../types";
 
-export const COVERAGE_QUESTION_KEYS = {
-  expansion:
-    "us-policy-positions:health-human-services.expand-medicaid-eligibility",
-  workRequirement:
-    "us-policy-positions:health-human-services.medicaid-work-requirement",
-} as const;
-const SELECTORS = {
-  "medicaid-expansion-person": COVERAGE_QUESTION_KEYS.expansion,
-  "medicaid-work-rule-person": COVERAGE_QUESTION_KEYS.workRequirement,
-} as const;
-const ACTION = "recompute-medicaid-coverage";
-const DECISION = "medicaid-coverage-decision";
-const PREDICATE = "medicaid-recorded-household";
+import {
+  COVERAGE_SELECTORS as SELECTORS,
+  COVERAGE_ACTION as ACTION,
+  COVERAGE_DECISION as DECISION,
+  COVERAGE_PREDICATE as PREDICATE,
+} from "./coverage-eligibility-rows";
+export {
+  COVERAGE_QUESTION_KEYS,
+  COVERAGE_ELIGIBILITY_ROWS,
+} from "./coverage-eligibility-rows";
 
 function questionFor(row: LawConsequenceRow): string {
   const selector = row.who.selector;
@@ -221,39 +218,3 @@ export const COVERAGE_ELIGIBILITY_REGISTRATION: LawConsequenceKindRegistration =
     resolve: resolveCoverageEligibility,
     apply: applyCoverageEligibility,
   };
-
-/** Existing coverage bindings; the catalog owner admits these same rows. */
-export const COVERAGE_ELIGIBILITY_ROWS: Readonly<
-  Record<string, LawConsequenceRow>
-> = Object.fromEntries(
-  Object.entries(SELECTORS).map(([selector, questionKey]) => [
-    questionKey,
-    {
-      id: `coverage-eligibility:${selector}`,
-      kind: "coverage-eligibility",
-      when: "renewal",
-      who: {
-        selector,
-        predicates: [{ capability: PREDICATE, parameters: {} }],
-      },
-      what: ACTION,
-      decision: { op: "record", key: DECISION, type: "boolean" },
-      conditions: [],
-      lag: { days: 0, sourceIds: ["existing-monthly-coverage-review"] },
-      onRepeal: "recompute-prospective",
-      evidence: {
-        sourceIds: [
-          "data/research/money/public-programs-2026.json#federal.medicaid",
-          `data/research/laws/starting-law-2026.json#questions.${questionKey}`,
-        ],
-        population:
-          "Recorded adult household members reviewed by the existing coverage writer.",
-        scope:
-          "Actual governing law and recorded household, pay, work and exemption facts.",
-        why: "The governing eligibility rule applies to the person's recorded circumstances.",
-        uncertainty:
-          "Reuses the existing modeled eligibility and exemptions; missing facts are undecided and never cause loss.",
-      },
-    } satisfies LawConsequenceRow,
-  ]),
-);
