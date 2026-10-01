@@ -115,7 +115,6 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     actTitles: false,
     individualAgenda: false,
     municipalAgenda: false,
-    positionOnly: false,
     measureNoun: "bill",
   },
   federal: {
@@ -130,7 +129,6 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     actTitles: true,
     individualAgenda: false,
     municipalAgenda: false,
-    positionOnly: false,
     measureNoun: "bill",
   },
   localPosition: {
@@ -145,7 +143,6 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     actTitles: false,
     individualAgenda: true,
     municipalAgenda: true,
-    positionOnly: true,
     measureNoun: "ordinance",
   },
 } as const;
@@ -537,19 +534,43 @@ export function fileMemberAgendaBills(
             continue;
           if (!lawAnswers.has(propositionId))
             lawAnswers.set(propositionId, statuteAnswer(law));
-          const answer = positionBillAnswer(
+          let answer = positionBillAnswer(
             leaning.score,
             lawAnswers.get(propositionId)!,
           );
+          const numbering = nextMeasureNumbering(next, {
+            jurisdictionId: input.jurisdictionId,
+            originChamber: chamber,
+            rulePackId: pack.packId,
+          });
+          const compileForSponsor = (requestedAnswer: "yes" | "no") =>
+            compileAutomaticLawDraft({
+              world: next,
+              sponsorPersonId: sponsor.personId!,
+              jurisdictionId: input.jurisdictionId,
+              propositionId,
+              answer: requestedAnswer,
+              designation: numbering.designation,
+              intakeKey:
+                batchKey +
+                ":" +
+                encodeURIComponent(
+                  next.policyCatalog.propositions[propositionId]!.stableKey,
+                ),
+              governmentLevel: settings.governmentLevel,
+            });
+          let requestedChange: ReturnType<typeof compileAutomaticLawDraft> =
+            null;
+          if (
+            !answer &&
+            leaning.score > 0 &&
+            lawAnswers.get(propositionId) === "yes"
+          ) {
+            requestedChange = compileForSponsor("yes");
+            if (requestedChange) answer = "yes";
+          }
           if (!answer) continue;
           const proposition = next.policyCatalog.propositions[propositionId]!;
-          if (
-            settings.positionOnly &&
-            (["municipality", "county"] as const).some((level) =>
-              automaticLawMappingFor(proposition.stableKey, answer, level),
-            )
-          )
-            continue;
           const issueKey = next.policyCatalog.issues[
             proposition.issueId
           ]!.stableKey.slice(settings.issuePrefix?.length ?? 0);
@@ -577,35 +598,17 @@ export function fileMemberAgendaBills(
             !allowed.value.includes(chamber.chamberKey)
           )
             continue;
-          const numbering = nextMeasureNumbering(next, {
-            jurisdictionId: input.jurisdictionId,
-            originChamber: chamber,
-            rulePackId: pack.packId,
-          });
-          const draftKey = `${chamber.chamberKey}:${propositionId}:${answer}`;
+          const draftKey = `${sponsor.personId}:${chamber.chamberKey}:${propositionId}:${answer}`;
           if (
             mapped &&
             settings.compileBeforeSelection &&
             !drafts.has(draftKey)
           )
-            drafts.set(
-              draftKey,
-              compileAutomaticLawDraft({
-                world: next,
-                jurisdictionId: input.jurisdictionId,
-                propositionId,
-                answer,
-                designation: numbering.designation,
-                intakeKey:
-                  batchKey + ":" + encodeURIComponent(proposition.stableKey),
-                governmentLevel: settings.governmentLevel,
-              }),
-            );
+            drafts.set(draftKey, requestedChange ?? compileForSponsor(answer));
           const draft =
             mapped && settings.compileBeforeSelection
               ? drafts.get(draftKey)!
               : null;
-          if (mapped && settings.compileBeforeSelection && !draft) continue;
           const permitted = permittedOriginChambers(
             pack,
             draft?.subjectClass ?? subjectClass,
@@ -666,8 +669,8 @@ export function fileMemberAgendaBills(
     });
     if (input.localGovernmentKey)
       next = withLocalSponsorControl(next, sponsor.personId!);
-    let measureId: EntityId;
-    if (best.mapped) {
+    let measureId: EntityId | null = null;
+    if (best.mapped && (!settings.compileBeforeSelection || best.draft)) {
       const introduced = introduceAutomaticLawMeasure(next, {
         jurisdictionId: input.jurisdictionId,
         governmentLevel: settings.governmentLevel,
@@ -683,14 +686,12 @@ export function fileMemberAgendaBills(
         principleRecordIds: best.principleRecordIds,
         principleScore: best.score,
       });
-      if (!introduced) {
-        // Preserve this caller's refusal without leaking newly formed reasons.
-        if (!settings.compileBeforeSelection && input.chamberKey) return world;
-        continue;
+      if (introduced) {
+        next = introduced.world;
+        measureId = introduced.measureId;
       }
-      next = introduced.world;
-      measureId = introduced.measureId;
-    } else {
+    }
+    if (!measureId) {
       next = introduceMeasure(next, {
         stableKey,
         jurisdictionId: input.jurisdictionId,
@@ -703,7 +704,7 @@ export function fileMemberAgendaBills(
             : `Repeal: ${proposition.name}`,
         summary:
           best.answer === "yes"
-            ? `${proposition.question} This ${settings.measureNoun} says yes.`
+            ? `${proposition.question} This ${settings.measureNoun} says yes.${best.mapped ? " No numeric terms are requested because a verified current-law reference is unavailable." : ""}`
             : `${proposition.question} This ${settings.measureNoun} repeals the law that says yes.`,
         origin: "member-introduction",
         subjectClass: best.subjectClass,
@@ -1006,6 +1007,7 @@ export function fileLocalMemberAgendaBill(
       const stableKey = `${batchKey}:${sponsor.personId}:${encodeURIComponent(proposition.stableKey)}`;
       const draft = compileAutomaticLawDraft({
         world: actorWorld,
+        sponsorPersonId: sponsor.personId,
         jurisdictionId: grant.jurisdictionId,
         propositionId: proposition.id,
         answer,
