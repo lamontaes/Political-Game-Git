@@ -30,7 +30,8 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import type { World } from "../types";
 import { advanceWorld } from "../world";
 import { AUTOMATIC_LAW_POSITION_MAPPINGS } from "./automatic-legislation";
-import { lawInForce } from "./law-in-force";
+import { lawInForce, statuteAnswer } from "./law-in-force";
+import { mayAnswerQuestion } from "./question-authority";
 import {
   LOCAL_MEMBER_AGENDA_INTAKE,
   LOCAL_MEMBER_AGENDA_VERSION,
@@ -222,6 +223,63 @@ describe("a council's plain position bills", () => {
       ).map((mapping) => mapping.propositionKey),
     );
     for (let quarter = 0; quarter < 4; quarter += 1) {
+      if (quarter === 1) {
+        const question = world.policyCatalog.propositionOrder
+          .map((id) => world.policyCatalog.propositions[id]!)
+          .find(
+            (q) =>
+              !mappedKeys.has(q.stableKey) &&
+              mayAnswerQuestion(world, place.context.jurisdiction.id, q.id) &&
+              !["yes", "closed"].includes(
+                statuteAnswer(
+                  lawInForce(world, place.context.jurisdiction.id, q.id),
+                ) ?? "",
+              ) &&
+              (q.principles ?? []).reduce(
+                (sum, bearing) => sum + (bearing.weight ?? 1),
+                0,
+              ) >= 1,
+          );
+        expect(question).toBeDefined();
+        const playerId =
+          world.control.kind === "person" ? world.control.personId : null;
+        world = recordPrinciples(
+          world,
+          municipalSeats(world, city.id)
+            .filter(
+              (seat) =>
+                seat.personId !== playerId &&
+                (seat.role === "member" || seat.role === "presiding-member"),
+            )
+            .flatMap((seat) =>
+              question!.principles!.map((bearing) => ({
+                stableKey: `plain-agenda-reason:${seat.personId}:${bearing.principleId}`,
+                personId: seat.personId,
+                principleId: bearing.principleId,
+                formedAt: world.currentDate,
+                stance:
+                  bearing.bearing === "consistent-with"
+                    ? "endorses"
+                    : "rejects",
+                strength: 1,
+                conviction: "settled",
+                flexibility: "firm",
+                qualification: null,
+                formation: createFormationContext("experience:life", {
+                  note: "Explicit saved support for a plain council question after the mapped bill was filed.",
+                }),
+                supersedesPrincipleRecordId:
+                  world.history.principles
+                    .filter(
+                      (record) =>
+                        record.personId === seat.personId &&
+                        record.principleId === bearing.principleId,
+                    )
+                    .at(-1)?.id ?? null,
+              })),
+            ),
+        );
+      }
       const dueAt = addDays(world.currentDate, 1);
       world = advanceWorld(
         scheduleFutureDueItem(world, {
