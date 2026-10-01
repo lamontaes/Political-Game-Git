@@ -36,6 +36,7 @@
 import { recordViolenceAttempt } from "../crisis/international";
 import { currentGovernorOf } from "../crisis/offices";
 import { createStableId } from "../ids";
+import { stateKeyForJurisdiction } from "../life-places";
 import {
   createIncidentCatalog,
   createIncidentDefinition,
@@ -69,6 +70,7 @@ import {
 } from "../world-metrics";
 import { homeStateKeyOf } from "./anger";
 import type { PressureReading } from "./contract";
+import { worldStates } from "./step";
 
 /** BLANKET placeholders; see the file comment. None is researched. */
 export const BLANKET_POLITICAL_VIOLENCE = Object.freeze({
@@ -344,9 +346,28 @@ export function stepPressureLadder(
   if (!installed && over.length === 0) return world;
   let next = installed ? world : ensurePressureLadder(world);
 
-  const byJurisdiction = new Map(
-    latest.map((reading) => [reading.jurisdictionId, reading]),
+  // The anger read in a place's state this quarter, or null when none was
+  // read: missing anger is not calm (A133). The layer stores no reading for
+  // a state it stepped this quarter with nothing left to carry, so such a
+  // state's anger was read, and read as 0 (see `PressureStore`). A state the
+  // layer has not stepped this quarter has no anger on record at all.
+  const readingByState = new Map(
+    latest.map((reading) => [reading.stateKey, reading]),
   );
+  const steppedToday = store.lastPeriodEnd === world.currentDate;
+  const steppedStates = new Set(
+    steppedToday ? worldStates(world).map((state) => state.stateKey) : [],
+  );
+  const angerIn = (jurisdictionId: EntityId): number | null => {
+    const jurisdiction = next.jurisdictions[jurisdictionId];
+    const stateKey = jurisdiction
+      ? stateKeyForJurisdiction(jurisdiction)
+      : null;
+    if (!stateKey) return null;
+    const reading = readingByState.get(stateKey);
+    if (reading) return reading.levels.anger;
+    return steppedStates.has(stateKey) ? 0 : null;
+  };
   // Every quarter the pressure layer has stepped, by its end date.
   const stepEnds = new Map<number, string>();
   for (const reading of store.readings)
@@ -365,9 +386,9 @@ export function stepPressureLadder(
       (incident) =>
         incident.scope.jurisdictionId === threat.scope.jurisdictionId,
     );
-    const reading = byJurisdiction.get(threat.scope.jurisdictionId);
-    const stillOver =
-      reading !== undefined && reading.levels.anger > policy.angerLine;
+    const anger = angerIn(threat.scope.jurisdictionId);
+    const stillOver = anger !== null && anger > policy.angerLine;
+    const calmed = anger !== null && anger <= policy.angerLine;
     const lapse = (
       reasonKey: `${string}:${string}`,
       context: string,
@@ -411,7 +432,8 @@ export function stepPressureLadder(
       });
       continue;
     }
-    if (!unrest || !stillOver) {
+    // With no anger read this quarter the threat stays open as it was.
+    if (!unrest || calmed) {
       next = lapse(
         "pressure:unrest-calmed",
         "The unrest the threat came out of has calmed.",
@@ -432,15 +454,18 @@ export function stepPressureLadder(
   // and becomes lasting once it has held through enough re-checks.
   for (const unrest of activeOf(next, unrestId)) {
     const name = nameOf(unrest.scope.jurisdictionId);
-    const reading = byJurisdiction.get(unrest.scope.jurisdictionId);
-    if (!reading || reading.levels.anger <= policy.angerLine) {
+    const anger = angerIn(unrest.scope.jurisdictionId);
+    // No anger read this quarter: the unrest stays open, and no stage is
+    // written on a reading nobody took.
+    if (anger === null) continue;
+    if (anger <= policy.angerLine) {
       next = recordIncidentStage(next, {
         stableKey: `${unrest.stableKey}:calmed`,
         incidentId: unrest.id,
         status: "resolved",
         phaseKey: UNREST_CALMED_PHASE,
         reasonKey: "pressure:anger-at-or-under-line",
-        context: `Anger read ${(reading?.levels.anger ?? 0).toFixed(4)}, at or under the line of ${policy.angerLine}.`,
+        context: `Anger read ${anger.toFixed(4)}, at or under the line of ${policy.angerLine}.`,
         summary: `Unrest in ${name} calmed as public anger fell back.`,
       });
       continue;
@@ -456,7 +481,7 @@ export function stepPressureLadder(
         status: "active",
         phaseKey: UNREST_LASTING_PHASE,
         reasonKey: "pressure:anger-held",
-        context: `Anger read ${reading.levels.anger.toFixed(4)}, still over the line of ${policy.angerLine}.`,
+        context: `Anger read ${anger.toFixed(4)}, still over the line of ${policy.angerLine}.`,
         summary: `Unrest in ${name} continued into another quarter.`,
       });
   }
