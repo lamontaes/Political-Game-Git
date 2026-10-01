@@ -14,7 +14,8 @@ import { ensureOfficeholderPrinciples } from "../governing/officeholder-principl
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import {
   federalDebtHeldByPublic,
-  openFederalTreasury,
+  FEDERAL_INTEREST_RATE,
+  FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC,
 } from "./federal-treasury";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
@@ -98,7 +99,6 @@ function withFederalBudget(
   today: IsoDate,
 ): PublicBudgetStore {
   const nation = world.jurisdictions[NATIONAL_ELECTION_JURISDICTION.id];
-  const treasury = store.federal ?? openFederalTreasury(today);
   return {
     ...store,
     ...(nation && !store.federalGovernment
@@ -113,8 +113,10 @@ function withFederalBudget(
             balance: null,
             reserve: null,
             pension: null,
-            debt: federalDebtHeldByPublic(treasury),
-            interestRate: treasury.interestRate,
+            debt: store.federal
+              ? federalDebtHeldByPublic(store.federal)
+              : FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC,
+            interestRate: store.federal?.interestRate ?? FEDERAL_INTEREST_RATE,
             months: [],
           },
         }
@@ -139,7 +141,6 @@ export function ensurePublicBudgets(world: World): World {
     governments: [],
     adjustments: [],
     unknown: [],
-    federal: openFederalTreasury(today),
   };
   const opened: World = {
     ...world,
