@@ -94,3 +94,11 @@ These are accepted ownership boundaries, not completion, merge or runtime claims
 - Claude Team 5 owns the transferred service and remaining opinion work. Claude X5 exclusively owns outcome-web link-size research/data. Codex must not edit those link rows or restart its stopped Team 5.
 
 These transfers establish one writer per named surface. They do not establish completed endpoints. All Wave 1 and Wave 2 docket steps must finish before final-main GitHub checks are the last gate; the CTO declares GOAL COMPLETE.
+
+## CTO check-in 15 transfers, October 1
+
+- Audit exclusively owns the narrow mind-integrity.ts validateDecisionContext rank/outcome consistency hunk, alongside its decisions.ts repair. Empty or exactly tied scores remain undecided unless the actor's last visible same-type decision selects an eligible tied option. Remove close-choice draws and alphabetical tie-breaking. Preserve blocked-option, no-available-option and selected-result checks. No broader schema or source-validation transfer.
+- Team 9 owns only the state-governing.ts import and private recordDecision post-saved-clemency-decision hook. Team 2 retains all other governing-family code. Confirm and preserve any unpublished overlap before applying the published integration patch. Player and NPC paths must share the saved-decision producer; keep the weekly fallback until boundary proof.
+- Claude X5's scope now includes outcome-web measure readers for already-saved facts and approved starting outcome data, one measure per PR, in addition to effect sizing. Missing producers stay explicit; no new producers, link shapes, draw logic or arithmetic rules are authorized. Core files still require CTO approval. This supersedes the earlier size-data-only boundary.
+
+These are ownership grants, not tests, endpoint completion or merge approval.
