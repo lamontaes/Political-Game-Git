@@ -566,7 +566,7 @@ function reflectOnLivedOutcome(
     personId,
     officialId,
     reason,
-    `${V}:lived-outcome:${outcome.sourceRecordId}:${officialId}`,
+    `${V}:lived-outcome:${outcome.sourceRecordId}:${personId}:${officialId}`,
     "What happened to them runs against the view of this official the person already held.",
   );
   return done(next, "reflected");

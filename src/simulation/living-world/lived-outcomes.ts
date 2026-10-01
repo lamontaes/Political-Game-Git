@@ -1,7 +1,13 @@
+import { schoolYearMovesOf } from "../childhood-record";
 import { currentGovernorOf } from "../crisis/offices";
-import type { LawExposureFeltSize } from "../law-exposure";
-import { lifePlaceByJurisdictionId } from "../life-places";
+import { eventById } from "../event-index";
+import { NON_MONEY_FELT_SIZE, type LawExposureFeltSize } from "../law-exposure";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
+import { childrenOf } from "../people-family";
 import { localHeadOfGovernment } from "./local-government-seats";
 import { jobsLostBy } from "./town-labor-market";
 
@@ -12,7 +18,9 @@ import { jobsLostBy } from "./town-labor-market";
  * producer owns, the same reader the principles a life forms use
  * (`principles-from-life.ts`, card P1):
  *
- * - a job lost by layoff or closing: `jobsLostBy` (town-labor-market.ts).
+ * - a job lost by layoff or closing: `jobsLostBy` (town-labor-market.ts);
+ * - a child of theirs who had to leave school in the middle of a school
+ *   year when the family moved: `schoolYearMovesOf` (childhood-record.ts).
  *
  * Nothing is invented: an outcome with no record is not here.
  *
@@ -25,7 +33,7 @@ import { jobsLostBy } from "./town-labor-market";
  * count and the talk line read every kind the same way.
  */
 
-export type LivedOutcomeKind = "job-lost";
+export type LivedOutcomeKind = "job-lost" | "school-move";
 
 export interface LivedOutcome {
   readonly kind: LivedOutcomeKind;
@@ -56,12 +64,18 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
   Record<LivedOutcomeKind, AnsweringOffice>
 > = {
   "job-lost": "state-executive",
+  // PLACEHOLDER (same research request): a child pulled out of school in the
+  // middle of a year is held against the head of the family's local
+  // government, where they live now.
+  "school-move": "local-executive",
 };
 
 /** What the person thought over, in the words of their reflection event. */
 export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string>> =
   {
     "job-lost": "losing a job they did not choose to leave",
+    "school-move":
+      "their child having to leave school in the middle of the year",
   };
 
 /**
@@ -85,6 +99,25 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
       direction: "cost",
       felt: { share: 1, estimated: false },
     })),
+  // A child's school-year move, felt by each parent who moved with them. It
+  // moves no money, so it is felt as any non-money loss is
+  // (NON_MONEY_FELT_SIZE, PLACEHOLDER).
+  (world, personId, through) =>
+    childrenOf(world, personId).flatMap((childId) =>
+      schoolYearMovesOf(world, childId, through)
+        .filter((entry) =>
+          eventById(world, entry.sourceRecordId)?.involvedEntityIds.includes(
+            personId,
+          ),
+        )
+        .map((entry) => ({
+          kind: "school-move" as const,
+          at: entry.effectiveAt,
+          sourceRecordId: entry.id,
+          direction: "cost" as const,
+          felt: { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true },
+        })),
+    ),
 ];
 
 /** Everything recorded as happening to `personId`, oldest first. */
@@ -105,8 +138,11 @@ export function officialAnsweringFor(
   office: AnsweringOffice,
 ): EntityId | null {
   const home = world.people[personId]?.homeJurisdictionId;
+  // A town names its state; a home recorded as the state itself is that state.
+  const jurisdiction = home ? world.jurisdictions[home] : undefined;
   const stateKey = home
-    ? lifePlaceByJurisdictionId(home)?.stateJurisdictionKey
+    ? (lifePlaceByJurisdictionId(home)?.stateJurisdictionKey ??
+      (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null))
     : null;
   const governor = stateKey
     ? (currentGovernorOf(world, stateKey.slice(3))?.personId ?? null)

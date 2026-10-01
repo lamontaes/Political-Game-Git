@@ -51,6 +51,7 @@ import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  WorkRelationship,
   WorkStatusRecord,
   World,
 } from "../types";
@@ -74,6 +75,7 @@ import {
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
 import {
   activeTownJobs,
+  jobsLostBy,
   recordTownJobLoss,
   TOWN_JOB_END_REASONS,
 } from "./town-labor-market";
@@ -1454,29 +1456,28 @@ function townHouseholdDefaults(
   for (const row of world.history.workStatuses)
     if (row.effectiveAt <= today) latest.set(row.workRelationshipId, row);
   const working = new Set<EntityId>();
+  const relationships = new Map<EntityId, WorkRelationship>();
+  for (const row of world.history.workRelationships) {
+    relationships.set(row.id, row);
+    if (latest.get(row.id)?.status === "active") working.add(row.personId);
+  }
+  // Each resident's last lost town job, read by the one reader of a lost job.
   const lastLost = new Map<
     EntityId,
     { at: IsoDate; organizationId: EntityId | null }
   >();
-  for (const row of world.history.workRelationships) {
-    const status = latest.get(row.id);
-    if (!status) continue;
-    if (status.status === "active") {
-      working.add(row.personId);
-      continue;
+  for (const personId of world.personOrder) {
+    if (world.people[personId]?.homeJurisdictionId !== town) continue;
+    for (const status of jobsLostBy(world, personId, today)) {
+      const row = relationships.get(status.workRelationshipId);
+      if (!row?.stableKey.startsWith(stem)) continue;
+      const before = lastLost.get(personId);
+      if (!before || before.at < status.effectiveAt)
+        lastLost.set(personId, {
+          at: status.effectiveAt,
+          organizationId: row.organizationId,
+        });
     }
-    if (
-      !row.stableKey.startsWith(stem) ||
-      (status.reason !== TOWN_JOB_END_REASONS.laidOff &&
-        status.reason !== TOWN_JOB_END_REASONS.businessClosed)
-    )
-      continue;
-    const before = lastLost.get(row.personId);
-    if (!before || before.at < status.effectiveAt)
-      lastLost.set(row.personId, {
-        at: status.effectiveAt,
-        organizationId: row.organizationId,
-      });
   }
   const charged = new Set(open.flatMap((id) => banks[id]!.chargedOff ?? []));
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
