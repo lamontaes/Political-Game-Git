@@ -1,9 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {
   constitutionalActions,
@@ -77,18 +73,14 @@ let beforeProposal: World;
 let personId: EntityId;
 let measureId: EntityId;
 beforeAll(() => {
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: place.key,
-      startAge: 40,
-      questionnaire: "skipped",
-    }),
-  ).game!;
-  personId = game.playerPersonId;
+  const small = smallWorld({
+    place: place.key,
+    seed,
+    offices: ["state-legislature"],
+  });
+  personId = small.personId;
   world = ensureStateLegislatureOpening(
-    game.world,
+    small.world,
     personId,
     state.jurisdictionKey.slice(3),
   );

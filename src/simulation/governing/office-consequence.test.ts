@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
   openOrdinaryLife,
   passOrdinaryDays,
@@ -20,10 +17,14 @@ import {
 } from "./office-consequence";
 
 function openingWorld(seed: string): World {
-  const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
-  ).game!;
-  return openOrdinaryLife(game.world, game.playerPersonId);
+  // The cases read the seated governor and members of Congress, not the
+  // opening's households or town.
+  const small = smallWorld({
+    place: DEFAULT_NEW_GAME_SETUP.placeKey,
+    seed,
+    offices: ["congress", "governor"],
+  });
+  return openOrdinaryLife(small.world, small.personId);
 }
 
 describe("GOVERNING D2: what an office does about an allegation", () => {
