@@ -1,3 +1,5 @@
+import { composeWorldTimeHandlers } from "./campaigns";
+import { ensureSavedWeeklyJobPayCalendar } from "./weekly-job-pay-transitions";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
@@ -1112,22 +1114,22 @@ export function controlledCommitmentsBlockingMinuteAdvance(
 export function advanceWorldMinutes(
   world: World,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers?: FutureTransitionHandlerRegistry,
 ): World {
   return advanceWithWorldIntegrityAtEnd(() => {
-    if (!transitionHandlers.routine) {
-      if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
+    const handlers = composeWorldTimeHandlers(transitionHandlers);
+    const prepared = ensureSavedWeeklyJobPayCalendar(world);
+    if (!handlers.routine) {
+      if (
+        controlledCommitmentsBlockingMinuteAdvance(prepared, minutes).length > 0
+      )
         return world;
-      return advanceStoppingAtNewCommitments(
-        world,
-        minutes,
-        transitionHandlers,
-      );
+      return advanceStoppingAtNewCommitments(prepared, minutes, handlers);
     }
     return resolveAdvanceWithRoutine(
-      world,
-      addSimulationMinutes(world.currentMoment, minutes),
-      transitionHandlers,
+      prepared,
+      addSimulationMinutes(prepared.currentMoment, minutes),
+      handlers,
     );
   }, world);
 }

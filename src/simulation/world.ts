@@ -1,3 +1,5 @@
+import { composeWorldTimeHandlers } from "./campaigns";
+import { ensureSavedWeeklyJobPayCalendar } from "./weekly-job-pay-transitions";
 import {
   assertPermitIntegrity,
   permitApplications,
@@ -1387,7 +1389,7 @@ export function recordWorldEvent(
 export function advanceWorld(
   world: World,
   days: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers?: FutureTransitionHandlerRegistry,
 ): World {
   if (!Number.isSafeInteger(days) || days <= 0) {
     throw new Error(
@@ -1399,7 +1401,12 @@ export function advanceWorld(
   // Every writer inside a day advance skips the whole-world check; the
   // advanced World is checked once at the end, as a clock press is.
   return advanceWithWorldIntegrityAtEnd(
-    () => advanceWorldUnchecked(world, days, transitionHandlers),
+    () =>
+      advanceWorldUnchecked(
+        ensureSavedWeeklyJobPayCalendar(world),
+        days,
+        composeWorldTimeHandlers(transitionHandlers),
+      ),
     world,
   );
 }

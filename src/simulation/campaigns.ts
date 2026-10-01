@@ -1,3 +1,5 @@
+import { createWeeklyJobPayTransitionRegistry } from "./weekly-job-pay-transitions";
+import { settleSavedWeeklyJobPay } from "./job-market";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import { PLAYER_MONTHLY_MONEY_HANDLERS } from "./player-monthly-money";
 import {
@@ -2192,6 +2194,7 @@ export function composeWorldTimeHandlers(
         settlePublicResourcePayment(world, input, resolver),
       ),
       createTaxTransitionHandlerRegistry(),
+      createWeeklyJobPayTransitionRegistry(settleSavedWeeklyJobPay),
       createProsecutionTransitionRegistry(),
       LIFE_PATHS2_HANDLERS,
       // D-11: the candidate's standing campaign hours, after the day job's.

@@ -1,3 +1,4 @@
+import { ensureSavedWeeklyJobPayCalendar } from "./weekly-job-pay-transitions";
 import { determineWorkPayCoverage } from "./pay-coverage";
 import { eventById } from "./event-index";
 import { addDays, makeIsoDate } from "./dates";
@@ -1256,13 +1257,17 @@ export function recordWorkStatus(
     provenance: cloneLifeProvenance(input.provenance),
   };
   const next = appendOne(world, "workStatuses", record);
-  return determineWorkPayCoverage(
+  const covered = determineWorkPayCoverage(
     next,
     record.status === "active" && record.effectiveAt === next.currentDate
       ? [relationship.id]
       : [],
     "hire",
   );
+  return record.status === "active" &&
+    record.effectiveAt === covered.currentDate
+    ? ensureSavedWeeklyJobPayCalendar(covered, relationship.id)
+    : covered;
 }
 
 export function recordWorkRole(

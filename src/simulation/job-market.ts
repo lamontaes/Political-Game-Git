@@ -1,3 +1,4 @@
+import { ensureSavedWeeklyJobPayCalendar } from "./weekly-job-pay-transitions";
 import { settleTownCompensations } from "./living-world/town-pay";
 import {
   addDays,
@@ -1469,6 +1470,7 @@ function beginWork(world: World, applicationId: EntityId): JobMarketResult {
     jurisdictionId: null,
     provenance: { ...provenance, note: `${PROVENANCE_NOTE}${weekly.note}` },
   });
+  next = ensureSavedWeeklyJobPayCalendar(next, work.id);
   next = addStep(next, application, {
     kind: "started",
     occurredAt: world.currentDate,
@@ -1538,7 +1540,7 @@ function payWeekly(
     return world;
   const amount = money(weeklyMinor, currency);
   const next = ensureLifePathPersonalPosition(world, personId, amount.currency);
-  return createWorkCompensation(next, {
+  const compensated = createWorkCompensation(next, {
     stableKey,
     workRelationshipId,
     startsAt: next.currentDate,
@@ -1548,6 +1550,7 @@ function payWeekly(
     jurisdictionId: null,
     provenance: { kind: "authored", note },
   });
+  return ensureSavedWeeklyJobPayCalendar(compensated, workRelationshipId);
 }
 
 /**
