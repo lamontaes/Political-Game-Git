@@ -10,9 +10,19 @@ import {
   measureById,
   measurePosition,
 } from "../legislation";
-import { recordFiledProvision } from "../legislative-politics";
+import {
+  recordFiledProvision,
+  type RecordFiledProvisionInput,
+} from "../legislative-politics";
 import type { LawAmountUnit } from "../law-consequence-types";
-import type { LawInForce } from "./law-in-force";
+import { lawInForce, type LawInForce } from "./law-in-force";
+import { principledLeaning } from "./officeholder-principles";
+import {
+  censusRegionOf,
+  censusRegionStates,
+} from "../world-setup/census-regions";
+import { publicBudgetFor } from "../public-budgets/store";
+import { recordWorldEvent } from "../world";
 import { measureAnswersAt } from "../vote-bundle";
 import { recordDraftLineage } from "../legislation-draft-lineage";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
@@ -31,6 +41,8 @@ import {
 } from "../legislative-institutions";
 import { legislativeWorkKey } from "../legislative-work-key";
 import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
   stateJurisdictionForKey,
   stateKeyForJurisdictionSlug,
 } from "../life-places";
@@ -43,6 +55,7 @@ import type {
   IsoDate,
   LegislativeMeasureNumberingSession,
   LegislativeMeasureRecord,
+  LegislativeProvisionRecord,
   World,
 } from "../types";
 import type { PredicateAuthority } from "../legislation-content-contracts";
@@ -149,6 +162,263 @@ export function readFinalEnactedLawTerm(
     measureId: law.measureId,
     provisionId: provision.id,
     sourceRecordIds: [law.measureId, enactment.id, provision.id],
+  };
+}
+
+export interface SponsorLawTermRequest {
+  readonly measureId: EntityId;
+  readonly questionKey: string;
+  readonly termKey: string;
+  readonly unit: LawAmountUnit;
+  /** The declared numeric direction of supporting this question, not an inferred rate. */
+  readonly supportDirection: "raise" | "lower";
+  readonly basis: "term" | "appropriation-per-resident";
+}
+export interface SponsorRequestedLawTerm {
+  readonly value: number;
+  readonly unit: LawAmountUnit;
+  readonly referenceMeasureId: EntityId;
+  readonly referenceProvisionId: EntityId;
+  readonly principleRecordIds: readonly EntityId[];
+  readonly score: number;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+function referenceState(world: World, jurisdictionId: EntityId): string | null {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  return (
+    (jurisdiction ? stateKeyForJurisdiction(jurisdiction)?.slice(3) : null) ??
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey?.slice(3) ??
+    null
+  );
+}
+
+/** CTO reference mechanism: recorded principles select an existing value, with no new level. */
+export function sponsorRequestedLawTerm(
+  world: World,
+  input: SponsorLawTermRequest,
+): SponsorRequestedLawTerm | null {
+  const measure = measureById(world, input.measureId);
+  const question = world.policyCatalog.propositionOrder
+    .map((id) => world.policyCatalog.propositions[id]!)
+    .find((row) => row.stableKey === input.questionKey);
+  if (
+    !measure?.sponsorPersonId ||
+    !question ||
+    !(measure.propositionIds ?? []).includes(question.id)
+  )
+    return null;
+  const leaning = principledLeaning(
+    world,
+    measure.sponsorPersonId,
+    question.id,
+  );
+  const maximumScore =
+    4 *
+    (question.principles ?? []).reduce(
+      (sum, row) => sum + (row.weight ?? 1),
+      0,
+    );
+  if (!leaning.recordIds.length || !leaning.score || !maximumScore) return null;
+  const currentLaw = lawInForce(world, measure.jurisdictionId, question.id);
+  const current = currentLaw
+    ? readFinalEnactedLawTerm(world, currentLaw, input)
+    : null;
+  if (!current) return null;
+  const targetPopulation =
+    input.basis === "appropriation-per-resident"
+      ? publicBudgetFor(world, measure.jurisdictionId)?.population
+      : null;
+  if (
+    input.basis === "appropriation-per-resident" &&
+    (input.unit !== "minor" ||
+      !(targetPopulation && targetPopulation > 0) ||
+      !Number.isFinite(targetPopulation))
+  )
+    return null;
+  const increasing = leaning.score > 0 === (input.supportDirection === "raise");
+  const targetState = referenceState(world, measure.jurisdictionId);
+  const knownRegions = new Set(censusRegionStates());
+  const targetRegion =
+    targetState && knownRegions.has(targetState)
+      ? censusRegionOf(targetState)
+      : null;
+  const references = (world.history.legislativeMeasures ?? [])
+    .flatMap((reference) => {
+      if (
+        reference.id === measure.id ||
+        reference.introducedAt > world.currentDate ||
+        !(reference.propositionIds ?? []).includes(question.id)
+      )
+        return [];
+      const sourcePopulation =
+        input.basis === "appropriation-per-resident"
+          ? publicBudgetFor(world, reference.jurisdictionId)?.population
+          : null;
+      if (
+        input.basis === "appropriation-per-resident" &&
+        (!(sourcePopulation && sourcePopulation > 0) ||
+          !Number.isFinite(sourcePopulation))
+      )
+        return [];
+      const state = referenceState(world, reference.jurisdictionId);
+      const region =
+        state && knownRegions.has(state) ? censusRegionOf(state) : null;
+      const distance =
+        targetState && state === targetState
+          ? 0
+          : targetRegion && region === targetRegion
+            ? 1
+            : 2;
+      const adopted = (world.history.legislativeEnactments ?? []).find(
+        (row) =>
+          row.measureId === reference.id &&
+          row.outcome === "enacted" &&
+          row.resolvedAt <= world.currentDate,
+      );
+      const provisions = finalTermProvisions(
+        world,
+        reference.id,
+        adopted?.sequence,
+      );
+      const terms = provisions.flatMap((provision) =>
+        provision.applicationScope.segmentKey === null
+          ? (provision.lawTerms ?? [])
+              .filter(
+                (term) =>
+                  term.questionKey === input.questionKey &&
+                  term.key === input.termKey,
+              )
+              .map((term) => ({ provision, term }))
+          : [],
+      );
+      if (terms.length !== 1 || terms[0]!.term.unit !== input.unit) return [];
+      const { provision, term } = terms[0]!;
+      const value =
+        input.basis === "appropriation-per-resident"
+          ? Math.round((term.value / sourcePopulation!) * targetPopulation!)
+          : term.value;
+      if (
+        !Number.isFinite(value) ||
+        !(increasing ? value > current.value : value < current.value)
+      )
+        return [];
+      return [
+        { value, provision, reference, distance, enactmentId: adopted?.id },
+      ];
+    })
+    .sort(
+      (a, b) =>
+        (increasing ? a.value - b.value : b.value - a.value) ||
+        a.distance - b.distance ||
+        b.provision.recordedAt.localeCompare(a.provision.recordedAt) ||
+        b.provision.sequence - a.provision.sequence ||
+        a.provision.id.localeCompare(b.provision.id),
+    );
+  const unique = references.filter(
+    (row, index) => index === 0 || row.value !== references[index - 1]!.value,
+  );
+  if (!unique.length) return null;
+  const strength = Math.min(1, Math.abs(leaning.score) / maximumScore);
+  const selected = unique[Math.floor(strength * (unique.length - 1))]!;
+  return {
+    value: selected.value,
+    unit: input.unit,
+    referenceMeasureId: selected.reference.id,
+    referenceProvisionId: selected.provision.id,
+    principleRecordIds: leaning.recordIds,
+    score: leaning.score,
+    sourceRecordIds: [
+      ...current.sourceRecordIds,
+      selected.reference.id,
+      selected.provision.id,
+      ...(selected.enactmentId ? [selected.enactmentId] : []),
+      ...leaning.recordIds,
+    ],
+  };
+}
+
+/** Files the requested number through the existing provision writer and preserves its reason. */
+export function recordSponsorRequestedLawTerm(
+  world: World,
+  input: SponsorLawTermRequest & {
+    readonly provision: Omit<
+      RecordFiledProvisionInput,
+      "measureId" | "lawTerms" | "text"
+    >;
+    readonly renderText: (term: SponsorRequestedLawTerm) => string;
+  },
+): {
+  readonly world: World;
+  readonly provision: LegislativeProvisionRecord | null;
+} {
+  const existing = (world.history.legislativeProvisions ?? []).find(
+    (row) => row.stableKey === input.provision.stableKey,
+  );
+  if (existing) {
+    if (existing.measureId !== input.measureId)
+      throw new Error("A requested term's key belongs to another measure.");
+    return { world, provision: existing };
+  }
+  if (measurePosition(world, input.measureId).terminal)
+    throw new Error("A terminal measure cannot acquire a new requested term.");
+  const term = sponsorRequestedLawTerm(world, input);
+  if (!term) return { world, provision: null };
+  let next = recordFiledProvision(world, {
+    ...input.provision,
+    measureId: input.measureId,
+    text: input.renderText(term),
+    lawTerms: [
+      {
+        questionKey: input.questionKey,
+        key: input.termKey,
+        value: term.value,
+        unit: term.unit,
+      },
+    ],
+  });
+  const measure = measureById(next, input.measureId)!;
+  next = recordWorldEvent(next, {
+    stableKey: `${input.provision.stableKey}:requested-term-reason`,
+    type: "legislation.sponsor-requested-term",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: measure.jurisdictionId,
+    involvedEntityIds: [measure.id, measure.sponsorPersonId!],
+    participants: [
+      {
+        personId: measure.sponsorPersonId!,
+        role: "agency:sponsor",
+        detail:
+          "Requested the numeric term from recorded principles and an existing bill.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      ...term.sourceRecordIds.map((id) => `source-record:${id}`),
+      `term:${input.termKey}`,
+      `principle-score:${term.score}`,
+    ],
+    summary: `The sponsor requested ${input.provision.heading} from a recorded legislative reference.`,
+    context: {
+      location: {
+        jurisdictionId: measure.jurisdictionId,
+        label: world.jurisdictions[measure.jurisdictionId]!.name,
+        setting: null,
+      },
+      socialContext: measure.designation,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return {
+    world: next,
+    provision: next.history.legislativeProvisions!.find(
+      (row) => row.stableKey === input.provision.stableKey,
+    )!,
   };
 }
 
