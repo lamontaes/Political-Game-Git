@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { makeIsoDate, makeSimulationMoment } from "../dates";
 import { appendedList } from "../history-index";
 import { createStableId } from "../ids";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
@@ -8,6 +8,46 @@ import {
   type LawEffectContext,
 } from "../law-effect-stamp";
 import type { EntityId, IsoDate, LawPermissionRecord, World } from "../types";
+
+/** Date-only legal reviews compare validated dates, never an object's string coercion. */
+export function permissionSourceDate(
+  source: Record<string, unknown>,
+): IsoDate | null {
+  const value =
+    source.recordedAt ??
+    source.occurredAt ??
+    source.effectiveAt ??
+    source.createdAt ??
+    source.formedAt ??
+    source.introducedAt ??
+    source.enactedAt ??
+    source.scheduledAt ??
+    source.startedAt;
+  if (typeof value === "string") return makeIsoDate(value);
+  if (!value || typeof value !== "object") return null;
+  const moment = value as Record<string, unknown>;
+  if (
+    typeof moment.date !== "string" ||
+    typeof moment.minuteOfDay !== "number" ||
+    typeof moment.timeZone !== "string" ||
+    typeof moment.utcOffsetMinutes !== "number"
+  )
+    throw new Error("Permission source has an invalid recorded moment.");
+  return makeSimulationMoment({
+    date: moment.date,
+    minuteOfDay: moment.minuteOfDay,
+    timeZone: moment.timeZone,
+    utcOffsetMinutes: moment.utcOffsetMinutes,
+  }).date;
+}
+
+function savedSources(world: World) {
+  return new Map(
+    Object.values(world.history)
+      .flatMap((rows) => (Array.isArray(rows) ? rows : []))
+      .map((row) => [row.id, row]),
+  );
+}
 
 export function lawPermissionRecords(
   world: World,
@@ -83,17 +123,10 @@ export function appendLawPermission(
     new Set(input.sourceRecordIds).size !== input.sourceRecordIds.length
   )
     throw new Error("Permission requires unique saved source records.");
+  const sources = savedSources(world);
   for (const id of input.sourceRecordIds) {
-    const source = Object.values(world.history)
-      .flatMap((rows) => (Array.isArray(rows) ? rows : []))
-      .find((row) => row.id === id);
-    const date =
-      source?.recordedAt ??
-      source?.occurredAt ??
-      source?.effectiveAt ??
-      source?.createdAt ??
-      source?.formedAt ??
-      source?.introducedAt;
+    const source = sources.get(id);
+    const date = source ? permissionSourceDate(source) : null;
     if (
       !source ||
       source.sequence >= world.history.nextSequence ||
@@ -152,9 +185,12 @@ export function assertLawPermissionIntegrity(
   world: World,
   ids: Set<EntityId>,
 ): void {
+  const records = lawPermissionRecords(world);
+  if (!records.length) return;
+  const sources = savedSources(world);
   let previousSequence = -1;
   const keys = new Set<string>();
-  for (const record of lawPermissionRecords(world)) {
+  for (const record of records) {
     if (
       !Number.isSafeInteger(record.sequence) ||
       record.sequence <= previousSequence ||
@@ -223,16 +259,8 @@ export function assertLawPermissionIntegrity(
     )
       throw new Error("Permission history lacks unique saved sources.");
     for (const id of record.sourceRecordIds) {
-      const source = Object.values(world.history)
-        .flatMap((rows) => (Array.isArray(rows) ? rows : []))
-        .find((row) => row.id === id);
-      const date =
-        source?.recordedAt ??
-        source?.occurredAt ??
-        source?.effectiveAt ??
-        source?.createdAt ??
-        source?.formedAt ??
-        source?.introducedAt;
+      const source = sources.get(id);
+      const date = source ? permissionSourceDate(source) : null;
       if (
         !source ||
         source.sequence >= record.sequence ||

@@ -1,13 +1,23 @@
+import { createWorkItem } from "../time-work";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate, makeSimulationMoment } from "../dates";
 import { lawInForce } from "../governing/law-in-force";
 import { createHousehold, createOrganization } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson, personName } from "../people";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { assertWorldIntegrity, createWorld, createWorldId } from "../world";
-import { appendLawPermission, latestLawPermission } from "./permission-records";
+import {
+  assertWorldIntegrity,
+  createWorld,
+  createWorldId,
+  advanceWorld,
+} from "../world";
+import {
+  appendLawPermission,
+  latestLawPermission,
+  assertLawPermissionIntegrity,
+} from "./permission-records";
 
 function fixture() {
   const seed = "permission-record-family";
@@ -184,5 +194,63 @@ describe("saved law permission family", () => {
         },
       }),
     ).toThrow(/attribution/);
+  });
+  it("accepts an earlier saved moment source and rejects a future moment in append and integrity", () => {
+    const fixtureData = fixture();
+    let world = createWorkItem(fixtureData.world, {
+      stableKey: "permission-fixture:work",
+      title: "Recorded review source",
+      summary: "Controlled existing moment-bearing record fixture.",
+      jurisdictionId: fixtureData.context.jurisdictionId,
+      sourceEntityIds: fixtureData.input.sourceRecordIds,
+      focus: { kind: "person", personId: fixtureData.input.subject.id },
+      effort: null,
+      access: { kind: "private", personIds: [fixtureData.input.subject.id] },
+      assignedPersonIds: [fixtureData.input.subject.id],
+      playerRequirement: "none",
+      waitingOnPersonIds: [],
+      blocker: null,
+      scheduledActivityId: null,
+    });
+    const state = world.history.workItemStates.at(-1)!;
+    world = advanceWorld(world, 1);
+    const context = { ...fixtureData.context, appliedAt: world.currentDate };
+    const input = {
+      ...fixtureData.input,
+      effectiveAt: world.currentDate,
+      sourceRecordIds: [state.id],
+    };
+    const saved = appendLawPermission(world, fixtureData.law, context, input);
+    assertWorldIntegrity(saved);
+    expect(
+      deserializeWorld(serializeWorld(saved)).history.lawPermissionRecords,
+    ).toEqual(saved.history.lawPermissionRecords);
+    const futureMoment = makeSimulationMoment({
+      ...state.recordedAt,
+      date: "2026-02-01",
+    });
+    const replaceSource = (base: typeof world) => ({
+      ...base,
+      history: {
+        ...base.history,
+        workItemStates: base.history.workItemStates.map((row) =>
+          row.id === state.id ? { ...row, recordedAt: futureMoment } : row,
+        ),
+      },
+    });
+    expect(() =>
+      appendLawPermission(
+        replaceSource(world),
+        fixtureData.law,
+        context,
+        input,
+      ),
+    ).toThrow(/earlier available/);
+    expect(() =>
+      assertLawPermissionIntegrity(
+        replaceSource(saved),
+        new Set(world.personOrder),
+      ),
+    ).toThrow(/later saved source/);
   });
 });
