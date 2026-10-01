@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { createWorld } from "../world";
@@ -93,6 +93,10 @@ describe("age-verification without an appropriation or actual hires produces no 
       const world: World = {
         ...base,
         currentDate: makeIsoDate("2026-06-01"),
+        currentMoment: simulationMomentOnLocalDate(
+          base.currentMoment,
+          makeIsoDate("2026-06-01"),
+        ),
         history: {
           ...base.history,
           nextSequence: base.history.nextSequence + 2,

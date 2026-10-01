@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
 import { lawInForce } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
@@ -102,6 +102,10 @@ describe("consumer privacy without an appropriation or actual hires produces no 
       const world: World = {
         ...base,
         currentDate: makeIsoDate("2026-06-01"),
+        currentMoment: simulationMomentOnLocalDate(
+          base.currentMoment,
+          makeIsoDate("2026-06-01"),
+        ),
         history: {
           ...base.history,
           nextSequence: base.history.nextSequence + 4,
