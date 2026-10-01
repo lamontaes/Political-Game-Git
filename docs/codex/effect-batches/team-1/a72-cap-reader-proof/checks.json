@@ -1,0 +1,135 @@
+{
+  "executedHead": "7bc876ed963ca43815518d056b41d7301f75dcf9",
+  "main": "2e78c9c155e6dcfbf400f21cad56266c2dcfc97b",
+  "mode": "Native current-main candidate; exact restored filer/source hashes verified. No calendar advance.",
+  "before": {
+    "passed": 0,
+    "failed": 5,
+    "seconds": 12.37,
+    "comparison": "Only existing member-agenda.ts replaced with exact main; owned new reader/tests present."
+  },
+  "after": {
+    "passed": 17,
+    "failed": 0,
+    "seconds": 16.22,
+    "files": 2
+  },
+  "types": {
+    "roots": 4,
+    "scoped": 0,
+    "imported": 0
+  },
+  "lint": "PASS after unused test import removal",
+  "format": "PASS",
+  "report": "PASS0errors0warnings, self-reviewed under no-helper rule",
+  "release": "Inherited CI declaration prose failure; owned declaration committed",
+  "dice": "0 new / 5 stale entries",
+  "spelling": "26 inherited, zero owned; two new-main audit document findings add to prior24",
+  "table": {
+    "file": "data/research/legislature/member-bill-limits-2026.json",
+    "blob": "b3c89741b746d59541ad40d92944477341b6ffef",
+    "unchangedFromMain": true,
+    "sourcedRows": 25,
+    "admittedRows": 2,
+    "unboundRows": 23
+  },
+  "sourceHashes": {
+    "src/simulation/governing/member-agenda.ts": "d981af20758d4d60cfff6dda5a0616571a7747830c84ac9a2bf89b585e796b42",
+    "src/simulation/governing/member-filing-caps.ts": "eea612eec6dd4f8e277d55513ce40ac0e62fb2ae5aab6a88fb70871ec11b71f9",
+    "src/simulation/governing/member-filing-caps.test.ts": "e48662419691f34d2fe8ba7cc058d199e26ec1a5954093da27b1c42d9153c5bb",
+    "src/simulation/governing/member-filing-caps-integration.test.ts": "af7f44ac2fd8ca7f317cf8eaf0d05bdf305593a89111b4ec4a3708968853e610"
+  },
+  "limits": [
+    "Authored zero/one-cap controls are not state research figures",
+    "Natural one-year Audit runner remains at exact1550e162 source; no duplicate",
+    "Current-main threshold/proposal settings unchanged",
+    "No browser/speed/whole suite/all56 enacted claim",
+    "Filing event is not a law-effect stamp"
+  ],
+  "logs": {
+    "before.log": {
+      "originalPath": "/tmp/team1-a72-cap-before.log",
+      "originalSha256": "a8bbe62b9dcbb621b974a9dc6a5db028e594b4cffb1f87cee0eec7a4f6d02c35",
+      "publishedSha256": "1a3eec3225921f05d0c3affbaff7b6e3bdc49037bbbde28f307b025ebcbf7225",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "before-source.json": {
+      "originalPath": "/tmp/team1-a72-cap-before-source.json",
+      "originalSha256": "0d8797c6827af5ab1664eab7b7bb35177cd2147972a2a3662179ec4087809fbd",
+      "publishedSha256": "0d8797c6827af5ab1664eab7b7bb35177cd2147972a2a3662179ec4087809fbd",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "after.log": {
+      "originalPath": "/tmp/team1-a72-cap-test-final.log",
+      "originalSha256": "9246238ac331744d89cf701e0da10f4901a26d46cdcadc9dce9063edc12b9a1c",
+      "publishedSha256": "d0cbc839853d733b967c033f9b2779333b2609dbbd6c7b796ffc0215d5b64d4b",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "initial-after.log": {
+      "originalPath": "/tmp/team1-a72-cap-test.log",
+      "originalSha256": "dacfc24bf6df0a44d7e0de3a803c6d74e1e17554c195defeb56708aa71b526eb",
+      "publishedSha256": "87e3cd8a7e5b05f41643df2158d9c5c7a0137353a305d3e6ded457b65ede42b3",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "proof.json": {
+      "originalPath": "/tmp/team1-a72-cap-proof-final.json",
+      "originalSha256": "707df7a484461fc916306074b0819c9fa6fdf631a3f37adbd6ed6c91a0a9be8f",
+      "publishedSha256": "707df7a484461fc916306074b0819c9fa6fdf631a3f37adbd6ed6c91a0a9be8f",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "types.log": {
+      "originalPath": "/tmp/team1-a72-cap-types-final.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "typecheck.mjs": {
+      "originalPath": "/tmp/team1-a72-cap-types.mjs",
+      "originalSha256": "e7c413e0b341c0972cc79d0d547cc3de7f121fbe3148c1bdc263bf2e475e4028",
+      "publishedSha256": "e7c413e0b341c0972cc79d0d547cc3de7f121fbe3148c1bdc263bf2e475e4028",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "lint.log": {
+      "originalPath": "/tmp/team1-a72-cap-lint-final.log",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "format.log": {
+      "originalPath": "/tmp/team1-a72-cap-format-final.log",
+      "originalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "publishedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "initial-unused-import.log": {
+      "originalPath": "/tmp/team1-a72-cap-eslint-first.log",
+      "originalSha256": "40a06a0a0898b29c6437242ea612b150e75f06e987e9a9bfbff7d0b7416c2917",
+      "publishedSha256": "a3eae7b6b908783e13e9cd036861c996db999bd3fdf6faf451a13d042d32d168",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "release.log": {
+      "originalPath": "/tmp/team1-a72-cap-release.log",
+      "originalSha256": "9946df3f8910dc98a30161b3cb7305ee37ed4e2dbd654191dd8a2b733e65542b",
+      "publishedSha256": "9946df3f8910dc98a30161b3cb7305ee37ed4e2dbd654191dd8a2b733e65542b",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "dice.log": {
+      "originalPath": "/tmp/team1-a72-cap-dice.log",
+      "originalSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "publishedSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "spelling.log": {
+      "originalPath": "/tmp/team1-a72-cap-spelling.log",
+      "originalSha256": "785194cae69f4437ccaf3ae912c791d16b20d69e1288d277e8036e218ced521d",
+      "publishedSha256": "785194cae69f4437ccaf3ae912c791d16b20d69e1288d277e8036e218ced521d",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "report.log": {
+      "originalPath": "/tmp/team1-a72-cap-report.log",
+      "originalSha256": "93c029d76b0f57a3fb2b6eb99e4f11265c00ef578ef33bb091704a23e39526dc",
+      "publishedSha256": "93c029d76b0f57a3fb2b6eb99e4f11265c00ef578ef33bb091704a23e39526dc",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    }
+  }
+}

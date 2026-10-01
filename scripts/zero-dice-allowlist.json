@@ -994,13 +994,6 @@
       "kind": "fixed-share",
       "build": "Build 24",
       "count": 1,
-      "code": "export const BLANKET_DEPARTURE_CHANCE_PER_YEAR = 0.04;"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
       "code": "export const BLANKET_SAME_STATE_SHARE = 0.5;"
     },
     {

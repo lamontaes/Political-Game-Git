@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./dates";
 import type { LawInForce } from "./governing/law-in-force";
 import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
+import type { LawEffectContext } from "./law-effect-stamp";
 import type { EntityId } from "./types";
 
 const law: LawInForce = {
@@ -12,8 +13,8 @@ const law: LawInForce = {
   operativeAt: makeIsoDate("2026-08-01"),
   operativeBasis: "enacted-date",
 };
-const context = {
-  effectKind: "education.enrollment-charge",
+const context: LawEffectContext = {
+  effectKind: "price-cost",
   questionKey:
     "us-policy-positions:education.public-funds-for-private-schooling",
   jurisdictionId: "jurisdiction_subject" as EntityId,
@@ -87,7 +88,7 @@ describe("standing service authority attribution", () => {
       note: "Explicit source-reference shape fixture; no delivery asserted.",
     },
   };
-  const service = {
+  const service: LawEffectContext = {
     ...context,
     effectKind: "service-delivered",
     questionKey: null,

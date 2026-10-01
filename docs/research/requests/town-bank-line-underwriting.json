@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-10-01T10:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "town economy",
+  "notes": [
+    "Gap filed under the CTO's A71 ruling of 10/1. About a third of small firms hold a line of credit (0.343, Federal Reserve 2003 Survey of Small Business Finances, weighted; data/research/money/town-business-a71-2026.json). The ruling says whether a business holds one should come from its own books (sales, age, cash, debts) through the bank's decision, with no draw.",
+    "The bank's decision today (lends and honorsLine in src/simulation/living-world/town-finances.ts) weighs only the bank: its capital ratio and how far lenders nationwide have tightened. It reads nothing from the borrower's books, so it cannot decide which businesses hold a line. Until it can, every business whose bank lends gets a line, sized by its kind's sourced median days of revenue."
+  ],
+  "priority": "P2",
+  "question": "How does a bank's decision to grant a small business a line of credit depend on the firm's own books: annual sales, years in business, cash on hand, existing debt, and profitability? Is there a measured relation (for example, the share of firms holding a line by sales band, firm age band and profitability) that a smooth, deterministic underwriting rule could follow, so that about 34 percent of small firms end up holding a line?",
+  "questionId": "town-bank-line-underwriting",
+  "relatedQuestionIds": ["small-business-credit-line-size"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "Federal Reserve Board, 2003 Survey of Small Business Finances public data file",
+      "whatItDidNotSettle": "Holds credit-line use (F7) beside sales, age and debt for 4,240 firms, so the relation can be computed from it, but it has not yet been computed or turned into a rule."
+    },
+    {
+      "source": "Mach and Wolken, Federal Reserve Bulletin, October 2006",
+      "whatItDidNotSettle": "Reports line use by firm size and owner characteristics, not as a function a bank's decision can read."
+    }
+  ],
+  "title": "What a bank weighs before it grants a small business a line of credit",
+  "usableAnswer": "Shares of small firms holding a line by sales band, firm age band, and profitability or cash cover (from the 2003 SSBF microdata or the Small Business Credit Survey approval tables), so the town bank's decision can weigh a business's own books smoothly and land near the measured 34 percent.",
+  "whyItMatters": "With a line for every business whose bank lends, a struggling shop always has the same fallback. A decision that reads its books lets a young, thin-margin business fold sooner and makes a player's lending law change who can borrow."
+}

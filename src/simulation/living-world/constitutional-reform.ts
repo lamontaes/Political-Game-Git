@@ -22,7 +22,6 @@ import {
   stateDecidedPropositions,
 } from "../policy-provisions";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { resolveRequiredVotes } from "../legislature-rules";
 import { isEligibleVoterIn } from "../issue-record";
 import {
   constitutionalMemberConsiderations,
@@ -30,7 +29,6 @@ import {
   type Voter,
 } from "../governing/article-v";
 import {
-  decideChamberVote,
   stateConstitutionalBody,
   stateConstitutionalRoster,
 } from "../governing/chamber-votes";
@@ -394,57 +392,6 @@ interface AmendmentSpec {
   readonly ruleDelta: ConstitutionalRuleDelta;
 }
 
-/** One member's vote on a proposed amendment, with its weightiest reason. */
-interface MemberVote {
-  readonly personId: EntityId;
-  readonly ballot: "yea" | "nay" | "absent";
-  readonly reason: string;
-}
-
-/**
- * How the state's legislature would divide on an amendment, chamber by
- * chamber, and whether it carries every chamber under the state's own
- * proposal threshold. Each chamber divides as the members who speak for the
- * legislature did, scaled to its seats.
- */
-interface LegislatureCount {
-  readonly estimated: boolean;
-  readonly members: readonly MemberVote[];
-  readonly bodies: readonly {
-    readonly bodyKey: string;
-    readonly seats: number;
-    readonly yea: number;
-  }[];
-  readonly carries: boolean;
-}
-
-function countLegislature(
-  stateUsps: string,
-  estimated: boolean,
-  members: readonly MemberVote[],
-): LegislatureCount {
-  const profile = stateAmendmentProfile(`US-${stateUsps}`)!;
-  const cast = members.filter((member) => member.ballot !== "absent");
-  const yes = cast.filter((member) => member.ballot === "yea").length;
-  const bodies = profile.bodies.map((body) => ({
-    bodyKey: body.bodyKey,
-    seats: body.members,
-    yea: cast.length ? Math.round((body.members * yes) / cast.length) : 0,
-  }));
-  return {
-    estimated,
-    members,
-    bodies,
-    carries:
-      cast.length > 0 &&
-      bodies.every(
-        (body) =>
-          body.yea >=
-          resolveRequiredVotes(profile.base, body.seats).requiredVotes,
-      ),
-  };
-}
-
 /** Actual recorded state members; missing chambers never substitute Congress. */
 function legislatureVoice(
   world: World,
@@ -537,7 +484,7 @@ const GOVERNOR: TermLimitHolder = {
 };
 
 /**
- * The policy amendment the members' own principles would carry this year,
+ * The policy amendment the members' own principles favor changing this year,
  * if any: of the state-decided policies most of them lean toward changing,
  * the one the most lean toward, counted member by member.
  */
@@ -546,8 +493,7 @@ function principlesAmendment(
   stateUsps: string,
   year: number,
   voters: readonly Voter[],
-  estimated: boolean,
-): { readonly spec: AmendmentSpec; readonly count: LegislatureCount } | null {
+): AmendmentSpec | null {
   const player =
     world.control.kind === "person" ? world.control.personId : null;
   const counted = voters.filter((voter) => voter.personId !== player);
@@ -595,27 +541,7 @@ function principlesAmendment(
       stance,
     },
   };
-  const rejected = votersJustRejected(world, stateUsps, spec.ruleDelta);
-  const members = voters.map((voter): MemberVote => {
-    if (voter.personId === player)
-      return {
-        personId: voter.personId,
-        ballot: "absent",
-        reason: "member:player-not-asked",
-      };
-    return {
-      personId: voter.personId,
-      ...memberBallot(
-        world,
-        `${spec.key}:${voter.memberKey}`,
-        voter.personId,
-        proposition.id,
-        best.answer,
-        rejectionReasons(rejected),
-      ),
-    };
-  });
-  return { spec, count: countLegislature(stateUsps, estimated, members) };
+  return spec;
 }
 
 /** First Tuesday after the first Monday in November, on or after `from`. */
@@ -746,13 +672,19 @@ function reviewTermLimit(
   );
 }
 
-/** A policy amendment the members' own principles would carry. */
+/** Save the principle-backed cause before the actual chambers decide it. */
 function reviewBackground(
   world: World,
   stateUsps: string,
   year: number,
   routeOpen: RouteCheck,
 ): FutureTransitionHandlerResult | string {
+  if (
+    (world.history.constitutionalMeasures ?? []).some(
+      (measure) => measure.stableKey === principlesMeasureKey(stateUsps, year),
+    )
+  )
+    return "This year's policy amendment already has a recorded proposal and outcome.";
   const voice = legislatureVoice(world, stateUsps);
   if (voice.estimated)
     return "The actual state legislature is not seated; a congressional delegation cannot cast its constitutional votes.";
@@ -767,19 +699,11 @@ function reviewBackground(
     )
   )
     return "The actual state chamber, seat tenure or institution binding is missing; no constitutional vote can be recorded.";
-  const found = principlesAmendment(
-    voice.world,
-    stateUsps,
-    year,
-    voice.voters,
-    voice.estimated,
-  );
+  const found = principlesAmendment(voice.world, stateUsps, year, voice.voters);
   if (!found) return "No policy has most of the legislature behind a change.";
-  const { spec, count } = found;
+  const spec = found;
   if (hasOpenMeasureOn(voice.world, stateUsps, spec.ruleDelta))
     return `An amendment on ${spec.shortTitle.toLowerCase()} is already pending.`;
-  if (!count.carries)
-    return `The legislature would not carry an amendment on ${spec.shortTitle.toLowerCase()}.`;
   const route = routeOpen();
   if (!route.available) return route.reason;
   return done(
@@ -909,7 +833,7 @@ function recordStateProposalVotes(
       continue;
     if (constitutionalPosition(next, measure.id).phase !== "consideration")
       return next;
-    const dispositions = decideChamberVote(next, {
+    const dispositions = memberBallot(next, {
       kind: "constitutional",
       stableKey: measure.stableKey,
       constitutionalMeasureId: measure.id,
