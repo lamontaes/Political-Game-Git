@@ -35,7 +35,7 @@ Execution receipts will be recorded separately at their exact source. The first 
 
 The second five-place run failed because dated snapshots skipped scheduled activities. The fixture now appends cancellation records through the existing writer to isolate direct rent calls. It retains every due item and does not claim those activities ran.
 
-The third run failed in all five places when the judgment tried to list judicial court identifiers as event entities. These identifiers belong to judicial records; the event entity guard does not admit them. The candidate is blocked and remains a draft. A judgment-only saved provenance channel is requested for court, seat and tenure IDs. No entity is fabricated and no integrity guard is weakened.
+The third run failed in all five places when the judgment tried to list judicial court identifiers as event entities. These identifiers belong to judicial records; the event entity guard does not admit them. At that head, the candidate was blocked and stayed a draft. A judgment-only saved provenance channel was requested for court, seat and tenure IDs. No entity is fabricated and no integrity guard is weakened.
 
 Those failures remain separate baseline receipts. The narrow tag correction also exposed a rejected filing event ID in the fourth run. The final writer retains court, seat, tenure and filing record IDs in explicit judgment-only provenance tags. Actual judge and housing entities remain event entities. Tags are evidence references; the actual dated judicial readers establish authority before judgment.
 
