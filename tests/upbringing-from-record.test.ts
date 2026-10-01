@@ -8,7 +8,10 @@ import { addDays, dateAtAge } from "../src/simulation/dates";
 import { resolveFutureDueItemsThrough } from "../src/simulation/future-transitions";
 import { lifePlaceStateIdentities } from "../src/simulation/life-places";
 import { recordFamilyAddition } from "../src/simulation/people-family";
-import { upbringingFor } from "../src/simulation/people-upbringing";
+import {
+  upbringingFor,
+  upbringingTraitTendencies,
+} from "../src/simulation/people-upbringing";
 import { SeededRng, pickDistinct } from "../src/simulation/rng";
 import type { EntityId, World } from "../src/simulation/types";
 import {
@@ -116,6 +119,8 @@ describe(`upbringing read from the childhood record in ${PLACE} (seed ${SEED})`,
 
   it("grows up on due items only and the upbringing matches the record's moves", () => {
     let world = born.world;
+    const disruptions: number[] = [];
+    const guarded: number[] = [];
     for (const [moves, expected] of [
       [0, "stable"],
       [1, "some-moves"],
@@ -127,8 +132,24 @@ describe(`upbringing read from the childhood record in ${PLACE} (seed ${SEED})`,
       expect(
         record.entries.filter((e) => e.kind === "school-year-move"),
       ).toHaveLength(moves);
-      expect(upbringingFor(next, childId).homeStability).toBe(expected);
+      const read = upbringingFor(next, childId);
+      expect(read.homeStability).toBe(expected);
+      // Smooth in the move count: moves / (moves + K), K = 2 PLACEHOLDER.
+      expect(read.disruption).toBeCloseTo(moves / (moves + 2), 10);
+      disruptions.push(read.disruption);
+      // The trait readers weigh by the same number.
+      guarded.push(
+        upbringingTraitTendencies(read)
+          .filter((row) => row.trait === "personality-v1:facet-guarded")
+          .reduce((sum, row) => sum + row.weight, 0),
+      );
     }
+    // Every extra move weighs a little more, with no step anywhere.
+    expect(disruptions).toEqual([...disruptions].sort((a, b) => a - b));
+    expect(new Set(disruptions).size).toBe(3);
+    expect(guarded[0]).toBe(0);
+    expect(guarded[1]!).toBeGreaterThan(0);
+    expect(guarded[2]!).toBeGreaterThan(guarded[1]!);
     world = moveOf(world, childId, 0);
     const grown = resolveFutureDueItemsThrough(
       world,
