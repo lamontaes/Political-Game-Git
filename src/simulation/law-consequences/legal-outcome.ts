@@ -1,6 +1,7 @@
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import {
   readFinalEnactedLawTerm,
+  readFinalEnactedLawCategories,
   type FinalEnactedLawTerm,
 } from "../governing/automatic-legislation";
 import {
@@ -95,12 +96,31 @@ export function custodyFloorAt(
     proposition.id,
     onDate,
   );
-  if (!law || !readMinimumCustodyTerm(world, law, questionKey, row))
+  if (!law) return null;
+  const term = readMinimumCustodyTerm(world, law, questionKey, row);
+  if (!term) return null;
+  const coverageKey = row.conditions.find(
+    (entry) => entry.capability === "court.covered-offense",
+  )?.parameters.term;
+  if (typeof coverageKey !== "string") return null;
+  const coverage = readFinalEnactedLawCategories(world, law, {
+    questionKey,
+    termKey: coverageKey,
+  });
+  // crime/producer.ts arrestReferral saves keys as `crime:${offense}`.
+  // Only the enacted raw category values establish coverage, never a default list.
+  if (
+    !coverage?.values.some((kind) => courtCase.offenseKey === `crime:${kind}`)
+  )
     return null;
-  // CTO-approved final lawCategories reader is a separate Team1 publication.
-  // Until its actual covered-offense record is available, this case is unsupported.
-  // Neither draft lineage nor a blanket offense list can establish coverage.
-  return null;
+  return {
+    months: term.value,
+    law,
+    questionKey,
+    sourceRecordIds: [
+      ...new Set([...term.sourceRecordIds, ...coverage.sourceRecordIds]),
+    ],
+  };
 }
 
 /** First legal-outcome caller: attribution of the floor the sentencing writer applied. */

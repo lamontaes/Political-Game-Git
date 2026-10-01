@@ -21,7 +21,7 @@ import {
   measurePosition,
   recordEnactment,
 } from "../legislation";
-import { recordDraftLineage } from "../legislation-draft-lineage";
+import { recordFiledProvision } from "../legislative-politics";
 import {
   seatBodyForPack,
   votePlanKeyForCommittee,
@@ -175,19 +175,33 @@ describe("recorded floors reach saved sentences", () => {
         ],
       });
       const measured = world.history.legislativeMeasures!.at(-1)!;
-      world = recordDraftLineage(world, {
+      world = recordFiledProvision(world, {
         stableKey: "g10:canonical-floor:terms",
         measureId: measured.id,
-        familyKey: "test:justice",
-        familyVersion: "test",
-        variantKey: "test:floor",
-        compiledAt: sittingDate,
-        parameterValues: {
-          floor: { kind: "integer", value: 120 },
-          coverage: { kind: "enumerated", value: "crime:robbery" },
+        provisionKey: "minimum-custody",
+        sectionNumber: 1,
+        heading: "Fictional minimum custody and covered offense",
+        text: "For the fictional robbery fixture, the custody minimum is 120 months.",
+        beneficiary: {
+          kind: "general-application",
+          appliesToLabel: "defendants convicted of the covered offense",
         },
-        provenanceNote:
-          "Fictional fixture terms, not an empirical legal estimate.",
+        applicationScope: { jurisdictionId: venue, segmentKey: null },
+        lawTerms: [
+          {
+            questionKey: MINIMUM_CUSTODY_QUESTION,
+            key: "floor",
+            value: 120,
+            unit: "months",
+          },
+        ],
+        lawCategories: [
+          {
+            questionKey: MINIMUM_CUSTODY_QUESTION,
+            key: "coverage",
+            values: ["robbery"],
+          },
+        ],
       });
       const bodies = pack.chambers.map((chamber) =>
         seatBodyForPack(
@@ -358,7 +372,7 @@ function fixture(place: string, floor: number | null = 120) {
   const enactment: LegislativeEnactmentRecord = {
     id: "legislative-enactment_test_floor" as EntityId,
     stableKey: "test:floor:enacted",
-    sequence: 2,
+    sequence: 3,
     measureId: measure.id,
     resolvedAt: makeIsoDate("2026-02-01"),
     outcome: "enacted",
@@ -373,6 +387,13 @@ function fixture(place: string, floor: number | null = 120) {
         [propositionId]: {
           id: propositionId,
           stableKey: MINIMUM_CUSTODY_QUESTION,
+          parameters: [
+            {
+              key: "coverage",
+              value: "covered-offense-categories",
+              allowedValues: ["assault", "robbery", "burglary", "vandalism"],
+            },
+          ],
         },
       },
     },
@@ -380,28 +401,43 @@ function fixture(place: string, floor: number | null = 120) {
       events: [],
       legislativeMeasures: [measure],
       legislativeEnactments: [enactment],
-      legislativeDraftLineages:
+      legislativeProvisions:
         floor === null
           ? []
           : [
               {
-                id: "legislative-draft-lineage_test_floor" as EntityId,
-                stableKey: "test:floor:lineage",
-                sequence: 3,
+                id: "legislative-provision_test_floor" as EntityId,
+                stableKey: "test:floor:provision",
+                sequence: 2,
                 measureId: measure.id,
-                familyKey: "test",
-                familyVersion: "test",
-                variantKey: "test",
-                compiledAt: currentDate,
-                recordedAt: currentDate,
-                provenanceNote:
-                  "Authored fixture terms, not a starting-law estimate",
-                parameters: [
-                  { parameterKey: "floor", kind: "integer", value: floor },
+                provisionKey: "minimum-custody",
+                sectionNumber: 1,
+                heading: "Controlled floor",
+                text: "Fictional controlled terms.",
+                beneficiary: {
+                  kind: "general-application",
+                  appliesToLabel: "covered defendants",
+                },
+                applicationScope: { jurisdictionId, segmentKey: null },
+                fiscalExposureLabel: null,
+                fiscalExposureMinorUnits: null,
+                recordedAt: measure.introducedAt,
+                supersedesProvisionId: null,
+                originAmendmentId: null,
+                eventId: "event_test_provision" as EntityId,
+                lawTerms: [
                   {
-                    parameterKey: "coverage",
-                    kind: "enumerated",
-                    value: "crime:robbery",
+                    questionKey: MINIMUM_CUSTODY_QUESTION,
+                    key: "floor",
+                    value: floor,
+                    unit: "months",
+                  },
+                ],
+                lawCategories: [
+                  {
+                    questionKey: MINIMUM_CUSTODY_QUESTION,
+                    key: "coverage",
+                    values: ["robbery"],
                   },
                 ],
               },
@@ -510,25 +546,25 @@ describe("recorded custody floors through the existing sentence writer", () => {
       expect(custodyFloorAt(world, courtCase)).toBeNull();
     },
   );
-  it("refuses conflicting components without an explicit priority", () => {
+  it("refuses conflicting final sections without an explicit priority", () => {
     const { world, courtCase } = fixture(places[0]!);
-    const lineage = world.history.legislativeDraftLineages![0]!;
+    const provision = world.history.legislativeProvisions![0]!;
     const ambiguous = {
       ...world,
       history: {
         ...world.history,
-        legislativeDraftLineages: [
-          { ...lineage, componentKey: "first" },
+        legislativeProvisions: [
+          provision,
           {
-            ...lineage,
-            id: "legislative-draft-lineage_second" as EntityId,
-            componentKey: "second",
-            parameters: [
-              { parameterKey: "floor", kind: "integer" as const, value: 240 },
+            ...provision,
+            id: "legislative-provision_second" as EntityId,
+            provisionKey: "another-floor",
+            lawTerms: [
               {
-                parameterKey: "coverage",
-                kind: "enumerated" as const,
-                value: "crime:robbery",
+                questionKey: MINIMUM_CUSTODY_QUESTION,
+                key: "floor",
+                value: 240,
+                unit: "months" as const,
               },
             ],
           },
@@ -536,6 +572,41 @@ describe("recorded custody floors through the existing sentence writer", () => {
       },
     };
     expect(custodyFloorAt(ambiguous, courtCase)).toBeNull();
+  });
+  it("does not infer coverage from a numeric floor alone", () => {
+    const { world, courtCase } = fixture(places[0]!);
+    const absent = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeProvisions: world.history.legislativeProvisions!.map(
+          (provision) => ({ ...provision, lawCategories: undefined }),
+        ),
+      },
+    };
+    expect(custodyFloorAt(absent, courtCase)).toBeNull();
+  });
+  it("honors an explicitly empty final coverage list", () => {
+    const { world, courtCase } = fixture(places[0]!);
+    const empty = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeProvisions: world.history.legislativeProvisions!.map(
+          (provision) => ({
+            ...provision,
+            lawCategories: [
+              {
+                questionKey: MINIMUM_CUSTODY_QUESTION,
+                key: "coverage",
+                values: [],
+              },
+            ],
+          }),
+        ),
+      },
+    };
+    expect(custodyFloorAt(empty, courtCase)).toBeNull();
   });
   it("covers all 56 jurisdictions", () => expect(places).toHaveLength(56));
   it.each(places)(
