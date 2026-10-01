@@ -1,3 +1,4 @@
+import type { CountyHomeDistrictEvidenceRecord } from "./county-home-evidence";
 import type { DistrictSeatBinding as CanonicalDistrictSeatBinding } from "../districts/types";
 import type {
   PermitApplicationRecord,
@@ -131,6 +132,7 @@ export type EntityKind =
   | "decision-trace"
   | "development-proposal"
   | "district-residence"
+  | "county-home-district-evidence"
   | "dwelling"
   | "dwelling-occupancy"
   | "dwelling-occupancy-state"
@@ -4352,6 +4354,7 @@ export interface LegalOutcomeConsequenceRecord {
 }
 
 export interface HistoryStore {
+  readonly countyHomeDistrictEvidence?: readonly CountyHomeDistrictEvidenceRecord[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];

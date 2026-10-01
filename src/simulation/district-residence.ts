@@ -1,3 +1,4 @@
+import { countyHomeDistrictEvidenceAt } from "./county-home-evidence";
 import { countyGeoidsForPlace } from "./government-units";
 import {
   countySeatCatalog,
@@ -236,6 +237,25 @@ export function districtResidenceSince(
     .filter(
       (interval) =>
         isSupportedDistrictMembership(interval) &&
+        (interval.binding.chamber !== "county-governing-body" ||
+          !interval.provenance.sourceEventId?.startsWith(
+            "county-home-district-evidence_",
+          ) ||
+          (() => {
+            const evidence = countyHomeDistrictEvidenceAt(
+              world,
+              personId,
+              interval.binding,
+              {
+                asOfDate: onDate,
+                historySequenceExclusive: world.history.nextSequence,
+              },
+            );
+            return (
+              evidence.kind === "known" &&
+              evidence.record.id === interval.provenance.sourceEventId
+            );
+          })()) &&
         interval.personId === personId &&
         interval.binding.recordId === resolved.binding.recordId &&
         interval.binding.vintage === resolved.binding.vintage &&
@@ -458,69 +478,104 @@ export function establishDistrictResidence(
   }
   const binding = resolved.binding;
   if (binding.chamber === "county-governing-body") {
-    if (
-      input.provenance.method !== "county-home-join" ||
-      input.provenance.sourceEventId !==
-        currentResidenceFactId(world, input.personId)
-    ) {
-      return {
-        kind: "refused",
-        world,
-        reason:
-          "County domicile needs the actual current residence fact and a sourced county home join.",
-      };
-    }
-    const seat = resolveCountySeatBinding(
-      countySeatCatalog(),
+    const savedHome = countyHomeDistrictEvidenceAt(
+      world,
+      input.personId,
       binding,
-      startedOn,
+      {
+        asOfDate: startedOn,
+        historySequenceExclusive: world.history.nextSequence,
+      },
     );
-    const home =
-      seat.kind === "accepted" ? seat.identity.homeMembership : undefined;
-    const place = canonicalHomePlaceGeoid(world, input.personId);
-    const fact = factsForPerson(person).find(
-      (item) => item.id === input.provenance.sourceEventId,
-    );
-    let homeSourceDatesValid = false;
-    if (home) {
-      try {
-        makeIsoDate(home.source.readOn);
-        makeIsoDate(home.source.effectiveFrom);
-        if (home.source.effectiveUntil !== null)
-          makeIsoDate(home.source.effectiveUntil);
-        homeSourceDatesValid =
-          home.source.effectiveUntil === null ||
-          home.source.effectiveUntil > home.source.effectiveFrom;
-      } catch {
-        homeSourceDatesValid = false;
-      }
-    }
-    const counties = place ? countyGeoidsForPlace(place) : [];
-    if (
-      !home ||
-      !homeSourceDatesValid ||
-      counties.length !== 1 ||
-      counties[0] !== binding.geoid ||
-      home.source.status !== "adopted" ||
-      !place ||
-      !home.wholePlaceGeoids.includes(place) ||
-      home.source.effectiveFrom > startedOn ||
-      (home.source.effectiveUntil !== null &&
-        home.source.effectiveUntil <= startedOn) ||
-      !home.source.documentId ||
-      !home.source.version ||
-      !home.source.url.startsWith("https://") ||
-      !fact ||
-      fact.kind !== "residence" ||
-      fact.jurisdictionId !== person.homeJurisdictionId ||
-      fact.occurredAt > startedOn
-    ) {
+    const recordedHome =
+      savedHome.kind === "known" &&
+      input.provenance.method === "county-home-join" &&
+      input.provenance.sourceEventId === savedHome.record.id;
+    if (savedHome.kind === "ambiguous")
       return {
         kind: "refused",
         world,
         reason:
-          "No dated sourced home join establishes this person's county seat territory.",
+          "Conflicting saved home evidence cannot establish a county district.",
       };
+    if (
+      recordedHome &&
+      savedHome.kind === "known" &&
+      savedHome.record.determination.kind === "estimated-map-unavailable" &&
+      (!input.provenance.note?.includes("ESTIMATED") ||
+        !input.provenance.note.includes(savedHome.record.determination.method))
+    )
+      return {
+        kind: "refused",
+        world,
+        reason:
+          "An estimated home join must retain its ESTIMATED label and common method.",
+      };
+    if (!recordedHome) {
+      if (
+        input.provenance.method !== "county-home-join" ||
+        input.provenance.sourceEventId !==
+          currentResidenceFactId(world, input.personId)
+      ) {
+        return {
+          kind: "refused",
+          world,
+          reason:
+            "County domicile needs the actual current residence fact and a sourced county home join.",
+        };
+      }
+      const seat = resolveCountySeatBinding(
+        countySeatCatalog(),
+        binding,
+        startedOn,
+      );
+      const home =
+        seat.kind === "accepted" ? seat.identity.homeMembership : undefined;
+      const place = canonicalHomePlaceGeoid(world, input.personId);
+      const fact = factsForPerson(person).find(
+        (item) => item.id === input.provenance.sourceEventId,
+      );
+      let homeSourceDatesValid = false;
+      if (home) {
+        try {
+          makeIsoDate(home.source.readOn);
+          makeIsoDate(home.source.effectiveFrom);
+          if (home.source.effectiveUntil !== null)
+            makeIsoDate(home.source.effectiveUntil);
+          homeSourceDatesValid =
+            home.source.effectiveUntil === null ||
+            home.source.effectiveUntil > home.source.effectiveFrom;
+        } catch {
+          homeSourceDatesValid = false;
+        }
+      }
+      const counties = place ? countyGeoidsForPlace(place) : [];
+      if (
+        !home ||
+        !homeSourceDatesValid ||
+        counties.length !== 1 ||
+        counties[0] !== binding.geoid ||
+        home.source.status !== "adopted" ||
+        !place ||
+        !home.wholePlaceGeoids.includes(place) ||
+        home.source.effectiveFrom > startedOn ||
+        (home.source.effectiveUntil !== null &&
+          home.source.effectiveUntil <= startedOn) ||
+        !home.source.documentId ||
+        !home.source.version ||
+        !home.source.url.startsWith("https://") ||
+        !fact ||
+        fact.kind !== "residence" ||
+        fact.jurisdictionId !== person.homeJurisdictionId ||
+        fact.occurredAt > startedOn
+      ) {
+        return {
+          kind: "refused",
+          world,
+          reason:
+            "No dated sourced home join establishes this person's county seat territory.",
+        };
+      }
     }
   } else if (input.provenance.method === "county-home-join") {
     return {
