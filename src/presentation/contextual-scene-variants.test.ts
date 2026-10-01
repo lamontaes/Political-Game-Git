@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { homeSceneFixture } from "../../tests/fixtures/home-scene";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   addDays,
@@ -189,7 +190,7 @@ describe("a filing is news at home and to a reporter", () => {
   const player = life.playerPersonId;
   const withReporter = ensurePressLocalCoverage(life.world, player);
   const filed = fileForFirstOffice(withReporter, player, "variants:filed");
-  const next = passOrdinaryDays(filed, 1);
+  const next = homeSceneFixture(passOrdinaryDays(filed, 1), player);
 
   it("the household asks whether the player is really running", () => {
     expect(variantOf(next, player, "campaign-reaction")).toBe("filed");
