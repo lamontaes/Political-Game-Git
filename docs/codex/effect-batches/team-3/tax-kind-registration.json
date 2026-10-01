@@ -1,0 +1,82 @@
+{
+  "schemaSource": "1305@f6b4ac8268422e5f23c2426d04a947eaa27d7f15",
+  "module": "src/simulation/law-consequences/tax.ts",
+  "export": "TEAM_3_TAX_REGISTRATION",
+  "kind": "tax",
+  "owner": "Team3",
+  "selectors": ["tax:recorded-wage-recipient"],
+  "actions": ["tax:assess-recorded-paycheck"],
+  "predicates": [],
+  "units": ["minor"],
+  "recordAmountBindings": [
+    "tax:assessed-minor",
+    "tax:wages-minor",
+    "tax:taxable-minor"
+  ],
+  "rows": [
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "row": {
+        "id": "team-3:tax-first:us-policy-positions:fiscal.adopt-income-tax",
+        "kind": "tax",
+        "when": "assessment",
+        "who": {
+          "selector": "tax:recorded-wage-recipient",
+          "predicates": []
+        },
+        "what": "tax:assess-recorded-paycheck",
+        "amount": {
+          "op": "record",
+          "key": "tax:assessed-minor",
+          "unit": "minor"
+        },
+        "conditions": [],
+        "lag": {
+          "days": 0,
+          "sourceIds": []
+        },
+        "onRepeal": "recompute-prospective",
+        "evidence": {
+          "sourceIds": ["data/research/money/state-income-tax-2026.json"],
+          "population": "Covered named wage recipients",
+          "scope": "Canonical actual assessment, not new authored rates",
+          "why": "The operative tax applies to recorded covered wages; allocated payment is limited by held payer cash.",
+          "uncertainty": "Existing schedule evidence and filing coverage retained; no new estimate."
+        }
+      }
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "row": {
+        "id": "team-3:tax-first:us-policy-positions:fiscal.graduated-income-tax",
+        "kind": "tax",
+        "when": "assessment",
+        "who": {
+          "selector": "tax:recorded-wage-recipient",
+          "predicates": []
+        },
+        "what": "tax:assess-recorded-paycheck",
+        "amount": {
+          "op": "record",
+          "key": "tax:assessed-minor",
+          "unit": "minor"
+        },
+        "conditions": [],
+        "lag": {
+          "days": 0,
+          "sourceIds": []
+        },
+        "onRepeal": "recompute-prospective",
+        "evidence": {
+          "sourceIds": ["data/research/money/state-income-tax-2026.json"],
+          "population": "Covered named wage recipients",
+          "scope": "Canonical actual assessment, not new authored rates",
+          "why": "The operative tax applies to recorded covered wages; allocated payment is limited by held payer cash.",
+          "uncertainty": "Existing schedule evidence and filing coverage retained; no new estimate."
+        }
+      }
+    }
+  ],
+  "scope": "First handler version reuses canonical assessment and withholding. Arbitrary differing evaluated amounts require the requested shared generic assessment writer. Grocery purchases and property-tax bills are not supported by this wage selector.",
+  "registryWrite": "Coordinator imports this export in sole registry/dispatch; no direct shared edits by Team3."
+}
