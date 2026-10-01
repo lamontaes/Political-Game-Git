@@ -1,17 +1,12 @@
+import type { applyFindingSupportLoss } from "../campaign-finding-support";
 import type { applyFindingReferral } from "../justice/finding-referral";
 import type { applyFindingRestitution } from "../governing/finding-restitution";
-import { campaigns, campaignState } from "../campaign-queries";
-import { recordSupportLoss } from "../campaign-support";
 import { recheckRoutedClaims } from "../claim-contradictions";
 import { claimStancesBy } from "../claim-stances";
-import { electionContestStatus } from "../election-contests";
 import { recordEventKnowledge } from "../records";
 import type { EntityId, HistoricalEvent, World } from "../types";
 import {
   isAdversePublicStep,
-  priorAdverseFindings,
-  repeatOffenseMultiplier,
-  UNRESEARCHED_FINDING_EFFECTS,
   type AdversePublicOutcome,
 } from "./findings";
 import {
@@ -56,13 +51,16 @@ export function applyFindingConsequences(
   event: HistoricalEvent,
   restitution?: typeof applyFindingRestitution,
   referral?: typeof applyFindingReferral,
+  support?: typeof applyFindingSupportLoss,
 ): World {
   if (!isAdversePublicStep(step)) return world;
   const outcome = step.outcome as AdversePublicOutcome;
   let next = world;
   for (const respondentId of proceeding.respondentPersonIds) {
     if (!next.people[respondentId]) continue;
-    next = supportConsequence(next, respondentId, outcome, step, event);
+    if (support) {
+      next = support(next, respondentId, outcome, step, event);
+    }
     if (restitution && (outcome === "finding" || outcome === "conciliation")) {
       // The saved institutional caller supplies its governing writer here,
       // in the original slot. Press alone does not issue a monetary order.
@@ -116,40 +114,6 @@ function deniedToConsequence(
     });
   }
   return recheckRoutedClaims(next, respondentId, propositionKey);
-}
-
-function supportConsequence(
-  world: World,
-  respondentId: EntityId,
-  outcome: AdversePublicOutcome,
-  step: ProceedingStepRecord,
-  event: HistoricalEvent,
-): World {
-  let next = world;
-  for (const campaign of campaigns(next)) {
-    if (
-      !campaign.candidateSupportScopes.some(
-        (scope) => scope.candidatePersonId === respondentId,
-      ) ||
-      campaign.candidateSupportScopes.length < 2 ||
-      campaignState(next, campaign.id).status !== "active" ||
-      electionContestStatus(next, campaign.contestId) !== "pending"
-    )
-      continue;
-    next = recordSupportLoss(next, campaign, {
-      stableKeyBase: `${step.stableKey}:finding-support:${campaign.id}:${respondentId}`,
-      loserPersonId: respondentId,
-      lossBasisPoints: Math.round(
-        UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *
-          repeatOffenseMultiplier(
-            priorAdverseFindings(next, respondentId, step).length,
-            "support-loss",
-          ),
-      ),
-      sourceEntityIds: [event.id],
-    }).world;
-  }
-  return next;
 }
 
 /**
