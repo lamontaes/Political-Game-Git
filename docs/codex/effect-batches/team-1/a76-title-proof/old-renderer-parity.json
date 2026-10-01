@@ -1,0 +1,33 @@
+{
+  "baseline": "800bb5a0c57f6301db18e1bd769565386c3e39dd",
+  "method": "Actual candidate filed records compared with exact original pure title functions. This does not execute a baseline world or clock.",
+  "checks": [
+    {
+      "question": "Fund a behavioral health crisis response",
+      "answer": "yes",
+      "title": "Fund a Behavioral Health Crisis Response Act of 2026",
+      "sponsor": "Rebecca Snyder",
+      "kind": "dc",
+      "oldTitle": "Fund a Behavioral Health Crisis Response Act of 2026",
+      "same": true
+    },
+    {
+      "question": "Limit council terms",
+      "answer": "yes",
+      "title": "Limit Council Terms Ordinance",
+      "sponsor": "Rachel Thompson",
+      "kind": "town",
+      "oldTitle": "Limit Council Terms Ordinance",
+      "same": true
+    },
+    {
+      "question": "Independent ward commission",
+      "answer": "yes",
+      "title": "Independent Ward Commission Ordinance",
+      "sponsor": "Joseph McGee",
+      "kind": "town",
+      "oldTitle": "Independent Ward Commission Ordinance",
+      "same": true
+    }
+  ]
+}

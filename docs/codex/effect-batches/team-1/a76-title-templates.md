@@ -1,0 +1,64 @@
+# Council bills keep their titles through one renderer
+
+Before: the common filer still assembled titles in three branches and called separate town and District title functions. After: the filer reads a declared title policy and uses one renderer. Actual council bills keep their previous strings, sponsors and saved records. This consolidation preserves the existing player-visible wording and filing behavior.
+
+## MERGED
+
+This A76 change is not merged. It is based on current main received additively. Team 2 released the title hunks. Its executive, council-passage and presentment work remains protected. The existing support/repeal answer function remains the sole answer rule.
+
+## WHAT EMERGED
+
+DECIDED: Rebecca Snyder's existing saved views produce a District bill supporting behavioral health crisis response. The existing sponsor-motive record cites her principle records. No new motive or filing threshold was introduced.
+
+HARDWIRED: the declared title policy produces “Fund a Behavioral Health Crisis Response Act of 2026.” The town fixture's explicit saved-view controls produce Rachel Thompson's “Limit Council Terms Ordinance” and Joseph McGee's “Independent Ward Commission Ordinance.” These are controlled fictional records, not natural statewide behavior. The exact original pure title functions produce the same three strings.
+
+## VITAL STATISTICS
+
+The final focused run passed 80 of 80 cases across three files in 13.86 seconds. The changed District title case passed separately in 21.34 seconds; nine unchanged clock cases were not selected. Eleven strict roots had zero scoped or imported diagnostics. Scoped lint and formatting passed. Release reports the inherited CI declaration prose error. Dice reports zero new and five stale entries. Spelling reports 26 inherited findings and none in owned paths. Two earlier town fixture attempts produced no bills and failed; their logs are preserved. No assertions or timeouts were relaxed.
+
+## 1. Why-chain (five whys, to bedrock)
+
+1. A filed bill needs a readable title.
+2. Its title depends on the question and whether the sponsor supports or repeals it.
+3. The same filer previously selected formatting branches and body-specific callbacks.
+4. Those callbacks repeated capitalization and suffix handling.
+5. The body can instead declare that display policy and the common writer can render it once. Bedrock: an authored display rule, not a behavioral or legal estimate.
+
+Member motives still come from the existing decision records. This title repair adds no constituent, party or donor model.
+
+## 2. Research
+
+The authority for this bounded repair is audit item A76. No new legal claim, amount, deadline or policy estimate is introduced. Current main's original title functions are the parity baseline. The municipal corpus contains 144 governments; only the recorded District reading declares the act instrument. The compiler reads that instrument instead of naming a place in the renderer. The town profile remains explicitly authored game data.
+
+## 3. Revisions
+
+The town fixture initially used the compiled-government opening for an uncompiled town and had no seated members. The canonical local-seat opening corrected that fixture. Its generated views still produced no bill. Explicit saved principle controls then exercised the title writer without changing the production threshold or forcing an enactment. Both failed attempts remain evidence.
+
+Existing title quirks are retained as data: federal literal-space splitting and case-sensitive small words differ from council whitespace splitting and case-insensitive small words. Towns strip a trailing ordinance label; council acts retain it. Old saved measure records are untouched.
+
+## 4. What gets built, in numbered parts
+
+1. One dependency-free title renderer and serializable title policy.
+2. An optional rule-pack declaration and integrity validation, with existing level policy for packs lacking the new declaration.
+3. Declared town and municipal title policies.
+4. The existing common filer renders titles from that declaration.
+5. The obsolete town, District and federal title helpers and council title callback are removed.
+6. Exact enact/repeal strings, actual filed titles, sponsor selection, duplicate refusal and canonical Save/Continue are checked.
+
+## 5. Simulated, records, world pieces, checks
+
+SIMULATED: the existing member filer reads actual seated members and saved principles. RECORDS: its existing bill, answer and motive records. WORLD PIECES: canonical openings, rule packs, filing and serialization already exist. CHECKS: exact title strings and unchanged recorded selection.
+
+No seated member or insufficient recorded motive produces no bill. The repair does not invent an officeholder, a policy amount or a passage outcome. It does not alter numbering, dates, votes or government costs.
+
+## 6. Proof run
+
+The District fixture uses place 1150000 and seed dc-numbering-caller. Its unchanged 56 observer-jurisdiction checks retain the captured sponsor/question selection hash. This is one actual District council observed from 56 jurisdictions, not 56 council executions. The town fixture uses place 0162328 and seed a76-town-titles, with actual local-seat records and explicitly controlled saved views. Both actual filed-title checks pass. Canonical reload and repeat checks pass, and the unchanged District sitting caller's two numbering cases pass.
+
+The original title-function comparison is a pure string comparison against exact main source, not a second baseline world run. No local year, nationwide run, browser, speed or full suite was run. The existing Audit cloud year remains separate and qualified.
+
+## 7. Worked example
+
+Rebecca Snyder files her behavioral-health bill through the existing common filer. The saved bill keeps “Fund a Behavioral Health Crisis Response Act of 2026.” Rachel Thompson and Joseph McGee file the two controlled town proposals through that same filer with the town's declared policy. Their saved titles end in “Ordinance.” Reloading the canonical town save preserves the bill records; repeating that intake adds no duplicate. No money is moved by this display-only consolidation.
+
+Method: the source manifest and raw logs bind this proof to its exact main and owned files. Civic reports and feature walkthrough received self-review under the owner's no-helper rule. A87 awaits the admitted first-sitting source. A77 awaits Audit's actual local-roster binding; neither gap is hidden by this title repair.

@@ -1,3 +1,4 @@
+import { renderMeasureTitle } from "../measure-title";
 import {
   MEMBER_AGENDA_LEVEL_SETTINGS,
   COUNCIL_MEMBER_AGENDA_SETTINGS,
@@ -119,7 +120,6 @@ export interface CouncilMemberAgendaInput {
   readonly questions: readonly EntityId[];
   readonly measures: readonly LegislativeMeasureRecord[];
   readonly playerPersonId: EntityId | null;
-  readonly title: (questionName: string, year: string) => string;
   readonly measureKey: (
     numbering: ReturnType<typeof nextMeasureNumbering>,
   ) => string;
@@ -161,28 +161,6 @@ function councilQuestionClosed(
   );
 }
 
-const SMALL_TITLE_WORDS = new Set([
-  "a",
-  "an",
-  "and",
-  "of",
-  "the",
-  "for",
-  "in",
-  "on",
-  "or",
-  "to",
-]);
-function agendaTitle(name: string): string {
-  return name
-    .split(" ")
-    .map((word, index) =>
-      index > 0 && SMALL_TITLE_WORDS.has(word)
-        ? word
-        : `${word.charAt(0).toUpperCase()}${word.slice(1)}`,
-    )
-    .join(" ");
-}
 function agendaSubject(issueKey: string): LegislativeSubjectClass {
   if (issueKey.startsWith("tax.")) return "revenue";
   if (issueKey === "budget.appropriations") return "appropriation";
@@ -837,13 +815,12 @@ export function fileMemberAgendaBills(
           jurisdictionId: input.jurisdictionId,
           rulePackId: pack.packId,
           ...numbering,
-          shortTitle: input.council
-            ? `${best.answer === "yes" ? "" : "Repeal: "}${input.council.title(proposition.name, world.currentDate.slice(0, 4))}`
-            : settings.actTitles
-              ? `${agendaTitle(proposition.name)}${best.answer === "yes" ? "" : " Repeal"} Act of ${world.currentDate.slice(0, 4)}`
-              : best.answer === "yes"
-                ? proposition.name
-                : `Repeal: ${proposition.name}`,
+          shortTitle: renderMeasureTitle(
+            pack.titleTemplate ?? settings.titleTemplate,
+            proposition.name,
+            world.currentDate.slice(0, 4),
+            best.answer === "no",
+          ),
           summary: input.council
             ? `Answers "${proposition.question}" with ${best.answer}.`
             : best.answer === "yes"

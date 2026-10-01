@@ -1,3 +1,4 @@
+import { ORDINANCE_MEASURE_TITLE } from "./measure-title";
 import { governmentUnit } from "./government-units";
 import { registerRulePackResolver } from "./legislature-rule-packs";
 import type { GovernmentUnitIdentity } from "./government-units";
@@ -126,6 +127,7 @@ export function townCouncilProfilePack(
   const seatSource = source("Seats", identity.seatNote);
   return {
     packId: townCouncilProfilePackId(unit),
+    titleTemplate: ORDINANCE_MEASURE_TITLE,
     jurisdictionKey: `US-${unit.stateUsps}`,
     displayName: `${identity.governmentName} — ${identity.bodyName}`,
     basis: "game-profile",
