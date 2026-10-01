@@ -13,7 +13,7 @@ TEAM 9 — OWNS: `justice/*`, judiciary/judicial-review.ts, the prosecution sche
 TEAM 5 — OWNS: transit-service.ts, governing/public-program-transit.ts, the school, library and curriculum files, the service-kind handler.
 TEAM 8 — OWNS: crisis/health-coverage.ts, enacted-eligibility.ts, the permission records and handler, press/* (Wave 2).
 
-COORDINATOR owns the shared law consequence contract, dispatcher, validation, registry integration, canonical catalog forwarding and createWorld opening hook. Audit owns world advance only. Kind owners: pay Team3; tax Team6; price-cost Team4; coverage-eligibility and right-permission Team8; service-delivered Team5; legal-outcome Team9; institution-rule Team2.
+COORDINATOR owns the shared law consequence contract, dispatcher, validation, registry integration, canonical catalog forwarding and final opening dispatch. Audit owns world advance only. Kind owners: pay Team3; tax Team6; price-cost Team4; coverage-eligibility and right-permission Team8; service-delivered Team5; legal-outcome Team9; institution-rule Team2.
 
 ## Shared function boundaries
 
@@ -22,5 +22,18 @@ COORDINATOR owns the shared law consequence contract, dispatcher, validation, re
 - Team3 owns the statutory-tax withholding call; Team6 owns tax terms.
 - Team3 M4 owns employer cash transfer correction; Team4 may take local-economy in Wave2 only after explicit M4 release.
 - Team9 retains prosecution scheduling in press/transitions.ts when Team8 begins press Wave2.
-- Audit owns time-work and world advance. Team7 supplies composition export; Audit integrates its default callers. Coordinator owns createWorld starting-law dispatch, with independent import hunk integration.
-- Kind owners add only their registration entry; coordinator reviews additive composition within15minutes. No whole-file replacement.
+- Audit owns time-work and world advance. Team7 supplies composition export; Audit integrates its default callers. Coordinator owns final starting-law dispatch in completeOpeningLife, createNewGameWorld and buildProductionWorld; createWorld stays free of premature dispatch.
+- Kind owners publish exports; coordinator alone admits shared registry entries and catalog rows within 15 minutes. No whole-file replacement.
+
+## Explicit narrow releases, September 30 night
+
+- Team 1: state-governing.ts prepareStateIntake filing import/call only, released by Team 2.
+- Team 2: legislature-rules.ts optional executive day-basis fields; Congress rule-pack executive fields; municipal executive deadline basis consumption; GoverningOfficeDesk no-organization hiring guard. Team 1 filing and driver ownership stays intact.
+- Team 6: public-fiscal.ts settlePublicResourcePayment shared dispatcher import and post-transfer payment hook only.
+- Team 5: time-work.ts completeActivity shared dispatcher import and post-completed-state service hook only. Audit keeps date-boundary and clock changes.
+- Team 8: types.ts permission-record declaration and optional HistoryStore member; world.ts global history enumeration and permission integrity-validator invocation only. Audit keeps advanceWorld; coordinator keeps opening dispatch. No broader history or serialization redesign is released.
+- Team 9: crime/offenders.ts juvenile youngestCharged age-filter and required import only.
+
+These releases authorize bounded edits, not completion or merge. Preserve each other owner's unpublished bytes.
+
+Team 1 additionally owns only the legislative-politics-integrity.ts provision-loop call to the shared lawTerms validator under the approved typed-term validation contract. Team 5 replacement owns extraction of service rows/constants into a data-only module; coordinator owns policy-pack assembly. Coordinator completed the released completeActivity post-state service hook in #1309; Team 5 must not duplicate it.

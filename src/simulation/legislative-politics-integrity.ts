@@ -1,5 +1,8 @@
 import { makeIsoDate } from "./dates";
-import { isDecidableConditionKind } from "./legislative-politics";
+import {
+  assertProvisionLawTerms,
+  isDecidableConditionKind,
+} from "./legislative-politics";
 import type { EntityId, LegislativeCommitmentCondition, World } from "./types";
 
 /**
@@ -59,6 +62,7 @@ export function assertLegislativePoliticsIntegrity(
   const amendmentCarriedBy = new Map<string, EntityId>();
 
   for (const provision of provisions) {
+    assertProvisionLawTerms(world, provision.lawTerms);
     assertIdentity(ids, provision, RECORD_KINDS.provision);
     provisionById.set(provision.id, provision);
     const measure = measureById.get(provision.measureId);

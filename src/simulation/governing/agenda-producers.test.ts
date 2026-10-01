@@ -8,7 +8,10 @@ import { ensureStateLegislatureOpening } from "../nationwide-world/state-legisla
 import { ensureWorldStartingConditions } from "../world-setup/conditions";
 import { generatePoliticalStartingConditions } from "../world-setup/political-start";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
-import { ensureNationalElectionJurisdiction } from "../national-election-geography";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../national-election-geography";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { stateJurisdictionForKey } from "../life-places";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
@@ -18,10 +21,7 @@ import {
   seatedCongressChamber,
 } from "./congress-chambers";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
-import {
-  CONGRESS_LAWMAKING_PROFILE,
-  fileCongressBill,
-} from "./congress-lawmaking";
+import { CONGRESS_LAWMAKING_PROFILE } from "./congress-lawmaking";
 import { fileMemberAgendaBills } from "./member-agenda";
 import { principledLeaning } from "./officeholder-principles";
 import { agendaCaucus } from "./majority-agenda";
@@ -115,7 +115,8 @@ describe("majority-backed filing producers", () => {
       members.map((m) => m.personId!),
       propositionId,
     );
-    const next = fileCongressBill(world, {
+    const next = fileMemberAgendaBills(world, {
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
       chamberKey: "house",
       intakeKey: "direct-unit-intake",
     });
@@ -203,7 +204,8 @@ describe("majority-backed filing producers", () => {
       ballots.find((ballot) => ballot.personId === unsigned.personId),
     ).toMatchObject({ disposition: "nay", reason: "member:party-cue:other" });
     expect(
-      fileCongressBill(next, {
+      fileMemberAgendaBills(next, {
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
         chamberKey: "house",
         intakeKey: "direct-unit-intake",
       }),
