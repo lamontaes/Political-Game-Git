@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "stage": "research-not-production-admitted",
+  "governmentUnitId": "gus2025:175686",
+  "countyGeoid": "47105",
+  "officeKey": "local-government-175686-governing-body",
+  "productionAdmission": false,
+  "completeProfile": false,
+  "sources": {
+    "calendarCopy": {
+      "url": "https://www.coffeecountytn.gov/DocumentCenter/View/5942/2026-Election-Cycle-Important-Dates",
+      "readOn": "2026-10-01",
+      "bytes": 307963,
+      "sha256": "948a060475c42068aa849898efa8c13d7d97c93efac2f6da2b3780e10fd44c60",
+      "pages": 1,
+      "scope": "2026 May primary-office deadlines including caucus and independent candidates",
+      "byteIdentityWithStateHost": "unproved"
+    },
+    "calendarWithoutApplicabilityFootnote": {
+      "url": "https://elect.hamiltontn.gov/Portals/12/Archives/2026/Key%20Dates%20for%20the%202026%20Election%20Cycle.pdf",
+      "readOn": "2026-10-01",
+      "bytes": 108655,
+      "sha256": "7ef42b56d73a6ac9c1161962b282f4a40b2ffb3d15825846adadf8d221b8924f",
+      "pages": 1,
+      "scope": "corroboration only; no copied-office scope assumed"
+    },
+    "mayPrimaryOccurrence": {
+      "url": "https://loudoncountyvotes.com/archives/2026/May_2026_OfficialResults_SummaryReport.pdf",
+      "readOn": "2026-10-01",
+      "bytes": 75089,
+      "sha256": "de7aa9f3a69d99c1099a37a5272f94987d250b82e6cf4d559740739ad9a8d1fd",
+      "pages": 16,
+      "officePages": [2, 3, 4, 5, 9, 10, 11, 12],
+      "scope": "ten county commission seats in May5 primary; no voter/person/turnout facts admitted"
+    },
+    "currentCountyCalendar": {
+      "url": "https://www.loudoncountyvotes.com/files/2026_Election_Information.pdf",
+      "readOn": "2026-10-01",
+      "bytes": 254057,
+      "sha256": "e1be47ba8e0ba17f43bb6f61a04f1729a5545825538e371f76739a99e14a3da7",
+      "pages": 1,
+      "inspection": "embedded image inspected; August/November panels only",
+      "nonwwwBytesMatch": true,
+      "staleSearchMayPanelAdmitted": false
+    },
+    "residencyCodeSnapshot": {
+      "url": "https://www.capitol.tn.gov/Archives/Joint/publications/TNCodeBills/2023/TNCodeBill_Volume1_2023.pdf",
+      "readOn": "2026-10-01",
+      "compilationDate": "2022-11-08",
+      "pdfPage1Based": 390,
+      "section": "5-5-102(b)(1)-(2)",
+      "retrievalMode": "web-tool text at cited page",
+      "sha256": null,
+      "currentLawCertification": false
+    },
+    "qualifyingCodeSnapshot": {
+      "url": "https://capitol.tn.gov/Archives/Joint/publications/TNCodeBills/2026/TNCodeBill_Volume1_2026.pdf",
+      "readOn": "2026-10-01",
+      "compilationDate": "2025-11-12",
+      "pdfPage1Based": 25,
+      "section": "2-5-101(a)(3)",
+      "retrievalMode": "web-tool text",
+      "sha256": null,
+      "scope": "August general offices with May primary use third Thursday in February, for independent and primary candidates"
+    },
+    "enactmentHistory": {
+      "url": "https://wapp.capitol.tn.gov/apps/BillInfo/Default?BillNumber=SB1952&GA=112",
+      "readOn": "2026-10-01",
+      "bytes": 66609,
+      "sha256": "e51fbd249158d08dd6f8b46d32e275a2b8ea2ca7782b4938d69617f3f64426c8",
+      "scope": "companion HB1970 PublicChapter809; effective2022-09-01",
+      "enactedPdfRead": false
+    },
+    "proposedEmployeeChange": {
+      "url": "https://wapp.capitol.tn.gov/apps/BillInfo/Default?BillNumber=HB2319&GA=114",
+      "readOn": "2026-10-01",
+      "bytes": 75072,
+      "sha256": "4d25db7600e10f5220bc547ced01e790d87bc6a91757edb294660b26079ea884",
+      "status": "Failed to pass Senate",
+      "actionDate": "2026-04-21",
+      "adopted": false
+    },
+    "districtQualifications": {
+      "url": "https://www.ctas.tennessee.edu/eli/qualifications-clb",
+      "section": "CTAS-12",
+      "readOn": "2026-10-01"
+    },
+    "generalQualifications": {
+      "url": "https://www.ctas.tennessee.edu/eli/qualifications",
+      "section": "CTAS-2152",
+      "readOn": "2026-10-01"
+    }
+  },
+  "calendarCandidate": {
+    "electionYear": 2026,
+    "primaryOn": "2026-05-05",
+    "generalOn": "2026-08-06",
+    "offices": [
+      "district-1-seat-A",
+      "district-1-seat-B",
+      "district-2-seat-A",
+      "district-2-seat-B",
+      "district-3",
+      "district-4",
+      "district-5-seat-A",
+      "district-5-seat-B",
+      "district-6",
+      "district-7"
+    ],
+    "petitionIssuanceOn": "2025-12-22",
+    "qualifyingDeadline": {
+      "date": "2026-02-19",
+      "localTime": "12:00",
+      "sourceLocalLabel": "noon",
+      "appliesTo": ["primary", "caucus", "independent"],
+      "timeZoneIana": null
+    },
+    "withdrawalDeadline": {
+      "date": "2026-02-26",
+      "localTime": "12:00"
+    },
+    "augustPrimaryDeadlineAppliedToCommission": false,
+    "worldSchedulingAdmitted": false
+  },
+  "qualificationStageCandidates": [
+    {
+      "requirement": "county residence",
+      "duration": {
+        "value": 1,
+        "unit": "year"
+      },
+      "assessmentMoment": "qualifying-deadline",
+      "source": "residencyCodeSnapshot",
+      "personEvidence": null,
+      "assessmentImplemented": false
+    },
+    {
+      "requirement": "district domicile",
+      "assessmentMoment": "member qualification/ongoing membership wording; exact candidate-stage interpretation unadmitted",
+      "source": "districtQualifications",
+      "homeJoin": null,
+      "assessmentImplemented": false
+    },
+    {
+      "requirement": "qualified district voter",
+      "assessmentMoment": null,
+      "assessmentMomentStatus": "CTO disposition and source binding pending",
+      "source": "districtQualifications",
+      "personRegistrationProducer": null,
+      "inferredFromResidence": false,
+      "durationInferredFromCountyResidence": false
+    },
+    {
+      "requirement": "general age/citizenship/disqualifications",
+      "assessmentMoment": "holding-office source wording; full candidate-stage binding pending",
+      "source": "generalQualifications",
+      "assessmentImplemented": false
+    },
+    {
+      "requirement": "countywide office incompatibilities; director-of-schools qualification exception; certificate and two pre-entry oaths",
+      "assessmentMoment": "source-specific nomination/election/entry distinctions retained",
+      "source": "districtQualifications",
+      "assessmentImplemented": false
+    }
+  ],
+  "retrievalFailures": [
+    {
+      "url": "https://publications.tnsosfiles.com/acts/112/pub/pc0809.pdf",
+      "result": "403; enacted PDF not read"
+    },
+    {
+      "url": "https://capitol.tn.gov/Bills/112/Chapter/PC0809.pdf",
+      "result": "HTTP200 HTML missing-page response, not a PDF; retained separately"
+    },
+    {
+      "url": "https://sos-prod.tnsosgovfiles.com/s3fs-public/document/Key%20Dates%20-%202026_0.pdf?VersionId=BlUofb7_chmj7rEfMw.akqY6xaoaoQF9",
+      "result": "403; government-hosted copies inspected without byte-identity claim"
+    }
+  ],
+  "limits": [
+    "No real candidate facts imported.",
+    "No missing voter fact converted to eligible or unregistered.",
+    "No primary call inferred universally for other counties or years.",
+    "No full supersession audit or statutory-profile completion.",
+    "No production reader, registration schema, term interval or world schedule changed."
+  ]
+}
