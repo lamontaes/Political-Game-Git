@@ -275,10 +275,11 @@ export function stateMinimumSettingAt(
       stateSettings.set(enactments, cache);
     }
   }
-  const cacheKey = `${stateKey}:${onDate}:${world.currentDate}`;
-  if (cache?.has(cacheKey)) return cache.get(cacheKey)!;
+  const cacheKey = `${stateKey}:${onDate}`;
+  const futureRead = onDate > world.currentDate;
+  if (!futureRead && cache?.has(cacheKey)) return cache.get(cacheKey)!;
   const setting = computeStateMinimumSetting(world, stateKey, onDate);
-  cache?.set(cacheKey, setting);
+  if (!futureRead) cache?.set(cacheKey, setting);
   return setting;
 }
 
