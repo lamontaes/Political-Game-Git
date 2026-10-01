@@ -80,3 +80,13 @@ On March 15, the same governor receives a different intake matter. A new hold-fl
 A separate controlled February case chooses more for appropriations against a ten-dollar source authority. That choice is saved, but unsupported changed amounts do not become a flat bill.
 
 Method: Only the owned budget writer, intake bridge, focused fixture and release declaration changed. Evidence and source hashes are in `budget-request-guard-proof/`. Current main was fetched before publication; it has no subsequent edits in the owned state intake source since the integrated baseline. The guard is stacked on the partial request work. The owner prohibits helpers, so the report received a self-review against civic-reports and feature-walkthrough. Next is exact-head review while Audit and CTO resolve kernel considerations, statutory dates, changed amounts and stalemate semantics.
+
+## K4 repair: a dangling matter reference now refuses safely
+
+K4 found that a saved request could carry a nonempty matter tag whose event did not exist. The writer dereferenced that missing event before its participant guard. The repair checks that the event exists before reading its ID or participants. Missing evidence returns null and creates nothing.
+
+The unchanged regression first reproduced the exact undefined-ID crash at the reviewed source. It appends a malformed-reference fixture through the existing event writer and preserves every original record and integrity guard. After the repair, it asserts refusal and an unchanged serialized input world.
+
+Runtime source `ea3d382c737e55e2c8eb2ba527416322f64730e4` passed all 35 focused cases in 24.58 seconds: 19 budget cases and 16 NPC regressions. Five strict roots have zero scoped and imported errors. Lint, formatting and whitespace pass. The same inherited release declaration error and five stale zero-dice removals remain; there are zero new dice findings.
+
+The earlier receipts above remain historical at their stated sources. New raw before/after logs, source and test hashes are under `budget-request-guard-proof/k4-missing-matter/`. The repair stays on the same draft stack. It adds no weights, dates, defaults, changed-amount producer or stalemate mechanism. National, browser, speed, full-suite and final-main proof were not run.
