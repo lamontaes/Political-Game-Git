@@ -1,4 +1,4 @@
-import { isoDateFromParts } from "../dates";
+import { isoDateFromParts, makeIsoDate } from "../dates";
 import { recordsWithFieldValue } from "../history-index";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 
@@ -97,15 +97,42 @@ export function eventsOfType(
 export function sentencesOf(
   world: World,
   personId: EntityId,
+  onDate: IsoDate = world.currentDate,
 ): readonly Sentence[] {
   const grants = new Map<string, HistoricalEvent>();
   for (const event of eventsOfType(world, CLEMENCY_GRANTED_EVENT))
-    if (event.participants.some((entry) => entry.personId === personId))
+    if (
+      event.occurredAt <= onDate &&
+      event.participants.some((entry) => entry.personId === personId)
+    )
       for (const tag of event.tags)
         if (tag.startsWith(CLEMENCY_SENTENCE_TAG))
           grants.set(tag.slice(CLEMENCY_SENTENCE_TAG.length), event);
+  const reductions = new Map<EntityId, IsoDate>();
+  for (const review of eventsOfType(
+    world,
+    "justice.federal-sentence-reduced",
+  )) {
+    if (review.occurredAt > onDate || sentencedPersonOf(review) !== personId)
+      continue;
+    const sentenceId = review.tags
+      .find((tag) => tag.startsWith("justice.reduced-sentence:"))
+      ?.slice("justice.reduced-sentence:".length) as EntityId | undefined;
+    const until = review.tags
+      .find((tag) => tag.startsWith("justice.reduced-until:"))
+      ?.slice("justice.reduced-until:".length) as IsoDate | undefined;
+    if (!sentenceId || !until || until < review.occurredAt) continue;
+    try {
+      makeIsoDate(until);
+    } catch {
+      continue;
+    }
+    const prior = reductions.get(sentenceId);
+    if (!prior || until < prior) reductions.set(sentenceId, until);
+  }
   return eventsOfType(world, PROSECUTION_SENTENCED_EVENT).flatMap((event) => {
-    if (sentencedPersonOf(event) !== personId) return [];
+    if (event.occurredAt > onDate || sentencedPersonOf(event) !== personId)
+      return [];
     const kind = event.tags
       .find((tag) => tag.startsWith(SENTENCE_KIND_TAG))
       ?.slice(SENTENCE_KIND_TAG.length) as SentenceKind | undefined;
@@ -116,12 +143,15 @@ export function sentencesOf(
     );
     if (!kind) return [];
     const handedDown = addCalendarMonths(event.occurredAt, months);
+    const reduction = reductions.get(event.id);
+    const legalEnd =
+      reduction && reduction < handedDown ? reduction : handedDown;
     const grant = grants.get(event.id);
     const clemencyKind = grant?.tags
       .find((tag) => tag.startsWith(CLEMENCY_KIND_TAG))
       ?.slice(CLEMENCY_KIND_TAG.length) as ClemencyKind | undefined;
     const endedEarly =
-      grant && clemencyKind && grant.occurredAt < handedDown
+      grant && clemencyKind && grant.occurredAt < legalEnd
         ? grant.occurredAt
         : null;
     return [
@@ -129,7 +159,7 @@ export function sentencesOf(
         sentencedEventId: event.id,
         kind,
         from: event.occurredAt,
-        until: endedEarly ?? handedDown,
+        until: endedEarly ?? legalEnd,
         months,
         clemency:
           grant && clemencyKind
@@ -147,7 +177,7 @@ export function jailTermOn(
   date: IsoDate = world.currentDate,
 ): Sentence | null {
   return (
-    sentencesOf(world, personId).find(
+    sentencesOf(world, personId, date).find(
       (sentence) =>
         sentence.kind === "jail" &&
         sentence.from <= date &&
