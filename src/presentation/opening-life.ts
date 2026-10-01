@@ -1,3 +1,6 @@
+import { initializeOfficeSalaryFlows } from "../simulation/office-salary";
+import { initializeLivingCostsFlow } from "../simulation/cost-of-living";
+import { ensurePlayerMonthlyMoneySchedule } from "../simulation/player-monthly-money";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { recordOpeningWorkLocation } from "./opening-work-location";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
@@ -370,11 +373,23 @@ function completeOpeningLife(
     withBudgets,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
   );
-  const world = openedWorld(
+  const opened = openedWorld(
     withMortality,
     game.playerPersonId,
     session.setup.openingDataVersion,
     session.setup.livingWorldMemberNameVersion,
+  );
+  const withSalaryFlows = initializeOfficeSalaryFlows(
+    opened,
+    game.playerPersonId,
+  );
+  const withLivingCosts = initializeLivingCostsFlow(
+    withSalaryFlows,
+    game.playerPersonId,
+  );
+  const world = ensurePlayerMonthlyMoneySchedule(
+    withLivingCosts,
+    game.playerPersonId,
   );
   return {
     ...session,
