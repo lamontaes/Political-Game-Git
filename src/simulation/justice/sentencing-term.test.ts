@@ -37,6 +37,7 @@ import { sentencingRangeForCase } from "./sentencing-ranges";
 import { sentencesOf, jailTermOn, SENTENCE_LIFE_TAG } from "./jail-terms";
 import type { EntityId, World } from "../types";
 import { projectLegalRecord } from "../../presentation/legal-record";
+import { fileClemencyPetition } from "./clemency";
 import { advanceProsecutions } from "./prosecution";
 
 const SEED = "team9-a100-saved-court-finder-20261001";
@@ -230,6 +231,15 @@ describe("recorded applicability and sourced sentencing options", () => {
           range.maxMonths,
         ].filter((v): v is number => v !== null);
         expect(options).toContain(term.months);
+      }
+      if (term.months === 0) {
+        const request = fileClemencyPetition(sentenced, {
+          personId: person,
+          sentencedEventId: event.id,
+        });
+        expect(request.ok).toBe(false);
+        if (!request.ok)
+          expect(request.reason).toContain("already been served");
       }
       const saved = deserializeWorld(serializeWorld(sentenced));
       assertWorldIntegrity(saved);

@@ -105,7 +105,10 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
       const plea = enterPlea(charged, {
         personId,
         referralId: referred.referralId,
-        plea: "guilty",
+        // A contested trial supplies this clock fixture with a serving term;
+        // a sourced zero-month guilty-plea term is already served and cannot
+        // support a clemency request. Keep the same person and assertions.
+        plea: "not-guilty",
       });
       expect(plea.ok).toBe(true);
       const trialDue: World = {
