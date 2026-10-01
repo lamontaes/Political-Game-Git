@@ -1,0 +1,41 @@
+{
+  "sourceHead": "05a48b50a8a9a1e8fd3cf3071f02849ef23b9d71",
+  "mainHead": "fbcdb6a9b5fdc4ee2d43a8c1b9fc172d7a5534db",
+  "verifiedRevert": {
+    "pr": 1644,
+    "mergeCommit": "ed1b576df587321941c414d83f909182292f567b",
+    "ancestorOfMain": true
+  },
+  "branch": "codex/team1-a97-duty-receipts",
+  "productionChanged": false,
+  "testChanged": false,
+  "sourceBlob": "7c3c52f36955a54f18828a8aff2d125a4bd45908",
+  "testBlob": "f34ab865fc557476157d7d738d05e3d3c3cd4549",
+  "negativeCase": {
+    "command": "npx vitest run src/presentation/enacted-duties.test.ts -t 'records the duty without mistaking workers for fulfillment' --maxWorkers=1 --reporter=verbose",
+    "exitCode": 0,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 77,
+    "caseMilliseconds": 475,
+    "totalMilliseconds": 20090,
+    "proves": "Staffing without a qualifying duty receipt remains compliance-unknown."
+  },
+  "macroLoad": {
+    "command": "npx vitest list src/simulation/macro-economy/macro-economy.test.ts",
+    "exitCode": 0,
+    "collected": 25,
+    "executed": 0
+  },
+  "notRun": [
+    "complete enacted-duties test file",
+    "positive fulfillment",
+    "nationwide runtime",
+    "browser"
+  ],
+  "missingPositiveBinding": "CTO-approved explicit receipt binding to same duty, provision, covered body and Act, with historical date/sequence frontier",
+  "logs": {
+    "revert-negative-case.txt": "0e2b28a3bb1a0885ea93d533a0a43f8426da16959cb424c1d994c38be233be2c",
+    "revert-macro-load.txt": "f16e82cd7a15bc90b6ac9636d135c5ad79c869d6d8f2e5774777cfe517404d6b"
+  }
+}

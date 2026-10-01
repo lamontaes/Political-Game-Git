@@ -1,0 +1,69 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest list src/simulation/macro-economy/macro-economy.test.ts
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/runtime-art-build" without a file extension (vite.config.ts:1:33). Add the file extension
+  - import "./scripts/dev-lab/runtime-content-origin" without a file extension (vite.config.ts:2:38). Add the file extension
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:19:33). Add the file extension
+  - import "./scripts/dev-lab/art-desk-bridge" without a file extension (vite.config.ts:20:31). Add the file extension
+  - import "./scripts/dev-lab/artbench-bridge" without a file extension (vite.config.ts:21:32). Add the file extension
+  - import "./scripts/dev-lab/round-robin-sequencer" without a file extension (vite.config.ts:22:37). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:33:8). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-bridge.ts:19:8). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-bridge.ts:34:30). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-bridge.ts:26:8). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:36:43). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-bridge.ts:27:36). Add the file extension
+  - import "./art-desk-bridge" without a file extension (scripts/dev-lab/artbench-bridge.ts:28:50). Add the file extension
+  - import "./artbench-store" without a file extension (scripts/dev-lab/artbench-bridge.ts:36:8). Add the file extension
+  - import "./artbench-thumbnails" without a file extension (scripts/dev-lab/artbench-bridge.ts:37:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-inputs.ts:14:30). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-request-code.ts:1:35). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-store.ts:63:8). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-cards.ts:1:35). Add the file extension
+  - import "../../src/authoring/asset-request" without a file extension (scripts/dev-lab/artbench-store.ts:64:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-request-code.ts:2:41). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-store.ts:68:8). Add the file extension
+  - import "./art-desk-usage" without a file extension (src/authoring/art-desk-cards.ts:2:55). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-store.ts:69:40). Add the file extension
+  - import "./art-desk-request-code" without a file extension (src/authoring/art-desk-cards.ts:6:8). Add the file extension
+  - import "../../src/authoring/asset-review" without a file extension (scripts/dev-lab/artbench-store.ts:70:42). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:15:8). Add the file extension
+  - import "../../src/authoring/art-desk-notifications" without a file extension (scripts/dev-lab/artbench-store.ts:71:38). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:16:34). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/artbench-store.ts:72:27). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/artbench-store.ts:73:50). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/artbench.ts:18:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-usage.ts:1:61). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-notifications.ts:1:59). Add the file extension
+  - import "./asset-review" without a file extension (src/authoring/artbench.ts:19:42). Add the file extension
+  - import "./art-desk-cards" without a file extension (src/authoring/art-desk-notifications.ts:7:8). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > reproduces the authored baseline at zero latents
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > applies the stated startup equations and volatility scales
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > steps one month with the lagged unemployment response
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > brings unemployment back toward its normal rate once growth recovers
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > holds a long slowdown at a raised level instead of a climb
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > raises a place's unemployment on a local shock and lets it rejoin the nation
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > keeps unemployment inside mathematical bounds in an adverse tail
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > publishes discrete rates from recorded levels, not the model rate
+src/simulation/macro-economy/macro-economy.test.ts > section 13 kernel arithmetic > draws normals deterministically per stream
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > writes nothing for a world without WORLD's starting record
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > starts from WORLD's persisted draw in an ordinary seeded opening
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > records each crossed month exactly once, with releases published to News
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > replays exactly and is independent of how time was chunked, across Save/Continue
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > publishes 12-month inflation and quarterly output once history exists
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > reading history never changes it
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > offers campaigns only released figures as public concerns
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > an adequate-housing start never reads as a shortage
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > an identical start diverges only when a canonical shock exists
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > recovers gradually after the origin ends, with no fixed timer
+src/simulation/macro-economy/macro-economy.test.ts > CHANGE canonical macro history > rejects a tampered history on load
+src/simulation/macro-economy/macro-economy.test.ts > the economy's eras: a century is several economies, not one number with noise > decade growth ranges from slumps to booms, and worlds end up in different places
+src/simulation/macro-economy/macro-economy.test.ts > the economy's eras: a century is several economies, not one number with noise > recessions arise from recorded conditions, with no recession drawn
+src/simulation/macro-economy/macro-economy.test.ts > the economy's eras: a century is several economies, not one number with noise > recessions last as long as the record's: most about a year, long ones rare
+src/simulation/macro-economy/macro-economy.test.ts > the economy's eras: a century is several economies, not one number with noise > some worlds live through a 1970s-style inflation and others never do
+src/simulation/macro-economy/macro-economy.test.ts > the economy's eras: a century is several economies, not one number with noise > every value stays inside its bounds
