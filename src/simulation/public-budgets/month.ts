@@ -403,12 +403,21 @@ export function readMonthFlows(
       }
       if (outOf) {
         const row = cashRow(outOf);
-        const paymentIndex =
+        const outlayCategories: readonly string[] =
           outOf === federalKey
-            ? GOVERNMENT_BUDGET_CATEGORIES.federal.outlays.indexOf(
-                federalProgramLine(paymentProgramKey(world, flow) ?? ""),
-              )
-            : BUDGET_PROGRAMS.indexOf(paymentProgram(world, flow));
+            ? GOVERNMENT_BUDGET_CATEGORIES.federal.outlays
+            : BUDGET_PROGRAMS;
+        const mappedCategory =
+          outOf === federalKey
+            ? federalProgramLine(paymentProgramKey(world, flow) ?? "")
+            : paymentProgram(world, flow);
+        const mappedIndex = outlayCategories.indexOf(mappedCategory);
+        // A saved payment remains an outlay even if its program/category is
+        // not registered. A negative array index would drop it from totals.
+        const paymentIndex =
+          mappedIndex >= 0
+            ? mappedIndex
+            : outlayCategories.indexOf("otherPrograms");
         row.spendingMinorUnits[paymentIndex]! +=
           outcome.transferredAmount.minorUnits;
         row.sourceRecordIds.push(flow.id, outcome.id);

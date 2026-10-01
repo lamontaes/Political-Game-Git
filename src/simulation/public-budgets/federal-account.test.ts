@@ -54,7 +54,8 @@ import {
 } from "../life-paths2";
 import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
 import { FEDERAL_EMPLOYMENT_RULES } from "../statutory-tax-rules";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as federalTreasury from "./federal-treasury";
 import { makeIsoDate } from "../dates";
 import { createWorld, advanceWorld } from "../world";
 import { stateJurisdictionForKey } from "../life-places";
@@ -83,10 +84,10 @@ import type { World } from "../types";
 
 const date = makeIsoDate("2026-02-28");
 const month = makeIsoDate("2026-02-01");
-function account(world: World, stableKey: string) {
+function account(world: World, stableKey: string, openingMinor = 10000) {
   let next = createOrganization(world, {
     stableKey,
-    formedAt: date,
+    formedAt: world.currentDate,
     provenance: { kind: "authored", note: "Explicit government cash fixture." },
     initialProfile: {
       name: stableKey,
@@ -98,8 +99,8 @@ function account(world: World, stableKey: string) {
   next = createResourcePosition(next, {
     stableKey: `${stableKey}:cash`,
     owner: { kind: "organization", organizationId: id },
-    openedAt: date,
-    openingBalance: money(10000, "USD"),
+    openedAt: world.currentDate,
+    openingBalance: money(openingMinor, "USD"),
     provenance: {
       kind: "authored",
       note: "Explicit test cash, no forecast opening.",
@@ -109,6 +110,106 @@ function account(world: World, stableKey: string) {
 }
 
 describe("M5 federal government uses the same saved-payment settler", () => {
+  it("retains an actual partial outlay when its mapped category is unregistered", () => {
+    const nation = NATIONAL_ELECTION_JURISDICTION;
+    let world = createWorld({
+      seed: "m5:unregistered-outlay",
+      currentDate: date,
+      jurisdictions: [nation],
+      people: [],
+    });
+    const empty: PublicBudgetStore = {
+      version: PUBLIC_BUDGETS_VERSION,
+      cursor: { flows: 0, outcomes: 0 },
+      governments: [],
+      adjustments: [],
+      unknown: [],
+      federal: openFederalTreasury(date),
+    };
+    const store = withOpenedBudgets(world, empty, month);
+    const treasury = account(world, publicOrganizationKey(nation.id));
+    const recipient = account(
+      treasury.world,
+      "m5:unregistered-outlay:recipient",
+    );
+    world = createResourceFlow(recipient.world, {
+      stableKey: "m5:unregistered-outlay:flow",
+      source: { kind: "organization", organizationId: treasury.id },
+      recipient: { kind: "organization", organizationId: recipient.id },
+      startsAt: date,
+      amount: money(1000, "USD"),
+      cadenceKind: "schedule:one-time",
+      basisKind: "custom:fixture-payment",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: nation.id,
+      provenance: {
+        kind: "authored",
+        note: "Explicit outlay regression fixture.",
+      },
+    });
+    const flowId = world.history.resourceFlows.at(-1)!.id;
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "m5:unregistered-outlay:paid",
+      resourceFlowId: flowId,
+      periodStartsAt: date,
+      periodEndsAt: date,
+      occurredAt: date,
+      attemptedAmount: money(1000, "USD"),
+      transferredAmount: money(325, "USD"),
+      status: "partial",
+      reasonKind: "capacity:insufficient-funds",
+      note: "Saved partial payment; category fault must not erase it.",
+      provenance: { kind: "authored", note: "Explicit saved payment." },
+    });
+    const outcomeId = world.history.resourceTransferOutcomes.at(-1)!.id;
+    // Fault injection exercises the negative index, beyond today's typed mapper.
+    const mapper = vi
+      .spyOn(federalTreasury, "federalProgramLine")
+      .mockReturnValue(
+        "unregistered-program" as ReturnType<
+          typeof federalTreasury.federalProgramLine
+        >,
+      );
+    try {
+      const read = readMonthFlows(world, store);
+      const government = settleGovernmentMonth(
+        world,
+        store.federalGovernment!,
+        month,
+        read.flows,
+      ).government;
+      const row = government.months.at(-1)!;
+      expect(row.spending[FEDERAL_OUTLAYS.indexOf("otherPrograms")]).toBe(3.25);
+      expect(row.spending.reduce((total, amount) => total + amount, 0)).toBe(
+        3.25,
+      );
+      expect(row.balance).toBe(96.75);
+      expect(row.cashSettlement.sourceRecordIds).toEqual([flowId, outcomeId]);
+      const saved = deserializeWorld(
+        serializeWorld({
+          ...world,
+          publicBudgets: {
+            ...store,
+            cursor: read.cursor,
+            federalGovernment: government,
+          },
+        }),
+      );
+      expect(saved.publicBudgets!.federalGovernment).toEqual(government);
+      expect(
+        settleGovernmentMonth(
+          saved,
+          government,
+          month,
+          readMonthFlows(saved, saved.publicBudgets!).flows,
+        ).government,
+      ).toBe(government);
+    } finally {
+      mapper.mockRestore();
+    }
+  });
+
   it("preserves the legacy federal paid component and authority IDs through the common cash settler", () => {
     const game = generateOpeningLife(
       prepareOpeningLife({
@@ -187,32 +288,59 @@ describe("M5 federal government uses the same saved-payment settler", () => {
     const president = currentPresidentOf(world);
     if (!president) throw new Error("Expected a sitting President.");
     const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
-    const publicOrganizationId = publicOrganizationKey(jurisdictionId);
-    world = createOrganization(world, {
-      stableKey: publicOrganizationId,
-      formedAt: world.currentDate,
-      provenance: { kind: "authored", note: FIXTURE.note },
-      initialProfile: {
-        name: "Federal public government",
-        classification: "sector:government",
-        locationJurisdictionId: jurisdictionId,
-      },
-    });
-    const publicGovernment = world.history.organizations.at(-1)!;
-    world = createResourcePosition(world, {
-      stableKey: `${publicOrganizationId}:modeled-receipts:USD`,
-      owner: { kind: "organization", organizationId: publicGovernment.id },
-      openedAt: world.currentDate,
-      openingBalance: money(150_000_00, "USD"),
-      provenance: { kind: "authored", note: FIXTURE.note },
-    });
     world = ensurePublicGovernmentAccount(world, {
       kind: "jurisdiction",
       jurisdictionId,
     });
-    const account = publicTaxAccountForJurisdiction(world, jurisdictionId);
-    expect(account?.organizationId).toBe(publicGovernment.id);
-    if (!account) throw new Error("Expected the federal public account.");
+    const publicAccount = publicTaxAccountForJurisdiction(
+      world,
+      jurisdictionId,
+    );
+    if (!publicAccount) throw new Error("Expected the federal public account.");
+    const publicGovernment = world.history.organizations.find(
+      (record) => record.id === publicAccount.organizationId,
+    )!;
+    const existingPositions = world.history.resourcePositions.filter(
+      (record) =>
+        record.owner.kind === "organization" &&
+        record.owner.organizationId === publicGovernment.id &&
+        record.openingBalance.currency === "USD",
+    );
+    expect(existingPositions).toHaveLength(1);
+    // Fund the existing account through an explicit canonical fixture transfer.
+    // Do not replace an opening government or give it a second cash position.
+    const funding = account(world, "m5:rail:fixture-funding", 150_000_00);
+    world = createResourceFlow(funding.world, {
+      stableKey: "m5:rail:fixture-funding-flow",
+      source: { kind: "organization", organizationId: funding.id },
+      recipient: { kind: "organization", organizationId: publicGovernment.id },
+      startsAt: world.currentDate,
+      amount: money(150_000_00, "USD"),
+      cadenceKind: "schedule:one-time",
+      basisKind: "custom:fixture-payment",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId,
+      provenance: { kind: "authored", note: FIXTURE.note },
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "m5:rail:fixture-funding-paid",
+      resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      attemptedAmount: money(150_000_00, "USD"),
+      transferredAmount: money(150_000_00, "USD"),
+      status: "completed",
+      reasonKind: null,
+      note: "Explicit test funding into the existing public account.",
+      provenance: { kind: "authored", note: FIXTURE.note },
+    });
+    const accountRecord = publicTaxAccountForJurisdiction(
+      world,
+      jurisdictionId,
+    );
+    expect(accountRecord).toEqual(publicAccount);
 
     world = declareProgramCapacity(world, {
       edition: "federal-outlay-metric",
@@ -231,7 +359,7 @@ describe("M5 federal government uses the same saved-payment settler", () => {
       edition: "federal-outlay-metric",
       programKey: PROGRAM_KEY,
       jurisdictionId,
-      accountOrganizationId: account.organizationId,
+      accountOrganizationId: publicAccount.organizationId,
       amount: money(150_000_00, "USD"),
       sourceMeasureId: measure.id,
       availableFrom: world.currentDate,
