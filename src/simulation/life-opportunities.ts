@@ -19,7 +19,6 @@ import {
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
 import { createScheduledActivity, createWorkItem } from "./time-work";
-import { refreshLocalEconomy } from "./local-economy";
 import { advanceJobMarket } from "./job-market";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
@@ -447,7 +446,7 @@ export function refreshLifeOpportunities(
   if (!person) return world;
   if (formativeIntervalAt(world, personId) !== null) return world;
 
-  let next = refreshLocalEconomy(world, personId);
+  let next = world;
   next = advanceJobMarket(next, personId);
   next = initializeOfficeSalaryFlows(next, personId);
   next = ensurePlayerMonthlyMoneySchedule(next, personId);

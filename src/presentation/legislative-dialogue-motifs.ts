@@ -1,5 +1,6 @@
 import { stableHash } from "../simulation";
-import type { ClaimAudience } from "../simulation";
+import type { ClaimAudience, EntityId } from "../simulation";
+import { composeCostObjection } from "./legislative-cost-objection-english";
 
 /**
  * What legislators actually say to each other.
@@ -78,6 +79,21 @@ export interface LegislativeMotifFacts {
   readonly priorStatement: string | null;
 }
 
+/**
+ * The records the words in a beat's facts come from. A beat the English
+ * engine words (object-on-cost so far) cites these; the authored banks below
+ * do not yet.
+ */
+export interface LegislativeMotifGrounding {
+  readonly worldSeed: string;
+  readonly speakerPersonId: EntityId;
+  readonly listenerPersonId: EntityId;
+  /** The measure the designation, sections and requested place belong to. */
+  readonly measureId: EntityId;
+  /** What the bill's current total is read from (its provisions, or the measure). */
+  readonly billAmountSourceIds: readonly EntityId[];
+}
+
 export interface LegislativeMotifContext {
   readonly family: LegislativeMotifFamily;
   readonly voice: LegislativeVoice;
@@ -87,6 +103,18 @@ export interface LegislativeMotifContext {
   /** The turn's own stable key. Identical state and action reuse it. */
   readonly variantSeed: string;
   readonly facts: LegislativeMotifFacts;
+  readonly grounding: LegislativeMotifGrounding;
+}
+
+/** Beats the English engine words from their fact packet, not a line bank. */
+const ENGINE_FAMILIES = ["object-on-cost"] as const;
+type EngineFamily = (typeof ENGINE_FAMILIES)[number];
+type BankFamily = Exclude<LegislativeMotifFamily, EngineFamily>;
+
+function isEngineFamily(
+  family: LegislativeMotifFamily,
+): family is EngineFamily {
+  return (ENGINE_FAMILIES as readonly string[]).includes(family);
 }
 
 interface Variant {
@@ -115,7 +143,7 @@ const hasPrior = (facts: LegislativeMotifFacts) =>
 const hasBillAmount = (facts: LegislativeMotifFacts) =>
   facts.billAmount !== null;
 
-const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
+const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
   "ask-for-commitment": {
     shared: [
       {
@@ -260,39 +288,6 @@ const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
           key: "pilot-first",
           line: (f) =>
             `“Make it a pilot with a defined population. If ${f.sectionLabel} opens statewide on day one, the first thing that breaks is the intake.”`,
-        },
-      ],
-    },
-  },
-
-  "object-on-cost": {
-    shared: [
-      {
-        key: "recurring",
-        line: (f) =>
-          `“My problem isn't the first year of ${f.designation}. It's the third, when the money's baked in and the pilot language is gone.”`,
-      },
-    ],
-    byVoice: {
-      "fiscal-guardian": [
-        {
-          key: "exposure",
-          needs: hasBillAmount,
-          line: (f) =>
-            `“As it reads now this bill commits ${f.billAmount}. I've voted no on smaller. Tell me what comes out to make room for it.”`,
-        },
-        {
-          key: "offset",
-          line: () =>
-            `“Where's the offset? Every bill in this building is somebody's priority. This one doesn't get to skip the part where we say what it costs.”`,
-        },
-      ],
-      "district-advocate": [
-        {
-          key: "share",
-          needs: hasPlace,
-          line: (f) =>
-            `“I'm not against spending it. I'm against spending it where none of it lands anywhere near ${f.place}.”`,
         },
       ],
     },
@@ -600,6 +595,8 @@ const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
  * replaying the same session produces the same conversation word for word.
  */
 export function legislativeMotifLine(context: LegislativeMotifContext): string {
+  // Spoken aloud, so quoted like every other line in the room.
+  if (isEngineFamily(context.family)) return `“${engineLine(context).text}”`;
   const candidates = eligibleVariants(context);
   const index = Number(
     BigInt(
@@ -613,17 +610,53 @@ export function legislativeMotifLine(context: LegislativeMotifContext): string {
 export function eligibleMotifVariantKeys(
   context: LegislativeMotifContext,
 ): readonly string[] {
+  if (isEngineFamily(context.family))
+    return engineLine(context).parts.map((part) => part.partKey);
   return eligibleVariants(context).map((variant) => variant.key);
 }
 
 export function motifFamilies(): readonly LegislativeMotifFamily[] {
-  return Object.keys(CONTENT) as LegislativeMotifFamily[];
+  return [...(Object.keys(CONTENT) as BankFamily[]), ...ENGINE_FAMILIES];
+}
+
+/**
+ * A beat worded by the English engine, from facts each sourced to the record
+ * that establishes it.
+ */
+export function engineLine(context: LegislativeMotifContext) {
+  const { facts, grounding } = context;
+  const measure = [grounding.measureId];
+  return composeCostObjection({
+    worldSeed: grounding.worldSeed,
+    momentKey: `${context.variantSeed}:${context.voice}`,
+    speakerPersonId: grounding.speakerPersonId,
+    listenerPersonId: grounding.listenerPersonId,
+    voice: context.voice,
+    facts: {
+      designation: { text: facts.designation, sourceRecordIds: measure },
+      listener: {
+        text: facts.listener,
+        sourceRecordIds: [grounding.listenerPersonId],
+      },
+      billAmount:
+        facts.billAmount === null || grounding.billAmountSourceIds.length === 0
+          ? null
+          : {
+              text: facts.billAmount,
+              sourceRecordIds: grounding.billAmountSourceIds,
+            },
+      place:
+        facts.place === null
+          ? null
+          : { text: facts.place, sourceRecordIds: measure },
+    },
+  });
 }
 
 function eligibleVariants(
   context: LegislativeMotifContext,
 ): readonly Variant[] {
-  const content = CONTENT[context.family];
+  const content = CONTENT[context.family as BankFamily];
   const voiced = content.byVoice?.[context.voice] ?? [];
   const usable = (variant: Variant) =>
     (variant.needs === undefined || variant.needs(context.facts)) &&

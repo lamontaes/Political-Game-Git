@@ -84,7 +84,7 @@ function runDWorld(seed: string): {
     label: "Test localized hazard",
     description: "A synthetic localized hazard for Run D semantic tests.",
     incidentKind: "incident:natural-hazard",
-    occurrenceMode: "probabilistic",
+    occurrenceMode: "condition",
     baseLikelihood: createExactQuantity(1, 1, "rate:share"),
     prerequisites: [
       {
@@ -117,7 +117,7 @@ function runDWorld(seed: string): {
     label: "Test economic slowdown",
     description: "A synthetic condition with an ordinary-event blocker.",
     incidentKind: "incident:economic-slowdown",
-    occurrenceMode: "probabilistic",
+    occurrenceMode: "condition",
     baseLikelihood: createExactQuantity(1, 1, "rate:share"),
     prerequisites: [],
     blockers: [
@@ -137,7 +137,7 @@ function runDWorld(seed: string): {
     label: "Test bounded outbreak",
     description: "A bounded condition with no health or mortality model.",
     incidentKind: "incident:outbreak",
-    occurrenceMode: "probabilistic",
+    occurrenceMode: "condition",
     baseLikelihood: createExactQuantity(1, 1, "rate:share"),
     prerequisites: [],
     blockers: [],
@@ -317,23 +317,25 @@ describe("Stage 6 Run D generalized incident substrate", () => {
     expect(blocked.occurred).toBe(false);
   });
 
-  it("uses keyed exact RNG independently of unrelated RNG work and evaluation keys", () => {
-    const prepared = runDWorld("run-d-rng");
+  it("decides an occurrence from its conditions alone, with no draw and no key effect", () => {
+    const prepared = runDWorld("run-d-conditions");
     const world = withPopulation(prepared.world, "population");
     const first = evaluate(world, prepared.hazard, "same-key");
-    const unrelated = createDemoWorld("unrelated-rng-work");
-    expect(unrelated.seed).toBe("unrelated-rng-work");
+    const unrelated = createDemoWorld("unrelated-work");
+    expect(unrelated.seed).toBe("unrelated-work");
     const replay = evaluate(world, prepared.hazard, "same-key");
     const other = evaluate(world, prepared.hazard, "other-key");
-    expect(replay.rng).toStrictEqual(first.rng);
-    expect(replay.occurred).toBe(first.occurred);
-    expect(other.rng?.key).not.toBe(first.rng?.key);
+    expect(first.rng).toBeNull();
+    expect(replay).toStrictEqual(first);
+    expect(other.occurred).toBe(first.occurred);
+    expect(other.rng).toBeNull();
+    expect(first.occurred).toBe(true);
     expect(first.likelihood).toStrictEqual(
       createExactQuantity(1, 1, "rate:share"),
     );
   });
 
-  it("reconstructs every persisted probabilistic occurrence snapshot at its stored cutoff", () => {
+  it("reconstructs every persisted occurrence snapshot at its stored cutoff", () => {
     const prepared = runDWorld("run-d-snapshot-integrity");
     const valid = occurHazard(
       withPopulation(prepared.world, "population"),
@@ -393,21 +395,7 @@ describe("Stage 6 Run D generalized incident substrate", () => {
     ).sourceEntityIds = [createStableId("incident", "corrupt:modifier-source")];
     expectSnapshotIntegrityFailure(modifierSource);
 
-    const rngKey = structuredClone(valid);
-    (rngKey.history.incidents[0]!.occurrence.rng as { key: string }).key =
-      "fabricated-incident-rng-key";
-    expectSnapshotIntegrityFailure(rngKey);
-
-    const rngDraw = structuredClone(valid);
-    const draw = rngDraw.history.incidents[0]!.occurrence.rng!;
-    (draw as { draw: number }).draw = (draw.draw + 1) % 4_294_967_296;
-    expectSnapshotIntegrityFailure(rngDraw);
-
-    const rngResult = structuredClone(valid);
-    (
-      rngResult.history.incidents[0]!.occurrence.rng as { occurred: boolean }
-    ).occurred = false;
-    expectSnapshotIntegrityFailure(rngResult);
+    expect(valid.history.incidents[0]!.occurrence.rng).toBeNull();
 
     const unavailableAtClaimedFrontier = structuredClone(valid);
     (

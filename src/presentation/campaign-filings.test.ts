@@ -136,7 +136,7 @@ describe("campaign filings on the campaign screen", () => {
     },
   );
 
-  it("draws each unread state's deadline from the national range, the same every time", () => {
+  it("gives each unread state the national 10-day rule, chosen by no hash (A118)", () => {
     const keys = [
       "US-AK",
       "US-HI",
@@ -147,14 +147,10 @@ describe("campaign filings on the campaign screen", () => {
       "US-TX",
     ];
     const days = keys.map(unresearchedStatementDeadlineDays);
-    const { min, max } =
-      UNRESEARCHED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays;
-    for (const value of days) {
-      expect(value).toBeGreaterThanOrEqual(min);
-      expect(value).toBeLessThanOrEqual(max);
-    }
-    expect(new Set(days).size).toBeGreaterThan(1);
-    expect(keys.map(unresearchedStatementDeadlineDays)).toEqual(days);
+    expect(new Set(days)).toEqual(new Set([10]));
+    expect(UNRESEARCHED_CAMPAIGN_FILING_RULE.source).toMatch(
+      /^ESTIMATED FROM AVERAGE: .*52 U\.S\.C\. 30103\(a\)/,
+    );
   });
 });
 
