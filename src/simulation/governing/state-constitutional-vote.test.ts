@@ -33,16 +33,25 @@ import {
   seatedChamberForPack,
   stateConstitutionalBody,
 } from "./chamber-votes";
-import { constitutionalMemberConsiderations, memberBallot } from "./article-v";
+import {
+  constitutionalMemberConsiderations,
+  memberBallot,
+  stateVoice,
+} from "./article-v";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
   recordStatePolicyProposalVotes,
   constitutionalReformReviewHandler,
   CONSTITUTIONAL_REFORM_REVIEW,
 } from "../living-world/constitutional-reform";
-import { recordWorkStatus } from "../life";
+import { recordOrganizationProfile, recordWorkStatus } from "../life";
 import { addDays } from "../dates";
 import { resolveRequiredVotes } from "../legislature-rules";
-import { advanceWorld, createWorld } from "../world";
+import {
+  advanceWorld,
+  createWorld,
+  writeWithWorldIntegrityOnce,
+} from "../world";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createFormationContext, recordPrinciples } from "../politics";
 
@@ -669,5 +678,150 @@ describe("A79 shared saved state policy proposal votes", () => {
     });
     expect(refusalContext).toContain("congressional delegation cannot cast");
     expect(unseated.history.constitutionalMeasures ?? []).toHaveLength(0);
+  });
+
+  it("refuses a closed actual body before forming member principles", () => {
+    const member = actualBodies(beforeProposal)[0]!.seated.body.members.find(
+      (row) => row.personId !== null,
+    )!;
+    const tenure = stateLegislators(
+      beforeProposal,
+      stateCandidacyPack(state.jurisdictionKey)!.packId,
+    ).find((row) => row.personId === member.personId)!;
+    const work = beforeProposal.history.workRelationships.find(
+      (row) => row.id === tenure.workRelationshipId,
+    )!;
+    const prior = beforeProposal.history.organizationProfiles
+      .filter((row) => row.organizationId === work.organizationId)
+      .at(-1)!;
+    const closed = recordOrganizationProfile(beforeProposal, {
+      stableKey: "a79:preflight-closed-body",
+      organizationId: work.organizationId!,
+      effectiveAt: beforeProposal.currentDate,
+      name: prior.name,
+      classification: prior.classification,
+      locationJurisdictionId: prior.locationJurisdictionId,
+      provenance: {
+        kind: "authored",
+        note: "Supplied closed-body refusal fixture.",
+      },
+      supersedesProfileId: prior.id,
+      closed: { reason: "custom:controlled-closed-body" },
+    });
+    const queued = scheduleFutureDueItem(closed, {
+      stableKey: `constitutional-reform/v1:${state.jurisdictionKey.slice(3)}:${closed.currentDate.slice(0, 4)}:review`,
+      dueAt: addDays(closed.currentDate, 1),
+      transitionKey: CONSTITUTIONAL_REFORM_REVIEW,
+      entityIds: [jurisdiction.id],
+      jurisdictionId: jurisdiction.id,
+      provenance: {
+        kind: "authored",
+        note: "Direct saved-handler fixture, not an ordinary clock run.",
+      },
+    });
+    const due = queued.history.futureDueItems.at(-1)!;
+    expect(due.transitionKey).toBe(CONSTITUTIONAL_REFORM_REVIEW);
+    // Retained legacy entry ordering formed principles before validating the
+    // body's dated institution identity. Compare only that exact old step.
+    const legacy = ensureOfficeholderPrinciples(
+      queued,
+      stateVoice(queued, state.jurisdictionKey.slice(3)).personIds,
+    );
+    expect(legacy.history.principles.length).toBeGreaterThan(
+      queued.history.principles.length,
+    );
+    const result = constitutionalReformReviewHandler(queued, due);
+    expect(result.context).toContain("actual state legislature is not seated");
+    expect(result.world.history.principles).toEqual(queued.history.principles);
+    expect(result.world.history.constitutionalMeasures).toEqual(
+      queued.history.constitutionalMeasures,
+    );
+    expect(result.world.history.constitutionalActions).toEqual(
+      queued.history.constitutionalActions,
+    );
+  });
+
+  it("declines filing for vacant actual state chambers without substituting Congress", () => {
+    const tenures = stateLegislators(
+      beforeProposal,
+      stateCandidacyPack(state.jurisdictionKey)!.packId,
+    );
+    expect(tenures.length).toBeGreaterThan(0);
+    const at = writeWithWorldIntegrityOnce(beforeProposal, () => {
+      let next = beforeProposal;
+      for (const tenure of tenures) {
+        const prior = next.history.workStatuses
+          .filter((row) => row.workRelationshipId === tenure.workRelationshipId)
+          .at(-1)!;
+        next = recordWorkStatus(next, {
+          stableKey: `a79:preflight-ended:${tenure.workRelationshipId}`,
+          workRelationshipId: tenure.workRelationshipId,
+          effectiveAt: next.currentDate,
+          status: "ended",
+          reason:
+            "Supplied end of actual legislative tenures for vacant-body refusal proof.",
+          provenance: {
+            kind: "generated",
+            generatorKey: "a79:preflight-ended",
+          },
+          supersedesStatusId: prior.id,
+        });
+      }
+      return next;
+    });
+    const year = Number(at.currentDate.slice(0, 4));
+    const stableKey = `constitutional-reform/v1:${state.jurisdictionKey.slice(3)}:${year}:review`;
+    const queued = scheduleFutureDueItem(at, {
+      stableKey,
+      dueAt: addDays(at.currentDate, 1),
+      transitionKey: CONSTITUTIONAL_REFORM_REVIEW,
+      entityIds: [jurisdiction.id],
+      jurisdictionId: jurisdiction.id,
+      provenance: {
+        kind: "authored",
+        note: "Controlled vacant-body review fixture, not ordinary filing.",
+      },
+    });
+    const due = queued.history.futureDueItems.find(
+      (row) => row.stableKey === stableKey,
+    )!;
+    let beforeReview: World | undefined;
+    let afterReview: World | undefined;
+    const result = {
+      world: advanceWorld(queued, 1, {
+        get: (key) =>
+          key === CONSTITUTIONAL_REFORM_REVIEW
+            ? (world, item) => {
+                beforeReview = world;
+                const response = constitutionalReformReviewHandler(world, item);
+                afterReview = response.world;
+                return response;
+              }
+            : undefined,
+      }),
+    };
+    expect(result.world.history.constitutionalMeasures).toEqual(
+      at.history.constitutionalMeasures,
+    );
+    expect(result.world.history.constitutionalActions).toEqual(
+      at.history.constitutionalActions,
+    );
+    expect(beforeReview).toBeDefined();
+    expect(afterReview).toBeDefined();
+    if (!beforeReview || !afterReview)
+      throw Error("The actual review callback must run.");
+    expect(afterReview.history.principles).toEqual(
+      beforeReview.history.principles,
+    );
+    expect(
+      result.world.history.futureDueItemStates.find(
+        (row) => row.dueItemId === due.id && row.status === "resolved",
+      )?.context,
+    ).toContain("No policy has most of the legislature behind a change");
+    const loaded = deserializeWorld(serializeWorld(result.world));
+    expect(loaded.history.constitutionalMeasures).toEqual(
+      result.world.history.constitutionalMeasures,
+    );
+    expect(loaded.history.principles).toEqual(result.world.history.principles);
   });
 });
