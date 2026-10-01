@@ -14,18 +14,14 @@ import {
   type TermLimitRule,
 } from "../enacted-rule-changes";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { evaluateDecision } from "../decisions";
+import { considerationScore, evaluateDecision } from "../decisions";
 import {
   CONSTITUTIONAL_BAR,
   congressVoters,
   stateVoice,
   type Voter,
 } from "../governing/article-v";
-import {
-  chamberConsiderationWeight,
-  decideChamberVote,
-  publicPartyOf,
-} from "../governing/chamber-votes";
+import { decideChamberVote, publicPartyOf } from "../governing/chamber-votes";
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { relationshipConsiderations } from "../governing/standing-considerations";
@@ -439,12 +435,13 @@ export function termLimitBallot(
     considerations
       .filter((c) => c.optionKey === `vote-${ballot}`)
       .sort(
-        (a, b) => chamberConsiderationWeight(b) - chamberConsiderationWeight(a),
+        (a, b) =>
+          Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
       )[0]?.stableKey ?? "member:no-reason";
   return { ballot, reason };
 }
 
-/** Original term-limit inputs, shared by recorded Congress and legacy state callers. */
+/** Existing term-limit reasons, also used by actual state chamber rollcalls. */
 export function termLimitConsiderations(
   world: World,
   voter: Voter,
