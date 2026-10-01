@@ -40,6 +40,7 @@ import {
   SavedAppearanceControls,
 } from "./SavedAppearance";
 import { createOpeningLifeController } from "../presentation/opening-life";
+import { openSavedPlayedLife } from "../presentation/open-saved-played-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
@@ -612,9 +613,12 @@ export function PlayerGame() {
       // A world being observed, or a played life that ended before anything
       // followed it, has nobody whose week could be opened: loading such a
       // save must not write new work for the retired or dead character.
-      world: shellReadOnly(prepared)
-        ? prepared
-        : openOrdinaryLife(prepared, personId),
+      world:
+        saveId !== null
+          ? openSavedPlayedLife(prepared, personId)
+          : shellReadOnly(prepared)
+            ? prepared
+            : openOrdinaryLife(prepared, personId),
       personId,
       unsavedSeed: seed,
       saveId,

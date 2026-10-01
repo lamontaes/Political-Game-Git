@@ -1,3 +1,4 @@
+import { PLAYER_MONTHLY_MONEY_HANDLERS } from "./player-monthly-money";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
   householdLoanMonthHandler,
@@ -2194,6 +2195,7 @@ export function composeWorldTimeHandlers(
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
       createCrisisTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
+        ...PLAYER_MONTHLY_MONEY_HANDLERS,
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),
