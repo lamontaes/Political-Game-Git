@@ -23,6 +23,7 @@ import {
   municipalOrdinanceStatus,
   actOnCouncilMeasure,
   municipalExecutiveHolder,
+  completeCouncilPassage,
 } from "../simulation/municipal-ordinance-procedure";
 import {
   introduceMeasure,
@@ -417,6 +418,18 @@ describe("municipal executives use the shared bill evaluator", () => {
         place.key,
       );
       const measure = requireMeasure(world, measureId);
+      expect(
+        measureActions(world, measureId).filter(
+          (action) => action.kind === "presented-to-executive",
+        ),
+      ).toHaveLength(1);
+      expect(
+        world.history.events.some(
+          (event) =>
+            event.stableKey === `${measure.stableKey}:executive-not-presented`,
+        ),
+      ).toBe(false);
+      expect(completeCouncilPassage(world, measure, governmentKey)).toBe(world);
       const expected = profile("expected-executive-evaluation", () =>
         evaluateGovernorBill(world, {
           stableKey: `${measure.stableKey}:executive-desk`,
