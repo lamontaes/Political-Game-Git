@@ -163,9 +163,11 @@ describe.each(allPlaces())("weekly job payroll in %s", (placeKey) => {
     expect(pay).toHaveLength(1);
     expect(pay[0]!.transferredAmount).toEqual(priorPay.transferredAmount);
     expect(
-      resourcePositionAt(played, employer, money(0, "USD").currency),
+      resourcePositionAt(played, employer, money(0, "USD").currency)!
+        .liquidBalance,
     ).toEqual(
-      resourcePositionAt(grossBaseline, employer, money(0, "USD").currency),
+      resourcePositionAt(grossBaseline, employer, money(0, "USD").currency)!
+        .liquidBalance,
     );
     const liabilities = played.history.statutoryTaxLiabilities!.filter(
       (row) => row.sourceOutcomeId === pay[0]!.id,

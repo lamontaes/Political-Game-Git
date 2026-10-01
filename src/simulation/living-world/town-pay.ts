@@ -1423,6 +1423,10 @@ export function settleTownCompensations(
       flow.source.organizationId !== work.organizationId
     )
       throw new Error("Pay period must bind the recorded worker and employer.");
+    if (period.activityId !== flow.id && period.activityId !== work.id)
+      throw new Error(
+        "Pay period requires its saved pay-flow or work identity.",
+      );
     const window = {
       startsAt: period.periodStartsAt,
       endsAt: period.periodEndsAt,
