@@ -1,0 +1,192 @@
+--- a/src/simulation/player-monthly-money.ts
++++ b/src/simulation/player-monthly-money.ts
+@@ -15,6 +15,46 @@
+ } from "./types";
+ 
+ export const PLAYER_MONTHLY_MONEY_KEY = "life:player-monthly-money";
++
++// PRIVATE DIAGNOSTIC ONLY: no World fields or writer results change.
++type MonthlyCostFrame = { started: number; children: number };
++type MonthlyCostRow = {
++  calls: number;
++  failures: number;
++  inclusiveMs: number;
++  exclusiveMs: number;
++};
++const monthlyCostStack: MonthlyCostFrame[] = [];
++const monthlyCostRows: Record<string, MonthlyCostRow> = {};
++export function runMonthlyCostDiagnostic<T>(key: string, action: () => T): T {
++  const frame = { started: performance.now(), children: 0 };
++  monthlyCostStack.push(frame);
++  let failed = true;
++  try {
++    const result = action();
++    failed = false;
++    return result;
++  } finally {
++    const elapsed = performance.now() - frame.started;
++    monthlyCostStack.pop();
++    const row = (monthlyCostRows[key] ??= {
++      calls: 0,
++      failures: 0,
++      inclusiveMs: 0,
++      exclusiveMs: 0,
++    });
++    row.calls++;
++    row.failures += Number(failed);
++    row.inclusiveMs += elapsed;
++    row.exclusiveMs += elapsed - frame.children;
++    const parent = monthlyCostStack.at(-1);
++    if (parent) parent.children += elapsed;
++  }
++}
++export function monthlyCostDiagnostic() {
++  return monthlyCostRows;
++}
++
+ const PREFIX = "player-monthly-money:";
+ 
+ function nextFirst(date: IsoDate): IsoDate {
+@@ -61,51 +101,55 @@
+   world: World,
+   personId: EntityId,
+ ): World {
+-  if (
+-    world.control.kind !== "person" ||
+-    world.control.personId !== personId ||
+-    !world.people[personId]
+-  )
+-    return world;
+-  const prefix = `${PREFIX}${personId}:`;
+-  if (
+-    world.history.futureDueItems.some(
+-      (item) =>
+-        item.transitionKey === PLAYER_MONTHLY_MONEY_KEY &&
+-        item.stableKey.startsWith(prefix) &&
+-        isPendingFuture(world, item),
++  return runMonthlyCostDiagnostic("ensure-schedule", () => {
++    if (
++      world.control.kind !== "person" ||
++      world.control.personId !== personId ||
++      !world.people[personId]
+     )
+-  )
+-    return world;
+-  return schedule(world, personId, nextFirst(world.currentDate));
++      return world;
++    const prefix = `${PREFIX}${personId}:`;
++    if (
++      world.history.futureDueItems.some(
++        (item) =>
++          item.transitionKey === PLAYER_MONTHLY_MONEY_KEY &&
++          item.stableKey.startsWith(prefix) &&
++          isPendingFuture(world, item),
++      )
++    )
++      return world;
++    return schedule(world, personId, nextFirst(world.currentDate));
++  });
+ }
+ 
+ export function playerMonthlyMoneyHandler(
+   world: World,
+   item: FutureDueItem,
+ ): FutureTransitionHandlerResult {
+-  if (item.transitionKey !== PLAYER_MONTHLY_MONEY_KEY)
+-    throw new Error("Player monthly money received another transition.");
+-  const personId = item.entityIds[0];
+-  let next = world;
+-  if (
+-    personId &&
+-    world.control.kind === "person" &&
+-    world.control.personId === personId &&
+-    world.people[personId]
+-  ) {
+-    next = settleOfficeSalaries(next, personId);
+-    next = settleMortgages(next, personId);
+-    next = settleLivingCosts(next, personId);
+-    next = schedule(next, personId, nextFirst(next.currentDate));
+-  }
+-  return {
+-    world: next,
+-    status: "resolved",
+-    reasonKey: "player-monthly-money:reviewed",
+-    context: null,
+-    outcomeEventId: null,
+-  };
++  return runMonthlyCostDiagnostic("monthly-handler", () => {
++    if (item.transitionKey !== PLAYER_MONTHLY_MONEY_KEY)
++      throw new Error("Player monthly money received another transition.");
++    const personId = item.entityIds[0];
++    let next = world;
++    if (
++      personId &&
++      world.control.kind === "person" &&
++      world.control.personId === personId &&
++      world.people[personId]
++    ) {
++      next = settleOfficeSalaries(next, personId);
++      next = settleMortgages(next, personId);
++      next = settleLivingCosts(next, personId);
++      next = schedule(next, personId, nextFirst(next.currentDate));
++    }
++    return {
++      world: next,
++      status: "resolved",
++      reasonKey: "player-monthly-money:reviewed",
++      context: null,
++      outcomeEventId: null,
++    };
++  });
+ }
+ 
+ export const PLAYER_MONTHLY_MONEY_HANDLERS = [
+--- a/src/simulation/life-opportunities.ts
++++ b/src/simulation/life-opportunities.ts
+@@ -1,4 +1,7 @@
+-import { ensurePlayerMonthlyMoneySchedule } from "./player-monthly-money";
++import {
++  runMonthlyCostDiagnostic,
++  ensurePlayerMonthlyMoneySchedule,
++} from "./player-monthly-money";
+ import { initializeOfficeSalaryFlows } from "./office-salary";
+ import { ensurePostedMeetingOnCouncilAgenda } from "./living-world/local-council-meetings";
+ import {
+@@ -449,7 +452,9 @@
+ 
+   let next = refreshLocalEconomy(world, personId);
+   next = advanceJobMarket(next, personId);
+-  next = initializeOfficeSalaryFlows(next, personId);
++  next = runMonthlyCostDiagnostic("salary-refresh", () =>
++    initializeOfficeSalaryFlows(next, personId),
++  );
+   next = ensurePlayerMonthlyMoneySchedule(next, personId);
+   next = writeNextOpportunity(next, personId);
+   return next;
+--- a/src/simulation/player-monthly-money-routes.test.ts
++++ b/src/simulation/player-monthly-money-routes.test.ts
+@@ -1,4 +1,4 @@
+-import { beforeAll, describe, expect, it } from "vitest";
++import { afterAll, beforeAll, describe, expect, it } from "vitest";
+ import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+ import {
+   generateOpeningLife,
+@@ -38,6 +38,7 @@
+ } from "./resources";
+ import { resourceFlowTermsAt } from "./resource-queries";
+ import {
++  monthlyCostDiagnostic,
+   ensurePlayerMonthlyMoneySchedule,
+   PLAYER_MONTHLY_MONEY_KEY,
+ } from "./player-monthly-money";
+@@ -307,3 +308,10 @@
+     }
+   }, 60_000);
+ });
++
++afterAll(() => {
++  console.info(
++    "TEAM7_C9_OWNED_CALL_COST",
++    JSON.stringify(monthlyCostDiagnostic()),
++  );
++});
