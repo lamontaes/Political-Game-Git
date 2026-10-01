@@ -15,14 +15,15 @@
  * - a dating couple may move in together, and a couple living together may
  *   marry, more readily when both of them work;
  * - a single adult may start dating another single adult in town of a near
- *   age, more often in their twenties and thirties and when they work.
+ *   age, more often in their twenties and thirties and when they work;
+ * - a couple who share a home weighs raising a family plan
+ *   (`./town-family-plans`), from their own circumstances.
  *
- * Children are not decided here. A child is born only when two people have
- * a recorded family plan (`../people-family-plan`): one of them raised it, the
- * other agreed, and the birth lands on the plan's own date through the family
- * writer. That is one rule for the player and for everybody in town; no
- * quarterly draw makes a baby. (Nothing yet raises a plan for a couple in
- * town by itself; until something does, town couples have no children here.)
+ * A child is born only when two people have a recorded family plan
+ * (`../people-family-plan`): one of them raised it, the other agreed, and the
+ * birth lands on the plan's own date through the family writer. That is one
+ * rule for the player and for everybody in town; no quarterly draw makes a
+ * baby.
  *
  * So the chances follow conditions that last (age, years together, children,
  * work, the economy), not one flat chance for everybody. The player's own
@@ -60,6 +61,7 @@ import type {
   HistoricalEvent,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import { weighTownFamilyPlans, type TownCouple } from "./town-family-plans";
 import {
   TOWN_JOB_END_REASONS,
   townUnemploymentPressure,
@@ -629,6 +631,31 @@ export function reviewTownFamilies(
       continue;
     }
   }
+
+  // Children: a couple who share a home weighs raising a family plan, and a
+  // child comes only from a plan the other partner agrees to, on its date.
+  const planning: TownCouple[] = [];
+  for (const couple of view.couples) {
+    if (couple.stage === "dating") continue;
+    const [a, b] = couple.partnership.personIds;
+    if (touched.has(a) || touched.has(b)) continue;
+    if (!view.people.has(a) || !view.people.has(b)) continue;
+    const home = householdOf(a);
+    if (home === null || home !== householdOf(b)) continue;
+    planning.push({
+      personIds: [a, b],
+      married: couple.stage === "married",
+      startedAt: couple.partnership.startedAt,
+      householdId: home,
+      children: [
+        ...new Set([
+          ...(view.childrenOf.get(a) ?? []),
+          ...(view.childrenOf.get(b) ?? []),
+        ]),
+      ],
+    });
+  }
+  next = weighTownFamilyPlans(next, town, planning, isPlayer);
 
   // Single adults: somebody in town of a near age may start dating them.
   const quietSince = addDays(today, -QUIET_AFTER_ENDING_DAYS);

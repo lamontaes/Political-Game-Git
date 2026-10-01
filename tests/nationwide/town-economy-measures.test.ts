@@ -93,8 +93,8 @@ describe("lane B's measures read from the town's records", () => {
 
     const pay = townMedianHourlyPay(world, town);
     expect(pay.basis).toBeGreaterThan(0);
-    expect((pay.value ?? 0) / 100).toBeGreaterThanOrEqual(
-      (townMinimumHourly(town) ?? 0) - 0.01,
+    expect(pay.value! / 100).toBeGreaterThanOrEqual(
+      townMinimumHourly(town) - 0.01,
     );
     expect(townBirths(world, town, start)).toEqual({ value: 0, basis: 0 });
 
@@ -122,9 +122,7 @@ describe("lane B's measures read from the town's records", () => {
     expect(businesses.opened + businesses.closed).toBeGreaterThan(0);
     const births = townBirths(world, town, start).value!;
     expect(births).toBe(describeTownFamilies(world, town).births);
-    // A child comes only from a couple's recorded family plan; nobody in this
-    // town raised one, so the reviews alone record no birth.
-    expect(births).toBe(0);
+    expect(births).toBeGreaterThan(0);
     const later = townUnemploymentRate(world, town);
     expect(later.value).toBeGreaterThanOrEqual(0);
     console.log(
@@ -179,7 +177,7 @@ describe("births follow the outcome web", () => {
     // The births level (#885) is always read; at its base it changes nothing.
     // So is the law the state began with (Nebraska's abortion limit), which
     // moves births only once a later law changes it.
-    const others = (causes: readonly { key: string; factor: number }[]) =>
+    const others = (causes: { key: string; factor: number }[]) =>
       causes.filter(
         (cause) =>
           cause.key !== "births-level-to-births" &&
