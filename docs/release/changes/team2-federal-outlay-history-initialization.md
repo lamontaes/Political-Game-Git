@@ -1,7 +1,6 @@
 ---
-id: team2-federal-outlay-history-fixture
+id: team2-federal-outlay-history-initialization
 impact: none
-reason: Repairs only a test fixture using the existing canonical history initializer.
 ---
 
 The federal outlay tests initialize every history record family before reading
