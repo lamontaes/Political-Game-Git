@@ -1305,7 +1305,6 @@ describe("a government with no recorded debt opens at the measured national rate
     const governments = world.publicBudgets!.governments;
     expect(governments.length).toBeGreaterThan(0);
     for (const government of governments) {
-      if (government.level === "federal") continue;
       const note = government.openingNotes.find((line) =>
         line.startsWith("Interest rate:"),
       );
