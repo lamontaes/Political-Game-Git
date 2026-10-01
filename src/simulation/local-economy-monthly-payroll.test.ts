@@ -1,5 +1,4 @@
 import { expect, it } from "vitest";
-import { createHash } from "node:crypto";
 import legacyMonthlyPoint from "./fixtures/a37-legacy-monthly-point.json";
 import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
@@ -410,14 +409,20 @@ it("A37 month-end pay counts only actual active days before the job ended", () =
   );
   expect(settleBusinessMoney(paid, f.employer.id)).toBe(paid);
 });
-it("A37 preserves a legacy paid point date and begins the next interval the following day", () => {
+it("A37 preserves a legacy paid point date and begins the next interval the following day", async () => {
   const f = fixture("1150000");
   let world = advanceWorld(f.world, 4, registry);
   // Actual pre-change canonical-writer output, not a new off-payday transfer.
   expect(world.id).toBe(legacyMonthlyPoint.worldId);
   expect(f.flow.id).toBe(legacyMonthlyPoint.resourceFlowId);
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(JSON.stringify(world.history)),
+  );
   expect(
-    createHash("sha256").update(JSON.stringify(world.history)).digest("hex"),
+    Array.from(new Uint8Array(digest), (byte) =>
+      byte.toString(16).padStart(2, "0"),
+    ).join(""),
   ).toBe(legacyMonthlyPoint.baseHistorySha256);
   world = deserializeWorld(
     serializeWorld({
