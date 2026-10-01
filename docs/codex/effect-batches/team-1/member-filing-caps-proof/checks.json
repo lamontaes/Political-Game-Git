@@ -1,0 +1,76 @@
+{
+  "runtimeHead": "fd61857672d0bbc15aac9b876916d7f8b87493d9",
+  "main": "123f7dc77e80fb1d9abd78e34956f91afceb3e60",
+  "tests": {
+    "passed": 15,
+    "failed": 0,
+    "files": 2,
+    "seconds": 31.05
+  },
+  "types": {
+    "roots": 6,
+    "scoped": 0,
+    "imported": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "report": "PASS 0 errors, 0 warnings; self-reviewed, no helpers",
+  "release": "Inherited ci-changed-tests-only.md merge-bookkeeping failure, same blob as main. Own declaration present.",
+  "dice": "0 new / 5 stale inherited entries",
+  "spelling": "Inherited findings retained; no owned-path findings",
+  "NOT_RUN": [
+    "natural cloud one-year filing proof",
+    "researched production caps",
+    "full56 behavior",
+    "browser",
+    "speed",
+    "whole suite"
+  ],
+  "logs": {
+    "tests.log": {
+      "sha256": "61d8a571819c1737298ec76a262c7a8d473fae732a0658eacd49bb195fee4e0f",
+      "originalPath": "/tmp/team1-cap-admission-test.log"
+    },
+    "types.log": {
+      "sha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "originalPath": "/tmp/team1-cap-admission-types.log"
+    },
+    "lint.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalPath": "/tmp/team1-cap-admission-lint.log"
+    },
+    "format.log": {
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "originalPath": "/tmp/team1-cap-admission-format.log"
+    },
+    "typecheck.mjs": {
+      "sha256": "8f0c71a25a7aed2efe3564e0111f2e6176b8cde3c4abc220a48190fb1f1404d1",
+      "originalPath": "/tmp/team1-cap-types.mjs"
+    },
+    "proof.json": {
+      "sha256": "99c630470cdfe016f42a0e4dad4d3ffcb75e8191184f2fb81bc7620b72d39172",
+      "originalPath": "/tmp/team1-cap-admission-proof.json"
+    },
+    "release.log": {
+      "sha256": "3a41edc89a65bc946141493e8e163010c90ba0ef29152adc47a77f809fa40285",
+      "originalPath": "/tmp/team1-cap-release.log"
+    },
+    "push-release.log": {
+      "sha256": "7683e1e5088a2abd69cdb98999094e2a89d3c39aa385c8e07fc56d5623346060",
+      "originalPath": "/tmp/team1-cap-push-release.log"
+    },
+    "dice.log": {
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "originalPath": "/tmp/team1-cap-dice.log"
+    },
+    "spelling.log": {
+      "sha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "originalPath": "/tmp/team1-cap-spelling.log"
+    },
+    "report.log": {
+      "sha256": "57275969202b6e9e13efbb9f2a0d1665fb302d7242e84c615eec930db8fb9cb3",
+      "originalPath": "/tmp/team1-cap-report.log"
+    }
+  },
+  "inheritedDeclarationBlob": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8"
+}

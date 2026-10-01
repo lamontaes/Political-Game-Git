@@ -1,0 +1,3542 @@
+[
+  {
+    "seed": "minority-member-filing",
+    "place": "US Congress",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+    "chamberKey": "house",
+    "mode": "strong",
+    "personId": "person_dd3e25534e81d267",
+    "personName": "Cassandra Dunn",
+    "partyKey": "republican",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_eed698e8c4bc4a89",
+        "designation": "H.R. 43",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ee54530967e5e26a",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_9f043190417e66fc",
+          "principle_09169054cd9b1729",
+          "principle_64487cbd98d118d0",
+          "principle_92eb6cfbe93fff26",
+          "principle_3cb65e20ff3133a7"
+        ]
+      },
+      {
+        "id": "legislative-measure_bcaecd3d24604d80",
+        "designation": "H.R. 44",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c9fde68df776e245",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8,
+        "principleRecordIds": [
+          "principle_c03e911629b230d9",
+          "principle_9f043190417e66fc",
+          "principle_200940044bbb5382",
+          "principle_2f3d0603f1b2bd59",
+          "principle_92eb6cfbe93fff26"
+        ]
+      },
+      {
+        "id": "legislative-measure_f89a46efd15c3594",
+        "designation": "H.R. 45",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_31671735e1131cf7",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.6,
+        "principleRecordIds": [
+          "principle_e0d204dc4e7a0170",
+          "principle_b13020c72b4168f1",
+          "principle_09169054cd9b1729",
+          "principle_200940044bbb5382",
+          "principle_3cb65e20ff3133a7"
+        ]
+      },
+      {
+        "id": "legislative-measure_6efaafe3d168ed0a",
+        "designation": "H.R. 46",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c7b694e66fd53ca7",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.1999999999999993,
+        "principleRecordIds": [
+          "principle_b13020c72b4168f1",
+          "principle_59819e0e1bc8d265",
+          "principle_09169054cd9b1729",
+          "principle_b8bd07d80ca91ebe",
+          "principle_52168e8dfdd3173c"
+        ]
+      },
+      {
+        "id": "legislative-measure_7a444f0755ea1012",
+        "designation": "H.R. 47",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f8ee2363fee5d8f7",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.9999999999999996,
+        "principleRecordIds": [
+          "principle_b13020c72b4168f1",
+          "principle_09169054cd9b1729",
+          "principle_2f3d0603f1b2bd59",
+          "principle_200940044bbb5382",
+          "principle_3cb65e20ff3133a7"
+        ]
+      },
+      {
+        "id": "legislative-measure_6188109f63f7c2be",
+        "designation": "H.R. 48",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_2a66742ef3792ea1",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.5999999999999985,
+        "principleRecordIds": [
+          "principle_09169054cd9b1729",
+          "principle_c03e911629b230d9",
+          "principle_b8bd07d80ca91ebe",
+          "principle_92eb6cfbe93fff26",
+          "principle_59819e0e1bc8d265",
+          "principle_2f3d0603f1b2bd59"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "sourcedCapControl": null,
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "US Congress",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+    "chamberKey": "house",
+    "mode": "below-old-threshold",
+    "personId": "person_dd3e25534e81d267",
+    "personName": "Cassandra Dunn",
+    "partyKey": "republican",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_eed698e8c4bc4a89",
+        "designation": "H.R. 43",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ee54530967e5e26a",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.2875,
+        "principleRecordIds": [
+          "principle_c2829362083d4daa",
+          "principle_add5772732c0d58f",
+          "principle_5c519498a99e162e",
+          "principle_76a8bed162bfc328",
+          "principle_f6fa47155150be95"
+        ]
+      },
+      {
+        "id": "legislative-measure_bcaecd3d24604d80",
+        "designation": "H.R. 44",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c9fde68df776e245",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.8896739130434779,
+        "principleRecordIds": [
+          "principle_a87dd2df75eb32fb",
+          "principle_c2829362083d4daa",
+          "principle_552cacfde4e72584",
+          "principle_bc8172acbb3e4a93",
+          "principle_76a8bed162bfc328"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "sourcedCapControl": null,
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "NM",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "jurisdictionId": "jurisdiction_ca05aeb0981cd43a",
+    "chamberKey": "house",
+    "mode": "strong",
+    "personId": "person_06e1556259787786",
+    "personName": "Nikhil Murray",
+    "partyKey": "republican",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_37e53ce2b96af4fa",
+        "designation": "HB 21",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ca9a73f1bdb76d37",
+            "answer": "yes"
+          }
+        ],
+        "score": 9.6,
+        "principleRecordIds": [
+          "principle_0612b6a19dd591ae",
+          "principle_fd144fb02cff934f",
+          "principle_37ee38a3f2829483",
+          "principle_768c124d1863d790",
+          "principle_de655e0f1ec5eb32"
+        ]
+      },
+      {
+        "id": "legislative-measure_69539361bbd59ad4",
+        "designation": "HB 22",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_cbbbcdaa2fa5fc5f",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.8000000000000025,
+        "principleRecordIds": [
+          "principle_37ee38a3f2829483",
+          "principle_fd144fb02cff934f",
+          "principle_de655e0f1ec5eb32",
+          "principle_92a1c2572a0180a7",
+          "principle_869aff5aab943a3e",
+          "principle_e6c18b6bc97662ed"
+        ]
+      },
+      {
+        "id": "legislative-measure_29555d1bc7dd7378",
+        "designation": "HB 23",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_9d88404e486fa58b",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.000000000000001,
+        "principleRecordIds": [
+          "principle_fd144fb02cff934f",
+          "principle_0612b6a19dd591ae",
+          "principle_a955dc1a9028c10a",
+          "principle_e6c18b6bc97662ed",
+          "principle_de655e0f1ec5eb32",
+          "principle_09267f7cbfd91825"
+        ]
+      },
+      {
+        "id": "legislative-measure_19e26f4011890419",
+        "designation": "HB 24",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_15ce1518227e5b1e",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.999999999999999,
+        "principleRecordIds": [
+          "principle_b935f7592d865522",
+          "principle_a955dc1a9028c10a",
+          "principle_0612b6a19dd591ae",
+          "principle_37ee38a3f2829483",
+          "principle_e6c18b6bc97662ed",
+          "principle_92a1c2572a0180a7"
+        ]
+      },
+      {
+        "id": "legislative-measure_268c4e63ad8a22b8",
+        "designation": "HB 25",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_4850d4cc2bf02f7b",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.799999999999999,
+        "principleRecordIds": [
+          "principle_09267f7cbfd91825",
+          "principle_768c124d1863d790",
+          "principle_a955dc1a9028c10a",
+          "principle_de655e0f1ec5eb32"
+        ]
+      },
+      {
+        "id": "legislative-measure_5875270e042f1eb4",
+        "designation": "HB 26",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_e5f4015f38900487",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.400000000000001,
+        "principleRecordIds": [
+          "principle_e6c18b6bc97662ed",
+          "principle_de655e0f1ec5eb32",
+          "principle_e36e783efff871c3",
+          "principle_92a1c2572a0180a7",
+          "principle_09267f7cbfd91825"
+        ]
+      },
+      {
+        "id": "legislative-measure_8886dffea89c1e46",
+        "designation": "HB 27",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_88a5a92bfb0d8d75",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.4,
+        "principleRecordIds": [
+          "principle_b935f7592d865522",
+          "principle_a955dc1a9028c10a",
+          "principle_de655e0f1ec5eb32",
+          "principle_e36e783efff871c3",
+          "principle_e6c18b6bc97662ed",
+          "principle_768c124d1863d790"
+        ]
+      },
+      {
+        "id": "legislative-measure_b8f6076a7925fe24",
+        "designation": "HB 28",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f01e4adde7e59f97",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.799999999999999,
+        "principleRecordIds": [
+          "principle_0612b6a19dd591ae",
+          "principle_b935f7592d865522",
+          "principle_a955dc1a9028c10a",
+          "principle_b4eb8603eb689701",
+          "principle_b08a21ebda23f353",
+          "principle_e36e783efff871c3"
+        ]
+      },
+      {
+        "id": "legislative-measure_8eaa0d8348ed8fc9",
+        "designation": "HB 29",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b5806d32973d68f6",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.4,
+        "principleRecordIds": [
+          "principle_e6c18b6bc97662ed",
+          "principle_869aff5aab943a3e",
+          "principle_b08a21ebda23f353",
+          "principle_768c124d1863d790",
+          "principle_b935f7592d865522"
+        ]
+      },
+      {
+        "id": "legislative-measure_941eb94172c22e89",
+        "designation": "HB 30",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3881e6fd4022321e",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.4,
+        "principleRecordIds": [
+          "principle_37ee38a3f2829483",
+          "principle_e6c18b6bc97662ed",
+          "principle_fd144fb02cff934f",
+          "principle_09267f7cbfd91825",
+          "principle_92a1c2572a0180a7"
+        ]
+      },
+      {
+        "id": "legislative-measure_b4d0ec5fb272cd46",
+        "designation": "HB 31",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_5f0c0c759f8c111d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000002,
+        "principleRecordIds": [
+          "principle_fd144fb02cff934f",
+          "principle_37ee38a3f2829483",
+          "principle_a955dc1a9028c10a",
+          "principle_92a1c2572a0180a7",
+          "principle_b4eb8603eb689701",
+          "principle_e6c18b6bc97662ed"
+        ]
+      },
+      {
+        "id": "legislative-measure_e1f17b6b5cce2649",
+        "designation": "HB 32",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_2fae18249369ab7e",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000001,
+        "principleRecordIds": [
+          "principle_b935f7592d865522",
+          "principle_a955dc1a9028c10a",
+          "principle_e36e783efff871c3",
+          "principle_de655e0f1ec5eb32",
+          "principle_e6c18b6bc97662ed",
+          "principle_92a1c2572a0180a7",
+          "principle_b08a21ebda23f353"
+        ]
+      },
+      {
+        "id": "legislative-measure_6da145184a3e3f8d",
+        "designation": "HB 33",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c418c80593f6db6a",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_de655e0f1ec5eb32",
+          "principle_b935f7592d865522",
+          "principle_0612b6a19dd591ae",
+          "principle_e6c18b6bc97662ed",
+          "principle_768c124d1863d790"
+        ]
+      },
+      {
+        "id": "legislative-measure_a587922d9449571a",
+        "designation": "HB 34",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c710bf4639ffa1f1",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_0612b6a19dd591ae",
+          "principle_37ee38a3f2829483",
+          "principle_fd144fb02cff934f",
+          "principle_09267f7cbfd91825",
+          "principle_768c124d1863d790"
+        ]
+      },
+      {
+        "id": "legislative-measure_2ec44a7d387714bc",
+        "designation": "HB 35",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b4cb824f1a35c05f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.599999999999999,
+        "principleRecordIds": [
+          "principle_869aff5aab943a3e",
+          "principle_b935f7592d865522",
+          "principle_a955dc1a9028c10a",
+          "principle_0612b6a19dd591ae",
+          "principle_768c124d1863d790",
+          "principle_09267f7cbfd91825",
+          "principle_e6c18b6bc97662ed"
+        ]
+      },
+      {
+        "id": "legislative-measure_a6e6a515994d2c83",
+        "designation": "HB 36",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ca8f52a74467b1fc",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.4,
+        "principleRecordIds": [
+          "principle_a955dc1a9028c10a",
+          "principle_b935f7592d865522",
+          "principle_869aff5aab943a3e",
+          "principle_0612b6a19dd591ae",
+          "principle_e6c18b6bc97662ed",
+          "principle_09267f7cbfd91825",
+          "principle_92a1c2572a0180a7"
+        ]
+      },
+      {
+        "id": "legislative-measure_6053f9863f86ef34",
+        "designation": "HB 37",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ddb4770b47bafe7f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_b935f7592d865522",
+          "principle_de655e0f1ec5eb32",
+          "principle_0612b6a19dd591ae",
+          "principle_b4eb8603eb689701",
+          "principle_e6c18b6bc97662ed"
+        ]
+      },
+      {
+        "id": "legislative-measure_b81cf434e4f1c79c",
+        "designation": "HB 38",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b119c90b8a36123f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_b08a21ebda23f353",
+          "principle_09267f7cbfd91825",
+          "principle_a955dc1a9028c10a",
+          "principle_b4eb8603eb689701",
+          "principle_92a1c2572a0180a7"
+        ]
+      },
+      {
+        "id": "legislative-measure_c21c8b7ed8fa196b",
+        "designation": "HB 39",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_d5d37c97e4e00984",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.399999999999999,
+        "principleRecordIds": [
+          "principle_fd144fb02cff934f",
+          "principle_a955dc1a9028c10a",
+          "principle_b935f7592d865522",
+          "principle_e6c18b6bc97662ed",
+          "principle_768c124d1863d790"
+        ]
+      },
+      {
+        "id": "legislative-measure_63b22b3dd7784657",
+        "designation": "HB 40",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3b69403fbe087d28",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000007,
+        "principleRecordIds": [
+          "principle_b935f7592d865522",
+          "principle_a955dc1a9028c10a",
+          "principle_0612b6a19dd591ae",
+          "principle_b4eb8603eb689701",
+          "principle_e6c18b6bc97662ed"
+        ]
+      },
+      {
+        "id": "legislative-measure_b541bb0f5786d3cd",
+        "designation": "HB 41",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_6ae1e44ec1921c72",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000003,
+        "principleRecordIds": [
+          "principle_b08a21ebda23f353",
+          "principle_768c124d1863d790",
+          "principle_09267f7cbfd91825",
+          "principle_92a1c2572a0180a7",
+          "principle_37ee38a3f2829483"
+        ]
+      },
+      {
+        "id": "legislative-measure_33d98c0f27aa5ba5",
+        "designation": "HB 42",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f10b861e23e3c412",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.799999999999999,
+        "principleRecordIds": [
+          "principle_b935f7592d865522",
+          "principle_a955dc1a9028c10a",
+          "principle_fd144fb02cff934f",
+          "principle_e6c18b6bc97662ed",
+          "principle_09267f7cbfd91825"
+        ]
+      },
+      {
+        "id": "legislative-measure_907cc00770e90c25",
+        "designation": "HB 43",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_199588d238f8a9ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.6,
+        "principleRecordIds": [
+          "principle_09267f7cbfd91825",
+          "principle_b08a21ebda23f353",
+          "principle_a955dc1a9028c10a",
+          "principle_92a1c2572a0180a7",
+          "principle_37ee38a3f2829483"
+        ]
+      },
+      {
+        "id": "legislative-measure_d0b60dcf4103eb1d",
+        "designation": "HB 44",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_96e212c1b9f200ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.0000000000000013,
+        "principleRecordIds": [
+          "principle_e36e783efff871c3",
+          "principle_b935f7592d865522",
+          "principle_a955dc1a9028c10a",
+          "principle_e6c18b6bc97662ed",
+          "principle_92a1c2572a0180a7",
+          "principle_b4eb8603eb689701"
+        ]
+      },
+      {
+        "id": "legislative-measure_632552ec89ee11be",
+        "designation": "HB 45",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_068bc5251f39f225",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.6,
+        "principleRecordIds": [
+          "principle_e6c18b6bc97662ed",
+          "principle_fd144fb02cff934f",
+          "principle_37ee38a3f2829483",
+          "principle_0612b6a19dd591ae",
+          "principle_e36e783efff871c3",
+          "principle_768c124d1863d790"
+        ]
+      },
+      {
+        "id": "legislative-measure_44e898a7c1f91443",
+        "designation": "HB 46",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_10b40c2eafd5b764",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.5999999999999988,
+        "principleRecordIds": [
+          "principle_a955dc1a9028c10a",
+          "principle_fd144fb02cff934f",
+          "principle_b935f7592d865522",
+          "principle_92a1c2572a0180a7",
+          "principle_e6c18b6bc97662ed",
+          "principle_b08a21ebda23f353"
+        ]
+      },
+      {
+        "id": "legislative-measure_2df6069b51e0176e",
+        "designation": "HB 47",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f5084abbf907dbad",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.400000000000001,
+        "principleRecordIds": [
+          "principle_37ee38a3f2829483",
+          "principle_fd144fb02cff934f",
+          "principle_768c124d1863d790",
+          "principle_0612b6a19dd591ae",
+          "principle_869aff5aab943a3e",
+          "principle_b935f7592d865522"
+        ]
+      },
+      {
+        "id": "legislative-measure_9dcd4b33d5407da6",
+        "designation": "HB 48",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c907fe2a199efe8d",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.000000000000001,
+        "principleRecordIds": [
+          "principle_de655e0f1ec5eb32",
+          "principle_e36e783efff871c3",
+          "principle_e6c18b6bc97662ed",
+          "principle_b08a21ebda23f353",
+          "principle_09267f7cbfd91825",
+          "principle_92a1c2572a0180a7"
+        ]
+      },
+      {
+        "id": "legislative-measure_1b6b7e589b3a0f79",
+        "designation": "HB 49",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ae1d3c57840c759e",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.9999999999999987,
+        "principleRecordIds": [
+          "principle_e36e783efff871c3",
+          "principle_de655e0f1ec5eb32",
+          "principle_09267f7cbfd91825",
+          "principle_768c124d1863d790",
+          "principle_fd144fb02cff934f",
+          "principle_e6c18b6bc97662ed"
+        ]
+      },
+      {
+        "id": "legislative-measure_d645e1a0637c5c90",
+        "designation": "HB 50",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_45641e7d27cc756b",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.7999999999999996,
+        "principleRecordIds": [
+          "principle_fd144fb02cff934f",
+          "principle_a955dc1a9028c10a",
+          "principle_37ee38a3f2829483",
+          "principle_b935f7592d865522",
+          "principle_92a1c2572a0180a7",
+          "principle_0612b6a19dd591ae",
+          "principle_b4eb8603eb689701",
+          "principle_e6c18b6bc97662ed"
+        ]
+      },
+      {
+        "id": "legislative-measure_179592e8bb399ca9",
+        "designation": "HB 51",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_0c00df9e1d7d9146",
+            "answer": "no"
+          }
+        ],
+        "score": -1.6000000000000005,
+        "principleRecordIds": [
+          "principle_869aff5aab943a3e",
+          "principle_0612b6a19dd591ae",
+          "principle_768c124d1863d790",
+          "principle_e6c18b6bc97662ed",
+          "principle_fd144fb02cff934f"
+        ]
+      },
+      {
+        "id": "legislative-measure_f1bde2eef2a8f4ef",
+        "designation": "HB 52",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_60db72327bf3dde0",
+            "answer": "no"
+          }
+        ],
+        "score": -1.5999999999999996,
+        "principleRecordIds": [
+          "principle_a955dc1a9028c10a",
+          "principle_b935f7592d865522",
+          "principle_fd144fb02cff934f",
+          "principle_b08a21ebda23f353",
+          "principle_09267f7cbfd91825"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "sourcedCapControl": {
+      "authoredLimit": 2,
+      "actualBillIds": [
+        "legislative-measure_37e53ce2b96af4fa",
+        "legislative-measure_69539361bbd59ad4"
+      ],
+      "repeatAndCanonicalReload": true,
+      "laterIntakeStillCapped": true
+    },
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "AR",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "jurisdictionId": "jurisdiction_8acca737ebc52bd4",
+    "chamberKey": "house",
+    "mode": "strong",
+    "personId": "person_24456623e897bb51",
+    "personName": "Lydia Velazquez",
+    "partyKey": "democratic",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_6d0e13e4db3f94d4",
+        "designation": "HB 10",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ca9a73f1bdb76d37",
+            "answer": "yes"
+          }
+        ],
+        "score": 9.6,
+        "principleRecordIds": [
+          "principle_5ab270550df57acc",
+          "principle_cd677d73876ff3a1",
+          "principle_495efeaad16b2909",
+          "principle_6a7689d3bd0e5bd2",
+          "principle_094978a41666af58"
+        ]
+      },
+      {
+        "id": "legislative-measure_c592c87642a626db",
+        "designation": "HB 11",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f9d763234f9116dc",
+            "answer": "no"
+          }
+        ],
+        "score": -8,
+        "principleRecordIds": [
+          "principle_094978a41666af58",
+          "principle_ae7579503c6f2f5f",
+          "principle_5ab270550df57acc",
+          "principle_094978a41666af58",
+          "principle_a4f779c1827d16bc",
+          "principle_6a7689d3bd0e5bd2",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_a2f13d4f5fc44ed0",
+        "designation": "HB 12",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_cbbbcdaa2fa5fc5f",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.8000000000000025,
+        "principleRecordIds": [
+          "principle_495efeaad16b2909",
+          "principle_cd677d73876ff3a1",
+          "principle_094978a41666af58",
+          "principle_47576e6c1d7ebe09",
+          "principle_c80b376b966c6d7c",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_1bda9474358ff3a0",
+        "designation": "HB 13",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_9d88404e486fa58b",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.000000000000001,
+        "principleRecordIds": [
+          "principle_cd677d73876ff3a1",
+          "principle_5ab270550df57acc",
+          "principle_a4f779c1827d16bc",
+          "principle_07ee054fbffbba03",
+          "principle_094978a41666af58",
+          "principle_c1016cb65c885527"
+        ]
+      },
+      {
+        "id": "legislative-measure_a166f799a49f1b89",
+        "designation": "HB 14",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_15ce1518227e5b1e",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.999999999999999,
+        "principleRecordIds": [
+          "principle_d4c0929a2d4169d0",
+          "principle_a4f779c1827d16bc",
+          "principle_5ab270550df57acc",
+          "principle_495efeaad16b2909",
+          "principle_07ee054fbffbba03",
+          "principle_47576e6c1d7ebe09"
+        ]
+      },
+      {
+        "id": "legislative-measure_2b0577a014b84bb0",
+        "designation": "HB 15",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_4850d4cc2bf02f7b",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.799999999999999,
+        "principleRecordIds": [
+          "principle_c1016cb65c885527",
+          "principle_6a7689d3bd0e5bd2",
+          "principle_a4f779c1827d16bc",
+          "principle_094978a41666af58"
+        ]
+      },
+      {
+        "id": "legislative-measure_0ca900e828223cc4",
+        "designation": "HB 16",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_e5f4015f38900487",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.400000000000001,
+        "principleRecordIds": [
+          "principle_07ee054fbffbba03",
+          "principle_094978a41666af58",
+          "principle_98d803b4346b38e5",
+          "principle_47576e6c1d7ebe09",
+          "principle_c1016cb65c885527"
+        ]
+      },
+      {
+        "id": "legislative-measure_66a92a4fdd545cc2",
+        "designation": "HB 17",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_88a5a92bfb0d8d75",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.4,
+        "principleRecordIds": [
+          "principle_d4c0929a2d4169d0",
+          "principle_a4f779c1827d16bc",
+          "principle_094978a41666af58",
+          "principle_98d803b4346b38e5",
+          "principle_07ee054fbffbba03",
+          "principle_6a7689d3bd0e5bd2"
+        ]
+      },
+      {
+        "id": "legislative-measure_c05b8e21598c2433",
+        "designation": "HB 18",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_46bd2a6a7b2e2ac0",
+            "answer": "no"
+          }
+        ],
+        "score": -5.800000000000001,
+        "principleRecordIds": [
+          "principle_094978a41666af58",
+          "principle_cd677d73876ff3a1",
+          "principle_495efeaad16b2909",
+          "principle_cd677d73876ff3a1",
+          "principle_a4f779c1827d16bc",
+          "principle_5ab270550df57acc",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_2eb15f054e6b4398",
+        "designation": "HB 19",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f01e4adde7e59f97",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.799999999999999,
+        "principleRecordIds": [
+          "principle_5ab270550df57acc",
+          "principle_d4c0929a2d4169d0",
+          "principle_a4f779c1827d16bc",
+          "principle_ae7579503c6f2f5f",
+          "principle_7d1b3f13f9c8cfd9",
+          "principle_98d803b4346b38e5"
+        ]
+      },
+      {
+        "id": "legislative-measure_3780d9d72fdc7ff9",
+        "designation": "HB 20",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3881e6fd4022321e",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.4,
+        "principleRecordIds": [
+          "principle_495efeaad16b2909",
+          "principle_07ee054fbffbba03",
+          "principle_cd677d73876ff3a1",
+          "principle_c1016cb65c885527",
+          "principle_47576e6c1d7ebe09"
+        ]
+      },
+      {
+        "id": "legislative-measure_4aae04bc95eb4013",
+        "designation": "HB 21",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_422764a9e0425384",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.3999999999999995,
+        "principleRecordIds": [
+          "principle_cd677d73876ff3a1",
+          "principle_a4f779c1827d16bc",
+          "principle_5ab270550df57acc",
+          "principle_c80b376b966c6d7c",
+          "principle_7d1b3f13f9c8cfd9",
+          "principle_5ab270550df57acc",
+          "principle_6a7689d3bd0e5bd2"
+        ]
+      },
+      {
+        "id": "legislative-measure_c3a2bacd32caa0a6",
+        "designation": "HB 22",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_5f0c0c759f8c111d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000002,
+        "principleRecordIds": [
+          "principle_cd677d73876ff3a1",
+          "principle_495efeaad16b2909",
+          "principle_a4f779c1827d16bc",
+          "principle_47576e6c1d7ebe09",
+          "principle_ae7579503c6f2f5f",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_d1bab9730deb5ac1",
+        "designation": "HB 23",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c418c80593f6db6a",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_094978a41666af58",
+          "principle_d4c0929a2d4169d0",
+          "principle_5ab270550df57acc",
+          "principle_07ee054fbffbba03",
+          "principle_6a7689d3bd0e5bd2"
+        ]
+      },
+      {
+        "id": "legislative-measure_a156a008a1a18e2a",
+        "designation": "HB 24",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c710bf4639ffa1f1",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_5ab270550df57acc",
+          "principle_495efeaad16b2909",
+          "principle_cd677d73876ff3a1",
+          "principle_c1016cb65c885527",
+          "principle_6a7689d3bd0e5bd2"
+        ]
+      },
+      {
+        "id": "legislative-measure_27f0b4ff752b3f74",
+        "designation": "HB 25",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b4cb824f1a35c05f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.599999999999999,
+        "principleRecordIds": [
+          "principle_c80b376b966c6d7c",
+          "principle_d4c0929a2d4169d0",
+          "principle_a4f779c1827d16bc",
+          "principle_5ab270550df57acc",
+          "principle_6a7689d3bd0e5bd2",
+          "principle_c1016cb65c885527",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_daa2b2c34cd10a03",
+        "designation": "HB 26",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ca8f52a74467b1fc",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.4,
+        "principleRecordIds": [
+          "principle_a4f779c1827d16bc",
+          "principle_d4c0929a2d4169d0",
+          "principle_c80b376b966c6d7c",
+          "principle_5ab270550df57acc",
+          "principle_07ee054fbffbba03",
+          "principle_c1016cb65c885527",
+          "principle_47576e6c1d7ebe09"
+        ]
+      },
+      {
+        "id": "legislative-measure_c376529a5e1175f0",
+        "designation": "HB 27",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ddb4770b47bafe7f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_d4c0929a2d4169d0",
+          "principle_094978a41666af58",
+          "principle_5ab270550df57acc",
+          "principle_ae7579503c6f2f5f",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_5c5d326049a32dab",
+        "designation": "HB 28",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_a63ef4942a117be8",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_cd677d73876ff3a1",
+          "principle_5ab270550df57acc",
+          "principle_a4f779c1827d16bc",
+          "principle_ae7579503c6f2f5f",
+          "principle_094978a41666af58",
+          "principle_cd677d73876ff3a1"
+        ]
+      },
+      {
+        "id": "legislative-measure_b31fc597aec3e2b8",
+        "designation": "HB 29",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b119c90b8a36123f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_7d1b3f13f9c8cfd9",
+          "principle_c1016cb65c885527",
+          "principle_a4f779c1827d16bc",
+          "principle_ae7579503c6f2f5f",
+          "principle_47576e6c1d7ebe09"
+        ]
+      },
+      {
+        "id": "legislative-measure_2638f7a580493903",
+        "designation": "HB 30",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_d5d37c97e4e00984",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.399999999999999,
+        "principleRecordIds": [
+          "principle_cd677d73876ff3a1",
+          "principle_a4f779c1827d16bc",
+          "principle_d4c0929a2d4169d0",
+          "principle_07ee054fbffbba03",
+          "principle_6a7689d3bd0e5bd2"
+        ]
+      },
+      {
+        "id": "legislative-measure_81923f0b8b4cecb2",
+        "designation": "HB 31",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ac60a3e5428a5b3d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4,
+        "principleRecordIds": [
+          "principle_47576e6c1d7ebe09",
+          "principle_c80b376b966c6d7c",
+          "principle_a4f779c1827d16bc",
+          "principle_c1016cb65c885527",
+          "principle_cd677d73876ff3a1"
+        ]
+      },
+      {
+        "id": "legislative-measure_5c7f151eb9b9c127",
+        "designation": "HB 32",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3b69403fbe087d28",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000007,
+        "principleRecordIds": [
+          "principle_d4c0929a2d4169d0",
+          "principle_a4f779c1827d16bc",
+          "principle_5ab270550df57acc",
+          "principle_ae7579503c6f2f5f",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_c5abe7c45384d8e5",
+        "designation": "HB 33",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_6ae1e44ec1921c72",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000003,
+        "principleRecordIds": [
+          "principle_7d1b3f13f9c8cfd9",
+          "principle_6a7689d3bd0e5bd2",
+          "principle_c1016cb65c885527",
+          "principle_47576e6c1d7ebe09",
+          "principle_495efeaad16b2909"
+        ]
+      },
+      {
+        "id": "legislative-measure_f793ea546c9cb180",
+        "designation": "HB 34",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f1c455e9a0c27a7b",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.799999999999999,
+        "principleRecordIds": [
+          "principle_a4f779c1827d16bc",
+          "principle_cd677d73876ff3a1",
+          "principle_d4c0929a2d4169d0",
+          "principle_07ee054fbffbba03",
+          "principle_6a7689d3bd0e5bd2",
+          "principle_5ab270550df57acc",
+          "principle_495efeaad16b2909"
+        ]
+      },
+      {
+        "id": "legislative-measure_3be0d37f4955db2d",
+        "designation": "HB 35",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f10b861e23e3c412",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.799999999999999,
+        "principleRecordIds": [
+          "principle_d4c0929a2d4169d0",
+          "principle_a4f779c1827d16bc",
+          "principle_cd677d73876ff3a1",
+          "principle_07ee054fbffbba03",
+          "principle_c1016cb65c885527"
+        ]
+      },
+      {
+        "id": "legislative-measure_76c739a5ce8dc369",
+        "designation": "HB 36",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_199588d238f8a9ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.6,
+        "principleRecordIds": [
+          "principle_c1016cb65c885527",
+          "principle_7d1b3f13f9c8cfd9",
+          "principle_a4f779c1827d16bc",
+          "principle_47576e6c1d7ebe09",
+          "principle_495efeaad16b2909"
+        ]
+      },
+      {
+        "id": "legislative-measure_c83bab5a457d8401",
+        "designation": "HB 37",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_96e212c1b9f200ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.0000000000000013,
+        "principleRecordIds": [
+          "principle_98d803b4346b38e5",
+          "principle_d4c0929a2d4169d0",
+          "principle_a4f779c1827d16bc",
+          "principle_07ee054fbffbba03",
+          "principle_47576e6c1d7ebe09",
+          "principle_ae7579503c6f2f5f"
+        ]
+      },
+      {
+        "id": "legislative-measure_f04517b37fe5786e",
+        "designation": "HB 38",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_068bc5251f39f225",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.6,
+        "principleRecordIds": [
+          "principle_07ee054fbffbba03",
+          "principle_cd677d73876ff3a1",
+          "principle_495efeaad16b2909",
+          "principle_5ab270550df57acc",
+          "principle_98d803b4346b38e5",
+          "principle_6a7689d3bd0e5bd2"
+        ]
+      },
+      {
+        "id": "legislative-measure_900a86d06891a25b",
+        "designation": "HB 39",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_10b40c2eafd5b764",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.5999999999999988,
+        "principleRecordIds": [
+          "principle_a4f779c1827d16bc",
+          "principle_cd677d73876ff3a1",
+          "principle_d4c0929a2d4169d0",
+          "principle_47576e6c1d7ebe09",
+          "principle_07ee054fbffbba03",
+          "principle_7d1b3f13f9c8cfd9"
+        ]
+      },
+      {
+        "id": "legislative-measure_c7bce1b25dc808de",
+        "designation": "HB 40",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c907fe2a199efe8d",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.000000000000001,
+        "principleRecordIds": [
+          "principle_094978a41666af58",
+          "principle_98d803b4346b38e5",
+          "principle_07ee054fbffbba03",
+          "principle_7d1b3f13f9c8cfd9",
+          "principle_c1016cb65c885527",
+          "principle_47576e6c1d7ebe09"
+        ]
+      },
+      {
+        "id": "legislative-measure_f60187c47fb96f15",
+        "designation": "HB 41",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ae1d3c57840c759e",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.9999999999999987,
+        "principleRecordIds": [
+          "principle_98d803b4346b38e5",
+          "principle_094978a41666af58",
+          "principle_c1016cb65c885527",
+          "principle_6a7689d3bd0e5bd2",
+          "principle_cd677d73876ff3a1",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_0e85e9832926b7b8",
+        "designation": "HB 42",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_45641e7d27cc756b",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.7999999999999996,
+        "principleRecordIds": [
+          "principle_cd677d73876ff3a1",
+          "principle_a4f779c1827d16bc",
+          "principle_495efeaad16b2909",
+          "principle_d4c0929a2d4169d0",
+          "principle_47576e6c1d7ebe09",
+          "principle_5ab270550df57acc",
+          "principle_ae7579503c6f2f5f",
+          "principle_07ee054fbffbba03"
+        ]
+      },
+      {
+        "id": "legislative-measure_d5f786a8d7cb5797",
+        "designation": "HB 43",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_60db72327bf3dde0",
+            "answer": "no"
+          }
+        ],
+        "score": -1.5999999999999996,
+        "principleRecordIds": [
+          "principle_a4f779c1827d16bc",
+          "principle_d4c0929a2d4169d0",
+          "principle_cd677d73876ff3a1",
+          "principle_7d1b3f13f9c8cfd9",
+          "principle_c1016cb65c885527"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "sourcedCapControl": {
+      "authoredLimit": 2,
+      "actualBillIds": [
+        "legislative-measure_6d0e13e4db3f94d4",
+        "legislative-measure_c592c87642a626db"
+      ],
+      "repeatAndCanonicalReload": true,
+      "laterIntakeStillCapped": true
+    },
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "VT",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "jurisdictionId": "jurisdiction_ccb5f5e8b173f9f5",
+    "chamberKey": "house",
+    "mode": "strong",
+    "personId": "person_ce06f71d58b3cc5c",
+    "personName": "Skyler Dunn",
+    "partyKey": "republican",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_c2c45a56a7056bc4",
+        "designation": "H.19",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_cbbbcdaa2fa5fc5f",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.8000000000000025,
+        "principleRecordIds": [
+          "principle_5e3a525a6ebffd6c",
+          "principle_0bfdb576a7ca1044",
+          "principle_6277d3f781cc2ee1",
+          "principle_f4aea90a9d8de6c8",
+          "principle_48f10539f822a77d",
+          "principle_6bde13205613446a"
+        ]
+      },
+      {
+        "id": "legislative-measure_41271799e4b5954d",
+        "designation": "H.20",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_9d88404e486fa58b",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.000000000000001,
+        "principleRecordIds": [
+          "principle_0bfdb576a7ca1044",
+          "principle_52f6ea33889767e1",
+          "principle_6bdf03fe86f18231",
+          "principle_6bde13205613446a",
+          "principle_6277d3f781cc2ee1",
+          "principle_0311e0373b780916"
+        ]
+      },
+      {
+        "id": "legislative-measure_5273e3b093386134",
+        "designation": "H.21",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_15ce1518227e5b1e",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.999999999999999,
+        "principleRecordIds": [
+          "principle_4f5e2e737bcde8a9",
+          "principle_6bdf03fe86f18231",
+          "principle_52f6ea33889767e1",
+          "principle_5e3a525a6ebffd6c",
+          "principle_6bde13205613446a",
+          "principle_f4aea90a9d8de6c8"
+        ]
+      },
+      {
+        "id": "legislative-measure_3a5c05b0c5239bfd",
+        "designation": "H.22",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_4850d4cc2bf02f7b",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.799999999999999,
+        "principleRecordIds": [
+          "principle_0311e0373b780916",
+          "principle_783dce28a11997df",
+          "principle_6bdf03fe86f18231",
+          "principle_6277d3f781cc2ee1"
+        ]
+      },
+      {
+        "id": "legislative-measure_b0e400301cad4759",
+        "designation": "H.23",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_e5f4015f38900487",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.400000000000001,
+        "principleRecordIds": [
+          "principle_6bde13205613446a",
+          "principle_6277d3f781cc2ee1",
+          "principle_3c99310d7133f938",
+          "principle_f4aea90a9d8de6c8",
+          "principle_0311e0373b780916"
+        ]
+      },
+      {
+        "id": "legislative-measure_d918b5ee2afb88f3",
+        "designation": "H.24",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_88a5a92bfb0d8d75",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.4,
+        "principleRecordIds": [
+          "principle_4f5e2e737bcde8a9",
+          "principle_6bdf03fe86f18231",
+          "principle_6277d3f781cc2ee1",
+          "principle_3c99310d7133f938",
+          "principle_6bde13205613446a",
+          "principle_783dce28a11997df"
+        ]
+      },
+      {
+        "id": "legislative-measure_a7d3f8e82397f935",
+        "designation": "H.25",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f01e4adde7e59f97",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.799999999999999,
+        "principleRecordIds": [
+          "principle_52f6ea33889767e1",
+          "principle_4f5e2e737bcde8a9",
+          "principle_6bdf03fe86f18231",
+          "principle_10249eed4cdc8d3e",
+          "principle_84e3b79861b21c44",
+          "principle_3c99310d7133f938"
+        ]
+      },
+      {
+        "id": "legislative-measure_6942f3a83e1e8e64",
+        "designation": "H.26",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3881e6fd4022321e",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.4,
+        "principleRecordIds": [
+          "principle_5e3a525a6ebffd6c",
+          "principle_6bde13205613446a",
+          "principle_0bfdb576a7ca1044",
+          "principle_0311e0373b780916",
+          "principle_f4aea90a9d8de6c8"
+        ]
+      },
+      {
+        "id": "legislative-measure_7e74dc6ac988df9f",
+        "designation": "H.27",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_5f0c0c759f8c111d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000002,
+        "principleRecordIds": [
+          "principle_0bfdb576a7ca1044",
+          "principle_5e3a525a6ebffd6c",
+          "principle_6bdf03fe86f18231",
+          "principle_f4aea90a9d8de6c8",
+          "principle_10249eed4cdc8d3e",
+          "principle_6bde13205613446a"
+        ]
+      },
+      {
+        "id": "legislative-measure_1ebf60948b0298a4",
+        "designation": "H.28",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_2fae18249369ab7e",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000001,
+        "principleRecordIds": [
+          "principle_4f5e2e737bcde8a9",
+          "principle_6bdf03fe86f18231",
+          "principle_3c99310d7133f938",
+          "principle_6277d3f781cc2ee1",
+          "principle_6bde13205613446a",
+          "principle_f4aea90a9d8de6c8",
+          "principle_84e3b79861b21c44"
+        ]
+      },
+      {
+        "id": "legislative-measure_2415700db0a098dc",
+        "designation": "H.29",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c418c80593f6db6a",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_6277d3f781cc2ee1",
+          "principle_4f5e2e737bcde8a9",
+          "principle_52f6ea33889767e1",
+          "principle_6bde13205613446a",
+          "principle_783dce28a11997df"
+        ]
+      },
+      {
+        "id": "legislative-measure_20019eabbea5ee0b",
+        "designation": "H.30",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c710bf4639ffa1f1",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_52f6ea33889767e1",
+          "principle_5e3a525a6ebffd6c",
+          "principle_0bfdb576a7ca1044",
+          "principle_0311e0373b780916",
+          "principle_783dce28a11997df"
+        ]
+      },
+      {
+        "id": "legislative-measure_7eb9a28835aaf669",
+        "designation": "H.31",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b4cb824f1a35c05f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.599999999999999,
+        "principleRecordIds": [
+          "principle_48f10539f822a77d",
+          "principle_4f5e2e737bcde8a9",
+          "principle_6bdf03fe86f18231",
+          "principle_52f6ea33889767e1",
+          "principle_783dce28a11997df",
+          "principle_0311e0373b780916",
+          "principle_6bde13205613446a"
+        ]
+      },
+      {
+        "id": "legislative-measure_d52582f5616c7b5d",
+        "designation": "H.32",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ddb4770b47bafe7f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_4f5e2e737bcde8a9",
+          "principle_6277d3f781cc2ee1",
+          "principle_52f6ea33889767e1",
+          "principle_10249eed4cdc8d3e",
+          "principle_6bde13205613446a"
+        ]
+      },
+      {
+        "id": "legislative-measure_e88103f991811d4a",
+        "designation": "H.33",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_d5d37c97e4e00984",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.399999999999999,
+        "principleRecordIds": [
+          "principle_0bfdb576a7ca1044",
+          "principle_6bdf03fe86f18231",
+          "principle_4f5e2e737bcde8a9",
+          "principle_6bde13205613446a",
+          "principle_783dce28a11997df"
+        ]
+      },
+      {
+        "id": "legislative-measure_d441b9a6e8185f43",
+        "designation": "H.34",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ac60a3e5428a5b3d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4,
+        "principleRecordIds": [
+          "principle_f4aea90a9d8de6c8",
+          "principle_48f10539f822a77d",
+          "principle_6bdf03fe86f18231",
+          "principle_0311e0373b780916",
+          "principle_0bfdb576a7ca1044"
+        ]
+      },
+      {
+        "id": "legislative-measure_5b373276143a5516",
+        "designation": "H.35",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3b69403fbe087d28",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000007,
+        "principleRecordIds": [
+          "principle_4f5e2e737bcde8a9",
+          "principle_6bdf03fe86f18231",
+          "principle_52f6ea33889767e1",
+          "principle_10249eed4cdc8d3e",
+          "principle_6bde13205613446a"
+        ]
+      },
+      {
+        "id": "legislative-measure_8c00e8fc7f4b7408",
+        "designation": "H.36",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_6ae1e44ec1921c72",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000003,
+        "principleRecordIds": [
+          "principle_84e3b79861b21c44",
+          "principle_783dce28a11997df",
+          "principle_0311e0373b780916",
+          "principle_f4aea90a9d8de6c8",
+          "principle_5e3a525a6ebffd6c"
+        ]
+      },
+      {
+        "id": "legislative-measure_40db674f0e0ad5e0",
+        "designation": "H.37",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f10b861e23e3c412",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.799999999999999,
+        "principleRecordIds": [
+          "principle_4f5e2e737bcde8a9",
+          "principle_6bdf03fe86f18231",
+          "principle_0bfdb576a7ca1044",
+          "principle_6bde13205613446a",
+          "principle_0311e0373b780916"
+        ]
+      },
+      {
+        "id": "legislative-measure_619bc816c3e64b94",
+        "designation": "H.38",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_199588d238f8a9ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.6,
+        "principleRecordIds": [
+          "principle_0311e0373b780916",
+          "principle_84e3b79861b21c44",
+          "principle_6bdf03fe86f18231",
+          "principle_f4aea90a9d8de6c8",
+          "principle_5e3a525a6ebffd6c"
+        ]
+      },
+      {
+        "id": "legislative-measure_da76b9d2d368d2b4",
+        "designation": "H.39",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_68045d80db0be016",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.3999999999999986,
+        "principleRecordIds": [
+          "principle_f4aea90a9d8de6c8",
+          "principle_6bdf03fe86f18231",
+          "principle_4f5e2e737bcde8a9",
+          "principle_5e3a525a6ebffd6c",
+          "principle_0bfdb576a7ca1044",
+          "principle_783dce28a11997df",
+          "principle_6bde13205613446a"
+        ]
+      },
+      {
+        "id": "legislative-measure_cee7cd7ad88a9db7",
+        "designation": "H.40",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_068bc5251f39f225",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.6,
+        "principleRecordIds": [
+          "principle_6bde13205613446a",
+          "principle_0bfdb576a7ca1044",
+          "principle_5e3a525a6ebffd6c",
+          "principle_52f6ea33889767e1",
+          "principle_3c99310d7133f938",
+          "principle_783dce28a11997df"
+        ]
+      },
+      {
+        "id": "legislative-measure_6f355c46759c8512",
+        "designation": "H.41",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_10b40c2eafd5b764",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.5999999999999988,
+        "principleRecordIds": [
+          "principle_6bdf03fe86f18231",
+          "principle_0bfdb576a7ca1044",
+          "principle_4f5e2e737bcde8a9",
+          "principle_f4aea90a9d8de6c8",
+          "principle_6bde13205613446a",
+          "principle_84e3b79861b21c44"
+        ]
+      },
+      {
+        "id": "legislative-measure_e5628adb8514974a",
+        "designation": "H.42",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_60bed958c581e5f8",
+            "answer": "no"
+          }
+        ],
+        "score": -2.2,
+        "principleRecordIds": [
+          "principle_3c99310d7133f938",
+          "principle_6277d3f781cc2ee1",
+          "principle_783dce28a11997df",
+          "principle_0311e0373b780916",
+          "principle_6bde13205613446a"
+        ]
+      },
+      {
+        "id": "legislative-measure_0e4ed981bc50ef47",
+        "designation": "H.43",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c907fe2a199efe8d",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.000000000000001,
+        "principleRecordIds": [
+          "principle_6277d3f781cc2ee1",
+          "principle_3c99310d7133f938",
+          "principle_6bde13205613446a",
+          "principle_84e3b79861b21c44",
+          "principle_0311e0373b780916",
+          "principle_f4aea90a9d8de6c8"
+        ]
+      },
+      {
+        "id": "legislative-measure_b8a5674346860c55",
+        "designation": "H.44",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_45641e7d27cc756b",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.7999999999999996,
+        "principleRecordIds": [
+          "principle_0bfdb576a7ca1044",
+          "principle_6bdf03fe86f18231",
+          "principle_5e3a525a6ebffd6c",
+          "principle_4f5e2e737bcde8a9",
+          "principle_f4aea90a9d8de6c8",
+          "principle_52f6ea33889767e1",
+          "principle_10249eed4cdc8d3e",
+          "principle_6bde13205613446a"
+        ]
+      },
+      {
+        "id": "legislative-measure_91eda64c16db4124",
+        "designation": "H.45",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_0c00df9e1d7d9146",
+            "answer": "no"
+          }
+        ],
+        "score": -1.6000000000000005,
+        "principleRecordIds": [
+          "principle_48f10539f822a77d",
+          "principle_52f6ea33889767e1",
+          "principle_783dce28a11997df",
+          "principle_6bde13205613446a",
+          "principle_0bfdb576a7ca1044"
+        ]
+      },
+      {
+        "id": "legislative-measure_11f86856cd831926",
+        "designation": "H.46",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_60db72327bf3dde0",
+            "answer": "no"
+          }
+        ],
+        "score": -1.5999999999999996,
+        "principleRecordIds": [
+          "principle_6bdf03fe86f18231",
+          "principle_4f5e2e737bcde8a9",
+          "principle_0bfdb576a7ca1044",
+          "principle_84e3b79861b21c44",
+          "principle_0311e0373b780916"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "sourcedCapControl": {
+      "authoredLimit": 2,
+      "actualBillIds": [
+        "legislative-measure_c2c45a56a7056bc4",
+        "legislative-measure_41271799e4b5954d"
+      ],
+      "repeatAndCanonicalReload": true,
+      "laterIntakeStillCapped": true
+    },
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "OH",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+    "chamberKey": "house",
+    "mode": "strong",
+    "personId": "person_9a7712672df71e38",
+    "personName": "Quentin Wall",
+    "partyKey": "democratic",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_a68ef8f2d90bb9b7",
+        "designation": "HB 14",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ca9a73f1bdb76d37",
+            "answer": "yes"
+          }
+        ],
+        "score": 9.6,
+        "principleRecordIds": [
+          "principle_af6f9b53bb4f7251",
+          "principle_29b1bdbe50d46d34",
+          "principle_f92edd5df27ddbfc",
+          "principle_7c32bee88f65faef",
+          "principle_9298e8a68bca4571"
+        ]
+      },
+      {
+        "id": "legislative-measure_f6bd42fbfac8572b",
+        "designation": "HB 15",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f9d763234f9116dc",
+            "answer": "no"
+          }
+        ],
+        "score": -8,
+        "principleRecordIds": [
+          "principle_9298e8a68bca4571",
+          "principle_d512e05be97fdece",
+          "principle_af6f9b53bb4f7251",
+          "principle_9298e8a68bca4571",
+          "principle_badb255af0c459c1",
+          "principle_7c32bee88f65faef",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_afc9edee5f9e5b98",
+        "designation": "HB 16",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_cbbbcdaa2fa5fc5f",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.8000000000000025,
+        "principleRecordIds": [
+          "principle_f92edd5df27ddbfc",
+          "principle_29b1bdbe50d46d34",
+          "principle_9298e8a68bca4571",
+          "principle_a72d2e4109978658",
+          "principle_15f72da3f181b8ad",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_b32bb5a4221eed0e",
+        "designation": "HB 17",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_9d88404e486fa58b",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.000000000000001,
+        "principleRecordIds": [
+          "principle_29b1bdbe50d46d34",
+          "principle_af6f9b53bb4f7251",
+          "principle_badb255af0c459c1",
+          "principle_7e38d5ab2045db5a",
+          "principle_9298e8a68bca4571",
+          "principle_bf3ab3310965c9a6"
+        ]
+      },
+      {
+        "id": "legislative-measure_9daed8a513103cd5",
+        "designation": "HB 18",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_15ce1518227e5b1e",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.999999999999999,
+        "principleRecordIds": [
+          "principle_48318f0c44bf20f9",
+          "principle_badb255af0c459c1",
+          "principle_af6f9b53bb4f7251",
+          "principle_f92edd5df27ddbfc",
+          "principle_7e38d5ab2045db5a",
+          "principle_a72d2e4109978658"
+        ]
+      },
+      {
+        "id": "legislative-measure_7cf5278a109d33ee",
+        "designation": "HB 19",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_4850d4cc2bf02f7b",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.799999999999999,
+        "principleRecordIds": [
+          "principle_bf3ab3310965c9a6",
+          "principle_7c32bee88f65faef",
+          "principle_badb255af0c459c1",
+          "principle_9298e8a68bca4571"
+        ]
+      },
+      {
+        "id": "legislative-measure_8978944bf9eee800",
+        "designation": "HB 20",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_e5f4015f38900487",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.400000000000001,
+        "principleRecordIds": [
+          "principle_7e38d5ab2045db5a",
+          "principle_9298e8a68bca4571",
+          "principle_76ec158be2c1fac8",
+          "principle_a72d2e4109978658",
+          "principle_bf3ab3310965c9a6"
+        ]
+      },
+      {
+        "id": "legislative-measure_ce38a66201574382",
+        "designation": "HB 21",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_88a5a92bfb0d8d75",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.4,
+        "principleRecordIds": [
+          "principle_48318f0c44bf20f9",
+          "principle_badb255af0c459c1",
+          "principle_9298e8a68bca4571",
+          "principle_76ec158be2c1fac8",
+          "principle_7e38d5ab2045db5a",
+          "principle_7c32bee88f65faef"
+        ]
+      },
+      {
+        "id": "legislative-measure_8dd7215d59fc821b",
+        "designation": "HB 22",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_46bd2a6a7b2e2ac0",
+            "answer": "no"
+          }
+        ],
+        "score": -5.800000000000001,
+        "principleRecordIds": [
+          "principle_9298e8a68bca4571",
+          "principle_29b1bdbe50d46d34",
+          "principle_f92edd5df27ddbfc",
+          "principle_29b1bdbe50d46d34",
+          "principle_badb255af0c459c1",
+          "principle_af6f9b53bb4f7251",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_1799b572953eb7fe",
+        "designation": "HB 23",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f01e4adde7e59f97",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.799999999999999,
+        "principleRecordIds": [
+          "principle_af6f9b53bb4f7251",
+          "principle_48318f0c44bf20f9",
+          "principle_badb255af0c459c1",
+          "principle_d512e05be97fdece",
+          "principle_831f9f4542e9de14",
+          "principle_76ec158be2c1fac8"
+        ]
+      },
+      {
+        "id": "legislative-measure_961f903c463730c9",
+        "designation": "HB 24",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b5806d32973d68f6",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.4,
+        "principleRecordIds": [
+          "principle_7e38d5ab2045db5a",
+          "principle_15f72da3f181b8ad",
+          "principle_831f9f4542e9de14",
+          "principle_7c32bee88f65faef",
+          "principle_48318f0c44bf20f9"
+        ]
+      },
+      {
+        "id": "legislative-measure_111f1c3c03f7a199",
+        "designation": "HB 25",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3881e6fd4022321e",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.4,
+        "principleRecordIds": [
+          "principle_f92edd5df27ddbfc",
+          "principle_7e38d5ab2045db5a",
+          "principle_29b1bdbe50d46d34",
+          "principle_bf3ab3310965c9a6",
+          "principle_a72d2e4109978658"
+        ]
+      },
+      {
+        "id": "legislative-measure_e90a26d420b6e389",
+        "designation": "HB 26",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_422764a9e0425384",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.3999999999999995,
+        "principleRecordIds": [
+          "principle_29b1bdbe50d46d34",
+          "principle_badb255af0c459c1",
+          "principle_af6f9b53bb4f7251",
+          "principle_15f72da3f181b8ad",
+          "principle_831f9f4542e9de14",
+          "principle_af6f9b53bb4f7251",
+          "principle_7c32bee88f65faef"
+        ]
+      },
+      {
+        "id": "legislative-measure_3094679a16b52624",
+        "designation": "HB 27",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_5f0c0c759f8c111d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000002,
+        "principleRecordIds": [
+          "principle_29b1bdbe50d46d34",
+          "principle_f92edd5df27ddbfc",
+          "principle_badb255af0c459c1",
+          "principle_a72d2e4109978658",
+          "principle_d512e05be97fdece",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_1766f41a3d82bb19",
+        "designation": "HB 28",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_2fae18249369ab7e",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000001,
+        "principleRecordIds": [
+          "principle_48318f0c44bf20f9",
+          "principle_badb255af0c459c1",
+          "principle_76ec158be2c1fac8",
+          "principle_9298e8a68bca4571",
+          "principle_7e38d5ab2045db5a",
+          "principle_a72d2e4109978658",
+          "principle_831f9f4542e9de14"
+        ]
+      },
+      {
+        "id": "legislative-measure_321031c5e1635b65",
+        "designation": "HB 29",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c418c80593f6db6a",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_9298e8a68bca4571",
+          "principle_48318f0c44bf20f9",
+          "principle_af6f9b53bb4f7251",
+          "principle_7e38d5ab2045db5a",
+          "principle_7c32bee88f65faef"
+        ]
+      },
+      {
+        "id": "legislative-measure_835538dc18085fda",
+        "designation": "HB 30",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c710bf4639ffa1f1",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_af6f9b53bb4f7251",
+          "principle_f92edd5df27ddbfc",
+          "principle_29b1bdbe50d46d34",
+          "principle_bf3ab3310965c9a6",
+          "principle_7c32bee88f65faef"
+        ]
+      },
+      {
+        "id": "legislative-measure_892ccee95c155d76",
+        "designation": "HB 31",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b4cb824f1a35c05f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.599999999999999,
+        "principleRecordIds": [
+          "principle_15f72da3f181b8ad",
+          "principle_48318f0c44bf20f9",
+          "principle_badb255af0c459c1",
+          "principle_af6f9b53bb4f7251",
+          "principle_7c32bee88f65faef",
+          "principle_bf3ab3310965c9a6",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_a8e77ca01c3d39c1",
+        "designation": "HB 32",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ca8f52a74467b1fc",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.4,
+        "principleRecordIds": [
+          "principle_badb255af0c459c1",
+          "principle_48318f0c44bf20f9",
+          "principle_15f72da3f181b8ad",
+          "principle_af6f9b53bb4f7251",
+          "principle_7e38d5ab2045db5a",
+          "principle_bf3ab3310965c9a6",
+          "principle_a72d2e4109978658"
+        ]
+      },
+      {
+        "id": "legislative-measure_ac53d4eb07918cfa",
+        "designation": "HB 33",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ddb4770b47bafe7f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_48318f0c44bf20f9",
+          "principle_9298e8a68bca4571",
+          "principle_af6f9b53bb4f7251",
+          "principle_d512e05be97fdece",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_015abc3188e04592",
+        "designation": "HB 34",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b119c90b8a36123f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_831f9f4542e9de14",
+          "principle_bf3ab3310965c9a6",
+          "principle_badb255af0c459c1",
+          "principle_d512e05be97fdece",
+          "principle_a72d2e4109978658"
+        ]
+      },
+      {
+        "id": "legislative-measure_8fb4148320bf5fd1",
+        "designation": "HB 35",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_d5d37c97e4e00984",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.399999999999999,
+        "principleRecordIds": [
+          "principle_29b1bdbe50d46d34",
+          "principle_badb255af0c459c1",
+          "principle_48318f0c44bf20f9",
+          "principle_7e38d5ab2045db5a",
+          "principle_7c32bee88f65faef"
+        ]
+      },
+      {
+        "id": "legislative-measure_d5d6745e7c3f642a",
+        "designation": "HB 36",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ac60a3e5428a5b3d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4,
+        "principleRecordIds": [
+          "principle_a72d2e4109978658",
+          "principle_15f72da3f181b8ad",
+          "principle_badb255af0c459c1",
+          "principle_bf3ab3310965c9a6",
+          "principle_29b1bdbe50d46d34"
+        ]
+      },
+      {
+        "id": "legislative-measure_7da2bce71d5b5473",
+        "designation": "HB 37",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3b69403fbe087d28",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000007,
+        "principleRecordIds": [
+          "principle_48318f0c44bf20f9",
+          "principle_badb255af0c459c1",
+          "principle_af6f9b53bb4f7251",
+          "principle_d512e05be97fdece",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_eee239af8168162d",
+        "designation": "HB 38",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_6ae1e44ec1921c72",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000003,
+        "principleRecordIds": [
+          "principle_831f9f4542e9de14",
+          "principle_7c32bee88f65faef",
+          "principle_bf3ab3310965c9a6",
+          "principle_a72d2e4109978658",
+          "principle_f92edd5df27ddbfc"
+        ]
+      },
+      {
+        "id": "legislative-measure_94167b2ac67f63d0",
+        "designation": "HB 39",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f1c455e9a0c27a7b",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.799999999999999,
+        "principleRecordIds": [
+          "principle_badb255af0c459c1",
+          "principle_29b1bdbe50d46d34",
+          "principle_48318f0c44bf20f9",
+          "principle_7e38d5ab2045db5a",
+          "principle_7c32bee88f65faef",
+          "principle_af6f9b53bb4f7251",
+          "principle_f92edd5df27ddbfc"
+        ]
+      },
+      {
+        "id": "legislative-measure_9826b7ac3f6d534b",
+        "designation": "HB 40",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f10b861e23e3c412",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.799999999999999,
+        "principleRecordIds": [
+          "principle_48318f0c44bf20f9",
+          "principle_badb255af0c459c1",
+          "principle_29b1bdbe50d46d34",
+          "principle_7e38d5ab2045db5a",
+          "principle_bf3ab3310965c9a6"
+        ]
+      },
+      {
+        "id": "legislative-measure_048443227da4089f",
+        "designation": "HB 41",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_199588d238f8a9ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.6,
+        "principleRecordIds": [
+          "principle_bf3ab3310965c9a6",
+          "principle_831f9f4542e9de14",
+          "principle_badb255af0c459c1",
+          "principle_a72d2e4109978658",
+          "principle_f92edd5df27ddbfc"
+        ]
+      },
+      {
+        "id": "legislative-measure_0044629587f596a9",
+        "designation": "HB 42",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_96e212c1b9f200ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.0000000000000013,
+        "principleRecordIds": [
+          "principle_76ec158be2c1fac8",
+          "principle_48318f0c44bf20f9",
+          "principle_badb255af0c459c1",
+          "principle_7e38d5ab2045db5a",
+          "principle_a72d2e4109978658",
+          "principle_d512e05be97fdece"
+        ]
+      },
+      {
+        "id": "legislative-measure_8f94663428865928",
+        "designation": "HB 43",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_068bc5251f39f225",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.6,
+        "principleRecordIds": [
+          "principle_7e38d5ab2045db5a",
+          "principle_29b1bdbe50d46d34",
+          "principle_f92edd5df27ddbfc",
+          "principle_af6f9b53bb4f7251",
+          "principle_76ec158be2c1fac8",
+          "principle_7c32bee88f65faef"
+        ]
+      },
+      {
+        "id": "legislative-measure_32e5c2d9393010a5",
+        "designation": "HB 44",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_10b40c2eafd5b764",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.5999999999999988,
+        "principleRecordIds": [
+          "principle_badb255af0c459c1",
+          "principle_29b1bdbe50d46d34",
+          "principle_48318f0c44bf20f9",
+          "principle_a72d2e4109978658",
+          "principle_7e38d5ab2045db5a",
+          "principle_831f9f4542e9de14"
+        ]
+      },
+      {
+        "id": "legislative-measure_b308825f07ba3ad4",
+        "designation": "HB 45",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c907fe2a199efe8d",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.000000000000001,
+        "principleRecordIds": [
+          "principle_9298e8a68bca4571",
+          "principle_76ec158be2c1fac8",
+          "principle_7e38d5ab2045db5a",
+          "principle_831f9f4542e9de14",
+          "principle_bf3ab3310965c9a6",
+          "principle_a72d2e4109978658"
+        ]
+      },
+      {
+        "id": "legislative-measure_b5cf1383759baedf",
+        "designation": "HB 46",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ae1d3c57840c759e",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.9999999999999987,
+        "principleRecordIds": [
+          "principle_76ec158be2c1fac8",
+          "principle_9298e8a68bca4571",
+          "principle_bf3ab3310965c9a6",
+          "principle_7c32bee88f65faef",
+          "principle_29b1bdbe50d46d34",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_77460e2a2127f0b8",
+        "designation": "HB 47",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_45641e7d27cc756b",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.7999999999999996,
+        "principleRecordIds": [
+          "principle_29b1bdbe50d46d34",
+          "principle_badb255af0c459c1",
+          "principle_f92edd5df27ddbfc",
+          "principle_48318f0c44bf20f9",
+          "principle_a72d2e4109978658",
+          "principle_af6f9b53bb4f7251",
+          "principle_d512e05be97fdece",
+          "principle_7e38d5ab2045db5a"
+        ]
+      },
+      {
+        "id": "legislative-measure_0b035da8f72d8b87",
+        "designation": "HB 48",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_0c00df9e1d7d9146",
+            "answer": "no"
+          }
+        ],
+        "score": -1.6000000000000005,
+        "principleRecordIds": [
+          "principle_15f72da3f181b8ad",
+          "principle_af6f9b53bb4f7251",
+          "principle_7c32bee88f65faef",
+          "principle_7e38d5ab2045db5a",
+          "principle_29b1bdbe50d46d34"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "sourcedCapControl": {
+      "authoredLimit": 2,
+      "actualBillIds": [
+        "legislative-measure_a68ef8f2d90bb9b7",
+        "legislative-measure_f6bd42fbfac8572b"
+      ],
+      "repeatAndCanonicalReload": true,
+      "laterIntakeStillCapped": true
+    },
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "ND",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "jurisdictionId": "jurisdiction_7e617609be5671dd",
+    "chamberKey": "house",
+    "mode": "strong",
+    "personId": "person_3cf5e9c855340ff0",
+    "personName": "Richard Sandoval",
+    "partyKey": "democratic",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_03b10c9750406e3f",
+        "designation": "HB 1043",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ca9a73f1bdb76d37",
+            "answer": "yes"
+          }
+        ],
+        "score": 9.6,
+        "principleRecordIds": [
+          "principle_7b26b4afb37bd792",
+          "principle_3309050a0509371b",
+          "principle_617f73a6cc53e4d7",
+          "principle_6f98f12525f4595c",
+          "principle_5d00ab0e8585653e"
+        ]
+      },
+      {
+        "id": "legislative-measure_e950c5d436c5d8e4",
+        "designation": "HB 1044",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f9d763234f9116dc",
+            "answer": "no"
+          }
+        ],
+        "score": -8,
+        "principleRecordIds": [
+          "principle_5d00ab0e8585653e",
+          "principle_35549b17754bf1dd",
+          "principle_7b26b4afb37bd792",
+          "principle_5d00ab0e8585653e",
+          "principle_543bb846af91d006",
+          "principle_6f98f12525f4595c",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_9f50119e1b2dcab7",
+        "designation": "HB 1045",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_cbbbcdaa2fa5fc5f",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.8000000000000025,
+        "principleRecordIds": [
+          "principle_617f73a6cc53e4d7",
+          "principle_3309050a0509371b",
+          "principle_5d00ab0e8585653e",
+          "principle_160bcef5a638afab",
+          "principle_5c748e6ead92c58a",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_1b6cc9b688b72f2d",
+        "designation": "HB 1046",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_9d88404e486fa58b",
+            "answer": "yes"
+          }
+        ],
+        "score": 7.000000000000001,
+        "principleRecordIds": [
+          "principle_3309050a0509371b",
+          "principle_7b26b4afb37bd792",
+          "principle_543bb846af91d006",
+          "principle_52ab31c00fcffe39",
+          "principle_5d00ab0e8585653e",
+          "principle_f231dcc3e021cf69"
+        ]
+      },
+      {
+        "id": "legislative-measure_a7c922c0c2601d66",
+        "designation": "HB 1047",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_15ce1518227e5b1e",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.999999999999999,
+        "principleRecordIds": [
+          "principle_50e5090bea1170d6",
+          "principle_543bb846af91d006",
+          "principle_7b26b4afb37bd792",
+          "principle_617f73a6cc53e4d7",
+          "principle_52ab31c00fcffe39",
+          "principle_160bcef5a638afab"
+        ]
+      },
+      {
+        "id": "legislative-measure_ffa96e7bcd2ea6bd",
+        "designation": "HB 1048",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_4850d4cc2bf02f7b",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.799999999999999,
+        "principleRecordIds": [
+          "principle_f231dcc3e021cf69",
+          "principle_6f98f12525f4595c",
+          "principle_543bb846af91d006",
+          "principle_5d00ab0e8585653e"
+        ]
+      },
+      {
+        "id": "legislative-measure_d7969c726099bcdf",
+        "designation": "HB 1049",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_e5f4015f38900487",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.400000000000001,
+        "principleRecordIds": [
+          "principle_52ab31c00fcffe39",
+          "principle_5d00ab0e8585653e",
+          "principle_7dba43a426c5f7cf",
+          "principle_160bcef5a638afab",
+          "principle_f231dcc3e021cf69"
+        ]
+      },
+      {
+        "id": "legislative-measure_722cc19e58f662b1",
+        "designation": "HB 1050",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_88a5a92bfb0d8d75",
+            "answer": "yes"
+          }
+        ],
+        "score": 6.4,
+        "principleRecordIds": [
+          "principle_50e5090bea1170d6",
+          "principle_543bb846af91d006",
+          "principle_5d00ab0e8585653e",
+          "principle_7dba43a426c5f7cf",
+          "principle_52ab31c00fcffe39",
+          "principle_6f98f12525f4595c"
+        ]
+      },
+      {
+        "id": "legislative-measure_45e123bc905ebb6d",
+        "designation": "HB 1051",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f01e4adde7e59f97",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.799999999999999,
+        "principleRecordIds": [
+          "principle_7b26b4afb37bd792",
+          "principle_50e5090bea1170d6",
+          "principle_543bb846af91d006",
+          "principle_35549b17754bf1dd",
+          "principle_d29e218c6ef5d3af",
+          "principle_7dba43a426c5f7cf"
+        ]
+      },
+      {
+        "id": "legislative-measure_37244c6daac866ca",
+        "designation": "HB 1052",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3881e6fd4022321e",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.4,
+        "principleRecordIds": [
+          "principle_617f73a6cc53e4d7",
+          "principle_52ab31c00fcffe39",
+          "principle_3309050a0509371b",
+          "principle_f231dcc3e021cf69",
+          "principle_160bcef5a638afab"
+        ]
+      },
+      {
+        "id": "legislative-measure_5f7390c94a4d31ca",
+        "designation": "HB 1053",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_422764a9e0425384",
+            "answer": "yes"
+          }
+        ],
+        "score": 5.3999999999999995,
+        "principleRecordIds": [
+          "principle_3309050a0509371b",
+          "principle_543bb846af91d006",
+          "principle_7b26b4afb37bd792",
+          "principle_5c748e6ead92c58a",
+          "principle_d29e218c6ef5d3af",
+          "principle_7b26b4afb37bd792",
+          "principle_6f98f12525f4595c"
+        ]
+      },
+      {
+        "id": "legislative-measure_d792702ee1cbb373",
+        "designation": "HB 1054",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_5f0c0c759f8c111d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000002,
+        "principleRecordIds": [
+          "principle_3309050a0509371b",
+          "principle_617f73a6cc53e4d7",
+          "principle_543bb846af91d006",
+          "principle_160bcef5a638afab",
+          "principle_35549b17754bf1dd",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_e6f88d5b1a8fbdaa",
+        "designation": "HB 1055",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_2fae18249369ab7e",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.800000000000001,
+        "principleRecordIds": [
+          "principle_50e5090bea1170d6",
+          "principle_543bb846af91d006",
+          "principle_7dba43a426c5f7cf",
+          "principle_5d00ab0e8585653e",
+          "principle_52ab31c00fcffe39",
+          "principle_160bcef5a638afab",
+          "principle_d29e218c6ef5d3af"
+        ]
+      },
+      {
+        "id": "legislative-measure_3db11cc7105721b6",
+        "designation": "HB 1056",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c418c80593f6db6a",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_5d00ab0e8585653e",
+          "principle_50e5090bea1170d6",
+          "principle_7b26b4afb37bd792",
+          "principle_52ab31c00fcffe39",
+          "principle_6f98f12525f4595c"
+        ]
+      },
+      {
+        "id": "legislative-measure_18165d6e4154db39",
+        "designation": "HB 1057",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c710bf4639ffa1f1",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_7b26b4afb37bd792",
+          "principle_617f73a6cc53e4d7",
+          "principle_3309050a0509371b",
+          "principle_f231dcc3e021cf69",
+          "principle_6f98f12525f4595c"
+        ]
+      },
+      {
+        "id": "legislative-measure_9bd883b0a614b2e5",
+        "designation": "HB 1058",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b4cb824f1a35c05f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.599999999999999,
+        "principleRecordIds": [
+          "principle_5c748e6ead92c58a",
+          "principle_50e5090bea1170d6",
+          "principle_543bb846af91d006",
+          "principle_7b26b4afb37bd792",
+          "principle_6f98f12525f4595c",
+          "principle_f231dcc3e021cf69",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_ce8f7f8946eb1592",
+        "designation": "HB 1059",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ca8f52a74467b1fc",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.4,
+        "principleRecordIds": [
+          "principle_543bb846af91d006",
+          "principle_50e5090bea1170d6",
+          "principle_5c748e6ead92c58a",
+          "principle_7b26b4afb37bd792",
+          "principle_52ab31c00fcffe39",
+          "principle_f231dcc3e021cf69",
+          "principle_160bcef5a638afab"
+        ]
+      },
+      {
+        "id": "legislative-measure_1f8669a9db4621d9",
+        "designation": "HB 1060",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ddb4770b47bafe7f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_50e5090bea1170d6",
+          "principle_5d00ab0e8585653e",
+          "principle_7b26b4afb37bd792",
+          "principle_35549b17754bf1dd",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_a9b94569bdfaa8d1",
+        "designation": "HB 1061",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_b119c90b8a36123f",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.3999999999999995,
+        "principleRecordIds": [
+          "principle_d29e218c6ef5d3af",
+          "principle_f231dcc3e021cf69",
+          "principle_543bb846af91d006",
+          "principle_35549b17754bf1dd",
+          "principle_160bcef5a638afab"
+        ]
+      },
+      {
+        "id": "legislative-measure_e19defbb24789172",
+        "designation": "HB 1062",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_d5d37c97e4e00984",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.399999999999999,
+        "principleRecordIds": [
+          "principle_3309050a0509371b",
+          "principle_543bb846af91d006",
+          "principle_50e5090bea1170d6",
+          "principle_52ab31c00fcffe39",
+          "principle_6f98f12525f4595c"
+        ]
+      },
+      {
+        "id": "legislative-measure_1c2168b9d8c13169",
+        "designation": "HB 1063",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ac60a3e5428a5b3d",
+            "answer": "yes"
+          }
+        ],
+        "score": 4,
+        "principleRecordIds": [
+          "principle_160bcef5a638afab",
+          "principle_5c748e6ead92c58a",
+          "principle_543bb846af91d006",
+          "principle_f231dcc3e021cf69",
+          "principle_3309050a0509371b"
+        ]
+      },
+      {
+        "id": "legislative-measure_418f51de35c9030c",
+        "designation": "HB 1064",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_3b69403fbe087d28",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000007,
+        "principleRecordIds": [
+          "principle_50e5090bea1170d6",
+          "principle_543bb846af91d006",
+          "principle_7b26b4afb37bd792",
+          "principle_35549b17754bf1dd",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_987c4d1e068c887e",
+        "designation": "HB 1065",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_6ae1e44ec1921c72",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.8000000000000003,
+        "principleRecordIds": [
+          "principle_d29e218c6ef5d3af",
+          "principle_6f98f12525f4595c",
+          "principle_f231dcc3e021cf69",
+          "principle_160bcef5a638afab",
+          "principle_617f73a6cc53e4d7"
+        ]
+      },
+      {
+        "id": "legislative-measure_4deae91f41890bdf",
+        "designation": "HB 1066",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f1c455e9a0c27a7b",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.799999999999999,
+        "principleRecordIds": [
+          "principle_543bb846af91d006",
+          "principle_3309050a0509371b",
+          "principle_50e5090bea1170d6",
+          "principle_52ab31c00fcffe39",
+          "principle_6f98f12525f4595c",
+          "principle_7b26b4afb37bd792",
+          "principle_617f73a6cc53e4d7"
+        ]
+      },
+      {
+        "id": "legislative-measure_d6621a26483f8ae4",
+        "designation": "HB 1067",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_f10b861e23e3c412",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.799999999999999,
+        "principleRecordIds": [
+          "principle_50e5090bea1170d6",
+          "principle_543bb846af91d006",
+          "principle_3309050a0509371b",
+          "principle_52ab31c00fcffe39",
+          "principle_f231dcc3e021cf69"
+        ]
+      },
+      {
+        "id": "legislative-measure_22a8dbd8f3117798",
+        "designation": "HB 1068",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_199588d238f8a9ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.6,
+        "principleRecordIds": [
+          "principle_f231dcc3e021cf69",
+          "principle_d29e218c6ef5d3af",
+          "principle_543bb846af91d006",
+          "principle_160bcef5a638afab",
+          "principle_617f73a6cc53e4d7"
+        ]
+      },
+      {
+        "id": "legislative-measure_e7148d4b8386e0a0",
+        "designation": "HB 1069",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_68045d80db0be016",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.3999999999999986,
+        "principleRecordIds": [
+          "principle_160bcef5a638afab",
+          "principle_543bb846af91d006",
+          "principle_50e5090bea1170d6",
+          "principle_617f73a6cc53e4d7",
+          "principle_3309050a0509371b",
+          "principle_6f98f12525f4595c",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_2fb24df7743d2e5a",
+        "designation": "HB 1070",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_96e212c1b9f200ca",
+            "answer": "yes"
+          }
+        ],
+        "score": 3.0000000000000013,
+        "principleRecordIds": [
+          "principle_7dba43a426c5f7cf",
+          "principle_50e5090bea1170d6",
+          "principle_543bb846af91d006",
+          "principle_52ab31c00fcffe39",
+          "principle_160bcef5a638afab",
+          "principle_35549b17754bf1dd"
+        ]
+      },
+      {
+        "id": "legislative-measure_0c712c31c70438f7",
+        "designation": "HB 1071",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_068bc5251f39f225",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.6,
+        "principleRecordIds": [
+          "principle_52ab31c00fcffe39",
+          "principle_3309050a0509371b",
+          "principle_617f73a6cc53e4d7",
+          "principle_7b26b4afb37bd792",
+          "principle_7dba43a426c5f7cf",
+          "principle_6f98f12525f4595c"
+        ]
+      },
+      {
+        "id": "legislative-measure_a398c96a921176a6",
+        "designation": "HB 1072",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_10b40c2eafd5b764",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.5999999999999988,
+        "principleRecordIds": [
+          "principle_543bb846af91d006",
+          "principle_3309050a0509371b",
+          "principle_50e5090bea1170d6",
+          "principle_160bcef5a638afab",
+          "principle_52ab31c00fcffe39",
+          "principle_d29e218c6ef5d3af"
+        ]
+      },
+      {
+        "id": "legislative-measure_383561da107c11a3",
+        "designation": "HB 1073",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_c907fe2a199efe8d",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.000000000000001,
+        "principleRecordIds": [
+          "principle_5d00ab0e8585653e",
+          "principle_7dba43a426c5f7cf",
+          "principle_52ab31c00fcffe39",
+          "principle_d29e218c6ef5d3af",
+          "principle_f231dcc3e021cf69",
+          "principle_160bcef5a638afab"
+        ]
+      },
+      {
+        "id": "legislative-measure_22b9db230c36e7b8",
+        "designation": "HB 1074",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ae1d3c57840c759e",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.9999999999999987,
+        "principleRecordIds": [
+          "principle_7dba43a426c5f7cf",
+          "principle_5d00ab0e8585653e",
+          "principle_f231dcc3e021cf69",
+          "principle_6f98f12525f4595c",
+          "principle_3309050a0509371b",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_e4c411ba53871f47",
+        "designation": "HB 1075",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_45641e7d27cc756b",
+            "answer": "yes"
+          }
+        ],
+        "score": 1.7999999999999996,
+        "principleRecordIds": [
+          "principle_3309050a0509371b",
+          "principle_543bb846af91d006",
+          "principle_617f73a6cc53e4d7",
+          "principle_50e5090bea1170d6",
+          "principle_160bcef5a638afab",
+          "principle_7b26b4afb37bd792",
+          "principle_35549b17754bf1dd",
+          "principle_52ab31c00fcffe39"
+        ]
+      },
+      {
+        "id": "legislative-measure_ff3cd998f2d3342e",
+        "designation": "HB 1076",
+        "introducedAt": "2027-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_60db72327bf3dde0",
+            "answer": "no"
+          }
+        ],
+        "score": -1.5999999999999996,
+        "principleRecordIds": [
+          "principle_543bb846af91d006",
+          "principle_50e5090bea1170d6",
+          "principle_3309050a0509371b",
+          "principle_d29e218c6ef5d3af",
+          "principle_f231dcc3e021cf69"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "sourcedCapControl": {
+      "authoredLimit": 2,
+      "actualBillIds": [
+        "legislative-measure_03b10c9750406e3f",
+        "legislative-measure_e950c5d436c5d8e4"
+      ],
+      "repeatAndCanonicalReload": true,
+      "laterIntakeStillCapped": true
+    },
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  }
+]

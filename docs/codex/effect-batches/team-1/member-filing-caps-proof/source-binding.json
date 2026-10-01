@@ -1,0 +1,32 @@
+{
+  "runtimeHead": "fd61857672d0bbc15aac9b876916d7f8b87493d9",
+  "main": "123f7dc77e80fb1d9abd78e34956f91afceb3e60",
+  "productionDataRows": 0,
+  "fixtures": "Authored two-bill limits only; no researched production limit supplied.",
+  "files": {
+    "src/simulation/governing/member-filing-caps.ts": {
+      "blob": "536b918843b65391c40c8d9e7647d466082e43f8",
+      "sha256": "2f936a40b07e8664d83f8d0d9357807ec89b53cbfe936e6e8e1e231a89a7edf2"
+    },
+    "src/simulation/governing/member-filing-caps.test.ts": {
+      "blob": "45f2fa88c1f5d66cfbe57d9c633824ddc87fa195",
+      "sha256": "1304f2cd752d34f321d63f7a102eee5b3a01cb055350238df7c2d8ea48ce497c"
+    },
+    "src/simulation/governing/member-agenda.ts": {
+      "blob": "1c9ed02a442150a3a0b362f35092ddd3f248a23f",
+      "sha256": "150dea366130204cdb2536efd64d3bd284ab4faa8058d0b7a01d8e3c115ab170"
+    },
+    "src/simulation/governing/member-agenda-individual.test.ts": {
+      "blob": "50b8d334581d4db6acb79252fc2555a6b83cd485",
+      "sha256": "84f2c890c61543b323c08f791e2431775a75480431bb507a4ce7652eb7416730"
+    },
+    "scripts/world-report/member-filing-behavior.ts": {
+      "blob": "949424f26ecb4f2bda3721214783b11c0fd98671",
+      "sha256": "6cf70e140e6f52a8df5d90b8f1ac8ce5de27fbd85b0307f14c64e979ddf045de"
+    },
+    "data/research/legislature/member-bill-limits-2026.json": {
+      "blob": "1e891d19485b9e76f0a86383a846ab60ebee94bf",
+      "sha256": "f8a015c225428d1fdcc48a4dc3c6eee9a8f3a28e38c6480f0e7ab4e75917c38a"
+    }
+  }
+}
