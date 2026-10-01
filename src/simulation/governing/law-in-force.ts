@@ -393,11 +393,14 @@ export function startingLawTerms(
   if (law.origin !== "in-force-at-start" || law.operativeAt > onDate) return [];
   const prefix = "starting-law:";
   const suffix = `:${questionKey}`;
-  if (!law.measureId.startsWith(prefix) || !law.measureId.endsWith(suffix)) return [];
+  if (!law.measureId.startsWith(prefix) || !law.measureId.endsWith(suffix))
+    return [];
   const placeKey = law.measureId.slice(prefix.length, -suffix.length);
   const dated = STARTING_LAW.questions[questionKey]?.answers[placeKey];
   if (!dated) return [];
-  const answerAt = makeIsoDate(dated.operativeAt ?? STARTING_LAW.defaultOperativeAt);
+  const answerAt = makeIsoDate(
+    dated.operativeAt ?? STARTING_LAW.defaultOperativeAt,
+  );
   const row = answerAt > onDate ? dated.before : dated;
   if (!row || row.answer !== law.answer) return [];
   return row.lawTerms ?? [];

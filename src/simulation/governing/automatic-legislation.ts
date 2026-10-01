@@ -153,8 +153,14 @@ export function readFinalEnactedLawTerm(
   },
 ): FinalEnactedLawTerm | null {
   if (law.origin === "in-force-at-start") {
-    const matches = startingLawTerms(law, input.questionKey, world.currentDate)
-      .filter((term) => term.questionKey === input.questionKey && term.key === input.termKey);
+    const matches = startingLawTerms(
+      law,
+      input.questionKey,
+      world.currentDate,
+    ).filter(
+      (term) =>
+        term.questionKey === input.questionKey && term.key === input.termKey,
+    );
     if (matches.length !== 1) return null;
     const term = matches[0]!;
     if (term.unit !== input.unit || !Number.isFinite(term.value)) return null;
