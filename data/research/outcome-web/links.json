@@ -2749,8 +2749,7 @@
       "evidence": "contested",
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.youth-cannabis-use",
-      "range": [-0.13, 0.1],
-      "notes": "Waiting on a base: NSDUH state estimates of teen past-month marijuana use are the candidate starting level and have not been added yet."
+      "range": [-0.13, 0.1]
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
