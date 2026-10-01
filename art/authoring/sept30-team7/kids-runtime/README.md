@@ -10,13 +10,13 @@ The 36 approved source sheets come from commit d1792074a45797e87ade34e9229fbffbc
 
 ## Missing inputs
 
-The sheets contain blank heads. No separate approved child face or hair layers were found in the checked source bank or supplied reference folder. Seated pelvis contacts and relative child stature have not been measured. Those fields stay null; adult faces and adult fit settings are not substituted.
+The sheets contain blank heads. No separate approved child face or hair layers were found in the checked source bank or supplied reference folder. CDC stature medians and the original CSV are recorded in stature-calibration.json and cdc-statage.csv. These are reference medians, not individual measurements. Seated pelvis contacts and the room scale binding remain unaccepted; runtime fields stay null. Adult faces and adult fit settings are not substituted.
 
 The coordinator has sent these concrete gaps to the CTO. An approved child head source and reviewed contact/size metadata can be bound to the recorded crop IDs without regenerating the original sheets.
 
 ## Runtime boundary
 
-The source diagnosis identifies the under-18 gate and missing child engine pack as the path to the cream placeholder. This preparation does not claim to fix the rendered sister. The owner's exact save and production build remain required for final reproduction.
+The source diagnosis identifies the under-18 gate and missing child engine pack as the path to the cream placeholder. This preparation does not claim to fix the rendered sister. The CTO authorized a fresh Start-a-life reproduction in Butte, Montana, with birthday randomization until a sibling under ten appears. That visual route has not been run. The newspaper task still requires its original saved world.
 
 Cutting is source preparation, not modular fit or pixel approval. Browser, scene contact, Save/Continue and runtime acceptance were NOT RUN. The next step is to fill the approved head/contact contract, then connect only complete child stages through the granted engine and room-mapping hunks.
 
