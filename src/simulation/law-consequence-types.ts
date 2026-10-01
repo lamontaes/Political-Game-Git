@@ -106,6 +106,30 @@ export interface ResolvedLawPayConsequence {
   action: "raise-hourly-floor";
 }
 
+/** Exact completed-work identity retained by an earned assessment. */
+export interface ResolvedHourlyLawPayConsequence extends ResolvedLawPayConsequence {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
+}
+
+/** Saved hourly-rule authority, without a synthetic policy question. */
+export interface ResolvedSavedHourlyPayConsequence extends Omit<
+  ResolvedHourlyLawPayConsequence,
+  "law" | "questionKey" | "action"
+> {
+  action: "raise-saved-rule-hourly-floor";
+  authority: {
+    kind: "enacted-hourly-pay-rule";
+    ruleChangeProvisionId: EntityId;
+    enactmentId: EntityId;
+    measureId: EntityId;
+    officeKey: string;
+    stateUsps: string;
+    field: "labor.minimumWage.hourlyCents";
+    operativeAt: IsoDate;
+    applicability: import("./enacted-rule-changes").RuleChangeApplicability;
+  };
+}
+
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
 export type ResolvedLawValue =
   | { type: "amount"; value: number; unit: LawAmountUnit; currency?: string }
