@@ -1,0 +1,138 @@
+--- a/src/simulation/living-world/town-rent.ts
++++ b/src/simulation/living-world/town-rent.ts
+@@ -226,7 +226,7 @@
+  * Code 1947.12); one rule stands in for every place's own. PLACEHOLDER
+  * (research: rent-stabilization-cap-by-place).
+  */
+-export const RENT_STABILIZATION_CAP = { overPrices: 0.05, most: 0.1 } as const;
++
+ 
+ /**
+  * Measured, a check and never a rule: Diamond, McQuade and Qian 2019 found
+@@ -1523,37 +1523,10 @@
+   };
+ }
+ 
+-/**
+- * A private landlord's renewal: last year's rent moved by the town's market
+- * rent level over the year (`homePrices`, the level now over a year ago), held
+- * to rent stabilization's cap when it covers the home. The cap reads the
+- * general price level's rise (`prices`). Whole dollars, in cents.
+- */
+-export function renewedMarketRent(
+-  oldMinor: number,
+-  homePrices: number,
+-  prices: number,
+-  stabilized: boolean,
+-): {
+-  readonly amountMinor: number;
+-  readonly uncappedMinor: number;
+-  readonly capped: boolean;
+-  readonly cap: number;
+-} {
+-  const cap = Math.min(
+-    RENT_STABILIZATION_CAP.most,
+-    prices - 1 + RENT_STABILIZATION_CAP.overPrices,
+-  );
+-  const capped = stabilized && homePrices - 1 > cap;
+-  const uncappedMinor = Math.round((oldMinor * homePrices) / 100) * 100;
+-  return {
+-    amountMinor: capped
+-      ? Math.round((oldMinor * (1 + cap)) / 100) * 100
+-      : uncappedMinor,
+-    uncappedMinor,
+-    capped,
+-    cap,
+-  };
++/** Market proposal only. The registered price-cost kind applies a legal cap
++ * after the actual renewal terms are saved, using the final law and its terms. */
++export function renewedMarketRent(oldMinor: number, homePrices: number): number {
++  return Math.round((oldMinor * homePrices) / 100) * 100;
+ }
+ 
+ /**
+@@ -1632,50 +1605,8 @@
+       const homePrices =
+         marketRentLevel(next, lease.town, dueOn) /
+         marketRentLevel(next, lease.town, lastYear);
+-      const prices =
+-        rentPriceLevel(next, lease.town, dueOn) /
+-        rentPriceLevel(next, lease.town, lastYear);
+-      const rule = housingLawYes(
+-        next,
+-        lease.town,
+-        RENT_LAW_KEYS.rentStabilization,
+-        dueOn,
+-      );
+-      const renewal = renewedMarketRent(
+-        old,
+-        homePrices,
+-        prices,
+-        rule !== null &&
+-          landlordKindOf(next, lease.flow.recipient) !== "public",
+-      );
+-      const { capped, cap } = renewal;
+-      amount = renewal.amountMinor;
+-      if (capped) {
+-        const stamp = lawEffectStamp(rule, {
+-          effectKind: "rent-stabilization-renewal",
+-          questionKey: RENT_LAW_KEYS.rentStabilization,
+-          jurisdictionId: lease.town,
+-          appliedAt: dueOn,
+-          sourceRecordIds: [
+-            lease.flow.id,
+-            current.id,
+-            lease.tenureId,
+-            lease.leaseholderId,
+-          ],
+-        });
+-        if (stamp) lawEffectStamps = [stamp];
+-        const uncapped = renewal.uncappedMinor;
+-        const designation = measureDesignation(next, rule!.measureId);
+-        reason = `Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
+-        const enactment = next.history.legislativeEnactments?.find(
+-          (row) => row.measureId === rule!.measureId,
+-        );
+-        if (enactment?.outcomeEventId)
+-          provenance = {
+-            kind: "simulated-event",
+-            eventId: enactment.outcomeEventId,
+-          };
+-      } else reason = "The landlord renewed the lease at this year's rent.";
++      amount = renewedMarketRent(old, homePrices);
++      reason = "The landlord renewed the lease at this year's rent.";
+     }
+     if (amount === old && lease.regime !== "market") continue;
+     next = recordResourceFlowTerms(next, {
+--- a/tests/nationwide/town-rent.test.ts
++++ b/tests/nationwide/town-rent.test.ts
+@@ -146,23 +146,12 @@
+     expect(inclusionarySetAsideOpen(1, 6)).toBe(false);
+   });
+ 
+-  it("caps a stabilized renewal at the price rise plus five points, at most ten", () => {
+-    // Home prices up 9% while prices in general rose 3%.
+-    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true);
+-    expect(steep.capped).toBe(true);
+-    expect(steep.cap).toBeCloseTo(0.08);
+-    expect(steep.amountMinor).toBe(2160_00);
+-    expect(steep.uncappedMinor).toBe(2180_00);
+-    // The same renewal without the law follows home prices.
+-    const free = renewedMarketRent(2000_00, 1.09, 1.03, false);
+-    expect(free.capped).toBe(false);
+-    expect(free.amountMinor).toBe(steep.uncappedMinor);
+-    // High inflation: never more than ten percent.
+-    expect(renewedMarketRent(2000_00, 1.12, 1.08, true).cap).toBeCloseTo(0.1);
+-    // An ordinary renewal is under the cap and untouched.
+-    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true);
+-    expect(ordinary.capped).toBe(false);
+-    expect(ordinary.amountMinor).toBe(2080_00);
++  it("leaves legal caps to the registered price-cost renewal consumer", () => {
++    // The market writer saves the landlord's proposal, not a universal cap.
++    // A legally covered actual renewal is then constrained by the native kind.
++    expect(renewedMarketRent(2000_00, 1.09)).toBe(2180_00);
++    expect(renewedMarketRent(2000_00, 1.12)).toBe(2240_00);
++    expect(renewedMarketRent(2000_00, 1.04)).toBe(2080_00);
+   });
+ 
+   it("fits a home's bedrooms to who first rents it", () => {

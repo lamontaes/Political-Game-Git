@@ -126,6 +126,7 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
+import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
 import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
 import { TOWN_RENT_COUNTIES, TOWN_RENT_TOWNS } from "./town-rent.generated";
@@ -1641,11 +1642,22 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
         RENT_LAW_KEYS.rentStabilization,
         dueOn,
       );
+      // A final numeric cap belongs to the registered price-cost consumer.
+      // Do not constrain its actual renewal input with the legacy blanket cap.
+      const finalCap = rule
+        ? readFinalEnactedLawTerm(next, rule, {
+            questionKey: RENT_LAW_KEYS.rentStabilization,
+            termKey: "cap",
+            unit: "ratio",
+            onDate: dueOn,
+          })
+        : null;
       const renewal = renewedMarketRent(
         old,
         homePrices,
         prices,
-        rule !== null &&
+        finalCap === null &&
+          rule !== null &&
           landlordKindOf(next, lease.flow.recipient) !== "public",
       );
       const { capped, cap } = renewal;

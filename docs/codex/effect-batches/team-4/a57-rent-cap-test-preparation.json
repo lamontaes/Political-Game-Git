@@ -1,0 +1,44 @@
+{
+  "auditId": "A57",
+  "status": "TEST_PREPARATION_NOT_EXECUTED",
+  "unchangedSource": "src/simulation/living-world/town-rent.ts",
+  "beforeBlob": "0d9e1df512cb9233c76ca6de7be38e5f84fda9cc",
+  "patchStatus": "UNAPPLIED until real coverage/base/rounding contract and canonical row admission",
+  "ownedTestPath": "src/simulation/law-consequences/price-cost-renewal.test.ts",
+  "legacyTestPath": "tests/nationwide/town-rent.test.ts",
+  "cases": [
+    {
+      "case": "OR ordinary covered 2026",
+      "requires": "Actual supported coverage record, published cap0.095, actual saved prior rent and market proposal",
+      "assert": "Ordinary renewTownLeases caller reaches native registry; resulting terms capped without pre-cap; actual law/source IDs stamped."
+    },
+    {
+      "case": "OR large facility",
+      "requires": "Actual >30-space facility and applicable legal tenancy",
+      "assert": "Never uses ordinary0.095; use separately bound0.06 only with real facts."
+    },
+    {
+      "case": "OR January2027",
+      "assert": "No stale2026 numeric term; missing next annual term remains explicit."
+    },
+    {
+      "case": "CA covered",
+      "requires": "Actual dated CPI, lowest gross12month base, exemptions/local control facts",
+      "assert": "Uses min(0.05+CPI,0.10) on statutory base, not model price index or OR value."
+    },
+    {
+      "case": "Unsupported or exempt tenancy",
+      "assert": "No guessed eligibility, no cap applied by generic yes answer or housing basis alone."
+    },
+    {
+      "case": "Replay/reload/repeal",
+      "assert": "Preserve actual lease/payment/obligation identities; saved capped terms stable on replay/reload; repeal affects future renewal only."
+    }
+  ],
+  "fivePlaceProof": "Sample all56, with explicitly controlled legal inputs labeled as such; real OR/CA coverage proof is separate. Do not label fixture input as natural opening evidence.",
+  "preparedTestPatch": {
+    "path": "tests/nationwide/town-rent.test.ts",
+    "beforeBlob": "e070d3bd063e89ea3064dcc955cc011ed8d7b29e",
+    "replacement": "Replace fixed universal 5pp/CPI expectation with uncapped market proposal; actual statutory cap must be proved through same PR native-kind ordinary renewal test, not this helper."
+  }
+}
