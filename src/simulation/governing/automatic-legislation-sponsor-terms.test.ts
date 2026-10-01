@@ -283,6 +283,8 @@ describe("final enacted terms and sponsor requests", () => {
       ...writerInput(),
       unit: "minor",
       basis: "appropriation-per-resident",
+      renderText: (term) =>
+        `The fictional program is appropriated ${term.value} currency minor units.`,
     });
     // These references all use the same government's recorded population, so scaling preserves 144.
     expect(result.provision?.lawTerms?.[0]?.value).toBe(144);
