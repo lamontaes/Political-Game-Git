@@ -3,19 +3,77 @@ import {
   futureDueItemStateAt,
   scheduleFutureDueItem,
 } from "./future-transitions";
-import { settleLivingCosts } from "./cost-of-living";
-import { settleMortgages } from "./home-purchase";
+import { LIVING_COSTS_BASIS, settleLivingCosts } from "./cost-of-living";
+import { MORTGAGE_BASIS, settleMortgages } from "./home-purchase";
 import { settleOfficeSalaries } from "./office-salary";
+import { outstandingDebtAt, resourceFlowTermsAt } from "./resource-queries";
 import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  MoneyAmount,
   World,
 } from "./types";
 
 export const PLAYER_MONTHLY_MONEY_KEY = "life:player-monthly-money";
 const PREFIX = "player-monthly-money:";
+
+/** The existing writers settle these charges on the first of the month.
+ * Read their pending review dates; never create a payment or a new bill.
+ */
+export function playerMoneySchedule(world: World, personId: EntityId) {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    return [];
+  return world.history.futureDueItems
+    .filter(
+      (item) =>
+        item.transitionKey === PLAYER_MONTHLY_MONEY_KEY &&
+        item.entityIds[0] === personId &&
+        isPendingFuture(world, item),
+    )
+    .sort((a, b) => a.dueAt.localeCompare(b.dueAt) || a.sequence - b.sequence)
+    .map((item) => {
+      const bills: { flowId: EntityId; label: string; amount: MoneyAmount }[] =
+        [];
+      for (const flow of world.history.resourceFlows) {
+        if (
+          flow.source.kind !== "person" ||
+          flow.source.personId !== personId ||
+          flow.startsAt >= item.dueAt ||
+          (flow.basisKind !== MORTGAGE_BASIS &&
+            flow.basisKind !== LIVING_COSTS_BASIS)
+        )
+          continue;
+        const scope = {
+          asOfDate: item.dueAt,
+          historySequenceExclusive: world.history.nextSequence,
+        };
+        const terms = resourceFlowTermsAt(world, flow.id, scope);
+        if (!terms || terms.status !== "active") continue;
+        let amount = terms.amount;
+        if (flow.basisKind === MORTGAGE_BASIS) {
+          const obligation = world.history.resourceObligations.find(
+            (row) => row.resourceFlowId === flow.id,
+          );
+          if (!obligation) continue;
+          const debt = outstandingDebtAt(world, obligation.id, scope);
+          if (!debt || debt.minorUnits <= 0) continue;
+          amount = {
+            ...amount,
+            minorUnits: Math.min(amount.minorUnits, debt.minorUnits),
+          };
+        }
+        bills.push({
+          flowId: flow.id,
+          label:
+            flow.basisKind === MORTGAGE_BASIS ? "Mortgage" : "Living costs",
+          amount,
+        });
+      }
+      return { dueItemId: item.id, dueAt: item.dueAt, bills };
+    });
+}
 
 function nextFirst(date: IsoDate): IsoDate {
   const [year, month] = date.split("-").map(Number) as [number, number];

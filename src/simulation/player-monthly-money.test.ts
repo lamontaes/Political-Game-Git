@@ -11,6 +11,7 @@ import { deserializeWorld, serializeWorld } from "./serialization";
 import {
   ensurePlayerMonthlyMoneySchedule,
   PLAYER_MONTHLY_MONEY_KEY,
+  playerMoneySchedule,
 } from "./player-monthly-money";
 import type { World } from "./types";
 
@@ -72,6 +73,7 @@ describe("monthly money schedule recovery", () => {
       reasonKey: "player-monthly-money:cancelled",
       context: null,
     });
+    expect(playerMoneySchedule(cancelled, personId)).toEqual([]);
     const restored = ensurePlayerMonthlyMoneySchedule(cancelled, personId);
     const added = restored.history.futureDueItems.slice(
       cancelled.history.futureDueItems.length,
@@ -79,6 +81,9 @@ describe("monthly money schedule recovery", () => {
     expect(added).toHaveLength(1);
     expect(added[0]!.dueAt).toBe(due.dueAt);
     expect(added[0]!.id).not.toBe(due.id);
+    expect(playerMoneySchedule(restored, personId)).toEqual([
+      { dueItemId: added[0]!.id, dueAt: due.dueAt, bills: [] },
+    ]);
     expect(ensurePlayerMonthlyMoneySchedule(restored, personId)).toBe(restored);
   });
 });
