@@ -161,7 +161,7 @@ export interface PretrialHold {
   readonly heldEventId: EntityId;
   readonly referralId: EntityId;
   readonly from: IsoDate;
-  /** The day the case ended, or null while it is still open. */
+  /** The day release or case closure ended the hold, or null while held. */
   readonly until: IsoDate | null;
 }
 
@@ -177,12 +177,20 @@ export function pretrialHoldsOf(
     const ended = eventsOfType(world, PROSECUTION_ENDED_EVENT).find((event) =>
       event.tags.includes(referralTag),
     );
+    const released = eventsOfType(world, PRETRIAL_RELEASED_EVENT).find(
+      (event) =>
+        event.sequence > held.sequence && event.tags.includes(referralTag),
+    );
+    const until =
+      [ended?.occurredAt, released?.occurredAt]
+        .filter((date): date is IsoDate => date !== undefined)
+        .sort()[0] ?? null;
     return [
       {
         heldEventId: held.id,
         referralId: referralTag.slice(REFERRAL_TAG.length) as EntityId,
         from: held.occurredAt,
-        until: ended?.occurredAt ?? null,
+        until,
       },
     ];
   });

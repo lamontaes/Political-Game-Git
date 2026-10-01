@@ -1,3 +1,4 @@
+import { advanceClemencyAfterExecutiveEntry } from "./justice/clemency";
 import { eventById } from "./event-index";
 /** Custom Start remains an authored office premise and is never an election.
  * Ordinary elected occupancy consumes a recorded result as provenance, then a
@@ -256,6 +257,7 @@ export function electedExecutiveTermTransitionHandler(
       },
       supersedesStatusId: status.id,
     });
+    next = advanceClemencyAfterExecutiveEntry(next, term.relationship.id);
     next = scheduleGoverningTransition(next, {
       relationshipId: term.relationship.id,
       entryDate: due.dueAt,

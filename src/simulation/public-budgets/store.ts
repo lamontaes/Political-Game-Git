@@ -218,6 +218,10 @@ export interface BudgetMonthRow extends LawEffectStampedRecord {
     readonly organizationId: EntityId;
     readonly positionId: EntityId;
     readonly sourceRecordIds: readonly EntityId[];
+    /** Physical account stock, including refundable custody funds. Old saves omit it. */
+    readonly accountBalanceMinorUnits?: number;
+    /** Custody liability excluded before budget balance/reserve allocation. */
+    readonly heldCashBailMinorUnits?: number;
   };
   /** The first day of the month settled. */
   readonly month: IsoDate;
