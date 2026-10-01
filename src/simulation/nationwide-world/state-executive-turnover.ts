@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -64,10 +65,6 @@ import {
  * ordinary course. No incumbent stays past the end of a term without an
  * election, and nothing is written for a date the clock has not crossed.
  */
-
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
-}
 
 const GOVERNOR_INTENT_EVENT = "election.governor-candidacy-intent";
 
@@ -287,16 +284,16 @@ function openRegularContest(
   const inputs = Array.from({ length: challengers }, (_, index) => {
     const stableKey = `${key}:candidate:${index}`;
     const personRng = rng.fork(stableKey);
-    const age = personRng.integer(38, 68);
     return {
       stableKey,
       ...drawCanonicalNamedIdentity(
         personRng.fork("name"),
         generatePersonIdentity(personRng.fork("identity")),
       ),
-      birthDate: makeIsoDate(
-        `${year - age}-${pad(personRng.integer(1, 13))}-${pad(personRng.integer(1, 29))}`,
-      ),
+      birthDate: inventedPersonBirthDate(personRng, {
+        role: "state-executive-challenger",
+        referenceDate: makeIsoDate(`${year}-01-01`),
+      }),
       homeJurisdictionId: stateId,
     };
   });
