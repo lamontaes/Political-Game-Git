@@ -1,0 +1,263 @@
+{
+  "auditId": "A10",
+  "testedCommit": "974b3d4801a383ba64c6eedaff3f890d1d5667a2",
+  "baseMain": "2e78c9c155e6dcfbf400f21cad56266c2dcfc97b",
+  "command": "OCD_STORAGE_STATE_DIR=/tmp/team9-storage VITE_CONFIG_NATIVE_IGNORE_WARNING=true G12_PROOF_PATH=/tmp/team9-a10-main-prosecution-proof.json G12_CLEMENCY_PROOF_PATH=/tmp/team9-a10-main-clemency-proof.json node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/justice/prosecution-transitions.test.ts src/simulation/justice/clemency-clock.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team9-a10-main-tests.json",
+  "timeoutMs": 30000,
+  "changedFilesResult": {
+    "passed": 10,
+    "failed": 0,
+    "durationSeconds": 260.65,
+    "tests": [
+      {
+        "name": "a saved clemency petition runs on its own existing boundaries reviews the actual petitioner in 'US-IA'",
+        "status": "passed",
+        "durationMs": 20064.084029
+      },
+      {
+        "name": "a saved clemency petition runs on its own existing boundaries reviews the actual petitioner in 'US-LA'",
+        "status": "passed",
+        "durationMs": 27271.064483000002
+      },
+      {
+        "name": "a saved clemency petition runs on its own existing boundaries reviews the actual petitioner in 'US-TX'",
+        "status": "passed",
+        "durationMs": 21069.819679
+      },
+      {
+        "name": "a saved clemency petition runs on its own existing boundaries reviews the actual petitioner in 'US-CT'",
+        "status": "passed",
+        "durationMs": 22477.446178
+      },
+      {
+        "name": "a saved clemency petition runs on its own existing boundaries reviews the actual petitioner in 'US-ND'",
+        "status": "passed",
+        "durationMs": 18513.511501
+      },
+      {
+        "name": "a saved prosecution stage owns its due item charges the named defendant on the actual due date in 'US-IA'",
+        "status": "passed",
+        "durationMs": 23381.954492999997
+      },
+      {
+        "name": "a saved prosecution stage owns its due item charges the named defendant on the actual due date in 'US-LA'",
+        "status": "passed",
+        "durationMs": 24728.159634000003
+      },
+      {
+        "name": "a saved prosecution stage owns its due item charges the named defendant on the actual due date in 'US-TX'",
+        "status": "passed",
+        "durationMs": 27796.780681999997
+      },
+      {
+        "name": "a saved prosecution stage owns its due item charges the named defendant on the actual due date in 'US-CT'",
+        "status": "passed",
+        "durationMs": 22740.959237999996
+      },
+      {
+        "name": "a saved prosecution stage owns its due item charges the named defendant on the actual due date in 'US-ND'",
+        "status": "passed",
+        "durationMs": 21886.30008100001
+      }
+    ]
+  },
+  "prosecution": [
+    {
+      "seed": "team9-g12-case-clock:US-IA",
+      "place": "1900190",
+      "personId": "person_d27c0229e3aed8c5",
+      "name": "George Vance",
+      "referralId": "event_508362cfc0ad0f28",
+      "dueItemId": "future-due-item_0eafa86ae7b62b80",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_383e21e622802fe9",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_48d281ecf91e3cc4",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "pleaAvailableWithoutPress": true,
+      "reloadedRepeatCalls": 1
+    },
+    {
+      "seed": "team9-g12-case-clock:US-LA",
+      "place": "2200100",
+      "personId": "person_004be1608679147c",
+      "name": "Ray Patel",
+      "referralId": "event_768194fc976d6e37",
+      "dueItemId": "future-due-item_43fda7a00ec78ff5",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_13a49ea2ef9c4946",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_f46bb0368b442dea",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "pleaAvailableWithoutPress": true,
+      "reloadedRepeatCalls": 1
+    },
+    {
+      "seed": "team9-g12-case-clock:US-TX",
+      "place": "4800100",
+      "personId": "person_5e6238ca9658ec72",
+      "name": "Nina Gray",
+      "referralId": "event_afdd8ae87cb91df1",
+      "dueItemId": "future-due-item_044c472d2a42bcec",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_916ab3d123564198",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_c1ac6c30a5dc473f",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "pleaAvailableWithoutPress": true,
+      "reloadedRepeatCalls": 1
+    },
+    {
+      "seed": "team9-g12-case-clock:US-CT",
+      "place": "0901150",
+      "personId": "person_fc288b6c7a59b3b1",
+      "name": "Mara Sanchez",
+      "referralId": "event_757858221c79c0dc",
+      "dueItemId": "future-due-item_2f952dac5f2278ff",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_32afa745c863c495",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_bddc60c8e4b57b47",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "pleaAvailableWithoutPress": true,
+      "reloadedRepeatCalls": 1
+    },
+    {
+      "seed": "team9-g12-case-clock:US-ND",
+      "place": "3800100",
+      "personId": "person_41ff66c2986c5bfe",
+      "name": "Sean Sinclair",
+      "referralId": "event_147cb17f07df7635",
+      "dueItemId": "future-due-item_ea91aa77868d52bf",
+      "dueAt": "2026-03-06",
+      "chargeId": "event_e7fb77b741d0aa04",
+      "chargeDate": "2026-03-06",
+      "trialDueItemId": "future-due-item_13958dd62dd2434e",
+      "trialDueAt": "2026-07-04",
+      "legacyEventParity": true,
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "pleaAvailableWithoutPress": true,
+      "reloadedRepeatCalls": 1
+    }
+  ],
+  "clemency": [
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-IA",
+      "name": "Quentin Waller",
+      "personId": "person_466f940d7a6ab8b3",
+      "sentenceId": "event_701d0afb0a3a2d81",
+      "petitionId": "event_59a40c8aa99bc65b",
+      "dueItemId": "future-due-item_639925095c54fd42",
+      "due": "2027-04-05",
+      "status": "denied",
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "successor": null
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-LA",
+      "name": "Omar Cole",
+      "personId": "person_a4a81d89d811c828",
+      "sentenceId": "event_11178caf74a80006",
+      "petitionId": "event_da44d024dab814e3",
+      "dueItemId": "future-due-item_dd7027ef042e99d8",
+      "due": "2027-04-05",
+      "status": "denied",
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "successor": null
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-TX",
+      "name": "Sage Keller",
+      "personId": "person_0313ca68eed3a21c",
+      "sentenceId": "event_1cc490fe8a58f2fa",
+      "petitionId": "event_4b9804b9b96a93ac",
+      "dueItemId": "future-due-item_ef8d6d7b44b5a8f1",
+      "due": "2027-04-05",
+      "status": "denied",
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "successor": null
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-CT",
+      "name": "Rachel McMahon",
+      "personId": "person_5200e386e5b349ed",
+      "sentenceId": "event_d28d2a5ad091622f",
+      "petitionId": "event_53c5229ff89f84e3",
+      "dueItemId": "future-due-item_a4a49231b108767c",
+      "due": "2027-04-05",
+      "status": "denied",
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "successor": null
+    },
+    {
+      "seed": "team9-g10-floor-five-20260930",
+      "place": "US-ND",
+      "name": "Jose Richardson",
+      "personId": "person_ad326d417ded3cb7",
+      "sentenceId": "event_8d937c2199fbe819",
+      "petitionId": "event_bf99f647592e03f0",
+      "dueItemId": "future-due-item_919575538661dc0d",
+      "due": "2027-04-05",
+      "status": "denied",
+      "composedCourtHandler": true,
+      "pressOnlyJusticeUnchanged": true,
+      "successor": null
+    }
+  ],
+  "preservedPriorRun": {
+    "receipt": "/tmp/team9-a10-tests.json",
+    "base": "5fd1c48a5e8074cd5a7fc9d946fee256364a8271",
+    "passed": 8,
+    "failed": 2,
+    "failure": "Iowa and Connecticut prosecution cases exceeded unchanged 30000ms with concurrent file workers"
+  },
+  "scope": "Controlled canonical due-item boundaries, named people, composed court handlers, newspaper-only negative fork, repeat and serialization. Not uninterrupted natural play.",
+  "remainingGap": "recoverOverdueProsecutions has no production load/opening caller on checked main; Audit exact seam requested. Function retained.",
+  "NOT_RUN": [
+    "nationwide play",
+    "year run",
+    "browser proof",
+    "load/opening recovery integration",
+    "A103 runtime consumer",
+    "A100 shared finder"
+  ],
+  "checks": {
+    "scopedTypeScript": {
+      "files": 995,
+      "diagnostics": 0
+    },
+    "eslint": "PASS, three changed TypeScript files",
+    "prettier": "PASS",
+    "reportCheck": "0 errors, 0 warnings",
+    "diffCheck": "PASS",
+    "zeroDice": "PASS: 0 new, 5 gone inherited baseline entries",
+    "releaseCheck": {
+      "result": "FAIL inherited unchanged main declaration",
+      "file": "docs/release/changes/ci-changed-tests-only.md",
+      "blobBothCandidateAndMain": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8",
+      "message": "player-facing prose contains merge bookkeeping (merge)",
+      "mainRangeCheck": "Same failure with --base main --head main"
+    }
+  }
+}

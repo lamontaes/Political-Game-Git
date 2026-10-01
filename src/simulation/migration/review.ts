@@ -17,6 +17,7 @@
  * quarter's arrivals.
  */
 
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { reviewTownCivicActions } from "../living-world/civic-actions";
 import {
   characterHistoryContextPersonId,
@@ -813,10 +814,6 @@ function arrivalInputs(
   const inputs: CharacterHistoryContextPersonInput[] = [];
   for (let n = 0; n < count; n += 1) {
     const personRng = rng.fork(`newcomer:${n}`);
-    const age = personRng.integer(
-      BLANKET_ARRIVAL_AGE[0],
-      BLANKET_ARRIVAL_AGE[1],
-    );
     const origin = chooseDestination(personRng.fork("origin"), pool, "push");
     inputs.push({
       stableKey: `migration:newcomer:${town}:${index}:${n}`,
@@ -824,9 +821,10 @@ function arrivalInputs(
         personRng.fork("name"),
         generatePersonIdentity(personRng.fork("identity")),
       ),
-      birthDate: makeIsoDate(
-        `${year - age}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
-      ),
+      birthDate: inventedPersonBirthDate(personRng, {
+        role: "migration-newcomer",
+        referenceDate: makeIsoDate(`${year}-01-01`),
+      }),
       homeJurisdictionId: town,
       birthplaceJurisdictionId: origin,
     });

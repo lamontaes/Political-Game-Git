@@ -1,3 +1,8 @@
+import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+  type InventedPersonRole,
+} from "./invented-person-age";
 import { makeIsoDate } from "./dates";
 import {
   createCharacterHistoryContextPeople,
@@ -385,15 +390,6 @@ export function localBusinessesIn(
     .map(({ organization, kind }) => ({ organization, kind }));
 }
 
-function birthDateFor(rng: SeededRng, today: IsoDate, age: number): IsoDate {
-  const year = Number(today.slice(0, 4)) - age - 1;
-  const month = rng.integer(1, 13);
-  const day = rng.integer(1, 29);
-  return makeIsoDate(
-    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-  );
-}
-
 function yearsBefore(date: IsoDate, years: number): IsoDate {
   return makeIsoDate(
     `${Number(date.slice(0, 4)) - years}${date.slice(4, 7)}-01`,
@@ -487,7 +483,7 @@ function seatMissingLocalBusinesses(
     const kindRng = rng.fork(
       planned.index === 0 ? kind.key : `${kind.key}:${planned.index + 1}`,
     );
-    const draw = (role: string, minAge: number, maxAge: number) => {
+    const draw = (role: string, ageRole: InventedPersonRole) => {
       const personRng = kindRng.fork(role);
       const identity = generatePersonIdentity(personRng.fork("identity"));
       let name = drawCanonicalNameForGender(
@@ -513,24 +509,24 @@ function seatMissingLocalBusinesses(
         stableKey: `${businessKey(jurisdictionId, kind, planned.index)}:${role}`,
         ...name,
         identity,
-        birthDate: birthDateFor(
-          personRng.fork("age"),
-          today,
-          personRng.integer(minAge, maxAge + 1),
-        ),
+        birthDate: inventedPersonBirthDate(personRng.fork("age"), {
+          role: ageRole,
+          referenceDate: today,
+          age: inventedPersonAge(personRng, ageRole),
+        }),
         homeJurisdictionId: jurisdictionId,
       };
       people.push(input);
       return input;
     };
-    const owner = draw("owner", 30, 64);
+    const owner = draw("owner", "business-owner");
     const ownerAdult = yearsBefore(owner.birthDate, -22);
     const formedAt = later(
       yearsBefore(today, kindRng.integer(1, 31)),
       ownerAdult,
     );
     const workers = Array.from({ length: planned.workers }, (_, index) => {
-      const input = draw(`worker:${index + 1}`, 18, 60);
+      const input = draw(`worker:${index + 1}`, "business-worker");
       const since = later(
         yearsBefore(today, kindRng.integer(0, 6)),
         later(formedAt, yearsBefore(input.birthDate, -16)),

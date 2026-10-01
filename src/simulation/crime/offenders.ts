@@ -7,7 +7,7 @@ import {
   peopleInHouseholdAt,
 } from "../life-queries";
 import { latestPersonalityTendency } from "../queries";
-import type { EntityId, HistoricalEvent, World } from "../types";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { eventsOfType, jailTermOn } from "../justice/jail-terms";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { isPersonAliveAt } from "../vitality";
@@ -135,10 +135,31 @@ export function offenderFor(
   incident: HistoricalEvent,
   offense: CrimeOffense,
 ): NamedOffender | null {
+  if (!incident.jurisdictionId) return null;
+  return offenderForVictims(
+    world,
+    {
+      jurisdictionId: incident.jurisdictionId,
+      occurredAt: incident.occurredAt,
+      victimPersonIds: incident.participants.map((row) => row.personId),
+    },
+    offense,
+  );
+}
+
+/** The same, for an offense not yet recorded: its town, day and victims. */
+export function offenderForVictims(
+  world: World,
+  incident: {
+    readonly jurisdictionId: EntityId;
+    readonly occurredAt: IsoDate;
+    readonly victimPersonIds: readonly EntityId[];
+  },
+  offense: CrimeOffense,
+): NamedOffender | null {
   const town = incident.jurisdictionId;
-  if (!town) return null;
   const cutoff = currentLifeCutoff(world);
-  const victims = incident.participants.map((row) => row.personId);
+  const victims = [...incident.victimPersonIds];
   const excluded = new Set<EntityId>(victims);
   // Nobody is charged with an offense against their own home.
   for (const victim of victims)

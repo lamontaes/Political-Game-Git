@@ -7,6 +7,7 @@ import {
 import { addDays, daysBetween } from "../dates";
 import {
   createFutureTransitionHandlerRegistry,
+  cancelFutureDueItem,
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { governmentUnitsForPlace } from "../government-units";
@@ -15,19 +16,43 @@ import {
   primaryReading,
 } from "../municipal-government";
 import type { PrincipleRecordInput } from "../history";
-import { measurePosition } from "../legislation";
+import {
+  introduceMeasure,
+  measurePosition,
+  placeMeasureOnCalendar,
+} from "../legislation";
 import { currentMeasureProvisions } from "../legislative-politics";
-import { requireLifePlace } from "../life-places";
+import {
+  lifePlaceStateIdentities,
+  requireLifePlace,
+  searchLifePlaces,
+} from "../life-places";
+import { SeededRng } from "../rng";
+import { personName } from "../people";
+import {
+  LOCAL_COUNCIL_MEETING,
+  LOCAL_COUNCIL_MEETING_HANDLERS,
+  LOCAL_COUNCIL_MEETINGS_VERSION,
+  townQuestions,
+} from "../living-world/local-council-meetings";
+import {
+  ensureLocalGovernmentSeats,
+  sittingLocalOfficers,
+} from "../living-world/local-government-seats";
+import { playerTown } from "../living-world/town-residents";
+import { townCouncilProfilePackId } from "../town-council-profile";
+import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { LOCAL_ORDINANCE_GAME_PROFILE_VERSION } from "../local-ordinance-game-profile";
 import { ensureMunicipalCouncilOpening } from "../municipal-council-opening";
 import { municipalSeats } from "../municipal-public-work";
 import {
   COUNCIL_ACT_HANDLERS,
   COUNCIL_READING_DUE,
+  completeCouncilPassage,
 } from "../municipal-ordinance-procedure";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 import { advanceWorld } from "../world";
 import { AUTOMATIC_LAW_POSITION_MAPPINGS } from "./automatic-legislation";
 import { lawInForce, statuteAnswer } from "./law-in-force";
@@ -102,6 +127,170 @@ function openedWorld(): World {
 }
 
 describe("ordinary local member fiscal agenda", () => {
+  it("A80 records the actual town meeting's no-presentment outcome and keeps it after Continue", () => {
+    const seed = "A80-town-passage-survivor";
+    const state = new SeededRng(seed).pick(lifePlaceStateIdentities());
+    const drawnPlace = searchLifePlaces("", 100, {
+      stateJurisdictionKey: state.jurisdictionKey,
+    }).find(
+      (candidate) =>
+        candidate.sourceGeoid &&
+        governmentUnitsForPlace(candidate.sourceGeoid).some(
+          (unit) =>
+            unit.unitType === "municipality" &&
+            unit.functionalActive &&
+            !municipalGovernmentForUnit(unit),
+        ),
+    )!;
+    expect(drawnPlace).toBeDefined();
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: drawnPlace.key,
+      startAge: 34,
+      questionnaire: "skipped",
+    });
+    expect(game.world.control.kind).toBe("person");
+    const player =
+      game.world.control.kind === "person" ? game.world.control.personId : null;
+    expect(player).not.toBeNull();
+    let world = ensureLocalGovernmentSeats(game.world, player!);
+    const town = playerTown(world, player!)!;
+    const unit = governmentUnitsForPlace(drawnPlace.sourceGeoid!).find(
+      (candidate) =>
+        candidate.unitType === "municipality" && candidate.functionalActive,
+    )!;
+    const members = sittingLocalOfficers(world, unit).filter(
+      (seat) => !seat.mayor,
+    );
+    expect(members.length).toBeGreaterThan(0);
+    const netBearings = (id: EntityId) => {
+      const net = new Map<EntityId, number>();
+      for (const bearing of world.policyCatalog.propositions[id]!.principles ??
+        [])
+        net.set(
+          bearing.principleId,
+          (net.get(bearing.principleId) ?? 0) +
+            (bearing.bearing === "consistent-with" ? 1 : -1) *
+              (bearing.weight ?? 1),
+        );
+      return [...net].filter(([, weight]) => weight !== 0);
+    };
+    const question = townQuestions(world, town).find(
+      (candidate) => netBearings(candidate.id).length > 0,
+    )!;
+    expect(question).toBeDefined();
+    world = recordPrinciples(
+      world,
+      members.flatMap((member) =>
+        netBearings(question.id).map(([principleId, weight]) => ({
+          stableKey: `a80:held:${member.personId}:${principleId}`,
+          personId: member.personId,
+          principleId,
+          formedAt: world.currentDate,
+          stance: weight > 0 ? ("endorses" as const) : ("rejects" as const),
+          strength: 1,
+          conviction: "settled" as const,
+          flexibility: "firm" as const,
+          qualification: null,
+          formation: createFormationContext("reflection:test", {
+            note: "Authored held support on actual council members; not natural persuasion.",
+          }),
+          supersedesPrincipleRecordId:
+            world.history.principles
+              .filter(
+                (record) =>
+                  record.personId === member.personId &&
+                  record.principleId === principleId,
+              )
+              .at(-1)?.id ?? null,
+        })),
+      ),
+    );
+    world = introduceMeasure(world, {
+      stableKey: "a80:actual-town-passage",
+      jurisdictionId: town,
+      rulePackId: townCouncilProfilePackId(unit),
+      designation: "ORD A80 fixture",
+      shortTitle: question.name,
+      summary: "A controlled actual town council proposal.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "council",
+      sponsorPersonId: members[0]!.personId,
+      propositionIds: [question.id],
+      propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
+    });
+    const measure = world.history.legislativeMeasures!.at(-1)!;
+    world = placeMeasureOnCalendar(world, {
+      stableKey: "a80:actual-town-agenda",
+      measureId: measure.id,
+      rationale: "Supplied agenda item before the ordinary meeting handler.",
+    });
+    const dueAt = addDays(world.currentDate, 1);
+    // Isolate this due family through saved cancellations, not a fake handler.
+    // This is a controlled meeting proof, not an ordinary whole-world day.
+    for (const due of world.history.futureDueItems) {
+      if (due.dueAt > dueAt) continue;
+      world = cancelFutureDueItem(world, {
+        stableKey: `a80:isolate:${due.id}`,
+        dueItemId: due.id,
+        effectiveAt: world.currentDate,
+        reasonKey: "civic:fixture-isolation",
+        context: "Controlled A80 meeting fixture isolates other due families.",
+      });
+    }
+    world = scheduleFutureDueItem(world, {
+      stableKey: `${LOCAL_COUNCIL_MEETINGS_VERSION}:${unit.id}:meeting:${dueAt}`,
+      dueAt,
+      transitionKey: LOCAL_COUNCIL_MEETING,
+      entityIds: [town, player!],
+      jurisdictionId: town,
+      provenance: {
+        kind: "authored",
+        note: "Controlled meeting date exercises the existing ordinary town handler.",
+      },
+    });
+    const finished = advanceWorld(
+      world,
+      1,
+      createFutureTransitionHandlerRegistry([
+        ...LOCAL_COUNCIL_MEETING_HANDLERS,
+      ]),
+    );
+    expect(measurePosition(finished, measure.id).phase).toBe("enacted");
+    const event = finished.history.events.find(
+      (row) => row.stableKey === `${measure.stableKey}:executive-not-presented`,
+    )!;
+    expect(event).toMatchObject({
+      type: "legislation.executive-not-presented",
+      involvedEntityIds: [measure.id],
+      participants: [],
+    });
+    expect(event.summary).toContain("under this profile");
+    expect(
+      finished.history.executiveDispositions?.some(
+        (row) => row.measureId === measure.id,
+      ),
+    ).not.toBe(true);
+    const restored = deserializeWorld(serializeWorld(finished));
+    expect(restored.history.events.find((row) => row.id === event.id)).toEqual(
+      event,
+    );
+    expect(completeCouncilPassage(restored, measure)).toBe(restored);
+    console.log(
+      JSON.stringify({
+        seed,
+        state: state.jurisdictionKey,
+        place: drawnPlace.context.jurisdiction.name,
+        sponsor: personName(finished.people[measure.sponsorPersonId!]!),
+        measureId: measure.id,
+        eventId: event.id,
+        summary: event.summary,
+      }),
+    );
+  });
+
   it("schedules the admitted city's own quarterly intake", () => {
     const world = openedWorld();
     const scheduled = scheduleLocalMemberAgendaIntakes(world);
@@ -215,7 +404,24 @@ describe("ordinary local member fiscal agenda", () => {
     expect(measurePosition(afterIntake, measure.id).outcome).toBe(
       vote?.outcome === "passed" ? "enacted" : "failed",
     );
+    const notPresented = afterIntake.history.events.find(
+      (event) =>
+        event.stableKey === `${measure.stableKey}:executive-not-presented`,
+    );
+    expect(notPresented !== undefined).toBe(vote?.outcome === "passed");
+    if (notPresented) {
+      expect(notPresented).toMatchObject({
+        type: "legislation.executive-not-presented",
+        involvedEntityIds: [measure.id],
+        participants: [],
+      });
+      expect(notPresented.summary).toContain("under this profile");
+    }
     const reloaded = deserializeWorld(serializeWorld(afterIntake));
+    expect(
+      reloaded.history.events.find((event) => event.id === notPresented?.id),
+    ).toEqual(notPresented);
+    expect(completeCouncilPassage(reloaded, measure, city.id)).toBe(reloaded);
     expect(reloaded.history.legislativeVotes).toEqual(
       afterIntake.history.legislativeVotes,
     );

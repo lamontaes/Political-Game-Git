@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { wasRefused } from "./scheduled-activity-answer";
@@ -149,7 +150,6 @@ const LIFE = {
   memoryDays: 42,
   rosterThreshold: 3,
   fundraiserMinorUnits: [25_000, 150_000],
-  contactAgeYears: [22, 75],
 } as const;
 
 /** Whether this person is old enough to take up party and campaign work. */
@@ -1271,18 +1271,16 @@ function ensureContactPerson(
   const rng = new SeededRng(world.seed).fork(
     `campaign-life-person:${stableKey}`,
   );
-  const year =
-    Number(world.currentDate.slice(0, 4)) -
-    rng.integer(LIFE.contactAgeYears[0], LIFE.contactAgeYears[1] + 1);
   const next = createCharacterHistoryContextPerson(world, {
     stableKey,
     ...drawCanonicalNamedIdentity(
       rng.fork("name"),
       generatePersonIdentity(rng.fork("identity")),
     ),
-    birthDate: makeIsoDate(
-      `${year}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-    ),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "campaign-contact",
+      referenceDate: world.currentDate,
+    }),
     homeJurisdictionId,
   });
   return { world: next, personId };
