@@ -1,3 +1,21 @@
+# Excise assessment reaches payment; governor repair is waiting for its test slot
+
+The shared tax path now uses the adopted levy and its actual payer and recipient. A controlled payment check passed, including saving and continuing without collecting twice. The remaining tax enactment failure also occurs on the baseline; its governor-desk repair is committed and awaits runtime validation.
+
+## October 1, 12:56 p.m. Eastern: current evidence
+
+A13 is open as #1586 at 6a37eff124bbb812fb23b8e7425b6214f7a824fe. The adopted-reference question is resolved through the existing frozen proposal, enacted levy and tax-policy join; no generic category schema extension is needed. Three changed tax files passed 21/21 in 55.68 seconds at 16bc15b16777d87f1e05453fd953eb943f585806. The controlled payer paid 100 cents after Continue; the repeat did not collect again. Four scoped roots traversed 1,158 files with zero diagnostics before formatting and declaration changes. Later main composition has not had runtime renewal.
+
+The office-input file passed 6/7, with the same enactment failure reproduced as 6/7 on exact base e1fc68cfc6c33b7d1bb867f01487ae6032db2a2a. The separate governor fixture repair is committed locally at c88c696463cb5bd0cce9298abfb6d105867ae6f2 and is not the published PR head. Its pre-format source passed two scoped roots across 1,156 files with zero diagnostics. Runtime is NOT RUN. Existing CTO checks occupy the Mac; Team 7 has the next idle slot, then root.
+
+Team 2 accepted the priority repair of enacted-law-effects.test.ts and enacted-duties.test.ts. X5's #1579 depends on that repair. Team 8 reproduced 10 whole-save hash failures and 11 passes on current-main composition; financial assertions passed. It is comparing the unchanged writer before refreshing any snapshots. Team 7 reports A4's first run as 10 passes and two fixture failures; the corrected fixture preserves the original completed shift and prevents a second automatic shift. Its renewal is pending.
+
+GitHub independently confirms #1528 merged at b84750d91daacef78fb1452b0b9dcb262306f793 on October 1 at 12:44:38 p.m. Eastern. This closes the reported A163 status-recording slice, not the entire effects rebuild. Effects remain the historical 94/220 until a new runtime audit measures them.
+
+Team 9's last turn was terminal at draft #1574. Coordinator routed its load-recovery and sentencing-contract dependencies to Audit and directed the existing team to its next authorized unblocked build. Team 3's monthly work-period contract is also explicitly queued with Audit. Message delivery is not execution evidence. Coordinator has merged nothing.
+
+## Earlier checkpoints
+
 Excise filing now reaches the shared tax path in a published work-in-progress branch. It still needs adopted identity binding and payment proof before review.
 
 ## October 1: excise filing connected; adopted identity binding remains open

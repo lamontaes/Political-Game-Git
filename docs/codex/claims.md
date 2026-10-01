@@ -1,3 +1,17 @@
+# Governor repair ownership is separated
+
+The two law presentation repairs and the tax repair have different owners. Each keeps the existing enactment assertions and uses the actual governor desk.
+
+## October 1: confirmed narrow ownership
+
+Team 2 owns only src/presentation/enacted-law-effects.test.ts and src/presentation/enacted-duties.test.ts for its priority A80 repair. It explicitly reported no unpublished or staged changes to tests/fixtures/tax-policy-fixture.ts and released that separate surface to the coordinator.
+
+Coordinator owns tests/fixtures/tax-policy-fixture.ts for A13's controlled enactment repair, in addition to the previously received A13 tax surfaces. Local repair c88c696463cb5bd0cce9298abfb6d105867ae6f2 changes only the actual governor fixture route and formatting. It does not change production desk rules or remove assertions.
+
+Audit's adopted-proposal binding question is resolved for A13; no generic catalog-category extension is assigned. Team 7 retains the next actual idle Mac test slot after CTO checks; coordinator runtime follows. Focused source work may continue while runtime is queued.
+
+## Earlier claims
+
 Coordinator has received the released tax implementation. Team 6 continues its other assigned financial work without overlapping these files.
 
 ## October 1: A13 four-file release received by coordinator
