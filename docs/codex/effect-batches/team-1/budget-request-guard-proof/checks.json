@@ -1,0 +1,51 @@
+{
+  "sourceHead": "d1114c4c4e2068f91ead458016cc9c745a65a636",
+  "prBase": "347d8ae96a39643c38bf6e9701401d97b1555caf",
+  "fetchedMain": "b9abe032c4904f6fb1ef17e2b56f65fa13387641",
+  "sourceSha256": {
+    "src/simulation/governing/current-services-budget.ts": "7e770b7762efca2ebd81170ac1bfb2d226909ec839e4bc5d9767e0dade7ecddf",
+    "src/simulation/governing/current-services-budget.test.ts": "7785d5dbc07cae076472ff934b5dbaf9541ed9e4e9f47cf557ecd062e5bd98eb",
+    "src/simulation/governing/state-governing.ts": "da70682252558cd106e2aee53f4b11cf685879f380dc4f84f110a4ee776173bb",
+    "src/simulation/governing/governing-budget-npc.test.ts": "e90b081166f40df6d280e5b52893f86aa968852fa4fad2fecb40e8669e2cbc64"
+  },
+  "test": {
+    "passed": 34,
+    "failed": 0,
+    "durationSeconds": 25.56,
+    "files": ["current-services-budget.test.ts", "governing-budget-npc.test.ts"]
+  },
+  "strictTypes": {
+    "scopedDiagnostics": 0,
+    "importedDiagnostics": 0,
+    "rootCount": 5
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "whitespace": "PASS",
+  "ownReleaseDeclaration": "PASS parseDeclaration",
+  "releaseGate": "FAIL inherited malformed unlocated-work-keeps-federal-pay-floor.md declaration, unchanged in PR base",
+  "zeroDice": {
+    "new": 0,
+    "inheritedStale": 5,
+    "exitCode": 1
+  },
+  "spelling": {
+    "findings": 112,
+    "allWordsPresentInNamedBasePaths": true,
+    "sourceHeadOnly": true
+  },
+  "notRun": [
+    "nationwide year",
+    "speed years",
+    "browser",
+    "whole suite",
+    "final main composition"
+  ],
+  "limits": "Controlled actual governors, saved choices, due-item intake and canonical writers; no natural NPC kernel, changed-amount bill, statutory date, stalemate or national completeness proof.",
+  "publicationMain": "9aa709fae31162b5ef3921e288c136671e53120a",
+  "ownReport": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "finalSpellingFindings": 112
+}

@@ -1,0 +1,114 @@
+{
+  "reviewedHead": "fc938a11c335d624689e7c99820891a7c8cb072f",
+  "repairRuntimeHead": "ea3d382c737e55e2c8eb2ba527416322f64730e4",
+  "before": {
+    "failed": 1,
+    "notRun": 18,
+    "durationSeconds": 13.63,
+    "error": "Cannot read properties of undefined (reading 'id')",
+    "testSha256": "f96b6e4a858e25bf227fcb855dbf74ab2f7651c5577eafea6a4eafe8580272b1"
+  },
+  "after": {
+    "passed": 35,
+    "failed": 0,
+    "durationSeconds": 24.58,
+    "budgetTests": 19,
+    "npcTests": 16
+  },
+  "types": {
+    "roots": 5,
+    "scopedDiagnostics": 0,
+    "importedDiagnostics": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "whitespace": "PASS",
+  "sourceSha256": {
+    "src/simulation/governing/current-services-budget.ts": "0135240f1b3cdda9fa2a28486dea6873a6f517c189ed91e5ab82e80c79cb28f6",
+    "src/simulation/governing/current-services-budget.test.ts": "f96b6e4a858e25bf227fcb855dbf74ab2f7651c5577eafea6a4eafe8580272b1"
+  },
+  "release": "FAIL same inherited Markdown-heading declaration",
+  "zeroDice": {
+    "new": 0,
+    "inheritedStale": 5
+  },
+  "notRun": [
+    "nationwide year",
+    "browser",
+    "speed",
+    "whole suite",
+    "final main composition"
+  ],
+  "unchangedLimits": [
+    "stacked on partial1541/1536",
+    "no new decision weights",
+    "no statutory dates",
+    "no changed-amount producer",
+    "no stalemate producer"
+  ],
+  "originalLogs": [
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-before.log",
+      "sha256": "dade8940c929f00af598253111213cd1d9945bf84ad13192dd81b789948c5d77",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/before.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    },
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-after.log",
+      "sha256": "ae7bd8d4d3711fa55a6fbf21d453751be32971584710ffbec547913b6aa54fd7",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/after.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    },
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-types.log",
+      "sha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/types.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    },
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/lint.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    },
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/format.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    },
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-release.log",
+      "sha256": "0c130635deab5594b785f746017276451a5867c5effd2f6858d98d8feff1b8a1",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/release.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    },
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-zero-dice.log",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/zero-dice.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    },
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-report.log",
+      "sha256": "40b05c5932aa3856170aea03331e7d04988a403e73e42b51dccbac1e0f2a2e05",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/report.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    },
+    {
+      "originalPath": "/tmp/team1-budget-guard-missing-matter-spelling.log",
+      "sha256": "fd7967f81b2b0fa0647b3ea074d4b840225d5e17cbe64b7ccc01a2cf4de138fe",
+      "publishedPath": "docs/codex/effect-batches/team-1/budget-request-guard-proof/k4-missing-matter/spelling.log",
+      "normalization": "Trailing blank lines only; raw original retained."
+    }
+  ],
+  "publicationMain": "2b28298d55c8d5fd88af84b71a12196f31914aac",
+  "report": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "spelling": {
+    "findings": 112,
+    "sameAsPriorSourceReceipt": true
+  }
+}
