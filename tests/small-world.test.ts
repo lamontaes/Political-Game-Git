@@ -5,7 +5,8 @@ import { measurePosition } from "../src/simulation/legislation";
 import { ensureStateExecutiveIncumbent } from "../src/simulation/nationwide-world/state-executives";
 import { governorOfficeForJurisdiction } from "../src/simulation/governing/state-governing";
 import { STATES } from "../src/simulation/state-reference";
-import { enactThroughDesk, smallWorld } from "./fixtures/small-world";
+import { enactThroughDesk } from "./fixtures/enact-through-desk";
+import { smallWorld } from "./fixtures/small-world";
 
 const PLACES = Object.keys(STATES);
 const QUESTION =
