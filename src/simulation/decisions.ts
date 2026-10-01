@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { decisionConsiderationScore } from "./decision-scores";
 import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
 import { recordById } from "./history-index";
@@ -24,12 +25,10 @@ import type {
   DecisionConsideration,
   DecisionContext,
   DecisionEvaluation,
-  DecisionImportance,
   DecisionOptionEvaluation,
   DecisionPreference,
   DecisionSourceSnapshot,
   EntityId,
-  MindConfidence,
   MindSourceReference,
   World,
 } from "./types";
@@ -39,18 +38,6 @@ const IMPORTANCES = ["slight", "moderate", "strong", "decisive"] as const;
 const CONFIDENCES = ["low", "medium", "high"] as const;
 const RANDOMNESS_POLICIES = ["none", "close-choices"] as const;
 const RETENTION_POLICIES = ["ephemeral", "durable"] as const;
-
-const IMPORTANCE_WEIGHT: Record<DecisionImportance, number> = {
-  slight: 1,
-  moderate: 2,
-  strong: 4,
-  decisive: 6,
-};
-const CONFIDENCE_WEIGHT: Record<MindConfidence, number> = {
-  low: 1,
-  medium: 2,
-  high: 3,
-};
 
 /** Only a selected result authorizes an option's consequence. An undecided
  * result has no selected key and leaves the actor's choice pending. */
@@ -176,7 +163,8 @@ export function evaluateDecision(
     const score = context.considerations
       .filter((consideration) => consideration.optionKey === option.key)
       .reduce(
-        (total, consideration) => total + considerationScore(consideration),
+        (total, consideration) =>
+          total + decisionConsiderationScore(consideration),
         0,
       );
     baseScores.set(option.key, score);
@@ -398,13 +386,6 @@ function canonicalDecisionContext(input: DecisionContext): DecisionContext {
       .sort((left, right) => left.stableKey.localeCompare(right.stableKey)),
     perceptionIds: [...new Set(input.perceptionIds)].sort(),
   };
-}
-
-function considerationScore(consideration: DecisionConsideration): number {
-  const magnitude =
-    IMPORTANCE_WEIGHT[consideration.importance] *
-    CONFIDENCE_WEIGHT[consideration.confidence];
-  return consideration.direction === "supports" ? magnitude : -magnitude;
 }
 
 function preferenceFor(score: number): DecisionPreference {

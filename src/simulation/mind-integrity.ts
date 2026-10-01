@@ -1,4 +1,5 @@
 import { makeIsoDate } from "./dates";
+import { decisionConsiderationScore } from "./decision-scores";
 import { createStableId } from "./ids";
 import {
   assertLifeHistorySourceAvailable,
@@ -896,13 +897,7 @@ function validateDecisionContext(
           context.considerations
             .filter((item) => item.optionKey === optionKey)
             .reduce(
-              (total, item) =>
-                total +
-                (item.direction === "supports" ? 1 : -1) *
-                  { slight: 1, moderate: 2, strong: 4, decisive: 6 }[
-                    item.importance
-                  ] *
-                  { low: 1, medium: 2, high: 3 }[item.confidence],
+              (total, item) => total + decisionConsiderationScore(item),
               0,
             );
         if (
