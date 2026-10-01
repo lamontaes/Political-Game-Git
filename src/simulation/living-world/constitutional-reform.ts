@@ -39,7 +39,6 @@ import {
   principledLeaning,
 } from "../governing/officeholder-principles";
 import {
-  termLimitBallot,
   termLimitConsiderations,
   type TermLimitHolder,
 } from "./federal-reform";
@@ -71,18 +70,17 @@ import {
  * (`enacted-rule-changes.ts`, `executive-term-limits.ts`).
  *
  * Once a year each governorship the World has materialized is reviewed. A
- * proposal is considered only when a cause is on the record, and made only
- * when the legislature's members, each deciding for their own reasons, would
- * carry it in every chamber under the state's amendment threshold (CTO
- * ruling, September 29, 2026, 1:54 a.m.: no dice). A measure that clears
+ * term-limit proposal is saved when its existing cause is on the record, then
+ * voted on by the actual state members. Rejection retains its saved rollcall
+ * (CTO ordering ruling, September 30, 2026, 5:16). A measure that clears
  * every chamber goes to the voters; a ratified measure changes the limit that
  * the next governor election reads.
  *
  * WHO DECIDES. Each recorded proposal reads the actual saved state chambers,
  * seat tenures and institutions. Missing rosters remain unsupported; Congress
  * cannot stand in. Each actual member decides through decideChamberVote. The
- * older filing preflight still scales the state's member totals before filing;
- * it does not supply the recorded chamber rollcall.
+ * general policy filing preflight still scales the state's member totals
+ * before filing; it does not supply the recorded chamber rollcall.
  *
  * WHY THEY DECIDE. On the governor's term limit, a member weighs the
  * governor's party, their relationship with the governor and the bar a
@@ -115,8 +113,8 @@ import {
  *   campaign), pending `constitutional-policy-amendments`.
  * - Initiatives, conventions and commissions. Every proposal is a legislative
  *   referral.
- * - Each member's own chamber. Chambers divide as the whole legislature
- *   does, and members are recorded by seat with no person named.
+ * - General policy filing order. Its preliminary verdict still projects the
+ *   combined state vote share; the recorded vote uses actual named chambers.
  * - The wider electorate. The statewide yes share is counted from the
  *   recorded views of the eligible voters the World holds
  *   (`recordedBallotTally`); with none on record the ballot is unsupported
@@ -683,8 +681,8 @@ type RouteCheck = () =>
   | { readonly available: false; readonly reason: string };
 
 /**
- * The governor's term limit: a proposal only with a cause on the record, and
- * only when the legislature's members would carry it.
+ * The governor's term limit: save a cause-backed proposal before the actual
+ * chamber decisions. A rejected proposal retains those decisions.
  */
 function reviewTermLimit(
   world: World,
@@ -694,6 +692,12 @@ function reviewTermLimit(
 ): FutureTransitionHandlerResult | string {
   if (hasOpenReform(world, stateUsps))
     return "An amendment on this is already pending.";
+  if (
+    (world.history.constitutionalMeasures ?? []).some(
+      (measure) => measure.stableKey === measureKey(stateUsps, year),
+    )
+  )
+    return "This year's governor term-limit proposal already has a recorded outcome.";
   const cause = reformCause(world, stateUsps);
   if (!cause) return "No cause for an amendment is on the record.";
   const route = routeOpen();
@@ -736,29 +740,6 @@ function reviewTermLimit(
     return "The actual state chambers, seat tenures or institution bindings are missing; no governor term-limit rollcall can be recorded.";
   if (voice.voters.length === 0)
     return "Nobody speaks for the legislature in this world.";
-  const extra = rejectionReasons(
-    votersJustRejected(voice.world, stateUsps, spec.ruleDelta),
-  );
-  const direction = cause.direction === "restore" ? "restore" : "extend";
-  const count = countLegislature(
-    stateUsps,
-    voice.estimated,
-    voice.voters.map((voter) => ({
-      personId: voter.personId,
-      ...termLimitBallot(
-        voice.world,
-        `${key}:${voter.memberKey}`,
-        voter,
-        { direction, holderPersonId: cause.holderPersonId },
-        GOVERNOR,
-        extra,
-      ),
-    })),
-  );
-  // Filed only when it would carry: the count, not a draw, decides whether a
-  // proposal is made. The same legislature gives the same answer each year.
-  if (!count.carries)
-    return `The legislature would not carry an amendment on the governor's term limit, though ${cause.reason}.`;
   return done(
     proposeAndVote(voice.world, stateUsps, year, spec, cause),
     `An amendment on the governor's term limit was proposed because ${cause.reason}.`,

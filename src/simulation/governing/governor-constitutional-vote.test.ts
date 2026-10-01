@@ -26,12 +26,31 @@ import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-pac
 import { SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
-import { decideChamberVote, stateConstitutionalBody } from "./chamber-votes";
+import {
+  decideChamberVote,
+  stateConstitutionalBody,
+  stateConstitutionalRoster,
+} from "./chamber-votes";
 import {
   termLimitBallot,
   termLimitConsiderations,
 } from "../living-world/federal-reform";
-import { recordStateGovernorTermLimitProposalVotes } from "../living-world/constitutional-reform";
+import {
+  CONSTITUTIONAL_REFORM_REVIEW,
+  constitutionalReformReviewHandler,
+  recordStateGovernorTermLimitProposalVotes,
+  reformCause,
+} from "../living-world/constitutional-reform";
+import { addDays, makeIsoDate } from "../dates";
+import { resolveRequiredVotes } from "../legislature-rules";
+import { scheduleFutureDueItem } from "../future-transitions";
+import { datedTermsInOffice } from "../nationwide-world/prior-terms";
+import { stateExecutiveTermRuleInWorld } from "../nationwide-world/executive-term-rules-in-world";
+import {
+  advanceWorld,
+  recordWorldEvent,
+  writeWithWorldIntegrityOnce,
+} from "../world";
 
 // Supplied proposal and cause on an actual generated governor and legislature.
 // This is not an ordinary multi-year amendment or statewide ratification proof.
@@ -135,6 +154,237 @@ function bodies(at: World, measureId: EntityId) {
   }));
 }
 describe("A79 governor term-limit actual-member rollcall", () => {
+  it("files the recorded tenure cause before voting and retains a rejected actual rollcall", () => {
+    const usps = state.jurisdictionKey.slice(3);
+    const office = stateExecutiveOffice(usps)!;
+    const holder = currentStateExecutiveHolders(world).find(
+      (row) =>
+        row.personId === governorId && row.officeKey === office.officeKey,
+    )!;
+    expect(holder.startedAt).not.toBeNull();
+    const rule = stateExecutiveTermRuleInWorld(world, usps, world.currentDate)!;
+    const startedAt = holder.startedAt!;
+    const historicalDate = (termsBefore: number) =>
+      makeIsoDate(
+        `${Number(startedAt.slice(0, 4)) - termsBefore * rule.termYears}${startedAt.slice(4)}`,
+      );
+    let at = writeWithWorldIntegrityOnce(world, () => {
+      let next = world;
+      for (const termsBefore of [2, 1]) {
+        const startsAt = historicalDate(termsBefore);
+        const endsAt = historicalDate(termsBefore - 1);
+        next = recordWorldEvent(next, {
+          stableKey: `a79:filing-prior-term:${startsAt}`,
+          type: "world.office-tenure",
+          occurredAt: startsAt,
+          recordedAt: next.currentDate,
+          jurisdictionId: jurisdiction.id,
+          involvedEntityIds: [governorId],
+          participants: [
+            {
+              personId: governorId,
+              role: "focus:subject",
+              detail: office.displayName,
+            },
+          ],
+          personFactConstraints: [],
+          visibility: "public",
+          tags: [
+            `office:${office.officeKey}`,
+            `term-end:${endsAt}`,
+            "provenance:authored-fixture",
+          ],
+          summary:
+            "Supplied prior governor tenure for the recorded-cause filing fixture.",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+      }
+      return next;
+    });
+    expect(datedTermsInOffice(at, governorId, office.officeKey)).toHaveLength(
+      3,
+    );
+    const cause = reformCause(at, usps)!;
+    expect(cause).toMatchObject({
+      direction: "restore",
+      holderPersonId: governorId,
+    });
+    if (cause.direction !== "restore")
+      throw Error("The recorded cause must restore the limit.");
+    const ballotCause = {
+      direction: cause.direction,
+      holderPersonId: cause.holderPersonId,
+    };
+    const actualMembers = stateAmendmentProfile(
+      state.jurisdictionKey,
+    )!.bodies.flatMap((body) => {
+      const pack = stateConstitutionalRoster(
+        at,
+        jurisdiction.id,
+        body.bodyKey,
+      )!;
+      return pack.seated.body.members;
+    });
+    const oldBallots = actualMembers.flatMap((member) =>
+      member.personId
+        ? [
+            termLimitBallot(
+              at,
+              `old:preflight:${member.memberKey}`,
+              { memberKey: member.memberKey, personId: member.personId },
+              ballotCause,
+              governorReasons,
+            ),
+          ]
+        : [],
+    );
+    const cast = oldBallots.filter((row) => row.ballot !== "absent");
+    const oldYes = cast.filter((row) => row.ballot === "yea").length;
+    const profile = stateAmendmentProfile(state.jurisdictionKey)!;
+    const oldWouldFile =
+      cast.length > 0 &&
+      profile.bodies.every(
+        (body) =>
+          Math.round((body.members * oldYes) / cast.length) >=
+          resolveRequiredVotes(profile.base, body.members).requiredVotes,
+      );
+    expect(oldWouldFile).toBe(false);
+    const year = Number(at.currentDate.slice(0, 4));
+    const proposalKey = `constitutional-reform/v1:${usps}:${year}`;
+    at = scheduleFutureDueItem(at, {
+      stableKey: `${proposalKey}:review`,
+      dueAt: addDays(at.currentDate, 1),
+      transitionKey: CONSTITUTIONAL_REFORM_REVIEW,
+      entityIds: [jurisdiction.id],
+      jurisdictionId: jurisdiction.id,
+      provenance: {
+        kind: "authored",
+        note: "One-day recorded tenure-cause filing fixture, not natural multiyear service.",
+      },
+    });
+    const due = at.history.futureDueItems.find(
+      (row) => row.stableKey === `${proposalKey}:review`,
+    )!;
+    const saved = advanceWorld(at, 1, {
+      get: (key) =>
+        key === CONSTITUTIONAL_REFORM_REVIEW
+          ? constitutionalReformReviewHandler
+          : undefined,
+    });
+    const measure = saved.history.constitutionalMeasures!.find(
+      (row) => row.stableKey === proposalKey,
+    )!;
+    expect(measure).toBeDefined();
+    expect(measure.ruleDelta).toMatchObject({
+      kind: "rule-field",
+      officeKey: office.officeKey,
+      field: "executive.term.limit",
+      value: cause.value,
+      applicability: {
+        appliesTo: "terms-beginning-after",
+        countsPriorService: false,
+      },
+    });
+    expect(measure.proposalRule).toEqual(
+      stateAmendmentProfile(state.jurisdictionKey)!.base,
+    );
+    expect(constitutionalPosition(saved, measure.id).phase).toBe("rejected");
+    const votes = constitutionalActions(saved, measure.id).filter(
+      (row) => row.detail.kind === "proposal-vote",
+    );
+    expect(votes.length).toBeGreaterThan(0);
+    for (const action of votes) {
+      if (action.detail.kind !== "proposal-vote")
+        throw Error("Actual rollcall missing.");
+      expect(action.sequence).toBeGreaterThan(measure.sequence);
+      const actual = stateConstitutionalBody(
+        saved,
+        measure.id,
+        action.detail.bodyKey,
+      ).seated.body.members;
+      expect(
+        action.detail.vote.dispositions.map((row) => [
+          row.memberKey,
+          row.personId,
+        ]),
+      ).toEqual(actual.map((row) => [row.memberKey, row.personId]));
+      for (const row of action.detail.vote.dispositions) {
+        if (!row.personId) continue;
+        const old = termLimitBallot(
+          saved,
+          `old:filing:${row.memberKey}`,
+          { memberKey: row.memberKey, personId: row.personId },
+          ballotCause,
+          governorReasons,
+        );
+        expect(row.disposition).toBe(old.ballot);
+        expect(row.reason).toBe(old.reason);
+      }
+    }
+    expect(
+      saved.history.futureDueItems.some((row) =>
+        row.stableKey.startsWith(`${proposalKey}:ballot:`),
+      ),
+    ).toBe(false);
+    const loaded = deserializeWorld(serializeWorld(saved));
+    expect(constitutionalActions(loaded, measure.id)).toEqual(
+      constitutionalActions(saved, measure.id),
+    );
+    const repeated = constitutionalReformReviewHandler(loaded, due).world;
+    expect(
+      repeated.history.constitutionalMeasures!.filter(
+        (row) => row.stableKey === proposalKey,
+      ),
+    ).toHaveLength(1);
+    expect(constitutionalActions(repeated, measure.id)).toEqual(
+      constitutionalActions(saved, measure.id),
+    );
+    const first = votes[0]!;
+    if (first.detail.kind !== "proposal-vote") throw Error("Rollcall missing.");
+    const example = first.detail.vote.dispositions[0]!;
+    const exampleMember = stateConstitutionalBody(
+      saved,
+      measure.id,
+      first.detail.bodyKey,
+    ).seated.body.members.find(
+      (member) => member.memberKey === example.memberKey,
+    )!;
+    console.info(
+      "A79 cause-backed governor filing",
+      JSON.stringify({
+        seed,
+        place: place.displayName,
+        state: state.jurisdictionKey,
+        cause: cause.reason,
+        proposalId: measure.id,
+        phase: constitutionalPosition(saved, measure.id).phase,
+        oldWouldFile,
+        actualVotes: votes.reduce(
+          (sum, row) =>
+            sum +
+            (row.detail.kind === "proposal-vote"
+              ? row.detail.vote.dispositions.length
+              : 0),
+          0,
+        ),
+        example: {
+          name: exampleMember.name,
+          personId: example.personId,
+          ballot: example.disposition,
+          reason: example.reason,
+        },
+        fixture:
+          "Supplied canonical prior tenure records; actual one-day review caller, not natural multiyear office service",
+      }),
+    );
+  });
   it("preserves both legacy directions for the same saved people and consideration weights", () => {
     let compared = 0;
     const examples: unknown[] = [];
