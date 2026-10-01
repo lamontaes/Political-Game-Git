@@ -1,3 +1,9 @@
+## October 1: payroll fixture initialization repair
+
+Coordinator owns only the optional policyCatalog input and its forwarding to createWorld in src/simulation/demo.ts, plus the received earned-law-pay-payment.test.ts setup. The final catalog must exist before jobs write coverage records. No payment assertions or integrity guard are relaxed. Team 3 keeps its A37 office-pay adapter and previously declared writer ownership; coordinator receives coverage and opening changes from its published handoff.
+
+Coordinator also owns A19's closed LegacyEffectKind union and LawEffectContext type. Team 6 continues A47 while its A33 consumer awaits the coherent dated-query dependency. Catalog and typed levy authority decisions remain with the CTO.
+
 ## October 1: one earned-pay slice and exact consumer ownership
 
 The CTO's 10:51 instruction supersedes separate plumbing publication. Coordinator integrates historical law arguments, stamps, transfer guard, validator, hourly dispatcher and Team 3's existing writer into one earned-pay slice. Team 3 owns the completed-work caller, common pay writer and dated 56-place minimum-wage matrix consumer. No annual office-pay migration is included in this hourly slice.

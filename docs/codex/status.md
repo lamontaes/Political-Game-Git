@@ -1,3 +1,19 @@
+## October 1: effect labels restricted; payroll composition found a fixture-order failure
+
+The shared stamp writer now rejects new bespoke labels at type checking. Its ready pull request needs CTO review. The combined payroll proof found three failures where a fixture replaced the policy catalog after saving job coverage. The repair supplies the final catalog before job creation and is being checked with the same assertions.
+
+### Published work and checks
+
+- A19: PR #1573 at 57afe73363d5496363aac006053ccdcffbc2a566. Two changed files passed 6/6 in 1.47 seconds; production world caller and both tests traversed 845 files with zero type diagnostics. The 29 legacy labels remain explicit migration work; old saved stamps remain readable.
+- Payroll: received Team 3 f6f1f50be5bb4ed5b70b65516ac0a9b7fe1380e1 into published c89365e50b05330d76c0155f965cd11577619dca. Combined payment, integrity and matrix files finished 32 passed and 3 failed in 266.26 seconds. The coverage-completeness error occurred during fixture lawmaking. Setup repair 69b07fc25641e187a2d2aaa8de5379775c49a9ef is under the same 35-case check and four-root type check; no pass inferred.
+- Team 1: live ready #1571 at ef78855a1ab8e630520550ab08eb8f11675ae060 connects the cap reader to the existing filer. Team reports 17/17; coordinator inspected the production diff, not a separate runtime rerun.
+- Team 6: draft #1570 at 890f9ceaf8714539d4319b8985f073036c83e0d9 reports 17/17 and needs shared dated reader contracts. A47 continues independently.
+- Audit: the qualified one-year filing run completed 365 presses, 1,031 filings, 224 enactments and filing in 47 of 51 seated bodies. It used a 68-file source overlay, not clean current main; four zero-filing states need interpretation.
+
+### Remaining decisions and effects
+
+A13 needs a canonical authority contract for questionless typed levies. American Samoa industry applicability remains unresolved for nationwide wage admission. Rent statutory scope and sentencing applicability are assigned to Audit/CTO. Effects remain the audited 94 of 220 executing links, with no newly measured increase. Coordinator has merged nothing.
+
 ## October 1: earned-pay pieces are being connected to actual payment
 
 The next earned-pay submission combines the law reader, saved assessment, payment guard and existing writer. The payment case is not yet run on this combined source. Team 3 is connecting the dated minimum-wage matrix and completed-work caller; Audit is checking forged coverage evidence.
