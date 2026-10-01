@@ -6,7 +6,7 @@ import { latestPrivateBelief } from "../queries";
 import type { EntityId, ItemVetoRecord, World } from "../types";
 import { sectionsBefore } from "../vote-bundle";
 import { recordWorldEvent } from "../world";
-import { principleView } from "./officeholder-principles";
+import { formViewFromRecordedPrinciples } from "../principled-view-formation";
 
 /**
  * The executive's item veto (Build 25 step 5, design D-5).
@@ -55,24 +55,34 @@ export function itemVetoPower(rulePackId: string): ItemVetoPower | null {
   };
 }
 
+/** The executive's item veto where it reaches this bill, or null. */
+function itemVetoReaching(
+  world: World,
+  measureId: EntityId,
+): ItemVetoPower | null {
+  const measure = requireMeasure(world, measureId);
+  const power = itemVetoPower(measure.rulePackId);
+  if (!power) return null;
+  if (
+    power.reaches === "appropriation-bills" &&
+    measure.subjectClass !== "appropriation"
+  )
+    return null;
+  return power;
+}
+
 /**
  * The sections of a bill its signer would strike: the ones a floor
- * amendment carried in that answer a question against the signer's own view
- * or principles. Read-only.
+ * amendment carried in that answer a question against the signer's saved
+ * view. Read-only.
  */
 export function itemsToStrike(
   world: World,
   measureId: EntityId,
   signerPersonId: EntityId,
 ): readonly { readonly provisionId: EntityId; readonly reason: string }[] {
-  const measure = requireMeasure(world, measureId);
-  const power = itemVetoPower(measure.rulePackId);
+  const power = itemVetoReaching(world, measureId);
   if (!power) return [];
-  if (
-    power.reaches === "appropriation-bills" &&
-    measure.subjectClass !== "appropriation"
-  )
-    return [];
   const struck: { provisionId: EntityId; reason: string }[] = [];
   for (const section of sectionsBefore(
     world,
@@ -81,13 +91,14 @@ export function itemsToStrike(
   )) {
     if (!section.originAmendmentId || !section.answers) continue;
     const { propositionId, answer } = section.answers;
+    // Only a saved view counts. A signer with none is undecided and strikes
+    // nothing. applyItemVetoes forms the view first, through the one belief
+    // pipeline, so no one acts on an unsaved reading of their principles.
     const belief = latestPrivateBelief(world, signerPersonId, propositionId);
     const view =
       belief?.position === "support" || belief?.position === "oppose"
         ? { answer: belief.position === "support" ? "yes" : "no" }
-        : belief
-          ? null
-          : principleView(world, signerPersonId, propositionId);
+        : null;
     if (!view || view.answer === answer) continue;
     const question =
       world.policyCatalog.propositions[propositionId]?.name ?? section.heading;
@@ -121,8 +132,23 @@ export function applyItemVetoes(
     .at(-1);
   if (!signing || signing.action !== "signed") return world;
   const measure = requireMeasure(world, measureId);
+  if (!itemVetoReaching(world, measureId)) return world;
   let next = world;
-  for (const item of itemsToStrike(world, measureId, signerPersonId)) {
+  // A signer with no view on a floor-added question forms one from their
+  // recorded principles before deciding what to strike.
+  for (const section of sectionsBefore(
+    world,
+    measureId,
+    world.history.nextSequence,
+  )) {
+    if (!section.originAmendmentId || !section.answers) continue;
+    next = formViewFromRecordedPrinciples(next, {
+      stableKey: `item-veto-view:${signing.id}:${section.answers.propositionId}`,
+      personId: signerPersonId,
+      propositionId: section.answers.propositionId,
+    });
+  }
+  for (const item of itemsToStrike(next, measureId, signerPersonId)) {
     const stableKey = `item-veto:${signing.id}:${item.provisionId}`;
     if ((next.history.itemVetoes ?? []).some((r) => r.stableKey === stableKey))
       continue;
