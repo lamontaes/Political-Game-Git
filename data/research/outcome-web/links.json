@@ -304,15 +304,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.13,
       "per": "law in force",
       "lagMonths": 0,
       "group": "youth",
       "owner": "O",
-      "anchor": "Reduces youth firearm suicide, injuries and homicide (RAND: supportive)",
-      "source": "RAND Science of Gun Policy, 5th ed.",
+      "anchor": "Negligence-standard child access prevention laws (an adult is liable when a child can get an unsecured gun) went with 13% fewer firearm deaths among children 0 to 14 from 1991 to 2016, and 12 to 15% fewer firearm homicides, suicides and accidental deaths; weaker recklessness laws showed no effect. RAND rates the evidence supportive. The range is the default 25% spread.",
+      "source": "Azad et al. 2020 (JAMA Pediatrics); RAND Science of Gun Policy, 5th ed.",
       "from": "law.child-access-prevention",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.16, -0.1]
     },
     {
       "key": "stand-your-ground-to-homicide",
@@ -367,15 +368,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.18,
       "per": "law in force",
       "lagMonths": 0,
       "group": "youth",
       "owner": "O",
-      "anchor": "Raising the minimum age reduces youth firearm suicide (RAND: supportive)",
-      "source": "RAND Science of Gun Policy, 5th ed.",
+      "anchor": "States that limited handgun sales to people 21 and older had an 18% lower suicide rate among 18- to 20-year-olds from 2001 to 2017, nearly 2 fewer suicides per 100,000 at those ages. The study reports suicide by all means, so the firearm share is an assumption; provisional. The range is the default 25% spread. RAND rates the evidence supportive.",
+      "source": "Raifman et al. 2020 (BMJ); RAND Science of Gun Policy, 5th ed.",
       "from": "law.firearm-minimum-age-above-federal",
-      "evidence": "researched"
+      "evidence": "provisional",
+      "range": [-0.225, -0.135]
     },
     {
       "key": "crime-to-out-migration",
@@ -613,15 +615,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.05,
       "per": "severe disaster",
       "lagMonths": 0,
       "group": "place",
       "owner": "M",
-      "anchor": "+1.5 points out-migration",
-      "source": "Boustan, Kahn, Rhode and Yanguas 2020 (JUE)",
+      "anchor": "U.S. counties 1920 to 2010: a severe disaster (about 100 or more deaths) raised net out-migration 1.5 points over the decade (8% of a standard deviation); milder disasters did little. Spread over ten years that is about 1.5 more people leaving per 1,000 a year, about +5% on a state's out-migration near 29 per 1,000 (IRS 2022-23). Low end if a state-level disaster reaches only part of the state; high end if the moves come in the first five years. Conversion is ours, so provisional.",
+      "source": "Boustan, Kahn, Rhode and Yanguas 2020 (JUE); IRS Statistics of Income state migration 2022-23",
       "from": "disaster.severe",
-      "evidence": "researched"
+      "evidence": "provisional",
+      "range": [0.025, 0.1]
     },
     {
       "key": "disaster-to-home-values",
@@ -630,15 +633,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.052,
       "per": "severe disaster",
       "lagMonths": 0,
       "group": "place",
       "owner": "M",
-      "anchor": "Home prices and rents -2.5 to 5%",
-      "source": "Boustan et al. 2020 (JUE)",
+      "anchor": "A severe disaster in a county's decade lowered housing prices 5.2% and rents 2.5%; across death thresholds from 20 to 100 the price effect ranges 3.8 to 5.3%.",
+      "source": "Boustan, Kahn, Rhode and Yanguas 2020 (JUE)",
       "from": "disaster.severe",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.053, -0.038]
     },
     {
       "key": "coverage-to-catastrophic-bills",
@@ -1235,15 +1239,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.26,
       "per": "1 microgram per deciliter",
-      "lagMonths": 0,
+      "lagMonths": 48,
       "group": "young children",
       "owner": "M",
-      "anchor": "-1 point far below proficient in reading (base 12%)",
-      "source": "Aizer, Currie, Simon and Vivier 2018",
+      "anchor": "Rhode Island children born 1997 to 2005: each 1 microgram per deciliter more blood lead before school raised the chance of being substantially below proficient in third-grade reading 3.1 points on a baseline of 12% (instrumental-variable estimate, about +26%); the census-tract fixed-effects estimate is about a quarter of that (about +6.5%). One state, so provisional. Lead is measured before school and reading in third grade, so the lag is about four years.",
+      "source": "Aizer, Currie, Simon and Vivier 2018 (AEJ: Applied)",
       "from": "health.blood-lead",
-      "evidence": "researched"
+      "evidence": "provisional",
+      "range": [0.065, 0.26]
     },
     {
       "key": "heat-to-learning",
@@ -1252,19 +1257,20 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.01,
       "per": "1 degree F hotter year: -1%",
       "lagMonths": 0,
       "group": "schools without AC",
       "owner": "M",
-      "anchor": "AC largely offsets it",
-      "source": "Park, Goodman, Hurwitz and Smith 2020",
+      "anchor": "PSAT takers across the country: without school air conditioning, each 1 degree F hotter school year cut that year's learning 1%; school air conditioning largely offsets it, which is why this link is for schools without it. Hot days account for about 5% of the racial achievement gap. The range is the default 25% spread.",
+      "source": "Park, Goodman, Hurwitz and Smith 2020 (AEJ: Economic Policy)",
       "moderator": {
         "measure": "school.ac-share",
         "effectAtFull": -0.9
       },
       "from": "env.school-year-temperature",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.0125, -0.0075]
     },
     {
       "key": "home-internet-to-scores",
@@ -1290,15 +1296,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.1,
       "per": "partnership in force",
       "lagMonths": 24,
       "group": "Hispanic students",
       "owner": "M",
-      "anchor": "-10% within 2 years",
-      "source": "Dee and Murphy 2020 (AERJ)",
+      "anchor": "Local police partnerships with ICE under 287(g) cut Hispanic school enrollment 7.3% on average and about 10% after two years, mostly among the youngest students, displacing about 320,000 Hispanic students nationwide.",
+      "source": "Dee and Murphy 2020 (American Educational Research Journal)",
       "from": "immigration.local-enforcement-partnership",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.1, -0.073]
     },
     {
       "key": "daca-to-graduation",
@@ -1696,15 +1703,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "access: +4.1 points",
+      "size": 0.0007,
+      "per": "percentage point of households with home broadband (a woman gaining access: +4.1 points participation)",
       "lagMonths": 0,
       "group": "married women",
       "owner": "M",
-      "anchor": "+4.1 points participation",
+      "anchor": "Using supply-side limits on residential broadband as an instrument, high-speed home internet raised married women's labor force participation 4.1 points, most for college-educated mothers, through telework and time saved at home; no effect for single women or men. On a participation near 58% that is about +7% for a household that gains access, or +0.07% per point of households with broadband. The range is the default 25% spread.",
       "source": "Dettling 2017 (ILR Review)",
       "from": "broadband.home-access",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [0.0005, 0.0009]
     },
     {
       "key": "road-condition-to-vehicle-costs",
@@ -2064,15 +2072,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "quarter mile farther: -2 to 5% ballots",
+      "size": -0.14,
+      "per": "mile farther to the polling place (a quarter mile: 2 to 5% fewer ballots)",
       "lagMonths": 0,
       "group": "non-white areas, local elections most",
       "owner": "C",
-      "anchor": "LA consolidation: -1.85 points net",
-      "source": "Cantoni 2020; Brady and McNulty 2011",
+      "anchor": "At precinct boundaries in nine Massachusetts and Minnesota towns, a 0.245-mile longer trip to the polls (one standard deviation) cut ballots cast 2 to 5% across four elections, three times as much in high-minority areas in non-presidential years; per mile that is -8% to -20%, about -14% at the middle. Los Angeles precinct consolidation: -1.85 points net.",
+      "source": "Cantoni 2020 (AEJ: Applied); Brady and McNulty 2011 (APSR)",
       "from": "voting.polling-place-distance-miles",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.2, -0.08]
     },
     {
       "key": "newspaper-closure-to-borrowing-cost",
