@@ -10,7 +10,7 @@ Observed main remains 493621af. No additional merge is claimed by this checkpoin
 
 | Owner | Published output | Consumer or outstanding proof |
 | --- | --- | --- |
-| Coordinator | Foundation #1309 f8357000, now draft | Restoring exact main shift caller in isolated tree 456a0f66; existing ten-case test running. Four-root types passed before this restoration. |
+| Coordinator | Foundation #1309 7f8e4880, draft WIP | Exact main shift caller restored. Ten-case proof: five cadence failures and five invalid-evidence passes. Audit supplies contract; Team 3 owns writer repair. |
 | Team 1 | Budget #1512 69d38271, draft | Saved national budget run and threshold calibration; no budget-passage claim from filing counts. |
 | Team 2 | Vote #1513 49d5243f, ready | State roster contract with Audit; independent A97 compliance build resumed. |
 | Team 3 | City #1516 3623fa6f; weekly caller #1524 3d6ebbb0, ready | Stack includes #1462, #1519 and #1521. Exact main shift survivor must be retained. |
@@ -24,7 +24,7 @@ Observed main remains 493621af. No additional merge is claimed by this checkpoin
 
 ### BLOCKED
 
-Foundation is explicitly draft. Forty-five dated-term cases passed on f694946f, but the newer composition has no runtime pass. Typechecking alone did not prove shift routing: the old caller remained despite preserved test files. The exact main caller is now in an isolated candidate, with unchanged tests and limits.
+Foundation is explicitly draft. Forty-five dated-term cases passed on f694946f, but the newer composition has no runtime pass. Typechecking alone did not prove shift routing: the old caller remained despite preserved test files. The exact main caller is now published in failing WIP 7f8e4880. All five completed payments reach the shared writer and fail pay.cadence.recorded-pay-period; all five invalid-evidence refusals pass. Tests and limits are unchanged. The existing payroll owner receives this defect; no second writer or skipped law application is admitted.
 
 County core ownership is proposed to CTO, not granted. A61 lacks raw bank records. Team 6's budget-failure receipt and Team 2's state-body contract are with Audit. Existing local four-year processes prevent an exclusive speed claim; none was stopped.
 
