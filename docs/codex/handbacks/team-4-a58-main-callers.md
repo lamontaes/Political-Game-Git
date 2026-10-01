@@ -6,7 +6,7 @@ The preserved repair now targets main directly. Ordinary adult opening supplies 
 
 Adult opening previously hired from legacy businesses because it seated that roster before hiring. The job selector read that legacy namespace because no canonical producer ran before it. Later refresh seated and settled the legacy roster again because it called refreshLocalEconomy. The chain ended in a duplicate business engine, a finding.
 
-The replacement uses ensureTownResidents before ordinary adult hiring in src/presentation/production-world.ts:436. The existing resident/employment producer supplies actual saved businesses and paid staff roles. adultStartEmployer in src/simulation/local-economy.ts selects among those records using its existing relationship, experience and pay ordering. refreshLifeOpportunities in src/simulation/life-opportunities.ts keeps the same world at entry and calls its remaining existing writers. The terminal is actual employer, work and compensation records.
+The replacement uses ensureTownResidents before ordinary adult hiring in src/presentation/production-world.ts:436. The existing resident/employment producer supplies actual saved businesses and paid staff roles. adultStartEmployer at src/simulation/local-economy.ts:847 selects among those records using its existing relationship, experience and pay ordering. refreshLifeOpportunities at src/simulation/life-opportunities.ts:442 keeps the same world at entry and calls its remaining existing writers. The terminal is actual employer, work and compensation records.
 
 ## 2. Research
 
