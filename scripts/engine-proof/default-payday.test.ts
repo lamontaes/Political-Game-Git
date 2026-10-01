@@ -60,7 +60,7 @@ function paid(world: World, flowId: string) {
 describe("A4 default clock carries actual due payday", () => {
   it.each(["days", "minutes"] as const)(
     "pays one completed shift through default %s and preserves it through Continue",
-    (route) => {
+    (route: "days" | "minutes") => {
       const { world, person, work, due, flow } = completedShift();
       expect(paid(world, flow.id)).toHaveLength(0);
       const advance = (input: World) => {
