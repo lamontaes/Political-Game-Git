@@ -383,6 +383,7 @@ function fixture(place: string, floor: number | null = 120) {
   const world = {
     currentDate,
     policyCatalog: {
+      propositionOrder: [propositionId],
       propositions: {
         [propositionId]: {
           id: propositionId,
