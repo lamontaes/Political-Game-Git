@@ -8,6 +8,7 @@ import type {
 } from "../types";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { ensureCrisisStandingAppropriations } from "../crisis-standing-appropriations";
 import { firstOfNextMonth, firstOfPreviousMonth } from "./fiscal";
 import { ensureOfficeholderPrinciples } from "../governing/officeholder-principles";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
@@ -127,6 +128,7 @@ export function ensurePublicBudgets(world: World): World {
   if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION)
     return world;
   if (world.publicBudgets) return world;
+  world = ensureCrisisStandingAppropriations(world);
   const today = makeIsoDate(world.currentDate);
   const empty: PublicBudgetStore = {
     version: PUBLIC_BUDGETS_VERSION,
