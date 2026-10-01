@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "tool": "built-in image_gen",
+  "status": "candidate-unapproved",
+  "source_delivery": "/Users/lamontae/Documents/OCD-Art-Sept29",
+  "child_prompt_recipe": {
+    "id": "child-pose-sheet-v1",
+    "template": "Use case: illustration-story. One candidate Our Civic Duty modular child pose sheet: exactly THREE {gender_word}, {age_description}. One row of three FULL BODY figures, LEFT TO RIGHT slim, average, broad body sizes. {action}. All three wear {clothing}. Completely blank featureless faces, bald heads, NO hair, eyes, eyebrows, nose, mouth or facial details. Fully clothed, neutral ordinary child anatomy. Adult reference is ONLY the three-column layout and drawn contour/cel rendering, NOT adult anatomy or scant clothing. Game painting binds style: clean dark charcoal outlines, muted natural colors, broad SOFT CEL SHADOW SHAPES, selective finer creases, no photographic texture or 3D gloss. Exactly three evenly spaced figures with matching pose and clothing, complete heads, hands and feet inside generous margins, aligned heads and feet, no overlap. GENUINE TRANSPARENT BACKGROUND: only figures opaque, empty space fully transparent, NO backdrop, shadows behind figures, halo, gradients or glow. Wide sheet, zero text or labels, no logos or extra objects besides the book for reading. Output {name}.png.",
+    "age_descriptions": {
+      "8": "children about age eight, larger heads relative to torso than adults, short child limbs, no adult musculature",
+      "14": "young teenagers about age fourteen, age-appropriate natural proportions, no adult musculature",
+      "toddler": "toddlers about age two, large toddler heads, short arms and legs and soft small-child proportions"
+    },
+    "clothing_descriptions": {
+      "base": "plain gray short-sleeve T-shirt and gray knee-length shorts, barefoot",
+      "casual": "muted teal T-shirt, full-length blue jeans and simple low white sneakers",
+      "everyday": "muted rust pullover hoodie, olive full-length casual trousers and simple low gray sneakers"
+    },
+    "action_descriptions": {
+      "standing": "standing front facing, arms resting by sides",
+      "waving": "standing front facing, ONE hand raised in an open-palm friendly wave, the other arm relaxed at side",
+      "seated-reading": "sitting front facing, knees bent naturally, holding an open blank book with BOTH hands, feet visible below; no chair, no furniture"
+    },
+    "gender_words": {
+      "boy": "boys",
+      "girl": "girls"
+    },
+    "exact_reconstruction_verified": 53
+  },
+  "prompts": {
+    "tv-local-news": "Use case: illustration-story. Our Civic Duty candidate TV on-air surface local-news. Straight-on on-air shot of a local news desk in the reference studio, two empty anchor seats behind the desk. Camera is the broadcast camera looking AT the desk, do not show production cameras or the TV hardware. Background blank panel. Empty lower-third banner and station-logo rectangle. Wide 16:9 image fills screen edge to edge. Match supplied illustrated game references: clean dark charcoal contour lines, muted natural colors, broad flat soft cel shading, selective finer interior lines, no photo textures, no 3D realism. ALL lower-thirds, station logos, name plates and display panels must be BLANK SHAPES. Zero letters, numbers, symbols, pseudo-writing, watermarks, brands or people. The game overlays current people and text later. Deliver one complete image, no collage of alternative versions.",
+    "tv-debate": "Use case: illustration-story. Our Civic Duty candidate TV on-air surface debate. Straight-on televised debate stage with EXACTLY TWO lecterns, symmetric spacing, wide enough to show both fully. No people. Match architectural/color language of provided TV reference. Blank backdrop, empty lower-third banner and empty station-logo box. Wide 16:9 image fills screen edge to edge. Match supplied illustrated game references: clean dark charcoal contour lines, muted natural colors, broad flat soft cel shading, selective finer interior lines, no photo textures, no 3D realism. ALL lower-thirds, station logos, name plates and display panels must be BLANK SHAPES. Zero letters, numbers, symbols, pseudo-writing, watermarks, brands or people. The game overlays current people and text later. Deliver one complete image, no collage of alternative versions.",
+    "tv-edit-debate": "Change ONLY the side edges: remove the two large production cameras and their stands at the left and right edges. Repaint those narrow areas as matching studio wall panels and floor. Preserve exactly TWO lecterns, microphones, backdrop, broadcast lower-third and blank station-logo shapes. This is an ON-AIR broadcast shot, the production cameras are behind the viewer, outside frame. No people, no text, no new objects. Keep the same illustration style.",
+    "tv-cable-panel": "Use case: illustration-story. Our Civic Duty candidate TV on-air surface cable-panel. Television cable discussion broadcast layout with EXACTLY FOUR equal rectangular participant video windows arranged 2 by 2, blank neutral studio interiors inside each, no people. Graphical broadcast composition, empty lower third and blank station logo. No written content. Wide 16:9 image fills screen edge to edge. Match supplied illustrated game references: clean dark charcoal contour lines, muted natural colors, broad flat soft cel shading, selective finer interior lines, no photo textures, no 3D realism. ALL lower-thirds, station logos, name plates and display panels must be BLANK SHAPES. Zero letters, numbers, symbols, pseudo-writing, watermarks, brands or people. The game overlays current people and text later. Deliver one complete image, no collage of alternative versions.",
+    "tv-edit-cable-panel": "Change ONLY the interiors of the four equal participant windows. Replace the office, green room and news desk interiors with simple muted blue-gray studio backdrop gradients/panels, identical framing, for the game's four participant portrait overlays. Preserve four equal 2-by-2 boxes, border positions, all blank lower-thirds and bottom station-logo shape. No people, no furniture, no doors, no TV hardware inside the boxes. Clean illustrated broadcast surface with no letters or numbers. Keep the same muted contour/cel game style.",
+    "tv-press-briefing": "Use case: illustration-story. Our Civic Duty candidate TV on-air surface press-briefing. Straight-on on-air press briefing view: single empty wood lectern centered against muted blue curtains, two slim microphones, no people, no insignia or seal text. Empty lower-third banner and blank station logo. Wide 16:9 image fills screen edge to edge. Match supplied illustrated game references: clean dark charcoal contour lines, muted natural colors, broad flat soft cel shading, selective finer interior lines, no photo textures, no 3D realism. ALL lower-thirds, station logos, name plates and display panels must be BLANK SHAPES. Zero letters, numbers, symbols, pseudo-writing, watermarks, brands or people. The game overlays current people and text later. Deliver one complete image, no collage of alternative versions.",
+    "newspaper-weekly": "Use case: illustration-story. Our Civic Duty candidate newspaper front-page surface: small-town weekly, compact three-column grid, modest broad masthead block, single small photo box, simple horizontal rules. Use supplied game newspaper on the table as visual reference for off-white newsprint, dark fine rules, crisp illustrated outlines, muted natural tones and simple newspaper structure. A SINGLE complete newspaper front viewed STRAIGHT ON, entire rectangular portrait page visible with small margin, no desk or environment, no folded stack. Masthead, date, headlines, photo boxes and body copy must ALL be plain EMPTY PLACEHOLDER RECTANGLES in very pale gray so the game overlays real words and world images. Absolutely NO letters, numbers, symbols, real or fake text, scribble, line clusters pretending to be type, masthead writing, illustrations inside photo boxes, people, logos or watermarks. Fine dark vertical column rules and horizontal separators are allowed; all story text areas are blank broad rectangles, not rows of tiny type. Match provided game's clean dark outlines, flat soft cel shading, muted newsprint color; no photo texture or 3D gloss. Functional layout source also supplied in news-screen-mockup-sept27.html: restrained newsprint, masthead band, lead article hierarchy and column-separated secondary stories. Generate ONE page of this size class only.",
+    "newspaper-midsize-daily": "Use case: illustration-story. Our Civic Duty candidate newspaper front-page surface: mid-size daily, four-column grid, one large lead headline block, one central photo box, secondary story blocks below. Use supplied game newspaper on the table as visual reference for off-white newsprint, dark fine rules, crisp illustrated outlines, muted natural tones and simple newspaper structure. A SINGLE complete newspaper front viewed STRAIGHT ON, entire rectangular portrait page visible with small margin, no desk or environment, no folded stack. Masthead, date, headlines, photo boxes and body copy must ALL be plain EMPTY PLACEHOLDER RECTANGLES in very pale gray so the game overlays real words and world images. Absolutely NO letters, numbers, symbols, real or fake text, scribble, line clusters pretending to be type, masthead writing, illustrations inside photo boxes, people, logos or watermarks. Fine dark vertical column rules and horizontal separators are allowed; all story text areas are blank broad rectangles, not rows of tiny type. Match provided game's clean dark outlines, flat soft cel shading, muted newsprint color; no photo texture or 3D gloss. Functional layout source also supplied in news-screen-mockup-sept27.html: restrained newsprint, masthead band, lead article hierarchy and column-separated secondary stories. Generate ONE page of this size class only.",
+    "newspaper-big-city-daily": "Use case: illustration-story. Our Civic Duty candidate newspaper front-page surface: big-city broadsheet daily, six-column grid, large lead headline block across columns, two photo boxes and clearly separated secondary stories. Use supplied game newspaper on the table as visual reference for off-white newsprint, dark fine rules, crisp illustrated outlines, muted natural tones and simple newspaper structure. A SINGLE complete newspaper front viewed STRAIGHT ON, entire rectangular portrait page visible with small margin, no desk or environment, no folded stack. Masthead, date, headlines, photo boxes and body copy must ALL be plain EMPTY PLACEHOLDER RECTANGLES in very pale gray so the game overlays real words and world images. Absolutely NO letters, numbers, symbols, real or fake text, scribble, line clusters pretending to be type, masthead writing, illustrations inside photo boxes, people, logos or watermarks. Fine dark vertical column rules and horizontal separators are allowed; all story text areas are blank broad rectangles, not rows of tiny type. Match provided game's clean dark outlines, flat soft cel shading, muted newsprint color; no photo texture or 3D gloss. Functional layout source also supplied in news-screen-mockup-sept27.html: restrained newsprint, masthead band, lead article hierarchy and column-separated secondary stories. Generate ONE page of this size class only.",
+    "initial-child-source": "Use case: illustration-story. Candidate modular child pose sheet for Our Civic Duty, ONE sheet with exactly THREE boys age about eight, left to right slim, average, broad body sizes. All three standing front facing, arms resting naturally by sides. Base outfit means fully clothed plain gray short-sleeve top and gray knee-length athletic shorts, barefoot. Blank featureless face, bald head, NO hair, NO facial features. Age-appropriate ordinary child anatomy, fully clothed, no adult muscle definition. Use supplied adult sheet ONLY for the three-column layout, proportions alignment and contour/cel rendering; change adults to children of age eight. Use supplied game painting for illustrated style: clean dark outlines, muted natural colors, broad soft cel shadows, no texture, no realism. Three full-body figures from head to feet, same head and foot alignment, equally spaced, no overlap, no cropping, no text or labels, no other objects. Wide sheet and genuine transparent background. Keep consistent pose and outfit across the three sizes. This is boy-8-standing-base.png."
+  },
+  "assets": [
+    {
+      "name": "big-city-daily",
+      "category": "newspapers",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-8a817a5a-7c08-4b35-9d53-136bdeccda77.png",
+      "file": "art/authoring/sept29-team7/newspapers/big-city-daily.png",
+      "prompt_recipe": "newspaper-big-city-daily",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "layout_reference": "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/news-screen-mockup-sept27.html",
+      "candidate_sha256": "b3381201577337f03317aab7b1c296db678540ac1efcde1e433d7d3b9ad11910",
+      "width": 1024,
+      "height": 1536,
+      "native_source_sha256": "b3381201577337f03317aab7b1c296db678540ac1efcde1e433d7d3b9ad11910",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png": "37399c976835bb79323055ccbb0fdbce2e231d1539f73dab4ad472a3b5d4fe7e",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": "2:3",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "name": "midsize-daily",
+      "category": "newspapers",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-dec0be69-26fd-48ef-9650-5c179332ad8a.png",
+      "file": "art/authoring/sept29-team7/newspapers/midsize-daily.png",
+      "prompt_recipe": "newspaper-midsize-daily",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "layout_reference": "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/news-screen-mockup-sept27.html",
+      "candidate_sha256": "203ae4504ffae659d8614a51e9c2354fc28c6cbadb6815f24d7602ae1387dcfb",
+      "width": 1024,
+      "height": 1536,
+      "native_source_sha256": "203ae4504ffae659d8614a51e9c2354fc28c6cbadb6815f24d7602ae1387dcfb",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png": "37399c976835bb79323055ccbb0fdbce2e231d1539f73dab4ad472a3b5d4fe7e",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": "2:3",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "name": "weekly",
+      "category": "newspapers",
+      "source": "/Users/lamontae/.codex/generated_images/01a0ef18-7d76-7220-9e0b-f89ad55bc6c3/exec-c408010b-76a4-49b6-b0e2-c318833bde69.png",
+      "file": "art/authoring/sept29-team7/newspapers/weekly.png",
+      "prompt_recipe": "newspaper-weekly",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "layout_reference": "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/news-screen-mockup-sept27.html",
+      "candidate_sha256": "bfe8f0533d802aaeac3b2fa3dffcad35a9dafc83d9ecba910b28859f759295fb",
+      "width": 1062,
+      "height": 1482,
+      "native_source_sha256": "bfe8f0533d802aaeac3b2fa3dffcad35a9dafc83d9ecba910b28859f759295fb",
+      "reference_sha256": {
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png": "37399c976835bb79323055ccbb0fdbce2e231d1539f73dab4ad472a3b5d4fe7e",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png": "29eadeb9c739581d3b415e8ae37fd713b6591136e844d61d3b4b965771c643cd"
+      },
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people."
+      },
+      "image_qa": {
+        "width": 1062,
+        "height": 1482,
+        "aspectRatio": "177:247",
+        "hasTransparency": "none"
+      }
+    }
+  ],
+  "qa_status": "61 native images passed existing parseImageMetadata dimension/transparency-presence checks. All61 individually visually screened; alpha-aware aggregate kids, TV, newspaper and reference sheets inspected. No pixel approval, clean-alpha or runtime-fit claim.",
+  "claimed_paths": [
+    "art/authoring/sept29-team7/newspapers/big-city-daily.png",
+    "art/authoring/sept29-team7/newspapers/midsize-daily.png",
+    "art/authoring/sept29-team7/newspapers/weekly.png",
+    "art/authoring/sept29-team7/contact-sheets/newspapers.jpg",
+    "art/authoring/sept29-team7/newspapers/tags.json",
+    "art/authoring/sept29-team7/newspapers/generation-receipts.json",
+    "docs/release/changes/sept29-team7-newspapers.md",
+    "docs/codex/handbacks/team-7-newspapers.md"
+  ],
+  "source_delivery_readme_sha256": "e66b0bb103f3358a798866c8e8e14a141eefb7aa772a2ffce830f7956ad60b5d",
+  "executed_checks": {
+    "commands": [
+      {
+        "command": "npm run storage -- run test -- python3 /private/tmp/team7-contact.py",
+        "exit_code": 0,
+        "result": "10 final sheets written"
+      },
+      {
+        "command": "npm run storage -- run test -- node --import tsx /private/tmp/team7-qa.mjs",
+        "exit_code": 0,
+        "native_assets": 61,
+        "failures": []
+      }
+    ],
+    "parser": "existing scripts/art-asset-factory/qa.ts parseImageMetadata",
+    "storage_override": false,
+    "limits": [
+      "Transparency presence only; no full alpha sanitation or modular fit",
+      "CTO and owner approval pending",
+      "Runtime import, browser proof and simulation tests not run"
+    ]
+  },
+  "contact_sheets": [
+    {
+      "file": "art/authoring/sept29-team7/contact-sheets/newspapers.jpg",
+      "sha256": "5ffe19febd3fec5daa82c5e8cc42ab50a360dd796bd74a2e4d3140b9767e8d25"
+    }
+  ],
+  "split_source_commit": "ffde4abd323a8aef29653f94f244fd13bd80a027",
+  "split_note": "Native PNGs reused byte-for-byte; no regeneration, resizing or runtime import."
+}

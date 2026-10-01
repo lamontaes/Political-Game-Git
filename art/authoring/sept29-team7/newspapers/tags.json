@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "delivery_date": "2026-09-29",
+  "source_root": "repository",
+  "source_index_sha256": "bdaba2201835f762c56ab32412b299a08e6e1b5291cbd341f71fba0cd2f93078",
+  "review_policy": {
+    "approved_for_game": "yes requires recorded CTO and owner approval; no is the conservative state before review or when issues remain.",
+    "preview_limit": "These tags are for candidate selection. Full-size files, lineage verification, figure cutting and runtime import belong to job 08.",
+    "facing_extensions": "side-left, threequarter-left and mixed preserve observed non-front/back sources; they require explicit view support and are held from import."
+  },
+  "images": [
+    {
+      "file": "art/authoring/sept29-team7/newspapers/big-city-daily.png",
+      "file_root": "repository",
+      "category": "newspapers",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "b3381201577337f03317aab7b1c296db678540ac1efcde1e433d7d3b9ad11910",
+      "width": 1024,
+      "height": 1536,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/newspapers.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/generation-receipts.json",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "kind": "big-city-daily",
+      "dynamic_surfaces": "blank",
+      "setting": "graphic-layout",
+      "image_qa": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": "2:3",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspapers/midsize-daily.png",
+      "file_root": "repository",
+      "category": "newspapers",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "203ae4504ffae659d8614a51e9c2354fc28c6cbadb6815f24d7602ae1387dcfb",
+      "width": 1024,
+      "height": 1536,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/newspapers.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/generation-receipts.json",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "kind": "midsize-daily",
+      "dynamic_surfaces": "blank",
+      "setting": "graphic-layout",
+      "image_qa": {
+        "width": 1024,
+        "height": 1536,
+        "aspectRatio": "2:3",
+        "hasTransparency": "none"
+      }
+    },
+    {
+      "file": "art/authoring/sept29-team7/newspapers/weekly.png",
+      "file_root": "repository",
+      "category": "newspapers",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "bfe8f0533d802aaeac3b2fa3dffcad35a9dafc83d9ecba910b28859f759295fb",
+      "width": 1062,
+      "height": 1482,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [],
+      "visual_review": {
+        "method": "individual-native-image-inspection",
+        "status": "candidate-screened",
+        "precision_limit": "Visual screening only; modular fit, runtime anchors and owner approval are not established.",
+        "observations": "Requested blank dynamic text/logo/photo areas preserved; no readable lettering or visible people.",
+        "sheet": "art/authoring/sept29-team7/contact-sheets/newspapers.jpg"
+      },
+      "generation_receipt": "art/authoring/sept29-team7/generation-receipts.json",
+      "references": [
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/newspaper/game-paper-on-table-the-alamo-sentinel.png",
+        "/Users/lamontae/Documents/OCD-Art-Sept29/references/style/our-home-mockup.png"
+      ],
+      "kind": "weekly",
+      "dynamic_surfaces": "blank",
+      "setting": "graphic-layout",
+      "image_qa": {
+        "width": 1062,
+        "height": 1482,
+        "aspectRatio": "177:247",
+        "hasTransparency": "none"
+      }
+    }
+  ],
+  "source_readme_sha256": "e66b0bb103f3358a798866c8e8e14a141eefb7aa772a2ffce830f7956ad60b5d",
+  "summary": {
+    "generated_count": 3,
+    "approved_count": 0,
+    "category": "newspapers"
+  },
+  "shared_input_inventory": "art/authoring/sept29-team7/tags.json"
+}
