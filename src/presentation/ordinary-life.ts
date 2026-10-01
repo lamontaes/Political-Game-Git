@@ -2,6 +2,7 @@ import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import {
   advanceApplications,
   settleHouseholdAdultJobPay,
+  settleJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
 import { contactBases } from "../simulation/people-contact";
@@ -422,7 +423,7 @@ function passOrdinaryDaysUnchecked(
     releaseMissedHolds(
       settleCareerOffers(
         settleHouseholdAdultJobPay(
-          advanceApplications(advanced, personId),
+          settleJobPay(advanceApplications(advanced, personId), personId),
           personId,
           world.currentDate,
         ),
