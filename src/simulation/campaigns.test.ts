@@ -43,9 +43,11 @@ import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
   canonicalSupportBasisPoints,
+  evaluateCampaignAwareOutcome,
 } from "./campaigns";
 import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
 import { canonicalJson } from "./canonical-json";
+import { startingSupportAdjustment } from "./record-in-office";
 import { projectCampaignCompliance } from "../presentation/campaign-compliance-projection";
 import type { CampaignRecord, EntityId, World } from "./types";
 
@@ -853,6 +855,71 @@ describe("campaign work", () => {
   });
 });
 
+describe("A111 campaign support uses recorded inputs", () => {
+  it.each(["a111-start-one", "a111-start-two", "a111-start-three"])(
+    "uses equal initial weights when no record adjustment exists: %s",
+    (seed) => {
+      const filed = fileKentuckyCampaign(seed);
+      const scopes = filed.campaign.candidateSupportScopes;
+      expect(scopes).toHaveLength(2);
+      for (const scope of scopes) {
+        expect(
+          startingSupportAdjustment(
+            filed.world,
+            scope.candidatePersonId,
+            filed.campaign.filedAt,
+            filed.campaign.jurisdictionId,
+          ),
+        ).toBe(0);
+        expect(
+          canonicalSupportBasisPoints(
+            filed.world,
+            filed.campaign,
+            scope.candidatePersonId,
+          ),
+        ).toBe(5000);
+      }
+      const p = filed.world.people[filed.candidatePersonId]!;
+      console.log(
+        JSON.stringify({
+          a111InitialSupport: true,
+          seed,
+          personId: p.id,
+          name: p.givenName + " " + p.familyName,
+          jurisdiction:
+            filed.world.jurisdictions[filed.campaign.jurisdictionId]!.name,
+          support: 5000,
+        }),
+      );
+    },
+  );
+  it("uses the latest saved share without an election-night swing, including reload", () => {
+    const filed = fileKentuckyCampaign("a111-election-share");
+    const after = doOneSession(
+      filed.world,
+      filed.campaign,
+      "outreach",
+      1,
+      null,
+    );
+    for (const world of [after, deserializeWorld(serializeWorld(after))]) {
+      const outcome = evaluateCampaignAwareOutcome(
+        world,
+        filed.campaign.contestId,
+      );
+      for (const tally of outcome.tallies) {
+        const support = canonicalSupportBasisPoints(
+          world,
+          filed.campaign,
+          tally.candidatePersonId,
+        );
+        expect(tally.votes).toBe(support);
+        expect(tally.voteShare).toBe(support / 10000);
+      }
+    }
+  });
+});
+
 describe("support truth and what the campaign is told about it", () => {
   it("records the reading as a separate record from the truth", () => {
     const filed = fileKentuckyCampaign("truth-vs-observation");
@@ -875,12 +942,12 @@ describe("support truth and what the campaign is told about it", () => {
     expect(result.supportStateIds).toContain(observation.underlyingStateId!);
     expect(observation.id).not.toBe(observation.underlyingStateId);
 
-    // And the observation carries its own uncertainty rather than certainty.
-    expect(observation.uncertainty?.kind).toBe("margin-of-error");
+    // This is the recorded support reading, without additional sampling error.
+    expect(observation.uncertainty).toEqual({ kind: "none" });
+    expect(observation.methodologyKey).toBeNull();
   });
 
-  it("is wrong often enough that reading it is a judgment", () => {
-    let disagreements = 0;
+  it("reads the saved support without added poll noise", () => {
     for (let index = 0; index < 12; index += 1) {
       const filed = fileKentuckyCampaign(`observation-error-${index}`);
       const after = doOneSession(
@@ -905,9 +972,8 @@ describe("support truth and what the campaign is told about it", () => {
         filed.campaign,
         filed.candidatePersonId,
       );
-      if (observed !== truth) disagreements += 1;
+      expect(observed).toBe(Math.round(truth));
     }
-    expect(disagreements).toBeGreaterThan(6);
   });
 
   it("is declared as a simulation-established production metric", () => {
