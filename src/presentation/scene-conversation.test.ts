@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import {
   activeEducationEnrollmentsAt,
   didPeopleShareEducationOrganization,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
   recordWorldEvent,
   serializeWorld,
 } from "../simulation";
@@ -126,7 +128,40 @@ describe("PT3 — the scene conversation box reads the record back", () => {
       priors: [],
     } as NewGameSetup);
     const personId = game.playerPersonId;
-    const world = openOrdinaryLife(game.world, personId);
+    const started = openOrdinaryLife(game.world, personId);
+    expect(
+      projectPlayerConversation(started, personId, "life-talk"),
+    ).toBeNull();
+    const membership = householdMembershipsAt(started, personId).find(
+      (entry) => entry.state.residenceRole === "primary",
+    )!;
+    const present = peopleInHouseholdAt(started, membership.household.id);
+    const jurisdictionId = started.people[personId]!.homeJurisdictionId;
+    const world = recordWorldEvent(started, {
+      stableKey: "pt3-quiet-home-presence",
+      type: "life.scene.opened",
+      occurredAt: started.currentDate,
+      recordedAt: started.currentDate,
+      jurisdictionId,
+      involvedEntityIds: present,
+      participants: present.map((id) => ({
+        personId: id,
+        role: "presence:participant",
+        detail: "Present in the authored quiet-home test scenario.",
+      })),
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [`moment:${JSON.stringify(started.currentMoment)}`],
+      summary: "The recorded participants are together at home.",
+      context: {
+        location: { jurisdictionId, label: "Home", setting: "home" },
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
     const view = projectPlayerConversation(world, personId, "life-talk")!;
     expect(view).not.toBeNull();
     const other = view.addressee as EntityId;
