@@ -20,6 +20,8 @@ Eleven strict roots had zero scoped or imported diagnostics on that composition.
 
 The subsequent fixture repair passed nine of ten complete District cases in 19.82 seconds, with 342 milliseconds in case bodies. It uses the existing small-world primitives and canonical Council, Mayor and sitting openings. The formerly slow ordinary-clock case passed. Every original route, assertion and timeout remains. The remaining member-act case stops at the unchanged refusal-text expectation before its later Mayor route. Eleven strict roots again produced zero scoped or imported diagnostics. This is a partial repair, not a completed act-route proof.
 
+After receiving newer main additively, all three complete changed test files passed 87 of 88 cases with no skipped cases. The run reached its last result in 27.80 seconds. The ordinary act-clock case took 297 milliseconds. The same refusal-text assertion remains the sole failure. Eleven strict roots again had zero diagnostics. The required audit scan ran successfully, but A77 and A76 have no rules and return unknown; it proves no closure for either item.
+
 ## 1. Why-chain (five whys, to bedrock)
 
 1. A filed bill needs a readable title.

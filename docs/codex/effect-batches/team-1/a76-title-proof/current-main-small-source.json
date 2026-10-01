@@ -1,0 +1,36 @@
+{
+  "sourceHead": "625b60cba96bbd27ec5471ca7a6855181d45e4d5",
+  "mainIncluded": "16d1176f9cb09074e97a008613d47e1d133e00c8",
+  "result": {
+    "passed": 87,
+    "failed": 1,
+    "total": 88,
+    "skipped": 0,
+    "runSecondsThroughLastFile": 27.796134033203124,
+    "ownClockCaseMilliseconds": 297.13036099999954,
+    "typeScopedDiagnostics": 0,
+    "typeImportedDiagnostics": 0
+  },
+  "scan": {
+    "A77": "unknown: no scan rule",
+    "A76": "unknown: no scan rule"
+  },
+  "limits": [
+    "Member-act case still stops at original refusal-wording assertion before later Mayor route.",
+    "No assertion, timeout or legal-clock change.",
+    "No shared G1 builder publication received.",
+    "No A77 roster binding received."
+  ],
+  "evidenceSha256": {
+    "current-main-small-changed.log": "7b078191a97cb982ab1567cfc29b72154d23310aa9b0a1381f5d264c47bf8bd5",
+    "current-main-small-changed.json": "bc30ab597037b10ab5521daad574fc761f9ae98a294260b11d2c7eb2df858f32",
+    "current-main-small-types.log": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+    "current-main-audit-scan.log": "8b68df921d35154f591023265aa8c1d222d39002b66093a3c21290675f9c95eb",
+    "current-main-audit-scan.json": "7ad5674c11f3319ba7a41b8c61a1c559413ae6112a7d15ea389a503449725e5b"
+  },
+  "sourceSha256": {
+    "src/simulation/dc-council-acts.test.ts": "3d12e7eac4ced5dd9f5d0fe5b6e417c18cec28126252db5cb1c62964027a5319",
+    "src/simulation/measure-title.test.ts": "08d657c9f507319d63016fdcf73cdad7e102bf5cdc0f5472411c79c7ead83327",
+    "src/simulation/governing/member-agenda-council.test.ts": "5c38fde690951793a625d29797688bc2be274f1c270ee9ace7c8cec03071e0e0"
+  }
+}
