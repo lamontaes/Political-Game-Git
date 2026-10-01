@@ -264,7 +264,7 @@ function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
   });
   const withPriorRecords =
     openingData === "playtest65-v1"
-      ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
+      ? ensureOpeningPriorLocalRecords(staffed)
       : staffed;
   const living = ensureLivingWorldOpening(
     withPriorRecords,
@@ -359,10 +359,7 @@ function completeOpeningLife(
     ),
     game.playerPersonId,
   );
-  const withDevelopment = ensureLivingWorldDevelopments(
-    withParties,
-    game.playerPersonId,
-  );
+  const withDevelopment = ensureLivingWorldDevelopments(withParties);
   const withHazards = ensureHazardProduction(withDevelopment);
   const withCrime = ensureCrimeProduction(withHazards);
   const withEpidemics = ensureEpidemicProduction(withCrime);
