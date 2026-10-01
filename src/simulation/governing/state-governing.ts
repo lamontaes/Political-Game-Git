@@ -2496,6 +2496,8 @@ function recordedProgramFollowUp(
     .find(
       (record) =>
         record.kind === "capacity-outturn" &&
+        record.restoredUnits !== null &&
+        record.restoredUnits > 0 &&
         record.sequence > decision.sequence &&
         commitmentIds.has(record.commitmentId) &&
         installmentIds.has(record.installmentId),

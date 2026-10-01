@@ -81,6 +81,13 @@ function report(world: World) {
     },
   });
   const output = advanceWorld(input, 1, reports);
+  expect(output.history.publicProgramRecords).toEqual(
+    input.history.publicProgramRecords,
+  );
+  expect(output.history.resourceFlows).toEqual(input.history.resourceFlows);
+  expect(output.history.resourceTransferOutcomes).toEqual(
+    input.history.resourceTransferOutcomes,
+  );
   const outcomes = output.history.events.filter(
     (event) =>
       event.type === GOVERNING_OUTCOME &&
