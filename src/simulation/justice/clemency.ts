@@ -1,4 +1,5 @@
-import { addDays } from "../dates";
+import { addDays, daysBetween } from "../dates";
+import { ensureClemencyPetitionSchedule } from "./clemency-transitions";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { eventById } from "../event-index";
 import {
@@ -22,6 +23,7 @@ import type {
   DecisionConsideration,
   EntityId,
   HistoricalEvent,
+  IsoDate,
   World,
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
@@ -358,7 +360,10 @@ function recordPetition(
     confidence: "high",
     source: { kind: "direct" },
   });
-  return { world: next, petitionId: petition.id };
+  return {
+    world: ensureClemencyPetitionSchedule(next, petition.id),
+    petitionId: petition.id,
+  };
 }
 
 /**
@@ -761,6 +766,76 @@ function lastMovedAt(world: World, petition: HistoricalEvent) {
   );
 }
 
+/** Next existing legal/writer boundary; an undecided executive gets no retry. */
+export function nextClemencyPetitionDueAt(
+  world: World,
+  petitionId: EntityId,
+): IsoDate | null {
+  const petition = eventById(world, petitionId);
+  if (
+    petition?.type !== CLEMENCY_PETITION_EVENT ||
+    clemencyPetitionStatus(world, petitionId) !== "open"
+  )
+    return null;
+  const personId = petitionerOf(petition);
+  const sentenceId = tagValue(
+    petition,
+    CLEMENCY_SENTENCE_TAG,
+  ) as EntityId | null;
+  const sentenced = sentenceId && eventById(world, sentenceId);
+  if (!personId || !sentenced) return null;
+  const sentence = runningSentence(world, personId, sentenced.id);
+  if (!sentence || sentence.until <= world.currentDate) return null;
+  const dates = [sentence.until];
+  const route = routeFor(world, sentenced, personId);
+  if (typeof route !== "string") {
+    const answered = answersTo(world, petitionId);
+    const step = route.steps.find(
+      (entry) => !answered.some((answer) => answer.bodyKey === entry.key),
+    );
+    if (step && step.key !== EXECUTIVE_BODY) {
+      const wait = addDays(
+        lastMovedAt(world, petition),
+        UNSEATED_BODY_READING.answersAfterDays,
+      );
+      const served = addDays(
+        sentence.from,
+        Math.ceil(
+          daysBetween(sentence.from, sentence.until) *
+            UNSEATED_BODY_READING.servedShareBeforeTakenUp,
+        ),
+      );
+      const hearing = wait > served ? wait : served;
+      if (hearing > world.currentDate) dates.push(hearing);
+      const cap =
+        step.role === "advisory"
+          ? route.gate.advisory?.reportWithinDays
+          : undefined;
+      if (cap !== undefined) {
+        const report = addDays(petition.occurredAt, cap);
+        if (report > world.currentDate) dates.push(report);
+      }
+    }
+  }
+  return dates.sort()[0]!;
+}
+
+/** Review only this saved petition; leave request creation on its current caller. */
+export function advanceClemencyPetition(
+  world: World,
+  petitionId: EntityId,
+): World {
+  const petition = eventById(world, petitionId);
+  if (
+    petition?.type !== CLEMENCY_PETITION_EVENT ||
+    clemencyPetitionStatus(world, petitionId) !== "open"
+  )
+    return world;
+  const advanced = advancePetition(world, petition);
+  const scheduled = ensureClemencyPetitionSchedule(advanced, petitionId);
+  return advanced === world ? scheduled : settleJailAbsences(scheduled);
+}
+
 /** Moves one open petition as far as today allows. */
 function advancePetition(world: World, petition: HistoricalEvent): World {
   const petitionerId = petitionerOf(petition);
@@ -772,6 +847,14 @@ function advancePetition(world: World, petition: HistoricalEvent): World {
   if (!petitionerId || !sentenced) return world;
   const sentence = runningSentence(world, petitionerId, sentenced.id);
   if (!sentence) return world;
+  // A saved sentence end does not need a sitting executive to close its request.
+  if (sentence.until <= world.currentDate)
+    return closePetition(
+      world,
+      petition,
+      null,
+      "The sentence ended before an answer came.",
+    );
   const route = routeFor(world, sentenced, petitionerId);
   const answered = answersTo(world, petition.id);
   if (typeof route === "string") return world;
@@ -783,13 +866,6 @@ function advancePetition(world: World, petition: HistoricalEvent): World {
       petition,
       null,
       "The officeholder who was asked has left office.",
-    );
-  if (sentence.until <= world.currentDate)
-    return closePetition(
-      world,
-      petition,
-      null,
-      "The sentence ended before an answer came.",
     );
   let next = world;
   for (const step of route.steps) {
@@ -1043,7 +1119,10 @@ export function advanceClemency(world: World): World {
   let next = produceRequests(world);
   for (const petition of clemencyPetitions(next)) {
     if (clemencyPetitionStatus(next, petition.id) !== "open") continue;
-    next = advancePetition(next, petition);
+    next = ensureClemencyPetitionSchedule(
+      advancePetition(next, petition),
+      petition.id,
+    );
   }
   // Last, so a term that began or was cut short this week moves its jobs.
   return settleJailAbsences(next);
