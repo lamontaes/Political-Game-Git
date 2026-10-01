@@ -28,11 +28,11 @@ SIMULATED: the existing officeholder and staff decision paths consume the saved 
 
 ## 6. Proof run
 
-The final native changed file passed 59/59 in 13.90 seconds under stock budgets. Three scoped type roots passed with zero owned or imported diagnostics. The tests use seed recorded-budget-subjects, with the positive office selected from actual saved executives by seed. New Hampshire was selected. The 56-jurisdiction absence cases do not claim 56 positive actual governor runs.
+The final native changed file passed 59/59 in 14.70 seconds on the composition with current main c2881beb4b5df273c24eae895c833349f79ae3f9 (tested source 9a229d50ececd2905b5987f46716a186ec05225c) under stock budgets. Three scoped type roots passed with zero owned or imported diagnostics. The tests use seed recorded-budget-subjects, with the positive office selected from actual saved executives by seed. New Hampshire was selected. The 56-jurisdiction absence cases do not claim 56 positive actual governor runs.
 
 Earlier fixture runs are preserved as failures: missing executive opening prevented 59 tests from running; missing event context left 58 passes and one failure; an order assertion incorrectly assumed canonical event tags preserve input order. The corrected test retains the backed-priority selector assertion and checks the writer's canonical sorted tags. No production serializer or priority reader changed.
 
-Changed lint and formatting, release declaration and whitespace are checked at the published source. Zero-dice has zero new and five inherited removed baseline entries, exit one; the baseline is not rewritten. Browser, whole suite, natural budget-season year run, exclusive-host speed gate and final-main composition are NOT RUN.
+Changed lint, formatting, release declaration and whitespace checks passed before composition and are checked again at the final source. Zero-dice has zero new and five inherited removed baseline entries, exit one; the baseline is not rewritten. Browser, whole suite, natural budget-season year run, exclusive-host speed gate and final-main composition are NOT RUN.
 
 ## 7. Worked example
 
