@@ -71,7 +71,8 @@ const openedLives = new Map<string, { world: World; personId: EntityId }>();
  * every case there: a World is an immutable value, so each case advances its
  * own copy from the same opening. Building a life is most of this file's
  * time, so one opening per place keeps the file's every place and assertion
- * at a fraction of the cost. The seed names the place.
+ * at a fraction of the cost. The seed names the place. Only the two most
+ * recent openings are kept, so the worker's memory stays bounded.
  */
 function adultLifeAt(placeKey: string) {
   const known = openedLives.get(placeKey);
@@ -90,6 +91,8 @@ function adultLifeAt(placeKey: string) {
     personId: game.playerPersonId,
   };
   openedLives.set(placeKey, opened);
+  while (openedLives.size > 2)
+    openedLives.delete(openedLives.keys().next().value!);
   return opened;
 }
 
