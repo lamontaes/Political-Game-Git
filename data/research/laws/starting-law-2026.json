@@ -2725,7 +2725,44 @@
       "note": "",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://labor.alaska.gov/news/2025/news25-11.htm",
+          "cite": "Alaska Ballot Measure 1 (2024); Alaska Department of Labor release 25-11, June 11, 2025",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1300,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-AL": {
           "answer": "no"
@@ -2752,7 +2789,35 @@
           "answer": "yes"
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://does.dc.gov/page/dc-worker-labor-and-anti-discrimination-rights",
+          "cite": "District of Columbia Department of Employment Services; July 1, 2025 minimum wage notice",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1795,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2026%20Minimum%20Wage%20Increase%20Notice.pdf",
+              "cite": "District of Columbia Department of Employment Services; July 1, 2026 minimum wage increase notice",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1840,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "note": "Standard total hourly floor. Tipped cash wage and tip-credit settlement are distinct; these terms do not establish worker coverage or recorded tips."
         },
         "US-DE": {
           "answer": "yes"
@@ -2806,7 +2871,19 @@
           "answer": "yes"
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.mo.gov/news/press-releases/minimum-wage-increases-1500-hour-2026",
+          "cite": "Missouri Department of Labor, November 3, 2025; HB 567 (2025)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard statutory hourly floor effective January 1, 2026. HB 567 ends annual CPI adjustment and includes previously exempt public employers. This numeric term does not itself establish worker coverage, exemptions or tipped cash obligations."
         },
         "US-MP": {
           "answer": "no"
@@ -2830,7 +2907,19 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "cite": "New Jersey Department of Labor, October 1, 2025; N.J. Const. art. I, paragraph 23 and N.J.A.C. 12:56-3.1(c)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1592,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard rate for most employees. Saved-fact categories require distinct applicable terms: small or seasonal employer 1523 minor/hour, agricultural worker 1420, long-term-care direct-care staff 1892; tipped cash rate 605 with maximum tip credit 987 and required total-floor reconciliation. This standard term does not select a category or establish tips."
         },
         "US-NM": {
           "answer": "yes"
@@ -2881,10 +2970,32 @@
           "answer": "yes"
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.vermont.gov/rights-and-wages",
+          "cite": "Vermont Department of Labor minimum wage information; effective January 1, 2026",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1442,
+              "unit": "minor/hour"
+            }
+          ]
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://lawfilesext.leg.wa.gov/law/wsrpdf/2025/20/25-20-097.pdf",
+          "cite": "Washington State Register WSR 25-20-097; effective January 1, 2026",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1713,
+              "unit": "minor/hour"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no"
