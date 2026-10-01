@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
 
-import {
-  createNewGameWorld,
-  DEFAULT_NEW_GAME_SETUP,
-} from "../../presentation/new-game";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays } from "../dates";
 import { enactedLawEffects } from "../enacted-law-effects";
 import {
@@ -113,12 +110,9 @@ function thirtyDayLawOpening(placeKey = "0162328"): {
   const government = governmentUnitsForPlace(place.sourceGeoid!).find(
     (unit) => unit.unitType === "municipality" && unit.functionalActive,
   )!;
-  const game = createNewGameWorld({
-    ...DEFAULT_NEW_GAME_SETUP,
+  const game = smallWorld({
     seed: "legislative-clock-30-day-local",
-    placeKey: place.key,
-    startAge: 40,
-    questionnaire: "skipped",
+    place: place.key,
   });
   // Use the existing council binding's canonical organization identity.
   const rosterGovernmentKey =
@@ -564,6 +558,8 @@ describe("automatic local law under thirty days of the World clock", () => {
     expect(jumpEvidence).not.toBeNull();
     expect(dailyEvidence).toEqual(jumpEvidence);
     if (!jumpEvidence) return;
+
+    console.info("[law-clock-30-bill]", JSON.stringify(jumpEvidence));
 
     expect(jumpEvidence.measure).toMatchObject({
       origin: "member-introduction",
