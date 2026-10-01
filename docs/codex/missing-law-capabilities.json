@@ -200,9 +200,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
-      "requestedKinds": [
-        "institution-rule"
-      ],
+      "requestedKinds": ["institution-rule"],
       "sourceRequirement": {
         "id": "team-1-federal-01",
         "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
@@ -248,9 +246,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
-      "requestedKinds": [
-        "tax"
-      ],
+      "requestedKinds": ["tax"],
       "sourceRequirement": {
         "id": "team-1-federal-02",
         "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
@@ -296,9 +292,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "id": "team-1-federal-03",
         "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
@@ -344,9 +338,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:defense.grow-defense-spending",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "id": "team-1-federal-04",
         "questionKey": "us-federal-positions:defense.grow-defense-spending",
@@ -392,9 +384,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
-      "requestedKinds": [
-        "service-delivered"
-      ],
+      "requestedKinds": ["service-delivered"],
       "sourceRequirement": {
         "id": "team-1-federal-05",
         "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
@@ -440,9 +430,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:trade.raise-tariffs",
-      "requestedKinds": [
-        "tax"
-      ],
+      "requestedKinds": ["tax"],
       "sourceRequirement": {
         "id": "team-1-federal-06",
         "questionKey": "us-federal-positions:trade.raise-tariffs",
@@ -488,9 +476,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
-      "requestedKinds": [
-        "coverage-eligibility"
-      ],
+      "requestedKinds": ["coverage-eligibility"],
       "sourceRequirement": {
         "id": "team-1-federal-07",
         "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
@@ -536,9 +522,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "id": "team-1-federal-08",
         "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
@@ -584,9 +568,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
-      "requestedKinds": [
-        "coverage-eligibility"
-      ],
+      "requestedKinds": ["coverage-eligibility"],
       "sourceRequirement": {
         "id": "team-1-federal-09",
         "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
@@ -632,9 +614,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:education.forgive-student-loans",
-      "requestedKinds": [
-        "legal-outcome"
-      ],
+      "requestedKinds": ["legal-outcome"],
       "sourceRequirement": {
         "id": "team-1-federal-10",
         "questionKey": "us-federal-positions:education.forgive-student-loans",
@@ -680,9 +660,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
-      "requestedKinds": [
-        "pay"
-      ],
+      "requestedKinds": ["pay"],
       "sourceRequirement": {
         "id": "team-1-federal-11",
         "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
@@ -769,9 +747,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
-      "requestedKinds": [
-        "coverage-eligibility"
-      ],
+      "requestedKinds": ["coverage-eligibility"],
       "sourceRequirement": {
         "id": "team-1-federal-12",
         "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
@@ -817,9 +793,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
-      "requestedKinds": [
-        "service-delivered"
-      ],
+      "requestedKinds": ["service-delivered"],
       "sourceRequirement": {
         "id": "team-1-federal-13",
         "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
@@ -871,9 +845,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "id": "team-1-federal-14",
         "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
@@ -919,9 +891,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
-      "requestedKinds": [
-        "coverage-eligibility"
-      ],
+      "requestedKinds": ["coverage-eligibility"],
       "sourceRequirement": {
         "id": "team-1-federal-15",
         "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
@@ -967,9 +937,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "id": "team-1-federal-16",
         "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
@@ -1015,9 +983,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "requestedKinds": [
-        "legal-outcome"
-      ],
+      "requestedKinds": ["legal-outcome"],
       "sourceRequirement": {
         "id": "team-1-federal-17",
         "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
@@ -1063,9 +1029,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "id": "team-1-federal-18",
         "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
@@ -1111,9 +1075,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:science-communications.national-data-privacy",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "id": "team-1-federal-19",
         "questionKey": "us-federal-positions:science-communications.national-data-privacy",
@@ -1159,9 +1121,7 @@
     {
       "team": 1,
       "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
-      "requestedKinds": [
-        "institution-rule"
-      ],
+      "requestedKinds": ["institution-rule"],
       "sourceRequirement": {
         "id": "team-1-federal-20",
         "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
@@ -1213,15 +1173,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-      "requestedKinds": [
-        "tax"
-      ],
+      "requestedKinds": ["tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
-        "catalogParameterKeys": [
-          "rate",
-          "threshold"
-        ],
+        "catalogParameterKeys": ["rate", "threshold"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1303,14 +1258,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-      "requestedKinds": [
-        "tax"
-      ],
+      "requestedKinds": ["tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
-        "catalogParameterKeys": [
-          "brackets"
-        ],
+        "catalogParameterKeys": ["brackets"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1392,14 +1343,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
-      "requestedKinds": [
-        "tax"
-      ],
+      "requestedKinds": ["tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
-        "catalogParameterKeys": [
-          "cap"
-        ],
+        "catalogParameterKeys": ["cap"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1423,9 +1370,7 @@
             },
             "onRepeal": "Future assessments use the remaining statutory rules; repeal does not automatically undo past protected valuations or paid bills.",
             "evidence": {
-              "sources": [
-                "src/simulation/policy-pack-us-policy-positions.ts"
-              ],
+              "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
               "why": [
                 "A statutory cap limits a legally covered bill or base.",
                 "The taxpayer owns a recorded taxable property.",
@@ -1453,10 +1398,7 @@
                 "parentExposureRequired": true,
                 "existingTarget": "school.math-proficient-pct",
                 "existingSource": "Figlio 1997, Journal of Public Economics 65(3); Downes and Figlio 1997, IRP DP 1142-97",
-                "existingRange": [
-                  -0.11,
-                  0
-                ],
+                "existingRange": [-0.11, 0],
                 "existingUnit": "law in force says yes (1) rather than no (0)",
                 "existingLagMonths": 60,
                 "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -1469,15 +1411,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "requestedKinds": [
-        "tax"
-      ],
+      "requestedKinds": ["tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-        "catalogParameterKeys": [
-          "exempt",
-          "coverage"
-        ],
+        "catalogParameterKeys": ["exempt", "coverage"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1501,9 +1438,7 @@
             },
             "onRepeal": "Future covered purchases follow the remaining law; preserve paid invoices and historical taxes.",
             "evidence": {
-              "sources": [
-                "src/simulation/policy-pack-us-policy-positions.ts"
-              ],
+              "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
               "why": [
                 "The law exempts a defined product category.",
                 "A purchase invoice records the actual covered base.",
@@ -1542,10 +1477,7 @@
                 "parentExposureRequired": true,
                 "existingTarget": "household.food-insecurity",
                 "existingSource": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
-                "existingRange": [
-                  -0.035,
-                  -0.005
-                ],
+                "existingRange": [-0.035, -0.005],
                 "existingUnit": "law in force says yes (1) rather than no (0)",
                 "existingLagMonths": 6,
                 "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -1558,15 +1490,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
-      "requestedKinds": [
-        "institution-rule"
-      ],
+      "requestedKinds": ["institution-rule"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:fiscal.balanced-operating-budget",
-        "catalogParameterKeys": [
-          "required",
-          "scope"
-        ],
+        "catalogParameterKeys": ["required", "scope"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1623,10 +1550,7 @@
                 "parentExposureRequired": true,
                 "existingTarget": "gov.borrowing-cost",
                 "existingSource": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237)",
-                "existingRange": [
-                  -20,
-                  0
-                ],
+                "existingRange": [-20, 0],
                 "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
                 "existingLagMonths": 12,
                 "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -1639,14 +1563,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:fiscal.fund-pensions-to-schedule",
-        "catalogParameterKeys": [
-          "contribution"
-        ],
+        "catalogParameterKeys": ["contribution"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1670,9 +1590,7 @@
             },
             "onRepeal": "Future required contributions follow the remaining law; accrued benefits and already paid contributions are preserved.",
             "evidence": {
-              "sources": [
-                "src/simulation/policy-pack-us-policy-positions.ts"
-              ],
+              "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
               "why": [
                 "The law requires a contribution against the plan liability.",
                 "The plan valuation supplies the actual actuarial contribution.",
@@ -1700,10 +1618,7 @@
                 "parentExposureRequired": true,
                 "existingTarget": "gov.borrowing-cost",
                 "existingSource": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2)",
-                "existingRange": [
-                  -8,
-                  0
-                ],
+                "existingRange": [-8, 0],
                 "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
                 "existingLagMonths": 36,
                 "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -1716,14 +1631,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
-      "requestedKinds": [
-        "institution-rule"
-      ],
+      "requestedKinds": ["institution-rule"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
-        "catalogParameterKeys": [
-          "floor"
-        ],
+        "catalogParameterKeys": ["floor"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1747,9 +1658,7 @@
             },
             "onRepeal": "Remove only the prospective statutory floor when lawful; preserve held assets, debts and completed withdrawals.",
             "evidence": {
-              "sources": [
-                "src/simulation/policy-pack-us-policy-positions.ts"
-              ],
+              "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
               "why": [
                 "The law sets a minimum reserve as a share of a real spending base.",
                 "A reserve consists of recorded government resources.",
@@ -1779,10 +1688,7 @@
                 "parentExposureRequired": true,
                 "existingTarget": "gov.borrowing-cost",
                 "existingSource": "Pew Charitable Trusts 2017; Wagner 2004",
-                "existingRange": [
-                  -6,
-                  0
-                ],
+                "existingRange": [-6, 0],
                 "existingUnit": "law in force says yes (1) rather than no (0), in basis points",
                 "existingLagMonths": 24,
                 "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -1795,14 +1701,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
-      "requestedKinds": [
-        "pay"
-      ],
+      "requestedKinds": ["pay"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
-        "catalogParameterKeys": [
-          "target"
-        ],
+        "catalogParameterKeys": ["target"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1863,14 +1765,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:labor-workforce.city-minimum-wage",
-      "requestedKinds": [
-        "pay"
-      ],
+      "requestedKinds": ["pay"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:labor-workforce.city-minimum-wage",
-        "catalogParameterKeys": [
-          "target"
-        ],
+        "catalogParameterKeys": ["target"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1931,15 +1829,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
-        "catalogParameterKeys": [
-          "authorized",
-          "coverage"
-        ],
+        "catalogParameterKeys": ["authorized", "coverage"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -1982,9 +1875,7 @@
               "aboutZero": false,
               "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
             },
-            "existingHandler": [
-              "src/simulation/minimum-wage.ts"
-            ],
+            "existingHandler": ["src/simulation/minimum-wage.ts"],
             "missingCapabilities": [
               "Independent authority provenance through actual binding floor needs shared engine contract.",
               "No permission-to-pay causal proof inferred."
@@ -1997,17 +1888,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
-      "requestedKinds": [
-        "coverage-eligibility",
-        "price-cost",
-        "tax"
-      ],
+      "requestedKinds": ["coverage-eligibility", "price-cost", "tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
-        "catalogParameterKeys": [
-          "duration",
-          "replacement"
-        ],
+        "catalogParameterKeys": ["duration", "replacement"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -2108,9 +1992,7 @@
               "aboutZero": false,
               "aboutZeroReason": "No measured near-zero estimate is asserted. Missing inputs remain missing, not zero."
             },
-            "existingHandler": [
-              "src/simulation/paid-leave-benefits.ts"
-            ],
+            "existingHandler": ["src/simulation/paid-leave-benefits.ts"],
             "missingCapabilities": [
               "Premium rate/cap/eligibility/waiting-period terms exceed current duration/replacement declarations.",
               "Inherited estimated premium/replacement level draws require repair."
@@ -2189,15 +2071,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
-        "catalogParameterKeys": [
-          "authorized",
-          "coverage"
-        ],
+        "catalogParameterKeys": ["authorized", "coverage"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -2221,9 +2098,7 @@
             },
             "onRepeal": "Prospective bargaining authority follows remaining law; existing contracts and vested rights follow applicable savings/contract rules.",
             "evidence": {
-              "sources": [
-                "src/simulation/policy-pack-us-policy-positions.ts"
-              ],
+              "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
               "why": [
                 "The statute confers a covered employee right and corresponding public-employer duty.",
                 "Employees and employer must take recorded bargaining actions.",
@@ -2262,10 +2137,7 @@
                 "parentExposureRequired": true,
                 "existingTarget": "labor.median-earnings",
                 "existingSource": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)",
-                "existingRange": [
-                  -0.02,
-                  0
-                ],
+                "existingRange": [-0.02, 0],
                 "existingUnit": "law in force says yes (1) rather than no (0)",
                 "existingLagMonths": 180,
                 "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -2278,15 +2150,10 @@
     {
       "team": 3,
       "questionKey": "us-policy-positions:labor-workforce.right-to-work",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:labor-workforce.right-to-work",
-        "catalogParameterKeys": [
-          "fee-prohibition",
-          "coverage"
-        ],
+        "catalogParameterKeys": ["fee-prohibition", "coverage"],
         "status": "SCHEMA_INPUT_NOT_RUNTIME_DECLARATION",
         "consequences": [
           {
@@ -2311,9 +2178,7 @@
             },
             "onRepeal": "Prospective compulsory-condition legality follows remaining law; repeal does not itself require union membership or a fee without a lawful actual agreement.",
             "evidence": {
-              "sources": [
-                "src/simulation/policy-pack-us-policy-positions.ts"
-              ],
+              "sources": ["src/simulation/policy-pack-us-policy-positions.ts"],
               "why": [
                 "The statute limits legally permitted employment conditions.",
                 "An actual employer/contract must impose the covered compulsory condition.",
@@ -2342,10 +2207,7 @@
                 "parentExposureRequired": true,
                 "existingTarget": "voting.turnout-pct",
                 "existingSource": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)",
-                "existingRange": [
-                  -0.046,
-                  -0.015
-                ],
+                "existingRange": [-0.046, -0.015],
                 "existingUnit": "law in force says yes (1) rather than no (0)",
                 "existingLagMonths": 12,
                 "missing": "Shared engine selector, actual saved parent exposure, conditions and handler admission must be resolved; inherited coefficients are not newly verified here."
@@ -2358,17 +2220,11 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-      "requestedKinds": [
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
-        "requestedKinds": [
-          "right-permission",
-          "price-cost"
-        ],
+        "requestedKinds": ["right-permission", "price-cost"],
         "existingActivity": "effective / renewal",
         "termTimesActualRecordRequirement": "Legal dwelling capacity on an actual covered lot comes from its enacted density terms and parcel restrictions. A saved tenant rent may consume actual available housing alternatives; a permit-unit projection is not completed supply.",
         "missingCapabilities": [
@@ -2397,15 +2253,11 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
-        "requestedKinds": [
-          "price-cost"
-        ],
+        "requestedKinds": ["price-cost"],
         "existingActivity": "renewal",
         "termTimesActualRecordRequirement": "Minimum of the actual proposed renewal rent and the prior recorded rent multiplied by one plus the legally applicable increase ceiling. Retain exemptions, coverage, rounding and transition terms.",
         "missingCapabilities": [
@@ -2434,17 +2286,11 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
-      "requestedKinds": [
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
-        "requestedKinds": [
-          "right-permission",
-          "price-cost"
-        ],
+        "requestedKinds": ["right-permission", "price-cost"],
         "existingActivity": "effective / service / renewal",
         "termTimesActualRecordRequirement": "A qualifying actual permit application is approved through its legal nondiscretionary procedure. Only completed/available homes and actual processing work can feed rents or compliance costs.",
         "missingCapabilities": [
@@ -2473,17 +2319,11 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
-      "requestedKinds": [
-        "coverage-eligibility",
-        "price-cost"
-      ],
+      "requestedKinds": ["coverage-eligibility", "price-cost"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
-        "requestedKinds": [
-          "coverage-eligibility",
-          "price-cost"
-        ],
+        "requestedKinds": ["coverage-eligibility", "price-cost"],
         "existingActivity": "assessment / renewal",
         "termTimesActualRecordRequirement": "Use actual covered project/unit counts with the enacted set-aside and lawful rounding. Rent comes from the applicable saved income limit and legal affordability terms; select the actual eligible tenant.",
         "missingCapabilities": [
@@ -2512,11 +2352,7 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
@@ -2595,17 +2431,11 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      "requestedKinds": [
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
-        "requestedKinds": [
-          "price-cost",
-          "right-permission"
-        ],
+        "requestedKinds": ["price-cost", "right-permission"],
         "existingActivity": "assessment / renewal",
         "termTimesActualRecordRequirement": "Minimum of an actual offered covered-loan APR and its operative legal ceiling. Interest and fees come from the recorded balance, rate, period, repayment and legally permitted charges.",
         "missingCapabilities": [
@@ -2634,17 +2464,11 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
-      "requestedKinds": [
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
-        "requestedKinds": [
-          "right-permission",
-          "price-cost"
-        ],
+        "requestedKinds": ["right-permission", "price-cost"],
         "existingActivity": "effective / assessment",
         "termTimesActualRecordRequirement": "Apply the enacted occupation/requirement changes to an actual applicant and licensed activity. Compliance cost needs actual required training, fees and submitted work; removing a requirement is not automatic employment.",
         "missingCapabilities": [
@@ -2673,19 +2497,11 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
-      "requestedKinds": [
-        "price-cost",
-        "right-permission",
-        "tax"
-      ],
+      "requestedKinds": ["price-cost", "right-permission", "tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
-        "requestedKinds": [
-          "right-permission",
-          "tax",
-          "price-cost"
-        ],
+        "requestedKinds": ["right-permission", "tax", "price-cost"],
         "existingActivity": "effective / assessment",
         "termTimesActualRecordRequirement": "Tax revenue is the operative exact rate times actual covered legal retail sales. Sales must be actual purchases or an independently supplied actual market-base producer; tax-base composition, exemptions and instruments remain explicit.",
         "missingCapabilities": [
@@ -2715,19 +2531,11 @@
     {
       "team": 4,
       "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost",
-        "tax"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost", "tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
         "status": "UNSUPPORTED_BINDINGS_EXCLUDED_FROM_RUNNABLE_ROWS",
-        "requestedKinds": [
-          "institution-rule",
-          "price-cost",
-          "tax"
-        ],
+        "requestedKinds": ["institution-rule", "price-cost", "tax"],
         "existingActivity": "assessment",
         "termTimesActualRecordRequirement": "Compare the actual requested/awarded incentive against its operative legal cap and remaining lawful authority. Cost is the actual award/payment or tax concession; household consequences require real investment, jobs and pay records.",
         "missingCapabilities": [
@@ -2756,10 +2564,7 @@
     {
       "team": 5,
       "questionKey": "us-policy-positions:education.equalize-school-funding",
-      "requestedKinds": [
-        "price-cost",
-        "service-delivered"
-      ],
+      "requestedKinds": ["price-cost", "service-delivered"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:education.equalize-school-funding",
         "admission": "UNSUPPORTED; reject every row until capability bindings are returned",
@@ -2957,10 +2762,7 @@
     {
       "team": 5,
       "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
-      "requestedKinds": [
-        "pay",
-        "price-cost"
-      ],
+      "requestedKinds": ["pay", "price-cost"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
         "admission": "UNSUPPORTED; reject every row until capability bindings are returned",
@@ -3078,9 +2880,7 @@
             },
             "onRepeal": "recompute-prospective",
             "evidence": {
-              "sourceIds": [
-                "src/simulation/governing/program-governing.ts"
-              ],
+              "sourceIds": ["src/simulation/governing/program-governing.ts"],
               "population": "Actual eligible child applicants, delivered preschool attendance, and their recorded parents; no selection from population totals.",
               "scope": "Unsupported binding; no selector/action/amount capability is asserted registered.",
               "why": "Filed eligibility/place/schedule/fee terms applied to actual enrollment, delivered hours, capacity and actual paid care; parent job and work schedule are separate records.",
@@ -3110,9 +2910,7 @@
             },
             "onRepeal": "preserve-completed",
             "evidence": {
-              "sourceIds": [
-                "src/simulation/governing/program-governing.ts"
-              ],
+              "sourceIds": ["src/simulation/governing/program-governing.ts"],
               "population": "Actual eligible child applicants, delivered preschool attendance, and their recorded parents; no selection from population totals.",
               "scope": "Unsupported binding; no selector/action/amount capability is asserted registered.",
               "why": "Filed eligibility/place/schedule/fee terms applied to actual enrollment, delivered hours, capacity and actual paid care; parent job and work schedule are separate records.",
@@ -3142,9 +2940,7 @@
             },
             "onRepeal": "preserve-completed",
             "evidence": {
-              "sourceIds": [
-                "src/simulation/governing/program-governing.ts"
-              ],
+              "sourceIds": ["src/simulation/governing/program-governing.ts"],
               "population": "Actual eligible child applicants, delivered preschool attendance, and their recorded parents; no selection from population totals.",
               "scope": "Unsupported binding; no selector/action/amount capability is asserted registered.",
               "why": "Filed eligibility/place/schedule/fee terms applied to actual enrollment, delivered hours, capacity and actual paid care; parent job and work schedule are separate records.",
@@ -3165,9 +2961,7 @@
     {
       "team": 5,
       "questionKey": "us-policy-positions:education.freeze-public-tuition",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:education.freeze-public-tuition",
         "admission": "UNSUPPORTED; reject every row until capability bindings are returned",
@@ -3220,10 +3014,7 @@
     {
       "team": 5,
       "questionKey": "us-policy-positions:education.state-curriculum-standards",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:education.state-curriculum-standards",
         "admission": "UNSUPPORTED; reject every row until capability bindings are returned",
@@ -3770,10 +3561,7 @@
     {
       "team": 5,
       "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
-      "requestedKinds": [
-        "price-cost",
-        "service-delivered"
-      ],
+      "requestedKinds": ["price-cost", "service-delivered"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
         "admission": "UNSUPPORTED; reject every row until capability bindings are returned",
@@ -3801,9 +3589,7 @@
             },
             "onRepeal": "preserve-completed",
             "evidence": {
-              "sourceIds": [
-                "src/simulation/governing/program-governing.ts"
-              ],
+              "sourceIds": ["src/simulation/governing/program-governing.ts"],
               "population": "Actual libraries receiving authorized payments and named patrons using recorded delivered services.",
               "scope": "Unsupported binding; no selector/action/amount capability is asserted registered.",
               "why": "Filed appropriation/source and actual commitments/payments/work determine services; no patron or learning gain is inferred from library spending.",
@@ -3833,9 +3619,7 @@
             },
             "onRepeal": "preserve-completed",
             "evidence": {
-              "sourceIds": [
-                "src/simulation/governing/program-governing.ts"
-              ],
+              "sourceIds": ["src/simulation/governing/program-governing.ts"],
               "population": "Actual libraries receiving authorized payments and named patrons using recorded delivered services.",
               "scope": "Unsupported binding; no selector/action/amount capability is asserted registered.",
               "why": "Filed appropriation/source and actual commitments/payments/work determine services; no patron or learning gain is inferred from library spending.",
@@ -3979,10 +3763,7 @@
     {
       "team": 5,
       "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
-      "requestedKinds": [
-        "price-cost",
-        "service-delivered"
-      ],
+      "requestedKinds": ["price-cost", "service-delivered"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
         "admission": "UNSUPPORTED; reject every row until capability bindings are returned",
@@ -4010,9 +3791,7 @@
             },
             "onRepeal": "preserve-completed",
             "evidence": {
-              "sourceIds": [
-                "src/simulation/public-budgets/rules.ts"
-              ],
+              "sourceIds": ["src/simulation/public-budgets/rules.ts"],
               "population": "Actual named-source government collections, parks/payees and named patrons of delivered facilities/services.",
               "scope": "Unsupported binding; no selector/action/amount capability is asserted registered.",
               "why": "Filed revenue dedication/share multiplied by actual collections, or filed authorized appropriation; earmark is separate from authorized actual payment and park service.",
@@ -4042,9 +3821,7 @@
             },
             "onRepeal": "preserve-completed",
             "evidence": {
-              "sourceIds": [
-                "src/simulation/public-budgets/rules.ts"
-              ],
+              "sourceIds": ["src/simulation/public-budgets/rules.ts"],
               "population": "Actual named-source government collections, parks/payees and named patrons of delivered facilities/services.",
               "scope": "Unsupported binding; no selector/action/amount capability is asserted registered.",
               "why": "Filed revenue dedication/share multiplied by actual collections, or filed authorized appropriation; earmark is separate from authorized actual payment and park service.",
@@ -4052,9 +3829,7 @@
             }
           }
         ],
-        "existingProducerPaths": [
-          "src/simulation/public-budgets/rules.ts"
-        ],
+        "existingProducerPaths": ["src/simulation/public-budgets/rules.ts"],
         "writerStatus": "Existing modeled budget proxy; held drawn-per-resident proposal is excluded; actual paid/service contract absent.",
         "proof": {
           "nationwide": "UNMEASURED",
@@ -4065,11 +3840,7 @@
     {
       "team": 6,
       "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost",
-        "service-delivered"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost", "service-delivered"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
         "admission": "NO_ADMITTED_ROWS",
@@ -4097,10 +3868,7 @@
     {
       "team": 6,
       "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
-      "requestedKinds": [
-        "price-cost",
-        "service-delivered"
-      ],
+      "requestedKinds": ["price-cost", "service-delivered"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
         "admission": "NO_ADMITTED_ROWS",
@@ -4155,10 +3923,7 @@
           "Register exact source-measure, profile/purpose, payment-chain, currency, completed-outcome and operative-date predicates before admission; proposed conditions/predicates are empty because no admitted keys were supplied.",
           "Migrate the existing callback to the shared handler or disable it for this row; preserve stable installment budget-cost idempotence and prior stamps. Never apply both paths or pay again."
         ],
-        "requestedKinds": [
-          "price-cost",
-          "service-delivered"
-        ],
+        "requestedKinds": ["price-cost", "service-delivered"],
         "onwardAdmission": "No actual parent exposure permits an onward row in this packet.",
         "proofSource": "docs/codex/effect-batches/team-6/fare-relief-cost-proof.json",
         "proposedRowEnabled": false,
@@ -4201,10 +3966,7 @@
     {
       "team": 6,
       "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
-      "requestedKinds": [
-        "price-cost",
-        "service-delivered"
-      ],
+      "requestedKinds": ["price-cost", "service-delivered"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
         "admission": "NO_ADMITTED_ROWS",
@@ -4246,10 +4008,7 @@
           "Register exact source-measure, profile/purpose, payment-chain, currency, completed-outcome and operative-date predicates before admission; proposed conditions/predicates are empty because no admitted keys were supplied.",
           "Migrate the existing callback to the shared handler or disable it for this row; preserve stable installment budget-cost idempotence and prior stamps. Never apply both paths or pay again."
         ],
-        "requestedKinds": [
-          "price-cost",
-          "service-delivered"
-        ],
+        "requestedKinds": ["price-cost", "service-delivered"],
         "onwardAdmission": "No actual parent exposure permits an onward row in this packet.",
         "supersededInput": "The old effect list claimed authored paid hours from payments.1283 removed that inference; no payment-derived hours or rider reaction may be converted.",
         "proofSource": "docs/codex/effect-batches/team-6/stamp-batch-status.json: five-state rural cost fixtures; historical counts superseded by verified1283 merge.",
@@ -4293,10 +4052,7 @@
     {
       "team": 6,
       "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "requestedKinds": [
-        "price-cost",
-        "tax"
-      ],
+      "requestedKinds": ["price-cost", "tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
         "admission": "NO_ADMITTED_ROWS",
@@ -4320,10 +4076,7 @@
           "Admitted driver/activity selector and assessment action on an actual mileage record; collected transfer and prospective repeal must remain distinct.",
           "Saved administration/metering/privacy workload and actual cost inputs; selective-tax source total cannot supply them."
         ],
-        "requestedKinds": [
-          "tax",
-          "price-cost"
-        ],
+        "requestedKinds": ["tax", "price-cost"],
         "onwardAdmission": "No actual parent exposure permits an onward row in this packet.",
         "supersededInput": "Per-law month.ts caller request is superseded. Preserve1303 source/patch as historical checkpoint; do not apply it."
       }
@@ -4365,10 +4118,7 @@
     {
       "team": 6,
       "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:transportation-infrastructure.fix-it-first",
         "admission": "NO_ADMITTED_ROWS",
@@ -4392,20 +4142,14 @@
           "Actual road/project condition, repair/expansion candidates, resource capacity and prioritization decision before an institution-rule row.",
           "Actual work completion and road-condition records before driver-cost or travel exposure onward rows; fictional unit cost cannot become empirical terms."
         ],
-        "requestedKinds": [
-          "institution-rule",
-          "price-cost"
-        ],
+        "requestedKinds": ["institution-rule", "price-cost"],
         "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
       }
     },
     {
       "team": 6,
       "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
         "admission": "NO_ADMITTED_ROWS",
@@ -4429,20 +4173,14 @@
           "Actual compliance inputs, invoice prices/quantities and household energy purchase records before price-cost rows; no drawn utility bill.",
           "Actual generation/emission/exposure records and person reader before pollution/health onward rows; aggregate candidate does not prove exposure."
         ],
-        "requestedKinds": [
-          "institution-rule",
-          "price-cost"
-        ],
+        "requestedKinds": ["institution-rule", "price-cost"],
         "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
       }
     },
     {
       "team": 6,
       "questionKey": "us-policy-positions:environment-energy.price-carbon",
-      "requestedKinds": [
-        "price-cost",
-        "tax"
-      ],
+      "requestedKinds": ["price-cost", "tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:environment-energy.price-carbon",
         "admission": "NO_ADMITTED_ROWS",
@@ -4459,21 +4197,14 @@
           "Admitted emitter/activity selector and assessed/collected-tax records; monetary cost must use the filed rate and actual emissions, not a sampled level.",
           "Actual fuel/production/price/exposure records before emission/health onward rows; no guessed elasticity."
         ],
-        "requestedKinds": [
-          "tax",
-          "price-cost"
-        ],
+        "requestedKinds": ["tax", "price-cost"],
         "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
       }
     },
     {
       "team": 6,
       "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:environment-energy.ban-new-gas-hookups",
         "admission": "NO_ADMITTED_ROWS",
@@ -4501,11 +4232,7 @@
     {
       "team": 6,
       "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
         "admission": "NO_ADMITTED_ROWS",
@@ -4533,11 +4260,7 @@
     {
       "team": 6,
       "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
-      "requestedKinds": [
-        "price-cost",
-        "right-permission",
-        "tax"
-      ],
+      "requestedKinds": ["price-cost", "right-permission", "tax"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
         "admission": "NO_ADMITTED_ROWS",
@@ -4554,22 +4277,14 @@
           "Container count \u00d7 filed minor-unit deposit, compatible currency, completed deposit/refund payments and actual jurisdiction unredeemed-funds ownership.",
           "Actual processing workload/costs, collection and litter records before compliance or recycling onward rows; no assumed redemption rate."
         ],
-        "requestedKinds": [
-          "price-cost",
-          "tax",
-          "right-permission"
-        ],
+        "requestedKinds": ["price-cost", "tax", "right-permission"],
         "onwardAdmission": "No actual parent exposure permits an onward row in this packet."
       }
     },
     {
       "team": 6,
       "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
         "admission": "NO_ADMITTED_ROWS",
@@ -4597,11 +4312,7 @@
     {
       "team": 6,
       "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
-      "requestedKinds": [
-        "institution-rule",
-        "price-cost",
-        "right-permission"
-      ],
+      "requestedKinds": ["institution-rule", "price-cost", "right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
         "admission": "NO_ADMITTED_ROWS",
@@ -4669,9 +4380,7 @@
     {
       "team": 8,
       "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "requestedKinds": [
-        "coverage-eligibility"
-      ],
+      "requestedKinds": ["coverage-eligibility"],
       "sourceRequirement": {
         "id": "coverage-expansion-binding",
         "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
@@ -4768,9 +4477,7 @@
     {
       "team": 8,
       "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
-      "requestedKinds": [
-        "coverage-eligibility"
-      ],
+      "requestedKinds": ["coverage-eligibility"],
       "sourceRequirement": {
         "id": "coverage-work-binding",
         "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
@@ -4862,9 +4569,7 @@
     {
       "team": 8,
       "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
-      "requestedKinds": [
-        "coverage-eligibility"
-      ],
+      "requestedKinds": ["coverage-eligibility"],
       "sourceRequirement": {
         "id": "team-8-work-requirement-for-assistance-binding",
         "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
@@ -4874,18 +4579,14 @@
           "Actual assistance program membership, operative exemption/reporting terms and saved household-specific determination.",
           "Registered existing assistance subject and consequence bindings; no assumption that Medicaid eligibility is assistance eligibility."
         ],
-        "evidence": [
-          "docs/codex/effect-batches/team-8/part-status-1245.json"
-        ],
+        "evidence": ["docs/codex/effect-batches/team-8/part-status-1245.json"],
         "why": "A work rule changes future assistance eligibility for a qualifying actual applicant; it does not create jobs or count paid benefits by itself."
       }
     },
     {
       "team": 8,
       "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
-      "requestedKinds": [
-        "service-delivered"
-      ],
+      "requestedKinds": ["service-delivered"],
       "sourceRequirement": {
         "id": "team-8-fund-behavioral-health-crisis-response-binding",
         "questionKey": "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
@@ -4895,18 +4596,14 @@
           "Actual crisis dispatch, assigned qualified responder capacity, completion and named recipient.",
           "Operative funded service terms and actual paid service units; appropriation alone is not a completed response."
         ],
-        "evidence": [
-          "docs/codex/effect-batches/team-8/part-status-1245.json"
-        ],
+        "evidence": ["docs/codex/effect-batches/team-8/part-status-1245.json"],
         "why": "A person receives crisis response only when an actual responder delivers it; no universal response rate or dollar amount is available in the verified input."
       }
     },
     {
       "team": 8,
       "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
-      "requestedKinds": [
-        "service-delivered"
-      ],
+      "requestedKinds": ["service-delivered"],
       "sourceRequirement": {
         "id": "team-8-harm-reduction-services-binding",
         "questionKey": "us-policy-positions:health-human-services.harm-reduction-services",
@@ -4925,9 +4622,7 @@
     {
       "team": 8,
       "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
-      "requestedKinds": [
-        "service-delivered"
-      ],
+      "requestedKinds": ["service-delivered"],
       "sourceRequirement": {
         "id": "team-8-housing-first-homelessness-binding",
         "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
@@ -4937,18 +4632,14 @@
           "Recorded housing placement, eligible household, available actual unit, completed occupancy/service and any paid assistance.",
           "Research effect applies to actually housed/exposed subjects, not all homeless people or a binary law flag."
         ],
-        "evidence": [
-          "docs/codex/effect-batches/team-8/part-status-1245.json"
-        ],
+        "evidence": ["docs/codex/effect-batches/team-8/part-status-1245.json"],
         "why": "Actual stable occupancy changes a named household's housing circumstances; a declaration does not manufacture a home."
       }
     },
     {
       "team": 8,
       "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
-      "requestedKinds": [
-        "price-cost"
-      ],
+      "requestedKinds": ["price-cost"],
       "sourceRequirement": {
         "id": "team-8-consumer-data-privacy-law-binding",
         "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
@@ -4971,9 +4662,7 @@
     {
       "team": 8,
       "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "id": "team-8-age-verification-for-social-media-binding",
         "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
@@ -4994,9 +4683,7 @@
     {
       "team": 8,
       "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "id": "team-8-restrict-government-facial-recognition-binding",
         "questionKey": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
@@ -5007,18 +4694,14 @@
           "Operative prohibited/permitted-use, warrant/exception and legal-jurisdiction terms plus saved compliance determination.",
           "No person surveillance record or allowlisted action established by the published Team8 evidence."
         ],
-        "evidence": [
-          "docs/codex/effect-batches/team-8/part-status-1245.json"
-        ],
+        "evidence": ["docs/codex/effect-batches/team-8/part-status-1245.json"],
         "why": "A legal restriction changes permission for an actual scoped government use; no case, identity match, arrest or privacy exposure is manufactured."
       }
     },
     {
       "team": 9,
       "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
-      "requestedKinds": [
-        "legal-outcome"
-      ],
+      "requestedKinds": ["legal-outcome"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
         "intendedKind": "legal-outcome",
@@ -5038,9 +4721,7 @@
     {
       "team": 9,
       "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
-      "requestedKinds": [
-        "legal-outcome"
-      ],
+      "requestedKinds": ["legal-outcome"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
         "intendedKind": "legal-outcome",
@@ -5060,9 +4741,7 @@
     {
       "team": 9,
       "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
-      "requestedKinds": [
-        "coverage-eligibility"
-      ],
+      "requestedKinds": ["coverage-eligibility"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
         "intendedKind": "coverage-eligibility",
@@ -5082,9 +4761,7 @@
     {
       "team": 9,
       "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
         "intendedKind": "right-permission",
@@ -5103,15 +4780,11 @@
     {
       "team": 9,
       "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
-      "requestedKinds": [
-        "institution-rule"
-      ],
+      "requestedKinds": ["institution-rule"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
         "intendedKind": "institution-rule",
-        "knownInputs": [
-          "covered complaint and evidence records not verified"
-        ],
+        "knownInputs": ["covered complaint and evidence records not verified"],
         "termsTimesActualRecords": [
           "Actual delegated board powers",
           "Actual complaint jurisdiction and officer coverage"
@@ -5123,15 +4796,11 @@
     {
       "team": 9,
       "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
-      "requestedKinds": [
-        "right-permission"
-      ],
+      "requestedKinds": ["right-permission"],
       "sourceRequirement": {
         "questionKey": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
         "intendedKind": "right-permission",
-        "knownInputs": [
-          "permit application/issuance records not verified"
-        ],
+        "knownInputs": ["permit application/issuance records not verified"],
         "termsTimesActualRecords": [
           "Operative licensing criteria/exemptions/fees",
           "Actual applicant qualification and application facts"
