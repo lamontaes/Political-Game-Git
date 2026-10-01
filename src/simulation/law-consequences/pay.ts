@@ -14,15 +14,22 @@ import {
   recordById,
   type GrowingIndexKind,
 } from "../history-index";
-import { organizationProfileAt, workRoleAt } from "../life-queries";
+import { workRoleAt } from "../life-queries";
+import { workPayCoverageAt } from "../pay-coverage";
+import {
+  matchPayCoveragePredicates,
+  PAY_COVERAGE_PREDICATES,
+} from "../pay-coverage-predicates";
 import { applyLawPayConsequence } from "../living-world/town-pay";
-import { PAY_SELECTOR, PAY_ACTION } from "./pay-rows";
+import {
+  PAY_SELECTOR,
+  PAY_ACTION,
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "./pay-rows";
 export { PAY_SELECTOR, PAY_ACTION, MINIMUM_WAGE_PAY_ROWS } from "./pay-rows";
 import { resourceFlowTermsAt } from "../resource-queries";
 import type { EntityId, ResourceFlow, World } from "../types";
-
-const OCCUPATION = "pay-occupation";
-const EMPLOYER = "pay-employer-classification";
 
 const WORK_FLOWS: GrowingIndexKind<Map<EntityId, ResourceFlow[]>> = {
   create: () => new Map(),
@@ -140,36 +147,25 @@ export function resolvePayConsequences(
     const jurisdictionId = role?.locationJurisdictionId;
     if (!jurisdictionId)
       throw new Error("Missing pay recorded work jurisdiction capability");
-    let covered = true;
-    const coverageRecordIds: EntityId[] = [];
-    for (const predicate of [...row.who.predicates, ...row.conditions]) {
-      if (
-        Object.keys(predicate.parameters).length !== 1 ||
-        typeof predicate.parameters.value !== "string"
-      )
-        throw new Error("Pay coverage predicate requires one recorded value");
-      switch (predicate.capability) {
-        case OCCUPATION:
-          covered &&=
-            role.occupationClassification === predicate.parameters.value;
-          break;
-        case EMPLOYER: {
-          const profile = organizationProfileAt(
-            world,
-            work.organizationId!,
-            cutoff,
-          );
-          covered &&= profile?.classification === predicate.parameters.value;
-          if (profile) coverageRecordIds.push(profile.id);
-          break;
-        }
-        default:
-          throw new Error(
-            `Missing pay predicate capability '${predicate.capability}'`,
-          );
-      }
+    const predicates = [...row.who.predicates, ...row.conditions];
+    const match = matchPayCoveragePredicates(
+      world,
+      work.id,
+      predicates,
+      cutoff,
+    );
+    const coverage = workPayCoverageAt(world, work.id, cutoff);
+    const minimum =
+      proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY ||
+      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY;
+    if (minimum && coverage) {
+      const exception = coverage.exceptions.find(
+        (entry) => entry.questionKey === proposition.stableKey,
+      );
+      if (exception ? exception.rowId !== row.id : predicates.length > 0)
+        continue;
     }
-    if (!covered) continue;
+    if (!(minimum && coverage) && !match.matches) continue;
     const law = lawInForce(
       world,
       jurisdictionId,
@@ -187,7 +183,8 @@ export function resolvePayConsequences(
       role.id,
       flow.id,
       terms.id,
-      ...coverageRecordIds,
+      ...(minimum && coverage ? coverage.factRecordIds : match.factRecordIds),
+      ...(coverage ? [coverage.id] : []),
     ];
     const legalTerms: Record<string, { value: number; unit: LawAmountUnit }> =
       {};
@@ -282,7 +279,7 @@ export const PAY_REGISTRATION: LawConsequenceKindRegistration = {
   owner: "Team3",
   selectors: [PAY_SELECTOR],
   actions: [PAY_ACTION],
-  predicates: [OCCUPATION, EMPLOYER],
+  predicates: PAY_COVERAGE_PREDICATES,
   units: ["minor/hour"],
   resolve: resolvePayConsequences,
   apply: applyPayConsequence,
