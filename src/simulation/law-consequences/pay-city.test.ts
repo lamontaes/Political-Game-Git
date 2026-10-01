@@ -447,6 +447,48 @@ it("A38 saved state wage rule reaches scheduled actual payroll", () => {
   expect(stubs[0]!.paycheck.lawEffectStamps?.at(-1)?.governingLawKey).toBe(
     law.measureId,
   );
+  const outcome = stubs[0]!.paycheck;
+  const stamp = outcome.lawEffectStamps!.at(-1)!;
+  const enactment = paid.history.legislativeEnactments!.find(
+    (row) => row.measureId === law.measureId && row.outcome === "enacted",
+  )!;
+  expect(stamp.questionKey).toBeNull();
+  expect(stamp.ruleAuthority).toEqual({
+    ruleChangeProvisionId: clause.id,
+    enactmentId: enactment.id,
+    field: clause.field,
+  });
+  expect(stamp.sourceRecordIds).toEqual(
+    expect.arrayContaining([
+      clause.id,
+      enactment.id,
+      f.work.id,
+      f.flow.id,
+      outcome.id,
+    ]),
+  );
+  expect(
+    resourcePositionAt(
+      paid,
+      { kind: "organization", organizationId: f.organizationId },
+      money(1, "USD").currency,
+    )!.liquidBalance.minorUnits,
+  ).toBe(928_000);
+  const period = {
+    payFlowId: f.flow.id,
+    activityId: f.flow.id,
+    stableKey: outcome.stableKey,
+    periodStartsAt: outcome.periodStartsAt,
+    periodEndsAt: outcome.periodEndsAt,
+    onDate: outcome.occurredAt,
+  };
+  expect(settleTownCompensations(paid, [period])).toBe(paid);
+  const reopened = advanceWorld(
+    deserializeWorld(serializeWorld(ensurePaydaySchedule(f.world))),
+    14,
+    createCampaignElectionTransitionRegistry(),
+  );
+  expect(serializeWorld(reopened)).toBe(serializeWorld(paid));
 });
 
 it("A38 actual job-market week retains the governing city law on terms and pay", () => {

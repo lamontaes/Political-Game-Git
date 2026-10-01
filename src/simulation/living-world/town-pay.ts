@@ -853,17 +853,6 @@ const LAST_PERIOD_PAID: GrowingIndexKind<Map<EntityId, IsoDate>> = {
   },
 };
 
-/**
- * Raises every town job paid below the minimum wage in force (the higher of
- * the federal and the state floor), from the first pay period that begins on
- * or after the day a law raised it and after the last period already paid. Each rise between the last paycheck and today is
- * recorded in turn, and each names its law. A law that lowers or repeals the
- * rate cuts nobody's pay. Run before paying, so the period is paid at the new
- * rate.
- *
- * NOT MODELED: back pay. A law whose effective date comes before the day it
- * was recorded raises pay from the first period after it was recorded.
- */
 /** Completed pay reads the actual linked activity and its earned history frontier. */
 function completedPayShift(
   world: World,
@@ -1256,6 +1245,17 @@ export function applyLawPayConsequence(
   });
 }
 
+/**
+ * Raises every town job paid below the minimum wage in force (the higher of
+ * the federal and the state floor), from the first pay period that begins on
+ * or after the day a law raised it and after the last period already paid. Each rise between the last paycheck and today is
+ * recorded in turn, and each names its law. A law that lowers or repeals the
+ * rate cuts nobody's pay. Run before paying, so the period is paid at the new
+ * rate.
+ *
+ * NOT MODELED: back pay. A law whose effective date comes before the day it
+ * was recorded raises pay from the first period after it was recorded.
+ */
 export function raiseTownPayToMinimum(
   world: World,
   exceptPersonId: EntityId | null,
