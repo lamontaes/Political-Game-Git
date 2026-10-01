@@ -37,3 +37,7 @@ The six fallback cases and the complete changed dependency reader file pass 87 o
 The Mississippi state-jurisdiction control reads the canonical federal term and returns 725 minor units per hour, federal level, the canonical law ID and its operative date. Reopening returns the same setting without changing history. The D.C. control retains 1840 minor units per hour from its July 1, 2026 phase. These worlds contain no worker, so no named paycheck or money transfer is invented.
 
 VITAL STATISTICS: Six consumer cases and 81 reader cases pass. This bounded fallback is checked. Current main still has an older state-table path before the fallback for locality records; that root-owned reader must be composed separately. Actual town payroll, all-place coverage and full Your Money acceptance remain open.
+
+## Receiving composition
+
+The three shared conflicts were received exactly from coordinator 38fc67428 and the additive merge finished at 5a62ad641. The fallback then reused the receiving branch's existing canonicalMinimumTerm helper. This newer graph fails before collecting the changed fallback file: executive-work-entry registers an undefined future-transition key. Zero cases execute in 8.53 seconds. Two scoped roots load 867 files with zero diagnostics. The predecessor 87-case pass remains evidence only for its earlier source. The coordinator's successor aa548369 is the next exact receiving gate; no transition-registry repair is made here.
