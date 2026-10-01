@@ -1,3 +1,7 @@
+## October 1, 3:38 integration checkpoint
+
+Standing appropriations now have a published shared authority contract at d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec. Actual service delivery remains unproved until Team 5 connects the paid operating installment and completed recipient activity. X5 wage research #1482 awaits canonical dated and tiered admission. Audit completion 78ae4c9453d3e30dbed003fa925e5e7900046e78 reports focused graph proof only; day-route migration and natural attendance remain open. No link is marked runtime-complete from these source receipts. See status.md for owners and limits.
+
 # Effects map
 
 The daily assignments now center on measured law effects. Existing work remains preserved while the named owners coordinate their handoffs.
