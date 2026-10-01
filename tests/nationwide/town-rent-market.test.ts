@@ -25,13 +25,8 @@ import {
 } from "../../src/simulation/serialization";
 import { personName } from "../../src/simulation/people";
 
-// Optional pristine-main route used by the parity runner before retiring the draws.
-let baseline:
-  | Pick<
-      typeof import("../../src/simulation/living-world/town-rent"),
-      "startTownLeases"
-    >
-  | undefined;
+import type { startTownLeases as BaselineStartTownLeases } from "../../src/simulation/living-world/town-rent";
+let baseline: { startTownLeases: typeof BaselineStartTownLeases } | undefined;
 beforeAll(async () => {
   const path = process.env.TEAM4_RENT_PARITY_BASELINE;
   if (path) baseline = await import(/* @vite-ignore */ path);
@@ -57,6 +52,33 @@ const rng = new SeededRng(SEED);
 const watched: string[] = [];
 while (watched.length < 5)
   watched.push(...supported.splice(rng.integer(0, supported.length), 1));
+
+const fixtures = new Map<
+  string,
+  {
+    initial: ReturnType<typeof createWorld>;
+    world: ReturnType<typeof createWorld>;
+  }
+>();
+function fixtureFor(key: string) {
+  let fixture = fixtures.get(key);
+  if (!fixture) {
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        placeKey: key,
+        seed: `${SEED}:${key}`,
+        startAge: 30,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    const initial = game.world;
+    const world = startTownLeases(initial, initial.currentDate);
+    fixture = { initial, world };
+    fixtures.set(key, fixture);
+  }
+  return fixture;
+}
 
 describe("market rent is HUD rent times the recorded level", () => {
   it("uses the same bedroom table rule across all 56 jurisdictions, with no seeded price level", () => {
@@ -114,40 +136,7 @@ describe("market rent is HUD rent times the recorded level", () => {
   it.each(watched)(
     "writes a named person's market lease once and canonically reopens it in %s",
     (key) => {
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          placeKey: key,
-          seed: `${SEED}:${key}`,
-          startAge: 30,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      const initial = game.world;
-      const world = startTownLeases(initial, initial.currentDate);
-      if (baseline) {
-        const oldRoute = baseline.startTownLeases(initial, initial.currentDate);
-        const withoutPrice = (
-          record: (typeof world.history.resourceFlowTerms)[number],
-        ) => ({ ...record, amount: null });
-        expect({
-          ...world.history,
-          resourceFlowTerms: world.history.resourceFlowTerms.map(withoutPrice),
-        }).toEqual({
-          ...oldRoute.history,
-          resourceFlowTerms:
-            oldRoute.history.resourceFlowTerms.map(withoutPrice),
-        });
-        expect(world.people).toEqual(oldRoute.people);
-        const changes = world.history.resourceFlowTerms.filter(
-          (terms, index) =>
-            terms.amount.minorUnits !==
-            oldRoute.history.resourceFlowTerms[index]?.amount.minorUnits,
-        ).length;
-        console.log(
-          `M11 parity ${key} seed=${SEED}:${key}: ${changes} price amounts changed; other history bytes equal.`,
-        );
-      }
+      const { initial, world } = fixtureFor(key);
       const lease = townLeases(world).find(
         (lease) => lease.regime === "market" && !lease.ended,
       )!;
@@ -160,12 +149,41 @@ describe("market rent is HUD rent times the recorded level", () => {
             marketRentLevel(world, lease.town, world.currentDate),
         ) * 100,
       );
+      console.log(
+        `M11 ${key} ${personName(world.people[lease.leaseholderId]!)}: ${terms.amount.minorUnits} USD cents/month, lease ${lease.flow.id}.`,
+      );
       expect(personName(world.people[lease.leaseholderId]!)).toBeTruthy();
       expect(startTownLeases(world, world.currentDate)).toBe(world);
       const reopened = deserializeWorld(serializeWorld(world));
       expect(resourceFlowTermsAt(reopened, lease.flow.id)).toEqual(terms);
       expect(startTownLeases(reopened, reopened.currentDate)).toBe(reopened);
       expect(world.people).toBe(initial.people);
+    },
+  );
+  it.runIf(Boolean(process.env.TEAM4_RENT_PARITY_BASELINE)).each(watched)(
+    "preserves other seeded history through old/new lease routes in %s",
+    (key) => {
+      const { initial, world } = fixtureFor(key);
+      const oldRoute = baseline!.startTownLeases(initial, initial.currentDate);
+      const withoutPrice = (
+        record: (typeof world.history.resourceFlowTerms)[number],
+      ) => ({ ...record, amount: null });
+      expect({
+        ...world.history,
+        resourceFlowTerms: world.history.resourceFlowTerms.map(withoutPrice),
+      }).toEqual({
+        ...oldRoute.history,
+        resourceFlowTerms: oldRoute.history.resourceFlowTerms.map(withoutPrice),
+      });
+      expect(world.people).toEqual(oldRoute.people);
+      const changes = world.history.resourceFlowTerms.filter(
+        (terms, index) =>
+          terms.amount.minorUnits !==
+          oldRoute.history.resourceFlowTerms[index]?.amount.minorUnits,
+      ).length;
+      console.log(
+        `M11 parity ${key} seed=${SEED}:${key}: ${changes} price amounts changed; other history bytes equal.`,
+      );
     },
   );
 });
