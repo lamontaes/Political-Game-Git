@@ -165,10 +165,15 @@ export function federalMinimumStepAt(
 export function federalMinimumHourlyMinorAt(
   world: World,
   onDate: IsoDate,
-): number {
+): number | null {
   return (
-    federalMinimumStepAt(world, onDate)?.hourlyMinor ??
-    FEDERAL_MINIMUM_HOURLY_MINOR
+    canonicalMinimumTerm(
+      world,
+      NATIONAL_ELECTION_JURISDICTION.id,
+      FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+      "floor",
+      onDate,
+    )?.term?.value ?? null
   );
 }
 
@@ -522,13 +527,23 @@ export function minimumWageSettingAt(
   jurisdictionId: EntityId | null,
   onDate: IsoDate,
 ): MinimumWageSetting | null {
-  const step = federalMinimumStepAt(world, onDate);
+  const federalRead = canonicalMinimumTerm(
+    world,
+    NATIONAL_ELECTION_JURISDICTION.id,
+    FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+    "floor",
+    onDate,
+  );
+  if (!federalRead?.term) return null;
   const federal: MinimumWageSetting = {
-    hourlyMinor: step?.hourlyMinor ?? FEDERAL_MINIMUM_HOURLY_MINOR,
+    hourlyMinor: federalRead.term.value,
     level: "federal",
-    measureId: step?.measureId ?? null,
-    designation: step?.designation ?? null,
-    effectiveAt: step?.from ?? null,
+    measureId: federalRead.term.measureId,
+    designation:
+      world.history.legislativeMeasures?.find(
+        (row) => row.id === federalRead.term!.measureId,
+      )?.designation ?? null,
+    effectiveAt: federalRead.law.operativeAt,
   };
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)

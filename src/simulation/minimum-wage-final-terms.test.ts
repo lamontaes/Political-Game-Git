@@ -8,6 +8,8 @@ import {
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY,
   federalMinimumSchedule,
+  federalMinimumHourlyMinorAt,
+  minimumWageSettingAt,
   localMinimumSettingAt,
 } from "./minimum-wage";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
@@ -33,6 +35,7 @@ describe("A38 adopted federal floor through one reader", () => {
         date: enactedAt,
         seed: `${SEED}:${place.jurisdictionKey}`,
       });
+      expect(federalMinimumHourlyMinorAt(world, enactedAt)).toBe(725);
       const enacted = authoredWageTerm(world, {
         key: `${SEED}:${place.jurisdictionKey}:federal`,
         jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
@@ -55,12 +58,52 @@ describe("A38 adopted federal floor through one reader", () => {
         },
       ];
       expect(federalMinimumSchedule(operative)).toEqual(expected);
+      expect(federalMinimumHourlyMinorAt(operative, effectiveAt)).toBe(1737);
       expect(federalMinimumSchedule(operative)).toEqual(expected);
       // Earlier queries must not freeze a cache shared by later snapshots.
       expect(federalMinimumSchedule(enacted)).toEqual([]);
       expect(JSON.stringify(enacted.history)).toBe(before);
     },
   );
+
+  it("retains canonical starting federal provenance and refuses absent numeric authority", () => {
+    const { world, jurisdictionId } = smallWorld({
+      place: "MS",
+      date: enactedAt,
+      seed: `${SEED}:canonical-federal`,
+    });
+    expect(
+      minimumWageSettingAt(world, jurisdictionId, enactedAt),
+    ).toMatchObject({
+      hourlyMinor: 725,
+      level: "federal",
+      effectiveAt: makeIsoDate("2009-07-24"),
+    });
+    const absent = {
+      ...world,
+      policyCatalog: { ...world.policyCatalog, propositions: {} },
+    };
+    expect(federalMinimumHourlyMinorAt(absent, enactedAt)).toBeNull();
+    expect(minimumWageSettingAt(absent, jurisdictionId, enactedAt)).toBeNull();
+    expect(
+      federalMinimumHourlyMinorAt(world, makeIsoDate("2009-07-23")),
+    ).toBeNull();
+  });
+
+  it("keeps a stronger dated state floor above canonical federal text", () => {
+    const { world, jurisdictionId } = smallWorld({
+      place: "DC",
+      date: enactedAt,
+      seed: `${SEED}:stronger-state`,
+    });
+    expect(federalMinimumHourlyMinorAt(world, enactedAt)).toBe(725);
+    expect(
+      minimumWageSettingAt(world, jurisdictionId, enactedAt),
+    ).toMatchObject({
+      hourlyMinor: 1795,
+      level: "state",
+    });
+  });
 
   it("retains distinct adopted amounts for successive yes laws and a later no", () => {
     const { world } = smallWorld({ place: "MS", date: enactedAt, seed: SEED });
