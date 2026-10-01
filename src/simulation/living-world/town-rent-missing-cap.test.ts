@@ -4,7 +4,13 @@ import { STATES } from "../state-reference";
 import { SeededRng } from "../rng";
 import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { createHousehold, startHouseholdMembership } from "../life";
-import { createDwelling, createHousingTenure } from "../resources";
+import {
+  createDwelling,
+  createHousingTenure,
+  createResourceFlow,
+  createResourceObligation,
+  money,
+} from "../resources";
 import { resourceFlowTermsAt } from "../resource-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import * as laws from "../governing/law-in-force";
@@ -12,7 +18,7 @@ import * as housing from "./housing-market";
 import {
   RENT_LAW_KEYS,
   renewTownLeases,
-  startTownLeases,
+  RENT_BASIS,
   townLeases,
 } from "./town-rent";
 
@@ -96,7 +102,30 @@ function leaseWorld(restricted: boolean) {
     context: null,
     provenance,
   });
-  world = startTownLeases(world, world.currentDate);
+  const tenureId = world.history.housingTenures.at(-1)!.id;
+  world = createResourceFlow(world, {
+    stableKey: "fixture:recorded-lease-flow",
+    source: { kind: "person", personId: small.personId },
+    recipient: { kind: "person", personId: world.personOrder[2]! },
+    startsAt: world.currentDate,
+    amount: money(1000_00, "USD"),
+    cadenceKind: "schedule:monthly",
+    basisKind: RENT_BASIS,
+    basisReference: { kind: "housing", housingTenureId: tenureId },
+    restrictionKind: null,
+    jurisdictionId: small.jurisdictionId,
+    provenance,
+  });
+  world = createResourceObligation(world, {
+    stableKey: "fixture:recorded-lease-obligation",
+    resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+    establishedAt: world.currentDate,
+    basisKind: "housing:lease-1-bedroom-market",
+    principal: null,
+    careResponsibilityId: null,
+    housingTenureId: tenureId,
+    provenance,
+  });
   const lease = townLeases(world).find((row) => row.dwellingId === dwellingId)!;
   expect(lease, `${place} seed=${seed}`).toBeDefined();
   expect(lease.flow.recipient).toEqual({
