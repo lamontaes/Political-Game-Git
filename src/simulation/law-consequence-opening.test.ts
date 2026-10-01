@@ -1,3 +1,5 @@
+import { createStableId } from "./ids";
+import { makeIsoDate } from "./dates";
 import { describe, expect, it, vi } from "vitest";
 import { createWorld } from "./world";
 import { STATES } from "./state-reference";
@@ -83,9 +85,9 @@ function registration(
         row: candidate,
         law: {
           answer: "yes",
-          measureId: "fixture-law",
+          measureId: createStableId("legislative-measure", "fixture-law"),
           origin,
-          level: "state",
+          level: "state-statute",
           operativeAt: world.startedAt,
           operativeBasis: "enacted-date",
         },
@@ -103,12 +105,12 @@ function registration(
 function opening(key: string) {
   return createWorld({
     seed: `opening:${key}`,
-    currentDate: "2026-01-01",
+    currentDate: makeIsoDate("2026-01-01"),
     people: [],
     policyCatalog: catalog(),
     jurisdictions: [
       {
-        id: key,
+        id: createStableId("jurisdiction", key),
         slug: key,
         name: STATES[key]!.name,
         kind: "state",
@@ -116,7 +118,7 @@ function opening(key: string) {
         provenance: {
           asOf: null,
           source: "test fixture",
-          jurisdiction: key,
+          jurisdiction: createStableId("jurisdiction", key),
           status: "placeholder",
         },
       },
@@ -161,10 +163,10 @@ describe("starting laws use the shared consequence entry", () => {
         {
           onDate: world.currentDate,
           activity: "effective",
-          activityId: "fixture-enactment",
+          activityId: createStableId("event", "fixture-enactment"),
           subjectIds: [],
           origin: "enacted",
-          governingLawId: "fixture-law",
+          governingLawId: createStableId("legislative-measure", "fixture-law"),
         },
         [handler],
       );
@@ -174,7 +176,7 @@ describe("starting laws use the shared consequence entry", () => {
         {
           onDate: world.currentDate,
           activity: "payment",
-          activityId: "fixture-payment",
+          activityId: createStableId("event", "fixture-payment"),
           subjectIds: [],
         },
         [handler],
