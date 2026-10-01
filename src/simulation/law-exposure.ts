@@ -276,7 +276,11 @@ export function monthlyPay(
   };
 }
 
-export function enactedBy(world: World, measureId: EntityId, at: IsoDate): boolean {
+export function enactedBy(
+  world: World,
+  measureId: EntityId,
+  at: IsoDate,
+): boolean {
   return (world.history.legislativeEnactments ?? []).some(
     (row) =>
       row.measureId === measureId &&
@@ -359,6 +363,24 @@ export function assertLawExposureIntegrity(
   ids: Set<EntityId>,
 ): void {
   const rows = world.history.lawExposures ?? [];
+  if (rows.length === 0) return;
+  const hasNews = rows.some((row) => row.relation === "news");
+  const knowledgeById = new Map(
+    (hasNews ? world.history.knowledge : []).map((row) => [row.id, row]),
+  );
+  const publicationsById = new Map(
+    (hasNews ? (world.history.publications ?? []) : []).map((row) => [
+      row.id,
+      row,
+    ]),
+  );
+  const pressById = new Map(
+    (hasNews ? (world.history.pressRecords ?? []) : []).map((row) => [
+      row.id,
+      row,
+    ]),
+  );
+  const eventsById = new Map(world.history.events.map((row) => [row.id, row]));
   const keys = new Set<string>();
   let lastSequence = -1;
   for (const row of rows) {
@@ -374,7 +396,11 @@ export function assertLawExposureIntegrity(
       throw new Error("A law exposure names a person not in the world.");
     if (!enactedBy(world, row.measureId, row.recordedAt))
       throw new Error("A law exposure names a law not enacted by then.");
-    if (!ids.has(row.sourceRecordId))
+    if (
+      !ids.has(row.sourceRecordId) &&
+      !eventsById.has(row.sourceRecordId) &&
+      !(row.relation === "news" && knowledgeById.has(row.sourceRecordId))
+    )
       throw new Error("A law exposure's source record is missing.");
     if (
       (row.relation === "family" || row.relation === "friend") !==
@@ -385,6 +411,30 @@ export function assertLawExposureIntegrity(
       );
     if ((row.relation === "news") !== (row.news !== undefined))
       throw new Error("Only a news exposure names the story it came from.");
+    if (row.news) {
+      const knowledge = knowledgeById.get(row.news.knowledgeId);
+      const publication = publicationsById.get(row.news.publicationId);
+      const story = publication && eventsById.get(publication.sourceEventId);
+      const lead = pressById.get(row.news.storyLeadId);
+      const basis = eventsById.get(row.news.basisEventId);
+      if (
+        !knowledge ||
+        knowledge.id !== row.sourceRecordId ||
+        knowledge.personId !== row.personId ||
+        knowledge.sequence >= row.sequence ||
+        knowledge.learnedAt > row.recordedAt ||
+        knowledge.source.kind !== "media" ||
+        knowledge.source.reference !== publication?.id ||
+        !story ||
+        knowledge.eventId !== story.id ||
+        !story.tags.includes(`press.lead:${row.news.storyLeadId}`) ||
+        !lead ||
+        lead.kind !== "story-lead" ||
+        !lead.basisEventIds.includes(row.news.basisEventId) ||
+        !basis
+      )
+        throw new Error("A news exposure's provenance does not reconcile.");
+    }
     if (
       row.relation === "news" &&
       (row.direction !== "none" ||

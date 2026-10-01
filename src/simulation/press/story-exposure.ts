@@ -68,7 +68,12 @@ export function recordStoryHeardExposure(
   const story = world.history.events.find(
     (event) => event.id === publication.sourceEventId,
   );
-  if (!story || story.type !== PRESS_STORY_EVENT_TYPE) return world;
+  if (
+    !story ||
+    story.type !== PRESS_STORY_EVENT_TYPE ||
+    knowledge.eventId !== story.id
+  )
+    return world;
   const leadId = tagged(story.tags, PRESS_STORY_LEAD_TAG)[0];
   const lead = pressRecordsOfKind(world, "story-lead").find(
     (row) => row.id === leadId,
