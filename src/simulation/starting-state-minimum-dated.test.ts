@@ -70,6 +70,9 @@ it("A39 does not backdate an unsupported Florida historical rate", () => {
   const onDate = makeIsoDate("2025-09-29");
   expect(startingStateMinimumHourly("US-FL", world, onDate)).toBeNull();
   expect(stateMinimumSettingAt(world, "US-FL", onDate)).toBeNull();
+  expect(
+    minimumHourlyMinorAt(world, stateJurisdictionForKey("US-FL")!.id, onDate),
+  ).toBeNull();
 });
 
 it("A39 leaves Ohio's conditional tier unsupported instead of reading the later snapshot", () => {
