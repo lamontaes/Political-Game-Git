@@ -31,7 +31,7 @@ import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/pla
 import { resourceFlowTermsAt } from "../../src/simulation/resource-queries";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
-import type { World } from "../../src/simulation";
+import type { EntityId, World } from "../../src/simulation";
 
 /** The largest place of each state and D.C., Honolulu, and one per territory. */
 function onePlaceEach(): readonly [string, string][] {
@@ -100,11 +100,11 @@ describe("one pay rule for every state, D.C. and territory", () => {
   });
 
   it("places a worker higher in the range the longer they have held the job", () => {
-    expect(townPayPercentile(0, 0.5)).toBe(25);
-    expect(townPayPercentile(10, 0.5)).toBe(50);
-    expect(townPayPercentile(40, 0.5)).toBe(75);
-    expect(townPayPercentile(0, 0)).toBe(10);
-    expect(townPayPercentile(40, 1)).toBe(90);
+    expect(townPayPercentile(0)).toBe(25);
+    expect(townPayPercentile(10)).toBe(50);
+    expect(townPayPercentile(40)).toBe(75);
+    expect(townPayPercentile(-1)).toBe(25);
+    expect(townPayPercentile(100)).toBe(75);
   });
 });
 
@@ -220,7 +220,7 @@ describe("the town is paid", { timeout: 600_000 }, () => {
     const flows = world.history.resourceFlows.filter((flow) =>
       flow.stableKey.startsWith("town-pay-v2:job-pay:"),
     );
-    const cadence = (on: World, id: string) =>
+    const cadence = (on: World, id: EntityId) =>
       resourceFlowTermsAt(on, id)!.cadenceKind;
 
     // A worker whose pay starts on a later payday gets the employer's payday.
@@ -233,8 +233,10 @@ describe("the town is paid", { timeout: 600_000 }, () => {
         ]);
     for (const group of [...byEmployer.values()].filter((g) => g.length > 1)) {
       const late = group[0]!;
-      const lateId =
-        late.recipient.kind === "person" ? late.recipient.personId : "";
+      expect(late.recipient.kind).toBe("person");
+      if (late.recipient.kind !== "person")
+        throw new Error("Expected the actual wage recipient.");
+      const lateId = late.recipient.personId;
       const later = startTownJobPay(
         startTownJobPay(unpaid, lateId, since),
         player,
@@ -248,8 +250,10 @@ describe("the town is paid", { timeout: 600_000 }, () => {
 
     // A worker who dies is not paid for any period after the death.
     const dies = flows[1]!;
-    const diesId =
-      dies.recipient.kind === "person" ? dies.recipient.personId : "";
+    expect(dies.recipient.kind).toBe("person");
+    if (dies.recipient.kind !== "person")
+      throw new Error("Expected the actual wage recipient.");
+    const diesId = dies.recipient.personId;
     world = recordPersonDeath(world, {
       stableKey: "town-pay-test:death",
       personId: diesId,
@@ -267,10 +271,10 @@ describe("the town is paid", { timeout: 600_000 }, () => {
 
     // A worker who leaves before a payday is not paid for that period.
     const leaver = flows[0]!;
-    const leaverWork =
-      leaver.basisReference.kind === "work"
-        ? leaver.basisReference.workRelationshipId
-        : "";
+    expect(leaver.basisReference.kind).toBe("work");
+    if (leaver.basisReference.kind !== "work")
+      throw new Error("Expected the actual wage work relationship.");
+    const leaverWork = leaver.basisReference.workRelationshipId;
     world = recordWorkStatus(world, {
       stableKey: "test:leaves",
       workRelationshipId: leaverWork,

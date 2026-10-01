@@ -20,7 +20,7 @@ import { createStableId } from "../ids";
  * What each job pays. Its occupation's wage in its area, from the BLS May
  * 2025 OEWS tables: the metro or nonmetro area the town's county is in, else
  * the state, else the nation. Each worker sits inside that distribution by
- * tenure (`townPayPercentile`), between the 10th and 90th percentile, never
+ * tenure (`townPayPercentile`), between the 25th and 75th percentile, never
  * everyone at the median. The hourly rate is the annual wage over a
  * 2,080-hour year, never below the minimum wage where the job is: the higher
  * of the federal rate ($7.25 until an Act raises it) and the state's basic
@@ -241,12 +241,12 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
 /**
  * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
  * distribution. A new hire starts near the 25th percentile and moves toward
- * the 75th over 20 years at the employer; a seeded draw for the person moves
- * that 15 points either way, and the result stays between the 10th and 90th.
+ * the 75th over 20 years at the employer. This retains the existing tenure
+ * assumption; no seed changes a worker's wage placement. A credential's
+ * within-occupation pay effect still needs its approved record mechanism.
  */
-export function townPayPercentile(tenureYears: number, draw: number): number {
-  const byTenure = 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
-  return Math.min(90, Math.max(10, byTenure + (draw * 2 - 1) * 15));
+export function townPayPercentile(tenureYears: number): number {
+  return 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
 }
 
 /** The annual wage at `percentile` in the cells, or null when BLS withheld it. */
@@ -730,9 +730,6 @@ export function startTownJobPay(
       a > b ? a : b,
     );
     const tenure = daysBetween(work.startedAt, startsAt) / 365.25;
-    const draw = new SeededRng(world.seed)
-      .fork(`${TOWN_PAY_VERSION}:place:${work.personId}`)
-      .next();
     // The floor on the first day paid; a later rise is recorded as a raise.
     const minimum = townMinimumHourlyAt(
       world,
@@ -742,7 +739,7 @@ export function startTownJobPay(
     const offered = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
-      townPayPercentile(tenure, draw),
+      townPayPercentile(tenure),
       minimum,
     );
     if (!offered) continue;

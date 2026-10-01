@@ -1,0 +1,41 @@
+roots=3 files=906 diagnostics=5
+[96mtests/nationwide/town-pay.test.ts[0m:[93m224[0m:[93m31[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string' is not assignable to parameter of type 'EntityId'.
+  Type 'string' is not assignable to type '{ readonly [entityIdBrand]: true; }'.
+
+[7m224[0m       resourceFlowTermsAt(on, id)!.cadenceKind;
+[7m   [0m [91m                              ~~[0m
+[96mtests/nationwide/town-pay.test.ts[0m:[93m239[0m:[93m33[0m - [91merror[0m[90m TS2345: [0mArgument of type 'EntityId | ""' is not assignable to parameter of type 'EntityId | null'.
+  Type 'string' is not assignable to type 'EntityId'.
+    Type 'string' is not assignable to type '{ readonly [entityIdBrand]: true; }'.
+
+[7m239[0m         startTownJobPay(unpaid, lateId, since),
+[7m   [0m [91m                                ~~~~~~[0m
+[96mtests/nationwide/town-pay.test.ts[0m:[93m255[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType 'string | EntityId' is not assignable to type 'EntityId'.
+  Type 'string' is not assignable to type 'EntityId'.
+    Type 'string' is not assignable to type '{ readonly [entityIdBrand]: true; }'.
+
+[7m255[0m       personId: diesId,
+[7m   [0m [91m      ~~~~~~~~[0m
+
+  [96msrc/simulation/vitality.ts[0m:[93m42[0m:[93m12[0m
+    [7m42[0m   readonly personId: EntityId;
+    [7m  [0m [96m           ~~~~~~~~[0m
+    The expected type comes from property 'personId' which is declared here on type 'RecordPersonDeathInput'
+[96mtests/nationwide/town-pay.test.ts[0m:[93m276[0m:[93m7[0m - [91merror[0m[90m TS2322: [0mType 'string | EntityId' is not assignable to type 'EntityId'.
+  Type 'string' is not assignable to type 'EntityId'.
+    Type 'string' is not assignable to type '{ readonly [entityIdBrand]: true; }'.
+
+[7m276[0m       workRelationshipId: leaverWork,
+[7m   [0m [91m      ~~~~~~~~~~~~~~~~~~[0m
+
+  [96msrc/simulation/life.ts[0m:[93m220[0m:[93m12[0m
+    [7m220[0m   readonly workRelationshipId: EntityId;
+    [7m   [0m [96m           ~~~~~~~~~~~~~~~~~~[0m
+    The expected type comes from property 'workRelationshipId' which is declared here on type 'RecordWorkStatusInput'
+[96mtests/nationwide/town-pay.test.ts[0m:[93m280[0m:[93m47[0m - [91merror[0m[90m TS2345: [0mArgument of type 'EntityId | ""' is not assignable to parameter of type 'EntityId'.
+  Type 'string' is not assignable to type 'EntityId'.
+    Type 'string' is not assignable to type '{ readonly [entityIdBrand]: true; }'.
+
+[7m280[0m       supersedesStatusId: workStatusAt(world, leaverWork)!.id,
+[7m   [0m [91m                                              ~~~~~~~~~~[0m
+
