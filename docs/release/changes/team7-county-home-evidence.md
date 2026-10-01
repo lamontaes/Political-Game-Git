@@ -1,6 +1,8 @@
 ---
 id: team7-county-home-evidence
 impact: patch
+section: Added
+title: Keep county home and district evidence dated
 ---
 
-Record supplied county home and district evidence with dated occupancy and map provenance. Preserve unknown and conflicting homes, label estimated determinations, and keep voter registration separate. The candidate requires the shared world history integration before use.
+County homes can retain dated address and district evidence. Estimated determinations retain their label and method. Unknown or conflicting homes cannot establish district residence, and home evidence cannot substitute for voter registration.
