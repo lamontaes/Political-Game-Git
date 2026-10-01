@@ -1,0 +1,97 @@
+{
+  "seed": "recorded-budget-subjects",
+  "place": "New Hampshire",
+  "officeKey": "us-nh-governor",
+  "personId": "person_4e07a3603293a443",
+  "personName": "Sara Ingram",
+  "date": "2026-12-01",
+  "savedPriority": "bridge-maintenance",
+  "selectedFamilies": ["bridge-maintenance", "appropriations"],
+  "appropriationRecords": [
+    {
+      "kind": "appropriation",
+      "programKey": "transit:nh",
+      "jurisdictionId": "jurisdiction_036e73481ecd6dc1",
+      "accountOrganizationId": "organization_159aa6f42fae9119",
+      "amount": {
+        "minorUnits": 1000,
+        "currency": "USD"
+      },
+      "availableFrom": "2026-11-30",
+      "availableThrough": "2027-11-29",
+      "basis": {
+        "kind": "game-profile",
+        "note": "Controlled ten-dollar authority fixture; not cash or researched costs."
+      },
+      "sourceMeasureId": "legislative-measure_bfe18dfa01e5cfc1",
+      "id": "public-program-record_1e686ade81cdac67",
+      "stableKey": "public-program/v1:transit:nh:appropriation:first",
+      "sequence": 918,
+      "recordedAt": "2026-11-30",
+      "eventId": "event_a798e41ba90668bf"
+    },
+    {
+      "kind": "appropriation",
+      "programKey": "transit:nh",
+      "jurisdictionId": "jurisdiction_036e73481ecd6dc1",
+      "accountOrganizationId": "organization_159aa6f42fae9119",
+      "amount": {
+        "minorUnits": 1000,
+        "currency": "USD"
+      },
+      "availableFrom": "2026-11-30",
+      "availableThrough": "2027-11-29",
+      "basis": {
+        "kind": "game-profile",
+        "note": "Controlled ten-dollar authority fixture; not cash or researched costs."
+      },
+      "sourceMeasureId": "legislative-measure_bfe18efa01e5d174",
+      "id": "public-program-record_0afa0441432d435b",
+      "stableKey": "public-program/v1:transit:nh:appropriation:second",
+      "sequence": 924,
+      "recordedAt": "2026-11-30",
+      "eventId": "event_5e78d1af3f68a4d3"
+    }
+  ],
+  "openedBudgetEvent": {
+    "id": "event_bd1f76ad8f6627ad",
+    "stableKey": "state-governing/v1:us-nh-governor:event_f001ff2f6cb8ff68:budget:2026-12-01",
+    "sequence": 930,
+    "type": "governing.matter-opened",
+    "occurredAt": "2026-12-01",
+    "recordedAt": "2026-12-01",
+    "jurisdictionId": "jurisdiction_036e73481ecd6dc1",
+    "involvedEntityIds": [
+      "organization_f8e48afd536e3064",
+      "person_4e07a3603293a443"
+    ],
+    "participants": [
+      {
+        "personId": "person_4e07a3603293a443",
+        "role": "agency:officeholder",
+        "detail": "Governor of New Hampshire"
+      }
+    ],
+    "personFactConstraints": [],
+    "visibility": "limited",
+    "tags": [
+      "deadline:2026-12-31",
+      "matter-family:budget",
+      "office:us-nh-governor",
+      "program:appropriations",
+      "program:bridge-maintenance",
+      "state-governing/v1"
+    ],
+    "summary": "Governor of New Hampshire: Set the budget request.",
+    "context": {
+      "location": null,
+      "socialContext": null,
+      "pressure": null,
+      "choice": null,
+      "motivation": null,
+      "immediateReaction": null
+    }
+  },
+  "budgetMattersAfterReloadAndRepeat": 1,
+  "limits": "Controlled saved ten-dollar authority records and saved priority; no natural appropriation, cash transfer, passage or year-speed proof."
+}
