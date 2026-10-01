@@ -4,6 +4,7 @@ import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { settleTrackedBusinessPayroll } from "../local-economy";
+import { monthlyWorkPay } from "../monthly-work-pay";
 import type {
   ResolvedHourlyLawPayConsequence,
   ResolvedSavedHourlyPayConsequence,
@@ -1858,46 +1859,17 @@ export function settleTownCompensations(
             null,
           )
       : null;
-    let heldMonthlyDays: number | null = null;
-    let calendarDays: number | null = null;
-    if (terms.cadenceKind === "schedule:monthly") {
-      const calendar = payPeriodEndingOn("monthly", payday, 0);
-      if (
-        !calendar ||
-        window.startsAt < calendar.startsAt ||
-        window.endsAt !== calendar.endsAt
-      )
-        throw new Error(
-          "Monthly business pay requires its actual calendar-month end.",
-        );
-      calendarDays = daysBetween(calendar.startsAt, calendar.endsAt) + 1;
-      heldMonthlyDays = 0;
-      const died = deathDates(next).get(recipientId);
-      for (
-        let day = window.startsAt;
-        day <= window.endsAt;
-        day = addDays(day, 1)
-      ) {
-        if (day < work.startedAt || (died && day >= died)) continue;
-        if (
-          workStatusAt(next, workId, {
-            asOfDate: day,
+    const monthly =
+      terms.cadenceKind === "schedule:monthly"
+        ? monthlyWorkPay(next, {
+            resourceFlowId: flow.id,
+            periodStartsAt: window.startsAt,
+            periodEndsAt: window.endsAt,
+            onDate: payday,
             historySequenceExclusive: next.history.nextSequence,
-          })?.status === "active"
-        )
-          heldMonthlyDays += 1;
-      }
-    }
-    const gross =
-      assessment?.assessedGross ??
-      (heldMonthlyDays !== null
-        ? money(
-            Math.round(
-              (terms.amount.minorUnits * heldMonthlyDays) / calendarDays!,
-            ),
-            terms.amount.currency,
-          )
-        : terms.amount);
+          })
+        : null;
+    const gross = assessment?.assessedGross ?? monthly?.gross ?? terms.amount;
     const amount =
       unpaidDays === 0
         ? gross
@@ -1954,8 +1926,8 @@ export function settleTownCompensations(
             : "custom:unpaid-sick-days",
       note:
         unpaidDays === 0
-          ? heldMonthlyDays !== null
-            ? `Pay for ${heldMonthlyDays} of ${calendarDays} calendar days in the month.`
+          ? monthly !== null
+            ? `Pay for ${monthly.heldDays} of ${monthly.calendarDays} calendar days in the month.`
             : (period.note ?? "Pay for the period.")
           : `Pay for the period, less ${unpaidDays} unpaid ${unpaidDays === 1 ? "day" : "days"} ${caring ? "home with a sick child" : "out sick"}.`,
       provenance: completion

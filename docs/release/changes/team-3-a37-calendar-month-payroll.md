@@ -6,3 +6,4 @@ title: Business payroll uses the month-end payday
 ---
 
 Business wages use the existing month-end payday and the same withholding records as other paychecks.
+Recorded paid dates stay in place when the next calendar period begins.
