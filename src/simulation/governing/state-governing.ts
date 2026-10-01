@@ -27,6 +27,7 @@ import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
   committeeHearingTransitionHandler,
+  measurePosition,
 } from "../legislation";
 import { createWorkItem, workItemState } from "../time-work";
 import type {
@@ -156,7 +157,7 @@ export interface GoverningOffice {
   readonly stateUsps: string;
   readonly title: string;
   readonly jurisdictionId: EntityId;
-  readonly organizationId: EntityId;
+  readonly organizationId: EntityId | null;
   readonly holderPersonId: EntityId;
   /** The elected-term relationship or opening tenure event. */
   readonly termId: EntityId;
@@ -218,6 +219,48 @@ export function currentGoverningOffices(
   });
 }
 
+/** The recorded Presidency has a holder even when no staff organization exists. */
+function presidentGoverningOffice(world: World): GoverningOffice | null {
+  const president = currentPresidentOf(world);
+  if (!president) return null;
+  const election = nationalOfficeHolder(world, "president");
+  const tenure = currentFederalTenure(world, "us-president");
+  const termId = election?.plan.id ?? tenure?.event.id;
+  if (!termId) return null;
+  return {
+    officeKey: "us-president",
+    stateUsps: "",
+    title: president.title,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    organizationId: null,
+    holderPersonId: president.personId,
+    termId,
+    termStartedAt: null,
+    termEndsAt: null,
+    controlledByPlayer: controlledPersonId(world) === president.personId,
+    calendarBasis: "verified",
+    calendarNote: null,
+  };
+}
+
+/** Opens a passed federal bill on the same bound matter as a state bill. */
+export function openPresidentBillMatter(
+  world: World,
+  measure: Parameters<ExecutiveDeskHandler>[1],
+): World {
+  const office = presidentGoverningOffice(world);
+  if (
+    !office ||
+    measurePosition(world, measure.id).phase !== "awaiting-executive"
+  )
+    return world;
+  return openMatter(world, office, {
+    family: "bill",
+    instance: `measure:${measure.id}`,
+    measureId: measure.id,
+  });
+}
+
 export function governingOfficeForPerson(
   world: World,
   personId: EntityId,
@@ -225,7 +268,10 @@ export function governingOfficeForPerson(
   return (
     currentGoverningOffices(world).find(
       (office) => office.holderPersonId === personId,
-    ) ?? null
+    ) ??
+    (presidentGoverningOffice(world)?.holderPersonId === personId
+      ? presidentGoverningOffice(world)
+      : null)
   );
 }
 
@@ -237,6 +283,7 @@ function governingOfficeByKey(
     (office) => office.officeKey === officeKey,
   );
   if (governor) return governor;
+  if (officeKey === "us-president") return presidentGoverningOffice(world);
   // A program desk is resolved from the same saved appropriation and current
   // holder that opened it. It never joins the governor calendar or bill desk.
   for (const record of world.history.publicProgramRecords ?? []) {
@@ -344,7 +391,9 @@ export function chiefOfStaffFor(
   world: World,
   office: Pick<GoverningOffice, "organizationId">,
 ): EntityId | null {
-  return chiefOfStaffWork(world, office.organizationId)[0]?.personId ?? null;
+  return office.organizationId
+    ? (chiefOfStaffWork(world, office.organizationId)[0]?.personId ?? null)
+    : null;
 }
 
 /** Every active chief-of-staff job in the office, in person order. */
@@ -1149,7 +1198,7 @@ function openMatter(
     jurisdictionId: office.jurisdictionId,
     involvedEntityIds: [
       office.holderPersonId,
-      office.organizationId,
+      ...(office.organizationId ? [office.organizationId] : []),
       ...(input.candidatePersonIds ?? []),
     ],
     participants: [
@@ -1525,6 +1574,7 @@ function decisionSummary(
       const hired = option.personId ? world.people[option.personId] : null;
       if (
         hired &&
+        office.organizationId &&
         isSittingChief(world, office.organizationId, option.personId!)
       )
         return {
@@ -1625,6 +1675,7 @@ function applyConsequence(
     case "clemency":
       return world;
     case "chief-of-staff": {
+      if (!office.organizationId) return world;
       if (!option.personId || !world.people[option.personId]) return world;
       if (isSittingChief(world, office.organizationId, option.personId))
         return world;
@@ -1707,15 +1758,16 @@ function applyConsequence(
           matter.measureId,
           signed ? "signed" : "vetoed",
           signed
-            ? "The governor signed the bill."
-            : "The governor vetoed the bill and returned it.",
+            ? "The executive signed the bill."
+            : "The executive vetoed the bill and returned it.",
+          office.holderPersonId,
         );
         // A signing governor with an item veto strikes the floor-added
         // sections they cannot accept (Build 25 step 5).
         if (signed)
           next = applyItemVetoes(next, matter.measureId, office.holderPersonId);
         next = scheduleInstitutionStep(next, matter.measureId);
-        return signed
+        return signed && office.organizationId
           ? openMatter(next, office, {
               family: "implementation",
               instance: `law:${matter.id}`,
@@ -1832,7 +1884,7 @@ function recordDecision(
     jurisdictionId: office.jurisdictionId,
     involvedEntityIds: [
       office.holderPersonId,
-      office.organizationId,
+      ...(office.organizationId ? [office.organizationId] : []),
       ...(matter.workItemId ? [matter.workItemId] : []),
       ...(option?.personId ? [option.personId] : []),
       ...(deciderPersonId !== office.holderPersonId ? [deciderPersonId] : []),

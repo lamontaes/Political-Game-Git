@@ -49,6 +49,7 @@ import {
   introduceAutomaticLawMeasure,
 } from "./automatic-legislation";
 import { hasStableKey } from "../history-index";
+import { openPresidentBillMatter } from "./state-governing";
 import { recordDurableDecisionTrace } from "../decisions";
 import {
   BILL_SIGN,
@@ -514,9 +515,8 @@ function gatherCosponsors(
 
 /**
  * A Congress bill on the President's desk. A non-player President decides it
- * on the day it arrives. A player President's desk is not built yet, so the
- * bill waits there; with no President recorded at all, it waits too, and
- * nothing is invented.
+ * on the day it arrives. A player President receives the existing bound
+ * governing matter. With no President recorded, the bill remains pending.
  */
 export function presidentDesk(
   world: World,
@@ -526,7 +526,8 @@ export function presidentDesk(
     return world;
   const president = currentPresidentOf(world);
   if (!president) return world;
-  if (president.personId === controlledPersonId(world)) return world;
+  if (president.personId === controlledPersonId(world))
+    return openPresidentBillMatter(world, measure);
   const principled = ensureOfficeholderPrinciples(world, [president.personId]);
   const evaluation = evaluateGovernorBill(principled, {
     stableKey: `${measure.stableKey}:president-desk`,
