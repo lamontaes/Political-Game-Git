@@ -160,6 +160,73 @@ function dollars(minor: number): string {
   });
 }
 
+function livingCostsPayerContext(world: World, personId: EntityId) {
+  const person = world.people[personId];
+  if (!person) return null;
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    return null;
+  if (
+    world.history.personDeaths.some(
+      (death) =>
+        death.personId === personId && death.diedAt <= world.currentDate,
+    )
+  )
+    return null;
+  const currency = money(0, LIVING_COSTS_PLACEHOLDER.currency).currency;
+  const owner = { kind: "person" as const, personId };
+  const tracked = world.history.resourcePositions.some(
+    (position) =>
+      sameEndpoint(position.owner, owner) &&
+      position.openingBalance.currency === currency,
+  );
+  if (!tracked) return null;
+  const householdId = primaryHouseholdId(world, personId);
+  if (!householdId) return null;
+  return { person, currency, owner, householdId };
+}
+
+function openLivingCostsFlow(
+  world: World,
+  personId: EntityId,
+  context: NonNullable<ReturnType<typeof livingCostsPayerContext>>,
+): World {
+  if (livingCostsFlowFor(world, personId)) return world;
+  const { person, currency, owner, householdId } = context;
+  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
+  return createResourceFlow(world, {
+    stableKey: flowKey(personId),
+    source: owner,
+    // Paid to the household, which is what consumes it. No household keeps
+    // a balance today; if one ever does, this money is spent, not saved,
+    // and must be routed on rather than shown as the household's.
+    recipient: { kind: "household", householdId },
+    startsAt: world.currentDate,
+    amount: money(monthlyCostMinor(), currency),
+    cadenceKind: "schedule:monthly",
+    basisKind: LIVING_COSTS_BASIS,
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId: place?.context.jurisdiction.id ?? null,
+    provenance: {
+      kind: "authored",
+      note: `Placeholder living costs pending research question ${LIVING_COSTS_PLACEHOLDER.researchQuestionId}.`,
+    },
+  });
+}
+
+/**
+ * Opens the recorded charge at the caller's actual date without making a payment.
+ * Opening callers use this before scheduling the next monthly settlement. Old
+ * saves open a missing flow now, never retroactively; existing flows are untouched.
+ */
+export function initializeLivingCostsFlow(
+  world: World,
+  personId: EntityId,
+): World {
+  const context = livingCostsPayerContext(world, personId);
+  return context ? openLivingCostsFlow(world, personId, context) : world;
+}
+
 /**
  * Settles every month of living costs that has come due, and stops.
  *
@@ -168,54 +235,12 @@ function dollars(minor: number): string {
  * write the household's next week of errands, and from nothing that only reads.
  */
 export function settleLivingCosts(world: World, personId: EntityId): World {
-  const person = world.people[personId];
-  if (!person) return world;
-  if (world.control.kind !== "person" || world.control.personId !== personId)
-    return world;
-  if (
-    world.history.personDeaths.some(
-      (death) =>
-        death.personId === personId && death.diedAt <= world.currentDate,
-    )
-  )
-    return world;
-  const currency = money(0, LIVING_COSTS_PLACEHOLDER.currency).currency;
-  const owner = { kind: "person" as const, personId };
-  const tracked = world.history.resourcePositions.some(
-    (position) =>
-      sameEndpoint(position.owner, owner) &&
-      position.openingBalance.currency === currency,
-  );
-  if (!tracked) return world;
-  const householdId = primaryHouseholdId(world, personId);
-  if (!householdId) return world;
-
-  const monthly = money(monthlyCostMinor(), currency);
-  let next = world;
-  let flow = livingCostsFlowFor(next, personId);
-  if (!flow) {
-    const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-    next = createResourceFlow(next, {
-      stableKey: flowKey(personId),
-      source: owner,
-      // Paid to the household, which is what consumes it. No household keeps
-      // a balance today; if one ever does, this money is spent, not saved,
-      // and must be routed on rather than shown as the household's.
-      recipient: { kind: "household", householdId },
-      startsAt: next.currentDate,
-      amount: monthly,
-      cadenceKind: "schedule:monthly",
-      basisKind: LIVING_COSTS_BASIS,
-      basisReference: { kind: "general" },
-      restrictionKind: null,
-      jurisdictionId: place?.context.jurisdiction.id ?? null,
-      provenance: {
-        kind: "authored",
-        note: `Placeholder living costs pending research question ${LIVING_COSTS_PLACEHOLDER.researchQuestionId}.`,
-      },
-    });
-    return next;
-  }
+  const context = livingCostsPayerContext(world, personId);
+  if (!context) return world;
+  let next = openLivingCostsFlow(world, personId, context);
+  if (next !== world) return next; // First call only opens the charge, as before.
+  let flow = livingCostsFlowFor(next, personId)!;
+  const monthly = money(monthlyCostMinor(), context.currency);
 
   // An old save stops charging the invented housing share prospectively.
   const terms = resourceFlowTermsAt(next, flow.id);
