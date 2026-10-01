@@ -124,14 +124,8 @@ function presentedAct(seed: string, openingPlaceKey = "1150000") {
   );
   // Materialize the same real D.C. government in each starting world through
   // its existing opening writer; this is not 56 different municipal powers.
-  if (!world.jurisdictions[place.context.jurisdiction.id])
-    world = {
-      ...world,
-      jurisdictions: {
-        ...world.jurisdictions,
-        [place.context.jurisdiction.id]: place.context.jurisdiction,
-      },
-    };
+  // The executive opening registers its jurisdiction and canonical order.
+  // Do not inject a jurisdiction dictionary entry ahead of that writer.
   const openingPersonId = world.personOrder[0];
   if (!openingPersonId || !world.people[openingPersonId])
     throw new Error("Actual saved opening subject required.");
