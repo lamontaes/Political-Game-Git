@@ -1,4 +1,9 @@
-import { addDays, makeIsoDate } from "./dates";
+import {
+  addDays,
+  makeIsoDate,
+  simulationMomentOnLocalDate,
+  simulationMinutesBetween,
+} from "./dates";
 import {
   LEXINGTON_DEMO_CONTEXT,
   type DemoJurisdictionContext,
@@ -60,12 +65,13 @@ import {
 } from "./records";
 import type { EntityId, PersonGenerationProfile, World } from "./types";
 import {
-  advanceWorld,
   createWorld,
   createWorldId,
   materializePerson,
   recordWorldEvent,
 } from "./world";
+import { advanceWorldMinutes } from "./time-work";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 export const DEFAULT_DEMO_SEED = "lexington-foundation";
 
@@ -660,7 +666,20 @@ export function createGeneratedWorld(
 
 export function advanceDemoWorld(world: World, days = 7): World {
   const actionSequence = world.actionSequence;
-  let advanced = advanceWorld(world, days);
+  if (!Number.isSafeInteger(days) || days <= 0) {
+    throw new Error(
+      "Time advancement must be a positive whole number of days.",
+    );
+  }
+  const target = simulationMomentOnLocalDate(
+    world.currentMoment,
+    addDays(world.currentDate, days),
+  );
+  let advanced = advanceWorldMinutes(
+    world,
+    simulationMinutesBetween(world.currentMoment, target),
+    composeWorldTimeHandlers(),
+  );
   const jurisdictionId = advanced.jurisdictionOrder[0];
 
   if (!jurisdictionId || advanced.personOrder.length < 2) {
