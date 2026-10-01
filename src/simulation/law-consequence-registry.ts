@@ -1,3 +1,4 @@
+import { TEAM_4_PRICE_COST_REGISTRATION } from "./law-consequences/price-cost";
 import type {
   LawConsequenceKind,
   LawConsequenceKindRegistration,
@@ -11,7 +12,7 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly LawConsequenceKindRegistrat
     // legal-outcome: Team9
     // coverage-eligibility: Team8
     // tax: Team3
-    // price-cost: Team4
+    TEAM_4_PRICE_COST_REGISTRATION,
     // service-delivered: Team5 (Team6 transit contributor)
     // right-permission: Team1
     // institution-rule: Team1
