@@ -30,6 +30,7 @@ import {
 } from "../legislation-scenarios";
 import { seatsForChamber } from "../legislature-game-profile";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
+import { recordGovernorDecisionOnMeasure } from "../governing/legislative-clock";
 import { assertWorldIntegrity } from "../world";
 import * as lifePlaces from "../life-places";
 import * as simulation from "../index";
@@ -243,6 +244,17 @@ describe("recorded floors reach saved sentences", () => {
         measurePosition(world, measured.id).phase !== "awaiting-enactment";
         guard++
       ) {
+        if (
+          measurePosition(world, measured.id).phase === "awaiting-executive"
+        ) {
+          world = recordGovernorDecisionOnMeasure(
+            world,
+            measured.id,
+            "signed",
+            "Authored test approval: the governor signs the minimum-custody act.",
+          );
+          continue;
+        }
         const step = availableMeasureSteps(world, measured.id).find(
           (key) => key !== "offer-amendment",
         );
@@ -252,6 +264,9 @@ describe("recorded floors reach saved sentences", () => {
           );
         world = applyLegislativeStep(procedure, world, step).world;
       }
+      expect(measurePosition(world, measured.id).phase).toBe(
+        "awaiting-enactment",
+      );
       world = recordEnactment(world, {
         stableKey: "g10:canonical-floor:enacted",
         measureId: measured.id,
