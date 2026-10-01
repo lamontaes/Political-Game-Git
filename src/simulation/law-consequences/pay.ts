@@ -28,6 +28,7 @@ import { applyLawPayConsequence } from "../living-world/town-pay";
 import {
   PAY_SELECTOR,
   PAY_ACTION,
+  NON_ELECTIVE_PAY_PREDICATE,
   ANNUAL_OFFICE_PAY_ACTION,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
@@ -171,7 +172,21 @@ export function resolvePayConsequences(
     if (!jurisdictionId && minimum) continue;
     if (!jurisdictionId)
       throw new Error("Missing pay recorded work jurisdiction capability");
-    const predicates = [...row.who.predicates, ...row.conditions];
+    const allPredicates = [...row.who.predicates, ...row.conditions];
+    const officePredicates = allPredicates.filter(
+      (predicate) => predicate.capability === NON_ELECTIVE_PAY_PREDICATE,
+    );
+    if (
+      officePredicates.length &&
+      !matchPayCoveragePredicates(world, work.id, officePredicates, cutoff)
+        .matches
+    )
+      continue;
+    // This universal exclusion remains separate from employer-specific saved
+    // exceptions, so an ordinary worker's standard coverage still admits the row.
+    const predicates = allPredicates.filter(
+      (predicate) => predicate.capability !== NON_ELECTIVE_PAY_PREDICATE,
+    );
     const match = matchPayCoveragePredicates(
       world,
       work.id,
