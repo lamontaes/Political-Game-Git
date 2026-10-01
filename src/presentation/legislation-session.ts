@@ -32,15 +32,9 @@ import {
   type SeatedMember,
 } from "../simulation/legislation-scenarios";
 import { chamberByKey, floorStageByKey } from "../simulation/legislature-rules";
-import {
-  createFutureTransitionHandlerRegistry,
-  futureDueItemStateAt,
-} from "../simulation/future-transitions";
+import { futureDueItemStateAt } from "../simulation/future-transitions";
 import { passOrdinaryDays } from "./ordinary-life";
-import {
-  COMMITTEE_HEARING_TRANSITION_KEY,
-  committeeHearingTransitionHandler,
-} from "../simulation/legislation";
+import { COMMITTEE_HEARING_TRANSITION_KEY } from "../simulation/legislation";
 import { addDays, daysBetween } from "../simulation/dates";
 import { typedTaxEnactmentDate } from "../simulation/tax-policy-activation";
 import type {
@@ -64,10 +58,6 @@ import { dispositionsHonoringOfficeInstructions } from "./office-vote-instructio
  * who saves, reloads and carries on gets the same next key as one who never
  * left. Identity belongs to the world, not to the browser tab.
  */
-
-const HEARING_HANDLERS = createFutureTransitionHandlerRegistry([
-  [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-]);
 
 export interface StepResult {
   readonly world: World;
@@ -215,7 +205,6 @@ export function applyLegislativeStep(
       const next = passOrdinaryDays(
         scheduled,
         Math.max(1, daysBetween(world.currentDate, hearingDate)),
-        HEARING_HANDLERS,
       );
       return {
         world: next,
@@ -337,7 +326,7 @@ export function applyLegislativeStep(
       }
       const days = Math.max(1, daysBetween(world.currentDate, until));
       const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
-      const next = passOrdinaryDays(world, days, HEARING_HANDLERS);
+      const next = passOrdinaryDays(world, days);
       return {
         world: next,
         message:
