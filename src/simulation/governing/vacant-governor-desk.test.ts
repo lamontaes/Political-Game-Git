@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { daysBetween } from "../dates";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import { stableHash } from "../ids";
@@ -91,7 +92,11 @@ function presentedWithoutGovernor() {
     stableKey: "vacant-desk:present",
     measureId: scenario.measureId,
   });
-  return { world, measure: requireMeasure(world, scenario.measureId) };
+  return {
+    world,
+    scenario,
+    measure: requireMeasure(world, scenario.measureId),
+  };
 }
 
 describe("a vacant governor desk cannot supply a decision", () => {
@@ -151,6 +156,26 @@ describe("a vacant governor desk cannot supply a decision", () => {
         governorOfficeForJurisdiction(fixture.world, place.jurisdictionKey),
       ).toBeNull();
   });
+  it.each(["signed", "vetoed", null] as const)(
+    "keeps the player-session bill pending with authored ending %s",
+    (governorAction) => {
+      const scenario = { ...fixture.scenario, governorAction };
+      const result = applyLegislativeStep(
+        scenario,
+        fixture.world,
+        "await-executive-decision",
+      );
+      expect(result.world).toBe(fixture.world);
+      expect(result.message).toBe(
+        "Your bill is awaiting an executive decision.",
+      );
+      const restored = deserializeWorld(serializeWorld(result.world));
+      expect(
+        applyLegislativeStep(scenario, restored, "await-executive-decision")
+          .world,
+      ).toBe(restored);
+    },
+  );
   it("keeps the seated governor's bound matter identical for either authored ending", () => {
     const seated = ensureStateExecutiveIncumbent(
       fixture.world,
@@ -200,5 +225,33 @@ describe("a vacant governor desk cannot supply a decision", () => {
         blueprint,
       ),
     ).toBe(restored);
+  });
+  it("opens the actual governor's matter through the player session instead of writing a disposition", () => {
+    const seated = ensureStateExecutiveIncumbent(
+      fixture.world,
+      fixture.world.personOrder[0]!,
+      "NE",
+    );
+    const expected = governorDesk(
+      seated,
+      fixture.measure,
+      legislativeBlueprint("nebraska"),
+    );
+    for (const governorAction of ["signed", "vetoed"] as const) {
+      const result = applyLegislativeStep(
+        { ...fixture.scenario, governorAction },
+        seated,
+        "await-executive-decision",
+      );
+      expect(serializeWorld(result.world) === serializeWorld(expected)).toBe(
+        true,
+      );
+      expect(result.world.history.executiveDispositions).toEqual(
+        seated.history.executiveDispositions,
+      );
+      expect(result.message).toBe(
+        "Your bill is awaiting an executive decision.",
+      );
+    }
   });
 });

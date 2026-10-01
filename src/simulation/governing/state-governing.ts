@@ -2811,7 +2811,11 @@ export const governorDesk: ExecutiveDeskHandler = (
  * day, rather than waiting for the next season.
  */
 /** The governor's desk for a state bill, the President's for a federal one. */
-const executiveDesk: ExecutiveDeskHandler = (world, measure, blueprint) =>
+export const executiveDesk: ExecutiveDeskHandler = (
+  world,
+  measure,
+  blueprint,
+) =>
   isCongressMeasure(measure)
     ? presidentDesk(world, measure)
     : governorDesk(world, measure, blueprint);
