@@ -150,7 +150,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "cause-state-economy",
     connects: "Jobs in one state compared with the nation.",
     status: "built",
-    rule: "BLANKET: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave, and each point below adds 0.02 to the pull to arrive. The economy records a place separately only after a disaster or public spending there, so most states read as the nation. On the town side, each point of the player's town's unemployment above the nation's adds 5 percent to the chance a free household leaves. Wages are not recorded.",
+    rule: "BLANKET: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave, and each point below adds 0.02 to the pull to arrive. The economy records a place separately only after a disaster or public spending there, so most states read as the nation. On the town side, each point of the player's town's unemployment above the nation's adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Wages are not recorded.",
     where:
       "src/simulation/pressure/causes.ts BLANKET_UNEMPLOYMENT_GAP_PRESSURE",
   },
@@ -158,14 +158,14 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "cause-job-loss",
     connects: "Somebody who lost a job and has not found another.",
     status: "built",
-    rule: "BLANKET: in the year after a job ends with no other job, a person is three times as likely to leave town, reason work:job-lost.",
-    where: "src/simulation/migration/review.ts BLANKET_JOB_LOSS_MULTIPLIER",
+    rule: "A job that ended in the last year, with no other job since, is a recorded cause the resident weighs against their bar at their yearly review, more the longer they are out of work and less when the household still has pay; reason work:job-lost. No draw decides it.",
+    where: "src/simulation/migration/causes.ts causeReader()",
   },
   {
     key: "cause-crime",
     connects: "Crime in the player's town driving people away.",
     status: "built",
-    rule: "BLANKET: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the chance a free household leaves. Every town has the same usual log, so only an unusually bad quarter pushes. Crime is not compared between states.",
+    rule: "BLANKET: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the town's push, which a resident with a recorded cause weighs on leaving. Every town has the same usual log, so only an unusually bad quarter pushes. Crime is not compared between states.",
     where:
       "src/simulation/migration/review.ts BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT",
   },
@@ -173,8 +173,8 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     key: "cause-family",
     connects: "Moving to be near family.",
     status: "built",
-    rule: "BLANKET: a leaving person weighs a state where a living relative lives three times as heavily; if they go there, the reason is family:near-kin. Following a partner, caring for a parent and a new family forming are not read.",
-    where: "src/simulation/migration/review.ts BLANKET_FAMILY_PULL",
+    rule: "A relative's recorded move away in the last year is a cause to follow them there, reason family:followed-kin, weighed by how close the kinship is. A resident leaving for work, rent, eviction or retirement goes where their closest living relative outside town lives. Caring for a parent and a new family forming are not read.",
+    where: "src/simulation/migration/causes.ts causeReader()",
   },
   {
     key: "cause-schools",
