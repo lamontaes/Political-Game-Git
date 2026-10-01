@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
-import { createWorld } from "../world";
+import { createWorld, recordWorldEvent } from "../world";
+import { createStableId } from "../ids";
+import { legislatureProfilePackId } from "../legislature-game-profile";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { type LawEffectStampedRecord } from "../law-effect-stamp";
 import { withOpenedBudgets } from "./index";
@@ -61,11 +63,11 @@ describe("age-verification without an appropriation or actual hires produces no 
       expect(government).toBeDefined();
       const date = makeIsoDate("2026-05-01");
       const measure: LegislativeMeasureRecord = {
-        id: ("measure_age_cost_" + stateKey) as EntityId,
+        id: createStableId("legislative-measure", "age-cost:" + stateKey),
         stableKey: "age-cost:" + stateKey,
         sequence: base.history.nextSequence,
         jurisdictionId: state.id,
-        rulePackId: "authored-cost-fixture",
+        rulePackId: legislatureProfilePackId(stateKey),
         designation: "HB cost",
         shortTitle: "Authored age-verification cost fixture",
         summary: "An authored legal change for a budget attribution test.",
@@ -80,7 +82,10 @@ describe("age-verification without an appropriation or actual hires produces no 
         propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
       };
       const enactment: LegislativeEnactmentRecord = {
-        id: ("enactment_age_cost_" + stateKey) as EntityId,
+        id: createStableId(
+          "legislative-enactment",
+          "age-cost:" + stateKey + ":enacted",
+        ),
         stableKey: "age-cost:" + stateKey + ":enacted",
         sequence: base.history.nextSequence + 1,
         measureId: measure.id,
@@ -90,7 +95,7 @@ describe("age-verification without an appropriation or actual hires produces no 
         effectiveAt: date,
         outcomeEventId: ("event_age_cost_" + stateKey) as EntityId,
       };
-      const world: World = {
+      let world: World = {
         ...base,
         currentDate: makeIsoDate("2026-06-01"),
         currentMoment: simulationMomentOnLocalDate(
@@ -102,6 +107,36 @@ describe("age-verification without an appropriation or actual hires produces no 
           nextSequence: base.history.nextSequence + 2,
           legislativeMeasures: [measure],
           legislativeEnactments: [enactment],
+        },
+      };
+      world = recordWorldEvent(world, {
+        stableKey: enactment.stableKey + ":outcome",
+        type: "fixture.law-enacted",
+        occurredAt: date,
+        recordedAt: date,
+        jurisdictionId: state.id,
+        involvedEntityIds: [state.id],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [],
+        summary: "Authored enactment fixture, not ordinary political passage.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      world = {
+        ...world,
+        history: {
+          ...world.history,
+          legislativeEnactments: [
+            { ...enactment, outcomeEventId: world.history.events.at(-1)!.id },
+          ],
         },
       };
       const before = settleGovernmentMonth(

@@ -10,7 +10,9 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
-import { createWorld } from "../world";
+import { createWorld, recordWorldEvent } from "../world";
+import { createStableId } from "../ids";
+import { legislatureProfilePackId } from "../legislature-game-profile";
 import { deserializeWorld, serializeWorld } from "../serialization";
 const AGE_VERIFICATION_COST_QUESTION =
   "us-policy-positions:technology-privacy.age-verification-for-social-media";
@@ -66,11 +68,14 @@ describe("consumer privacy without an appropriation or actual hires produces no 
         policyAnswer: "yes" | "no",
         index: number,
       ): LegislativeMeasureRecord => ({
-        id: `measure_privacy_fixture_${key}_${index}` as EntityId,
+        id: createStableId(
+          "legislative-measure",
+          `privacy-fixture:${key}:${index}`,
+        ),
         stableKey: `privacy-fixture:${key}:${index}`,
         sequence: base.history.nextSequence + index * 2,
         jurisdictionId: state.id,
-        rulePackId: "authored-stamp-fixture",
+        rulePackId: legislatureProfilePackId(key),
         designation: `HB fixture ${index}`,
         shortTitle: "Authored attribution fixture",
         summary: "Controlled legal change; no natural passage claim.",
@@ -89,7 +94,10 @@ describe("consumer privacy without an appropriation or actual hires produces no 
       const enact = (
         measure: LegislativeMeasureRecord,
       ): LegislativeEnactmentRecord => ({
-        id: `enactment_${measure.id}` as EntityId,
+        id: createStableId(
+          "legislative-enactment",
+          measure.stableKey + ":enacted",
+        ),
         stableKey: measure.stableKey + ":enacted",
         sequence: measure.sequence + 1,
         measureId: measure.id,
@@ -99,7 +107,7 @@ describe("consumer privacy without an appropriation or actual hires produces no 
         effectiveAt: month,
         outcomeEventId: `event_${measure.id}` as EntityId,
       });
-      const world: World = {
+      let world: World = {
         ...base,
         currentDate: makeIsoDate("2026-06-01"),
         currentMoment: simulationMomentOnLocalDate(
@@ -111,6 +119,42 @@ describe("consumer privacy without an appropriation or actual hires produces no 
           nextSequence: base.history.nextSequence + 4,
           legislativeMeasures: [ageMeasure, privacyMeasure],
           legislativeEnactments: [enact(ageMeasure), enact(privacyMeasure)],
+        },
+      };
+      const canonicalEnactments: LegislativeEnactmentRecord[] = [];
+      for (const fixtureEnactment of world.history.legislativeEnactments!) {
+        world = recordWorldEvent(world, {
+          stableKey: fixtureEnactment.stableKey + ":outcome",
+          type: "fixture.law-enacted",
+          occurredAt: month,
+          recordedAt: month,
+          jurisdictionId: state.id,
+          involvedEntityIds: [state.id],
+          participants: [],
+          personFactConstraints: [],
+          visibility: "public",
+          tags: [],
+          summary:
+            "Authored enactment fixture, not ordinary political passage.",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        canonicalEnactments.push({
+          ...fixtureEnactment,
+          outcomeEventId: world.history.events.at(-1)!.id,
+        });
+      }
+      world = {
+        ...world,
+        history: {
+          ...world.history,
+          legislativeEnactments: canonicalEnactments,
         },
       };
       const ageOnly: World = {
