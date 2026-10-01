@@ -1,0 +1,87 @@
+{
+  "testedHead": "7f971232ad5bcd48085bc05428480b3b805144c5",
+  "producerCommit": "8e4b12d7d5c445b5af826ceeab1e36ca48c624dc",
+  "rootComposition": "3ba068da5a90accf9897a02f8b02df5e3d7633be",
+  "additiveMerge": "d1da947a14ddd3eda57b3578b63d1c52e0097d44",
+  "consumerCommit": "61cad069a50b24123c3f46ac12d287f0b4fd579f",
+  "oldResourceSource": "da390c83ec2ca740dc9ad10adb554d1881c9bca7",
+  "sourceBlobs": {
+    "src/simulation/local-economy.ts": "0f6286c7a3fa0b9bd25d7e7031c98f935d7824eb",
+    "src/simulation/living-world/town-pay.ts": "e41dd9160fb611154837656fe2f11d2b7c9e2736",
+    "src/simulation/local-economy-monthly-payroll.test.ts": "04659e67be2088ef6a7ec95569cf42142c3369ed",
+    "src/simulation/fixtures/a37-legacy-monthly-first.json": "9fc99fcedf89d4bb9a6638d9125635075ea54fb0",
+    "src/simulation/monthly-work-pay.ts": "ec716333b2b996e37e6552bdb16895bb831499ec",
+    "src/simulation/resource-integrity.ts": "4accfb3c5cdebfca1800822289a7ed274932319f",
+    "src/simulation/resources.ts": "22def9f77d66beb14e175a5272bcdc4653949421"
+  },
+  "receipts": {
+    "historicalGeneration": "1PASS13.15s, exact old resources/resource-integrity Git source overlay, actual writer outcome and saved reload",
+    "completeFirst": "16PASS1FAIL12.35s; old January20 admission expectation conflicts with approved first-day-only rule; no guard change",
+    "completeAfterRulingExpectation": "17PASS13.61s; new fixture currency type and const lint corrections still pending",
+    "finalComplete": "17PASS11.60s actual final source",
+    "typesInitial": "2roots707files0 producer; previous collector prose incorrectly said759, corrected in handback",
+    "typesNewFixtureFirst": "3roots761files1 string currency diagnostic; corrected to canonical branded currency",
+    "typesFinal": "3roots761files0",
+    "lintFinal": "PASS",
+    "formatWhitespace": "PASS"
+  },
+  "commands": {
+    "native": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_MANAGED_ROOT=/workspace OCD_WORKSPACE_OWNER=team-3 node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/local-economy-monthly-payroll.test.ts --maxWorkers=1",
+    "generation": "same storage guard, vitest --config archived legacy-first.config.mts.source; one process/stock limits",
+    "types": "tsconfig.app strict three changed roots, no filters"
+  },
+  "limits": [
+    "Controlled fixture with actual former canonical resource writer, not a captured naturally played old save",
+    "Future new month uses existing PAYDAY_HANDLERS narrow clock route, not full ordinary life",
+    "January20 original failure retained and now exact refusal asserted per approved ruling",
+    "Does not infer work references for old general wage flows",
+    "No root latest-main a5ea runtime receipt",
+    "No full A37/A38/A8/all56/year/browser/final-main claim"
+  ],
+  "rawLogs": [
+    {
+      "path": "team3-a37-first-complete-native-r3.log",
+      "sha256": "d77b825a718443fa081724b58094b9d7decf19ff2619fc370a9e3b96ee13ef43"
+    },
+    {
+      "path": "team3-a37-first-lint-r3.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a37-first-types-r2.log",
+      "sha256": "199b0bed3a05db15cc583aa2078cd4cc77793c1d0db79a119935b63c0ba4b2c8"
+    },
+    {
+      "path": "team3-a37-first-lint-r2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a37-first-types-r1.log",
+      "sha256": "a3406f4e3a8c1325c07abc37186f4f918337fcc6c41ce986d008292b0f9d8ab9"
+    },
+    {
+      "path": "team3-a37-first-complete-native-r2.log",
+      "sha256": "bc7caf7e68c662bd68d66d7eea16acddab316e4a519c150226e11188c810e300"
+    },
+    {
+      "path": "team3-a37-first-lint-r1.log",
+      "sha256": "2d2de5c84dfd9b4f2eaf11927597ce2279f461bbf2b7a194bf2b23d2d20cec88"
+    },
+    {
+      "path": "team3-a37-first-complete-native-r1.log",
+      "sha256": "10851d200f3f68882aff85072904dd4bef288b74ade0f5c27238f7f1f034bf55"
+    },
+    {
+      "path": "team3-a37-continuation-lint-r1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "team3-a37-continuation-types-r1.log",
+      "sha256": "bc8cab1b738d3bb9285d5ee84325396793f081eb2248aa3525540c65ac8e9811"
+    },
+    {
+      "path": "team3-a37-legacy-first-generation-r1.log",
+      "sha256": "3e0e5dccf94a8ecfd7fd210a9d8b7b8ca4e1f6e913121bb16fac896b7326c442"
+    }
+  ]
+}

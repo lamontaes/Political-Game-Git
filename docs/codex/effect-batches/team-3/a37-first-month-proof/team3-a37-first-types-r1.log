@@ -1,0 +1,7 @@
+roots=3 files=761 diagnostics=1
+[96msrc/simulation/local-economy-monthly-payroll.test.ts[0m:[93m557[0m:[93m50[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string' is not assignable to parameter of type 'CurrencyCode'.
+  Type 'string' is not assignable to type '{ readonly [currencyCodeBrand]: true; }'.
+
+[7m557[0m   expect(resourcePositionAt(paid, f.flow.source, "USD")!.liquidBalance).toEqual(
+[7m   [0m [91m                                                 ~~~~~[0m
+

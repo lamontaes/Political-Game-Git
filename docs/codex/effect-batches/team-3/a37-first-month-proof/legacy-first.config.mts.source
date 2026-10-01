@@ -1,0 +1,6 @@
+import {execFileSync} from "node:child_process";
+import base from "/workspace/Political-Game-Git/vite.config.ts";
+const root="/workspace/Political-Game-Git";
+const donor="da390c83ec2ca740dc9ad10adb554d1881c9bca7";
+const sources=new Map(["src/simulation/resources.ts","src/simulation/resource-integrity.ts"].map(path=>[`${root}/${path}`,execFileSync("git",["show",`${donor}:${path}`],{cwd:root,encoding:"utf8"})]));
+export default {...base,plugins:[{name:"exact-pre-monthly-guard-source",enforce:"pre",load(id){const source=sources.get(id.split("?")[0]);return source===undefined?null:{code:source,map:null};}},...base.plugins],test:{...base.test,include:["tests/team3-a37-legacy-first-generation.test.ts"]}};

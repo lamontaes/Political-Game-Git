@@ -1,0 +1,7 @@
+
+/workspace/Political-Game-Git/src/simulation/local-economy-monthly-payroll.test.ts
+  422:7  error  'world' is never reassigned. Use 'const' instead  prefer-const
+
+✖ 1 problem (1 error, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
