@@ -1,0 +1,33 @@
+diff --git a/src/simulation/public-government-identity.ts b/src/simulation/public-government-identity.ts
+--- a/src/simulation/public-government-identity.ts
++++ b/src/simulation/public-government-identity.ts
+@@
+-import type { EntityId, PublicGovernmentIdentity, World } from "./types";
++import { currentLifeCutoff, organizationsAt, organizationProfileAt } from "./life-queries";
++import type { EntityId, HistoricalCutoff, PublicGovernmentIdentity, World } from "./types";
+@@
+ export function assertPublicGovernmentIdentity(
+   world: World,
+   identity: PublicGovernmentIdentity,
++  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+ ): void {
+@@
+-  const organization = world.history.organizations.find(
++  const organization = organizationsAt(world, cutoff).find(
+     (row) => row.stableKey === `municipal-government:${identity.governmentKey}`,
+   );
+   if (!organization) return;
+-  const profile = world.history.organizationProfiles
+-    .filter(
+-      (row) =>
+-        row.organizationId === organization.id &&
+-        row.effectiveAt <= world.currentDate,
+-    )
+-    .at(-1);
++  const profile = organizationProfileAt(world, organization.id, cutoff);
+diff --git a/src/simulation/tax-policy.ts b/src/simulation/tax-policy.ts
+--- a/src/simulation/tax-policy.ts
++++ b/src/simulation/tax-policy.ts
+@@
+-    assertPublicGovernmentIdentity(world, identity);
++    assertPublicGovernmentIdentity(world, identity, cutoff);

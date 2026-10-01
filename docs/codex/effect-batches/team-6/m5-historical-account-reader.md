@@ -66,8 +66,13 @@ The focused file covers all 56 jurisdiction accounts, plus date visibility,
 missing-account rejection, an actual compiled municipal key and an executed
 shared-validator boundary. The first run passed all 60 tests. The boundary
 test correctly records unsupported; it is not proof of full municipal
-historical parity. Current-query compatibility assertions and final checks
-are renewed before publication. No full suite, browser, campaign, money
+historical parity. Current-query compatibility assertions and all 60 tests
+passed again after composition with main b0affa0328df4a5cdf5e64270a2a62c88dfa58a3.
+The executed source is 5886c5a4a352b99ccef1a28a0f6391d1754a90cf.
+Scoped TypeScript checked two roots and loaded 730 source files with zero
+owned diagnostics. Lint, formatting, report, release and diff checks passed.
+The dice gate reports zero new findings and five stale inherited allowlist
+entries. No full suite, browser, campaign, money
 draw, account migration or tax-family admission is claimed.
 
 ## 7. Worked example
@@ -82,12 +87,13 @@ after the activity's exclusive sequence cutoff and survive canonical reload.
 
 ## Exact shared seam still needed
 
-On the verified source, public-government-identity.ts lines 88 through 102
+On the verified source, public-government-identity.ts lines 93 through 103
 find the municipal-government organization and select its profile using the
 current world date. Proposed signature: assertPublicGovernmentIdentity(world,
 identity, cutoff?: HistoricalCutoff). Only that profile query and its cutoff
 argument/import need release. Keep the compiled government checks and actual
-government key unchanged. Use organizationProfileAt at the supplied cutoff.
+government key unchanged. Use organizationsAt and organizationProfileAt at
+the supplied cutoff.
 The owned candidate preserves the existing assertion and its refusal; it
 does not manufacture a historical World or bypass validation.
 M7 annual tax-family mapping remains held. This draft does not complete M5.
