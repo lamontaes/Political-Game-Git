@@ -1,16 +1,15 @@
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { writeFileSync } from "node:fs";
-import {
-  observerSetup,
-  openObserverWorld,
-} from "../../presentation/observer-world";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays } from "../dates";
 import { currentLifeCutoff } from "../life-queries";
-import {
-  lifePlaceStateIdentities,
-  stateJurisdictionForKey,
-} from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { courtFor } from "../judiciary/court-for";
+import {
+  buildOpeningCourtCatalog,
+  seatJudge,
+  seatsForCourt,
+} from "../judiciary/courts";
 import { pickDistinct, SeededRng } from "../rng";
 import { personName } from "../people";
 import {
@@ -31,10 +30,6 @@ import {
 import { createProsecutionTransitionRegistry } from "./prosecution-transitions";
 
 const SEED = "team9-a100-saved-court-finder-20261001";
-let opened: World | null = null;
-function world(): World {
-  return (opened ??= openObserverWorld(observerSetup(SEED)).world);
-}
 const receipts: unknown[] = [];
 afterEach(() => vi.restoreAllMocks());
 afterAll(() => {
@@ -50,7 +45,37 @@ describe("incomplete actual-person panels leave trials pending", () => {
   it.each(states)(
     "keeps the original case pending in $jurisdictionKey",
     (state) => {
-      let base = world();
+      const opening = smallWorld({
+        place: state.jurisdictionKey,
+        people: 40,
+        seed: SEED,
+        date: "2026-01-01",
+      });
+      let base = buildOpeningCourtCatalog(opening.world);
+      const court = courtFor(
+        base,
+        opening.jurisdictionId,
+        "local-general-trial",
+        "criminal",
+      )!;
+      expect(court).toBeDefined();
+      const judgeId = base.personOrder.at(-1)!;
+      const seat = seatsForCourt(base, court.courtId)[0]!;
+      base = seatJudge(base, {
+        seatId: seat.seatId,
+        personId: judgeId,
+        startedAt: base.currentDate,
+        selection: {
+          path: "initial-world",
+          selectionRecordId: null,
+          decisionRecordId: null,
+          selectingPersonId: null,
+          contestId: null,
+          note: "Authored small-world court fixture; actual generated resident seated through seatJudge.",
+        },
+        termEndsAt: null,
+        retentionDueAt: null,
+      });
       for (const item of base.history.futureDueItems)
         if (
           futureDueItemStateAt(base, item.id, currentLifeCutoff(base))
@@ -64,17 +89,11 @@ describe("incomplete actual-person panels leave trials pending", () => {
             context:
               "Preserve unrelated commitments while isolating this existing trial.",
           });
-      const court = courtFor(
-        base,
-        stateJurisdictionForKey(state.jurisdictionKey)!.id,
-        "local-general-trial",
-        "criminal",
-      )!;
       const personId = base.personOrder[0]!;
       const referred = referForProsecution(base, {
         stableKey: `a105:${state.jurisdictionKey}`,
         subjectPersonId: personId,
-        jurisdictionId: court.jurisdictionId,
+        jurisdictionId: opening.jurisdictionId,
         offenseKey: "crime:robbery",
         evidence: "documentary",
         standingFindings: 6,
@@ -165,6 +184,9 @@ describe("incomplete actual-person panels leave trials pending", () => {
         completePanelResumed: true,
         panelContract: reasoning.UNRESEARCHED_JURY_PANEL,
         controlledSelector: true,
+        smallWorldPeople: opening.world.personOrder.length,
+        judgeId,
+        courtId: court.courtId,
       });
     },
     30_000,
