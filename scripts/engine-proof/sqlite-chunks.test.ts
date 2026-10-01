@@ -90,12 +90,12 @@ describe("SQLite uses the existing chunked world payload", () => {
     expect(repository.load(world.id)).toEqual(world);
     expect(repository.load(createWorldId("absent-sqlite-world"))).toBeNull();
     expect(repository.list()).toHaveLength(1);
-    console.log(
+    process.stdout.write(
       JSON.stringify({
         identity: watchedIdentity(world, person.id, selected.placeKey),
         storedCharacters: expected.length,
         transport: "canonical small string",
-      }),
+      }) + "\n",
     );
   });
 
@@ -197,6 +197,38 @@ describe("SQLite uses the existing chunked world payload", () => {
         .n,
     ).toBe(0);
     expect(repository.load(world.id)).toEqual(world);
+  });
+
+  it("keeps one read snapshot when another WAL connection replaces its chunks", () => {
+    const path = fixturePath();
+    const reader = repositoryAt(path);
+    const writer = repositoryAt(path);
+    const replacement = openCanonicalFixture({
+      seed: selected.seed,
+      currentDate: makeIsoDate("2026-01-06"),
+      jurisdictions: [place.context.jurisdiction],
+      people: [person],
+    });
+    expect(replacement.id).toBe(world.id);
+    forceCanonicalChunks();
+    reader.save(world);
+    const prepare = DatabaseSync.prototype.prepare;
+    let interleaved = false;
+    vi.spyOn(DatabaseSync.prototype, "prepare").mockImplementation(function (
+      this: DatabaseSync,
+      sql: string,
+    ) {
+      if (!interleaved && sql.includes("SELECT chunk_index, payload")) {
+        interleaved = true;
+        writer.save(replacement);
+      }
+      return prepare.call(this, sql);
+    });
+    const loaded = reader.load(world.id);
+    expect(interleaved).toBe(true);
+    expect(loaded).toEqual(world);
+    vi.restoreAllMocks();
+    expect(reader.load(world.id)).toEqual(replacement);
   });
 
   it("refuses missing or noncontiguous chunks instead of decoding a partial save", () => {
