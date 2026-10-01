@@ -1,8 +1,22 @@
+import { currentMeasureProvisions } from "../simulation/legislative-politics";
+import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import {
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "../simulation/time-work";
+import { personName } from "../simulation/people";
+import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/state-executives";
+import {
+  governorOfficeForJurisdiction,
+  governingMatters,
+  decideGoverningMatter,
+} from "../simulation/governing/state-governing";
+import { BILL_SIGN } from "../simulation/governing/governor-bill-decision";
 import { describe, expect, it } from "vitest";
 
 import { createLegislativeScenario } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
-import { advanceWorld } from "../simulation/world";
+import { advanceWorld, recordWorldEvent } from "../simulation/world";
 import { addDays } from "../simulation/dates";
 import type { EntityId, World } from "../simulation";
 import type { ProgramParameterValue } from "../simulation/legislation-content-contracts";
@@ -19,7 +33,6 @@ import {
 import {
   availableMeasureSteps,
   measurePosition,
-  recordExecutiveAction,
 } from "../simulation/legislation";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
 import {
@@ -91,10 +104,126 @@ function staff(world: World, personId: EntityId, organizationId: EntityId) {
 
 type Scenario = ReturnType<typeof createLegislativeScenario>;
 
+/** Record the fixture's control change without rewriting pending work. */
+function controlForFixture(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  const previous =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (previous === personId) return world;
+  const handoff = recordWorldEvent(world, {
+    stableKey,
+    type: "test.control-moved",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [
+      personId,
+      ...(previous
+        ? [previous, ...playerRequiredWorkIds(world, previous)]
+        : []),
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary:
+      "Controlled downstream fixture moves play to the actual actor for its next recorded action.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const released = previous
+    ? releasePlayerRequiredWork(handoff, {
+        personId: previous,
+        stableKeyPrefix: `${stableKey}:released`,
+        outcomeEventId: handoff.history.events.at(-1)!.id,
+      })
+    : handoff;
+  return { ...released, control: { kind: "person", personId } };
+}
+
+/** A controlled actual-office signature for downstream law-effect fixtures. */
+function signAtActualGovernorDesk(
+  scenario: ReturnType<typeof createLegislativeScenario>,
+  start: World,
+  measureId: EntityId,
+): World {
+  let world = ensureStateExecutiveIncumbent(
+    start,
+    scenario.playerPersonId,
+    scenario.pack.jurisdictionKey.slice(3),
+  );
+  const office = governorOfficeForJurisdiction(
+    world,
+    scenario.pack.jurisdictionKey,
+  );
+  expect(
+    office,
+    "A recorded governor is required for this controlled signature.",
+  ).not.toBeNull();
+  world = controlForFixture(
+    world,
+    office!.holderPersonId,
+    `a80:governor-control:${measureId}`,
+  );
+  world = applyLegislativeStep(
+    { ...scenario, measureId },
+    world,
+    "await-executive-decision",
+  ).world;
+  const matter = governingMatters(world, office!.officeKey).find(
+    (row) => row.measureId === measureId && row.status === "open",
+  );
+  expect(
+    matter,
+    "The actual bill must reach its recorded governor's desk.",
+  ).toBeDefined();
+  const decision = decideGoverningMatter(world, matter!.id, BILL_SIGN);
+  expect(decision.ok, decision.ok ? "" : decision.reason).toBe(true);
+  const next = decision.world;
+  expect(measurePosition(next, measureId).phase).toBe("awaiting-enactment");
+  const recorded = next.history.events.find(
+    (event) =>
+      event.tags.includes(`matter:${matter!.id}`) &&
+      event.tags.includes(`choice:${BILL_SIGN}`),
+  );
+  expect(
+    recorded?.participants.some(
+      (participant) =>
+        participant.personId === office!.holderPersonId &&
+        participant.role === "agency:decider",
+    ),
+  ).toBe(true);
+  console.info(
+    "A80 actual governor fixture",
+    JSON.stringify({
+      seed: next.seed,
+      scenario: scenario.scenarioKey,
+      measureId,
+      matterId: matter!.id,
+      governor: personName(next.people[office!.holderPersonId]!),
+      governorId: office!.holderPersonId,
+      decisionEventId: recorded!.id,
+      choice: BILL_SIGN,
+      phase: measurePosition(next, measureId).phase,
+      controlledChoice: true,
+    }),
+  );
+  return next;
+}
+
 /**
- * Files a controlled bill and supplies a recorded signature for downstream
- * duty tests. This fixture has no executive office and does not prove an
- * ordinary governor's decision. Production vacancy handling stays pending.
+ * Files a controlled bill and signs it through the actual recorded governor
+ * desk for downstream duty tests. The signing choice is supplied, not an
+ * ordinary NPC decision. Production vacancy handling stays pending.
  */
 function pass(
   scenario: Scenario,
@@ -106,7 +235,12 @@ function pass(
     readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
   },
 ) {
-  const filed = fileDraft(start, {
+  const controlledStart = controlForFixture(
+    start,
+    scenario.playerPersonId,
+    `a80:filing-control:${start.history.nextSequence}`,
+  );
+  const filed = fileDraft(controlledStart, {
     scenarioKey: "nebraska",
     playerPersonId: scenario.playerPersonId,
     jurisdictionId:
@@ -128,13 +262,7 @@ function pass(
     if (step === "await-executive-decision") {
       world = publishLegislativeTransition(
         world,
-        recordExecutiveAction(world, {
-          stableKey: `duty-test:signature:${measureId}`,
-          measureId,
-          action: "signed",
-          rationale:
-            "Supplied signature for a controlled downstream duty fixture.",
-        }),
+        signAtActualGovernorDesk(scenario, world, measureId),
       );
       continue;
     }
@@ -144,6 +272,33 @@ function pass(
     );
   }
   expect(measurePosition(world, measureId).outcome).toBe("enacted");
+  const enactment = world.history.legislativeEnactments?.find(
+    (row) => row.measureId === measureId,
+  );
+  console.info(
+    "A80 fixture law records",
+    JSON.stringify({
+      file: "enacted-duties",
+      measureId,
+      currentDate: world.currentDate,
+      lineages: world.history.legislativeDraftLineages?.filter(
+        (row) => row.measureId === measureId,
+      ),
+      enactment: enactment ?? null,
+      operative: enactment ? operativeDateInWorld(world, enactment) : null,
+      appropriations:
+        world.history.publicProgramRecords?.filter(
+          (row) =>
+            row.kind === "appropriation" && row.sourceMeasureId === measureId,
+        ) ?? [],
+      provisions: currentMeasureProvisions(world, measureId).map((row) => ({
+        id: row.id,
+        provisionKey: row.provisionKey,
+        text: row.text,
+        operativeEffect: row.operativeEffect ?? null,
+      })),
+    }),
+  );
   return { world, measureId, docketKey: filed.bill.docketKey };
 }
 

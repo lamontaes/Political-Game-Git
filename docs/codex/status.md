@@ -1,3 +1,23 @@
+# Engine work now follows its prerequisite order
+
+The teams are building in the CTO's engine sequence. The governor repair has one remaining display-reader failure. Payroll now contains the exact saved-job binding, but three payment cases are blocked during clock-registry construction. Starting-law exposure is being repaired through the existing law-in-force reader.
+
+## Current source and checks
+
+Payroll draft #1575 is published at 6a178706f75967714d1bb605b865cef722b0c204, receiving main 16d1176f9cb09074e97a008613d47e1d133e00c8 and Team 3's two-file binding delta 9e48f1ad041838dd28a7947cd81949bf561e79b8. Two scoped roots traversed 861 files with zero diagnostics. Runtime at this head is NOT RUN. The previous eight-file run at 90dff ended with 128 passed and three failed of 131 in 90.37 seconds. The three failures precede payment assertions because a clock registration key is undefined. No cause is called measured yet.
+
+Team 6 reports 91 passed and one failed of 92 across Team 2's two complete governor files. Both original date assertions and the actual appropriation record now pass. The remaining reader compares the target program against the later bill's family. Team 6 received the narrow reader repair after Audit confirmed no competing edits. These are Team 6's executed results, not a coordinator rerun.
+
+The coordinator's A35 writer candidate is 76f6d65f5cec4f21034836863c958585fe39f302. It validates starting-law identities through lawInForce and retains the existing exposure shape. Its tests are writer-boundary controls, not actual paycheck or nationwide proof. Types are running; runtime is NOT RUN. The existing 28-day pay estimate is still an explicit unresolved assumption.
+
+## First steps and connections
+
+Clock: Team 7 accepted A125 first, then Audit's A124/A126, then A3/A4 and A5. Narrative released the exact press decision-call guards. Government: Team 2's A80 repair is the project priority; Team 1 has A77 first with the existing CTO-requested A76 repair exception; Team 9 has A10 before A100. Financial: Team 3 builds A38's ordinary-period saved-rule arm; Team 6 returns to A33 after A80; Team 4 returns to A57 after its requested A58 main delivery. Narrative continues A152. Social and Elections retain the CTO's existing ordered lanes.
+
+The monthly earned-period contract, A15 farm recipient/base/terms, and A57 legal coverage inputs still require CTO decisions. The effects total remains the historical 94/220; no new runtime total is claimed. Shared working-tree changes remain preserved. #1561 is verified merged as 1bffc2cf0e16b1b42662367f1405818bfa8b00ea; this update continues its ledger.
+
+## Earlier checkpoints
+
 # Excise taxes are on main; payroll passes its repaired office checks
 
 Excise assessment now runs through the shared tax path on main. The combined office payroll passes its eight unchanged checks after an import-boundary repair. The larger payroll change remains a draft while geographic applicability and the monthly business-pay contract are unfinished.
