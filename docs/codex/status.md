@@ -1,3 +1,28 @@
+# Permission dispatch connected in source; cloud validation pending
+
+The released permission handler is now connected to the shared dispatcher in a published draft. The cloud checks found ten saved-world differences in the news consequence work. Those failures are assigned for diagnosis, and the builder has its formatting repairs.
+
+## Current evidence
+
+- Coordinator #1636 is draft at 0f54a7d785f0250a6d9a7ce56aa38d035c2b908e on main 524f8bdfb5e662eeca3442b9ad39890ca43ee481. The received test now uses default dispatch. Formatting and diff checks pass; runtime, types, release and player checks NOT RUN. CTO cloud routing requested.
+- Foundation #1611 at a57a71daa9806f6e268098cdb56c8973eec45092 has Checker 3's complete public-fiscal file passing 6/6. Opening and types on that exact head remain pending; older receipts do not complete this gate.
+- Team 7 #1510 at 953d3ef38fffd6c309fc328d4e885da2e31f7365 has cloud 12/12 across four complete files with clean app and strict types. Its separate A5 work is idle behind #1619, verified open and unmerged.
+- Team 8 #1623 at 90d49e607c22ab0f6f7a3979af480182aa094391 has 31 passes and 10 saved-world hash failures on main e5a40e9ee. Types and lint pass; three files fail formatting. Team 8 received formatting repair; Audit received attribution of restitution and replay failures. No hashes or assertions may be refreshed without diagnosis.
+- Team 8 published draft #1633 for the modeled-counterfactual label; native checks remain unrun in its receipt.
+- Team 3 is implementing the approved first-of-month historical coverage query. Root's payroll #1575 remains incomplete until that query is received and the guard is validated.
+- Team 6 is compiling actual federal and jurisdiction wage-authority evidence. Tax attribution and activation remain incomplete.
+- Team 4's sidebar reports active, but direct delivery repeatedly fails with no active turn ID and its latest command failed. The precise delivery failure and assignment were posted to the CTO; no healthy progress or restart is claimed.
+
+## Connections and next actions
+
+Team 1 receives the narrow compliance reader from Team 2. Audit supplies its actual receipt binding. Team 4 and Team 8 have Social's requests for poverty, rent and coverage records, so Social can consume existing facts. Root continues permission admission, monthly guards and tax attribution. The CTO routes gates and merges; Coordinator and Checker 3 do neither.
+
+## Verification
+
+Prepared after reading the October 1 system clock and latest CTO entries. Source, test, merge and player acceptance remain separate. Isolated-index publication preserves the shared worktree.
+
+## Earlier checkpoints
+
 # Foundation repair and current integration blockers
 
 The foundation repair is published for cloud checking. Ratification ownership is closed, and the sentencing check has a concrete repair route. Monthly payroll and wage-tax attribution still require decisions about existing saved records.
