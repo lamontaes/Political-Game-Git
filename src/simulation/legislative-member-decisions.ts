@@ -1,4 +1,8 @@
-import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import {
+  considerationScore,
+  evaluateDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { favorStandingBetween } from "./favors";
 import { favorEventRefs } from "./patronage/favor-refs";
 import { requireMeasure } from "./legislation";
@@ -183,7 +187,10 @@ export function deriveMemberDisposition(
 
   const decisive = considerations
     .filter((consideration) => consideration.optionKey === selected)
-    .sort((a, b) => weight(b) - weight(a))
+    .sort(
+      (a, b) =>
+        Math.abs(considerationScore(b)) - Math.abs(considerationScore(a)),
+    )
     .slice(0, 2)
     .map((consideration) => consideration.explanation);
 
@@ -196,14 +203,6 @@ export function deriveMemberDisposition(
         ? decisive.join(" ")
         : "Nothing in the current bill moved the member either way.",
   };
-}
-
-function weight(consideration: DecisionConsideration): number {
-  const importance = { slight: 1, moderate: 2, strong: 4, decisive: 6 }[
-    consideration.importance
-  ];
-  const confidence = { low: 1, medium: 2, high: 3 }[consideration.confidence];
-  return importance * confidence;
 }
 
 /**
