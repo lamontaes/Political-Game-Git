@@ -1,4 +1,5 @@
 import { addDays } from "../dates";
+import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
 import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
 import { recordDurableDecisionTrace } from "../decisions";
@@ -310,9 +311,11 @@ function isPlayer(world: World, personId: EntityId): boolean {
 export const PROSECUTION_MISTRIAL_EVENT = "justice.mistrial";
 /** A plea the defendant entered themselves, ahead of the hearing. */
 export const PROSECUTION_PLEA_ENTERED_EVENT = "justice.plea-entered";
+export const PROSECUTION_BENCH_ACTIVATION_EVENT = "justice.bench-activation";
 const PLEA_TAG = "justice.plea:";
 
 type FollowUpType =
+  | typeof PROSECUTION_BENCH_ACTIVATION_EVENT
   | typeof PROSECUTION_CHARGED_EVENT
   | typeof PROSECUTION_PLEA_ENTERED_EVENT
   | typeof PROSECUTION_DECLINED_EVENT
@@ -864,6 +867,79 @@ function enteredPleaOf(
 }
 
 /** One case against a person, as the person can see it. */
+/** A real saved local trial-bench change can wake its already-due cases. */
+export function recoverProsecutionsAfterBenchChange(
+  world: World,
+  courtId: string,
+  tenureId: string,
+): World {
+  const court = world.judiciary?.courts[courtId];
+  const tenure = world.judiciary?.seatTenures.find(
+    (row) => row.tenureId === tenureId,
+  );
+  const seat = tenure && world.judiciary?.seats[tenure.seatId];
+  if (
+    !court ||
+    court.level !== "local-general-trial" ||
+    !court.jurisdictionId ||
+    !tenure ||
+    seat?.courtId !== courtId ||
+    tenure.startedAt > world.currentDate ||
+    (tenure.endedAt !== null && tenure.endedAt <= world.currentDate)
+  )
+    return world;
+  let next = world;
+  for (const referral of eventsOfType(world, PROSECUTION_REFERRED_EVENT)) {
+    if (
+      eventsFor(next, PROSECUTION_ENDED_EVENT, referral).length ||
+      eventsFor(next, PROSECUTION_DECLINED_EVENT, referral).length
+    )
+      continue;
+    const subjectId = referral.participants.find(
+      (p) => p.role === "focus:subject",
+    )?.personId;
+    if (!subjectId || !next.people[subjectId]) continue;
+    const courtCase = courtCaseOf(next, referral, subjectId);
+    if (
+      !courtCase.stateKey ||
+      chiefExecutiveJurisdiction(courtCase.stateKey.slice(3))?.id !==
+        court.jurisdictionId
+    )
+      continue;
+    const charged = eventsFor(next, PROSECUTION_CHARGED_EVENT, referral)[0];
+    if (!charged) continue;
+    const stage =
+      eventsFor(next, PROSECUTION_MISTRIAL_EVENT, referral).at(-1) ?? charged;
+    if (
+      addDays(stage.occurredAt, UNRESEARCHED_PROSECUTION.resolveAfterDays) >
+      next.currentDate
+    )
+      continue;
+    const advanced = advanceProsecutions(next, referral.id);
+    if (advanced === next) continue;
+    next = followUp(
+      advanced,
+      stage,
+      referral,
+      PROSECUTION_BENCH_ACTIVATION_EVENT,
+      {
+        ordinal:
+          eventsFor(next, PROSECUTION_BENCH_ACTIVATION_EVENT, referral).length +
+          1,
+        summary: `The court reviewed ${personName(next.people[subjectId]!)}'s already-due case after a judge took a seat.`,
+        extraTags: [
+          `justice.bench-tenure:${tenureId}`,
+          `justice.bench-court:${courtId}`,
+          `justice.original-stage-date:${stage.occurredAt}`,
+        ],
+        motivation:
+          "An actual saved local trial-bench tenure allowed the pending case to be reviewed at the current date.",
+      },
+    );
+  }
+  return next;
+}
+
 export interface CourtCaseRecord {
   readonly referralId: EntityId;
   readonly offenseLabel: string;

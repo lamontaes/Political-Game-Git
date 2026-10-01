@@ -15,6 +15,11 @@ import { REFERRAL_TAG } from "./jail-terms";
 
 export const PROSECUTION_STAGE_TRANSITION_KEY = "justice:prosecution-stage";
 
+/** Explicit opening/load recovery at today's date; never backdates a deadline. */
+export function recoverOverdueProsecutions(world: World): World {
+  return advanceProsecutions(world);
+}
+
 /** A saved case stage supplies the deadline; no clock or timing rule is invented. */
 export function ensureProsecutionStageSchedule(
   world: World,
@@ -92,8 +97,14 @@ export const prosecutionStageHandler: FutureTransitionHandler = (
   return {
     world: advanced,
     status: "resolved",
-    reasonKey: "justice:case-stage-reviewed",
-    context: "The saved prosecution stage was reviewed on its own due date.",
+    reasonKey:
+      advanced === world
+        ? "justice:case-stage-pending"
+        : "justice:case-stage-reviewed",
+    context:
+      advanced === world
+        ? "The due review produced no new case stage; the saved case remains pending for an actual bench change or explicit recovery boundary."
+        : "The saved prosecution stage was reviewed on its own due date.",
     outcomeEventId: advanced === world ? null : (latest?.id ?? null),
   };
 };
