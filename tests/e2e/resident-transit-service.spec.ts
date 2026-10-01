@@ -42,9 +42,12 @@ test("the actual player root admits a resident trip without office authority and
   await openShellMenu(page);
   await page.getByTestId("nav-calendar").click();
   await page
-    .getByRole("button", {
-      name: /Ride with Authored resident transit operator/,
-    })
+    .getByTestId(/^calendar-entry-/)
+    .and(
+      page.getByRole("button", {
+        name: /Ride with Authored resident transit operator/,
+      }),
+    )
     .click();
   await page.getByRole("button", { name: /^Travel ·/ }).click();
   await openPoliticsHub(page, "nav-politics-transit");
