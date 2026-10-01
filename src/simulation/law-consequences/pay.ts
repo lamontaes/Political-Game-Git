@@ -399,13 +399,17 @@ export function resolveAnnualOfficePayConsequences(
         p.stateUsps === held.state &&
         p.officeKey === officeKey &&
         p.field === field &&
-        p.filedAt <= context.onDate,
+        p.filedAt <= context.onDate &&
+        p.filedAt <= cutoff.asOfDate &&
+        p.sequence < cutoff.historySequenceExclusive,
     );
     const enactments = (world.history.legislativeEnactments ?? []).filter(
       (e) =>
         e.measureId === rule.measureId &&
         e.outcome === "enacted" &&
-        e.resolvedAt <= context.onDate,
+        e.resolvedAt <= context.onDate &&
+        e.resolvedAt <= cutoff.asOfDate &&
+        e.sequence < cutoff.historySequenceExclusive,
     );
     if (clauses.length !== 1 || enactments.length !== 1)
       throw new Error("Missing or ambiguous adopted office salary authority");
@@ -578,13 +582,17 @@ export function resolveSavedHourlyPayConsequences(
         p.stateUsps === state &&
         p.officeKey === officeKey &&
         p.field === field &&
-        p.filedAt <= context.onDate,
+        p.filedAt <= context.onDate &&
+        p.filedAt <= cutoff.asOfDate &&
+        p.sequence < cutoff.historySequenceExclusive,
     );
     const enactments = (world.history.legislativeEnactments ?? []).filter(
       (e) =>
         e.measureId === rule.measureId &&
         e.outcome === "enacted" &&
-        e.resolvedAt <= context.onDate,
+        e.resolvedAt <= context.onDate &&
+        e.resolvedAt <= cutoff.asOfDate &&
+        e.sequence < cutoff.historySequenceExclusive,
     );
     if (clauses.length !== 1 || enactments.length !== 1)
       throw new Error("Missing or ambiguous adopted hourly authority");
