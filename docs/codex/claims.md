@@ -1,3 +1,12 @@
+## October 1, 7:12 a.m. approved writer transfers
+
+CTO rulings in 00d at 6:23 and 6:49 authorize these narrow surfaces. This supersedes older overlapping claims; it does not establish implementation or runtime completion.
+
+- Audit owns only `src/simulation/election-contests.ts` evaluator, automatic resolver and scheduled-handler hunks for A110. Remove unsupported fabricated counts and retain an unresolved contest. Team 1 retains budget and filing work; no statewide-electorate or county transfer is implied.
+- Team 7 owns the narrow sourced county extension through the existing residence writer and catalog. Missing actual seat, electorate or voter-production records remain unsupported. Other chambers and proposed maps are not admitted by this grant.
+- Coordinator owns shared pay consequence types, resolver and dispatcher, including the saved hourly authority and completed-shift context. Published contract head is bb5e17a7529d30fc41c93b48d06520ae7f0ba811. Team 3 owns the consuming common pay writer and its tests, completed-interval arithmetic and actual payment integration. No second payroll writer is authorized.
+- Coordinator owns only the standing-authority discriminant repair in `applyLawServiceConsequence`, published in draft #1530. Team 5 retains service behavior and clinical mechanisms. Failed composed receipt tests require baseline attribution; they do not authorize a second service writer.
+
 ## October 1, 5:34 a.m. adult opening transfer CLOSED
 
 Team 4 owns only the normal adult-start import and seatLocalBusinesses invocation ordering around hireAtAdultStart in src/presentation/production-world.ts. Audit released this exact scope with no unpublished overlap. Coordinator verified main 072634b352c182c0ee75abe59e1e73e772ed73e4 blob 74ad6aef164a2bb568952ed3fe229be9c73fd399.
