@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "file": "art/authoring/sept29-team7/kids/boy-14-standing-base-v4.png",
+      "file_root": "repository",
+      "category": "kids",
+      "source_group": "team7-generated-candidate",
+      "source_sha256": "c2c7c1e87d6812c25e68fc8485013177db7fdbf4c48cf1341ec172723c1d21e1",
+      "width": 1536,
+      "height": 1024,
+      "preview_only": false,
+      "runtime_release_status": "candidate",
+      "approved_for_game": "no",
+      "approval_status": "pending-cto-and-owner-review",
+      "approval_reason": "CTO contact-sheet review and owner pixel approval are not recorded.",
+      "issues": [
+        "Knee shading remains strongly defined; owner style review pending.",
+        "Actual game-scale age separation and modular fit not run."
+      ],
+      "visual_review": {
+        "method": "native-white-alpha-composite-and-reference-contact",
+        "status": "candidate-screened-not-approved",
+        "sheet": "art/authoring/sept29-team7/kids/age14-v4-master-review.jpg",
+        "observations": "Longer adolescent silhouette than age8 at equal canvas reduction; broader shirt folds and reduced calf shading versus v3. No physical stature calibration inferred."
+      },
+      "generation_receipt": "art/authoring/sept29-team7/kids/age14-correction-receipts.json",
+      "references": [
+        "art/authoring/sept29-team7/kids/boy-14-standing-base-v3.png",
+        "/Users/lamontae/.codex/skills/civic-visual-master/assets/owner-character-style-master.jpg"
+      ],
+      "gender": "boy",
+      "age_group": "14",
+      "pose": "standing",
+      "outfit": "plain-gray-t-shirt-and-knee-length-shorts-barefoot",
+      "outfit_variant": "base",
+      "facing": "front",
+      "body_sizes": [
+        "lean",
+        "average",
+        "fuller"
+      ],
+      "temperament_fit": [
+        "neutral"
+      ],
+      "temperament_basis": "Blank face and neutral pose are visual suitability tags, not personality facts.",
+      "modular_fit_status": "not-run",
+      "alpha_qa_status": "white-composite-reviewed; alpha 0-254; not a standalone failure",
+      "image_qa": {
+        "width": 1536,
+        "height": 1024,
+        "aspectRatio": "3:2",
+        "hasTransparency": "confirmed"
+      }
+    }
+  ],
+  "preserves_original_tags": true
+}
