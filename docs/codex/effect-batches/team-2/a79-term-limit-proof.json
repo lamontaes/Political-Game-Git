@@ -1,0 +1,118 @@
+{
+  "gap": "A79",
+  "runtimeSource": "62a34bd3137591f762ece3ed81afe9c2a54993ee",
+  "mainSource": "072634b352c182c0ee75abe59e1e73e772ed73e4",
+  "seed": "A79-recorded-term-limit-chamber",
+  "place": "Ashaway, Rhode Island",
+  "startingJurisdiction": "US-RI",
+  "selectionPool": "56 starting jurisdiction identities; one populated world executed",
+  "fixtures": "Authored party participation inputs on actual saved President/congressional members/party organizations; not natural persuasion or filing",
+  "checks": {
+    "selectedTestsPassed": 6,
+    "deliberatelyUnselectedTests": 1,
+    "durationSeconds": 81.67,
+    "strictRoots": 4,
+    "typeDiagnostics": 0,
+    "changedLint": "PASS",
+    "changedFormat": "PASS",
+    "release": "PASS",
+    "zeroDice": {
+      "new": 0,
+      "staleInherited": 5,
+      "exitCode": 1
+    }
+  },
+  "comparisonDecisions": 1070,
+  "changedDirections": 0,
+  "changedReasons": 0,
+  "comparisonReceipts": [
+    {
+      "seed": "A79-recorded-term-limit-chamber",
+      "state": "US-RI",
+      "place": "Ashaway, Rhode Island",
+      "direction": "extend",
+      "body": "house",
+      "voters": 435,
+      "changed": 0,
+      "example": "Elizabeth Schultz",
+      "before": "yea",
+      "after": "yea",
+      "measureId": "constitutional-measure_cde9560f42ff9903"
+    },
+    {
+      "seed": "A79-recorded-term-limit-chamber",
+      "state": "US-RI",
+      "place": "Ashaway, Rhode Island",
+      "direction": "extend",
+      "body": "senate",
+      "voters": 100,
+      "changed": 0,
+      "example": "Deborah McIntyre",
+      "before": "yea",
+      "after": "yea",
+      "measureId": "constitutional-measure_cde9560f42ff9903"
+    },
+    {
+      "seed": "A79-recorded-term-limit-chamber",
+      "state": "US-RI",
+      "place": "Ashaway, Rhode Island",
+      "direction": "restore",
+      "body": "house",
+      "voters": 435,
+      "changed": 0,
+      "example": "Elizabeth Schultz",
+      "before": "nay",
+      "after": "nay",
+      "measureId": "constitutional-measure_cde9560f42ff9903"
+    },
+    {
+      "seed": "A79-recorded-term-limit-chamber",
+      "state": "US-RI",
+      "place": "Ashaway, Rhode Island",
+      "direction": "restore",
+      "body": "senate",
+      "voters": 100,
+      "changed": 0,
+      "example": "Deborah McIntyre",
+      "before": "nay",
+      "after": "nay",
+      "measureId": "constitutional-measure_cde9560f42ff9903"
+    }
+  ],
+  "saveContinue": [
+    "rejected actual House rollcall IDs preserved",
+    "successful House/Senate rollcalls and 50 existing state due actions preserved",
+    "repeat returns the same world without appending actions"
+  ],
+  "approvedBehaviorDifference": "CTO5:16 approved proposal saved before member decisions and retained rejection rollcall; no ballot direction changed in defined fixtures",
+  "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_WORKSPACE_OWNER=team-2 VITE_CONFIG_NATIVE_IGNORE_WARNING=true node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/living-world/federal-term-limit-chamber-vote.test.ts src/presentation/federal-reform.test.ts --testNamePattern 'recorded presidential|reads a ratified amendment' --maxWorkers=1 --fileParallelism=false --disableConsoleIntercept",
+  "notRun": [
+    "browser",
+    "full suite",
+    "ordinary yearly review",
+    "56 populated starting worlds",
+    "exclusive year-speed comparison"
+  ],
+  "evidence": [
+    {
+      "path": "/tmp/team2-a79-term-limit-composed.log",
+      "sha256": "62d975a047b9ed661b6b9649221e4a502ef3bc0da217be0f116b553dfde326fa",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 term-limit comparison {\"seed\":\"A79-recorded-term-limit-chamber\",\"state\":\"US-RI\",\"place\":\"Ashaway, Rhode Island\",\"direction\":\"extend\",\"body\":\"house\",\"voters\":435,\"changed\":0,\"example\":\"Elizabeth Schultz\",\"before\":\"yea\",\"after\":\"yea\",\"measureId\":\"constitutional-measure_cde9560f42ff9903\"}\nA79 term-limit comparison {\"seed\":\"A79-recorded-term-limit-chamber\",\"state\":\"US-RI\",\"place\":\"Ashaway, Rhode Island\",\"direction\":\"extend\",\"body\":\"senate\",\"voters\":100,\"changed\":0,\"example\":\"Deborah McIntyre\",\"before\":\"yea\",\"after\":\"yea\",\"measureId\":\"constitutional-measure_cde9560f42ff9903\"}\nA79 term-limit comparison {\"seed\":\"A79-recorded-term-limit-chamber\",\"state\":\"US-RI\",\"place\":\"Ashaway, Rhode Island\",\"direction\":\"restore\",\"body\":\"house\",\"voters\":435,\"changed\":0,\"example\":\"Elizabeth Schultz\",\"before\":\"nay\",\"after\":\"nay\",\"measureId\":\"constitutional-measure_cde9560f42ff9903\"}\nA79 term-limit comparison {\"seed\":\"A79-recorded-term-limit-chamber\",\"state\":\"US-RI\",\"place\":\"Ashaway, Rhode Island\",\"direction\":\"restore\",\"body\":\"senate\",\"voters\":100,\"changed\":0,\"example\":\"Deborah McIntyre\",\"before\":\"nay\",\"after\":\"nay\",\"measureId\":\"constitutional-measure_cde9560f42ff9903\"}\n\n Test Files  2 passed (2)\n      Tests  6 passed | 1 skipped (7)\n   Start at  09:19:18\n   Duration  81.67s (transform 22.11s, setup 27ms, import 30.02s, tests 51.39s, environment 1ms)\n\n"
+    },
+    {
+      "path": "/tmp/team2-a79-term-limit-composed-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+      "text": "scoped roots 4; diagnostics 0\n"
+    },
+    {
+      "path": "/tmp/team2-a79-term-limit-release.log",
+      "sha256": "804b5eedbb9b853eb53314ac534df41c38e63be7031d159be8ce0101ded82176",
+      "text": "release:check \u2014 version 0.4.0, revision unknown, 1148 pending declaration(s), declaration range origin/main..HEAD (pr). OK.\n"
+    },
+    {
+      "path": "/tmp/team2-a79-term-limit-zero-dice.log",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\n"
+    }
+  ]
+}
