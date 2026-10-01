@@ -1,9 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../presentation/opening-life";
+import { smallWorld } from "../../tests/fixtures/small-world";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 import { submitTimeCommand } from "../presentation/time-command";
 import {
@@ -55,23 +51,26 @@ let livingId: EntityId;
 let salaryId: EntityId;
 
 beforeAll(() => {
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: "c9-monthly-money-routes",
-      placeKey: "3502000",
-      startAge: 35,
-      questionnaire: "skipped",
-    }),
-  ).game!;
-  playerId = game.playerPersonId;
+  const fixture = smallWorld({
+    seed: "c9-monthly-money-routes",
+    place: "3502000",
+    people: 3,
+  });
+  playerId = fixture.personId;
   const provenance = {
     kind: "authored" as const,
     note: "Recorded funded mortgage route fixture.",
   };
-  let world = createHousehold(game.world, {
+  const tracked = createResourcePosition(fixture.world, {
+    stableKey: "c9:buyer-opening-cash",
+    owner: { kind: "person", personId: playerId },
+    openedAt: fixture.world.currentDate,
+    openingBalance: money(0, "USD"),
+    provenance,
+  });
+  let world = createHousehold(tracked, {
     stableKey: "c9:buyer-household",
-    formedAt: game.world.currentDate,
+    formedAt: fixture.world.currentDate,
     label: "Fixture buyer's independent household",
     provenance,
   });
@@ -110,7 +109,7 @@ beforeAll(() => {
   });
   world = createOrganization(world, {
     stableKey: "c9:funding-source",
-    formedAt: game.world.currentDate,
+    formedAt: fixture.world.currentDate,
     provenance,
     initialProfile: {
       name: "Fixture funding source",
