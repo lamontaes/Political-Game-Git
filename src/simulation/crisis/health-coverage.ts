@@ -468,11 +468,58 @@ function basisFor(decision: CoverageDecision): string {
   }
 }
 
+/** Missing input records never establish an eligibility loss. */
+export function coverageDecisionIsKnown(decision: CoverageDecision): boolean {
+  return ![
+    "outside:no-residence",
+    "outside:no-household",
+    "outside:income-unrecorded",
+    "outside:law-unrecorded",
+  ].includes(decision.reasonKey);
+}
+
+/** One indexed pay/law pass for the actual subjects of an activity. */
+export function coverageDecisionsForSubjects(
+  world: World,
+  subjectIds: readonly EntityId[],
+  onDate: IsoDate,
+): ReadonlyMap<EntityId, CoverageDecision> {
+  const cutoff = {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const cache: PassCache = {
+    pay: monthlyPayByPerson(world, onDate),
+    laws: new Map(),
+  };
+  const decisions = new Map<EntityId, CoverageDecision>();
+  for (const personId of new Set(subjectIds))
+    if (world.people[personId])
+      decisions.set(personId, decide(world, personId, onDate, cutoff, cache));
+  return decisions;
+}
+
 /** Records every change of coverage on `onDate`, one record per change. */
 export function recordHealthCoverage(
   world: World,
   onDate: IsoDate,
   causeId: EntityId,
+): World {
+  return recordHealthCoverageForSubjects(
+    world,
+    onDate,
+    causeId,
+    world.personOrder,
+  );
+}
+
+/** Existing append-only writer, restricted to recorded activity subjects. */
+export function recordHealthCoverageForSubjects(
+  world: World,
+  onDate: IsoDate,
+  causeId: EntityId,
+  subjectIds: readonly EntityId[],
+  sourceRecordIds: readonly EntityId[] = [],
 ): World {
   const cutoff = {
     asOfDate: onDate,
@@ -485,7 +532,7 @@ export function recordHealthCoverage(
   const latest = latestCoverage(world);
   const rules = MEDICAID_EXPANSION_RULES.mortality;
   let next = world;
-  for (const personId of world.personOrder) {
+  for (const personId of new Set(subjectIds)) {
     const person = world.people[personId];
     if (!person || person.birthDate > onDate) continue;
     const prior = latest.get(personId);
@@ -501,13 +548,7 @@ export function recordHealthCoverage(
     const decision = decide(world, personId, onDate, cutoff, cache);
     // Missing facts cannot revoke an existing entitlement. Wait for the
     // person's recorded residence, household, income or governing law.
-    if (
-      decision.reasonKey === "outside:no-residence" ||
-      decision.reasonKey === "outside:no-household" ||
-      decision.reasonKey === "outside:income-unrecorded" ||
-      decision.reasonKey === "outside:law-unrecorded"
-    )
-      continue;
+    if (!coverageDecisionIsKnown(decision)) continue;
     if (decision.covered === (prior?.covered ?? false)) continue;
     if (!decision.covered && !prior) {
       // Never covered: only a loss to the work requirement is a change worth
@@ -543,7 +584,13 @@ export function recordHealthCoverage(
               : EXPANSION_QUESTION,
             jurisdictionId: state.id,
             appliedAt: onDate,
-            sourceRecordIds: [causeId, ...(prior ? [prior.id] : [])],
+            sourceRecordIds: [
+              ...new Set([
+                causeId,
+                ...sourceRecordIds,
+                ...(prior ? [prior.id] : []),
+              ]),
+            ],
           })
         : null;
     next = appendCrisisRecord(next, {
