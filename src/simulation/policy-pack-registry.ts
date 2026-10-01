@@ -1,4 +1,5 @@
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
+import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -34,13 +35,18 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   {
     ...US_POLICY_POSITIONS_PACK,
     propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
-      const consequence =
-        COVERAGE_ELIGIBILITY_ROWS[
-          `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`
-        ];
-      return consequence
-        ? { ...row, consequences: [...(row.consequences ?? []), consequence] }
-        : row;
+      const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
+      const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
+      if (!coverage && service.length === 0) return row;
+      return {
+        ...row,
+        consequences: [
+          ...(row.consequences ?? []),
+          ...(coverage ? [coverage] : []),
+          ...service,
+        ],
+      };
     }),
   },
   // Federal government, in its own namespace. It references nothing in the
@@ -51,7 +57,16 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // Positions on federal questions. Last, because it points into both packs
   // above: the federal issues and the principles the state and local
   // positions declare.
-  US_FEDERAL_POSITIONS_PACK,
+  {
+    ...US_FEDERAL_POSITIONS_PACK,
+    propositions: US_FEDERAL_POSITIONS_PACK.propositions?.map((row) => {
+      const key = `${US_FEDERAL_POSITIONS_PACK.pack}:${row.key}`;
+      const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
+      return service.length === 0
+        ? row
+        : { ...row, consequences: [...(row.consequences ?? []), ...service] };
+    }),
+  },
 ];
 
 let cached: PolicyRegistry | null = null;

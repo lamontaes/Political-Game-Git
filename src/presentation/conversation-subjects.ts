@@ -1536,3 +1536,13 @@ export function conversationCommitContract(
   }
   return contract;
 }
+
+/** Fixed historical vocabulary can be read without creating subject facts. */
+export function conversationCommitContractForSubject(
+  subject: Exclude<ConversationSubjectKey, ContextualSceneSubject>,
+): ConversationCommitContract {
+  const contract = COMMIT_CONTRACTS[subject];
+  if (!contract)
+    throw new Error(`No canonical commit contract for ${subject}.`);
+  return contract;
+}

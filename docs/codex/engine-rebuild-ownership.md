@@ -48,3 +48,24 @@ Team 1 additionally owns only the legislative-politics-integrity.ts provision-lo
 - Team 5 continues N1 recorded scene companions and presence. Library decisions are unsupported tonight; no library body, title inventory or challenge producer is authorized. Team 8 retains press ownership until an exact newsroom lookup hunk is released.
 
 These are ownership and scope decisions, not evidence of completed implementation, tests or merges.
+
+## Confirmed narrow releases, September 30, 10:23 p.m. Eastern
+
+- Team 1 owns optional PropositionParameter.allowedValues declaration support, policy parameter cloning and validation, and the final categorical provision reader. Missing allowed values mean unsupported. Team 9 owns only the mandatory-minimum-sentences coverage parameter allowedValues in policy-pack-us-policy-positions.ts and its justice consumer, using the existing raw CrimeOffense kinds. Other catalog rows remain protected.
+- Team 4 owns the minimal recorded principal-reduction writer in household-loans.ts and its student-debt adapter. Recorded tuition shortfalls may use the approved existing federal lender and sourced Direct Loan limits and rates; cash-paid tuition never becomes debt. Existing loan writers remain intact.
+- Team 6 alone owns the estimatedDeduction fallback hunk in income-tax-withholding.ts: plain average of read states, preserving known deductions. Team 3 retains payroll call sites and shift pay; redundant M1b work was cancelled by the CTO at 10:17 p.m.
+- Team 8 owns press/media-purchase-payment.ts, its focused test, and the existing press/ownership.ts purchase caller. Extract the existing financial transfer path; no new money writer or generated buyer cash. Team 8 also owns weekly newsroom-generation caller removal. Team 5 needs no press lookup edit. Team 9 retains prosecution and clemency calls.
+- Audit owns the identical semantic transition-key validator extraction and re-export plus the future-transitions import required for cold-load repair. Team 7 owns the existing life-opportunities refresh call to Team 3’s salary initializer after a reproduced candidate regression. No second salary producer is released.
+
+These grants describe ownership, not completed proof or permission to merge.
+
+## CTO check-in 9: superseding boundaries
+
+- Team 2 must leave saved rule-change rows untouched. It owns a separate append-only ruleChangeConsequenceBindings record family and only its corresponding WorldHistory, initialization, cloning, serialization and integrity hunks. This supersedes the earlier permission to extend existing saved rows. Actual body relations must come from existing institutions, with no fallback body.
+- Team 4 owns only the approved optional principal-reduction fields on LoanTermsRecord, dated and sequenced debt reads, and the tuition-shortfall caller in education-study-progression.ts. Preserve other loan, resource and education writers. Audit notes outstandingDebtAt already supports a historical cutoff; reuse it.
+- Team 6 owns the missing-deduction estimate using comparable states ranked by tax structure, region and household income. This supersedes the earlier plain-mean instruction. Known statutory deductions remain intact; new weighting requires CTO review.
+- Team 3 owns PAY_REGISTRATION in law-consequences/pay.ts. Coordinator owns registry admission. Saved earned-shift cutoff changes in shared financial records still require the CTO's concrete contract; do not relax transfer validation.
+- Team 5 owns remaining service data rows. Coordinator owns federal policy-pack forwarding, preserving existing consequence rows. Missing actual recipients or service records are unsupported, not evidence of delivery.
+- Team 9 legal-outcome registration admission awaits the CTO's ruling on saved sentencing-event attribution versus a separate append-only consequence record. G17 defense counsel follows G10 through G13.
+
+These boundaries authorize work, not runtime acceptance or merging.
