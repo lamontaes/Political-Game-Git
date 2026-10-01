@@ -18,9 +18,24 @@ import type {
   LegislativeEnactmentRecord,
   World,
 } from "../types";
-import { settlePublicBudgets } from ".";
 import { PUBLIC_BUDGETS_VERSION } from "./store";
-import { FEDERAL_OUTLAYS, openFederalTreasury } from "./federal-treasury";
+import {
+  FEDERAL_OUTLAYS,
+  openFederalTreasury,
+  settleFederalTreasuryMonth,
+} from "./federal-treasury";
+
+/** Archived forecast compatibility only; the live budget pass no longer invokes it. */
+function settleArchivedForecast(world: World, month: IsoDate): World {
+  const store = world.publicBudgets!;
+  return {
+    ...world,
+    publicBudgets: {
+      ...store,
+      federal: settleFederalTreasuryMonth(world, store.federal!, month),
+    },
+  };
+}
 
 function enact(
   world: World,
@@ -118,7 +133,7 @@ const questions = [
 ];
 // Minimal budget-reader fixtures, not ordinary political passage or residents.
 // The fixed legacy amount mechanisms are independently held for golden-rule repair.
-describe("already-read federal cost laws retain stamps across five seeded states", () => {
+describe("archived federal forecast laws retain compatibility stamps across five seeded states", () => {
   it.each(
     cases.flatMap((place) =>
       questions.map((question) => ({ ...place, ...question })),
@@ -128,7 +143,7 @@ describe("already-read federal cost laws retain stamps across five seeded states
     ({ seed, place, questionKey, sign }) => {
       const world = fixture(seed, place.stateJurisdictionKey!);
       const month = makeIsoDate("2026-07-01");
-      const baseline = settlePublicBudgets(
+      const baseline = settleArchivedForecast(
         world,
         month,
       ).publicBudgets!.federal!.months.at(-1)!;
@@ -139,7 +154,7 @@ describe("already-read federal cost laws retain stamps across five seeded states
         1,
         questionKey,
       );
-      const saved = settlePublicBudgets(passed, month);
+      const saved = settleArchivedForecast(passed, month);
       const after = saved.publicBudgets!.federal!.months.at(-1)!;
       const costs = after.laws.filter((l) => l.questionKey === questionKey);
       expect(costs.length).toBeGreaterThan(0);
@@ -184,7 +199,7 @@ describe("already-read federal cost laws retain stamps across five seeded states
         2,
         questionKey,
       );
-      const next = settlePublicBudgets(repealed, makeIsoDate("2026-08-01"));
+      const next = settleArchivedForecast(repealed, makeIsoDate("2026-08-01"));
       expect(
         next
           .publicBudgets!.federal!.months.at(-1)!
@@ -221,7 +236,7 @@ describe("already-read federal cost laws retain stamps across five seeded states
         1,
         questionKey,
       );
-      const saved = settlePublicBudgets(future, makeIsoDate("2026-07-01"));
+      const saved = settleArchivedForecast(future, makeIsoDate("2026-07-01"));
       expect(saved.publicBudgets!.federal!.months.at(-1)!.laws).toEqual([]);
     },
   );

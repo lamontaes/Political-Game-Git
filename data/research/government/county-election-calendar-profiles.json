@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "scope": "calendar facts only; no county qualification or district admission",
+  "profiles": [
+    {
+      "stateUsps": "LA",
+      "countyGeoid": "22031",
+      "kind": "published-dates",
+      "electionDate": "2027-11-20",
+      "primaryDate": "2027-10-09",
+      "qualifyingOpens": "2027-08-03",
+      "qualifyingCloses": "2027-08-05",
+      "termStarts": "2028-01-10",
+      "termYears": 4,
+      "readOn": "2026-10-01",
+      "sourceUrls": [
+        "https://www.sos.la.gov/media/byfpyc5f/elections-calendar-2027.pdf",
+        "https://legis.la.gov/Legis/Law.aspx?d=88684",
+        "https://www.legis.la.gov/Legis/Law.aspx?d=88690"
+      ],
+      "unreadLaterReason": "Next police-jury primary calendar, including prohibited-day adjustments, is unread."
+    },
+    {
+      "stateUsps": "TN",
+      "countyGeoid": "47105",
+      "kind": "recurring-weekday",
+      "cycleAnchorYear": 2026,
+      "termYears": 4,
+      "electionMonth": 8,
+      "electionWeekday": 4,
+      "electionWeekdayOrdinal": 1,
+      "termStartMonth": 9,
+      "termStartDay": 1,
+      "readOn": "2026-10-01",
+      "sourceUrls": [
+        "https://www.ctas.tennessee.edu/eli/membership-clb",
+        "https://www.ctas.tennessee.edu/eli/dates-regular-elections",
+        "https://loudoncountyvotes.com/files/August_2026_SampleBallot_General.pdf"
+      ]
+    }
+  ]
+}

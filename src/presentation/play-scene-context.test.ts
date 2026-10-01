@@ -15,6 +15,7 @@ import {
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
+  otherParentQuestionApplies,
   type NewGameSetup,
 } from "./new-game";
 import { projectStoryMoment, type StoryScene } from "./life-story";
@@ -104,12 +105,15 @@ function nonresidentParentLife(): {
   readonly parentId: EntityId;
 } {
   for (let index = 0; index < 120; index += 1) {
-    const game = createNewGameWorld(
-      childSetup({
-        household: "lives-alone",
-        seed: `weekend19-c-nonresident-${index}`,
-      }),
-    );
+    // A nonresident parent is the player's answer (A148), asked only where
+    // one parent raises the child.
+    const setup = childSetup({
+      household: "lives-alone",
+      seed: `weekend19-c-nonresident-${index}`,
+      otherParent: "nonresident",
+    });
+    if (!otherParentQuestionApplies(setup)) continue;
+    const game = createNewGameWorld(setup);
     const residents = householdResidentIds(game.world, game.playerPersonId);
     for (const kinship of kinshipRelationshipsAt(
       game.world,

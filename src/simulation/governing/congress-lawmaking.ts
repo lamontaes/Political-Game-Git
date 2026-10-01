@@ -1,8 +1,6 @@
 import { makeIsoDate } from "../dates";
-import {
-  fileMemberAgendaBills,
-  MEMBER_AGENDA_LEVEL_SETTINGS,
-} from "./member-agenda";
+import { fileMemberAgendaBills } from "./member-agenda";
+import { MEMBER_AGENDA_LEVEL_SETTINGS } from "./member-agenda-settings";
 import { currentPresidentOf } from "../crisis/offices";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { measurePosition } from "../legislation";
@@ -259,7 +257,14 @@ export function congressSittingHandler(
   };
 }
 
-export const CONGRESS_LAWMAKING_HANDLERS = [
-  [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
-  [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
-] as const;
+/**
+ * Congress's handlers, built when a registry asks for them rather than when
+ * this module loads: the sitting key comes from congress-chambers, which is
+ * still loading when an import cycle reaches this module first.
+ */
+export function congressLawmakingHandlers() {
+  return [
+    [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
+    [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
+  ] as const;
+}

@@ -1,3 +1,5 @@
+import { inventedPersonBirthDate } from "./invented-person-age";
+import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
   householdLoanMonthHandler,
@@ -30,6 +32,7 @@ import {
   withProgramMatters,
 } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { PUBLIC_SERVICE_HANDLERS } from "./public-service-producer";
 import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
@@ -58,6 +61,7 @@ import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
 import { createCrisisTransitionRegistry } from "./crisis";
+import { createClemencyTransitionRegistry } from "./justice/clemency-transitions";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -106,7 +110,6 @@ import { createCharacterHistoryContextPerson } from "./character-history";
 import {
   addDays,
   compareSimulationMoments,
-  isoDateFromParts,
   simulationMinutesBetween,
 } from "./dates";
 import {
@@ -202,7 +205,6 @@ import type {
   ElectionContestRecord,
   EntityId,
   FutureDueItem,
-  IsoDate,
   FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
   MetricSegmentKey,
@@ -498,17 +500,6 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
 /* Opponents                                                                   */
 /* -------------------------------------------------------------------------- */
 
-/**
- * A birth date that makes somebody exactly this old today. The day of the month
- * is clamped to the 28th so a leap day never lands in a year that has none.
- */
-function birthDateForAge(onDate: IsoDate, age: number): IsoDate {
-  const year = Number(onDate.slice(0, 4)) - age;
-  const month = Number(onDate.slice(5, 7));
-  const day = Math.min(Number(onDate.slice(8, 10)), 28);
-  return isoDateFromParts(year, month, day);
-}
-
 export interface EnsureCampaignOpponentsInput {
   readonly stableKey: string;
   readonly jurisdictionId: EntityId;
@@ -544,7 +535,11 @@ export function ensureCampaignOpponents(
       identity: name.identity,
       // An adult, because the office is one. The exact age is a fact about
       // this person and says nothing else about them.
-      birthDate: birthDateForAge(next.currentDate, rng.integer(32, 66)),
+      birthDate: inventedPersonBirthDate(rng, {
+        role: "campaign-opponent",
+        referenceDate: next.currentDate,
+        placement: "reference-day",
+      }),
       homeJurisdictionId: input.jurisdictionId,
     });
     const created = next.personOrder.find(
@@ -2188,11 +2183,14 @@ export function composeWorldTimeHandlers(
         settlePublicResourcePayment(world, input, resolver),
       ),
       createTaxTransitionHandlerRegistry(),
+      createProsecutionTransitionRegistry(),
       LIFE_PATHS2_HANDLERS,
       // D-11: the candidate's standing campaign hours, after the day job's.
       createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
       createCrisisTransitionRegistry(),
+      // G12: a saved clemency petition comes due on its own court date.
+      createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
@@ -2221,6 +2219,8 @@ export function composeWorldTimeHandlers(
           ...LOCAL_COUNCIL_MEETING_HANDLERS,
         ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
         ...PUBLIC_PROGRAM_HANDLERS,
+        // Residents ask for a paid public service, then take part in it.
+        ...PUBLIC_SERVICE_HANDLERS,
         // An enacted law's duty falling due on the bodies it covers.
         ...ENACTED_DUTY_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,

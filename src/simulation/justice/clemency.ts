@@ -1,7 +1,11 @@
-import { addDays, daysBetween } from "../dates";
+import { addDays } from "../dates";
 import { ensureClemencyPetitionSchedule } from "./clemency-transitions";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { eventById } from "../event-index";
+import {
+  electedExecutiveTermForRelationship,
+  recordedExecutiveQualification,
+} from "../executive-work-context";
 import {
   currentGoverningOffices,
   governingMatters,
@@ -12,7 +16,7 @@ import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
 } from "../life-places";
-import { currentLifeCutoff } from "../life-queries";
+import { currentLifeCutoff, workStatusAt } from "../life-queries";
 import { ensurePeopleTraits } from "../people-traits";
 import { personName } from "../people";
 import { deriveRelationshipSummary } from "../queries";
@@ -86,9 +90,9 @@ import {
  * 5. A grant is written against the sentence, which then ends on the grant's
  *    day (`jail-terms.ts`): out of jail, able to campaign and serve again.
  *
- * PLACEHOLDER: boards, councils, cabinet members and courts are not seated
- * people yet. Until an appointments build seats them, an unseated body
- * answers from the case record by `UNSEATED_BODY_READING`, and says so.
+ * Boards, councils, cabinet members and courts without saved member votes
+ * cannot answer. Their required consent leaves the petition pending; only a
+ * sourced advisory deadline permits the executive route to proceed without it.
  */
 
 /**
@@ -582,6 +586,71 @@ function runningSentences(world: World) {
   return out;
 }
 
+/** A saved sentence wakes only its actual NPC's existing petition decision. */
+export function considerClemencyAfterSentence(
+  world: World,
+  sentenceId: EntityId,
+): World {
+  const sentenced = eventById(world, sentenceId);
+  if (sentenced?.type !== PROSECUTION_SENTENCED_EVENT) return world;
+  const personId = sentencedPersonOf(sentenced);
+  if (
+    !personId ||
+    !world.people[personId] ||
+    controlledPersonId(world) === personId ||
+    !isPersonAliveAt(world, personId, currentLifeCutoff(world))
+  )
+    return world;
+  const sentence = runningSentence(world, personId, sentenced.id);
+  if (
+    !sentence ||
+    sentence.clemency ||
+    sentence.from > world.currentDate ||
+    sentence.until <= world.currentDate
+  )
+    return world;
+  const route = routeFor(world, sentenced, personId);
+  if (typeof route === "string") return world;
+  if (
+    clemencyPetitions(world).some(
+      (petition) =>
+        petition.tags.includes(`${CLEMENCY_SENTENCE_TAG}${sentenced.id}`) &&
+        clemencyPetitionStatus(world, petition.id) === "open",
+    )
+  )
+    return world;
+  const decided = decideWhetherToAsk(
+    world,
+    personId,
+    sentenced,
+    sentence,
+    route,
+  );
+  const stableKey = `${CLEMENCY_VERSION}:petition:${sentenced.id}:${answererKey(route)}`;
+  const petition = clemencyPetitions(decided).find(
+    (row) => row.stableKey === stableKey,
+  );
+  return petition ? advanceClemencyPetition(decided, petition.id) : decided;
+}
+
+/** The real desk's saved term, not a planned winner or a home-place proxy. */
+export function considerClemencyAfterExecutiveDesk(
+  world: World,
+  termId: EntityId,
+): World {
+  const office = currentGoverningOffices(world).find(
+    (row) => row.termId === termId,
+  );
+  if (!office) return world;
+  let next = world;
+  for (const { sentenced } of runningSentences(world)) {
+    if (clemencyPlaceKeyFor(world, sentenced) !== `US-${office.stateUsps}`)
+      continue;
+    next = considerClemencyAfterSentence(next, sentenced.id);
+  }
+  return next;
+}
+
 function produceRequests(world: World): World {
   let next = world;
   for (const { personId, sentenced, sentence } of runningSentences(world)) {
@@ -759,13 +828,6 @@ function executiveAnswer(
   };
 }
 
-function lastMovedAt(world: World, petition: HistoricalEvent) {
-  return (
-    answersTo(world, petition.id).at(-1)?.event.occurredAt ??
-    petition.occurredAt
-  );
-}
-
 /** Next existing legal/writer boundary; an undecided executive gets no retry. */
 export function nextClemencyPetitionDueAt(
   world: World,
@@ -794,19 +856,6 @@ export function nextClemencyPetitionDueAt(
       (entry) => !answered.some((answer) => answer.bodyKey === entry.key),
     );
     if (step && step.key !== EXECUTIVE_BODY) {
-      const wait = addDays(
-        lastMovedAt(world, petition),
-        UNSEATED_BODY_READING.answersAfterDays,
-      );
-      const served = addDays(
-        sentence.from,
-        Math.ceil(
-          daysBetween(sentence.from, sentence.until) *
-            UNSEATED_BODY_READING.servedShareBeforeTakenUp,
-        ),
-      );
-      const hearing = wait > served ? wait : served;
-      if (hearing > world.currentDate) dates.push(hearing);
       const cap =
         step.role === "advisory"
           ? route.gate.advisory?.reportWithinDays
@@ -836,8 +885,51 @@ export function advanceClemencyPetition(
   return advanced === world ? scheduled : settleJailAbsences(scheduled);
 }
 
+/** Review saved requests only after this recorded elected office became active.
+ * Request creation stays on its existing caller; asked-holder identity never moves.
+ */
+export function advanceClemencyAfterExecutiveEntry(
+  world: World,
+  relationshipId: EntityId,
+): World {
+  const term = electedExecutiveTermForRelationship(world, relationshipId);
+  if (
+    !term ||
+    workStatusAt(world, relationshipId)?.status !== "active" ||
+    world.currentDate < term.startsAt ||
+    world.currentDate >= term.endsAt ||
+    !recordedExecutiveQualification(world, relationshipId) ||
+    !isPersonAliveAt(
+      world,
+      term.relationship.personId,
+      currentLifeCutoff(world),
+    )
+  )
+    return world;
+  const placeKey = stateKeyForJurisdiction(term.governing);
+  if (!placeKey) return world;
+  let next = world;
+  for (const petition of clemencyPetitions(world)) {
+    if (tagValue(petition, PETITION_PLACE_TAG) !== placeKey) continue;
+    if (clemencyPetitionStatus(next, petition.id) !== "open") continue;
+    const before = next;
+    const advanced = advancePetition(
+      next,
+      petition,
+      term.relationship.personId,
+    );
+    next = ensureClemencyPetitionSchedule(advanced, petition.id);
+    if (advanced !== before) next = settleJailAbsences(next);
+  }
+  return next;
+}
+
 /** Moves one open petition as far as today allows. */
-function advancePetition(world: World, petition: HistoricalEvent): World {
+function advancePetition(
+  world: World,
+  petition: HistoricalEvent,
+  enteringExecutiveId?: EntityId,
+): World {
   const petitionerId = petitionerOf(petition);
   const sentencedId = tagValue(
     petition,
@@ -855,11 +947,26 @@ function advancePetition(world: World, petition: HistoricalEvent): World {
       null,
       "The sentence ended before an answer came.",
     );
+  // Entry callers have just saved active work. The general office reader sees
+  // the resolved due item / late-entry event only after this hook returns.
+  // This actual elected term can lapse its predecessor's request without
+  // opening a new request or pretending the new desk is already composed.
+  const asked = petition.stableKey.split(":").at(-1);
+  if (
+    enteringExecutiveId &&
+    petition.stableKey.includes(":executive:") &&
+    asked !== enteringExecutiveId
+  )
+    return closePetition(
+      world,
+      petition,
+      null,
+      "The officeholder who was asked has left office.",
+    );
   const route = routeFor(world, sentenced, petitionerId);
   const answered = answersTo(world, petition.id);
   if (typeof route === "string") return world;
   // The executive who received the request has left: the request lapses.
-  const asked = petition.stableKey.split(":").at(-1);
   if (route.office && asked !== route.office.holderPersonId)
     return closePetition(
       world,
@@ -903,69 +1010,11 @@ function advancePetition(world: World, petition: HistoricalEvent): World {
       const waitedOut =
         cap !== undefined &&
         addDays(petition.occurredAt, cap) <= next.currentDate;
-      if (
-        addDays(
-          lastMovedAt(next, petition),
-          UNSEATED_BODY_READING.answersAfterDays,
-        ) > next.currentDate
-      ) {
-        if (waitedOut) continue;
-        return next;
-      }
-      const reading = unseatedBodyReading(
-        next,
-        petitionerId,
-        sentenced,
-        sentence,
-      );
-      if (!reading) {
-        if (waitedOut) continue;
-        return next;
-      }
-      if (step.body?.includesExecutive) {
-        // The executive votes in this body at the desk; the other seats are
-        // not seated people yet and answer from the case record.
-        const result = executiveAnswer(
-          next,
-          route,
-          petition,
-          `${petition.id}:${step.key}`,
-        );
-        next = result.world;
-        if (result.favorable === null) return next;
-        const seats = Array.isArray(step.body.members)
-          ? step.body.members.length
-          : // PLACEHOLDER: an appointed board's size is not in the table yet;
-            // every board that seats the executive today lists its offices.
-            3;
-        const yes =
-          (result.favorable ? 1 : 0) + (reading.favorable ? seats - 1 : 0);
-        const favorable =
-          step.body.vote === "majority-including-executive"
-            ? result.favorable && yes * 2 > seats
-            : yes * 2 > seats;
-        next = recordAnswer(
-          next,
-          petition,
-          step,
-          label,
-          favorable,
-          "board-vote",
-          `The ${route.authority.executiveTitle.toLowerCase()} voted ${result.favorable ? "for" : "against"} it. ${reading.reason}`,
-          route.office!.holderPersonId,
-        );
-      } else {
-        next = recordAnswer(
-          next,
-          petition,
-          step,
-          label,
-          reading.favorable,
-          "case-record",
-          reading.reason,
-          null,
-        );
-      }
+      if (waitedOut) continue;
+      // No saved board-member roster or votes exist in this engine. A case
+      // record and an executive's own answer cannot speak for missing members.
+      // Retain the actual petition until its required body can answer.
+      return next;
     }
     const latest = answersTo(next, petition.id).at(-1)!;
     if (step.role === "consent" && !latest.favorable)

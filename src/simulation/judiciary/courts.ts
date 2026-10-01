@@ -1,6 +1,7 @@
 /** Court and seat queries and bounded writers; no work runs on the Day clock. */
 
 import { currentFederalTenure } from "../federal-tenures";
+import { recoverProsecutionsAfterBenchChange } from "../justice/prosecution";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import type { EntityId, IsoDate, World } from "../types";
@@ -1005,10 +1006,13 @@ export function seatJudge(
     termEndsAt: input.termEndsAt,
     retentionDueAt: input.retentionDueAt,
   };
-  return saveJudiciary(world, {
+  const seated = saveJudiciary(world, {
     ...previous,
     seatTenures: [...previous.seatTenures, tenure],
   });
+  return requireCourt(seated, seat.courtId).level === "local-general-trial"
+    ? recoverProsecutionsAfterBenchChange(seated, seat.courtId, tenure.tenureId)
+    : seated;
 }
 
 export function vacateJudicialSeat(

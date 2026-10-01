@@ -1,0 +1,62 @@
+[
+  {
+    "path": "src/simulation/demo.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/character-history.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/people-continuation.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/day-caller-migration.test.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/day-caller-child-parity.test.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/future-transition-registry.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/future-transitions.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/routine-hook-members.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/semantic-transition-key.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "path": "src/simulation/world-metrics.ts",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

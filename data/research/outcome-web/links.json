@@ -1,5 +1,5 @@
 {
-  "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means the size is set when both measures exist in the world. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen. A cause named law:<qualified question key> is what the law in force says on a policy question (governing/law-in-force.ts): 1 when it says yes, 0 when it says no, and unrecorded where no law has answered it. A law cause is measured from the place's law on the calibration date (calibratedAt): its base data already includes the law in force then, so only a change from it moves the outcome. law:us-federal-positions:<key> is a question only Congress answers. A link's size is a baseline, not a literal number: each world draws the size for each place from the link's range (the spread the research reports), or from a default spread by evidence (researched 25% either way, provisional 50%, contested from none to twice the size). About-zero links stay at zero.",
+  "about": "THE OUTCOME WEB, version 1 (04 SYSTEM SPECS part 5; research in docs/research/outcome-web-2026-09-28.md). Each link: how a cause measure moves an outcome measure. evidence says how well the link is established (researched, provisional, contested, about-zero, to-confirm). size is the proportional change in the outcome per unit of the cause (see per); null means no numeric coefficient is recorded; the inventory does not infer one from the presence of measures. about-zero links are zero on purpose and tested. Sources are for developers only and never appear on a player screen. A cause named law:<qualified question key> is what the law in force says on a policy question (governing/law-in-force.ts): 1 when it says yes, 0 when it says no, and unrecorded where no law has answered it. A law cause is measured from the place's law on the calibration date (calibratedAt): its base data already includes the law in force then, so only a change from it moves the outcome. law:us-federal-positions:<key> is a question only Congress answers. This inventory records structural capability and missing inputs; it does not change the effect-size reader. About-zero links stay at zero. status records the existing structural classifier, not proof that a law reached a person. evidence retains research confidence. unsupportedReason gives the existing missing-size, missing-cause or missing-outcome code; a person-level link can also lack a recorded numeric size.",
   "version": "outcome-web-v1",
   "targets": {
     "crime.burglary": {
@@ -47,11 +47,17 @@
     "labor.unemployment-pct": {
       "value": 4,
       "note": "The unemployment rate the base rates were calibrated at: crime's base rates, and the town's birth rates by age (national figures from a year near 4%)."
+    },
+    "labor.minimum-wage-to-median": {
+      "value": 0,
+      "note": "Not a starting level. The one link that reads this measure is a threshold: it acts only on how far the ratio sits above its own threshold (0.59), so no change from a start is taken and zero only lets the link be read."
     }
   },
   "links": [
     {
       "key": "unemployment-to-burglary",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.burglary",
       "strength": "moderate",
       "shape": {
@@ -70,6 +76,8 @@
     },
     {
       "key": "unemployment-to-vandalism",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.vandalism",
       "strength": "weak",
       "shape": {
@@ -87,6 +95,8 @@
     },
     {
       "key": "unemployment-to-robbery",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.robbery",
       "strength": "weak",
       "shape": {
@@ -104,6 +114,8 @@
     },
     {
       "key": "unemployment-to-assault",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.assault",
       "strength": "weak",
       "shape": {
@@ -121,6 +133,8 @@
     },
     {
       "key": "police-to-violent-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "strength": "moderate",
       "shape": {
@@ -142,14 +156,16 @@
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
         "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
-        "status": "shape-connected-cause-reader-missing",
-        "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
+        "status": "connected",
+        "requiredConnection": "Connected: each state's sworn officers per 1,000 people is now recorded (FBI 2024 Police Employee Data, place-outcome-bases-2024.json) and drifts from there, so the elasticity has a positive same-jurisdiction baseline. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
       "range": [-0.536, -0.144],
-      "notes": "Elasticity uses proportional change from a positive recorded cause baseline. The range is study-estimate uncertainty, not measured place heterogeneity. No officer-density producer or baseline is currently registered, so this link remains cause-not-recorded."
+      "notes": "Elasticity uses proportional change from a positive recorded cause baseline: a state's officers per 1,000 people starts at the FBI's 2024 count and drifts, and violent crime moves 0.34% for each 1% change in it. The range is study-estimate uncertainty, not measured place heterogeneity."
     },
     {
       "key": "police-to-property-crime",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "crime.property",
       "strength": "moderate",
       "shape": {
@@ -171,14 +187,16 @@
         "unit": "elasticity: percent outcome change per percent officer change",
         "source": "https://eml.berkeley.edu/~jmccrary/chalfin_mccrary2018.pdf",
         "location": "Table 5, preferred estimates, 242 cities, 1960–2010",
-        "status": "shape-connected-cause-reader-missing",
-        "requiredConnection": "A same-jurisdiction officer count and population baseline must be recorded before this link acts. Watched-town represented staffing is not statewide density. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
+        "status": "cause-connected-outcome-not-produced",
+        "requiredConnection": "The cause is now recorded: each state's sworn officers per 1,000 people (FBI 2024 Police Employee Data, place-outcome-bases-2024.json). Property crime is not a kept place outcome, so the link has nothing to move. The range is normal-approximation sampling uncertainty, not observed geographic variation; any contextual variation requires separate research."
       },
       "range": [-0.3464, 0.0064],
-      "notes": "Elasticity uses proportional change from a positive recorded cause baseline. The range is study-estimate uncertainty, not measured place heterogeneity. No officer-density producer or baseline is currently registered, so this link remains cause-not-recorded."
+      "notes": "Sized, with its cause recorded and its outcome missing: officers per 1,000 people is now a place outcome, but property crime is not (the game keeps burglary, robbery, assault and vandalism separately), so the link moves nothing until a property crime outcome is produced. Elasticity uses proportional change from a positive recorded cause baseline; the range is study-estimate uncertainty."
     },
     {
       "key": "police-to-low-level-arrests",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "justice.low-level-arrests",
       "strength": "moderate",
       "shape": {
@@ -192,10 +210,13 @@
       "anchor": "Larger forces make more quality-of-life arrests, falling heavily on Black residents",
       "source": "Chalfin, Hansen, Weisburst and Williams 2022",
       "from": "police.officers-per-1000",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until measured: the study counts arrests per added officer. The game now records sworn officers per 1,000 people by place, but it keeps no low-level arrest rate and the link has no size per officer, so there is nothing to move."
     },
     {
       "key": "summer-jobs-to-youth-violence",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "crime.youth-violent-arrests",
       "strength": "strong",
       "shape": {
@@ -209,10 +230,13 @@
       "anchor": "-43% violent-crime arrests over 16 months, mostly after the program",
       "source": "Heller 2014 (Science)",
       "from": "program.summer-jobs-slots",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until measured: the game records no summer-job slots by place and keeps no youth violent-arrest rate; the -43% is for participants, so it needs both before a place-level size makes sense."
     },
     {
       "key": "incarceration-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.all",
       "strength": "about-zero",
       "shape": {
@@ -230,6 +254,8 @@
     },
     {
       "key": "pretrial-detention-to-future-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.reoffense",
       "strength": "about-zero",
       "shape": {
@@ -247,6 +273,8 @@
     },
     {
       "key": "pretrial-detention-to-conviction",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "justice.conviction",
       "strength": "strong",
       "shape": {
@@ -261,10 +289,13 @@
       "source": "Dobbie, Goldin and Yang 2018 (AER); NBER w22511",
       "from": "justice.pretrial-detained",
       "evidence": "researched",
-      "range": [0.24, 0.35]
+      "range": [0.24, 0.35],
+      "notes": "Not hooked by design: the justice code already decides each defendant's detention and case from the law in force, so a place-rate reader here would count detention's effect twice."
     },
     {
       "key": "pretrial-detention-to-employment",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "labor.formal-employment",
       "strength": "strong",
       "shape": {
@@ -279,10 +310,13 @@
       "source": "Dobbie, Goldin and Yang 2018 (AER); Federal Probation 2022 summary",
       "from": "justice.pretrial-detained",
       "evidence": "researched",
-      "range": [-0.25, -0.15]
+      "range": [-0.25, -0.15],
+      "notes": "Not hooked by design: the justice code already decides each defendant's detention from the law in force, so a place-rate reader here would count it twice; formal employment is not a kept place outcome either."
     },
     {
       "key": "release-lower-level-to-larceny",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "crime.larceny",
       "strength": "weak",
       "shape": {
@@ -297,10 +331,13 @@
       "source": "Lofstrom and Raphael 2018 (PPIC, The Impact of Proposition 47 on Crime and Recidivism); Bartos and Kubrin 2018 (Criminology and Public Policy)",
       "from": "law.low-level-offense-reclassified",
       "evidence": "contested",
-      "range": [0, 0.18]
+      "range": [0, 0.18],
+      "notes": "Unsupported until a law is recorded: no shipped policy question reclassifies low-level offenses, so the cause law.low-level-offense-reclassified has no reader, and larceny is not a kept place outcome."
     },
     {
       "key": "child-access-law-to-youth-gun-deaths",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.youth-firearm-deaths",
       "strength": "moderate",
       "shape": {
@@ -315,10 +352,13 @@
       "source": "Azad et al. 2020 (JAMA Pediatrics); RAND Science of Gun Policy, 5th ed.",
       "from": "law.child-access-prevention",
       "evidence": "researched",
-      "range": [-0.16, -0.1]
+      "range": [-0.16, -0.1],
+      "notes": "Unsupported until a law is recorded: no shipped policy question covers child-access gun storage, so the cause has no reader, and youth firearm deaths are not a kept place outcome."
     },
     {
       "key": "stand-your-ground-to-homicide",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "crime.firearm-homicide",
       "strength": "moderate",
       "shape": {
@@ -361,10 +401,13 @@
         "lagInterpretation": "lagMonths0 describes that monthly aggregate model specification; it is not a measured immediate personal reaction or zero procedural delay. No separate distributed-lag coefficient is supplied."
       },
       "aboutZero": false,
-      "researchActivationLimit": "Cause law.stand-your-ground has no recorded runtime reader. This coefficient is sized, not a claim of activation. Repeal and transport beyond the study require review before enabling a reader."
+      "researchActivationLimit": "Cause law.stand-your-ground has no recorded runtime reader. This coefficient is sized, not a claim of activation. Repeal and transport beyond the study require review before enabling a reader.",
+      "notes": "Unsupported until a law is recorded: no shipped policy question covers stand-your-ground, so the cause law.stand-your-ground has no reader; firearm homicide is kept, so this acts once one exists."
     },
     {
       "key": "min-age-to-youth-gun-suicide",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.youth-firearm-suicide",
       "strength": "moderate",
       "shape": {
@@ -379,10 +422,13 @@
       "source": "Raifman et al. 2020 (BMJ); RAND Science of Gun Policy, 5th ed.",
       "from": "law.firearm-minimum-age-above-federal",
       "evidence": "provisional",
-      "range": [-0.225, -0.135]
+      "range": [-0.225, -0.135],
+      "notes": "Unsupported until a law is recorded: no shipped policy question sets a firearm purchase age above the federal one, so the cause has no reader, and youth firearm suicide is not a kept place outcome."
     },
     {
       "key": "crime-to-out-migration",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "population.out-migration",
       "strength": "strong",
       "shape": {
@@ -406,27 +452,34 @@
         "location": "Table 6a column 2, household controls; coefficient -1.18 on staying, sign reversed for leaving",
         "status": "blocked-runtime-unit-and-time-conversion",
         "requiredConnection": "Need recorded migration baseline and five-year exposure interval before proportional rate multiplier. This is not an immediate monthly multiplier or an observed individual move."
-      }
+      },
+      "notes": "Unsupported until a unit adapter exists: the study measures people leaving per added reported crime, but the game keeps violent crime per 100,000, not total reported crime per resident; see the research packet in researchSizing."
     },
     {
       "key": "speed-limit-to-traffic-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "traffic.fatality-rate",
       "strength": "strong",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "55 to 65 mph",
+      "size": 0.0076,
+      "per": "mile per hour of the maximum (rural interstate) speed limit",
       "lagMonths": 0,
       "group": "place",
       "owner": "M",
-      "anchor": "+35% fatality rate",
-      "source": "Ashenfelter and Greenstone 2004 (JPE)",
+      "anchor": "Across 1993-2017 state panels, each 5 mph higher maximum state speed limit raised fatality rates per mile driven 8.5% on interstates and freeways and 2.8% on other roads. Interstates and freeways carried 17.6% of 2022 traffic deaths (7,484 of 42,514), so all roads move about 3.8% per 5 mph, 0.76% per mph. The range runs from other roads alone (0.56% per mph) to interstates alone (1.7% per mph); Ashenfelter and Greenstone's +35% for 55 to 65 mph on rural interstates (3.5% per mph) is the rural-interstate-only check.",
+      "source": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220",
       "from": "roads.rural-interstate-speed-limit",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Acts: each place's highest rural-interstate speed limit (IIHS, October 2026) and its traffic deaths per 100 million miles (NHTSA FARS via IIHS, 2024) are recorded and drift from those starting values, and the death rate moves 0.76% for each mile per hour of change in the limit.",
+      "range": [0.0056, 0.017]
     },
     {
       "key": "particles-to-infant-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.infant-mortality",
       "strength": "strong",
       "shape": {
@@ -445,6 +498,8 @@
     },
     {
       "key": "congestion-to-premature-births",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.premature-births",
       "strength": "strong",
       "shape": {
@@ -484,10 +539,13 @@
         "missingConversion": "A generic runtime congestion measure must define equivalent change in exposure. No measured E-ZPass-to-congestion-index dose conversion supplied. Birthoutcomedefinition also must match.",
         "aboutZero": false,
         "runtimeActivation": "NOTRUN;coordinatorownssharedmap."
-      }
+      },
+      "notes": "Unsupported until an exposure adapter exists: the study measures births near toll plazas after E-ZPass, which needs a traffic-near-home measure the game does not record; see researchSizing."
     },
     {
       "key": "birth-year-pollution-to-adult-earnings",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "labor.earnings-at-30",
       "strength": "moderate",
       "shape": {
@@ -501,10 +559,13 @@
       "anchor": "Cleaner air at birth: higher earnings and work at 30",
       "source": "Isen, Rossin-Slater and Walker 2017 (JPE)",
       "from": "env.particulates-in-birth-year",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Person-level: it acts through each person's air in their birth year and their pay at 30, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "water-violations-to-infant-health",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.low-birthweight",
       "strength": "moderate",
       "shape": {
@@ -518,10 +579,13 @@
       "anchor": "Lower birth weight, shorter gestation",
       "source": "Currie et al. 2013 (CJE)",
       "from": "env.drinking-water-violations",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until sized: the study finds lower birth weight per violation during pregnancy without a slope on the game's violations-per-system measure. Low birth weight is now a place outcome (CDC, 2023), so the outcome side is ready once a size is set."
     },
     {
       "key": "heat-to-deaths",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.heat-deaths",
       "strength": "moderate",
       "shape": {
@@ -539,10 +603,13 @@
         "effectAtFull": -0.75
       },
       "from": "env.hot-days",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until sized and measured: days with a high of 90 degrees or more are now recorded by place (NOAA 1991-2020), as is the share of homes with air conditioning, but the game keeps no heat-death rate, and the study's finding is about air conditioning removing most of the toll, not a per-day slope."
     },
     {
       "key": "carbon-monoxide-to-absence",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.absence",
       "strength": "moderate",
       "shape": {
@@ -556,10 +623,13 @@
       "anchor": "Raises absences even below federal limits",
       "source": "Currie, Hanushek, Kahn, Neidell and Rivkin 2009 (REStat)",
       "from": "env.carbon-monoxide",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported as a straight line: the study finds absences rise on days near the federal limit, a threshold effect rather than a per-ppm slope, and the game records no carbon monoxide or absence rate by place."
     },
     {
       "key": "emission-rules-to-particulates",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "env.particulates",
       "strength": "strong",
       "shape": {
@@ -574,10 +644,13 @@
       "source": "Zigler, Choirat and Dominici 2018 (Epidemiology); Chay and Greenstone 2003",
       "from": "law.emission-nonattainment",
       "evidence": "contested",
-      "range": [-0.107, 0.048]
+      "range": [-0.107, 0.048],
+      "notes": "Unsupported until a law is recorded: the game records no county nonattainment status, so the cause law.emission-nonattainment has no reader; the size is kept for when one exists."
     },
     {
       "key": "energy-price-to-ac-use",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "housing.ac-share",
       "strength": "moderate",
       "shape": {
@@ -591,10 +664,13 @@
       "anchor": "Price shocks and shutoffs cut AC use (to confirm)",
       "source": "to confirm",
       "from": "energy.electricity-price",
-      "evidence": "to-confirm"
+      "evidence": "to-confirm",
+      "notes": "Unsupported until confirmed: the price effect on air conditioning use is marked to confirm, with no published slope found. The share of homes with air conditioning is now a place outcome (EIA RECS 2020), so the outcome side is ready once a size is confirmed."
     },
     {
       "key": "disaster-to-public-transfers",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "gov.nondisaster-transfers",
       "strength": "strong",
       "shape": {
@@ -609,10 +685,13 @@
       "source": "Deryugina 2017 (AEJ: Economic Policy); BEA personal current transfer receipts, 2002",
       "from": "disaster.severe",
       "evidence": "provisional",
-      "range": [0.015, 0.027]
+      "range": [0.015, 0.027],
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and non-disaster transfers are not a kept place outcome."
     },
     {
       "key": "disaster-to-out-migration",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "population.out-migration",
       "strength": "moderate",
       "shape": {
@@ -627,10 +706,13 @@
       "source": "Boustan, Kahn, Rhode and Yanguas 2020 (JUE); IRS Statistics of Income state migration 2022-23",
       "from": "disaster.severe",
       "evidence": "provisional",
-      "range": [0.025, 0.1]
+      "range": [0.025, 0.1],
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster; out-migration is kept, so this acts once one exists."
     },
     {
       "key": "disaster-to-home-values",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "housing.home-prices",
       "strength": "moderate",
       "shape": {
@@ -645,10 +727,13 @@
       "source": "Boustan, Kahn, Rhode and Yanguas 2020 (JUE)",
       "from": "disaster.severe",
       "evidence": "researched",
-      "range": [-0.053, -0.038]
+      "range": [-0.053, -0.038],
+      "notes": "Unsupported until a disaster record is readable: the game has no per-place reader for a severe disaster, and home prices are not a kept place outcome."
     },
     {
       "key": "coverage-to-catastrophic-bills",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.catastrophic-medical-bills",
       "strength": "strong",
       "shape": {
@@ -663,10 +748,13 @@
       "source": "Baicker et al. 2013 (NEJM), Oregon Health Insurance Experiment, table 4",
       "from": "health.coverage",
       "evidence": "researched",
-      "range": [-1, -0.13]
+      "range": [-1, -0.13],
+      "notes": "Unsupported until measured: the game's coverage records hold only simulated people's Medicaid changes, not a place's covered share, and catastrophic bills are not a kept place outcome."
     },
     {
       "key": "coverage-to-medical-debt",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "finance.medical-debt-in-collections",
       "strength": "strong",
       "shape": {
@@ -681,10 +769,13 @@
       "source": "Brevoort, Grodzicki and Hackmann 2020 (JPubE)",
       "from": "health.coverage-pct",
       "evidence": "researched",
-      "range": [-0.06, -0.04]
+      "range": [-0.06, -0.04],
+      "notes": "Unsupported: counted through the expansion link until coverage is tracked. The Medicaid expansion link is the reduced form the study measured, so this per-point link stays off to avoid counting the same debt twice (CTO ruling 8)."
     },
     {
       "key": "coverage-to-depression",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.depression",
       "strength": "moderate",
       "shape": {
@@ -699,10 +790,13 @@
       "source": "Oregon Health Insurance Experiment",
       "from": "health.coverage",
       "evidence": "researched",
-      "range": [-0.56, -0.05]
+      "range": [-0.56, -0.05],
+      "notes": "Unsupported until measured: the game's coverage records hold only simulated people's Medicaid changes, not a place's covered share, and depression is not a kept place outcome."
     },
     {
       "key": "coverage-to-blood-pressure",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "health.blood-pressure",
       "strength": "about-zero",
       "shape": {
@@ -720,6 +814,8 @@
     },
     {
       "key": "coverage-to-mortality-55-64",
+      "status": "person-level",
+      "unsupportedReason": null,
       "to": "health.mortality-55-64",
       "strength": "moderate",
       "shape": {
@@ -734,10 +830,13 @@
       "source": "Miller, Johnson and Wherry 2021 (QJE)",
       "from": "health.coverage-pct",
       "evidence": "provisional",
-      "range": [-0.4, -0.1]
+      "range": [-0.4, -0.1],
+      "notes": "Person-level: it acts through each person's covered years, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "work-requirement-to-coverage",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.uninsured-pct",
       "strength": "strong",
       "shape": {
@@ -775,6 +874,8 @@
     },
     {
       "key": "work-requirement-to-employment",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "labor.employment-rate",
       "strength": "about-zero",
       "shape": {
@@ -806,6 +907,8 @@
     },
     {
       "key": "job-loss-to-death-risk",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "health.death-risk",
       "strength": "strong",
       "shape": {
@@ -820,10 +923,13 @@
       "anchor": "+50-100% the next year, still +10-15% twenty years on",
       "source": "Sullivan and von Wachter 2009 (QJE)",
       "from": "person.displaced-from-long-job",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Person-level: it acts on a worker displaced from a long job, decaying after the loss, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "recession-to-total-mortality",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "health.mortality-all",
       "strength": "about-zero",
       "shape": {
@@ -841,6 +947,8 @@
     },
     {
       "key": "long-hours-to-heart-and-stroke",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "health.stroke-and-heart-deaths",
       "strength": "moderate",
       "shape": {
@@ -854,10 +962,13 @@
       "anchor": "+35% stroke, +17% heart-disease death vs 35-40 hours",
       "source": "WHO and ILO 2021",
       "from": "labor.share-working-55-plus-hours",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Person-level: it acts through each worker's years of 55-plus-hour weeks, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "eitc-to-low-birthweight",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.low-birthweight",
       "strength": "weak",
       "shape": {
@@ -872,10 +983,13 @@
       "source": "Hoynes, Miller and Simon 2015 (AEJ: Economic Policy); Dench and Joyce 2020 (NBER w26476)",
       "from": "program.eitc-dollars",
       "evidence": "contested",
-      "range": [-0.03, 0]
+      "range": [-0.03, 0],
+      "notes": "Unsupported until measured: the game records no EITC dollars by place. Low birth weight is now a place outcome (CDC, 2023), so the link acts once EITC dollars are recorded; the size is kept until then."
     },
     {
       "key": "child-food-stamps-to-adult-health",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "health.adult-metabolic-syndrome",
       "strength": "moderate",
       "shape": {
@@ -889,10 +1003,13 @@
       "anchor": "Less obesity, high blood pressure and diabetes as adults",
       "source": "Hoynes, Schanzenbach and Almond 2016 (AER)",
       "from": "program.snap-years-in-childhood",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Person-level: it acts through each person's years of food stamps in childhood, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "child-benefit-to-child-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "household.child-poverty",
       "strength": "strong",
       "shape": {
@@ -906,10 +1023,13 @@
       "anchor": "2021 credit: child poverty to 5.2%; 12.4% the year after it ended",
       "source": "Census SPM 2021-22",
       "from": "program.child-benefit-dollars",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a bill sets the benefit: the 2021 credit's drop in child poverty came from its own dollar amounts, the game records no child benefit by place, and child poverty is not a kept place outcome."
     },
     {
       "key": "snap-to-food-insecurity",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "household.food-insecurity",
       "strength": "strong",
       "shape": {
@@ -928,6 +1048,8 @@
     },
     {
       "key": "minimum-wage-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "household.poverty-pct",
       "strength": "moderate",
       "shape": {
@@ -946,6 +1068,8 @@
     },
     {
       "key": "minimum-wage-to-low-wage-jobs",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "labor.low-wage-jobs",
       "strength": "weak",
       "shape": {
@@ -961,10 +1085,13 @@
       "source": "Cengiz et al. 2019; Neumark and Shirley 2022",
       "from": "labor.minimum-wage-to-median",
       "evidence": "contested",
-      "range": [-0.5, 0]
+      "range": [-0.5, 0],
+      "notes": "The cause is read: the state's minimum wage in force over the place's recorded median earnings spread over a 2,080-hour year (outcome-web labor.minimum-wage-to-median). Median earnings include part-year workers, so the ratio reads a little above one built on full-time hourly pay. Waiting on its outcome: low-wage jobs are not a kept place outcome, so nothing moves until a producer reads this link."
     },
     {
       "key": "unemployment-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "household.poverty-pct",
       "strength": "strong",
       "shape": {
@@ -983,6 +1110,8 @@
     },
     {
       "key": "parent-incarceration-to-household-income",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "household.income",
       "strength": "strong",
       "shape": {
@@ -996,10 +1125,13 @@
       "anchor": "Loses an earner",
       "source": "Dobbie, Goldin and Yang 2018",
       "from": "justice.parent-incarcerated",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until measured: the effect is one family losing an earner's pay, the game records no share of parents incarcerated by place, and household income by this key is not a kept place outcome."
     },
     {
       "key": "school-spending-to-attainment",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "school.years-completed",
       "strength": "strong",
       "shape": {
@@ -1035,10 +1167,13 @@
       "reverseOnRepeal": "Repeal can stop future spending. Years already completed remain; the sustained treatment contrast cannot simply reverse in one month.",
       "who": "Pupils exposed to the district spending reform over childhood, with larger reported effects among low-income children.",
       "lagWhy": "The link currently has lag0 but shape exposure-years. The cited12-year exposure must accumulate across the actual school-age cohort; zero lag does not mean instant attainment.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Person-level: it acts through each student's years of higher spending, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "child-coverage-to-graduation",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "school.graduation",
       "strength": "moderate",
       "shape": {
@@ -1052,10 +1187,13 @@
       "anchor": "1980s-90s expansions: -10% non-completion, +6% college completion",
       "source": "Cohodes, Grossman, Kleiner and Lovenheim 2016 (JHR)",
       "from": "health.child-coverage-years",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Person-level: it acts through each child's years of coverage, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "teacher-quality-to-earnings",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "labor.earnings-at-28",
       "strength": "moderate",
       "shape": {
@@ -1069,10 +1207,13 @@
       "anchor": "Also more college, fewer teen births",
       "source": "Chetty, Friedman and Rockoff 2014 (AER)",
       "from": "school.teacher-value-added",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Person-level: it acts through each student's teachers, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "class-size-to-scores",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.test-scores",
       "strength": "moderate",
       "shape": {
@@ -1108,10 +1249,13 @@
       "reverseOnRepeal": "Repeal of funding does not itself enlarge a roster. An actual reassignment must occur; prior assessments are retained.",
       "who": "Kindergarten-through-third-grade pupils assigned to the relevant small/regular classrooms; schoolmates outside exposure are not treated.",
       "lagWhy": "The link has lag0, but the anchor describes four years of exposure. Assessments must follow the actual exposure; the cited contrast/CI is required before switch-on.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Unsupported until measured: the +0.22 standard deviations is for a small class against a regular one, but the game records no K-3 class size by place and keeps no test-score outcome by that name."
     },
     {
       "key": "prek-to-graduation",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.graduation",
       "strength": "moderate",
       "shape": {
@@ -1147,10 +1291,13 @@
       "reverseOnRepeal": "Repeal prevents future offered exposure. It does not undo the attended cohort experience or completed graduation.",
       "who": "Attending four-year-old cohorts in the evaluated quality settings, later observed at high-school completion.",
       "lagWhy": "The existing lag0 is not an immediate completion effect. Cohort age and the study follow-up must determine the graduation date.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Superseded for places by universal-prek-to-graduation, which carries the Boston and Tennessee size; this quality measure is not recorded by place, so it stays for a future program-quality reader."
     },
     {
       "key": "family-income-to-scores",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.test-scores",
       "strength": "moderate",
       "shape": {
@@ -1164,10 +1311,13 @@
       "anchor": "+0.06 SD per $1,000 in the short run",
       "source": "Dahl and Lochner 2012 (AER)",
       "from": "household.income",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until measured: the game keeps no test-score outcome by that name, and the +0.06 standard deviations per $1,000 is a child-level short-run effect."
     },
     {
       "key": "neighborhood-years-to-adult-outcomes",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "labor.adult-earnings",
       "strength": "strong",
       "shape": {
@@ -1181,10 +1331,13 @@
       "anchor": "Moving before 13: +31% adult earnings",
       "source": "Chetty, Hendren and Katz 2016; Chetty and Hendren 2018",
       "from": "neighborhood.years-in-better-area",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Person-level: it acts through each child's years in a better neighborhood, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "homicide-nearby-to-scores",
+      "status": "person-level",
+      "unsupportedReason": "size-not-set",
       "to": "school.test-scores",
       "strength": "moderate",
       "shape": {
@@ -1199,10 +1352,13 @@
       "anchor": "About -0.5 SD for a week, then gone",
       "source": "Sharkey 2010 (PNAS)",
       "from": "crime.homicide-on-block",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Person-level: it acts on a child's scores right after a homicide on their block, decaying after, so it waits on the person pipeline, not on a place rate."
     },
     {
       "key": "police-killing-to-graduation",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.graduation",
       "strength": "moderate",
       "shape": {
@@ -1216,10 +1372,13 @@
       "anchor": "9th graders 3.5% less likely to graduate",
       "source": "Ang 2021 (QJE)",
       "from": "police.killing-nearby",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a unit adapter exists: the 3.5% is for ninth graders living near a police killing, and the game records neither the killing nor the share of students exposed."
     },
     {
       "key": "school-move-to-scores",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.test-scores",
       "strength": "weak",
       "shape": {
@@ -1233,10 +1392,13 @@
       "anchor": "About -0.03 SD in math per switch",
       "source": "Hanushek, Kain and Rivkin 2004",
       "from": "housing.mid-year-school-move",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until measured: the game records no mid-year school moves by place and keeps no test-score outcome by that name."
     },
     {
       "key": "lead-to-reading",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "school.far-below-proficient",
       "strength": "moderate",
       "shape": {
@@ -1251,10 +1413,13 @@
       "source": "Aizer, Currie, Simon and Vivier 2018 (AEJ: Applied)",
       "from": "health.blood-lead",
       "evidence": "provisional",
-      "range": [0.065, 0.26]
+      "range": [0.065, 0.26],
+      "notes": "Unsupported until measured: the game records no blood lead levels by place, and the share far below proficient is not a kept place outcome. CDC publishes only the share of tested children at or above 3.5 micrograms per deciliter, not the mean level this link is sized on; filed as research question state-average-child-blood-lead-level."
     },
     {
       "key": "heat-to-learning",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "school.learning",
       "strength": "weak",
       "shape": {
@@ -1273,10 +1438,13 @@
       },
       "from": "env.school-year-temperature",
       "evidence": "researched",
-      "range": [-0.0125, -0.0075]
+      "range": [-0.0125, -0.0075],
+      "notes": "Unsupported until measured: the game records no school-year temperature by place, and learning is not a kept place outcome."
     },
     {
       "key": "home-internet-to-scores",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "school.test-scores",
       "strength": "about-zero",
       "shape": {
@@ -1294,6 +1462,8 @@
     },
     {
       "key": "enforcement-to-hispanic-enrollment",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "school.hispanic-enrollment",
       "strength": "strong",
       "shape": {
@@ -1308,10 +1478,13 @@
       "source": "Dee and Murphy 2020 (American Educational Research Journal)",
       "from": "immigration.local-enforcement-partnership",
       "evidence": "researched",
-      "range": [-0.1, -0.073]
+      "range": [-0.1, -0.073],
+      "notes": "Unsupported until a policy is recorded: no shipped policy question covers local immigration enforcement partnerships, so the cause has no reader."
     },
     {
       "key": "daca-to-graduation",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "school.graduation",
       "strength": "strong",
       "shape": {
@@ -1325,10 +1498,13 @@
       "anchor": "+15% graduation, +20% college",
       "source": "Kuka, Shenhav and Shih 2020",
       "from": "immigration.deferred-action",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a unit adapter exists: the +15% is for eligible youth, and the game records neither deferred action nor the eligible share of a place's students."
     },
     {
       "key": "graduation-to-earnings",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "labor.earnings",
       "strength": "strong",
       "shape": {
@@ -1364,10 +1540,13 @@
       "reverseOnRepeal": "Repeal of an upstream education law cannot revoke graduation or existing pay terms. A new labor-market decision is needed to change later earnings.",
       "who": "Actual graduates entering affected labor markets; the link lacks a confirmed causal size and cannot assign a statewide percentage to every person.",
       "lagWhy": "The current lag0 ignores transition from school to work. A hire and paid period must occur; Team9 must verify the earnings age/horizon and denominator.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Unsupported until confirmed: the row is marked to confirm, and labor earnings by this key is not a kept place outcome."
     },
     {
       "key": "graduation-to-incarceration",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "justice.incarceration-risk",
       "strength": "strong",
       "shape": {
@@ -1403,10 +1582,13 @@
       "reverseOnRepeal": "Repeal of education funding cannot undo a diploma or sentence. Any later change requires actual opportunity, crime and legal-process records.",
       "who": "The studied male cohorts with separately reported racial-group estimates; not every resident or every school graduate.",
       "lagWhy": "The current lag0 does not supply a criminal case. Education exposure, later opportunities and a legally dated custody event must precede a measured consequence.",
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Unsupported until measured: the game reads graduation as a share but keeps no incarceration risk outcome by place."
     },
     {
       "key": "graduation-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "voting.turnout-pct",
       "strength": "moderate",
       "shape": {
@@ -1425,6 +1607,8 @@
     },
     {
       "key": "education-to-mortality",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.mortality-all",
       "strength": "weak",
       "shape": {
@@ -1438,10 +1622,13 @@
       "anchor": "The famous large estimate didn't hold up on later checks",
       "source": "Lleras-Muney 2005 and re-examinations",
       "from": "school.years-completed",
-      "evidence": "contested"
+      "evidence": "contested",
+      "notes": "Contested and unsized: the large early estimate did not hold up in later checks, so no defensible size exists, and all-cause mortality is not a kept place outcome."
     },
     {
       "key": "new-apartments-to-nearby-rent",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "housing.rent",
       "strength": "moderate",
       "shape": {
@@ -1455,10 +1642,13 @@
       "anchor": "-5 to 7% nearby rents",
       "source": "Asquith, Mast and Reed 2023 (REStat)",
       "from": "housing.new-large-buildings",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a unit adapter exists: the study measures one large building's effect within about 250 meters, but the game reads new buildings per resident across a whole place."
     },
     {
       "key": "rent-control-to-rental-supply",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "housing.rental-supply",
       "strength": "moderate",
       "shape": {
@@ -1476,6 +1666,8 @@
     },
     {
       "key": "rent-control-to-tenant-stays",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "housing.renter-moves",
       "strength": "moderate",
       "shape": {
@@ -1493,6 +1685,8 @@
     },
     {
       "key": "rent-burden-to-homelessness",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "housing.homelessness",
       "strength": "strong",
       "shape": {
@@ -1509,10 +1703,13 @@
       "anchor": "Rises past 22%, faster past 32%; rents and vacancy explain regional homelessness best",
       "source": "Zillow and UNH 2018; Colburn and Aldern 2022",
       "from": "housing.rent-to-income-pct",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a slope is found: the study gives thresholds at 22% and 32% rent burden but no published slope, and the game records no rent-to-income share by place."
     },
     {
       "key": "eviction-to-homelessness",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "housing.homelessness",
       "strength": "strong",
       "shape": {
@@ -1560,10 +1757,13 @@
           "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
           "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
         ]
-      }
+      },
+      "notes": "Unsupported until a unit and exposure adapter exists: the study measures one tenant's shelter use after an eviction order, and the game keeps no eviction rate by place; see researchSizing."
     },
     {
       "key": "eviction-to-hospital-visits",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "health.hospital-visits",
       "strength": "moderate",
       "shape": {
@@ -1611,44 +1811,57 @@
           "Firstandsecondyearoutcomesremainseparate;uncertainnegativeyear2estimateisnotprovenreversal/nearzero.",
           "Actual place conditions can alter transport;theseintervalsarenot universalcaps."
         ]
-      }
+      },
+      "notes": "Unsupported until a unit and exposure adapter exists: the study measures one tenant's hospital visits after an eviction order, and the game keeps neither rate by place; see researchSizing."
     },
     {
       "key": "home-prices-to-owner-births",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "births.owners",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "+$10,000: +5%",
-      "lagMonths": 0,
+      "size": 0.05,
+      "per": "$10,000 higher metro home prices",
+      "lagMonths": 12,
       "group": "owners",
       "owner": "B",
-      "anchor": "+5% births for owners",
-      "source": "Dettling and Kearney 2014 (JPubE)",
+      "anchor": "Metro-area panel, 1990s-2000s: a $10,000 rise in house prices raised births among homeowners 5% the next year (a wealth effect) and lowered them 2.4% among non-owners (a price effect); at the U.S. ownership rate the net is +0.8%. The study gives no interval here, so the range is the default 25% spread for researched links.",
+      "source": "Dettling and Kearney 2014 (Journal of Public Economics); NBER w17485",
       "from": "housing.home-prices",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Sized, waiting on its cause and outcome: the game keeps no home price level by place and does not split births between owners and renters.",
+      "range": [0.0375, 0.0625],
+      "lagWhy": "The study relates home prices in one year to births in the next."
     },
     {
       "key": "home-prices-to-renter-births",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "births.renters",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "+$10,000: -2.4%",
-      "lagMonths": 0,
+      "size": -0.024,
+      "per": "$10,000 higher metro home prices",
+      "lagMonths": 12,
       "group": "renters",
       "owner": "B",
-      "anchor": "-2.4% births for renters",
-      "source": "Dettling and Kearney 2014 (JPubE)",
+      "anchor": "Metro-area panel: a $10,000 rise in house prices lowered births among non-owners 2.4% the next year while raising them 5% among owners. The study gives no interval here, so the range is the default 25% spread for researched links.",
+      "source": "Dettling and Kearney 2014 (Journal of Public Economics); NBER w17485",
       "from": "housing.home-prices",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Sized, waiting on its cause and outcome: the game keeps no home price level by place and does not split births between owners and renters.",
+      "range": [-0.03, -0.018],
+      "lagWhy": "The study relates home prices in one year to births in the next."
     },
     {
       "key": "property-tax-to-rent",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "housing.rent",
       "strength": "weak",
       "shape": {
@@ -1663,10 +1876,13 @@
       "source": "Tsoodle and Turner 2008 (Real Estate Economics); Carroll and Yinger 1994 (National Tax Journal)",
       "from": "tax.property-rate",
       "evidence": "contested",
-      "range": [0.02, 0.18]
+      "range": [0.02, 0.18],
+      "notes": "Sized, with its cause recorded and its outcome missing: each place's effective property tax rate on homes is now a place outcome (Tax Foundation, 2024), but rent is not a kept place outcome, so the link moves nothing until one is produced."
     },
     {
       "key": "transit-loss-to-unemployment",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "labor.unemployment-pct",
       "strength": "moderate",
       "shape": {
@@ -1680,10 +1896,13 @@
       "anchor": "Losing a subway line raised local unemployment",
       "source": "Tyndall 2017",
       "from": "transit.service-access",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a unit adapter exists: the study measures one lost subway line, while the game reads transit service per resident, and no study converts one to the other."
     },
     {
       "key": "broadband-to-employment",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "labor.employment-rate",
       "strength": "moderate",
       "shape": {
@@ -1697,10 +1916,13 @@
       "anchor": "+1.8 points employment rate",
       "source": "Atasoy 2013 (ILR Review)",
       "from": "broadband.home-access",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until measured: the +1.8 points is for a county gaining broadband at all, not a slope on the game's share of homes with broadband, and the employment rate is not a kept place outcome."
     },
     {
       "key": "broadband-to-married-women-work",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "labor.married-women-participation",
       "strength": "moderate",
       "shape": {
@@ -1719,6 +1941,8 @@
     },
     {
       "key": "road-condition-to-vehicle-costs",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "household.vehicle-costs",
       "strength": "weak",
       "shape": {
@@ -1732,10 +1956,13 @@
       "anchor": "(to confirm)",
       "source": "to confirm",
       "from": "roads.condition",
-      "evidence": "to-confirm"
+      "evidence": "to-confirm",
+      "notes": "Unsupported until confirmed: the row is marked to confirm with no source, and vehicle costs are not a kept place outcome."
     },
     {
       "key": "corporate-tax-incidence",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "to": "labor.wages",
       "strength": "moderate",
       "shape": {
@@ -1750,10 +1977,13 @@
       "source": "Suarez Serrato and Zidar 2016 (AER)",
       "from": "tax.state-corporate-rate",
       "evidence": "researched",
-      "range": [0, 0.7]
+      "range": [0, 0.7],
+      "notes": "Sized, with its cause recorded and its outcome missing: each place's top corporate income tax rate is now a place outcome (Tax Foundation, 2026), but wages by this key are not a kept place outcome (median earnings is a different measure), so the link moves nothing until one is produced."
     },
     {
       "key": "incentive-deal-to-industry-jobs",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "labor.deal-industry-jobs",
       "strength": "weak",
       "shape": {
@@ -1767,10 +1997,13 @@
       "anchor": "About 1,500 jobs in the deal's industry",
       "source": "Slattery and Zidar 2020 (JEP)",
       "from": "business.incentive-deal",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a deal record is readable: the 1,500 jobs belong to one deal's industry, and the game has no per-place reader for incentive deals."
     },
     {
       "key": "incentive-deal-to-broad-growth",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "economy.broad-growth",
       "strength": "about-zero",
       "shape": {
@@ -1788,6 +2021,8 @@
     },
     {
       "key": "unemployment-to-births",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "births.rate",
       "strength": "moderate",
       "shape": {
@@ -1806,6 +2041,8 @@
     },
     {
       "key": "enforcement-to-undocumented-employment",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "labor.undocumented-employment",
       "strength": "moderate",
       "shape": {
@@ -1819,10 +2056,13 @@
       "anchor": "-5.7% employment",
       "source": "East, Luck, Mansour and Velasquez 2023 (JOLE)",
       "from": "immigration.local-enforcement-partnership",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a policy is recorded: no shipped policy question covers local immigration enforcement partnerships, so the cause has no reader."
     },
     {
       "key": "enforcement-to-us-born-employment",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "labor.us-born-employment",
       "strength": "weak",
       "shape": {
@@ -1836,10 +2076,13 @@
       "anchor": "U.S.-born workers: about -0.5% employment and -0.6% wages",
       "source": "East et al. 2023 (JOLE)",
       "from": "immigration.local-enforcement-partnership",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a policy is recorded: no shipped policy question covers local immigration enforcement partnerships, so the cause has no reader."
     },
     {
       "key": "child-tax-credit-to-births",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "births.rate",
       "strength": "about-zero",
       "shape": {
@@ -1857,6 +2100,8 @@
     },
     {
       "key": "baby-bonus-to-births",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "births.rate",
       "strength": "weak",
       "shape": {
@@ -1870,10 +2115,13 @@
       "anchor": "Quebec: +5-10%, up to +25% for third children, at high cost",
       "source": "Milligan 2005",
       "from": "program.birth-bonus-dollars",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported as a straight line: Milligan finds +16.9% births per C$1,000 of first-year benefit (an elasticity near 0.11) around Quebec's own amounts, which would overstate a large U.S. bonus if applied per dollar; it needs a bill's own payment schedule, and the game records no birth bonus dollars by place."
     },
     {
       "key": "marriage-equality-to-marriages",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "family.same-sex-marriages",
       "strength": "strong",
       "shape": {
@@ -1887,10 +2135,13 @@
       "anchor": "Marriage take-up rose",
       "source": "Carpenter, Eppink, Gonzales and McKay 2021 (JPAM)",
       "from": "law.marriage-equality",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported: marriage equality has been national law since 2015, so no place differs on it, and same-sex marriages are not a kept place outcome."
     },
     {
       "key": "marriage-equality-to-coverage",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "health.uninsured-pct",
       "strength": "moderate",
       "shape": {
@@ -1905,10 +2156,13 @@
       "source": "Carpenter, Eppink, Gonzales and McKay 2021 (JPAM)",
       "from": "law.marriage-equality",
       "evidence": "provisional",
-      "range": [-0.012, -0.002]
+      "range": [-0.012, -0.002],
+      "notes": "Unsupported: marriage equality has been national law since 2015, so the cause does not vary by place and has no reader."
     },
     {
       "key": "abortion-ban-to-births",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "births.rate",
       "strength": "moderate",
       "shape": {
@@ -1927,6 +2181,8 @@
     },
     {
       "key": "abortion-ban-to-infant-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.infant-mortality",
       "strength": "moderate",
       "shape": {
@@ -1944,6 +2200,8 @@
     },
     {
       "key": "abortion-denied-to-financial-distress",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "finance.past-due-debt",
       "strength": "strong",
       "shape": {
@@ -1958,10 +2216,13 @@
       "source": "Miller, Wherry and Foster 2023 (AEJ: Economic Policy)",
       "from": "person.abortion-denied",
       "evidence": "researched",
-      "range": [0.585, 0.975]
+      "range": [0.585, 0.975],
+      "notes": "Person-level in substance: the effect is one woman denied an abortion, which the game does not record per place; the abortion law itself acts through infant deaths."
     },
     {
       "key": "universal-childcare-to-mothers-work",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "labor.mothers-participation",
       "strength": "strong",
       "shape": {
@@ -2001,6 +2262,8 @@
     },
     {
       "key": "voter-id-to-turnout",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "voting.turnout-pct",
       "strength": "about-zero",
       "shape": {
@@ -2018,6 +2281,8 @@
     },
     {
       "key": "same-day-registration-to-youth-turnout",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "voting.youth-turnout",
       "strength": "moderate",
       "shape": {
@@ -2032,10 +2297,13 @@
       "source": "Grumbach and Hill 2022 (Journal of Politics); Census Current Population Survey Voting and Registration Supplement",
       "from": "law.same-day-registration",
       "evidence": "researched",
-      "range": [0.08, 0.18]
+      "range": [0.08, 0.18],
+      "notes": "Unsupported until a law is recorded: no shipped policy question covers same-day registration, so the cause has no reader, and youth turnout is not a kept place outcome."
     },
     {
       "key": "all-mail-voting-to-turnout",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "voting.turnout-pct",
       "strength": "weak",
       "shape": {
@@ -2050,10 +2318,13 @@
       "source": "Thompson, Wu, Yoder and Hall 2020 (PNAS), table 3",
       "from": "law.all-mail-voting",
       "evidence": "researched",
-      "range": [0.005, 0.065]
+      "range": [0.005, 0.065],
+      "notes": "Unsupported until a law is recorded: no shipped policy question covers all-mail voting, so the cause has no reader; turnout is kept, so this acts once one exists."
     },
     {
       "key": "all-mail-voting-to-party-share",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "voting.party-share",
       "strength": "about-zero",
       "shape": {
@@ -2071,6 +2342,8 @@
     },
     {
       "key": "polling-distance-to-turnout",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "voting.turnout-pct",
       "strength": "moderate",
       "shape": {
@@ -2085,10 +2358,13 @@
       "source": "Cantoni 2020 (AEJ: Applied); Brady and McNulty 2011 (APSR)",
       "from": "voting.polling-place-distance-miles",
       "evidence": "researched",
-      "range": [-0.2, -0.08]
+      "range": [-0.2, -0.08],
+      "notes": "Unsupported until measured: no public source gives the average distance to a polling place by state, so no starting value was added; filed as research question state-polling-place-distance-in-miles. Turnout is kept, so this acts once one exists."
     },
     {
       "key": "newspaper-closure-to-borrowing-cost",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "gov.borrowing-cost",
       "strength": "moderate",
       "shape": {
@@ -2102,27 +2378,34 @@
       "anchor": "Also higher wages and deficits",
       "source": "Gao, Lee and Murphy 2020 (JFE)",
       "from": "press.local-newspaper",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a unit adapter exists: the study prices county bonds after a county paper closes, but the game's outcome is a state's general obligation spread, and newspapers are not recorded by place."
     },
     {
       "key": "newspaper-closure-to-engagement",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "voting.local-turnout",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "closure",
+      "size": -0.006,
+      "per": "local daily newspaper closing",
       "lagMonths": 12,
       "group": "place",
       "owner": "C",
-      "anchor": "Fewer candidates, less knowledge, lower local turnout",
-      "source": "Hayes and Lawless 2021",
+      "anchor": "U.S. dailies 1869-2004: one more newspaper raised presidential and congressional turnout about 0.3 points, mostly from a market's first paper. A closure is read as -0.3 points on a turnout near 50%, about -0.6%. It is provisional because the measured turnout is federal, not local; local races may lose more (Rubado and Jennings 2020 find fewer mayoral candidates and suggestive turnout losses where newsrooms shrank), so the range runs to twice the size, and to zero for a market that keeps another paper.",
+      "source": "Gentzkow, Shapiro and Sinkinson 2011 (AER); Rubado and Jennings 2020 (Urban Affairs Review); Hayes and Lawless 2021",
       "from": "press.local-newspaper",
-      "evidence": "researched"
+      "evidence": "provisional",
+      "notes": "Sized, waiting on its cause and outcome: the game records no local newspapers by place and keeps no local turnout outcome.",
+      "range": [-0.012, 0]
     },
     {
       "key": "exposed-corruption-to-reelection",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
       "to": "election.incumbent-reelection",
       "strength": "strong",
       "shape": {
@@ -2141,10 +2424,13 @@
       },
       "from": "gov.corruption-exposed",
       "evidence": "researched",
-      "range": [-0.21, -0.13]
+      "range": [-0.21, -0.13],
+      "notes": "Unsupported until measured: the game records no exposed corruption by place and keeps no incumbent reelection rate as a place outcome."
     },
     {
       "key": "press-attacks-to-media-trust",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "press.media-trust",
       "strength": "moderate",
       "shape": {
@@ -2158,10 +2444,13 @@
       "anchor": "Elite criticism lowers trust in news; supporters discount its reports",
       "source": "Ladd 2012",
       "from": "official.press-hostility",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until sized: the studies find elite criticism lowers trust without a slope the game can read, and the game records no official press hostility."
     },
     {
       "key": "relief-spending-to-votes",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "election.incumbent-vote",
       "strength": "strong",
       "shape": {
@@ -2175,10 +2464,13 @@
       "anchor": "Voters reward relief spending",
       "source": "Healy and Malhotra 2009 (APSR)",
       "from": "spending.disaster-relief",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a unit adapter exists: the study measures votes per doubling of relief, but the game records neither relief dollars nor an incumbent vote share by place."
     },
     {
       "key": "preparedness-spending-to-votes",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "election.incumbent-vote",
       "strength": "about-zero",
       "shape": {
@@ -2196,6 +2488,8 @@
     },
     {
       "key": "preparedness-to-disaster-damage",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "disaster.damage",
       "strength": "strong",
       "shape": {
@@ -2209,10 +2503,13 @@
       "anchor": "About $15 of damage avoided per $1",
       "source": "Healy and Malhotra 2009 (APSR)",
       "from": "spending.disaster-preparedness",
-      "evidence": "researched"
+      "evidence": "researched",
+      "notes": "Unsupported until a unit adapter exists: the $15 saved per $1 is in dollars, while the game reads neither preparedness spending nor a damage rate by place."
     },
     {
       "key": "economy-to-approval",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "to": "approval.incumbent",
       "strength": "strong",
       "shape": {
@@ -2226,10 +2523,13 @@
       "anchor": "(to confirm)",
       "source": "to confirm",
       "from": "economy.real-income-growth",
-      "evidence": "to-confirm"
+      "evidence": "to-confirm",
+      "notes": "Unsupported until confirmed: the row is marked to confirm with no size, and the game keeps no incumbent approval as a place outcome."
     },
     {
       "key": "medicaid-expansion-to-coverage",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2262,6 +2562,8 @@
     },
     {
       "key": "medicaid-expansion-to-mortality",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2289,10 +2591,13 @@
         "months": 12,
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
-      "aboutZero": false
+      "aboutZero": false,
+      "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead."
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2325,6 +2630,8 @@
     },
     {
       "key": "snap-work-requirement-to-participation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2357,6 +2664,8 @@
     },
     {
       "key": "universal-prek-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2397,6 +2706,8 @@
     },
     {
       "key": "equalized-funding-to-spending",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2437,6 +2748,8 @@
     },
     {
       "key": "end-cash-bail-to-pretrial-detention",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2451,10 +2764,13 @@
       "evidence": "provisional",
       "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
       "to": "justice.pretrial-detained",
-      "range": [-0.44, -0.14]
+      "range": [-0.44, -0.14],
+      "notes": "Not hooked by design: the justice code already decides each defendant's detention from the bail law in force, so a pretrial-detained place rate would count the law twice."
     },
     {
       "key": "mandatory-minimums-to-incarceration",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2468,10 +2784,13 @@
       "source": "to confirm",
       "evidence": "to-confirm",
       "from": "law:us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
-      "to": "justice.incarcerated-per-100k"
+      "to": "justice.incarcerated-per-100k",
+      "notes": "Unsupported until a bill sets the terms: the only panel study calls its counts proxies, and the effect depends on which offenses and sentences a bill covers."
     },
     {
       "key": "concealed-carry-permit-to-firearm-homicide",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2490,6 +2809,8 @@
     },
     {
       "key": "voter-id-to-registration",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "strength": "about-zero",
       "shape": {
         "kind": "linear"
@@ -2507,6 +2828,8 @@
     },
     {
       "key": "automatic-registration-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2525,6 +2848,8 @@
     },
     {
       "key": "restore-voting-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2584,6 +2909,8 @@
     },
     {
       "key": "housing-by-right-to-new-buildings",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2601,6 +2928,8 @@
     },
     {
       "key": "right-to-counsel-to-evictions",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2614,10 +2943,13 @@
       "source": "Cassidy and Currie 2022, NBER w29836; NYC Office of Civil Justice FY2019",
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
-      "to": "housing.eviction"
+      "to": "housing.eviction",
+      "notes": "Not hooked by design: living-world/town-rent.ts already decides each eviction case with the tenant's lawyer present, so a place eviction rate that also applied this link would count the law twice; a producer of housing.eviction should count those recorded cases instead."
     },
     {
       "key": "housing-first-to-homelessness",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2650,6 +2982,8 @@
     },
     {
       "key": "cannabis-sales-to-youth-use",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "about-zero",
       "shape": {
         "kind": "linear"
@@ -2668,6 +3002,8 @@
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2686,6 +3022,8 @@
     },
     {
       "key": "paid-leave-to-mothers-work",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2704,6 +3042,8 @@
     },
     {
       "key": "carbon-price-to-emissions",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2722,6 +3062,8 @@
     },
     {
       "key": "container-deposit-to-litter",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2740,6 +3082,8 @@
     },
     {
       "key": "container-deposit-to-prices",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2758,6 +3102,8 @@
     },
     {
       "key": "clean-electricity-to-price",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2776,6 +3122,8 @@
     },
     {
       "key": "flood-zone-limits-to-damage",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2794,6 +3142,8 @@
     },
     {
       "key": "container-deposit-to-recycling",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:environment-energy.bottle-deposit",
       "to": "env.container-recycling-pct",
       "strength": "strong",
@@ -2814,6 +3164,8 @@
     },
     {
       "key": "unemployment-to-uninsured",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "health.uninsured-pct",
       "strength": "strong",
       "shape": {
@@ -2836,6 +3188,8 @@
     },
     {
       "key": "federal-minimum-wage-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2859,6 +3213,8 @@
     },
     {
       "key": "federal-minimum-wage-to-low-wage-jobs",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -2873,10 +3229,13 @@
       "evidence": "contested",
       "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
       "to": "labor.low-wage-jobs",
-      "range": [-0.16, 0]
+      "range": [-0.16, 0],
+      "notes": "Unsupported: the study's 8% is jobs lost among workers who earned under $15, a group a $15 minimum empties by definition, so a state base of jobs paying under $15 would read zero once the law is in force whatever happened to employment; the outcome needs a count of those workers' jobs, which the game does not keep."
     },
     {
       "key": "mandatory-minimum-cut-to-federal-prisoners",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2890,11 +3249,14 @@
       "source": "CBO cost estimate, Smarter Sentencing Act of 2014 (S. 1410); BJS Prisoners in 2022",
       "evidence": "provisional",
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-      "to": "justice.incarcerated-per-100k",
-      "range": [-0.012, -0.004]
+      "to": "justice.federal-incarcerated-per-100k",
+      "range": [-0.012, -0.004],
+      "notes": "Waiting on a federal-prisoner measure: a federal sentencing cut changes who is in federal prison, not state prisons, so this link points at justice.federal-incarcerated-per-100k (federal prisoners per 100,000 residents), which the game does not record yet. The recorded prison measure, justice.incarcerated-per-100k, is the BJS state imprisonment rate and leaves out federal prisoners, so moving it would be a fake effect. Federal counts are kept by the prison's location, not the prisoner's home state, so a state-level federal measure needs its own source before the link can act."
     },
     {
       "key": "power-plant-carbon-to-emissions",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2913,6 +3275,8 @@
     },
     {
       "key": "power-plant-carbon-to-particulates",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2931,6 +3295,8 @@
     },
     {
       "key": "tariffs-to-prices",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2949,6 +3315,8 @@
     },
     {
       "key": "housing-vouchers-to-homelessness",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -2967,6 +3335,8 @@
     },
     {
       "key": "retirement-age-to-older-work",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -2985,6 +3355,8 @@
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3003,6 +3375,8 @@
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "strong",
       "shape": {
         "kind": "linear"
@@ -3026,6 +3400,8 @@
     },
     {
       "key": "student-debt-relief-to-finances",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3039,10 +3415,13 @@
       "source": "to confirm",
       "evidence": "to-confirm",
       "from": "law:us-federal-positions:education.forgive-student-loans",
-      "to": "finance.past-due-debt"
+      "to": "finance.past-due-debt",
+      "notes": "Unsupported until a bill sets the terms: the only causal study covers private loans already in default, and the outcome's unit is undefined."
     },
     {
       "key": "more-immigration-to-workforce",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3056,17 +3435,20 @@
       "source": "to confirm",
       "evidence": "to-confirm",
       "from": "law:us-federal-positions:immigration.admit-more-immigrants",
-      "to": "labor.workforce"
+      "to": "labor.workforce",
+      "notes": "Unsupported until a bill sets the terms: the workforce effect scales with how many people a bill admits, so there is no general size."
     },
     {
       "key": "universal-prek-to-math-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
       },
       "size": -0.005,
       "per": "law in force",
-      "lagMonths": 60,
+      "lagMonths": 117,
       "group": "children who enrolled, later",
       "owner": "M",
       "anchor": "Boston: no detectable effect on state test scores; Tennessee: lower scores by 6th grade.",
@@ -3095,11 +3477,97 @@
       },
       "reverseOnRepeal": "Repeal affects future attendance opportunities. It does not erase an assessment or reverse learned skills; subsequent instruction needs its own path.",
       "who": "Enrolled preschool pupils at the study follow-up ages and programs; statewide dilution remains a separate unverified conversion.",
-      "lagWhy": "The existing60-month lag represents later elementary assessment. Verify the exact grade/follow-up and quality-specific sign before numeric activation.",
+      "lagWhy": "The outcome is eighth-grade math. A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months), the same lag as the reading link (CTO ruling 8).",
+      "aboutZero": false
+    },
+    {
+      "key": "universal-prek-to-reading-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
+      "from": "law:us-policy-positions:education.universal-preschool",
+      "to": "school.reading-proficient-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.02,
+      "range": [-0.15, 0.1],
+      "per": "law in force",
+      "lagMonths": 117,
+      "group": "children who enrolled, as eighth graders",
+      "owner": "M",
+      "evidence": "contested",
+      "anchor": "The studies disagree. Boston's lottery found no reading effect from third grade through tenth (+0.005 standard deviations, ruling out more than +0.12). Georgia and Oklahoma's statewide programs left eighth-grade reading about where it was: +0.8 NAEP points for lower-income children, -0.8 for the rest. Tennessee's randomized program left sixth graders 0.13 standard deviations behind in English. At the 2024 national base near 29% proficient, 0.1 standard deviation is about 12% of the rate, so the range runs from Tennessee (-15%, its offered-versus-not-offered gap) to Boston's upper bound with about 70% enrolled (+10%), centered just below zero. Abecedarian's large adult reading gain (+0.79 standard deviations) came from full-day care from infancy plus school-age help for about 100 children, not a pre-K year, so it is left out of the range.",
+      "source": "Gray-Lobe, Pathak and Walters 2023 (QJE), Table 6; Cascio and Schanzenbach 2013 (Brookings Papers), Table 7; Durkin, Lipsey, Farran and Wiesen 2022 (Developmental Psychology); Campbell et al. 2002 (Abecedarian); Camilli, Vargas, Ryan and Barnett 2010 meta-analysis (NIEER)",
+      "why": [
+        "A child attends preschool with a particular curriculum and instructional quality.",
+        "That exposure changes early language and literacy experiences only for the attending child.",
+        "Later school instruction can build on, wash out or offset those early gains.",
+        "An eighth-grade reading assessment records the skills then acquired.",
+        "Bedrock is actual instruction and assessment; early gains that fade by middle school cannot become a universal positive score."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The program's quality and the later schools resemble settings where gains lasted, and enrolled children come from lower-income homes."
+        ],
+        "weakerWhen": [
+          "Quality is low, as in the Tennessee program, or children would have attended a comparable preschool anyway."
+        ],
+        "absentWhen": [
+          "There is no enrolled exposure, or the first enrolled cohort has not yet reached eighth grade."
+        ]
+      },
+      "reverseOnRepeal": "Repeal ends future offered places. It does not erase an assessment or reverse skills an enrolled cohort already learned.",
+      "who": "Enrolled preschool cohorts once they take the eighth-grade reading test; not current students who never had the program.",
+      "lagWhy": "A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months).",
+      "aboutZero": false
+    },
+    {
+      "key": "universal-prek-to-violent-crime",
+      "status": "built",
+      "unsupportedReason": null,
+      "from": "law:us-policy-positions:education.universal-preschool",
+      "to": "crime.violent",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.012,
+      "range": [-0.03, 0.005],
+      "per": "law in force",
+      "lagMonths": 168,
+      "group": "children who enrolled, as teenagers",
+      "owner": "M",
+      "evidence": "contested",
+      "anchor": "Behavior effects differ by program. Perry Preschool cut violent-crime arrests by age 40 by a third (32% vs. 48%), and Chicago's Child-Parent Centers cut violent juvenile arrests 41% (9.0% vs. 15.3%), both for low-income children. Boston's universal program cut high-school suspensions 36% (0.06 off 0.166) and juvenile incarceration by 0.8 points, a large share of a rare event. Tennessee's program left sixth graders with more discipline problems (0.09 standard deviations more offenses). People under 18 made about 9.8% of violent-crime arrests in 2019. A third fewer offenses among the 70% of teenagers who enrolled moves a state's violent crime about -2.3%. Effects are smaller for better-off children, so the center is about half that; Tennessee sets the top of the range.",
+      "source": "Schweinhart et al. 2005 (Perry Preschool at 40); Reynolds et al. 2001 (JAMA); Gray-Lobe, Pathak and Walters 2023 (QJE), Table 7; Durkin, Lipsey, Farran and Wiesen 2022 (Developmental Psychology); FBI Crime in the United States 2019, arrests by age",
+      "why": [
+        "A child attends preschool where teachers practice self-control, turn-taking and classroom routines.",
+        "Those habits can change how the child behaves in school and how often adults discipline the child.",
+        "Fewer suspensions and closer ties to school can keep a teenager away from fights and robberies.",
+        "Only offenses the teenager actually commits and police record reach the crime count.",
+        "Bedrock is a particular teenager's conduct and a recorded offense; the program does not stop a crime by itself."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "Enrolled children come from low-income homes and the program has the quality of the Perry, Chicago or Boston programs."
+        ],
+        "weakerWhen": [
+          "Most enrolled children would have attended another preschool, or the program resembles Tennessee's."
+        ],
+        "absentWhen": [
+          "The first enrolled cohort has not reached its teens, or no child enrolled."
+        ]
+      },
+      "reverseOnRepeal": "Repeal ends future offered places. Teenagers who already attended keep whatever habits they formed; later cohorts lose the program.",
+      "who": "Enrolled preschool cohorts once they reach ages 14 to 17; adults and earlier cohorts are untouched.",
+      "lagWhy": "The first enrolled four-year-olds turn 18 fourteen years later (168 months), when every juvenile age group has had the program.",
       "aboutZero": false
     },
     {
       "key": "equalized-funding-to-math-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3140,6 +3608,8 @@
     },
     {
       "key": "equalized-funding-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3180,6 +3650,8 @@
     },
     {
       "key": "vouchers-to-math-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -3220,6 +3692,8 @@
     },
     {
       "key": "vouchers-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -3260,6 +3734,8 @@
     },
     {
       "key": "poverty-to-math-proficiency",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3278,6 +3754,8 @@
     },
     {
       "key": "uninsured-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "weak",
       "shape": {
         "kind": "linear"
@@ -3296,6 +3774,8 @@
     },
     {
       "key": "graduation-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -3314,6 +3794,8 @@
     },
     {
       "key": "crime-level-to-burglary",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "crime.violent:pct-of-start",
       "to": "crime.burglary",
       "strength": "strong",
@@ -3334,6 +3816,8 @@
     },
     {
       "key": "crime-level-to-robbery",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "crime.violent:pct-of-start",
       "to": "crime.robbery",
       "strength": "strong",
@@ -3354,6 +3838,8 @@
     },
     {
       "key": "crime-level-to-assault",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "crime.violent:pct-of-start",
       "to": "crime.assault",
       "strength": "strong",
@@ -3374,6 +3860,8 @@
     },
     {
       "key": "crime-level-to-vandalism",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "crime.violent:pct-of-start",
       "to": "crime.vandalism",
       "strength": "strong",
@@ -3394,6 +3882,8 @@
     },
     {
       "key": "births-level-to-births",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "births.rate-index",
       "to": "births.rate",
       "strength": "strong",
@@ -3412,6 +3902,8 @@
     },
     {
       "key": "right-to-work-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:labor-workforce.right-to-work",
       "to": "voting.turnout-pct",
       "strength": "moderate",
@@ -3430,6 +3922,8 @@
     },
     {
       "key": "public-bargaining-to-graduation",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
       "to": "school.graduation-pct",
       "strength": "about-zero",
@@ -3447,6 +3941,8 @@
     },
     {
       "key": "juvenile-court-age-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
       "to": "crime.violent",
       "strength": "about-zero",
@@ -3464,6 +3960,8 @@
     },
     {
       "key": "crisis-response-to-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:health-human-services.fund-behavioral-health-crisis-response",
       "to": "crime.violent",
       "strength": "weak",
@@ -3496,6 +3994,8 @@
     },
     {
       "key": "curriculum-standards-to-math",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:education.state-curriculum-standards",
       "to": "school.math-proficient-pct",
       "strength": "about-zero",
@@ -3513,6 +4013,8 @@
     },
     {
       "key": "teacher-minimum-salary-to-graduation",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
       "to": "school.graduation-pct",
       "strength": "weak",
@@ -3553,6 +4055,8 @@
     },
     {
       "key": "property-tax-cap-to-math",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.cap-property-tax-growth",
       "to": "school.math-proficient-pct",
       "strength": "moderate",
@@ -3571,6 +4075,8 @@
     },
     {
       "key": "grocery-exemption-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3588,6 +4094,8 @@
     },
     {
       "key": "civilian-oversight-to-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
       "to": "crime.violent",
       "strength": "weak",
@@ -3606,6 +4114,8 @@
     },
     {
       "key": "harm-reduction-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
       "to": "crime.violent",
       "strength": "about-zero",
@@ -3637,6 +4147,8 @@
     },
     {
       "key": "licensing-reform-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:business-commerce.reduce-occupational-licensing",
       "to": "household.poverty-pct",
       "strength": "weak",
@@ -3655,6 +4167,8 @@
     },
     {
       "key": "independent-redistricting-to-turnout",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:government-operations.independent-redistricting",
       "to": "voting.turnout-pct",
       "strength": "weak",
@@ -3673,6 +4187,8 @@
     },
     {
       "key": "term-limits-to-turnout",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:government-operations.legislative-term-limits",
       "to": "voting.turnout-pct",
       "strength": "about-zero",
@@ -3690,6 +4206,8 @@
     },
     {
       "key": "library-funding-to-math",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
       "to": "school.math-proficient-pct",
       "strength": "about-zero",
@@ -3707,6 +4225,8 @@
     },
     {
       "key": "income-tax-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.adopt-income-tax",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3724,6 +4244,8 @@
     },
     {
       "key": "graduated-income-tax-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.graduated-income-tax",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3741,6 +4263,8 @@
     },
     {
       "key": "facial-recognition-limit-to-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
       "to": "crime.violent",
       "strength": "weak",
@@ -3773,6 +4297,8 @@
     },
     {
       "key": "anti-discrimination-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3790,6 +4316,8 @@
     },
     {
       "key": "incentive-cap-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:business-commerce.cap-development-incentives",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -3807,6 +4335,8 @@
     },
     {
       "key": "by-right-permitting-to-homelessness",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:housing-land-use.by-right-permitting",
       "to": "housing.homelessness",
       "strength": "weak",
@@ -3825,6 +4355,8 @@
     },
     {
       "key": "housing-preemption-to-homelessness",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:housing-land-use.preempt-local-housing-limits",
       "to": "housing.homelessness",
       "strength": "weak",
@@ -3848,6 +4380,8 @@
     },
     {
       "key": "inclusionary-to-homelessness",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:housing-land-use.inclusionary-requirement",
       "to": "housing.homelessness",
       "strength": "about-zero",
@@ -3871,6 +4405,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "carry-permit-to-violent-crime",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "size": -0.1,
       "range": [-0.15, -0.04],
@@ -3889,6 +4425,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "end-cash-bail-to-violent-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "size": 0,
       "per": "law in force",
@@ -3906,6 +4444,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "cannabis-sales-to-violent-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "size": 0,
       "per": "law in force",
@@ -3923,6 +4463,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "mandatory-minimums-to-violent-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "to": "crime.violent",
       "size": 0,
       "per": "law in force",
@@ -3940,6 +4482,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "clean-electricity-to-particulates",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "env.particulates",
       "size": -0.01,
       "range": [-0.03, 0],
@@ -3958,6 +4502,8 @@
       "group": "place",
       "owner": "B-cloud",
       "key": "carbon-price-to-particulates",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "env.particulates",
       "size": -0.005,
       "range": [-0.02, 0],
@@ -3970,6 +4516,8 @@
     },
     {
       "key": "retirement-age-to-poverty",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "to": "household.poverty-pct",
       "strength": "moderate",
@@ -3988,6 +4536,8 @@
     },
     {
       "key": "immigration-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:immigration.admit-more-immigrants",
       "to": "crime.rate-index",
       "strength": "about-zero",
@@ -4005,6 +4555,8 @@
     },
     {
       "key": "federal-mandatory-minimums-to-crime",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
       "to": "crime.rate-index",
       "strength": "about-zero",
@@ -4022,40 +4574,48 @@
     },
     {
       "key": "housing-vouchers-to-graduation",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "school.graduation-pct",
-      "strength": "about-zero",
+      "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0,
+      "size": null,
       "per": "law in force",
       "lagMonths": 0,
       "group": "children in families who qualify",
       "owner": "C",
-      "evidence": "about-zero",
+      "evidence": "to-confirm",
       "anchor": "Chicago's 1997 voucher lottery (82,607 applicants), children tracked 14 years: effects on schooling mostly statistically insignificant",
-      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)"
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
+      "notes": "Evidence gap, not a measured zero: Chicago's voucher lottery found schooling effects mostly statistically insignificant, which leaves the size unknown rather than zero; no other study sizes it."
     },
     {
       "key": "housing-vouchers-to-crime",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "to": "crime.rate-index",
-      "strength": "about-zero",
+      "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0,
+      "size": null,
       "per": "law in force",
       "lagMonths": 0,
       "group": "children in families who qualify",
       "owner": "C",
-      "evidence": "about-zero",
+      "evidence": "to-confirm",
       "anchor": "Same lottery: effects on arrests mostly statistically insignificant",
-      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)"
+      "source": "Jacob, Kapustin and Ludwig 2015 (QJE; NBER w20164)",
+      "notes": "Evidence gap, not a measured zero: Chicago's voucher lottery found arrest effects mostly statistically insignificant, which leaves the size unknown rather than zero; no other study sizes it."
     },
     {
       "key": "top-income-tax-rate-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:tax.raise-top-income-tax-rate",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -4073,6 +4633,8 @@
     },
     {
       "key": "student-loan-forgiveness-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-federal-positions:education.forgive-student-loans",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -4090,6 +4652,8 @@
     },
     {
       "key": "grocery-exemption-to-food-insecurity",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
       "to": "household.food-insecurity",
       "strength": "moderate",
@@ -4108,6 +4672,8 @@
     },
     {
       "key": "harm-reduction-to-overdose-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:health-human-services.harm-reduction-services",
       "to": "health.overdose-deaths",
       "strength": "weak",
@@ -4140,6 +4706,8 @@
     },
     {
       "key": "public-bargaining-to-earnings",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
       "to": "labor.median-earnings",
       "strength": "weak",
@@ -4158,6 +4726,8 @@
     },
     {
       "key": "library-funding-to-reading",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.fund-public-libraries",
       "to": "school.reading-proficient-pct",
       "strength": "weak",
@@ -4176,6 +4746,8 @@
     },
     {
       "key": "public-broadband-to-home-access",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:transportation-infrastructure.public-broadband",
       "to": "broadband.home-access",
       "strength": "weak",
@@ -4194,6 +4766,8 @@
     },
     {
       "key": "gas-hookup-ban-to-child-asthma",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
       "to": "health.child-asthma-pct",
       "strength": "weak",
@@ -4212,6 +4786,8 @@
     },
     {
       "key": "tuition-freeze-to-college-completion",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:education.freeze-public-tuition",
       "to": "school.college-completion-pct",
       "strength": "about-zero",
@@ -4229,6 +4805,8 @@
     },
     {
       "key": "income-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.adopt-income-tax",
       "to": "population.out-migration",
       "strength": "about-zero",
@@ -4246,6 +4824,8 @@
     },
     {
       "key": "graduated-income-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.graduated-income-tax",
       "to": "population.out-migration",
       "strength": "about-zero",
@@ -4263,6 +4843,8 @@
     },
     {
       "key": "balanced-budget-to-borrowing-cost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.balanced-operating-budget",
       "to": "gov.borrowing-cost",
       "strength": "moderate",
@@ -4282,6 +4864,8 @@
     },
     {
       "key": "pension-funding-to-borrowing-cost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
       "to": "gov.borrowing-cost",
       "strength": "weak",
@@ -4301,6 +4885,8 @@
     },
     {
       "key": "reserve-balance-to-borrowing-cost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:fiscal.minimum-reserve-balance",
       "to": "gov.borrowing-cost",
       "strength": "weak",
@@ -4320,6 +4906,8 @@
     },
     {
       "key": "fare-free-transit-to-ridership",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:transportation-infrastructure.fare-free-transit",
       "to": "transit.ridership",
       "strength": "strong",
@@ -4338,6 +4926,8 @@
     },
     {
       "key": "cannabis-sales-to-overdose-deaths",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "to": "health.overdose-deaths",
       "strength": "weak",
@@ -4356,23 +4946,28 @@
     },
     {
       "key": "congress-stock-ban-to-member-returns",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "from": "law:us-federal-positions:government.ban-congressional-stock-trading",
       "to": "government.member-market-returns",
-      "strength": "about-zero",
+      "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0,
+      "size": null,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
       "group": "place",
       "owner": "B-cloud",
-      "evidence": "about-zero",
+      "evidence": "to-confirm",
       "anchor": "Members of Congress' stock trades matched or trailed the market after the 2012 STOCK Act, so barring the trades changes no market return the game measures; the game keeps no member holdings to change",
-      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)"
+      "source": "Chen and Sacerdote 2026, NBER Working Paper 35041 (Research 1's federal table, September 29, 2026)",
+      "notes": "Evidence gap, not a measured zero: members' trades matching the market after the STOCK Act does not measure a ban, and the game keeps no member holdings for one to move."
     },
     {
       "key": "privacy-law-to-earnings",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:technology-privacy.consumer-data-privacy-law",
       "to": "labor.median-earnings",
       "strength": "about-zero",
@@ -4404,23 +4999,28 @@
     },
     {
       "key": "library-materials-to-reading",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
       "from": "law:us-policy-positions:civil-family-community.local-control-of-library-materials",
       "to": "school.reading-proficient-pct",
-      "strength": "about-zero",
+      "strength": "weak",
       "shape": {
         "kind": "linear"
       },
-      "size": 0,
+      "size": null,
       "per": "law in force says yes (1) rather than no (0)",
       "lagMonths": 0,
       "group": "place",
       "owner": "F-cloud",
-      "evidence": "about-zero",
+      "evidence": "to-confirm",
       "anchor": "Leaving the choice to local boards changes which titles stay on the shelf: challenges reached 4,240 titles nationwide in 2023, a small share of any library's collection, and no study links removals to reading scores. What moves reading is money for the library itself, a different question",
-      "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy"
+      "source": "American Library Association, Office for Intellectual Freedom, 2023 book challenge data; Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
+      "notes": "Evidence gap, not a measured zero: no study links local book removals to reading scores, so the size is unknown, not zero."
     },
     {
       "key": "city-anti-discrimination-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
       "to": "household.poverty-pct",
       "strength": "about-zero",
@@ -4438,6 +5038,8 @@
     },
     {
       "key": "highway-money-for-transit-to-service",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
       "to": "transit.service-access",
       "strength": "moderate",
@@ -4456,6 +5058,8 @@
     },
     {
       "key": "farmland-easements-to-farmland-lost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
       "to": "farmland.developed-acres",
       "strength": "strong",
@@ -4474,6 +5078,8 @@
     },
     {
       "key": "groundwater-limits-to-irrigation-pumping",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
       "to": "water.irrigation-groundwater",
       "strength": "moderate",
@@ -4492,6 +5098,8 @@
     },
     {
       "key": "defense-contracts-to-earnings",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "federal.defense-boost-pct",
       "to": "labor.median-earnings",
       "strength": "moderate",
@@ -4509,6 +5117,8 @@
     },
     {
       "key": "farm-payments-cut-to-land-values",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "federal.farm-payments-cut-pct-of-land-value",
       "to": "farmland.value-per-acre",
       "strength": "moderate",
@@ -4527,6 +5137,8 @@
     },
     {
       "key": "transit-service-to-ridership",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "transit.service-access:pct-moved-by-causes",
       "to": "transit.ridership",
       "strength": "moderate",
@@ -4545,6 +5157,8 @@
     },
     {
       "key": "federal-deficit-to-borrowing-cost",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "federal.deficit-change-pct-of-gdp",
       "to": "gov.borrowing-cost",
       "strength": "moderate",
@@ -4563,6 +5177,8 @@
     },
     {
       "key": "fix-it-first-to-poor-roads",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "law:us-policy-positions:transportation-infrastructure.fix-it-first",
       "to": "roads.poor-condition-pct",
       "strength": "moderate",
@@ -4581,6 +5197,8 @@
     },
     {
       "key": "poor-roads-to-prices",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "roads.poor-condition-pct:moved-by-causes",
       "to": "household.prices",
       "strength": "weak",
@@ -4599,6 +5217,8 @@
     },
     {
       "key": "federal-rail-expansion-to-riders",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "federal.rail-expansion-pct",
       "to": "rail.intercity-ridership",
       "strength": "moderate",
@@ -4617,6 +5237,8 @@
     },
     {
       "key": "parks-spending-to-exercise-access",
+      "status": "built",
+      "unsupportedReason": null,
       "from": "budget.parks-added-pct",
       "to": "parks.access-to-exercise",
       "strength": "weak",

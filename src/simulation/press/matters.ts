@@ -6,7 +6,11 @@ import {
   campaigns,
 } from "../campaign-queries";
 import { addDays } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
 import { requireElectionContest } from "../election-contests";
 import {
   hasPersonDiscoveredEvidence,
@@ -674,6 +678,15 @@ export function pressLedgerReviewHandler(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) {
+    return {
+      world: next,
+      status: "blocked",
+      reasonKey: "press:decision-undecided",
+      context: null,
+      outcomeEventId: null,
+    };
+  }
   next = recordDurableDecisionTrace(next, evaluation);
   if (evaluation.selectedOptionKey !== "raise-internally") {
     return done("press:bookkeeper-stayed-silent", next, discovery.id);
@@ -799,6 +812,15 @@ function bookkeeperGoesOutside(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) {
+    return {
+      world: world,
+      status: "blocked",
+      reasonKey: "press:decision-undecided",
+      context: null,
+      outcomeEventId: null,
+    };
+  }
   let next = recordDurableDecisionTrace(world, evaluation);
   const status = (reasonKey: `${string}:${string}`) => ({
     world: next,
@@ -1387,6 +1409,7 @@ function produceCandidatePaymentComplaintFor(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   if (evaluation.selectedOptionKey !== "file") return next;
   const opened = openCandidatePaymentsMatter(
@@ -1491,6 +1514,7 @@ function produceVendorPaymentComplaint(world: World): World {
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   const next = recordDurableDecisionTrace(world, evaluation);
   if (evaluation.selectedOptionKey !== "file") return next;
   return fileRivalComplaint(next, {

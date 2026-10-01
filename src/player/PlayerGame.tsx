@@ -40,6 +40,7 @@ import {
   SavedAppearanceControls,
 } from "./SavedAppearance";
 import { createOpeningLifeController } from "../presentation/opening-life";
+import { openSavedPlayedLife } from "../presentation/open-saved-played-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
@@ -612,9 +613,12 @@ export function PlayerGame() {
       // A world being observed, or a played life that ended before anything
       // followed it, has nobody whose week could be opened: loading such a
       // save must not write new work for the retired or dead character.
-      world: shellReadOnly(prepared)
-        ? prepared
-        : openOrdinaryLife(prepared, personId),
+      world:
+        saveId !== null
+          ? openSavedPlayedLife(prepared, personId)
+          : shellReadOnly(prepared)
+            ? prepared
+            : openOrdinaryLife(prepared, personId),
       personId,
       unsavedSeed: seed,
       saveId,
@@ -1619,7 +1623,14 @@ function PlayingScreen({
             (playScene.purpose !== "activity"
               ? electionNightLocationKey(session.world, session.personId)
               : null) ??
-              (playScene.purpose === "home" ? "home" : playScene.locationKey),
+              // An unspecified moment resolves to the home room above it in
+              // play-scene-context, so its place picture is home too; without
+              // this a person whose last recorded place had no plate (a shift
+              // the day before) woke to a blank screen.
+              (playScene.purpose === "home" ||
+              playScene.purpose === "unspecified"
+                ? "home"
+                : playScene.locationKey),
           ),
     [
       sceneHasPlate,

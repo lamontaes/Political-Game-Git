@@ -1,4 +1,13 @@
-import type { LawAmountUnit, LawConsequenceRow } from "./law-consequence-types";
+import type {
+  PermitApplicationRecord,
+  PermitStatusRecord,
+} from "./permit-types";
+import type {
+  LawAmountUnit,
+  LawConsequenceRow,
+  ResolvedHourlyLawPayConsequence,
+  ResolvedSavedHourlyPayConsequence,
+} from "./law-consequence-types";
 import type {
   LawEffectStamp,
   LawEffectStampedRecord,
@@ -226,6 +235,7 @@ export type EntityKind =
   | "resource-obligation"
   | "resource-obligation-state"
   | "resource-position"
+  | "earned-law-pay-assessment"
   | "resource-transfer-outcome"
   | "scheduled-activity"
   | "scheduled-activity-state"
@@ -969,10 +979,12 @@ export interface OfficialViewReason {
 }
 
 /**
- * One reflection on one official: what the official did about a law that
- * reached this person, how far it moved the person's view of them, and why.
- * A person's standing view of an official is the sum of these rows; nothing
- * fades on its own (no passive decay).
+ * One reflection on one official, as saves from before A158 kept it: what the
+ * official did about a law that reached this person, how far it moved the
+ * person's view of them, and why. Nothing writes these any more; a view of an
+ * official is now a private belief whose subject is the official. Old rows
+ * still load and are read for a person who has formed no saved view of that
+ * official since (`official-view-reads.ts`).
  */
 export interface OfficialViewRecord {
   readonly id: EntityId;
@@ -989,14 +1001,25 @@ export interface OfficialViewRecord {
   readonly reasons: readonly OfficialViewReason[];
 }
 
+/**
+ * What a private belief is about, when it is not a policy proposition: a
+ * party question, or one official (what a person thinks of them).
+ */
+export type PrivateBeliefSubject =
+  | { readonly kind: "party-question"; readonly key: string }
+  | { readonly kind: "official"; readonly personId: EntityId };
+
 export interface PrivateBeliefRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly personId: EntityId;
   readonly propositionId: EntityId | null;
-  /** Absent on legacy policy beliefs; party questions have no proposition. */
-  readonly subject?: { readonly kind: "party-question"; readonly key: string };
+  /**
+   * Absent on legacy policy beliefs. Party questions and officials have no
+   * proposition.
+   */
+  readonly subject?: PrivateBeliefSubject;
   readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
@@ -2093,8 +2116,7 @@ export type IncidentSemanticKey = `${string}:${string}`;
  * with no draw and no actor. It is the mode for conditions that last, where
  * the design sets how bad counts as bad but never the chance of an outcome.
  */
-export type IncidentOccurrenceMode =
-  "probabilistic" | "actor-initiated" | "condition";
+export type IncidentOccurrenceMode = "actor-initiated" | "condition";
 export type IncidentStatus = "active" | "resolved";
 export type IncidentRuleComparison = "at-least" | "at-most";
 
@@ -2304,6 +2326,10 @@ export interface IncidentLikelihoodModifierEvaluation {
   readonly sourceEntityIds: readonly EntityId[];
 }
 
+/**
+ * A draw an old save recorded before incidents stopped being drawn (A134).
+ * Read as recorded; nothing writes one now.
+ */
 export interface IncidentRngResult {
   readonly key: string;
   readonly draw: number;
@@ -3174,7 +3200,36 @@ export type ResourceOutcomeReasonNamespace =
 export type ResourceOutcomeReasonKind =
   `${ResourceOutcomeReasonNamespace}:${string}`;
 
+/** Later legal determination of actual completed work; never revised earned terms.
+ * Team 3 owns writing this append-only record from saved work and resolved law.
+ * A transfer must independently validate every join before using assessed gross.
+ */
+export interface EarnedLawPayAssessmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  readonly workRelationshipId: EntityId;
+  readonly resourceFlowId: EntityId;
+  readonly earnedTermsId: EntityId;
+  readonly completionEventId: EntityId;
+  readonly scheduledActivityId: EntityId;
+  readonly scheduledActivityStateId: EntityId;
+  readonly earnedCutoff: HistoricalCutoff;
+  readonly periodStartsAt: IsoDate;
+  readonly periodEndsAt: IsoDate;
+  readonly workedMinutes: number;
+  readonly contractualGross: MoneyAmount;
+  readonly assessedGross: MoneyAmount;
+  readonly resolvedConsequence:
+    ResolvedHourlyLawPayConsequence | ResolvedSavedHourlyPayConsequence;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
+
 export interface ResourceTransferOutcome extends LawEffectStampedRecord {
+  readonly earnedLawPayAssessmentId?: EntityId;
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -4353,6 +4408,8 @@ export interface LegalOutcomeConsequenceRecord {
 }
 
 export interface HistoryStore {
+  readonly permitApplications?: readonly PermitApplicationRecord[];
+  readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
@@ -4409,6 +4466,8 @@ export interface HistoryStore {
   readonly resourceFlows: readonly ResourceFlow[];
   readonly resourceFlowTerms: readonly ResourceFlowTermsRecord[];
   readonly resourceTransferOutcomes: readonly ResourceTransferOutcome[];
+  /** Absent in saves made before earned-law assessments were recorded. */
+  readonly earnedLawPayAssessments?: readonly EarnedLawPayAssessmentRecord[];
   readonly resourceObligations: readonly ResourceObligation[];
   readonly resourceObligationStates: readonly ResourceObligationStateRecord[];
   readonly dwellings: readonly Dwelling[];
@@ -5471,6 +5530,7 @@ export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
   | "adult.eviction-case"
+  | "adult.crime-report"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"

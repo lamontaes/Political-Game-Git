@@ -43,6 +43,7 @@ import {
   takeFloorVote,
   transmitMeasure,
   type MeasureStepKey,
+  type FloorVoteInput,
 } from "../legislation";
 import {
   authoredScenarioSeatCount,
@@ -486,13 +487,78 @@ function provenance(
   };
 }
 
+/** An existing decision writer may pass its recorded roll call to the driver. */
+export interface InstitutionStepInput {
+  readonly recordedFloorVote?: FloorVoteInput & {
+    /** Actual dated seats read by the caller; the driver never invents members. */
+    readonly seatedMemberPersonIds: readonly EntityId[];
+  };
+}
+
+/** The shared floor writer, whether decisions arrived or were read by the driver. */
+function applyInstitutionFloorVote(
+  world: World,
+  input: FloorVoteInput,
+  seatedMemberPersonIds: readonly EntityId[] | null,
+): InstitutionStepResult {
+  if (measurePosition(world, input.measureId).phase !== "on-floor")
+    return { kind: "idle" };
+  if (seatedMemberPersonIds) {
+    const seats = new Set(seatedMemberPersonIds);
+    if (seats.size === 0)
+      return {
+        kind: "blocked",
+        reason: "No seated members can decide this floor question.",
+      };
+    const voters = new Set<EntityId>();
+    for (const disposition of input.dispositions) {
+      if (!disposition.personId || !seats.has(disposition.personId))
+        return {
+          kind: "blocked",
+          reason: "This recorded decision is not a vote of the seated body.",
+        };
+      if (voters.has(disposition.personId))
+        return {
+          kind: "blocked",
+          reason: "A member cannot vote twice on one floor question.",
+        };
+      voters.add(disposition.personId);
+    }
+  }
+  try {
+    return {
+      kind: "applied",
+      step: "move-floor-vote",
+      world: takeFloorVote(world, input),
+    };
+  } catch (error) {
+    return {
+      kind: "blocked",
+      reason: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
 /** Applies the institution's next step to one measure, if it has one. */
 export function applyInstitutionStep(
   before: World,
   measureId: EntityId,
   onExecutiveDesk: ExecutiveDeskHandler,
+  input: InstitutionStepInput = {},
 ): InstitutionStepResult {
   const measure = requireMeasure(before, measureId);
+  if (input.recordedFloorVote) {
+    if (input.recordedFloorVote.measureId !== measureId)
+      return {
+        kind: "blocked",
+        reason: "The recorded floor vote belongs to another measure.",
+      };
+    return applyInstitutionFloorVote(
+      before,
+      input.recordedFloorVote,
+      input.recordedFloorVote.seatedMemberPersonIds,
+    );
+  }
   const blueprint = legislativeBlueprintForMeasure(before, measure);
   const bodies = bodiesForMeasure(before, measure, blueprint);
   // Every seated member who may vote on the bill holds principles of their
@@ -748,8 +814,9 @@ export function applyInstitutionStep(
         kind: "blocked",
         reason: `The ${chamber.name} has no recorded member decisions on this question.`,
       };
-    return applied(
-      takeFloorVote(onFloor, {
+    return applyInstitutionFloorVote(
+      onFloor,
+      {
         stableKey,
         measureId,
         dispositions: decided.dispositions,
@@ -762,10 +829,13 @@ export function applyInstitutionStep(
           "Members' recorded decisions on this question.",
           decided.method,
         ),
-      }),
-      "move-floor-vote",
+      },
+      body.members.every((member) => member.personId !== null)
+        ? body.members.map((member) => member.personId!)
+        : null,
     );
   }
+
   if (steps.includes("move-veto-override")) {
     // Every returned bill is reconsidered: whether leadership would bring a
     // given override up at all is not modeled, and the members' own votes

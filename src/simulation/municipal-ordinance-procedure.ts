@@ -22,7 +22,9 @@
  * proposition, lineage and current operative clause. Borrowing has no such
  * profile. Sourced fiscal conditions still require their own adapter.
  */
+import { applyInstitutionStep } from "./governing/legislative-clock";
 import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
+import { recordWorldEvent } from "./world";
 
 import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
@@ -64,7 +66,6 @@ import {
   recordExecutiveInaction,
   recordOverridePeriodExpired,
   requireMeasure,
-  takeFloorVote,
   tallyDispositions,
 } from "./legislation";
 import { resolveRequiredVotes } from "./legislature-rules";
@@ -482,7 +483,6 @@ export function recordCouncilReadingVote(
 ): MunicipalOrdinanceResult {
   const government = municipalGovernmentByKey(input.governmentKey);
   if (!government) return refuse(world, "No municipal government is compiled.");
-  const reading = municipalProcedureReading(government);
   const pack = municipalRulePackFor(government);
   if (!pack.ok) {
     return refuse(
@@ -514,47 +514,32 @@ export function recordCouncilReadingVote(
     );
   }
 
-  const stages = pack.pack.chambers[0]!.floorStages;
   const stageKey = measurePosition(world, measure.id).floorStageKey;
-  const finalStage = stageKey === stages.at(-1)?.stageKey;
-  const interval = reading.procedure.introductionToPassage ?? null;
-  if (interval && finalStage) {
-    const earliest = addDays(
-      measure.introducedAt,
-      passageInterval(interval).offset,
-    );
-    if (world.currentDate < earliest) {
-      return refuse(
-        world,
-        `A general ordinance requires ${passageInterval(interval).description} between its introduction on ${measure.introducedAt} and passage; the earliest valid passage date is ${earliest}. ${interval.sameDayException ? `The stated exception (${interval.sameDayException}) is not supported by this route.` : "No earlier-passage exception is established for this route."}`,
-      );
-    }
-  }
-  const earliestReading = earliestNextReading(world, reading, measure.id);
-  if (earliestReading && world.currentDate < earliestReading.date) {
-    return refuse(
-      world,
-      `Each reading needs ${earliestReading.description} after the one before it; the earliest date for the next reading is ${earliestReading.date}.`,
-    );
-  }
-
-  const checked = checkCouncilVote(
-    world,
-    input.governmentKey,
-    input.dispositions,
-  );
-  if (!checked.ok) return refuse(world, checked.reason);
+  const seats = councilSeats(world, input.governmentKey);
+  const tally = tallyDispositions(input.dispositions);
 
   let next: World;
   try {
-    next = takeFloorVote(world, {
-      stableKey: `${measure.stableKey}:${stageKey ?? "passage"}:${world.currentDate}`,
-      measureId: measure.id,
-      dispositions: input.dispositions,
-      presentMembers: checked.present,
-      electedMembers: checked.seats,
-      provenance: input.provenance,
-    });
+    const result = applyInstitutionStep(
+      world,
+      measure.id,
+      (unchanged) => unchanged,
+      {
+        recordedFloorVote: {
+          stableKey: `${measure.stableKey}:${stageKey ?? "passage"}:${world.currentDate}`,
+          measureId: measure.id,
+          dispositions: input.dispositions,
+          presentMembers: tally.yea + tally.nay + tally.presentNotVoting,
+          electedMembers: seats.length,
+          provenance: input.provenance,
+          seatedMemberPersonIds: seats.map((seat) => seat.personId),
+        },
+      },
+    );
+    if (result.kind === "blocked") return refuse(world, result.reason);
+    if (result.kind !== "applied")
+      return refuse(world, "The council has no floor vote to take.");
+    next = result.world;
   } catch (error) {
     return refuse(world, (error as Error).message);
   }
@@ -565,7 +550,7 @@ export function recordCouncilReadingVote(
   }
   return {
     ok: true,
-    world: afterFinalPassage(next, input.governmentKey, measure),
+    world: completeCouncilPassage(next, measure, input.governmentKey),
   };
 }
 
@@ -794,20 +779,47 @@ function executiveWindow(governmentKey: string) {
 }
 
 /** Enroll, present, or record as law, whichever the pack says comes next. */
-function afterFinalPassage(
+export function completeCouncilPassage(
   world: World,
-  governmentKey: string,
   measure: LegislativeMeasureRecord,
+  governmentKey: string | null = null,
 ): World {
-  const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = municipalProcedureReading(government);
+  if (measurePosition(world, measure.id).phase !== "awaiting-enrollment")
+    return world;
+  const government = governmentKey
+    ? municipalGovernmentByKey(governmentKey)
+    : null;
+  const reading = government ? municipalProcedureReading(government) : null;
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const presentment = pack.executive.presentmentRequired;
   let next = enrollMeasure(world, {
     stableKey: `${measure.stableKey}:enrolled`,
     measureId: measure.id,
   });
-  if (measurePosition(next, measure.id).phase === "awaiting-enactment") {
+  if (presentment.kind === "known" && presentment.value === false) {
+    next = recordWorldEvent(next, {
+      stableKey: `${measure.stableKey}:executive-not-presented`,
+      type: "legislation.executive-not-presented",
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: measure.jurisdictionId,
+      involvedEntityIds: [measure.id],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["legislation.executive-not-presented", `pack:${pack.packId}`],
+      summary: `${measure.designation} was not presented to the ${pack.executive.titleLabel} under this profile.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
     const effectiveFromPassage =
-      reading.procedure.effectivePublication?.includes(
+      reading?.procedure.effectivePublication?.includes(
         "from the date of its passage",
       ) === true;
     next = recordEnactment(next, {
@@ -823,10 +835,13 @@ function afterFinalPassage(
     // Every enactment passes through the one effects step, a council's too.
     return applyEnactedLawEffects(next, measure.id);
   }
+  // An unread rule does not permit enactment or an invented executive route.
+  if (presentment.kind !== "known" || presentment.value !== true) return next;
   next = presentMeasureToExecutive(next, {
     stableKey: `${measure.stableKey}:presented`,
     measureId: measure.id,
   });
+  if (!governmentKey || !government) return next;
   const actionWindow = executiveWindow(governmentKey);
   if (!actionWindow) return next;
   const dueAt =

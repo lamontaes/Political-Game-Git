@@ -1,0 +1,102 @@
+[
+  {
+    "seed": "minority-member-filing",
+    "place": "NM",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "personId": "person_06e1556259787786",
+    "personName": "Nikhil Murray",
+    "filingThreshold": 3,
+    "capZeroBills": 0,
+    "authoredLimit": 1,
+    "actualBillIds": [
+      "legislative-measure_37e53ce2b96af4fa"
+    ],
+    "repeatAndCanonicalReload": true,
+    "laterIntakeStillCapped": true,
+    "unreadBillIds": [
+      "legislative-measure_37e53ce2b96af4fa"
+    ],
+    "explanationEventId": "event_cd8f3fd69630512c",
+    "limits": "Controlled saved principles and authored cap input; no natural filing count or researched state limit inferred."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "AR",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "personId": "person_24456623e897bb51",
+    "personName": "Lydia Velazquez",
+    "filingThreshold": 3,
+    "capZeroBills": 0,
+    "authoredLimit": 1,
+    "actualBillIds": [
+      "legislative-measure_6d0e13e4db3f94d4"
+    ],
+    "repeatAndCanonicalReload": true,
+    "laterIntakeStillCapped": true,
+    "unreadBillIds": [
+      "legislative-measure_6d0e13e4db3f94d4"
+    ],
+    "explanationEventId": "event_05e95a41228803da",
+    "limits": "Controlled saved principles and authored cap input; no natural filing count or researched state limit inferred."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "VT",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "personId": "person_ce06f71d58b3cc5c",
+    "personName": "Skyler Dunn",
+    "filingThreshold": 3,
+    "capZeroBills": 0,
+    "authoredLimit": 1,
+    "actualBillIds": [
+      "legislative-measure_c2c45a56a7056bc4"
+    ],
+    "repeatAndCanonicalReload": true,
+    "laterIntakeStillCapped": true,
+    "unreadBillIds": [
+      "legislative-measure_c2c45a56a7056bc4"
+    ],
+    "explanationEventId": "event_7f9b425a622c991f",
+    "limits": "Controlled saved principles and authored cap input; no natural filing count or researched state limit inferred."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "OH",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "personId": "person_9a7712672df71e38",
+    "personName": "Quentin Wall",
+    "filingThreshold": 3,
+    "capZeroBills": 0,
+    "authoredLimit": 1,
+    "actualBillIds": [
+      "legislative-measure_a68ef8f2d90bb9b7"
+    ],
+    "repeatAndCanonicalReload": true,
+    "laterIntakeStillCapped": true,
+    "unreadBillIds": [
+      "legislative-measure_a68ef8f2d90bb9b7"
+    ],
+    "explanationEventId": "event_13fe65fea5ea55fb",
+    "limits": "Controlled saved principles and authored cap input; no natural filing count or researched state limit inferred."
+  },
+  {
+    "seed": "minority-member-filing",
+    "place": "ND",
+    "placeSelectionSeed": "team1-distinct-member-intakes",
+    "personId": "person_3cf5e9c855340ff0",
+    "personName": "Richard Sandoval",
+    "filingThreshold": 3,
+    "capZeroBills": 0,
+    "authoredLimit": 1,
+    "actualBillIds": [
+      "legislative-measure_03b10c9750406e3f"
+    ],
+    "repeatAndCanonicalReload": true,
+    "laterIntakeStillCapped": true,
+    "unreadBillIds": [
+      "legislative-measure_03b10c9750406e3f"
+    ],
+    "explanationEventId": "event_5a78cad7832fddf8",
+    "limits": "Controlled saved principles and authored cap input; no natural filing count or researched state limit inferred."
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "path": "src/player/CampaignWorkspace.tsx",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/presentation/campaign-office-discovery.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/presentation/campaign-projection.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/presentation/county-campaign-calendar.test.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/presentation/life-talk-running.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/simulation/candidacy.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/simulation/county-candidacy-connection.test.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/simulation/county-election-calendar.test.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/simulation/county-election-term-start.test.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/simulation/living-world/local-elections.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/simulation/nationwide-world/county-election-calendar.ts",
+    "exitCode": 0,
+    "output": ""
+  },
+  {
+    "path": "src/simulation/nationwide-world/local-governing-body-candidacy-packs.ts",
+    "exitCode": 0,
+    "output": ""
+  }
+]

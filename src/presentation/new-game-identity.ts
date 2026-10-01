@@ -35,7 +35,7 @@ import type {
   SetupAnswerRecord,
   SetupQuestionnairePath,
 } from "../simulation";
-import type { NewGameSetup } from "./new-game";
+import type { NewGameOtherParent, NewGameSetup } from "./new-game";
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
   LEGACY_APPEARANCE_RECIPE_VERSION,
@@ -231,6 +231,12 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    // The player's own fact about the other parent travels with the replay
+    // but stays out of the world half: the world's identity decides whether
+    // the question is asked, so it cannot depend on the answer.
+    ...(setup.otherParent === undefined
+      ? {}
+      : { otherParent: setup.otherParent }),
     ...(setup.questionnaireSelectionVersion === undefined
       ? {}
       : { questionnaireSelectionVersion: setup.questionnaireSelectionVersion }),
@@ -335,6 +341,10 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       record.startingLife !== "state-agency-director") ||
     (record.household !== "lives-alone" &&
       record.household !== "shares-a-home") ||
+    (record.otherParent !== undefined &&
+      record.otherParent !== "living" &&
+      record.otherParent !== "nonresident" &&
+      record.otherParent !== "deceased") ||
     (record.givenName !== null && typeof record.givenName !== "string") ||
     (record.familyName !== null && typeof record.familyName !== "string")
   ) {
@@ -519,6 +529,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     depth: record.depth,
     startingLife: record.startingLife,
     household: record.household,
+    ...(record.otherParent === undefined
+      ? {}
+      : { otherParent: record.otherParent as NewGameOtherParent }),
     givenName: record.givenName as string | null,
     familyName: record.familyName as string | null,
     ...(gender === undefined
