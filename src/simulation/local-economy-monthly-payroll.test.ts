@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
 import legacyMonthlyPoint from "./fixtures/a37-legacy-monthly-point.json";
+import legacyFirstMonthlyPoint from "./fixtures/a37-legacy-monthly-first.json";
 import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
@@ -16,7 +17,7 @@ import {
   settleTrackedBusinessPayroll,
 } from "./local-economy";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import { monthlyWorkPay } from "./monthly-work-pay";
+import { legacyMonthlyPayCoverage, monthlyWorkPay } from "./monthly-work-pay";
 import { createLightweightPerson, personName } from "./people";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import { recordedPayStubs } from "./resource-income";
@@ -40,6 +41,7 @@ function fixture(
   placeKey: string,
   nonbusiness = false,
   startingDate = "2026-01-16",
+  schedule = true,
 ) {
   const place = requireLifePlace(placeKey);
   const seed = `a37-monthly:${placeKey}`;
@@ -131,7 +133,13 @@ function fixture(
       openingBalance: money(balance, "USD"),
       provenance: authored,
     });
-  return { world: ensurePaydaySchedule(world), person, employer, work, flow };
+  return {
+    world: schedule ? ensurePaydaySchedule(world) : world,
+    person,
+    employer,
+    work,
+    flow,
+  };
 }
 
 // Read-only query controls. These snapshots do not stand in for clock/payment proof.
@@ -409,9 +417,9 @@ it("A37 month-end pay counts only actual active days before the job ended", () =
   );
   expect(settleBusinessMoney(paid, f.employer.id)).toBe(paid);
 });
-it("A37 preserves a legacy paid point date and begins the next interval the following day", async () => {
+it("A37 Ruling20 refuses the retained January20 historical point outside first-day coverage", async () => {
   const f = fixture("1150000");
-  let world = advanceWorld(f.world, 4, registry);
+  const world = advanceWorld(f.world, 4, registry);
   // Actual pre-change canonical-writer output, not a new off-payday transfer.
   expect(world.id).toBe(legacyMonthlyPoint.worldId);
   expect(f.flow.id).toBe(legacyMonthlyPoint.resourceFlowId);
@@ -424,42 +432,31 @@ it("A37 preserves a legacy paid point date and begins the next interval the foll
       byte.toString(16).padStart(2, "0"),
     ).join(""),
   ).toBe(legacyMonthlyPoint.baseHistorySha256);
-  world = deserializeWorld(
-    serializeWorld({
-      ...world,
-      history: {
-        ...world.history,
-        nextSequence: legacyMonthlyPoint.nextSequence,
-        resourceTransferOutcomes: [
-          ...world.history.resourceTransferOutcomes,
-          legacyMonthlyPoint.outcome as ResourceTransferOutcome,
-        ],
-      },
-    }),
-  );
-  const legacy = world.history.resourceTransferOutcomes.at(-1)!;
-  const paid = advanceWorld(world, 11, registry);
-  const outcomes = paid.history.resourceTransferOutcomes.filter(
-    (x) => x.resourceFlowId === f.flow.id,
-  );
-  expect(outcomes).toHaveLength(2);
-  expect(outcomes[0]).toEqual(legacy);
-  expect(outcomes[1]).toMatchObject({
-    periodStartsAt: "2026-01-21",
-    periodEndsAt: "2026-01-31",
-    occurredAt: "2026-01-31",
-    transferredAmount: money(Math.round((500000 * 11) / 31), "USD"),
-  });
+  const historical = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: legacyMonthlyPoint.nextSequence,
+      resourceTransferOutcomes: [
+        ...world.history.resourceTransferOutcomes,
+        legacyMonthlyPoint.outcome as ResourceTransferOutcome,
+      ],
+    },
+  };
+  const before = JSON.stringify(historical.history);
   expect(
-    paid.history.statutoryTaxLiabilities!.some(
-      (x) => x.sourceOutcomeId === legacy.id,
+    legacyMonthlyPayCoverage(
+      historical,
+      legacyMonthlyPoint.outcome.id as EntityId,
     ),
-  ).toBe(false);
-  expect(
-    serializeWorld(
-      settleTrackedBusinessPayroll(deserializeWorld(serializeWorld(paid))),
-    ),
-  ).toBe(serializeWorld(paid));
+  ).toBeNull();
+  expect(() => serializeWorld(historical)).toThrow(
+    "Monthly work pay requires its actual calendar-month end.",
+  );
+  expect(JSON.stringify(historical.history)).toBe(before);
+  expect(historical.history.resourceTransferOutcomes.at(-1)).toEqual(
+    legacyMonthlyPoint.outcome,
+  );
 });
 it("A37 retains actual revenue dates and records due revenue before the month's wage", () => {
   const f = fixture("1150000");
@@ -509,4 +506,73 @@ it("A37 retains actual revenue dates and records due revenue before the month's 
 it("A37 business payday hook leaves other monthly employers untouched", () => {
   const f = fixture("1150000", true);
   expect(settleTrackedBusinessPayroll(f.world)).toBe(f.world);
+});
+
+it("A37 Ruling20 preserves actual first-day historical payment and resumes on the first without losing a day", async () => {
+  const f = fixture("1150000", false, "2026-01-01", false);
+  let world = advanceWorld(
+    f.world,
+    31,
+    createFutureTransitionHandlerRegistry([]),
+  );
+  expect(world.id).toBe(legacyFirstMonthlyPoint.worldId);
+  expect(f.flow.id).toBe(legacyFirstMonthlyPoint.resourceFlowId);
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(JSON.stringify(world.history)),
+  );
+  expect(
+    Array.from(new Uint8Array(digest), (b) =>
+      b.toString(16).padStart(2, "0"),
+    ).join(""),
+  ).toBe(legacyFirstMonthlyPoint.baseHistorySha256);
+  world = deserializeWorld(
+    serializeWorld({
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: legacyFirstMonthlyPoint.nextSequence,
+        resourceTransferOutcomes: [
+          ...world.history.resourceTransferOutcomes,
+          legacyFirstMonthlyPoint.outcome as ResourceTransferOutcome,
+        ],
+      },
+    }),
+  );
+  const before = serializeWorld(world);
+  const legacy = world.history.resourceTransferOutcomes.at(-1)!;
+  const paid = advanceWorld(ensurePaydaySchedule(world), 27, registry);
+  const outcomes = paid.history.resourceTransferOutcomes.filter(
+    (x) => x.resourceFlowId === f.flow.id,
+  );
+  expect(outcomes).toHaveLength(2);
+  expect(outcomes[0]).toEqual(legacy);
+  expect(serializeWorld(world)).toBe(before);
+  expect(outcomes[1]).toMatchObject({
+    periodStartsAt: "2026-02-01",
+    periodEndsAt: "2026-02-28",
+    occurredAt: "2026-02-28",
+    transferredAmount: money(500000, "USD"),
+  });
+  expect(resourcePositionAt(paid, f.flow.source, "USD")!.liquidBalance).toEqual(
+    money(1000000, "USD"),
+  );
+  const stub = recordedPayStubs(paid, f.person.id).find(
+    (x) => x.paycheck.id === outcomes[1]!.id,
+  )!;
+  expect(stub.assessmentStatus).toBe("recorded");
+  expect(stub.withheld.minorUnits).toBeGreaterThan(0);
+  expect(stub.netPaid.minorUnits).toBe(
+    stub.paidGross.minorUnits - stub.withheld.minorUnits,
+  );
+  expect(
+    paid.history.statutoryTaxLiabilities!.some(
+      (x) => x.sourceOutcomeId === legacy.id,
+    ),
+  ).toBe(false);
+  expect(
+    serializeWorld(
+      settleTrackedBusinessPayroll(deserializeWorld(serializeWorld(paid))),
+    ),
+  ).toBe(serializeWorld(paid));
 });
