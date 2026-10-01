@@ -3,6 +3,7 @@ import {
   createCharacterHistoryContextPerson,
 } from "./character-history";
 import { YOUNGEST_AGE_AT_BIRTH } from "./birth-rates";
+import { appendChildhoodEntry } from "./childhood-record";
 import { ageOnDate, makeIsoDate } from "./dates";
 import {
   createChildAuthority,
@@ -301,6 +302,18 @@ export function recordFamilyAddition(
     },
   });
   const event = next.history.events.at(-1)!;
+  if (input.kind === "birth" && event.jurisdictionId) {
+    // The first line of the child's childhood record: where and when.
+    next = appendChildhoodEntry(next, {
+      kind: "birth",
+      stableKey: `${input.stableKey}:childhood:birth`,
+      personId: childId,
+      effectiveAt: child.birthDate,
+      sourceRecordId: event.id,
+      jurisdictionId: event.jurisdictionId,
+      birthDate: child.birthDate,
+    });
+  }
   const provenance: LifeRecordProvenance = {
     kind: "simulated-event",
     eventId: event.id,
