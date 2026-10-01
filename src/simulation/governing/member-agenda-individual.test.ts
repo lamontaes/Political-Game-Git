@@ -17,28 +17,81 @@ import { fileMemberAgendaBills } from "./member-agenda";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { principledLeaning } from "./officeholder-principles";
 import { MEMBER_AGENDA_LEVEL_SETTINGS } from "./member-agenda-settings";
+import { stateJurisdictionForKey } from "../life-places";
+import { legislativePackForJurisdiction } from "../legislative-institutions";
+import { seatedChamberForPack } from "./chamber-votes";
+import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
+import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
+import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { SeededRng, pickDistinct } from "../rng";
+import {
+  legislativeRulePackForWorld,
+  regularSessionRefusalText,
+} from "../legislative-procedure-world";
 
 const receipts: unknown[] = [];
+const statePlaces = pickDistinct(
+  new SeededRng("team1-distinct-member-intakes"),
+  US_STATE_USPS,
+  5,
+);
+const filingCases = [
+  { place: null, mode: "strong" },
+  { place: null, mode: "below-old-threshold" },
+  ...statePlaces.map((place) => ({ place, mode: "strong" })),
+] as const;
 
 describe("individual member agendas", () => {
-  it.each(["strong", "below-old-threshold"] as const)(
-    "lets an actual minority member file without majority agreement: %s",
-    (mode) => {
+  it.each(filingCases)(
+    "lets an actual minority member file distinct bills without majority agreement: $place / $mode",
+    ({ place, mode }) => {
       const demo = createDemoWorld("minority-member-filing");
+      // Fresh controlled fixture dates only: no local clock/year advancement.
+      // State cases start in 2027; the saved regular-session gate is asserted below.
+      const filingYear = place ? 2027 : 2026;
       let world = createWorld({
         seed: demo.seed,
-        currentDate: makeIsoDate("2026-02-01"),
+        currentDate: makeIsoDate(`${filingYear}-02-01`),
         people: demo.personOrder.map((id) => demo.people[id]!),
-        jurisdictions: demo.jurisdictionOrder.map(
-          (id) => demo.jurisdictions[id]!,
-        ),
+        jurisdictions: [
+          ...demo.jurisdictionOrder.map((id) => demo.jurisdictions[id]!),
+          ...(place ? [stateJurisdictionForKey(`US-${place}`)!] : []),
+        ],
         policyCatalog: createProductionPolicyCatalog(),
       });
       world = ensureLivingWorldOpening(
         ensureNationalElectionJurisdiction(world),
         world.personOrder[0]!,
       );
-      const members = seatedCongressChamber(world, "house")!.body.members;
+      const jurisdictionId = place
+        ? stateJurisdictionForKey(`US-${place}`)!.id
+        : NATIONAL_ELECTION_JURISDICTION.id;
+      const pack = legislativePackForJurisdiction(jurisdictionId)!;
+      const chamberKey = pack.chamberOrder[0]!;
+      if (place) {
+        world = ensureWorldStartingConditions(world, {
+          openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+          political: generatePoliticalStartingConditions,
+        });
+        world = ensureStateLegislatureOpening(
+          world,
+          world.personOrder[0]!,
+          place,
+        );
+      }
+      const members = place
+        ? seatedChamberForPack(
+            world,
+            pack.packId,
+            chamberKey,
+            pack.chambers[0]!.name,
+          )!.body.members
+        : seatedCongressChamber(world, "house")!.body.members;
+      const settings = place
+        ? MEMBER_AGENDA_LEVEL_SETTINGS.state
+        : MEMBER_AGENDA_LEVEL_SETTINGS.federal;
       const majorityIds = new Set(
         agendaCaucus(members).map((member) => member.personId),
       );
@@ -115,14 +168,26 @@ describe("individual member agendas", () => {
           ),
         ).toBeLessThan(3);
       }
+      expect(
+        regularSessionRefusalText(
+          legislativeRulePackForWorld(world, pack.packId),
+          world.currentDate,
+        ),
+      ).toBeNull();
       const input = {
-        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-        chamberKey: "house",
+        jurisdictionId,
+        chamberKey,
         intakeKey: "minority-filing",
       };
       const next = fileMemberAgendaBills(world, input);
       const bills = next.history.legislativeMeasures ?? [];
-      expect(bills.length).toBeGreaterThan(0);
+      expect(bills.length).toBeGreaterThan(1);
+      expect(new Set(bills.map((bill) => bill.stableKey)).size).toBe(
+        bills.length,
+      );
+      expect(new Set(bills.flatMap((bill) => bill.propositionIds!)).size).toBe(
+        bills.length,
+      );
       for (const bill of bills) {
         expect(bill.sponsorPersonId).toBe(minority.personId);
         expect(majorityIds.has(bill.sponsorPersonId)).toBe(false);
@@ -131,13 +196,12 @@ describe("individual member agendas", () => {
           principledLeaning(world, minority.personId!, answer.propositionId)
             .score,
         );
-        if (mode === "strong") expect(score).toBeGreaterThanOrEqual(3);
-        else {
-          expect(score).toBeGreaterThanOrEqual(
-            MEMBER_AGENDA_LEVEL_SETTINGS.federal.filingThreshold,
-          );
-          expect(score).toBeLessThan(3);
-        }
+        expect(score).toBeGreaterThanOrEqual(settings.filingThreshold);
+        // Preserve the original strong-case check on the leading proposal; the new
+        // distinct proposals also include scores admitted by the calibrated gate.
+        if (mode === "strong" && bill === bills[0])
+          expect(score).toBeGreaterThanOrEqual(3);
+        if (mode === "below-old-threshold") expect(score).toBeLessThan(3);
       }
       const reloaded = deserializeWorld(serializeWorld(next));
       expect(fileMemberAgendaBills(reloaded, input)).toBe(reloaded);
@@ -153,12 +217,16 @@ describe("individual member agendas", () => {
       ).toEqual(bills);
       receipts.push({
         seed: world.seed,
+        place: place ?? "US Congress",
+        placeSelectionSeed: "team1-distinct-member-intakes",
+        jurisdictionId,
+        chamberKey,
         mode,
         personId: minority.personId,
         personName: personName(world.people[minority.personId!]!),
         partyKey: minority.partyKey,
         minority: true,
-        filingThreshold: MEMBER_AGENDA_LEVEL_SETTINGS.federal.filingThreshold,
+        filingThreshold: settings.filingThreshold,
         bills: bills.map((bill) => ({
           id: bill.id,
           designation: bill.designation,

@@ -583,12 +583,17 @@ export function fileMemberAgendaBills(
         )
           return [];
         let best: Proposal | null = null;
-        const councilProposals: Proposal[] = [];
+        const supportedProposals: Proposal[] = [];
         for (const propositionId of questions) {
           if (!questionOpen(propositionId)) continue;
           const leaning = leaningFor(sponsor.personId!, propositionId);
           if (Math.abs(leaning.score) < settings.filingThreshold) continue;
-          if (!input.council && best && Math.abs(leaning.score) <= best.weight)
+          if (
+            !input.council &&
+            !settings.multipleProposals &&
+            best &&
+            Math.abs(leaning.score) <= best.weight
+          )
             continue;
           if (!laws.has(propositionId))
             laws.set(
@@ -741,11 +746,16 @@ export function fileMemberAgendaBills(
             issueKey,
             subjectClass,
           };
-          if (input.council) councilProposals.push(best);
+          if (input.council || settings.multipleProposals)
+            supportedProposals.push(best);
         }
-        return (input.council ? councilProposals : best ? [best] : []).map(
-          (proposal) => ({ sponsor, proposal, pressure: proposal.weight }),
-        );
+        return (
+          input.council || settings.multipleProposals
+            ? supportedProposals
+            : best
+              ? [best]
+              : []
+        ).map((proposal) => ({ sponsor, proposal, pressure: proposal.weight }));
       },
     );
     const claimedMembers = new Set<EntityId>();
@@ -759,7 +769,8 @@ export function fileMemberAgendaBills(
           )
           .filter(({ sponsor, proposal }) => {
             if (
-              claimedMembers.has(sponsor.personId!) ||
+              (!settings.multipleProposals &&
+                claimedMembers.has(sponsor.personId!)) ||
               claimedQuestions.has(proposal.propositionId)
             )
               return false;
@@ -786,11 +797,13 @@ export function fileMemberAgendaBills(
     for (const selected of selections) {
       const sponsor = selected.sponsor;
       const best = selected.proposal;
+      // Earlier chambers can have filed this question during the same intake.
+      if (!questionOpen(best.propositionId)) continue;
       const proposition = next.policyCatalog.propositions[best.propositionId]!;
       let stableKey = settings.municipalAgenda
         ? `${batchKey}:${sponsor.personId}:${encodeURIComponent(proposition.stableKey)}`
         : settings.actTitles
-          ? `${settings.intakeVersion}:${best.issueKey}${intakeSuffix}`
+          ? `${settings.intakeVersion}:${best.issueKey}${settings.multipleProposals ? ":" + encodeURIComponent(proposition.stableKey) : ""}${intakeSuffix}`
           : (next.history.legislativeMeasures ?? []).some(
                 (m) => m.stableKey === batchKey,
               )
