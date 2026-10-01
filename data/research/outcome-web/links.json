@@ -368,7 +368,7 @@
       },
       "aboutZero": false,
       "researchActivationLimit": "Cause law.stand-your-ground has no recorded runtime reader. This coefficient is sized, not a claim of activation. Repeal and transport beyond the study require review before enabling a reader.",
-      "notes": "Unsupported until a law is recorded: no shipped policy question covers stand-your-ground, so the cause has no reader; firearm homicide also has no starting level, because CDC WONDER's state rates cannot be pulled through its API."
+      "notes": "Unsupported until a law is recorded: no shipped policy question covers stand-your-ground, so the cause law.stand-your-ground has no reader; firearm homicide is kept, so this acts once one exists."
     },
     {
       "key": "min-age-to-youth-gun-suicide",
@@ -2569,8 +2569,7 @@
       "evidence": "provisional",
       "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
       "to": "crime.firearm-homicide",
-      "range": [-0.11, -0.045],
-      "notes": "Waiting on a base: state firearm homicide rates come only from CDC WONDER's web form, whose API refuses state groupings, so the outcome has no starting level."
+      "range": [-0.11, -0.045]
     },
     {
       "key": "voter-id-to-registration",
