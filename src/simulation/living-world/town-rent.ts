@@ -1149,6 +1149,36 @@ function chooseLeaseholder(
   )[0]!.id;
 }
 
+/** Existing ownership mixture spread across the actual home roster, not rolled.
+ * The owner's verified A56 contract retains these existing representative shares.
+ */
+function landlordKindsByHome(
+  world: World,
+  dueOn: IsoDate,
+): Map<EntityId, LandlordKind> {
+  const rosters = new Map<EntityId, Map<TownHomeKind, EntityId[]>>();
+  for (const home of world.history.dwellings) {
+    if (home.establishedAt > dueOn) continue;
+    const town =
+      rosters.get(home.jurisdictionId) ?? new Map<TownHomeKind, EntityId[]>();
+    const kind = homeKindOf(home.classification);
+    const homes = town.get(kind) ?? [];
+    homes.push(home.id);
+    town.set(kind, homes);
+    rosters.set(home.jurisdictionId, town);
+  }
+  const kinds = new Map<EntityId, LandlordKind>();
+  for (const town of rosters.values())
+    for (const [kind, homes] of town)
+      homes.forEach((id, index) => {
+        kinds.set(
+          id,
+          pick(LANDLORD_SHARES[kind], (index + 0.5) / homes.length),
+        );
+      });
+  return kinds;
+}
+
 /** Writes a lease for every rented town home that has none. */
 export function startTownLeases(world: World, dueOn: IsoDate): World {
   const h = world.history;
@@ -2769,3 +2799,4 @@ export function townRentSnapshot(
     unknown,
   };
 }
+

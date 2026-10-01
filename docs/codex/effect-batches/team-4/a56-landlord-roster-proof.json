@@ -1,0 +1,121 @@
+{
+  "status": "bounded candidate; A56 partial",
+  "localFailedFixtureHead": "15be7aaf67711cf001800a226d84230ff0c1da3a",
+  "sourceBlob": "4fda7316163562e557c6c80e7c2e8fa63fe5acb4",
+  "receipts": [
+    {
+      "placeKey": "4055000",
+      "seed": "team4-a56-landlord-roster-20261001:4055000",
+      "tenant": "Garrett Mullen",
+      "personId": "person_28722b8464187875",
+      "dwellingId": "dwelling_a7874f090d5a5a80",
+      "tenureId": "housing-tenure_43b9dd3802a303d6",
+      "flowId": "resource-flow_987d69064b2714f1",
+      "obligationId": "resource-obligation_a2280787b45db19d",
+      "landlord": {
+        "kind": "person",
+        "personId": "person_03f29f4862dee6db"
+      },
+      "leaseCount": 32,
+      "recordedOwner": "Ray Mullen",
+      "recordedOwnerId": "person_dce27b796a366612",
+      "recordedOrganizationId": "organization_fb1add476867c55d"
+    },
+    {
+      "placeKey": "3651000",
+      "seed": "team4-a56-landlord-roster-20261001:3651000",
+      "tenant": "Nina Garza",
+      "personId": "person_3988d9db98fc0f50",
+      "dwellingId": "dwelling_6d11bb32fbc18eb9",
+      "tenureId": "housing-tenure_a2434d2d8112f4c3",
+      "flowId": "resource-flow_66f9c1f0d4bbf706",
+      "obligationId": "resource-obligation_6adf0d2622b966ea",
+      "landlord": {
+        "kind": "person",
+        "personId": "person_4af94a9d27cd7903"
+      },
+      "leaseCount": 24,
+      "recordedOwner": "Brittany Wagner",
+      "recordedOwnerId": "person_b0ba550345d48ff4",
+      "recordedOrganizationId": "organization_8986ed1c96fee4e3"
+    },
+    {
+      "placeKey": "4459000",
+      "seed": "team4-a56-landlord-roster-20261001:4459000",
+      "tenant": "Tristan Barnes",
+      "personId": "person_f971c1040858aeee",
+      "dwellingId": "dwelling_58db5e32b3c355ea",
+      "tenureId": "housing-tenure_c0006e86403d50b8",
+      "flowId": "resource-flow_a7cfc9f4a9ae4f41",
+      "obligationId": "resource-obligation_e58018211c2b7abd",
+      "landlord": {
+        "kind": "person",
+        "personId": "person_12414ef42cbf977e"
+      },
+      "leaseCount": 26,
+      "recordedOwner": "Margaret Barnes",
+      "recordedOwnerId": "person_1d1fbd73f71cef6f",
+      "recordedOrganizationId": "organization_30c0cceafd37bd1a"
+    },
+    {
+      "placeKey": "5182000",
+      "seed": "team4-a56-landlord-roster-20261001:5182000",
+      "tenant": "Ivan Hendricks",
+      "personId": "person_3032cfacc5fd64cd",
+      "dwellingId": "dwelling_9af3c91638dce34b",
+      "tenureId": "housing-tenure_d1137acb18b26b09",
+      "flowId": "resource-flow_b462e2c987906a20",
+      "obligationId": "resource-obligation_a90e0687b5b56894",
+      "landlord": {
+        "kind": "person",
+        "personId": "person_0860c8ce8909d64f"
+      },
+      "leaseCount": 29,
+      "recordedOwner": "Robert Hendricks",
+      "recordedOwnerId": "person_d0c3e24edb11abaa",
+      "recordedOrganizationId": "organization_d163385a617d6b11"
+    },
+    {
+      "placeKey": "0820000",
+      "seed": "team4-a56-landlord-roster-20261001:0820000",
+      "tenant": "Linda Frazier",
+      "personId": "person_b3ca5a3b2bf18c47",
+      "dwellingId": "dwelling_1421080defd63faa",
+      "tenureId": "housing-tenure_966d802e6d6af59c",
+      "flowId": "resource-flow_6d67f7350da7386e",
+      "obligationId": "resource-obligation_9264f7bd89f41602",
+      "landlord": {
+        "kind": "person",
+        "personId": "person_1c61b8d065e6d24a"
+      },
+      "leaseCount": 31,
+      "recordedOwner": "Emerson Owen",
+      "recordedOwnerId": "person_65a16260842d2187",
+      "recordedOrganizationId": "organization_a36c4a324395a0b2"
+    }
+  ],
+  "checks": {
+    "correctedRoster": "5/5 PASS, 40.40 seconds",
+    "priorSourceOnePlace": "1 FAIL, 4 excluded, 17.68 seconds; landlord recipients differ when former landlord fork changes",
+    "initialInvalidSeedFixture": "5 FAIL, 29.53 seconds; strict world-ID/seed guard, fixture preserved",
+    "savedLeaseAnniversary": "5/5 PASS, 56.65 seconds",
+    "strictTypes": "2 roots, 0 diagnostics"
+  },
+  "runtimeComposition": {
+    "foundationReader": "2c5cf28db1c4048eea89033cb6262064fa83e3ae",
+    "crisisParentBlob": "7a764ede3ba48cfb2c0c9c63564447b8f460e631",
+    "nativeCurrentMain": false
+  },
+  "missing": [
+    "Canonical household-owner recipient",
+    "Canonical co-owner recipient",
+    "Natural due-clock/year proof",
+    "All 56 populated jurisdiction proof"
+  ],
+  "logs": {
+    "team4-a56-roster-fixed.log": "d387f00166bc41f3babfca147f49414ff76326cab392e0cf6b2bad7afdb83b36",
+    "team4-a56-roster-before.log": "effa02f961140a31b47d336dea4f3517ffa00670fbccee662273ee429fea1968",
+    "team4-a56-roster.log": "4b95ac0b619379e3f1a9f61eb887c37183010b9c7a3e9e7fc2f2780a04e5bc36",
+    "team4-a56-anniversary.log": "06f4cc26cf2378b9290ed1ec6bdeebdbbb5f9127aa5f09d4b2eb2c19075feb62"
+  }
+}
