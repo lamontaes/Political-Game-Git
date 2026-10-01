@@ -1,3 +1,39 @@
+## October 1, 6:09 a.m. rebuild checkpoint
+
+The rebuild is incomplete. The foundation's dated wage data is repaired, but a completed-shift caller still needs restoration and runtime proof. Privacy and payroll pieces are published for review. Coordination now uses [00d](https://docs.google.com/document/d/1RxVEUcyebasz0-6C0zyHv40d4LwrB2PJXzji17saVdk/edit).
+
+### MERGED
+
+Observed main remains 493621af. No additional merge is claimed by this checkpoint. Only the authorized Merge session may merge approved heads.
+
+### CONNECTIONS TABLE
+
+| Owner | Published output | Consumer or outstanding proof |
+| --- | --- | --- |
+| Coordinator | Foundation #1309 7f8e4880, draft WIP | Exact main shift caller restored. Ten-case proof: five cadence failures and five invalid-evidence passes. Audit supplies contract; Team 3 owns writer repair. |
+| Team 1 | Budget #1512 69d38271, draft | Saved national budget run and threshold calibration; no budget-passage claim from filing counts. |
+| Team 2 | Vote #1513 49d5243f, ready | State roster contract with Audit; independent A97 compliance build resumed. |
+| Team 3 | City #1516 3623fa6f; weekly caller #1524 3d6ebbb0, ready | Stack includes #1462, #1519 and #1521. Exact main shift survivor must be retained. |
+| Team 4 | Opening #1520 8777bd47, draft | Depends on #1500. Reported five natural openings; saved pay flow is not completed cash. |
+| Standby Team 5 | Clinical #1515 bb73e52e, ready | New head needs K4 re-review; clinical eligibility/weights need CTO decision. |
+| Team 6 | Privacy #1523 41aaeaed, ready | Consumes research #1518; reported 22 tests. Next: twelve inherited budget failures, exact receipt requested from Audit. |
+| Team 7 | County source #1508 3136c590, draft | Actual seat, residence and voter binding contract awaits core admission; no county filing enabled. |
+| Team 8 | Subject response #1505 3e463689, draft | Player adapter published; NPC consideration contract remains separate. |
+| Team 9 | Clemency #1506 2ca5596f, ready | CT renewal failed at awaiting-executive before wage/legal assertion; Audit supplies existing fixture contract. |
+| Audit | Completion #1480 8bef6550; SQLite #1511 53b470a6, drafts | Reported focused proof retained. Exclusive speed window not granted while other owners' simulations run. |
+
+### BLOCKED
+
+Foundation is explicitly draft. Forty-five dated-term cases passed on f694946f, but the newer composition has no runtime pass. Typechecking alone did not prove shift routing: the old caller remained despite preserved test files. The exact main caller is now published in failing WIP 7f8e4880. All five completed payments reach the shared writer and fail pay.cadence.recorded-pay-period; all five invalid-evidence refusals pass. Tests and limits are unchanged. The existing payroll owner receives this defect; no second writer or skipped law application is admitted.
+
+County core ownership is proposed to CTO, not granted. A61 lacks raw bank records. Team 6's budget-failure receipt and Team 2's state-body contract are with Audit. Existing local four-year processes prevent an exclusive speed claim; none was stopped.
+
+### EFFECTS
+
+No all-law, all-place, full-clock or final-main completion total is claimed. Privacy fixtures establish controlled one-time book entries, not natural qualifying firms. Clinical provider and household-support inferences were flagged and are under repair. Source research does not create a voter's residence or registration.
+
+Actions API observed 1,691 queued runs. Twelve active heads matched already-merged PRs; normal cancellation requests were accepted for those exact runs only. Three remained active at the last check, so completion was not inferred from acceptance. Main baselines and current open-PR runs were preserved. Both existing automations now target 00d with their schedules unchanged.
+
 ## October 1, 5:34 a.m. opening dependency cleared
 
 The A58 adult opening transfer is closed. Team 4 received the exact source and protected boundaries recorded in claims.md. It can now connect the actual employer producer before hiring and run its prepared opening test. No runtime result is claimed yet. The earlier 5:30 pending-release row is superseded by this receipt.
