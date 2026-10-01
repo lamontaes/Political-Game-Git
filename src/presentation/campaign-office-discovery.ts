@@ -8,7 +8,10 @@ import {
   personName,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { campaignElectionDate } from "./campaign-projection";
+import {
+  availableCampaignElectionDate,
+  countyCandidacyUnavailableReason,
+} from "./campaign-projection";
 import { proseDate } from "./prose-dates";
 
 /** Read-only established alternatives, not a national office/calendar engine. */
@@ -46,6 +49,15 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         ),
       );
       const own = campaign?.officeKey === option.officeKey;
+      const electionDate =
+        upcoming[0]?.electionDate ??
+        availableCampaignElectionDate(
+          world,
+          person.homeJurisdictionId,
+          option.officeKey,
+        );
+
+      const countyRefusal = countyCandidacyUnavailableReason(option.officeKey);
       return {
         officeKey: option.officeKey,
         title: option.office.title,
@@ -55,20 +67,23 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
             ? "Local government"
             : "State government",
         provider: option.recordedBy.packName,
-        eligible: eligibility.eligible,
-        eligibility: eligibility.eligible
-          ? "You can run for this office."
-          : eligibility.blocks.map((block) => block.reason).join(" "),
+        eligible:
+          eligibility.eligible &&
+          electionDate !== null &&
+          countyRefusal === null,
+        eligibility:
+          countyRefusal ??
+          (electionDate === null
+            ? "The county election calendar has not been read."
+            : eligibility.eligible
+              ? "You can run for this office."
+              : eligibility.blocks.map((block) => block.reason).join(" ")),
         // The contest already on the record, else the office's own calendar:
         // the same date a filing today would stand in.
-        timing: `The next election is ${proseDate(
-          upcoming[0]?.electionDate ??
-            campaignElectionDate(
-              world,
-              person.homeJurisdictionId,
-              option.officeKey,
-            ),
-        )}.`,
+        electionDate,
+        timing: electionDate
+          ? `The next election is ${proseDate(electionDate)}.`
+          : "The next election date is not known.",
         connections: [
           ...(own ? ["Your recorded campaign is for this office."] : []),
           ...[...new Set(contacts)].map(

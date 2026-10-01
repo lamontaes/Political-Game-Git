@@ -1,3 +1,4 @@
+import { placeLocalGovernmentUnits } from "./nationwide-world/local-governments";
 import {
   candidacyPackById,
   stateCandidacyPack,
@@ -30,7 +31,6 @@ import {
   localGoverningBodyIdentityForOfficeKey,
 } from "./nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
-import { governmentUnitsForPlace } from "./government-units";
 import { municipalSeatChoices } from "./municipal-seat-identity";
 import { stateResidenceSince } from "./nationwide-world/residence-duration";
 import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
@@ -101,10 +101,8 @@ export function localGoverningBodiesForJurisdiction(
   jurisdictionId: EntityId,
 ): readonly LocalGoverningBodyIdentity[] {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
-  if (!place || place.scope !== "locality" || !place.sourceGeoid) return [];
-  return governmentUnitsForPlace(place.sourceGeoid).flatMap(
-    localElectedOffices,
-  );
+  const units = placeLocalGovernmentUnits(place);
+  return [...units.municipal, ...units.counties].flatMap(localElectedOffices);
 }
 
 /**
