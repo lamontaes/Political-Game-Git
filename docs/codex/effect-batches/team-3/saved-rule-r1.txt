@@ -1,0 +1,53 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/pay-city.test.ts > A38 saved state wage rule reaches scheduled actual payroll
+SAVED_RULE_SCHEDULED_PAY {
+  person: 'Parker Clark',
+  measureId: 'legislative-measure_9f8ac43d3f0ca4c6',
+  provisionId: 'rule-change-provision_6e9b144b049ff668',
+  field: 'labor.minimumWage.hourlyCents',
+  statutoryHourlyMinor: 1800,
+  actualGrossMinor: 60000,
+  termsKind: 'pay'
+}
+
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload
+ × src/simulation/law-consequences/pay-city.test.ts > A38 saved state wage rule reaches scheduled actual payroll 302ms
+   → expected 60000 to be 72000 // Object.is equality
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A38 actual job-market week retains the governing city law on terms and pay
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 amountless city ordinance refuses a fabricated numeric wage
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A38 scheduled town payday preserves the city law's canonical pay terms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/pay-city.test.ts > A38 saved state wage rule reaches scheduled actual payroll
+AssertionError: expected 60000 to be 72000 // Object.is equality
+
+- Expected
++ Received
+
+- 72000
++ 60000
+
+ ❯ src/simulation/law-consequences/pay-city.test.ts:445:42
+    443|       null,
+    444|   });
+    445|   expect(stubs[0]!.paidGross.minorUnits).toBe(72_000);
+       |                                          ^
+    446|   expect(stubs[0]!.paycheck.lawEffectStamps?.at(-1)?.effectKind).toBe(…
+    447|   expect(stubs[0]!.paycheck.lawEffectStamps?.at(-1)?.governingLawKey).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  10:07:58
+   Duration  19.92s (transform 15.14s, setup 26ms, import 19.48s, tests 304ms, environment 0ms)
+
