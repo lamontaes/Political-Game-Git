@@ -79,6 +79,8 @@ export interface LawConsequenceContext {
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
   subjectIds: EntityId[];
+  /** Opening applies only law already in force; activities may resolve either origin. */
+  origin?: LawInForce["origin"];
   governingLawId?: EntityId;
   questionKey?: string;
 }

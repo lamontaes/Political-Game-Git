@@ -1,0 +1,40 @@
+diff --git a/src/simulation/types.ts b/src/simulation/types.ts
+--- a/src/simulation/types.ts
++++ b/src/simulation/types.ts
+@@ -1,3 +1,4 @@
++import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
+ import type { LawAmountUnit, LawConsequenceRow } from "./law-consequence-types";
+ import type {
+   LawEffectStamp,
+@@ -4314,6 +4315,7 @@
+ }
+ 
+ export interface HistoryStore {
++  readonly workPayCoverageDeterminations?: readonly WorkPayCoverageDeterminationRecord[];
+   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
+   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
+   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
+diff --git a/src/simulation/world.ts b/src/simulation/world.ts
+--- a/src/simulation/world.ts
++++ b/src/simulation/world.ts
+@@ -1,3 +1,4 @@
++import { assertWorkPayCoverageIntegrity } from "./pay-coverage";
+ import { applyDateBoundary } from "./time-work";
+ import { assertWorldContentPacks } from "./runtime-content-packs";
+ import {
+@@ -2088,6 +2089,7 @@
+         ...enactedDutyRecords(world),
+         ...lawPermissionRecords(world),
+         ...(history.legalOutcomeConsequences ?? []),
++        ...(history.workPayCoverageDeterminations ?? []),
+         ...(history.districtResidenceIntervals ?? []),
+         ...(history.officeWorkflowPreferences ?? []),
+         ...(history.officeStaffPositions ?? []),
+@@ -2280,6 +2282,7 @@
+   assertOfficialViewIntegrity(world, ids);
+   assertLawPermissionIntegrity(world, ids);
+   assertLegalOutcomeConsequenceIntegrity(world);
++  assertWorkPayCoverageIntegrity(world);
+   for (const interval of history.districtResidenceIntervals ?? []) {
+     assertUniqueId(ids, interval.id);
+     if (!world.people[interval.personId]) {

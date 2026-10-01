@@ -567,7 +567,9 @@
         "note": "Its rule was not read in days after a session, so its session end was not read either.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-04-09"],
+            "dates": [
+              "2026-04-09"
+            ],
             "sourceUrl": "https://www.legislature.state.al.us/",
             "quote": "2026 Regular Session adjourned on April 9th, 2026",
             "readAt": "2026-09-29"
@@ -602,7 +604,9 @@
         "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-04-29"],
+            "dates": [
+              "2026-04-29"
+            ],
             "sourceUrl": "https://www.arkleg.state.ar.us/",
             "quote": "The Fiscal Session of the 95th General Assembly convened on Wednesday, April 8, 2026 and adjourned sine die on Wednesday, April 29, 2026.",
             "readAt": "2026-09-29"
@@ -661,7 +665,9 @@
         "note": "Sets only the opening day; no limit on length (2025 ran 169 days).",
         "adjourned": {
           "2026": {
-            "dates": ["2026-06-13"],
+            "dates": [
+              "2026-06-13"
+            ],
             "sourceUrl": "https://www.azleg.gov/alispdfs/57leg/2R/House/SummaryComplete.pdf",
             "quote": "Adjourned Sine Die: June 13, 2026",
             "readAt": "2026-09-29"
@@ -702,7 +708,9 @@
         "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-03-13"],
+            "dates": [
+              "2026-03-13"
+            ],
             "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2026/2026-sj-bound-vII.pdf",
             "quote": "On motion by Senator Passidomo, the Senate adjourned sine die at 3:14 p.m.",
             "readAt": "2026-09-29"
@@ -714,7 +722,9 @@
         "note": "Its rule was not read in days after a session, so its session end was not read either.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-05-08"],
+            "dates": [
+              "2026-05-08"
+            ],
             "sourceUrl": "https://www.capitol.hawaii.gov/sessions/session2026/OrderOfTheDay/SOD_05-08-26_.HTM",
             "quote": "INFORMING THE HOUSE AND GOVERNOR THAT THE SENATE IS READY TO ADJOURN SINE DIE.",
             "readAt": "2026-09-29"
@@ -728,7 +738,9 @@
         "note": "Sets only the opening day; no limit on length was found.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-04-02"],
+            "dates": [
+              "2026-04-02"
+            ],
             "sourceUrl": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/sinedie.pdf",
             "quote": "adjourned Sine Die on April 02, 2026",
             "readAt": "2026-09-29"
@@ -740,7 +752,9 @@
         "note": "Its rule was not read in days after a session, so its session end was not read either.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-04-10"],
+            "dates": [
+              "2026-04-10"
+            ],
             "sourceUrl": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year2/ready_for_publication/journal/daily_journal_house_20260410135117.pdf",
             "quote": "The Legislature having adjourned sine die on April 10, 2026",
             "readAt": "2026-09-29"
@@ -771,7 +785,9 @@
         "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-04-15"],
+            "dates": [
+              "2026-04-15"
+            ],
             "sourceUrl": "https://apps.legislature.ky.gov/record/26rs/record.html",
             "quote": "Adjourned Wednesday, April 15, 2026, Sine Die.",
             "readAt": "2026-09-29"
@@ -804,7 +820,9 @@
         "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-04-29"],
+            "dates": [
+              "2026-04-29"
+            ],
             "sourceUrl": "https://legislature.maine.gov/house/",
             "quote": "The Second Regular Session of the 132nd Legislature adjourned SINE DIE on Wednesday, April 29, 2026 at 8:32 PM.",
             "readAt": "2026-09-29"
@@ -853,7 +871,9 @@
         "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2).",
         "adjourned": {
           "2026": {
-            "dates": ["2026-04-17"],
+            "dates": [
+              "2026-04-17"
+            ],
             "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Journal/r2day60.pdf",
             "quote": "Senator Hansen moved that the One Hundred Ninth Legislature, Second Session, 2026 Session of the Nebraska Legislature, having finished all business before it, now at 2:57 p.m., adjourn sine die.",
             "readAt": "2026-09-29"
@@ -888,7 +908,9 @@
         "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22).",
         "adjourned": {
           "2026": {
-            "dates": ["2026-02-19"],
+            "dates": [
+              "2026-02-19"
+            ],
             "sourceUrl": "https://www.nmlegis.gov/Publications/Session_Dates.pdf",
             "quote": "2026 ... February 19 Session ends (noon)",
             "readAt": "2026-09-29"
@@ -921,7 +943,9 @@
         "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-05-14"],
+            "dates": [
+              "2026-05-14"
+            ],
             "sourceUrl": "https://oksenate.gov/sites/default/files/2026-08/sj20260514.pdf",
             "quote": "Pursuant to the Howard declaration, the Senate adjourned sine die at 4:15 p.m.",
             "readAt": "2026-09-29"
@@ -975,7 +999,9 @@
         "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7).",
         "adjourned": {
           "2026": {
-            "dates": ["2026-03-06"],
+            "dates": [
+              "2026-03-06"
+            ],
             "sourceUrl": "https://le.utah.gov/",
             "quote": "2026 General Session January 20, 2026 to March 6, 2026",
             "readAt": "2026-09-29"
@@ -1010,7 +1036,9 @@
         "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12).",
         "adjourned": {
           "2026": {
-            "dates": ["2026-03-12"],
+            "dates": [
+              "2026-03-12"
+            ],
             "sourceUrl": "https://leg.wa.gov/",
             "quote": "The 2026 Regular Session adjourned sine die on March 12",
             "readAt": "2026-09-29"
@@ -1024,7 +1052,9 @@
         "note": "The limit is 40 legislative working days a year, which are not calendar days.",
         "adjourned": {
           "2026": {
-            "dates": ["2026-03-11"],
+            "dates": [
+              "2026-03-11"
+            ],
             "sourceUrl": "https://wyoleg.gov/MediaRoomDocs/2026%20End%20of%20Session%20Release_03.11.26.pdf",
             "quote": "The Wyoming Legislature concluded the 2026 Budget Session and adjourned sine die on Wednesday at the State Capitol in Cheyenne",
             "readAt": "2026-09-29"
@@ -2720,12 +2750,73 @@
         }
       }
     },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "source": "https://www.dol.gov/agencies/whd/minimum-wage/faq",
+      "note": "Federal statutory floor; stronger applicable state and local wage floors remain independently applicable.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "lawTerms": [
+            {
+              "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "key": "floor",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/faq",
+          "cite": "29 U.S.C. 206(a)(1)(C); Fair Minimum Wage Act of 2007",
+          "note": "Standard federal floor for covered nonexempt work. The categorical answer remains no because this question asks about raising the floor above the existing federal standard. Coverage and statutory exceptions require actual work facts; stronger applicable state or local floors remain in force."
+        }
+      }
+    },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
       "source": "data/research/money/minimum-wage-2026.json (U.S. Department of Labor, July 1, 2026): yes where the state's basic rate is above the federal $7.25.",
       "note": "",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://labor.alaska.gov/news/2025/news25-11.htm",
+          "cite": "Alaska Ballot Measure 1 (2024); Alaska Department of Labor release 25-11, June 11, 2025",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1300,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-AL": {
           "answer": "no"
@@ -2740,34 +2831,313 @@
           "note": "American Samoa has no territorial minimum wage; its industry rates are set by federal law and stay below $7.25 (for example $6.20 for retail since September 30, 2024) until they reach the federal rate."
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.azica.gov/news/2026-minimum-wage-increase-effective-january-1-2026",
+          "note": "Source-stated standard hourly rate. The Industrial Commission of Arizona site refused automated reading (403); the date is the official notice's own title as listed by search, and the amount is the DOL state table's 'Basic Minimum Rate (per hour): $15.15' (updated July 1, 2026). A.R.S. 23-363(B): 'The minimum wage shall be increased on January 1, 2021 and on January 1 of successive years, by the increase in the cost of living.' Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1515,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1550,
+              "unit": "minor/hour"
+            }
+          ],
+          "source": "https://www.dir.ca.gov/iwc/MW-2026.pdf",
+          "cite": "California Industrial Welfare Commission, General Minimum Wage Order MW-2026; Labor Code section 1182.12",
+          "note": "Standard statewide hourly floor. Higher industry and local floors and statutory exclusions require actual saved scope facts; this row does not determine them. No meals or lodging credit without the required actual agreement.",
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2024-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1600,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2025-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1650,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1690,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://dir.ca.gov/DIRNews/2026/2026-66.html",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1740,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-CO": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://cdle.colorado.gov/sites/cdle/files/adopted_2026_temporary_pay_calc_order_7_ccr_1103-14_12.12.2025.pdf",
+          "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1516,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://portal.ct.gov/dol/divisions/wage-and-workplace-standards",
+          "note": "Connecticut DOL identifies $16.94 effective January 1, 2026. Later announced phase is separately dated; earlier numeric terms remain unread.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1694,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://portal.ct.gov/governor/news/press-releases/2026/08-2026/governor-lamont-announces-minimum-wage-will-increase",
+              "note": "Official August 5, 2026 notice announces $17.48 effective January 1, 2027. No later adjustment is inferred.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1748,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://does.dc.gov/page/dc-worker-labor-and-anti-discrimination-rights",
+          "cite": "District of Columbia Department of Employment Services; July 1, 2025 minimum wage notice",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1795,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard total hourly floor. Tipped cash wage and tip-credit settlement are distinct; these terms do not establish worker coverage or recorded tips.",
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2026%20Minimum%20Wage%20Increase%20Notice.pdf",
+              "cite": "District of Columbia Department of Employment Services; July 1, 2026 minimum wage increase notice",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1840,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-01-01",
+          "source": "https://industrialaffairs.delaware.gov/en-us/knowledgebase-employee/what-is-the-current-minimum-wage-in-delaware",
+          "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-FL": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-09-30",
+          "source": "https://www.floridajobs.org/docs/default-source/business-growth-and-partnerships/for-employers/posters-and-required-notices/2025-minimum-wage/2025-minimum-wage-announcement.pdf",
+          "note": "Source-stated standard hourly rate. Florida Department of Commerce history table: '2025 $7.25 $14.00 $1.00 9/30/2025 – 9/29/2026'. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1400,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-09-30",
+              "source": "https://floridajobs.org/florida-minimum-wage",
+              "note": "Source-stated standard hourly rate. From September 2027 the rate is adjusted for inflation, taking effect the following January 1. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-GA": {
           "answer": "no"
         },
         "US-GU": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2021-09-01",
+          "source": "https://dol.guam.gov/compliance/whd/frequently-asked-questions/",
+          "note": "Source-stated standard hourly rate. Bill No. 4-38 (COR) to raise it had a hearing on January 14, 2026; no enacted change was found. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 925,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-HI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2018-01-01",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1010,
+              "unit": "minor/hour"
+            }
+          ],
+          "source": "https://labor.hawaii.gov/wsd/minimum-wage/",
+          "cite": "Hawaii Department of Labor and Industrial Relations, Wage Standards Division, Minimum Wage and Overtime; HRS 387-2",
+          "note": "Standard total hourly floor. Conditional tip credit is separate and requires actual saved eligibility and tip records; no tip credit is inferred by this row.",
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2022-10-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1200,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2024-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1600,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1800,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-IA": {
           "answer": "no"
@@ -2791,22 +3161,139 @@
           "answer": "no"
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "note": "Known in force on this source snapshot date; not a claim about the original enactment date. Still in force at the game's opening: a later row or the current state page shows the same rate. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gle&section=3-413&enactments=false",
+          "note": "Source-stated standard hourly rate. Md. Code, Labor and Employment 3-413; the small-employer rate also reached $15.00 on January 1, 2024. County minimums (Montgomery, Howard, Prince George's) are local law, not state tiers. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-ME": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.maine.gov/labor/news_events/article.shtml?id=13338762",
+          "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1510,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.michigan.gov/leo/bureaus-agencies/ber/wage-and-hour/min-wage",
+          "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1373,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.michigan.gov/leo/bureaus-agencies/ber/wage-and-hour/min-wage",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.dli.mn.gov/business/employment-practices/minimum-wage-minnesota",
+          "note": "Source-stated standard hourly rate. One rate for all employers; the separate large and small employer rates ended in 2024. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1141,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.dli.mn.gov/business/employment-practices/minimum-wage-minnesota",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1187,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.mo.gov/news/press-releases/minimum-wage-increases-1500-hour-2026",
+          "cite": "Missouri Department of Labor, November 3, 2025; HB 567 (2025)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard statutory hourly floor effective January 1, 2026. HB 567 ends annual CPI adjustment and includes previously exempt public employers. This numeric term does not itself establish worker coverage, exemptions or tipped cash obligations.",
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-MP": {
           "answer": "no"
@@ -2824,19 +3311,131 @@
           "answer": "no"
         },
         "US-NE": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+          "note": "Source-stated standard hourly rate. NDOL press release: 'Nebraska’s Minimum Wage Increases to $15 Effective January 1, 2026'. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1526,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1553,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2029-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1580,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2030-01-01",
+              "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1608,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-NH": {
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "cite": "New Jersey Department of Labor, October 1, 2025; N.J. Const. art. I, paragraph 23 and N.J.A.C. 12:56-3.1(c)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1592,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard rate for most employees. Saved-fact categories require distinct applicable terms: small or seasonal employer 1523 minor/hour, agricultural worker 1420, long-term-care direct-care staff 1892; tipped cash rate 605 with maximum tip credit 987 and required total-floor reconciliation. This standard term does not select a category or establish tips."
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "source": "https://www.dws.nm.gov/Minimum-Wage-Information",
+          "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1200,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-NV": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "source": "https://labor.nv.gov/",
+          "note": "Source-stated standard hourly rate. Ballot Question 2 (2022) ended the two-tier system. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1200,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-NY": {
           "answer": "yes"
@@ -2854,16 +3453,74 @@
           "answer": "no"
         },
         "US-PR": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-07-01",
+          "source": "https://bvirtualogp.pr.gov/ogp/bvirtual/leyesreferencia/pdf/47-2021.pdf",
+          "note": "Source-stated standard hourly rate. Ley 47-2021 (Ley de Salario Mínimo de Puerto Rico), official compilation. The quote continues 'a menos que la Comisión Evaluadora de Salario Mínimo emita un decreto mandatorio variando el mismo'; no later decree was found. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1050,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-12/28-12-3.htm",
+          "note": "Source-stated standard hourly rate. R.I. Gen. Laws 28-12-3; dlt.ri.gov refused automated reading (403). Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1600,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-12/28-12-3.htm",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1700,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-SC": {
           "answer": "no"
         },
         "US-SD": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://dlr.sd.gov/employment_laws/minimum_wage.aspx",
+          "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1185,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-TN": {
           "answer": "no"
@@ -2875,16 +3532,162 @@
           "answer": "no"
         },
         "US-VA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://doli.virginia.gov/2025/07/29/virginia-minimum-wage-rate-increasing-effective-january-1-2026/",
+          "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1277,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://www.governor.virginia.gov/newsroom/news-releases/2026/april-releases/name-1116004-en.html",
+              "note": "Source-stated standard hourly rate. SB1 and HB1 (2026), signed in April 2026. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1375,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://www.governor.virginia.gov/newsroom/news-releases/2026/april-releases/name-1116004-en.html",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-VI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2024-01-01",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+          "note": "Known in force on this source snapshot date; not a claim about the original enactment date. Act No. 9069 raised it 'from $10.50 per hour to $12.00 per hour, effective April 24, 2026'. Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1050,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-04-24",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "note": "Source-stated standard hourly rate. Act No. 9069; V.I. Code title 24, ch. 1, sec. 4(a). Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1200,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-06-01",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "note": "Source-stated standard hourly rate. Act No. 9069; V.I. Code title 24, ch. 1, sec. 4(a). Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-06-01",
+              "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+              "note": "Source-stated standard hourly rate. Act No. 9069; V.I. Code title 24, ch. 1, sec. 4(a). Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.vermont.gov/rights-and-wages",
+          "cite": "Vermont Department of Labor minimum wage information; effective January 1, 2026",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1442,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          }
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://lawfilesext.leg.wa.gov/law/wsrpdf/2025/20/25-20-097.pdf",
+          "cite": "Washington State Register WSR 25-20-097; effective January 1, 2026",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1713,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/",
+              "note": "Source-stated standard hourly rate.  Worker coverage, higher local or industry floors and tip credits still require their actual scope records.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1773,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-WI": {
           "answer": "no"
@@ -16908,7 +17711,9 @@
         },
         "US-IA": {
           "answer": "no",
-          "grounds": ["sexual-orientation"],
+          "grounds": [
+            "sexual-orientation"
+          ],
           "note": "Sexual orientation only: Iowa's 2025 SF 418 took gender identity out of the Iowa Civil Rights Act from 7/1/2025."
         },
         "US-ID": {
@@ -17034,7 +17839,9 @@
         },
         "US-WI": {
           "answer": "no",
-          "grounds": ["sexual-orientation"],
+          "grounds": [
+            "sexual-orientation"
+          ],
           "note": "Sexual orientation only, in employment and housing; gender identity is not listed."
         },
         "US-WV": {
