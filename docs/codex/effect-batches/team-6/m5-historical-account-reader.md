@@ -71,10 +71,12 @@ historical success, current refusal and canonical reload without changing
 saved bytes. This is authored query proof, not nationwide settlement proof.
 The executed source is 235839379399d1a4df2e51dfca600144919dae8f.
 Scoped TypeScript checked three roots and loaded 732 source files with zero
-owned diagnostics. Lint, formatting and diff checks passed. The earlier dice
-gate reported zero new findings and five stale inherited allowlist entries;
-that gate was not rerun for the released seam. No full suite, browser,
-campaign, account migration or tax-family admission was run.
+owned diagnostics. Lint, formatting, report, release and diff checks passed.
+The renewed dice gate reported zero new findings and five stale inherited
+allowlist entries (exit 1). Renewed spelling reported 19 inherited findings
+outside this endpoint's owned files (exit 1). Neither shared list was changed.
+No full suite, browser, campaign, account migration or tax-family admission
+was run.
 
 ## 7. Worked example
 
