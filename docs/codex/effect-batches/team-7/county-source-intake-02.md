@@ -32,6 +32,8 @@ Georgia adds the current 2026 handbook. Illinois adds readable official FTP term
 
 DeSoto adds eleven labels from the official member roster and a dated proposed redistricting notice. The linked proposal PDF could not be read. No adopted map, effective seat replacement, electorate or person-home join is admitted.
 
+Filed court PDFs read through a linked mirror show that Plan H is barred from future elections. The remedial schedule calls for a later adoption order; the September report remains a proposal. Its Frierson district label does not establish a player residence or electorate. The original parish PDF failure remains recorded; no byte identity with the mirror is assumed.
+
 ## Checks and limits
 
 The proof parses the JSON, preserves all 50 state keys and D.C., verifies prior claims unchanged and checks source fields. The first publication changed six records: Arkansas, Colorado, Illinois, Indiana, Iowa and New Mexico. The first renewal added Minnesota and Nebraska. The next added New Jersey, Kansas, Missouri and Minnesota candidate stages. This renewal adds Nevada, Virginia, Wisconsin and Oregon without changing prior claims. Simulation and private source packs are unchanged.

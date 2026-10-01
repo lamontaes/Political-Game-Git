@@ -124,5 +124,18 @@
     "productionProfilesAdmitted": 0,
     "validation": "Observed eleven roster labels and dated proposed redistricting notice; no adopted map or person-district join; PDF retrieval failure retained; no runtime changes",
     "matrixSha256": "f954b7c8c17c9bb9090f86b24f1f568f3fb4d66abcaa8d99c5d64a24eb63d57b"
+  },
+  "renewal10": {
+    "previousHead": "db7a95768d60a19c1590d1e4170b1bd8c56c042e",
+    "changedStates": ["LA"],
+    "counts": {
+      "partially-inspected": 49,
+      "unread": 0,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "Read filed primary court PDFs through provenance-bound mirror; old PlanH enjoined for future elections; proposed BGD2 not adopted; official docket renewal remains open; no runtime changes",
+    "matrixSha256": "7da870c488f359eef2a6012f963a9b8df72476ffbc247b6c90281457ab2e1344"
   }
 }

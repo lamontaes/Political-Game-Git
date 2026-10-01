@@ -733,6 +733,27 @@
           "section": "Proposed DeSoto Parish Redistricting; directHTML SHA256b8ff21ead7ba90498a026644544f83eb859ebfdabffb4e8fbc4f9029c7e1bbf1; homepage https://www.desotoppj.com/",
           "readOn": "2026-10-01",
           "status": "read"
+        },
+        "desotoEnactedPlanEnjoined": {
+          "value": "Filed consent order in5:23-cv-00669, document127, July2,2026 permanently enjoins defendants from using enacted Plan H(Revised) in future elections. It identifies single-member police-jury voting districts and requires a special master to recommend a remedial plan. A displayed old map/roster does not establish admissible future-election boundaries. Order read as filed primary text through third-party mirror; official docket authenticity renewal remains open.",
+          "url": "https://thearp.org/documents/20252/LA_523-cv-669_127.pdf",
+          "section": "Doc127pp1-2; SHA256edfa5d0d8c04f364080334937736a38f3dc366fccca6486b3eca1b87d6d98b72",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "desotoRemedialSchedule": {
+          "value": "Filed amended scheduling order143 datedSeptember14,2026 schedules proposed reportSeptember22, responsesOctober7, final report/proposed planOctober22, responsesNovember6 and court adoption order byDecember22. This schedule is not itself an adoption order or established effective map. Dates remain source-bound and require later docket renewal.",
+          "url": "https://thearp.org/documents/20447/LA_523-cv-669_143.pdf",
+          "section": "Doc143p1; SHA2565016cdc4ed0372dd0fca8e0cbc8bd598e5de6c08a8c8110775069aca9880c436",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "desotoProposedReportMirror": {
+          "value": "Filed special-master demographic report145 datedSeptember22,2026 has87pages and describes BGD2 remedial proposal with eleven districts. Proposed district9 is labeled Frierson CDP on report49-50; this is not a saved person-home join or adopted electorate. Original parish PDF retrieval failed; separately linked filed report mirror read successfully. No byte identity with unavailable parish file or final court adoption inferred.",
+          "url": "https://thearp.org/documents/20459/LA_523-cv-669_145.pdf",
+          "section": "Doc145pp1,6,49-50; SHA256defdf5259dcf90fe0e88b7481261bfc4c3aef6659e8c7fd0154fffa601245741",
+          "readOn": "2026-10-01",
+          "status": "read"
         }
       },
       "openFields": [
