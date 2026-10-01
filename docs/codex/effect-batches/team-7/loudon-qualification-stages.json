@@ -53,6 +53,24 @@
       "sha256": null,
       "currentLawCertification": false
     },
+    "newerMembershipCodeSnapshot": {
+      "url": "https://www.capitol.tn.gov/Archives/Joint/publications/TNCodeBills/2025/TNCodeBill_Volume1_2025.pdf",
+      "readOn": "2026-10-01",
+      "compilationDate": "2024-11-15",
+      "pdfPages1Based": [159, 160],
+      "section": "5-5-102(b), (c)(3), (e)-(h)",
+      "retrievalMode": "web-tool text at named pages",
+      "sha256": null,
+      "currentLawCertification": false,
+      "corroboratesCountyResidenceStage": true,
+      "sourceOnlyRules": [
+        "Four-year terms; regular August cycle from 1978; entry September 1 after election.",
+        "Separate multi-member seat designation is discretionary, with a Class 2 exception; a candidate cannot qualify for multiple designated offices in that district.",
+        "Municipal dual-service restriction requires population over 200000 and two-thirds county adoption; grandfathered April22,2024 incumbents may finish their terms."
+      ],
+      "localPopulationAndAdoptionBinding": null,
+      "worldTermOrCalendarAdmission": false
+    },
     "qualifyingCodeSnapshot": {
       "url": "https://capitol.tn.gov/Archives/Joint/publications/TNCodeBills/2026/TNCodeBill_Volume1_2026.pdf",
       "readOn": "2026-10-01",
