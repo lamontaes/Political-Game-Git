@@ -44,6 +44,7 @@ import { personName } from "../people";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { STATE_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { settleTownCompensations } from "../living-world/town-pay";
+import { settleJobPay } from "../job-market";
 import { TOWN_EMPLOYMENT_VERSION } from "../living-world/town-employment";
 import { LAW_CONSEQUENCE_REGISTRATIONS } from "../law-consequence-registry";
 import * as lawEffects from "../enacted-law-effects";
@@ -201,7 +202,11 @@ function enact(
   });
 }
 
-function fixture(target: number | null = 1500) {
+function fixture(
+  target: number | null = 1500,
+  cadenceKind:
+    "schedule:town-weekly" | "schedule:weekly" = "schedule:town-weekly",
+) {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -234,11 +239,14 @@ function fixture(target: number | null = 1500) {
   )!;
   expect(work).toBeDefined();
   world = createWorkCompensation(world, {
-    stableKey: `fixture:final-pay:${work.id}`,
+    stableKey:
+      cadenceKind === "schedule:weekly"
+        ? `job-pay:${work.id}`
+        : `fixture:final-pay:${work.id}`,
     workRelationshipId: work.id,
     startsAt: world.currentDate,
     amount: money(100, "USD"),
-    cadenceKind: "schedule:town-weekly",
+    cadenceKind,
     restrictionKind: null,
     jurisdictionId: null,
     provenance: {
@@ -262,117 +270,157 @@ function fixture(target: number | null = 1500) {
   };
 }
 
-it("passes a typed $15 Ohio law through actual prospective pay, named-law stub, repeal and immutable saved payment", () => {
-  const f = fixture();
-  const input = resolvePayConsequences(f.world, f.row, f.context)[0]!;
-  expect(input.value).toMatchObject({ value: 1500, unit: "minor/hour" });
-  expect(input.law.origin).toBe("enacted");
-  const raised = canonicalDispatch(f.world, f.context, registrations);
-  const terms = resourceFlowTermsAt(raised, f.flow.id)!;
-  expect(terms.amount.minorUnits).toBeGreaterThan(100);
-  expect(terms.lawEffectStamps![0]!.governingLawKey).toBe(input.law.measureId);
-  const employer = {
-    kind: "organization" as const,
-    organizationId: f.work.organizationId!,
-  };
-  let before = resourcePositionAt(raised, employer, terms.amount.currency)
-    ? raised
-    : createResourcePosition(raised, {
-        stableKey: `fixture:final-pay-cash:${f.work.organizationId}`,
-        owner: employer,
-        openedAt: raised.currentDate,
-        openingBalance: money(10_000_000, "USD"),
-        provenance: {
-          kind: "authored",
-          note: "Explicit employer cash control.",
-        },
-      });
-  const since = before.currentDate;
-  const payday = addDays(since, 6);
-  before = withWorldIntegrityDeferred(() => {
-    let next = before;
-    for (const due of before.history.futureDueItems) {
-      const state = before.history.futureDueItemStates
-        .filter((entry) => entry.dueItemId === due.id)
-        .at(-1);
-      if (state?.status === "scheduled" && due.dueAt < payday)
-        next = cancelFutureDueItem(next, {
-          stableKey: `fixture:final-pay-clock:${due.id}`,
-          dueItemId: due.id,
-          effectiveAt: since,
-          reasonKey: "fixture:focused-payroll",
-          context: "Controlled payroll context; no ordinary clock claim.",
-        });
-    }
-    return {
-      ...next,
-      currentDate: payday,
-      currentMoment: simulationMomentOnLocalDate(next.currentMoment, payday),
+it.each(["schedule:town-weekly", "schedule:weekly"] as const)(
+  "passes a typed Ohio wage law through %s prospective pay, named-law stub, repeal and immutable saved payment",
+  (cadenceKind) => {
+    const f = fixture(1500, cadenceKind);
+    const input = resolvePayConsequences(f.world, f.row, f.context)[0]!;
+    expect(input.value).toMatchObject({ value: 1500, unit: "minor/hour" });
+    expect(input.law.origin).toBe("enacted");
+    const raised = canonicalDispatch(f.world, f.context, registrations);
+    const terms = resourceFlowTermsAt(raised, f.flow.id)!;
+    expect(terms.amount.minorUnits).toBeGreaterThan(100);
+    expect(terms.lawEffectStamps![0]!.governingLawKey).toBe(
+      input.law.measureId,
+    );
+    const employer = {
+      kind: "organization" as const,
+      organizationId: f.work.organizationId!,
     };
-  });
-  vi.spyOn(lawEffects, "applyLawConsequences").mockImplementation(
-    (world, context) => canonicalDispatch(world, context, registrations),
-  );
-  const period = {
-    payFlowId: f.flow.id,
-    activityId: f.flow.id,
-    stableKey: `fixture:final-pay-period:${f.flow.id}`,
-    periodStartsAt: since,
-    periodEndsAt: payday,
-    onDate: payday,
-  };
-  const paid = settleTownCompensations(before, [period]);
-  const stub = recordedPayStubs(paid, f.work.personId)[0]!;
-  expect(stub.paidGross).toEqual(terms.amount);
-  const enactedMeasure = paid.history.legislativeMeasures!.find(
-    (entry) => entry.id === input.law.measureId,
-  )!;
-  expect(enactedMeasure.designation.length).toBeGreaterThan(0);
-  expect(
-    stub.laws.some(
-      (entry) =>
-        entry.stamp.governingLawKey === input.law.measureId &&
-        entry.designation === enactedMeasure.designation,
-    ),
-  ).toBe(true);
-  expect(settleTownCompensations(paid, [period])).toBe(paid);
-  expect(
-    serializeWorld(
-      settleTownCompensations(deserializeWorld(serializeWorld(before)), [
-        period,
-      ]),
-    ),
-  ).toBe(serializeWorld(paid));
-  const repealed = enact(paid, 2, "no");
-  expect(
-    lawInForce(repealed, input.jurisdictionId, f.proposition.id)!.answer,
-  ).toBe("no");
-  expect(
-    resolvePayConsequences(repealed, f.row, {
-      ...f.context,
-      onDate: repealed.currentDate,
-    }),
-  ).toEqual([]);
-  expect(resourceFlowTermsAt(repealed, f.flow.id)).toEqual(
-    resourceFlowTermsAt(paid, f.flow.id),
-  );
-  expect(repealed.history.resourceTransferOutcomes).toEqual(
-    paid.history.resourceTransferOutcomes,
-  );
-  console.info(
-    JSON.stringify({
-      name: personName(paid.people[f.work.personId]!),
-      seed: paid.seed,
-      placeKey: "3918000",
-      law: input.law.measureId,
-      grossMinor: stub.paidGross.minorUnits,
-    }),
-  );
-}, 120_000);
+    let before = resourcePositionAt(raised, employer, terms.amount.currency)
+      ? raised
+      : createResourcePosition(raised, {
+          stableKey: `fixture:final-pay-cash:${f.work.organizationId}`,
+          owner: employer,
+          openedAt: raised.currentDate,
+          openingBalance: money(10_000_000, "USD"),
+          provenance: {
+            kind: "authored",
+            note: "Explicit employer cash control.",
+          },
+        });
+    const since = before.currentDate;
+    const payday = addDays(since, cadenceKind === "schedule:weekly" ? 7 : 6);
+    before = withWorldIntegrityDeferred(() => {
+      let next = before;
+      for (const due of before.history.futureDueItems) {
+        const state = before.history.futureDueItemStates
+          .filter((entry) => entry.dueItemId === due.id)
+          .at(-1);
+        if (state?.status === "scheduled" && due.dueAt < payday)
+          next = cancelFutureDueItem(next, {
+            stableKey: `fixture:final-pay-clock:${due.id}`,
+            dueItemId: due.id,
+            effectiveAt: since,
+            reasonKey: "fixture:focused-payroll",
+            context: "Controlled payroll context; no ordinary clock claim.",
+          });
+      }
+      return {
+        ...next,
+        currentDate: payday,
+        currentMoment: simulationMomentOnLocalDate(next.currentMoment, payday),
+      };
+    });
+    vi.spyOn(lawEffects, "applyLawConsequences").mockImplementation(
+      (world, context) => canonicalDispatch(world, context, registrations),
+    );
+    const period = {
+      payFlowId: f.flow.id,
+      activityId: f.flow.id,
+      stableKey: `fixture:final-pay-period:${f.flow.id}`,
+      periodStartsAt: since,
+      periodEndsAt: addDays(since, 6),
+      onDate: payday,
+    };
+    const settle = (world: World) =>
+      cadenceKind === "schedule:weekly"
+        ? settleJobPay(world, f.work.personId)
+        : settleTownCompensations(world, [period]);
+    const paid = settle(before);
+    const played = settle({
+      ...before,
+      control: { kind: "person", personId: f.work.personId },
+    });
+    expect(played.history).toEqual(paid.history);
+    const stub = recordedPayStubs(paid, f.work.personId).find(
+      (entry) => entry.paycheck.resourceFlowId === f.flow.id,
+    )!;
+    expect(stub.paidGross).toEqual(terms.amount);
+    expect(stub.assessmentStatus).toBe("recorded");
+    expect(
+      paid.history.statutoryTaxLiabilities!.some(
+        (entry) => entry.sourceOutcomeId === stub.paycheck.id,
+      ),
+    ).toBe(true);
+    expect(
+      resourcePositionAt(before, employer, terms.amount.currency)!.liquidBalance
+        .minorUnits -
+        resourcePositionAt(paid, employer, terms.amount.currency)!.liquidBalance
+          .minorUnits,
+    ).toBe(stub.paidGross.minorUnits);
+    const enactedMeasure = paid.history.legislativeMeasures!.find(
+      (entry) => entry.id === input.law.measureId,
+    )!;
+    expect(enactedMeasure.designation.length).toBeGreaterThan(0);
+    expect(
+      stub.laws.some(
+        (entry) =>
+          entry.stamp.governingLawKey === input.law.measureId &&
+          entry.designation === enactedMeasure.designation,
+      ),
+    ).toBe(true);
+    expect(settle(paid)).toBe(paid);
+    expect(
+      serializeWorld(settle(deserializeWorld(serializeWorld(before)))),
+    ).toBe(serializeWorld(paid));
+    const repealed = enact(paid, 2, "no");
+    expect(
+      lawInForce(repealed, input.jurisdictionId, f.proposition.id)!.answer,
+    ).toBe("no");
+    expect(
+      resolvePayConsequences(repealed, f.row, {
+        ...f.context,
+        onDate: repealed.currentDate,
+      }),
+    ).toEqual([]);
+    expect(resourceFlowTermsAt(repealed, f.flow.id)).toEqual(
+      resourceFlowTermsAt(paid, f.flow.id),
+    );
+    expect(repealed.history.resourceTransferOutcomes).toEqual(
+      paid.history.resourceTransferOutcomes,
+    );
+    console.info(
+      JSON.stringify({
+        name: personName(paid.people[f.work.personId]!),
+        seed: paid.seed,
+        placeKey: "3918000",
+        law: input.law.measureId,
+        grossMinor: stub.paidGross.minorUnits,
+      }),
+    );
+  },
+);
 
 it("refuses an enacted yes with no final adopted target instead of inventing a wage", () => {
   const f = fixture(null);
   expect(() => resolvePayConsequences(f.world, f.row, f.context)).toThrow(
     "Missing pay final enacted term 'target'",
   );
-}, 120_000);
+});
+
+it("keeps the job-market flow's original weekly boundary when applying a floor", () => {
+  const f = fixture(1500, "schedule:weekly");
+  const onDate = addDays(f.world.currentDate, 1);
+  const world = {
+    ...f.world,
+    currentDate: onDate,
+    currentMoment: simulationMomentOnLocalDate(f.world.currentMoment, onDate),
+  };
+  expect(() =>
+    canonicalDispatch(world, { ...f.context, onDate }, registrations),
+  ).toThrow("pay.period.starts-on-effective-date");
+  expect(world.history.resourceFlowTerms).toEqual(
+    f.world.history.resourceFlowTerms,
+  );
+});
