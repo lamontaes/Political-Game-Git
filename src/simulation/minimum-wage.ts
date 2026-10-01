@@ -1,3 +1,7 @@
+import {
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "./law-consequences/pay-rows";
 /**
  * The minimum wage in force where a job is, on a date.
  *
@@ -41,12 +45,10 @@ import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { EntityId, IsoDate, World } from "./types";
 
 /** The policy question a federal minimum wage raise answers. */
-export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
-  "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
+export { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "./law-consequences/pay-rows";
 
 /** The policy question a state minimum wage raise answers. */
-export const STATE_MINIMUM_WAGE_QUESTION_KEY =
-  "us-policy-positions:labor-workforce.raise-minimum-wage";
+export { STATE_MINIMUM_WAGE_QUESTION_KEY } from "./law-consequences/pay-rows";
 
 /**
  * ESTIMATED FROM AVERAGE (`state-minimum-wage-raise-term.json`, Department of

@@ -1,8 +1,6 @@
 ---
 id: pay-kind-registration
 impact: none
-section: Internal
-title: Resolve wage floors through the pay consequence kind
 ---
 
 Adds the pay-kind registration and federal/state minimum-wage row payloads for
