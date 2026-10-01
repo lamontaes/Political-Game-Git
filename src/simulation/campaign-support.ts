@@ -1,3 +1,12 @@
+import { campaigns, campaignState } from "./campaign-queries";
+import { electionContestStatus } from "./election-contests";
+import {
+  isAdversePublicStep,
+  priorAdverseFindings,
+  repeatOffenseMultiplier,
+  UNRESEARCHED_FINDING_EFFECTS,
+} from "./press/findings";
+import type { ProceedingStepRecord } from "./press/records";
 import {
   mostRecentWorldMetricStateAt,
   recordWorldMetricState,
@@ -7,6 +16,7 @@ import type {
   CampaignCandidateSupportScope,
   CampaignRecord,
   EntityId,
+  HistoricalEvent,
   World,
   WorldMetricStateRecord,
 } from "./types";
@@ -311,4 +321,40 @@ function writeSupport(
     stateIdByPerson[scope.candidatePersonId] = stateId;
   }
   return { world: next, stateIds, stateIdByPerson };
+}
+
+/** Applies a saved public adverse finding to active, pending contests through the sole support writer. */
+export function applyFindingSupportLoss(
+  world: World,
+  respondentId: EntityId,
+  step: ProceedingStepRecord,
+  event: HistoricalEvent,
+): World {
+  if (!isAdversePublicStep(step)) return world;
+  const outcome = step.outcome;
+  let next = world;
+  for (const campaign of campaigns(next)) {
+    if (
+      !campaign.candidateSupportScopes.some(
+        (scope) => scope.candidatePersonId === respondentId,
+      ) ||
+      campaign.candidateSupportScopes.length < 2 ||
+      campaignState(next, campaign.id).status !== "active" ||
+      electionContestStatus(next, campaign.contestId) !== "pending"
+    )
+      continue;
+    next = recordSupportLoss(next, campaign, {
+      stableKeyBase: `${step.stableKey}:finding-support:${campaign.id}:${respondentId}`,
+      loserPersonId: respondentId,
+      lossBasisPoints: Math.round(
+        UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *
+          repeatOffenseMultiplier(
+            priorAdverseFindings(next, respondentId, step).length,
+            "support-loss",
+          ),
+      ),
+      sourceEntityIds: [event.id],
+    }).world;
+  }
+  return next;
 }
