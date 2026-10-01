@@ -20,6 +20,7 @@ import {
   paydayHandler,
   townMinimumHourlyAt,
 } from "../../src/simulation/living-world/town-pay";
+import { ensureJurisdiction } from "../../src/simulation/national-election-geography";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { EntityId, IsoDate, World } from "../../src/simulation";
 
@@ -134,7 +135,15 @@ describe(
       expect(townMinimumHourlyAt(world, omaha, addDays(repealAt, -1))).toBe(
         during,
       );
-      expect(townMinimumHourlyAt(world, omaha, repealAt)).toBe(before);
+      // Repeal removes this ordinance; it does not reverse a later state phase.
+      const baselineAtRepeal = townMinimumHourlyAt(
+        { ...game, currentDate: repealAt },
+        omaha,
+        repealAt,
+      );
+      expect(townMinimumHourlyAt(world, omaha, repealAt)).toBe(
+        baselineAtRepeal,
+      );
     });
 
     it("raises the pay of every town job below it, and names the ordinance", () => {
@@ -150,15 +159,43 @@ describe(
         "Ordinance 1",
       );
       const world = runPaydays(enacted, opened, 120);
+      const cityMeasureId = enacted.history.legislativeMeasures!.at(-1)!.id;
       const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) =>
+            stamp.effectKind === "pay" &&
+            stamp.governingLawKey === cityMeasureId,
+        ),
       );
       const floor = townMinimumHourlyAt(world, omaha, world.currentDate)!;
       expect(raises.length).toBeGreaterThan(0);
-      for (const raise of raises)
-        expect(raise.reason).toBe(
-          `Ordinance 1 raised the city minimum wage to $${floor.toFixed(2)} an hour.`,
+      for (const raise of raises) {
+        const prior = world.history.resourceFlowTerms.find(
+          (terms) => terms.id === raise.supersedesTermsId,
+        )!;
+        expect(raise.amount.minorUnits).toBeGreaterThan(
+          prior.amount.minorUnits,
         );
+        expect(raise.lawEffectStamps).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              effectKind: "pay",
+              governingLawKey: cityMeasureId,
+              questionKey: CITY_WAGE,
+              source: "enacted",
+            }),
+          ]),
+        );
+        const payments = world.history.resourceTransferOutcomes.filter(
+          (payment) =>
+            payment.resourceFlowId === raise.resourceFlowId &&
+            payment.periodStartsAt >= raise.effectiveAt &&
+            payment.status === "completed",
+        );
+        expect(payments.length).toBeGreaterThan(0);
+        for (const payment of payments)
+          expect(payment.transferredAmount).toEqual(raise.amount);
+      }
       console.info(
         `Omaha ordinance: ${raises.length} town jobs raised to $${floor.toFixed(2)} an hour by ${world.currentDate}.`,
       );
@@ -169,8 +206,15 @@ describe(
       const lexington = town("lexington-fayette");
       const kentucky = stateJurisdictionForKey("US-KY")!.id;
       const effectiveAt = addDays(opened, 30);
+      const locatedGame = ensureJurisdiction(
+        ensureJurisdiction(
+          game,
+          lifePlaceByKey("lexington-fayette")!.context.jurisdiction,
+        ),
+        stateJurisdictionForKey("US-KY")!,
+      );
       const authoredOrdinance = lawOn(
-        game,
+        locatedGame,
         lexington,
         CITY_WAGE,
         "yes",

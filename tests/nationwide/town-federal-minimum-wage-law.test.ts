@@ -135,9 +135,14 @@ describe("the federal minimum wage is the floor everywhere", () => {
     ]);
     const nashville = lifePlaceByKey(NASHVILLE)!.context.jurisdiction.id;
     expect(minimumHourlyAt(world, nashville, opened)).toBe(7.25);
-    expect(minimumHourlyAt(world, nashville, addDays(effectiveAt, -1))).toBe(
-      7.25,
-    );
+    const lastDayBeforeLaw = addDays(effectiveAt, -1);
+    expect(
+      minimumHourlyAt(
+        { ...world, currentDate: lastDayBeforeLaw },
+        nashville,
+        lastDayBeforeLaw,
+      ),
+    ).toBe(7.25);
     expect(minimumHourlyAt(operative, nashville, effectiveAt)).toBe(
       ADOPTED_FLOOR_MINOR / 100,
     );
