@@ -16,7 +16,7 @@ import {
   enterLifePath,
   scheduleLifePathSession,
   applyLifePathSessionCompletion,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import {
@@ -92,7 +92,7 @@ describe.each(states)("saved paid-leave payment in %s", (stateKey) => {
         item.entityIds.includes(workId),
     )!;
     expect(due).toBeDefined();
-    const result = LIFE_PATHS2_HANDLERS.get(due.transitionKey)!(
+    const result = lifePaths2Handlers().get(due.transitionKey)!(
       {
         ...worked,
         currentDate: due.dueAt,

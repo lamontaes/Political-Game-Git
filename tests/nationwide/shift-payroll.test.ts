@@ -9,7 +9,7 @@ import {
   enterLifePath,
   scheduleLifePathSession,
   performLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "../../src/simulation/life-paths2";
 import {
   resourceFlowTermsAt,
@@ -83,7 +83,7 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
     const owner = { kind: "person" as const, personId };
     const cash = resourcePositionAt(base, owner, earned.amount.currency)!
       .liquidBalance.minorUnits;
-    const paid = advanceWorld(base, 1, LIFE_PATHS2_HANDLERS);
+    const paid = advanceWorld(base, 1, lifePaths2Handlers());
     const repriced = recordResourceFlowTerms(paid, {
       stableKey: `later-shift-terms:${flow.id}`,
       resourceFlowId: flow.id,
@@ -144,7 +144,7 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
         note: "Explicit recorded-contract control.",
       },
     });
-    const settle = LIFE_PATHS2_HANDLERS.get("life-paths2:pay")!;
+    const settle = lifePaths2Handlers().get("life-paths2:pay")!;
     const laterPaid = settle(laterContract, due).world;
     const npcPaid = settle(
       { ...laterContract, control: { kind: "observer" } },
@@ -195,15 +195,42 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
     const reopened = advanceWorld(
       deserializeWorld(serializeWorld(base)),
       1,
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
     );
     expect(serializeWorld(reopened)).toBe(serializeWorld(paid));
-    const repeated = advanceWorld(paid, 1, LIFE_PATHS2_HANDLERS);
-    expect(
-      repeated.history.resourceTransferOutcomes.filter(
-        (row) => row.resourceFlowId === flow.id,
-      ),
-    ).toHaveLength(1);
+    const repeated = advanceWorld(paid, 1, lifePaths2Handlers());
+    // Advancing another day can complete another actual shift. Idempotence
+    // belongs to each saved completion, not to all wages on a recurring flow.
+    const repeatedPayments = repeated.history.resourceTransferOutcomes.filter(
+      (row) => row.resourceFlowId === flow.id,
+    );
+    const originalPayments = repeatedPayments.filter(
+      (row) =>
+        row.provenance.kind === "simulated-event" &&
+        row.provenance.eventId === completion.id,
+    );
+    expect(originalPayments).toHaveLength(1);
+    expect(originalPayments[0]).toEqual(outcome);
+    const paidCompletionIds: string[] = [];
+    for (const payment of repeatedPayments) {
+      expect(payment.provenance.kind).toBe("simulated-event");
+      if (payment.provenance.kind !== "simulated-event")
+        throw new Error("Shift payment lost its completion event.");
+      const completionEventId = payment.provenance.eventId;
+      const actualWork = repeated.history.events.find(
+        (event) => event.id === completionEventId,
+      );
+      expect(actualWork).toMatchObject({
+        type: "life-paths2.work-session",
+        occurredAt: payment.periodStartsAt,
+      });
+      expect(actualWork!.involvedEntityIds).toEqual(
+        expect.arrayContaining([work.id, personId]),
+      );
+      expect(payment.periodEndsAt).toBe(actualWork!.occurredAt);
+      paidCompletionIds.push(actualWork!.id);
+    }
+    expect(new Set(paidCompletionIds).size).toBe(paidCompletionIds.length);
     const hash = createHash("sha256")
       .update(serializeWorld(paid))
       .digest("hex");

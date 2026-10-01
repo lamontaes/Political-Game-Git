@@ -41,6 +41,7 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandler,
+  FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
   World,
 } from "./types";
@@ -294,11 +295,16 @@ export function electedExecutiveTermTransitionHandler(
   };
 }
 
-export const EXECUTIVE_TERM_HANDLERS = createFutureTransitionHandlerRegistry([
-  [EXECUTIVE_TERM_END, executiveTermEndHandler],
-  [EXECUTIVE_ELECTED_TERM_ENTRY, electedExecutiveTermTransitionHandler],
-  [EXECUTIVE_ELECTED_TERM_EXPIRY, electedExecutiveTermTransitionHandler],
-]);
+let executiveTermHandlersCache: FutureTransitionHandlerRegistry | undefined;
+
+/** Built on first use, after every module has loaded, so no key is still undefined. */
+export function executiveTermHandlers(): FutureTransitionHandlerRegistry {
+  return (executiveTermHandlersCache ??= createFutureTransitionHandlerRegistry([
+    [EXECUTIVE_TERM_END, executiveTermEndHandler],
+    [EXECUTIVE_ELECTED_TERM_ENTRY, electedExecutiveTermTransitionHandler],
+    [EXECUTIVE_ELECTED_TERM_EXPIRY, electedExecutiveTermTransitionHandler],
+  ]));
+}
 
 function requireElectedExecutiveContest(world: World, contestId: EntityId) {
   const result = electionContestResult(world, contestId);

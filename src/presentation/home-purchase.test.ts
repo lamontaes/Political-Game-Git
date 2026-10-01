@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
 
 import {
   assertWorldIntegrity,
@@ -18,11 +20,10 @@ import {
   homePurchaseTerms,
   personOwnsHome,
 } from "../simulation/home-purchase";
-import {
-  macroConditionsAt,
-  macroMonthHistory,
-  macroScopeForJurisdiction,
-} from "../simulation/macro-economy/readers";
+import { homePriceLevel } from "../simulation/living-world/housing-market";
+import { ageOnDate } from "../simulation/dates";
+import { ensureMacroEconomyStarted } from "../simulation/macro-economy/producer";
+import { startValuesFromLatents } from "../simulation/macro-economy/kernel";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
 import type { EntityId, World } from "../simulation";
@@ -32,27 +33,46 @@ import { advanceWorld } from "../simulation/world";
 import { projectHomePurchase } from "./home-purchase-view";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
-import { openOrdinaryLife } from "./ordinary-life";
-import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 
 /**
  * Buying a home, asked for by the owner so that money has something to buy.
- * Played in Albuquerque so the proof does not lean on the Kentucky fixture.
+ * The buyer's place is drawn from all 56 jurisdictions. The shared builder
+ * records their household, while each case supplies only the money it needs.
  */
+const BUYER_SEED = "home-purchase-fixture-repair-20261001";
+const BUYER_PLACE = drawRandomPlace(BUYER_SEED);
+
+function buyerWorld(seed = BUYER_SEED): { world: World; personId: EntityId } {
+  const fixture = smallWorld({
+    place: BUYER_PLACE.key,
+    date: "2026-01-01",
+    seed,
+    household: true,
+  });
+  const adults = fixture.world.personOrder.filter(
+    (id) =>
+      ageOnDate(
+        fixture.world.people[id]!.birthDate,
+        fixture.world.currentDate,
+      ) >= 18,
+  );
+  const personId = adults.sort((a, b) =>
+    fixture.world.people[b]!.birthDate.localeCompare(
+      fixture.world.people[a]!.birthDate,
+    ),
+  )[0];
+  if (!personId) throw new Error("The fixture needs an adult buyer.");
+  return {
+    world: { ...fixture.world, control: { kind: "person", personId } },
+    personId,
+  };
+}
+
 function lifeWithSavings(savingsMinor: number): {
   world: World;
   personId: EntityId;
 } {
-  const created = createNewGameWorld({
-    ...DEFAULT_NEW_GAME_SETUP,
-    startAge: 35,
-    placeKey: "3502000",
-    questionnaire: "skipped",
-    priors: [],
-    seed: "home-purchase",
-  } as NewGameSetup);
-  const personId = created.playerPersonId;
-  const opened = openOrdinaryLife(created.world, personId);
+  const { world: opened, personId } = buyerWorld();
   return {
     world: createResourcePosition(opened, {
       stableKey: "test:opening-savings",
@@ -78,7 +98,7 @@ const balanceOf = (world: World, personId: EntityId) =>
     money(0, "USD").currency,
   )!.liquidBalance.minorUnits;
 
-describe("buying a home", () => {
+describe(`buying a home in ${BUYER_PLACE.displayName} (${BUYER_PLACE.key}), seed ${BUYER_SEED}`, () => {
   it("offers nothing to a child, even one with money", () => {
     const created = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -104,16 +124,7 @@ describe("buying a home", () => {
   });
 
   it("offers nothing when the game does not hold the person's money", () => {
-    const created = createNewGameWorld({
-      ...DEFAULT_NEW_GAME_SETUP,
-      startAge: 35,
-      placeKey: "3502000",
-      questionnaire: "skipped",
-      priors: [],
-      seed: "home-purchase",
-    } as NewGameSetup);
-    const personId = created.playerPersonId;
-    const opened = openOrdinaryLife(created.world, personId);
+    const { world: opened, personId } = buyerWorld();
     expect(projectHomePurchase(opened, personId)).toBeNull();
   });
 
@@ -220,9 +231,7 @@ describe("buying a home", () => {
     );
   });
 
-  // Years of play, enough for every payment. The town's businesses add 26 people and their
-  // jobs to every day of it: about 3.6 seconds without them and 5.1 with them
-  // on this machine, which is over the default 5-second limit.
+  // Years of ordinary play, enough for every payment and time after payoff.
   it("takes only what is left in the last month and then stops", () => {
     const { world, personId } = lifeWithSavings(100_000_000);
     const bought = buyHome(world, personId);
@@ -233,12 +242,12 @@ describe("buying a home", () => {
     const loan = terms.priceMinor - terms.downPaymentMinor;
     const fullPayments = Math.floor(loan / terms.monthlyPaymentMinor);
     const remainder = loan - fullPayments * terms.monthlyPaymentMinor;
-    // One stretch of play stopped at 189 monthly payments when given 8,000
-    // days (measured), so the remaining months take a second stretch.
-    const later = letAdultTimePass(
-      letAdultTimePass(bought.world, 5_200),
-      5_200,
-    );
+    // Ordinary play bounds the mortality frontiers handled by one request.
+    // Advance in monthly stretches so a long request cannot truncate the loan.
+    let later = bought.world;
+    for (let month = 0; month < fullPayments + 3; month += 1) {
+      later = letAdultTimePass(later, 31);
+    }
     assertWorldIntegrity(later);
     const mortgage = later.history.resourceFlows.find(
       (flow) => flow.basisKind === MORTGAGE_BASIS,
@@ -246,7 +255,24 @@ describe("buying a home", () => {
     const payments = later.history.resourceTransferOutcomes.filter(
       (outcome) => outcome.resourceFlowId === mortgage.id,
     );
-    expect(payments).toHaveLength(fullPayments + (remainder > 0 ? 1 : 0));
+    expect(
+      payments,
+      JSON.stringify({
+        started: world.currentDate,
+        ended: later.currentDate,
+        buyerAge: ageOnDate(
+          world.people[personId]!.birthDate,
+          world.currentDate,
+        ),
+        lastPayment: payments.at(-1)?.occurredAt,
+        deathEvents: later.history.events
+          .filter(
+            (event) =>
+              event.type.includes("death") || event.type.includes("died"),
+          )
+          .map((event) => event.summary),
+      }),
+    ).toHaveLength(fullPayments + (remainder > 0 ? 1 : 0));
     expect(payments.every((payment) => payment.status === "completed")).toBe(
       true,
     );
@@ -264,26 +290,18 @@ describe("buying a home", () => {
   }, 60_000);
 
   it("prices the house in the world's prices, not the first month's", () => {
-    // The opening route starts the world's own economy, as play does. Since
-    // every town household got a home at the opening (e60cd69ab), a seed can
-    // hand the player's household a house it already owns; this one rents.
-    const game = generateOpeningLife(
-      prepareOpeningLife({
-        ...DEFAULT_NEW_GAME_SETUP,
-        seed: "home-purchase-prices-b",
-        placeKey: "3502000",
-        startAge: 35,
-        questionnaire: "skipped" as const,
-      }),
-    ).game!;
+    const fixture = lifeWithSavings(10_000_000);
+    const latents = { cycle: 0, cost: 0, housing: 0, credit: 0 };
     const start = {
-      personId: game.playerPersonId,
-      world: createResourcePosition(game.world, {
-        stableKey: "test:opening-savings",
-        owner: { kind: "person", personId: game.playerPersonId },
-        openedAt: game.world.currentDate,
-        openingBalance: money(10_000_000, "USD"),
-        provenance: { kind: "authored", note: "Test savings." },
+      personId: fixture.personId,
+      world: ensureMacroEconomyStarted(fixture.world, {
+        contractVersion: "crunch46-macro-start/v1",
+        policyVersion: "crunch46-provisional-v1",
+        regime: "near-reference",
+        volatilityScale: 0,
+        latents,
+        initial: startValuesFromLatents("near-reference", latents),
+        effectiveDate: fixture.world.currentDate,
       }),
     };
     expect(projectHomePurchase(start.world, start.personId)?.kind).toBe(
@@ -301,21 +319,16 @@ describe("buying a home", () => {
       60,
       createCampaignElectionTransitionRegistry(),
     );
-    const now =
-      macroConditionsAt(
-        later,
-        macroScopeForJurisdiction(home),
-        later.currentDate,
-      ) ?? macroConditionsAt(later, "national", later.currentDate)!;
-    const first = macroMonthHistory(later, "national", later.currentDate)[0]!;
-    const factor = now.priceIndex / first.priceIndex;
+    const factor = homePriceLevel(later, home, later.currentDate);
     expect(factor).not.toBe(1);
     const terms = homePurchaseTerms(later, home);
     expect(terms.priceMinor).toBe(
       Math.round((openingPriceMinor * factor) / 100_000) * 100_000,
     );
     const shown = projectHomePurchase(later, start.personId);
-    expect(shown?.terms).toContain(
+    if (!shown || shown.kind === "owns")
+      throw new Error("Expected the buyer's home purchase quote.");
+    expect(shown.terms).toContain(
       `$${(terms.priceMinor / 100).toLocaleString("en-US")}`,
     );
   });

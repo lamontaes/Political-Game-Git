@@ -9,7 +9,6 @@ import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
 import {
   FAIRNESS_STATE_QUESTION,
   fairnessLawCovers,
-  UNCOVERED_PAY_SHARE,
 } from "../../src/simulation/fairness-pay-law";
 import { createStableId, stableHash } from "../../src/simulation/ids";
 import { createPartnership } from "../../src/simulation/life";
@@ -18,11 +17,13 @@ import {
   lifePlaceByKey,
   stateJurisdictionForKey,
 } from "../../src/simulation/life-places";
-import { minimumWageSettingAt } from "../../src/simulation/minimum-wage";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { personGender } from "../../src/simulation/person-identity";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
-import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import {
+  recordWorldEvent,
+  withWorldIntegrityDeferred,
+} from "../../src/simulation/world";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -30,14 +31,7 @@ import type {
   World,
 } from "../../src/simulation";
 
-/**
- * The player is hired under the same fairness-law rule as the town: a man
- * partnered with a man, hired where no law names sexual orientation, is paid
- * the job's pay over 1.027, never below the minimum wage for the hours. The
- * place is the first of the 56, in an order drawn from the seed, whose
- * starting law does not cover him; the same game is paid again with the
- * state's law turned to cover him.
- */
+/** Actual player shift offers are preserved across partnership and legal coverage. */
 
 const SEED = "fairness-law-player-pay";
 const PATH = "shop-assistant";
@@ -83,31 +77,64 @@ function covered(world: World, state: EntityId): World {
     propositionIds: [question],
     propositionAnswers: [{ propositionId: question, answer: "yes" }],
   };
+  const withMeasure: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence + 1,
+      legislativeMeasures: [
+        ...(world.history.legislativeMeasures ?? []),
+        measure,
+      ],
+    },
+  };
+  const withEvent = recordWorldEvent(withMeasure, {
+    stableKey: `${measure.stableKey}:fixture-enacted-event`,
+    type: "legislation.enacted",
+    occurredAt: on,
+    recordedAt: world.currentDate,
+    jurisdictionId: state,
+    involvedEntityIds: [measure.id, state],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["legislation"],
+    summary: "Authored fairness coverage contrast enacted.",
+    context: {
+      location: {
+        jurisdictionId: state,
+        label: world.jurisdictions[state]!.name,
+        setting: null,
+      },
+      socialContext:
+        "Explicit coverage contrast; no money term or employer offer is authored.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
   const enactment: LegislativeEnactmentRecord = {
     id: createStableId(
       "legislative-enactment",
       "test:fairness-player-pay:enactment",
     ),
     stableKey: "test:fairness-player-pay:enactment",
-    sequence: sequence + 1,
+    sequence: withEvent.history.nextSequence,
     measureId: measure.id,
     resolvedAt: on,
     outcome: "enacted",
     actDesignation: null,
     effectiveAt: on,
-    outcomeEventId: null,
+    outcomeEventId: withEvent.history.events.at(-1)!.id,
   };
   return {
-    ...world,
+    ...withEvent,
     history: {
-      ...world.history,
-      nextSequence: sequence + 2,
-      legislativeMeasures: [
-        ...(world.history.legislativeMeasures ?? []),
-        measure,
-      ],
+      ...withEvent.history,
+      nextSequence: withEvent.history.nextSequence + 1,
       legislativeEnactments: [
-        ...(world.history.legislativeEnactments ?? []),
+        ...(withEvent.history.legislativeEnactments ?? []),
         enactment,
       ],
     },
@@ -134,7 +161,7 @@ function shiftPay(world: World): { amount: number; note: string } {
 }
 
 describe("the player is hired under the fairness law's pay rule", () => {
-  it(`in the first uncovered place, in an order drawn from seed ${SEED}: a man partnered with a man takes a shift job 2.6% below its pay, and the full pay once a law covers him`, () => {
+  it(`in the first uncovered place, in an order drawn from seed ${SEED}: a male partnership does not create a pay cut with or without legal coverage`, () => {
     const order = [...onePlaceEach()].sort((a, b) =>
       stableHash(`${SEED}:${a}`).localeCompare(stableHash(`${SEED}:${b}`)),
     );
@@ -162,7 +189,6 @@ describe("the player is hired under the fairness law's pay rule", () => {
     const player =
       world!.control.kind === "person" ? world!.control.personId : null;
     expect(player).not.toBeNull();
-    const home = world!.people[player!]!.homeJurisdictionId!;
     const state = stateJurisdictionForKey(
       lifePlaceByKey(place)!.stateJurisdictionKey!,
     )!.id;
@@ -200,21 +226,14 @@ describe("the player is hired under the fairness law's pay rule", () => {
       shiftPay(covered(together, state)),
     );
     expect(withLaw.amount).toBe(single.amount);
-    const minimum =
-      minimumWageSettingAt(together, home, together.currentDate)?.hourlyMinor ??
-      725;
-    // The shop shift is four hours.
-    expect(without.amount).toBe(
-      Math.max(
-        Math.round(single.amount * UNCOVERED_PAY_SHARE),
-        Math.min(Math.round(minimum * 4), single.amount),
-      ),
+    expect(without.amount).toBe(single.amount);
+    expect(without.amount).toBe(withLaw.amount);
+    expect(without.note).not.toMatch(
+      /no fairness law covers him where he works/,
     );
-    expect(without.amount).toBeLessThan(withLaw.amount);
-    expect(without.note).toMatch(/no fairness law covers him where he works/);
     expect(withLaw.note).not.toMatch(/fairness law/);
     console.info(
-      `${lifePlaceByKey(place)!.displayName} (${place}, seed ${SEED}): the player's four-hour shift pays $${(without.amount / 100).toFixed(2)} uncovered, $${(withLaw.amount / 100).toFixed(2)} under a fairness law; single, $${(single.amount / 100).toFixed(2)} either way.`,
+      `${lifePlaceByKey(place)!.displayName} (${place}, seed ${SEED}): the player's four-hour shift pays $${(without.amount / 100).toFixed(2)} without coverage, $${(withLaw.amount / 100).toFixed(2)} under a fairness law; single, $${(single.amount / 100).toFixed(2)} either way.`,
     );
   });
 });
