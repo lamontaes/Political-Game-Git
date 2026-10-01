@@ -31,6 +31,7 @@ import {
   type LegislativeRulePack,
 } from "../legislature-rules";
 import { nextMeasureNumbering } from "../measure-numbering";
+import { memberFilingCap } from "./member-filing-caps";
 import {
   legislativeProcedureForPack,
   legislativeRulePackForWorld,
@@ -761,23 +762,11 @@ export function fileMemberAgendaBills(
     const claimedMembers = new Set<EntityId>();
     const claimedQuestions = new Set<EntityId>();
     const selections = settings.individualAgenda
-      ? [...proposals]
-          .sort(
-            (a, b) =>
-              b.pressure - a.pressure ||
-              members.indexOf(a.sponsor) - members.indexOf(b.sponsor),
-          )
-          .filter(({ sponsor, proposal }) => {
-            if (
-              (!settings.multipleProposals &&
-                claimedMembers.has(sponsor.personId!)) ||
-              claimedQuestions.has(proposal.propositionId)
-            )
-              return false;
-            claimedMembers.add(sponsor.personId!);
-            claimedQuestions.add(proposal.propositionId);
-            return true;
-          })
+      ? [...proposals].sort(
+          (a, b) =>
+            b.pressure - a.pressure ||
+            members.indexOf(a.sponsor) - members.indexOf(b.sponsor),
+        )
       : (() => {
           const selected = majorityAgendaChoice(
             members,
@@ -797,6 +786,12 @@ export function fileMemberAgendaBills(
     for (const selected of selections) {
       const sponsor = selected.sponsor;
       const best = selected.proposal;
+      if (
+        (!settings.multipleProposals &&
+          claimedMembers.has(sponsor.personId!)) ||
+        claimedQuestions.has(best.propositionId)
+      )
+        continue;
       // Earlier chambers can have filed this question during the same intake.
       if (!questionOpen(best.propositionId)) continue;
       const proposition = next.policyCatalog.propositions[best.propositionId]!;
@@ -816,6 +811,18 @@ export function fileMemberAgendaBills(
         originChamber: chamber,
         rulePackId: pack.packId,
       });
+      if (
+        !memberFilingCap(next.history.legislativeMeasures ?? [], {
+          place: pack.jurisdictionKey,
+          jurisdictionId: input.jurisdictionId,
+          chamberKey: chamber.chamberKey,
+          sponsorPersonId: sponsor.personId!,
+          subjectClass: best.draft?.subjectClass ?? best.subjectClass,
+          introducedAt: next.currentDate,
+          numberingSession: numbering.numberingSession,
+        }).allowed
+      )
+        continue;
       if (input.council) stableKey = input.council.measureKey(numbering);
       if (!input.council && input.localGovernmentKey)
         next = withLocalSponsorControl(next, sponsor.personId!);
@@ -873,6 +880,8 @@ export function fileMemberAgendaBills(
         });
         measureId = next.history.legislativeMeasures!.at(-1)!.id;
       }
+      claimedMembers.add(sponsor.personId!);
+      claimedQuestions.add(best.propositionId);
       const measure = next.history.legislativeMeasures!.find(
         (row) => row.id === measureId,
       )!;

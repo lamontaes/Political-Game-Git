@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as capReader from "./member-filing-caps";
+const actualMemberFilingCap = capReader.memberFilingCap;
 import { writeFileSync } from "node:fs";
 import { personName } from "../people";
 import { createDemoWorld } from "../demo";
@@ -179,6 +181,56 @@ describe("individual member agendas", () => {
         chamberKey,
         intakeKey: "minority-filing",
       };
+      let cappedReceipt: unknown = null;
+      if (place) {
+        // Authored two-bill control tests the real writer; no production limit inferred.
+        const capSpy = vi
+          .spyOn(capReader, "memberFilingCap")
+          .mockImplementation((measures, context) =>
+            actualMemberFilingCap(measures, context, {
+              version: "member-bill-limits-2026-v1",
+              rows: [
+                {
+                  place: pack.jurisdictionKey,
+                  chamber: "joint",
+                  limit: 2,
+                  period: "session",
+                  exempts: [],
+                  status: "sourced",
+                  citation: "Authored focused cap control",
+                  url: "https://example.com/test-rule",
+                  quote: "Two controlled bills per member per session.",
+                  note: "Not researched production data.",
+                },
+              ],
+            }),
+          );
+        try {
+          const capped = fileMemberAgendaBills(world, input);
+          const cappedBills = capped.history.legislativeMeasures ?? [];
+          expect(cappedBills).toHaveLength(2);
+          expect(
+            cappedBills.every(
+              (bill) => bill.sponsorPersonId === minority.personId,
+            ),
+          ).toBe(true);
+          const cappedReload = deserializeWorld(serializeWorld(capped));
+          expect(fileMemberAgendaBills(cappedReload, input)).toBe(cappedReload);
+          const laterCapped = fileMemberAgendaBills(cappedReload, {
+            ...input,
+            intakeKey: "capped-later-intake",
+          });
+          expect(laterCapped.history.legislativeMeasures).toEqual(cappedBills);
+          cappedReceipt = {
+            authoredLimit: 2,
+            actualBillIds: cappedBills.map((bill) => bill.id),
+            repeatAndCanonicalReload: true,
+            laterIntakeStillCapped: true,
+          };
+        } finally {
+          capSpy.mockRestore();
+        }
+      }
       const next = fileMemberAgendaBills(world, input);
       const bills = next.history.legislativeMeasures ?? [];
       expect(bills.length).toBeGreaterThan(1);
@@ -245,6 +297,7 @@ describe("individual member agendas", () => {
         })),
         repeatAndCanonicalReload: true,
         pendingQuestionCapPreserved: true,
+        sourcedCapControl: cappedReceipt,
         limits:
           "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects.",
       });

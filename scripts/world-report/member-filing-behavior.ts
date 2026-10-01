@@ -29,11 +29,14 @@ const placeKey = option("place", observerPlace(seed).key);
 const output = option("out", "test-results/member-filing/receipt.json");
 const save = option("save", "test-results/member-filing/world.json");
 const sourceHead = option("head", "unrecorded");
+const years = Number(option("years", "2"));
+if (!Number.isSafeInteger(years) || years < 1 || years > 2)
+  throw new Error("Member filing proof requires one or two complete years.");
 const started = performance.now();
 const watched = openWatchedWorld(seed, placeKey);
 const button = createObserverDayButton(watched.world);
 const startedOn = watched.world.currentDate;
-const until = anniversary(startedOn, 2);
+const until = anniversary(startedOn, years);
 const startingSequence = watched.world.history.nextSequence;
 const bodies = CHIEF_EXECUTIVE_JURISDICTIONS.flatMap((key) => {
   const jurisdiction = stateJurisdictionForKey(`US-${key}`);
@@ -214,6 +217,7 @@ function receipt() {
   });
   return {
     sourceHead,
+    years,
     seed,
     placeKey,
     placeName: watched.placeName,
