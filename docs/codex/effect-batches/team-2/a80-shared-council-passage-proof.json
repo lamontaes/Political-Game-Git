@@ -340,7 +340,7 @@
         "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
       },
       "typecheck.mjs": {
-        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/typecheck.mjs",
+        "path": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/typecheck-executed-original.txt",
         "sha256": "6eb7ac60101c1996e2edb8d581598393ef75415fa3d7ff99b88f06ca8e2fb509"
       },
       "lint.log": {
@@ -551,6 +551,15 @@
       "sha256": "f0eaf82d712408673a9e2f740b38ba2faee27d7ec4359997d64d48b56b1610d5"
     },
     "reportReviewer": "Existing authorized /root/a80_report_review: PASS after historical checkpoint label repair",
-    "command": "timeout --signal=TERM --kill-after=10s 300s env OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_WORKSPACE_OWNER=team-2 VITE_CONFIG_NATIVE_IGNORE_WARNING=true G6_MAYOR_PROFILE_PATH=/tmp/team2-a80-1576-renewed-profile.json G6_MAYOR_PROFILE_SOURCE=2c735124372306d957f5dcd31ec9f606fa3908ca G6_MAYOR_REPORT_PATH=/tmp/team2-a80-1576-renewed-decisions.json node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/governing/local-member-agenda-integration.test.ts src/presentation/mayor-executive-decision.test.ts --maxWorkers=1 --fileParallelism=false --disableConsoleIntercept --reporter=verbose"
+    "command": "timeout --signal=TERM --kill-after=10s 300s env OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_WORKSPACE_OWNER=team-2 VITE_CONFIG_NATIVE_IGNORE_WARNING=true G6_MAYOR_PROFILE_PATH=/tmp/team2-a80-1576-renewed-profile.json G6_MAYOR_PROFILE_SOURCE=2c735124372306d957f5dcd31ec9f606fa3908ca G6_MAYOR_REPORT_PATH=/tmp/team2-a80-1576-renewed-decisions.json node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/governing/local-member-agenda-integration.test.ts src/presentation/mayor-executive-decision.test.ts --maxWorkers=1 --fileParallelism=false --disableConsoleIntercept --reporter=verbose",
+    "proofScriptCorrection": {
+      "instruction": "CTO2:29: no .mjs committed under docs/codex unless lint clean",
+      "initialErrors": 3,
+      "repair": "explicit node:process import and formatting; game/test blobs unchanged",
+      "finalLintExitCode": 0,
+      "originalExecutedScript": "docs/codex/effect-batches/team-2/a80-shared-council-passage-proof/typecheck-executed-original.txt",
+      "originalSha256": "6eb7ac60101c1996e2edb8d581598393ef75415fa3d7ff99b88f06ca8e2fb509",
+      "currentScriptSha256": "9404c95b0deb3d1effe2401166ceb40140c33beb940981e61e5598677cc7283f"
+    }
   }
 }
