@@ -520,7 +520,7 @@ export interface GoverningMatter {
   readonly officeKey: string;
   readonly holderPersonId: EntityId;
   readonly openedAt: IsoDate;
-  readonly deadline: IsoDate;
+  readonly deadline: IsoDate | null;
   readonly title: string;
   readonly ask: string;
   /** What happens if nobody decides by the deadline. */
@@ -822,17 +822,19 @@ const FAMILY_TEXT: Record<
   },
 };
 
-const DEADLINE_DAYS: Record<GoverningMatterFamily, number> = {
+const DEADLINE_DAYS: Record<Exclude<GoverningMatterFamily, "bill">, number> = {
   "chief-of-staff": 21,
   agenda: 30,
   implementation: 30,
   budget: 30,
-  bill: 10,
   program: 45,
   // PLACEHOLDER: no state gives a governor a deadline on a clemency request
   // that the game has read; this is how long it waits on the desk.
   clemency: 60,
 };
+
+// Preserve the existing NPC review pace; this is not a legal action window.
+const BILL_REVIEW_DAYS = 9;
 
 function isFamily(value: string | null): value is GoverningMatterFamily {
   return value !== null && value in FAMILY_TEXT;
@@ -845,13 +847,21 @@ function matterFromEvent(
   const family = tagValue(event, "matter-family:");
   const officeKey = tagValue(event, "office:");
   const deadline = tagValue(event, "deadline:");
-  if (!isFamily(family) || !officeKey || !deadline) return null;
+  if (!isFamily(family) || !officeKey || (!deadline && family !== "bill"))
+    return null;
   const holderPersonId = event.participants.find(
     (participant) => participant.role === "agency:officeholder",
   )?.personId;
   if (!holderPersonId) return null;
   const subjectKey = tagValue(event, "subject:");
   const measureId = tagValue(event, "measure:") as EntityId | null;
+  const measure =
+    family === "bill" && measureId
+      ? world.history.legislativeMeasures?.find((m) => m.id === measureId)
+      : undefined;
+  const executiveWindow = measure
+    ? executiveBillActionWindow(world, measure)
+    : null;
   const appropriationId = tagValue(event, "appropriation:") as EntityId | null;
   // A commitment made through the public-program route already answers this
   // appropriation's matter. Its own saved record is the decision evidence;
@@ -880,7 +890,10 @@ function matterFromEvent(
     officeKey,
     holderPersonId,
     openedAt: event.occurredAt,
-    deadline: makeIsoDate(deadline),
+    deadline:
+      family === "bill"
+        ? (executiveWindow?.lastActionDate ?? null)
+        : makeIsoDate(deadline!),
     title: text.title(
       family === "clemency"
         ? petitionerLabel(world, event)
@@ -889,19 +902,11 @@ function matterFromEvent(
     ask: text.ask,
     ifIgnored:
       family === "bill" && measureId
-        ? (() => {
-            const measure = world.history.legislativeMeasures?.find(
-              (m) => m.id === measureId,
-            );
-            const window = measure
-              ? executiveBillActionWindow(world, measure)
-              : null;
-            return window
-              ? window.inactionOutcome === "becomes-law-without-signature"
-                ? "After the pack's action window ends, the bill becomes law without your signature."
-                : "The action window is known, but its inaction outcome is unsupported; the bill stays pending."
-              : "No executable action window is established, so the bill waits on your desk.";
-          })()
+        ? executiveWindow
+          ? executiveWindow.inactionOutcome === "becomes-law-without-signature"
+            ? "After the pack's action window ends, the bill becomes law without your signature."
+            : "The action window is known, but its inaction outcome is unsupported; the bill stays pending."
+          : "No executable action window is established, so the bill waits on your desk."
         : text.ifIgnored,
     options: optionsFor(world, family, event),
     subjectKey,
@@ -1255,8 +1260,9 @@ function openMatter(
     ? executiveBillActionWindow(world, measure)
     : null;
   const deadline =
-    executiveWindow?.lastActionDate ??
-    addDays(world.currentDate, DEADLINE_DAYS[input.family]);
+    input.family === "bill"
+      ? (executiveWindow?.lastActionDate ?? null)
+      : addDays(world.currentDate, DEADLINE_DAYS[input.family]);
   const text = FAMILY_TEXT[input.family];
   const title = text.title(
     input.titleSubject ??
@@ -1292,7 +1298,7 @@ function openMatter(
       STATE_GOVERNING_VERSION,
       `matter-family:${input.family}`,
       `office:${office.officeKey}`,
-      `deadline:${deadline}`,
+      ...(deadline ? [`deadline:${deadline}`] : []),
       ...(input.subjectKey ? [`subject:${input.subjectKey}`] : []),
       ...(input.sourceEventId ? [`source-event:${input.sourceEventId}`] : []),
       ...(input.measureId ? [`measure:${input.measureId}`] : []),
@@ -1344,10 +1350,10 @@ function openMatter(
       scheduledActivityId: null,
     });
     // A real bill lapses only through an executable, declared legal window.
-    if (measure) return next;
+    if (input.family === "bill") return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
-      dueAt: executiveWindow?.inactionAt ?? deadline,
+      dueAt: deadline!,
       transitionKey: GOVERNING_DEADLINE,
       entityIds: [opened.id],
       jurisdictionId: office.jurisdictionId,
@@ -1363,7 +1369,9 @@ function openMatter(
   // Keep the existing workflow interval, bounded by the actual legal last day.
   const workflowDate = addDays(
     world.currentDate,
-    Math.max(3, DEADLINE_DAYS[input.family] - 1),
+    input.family === "bill"
+      ? BILL_REVIEW_DAYS
+      : Math.max(3, DEADLINE_DAYS[input.family] - 1),
   );
   const npcDate =
     executiveWindow && executiveWindow.lastActionDate < workflowDate
@@ -2055,10 +2063,9 @@ function openMatterForPlayer(
         )
       : undefined;
   const window = measure ? executiveBillActionWindow(world, measure) : null;
-  if (
-    world.currentDate > (window?.lastActionDate ?? matter.deadline) &&
-    (!measure || window)
-  )
+  const deadline =
+    matter.family === "bill" ? window?.lastActionDate : matter.deadline;
+  if (deadline && world.currentDate > deadline)
     return "The deadline has passed.";
   return matter;
 }

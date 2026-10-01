@@ -282,6 +282,7 @@ describe("governing work and delivery require their own saved actions", () => {
 
   it("keeps the native lapsed decision cancelled rather than fulfilled", () => {
     const matter = governingMatterById(opened, matterId)!;
+    if (!matter.deadline) throw new Error("The program deadline is missing.");
     const lapsed = advanceWorld(
       opened,
       daysBetween(opened.currentDate, matter.deadline),
