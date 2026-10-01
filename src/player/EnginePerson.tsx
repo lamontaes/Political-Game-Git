@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import type { EngineRecipe } from "../presentation/appearance-engine/pack";
 import { engineRecipeKey } from "../presentation/appearance-engine/pack";
 import {
@@ -76,12 +76,15 @@ export function EngineFigure({
 export function EnginePortrait({
   recipe,
   testId = "engine-portrait",
+  fallback = null,
 }: {
   readonly recipe: EngineRecipe;
   readonly testId?: string;
+  /** Shown while the drawn face loads, so a portrait is never blank. */
+  readonly fallback?: ReactNode;
 }) {
   const image = useEnginePersonImage(recipe);
-  if (!image) return null;
+  if (!image) return <>{fallback}</>;
   const { top, feet, neck } = image.anchors;
   const figure = feet - top;
   const cropTop = top - figure * 0.03;
