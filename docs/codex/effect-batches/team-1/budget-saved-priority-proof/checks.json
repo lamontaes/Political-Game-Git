@@ -1,0 +1,68 @@
+{
+  "runtimeSourceHead": "85695e3522762dba346574cf88d93dbad695324e",
+  "firstAfterSourceHead": "7686d7e59833cdf763450efc8761eeb1da958c75",
+  "baseHead": "5945f22ecbe24d85f77a3805443cbf4ad09d4883",
+  "branch": "codex/team1-budget-saved-priority",
+  "releaseSource": "5bf0c950d19aab23fd4f8d8aec2aab6da7deb457",
+  "productionScope": "ONLY governingNpcDecisionHandler budget-family branch, 30 inserted lines; every other family/executive/advice branch unchanged",
+  "sourceSha256": {
+    "src/simulation/governing/state-governing.ts": "eaded6b8bc1ed6c686496e071e369aab2ed921c81d8daf5a06c9eba5e91fe6a8",
+    "src/simulation/governing/governing-budget-npc.test.ts": "e90b081166f40df6d280e5b52893f86aa968852fa4fad2fecb40e8669e2cbc64",
+    "src/simulation/governing/current-services-budget.test.ts": "70cc1283c736bd0a6bd309063feeebf4c8858f154dd77de16f2bad089e42b5ae",
+    "src/simulation/governing/budget-subjects.ts": "48a73b3c4ab63ddcb04806bc0c65cfca6a3cc77520729359139e00cedafb1de6"
+  },
+  "originalFourteenFixtureSha256": "035a6bc6095c5922cf1db87420dc1c3a88b4315c58cf9480211c4ef26024e75f",
+  "initialFixtureFailure": {
+    "failed": 14,
+    "durationSeconds": 12.62,
+    "limits": "Skipped due-item time and an invalid history-removal negative fixture failed integrity before valid choice proof. Fixture corrected through canonical due-item runner and a source-unbound recorded appropriation; original receipt retained."
+  },
+  "canonicalBefore": {
+    "sourceHead": "5945f22ecbe24d85f77a3805443cbf4ad09d4883",
+    "passed": 2,
+    "failed": 12,
+    "total": 14,
+    "durationSeconds": 12.55
+  },
+  "firstAfter": {
+    "passed": 14,
+    "failed": 0,
+    "durationSeconds": 14.98,
+    "sameFourteenTestFixture": true
+  },
+  "combined": {
+    "npcPassed": 16,
+    "budgetBridgePassed": 15,
+    "totalPassed": 31,
+    "failed": 0,
+    "durationSeconds": 18.22
+  },
+  "types": {
+    "roots": 2,
+    "files": 853,
+    "scopedDiagnostics": 0,
+    "inheritedDiagnostics": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "whitespace": "PASS",
+  "release": "Inherited malformed unlocated-work-keeps-federal-pay-floor declaration, unchanged from base. Own new declaration parses.",
+  "zeroDice": {
+    "new": 0,
+    "gone": 5,
+    "status": "Inherited stale removed entries; no allowlist updates"
+  },
+  "notRun": [
+    "new nationwide/year",
+    "browser",
+    "speed",
+    "whole suite",
+    "final-main acceptance"
+  ],
+  "limits": "Controlled saved priority, ten-dollar authority/source-lineage, and actual staff-job fixtures. Does not prove natural priority creation, national session coverage, new spending amount, cash or services. Missing choice remains pending; default policy not implemented.",
+  "threshold": "No scoring threshold changed: calibration mapping/units still absent.",
+  "spelling": {
+    "findings": 50,
+    "allInherited": true
+  }
+}
