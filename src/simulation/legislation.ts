@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate, spokenDate } from "./dates";
+import { addDays, daysBetween, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
@@ -2928,9 +2928,22 @@ export function recordEnactment(
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
 
   const resolvedDate = resolveLegislativeEffectiveDate(pack, world.currentDate);
-  const sourceDate =
-    resolvedDate.kind === "source-default" ? resolvedDate : null;
-  const profile = input.effectiveDateGameProfile;
+  // Save executable pack declarations, including a disclosed game profile.
+  // The generic fallback is not a declaration by this particular body.
+  const distinct = pack.enactment.effectiveDateDistinctFromEnactment;
+  const packDate =
+    pack.enactment.defaultEffectiveSchedule?.kind === "known" ||
+    (distinct.kind === "known" && !distinct.value)
+      ? resolvedDate
+      : null;
+  const profile =
+    input.effectiveDateGameProfile ??
+    (input.effectiveAt == null && packDate?.kind === "game-default"
+      ? {
+          version: pack.packId,
+          days: daysBetween(world.currentDate, packDate.effectiveAt),
+        }
+      : undefined);
   if (profile) {
     if (
       !profile.version.trim() ||
@@ -2990,22 +3003,22 @@ export function recordEnactment(
     resolvedAt: next.currentDate,
     outcome: "enacted",
     actDesignation: input.actDesignation ?? null,
-    // An explicit date, an explicit game profile, or a date the pack's own
-    // cited rule gives is saved with the act. Otherwise the date stays null
+    // An explicit date, an explicit game profile, or an executable pack date
+    // is saved with the act. Otherwise the date stays null
     // and the state's researched effective-date rule dates it where it is read
     // (`governing/statute-effective-date.ts`); no invented interval is saved.
-    effectiveAt: profile
-      ? addDays(next.currentDate, profile.days)
+    effectiveAt: input.effectiveDateGameProfile
+      ? addDays(next.currentDate, input.effectiveDateGameProfile.days)
       : input.effectiveAt != null
         ? makeIsoDate(input.effectiveAt)
-        : sourceDate
-          ? sourceDate.effectiveAt
+        : packDate
+          ? packDate.effectiveAt
           : null,
-    ...(input.effectiveAt == null && (profile || sourceDate)
+    ...(input.effectiveAt == null && (profile || packDate)
       ? {
           effectiveDateBasis: profile
             ? ("game-default" as const)
-            : ("source-default" as const),
+            : packDate!.kind,
           ...(profile
             ? {
                 effectiveDateGameProfile: {
