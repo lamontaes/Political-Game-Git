@@ -78,6 +78,7 @@ export function custodyFloorAt(
     (entry) => entry.capability === "court.covered-offense",
   )?.parameters.term;
   if (typeof coverageKey !== "string") return null;
+  const matches = [];
   for (const lineage of draftLineageComponents(world, law.measureId)) {
     const coverage = lineage.parameters.find(
       (term) => term.parameterKey === coverageKey,
@@ -96,14 +97,15 @@ export function custodyFloorAt(
       floor.value < 0
     )
       continue;
-    return {
+    matches.push({
       months: floor.value,
       law,
       questionKey,
       sourceRecordIds: [lineage.id],
-    };
+    });
   }
-  return null;
+  // Two components setting a floor need an explicit priority; never pick one.
+  return matches.length === 1 ? matches[0]! : null;
 }
 
 /** First legal-outcome caller: attribution of the floor the sentencing writer applied. */
@@ -116,6 +118,11 @@ export const legalOutcomeRegistration: LawConsequenceKindRegistration = {
   units: ["months"],
   resolve(world, row, context) {
     if (
+      row.kind !== "legal-outcome" ||
+      row.who.selector !== "court.saved-defendant" ||
+      row.who.predicates.length !== 0 ||
+      row.conditions.length !== 1 ||
+      row.conditions[0]?.capability !== "court.covered-offense" ||
       row.what !== "minimum-custody-months" ||
       context.activity !== "case-stage" ||
       !context.questionKey

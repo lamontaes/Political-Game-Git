@@ -285,6 +285,40 @@ function fixture(place: string, floor: number | null = 120) {
 }
 
 describe("recorded custody floors through the existing sentence writer", () => {
+  it.each([-1, 1.5, Number.NaN, Number.POSITIVE_INFINITY])(
+    "refuses invalid recorded custody months %s",
+    (floor) => {
+      const { world, courtCase } = fixture(places[0]!, floor);
+      expect(custodyFloorAt(world, courtCase)).toBeNull();
+    },
+  );
+  it("refuses conflicting components without an explicit priority", () => {
+    const { world, courtCase } = fixture(places[0]!);
+    const lineage = world.history.legislativeDraftLineages![0]!;
+    const ambiguous = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeDraftLineages: [
+          { ...lineage, componentKey: "first" },
+          {
+            ...lineage,
+            id: "legislative-draft-lineage_second" as EntityId,
+            componentKey: "second",
+            parameters: [
+              { parameterKey: "floor", kind: "integer" as const, value: 240 },
+              {
+                parameterKey: "coverage",
+                kind: "enumerated" as const,
+                value: "crime:robbery",
+              },
+            ],
+          },
+        ],
+      },
+    };
+    expect(custodyFloorAt(ambiguous, courtCase)).toBeNull();
+  });
   it("covers all 56 jurisdictions", () => expect(places).toHaveLength(56));
   it.each(places)(
     "enforces recorded months and preserves unbound parity in %s",
