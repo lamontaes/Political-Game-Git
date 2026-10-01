@@ -1,5 +1,6 @@
 import { writeCanonicalJson, writeJson } from "./canonical-json";
 import { createStableIdFromParts } from "./ids";
+import { retireDrawnIncidentModes } from "./incident-legacy-modes";
 import {
   collectJsonChunks,
   JSON_CHUNK_LENGTH,
@@ -430,9 +431,13 @@ export function readWorldSnapshot(payload: WorldPayload): {
   const withRollCalls = rolled
     ? unpackRollCalls(parsed.world as unknown as World, parsed.rollCalls)
     : (parsed.world as unknown as World);
-  const world = principled
+  const unpacked = principled
     ? unpackPrinciples(withRollCalls, parsed.principlesPacking)
     : withRollCalls;
+  // A save from before incidents stopped being drawn names the retired mode;
+  // its stored id was taken over the world as written, before this reading.
+  const world = retireDrawnIncidentModes(unpacked);
+  const writtenId = world === unpacked ? null : snapshotIdOf(unpacked);
   if (
     (world.contentPacks !== undefined) !==
     formatHasContentPacks(formatVersion as WorldSnapshotFormatVersion)
@@ -445,7 +450,7 @@ export function readWorldSnapshot(payload: WorldPayload): {
   assertWorldIntegrityFully(world);
   const expected = createWorldSnapshot(world);
   if (
-    parsed.snapshotId !== expected.snapshotId ||
+    parsed.snapshotId !== (writtenId ?? expected.snapshotId) ||
     parsed.worldId !== world.id ||
     parsed.savedAtWorldDate !== world.currentDate
   ) {
