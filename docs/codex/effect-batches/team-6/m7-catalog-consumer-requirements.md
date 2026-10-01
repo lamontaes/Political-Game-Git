@@ -4,7 +4,7 @@ The admitted tax handler can assess an enacted, typed levy against a person's sa
 
 ## Existing field and unit requirements
 
-These are existing TypeScript fields, not new catalog key assignments. The coordinator must publish the canonical catalog key and unit for each admitted field. Missing terms remain unavailable. An explicit zero rate is distinct from an absent rate.
+These are existing TypeScript fields. The coordinator has now published the key vocabulary below; dated value binding remains unfinished. Missing terms remain unavailable. An explicit zero rate is distinct from an absent rate.
 
 | Existing field                               | Required meaning and unit                                                                                                                                                                                            |
 | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -25,6 +25,31 @@ These are existing TypeScript fields, not new catalog key assignments. The coord
 | `TaxProposalRecord.power`                    | Acquired legal-power evidence and its actual availability date. A catalog question or account alone grants no authority.                                                                                             |
 
 The arithmetic in `previewTax` subtracts the occurrence allowance, applies the exact ratio and rounds half up to USD cents. It is the existing calculation; the handler does not supply a replacement.
+
+## Published key mapping
+
+The table below reads the coordinator's exact published source in `src/simulation/tax-law-term-keys.ts`. It is preparation for the dated reader, not an implemented mapper or an assessment result.
+
+| Existing consumer field         | Published canonical key      | Published unit or category                      |
+| ------------------------------- | ---------------------------- | ----------------------------------------------- |
+| `rateNumerator`                 | `tax.rate-numerator`         | `count`: exact nonnegative integer numerator.   |
+| `rateDenominator`               | `tax.rate-denominator`       | `count`: exact positive integer denominator.    |
+| `allowanceMinorUnits`           | `tax.occurrence-allowance`   | `minor`: USD cents for this occurrence only.    |
+| `effectiveDelayDays`            | `tax.effective-delay`        | `days`: prospective enactment delay.            |
+| `collectionLagDays`             | `tax.collection-lag`         | `days`: delay from actual taxable occurrence.   |
+| `seriesKey`                     | `tax.series`                 | Categorical semantic series key.                |
+| `baseKey`                       | `tax.base`                   | Categorical semantic key matching a saved base. |
+| `exemptBaseKeys`                | `tax.exempt-bases`           | Categorical list of actual admitted base keys.  |
+| Proposal `publicOrganizationId` | `tax.recipient-organization` | Categorical actual saved organization ID.       |
+| Local identity `governmentKey`  | `tax.recipient-government`   | Categorical exact saved local-government key.   |
+
+No canonical key is published here for currency, base label, public purpose, assumption note or legal-baseline assumption. The coordinator's binder must supply their actual declared value and provenance, or return an explicit unavailable result. A missing exemption list cannot become an empty list; a missing allowance cannot become zero. Categorical terms need their typed dated representation, not numeric encodings.
+
+The pack names questions as `us-tax-terms:<level>.<family>-tax-terms`. Families are income, sales, property, excise, payroll and corporate; levels are federal, state, county and city where the existing dial emits a row. The published test explicitly excludes a federal property-tax question. Consumers must use the actual emitted question and exact government level rather than synthesizing permission from this naming pattern.
+
+Row parameters currently pair each key with its field name. Those strings identify vocabulary; they are not enacted categorical values, rates or source evidence. The pack supplies no consequence rows. School and special-district routing remains unfinished.
+
+The next consumer input must preserve the actual governing law, question, adopted provision and source record IDs alongside dated term values. A question-power dial cannot replace the proposal's acquired authority evidence, and a recipient category cannot create an account or grant authority. Existing liability and collection histories stay frozen.
 
 ## Legal and occurrence joins
 
@@ -53,7 +78,7 @@ The following limits are measured from the current source, rather than claims th
 
 | Binding                     | Current consumer limit and required dependency                                                                                                                                                                                                                                      |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Catalog terms               | No catalog-to-`TaxTerms` mapper exists in this handler. Root must publish exact keys, units, final dated term values and their source IDs. No local key names are assigned here.                                                                                                    |
+| Catalog terms               | Canonical keys and units are published as vocabulary. No catalog-to-`TaxTerms` mapper exists in this handler. Root retains dated numeric/category binding and its source IDs. No local key names are assigned here.                                                                 |
 | Dated term representation   | The current final-term reader accepts a numeric value with an exact question key, term key and unit. Base keys, exemption lists and recipient identities need an admitted typed binding; do not encode them as arbitrary numeric constants.                                         |
 | Legal levels                | `taxPowerEvidenceFor` currently reads the acquired state selective-excise projection. `attachTaxProposal` compares that exact evidence and state jurisdiction. Federal and local admissions need the approved authority contract; adding question rows does not extend this writer. |
 | Starting laws               | The resolver currently requires `law.origin === "enacted"`, an enacted proposal and policy. Team1's starting-reference path must deliver an admitted binding before starting taxes use this handler.                                                                                |
@@ -67,9 +92,11 @@ The following limits are measured from the current source, rather than claims th
 
 ## Next dependency and checks
 
-The coordinator publishes catalog keys and the dated legal-term binding. Team6 then consumes those exact rows on its owned tax surfaces. Questionless proposals remain catalog gaps and receive no bypass. Unsupported starting, annual, per-unit, recipient or authority mappings remain explicit for Audit.
+The coordinator retains the dated legal-term binding. Team6 has matched the published vocabulary to its existing consumer fields and will consume that binding on its owned tax surfaces when delivered. Questionless proposals remain catalog gaps and receive no bypass. Unsupported starting, annual, per-unit, recipient or authority mappings remain explicit for Audit.
 
-Source read: branch `codex/team-6-tax-kind-fixtures`, current main `123f7dc77e80fb1d9abd78e34956f91afceb3e60`.
+Published vocabulary source: [1562](https://github.com/lamontaes/Political-Game-Git/pull/1562), READY head `bffa6f8af61f0cba16f61479c3e072c51306be46`. It was read directly from that fetched Git object; it was not merged into this consumer branch. Root's reported three passing checks and 56 own-level checks were not rerun here.
+
+Consumer branch: `codex/team-6-tax-kind-fixtures`. Current main `9c08465da08be307435e9b2c4f76d9f35f105fab` was received additively; the tax handler, tax types and tax-policy source are unchanged from the accepted consumer source.
 
 Main includes the merged tax handler and registry admission. The handler export is `TAX_REGISTRATION`.
 
