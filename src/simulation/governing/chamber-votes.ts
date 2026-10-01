@@ -1,6 +1,8 @@
 import { considerationScore, evaluateDecision } from "../decisions";
 import {
+  ARTICLE_V_STATE_KEYS,
   constitutionalEntityAvailableAt,
+  constitutionalPosition,
   stateAmendmentProfile,
 } from "../constitutional-process";
 import { institutionOfficeBindingAt } from "../enacted-rule-changes";
@@ -208,16 +210,26 @@ export interface ChamberNominationVoteInput extends ChamberVoteCommonInput {
   >;
 }
 
-export interface ChamberConstitutionalVoteInput extends ChamberVoteCommonInput {
+interface ChamberConstitutionalVoteCommonInput extends ChamberVoteCommonInput {
   readonly kind: "constitutional";
   readonly constitutionalMeasureId: EntityId;
   readonly bodyKey: string;
-  readonly purpose: "proposal";
   readonly considerationsByMember: ReadonlyMap<
     string,
     readonly DecisionConsideration[]
   >;
 }
+
+export type ChamberConstitutionalVoteInput =
+  ChamberConstitutionalVoteCommonInput &
+    (
+      | { readonly purpose: "proposal" }
+      | {
+          readonly purpose: "ratification";
+          /** Actual state jurisdiction, distinct from the federal proposal. */
+          readonly ratificationJurisdictionId: EntityId;
+        }
+    );
 
 export type ChamberVoteInput =
   | ChamberBillVoteInput
@@ -415,13 +427,26 @@ function constitutionalVoteContext(
     (row) => row.id === input.constitutionalMeasureId,
   );
   const stateProposal = measure?.processKind === "state-amendment";
-  const body = stateProposal
-    ? stateConstitutionalBody(
+  const ratification = input.purpose === "ratification";
+  const ratificationPack = ratification
+    ? legislativePackForJurisdiction(input.ratificationJurisdictionId)
+    : null;
+  const ratificationRoster = ratification
+    ? stateConstitutionalRoster(
         world,
-        input.constitutionalMeasureId,
+        input.ratificationJurisdictionId,
         input.bodyKey,
-      ).seated.body
-    : seatedCongressChamber(world, input.bodyKey)?.body;
+      )
+    : null;
+  const body = ratification
+    ? ratificationRoster?.seated.body
+    : stateProposal
+      ? stateConstitutionalBody(
+          world,
+          input.constitutionalMeasureId,
+          input.bodyKey,
+        ).seated.body
+      : seatedCongressChamber(world, input.bodyKey)?.body;
   const members = new Map(
     body?.members.map((member) => [member.memberKey, member.personId]),
   );
@@ -434,13 +459,21 @@ function constitutionalVoteContext(
       cutoff.historySequenceExclusive,
     ) ||
     (measure.processKind !== "federal-amendment" && !stateProposal) ||
-    measure.proposedBy === "convention" ||
-    measure.proposalRule === null ||
-    input.purpose !== "proposal" ||
-    (!stateProposal &&
+    (!ratification && measure.proposedBy === "convention") ||
+    (!ratification && measure.proposalRule === null) ||
+    (ratification &&
+      (measure.processKind !== "federal-amendment" ||
+        measure.ratificationMode !== "state-legislatures" ||
+        constitutionalPosition(world, measure.id).phase !== "ratification" ||
+        !ratificationPack ||
+        !ARTICLE_V_STATE_KEYS.includes(ratificationPack.jurisdictionKey) ||
+        !ratificationRoster)) ||
+    (!ratification &&
+      !stateProposal &&
       input.bodyKey !== "house" &&
       input.bodyKey !== "senate") ||
-    (stateProposal && input.members.length !== body?.members.length) ||
+    ((stateProposal || ratification) &&
+      input.members.length !== body?.members.length) ||
     !body ||
     new Set(input.members.map((member) => member.memberKey)).size !==
       input.members.length ||
@@ -451,14 +484,18 @@ function constitutionalVoteContext(
     )
   )
     throw new Error(
-      stateProposal
-        ? "A constitutional chamber vote requires its actual dated state proposal, body and seated members."
-        : "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
+      ratification
+        ? "A constitutional ratification vote requires its actual federal proposal in ratification, dated state body and seated members."
+        : stateProposal
+          ? "A constitutional chamber vote requires its actual dated state proposal, body and seated members."
+          : "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
     );
   return {
     subject: {
       kind: "context:constitutional-amendment",
-      key: `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
+      key: ratification
+        ? `${measure.stableKey}:${input.ratificationJurisdictionId}:${input.bodyKey}:ratification`
+        : `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
       entityId: null,
     },
     committee: null,
