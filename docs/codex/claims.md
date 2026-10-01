@@ -1,3 +1,17 @@
+# Elections transfers to Cloud C
+
+The CTO assigned one owner to the Elections engine. Existing teams must preserve unfinished work on transferred items and stop overlapping implementation. The named exceptions below remain with their current owners.
+
+## October 1, 1:27 p.m. Eastern ruling
+
+Cloud C receives A113 and A114 from Audit; A116, A66/E4, A122 and A123 from Team 7; and A109, A144 and A149 from Team 2. Coordinator relayed these transfers to all three owners. Any unpublished work must be pushed and its branch and head posted in the CTO document; no competing PR is authorized.
+
+Audit keeps only its existing Elections drafts #1532/A110, #1542/A111 and #1589/A112 through delivery, then hands Elections over. E1/E2 move to Cloud C after #1532. Team 1 retains A87/A88 for now. X5 retains A118/#1498. This does not transfer unrelated Audit contracts or the active payroll, fiscal and court repairs.
+
+Team 6's two fiscal hunks are now confirmed released by Team 1 at 6b543bbb57bcc740be1ce1913a33a8c65dd56990, program-governing blob bb379c593992305362d018937911e415f479241d. Team 1 confirmed no active or unpublished overlap; its general-budget recognition and final clause loop remain protected.
+
+## Earlier claims
+
 # Court and monthly refresh callers have named owners
 
 The released changes are limited to callers and selectors. Existing payroll, mortgage, living-cost and court payment writers retain their owners.
