@@ -554,6 +554,7 @@ function seatMissingLocalBusinesses(
 
   const jobs: CreateWorkRelationshipInput[] = [];
   const flows: CreateResourceFlowInput[] = [];
+  const wageWorkKeys = new Map<string, string>();
   for (const plan of plans) {
     const key = businessKey(jurisdictionId, plan.kind, plan.planned.index);
     const provenance = provenanceFor(plan.planned);
@@ -620,8 +621,10 @@ function seatMissingLocalBusinesses(
     });
     plan.workers.forEach(({ input, since }, index) => {
       const workerId = personId(input);
+      const workKey = `${key}:worker:${index + 1}:work`;
+      const wageKey = `${key}:worker:${index + 1}:wages`;
       jobs.push({
-        stableKey: `${key}:worker:${index + 1}:work`,
+        stableKey: workKey,
         personId: workerId,
         organizationId,
         startedAt: since,
@@ -639,7 +642,7 @@ function seatMissingLocalBusinesses(
         },
       });
       flows.push({
-        stableKey: `${key}:worker:${index + 1}:wages`,
+        stableKey: wageKey,
         source: business,
         recipient: { kind: "person", personId: workerId },
         startsAt: today,
@@ -654,13 +657,41 @@ function seatMissingLocalBusinesses(
         jurisdictionId,
         provenance,
       });
+      wageWorkKeys.set(wageKey, workKey);
     });
   }
   // One integrity check for each batch rather than one per record: a town
   // is about sixty records, and seating them one by one cost a new life a
   // fifth of a second.
+  const firstWork = next.history.workRelationships.length;
   next = createWorkRelationships(next, jobs);
-  return createResourceFlows(next, flows);
+  const createdWork = new Map(
+    next.history.workRelationships
+      .slice(firstWork)
+      .map((work) => [work.stableKey, work]),
+  );
+  return createResourceFlows(
+    next,
+    flows.map((flow) => {
+      const workKey = wageWorkKeys.get(flow.stableKey);
+      if (!workKey) return flow;
+      const work = createdWork.get(workKey);
+      if (
+        !work ||
+        flow.source.kind !== "organization" ||
+        work.organizationId !== flow.source.organizationId ||
+        flow.recipient.kind !== "person" ||
+        work.personId !== flow.recipient.personId
+      )
+        throw new Error(
+          "Local worker wages require their actual newly saved work relationship.",
+        );
+      return {
+        ...flow,
+        basisReference: { kind: "work", workRelationshipId: work.id },
+      };
+    }),
+  );
 }
 
 function firstOfNextMonth(date: IsoDate): IsoDate {
