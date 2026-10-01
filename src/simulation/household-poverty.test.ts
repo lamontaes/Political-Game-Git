@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { adultLifeIn } from "../../tests/fixtures/state-executive-entry";
+import { smallWorld } from "../../tests/fixtures/small-world";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
 import { annualPovertyLineMinor } from "./crisis/health-coverage";
 import { addDays, makeIsoDate } from "./dates";
 import {
+  ensureHouseholdPovertySchedule,
+  recordHouseholdPoverty,
   HOUSEHOLD_POVERTY_TRANSITION_KEY,
   personPovertyStatusAt,
   recordedPovertyShare,
@@ -16,6 +18,18 @@ import {
 import { OUTCOME_MEASURES } from "./outcome-web";
 import { SeededRng } from "./rng";
 import { assertWorldIntegrityFully, deserializeWorld, serializeWorld } from ".";
+import {
+  createHousehold,
+  createOrganization,
+  createWorkRelationship,
+  startHouseholdMembership,
+} from "./life";
+import {
+  createWorkCompensation,
+  money,
+  resolveWorkCompensationPeriod,
+} from "./resources";
+import type { EntityId, World } from "./types";
 
 /**
  * Slice 1, "Your money": each household's month measured against the federal
@@ -80,8 +94,8 @@ describe("the HHS 2026 poverty guideline (91 FR 1797)", () => {
 });
 
 /**
- * A new life in a state drawn by a named seed from all 56, played on the real
- * clock across two month boundaries: payday pays the town, and each first of
+ * A small world in a state drawn by a named seed from all 56, played on the real
+ * clock across two month boundaries: recorded compensation pays workers, and each first of
  * the month saves every household's status for the month before.
  */
 const DRAW_SEED = "slice1:household-poverty:1";
@@ -90,16 +104,127 @@ describe("each household's month, saved on the clock", () => {
   const states = lifePlaceStateIdentities();
   const state = states[new SeededRng(DRAW_SEED).integer(0, states.length)]!;
   const label = `${state.name} (seed ${DRAW_SEED})`;
-  const { world: opened, personId } = adultLifeIn(state.usps, DRAW_SEED);
-  // From the opening to just past the second first-of-month.
-  const firstPass = makeIsoDate(
-    `${opened.currentDate.slice(0, 5)}${String(Number(opened.currentDate.slice(5, 7)) + 1).padStart(2, "0")}-01`,
+  const fixture = smallWorld({
+    place: state.usps,
+    seed: DRAW_SEED,
+  });
+  const personId = fixture.personId;
+  const provenance = {
+    kind: "authored",
+    note: "Small-world poverty fixture: recorded employment and actual compensation.",
+  } as const;
+  let initial = fixture.world;
+  initial = createOrganization(initial, {
+    stableKey: "poverty:employer",
+    formedAt: initial.currentDate,
+    provenance,
+    initialProfile: {
+      name: "Fixture employer",
+      classification: "custom:fixture-employer",
+      locationJurisdictionId: fixture.jurisdictionId,
+    },
+  });
+  const employer = initial.history.organizations.at(-1)!.id;
+  const jobs: EntityId[] = [];
+  for (const [index, id] of initial.personOrder.entries()) {
+    initial = createHousehold(initial, {
+      stableKey: `poverty:household:${index}`,
+      formedAt: initial.currentDate,
+      label: `Fixture household ${index + 1}`,
+      provenance,
+    });
+    initial = startHouseholdMembership(initial, {
+      stableKey: `poverty:member:${index}`,
+      personId: id,
+      householdId: initial.history.households.at(-1)!.id,
+      startedAt: initial.currentDate,
+      residenceRole: "primary",
+      kind: "resident:household-member",
+      provenance,
+    });
+    if (index === 3) continue;
+    initial = createWorkRelationship(initial, {
+      stableKey: `poverty:job:${index}`,
+      personId: id,
+      organizationId: employer,
+      startedAt: initial.currentDate,
+      kind: "employment:fixture",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "Fixture worker",
+        occupationClassification: "custom:fixture-worker",
+        locationJurisdictionId: fixture.jurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 32, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "flexible",
+          interruptibility: "interruptible",
+          locationJurisdictionId: fixture.jurisdictionId,
+        },
+      },
+    });
+    const job = initial.history.workRelationships.at(-1)!;
+    initial = createWorkCompensation(initial, {
+      stableKey: `poverty:pay:${index}`,
+      workRelationshipId: job.id,
+      startsAt: initial.currentDate,
+      amount: money(index === 0 ? 100_000 : 500_000, "USD"),
+      cadenceKind: "custom:four-week",
+      restrictionKind: null,
+      jurisdictionId: fixture.jurisdictionId,
+      provenance,
+    });
+    if (index < 2) jobs.push(job.id);
+  }
+  const opened = ensureHouseholdPovertySchedule(initial);
+  function settle(at: World, month: string): World {
+    let next = at;
+    for (const job of jobs)
+      next = resolveWorkCompensationPeriod(next, {
+        stableKey: `poverty:paid:${job}:${month}`,
+        workRelationshipId: job,
+        periodStartsAt:
+          month === opened.currentDate.slice(0, 7)
+            ? opened.currentDate
+            : `${month}-01`,
+        periodEndsAt: `${month}-28`,
+        occurredAt: next.currentDate,
+        status: "completed",
+        reasonKind: null,
+        note: "Fixture compensation paid through the canonical writer.",
+        provenance,
+      });
+    return next;
+  }
+  // Actual compensation writers settle two pay periods. The production clock
+  // then reaches each month's due item through its composed handlers.
+  const firstMonth = opened.currentDate.slice(0, 7);
+  const firstPayDate = makeIsoDate(`${firstMonth}-28`);
+  const daysToFirstPay =
+    (Date.parse(firstPayDate) - Date.parse(opened.currentDate)) / 86_400_000;
+  const firstPaid = settle(
+    passOrdinaryDays(opened, daysToFirstPay),
+    firstMonth,
   );
-  const days =
-    (Date.parse(addDays(firstPass, 32).slice(0, 7) + "-02") -
-      Date.parse(opened.currentDate)) /
-    86_400_000;
-  const world = passOrdinaryDays(opened, days);
+  const nextMonthStart =
+    addDays(makeIsoDate(`${firstMonth}-01`), 32).slice(0, 7) + "-01";
+  const daysToNextMonth =
+    (Date.parse(nextMonthStart) - Date.parse(firstPayDate)) / 86_400_000;
+  const secondOpening = passOrdinaryDays(firstPaid, daysToNextMonth);
+  const secondMonth = secondOpening.currentDate.slice(0, 7);
+  const secondPaid = settle(passOrdinaryDays(secondOpening, 27), secondMonth);
+  const secondPass = makeIsoDate(
+    addDays(makeIsoDate(`${secondMonth}-01`), 32).slice(0, 7) + "-02",
+  );
+  const world = passOrdinaryDays(
+    secondPaid,
+    (Date.parse(secondPass) - Date.parse(secondPaid.currentDate)) / 86_400_000,
+  );
   const rows = world.history.householdPoverty ?? [];
   const months = [...new Set(rows.map((row) => row.month))].sort();
 
@@ -124,8 +249,20 @@ describe("each household's month, saved on the clock", () => {
   it(`reads recorded pay: statuses follow the paychecks, unknown is never zero (${label})`, () => {
     const second = rows.filter((row) => row.month === months[1]);
     const known = second.filter((row) => row.status !== "pay-unrecorded");
-    // By the second month payday has paid, so most households' pay is known.
-    expect(known.length).toBeGreaterThan(0);
+    // Two households have completed payments; one has no employment.
+    expect(known).toHaveLength(3);
+    expect(second.map((row) => row.status)).toEqual([
+      "below",
+      "at-or-above",
+      "pay-unrecorded",
+      "below",
+    ]);
+    expect(second[0]!.monthlyPayMinor).toBe(
+      Math.round((100_000 * (365.25 / 12)) / 28),
+    );
+    expect(second[1]!.monthlyPayMinor).toBe(
+      Math.round((500_000 * (365.25 / 12)) / 28),
+    );
     expect(second.some((row) => (row.monthlyPayMinor ?? 0) > 0)).toBe(true);
     for (const row of rows) {
       if (row.status === "pay-unrecorded")
@@ -169,5 +306,12 @@ describe("each household's month, saved on the clock", () => {
     expect(() => assertWorldIntegrityFully(world)).not.toThrow();
     const reloaded = deserializeWorld(serializeWorld(world));
     expect(reloaded.history.householdPoverty).toEqual(rows);
+    expect(
+      recordHouseholdPoverty(
+        reloaded,
+        addDays(makeIsoDate(`${months[1]}-01`), 27),
+      ),
+    ).toBe(reloaded);
+    expect(ensureHouseholdPovertySchedule(reloaded)).toBe(reloaded);
   });
 });
