@@ -68,6 +68,14 @@
       "exit": 1,
       "rawPath": "/tmp/team2-a79-policy-spelling.log",
       "sha256": "d4cd4353440acd1b592e21ab35ecfd2211f441196a8a0bd73afc803b90969d37"
+    },
+    "release": {
+      "exit": 1,
+      "sameMainRefExit": 1,
+      "inheritedFile": "docs/release/changes/ci-changed-tests-only.md",
+      "mainAndCandidateBlob": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8",
+      "reason": "Inherited player-facing merge-bookkeeping wording",
+      "proofLimit": "Main-ref declaration invocation in same workspace plus byte-identical failing manifest; no independent whole-main suite claim"
     }
   },
   "remaining": "termLimitBallot private state-ratification caller retained; actual ratification-purpose and saved per-chamber rollcall contract requested from Audit/CTO, no fake measure/roster. Not fullA79 closure.",
@@ -90,6 +98,8 @@
   "evidence": {
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/initial-types.log": "c477956d6d7e9b36b6120fa9c2b6e73f11babdace48c8c744874cd6a27a5e762",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/current-main-tests.log": "bb552d6da9ea7556ec2dbd15138f7d8011289e18dfd02342b0bbd5a415bb5e18",
+    "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/release.log": "0ed011decb2119dd28ee40910fadcad60fc093258468b39e512a970b50e3983d",
+    "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/release-main-ref.log": "415c91d5d7ead1644f45b21df3b06a4491b2bc5d263d50df527e550b818d4d27",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/types.log": "c477956d6d7e9b36b6120fa9c2b6e73f11babdace48c8c744874cd6a27a5e762",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/format.log": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/dice.log": "946a257437c4a9458a454ab2d4ddb375ce392ae90358d24e9df70f6229770a36",
@@ -99,5 +109,7 @@
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/initial-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/typecheck.mjs": "e1b5c36b5ae1374c9aded124a15cf5b4a2f446d8f8393966a1d7373da6f0a9c4",
     "docs/codex/effect-batches/team-2/a79-policy-proposal-proof/lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  }
+  },
+  "reportReviewer": "PASS",
+  "prepublicationMain": "0b423d735822264668b44b5cd583f385c5bae643"
 }
