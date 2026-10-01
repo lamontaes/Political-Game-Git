@@ -1,0 +1,59 @@
+{
+  "candidateHead": "0bde4709405a8d4cb295f6ca1f96b0aed2cdb737",
+  "parent": "18f46d855235bdb0d30d1b0c6d068e6281fbea73",
+  "legalTestBlob": "11d746985b0102341358642d387011a93f73de10",
+  "readerTestBlob": "1f16e6879850f8dab15df487f68dec2357b5ac26",
+  "startingLawBlob": "cfea96704a0c417b109c80209542fb3ea24bc284",
+  "route": "Native exact-head detached worktree with default config; diagnostic config unused",
+  "command": "G10_PROOF_REPORT_PATH=/tmp/team9-a19-ct-candidate-proof.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/law-consequences/legal-outcome.test.ts src/simulation/governing/starting-wage-ct-terms.test.ts -t 'recorded floors reach saved sentences.*US-CT|Connecticut starting wage terms retain their legal date' --reporter=default --reporter=json --outputFile=/tmp/team9-a19-ct-candidate-results.json",
+  "passedFiles": 2,
+  "passedSelectedCases": 5,
+  "notRun": 70,
+  "durationSeconds": 60.22,
+  "canonicalConnecticutSeconds": 21.286,
+  "readerCasesMilliseconds": 6,
+  "budgets": {
+    "testTimeoutMilliseconds": 30000,
+    "hookTimeoutMilliseconds": 60000,
+    "changed": false
+  },
+  "canonicalReceipts": [
+    {
+      "seed": "team9-g10-floor:US-CT",
+      "place": "US-CT",
+      "personId": "person_8abe375183cc5b0b",
+      "name": "Jared Soto",
+      "sentenceId": "event_2eb4ebbe3249b727",
+      "months": 120,
+      "measureId": "legislative-measure_2b32817ec4702c59",
+      "summary": "Jared Soto was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_aaae321fc40d9bfb",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_2b32817ec4702c59",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-01-19",
+          "sourceRecordIds": [
+            "event_2eb4ebbe3249b727",
+            "legislative-measure_2b32817ec4702c59",
+            "legislative-enactment_a671b45d5b6c302c",
+            "legislative-provision_03cadfe4be46331d"
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Other four canonical places not rerun",
+    "48 states still missing numeric coverage per coordinator",
+    "No full foundation or nationwide acceptance",
+    "No year or whole-suite run",
+    "No production or assertion edits by Team9",
+    "No merge or CTO approval inferred"
+  ]
+}
