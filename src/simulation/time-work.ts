@@ -1,3 +1,4 @@
+import { applyLawConsequences } from "./enacted-law-effects";
 import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
@@ -1930,7 +1931,12 @@ function completeActivity(
     outcomeEventId: event.id,
     supersedesStateId: previous.id,
   });
-  return next;
+  return applyLawConsequences(next, {
+    activity: "service",
+    activityId: activity.id,
+    subjectIds: [...activity.participantPersonIds],
+    onDate: event.occurredAt,
+  });
 }
 
 function appendActivityState(
