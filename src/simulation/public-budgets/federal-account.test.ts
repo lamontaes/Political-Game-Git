@@ -1,3 +1,46 @@
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import {
+  introduceMeasure,
+  recordEnactment,
+  measurePosition,
+  availableMeasureSteps,
+} from "../legislation";
+import {
+  US_CONGRESS_PACK_ID,
+  US_CONGRESS_RULE_PACK,
+} from "../congress-rule-pack";
+import { seatedCongressChamber } from "../governing/congress-chambers";
+import { chamberByKey } from "../legislature-rules";
+import {
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+} from "../legislation-scenarios";
+import { applyLegislativeStep } from "../../presentation/legislation-session";
+import { federalProgramCostsForMonth } from "../federal-cost-ledger";
+import { EXPAND_PASSENGER_RAIL_QUESTION } from "../federal-passenger-rail";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { addDays } from "../dates";
+import { currentPresidentOf } from "../crisis/offices";
+import { ensureNationalElectionJurisdiction } from "../national-election-geography";
+import {
+  ensurePublicGovernmentAccount,
+  publicTaxAccountForJurisdiction,
+} from "../tax-policy";
+import {
+  commitPublicProgram,
+  declareProgramCapacity,
+  programAppropriations,
+  recordProgramAppropriation,
+  programInstallments,
+  settleProgramInstallment,
+} from "../governing/public-program";
+import { programOperatorOrganization } from "../governing/program-governing";
+import { FIXTURE } from "../../../tests/fixtures/public-program-fixture";
+const PROGRAM_KEY = "passenger-rail:us";
+const PAYMENT = money(100_000_00, "USD");
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -66,6 +109,259 @@ function account(world: World, stableKey: string) {
 }
 
 describe("M5 federal government uses the same saved-payment settler", () => {
+  it("preserves the legacy federal paid component and authority IDs through the common cash settler", () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "federal-public-program-outlay-metric",
+        startAge: 34,
+        depth: "summarize-earlier-life",
+      }),
+    ).game;
+    if (!game) throw new Error("Expected an ordinary opening life.");
+
+    let world = ensureNationalElectionJurisdiction(game.world);
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (p) => p.stableKey === EXPAND_PASSENGER_RAIL_QUESTION,
+    )!;
+    // Controlled legal passage, with explicitly authored test ballots.
+    // This does not prove ordinary sponsor selection or voting behavior.
+    world = introduceMeasure(world, {
+      stableKey: "test:rail-cost:measure",
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      rulePackId: US_CONGRESS_PACK_ID,
+      designation: "H.R. TEST",
+      shortTitle: "Controlled rail payment authority",
+      summary: "Fixture appropriation authority, not natural passage.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+      sponsorPersonId: null,
+      propositionIds: [proposition.id],
+      propositionAnswers: [{ propositionId: proposition.id, answer: "yes" }],
+    });
+    const measure = world.history.legislativeMeasures!.at(-1)!;
+    const bodies = US_CONGRESS_RULE_PACK.chamberOrder.map((key) => {
+      const seated = seatedCongressChamber(world, key);
+      if (!seated) throw new Error("Expected the actual seated Congress.");
+      return seated.body;
+    });
+    const votePlan: Record<string, { yea: number }> = {};
+    for (const key of US_CONGRESS_RULE_PACK.chamberOrder) {
+      const chamber = chamberByKey(US_CONGRESS_RULE_PACK, key);
+      for (const committee of chamber.committees)
+        votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+          yea: committee.appointedMembers ?? 1,
+        };
+      for (const stage of chamber.floorStages)
+        votePlan[votePlanKeyForFloor(key, stage.stageKey)] = {
+          yea: bodies.find((b) => b.chamberKey === key)!.members.length,
+        };
+    }
+    const procedure = {
+      pack: US_CONGRESS_RULE_PACK,
+      measureId: measure.id,
+      bodies,
+      committeeMemberCount: null,
+      votePlan,
+      governorAction: "signed" as const,
+      governorRationale: "Explicit controlled payment-authority fixture.",
+    };
+    for (
+      let stepNumber = 0;
+      stepNumber < 45 &&
+      measurePosition(world, measure.id).phase !== "awaiting-enactment";
+      stepNumber++
+    ) {
+      const step = availableMeasureSteps(world, measure.id).find(
+        (s) => s !== "offer-amendment",
+      );
+      if (!step) throw new Error("No legal controlled enactment step remains.");
+      world = applyLegislativeStep(procedure, world, step).world;
+    }
+    world = recordEnactment(world, {
+      stableKey: "test:rail-cost:enactment",
+      measureId: measure.id,
+      effectiveAt: world.currentDate,
+    });
+    const president = currentPresidentOf(world);
+    if (!president) throw new Error("Expected a sitting President.");
+    const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
+    const publicOrganizationId = publicOrganizationKey(jurisdictionId);
+    world = createOrganization(world, {
+      stableKey: publicOrganizationId,
+      formedAt: world.currentDate,
+      provenance: { kind: "authored", note: FIXTURE.note },
+      initialProfile: {
+        name: "Federal public government",
+        classification: "sector:government",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    const publicGovernment = world.history.organizations.at(-1)!;
+    world = createResourcePosition(world, {
+      stableKey: `${publicOrganizationId}:modeled-receipts:USD`,
+      owner: { kind: "organization", organizationId: publicGovernment.id },
+      openedAt: world.currentDate,
+      openingBalance: money(150_000_00, "USD"),
+      provenance: { kind: "authored", note: FIXTURE.note },
+    });
+    world = ensurePublicGovernmentAccount(world, {
+      kind: "jurisdiction",
+      jurisdictionId,
+    });
+    const account = publicTaxAccountForJurisdiction(world, jurisdictionId);
+    expect(account?.organizationId).toBe(publicGovernment.id);
+    if (!account) throw new Error("Expected the federal public account.");
+
+    world = declareProgramCapacity(world, {
+      edition: "federal-outlay-metric",
+      programKey: PROGRAM_KEY,
+      jurisdictionId,
+      serviceLabel: "Passenger rail service",
+      unitLabel: "service units",
+      unitsTotal: 1,
+      unitsOperational: 0,
+      monthlyOperatingNeed: money(1, "USD"),
+      completedPermille: null,
+      restorationCostPerUnit: PAYMENT,
+      basis: FIXTURE,
+    }).world;
+    const written = recordProgramAppropriation(world, {
+      edition: "federal-outlay-metric",
+      programKey: PROGRAM_KEY,
+      jurisdictionId,
+      accountOrganizationId: account.organizationId,
+      amount: money(150_000_00, "USD"),
+      sourceMeasureId: measure.id,
+      availableFrom: world.currentDate,
+      availableThrough: addDays(world.currentDate, 30),
+      basis: FIXTURE,
+    });
+    world = written.world;
+    const appropriation = programAppropriations(world, PROGRAM_KEY).find(
+      (record) => record.id === written.id,
+    );
+    if (!appropriation)
+      throw new Error("The federal appropriation is missing.");
+
+    const operator = programOperatorOrganization(
+      world,
+      PROGRAM_KEY,
+      jurisdictionId,
+    );
+    world = operator.world;
+    const dueAt = addDays(world.currentDate, 1);
+    const committed = commitPublicProgram(world, {
+      appropriationId: appropriation.id,
+      alternative: {
+        key: "federal-one-day-outlay-proof",
+        title: "One federal service payment",
+        installments: [
+          { afterDays: 1, amount: PAYMENT, purpose: "maintenance" },
+        ],
+        deliveryLeadDays: 1,
+      },
+      personId: president.personId,
+      office: { kind: "federal-executive" },
+      recipientOrganizationId: operator.organizationId,
+    });
+    expect(committed.ok).toBe(true);
+    if (!committed.ok) throw new Error(committed.reason);
+
+    const beforePayment = committed.world;
+    const month = makeIsoDate(`${dueAt.slice(0, 7)}-01`);
+    const opened = openFederalTreasury(month);
+    const unpaid = settleFederalTreasuryMonth(
+      beforePayment,
+      opened,
+      month,
+    ).months.at(-1)!;
+    expect(federalProgramCostsForMonth(beforePayment, month)).toEqual([]);
+    world = advanceWorld(
+      beforePayment,
+      1,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const installment = programInstallments(world, PROGRAM_KEY).find(
+      (record) => record.commitmentId === committed.recordId,
+    );
+    expect(installment).toMatchObject({ status: "posted", recordedAt: dueAt });
+    if (!installment) throw new Error("The federal payment did not post.");
+
+    const empty: PublicBudgetStore = {
+      version: PUBLIC_BUDGETS_VERSION,
+      cursor: {
+        flows: beforePayment.history.resourceFlows.length,
+        outcomes: beforePayment.history.resourceTransferOutcomes.length,
+      },
+      governments: [],
+      unknown: [],
+      adjustments: [],
+      federal: opened,
+    };
+    const store = withOpenedBudgets(beforePayment, empty, month);
+    const paid = settleFederalTreasuryMonth(world, opened, month).months.at(
+      -1,
+    )!;
+    const read = readMonthFlows(world, store);
+    const cashGovernment = settleGovernmentMonth(
+      world,
+      store.federalGovernment!,
+      month,
+      read.flows,
+    ).government;
+    const row = cashGovernment.months.at(-1)!;
+    const costs = federalProgramCostsForMonth(world, month);
+    expect(costs).toHaveLength(1);
+    const transportation = FEDERAL_OUTLAYS.indexOf("transportation");
+    // Retain the actual paid component, rather than treating the old forecast
+    // or its automatic deficit borrowing as a resource transaction.
+    expect(row.spending[transportation]).toBe(
+      paid.outlays[transportation]! - unpaid.outlays[transportation]!,
+    );
+    expect(row.spending[transportation]).toBe(PAYMENT.minorUnits / 100);
+    expect(cashGovernment.debt).toBe(store.federalGovernment!.debt);
+    expect(row.cashSettlement.sourceRecordIds).toEqual(
+      expect.arrayContaining([...costs[0]!.sourceRecordIds]),
+    );
+    expect(row.lawEffectStamps).toEqual(costs[0]!.lawEffectStamps);
+    expect(cashGovernment.balance).toBe(
+      resourcePositionAt(
+        world,
+        { kind: "organization", organizationId: publicGovernment.id },
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits / 100,
+    );
+    const saved = deserializeWorld(
+      serializeWorld({
+        ...world,
+        publicBudgets: {
+          ...store,
+          cursor: read.cursor,
+          federalGovernment: cashGovernment,
+        },
+      }),
+    );
+    expect(saved.publicBudgets!.federalGovernment).toEqual(cashGovernment);
+    const repeatedPayment = settleProgramInstallment(
+      saved,
+      committed.recordId,
+      0,
+    ).world;
+    expect(repeatedPayment.history.resourceTransferOutcomes).toEqual(
+      saved.history.resourceTransferOutcomes,
+    );
+    expect(
+      settleGovernmentMonth(
+        repeatedPayment,
+        cashGovernment,
+        month,
+        readMonthFlows(repeatedPayment, repeatedPayment.publicBudgets!).flows,
+      ).government,
+    ).toBe(cashGovernment);
+  });
+
   it("joins a named worker's saved federal income and payroll payments to their actual account", () => {
     const seed = "m5-federal-recorded-payroll";
     const place = observerPlace(seed);
