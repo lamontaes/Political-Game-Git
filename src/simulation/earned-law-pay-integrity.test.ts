@@ -14,7 +14,7 @@ import {
   payWorkplaceAt,
   matchPayCoveragePredicates,
 } from "./pay-coverage-predicates";
-import { workPayCoverageAt } from "./pay-coverage";
+import { workPayCoverageAt } from "./pay-coverage-query";
 import { evaluateLawAmount } from "./law-consequence-amount";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
