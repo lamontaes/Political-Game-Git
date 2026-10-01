@@ -122,3 +122,65 @@ export function readFinalEnactedLawTerm(
     sourceRecordIds: [law.measureId, enactment.id, provision.id],
   };
 }
+
+export interface FinalEnactedLawCategories {
+  readonly values: readonly string[];
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+/** Reads explicit closed categories in the adopted text; there is no inferred coverage. */
+export function readFinalEnactedLawCategories(
+  world: World,
+  law: LawInForce,
+  input: {
+    readonly questionKey: string;
+    readonly termKey: string;
+    readonly onDate?: IsoDate;
+    readonly cutoff?: HistoricalCutoff;
+  },
+): FinalEnactedLawCategories | null {
+  const onDate = input.onDate ?? world.currentDate;
+  if (onDate > world.currentDate) return null;
+  const enactment = finalTermEnactment(
+    world,
+    law,
+    input.questionKey,
+    onDate,
+    input.cutoff,
+  );
+  if (!enactment) return null;
+  const parameter = world.policyCatalog.propositionOrder
+    .map((id) => world.policyCatalog.propositions[id]!)
+    .find((question) => question.stableKey === input.questionKey)
+    ?.parameters.find((row) => row.key === input.termKey);
+  if (!parameter?.allowedValues?.length) return null;
+  const matches = finalTermProvisions(
+    world,
+    law.measureId,
+    enactment.sequence,
+  ).flatMap((provision) =>
+    provision.applicationScope.segmentKey === null
+      ? (provision.lawCategories ?? [])
+          .filter(
+            (category) =>
+              category.questionKey === input.questionKey &&
+              category.key === input.termKey,
+          )
+          .map((category) => ({ provision, category }))
+      : [],
+  );
+  if (matches.length !== 1) return null;
+  const { provision, category } = matches[0]!;
+  if (
+    category.values.some((value) => !parameter.allowedValues!.includes(value))
+  )
+    return null;
+  return {
+    values: [...category.values],
+    measureId: law.measureId,
+    provisionId: provision.id,
+    sourceRecordIds: [law.measureId, enactment.id, provision.id],
+  };
+}
