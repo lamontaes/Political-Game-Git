@@ -14,34 +14,28 @@
  *   child at home and after many years together;
  * - a dating couple may move in together, and a couple living together may
  *   marry, more readily when both of them work;
- * - a woman aged 15 to 49 may have a child (the birth table's ages, which
- *   the family writer also reads for the youngest parent). On average she
- *   has her age band's real yearly birth rate; being married or living with a partner, the
- *   children she already has, a first year together and whether anybody at
- *   home works move her chance around it, and the town's total is rescaled
- *   to the age rates. The outcome web's links into the birth rate move it
- *   (`../outcome-web`): about 1.4% fewer for each point of unemployment
- *   nine months before, as research measures;
  * - a single adult may start dating another single adult in town of a near
  *   age, more often in their twenties and thirties and when they work.
  *
+ * Children are not decided here. A child is born only when two people have
+ * a recorded family plan (`../people-family-plan`): one of them raised it, the
+ * other agreed, and the birth lands on the plan's own date through the family
+ * writer. That is one rule for the player and for everybody in town; no
+ * quarterly draw makes a baby. (Nothing yet raises a plan for a couple in
+ * town by itself; until something does, town couples have no children here.)
+ *
  * So the chances follow conditions that last (age, years together, children,
  * work, the economy), not one flat chance for everybody. The player's own
- * relationships and children stay the player's choice and are never touched
+ * relationships stay the player's choice and are never touched
  * here. Every change is a dated record with its own event, on the day of the
  * review, written through the same writers play uses.
  *
- * The chances below are GAME ASSUMPTIONS, not read from a source, except
- * the birth rates by age, which are calibrated to national figures. What the
- * game does not claim: this models no biology beyond an age band, no
- * adoption, no custody law and no attraction. A child's second parent is
- * the partner the mother lives with, when there is one; after a breakup the
- * children stay in the home unless only the partner who leaves is their
- * parent.
+ * The chances below are GAME ASSUMPTIONS, not read from a source. What the
+ * game does not claim: this models no custody law and no attraction. After a
+ * breakup the children stay in the home unless only the partner who leaves is
+ * their parent.
  */
 
-import { BIRTH_RATES_BY_MOTHER_AGE } from "../birth-rates";
-import { outcomeFactor } from "../outcome-web";
 import { ageOnDate, addDays } from "../dates";
 import { createStableId } from "../ids";
 import {
@@ -55,7 +49,6 @@ import {
 import { householdMembershipsAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { personName } from "../people";
-import { recordFamilyAddition } from "../people-family";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -64,6 +57,7 @@ import type {
   Partnership,
   Person,
   World,
+  HistoricalEvent,
 } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -86,8 +80,6 @@ export const TOWN_FAMILY_EVENTS = {
   married: "life.married",
   brokeUp: "life.broke-up",
   divorced: "life.divorced",
-  /** A drawn birth the family writer would not record; the world goes on. */
-  birthRefused: "life.birth-refused",
 } as const;
 
 type Stage = keyof typeof TOWN_PARTNERSHIP_KINDS;
@@ -111,36 +103,9 @@ export const TOWN_FAMILY_CHANCES = {
   sameGender: 0.06,
 } as const;
 
-/** Births per 1,000 women a year by age (see `../birth-rates`). */
-export const TOWN_BIRTH_RATES_BY_AGE = BIRTH_RATES_BY_MOTHER_AGE;
-
-/**
- * GAME ASSUMPTIONS: how a woman's own conditions weigh her chance against
- * other women her age in town. Only the ratios matter; the town's total is
- * rescaled to the age rates above.
- */
-export const TOWN_BIRTH_WEIGHTS = {
-  married: 1.3,
-  cohabiting: 1,
-  dating: 0.4,
-  single: 0.3,
-  /** By children she already has: none, one, two, three or more. */
-  byChildren: [1, 1.1, 0.55, 0.3] as readonly number[],
-  /** In a couple's first year of living together. */
-  firstYear: 0.7,
-  /** Nobody in her household has a job. */
-  nobodyWorking: 0.8,
-} as const;
-
-/** The five-year age band a rate belongs to. */
-function bandOf(age: number): number {
-  return Math.floor(age / 5) * 5;
-}
-
 /** The widest age gap between two people who start dating, in years. */
 export const TOWN_DATING_AGE_GAP = 8;
 
-const BIRTH_SPACING_DAYS = 456; // about 15 months
 const QUIET_AFTER_ENDING_DAYS = 365;
 
 function byAge(
@@ -665,137 +630,6 @@ export function reviewTownFamilies(
     }
   }
 
-  // Children. Each woman aged 15 to 49 has her age's real yearly birth rate
-  // on average; her own conditions move her chance up or down around it, and
-  // the chances are rescaled so the town's total still matches the rates.
-  const stageOf = new Map<
-    EntityId,
-    { stage: Stage; partner: EntityId; years: number }
-  >();
-  for (const couple of view.couples) {
-    const [a, b] = couple.partnership.personIds;
-    const years = yearsBetween(couple.partnership.startedAt, today);
-    stageOf.set(a, { stage: couple.stage, partner: b, years });
-    stageOf.set(b, { stage: couple.stage, partner: a, years });
-  }
-  const mothers: {
-    person: TownPerson;
-    weight: number;
-    partner: EntityId | null;
-  }[] = [];
-  const bandWeight = new Map<number, { sum: number; count: number }>();
-  for (const entry of view.people.values()) {
-    if (entry.person.identity?.gender !== "female") continue;
-    const rate = byAge(TOWN_BIRTH_RATES_BY_AGE, entry.age);
-    if (rate <= 0) continue;
-    const id = entry.person.id;
-    const band = bandOf(entry.age);
-    const tally = bandWeight.get(band) ?? { sum: 0, count: 0 };
-    tally.count += 1;
-    bandWeight.set(band, tally);
-    // The player and the player's partner decide their own children.
-    const couple = stageOf.get(id);
-    if (isPlayer(id) || (couple && isPlayer(couple.partner))) continue;
-    if (touched.has(id)) continue;
-    const children = view.childrenOf.get(id) ?? [];
-    const youngest = Math.min(
-      ...children.map(
-        (child) =>
-          Date.parse(today) -
-          Date.parse(world.people[child]?.birthDate ?? "1900-01-01"),
-      ),
-    );
-    if (youngest < BIRTH_SPACING_DAYS * 86_400_000) continue;
-    const together =
-      couple !== undefined &&
-      householdOf(id) !== null &&
-      householdOf(id) === householdOf(couple.partner);
-    const weights = TOWN_BIRTH_WEIGHTS;
-    let weight = !couple
-      ? weights.single
-      : couple.stage === "married"
-        ? weights.married
-        : couple.stage === "cohabiting" && together
-          ? weights.cohabiting
-          : weights.dating;
-    weight *=
-      weights.byChildren[
-        Math.min(children.length, weights.byChildren.length - 1)
-      ]!;
-    if (couple && couple.stage !== "dating" && couple.years < 1)
-      weight *= weights.firstYear;
-    const home = householdOf(id);
-    if (
-      home === null ||
-      !(view.householdMembers.get(home) ?? []).some((member) =>
-        view.working.has(member),
-      )
-    )
-      weight *= weights.nobodyWorking;
-    tally.sum += weight;
-    const partner =
-      couple && couple.stage !== "dating" && together ? couple.partner : null;
-    mothers.push({ person: entry, weight, partner });
-  }
-  // Hard times and other causes in the outcome web move the town's birth
-  // rate (unemployment nine months earlier: about 1.4% fewer births per point).
-  const birthFactor = outcomeFactor(
-    next,
-    town,
-    "births.rate",
-    today,
-  ).multiplier;
-  for (const mother of mothers) {
-    const tally = bandWeight.get(bandOf(mother.person.age))!;
-    const mean = tally.sum / tally.count;
-    if (mean <= 0) continue;
-    const yearly = byAge(TOWN_BIRTH_RATES_BY_AGE, mother.person.age) / 1000;
-    // Unemployment reaches births only through the web, never twice.
-    const chance = (yearly / 4) * (mother.weight / mean) * birthFactor;
-    const id = mother.person.person.id;
-    const rng = rngFor(`mother:${id}`);
-    if (rng.fork("child").next() >= chance) continue;
-    const partner =
-      mother.partner && view.people.has(mother.partner) ? mother.partner : null;
-    try {
-      next = recordFamilyAddition(next, {
-        kind: "birth",
-        stableKey: `${prefix}mother:${id}:birth`,
-        occurredAt: today,
-        parentPersonIds: partner ? [id, partner] : [id],
-        tags: [TOWN_FAMILIES_VERSION],
-      }).world;
-    } catch (error) {
-      // A birth the record refuses never stops the world: the refusal is
-      // kept, privately, with the writer's reason, and the review goes on.
-      next = recordWorldEvent(next, {
-        stableKey: `${prefix}mother:${id}:birth-refused`,
-        type: TOWN_FAMILY_EVENTS.birthRefused,
-        occurredAt: today,
-        recordedAt: today,
-        jurisdictionId: town,
-        involvedEntityIds: partner ? [id, partner] : [id],
-        participants: [],
-        personFactConstraints: [],
-        visibility: "private",
-        tags: [TOWN_FAMILIES_VERSION, "refused"],
-        summary: `A birth to ${personName(mother.person.person)} was not recorded: ${
-          error instanceof Error ? error.message : String(error)
-        }`,
-        context: {
-          location: null,
-          socialContext: null,
-          pressure: null,
-          choice: null,
-          motivation: null,
-          immediateReaction: null,
-        },
-      });
-    }
-    touched.add(id);
-    if (partner) touched.add(partner);
-  }
-
   // Single adults: somebody in town of a near age may start dating them.
   const quietSince = addDays(today, -QUIET_AFTER_ENDING_DAYS);
   const singles = [...view.people.values()]
@@ -848,7 +682,10 @@ export function reviewTownFamilies(
 }
 
 /** Counts of what the town's families did, from the records. */
-export function describeTownFamilies(world: World, town: EntityId) {
+export function describeTownFamilies(
+  world: World,
+  town: EntityId,
+): Readonly<Record<string, number>> & { readonly births: number } {
   const counts: Record<string, number> = {};
   for (const event of world.history.events)
     if (
@@ -856,10 +693,20 @@ export function describeTownFamilies(world: World, town: EntityId) {
       event.tags.includes(TOWN_FAMILIES_VERSION)
     )
       counts[event.type] = (counts[event.type] ?? 0) + 1;
-  const births = world.history.events.filter(
-    (event) =>
-      event.stableKey.startsWith(`${TOWN_FAMILIES_VERSION}:${town}:`) &&
-      event.type === "life.family-member-added",
+  const births = world.history.events.filter((event) =>
+    isTownBirth(event, town),
   ).length;
   return { ...counts, births };
+}
+
+/**
+ * A child born to parents living in this town, whatever led to it: the
+ * family writer's birth record, dated and placed where the parents live.
+ */
+export function isTownBirth(event: HistoricalEvent, town: EntityId): boolean {
+  return (
+    event.type === "life.family-member-added" &&
+    event.jurisdictionId === town &&
+    event.tags.includes("family.birth")
+  );
 }

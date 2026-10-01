@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-10-01T16:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and families",
+  "notes": [
+    "Gap filed under the CTO's A136 ruling of 10/1: a child is born only when the couple has a recorded family plan (src/simulation/people-family-plan.ts), and no plan may be made with a roll. The quarterly birth draw in src/simulation/living-world/town-families.ts was deleted in the same change.",
+    "Nothing in play raises a family plan yet. proposeFamilyPlan has no caller outside its own test, for town couples or for the player, so from this change on, no child is born in any town until a producer exists. The births in the outcome web ('births.rate' in data/research/outcome-web/links.json, including unemployment nine months earlier and the state's abortion law) have no reader in play until then either.",
+    "Once a plan is raised, the partner's answer already comes from their own traits (risk, deliberation, reliability) through the decision engine, and the birth lands 273 days after a yes through the family writer. The missing piece is the decision to raise it."
+  ],
+  "priority": "P1",
+  "question": "What decides when a couple in the United States starts trying for a child? For couples who share a home, give how the yearly likelihood of a planned first, second and third child changes with each partner's age, whether they are married or living together, how long they have been together, how many children they already have and the youngest one's age, household income and whether each partner works, the local unemployment rate, housing costs, and the state's laws on parental leave and abortion. Where the research measures intended versus unintended births, say what share of births follow a stated intention, by age.",
+  "questionId": "when-a-couple-plans-a-child",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/birth-rates.ts (births per 1,000 women by mother's age)",
+      "whatItDidNotSettle": "Gives the national total by the mother's age, which checks the simulation's sum, but says nothing about which couple decides to have a child or why."
+    },
+    {
+      "source": "data/research/outcome-web/links.json, the links into births.rate",
+      "whatItDidNotSettle": "Measures how unemployment and abortion law move a place's birth rate in total; it does not say how one couple's own conditions weigh their decision."
+    }
+  ],
+  "title": "When a couple decides to try for a child",
+  "usableAnswer": "Effect sizes (or relative likelihoods) for each condition above on a couple's yearly chance of starting a planned pregnancy, by birth order, with sources, so a deterministic rule can let a couple's own conditions raise a family plan and the town's total land near the real age-specific birth rates. Also the share of births that are unintended, by mother's age, which the game will report as missing rather than draw.",
+  "whyItMatters": "Births in town now follow only a couple's own recorded decision, the same rule the player follows. Until something lets a town couple raise that decision from their own lives, no child is born anywhere in the world, schools and households stop growing, and a player's law on parental leave or child care has no family to reach."
+}
