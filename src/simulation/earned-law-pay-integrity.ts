@@ -11,6 +11,7 @@ import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { evaluateLawAmount, type LawAmount } from "./law-consequence-amount";
 import type { LawAmountExpression } from "./law-consequence-types";
 import { enactedRuleChangeAt, laborLawOfficeKey } from "./enacted-rule-changes";
+import { stateMinimumSettingAt } from "./minimum-wage";
 import {
   matchPayCoveragePredicates,
   payWorkplaceAt,
@@ -330,6 +331,9 @@ function validateEarnedLawPayAuthority(
       onDate: cutoff.asOfDate,
       cutoff,
     });
+    const legal = stateKey
+      ? stateMinimumSettingAt(world, stateKey, cutoff.asOfDate, cutoff)
+      : null;
     const template = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
     const match = matchPayCoveragePredicates(
       world,
@@ -351,6 +355,10 @@ function validateEarnedLawPayAuthority(
       !clause ||
       !enactment ||
       !change ||
+      !legal?.measureId ||
+      change.measureId !== legal.measureId ||
+      change.operativeAt !== legal.effectiveAt ||
+      change.value !== legal.hourlyMinor ||
       clause.sequence >= enactment.sequence ||
       enactment.sequence >= cutoff.historySequenceExclusive ||
       clause.filedAt > cutoff.asOfDate ||
