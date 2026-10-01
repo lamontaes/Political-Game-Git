@@ -49,6 +49,21 @@ function filed(chamber = "house") {
 describe("F pinned ordinary revenue identity and explicit S input contract", () => {
   it("reaches the canonical tax measure and offers only its bill-bound revenue sitting, never the appropriation sitting's decisions", () => {
     const result = filed();
+    const measure = result.world.history.legislativeMeasures!.find((row) => row.id === result.measureId)!;
+    const question = Object.values(result.world.policyCatalog.propositions).find(
+      (row) => row.stableKey === "us-tax-terms:state.excise-tax-terms",
+    )!;
+    expect(measure.propositionIds).toEqual([question.id]);
+    expect(measure.propositionAnswers).toEqual([{ propositionId: question.id, answer: "yes" }]);
+    const proposal = result.world.history.taxProposals!.find((row) => row.measureId === result.measureId)!;
+    const levy = result.world.history.legislativeProvisions!.find((row) => row.id === proposal.levyProvisionId)!;
+    expect(levy.lawTerms).toEqual([
+      { questionKey: question.stableKey, key: "tax.rate-numerator", value: 5, unit: "count" },
+      { questionKey: question.stableKey, key: "tax.rate-denominator", value: 100, unit: "count" },
+      { questionKey: question.stableKey, key: "tax.occurrence-allowance", value: 100, unit: "minor" },
+      { questionKey: question.stableKey, key: "tax.effective-delay", value: 90, unit: "days" },
+      { questionKey: question.stableKey, key: "tax.collection-lag", value: 2, unit: "days" },
+    ]);
     const input = {
       measureId: result.measureId,
       playerPersonId: result.personId,
