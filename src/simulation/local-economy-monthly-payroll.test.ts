@@ -554,9 +554,10 @@ it("A37 Ruling20 preserves actual first-day historical payment and resumes on th
     occurredAt: "2026-02-28",
     transferredAmount: money(500000, "USD"),
   });
-  expect(resourcePositionAt(paid, f.flow.source, "USD")!.liquidBalance).toEqual(
-    money(1000000, "USD"),
-  );
+  expect(
+    resourcePositionAt(paid, f.flow.source, money(0, "USD").currency)!
+      .liquidBalance,
+  ).toEqual(money(1000000, "USD"));
   const stub = recordedPayStubs(paid, f.person.id).find(
     (x) => x.paycheck.id === outcomes[1]!.id,
   )!;
