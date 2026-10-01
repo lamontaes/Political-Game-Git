@@ -83,7 +83,7 @@ export interface ServiceRequestForm {
    * a job search. `reading`: classes, a learning goal and children at home,
    * against hours held by work. `on-call` services (a crisis team) are asked
    * for from the person's own health record, an acute or serious episode,
-   * against another adult at home.
+   * against a saved care record naming someone at home who looks after them.
    */
   readonly need: "travel" | "outdoors" | "reading" | "on-call";
   /**

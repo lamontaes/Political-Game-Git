@@ -1055,8 +1055,20 @@ export function programOperatorOrganization(
   // A standing service program is carried out by an organization that can
   // lawfully provide it (a crisis team by a health department, clinic or
   // hospital) already working in the place, never by a provider made up here.
-  const clinical = eligibleStandingOperator(world, programKey, jurisdictionId);
-  if (clinical) return { world, organizationId: clinical };
+  // With none on record the program stays unsupported: callers check
+  // standingProgramUnsupported first, and no substitute is ever created.
+  if (standingServiceProgram(programKey)) {
+    const clinical = eligibleStandingOperator(
+      world,
+      programKey,
+      jurisdictionId,
+    );
+    if (!clinical)
+      throw new Error(
+        "No eligible operator is on record for this standing service program.",
+      );
+    return { world, organizationId: clinical };
+  }
   const stableKey = `${PROGRAM_GOVERNING_VERSION}:${operatorKey}`;
   const existing = world.history.organizations.find(
     (row) => row.stableKey === stableKey,
@@ -1099,9 +1111,26 @@ export function programOperatorOrganization(
 }
 
 /**
+ * True when the program is a standing service program and no organization
+ * that can lawfully provide it is on record in the place. Its money is then
+ * not committed to anyone.
+ */
+export function standingProgramUnsupported(
+  world: World,
+  programKey: string,
+  jurisdictionId: EntityId,
+): boolean {
+  return (
+    !!standingServiceProgram(programKey) &&
+    !eligibleStandingOperator(world, programKey, jurisdictionId)
+  );
+}
+
+/**
  * The existing organization that can operate a standing service program in
  * this place: the program's first listed kind that is present, then the
- * earliest formed. Only real organizations already on record are chosen.
+ * earliest formed, then the lowest organization ID. Only real organizations
+ * already on record are chosen.
  */
 export function eligibleStandingOperator(
   world: World,
@@ -1121,7 +1150,7 @@ export function eligibleStandingOperator(
       (place ? stateKeyForJurisdiction(place) : null);
     return !!servedState && state === servedState;
   };
-  let best: { rank: number; id: EntityId } | null = null;
+  let best: { rank: number; formedAt: string; id: EntityId } | null = null;
   for (const organization of world.history.organizations) {
     if (organization.formedAt > world.currentDate) continue;
     const profile = organizationProfileAt(world, organization.id);
@@ -1129,7 +1158,19 @@ export function eligibleStandingOperator(
       ? program.operatorClassifications.indexOf(profile.classification)
       : -1;
     if (rank < 0 || !inPlace(profile!.locationJurisdictionId)) continue;
-    if (!best || rank < best.rank) best = { rank, id: organization.id };
+    const candidate = {
+      rank,
+      formedAt: organization.formedAt,
+      id: organization.id,
+    };
+    if (
+      !best ||
+      rank < best.rank ||
+      (rank === best.rank &&
+        (candidate.formedAt < best.formedAt ||
+          (candidate.formedAt === best.formedAt && candidate.id < best.id)))
+    )
+      best = candidate;
   }
   return best?.id ?? null;
 }

@@ -15,6 +15,7 @@ import { hasStableKey, recordById, recordByStableKey } from "./history-index";
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
+  careResponsibilityStateHistory,
   currentLifeCutoff,
   householdMembershipsAt,
   peopleInHouseholdAt,
@@ -326,7 +327,7 @@ function residentRecordIndex(world: World): ResidentRecordIndex {
 
 function lifeRef(
   family:
-    "work-role" | "education-enrollment" | "kinship" | "household-membership",
+    "work-role" | "education-enrollment" | "kinship" | "care-responsibility",
   recordId: EntityId,
 ): MindSourceReference {
   return { kind: "life-history", reference: { family, recordId } };
@@ -395,8 +396,7 @@ function needConsiderations(
 
   if (form.need === "on-call") {
     // A crisis team is asked for from the person's own health record: an
-    // episode that is acute or serious today. Someone else living at home is
-    // help already in the house. The episode names no condition (no
+    // episode that is acute or serious today. The episode names no condition (no
     // researched condition pack is installed), so it is weighed as being
     // unwell, never as a diagnosis.
     for (const episode of activeHealthEpisodes(world, personId)) {
@@ -420,27 +420,35 @@ function needConsiderations(
       );
     }
     if (out.length === 0) return out;
-    for (const entry of householdMembershipsAt(world, personId)) {
-      const others = peopleInHouseholdAt(world, entry.household.id).filter(
-        (id) =>
-          id !== personId &&
-          !records.dead.has(id) &&
-          ageOnDate(world.people[id]!.birthDate, world.currentDate) >=
-            ADULT_AGE,
+    // Help at home counts only when a saved care record says someone living
+    // there looks after this person; sharing a house alone is not support.
+    const home = new Set(
+      householdMembershipsAt(world, personId).flatMap((entry) =>
+        peopleInHouseholdAt(world, entry.household.id),
+      ),
+    );
+    for (const care of world.history.careResponsibilities) {
+      if (
+        care.recipientPersonId !== personId ||
+        care.startedAt > world.currentDate ||
+        records.dead.has(care.caregiverPersonId) ||
+        !home.has(care.caregiverPersonId) ||
+        careResponsibilityStateHistory(world, care.id).at(-1)?.status !==
+          "active"
+      )
+        continue;
+      out.push(
+        consideration(
+          personId,
+          `care:${care.id}`,
+          "wait",
+          "slight",
+          "high",
+          "Someone at home looks after them.",
+          [lifeRef("care-responsibility", care.id)],
+          "social:family",
+        ),
       );
-      if (others.length > 0)
-        out.push(
-          consideration(
-            personId,
-            `household:${entry.membership.id}`,
-            "wait",
-            "slight",
-            "high",
-            "Another adult at home can help.",
-            [lifeRef("household-membership", entry.membership.id)],
-            "social:family",
-          ),
-        );
     }
     return out;
   }

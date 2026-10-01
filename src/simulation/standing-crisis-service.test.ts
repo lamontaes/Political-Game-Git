@@ -4,10 +4,27 @@ import { beginHealthEpisode } from "./crisis/health";
 import { ensureCrisisStandingAppropriations } from "./crisis-standing-appropriations";
 import { addDays } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { eligibleStandingOperator } from "./governing/program-governing";
-import { PUBLIC_PROGRAM_INSTALLMENT } from "./governing/public-program";
+import {
+  eligibleStandingOperator,
+  programAlternativesFor,
+  programOperatorOrganization,
+} from "./governing/program-governing";
+import {
+  programCommitments,
+  PUBLIC_PROGRAM_INSTALLMENT,
+} from "./governing/public-program";
+import {
+  decideGoverningMatter,
+  governingMatters,
+  openProgramMattersForAllOffices,
+} from "./governing/state-governing";
 import { stableHash } from "./ids";
-import { createOrganization } from "./life";
+import {
+  createCareResponsibility,
+  createHousehold,
+  createOrganization,
+  startHouseholdMembership,
+} from "./life";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
@@ -23,6 +40,10 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
+import {
+  currentStateExecutiveHolders,
+  ensureStateExecutiveIncumbent,
+} from "./nationwide-world/state-executives";
 import { scheduledActivityState } from "./time-work";
 import { advanceWorld, assertWorldIntegrity, recordWorldEvent } from "./world";
 import {
@@ -408,5 +429,183 @@ describe("the standing 988 consumer", () => {
     ).toBe(true);
     expect(requestsBy(world, f.unwell)).toEqual([]);
     expect(deliveries(world)).toEqual([]);
+  });
+
+  it(`with no lawful provider on record the governor's choice commits nothing and makes up no provider (${place}, seed ${seed})`, () => {
+    let world = ensureCrisisStandingAppropriations(inState(place));
+    const jurisdictionId = stateJurisdictionForKey(place)!.id;
+    // Only a transit company works here: it cannot run a crisis team.
+    world = organization(
+      world,
+      "test:county-transit",
+      "enterprise:transit",
+      jurisdictionId,
+    ).world;
+    const appropriation = standingAppropriation(world, place)!;
+    const usps = place.slice(3);
+    world = ensureStateExecutiveIncumbent(
+      world,
+      procedure.playerPersonId,
+      usps,
+    );
+    const governor = currentStateExecutiveHolders(world).find(
+      (holder) => holder.stateUsps === usps,
+    )!;
+    world = {
+      ...world,
+      control: { kind: "person", personId: governor.personId },
+    };
+    world = openProgramMattersForAllOffices(world, new Set([appropriation.id]));
+    const matter = governingMatters(world).find(
+      (entry) => entry.appropriationId === appropriation.id,
+    )!;
+    const paying = programAlternativesFor(world, appropriation).find(
+      (alternative) => alternative.installments.length > 0,
+    )!;
+    const option = matter.options.find(
+      (entry) => entry.key === `program:${paying.key}`,
+    )!;
+    const organizationsBefore = world.history.organizations.length;
+    const flowsBefore = world.history.resourceFlows.length;
+    expect(() =>
+      programOperatorOrganization(
+        world,
+        appropriation.programKey,
+        jurisdictionId,
+      ),
+    ).toThrow(/No eligible operator/);
+    const decided = decideGoverningMatter(world, matter.id, option.key);
+    // The governor's choice is recorded; the money simply finds no provider.
+    expect(decided).toMatchObject({ ok: true });
+    expect(
+      governingMatters(decided.world).find((entry) => entry.id === matter.id)
+        ?.status,
+    ).not.toBe("open");
+    world = advanceWorld(decided.world, 3, registry);
+    expect(world.history.organizations).toHaveLength(organizationsBefore);
+    expect(
+      programCommitments(world, appropriation.programKey).filter(
+        (commitment) => commitment.appropriationId === appropriation.id,
+      ),
+    ).toEqual([]);
+    expect(world.history.resourceFlows).toHaveLength(flowsBefore);
+    expect(
+      world.history.events.filter((e) => e.type === "service.requested"),
+    ).toEqual([]);
+    expect(deliveries(world)).toEqual([]);
+  });
+
+  it(`two same-kind providers: the earlier formed runs the program, then the lower ID (${place}, seed ${seed})`, () => {
+    let world = ensureCrisisStandingAppropriations(inState(place));
+    const jurisdictionId = stateJurisdictionForKey(place)!.id;
+    const programKey = standingAppropriation(world, place)!.programKey;
+    const later = createOrganization(world, {
+      stableKey: "test:clinic-later",
+      formedAt: world.currentDate,
+      provenance,
+      initialProfile: {
+        name: "Later clinic",
+        classification: "service:clinic",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    const laterId = later.history.organizations.at(-1)!.id;
+    world = createOrganization(later, {
+      stableKey: "test:clinic-earlier",
+      formedAt: addDays(later.currentDate, -400),
+      provenance,
+      initialProfile: {
+        name: "Earlier clinic",
+        classification: "service:clinic",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    const earlierId = world.history.organizations.at(-1)!.id;
+    // Recorded second, formed first: formation date decides, not order.
+    expect(eligibleStandingOperator(world, programKey, jurisdictionId)).toBe(
+      earlierId,
+    );
+    const twin = createOrganization(world, {
+      stableKey: "test:clinic-twin",
+      formedAt: addDays(later.currentDate, -400),
+      provenance,
+      initialProfile: {
+        name: "Twin clinic",
+        classification: "service:clinic",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+    const twinId = twin.history.organizations.at(-1)!.id;
+    expect(eligibleStandingOperator(twin, programKey, jurisdictionId)).toBe(
+      [earlierId, twinId].sort()[0],
+    );
+    expect(laterId).not.toBe(
+      eligibleStandingOperator(twin, programKey, jurisdictionId),
+    );
+  });
+
+  it(`a family member at home with a saved duty of care weighs against calling; sharing the house alone does not (${place}, seed ${seed})`, () => {
+    const f = scenario(place, "clinical");
+    // Authored: the two residents share one household.
+    let home = createHousehold(f.world, {
+      stableKey: "test:shared-home",
+      formedAt: f.world.currentDate,
+      label: "Shared home",
+      provenance: { kind: "authored", note: provenance.note },
+    });
+    const householdId = home.history.households.at(-1)!.id;
+    for (const personId of [f.unwell, f.well])
+      home = startHouseholdMembership(home, {
+        stableKey: `test:shared-home:${personId}`,
+        personId,
+        householdId,
+        startedAt: home.currentDate,
+        residenceRole: "shared",
+        kind: "resident:family",
+        provenance: { kind: "authored", note: provenance.note },
+      });
+    const care = (world: World, caregiver: EntityId) =>
+      createCareResponsibility(world, {
+        stableKey: `test:care:${caregiver}:${f.unwell}`,
+        caregiverPersonId: caregiver,
+        recipientPersonId: f.unwell,
+        startedAt: world.currentDate,
+        kind: "personal:adult-family",
+        share: "primary",
+        context: "Looks after them.",
+        timeDemand: {
+          expectedWeekly: { minimumHours: 10, maximumHours: 20 },
+          attention: "moderate",
+          concurrency: "mostly-concurrent",
+          scheduleRigidity: "flexible",
+          interruptibility: "interruptible",
+          locationJurisdictionId: null,
+        },
+        provenance: { kind: "authored", note: provenance.note },
+      });
+    const reasons = (world: World) => {
+      const trace = advanceWorld(
+        world,
+        2,
+        registry,
+      ).history.decisionTraces.find(
+        (t) =>
+          t.context.decisionType === "public-service:request" &&
+          t.context.actorPersonId === f.unwell,
+      )!;
+      // Acute illness still outweighs a carer at home: the resident calls.
+      expect(trace.selectedOptionKey).toBe("ask");
+      return trace.context.considerations.map((c) => c.explanation).sort();
+    };
+    // Sharing the house, and a carer who lives elsewhere, are not help at home.
+    expect(reasons(home)).toEqual(["Is acutely unwell right now."]);
+    const away = care(home, procedure.playerPersonId);
+    expect(reasons(away)).toEqual(["Is acutely unwell right now."]);
+    expect(reasons(care(away, f.well))).toEqual(
+      [
+        "Is acutely unwell right now.",
+        "Someone at home looks after them.",
+      ].sort(),
+    );
   });
 });
