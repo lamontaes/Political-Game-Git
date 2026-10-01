@@ -32,11 +32,17 @@ export function resolvePriceCostConsequences(
     throw new Error("Price-cost requires an amount, not a legal decision");
   if (row.lag.days !== 0)
     throw new Error("Missing price-cost delayed-activity capability");
-  if (context.onDate !== world.currentDate)
-    throw new Error("Price-cost must apply to the current activity date");
+  if (context.onDate > world.currentDate)
+    throw new Error("Price-cost cannot apply to a future activity date");
   if (row.when !== context.activity) return [];
-  const activity = recordById(world.history.resourceFlowTerms, context.activityId);
-  const flow = recordById(world.history.resourceFlows, activity?.resourceFlowId ?? context.activityId);
+  const activity = recordById(
+    world.history.resourceFlowTerms,
+    context.activityId,
+  );
+  const flow = recordById(
+    world.history.resourceFlows,
+    activity?.resourceFlowId ?? context.activityId,
+  );
   if (!flow) throw new Error("Missing price-cost resource-flow activity");
   if (flow.source.kind !== "person" || !world.people[flow.source.personId])
     throw new Error("Missing price-cost person payer capability");
@@ -69,6 +75,8 @@ export function resolvePriceCostConsequences(
   );
   if (!proposition)
     throw new Error(`Missing price-cost catalog row: ${row.id}`);
+  if (context.questionKey && context.questionKey !== proposition.stableKey)
+    return [];
   const registered = proposition.consequences!.find(
     (entry) => entry.id === row.id,
   )!;
@@ -85,9 +93,12 @@ export function resolvePriceCostConsequences(
     return [];
   const terms = activity ?? resourceFlowTermsAt(world, flow.id);
   if (activity && activity.effectiveAt !== context.onDate)
-    throw new Error("Price-cost renewal activity must be the current saved terms record");
+    throw new Error(
+      "Price-cost renewal activity must be the current saved terms record",
+    );
   const prior = terms?.supersedesTermsId
-    ? recordById(world.history.resourceFlowTerms, terms.supersedesTermsId) : undefined;
+    ? recordById(world.history.resourceFlowTerms, terms.supersedesTermsId)
+    : undefined;
   if (!terms || terms.status !== "active" || flow.startsAt > context.onDate)
     return [];
   // No catalog parameter declaration is mistaken for an operative numeric value.
@@ -95,7 +106,14 @@ export function resolvePriceCostConsequences(
   const amount = evaluateLawAmount(row.amount, {
     term: {},
     record: {
-      ...(prior ? {"prior-flow-minor": {value: prior.amount.minorUnits, unit: "minor" as const}} : {}),
+      ...(prior
+        ? {
+            "prior-flow-minor": {
+              value: prior.amount.minorUnits,
+              unit: "minor" as const,
+            },
+          }
+        : {}),
       "current-flow-minor": { value: terms.amount.minorUnits, unit: "minor" },
     },
     capacity: {},
@@ -118,7 +136,12 @@ export function resolvePriceCostConsequences(
       subject: { kind: "person", id: flow.source.personId },
       activityId: context.activityId,
       effectiveAt: context.onDate,
-      sourceRecordIds: [flow.id, terms.id, flow.source.personId, ...(prior ? [prior.id] : [])],
+      sourceRecordIds: [
+        flow.id,
+        terms.id,
+        flow.source.personId,
+        ...(prior ? [prior.id] : []),
+      ],
       value: {
         type: "amount",
         value: amount.value,
@@ -181,11 +204,16 @@ export function applyPriceCostConsequence(
   }
   if (resolved.value.value !== current.value.value)
     throw new Error("Price-cost resolved amount is stale or unverified");
-  const activity = recordById(world.history.resourceFlowTerms, current.activityId);
+  const activity = recordById(
+    world.history.resourceFlowTerms,
+    current.activityId,
+  );
   const flowId = activity?.resourceFlowId ?? current.activityId;
   const previous = resourceFlowTermsAt(world, flowId)!;
   if (activity && previous.id !== activity.id)
-    throw new Error("Price-cost activity no longer names the latest flow terms");
+    throw new Error(
+      "Price-cost activity no longer names the latest flow terms",
+    );
   if (previous.amount.minorUnits === resolved.value.value) return world;
   const stamp = lawEffectStamp(current.law, {
     effectKind: "price-cost",
