@@ -1,3 +1,4 @@
+import { ensurePlayerMonthlyMoneySchedule } from "./player-monthly-money";
 import { ensurePostedMeetingOnCouncilAgenda } from "./living-world/local-council-meetings";
 import {
   lifeRequestDetailsTag,
@@ -17,11 +18,8 @@ import {
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
 import { createScheduledActivity, createWorkItem } from "./time-work";
-import { settleLivingCosts } from "./cost-of-living";
-import { settleOfficeSalaries } from "./office-salary";
 import { refreshLocalEconomy } from "./local-economy";
 import { advanceJobMarket } from "./job-market";
-import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
 import {
@@ -449,10 +447,8 @@ export function refreshLifeOpportunities(
   if (formativeIntervalAt(world, personId) !== null) return world;
 
   let next = refreshLocalEconomy(world, personId);
-  next = settleOfficeSalaries(next, personId);
   next = advanceJobMarket(next, personId);
-  next = settleMortgages(next, personId);
-  next = settleLivingCosts(next, personId);
+  next = ensurePlayerMonthlyMoneySchedule(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;
 }
