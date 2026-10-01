@@ -29,6 +29,7 @@ import {
   type TownCompensationPeriod,
 } from "./living-world/town-pay";
 import { recordById } from "./history-index";
+import { legacyMonthlyPayCoverage } from "./monthly-work-pay";
 import { townBusinesses } from "./living-world/town-businesses";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
@@ -842,8 +843,12 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
     if (seen === undefined || outcome.periodStartsAt > seen)
       latest.set(outcome.resourceFlowId, outcome.periodStartsAt);
     const lastDay = wageLastDays.get(outcome.resourceFlowId);
-    if (!lastDay || outcome.periodEndsAt > lastDay)
-      wageLastDays.set(outcome.resourceFlowId, outcome.periodEndsAt);
+    const legacyCoverage = legacyMonthlyPayCoverage(world, outcome.id);
+    const coveredThrough = legacyCoverage
+      ? addDays(legacyCoverage.nextPeriodStartsAt, -1)
+      : outcome.periodEndsAt;
+    if (!lastDay || coveredThrough > lastDay)
+      wageLastDays.set(outcome.resourceFlowId, coveredThrough);
   }
   type Due =
     | {

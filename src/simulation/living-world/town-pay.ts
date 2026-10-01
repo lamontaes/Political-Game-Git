@@ -4,7 +4,7 @@ import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { settleTrackedBusinessPayroll } from "../local-economy";
-import { monthlyWorkPay } from "../monthly-work-pay";
+import { legacyMonthlyPayCoverage, monthlyWorkPay } from "../monthly-work-pay";
 import type {
   ResolvedHourlyLawPayConsequence,
   ResolvedSavedHourlyPayConsequence,
@@ -1234,11 +1234,13 @@ export function applyLawPayConsequence(
     world.history.resourceTransferOutcomes,
     "resourceFlowId",
     flow!.id,
-  ).reduce<IsoDate | null>(
-    (last, paid) =>
-      !last || paid.periodEndsAt > last ? paid.periodEndsAt : last,
-    null,
-  );
+  ).reduce<IsoDate | null>((last, paid) => {
+    const coverage = legacyMonthlyPayCoverage(world, paid.id);
+    const coveredThrough = coverage
+      ? addDays(coverage.nextPeriodStartsAt, -1)
+      : paid.periodEndsAt;
+    return !last || coveredThrough > last ? coveredThrough : last;
+  }, null);
   const monthlyContinuation =
     current!.cadenceKind === "schedule:monthly" &&
     lastPaidDay !== null &&
@@ -1256,12 +1258,14 @@ export function applyLawPayConsequence(
       world.history.resourceTransferOutcomes,
       "resourceFlowId",
       flow!.id,
-    ).some(
-      (paid) =>
+    ).some((paid) => {
+      const coverage = legacyMonthlyPayCoverage(world, paid.id);
+      return (
         paid.transferredAmount.minorUnits > 0 &&
-        paid.periodStartsAt <= effectiveAt &&
-        effectiveAt <= paid.periodEndsAt,
-    )
+        (coverage?.periodStartsAt ?? paid.periodStartsAt) <= effectiveAt &&
+        effectiveAt <= (coverage?.periodEndsAt ?? paid.periodEndsAt)
+      );
+    })
   )
     refuse("pay.period.unpaid");
   const revision = createStableId(
