@@ -7,6 +7,9 @@
  *
  * The causes read from the record, each a sliding strength from 0 to 1:
  *
+ * - a job offer elsewhere (`work:job-offer`): an offer from a recorded
+ *   employer outside town still waiting for their answer (`job-offers.ts`),
+ *   firmer the more it pays than their own work, at the offer's place.
  * - a lost job (`work:job-lost`): a job that ended in the last year for a
  *   reason other than quitting, retiring or dying, with no job since. It
  *   weighs more the longer they have been out of work and the less anyone
@@ -22,13 +25,13 @@
  *   the last year by a parent, child, sibling, grandparent or grandchild, to
  *   the place that relative now lives.
  *
- * Where they go. A relative's move names its own place. A push from work,
- * rent, eviction or retirement names none, so they go where their closest
- * living relative outside town lives today, and with nobody there, to the
- * rest of their own state (the most common long move: the American
- * Community Survey counts about half of movers between counties as staying
- * in their state). That last fallback is HARDWIRED until a producer records
- * a job offer or a home found elsewhere (`MIGRATION_SEAMS`, `where-people-go`).
+ * Where they go. An offer and a relative's move name their own place. A push
+ * from a lost job, rent, eviction or retirement names none, so they go where
+ * their closest living relative outside town lives today, and with nobody
+ * there, to the rest of their own state (the most common long move: the
+ * American Community Survey counts about half of movers between counties as
+ * staying in their state). That last fallback is HARDWIRED until a producer
+ * records a home found elsewhere (`MIGRATION_SEAMS`, `where-people-go`).
  *
  * The bar, against the causes, in one `evaluateDecision` with no randomness:
  * how rarely people their age in their state move (American Community
@@ -36,8 +39,7 @@
  * home; their own taste for risk; and the town's pushes (waves, the state's
  * pressure, crime, jobs) on either side.
  *
- * NOT PRODUCED, filed as gaps: a job offer elsewhere (the job market posts
- * only the town's own openings); school elsewhere (an admission elsewhere is
+ * NOT PRODUCED, filed as a gap: school elsewhere (an admission elsewhere is
  * not recorded, and an active enrollment holds a person in town,
  * `who-may-move`).
  */
@@ -59,7 +61,10 @@ import {
   TOWN_JOB_END_REASONS,
   TOWN_JOB_ENDS_NOT_LOST,
 } from "../living-world/town-labor-market";
+import { employerDisplayName } from "../job-market";
+import { monthlyPayByPerson } from "../living-world/town-rent";
 import { traitConsiderations } from "../people-traits";
+import { offerStrength, openOfferElsewhere } from "./job-offers";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -80,7 +85,12 @@ const CAUSE_WINDOW_DAYS = 365;
 /** One recorded reason to leave, with its strength and its place. */
 export interface LeaveCause {
   readonly kind:
-    "job-lost" | "evicted" | "rent-burden" | "retired" | "kin-moved";
+    | "job-offer"
+    | "job-lost"
+    | "evicted"
+    | "rent-burden"
+    | "retired"
+    | "kin-moved";
   readonly reason: MoveReasonKey;
   /** 0 to 1, smooth in the facts it reads. */
   readonly strength: number;
@@ -215,9 +225,23 @@ export function causeReader(world: World, town: EntityId): CauseReader {
     });
   };
 
+  let pay: ReadonlyMap<EntityId, number> | null = null;
+  const payByPerson = () => (pay ??= monthlyPayByPerson(world, today));
+
   return {
     causesFor(personId) {
       const causes: LeaveCause[] = [];
+      // An offer of work elsewhere names its own place, so it comes first.
+      const offer = openOfferElsewhere(world, personId, town, payByPerson);
+      if (offer)
+        causes.push({
+          kind: "job-offer",
+          reason: "work:job-offer",
+          strength: offerStrength(offer),
+          causeId: offer.eventId,
+          placeId: offer.placeId,
+          explanation: `${employerDisplayName(world, offer.employer)} offered them ${offer.title.toLowerCase()} work in ${placeName(world, offer.placeId)}`,
+        });
       const ended = endedWork(personId);
       const lost = ended
         .filter((status) => !TOWN_JOB_ENDS_NOT_LOST.has(status.reason ?? ""))
