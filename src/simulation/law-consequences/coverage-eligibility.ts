@@ -140,8 +140,7 @@ export function resolveCoverageEligibility(
     });
     if (
       !stamp ||
-      (context.governingLawId &&
-        context.governingLawId !== stamp.governingLawKey)
+      (context.governingLawId && context.governingLawId !== law.measureId)
     )
       continue;
     resolved.push({
