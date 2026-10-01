@@ -213,8 +213,11 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   });
   await expect(record_).toBeDisabled();
   await expect(ordinance).toContainText("Not before");
-  await ordinance.getByText("Other councilors' ballots").click();
-  await expect(ordinance).toContainText("decides their own ballot");
+  await ordinance.getByLabel("Yea", { exact: true }).check();
+  await ordinance.getByText("How other councilors would answer now").click();
+  await expect(ordinance).toContainText(
+    "each seated councilor would decide from their recorded reasons",
+  );
   // No colleague weighs anything on a sidewalk permit, so each goes along
   // with the ordinance before the council rather than sitting it out.
   await expect(
