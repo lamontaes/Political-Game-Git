@@ -23,7 +23,7 @@ import {
   produceCaughtLyingLeads,
   reporterRoles,
 } from "../simulation/press";
-import { seekCivicPressContact } from "../simulation/press-reach";
+import { recordedCivicReporterFixture } from "../../tests/support/recorded-civic-journalist";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { openLegislativeWork } from "./legislation-world";
@@ -211,7 +211,7 @@ function candidateWithAcceptedMeeting(seed: string) {
   }
   world = say(world, player, "scene-party-invite", "say-yes");
   world = fileForOffice(world, player);
-  world = seekCivicPressContact(world).world;
+  world = recordedCivicReporterFixture(world).world;
   return { player, world };
 }
 
