@@ -2,7 +2,11 @@ import type { LawEffectStampedRecord } from "../law-effect-stamp";
 import type { GovernmentLawCostAttribution } from "./age-verification-cost";
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
-import type { FederalTreasury } from "./federal-treasury";
+import {
+  FEDERAL_RECEIPTS,
+  FEDERAL_OUTLAYS,
+  type FederalTreasury,
+} from "./federal-treasury";
 import type { StatehoodCertification } from "./statehood-funds";
 
 /**
@@ -81,6 +85,49 @@ export const PROTECTED_PROGRAMS: ReadonlySet<BudgetProgram> = new Set([
 ]);
 
 export type BudgetLevel = "state" | "county" | "city";
+
+/** Category sets share the payment taxonomy without reshuffling old save arrays. */
+export const GOVERNMENT_BUDGET_CATEGORIES = {
+  stateLocal: { receipts: BUDGET_SOURCES, outlays: BUDGET_PROGRAMS },
+  federal: { receipts: FEDERAL_RECEIPTS, outlays: FEDERAL_OUTLAYS },
+} as const;
+
+/** Federal cash books; state/local pension and reserve rules do not apply. */
+export interface FederalBudgetGovernment {
+  readonly key: string;
+  readonly jurisdictionId: EntityId;
+  readonly lawJurisdictionId: EntityId;
+  readonly level: "federal";
+  readonly categorySet: "federal";
+  readonly openedOn: IsoDate;
+  /** Null until a recorded USD account supplies this stock. */
+  readonly balance: number | null;
+  readonly reserve: null;
+  readonly pension: null;
+  readonly debt: number;
+  readonly interestRate: number;
+  readonly publicAccountMigration?: {
+    readonly onDate: IsoDate;
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly previousBudgetBalance: number | null;
+    readonly previousBudgetReserve: null;
+    readonly accountBalanceMinorUnits: number;
+  };
+  readonly months: readonly FederalBudgetMonthRow[];
+}
+
+export interface FederalBudgetMonthRow extends LawEffectStampedRecord {
+  readonly month: IsoDate;
+  /** Aligned to the existing seven federal receipts and thirteen outlays. */
+  readonly revenue: readonly number[];
+  readonly spending: readonly number[];
+  readonly balance: number;
+  readonly reserve: null;
+  /** Existing recorded debt; cash shortfalls do not fabricate a loan. */
+  readonly debt: number;
+  readonly cashSettlement: NonNullable<BudgetMonthRow["cashSettlement"]>;
+}
 
 /** The three budget laws, by their policy question key. */
 export const BUDGET_LAW_KEYS = {
@@ -166,6 +213,12 @@ export interface AdoptedBudget {
 export interface BudgetMonthRow extends LawEffectStampedRecord {
   /** Law-attributed components already included in modeled spending; old saves omit it. */
   readonly lawCostAttributions?: readonly GovernmentLawCostAttribution[];
+  /** Cash settlement reads only these saved transfers, retaining exact cents. */
+  readonly cashSettlement?: {
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly sourceRecordIds: readonly EntityId[];
+  };
   /** The first day of the month settled. */
   readonly month: IsoDate;
   readonly revenue: readonly number[];
@@ -253,6 +306,15 @@ export interface PublicBudgetGovernment {
   readonly budgetCycle: "annual" | "biennial" | null;
   /** How each opening amount was reached, placeholders named. */
   readonly openingNotes: readonly string[];
+  /** One recorded correction from the old cash forecast to a saved account. */
+  readonly publicAccountMigration?: {
+    readonly onDate: IsoDate;
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly previousBudgetBalance: number;
+    readonly previousBudgetReserve: number;
+    readonly accountBalanceMinorUnits: number;
+  };
   readonly balance: number;
   readonly reserve: number;
   readonly debt: number;
@@ -304,6 +366,8 @@ export interface PublicBudgetStore {
    * opened before it existed; the next monthly pass opens it.
    */
   readonly federal?: FederalTreasury;
+  /** Federal saved-payment path, alongside the legacy forecast pending parity. */
+  readonly federalGovernment?: FederalBudgetGovernment;
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {
     readonly key: string;

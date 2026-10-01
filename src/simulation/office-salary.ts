@@ -100,6 +100,59 @@ function isActiveOn(world: World, workId: EntityId, date: IsoDate): boolean {
 }
 
 /**
+ * Open missing office salary agreements at the actual current date only.
+ * This creates no payment and leaves every existing agreement unchanged.
+ * Opening and monthly scheduling callers share the settlement writer's
+ * eligibility and amount calculation; old saves are never backdated.
+ */
+export function initializeOfficeSalaryFlows(
+  world: World,
+  personId: EntityId,
+): World {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    return world;
+  let next = world;
+  for (const work of world.history.workRelationships) {
+    if (work.personId !== personId || !work.organizationId) continue;
+    if (!PAID_OFFICE_KINDS.includes(work.kind)) continue;
+    if (work.compensation !== "paid" && work.compensation !== "mixed") continue;
+    next = initializeOneSalaryFlow(next, work);
+  }
+  return next;
+}
+
+function initializeOneSalaryFlow(world: World, work: WorkRelationship): World {
+  if (
+    world.history.resourceFlows.some(
+      (flow) =>
+        flow.basisReference.kind === "work" &&
+        flow.basisReference.workRelationshipId === work.id,
+    ) ||
+    !isActiveOn(world, work.id, world.currentDate)
+  )
+    return world;
+  const next = ensureLifePathPersonalPosition(
+    world,
+    work.personId,
+    money(0, OFFICE_SALARY_PLACEHOLDER.currency).currency,
+  );
+  const pay = annualPay(world, work, world.currentDate);
+  return createWorkCompensation(next, {
+    stableKey: salaryKey(work),
+    workRelationshipId: work.id,
+    startsAt: next.currentDate,
+    amount: money(
+      weeklyMinor(pay.annualMinor),
+      OFFICE_SALARY_PLACEHOLDER.currency,
+    ),
+    cadenceKind: "schedule:weekly",
+    restrictionKind: null,
+    jurisdictionId: null,
+    provenance: { kind: "authored", note: pay.note },
+  });
+}
+
+/**
  * Pays every whole week of office salary that has come due, and stops.
  *
  * Idempotent: each week is keyed by the day it began and resumes after the
@@ -127,31 +180,7 @@ function settleOne(world: World, work: WorkRelationship): World {
   // Pay terms somebody else recorded are theirs; this only fills the gap.
   if (existing && existing.stableKey !== salaryKey(work)) return world;
   let next = world;
-  if (!existing) {
-    if (!isActiveOn(world, work.id, world.currentDate)) return world;
-    next = ensureLifePathPersonalPosition(
-      next,
-      work.personId,
-      money(0, OFFICE_SALARY_PLACEHOLDER.currency).currency,
-    );
-    const pay = annualPay(world, work, world.currentDate);
-    return createWorkCompensation(next, {
-      stableKey: salaryKey(work),
-      workRelationshipId: work.id,
-      startsAt: next.currentDate,
-      amount: money(
-        weeklyMinor(pay.annualMinor),
-        OFFICE_SALARY_PLACEHOLDER.currency,
-      ),
-      cadenceKind: "schedule:weekly",
-      restrictionKind: null,
-      jurisdictionId: null,
-      provenance: {
-        kind: "authored",
-        note: pay.note,
-      },
-    });
-  }
+  if (!existing) return initializeOneSalaryFlow(world, work);
   const flow = existing;
   let paidWeeks = 0;
   for (const outcome of next.history.resourceTransferOutcomes) {

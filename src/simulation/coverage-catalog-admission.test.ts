@@ -1,3 +1,4 @@
+import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import { describe, expect, it } from "vitest";
 import { POLICY_PACKS, loadedPolicyRegistry } from "./policy-pack-registry";
@@ -17,12 +18,15 @@ describe("coverage rows join the existing policy pack", () => {
       const row = pack.propositions!.find(
         (entry) => entry.key === original.key,
       )!;
-      const consequence = COVERAGE_ELIGIBILITY_ROWS[`${pack.pack}:${row.key}`];
-      if (consequence) {
-        attached++;
+      const key = `${pack.pack}:${original.key}`;
+      const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const service = SERVICE_DELIVERED_LAW_ROWS[key] ?? [];
+      if (coverage !== undefined) attached++;
+      if (coverage || service.length) {
         expect(row.consequences).toEqual([
           ...(original.consequences ?? []),
-          consequence,
+          ...(coverage ? [coverage] : []),
+          ...service,
         ]);
       } else expect(row).toBe(original);
     }

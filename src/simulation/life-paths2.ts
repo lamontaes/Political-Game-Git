@@ -1,5 +1,5 @@
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
-import { assessPaycheckTaxes } from "./statutory-tax";
+import { settleTownCompensations } from "./living-world/town-pay";
 import {
   SCHOOL_STAGE_TRANSITION_KEY,
   schoolStageTransitionHandler,
@@ -1092,33 +1092,28 @@ const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
         });
         if (!terms) throw new Error("Earned pay terms are missing.");
         const raised = raiseShiftPayToMinimum(world, flow, terms, worked);
-        const paid = raised.terms;
-        const funded =
-          flow.recipient.kind === "person"
-            ? ensureLifePathPersonalPosition(
-                raised.world,
-                flow.recipient.personId,
-                paid.currency,
-              )
-            : raised.world;
-        const next = recordResourceTransferOutcome(funded, {
-          stableKey: `${due.stableKey}:paid`,
-          resourceFlowId: flow.id,
-          periodStartsAt: worked.occurredAt,
-          periodEndsAt: worked.occurredAt,
-          occurredAt: world.currentDate,
-          status: "completed",
-          attemptedAmount: paid,
-          transferredAmount: paid,
-          reasonKind: null,
-          note: "Payment for the completed shift; advertised pay alone never posts money.",
-          provenance: authored,
-        });
+        const next = settleTownCompensations(raised.world, [
+          {
+            stableKey: `${due.stableKey}:paid`,
+            payFlowId: flow.id,
+            activityId:
+              flow.basisReference.kind === "work"
+                ? flow.basisReference.workRelationshipId
+                : flow.id,
+            periodStartsAt: worked.occurredAt,
+            periodEndsAt: worked.occurredAt,
+            onDate: world.currentDate,
+            completedShift: {
+              eventId: worked.id,
+              termsId: terms.id,
+              amount: raised.terms,
+            },
+            note: "Payment for the completed shift; advertised pay alone never posts money.",
+            provenance: authored,
+          },
+        ]);
         return {
-          world: assessPaycheckTaxes(
-            next,
-            next.history.resourceTransferOutcomes.at(-1)!.id,
-          ),
+          world: next,
           status: "resolved",
           reasonKey: null,
           context: "Completed shift paid.",
