@@ -38,7 +38,11 @@ import {
 import { assessContribution } from "./campaign-compliance-rules";
 import { campaignCompliancePackFor } from "./campaign-compliance";
 import { addDays } from "./dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { recordEvidenceArtifact } from "./evidence";
 import { recordGoalState, createMindProvenance } from "./mind";
 import { personName } from "./people";
@@ -648,6 +652,7 @@ function considerApproach(world: World, mogulId: EntityId): World {
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const chosen = evaluation.selectedOptionKey;
   if (chosen !== "donate" && chosen !== "deal") return next;
@@ -1095,6 +1100,7 @@ function npcAnswers(world: World, offerEventId: EntityId): World {
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const answer =
     evaluation.selectedOptionKey === "accept" ? "accept" : "decline";

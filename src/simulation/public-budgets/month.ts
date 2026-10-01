@@ -3,8 +3,6 @@ import { federalProgramCostsForMonth } from "../federal-cost-ledger";
 import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
 import { federalProgramLine } from "./federal-treasury";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
-import { ageVerificationCostForMonth } from "./age-verification-cost";
-import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
@@ -1229,9 +1227,6 @@ export function settleGovernmentMonth(
   const paidLeaveStamps = (
     flows.paidLeavePaymentStamps?.get(government.key) ?? []
   ).map((stamp) => ({ ...stamp, appliedAt: asOf }));
-  const ageVerificationCost = cashSettled
-    ? null
-    : ageVerificationCostForMonth(world, government, month);
   const row: BudgetMonthRow &
     LawEffectStampedRecord & {
       readonly cannabisRevenue?: number;
@@ -1259,9 +1254,6 @@ export function settleGovernmentMonth(
           },
         }
       : {}),
-    ...(ageVerificationCost
-      ? { lawCostAttributions: [ageVerificationCost] }
-      : {}),
     ...(!cashSettled &&
     zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
@@ -1270,21 +1262,16 @@ export function settleGovernmentMonth(
     ...(!cashSettled && cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
     ...(cannabisStamps.length ||
     paidLeaveStamps.length ||
-    ageVerificationCost ||
     recorded?.lawEffectStamps.length
       ? {
           lawEffectStamps: [
             ...cannabisStamps,
             ...paidLeaveStamps,
             ...(cashSettled ? (recorded?.lawEffectStamps ?? []) : []),
-            ...(ageVerificationCost?.lawEffectStamps ?? []),
           ],
         }
       : {}),
   };
-  const settledRow = cashSettled
-    ? row
-    : appendConsumerPrivacyCostToMonth(world, government, row);
   let next: PublicBudgetGovernment = {
     ...government,
     ...(publicCash && !government.publicAccountMigration
@@ -1316,7 +1303,7 @@ export function settleGovernmentMonth(
             },
           ]
         : government.years,
-    months: [...government.months, settledRow],
+    months: [...government.months, row],
   };
   if (!yearEnds) return { government: next, adjustments };
 
