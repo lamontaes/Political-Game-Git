@@ -74,6 +74,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "candidacy-approach",
   "household-shortfall",
   "eviction-case",
+  "crime-report",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -92,6 +93,9 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   // Written by the rent day in `living-world/town-rent.ts` when a landlord
   // files against the lease the played person holds.
   "eviction-case": "adult.eviction-case",
+  // Written by the monthly crime pass in `crime/producer.ts` when an offense
+  // happened to the played person and nobody else it happened to reported it.
+  "crime-report": "adult.crime-report",
 };
 
 /**
@@ -114,6 +118,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "candidacy-approach": false,
   "household-shortfall": false,
   "eviction-case": false,
+  "crime-report": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
