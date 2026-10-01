@@ -958,6 +958,7 @@ function motifFacts(
     chamber: facts.chamberName,
     nextStep: facts.nextStepLabel,
     priorStatement: held.at(-1)?.statement ?? null,
+    statedGround: isAdvocate ? facts.requestedStatedGround : null,
   };
 }
 
@@ -985,6 +986,19 @@ function motifGrounding(
       committing.length > 0
         ? committing.map((provision) => provision.id)
         : [facts.measureId],
+    // The advocate speaks about the requested section; whether the bill now
+    // holds it is read from the current provisions.
+    requestedSection:
+      speakerPersonId === facts.advocatePersonId
+        ? {
+            adoptedProvisionId:
+              currentProvisionByKey(
+                world,
+                facts.measureId,
+                facts.requestedProvisionKey,
+              )?.id ?? null,
+          }
+        : null,
   };
 }
 
