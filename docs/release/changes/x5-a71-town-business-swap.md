@@ -1,6 +1,8 @@
 ---
 id: x5-a71-town-business-swap
 impact: minor
+section: Changed
+title: A town business borrows on a credit line sized for its trade, and shop sales catch up with the town's pay over years
 ---
 
 Town businesses now borrow on credit lines sized for their trade: a restaurant's line covers
