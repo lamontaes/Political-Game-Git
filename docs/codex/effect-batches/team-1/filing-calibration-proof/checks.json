@@ -1,0 +1,133 @@
+{
+  "runtimeHead": "d41e8a47176459db115397abb195010e6f51aa8e",
+  "mainBase": "973a320f6e63fd8a46afd79f043c13c92f43f211",
+  "originalStackCandidate": "da033168de98459fad1a358b2dd8cd023d95230b",
+  "distributionImportedSourceHead": "e8ab37c61d95dc644e2263e1c27ef13c043b2238",
+  "distributionSaveSha256": "3371b20fdc1baac3a887976776ee655c63aa9d556a181d288c29bd6753cc3c4d",
+  "distributionScriptSha256": "f95ec00da613ee7e1cf30e1e315d637f497958f01da8ad2542f267f4d4990b24",
+  "savedSeatedBodies": 51,
+  "savedSeatedMembers": 7780,
+  "measuredPairs": 503456,
+  "targetOpportunitiesPerMember": 7,
+  "threshold": 1.575,
+  "eligiblePairs": 59969,
+  "opportunitiesPerMember": 7.7080976863753214,
+  "actualNationalFilings": "NOT RUN",
+  "before": {
+    "passed": 1,
+    "failed": 1,
+    "failure": "0 bills under old gate for weaker saved convictions",
+    "seconds": 12.59
+  },
+  "after": {
+    "passed": 2,
+    "failed": 0,
+    "seconds": 18.3,
+    "source": "current-main composition"
+  },
+  "strictTypes": {
+    "roots": 3,
+    "scopedErrors": 0,
+    "importedErrors": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "diff": "PASS",
+  "release": "PASS exact source range",
+  "zeroDice": {
+    "new": 0,
+    "inheritedStale": 5
+  },
+  "notRun": [
+    "new natural year",
+    "cloud two-year behavior follow-up",
+    "browser",
+    "speed",
+    "whole suite",
+    "full jurisdiction coverage"
+  ],
+  "sourceSha256": {
+    "src/simulation/governing/member-agenda-settings.ts": "8b06babe5605021b0b85ff3836761a0ee8e9137418a1b3b5158e2b3d1f1f33a2",
+    "src/simulation/governing/member-agenda-individual.test.ts": "a1ec9a6d2b712896d2bf40840eee4cd7af46c91986b11b981d081b998291d007",
+    "scripts/world-report/filing-score-distribution.ts": "f95ec00da613ee7e1cf30e1e315d637f497958f01da8ad2542f267f4d4990b24"
+  },
+  "logs": [
+    {
+      "path": "/tmp/team1-filing-score-distribution.log",
+      "originalSha256": "e52eb59fad9534bd6609fbaa43511e34a92685b192df67cb67e80929ad276658",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/distribution.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-before.log",
+      "originalSha256": "04dbd7b9d7089bf4a514473f1981e54dbf93104d5c5cb57fb96b35012b77236e",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/initial-fixture.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-corrected-before.log",
+      "originalSha256": "5b7893b5a238f6711996fb22d881c282b0706f1439132ab662b1903c5be2315d",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/corrected-before.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-after.log",
+      "originalSha256": "8721ad0bec8c3518e8d0653c99ff90e6c2aabcb25abbe11bea913e565884deb8",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/after-first.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-main-tests.log",
+      "originalSha256": "8c439eddfdcac2ac987498f04d1ad8702895ecb08118b2c7f3efb5aafe108942",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/current-main-tests.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-main-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/current-main-types.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-main-lint.log",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/current-main-lint.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-format.log",
+      "originalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/format.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-main-release.log",
+      "originalSha256": "c4b401677f2e8a53e9018bbe2101558e174498e5d98a7b1652dfc2923c93c9fe",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/release.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-main-zero-dice.log",
+      "originalSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/zero-dice.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-report.log",
+      "originalSha256": "4c1a3d0ed5c6824fdc84e82251f84fef6a241487f16f0c0c605697dca1d2cb49",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/report.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "path": "/tmp/team1-filing-calibration-spelling.log",
+      "originalSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "published": "docs/codex/effect-batches/team-1/filing-calibration-proof/spelling.log",
+      "normalization": "Trailing blank lines only; original retained."
+    }
+  ],
+  "spelling": {
+    "findings": 24,
+    "new": 0,
+    "verification": "Each finding exists in the same file at mainBase; paths and words checked against git show."
+  }
+}
