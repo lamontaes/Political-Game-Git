@@ -15,7 +15,7 @@ import {
 } from "../character-history";
 import { declareHazardEpisode } from "../crisis/disaster";
 import { crisisRecords } from "../crisis/records";
-import { makeIsoDate } from "../dates";
+import { ageOnDate, makeIsoDate } from "../dates";
 import {
   recordKinship,
   recordOrganizationParticipationState,
@@ -39,7 +39,12 @@ import {
   activeHousingTenuresAt,
 } from "../resource-queries";
 import { factsForPerson } from "../people";
-import { stateJurisdictionForKey } from "../life-places";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
+import { observerPlace } from "../../presentation/observer-world";
+import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
 import { advanceWithWorldIntegrityAtEnd, assertWorldIntegrity } from "../world";
@@ -51,6 +56,9 @@ import {
   activeWavesCovering,
   evaluateCause,
   reviewTown,
+  moverArrivalRate,
+  moverDepartureRate,
+  residentDepartureChance,
   moveTies,
   moveTieReader,
   playerHouseholdPeople,
@@ -568,6 +576,44 @@ describe("migration scaffold", () => {
     expect(move.waveKey).toBe("jobs-gone-exodus");
   });
 
+  it("a resident's age sets how strongly leaving weighs on them, from the state's measured rates (A165)", () => {
+    const world = opened.world;
+    const stateKey = "US-VA";
+    const adults = world.personOrder.filter(
+      (id) =>
+        world.people[id]!.homeJurisdictionId === town &&
+        ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
+    );
+    const byBand = new Map<number, EntityId>();
+    for (const id of adults)
+      byBand.set(
+        moverDepartureRate(
+          stateKey,
+          ageOnDate(world.people[id]!.birthDate, world.currentDate),
+        ),
+        id,
+      );
+    // The opening seats adults of ages whose measured rates differ.
+    expect(
+      byBand.size,
+      "distinct departure rates among residents",
+    ).toBeGreaterThan(1);
+    const push = 1.5;
+    const chances = [...byBand].map(([rate, id]) => {
+      const chance = residentDepartureChance(world, stateKey, id, push, false);
+      expect(chance, id).toBeCloseTo(rate * push, 12);
+      return chance;
+    });
+    expect(new Set(chances).size).toBe(byBand.size);
+    // A scenario's flat rate still replaces the age weighing.
+    const [someone] = byBand.values();
+    expect(
+      residentDepartureChance(world, stateKey, someone!, 1, false, {
+        departureChancePerYear: 0.2,
+      }),
+    ).toBe(0.2);
+  });
+
   it("reading moves and waves writes nothing", () => {
     const before = serializeWorld(opened.world);
     recordedMoves(opened.world);
@@ -628,5 +674,56 @@ describe("the seam list", () => {
       "why-people-leave",
     ])
       expect(keys).toContain(required);
+  });
+});
+
+describe("measured mover rates (A165)", () => {
+  const SEED = process.env.A165_SEED ?? "a165-mover-rates-3";
+  const place = observerPlace(SEED);
+  const stateKey = place.stateJurisdictionKey;
+
+  it(`every one of the 56 places has rates, and in ${place.displayName} (${place.key}, seed ${SEED}) the chance of leaving differs by age`, () => {
+    const keys = Object.keys(moverRates.places).sort();
+    expect(keys).toHaveLength(56);
+    for (const identity of lifePlaceStateIdentities())
+      expect(keys).toContain(identity.jurisdictionKey);
+    for (const [key, row] of Object.entries(moverRates.places)) {
+      if (row.basis === "ESTIMATED FROM AVERAGE") {
+        expect("method" in row && row.method, key).toContain(
+          "ESTIMATED FROM AVERAGE",
+        );
+        expect(row.departurePerYearByAge).toEqual(
+          moverRates.national.departurePerYearByAge,
+        );
+      } else expect(row.basis, key).toBe("SOURCED");
+      for (const band of moverRates.ageBands) {
+        const rate = (row.departurePerYearByAge as Record<string, number>)[
+          band
+        ];
+        expect(rate, `${key} ${band}`).toBeGreaterThan(0);
+        expect(rate, `${key} ${band}`).toBeLessThan(1);
+      }
+      expect(row.arrivalsPerResidentPerYear, key).toBeGreaterThan(0);
+    }
+    console.log(
+      `A165 place: ${place.displayName} (${place.key}, ${stateKey}), seed ${SEED}`,
+    );
+    expect(stateKey).not.toBeNull();
+    const young = moverDepartureRate(stateKey, 22);
+    const settled = moverDepartureRate(stateKey, 47);
+    const old = moverDepartureRate(stateKey, 72);
+    console.log(
+      `A165 ${place.displayName}: leaves a year at 22 ${young}, at 47 ${settled}, at 72 ${old}; newcomers per resident ${moverArrivalRate(stateKey)}`,
+    );
+    expect(young).toBeGreaterThan(settled);
+    expect(settled).toBeGreaterThan(old);
+    expect(moverDepartureRate(stateKey, 22)).toBe(
+      (
+        moverRates.places as Record<
+          string,
+          { departurePerYearByAge: Record<string, number> }
+        >
+      )[stateKey!]!.departurePerYearByAge["20-24"],
+    );
   });
 });
