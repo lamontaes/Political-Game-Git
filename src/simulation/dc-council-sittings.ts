@@ -1,4 +1,5 @@
 import { addDays } from "./dates";
+import { COUNCIL_ACT_MEASURE_TITLE, renderMeasureTitle } from "./measure-title";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
@@ -137,7 +138,6 @@ function fileActs(world: World): World {
       ),
       measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
       playerPersonId: player,
-      title: dcCouncilActTitle,
       measureKey: (numbering) =>
         municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
     },
@@ -146,16 +146,12 @@ function fileActs(world: World): World {
 
 /** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */
 export function dcCouncilActTitle(questionName: string, year: string): string {
-  const words = questionName
-    .replace(/\s+(law|act)$/i, "")
-    .split(/\s+/)
-    .map((word, index) =>
-      index > 0 &&
-      /^(a|an|and|as|at|by|for|in|of|on|or|the|to|with)$/i.test(word)
-        ? word.toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    );
-  return `${words.join(" ")} Act of ${year}`;
+  return renderMeasureTitle(
+    COUNCIL_ACT_MEASURE_TITLE,
+    questionName,
+    year,
+    false,
+  );
 }
 
 /** Every act a non-player sponsor carries takes its next lawful step. */
