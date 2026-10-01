@@ -62,6 +62,19 @@ import {
 } from "../simulation/politics";
 
 const governmentKey = "us-dc-washington";
+const profileCosts = new Map<string, number>();
+function profile<T>(label: string, operation: () => T): T {
+  if (!process.env.G6_MAYOR_PROFILE_PATH) return operation();
+  const started = performance.now();
+  try {
+    return operation();
+  } finally {
+    profileCosts.set(
+      label,
+      (profileCosts.get(label) ?? 0) + performance.now() - started,
+    );
+  }
+}
 
 // Actual saved council seats and supplied unanimous roll calls isolate the
 // executive caller. They do not establish ordinary council intake behavior.
@@ -95,7 +108,9 @@ function isolateAt(world: World, date: IsoDate, except?: EntityId): World {
 
 function presentedAct(seed: string, openingPlaceKey = "1150000") {
   const place = requireLifePlace("1150000");
-  let world = adultLifeAt(openingPlaceKey, seed).world;
+  let world = profile("adult-life-opening", () =>
+    adultLifeAt(openingPlaceKey, seed),
+  ).world;
   // Materialize the same real D.C. government in each starting world through
   // its existing opening writer; this is not 56 different municipal powers.
   if (!world.jurisdictions[place.context.jurisdiction.id])
@@ -108,8 +123,13 @@ function presentedAct(seed: string, openingPlaceKey = "1150000") {
     };
   if (world.control.kind !== "person")
     throw new Error("Actual opening subject required.");
-  world = ensureStateExecutiveIncumbent(world, world.control.personId, "DC");
-  world = ensureDistrictOfColumbiaCouncilOpening(world);
+  const openingPersonId = world.control.personId;
+  world = profile("actual-mayor-opening", () =>
+    ensureStateExecutiveIncumbent(world, openingPersonId, "DC"),
+  );
+  world = profile("actual-council-opening", () =>
+    ensureDistrictOfColumbiaCouncilOpening(world),
+  );
   const mayor = municipalExecutiveHolder(world, governmentKey)!;
   expect(mayor).toBeTruthy();
   world = ensureOfficeholderPrinciples(world, [mayor]);
@@ -131,9 +151,12 @@ function presentedAct(seed: string, openingPlaceKey = "1150000") {
       (seat) => seat.role === "member" || seat.role === "presiding-member",
     ),
   ).toHaveLength(count);
-  const authorized = world.policyCatalog.propositionOrder.filter(
-    (id) =>
-      questionAuthority(world, place.context.jurisdiction.id, id).may === "yes",
+  const authorized = profile("question-authority", () =>
+    world.policyCatalog.propositionOrder.filter(
+      (id) =>
+        questionAuthority(world, place.context.jurisdiction.id, id).may ===
+        "yes",
+    ),
   );
   const netBearings = (id: EntityId) => {
     const net = new Map<EntityId, number>();
@@ -156,23 +179,25 @@ function presentedAct(seed: string, openingPlaceKey = "1150000") {
   expect(questionId).toBeDefined();
   // Explicit authored held principles form one adversarial input BEFORE both
   // arms. This is decision-mechanism parity, not natural mayor veto frequency.
-  world = recordPrinciples(
-    world,
-    netBearings(questionId).map(([principleId, weight]) => ({
-      stableKey: `G6-mayor:held:${principleId}`,
-      personId: mayor,
-      principleId,
-      formedAt: world.currentDate,
-      stance: weight > 0 ? ("endorses" as const) : ("rejects" as const),
-      strength: 1,
-      conviction: "settled" as const,
-      flexibility: "firm" as const,
-      qualification: null,
-      formation: createFormationContext("reflection:test", {
-        note: "Authored adversarial principle input shared by old/new arms; not an empirical preference.",
-      }),
-      supersedesPrincipleRecordId: null,
-    })),
+  world = profile("authored-held-principles", () =>
+    recordPrinciples(
+      world,
+      netBearings(questionId).map(([principleId, weight]) => ({
+        stableKey: `G6-mayor:held:${principleId}`,
+        personId: mayor,
+        principleId,
+        formedAt: world.currentDate,
+        stance: weight > 0 ? ("endorses" as const) : ("rejects" as const),
+        strength: 1,
+        conviction: "settled" as const,
+        flexibility: "firm" as const,
+        qualification: null,
+        formation: createFormationContext("reflection:test", {
+          note: "Authored adversarial principle input shared by old/new arms; not an empirical preference.",
+        }),
+        supersedesPrincipleRecordId: null,
+      })),
+    ),
   );
   const question = {
     id: questionId,
@@ -217,16 +242,18 @@ function presentedAct(seed: string, openingPlaceKey = "1150000") {
     )!.earliestPassageOn;
     if (earliest && world.currentDate < earliest)
       world = isolateAt(world, earliest);
-    const taken = recordCouncilReadingVote(world, {
-      governmentKey,
-      measureId,
-      dispositions,
-      provenance: {
-        method: "authored-fixture",
-        note: "Supplied canonical council votes; executive caller proof only.",
-        sourceEntityIds: [world.id],
-      },
-    });
+    const taken = profile("record-council-readings", () =>
+      recordCouncilReadingVote(world, {
+        governmentKey,
+        measureId,
+        dispositions,
+        provenance: {
+          method: "authored-fixture",
+          note: "Supplied canonical council votes; executive caller proof only.",
+          sourceEntityIds: [world.id],
+        },
+      }),
+    );
     if (!taken.ok) throw new Error(taken.reason);
     world = taken.world;
   }
@@ -255,6 +282,20 @@ const places = lifePlaceStateIdentities().map((state) => ({
 }));
 const comparisons: unknown[] = [];
 afterAll(() => {
+  if (process.env.G6_MAYOR_PROFILE_PATH)
+    writeFileSync(
+      process.env.G6_MAYOR_PROFILE_PATH,
+      JSON.stringify(
+        {
+          source: process.env.G6_MAYOR_PROFILE_SOURCE,
+          phases: [...profileCosts]
+            .map(([label, durationMs]) => ({ label, durationMs }))
+            .sort((a, b) => b.durationMs - a.durationMs),
+        },
+        null,
+        2,
+      ),
+    );
   if (process.env.G6_MAYOR_REPORT_PATH)
     writeFileSync(
       process.env.G6_MAYOR_REPORT_PATH,
@@ -368,17 +409,21 @@ describe("municipal executives use the shared bill evaluator", () => {
         place.key,
       );
       const measure = requireMeasure(world, measureId);
-      const expected = evaluateGovernorBill(world, {
-        stableKey: `${measure.stableKey}:executive-desk`,
-        governorId: mayor,
-        executiveTitle: "Mayor",
-        measure,
-        staff: null,
-      });
+      const expected = profile("expected-executive-evaluation", () =>
+        evaluateGovernorBill(world, {
+          stableKey: `${measure.stableKey}:executive-desk`,
+          governorId: mayor,
+          executiveTitle: "Mayor",
+          measure,
+          staff: null,
+        }),
+      );
       expect(expected.outcomeKind).toBe("selected");
       const action =
         expected.selectedOptionKey === BILL_SIGN ? "signed" : "vetoed";
-      const next = councilActExecutiveDeadlineHandler(world, due).world;
+      const next = profile("executive-deadline-handler", () =>
+        councilActExecutiveDeadlineHandler(world, due),
+      ).world;
       expect(next.history.executiveDispositions!.at(-1)!.action).toBe(action);
       expect(next.history.decisionTraces!.at(-1)!.selectedOptionKey).toBe(
         expected.selectedOptionKey,
@@ -408,7 +453,10 @@ describe("municipal executives use the shared bill evaluator", () => {
         action === "signed" ? "enacted" : "awaiting-override",
       );
       expect(councilActExecutiveDeadlineHandler(next, due).world).toBe(next);
-      const continued: World = deserializeWorld(serializeWorld(next));
+      const saved = profile("serialize-world", () => serializeWorld(next));
+      const continued: World = profile("deserialize-world", () =>
+        deserializeWorld(saved),
+      );
       expect(councilActExecutiveDeadlineHandler(continued, due).world).toBe(
         continued,
       );
