@@ -90,7 +90,7 @@ export function bindTaxLawTerms(
     power.asOf > input.onDate ||
     proposal.terms.legalBaselineAssumption !==
       "carry-forward-acquired-baseline-in-game" ||
-    proposal.terms.effectiveDelayDays !== 90 ||
+    (proposal.terms.effectiveDelayDays ?? 90) !== 90 ||
     input.questionKey !== "us-tax-terms:state.excise-tax-terms"
   )
     return unavailable(
@@ -189,7 +189,7 @@ export function bindTaxLawTerms(
       "The adopted values are not valid existing typed TaxTerms.",
     );
   }
-  if (canonicalJson(terms) !== canonicalJson(proposal.terms))
+  if (canonicalJson(terms) !== canonicalJson({ ...proposal.terms, effectiveDelayDays: proposal.terms.effectiveDelayDays ?? 90 }))
     return unavailable(
       "Adopted terms differ from this frozen typed proposal; a supported revision is required.",
     );
