@@ -70,8 +70,6 @@ const CHAPTER_MEETING_LABEL = "Community room";
 
 /** Authored cadence for this fictional setting, not a claim about any party. */
 const OUTREACH = {
-  firstDelayDays: [3, 11],
-  afterInvitationDays: [14, 29],
   deferDays: 7,
   notNowDays: 14,
   meetingWeekday: 2,
@@ -232,12 +230,7 @@ export function ensureHomePartyChapters(
     });
     next = scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:outreach:1`,
-      dueAt: addDays(
-        date,
-        rng
-          .fork(`${stableKey}:first`)
-          .integer(OUTREACH.firstDelayDays[0], OUTREACH.firstDelayDays[1] + 1),
-      ),
+      dueAt: nextMeetingDate(date, 0),
       transitionKey: CHAPTER_OUTREACH_TRANSITION_KEY,
       entityIds: [organizerId, playerPersonId].sort(),
       jurisdictionId: player.homeJurisdictionId,
@@ -536,6 +529,11 @@ export function chapterOutreachTransitionHandler(
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey === null
+  )
+    return deferred("organizer-undecided", OUTREACH.notNowDays);
   if (evaluation.selectedOptionKey !== "invite")
     return deferred("organizer-chose-not-now", OUTREACH.notNowDays);
 
@@ -550,14 +548,10 @@ export function chapterOutreachTransitionHandler(
     );
     if (!written) continue;
     const meetingDate = written.meetingDate;
-    const days =
-      daysBetween(world.currentDate, meetingDate) +
-      new SeededRng(world.seed)
-        .fork(`${dueItem.stableKey}:next`)
-        .integer(
-          OUTREACH.afterInvitationDays[0],
-          OUTREACH.afterInvitationDays[1] + 1,
-        );
+    const days = daysBetween(
+      world.currentDate,
+      nextMeetingDate(meetingDate, 0),
+    );
     return {
       world: reschedule(written.world, days, sequenceNumber),
       status: "resolved",

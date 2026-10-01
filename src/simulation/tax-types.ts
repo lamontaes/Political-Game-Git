@@ -94,7 +94,8 @@ export interface TaxBaseRecord extends TaxHistoryRoot {
 }
 
 /** A frozen application of a policy to an occurrence, due once on the clock. */
-export interface TaxAssessmentRecord extends TaxHistoryRoot {
+export interface TaxAssessmentRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly policyId: EntityId;
   readonly baseId: EntityId;
   readonly dueAt: IsoDate;
@@ -103,7 +104,8 @@ export interface TaxAssessmentRecord extends TaxHistoryRoot {
   readonly exemptionReason: "excluded-base" | "allowance" | null;
 }
 
-export interface TaxCollectionRecord extends TaxHistoryRoot {
+export interface TaxCollectionRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly assessmentId: EntityId;
   /** Direct receipt scope; missing in legacy saves resolves through its proposal. */
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;

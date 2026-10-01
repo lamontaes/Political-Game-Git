@@ -1,10 +1,11 @@
-import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
+import { financeStudentTuitionWithSavedAidFacts } from "./student-aid-facts";
+import type { RecordedStudentFinancingInput } from "./student-debt";
 import {
   createResourceFlow,
   money,
   recordResourceTransferOutcome,
 } from "./resources";
-import { resourcePositionAt } from "./resource-queries";
+import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import { recordEducationEnrollmentState } from "./life";
 import { recordWorldEvent } from "./world";
 import type { FutureDueItem } from "./types";
@@ -557,6 +558,10 @@ export function completeStudyPeriod(
   world: World,
   enrollmentId: EntityId,
   path: LifePathDefinition,
+  financing?: Omit<
+    RecordedStudentFinancingInput,
+    "enrollmentId" | "tuitionFlowId"
+  >,
 ): World {
   const enrollment = world.history.educationEnrollments.find(
     (e) => e.id === enrollmentId,
@@ -577,33 +582,21 @@ export function completeStudyPeriod(
     return world;
   const legacyPaid =
     completedStudySessions(world, enrollmentId) * path.sessionCostMinor;
-  const cost = Math.max(
+  let cost = Math.max(
     0,
     periodNumber * (path.periodCostMinor ?? 0) -
       legacyPaid -
       paidPeriodTuitionMinor(world, enrollmentId),
   );
   const actor = enrollment.personId;
-  let next =
-    cost > 0
-      ? ensureLifePathPersonalPosition(world, actor, money(0, "USD").currency)
-      : world;
-  if (
-    cost > 0 &&
-    (resourcePositionAt(
-      next,
-      { kind: "person", personId: actor },
-      money(0, "USD").currency,
-    )?.liquidBalance.minorUnits ?? 0) < cost
-  ) {
-    // Looking for carried transfer evidence must not itself invent a zeroed
-    // account when the period cannot be paid. A refusal preserves the incoming
-    // world exactly; the due-item resolver records the structured blocker.
-    return world;
-  }
-  if (cost > 0) {
+  let next = world;
+  const chargeKey = `${prefix}study-period:${enrollmentId}:${periodNumber}`;
+  let charge = next.history.resourceFlows.find(
+    (record) => record.stableKey === chargeKey,
+  );
+  if (cost > 0 && !charge) {
     next = createResourceFlow(next, {
-      stableKey: `${prefix}study-period:${enrollmentId}:${periodNumber}`,
+      stableKey: chargeKey,
       source: { kind: "person", personId: actor },
       recipient: {
         kind: "organization",
@@ -618,9 +611,25 @@ export function completeStudyPeriod(
       jurisdictionId: null,
       provenance: authored,
     });
+    charge = next.history.resourceFlows.at(-1)!;
+  }
+  if (charge) cost = resourceFlowTermsAt(next, charge.id)!.amount.minorUnits;
+  if (cost > 0 && charge && financing)
+    next = financeStudentTuitionWithSavedAidFacts(
+      next,
+      { ...financing, enrollmentId, tuitionFlowId: charge.id },
+      path,
+    );
+  const cash = resourcePositionAt(
+    next,
+    { kind: "person", personId: actor },
+    money(0, "USD").currency,
+  );
+  if (cost > 0 && (!cash || cash.liquidBalance.minorUnits < cost)) return next;
+  if (cost > 0 && charge) {
     next = recordResourceTransferOutcome(next, {
       stableKey: `${prefix}study-period-paid:${enrollmentId}:${periodNumber}`,
-      resourceFlowId: next.history.resourceFlows.at(-1)!.id,
+      resourceFlowId: charge.id,
       periodStartsAt: next.currentDate,
       periodEndsAt: next.currentDate,
       occurredAt: next.currentDate,

@@ -22,6 +22,7 @@
  * proposition, lineage and current operative clause. Borrowing has no such
  * profile. Sourced fiscal conditions still require their own adapter.
  */
+import { applyInstitutionStep } from "./governing/legislative-clock";
 import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
 
 import { addDays } from "./dates";
@@ -29,6 +30,15 @@ import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
 import { currentMeasureProvisions } from "./legislative-politics";
+import { recordDurableDecisionTrace } from "./decisions";
+import { recordEventKnowledge } from "./records";
+import { ensureOfficeholderPrinciples } from "./governing/officeholder-principles";
+import {
+  evaluateGovernorBill,
+  BILL_SIGN,
+  BILL_RETURN,
+} from "./governing/governor-bill-decision";
+import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import { decideChamberVote } from "./governing/chamber-votes";
 import { memberBallotOn } from "./governing/member-ballots";
 import type { ChamberQuestion } from "./governing/member-ballots";
@@ -55,7 +65,6 @@ import {
   recordExecutiveInaction,
   recordOverridePeriodExpired,
   requireMeasure,
-  takeFloorVote,
   tallyDispositions,
 } from "./legislation";
 import { resolveRequiredVotes } from "./legislature-rules";
@@ -473,7 +482,6 @@ export function recordCouncilReadingVote(
 ): MunicipalOrdinanceResult {
   const government = municipalGovernmentByKey(input.governmentKey);
   if (!government) return refuse(world, "No municipal government is compiled.");
-  const reading = municipalProcedureReading(government);
   const pack = municipalRulePackFor(government);
   if (!pack.ok) {
     return refuse(
@@ -505,47 +513,32 @@ export function recordCouncilReadingVote(
     );
   }
 
-  const stages = pack.pack.chambers[0]!.floorStages;
   const stageKey = measurePosition(world, measure.id).floorStageKey;
-  const finalStage = stageKey === stages.at(-1)?.stageKey;
-  const interval = reading.procedure.introductionToPassage ?? null;
-  if (interval && finalStage) {
-    const earliest = addDays(
-      measure.introducedAt,
-      passageInterval(interval).offset,
-    );
-    if (world.currentDate < earliest) {
-      return refuse(
-        world,
-        `A general ordinance requires ${passageInterval(interval).description} between its introduction on ${measure.introducedAt} and passage; the earliest valid passage date is ${earliest}. ${interval.sameDayException ? `The stated exception (${interval.sameDayException}) is not supported by this route.` : "No earlier-passage exception is established for this route."}`,
-      );
-    }
-  }
-  const earliestReading = earliestNextReading(world, reading, measure.id);
-  if (earliestReading && world.currentDate < earliestReading.date) {
-    return refuse(
-      world,
-      `Each reading needs ${earliestReading.description} after the one before it; the earliest date for the next reading is ${earliestReading.date}.`,
-    );
-  }
-
-  const checked = checkCouncilVote(
-    world,
-    input.governmentKey,
-    input.dispositions,
-  );
-  if (!checked.ok) return refuse(world, checked.reason);
+  const seats = councilSeats(world, input.governmentKey);
+  const tally = tallyDispositions(input.dispositions);
 
   let next: World;
   try {
-    next = takeFloorVote(world, {
-      stableKey: `${measure.stableKey}:${stageKey ?? "passage"}:${world.currentDate}`,
-      measureId: measure.id,
-      dispositions: input.dispositions,
-      presentMembers: checked.present,
-      electedMembers: checked.seats,
-      provenance: input.provenance,
-    });
+    const result = applyInstitutionStep(
+      world,
+      measure.id,
+      (unchanged) => unchanged,
+      {
+        recordedFloorVote: {
+          stableKey: `${measure.stableKey}:${stageKey ?? "passage"}:${world.currentDate}`,
+          measureId: measure.id,
+          dispositions: input.dispositions,
+          presentMembers: tally.yea + tally.nay + tally.presentNotVoting,
+          electedMembers: seats.length,
+          provenance: input.provenance,
+          seatedMemberPersonIds: seats.map((seat) => seat.personId),
+        },
+      },
+    );
+    if (result.kind === "blocked") return refuse(world, result.reason);
+    if (result.kind !== "applied")
+      return refuse(world, "The council has no floor vote to take.");
+    next = result.world;
   } catch (error) {
     return refuse(world, (error as Error).message);
   }
@@ -650,9 +643,6 @@ function earliestNextReading(
 // ---------------------------------------------------------------------------
 // After final passage: the executive, an override, and when it takes effect
 // ---------------------------------------------------------------------------
-
-export const MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID =
-  "ocd-municipal-executive-placeholder/v1";
 
 export const COUNCIL_ACT_EXECUTIVE_DEADLINE =
   "civic:council-act-executive-deadline" as const;
@@ -827,10 +817,9 @@ function afterFinalPassage(
     actionWindow.dayBasis === "BUSINESS"
       ? addWeekdays(next.currentDate, actionWindow.daysToAct)
       : addDays(next.currentDate, actionWindow.daysToAct);
-  // The executive's desk is looked at on the last day to act. An executive the
-  // player does not control signs then (a placeholder, below); a player who
-  // holds the office decides for themselves, and the pack's rule for silence
-  // applies the day after.
+  // The executive's desk is looked at on the last day to act. NPC executives
+  // use the shared bill evaluator; the player chooses for themselves. The
+  // pack's rule for silence applies the day after.
   return scheduleFutureDueItem(next, {
     stableKey: `${measure.stableKey}:executive-deadline`,
     dueAt,
@@ -886,6 +875,39 @@ function measureOfThisCouncil(
   return councilMeasure(world, governmentKey, measureId);
 }
 
+function recordCouncilExecutiveDecision(
+  world: World,
+  governmentKey: string,
+  measure: LegislativeMeasureRecord,
+  action: "signed" | "vetoed",
+  rationale: string,
+  actorPersonId: EntityId,
+): World {
+  let next = recordExecutiveAction(world, {
+    stableKey: `${measure.stableKey}:executive`,
+    measureId: measure.id,
+    action,
+    rationale,
+    actorPersonId,
+  });
+  if (action === "signed")
+    return enactCouncilMeasure(next, governmentKey, measure);
+  const days = OVERRIDE_WINDOW_DAYS[governmentKey];
+  if (days)
+    next = scheduleFutureDueItem(next, {
+      stableKey: `${measure.stableKey}:override-deadline`,
+      dueAt: addDays(next.currentDate, days + 1),
+      transitionKey: COUNCIL_ACT_OVERRIDE_DEADLINE,
+      entityIds: [measure.id],
+      jurisdictionId: measure.jurisdictionId,
+      provenance: {
+        kind: "authored",
+        note: `The council may reenact ${measure.designation} within ${days} calendar days of its return.`,
+      },
+    });
+  return next;
+}
+
 /**
  * The executive's own decision on an act presented to them: sign it, or
  * return it with reasons. Only the person who holds the office decides.
@@ -924,41 +946,82 @@ export function actOnCouncilMeasure(
       "Only the person who holds the executive office acts on it.",
     );
   }
-  if (input.decision === "sign") {
-    const signed = recordExecutiveAction(world, {
-      stableKey: `${measure.stableKey}:executive`,
-      measureId: measure.id,
-      action: "signed",
-      rationale: "Approved and signed.",
-    });
-    return {
-      ok: true,
-      world: enactCouncilMeasure(signed, input.governmentKey, measure),
-    };
-  }
-  let next = recordExecutiveAction(world, {
-    stableKey: `${measure.stableKey}:executive`,
-    measureId: measure.id,
-    action: "vetoed",
-    rationale:
-      input.reasons?.trim() ||
-      "Returned to the council with written reasons for disapproval.",
+  const presented = measureActions(world, measure.id)
+    .filter((a) => a.kind === "presented-to-executive")
+    .at(-1);
+  if (!presented)
+    return refuse(world, "No presentment to the executive is recorded.");
+  const actionWindow = executiveWindow(input.governmentKey);
+  if (!actionWindow)
+    return refuse(world, "No executable executive action window is available.");
+  const lastDay =
+    actionWindow.dayBasis === "BUSINESS"
+      ? addWeekdays(presented.occurredAt, actionWindow.daysToAct)
+      : addDays(presented.occurredAt, actionWindow.daysToAct);
+  if (world.currentDate > lastDay)
+    return refuse(world, `The time to act ended on ${lastDay}.`);
+  // This controlled request reads the actual delivered act. The clerk's
+  // presentment event does not itself name the executive as a participant.
+  const executivePersonId = world.control.personId;
+  const prepared = world.history.knowledge.some(
+    (knowledge) =>
+      knowledge.personId === executivePersonId &&
+      knowledge.eventId === presented.eventId &&
+      knowledge.learnedAt <= world.currentDate,
+  )
+    ? world
+    : recordEventKnowledge(world, {
+        stableKey: `${measure.stableKey}:executive-desk:read:${world.control.personId}`,
+        personId: world.control.personId,
+        eventId: presented.eventId,
+        learnedAt: world.currentDate,
+        believedSummary: `${measure.designation} was presented to the executive for action.`,
+        accuracy: "accurate",
+        confidence: "high",
+        source: {
+          kind: "public-record",
+          reference: `Council executive desk: ${presented.eventId}`,
+        },
+      });
+  const optionKey = input.decision === "sign" ? BILL_SIGN : BILL_RETURN;
+  const evaluation = evaluateGovernorBill(prepared, {
+    stableKey: `${measure.stableKey}:executive-desk`,
+    governorId: world.control.personId,
+    executiveTitle: legislativeRulePackForWorld(world, measure.rulePackId)
+      .executive.titleLabel,
+    measure,
+    staff: null,
+    playerChoice: {
+      optionKey,
+      matterEventId: presented.eventId,
+      matterKnowledgeId: prepared.history.knowledge.find(
+        (knowledge) =>
+          knowledge.personId === executivePersonId &&
+          knowledge.eventId === presented.eventId &&
+          knowledge.learnedAt <= world.currentDate,
+      )!.id,
+    },
   });
-  const days = OVERRIDE_WINDOW_DAYS[input.governmentKey];
-  if (days) {
-    next = scheduleFutureDueItem(next, {
-      stableKey: `${measure.stableKey}:override-deadline`,
-      dueAt: addDays(next.currentDate, days + 1),
-      transitionKey: COUNCIL_ACT_OVERRIDE_DEADLINE,
-      entityIds: [measure.id],
-      jurisdictionId: measure.jurisdictionId,
-      provenance: {
-        kind: "authored",
-        note: `The council may reenact ${measure.designation} within ${days} calendar days of its return.`,
-      },
-    });
-  }
-  return { ok: true, world: next };
+  const traced = recordDurableDecisionTrace(prepared, evaluation);
+  if (
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey !== optionKey
+  )
+    return refuse(traced, "The executive decision remains pending.");
+  return {
+    ok: true,
+    world: recordCouncilExecutiveDecision(
+      traced,
+      input.governmentKey,
+      measure,
+      input.decision === "sign" ? "signed" : "vetoed",
+      input.decision === "sign"
+        ? "Approved and signed."
+        : input.reasons?.trim() ||
+            "Returned to the council with written reasons for disapproval.",
+      world.control.personId,
+    ),
+  };
 }
 
 /** The last day the council may reenact a returned measure, if a rule fixes one. */
@@ -1132,38 +1195,61 @@ export function councilActExecutiveDeadlineHandler(
   const governmentKey = councilOfMeasure(measure);
   if (!governmentKey) return resolved(world, "No council matches.");
   const actionWindow = executiveWindow(governmentKey);
-  if (actionWindow?.inactionOutcome !== "BECOMES_LAW_WITHOUT_SIGNATURE")
+  const presented = measureActions(world, measure.id)
+    .filter((action) => action.kind === "presented-to-executive")
+    .at(-1);
+  if (!actionWindow || !presented)
+    return resolved(
+      world,
+      "No executable, recorded presentment window is available.",
+    );
+  const lastDay =
+    actionWindow.dayBasis === "BUSINESS"
+      ? addWeekdays(presented.occurredAt, actionWindow.daysToAct)
+      : addDays(presented.occurredAt, actionWindow.daysToAct);
+  const holder = municipalExecutiveHolder(world, governmentKey);
+  const player =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (holder && holder !== player && world.currentDate <= lastDay) {
+    const prepared = ensureOfficeholderPrinciples(world, [holder]);
+    const evaluation = evaluateGovernorBill(prepared, {
+      stableKey: `${measure.stableKey}:executive-desk`,
+      governorId: holder,
+      executiveTitle: legislativeRulePackForWorld(prepared, measure.rulePackId)
+        .executive.titleLabel,
+      measure,
+      staff: null,
+    });
+    const traced = recordDurableDecisionTrace(prepared, evaluation);
+    if (
+      evaluation.outcomeKind !== "selected" ||
+      (evaluation.selectedOptionKey !== BILL_SIGN &&
+        evaluation.selectedOptionKey !== BILL_RETURN)
+    )
+      return resolved(traced, "The executive decision remains pending.");
+    const action =
+      evaluation.selectedOptionKey === BILL_SIGN ? "signed" : "vetoed";
+    const rationale = evaluation.context.considerations
+      .filter((reason) => reason.optionKey === evaluation.selectedOptionKey)
+      .map((reason) => reason.explanation)
+      .join(" ");
+    return resolved(
+      recordCouncilExecutiveDecision(
+        traced,
+        governmentKey,
+        measure,
+        action,
+        rationale,
+        holder,
+      ),
+      action === "signed" ? "Signed." : "Returned with recorded reasons.",
+    );
+  }
+  if (actionWindow.inactionOutcome !== "BECOMES_LAW_WITHOUT_SIGNATURE")
     return resolved(
       world,
       "No rule says what the executive's silence does here.",
     );
-  const holder = municipalExecutiveHolder(world, governmentKey);
-  const player =
-    world.control.kind === "person" ? world.control.personId : null;
-  if (holder && holder !== player) {
-    // PLACEHOLDER, pending `dc-mayor-action-on-council-acts`: an executive the
-    // player does not control signs every act on the last day to act. How
-    // often a mayor signs, lets an act pass unsigned or returns one is not
-    // read, and how an executive decides is not modeled.
-    const signed = recordExecutiveAction(world, {
-      stableKey: `${measure.stableKey}:executive`,
-      measureId: measure.id,
-      action: "signed",
-      rationale: `${MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID}: signed on the last day to act; how this executive decides is not modeled.`,
-    });
-    return resolved(
-      enactCouncilMeasure(signed, governmentKey, measure),
-      "Signed.",
-    );
-  }
-  const presented = measureActions(world, measure.id)
-    .filter((action) => action.kind === "presented-to-executive")
-    .at(-1);
-  const lastDay = presented
-    ? actionWindow.dayBasis === "BUSINESS"
-      ? addWeekdays(presented.occurredAt, actionWindow.daysToAct)
-      : addDays(presented.occurredAt, actionWindow.daysToAct)
-    : world.currentDate;
   if (world.currentDate <= lastDay) {
     return resolved(
       scheduleFutureDueItem(world, {

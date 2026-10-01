@@ -21,10 +21,12 @@ import {
   outcomeMeasure,
   outcomeWebStatus,
   shapedLinkFactor,
+  validateOutcomeLinkInventory,
 } from ".";
 
 const SHAPES = new Set([
   "linear",
+  "elasticity",
   "threshold",
   "diminishing",
   "exposure-years",
@@ -376,7 +378,25 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
   const all = OUTCOME_LINKS.filter((link) => link.owner === "F-cloud");
   // Rows into a measure another lane is adding: they switch on when it lands.
   const waiting = all.filter((link) => link.to === "housing.homelessness");
-  const rows = all.filter((link) => !waiting.includes(link));
+  // Rows re-marked as evidence gaps (CTO gap list A164): an earlier "about
+  // zero" no study measured. They stay off and say why in notes.
+  const gaps = all.filter((link) => link.evidence === "to-confirm");
+  const rows = all.filter(
+    (link) => !waiting.includes(link) && !gaps.includes(link),
+  );
+
+  it("evidence-gap rows have no size, do not act, and say why", () => {
+    expect(gaps.map((link) => link.key)).toEqual([
+      "library-materials-to-reading",
+    ]);
+    for (const link of gaps) {
+      expect(link.size, link.key).toBeNull();
+      expect(outcomeLinkStatus(link), link.key).not.toBe("built");
+      expect((link as unknown as { notes?: string }).notes, link.key).toMatch(
+        /^Evidence gap, not a measured zero/,
+      );
+    }
+  });
   const places = Object.keys(STATES).flatMap((usps) => {
     const id = stateJurisdictionForKey(`US-${usps}`)?.id;
     return id ? [{ key: `US-${usps}`, id }] : [];
@@ -539,5 +559,57 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
         );
       }
     }
+  });
+});
+describe("declared outcome-link inventory", () => {
+  it("validates the actual catalog and exposes research evidence separately", () => {
+    expect(() => validateOutcomeLinkInventory(OUTCOME_LINKS)).not.toThrow();
+    const rows = outcomeWebStatus();
+    expect(rows).toHaveLength(OUTCOME_LINKS.length);
+    for (const evidence of ["provisional", "to-confirm"] as const) {
+      const link = OUTCOME_LINKS.find((row) => row.evidence === evidence)!;
+      expect(link).toBeDefined();
+      expect(rows.find((row) => row.key === link.key)!.evidence).toBe(evidence);
+    }
+  });
+
+  it("rejects a declared status that claims a different existing capability", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "built")!;
+    expect(() =>
+      validateOutcomeLinkInventory([{ ...link, status: "cause-not-recorded" }]),
+    ).toThrow(link.key);
+  });
+
+  it("requires a missing-size reason even when the existing shape is person-level", () => {
+    const link = OUTCOME_LINKS.find(
+      (row) => row.status === "person-level" && row.size === null,
+    )!;
+    expect(link).toBeDefined();
+    expect(link.unsupportedReason).toBe("size-not-set");
+    expect(outcomeLinkStatus(link)).toBe("person-level");
+    expect(() =>
+      validateOutcomeLinkInventory([{ ...link, unsupportedReason: null }]),
+    ).toThrow(link.key);
+  });
+
+  it("rejects an invented missing-cause reason on a structurally built link", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "built")!;
+    expect(() =>
+      validateOutcomeLinkInventory([
+        { ...link, unsupportedReason: "cause-not-recorded" },
+      ]),
+    ).toThrow(link.key);
+  });
+
+  it("keeps an unrecorded coefficient unavailable despite forged built metadata", () => {
+    const link = OUTCOME_LINKS.find((row) => row.status === "size-not-set")!;
+    expect(link).toBeDefined();
+    const forged = {
+      ...link,
+      status: "built" as const,
+      unsupportedReason: null,
+    };
+    expect(outcomeLinkStatus(forged)).toBe("size-not-set");
+    expect(() => validateOutcomeLinkInventory([forged])).toThrow(link.key);
   });
 });

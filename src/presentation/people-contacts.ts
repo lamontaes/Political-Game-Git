@@ -337,9 +337,12 @@ export function askToBeTogether(
   const given = world.people[input.otherPersonId]!.givenName;
   return {
     world: answered.world,
-    said: answered.accepted
-      ? `${given} said yes. You are together now.`
-      : `${given} said no.`,
+    said:
+      answered.accepted === null
+        ? "No answer yet."
+        : answered.accepted
+          ? `${given} said yes. You are together now.`
+          : `${given} said no.`,
   };
 }
 

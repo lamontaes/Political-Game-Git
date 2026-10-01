@@ -1,9 +1,23 @@
-import type { LawEffectStampedRecord } from "../law-effect-stamp";
-import type { GovernmentLawCostAttribution } from "./age-verification-cost";
+import type {
+  LawEffectStamp,
+  LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
-import type { FederalTreasury } from "./federal-treasury";
+import {
+  FEDERAL_RECEIPTS,
+  FEDERAL_OUTLAYS,
+  type FederalTreasury,
+} from "./federal-treasury";
 import type { StatehoodCertification } from "./statehood-funds";
+
+/** Historical attribution bytes remain readable; they are never new invoices. */
+export interface GovernmentLawCostAttribution {
+  readonly program: BudgetProgram;
+  readonly amountUsd: number;
+  readonly basis: string;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
 
 /**
  * PUBLIC BUDGETS: every state, D.C., territory, county and city government in
@@ -81,6 +95,49 @@ export const PROTECTED_PROGRAMS: ReadonlySet<BudgetProgram> = new Set([
 ]);
 
 export type BudgetLevel = "state" | "county" | "city";
+
+/** Category sets share the payment taxonomy without reshuffling old save arrays. */
+export const GOVERNMENT_BUDGET_CATEGORIES = {
+  stateLocal: { receipts: BUDGET_SOURCES, outlays: BUDGET_PROGRAMS },
+  federal: { receipts: FEDERAL_RECEIPTS, outlays: FEDERAL_OUTLAYS },
+} as const;
+
+/** Federal cash books; state/local pension and reserve rules do not apply. */
+export interface FederalBudgetGovernment {
+  readonly key: string;
+  readonly jurisdictionId: EntityId;
+  readonly lawJurisdictionId: EntityId;
+  readonly level: "federal";
+  readonly categorySet: "federal";
+  readonly openedOn: IsoDate;
+  /** Null until a recorded USD account supplies this stock. */
+  readonly balance: number | null;
+  readonly reserve: null;
+  readonly pension: null;
+  readonly debt: number;
+  readonly interestRate: number;
+  readonly publicAccountMigration?: {
+    readonly onDate: IsoDate;
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly previousBudgetBalance: number | null;
+    readonly previousBudgetReserve: null;
+    readonly accountBalanceMinorUnits: number;
+  };
+  readonly months: readonly FederalBudgetMonthRow[];
+}
+
+export interface FederalBudgetMonthRow extends LawEffectStampedRecord {
+  readonly month: IsoDate;
+  /** Aligned to the existing seven federal receipts and thirteen outlays. */
+  readonly revenue: readonly number[];
+  readonly spending: readonly number[];
+  readonly balance: number;
+  readonly reserve: null;
+  /** Existing recorded debt; cash shortfalls do not fabricate a loan. */
+  readonly debt: number;
+  readonly cashSettlement: NonNullable<BudgetMonthRow["cashSettlement"]>;
+}
 
 /** The three budget laws, by their policy question key. */
 export const BUDGET_LAW_KEYS = {
@@ -166,6 +223,16 @@ export interface AdoptedBudget {
 export interface BudgetMonthRow extends LawEffectStampedRecord {
   /** Law-attributed components already included in modeled spending; old saves omit it. */
   readonly lawCostAttributions?: readonly GovernmentLawCostAttribution[];
+  /** Cash settlement reads only these saved transfers, retaining exact cents. */
+  readonly cashSettlement?: {
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly sourceRecordIds: readonly EntityId[];
+    /** Physical account stock, including refundable custody funds. Old saves omit it. */
+    readonly accountBalanceMinorUnits?: number;
+    /** Custody liability excluded before budget balance/reserve allocation. */
+    readonly heldCashBailMinorUnits?: number;
+  };
   /** The first day of the month settled. */
   readonly month: IsoDate;
   readonly revenue: readonly number[];
@@ -253,6 +320,15 @@ export interface PublicBudgetGovernment {
   readonly budgetCycle: "annual" | "biennial" | null;
   /** How each opening amount was reached, placeholders named. */
   readonly openingNotes: readonly string[];
+  /** One recorded correction from the old cash forecast to a saved account. */
+  readonly publicAccountMigration?: {
+    readonly onDate: IsoDate;
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly previousBudgetBalance: number;
+    readonly previousBudgetReserve: number;
+    readonly accountBalanceMinorUnits: number;
+  };
   readonly balance: number;
   readonly reserve: number;
   readonly debt: number;
@@ -300,10 +376,12 @@ export interface PublicBudgetStore {
    */
   readonly staffing?: readonly StaffingBaseline[];
   /**
-   * The federal government's books (`federal-treasury.ts`). Absent in a world
-   * opened before it existed; the next monthly pass opens it.
+   * Archived federal forecast bytes from older saves. New worlds never open
+   * these books, and monthly passes preserve them without advancing them.
    */
   readonly federal?: FederalTreasury;
+  /** The sole live federal budget, settled from the saved government account. */
+  readonly federalGovernment?: FederalBudgetGovernment;
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {
     readonly key: string;

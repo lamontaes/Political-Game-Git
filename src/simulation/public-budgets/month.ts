@@ -1,11 +1,20 @@
+import { FEDERAL_EMPLOYMENT_RULES } from "../statutory-tax-rules";
+import { federalProgramCostsForMonth } from "../federal-cost-ledger";
+import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
+import { federalProgramLine } from "./federal-treasury";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
-import { ageVerificationCostForMonth } from "./age-verification-cost";
-import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
-import { publicOrganizationKey } from "../tax-policy";
+import {
+  publicOrganizationKey,
+  publicTaxAccountForIdentity,
+} from "../tax-policy";
+import { publicGovernmentIdentityForRecord } from "../public-government-identity";
+import { heldCashBailMinorUnits } from "../justice/cash-bail";
 import { recordById } from "../history-index";
+import { resourcePositionAt } from "../resource-queries";
+import { money } from "../resources";
 import { governmentUnit } from "../government-units";
 import { municipalGovernmentByKey } from "../municipal-government";
 import type { EntityId, IsoDate, ResourceFlow, World } from "../types";
@@ -46,6 +55,8 @@ import {
   TAX_QUESTION_EFFECTS,
 } from "./rules";
 import {
+  GOVERNMENT_BUDGET_CATEGORIES,
+  type FederalBudgetGovernment,
   BUDGET_LAW_KEYS,
   BUDGET_PROGRAMS,
   BUDGET_SOURCES,
@@ -113,6 +124,27 @@ export interface MonthFlows {
   readonly represented: ReadonlyMap<string, number>;
   readonly levies: ReadonlyMap<string, readonly number[]>;
   readonly payments: ReadonlyMap<string, readonly number[]>;
+  /** Available only when one saved USD account unambiguously owns the cash. */
+  readonly cash?: ReadonlyMap<
+    string,
+    {
+      readonly organizationId: EntityId;
+      readonly positionId: EntityId;
+      readonly balanceMinorUnits: number;
+      /** Refundable custody cash remains an asset but cannot fund this budget. */
+      readonly heldCashBailMinorUnits?: number;
+    }
+  >;
+  /** Exact paid cash by category; forecasts never enter these totals. */
+  readonly recorded?: ReadonlyMap<
+    string,
+    {
+      readonly revenueMinorUnits: readonly number[];
+      readonly spendingMinorUnits: readonly number[];
+      readonly sourceRecordIds: readonly EntityId[];
+      readonly lawEffectStamps: readonly LawEffectStamp[];
+    }
+  >;
   readonly paidLeavePaymentStamps?: ReadonlyMap<
     string,
     readonly LawEffectStamp[]
@@ -154,8 +186,14 @@ export function readMonthFlows(
   const history = world.history;
   const accountOwner = new Map<EntityId, string>();
   const byStableKey = new Map<string, string>();
-  const budgetKeys = new Set(store.governments.map((row) => row.key));
-  for (const government of store.governments) {
+  const governments = [
+    ...store.governments,
+    ...(store.federalGovernment ? [store.federalGovernment] : []),
+  ];
+  const budgetKeys = new Set(governments.map((row) => row.key));
+  const governmentByKey = new Map(governments.map((row) => [row.key, row]));
+  const federalKey = store.federalGovernment?.key;
+  for (const government of governments) {
     byStableKey.set(
       publicOrganizationKey(government.jurisdictionId),
       government.key,
@@ -167,6 +205,8 @@ export function readMonthFlows(
   }
   for (const organization of history.organizations) {
     let key = byStableKey.get(organization.stableKey);
+    let identity:
+      ReturnType<typeof publicGovernmentIdentityForRecord> | undefined;
     const localPrefix = "public-government:local:";
     if (!key && organization.stableKey.startsWith(localPrefix)) {
       const governmentKey = decodeURIComponent(
@@ -182,14 +222,122 @@ export function readMonthFlows(
             : municipal?.placeGeoid
               ? `place:${municipal.placeGeoid}`
               : null;
-      if (budgetKey && budgetKeys.has(budgetKey)) key = budgetKey;
+      if (budgetKey && budgetKeys.has(budgetKey)) {
+        const government = governmentByKey.get(budgetKey)!;
+        // The named identity comes from this saved account's stable key and
+        // the existing compiled-government relation, not geographic aliasing.
+        identity = publicGovernmentIdentityForRecord({
+          jurisdictionId: government.jurisdictionId,
+          publicGovernmentIdentity: {
+            kind: "local-government",
+            governmentKey,
+            jurisdictionId: government.jurisdictionId,
+          },
+        });
+        key = budgetKey;
+      }
     }
-    if (key) accountOwner.set(organization.id, key);
+    if (key) {
+      const government = governmentByKey.get(key)!;
+      if (government.level === "county" || government.level === "city") {
+        const account = publicTaxAccountForIdentity(
+          world,
+          identity ?? publicGovernmentIdentityForRecord(government),
+        );
+        if (account?.organizationId !== organization.id) continue;
+      }
+      accountOwner.set(organization.id, key);
+    }
+  }
+  const cash = new Map<
+    string,
+    {
+      organizationId: EntityId;
+      positionId: EntityId;
+      balanceMinorUnits: number;
+      heldCashBailMinorUnits?: number;
+    }
+  >();
+  const accountIds = new Map<string, EntityId[]>();
+  for (const [id, key] of accountOwner) {
+    const ids = accountIds.get(key) ?? [];
+    ids.push(id);
+    accountIds.set(key, ids);
+  }
+  for (const [key, ids] of accountIds) {
+    // Consolidating two saved accounts is a separate recorded migration.
+    if (ids.length !== 1 || !history.resourcePositions) continue;
+    const organizationId = ids[0]!;
+    const position = resourcePositionAt(
+      world,
+      {
+        kind: "organization",
+        organizationId,
+      },
+      money(0, "USD").currency,
+    );
+    if (position) {
+      const held = heldCashBailMinorUnits(world, organizationId);
+      cash.set(key, {
+        organizationId,
+        positionId: position.positionId,
+        balanceMinorUnits: position.liquidBalance.minorUnits,
+        ...(held > 0 ? { heldCashBailMinorUnits: held } : {}),
+      });
+    }
   }
   const withheld = new Map<string, number>();
   const payers = new Map<string, Set<EntityId>>();
   const levies = new Map<string, number[]>();
   const payments = new Map<string, number[]>();
+  const recorded = new Map<
+    string,
+    {
+      revenueMinorUnits: number[];
+      spendingMinorUnits: number[];
+      sourceRecordIds: EntityId[];
+      lawEffectStamps: LawEffectStamp[];
+    }
+  >();
+  const cashRow = (key: string) => {
+    let row = recorded.get(key);
+    if (!row) {
+      row = {
+        revenueMinorUnits: (key === federalKey
+          ? GOVERNMENT_BUDGET_CATEGORIES.federal.receipts
+          : BUDGET_SOURCES
+        ).map(() => 0),
+        spendingMinorUnits: (key === federalKey
+          ? GOVERNMENT_BUDGET_CATEGORIES.federal.outlays
+          : BUDGET_PROGRAMS
+        ).map(() => 0),
+        sourceRecordIds: [],
+        lawEffectStamps: [],
+      };
+      recorded.set(key, row);
+    }
+    return row;
+  };
+  const taxPaymentsByOutcome = new Map<
+    EntityId,
+    NonNullable<World["history"]["statutoryTaxPayments"]>[number][]
+  >();
+  for (const payment of history.statutoryTaxPayments ?? []) {
+    const rows = taxPaymentsByOutcome.get(payment.resourceOutcomeId) ?? [];
+    rows.push(payment);
+    taxPaymentsByOutcome.set(payment.resourceOutcomeId, rows);
+  }
+  const federalCostsByTransfer = new Map(
+    [
+      ...new Set(
+        history.resourceTransferOutcomes
+          .slice(store.cursor.outcomes)
+          .map((row) => `${row.occurredAt.slice(0, 7)}-01` as IsoDate),
+      ),
+    ]
+      .flatMap((month) => federalProgramCostsForMonth(world, month))
+      .map((cost) => [cost.transferId, cost] as const),
+  );
   const paidLeavePaymentStamps = new Map<string, LawEffectStamp[]>();
   for (
     let at = store.cursor.outcomes;
@@ -231,6 +379,108 @@ export function readMonthFlows(
       flow.source.kind === "organization"
         ? accountOwner.get(flow.source.organizationId)
         : undefined;
+    // Transfers within one government's accounts do not create revenue or cost.
+    if (outcome.transferredAmount.currency === "USD" && into !== outOf) {
+      const savedStamps = (
+        (outcome as typeof outcome & LawEffectStampedRecord).lawEffectStamps ??
+        []
+      ).filter(isLawEffectStamp);
+      // Custody deposits and returns move cash, not operating revenue/outlays.
+      // Keep their saved identities so the physical cash movement is auditable.
+      if (
+        flow.basisKind === "custom:refundable-cash-bail" ||
+        flow.basisKind === "custom:cash-bail-refund"
+      ) {
+        for (const key of [into, outOf]) {
+          if (!key) continue;
+          const row = cashRow(key);
+          row.sourceRecordIds.push(flow.id, outcome.id);
+          row.lawEffectStamps.push(...savedStamps);
+        }
+        continue;
+      }
+      if (into) {
+        const row = cashRow(into);
+        const source =
+          flow.basisKind === "custom:tax-withholding"
+            ? "individualIncomeTax"
+            : flow.basisKind === "custom:tax-collection"
+              ? levySource(world, flow)
+              : outOf
+                ? "intergovernmental"
+                : "sourceUnknown";
+        if (into === federalKey) {
+          // Read the saved payment allocations; a flow's label alone does not
+          // prove which federal tax was paid. Unclassified cash stays explicit.
+          const payments = taxPaymentsByOutcome.get(outcome.id) ?? [];
+          let allocated = 0;
+          for (const payment of payments) {
+            const liability = recordById(
+              history.statutoryTaxLiabilities ?? [],
+              payment.liabilityId,
+            );
+            const category =
+              liability?.taxKey === FEDERAL_INCOME_TAX_KEY
+                ? "individualIncomeTax"
+                : FEDERAL_EMPLOYMENT_RULES.some(
+                      (rule) => rule.taxKey === liability?.taxKey,
+                    )
+                  ? "payrollTaxes"
+                  : "miscellaneousReceipts";
+            const amount =
+              payment.amount.currency === "USD" ? payment.amount.minorUnits : 0;
+            row.revenueMinorUnits[
+              GOVERNMENT_BUDGET_CATEGORIES.federal.receipts.indexOf(category)
+            ]! += amount;
+            allocated += amount;
+            row.sourceRecordIds.push(payment.id, payment.liabilityId);
+            row.lawEffectStamps.push(
+              ...(liability?.lawEffectStamps ?? []).filter(isLawEffectStamp),
+            );
+          }
+          row.revenueMinorUnits[
+            GOVERNMENT_BUDGET_CATEGORIES.federal.receipts.indexOf(
+              "miscellaneousReceipts",
+            )
+          ]! += outcome.transferredAmount.minorUnits - allocated;
+        } else {
+          row.revenueMinorUnits[BUDGET_SOURCES.indexOf(source)]! +=
+            outcome.transferredAmount.minorUnits;
+        }
+        row.sourceRecordIds.push(flow.id, outcome.id);
+        row.lawEffectStamps.push(...savedStamps);
+      }
+      if (outOf) {
+        const row = cashRow(outOf);
+        const outlayCategories: readonly string[] =
+          outOf === federalKey
+            ? GOVERNMENT_BUDGET_CATEGORIES.federal.outlays
+            : BUDGET_PROGRAMS;
+        const mappedCategory =
+          outOf === federalKey
+            ? federalProgramLine(paymentProgramKey(world, flow) ?? "")
+            : paymentProgram(world, flow);
+        const mappedIndex = outlayCategories.indexOf(mappedCategory);
+        // A saved payment remains an outlay even if its program/category is
+        // not registered. A negative array index would drop it from totals.
+        const paymentIndex =
+          mappedIndex >= 0
+            ? mappedIndex
+            : outlayCategories.indexOf("otherPrograms");
+        row.spendingMinorUnits[paymentIndex]! +=
+          outcome.transferredAmount.minorUnits;
+        row.sourceRecordIds.push(flow.id, outcome.id);
+        row.lawEffectStamps.push(...savedStamps);
+        if (outOf === federalKey) {
+          const cost = federalCostsByTransfer.get(outcome.id);
+          if (cost) {
+            row.sourceRecordIds.push(...cost.sourceRecordIds);
+            if (!savedStamps.length)
+              row.lawEffectStamps.push(...cost.lawEffectStamps);
+          }
+        }
+      }
+    }
     if (into && flow.basisKind === "custom:tax-withholding") {
       withheld.set(into, (withheld.get(into) ?? 0) + dollars);
       if (flow.source.kind === "person") {
@@ -269,6 +519,8 @@ export function readMonthFlows(
       ),
       levies,
       payments,
+      cash,
+      recorded,
       paidLeavePaymentStamps,
     },
     cursor: {
@@ -298,19 +550,21 @@ function levySource(world: World, flow: ResourceFlow): BudgetSource {
   );
 }
 
-function paymentProgram(world: World, flow: ResourceFlow): BudgetProgram {
+function paymentProgramKey(world: World, flow: ResourceFlow): string | null {
   const reference = flow.basisReference;
-  if (reference.kind === "public-funding")
-    return budgetProgramFor(reference.mandate.programKey);
+  if (reference.kind === "public-funding") return reference.mandate.programKey;
   if (reference.kind === "public-program") {
     const commitment = world.history.publicProgramRecords?.find(
       (row) => row.id === reference.commitmentId,
     );
-    return commitment
-      ? budgetProgramFor(commitment.programKey)
-      : "otherPrograms";
+    return commitment?.programKey ?? null;
   }
-  return "otherPrograms";
+  return null;
+}
+
+function paymentProgram(world: World, flow: ResourceFlow): BudgetProgram {
+  const program = paymentProgramKey(world, flow);
+  return program === null ? "otherPrograms" : budgetProgramFor(program);
 }
 
 /** The change in a state's borrowing cost since the start, as a rate. */
@@ -552,14 +806,101 @@ interface Settled {
  */
 export function settleGovernmentMonth(
   world: World,
+  government: FederalBudgetGovernment,
+  month: IsoDate,
+  flows: MonthFlows,
+): {
+  readonly government: FederalBudgetGovernment;
+  readonly adjustments: readonly BudgetAdjustment[];
+};
+export function settleGovernmentMonth(
+  world: World,
   government: PublicBudgetGovernment,
   month: IsoDate,
   flows: MonthFlows,
+  state?: PublicBudgetGovernment | null,
+): Settled;
+export function settleGovernmentMonth(
+  world: World,
+  government: PublicBudgetGovernment | FederalBudgetGovernment,
+  month: IsoDate,
+  flows: MonthFlows,
   state: PublicBudgetGovernment | null = null,
-): Settled {
+): {
+  readonly government: PublicBudgetGovernment | FederalBudgetGovernment;
+  readonly adjustments: readonly BudgetAdjustment[];
+} {
   if (government.months.some((row) => row.month === month))
     return { government, adjustments: [] };
+  const publicCash = flows.cash?.get(government.key);
+  const heldCash = publicCash?.heldCashBailMinorUnits ?? 0;
+  const spendableCash = publicCash
+    ? (publicCash.balanceMinorUnits - heldCash) / 100
+    : null;
+  // A custody liability cannot fall back to forecast operating transactions.
+  if (heldCash > 0 && flows.recorded === undefined)
+    return { government, adjustments: [] };
+  if (government.level === "federal") {
+    const cash = publicCash;
+    // Absence of a saved account is unknown, not zero or forecast cash.
+    if (!cash || !flows.recorded) return { government, adjustments: [] };
+    const paid = flows.recorded.get(government.key);
+    const categories = GOVERNMENT_BUDGET_CATEGORIES.federal;
+    const balance = spendableCash!;
+    const row = {
+      month,
+      revenue: categories.receipts.map(
+        (_, at) => (paid?.revenueMinorUnits[at] ?? 0) / 100,
+      ),
+      spending: categories.outlays.map(
+        (_, at) => (paid?.spendingMinorUnits[at] ?? 0) / 100,
+      ),
+      balance,
+      reserve: null,
+      debt: government.debt,
+      cashSettlement: {
+        organizationId: cash.organizationId,
+        positionId: cash.positionId,
+        accountBalanceMinorUnits: cash.balanceMinorUnits,
+        heldCashBailMinorUnits: heldCash,
+        sourceRecordIds: [...new Set(paid?.sourceRecordIds ?? [])],
+      },
+      ...(paid?.lawEffectStamps.length
+        ? { lawEffectStamps: paid.lawEffectStamps }
+        : {}),
+    };
+    return {
+      government: {
+        ...government,
+        balance,
+        ...(!government.publicAccountMigration
+          ? {
+              publicAccountMigration: {
+                onDate: firstOfNextMonth(month),
+                organizationId: cash.organizationId,
+                positionId: cash.positionId,
+                previousBudgetBalance: government.balance,
+                previousBudgetReserve: null,
+                accountBalanceMinorUnits: cash.balanceMinorUnits,
+              },
+            }
+          : {}),
+        months: [...government.months, row],
+      },
+      adjustments: [],
+    };
+  }
   const adjustments: BudgetAdjustment[] = [];
+  // A local government cannot settle from a forecast or an ambiguous/missing
+  // account. Its month must use recorded cash; never create an account here.
+  if (
+    (government.level === "county" || government.level === "city") &&
+    (flows.recorded === undefined || publicCash === undefined)
+  )
+    return { government, adjustments: [] };
+  // A missing recorded map means an older caller still supplies forecasts.
+  const cashSettled = publicCash !== undefined && flows.recorded !== undefined;
+  const recorded = flows.recorded?.get(government.key);
   const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;
   const year = government.years.at(-1)!;
   const asOf = firstOfNextMonth(month);
@@ -722,9 +1063,9 @@ export function settleGovernmentMonth(
           },
         )
       : null;
-  const cannabisStamps = [cannabisStamp, cannabisCostStamp].filter(
-    (stamp): stamp is NonNullable<typeof stamp> => stamp !== null,
-  );
+  const cannabisStamps = (
+    cashSettled ? [] : [cannabisStamp, cannabisCostStamp]
+  ).filter((stamp): stamp is NonNullable<typeof stamp> => stamp !== null);
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -765,8 +1106,20 @@ export function settleGovernmentMonth(
     if (value !== 0)
       spending[at] = Math.max(0, spending[at]! + Math.round(value));
 
-  let balance = government.balance + sum(revenue) - sum(spending);
-  let reserve = government.reserve;
+  if (cashSettled) {
+    // Adopted plans remain forecasts; a settled row records only paid transfers.
+    for (const at of BUDGET_SOURCES.keys())
+      revenue[at] = (recorded?.revenueMinorUnits[at] ?? 0) / 100;
+    for (const at of BUDGET_PROGRAMS.keys())
+      spending[at] = (recorded?.spendingMinorUnits[at] ?? 0) / 100;
+  }
+  // The reserve earmarks this account's cash; it is not a second cash asset.
+  let reserve = publicCash
+    ? Math.min(government.reserve, Math.max(0, spendableCash!))
+    : government.reserve;
+  let balance = publicCash
+    ? spendableCash! - reserve
+    : government.balance + sum(revenue) - sum(spending);
   let debt = government.debt;
   let interestRate = government.interestRate;
   let cut = government.cut;
@@ -874,11 +1227,6 @@ export function settleGovernmentMonth(
   const paidLeaveStamps = (
     flows.paidLeavePaymentStamps?.get(government.key) ?? []
   ).map((stamp) => ({ ...stamp, appliedAt: asOf }));
-  const ageVerificationCost = ageVerificationCostForMonth(
-    world,
-    government,
-    month,
-  );
   const row: BudgetMonthRow &
     LawEffectStampedRecord & {
       readonly cannabisRevenue?: number;
@@ -895,27 +1243,49 @@ export function settleGovernmentMonth(
       ? { townSales: Math.round(townSales * 10000) / 10000 }
       : {}),
     represented,
-    ...(ageVerificationCost
-      ? { lawCostAttributions: [ageVerificationCost] }
+    ...(cashSettled
+      ? {
+          cashSettlement: {
+            organizationId: publicCash!.organizationId,
+            positionId: publicCash!.positionId,
+            accountBalanceMinorUnits: publicCash!.balanceMinorUnits,
+            heldCashBailMinorUnits: heldCash,
+            sourceRecordIds: [...new Set(recorded?.sourceRecordIds ?? [])],
+          },
+        }
       : {}),
-    ...(zeroOpeningSelectiveTax &&
+    ...(!cashSettled &&
+    zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
       ? { cannabisRevenue }
       : {}),
-    ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
-    ...(cannabisStamps.length || paidLeaveStamps.length || ageVerificationCost
+    ...(!cashSettled && cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
+    ...(cannabisStamps.length ||
+    paidLeaveStamps.length ||
+    recorded?.lawEffectStamps.length
       ? {
           lawEffectStamps: [
             ...cannabisStamps,
             ...paidLeaveStamps,
-            ...(ageVerificationCost?.lawEffectStamps ?? []),
+            ...(cashSettled ? (recorded?.lawEffectStamps ?? []) : []),
           ],
         }
       : {}),
   };
-  const settledRow = appendConsumerPrivacyCostToMonth(world, government, row);
   let next: PublicBudgetGovernment = {
     ...government,
+    ...(publicCash && !government.publicAccountMigration
+      ? {
+          publicAccountMigration: {
+            onDate: asOf,
+            organizationId: publicCash.organizationId,
+            positionId: publicCash.positionId,
+            previousBudgetBalance: government.balance,
+            previousBudgetReserve: government.reserve,
+            accountBalanceMinorUnits: publicCash.balanceMinorUnits,
+          },
+        }
+      : {}),
     balance,
     reserve,
     debt,
@@ -933,7 +1303,7 @@ export function settleGovernmentMonth(
             },
           ]
         : government.years,
-    months: [...government.months, settledRow],
+    months: [...government.months, row],
   };
   if (!yearEnds) return { government: next, adjustments };
 

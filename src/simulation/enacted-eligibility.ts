@@ -1,3 +1,4 @@
+import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import {
   isPurposeSection,
   NOT_ELIGIBILITY_VARIANTS,
@@ -11,7 +12,12 @@ import {
 } from "./enacted-duties";
 import { enactedDutyRecords } from "./enacted-duty-integrity";
 import { currentMeasureProvisions } from "./legislative-politics";
-import type { EnactedEligibilityRecord, EntityId, World } from "./types";
+import type {
+  EnactedEligibilityRecord,
+  EntityId,
+  IsoDate,
+  World,
+} from "./types";
 
 /**
  * The who-qualifies lever (spec 3 of "04 SYSTEM SPECS"): a section of an
@@ -126,4 +132,30 @@ export function enactedEligibilityOf(
         unknown: bodies.length - placed,
       };
     });
+}
+
+/** Canonical legal eligibility inputs for actual questions and jurisdiction. */
+export function readEligibilityLawsInForce(
+  world: World,
+  jurisdictionId: EntityId,
+  questionKeys: readonly string[],
+  onDate: IsoDate,
+): ReadonlyMap<string, LawInForce | null> {
+  const propositions = new Map(
+    Object.values(world.policyCatalog.propositions).map((row) => [
+      row.stableKey,
+      row.id,
+    ]),
+  );
+  return new Map(
+    questionKeys.map((key) => {
+      const propositionId = propositions.get(key);
+      return [
+        key,
+        propositionId
+          ? lawInForce(world, jurisdictionId, propositionId, onDate)
+          : null,
+      ];
+    }),
+  );
 }

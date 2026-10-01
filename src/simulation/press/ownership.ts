@@ -3,19 +3,20 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { createOrganization, recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import { personName } from "../people";
-import { currentResourceCutoff, resourcePositionAt } from "../resource-queries";
 import {
-  createResourceFlow,
-  makeCurrencyCode,
-  money,
-  recordResourceTransferOutcome,
-} from "../resources";
+  currentResourceCutoff,
+  resourcePositionAt,
+  resourceFlowTermsAt,
+} from "../resource-queries";
+import { makeCurrencyCode } from "../resources";
+import { recordMediaPurchasePayment } from "./media-purchase-payment";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
   World,
+  CurrencyCode,
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { mediaOutlets, reporterIsCurrent, reporterRoles } from "./outlets";
@@ -56,8 +57,8 @@ import {
  * anything else.
  *
  * NOT MODELED YET, with the blanket rule standing in:
- * - Why an owner decides. There is no media revenue, debt or audience model,
- *   so every decision is the pack's `likelihoodPerReview` draw.
+ * - Acquisitions and other directives still use pack likelihoods. Newsroom
+ *   cuts instead require recorded cash below comparable recorded payroll.
  * - Whether a decision is news. Owner events use the `press.` prefix, which
  *   the desk excludes, so none of them reaches a front page until the owner
  *   of newsworthiness admits them.
@@ -295,8 +296,11 @@ function scheduleOwnerReview(
   row: LoadedOwnershipOwner,
   index: number,
 ): World {
+  const stableKey = `${owner.stableKey}:review:${index}`;
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
   return scheduleFutureDueItem(world, {
-    stableKey: `${owner.stableKey}:review:${index}`,
+    stableKey,
     dueAt: addDays(world.currentDate, row.reviewEveryDays),
     transitionKey: PRESS_OWNER_REVIEW_TRANSITION_KEY,
     entityIds: [owner.organizationId],
@@ -309,8 +313,8 @@ function scheduleOwnerReview(
 }
 
 /**
- * One owner's review. Each practice is drawn independently, in the row's
- * order, and each decision applies to what the owner holds at that moment.
+ * One owner's review, in pack order. Cost cutting reads saved books; other
+ * practices retain their existing draws until their decision writers are built.
  */
 export function pressOwnerReviewHandler(
   world: World,
@@ -344,6 +348,22 @@ export function pressOwnerReviewHandler(
   for (const practiceKey of row.practices) {
     const practice = registry.practices.get(practiceKey);
     if (!practice) continue;
+    const practiceKeyForReview = `${dueItem.stableKey}:${practiceKey}`;
+    if (pressRecordByKey(next, "owner-directive", practiceKeyForReview))
+      continue;
+    // No random stream is created or consulted on the payroll-driven path.
+    if (practice.effect === "reduce-newsroom-staff") {
+      const decided = reduceNewsroomStaff(
+        next,
+        owner,
+        practice,
+        practiceKeyForReview,
+        outletsHeldBy(next, owner.id),
+      );
+      next = decided.world;
+      lastEventId = decided.eventId ?? lastEventId;
+      continue;
+    }
     const rng = new SeededRng(world.seed).fork(
       `${dueItem.stableKey}:${practiceKey}`,
     );
@@ -384,7 +404,7 @@ function carryOutPractice(
   }
   switch (practice.effect) {
     case "reduce-newsroom-staff":
-      return reduceNewsroomStaff(world, owner, practice, stableKey, held, rng);
+      return reduceNewsroomStaff(world, owner, practice, stableKey, held);
     case "acquire-outlet":
       return acquireOutlet(world, owner, practice, stableKey, rng, registry);
     case "share-content-across-outlets":
@@ -403,6 +423,8 @@ function ownerEvent(
     readonly visibility: "limited" | "public";
     readonly summary: string;
     readonly practice: OwnershipPracticeRow;
+    readonly motivation?: string;
+    readonly sourceRecordIds?: readonly EntityId[];
   },
 ): { readonly world: World; readonly eventId: EntityId } {
   const next = recordWorldEvent(world, {
@@ -412,8 +434,10 @@ function ownerEvent(
     recordedAt: world.currentDate,
     jurisdictionId: null,
     involvedEntityIds: [
-      input.owner.organizationId,
-      ...input.outlets.map((outlet) => outlet.organizationId),
+      ...new Set([
+        input.owner.organizationId,
+        ...input.outlets.map((outlet) => outlet.organizationId),
+      ]),
     ].sort(),
     participants: [],
     personFactConstraints: [],
@@ -423,6 +447,10 @@ function ownerEvent(
       `press.owner:${input.owner.id}`,
       `press.practice:${input.practice.key}`,
       ...input.outlets.map((outlet) => `press.outlet:${outlet.id}`),
+      // Financial records are evidence, not event participants.
+      ...[...new Set(input.sourceRecordIds ?? [])]
+        .sort()
+        .map((id) => `press.payroll-source:${id}`),
     ],
     summary: input.summary,
     context: {
@@ -430,7 +458,7 @@ function ownerEvent(
       socialContext: input.owner.name,
       pressure: null,
       choice: input.practice.effect,
-      motivation: null,
+      motivation: input.motivation ?? null,
       immediateReaction: null,
     },
   });
@@ -485,49 +513,125 @@ function recordDirective(
   return { world: next, eventId: event.eventId };
 }
 
-/**
- * One cost-cutting round across every outlet the owner holds. The cut is a
- * share of the owner's whole newsroom headcount, taken from the outlets with
- * the most staff first, and never below each outlet's kept minimum.
- */
+/** Recorded cash and comparable current payroll, with no inferred revenue. */
+function newsroomPayroll(world: World, outlet: MediaOutletRecord) {
+  const cutoff = currentResourceCutoff(world);
+  const work = world.history.workRelationships.filter(
+    (row) =>
+      row.organizationId === outlet.organizationId &&
+      row.compensation === "paid" &&
+      row.startedAt <= world.currentDate &&
+      workStatusAt(world, row.id, cutoff)?.status === "active",
+  );
+  if (!work.length) return null;
+  const payroll = new Map<EntityId, number>();
+  const sourceIds: EntityId[] = [];
+  let currency: CurrencyCode | null = null;
+  let cadence: string | null = null;
+  let total = 0;
+  for (const job of work) {
+    const flows = world.history.resourceFlows.filter(
+      (flow) =>
+        flow.source.kind === "organization" &&
+        flow.source.organizationId === outlet.organizationId &&
+        flow.recipient.kind === "person" &&
+        flow.recipient.personId === job.personId &&
+        flow.basisReference.kind === "work" &&
+        flow.basisReference.workRelationshipId === job.id &&
+        flow.startsAt <= world.currentDate,
+    );
+    let amount = 0;
+    for (const flow of flows) {
+      const terms = resourceFlowTermsAt(world, flow.id, cutoff);
+      if (!terms || terms.status !== "active") continue;
+      // Different periods or currencies require a recorded common budget; never guess a conversion.
+      if (
+        !/^schedule:(?:town-)?(?:weekly|biweekly(?:-\d)?|semimonthly|monthly)$/.test(
+          terms.cadenceKind,
+        ) ||
+        (currency !== null && currency !== terms.amount.currency) ||
+        (cadence !== null && cadence !== terms.cadenceKind)
+      )
+        return null;
+      currency = terms.amount.currency;
+      cadence = terms.cadenceKind;
+      amount += terms.amount.minorUnits;
+      sourceIds.push(flow.id, terms.id);
+    }
+    if (amount <= 0 || !Number.isSafeInteger(amount)) return null;
+    payroll.set(job.id, amount);
+    total += amount;
+    sourceIds.push(job.id, workStatusAt(world, job.id, cutoff)!.id);
+  }
+  if (!currency || !cadence || !Number.isSafeInteger(total)) return null;
+  const cash = resourcePositionAt(
+    world,
+    { kind: "organization", organizationId: outlet.organizationId },
+    currency,
+    cutoff,
+  );
+  if (!cash) return null;
+  return {
+    payroll,
+    total,
+    currency,
+    cadence,
+    cash: cash.liquidBalance.minorUnits,
+    sourceIds: [
+      ...new Set([...sourceIds, cash.positionId, ...cash.outcomeIds]),
+    ],
+  };
+}
+
+/** End least-senior positions only when recorded cash cannot cover recorded payroll. */
 function reduceNewsroomStaff(
   world: World,
   owner: MediaOwnerRecord,
   practice: OwnershipPracticeRow,
   stableKey: string,
   held: readonly MediaOutletRecord[],
-  rng: SeededRng,
 ): { readonly world: World; readonly eventId: EntityId | null } {
-  // Placeholder fallbacks for a practice that names neither value; see the
-  // research questions named in ownership-pack-default.ts.
-  const share = practice.parameters?.shareOfPositions ?? 0.25;
-  const kept = practice.parameters?.minimumPositionsKept ?? 1;
-  const staff = new Map<EntityId, ReporterRoleRecord[]>(
-    held.map((outlet) => [
-      outlet.id,
-      reporterRoles(world, outlet.id).filter((role) =>
-        reporterIsCurrent(world, role),
-      ),
-    ]),
-  );
-  const total = [...staff.values()].reduce((sum, list) => sum + list.length, 0);
-  let toCut = Math.floor(total * share);
   const cut: ReporterRoleRecord[] = [];
-  while (toCut > 0) {
-    const candidates = held
-      .map((outlet) => ({ outlet, roles: staff.get(outlet.id)! }))
-      .filter(({ roles }) => roles.length > kept)
-      .sort(
-        (left, right) =>
-          right.roles.length - left.roles.length ||
-          left.outlet.sequence - right.outlet.sequence,
-      );
-    const from = candidates[0];
-    if (!from) break;
-    const index = rng.integer(0, from.roles.length);
-    cut.push(from.roles[index]!);
-    from.roles.splice(index, 1);
-    toCut -= 1;
+  const sourceRecordIds: EntityId[] = [];
+  const reasons: string[] = [];
+  for (const outlet of held) {
+    const books = newsroomPayroll(world, outlet);
+    if (!books || books.cash >= books.total) continue;
+    const jobs = new Map(
+      world.history.workRelationships.map((job) => [job.id, job]),
+    );
+    const candidates = reporterRoles(world, outlet.id)
+      .filter(
+        (role) =>
+          reporterIsCurrent(world, role) &&
+          books.payroll.has(role.workRelationshipId),
+      )
+      .sort((a, b) => {
+        const left = jobs.get(a.workRelationshipId)!;
+        const right = jobs.get(b.workRelationshipId)!;
+        return (
+          right.startedAt.localeCompare(left.startedAt) ||
+          right.sequence - left.sequence
+        );
+      });
+    let required = books.total;
+    const fromOutlet: ReporterRoleRecord[] = [];
+    for (const role of candidates) {
+      if (required <= books.cash) break;
+      fromOutlet.push(role);
+      required -= books.payroll.get(role.workRelationshipId)!;
+    }
+    if (!fromOutlet.length) continue;
+    cut.push(...fromOutlet);
+    sourceRecordIds.push(...books.sourceIds);
+    const format = (amount: number) =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: books.currency,
+      }).format(amount / 100);
+    reasons.push(
+      `${outlet.name} had ${format(books.cash)} in recorded cash, less than ${format(books.total)} for its recorded payroll period.`,
+    );
   }
   if (cut.length === 0) return { world, eventId: null };
   const affected = held.filter((outlet) =>
@@ -541,6 +645,8 @@ function reduceNewsroomStaff(
     visibility: "public",
     summary: `${owner.name} eliminated ${cut.length} newsroom ${cut.length === 1 ? "position" : "positions"} across ${affected.length} ${affected.length === 1 ? "outlet" : "outlets"} it owns.`,
     practice,
+    motivation: reasons.join(" "),
+    sourceRecordIds,
   });
   let next = event.world;
   for (const role of cut) {
@@ -551,7 +657,7 @@ function reduceNewsroomStaff(
       workRelationshipId: role.workRelationshipId,
       effectiveAt: next.currentDate,
       status: "ended",
-      reason: `Position eliminated when ${owner.name} cut staff across its outlets.`,
+      reason: `Position eliminated because recorded outlet cash could not cover recorded payroll; least-senior positions were ended first.`,
       provenance: { kind: "simulated-event", eventId: event.eventId },
       supersedesStatusId: status.id,
     });
@@ -865,34 +971,15 @@ export function purchaseOutlet(
     },
   });
   const event = next.history.events.at(-1)!;
-  const amount = money(terms.priceMinorUnits, USD);
-  next = createResourceFlow(next, {
-    stableKey: `${input.stableKey}:payment`,
-    source: { kind: "person", personId: buyer.id },
-    recipient: { kind: "organization", organizationId: seller.organizationId },
-    startsAt: next.currentDate,
-    initialStatus: "active",
-    amount,
-    cadenceKind: "schedule:one-time",
-    basisKind: "custom:outlet-purchase",
-    basisReference: { kind: "general" },
-    restrictionKind: null,
+  next = recordMediaPurchasePayment(next, {
+    stableKey: input.stableKey,
+    buyerPersonId: buyer.id,
+    sellerOrganizationId: seller.organizationId,
+    sellerName: seller.name,
+    outletName: outlet.name,
     jurisdictionId: outlet.primaryJurisdictionIds[0] ?? null,
-    provenance: { kind: "simulated-event", eventId: event.id },
-  });
-  const flow = next.history.resourceFlows.at(-1)!;
-  next = recordResourceTransferOutcome(next, {
-    stableKey: `${input.stableKey}:paid`,
-    resourceFlowId: flow.id,
-    periodStartsAt: next.currentDate,
-    periodEndsAt: next.currentDate,
-    occurredAt: next.currentDate,
-    status: "completed",
-    attemptedAmount: amount,
-    transferredAmount: amount,
-    reasonKind: null,
-    note: `Paid to ${seller.name} for ${outlet.name}.`,
-    provenance: { kind: "simulated-event", eventId: event.id },
+    eventId: event.id,
+    priceMinorUnits: terms.priceMinorUnits,
   });
   return appendPressRecord(next, "outlet-ownership", {
     stableKey: `${HOLDING_KEY}${outlet.id}:${holding.sequence}`,

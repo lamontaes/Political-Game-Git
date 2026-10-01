@@ -1,4 +1,13 @@
 import {
+  finalTermEnactment,
+  finalTermProvisions,
+  readFinalEnactedLawTerm,
+} from "./final-law-term-query";
+export {
+  readFinalEnactedLawTerm,
+  type FinalEnactedLawTerm,
+} from "./final-law-term-query";
+import {
   compileBillDraft,
   draftScope,
   type CompiledBillDraft,
@@ -10,8 +19,23 @@ import {
   measureById,
   measurePosition,
 } from "../legislation";
-import { recordFiledProvision } from "../legislative-politics";
-import { recordDraftLineage } from "../legislation-draft-lineage";
+import {
+  recordFiledProvision,
+  type RecordFiledProvisionInput,
+} from "../legislative-politics";
+import type { LawAmountUnit } from "../law-consequence-types";
+import { lawInForce, type LawInForce } from "./law-in-force";
+import { principledLeaning } from "./officeholder-principles";
+import {
+  censusRegionOf,
+  censusRegionStates,
+} from "../world-setup/census-regions";
+import { publicBudgetFor } from "../public-budgets/store";
+import { recordWorldEvent } from "../world";
+import {
+  draftParameterValues,
+  recordDraftLineage,
+} from "../legislation-draft-lineage";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
@@ -20,7 +44,6 @@ import {
   programVariant,
   standingAuthority,
   type NpcEligibleProgramConfiguration,
-  type ProgramParameterValue,
 } from "../legislation-program-families";
 import {
   legislativePackForJurisdiction,
@@ -28,18 +51,21 @@ import {
 } from "../legislative-institutions";
 import { legislativeWorkKey } from "../legislative-work-key";
 import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
   stateJurisdictionForKey,
   stateKeyForJurisdictionSlug,
 } from "../life-places";
 import { rulePackById } from "../legislature-rule-packs";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
-import { SeededRng } from "../rng";
 import { TRANSIT_PROGRAM_KEY } from "../legislation-transit-families";
 import type {
   EntityId,
   IsoDate,
   LegislativeMeasureNumberingSession,
   LegislativeMeasureRecord,
+  LegislativeDraftLineageRecord,
+  LegislativeProvisionRecord,
   World,
 } from "../types";
 import type { PredicateAuthority } from "../legislation-content-contracts";
@@ -65,6 +91,348 @@ export interface AutomaticLawCompileContext {
   readonly rulePackId: string;
   readonly scenarioKey: string;
   readonly predicateAuthority: PredicateAuthority;
+}
+
+export interface FinalEnactedLawCategories {
+  readonly values: readonly string[];
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+export interface SponsorLawTermRequest {
+  readonly measureId: EntityId;
+  readonly questionKey: string;
+  readonly termKey: string;
+  readonly unit: LawAmountUnit;
+  /** The declared numeric direction of supporting this question, not an inferred rate. */
+  readonly supportDirection: "raise" | "lower";
+  readonly basis: "term" | "appropriation-per-resident";
+}
+export interface SponsorRequestedLawTerm {
+  readonly value: number;
+  readonly unit: LawAmountUnit;
+  readonly referenceMeasureId: EntityId;
+  readonly referenceProvisionId: EntityId;
+  readonly principleRecordIds: readonly EntityId[];
+  readonly score: number;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+/** Transient compiler provenance; saved through the existing provision and event writers. */
+interface AutomaticSponsorDraft extends CompiledBillDraft {
+  readonly sponsorRequest?: {
+    readonly sponsorPersonId: EntityId;
+    readonly score: number;
+    readonly referenceMeasureId: EntityId;
+    readonly sourceRecordIds: readonly EntityId[];
+    readonly provisions: readonly LegislativeProvisionRecord[];
+  };
+}
+
+function referenceDistance(world: World, target: EntityId, source: EntityId) {
+  const targetState = referenceState(world, target);
+  const sourceState = referenceState(world, source);
+  if (targetState && sourceState === targetState) return 0;
+  const states = new Set(censusRegionStates());
+  return targetState &&
+    sourceState &&
+    states.has(targetState) &&
+    states.has(sourceState) &&
+    censusRegionOf(targetState) === censusRegionOf(sourceState)
+    ? 1
+    : 2;
+}
+
+function selectSortedSponsorReference<T extends { readonly value: number }>(
+  references: readonly T[],
+  strength: number,
+): T | null {
+  const unique = references.filter(
+    (row, index) => index === 0 || row.value !== references[index - 1]!.value,
+  );
+  return unique.length
+    ? unique[Math.floor(Math.min(1, strength) * (unique.length - 1))]!
+    : null;
+}
+
+function referenceState(world: World, jurisdictionId: EntityId): string | null {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  return (
+    (jurisdiction ? stateKeyForJurisdiction(jurisdiction)?.slice(3) : null) ??
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey?.slice(3) ??
+    null
+  );
+}
+
+/** CTO reference mechanism: recorded principles select an existing value, with no new level. */
+export function sponsorRequestedLawTerm(
+  world: World,
+  input: SponsorLawTermRequest,
+): SponsorRequestedLawTerm | null {
+  const measure = measureById(world, input.measureId);
+  const question = world.policyCatalog.propositionOrder
+    .map((id) => world.policyCatalog.propositions[id]!)
+    .find((row) => row.stableKey === input.questionKey);
+  if (
+    !measure?.sponsorPersonId ||
+    !question ||
+    !(measure.propositionIds ?? []).includes(question.id)
+  )
+    return null;
+  const leaning = principledLeaning(
+    world,
+    measure.sponsorPersonId,
+    question.id,
+  );
+  const maximumScore =
+    4 *
+    (question.principles ?? []).reduce(
+      (sum, row) => sum + (row.weight ?? 1),
+      0,
+    );
+  if (!leaning.recordIds.length || !leaning.score || !maximumScore) return null;
+  const currentLaw = lawInForce(world, measure.jurisdictionId, question.id);
+  const current = currentLaw
+    ? readFinalEnactedLawTerm(world, currentLaw, input)
+    : null;
+  if (!current) return null;
+  const targetPopulation =
+    input.basis === "appropriation-per-resident"
+      ? publicBudgetFor(world, measure.jurisdictionId)?.population
+      : null;
+  if (
+    input.basis === "appropriation-per-resident" &&
+    (input.unit !== "minor" ||
+      !(targetPopulation && targetPopulation > 0) ||
+      !Number.isFinite(targetPopulation))
+  )
+    return null;
+  const increasing = leaning.score > 0 === (input.supportDirection === "raise");
+  const targetState = referenceState(world, measure.jurisdictionId);
+  const knownRegions = new Set(censusRegionStates());
+  const targetRegion =
+    targetState && knownRegions.has(targetState)
+      ? censusRegionOf(targetState)
+      : null;
+  const references = (world.history.legislativeMeasures ?? [])
+    .flatMap((reference) => {
+      if (
+        reference.id === measure.id ||
+        reference.introducedAt > world.currentDate ||
+        !(reference.propositionIds ?? []).includes(question.id)
+      )
+        return [];
+      const sourcePopulation =
+        input.basis === "appropriation-per-resident"
+          ? publicBudgetFor(world, reference.jurisdictionId)?.population
+          : null;
+      if (
+        input.basis === "appropriation-per-resident" &&
+        (!(sourcePopulation && sourcePopulation > 0) ||
+          !Number.isFinite(sourcePopulation))
+      )
+        return [];
+      const state = referenceState(world, reference.jurisdictionId);
+      const region =
+        state && knownRegions.has(state) ? censusRegionOf(state) : null;
+      const distance =
+        targetState && state === targetState
+          ? 0
+          : targetRegion && region === targetRegion
+            ? 1
+            : 2;
+      const adopted = (world.history.legislativeEnactments ?? []).find(
+        (row) =>
+          row.measureId === reference.id &&
+          row.outcome === "enacted" &&
+          row.resolvedAt <= world.currentDate,
+      );
+      const provisions = finalTermProvisions(
+        world,
+        reference.id,
+        adopted?.sequence,
+      );
+      const terms = provisions.flatMap((provision) =>
+        provision.applicationScope.segmentKey === null
+          ? (provision.lawTerms ?? [])
+              .filter(
+                (term) =>
+                  term.questionKey === input.questionKey &&
+                  term.key === input.termKey,
+              )
+              .map((term) => ({ provision, term }))
+          : [],
+      );
+      if (terms.length !== 1 || terms[0]!.term.unit !== input.unit) return [];
+      const { provision, term } = terms[0]!;
+      const value =
+        input.basis === "appropriation-per-resident"
+          ? Math.round((term.value / sourcePopulation!) * targetPopulation!)
+          : term.value;
+      if (
+        !Number.isFinite(value) ||
+        !(increasing ? value > current.value : value < current.value)
+      )
+        return [];
+      return [
+        { value, provision, reference, distance, enactmentId: adopted?.id },
+      ];
+    })
+    .sort(
+      (a, b) =>
+        (increasing ? a.value - b.value : b.value - a.value) ||
+        a.distance - b.distance ||
+        b.provision.recordedAt.localeCompare(a.provision.recordedAt) ||
+        b.provision.sequence - a.provision.sequence ||
+        a.provision.id.localeCompare(b.provision.id),
+    );
+  const selected = selectSortedSponsorReference(
+    references,
+    Math.abs(leaning.score) / maximumScore,
+  );
+  if (!selected) return null;
+  return {
+    value: selected.value,
+    unit: input.unit,
+    referenceMeasureId: selected.reference.id,
+    referenceProvisionId: selected.provision.id,
+    principleRecordIds: leaning.recordIds,
+    score: leaning.score,
+    sourceRecordIds: [
+      ...current.sourceRecordIds,
+      selected.reference.id,
+      selected.provision.id,
+      ...(selected.enactmentId ? [selected.enactmentId] : []),
+      ...leaning.recordIds,
+    ],
+  };
+}
+
+/** Files the requested number through the existing provision writer and preserves its reason. */
+export function recordSponsorRequestedLawTerm(
+  world: World,
+  input: SponsorLawTermRequest & {
+    readonly provision: Omit<
+      RecordFiledProvisionInput,
+      "measureId" | "lawTerms" | "text"
+    >;
+    readonly renderText: (term: SponsorRequestedLawTerm) => string;
+  },
+): {
+  readonly world: World;
+  readonly provision: LegislativeProvisionRecord | null;
+} {
+  const existing = (world.history.legislativeProvisions ?? []).find(
+    (row) => row.stableKey === input.provision.stableKey,
+  );
+  if (existing) {
+    if (existing.measureId !== input.measureId)
+      throw new Error("A requested term's key belongs to another measure.");
+    return { world, provision: existing };
+  }
+  if (measurePosition(world, input.measureId).terminal)
+    throw new Error("A terminal measure cannot acquire a new requested term.");
+  const term = sponsorRequestedLawTerm(world, input);
+  if (!term) return { world, provision: null };
+  let next = recordFiledProvision(world, {
+    ...input.provision,
+    measureId: input.measureId,
+    text: input.renderText(term),
+    lawTerms: [
+      {
+        questionKey: input.questionKey,
+        key: input.termKey,
+        value: term.value,
+        unit: term.unit,
+      },
+    ],
+  });
+  const measure = measureById(next, input.measureId)!;
+  next = recordWorldEvent(next, {
+    stableKey: `${input.provision.stableKey}:requested-term-reason`,
+    type: "legislation.sponsor-requested-term",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: measure.jurisdictionId,
+    involvedEntityIds: [measure.id, measure.sponsorPersonId!],
+    participants: [
+      {
+        personId: measure.sponsorPersonId!,
+        role: "agency:sponsor",
+        detail:
+          "Requested the numeric term from recorded principles and an existing bill.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      ...term.sourceRecordIds.map((id) => `source-record:${id}`),
+      `term:${input.termKey}`,
+      `principle-score:${term.score}`,
+    ],
+    summary: `The sponsor requested ${input.provision.heading} from a recorded legislative reference.`,
+    context: {
+      location: {
+        jurisdictionId: measure.jurisdictionId,
+        label: world.jurisdictions[measure.jurisdictionId]!.name,
+        setting: null,
+      },
+      socialContext: measure.designation,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return {
+    world: next,
+    provision: next.history.legislativeProvisions!.find(
+      (row) => row.stableKey === input.provision.stableKey,
+    )!,
+  };
+}
+
+/** Reads explicit closed categories in the adopted text; there is no inferred coverage. */
+export function readFinalEnactedLawCategories(
+  world: World,
+  law: LawInForce,
+  input: { readonly questionKey: string; readonly termKey: string },
+): FinalEnactedLawCategories | null {
+  const enactment = finalTermEnactment(world, law, input.questionKey);
+  if (!enactment) return null;
+  const parameter = world.policyCatalog.propositionOrder
+    .map((id) => world.policyCatalog.propositions[id]!)
+    .find((question) => question.stableKey === input.questionKey)
+    ?.parameters.find((row) => row.key === input.termKey);
+  if (!parameter?.allowedValues?.length) return null;
+  const matches = finalTermProvisions(
+    world,
+    law.measureId,
+    enactment.sequence,
+  ).flatMap((provision) =>
+    provision.applicationScope.segmentKey === null
+      ? (provision.lawCategories ?? [])
+          .filter(
+            (category) =>
+              category.questionKey === input.questionKey &&
+              category.key === input.termKey,
+          )
+          .map((category) => ({ provision, category }))
+      : [],
+  );
+  if (matches.length !== 1) return null;
+  const { provision, category } = matches[0]!;
+  if (
+    category.values.some((value) => !parameter.allowedValues!.includes(value))
+  )
+    return null;
+  return {
+    values: [...category.values],
+    measureId: law.measureId,
+    provisionId: provision.id,
+    sourceRecordIds: [law.measureId, enactment.id, provision.id],
+  };
 }
 
 /** Resolve a bank-declared game profile against a saved public jurisdiction. */
@@ -315,8 +683,7 @@ function contextSupportsMapping(
  * The exact current consumer tuple for an automatic state appropriation.
  *
  * Until the clause carries that closed intent and the exact positive amount
- * compiled from its appropriation parameter, this producer refuses to create a
- * measure. Funding caps and informative clauses do not count as an operative
+ * compiled from its appropriation parameter, this numeric compiler is unsupported. Funding caps and informative clauses do not count as an operative
  * public-program appropriation.
  */
 function hasRegisteredOperativeEffect(
@@ -355,13 +722,117 @@ function hasRegisteredOperativeEffect(
   );
 }
 
+/** A filing lineage is usable only while its exact final clauses still carry those terms. */
+function verifiedReferenceDraft(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  lineage: LegislativeDraftLineageRecord,
+  mapping: AutomaticLawPositionMapping,
+) {
+  const context = profileContextForMapping(
+    world,
+    measure.jurisdictionId,
+    mapping,
+  );
+  if (
+    !context ||
+    !contextSupportsMapping(context, measure.jurisdictionId, mapping)
+  )
+    return null;
+  const { family, variant } = programVariant(
+    mapping.familyKey,
+    mapping.variantKey,
+  );
+  if (
+    lineage.familyVersion !== family.familyVersion ||
+    lineage.authorityKey !== context.predicateAuthority.authorityKey
+  )
+    return null;
+  const values = draftParameterValues(lineage);
+  if (
+    lineage.parameters.length !== variant.parameters.length ||
+    new Set(lineage.parameters.map((row) => row.parameterKey)).size !==
+      lineage.parameters.length ||
+    variant.parameters.some((parameter) => !values[parameter.key])
+  )
+    return null;
+  const adopted = (world.history.legislativeEnactments ?? []).find(
+    (row) =>
+      row.measureId === measure.id &&
+      row.outcome === "enacted" &&
+      row.resolvedAt <= world.currentDate,
+  );
+  const provisions = finalTermProvisions(world, measure.id, adopted?.sequence);
+  if (
+    provisions.some(
+      (row) =>
+        row.applicationScope.jurisdictionId !== measure.jurisdictionId ||
+        row.applicationScope.segmentKey !== null,
+    )
+  )
+    return null;
+  const draft = compileBillDraft({
+    familyKey: mapping.familyKey,
+    variantKey: mapping.variantKey,
+    parameterValues: values,
+    scenarioKey: context.scenarioKey,
+    jurisdictionId: measure.jurisdictionId,
+    rulePackId: context.rulePackId,
+    designation: measure.designation,
+    filedOn: measure.introducedAt,
+    predicateAuthority: context.predicateAuthority,
+  });
+  if (
+    !hasRegisteredOperativeEffect(draft, mapping) ||
+    provisions.length !== draft.clauses.length ||
+    draft.clauses.some((clause) => {
+      const matches = provisions.filter(
+        (row) => row.provisionKey === clause.provisionKey,
+      );
+      const recorded = matches[0];
+      return (
+        matches.length !== 1 ||
+        !recorded ||
+        recorded.sectionNumber !== clause.sectionNumber ||
+        recorded.heading !== clause.heading ||
+        recorded.text !== clause.text ||
+        !(recorded.beneficiary.kind === "general-application" &&
+        clause.beneficiary.kind === "general-application"
+          ? recorded.beneficiary.appliesToLabel ===
+            clause.beneficiary.appliesToLabel
+          : recorded.beneficiary.kind === "particularized" &&
+            clause.beneficiary.kind === "particularized" &&
+            recorded.beneficiary.particularization ===
+              clause.beneficiary.particularization &&
+            recorded.beneficiary.beneficiaryLabel ===
+              clause.beneficiary.beneficiaryLabel &&
+            recorded.beneficiary.placeLabel === clause.beneficiary.placeLabel &&
+            recorded.beneficiary.statedGround ===
+              clause.beneficiary.statedGround) ||
+        recorded.fiscalExposureLabel !== clause.fiscalExposureLabel ||
+        recorded.fiscalExposureMinorUnits !== clause.fiscalExposureMinorUnits ||
+        recorded.fiscalPeriod !== clause.fiscalPeriod ||
+        recorded.operativeEffect?.kind !== clause.operativeEffect?.kind
+      );
+    })
+  )
+    return null;
+  return {
+    draft,
+    provisions,
+    sourceRecordIds: [
+      measure.id,
+      lineage.id,
+      ...provisions.map((row) => row.id),
+      ...(adopted ? [adopted.id] : []),
+    ],
+  };
+}
+
 /**
- * Compile a proposal only when its exact proposition, answer, jurisdiction,
- * authority, and effect consumer all agree.
- *
- * `null` is a real refusal: the available content bank does not yet express
- * that automatic opportunity for this institution. Compiler errors are
- * allowed to surface because they indicate a broken declared configuration.
+ * Automatic terms come from the real sponsor's principles and verified saved law.
+ * Missing current terms or references leave the numeric compiler unsupported;
+ * the agenda caller can still file the member's plain policy answer.
  */
 export function compileAutomaticLawDraft(input: {
   readonly world: World;
@@ -370,171 +841,264 @@ export function compileAutomaticLawDraft(input: {
   readonly answer: "yes" | "no";
   readonly designation: string;
   readonly intakeKey: string;
+  readonly sponsorPersonId?: EntityId;
   readonly governmentLevel?: AutomaticLawGovernmentLevel;
   readonly context?: AutomaticLawCompileContext;
-}): CompiledBillDraft | null {
-  const proposition =
-    input.world.policyCatalog.propositions[input.propositionId];
-  if (!proposition) return null;
+}): AutomaticSponsorDraft | null {
+  const world = input.world;
+  const proposition = world.policyCatalog.propositions[input.propositionId];
+  const sponsor = input.sponsorPersonId;
+  if (!proposition || !sponsor || !world.people[sponsor]) return null;
+  const leaning = principledLeaning(world, sponsor, proposition.id);
+  const maximumScore =
+    4 *
+    (proposition.principles ?? []).reduce(
+      (sum, row) => sum + (row.weight ?? 1),
+      0,
+    );
+  if (
+    !leaning.recordIds.length ||
+    !maximumScore ||
+    (input.answer === "yes" ? leaning.score : -leaning.score) <= 0
+  )
+    return null;
   const governmentLevel =
     input.context?.governmentLevel ?? input.governmentLevel ?? "state";
+  if (
+    !world.policyCatalog.issues[proposition.issueId]?.levels?.includes(
+      governmentLevel,
+    )
+  )
+    return null;
   const candidates = mappingsFor(
     proposition.stableKey,
     input.answer,
     governmentLevel,
-  );
-  if (candidates.length === 0) return null;
-  const eligibleCandidates = candidates.filter((candidate) => {
+  ).filter((mapping) => {
     const context =
       input.context ??
-      profileContextForMapping(input.world, input.jurisdictionId, candidate);
-    return context
-      ? contextSupportsMapping(context, input.jurisdictionId, candidate)
-      : false;
+      profileContextForMapping(world, input.jurisdictionId, mapping);
+    return (
+      context && contextSupportsMapping(context, input.jurisdictionId, mapping)
+    );
   });
-  if (eligibleCandidates.length === 0) return null;
-  const selectionRng = new SeededRng(input.world.seed).fork(
-    `automatic-law-configuration:${input.intakeKey}:${input.jurisdictionId}:${proposition.stableKey}:${input.answer}:${governmentLevel}`,
-  );
-  const mapping = selectionRng.pick(eligibleCandidates);
-  const issue = input.world.policyCatalog.issues[proposition.issueId];
-  if (!(issue?.levels?.includes(governmentLevel) ?? false)) return null;
-
-  const resolvedContext =
-    input.context ??
-    profileContextForMapping(input.world, input.jurisdictionId, mapping);
+  if (!candidates.length) return null;
+  const currentLaw = lawInForce(world, input.jurisdictionId, proposition.id);
+  if (currentLaw?.origin !== "enacted") return null;
+  const currentMeasure = measureById(world, currentLaw.measureId);
+  // A higher-level law does not supply a fictitious local program or local budget.
+  if (!currentMeasure || currentMeasure.jurisdictionId !== input.jurisdictionId)
+    return null;
+  const targetPopulation = publicBudgetFor(
+    world,
+    input.jurisdictionId,
+  )?.population;
   if (
-    !resolvedContext ||
-    resolvedContext.jurisdictionId !== input.jurisdictionId
+    !targetPopulation ||
+    targetPopulation <= 0 ||
+    !Number.isFinite(targetPopulation)
   )
     return null;
-  const { rulePackId, scenarioKey } = resolvedContext;
-  const authority = resolvedContext.predicateAuthority;
-  if (!rulePackId || !scenarioKey) return null;
-  if (governmentLevel === "state") {
-    const pack = legislativePackForJurisdiction(input.jurisdictionId);
-    if (!pack || pack.packId !== rulePackId) return null;
-  } else if (governmentLevel === "federal") {
-    const pack = legislativePackForWorkKey(scenarioKey);
-    if (
-      !pack ||
-      pack.packId !== rulePackId ||
-      rulePackId !== US_CONGRESS_PACK_ID ||
-      input.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id
-    )
-      return null;
-  } else {
-    const pack = legislativePackForWorkKey(scenarioKey);
-    if (
-      !pack ||
-      pack.packId !== rulePackId ||
-      authority.kind !== "game-profile" ||
-      authority.publicGovernmentIdentity.kind !== "local-government" ||
-      authority.publicGovernmentIdentity.jurisdictionId !== input.jurisdictionId
-    )
-      return null;
-  }
-  if (!authority || !authorityAllowsAppropriation(authority)) return null;
-  if (authority.kind !== mapping.authorityKind) return null;
-  if (
-    mapping.authorityKind === "game-profile" &&
-    (authority.kind !== "game-profile" ||
-      authority.governmentLevel !== governmentLevel)
-  )
-    return null;
-  if (
-    mapping.authorityKey !== null &&
-    authority.authorityKey !== mapping.authorityKey
-  )
-    return null;
-
-  const { variant } = programVariant(mapping.familyKey, mapping.variantKey);
-  if (!variant.propositionKeys?.includes(mapping.propositionKey)) {
-    throw new Error(
-      `${mapping.familyKey}/${mapping.variantKey} is not declared for ${mapping.propositionKey}.`,
-    );
-  }
-
-  const amountDefault = variant.defaults[mapping.effectParameterKey];
-  if (!amountDefault || amountDefault.kind !== "money") {
-    throw new Error(
-      `${mapping.familyKey}/${mapping.variantKey} has no authored mapped money default.`,
-    );
-  }
-  const amountSpec = variant.parameters.find(
-    (parameter) =>
-      parameter.key === mapping.effectParameterKey &&
-      parameter.kind === "money",
+  const currentLineages = (world.history.legislativeDraftLineages ?? []).filter(
+    (row) =>
+      row.measureId === currentMeasure.id &&
+      row.componentKey === undefined &&
+      row.recordedAt <= world.currentDate &&
+      row.compiledAt <= world.currentDate,
   );
-  if (!amountSpec || amountSpec.kind !== "money") {
-    throw new Error(
-      `${mapping.familyKey}/${mapping.variantKey} has no bounded appropriation parameter.`,
-    );
-  }
-
-  // The values are a game-authored variation over the variant's declared
-  // bounds, not an estimate of a real program's cost or a cash balance.
-  const rng = new SeededRng(input.world.seed).fork(
-    `automatic-law-parameters:${input.intakeKey}:${rulePackId}:${proposition.stableKey}`,
+  if (currentLineages.length !== 1) return null;
+  const currentLineage = currentLineages[0]!;
+  const currentMapping = AUTOMATIC_LAW_POSITION_MAPPINGS.find(
+    (row) =>
+      row.familyKey === currentLineage.familyKey &&
+      row.variantKey === currentLineage.variantKey &&
+      row.propositionKey === proposition.stableKey &&
+      row.governmentLevel === governmentLevel &&
+      row.answer === currentLaw.answer,
   );
-  const appropriationMultipliers = [0.5, 0.75, 1, 1.5, 2] as const;
-  const appropriationMinorUnits =
-    Math.round(
-      (amountDefault.minorUnits *
-        rng.fork("amount").pick(appropriationMultipliers)) /
-        100,
-    ) * 100;
-  const parameterValues: Record<string, ProgramParameterValue> = {
-    ...variant.defaults,
-    [mapping.effectParameterKey]: {
-      kind: "money",
-      minorUnits: Math.max(
-        amountSpec.minMinorUnits,
-        Math.min(amountSpec.maxMinorUnits, appropriationMinorUnits),
-      ),
-      currency: amountDefault.currency,
+  if (!currentMapping) return null;
+  const current = verifiedReferenceDraft(
+    world,
+    currentMeasure,
+    currentLineage,
+    currentMapping,
+  );
+  const currentAmount =
+    current?.draft.parameterValues[currentMapping.effectParameterKey];
+  if (!current || currentAmount?.kind !== "money") return null;
+  const references = (world.history.legislativeDraftLineages ?? []).flatMap(
+    (lineage) => {
+      if (
+        lineage.componentKey !== undefined ||
+        lineage.compiledAt > world.currentDate ||
+        lineage.recordedAt > world.currentDate
+      )
+        return [];
+      const measure = measureById(world, lineage.measureId);
+      if (
+        !measure ||
+        measure.id === currentMeasure.id ||
+        measure.introducedAt > world.currentDate ||
+        !(measure.propositionAnswers ?? []).some(
+          (row) =>
+            row.propositionId === proposition.id && row.answer === input.answer,
+        )
+      )
+        return [];
+      const mapping = candidates.find(
+        (row) =>
+          row.familyKey === lineage.familyKey &&
+          row.variantKey === lineage.variantKey,
+      );
+      if (!mapping || mapping.familyKey !== currentMapping.familyKey) return [];
+      const context =
+        input.context ??
+        profileContextForMapping(world, input.jurisdictionId, mapping);
+      if (
+        !context ||
+        lineage.authorityKey !== context.predicateAuthority.authorityKey
+      )
+        return [];
+      const sourceMapping = AUTOMATIC_LAW_POSITION_MAPPINGS.find(
+        (row) =>
+          row.familyKey === mapping.familyKey &&
+          row.variantKey === mapping.variantKey &&
+          row.propositionKey === proposition.stableKey &&
+          row.answer === input.answer &&
+          profileContextForMapping(world, measure.jurisdictionId, row),
+      );
+      if (!sourceMapping) return [];
+      const source = verifiedReferenceDraft(
+        world,
+        measure,
+        lineage,
+        sourceMapping,
+      );
+      const amount = source?.draft.parameterValues[mapping.effectParameterKey];
+      const population = publicBudgetFor(
+        world,
+        measure.jurisdictionId,
+      )?.population;
+      if (
+        !source ||
+        amount?.kind !== "money" ||
+        !population ||
+        population <= 0 ||
+        !Number.isFinite(population) ||
+        amount.currency !== currentAmount.currency
+      )
+        return [];
+      const value = Math.round(
+        (amount.minorUnits / population) * targetPopulation,
+      );
+      // This admitted consumer is an expansion appropriation, not an inferred numeric policy direction.
+      if (!Number.isSafeInteger(value) || value <= currentAmount.minorUnits)
+        return [];
+      const { variant } = programVariant(mapping.familyKey, mapping.variantKey);
+      const amountSpec = variant.parameters.find(
+        (row) => row.key === mapping.effectParameterKey,
+      );
+      if (
+        amountSpec?.kind !== "money" ||
+        value < amountSpec.minMinorUnits ||
+        value > amountSpec.maxMinorUnits
+      )
+        return [];
+      const bearings = [
+        ...new Map(
+          (variant.npcEligibility ?? [])
+            .filter((row) => row.governmentLevel === governmentLevel)
+            .map((row) => [row.propositionKey, row]),
+        ).values(),
+      ];
+      let variantScore = 0;
+      const variantReasons: EntityId[] = [];
+      for (const bearing of bearings) {
+        const question = world.policyCatalog.propositionOrder
+          .map((id) => world.policyCatalog.propositions[id]!)
+          .find((row) => row.stableKey === bearing.propositionKey);
+        if (!question) continue;
+        const reason = principledLeaning(world, sponsor, question.id);
+        variantScore += (bearing.answer === "yes" ? 1 : -1) * reason.score;
+        variantReasons.push(...reason.recordIds);
+      }
+      return [
+        {
+          value,
+          mapping,
+          source,
+          measure,
+          context,
+          variantScore,
+          variantReasons,
+          distance: referenceDistance(
+            world,
+            input.jurisdictionId,
+            measure.jurisdictionId,
+          ),
+          lineage,
+        },
+      ];
     },
-  };
-  const serviceWindow = variant.parameters.find(
-    (parameter) =>
-      parameter.key === "service-window" && parameter.kind === "enumerated",
   );
-  if (
-    serviceWindow?.kind === "enumerated" &&
-    serviceWindow.options.length > 0
-  ) {
-    parameterValues[serviceWindow.key] = {
-      kind: "enumerated",
-      value: rng
-        .fork("service-window")
-        .pick(serviceWindow.options.map((option) => option.value)),
-    };
-  }
-  for (const parameter of variant.parameters) {
-    if (parameter.kind !== "enumerated" || parameter.key === serviceWindow?.key)
-      continue;
-    const defaultValue = variant.defaults[parameter.key];
-    if (defaultValue?.kind === "enumerated" && parameter.options.length > 0) {
-      parameterValues[parameter.key] = {
-        kind: "enumerated",
-        value: rng
-          .fork(`parameter:${parameter.key}`)
-          .pick(parameter.options.map((option) => option.value)),
-      };
-    }
-  }
+  const strongestVariant = Math.max(
+    ...references.map((row) => row.variantScore),
+  );
+  if (strongestVariant <= 0) return null;
+  const ranked = references
+    .filter((row) => row.variantScore === strongestVariant)
+    .sort(
+      (a, b) =>
+        a.value - b.value ||
+        a.distance - b.distance ||
+        b.lineage.recordedAt.localeCompare(a.lineage.recordedAt) ||
+        b.lineage.sequence - a.lineage.sequence ||
+        a.lineage.id.localeCompare(b.lineage.id),
+    );
+  const selected = selectSortedSponsorReference(
+    ranked,
+    Math.abs(leaning.score) / maximumScore,
+  );
+  if (!selected) return null;
+  // Copy every declared service/eligibility/timing choice from the selected verified reference.
+  // No option-bearing declaration exists for an independent service-window change.
   const draft = compileBillDraft({
-    familyKey: mapping.familyKey,
-    variantKey: mapping.variantKey,
-    parameterValues,
-    scenarioKey,
+    familyKey: selected.mapping.familyKey,
+    variantKey: selected.mapping.variantKey,
+    parameterValues: {
+      ...selected.source.draft.parameterValues,
+      [selected.mapping.effectParameterKey]: {
+        kind: "money",
+        minorUnits: selected.value,
+        currency: currentAmount.currency,
+      },
+    },
+    scenarioKey: selected.context.scenarioKey,
     jurisdictionId: input.jurisdictionId,
-    rulePackId,
+    rulePackId: selected.context.rulePackId,
     designation: input.designation,
-    filedOn: input.world.currentDate as IsoDate,
-    predicateAuthority: authority,
+    filedOn: world.currentDate,
+    predicateAuthority: selected.context.predicateAuthority,
   });
-  return hasRegisteredOperativeEffect(draft, mapping) ? draft : null;
+  return hasRegisteredOperativeEffect(draft, selected.mapping)
+    ? {
+        ...draft,
+        sponsorRequest: {
+          sponsorPersonId: sponsor,
+          score: leaning.score,
+          referenceMeasureId: selected.measure.id,
+          sourceRecordIds: [
+            ...new Set([
+              ...current.sourceRecordIds,
+              ...selected.source.sourceRecordIds,
+              ...leaning.recordIds,
+              ...selected.variantReasons,
+            ]),
+          ],
+          provisions: selected.source.provisions,
+        },
+      }
+    : null;
 }
 
 /**
@@ -633,7 +1197,7 @@ export function recordCompiledDraftOnMeasure(
   world: World,
   input: {
     readonly measureId: EntityId;
-    readonly draft: CompiledBillDraft;
+    readonly draft: AutomaticSponsorDraft;
     readonly provenanceNote: string;
     readonly governmentLevel?: AutomaticLawGovernmentLevel;
   },
@@ -677,6 +1241,23 @@ export function recordCompiledDraftOnMeasure(
   const scope = draftScope(input.draft);
   for (const clause of input.draft.clauses) {
     const operativeEffect = clause.operativeEffect;
+    const reference = input.draft.sponsorRequest?.provisions.find(
+      (row) => row.provisionKey === clause.provisionKey,
+    );
+    const lawTerms = reference?.lawTerms
+      ?.filter((row) => row.questionKey === proposition?.stableKey)
+      .map((row) => ({
+        ...row,
+        value:
+          row.key === effectMapping.effectParameterKey &&
+          row.unit === "minor" &&
+          clause.provisionKey === effectMapping.effectProvisionKey
+            ? input.draft.appropriatedMinorUnits!
+            : row.value,
+      }));
+    const lawCategories = reference?.lawCategories?.filter(
+      (row) => row.questionKey === proposition?.stableKey,
+    );
     const provisionInput = {
       stableKey: `${measure.stableKey}:draft:${input.draft.familyKey}:${input.draft.variantKey}:${clause.provisionKey}`,
       measureId: measure.id,
@@ -692,10 +1273,14 @@ export function recordCompiledDraftOnMeasure(
         ? { fiscalPeriod: clause.fiscalPeriod }
         : {}),
       ...(operativeEffect ? { operativeEffect } : {}),
+      ...(lawTerms?.length ? { lawTerms } : {}),
+      ...(lawCategories ? { lawCategories } : {}),
     };
     next = recordFiledProvision(next, provisionInput);
     if (operativeEffect) {
-      const filed = next.history.legislativeProvisions?.at(-1);
+      const filed = next.history.legislativeProvisions?.find(
+        (row) => row.stableKey === provisionInput.stableKey,
+      );
       if (!filed || filed.operativeEffect?.kind !== operativeEffect.kind) {
         throw new Error(
           `The provision writer dropped the compiled ${operativeEffect.kind} intent for '${clause.provisionKey}'.`,
@@ -705,7 +1290,7 @@ export function recordCompiledDraftOnMeasure(
   }
 
   const authority = input.draft.predicateAuthority;
-  return recordDraftLineage(next, {
+  next = recordDraftLineage(next, {
     stableKey: `${measure.stableKey}:draft-lineage`,
     measureId: measure.id,
     familyKey: input.draft.familyKey,
@@ -718,6 +1303,46 @@ export function recordCompiledDraftOnMeasure(
     ...(authority?.kind === "docket-measure"
       ? { authorityMeasureId: authority.measureId as EntityId }
       : {}),
+  });
+  const request = input.draft.sponsorRequest;
+  if (!request) return next;
+  if (request.sponsorPersonId !== measure.sponsorPersonId)
+    throw new Error("Requested terms belong to another sponsor.");
+  return recordWorldEvent(next, {
+    stableKey: `${measure.stableKey}:requested-terms-reason`,
+    type: "legislation.sponsor-requested-term",
+    occurredAt: measure.introducedAt,
+    recordedAt: world.currentDate,
+    jurisdictionId: measure.jurisdictionId,
+    involvedEntityIds: [measure.id, request.sponsorPersonId],
+    participants: [
+      {
+        personId: request.sponsorPersonId,
+        role: "agency:sponsor",
+        detail:
+          "Requested this appropriation and its service choices from a verified legislative reference.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      ...request.sourceRecordIds.map((id) => `source-record:${id}`),
+      `reference-measure:${request.referenceMeasureId}`,
+      `principle-score:${request.score}`,
+    ],
+    summary: `${measure.designation}'s sponsor requested the saved reference's per-resident appropriation and service choices.`,
+    context: {
+      location: {
+        jurisdictionId: measure.jurisdictionId,
+        label: world.jurisdictions[measure.jurisdictionId]!.name,
+        setting: null,
+      },
+      socialContext: measure.designation,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
   });
 }
 
@@ -748,7 +1373,7 @@ export function introduceAutomaticLawMeasure(
 ): {
   readonly world: World;
   readonly measureId: EntityId;
-  readonly draft: CompiledBillDraft;
+  readonly draft: AutomaticSponsorDraft;
 } | null {
   const proposition = world.policyCatalog.propositions[input.propositionId];
   if (!proposition) return null;
@@ -760,11 +1385,44 @@ export function introduceAutomaticLawMeasure(
     governmentLevel,
   );
   if (!mapping) return null;
+  const existing = (world.history.legislativeMeasures ?? []).find(
+    (row) => row.stableKey === input.stableKey,
+  );
+  if (existing) {
+    if (
+      existing.sponsorPersonId !== input.sponsorPersonId ||
+      existing.jurisdictionId !== input.jurisdictionId ||
+      !(existing.propositionAnswers ?? []).some(
+        (row) =>
+          row.propositionId === input.propositionId &&
+          row.answer === input.answer,
+      )
+    )
+      throw new Error(
+        "This automatic bill key belongs to a different sponsor or question.",
+      );
+    const lineage = (world.history.legislativeDraftLineages ?? []).find(
+      (row) => row.measureId === existing.id && row.componentKey === undefined,
+    );
+    const savedMapping = lineage
+      ? mappingsFor(proposition.stableKey, input.answer, governmentLevel).find(
+          (row) =>
+            row.familyKey === lineage.familyKey &&
+            row.variantKey === lineage.variantKey,
+        )
+      : null;
+    const saved =
+      lineage && savedMapping
+        ? verifiedReferenceDraft(world, existing, lineage, savedMapping)
+        : null;
+    return saved ? { world, measureId: existing.id, draft: saved.draft } : null;
+  }
   const draft = compileAutomaticLawDraft({
     world,
     jurisdictionId: input.jurisdictionId,
     propositionId: input.propositionId,
     answer: input.answer,
+    sponsorPersonId: input.sponsorPersonId,
     designation: input.designation,
     intakeKey: input.intakeKey,
     governmentLevel,
@@ -801,7 +1459,12 @@ export function introduceAutomaticLawMeasure(
       `${input.designation} does not match its compiled automatic draft.`,
     );
 
-  const provenanceNote = `The seated sponsor's saved political-principle records ${input.principleRecordIds.join(", ")} produced a score of ${input.principleScore} toward ${input.answer} on ${proposition.stableKey}. The provisions were compiled from the exact registered ${governmentLevel} appropriation configuration.`;
+  const actualReasons = principledLeaning(
+    next,
+    input.sponsorPersonId,
+    input.propositionId,
+  );
+  const provenanceNote = `The seated sponsor's saved political-principle records ${actualReasons.recordIds.join(", ")} produced a score of ${actualReasons.score} toward ${input.answer} on ${proposition.stableKey}. The provisions were requested from verified current law and a saved reference for the exact registered ${governmentLevel} appropriation configuration.`;
   next = recordCompiledDraftOnMeasure(next, {
     measureId: measure.id,
     draft,

@@ -1050,6 +1050,50 @@ export function municipalRulePackFor(
   };
 }
 
+/** Compile a recorded municipal day basis without treating intervening days as elapsed days. */
+function municipalIntervalRule(
+  reading: MunicipalReading,
+  interval: MunicipalPassageInterval,
+  path:
+    | "legislativeProcedure.betweenReadings"
+    | "legislativeProcedure.introductionToPassage",
+) {
+  const fact = reading.facts.find((candidate) => candidate.path === path);
+  const evidence = fact?.evidence?.[0];
+  const source = reading.sources.find(
+    (candidate) => candidate.key === evidence?.artifactId,
+  );
+  const ruleSource: RuleSourceRef = {
+    authority:
+      reading.evidence === "enacted-text" ? "statute" : "research-reference",
+    citation: evidence?.locator.citation ?? path,
+    sourceTitle: source?.title ?? reading.displayName,
+    sourceUrl: source?.url ?? null,
+    retrievedAt: source?.retrievedDate ?? null,
+    verification: !source
+      ? "unresolved"
+      : reading.evidence === "enacted-text"
+        ? "verified"
+        : "partial",
+    note: !source
+      ? "No field-specific interval source is resolved."
+      : reading.evidence === "enacted-text"
+        ? null
+        : "Research transcription; not independently verified operative law.",
+  };
+  if (fact?.state !== "KNOWN" || !source) {
+    return unknownRule(
+      fact?.reason ?? "No field-specific source establishes this interval.",
+    );
+  }
+  return knownRule(
+    interval.basis === "ELAPSED_DAYS"
+      ? interval.minimumElapsedDays
+      : interval.minimumInterveningDays + 1,
+    ruleSource,
+  );
+}
+
 /**
  * The stages a measure passes on this body's floor.
  *
@@ -1079,6 +1123,15 @@ function buildFloorStages(
               "No instrument read establishes whether this reading takes amendments.",
             ),
       separateLegislativeDayRequired: true,
+      ...(index > 1 && reading.procedure.betweenReadings
+        ? {
+            readingIntervalDays: municipalIntervalRule(
+              reading,
+              reading.procedure.betweenReadings,
+              "legislativeProcedure.betweenReadings",
+            ),
+          }
+        : {}),
       // A placeholder, where one is set: the reading is put to the same vote
       // as final passage (municipal-procedure-placeholders.ts).
       vote: everyReadingVoted
@@ -1099,6 +1152,24 @@ function buildFloorStages(
           )
         : knownRule(true, municipalRuleSourceRef(reading, "amendment")),
     separateLegislativeDayRequired: readings > 1,
+    ...(readings > 1 && reading.procedure.betweenReadings
+      ? {
+          readingIntervalDays: municipalIntervalRule(
+            reading,
+            reading.procedure.betweenReadings,
+            "legislativeProcedure.betweenReadings",
+          ),
+        }
+      : {}),
+    ...(reading.procedure.introductionToPassage
+      ? {
+          minimumDaysFromIntroduction: municipalIntervalRule(
+            reading,
+            reading.procedure.introductionToPassage,
+            "legislativeProcedure.introductionToPassage",
+          ),
+        }
+      : {}),
     vote: knownRule(passage, passageSource),
     source: passageSource,
   });
