@@ -1,0 +1,101 @@
+{
+  "status": "PREPARED; runtime replacement awaits Audit grade/applicability contract",
+  "assignment": "A103",
+  "reviewedPayload": {
+    "requestedHead": "e2f99b620a48e362fd31bca9e20f55eff75bc6a6",
+    "approvedMergedHead": "a2e20580f601b0a2d0d36e31e4aa77565c28fa93",
+    "dataPath": "data/research/justice/sentencing-ranges-2026.json",
+    "blobSha": "0c025b1d108f48ef5ed332b234ac098f3756f8e4",
+    "identicalDataAtBothHeads": true,
+    "pr": 1555,
+    "mergedAt": "2026-10-01T13:22:54Z"
+  },
+  "executedChecks": {
+    "actualPlaces": 56,
+    "sourced": 46,
+    "estimated": 10,
+    "sourcedOffenseRowsShapeChecked": 184,
+    "estimateRowsRecomputed": 40,
+    "estimateArithmeticAndContributorErrors": [],
+    "sourceShapeErrors": [],
+    "scope": "Payload structure, arithmetic and contributor identities; not independent rereading of 46 jurisdictions' statutes or runtime proof"
+  },
+  "estimatedPlaces": [
+    "US-AK",
+    "US-AR",
+    "US-AS",
+    "US-CT",
+    "US-GA",
+    "US-IL",
+    "US-MS",
+    "US-NM",
+    "US-TN",
+    "US-VI"
+  ],
+  "offenseDefinitions": {
+    "crime:robbery": "The least serious robbery grade: taking by force or threat with no weapon and no serious injury.",
+    "crime:burglary": "The base grade that covers unlawful entry into a dwelling with intent to commit a crime, with no weapon and no assault.",
+    "crime:assault": "The lowest felony-type assault for injuring, or assaulting, another with a deadly or dangerous weapon (the place's nearest grade where it has none).",
+    "crime:vandalism": "The lowest criminal mischief or property damage grade that carries any incarceration.",
+    "campaign-funds-personal-use": "Not yet read for any place; the federal and state campaign-finance penalty sections are the next research item."
+  },
+  "existingSavedInputs": {
+    "currentMainCourtCaseBlob": "ba72c420f6c78756d4bd2cc32dfc7fa69570fa7c",
+    "currentMainProsecutionBlob": "6843780ec344156788584be5294dbbca1be1302e",
+    "fields": [
+      "caseKey",
+      "defendantId",
+      "offenseKey",
+      "offenseLabel",
+      "evidence",
+      "standingFindings",
+      "venueJurisdictionId",
+      "stateKey"
+    ],
+    "referralEvidenceField": "basisEventIds",
+    "notEstablishedByTheseFields": [
+      "weapon use or its absence",
+      "serious injury or its absence",
+      "dwelling-entry grade predicates",
+      "property damage amount and statutory grade",
+      "first offense or criminal history category",
+      "enhancements",
+      "sentencing grid cell"
+    ]
+  },
+  "consumerSeams": {
+    "existingBoundsCall": "src/simulation/justice/prosecution.ts sentenceMonthsForCase(world, kind, courtCase)",
+    "existingFallback": "UNRESEARCHED_PROSECUTION midpoint retained",
+    "existingFloor": "custodyFloorAt; preserved, no new ceiling or preemption rule inferred",
+    "nextBoundedChange": "Consume an Audit-admitted saved-fact applicability reader at the existing sentence writer; preserve labels and exact source IDs in the actual saved consequence. No new case schema or parallel sentence writer."
+  },
+  "requiredAuditContract": [
+    "Exact existing record/reader that establishes statutory grade and the row's complete offense predicates from saved basis records, with unsupported/null distinguished from explicit absence",
+    "First-offense/enhancement and grid applicability from actual saved records; standingFindings is not a criminal-history classification",
+    "Actual venue and case-stage date/temporal applicability of 2026 research rows",
+    "Existing judge numeric sentence-length choice contract inside admitted bounds; do not substitute another midpoint or drawn sentence level",
+    "Rules for mandatory floor versus statutory/grid ceiling, life maximum, fractional months/day-based minimums and probation (packet covers incarceration only)"
+  ],
+  "labelPreservation": {
+    "sourced": "Retain offense/class citation, official URL, quote, basis and applicable conditions",
+    "estimated": "Retain ESTIMATED FROM AVERAGE, unread reason, method and fedByMin/fedByMax. Never attach a local statutory citation.",
+    "limits": [
+      "Grid cells are not parsed",
+      "Campaign-funds-personal-use is not researched",
+      "An offense key alone does not establish its researched grade"
+    ]
+  },
+  "NOT_RUN": [
+    "Runtime consumer tests",
+    "Existing sentence writer replacement",
+    "Nationwide sentencing",
+    "Current-main integration",
+    "Independent primary-source audit"
+  ],
+  "workspace": {
+    "branch": "codex/team9-a102-actual-civil-judge",
+    "head": "5fd1c48a5e8074cd5a7fc9d946fee256364a8271",
+    "preserved": "A102 source and untracked replacement-intake",
+    "gitTransport": "fetch failed: credential unavailable; connector read succeeded"
+  }
+}
