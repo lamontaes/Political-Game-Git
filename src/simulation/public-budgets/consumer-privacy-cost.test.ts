@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
-import { isLawEffectStamp } from "../law-effect-stamp";
+import { lawInForce } from "../governing/law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import type {
@@ -11,13 +11,16 @@ import type {
   World,
 } from "../types";
 import { createWorld } from "../world";
-import { AGE_VERIFICATION_COST_QUESTION } from "./age-verification-cost";
-import {
-  appendConsumerPrivacyCostToMonth,
-  CONSUMER_PRIVACY_COST_QUESTION,
-} from "./consumer-privacy-cost";
+const AGE_VERIFICATION_COST_QUESTION =
+  "us-policy-positions:technology-privacy.age-verification-for-social-media";
+const CONSUMER_PRIVACY_COST_QUESTION =
+  "us-policy-positions:technology-privacy.consumer-data-privacy-law";
 import { withOpenedBudgets } from "./index";
-import { settleGovernmentMonth, type MonthFlows } from "./month";
+import {
+  lawSpendingForMonth,
+  settleGovernmentMonth,
+  type MonthFlows,
+} from "./month";
 import { SPENDING_QUESTION_EFFECTS } from "./rules";
 import { BUDGET_PROGRAMS, PUBLIC_BUDGETS_VERSION } from "./store";
 
@@ -29,9 +32,9 @@ const flows: MonthFlows = {
 };
 const states = ["US-MD", "US-ID", "US-IN", "US-CA", "US-WA"];
 
-describe("consumer privacy attribution preserves the settled budget", () => {
+describe("consumer privacy without an appropriation or actual hires produces no invoice", () => {
   it.each(states)(
-    "%s saves the existing component without another debit",
+    "%s preserves money and saved records for enactment or repeal",
     (key) => {
       const state = stateJurisdictionForKey(key)!;
       const catalog = createProductionPolicyCatalog();
@@ -137,84 +140,47 @@ describe("consumer privacy attribution preserves the settled budget", () => {
         flows,
       ).government;
       const saved = savedGovernment.months.at(-1)!;
-      const cost = saved.lawCostAttributions!.find((entry) =>
-        entry.lawEffectStamps.some(
-          (stamp) => stamp.questionKey === CONSUMER_PRIVACY_COST_QUESTION,
-        ),
-      )!;
-      const effect = SPENDING_QUESTION_EFFECTS.find(
-        (entry) => entry.questionKey === CONSUMER_PRIVACY_COST_QUESTION,
-      )!;
-      const rate = answer === "yes" ? effect.toYes! : effect.toNo!;
-      expect(cost.amountUsd).toBeCloseTo(
-        (rate * government.population) / 12,
-        6,
-      );
-      expect(cost.basis).toContain("ESTIMATED FROM AVERAGE");
-      const administration = BUDGET_PROGRAMS.indexOf("administration");
-      const delta =
-        saved.spending[administration]! - baseline.spending[administration]!;
-      // The budget rounds the aggregate once, rather than each component.
-      expect(Math.abs(delta - cost.amountUsd)).toBeLessThanOrEqual(1);
-      expect(saved.balance - baseline.balance).toBe(-delta);
-      expect(saved.revenue).toEqual(baseline.revenue);
-      expect(saved.spending.filter((_, at) => at !== administration)).toEqual(
-        baseline.spending.filter((_, at) => at !== administration),
-      );
-      expect(isLawEffectStamp(cost.lawEffectStamps[0])).toBe(true);
-      expect(cost.lawEffectStamps[0]).toMatchObject({
-        governingLawKey: privacyMeasure.id,
-        jurisdictionId: state.id,
-        appliedAt: month,
-        questionKey: CONSUMER_PRIVACY_COST_QUESTION,
-        effectKind: "government-consumer-privacy-enforcement-cost",
-      });
-      expect(cost.lawEffectStamps[0]!.sourceRecordIds).toContain(
+      expect(lawInForce(world, state.id, privacy.id, month)?.measureId).toBe(
         privacyMeasure.id,
       );
-      expect(saved.lawCostAttributions).toEqual(
-        expect.arrayContaining([...baseline.lawCostAttributions!]),
+      expect(
+        SPENDING_QUESTION_EFFECTS.some(
+          (entry) => entry.questionKey === CONSUMER_PRIVACY_COST_QUESTION,
+        ),
+      ).toBe(false);
+      expect(saved.lawCostAttributions).toBeUndefined();
+      const administration = BUDGET_PROGRAMS.indexOf("administration");
+      expect(saved.spending[administration]).toBe(
+        baseline.spending[administration],
       );
-      const stamped = saved as typeof saved & {
-        lawEffectStamps?: readonly unknown[];
-      };
-      expect(stamped.lawEffectStamps).toEqual(
-        expect.arrayContaining([
-          ...((baseline as typeof stamped).lawEffectStamps ?? []),
-          cost.lawEffectStamps[0],
-        ]),
-      );
+      expect(saved.balance).toBe(baseline.balance);
+      expect(saved.revenue).toEqual(baseline.revenue);
+      expect(saved.spending).toEqual(baseline.spending);
+      expect(saved.lawEffectStamps).toEqual(baseline.lawEffectStamps);
       expect(JSON.parse(JSON.stringify(saved))).toEqual(saved);
-      expect(appendConsumerPrivacyCostToMonth(world, government, saved)).toBe(
-        saved,
-      );
       expect(
         settleGovernmentMonth(world, savedGovernment, month, flows).government,
       ).toBe(savedGovernment);
       expect(
-        appendConsumerPrivacyCostToMonth(
-          world,
-          { ...government, level: "county" },
-          baseline,
-        ),
-      ).toBe(baseline);
+        lawSpendingForMonth(world, { ...government, level: "county" }, month),
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
       expect(
-        appendConsumerPrivacyCostToMonth(
+        lawSpendingForMonth(
           { ...world, policyCatalog: { ...catalog, propositions: {} } },
           government,
-          baseline,
+          month,
         ),
-      ).toBe(baseline);
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
       expect(
-        appendConsumerPrivacyCostToMonth(
+        lawSpendingForMonth(
           world,
           {
             ...government,
             lawJurisdictionId: "jurisdiction_unknown" as EntityId,
           },
-          baseline,
+          month,
         ),
-      ).toBe(baseline);
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
     },
   );
 });

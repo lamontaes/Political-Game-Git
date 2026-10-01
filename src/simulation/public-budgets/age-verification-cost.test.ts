@@ -3,18 +3,18 @@ import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { createWorld } from "../world";
-import {
-  isLawEffectStamp,
-  type LawEffectStampedRecord,
-} from "../law-effect-stamp";
+import { type LawEffectStampedRecord } from "../law-effect-stamp";
 import { withOpenedBudgets } from "./index";
-import { settleGovernmentMonth, type MonthFlows } from "./month";
+import {
+  lawSpendingForMonth,
+  settleGovernmentMonth,
+  type MonthFlows,
+} from "./month";
 import { BUDGET_PROGRAMS, PUBLIC_BUDGETS_VERSION } from "./store";
 import { SPENDING_QUESTION_EFFECTS } from "./rules";
-import {
-  ageVerificationCostForMonth,
-  AGE_VERIFICATION_COST_QUESTION,
-} from "./age-verification-cost";
+import { lawInForce } from "../governing/law-in-force";
+const AGE_VERIFICATION_COST_QUESTION =
+  "us-policy-positions:technology-privacy.age-verification-for-social-media";
 import type {
   EntityId,
   World,
@@ -30,9 +30,9 @@ const FLOWS: MonthFlows = {
 };
 const states = ["US-MD", "US-ID", "US-IN", "US-CA", "US-WA"];
 
-describe("age-verification cost reaches the state's settled budget", () => {
+describe("age-verification without an appropriation or actual hires produces no invoice", () => {
   it.each(states)(
-    "%s retains its actual modeled expense and governing stamp",
+    "%s keeps money and stamps unchanged without an actual cost producer",
     (stateKey) => {
       const state = stateJurisdictionForKey(stateKey)!;
       const catalog = createProductionPolicyCatalog();
@@ -111,54 +111,36 @@ describe("age-verification cost reaches the state's settled budget", () => {
         date,
         FLOWS,
       ).government.months.at(-1)!;
-      const attribution = after.lawCostAttributions![0]!;
-      const rate = SPENDING_QUESTION_EFFECTS.find(
-        (x) => x.questionKey === AGE_VERIFICATION_COST_QUESTION,
-      )!.toYes!;
-      expect(attribution.amountUsd).toBeCloseTo(
-        (rate * government.population) / 12,
-        6,
+      expect(lawInForce(world, state.id, question.id, date)?.measureId).toBe(
+        measure.id,
       );
+      expect(
+        SPENDING_QUESTION_EFFECTS.some(
+          (row) => row.questionKey === AGE_VERIFICATION_COST_QUESTION,
+        ),
+      ).toBe(false);
+      expect(after.lawCostAttributions).toBeUndefined();
       const program = BUDGET_PROGRAMS.indexOf("administration");
-      expect(after.spending[program]! - before.spending[program]!).toBe(
-        Math.round(attribution.amountUsd),
-      );
-      expect(after.balance - before.balance).toBe(
-        -Math.round(attribution.amountUsd),
-      );
-      expect(attribution.program).toBe("administration");
-      expect(attribution.basis).toContain("ESTIMATED FROM AVERAGE");
-      expect(attribution.basis).toContain("not a platform invoice");
-      expect(isLawEffectStamp(attribution.lawEffectStamps[0])).toBe(true);
-      expect(attribution.lawEffectStamps[0]).toMatchObject({
-        governingLawKey: measure.id,
-        jurisdictionId: state.id,
-        appliedAt: date,
-        effectKind: "government-age-verification-enforcement-cost",
-      });
+      expect(after.spending[program]).toBe(before.spending[program]);
+      expect(after.spending).toEqual(before.spending);
+      expect(after.revenue).toEqual(before.revenue);
+      expect(after.balance).toBe(before.balance);
+      expect(after.lawEffectStamps).toEqual(before.lawEffectStamps);
       expect(
-        ageVerificationCostForMonth(
-          base,
-          government,
-          makeIsoDate("2026-04-01"),
-        ),
-      ).toBeNull();
+        lawSpendingForMonth(base, government, makeIsoDate("2026-04-01")),
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
       expect(
-        ageVerificationCostForMonth(
-          world,
-          { ...government, level: "county" },
-          date,
-        ),
-      ).toBeNull();
+        lawSpendingForMonth(world, { ...government, level: "county" }, date),
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
       expect(
-        ageVerificationCostForMonth(
+        lawSpendingForMonth(
           { ...world, policyCatalog: { ...catalog, propositions: {} } },
           government,
           date,
         ),
-      ).toBeNull();
+      ).toEqual(BUDGET_PROGRAMS.map(() => 0));
       const reopened = JSON.parse(JSON.stringify(after));
-      expect(reopened.lawCostAttributions).toEqual(after.lawCostAttributions);
+      expect(reopened).toEqual(after);
       if (stateKey === "US-CA" || stateKey === "US-WA") {
         const cannabis = Object.values(catalog.propositions).find(
           (row) =>
@@ -220,16 +202,12 @@ describe("age-verification cost reaches the state's settled budget", () => {
               governingLawKey: ban.id,
               effectKind: "state-revenue-loss",
             }),
-            expect.objectContaining({
-              governingLawKey: measure.id,
-              effectKind: "government-age-verification-enforcement-cost",
-            }),
           ]),
         );
-        expect(saved.lawEffectStamps).toHaveLength(2);
-        expect(saved.balance - onlyBan.balance).toBe(
-          -Math.round(attribution.amountUsd),
-        );
+        expect(saved.lawEffectStamps).toHaveLength(1);
+        expect(saved.lawCostAttributions).toBeUndefined();
+        expect(saved.balance).toBe(onlyBan.balance);
+        expect(saved.spending).toEqual(onlyBan.spending);
         expect(JSON.parse(JSON.stringify(saved))).toEqual(saved);
         expect(
           settleGovernmentMonth(together, combined, date, FLOWS).government,
@@ -241,7 +219,7 @@ describe("age-verification cost reaches the state's settled budget", () => {
         "population",
         government.population,
         "monthlyUSD",
-        attribution.amountUsd,
+        "no appropriation or actual hires",
         "measure",
         measure.id,
       );
