@@ -1288,7 +1288,7 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "roll < 48 ? \"female\" : roll < 96 ? \"male\" : \"nonbinary\";"
+      "code": "at < female ? \"female\" : at < female + male ? \"male\" : \"nonbinary\";"
     },
     {
       "file": "src/simulation/press/ownership-pack-default.ts",
