@@ -1,0 +1,62 @@
+{
+  "sourceHead": "b030bd201f859930a656d7dbceb4c42afc3a1cf0",
+  "integrationBase": "3e3c0acf27939cabee4faa7b1ece2b541897c143",
+  "rootOwnedCompilerIntegration": "ed503c51ed5eb76fbe4c2781482ff707c79784a6",
+  "currentMainAtRun": "1bcc9a6cbb8024cae4135a55f01aa069942994b5",
+  "branch": "codex/team1-budget-request-intake",
+  "sourceSha256": {
+    "src/simulation/governing/current-services-budget.ts": "1b5b915421b57de861bb2cf6319faf646a77e093489e736b1520399bf4691cfb",
+    "src/simulation/governing/current-services-budget.test.ts": "70cc1283c736bd0a6bd309063feeebf4c8858f154dd77de16f2bad089e42b5ae",
+    "src/simulation/governing/state-governing.ts": "44ec3d0b6d38e29cd0781120e5b3490e22772328d7e3c47e0c25470854babee6",
+    "src/simulation/governing/program-governing.ts": "f25eb324f48fc85e9561d46d26cc6919bef85495a00dbd3b6c287acdd7a9dc7d",
+    "src/simulation/governing/legislative-clock.ts": "b9670116c555808c8eb3ee38c4b0db998e66168aac8102528fd31a23bd3bd8be",
+    "src/simulation/governing/budget-subjects.ts": "48a73b3c4ab63ddcb04806bc0c65cfca6a3cc77520729359139e00cedafb1de6",
+    "src/simulation/governing/budget-subjects.test.ts": "7cb87e9e52e68d4fb9bc46ec4b82206f809fe1ca4187f752830dab7e83d5df40"
+  },
+  "native": {
+    "passed": 15,
+    "failed": 0,
+    "durationSeconds": 17.38,
+    "testSeconds": 6.16,
+    "seed": "team1-current-services-budget-20261001",
+    "places": ["UT", "MO", "MS", "LA", "WV"],
+    "biennialPlace": "IN",
+    "limits": "Controlled actual player choices and saved second-year fixture; no NPC choice, natural year, nationwide session denominator, cash or delivered service."
+  },
+  "types": {
+    "roots": 5,
+    "scopedDiagnostics": 0,
+    "inheritedDiagnostics": 0
+  },
+  "lint": "PASS on seven owned integration source files",
+  "whitespace": "PASS",
+  "release": "FAIL: inherited malformed unlocated-work-keeps-federal-pay-floor declaration unchanged from integration base; own declaration parser checked separately",
+  "zeroDice": {
+    "new": 0,
+    "gone": 5,
+    "status": "FAIL inherited stale entries; baseline not rewritten"
+  },
+  "spelling": {
+    "findings": 23,
+    "newOwned": 0,
+    "status": "FAIL inherited findings; no bulk rewrite"
+  },
+  "notRun": [
+    "renewed natural two-year run",
+    "browser",
+    "speed years",
+    "whole suite",
+    "final-main acceptance"
+  ],
+  "pending": [
+    "budget-only NPC option selection exact hunk release and actor-record contract",
+    "actor scoring threshold calibration: no mapping/units approved"
+  ],
+  "subjects": {
+    "passed": 59,
+    "failed": 0,
+    "durationSeconds": 11.64,
+    "sourceLog": "subjects.txt"
+  },
+  "format": "PASS on seven source files and handback"
+}

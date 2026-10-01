@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr --base 3e3c0acf27939cabee4faa7b1ece2b541897c143 --head b030bd201f859930a656d7dbceb4c42afc3a1cf0
+
+release:check — docs/release/changes/unlocated-work-keeps-federal-pay-floor.md: the body carries a Markdown heading (## Fixed). A declaration's body is rendered as a bullet under its section, so a heading inside it breaks the generated patch notes. The 'title' header is where a heading belongs.
