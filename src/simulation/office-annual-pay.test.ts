@@ -56,6 +56,11 @@ import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
 import { personName } from "./people";
+import { lawInForce } from "./governing/law-in-force";
+import {
+  MINIMUM_WAGE_PAY_ROWS,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "./law-consequences/pay-rows";
 import type { ResolvedAnnualOfficePayConsequence } from "./law-consequence-types";
 import type { World, IsoDate, EntityId } from "./types";
 const provenance = {
@@ -427,6 +432,30 @@ it.each(sampled)(
       note: "Salary for the week.",
       provenance: f.flow.provenance,
     };
+    const wageQuestion = Object.values(before.policyCatalog.propositions).find(
+      (row) => row.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+    )!;
+    const wageLaw = lawInForce(
+      before,
+      f.resolved.jurisdictionId,
+      wageQuestion.id,
+      period.periodStartsAt,
+    );
+    console.info("ANNUAL_PAYROLL_BOUNDARY", {
+      seed: f.seed,
+      placeKey,
+      person: personName(before.people[f.personId]!),
+      activity: "payroll",
+      activityId: period.activityId,
+      onDate: period.periodStartsAt,
+      subjectIds: [f.personId],
+      workId: f.work.id,
+      rowId: MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!.id,
+      questionKey: wageQuestion.stableKey,
+      termKey: "target",
+      unit: "minor/hour",
+      wageLaw,
+    });
     const paid = settleTownCompensations(before, [period]);
     const outcome = paid.history.resourceTransferOutcomes.find(
       (row) => row.stableKey === period.stableKey,
