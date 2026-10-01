@@ -1,3 +1,4 @@
+import stateLocalFinances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
 import { MILEAGE_FEE_QUESTION, ROAD_CHARGE_BASIS } from "./road-usage-charge";
 import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
@@ -55,14 +56,13 @@ export const LOCAL_REVENUE_RULE =
   "local revenue by source follows the state's local mix, scaled to this government's spending (PLACEHOLDER, research: local-government-finances-by-type)";
 
 /**
- * Pension opening. The actuarial liability as a multiple of a year's general
- * spending, the assumed return, and the amortization period for the unfunded
- * part. PLACEHOLDER, research: public-pension-funding-by-state. Each
- * government's normal cost and benefits paid are its own plans'
- * (`pensionFlows` in `pension-share.ts`).
+ * Pension opening. The assumed return and the amortization period for the
+ * unfunded part. PLACEHOLDER, research: public-pension-funding-by-state. The
+ * liability's size against spending is measured (`openingLiabilityToSpending`
+ * in `pension-share.ts`), and each government's normal cost and benefits paid
+ * are its own plans' (`pensionFlows`).
  */
 export const PENSION = {
-  liabilityToSpending: 1.2,
   assumedReturn: 0.07,
   amortizationYears: 30,
 } as const;
@@ -219,31 +219,6 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
 }[] = [
   {
     questionKey:
-      "us-policy-positions:technology-privacy.consumer-data-privacy-law",
-    program: "administration",
-    // Colorado SB 21-190, final fiscal note: $323,691 a year and 2 staff at
-    // the Department of Law from FY 2023-24, over 5,877,610 residents
-    // ($0.0551). Virginia HB 2307 (2021): $330,556 a year for 3 staff at the
-    // Office of the Attorney General, over 8,715,698 residents ($0.0379).
-    toYes: (0.0551 + 0.0379) / 2,
-    // A repeal ends the enforcement; the staff go.
-    toNo: -(0.0551 + 0.0379) / 2,
-    basis:
-      "Colorado SB 21-190 final fiscal note ($323,691 a year, Department of Law) and Virginia HB 2307 budget amendment ($330,556 a year, Office of the Attorney General), each over the state's 2023 residents, averaged.",
-  },
-  {
-    questionKey:
-      "us-policy-positions:technology-privacy.age-verification-for-social-media",
-    program: "administration",
-    // Utah SB 152 (2023), fiscal note: $220,500 a year ongoing for the
-    // Division of Consumer Protection, over 3,417,734 residents.
-    toYes: 0.0645,
-    toNo: -0.0645,
-    basis:
-      "Utah SB 152 (2023) fiscal note: $220,500 a year ongoing for the Division of Consumer Protection to investigate and enforce, over Utah's 2023 residents.",
-  },
-  {
-    questionKey:
       "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
     program: "corrections",
     // New York's Raise the Age aid, $250 million each state fiscal year since
@@ -273,5 +248,17 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
   },
 ];
 
-/** An interest rate for a government whose research shows no debt. */
-export const DEFAULT_INTEREST_RATE = 0.04;
+const NATIONAL_DEBT = stateLocalFinances.places.US.dollars;
+
+/**
+ * The interest rate a government opens with when its own Census column
+ * shows no debt or no interest: ESTIMATED FROM AVERAGE, the national
+ * effective rate for its level, interest paid on debt over debt outstanding
+ * (Census, State and Local Government Finances 2022, United States total;
+ * `data/research/money/state-local-finances-2022.json`). About 3.6% for
+ * states and 3.9% for local governments, against the 4% set by hand before.
+ */
+export const DEFAULT_STATE_INTEREST_RATE =
+  NATIONAL_DEBT.state.interestOnDebt / NATIONAL_DEBT.state.debtOutstanding;
+export const DEFAULT_LOCAL_INTEREST_RATE =
+  NATIONAL_DEBT.local.interestOnDebt / NATIONAL_DEBT.local.debtOutstanding;

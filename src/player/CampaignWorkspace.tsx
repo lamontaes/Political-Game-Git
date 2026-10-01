@@ -6,7 +6,6 @@ import { projectCampaignOffices } from "../presentation/campaign-office-discover
 import { displayMoney } from "../presentation/money-display";
 
 import {
-  campaignElectionDate,
   fileForOffice,
   giveElectionSpeech,
   groupCampaignSessions,
@@ -537,8 +536,8 @@ export function CampaignWorkspace({
                 : "Put your name in"}
             </span>
             <span className="game-campaign-action-note">
-              {selectedOffice && person
-                ? `The election is ${readableCampaignDate(campaignElectionDate(world, person.homeJurisdictionId, selectedOffice.officeKey))}. `
+              {selectedOffice?.electionDate
+                ? `The election is ${readableCampaignDate(selectedOffice.electionDate)}. `
                 : ""}
             </span>
           </button>

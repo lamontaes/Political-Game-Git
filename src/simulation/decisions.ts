@@ -388,6 +388,9 @@ function canonicalDecisionContext(input: DecisionContext): DecisionContext {
   };
 }
 
+/** Preserve the public filing-score API through the sole pure calculation. */
+export { decisionConsiderationScore as considerationScore } from "./decision-scores";
+
 function preferenceFor(score: number): DecisionPreference {
   if (score <= -8) return "strongly-opposed";
   if (score < 0) return "opposed";

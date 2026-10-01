@@ -28,6 +28,7 @@ import { beforeAll } from "vitest";
 import { createDemoWorld } from "./demo";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { recordPerception } from "./mind";
+import { decisionConsiderationScore } from "./decision-scores";
 import { currentHistoricalCutoff } from "./queries";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { assertWorldIntegrityFully } from "./world";
@@ -448,4 +449,43 @@ describe("sourced motives, exact ties, and last recorded choices", () => {
       serializeWorld(saved),
     );
   });
+});
+
+describe("A124 exact score comparison across seeds", () => {
+  it.each(["a124-first-seed", "a124-second-seed"])(
+    "keeps an exact sourced tie undecided and a one-point lead selected (%s)",
+    (seed) => {
+      const fixture = sourcedChoice();
+      const world = { ...fixture.world, seed };
+      const tie = evaluateDecision(world, {
+        ...fixture.context,
+        randomness: "close-choices",
+      });
+      expectUndecided(tie);
+      const extra = {
+        ...fixture.context.considerations.find(
+          (row) => row.optionKey === "wait",
+        )!,
+        stableKey: "a124:one-more-recorded-reason",
+        importance: "slight" as const,
+        confidence: "low" as const,
+      };
+      const considerations = [...fixture.context.considerations, extra];
+      const score = (key: string) =>
+        considerations
+          .filter((row) => row.optionKey === key)
+          .reduce((sum, row) => sum + decisionConsiderationScore(row), 0);
+      expect(score("wait") - score("apply")).toBe(1);
+      const lead = evaluateDecision(world, {
+        ...fixture.context,
+        considerations,
+        randomness: "close-choices",
+      });
+      expect(lead.outcomeKind).toBe("selected");
+      expect(lead.selectedOptionKey).toBe("wait");
+      expect(
+        lead.optionEvaluations.map((row) => row.randomContribution),
+      ).toEqual(["none", "none"]);
+    },
+  );
 });

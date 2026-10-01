@@ -3,7 +3,12 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
-import { createEducationEnrollment, createOrganization } from "./life";
+import {
+  createEducationEnrollment,
+  createOrganization,
+  createPartnership,
+  recordPartnershipState,
+} from "./life";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
@@ -11,6 +16,7 @@ import {
 import { publicGovernmentOrganizationKey } from "./public-government-identity";
 import {
   householdLoansOf,
+  openHouseholdLoan,
   loanTermsAt,
   recordLoanRepaymentAllocation,
   recordLoanDischarge,
@@ -18,7 +24,7 @@ import {
   reviseLoanTerms,
 } from "./household-loans";
 import { personName } from "./people";
-import { addDays } from "./dates";
+import { addDays, ageOnDate } from "./dates";
 import { advanceWorld } from "./world";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import {
@@ -31,6 +37,7 @@ import {
   createResourcePosition,
   money,
   recordResourceTransferOutcome,
+  recordResourceFlowTerms,
 } from "./resources";
 import {
   outstandingDebtAt,
@@ -40,15 +47,19 @@ import {
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { financeRecordedStudentTuition } from "./student-debt";
 import type { RecordedStudentFinancingInput } from "./student-debt";
+import {
+  recordedStudentAidFacts,
+  financeStudentTuitionWithSavedAidFacts,
+} from "./student-aid-facts";
 
 // Controlled accounting inputs, not empirical rates or admitted law terms.
 const USD = money(0, "USD").currency;
-function fixture(placeKey: string, studyCaller = false) {
+function fixture(placeKey: string, studyCaller = false, startAge = 25) {
   const created = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     placeKey,
     seed: `team4-x7-recorded-tuition:${placeKey}`,
-    startAge: 25,
+    startAge,
     startingLife: "ordinary-life",
     household: "lives-alone",
     questionnaire: "skipped",
@@ -611,4 +622,236 @@ describe("recorded student tuition financing", () => {
       0,
     );
   });
+});
+
+describe("saved-fact undergraduate loan constraints", () => {
+  it.each([
+    { age: 23, cap: 550_000 },
+    { age: 24, cap: 950_000 },
+  ])(
+    "applies actual age $age to a recorded shortfall with cap $cap",
+    ({ age, cap }) => {
+      const { world, personId, lenderId, input } = fixture(
+        "4752006",
+        false,
+        age,
+      );
+      const terms = world.history.resourceFlowTerms.find(
+        (row) => row.resourceFlowId === input.tuitionFlowId,
+      )!;
+      const openingCash = resourcePositionAt(
+        world,
+        { kind: "person", personId },
+        USD,
+      )!.liquidBalance.minorUnits;
+      const priced = recordResourceFlowTerms(world, {
+        stableKey: `fixture:large-tuition:${age}`,
+        resourceFlowId: input.tuitionFlowId,
+        effectiveAt: world.currentDate,
+        status: "active",
+        amount: money(openingCash + 1_000_000, USD),
+        cadenceKind: terms.cadenceKind,
+        supersedesTermsId: terms.id,
+        reason:
+          "Controlled recorded tuition above the published borrowing ceiling.",
+        provenance: input.source,
+      });
+      const path = lifePathDefinition("college-bachelors");
+      const facts = recordedStudentAidFacts(priced, input.enrollmentId, path)!;
+      expect(
+        ageOnDate(priced.people[personId]!.birthDate, priced.currentDate),
+      ).toBe(age);
+      expect(facts.annualLimit.minorUnits).toBe(cap);
+      const financing = { ...input, annualLimit: money(1_200_000, USD) };
+      const funded = financeStudentTuitionWithSavedAidFacts(
+        priced,
+        financing,
+        path,
+      );
+      const debt = householdLoansOf(funded, { kind: "person", personId })[0]!;
+      expect(debt.obligation.principal!.minorUnits).toBe(cap);
+      expect(
+        resourcePositionAt(
+          funded,
+          { kind: "organization", organizationId: lenderId },
+          USD,
+        )!.liquidBalance.minorUnits,
+      ).toBe(1_000_000 - cap);
+      expect(
+        financeStudentTuitionWithSavedAidFacts(funded, financing, path),
+      ).toBe(funded);
+      const reopened = deserializeWorld(serializeWorld(funded));
+      expect(
+        financeStudentTuitionWithSavedAidFacts(reopened, financing, path),
+      ).toBe(reopened);
+      console.log(
+        `X7 saved age ${age}: ${personName(priced.people[personId]!)}, ${facts.dependency}, actual principal ${debt.obligation.id} ${cap} USD cents, no automatic award.`,
+      );
+    },
+  );
+
+  it("reads actual marriage and its ending without inferring it from cohabitation", () => {
+    const { world, personId, input } = fixture("3918000", false, 23);
+    const path = lifePathDefinition("college-bachelors");
+    expect(
+      recordedStudentAidFacts(world, input.enrollmentId, path)!.dependency,
+    ).toBe("dependent");
+    const spouse = Object.values(world.people).find(
+      (person) =>
+        person.id !== personId &&
+        ageOnDate(person.birthDate, world.currentDate) >= 24,
+    )!;
+    const married = createPartnership(world, {
+      stableKey: "fixture:x7-married",
+      personIds: [personId, spouse.id],
+      startedAt: world.currentDate,
+      kind: "legal:marriage",
+      provenance: {
+        kind: "authored",
+        note: "Controlled actual saved marriage fixture.",
+      },
+    });
+    const partnership = married.history.partnerships.at(-1)!;
+    expect(
+      recordedStudentAidFacts(married, input.enrollmentId, path)!
+        .sourceRecordIds,
+    ).toContain(partnership.id);
+    expect(
+      recordedStudentAidFacts(married, input.enrollmentId, path)!.annualLimit
+        .minorUnits,
+    ).toBe(950_000);
+    const ended = recordPartnershipState(married, {
+      stableKey: "fixture:x7-marriage-ended",
+      partnershipId: partnership.id,
+      effectiveAt: world.currentDate,
+      status: "ended",
+      supersedesStateId: married.history.partnershipStates.at(-1)!.id,
+      provenance: {
+        kind: "authored",
+        note: "Controlled saved marriage ending.",
+      },
+    });
+    expect(
+      recordedStudentAidFacts(ended, input.enrollmentId, path)!.annualLimit
+        .minorUnits,
+    ).toBe(550_000);
+    expect(
+      recordedStudentAidFacts(ended, input.enrollmentId, path)!
+        .unsupportedExceptionFacts,
+    ).toEqual(["financial-dependents", "veteran-status"]);
+  });
+
+  it("advances program year only after two actual paid study periods", () => {
+    const { world, personId, input } = fixture("1150000", true);
+    const path = {
+      ...lifePathDefinition("college-bachelors"),
+      daysPerPeriod: 1,
+      minimumElapsedDays: 8,
+      periodCostMinor: world.history.resourceFlowTerms.find(
+        (row) => row.resourceFlowId === input.tuitionFlowId,
+      )!.amount.minorUnits,
+    };
+    const financing = { ...input, annualLimit: money(950_000, USD) };
+    let next = world;
+    for (let period = 0; period < 2; period++) {
+      next = advanceWorld(next, 1, createCampaignElectionTransitionRegistry());
+      next = completeStudyPeriod(next, input.enrollmentId, path, financing);
+    }
+    expect(completedStudyPeriods(next, input.enrollmentId, path)).toBe(2);
+    const facts = recordedStudentAidFacts(next, input.enrollmentId, path)!;
+    expect(facts.academicYear).toBe(2);
+    expect(facts.annualLimit.minorUnits).toBe(1_050_000);
+    const outcomes = next.history.resourceTransferOutcomes.filter((record) =>
+      next.history.resourceFlows.some(
+        (flow) =>
+          flow.id === record.resourceFlowId &&
+          flow.basisKind === "obligation:tuition",
+      ),
+    );
+    expect(
+      outcomes.filter((record) => record.status === "completed"),
+    ).toHaveLength(2);
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(recordedStudentAidFacts(reopened, input.enrollmentId, path)).toEqual(
+      facts,
+    );
+    console.log(
+      `X7 actual paid program-year progression: ${personName(next.people[personId]!)}, two real school payments, year2 from saved study outcomes.`,
+    );
+  });
+});
+
+it("caps new financing by recorded principal, without mistaking accrued interest for principal", () => {
+  const { world, personId, lenderId, input } = fixture("1571550");
+  const prior = openHouseholdLoan(world, {
+    ...input.loan,
+    stableKey: "fixture:x7-prior-year-principal",
+    borrower: { kind: "person", personId },
+    lenderOrganizationId: lenderId,
+    lenderKind: "federal-government",
+    kind: "student",
+    principal: money(5_700_000, USD),
+    rateCap: null,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    housingTenureId: null,
+    provenance: {
+      kind: "authored",
+      note: "Controlled existing prior-year debt contract; not drawn or inferred tuition.",
+    },
+  });
+  const oldDebt = householdLoansOf(prior, { kind: "person", personId })[0]!;
+  const serviced = advanceLoanMonth(prior);
+  const oldComponents = loanBalanceComponentsAt(
+    serviced,
+    oldDebt.obligation.id,
+  )!;
+  expect(oldComponents.principal.minorUnits).toBe(5_700_000);
+  expect(oldComponents.interest.minorUnits).toBeGreaterThan(0);
+  // An explicitly supplied financial-year boundary, not an inferred academic calendar.
+  // Use the actual serviced date; no yearly clock jump or skipped future jobs.
+  const today = serviced.currentDate;
+  const snapshot = serviced;
+  const financing = {
+    ...input,
+    academicYearStartsAt: today,
+    academicYearEndsAt: addDays(today, 365),
+    annualLimit: money(950_000, USD),
+  };
+  const path = lifePathDefinition("college-bachelors");
+  expect(
+    recordedStudentAidFacts(snapshot, input.enrollmentId, path)!.academicYear,
+  ).toBe(1);
+  const funded = financeStudentTuitionWithSavedAidFacts(
+    snapshot,
+    financing,
+    path,
+  );
+  const fresh = householdLoansOf(funded, { kind: "person", personId }).find(
+    (loan) => loan.obligation.id !== oldDebt.obligation.id,
+  )!;
+  expect(fresh.obligation.principal!.minorUnits).toBe(50_000);
+  expect(loanBalanceComponentsAt(funded, oldDebt.obligation.id)).toEqual(
+    oldComponents,
+  );
+  expect(
+    outstandingDebtAt(funded, oldDebt.obligation.id)!.minorUnits,
+  ).toBeGreaterThan(5_700_000);
+  const resumed = deserializeWorld(serializeWorld(funded));
+  expect(financeStudentTuitionWithSavedAidFacts(resumed, financing, path)).toBe(
+    resumed,
+  );
+  const allPrincipal = householdLoansOf(resumed, {
+    kind: "person",
+    personId,
+  }).reduce(
+    (sum, loan) =>
+      sum +
+      loanBalanceComponentsAt(resumed, loan.obligation.id)!.principal
+        .minorUnits,
+    0,
+  );
+  expect(allPrincipal).toBe(5_750_000);
+  console.log(
+    `X7 ${personName(resumed.people[personId]!)}: real prior repayment interest allocation retained; aggregate principal5750000 USD cents includes new actual50000 financing, accrued interest excluded. Supplied financial-year fixture, not an inferred calendar.`,
+  );
 });

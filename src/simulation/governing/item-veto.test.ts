@@ -10,7 +10,13 @@ import {
   recordEnactment,
   takeFloorVote,
 } from "../legislation";
-import { createFormationContext, recordPrivateBelief } from "../politics";
+import {
+  createFormationContext,
+  recordPrinciple,
+  recordPrivateBelief,
+} from "../politics";
+import { createPoliticalPrincipleDefinition } from "../policy";
+import { latestPrivateBelief } from "../queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
 import {
@@ -92,7 +98,131 @@ function governorOpposing(
   };
 }
 
+/**
+ * A signer who holds no saved view, only a recorded principle that the
+ * work-requirement question bears on. `endorses` with an "against"
+ * bearing leans against the rider's yes.
+ */
+function governorWithPrincipleOnly(
+  setup: Setup,
+  world: World,
+  stance: "endorses" | null,
+): { world: World; governorId: EntityId } {
+  const governorId = setup.world.personOrder.find(
+    (personId) => personId !== setup.memberId,
+  )!;
+  const principle = createPoliticalPrincipleDefinition(
+    "test:self-reliance",
+    "Self-reliance",
+    "People should provide for themselves where they can.",
+  );
+  const catalog = world.policyCatalog;
+  const proposition = catalog.propositions[setup.workRuleId]!;
+  let next: World = {
+    ...world,
+    policyCatalog: {
+      ...catalog,
+      principles: { ...catalog.principles, [principle.id]: principle },
+      principleOrder: [...catalog.principleOrder, principle.id],
+      propositions: {
+        ...catalog.propositions,
+        [proposition.id]: {
+          ...proposition,
+          principles: [{ principleId: principle.id, bearing: "against" }],
+        },
+      },
+    },
+  };
+  if (stance)
+    next = recordPrinciple(next, {
+      stableKey: "item-veto:governor-principle",
+      personId: governorId,
+      principleId: principle.id,
+      formedAt: next.currentDate,
+      stance,
+      strength: 0.75,
+      conviction: "strong",
+      flexibility: "open",
+      qualification: null,
+      formation: createFormationContext("other:drawn-before-play", {
+        note: "Test fixture: a saved prior principle, not an inference from the bill.",
+      }),
+      supersedesPrincipleRecordId: null,
+    });
+  return { world: next, governorId };
+}
+
+function signedByPrincipledGovernor(stance: "endorses" | null) {
+  const setup = billOnTheFloor("appropriation");
+  let world = amend(setup, setup.world, "yea");
+  world = toTheGovernor(setup, world);
+  const governor = governorWithPrincipleOnly(setup, world, stance);
+  world = recordGovernorDecisionOnMeasure(
+    governor.world,
+    setup.measureId,
+    "signed",
+    "The governor signed the budget.",
+    governor.governorId,
+  );
+  return { setup, world, governorId: governor.governorId };
+}
+
 describe("the governor's item veto", () => {
+  it("forms the signer's missing view through the belief pipeline, saves it, then strikes (Nebraska fixture)", () => {
+    const signed = signedByPrincipledGovernor("endorses");
+    const world = signed.world;
+    // Read-only: with no saved view the signer is undecided.
+    expect(
+      itemsToStrike(world, signed.setup.measureId, signed.governorId),
+    ).toEqual([]);
+    const after = applyItemVetoes(
+      world,
+      signed.setup.measureId,
+      signed.governorId,
+    );
+    assertWorldIntegrity(after);
+    const belief = latestPrivateBelief(
+      after,
+      signed.governorId,
+      signed.setup.workRuleId,
+    )!;
+    expect(belief.position).toBe("oppose");
+    // The saved view cites its decision trace and the principle it came from.
+    expect(belief.formation.decisionTraceIds).toHaveLength(1);
+    const trace = after.history.decisionTraces.find(
+      (row) => row.id === belief.formation.decisionTraceIds[0],
+    )!;
+    expect(trace.context.decisionType).toBe("political-belief-formation");
+    // No dice: the world's seed cannot change this view.
+    expect(trace.context.randomness).toBe("none");
+    expect(
+      trace.context.considerations.flatMap((row) => row.sourceRefs),
+    ).toContainEqual(expect.objectContaining({ kind: "political-principle" }));
+    expect(after.history.itemVetoes).toHaveLength(1);
+    // A second call after the same signing forms and strikes nothing more.
+    expect(
+      applyItemVetoes(after, signed.setup.measureId, signed.governorId),
+    ).toBe(after);
+    // Saved and reloaded, the same view and the same strike stand.
+    const reloaded = deserializeWorld(serializeWorld(after));
+    expect(
+      applyItemVetoes(reloaded, signed.setup.measureId, signed.governorId),
+    ).toBe(reloaded);
+  });
+
+  it("a signer with nothing bearing on the rider forms no view and strikes nothing", () => {
+    const signed = signedByPrincipledGovernor(null);
+    const after = applyItemVetoes(
+      signed.world,
+      signed.setup.measureId,
+      signed.governorId,
+    );
+    expect(after).toBe(signed.world);
+    expect(
+      latestPrivateBelief(after, signed.governorId, signed.setup.workRuleId),
+    ).toBeUndefined();
+  });
+
   it("reads who has one from the research table", () => {
     const { scenario } = billOnTheFloor();
     expect(itemVetoPower(scenario.pack.packId)).toMatchObject({
