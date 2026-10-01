@@ -1,0 +1,8 @@
+
+ RUN  v4.1.1 /private/tmp/team7-county-calendar-records
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  04:50:22
+   Duration  2.48s (transform 1.93s, setup 0ms, import 2.15s, tests 9ms, environment 0ms)

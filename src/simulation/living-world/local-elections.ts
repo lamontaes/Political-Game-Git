@@ -1,3 +1,4 @@
+import { nextCountyElection } from "../nationwide-world/county-election-calendar";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { decideAnotherTerm } from "../careers/another-term";
 import {
@@ -75,6 +76,7 @@ import type {
 import { isPersonAliveAt } from "../vitality-integrity";
 import { recordWorldEvent } from "../world";
 import {
+  COUNTY_BOARD_MEMBER,
   drawTownResident,
   localGovernmentSeated,
   organizationIdFor,
@@ -140,6 +142,9 @@ export const LOCAL_ELECTIONS_VERSION = "local-elections/v1" as const;
 const V = LOCAL_ELECTIONS_VERSION;
 
 export const LOCAL_ELECTION_FILING = "civic:local-election-filing" as const;
+export const LOCAL_ELECTION_TERM_START =
+  "civic:local-election-term-start" as const;
+
 export const LOCAL_ELECTION_COUNT = "civic:local-election-count" as const;
 export const LOCAL_GOVERNMENT_YEAR = "civic:local-government-year" as const;
 
@@ -704,7 +709,12 @@ function takeSeat(
     organizationId,
     startedAt: world.currentDate,
     kind: "leadership:municipal-office",
-    roleKind: seat === 0 ? "leader:municipal-mayor" : "leader:municipal-member",
+    roleKind:
+      seat === 0
+        ? "leader:municipal-mayor"
+        : unit.unitType === "county"
+          ? COUNTY_BOARD_MEMBER
+          : "leader:municipal-member",
     context: label,
     provenance: { kind: "generated", generatorKey: V },
   });
@@ -1226,6 +1236,12 @@ export function localElectionCountHandler(
     }
   }
 
+  if (unit.unitType === "county")
+    return done(
+      deferCountyElectionWinner(next, contest.id),
+      "The county result is recorded; taking office follows its term calendar.",
+    );
+
   next = seatTheWinner(
     next,
     unit,
@@ -1239,6 +1255,122 @@ export function localElectionCountHandler(
     contestKey,
   );
   return done(next, `The race for ${phrase} was counted.`);
+}
+
+/** A recorded county result waits for its sourced term start in the same due queue. */
+export function deferCountyElectionWinner(
+  world: World,
+  contestId: EntityId,
+): World {
+  const contest = electionContestById(world, contestId);
+  const parts = contest ? countParts(`${contest.stableKey}:count`) : null;
+  const result = contest ? electionContestResult(world, contest.id) : null;
+  if (!contest || !parts || !result || parts.unit.unitType !== "county")
+    return world;
+  const office = officeFor(parts.unit, parts.seat);
+  if (!office || contest.office.officeKey !== office.officeKey) return world;
+  const read = nextCountyElection(
+    parts.unit,
+    makeIsoDate(`${parts.electionDate.slice(0, 4)}-01-01`),
+  );
+  if (
+    read.status !== "read" ||
+    read.dates.electionDate !== parts.electionDate ||
+    contest.electionDate !==
+      (parts.stage === "primary"
+        ? read.dates.primaryDate
+        : read.dates.electionDate)
+  )
+    return world;
+  const key = `${contest.stableKey}:term-start`;
+  if (
+    world.currentDate >= read.dates.termStarts ||
+    world.history.futureDueItems.some((row) => row.stableKey === key)
+  )
+    return world;
+  return scheduleFutureDueItem(world, {
+    stableKey: key,
+    dueAt: read.dates.termStarts,
+    transitionKey: LOCAL_ELECTION_TERM_START,
+    jurisdictionId: contest.jurisdictionId,
+    entityIds: [contest.id, result.winnerPersonId],
+    provenance: {
+      kind: "authored",
+      note: `County term-start calendar: ${read.dates.sourceUrls.join("; ")}`,
+    },
+  });
+}
+
+export function localElectionTermStartHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (world.currentDate !== due.dueAt || !due.stableKey.endsWith(":term-start"))
+    return done(world, "This county term has not begun.");
+  const key = due.stableKey.slice(0, -":term-start".length);
+  const parts = countParts(`${key}:count`);
+  const contest = electionContestById(world, due.entityIds[0]!);
+  const result = contest ? electionContestResult(world, contest.id) : null;
+  if (
+    !parts ||
+    parts.unit.unitType !== "county" ||
+    !contest ||
+    contest.stableKey !== key ||
+    contest.jurisdictionId !== due.jurisdictionId ||
+    !result ||
+    result.winnerPersonId !== due.entityIds[1]
+  )
+    return done(world, "No recorded county winner matches this term.");
+  const read = nextCountyElection(
+    parts.unit,
+    makeIsoDate(`${parts.electionDate.slice(0, 4)}-01-01`),
+  );
+  if (
+    read.status !== "read" ||
+    read.dates.termStarts !== due.dueAt ||
+    read.dates.electionDate !== parts.electionDate
+  )
+    return done(
+      world,
+      "The recorded county term date does not match its calendar.",
+    );
+  if (!alive(world, result.winnerPersonId))
+    return done(
+      world,
+      "The recorded winner cannot take office; the seat remains for the existing vacancy path.",
+    );
+  if (
+    world.history.events.some(
+      (row) =>
+        row.stableKey === `${key}:seat-changed` ||
+        row.stableKey === `${key}:reelected`,
+    )
+  )
+    return done(world, "This county term already began.");
+  const office = officeFor(parts.unit, parts.seat);
+  if (
+    !office ||
+    contest.office.officeKey !== office.officeKey ||
+    !organizationIdFor(world, parts.unit)
+  )
+    return done(world, "The county office is not present.");
+  const label = seatLabelFor(office, parts.seat);
+  const next = seatTheWinner(
+    world,
+    parts.unit,
+    contest.jurisdictionId,
+    office,
+    parts.seat,
+    label,
+    seatPhrase(office, parts.seat),
+    holderOf(sittingLocalOfficers(world, parts.unit), parts.seat),
+    result.winnerPersonId,
+    key,
+  );
+  return done(
+    next,
+    "The county winner took office at the recorded term start.",
+  );
 }
 
 function seatTheWinner(
@@ -1543,6 +1675,7 @@ export function localGovernmentYearHandler(
 }
 
 export const LOCAL_ELECTION_HANDLERS = [
+  [LOCAL_ELECTION_TERM_START, localElectionTermStartHandler],
   [LOCAL_ELECTION_FILING, localElectionFilingHandler],
   [LOCAL_ELECTION_COUNT, localElectionCountHandler],
   [LOCAL_GOVERNMENT_YEAR, localGovernmentYearHandler],

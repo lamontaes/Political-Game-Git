@@ -1,4 +1,11 @@
 import { evaluateDecision } from "../decisions";
+import {
+  constitutionalEntityAvailableAt,
+  stateAmendmentProfile,
+} from "../constitutional-process";
+import { institutionOfficeBindingAt } from "../enacted-rule-changes";
+import { legislativePackForJurisdiction } from "../legislative-institutions";
+import { organizationProfileAt, workStatusAt } from "../life-queries";
 import { requireMeasure } from "../legislation";
 import {
   memberVoteConsiderations,
@@ -20,6 +27,7 @@ import {
 import {
   stateLegislatureEstablished,
   stateLegislators,
+  stateLegislativeSeats,
 } from "../nationwide-world/state-legislature-opening";
 import { activeOrganizationParticipationsAt } from "../life-queries";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
@@ -200,8 +208,21 @@ export interface ChamberNominationVoteInput extends ChamberVoteCommonInput {
   >;
 }
 
+export interface ChamberConstitutionalVoteInput extends ChamberVoteCommonInput {
+  readonly kind: "constitutional";
+  readonly constitutionalMeasureId: EntityId;
+  readonly bodyKey: string;
+  readonly purpose: "proposal";
+  readonly considerationsByMember: ReadonlyMap<
+    string,
+    readonly DecisionConsideration[]
+  >;
+}
+
 export type ChamberVoteInput =
-  ChamberBillVoteInput | ChamberNominationVoteInput;
+  | ChamberBillVoteInput
+  | ChamberNominationVoteInput
+  | ChamberConstitutionalVoteInput;
 
 interface ChamberVoteContext {
   readonly subject: DecisionSubject;
@@ -209,6 +230,242 @@ interface ChamberVoteContext {
   memberInputs(member: SeatedMember): {
     readonly views: readonly DecisionConsideration[];
     readonly cues: readonly DecisionConsideration[];
+  };
+}
+
+/** The saved state body, including actual active seat and institution sources. */
+export function stateConstitutionalBody(
+  world: World,
+  measureId: EntityId,
+  bodyKey: string,
+): {
+  readonly seated: SeatedChamber;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly profileBasis: "sourced" | "game-profile";
+} {
+  const cutoff = currentHistoricalCutoff(world);
+  const measure = world.history.constitutionalMeasures?.find(
+    (row) => row.id === measureId,
+  );
+  const profile = measure && stateAmendmentProfile(measure.jurisdictionKey);
+  const pack =
+    measure && legislativePackForJurisdiction(measure.jurisdictionId);
+  const chamber = pack?.chambers.find((row) => row.chamberKey === bodyKey);
+  const ruleBody = profile?.bodies.find((row) => row.bodyKey === bodyKey);
+  if (
+    !measure ||
+    measure.processKind !== "state-amendment" ||
+    !constitutionalEntityAvailableAt(
+      world,
+      measure.id,
+      cutoff.asOfDate,
+      cutoff.historySequenceExclusive,
+    ) ||
+    !profile ||
+    !pack ||
+    pack.jurisdictionKey !== measure.jurisdictionKey ||
+    !chamber ||
+    !ruleBody ||
+    measure.proposedBy === "convention" ||
+    !measure.proposalRule
+  )
+    throw new Error(
+      "A state constitutional vote requires its actual dated proposal, profile and chamber.",
+    );
+  const roster = stateConstitutionalRoster(
+    world,
+    measure.jurisdictionId,
+    bodyKey,
+  );
+  if (!roster)
+    throw new Error(
+      "A state constitutional vote requires its saved body and dated institution binding.",
+    );
+  return {
+    ...roster,
+    sourceRecordIds: [measure.id, ...roster.sourceRecordIds],
+  };
+}
+
+/** Missing recorded state bodies stay unsupported before an ordinary review files. */
+export function stateConstitutionalRoster(
+  world: World,
+  jurisdictionId: EntityId,
+  bodyKey: string,
+): {
+  readonly seated: SeatedChamber;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly profileBasis: "sourced" | "game-profile";
+} | null {
+  const cutoff = currentHistoricalCutoff(world);
+  const pack = legislativePackForJurisdiction(jurisdictionId);
+  const profile = pack && stateAmendmentProfile(pack.jurisdictionKey);
+  const chamber = pack?.chambers.find((row) => row.chamberKey === bodyKey);
+  const ruleBody = profile?.bodies.find((row) => row.bodyKey === bodyKey);
+  if (
+    !world.jurisdictions[jurisdictionId] ||
+    !pack ||
+    !profile ||
+    !chamber ||
+    !ruleBody
+  )
+    return null;
+  const seated = seatedChamberForPack(
+    world,
+    pack.packId,
+    bodyKey,
+    chamber.name,
+  );
+  const binding = institutionOfficeBindingAt(
+    world,
+    `${pack.packId}:${bodyKey}`,
+    jurisdictionId,
+    cutoff,
+  );
+  const organization =
+    binding &&
+    world.history.organizations.find(
+      (row) => row.id === binding.organizationId,
+    );
+  const organizationProfile =
+    binding && organizationProfileAt(world, binding.organizationId, cutoff);
+  if (
+    !seated ||
+    seated.seats !== ruleBody.members ||
+    !binding ||
+    !organization ||
+    organization.sequence >= cutoff.historySequenceExclusive ||
+    organization.formedAt > cutoff.asOfDate ||
+    !organizationProfile ||
+    organizationProfile.closed ||
+    organizationProfile.locationJurisdictionId !== jurisdictionId
+  )
+    return null;
+  const seatRecords = stateLegislativeSeats(
+    world,
+    `${pack.packId}:candidacy`,
+  ).filter((row) => row.officeKey === binding.officeKey);
+  if (
+    seatRecords.length !== seated.seats ||
+    new Set(seatRecords.map((row) => row.ordinal)).size !== seatRecords.length
+  )
+    return null;
+  const body: SeatedChamber = {
+    ...seated,
+    body: {
+      ...seated.body,
+      members: seatRecords.map((seat): SeatedMember => ({
+        memberKey: `${seat.officeKey}:seat:${seat.ordinal}`,
+        name: seat.member
+          ? personName(world.people[seat.member.personId]!)
+          : "Vacant seat",
+        personId: seat.member?.personId ?? null,
+        partyKey: seat.member?.party ?? null,
+        caucusLabel: seat.member?.party ?? "",
+      })),
+    },
+  };
+  const tenures = stateLegislators(world, `${pack.packId}:candidacy`).filter(
+    (row) => row.officeKey === binding.officeKey,
+  );
+  const sources: EntityId[] = [
+    binding.id,
+    organization.id,
+    organizationProfile.id,
+  ];
+  for (const member of body.body.members) {
+    if (!member.personId) continue; // An actual saved empty seat has no voter.
+    const tenure = tenures.find(
+      (row) =>
+        row.personId === member.personId &&
+        member.memberKey === `${row.officeKey}:seat:${row.ordinal}`,
+    );
+    const work =
+      tenure &&
+      world.history.workRelationships.find(
+        (row) => row.id === tenure.workRelationshipId,
+      );
+    if (
+      !member.personId ||
+      !world.people[member.personId] ||
+      !work ||
+      work.personId !== member.personId ||
+      work.organizationId !== organization.id ||
+      work.startedAt > cutoff.asOfDate ||
+      work.recordedAt > cutoff.asOfDate ||
+      work.sequence >= cutoff.historySequenceExclusive ||
+      workStatusAt(world, work.id, cutoff)?.status !== "active"
+    )
+      return null;
+    sources.push(member.personId, work.id);
+  }
+  return {
+    seated: body,
+    sourceRecordIds: [...new Set(sources)],
+    profileBasis: profile.basis,
+  };
+}
+
+function constitutionalVoteContext(
+  world: World,
+  input: ChamberConstitutionalVoteInput,
+): ChamberVoteContext {
+  const cutoff = currentHistoricalCutoff(world);
+  const measure = world.history.constitutionalMeasures?.find(
+    (row) => row.id === input.constitutionalMeasureId,
+  );
+  const stateProposal = measure?.processKind === "state-amendment";
+  const body = stateProposal
+    ? stateConstitutionalBody(
+        world,
+        input.constitutionalMeasureId,
+        input.bodyKey,
+      ).seated.body
+    : seatedCongressChamber(world, input.bodyKey)?.body;
+  const members = new Map(
+    body?.members.map((member) => [member.memberKey, member.personId]),
+  );
+  if (
+    !measure ||
+    !constitutionalEntityAvailableAt(
+      world,
+      measure.id,
+      cutoff.asOfDate,
+      cutoff.historySequenceExclusive,
+    ) ||
+    (measure.processKind !== "federal-amendment" && !stateProposal) ||
+    measure.proposedBy === "convention" ||
+    measure.proposalRule === null ||
+    input.purpose !== "proposal" ||
+    (!stateProposal &&
+      input.bodyKey !== "house" &&
+      input.bodyKey !== "senate") ||
+    (stateProposal && input.members.length !== body?.members.length) ||
+    !body ||
+    new Set(input.members.map((member) => member.memberKey)).size !==
+      input.members.length ||
+    input.members.some(
+      (member) =>
+        !members.has(member.memberKey) ||
+        members.get(member.memberKey) !== member.personId,
+    )
+  )
+    throw new Error(
+      stateProposal
+        ? "A constitutional chamber vote requires its actual dated state proposal, body and seated members."
+        : "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
+    );
+  return {
+    subject: {
+      kind: "context:constitutional-amendment",
+      key: `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
+      entityId: null,
+    },
+    committee: null,
+    memberInputs: (member) => ({
+      views: input.considerationsByMember.get(member.memberKey) ?? [],
+      cues: [],
+    }),
   };
 }
 
@@ -441,7 +698,9 @@ export function decideChamberVote(
   const context =
     input.kind === "nomination"
       ? nominationVoteContext(world, input)
-      : billVoteContext(world, input);
+      : input.kind === "constitutional"
+        ? constitutionalVoteContext(world, input)
+        : billVoteContext(world, input);
 
   // First pass: each member's own view (their principles, what they said on
   // the record, a formed belief, their own bill) and the cues every member

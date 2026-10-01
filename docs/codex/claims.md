@@ -1,14 +1,108 @@
+## October 1, A8 ordinary-life pay caller transfer closed
+
+Team 3 owns only the `settleJobPay` import and its wrapping call around `advanceApplications` in `src/presentation/ordinary-life.ts`. Team 7 confirmed no unpublished overlap, an empty shared-file diff and no occurrence in its county or held caller branches. Coordinator delivered the release to Team 3.
+
+Preserve action time, mood, routines, monthly schedules and every other import. The removal must retain the recorded shared-clock payment route and pass its affected caller regression. This is not whole-file ownership, a new pay mechanism or permission to drop earned pay.
+
+## October 1, budget option-selection transfer closed
+
+Team 1 owns only the budget-family option-selection hunk in `governingNpcDecisionHandler` in `src/simulation/governing/state-governing.ts`. Team 2 explicitly released it at 5bf0c950d19aab23fd4f8d8aec2aab6da7deb457, reporting no unpublished bytes and a blob matching main. All other governing families and executive paths remain protected.
+
+Audit identifies the existing saved-priority and matching-advice contract. A missing preference is not a hold-flat choice. Keep missing-choice matters pending unless the owner approves a default. This transfer grants no new score, weight, authority or payment. Team 1 retains its separately published request/recorded-choice bridge in #1536.
+
+## October 1, 7:30 a.m. A111 campaign support transfer closed
+
+Audit owns only the four campaign-support hunks in `src/simulation/campaigns.ts`: opening support, action support effect, latest saved-support reading and election-night support. Team 7 explicitly confirmed no unpublished overlap in 00d; its county and held caller branches exclude these functions. Coordinator delivered this exact release to Audit.
+
+Preserve unrelated campaign, composition and county work, including the two unrelated additions Audit identified. This is an ownership transfer only. Numerical and semantic changes still require CTO review; it grants no invented turnout, counts, confidence, tie rule or new money level.
+
+## October 1, 7:19 a.m. A58 refresh caller transfer closed
+
+Team 4 owns only the `refreshLocalEconomy` import and call inside `refreshLifeOpportunities` in `src/simulation/life-opportunities.ts`. Team 3 explicitly reported no unpublished overlap at its preserved 916dcab source. Team 7 confirmed its shared file diff is empty, county candidate excludes the file and held caller PR 1510 changes only other named files. Both released these exact hunks in 00d. Coordinator delivered the closed transfer to Team 4.
+
+Preserve salary initialization, monthly scheduling and every other lifecycle/clock hunk. This release does not authorize deleting the entire old economy module or inventing business revenue. Team 4 retains its measured five-failure baseline and must run the same saved-job, pay-term and reload checks after the narrow removal.
+
+## October 1, 7:12 a.m. approved writer transfers
+
+CTO rulings in 00d at 6:23 and 6:49 authorize these narrow surfaces. This supersedes older overlapping claims; it does not establish implementation or runtime completion.
+
+- Audit owns only `src/simulation/election-contests.ts` evaluator, automatic resolver and scheduled-handler hunks for A110. Remove unsupported fabricated counts and retain an unresolved contest. Team 1 retains budget and filing work; no statewide-electorate or county transfer is implied.
+- Team 7 owns the narrow sourced county extension through the existing residence writer and catalog. Missing actual seat, electorate or voter-production records remain unsupported. Other chambers and proposed maps are not admitted by this grant.
+- Coordinator owns shared pay consequence types, resolver and dispatcher, including the saved hourly authority and completed-shift context. Published contract head is bb5e17a7529d30fc41c93b48d06520ae7f0ba811. Team 3 owns the consuming common pay writer and its tests, completed-interval arithmetic and actual payment integration. No second payroll writer is authorized.
+- Coordinator owns only the standing-authority discriminant repair in `applyLawServiceConsequence`, published in draft #1530. Team 5 retains service behavior and clinical mechanisms. Failed composed receipt tests require baseline attribution; they do not authorize a second service writer.
+
+## October 1, 5:34 a.m. adult opening transfer CLOSED
+
+Team 4 owns only the normal adult-start import and seatLocalBusinesses invocation ordering around hireAtAdultStart in src/presentation/production-world.ts. Audit released this exact scope with no unpublished overlap. Coordinator verified main 072634b352c182c0ee75abe59e1e73e772ed73e4 blob 74ad6aef164a2bb568952ed3fe229be9c73fd399.
+
+Audit retains its unpublished terminal-opening hook at 3c5b61e2, source blob 1b367ff884ac7553fb3b18092f1927b0e44859f0. Preserve age and adultStartWorkVersion guards, both pre-start paths, salary, living costs, monthly scheduling, coverage, final law dispatch and load recovery. The actual employer producer precedes adult hiring. Team 4 owns the matching opening-life-recorded-employer.test.ts; no substitute employers or post-opening repair writer is admitted.
+
+Release delivered to Team 4. Runtime integration and natural-opening proof remain pending.
+
+## October 1, 5:30 a.m. subject-response caller and core repair
+
+Team 8 owns only the existing answer adapter in src/presentation/office-response.ts and MatterItem.answer argument/statement forwarding in src/player/PressDeskPanel.tsx. It reports both paths clean in its leased workspace and shared checkout, matching main 072634b352c182c0ee75abe59e1e73e772ed73e4. Preserve confirmation, the world callback and exact chosen words. This does not grant a new scheduler or a broad player-workspace rewrite. NPC finding-boundary admission remains separate.
+
+Coordinator resolved only enacted-law-effects.ts, law-consequence-types.ts, law-effect-stamp.ts and its test for Team 3's pending main merge. Published 714d393fe5bf4c770ac432c29aa60034ecabba4b preserves both authority contracts. Team 3 may receive these exact four blobs while retaining all its own unpublished city/default-test bytes.
+
+Team 4 owns opening-life-recorded-employer.test.ts preparation. Production caller transfer remains pending the exact Audit receipt; Audit reports no overlap with its unpublished terminal-law hook. No whole-file transfer is inferred.
+
+## October 1, 5:17 a.m. privacy caller transfer CLOSED
+
+Team 1 released to Team 6 only the privacyLaw import/read, recurring privacyCost calculation, saved business occurrence/stamp append in src/simulation/living-world/town-finances.ts, and the necessary optional historical privacy-occurrence field in town-finance-types.ts. All other treasury, pay, ledger, business and type hunks remain protected. The separate bank release is unchanged.
+
+Published source: main 9891ad2ebdfde4bb79869ae290d26ba98eefe425. Coordinator independently verified blobs fc4c88b8147210dcba41250e2f0efa86cc4355d6 and 554bf9b1a595135eb8333050708548dcabccfe98. Team 1 reports those match clean local f7e13aba37955556fca1d879cfdad4ecec5aed58 with no unpublished overlap. Release relayed to Team 6; implementation must refuse a charge without admitted applicability evidence.
+
+## October 1, 5:01 a.m. shared predicate and integration ownership
+
+The coordinator owns pay.ts, pay-rows.ts and the approved elective-office case in pay-coverage-predicates.ts. Team 3 acknowledged no overlap and retains minimum-wage readers and actual payroll tests. Published exception: 4d150a17f06d83407c58425d243051b7c1f84c81. City admission composition: 44e9a2f70239212e2cf20576c515520dd76cb03d.
+
+Team 8's existing press ownership includes one additive export in press/index.ts for finding-subject-response. Team 9's prosecution and clemency scheduling remains protected. Audit owns the caller-contract analysis, not a parallel subject scheduler.
+
+Team 6's additional town-finances privacy-cost caller transfer is requested from Team 1 and remains pending. Its previously released drawBankShape call/helper/import remains separate. Preserve all other financial writers and unpublished work.
+
+## October 1, 4:24 a.m. budget consumer transfer
+
+Team 6 released to Team 1 only the general-budget recognition, final enacted program-clause loop and necessary imports inside appropriationFromEnactedMeasure in program-governing.ts. The clean published release is 583cdf069234a2d1f28b88721106c50b17ad23e4, with file blob 7a78c1c8663a1cc952b1cab5df991921e6964687. Team 6 confirmed no unpublished bytes or competing edits in this part. Team 1 received the transfer and owns that adapter now.
+
+Preserve all service, operator, capacity, transit and other appropriation paths. The existing adopted-appropriation writer remains the survivor. This transfer does not authorize invented spending, governor requests or fiscal dates. The biennial authority-window question remains with the CTO.
+
+## October 1, 4:12 a.m. current transfers and overrides
+
+- CTO 3:41 defers groundwater. This supersedes the older 3:20 Team 4 assignment below. Preserve its source; no new parcel or well proxy.
+- Team 3 released the A45 estimate-draw hunks at f76bc5b63f21ab6171ade6e8ca8e5dc9377b0c09 in state-paid-leave-law.ts and paid-leave-benefits.ts to Team 6. The transfer excludes current law terms, claims and financial writers. Team 6 published #1491.
+- Audit retains world.ts, time-work.ts, default composition, day bridge and opening clock work. References to Audit's root mean the Audit lead, not the coordinator.
+- Team 7 owns only the released advancement calls/imports in demo.ts, people-continuation.ts and character-history.ts. Preserve exact local date/time and complete handler composition; no competing clock.
+- Team 7 retains the narrow county timing/qualification consumer hunks in campaign-projection.ts, campaign-office-discovery.ts, life-talk-running.ts and CampaignWorkspace.tsx. Its #1492 does not admit unknown district qualifications.
+- Coordinator retains canonical starting-law JSON and shared final-law reader integration. Team 3 owns minimum-wage.ts dated consumer changes. Published coordinator wage head is dbc66c17a8285cb8b856796c09239ced96a50023.
+- Team 1 builds the CTO 4:08 session budget intake in its existing survivors. Audit answers code-contract questions; no duplicate filer or manufactured budget amounts.
+
+## October 1, 3:38 ownership additions
+
+- Coordinator owns the standing-appropriation additions to law-consequence-types.ts, enacted-law-effects.ts and law-effect-stamp.ts, the pay authority discriminator and corresponding contract tests. Published d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec is WIP. Team 5 owns its existing service resolver and consumer; Team 6 owns actual authority and payment records. No synthetic bill or second service engine.
+- Coordinator owns the approved resources.ts payment-stamp kind correction and resource-law-stamps.test.ts composition at 3cd6d09c37f0b197e45d3d381c9bedea3d6b0dbd. Team 3 retains office-salary.ts, town-pay.ts and its caller tests.
+- X5 owns the standalone minimum-wage-dated-matrix-2026.json research file. Coordinator alone admits its verified dates and tiers into canonical starting-law terms and the shared reader. Observation dates must not be silently backdated.
+- Team 1 released only presentation/legislation-session.ts await-executive-decision lines 474–497 and unused related imports to Team 2, clean at a522ed5be56ab97afedc24d8d73e847a7586852a. Preserve all other presentation work.
+- Team 7 released only PressWorkspace.tsx zero-journalist button lines 279–291 and the unused import to Team 8. Preserve the no-role message and remaining form. Team 7's county election work does not own Audit's clock entry points.
+- CTO 3:20 assigns actual groundwater meter compliance costs to Team 4 through the existing price-cost path, after sourced cost and actual irrigating-farm exposure are available. No generic farm-classification proxy.
+- Team 6's requested A45 estimate hunks are pending Team 3's exact release. No transfer is recorded as complete here.
+
 # Current engine rebuild ownership
 
 The following transfers preserve one writer for each named part of the rebuild. They override older entries only for the exact functions and changes listed. They record ownership, not completion or approval to merge.
 
 ## October 1 transfers
 
-- Team 9 owns only the prosecution and clemency handler imports and registrations in campaigns.ts composeWorldTimeHandlers. Team 7 explicitly released both justice seams with no unpublished changes or live composer runner. The clemency transfer preserves the existing createClemencyTransitionRegistry; three long-run failures now require saved-boundary verification after integration. Other handler registrations remain protected. Preserve the existing petition producer until its replacement paths are proved.
-- Coordinator owns pay.ts handler/action dispatch and the pay-rows.ts annual-action export. Team 3 released these unchanged at fa47a1c5f0915917254ebae122f09a39709efe09 and retains town-pay.ts, office-salary migration and payroll tests. The annual rule-origin contract requires CTO review; no invented policy proposition or second payroll writer is authorized.
+- CTO took over the clemency handler registration under the October 1 2:21 ruling. PR #1452 is merged at 22ec7c06d26b5dcb39afb109bb583e32449492b3. Team 9 retains only the prosecution registration seam and the separately released post-office-opening callback; it must preserve any unique #1403 work without duplicating the CTO repair. Other handler registrations remain protected. Audit owns the three saved-boundary checks.
+- Coordinator owns pay.ts handler/action dispatch and the pay-rows.ts annual-action export. Team 3 released these unchanged at fa47a1c5f0915917254ebae122f09a39709efe09 and retains town-pay.ts, office-salary migration and payroll tests. The CTO approved the annual rule-origin contract at 2:21. Coordinator WIP e508bd9e07117f0aa422f4e9e1bcbfb53df0b2fa carries real clause/enactment authority; its dispatcher integration is incomplete. No invented policy proposition or second payroll writer is authorized.
 - Team 8 completed and returned the narrow coverage-catalog-admission.test.ts wage-row expectation and right-permission.test.ts default-registry proof. Both are integrated in foundation 2c5cf28db1c4048eea89033cb6262064fa83e3ae. Coordinator retains policy-pack and registry composition.
 - Team 2 owns only nullable deadline display/day-count guards in presentation/governing-briefing.ts and player/GoverningBriefing.tsx alongside its bill-deadline changes. Team 2 separately released only governingTransitionHandler's post-openTransitionMatters callback and required clemency import to Team 9, clean at 5d3facee5516e28b06b21c7a6829afe204db5b08. Preserve the actual office/holder guards and all other governing changes.
 - For A19, Team 3 owns the canonical pay stamp in its converted pay writer; Team 8 owns the canonical coverage stamp in coverage-eligibility.ts; Team 9 owns canonical legal-outcome stamps in legal-outcome.ts. Each changes only its converted writer and focused assertions. Coordinator retains the shared stamp contract. Historical saved records and unconverted readers are not silently rewritten.
+
+
+- Team 7 released only the saved-staff fixture setup at presentation/contextual-scene-variants.test.ts:190 and contextual-scenes-public.test.ts:214, plus necessary test-only imports, to Team 8. The release was clean at ad75e8e; downstream assertions, production and art remain protected.
+- Coordinator received the seven released A19 stamp files in 18f46d855235bdb0d30d1b0c6d068e6281fbea73: Team 3 pay label and assertion, Team 8 coverage resolver/actual writer/test, and Team 9 legal stamp/test. Combined checks are pending; unrelated ongoing owner edits remain theirs.
+- CTO 2:34 prioritizes Team 1's existing member-filer behavior repair, retaining the current threshold and question-open guard. Team 8 owns the adult health-disclosure gate; any new guardian consumer requires the requested exact contract. Team 7 owns the existing local-election adaptation after Audit supplies the actual county calendar/office contract. No invented election dates or additional engine is authorized.
 
 ## Historical claims
 

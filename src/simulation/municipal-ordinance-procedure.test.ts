@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import * as municipalGovernment from "./municipal-government";
+import * as legislativeProcedureWorld from "./legislative-procedure-world";
 
 import { createScenarioWorld } from "./demo";
 import { requireLifePlace } from "./life-places";
@@ -8,7 +9,14 @@ import {
   measureEnactment,
   measurePosition,
 } from "./legislation";
-import { municipalGovernmentForLifePlace } from "./municipal-government";
+import {
+  municipalGovernmentByKey,
+  municipalGovernmentForLifePlace,
+  municipalRulePackFor,
+} from "./municipal-government";
+import { applyInstitutionStep } from "./governing/legislative-clock";
+import { assertRulePackIntegrity, knownRule } from "./legislature-rules";
+import { KENTUCKY_RULE_PACK } from "./legislature-rule-packs";
 import {
   installMunicipalGovernment,
   introduceMunicipalOrdinance,
@@ -143,6 +151,178 @@ describe("a Charlottesville general ordinance through the shared measure engine"
     ).toEqual(finished.history.legislativeVotes);
   });
 
+  it("enforces the declared timing and actual quorum in the shared driver", () => {
+    const { world, key, council, people } = charlottesville();
+    const { world: onAgenda, measureId } = introduced(world, key);
+    const applyVote = (before: World, dispositions = roll(council, 2, 1)) =>
+      applyInstitutionStep(before, measureId, (unchanged) => unchanged, {
+        recordedFloorVote: {
+          stableKey: "shared-council-floor",
+          measureId,
+          dispositions,
+          // A claimed present count cannot substitute for the actual roll.
+          presentMembers: council.length,
+          electedMembers: council.length,
+          provenance: PROVENANCE,
+          seatedMemberPersonIds: council,
+        },
+      });
+    const early = advanceWorld(onAgenda, 3);
+    expect(applyVote(early)).toMatchObject({
+      kind: "blocked",
+      reason: expect.stringMatching(/declared introduction interval is 4/),
+    });
+    const ready = deserializeWorld(serializeWorld(advanceWorld(onAgenda, 4)));
+    expect(applyVote(ready, roll(council, 2, 0))).toMatchObject({
+      kind: "blocked",
+      reason: expect.stringMatching(/2 present, 3 required/),
+    });
+    const outsider = applyVote(ready, [
+      ...roll(council, 2, 1).slice(0, 4),
+      { memberKey: "outsider", personId: people[9]!, disposition: "yea" },
+    ]);
+    expect(outsider).toMatchObject({ kind: "blocked" });
+    const duplicate = applyVote(ready, [
+      ...roll(council, 2, 1),
+      { memberKey: "duplicate", personId: council[0]!, disposition: "yea" },
+    ]);
+    expect(duplicate).toMatchObject({ kind: "blocked" });
+    const passed = applyVote(ready);
+    expect(passed.kind).toBe("applied");
+    if (passed.kind !== "applied") throw new Error("No council floor result.");
+    expect(measurePosition(passed.world, measureId).phase).toBe(
+      "awaiting-enrollment",
+    );
+    expect(passed.world.history.legislativeVotes?.at(-1)?.dispositions).toEqual(
+      roll(council, 2, 1),
+    );
+    expect(deserializeWorld(serializeWorld(passed.world))).toEqual(
+      passed.world,
+    );
+    expect(applyVote(passed.world)).toEqual({ kind: "idle" });
+  });
+
+  it("keeps the D.C. second reading behind its sourced fourteen-day boundary after reload", () => {
+    const place = requireLifePlace("1150000");
+    const government = municipalGovernmentForLifePlace(place)!;
+    let world = createScenarioWorld(
+      "shared-driver-dc-readings",
+      place.context,
+      { peopleCount: 16 },
+    );
+    world = installMunicipalGovernment(world, {
+      governmentKey: government.key,
+      jurisdictionId: place.context.jurisdiction.id,
+      formedAt: world.currentDate,
+    });
+    const people = world.personOrder.slice(1, 14);
+    for (const [index, personId] of people.entries()) {
+      world = seatMunicipalMember(world, {
+        governmentKey: government.key,
+        personId,
+        startedAt: world.currentDate,
+        role: index === 0 ? "presiding-member" : "member",
+        seatLabel: `Seat ${index + 1}`,
+      });
+    }
+    world = { ...world, control: { kind: "person", personId: people[0]! } };
+    const { world: onAgenda, measureId } = introduced(
+      world,
+      government.key,
+      "B26-1",
+    );
+    const council = municipalSeats(onAgenda, government.key).map(
+      (seat) => seat.personId,
+    );
+    expect(council).toHaveLength(13);
+    const applyVote = (before: World) =>
+      applyInstitutionStep(before, measureId, (unchanged) => unchanged, {
+        recordedFloorVote: {
+          stableKey: `dc-reading:${before.currentDate}`,
+          measureId,
+          dispositions: roll(council, 8, 5),
+          electedMembers: council.length,
+          presentMembers: council.length,
+          provenance: PROVENANCE,
+          seatedMemberPersonIds: council,
+        },
+      });
+    const first = applyVote(onAgenda);
+    if (first.kind !== "applied") throw new Error("No first council reading.");
+    const restored = deserializeWorld(serializeWorld(first.world));
+    const expected = addDays(onAgenda.currentDate, 14);
+    expect(measurePosition(restored, measureId).earliestNextFloorDate).toBe(
+      expected,
+    );
+    expect(applyVote(advanceWorld(restored, 13))).toMatchObject({
+      kind: "blocked",
+      reason: expect.stringContaining(`cannot be taken until ${expected}`),
+    });
+    const second = applyVote(advanceWorld(restored, 14));
+    if (second.kind !== "applied")
+      throw new Error("No second council reading.");
+    expect(measurePosition(second.world, measureId).phase).toBe(
+      "awaiting-enrollment",
+    );
+    expect(
+      second.world.history.legislativeVotes?.filter(
+        (vote) => vote.measureId === measureId,
+      ),
+    ).toHaveLength(2);
+    expect(deserializeWorld(serializeWorld(second.world))).toEqual(
+      second.world,
+    );
+  });
+
+  it("carries the existing municipal interval citations into floor rules", () => {
+    const cville = municipalRulePackFor(
+      municipalGovernmentByKey("us-va-charlottesville")!,
+    );
+    const dc = municipalRulePackFor(
+      municipalGovernmentByKey("us-dc-washington")!,
+    );
+    if (!cville.ok || !dc.ok)
+      throw new Error("The sourced packs were not admitted.");
+    expect(
+      cville.pack.chambers[0]!.floorStages.at(-1)?.minimumDaysFromIntroduction,
+    ).toMatchObject({
+      kind: "known",
+      value: 4,
+      source: { citation: "City Code § 2-97", verification: "verified" },
+    });
+    expect(
+      dc.pack.chambers[0]!.floorStages.at(-1)?.readingIntervalDays,
+    ).toMatchObject({
+      kind: "known",
+      value: 14,
+      source: { citation: "D.C. Code § 1-204.12(a)", verification: "verified" },
+    });
+    expect(
+      dc.pack.chambers[0]!.floorStages.at(-1)?.minimumDaysFromIntroduction,
+    ).toBeUndefined();
+    const chamber = KENTUCKY_RULE_PACK.chambers[0]!;
+    const invalid = {
+      ...KENTUCKY_RULE_PACK,
+      chambers: [
+        {
+          ...chamber,
+          floorStages: chamber.floorStages.map((stage) => ({
+            ...stage,
+            readingIntervalDays: {
+              kind: "known" as const,
+              value: -1,
+              source: stage.source,
+            },
+          })),
+        },
+        ...KENTUCKY_RULE_PACK.chambers.slice(1),
+      ],
+    };
+    expect(() => assertRulePackIntegrity(invalid)).toThrow(
+      /nonnegative integer/,
+    );
+  });
+
   it("waits the Code's three intervening days, passes by majority of those voting, and takes effect on passage", () => {
     const { world, key, council } = charlottesville();
     const { world: onAgenda, measureId } = introduced(world, key);
@@ -165,7 +345,9 @@ describe("a Charlottesville general ordinance through the shared measure engine"
     });
     expect(tooSoon.ok).toBe(false);
     if (!tooSoon.ok)
-      expect(tooSoon.reason).toMatch(/at least 3 whole intervening days/);
+      expect(tooSoon.reason).toMatch(
+        /declared introduction interval is 4 elapsed days/,
+      );
 
     const ready = advanceWorld(onAgenda, 4);
     const noQuorum = passMunicipalOrdinance(ready, {
@@ -302,6 +484,36 @@ describe("explicit municipal passage interval bases", () => {
             introductionToPassage: { ...interval, sameDayException: null },
           },
         });
+      const resolvePack = legislativeProcedureWorld.legislativeRulePackForWorld;
+      const packSpy = vi
+        .spyOn(legislativeProcedureWorld, "legislativeRulePackForWorld")
+        .mockImplementation((current, packId) => {
+          const pack = resolvePack(current, packId);
+          if (
+            packId !== onAgenda.history.legislativeMeasures!.at(-1)!.rulePackId
+          )
+            return pack;
+          const source = {
+            authority: "game-profile" as const,
+            citation: "Explicit interval test fixture",
+            sourceTitle: "Authored boundary fixture",
+            sourceUrl: null,
+            retrievedAt: null,
+            verification: "game-profile" as const,
+            note: "This fixture does not claim a real municipal interval.",
+          };
+          return {
+            ...pack,
+            basis: "game-profile",
+            chambers: pack.chambers.map((chamber) => ({
+              ...chamber,
+              floorStages: chamber.floorStages.map((stage) => ({
+                ...stage,
+                minimumDaysFromIntroduction: knownRule(offset, source),
+              })),
+            })),
+          };
+        });
       try {
         const restored = deserializeWorld(serializeWorld(onAgenda));
         const expected = addDays(onAgenda.currentDate, offset);
@@ -318,7 +530,7 @@ describe("explicit municipal passage interval bases", () => {
         expect(rejected.ok).toBe(false);
         if (!rejected.ok) {
           expect(rejected.reason).toContain(
-            `the earliest valid passage date is ${expected}`,
+            `cannot be taken until ${expected}`,
           );
         }
         expect(rejected.world).toBe(early);
@@ -337,6 +549,7 @@ describe("explicit municipal passage interval bases", () => {
           result.world,
         );
       } finally {
+        packSpy.mockRestore();
         spy.mockRestore();
       }
     },
