@@ -1,4 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { isValidElement, type ReactNode } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { World39News } from "../src/player/World39News";
+import type { World } from "../src/simulation/types";
 import { newsStoryWorld } from "./fixtures/news-story";
 import { lifePlaceStateIdentities } from "../src/simulation/life-places";
 import { SeededRng, pickDistinct } from "../src/simulation/rng";
@@ -98,7 +102,115 @@ describe(`NEWS seven-step play script in ${PLACE} (seed ${SEED})`, () => {
     ).toBe(false);
     assertWorldIntegrity(repeated);
   });
-  it.todo(
-    "player-read extension: the explicit News-screen read action records the player's knowledge; Team 8's adapter and parent callback are not published on this base",
-  );
+  it("player-read extension: click a desk-produced story, save, continue and read again", () => {
+    const publication = world.history.publications!.find(
+      (row) => row.id === heard.news!.publicationId,
+    )!;
+    const readerId = world.personOrder.find(
+      (id) =>
+        !world.history.knowledge.some(
+          (row) =>
+            row.personId === id && row.eventId === publication.sourceEventId,
+        ),
+    );
+    expect(readerId).toBeDefined();
+    // Select an existing nonprofessional reader as the controlled fixture
+    // person. No knowledge, publication, or exposure record is injected.
+    let session: World = {
+      ...world,
+      control: { kind: "person", personId: readerId! },
+    };
+    assertWorldIntegrity(session);
+    const before = serializeWorld(session);
+    let callbackCount = 0;
+    const screen = () =>
+      World39News({
+        world: session,
+        personId: readerId!,
+        onOpenPerson: () => {},
+        onWorldChange: (next) => {
+          callbackCount += 1;
+          session = next;
+        },
+      });
+    const rendered = screen();
+    expect(renderToStaticMarkup(rendered)).toContain("Read this story");
+    expect(callbackCount).toBe(0);
+    expect(serializeWorld(session)).toBe(before);
+    const click = publicationButton(rendered, publication.id);
+    expect(click).not.toBeNull();
+    click!();
+    expect(callbackCount).toBe(1);
+    const knowledge = session.history.knowledge.find(
+      (row) =>
+        row.personId === readerId && row.eventId === publication.sourceEventId,
+    )!;
+    expect(knowledge.source).toMatchObject({
+      kind: "media",
+      reference: publication.id,
+    });
+    const exposure = session.history.lawExposures!.find(
+      (row) => row.relation === "news" && row.sourceRecordId === knowledge.id,
+    )!;
+    expect(exposure.news).toEqual({
+      knowledgeId: knowledge.id,
+      publicationId: publication.id,
+      storyLeadId: heard.news!.storyLeadId,
+      basisEventId: heard.news!.basisEventId,
+    });
+    expect(exposure.amount).toBeNull();
+    expect(exposure.monthlyPay).toBeNull();
+    expect(session.history.resourceFlows).toEqual(world.history.resourceFlows);
+    expect(
+      session.history.events.some(
+        (event) => event.stableKey === officialViewReflectionEventKey(exposure),
+      ),
+    ).toBe(false);
+    session = advanceWorld(
+      deserializeWorld(serializeWorld(session)),
+      1,
+      createPressTransitionRegistry(),
+    );
+    const continued = serializeWorld(session);
+    const repeat = publicationButton(screen(), publication.id);
+    expect(repeat).not.toBeNull();
+    repeat!();
+    expect(callbackCount).toBe(1);
+    expect(serializeWorld(session)).toBe(continued);
+    expect(
+      session.history.lawExposures!.filter(
+        (row) => row.stableKey === exposure.stableKey,
+      ),
+    ).toEqual([exposure]);
+    assertWorldIntegrity(session);
+  });
 });
+
+/** Finds the actual saved-publication button and invokes its production handler. */
+function publicationButton(
+  node: ReactNode,
+  publicationId: string,
+  inPublication = false,
+): (() => void) | null {
+  if (Array.isArray(node)) {
+    for (const child of node) {
+      const found = publicationButton(child, publicationId, inPublication);
+      if (found) return found;
+    }
+    return null;
+  }
+  if (
+    !isValidElement<{
+      children?: ReactNode;
+      "data-publication-id"?: string;
+      "data-testid"?: string;
+      onClick?: () => void;
+    }>(node)
+  )
+    return null;
+  const selected =
+    inPublication || node.props["data-publication-id"] === publicationId;
+  if (selected && node.props["data-testid"] === "world39-read-publication")
+    return node.props.onClick ?? null;
+  return publicationButton(node.props.children, publicationId, selected);
+}
