@@ -5,7 +5,7 @@ import {
 import { validateLawConsequences } from "./law-consequence-validation";
 import type {
   LawConsequenceContext,
-  LawConsequenceKindRegistration,
+  AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
 import {
@@ -844,13 +844,14 @@ function levelOfGovernment(
 export function applyLawConsequences(
   world: World,
   context: LawConsequenceContext,
-  registrations: readonly LawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
   const registry = createLawConsequenceRegistry(registrations);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
     const proposition = world.policyCatalog.propositions[id];
     if (
+      context.standingAppropriationId ||
       !proposition ||
       (context.questionKey && proposition.stableKey !== context.questionKey)
     )
@@ -890,6 +891,80 @@ export function applyLawConsequences(
         if (
           input.effectiveAt > context.onDate ||
           input.law.operativeAt > context.onDate
+        )
+          continue;
+        next = registration.apply(next, input);
+      }
+    }
+  }
+  if (
+    !context.questionKey &&
+    !context.governingLawId &&
+    context.origin !== "enacted"
+  ) {
+    for (const registration of registry.handlers.values()) {
+      if (!registration.resolveSavedRules) continue;
+      for (const input of registration.resolveSavedRules(next, context)) {
+        const { row, authority } = input;
+        const errors = validateLawConsequences([row], registry.capabilities);
+        if (errors.length) throw new Error(errors.join("; "));
+        if (row.onward?.length)
+          throw new Error(
+            `Consequence ${row.id}: unsupported standing onward dispatch`,
+          );
+        if (
+          row.kind !== registration.kind ||
+          row.when !== context.activity ||
+          input.activityId !== context.activityId ||
+          !context.subjectIds.includes(input.subject.id)
+        )
+          throw new Error(
+            `Consequence ${row.id}: inconsistent saved authority`,
+          );
+        if (
+          input.value.type === "amount" &&
+          !registration.units.includes(input.value.unit)
+        )
+          throw new Error(
+            `Consequence ${row.id}: unsupported saved authority unit`,
+          );
+        if (input.effectiveAt > context.onDate) continue;
+        if (
+          context.standingAppropriationId &&
+          context.standingAppropriationId !== authority.appropriationId
+        )
+          continue;
+        const saved = (next.history.publicProgramRecords ?? []).find(
+          (record) => record.id === authority.appropriationId,
+        );
+        if (
+          authority.kind !== "standing-program-appropriation" ||
+          row.kind !== "service-delivered" ||
+          context.activity !== "service" ||
+          saved?.kind !== "appropriation" ||
+          saved.sourceMeasureId != null ||
+          saved.basis.kind !== "sourced" ||
+          !saved.basis.note.trim() ||
+          saved.recordedAt > context.onDate ||
+          authority.programKey !== saved.programKey ||
+          authority.jurisdictionId !== saved.jurisdictionId ||
+          input.jurisdictionId !== saved.jurisdictionId ||
+          authority.accountOrganizationId !== saved.accountOrganizationId ||
+          authority.availableFrom !== saved.availableFrom ||
+          authority.availableThrough !== saved.availableThrough ||
+          authority.sourceBasis.kind !== saved.basis.kind ||
+          authority.sourceBasis.note !== saved.basis.note ||
+          JSON.stringify(authority.publicGovernmentIdentity) !==
+            JSON.stringify(saved.publicGovernmentIdentity) ||
+          !input.sourceRecordIds.includes(saved.id) ||
+          !input.sourceRecordIds.includes(saved.eventId)
+        )
+          throw new Error(
+            `Consequence ${row.id}: inconsistent standing appropriation`,
+          );
+        if (
+          input.effectiveAt < saved.availableFrom ||
+          input.effectiveAt > saved.availableThrough
         )
           continue;
         next = registration.apply(next, input);

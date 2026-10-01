@@ -467,6 +467,7 @@ import {
   openAppropriationsFor,
   programAlternativesFor,
   programOperatorOrganization,
+  standingProgramUnsupported,
 } from "./program-governing";
 import {
   commitPublicProgram,
@@ -1906,20 +1907,33 @@ function applyConsequence(
         (candidate) => `program:${candidate.key}` === option.key,
       );
       if (!alternative) return world;
-      const operator = programOperatorOrganization(
+      // A standing service program with no lawful provider on record stays
+      // unsupported: nothing is committed and no provider is made up.
+      const paysOperator = alternative.installments.length > 0;
+      const unsupported = standingProgramUnsupported(
         world,
         appropriation.programKey,
         appropriation.jurisdictionId,
-        publicGovernmentIdentityForRecord(appropriation),
       );
-      const committed = commitPublicProgram(operator.world, {
-        appropriationId: appropriation.id,
-        alternative,
-        personId: office.holderPersonId,
-        office: office.programOffice ?? { kind: "state-executive" },
-        recipientOrganizationId:
-          alternative.installments.length > 0 ? operator.organizationId : null,
-      });
+      const operator = unsupported
+        ? null
+        : programOperatorOrganization(
+            world,
+            appropriation.programKey,
+            appropriation.jurisdictionId,
+            publicGovernmentIdentityForRecord(appropriation),
+          );
+      const committed =
+        paysOperator && !operator
+          ? ({ ok: false } as const)
+          : commitPublicProgram(operator?.world ?? world, {
+              appropriationId: appropriation.id,
+              alternative,
+              personId: office.holderPersonId,
+              office: office.programOffice ?? { kind: "state-executive" },
+              recipientOrganizationId:
+                paysOperator && operator ? operator.organizationId : null,
+            });
       // A refusal is truthful: the money stays uncommitted and the office is
       // told why through the decision record already written.
       const next = committed.ok ? committed.world : world;
