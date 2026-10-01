@@ -16,7 +16,6 @@ import { lifePlaceStateIdentities } from "../life-places";
 import { personName } from "../people";
 import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import type { World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import {
   advanceClemencyPetition,
