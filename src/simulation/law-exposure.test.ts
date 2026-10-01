@@ -405,8 +405,19 @@ describe("a law reaches a person", () => {
   });
 
   it("a right or an eligibility lost with no money is felt at one estimated size, and six such losses found a group", () => {
-    const { world, personId } = collected();
-    const row = lawExposuresOf(world, personId)[0]!;
+    // The enacted law itself, not a collected tax: no money changes hands.
+    const fixture = enactedTaxFixture();
+    const policy = fixture.world.history.taxPolicies![0]!;
+    const world = advanceWorld(
+      fixture.world,
+      daysBetween(fixture.world.currentDate, policy.effectiveAt),
+      createCampaignElectionTransitionRegistry(),
+    );
+    const personId = fixture.personId;
+    const enactment = world.history.legislativeEnactments!.find(
+      (row) => row.outcome === "enacted",
+    )!;
+    const row = { measureId: enactment.measureId, sourceRecordId: policy.id };
     // One felt size for every reader, labeled an estimate.
     expect(NON_MONEY_FELT_SIZE.basis).toBe("ESTIMATED FROM AVERAGE");
     expect(lawExposureFeltSize({ direction: "cost", amount: null }, 0)).toEqual(
