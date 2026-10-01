@@ -14,7 +14,7 @@ import {
   serializeWorld,
 } from "../../src/simulation";
 import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
-import { addDays } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import { campaignElectionDate } from "../../src/presentation/campaign-projection";
 import {
   FILING_LEAD_DAYS,
@@ -43,7 +43,10 @@ import {
   suppliedWin,
 } from "../fixtures/state-executive-entry";
 import { electionContestResult } from "../../src/simulation/election-contests";
-import { localCampaignSeat } from "../../src/simulation/living-world/local-elections";
+import {
+  LOCAL_ELECTION_FILING,
+  localCampaignSeat,
+} from "../../src/simulation/living-world/local-elections";
 import { sittingLocalOfficers } from "../../src/simulation/living-world/local-government-seats";
 import { localGoverningBodyRules } from "../../src/simulation/nationwide-world/local-governing-body-rules";
 
@@ -61,20 +64,33 @@ const PADUCAH = "2158836";
 const AMERICAN_FALLS = "1601900";
 const ELY = "2719142";
 
-function adultLifeAt(placeKey: string, seed: string) {
+const openedLives = new Map<string, { world: World; personId: EntityId }>();
+
+/**
+ * A grown adult's life opened in a place, built once per place and shared by
+ * every case there: a World is an immutable value, so each case advances its
+ * own copy from the same opening. Building a life is most of this file's
+ * time, so one opening per place keeps the file's every place and assertion
+ * at a fraction of the cost. The seed names the place.
+ */
+function adultLifeAt(placeKey: string) {
+  const known = openedLives.get(placeKey);
+  if (known) return known;
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
-      seed,
+      seed: `town-body-${placeKey}`,
       placeKey,
       startAge: 40,
       questionnaire: "skipped",
     }),
   ).game!;
-  return {
+  const opened = {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
   };
+  openedLives.set(placeKey, opened);
+  return opened;
 }
 
 function jurisdictionOf(placeKey: string): EntityId {
@@ -184,7 +200,7 @@ describe("a town's governing body, across the country", () => {
   });
 
   it("does not let a Boise resident stand for Bowling Green's body", () => {
-    const { world, personId } = adultLifeAt(BOISE, "town-body-elsewhere");
+    const { world, personId } = adultLifeAt(BOISE);
     const bowlingGreen = localGoverningBodiesForJurisdiction(
       jurisdictionOf(BOWLING_GREEN),
     )[0]!;
@@ -192,6 +208,7 @@ describe("a town's governing body, across the country", () => {
       personId,
       jurisdictionId: world.people[personId]!.homeJurisdictionId,
       officeKey: bowlingGreen.officeKey,
+      alreadyACandidate: false,
     });
     expect(refused.eligible).toBe(false);
     expect(refused.blocks.map((block) => block.kind)).toContain(
@@ -202,6 +219,7 @@ describe("a town's governing body, across the country", () => {
       personId,
       jurisdictionId: jurisdictionOf(BOWLING_GREEN),
       officeKey: bowlingGreen.officeKey,
+      alreadyACandidate: false,
     });
     expect(elsewhere.eligible).toBe(false);
     expect(elsewhere.blocks.map((block) => block.kind)).toContain(
@@ -220,10 +238,7 @@ describe("standing for the town's governing body and taking the seat", () => {
   ])(
     "%s: listed, filed, won, seated in the town's own government",
     (_, placeKey, expectCityScreen) => {
-      const { world, personId } = adultLifeAt(
-        placeKey,
-        `town-body-${placeKey}`,
-      );
+      const { world, personId } = adultLifeAt(placeKey);
       const home = world.people[personId]!.homeJurisdictionId;
       const body = localGoverningBodiesForJurisdiction(home)[0]!;
 
@@ -284,7 +299,7 @@ describe("standing again after a race is over", () => {
   // never offered another filing, and a sitting member's re-election refused
   // its own result.
   it("Ely, Minnesota: files, wins, and stands again twice, keeping one seat", () => {
-    const { world: opening, personId } = adultLifeAt(ELY, "town-body-again");
+    const { world: opening, personId } = adultLifeAt(ELY);
     const home = opening.people[personId]!.homeJurisdictionId;
     const body = localGoverningBodiesForJurisdiction(home)[0]!;
     let world = opening;
@@ -345,7 +360,7 @@ describe("standing again after a race is over", () => {
 
 describe("a player's campaign and the town's own race", () => {
   it("Ely, Minnesota: the town leaves the player's seat off its ballot, and the winner keeps it", () => {
-    const { world: opening, personId } = adultLifeAt(ELY, "town-body-seat");
+    const { world: opening, personId } = adultLifeAt(ELY);
     const home = opening.people[personId]!.homeJurisdictionId;
     const body = localGoverningBodiesForJurisdiction(home)[0]!;
     let world = fileForOffice(opening, personId, null, body.officeKey);
@@ -376,12 +391,18 @@ describe("a player's campaign and the town's own race", () => {
     );
   }, 120_000);
   it("Ely, Minnesota: a campaign filed after the town's field closed calls off the town's race for that seat", () => {
-    const { world: opening, personId } = adultLifeAt(ELY, "town-body-late");
+    const { world: opening, personId } = adultLifeAt(ELY);
     const home = opening.people[personId]!.homeJurisdictionId;
     const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    // The town's field closes four weeks before its November 3 election.
-    let world = passUntil(opening, "2026-10-08");
-    const electionDate = "2026-11-03";
+    // The town's field closes the filing lead (85 days) before its
+    // November 3 election's first vote; the campaign files the day after.
+    const fieldCloses = opening.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === LOCAL_ELECTION_FILING &&
+        item.jurisdictionId === home,
+    )!.dueAt;
+    let world = passUntil(opening, addDays(fieldCloses, 1));
+    const electionDate = makeIsoDate("2026-11-03");
     const seat = localCampaignSeat(body.unit, false, electionDate)!;
     const townRace = () =>
       world.history.electionContests!.find(
@@ -413,7 +434,7 @@ describe("when a town's race is held", () => {
   ])(
     "%s is elected on the day state law sets",
     (_, placeKey, expected) => {
-      const { world, personId } = adultLifeAt(placeKey, `calendar-${placeKey}`);
+      const { world, personId } = adultLifeAt(placeKey);
       const home = world.people[personId]!.homeJurisdictionId;
       const body = localGoverningBodiesForJurisdiction(home)[0]!;
       expect(world.currentDate).toBe("2026-01-05");
@@ -431,7 +452,7 @@ describe("when a town's race is held", () => {
     // the most state packs name among those is town meeting day, whose date
     // has not been read, so the race is the filing lead out.
     expect(nextTownElection("ME", "2360825", "2026-01-05" as never)).toBeNull();
-    const { world, personId } = adultLifeAt("2360825", "calendar-presque-isle");
+    const { world, personId } = adultLifeAt("2360825");
     const home = world.people[personId]!.homeJurisdictionId;
     const body = localGoverningBodiesForJurisdiction(home)[0]!;
     expect(campaignElectionDate(world, home, body.officeKey)).toBe(
@@ -454,7 +475,7 @@ describe("a council campaign saved before the body had its own name", () => {
     // contest's office as "Member of the governing body". The pack now says
     // "Council member", and the load check once compared the two titles, so
     // every such save refused to open (a San Antonio life, playtest 9/24).
-    const { world, personId } = adultLifeAt(BOISE, "council-title-rename");
+    const { world, personId } = adultLifeAt(BOISE);
     const home = world.people[personId]!.homeJurisdictionId;
     const body = localGoverningBodiesForJurisdiction(home)[0]!;
     expect(body.officeTitle).not.toBe("Member of the governing body");

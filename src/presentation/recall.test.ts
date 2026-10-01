@@ -25,6 +25,7 @@ import {
   startRecallPetition,
 } from "../simulation/recall";
 import type { EntityId, IsoDate, World } from "../simulation/types";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -68,7 +69,10 @@ function ordinaryStart(placeKey: string, seed: string) {
       seat.role === "member" &&
       seat.personId !== player &&
       world.people[seat.personId]!.homeJurisdictionId === townId &&
-      world.people[seat.personId]!.lifeStatus !== "deceased",
+      isPersonAliveAt(world, seat.personId, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      }),
   )!.personId;
   return { world, governmentKey: government.key, player, member, townId };
 }
@@ -222,7 +226,10 @@ describe("recalling a town official", () => {
           id !== player &&
           !seatedIds.has(id) &&
           world.people[id]!.homeJurisdictionId === townId &&
-          world.people[id]!.lifeStatus !== "deceased",
+          isPersonAliveAt(world, id, {
+            asOfDate: world.currentDate,
+            historySequenceExclusive: world.history.nextSequence,
+          }),
       );
       for (const expected of [
         "failed-to-qualify",
