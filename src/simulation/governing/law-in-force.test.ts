@@ -596,7 +596,7 @@ it("hides a later saved hourly rule provision and its enactment", () => {
     measureId: entry.measure.id,
     stateUsps: "OH",
     officeKey: "labor:OH",
-    field: "labor.minimumWage.hourlyCents",
+    field: "labor.minimumWage.hourlyCents" as const,
     value: 1800,
     filedAt: makeIsoDate("2026-01-01"),
   };
