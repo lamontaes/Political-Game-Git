@@ -91,6 +91,36 @@ export interface FinalEnactedLawTerm {
   readonly sourceRecordIds: readonly EntityId[];
 }
 
+export interface FinalEnactedLawCategories {
+  readonly values: readonly string[];
+  readonly measureId: EntityId;
+  readonly provisionId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+function finalTermEnactment(
+  world: World,
+  law: LawInForce,
+  questionKey: string,
+) {
+  if (law.origin !== "enacted" || law.operativeAt > world.currentDate)
+    return null;
+  const enactment = (world.history.legislativeEnactments ?? []).find(
+    (row) =>
+      row.measureId === law.measureId &&
+      row.outcome === "enacted" &&
+      row.resolvedAt <= world.currentDate,
+  );
+  return enactment &&
+    measureAnswersAt(world, law.measureId, enactment.sequence).some(
+      (answer) =>
+        world.policyCatalog.propositions[answer.propositionId]?.stableKey ===
+          questionKey && answer.answer === law.answer,
+    )
+    ? enactment
+    : null;
+}
+
 function finalTermProvisions(
   world: World,
   measureId: EntityId,
@@ -120,23 +150,8 @@ export function readFinalEnactedLawTerm(
     readonly unit: LawAmountUnit;
   },
 ): FinalEnactedLawTerm | null {
-  if (law.origin !== "enacted" || law.operativeAt > world.currentDate)
-    return null;
-  const enactment = (world.history.legislativeEnactments ?? []).find(
-    (row) =>
-      row.measureId === law.measureId &&
-      row.outcome === "enacted" &&
-      row.resolvedAt <= world.currentDate,
-  );
-  if (
-    !enactment ||
-    !measureAnswersAt(world, law.measureId, enactment.sequence).some(
-      (answer) =>
-        world.policyCatalog.propositions[answer.propositionId]?.stableKey ===
-          input.questionKey && answer.answer === law.answer,
-    )
-  )
-    return null;
+  const enactment = finalTermEnactment(world, law, input.questionKey);
+  if (!enactment) return null;
   const matches = finalTermProvisions(
     world,
     law.measureId,
@@ -419,6 +434,48 @@ export function recordSponsorRequestedLawTerm(
     provision: next.history.legislativeProvisions!.find(
       (row) => row.stableKey === input.provision.stableKey,
     )!,
+  };
+}
+
+/** Reads explicit closed categories in the adopted text; there is no inferred coverage. */
+export function readFinalEnactedLawCategories(
+  world: World,
+  law: LawInForce,
+  input: { readonly questionKey: string; readonly termKey: string },
+): FinalEnactedLawCategories | null {
+  const enactment = finalTermEnactment(world, law, input.questionKey);
+  if (!enactment) return null;
+  const parameter = world.policyCatalog.propositionOrder
+    .map((id) => world.policyCatalog.propositions[id]!)
+    .find((question) => question.stableKey === input.questionKey)
+    ?.parameters.find((row) => row.key === input.termKey);
+  if (!parameter?.allowedValues?.length) return null;
+  const matches = finalTermProvisions(
+    world,
+    law.measureId,
+    enactment.sequence,
+  ).flatMap((provision) =>
+    provision.applicationScope.segmentKey === null
+      ? (provision.lawCategories ?? [])
+          .filter(
+            (category) =>
+              category.questionKey === input.questionKey &&
+              category.key === input.termKey,
+          )
+          .map((category) => ({ provision, category }))
+      : [],
+  );
+  if (matches.length !== 1) return null;
+  const { provision, category } = matches[0]!;
+  if (
+    category.values.some((value) => !parameter.allowedValues!.includes(value))
+  )
+    return null;
+  return {
+    values: [...category.values],
+    measureId: law.measureId,
+    provisionId: provision.id,
+    sourceRecordIds: [law.measureId, enactment.id, provision.id],
   };
 }
 

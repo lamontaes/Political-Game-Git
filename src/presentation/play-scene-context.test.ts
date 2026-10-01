@@ -139,7 +139,7 @@ function nonresidentParentLife(): {
 }
 
 describe("The foreground owns opening presence", () => {
-  it("introduces current household residents, not the later school story", () => {
+  it("does not introduce household residents without a current presence record", () => {
     const { world, playerPersonId } = createNewGameWorld(childSetup());
     const before = serializeWorld(world);
     const context = resolveOpeningPlaySceneContext(world, playerPersonId);
@@ -147,7 +147,7 @@ describe("The foreground owns opening presence", () => {
     expect(DOMESTIC_SCENE_IDS).toContain(context.sceneId);
     expect(
       context.presentPeople.map((person) => person.personId).sort(),
-    ).toEqual([...householdResidentIds(world, playerPersonId)].sort());
+    ).toEqual([]);
     expect(serializeWorld(world)).toBe(before);
   });
 

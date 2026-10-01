@@ -17,6 +17,7 @@ import { createNewGameWorld } from "./new-game";
 import { sampledProofLocalityForState } from "./new-game-geography";
 import { recordedRoomPresence } from "./recorded-room-presence";
 import { projectPlayerConversation } from "./player-conversation";
+import { resolveOpeningPlaySceneContext } from "./play-scene-context";
 import {
   householdConversationRoom,
   neighborhoodConversationRoom,
@@ -124,6 +125,9 @@ describe("N1 school presence", () => {
       );
       const id = game.playerPersonId;
       expect(
+        resolveOpeningPlaySceneContext(game.world, id).presentPeople,
+      ).toEqual([]);
+      expect(
         schoolConversationRoom(game.world, id),
         `${place.name}/${seed}`,
       ).toBeNull();
@@ -140,6 +144,11 @@ describe("N1 school presence", () => {
         [id, ...classmates.slice(0, 1)].sort(),
       );
       const room = schoolConversationRoom(world, id);
+      expect(
+        resolveOpeningPlaySceneContext(world, id).presentPeople.map(
+          (person) => person.personId,
+        ),
+      ).toEqual(classmates.slice(0, 1));
       expect(
         projectPlayerConversation(world, id, "school-project-share"),
       ).toBeNull();

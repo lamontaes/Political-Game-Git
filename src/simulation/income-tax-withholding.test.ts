@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import {
   FEDERAL_INCOME_TAX_2026,
   annualTax,
@@ -147,16 +148,41 @@ describe("state income tax, all 56 places", () => {
     );
   });
 
-  it("moves an unread deduction by the world's seed within the spread", () => {
-    const deduction = (seed: string) => {
-      const ohio = stateIncomeTaxSchedule("US-OH", "single", seed);
-      if (ohio.kind !== "schedule") throw new Error("Ohio is not priced");
-      return ohio.schedule.standardDeductionMinor;
-    };
-    expect(deduction("a")).toBe(deduction("a"));
-    expect(deduction("a")).not.toBe(deduction("b"));
-    for (const seed of ["a", "b", "c"]) {
-      expect(deduction(seed)).toBeGreaterThan(0);
+  it("uses the plain acquired-state average for unread deductions across world seeds", () => {
+    for (const [key, place] of Object.entries(stateIncomeTax2026.places)) {
+      if (place.wageIncomeTax === "none") continue;
+      const read = Object.values(stateIncomeTax2026.places).filter(
+        (other) =>
+          other.wageIncomeTax === place.wageIncomeTax &&
+          other.standardDeductionSingle !== null,
+      );
+      const expectedDollars =
+        place.standardDeductionSingle ??
+        Math.round(
+          read.reduce((sum, other) => sum + other.standardDeductionSingle!, 0) /
+            read.length,
+        );
+      for (const seed of ["a", "b", "c"]) {
+        const result = stateIncomeTaxSchedule(key, "single", seed);
+        if (result.kind !== "schedule") throw new Error(`${key} is not priced`);
+        expect(result.schedule.standardDeductionMinor, `${key} ${seed}`).toBe(
+          expectedDollars * 100,
+        );
+        expect(result.schedule.sourceUrl).toBe(stateIncomeTax2026.source.url);
+        // The actual paycheck base stays the same; an unread deduction cannot
+        // make its withholding depend on the world seed.
+        const reference = stateIncomeTaxSchedule(key, "single", "a");
+        if (reference.kind !== "schedule") throw new Error(key);
+        expect(withholdingForPaycheck(100_000, 52, result.schedule)).toEqual(
+          withholdingForPaycheck(100_000, 52, reference.schedule),
+        );
+        if (place.standardDeductionSingle === null) {
+          expect(result.estimatedFromAverage).toContain(
+            `average of the ${read.length} states`,
+          );
+          expect(result.estimatedFromAverage).not.toMatch(/seed|spread/);
+        }
+      }
     }
   });
 

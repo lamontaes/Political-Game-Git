@@ -160,6 +160,15 @@ describe("final enacted terms and sponsor requests", () => {
         unit: "months",
         measureId: baselineId,
       });
+      const term = readFinalEnactedLawTerm(start, law, request())!;
+      const enactment = start.history.legislativeEnactments!.find(
+        (row) => row.measureId === baselineId,
+      )!;
+      expect(term.sourceRecordIds).toEqual([
+        baselineId,
+        enactment.id,
+        term.provisionId,
+      ]);
     },
   );
 
