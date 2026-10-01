@@ -135,3 +135,8 @@ src/simulation/office-pay.generated.ts
 # Compact compiled U.S. House lines for the 2026 elections; regenerate with
 # npm run compile:district-lines-2026.
 data/research/district-lines-2026/lines-2026.json
+
+# Proof receipts: each squad's verbatim evidence (logs, command output, audit
+# snapshots) as it was captured. Reformatting would change the evidence.
+docs/codex/effect-batches/
+docs/codex/law-audit/

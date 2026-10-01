@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import type { NewGameSetup } from "../../presentation/new-game";
 import { macroStartingConditions } from "../world-setup/conditions";
@@ -86,6 +87,9 @@ function fixtureStart(
  * nothing on its own and the tests below can supply controlled starts.
  */
 function life(seed: string, seeded = false): World {
+  // A legacy-descriptor life holds no WORLD record, and nothing in these
+  // cases reads its households or town; the shared small world is that life.
+  if (!seeded) return smallWorld({ place: "lexington-fayette", seed }).world;
   const setup: NewGameSetup = {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
@@ -93,8 +97,6 @@ function life(seed: string, seeded = false): World {
     startAge: 34,
     questionnaire: "skipped" as const,
   };
-  if (!seeded)
-    delete (setup as { worldOpeningVersion?: unknown }).worldOpeningVersion;
   return generateOpeningLife(prepareOpeningLife(setup)).game!.world;
 }
 

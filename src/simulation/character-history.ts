@@ -6,6 +6,8 @@ import {
   dateAtAge,
   daysBetween,
   makeIsoDate,
+  simulationMomentOnLocalDate,
+  simulationMinutesBetween,
 } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -98,7 +100,7 @@ import { householdMembershipsAt } from "./life-queries";
 import { recordPersonDeath } from "./vitality";
 import { personMortalityThreshold } from "./crisis/mortality";
 import { firstThresholdDay, thresholdUnits } from "./crisis/hazard";
-import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
+import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import {
   createDwelling,
   createHousingTenure,
@@ -154,6 +156,8 @@ import type {
   PersonIdentity,
   World,
 } from "./types";
+import { advanceWorldMinutes } from "./time-work";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 /** A small, explicit production boundary; it stores no biography alongside world history. */
 export type CharacterHistoryMode = "played" | "quick-generated" | "authored";
@@ -2294,7 +2298,20 @@ export function advanceFormativeInterval(
     throw new Error(
       "Formative interval advancement requires a person under 18.",
     );
-  const next = advanceWorld(world, input.days);
+  if (!Number.isSafeInteger(input.days) || input.days <= 0) {
+    throw new Error(
+      "Time advancement must be a positive whole number of days.",
+    );
+  }
+  const target = simulationMomentOnLocalDate(
+    world.currentMoment,
+    addDays(world.currentDate, input.days),
+  );
+  const next = advanceWorldMinutes(
+    world,
+    simulationMinutesBetween(world.currentMoment, target),
+    composeWorldTimeHandlers(),
+  );
   return {
     world: next,
     prior,
