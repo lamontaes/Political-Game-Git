@@ -92,6 +92,7 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "childhood-entry"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
@@ -4407,7 +4408,41 @@ export interface LegalOutcomeConsequenceRecord {
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }
 
+/**
+ * One dated entry in a person's childhood record (`childhood-record.ts`).
+ * Append-only, written only while the person is under 18, and each entry
+ * cites the record that produced it.
+ */
+interface ChildhoodRecordEntryBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly effectiveAt: IsoDate;
+  /** The record this entry was read from, such as the birth or move event. */
+  readonly sourceRecordId: EntityId;
+}
+
+export type ChildhoodRecordEntry =
+  | (ChildhoodRecordEntryBase & {
+      readonly kind: "birth";
+      readonly jurisdictionId: EntityId;
+      readonly birthDate: IsoDate;
+    })
+  | (ChildhoodRecordEntryBase & {
+      readonly kind: "school-year-move";
+      readonly fromJurisdictionId: EntityId;
+      readonly toJurisdictionId: EntityId;
+      /** The calendar year the school year began in. */
+      readonly schoolYear: number;
+      /** 0 for kindergarten through 12. */
+      readonly grade: number;
+    });
+
 export interface HistoryStore {
+  /** Childhood entries, one record per person, read with `childhoodRecord`. */
+  readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
