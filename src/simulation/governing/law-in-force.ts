@@ -712,6 +712,7 @@ function stateOf(jurisdictionId: EntityId): EntityId | null {
 export function operativeDateInWorld(
   world: World,
   enactment: LegislativeEnactmentRecord,
+  cutoff?: HistoricalCutoff,
 ): ReturnType<typeof operativeDateForEnactment> {
   const measure = (world.history.legislativeMeasures ?? []).find(
     (row) => row.id === enactment.measureId,
