@@ -4,9 +4,11 @@ import stateTax from "../../data/research/money/state-income-tax-2026.json" with
 import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { makeIsoDate } from "./dates";
+import { applyLawConsequences } from "./enacted-law-effects";
 import { lawInForce } from "./governing/law-in-force";
 import { stableHash } from "./ids";
 import type { ResolvedLawConsequence } from "./law-consequence-types";
+import { TAX_REGISTRATION, STATUTORY_TAX_ACTION } from "./law-consequences/tax";
 import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { introduceMeasure } from "./legislation";
 import { legislativePackForJurisdiction } from "./legislative-institutions";
@@ -20,6 +22,7 @@ import { createOrganization, createWorkRelationship } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
 import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
 import { personName } from "./people";
+import { attributePaycheckTaxLaws } from "./paycheck-law-attribution";
 import {
   createResourcePosition,
   createWorkCompensation,
@@ -246,25 +249,18 @@ function build(jurisdictionKey: string) {
     liability.occurredAt,
     "enacted-only",
   )!;
+  const rows = world.policyCatalog.propositions[
+    f.propositionIds[questionKey]!
+  ]!.consequences!.filter(
+    (row) => row.kind === "tax" && row.what === STATUTORY_TAX_ACTION,
+  );
+  expect(rows).toHaveLength(2);
+  const assessmentRow = rows.find((row) => row.when === "assessment")!;
+  const paymentRow = rows.find((row) => row.when === "payment")!;
+  // Read the actual production catalog. No fixture rows or registry admission
+  // are authored: only the bill/votes and saved wage activity are controlled.
   const assessment: ResolvedLawConsequence = {
-    row: {
-      id: "test:saved-income-attribution",
-      kind: "tax",
-      when: "assessment",
-      who: { selector: "test:saved-worker", predicates: [] },
-      what: "test:attribute-saved-tax",
-      amount: { op: "record", key: "test:saved-tax-amount", unit: "minor" },
-      conditions: [],
-      lag: { days: 0, sourceIds: [] },
-      onRepeal: "preserve-completed",
-      evidence: {
-        sourceIds: [],
-        population: "Authored worker",
-        scope: "Controlled fixture",
-        why: "Reuse saved withholding, never assess again.",
-        uncertainty: "Injected helper call; root dispatch is not activated.",
-      },
-    },
+    row: assessmentRow,
     law,
     questionKey,
     jurisdictionId: f.stateJurisdictionId,
@@ -284,7 +280,7 @@ function build(jurisdictionKey: string) {
     throw new Error("Missing actual collection source.");
   const collection: ResolvedLawConsequence = {
     ...assessment,
-    row: { ...assessment.row, when: "payment" },
+    row: paymentRow,
     activityId: payment.resourceOutcomeId,
     effectiveAt: paidSource.occurredAt,
     sourceRecordIds: [...source.sourceRecordIds, ...paidSource.sourceRecordIds],
@@ -323,10 +319,30 @@ function fixture(key?: string): ReturnType<typeof build> {
   return f;
 }
 
+function activityContext(resolved: ResolvedLawConsequence) {
+  return {
+    onDate: resolved.effectiveAt,
+    activity: resolved.row.when,
+    activityId: resolved.activityId,
+    subjectIds: [resolved.subject.id],
+    governingLawId: resolved.law.measureId,
+    questionKey: resolved.questionKey,
+  };
+}
+
+function dispatch(
+  world: Parameters<typeof applyLawConsequences>[0],
+  resolved: ResolvedLawConsequence,
+) {
+  return applyLawConsequences(world, activityContext(resolved), [
+    TAX_REGISTRATION,
+  ]);
+}
+
 describe("A33 saved statutory attribution without another assessment", () => {
   it.each(places)(
     "retains named paycheck, allocation and Continue identity in $jurisdictionKey",
-    ({ jurisdictionKey }) => {
+    ({ jurisdictionKey }: { jurisdictionKey: string }) => {
       const f = fixture(jurisdictionKey);
       if (f.kind === "unsupported") {
         expect(f.f.world.history.statutoryTaxLiabilities ?? []).toEqual([]);
@@ -339,16 +355,26 @@ describe("A33 saved statutory attribution without another assessment", () => {
         );
         return;
       }
-      const assessment = appendStatutoryTaxLawAttribution(
-        f.world,
-        f.assessment,
-      );
+      const assessment = dispatch(f.world, f.assessment);
       expect(assessment).not.toBe(f.world);
-      const attributed = appendStatutoryTaxLawAttribution(
-        assessment,
-        f.collection,
+      expect(
+        serializeWorld(
+          applyLawConsequences(f.world, activityContext(f.assessment)),
+        ),
+      ).toBe(serializeWorld(assessment));
+      const attributed = attributePaycheckTaxLaws(f.world, [
+        f.outcomeId,
+        f.outcomeId,
+      ]);
+      expect(attributed).not.toBe(f.world);
+      expect(serializeWorld(dispatch(assessment, f.collection))).toBe(
+        serializeWorld(attributed),
       );
-      expect(attributed).not.toBe(assessment);
+      expect(
+        serializeWorld(
+          applyLawConsequences(assessment, activityContext(f.collection)),
+        ),
+      ).toBe(serializeWorld(attributed));
       const nextLiability = attributed.history.statutoryTaxLiabilities!.find(
         (row) => row.id === f.liability.id,
       )!;
@@ -394,16 +420,11 @@ describe("A33 saved statutory attribution without another assessment", () => {
         },
       };
       expect(serializeWorld(attributed)).toBe(serializeWorld(expected));
-      expect(appendStatutoryTaxLawAttribution(attributed, f.assessment)).toBe(
-        attributed,
-      );
-      expect(appendStatutoryTaxLawAttribution(attributed, f.collection)).toBe(
+      expect(attributePaycheckTaxLaws(attributed, [f.outcomeId])).toBe(
         attributed,
       );
       const loaded = deserializeWorld(serializeWorld(attributed));
-      expect(appendStatutoryTaxLawAttribution(loaded, f.collection)).toBe(
-        loaded,
-      );
+      expect(attributePaycheckTaxLaws(loaded, [f.outcomeId])).toBe(loaded);
       expect(assessPaychecksTaxes(loaded, [f.outcomeId])).toBe(loaded);
       assertWorldIntegrity(loaded);
       stdout.write(
@@ -464,7 +485,7 @@ describe("A33 saved statutory attribution without another assessment", () => {
     if (f.kind !== "supported")
       throw new Error("Expected supported sampled fixture.");
     const later = advanceWorld(f.world, 1);
-    const attributed = appendStatutoryTaxLawAttribution(later, f.assessment);
+    const attributed = attributePaycheckTaxLaws(later, [f.outcomeId]);
     expect(attributed.currentDate).toBe(later.currentDate);
     expect(attributed.history.nextSequence).toBe(later.history.nextSequence);
     expect(
