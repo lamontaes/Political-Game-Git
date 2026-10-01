@@ -252,15 +252,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.31,
       "per": "detention",
       "lagMonths": 0,
       "group": "defendants",
       "owner": "O",
-      "anchor": "More guilty pleas and convictions",
-      "source": "Dobbie, Goldin and Yang 2018 (AER)",
+      "anchor": "Philadelphia and Miami, over 420,000 defendants with randomly assigned bail judges: release after the bail hearing cut the chance of being found guilty 14 points, mostly through 10.8 points fewer guilty pleas. The working paper puts it at 15.1 points, 25.8% of the detained defendants' mean (about 58.5%). Against released defendants' rate near 44%, detention raises conviction about 31% (35% in the working paper); as a share of the detained mean it is 24%.",
+      "source": "Dobbie, Goldin and Yang 2018 (AER); NBER w22511",
       "from": "justice.pretrial-detained",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [0.24, 0.35]
     },
     {
       "key": "pretrial-detention-to-employment",
@@ -269,15 +270,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.2,
       "per": "detention",
       "lagMonths": 6,
       "group": "defendants",
       "owner": "O",
-      "anchor": "Lower formal employment afterward",
-      "source": "Dobbie, Goldin and Yang 2018 (AER)",
+      "anchor": "Release after the bail hearing raised defendants' formal-sector employment about 25% over detained defendants three to four years later, so detention lowers it about 20% (1/1.25), with fewer employment- and tax-related benefits too. The range is the default 25% spread.",
+      "source": "Dobbie, Goldin and Yang 2018 (AER); Federal Probation 2022 summary",
       "from": "justice.pretrial-detained",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.25, -0.15]
     },
     {
       "key": "release-lower-level-to-larceny",
@@ -596,15 +598,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.02,
       "per": "severe disaster",
       "lagMonths": 0,
       "group": "place",
       "owner": "O",
-      "anchor": "Unemployment and public medical payments rise for years (to confirm)",
-      "source": "Deryugina 2017 (to confirm)",
+      "anchor": "U.S. hurricanes 1979 to 2002: in the ten years after a storm, non-disaster transfers in hit counties (public medical spending, income support, unemployment insurance) rose $780 to $1,150 a person, five times the $155 to $160 a person of direct disaster aid. Against personal transfer receipts of about $4,500 to $5,300 a person a year (BEA, 2002), that is about +1.5% to +2.7% a year for a decade. The base is ours, so provisional.",
+      "source": "Deryugina 2017 (AEJ: Economic Policy); BEA personal current transfer receipts, 2002",
       "from": "disaster.severe",
-      "evidence": "to-confirm"
+      "evidence": "provisional",
+      "range": [0.015, 0.027]
     },
     {
       "key": "disaster-to-out-migration",
@@ -1938,15 +1941,16 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": 0.78,
       "per": "denied: +78% past-due debt",
       "lagMonths": 0,
       "group": "women denied",
       "owner": "C",
-      "anchor": "+$1,746 (78%) past-due; +81% bankruptcies, evictions, liens",
-      "source": "Miller, Wherry and Foster 2023",
+      "anchor": "Turnaway Study linked to credit reports: women just past a clinic's gestational limit and denied an abortion had past-due debt nearly double (+$1,746, +78%) and 81% more negative public records (bankruptcies, evictions, tax liens) than women just under the limit, lasting several years. The range is the default 25% spread.",
+      "source": "Miller, Wherry and Foster 2023 (AEJ: Economic Policy)",
       "from": "person.abortion-denied",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [0.585, 0.975]
     },
     {
       "key": "universal-childcare-to-mothers-work",
@@ -2115,19 +2119,20 @@
       "shape": {
         "kind": "linear"
       },
-      "size": null,
+      "size": -0.17,
       "per": "two or more violations: -7 points",
       "lagMonths": 0,
       "group": "incumbents",
       "owner": "C",
-      "anchor": "Much stronger where local radio spread it",
+      "anchor": "Brazil's randomly timed municipal audits: where two corruption violations were made public before the election, the mayor's chance of reelection fell 7 points, about 17%; the effect grew with the number of violations and was stronger where a local radio station spread the news. One country's mayors; the range is the default 25% spread.",
       "source": "Ferraz and Finan 2008 (QJE)",
       "moderator": {
         "measure": "press.local-outlets",
         "effectAtFull": 1.0
       },
       "from": "gov.corruption-exposed",
-      "evidence": "researched"
+      "evidence": "researched",
+      "range": [-0.21, -0.13]
     },
     {
       "key": "press-attacks-to-media-trust",
