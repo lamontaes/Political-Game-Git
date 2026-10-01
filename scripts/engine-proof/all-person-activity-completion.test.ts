@@ -22,11 +22,13 @@ import {
   createScheduledActivity,
   rescheduleScheduledActivity,
   scheduledActivityState,
+  performScheduledActivity,
 } from "../../src/simulation/time-work";
 import type {
   EntityId,
   FutureTransitionHandlerRegistry,
   SimulationMoment,
+  ScheduledActivityKind,
   World,
 } from "../../src/simulation/types";
 import { openClockFixture } from "./clock-fixtures";
@@ -56,6 +58,9 @@ function activity(
   start: SimulationMoment,
   end: SimulationMoment,
   movable = false,
+  kind: ScheduledActivityKind = "confirmed",
+  responsiblePersonId: EntityId | null = null,
+  sourceEntityIds: readonly EntityId[] = participants,
 ): { world: World; id: EntityId } {
   const jurisdictionId = world.people[participants[0]!]!.homeJurisdictionId;
   const next = createScheduledActivity(world, {
@@ -65,17 +70,17 @@ function activity(
       : "Recorded resident activity",
     summary:
       "Authored fixture interval with actual saved participants; no service quantity is inferred.",
-    kind: "confirmed",
+    kind,
     start,
     end,
     participantPersonIds: participants,
-    responsiblePersonId: null,
+    responsiblePersonId,
     location: {
       locationKey: `${key}:room`,
       label: "Fixture activity room",
       jurisdictionId,
     },
-    sourceEntityIds: [...participants],
+    sourceEntityIds: [...sourceEntityIds],
     flexibility: movable
       ? {
           kind: "movable",
@@ -140,6 +145,113 @@ function assertCompletedOnce(
 }
 
 describe("canonical clock completes saved activities for all participants", () => {
+  it("preserves explicit performance of an optional activity", () => {
+    const world = fixture("explicit-optional");
+    const personId =
+      world.control.kind === "person" ? world.control.personId : null;
+    expect(personId).not.toBeNull();
+    const end = addSimulationMinutes(world.currentMoment, 30);
+    const saved = activity(
+      world,
+      "optional:explicit",
+      [personId!],
+      world.currentMoment,
+      end,
+      false,
+      "tentative",
+      personId,
+    );
+    const next = performScheduledActivity(saved.world, saved.id, EMPTY);
+    assertCompletedOnce(next, saved.id, end);
+  });
+
+  it.each(ROUTES)(
+    "travel inherits its saved destination commitment: %s",
+    (route) => {
+      for (const kind of ["confirmed", "tentative"] as const) {
+        const world = fixture(`travel:${kind}`);
+        const personId = world.personOrder[1]!;
+        const arrival = addSimulationMinutes(world.currentMoment, 30);
+        const end = addSimulationMinutes(world.currentMoment, 60);
+        const destination = activity(
+          world,
+          `destination:${kind}`,
+          [personId],
+          arrival,
+          end,
+          false,
+          kind,
+        );
+        const journey = activity(
+          destination.world,
+          `journey:${kind}`,
+          [personId],
+          world.currentMoment,
+          arrival,
+          false,
+          "travel",
+          null,
+          [destination.id],
+        );
+        const next = advance(journey.world, 120, route);
+        if (kind === "confirmed") {
+          assertCompletedOnce(next, journey.id, arrival);
+          assertCompletedOnce(next, destination.id, end);
+        } else {
+          expect(scheduledActivityState(next, journey.id).status).toBe(
+            "scheduled",
+          );
+          expect(scheduledActivityState(next, destination.id).status).toBe(
+            "scheduled",
+          );
+          expect(
+            next.history.events.filter(
+              (row) =>
+                row.type === "schedule.activity-completed" &&
+                (row.involvedEntityIds.includes(journey.id) ||
+                  row.involvedEntityIds.includes(destination.id)),
+            ),
+          ).toHaveLength(0);
+        }
+      }
+    },
+  );
+
+  it.each(ROUTES)(
+    "does not turn an optional hold into attendance: %s",
+    (route) => {
+      const world = fixture("optional-holds");
+      let next = world;
+      const ids: EntityId[] = [];
+      for (const [index, kind] of (
+        ["tentative", "flexible", "travel"] as const
+      ).entries()) {
+        const saved = activity(
+          next,
+          `optional:${kind}`,
+          [world.personOrder[1]!],
+          addSimulationMinutes(world.currentMoment, index * 30),
+          addSimulationMinutes(world.currentMoment, index * 30 + 30),
+          false,
+          kind,
+        );
+        next = saved.world;
+        ids.push(saved.id);
+      }
+      next = advance(next, 120, route);
+      for (const id of ids) {
+        expect(scheduledActivityState(next, id).status).toBe("scheduled");
+        expect(
+          next.history.events.filter(
+            (row) =>
+              row.type === "schedule.activity-completed" &&
+              row.involvedEntityIds.includes(id),
+          ),
+        ).toHaveLength(0);
+      }
+    },
+  );
+
   it.each(ROUTES)(
     "completes distinct NPC activities sharing the exact end: %s",
     (route) => {

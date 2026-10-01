@@ -1671,6 +1671,7 @@ function addActivityCompletionTransitions(
   after: SimulationMoment,
   through: SimulationMoment,
   includeCurrentBoundary = false,
+  performedActivityId: EntityId | null = null,
 ): void {
   const index = growingIndex(
     ACTIVITY_COMPLETION_INDEX,
@@ -1693,6 +1694,26 @@ function addActivityCompletionTransitions(
       const activity = activities.get(state.activityId);
       if (!activity)
         throw new Error("Scheduled completion activity identity is missing.");
+      // A saved optional invitation is not attendance. Travel commits only
+      // when its saved destination is a confirmed activity for this roster.
+      const committedTravel =
+        activity.kind === "travel" &&
+        activity.sourceEntityIds.some((sourceId) => {
+          const destination = activities.get(sourceId);
+          return (
+            destination?.kind === "confirmed" &&
+            activity.participantPersonIds.every((personId) =>
+              destination.participantPersonIds.includes(personId),
+            ) &&
+            index.latest.get(sourceId)?.status !== "cancelled"
+          );
+        });
+      if (
+        activity.id !== performedActivityId &&
+        activity.kind !== "confirmed" &&
+        !committedTravel
+      )
+        continue;
       transitions.push({
         at: state.end,
         priority: 2,
@@ -1770,7 +1791,14 @@ function advanceCanonicalMinutes(
       );
     }
   }
-  addActivityCompletionTransitions(transitions, inputWorld, start, target);
+  addActivityCompletionTransitions(
+    transitions,
+    inputWorld,
+    start,
+    target,
+    false,
+    completedActivityId,
+  );
   transitions.sort(compareExactTransitions);
 
   let world = inputWorld;
