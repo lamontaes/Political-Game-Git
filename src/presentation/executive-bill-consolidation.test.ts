@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { writeFileSync } from "node:fs";
 import { afterAll, describe, expect, it } from "vitest";
 import { adultLifeAt } from "../../tests/fixtures/state-executive-entry";
