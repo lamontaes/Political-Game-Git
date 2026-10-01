@@ -5,6 +5,7 @@ export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
 export const STATE_MINIMUM_WAGE_QUESTION_KEY =
   "us-policy-positions:labor-workforce.raise-minimum-wage";
 export const PAY_SELECTOR = "active-work-payflows";
+export const ANNUAL_OFFICE_PAY_ACTION = "set-annual-office-salary";
 export const PAY_ACTION = "raise-hourly-floor";
 
 /** Data-only catalog-owner payload; legal values belong to the final law terms. */

@@ -153,11 +153,23 @@ export interface ResolvedLawConsequence {
   sourceRecordIds: EntityId[];
   value: ResolvedLawValue;
 }
+/** Actual enacted rule authority uses the same kind and subject contract. */
+export interface ResolvedSavedRuleConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: ResolvedAnnualOfficePayConsequence["authority"];
+}
+export type ResolvedAnyLawConsequence =
+  ResolvedLawConsequence | ResolvedSavedRuleConsequence;
+
 export type LawConsequenceHandler = (
   world: World,
   resolved: ResolvedLawConsequence,
 ) => World;
-export interface LawConsequenceKindRegistration {
+export interface LawConsequenceKindRegistration<
+  T extends ResolvedAnyLawConsequence = ResolvedLawConsequence,
+> {
   kind: LawConsequenceKind;
   owner: string;
   selectors: readonly string[];
@@ -169,5 +181,15 @@ export interface LawConsequenceKindRegistration {
     row: LawConsequenceRow,
     context: LawConsequenceContext,
   ) => readonly ResolvedLawConsequence[];
-  apply: LawConsequenceHandler;
+  /** Only a kind admitting saved-rule inputs can supply this adapter. */
+  resolveSavedRules?: Extract<T, ResolvedSavedRuleConsequence> extends never
+    ? never
+    : (
+        world: World,
+        context: LawConsequenceContext,
+      ) => readonly Extract<T, ResolvedSavedRuleConsequence>[];
+  apply(world: World, resolved: T): World;
 }
+
+export type AnyLawConsequenceKindRegistration =
+  LawConsequenceKindRegistration<ResolvedAnyLawConsequence>;
