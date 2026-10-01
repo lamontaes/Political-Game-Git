@@ -14,7 +14,10 @@ import {
   payWorkplaceAt,
   matchPayCoveragePredicates,
 } from "./pay-coverage-predicates";
-import { workPayCoverageAt } from "./pay-coverage-query";
+import {
+  workPayCoverageAt,
+  assertWorkPayCoverageIntegrity,
+} from "./pay-coverage-query";
 import { evaluateLawAmount } from "./law-consequence-amount";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
@@ -28,6 +31,8 @@ import { resourceFlowTermsAt } from "./resource-queries";
 import { workRoleAt } from "./life-queries";
 import { lawEffectStamp } from "./law-effect-stamp";
 import { createStableId } from "./ids";
+import { assertWorldIntegrity } from "./world";
+import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import { simulationMinutesBetween } from "./dates";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
@@ -379,4 +384,127 @@ describe("saved earned-law assessment integrity", () => {
       assertEarnedLawPayIntegrity({ ...world, history }, new Set()),
     ).not.toThrow();
   });
+});
+
+describe("earned-pay coverage authority integrity", () => {
+  it.each([
+    [
+      "forged exception row",
+      (coverage: WorkPayCoverageDeterminationRecord) => ({
+        ...coverage,
+        exceptions: [
+          {
+            questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+            rowId: "pay:fixture-row-not-in-canonical-catalog",
+            factRecordIds: coverage.factRecordIds,
+          },
+        ],
+      }),
+    ],
+    [
+      "forged nested exception evidence",
+      (coverage: WorkPayCoverageDeterminationRecord) => ({
+        ...coverage,
+        exceptions: [
+          {
+            questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+            rowId: assessment.resolvedConsequence.rowId,
+            // A saved assessment is not a prior worker/employer applicability fact.
+            factRecordIds: [assessment.id],
+          },
+        ],
+      }),
+    ],
+    [
+      "duplicate question exceptions",
+      (coverage: WorkPayCoverageDeterminationRecord) => {
+        const exception = {
+          questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+          rowId: assessment.resolvedConsequence.rowId,
+          factRecordIds: coverage.factRecordIds,
+        };
+        return { ...coverage, exceptions: [exception, exception] };
+      },
+    ],
+    [
+      "omitted matching exception",
+      (coverage: WorkPayCoverageDeterminationRecord) => ({
+        ...coverage,
+        exceptions: coverage.exceptions.filter(
+          (entry) => entry.questionKey !== FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+        ),
+      }),
+    ],
+    [
+      "omitted governing law",
+      (coverage: WorkPayCoverageDeterminationRecord) => ({
+        ...coverage,
+        governingLaws: coverage.governingLaws.filter(
+          (entry) => entry.questionKey !== FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+        ),
+      }),
+    ],
+    [
+      "forged governing law",
+      (coverage: WorkPayCoverageDeterminationRecord) => ({
+        ...coverage,
+        governingLaws: [
+          {
+            questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+            governingLawKey: assessment.id,
+            origin: "enacted" as const,
+          },
+        ],
+      }),
+    ],
+  ] as const)(
+    "rejects %s before accepting a saved assessment",
+    (_name, change) => {
+      // Validate coverage independently of the assessment's narrower joins.
+      // Restore the actual completed-work frontier before its explicit assessment.
+      const coverageWorld: World = {
+        ...world,
+        history: {
+          ...world.history,
+          nextSequence: assessment.sequence,
+          earnedLawPayAssessments: [],
+        },
+      };
+      expect(() => assertWorldIntegrity(coverageWorld)).not.toThrow();
+      expect(() => assertWorkPayCoverageIntegrity(coverageWorld)).not.toThrow();
+      const coverage = workPayCoverageAt(
+        coverageWorld,
+        assessment.workRelationshipId,
+        assessment.earnedCutoff,
+      );
+      expect(coverage).toBeDefined();
+      expect(
+        coverage!.exceptions.some(
+          (entry) =>
+            entry.questionKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY &&
+            entry.rowId === assessment.resolvedConsequence.rowId,
+        ),
+      ).toBe(true);
+      expect(
+        coverage!.governingLaws.some(
+          (entry) => entry.questionKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+        ),
+      ).toBe(true);
+      const forged = {
+        ...coverageWorld,
+        history: {
+          ...coverageWorld.history,
+          workPayCoverageDeterminations:
+            coverageWorld.history.workPayCoverageDeterminations!.map(
+              (record) =>
+                record.id === coverage!.id ? change(record) : record,
+            ),
+        },
+      };
+      // The query guard must reject the invalid coverage authority itself.
+      expect(() => assertWorkPayCoverageIntegrity(forged)).toThrow(
+        /Pay coverage/i,
+      );
+    },
+  );
 });
