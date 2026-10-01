@@ -2,6 +2,8 @@
 
 Criminal sentencing, eviction hearings, and law review now share one saved-court lookup. A criminal defendant's residence or a loose state key cannot replace the case's actual venue. Eviction judgments retain the previously published actual court, seat, tenure, and judge join. Federal trial cases remain unsupported without an actual forum binding; national court lookup alone does not establish authority to rule on a federal law.
 
+## Acceptance and observed behavior
+
 MERGED: Nothing from this candidate.
 
 WHAT EMERGED: DECIDED — the saved judges selected jail in the controlled cases, recording “They had been found at fault for the same thing before. The offense was violent.” HARDWIRED — ordinary sentence months still come from the labeled UNRESEARCHED rule in `prosecution.ts:219`; these cases do not supply A103 statutory applicability. Missing links are listed below.

@@ -72,8 +72,12 @@ export function courtFor(
   }
   if (national) return null;
   const state = stateJurisdictionOf(jurisdictionId);
-  if (!state) return null;
-  const jurisdictions = new Set([state, courtJurisdictionOf(state)]);
+  // A saved court's own jurisdiction is already an exact binding, including
+  // an executive jurisdiction alias that is not the law catalog's state ID.
+  const jurisdictions = new Set([
+    jurisdictionId,
+    ...(state ? [state, courtJurisdictionOf(state)] : []),
+  ]);
   const candidates = [...jurisdictions]
     .flatMap((id) => index.get(`${level}:${id}`) ?? [])
     .filter(

@@ -70,6 +70,15 @@ describe("one finder reads saved courts", () => {
         old[0],
       );
       expect(courtFor(base, id, "local-general-trial", "civil")).toBe(old[0]);
+      expect(
+        courtFor(
+          base,
+          old[0]!.jurisdictionId!,
+          "local-general-trial",
+          "criminal",
+        ),
+        `${state.jurisdictionKey}: saved court venue`,
+      ).toBe(old[0]);
     }
   });
 
