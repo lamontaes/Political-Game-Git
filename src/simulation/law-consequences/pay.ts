@@ -250,6 +250,8 @@ export function resolvePayConsequences(
       jurisdictionId,
       proposition.id,
       context.onDate,
+      "all",
+      cutoff,
     );
     if (!law || (law.origin === "enacted" && law.answer !== "yes")) continue;
     // A starting state "no" means no increase above the federal standard.
@@ -282,6 +284,7 @@ export function resolvePayConsequences(
         termKey: key,
         unit,
         onDate: context.onDate,
+        cutoff,
       });
       if (!term)
         throw new Error(`Missing pay final law term '${key}' (${unit})`);
@@ -372,13 +375,14 @@ export function resolveAnnualOfficePayConsequences(
     const field = PAY_LAW_FIELD[held.office];
     if (!field) continue;
     const officeKey = officePayLawOfficeKey(held.state);
-    const legal = officePayInForce(world, work, context.onDate);
+    const legal = officePayInForce(world, work, context.onDate, cutoff);
     if (!legal?.law) continue;
     const rule = enactedRuleChangeAt(world, {
       stateUsps: held.state,
       officeKey,
       field,
       onDate: context.onDate,
+      cutoff,
     });
     if (
       !rule ||
@@ -395,13 +399,17 @@ export function resolveAnnualOfficePayConsequences(
         p.stateUsps === held.state &&
         p.officeKey === officeKey &&
         p.field === field &&
-        p.filedAt <= context.onDate,
+        p.filedAt <= context.onDate &&
+        p.filedAt <= cutoff.asOfDate &&
+        p.sequence < cutoff.historySequenceExclusive,
     );
     const enactments = (world.history.legislativeEnactments ?? []).filter(
       (e) =>
         e.measureId === rule.measureId &&
         e.outcome === "enacted" &&
-        e.resolvedAt <= context.onDate,
+        e.resolvedAt <= context.onDate &&
+        e.resolvedAt <= cutoff.asOfDate &&
+        e.sequence < cutoff.historySequenceExclusive,
     );
     if (clauses.length !== 1 || enactments.length !== 1)
       throw new Error("Missing or ambiguous adopted office salary authority");
@@ -551,8 +559,14 @@ export function resolveSavedHourlyPayConsequences(
       officeKey,
       field,
       onDate: context.onDate,
+      cutoff,
     });
-    const legal = stateMinimumSettingAt(world, stateKey, context.onDate);
+    const legal = stateMinimumSettingAt(
+      world,
+      stateKey,
+      context.onDate,
+      cutoff,
+    );
     if (!rule || !legal?.measureId) continue;
     if (
       rule.measureId !== legal.measureId ||
@@ -568,13 +582,17 @@ export function resolveSavedHourlyPayConsequences(
         p.stateUsps === state &&
         p.officeKey === officeKey &&
         p.field === field &&
-        p.filedAt <= context.onDate,
+        p.filedAt <= context.onDate &&
+        p.filedAt <= cutoff.asOfDate &&
+        p.sequence < cutoff.historySequenceExclusive,
     );
     const enactments = (world.history.legislativeEnactments ?? []).filter(
       (e) =>
         e.measureId === rule.measureId &&
         e.outcome === "enacted" &&
-        e.resolvedAt <= context.onDate,
+        e.resolvedAt <= context.onDate &&
+        e.resolvedAt <= cutoff.asOfDate &&
+        e.sequence < cutoff.historySequenceExclusive,
     );
     if (clauses.length !== 1 || enactments.length !== 1)
       throw new Error("Missing or ambiguous adopted hourly authority");

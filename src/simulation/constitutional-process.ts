@@ -22,6 +22,7 @@ import type {
 } from "./constitutional-types";
 import type {
   EntityId,
+  HistoricalCutoff,
   IsoDate,
   LegislativeVoteDisposition,
   LegislativeVoteProvenance,
@@ -608,10 +609,15 @@ export function constitutionalPosition(
   world: World,
   id: EntityId,
   at = world.currentDate,
+  cutoff?: HistoricalCutoff,
 ): ConstitutionalPosition {
   const m = requireConstitutionalMeasure(world, id);
   const actions = constitutionalActions(world, id).filter(
-    (a) => a.occurredAt <= at,
+    (a) =>
+      a.occurredAt <= at &&
+      (!cutoff ||
+        (a.sequence < cutoff.historySequenceExclusive &&
+          a.occurredAt <= cutoff.asOfDate)),
   );
   let phase: ConstitutionalPosition["phase"] =
     m.processKind === "municipal-charter" ? "awaiting-nevada" : "consideration";
@@ -645,7 +651,13 @@ export function constitutionalPosition(
       const e = (world.history.legislativeEnactments ?? []).find(
         (e) => e.id === d.enactmentId,
       );
-      if (e && e.effectiveDateBasis !== "game-default")
+      if (
+        e &&
+        (!cutoff ||
+          (e.sequence < cutoff.historySequenceExclusive &&
+            e.resolvedAt <= cutoff.asOfDate)) &&
+        e.effectiveDateBasis !== "game-default"
+      )
         effectiveAt = e.effectiveAt;
     }
   }

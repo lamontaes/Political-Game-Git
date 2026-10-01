@@ -357,6 +357,8 @@ const EXPERTISE_LEVELS = [
 ] as const;
 const PRACTICAL_LEVELS = ["none", "indirect", "direct", "extensive"] as const;
 
+import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
+
 export interface CreateWorldInput {
   readonly seed: string;
   /**
@@ -2103,6 +2105,7 @@ function validateHistoryIntegrity(
         ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
         ...(history.workPayCoverageDeterminations ?? []),
+        ...(history.earnedLawPayAssessments ?? []),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2266,6 +2269,7 @@ function validateHistoryIntegrity(
     );
   }
   assertResourceHousingIntegrity(world, ids);
+  assertEarnedLawPayIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
   assertStatutoryTaxIntegrity(world, ids);
   assertHouseholdLoanIntegrity(world, ids);
