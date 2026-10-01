@@ -1,3 +1,4 @@
+import type { RuleChangeProvisionRecord, RuleChangeApplicability } from "./enacted-rule-changes";
 import type { LawInForce } from "./governing/law-in-force";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -86,7 +87,7 @@ export interface LawConsequenceContext {
 }
 
 /** The engine resolves legal authority and actual job records before invoking pay. */
-export interface ResolvedLawPayConsequence {
+export interface ResolvedHourlyLawPayConsequence {
   rowId: string;
   questionKey: string;
   jurisdictionId: EntityId;
@@ -100,6 +101,36 @@ export interface ResolvedLawPayConsequence {
   sourceRecordIds: EntityId[];
   action: "raise-hourly-floor";
 }
+
+/** Actual saved office rule authority; this is not a policy question. */
+export interface ResolvedAnnualOfficePayConsequence {
+  rowId: string;
+  jurisdictionId: EntityId;
+  personId: EntityId;
+  workId: EntityId;
+  payFlowId: EntityId;
+  activityId: EntityId;
+  effectiveAt: IsoDate;
+  amount: { value: number; unit: "minor"; currency: "USD" };
+  sourceRecordIds: EntityId[];
+  action: "set-annual-office-salary";
+  authority: {
+    kind: "enacted-office-rule";
+    ruleChangeProvisionId: EntityId;
+    enactmentId: EntityId;
+    measureId: EntityId;
+    officeKey: string;
+    stateUsps: string;
+    field: RuleChangeProvisionRecord["field"];
+    operativeAt: IsoDate;
+    applicability: RuleChangeApplicability;
+  };
+}
+
+/** Both actions use the existing pay writer and actual recorded pay cadence. */
+export type ResolvedLawPayConsequence =
+  | ResolvedHourlyLawPayConsequence
+  | ResolvedAnnualOfficePayConsequence;
 
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
 export type ResolvedLawValue =
