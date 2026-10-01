@@ -529,6 +529,199 @@ export function previewTax(
   };
 }
 
+/** Resolves an existing occurrence at its saved visibility frontier.
+ * sourceEventId retains its legacy field name; statutory ids are not events.
+ * Payment amounts below are whole saved transfers, never an invented allocation.
+ */
+export function taxBaseOccurrenceSource(
+  world: World,
+  sourceId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+) {
+  const visible = (row: { recordedAt: string; sequence: number }) =>
+    row.recordedAt <= cutoff.asOfDate &&
+    row.sequence < cutoff.historySequenceExclusive;
+  const event = eventById(world, sourceId);
+  if (event)
+    return visible(event)
+      ? {
+          kind: "event" as const,
+          occurredAt: event.occurredAt,
+          recordedAt: event.recordedAt,
+          sequence: event.sequence,
+          jurisdictionId: event.jurisdictionId,
+          sourceRecordIds: [event.id],
+          eventRecord: event,
+        }
+      : null;
+  const jurisdictionForAuthority = (authorityKey: string) => {
+    const id =
+      authorityKey === "US"
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : stateJurisdictionForKey(authorityKey)?.id;
+    return id && world.jurisdictions[id] ? id : null;
+  };
+  const liability = recordById(
+    world.history.statutoryTaxLiabilities ?? [],
+    sourceId,
+  );
+  if (liability) {
+    const input = recordedPaycheckTaxInput(world, liability.sourceOutcomeId);
+    const jurisdictionId = jurisdictionForAuthority(liability.authorityKey);
+    if (
+      !visible(liability) ||
+      input.kind !== "recorded" ||
+      !input.statutoryLiabilityIds.includes(liability.id) ||
+      !jurisdictionId ||
+      liability.occurredAt > cutoff.asOfDate
+    )
+      return null;
+    return {
+      kind: "statutory-liability" as const,
+      occurredAt: liability.occurredAt,
+      recordedAt: liability.recordedAt,
+      sequence: liability.sequence,
+      jurisdictionId,
+      payer: liability.payer,
+      amount: liability.wages,
+      liabilityIds: [liability.id],
+      liabilityRecord: liability,
+      paymentIds: input.statutoryCollections
+        .filter(
+          (row) =>
+            row.liabilityId === liability.id &&
+            visible(
+              recordById(
+                world.history.statutoryTaxPayments ?? [],
+                row.paymentId,
+              )!,
+            ),
+        )
+        .map((row) => row.paymentId),
+      sourceRecordIds: [
+        liability.id,
+        input.outcomeId,
+        input.resourceFlowId,
+        input.workRelationshipId,
+      ],
+    };
+  }
+  const allocations = recordsByStringField(
+    world.history.statutoryTaxPayments ?? [],
+    "resourceOutcomeId",
+    sourceId,
+  );
+  const transfer = recordById(world.history.resourceTransferOutcomes, sourceId);
+  const flow = transfer
+    ? recordById(world.history.resourceFlows, transfer.resourceFlowId)
+    : null;
+  if (
+    allocations.length === 0 ||
+    !transfer ||
+    !flow ||
+    transfer.sequence >= cutoff.historySequenceExclusive ||
+    transfer.occurredAt > cutoff.asOfDate ||
+    (transfer.status !== "completed" && transfer.status !== "partial") ||
+    transfer.transferredAmount.minorUnits <= 0 ||
+    flow.basisKind !== "custom:tax-withholding" ||
+    flow.source.kind !== "person" ||
+    flow.recipient.kind !== "organization" ||
+    !flow.jurisdictionId ||
+    flow.sequence >= transfer.sequence ||
+    allocations.some(
+      (row) => !visible(row) || row.sequence <= transfer.sequence,
+    )
+  )
+    return null;
+  const jurisdictionId = flow.jurisdictionId;
+  const account = publicTaxAccountForJurisdiction(
+    world,
+    jurisdictionId,
+    cutoff,
+  );
+  if (!account || account.organizationId !== flow.recipient.organizationId)
+    return null;
+  for (const allocation of allocations) {
+    const row = recordById(
+      world.history.statutoryTaxLiabilities ?? [],
+      allocation.liabilityId,
+    );
+    if (
+      !row ||
+      !visible(row) ||
+      row.sequence >= allocation.sequence ||
+      taxBaseOccurrenceSource(world, row.id, cutoff)?.kind !==
+        "statutory-liability" ||
+      row.liability === null ||
+      allocation.amount.minorUnits > row.liability.minorUnits ||
+      jurisdictionForAuthority(row.authorityKey) !== jurisdictionId ||
+      canonicalJson(row.payer) !== canonicalJson(flow.source) ||
+      allocation.amount.minorUnits <= 0 ||
+      allocation.amount.currency !== transfer.transferredAmount.currency
+    )
+      return null;
+  }
+  if (
+    allocations.reduce((sum, row) => sum + row.amount.minorUnits, 0) !==
+    transfer.transferredAmount.minorUnits
+  )
+    return null;
+  return {
+    kind: "statutory-payment" as const,
+    occurredAt: transfer.occurredAt,
+    recordedAt: allocations.reduce(
+      (latest, row) => (row.recordedAt > latest ? row.recordedAt : latest),
+      allocations[0]!.recordedAt,
+    ),
+    sequence: allocations.reduce(
+      (latest, row) => Math.max(latest, row.sequence),
+      transfer.sequence,
+    ),
+    jurisdictionId,
+    payer: flow.source,
+    amount: transfer.transferredAmount,
+    liabilityIds: allocations.map((row) => row.liabilityId),
+    liabilityRecords: allocations.map((row) =>
+      recordById(world.history.statutoryTaxLiabilities ?? [], row.liabilityId)!,
+    ),
+    paymentIds: allocations.map((row) => row.id),
+    paymentRecords: allocations,
+    transferRecord: transfer,
+    flowRecord: flow,
+    sourceRecordIds: [
+      transfer.id,
+      flow.id,
+      account.organizationId,
+      ...allocations.flatMap((row) => [row.id, row.liabilityId]),
+    ],
+  };
+}
+
+function taxBaseMatchesOccurrenceSource(
+  base: Pick<
+    TaxBaseRecord,
+    | "occurredAt"
+    | "recordedAt"
+    | "sequence"
+    | "jurisdictionId"
+    | "payer"
+    | "amount"
+  >,
+  source: NonNullable<ReturnType<typeof taxBaseOccurrenceSource>>,
+): boolean {
+  return (
+    base.occurredAt === source.occurredAt &&
+    base.recordedAt >= source.recordedAt &&
+    base.occurredAt <= base.recordedAt &&
+    source.sequence < base.sequence &&
+    source.jurisdictionId === base.jurisdictionId &&
+    (source.kind === "event"
+      ? base.recordedAt === base.occurredAt
+      : canonicalJson(base.payer) === canonicalJson(source.payer) &&
+        canonicalJson(base.amount) === canonicalJson(source.amount))
+  );
+}
+
 /** Source events can represent an actual existing occurrence; otherwise the
  * ordinary payer adapter authors one explicit fictional occurrence. Historical
  * bases are not manufactured by opening Budget or advancing time.
@@ -542,10 +735,7 @@ export function recordTaxBase(
   assertAmount(input.amount.minorUnits, "Tax base");
   assertText(input.assumptionNote, "Tax base assumption");
   assertSemantic(input.baseKey, "Tax base key");
-  if (makeIsoDate(input.occurredAt) !== world.currentDate)
-    throw new Error(
-      "A modeled tax occurrence must be recorded now; retroactive bases are forbidden.",
-    );
+  makeIsoDate(input.occurredAt);
   validatePayer(world, input.payer);
   if (
     world.history.taxBases?.some(
@@ -553,15 +743,20 @@ export function recordTaxBase(
     )
   )
     throw new Error("This occurrence already has a recorded tax base.");
-  const event = eventById(world, input.sourceEventId);
+  const source = taxBaseOccurrenceSource(world, input.sourceEventId);
   if (
-    !event ||
-    event.occurredAt !== input.occurredAt ||
-    event.recordedAt > world.currentDate ||
-    event.jurisdictionId !== input.jurisdictionId
+    !source ||
+    !taxBaseMatchesOccurrenceSource(
+      {
+        ...input,
+        recordedAt: world.currentDate,
+        sequence: world.history.nextSequence,
+      },
+      source,
+    )
   )
     throw new Error(
-      "The tax base requires its current canonical occurrence event.",
+      "The tax base requires its exact visible occurrence, payer, amount, date and jurisdiction; no event or backdate is invented.",
     );
   const record: TaxBaseRecord = {
     ...structuredClone(input),
@@ -572,6 +767,249 @@ export function recordTaxBase(
   const result = append(world, "taxBases", record);
   assertWorldIntegrity(result);
   return result;
+}
+
+/** Actual paycheck lineage, before choosing any law, base key or tax rate.
+ * A transfer is not an occurrence event. Reading it never creates that event,
+ * a TaxBase, a liability or a collection, including for catch-up pay.
+ */
+export function recordedPaycheckTaxInput(world: World, outcomeId: EntityId) {
+  const unavailable = (reason: string) => ({
+    kind: "unavailable" as const,
+    reason,
+  });
+  const outcome = recordById(world.history.resourceTransferOutcomes, outcomeId);
+  const flow = outcome
+    ? recordById(world.history.resourceFlows, outcome.resourceFlowId)
+    : undefined;
+  const work =
+    flow?.basisReference.kind === "work"
+      ? recordById(
+          world.history.workRelationships,
+          flow.basisReference.workRelationshipId,
+        )
+      : undefined;
+  if (
+    !outcome ||
+    !flow ||
+    !work ||
+    flow.source.kind !== "organization" ||
+    flow.recipient.kind !== "person" ||
+    work.organizationId !== flow.source.organizationId ||
+    work.personId !== flow.recipient.personId ||
+    !world.people[work.personId] ||
+    flow.sequence >= outcome.sequence ||
+    work.sequence >= outcome.sequence ||
+    outcome.occurredAt > world.currentDate ||
+    (outcome.status !== "completed" && outcome.status !== "partial") ||
+    outcome.transferredAmount.minorUnits <= 0
+  )
+    return unavailable("No saved positive payment to its actual worker.");
+  const liabilities = recordsByStringField(
+    world.history.statutoryTaxLiabilities ?? [],
+    "sourceOutcomeId",
+    outcome.id,
+  ).filter(
+    (row) =>
+      row.occurredAt === outcome.occurredAt &&
+      row.sequence > outcome.sequence &&
+      canonicalJson(row.wages) === canonicalJson(outcome.transferredAmount) &&
+      ((row.payer.kind === "person" && row.payer.personId === work.personId) ||
+        (row.payer.kind === "organization" &&
+          row.payer.organizationId === work.organizationId)),
+  );
+  const payments = liabilities.flatMap((row) =>
+    recordsByStringField(
+      world.history.statutoryTaxPayments ?? [],
+      "liabilityId",
+      row.id,
+    ).filter((payment) => {
+      const transfer = recordById(
+        world.history.resourceTransferOutcomes,
+        payment.resourceOutcomeId,
+      );
+      return (
+        transfer &&
+        (transfer.status === "completed" || transfer.status === "partial") &&
+        transfer.transferredAmount.minorUnits > 0 &&
+        payment.sequence > transfer.sequence &&
+        payment.amount.minorUnits > 0 &&
+        payment.amount.currency === transfer.transferredAmount.currency &&
+        recordsByStringField(
+          world.history.statutoryTaxPayments ?? [],
+          "resourceOutcomeId",
+          transfer.id,
+        ).reduce((sum, allocation) => sum + allocation.amount.minorUnits, 0) <=
+          transfer.transferredAmount.minorUnits
+      );
+    }),
+  );
+  return {
+    kind: "recorded" as const,
+    outcomeId: outcome.id,
+    resourceFlowId: flow.id,
+    workRelationshipId: work.id,
+    personId: work.personId,
+    organizationId: flow.source.organizationId,
+    occurredAt: outcome.occurredAt,
+    amount: outcome.transferredAmount,
+    statutoryLiabilityIds: liabilities.map((row) => row.id),
+    statutoryPaymentIds: payments.map((row) => row.id),
+    statutoryCollections: payments.map((row) => ({
+      paymentId: row.id,
+      liabilityId: row.liabilityId,
+      resourceOutcomeId: row.resourceOutcomeId,
+      amount: row.amount,
+    })),
+  };
+}
+
+/** Levy identity is independent of the law edition and any collection amount.
+ * This is a lookup request, not evidence that an authority can impose a levy.
+ */
+export interface PaycheckTaxLevyIdentity {
+  readonly outcomeId: EntityId;
+  readonly authorityKey: string;
+  readonly taxKey: string;
+  readonly payer: ResourcePositionOwner;
+}
+
+/** Exact saved-levy matching for a future per-levy caller partition.
+ * A missing match authorizes neither assessment nor exclusion from statutory
+ * withholding. Unknown and zero rows keep their original status and amount.
+ */
+export function matchRecordedPaycheckLevy(
+  world: World,
+  identity: PaycheckTaxLevyIdentity,
+) {
+  const input = recordedPaycheckTaxInput(world, identity.outcomeId);
+  if (input.kind === "unavailable") return input;
+  const rows = input.statutoryLiabilityIds
+    .map((id) => recordById(world.history.statutoryTaxLiabilities ?? [], id)!)
+    .filter(
+      (row) =>
+        row.authorityKey === identity.authorityKey &&
+        row.taxKey === identity.taxKey &&
+        canonicalJson(row.payer) === canonicalJson(identity.payer),
+    );
+  if (rows.length > 1)
+    return {
+      kind: "ambiguous" as const,
+      identity,
+      reason:
+        "Several saved liabilities match one paycheck levy; no row is selected.",
+    };
+  const row = rows[0];
+  if (!row)
+    return {
+      kind: "not-recorded" as const,
+      identity,
+      input,
+      reason:
+        "No matching saved levy. Legal admission and occurrence binding remain required before dispatch or statutory exclusion.",
+    };
+  return {
+    kind: "recorded-levy" as const,
+    identity,
+    input,
+    liabilityId: row.id,
+    status: row.status,
+    liability: row.liability,
+    lawMeasureIds: row.lawMeasureIds ?? [],
+    collections: input.statutoryCollections.filter(
+      (collection) => collection.liabilityId === row.id,
+    ),
+  };
+}
+
+/** A read-only partition for contract review, never a withholding selector.
+ * Entries in missing require an admitted law/activity mapping; entries in
+ * existing carry their saved unknown/zero/assessed status without repricing.
+ * No proposed identity becomes a handled levy through this function.
+ */
+export function preparePaycheckLevyPartition(
+  world: World,
+  outcomeIds: readonly EntityId[],
+  requestedLevies: readonly PaycheckTaxLevyIdentity[],
+) {
+  const allowedOutcomes = new Set(outcomeIds);
+  const seen = new Set<string>();
+  const existing: Extract<
+    ReturnType<typeof matchRecordedPaycheckLevy>,
+    { kind: "recorded-levy" }
+  >[] = [];
+  const missing: Extract<
+    ReturnType<typeof matchRecordedPaycheckLevy>,
+    { kind: "not-recorded" }
+  >[] = [];
+  const refused: {
+    readonly identity: PaycheckTaxLevyIdentity;
+    readonly reason: string;
+  }[] = [];
+  for (const identity of requestedLevies) {
+    const key = canonicalJson({
+      outcomeId: identity.outcomeId,
+      authorityKey: identity.authorityKey,
+      taxKey: identity.taxKey,
+      payer: identity.payer,
+    });
+    if (!allowedOutcomes.has(identity.outcomeId) || seen.has(key)) {
+      refused.push({
+        identity,
+        reason:
+          "A levy request must name an outcome in the actual batch exactly once.",
+      });
+      continue;
+    }
+    seen.add(key);
+    const matched = matchRecordedPaycheckLevy(world, identity);
+    if (matched.kind === "recorded-levy") existing.push(matched);
+    else if (matched.kind === "not-recorded") missing.push(matched);
+    else refused.push({ identity, reason: matched.reason });
+  }
+  return { existing, missing, refused };
+}
+
+/** Reconciles the existing wage-income liability without collecting it again.
+ * The source event and wage TaxTerms admission are separate missing contracts;
+ * neither an outcome ID nor a differently labeled excise proposal supplies them.
+ */
+export function preparePaycheckTaxAssessment(
+  world: World,
+  outcomeId: EntityId,
+  authorityKey: string,
+) {
+  const input = recordedPaycheckTaxInput(world, outcomeId);
+  if (input.kind === "unavailable") return input;
+  const incomeLiability = input.statutoryLiabilityIds
+    .map((id) => recordById(world.history.statutoryTaxLiabilities ?? [], id)!)
+    .find(
+      (row) =>
+        row.authorityKey === authorityKey &&
+        row.payer.kind === "person" &&
+        row.payer.personId === input.personId &&
+        row.taxKey === `${authorityKey.toLowerCase()}:wage-income-tax`,
+    );
+  if (incomeLiability) {
+    return {
+      kind: "existing-wage-liability" as const,
+      input,
+      liabilityId: incomeLiability.id,
+      status: incomeLiability.status,
+      liability: incomeLiability.liability,
+      paymentIds: input.statutoryCollections
+        .filter((row) => row.liabilityId === incomeLiability.id)
+        .map((row) => row.paymentId),
+    };
+  }
+  return {
+    kind: "unsupported" as const,
+    input,
+    reason:
+      input.occurredAt !== world.currentDate
+        ? "Catch-up payment has no admitted historical occurrence/base contract; no event is backdated."
+        : "No admitted wage TaxTerms and matching canonical occurrence-event binding; no base, assessment or second withholding is created.",
+  };
 }
 
 /** Freezes the policy effective when the taxable occurrence happened. Later
@@ -585,6 +1023,14 @@ export function assessTaxBase(
 ): World {
   const base = world.history.taxBases?.find((row) => row.id === baseId);
   if (!base) throw new Error("No recorded taxable occurrence.");
+  const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+    asOfDate: base.recordedAt,
+    historySequenceExclusive: base.sequence,
+  });
+  if (source && source.kind !== "event")
+    throw new Error(
+      "A saved statutory source reuses its existing liability/payment; a second assessment or collection schedule is forbidden.",
+    );
   const existing = world.history.taxAssessments?.find(
     (row) =>
       row.baseId === baseId &&
@@ -1354,14 +1800,14 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
     money(0, base.amount.currency);
     assertText(base.assumptionNote, "Tax base assumption");
     validatePayer(world, base.payer);
-    const event = eventById(world, base.sourceEventId);
+    const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+      asOfDate: base.recordedAt,
+      historySequenceExclusive: base.sequence,
+    });
     if (
       !world.jurisdictions[base.jurisdictionId] ||
-      base.recordedAt !== makeIsoDate(base.occurredAt) ||
-      !event ||
-      event.sequence >= base.sequence ||
-      event.occurredAt !== base.occurredAt ||
-      event.jurisdictionId !== base.jurisdictionId
+      !source ||
+      !taxBaseMatchesOccurrenceSource(base, source)
     )
       throw new Error("Invalid tax base occurrence.");
   }
@@ -1378,6 +1824,14 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       (row) => row.id === assessment.baseId,
     );
     if (!base) throw new Error("Missing assessed tax base.");
+    const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+      asOfDate: base.recordedAt,
+      historySequenceExclusive: base.sequence,
+    });
+    if (!source || source.kind !== "event")
+      throw new Error(
+        "A saved statutory source cannot have a second modeled assessment or collection schedule.",
+      );
     const dedup = `${base.id}:${proposal.terms.seriesKey}`;
     const preview = previewTax(proposal.terms, base.baseKey, base.amount);
     const selected = effectiveTaxPolicy(

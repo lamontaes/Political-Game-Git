@@ -1,0 +1,8 @@
+
+> political-life-rpg@0.4.0 report:check
+> node scripts/report-check/cli.mjs docs/codex/effect-batches/team-6/a33-paycheck-lineage.md
+
+error docs/codex/effect-batches/team-6/a33-paycheck-lineage.md:3: lead is 168 words; keep it under 120 and move method to the end
+error docs/codex/effect-batches/team-6/a33-paycheck-lineage.md:3: lead contains code ("`7fbf559f505842dd73560fd28078d0f7ae63bb2e`"); the lead says what happened and why it matters, method goes at the end
+error docs/codex/effect-batches/team-6/a33-paycheck-lineage.md:3: lead contains a pull request number ("#1597"); the lead says what happened and why it matters, method goes at the end
+docs/codex/effect-batches/team-6/a33-paycheck-lineage.md: 3 error(s), 0 warning(s)

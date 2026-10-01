@@ -1,0 +1,91 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/paycheck-tax-consumer.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team6-a33-paycheck-first.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/paycheck-tax-consumer.test.ts (8 tests | 8 failed) 61ms
+     × reads actual partial pay and existing liabilities once in SC, including after Continue 30ms
+     × reads actual partial pay and existing liabilities once in SD, including after Continue 5ms
+     × reads actual partial pay and existing liabilities once in RI, including after Continue 5ms
+     × reads actual partial pay and existing liabilities once in PR, including after Continue 4ms
+     × reads actual partial pay and existing liabilities once in PA, including after Continue 4ms
+     × does not turn an outcome ID into an event or admit an arbitrary wage base 4ms
+     × retains catch-up payment facts but refuses a backdated occurrence 4ms
+     × rejects an unpaid attempt, a non-work transfer and an unavailable outcome 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/paycheck-tax-consumer.test.ts > A33 saved paycheck and existing withholding lineage > reads actual partial pay and existing liabilities once in SC, including after Continue
+ FAIL  src/simulation/paycheck-tax-consumer.test.ts > A33 saved paycheck and existing withholding lineage > reads actual partial pay and existing liabilities once in SD, including after Continue
+ FAIL  src/simulation/paycheck-tax-consumer.test.ts > A33 saved paycheck and existing withholding lineage > reads actual partial pay and existing liabilities once in RI, including after Continue
+ FAIL  src/simulation/paycheck-tax-consumer.test.ts > A33 saved paycheck and existing withholding lineage > reads actual partial pay and existing liabilities once in PR, including after Continue
+ FAIL  src/simulation/paycheck-tax-consumer.test.ts > A33 saved paycheck and existing withholding lineage > reads actual partial pay and existing liabilities once in PA, including after Continue
+Error: A non-completed outcome requires a structured reason.
+ ❯ buildResourceTransferOutcome src/simulation/resources.ts:618:13
+    616|   } else {
+    617|     if (input.reasonKind === null)
+    618|       throw new Error("A non-completed outcome requires a structured r…
+       |             ^
+    619|     assertOpenTaxonomyKey(
+    620|       input.reasonKind,
+ ❯ recordResourceTransferOutcome src/simulation/resources.ts:450:5
+ ❯ fixture src/simulation/paycheck-tax-consumer.test.ts:120:11
+ ❯ src/simulation/paycheck-tax-consumer.test.ts:141:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/simulation/paycheck-tax-consumer.test.ts > A33 saved paycheck and existing withholding lineage > does not turn an outcome ID into an event or admit an arbitrary wage base
+Error: A non-completed outcome requires a structured reason.
+ ❯ buildResourceTransferOutcome src/simulation/resources.ts:618:13
+    616|   } else {
+    617|     if (input.reasonKind === null)
+    618|       throw new Error("A non-completed outcome requires a structured r…
+       |             ^
+    619|     assertOpenTaxonomyKey(
+    620|       input.reasonKind,
+ ❯ recordResourceTransferOutcome src/simulation/resources.ts:450:5
+ ❯ fixture src/simulation/paycheck-tax-consumer.test.ts:120:11
+ ❯ src/simulation/paycheck-tax-consumer.test.ts:208:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/simulation/paycheck-tax-consumer.test.ts > A33 saved paycheck and existing withholding lineage > retains catch-up payment facts but refuses a backdated occurrence
+Error: A non-completed outcome requires a structured reason.
+ ❯ buildResourceTransferOutcome src/simulation/resources.ts:618:13
+    616|   } else {
+    617|     if (input.reasonKind === null)
+    618|       throw new Error("A non-completed outcome requires a structured r…
+       |             ^
+    619|     assertOpenTaxonomyKey(
+    620|       input.reasonKind,
+ ❯ recordResourceTransferOutcome src/simulation/resources.ts:450:5
+ ❯ fixture src/simulation/paycheck-tax-consumer.test.ts:120:11
+ ❯ src/simulation/paycheck-tax-consumer.test.ts:224:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/simulation/paycheck-tax-consumer.test.ts > A33 saved paycheck and existing withholding lineage > rejects an unpaid attempt, a non-work transfer and an unavailable outcome
+Error: A non-completed outcome requires a structured reason.
+ ❯ buildResourceTransferOutcome src/simulation/resources.ts:618:13
+    616|   } else {
+    617|     if (input.reasonKind === null)
+    618|       throw new Error("A non-completed outcome requires a structured r…
+       |             ^
+    619|     assertOpenTaxonomyKey(
+    620|       input.reasonKind,
+ ❯ recordResourceTransferOutcome src/simulation/resources.ts:450:5
+ ❯ fixture src/simulation/paycheck-tax-consumer.test.ts:120:11
+ ❯ src/simulation/paycheck-tax-consumer.test.ts:242:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed (8)
+   Start at  18:08:34
+   Duration  11.10s (transform 8.86s, setup 25ms, import 10.88s, tests 61ms, environment 0ms)
+
+JSON report written to /tmp/team6-a33-paycheck-first.json
