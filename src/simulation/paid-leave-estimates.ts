@@ -1,3 +1,7 @@
+import {
+  reciprocalRankedReferences,
+  weightedReferenceMean,
+} from "./income-tax-withholding";
 import premiumRows from "../../data/research/money/state-paid-leave-premiums-2026.json" with { type: "json" };
 import benefitRows from "../../data/research/money/state-paid-leave-benefits-2026.json" with { type: "json" };
 import householdIncome from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
@@ -66,20 +70,16 @@ export function rankedPaidLeaveEstimate(
         censusRegionOf(row.stateKey.slice(3)) === region,
       incomeDistanceDollars:
         income === undefined ? 0 : Math.abs(INCOMES[row.stateKey]! - income),
-    }))
-    .sort((a, b) => compare(a, b) || a.stateKey.localeCompare(b.stateKey));
+    }));
   if (candidates.length === 0)
     throw new Error("No sourced paid-leave rates to estimate from.");
-  let rank = 1;
-  const references = candidates.map((row, index) => {
-    if (index > 0 && compare(row, candidates[index - 1]!) !== 0)
-      rank = index + 1;
-    return { ...row, rank, weight: 1 / rank };
-  });
+  const references = reciprocalRankedReferences(
+    candidates,
+    compare,
+    (row) => row.stateKey,
+  );
   const estimate = {
-    percent:
-      references.reduce((sum, row) => sum + row.percent * row.weight, 0) /
-      references.reduce((sum, row) => sum + row.weight, 0),
+    percent: weightedReferenceMean(references, (row) => row.percent),
     references,
     method:
       income === undefined
