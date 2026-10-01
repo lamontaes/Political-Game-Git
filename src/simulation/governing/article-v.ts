@@ -870,8 +870,10 @@ export function articleVStateActionHandler(
   );
 }
 
-export const ARTICLE_V_HANDLERS = [
-  [ARTICLE_V_REVIEW, articleVReviewHandler],
-  [ARTICLE_V_CONVENTION, articleVConventionHandler],
-  [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
-] as const;
+export function articleVHandlers() {
+  return [
+    [ARTICLE_V_REVIEW, articleVReviewHandler],
+    [ARTICLE_V_CONVENTION, articleVConventionHandler],
+    [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
+  ] as const;
+}

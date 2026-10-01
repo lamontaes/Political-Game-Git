@@ -320,7 +320,8 @@ export function netViewOnLaw(
   if (holders.length === 0) return 0;
   const reached = new Set(
     (world.history.lawExposures ?? [])
-      .filter((row) => row.measureId === measureId)
+      // A story read in the news carries no opinion weight.
+      .filter((row) => row.measureId === measureId && row.relation !== "news")
       .map((row) => row.personId),
   );
   let net = 0;
