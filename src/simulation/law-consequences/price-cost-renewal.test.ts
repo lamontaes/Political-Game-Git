@@ -23,6 +23,32 @@ import * as housing from "../living-world/housing-market";
 import { resourceFlowTermsAt } from "../resource-queries";
 import type { LawConsequenceRow } from "../law-consequence-types";
 import type startingLaw from "../../../data/research/laws/starting-law-2026.json";
+import {
+  availableMeasureSteps,
+  introduceMeasure,
+  measurePosition,
+  recordEnactment,
+} from "../legislation";
+import { recordFiledProvision } from "../legislative-politics";
+import {
+  legislativeProcedureForJurisdiction,
+  legislativeRulePackForWorld,
+} from "../legislative-procedure-world";
+import { defaultOriginChamber } from "../legislature-rules";
+import { seatedChamberForPack } from "../governing/chamber-votes";
+import type { LegislativeProcedureContext } from "../legislation-scenarios";
+import { applyLegislativeStep } from "../../presentation/legislation-session";
+import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
+import {
+  decideGoverningMatter,
+  governorOfficeForJurisdiction,
+  governingMatters,
+} from "../governing/state-governing";
+import { BILL_SIGN } from "../governing/governor-bill-decision";
+import { stateJurisdictionForKey } from "../life-places";
+import { recordWorldEvent } from "../world";
+import { playerRequiredWorkIds, releasePlayerRequiredWork } from "../time-work";
+import type { World } from "../types";
 
 const controlled = vi.hoisted(
   () =>
@@ -30,6 +56,178 @@ const controlled = vi.hoisted(
       question: "us-policy-positions:housing-land-use.rent-stabilization",
     }) as const,
 );
+
+/** Fictional votes/3% term, with actual saved members and a real governor desk.
+ * This operates on the existing lease world; it never constructs a scenario world.
+ */
+function enactCapOnLeaseWorld(start: World, placeKey: string) {
+  const stateKey = lifePlaceByKey(placeKey)!.stateJurisdictionKey!;
+  const state = stateJurisdictionForKey(stateKey)!;
+  const procedure = legislativeProcedureForJurisdiction(start, state.id);
+  expect(
+    procedure,
+    "Existing lease world must have its recorded legislature",
+  ).not.toBeNull();
+  const pack = legislativeRulePackForWorld(
+    start,
+    procedure!.baselinePack.packId,
+  );
+  const bodies = pack.chambers.map((chamber) => {
+    const seated = seatedChamberForPack(
+      start,
+      pack.packId,
+      chamber.chamberKey,
+      chamber.name,
+    );
+    expect(
+      seated,
+      "Use actual saved legislators, never substitute people",
+    ).not.toBeNull();
+    expect(seated!.body.members.length).toBeGreaterThan(0);
+    return seated!.body;
+  });
+  const origin = defaultOriginChamber(pack);
+  const sponsor = bodies.find((body) => body.chamberKey === origin.chamberKey)!
+    .members[0]!.personId!;
+  const proposition = Object.values(start.policyCatalog.propositions).find(
+    (p) => p.stableKey === controlled.question,
+  )!;
+  let next = introduceMeasure(start, {
+    stableKey: "fixture:a57-enacted-cap",
+    jurisdictionId: state.id,
+    rulePackId: pack.packId,
+    designation: "Controlled A57 rent-cap bill",
+    shortTitle: "Controlled three-percent renewal limit",
+    summary: "Authored numeric contract proof, not a researched state rate.",
+    origin: "member-introduction",
+    subjectClass: "general-policy",
+    sponsorPersonId: sponsor,
+    originChamberKey: origin.chamberKey,
+    propositionIds: [proposition.id],
+    propositionAnswers: [{ propositionId: proposition.id, answer: "yes" }],
+  });
+  const measureId = next.history.legislativeMeasures!.at(-1)!.id;
+  next = recordFiledProvision(next, {
+    stableKey: "fixture:a57-enacted-cap:term",
+    measureId,
+    provisionKey: "controlled-rent-cap",
+    sectionNumber: 1,
+    heading: "Controlled renewal cap",
+    text: "The controlled covered renewal increase is limited to three percent.",
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: "Controlled fixture leases",
+    },
+    applicationScope: { jurisdictionId: state.id, segmentKey: null },
+    lawTerms: [
+      {
+        questionKey: controlled.question,
+        key: "cap",
+        unit: "ratio",
+        value: 0.03,
+      },
+    ],
+  });
+  const votePlan: Record<string, { yea: number }> = {};
+  for (const chamber of pack.chambers) {
+    const body = bodies.find(
+      (entry) => entry.chamberKey === chamber.chamberKey,
+    )!;
+    for (const committee of chamber.committees)
+      votePlan[`committee:${committee.committeeKey}`] = {
+        yea: Math.min(committee.appointedMembers, body.members.length),
+      };
+    for (const stage of chamber.floorStages)
+      votePlan[`floor:${chamber.chamberKey}:${stage.stageKey}`] = {
+        yea: body.members.length,
+      };
+  }
+  const context: LegislativeProcedureContext = {
+    pack,
+    measureId,
+    bodies,
+    committeeMemberCount: null,
+    votePlan,
+    governorAction: null,
+    governorRationale: "No authored executive outcome.",
+  };
+  next = ensureStateExecutiveIncumbent(next, sponsor, stateKey.slice(3));
+  for (let guard = 0; guard < 40; guard += 1) {
+    const phase = measurePosition(next, measureId).phase;
+    if (phase === "awaiting-enactment") {
+      next = recordEnactment(next, {
+        stableKey: "fixture:a57-enacted-cap:law",
+        measureId,
+        effectiveAt: next.currentDate,
+      });
+      return { world: next, measureId };
+    }
+    if (phase === "awaiting-executive") {
+      const office = governorOfficeForJurisdiction(next, stateKey)!;
+      expect(office).not.toBeNull();
+      const previous =
+        next.control.kind === "person" ? next.control.personId : null;
+      const handoff = recordWorldEvent(next, {
+        stableKey: `fixture:a57-governor-control:${measureId}`,
+        type: "test.control-moved",
+        occurredAt: next.currentDate,
+        recordedAt: next.currentDate,
+        jurisdictionId: null,
+        involvedEntityIds: [
+          office.holderPersonId,
+          ...(previous
+            ? [previous, ...playerRequiredWorkIds(next, previous)]
+            : []),
+        ],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [],
+        summary:
+          "Controlled fixture hands the actual bill to its saved governor.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      next = previous
+        ? releasePlayerRequiredWork(handoff, {
+            personId: previous,
+            stableKeyPrefix: `fixture:a57-governor-control:${measureId}:released`,
+            outcomeEventId: handoff.history.events.at(-1)!.id,
+          })
+        : handoff;
+      next = {
+        ...next,
+        control: { kind: "person", personId: office.holderPersonId },
+      };
+      next = applyLegislativeStep(
+        context,
+        next,
+        "await-executive-decision",
+      ).world;
+      const matter = governingMatters(next, office.officeKey).find(
+        (row) => row.measureId === measureId && row.status === "open",
+      )!;
+      expect(matter).toBeDefined();
+      const decision = decideGoverningMatter(next, matter.id, BILL_SIGN);
+      expect(decision.ok, decision.ok ? "" : decision.reason).toBe(true);
+      next = decision.world;
+      expect(measurePosition(next, measureId).phase).toBe("awaiting-enactment");
+      continue;
+    }
+    const step = availableMeasureSteps(next, measureId).find(
+      (key) => key !== "offer-amendment",
+    );
+    expect(step, `Canonical next step at ${phase}`).toBeDefined();
+    next = applyLegislativeStep(context, next, step!).world;
+  }
+  throw new Error("Controlled rent-cap bill did not reach enactment.");
+}
 // Authored 3% contract input, not a claim about any state's statutory cap.
 vi.mock(
   "../../../data/research/laws/starting-law-2026.json",
@@ -162,7 +360,7 @@ describe("the actual lease renewal activity hook", () => {
       dispatch.mockRestore();
     }
   });
-  it("A57 leaves the proposal uncapped and applies a controlled final 3% term through the native kind", () => {
+  it("A57 enacts a controlled final 3% bill on the actual lease world before native renewal", () => {
     const seed = "team4-m10-renewal-activity-20260930";
     const supported = PLACE_POPULATION_ROWS.split(";")
       .map((row) => row.split(":")[0]!)
@@ -209,6 +407,9 @@ describe("the actual lease renewal activity hook", () => {
       (entry) => entry.regime === "market" && !entry.ended,
     )!;
     expect(lease).toBeDefined();
+    const enacted = enactCapOnLeaseWorld(initial, placeKey);
+    initial = enacted.world;
+    expect(measurePosition(initial, enacted.measureId).phase).toBe("enacted");
     const day = makeIsoDate(
       `${Number(initial.currentDate.slice(0, 4)) + 1}-${lease.flow.startsAt.slice(5, 7)}-01`,
     );
@@ -307,6 +508,15 @@ describe("the actual lease renewal activity hook", () => {
       const priced = resourceFlowTermsAt(changed, lease.flow.id)!;
       expect(priced.amount.minorUnits).toBe(old + old * 0.03);
       expect(priced.lawEffectStamps?.length).toBeGreaterThan(0);
+      const stamp = priced.lawEffectStamps!.find(
+        (record) => record.governingLawKey === enacted.measureId,
+      )!;
+      expect(stamp.source).toBe("enacted");
+      expect(stamp.sourceRecordIds).toContain(
+        changed.history.legislativeEnactments!.find(
+          (record) => record.measureId === enacted.measureId,
+        )!.id,
+      );
       expect(changed.history.resourceTransferOutcomes).toEqual(
         due.history.resourceTransferOutcomes,
       );
@@ -317,7 +527,7 @@ describe("the actual lease renewal activity hook", () => {
       expect(renewTownLeases(reopened, day)).toBe(reopened);
       expect(calls).toHaveLength(count);
       console.log(
-        `M10 actual renewal hook seed=${seed}: ${calls.length} saved activities, ${personName(changed.people[lease.leaseholderId]!)} in ${game.world.jurisdictions[lease.town]?.name}, ${day}. Controlled starting-law 3% term; no real statutory rate or enacted-bill producer proof.`,
+        `M10 actual renewal hook seed=${seed}: ${calls.length} saved activities, ${personName(changed.people[lease.leaseholderId]!)} in ${game.world.jurisdictions[lease.town]?.name}, ${day}. Controlled enacted 3% bill via actual governor desk; no real statutory rate or natural-year proof.`,
       );
     } finally {
       dispatch.mockRestore();
