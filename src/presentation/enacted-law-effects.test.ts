@@ -1,3 +1,5 @@
+import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
   playerRequiredWorkIds,
   releasePlayerRequiredWork,
@@ -271,6 +273,37 @@ function enactFromDocket(
       applyLegislativeStep(context, world, step).world,
     );
   }
+  const enactment = world.history.legislativeEnactments?.find(
+    (row) => row.measureId === measureId,
+  );
+  console.info(
+    "A80 fixture law records",
+    JSON.stringify({
+      file: "enacted-law-effects",
+      measureId,
+      currentDate: world.currentDate,
+      lineages: world.history.legislativeDraftLineages?.filter(
+        (row) => row.measureId === measureId,
+      ),
+      enactment: enactment ?? null,
+      operative: enactment ? operativeDateInWorld(world, enactment) : null,
+      appropriations:
+        world.history.publicProgramRecords?.filter(
+          (row) =>
+            row.kind === "appropriation" && row.sourceMeasureId === measureId,
+        ) ?? [],
+      availabilityClauses: currentMeasureProvisions(world, measureId)
+        .filter(
+          (row) =>
+            row.provisionKey === "availability" || row.provisionKey === "lapse",
+        )
+        .map((row) => ({
+          id: row.id,
+          provisionKey: row.provisionKey,
+          text: row.text,
+        })),
+    }),
+  );
   return { world, measureId };
 }
 
@@ -565,7 +598,11 @@ describe("a law the player passes changes what it governs", () => {
       reason: `This appropriation takes effect on ${enactment.effectiveAt}.`,
       amountMinorUnits: null,
     });
-    const operative = advanceWorld(world, 13);
+    const operative = advanceWorld(
+      world,
+      13,
+      createCampaignElectionTransitionRegistry(),
+    );
     expect(
       enactedLawEffects(operative, measureId)?.lines.find(
         (line) => line.kind === "transit",

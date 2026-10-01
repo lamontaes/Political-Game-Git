@@ -1,3 +1,5 @@
+import { currentMeasureProvisions } from "../simulation/legislative-politics";
+import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import {
   playerRequiredWorkIds,
   releasePlayerRequiredWork,
@@ -270,6 +272,33 @@ function pass(
     );
   }
   expect(measurePosition(world, measureId).outcome).toBe("enacted");
+  const enactment = world.history.legislativeEnactments?.find(
+    (row) => row.measureId === measureId,
+  );
+  console.info(
+    "A80 fixture law records",
+    JSON.stringify({
+      file: "enacted-duties",
+      measureId,
+      currentDate: world.currentDate,
+      lineages: world.history.legislativeDraftLineages?.filter(
+        (row) => row.measureId === measureId,
+      ),
+      enactment: enactment ?? null,
+      operative: enactment ? operativeDateInWorld(world, enactment) : null,
+      appropriations:
+        world.history.publicProgramRecords?.filter(
+          (row) =>
+            row.kind === "appropriation" && row.sourceMeasureId === measureId,
+        ) ?? [],
+      provisions: currentMeasureProvisions(world, measureId).map((row) => ({
+        id: row.id,
+        provisionKey: row.provisionKey,
+        text: row.text,
+        operativeEffect: row.operativeEffect ?? null,
+      })),
+    }),
+  );
   return { world, measureId, docketKey: filed.bill.docketKey };
 }
 
