@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
@@ -109,7 +110,6 @@ import { createCharacterHistoryContextPerson } from "./character-history";
 import {
   addDays,
   compareSimulationMoments,
-  isoDateFromParts,
   simulationMinutesBetween,
 } from "./dates";
 import {
@@ -205,7 +205,6 @@ import type {
   ElectionContestRecord,
   EntityId,
   FutureDueItem,
-  IsoDate,
   FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
   MetricSegmentKey,
@@ -501,17 +500,6 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
 /* Opponents                                                                   */
 /* -------------------------------------------------------------------------- */
 
-/**
- * A birth date that makes somebody exactly this old today. The day of the month
- * is clamped to the 28th so a leap day never lands in a year that has none.
- */
-function birthDateForAge(onDate: IsoDate, age: number): IsoDate {
-  const year = Number(onDate.slice(0, 4)) - age;
-  const month = Number(onDate.slice(5, 7));
-  const day = Math.min(Number(onDate.slice(8, 10)), 28);
-  return isoDateFromParts(year, month, day);
-}
-
 export interface EnsureCampaignOpponentsInput {
   readonly stableKey: string;
   readonly jurisdictionId: EntityId;
@@ -547,7 +535,11 @@ export function ensureCampaignOpponents(
       identity: name.identity,
       // An adult, because the office is one. The exact age is a fact about
       // this person and says nothing else about them.
-      birthDate: birthDateForAge(next.currentDate, rng.integer(32, 66)),
+      birthDate: inventedPersonBirthDate(rng, {
+        role: "campaign-opponent",
+        referenceDate: next.currentDate,
+        placement: "reference-day",
+      }),
       homeJurisdictionId: input.jurisdictionId,
     });
     const created = next.personOrder.find(

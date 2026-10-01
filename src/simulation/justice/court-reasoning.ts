@@ -6,17 +6,13 @@ import {
   ensureOfficeholderPrinciples,
   principledLeaning,
 } from "../governing/officeholder-principles";
-import {
-  courtsForJurisdiction,
-  seatHolderAt,
-  seatsForCourt,
-} from "../judiciary/courts";
+import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
+import { courtFor } from "../judiciary/court-for";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
   kinshipRelationshipsAt,
 } from "../life-queries";
-import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { ensurePeopleTraits } from "../people-traits";
 import { deriveRelationshipSummary } from "../queries";
 import { SeededRng } from "../rng";
@@ -429,25 +425,26 @@ export function sentencingJudge(
   courtCase: CourtCase,
   turn: number,
 ): EntityId | null {
-  const usps = courtCase.stateKey?.slice(3) ?? null;
-  const state = usps ? chiefExecutiveJurisdiction(usps) : null;
-  if (!state) return null;
+  if (!courtCase.venueJurisdictionId) return null;
+  const court = courtFor(
+    world,
+    courtCase.venueJurisdictionId,
+    "local-general-trial",
+    "criminal",
+  );
+  if (!court) return null;
   const judges: EntityId[] = [];
-  const courts = courtsForJurisdiction(world, state.id)
-    .filter((court) => court.level === "local-general-trial")
-    .sort((a, b) => a.courtId.localeCompare(b.courtId));
-  for (const court of courts)
-    for (const seat of seatsForCourt(world, court.courtId)) {
-      const holder = seatHolderAt(world, seat.seatId);
-      if (!holder || judges.includes(holder.personId)) continue;
-      if (holder.personId === courtCase.defendantId) continue;
-      if (
-        deriveRelationshipSummary(world, holder.personId, courtCase.defendantId)
-          .closeness !== "none"
-      )
-        continue;
-      judges.push(holder.personId);
-    }
+  for (const seat of seatsForCourt(world, court.courtId)) {
+    const holder = seatHolderAt(world, seat.seatId);
+    if (!holder || judges.includes(holder.personId)) continue;
+    if (holder.personId === courtCase.defendantId) continue;
+    if (
+      deriveRelationshipSummary(world, holder.personId, courtCase.defendantId)
+        .closeness !== "none"
+    )
+      continue;
+    judges.push(holder.personId);
+  }
   if (judges.length === 0) return null;
   return judges[turn % judges.length]!;
 }

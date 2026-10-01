@@ -1,9 +1,9 @@
+import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "./character-history";
-import { isoDateFromParts } from "./dates";
 import { createOrganization, createWorkRelationship } from "./life";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { drawCanonicalNameForGender, personName } from "./people";
@@ -12,7 +12,7 @@ import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "./press-interviews";
 import { projectEligiblePressAdvisers } from "./press-interview-producers";
 import { resolvePublicationSource } from "./public-information-integrity";
 import { SeededRng } from "./rng";
-import type { EntityId, IsoDate, World } from "./types";
+import type { EntityId, World } from "./types";
 import {
   isPersonAliveAt,
   personActionAvailabilityAt,
@@ -191,7 +191,11 @@ export function seekCivicPressContact(world: World): CivicPressContactResult {
     stableKey: reporterKey,
     givenName: name.givenName,
     familyName: name.familyName,
-    birthDate: birthDateForAge(world.currentDate, rng.integer(32, 66)),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "civic-reporter",
+      referenceDate: world.currentDate,
+      placement: "reference-day",
+    }),
     homeJurisdictionId: jurisdictionId,
     identity,
   });
@@ -350,17 +354,6 @@ function civicReporterHomeJurisdiction(
     throw new Error("A civic reporter requires an existing home jurisdiction.");
   }
   return first;
-}
-
-/**
- * A birth date that makes somebody exactly this old today. The day of the month
- * is clamped to the 28th so a leap day never lands in a year that has none.
- */
-function birthDateForAge(onDate: IsoDate, age: number): IsoDate {
-  const year = Number(onDate.slice(0, 4)) - age;
-  const month = Number(onDate.slice(5, 7));
-  const day = Math.min(Number(onDate.slice(8, 10)), 28);
-  return isoDateFromParts(year, month, day);
 }
 
 function controlledPersonId(world: World): EntityId {
