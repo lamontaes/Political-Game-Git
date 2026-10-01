@@ -11,3 +11,6 @@ state history stays unsupported in the public dated wage reader.
 
 Controlled state and federal wage fixtures record their authored executive
 signature through the existing legislative writer when checking adopted terms.
+
+The reviewed elected-office predicate preserves annual office salary payments
+through the common payroll writer while keeping appointed staff covered.

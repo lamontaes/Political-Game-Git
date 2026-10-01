@@ -1,0 +1,36 @@
+{
+  "codeHead": "829d7ca9315e323ec20f1d42c127c217051815bd",
+  "approvedExceptionDependency": "4d150a17f06d83407c58425d243051b7c1f84c81",
+  "native": {
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "files": 3,
+    "seconds": 289.01,
+    "defaultRegistryCases": 9,
+    "annualOfficeCases": 14,
+    "electiveCoverageCases": 1
+  },
+  "types": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "scope": "Controlled saved work/contracts/cash and authored office-law fixture; canonical default registry. No natural election, sponsor decision, all-56 coverage or ordinary clock claim.",
+  "remaining": [
+    "City candidate44e9 not in this proof source",
+    "All conditional Ohio ordinary-worker tiers remain unadmitted",
+    "Full clock, final main, speed and all-56 payroll NOT RUN"
+  ],
+  "receipts": [
+    {
+      "path": "docs/codex/effect-batches/team-3/elective-annual-default-r1.txt",
+      "rawSHA256": "cfa2fad1be1c5ad93b316cd644c2eeff1c57fbe8f620c0b2f6ee3e35e125e33c",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/elective-annual-default-types-r1.txt",
+      "rawSHA256": "d6cf816547f1ecd26b8b38c70a35791541b0793bf980431558eee5856a0dfa86",
+      "rawTrailingLinefeeds": 1
+    }
+  ]
+}
