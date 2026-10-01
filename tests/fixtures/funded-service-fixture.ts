@@ -7,6 +7,7 @@ import {
   measurePosition,
 } from "../../src/simulation/legislation";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
+import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import { createOrganization } from "../../src/simulation/life";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
@@ -125,6 +126,18 @@ export function enact(
     index < 40 && measurePosition(next, measureId).phase !== "enacted";
     index++
   ) {
+    // A passed bill waits on the governor's desk. This procedure world seats
+    // no governor office to open a desk matter, so the governor's signature
+    // is recorded through the shared governor-decision writer.
+    if (measurePosition(next, measureId).phase === "awaiting-executive") {
+      next = recordGovernorDecisionOnMeasure(
+        next,
+        measureId,
+        "signed",
+        "Authored test contract: the governor signs the service act.",
+      );
+      continue;
+    }
     const step = availableMeasureSteps(next, measureId).find(
       (key) => key !== "offer-amendment",
     );
