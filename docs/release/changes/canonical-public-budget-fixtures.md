@@ -1,8 +1,6 @@
 ---
 id: canonical-public-budget-fixtures
 impact: none
-section: Changed
-title: Budget checks use complete World fixtures
 ---
 
 Inherited budget checks now construct complete Worlds and supply dated controlled
