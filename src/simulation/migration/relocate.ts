@@ -74,6 +74,8 @@ export interface MoveRequest {
   readonly endsHousing?: boolean;
   /** The record that caused the move, such as a disaster's damage to the home. */
   readonly causeId?: EntityId;
+  /** Why they decided to go, in the words the move event records. */
+  readonly why?: string;
 }
 
 /** A move checked against the world and ready to write. */
@@ -91,6 +93,8 @@ export interface PlannedMove {
   /** Town jobs the movers leave behind, each ended on the move. */
   readonly endsWorkRelationshipIds?: readonly EntityId[];
   readonly causeId: EntityId | null;
+  /** Why they decided to go, when a decision recorded it. */
+  readonly why?: string;
 }
 
 export type MovePlan =
@@ -361,6 +365,7 @@ export function planMove(
       reason: request.reason,
       waveKey: request.waveKey,
       causeId: request.causeId ?? null,
+      ...(request.why ? { why: request.why } : {}),
       ...endedHousing(personIds, context.ties, request.endsHousing ?? false),
       endsWorkRelationshipIds: personIds.flatMap((id) =>
         context.ties.jobsLeftBehind(id),
@@ -473,10 +478,11 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       ...(move.waveKey ? [`wave:${move.waveKey}`] : []),
       ...(move.causeId ? [`cause:${move.causeId}`] : []),
     ],
-    summary:
+    summary: `${
       move.personIds.length === 1
-        ? `${personLabel(world, move.personIds[0]!)} moved from ${fromName} to ${toName}.`
-        : `${personLabel(world, move.personIds[0]!)} and ${move.personIds.length - 1} others in the household moved from ${fromName} to ${toName}.`,
+        ? `${personLabel(world, move.personIds[0]!)} moved from ${fromName} to ${toName}`
+        : `${personLabel(world, move.personIds[0]!)} and ${move.personIds.length - 1} others in the household moved from ${fromName} to ${toName}`
+    }${move.why ? `: ${move.why}` : ""}.`,
     context: {
       location: {
         jurisdictionId: move.toJurisdictionId,
