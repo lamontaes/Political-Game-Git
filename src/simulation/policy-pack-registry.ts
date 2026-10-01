@@ -1,3 +1,4 @@
+import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -30,7 +31,18 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // before the stances that point at it. The positions pack declares its own
   // principles, so it resolves those against itself in the same pass.
   US_STATE_AND_LOCAL_POLICY_PACK,
-  US_POLICY_POSITIONS_PACK,
+  {
+    ...US_POLICY_POSITIONS_PACK,
+    propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
+      const consequence =
+        COVERAGE_ELIGIBILITY_ROWS[
+          `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`
+        ];
+      return consequence
+        ? { ...row, consequences: [...(row.consequences ?? []), consequence] }
+        : row;
+    }),
+  },
   // Federal government, in its own namespace. It references nothing in the
   // packs above and nothing above references it, so its place here decides
   // only where its rows sit in the catalog order: after, so every id the

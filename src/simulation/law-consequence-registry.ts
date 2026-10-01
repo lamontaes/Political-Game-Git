@@ -1,3 +1,4 @@
+import { COVERAGE_ELIGIBILITY_REGISTRATION } from "./law-consequences/coverage-eligibility";
 import type {
   LawConsequenceKind,
   LawConsequenceKindRegistration,
@@ -9,7 +10,7 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly LawConsequenceKindRegistrat
   [
     // pay: Team2
     // legal-outcome: Team9
-    // coverage-eligibility: Team8
+    COVERAGE_ELIGIBILITY_REGISTRATION,
     // tax: Team3
     // price-cost: Team4
     // service-delivered: Team5 (Team6 transit contributor)
