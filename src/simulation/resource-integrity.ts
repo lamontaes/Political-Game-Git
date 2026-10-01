@@ -1,3 +1,4 @@
+import { monthlyWorkPay } from "./monthly-work-pay";
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
@@ -380,7 +381,18 @@ export function assertResourceHousingIntegrity(
         `Resource outcome crosses an unprorated terms change: ${outcome.id}`,
       );
     }
-    let expectedAmount = terms?.amount;
+    let expectedAmount =
+      outcome.earnedLawPayAssessmentId === undefined &&
+      flow.basisReference.kind === "work" &&
+      terms?.cadenceKind === "schedule:monthly"
+        ? monthlyWorkPay(world, {
+            resourceFlowId: flow.id,
+            periodStartsAt: outcome.periodStartsAt,
+            periodEndsAt: outcome.periodEndsAt,
+            onDate: outcome.occurredAt,
+            historySequenceExclusive: outcome.sequence,
+          }).gross
+        : terms?.amount;
     if (outcome.earnedLawPayAssessmentId !== undefined) {
       const assessment = recordById(
         h.earnedLawPayAssessments ?? [],

@@ -1,3 +1,4 @@
+import { monthlyWorkPay } from "./monthly-work-pay";
 import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { eventById } from "./event-index";
@@ -641,7 +642,20 @@ function buildResourceTransferOutcome(
         "Earned pay assessment must bind this exact completed transfer.",
       );
   }
-  const expectedAmount = assessment?.assessedGross ?? terms.amount;
+  const monthlyGross =
+    !assessment &&
+    flow.basisReference.kind === "work" &&
+    terms.cadenceKind === "schedule:monthly"
+      ? monthlyWorkPay(world, {
+          resourceFlowId: flow.id,
+          periodStartsAt,
+          periodEndsAt,
+          onDate: occurredAt,
+          historySequenceExclusive: world.history.nextSequence,
+        }).gross
+      : undefined;
+  const expectedAmount =
+    assessment?.assessedGross ?? monthlyGross ?? terms.amount;
   validateMoney(expectedAmount, "Expected earned transfer", true);
   if (!sameMoney(input.attemptedAmount, expectedAmount)) {
     throw new Error(

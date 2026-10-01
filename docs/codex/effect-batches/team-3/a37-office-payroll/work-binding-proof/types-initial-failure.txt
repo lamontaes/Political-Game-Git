@@ -1,0 +1,7 @@
+roots=2 files=752 diagnostics=1
+[96msrc/simulation/local-economy-work-binding.test.ts[0m:[93m47[0m:[93m49[0m - [91merror[0m[90m TS2339: [0mProperty 'workRelationshipId' does not exist on type 'ResourceFlowBasisReference'.
+  Property 'workRelationshipId' does not exist on type '{ readonly kind: "public-funding"; readonly mandate: PublicFundingMandate; readonly operationKey: string; }'.
+
+[7m47[0m         (row) => row.id === flow.basisReference.workRelationshipId,
+[7m  [0m [91m                                                ~~~~~~~~~~~~~~~~~~[0m
+

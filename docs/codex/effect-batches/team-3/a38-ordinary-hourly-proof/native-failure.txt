@@ -1,0 +1,83 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/runtime-art-build" without a file extension (vite.config.ts:1:33). Add the file extension
+  - import "./scripts/dev-lab/runtime-content-origin" without a file extension (vite.config.ts:2:38). Add the file extension
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:19:33). Add the file extension
+  - import "./scripts/dev-lab/art-desk-bridge" without a file extension (vite.config.ts:20:31). Add the file extension
+  - import "./scripts/dev-lab/artbench-bridge" without a file extension (vite.config.ts:21:32). Add the file extension
+  - import "./scripts/dev-lab/round-robin-sequencer" without a file extension (vite.config.ts:22:37). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:33:8). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-bridge.ts:19:8). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-bridge.ts:34:30). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-bridge.ts:26:8). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:36:43). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-bridge.ts:27:36). Add the file extension
+  - import "./art-desk-bridge" without a file extension (scripts/dev-lab/artbench-bridge.ts:28:50). Add the file extension
+  - import "./artbench-store" without a file extension (scripts/dev-lab/artbench-bridge.ts:36:8). Add the file extension
+  - import "./artbench-thumbnails" without a file extension (scripts/dev-lab/artbench-bridge.ts:37:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-inputs.ts:14:30). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-request-code.ts:1:35). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-cards.ts:1:35). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-store.ts:63:8). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-request-code.ts:2:41). Add the file extension
+  - import "./art-desk-usage" without a file extension (src/authoring/art-desk-cards.ts:2:55). Add the file extension
+  - import "../../src/authoring/asset-request" without a file extension (scripts/dev-lab/artbench-store.ts:64:35). Add the file extension
+  - import "./art-desk-request-code" without a file extension (src/authoring/art-desk-cards.ts:6:8). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-store.ts:68:8). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:15:8). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-store.ts:69:40). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:16:34). Add the file extension
+  - import "../../src/authoring/asset-review" without a file extension (scripts/dev-lab/artbench-store.ts:70:42). Add the file extension
+  - import "../../src/authoring/art-desk-notifications" without a file extension (scripts/dev-lab/artbench-store.ts:71:38). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/artbench-store.ts:72:27). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/artbench-store.ts:73:50). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-usage.ts:1:61). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/artbench.ts:18:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-notifications.ts:1:59). Add the file extension
+  - import "./asset-review" without a file extension (src/authoring/artbench.ts:19:42). Add the file extension
+  - import "./art-desk-cards" without a file extension (src/authoring/art-desk-notifications.ts:7:8). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/earned-law-pay-payment.test.ts (5 tests | 5 failed) 423ms
+   × A38 assessment producer saves the actual earned obligation without posting money 242ms
+   × A38 earned law raises only the actual completed interval without changing its contract 43ms
+   × A38 actual completed-shift payday delegates immutable earnings through the clock caller 51ms
+   × A38 default pay dispatch applies a saved hourly rule to ordinary weekly terms 40ms
+   × A38 ordinary weekly payment preserves actual saved-rule authority and withholding 45ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/earned-law-pay-payment.test.ts > A38 assessment producer saves the actual earned obligation without posting money
+ FAIL  src/simulation/earned-law-pay-payment.test.ts > A38 earned law raises only the actual completed interval without changing its contract
+ FAIL  src/simulation/earned-law-pay-payment.test.ts > A38 actual completed-shift payday delegates immutable earnings through the clock caller
+ FAIL  src/simulation/earned-law-pay-payment.test.ts > A38 default pay dispatch applies a saved hourly rule to ordinary weekly terms
+ FAIL  src/simulation/earned-law-pay-payment.test.ts > A38 ordinary weekly payment preserves actual saved-rule authority and withholding
+Error: Future transition key must be a namespaced semantic key: undefined
+ ❯ assertSemanticTransitionKey src/simulation/world-metrics.ts:1406:11
+    1404| ): void {
+    1405|   if (!SEMANTIC_KEY.test(value)) {
+    1406|     throw new Error(`${label} must be a namespaced semantic key: ${val…
+       |           ^
+    1407|   }
+    1408| }
+ ❯ createFutureTransitionHandlerRegistry src/simulation/future-transitions.ts:124:5
+ ❯ composeWorldTimeHandlers src/simulation/campaigns.ts:2202:7
+ ❯ advanceOrdinaryDays src/presentation/ordinary-life.ts:509:20
+ ❯ advanceStoppingAtOwnDeath src/presentation/ordinary-life.ts:456:12
+ ❯ passOrdinaryDaysUnchecked src/presentation/ordinary-life.ts:405:19
+ ❯ src/presentation/ordinary-life.ts:393:11
+ ❯ withWorldIntegrityDeferred src/simulation/world.ts:587:12
+ ❯ advanceWithWorldIntegrityAtEnd src/simulation/world.ts:603:18
+ ❯ passOrdinaryDays src/presentation/ordinary-life.ts:392:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  17:34:40
+   Duration  23.21s (transform 17.59s, setup 20ms, import 22.65s, tests 423ms, environment 0ms)
+

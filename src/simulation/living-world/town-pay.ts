@@ -3,6 +3,8 @@ import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
+import { settleTrackedBusinessPayroll } from "../local-economy";
+import { monthlyWorkPay } from "../monthly-work-pay";
 import type {
   ResolvedHourlyLawPayConsequence,
   ResolvedSavedHourlyPayConsequence,
@@ -544,6 +546,8 @@ export function paydayHandler(
   // A raise a law made reaches the person it raised.
   next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, null);
+  if (next.currentDate === lastDayOfMonth(next.currentDate))
+    next = settleTrackedBusinessPayroll(next);
   next = scheduleFutureDueItem(next, {
     stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}`,
     dueAt: nextPaydayDate(next.currentDate),
@@ -660,6 +664,8 @@ interface PayNote {
 
 /** What a pay flow's cadence says about its paydays. */
 function payNoteOf(cadenceKind: string): PayNote | null {
+  if (cadenceKind === "schedule:monthly")
+    return { period: "monthly", phase: 0 };
   const match =
     /^schedule:town-(weekly|biweekly|semimonthly|monthly)(?:-(\d))?$/.exec(
       cadenceKind,
@@ -1224,8 +1230,22 @@ export function applyLawPayConsequence(
   if (amount <= current!.amount.minorUnits) return world;
   if (effectiveAt < current!.effectiveAt || effectiveAt < flow!.startsAt)
     refuse("pay.terms.prospective");
+  const lastPaidDay = recordsWithFieldValue(
+    world.history.resourceTransferOutcomes,
+    "resourceFlowId",
+    flow!.id,
+  ).reduce<IsoDate | null>(
+    (last, paid) =>
+      !last || paid.periodEndsAt > last ? paid.periodEndsAt : last,
+    null,
+  );
+  const monthlyContinuation =
+    current!.cadenceKind === "schedule:monthly" &&
+    lastPaidDay !== null &&
+    addDays(lastPaidDay, 1) === effectiveAt;
   if (
     effectiveAt !== flow!.startsAt &&
+    !monthlyContinuation &&
     (weekly
       ? daysBetween(flow!.startsAt, effectiveAt) % 7 !== 0
       : !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase))
@@ -1839,14 +1859,22 @@ export function settleTownCompensations(
             null,
           )
       : null;
-    const gross = assessment?.assessedGross ?? terms.amount;
+    const monthly =
+      terms.cadenceKind === "schedule:monthly"
+        ? monthlyWorkPay(next, {
+            resourceFlowId: flow.id,
+            periodStartsAt: window.startsAt,
+            periodEndsAt: window.endsAt,
+            onDate: payday,
+            historySequenceExclusive: next.history.nextSequence,
+          })
+        : null;
+    const gross = assessment?.assessedGross ?? monthly?.gross ?? terms.amount;
     const amount =
       unpaidDays === 0
         ? gross
         : money(
-            Math.round(
-              (terms.amount.minorUnits * (workdays - unpaidDays)) / workdays,
-            ),
+            Math.round((gross.minorUnits * (workdays - unpaidDays)) / workdays),
             terms.amount.currency,
           );
     const caring =
@@ -1898,7 +1926,9 @@ export function settleTownCompensations(
             : "custom:unpaid-sick-days",
       note:
         unpaidDays === 0
-          ? (period.note ?? "Pay for the period.")
+          ? monthly !== null
+            ? `Pay for ${monthly.heldDays} of ${monthly.calendarDays} calendar days in the month.`
+            : (period.note ?? "Pay for the period.")
           : `Pay for the period, less ${unpaidDays} unpaid ${unpaidDays === 1 ? "day" : "days"} ${caring ? "home with a sick child" : "out sick"}.`,
       provenance: completion
         ? { kind: "simulated-event", eventId: completion.id }
