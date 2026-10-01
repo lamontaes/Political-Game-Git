@@ -33,11 +33,7 @@ import { deserializeWorld, serializeWorld } from "./serialization";
 import { PAID_LEAVE_QUESTION } from "./state-paid-leave-law";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
 import { openGovernmentBudget } from "./public-budgets/opening";
-import {
-  readMonthFlows,
-  settleGovernmentMonth,
-  type MonthFlows,
-} from "./public-budgets/month";
+import { readMonthFlows, settleGovernmentMonth } from "./public-budgets/month";
 import {
   BUDGET_PROGRAMS,
   PUBLIC_BUDGETS_VERSION,
@@ -200,19 +196,7 @@ describe.each(states)("saved paid-leave payment in %s", (stateKey) => {
       world.currentDate,
     );
     if (typeof government === "string") throw new Error(government);
-    const empty: MonthFlows = {
-      withheld: new Map(),
-      represented: new Map(),
-      levies: new Map(),
-      payments: new Map(),
-    };
     const month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
-    const baseline = settleGovernmentMonth(
-      world,
-      government,
-      month,
-      empty,
-    ).government;
     const checkBudget = (
       source: World,
       result: World,
@@ -229,6 +213,14 @@ describe.each(states)("saved paid-leave payment in %s", (stateKey) => {
         adjustments: [],
         unknown: [],
       };
+      // Both sides settle the actual saved account. An empty legacy map
+      // selects forecasts, which are not a cash baseline for this payment.
+      const baseline = settleGovernmentMonth(
+        source,
+        government,
+        month,
+        readMonthFlows(source, store).flows,
+      ).government;
       const reading = readMonthFlows(result, store);
       const book = settleGovernmentMonth(
         result,
@@ -239,16 +231,19 @@ describe.each(states)("saved paid-leave payment in %s", (stateKey) => {
       const row = book.months.at(-1)!;
       const prior = baseline.months.at(-1)!;
       const at = BUDGET_PROGRAMS.indexOf("otherPrograms");
-      expect(row.spending[at]! - prior.spending[at]!).toBe(
-        Math.round(expectedMinor / 100),
+      expect(Math.round((row.spending[at]! - prior.spending[at]!) * 100)).toBe(
+        expectedMinor,
       );
       expect(row.revenue).toEqual(prior.revenue);
       expect(
-        row.balance +
-          row.reserve -
-          row.debt -
-          (prior.balance + prior.reserve - prior.debt),
-      ).toBe(-Math.round(expectedMinor / 100) || 0);
+        Math.round(
+          (row.balance +
+            row.reserve -
+            row.debt -
+            (prior.balance + prior.reserve - prior.debt)) *
+            100,
+        ),
+      ).toBe(-expectedMinor || 0);
       const last = result.history.resourceTransferOutcomes.at(-1)!;
       const costs = (row.lawEffectStamps ?? []).filter(
         (stamp) => stamp.effectKind === "paid-leave-budget-cost",
