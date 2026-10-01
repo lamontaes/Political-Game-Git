@@ -3,13 +3,14 @@
   "impact": "shapes-design",
   "lane": "Lives: moves",
   "notes": [
-    "Next A135 step, from CTO ruling 23(b), October 1, 2026, on #1630. Today a resident who looks for work outside town is answered by the state government seated in the state where their closest relative outside town lives, or else by their own state's government. Anyone who is not a professional is offered the job market's placeholder public-body clerk role (PUBLIC_BODY_ROLE_PLACEHOLDER), at clerk pay scaled by the two states' median household incomes. The code says so at src/simulation/migration/job-offers.ts, in reviewJobSearchElsewhere, marked HARDWIRED: the world records no employers outside town.",
-    "Ruling 23(b): offers from private employers elsewhere come from that place's recorded employers, the same real-employer data the town businesses use (local-business-counts.ts localBusinessSupplyFor, as wired into local-economy.ts by #1567 and #1596). The employer is produced only when an offer is needed, under the world-outside design of September 26: one organization for that place and kind, written through createOrganization with the place's own business supply as evidence, and kept for later offers instead of being written again.",
-    "Which kind of employer, and at what pay, follows the resident's own line of work. A recorded occupation is matched to the place's sectors in the business data. The pay is the place's own rate for that occupation where the data holds one; otherwise it is the resident's own pay scaled by the two states' median household incomes, as now, labeled ESTIMATED FROM AVERAGE.",
-    "The calibration under ruling 23(a) on this branch holds the total at about 1.5 to 2 percent of adults a year moving for an offer. Changing who answers should not move that total, and the test in job-offers.test.ts keeps checking it."
+    "Built under LIVES slice step 4b (CTO ruling 23(b), October 1, 2026). A resident who looks for work outside town now applies to a private employer the place really has (src/simulation/migration/employers-elsewhere.ts). The place is the town their closest relative outside town lives in, else that relative's state's largest town, else their own state's largest other town, else, where the state has no other town, the country's largest. GAME ASSUMPTION, labeled: with no relative to go to, a search looks first to the largest labor market.",
+    "The employer kinds are those the place really has, from its share of the county's establishments (County Business Patterns 2023, localBusinessSupplyFor; at least one after rounding, as the town's own businesses are seated). A person is offered the kind that fits them: their own line of work first, then any work they have done, then work whose typical entry-level education is no formal credential (BLS Employment Projections: cashiers, retail salespersons, waiters and waitresses), the best-paid first. The employer is written as one organization for that place and kind the first time an offer needs it.",
+    "Pay is the place's BLS OEWS wage (May 2025) for the occupation at the percentile the person's years in that line of work give (townPayPercentile, no draw). Where BLS publishes none there (American Samoa, the Northern Mariana Islands), the national median with a 10 percent spread for each world, labeled ESTIMATED FROM AVERAGE.",
+    "The old path is deleted: no offer elsewhere is the placeholder public clerk job, and no professional is offered their own pay scaled by the two states' median household incomes.",
+    "What remains open: the eight business kinds the town data covers are the only private employers a place offers; a professional whose occupation is not among them is offered entry-level work, which a better-paid professional turns down. Wider employer coverage needs the occupation-by-industry staffing pattern (BLS OEWS industry tables) for each place."
   ],
   "priority": "P1",
-  "question": "For a place outside the player's town, which recorded employers would hire a resident in their line of work, and at what pay, using the business counts and wage data the game already holds for every one of the 56 places?",
+  "question": "Which industries hire each occupation the game records beyond the eight business kinds the town data covers, so a professional looking for work outside town is offered work in their own field at that place's pay?",
   "questionId": "job-offers-from-employers-elsewhere",
   "relatedQuestionIds": ["why-americans-move-causes-and-strengths"],
   "requestVersion": "research-request/v1",
@@ -20,7 +21,7 @@
       "whatItDidNotSettle": "It builds the employers of the player's own town. Nothing yet builds one employer in another place on demand, or matches a resident's occupation to that place's sectors and pay."
     }
   ],
-  "title": "Job offers from a place's own recorded employers, not a placeholder clerk job",
-  "usableAnswer": "For each occupation group the game records, the business sectors that hire it and the place's pay for it, read from the business and wage data the game already has for all 56 places, with an ESTIMATED FROM AVERAGE fallback wherever a place's data is missing.",
+  "title": "Job offers from a place's own recorded employers: built, and what remains",
+  "usableAnswer": "For each occupation group the game records beyond the eight business kinds, the industries that hire it and the place's pay for it (BLS OEWS industry-by-occupation tables), so a professional's offer elsewhere comes from an employer in their own field.",
   "whyItMatters": "A resident who moves for work should go to a real kind of employer in a real place, at that place's pay, so that what they earn there, and what they send or spend, follows from the record."
 }

@@ -245,14 +245,9 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
   );
 
   it("step 4a: a household moves away after a job offer elsewhere (A135)", () => {
-    // The state's executive office is the employer elsewhere the job market
-    // already answers from; the small world seats it through its own builder.
-    const small = smallWorld({
-      place: PLACE,
-      seed: SEED,
-      people: 6,
-      offices: ["governor"],
-    });
+    // No employer elsewhere is seated ahead: the place the worker looks to
+    // writes the one the offer needs from its own business counts.
+    const small = world(6);
     const today = small.world.currentDate;
     const adults = small.world.personOrder
       .filter(
@@ -376,7 +371,19 @@ describe(`LIVES barebones script in ${PLACE} (seed ${SEED})`, () => {
     // household still goes where the offer is.
     expect(["work:job-offer", "work:job-lost"]).toContain(move!.reason);
     expect(move!.personIds).toEqual(expect.arrayContaining([worker, partner]));
-    expect(move!.toJurisdictionId).toBe(small.stateJurisdictionId);
+    const opening = moved.history.jobOpenings!.find(
+      (row) =>
+        row.stableKey.startsWith("job-opening:elsewhere:") &&
+        row.stableKey.includes(worker),
+    )!;
+    expect(move!.toJurisdictionId).toBe(opening.jurisdictionId);
+    expect(move!.toJurisdictionId).not.toBe(small.jurisdictionId);
+    // The employer is a private business recorded at that place, not a
+    // government office.
+    const employerRecord = moved.history.organizations.find(
+      (row) => row.id === opening.organizationId,
+    )!;
+    expect(employerRecord.stableKey).toMatch(/^employer-elsewhere:/);
     for (const personId of [worker, partner])
       expect(moved.people[personId]!.homeJurisdictionId).toBe(
         move!.toJurisdictionId,
