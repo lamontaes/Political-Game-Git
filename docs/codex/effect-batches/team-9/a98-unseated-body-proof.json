@@ -6,93 +6,31 @@
     "PR1477 office-opening6cc1c05010848c7ea4776889953931ea983b1632",
     "PR1496 saved-sentence d30a4fe81153aecd730e07896e245789e461e502"
   ],
-  "command": "A98_PROOF_PATH=/tmp/team9-a98-kansas.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/clemency-unseated-body.test.ts --reporter=default --reporter=json --outputFile=/tmp/team9-a98-kansas-results.json",
-  "passed": 6,
+  "command": "A98_PROOF_PATH=/tmp/team9-a98-kansas-exact.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/clemency-unseated-body.test.ts -t Kansas --reporter=default --reporter=json --outputFile=/tmp/team9-a98-kansas-exact-results.json",
+  "passed": 1,
   "failed": 0,
-  "durationSeconds": 77.26,
+  "durationSeconds": 40.36,
   "sourceBlobs": {
     "src/simulation/justice/clemency.ts": "99d2413dab300f87a9fd90f621fe59674bcacdf0",
-    "src/simulation/justice/clemency-unseated-body.test.ts": "a5a69874e7083edad74880dd3505ee880e84e295"
+    "src/simulation/justice/clemency-unseated-body.test.ts": "342386bf569839e45ba7d2cced03be8b5d592cda"
   },
-  "namedCases": [
-    {
-      "place": "US-MN",
-      "name": "Parker Armstrong",
-      "petitionerId": "person_1e7b0b1caf5b5d47",
-      "sentenceId": "event_f71d735366febb91",
-      "petitionId": "event_7eb0fd6451518e23",
-      "status": "open",
-      "answers": 0,
-      "nextDueAt": "2026-08-21",
-      "reloadRepeat": "unchanged",
-      "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
-    },
-    {
-      "place": "US-CA",
-      "name": "Victoria Wheeler",
-      "petitionerId": "person_18f12584618e1a37",
-      "sentenceId": "event_4b0ea5475221bb51",
-      "petitionId": "event_97502f7baf4ab55d",
-      "status": "open",
-      "answers": 0,
-      "nextDueAt": "2026-08-21",
-      "reloadRepeat": "unchanged",
-      "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
-    },
-    {
-      "place": "US-AZ",
-      "name": "Jessica Yang",
-      "petitionerId": "person_6ad3dafb77c31f25",
-      "sentenceId": "event_69277247c5c137df",
-      "petitionId": "event_e0522db33046b695",
-      "status": "open",
-      "answers": 0,
-      "nextDueAt": "2026-08-21",
-      "reloadRepeat": "unchanged",
-      "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
-    },
-    {
-      "place": "US-ID",
-      "name": "Benjamin Holland",
-      "petitionerId": "person_bbef5b0f70cee369",
-      "sentenceId": "event_55e5d75bbb9c6ba7",
-      "petitionId": "event_f95fceb9e1ec5d96",
-      "status": "open",
-      "answers": 0,
-      "nextDueAt": "2026-08-21",
-      "reloadRepeat": "unchanged",
-      "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
-    },
-    {
-      "place": "US-DE",
-      "name": "Damian Schultz",
-      "petitionerId": "person_4ee60bbf7fc84165",
-      "sentenceId": "event_ef626f3f930babe7",
-      "petitionId": "event_66db61cc600b90e6",
-      "status": "open",
-      "answers": 0,
-      "nextDueAt": "2026-08-21",
-      "reloadRepeat": "unchanged",
-      "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
-    },
-    {
-      "place": "US-KS",
-      "name": "Harper Vargas",
-      "petitionerId": "person_4bccf0ab7454566a",
-      "sentenceId": "event_c6ff3ac914fca842",
-      "petitionId": "event_7e37148bae3f0042",
-      "source": "K.S.A.22-3701(d), existing authority record",
-      "advisoryDays": 120,
-      "deadline": "2026-05-05",
-      "earlyDate": "2026-01-05",
-      "bodyAnswers": 0,
-      "executiveHolderId": "person_d021308054a55c11",
-      "executiveMatterId": "event_78ad0705ab1b07eb",
-      "executiveOpenedAt": "2026-05-05",
-      "reloadRepeat": "unchanged",
-      "registry": "composeWorldTimeHandlers"
-    }
-  ],
+  "namedCases": {
+    "place": "US-KS",
+    "name": "Harper Vargas",
+    "petitionerId": "person_4bccf0ab7454566a",
+    "sentenceId": "event_c6ff3ac914fca842",
+    "petitionId": "event_7e37148bae3f0042",
+    "source": "K.S.A.22-3701(d), existing authority record",
+    "advisoryDays": 120,
+    "deadline": "2026-05-05",
+    "earlyDate": "2026-05-04",
+    "bodyAnswers": 0,
+    "executiveHolderId": "person_d021308054a55c11",
+    "executiveMatterId": "event_78ad0705ab1b07eb",
+    "executiveOpenedAt": "2026-05-05",
+    "reloadRepeat": "unchanged",
+    "registry": "composeWorldTimeHandlers"
+  },
   "typecheck": {
     "ownedRoots": 2,
     "files": 988,
@@ -203,5 +141,123 @@
     "cause": "Fixture canceled actual due because due entityIds bind petitioner, not petition. Repaired fixture preserves saved stable-key-bound due and asserts scheduled before deadline. No production or timeout change."
   },
   "publishedParent": "c2bf6a272e77e34b759d00bb17c8fc8c64789f44",
-  "productionUnchanged": true
+  "productionUnchanged": true,
+  "sixCaseRenewal": {
+    "passed": 6,
+    "durationSeconds": 77.26,
+    "sourceBlobs": {
+      "src/simulation/justice/clemency.ts": "99d2413dab300f87a9fd90f621fe59674bcacdf0",
+      "src/simulation/justice/clemency-unseated-body.test.ts": "a5a69874e7083edad74880dd3505ee880e84e295"
+    },
+    "namedCases": [
+      {
+        "place": "US-MN",
+        "name": "Parker Armstrong",
+        "petitionerId": "person_1e7b0b1caf5b5d47",
+        "sentenceId": "event_f71d735366febb91",
+        "petitionId": "event_7eb0fd6451518e23",
+        "status": "open",
+        "answers": 0,
+        "nextDueAt": "2026-08-21",
+        "reloadRepeat": "unchanged",
+        "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
+      },
+      {
+        "place": "US-CA",
+        "name": "Victoria Wheeler",
+        "petitionerId": "person_18f12584618e1a37",
+        "sentenceId": "event_4b0ea5475221bb51",
+        "petitionId": "event_97502f7baf4ab55d",
+        "status": "open",
+        "answers": 0,
+        "nextDueAt": "2026-08-21",
+        "reloadRepeat": "unchanged",
+        "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
+      },
+      {
+        "place": "US-AZ",
+        "name": "Jessica Yang",
+        "petitionerId": "person_6ad3dafb77c31f25",
+        "sentenceId": "event_69277247c5c137df",
+        "petitionId": "event_e0522db33046b695",
+        "status": "open",
+        "answers": 0,
+        "nextDueAt": "2026-08-21",
+        "reloadRepeat": "unchanged",
+        "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
+      },
+      {
+        "place": "US-ID",
+        "name": "Benjamin Holland",
+        "petitionerId": "person_bbef5b0f70cee369",
+        "sentenceId": "event_55e5d75bbb9c6ba7",
+        "petitionId": "event_f95fceb9e1ec5d96",
+        "status": "open",
+        "answers": 0,
+        "nextDueAt": "2026-08-21",
+        "reloadRepeat": "unchanged",
+        "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
+      },
+      {
+        "place": "US-DE",
+        "name": "Damian Schultz",
+        "petitionerId": "person_4ee60bbf7fc84165",
+        "sentenceId": "event_ef626f3f930babe7",
+        "petitionId": "event_66db61cc600b90e6",
+        "status": "open",
+        "answers": 0,
+        "nextDueAt": "2026-08-21",
+        "reloadRepeat": "unchanged",
+        "fixture": "Authored older-save dates on actual prosecution records; unchanged existing sentence writer."
+      },
+      {
+        "place": "US-KS",
+        "name": "Harper Vargas",
+        "petitionerId": "person_4bccf0ab7454566a",
+        "sentenceId": "event_c6ff3ac914fca842",
+        "petitionId": "event_7e37148bae3f0042",
+        "source": "K.S.A.22-3701(d), existing authority record",
+        "advisoryDays": 120,
+        "deadline": "2026-05-05",
+        "earlyDate": "2026-01-05",
+        "bodyAnswers": 0,
+        "executiveHolderId": "person_d021308054a55c11",
+        "executiveMatterId": "event_78ad0705ab1b07eb",
+        "executiveOpenedAt": "2026-05-05",
+        "reloadRepeat": "unchanged",
+        "registry": "composeWorldTimeHandlers"
+      }
+    ],
+    "qualification": "Five consent cases renewed; Kansas deadline route passed, but the attempted pre-deadline resolver did not advance date. Not proof of day119."
+  },
+  "latestKansasProof": {
+    "passed": 1,
+    "notRun": 5,
+    "durationSeconds": 40.36,
+    "command": "A98_PROOF_PATH=/tmp/team9-a98-kansas-exact.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/clemency-unseated-body.test.ts -t Kansas --reporter=default --reporter=json --outputFile=/tmp/team9-a98-kansas-exact-results.json",
+    "namedCase": {
+      "place": "US-KS",
+      "name": "Harper Vargas",
+      "petitionerId": "person_4bccf0ab7454566a",
+      "sentenceId": "event_c6ff3ac914fca842",
+      "petitionId": "event_7e37148bae3f0042",
+      "source": "K.S.A.22-3701(d), existing authority record",
+      "advisoryDays": 120,
+      "deadline": "2026-05-05",
+      "earlyDate": "2026-05-04",
+      "bodyAnswers": 0,
+      "executiveHolderId": "person_d021308054a55c11",
+      "executiveMatterId": "event_78ad0705ab1b07eb",
+      "executiveOpenedAt": "2026-05-05",
+      "reloadRepeat": "unchanged",
+      "registry": "composeWorldTimeHandlers"
+    },
+    "fixture": "Explicit dated snapshot at report deadline minus1 day; deadline delivered by original saved due through production composer; no board vote",
+    "sourceBlobs": {
+      "src/simulation/justice/clemency.ts": "99d2413dab300f87a9fd90f621fe59674bcacdf0",
+      "src/simulation/justice/clemency-unseated-body.test.ts": "342386bf569839e45ba7d2cced03be8b5d592cda"
+    },
+    "fiveConsentTests": "Original assertions/sharedfixture retained; passed in sixCaseRenewal; not rerun in this Kansas-only receipt"
+  },
+  "notRunAtLatestSource": 5
 }

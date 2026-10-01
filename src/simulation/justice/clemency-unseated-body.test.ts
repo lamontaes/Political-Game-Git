@@ -289,11 +289,11 @@ it("Kansas waits for the sourced advisory deadline before reaching the actual ex
       ?.status,
   ).toBe("scheduled");
   const registry = composeWorldTimeHandlers();
-  const early = resolveFutureDueItemsThrough(
-    isolated,
-    addDays(deadline, -1),
-    registry,
-  );
+  // The due resolver advances only when a saved item is delivered. An explicit
+  // older-save boundary snapshot tests the day before the sourced report cap.
+  // The actual retained due item still delivers the deadline through the registry.
+  const early: World = { ...isolated, currentDate: addDays(deadline, -1) };
+  expect(early.currentDate).toBe(addDays(deadline, -1));
   const noBypass = advanceClemencyPetition(early, petitionId);
   expect(clemencyPetitionStatus(noBypass, petitionId)).toBe("open");
   expect(answersTo(noBypass, petitionId)).toEqual([]);
