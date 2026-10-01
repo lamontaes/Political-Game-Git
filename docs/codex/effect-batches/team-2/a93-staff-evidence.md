@@ -14,7 +14,7 @@ Measured bedrock: A job or degree needs an actual saved record. An offer by an o
 
 ## Research
 
-Measured: This repair removes fabricated evidence rather than estimating an employment rate (a93-staff-proof/slice-current-main/executed.patch:1). The previously admitted scoring of recorded posts is unchanged; it remains an authored assessment, not a measured hiring-success probability (a93-staff-proof/slice-current-main/source-checks.txt:2).
+Measured: This repair removes fabricated evidence rather than estimating an employment rate (a93-staff-proof/final-main/executed.patch:1). The previously admitted scoring of recorded posts is unchanged; it remains an authored assessment, not a measured hiring-success probability (a93-staff-proof/final-main/source-checks.txt:2).
 
 ## Revisions
 
@@ -41,20 +41,20 @@ Measured: A supplied canonical staff post supports a recorded assessment; it sup
 
 ## Proof run
 
-Measured: The complete changed file passes four cases, with no failures or skips, in 15.17 seconds (a93-staff-proof/slice-current-main/receipt.json:1).
+Measured: The complete changed file passes four cases, with no failures or skips, in 13.64 seconds (a93-staff-proof/final-main/receipt.json:1).
 
-Measured: Three scoped strict roots have zero diagnostics (a93-staff-proof/slice-current-main/types.log:1). Owned lint, format, full static scan and zero-dice exit zero (a93-staff-proof/slice-current-main/source-checks.txt:1). A static classification is not a hiring outcome.
+Measured: Three scoped strict roots have zero diagnostics (a93-staff-proof/final-main/types.log:1). Owned lint, format, full static scan and zero-dice exit zero (a93-staff-proof/final-main/source-checks.txt:1). A static classification is not a hiring outcome.
 
-Measured: LOAD=ok; Node imports world.ts and macro-economy collects 29 cases without executing them (a93-staff-proof/slice-current-main/receipt.json:1).
+Measured: LOAD=ok; Node imports world.ts and macro-economy collects 29 cases without executing them (a93-staff-proof/final-main/receipt.json:1).
 
 ## Worked example
 
-Measured: The actual D.C. mayor's candidates Avery Mathews, Ramon Anderson and Jenna Clayton each have zero work posts and unknown steadiness (a93-staff-proof/slice-current-main/tests.log:7).
+Measured: The actual D.C. mayor's candidates Avery Mathews, Ramon Anderson and Jenna Clayton each have zero work posts and unknown steadiness (a93-staff-proof/final-main/tests.log:7).
 
-Measured: In the sampled Abbeville, Georgia opening, Corey Santos's assessment reads, “The office has no record of Corey Santos's working life.” His steadiness stays unknown (a93-staff-proof/slice-current-main/tests.log:6).
+Measured: In the sampled Abbeville, Georgia opening, Corey Santos's assessment reads, “The office has no record of Corey Santos's working life.” His steadiness stays unknown (a93-staff-proof/final-main/tests.log:6).
 
 ## Method and handoff
 
-Executed source b04a36a71df5a9ca79d9ac25466f3568ab3ce5ec contains main2617e39673cba08d17b2cd1831a27a775d7fc018. Seed A93-staff-record-evidence selects Abbeville, Georgia; the office example is separately supplied D.C. Stock limits and one test process. Exact source blobs, the deleted-source patch and raw logs are in slice-current-main/receipt.json. Initial failures and earlier passes remain in the parent proof directory.
+Executed source 10c5694df95838323f8d7404d6ba256693fafdea contains maine1a70959633d49e7c7a3d10bb1f5b361346de4cc. Seed A93-staff-record-evidence selects Abbeville, Georgia; the office example is separately supplied D.C. Stock limits and one test process. Exact source blobs, the deleted-source patch and raw logs are in final-main/receipt.json. Initial failures and earlier passes remain in the parent proof directory.
 
 Owned: staff-evidence.ts, its changed test and the exact state-governing candidate/unknown-assessment consumers. Team1's budget-family selection, other governing families and shared schemas are untouched. No full suite, year run, natural office-staffing run, browser or whole-slice end-to-end acceptance. CTO core review and browser play remain required.
