@@ -32,6 +32,7 @@ import {
 import {
   currentGoverningOffices,
   governingMatters,
+  GOVERNING_TRANSITION,
 } from "../governing/state-governing";
 import { recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
@@ -44,6 +45,9 @@ import { settleStateExecutiveQualification } from "../nationwide-world/state-exe
 import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { assertWorldIntegrity } from "../world";
+import { composeWorldTimeHandlers } from "../campaigns";
+import { CLEMENCY_PETITION_EVENT } from "./clemency-records";
+import { CLEMENCY_SENTENCE_TAG } from "./jail-terms";
 import type { EntityId, World } from "../types";
 import {
   advanceClemencyAfterExecutiveEntry,
@@ -422,6 +426,124 @@ for (const state of states)
       expect(clemencyPetitionStatus(loaded, petitionId)).toBe("denied");
       return loaded;
     }
+    it("actual saved desk opening records the NPC request once across reload", () => {
+      const setup = planned();
+      const qualified = recordElectedExecutiveQualification(setup.world, {
+        contestId: setup.contestId,
+        personId: successor,
+        qualificationNote: "Recorded fixture qualification.",
+      });
+      const entered = resolveFutureDueItemsThrough(
+        afterOldTerm(qualified, setup.term.startsAt),
+        setup.term.startsAt,
+        EXECUTIVE_TERM_HANDLERS,
+      );
+      expect(clemencyPetitionStatus(entered, petitionId)).toBe("denied");
+      const opening = entered.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === GOVERNING_TRANSITION &&
+          item.entityIds.includes(setup.term.relationship.id),
+      );
+      expect(opening).toBeDefined();
+      // The fixture controls the actual successor now. The former controlled
+      // defendant remains the same saved person serving the same sentence.
+      let isolated: World = {
+        ...entered,
+        control: { kind: "person", personId: successor },
+      };
+      for (const item of entered.history.futureDueItems) {
+        if (
+          item.id === opening!.id ||
+          item.dueAt > opening!.dueAt ||
+          futureDueItemStateAt(isolated, item.id, currentLifeCutoff(isolated))
+            ?.status !== "scheduled"
+        )
+          continue;
+        isolated = cancelFutureDueItem(isolated, {
+          stableKey: `fixture:desk-isolate:${item.id}`,
+          dueItemId: item.id,
+          effectiveAt: isolated.currentDate,
+          reasonKey: "fixture:isolated-governor-opening",
+          context:
+            "Isolate the actual saved desk opening; retain unrelated due records.",
+        });
+      }
+      const priorDecisions = isolated.history.decisionTraces.filter(
+        (trace) =>
+          trace.context.decisionType === "justice.clemency-petition" &&
+          trace.context.actorPersonId === petitionerId,
+      );
+      expect(priorDecisions).toHaveLength(0);
+      const loaded = deserializeWorld(serializeWorld(isolated));
+      const opened = resolveFutureDueItemsThrough(
+        loaded,
+        opening!.dueAt,
+        composeWorldTimeHandlers(),
+      );
+      const actualOffice = currentGoverningOffices(opened).find(
+        (office) => office.officeKey === officeKey,
+      )!;
+      expect(actualOffice.holderPersonId).toBe(successor);
+      const traces = opened.history.decisionTraces.filter(
+        (trace) =>
+          trace.context.decisionType === "justice.clemency-petition" &&
+          trace.context.actorPersonId === petitionerId,
+      );
+      expect(traces).toHaveLength(1);
+      const oldPetition = ready.history.events.find(
+        (event) => event.id === petitionId,
+      )!;
+      expect(
+        opened.history.events.find((event) => event.id === petitionId),
+      ).toEqual(oldPetition);
+      expect(clemencyPetitionStatus(opened, petitionId)).toBe("denied");
+      const sentenceTag = oldPetition.tags.find((tag) =>
+        tag.startsWith(CLEMENCY_SENTENCE_TAG),
+      )!;
+      const newPetitions = opened.history.events.filter(
+        (event) =>
+          event.type === CLEMENCY_PETITION_EVENT &&
+          event.id !== petitionId &&
+          event.tags.includes(sentenceTag),
+      );
+      expect(newPetitions).toHaveLength(
+        traces[0]!.selectedOptionKey === "petition" ? 1 : 0,
+      );
+      if (newPetitions[0])
+        expect(
+          newPetitions[0].stableKey.endsWith(`executive:${successor}`),
+        ).toBe(true);
+      const continued = deserializeWorld(serializeWorld(opened));
+      assertWorldIntegrity(continued);
+      const replayed = resolveFutureDueItemsThrough(
+        continued,
+        opening!.dueAt,
+        composeWorldTimeHandlers(),
+      );
+      expect(serializeWorld(replayed)).toBe(serializeWorld(continued));
+      receipts.push({
+        source: "actual saved office opening",
+        place: state.jurisdictionKey,
+        seed: opened.seed,
+        petitioner: {
+          id: petitionerId,
+          name: personName(opened.people[petitionerId]!),
+        },
+        successor: {
+          id: successor,
+          name: personName(opened.people[successor]!),
+        },
+        officeTermId: actualOffice.termId,
+        openingDueId: opening!.id,
+        decisionId: traces[0]!.id,
+        selectedOptionKey: traces[0]!.selectedOptionKey,
+        newPetitionIds: newPetitions.map((event) => event.id),
+        oldPetitionId: petitionId,
+        oldPetitionUnchanged: true,
+        replay: "unchanged",
+      });
+    });
+
     it("actual dated entry lapses the old holder's request once across reload", () => {
       const setup = planned();
       const qualified = recordElectedExecutiveQualification(setup.world, {
