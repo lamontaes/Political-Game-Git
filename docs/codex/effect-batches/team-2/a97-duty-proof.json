@@ -208,5 +208,66 @@
     "commandExitCode": 1,
     "durationSeconds": 53.75,
     "terminalProcessHandle": 75687
+  },
+  "currentMainRenewal": {
+    "runtimeSource": "a3fcc24497ef00378cebf020902d064bd9dbff49",
+    "main": "d9d69001acdbf9a552195a18f75804934482ac3b",
+    "originalHead": "d2ac0ba217585e812c38f09e558905aa57af8fee",
+    "passed": 12,
+    "unselected": 70,
+    "durationSeconds": 36.0,
+    "strictRoots": 3,
+    "diagnostics": 0,
+    "sourceAndTestsUnchangedFromOriginalHead": true,
+    "releaseFailure": "Inherited main CI declaration prose",
+    "zeroDice": {
+      "new": 0,
+      "inheritedStale": 5
+    },
+    "evidence": [
+      {
+        "name": "tests",
+        "path": "/tmp/team2-1527-main-tests.log",
+        "sha256": "2b34bea24baa3d5122409a08b809627f142f44e3de55614b8c1c44132be78b83",
+        "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA97 evidence receipt {\"seed\":\"A97-staffing-is-not-performance\",\"state\":\"US-NM\",\"place\":\"Abeytas, New Mexico\",\"operator\":\"Erin Pace\",\"dutyId\":\"enacted-duty-record_6cd93f7e4ec0c2cc\",\"staffedId\":\"organization_d010c7ec069753bb\",\"coveredBodies\":2,\"complied\":0,\"complianceUnknown\":2,\"coverageUnknown\":1,\"fixture\":\"canonical supplied duty, no natural enactment or positive completion claim\"}\n\n Test Files  2 passed (2)\n      Tests  12 passed | 70 skipped (82)\n   Start at  14:48:31\n   Duration  36.00s (transform 16.50s, setup 25ms, import 23.29s, tests 12.41s, environment 1ms)\n\n"
+      },
+      {
+        "name": "types",
+        "path": "/tmp/team2-1527-main-types.log",
+        "sha256": "144e4f3b535571757eed308cadac4b2fa5f2b5268defdaada3635b8ec41dada6",
+        "text": "scoped roots 3; diagnostics 0\n"
+      },
+      {
+        "name": "lint",
+        "path": "/tmp/team2-1527-main-lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      },
+      {
+        "name": "format",
+        "path": "/tmp/team2-1527-main-format.log",
+        "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+        "text": "Checking formatting...\nAll matched files use Prettier code style!\n"
+      },
+      {
+        "name": "release",
+        "path": "/tmp/team2-1527-main-release.log",
+        "sha256": "6eb5bb28650e3c05c9d05a1dc41d146e3ade4518ed125d481e4b6ac6bcf79424",
+        "text": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --mode pr --base origin/main\n\nrelease:check \u2014 docs/release/changes/ci-changed-tests-only.md: player-facing prose contains merge bookkeeping (\"merge\"). Internal identifiers belong in the traceability ledger, not in patch notes.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+      },
+      {
+        "name": "zero",
+        "path": "/tmp/team2-1527-main-zero.log",
+        "sha256": "946a257437c4a9458a454ab2d4ddb375ce392ae90358d24e9df70f6229770a36",
+        "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+      }
+    ],
+    "reportMechanical": "0 errors/0 warnings",
+    "reportReviewer": "PASS",
+    "spelling": {
+      "inherited": 24,
+      "batchFindings": 0,
+      "exitCode": 1
+    }
   }
 }

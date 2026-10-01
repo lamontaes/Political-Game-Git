@@ -44,7 +44,7 @@ Measured: the baseline produced one failed counterexample and three passing pres
 
 Measured historical attempt: four new cases passed, while one selected older case failed before enactment (`/tmp/team2-a97-main.log`). The CTO returned the candidate for repair. That receipt is preserved and does not establish acceptance.
 
-Measured repair: all 12 selected cases passed in 37.24 seconds with 70 unselected cases (`/tmp/team2-a97-repair-final.log`). The selection covers the CTO's five failures, four focused evidence cases and three cases affected by type repairs. No timeout increased or compliance assertion weakened.
+Historical repair: all 12 selected cases passed in 37.24 seconds with 70 unselected cases (`/tmp/team2-a97-repair-final.log`). The selection covers the CTO's five failures, four focused evidence cases and three cases affected by type repairs. No timeout increased or compliance assertion weakened.
 
 Measured reader behavior: unknown performance reads “Of those on record, for 2, whether it was met is not known.” (`enacted-duties.test.ts:247`). The existing reader omits a zero compliance tally when performance is unknown.
 
@@ -56,12 +56,20 @@ Measured: Erin Pace works at Staffed Utility in the supplied world. The baseline
 
 Measured: the candidate retains the duty identity enacted-duty-record_6cd93f7e4ec0c2cc, finding IDs and paired events through canonical Continue (`/tmp/team2-a97-main.log:5`). The unstaffed utility also remains unknown. No payment, penalty, filed continuity plan or actual service completion is claimed.
 
+## Current-main validation
+
+Measured: all 12 selected cases pass in 36.00 seconds with 70 unselected cases (`/tmp/team2-1527-main-tests.log`). The same selection covers the five returned failures, four evidence cases and three type-repaired cases. The staffed body still records unknown compliance. No timeout or assertion changed for this renewal.
+
+Measured: three strict source/test roots have zero diagnostics (`/tmp/team2-1527-main-types.log`). Changed lint, format and owned whitespace checks pass. Release checking still flags main's CI declaration prose; zero-dice reports zero new findings and five inherited stale entries.
+
 ## Method and handoff
 
-Audit gap A97. Repaired runtime source is 0faac89354130399466c9847bd1a2b622def6eaf, composed additively with fetched main 1bcc9a6cbb8024cae4135a55f01aa069942994b5. The A79 state migration remains separate on its published branch. This PR contains the duty guard, focused tests, repaired fixture, release declaration and evidence.
+Audit gap A97. Historical repaired runtime source is 0faac89354130399466c9847bd1a2b622def6eaf, composed additively with fetched main 1bcc9a6cbb8024cae4135a55f01aa069942994b5. The A79 state migration remains separate on its published branch. This PR contains the duty guard, focused tests, repaired fixture, release declaration and evidence.
 
-All three changed source/test roots have zero strict diagnostics, repaired from five (`/tmp/team2-a97-repair-after-types.log`). Changed lint, format, whitespace and release validation passed. Zero-dice has zero new findings and five inherited stale entries, exiting 1. The proof artifact preserves the individual validation receipts.
+Historical gate: all three changed source/test roots had zero strict diagnostics, repaired from five (`/tmp/team2-a97-repair-after-types.log`). Changed lint, format, whitespace and release validation passed. Zero-dice has zero new findings and five inherited stale entries, exiting 1. The proof artifact preserves the individual validation receipts.
 
-The intermediate repair run passed 11 cases and failed the outdated prose expectation. That receipt remains preserved at /tmp/team2-a97-repair-after.log. Spelling reported 23 existing findings and none in changed A97 prose. The final report requires its mechanical check and Light review before publication.
+The intermediate repair run passed 11 cases and failed the outdated prose expectation. That receipt remains preserved at /tmp/team2-a97-repair-after.log. Spelling reported 23 existing findings and none in changed A97 prose. Those report checks belonged to that historical publication checkpoint.
 
 The guarded native command uses one worker and unchanged timeouts. Full suite, browser, ordinary enactment, year-speed and all-56 populated-world proof were NOT RUN. Next: renewed exact-head CTO review. Positive fulfillment still needs Audit’s approved duty-to-receipt binding. A supplied signature is not proof of an ordinary executive lifecycle.
+
+Current source a3fcc24497ef00378cebf020902d064bd9dbff49 receives main d9d69001acdbf9a552195a18f75804934482ac3b additively without a conflict. Original d2ac0ba217585e812c38f09e558905aa57af8fee remains in history. All unique source and tests are retained. Six owned paths remain in the PR; no unrelated source repair or whole-stack closure is included. Renewed exact-head review is required.
