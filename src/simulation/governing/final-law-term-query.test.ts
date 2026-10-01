@@ -3,7 +3,7 @@ import {
   finalTermProvisions,
   readFinalEnactedLawTerm,
 } from "./final-law-term-query";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 import type { LawInForce } from "./law-in-force";
 
 describe("adopted term history boundary", () => {
@@ -32,8 +32,10 @@ describe("adopted term history boundary", () => {
       currentDate: "2026-01-10",
       history: { legislativeProvisions: [first, replacement, future, other] },
     } as unknown as World;
-    expect(finalTermProvisions(world, "bill", 2)).toEqual([first]);
-    expect(finalTermProvisions(world, "bill", 3)).toEqual([replacement]);
+    expect(finalTermProvisions(world, "bill" as EntityId, 2)).toEqual([first]);
+    expect(finalTermProvisions(world, "bill" as EntityId, 3)).toEqual([
+      replacement,
+    ]);
   });
   it("does not infer numeric terms from an unenacted or future law", () => {
     const world = {
