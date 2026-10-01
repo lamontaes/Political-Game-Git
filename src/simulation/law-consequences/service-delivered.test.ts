@@ -401,7 +401,13 @@ const context = (f: ReturnType<typeof fixture>) => ({
 describe("service kind reuses actual completion and recipient records", () => {
   it.each(
     lifePlaceStateIdentities().flatMap((state) =>
-      Object.keys(SERVICE_DELIVERED_LAW_ROWS).map((key) => ({ state, key })),
+      // This authored state-procedure trip fixture covers the two original
+      // transit questions. Other rows do not establish a delivered producer;
+      // federal questions cannot acquire state authority from this fixture.
+      [
+        questionKey,
+        "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      ].map((key) => ({ state, key })),
     ),
   )(
     "preserves records and saves one named receipt: $state.jurisdictionKey / $key",
