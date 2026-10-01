@@ -104,14 +104,14 @@ function finalTermEnactment(
   world: World,
   law: LawInForce,
   questionKey: string,
+  onDate: IsoDate = world.currentDate,
 ) {
-  if (law.origin !== "enacted" || law.operativeAt > world.currentDate)
-    return null;
+  if (law.origin !== "enacted" || law.operativeAt > onDate) return null;
   const enactment = (world.history.legislativeEnactments ?? []).find(
     (row) =>
       row.measureId === law.measureId &&
       row.outcome === "enacted" &&
-      row.resolvedAt <= world.currentDate,
+      row.resolvedAt <= onDate,
   );
   return enactment &&
     measureAnswersAt(world, law.measureId, enactment.sequence).some(
@@ -150,14 +150,13 @@ export function readFinalEnactedLawTerm(
     readonly questionKey: string;
     readonly termKey: string;
     readonly unit: LawAmountUnit;
+    readonly onDate?: IsoDate;
   },
 ): FinalEnactedLawTerm | null {
+  const onDate = input.onDate ?? world.currentDate;
+  if (onDate > world.currentDate) return null;
   if (law.origin === "in-force-at-start") {
-    const matches = startingLawTerms(
-      law,
-      input.questionKey,
-      world.currentDate,
-    ).filter(
+    const matches = startingLawTerms(law, input.questionKey, onDate).filter(
       (term) =>
         term.questionKey === input.questionKey && term.key === input.termKey,
     );
@@ -172,7 +171,7 @@ export function readFinalEnactedLawTerm(
       sourceRecordIds: [law.measureId],
     };
   }
-  const enactment = finalTermEnactment(world, law, input.questionKey);
+  const enactment = finalTermEnactment(world, law, input.questionKey, onDate);
   if (!enactment) return null;
   const matches = finalTermProvisions(
     world,
