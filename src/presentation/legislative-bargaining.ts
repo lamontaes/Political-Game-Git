@@ -980,6 +980,7 @@ function motifGrounding(
         ? facts.guardianPersonId
         : facts.advocatePersonId,
     measureId: facts.measureId,
+    analystPersonId: facts.analystPersonId,
     // The total is summed from the provisions that commit money; with none,
     // the label is the measure's own stated amount.
     billAmountSourceIds:
