@@ -25,7 +25,6 @@ import {
   produceMatterResponses,
 } from "./responses";
 import { sortedUnique } from "./shared";
-import { requirePressRecord } from "./store";
 
 /**
  * What a public adverse outcome does to the person it names, beyond the

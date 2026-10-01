@@ -292,7 +292,11 @@ function canonicalExpected(f: ReturnType<typeof fixture>) {
     subjectPersonId: f.person.id,
     jurisdictionId: f.person.homeJurisdictionId,
     offenseKey: "campaign-funds-personal-use",
-    referredBy: { kind: "regulator", label: f.proceeding.institutionLabel, personId: null },
+    referredBy: {
+      kind: "regulator",
+      label: f.proceeding.institutionLabel,
+      personId: null,
+    },
     basisEventIds: [f.event.id],
     evidence: "documentary",
     standingFindings: 2,
@@ -302,35 +306,84 @@ function canonicalExpected(f: ReturnType<typeof fixture>) {
 describe("A152 finding referral ownership", () => {
   // Controlled saved findings exercise the extracted boundary; they are not
   // evidence of a natural investigation or newly seated regulator.
-  it.each(places)("preserves the canonical repeated-finding referral in %s", (usps) => {
-    const f = fixture(usps, "both", true, true);
-    const after = applyFindingReferral(f.world, f.proceeding, f.person.id, f.step, f.event);
-    expect(serializeWorld(after)).toBe(serializeWorld(canonicalExpected(f)));
-    expect(after.history.events).toHaveLength(f.world.history.events.length + 1);
-    const referral = after.history.events.at(-1)!;
-    expect(referral.summary).toContain(personName(f.person));
-    expect(referral.tags).toContain(`justice.basis-event:${f.event.id}`);
-    expect(referral.tags).toContain("justice.standing-findings:2");
-    assertWorldIntegrity(after);
-    const loaded = deserializeWorld(serializeWorld(after));
-    expect(applyFindingReferral(loaded, f.proceeding, f.person.id, f.step, f.event)).toBe(loaded);
-  });
-  it.each(places)("leaves a first undenied finding without referral in %s", (usps) => {
-    const f = fixture(usps);
-    expect(applyFindingReferral(f.world, f.proceeding, f.person.id, f.step, f.event)).toBe(f.world);
-  });
+  it.each(places)(
+    "preserves the canonical repeated-finding referral in %s",
+    (usps) => {
+      const f = fixture(usps, "both", true, true);
+      const after = applyFindingReferral(
+        f.world,
+        f.proceeding,
+        f.person.id,
+        f.step,
+        f.event,
+      );
+      expect(serializeWorld(after)).toBe(serializeWorld(canonicalExpected(f)));
+      expect(after.history.events).toHaveLength(
+        f.world.history.events.length + 1,
+      );
+      const referral = after.history.events.at(-1)!;
+      expect(referral.summary).toContain(personName(f.person));
+      expect(referral.tags).toContain(`justice.basis-event:${f.event.id}`);
+      expect(referral.tags).toContain("justice.standing-findings:2");
+      assertWorldIntegrity(after);
+      const loaded = deserializeWorld(serializeWorld(after));
+      expect(
+        applyFindingReferral(
+          loaded,
+          f.proceeding,
+          f.person.id,
+          f.step,
+          f.event,
+        ),
+      ).toBe(loaded);
+    },
+  );
+  it.each(places)(
+    "leaves a first undenied finding without referral in %s",
+    (usps) => {
+      const f = fixture(usps);
+      expect(
+        applyFindingReferral(
+          f.world,
+          f.proceeding,
+          f.person.id,
+          f.step,
+          f.event,
+        ),
+      ).toBe(f.world);
+    },
+  );
   it("does not create a prosecution referral from the press-only entrypoint", () => {
     const f = fixture(places[0]!, "both", true, true);
-    const after = applyPressConsequences(f.world, f.proceeding, f.step, f.event);
+    const after = applyPressConsequences(
+      f.world,
+      f.proceeding,
+      f.step,
+      f.event,
+    );
     expect(after.history.events).toBe(f.world.history.events);
     expect(serializeWorld(after)).toBe(serializeWorld(f.world));
   });
   it("uses the supplied canonical referral once in the existing consequence slot", () => {
     const f = fixture(places[0]!, "both", true, true);
-    const after = applyPressConsequences(f.world, f.proceeding, f.step, f.event, undefined, applyFindingReferral);
+    const after = applyPressConsequences(
+      f.world,
+      f.proceeding,
+      f.step,
+      f.event,
+      undefined,
+      applyFindingReferral,
+    );
     expect(serializeWorld(after)).toBe(serializeWorld(canonicalExpected(f)));
     const loaded = deserializeWorld(serializeWorld(after));
-    const repeated = applyPressConsequences(loaded, f.proceeding, f.step, f.event, undefined, applyFindingReferral);
+    const repeated = applyPressConsequences(
+      loaded,
+      f.proceeding,
+      f.step,
+      f.event,
+      undefined,
+      applyFindingReferral,
+    );
     expect(serializeWorld(repeated)).toBe(serializeWorld(loaded));
   });
 });

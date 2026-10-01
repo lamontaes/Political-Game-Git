@@ -2,7 +2,10 @@ import { claimStancesBy } from "../claim-stances";
 import type { EntityId, HistoricalEvent, World } from "../types";
 import { referForProsecution, regulatorRefers } from "./prosecution";
 import { priorAdverseFindings } from "../press/findings";
-import type { MatterProceedingRecord, ProceedingStepRecord } from "../press/records";
+import type {
+  MatterProceedingRecord,
+  ProceedingStepRecord,
+} from "../press/records";
 import { requirePressRecord } from "../press/store";
 
 // Mechanical ownership extraction only. The existing regulator placeholder,
@@ -47,4 +50,3 @@ export function applyFindingReferral(
     standingFindings: standing,
   }).world;
 }
-
