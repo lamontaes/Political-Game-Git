@@ -18,6 +18,13 @@ import {
 } from "../src/simulation/press";
 import { officialViewReflectionEventKey } from "../src/simulation/official-view-reads";
 import { recordStoryHeardExposure } from "../src/simulation/press/story-exposure";
+import {
+  applyNpcPoliticalBeliefFormation,
+  evaluatePoliticalBeliefFormation,
+} from "../src/simulation/political-belief-formation";
+import { officialOpinionSubject } from "../src/simulation/political-opinion-subjects";
+import { officialsBehind } from "../src/simulation/living-world/official-views";
+import { LAW_EFFECT_MEASURE_TAG } from "../src/simulation/press/law-effect-news";
 
 const SEED = "news-play-20261001";
 const places = lifePlaceStateIdentities();
@@ -78,6 +85,106 @@ describe(`NEWS seven-step play script in ${PLACE} (seed ${SEED})`, () => {
     expect(heard.monthlyPay).toBeNull();
     assertWorldIntegrity(world);
   });
+  it("news boundary: an NPC with knowledge but no prior official view records no-opinion without a belief", () => {
+    const knowledge = world.history.knowledge.find(
+      (row) => row.id === heard.news!.knowledgeId,
+    )!;
+    const publication = world.history.publications!.find(
+      (row) => row.id === heard.news!.publicationId,
+    )!;
+    const lead = storyLeads(world).find(
+      (row) => row.id === heard.news!.storyLeadId,
+    )!;
+    expect(knowledge.personId).toBe(resident.id);
+    expect(knowledge.eventId).toBe(publication.sourceEventId);
+    expect(knowledge.source).toMatchObject({
+      kind: "media",
+      reference: publication.id,
+    });
+    expect(lead.basisEventIds).toContain(heard.news!.basisEventId);
+    expect(heard.measureId).toBe(measureId);
+    const basis = world.history.events.find(
+      (row) => row.id === heard.news!.basisEventId,
+    )!;
+    expect(basis.tags).toContain(`${LAW_EFFECT_MEASURE_TAG}${heard.measureId}`);
+    const official = officialsBehind(world, heard.measureId).find(
+      (act) => act.officialId !== knowledge.personId,
+    );
+    expect(official).toBeDefined();
+    const subject = officialOpinionSubject(official!.officialId);
+    expect(official!.act).toBe("signed");
+    const signature = world.history.executiveDispositions!.find(
+      (row) => row.measureId === heard.measureId && row.action === "signed",
+    )!;
+    expect(
+      world.history.events.find((row) =>
+        row.involvedEntityIds.includes(signature.id),
+      )?.participants,
+    ).toContainEqual(
+      expect.objectContaining({
+        personId: subject.personId,
+        role: "focus:subject",
+      }),
+    );
+    expect(
+      world.history.privateBeliefs.filter(
+        (row) =>
+          row.personId === knowledge.personId &&
+          row.subject?.kind === "official" &&
+          row.subject.personId === subject.personId,
+      ),
+    ).toEqual([]);
+    expect(
+      (world.history.officialViews ?? []).filter(
+        (row) =>
+          row.personId === knowledge.personId &&
+          row.officialId === subject.personId,
+      ),
+    ).toEqual([]);
+    expect(world.control).not.toEqual({
+      kind: "person",
+      personId: knowledge.personId,
+    });
+    const before = serializeWorld(world);
+    // Direct shared-adapter boundary, not an admitted News consumer. Actual
+    // knowledge identifies the reader; no opinion factor is inferred from it.
+    const proposal = evaluatePoliticalBeliefFormation(world, {
+      stableKey: "news-play:npc-no-factor",
+      personId: knowledge.personId,
+      subject,
+      randomness: "none",
+    });
+    expect(serializeWorld(world)).toBe(before);
+    expect(proposal.outcome).toBe("no-opinion");
+    expect(proposal.beliefDimensions).toBeNull();
+    expect(
+      proposal.evaluation.context.considerations.map((row) => row.stableKey),
+    ).toEqual(["default:no-opinion"]);
+    const applied = applyNpcPoliticalBeliefFormation(world, proposal);
+    expect(applied.history.privateBeliefs).toEqual(
+      world.history.privateBeliefs,
+    );
+    expect(applied.history.officialViews).toEqual(world.history.officialViews);
+    expect(applied.history.events).toEqual(world.history.events);
+    expect(applied.history.decisionTraces).toHaveLength(
+      world.history.decisionTraces.length + 1,
+    );
+    const trace = applied.history.decisionTraces.at(-1)!;
+    expect(trace).toMatchObject({
+      decisionId: proposal.evaluation.decisionId,
+      selectedOptionKey: "no-opinion",
+      context: {
+        actorPersonId: knowledge.personId,
+        decisionType: "political-belief-formation",
+        retention: "durable",
+        randomness: "none",
+      },
+    });
+    const loaded = deserializeWorld(serializeWorld(applied));
+    expect(loaded.history.decisionTraces.at(-1)).toEqual(trace);
+    expect(loaded.history.privateBeliefs).toEqual(world.history.privateBeliefs);
+    assertWorldIntegrity(loaded);
+  });
   it.todo(
     "step 6: inspect a canonical view decision formed from news; Ruling 28 gives heard exposure no opinion weight and no care/view factor is admitted yet",
   );
@@ -122,6 +229,9 @@ describe(`NEWS seven-step play script in ${PLACE} (seed ${SEED})`, () => {
     };
     assertWorldIntegrity(session);
     const before = serializeWorld(session);
+    const priorBeliefs = session.history.privateBeliefs;
+    const priorViews = session.history.officialViews;
+    const priorTraces = session.history.decisionTraces;
     let callbackCount = 0;
     const screen = () =>
       World39News({
@@ -158,6 +268,29 @@ describe(`NEWS seven-step play script in ${PLACE} (seed ${SEED})`, () => {
       storyLeadId: heard.news!.storyLeadId,
       basisEventId: heard.news!.basisEventId,
     });
+    expect(exposure.measureId).toBe(measureId);
+    expect(session.history.privateBeliefs).toEqual(priorBeliefs);
+    expect(session.history.officialViews).toEqual(priorViews);
+    expect(session.history.decisionTraces).toEqual(priorTraces);
+    const official = officialsBehind(session, exposure.measureId).find(
+      (act) => act.officialId !== knowledge.personId,
+    );
+    expect(official).toBeDefined();
+    const afterRead = serializeWorld(session);
+    // Evaluating the played reader is read-only. Only the player can choose;
+    // the existing NPC writer must reject autonomous application atomically.
+    const playerProposal = evaluatePoliticalBeliefFormation(session, {
+      stableKey: "news-play:controlled-no-factor",
+      personId: knowledge.personId,
+      subject: officialOpinionSubject(official!.officialId),
+      randomness: "none",
+    });
+    expect(playerProposal.outcome).toBe("no-opinion");
+    expect(serializeWorld(session)).toBe(afterRead);
+    expect(() =>
+      applyNpcPoliticalBeliefFormation(session, playerProposal),
+    ).toThrow(/controlled person/i);
+    expect(serializeWorld(session)).toBe(afterRead);
     expect(exposure.amount).toBeNull();
     expect(exposure.monthlyPay).toBeNull();
     expect(session.history.resourceFlows).toEqual(world.history.resourceFlows);
