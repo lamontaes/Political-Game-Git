@@ -463,10 +463,10 @@ export function localMinimumSettingAt(
 ): MinimumWageSetting | null {
   const enactments = world.history.legislativeEnactments;
   if (!jurisdictionId || !enactments?.length) return null;
-  let cache = localSettings.get(enactments);
+  let cache = localSettings.get(world);
   if (!cache) {
     cache = new Map();
-    localSettings.set(enactments, cache);
+    localSettings.set(world, cache);
   }
   const cacheKey = `${jurisdictionId}:${baseMinor}:${onDate}`;
   if (cache.has(cacheKey)) return cache.get(cacheKey)!;

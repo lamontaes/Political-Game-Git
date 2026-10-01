@@ -87,7 +87,7 @@ describe("A38 adopted city target", () => {
   it("reads the actual target independently of the supplied state base", () => {
     const { world, jurisdictionId } = smallWorld({
       place: "NE",
-      date: effectiveAt,
+      date: enactedAt,
       seed: SEED,
     });
     const enacted = authoredWageTerm(world, {
@@ -102,9 +102,13 @@ describe("A38 adopted city target", () => {
     });
     expect(
       localMinimumSettingAt(enacted, jurisdictionId, 1500, effectiveAt),
+    ).toBeNull();
+    const operative = { ...enacted, currentDate: effectiveAt };
+    expect(
+      localMinimumSettingAt(operative, jurisdictionId, 1500, effectiveAt),
     ).toMatchObject({ hourlyMinor: 2341, level: "local" });
     expect(
-      localMinimumSettingAt(enacted, jurisdictionId, 1700, effectiveAt)
+      localMinimumSettingAt(operative, jurisdictionId, 1700, effectiveAt)
         ?.hourlyMinor,
     ).toBe(2341);
   });

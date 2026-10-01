@@ -4,7 +4,7 @@ The source now reads adopted federal and city wage amounts. Changed-file static 
 
 ## MERGED
 
-This checkpoint is unmerged. Its receiving parent is #1575 at aa548369984f66383cd87c37746ed99cdd5a28c5. The coordinator confirmed that reader/scope dependencies #1679 and #1690 landed; this branch still needs additive main integration. No team merge is authorized.
+This checkpoint is unmerged. Its receiving parent is #1575 at aa548369984f66383cd87c37746ed99cdd5a28c5. The coordinator confirmed that reader/scope dependencies #1679 and #1690 landed; main e94880a34ae33b712098cb388f363caaeef83ce8 was received additively without conflict at bb6b63afe24d8f3f3d74a4c6ea488c0e14db7199. No team merge is authorized.
 
 ## WHAT EMERGED
 
@@ -12,7 +12,7 @@ No new runtime outcome is claimed. HARDWIRED: the changed federal schedule reads
 
 ## VITAL STATISTICS
 
-Before additive main integration: five changed TypeScript roots, 927 loaded files, zero diagnostics. Changed-file ESLint, Prettier and whitespace checks passed. Native behavior is NOT RUN for this checkpoint. The receiving parent's previously executed import failed before collection with a missing future-transition semantic key; that receipt is retained separately and is not a pass.
+Before and after additive main integration: five owned changed TypeScript roots, 927 loaded files, zero diagnostics. The final federal and city snapshot-cache regression source also passed those scoped types. Changed-file ESLint, Prettier and whitespace checks passed. Native behavior is NOT RUN for this checkpoint. The receiving parent's previously executed import failed before collection with a missing future-transition semantic key; that receipt is retained separately and is not a pass.
 
 ## Player endpoint and named survivor
 
@@ -20,7 +20,7 @@ The player opens an employed adult, reads the saved stub and advances the clock 
 
 ## Terms and authority
 
-The existing final-term reader supplies the law's actual numeric text and effective date. A future operative date is not read as an already operative phase. The federal schedule cache belongs to the world snapshot, so reading an earlier snapshot cannot freeze the later phase. No amount is drawn. Unknown regional/industry scope remains governed by the root-owned R33 reader; this patch supplies no nationwide scope permission.
+The existing final-term reader supplies the law's actual numeric text and effective date. A future operative date is not read as an already operative phase. Both changed wage caches belong to the world snapshot, so reading an earlier snapshot cannot freeze the later phase. A city target queried beyond the snapshot date remains absent there and becomes readable in the operative snapshot. No amount is drawn. Unknown regional/industry scope remains governed by the root-owned R33 reader; this patch supplies no nationwide scope permission.
 
 ## Replaces and exports
 
@@ -28,4 +28,4 @@ Replaces the fixed federal raise placeholder, city premium constant, federal Boo
 
 ## Connections, evidence and remaining gates
 
-The seeded 56-place controls exercise the same federal numeric reader; directly affected federal/city tests now carry numeric adopted text and keep paycheck/stamp/repeat assertions. Canonical assessment-linked actual gross is independently saved without rewriting earned contractual terms: the existing payment fixture records 8000 gross versus 7200 contractual gross for 240 completed minutes, with separate withholding flows. O3 owns the existing noticing reader follow-up; Team3 does not duplicate it. Changed-file native tests and final receiving-head proof remain required; no READY or full slice completion is claimed.
+The seeded 56-place controls exercise the same federal numeric reader; directly affected federal/city tests now carry numeric adopted text and keep paycheck/stamp/repeat assertions. Canonical assessment-linked actual gross is independently saved without rewriting earned contractual terms: the existing payment fixture records 8000 gross versus 7200 contractual gross for 240 completed minutes, with separate withholding flows. O3 owns the existing noticing reader follow-up; Team3 does not duplicate it. The four files received from current main are preserved as inherited source; their behavior is not claimed from these scoped checks. Changed-file native tests and final receiving-head proof remain required; no READY or full slice completion is claimed.
