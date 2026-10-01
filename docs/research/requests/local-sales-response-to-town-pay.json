@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-10-01T07:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "town economy",
+  "notes": [
+    "Audit gap A71. A town business's sales move 0.5 percent for each percent the town's employer pay moves: TOWN_FINANCE_POLICY.business.localDemandElasticity in src/simulation/living-world/town-finances.ts. No source backs the number; it is a hand-set placeholder.",
+    "The game reads it as an elasticity of a local-serving business's revenue to the town's total wage bill (and to its job count where pay is not recorded)."
+  ],
+  "priority": "P2",
+  "question": "When a town's total employer payroll rises or falls by one percent, by what percent do the sales of its local-serving businesses (restaurants, retail, personal care, repair) move? Is there a measured elasticity of local nontradable sales or employment to local tradable payroll or employment?",
+  "questionId": "local-sales-response-to-town-pay",
+  "relatedQuestionIds": ["small-business-credit-line-size"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "Moretti, Local Multipliers, American Economic Review Papers and Proceedings 100(2), 2010",
+      "whatItDidNotSettle": "Reports jobs per job (about 1.6 local nontradable jobs per added tradable job), not an elasticity of local sales to local payroll; converting needs each town's nontradable-to-tradable job ratio."
+    },
+    {
+      "source": "BEA Regional Input-Output Modeling System (RIMS II) multipliers",
+      "whatItDidNotSettle": "Region-specific output and earnings multipliers sold per region; not read into the repository."
+    }
+  ],
+  "title": "How far a town's local sales follow its payroll",
+  "usableAnswer": "One elasticity (with a range) of local-serving business revenue or employment to local total payroll or tradable employment, from a named study or dataset (Moretti 2010 with the conversion shown, Moretti and Thulin 2013, BEA RIMS II household-spending effects, or QCEW county panels), ideally by industry and by town size, so it can be read as data rather than set by hand.",
+  "whyItMatters": "This number decides how hard a plant closing or a raise hits the shops in town. At a hand-set one half, every town's main street responds alike; a sourced value lets a player's jobs or wage law show the local knock-on a real town would see."
+}

@@ -12,6 +12,7 @@ import {
 } from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { lawEffectStamp } from "./law-effect-stamp";
+import type { LawInForce } from "./governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import type { EntityId } from "./types";
 const provenance = {
@@ -53,24 +54,22 @@ describe("a wage law's terms reach the actual payment", () => {
       });
       const flow = w.history.resourceFlows.at(-1)!;
       const old = w.history.resourceFlowTerms.at(-1)!;
-      const stamp = lawEffectStamp(
-        {
-          measureId: "legislative-measure_fixture" as EntityId,
-          answer: "yes",
-          origin: "enacted",
-          level: "federal-statute",
-          operativeAt: w.currentDate,
-          operativeBasis: "enacted-date",
-        },
-        {
-          effectKind: "minimum-wage-compensation",
-          questionKey:
-            "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
-          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-          appliedAt: w.currentDate,
-          sourceRecordIds: [flow.id, old.id],
-        },
-      )!;
+      const law: LawInForce = {
+        measureId: "legislative-measure_fixture" as EntityId,
+        answer: "yes",
+        origin: "enacted",
+        level: "federal-statute",
+        operativeAt: w.currentDate,
+        operativeBasis: "enacted-date",
+      };
+      const stamp = lawEffectStamp(law, {
+        effectKind: "minimum-wage-compensation",
+        questionKey:
+          "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        appliedAt: w.currentDate,
+        sourceRecordIds: [flow.id, old.id],
+      })!;
       w = recordResourceFlowTerms(w, {
         stableKey: "stamp-raise",
         resourceFlowId: flow.id,

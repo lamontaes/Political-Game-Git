@@ -46,9 +46,10 @@ export const MIGRATION_REVIEW_TRANSITION_KEY = "migration:quarterly-review";
  * records: a mod or a later lane adds `work:transfer` without touching this.
  *
  * - `life-course:` the ordinary reasons nobody records a cause for.
- * - `work:` a job, a transfer, a lost job. Not produced yet.
- * - `family:` joining or following family. Not produced yet.
- * - `cost:` housing or living costs. Not produced yet.
+ * - `work:` a job, a transfer, a lost job. `work:job-lost` is produced.
+ * - `family:` joining or following family. `family:followed-kin` is produced.
+ * - `cost:` housing or living costs. `cost:evicted` and `cost:rent-burden`
+ *   are produced.
  * - `wave:` a wave's pressure; the suffix is the wave key.
  * - `disaster:` a disaster destroyed or damaged the home.
  * - `custom:` anything else, named.
@@ -101,7 +102,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "Jobs, schooling, housing tenure, organization and party membership, dwellings and office tie a person to a place.",
     status: "not-built",
-    rule: "Anybody with such a record active today is not eligible to move, and neither is their household; a job, school, membership, lease or campaign that has ended holds nobody. Moving would leave a job or a seat in the old town, so the move is refused with that reason rather than half-done. Housing is ended on the move only for a household a disaster displaced.",
+    rule: "Anybody with such a record active today is not eligible to move, and neither is their household; a job, school, membership, lease or campaign that has ended holds nobody. Moving would leave a job or a seat in the old town, so the move is refused with that reason rather than half-done. A town job, a town home and an ordinary membership (a member or participant, not a leader or an advisor) end on the move instead of holding anyone. Other housing is ended on the move only for a household a disaster displaced.",
     where: "src/simulation/migration/relocate.ts moveTieReader()",
   },
   {
@@ -146,23 +147,22 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     key: "why-people-leave",
     connects:
       "Economy, family, housing cost, age and life stage as reasons to move.",
-    status: "not-built",
-    rule: "BLANKET: each eligible adult in a town is reviewed once a year and leaves with a flat chance, reason life-course:unrecorded. Active waves scale the chance for places they cover. Nothing reads the economy, family or age yet.",
-    where:
-      "src/simulation/migration/review.ts BLANKET_DEPARTURE_CHANCE_PER_YEAR",
+    status: "built",
+    rule: "Each adult in a town is reviewed once a year, and leaves only when a recorded cause pushes them past their own bar: a job lost or a retirement in the last year, an eviction, the household's rent against its pay, or a relative's move away. The bar is how rarely people their age in their state move (American Community Survey 2024, data/research/migration/mover-rates-acs-2024.json), a home they own, children at home and their taste for risk; the town's waves, state push, crime and jobs weigh on either side. One evaluateDecision with no randomness decides it. A job offer elsewhere and school elsewhere have no producer yet, so they are never read.",
+    where: "src/simulation/migration/causes.ts decideToLeave()",
   },
   {
     key: "where-people-go",
     connects: "Choosing a destination from distance, jobs, family and cost.",
     status: "not-built",
-    rule: "BLANKET: a departing household goes somewhere else in its own state or to another state, drawn from the world's own jurisdictions; another state is weighted by the pressure layer's pull, and a newcomer's origin by its push. A town the world knows is used only as the player's town for arrivals; departures land at state level because the world holds no other seated towns.",
+    rule: "A resident goes to the place their cause names: where the relative they follow now lives. A push from work, rent, eviction or retirement names no place, so they go where their closest living relative outside town lives, and with nobody there, to the rest of their own state (HARDWIRED until a job offer or a home found elsewhere is recorded). A household a disaster displaced, and a newcomer's origin, are still drawn from the world's own jurisdictions weighted by the pressure layer's pull and push. Departures land at state level because the world holds no other seated towns.",
     where: "src/simulation/migration/review.ts chooseDestination()",
   },
   {
     key: "arrivals",
     connects: "New residents of the player's town.",
     status: "built",
-    rule: "BLANKET pace: arrivals match the departure chance applied to the town's recorded residents, so the town is roughly replaced rather than emptied. Each arrival is one adult with a name, an identity and a recorded state they came from.",
+    rule: "Arrivals per resident a year are the survey's newcomers for the place's state, a quarter at each review, counted by carrying the fraction forward from review to review (largest remainder over the run of reviews), with no draw. Each arrival is one adult with a name, an identity and a recorded state they came from.",
     where: "src/simulation/migration/review.ts",
   },
   {

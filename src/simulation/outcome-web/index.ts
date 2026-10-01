@@ -99,6 +99,9 @@ export interface OutcomeLink {
   readonly group: string;
   readonly owner: string;
   readonly evidence: OutcomeEvidence;
+  /** Declared structural inventory; never proof of delivery to a person. */
+  readonly status: OutcomeLinkStatus;
+  readonly unsupportedReason: OutcomeLinkUnsupportedReason | null;
   readonly anchor: string;
   /** Developer reference only. Never shown on a player screen. */
   readonly source: string;
@@ -553,19 +556,51 @@ export function outcomeLinkStatus(link: OutcomeLink): OutcomeLinkStatus {
   return "built";
 }
 
+export type OutcomeLinkUnsupportedReason =
+  "size-not-set" | "cause-not-recorded" | "outcome-not-produced";
+
+/** Validate the declared inventory against the existing structural classifier.
+ * This does not admit a cause value, a person-level effect or a saved delivery. */
+export function validateOutcomeLinkInventory(
+  links: readonly OutcomeLink[],
+): void {
+  for (const link of links) {
+    const actual = outcomeLinkStatus(link);
+    if (link.status !== actual)
+      throw new Error(
+        `Outcome link status disagrees with its existing readers: ${link.key}`,
+      );
+    const reason: OutcomeLinkUnsupportedReason | null =
+      link.size === null
+        ? "size-not-set"
+        : actual === "cause-not-recorded" || actual === "outcome-not-produced"
+          ? actual
+          : null;
+    if (link.unsupportedReason !== reason)
+      throw new Error(
+        `Outcome link has an invalid blocker reason: ${link.key}`,
+      );
+  }
+}
+
 export function outcomeWebStatus(): readonly {
   readonly key: string;
   readonly owner: string;
   readonly from: string;
   readonly to: string;
   readonly status: OutcomeLinkStatus;
+  readonly evidence: OutcomeEvidence;
+  readonly unsupportedReason: OutcomeLinkUnsupportedReason | null;
 }[] {
+  validateOutcomeLinkInventory(OUTCOME_LINKS);
   return OUTCOME_LINKS.map((link) => ({
     key: link.key,
     owner: link.owner,
     from: link.from,
     to: link.to,
     status: outcomeLinkStatus(link),
+    evidence: link.evidence,
+    unsupportedReason: link.unsupportedReason,
   }));
 }
 
@@ -739,3 +774,6 @@ export function acuteWeight(
   const age = daysBetween(happenedAt, asOf);
   return age < 0 ? 0 : Math.pow(0.5, age / halfLifeDays);
 }
+
+// Admit the catalog before any caller can use an effect or status reading.
+validateOutcomeLinkInventory(OUTCOME_LINKS);

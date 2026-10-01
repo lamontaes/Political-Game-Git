@@ -224,6 +224,9 @@ const OUTLAYS = federal.outlays as Readonly<Record<FederalOutlay, number>>;
 const OPENING_DEBT = federal.debtHeldByPublic["2025-12-31"];
 const OPENING_TOTAL_DEBT = federal.totalPublicDebt["2025-12-31"];
 
+/** Existing sourced December 31, 2025 debt metadata, not a cash balance. */
+export const FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC = Math.round(OPENING_DEBT);
+
 /** Fiscal 2025 net interest over its average debt held by the public. */
 export const FEDERAL_INTEREST_RATE =
   OUTLAYS.netInterest /
@@ -234,7 +237,7 @@ export const FEDERAL_INTEREST_RATE =
 export function openFederalTreasury(today: IsoDate): FederalTreasury {
   return {
     openedOn: today,
-    openingDebtHeldByPublic: Math.round(OPENING_DEBT),
+    openingDebtHeldByPublic: FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC,
     intragovernmentalDebt: Math.round(OPENING_TOTAL_DEBT - OPENING_DEBT),
     debtLimit: federal.debtLimit,
     interestRate: FEDERAL_INTEREST_RATE,

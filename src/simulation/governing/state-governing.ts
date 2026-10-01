@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { applyItemVetoes } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
@@ -52,7 +53,10 @@ import {
   evaluateGovernorBill,
   ownPartyPassageVote,
 } from "./governor-bill-decision";
-import { advanceClemencyPetition } from "../justice/clemency";
+import {
+  advanceClemencyPetition,
+  considerClemencyAfterExecutiveDesk,
+} from "../justice/clemency";
 import { CLEMENCY_KIND_TAG } from "../justice/jail-terms";
 import {
   CLEMENCY_DENY,
@@ -1170,10 +1174,6 @@ function emptyContext() {
   };
 }
 
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
-}
-
 export function createCandidates(
   world: World,
   office: Pick<GoverningOffice, "holderPersonId" | "jurisdictionId">,
@@ -1199,9 +1199,10 @@ export function createCandidates(
               rng.fork("name"),
               generatePersonIdentity(rng.fork("identity")),
             ),
-            birthDate: makeIsoDate(
-              `${anchorYear - rng.integer(34, 62)}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-            ),
+            birthDate: inventedPersonBirthDate(rng, {
+              role: "appointment-candidate",
+              referenceDate: makeIsoDate(`${anchorYear}-01-01`),
+            }),
             homeJurisdictionId: office.jurisdictionId,
           },
         },
@@ -2247,7 +2248,10 @@ export function governingTransitionHandler(
       "The term this transition belonged to is not current.",
     );
   return resolved(
-    openTransitionMatters(world, office.officeKey),
+    considerClemencyAfterExecutiveDesk(
+      openTransitionMatters(world, office.officeKey),
+      office.termId,
+    ),
     "The new office's first matters were opened.",
   );
 }

@@ -504,13 +504,6 @@
       "kind": "roll",
       "build": "Build 21",
       "count": 1,
-      "code": "reported: rng.next() < rule.reportedShare,"
-    },
-    {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
       "code": "while (product > limit && count < 25) {"
     },
     {
@@ -724,27 +717,6 @@
       "code": "if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;"
     },
     {
-      "file": "src/simulation/governing/congress-lawmaking.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": ".integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0"
-    },
-    {
-      "file": "src/simulation/governing/officeholder-principles.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": "roll < PRINCIPLE_DRAW.endorses"
-    },
-    {
-      "file": "src/simulation/governing/officeholder-principles.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": ": roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects"
-    },
-    {
       "file": "src/simulation/governing/question-authority.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
@@ -889,13 +861,6 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "if (rng.fork(\"child\").next() >= chance) continue;"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
       "code": "if (rng.fork(\"looks\").next() >= chance) continue;"
     },
     {
@@ -994,13 +959,6 @@
       "kind": "fixed-share",
       "build": "Build 24",
       "count": 1,
-      "code": "export const BLANKET_DEPARTURE_CHANCE_PER_YEAR = 0.04;"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
       "code": "export const BLANKET_SAME_STATE_SHARE = 0.5;"
     },
     {
@@ -1022,13 +980,6 @@
       "kind": "roll",
       "build": "Build 24",
       "count": 1,
-      "code": "if (rng.next() >= own) continue;"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
       "code": "if (pool.ownState && rng.next() < BLANKET_SAME_STATE_SHARE)"
     },
     {
@@ -1037,20 +988,6 @@
       "build": "Build 24",
       "count": 1,
       "code": "if (draw < 0) return pool.otherStates[index]!;"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "const count = Math.floor(expected) + (rng.next() < expected % 1 ? 1 : 0);"
-    },
-    {
-      "file": "src/simulation/migration/review.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "for (let n = 0; n < count; n += 1) {"
     },
     {
       "file": "src/simulation/municipal-ordinance-procedure.ts",
@@ -1422,20 +1359,6 @@
       "build": "Build 23",
       "count": 1,
       "code": "if (rng.next() >= practice.likelihoodPerReview) continue;"
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "chanceCap: 0.9,"
-    },
-    {
-      "file": "src/simulation/pressure/events.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "draw(next, [\"international\", matter, ordinal]) >="
     },
     {
       "file": "src/simulation/recall.ts",

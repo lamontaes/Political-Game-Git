@@ -1,0 +1,33 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+{"kind":"prosecution-played-load-boundary","seed":"team9-g13-no-judge:US-IA","placeKey":"1900190","placeName":"Ackley, Iowa","personId":"person_b730074c5ec40533","personName":"Nicholas Guzman","actualJudgeId":"person_6804ffeb066a017d","originalStages":[{"id":"event_49aff3c76732fff9","stableKey":"prosecution-decided-v3:referral:g13-pending-fixture","sequence":39903,"type":"justice.prosecution-referred","occurredAt":"2025-06-19","recordedAt":"2026-01-05","jurisdictionId":"jurisdiction_57f245a5bbdbb2b9","involvedEntityIds":["person_b730074c5ec40533"],"participants":[{"personId":"person_b730074c5ec40533","role":"focus:subject","detail":"Referred to prosecutors"}],"personFactConstraints":[],"visibility":"private","tags":["justice.evidence:documentary","justice.offense:crime:robbery","justice.referred-by:police","justice.standing-findings:6","prosecution-decided-v3"],"summary":"The police referred Nicholas Guzman to prosecutors for robbery.","context":{"location":null,"socialContext":"police","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}},{"id":"event_5c5e17f9cde0a370","stableKey":"prosecution-decided-v3:referral:g13-pending-fixture:justice.charged","sequence":39906,"type":"justice.charged","occurredAt":"2025-09-07","recordedAt":"2026-01-05","jurisdictionId":"jurisdiction_57f245a5bbdbb2b9","involvedEntityIds":["person_b730074c5ec40533"],"participants":[{"personId":"person_b730074c5ec40533","role":"focus:defendant","detail":null}],"personFactConstraints":[],"visibility":"public","tags":["justice.cash-bail-amount:7503200","justice.court:us-ia:general_trial","justice.follows-event:event_49aff3c76732fff9","justice.offense:crime:robbery","justice.referral:event_49aff3c76732fff9","prosecution-decided-v3"],"summary":"Prosecutors charged Nicholas Guzman with robbery.","context":{"location":null,"socialContext":"Criminal case","pressure":null,"choice":null,"motivation":"The records would probably be enough to convict.","immediateReaction":null}}],"recoveredJudgments":[{"id":"event_7c71f174ffa33f19","stableKey":"prosecution-decided-v3:referral:g13-pending-fixture:justice.case-ended","sequence":40153,"type":"justice.case-ended","occurredAt":"2026-01-05","recordedAt":"2026-01-05","jurisdictionId":"jurisdiction_57f245a5bbdbb2b9","involvedEntityIds":["person_b730074c5ec40533"],"participants":[{"personId":"person_b730074c5ec40533","role":"focus:defendant","detail":null}],"personFactConstraints":[],"visibility":"public","tags":["justice.follows-event:event_5c5e17f9cde0a370","justice.offense:crime:robbery","justice.outcome:convicted","justice.referral:event_49aff3c76732fff9","prosecution-decided-v3"],"summary":"A jury convicted Nicholas Guzman of robbery. The jury's first vote was 12 to 0 to convict.","context":{"location":null,"socialContext":"Criminal case","pressure":null,"choice":null,"motivation":null,"immediateReaction":null}},{"id":"event_24ddb798a0abd373","stableKey":"prosecution-decided-v3:referral:g13-pending-fixture:justice.sentenced","sequence":40155,"type":"justice.sentenced","occurredAt":"2026-01-05","recordedAt":"2026-01-05","jurisdictionId":"jurisdiction_57f245a5bbdbb2b9","involvedEntityIds":["person_6804ffeb066a017d","person_b730074c5ec40533"],"participants":[{"personId":"person_6804ffeb066a017d","role":"agency:decided","detail":"Judge"},{"personId":"person_b730074c5ec40533","role":"focus:defendant","detail":null}],"personFactConstraints":[],"visibility":"public","tags":["justice.follows-event:event_7c71f174ffa33f19","justice.offense:crime:robbery","justice.referral:event_49aff3c76732fff9","justice.sentence-months:15","justice.sentence:jail","prosecution-decided-v3"],"summary":"Nicholas Guzman was sentenced to 15 months in jail for robbery.","context":{"location":null,"socialContext":"Criminal case","pressure":null,"choice":null,"motivation":"They had been found at fault for the same thing before. The offense was violent.","immediateReaction":null}}],"currentDate":"2026-01-05","fixtureMeaning":"Authored historical event-date stale save; not a naturally stranded native-clock case or full UI proof."}
+ ✓ scripts/engine-proof/prosecution-load-opening-main.test.ts (3 tests) 30559ms
+     ✓ fresh full opening recovers once after actual people and judiciary without advancing time  318ms
+     ✓ played SaveContinue recovers the authored stale case and preserves its original dates  15332ms
+     ✓ canonical observer and retired saves remain unchanged without recovery  10205ms
+ ✓ src/simulation/justice/prosecution-transitions.test.ts (5 tests) 77756ms
+     ✓ charges the named defendant on the actual due date in 'US-IA'  15763ms
+     ✓ charges the named defendant on the actual due date in 'US-LA'  15063ms
+     ✓ charges the named defendant on the actual due date in 'US-TX'  15476ms
+     ✓ charges the named defendant on the actual due date in 'US-CT'  16287ms
+     ✓ charges the named defendant on the actual due date in 'US-ND'  15161ms
+ ✓ src/simulation/justice/clemency-clock.test.ts (5 tests) 79102ms
+     ✓ reviews the actual petitioner in 'US-IA'  16698ms
+     ✓ reviews the actual petitioner in 'US-LA'  15323ms
+     ✓ reviews the actual petitioner in 'US-TX'  13509ms
+     ✓ reviews the actual petitioner in 'US-CT'  16141ms
+     ✓ reviews the actual petitioner in 'US-ND'  17425ms
+
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+   Start at  17:44:16
+   Duration  228.38s (transform 26.19s, setup 53ms, import 40.29s, tests 187.42s, environment 1ms)
+
+JSON report written to /tmp/team9-a10-recovery-composed-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

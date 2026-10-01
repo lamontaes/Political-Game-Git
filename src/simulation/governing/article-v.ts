@@ -9,8 +9,6 @@ import {
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision } from "../decisions";
-import { currentHistoricalCutoff } from "../queries";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {
@@ -34,7 +32,10 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { seatedCongressChamber } from "./congress-chambers";
-import { decideChamberVote } from "./chamber-votes";
+import {
+  decideChamberVote,
+  type ChamberConstitutionalVoteInput,
+} from "./chamber-votes";
 import { lawInForce } from "./law-in-force";
 import {
   ensureOfficeholderPrinciples,
@@ -129,11 +130,6 @@ const CONTEXT = {
   motivation: null,
   immediateReaction: null,
 } as const;
-
-const VOTE_OPTIONS = [
-  { key: "vote-yea", label: "Vote yes", description: "Propose it." },
-  { key: "vote-nay", label: "Vote no", description: "Leave it out." },
-] as const;
 
 function done(world: World, context: string): FutureTransitionHandlerResult {
   return {
@@ -330,50 +326,17 @@ export const CONSTITUTIONAL_BAR: DecisionConsideration = {
 };
 
 /**
- * A member's vote on writing a policy into a constitution, or, with the
- * answer "no", on taking it out.
+ * A saved constitutional chamber vote through the common member evaluator.
+ * The caller supplies the actual proposal, body and unchanged considerations.
  */
 export function memberBallot(
   world: World,
-  stableKey: string,
-  personId: EntityId,
-  propositionId: EntityId,
-  answer: "yes" | "no" = "yes",
-  extra: readonly DecisionConsideration[] = [],
-): { readonly ballot: "yea" | "nay"; readonly reason: string } {
-  const considerations = constitutionalMemberConsiderations(
-    world,
-    personId,
-    propositionId,
-    answer,
-    extra,
-  );
-  const evaluation = evaluateDecision(world, {
-    stableKey,
-    decisionType: "governing.constitutional-amendment-vote",
-    actorPersonId: personId,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:constitutional-amendment",
-      key: stableKey,
-      entityId: null,
-    },
-    options: [...VOTE_OPTIONS],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
-  });
-  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
-  const reason =
-    considerations.find(
-      (consideration) => consideration.optionKey === `vote-${ballot}`,
-    )?.stableKey ?? "member:no-reason";
-  return { ballot, reason };
+  input: ChamberConstitutionalVoteInput,
+): readonly LegislativeVoteDisposition[] {
+  return decideChamberVote(world, input);
 }
 
-function constitutionalMemberConsiderations(
+export function constitutionalMemberConsiderations(
   world: World,
   personId: EntityId,
   propositionId: EntityId,
@@ -420,7 +383,7 @@ export function articleVProposalBallots(
   const members = body.members.filter((member) => member.personId !== null);
   const answer = measure.ruleDelta.stance === "adopt" ? "yes" : "no";
   const propositionId = measure.ruleDelta.propositionId;
-  return decideChamberVote(world, {
+  return memberBallot(world, {
     kind: "constitutional",
     stableKey: measure.stableKey,
     constitutionalMeasureId: measure.id,

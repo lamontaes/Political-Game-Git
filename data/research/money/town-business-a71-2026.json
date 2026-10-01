@@ -1,0 +1,205 @@
+{
+  "id": "town-business-a71-2026",
+  "version": "town-business-a71-2026-v1",
+  "asOf": "2026-10-01",
+  "about": "Research answers to the two A71 numbers in TOWN_FINANCE_POLICY.business (src/simulation/living-world/town-finances.ts), which reads this file in play: creditLineDaysByKind (each kind's medianDays) and localDemandElasticity (value). The questions were filed as docs/research/requests/small-business-credit-line-size.json and local-sales-response-to-town-pay.json. placeholderInGame records the hand-set value each answer replaced (CTO ruling, 10/1). Each answer records its source, URL, citation, a quote from the source and, where the figure is computed rather than printed, the method. basis SOURCED is a figure printed in or computed from the named source; ESTIMATED FROM AVERAGE is a value taken from the average of sourced rows, with its method.",
+  "answers": {
+    "small-business-credit-line-size": {
+      "constant": "TOWN_FINANCE_POLICY.business.creditLineDaysByKind",
+      "placeholderInGame": 36.5,
+      "unit": "days of annual revenue (credit limit / annual sales x 365)",
+      "basis": "SOURCED",
+      "value": 48.7,
+      "p25": 22.0,
+      "p75": 115.3,
+      "source": "https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z",
+      "citation": "Board of Governors of the Federal Reserve System, 2003 Survey of Small Business Finances, public data file (4,240 firms, five implicates each), variables F7, F10_1-F10_3, P2, A0_SIC2_FIN and FIN_WGT",
+      "quote": "F10_1           NUM    Credit limit 1 ... P2              NUM    Total sales ... FIN_WGT         NUM    Final weight",
+      "quoteSource": "https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/dict03.txt",
+      "surveyYear": 2003,
+      "method": "For each firm reporting any line of credit (F7 = 1), the sum of its reported credit limits (F10_1 to F10_3, positive values only) over its total annual sales (P2 > 0), times 365. Weighted quartiles use FIN_WGT, pooled over the five implicates. Industries are grouped by the 2-digit SIC code A0_SIC2_FIN; an industry with fewer than 30 responding firms takes the all-industry figures, marked ESTIMATED FROM AVERAGE.",
+      "shareOfFirmsHoldingALine": 0.343,
+      "shareCheck": {
+        "source": "https://www.federalreserve.gov/pubs/bulletin/2006/smallbusiness/smallbusiness.pdf",
+        "citation": "Mach and Wolken, Financial Services Used by Small Businesses: Evidence from the 2003 Survey of Small Business Finances, Federal Reserve Bulletin, October 2006, Table 10 (Any supplier column)",
+        "quote": "Credit line . . . . . . . . . .            34.3",
+        "note": "The published share of small firms holding a credit line in 2003 (34.3 percent) matches the weighted share computed here (0.343), which checks the weighting."
+      },
+      "recentCheck": {
+        "source": "https://www.fedsmallbusiness.org/-/media/project/clevelandfedtenant/fsbsite/reports/2026/2026-report-on-employer-firms/2026-report-on-employer-firms.pdf",
+        "citation": "Federal Reserve Banks, Small Business Credit Survey, 2026 Report on Employer Firms (2025 survey), Applications By Product and Amount",
+        "quote": "Reported separately, 26% of firms applied for a loan, 24% applied for a line of credit, and 8% applied for a merchant cash advance.",
+        "note": "The current survey reports applications and amounts sought by band, not a limit over the firm's own revenue, so it cannot replace the 2003 ratio; it confirms that only a minority of employer firms seek a line in a given year."
+      },
+      "byGameKind": {
+        "restaurant": {
+          "basis": "SOURCED",
+          "industry": "SIC 58",
+          "firms": 82,
+          "p25Days": 9.7,
+          "medianDays": 36.6,
+          "p75Days": 99.9
+        },
+        "retail": {
+          "basis": "SOURCED",
+          "industry": "SIC 52-57, 59",
+          "firms": 263,
+          "p25Days": 18.2,
+          "medianDays": 52.0,
+          "p75Days": 98.0
+        },
+        "repair": {
+          "basis": "SOURCED",
+          "industry": "SIC 75-76",
+          "firms": 71,
+          "p25Days": 18.8,
+          "medianDays": 48.8,
+          "p75Days": 103.7
+        },
+        "construction": {
+          "basis": "SOURCED",
+          "industry": "SIC 15-17",
+          "firms": 239,
+          "p25Days": 21.4,
+          "medianDays": 36.5,
+          "p75Days": 78.9
+        },
+        "personal-care": {
+          "basis": "SOURCED",
+          "industry": "SIC 72",
+          "firms": 37,
+          "p25Days": 36.5,
+          "medianDays": 110.4,
+          "p75Days": 211.0
+        },
+        "wholesale": {
+          "basis": "SOURCED",
+          "industry": "SIC 50-51",
+          "firms": 182,
+          "p25Days": 15.0,
+          "medianDays": 37.8,
+          "p75Days": 85.5
+        },
+        "manufacturing": {
+          "basis": "SOURCED",
+          "industry": "SIC 20-39",
+          "firms": 310,
+          "p25Days": 23.2,
+          "medianDays": 47.1,
+          "p75Days": 91.2
+        },
+        "clinic": {
+          "basis": "SOURCED",
+          "industry": "SIC 80",
+          "firms": 105,
+          "p25Days": 21.7,
+          "medianDays": 37.2,
+          "p75Days": 92.6
+        },
+        "care-home": {
+          "basis": "SOURCED",
+          "industry": "SIC 80",
+          "firms": 105,
+          "p25Days": 21.7,
+          "medianDays": 37.2,
+          "p75Days": 92.6
+        },
+        "professional": {
+          "basis": "SOURCED",
+          "industry": "SIC 81, 87, 89",
+          "firms": 193,
+          "p25Days": 33.2,
+          "medianDays": 61.6,
+          "p75Days": 146.0
+        },
+        "insurance": {
+          "basis": "SOURCED",
+          "industry": "SIC 63-64",
+          "firms": 32,
+          "p25Days": 10.8,
+          "medianDays": 53.3,
+          "p75Days": 164.1
+        },
+        "building-services": {
+          "basis": "SOURCED",
+          "industry": "SIC 73",
+          "firms": 155,
+          "p25Days": 29.4,
+          "medianDays": 56.0,
+          "p75Days": 145.8
+        },
+        "realty": {
+          "basis": "SOURCED",
+          "industry": "SIC 65",
+          "firms": 59,
+          "p25Days": 41.5,
+          "medianDays": 126.2,
+          "p75Days": 434.5
+        },
+        "private-school": {
+          "basis": "ESTIMATED FROM AVERAGE",
+          "industry": "SIC 82",
+          "firms": 7,
+          "p25Days": 22.0,
+          "medianDays": 48.7,
+          "p75Days": 115.3,
+          "method": "ESTIMATED FROM AVERAGE: only 7 firms with a line in SIC 82 answered, under the 30-firm floor, so this kind takes the all-industry weighted median and quartiles."
+        },
+        "information": {
+          "basis": "ESTIMATED FROM AVERAGE",
+          "industry": "SIC 48",
+          "firms": 5,
+          "p25Days": 22.0,
+          "medianDays": 48.7,
+          "p75Days": 115.3,
+          "method": "ESTIMATED FROM AVERAGE: only 5 firms with a line in SIC 48 answered, under the 30-firm floor, so this kind takes the all-industry weighted median and quartiles."
+        },
+        "*": {
+          "basis": "SOURCED",
+          "industry": "all industries",
+          "firms": 1901,
+          "p25Days": 22.0,
+          "medianDays": 48.7,
+          "p75Days": 115.3
+        }
+      },
+      "caveats": [
+        "Only 34.3 percent of small firms held a line in 2003; the game gives every business one. The figures here are the size of a line among firms that have one.",
+        "The 2003 survey is the latest public Federal Reserve file that records a firm's credit limit beside its sales; the ratio is unitless, so its age does not need a price adjustment, but lending practice may have moved since.",
+        "The survey covers a nationally representative sample of for-profit, nonfinancial, nonsubsidiary, nonagricultural firms with fewer than 500 employees."
+      ]
+    },
+    "local-sales-response-to-town-pay": {
+      "constant": "TOWN_FINANCE_POLICY.business.localDemandElasticity",
+      "placeholderInGame": 0.5,
+      "unit": "percent change in local-serving business activity per percent change in the town's employer pay (the game applies (townPay / basePay) ^ elasticity to each business's demand)",
+      "basis": "SOURCED",
+      "value": 0.335,
+      "standardError": 0.055,
+      "low": 0.227,
+      "high": 0.443,
+      "upperBoundOls": 0.554,
+      "source": "https://eml.berkeley.edu/~moretti/multipliers.pdf",
+      "citation": "Moretti, Local Multipliers, American Economic Review: Papers and Proceedings 100(2), May 2010, pp. 1-7, Table 1, Model 1 (US metropolitan areas, Census 1980, 1990, 2000)",
+      "quote": "The OLS and IV elasticities are 0.55 and 0.33, respectively. The latter indicates that a ten percent increase in the number of manufacturing jobs in a city is associated with a 3.3 percent increase in employment in local goods and services.",
+      "method": "The IV elasticity of nontradable employment to tradable employment (0.335, standard error 0.055) is taken as the value; low and high are the IV estimate minus and plus 1.96 standard errors. The OLS estimate in the same table (0.554) is kept as upperBoundOls, the larger of the two read estimates.",
+      "byFirmGroup": {
+        "nondurableTradable": {
+          "value": 0.25,
+          "standardError": 0.072,
+          "quote": "Effect of tradable nondurable on nontradable                0.290 (0.024)                0.250 (0.072)"
+        },
+        "durableTradable": {
+          "value": 0.006,
+          "standardError": 0.138,
+          "quote": "Effect of tradable durable on nontradable                    0.283 (0.039)                0.006 (0.138)"
+        }
+      },
+      "caveats": [
+        "Moretti measures local-serving employment against tradable (manufacturing) employment across metropolitan areas over a decade; the game moves local-serving sales against all employer pay in a town each quarter. Jobs are a proxy for sales, and a metro-decade response is a long-run one.",
+        "The game's hand-set 0.5 lies between Moretti's IV (0.335) and OLS (0.554) estimates.",
+        "BEA RIMS II household-spending multipliers are region-specific and sold per region; they were not read."
+      ]
+    }
+  }
+}

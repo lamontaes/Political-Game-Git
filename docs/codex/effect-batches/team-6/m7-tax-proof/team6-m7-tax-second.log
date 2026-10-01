@@ -1,0 +1,129 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/law-consequences/tax.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-m7-tax-second.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/law-consequences/tax.test.ts (7 tests | 7 failed) 615ms
+     × assesses the named payer once, then collects actual cash after Save/Continue 207ms
+     × keeps 'blocked' distinct from positive collection 70ms
+     × keeps 'zero' distinct from positive collection 80ms
+     × refuses absent authority, wrong questions, unrecorded activities and unrelated subjects 66ms
+     × does not assess before the typed policy and governing law are operative 71ms
+     × rejects forged amounts and source IDs, and leaves existing liabilities frozen 61ms
+     × refuses unsupported expression/rate inference instead of using a catalog yes as a rate 57ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > assesses the named payer once, then collects actual cash after Save/Continue
+AssertionError: expected 'awaiting-executive' to be 'enacted' // Object.is equality
+
+Expected: "enacted"
+Received: "awaiting-executive"
+
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:131:53
+    129|       );
+    130|     }
+    131|     expect(measurePosition(world, measureId).phase).toBe("enacted");
+       |                                                     ^
+    132|     expect(world.history.taxPolicies).toHaveLength(1);
+    133|     cache = {
+ ❯ src/simulation/law-consequences/tax.test.ts:229:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > keeps 'blocked' distinct from positive collection
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > keeps 'zero' distinct from positive collection
+AssertionError: expected 'awaiting-executive' to be 'enacted' // Object.is equality
+
+Expected: "enacted"
+Received: "awaiting-executive"
+
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:131:53
+    129|       );
+    130|     }
+    131|     expect(measurePosition(world, measureId).phase).toBe("enacted");
+       |                                                     ^
+    132|     expect(world.history.taxPolicies).toHaveLength(1);
+    133|     cache = {
+ ❯ src/simulation/law-consequences/tax.test.ts:282:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > refuses absent authority, wrong questions, unrecorded activities and unrelated subjects
+AssertionError: expected 'awaiting-executive' to be 'enacted' // Object.is equality
+
+Expected: "enacted"
+Received: "awaiting-executive"
+
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:131:53
+    129|       );
+    130|     }
+    131|     expect(measurePosition(world, measureId).phase).toBe("enacted");
+       |                                                     ^
+    132|     expect(world.history.taxPolicies).toHaveLength(1);
+    133|     cache = {
+ ❯ src/simulation/law-consequences/tax.test.ts:297:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > does not assess before the typed policy and governing law are operative
+AssertionError: expected 'awaiting-executive' to be 'enacted' // Object.is equality
+
+Expected: "enacted"
+Received: "awaiting-executive"
+
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:131:53
+    129|       );
+    130|     }
+    131|     expect(measurePosition(world, measureId).phase).toBe("enacted");
+       |                                                     ^
+    132|     expect(world.history.taxPolicies).toHaveLength(1);
+    133|     cache = {
+ ❯ src/simulation/law-consequences/tax.test.ts:318:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > rejects forged amounts and source IDs, and leaves existing liabilities frozen
+AssertionError: expected 'awaiting-executive' to be 'enacted' // Object.is equality
+
+Expected: "enacted"
+Received: "awaiting-executive"
+
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:131:53
+    129|       );
+    130|     }
+    131|     expect(measurePosition(world, measureId).phase).toBe("enacted");
+       |                                                     ^
+    132|     expect(world.history.taxPolicies).toHaveLength(1);
+    133|     cache = {
+ ❯ src/simulation/law-consequences/tax.test.ts:329:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > refuses unsupported expression/rate inference instead of using a catalog yes as a rate
+AssertionError: expected 'awaiting-executive' to be 'enacted' // Object.is equality
+
+Expected: "enacted"
+Received: "awaiting-executive"
+
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:131:53
+    129|       );
+    130|     }
+    131|     expect(measurePosition(world, measureId).phase).toBe("enacted");
+       |                                                     ^
+    132|     expect(world.history.taxPolicies).toHaveLength(1);
+    133|     cache = {
+ ❯ src/simulation/law-consequences/tax.test.ts:355:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed (7)
+   Start at  12:50:10
+   Duration  20.53s (transform 15.42s, setup 18ms, import 19.76s, tests 615ms, environment 0ms)
+
+JSON report written to /tmp/team6-m7-tax-second.json

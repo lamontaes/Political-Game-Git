@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "./invented-person-age";
 import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
 import {
   characterHistoryContextPersonId,
@@ -130,11 +131,9 @@ export function ensureMunicipalCouncilOpening(
 
   const rng = new SeededRng(next.seed).fork(openingKey(governmentKey));
   const year = Number(next.currentDate.slice(0, 4));
-  const pad = (value: number) => String(value).padStart(2, "0");
   const members: CharacterHistoryContextPersonInput[] = [];
   for (let ordinal = 1; ordinal <= size; ordinal += 1) {
     const seatRng = rng.fork(`seat:${ordinal}`);
-    const age = seatRng.integer(25, 81);
     const identity = generatePersonIdentity(seatRng.fork("identity"));
     const name = drawCanonicalNameForGender(
       seatRng.fork("name"),
@@ -146,9 +145,10 @@ export function ensureMunicipalCouncilOpening(
       stableKey: memberKey(governmentKey, ordinal),
       ...name,
       identity,
-      birthDate: makeIsoDate(
-        `${year - age - 1}-${pad(seatRng.integer(1, 13))}-${pad(seatRng.integer(1, 29))}`,
-      ),
+      birthDate: inventedPersonBirthDate(seatRng, {
+        role: "municipal-council-member",
+        referenceDate: makeIsoDate(`${year}-01-01`),
+      }),
       homeJurisdictionId: jurisdictionId,
     });
   }
@@ -158,7 +158,6 @@ export function ensureMunicipalCouncilOpening(
   let manager: CharacterHistoryContextPersonInput | null = null;
   if (gameProfileManager) {
     const managerRng = rng.fork("manager");
-    const age = managerRng.integer(25, 81);
     const identity = generatePersonIdentity(managerRng.fork("identity"));
     const name = drawCanonicalNameForGender(
       managerRng.fork("name"),
@@ -170,9 +169,10 @@ export function ensureMunicipalCouncilOpening(
       stableKey: managerKey(governmentKey),
       ...name,
       identity,
-      birthDate: makeIsoDate(
-        `${year - age - 1}-${pad(managerRng.integer(1, 13))}-${pad(managerRng.integer(1, 29))}`,
-      ),
+      birthDate: inventedPersonBirthDate(managerRng, {
+        role: "municipal-council-member",
+        referenceDate: makeIsoDate(`${year}-01-01`),
+      }),
       homeJurisdictionId: jurisdictionId,
     };
   }
