@@ -1,0 +1,141 @@
+{
+  "base": "9891ad2ebdfde4bb79869ae290d26ba98eefe425",
+  "changedStates": ["AR", "CO", "IL", "IN", "IA", "NM"],
+  "counts": {
+    "partially-inspected": 28,
+    "unread": 21,
+    "not-applicable-county-board": 1
+  },
+  "stateIdentityCount": 50,
+  "dcPreserved": true,
+  "priorClaimsPreserved": true,
+  "matrixSha256": "c9f519c588962e493f7b78a137acac335df45ad17010969cb8b15b507abfcabd",
+  "productionProfilesAdmitted": 0,
+  "validation": "JSON parsed; all 50 state keys unchanged; prior claims unchanged; D.C. separate; claim URLs/read dates/status present",
+  "notRun": [
+    "native gameplay",
+    "district/electorate binding",
+    "natural filing",
+    "year",
+    "browser",
+    "full suite",
+    "final-main acceptance"
+  ],
+  "renewal": {
+    "previousHead": "cb37eea23b98899c1394a756510b9fed205c9e6c",
+    "changedStates": ["MN", "NE"],
+    "counts": {
+      "partially-inspected": 30,
+      "unread": 19,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "matrixSha256": "95bf666cecc3a17ca80000adf7e47d3594dab0b3d5980ff31915da4adbec5985",
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed; 50 state identities and D.C. preserved; every prior claim unchanged; source fields verified; no runtime change"
+  },
+  "renewal03": {
+    "previousHead": "5a2c767af9b34ff8919b59ec7b81032e3e3d2bd4",
+    "changedStates": ["MN", "NJ", "KS", "MO"],
+    "counts": {
+      "partially-inspected": 33,
+      "unread": 16,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed; 50 identities and D.C. preserved; prior claims unchanged; URLs/read dates/status present; no runtime change",
+    "matrixSha256": "e79896f93cc7d889e11a77ad33b3aae56e7cbac330c3d8cb6cd6a9f6bd110ce1"
+  },
+  "renewal04": {
+    "previousHead": "d0c67c3dc86ebd02b59d2e9f462ac8010a0ab661",
+    "changedStates": ["NV", "VA", "WI", "OR"],
+    "counts": {
+      "partially-inspected": 37,
+      "unread": 12,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed; 50 state identities and D.C. preserved; all prior claim values unchanged; source URL/date/status present; no runtime changes",
+    "matrixSha256": "8f4fc56154ef7b3a72d55e28df4f01a9a8b9cc8b52299fbd17167352f71679c6"
+  },
+  "renewal05": {
+    "previousHead": "5eb4ea21eca5676243a8d88872f89d21d9c0f570",
+    "changedStates": ["MT"],
+    "counts": {
+      "partially-inspected": 38,
+      "unread": 11,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed; 50 state identities and D.C. preserved; all prior claim values unchanged; primary 2025 MCA text read; no runtime changes",
+    "matrixSha256": "b342233c3486da4bb7c6e2c7e193f923de076fcee9bf2fd09f9a0eb7acafb748"
+  },
+  "renewal06": {
+    "previousHead": "50cc17582f92a99d4c58cb98fa1ba8685265f120",
+    "changedStates": ["AK", "ID", "WY"],
+    "counts": {
+      "partially-inspected": 41,
+      "unread": 8,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "JSON parsed;50state identities/DC and prior claims preserved; official full source readings only; no runtime changes",
+    "matrixSha256": "6e522b8effc8c806cb15809fec552432d496a96eea7f024dbaaff6e95bad1756"
+  },
+  "renewal07": {
+    "previousHead": "5f933e3bcf6395cb12dc1a9c9b8ef54c0eb72cd7",
+    "changedStates": ["NC", "SC", "OK", "UT"],
+    "counts": {
+      "partially-inspected": 45,
+      "unread": 4,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "50identities/DC/priorclaims preserved; primary full source readings; SCform entry conflict and Utah statute retrieval gaps retained; no runtime changes",
+    "matrixSha256": "45a786a754b325714bfaa96e5d6c3e6b80a27548499545bf0c4d4051e0b71835"
+  },
+  "renewal08": {
+    "previousHead": "3136c590f19e0c519104b71076b866e9e551972f",
+    "changedStates": ["GA", "IL", "MD", "NY"],
+    "counts": {
+      "partially-inspected": 49,
+      "unread": 0,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "49partial/CT exception/DC separate; all50identities and priorclaims preserved; source gaps/actualcounty plans open; no runtime changes",
+    "matrixSha256": "37a8bb8bd0e6ec56549bf088181c297f79584b3a98a29ebfe32ee1fb5c13ad2d"
+  },
+  "renewal09": {
+    "previousHead": "e2be0e269605945205576cc7134a94379367a88a",
+    "changedStates": ["LA"],
+    "counts": {
+      "partially-inspected": 49,
+      "unread": 0,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "Observed eleven roster labels and dated proposed redistricting notice; no adopted map or person-district join; PDF retrieval failure retained; no runtime changes",
+    "matrixSha256": "f954b7c8c17c9bb9090f86b24f1f568f3fb4d66abcaa8d99c5d64a24eb63d57b"
+  },
+  "renewal10": {
+    "previousHead": "db7a95768d60a19c1590d1e4170b1bd8c56c042e",
+    "changedStates": ["LA"],
+    "counts": {
+      "partially-inspected": 49,
+      "unread": 0,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "Read filed primary court PDFs through provenance-bound mirror; old PlanH enjoined for future elections; proposed BGD2 not adopted; official docket renewal remains open; no runtime changes",
+    "matrixSha256": "7da870c488f359eef2a6012f963a9b8df72476ffbc247b6c90281457ab2e1344"
+  }
+}

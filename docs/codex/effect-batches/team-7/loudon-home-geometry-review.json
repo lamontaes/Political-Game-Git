@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-01",
+  "status": "whole-place-containment-unproven",
+  "productionAdmission": false,
+  "homeJoin": null,
+  "voterEvidence": null,
+  "officialSourceChain": {
+    "districtApp": "2bd3c9b349634d2ba7153410c0930d27",
+    "districtWebmap": "7d4b9c1a43b64e038923579f548c7352",
+    "cityDashboard": "cc2701dd6ef2463ab7944e62120d9b9e",
+    "cityWebmap": "f155e093a5ec4d1db1d157e653d5bd91"
+  },
+  "districtQuery": {
+    "url": "https://services2.arcgis.com/63Ka7QbNqm4NLbeo/arcgis/rest/services/Redistricting_Address_Lookup/FeatureServer/2/query",
+    "where": "COUNTY='105'",
+    "outFields": "*",
+    "outSR": 4326,
+    "format": "geojson",
+    "featureCount": 7,
+    "rawSha256": "e886046729cc31f631520e9c046371dd4eb73b021c6f764abbe279190d087d29"
+  },
+  "municipalQuery": {
+    "url": "https://services2.arcgis.com/63Ka7QbNqm4NLbeo/arcgis/rest/services/Comptroller_Cities/FeatureServer/1/query",
+    "objectIds": [156, 228],
+    "outSR": 4326,
+    "rawSha256": "c0befcedc8c0ed9458f96b43739115310ee2a9a928f5019e4c50b9fc4506f67e"
+  },
+  "canonicalCrosswalk": {
+    "head": "b9abe032c4904f6fb1ef17e2b56f65fa13387641",
+    "path": "src/simulation/place-county-relations.generated.ts",
+    "geographyAsOf": "2020-04-01",
+    "rows": [
+      ["4730880", "47105", 21525017],
+      ["4757900", "47105", 4027632]
+    ],
+    "provesElectoralDistrict": false
+  },
+  "spatialQueries": {
+    "url": "https://services2.arcgis.com/63Ka7QbNqm4NLbeo/arcgis/rest/services/Redistricting_Address_Lookup/FeatureServer/2/query",
+    "readOn": "2026-10-01",
+    "source": "official municipal polygons, no buffer or simplification",
+    "queries": [
+      {
+        "city": "Philadelphia",
+        "sourceObjectId": 156,
+        "relation": "esriSpatialRelWithin",
+        "matches": [],
+        "requestSha256": "6db452001f37990c7f6af35672e590746e132b04057bd4fbfd45e67219638296",
+        "responseSha256": "1fc423ae159c0a6192968e2e21dcdcc14f433100443c8a90144534292b03c808"
+      },
+      {
+        "city": "Philadelphia",
+        "sourceObjectId": 156,
+        "relation": "esriSpatialRelIntersects",
+        "matches": [
+          {
+            "OBJECTID": 454,
+            "COUNTY": "105",
+            "NEWCCDDISTRICT": 4
+          }
+        ],
+        "requestSha256": "541c35951d27a9ea9fea8426bbb3b23f466670a25c251cdc4e522da2f3f9340e",
+        "responseSha256": "0e4a58ae0ce6162b65edc3fef076e99c5755abba085d09a66a7bab43870d4e0f"
+      },
+      {
+        "city": "Greenback",
+        "sourceObjectId": 228,
+        "relation": "esriSpatialRelWithin",
+        "matches": [],
+        "requestSha256": "8145e2fdaf58fd97164288e62a1b3ba9cda315fd69a3878102404dc86157d772",
+        "responseSha256": "1fc423ae159c0a6192968e2e21dcdcc14f433100443c8a90144534292b03c808"
+      },
+      {
+        "city": "Greenback",
+        "sourceObjectId": 228,
+        "relation": "esriSpatialRelIntersects",
+        "matches": [
+          {
+            "OBJECTID": 455,
+            "COUNTY": "105",
+            "NEWCCDDISTRICT": 3
+          }
+        ],
+        "requestSha256": "8c6f67669ff155982058c621368ebe4dde79100a504d62e7140e6107d51eeac1",
+        "responseSha256": "b1b9cacc88787900f4c27d6b9163bd18877665604ba8797644754f5cb0be4684"
+      }
+    ]
+  },
+  "differenceDiagnostic": {
+    "operation": "official municipal polygon minus intersecting official county district",
+    "endpoint": "https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer/difference",
+    "readOn": "2026-10-01",
+    "noAuthoredBuffer": true,
+    "serviceSimplifiesInternally": true,
+    "productionAdmission": false,
+    "queries": [
+      {
+        "city": "philadelphia",
+        "requestSha256": "1038b76a4ef432b72efa239c1f10571e42fe55744b1dcbb2885c92bf53e0a47a",
+        "responseSha256": "7165c2c394a5c02cf06675ef66d6bdcbdff481bc3460e8fe1639c8b89777f028",
+        "responseBytes": 2322,
+        "error": null,
+        "ringCounts": [5],
+        "pointCounts": [55]
+      },
+      {
+        "city": "greenback",
+        "requestSha256": "3f06e9d3b3f113debe94ac21580a61eca39a6f3bf7782a6acf3dda009b304701",
+        "responseSha256": "09b1b54eba97a612189a5bb2bf2f8344180944966a6072f1b28cbeb508cbe0b4",
+        "responseBytes": 1617,
+        "error": null,
+        "ringCounts": [3],
+        "pointCounts": [38]
+      }
+    ]
+  },
+  "limits": [
+    "No adoption or effective boundary date inferred from live layer metadata.",
+    "No boundary mismatch cause established.",
+    "No buffer, centroid, rounding tolerance or registration inference admitted.",
+    "Difference service simplifies internally; result is a diagnostic, not legal admission."
+  ]
+}
