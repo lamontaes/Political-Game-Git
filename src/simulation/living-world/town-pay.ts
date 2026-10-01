@@ -1135,9 +1135,11 @@ export function applyLawPayConsequence(
       "earned-law-pay-assessment",
       `${world.id}:${stableKey}`,
     );
-    const prior = (world.history.earnedLawPayAssessments ?? []).find(
-      (record) => record.stableKey === stableKey,
-    );
+    const prior = recordsWithFieldValue(
+      world.history.earnedLawPayAssessments ?? [],
+      "stableKey",
+      stableKey,
+    ).at(-1);
     if (prior) {
       if (
         prior.id !== id ||
@@ -1873,10 +1875,13 @@ export function settleTownCompensations(
         ? Math.min(absence.missedDays, workdays)
         : 0;
     const assessment = completion
-      ? (next.history.earnedLawPayAssessments ?? [])
+      ? recordsWithFieldValue(
+          next.history.earnedLawPayAssessments ?? [],
+          "resourceFlowId",
+          flow.id,
+        )
           .filter(
             (record) =>
-              record.resourceFlowId === flow.id &&
               record.earnedTermsId === earnedTerms?.id &&
               record.completionEventId === completion.id &&
               record.workRelationshipId === work.id &&
