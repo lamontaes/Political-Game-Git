@@ -18,7 +18,12 @@
  * The single-move public writer `relocateHousehold` asserts once itself.
  */
 
-import { appendChildhoodEntry } from "../childhood-record";
+import {
+  appendChildhoodEntry,
+  childhoodRecordEntries,
+} from "../childhood-record";
+import { scheduleLivedOutcomeReflection } from "../law-exposure";
+import { parentsOf } from "../people-family";
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
 // Not `school-stages.ts`: importing it from here makes the module loader
@@ -551,7 +556,7 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   for (const personId of move.personIds) {
     const grade = schoolGradeOn(next, personId, date);
     const child = ageOnDate(next.people[personId]!.birthDate, date) < 18;
-    if (term && child && grade !== null && attendingSchool(next, personId))
+    if (term && child && grade !== null && attendingSchool(next, personId)) {
       next = appendChildhoodEntry(next, {
         kind: "school-year-move",
         stableKey: `${eventStableKey}:childhood:${personId}`,
@@ -563,6 +568,16 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
         schoolYear: term.schoolYear,
         grade,
       });
+      // Each grown parent who moved with the child thinks over the school
+      // the child had to leave (living-world/lived-outcomes.ts).
+      const entryId = childhoodRecordEntries(next).at(-1)!.id;
+      for (const parentId of parentsOf(next, personId))
+        if (
+          move.personIds.includes(parentId) &&
+          ageOnDate(next.people[parentId]!.birthDate, date) >= 18
+        )
+          next = scheduleLivedOutcomeReflection(next, parentId, entryId);
+    }
     next = leaveSchoolOnMove(next, personId, event.id, date);
   }
 

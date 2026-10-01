@@ -33,9 +33,9 @@ import type {
 import { isPersonAliveAt } from "../vitality";
 import { advanceWorld, createWorld, createWorldId } from "../world";
 import { ensureCrisisMortality } from "./mortality";
+import { annualPovertyLineMinor } from "../household-pay";
 import { MULTIPLIER_ONE } from "./hazard";
 import {
-  annualPovertyLineMinor,
   coverageHazardIntervals,
   healthCoverageRecords,
   MEDICAID_EXPANSION_RULES,

@@ -10,7 +10,7 @@ import {
   thresholdUnits,
   type HazardMultiplierChange,
 } from "./hazard";
-import { annualPovertyLineMinor } from "./health-coverage";
+import { annualPovertyLineMinor } from "../household-pay";
 import type { MortalityCalibrationCategory } from "./mortality-table";
 import { appendCrisisRecords, crisisRecordId } from "./records";
 import type {
