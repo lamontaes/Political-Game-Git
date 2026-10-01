@@ -35,7 +35,9 @@ import {
 } from "./sentencing-applicability";
 import { sentencingRangeForCase } from "./sentencing-ranges";
 import { sentencesOf, jailTermOn, SENTENCE_LIFE_TAG } from "./jail-terms";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
+import { projectLegalRecord } from "../../presentation/legal-record";
+import { advanceProsecutions } from "./prosecution";
 
 const SEED = "team9-a100-saved-court-finder-20261001";
 let opened: World | null = null;
@@ -43,6 +45,8 @@ function world(): World {
   return (opened ??= openObserverWorld(observerSetup(SEED)).world);
 }
 const receipts: unknown[] = [];
+let lifeCaseBase: { world: World; personId: EntityId; venue: EntityId } | null =
+  null;
 afterAll(() => {
   if (process.env.A103_PROOF_PATH)
     writeFileSync(
@@ -236,6 +240,12 @@ describe("recorded applicability and sourced sentencing options", () => {
           createProsecutionTransitionRegistry(),
         ).history.events,
       ).toEqual(sentenced.history.events);
+      if (state.jurisdictionKey === "US-MA")
+        lifeCaseBase = {
+          world: saved,
+          personId: person,
+          venue: court.jurisdictionId!,
+        };
       receipts.push({
         seed: SEED,
         state: state.jurisdictionKey,
@@ -248,4 +258,94 @@ describe("recorded applicability and sourced sentencing options", () => {
         decision,
       });
     }, 30_000);
+  it("keeps an actual life sentence indefinite through priors, readers and SaveContinue", () => {
+    expect(lifeCaseBase).not.toBeNull();
+    const base = lifeCaseBase!;
+    const referred = referForProsecution(base.world, {
+      stableKey: "a103:life-from-saved-prior",
+      subjectPersonId: base.personId,
+      jurisdictionId: base.venue,
+      offenseKey: "crime:robbery",
+      evidence: "documentary",
+      standingFindings: 6,
+      basisEventIds: [],
+      referredBy: { kind: "police", label: "police", personId: null },
+    });
+    const referral = referred.world.history.events.find(
+      (e) => e.id === referred.referralId,
+    )!;
+    const applicability = sentencingApplicabilityOf(referred.world, referral);
+    expect(applicability.priorConvictionEventIds).toHaveLength(1);
+    const prior = referred.world.history.events.find(
+      (e) => e.id === applicability.priorConvictionEventIds[0],
+    )!;
+    expect(prior.tags).toContain("justice.outcome:plea");
+    const chargeAt = addDays(
+      base.world.currentDate,
+      UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+    );
+    const charged = resolveFutureDueItemsThrough(
+      referred.world,
+      chargeAt,
+      createProsecutionTransitionRegistry(),
+    );
+    const plea = enterPlea(charged, {
+      personId: base.personId,
+      referralId: referred.referralId,
+      plea: "guilty",
+    });
+    expect(plea.ok).toBe(true);
+    const trialAt = addDays(
+      chargeAt,
+      UNRESEARCHED_PROSECUTION.resolveAfterDays,
+    );
+    const sentenced = resolveFutureDueItemsThrough(
+      plea.world,
+      trialAt,
+      createProsecutionTransitionRegistry(),
+    );
+    const event = sentenced.history.events.find(
+      (e) =>
+        e.type === PROSECUTION_SENTENCED_EVENT &&
+        e.tags.includes(`justice.referral:${referral.id}`),
+    )!;
+    expect(event).toBeDefined();
+    expect(event.tags).toContain(SENTENCE_LIFE_TAG);
+    expect(
+      event.tags.some((t) => t.startsWith("justice.sentence-months:")),
+    ).toBe(false);
+    const term = sentencesOf(sentenced, base.personId).find(
+      (t) => t.sentencedEventId === event.id,
+    )!;
+    expect(term.life).toBe(true);
+    expect(term.months).toBeNull();
+    expect(term.until).toBeNull();
+    expect(
+      jailTermOn(sentenced, base.personId, addDays(trialAt, 1000))
+        ?.sentencedEventId,
+    ).toBe(event.id);
+    const displayed = projectLegalRecord(
+      sentenced,
+      base.personId,
+    ).sentences.find((s) => s.sentencedEventId === event.id)!;
+    expect(displayed.term).toContain("life imprisonment");
+    expect(displayed.term).toContain("no fixed end date");
+    expect(displayed.servingNow).toBe(true);
+    const saved = deserializeWorld(serializeWorld(sentenced));
+    assertWorldIntegrity(saved);
+    expect(advanceProsecutions(saved, referral.id).history.events).toEqual(
+      saved.history.events,
+    );
+    receipts.push({
+      seed: SEED,
+      state: "US-MA",
+      name: personName(saved.people[base.personId]!),
+      prior,
+      referral,
+      applicability,
+      sentence: event,
+      term,
+      displayed,
+    });
+  }, 30_000);
 });
