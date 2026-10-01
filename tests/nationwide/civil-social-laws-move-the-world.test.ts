@@ -53,8 +53,11 @@ const CIVIL_AND_SOCIAL = [
   CANNABIS,
   "us-policy-positions:technology-privacy.consumer-data-privacy-law",
   "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
-  "us-policy-positions:technology-privacy.age-verification-for-social-media",
-  "us-policy-positions:civil-family-community.local-control-of-library-materials",
+  // Not listed (CTO ruling 8 and gap list A164): no study measures what a
+  // social-media age check does to anything the world keeps, and the owner
+  // pulled its only link; no study links local book removals to reading, so
+  // that link is an evidence gap, not a measured zero. Each row says why in
+  // its notes until research or a measure gives it a path.
   "us-policy-positions:civil-family-community.fund-public-libraries",
   "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
   "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
