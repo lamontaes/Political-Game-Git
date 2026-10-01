@@ -57,6 +57,7 @@ import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.gener
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
 import { personName } from "./people";
 import { lawInForce } from "./governing/law-in-force";
+import { applyLawConsequences } from "./enacted-law-effects";
 import {
   MINIMUM_WAGE_PAY_ROWS,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
@@ -541,4 +542,30 @@ it("A38 reads the actual office role at the earlier payroll date", () => {
   expect(resourceFlowTermsAt(revised, f.flow.id)!.amount.minorUnits).toBe(
     100_000,
   );
+});
+
+it("A38 dispatches the actual office measure through the default pay registration", () => {
+  const f = fixture(sampled[0]!);
+  const context = {
+    onDate: f.resolved.effectiveAt,
+    activity: "payroll" as const,
+    activityId: f.flow.id,
+    subjectIds: [f.personId],
+    governingLawId: f.clause.measureId,
+  };
+  // This real measure filter isolates registration proof. The separate five
+  // paycheck cases still exercise all laws and retain the missing wage failure.
+  const revised = applyLawConsequences(f.world, context);
+  const terms = resourceFlowTermsAt(revised, f.flow.id)!;
+  expect(terms.amount.minorUnits).toBe(100_000);
+  expect(terms.lawEffectStamps![0]!.questionKey).toBeNull();
+  expect(terms.lawEffectStamps![0]!.ruleAuthority!.ruleChangeProvisionId).toBe(
+    f.clause.id,
+  );
+  expect(applyLawConsequences(revised, context)).toBe(revised);
+  expect(
+    serializeWorld(
+      applyLawConsequences(deserializeWorld(serializeWorld(f.world)), context),
+    ),
+  ).toBe(serializeWorld(revised));
 });
