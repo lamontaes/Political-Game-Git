@@ -1,3 +1,4 @@
+import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import { eventById } from "./event-index";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
@@ -267,6 +268,9 @@ export function attachTaxProposal(
     )
   )
     throw new Error("Tax terms must be filed before legislative deliberation.");
+  const exciseQuestion = (measure.propositionIds ?? [])
+    .map((id) => world.policyCatalog.propositions[id])
+    .find((row) => row?.stableKey === "us-tax-terms:state.excise-tax-terms");
   let next = ensurePublicGovernmentAccount(world, publicGovernmentIdentity);
   next = recordFiledProvision(next, {
     stableKey: `${input.stableKey}:levy`,
@@ -285,6 +289,16 @@ export function attachTaxProposal(
     },
     fiscalExposureLabel: null,
     fiscalExposureMinorUnits: null,
+    ...(exciseQuestion ? {
+      lawTerms: TAX_NUMERIC_LAW_TERMS.map((term) => ({
+        questionKey: exciseQuestion.stableKey,
+        key: term.key,
+        value: term.field === "effectiveDelayDays"
+          ? input.terms.effectiveDelayDays ?? 90
+          : input.terms[term.field],
+        unit: term.unit,
+      })),
+    } : {}),
     operativeEffect: { kind: "tax-policy" },
   });
   const levy = currentMeasureProvisions(next, measure.id).find(
