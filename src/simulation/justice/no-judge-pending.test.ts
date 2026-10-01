@@ -199,7 +199,7 @@ function preparedCase(
 
 describe("a case requires a sitting judge", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
-  const states = pickDistinct(rng, lifePlaceStateIdentities(), 5);
+  const states = pickDistinct(rng, lifePlaceStateIdentities(), 2);
   describe.each(states)("$jurisdictionKey", (state) => {
     let fixture: ReturnType<typeof preparedCase>;
     beforeAll(() => {

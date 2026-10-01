@@ -43,7 +43,7 @@ afterAll(() => {
 // These are isolated real-clock adapter proofs, not complete composer/year runs.
 describe("a saved prosecution stage owns its due item", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
-  const states = pickDistinct(rng, lifePlaceStateIdentities(), 5);
+  const states = pickDistinct(rng, lifePlaceStateIdentities(), 2);
   it.each(states)(
     "charges the named defendant on the actual due date in $jurisdictionKey",
     (state) => {

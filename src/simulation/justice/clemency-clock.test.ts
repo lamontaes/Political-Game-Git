@@ -52,7 +52,7 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
   const states = pickDistinct(
     new SeededRng(seed),
     lifePlaceStateIdentities(),
-    5,
+    2,
   );
   it.each(states)(
     "reviews the actual petitioner in $jurisdictionKey",

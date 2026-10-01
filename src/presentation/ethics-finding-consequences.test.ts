@@ -46,7 +46,6 @@ import {
   referForProsecution,
   regulatorRefers,
   UNRESEARCHED_PROSECUTION,
-  prosecutionTimingAt,
 } from "../simulation/justice/prosecution";
 import { successorCandidates } from "../simulation/people-continuation";
 import { resourcePositionAt } from "../simulation/resource-queries";
@@ -548,7 +547,7 @@ describe("a Washington candidate who keeps taking after a finding", () => {
           addDays(
             referral.occurredAt,
             UNRESEARCHED_PROSECUTION.chargeDecisionDays +
-              prosecutionTimingAt(w, referral.jurisdictionId).resolveAfterDays +
+              UNRESEARCHED_PROSECUTION.resolveAfterDays +
               14,
           ) <= w.currentDate,
       );
@@ -618,8 +617,7 @@ describe("a Washington candidate who keeps taking after a finding", () => {
     const jailed = passOrdinaryDays(
       referred,
       UNRESEARCHED_PROSECUTION.chargeDecisionDays +
-        prosecutionTimingAt(referred, run.campaign.jurisdictionId)
-          .resolveAfterDays +
+        UNRESEARCHED_PROSECUTION.resolveAfterDays +
         14,
     );
     const term = jailTermOn(jailed, run.personId)!;

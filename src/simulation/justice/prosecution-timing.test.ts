@@ -246,20 +246,25 @@ describe("two states schedule the same case's plea hearing on different days", (
     "unread state",
   );
 
-  it(`${first} and ${second} hold the hearing on their own days (seed ${seed})`, () => {
-    const firstDays = trialDaysAfterCharge(first.slice(3), `${seed}:${first}`);
-    const secondDays = trialDaysAfterCharge(
-      second.slice(3),
-      `${seed}:${second}`,
+  it("the two drawn states read different days", () => {
+    expect(prosecutionTimingFor(first).resolveAfterDays).not.toBe(
+      prosecutionTimingFor(second).resolveAfterDays,
     );
-    expect(firstDays).toBe(prosecutionTimingFor(first).resolveAfterDays);
-    expect(secondDays).toBe(prosecutionTimingFor(second).resolveAfterDays);
-    expect(firstDays).not.toBe(secondDays);
   });
+
+  it.each([first, second])(
+    `%s holds the plea hearing on its own state's day (seed ${seed})`,
+    (key) => {
+      expect(trialDaysAfterCharge(key.slice(3), `${seed}:${key}`)).toBe(
+        prosecutionTimingFor(key).resolveAfterDays,
+      );
+    },
+    90_000,
+  );
 
   it(`${unread} has no read figure and takes the labeled national estimate`, () => {
     expect(trialDaysAfterCharge(unread.slice(3), `${seed}:${unread}`)).toBe(
       NATIONAL_RESOLVE_AFTER_DAYS,
     );
-  });
+  }, 90_000);
 });

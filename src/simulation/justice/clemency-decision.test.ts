@@ -52,7 +52,6 @@ import {
   enterPlea,
   referForProsecution,
 } from "./prosecution";
-import { prosecutionTimingFor } from "./prosecution-timing";
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -176,8 +175,7 @@ describe("a saved executive decision immediately reaches its actual petition", (
                     ...event,
                     occurredAt: addDays(
                       plea.world.currentDate,
-                      -prosecutionTimingFor(state.jurisdictionKey)
-                        .resolveAfterDays,
+                      -UNRESEARCHED_PROSECUTION.resolveAfterDays,
                     ),
                   }
                 : event,
@@ -212,8 +210,7 @@ describe("a saved executive decision immediately reaches its actual petition", (
                     occurredAt: addDays(
                       sentenceDate,
                       -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                        prosecutionTimingFor(state.jurisdictionKey)
-                          .resolveAfterDays,
+                        UNRESEARCHED_PROSECUTION.resolveAfterDays,
                     ),
                   }
                 : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -222,8 +219,7 @@ describe("a saved executive decision immediately reaches its actual petition", (
                       ...event,
                       occurredAt: addDays(
                         sentenceDate,
-                        -prosecutionTimingFor(state.jurisdictionKey)
-                          .resolveAfterDays,
+                        -UNRESEARCHED_PROSECUTION.resolveAfterDays,
                       ),
                     }
                   : event.id === sentenceId

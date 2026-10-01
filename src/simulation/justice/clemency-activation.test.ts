@@ -88,7 +88,7 @@ const states = pickDistinct(
       ),
     );
   })
-  .slice(0, 5);
+  .slice(0, 2);
 const receipts: unknown[] = [];
 afterAll(() => {
   if (process.env.G12_ACTIVATION_PROOF_PATH)

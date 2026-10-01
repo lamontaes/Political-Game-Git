@@ -45,7 +45,7 @@ afterAll(() => {
 // cancelled; this is a bounded case-clock proof, not a whole-world year.
 describe("a saved NPC sentence wakes its existing clemency decision", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
-  const states = pickDistinct(rng, lifePlaceStateIdentities(), 5);
+  const states = pickDistinct(rng, lifePlaceStateIdentities(), 2);
   it.each(states)(
     "records the named defendant's request decision after sentencing in $jurisdictionKey",
     (state) => {

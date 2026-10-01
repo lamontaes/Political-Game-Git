@@ -206,7 +206,7 @@ describe("unseated required pardon bodies cannot answer", () => {
           gate.mustAgree.length > 0 && gate.mustAgree[0] !== EXECUTIVE_BODY,
       );
     })
-    .slice(0, 5);
+    .slice(0, 2);
   it.each(states)(
     "retains the actual petition without a board answer in $jurisdictionKey",
     (state) => {

@@ -7,7 +7,6 @@ import {
   sentencesOf,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
-import { prosecutionTimingFor } from "../simulation/justice/prosecution-timing";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { observerPlace } from "./observer-world";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -90,7 +89,7 @@ describe("the player enters their own plea", () => {
 
     const later = passOrdinaryDays(
       entered.world,
-      prosecutionTimingFor(place.stateJurisdictionKey).resolveAfterDays + 14,
+      UNRESEARCHED_PROSECUTION.resolveAfterDays + 14,
     );
     const [closed] = courtCasesOf(later, playerId);
     expect(closed).toMatchObject({ outcome: "plea", hearingOn: null });

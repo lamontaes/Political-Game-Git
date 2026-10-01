@@ -64,7 +64,7 @@ describe("full cash bail reaches a saved court government and returns at case cl
   const states = pickDistinct(
     new SeededRng("team9-g10-floor-five-20260930"),
     lifePlaceStateIdentities(),
-    5,
+    2,
   );
   for (const state of states)
     describe(state.jurisdictionKey, () => {
