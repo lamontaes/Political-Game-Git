@@ -2907,7 +2907,19 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "cite": "New Jersey Department of Labor, October 1, 2025; N.J. Const. art. I, paragraph 23 and N.J.A.C. 12:56-3.1(c)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1592,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard rate for most employees. Saved-fact categories require distinct applicable terms: small or seasonal employer 1523 minor/hour, agricultural worker 1420, long-term-care direct-care staff 1892; tipped cash rate 605 with maximum tip credit 987 and required total-floor reconciliation. This standard term does not select a category or establish tips."
         },
         "US-NM": {
           "answer": "yes"
