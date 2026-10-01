@@ -81,6 +81,7 @@ export interface LawConsequenceRow {
   onward?: LawConsequenceRow[];
 }
 export interface LawConsequenceContext {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
@@ -137,6 +138,7 @@ export type ResolvedLawValue =
   | { type: "boolean"; value: boolean }
   | { type: "decision"; value: string };
 export interface ResolvedLawConsequence {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
   row: LawConsequenceRow;
   law: LawInForce;
   questionKey: string;
@@ -168,8 +170,16 @@ export interface ResolvedStandingServiceConsequence extends Omit<
 > {
   authority: StandingProgramAuthority;
 }
+export interface ResolvedSavedRuleConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: ResolvedSavedHourlyPayConsequence["authority"];
+}
+export type ResolvedSavedAuthorityConsequence =
+  ResolvedSavedRuleConsequence | ResolvedStandingServiceConsequence;
 export type ResolvedAnyLawConsequence =
-  ResolvedLawConsequence | ResolvedStandingServiceConsequence;
+  ResolvedLawConsequence | ResolvedSavedAuthorityConsequence;
 
 export type LawConsequenceHandler = (
   world: World,
@@ -191,13 +201,13 @@ export interface LawConsequenceKindRegistration<
   ) => readonly ResolvedLawConsequence[];
   resolveSavedRules?: Extract<
     T,
-    ResolvedStandingServiceConsequence
+    ResolvedSavedAuthorityConsequence
   > extends never
     ? never
     : (
         world: World,
         context: LawConsequenceContext,
-      ) => readonly Extract<T, ResolvedStandingServiceConsequence>[];
+      ) => readonly Extract<T, ResolvedSavedAuthorityConsequence>[];
   apply(world: World, resolved: T): World;
 }
 
