@@ -3,6 +3,7 @@ import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { createWorld } from "../world";
+import { deserializeWorld, serializeWorld } from "../serialization";
 import { type LawEffectStampedRecord } from "../law-effect-stamp";
 import { withOpenedBudgets } from "./index";
 import {
@@ -105,12 +106,13 @@ describe("age-verification without an appropriation or actual hires produces no 
         date,
         FLOWS,
       ).government.months.at(-1)!;
-      const after = settleGovernmentMonth(
+      const afterGovernment = settleGovernmentMonth(
         world,
         government,
         date,
         FLOWS,
-      ).government.months.at(-1)!;
+      ).government;
+      const after = afterGovernment.months.at(-1)!;
       expect(lawInForce(world, state.id, question.id, date)?.measureId).toBe(
         measure.id,
       );
@@ -141,6 +143,24 @@ describe("age-verification without an appropriation or actual hires produces no 
       ).toEqual(BUDGET_PROGRAMS.map(() => 0));
       const reopened = JSON.parse(JSON.stringify(after));
       expect(reopened).toEqual(after);
+      const savedWorld = {
+        ...world,
+        publicBudgets: {
+          version: PUBLIC_BUDGETS_VERSION,
+          cursor: { flows: 0, outcomes: 0 },
+          governments: [afterGovernment],
+          adjustments: [],
+          unknown: [],
+        },
+      };
+      const bytes = serializeWorld(savedWorld);
+      const continued = deserializeWorld(bytes);
+      expect(serializeWorld(continued)).toBe(bytes);
+      expect(continued.publicBudgets!.governments[0]).toEqual(afterGovernment);
+      expect(
+        settleGovernmentMonth(continued, afterGovernment, date, FLOWS)
+          .government,
+      ).toBe(afterGovernment);
       if (stateKey === "US-CA" || stateKey === "US-WA") {
         const cannabis = Object.values(catalog.propositions).find(
           (row) =>

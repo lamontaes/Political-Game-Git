@@ -11,6 +11,7 @@ import type {
   World,
 } from "../types";
 import { createWorld } from "../world";
+import { deserializeWorld, serializeWorld } from "../serialization";
 const AGE_VERIFICATION_COST_QUESTION =
   "us-policy-positions:technology-privacy.age-verification-for-social-media";
 const CONSUMER_PRIVACY_COST_QUESTION =
@@ -158,6 +159,20 @@ describe("consumer privacy without an appropriation or actual hires produces no 
       expect(saved.spending).toEqual(baseline.spending);
       expect(saved.lawEffectStamps).toEqual(baseline.lawEffectStamps);
       expect(JSON.parse(JSON.stringify(saved))).toEqual(saved);
+      const stored = {
+        ...world,
+        publicBudgets: {
+          version: PUBLIC_BUDGETS_VERSION,
+          cursor: { flows: 0, outcomes: 0 },
+          governments: [savedGovernment],
+          adjustments: [],
+          unknown: [],
+        },
+      };
+      const bytes = serializeWorld(stored);
+      const loaded = deserializeWorld(bytes);
+      expect(serializeWorld(loaded)).toBe(bytes);
+      expect(loaded.publicBudgets!.governments[0]).toEqual(savedGovernment);
       expect(
         settleGovernmentMonth(world, savedGovernment, month, flows).government,
       ).toBe(savedGovernment);
