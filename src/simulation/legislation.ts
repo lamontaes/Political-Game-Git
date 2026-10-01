@@ -470,9 +470,28 @@ function applyRecordedAction(
       if (onward) {
         const onwardStage = floorStageByKey(chamber, onward);
         state.floorStageKey = onward;
-        state.earliestNextFloorDate = onwardStage.separateLegislativeDayRequired
-          ? addDays(action.occurredAt, 1)
-          : null;
+        const readingDays =
+          onwardStage.readingIntervalDays?.kind === "known"
+            ? onwardStage.readingIntervalDays.value
+            : 0;
+        const offset = Math.max(
+          readingDays,
+          onwardStage.separateLegislativeDayRequired ? 1 : 0,
+        );
+        const fromReading =
+          offset > 0 ? addDays(action.occurredAt, offset) : null;
+        const fromIntroduction =
+          onwardStage.minimumDaysFromIntroduction?.kind === "known"
+            ? addDays(
+                measure.introducedAt,
+                onwardStage.minimumDaysFromIntroduction.value,
+              )
+            : null;
+        state.earliestNextFloorDate =
+          [fromReading, fromIntroduction]
+            .filter((date): date is IsoDate => date !== null)
+            .sort()
+            .at(-1) ?? null;
         state.phase = "on-floor";
         return LEGAL;
       }
@@ -2198,6 +2217,30 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
   );
   const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
   const threshold = requireKnown(stage.vote, `${stage.label} vote threshold`);
+  if (stage.minimumDaysFromIntroduction) {
+    const days = requireKnown(
+      stage.minimumDaysFromIntroduction,
+      `${stage.label} introduction interval`,
+    );
+    const earliest = addDays(measure.introducedAt, days);
+    if (world.currentDate < earliest)
+      throw new Error(
+        `${stage.label} cannot be taken until ${earliest}: the declared introduction interval is ${days} elapsed days.`,
+      );
+  }
+  if (stage.readingIntervalDays) {
+    const days = requireKnown(
+      stage.readingIntervalDays,
+      `${stage.label} reading interval`,
+    );
+    const last = measureActions(world, measure.id)
+      .filter((action) => action.kind === "floor-stage-passed")
+      .at(-1);
+    if (last && world.currentDate < addDays(last.occurredAt, days))
+      throw new Error(
+        `${stage.label} cannot be taken until ${addDays(last.occurredAt, days)}: the declared reading interval is ${days} elapsed days.`,
+      );
+  }
   // Where a chamber's stages must fall on separate legislative days, that is a
   // rule about time, and it is enforced on the world's own clock.
   if (
@@ -2221,6 +2264,28 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
     dispositions: input.dispositions,
     provenance: input.provenance,
   });
+  const quorum = requireKnown(chamber.quorum, `${chamber.name} quorum`);
+  const tally = vote.tally;
+  const present = tally.yea + tally.nay + tally.presentNotVoting;
+  const elected = electedMembersFor(chamber, input.electedMembers);
+  const membership =
+    quorum.countedAgainst === "members-elected"
+      ? elected
+      : chamber.seats.kind === "known"
+        ? chamber.seats.value
+        : elected;
+  const requiredQuorum = resolveRequiredVotes(
+    quorum,
+    quorum.countedAgainst === "members-present"
+      ? present
+      : quorum.countedAgainst === "members-voting"
+        ? tally.yea + tally.nay
+        : membership,
+  );
+  if (present < requiredQuorum.requiredVotes)
+    throw new Error(
+      `The ${chamber.name} cannot transact business: ${quorum.label} (${present} present, ${requiredQuorum.requiredVotes} required).`,
+    );
 
   const passed = vote.outcome === "passed";
   const onward = nextFloorStageKey(chamber, stage.stageKey);

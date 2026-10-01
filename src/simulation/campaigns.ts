@@ -1,3 +1,4 @@
+import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import { PLAYER_MONTHLY_MONEY_HANDLERS } from "./player-monthly-money";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
@@ -59,6 +60,7 @@ import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
 import { createCrisisTransitionRegistry } from "./crisis";
+import { createClemencyTransitionRegistry } from "./justice/clemency-transitions";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -2189,11 +2191,14 @@ export function composeWorldTimeHandlers(
         settlePublicResourcePayment(world, input, resolver),
       ),
       createTaxTransitionHandlerRegistry(),
+      createProsecutionTransitionRegistry(),
       LIFE_PATHS2_HANDLERS,
       // D-11: the candidate's standing campaign hours, after the day job's.
       createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
       createCrisisTransitionRegistry(),
+      // G12: a saved clemency petition comes due on its own court date.
+      createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         ...PLAYER_MONTHLY_MONEY_HANDLERS,
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],

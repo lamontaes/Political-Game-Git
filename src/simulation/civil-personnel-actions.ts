@@ -1374,6 +1374,7 @@ function commissionerDecision(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
   const decision =
@@ -1641,6 +1642,11 @@ export function offerMinnesotaReinstatement(
         ),
       }),
     );
+    if (!isSelectedDecision(evaluation))
+      return refuse(
+        world,
+        "They have not decided whether to accept reinstatement.",
+      );
     next = recordDurableDecisionTrace(next, evaluation);
     const traceId = next.history.decisionTraces.at(-1)!.id;
     const response =

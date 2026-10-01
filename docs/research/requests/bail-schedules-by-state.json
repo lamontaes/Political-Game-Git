@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-10-01T06:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "justice and public safety",
+  "notes": [
+    "Audit gap A107. The bail a court sets is one national median per charge: Bureau of Justice Statistics, Felony Defendants in Large Urban Counties, 2009 (State Court Processing Statistics, NCJ 243777, table 16), carried to 2025 dollars by CPI-U (data/research/justice/money-bail-2026.json, read in src/simulation/justice/pretrial.ts). It is the same in every state and county, and it only covers felonies in the 75 largest counties."
+  ],
+  "priority": "P2",
+  "question": "What bail does a court set for a given charge in each state? Many states and counties publish a bail schedule (a fixed amount per offense used before a judge sees the defendant), and some use a validated risk tool instead. For each of the 56 places, is there a statewide schedule, county schedules, or none, and what are the amounts for common felony and misdemeanor charges?",
+  "questionId": "bail-schedules-by-state",
+  "relatedQuestionIds": ["criminal-sentence-consequences"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "Bureau of Justice Statistics, State Court Processing Statistics, Felony Defendants in Large Urban Counties, 2009 (NCJ 243777), table 16",
+      "whatItDidNotSettle": "A national median for felony defendants in large urban counties only; no state or county schedule, no misdemeanors, no small counties."
+    }
+  ],
+  "title": "Bail schedules, by state",
+  "usableAnswer": "For each of the 56 places (50 states, D.C., Puerto Rico, Guam, U.S. Virgin Islands, American Samoa, Northern Mariana Islands): whether a statewide bail schedule exists, is set county by county, or is replaced by a risk-assessment release rule; the scheduled amount for a short list of common charges (for example, simple assault, burglary, felony theft, drug possession, DUI) with the schedule's year; and a named public source for each (the state judiciary's published schedule, a statute, or a court rule), so it can be refreshed. Where a place sets bail only case by case, say so rather than giving a number.",
+  "whyItMatters": "Whether a defendant goes home before trial depends on the bail the court sets and whether they can pay it. With one national figure, a defendant in a rural county pays a large-city felony median, and every state reads alike, so a player's bail law has nothing local to change."
+}

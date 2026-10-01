@@ -339,6 +339,8 @@ describe("recorded floors reach saved sentences", () => {
       )!;
       expect(consequence.subjectPersonId).toBe(personId);
       expect(consequence.minimumMonths).toBe(120);
+      expect(consequence.effectKind).toBe("minimum-custody-months");
+      expect(consequence.lawEffectStamps[0]!.effectKind).toBe("legal-outcome");
       expect(consequence).toHaveProperty(
         "lawEffectStamps.0.governingLawKey",
         measured.id,
