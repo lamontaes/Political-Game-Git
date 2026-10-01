@@ -1,6 +1,12 @@
 import { stableHash } from "../simulation";
 import type { ClaimAudience, EntityId } from "../simulation";
 import { composeCostObjection } from "./legislative-cost-objection-english";
+import {
+  ENGLISH_MOTIF_FAMILIES,
+  composeMotifEnglish,
+  type MotifFactKey,
+} from "./legislative-motif-english";
+import type { GroundedEnglishFact } from "./grounded-english";
 
 /**
  * What legislators actually say to each other.
@@ -77,12 +83,14 @@ export interface LegislativeMotifFacts {
   readonly nextStep: string;
   /** What the speaker said earlier, when a beat refers back to it. */
   readonly priorStatement: string | null;
+  /** The ground the requested section states for itself, when it states one. */
+  readonly statedGround?: string | null;
 }
 
 /**
  * The records the words in a beat's facts come from. A beat the English
- * engine words (object-on-cost so far) cites these; the authored banks below
- * do not yet.
+ * engine words (`ENGINE_FAMILIES`) cites these; the authored banks below do
+ * not yet.
  */
 export interface LegislativeMotifGrounding {
   readonly worldSeed: string;
@@ -92,6 +100,16 @@ export interface LegislativeMotifGrounding {
   readonly measureId: EntityId;
   /** What the bill's current total is read from (its provisions, or the measure). */
   readonly billAmountSourceIds: readonly EntityId[];
+  /**
+   * Where the speaker's section is the one being requested: whether the bill
+   * now holds it (the adopted provision) or not. Null when the speaker is
+   * talking about another section.
+   */
+  /** Whoever would write the fiscal note, when the bargain names them. */
+  readonly analystPersonId?: EntityId;
+  readonly requestedSection?: {
+    readonly adoptedProvisionId: EntityId | null;
+  } | null;
 }
 
 export interface LegislativeMotifContext {
@@ -107,7 +125,7 @@ export interface LegislativeMotifContext {
 }
 
 /** Beats the English engine words from their fact packet, not a line bank. */
-const ENGINE_FAMILIES = ["object-on-cost"] as const;
+const ENGINE_FAMILIES = ["object-on-cost", ...ENGLISH_MOTIF_FAMILIES] as const;
 type EngineFamily = (typeof ENGINE_FAMILIES)[number];
 type BankFamily = Exclude<LegislativeMotifFamily, EngineFamily>;
 
@@ -229,44 +247,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
     },
   },
 
-  "refuse-to-commit-yet": {
-    shared: [
-      {
-        key: "not-yet",
-        line: (f) =>
-          `“I'm not going to tell you yes today. Ask me again when ${f.sectionLabel} says what it's going to say.”`,
-      },
-      {
-        key: "no-promise",
-        line: () =>
-          `“I've been in rooms where somebody's yes turned into a two-hour argument. I'd rather not give you one I can't keep.”`,
-      },
-    ],
-    byVoice: {
-      "fiscal-guardian": [
-        {
-          key: "want-number",
-          line: (f) =>
-            `“No. Not until I see what ${f.designation} actually commits us to. I'm not going to be the one who finds out in the second year.”`,
-        },
-      ],
-      "implementation-realist": [
-        {
-          key: "want-agency",
-          line: (f) =>
-            `“Not yet. I want to hear from somebody who'd have to run this before I put my name on it. ${f.analyst} can get me that.”`,
-        },
-      ],
-      "procedural-institutionalist": [
-        {
-          key: "want-posture",
-          line: () =>
-            `“I'll tell you when I know how this is coming to the floor. Committing before that is how people end up voting twice on the same question.”`,
-        },
-      ],
-    },
-  },
-
   "demand-narrower-scope": {
     shared: [
       {
@@ -288,37 +268,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
           key: "pilot-first",
           line: (f) =>
             `“Make it a pilot with a defined population. If ${f.sectionLabel} opens statewide on day one, the first thing that breaks is the intake.”`,
-        },
-      ],
-    },
-  },
-
-  "object-on-implementation": {
-    shared: [
-      {
-        key: "who-runs-it",
-        line: (f) =>
-          `“Who administers ${f.sectionLabel}? Because the way it reads, three agencies each think it's one of the others.”`,
-      },
-    ],
-    byVoice: {
-      "implementation-realist": [
-        {
-          key: "staffing",
-          line: (f) =>
-            `“I've watched this department miss a deadline with twice the staff. ${f.sectionLabel} gives them a new program and no position count.”`,
-        },
-        {
-          key: "rulemaking",
-          line: () =>
-            `“Even if this passes in March, rulemaking takes the rest of the year. Whatever you're promising people, it isn't happening this year.”`,
-        },
-      ],
-      "procedural-institutionalist": [
-        {
-          key: "effective-date",
-          line: (f) =>
-            `“There's no effective date that matches the fiscal year in ${f.sectionLabel}. That alone will bring it back to us.”`,
         },
       ],
     },
@@ -353,31 +302,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
           key: "counsel",
           line: (f) =>
             `“I want counsel to look at whether that's even germane at ${f.nextStep}. If it isn't, none of the rest of this matters.”`,
-        },
-      ],
-    },
-  },
-
-  "district-beneficiary-concern": {
-    shared: [
-      {
-        key: "nothing-here",
-        line: (f) =>
-          `“I've read ${f.designation} twice. There is nothing in it for the people who send me here, and they can read too.”`,
-      },
-    ],
-    byVoice: {
-      "district-advocate": [
-        {
-          key: "specific-place",
-          needs: hasPlace,
-          line: (f) =>
-            `“The garage in ${f.place} has been on a replacement list since before I was elected. This bill funds a study and calls it progress.”`,
-        },
-        {
-          key: "competing-need",
-          line: () =>
-            `“I'm not asking you for a favor. I'm telling you my people are already paying for a service they can't get, and this bill doesn't change that.”`,
         },
       ],
     },
@@ -443,55 +367,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
     ],
   },
 
-  "accept-principle-reject-mechanism": {
-    shared: [
-      {
-        key: "agree-not-this",
-        line: (f) =>
-          `“I agree with what you're trying to do. I don't agree that ${f.sectionLabel} is how you do it, and voting for the wrong mechanism doesn't get us the right one.”`,
-      },
-    ],
-    byVoice: {
-      "implementation-realist": [
-        {
-          key: "grant-vs-formula",
-          line: () =>
-            `“Grants mean somebody has to apply, and the places that need this least apply best. Do it by formula and I'm with you.”`,
-        },
-      ],
-    },
-  },
-
-  "leadership-pressure": {
-    shared: [
-      {
-        key: "leadership-position",
-        line: (f) =>
-          `“You should know the people who set the calendar have a view about ${f.designation}, and it isn't yours.”`,
-      },
-      {
-        key: "caucus-count",
-        line: () =>
-          `“I can hold four of ours if the amendment is clean. I can't hold anybody if this turns into a floor fight in front of the press.”`,
-      },
-    ],
-  },
-
-  "timing-warning": {
-    shared: [
-      {
-        key: "clock",
-        line: (f) =>
-          `“Whatever you're going to do to ${f.sectionLabel}, do it before ${f.nextStep}. After that the only motion left is one nobody wins.”`,
-      },
-      {
-        key: "sine-die",
-        line: (f) =>
-          `“You've got days, not weeks. ${f.designation} dies where it sits if it isn't across before we adjourn, and it won't be the first one.”`,
-      },
-    ],
-  },
-
   "press-visibility-concern": {
     shared: [
       {
@@ -504,21 +379,6 @@ const CONTENT: Readonly<Record<BankFamily, FamilyContent>> = {
         key: "explain-it",
         line: (f) =>
           `“I can defend ${f.sectionLabel} on the merits. I'd just rather do it in committee than in a headline.”`,
-      },
-    ],
-  },
-
-  "reciprocal-support": {
-    shared: [
-      {
-        key: "trade",
-        line: (f) =>
-          `“All right. I'll be with you on ${f.designation}. When my water bill comes up in the ${f.chamber}, I'm going to come find you, and I'd like you to remember this conversation.”`,
-      },
-      {
-        key: "even",
-        line: () =>
-          `“We've both been on the short end of this. Help me and I'll help you, and neither of us has to pretend it's anything else.”`,
       },
     ],
   },
@@ -626,6 +486,46 @@ export function motifFamilies(): readonly LegislativeMotifFamily[] {
 export function engineLine(context: LegislativeMotifContext) {
   const { facts, grounding } = context;
   const measure = [grounding.measureId];
+  if (context.family !== "object-on-cost") {
+    const word = (text: string | null | undefined, ids = measure) =>
+      text ? { text, sourceRecordIds: ids } : undefined;
+    const requested = grounding.requestedSection ?? null;
+    const packetFacts: Partial<Record<MotifFactKey, GroundedEnglishFact>> = {
+      designation: word(facts.designation),
+      listener: word(facts.listener, [grounding.listenerPersonId]),
+      "section-label": word(facts.sectionLabel),
+      chamber: word(facts.chamber),
+      "next-step": word(facts.nextStep),
+      beneficiary: word(facts.beneficiary),
+      place: word(facts.place),
+      amount: word(facts.amount),
+      "stated-ground": word(facts.statedGround),
+      "section-heading": word(facts.sectionHeading),
+      analyst: grounding.analystPersonId
+        ? word(facts.analyst, [grounding.analystPersonId])
+        : undefined,
+      "bill-amount":
+        grounding.billAmountSourceIds.length > 0
+          ? word(facts.billAmount, [...grounding.billAmountSourceIds])
+          : undefined,
+      "section-absent":
+        requested && requested.adoptedProvisionId === null
+          ? word("absent")
+          : undefined,
+      "section-adopted": requested?.adoptedProvisionId
+        ? word("adopted", [requested.adoptedProvisionId])
+        : undefined,
+    };
+    return composeMotifEnglish({
+      family: context.family as (typeof ENGLISH_MOTIF_FAMILIES)[number],
+      voice: context.voice,
+      worldSeed: grounding.worldSeed,
+      momentKey: `${context.variantSeed}:${context.voice}`,
+      speakerPersonId: grounding.speakerPersonId,
+      listenerPersonId: grounding.listenerPersonId,
+      facts: packetFacts,
+    });
+  }
   return composeCostObjection({
     worldSeed: grounding.worldSeed,
     momentKey: `${context.variantSeed}:${context.voice}`,
