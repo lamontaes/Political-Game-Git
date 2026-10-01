@@ -2051,6 +2051,17 @@ function recordDecision(
     option ? "completed" : "cancelled",
   );
   const outcome = applyConsequence(next, office, matter, option, decision.id);
+  if (matter.family === "budget" && option) {
+    const intake = [...outcome.history.events]
+      .reverse()
+      .find(
+        (event) =>
+          event.tags.includes("budget:awaiting-request") &&
+          event.tags.includes(`matter:${matter.id}`),
+      );
+    const intakeKey = intake ? tagValue(intake, "budget-intake:") : null;
+    if (intakeKey) return fileSessionBudgetRequest(outcome, office, intakeKey);
+  }
   if (matter.family === "clemency" && option) {
     const petitionId = tagValue(matter.openedEvent, "source-event:");
     if (petitionId)
@@ -2209,6 +2220,7 @@ export function fileRecordedGoverningBudgetRequest(
   if (
     !matter ||
     matter.family !== "budget" ||
+    matter.status !== "decided" ||
     !matter.decision ||
     !office ||
     office.holderPersonId !== matter.holderPersonId
@@ -2255,7 +2267,9 @@ function fileSessionBudgetRequest(
   const request = requests
     .filter(
       (matter) =>
-        matter.holderPersonId === office.holderPersonId && matter.decision,
+        matter.holderPersonId === office.holderPersonId &&
+        matter.status === "decided" &&
+        matter.decision,
     )
     .sort(
       (left, right) => right.decision!.sequence - left.decision!.sequence,
@@ -2269,12 +2283,45 @@ function fileSessionBudgetRequest(
       : null;
   if (result?.ok) return result.world;
   next = result?.world ?? next;
-  const reason = !request
-    ? "The current governor has no decided budget request on record."
-    : !fiscalWindow
-      ? "The government has no adopted current-year lines and declared budget cycle."
-      : result!.reason;
-  const stableKey = `${STATE_GOVERNING_VERSION}:budget-intake:${intakeKey}:unfiled`;
+  let pending =
+    !request && fiscalWindow
+      ? requests
+          .filter(
+            (matter) =>
+              matter.holderPersonId === office.holderPersonId &&
+              matter.status === "open",
+          )
+          .sort(
+            (left, right) =>
+              right.openedEvent.sequence - left.openedEvent.sequence,
+          )[0]
+      : undefined;
+  if (!request && fiscalWindow && !pending) {
+    next = openMatter(next, office, {
+      family: "budget",
+      instance: `session-budget:${intakeKey}`,
+      programKeys: recordedBudgetProgramFamilies(
+        next,
+        office.jurisdictionId,
+        currentPriority(next, office),
+      ),
+    });
+    pending = governingMatters(next, office.officeKey).find(
+      (matter) =>
+        matter.family === "budget" &&
+        matter.holderPersonId === office.holderPersonId &&
+        matter.openedEvent.stableKey ===
+          matterStableKey(office, "budget", `session-budget:${intakeKey}`),
+    );
+  }
+  const reason = pending
+    ? "The current governor's budget request awaits their recorded decision."
+    : !request
+      ? "The current governor has no decided budget request on record."
+      : !fiscalWindow
+        ? "The government has no adopted current-year lines and declared budget cycle."
+        : result!.reason;
+  const stableKey = `${STATE_GOVERNING_VERSION}:budget-intake:${intakeKey}:unfiled${pending ? `:request:${pending.id}` : ""}`;
   if (hasStableKey(next.history.events, stableKey)) return next;
   return recordWorldEvent(next, {
     stableKey,
@@ -2297,6 +2344,13 @@ function fileSessionBudgetRequest(
       "matter-family:budget",
       `office:${office.officeKey}`,
       "budget:unfiled",
+      ...(pending
+        ? [
+            "budget:awaiting-request",
+            `matter:${pending.id}`,
+            `budget-intake:${intakeKey}`,
+          ]
+        : []),
       ...(request
         ? [`matter:${request.id}`, `source-event:${request.decision!.id}`]
         : []),

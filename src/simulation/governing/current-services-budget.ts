@@ -107,6 +107,9 @@ export function recordCurrentServicesBudgetDraft(
     !request ||
     request.type !== "governing.matter-decided" ||
     !request.tags.includes("matter-family:budget") ||
+    !request.tags.some(
+      (tag) => tag.startsWith("choice:") && tag !== "choice:lapsed",
+    ) ||
     request.jurisdictionId !== input.jurisdictionId ||
     request.recordedAt > world.currentDate ||
     !currentStateExecutiveHolders(world).some(

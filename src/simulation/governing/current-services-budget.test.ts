@@ -58,6 +58,7 @@ import {
   governingMatters,
   decideGoverningMatter,
   fileRecordedGoverningBudgetRequest,
+  governingSeasonHandler,
   type GoverningOffice,
 } from "./state-governing";
 import {
@@ -310,6 +311,192 @@ describe("an actual governor request carries adopted current-services lines", ()
     expect(
       adoptedCurrentServicesLines(withoutAdopted, office.jurisdictionId),
     ).toBeNull();
+  });
+
+  it.each([0, 1, 2, 3, 4])(
+    "opens a missing session request and files only the actual governor's decision in place %s",
+    (index) => {
+      const office = offices[index]!;
+      let world: World = {
+        ...starting,
+        control: { kind: "person", personId: office.holderPersonId },
+      };
+      world = scheduleGoverningSeasons(
+        world,
+        office.officeKey,
+        office.jurisdictionId,
+      );
+      const registry = createFutureTransitionHandlerRegistry(
+        stateGoverningHandlers(),
+      );
+      world = resolveFutureDueItemsThrough(
+        world,
+        makeIsoDate("2027-02-15"),
+        registry,
+      );
+      const pending = governingMatters(world, office.officeKey).find(
+        (matter) =>
+          matter.family === "budget" &&
+          matter.status === "open" &&
+          matter.stableKey.includes("session-budget:"),
+      )!;
+      expect(pending).toBeDefined();
+      expect(pending.decision).toBeNull();
+      expect(
+        (world.history.legislativeMeasures ?? []).filter((row) =>
+          row.stableKey.startsWith(CURRENT_SERVICES_BUDGET_VERSION),
+        ),
+      ).toHaveLength(0);
+      const lapsed = governingMatters(world, office.officeKey).find(
+        (matter) => matter.family === "budget" && matter.status === "lapsed",
+      )!;
+      expect(lapsed).toBeDefined();
+      const fiscalWindow = {
+        startsOn: publicBudgetFor(world, office.jurisdictionId)!.years[0]!
+          .startsOn,
+        endsOn: publicBudgetFor(world, office.jurisdictionId)!.years[0]!.endsOn,
+      };
+      expect(
+        fileRecordedGoverningBudgetRequest(world, {
+          matterId: lapsed.id,
+          fiscalWindow,
+        }).ok,
+      ).toBe(false);
+      const decided = decideGoverningMatter(
+        world,
+        pending.id,
+        "budget:hold-flat",
+      );
+      if (!decided.ok) throw new Error(decided.reason);
+      const bill = decided.world.history.legislativeMeasures!.find((row) =>
+        row.stableKey.startsWith(CURRENT_SERVICES_BUDGET_VERSION),
+      )!;
+      expect(bill).toBeDefined();
+      expect(bill.sponsorPersonId).toBe(office.holderPersonId);
+      const recorded = governingMatters(decided.world, office.officeKey).find(
+        (row) => row.id === pending.id,
+      )!;
+      expect(bill.sourceDocumentKey).toBe(recorded.decision!.id);
+      expect(
+        decided.world.history.futureDueItems.some(
+          (due) =>
+            due.transitionKey === LEGISLATIVE_INSTITUTION_STEP &&
+            due.entityIds.includes(bill.id),
+        ),
+      ).toBe(true);
+      const restored = deserializeWorld(serializeWorld(decided.world));
+      const season = restored.history.futureDueItems.find((due) =>
+        due.stableKey.includes(`:${office.officeKey}:bill:2027-02-15`),
+      )!;
+      const repeated = governingSeasonHandler(restored, season).world;
+      expect(
+        repeated.history.legislativeMeasures!.filter((row) =>
+          row.stableKey.startsWith(CURRENT_SERVICES_BUDGET_VERSION),
+        ),
+      ).toHaveLength(1);
+      expect(
+        governingMatters(repeated, office.officeKey).filter((row) =>
+          row.stableKey.includes("session-budget:"),
+        ),
+      ).toHaveLength(1);
+      proof.push({
+        seed,
+        place: office.stateUsps,
+        governorName: personName(repeated.people[office.holderPersonId]!),
+        governorPersonId: office.holderPersonId,
+        pendingRequestId: pending.id,
+        decisionId: recorded.decision!.id,
+        filedMeasureId: bill.id,
+        introducedAt: bill.introducedAt,
+        lapsedRequestId: lapsed.id,
+        limits:
+          "Production intake and actual recorded player decision; no NPC choice, natural year, passage, cash or delivered service claim.",
+      });
+    },
+  );
+
+  it("copies both distinct adopted biennial years without multiplying the first", () => {
+    const f = requested(biennialOffice);
+    const second = fiscalYearContaining(
+      addDays(f.fiscalWindow.endsOn, 1),
+      f.source.government.fiscalYearStart,
+    );
+    // Explicit controlled second-year adoption, not a researched increase or a production rate.
+    const secondAmounts = f.source.adopted.appropriations.map(
+      (amount, index) => amount + index + 1,
+    );
+    const world: World = {
+      ...f.world,
+      publicBudgets: {
+        ...f.world.publicBudgets!,
+        governments: f.world.publicBudgets!.governments.map((government) =>
+          government.jurisdictionId === biennialOffice.jurisdictionId
+            ? {
+                ...government,
+                years: [
+                  ...government.years,
+                  {
+                    ...f.source.adopted,
+                    ...second,
+                    adoptedOn: f.world.currentDate,
+                    basis: "automatic" as const,
+                    appropriations: secondAmounts,
+                  },
+                ],
+              }
+            : government,
+        ),
+      },
+    };
+    const filed = recordCurrentServicesBudgetDraft(world, {
+      jurisdictionId: biennialOffice.jurisdictionId,
+      governorPersonId: biennialOffice.holderPersonId,
+      requestEventId: f.matter.decision!.id,
+      fiscalWindow: {
+        startsOn: f.fiscalWindow.startsOn,
+        endsOn: second.endsOn,
+      },
+    })!;
+    expect(filed).not.toBeNull();
+    const provisions = currentMeasureProvisions(filed.world, filed.measureId);
+    f.source.lines.forEach((line, index) => {
+      expect(
+        provisions.find(
+          (row) =>
+            row.provisionKey ===
+            budgetProgramProvisionKey(line.program, f.fiscalWindow.fiscalYear),
+        )!.fiscalExposureMinorUnits,
+      ).toBe(line.annualMinorUnits);
+      const ownSecond = provisions.find(
+        (row) =>
+          row.provisionKey ===
+          budgetProgramProvisionKey(line.program, second.fiscalYear),
+      )!;
+      expect(ownSecond.fiscalExposureMinorUnits).toBe(
+        secondAmounts[index]! * 100,
+      );
+      expect(ownSecond.text).toContain("this fiscal year's own adopted amount");
+      expect(ownSecond.text).not.toContain("flat current services");
+    });
+    expect(
+      currentServicesBudgetAuthority(filed.world, filed.measureId)!.periods,
+    ).toHaveLength(2);
+    const restored = deserializeWorld(serializeWorld(filed.world));
+    expect(currentServicesBudgetAuthority(restored, filed.measureId)).toEqual(
+      currentServicesBudgetAuthority(filed.world, filed.measureId),
+    );
+    proof.push({
+      seed,
+      place: biennialOffice.stateUsps,
+      governorName: personName(world.people[biennialOffice.holderPersonId]!),
+      filedMeasureId: filed.measureId,
+      first: f.source.adopted,
+      second: publicBudgetFor(world, biennialOffice.jurisdictionId)!.years.at(
+        -1,
+      ),
+      limits:
+        "Controlled distinct second-year adoption; both actual saved arrays copied independently. No enacted authority or natural year claimed.",
+    });
   });
 
   it("labels absent second-year lines as unchanged flat current services", () => {
