@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { appendFileSync } from "node:fs";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -19,6 +19,12 @@ import {
   referForProsecution,
   UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+
+const { consequenceCalls } = vi.hoisted(() => ({ consequenceCalls: vi.fn() }));
+vi.mock("../enacted-law-effects", async (importOriginal) => ({
+  ...(await importOriginal<Record<string, unknown>>()),
+  applyLawConsequences: consequenceCalls.mockImplementation((world) => world),
+}));
 
 describe("saved pretrial law attribution", () => {
   const baseSeed = "team9-pretrial-stamp-20260930-five";
@@ -81,6 +87,7 @@ describe("saved pretrial law attribution", () => {
       };
       const law = pretrialGoverningLawAt(world, jurisdictionId);
       expect(law).not.toBeNull();
+      consequenceCalls.mockClear();
       const after = advanceProsecutions(world);
       const events = after.history.events.filter(
         (event) =>
@@ -89,6 +96,17 @@ describe("saved pretrial law attribution", () => {
           event.involvedEntityIds.includes(subjectId),
       );
       expect(events).toHaveLength(1);
+      const call = consequenceCalls.mock.calls.find(
+        ([, context]) => context.activityId === events[0]!.id,
+      );
+      expect(call).toBeDefined();
+      expect(call![1]).toEqual({
+        onDate: events[0]!.occurredAt,
+        activity: "case-stage",
+        activityId: events[0]!.id,
+        subjectIds: [subjectId],
+      });
+      expect(call![0].history.events.at(-1).lawEffectStamps).toHaveLength(1);
       const reloaded = deserializeWorld(serializeWorld(after));
       const saved = reloaded.history.events.find(
         (event) => event.id === events[0]!.id,
@@ -115,8 +133,10 @@ describe("saved pretrial law attribution", () => {
       });
       if (process.env.TEAM9_PRETRIAL_RECEIPT)
         appendFileSync(process.env.TEAM9_PRETRIAL_RECEIPT, `${receipt}\n`);
+      consequenceCalls.mockClear();
       const repeated = advanceProsecutions(reloaded);
       expect(repeated.history.events).toEqual(after.history.events);
+      expect(consequenceCalls).not.toHaveBeenCalled();
     },
   );
 });
