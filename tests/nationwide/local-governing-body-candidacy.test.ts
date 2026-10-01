@@ -12,7 +12,10 @@ import {
   searchLifePlaces,
   serializeWorld,
 } from "../../src/simulation";
-import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  activeWorkRelationshipsAt,
+} from "../../src/simulation/life-queries";
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import { campaignElectionDate } from "../../src/presentation/campaign-projection";
 import {
@@ -482,10 +485,24 @@ describe("standing again after a race is over", () => {
     }
 
     // The seat reads as an office everywhere the life is described. A small
-    // town's council is part-time, so the job the person started with stays.
+    // town's council is part-time, so the job the person started with stays:
+    // whatever job the town's employers gave them at the opening, read from
+    // the record, followed by the seat.
     const name = personName(world.people[personId]!);
+    const startingJobs = activeWorkRelationshipsAt(opening, personId).map(
+      (entry) => entry.role.title,
+    );
+    expect(startingJobs.length).toBeGreaterThan(0);
+    expect(
+      activeWorkRelationshipsAt(world, personId).map(
+        (entry) => entry.role.title,
+      ),
+    ).toEqual(startingJobs);
     expect(projectWorkRole(world, personId).sentence).toBe(
-      "Your roles: Sales clerk; Member of the City Council, City of Ely.",
+      `Your roles: ${[
+        ...new Set(startingJobs),
+        "Member of the City Council, City of Ely",
+      ].join("; ")}.`,
     );
     const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
       (entry) => entry.key === `unit:${body.unit.id}`,
