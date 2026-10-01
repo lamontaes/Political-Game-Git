@@ -1,3 +1,13 @@
+## October 1, 10:04 a.m. coordinator integration checkpoint
+
+MERGED: fetched main 123f7dc77e80fb1d9abd78e34956f91afceb3e60 contains tax registration #1556, Team 6 handler #1552, amendment views #1439 and research #1558. Nine first-parent PR merges were recorded from 9:00 through 10:00 a.m. Eastern, against the CTO target of sixteen per hour. PR merges do not establish gameplay completion.
+
+CONNECTIONS: Root schema/transfer guard is published WIP at 40166b51e6a9d1dd8235fd191f01fb65355a7636. It depends on Audit's unpublished validator and therefore is not ready. Team 3's sole writer and pure gross helper are published at 41b6e8c9dfbfef072d44167ec7f53f567fa442c7. Reader dependency #1559 is draft at 376d03b15d91a422fdb5b95330bfabbc56e2d11a: 73/73 reader tests at ad933ea, four strict roots and 846 files with zero diagnostics at the published head. Tests use frozen Git-source loading, not native current-main play.
+
+BLOCKED: Audit reports a precollection import-cycle failure in its validator composition and owns the narrow read-only query extraction. Increased payment and reload proof remain unrun. Team 7 #1540 c20a935 has 12 passing and two failing tests reported by its owner; the failures require Audit's global history enumeration hook. These are not county runtime acceptance.
+
+EFFECTS: Tax registration now reaches the existing typed-levy handler, but general catalog terms, starting-law taxes and natural taxable activities remain incomplete. Root received Team 6's consumer contract at 68647a7 and is implementing CTO 9:52 catalog work; unsupported annual brackets, local authority, payer kinds and recipient bindings are explicit dependencies, not fabricated rates or liability overrides. Root and engineering teams do not merge or cancel CI.
+
 # Coordinator checkpoint — October 1, 8:59 a.m. Eastern
 
 The actual-member vote changes and service repairs have landed. Shared payroll and tax integration remain incomplete. Earlier checkpoints below are historical and do not override this entry.

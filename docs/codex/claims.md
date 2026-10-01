@@ -1,3 +1,11 @@
+## October 1, earned-pay and tax integration ownership
+
+Under CTO 9:28 and 9:52 rulings, the coordinator owns earned-pay assessment schema and EntityKind, the exact resources.ts transfer-reference guard, pay resolver cutoff forwarding, and the tax catalog question/term bindings. Team 3 retains the sole pay assessment writer and the shared completed-hourly-gross calculation. Audit owns the independent earned assessment validator, resource-integrity equality join and world history enumeration. No second calculation or transfer writer is authorized.
+
+Audit has the narrow final-term query extraction from automatic-legislation.ts into a read-only module, with the same public reexport and HistoricalCutoff behavior. Preserve Team 1's sponsor/compiler hunks. Team 1 owns the empty-table bill-cap reader; X5 supplies sourced cap rows. Missing rows initially impose no cap under the explicit CTO ruling.
+
+Team 7 owns county-home-evidence.ts, optional countyHomeDistrictEvidence history storage, its initializer and one EntityKind. Audit owns only its global enumeration and validator hook in world.ts. Preserve all earned-pay and clock work. Voter registration and legal assessment remain separate.
+
 ## October 1, A8 ordinary-life pay caller transfer closed
 
 Team 3 owns only the `settleJobPay` import and its wrapping call around `advanceApplications` in `src/presentation/ordinary-life.ts`. Team 7 confirmed no unpublished overlap, an empty shared-file diff and no occurrence in its county or held caller branches. Coordinator delivered the release to Team 3.
