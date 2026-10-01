@@ -103,8 +103,12 @@ export function sentencingRangeForCase(
       place.basis === "ESTIMATED FROM AVERAGE"
         ? "ESTIMATED FROM AVERAGE"
         : "SOURCED",
-    citations: [row.citation, term.citation].filter((v): v is string => !!v),
-    sources: [row.source, term.source].filter((v): v is string => !!v),
+    citations: [
+      ...new Set([row.citation, term.citation].filter((v): v is string => !!v)),
+    ],
+    sources: [
+      ...new Set([row.source, term.source].filter((v): v is string => !!v)),
+    ],
     estimateMethod: row.method ?? null,
     contributors: [
       ...new Set([...(row.fedByMin ?? []), ...(row.fedByMax ?? [])]),
