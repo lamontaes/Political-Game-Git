@@ -1,6 +1,5 @@
 import { scheduleFutureDueItem } from "../future-transitions";
 import { publishPublicEvent } from "../public-information";
-import { SeededRng } from "../rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -288,16 +287,11 @@ function lastMonth(
 }
 
 function nationalMonth(
-  world: World,
   store: MacroEconomyStore,
   monthKey: string,
 ): MacroMonthRecord {
   const previous = lastMonth(store, "national");
   const prior = previous ? stateOf(previous) : startState(store.start);
-  const rng = new SeededRng(world.seed)
-    .fork(`${MACRO_ECONOMY_CONTRACT_VERSION}:innovations`)
-    .fork("national")
-    .fork(monthKey);
   const { impulses: shockImpulses, shockKeys } = impulsesFor(
     store,
     "national",
@@ -326,7 +320,6 @@ function nationalMonth(
     policyMidPct,
     startTightness,
     shockImpulses,
-    rng,
   });
   const ratio = previous?.housing
     ? previous.housing.supplyDemandRatio
@@ -645,7 +638,7 @@ export function createMacroMonthlyStepHandler(
     const previousNationalState = previousNational
       ? stateOf(previousNational)
       : startState(working.start);
-    const national = nationalMonth(world, working, monthKey);
+    const national = nationalMonth(working, monthKey);
     const localScopes = new Set<MacroScopeKey>([
       ...working.months
         .filter((record) => record.scope !== "national")
