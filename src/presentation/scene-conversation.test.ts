@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { serializeWorld } from "../simulation";
+import {
+  activeEducationEnrollmentsAt,
+  didPeopleShareEducationOrganization,
+  recordWorldEvent,
+  serializeWorld,
+} from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { openNextLifeScene } from "./life-scene-flow";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
@@ -113,13 +118,49 @@ describe("PT3 — the scene conversation box reads the record back", () => {
   });
 
   it("keeps the last turn when the player turns to somebody else, and says who heard it", () => {
-    const { world, personId } = life(
+    const game = life(
       {
         startAge: 15,
         depth: "play-formative-years",
       },
       "pt3-talk-school",
     );
+    const personId = game.personId;
+    const classmates = game.world.personOrder.filter(
+      (id) =>
+        id !== personId &&
+        activeEducationEnrollmentsAt(game.world, id).length > 0 &&
+        didPeopleShareEducationOrganization(game.world, personId, id),
+    );
+    const world = recordWorldEvent(game.world, {
+      stableKey: "pt3-school-presence",
+      type: "life.scene.opened",
+      occurredAt: game.world.currentDate,
+      recordedAt: game.world.currentDate,
+      jurisdictionId: game.world.people[personId]!.homeJurisdictionId,
+      involvedEntityIds: [personId, ...classmates],
+      participants: [personId, ...classmates].map((id) => ({
+        personId: id,
+        role: "presence:participant",
+        detail: "Present in the authored school conversation fixture.",
+      })),
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [`moment:${JSON.stringify(game.world.currentMoment)}`],
+      summary: "The recorded classmates are together in the school corridor.",
+      context: {
+        location: {
+          jurisdictionId: game.world.people[personId]!.homeJurisdictionId,
+          label: "School",
+          setting: "school",
+        },
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
     const opening = projectPlayerConversation(
       world,
       personId,
