@@ -11,6 +11,7 @@ import {
 import { addDays, daysBetween } from "../dates";
 import {
   createFutureTransitionHandlerRegistry,
+  futureDueItemStateAt,
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
@@ -378,6 +379,94 @@ describe("governing work and delivery require their own saved actions", () => {
       inputHash: hash(result.input),
       outputHash: hash(result.output),
       summary: result.outcomes[0]!.summary,
+    });
+  });
+
+  it("receipt timing keeps an early report blocked until its linked appropriation actually delivers", () => {
+    const early = report(paid);
+    expect(early.outcomes).toHaveLength(0);
+    const earlyDue = early.output.history.futureDueItems.find((due) =>
+      due.stableKey.startsWith("G8:controlled-report:"),
+    )!;
+    expect(earlyDue).toBeDefined();
+    const earlyState = futureDueItemStateAt(early.output, earlyDue.id, {
+      asOfDate: early.output.currentDate,
+      historySequenceExclusive: early.output.history.nextSequence,
+    });
+    expect(earlyState?.status).toBe("blocked");
+    expect(earlyState?.reasonKey).toBe("governing:no-delivery-receipt");
+    const delivery = early.output.history.futureDueItems.find(
+      (due) => due.transitionKey === PUBLIC_PROGRAM_DELIVERY,
+    )!;
+    expect(delivery.dueAt > early.output.currentDate).toBe(true);
+    const continued = deserializeWorld(serializeWorld(early.output));
+    const arrived = advanceWorld(
+      continued,
+      daysBetween(continued.currentDate, delivery.dueAt),
+      createFutureTransitionHandlerRegistry([
+        ...PUBLIC_PROGRAM_HANDLERS,
+        [GOVERNING_DEADLINE, governingDeadlineHandler],
+        [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+      ]),
+    );
+    const outturn = programOutturns(arrived, TRANSIT).at(-1)!;
+    expect(outturn.restoredUnits).toBeGreaterThan(0);
+    expect(outturn.recordedAt).toBe(delivery.dueAt);
+    const installment = arrived.history.publicProgramRecords!.find(
+      (record) => record.id === outturn.installmentId,
+    )!;
+    expect(installment.kind).toBe("installment");
+    if (installment.kind !== "installment")
+      throw new Error("Missing installment");
+    expect(installment.status).toBe("posted");
+    expect(installment.commitmentId).toBe(outturn.commitmentId);
+    const commitment = arrived.history.publicProgramRecords!.find(
+      (record) => record.id === outturn.commitmentId,
+    )!;
+    expect(commitment.kind).toBe("commitment");
+    if (commitment.kind !== "commitment") throw new Error("Missing commitment");
+    expect(commitment.appropriationId).toBe(
+      governingMatterById(arrived, matterId)!.appropriationId,
+    );
+    // A blocked callback is not a polling or later-receipt retry mechanism.
+    expect(
+      arrived.history.events.filter(
+        (event) =>
+          event.type === GOVERNING_OUTCOME &&
+          event.tags.includes(`matter:${matterId}`),
+      ),
+    ).toHaveLength(0);
+    expect(
+      futureDueItemStateAt(arrived, earlyDue.id, {
+        asOfDate: arrived.currentDate,
+        historySequenceExclusive: arrived.history.nextSequence,
+      }),
+    ).toEqual(earlyState);
+    const result = report(deserializeWorld(serializeWorld(arrived)));
+    const source = arrived.history.events.find(
+      (event) => event.id === outturn.eventId,
+    )!;
+    expect(result.outcomes).toHaveLength(1);
+    expect(result.outcomes[0]!.summary).toBe(source.summary);
+    expect(result.outcomes[0]!.tags).toContain(`source-event:${source.id}`);
+    expect(result.outcomes[0]!.tags).toContain(`source-record:${outturn.id}`);
+    receipts.push({
+      case: "receipt-timing",
+      seed,
+      personId: managerId,
+      name: personName(arrived.people[managerId]!),
+      matterId,
+      appropriationId: commitment.appropriationId,
+      commitmentId: commitment.id,
+      installmentId: installment.id,
+      outturnId: outturn.id,
+      sourceEventId: source.id,
+      earlyReportDate: early.output.currentDate,
+      deliveryDate: outturn.recordedAt,
+      laterReportDate: result.output.currentDate,
+      earlyReports: early.outcomes.length,
+      automaticReportsAtDelivery: 0,
+      laterReports: result.outcomes.length,
     });
   });
 });
