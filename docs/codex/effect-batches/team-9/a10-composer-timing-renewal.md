@@ -20,17 +20,17 @@ Only `src/simulation/justice/prosecution-composer.test.ts` changes. Its existing
 
 ## 5. Simulated, records, world pieces, checks
 
-The five samples are Iowa, Louisiana, Texas, Connecticut and North Dakota. Each uses generated residents, the canonical referral writer and the full production time-handler composer. Unrelated commitments are cancelled through the existing cancellation writer. This is controlled court-clock integration, not natural crime generation, actual prosecutor authority, a whole-world year or browser play.
+The five samples are Iowa, Louisiana, Texas, Connecticut and North Dakota. Each uses generated residents, the canonical referral writer and the full production time-handler composer. Unrelated commitments are canceled through the existing cancellation writer. This is controlled court-clock integration, not natural crime generation, actual prosecutor authority, a whole-world year or browser play.
 
 ## 6. Proof run
 
 Executed source is `791232cfa4d86ad5489e7afeb409dd3afdae92c4`, stacked on A105 `6150c2280b3c0e5699af9be47b8e51ab72f9552b`. The complete changed test file passed 5 of 5 in 22.63 seconds with one worker and unchanged limits. One changed-file strict root compiled 1006 dependency files with zero diagnostics; changed-file lint, formatting and whitespace passed. Node world import exited 0. The mandated macro LOAD exited 0 in 19.38 seconds, collecting 29 cases and executing none. No extra behavioral files, full suite, app-wide type check or repository-wide sweep ran.
 
-Local evidence is retained at `/tmp/team9-a10-small-composer.log`, `/tmp/team9-a10-small-composer-records.json`, `/tmp/team9-a10-small-composer-types.log`, `/tmp/team9-a10-small-composer-world-load.log` and `/tmp/team9-a10-small-composer-macro-load.log`. Raw logs are not added to this PR. Earlier A10 and A105 receipts remain preserved.
+Local evidence is retained under `/tmp/team9-a10-small-composer*`: native output, named records, scoped types and both LOAD receipts. Raw logs are not added to this PR. Earlier A10 and A105 receipts remain preserved.
 
 ## 7. Worked example
 
-Carmen Reynolds (`person_f02d8c7d383b5495`) in Iowa has referral `event_66764b3d179b53dc`. Due item `future-due-item_bf214507fdfe7011` saves charge `event_f118d854c0b21795` on March 6, 2026. The next saved stage is August 5, 2026, using Iowa's SOURCED disposition timing. Canonical reload and repeat preserve the charge and future due records. North Dakota's next date is July 22; the other three samples retain the labeled average date, July 6.
+Carmen Reynolds in Iowa has a saved referral that produces one charge on March 6, 2026. The local named-record receipt preserves her actual person, referral, due-item and charge IDs. The next saved stage is August 5, 2026, using Iowa's SOURCED disposition timing. Canonical reload and repeat preserve the charge and future due records. North Dakota's next date is July 22; the other three samples retain the labeled average date, July 6.
 
 ## Ownership and next contracts
 
