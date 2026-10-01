@@ -1,4 +1,6 @@
 import { addDays } from "../dates";
+import { eventById } from "../event-index";
+import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
 import { recordDurableDecisionTrace } from "../decisions";
 import {
   officesHeldBy,
@@ -290,7 +292,16 @@ export function referForProsecution(
       immediateReaction: null,
     },
   });
-  return { world: next, referralId: next.history.events.at(-1)!.id };
+  const referral = next.history.events.at(-1)!;
+  return {
+    world: ensureProsecutionStageSchedule(
+      next,
+      referral,
+      referral.id,
+      UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+    ),
+    referralId: referral.id,
+  };
 }
 
 function isPlayer(world: World, personId: EntityId): boolean {
@@ -583,14 +594,23 @@ function ballotLine(room: JuryRoom | null): string {
  * brings a retrial; and after a plea or a conviction the judge chooses the
  * sentence. Runs on the weekly sweep.
  */
-export function advanceProsecutions(world: World): World {
+export function advanceProsecutions(
+  world: World,
+  referralId?: EntityId,
+): World {
   const rule = UNRESEARCHED_PROSECUTION;
   let next = world;
   const byReferral = (type: FollowUpType, referral: HistoricalEvent) =>
     eventsOfType(next, type).filter((event) =>
       event.tags.includes(`${REFERRAL_TAG}${referral.id}`),
     );
-  for (const referral of eventsOfType(world, PROSECUTION_REFERRED_EVENT)) {
+  const namedReferral = referralId ? eventById(world, referralId) : null;
+  const referrals = referralId
+    ? namedReferral?.type === PROSECUTION_REFERRED_EVENT
+      ? [namedReferral]
+      : []
+    : eventsOfType(world, PROSECUTION_REFERRED_EVENT);
+  for (const referral of referrals) {
     const subjectId = referral.participants.find(
       (entry) => entry.role === "focus:subject",
     )?.personId;
@@ -627,6 +647,12 @@ export function advanceProsecutions(world: World): World {
             : "A witness's account would probably be enough to convict.",
       });
       charged = next.history.events.at(-1)!;
+      next = ensureProsecutionStageSchedule(
+        next,
+        charged,
+        referral.id,
+        rule.resolveAfterDays,
+      );
       next = decideBeforeTrial(next, charged, referral, courtCase, subjectId);
     }
     const mistrials = byReferral(PROSECUTION_MISTRIAL_EVENT, referral);
@@ -678,6 +704,12 @@ export function advanceProsecutions(world: World): World {
                 : `The jury in the trial of ${name} for ${offense} could not agree, ${ballotLine(trial.finalBallot)} to convict. The judge declared a mistrial.`,
             ordinal: trialNumber,
           });
+          next = ensureProsecutionStageSchedule(
+            next,
+            next.history.events.at(-1)!,
+            referral.id,
+            rule.resolveAfterDays,
+          );
           continue;
         }
         next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
