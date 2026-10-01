@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   applyNpcPoliticalBeliefFormation,
   evaluatePoliticalBeliefFormation,
@@ -247,9 +248,10 @@ export function ensurePartyLeadership(
           generatePersonIdentity(personRng.fork("identity")),
         ),
         // Adults only: an officer must have been able to hold the role.
-        birthDate: makeIsoDate(
-          `${Number(date.slice(0, 4)) - personRng.integer(30, 76)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
-        ),
+        birthDate: inventedPersonBirthDate(personRng, {
+          role: "party-national-committee-member",
+          referenceDate: date,
+        }),
         homeJurisdictionId: unit.jurisdictionId ?? world.jurisdictionOrder[0]!,
       };
     }),
@@ -1808,9 +1810,10 @@ export function ensurePartyGoverningBodies(
               personRng.fork("name"),
               generatePersonIdentity(personRng.fork("identity")),
             ),
-            birthDate: makeIsoDate(
-              `${Number(date.slice(0, 4)) - personRng.integer(21, 78)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
-            ),
+            birthDate: inventedPersonBirthDate(personRng, {
+              role: "party-standing-committee-member",
+              referenceDate: date,
+            }),
             homeJurisdictionId: player.homeJurisdictionId,
           };
         },

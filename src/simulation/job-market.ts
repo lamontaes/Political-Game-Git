@@ -1074,6 +1074,121 @@ function addStep(
   });
 }
 
+/** Work a resident looks for at a recorded employer outside their town. */
+export interface WorkElsewhere {
+  readonly personId: EntityId;
+  /** The employer, recorded in the world at `jurisdictionId`. */
+  readonly organizationId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly title: string;
+  readonly occupationClassification: OccupationClassification | null;
+  readonly pay: JobPayTerms;
+  readonly weeklyHours: {
+    readonly minimumHours: number;
+    readonly maximumHours: number;
+  };
+  /** Where the role and its pay come from, kept on the opening. */
+  readonly note: string;
+  /** Names the review, so the same review writes nothing twice. */
+  readonly round: string;
+}
+
+/**
+ * A resident's search for work elsewhere (A135): the opening at the employer
+ * elsewhere, their application, and the employer's answer on the same day.
+ *
+ * Nothing is drawn. The employer offers when the applicant has done this
+ * line of work before (`daysInLine`) or the role is the entry-level public
+ * body profile, and otherwise declines for want of experience. The offer
+ * waits the job market's longest reply window and starts the day it is
+ * accepted: somebody who takes it is moving for it. Refuses the played
+ * person, who applies for themselves.
+ */
+export function offerWorkElsewhere(
+  world: World,
+  input: WorkElsewhere,
+): JobMarketResult {
+  const refusal = residentCanAct(world, input.personId);
+  if (refusal) return { world, ok: false, message: refusal };
+  const openingKey = `job-opening:elsewhere:${input.organizationId}:${input.personId}:${input.round}`;
+  if (
+    (world.history.jobOpenings ?? []).some(
+      (row) => row.stableKey === openingKey,
+    )
+  )
+    return { world, ok: false, message: "This search was already made." };
+  const today = world.currentDate;
+  // Hourly pay is never below the minimum wage where the work is.
+  const minimum = minimumHourlyMinorFor(world, input.jurisdictionId, today);
+  const pay: JobPayTerms =
+    input.pay.basis === "hourly" && input.pay.amount.minorUnits < minimum
+      ? { ...input.pay, amount: money(minimum, input.pay.amount.currency) }
+      : input.pay;
+  let next = append(world, "jobOpenings", "job-opening", {
+    stableKey: openingKey,
+    organizationId: input.organizationId,
+    jurisdictionId: input.jurisdictionId,
+    title: input.title,
+    occupationClassification: input.occupationClassification,
+    pay,
+    weeklyHours: input.weeklyHours,
+    schedule: null,
+    qualifications: null,
+    earliestStartAt: null,
+    opensAt: today,
+    closesAt: addDays(today, JOB_TIMING.recruitmentWindowDays.maximum),
+    provenance: { kind: "authored", note: `${PROVENANCE_NOTE} ${input.note}` },
+  });
+  const opening = next.history.jobOpenings!.at(-1)!;
+  const stableKey = `job-application:${opening.id}:${input.personId}`;
+  const employer = organizationName(next, opening.organizationId);
+  const name = residentName(next, input.personId);
+  next = note(next, {
+    key: stableKey,
+    type: "applied",
+    occurredAt: today,
+    personId: input.personId,
+    involved: [opening.organizationId],
+    jurisdictionId: opening.jurisdictionId,
+    summary: `${name} applied to ${employer} for ${input.title.toLowerCase()} work.`,
+  }).world;
+  next = append(next, "jobApplications", "job-application", {
+    stableKey,
+    openingId: opening.id,
+    personId: input.personId,
+    route: "applied",
+    introducerPersonId: null,
+    submittedAt: today,
+    decisionAt: today,
+  });
+  const application = next.history.jobApplications!.at(-1)!;
+  const experienced =
+    daysInLine(next, input.personId, opening, today) > 0 ||
+    input.title === PUBLIC_BODY_ROLE_PLACEHOLDER.title;
+  if (!experienced)
+    return {
+      world: addStep(next, application, {
+        kind: "declined",
+        occurredAt: today,
+        reason: "They wanted someone who had done this work before.",
+        summary: `${employer} turned down ${name}: they wanted someone who had done this work before.`,
+      }),
+      ok: true,
+      message: `${employer} turned ${name} down.`,
+    };
+  const replyBy = addDays(today, JOB_TIMING.offerReplyDays.maximum);
+  next = addStep(next, application, {
+    kind: "offered",
+    occurredAt: today,
+    replyBy,
+    startAt: today,
+    agreedWeeklyHours:
+      pay.basis === "hourly" ? input.weeklyHours.maximumHours : null,
+    summary: `${employer} offered ${name} ${input.title.toLowerCase()} work in ${next.jurisdictions[input.jurisdictionId]?.name ?? "another place"} at ${payPhrase(pay)}. They asked for an answer by ${spoken(replyBy)}.`,
+  });
+  return { world: next, ok: true, message: `${employer} made an offer.` };
+}
+
 /** The offer an application is answering to, if it has one. */
 export function applicationOffer(
   world: World,

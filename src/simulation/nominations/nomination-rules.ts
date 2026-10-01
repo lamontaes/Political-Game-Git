@@ -11,6 +11,7 @@ import {
   isElectionDateRule,
   type ElectionDateRule,
 } from "./date-rules";
+import { MEDIAN_FILING_GAP_DAYS } from "./filing-gap";
 
 /**
  * How each place's parties choose their general-election candidates, as the
@@ -173,22 +174,6 @@ const MOST_COMMON_METHOD: NominationMethod = (() => {
   return [...counts.entries()].sort(
     ([aKey, a], [bKey, b]) => b - a || aKey.localeCompare(bKey),
   )[0]![0];
-})();
-
-/**
- * ESTIMATED FROM AVERAGE: the median number of days between the filing
- * deadline and the primary over the places with a usable 2026 row (85 days
- * in the FEC's 2026 table; range 63 to 149). Used where a place has none.
- */
-const MEDIAN_FILING_GAP_DAYS: number = (() => {
-  const gaps = Object.values(PLACES)
-    .map((row) => row.filing?.daysBeforePrimary)
-    .filter((gap): gap is number => typeof gap === "number")
-    .sort((a, b) => a - b);
-  const middle = Math.floor(gaps.length / 2);
-  return gaps.length % 2
-    ? gaps[middle]!
-    : Math.round((gaps[middle - 1]! + gaps[middle]!) / 2);
 })();
 
 function filingPlan(

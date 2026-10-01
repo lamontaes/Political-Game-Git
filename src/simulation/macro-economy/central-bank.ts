@@ -45,6 +45,10 @@
  *    player records a choice for the meeting (`chooseCentralBankRate`).
  */
 
+import {
+  inventedPersonBirthDate,
+  type InventedPersonRole,
+} from "../invented-person-age";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import {
   characterHistoryContextPersonId,
@@ -101,7 +105,6 @@ export const CENTRAL_BANK_PROFILE = {
   /** The lowest the rate range's middle may go: a range of 0 to 0.25. */
   floorMidPct: 0.125,
   /** A board member's age range when first seated at the opening. */
-  openingAge: { min: 45, max: 70 },
   /** Before five years of published unemployment, the board's working normal rate. */
   fallbackNormalUnemploymentPct: 4.4,
   /** Months of published unemployment the board averages for its normal rate. */
@@ -111,7 +114,6 @@ export const CENTRAL_BANK_PROFILE = {
   /** PLACEHOLDER: a president retires at a term end at this age or older. */
   reserveBankPresidentRetirementAge: 65,
   /** A reserve bank president's age range when first seated at the opening. */
-  presidentOpeningAge: { min: 50, max: 63 },
 } as const;
 
 /** The twelve reserve banks, in district order. */
@@ -326,25 +328,24 @@ function recordAppointment(
 function generateBoardPeople(
   world: World,
   stableKeys: readonly string[],
-  ages: { readonly min: number; readonly max: number },
+  role: InventedPersonRole,
 ): { world: World; personIds: EntityId[] } {
-  const year = Number(world.currentDate.slice(0, 4));
   let next = world;
   const inputs: CharacterHistoryContextPersonInput[] = [];
   for (const stableKey of stableKeys) {
     const rng = new SeededRng(world.seed).fork(stableKey);
     const geography = prepareOpeningFederalGeography(next, stableKey);
     next = geography.world;
-    const age = rng.integer(ages.min, ages.max + 1);
     inputs.push({
       stableKey,
       ...drawCanonicalNamedIdentity(
         rng.fork("name"),
         generatePersonIdentity(rng.fork("identity")),
       ),
-      birthDate: makeIsoDate(
-        `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-      ),
+      birthDate: inventedPersonBirthDate(rng, {
+        role,
+        referenceDate: world.currentDate,
+      }),
       homeJurisdictionId: geography.homeJurisdictionId,
       birthplaceJurisdictionId: geography.birthplaceJurisdictionId,
     });
@@ -377,7 +378,7 @@ export function ensureCentralBankSeated(
   const people = generateBoardPeople(
     world,
     stableKeys,
-    CENTRAL_BANK_PROFILE.openingAge,
+    "central-bank-governor-at-opening",
   );
   let next = people.world;
   const seats: CentralBankSeat[] = [];
@@ -769,7 +770,7 @@ export function ensureReserveBankPresidents(world: World): World {
   const people = generateBoardPeople(
     world,
     stableKeys,
-    CENTRAL_BANK_PROFILE.presidentOpeningAge,
+    "reserve-bank-president-at-opening",
   );
   let next = people.world;
   const presidents: ReserveBankPresidentSeat[] = [];
@@ -842,10 +843,11 @@ function stepReserveBankPresidents(world: World): World {
     }
     const index = RESERVE_BANKS.findIndex((row) => row.key === opening.bank);
     const stableKey = `${CENTRAL_BANK_VERSION}:reserve-bank:${opening.bank}:${today}`;
-    const people = generateBoardPeople(next, [stableKey], {
-      min: 48,
-      max: 60,
-    });
+    const people = generateBoardPeople(
+      next,
+      [stableKey],
+      "reserve-bank-president-successor",
+    );
     next = people.world;
     const personId = people.personIds[0]!;
     const lean = drawInflationLean(next, personId);
