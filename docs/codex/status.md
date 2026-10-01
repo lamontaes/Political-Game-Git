@@ -1,3 +1,38 @@
+## October 1, 5:34 a.m. opening dependency cleared
+
+The A58 adult opening transfer is closed. Team 4 received the exact source and protected boundaries recorded in claims.md. It can now connect the actual employer producer before hiring and run its prepared opening test. No runtime result is claimed yet. The earlier 5:30 pending-release row is superseded by this receipt.
+
+## October 1, 5:30 a.m. rebuild checkpoint
+
+The rebuild remains incomplete. Shared pay and service authority now compose, and the narrow privacy transfer is closed. Team 4's opening handoff and Audit’s clock/save repairs remain active dependencies.
+
+### MERGED
+
+Main 577b0ac03 contains the coordinator ledger #1507, county calendar profile records #1502, privacy research #1501, budget test fix #1504 and standing-service contract #1503. These merges do not establish whole-world acceptance. The privacy boundary/applicability follow-up remains separate.
+
+### CONNECTIONS TABLE
+
+| Owner | Current output | Next consumer or proof |
+| --- | --- | --- |
+| Coordinator and Team 3 | Shared authority composition 714d393f; root 11/11 authority tests and five type roots clean | Four resolved files delivered; Team 3 renews city/default payroll and opens a follow-up to merged #1486. |
+| Team 1 | Budget filing #1512, 4e7111a2; reported 125/125 controlled tests | National budget behavior and CTO mechanism review remain pending. |
+| Team 2 | Shared congressional vote #1513 READY, 49d5243f | CTO review; state ratification remains unmigrated. Reported 1,070 controlled decisions retained directions and reasons. |
+| Team 4 | Recorded-employer adapter #1500, 45e6d251 | Preparing actual-opening test; exact adult-hire caller release with Audit. |
+| Team 5 | Standing authority received from main | Clinical consumer must show an eligible operator and named recipient completing a paid visit. |
+| Team 6 | Privacy expense writer transfer accepted | Build one-time occurrence with CTO-approved estimated applicability; no recurring research claim. |
+| Team 7 and Audit | Caller #1510, a6743164, depends on #1358, 92233b49 | Reported 8/8 controlled caller tests with boundary overlays; final-main and long-world parity unrun. |
+| Team 8 | Unpaid liability #1409, 2c07a79f; reported 10/10 | CTO review; player resignation adapter admitted narrowly and cleanly. Natural collection unproved. |
+| Team 9 | Clemency consent repair #1506 READY, 2ca5596f | CTO review and #1496 dependency; Kansas deadline proof is controlled, not nationwide. |
+| Audit | SQLite chunks #1511, 66a84c6e | Seven reported cases; constructor migration race confirmed and bounded repair underway. |
+
+### BLOCKED
+
+A61 raw bank packet is absent. Approved selection cannot be executed without it. Team 4's caller handoff needs the exact source receipt; Audit confirmed no overlap with its unpublished terminal-law hook. Whole-clock speed and populated parity are not established. Merge explicitly acknowledged exact-head CTO approval is required for mechanism PRs.
+
+### EFFECTS
+
+No completion total is inferred from PR counts. Payroll fixtures, budget authority records, service contracts and saved obligations remain distinct from natural world delivery. A71's 36.5-day credit line and 0.5 sales response remain unresolved assumptions after research-question filing. The 500-employee privacy band exception is a CTO convention, not a literal 100–499 research band.
+
 ## October 1, 5:17 a.m. integration update
 
 ### MERGED

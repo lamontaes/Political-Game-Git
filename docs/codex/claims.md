@@ -1,3 +1,19 @@
+## October 1, 5:34 a.m. adult opening transfer CLOSED
+
+Team 4 owns only the normal adult-start import and seatLocalBusinesses invocation ordering around hireAtAdultStart in src/presentation/production-world.ts. Audit released this exact scope with no unpublished overlap. Coordinator verified main 072634b352c182c0ee75abe59e1e73e772ed73e4 blob 74ad6aef164a2bb568952ed3fe229be9c73fd399.
+
+Audit retains its unpublished terminal-opening hook at 3c5b61e2, source blob 1b367ff884ac7553fb3b18092f1927b0e44859f0. Preserve age and adultStartWorkVersion guards, both pre-start paths, salary, living costs, monthly scheduling, coverage, final law dispatch and load recovery. The actual employer producer precedes adult hiring. Team 4 owns the matching opening-life-recorded-employer.test.ts; no substitute employers or post-opening repair writer is admitted.
+
+Release delivered to Team 4. Runtime integration and natural-opening proof remain pending.
+
+## October 1, 5:30 a.m. subject-response caller and core repair
+
+Team 8 owns only the existing answer adapter in src/presentation/office-response.ts and MatterItem.answer argument/statement forwarding in src/player/PressDeskPanel.tsx. It reports both paths clean in its leased workspace and shared checkout, matching main 072634b352c182c0ee75abe59e1e73e772ed73e4. Preserve confirmation, the world callback and exact chosen words. This does not grant a new scheduler or a broad player-workspace rewrite. NPC finding-boundary admission remains separate.
+
+Coordinator resolved only enacted-law-effects.ts, law-consequence-types.ts, law-effect-stamp.ts and its test for Team 3's pending main merge. Published 714d393fe5bf4c770ac432c29aa60034ecabba4b preserves both authority contracts. Team 3 may receive these exact four blobs while retaining all its own unpublished city/default-test bytes.
+
+Team 4 owns opening-life-recorded-employer.test.ts preparation. Production caller transfer remains pending the exact Audit receipt; Audit reports no overlap with its unpublished terminal-law hook. No whole-file transfer is inferred.
+
 ## October 1, 5:17 a.m. privacy caller transfer CLOSED
 
 Team 1 released to Team 6 only the privacyLaw import/read, recurring privacyCost calculation, saved business occurrence/stamp append in src/simulation/living-world/town-finances.ts, and the necessary optional historical privacy-occurrence field in town-finance-types.ts. All other treasury, pay, ledger, business and type hunks remain protected. The separate bank release is unchanged.

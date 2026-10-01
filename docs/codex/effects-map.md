@@ -1,3 +1,11 @@
+## October 1, 5:30 a.m. effect integration limits
+
+Shared saved authority now admits both annual office salary and standing service authority in checked composition 714d393f. Eleven authority tests passed under the coordinator; actual city payroll renewal remains Team 3's separate proof. The service consumer still needs a named recipient and eligible operator.
+
+Team 2's congressional term-limit caller now uses the shared vote engine and retains rejected roll calls in ready #1513. State ratification remains a separate unmigrated caller. Team 8's unpaid debt repair preserves obligations when cash is missing; natural collection is not proved. Team 9's missing-body refusal retains a sourced Kansas advisory deadline without inventing board votes.
+
+Research-question filing does not settle A71's numerical assumptions. Privacy cost applicability is now an explicitly estimated CTO rule; it must not be described as enacted national coverage or observed firm data. A61 remains an evidence gap because its actual bank packet is absent.
+
 ## October 1, 5:17 a.m. received integration evidence
 
 The common standing-service authority is now on main through #1503. The recipient clinical consumer remains Team 5 work. Team 3 published actual payroll evidence at 37e7c327 for tested source 829d7ca9: 24 cases passed, including actual Ohio office salary callers and five ordinary-worker places. This is team-executed proof, not an independent coordinator rerun. City payroll remains pending.
