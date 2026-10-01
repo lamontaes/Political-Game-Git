@@ -199,11 +199,38 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
     );
     expect(serializeWorld(reopened)).toBe(serializeWorld(paid));
     const repeated = advanceWorld(paid, 1, lifePaths2Handlers());
-    expect(
-      repeated.history.resourceTransferOutcomes.filter(
-        (row) => row.resourceFlowId === flow.id,
-      ),
-    ).toHaveLength(1);
+    // Advancing another day can complete another actual shift. Idempotence
+    // belongs to each saved completion, not to all wages on a recurring flow.
+    const repeatedPayments = repeated.history.resourceTransferOutcomes.filter(
+      (row) => row.resourceFlowId === flow.id,
+    );
+    const originalPayments = repeatedPayments.filter(
+      (row) =>
+        row.provenance.kind === "simulated-event" &&
+        row.provenance.eventId === completion.id,
+    );
+    expect(originalPayments).toHaveLength(1);
+    expect(originalPayments[0]).toEqual(outcome);
+    const paidCompletionIds: string[] = [];
+    for (const payment of repeatedPayments) {
+      expect(payment.provenance.kind).toBe("simulated-event");
+      if (payment.provenance.kind !== "simulated-event")
+        throw new Error("Shift payment lost its completion event.");
+      const completionEventId = payment.provenance.eventId;
+      const actualWork = repeated.history.events.find(
+        (event) => event.id === completionEventId,
+      );
+      expect(actualWork).toMatchObject({
+        type: "life-paths2.work-session",
+        occurredAt: payment.periodStartsAt,
+      });
+      expect(actualWork!.involvedEntityIds).toEqual(
+        expect.arrayContaining([work.id, personId]),
+      );
+      expect(payment.periodEndsAt).toBe(actualWork!.occurredAt);
+      paidCompletionIds.push(actualWork!.id);
+    }
+    expect(new Set(paidCompletionIds).size).toBe(paidCompletionIds.length);
     const hash = createHash("sha256")
       .update(serializeWorld(paid))
       .digest("hex");

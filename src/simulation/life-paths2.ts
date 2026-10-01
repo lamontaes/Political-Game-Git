@@ -762,8 +762,11 @@ export function performLifePathSession(
   if (scheduledActivityState(world, activityId).status !== "scheduled")
     return fail(world, "This session has already ended.");
   const actor = controlled(world);
+  // Paid work needs its recorded-money checkpoint before the work happens,
+  // so later wages and withholding change the same account. The existing
+  // initializer carries only saved transfers; it invents no opening wealth.
   const funded =
-    path.sessionCostMinor > 0
+    path.sessionCostMinor > 0 || path.sessionPayMinor > 0
       ? ensureLifePathPersonalPosition(world, actor, money(0, "USD").currency)
       : world;
   if (
