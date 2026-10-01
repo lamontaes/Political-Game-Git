@@ -1,0 +1,63 @@
+{
+  "publishedMain": "524f8bdfb5e662eeca3442b9ad39890ca43ee481",
+  "sourceBase": "8cadcf48d3ed3123ccff40a51c8a068e948ce111",
+  "main": "0e78c04746ed44859a7f7b6591863e6412266424",
+  "central": "4d8c8761c15c65c3d7ba94a6c2d91f5df0d823d7",
+  "c4Dependency": "c89101ab6b3f7fd0ed7efa5e5c869edc19effc61",
+  "qualification": "Git source loader; verified current src/data/tests/scripts, physical tools/dependencies and unrelated docs preserved",
+  "before": {
+    "head": "181f200aec97a701cb815d7b34a3effa070c738a",
+    "testsFailed": 1,
+    "skipped": 2,
+    "actualInnovations": {
+      "growth": 0.180873,
+      "unemployment": -0.070626,
+      "inflation": 0.022699
+    }
+  },
+  "head": "7998cbc69013cc3d9d363cec5e10b2b823c4628e",
+  "files": [
+    {
+      "path": "src/simulation/outcome-web/place-outcomes-century.test.ts",
+      "sha": "769c0ac7244eb4aac8a4b900ffe92d1d7619fca6"
+    },
+    {
+      "path": "src/simulation/outcome-web/place-outcomes-century-f.test.ts",
+      "sha": "ed92eec855469e441fb11f9a6ff38b8828d2e148"
+    },
+    {
+      "path": "src/simulation/macro-economy/monthly-innovations.test.ts",
+      "sha": "2e4e90be9934960c2190d0512cd139ff25469e7a"
+    },
+    {
+      "path": "src/simulation/outcome-web/place-outcomes.ts",
+      "sha": "23dff69bb6512bd36d0f3f695ef9e74d471c20b9"
+    },
+    {
+      "path": "src/simulation/macro-economy/kernel.ts",
+      "sha": "5cec2c1066adfbd22de8009cb8dc71cf4495040b"
+    }
+  ],
+  "disposition": "Transferred to claude/a63-no-dice-drift under newer CTO 3:24; no competing production PR",
+  "runtime": {
+    "tests": 21,
+    "passed": 21,
+    "durationSeconds": 18.12,
+    "assertionSeconds": 2.67,
+    "files": 3,
+    "command": "OCD_STORAGE_STATE_DIR=/workspace/audit-systems-tools/storage-guard OCD_WORKSPACE_OWNER=AUDIT/SYSTEMS VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run test -- npx --no-install vitest run --config /tmp/audit-a63-candidate.config.mts src/simulation/macro-economy/monthly-innovations.test.ts src/simulation/outcome-web/place-outcomes-century.test.ts src/simulation/outcome-web/place-outcomes-century-f.test.ts"
+  },
+  "types": {
+    "roots": 5,
+    "sourceFiles": 853,
+    "diagnostics": 0
+  },
+  "patchSha256": "8536a12abce54db33181a7d8b744e51b435d59d314de6c5f59109e423a14cedd",
+  "limits": [
+    "No production clock/world or ten-year ordinary-play proof",
+    "Macro same-seed comparison fixes saved state and era; stochastic stepEraConditions remains outside these two assigned functions",
+    "Existing century tests replaced obsolete noise/spread expectations with full 120-month equality and saved-base/bounds checks",
+    "No formatting/lint/release/zero-dice checks claimed; receiving owner must shrink removed wave allowlist entry",
+    "No publication of production hunks"
+  ]
+}

@@ -1,0 +1,514 @@
+diff --git a/src/simulation/macro-economy/kernel.ts b/src/simulation/macro-economy/kernel.ts
+index 013aef47b..5cec2c106 100644
+--- a/src/simulation/macro-economy/kernel.ts
++++ b/src/simulation/macro-economy/kernel.ts
+@@ -109,18 +109,10 @@ export const NO_IMPULSES: MacroImpulses = {
+   pricePp: 0,
+ };
+ 
+-/** Innovations in percentage points, already scaled by their SDs. */
++/** No unexplained monthly innovations; recorded impulses still act. */
+ export function drawInnovations(rng: SeededRng): MacroInnovations {
+-  const sd = POLICY.monthly.innovationSdPp;
+-  const growth = standardNormal(rng.fork("growth")) * sd.growth;
+-  const unemployment =
+-    standardNormal(rng.fork("unemployment")) * sd.unemployment;
+-  const inflation = standardNormal(rng.fork("inflation")) * sd.inflation;
+-  return {
+-    growth: roundMacro(growth),
+-    unemployment: roundMacro(unemployment),
+-    inflation: roundMacro(inflation),
+-  };
++  void rng;
++  return { growth: 0, unemployment: 0, inflation: 0 };
+ }
+ 
+ function boundedUnemployment(value: number): number {
+diff --git a/src/simulation/macro-economy/monthly-innovations.test.ts b/src/simulation/macro-economy/monthly-innovations.test.ts
+new file mode 100644
+index 000000000..2e4e90be9
+--- /dev/null
++++ b/src/simulation/macro-economy/monthly-innovations.test.ts
+@@ -0,0 +1,72 @@
++import { describe, expect, it } from "vitest";
++import { SeededRng } from "../rng";
++import {
++  drawInnovations,
++  NO_IMPULSES,
++  START_ERA,
++  stepMonth,
++  type MacroMonthlyState,
++} from "./kernel";
++
++const saved: MacroMonthlyState = {
++  growthPct: 2,
++  unemploymentPct: 4.6,
++  inflationPct: 2.7,
++  realOutputIndex: 100,
++  priceIndex: 100,
++};
++
++function tenYears(seed: string, recordedPriceImpulse = false) {
++  const rng = new SeededRng(seed);
++  let state = saved;
++  const path: MacroMonthlyState[] = [];
++  for (let month = 0; month < 120; month += 1) {
++    state = stepMonth(
++      state,
++      drawInnovations(rng.fork(`month:${month}`)),
++      recordedPriceImpulse && month === 24
++        ? { ...NO_IMPULSES, pricePp: 1 }
++        : NO_IMPULSES,
++      START_ERA,
++    );
++    path.push(state);
++    // The same saved state resumes without an unexplained increment.
++    if (month === 59) state = JSON.parse(JSON.stringify(state));
++  }
++  return path;
++}
++
++describe("A63 monthly innovations", () => {
++  it("returns zero without consuming the random stream", () => {
++    const rng = new SeededRng("a63-no-stream");
++    const untouched = new SeededRng("a63-no-stream");
++    expect(drawInnovations(rng)).toEqual({
++      growth: 0,
++      unemployment: 0,
++      inflation: 0,
++    });
++    expect(rng.next()).toBe(untouched.next());
++  });
++
++  it("keeps the same 120-month path for the same saved state and era in two seeds", () => {
++    const first = tenYears("a63-path-a");
++    const second = tenYears("a63-path-b");
++    expect(first).toHaveLength(120);
++    expect(second).toEqual(first);
++    for (const month of first) {
++      expect(month.realOutputIndex).toBeGreaterThan(0);
++      expect(month.priceIndex).toBeGreaterThan(0);
++      expect(Number.isFinite(month.unemploymentPct)).toBe(true);
++    }
++  });
++
++  it("preserves an actual input impulse without replacing it with noise", () => {
++    const plain = tenYears("a63-path-a");
++    const changed = tenYears("a63-path-b", true);
++    expect(changed.slice(0, 24)).toEqual(plain.slice(0, 24));
++    expect(changed[24]!.inflationPct - plain[24]!.inflationPct).toBe(1);
++    expect(changed[24]!.priceIndex).toBeGreaterThan(plain[24]!.priceIndex);
++    expect(changed[24]!.growthPct).toBe(plain[24]!.growthPct);
++    expect(changed[24]!.unemploymentPct).toBe(plain[24]!.unemploymentPct);
++  });
++});
+diff --git a/src/simulation/outcome-web/place-outcomes-century-f.test.ts b/src/simulation/outcome-web/place-outcomes-century-f.test.ts
+index 4c8d46b62..ed92eec85 100644
+--- a/src/simulation/outcome-web/place-outcomes-century-f.test.ts
++++ b/src/simulation/outcome-web/place-outcomes-century-f.test.ts
+@@ -9,13 +9,7 @@ import {
+   type PlaceOutcomeRecord,
+ } from "./place-outcomes";
+ 
+-/*
+- * A century in ten worlds, one measure at a time: CLOUD F's health, schooling,
+- * earnings, broadband and transit outcomes each start at their real 2024
+- * level, drift every month, and nothing pulls them back. So the same place ends in
+- * different places in different worlds (spread), never leaves the measure's
+- * plausible range (bounds), and is not held at its start (no pinning).
+- */
++/* The same saved bases and causes yield the same ten-year records in both seeds. */
+ 
+ const MEASURES = [
+   "household.food-insecurity",
+@@ -31,21 +25,10 @@ const MEASURES = [
+   "gov.borrowing-cost",
+ ] as const;
+ 
+-const WORLDS = [
+-  "century-1",
+-  "century-2",
+-  "century-3",
+-  "century-4",
+-  "century-5",
+-  "century-6",
+-  "century-7",
+-  "century-8",
+-  "century-9",
+-  "century-10",
+-];
+-const MONTHS = 1200;
++const WORLDS = ["a63-path-a", "a63-path-b"];
++const MONTHS = 120;
+ 
+-/** A seeded world with no laws and no recorded economy: drift alone. */
++/** A seeded world with no laws and no recorded economy: no unexplained move. */
+ function emptyWorld(seed: string): World {
+   return {
+     seed,
+@@ -61,15 +44,11 @@ function nextMonth(month: IsoDate): IsoDate {
+   return makeIsoDate(date.toISOString().slice(0, 10));
+ }
+ 
+-/**
+- * Every place's record for one measure at year 10 and year 100, and whether
+- * any month left the bounds. Only the last month is kept in the world, which
+- * is all the monthly pass reads.
+- */
+-function century(seed: string, measure: string) {
++/** Keep every monthly output to compare the full ten-year path. */
++function decade(seed: string, measure: string) {
+   let world = emptyWorld(seed);
+   let month = makeIsoDate("2026-01-01");
+-  const decade: PlaceOutcomeRecord[] = [];
++  const path: (readonly PlaceOutcomeRecord[])[] = [];
+   let outOfBounds: PlaceOutcomeRecord[] = [];
+   let records: readonly PlaceOutcomeRecord[] = [];
+   const drift = PLACE_OUTCOME_BASES[measure]!.drift!;
+@@ -83,7 +62,7 @@ function century(seed: string, measure: string) {
+           record.structural! > drift.maxPct,
+       ),
+     );
+-    if (index === 119) decade.push(...records);
++    path.push(records);
+     world = {
+       ...world,
+       currentDate: month,
+@@ -91,34 +70,10 @@ function century(seed: string, measure: string) {
+     } as World;
+     month = nextMonth(month);
+   }
+-  return { decade, end: records, outOfBounds };
++  return { path, end: records, outOfBounds };
+ }
+ 
+-/**
+- * A level in the space it drifts in: log-odds for a share (a percent), logs
+- * for a rate. A share near its ceiling moves little in logs but as freely as
+- * any other in log-odds.
+- */
+-function driftSpace(measure: string, value: number): number {
+-  const scale = PLACE_OUTCOME_BASES[measure]!.scale;
+-  if (scale === "level") return value;
+-  if (scale === "rate") return Math.log(value);
+-  const share = value / 100;
+-  return Math.log(share / (1 - share));
+-}
+-
+-const logMove = (record: PlaceOutcomeRecord) =>
+-  Math.abs(
+-    driftSpace(record.measure, record.structural!) -
+-      driftSpace(record.measure, record.base),
+-  );
+-
+-const median = (values: readonly number[]) => {
+-  const sorted = [...values].sort((a, b) => a - b);
+-  return sorted[Math.floor(sorted.length / 2)]!;
+-};
+-
+-describe("food, reading, degrees, broadband, asthma, overdoses, earnings and transit over a century in ten worlds", () => {
++describe("food, reading, degrees, broadband, asthma, overdoses, earnings and transit over ten years without unexplained noise", () => {
+   it("a level adds each link's effect in its own unit, so a law reads the same way below zero", () => {
+     const level = PLACE_OUTCOME_BASES["gov.borrowing-cost"]!;
+     expect(level.scale).toBe("level");
+@@ -133,7 +88,7 @@ describe("food, reading, degrees, broadband, asthma, overdoses, earnings and tra
+     expect(placeOutcomeValue(share, 10, 0.98, [0.98])).toBeCloseTo(9.8, 10);
+   });
+ 
+-  it("each is a place outcome with its own drift and plausible bounds, starting from real bases only", () => {
++  it("each is a place outcome with recorded bases and plausible bounds, starting from real bases only", () => {
+     for (const measure of MEASURES) {
+       const definition = PLACE_OUTCOME_BASES[measure];
+       expect(definition, measure).toBeDefined();
+@@ -153,39 +108,22 @@ describe("food, reading, degrees, broadband, asthma, overdoses, earnings and tra
+   });
+ 
+   for (const measure of MEASURES) {
+-    it(`${measure}: worlds end apart, nothing leaves its range, and nothing is pinned to its start`, () => {
+-      const runs = WORLDS.map((seed) => century(seed, measure));
+-      const places = Object.keys(PLACE_OUTCOME_BASES[measure]!.places);
+-
+-      // Bounds: every month of every world.
++    it(`${measure}: both seeds keep identical monthly records and saved structural levels`, () => {
++      const runs = WORLDS.map((seed) => decade(seed, measure));
+       for (const run of runs) expect(run.outOfBounds).toEqual([]);
+-
+-      // Spread: each place ends somewhere different in each world, far apart.
+-      for (const placeKey of places) {
+-        const ends = runs.map((run) =>
+-          run.end.find((record) => record.placeKey === placeKey)!,
+-        );
+-        expect(new Set(ends.map((record) => record.structural)).size).toBe(
+-          WORLDS.length,
+-        );
+-        const logs = ends.map((record) =>
+-          driftSpace(measure, record.structural!),
+-        );
+-        expect(
+-          Math.max(...logs) - Math.min(...logs),
+-          `${placeKey} spread`,
+-        ).toBeGreaterThan(0.25);
++      expect(runs[0]!.path).toEqual(runs[1]!.path);
++      expect(runs[0]!.path).toHaveLength(MONTHS);
++      const places = Object.keys(PLACE_OUTCOME_BASES[measure]!.places);
++      expect(runs[0]!.end).toHaveLength(places.length);
++      for (const month of runs[0]!.path) {
++        for (const record of month) {
++          expect(record.structural, record.placeKey).toBeCloseTo(
++            record.base,
++            4,
++          );
++          expect(record.causes, record.placeKey).toEqual([]);
++        }
+       }
+-
+-      // No pinning: the distance from the start keeps growing over the
+-      // century instead of settling back, and almost no place sits at it.
+-      const tenYears = median(runs.flatMap((run) => run.decade.map(logMove)));
+-      const hundredYears = median(runs.flatMap((run) => run.end.map(logMove)));
+-      expect(hundredYears).toBeGreaterThan(tenYears * 1.5);
+-      const nearStart = runs
+-        .flatMap((run) => run.end)
+-        .filter((record) => logMove(record) < 0.02).length;
+-      expect(nearStart / (runs.length * places.length)).toBeLessThan(0.1);
+-    }, 240_000);
++    });
+   }
+ });
+diff --git a/src/simulation/outcome-web/place-outcomes-century.test.ts b/src/simulation/outcome-web/place-outcomes-century.test.ts
+index e62981cf3..769c0ac72 100644
+--- a/src/simulation/outcome-web/place-outcomes-century.test.ts
++++ b/src/simulation/outcome-web/place-outcomes-century.test.ts
+@@ -8,13 +8,7 @@ import {
+   type PlaceOutcomeRecord,
+ } from "./place-outcomes";
+ 
+-/*
+- * A century in ten worlds, one measure at a time: the environment, public
+- * safety and homelessness outcomes each start at their real 2024 level, drift
+- * every month, and nothing pulls them back. So the same place ends in
+- * different places in different worlds (spread), never leaves the measure's
+- * plausible range (bounds), and is not held at its start (no pinning).
+- */
++/* The same saved bases and causes yield the same ten-year records in both seeds. */
+ 
+ const MEASURES = [
+   "env.particulates",
+@@ -23,21 +17,10 @@ const MEASURES = [
+   "housing.homelessness",
+ ] as const;
+ 
+-const WORLDS = [
+-  "century-1",
+-  "century-2",
+-  "century-3",
+-  "century-4",
+-  "century-5",
+-  "century-6",
+-  "century-7",
+-  "century-8",
+-  "century-9",
+-  "century-10",
+-];
+-const MONTHS = 1200;
++const WORLDS = ["a63-path-a", "a63-path-b"];
++const MONTHS = 120;
+ 
+-/** A seeded world with no laws and no recorded economy: drift alone. */
++/** A seeded world with no laws and no recorded economy: no unexplained move. */
+ function emptyWorld(seed: string): World {
+   return {
+     seed,
+@@ -53,15 +36,11 @@ function nextMonth(month: IsoDate): IsoDate {
+   return makeIsoDate(date.toISOString().slice(0, 10));
+ }
+ 
+-/**
+- * Every place's record for one measure at year 10 and year 100, and whether
+- * any month left the bounds. Only the last month is kept in the world, which
+- * is all the monthly pass reads.
+- */
+-function century(seed: string, measure: string) {
++/** Keep every monthly output to compare the full ten-year path. */
++function decade(seed: string, measure: string) {
+   let world = emptyWorld(seed);
+   let month = makeIsoDate("2026-01-01");
+-  const decade: PlaceOutcomeRecord[] = [];
++  const path: (readonly PlaceOutcomeRecord[])[] = [];
+   let outOfBounds: PlaceOutcomeRecord[] = [];
+   let records: readonly PlaceOutcomeRecord[] = [];
+   const drift = PLACE_OUTCOME_BASES[measure]!.drift!;
+@@ -75,7 +54,7 @@ function century(seed: string, measure: string) {
+           record.structural! > drift.maxPct,
+       ),
+     );
+-    if (index === 119) decade.push(...records);
++    path.push(records);
+     world = {
+       ...world,
+       currentDate: month,
+@@ -83,19 +62,11 @@ function century(seed: string, measure: string) {
+     } as World;
+     month = nextMonth(month);
+   }
+-  return { decade, end: records, outOfBounds };
++  return { path, end: records, outOfBounds };
+ }
+ 
+-const logMove = (record: PlaceOutcomeRecord) =>
+-  Math.abs(Math.log(record.structural! / record.base));
+-
+-const median = (values: readonly number[]) => {
+-  const sorted = [...values].sort((a, b) => a - b);
+-  return sorted[Math.floor(sorted.length / 2)]!;
+-};
+-
+-describe("environment, public safety and homelessness over a century in ten worlds", () => {
+-  it("each is a place outcome with its own drift and plausible bounds, starting from real bases only", () => {
++describe("environment, public safety and homelessness over ten years without unexplained noise", () => {
++  it("each is a place outcome with recorded bases and plausible bounds, starting from real bases only", () => {
+     for (const measure of MEASURES) {
+       const definition = PLACE_OUTCOME_BASES[measure];
+       expect(definition, measure).toBeDefined();
+@@ -111,39 +82,22 @@ describe("environment, public safety and homelessness over a century in ten worl
+   });
+ 
+   for (const measure of MEASURES) {
+-    it(`${measure}: worlds end apart, nothing leaves its range, and nothing is pinned to its start`, () => {
+-      const runs = WORLDS.map((seed) => century(seed, measure));
+-      const places = Object.keys(PLACE_OUTCOME_BASES[measure]!.places);
+-
+-      // Bounds: every month of every world.
++    it(`${measure}: both seeds keep identical monthly records and saved structural levels`, () => {
++      const runs = WORLDS.map((seed) => decade(seed, measure));
+       for (const run of runs) expect(run.outOfBounds).toEqual([]);
+-
+-      // Spread: each place ends somewhere different in each world, far apart.
+-      for (const placeKey of places) {
+-        const ends = runs.map((run) =>
+-          run.end.find((record) => record.placeKey === placeKey)!,
+-        );
+-        const logs = ends.map((record) => Math.log(record.structural!));
+-        expect(
+-          Math.max(...logs) - Math.min(...logs),
+-          `${placeKey} spread`,
+-        ).toBeGreaterThan(0.25);
+-        // A typical pair of worlds ends well apart, not just the extremes.
+-        const pairs = logs.flatMap((a, i) =>
+-          logs.slice(i + 1).map((b) => Math.abs(a - b)),
+-        );
+-        expect(median(pairs), `${placeKey} typical pair`).toBeGreaterThan(0.1);
++      expect(runs[0]!.path).toEqual(runs[1]!.path);
++      expect(runs[0]!.path).toHaveLength(MONTHS);
++      const places = Object.keys(PLACE_OUTCOME_BASES[measure]!.places);
++      expect(runs[0]!.end).toHaveLength(places.length);
++      for (const month of runs[0]!.path) {
++        for (const record of month) {
++          expect(record.structural, record.placeKey).toBeCloseTo(
++            record.base,
++            4,
++          );
++          expect(record.causes, record.placeKey).toEqual([]);
++        }
+       }
+-
+-      // No pinning: the distance from the start keeps growing over the
+-      // century instead of settling back, and almost no place sits at it.
+-      const tenYears = median(runs.flatMap((run) => run.decade.map(logMove)));
+-      const hundredYears = median(runs.flatMap((run) => run.end.map(logMove)));
+-      expect(hundredYears).toBeGreaterThan(tenYears * 1.5);
+-      const nearStart = runs
+-        .flatMap((run) => run.end)
+-        .filter((record) => logMove(record) < 0.02).length;
+-      expect(nearStart / (runs.length * places.length)).toBeLessThan(0.1);
+-    }, 240_000);
++    });
+   }
+ });
+diff --git a/src/simulation/outcome-web/place-outcomes.ts b/src/simulation/outcome-web/place-outcomes.ts
+index 3707f96f3..23dff69bb 100644
+--- a/src/simulation/outcome-web/place-outcomes.ts
++++ b/src/simulation/outcome-web/place-outcomes.ts
+@@ -8,8 +8,6 @@ import type {
+   IsoDate,
+   World,
+ } from "../types";
+-import { SeededRng } from "../rng";
+-import { standardNormal } from "../world-setup/deterministic-math";
+ import { worldOpeningVersionOf } from "../world-setup/conditions";
+ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+ import { outcomeFactor } from ".";
+@@ -22,7 +20,6 @@ import {
+   PLACE_OUTCOME_MEASURES,
+   placeOutcomeKey,
+   placeOutcomeValue,
+-  type PlaceOutcomeDrift,
+   type PlaceOutcomeRecord,
+   type PlaceOutcomeShare,
+ } from "./place-outcome-store";
+@@ -55,35 +52,9 @@ function fromLogit(value: number): number {
+   return 100 / (1 + Math.exp(-value));
+ }
+ 
+-/**
+- * One month's move in a measure's underlying level for every place, in
+- * log-odds: a national part every place shares, a part of the place's own,
+- * and now and then a society-wide wave (national, so every place feels it).
+- * A world with no seed (a fixture) does not drift.
+- */
+-function driftSteps(
+-  world: World,
+-  measure: string,
+-  month: IsoDate,
+-  drift: PlaceOutcomeDrift,
+-): (placeKey: string) => number {
+-  if (!world.seed) return () => 0;
+-  const rng = new SeededRng(world.seed).fork(
+-    `${PLACE_OUTCOMES_VERSION}:drift:${measure}:${month}`,
+-  );
+-  const sd = drift.monthlySdLogit;
+-  const national =
+-    standardNormal(rng.fork("national")) * sd * Math.sqrt(drift.nationalShare);
+-  const wave =
+-    rng.fork("wave").next() < drift.waveMonthlyChance
+-      ? standardNormal(rng.fork("wave-size")) * drift.waveSdLogit
+-      : 0;
+-  return (placeKey) =>
+-    national +
+-    wave +
+-    standardNormal(rng.fork(`place:${placeKey}`)) *
+-      sd *
+-      Math.sqrt(1 - drift.nationalShare);
++/** No unexplained monthly move; saved laws and conditions act below. */
++function driftSteps(): (placeKey: string) => number {
++  return () => 0;
+ }
+ 
+ interface LocalPlace {
+@@ -139,7 +110,7 @@ export function localOutcomePlaces(
+ /**
+  * Each place outcome for every place with a base, for the month starting
+  * `month`. The place's underlying level carries on from its last record
+- * (the 2024 base in its first month) and drifts; nothing pulls it back to
++ * (the 2024 base in its first month); nothing pulls it back to
+  * the base. Laws and conditions then act on it through the outcome web's
+  * multiplier, and the links that moved it are kept. `measures` narrows the
+  * pass to some outcomes (a test of one measure over a century); play records
+@@ -148,7 +119,7 @@ export function localOutcomePlaces(
+  * A city or county keeping its own outcomes (`localOutcomePlaces`) gets its
+  * own record: its state's level, moved by the web as read in that place, so
+  * its own ordinances act there. PLACEHOLDER: a city starts at its state's
+- * level and shares its drift, until city-level bases are read. The state's
++ * level, until city-level bases are read. The state's
+  * record then weighs those places in by residents.
+  */
+ export function placeOutcomesForMonth(
+@@ -171,7 +142,7 @@ export function placeOutcomesForMonth(
+   for (const measure of measures) {
+     const definition = PLACE_OUTCOME_BASES[measure]!;
+     const drift = definition.drift ?? DEFAULT_PLACE_OUTCOME_DRIFT;
+-    const step = driftSteps(world, measure, month, drift);
++    const step = driftSteps();
+     for (const [placeKey, base] of Object.entries(definition.places)) {
+       const jurisdictionId = stateJurisdictionForKey(placeKey)?.id;
+       if (!jurisdictionId) continue;

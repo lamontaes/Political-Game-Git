@@ -1,0 +1,24 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx --no-install vitest run --config /tmp/audit-a63-candidate.config.mts src/simulation/macro-economy/monthly-innovations.test.ts src/simulation/outcome-web/place-outcomes-century.test.ts src/simulation/outcome-web/place-outcomes-century-f.test.ts
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+
+ Test Files  3 passed (3)
+      Tests  21 passed (21)
+   Start at  19:31:33
+   Duration  18.12s (transform 26.70s, setup 64ms, import 32.36s, tests 2.67s, environment 1ms)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
