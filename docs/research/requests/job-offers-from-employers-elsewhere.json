@@ -1,0 +1,26 @@
+{
+  "filedAt": "2026-10-01T23:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Lives: moves",
+  "notes": [
+    "Next A135 step, from CTO ruling 23(b), October 1, 2026, on #1630. Today a resident who looks for work outside town is answered by the state government seated in the state where their closest relative outside town lives, or else by their own state's government. Anyone who is not a professional is offered the job market's placeholder public-body clerk role (PUBLIC_BODY_ROLE_PLACEHOLDER), at clerk pay scaled by the two states' median household incomes. The code says so at src/simulation/migration/job-offers.ts, in reviewJobSearchElsewhere, marked HARDWIRED: the world records no employers outside town.",
+    "Ruling 23(b): offers from private employers elsewhere come from that place's recorded employers, the same real-employer data the town businesses use (local-business-counts.ts localBusinessSupplyFor, as wired into local-economy.ts by #1567 and #1596). The employer is produced only when an offer is needed, under the world-outside design of September 26: one organization for that place and kind, written through createOrganization with the place's own business supply as evidence, and kept for later offers instead of being written again.",
+    "Which kind of employer, and at what pay, follows the resident's own line of work. A recorded occupation is matched to the place's sectors in the business data. The pay is the place's own rate for that occupation where the data holds one; otherwise it is the resident's own pay scaled by the two states' median household incomes, as now, labeled ESTIMATED FROM AVERAGE.",
+    "The calibration under ruling 23(a) on this branch holds the total at about 1.5 to 2 percent of adults a year moving for an offer. Changing who answers should not move that total, and the test in job-offers.test.ts keeps checking it."
+  ],
+  "priority": "P1",
+  "question": "For a place outside the player's town, which recorded employers would hire a resident in their line of work, and at what pay, using the business counts and wage data the game already holds for every one of the 56 places?",
+  "questionId": "job-offers-from-employers-elsewhere",
+  "relatedQuestionIds": ["why-americans-move-causes-and-strengths"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5, LIVES slice step 4 (moves), from CTO ruling 23(b)",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/local-business-counts.ts and src/simulation/local-economy.ts (the recorded-employer data the town businesses are built from)",
+      "whatItDidNotSettle": "It builds the employers of the player's own town. Nothing yet builds one employer in another place on demand, or matches a resident's occupation to that place's sectors and pay."
+    }
+  ],
+  "title": "Job offers from a place's own recorded employers, not a placeholder clerk job",
+  "usableAnswer": "For each occupation group the game records, the business sectors that hire it and the place's pay for it, read from the business and wage data the game already has for all 56 places, with an ESTIMATED FROM AVERAGE fallback wherever a place's data is missing.",
+  "whyItMatters": "A resident who moves for work should go to a real kind of employer in a real place, at that place's pay, so that what they earn there, and what they send or spend, follows from the record."
+}

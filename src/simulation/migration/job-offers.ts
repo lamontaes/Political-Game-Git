@@ -35,7 +35,12 @@
  * whoever stays turns it down.
  *
  * Every weight below is a PLACEHOLDER (research:
- * why-americans-move-causes-and-strengths).
+ * why-americans-move-causes-and-strengths), calibrated as a whole against one
+ * total (CTO ruling 23): about 1.5 to 2 percent of adults a year move for a
+ * job offer. A new job or job transfer is 13.2 percent of movers' reasons in
+ * the Census Bureau's CPS ASEC 2023 ("Why People Move"), about a fifth of
+ * moves with the other work reasons, at a mover rate near 8 to 10 percent.
+ * The total checks the drawn places together; it decides nobody.
  */
 
 import householdIncome from "../../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
@@ -84,6 +89,8 @@ export const UNRESEARCHED_JOB_SEARCH = {
   outOfWorkFullDays: 180,
   /** Part-time hours only, below this many a week. */
   partTimeHours: 30,
+  /** The hours a week a full-time wage is read at. */
+  fullTimeHours: 40,
   partTime: 0.5,
   /** Steady full-time work holds them this much, more as it pays more. */
   steadyWork: 0.5,
@@ -97,10 +104,15 @@ export const UNRESEARCHED_JOB_SEARCH = {
   profession: 0.25,
   /** Each step of their taste for risk, from -2 to 2. */
   riskPerStep: 0.25,
-  /** The offer as a cause to leave: its strength with no raise in pay. */
-  offerBase: 0.5,
+  /**
+   * The offer as a cause to leave: its strength with no raise in pay. Lowered
+   * from 0.5 with `settledConfidence` (CTO ruling 23) so that about 1.5 to 2
+   * percent of adults move for an offer in a year.
+   */
+  offerBase: 0.25,
   /** What holds everyone to the place they live, before anything else. */
   settled: 0.75,
+  settledConfidence: "high",
 } as const;
 
 const S = UNRESEARCHED_JOB_SEARCH;
@@ -185,8 +197,11 @@ interface WorkFacts {
   readonly title: string | null;
   readonly occupation: OccupationClassification | null;
   readonly hours: { minimumHours: number; maximumHours: number } | null;
-  /** Their recorded pay a month, in cents; 0 with none. */
-  readonly monthlyPay: number;
+  /**
+   * Their recorded pay a month, in cents: 0 out of work, null when they work
+   * but their pay is not on record (unknown is not zero).
+   */
+  readonly monthlyPay: number | null;
   readonly working: boolean;
   /** The day a lost job ended, when they have lost one and found none. */
   readonly lostOn: IsoDate | null;
@@ -211,7 +226,7 @@ function workFacts(
       title: main.role.title,
       occupation: main.role.occupationClassification,
       hours: main.role.timeDemand.expectedWeekly,
-      monthlyPay: pay.get(personId) ?? 0,
+      monthlyPay: pay.get(personId) ?? null,
       working: true,
       lostOn: null,
     };
@@ -273,6 +288,7 @@ export function decideToSearchElsewhere(
     option: string,
     strength: number,
     explanation: string,
+    confidence: "medium" | "high" = "medium",
   ) => {
     const size = importance(strength);
     if (!size) return;
@@ -282,7 +298,7 @@ export function decideToSearchElsewhere(
       sourceType: `context:${key}`,
       direction: "supports",
       importance: size,
-      confidence: "medium",
+      confidence,
       explanation,
       sourceRefs: [],
     });
@@ -308,8 +324,13 @@ export function decideToSearchElsewhere(
       S.partTime,
       "They want more hours than their work gives them.",
     );
-  if (facts.working && townMedianPay) {
-    const share = facts.monthlyPay / townMedianPay;
+  if (facts.working && townMedianPay && facts.monthlyPay !== null) {
+    // Their pay at full-time hours, so short hours are read once, above,
+    // and not again as low pay.
+    const hours = facts.hours?.maximumHours ?? S.fullTimeHours;
+    const share =
+      (facts.monthlyPay * Math.max(1, S.fullTimeHours / Math.max(1, hours))) /
+      townMedianPay;
     add(
       "low-pay",
       SEARCH_OPTIONS.elsewhere,
@@ -325,7 +346,16 @@ export function decideToSearchElsewhere(
       );
   }
   // Most people never look beyond where they live: the life they have here.
-  add("settled", SEARCH_OPTIONS.home, S.settled, "Their life is here.");
+  // The life they have is a fact, not a guess about somewhere else, so it is
+  // weighed with more certainty than anything pulling them away (CTO ruling
+  // 23 calibration; see the check in `job-offers.test.ts`).
+  add(
+    "settled",
+    SEARCH_OPTIONS.home,
+    S.settled,
+    "Their life is here.",
+    S.settledConfidence,
+  );
   const age = ageOnDate(world.people[personId]!.birthDate, today);
   add(
     "early-career",
@@ -451,7 +481,7 @@ export function reviewJobSearchElsewhere(
             title: facts.title,
             occupation: facts.occupation,
             hours: facts.hours ?? { minimumHours: 37, maximumHours: 40 },
-            annualMinor: Math.round(facts.monthlyPay * 12 * ratio),
+            annualMinor: Math.round((facts.monthlyPay ?? 0) * 12 * ratio),
           }
         : null;
     const known = role && role.annualMinor > 0;
