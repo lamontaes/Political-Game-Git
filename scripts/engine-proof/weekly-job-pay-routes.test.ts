@@ -117,6 +117,8 @@ function jobContract(
     initialRole: f.role,
   });
   const work = world.history.workRelationships.at(-1)!;
+  if (initialStatus === "expected")
+    world = advanceWorld(world, daysBetween(world.currentDate, startsAt));
   world = createWorkCompensation(world, {
     stableKey: `job-pay:${work.id}`,
     workRelationshipId: work.id,
@@ -182,7 +184,7 @@ describe("A8 saved weekly jobs on the ordinary clock", () => {
     );
     expect(ensureSavedWeeklyJobPayCalendar(f.world)).toBe(f.world);
     expect(jobItems(f.world, f.flow.id)).toHaveLength(0);
-    const ready = advanceWorld(f.world, 1);
+    const ready = f.world;
     const active = recordWorkStatus(ready, {
       stableKey: "a8:activate",
       workRelationshipId: f.work.id,
