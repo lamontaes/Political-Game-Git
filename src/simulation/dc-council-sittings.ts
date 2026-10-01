@@ -235,6 +235,6 @@ export function dcCouncilSittingHandler(
   };
 }
 
-export const DC_COUNCIL_SITTING_HANDLERS = [
-  [DC_COUNCIL_SITTING, dcCouncilSittingHandler],
-] as const;
+export function dcCouncilSittingHandlers() {
+  return [[DC_COUNCIL_SITTING, dcCouncilSittingHandler]] as const;
+}

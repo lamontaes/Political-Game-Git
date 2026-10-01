@@ -6,7 +6,7 @@ import {
 import type { NewGameSetup } from "../presentation/new-game";
 import {
   enterLifePath,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
   performLifePathSession,
   scheduleLifePathSession,
 } from "./life-paths2";
@@ -80,7 +80,7 @@ function workOneShift(world: World): World {
   const activityId = scheduled.world.history.scheduledActivities.at(-1)!.id;
   const worked = performLifePathSession(scheduled.world, activityId);
   expect(worked.ok, worked.message).toBe(true);
-  return advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+  return advanceWorld(worked.world, 1, lifePaths2Handlers());
 }
 
 describe("a paycheck under a state's new income tax or paid leave law", () => {

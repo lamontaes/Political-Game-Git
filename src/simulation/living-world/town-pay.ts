@@ -554,9 +554,9 @@ export function paydayHandler(
   };
 }
 
-export const PAYDAY_HANDLERS = [
-  [PAYDAY_TRANSITION_KEY, paydayHandler],
-] as const;
+export function paydayHandlers() {
+  return [[PAYDAY_TRANSITION_KEY, paydayHandler]] as const;
+}
 
 // ─── Pay on record ──────────────────────────────────────────────────────
 

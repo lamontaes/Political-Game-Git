@@ -20,7 +20,7 @@ import {
   electedExecutiveTermForRelationship,
 } from "../executive-work-context";
 import {
-  EXECUTIVE_TERM_HANDLERS,
+  executiveTermHandlers,
   planElectedExecutiveOfficeTerm,
   recordElectedExecutiveQualification,
   electedExecutiveTermTransitionHandler,
@@ -432,7 +432,7 @@ for (const state of states)
       const entered = resolveFutureDueItemsThrough(
         afterOldTerm(qualified, setup.term.startsAt),
         setup.term.startsAt,
-        EXECUTIVE_TERM_HANDLERS,
+        executiveTermHandlers(),
       );
       expect(clemencyPetitionStatus(entered, petitionId)).toBe("denied");
       const opening = entered.history.futureDueItems.find(
@@ -558,7 +558,7 @@ for (const state of states)
       const entered = resolveFutureDueItemsThrough(
         afterOldTerm(qualified, setup.term.startsAt),
         setup.term.startsAt,
-        EXECUTIVE_TERM_HANDLERS,
+        executiveTermHandlers(),
       );
       expect(workStatusAt(entered, setup.term.relationship.id)?.status).toBe(
         "active",

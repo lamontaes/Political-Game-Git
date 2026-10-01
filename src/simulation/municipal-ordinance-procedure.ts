@@ -1329,11 +1329,13 @@ export function councilActOverrideDeadlineHandler(
   );
 }
 
-export const COUNCIL_ACT_HANDLERS = [
-  [COUNCIL_READING_DUE, councilReadingDueHandler],
-  [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
-  [COUNCIL_ACT_OVERRIDE_DEADLINE, councilActOverrideDeadlineHandler],
-] as const;
+export function councilActHandlers() {
+  return [
+    [COUNCIL_READING_DUE, councilReadingDueHandler],
+    [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
+    [COUNCIL_ACT_OVERRIDE_DEADLINE, councilActOverrideDeadlineHandler],
+  ] as const;
+}
 
 // ---------------------------------------------------------------------------
 // rules-municipal-authority/v1 — what a council action needs
