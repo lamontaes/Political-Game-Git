@@ -27,7 +27,7 @@ import {
   lifePathEntryReason,
   pathForRelationship,
   enterLifePath,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "../simulation/life-paths2";
 import { completedStudyPeriods } from "../simulation/education-study-progression";
 import type { EducationInstitution } from "./types";
@@ -124,7 +124,7 @@ describe("EDU canonical LIFE composition", () => {
     w = advanceWorld(
       deserializeWorld(serializeWorld(w)),
       3,
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
     );
     const accepted = respondToEducationOffer(w, first.id, true, {
       tuitionGraceDays: 45,
@@ -155,12 +155,12 @@ describe("EDU canonical LIFE composition", () => {
     expect(respondToEducationOffer(w, offer.id, true).ok).toBe(false);
     w = deserializeWorld(serializeWorld(w));
     expect(pathForRelationship(w, e.id)?.periodCostMinor).toBe(20000);
-    w = advanceWorld(w, 30, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 30, lifePaths2Handlers());
     expect(completedStudyPeriods(w, e.id)).toBe(0);
     w = changeLifePathStatus(w, e.id, "pause").world;
     w = deserializeWorld(serializeWorld(w));
     w = changeLifePathStatus(w, e.id, "return").world;
-    w = advanceWorld(w, 49, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 49, lifePaths2Handlers());
     expect(completedStudyPeriods(w, e.id)).toBe(1);
     expect(educationEnrollmentStateAt(w, e.id)?.status).toBe("completed");
     expect(hasLifePathCredential(w, e.personId, e.programKind)).toBe(true);
@@ -183,7 +183,7 @@ describe("EDU canonical LIFE composition", () => {
     const e = w.history.educationEnrollments.at(-1)!;
     expect(e.startedAt >= "2040-01-09").toBe(true);
     w = deserializeWorld(serializeWorld(w));
-    w = advanceWorld(w, 79, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 79, lifePaths2Handlers());
     expect(completedStudyPeriods(w, e.id)).toBe(1);
     expect(educationEnrollmentStateAt(w, e.id)?.status).toBe("completed");
     expect(hasLifePathCredential(w, e.personId, e.programKind)).toBe(true);
@@ -281,7 +281,7 @@ describe("saved accepted terms controls", () => {
       ...saved,
       history: { ...saved.history, evidenceArtifacts: artifacts },
     };
-    const after = advanceWorld(unsupported, 60, LIFE_PATHS2_HANDLERS);
+    const after = advanceWorld(unsupported, 60, lifePaths2Handlers());
     expect(completedStudyPeriods(after, enrollment.id)).toBe(0);
     expect(
       hasLifePathCredential(after, enrollment.personId, enrollment.programKind),
@@ -382,7 +382,7 @@ describe("applying for a degree at a real college", () => {
     const decided = advanceWorld(
       applied.world,
       ADMISSION_DECISION_DAYS,
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
     );
     const offer = pendingEducationOffers(decided)[0]!;
     const accepted = respondToEducationOffer(decided, offer.id, true);
@@ -433,7 +433,7 @@ describe("applying for a degree at a real college", () => {
       },
     );
     w = applyForEducation(richer, college, "LEVEL5").world;
-    w = advanceWorld(w, ADMISSION_DECISION_DAYS, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, ADMISSION_DECISION_DAYS, lifePaths2Handlers());
     w = respondToEducationOffer(
       w,
       pendingEducationOffers(w)[0]!.id,
@@ -447,7 +447,7 @@ describe("applying for a degree at a real college", () => {
         86_400_000,
     );
     expect(untilClasses).toBeGreaterThan(0);
-    w = advanceWorld(w, untilClasses + 4 * 2 * 182 + 60, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, untilClasses + 4 * 2 * 182 + 60, lifePaths2Handlers());
     expect(educationEnrollmentStateAt(w, enrollmentId)?.status).toBe(
       "completed",
     );
@@ -477,7 +477,7 @@ describe("applying for a degree at a real college", () => {
     expect(waiting.ok).toBe(false);
     expect(waiting.world).toBe(w);
     // ...and once it has, while the offer waits for an answer.
-    w = advanceWorld(w, ADMISSION_DECISION_DAYS, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, ADMISSION_DECISION_DAYS, lifePaths2Handlers());
     expect(pendingEducationOffers(w)).toHaveLength(1);
     expect(educationOptionReason(w, college, capability("LEVEL5"))).toBe(
       "You already have an offer for this program. You can accept or decline it below.",
@@ -502,7 +502,7 @@ describe("applying for a degree at a real college", () => {
       educationEnrollmentStateAt(w, enrollment.id)?.status !== "active";
       month++
     )
-      w = advanceWorld(w, 30, LIFE_PATHS2_HANDLERS);
+      w = advanceWorld(w, 30, lifePaths2Handlers());
     expect(educationEnrollmentStateAt(w, enrollment.id)?.status).toBe("active");
     expect(applyForEducation(w, college, "LEVEL5").ok).toBe(false);
     w = changeLifePathStatus(w, enrollment.id, "pause").world;

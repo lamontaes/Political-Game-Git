@@ -18,13 +18,23 @@
  * The single-move public writer `relocateHousehold` asserts once itself.
  */
 
-import { appendChildhoodEntry } from "../childhood-record";
+import {
+  appendChildhoodEntry,
+  childhoodRecordEntries,
+} from "../childhood-record";
+import { scheduleLivedOutcomeReflection } from "../law-exposure";
+import { parentsOf } from "../people-family";
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
 // Not `school-stages.ts`: importing it from here makes the module loader
 // enter the stage handlers before the campaign clock's registries read them.
 import { schoolGradeOn, schoolTermOn } from "../school-calendar";
-import { attendingSchool, leaveSchoolOnMove } from "../school-moves";
+import {
+  attendingSchool,
+  holdsSchoolPlace,
+  leaveSchoolOnMove,
+  startSchoolAfterMove,
+} from "../school-moves";
 import {
   buildHouseholdLocationRecord,
   recordOrganizationParticipationState,
@@ -60,6 +70,7 @@ import {
   dwellingOccupancyStateHistory,
   housingTenureStateHistory,
 } from "../resource-queries";
+import { peopleTiedTo, tellPeopleOf } from "../neighbor-news";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
   MIGRATION_CONTRACT_VERSION,
@@ -498,6 +509,8 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   const toName = world.jurisdictions[move.toJurisdictionId]!.name;
   const fromName = world.jurisdictions[move.fromJurisdictionId]!.name;
   const eventStableKey = `migration:moved:${move.stableKey}`;
+  // Who hears of the move is read before it changes where anybody lives.
+  const tied = peopleTiedTo(world, move.personIds);
   let next = recordWorldEvent(world, {
     stableKey: eventStableKey,
     type: MIGRATION_MOVED_EVENT,
@@ -544,14 +557,23 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   const event = next.history.events.at(-1)!;
   if (event.stableKey !== eventStableKey)
     throw new Error("The move event was not the last event written.");
+  // The movers know; so do the people tied to them by a record, told by the
+  // first of them. Somebody with no recorded tie hears nothing.
+  next = tellPeopleOf(next, event.id, {
+    tied,
+    direct: move.personIds,
+    teller: move.personIds[0]!,
+  });
 
   // A pupil's childhood record notes a move that lands while school is in
   // session, and the school they leave reads it.
   const term = schoolTermOn(date);
+  const pupils: EntityId[] = [];
   for (const personId of move.personIds) {
     const grade = schoolGradeOn(next, personId, date);
     const child = ageOnDate(next.people[personId]!.birthDate, date) < 18;
-    if (term && child && grade !== null && attendingSchool(next, personId))
+    if (child && holdsSchoolPlace(next, personId)) pupils.push(personId);
+    if (term && child && grade !== null && attendingSchool(next, personId)) {
       next = appendChildhoodEntry(next, {
         kind: "school-year-move",
         stableKey: `${eventStableKey}:childhood:${personId}`,
@@ -563,6 +585,16 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
         schoolYear: term.schoolYear,
         grade,
       });
+      // Each grown parent who moved with the child thinks over the school
+      // the child had to leave (living-world/lived-outcomes.ts).
+      const entryId = childhoodRecordEntries(next).at(-1)!.id;
+      for (const parentId of parentsOf(next, personId))
+        if (
+          move.personIds.includes(parentId) &&
+          ageOnDate(next.people[parentId]!.birthDate, date) >= 18
+        )
+          next = scheduleLivedOutcomeReflection(next, parentId, entryId);
+    }
     next = leaveSchoolOnMove(next, personId, event.id, date);
   }
 
@@ -679,6 +711,16 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       },
     };
   }
+  // Each pupil who left a school starts at one in the new place, or the
+  // childhood record says the place holds none for their grade.
+  for (const personId of pupils)
+    next = startSchoolAfterMove(
+      next,
+      personId,
+      event.id,
+      move.toJurisdictionId,
+      date,
+    );
   return next;
 }
 

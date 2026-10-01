@@ -12,7 +12,7 @@ import {
   enterLifePath,
   performLifePathSession,
   scheduleLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "./life-paths2";
 import {
   residenceStateKey,
@@ -60,7 +60,7 @@ function workOneShift(world: World): World {
   const activityId = scheduled.world.history.scheduledActivities.at(-1)!.id;
   const worked = performLifePathSession(scheduled.world, activityId);
   expect(worked.ok, worked.message).toBe(true);
-  return advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+  return advanceWorld(worked.world, 1, lifePaths2Handlers());
 }
 
 describe("a paycheck in Ely, Nevada", () => {
@@ -153,7 +153,7 @@ describe("a paycheck in Ely, Nevada", () => {
     expect(reloaded.history.statutoryTaxPayments).toEqual(
       paid.history.statutoryTaxPayments,
     );
-    const later = advanceWorld(reloaded, 7, LIFE_PATHS2_HANDLERS);
+    const later = advanceWorld(reloaded, 7, lifePaths2Handlers());
     expect(later.history.statutoryTaxLiabilities).toHaveLength(rows.length);
     expect(cash(later, start.personId)).toBeLessThanOrEqual(7_200 - 651);
   });

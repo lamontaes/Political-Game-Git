@@ -10,6 +10,7 @@ import {
 import { personName } from "./people";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordEventKnowledge } from "./records";
+import { relationshipHistory } from "./queries";
 import { readRelationshipStanding } from "./relationship-standing";
 import { recordWorldEvent } from "./world";
 import type {
@@ -91,18 +92,20 @@ export function familyAndFriendsNearby(
       ids.add(kinship.personIds.find((id) => id !== speakerId)!);
   for (const partnership of activePartnershipsAt(world, speakerId))
     for (const id of partnership.personIds) if (id !== speakerId) ids.add(id);
-  for (const interaction of world.history.relationshipInteractions)
-    if (interaction.personIds.includes(speakerId)) {
-      const other = interaction.personIds.find((id) => id !== speakerId);
-      if (!other || ids.has(other)) continue;
-      const warmth = readRelationshipStanding(world, other, speakerId).readings
-        .warmth;
-      if (
-        !warmth.adverse &&
-        (warmth.band === "marked" || warmth.band === "strong")
-      )
-        ids.add(other);
-    }
+  const reviewed = new Set<EntityId>();
+  // The speaker's own interactions, from the per-person grouping.
+  for (const interaction of relationshipHistory(world, speakerId)) {
+    const other = interaction.personIds.find((id) => id !== speakerId);
+    if (!other || ids.has(other) || reviewed.has(other)) continue;
+    reviewed.add(other);
+    const warmth = readRelationshipStanding(world, other, speakerId).readings
+      .warmth;
+    if (
+      !warmth.adverse &&
+      (warmth.band === "marked" || warmth.band === "strong")
+    )
+      ids.add(other);
+  }
   return [...ids].filter((id) => world.people[id]?.homeJurisdictionId === home);
 }
 

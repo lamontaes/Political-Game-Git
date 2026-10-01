@@ -1,5 +1,4 @@
 import { hasLifePathCredential } from "../life-paths2";
-import { recordWorkStatus } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import {
   lifePlaceByJurisdictionId,
@@ -19,7 +18,10 @@ import {
   townResidents,
 } from "../living-world/town-employment";
 import type { Resident } from "../living-world/town-employment";
-import { TOWN_JOB_END_REASONS } from "../living-world/town-labor-market";
+import {
+  recordTownJobLoss,
+  TOWN_JOB_END_REASONS,
+} from "../living-world/town-labor-market";
 import type { TownJob } from "../living-world/town-labor-market";
 import { CRUNCH46_PROVISIONAL_POLICY } from "../macro-economy/policy";
 import { nominalEconomyIndex } from "./fiscal";
@@ -303,7 +305,7 @@ function layOff(
     });
   let next = world;
   for (const job of newestFirst.slice(0, staff.length - funded))
-    next = recordWorkStatus(next, {
+    next = recordTownJobLoss(next, {
       stableKey: `${key}:end:${job.relationshipId}`,
       workRelationshipId: job.relationshipId,
       effectiveAt: world.currentDate,

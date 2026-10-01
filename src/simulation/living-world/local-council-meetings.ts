@@ -688,6 +688,6 @@ export function localCouncilMeetingHandler(
   return done(next, `The ${identity.bodyName} met.`);
 }
 
-export const LOCAL_COUNCIL_MEETING_HANDLERS = [
-  [LOCAL_COUNCIL_MEETING, localCouncilMeetingHandler],
-] as const;
+export function localCouncilMeetingHandlers() {
+  return [[LOCAL_COUNCIL_MEETING, localCouncilMeetingHandler]] as const;
+}
