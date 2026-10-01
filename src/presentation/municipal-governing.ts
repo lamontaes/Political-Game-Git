@@ -37,12 +37,13 @@ import {
   memberBallotOn,
   recordMemberBallot,
 } from "../simulation/governing/member-ballots";
-import { nextDcCouncilDesignation } from "../simulation/dc-council-sittings";
+import type { MeasureDesignationInput } from "../simulation/measure-numbering";
 import { scheduledActivityState } from "../simulation/time-work";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import type {
   EntityId,
   LegislativeMemberDisposition,
+  LegislativeMeasureNumberingSession,
   LegislativeVoteDisposition,
   World,
 } from "../simulation/types";
@@ -286,12 +287,14 @@ export function introduceProjectedOrdinance(
   governmentKey: string,
   designation: string,
   shortTitle?: string,
+  numberingSession?: LegislativeMeasureNumberingSession,
 ) {
   const title = shortTitle?.trim() || designation;
   const noun = councilMeasureNoun(governmentKey);
   return introduceMunicipalOrdinance(world, {
     governmentKey,
     designation,
+    ...(numberingSession ? { numberingSession } : {}),
     shortTitle: title,
     summary: `${noun === "act" ? "An act" : "A general ordinance"} a councilor introduced: ${title}.`,
   });
@@ -353,22 +356,25 @@ export function takeProjectedOverrideVote(
   });
 }
 
-/** The next unused designation for a councilor's ordinance this year. */
-export function nextOrdinanceDesignation(
+/** Resolve the actual council context for the shared measure-numbering reader. */
+export function municipalMeasureNumberingInput(
   world: World,
   governmentKey: string,
-): string {
-  if (councilMeasureNoun(governmentKey) === "act")
-    return nextDcCouncilDesignation(world);
-  const year = world.currentDate.slice(2, 4);
-  const taken = new Set(
-    municipalOrdinanceStatuses(world, governmentKey).map(
-      (status) => status.designation,
-    ),
+): MeasureDesignationInput | null {
+  const government = municipalGovernmentByKey(governmentKey);
+  if (!government) return null;
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) return null;
+  const jurisdictionId = municipalGovernmentJurisdictionId(
+    world,
+    governmentKey,
   );
-  let number = 1;
-  while (taken.has(`Ord. ${year}-${number}`)) number += 1;
-  return `Ord. ${year}-${number}`;
+  const originChamber = rules.pack.chambers.find(
+    (chamber) => chamber.chamberKey === "council",
+  );
+  if (!jurisdictionId || !world.jurisdictions[jurisdictionId] || !originChamber)
+    return null;
+  return { jurisdictionId, originChamber, rulePackId: rules.pack.packId };
 }
 
 export function placeProjectedOrdinanceOnAgenda(

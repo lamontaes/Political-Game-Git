@@ -3189,6 +3189,86 @@
       "aboutZero": false
     },
     {
+      "key": "universal-prek-to-reading-proficiency",
+      "from": "law:us-policy-positions:education.universal-preschool",
+      "to": "school.reading-proficient-pct",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.02,
+      "range": [-0.15, 0.1],
+      "per": "law in force",
+      "lagMonths": 117,
+      "group": "children who enrolled, as eighth graders",
+      "owner": "M",
+      "evidence": "contested",
+      "anchor": "The studies disagree. Boston's lottery found no reading effect from third grade through tenth (+0.005 standard deviations, ruling out more than +0.12). Georgia and Oklahoma's statewide programs left eighth-grade reading about where it was: +0.8 NAEP points for lower-income children, -0.8 for the rest. Tennessee's randomized program left sixth graders 0.13 standard deviations behind in English. At the 2024 national base near 29% proficient, 0.1 standard deviation is about 12% of the rate, so the range runs from Tennessee (-15%, its offered-versus-not-offered gap) to Boston's upper bound with about 70% enrolled (+10%), centered just below zero. Abecedarian's large adult reading gain (+0.79 standard deviations) came from full-day care from infancy plus school-age help for about 100 children, not a pre-K year, so it is left out of the range.",
+      "source": "Gray-Lobe, Pathak and Walters 2023 (QJE), Table 6; Cascio and Schanzenbach 2013 (Brookings Papers), Table 7; Durkin, Lipsey, Farran and Wiesen 2022 (Developmental Psychology); Campbell et al. 2002 (Abecedarian); Camilli, Vargas, Ryan and Barnett 2010 meta-analysis (NIEER)",
+      "why": [
+        "A child attends preschool with a particular curriculum and instructional quality.",
+        "That exposure changes early language and literacy experiences only for the attending child.",
+        "Later school instruction can build on, wash out or offset those early gains.",
+        "An eighth-grade reading assessment records the skills then acquired.",
+        "Bedrock is actual instruction and assessment; early gains that fade by middle school cannot become a universal positive score."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The program's quality and the later schools resemble settings where gains lasted, and enrolled children come from lower-income homes."
+        ],
+        "weakerWhen": [
+          "Quality is low, as in the Tennessee program, or children would have attended a comparable preschool anyway."
+        ],
+        "absentWhen": [
+          "There is no enrolled exposure, or the first enrolled cohort has not yet reached eighth grade."
+        ]
+      },
+      "reverseOnRepeal": "Repeal ends future offered places. It does not erase an assessment or reverse skills an enrolled cohort already learned.",
+      "who": "Enrolled preschool cohorts once they take the eighth-grade reading test; not current students who never had the program.",
+      "lagWhy": "A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months).",
+      "aboutZero": false
+    },
+    {
+      "key": "universal-prek-to-violent-crime",
+      "from": "law:us-policy-positions:education.universal-preschool",
+      "to": "crime.violent",
+      "strength": "weak",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.012,
+      "range": [-0.03, 0.005],
+      "per": "law in force",
+      "lagMonths": 168,
+      "group": "children who enrolled, as teenagers",
+      "owner": "M",
+      "evidence": "contested",
+      "anchor": "Behavior effects differ by program. Perry Preschool cut violent-crime arrests by age 40 by a third (32% vs. 48%), and Chicago's Child-Parent Centers cut violent juvenile arrests 41% (9.0% vs. 15.3%), both for low-income children. Boston's universal program cut high-school suspensions 36% (0.06 off 0.166) and juvenile incarceration by 0.8 points, a large share of a rare event. Tennessee's program left sixth graders with more discipline problems (0.09 standard deviations more offenses). People under 18 made about 9.8% of violent-crime arrests in 2019. A third fewer offenses among the 70% of teenagers who enrolled moves a state's violent crime about -2.3%. Effects are smaller for better-off children, so the center is about half that; Tennessee sets the top of the range.",
+      "source": "Schweinhart et al. 2005 (Perry Preschool at 40); Reynolds et al. 2001 (JAMA); Gray-Lobe, Pathak and Walters 2023 (QJE), Table 7; Durkin, Lipsey, Farran and Wiesen 2022 (Developmental Psychology); FBI Crime in the United States 2019, arrests by age",
+      "why": [
+        "A child attends preschool where teachers practice self-control, turn-taking and classroom routines.",
+        "Those habits can change how the child behaves in school and how often adults discipline the child.",
+        "Fewer suspensions and closer ties to school can keep a teenager away from fights and robberies.",
+        "Only offenses the teenager actually commits and police record reach the crime count.",
+        "Bedrock is a particular teenager's conduct and a recorded offense; the program does not stop a crime by itself."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "Enrolled children come from low-income homes and the program has the quality of the Perry, Chicago or Boston programs."
+        ],
+        "weakerWhen": [
+          "Most enrolled children would have attended another preschool, or the program resembles Tennessee's."
+        ],
+        "absentWhen": [
+          "The first enrolled cohort has not reached its teens, or no child enrolled."
+        ]
+      },
+      "reverseOnRepeal": "Repeal ends future offered places. Teenagers who already attended keep whatever habits they formed; later cohorts lose the program.",
+      "who": "Enrolled preschool cohorts once they reach ages 14 to 17; adults and earlier cohorts are untouched.",
+      "lagWhy": "The first enrolled four-year-olds turn 18 fourteen years later (168 months), when every juvenile age group has had the program.",
+      "aboutZero": false
+    },
+    {
       "key": "equalized-funding-to-math-proficiency",
       "strength": "moderate",
       "shape": {

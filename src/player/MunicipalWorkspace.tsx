@@ -24,9 +24,10 @@ import {
 } from "../simulation/municipal-public-work";
 import { scheduledActivityState } from "../simulation/time-work";
 import { measureActions } from "../simulation/legislation";
+import { nextMeasureNumbering } from "../simulation/measure-numbering";
 import {
   introduceProjectedOrdinance,
-  nextOrdinanceDesignation,
+  municipalMeasureNumberingInput,
   placeProjectedOrdinanceOnAgenda,
   previewAuthoredCouncilBallots,
   saveProjectedOrdinanceBallot,
@@ -388,15 +389,22 @@ export function MunicipalWorkspace({
                     event.preventDefault();
                     const title = ordinanceTitle.trim();
                     if (!title) return;
+                    const numberingInput = municipalMeasureNumberingInput(
+                      world,
+                      governing.governmentKey,
+                    );
+                    if (!numberingInput) return;
+                    const numbering = nextMeasureNumbering(
+                      world,
+                      numberingInput,
+                    );
                     act(
                       introduceProjectedOrdinance(
                         world,
                         governing.governmentKey,
-                        nextOrdinanceDesignation(
-                          world,
-                          governing.governmentKey,
-                        ),
+                        numbering.designation,
                         title,
+                        numbering.numberingSession,
                       ),
                     );
                     setOrdinanceTitle("");
