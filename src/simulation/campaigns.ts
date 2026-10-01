@@ -59,6 +59,7 @@ import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
 import { createCrisisTransitionRegistry } from "./crisis";
+import { createClemencyTransitionRegistry } from "./justice/clemency-transitions";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -2195,6 +2196,8 @@ export function composeWorldTimeHandlers(
       createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
       createCrisisTransitionRegistry(),
+      // G12: a saved clemency petition comes due on its own court date.
+      createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
