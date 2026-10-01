@@ -17,7 +17,13 @@ import {
   type AmendableRuleField,
   type RuleChangeApplicability,
 } from "./enacted-rule-changes";
-import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  World,
+  WorkRelationship,
+  HistoricalCutoff,
+} from "./types";
 
 export { OFFICE_PAY_META };
 
@@ -189,8 +195,9 @@ const GOVERNOR_OCCUPATION = /^service:us-([a-z]{2})-governor$/;
 export function paidOfficeOf(
   world: World,
   work: WorkRelationship,
+  cutoff?: HistoricalCutoff,
 ): { readonly office: PaidOffice; readonly state: string } | null {
-  const role = workRoleAt(world, work.id);
+  const role = workRoleAt(world, work.id, cutoff);
   if (!role) return null;
   if (work.kind === "employment:congress-member")
     return { office: "member-of-congress", state: "US" };
@@ -237,12 +244,13 @@ export function publishedOfficePay(
 }
 
 /** The rule field a state's pay law sets for each office it can set. */
-const PAY_LAW_FIELD: Readonly<Partial<Record<PaidOffice, AmendableRuleField>>> =
-  {
-    governor: "pay.governor.annualDollars",
-    "state-legislator": "pay.stateLegislator.annualDollars",
-    "trial-court-judge": "pay.trialJudge.annualDollars",
-  };
+export const PAY_LAW_FIELD: Readonly<
+  Partial<Record<PaidOffice, AmendableRuleField>>
+> = {
+  governor: "pay.governor.annualDollars",
+  "state-legislator": "pay.stateLegislator.annualDollars",
+  "trial-court-judge": "pay.trialJudge.annualDollars",
+};
 
 /** What a state's pay law did to an office's salary, when one did. */
 export interface OfficePayLaw {
@@ -281,7 +289,10 @@ export function officePayInForce(
   work: WorkRelationship,
   onDate: IsoDate,
 ): OfficePayInForce | null {
-  const held = paidOfficeOf(world, work);
+  const held = paidOfficeOf(world, work, {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  });
   if (!held) return null;
   const stated = statePayFor(held.office, held.state);
   const estimate =

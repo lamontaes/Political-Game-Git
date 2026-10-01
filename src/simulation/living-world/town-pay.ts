@@ -5,6 +5,7 @@ import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
 import type { ResolvedLawPayConsequence } from "../law-consequence-types";
 import { createStableId } from "../ids";
+import { paidOfficeOf, PAY_LAW_FIELD } from "../office-pay";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
  *
@@ -48,6 +49,8 @@ import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   enactedRuleChanges,
+  enactedRuleChangeAt,
+  officePayLawOfficeKey,
   type EnactedRuleChange,
 } from "../enacted-rule-changes";
 import { countyGeoidsForPlace } from "../government-units";
@@ -64,7 +67,10 @@ import {
   workStatusAt,
   workRoleAt,
 } from "../life-queries";
-import { lifePlaceByJurisdictionId } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "../life-places";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   federalMinimumSchedule,
@@ -858,12 +864,12 @@ export function applyLawPayConsequence(
   const refuse = (capability: string): never => {
     throw new Error(`Law pay consequence requires capability: ${capability}`);
   };
-  if (resolved.action !== "raise-hourly-floor")
-    refuse("pay.raise-hourly-floor");
   if (!resolved.rowId.trim() || !resolved.activityId.trim())
     refuse("pay.row-and-activity-identity");
   if (
-    resolved.amount.unit !== "minor/hour" ||
+    (resolved.action === "raise-hourly-floor"
+      ? resolved.amount.unit !== "minor/hour"
+      : resolved.amount.unit !== "minor") ||
     resolved.amount.currency !== "USD"
   )
     refuse("pay.amount.minor-per-hour-USD");
@@ -871,24 +877,28 @@ export function applyLawPayConsequence(
     refuse("pay.amount.finite-nonnegative");
   const effectiveAt = makeIsoDate(resolved.effectiveAt);
   if (effectiveAt > world.currentDate) refuse("pay.activity.current-or-past");
-  const question = Object.values(world.policyCatalog.propositions).find(
-    (row) => row.stableKey === resolved.questionKey,
-  );
-  if (!question) refuse("pay.question.canonical");
-  const governing = lawInForce(
-    world,
-    resolved.jurisdictionId,
-    question!.id,
-    effectiveAt,
-  );
-  if (
-    !governing ||
-    governing.measureId !== resolved.law.measureId ||
-    governing.origin !== resolved.law.origin ||
-    governing.operativeAt !== resolved.law.operativeAt ||
-    governing.answer !== resolved.law.answer
-  )
-    refuse("pay.law.operative");
+  let governing: Parameters<typeof lawEffectStamp>[0] = null;
+  if (resolved.action === "raise-hourly-floor") {
+    const question = Object.values(world.policyCatalog.propositions).find(
+      (row) => row.stableKey === resolved.questionKey,
+    );
+    if (!question) refuse("pay.question.canonical");
+    const law = lawInForce(
+      world,
+      resolved.jurisdictionId,
+      question!.id,
+      effectiveAt,
+    );
+    if (
+      !law ||
+      law.measureId !== resolved.law.measureId ||
+      law.origin !== resolved.law.origin ||
+      law.operativeAt !== resolved.law.operativeAt ||
+      law.answer !== resolved.law.answer
+    )
+      refuse("pay.law.operative");
+    governing = law;
+  }
   const work = recordById(world.history.workRelationships, resolved.workId);
   const flow = recordById(world.history.resourceFlows, resolved.payFlowId);
   if (!world.people[resolved.personId] || work?.personId !== resolved.personId)
@@ -914,26 +924,98 @@ export function applyLawPayConsequence(
     workStatusAt(world, resolved.workId, cutoff)?.status !== "active"
   )
     refuse("pay.job.active-with-recorded-hours");
+  if (resolved.action === "set-annual-office-salary") {
+    const authority = resolved.authority;
+    const held = paidOfficeOf(world, work!, cutoff);
+    const clause = recordById(
+      world.history.ruleChangeProvisions ?? [],
+      authority.ruleChangeProvisionId,
+    );
+    const enactment = recordById(
+      world.history.legislativeEnactments ?? [],
+      authority.enactmentId,
+    );
+    const change = enactedRuleChangeAt(world, {
+      stateUsps: authority.stateUsps,
+      officeKey: authority.officeKey,
+      field: authority.field,
+      onDate: effectiveAt,
+    });
+    if (
+      authority.kind !== "enacted-office-rule" ||
+      !held ||
+      held.state !== authority.stateUsps ||
+      PAY_LAW_FIELD[held.office] !== authority.field ||
+      authority.officeKey !== officePayLawOfficeKey(held.state) ||
+      stateJurisdictionForKey(`US-${held.state}`)?.id !==
+        resolved.jurisdictionId ||
+      (resolved.activityId !== work!.id && resolved.activityId !== flow!.id) ||
+      !clause ||
+      clause.measureId !== authority.measureId ||
+      clause.stateUsps !== held.state ||
+      clause.officeKey !== authority.officeKey ||
+      clause.field !== authority.field ||
+      clause.filedAt > effectiveAt ||
+      !enactment ||
+      enactment.outcome !== "enacted" ||
+      enactment.measureId !== clause.measureId ||
+      enactment.resolvedAt > effectiveAt ||
+      !change ||
+      change.instrument !== "statute" ||
+      change.measureId !== clause.measureId ||
+      change.operativeAt !== authority.operativeAt ||
+      change.value !== clause.value ||
+      typeof change.value !== "number" ||
+      change.value * 100 !== resolved.amount.value ||
+      change.applicability.appliesTo !== authority.applicability.appliesTo ||
+      change.applicability.countsPriorService !==
+        authority.applicability.countsPriorService ||
+      (change.applicability.appliesTo === "terms-beginning-after" &&
+        work!.startedAt < change.operativeAt) ||
+      !resolved.sourceRecordIds.includes(clause.id) ||
+      !resolved.sourceRecordIds.includes(enactment.id)
+    )
+      refuse("pay.office-rule.actual-operative-binding");
+    governing = {
+      measureId: change!.measureId,
+      origin: "enacted",
+      operativeAt: change!.operativeAt,
+    };
+  }
+  if (!governing) refuse("pay.law.operative");
   const current = resourceFlowTermsAt(world, flow!.id);
   if (!current || current.status !== "active") refuse("pay.flow.active-terms");
   if (current!.amount.currency !== resolved.amount.currency)
     refuse("pay.flow.currency-matches-amount");
   const note = payNoteOf(current!.cadenceKind);
-  if (!note) refuse("pay.cadence.town-pay-period");
+  const jobWeekly = current!.cadenceKind === "schedule:weekly";
+  if (!note && !jobWeekly) refuse("pay.cadence.recorded-pay-period");
   const weeklyHours = weeklyHoursOf(role!);
-  if (!Number.isFinite(weeklyHours) || weeklyHours <= 0)
+  if (
+    resolved.action === "raise-hourly-floor" &&
+    (!Number.isFinite(weeklyHours) || weeklyHours <= 0)
+  )
     refuse("pay.job.positive-recorded-hours");
   const amount = Math.round(
-    (resolved.amount.value * weeklyHours * 52) / PERIODS_PER_YEAR[note!.period],
+    (resolved.amount.value *
+      (resolved.action === "raise-hourly-floor" ? weeklyHours * 52 : 1)) /
+      (jobWeekly ? 52 : PERIODS_PER_YEAR[note!.period]),
   );
   if (!Number.isSafeInteger(amount)) refuse("pay.period.amount-safe-integer");
   // A floor cannot cut an existing contractual wage, including after repeal.
-  if (amount <= current!.amount.minorUnits) return world;
+  if (
+    resolved.action === "raise-hourly-floor"
+      ? amount <= current!.amount.minorUnits
+      : amount === current!.amount.minorUnits
+  )
+    return world;
   if (effectiveAt < current!.effectiveAt || effectiveAt < flow!.startsAt)
     refuse("pay.terms.prospective");
   if (
     effectiveAt !== flow!.startsAt &&
-    !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase)
+    !(jobWeekly
+      ? daysBetween(flow!.startsAt, effectiveAt) % 7 === 0
+      : payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase))
   )
     refuse("pay.period.starts-on-effective-date");
   if (
@@ -952,8 +1034,8 @@ export function applyLawPayConsequence(
   const revision = createStableId(
     "resource-flow-terms",
     `law-pay-revision:${JSON.stringify([
-      resolved.law.measureId,
-      resolved.law.operativeAt,
+      governing!.measureId,
+      governing!.operativeAt,
       [...new Set(resolved.sourceRecordIds)].sort(),
     ])}`,
   );
@@ -961,15 +1043,15 @@ export function applyLawPayConsequence(
   if (hasStableKey(world.history.resourceFlowTerms, stableKey))
     refuse("pay.revision.unique-amount");
   const enactment =
-    resolved.law.origin === "enacted"
+    governing!.origin === "enacted"
       ? recordsWithFieldValue(
           world.history.legislativeEnactments ?? [],
           "measureId",
-          resolved.law.measureId,
+          governing!.measureId,
         ).at(-1)
       : undefined;
   if (
-    resolved.law.origin === "enacted" &&
+    governing!.origin === "enacted" &&
     (!enactment || enactment.resolvedAt > effectiveAt)
   )
     refuse("pay.law.recorded-enactment");
@@ -985,8 +1067,18 @@ export function applyLawPayConsequence(
     ]),
   ];
   const stamp = lawEffectStamp(governing, {
-    effectKind: "law.pay-compensation",
-    questionKey: resolved.questionKey,
+    effectKind: "pay",
+    questionKey:
+      resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
+    ...(resolved.action === "set-annual-office-salary"
+      ? {
+          ruleAuthority: {
+            ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
+            enactmentId: resolved.authority.enactmentId,
+            field: resolved.authority.field,
+          },
+        }
+      : {}),
     jurisdictionId: resolved.jurisdictionId,
     appliedAt: effectiveAt,
     sourceRecordIds,
@@ -999,12 +1091,15 @@ export function applyLawPayConsequence(
     status: "active",
     amount: money(amount, current!.amount.currency),
     cadenceKind: current!.cadenceKind,
-    reason: `The operative law's pay floor applies through ${resolved.rowId}.`,
+    reason:
+      resolved.action === "raise-hourly-floor"
+        ? `The operative law's pay floor applies through ${resolved.rowId}.`
+        : `The operative office salary rule applies through ${resolved.rowId}.`,
     provenance: enactment
       ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
       : {
           kind: "authored",
-          note: `Starting law ${resolved.law.measureId}; resolved pay row ${resolved.rowId}.`,
+          note: `Starting law ${governing!.measureId}; resolved pay row ${resolved.rowId}.`,
         },
     supersedesTermsId: current!.id,
     lawEffectStamps: [stamp!],

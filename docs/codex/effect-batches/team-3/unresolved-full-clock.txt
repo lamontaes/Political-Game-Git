@@ -1,0 +1,62 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 1150000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:1150000","placeKey":"1150000","employerId":"organization_711f3dee42d6d47e","names":["Hannah Griffin","Andrew Ali"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+stdout | src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 2836000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:2836000","placeKey":"2836000","employerId":"organization_2ac7db1e6e501dfe","names":["Erin Woodruff","Megan Rogers"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ × src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 1150000, including ordered receipts, shortfalls and reload 73381ms
+   → Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+stdout | src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 5363000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:5363000","placeKey":"5363000","employerId":"organization_f5a43f9a6150db22","names":["James Fitzgerald","Michelle Walton"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ × src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 2836000, including ordered receipts, shortfalls and reload 72900ms
+   → Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+stdout | src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 2938000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:2938000","placeKey":"2938000","employerId":"organization_527ae17f7270c6be","names":["Alex Vincent","Tiffany Bowen"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ × src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 5363000, including ordered receipts, shortfalls and reload 74794ms
+   → Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+stdout | src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 3451000, including ordered receipts, shortfalls and reload
+{"seed":"pay-cash:3451000","placeKey":"3451000","employerId":"organization_9bfe8d810c6b4759","names":["Bo Burgess","Eric Witt"],"wageMinor":[4000,3000,2000,0],"cashMinor":0}
+
+ × src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 2938000, including ordered receipts, shortfalls and reload 79058ms
+   → Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ × src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 3451000, including ordered receipts, shortfalls and reload 78650ms
+   → Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ src/simulation/local-economy-wage.test.ts > what a local business pays its staff > is the published wage for the worker's occupation where the town is 98ms
+ ✓ src/simulation/local-economy-wage.test.ts > what a local business pays its staff > says so when no wage is published, and uses the marked placeholder 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 1150000, including ordered receipts, shortfalls and reload
+ FAIL  src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 2836000, including ordered receipts, shortfalls and reload
+ FAIL  src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 5363000, including ordered receipts, shortfalls and reload
+ FAIL  src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 2938000, including ordered receipts, shortfalls and reload
+ FAIL  src/simulation/local-economy-pay-cash.test.ts > pays actual staff from recorded employer cash in 3451000, including ordered receipts, shortfalls and reload
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/simulation/local-economy-pay-cash.test.ts:46:17
+     44| );
+     45|
+     46| it.each(sampled)(
+       |                 ^
+     47|   "pays actual staff from recorded employer cash in %s, including orde…
+     48|   (placeKey) => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  5 failed | 2 passed (7)
+   Start at  04:19:30
+   Duration  392.47s (transform 9.41s, setup 34ms, import 13.32s, tests 378.88s, environment 1ms)
+

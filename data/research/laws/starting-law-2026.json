@@ -2720,12 +2720,70 @@
         }
       }
     },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "source": "https://www.dol.gov/agencies/whd/minimum-wage/faq",
+      "note": "Federal statutory floor; stronger applicable state and local wage floors remain independently applicable.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "lawTerms": [
+            {
+              "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "key": "floor",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/faq",
+          "cite": "29 U.S.C. 206(a)(1)(C); Fair Minimum Wage Act of 2007",
+          "note": "Standard federal floor for covered nonexempt work. The categorical answer remains no because this question asks about raising the floor above the existing federal standard. Coverage and statutory exceptions require actual work facts; stronger applicable state or local floors remain in force."
+        }
+      }
+    },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
       "source": "data/research/money/minimum-wage-2026.json (U.S. Department of Labor, July 1, 2026): yes where the state's basic rate is above the federal $7.25.",
       "note": "",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://labor.alaska.gov/news/2025/news25-11.htm",
+          "cite": "Alaska Ballot Measure 1 (2024); Alaska Department of Labor release 25-11, June 11, 2025",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1300,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1500,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-AL": {
           "answer": "no"
@@ -2743,16 +2801,124 @@
           "answer": "yes"
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1550,
+              "unit": "minor/hour"
+            }
+          ],
+          "source": "https://www.dir.ca.gov/iwc/MW-2026.pdf",
+          "cite": "California Industrial Welfare Commission, General Minimum Wage Order MW-2026; Labor Code section 1182.12",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2024-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1600,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2025-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1650,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1690,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "note": "Standard statewide hourly floor. Higher industry and local floors and statutory exclusions require actual saved scope facts; this row does not determine them. No meals or lodging credit without the required actual agreement."
         },
         "US-CO": {
           "answer": "yes"
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://portal.ct.gov/dol/divisions/wage-and-workplace-standards",
+          "note": "Connecticut DOL identifies $16.94 effective January 1, 2026. Later announced phase is separately dated; earlier numeric terms remain unread.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1694,
+              "unit": "minor/hour"
+            }
+          ],
+          "before": {
+            "answer": "yes"
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "source": "https://portal.ct.gov/governor/news/press-releases/2026/08-2026/governor-lamont-announces-minimum-wage-will-increase",
+              "note": "Official August 5, 2026 notice announces $17.48 effective January 1, 2027. No later adjustment is inferred.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1748,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ]
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2025-07-01",
+          "source": "https://does.dc.gov/page/dc-worker-labor-and-anti-discrimination-rights",
+          "cite": "District of Columbia Department of Employment Services; July 1, 2025 minimum wage notice",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1795,
+              "unit": "minor/hour"
+            }
+          ],
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-07-01",
+              "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2026%20Minimum%20Wage%20Increase%20Notice.pdf",
+              "cite": "District of Columbia Department of Employment Services; July 1, 2026 minimum wage increase notice",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1840,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "note": "Standard total hourly floor. Tipped cash wage and tip-credit settlement are distinct; these terms do not establish worker coverage or recorded tips."
         },
         "US-DE": {
           "answer": "yes"
@@ -2767,7 +2933,69 @@
           "answer": "yes"
         },
         "US-HI": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2018-01-01",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1010,
+              "unit": "minor/hour"
+            }
+          ],
+          "source": "https://labor.hawaii.gov/wsd/minimum-wage/",
+          "cite": "Hawaii Department of Labor and Industrial Relations, Wage Standards Division, Minimum Wage and Overtime; HRS 387-2",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2022-10-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1200,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2024-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1400,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1600,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1800,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "note": "Standard total hourly floor. Conditional tip credit is separate and requires actual saved eligibility and tip records; no tip credit is inferred by this row."
         },
         "US-IA": {
           "answer": "no"
@@ -2806,7 +3034,19 @@
           "answer": "yes"
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.mo.gov/news/press-releases/minimum-wage-increases-1500-hour-2026",
+          "cite": "Missouri Department of Labor, November 3, 2025; HB 567 (2025)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1500,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard statutory hourly floor effective January 1, 2026. HB 567 ends annual CPI adjustment and includes previously exempt public employers. This numeric term does not itself establish worker coverage, exemptions or tipped cash obligations."
         },
         "US-MP": {
           "answer": "no"
@@ -2830,7 +3070,19 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "cite": "New Jersey Department of Labor, October 1, 2025; N.J. Const. art. I, paragraph 23 and N.J.A.C. 12:56-3.1(c)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1592,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Standard rate for most employees. Saved-fact categories require distinct applicable terms: small or seasonal employer 1523 minor/hour, agricultural worker 1420, long-term-care direct-care staff 1892; tipped cash rate 605 with maximum tip credit 987 and required total-floor reconciliation. This standard term does not select a category or establish tips."
         },
         "US-NM": {
           "answer": "yes"
@@ -2881,10 +3133,32 @@
           "answer": "yes"
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://labor.vermont.gov/rights-and-wages",
+          "cite": "Vermont Department of Labor minimum wage information; effective January 1, 2026",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1442,
+              "unit": "minor/hour"
+            }
+          ]
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2026-01-01",
+          "source": "https://lawfilesext.leg.wa.gov/law/wsrpdf/2025/20/25-20-097.pdf",
+          "cite": "Washington State Register WSR 25-20-097; effective January 1, 2026",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1713,
+              "unit": "minor/hour"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no"
