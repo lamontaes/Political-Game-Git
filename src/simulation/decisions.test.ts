@@ -26,6 +26,15 @@ describe("decision consequence contract", () => {
 
 import { beforeAll } from "vitest";
 import { createDemoWorld } from "./demo";
+import { createLightweightPerson } from "./people";
+import { createWorld, createWorldId, materializePerson } from "./world";
+import { createStableId } from "./ids";
+import { makeIsoDate } from "./dates";
+import {
+  STATES,
+  isTerritoryUsps,
+  isFederalDistrictUsps,
+} from "./state-reference";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { recordPerception } from "./mind";
 import { decisionConsiderationScore } from "./decision-scores";
@@ -59,8 +68,8 @@ beforeAll(() => {
   );
 });
 
-function sourcedChoice(actorIndex = 1) {
-  let world = choiceBase;
+function sourcedChoice(actorIndex = 1, base: World = choiceBase) {
+  let world = base;
   const actor = world.personOrder[actorIndex];
   if (!actor) throw new Error("Missing actual demo decision actor");
   const perceptions = new Map<string, EntityId>();
@@ -486,6 +495,111 @@ describe("A124 exact score comparison across seeds", () => {
       expect(
         lead.optionEvaluations.map((row) => row.randomContribution),
       ).toEqual(["none", "none"]);
+    },
+  );
+});
+
+function smallDecisionWorld(usps: string): World {
+  const place = STATES[usps];
+  if (!place) throw new Error("Missing canonical jurisdiction reference");
+  const seed = `a124-all56:${usps}:recorded-reasons`;
+  const currentDate = makeIsoDate("2026-01-05");
+  const jurisdictionId = createStableId("jurisdiction", `a124-fixture:${usps}`);
+  const person = createLightweightPerson({
+    worldId: createWorldId(seed),
+    worldSeed: seed,
+    index: 0,
+    currentDate,
+    homeJurisdictionId: jurisdictionId,
+  });
+  const world = createWorld({
+    seed,
+    currentDate,
+    jurisdictions: [
+      {
+        id: jurisdictionId,
+        slug: `a124-fixture-${usps.toLowerCase()}`,
+        name: place.name,
+        kind: isTerritoryUsps(usps)
+          ? "territory"
+          : isFederalDistrictUsps(usps)
+            ? "federal-district"
+            : "state",
+        parentName: "United States",
+        provenance: {
+          asOf: currentDate,
+          source: "Canonical postal reference; controlled decision fixture",
+          jurisdiction: jurisdictionId,
+          status: "candidate",
+        },
+      },
+    ],
+    people: [person],
+  });
+  return materializePerson(world, person.id);
+}
+
+describe("A124 A126 recorded choices in all 56 seeded small worlds", () => {
+  it("covers the 50 states, DC and five inhabited territories", () => {
+    expect(Object.keys(STATES)).toHaveLength(56);
+  });
+
+  it.each(Object.keys(STATES))(
+    "keeps empty and tied motives unanswered and honors a saved eligible choice after reload in %s",
+    (usps) => {
+      const fixture = sourcedChoice(0, smallDecisionWorld(usps));
+      const untouched = serializeWorld(fixture.world);
+      for (const randomness of ["none", "close-choices"] as const) {
+        expectUndecided(
+          evaluateDecision(fixture.world, {
+            ...fixture.context,
+            randomness,
+            considerations: [],
+            perceptionIds: [],
+          }),
+        );
+        expectUndecided(
+          evaluateDecision(fixture.world, { ...fixture.context, randomness }),
+        );
+      }
+      const prior = saveSelectedWait(fixture);
+      const recorded = recordDurableDecisionTrace(
+        prior,
+        evaluateDecision(prior, {
+          ...fixture.context,
+          stableKey: "a124:all56-recorded-tie",
+          cutoff: currentHistoricalCutoff(prior),
+          randomness: "close-choices",
+          retention: "durable",
+        }),
+      );
+      assertWorldIntegrityFully(recorded);
+      const saved = serializeWorld(recorded);
+      const reloaded = deserializeWorld(saved);
+      expect(serializeWorld(reloaded)).toBe(saved);
+      const result = evaluateDecision(reloaded, {
+        ...fixture.context,
+        cutoff: currentHistoricalCutoff(reloaded),
+        randomness: "close-choices",
+      });
+      expect(result.outcomeKind).toBe("selected");
+      expect(result.selectedOptionKey).toBe("wait");
+      expect(
+        result.optionEvaluations.map((row) => row.randomContribution),
+      ).toEqual(["none", "none"]);
+      expect(serializeWorld(fixture.world)).toBe(untouched);
+      if (usps === Object.keys(STATES)[0])
+        console.log(
+          JSON.stringify({
+            kind: "all56-small-decision-example",
+            name: personName(fixture.world.people[fixture.actor]!),
+            personId: fixture.actor,
+            place: STATES[usps]!.name,
+            currentDate: fixture.world.currentDate,
+            meaning:
+              "Controlled saved perceptions in one generated-person fixture, not a production opening",
+          }),
+        );
     },
   );
 });
