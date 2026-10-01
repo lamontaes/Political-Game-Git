@@ -1,35 +1,29 @@
-# Saved county homes need the shared history integration
+# Saved county homes retain their district through reload
 
-The county home candidate records an actual residence or dwelling occupancy reference and the supplied address determination. It preserves the map source and interval, labels estimates, and refuses unsupported or conflicting evidence. The shared history integration is still required before a saved home can establish district residence.
+The county home checkpoint passes nineteen controlled integration cases with Audit's history hook. A newly added source-date regression fails: a historically effective map is refused when its acquisition date is later than the game date. This draft remains held. It records actual residence or occupancy references and the supplied district determination. Completed occupancy stays in history, future occupancy is refused, and missing or contradictory evidence stays unresolved. Production county admission and voter eligibility remain separate.
 
-Before: The county residence writer accepted only a sourced whole-place join. A precise saved home could not provide the district evidence.
+## Changed behavior
 
-After: The candidate adds a saved evidence writer and historical reader. A district interval can reference that evidence. Existing whole-place checks remain. Voter registration and legal assessment stay separate.
+Before: The new home record consumed a history sequence that the shared inventory did not enumerate. Two integration cases failed with a noncontiguous history error. The writer also accepted a future occupancy end, and the reader accepted a forged state binding. The saved-data validator accepted an unsupported map determination kind.
 
-## Measured checks
+After: Audit supplied three world insertions to enumerate and validate the record family. The writer checks the actual occupancy interval. The reader resolves the full seat binding at its cutoff date. The validator refuses unsupported saved kinds. Coordinator authorized receiving those exact insertions into the existing county branch.
 
-The five explicit owned overlays were checked against pinned core a8ff6bfd6a144ccbfe5a60e91431c730c739403e, which contains main c5730faf39de4e923af28e0ebff41ca99950dec2. Fifteen strict roots loaded 844 files with zero diagnostics. The focused runtime suite ran fourteen tests in three files. Twelve passed and two failed in 36.12 seconds. Both failures report that the history sequence is not contiguous and append-oriented. The new evidence array is not yet in the shared global history enumeration. No assertions were removed.
+## Measured behavior
 
-The new test file covers same-day cutoff exclusion, save reload, unsupported references, missing addresses, conflicting homes, expired sources and estimated cohort methods. Its two integration cases remain failed. Existing county binding and residence test files passed. Browser, ordinary county filing, full suite, year, nationwide and speed checks were not run. There is no runtime admission or completion claim.
+The three focused files cover controlled named-district save/reload, residence and person/household dwelling references, actual membership dates, completed occupancy, same-day sequence cutoffs, unknown legacy saves with the optional array absent, conflicting evidence, expired sources, forged bindings, unsupported map kinds and labeled estimates. They also retain the existing seat-catalog and county residence checks.
 
-## Audit handoff
+The original twelve-pass, two-failure receipt remains in the proof. Separate regressions captured future occupancy acceptance, forged binding acceptance and unsupported map-kind acceptance before their repairs. No assertions or integration cases were removed.
 
-Audit owns the world enumeration and integrity hook. The exact optional array is HistoryStore.countyHomeDistrictEvidence. The canonical EntityKind is county-home-district-evidence. The new module exports assertCountyHomeDistrictEvidenceIntegrity(world: World): void. Its canonical record ID uses createStableId with that kind and the stable key world.id + ':' + input.stableKey.
+The active county catalog remains empty. Ten Loudon seats remain review candidates. The candidate records supplied determinations. It supplies no production address or district producer and no voter registration. The fixtures use controlled addresses and sources. Browser, ordinary county filing, full suite, year, nationwide and speed checks were not run. No helper reviewer or human approval is claimed.
 
-Add the array to the shared sequence and identity enumeration and call the exported validator. Keep the root earned-pay fields and clock composition intact. Return the exact source head for a focused renewal. This candidate has no actual county catalog admission, voter producer or game-generated address. Its tests use a controlled adopted packet and a controlled address.
+## Ownership and next action
+
+The evidence interface remains CountyHomeDistrictEvidenceRecord, optional HistoryStore.countyHomeDistrictEvidence and EntityKind county-home-district-evidence. Audit authored the global enumeration and world call to assertCountyHomeDistrictEvidenceIntegrity. Team 7 received only the exact import, inventory entry and validator call. Root's earned-pay schema, query and other world hooks remain intact.
+
+The open defect compares source readOn acquisition metadata with the in-game recordedAt date. The preserved regression expects recorded and receives refused. A later county owner must repair this before readiness review and separate production source admission. An actual home-address/district producer, dated voter registration and legal assessment must come through their released owners. CTO reprioritized Team 7 to A3, then A4, A5 and A125. County refinement is parked after this checkpoint; art remains parked. The wider assignment remains incomplete.
 
 ## Method
 
-The existing source-only temporary lane holds five named code overlays. Installed dependencies and pinned Git objects supply all other source. Shared checkout, index and 224 dirty entries were preserved. No helper review or human visual approval is claimed.
+Executed source 72754d1a13e81832cba66efe540acff04096bbc0 contains main 8c44a3d24f9808962a839bc035bbcfdb009d1aa9. Three focused files passed 19 of 19 cases in 85.35 seconds. Fifteen strict roots loaded 848 files with zero diagnostics. The later source-date regression over that source and one test overlay failed 1 selected case; 19 cases were not selected, in 110.69 seconds. Later assertions were not run. Current-main renewal and strict checking of the newest test overlay were not run.
 
-## Future occupancy was accepted
-
-A controlled dwelling regression against published c20a935 showed that an occupancy end in the following year was accepted as recorded evidence. A separate controlled read accepted a binding with the wrong state. Both baseline assertions failed at those observed behaviors. Later assertions in those baseline cases were not reached.
-
-The writer now refuses future occupancy ends and verifies both ends of a completed interval from records already available when the evidence was recorded. A completed dwelling interval can remain in history after departure. The reader also resolves the full seat binding at its actual cutoff date.
-
-The two selected new cases passed in 29.92 seconds. They verify actual dwelling references, pre-occupancy refusal, future-end refusal, retention of a completed interval, refusal after its actual end, forged binding refusal and seat-source expiry. Fourteen other tests were not run in this focused check. The original two world history integration failures remain unresolved and were not rerun. No assertions or integration cases were removed.
-
-The module and its focused test passed lint. These changes preserve the evidence interface, initializer, shared type import and single EntityKind. Audit keeps the shared world hook. No home, district, voter fact or production catalog row was generated.
-
-The safeguard strict check used fifteen roots and loaded 845 files with zero diagnostics. Its baseline was published c20a935, which includes main 123f7dc. Two explicitly hashed owned overlays supplied the updated module and test. This is source and focused behavior evidence, not saved-home integration acceptance.
+Checks load exact committed Git objects and reuse installed dependencies. The registered shared checkout, real index and 224 dirty entries were preserved. Team 7 created no checkout, reset no source, canceled no CI and activated no game build.

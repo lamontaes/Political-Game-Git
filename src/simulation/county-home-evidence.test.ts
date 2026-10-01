@@ -69,10 +69,10 @@ function packet(countyGeoid = "21227") {
   return { seat, binding };
 }
 
-function fixture() {
+function fixture(onDate = "2026-10-01") {
   const seed = "controlled-county-residence";
   const place = lifePlaceByKey("2108902")!;
-  const currentDate = makeIsoDate("2026-10-01");
+  const currentDate = makeIsoDate(onDate);
   const person = createStartingPerson({
     worldId: createWorldId(seed),
     worldSeed: seed,
@@ -94,8 +94,8 @@ function fixture() {
 }
 
 afterEach(() => vi.restoreAllMocks());
-function setup() {
-  const data = fixture();
+function setup(onDate = "2026-10-01") {
+  const data = fixture(onDate);
   const { seat, binding } = packet();
   vi.spyOn(countyCatalog, "countySeatCatalog").mockReturnValue([
     { ...seat, homeMembership: undefined },
@@ -209,6 +209,33 @@ describe("saved county home evidence", () => {
     expect(
       districtResidenceSince(reopened, person.id, binding, world.currentDate),
     ).toBe(world.currentDate);
+  });
+  it("uses map effectiveness without treating acquisition metadata as game time", () => {
+    const { world, person, binding, input } = setup("2026-09-15");
+    expect(input.determination.source.readOn).toBe("2026-10-01");
+    const result = recordCountyHomeDistrictEvidence(world, input);
+    expect(result.kind).toBe("recorded");
+    if (result.kind !== "recorded") throw new Error(result.reason);
+    const reopened = deserializeWorld(serializeWorld(result.world));
+    expect(
+      countyHomeDistrictEvidenceAt(reopened, person.id, binding).kind,
+    ).toBe("known");
+    expect(
+      reopened.history.countyHomeDistrictEvidence?.[0]?.determination.source
+        .readOn,
+    ).toBe("2026-10-01");
+    expect(
+      recordCountyHomeDistrictEvidence(world, {
+        ...input,
+        determination: {
+          ...input.determination,
+          source: {
+            ...input.determination.source,
+            effectiveFrom: "2026-10-01",
+          },
+        },
+      }).kind,
+    ).toBe("refused");
   });
   it("refuses unsupported dwelling/seat/address evidence without mutation", () => {
     const { world, input } = setup();
