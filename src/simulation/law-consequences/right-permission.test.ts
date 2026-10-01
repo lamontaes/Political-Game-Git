@@ -12,6 +12,8 @@ import {
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
 import { createProductionPolicyCatalog } from "../production-catalog";
+import { loadedPolicyRegistry } from "../policy-pack-registry";
+import { createLawConsequenceRegistry } from "../law-consequence-registry";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
   assertWorldIntegrity,
@@ -154,8 +156,35 @@ const row: LawConsequenceRow = {
   },
 };
 describe("right permission kind mechanism", () => {
+  it("admits the exact permission handler through the default seven-kind registry", () => {
+    const registry = createLawConsequenceRegistry();
+    expect(registry.handlers.get("right-permission")).toBe(
+      RIGHT_PERMISSION_REGISTRATION,
+    );
+    expect([...registry.handlers.keys()].sort()).toEqual(
+      [
+        "pay",
+        "legal-outcome",
+        "coverage-eligibility",
+        "price-cost",
+        "service-delivered",
+        "right-permission",
+        "institution-rule",
+      ].sort(),
+    );
+  });
+  it("keeps production permission row absence explicit in loaded and saved catalogs", () => {
+    const loaded = loadedPolicyRegistry().propositions.flatMap(
+      (p) => p.consequences ?? [],
+    );
+    const saved = Object.values(
+      createProductionPolicyCatalog().propositions,
+    ).flatMap((p) => p.consequences ?? []);
+    expect(loaded.filter((row) => row.kind === "right-permission")).toEqual([]);
+    expect(saved.filter((row) => row.kind === "right-permission")).toEqual([]);
+  });
   it("uses shared dispatch and saves the actual review, person and legal identity", () => {
-    const { world, context, input, activityId } = fixture();
+    const { world, law, context, input, activityId } = fixture();
     const catalog = world.policyCatalog!;
     const question = Object.values(catalog.propositions).find(
       (q) => q.stableKey === context.questionKey,
@@ -176,9 +205,7 @@ describe("right permission kind mechanism", () => {
       activityId,
       subjectIds: [input.subject.id],
     };
-    const next = applyLawConsequences(admitted, activity, [
-      RIGHT_PERMISSION_REGISTRATION,
-    ]);
+    const next = applyLawConsequences(admitted, activity);
     assertWorldIntegrity(next);
     const saved = latestLawPermission(
       next,
@@ -186,11 +213,19 @@ describe("right permission kind mechanism", () => {
       context.questionKey,
     )!;
     expect(saved.status).toBe("permitted");
+    expect(saved.subject).toEqual(input.subject);
     expect(saved.sourceRecordIds).toContain(activityId);
-    const resumed = deserializeWorld(serializeWorld(next));
-    expect(
-      applyLawConsequences(resumed, activity, [RIGHT_PERMISSION_REGISTRATION]),
-    ).toBe(resumed);
+    expect(saved.lawEffectStamps).toHaveLength(1);
+    expect(saved.lawEffectStamps[0]).toMatchObject({
+      governingLawKey: law.measureId,
+      questionKey: context.questionKey,
+      jurisdictionId: context.jurisdictionId,
+      appliedAt: world.currentDate,
+    });
+    const payload = serializeWorld(next);
+    const resumed = deserializeWorld(payload);
+    expect(serializeWorld(resumed)).toBe(payload);
+    expect(applyLawConsequences(resumed, activity)).toBe(resumed);
   });
   it("rejects unavailable legal authority/activity and stale resolved inputs", () => {
     const { world, context, input, activityId } = fixture();
