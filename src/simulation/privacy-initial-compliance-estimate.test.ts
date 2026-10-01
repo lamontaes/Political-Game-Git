@@ -7,6 +7,7 @@ describe("approved initial privacy compliance estimate", () => {
       [1, 50_000],
       [19, 50_000],
       [20, 100_000],
+      [100, 450_000],
       [101, 450_000],
       [500, 450_000],
       [501, 2_000_000],
@@ -22,8 +23,15 @@ describe("approved initial privacy compliance estimate", () => {
     );
   });
 
-  it("leaves exactly 100 employees unresolved between the overlapping printed bands", () => {
-    expect(initialPrivacyComplianceEstimate(100)).toBeNull();
+  it("uses the explicit CTO 100/500 convention without inventing a SUSB quote", () => {
+    expect(initialPrivacyComplianceEstimate(100)?.initialDollars).toBe(450_000);
+    expect(initialPrivacyComplianceEstimate(500)?.initialDollars).toBe(450_000);
+    expect(initialPrivacyComplianceEstimate(500)?.boundaryConvention).toContain(
+      "explicit boundary convention",
+    );
+    expect(initialPrivacyComplianceEstimate(100)?.boundaryConvention).toContain(
+      "exactly 100",
+    );
   });
 
   it("does not turn an absent, zero or invalid count into a cost", () => {

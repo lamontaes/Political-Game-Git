@@ -2,9 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createWorld } from "./world";
 import { makeIsoDate } from "./dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import { isLawEffectStamp } from "./law-effect-stamp";
 import {
-  DATA_PRIVACY_COST_RANGE,
   NATIONAL_DATA_PRIVACY_QUESTION,
   dataPrivacyCostOn,
   drawnDataPrivacyCostShare,
@@ -79,8 +77,7 @@ describe("federal privacy compliance cost attribution", () => {
       drawnDataPrivacyCostShare(world, place),
     );
     for (const [index, share] of shares.entries()) {
-      expect(share).toBeGreaterThanOrEqual(DATA_PRIVACY_COST_RANGE[0]);
-      expect(share).toBeLessThanOrEqual(DATA_PRIVACY_COST_RANGE[1]);
+      expect(share).toBe(0);
       expect(
         drawnDataPrivacyCostShare(
           JSON.parse(JSON.stringify(world)) as World,
@@ -101,24 +98,12 @@ describe("federal privacy compliance cost attribution", () => {
       ).toEqual(expected);
     }
   });
-  it("stamps the controlling federal law at the consequence's application place", () => {
+  it("retains the controlling measure without inventing a recurring expense or stamp", () => {
     const { world, measure } = fixture();
-    const town = "place_application" as EntityId;
-    const cost = dataPrivacyCostOn(world, world.currentDate, town);
-    expect(cost.share).toBeGreaterThan(0);
+    const cost = dataPrivacyCostOn(world, world.currentDate);
+    expect(cost.share).toBe(0);
     expect(cost.lawMeasureIds).toEqual([measure.id]);
-    expect(cost.lawEffectStamps).toHaveLength(1);
-    expect(isLawEffectStamp(cost.lawEffectStamps[0])).toBe(true);
-    expect(cost.lawEffectStamps[0]).toMatchObject({
-      governingLawKey: measure.id,
-      source: "enacted",
-      effectKind: "business-compliance-cost",
-      questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
-      jurisdictionId: town,
-      operativeAt: "2026-04-01",
-      appliedAt: "2026-07-01",
-      sourceRecordIds: [measure.id],
-    });
+    expect(cost.lawEffectStamps).toEqual([]);
   });
   it("does not stamp an absent, future or repealed compliance duty", () => {
     const { world } = fixture();

@@ -1,28 +1,32 @@
 /**
- * What a national data privacy law costs the businesses it covers, from the
- * day it takes effect until a repeal does.
- *
- * ESTIMATED FROM AVERAGE (Claude CTO, September 29, 2026: "wire it with the
- * European size, 0.1% to 0.6% firm cost, marked ESTIMATED with its source
- * and a spread"): compliance under Europe's General Data Protection
- * Regulation cost a firm between 0.1% and 0.6% of its production costs
- * (Demirer, Jimenez Hernandez, Li and Peng 2024, NBER Working Paper 32146,
- * from Research 1's federal table of September 29, 2026). Each world draws its own size within that range, once, stable for
- * the whole game, the same way the outcome web draws a link's size. Replace
- * it when the filed research on American business costs returns. The state
- * enforcement side of the same kind of law is `SPENDING_QUESTION_EFFECTS`.
+ * Initial business compliance expense for an operative national privacy law.
+ * CCPA 2019 SRIA employee-size estimates inform one charge through the existing
+ * business books. CTO October 1, 5:16 approved temporary ESTIMATED coverage
+ * above $25m saved revenue and the explicit 100/500 employee convention.
+ * No sourced recurring amount exists; no annual share or level is drawn.
  */
-import { lawInForce } from "./governing/law-in-force";
+import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { lawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
-import { SeededRng } from "./rng";
+import { recordsWithFieldValue } from "./history-index";
+import {
+  organizationProfileAt,
+  workRoleAt,
+  workStatusAt,
+} from "./life-queries";
+import type { TownBusinessBooks } from "./living-world/town-finance-types";
 import ccpaCosts from "../../data/research/money/privacy-law-compliance-cost-ccpa-2019.json";
-import type { EntityId, IsoDate, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeProvisionRecord,
+  World,
+} from "./types";
 
 export const NATIONAL_DATA_PRIVACY_QUESTION =
   "us-federal-positions:science-communications.national-data-privacy";
 
-/** The range, as a share of a business's yearly costs. */
+/** Historical GDPR calibration only; never an executable recurring charge. */
 export const DATA_PRIVACY_COST_RANGE = [0.001, 0.006] as const;
 
 export interface InitialPrivacyComplianceEstimate {
@@ -34,24 +38,26 @@ export interface InitialPrivacyComplianceEstimate {
   readonly timing: "one-time-initial";
   /** The SRIA warns its survey extrapolation may overstate small-firm costs. */
   readonly sourceLimit: string;
+  readonly boundaryConvention?: string;
 }
 
 /**
  * Reads the approved SRIA band for an actual employee count. The source does
  * not supply a zero-employee band, recurring cost, coverage rule or price-year
  * conversion. This estimate alone neither establishes applicability nor pays
- * an expense. Exactly 100 employees matches two printed bands; it stays
- * unresolved until the reader convention is explicitly approved. Exactly
- * 500 employees matches only the 100–500 band because the next is above 500.
+ * an expense. CTO October 1, 5:16 explicitly assigns 100 and 500 employees
+ * to $450,000. The 100 choice follows the SUSB band convention; including
+ * 500 is the CTO's explicit convention, not a claim about SUSB's 100–499 band.
  */
 export function initialPrivacyComplianceEstimate(
   employeeCount: number,
 ): InitialPrivacyComplianceEstimate | null {
   if (!Number.isSafeInteger(employeeCount) || employeeCount < 1) return null;
+  const bandCount = employeeCount === 100 ? 101 : employeeCount;
   const bands = ccpaCosts.centralEstimate.bySize.filter(
     (row) =>
-      employeeCount >= row.minEmployees &&
-      (row.maxEmployees === null || employeeCount <= row.maxEmployees),
+      bandCount >= row.minEmployees &&
+      (row.maxEmployees === null || bandCount <= row.maxEmployees),
   );
   if (bands.length !== 1) return null;
   const band = bands[0]!;
@@ -62,6 +68,11 @@ export function initialPrivacyComplianceEstimate(
     sourcePage: ccpaCosts.centralEstimate.page,
     timing: "one-time-initial",
     sourceLimit: ccpaCosts.checksOnly.smallFirmUpperBound.quote,
+    ...([100, 500].includes(employeeCount)
+      ? {
+          boundaryConvention: `CTO October 1, 5:16: exactly ${employeeCount} employees takes $450,000. This is an explicit boundary convention, not a claim that SUSB 100–499 includes 500.`,
+        }
+      : {}),
   };
 }
 
@@ -72,27 +83,188 @@ export interface DataPrivacyCost {
   readonly lawEffectStamps: readonly LawEffectStamp[];
 }
 
-/** This world's size within the range: the middle is likelier than the ends. */
-export function drawnDataPrivacyCostShare(
-  world: World,
-  jurisdictionId: EntityId = NATIONAL_ELECTION_JURISDICTION.id,
-): number {
-  const [low, high] = DATA_PRIVACY_COST_RANGE;
-  if (!world.seed) return (low + high) / 2;
-  const rng = new SeededRng(world.seed).fork(
-    jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
-      ? "federal-data-privacy-law:firm-cost"
-      : `federal-data-privacy-law:firm-cost:${jurisdictionId}`,
-  );
-  return low + (high - low) * ((rng.next() + rng.next()) / 2);
+export const ESTIMATED_PRIVACY_REVENUE_THRESHOLD_DOLLARS = 25_000_000;
+export const ESTIMATED_PRIVACY_APPLICABILITY_SOURCE =
+  "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1798.140.&lawCode=CIV";
+
+export interface InitialPrivacyComplianceCost {
+  readonly law: LawInForce;
+  readonly employeeCount: number;
+  readonly revenueBasisDollars: number;
+  readonly initialDollars: number;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly applicability: "ESTIMATED";
+  readonly estimate: InitialPrivacyComplianceEstimate;
 }
 
-/** The cost a national law in force on `asOf` puts on every business. */
+/**
+ * The approved temporary coverage rule uses a firm's saved modeled revenue,
+ * not a fabricated gross-receipts record. Actual own-law coverage terms need
+ * an admitted adapter and suppress this estimate. Missing books or actual
+ * employment records refuse a charge. No recurring compliance cost is known.
+ */
+export function dataPrivacyInitialCostOn(
+  world: World,
+  asOf: IsoDate,
+  organizationId: EntityId,
+): InitialPrivacyComplianceCost | null {
+  const books = world.townFinances?.businesses[organizationId];
+  const cutoff = {
+    asOfDate: asOf,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const profile = organizationProfileAt(world, organizationId, cutoff);
+  if (
+    !books ||
+    books.openedAt > asOf ||
+    !Number.isFinite(books.annualRevenue) ||
+    books.annualRevenue <= ESTIMATED_PRIVACY_REVENUE_THRESHOLD_DOLLARS ||
+    !profile ||
+    profile.closed ||
+    profile.classification !== "sector:private"
+  )
+    return null;
+  const proposition = Object.values(
+    world.policyCatalog?.propositions ?? {},
+  ).find(
+    (definition) => definition.stableKey === NATIONAL_DATA_PRIVACY_QUESTION,
+  );
+  if (!proposition) return null;
+  const law = lawInForce(
+    world,
+    NATIONAL_ELECTION_JURISDICTION.id,
+    proposition.id,
+    asOf,
+    "enacted-only",
+  );
+  if (!law || law.origin !== "enacted" || law.answer !== "yes") return null;
+  const enactment = (world.history.legislativeEnactments ?? []).find(
+    (row) => row.measureId === law.measureId && row.outcome === "enacted",
+  );
+  if (!enactment) return null;
+  // No admitted national applicability adapter exists. Refuse final own-law
+  // terms/categories rather than replacing them with the temporary estimate.
+  const finalProvisions = new Map<string, LegislativeProvisionRecord>();
+  for (const provision of world.history.legislativeProvisions ?? []) {
+    if (
+      provision.measureId !== law.measureId ||
+      provision.sequence > enactment.sequence
+    )
+      continue;
+    const previous = finalProvisions.get(provision.provisionKey);
+    if (!previous || previous.sequence < provision.sequence)
+      finalProvisions.set(provision.provisionKey, provision);
+  }
+  if (
+    [...finalProvisions.values()].some((row) =>
+      [...(row.lawTerms ?? []), ...(row.lawCategories ?? [])].some(
+        (term) => term.questionKey === NATIONAL_DATA_PRIVACY_QUESTION,
+      ),
+    )
+  )
+    return null;
+  const employees = new Map<EntityId, readonly EntityId[]>();
+  for (const relationship of recordsWithFieldValue(
+    world.history.workRelationships,
+    "organizationId",
+    organizationId,
+  )) {
+    if (
+      !relationship.kind.startsWith("employment:") ||
+      relationship.compensation !== "paid" ||
+      relationship.startedAt > asOf ||
+      relationship.recordedAt > asOf ||
+      !world.people[relationship.personId]
+    )
+      continue;
+    const status = workStatusAt(world, relationship.id, cutoff);
+    const role = workRoleAt(world, relationship.id, cutoff);
+    if (status?.status === "active" && role)
+      employees.set(relationship.personId, [
+        relationship.personId,
+        relationship.id,
+        status.id,
+        role.id,
+      ]);
+  }
+  const estimate = initialPrivacyComplianceEstimate(employees.size);
+  if (!estimate) return null;
+  return {
+    law,
+    employeeCount: employees.size,
+    revenueBasisDollars: books.annualRevenue,
+    initialDollars: estimate.initialDollars,
+    applicability: "ESTIMATED",
+    estimate,
+    sourceRecordIds: [
+      organizationId,
+      profile.id,
+      law.measureId,
+      enactment.id,
+      ...[...employees.values()].flat(),
+    ],
+  };
+}
+
+/** Only the existing financial writer saves this occurrence and subtracts it. */
+export function privacyInitialOccurrence(
+  world: World,
+  organizationId: EntityId,
+  asOf: IsoDate,
+  prior: TownBusinessBooks["privacyComplianceOccurrences"],
+) {
+  const cost = dataPrivacyInitialCostOn(world, asOf, organizationId);
+  if (!cost || prior?.some((row) => row.governingLawKey === cost.law.measureId))
+    return null;
+  const occurrence = {
+    governingLawKey: cost.law.measureId,
+    operativeAt: cost.law.operativeAt,
+    appliedAt: asOf,
+    initialCostDollars: cost.initialDollars,
+    employeeCount: cost.employeeCount,
+    sourceRecordIds: cost.sourceRecordIds,
+    applicability: cost.applicability,
+    revenueBasisDollars: cost.revenueBasisDollars,
+    applicabilityThresholdDollars: ESTIMATED_PRIVACY_REVENUE_THRESHOLD_DOLLARS,
+    revenueBasis:
+      "saved modeled annualRevenue, not observed gross receipts" as const,
+    applicabilitySource: ESTIMATED_PRIVACY_APPLICABILITY_SOURCE,
+    costSource: cost.estimate.source,
+    costSourcePage: cost.estimate.sourcePage,
+    employeeSizeClass: cost.estimate.employeeSizeClass,
+    sourceLimit: cost.estimate.sourceLimit,
+    ...(cost.estimate.boundaryConvention
+      ? { boundaryConvention: cost.estimate.boundaryConvention }
+      : {}),
+  } as const;
+  const stamp = lawEffectStamp(cost.law, {
+    effectKind: "business-compliance-cost",
+    questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
+    jurisdictionId:
+      organizationProfileAt(world, organizationId)?.locationJurisdictionId ??
+      NATIONAL_ELECTION_JURISDICTION.id,
+    appliedAt: asOf,
+    sourceRecordIds: cost.sourceRecordIds,
+  });
+  return { occurrence, stamps: stamp ? [stamp] : [] };
+}
+
+/** @deprecated No sourced recurring cost exists; the existing caller charges nothing. */
+export function drawnDataPrivacyCostShare(
+  _world: World,
+  _jurisdictionId: EntityId = NATIONAL_ELECTION_JURISDICTION.id,
+): number {
+  void _jurisdictionId;
+  return 0;
+}
+
+/** Legacy read API: no recurring charge or consequence stamp is inferred. */
 export function dataPrivacyCostOn(
   world: World,
   asOf: IsoDate,
-  jurisdictionId: EntityId = NATIONAL_ELECTION_JURISDICTION.id,
+  _jurisdictionId: EntityId = NATIONAL_ELECTION_JURISDICTION.id,
 ): DataPrivacyCost {
+  void _jurisdictionId;
   const none = { share: 0, lawMeasureIds: [], lawEffectStamps: [] };
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
@@ -108,16 +280,9 @@ export function dataPrivacyCostOn(
     "enacted-only",
   );
   if (!law || law.origin !== "enacted" || law.answer !== "yes") return none;
-  const stamp = lawEffectStamp(law, {
-    effectKind: "business-compliance-cost",
-    questionKey: NATIONAL_DATA_PRIVACY_QUESTION,
-    jurisdictionId,
-    appliedAt: asOf,
-    sourceRecordIds: [law.measureId],
-  });
   return {
-    share: drawnDataPrivacyCostShare(world, jurisdictionId),
+    share: 0,
     lawMeasureIds: [law.measureId],
-    lawEffectStamps: stamp ? [stamp] : [],
+    lawEffectStamps: [],
   };
 }

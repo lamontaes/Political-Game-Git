@@ -46,6 +46,25 @@ export interface TownBusinessBooks {
   readonly lastQuarterNet: number;
   /** Privacy compliance paid this quarter, in dollars; absent in older saves. */
   readonly lastQuarterPrivacyCost?: number;
+  /** One-time initial costs; absent in older saves. No recurring cost is inferred. */
+  readonly privacyComplianceOccurrences?: readonly {
+    readonly governingLawKey: EntityId;
+    readonly operativeAt: IsoDate;
+    readonly appliedAt: IsoDate;
+    readonly initialCostDollars: number;
+    readonly employeeCount: number;
+    readonly sourceRecordIds: readonly EntityId[];
+    readonly applicability: "ESTIMATED";
+    readonly revenueBasisDollars: number;
+    readonly applicabilityThresholdDollars: number;
+    readonly revenueBasis: "saved modeled annualRevenue, not observed gross receipts";
+    readonly applicabilitySource: string;
+    readonly costSource: string;
+    readonly costSourcePage: number;
+    readonly employeeSizeClass: string;
+    readonly sourceLimit: string;
+    readonly boundaryConvention?: string;
+  }[];
   /** Laws responsible for consequences saved in these books. */
   readonly lawEffectStamps?: readonly LawEffectStamp[];
   /** Its pay over its last quarter; absent in books from older saves. */
