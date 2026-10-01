@@ -21,6 +21,7 @@ import type {
   IsoDate,
   LegislativeEnactmentRecord,
   LegislativeMeasureRecord,
+  LegislativeProvisionRecord,
   World,
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
@@ -324,6 +325,10 @@ function enactedByQuestion(
 }
 
 interface StartingLawRow {
+  readonly phases?: readonly (Omit<StartingLawRow, "phases" | "before"> & {
+    readonly operativeAt: string;
+  })[];
+  readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly answer: PropositionAnswer;
   readonly operativeAt?: string;
   /**
@@ -338,6 +343,7 @@ interface StartingLawRow {
    * started). Unsaid: nothing is known before that date.
    */
   readonly before?: {
+    readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
     readonly answer: PropositionAnswer;
     readonly preempts?: boolean;
   };
@@ -381,6 +387,64 @@ export function startingLawPlaceKey(
   return startingLawPlaceKeys.get(jurisdictionId);
 }
 
+/** The same dated legal text is used by authority selection and numeric readers. */
+function startingLawRowAt(
+  dated: StartingLawRow,
+  onDate: IsoDate,
+): {
+  readonly row: StartingLawRow;
+  readonly operativeAt: IsoDate;
+} | null {
+  const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
+  const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
+  let selected: { row: StartingLawRow; operativeAt: IsoDate } | null =
+    answerAt <= onDate
+      ? { row: dated, operativeAt: answerAt }
+      : dated.before && defaultAt <= onDate
+        ? { row: dated.before, operativeAt: defaultAt }
+        : null;
+  const seen = new Set<string>([answerAt]);
+  for (const phase of dated.phases ?? []) {
+    const operativeAt = makeIsoDate(phase.operativeAt);
+    if (operativeAt <= answerAt || seen.has(operativeAt))
+      throw new Error(
+        "Starting law phases require distinct dates after the initial rule",
+      );
+    seen.add(operativeAt);
+    if (
+      operativeAt <= onDate &&
+      (!selected || operativeAt > selected.operativeAt)
+    )
+      selected = { row: phase, operativeAt };
+  }
+  return selected;
+}
+
+/** Numeric text belonging to the canonical starting row, not an invented enactment. */
+export function startingLawTerms(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
+  if (law.origin !== "in-force-at-start" || law.operativeAt > onDate) return [];
+  const prefix = "starting-law:";
+  const suffix = `:${questionKey}`;
+  if (!law.measureId.startsWith(prefix) || !law.measureId.endsWith(suffix))
+    return [];
+  const placeKey = law.measureId.slice(prefix.length, -suffix.length);
+  const dated = STARTING_LAW.questions[questionKey]?.answers[placeKey];
+  if (!dated) return [];
+  const selected = startingLawRowAt(dated, onDate);
+  if (
+    !selected ||
+    selected.row.answer !== law.answer ||
+    selected.operativeAt !== law.operativeAt
+  )
+    return [];
+  const row = selected.row;
+  return row.lawTerms ?? [];
+}
+
 type Candidate = LawInForce & {
   readonly sequence: number;
   /** A state "no" that leaves its localities free to answer otherwise. */
@@ -406,15 +470,9 @@ function startingLawCandidate(
       const placeKey = startingLawPlaceKey(placeId);
       const dated = placeKey ? starting.answers[placeKey] : undefined;
       if (!dated) continue;
-      const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
-      const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
-      // Before its answer takes effect, a row says what held until then.
-      const row =
-        answerAt > onDate && dated.before
-          ? { ...dated.before, operativeAt: undefined }
-          : dated;
-      const operativeAt = row === dated ? answerAt : defaultAt;
-      if (operativeAt > onDate) continue;
+      const selected = startingLawRowAt(dated, onDate);
+      if (!selected) continue;
+      const { row, operativeAt } = selected;
       const candidate: Candidate = {
         answer: row.answer,
         measureId: `starting-law:${placeKey}:${questionKey}` as EntityId,
