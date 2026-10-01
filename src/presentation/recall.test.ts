@@ -24,11 +24,13 @@ import {
   recallYesShare,
   startRecallPetition,
 } from "../simulation/recall";
-import type { EntityId, IsoDate, World } from "../simulation/types";
+import type { EntityId, World } from "../simulation/types";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { openOrdinaryLife } from "./ordinary-life";
+import { addDays } from "../simulation/dates";
+import { resolveDueThrough } from "../../tests/fixtures/due-item-clock";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { projectRecall, startProjectedRecallPetition } from "./recall";
 import { recordOrganizationParticipationState } from "../simulation/life";
@@ -41,7 +43,32 @@ import { organizationParticipationStateHistory } from "../simulation/life-querie
  * circulation window.
  */
 const GRAND_ISLAND = "3119595";
-function ordinaryStart(placeKey: string, seed: string) {
+
+type OrdinaryStart = {
+  readonly world: World;
+  readonly governmentKey: string;
+  readonly player: EntityId;
+  readonly member: EntityId;
+  readonly townId: EntityId;
+};
+const starts = new Map<string, OrdinaryStart>();
+
+/**
+ * One opened town per place and seed, shared by the cases that ask for it: a
+ * World is an immutable value, so each case advances its own copy. Only the
+ * two most recent are kept, so the worker's memory stays bounded.
+ */
+function ordinaryStart(placeKey: string, seed: string): OrdinaryStart {
+  const key = `${placeKey}:${seed}`;
+  const known = starts.get(key);
+  if (known) return known;
+  const opened = openStart(placeKey, seed);
+  starts.set(key, opened);
+  while (starts.size > 2) starts.delete(starts.keys().next().value!);
+  return opened;
+}
+
+function openStart(placeKey: string, seed: string): OrdinaryStart {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -100,10 +127,6 @@ function vacateOneSeat(
     provenance: { kind: "authored", note: "Vacancy fixture." },
     supersedesStateId: prior.id,
   });
-}
-
-function daysUntil(world: World, date: IsoDate): number {
-  return (Date.parse(date) - Date.parse(world.currentDate)) / 86_400_000 + 1;
 }
 
 function petition(
@@ -168,7 +191,10 @@ describe("recalling a town official", () => {
         }),
       ).toMatchObject({ allowed: false });
 
-      const closed = passOrdinaryDays(started, 31);
+      const closed = resolveDueThrough(
+        started,
+        addDays(started.currentDate, 31),
+      );
       const [after] = recallPetitions(closed);
       expect(["failed-to-qualify", "awaiting-election"]).toContain(
         after!.phase,
@@ -253,10 +279,7 @@ describe("recalling a town official", () => {
           (due) => due.transitionKey === RECALL_PETITION_CLOSES,
         )!;
         // Through the ordinary clock, past the day the window closes.
-        const closed = passOrdinaryDays(
-          seated,
-          daysUntil(seated, closeDue.dueAt),
-        );
+        const closed = resolveDueThrough(seated, closeDue.dueAt);
         const afterClose = recallPetitions(closed)[0]!;
         if (expected === "failed-to-qualify") {
           expect(afterClose.phase).toBe("failed-to-qualify");
@@ -272,10 +295,7 @@ describe("recalling a town official", () => {
           (due) => due.transitionKey === RECALL_ELECTION,
         )!;
         expect(electionDue.dueAt).toBe(afterClose.electionAt);
-        const decided = passOrdinaryDays(
-          closed,
-          daysUntil(closed, electionDue.dueAt),
-        );
+        const decided = resolveDueThrough(closed, electionDue.dueAt);
         const outcome = recallPetitions(decided)[0]!;
         expect(outcome.phase).toBe(expected);
         expect(outcome.yes! + outcome.no!).toBe(10_000);
@@ -300,7 +320,7 @@ describe("recalling a town official", () => {
       (due) => due.transitionKey === RECALL_PETITION_CLOSES,
     )!;
     // The member resigns a week in: their seat ends on the record.
-    let resigned = passOrdinaryDays(started, 7);
+    let resigned = resolveDueThrough(started, addDays(started.currentDate, 7));
     const seat = municipalSeats(resigned, governmentKey).find(
       (row) => row.personId === member,
     )!;
@@ -318,10 +338,7 @@ describe("recalling a town official", () => {
       provenance: { kind: "authored", note: "Resignation fixture." },
       supersedesStateId: prior.id,
     });
-    const closed = passOrdinaryDays(
-      resigned,
-      daysUntil(resigned, closeDue.dueAt),
-    );
+    const closed = resolveDueThrough(resigned, closeDue.dueAt);
     expect(recallPetitions(closed)[0]!.phase).toBe("lapsed");
   }, 60_000);
 

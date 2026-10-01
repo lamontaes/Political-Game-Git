@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { ageOnDate } from "../simulation/dates";
+import { addDays, ageOnDate } from "../simulation/dates";
 import { governmentUnitsForState } from "../simulation/government-units";
 import {
   LOCAL_ELECTION_FILING,
+  LOCAL_ELECTIONS_PROFILE,
   LOCAL_GOVERNMENT_YEAR,
   nextTownElectionDay,
   seatIsUp,
@@ -14,11 +15,8 @@ import { localGoverningBodyRules } from "../simulation/nationwide-world/local-go
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { STATES } from "../simulation/state-reference";
 import { makeIsoDate } from "../simulation/dates";
-import {
-  advanceObservedWorld,
-  observerSetup,
-  openObserverWorld,
-} from "./observer-world";
+import { observerSetup, openObserverWorld } from "./observer-world";
+import { resolveDueThrough } from "../../tests/fixtures/due-item-clock";
 
 /**
  * Lane C step 3: the town's own elections. The council and mayor seated at
@@ -96,9 +94,10 @@ describe("Columbus, Ohio elects its council on its own", () => {
       expect(due.length).toBe(units.length * 2);
       const town = due[0]!.jurisdictionId!;
 
-      // Through the November 2027 general election, on the observer clock.
-      while (world.currentDate < "2027-11-04")
-        world = advanceObservedWorld(world, 60);
+      // Through the November 2027 general election: every due item on the
+      // way (filings, primaries, generals, counts, seatings) is resolved by
+      // the handlers that own it, without the per-day life pass.
+      world = resolveDueThrough(world, "2027-11-04");
 
       const contests = (world.history.electionContests ?? []).filter((row) =>
         row.stableKey.startsWith("local-elections/v1:"),
@@ -117,8 +116,27 @@ describe("Columbus, Ohio elects its council on its own", () => {
       expect(
         Math.max(...primaries.map((row) => row.candidatePersonIds.length)),
       ).toBeGreaterThan(2);
-      // Every race was counted, and every candidate lives in the town.
+      // Every race was counted, and every candidate lived in the town when
+      // its field closed. The field now closes the estimated filing lead
+      // (85 days) before the first vote, so a candidate can move away before
+      // election day: nothing yet takes a mover off the ballot (A118 missing
+      // link), so a later move is accepted only when it is on the record.
+      const movedAfter = (personId: string, date: string) =>
+        world.history.events.some(
+          (event) =>
+            event.type === "migration.moved" &&
+            event.involvedEntityIds.includes(personId) &&
+            event.occurredAt > date,
+        );
       for (const row of contests) {
+        const general = row.stableKey.split(":")[3]!;
+        const fieldClosed = addDays(
+          makeIsoDate(general),
+          -(
+            LOCAL_ELECTIONS_PROFILE.filingLeadDays +
+            LOCAL_ELECTIONS_PROFILE.primaryLeadDays
+          ),
+        );
         expect(
           (world.history.electionContestResults ?? []).some(
             (result) => result.contestId === row.id,
@@ -127,7 +145,10 @@ describe("Columbus, Ohio elects its council on its own", () => {
         ).toBe(true);
         for (const id of row.candidatePersonIds) {
           const person = world.people[id]!;
-          expect(person.homeJurisdictionId).toBe(town);
+          expect(
+            person.homeJurisdictionId === town || movedAfter(id, fieldClosed),
+            `${row.stableKey}: ${id} lived in town when the field closed`,
+          ).toBe(true);
           expect(
             ageOnDate(person.birthDate, row.electionDate),
           ).toBeGreaterThanOrEqual(21);

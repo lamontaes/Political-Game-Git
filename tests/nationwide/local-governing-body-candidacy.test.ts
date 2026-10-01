@@ -37,11 +37,11 @@ import {
   prepareOpeningLife,
 } from "../../src/presentation/opening-life";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
+import { suppliedWin } from "../fixtures/state-executive-entry";
 import {
-  passUntil,
-  runToElection,
-  suppliedWin,
-} from "../fixtures/state-executive-entry";
+  resolveDueThrough,
+  resolveThroughOwnElection,
+} from "../fixtures/due-item-clock";
 import { electionContestResult } from "../../src/simulation/election-contests";
 import {
   LOCAL_ELECTION_FILING,
@@ -264,7 +264,11 @@ describe("standing for the town's governing body and taking the seat", () => {
       expect(contest.office.officeKey).toBe(body.officeKey);
       expect(contest.jurisdictionId).toBe(home);
 
-      const decided = runToElection(filed, personId, suppliedWin(personId));
+      const decided = resolveThroughOwnElection(
+        filed,
+        personId,
+        suppliedWin(personId),
+      );
       expect(projectCampaign(decided, personId).phase).toBe("won");
 
       // Seated in the town's own government, never in the state's legislature.
@@ -323,7 +327,7 @@ describe("standing again after a race is over", () => {
           contest.candidatePersonIds.includes(personId),
         ).length,
       ).toBe(race);
-      world = runToElection(world, personId, suppliedWin(personId));
+      world = resolveThroughOwnElection(world, personId, suppliedWin(personId));
       // Until another office is picked, the last race's result stays up.
       expect(projectCampaign(world, personId).phase).toBe("won");
       const seats = activeOrganizationParticipationsAt(world, personId).filter(
@@ -370,10 +374,10 @@ describe("a player's campaign and the town's own race", () => {
     const electionDate = world.history.electionContests!.at(-1)!.electionDate;
     const seat = localCampaignSeat(body.unit, false, electionDate);
     expect(seat).not.toBeNull();
-    world = runToElection(world, personId, suppliedWin(personId));
+    world = resolveThroughOwnElection(world, personId, suppliedWin(personId));
     expect(projectCampaign(world, personId).phase).toBe("won");
     // Past the town's own count for the same election day.
-    world = passUntil(world, addDays(electionDate, 14));
+    world = resolveDueThrough(world, addDays(electionDate, 14));
 
     const townRaces = world.history.electionContests!.filter(
       (contest) =>
@@ -404,7 +408,7 @@ describe("a player's campaign and the town's own race", () => {
         item.transitionKey === LOCAL_ELECTION_FILING &&
         item.jurisdictionId === home,
     )!.dueAt;
-    let world = passUntil(opening, addDays(fieldCloses, 1));
+    let world = resolveDueThrough(opening, addDays(fieldCloses, 1));
     const electionDate = makeIsoDate("2026-11-03");
     const seat = localCampaignSeat(body.unit, false, electionDate)!;
     const townRace = () =>
@@ -415,8 +419,8 @@ describe("a player's campaign and the town's own race", () => {
       );
     expect(townRace()).toBeDefined();
     world = fileForOffice(world, personId, null, body.officeKey, electionDate);
-    world = runToElection(world, personId, suppliedWin(personId));
-    world = passUntil(world, addDays(electionDate, 14));
+    world = resolveThroughOwnElection(world, personId, suppliedWin(personId));
+    world = resolveDueThrough(world, addDays(electionDate, 14));
     expect(projectCampaign(world, personId).phase).toBe("won");
     expect(electionContestResult(world, townRace()!.id)).toBeNull();
     const mine = sittingLocalOfficers(world, body.unit).find(
