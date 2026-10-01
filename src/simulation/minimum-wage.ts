@@ -223,6 +223,7 @@ export function startingMinimumHourly(
         : null),
     world,
     onDate,
+    cutoff,
   );
 }
 
@@ -237,6 +238,7 @@ export function startingStateMinimumHourly(
   stateKey: string | null,
   world?: World,
   onDate: IsoDate | undefined = world?.currentDate,
+  cutoff?: HistoricalCutoff,
 ): number | null {
   if (world && onDate) {
     if (!stateKey)
