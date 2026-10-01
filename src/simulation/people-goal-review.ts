@@ -55,7 +55,7 @@ import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordEventKnowledge } from "./records";
 import { recordRelationshipMoment } from "./relationship-integration";
 import { readRelationshipStanding } from "./relationship-standing";
-import { recordWorldEvent } from "./world";
+import { recordWorldEvent, writeWithWorldIntegrityOnce } from "./world";
 import type {
   DecisionConsideration,
   DecisionImportance,
@@ -250,6 +250,18 @@ export interface GoalReviewResult {
  * blocked for its recorded reason. At most one step per person.
  */
 export function reviewPeopleGoals(world: World): GoalReviewResult {
+  // A cold review initializes several histories for each candidate. Batch the
+  // canonical writers, then validate their complete result before returning it.
+  let nextReviewAt = addDays(world.currentDate, PACE.reviewIntervalDays);
+  const reviewedWorld = writeWithWorldIntegrityOnce(world, () => {
+    const result = reviewPeopleGoalsUnchecked(world);
+    nextReviewAt = result.nextReviewAt;
+    return result.world;
+  });
+  return { world: reviewedWorld, nextReviewAt };
+}
+
+function reviewPeopleGoalsUnchecked(world: World): GoalReviewResult {
   const weekOn = addDays(world.currentDate, PACE.reviewIntervalDays);
   let nextReviewAt = weekOn;
   const soonest = (date: IsoDate | null) => {
@@ -499,6 +511,8 @@ function pursueLivelihood(world: World, goal: GoalStateRecord): PursuitOutcome {
     }
     if (latest.kind === "offered") {
       const decided = decideOnOffer(next, goal, application.id);
+      if (decided.accept === null)
+        return { kind: "waiting", world: decided.world };
       const answered = answerJobOfferAsResident(
         decided.world,
         application.id,
@@ -589,7 +603,7 @@ function decideOnOffer(
   world: World,
   goal: GoalStateRecord,
   applicationId: EntityId,
-): { world: World; accept: boolean } {
+): { world: World; accept: boolean | null } {
   const personId = goal.personId;
   const withTraits = ensurePeopleTraits(world, [personId]);
   const key = `goal-offer:${applicationId}`;
@@ -636,7 +650,11 @@ function decideOnOffer(
   });
   return {
     world: withTraits,
-    accept: evaluation.selectedOptionKey !== "hold-out",
+    accept:
+      evaluation.outcomeKind === "selected" &&
+      evaluation.selectedOptionKey !== null
+        ? evaluation.selectedOptionKey === "accept"
+        : null,
   };
 }
 
