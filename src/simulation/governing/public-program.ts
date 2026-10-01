@@ -12,6 +12,7 @@ import { createWorkItem, workItemState } from "../time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
 import { recordPaidTransitProgramService } from "./public-program-transit";
+import { scheduleResidentServiceRequests } from "../public-service-producer";
 import { reviewGoverningOutturns } from "./state-governing";
 import {
   appropriationCommittedMinorUnits,
@@ -1086,6 +1087,13 @@ export function settleProgramInstallment(
       appropriation,
       commitment,
       installment,
+    );
+    // Paid operating service is what residents can now ask for.
+    next = scheduleResidentServiceRequests(
+      next,
+      commitment,
+      index,
+      appropriation.accountOrganizationId,
     );
   }
   if (
