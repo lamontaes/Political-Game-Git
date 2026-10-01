@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterAll, describe, expect, it, vi } from "vitest";
+import * as enactedLawEffects from "../enacted-law-effects";
 import { appendFileSync } from "node:fs";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -20,11 +21,11 @@ import {
   UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
 
-const { consequenceCalls } = vi.hoisted(() => ({ consequenceCalls: vi.fn() }));
-vi.mock("../enacted-law-effects", async (importOriginal) => ({
-  ...(await importOriginal<Record<string, unknown>>()),
-  applyLawConsequences: consequenceCalls.mockImplementation((world) => world),
-}));
+// Install after module evaluation: opening imports this dispatcher too.
+const consequenceCalls = vi
+  .spyOn(enactedLawEffects, "applyLawConsequences")
+  .mockImplementation((world) => world);
+afterAll(() => consequenceCalls.mockRestore());
 
 describe("saved pretrial law attribution", () => {
   const baseSeed = "team9-pretrial-stamp-20260930-five";
@@ -106,7 +107,7 @@ describe("saved pretrial law attribution", () => {
         activityId: events[0]!.id,
         subjectIds: [subjectId],
       });
-      expect(call![0].history.events.at(-1).lawEffectStamps).toHaveLength(1);
+      expect(call![0].history.events.at(-1)!.lawEffectStamps).toHaveLength(1);
       const reloaded = deserializeWorld(serializeWorld(after));
       const saved = reloaded.history.events.find(
         (event) => event.id === events[0]!.id,
