@@ -1,0 +1,96 @@
+{
+  "scope": "linked annual guides and resolved withholding pages, same authorized research pass",
+  "captures": [
+    {
+      "place": "FL-guide",
+      "requestedUrl": "https://floridarevenue.com/faq/Pages/FAQSearch.aspx?keywords=personal%20income&cat=0&subcat=0",
+      "capturedAt": "2026-10-01T19:31:55.243405+00:00",
+      "status": 200,
+      "finalUrl": "https://floridarevenue.com/faq/Pages/FAQSearch.aspx?keywords=personal%20income&cat=0&subcat=0",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-fl-guide-2026-10-01",
+      "path": "raw/fl-guide.html",
+      "sha256": "04f1bcd4a7d68e0e75ac220ac4d6555b8224f810d10f63686ffbf64b13dc02fb",
+      "byteLength": 78578,
+      "textPath": "raw/fl-guide.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "HI-guide",
+      "requestedUrl": "https://tax.hawaii.gov/forms/a1_b1_1whr/",
+      "capturedAt": "2026-10-01T19:31:54.833179+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "MD-guide",
+      "requestedUrl": "https://www.marylandcomptroller.gov/content/dam/mdcomp/taxpayer/tax-forms-and-instructions/2025/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:31:55.094063+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "MP-guide",
+      "requestedUrl": "https://www.finance.gov.mp/division-forms/revenue-taxation/2020/2020-1040-icm.pdf",
+      "capturedAt": "2026-10-01T19:31:54.831202+00:00",
+      "status": 200,
+      "finalUrl": "https://www.finance.gov.mp/division-forms/revenue-taxation/2020/2020-1040-icm.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-mp-guide-2026-10-01",
+      "path": "raw/mp-guide.pdf",
+      "sha256": "bc3f7d9273afc2e8032b2bd9199178dcaa2f7f412557390c3d049eb7dd29b284",
+      "byteLength": 269657,
+      "textPath": "raw/mp-guide.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MT-guide",
+      "requestedUrl": "https://revenuefiles.mt.gov/files/Forms/Publication-1/Publication-1-2026.pdf",
+      "capturedAt": "2026-10-01T19:31:54.830314+00:00",
+      "status": 200,
+      "finalUrl": "https://revenuefiles.mt.gov/files/Forms/Publication-1/Publication-1-2026.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-mt-guide-2026-10-01",
+      "path": "raw/mt-guide.pdf",
+      "sha256": "e3c8ead48b90065910744bb2ffdfc23709760892bfaa34ee4b468286cdde620d",
+      "byteLength": 621496,
+      "textPath": "raw/mt-guide.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OK-guide",
+      "requestedUrl": "https://oklahoma.gov/tax/businesses/business-tax-types/withholding.html",
+      "capturedAt": "2026-10-01T19:31:54.833793+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "PR-guide",
+      "requestedUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/tablas-de-retencion-withholding-tables",
+      "capturedAt": "2026-10-01T19:31:54.831887+00:00",
+      "status": 200,
+      "finalUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/tablas-de-retencion-withholding-tables",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-pr-guide-2026-10-01",
+      "path": "raw/pr-guide.html",
+      "sha256": "53411e32d6eb34bebef88d81693fea14a40397be2346cf38cbeb071c803ef787",
+      "byteLength": 33548,
+      "textPath": "raw/pr-guide.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "WV-guide",
+      "requestedUrl": "https://tax.wv.gov/Individuals/Pages/PersonalIncomeTaxReductionBill.aspx",
+      "capturedAt": "2026-10-01T19:31:54.832488+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.wv.gov/Individuals/Pages/PersonalIncomeTaxReductionBill.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-wv-guide-2026-10-01",
+      "path": "raw/wv-guide.html",
+      "sha256": "571c3e9c79d78932ff5692c78e2c84a77d65b0c2d0e607bb4de0e41c1e4150eb",
+      "byteLength": 63324,
+      "textPath": "raw/wv-guide.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    }
+  ]
+}

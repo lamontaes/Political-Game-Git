@@ -1,0 +1,362 @@
+Iowa Withholding Tax Information | Department of Revenue
+Skip to main content
+Official State of Iowa Website
+Agencies A-Z
+Programs & Services
+Department of Revenue
+Search
+Menu
+Main navigation
+I Need To...
+I Need To... sub-navigation
+File My Taxes
+Access GovConnectIowa
+Check My Refund
+Learn About Property Tax
+Make a Payment
+Report Fraud & Identity Theft
+File a W-2 or 1099
+Policy Guidance
+Access Alcohol Licensing & Permits
+Taxes
+Taxes sub-navigation
+File My Taxes
+Where's My Refund
+Make a Payment
+Verify My Identity
+Tax Guidance
+Frequently Asked Questions
+Request Tax Help
+Tax Professionals
+Sales Tax Lookup
+Permits & Licensing
+Permits & Licensing sub-navigation
+Business Permit Registration
+Alcohol
+Direct Pay Permit
+Lottery Licensing
+Cigarette, Tobacco, Nicotine & Vapor
+License Sanctions
+Search Alcohol Licenses & Permits
+Frequently Asked Questions
+Resources
+Resources sub-navigation
+Law & Policy Information
+Adopted & Filed Rules
+Local Government
+GovConnectIowa Help
+Reports
+Tax Credits Tracking & Analysis
+Research & Statistics
+Revenue Research Library
+Taxpayer Bill of Rights
+Education & Outreach
+Education & Outreach sub-navigation
+Alcohol & Tobacco
+Brokers and Suppliers
+Webinars
+Forms
+Forms sub-navigation
+IA 1040 Instructions
+Common Forms
+About
+About sub-navigation
+Modernization
+Intern
+Contact
+Careers
+Property Assessment Appeal Board
+Alcoholic Beverages Commission
+PILOT Task Force
+Agencies A-Z
+Online Services
+Breadcrumbs
+Home
+Taxes
+Tax Guidance
+Withholding Tax
+Iowa Withholding Tax Information
+Topics:
+Withholding Tax
+Updated Tables
+Effective January 1, 2026
+Instruction for Iowa Withholding Tables
+(98.9 KB)
+.pdf
+Withholding Formula and Instructions
+(206.24 KB)
+.pdf
+View 2025 Withholding Tax Tables
+All Tables
+Weekly
+Biweekly
+Monthly
+Semimonthly
+Annually
+IDR Issues New Income Withholding Tax Tables for 2026
+– November 3, 2025
+Electronic Reporting of Wage Statements and Information Returns
+Iowa Withholding Forms
+(
+2025 IA W-4
+)
+Withholding Due Dates
+Calculate Your Withholding
+Who Must Withhold?
+Every employer who maintains an office or transacts business in Iowa and who is required to withhold federal income tax on any compensation paid to employees for services performed in Iowa is required to withhold Iowa individual income tax from that compensation. The amount withheld is calculated using the Iowa withholding tables, formulas or percentages.
+Registering for an Iowa Withholding Account
+Register
+with the Internal Revenue Service first to obtain a Federal Identification Number (FEIN) or call the IRS at
+1-800-829-4933
+. There is no fee for registering.
+After obtaining an FEIN,
+register with Iowa
+.
+List items for Iowa Withholding Tax Information
+Employee Exemption Certificate (IA W-4)
+Within 15 days, each new hire and rehire is required to complete and sign an
+Iowa W-4 (44-019)
+. It must show the amount of allowances the employee is claiming for family members, for itemized deductions, for adjustments to income or for the child/dependent care credit. Employees who hold more than one job at a time should consider how the W-4s they complete with each employer will interact. If for any reason the employee does not complete an IA W-4, the employer must withhold at an allowance amount of zero. Iowa Administrative Code rule 701—307.3(3)“a”.
+For calendar year 2025, the Iowa W-4 form was revised by adding a filing status of Head of Household. If employees are claiming a head of household filing status on their federal and Iowa income tax returns we encourage these taxpayers to complete a new W-4 form for tax year 2025.
+For calendar year 2024, the Iowa W-4 form was revised by replacing the “number of allowances” claimed with “amount of allowances claimed” to be in line with federal withholding. Employees who have furnished Form W-4 in any year before 2024 are not required to furnish a new form, but are encouraged to complete a new form. Employers will continue to compute withholding based on the information from the employee's most recently furnished Form W-4, but must follow the guidance described below:
+For employees who have furnished Form W-4 in any year before 2024, employers may continue to compute withholding based on the information from the employee's most recently furnished Form W-4 but, if they do, must make the following modification: Multiply the number of allowances claimed on line 6 of the pre-2024 W-4 by $40 to determine the amount of total allowances.  For example, if an employee claims 6 total allowances on a 2023 IA W-4, when calculating the 2024 Iowa withholding the employer should use $240 (6 x $40) of total allowances.
+Employers must keep copies of W-4 forms in their files for at least four years. Iowa Administrative Code rule 701—307.3(3)“e”.
+The Iowa
+IA W-4 (44-019)
+is available online. (The
+Federal W-4
+is available on the IRS website at www.irs.gov.)
+Who Qualifies for Exemption?
+An employee who does not expect to owe tax during the year may file the Iowa W-4 claiming exemption from tax. Persons below the annual income levels shown below are eligible to claim exemption from Iowa withholding:
+Note: When determining annual income you must add back to Iowa taxable income reported on IA 1040, line 4:
+any amount of itemized or standard deduction from federal form 1040, line 12 (only add back the amount that does not exceed your federal adjusted gross income on federal form 1040, line 11)
+any amount of personal exemption deduction allowed for federal purposes ($0 for 2025)
+any amount of QBI deduction from federal form 1040, line 13
+any amount of lump sum distribution separately taxed on federal form 4972, and
+any Iowa net operating loss carryforward
+Exemption for persons under age 65
+A married couple or a head of household with taxable income of $13,500 or less.
+A single person with taxable income of $9,000 or less.
+A single person with taxable income of less than $5,000 who is claimed as a dependent on someone else’s Iowa return.
+Note
+: This taxable income limit does not require adding back the items above.
+Exemption for persons age 65 or older:
+A married couple or a head of household with taxable income for the year of $32,000 or less may file for exemption, if at least one spouse (in the case of a married couple) or the head of household is 65 years or older as of December 31 of the year.
+A single person who is 65 years or older as of December 31 of the year may file for exemption if their taxable income is $24,000 or less.
+Exemption for members of the military and spouses
+Members of the armed forces, armed forces military reserve, and the national guard in an active duty status (as defined in Title 10 of the U.S. Code) can exclude from the Iowa pay received from the federal government for military service performed.
+Military spouses may be exempt from Iowa income tax on wages if:
+Their spouse is a member of the armed forces present in a state other than their home state in compliance with military orders;
+They are present in a state other than their home state solely to be with their spouse;
+They maintain their domicile in their home state, and
+Military orders must station the member of the armed forces in the state of Iowa
+Iowa Centralized Employee Registry Form
+Any employer doing business in Iowa who hires or rehires an employee must submit the
+Centralized Employee Registry Reporting
+(within the
+Iowa W-4, 44-019
+) to the Iowa Department of Human Services (IDHS) within 15 days of the hire or rehire date. Any questions on completing the form should be directed to the Employers Partnering in Child Support (EPICS) Unit at 1-877-274-2580.
+The Centralized Employee Registry form may be submitted by:
+Mail - CER, PO Box 10322, Des Moines, IA 50306-0322
+Fax - 1-800-759-5881
+Website
+- (Centralized Employee Registry Reporting form)
+Notice to Independent Contractors
+If you are an independent contractor, do not complete a W-4 for Iowa. Instead, you may be required to make estimated payments on your income. See our individual income tax forms for estimated payment information, forms and instructions.
+Note, however, you also must complete a Centralized Employee Registry form from the Iowa Department of Human Services. The person with whom you are contracted may have a supply of these. Otherwise, call IDHS at
+1-877-274-2580
+to obtain one or use the New Hire Reporting Form included with the IA W-4.
+Employee or Independent Contractor?
+The Internal Revenue Service (IRS) establishes the criteria for determining if a worker is an employee or an independent contractor. If you have employees and not independent contractors, you must act as a withholding agent on both the federal and state levels. Review the information on the IRS Web page:
+Independent Contractor (Self-Employed) or Employee?
+Employee Withholding Information with more than one Employer
+Our tax withholding tables have been designed to allow for a standard deduction for all taxpayers. Taxpayers with more than one employer may want to request additional withholding each pay period on the W-4 form for any employers in addition to a primary employer. Use the following procedures to calculate the amount of additional withholding for non-primary jobs:
+If the allowances amount claimed on IA W-4, line 6 is less than $80 (or if the total allowances claimed on a 2023 or prior year’s IA W-4 is 0 or 1), divide $15,000 by the number of pay periods per year for the additional employer and multiply the result by 3.8 percent (i.e., by 0.038). The amount calculated is the amount of additional withholding to be requested per pay period for each non-primary job.
+If the allowances amount claimed on IA W-4, line 6 is $80 or more (or if the total allowances claimed on an earlier year’s IA W-4 is 2 or more), divide $30,000 by the number of pay periods per year and multiply the result by 3.8 percent (i.e., by 0.038). The amount calculated is the amount of additional withholding to be requested per pay period for each non-primary job.
+For example, if an employee whose allowances amount on the 2025 IA W-4 is $80 receives paychecks from a  second employer every other week (i.e., biweekly), divide $30,000 by 26 pay periods, then multiply the result by 3.8 percent (0.038). In this example, the additional withholding to be requested is $44 ($30,000/26*3.8%) on each paycheck.
+Employee Withholding Information for Nonresident Aliens
+Some nonresident aliens or dual status aliens (such as some first-year international students from a foreign country) are not allowed to take the standard deduction on federal 1040 returns, with certain exceptions (see more details in IRS Topic no. 551, Standard deduction). But the Department’s withholding formulas and tables have already included standard deduction, therefore it is possible that some of these employees may result in underwithholding. To prevent this, these employees can claim additional withholding as follows:
+If the allowances amount claimed on IA W-4, line 6 is less than $80 (or if the total allowances claimed on a 2023 or prior year’s IA W-4 is 0 or 1), divide $15,000 by the number of pay periods per year, then multiply the result by 3.8 percent. The result is the amount of additional withholding to be requested.
+If the allowances amount claimed on IA W-4, line 6 is $80 or more (or if the total allowances claimed on an earlier year’s IA W-4 is two or more), divide $29,200 by the number of pay periods per year, then multiply the result by 3.8 percent. The result is the amount of additional withholding to be requested.
+For example, for a nonresident alien employee (with $40 in allowances) who is not eligible to take the federal standard deduction and is paid biweekly, divide $15,000 by 26 pay periods, then multiply the result by 3.8 percent to get the additional withholding amount $22 ($15,000/26*3.8%) on each paycheck to be claimed on IA W-4.
+Employee Withholding Information for Head of Households
+It is possible that taxpayers with filing status as head of household may experience underwithholding if they have not completed a new IA W-4 Form for tax year 2025 and indicated on that form they have a filing status of head of household If this is the case, to prevent underwithholding, employees with filing status as head of household may claim an additional withholding amount on their IA W-4. Use the following procedure to calculate the amount of additional withholding for a head of household:
+Divide $7,500 by the number of pay periods per year, and multiply the result by 3.8 percent (0.038).  The amount calculated is the additional withholding amount to be claimed on the IA W-4. For example, for an employee who is paid semi-monthly, divide $7,500 by 24 pay periods and then multiply by 3.8 percent; the result is an additional withholding amount of $12 ($7,500/24*3.8%) per pay period to be claimed on the IA W-4.
+Employee Withholding Information for Two-Earner Households
+It is possible that a two-earner household (i.e., a married filing jointly couple with spouse also working) will experience underwithholding if each worker in the couple claims $80 or more allowances (for example, for a working couple having two kids, each taxpayer claims $80 allowances including $40 for oneself and $40 for one kid). To prevent underwithholding, such employees may claim an additional withholding amount on their IA W-4. Use the following procedure to calculate the amount of additional withholding for each individual of a working couple:
+Divide $15,000 by the number of pay periods per year, then multiply the result by 3.8 percent (0.038).  The amount calculated is the additional withholding amount to be claimed on the IA W-4. For example, for an employee who is paid biweekly, divide $15,000 by 26 pay periods, then multiply the result by 3.8 percent (0.038)to get the additional withholding amount of $22 ($15,000/26*3.8%) per pay period to be claimed on the IA W-4.
+What Income is Subject to Withholding?
+Wages and Other Employee Compensation
+Iowa income tax withholding is generally applied to the same wages and compensation to which federal withholding applies. Certain payments made by the employer into employee retirement plans or for employee health insurance are not considered wages and are not included in the calculations of withholding tax. See IRS Publication 15, Circular E, for details.
+Supplemental Wages
+"Supplemental wages" includes a bonus, overtime pay, commission or other special payment that is made in addition to the regular wage payment. If federal income tax is withheld on a flat rate basis, Iowa income tax is required to be withheld at the highest rate applicable to individuals (3.8%). However, if the supplemental wage payment is included with the regular wage payment, the two are combined and the withholding tables or formulas are used. Iowa Administrative Code rule 701—307.2(1)“c”.
+Winnings from Gambling
+Iowa tax is required to be withheld at the rate of 3.8 percent from lottery winnings and winnings from games of skill, games of chance and raffles in excess of $600, pari-mutuel winnings of more than $1,000, and winnings in excess of $1,200 from slot machines on riverboats or at racetracks. Iowa Administrative Code rule 701—307.1(1)“d”-“g”. For calendar year 2025 this rate will change to 3.8%.
+Effective January 1, 2026:  Withholding, at a rate of 3.8 percent, is also required for sports wagering winnings when federal income tax is required to be withheld on the same winnings.
+Agricultural Wages
+Wages paid for agricultural labor are subject to withholding for state income tax purposes to the same extent that the wages are subject to withholding for federal income tax purposes.
+Nonwage Withholding Requirements
+"Nonwage income" includes pensions, annuities, supplemental unemployment benefits, sick pay benefits, and other nonwage income payments to Iowa residents. Iowa income tax is generally required to be withheld in cases where federal income tax is withheld. In situations where no federal income tax is withheld, the receiver of the payment may choose to have Iowa withholding taken out.
+Withholding on nonwage income may be made at a rate of 3.8 percent. Payers of nonwage income also have the option of withholding Iowa income tax from these payments on the basis of tables and formulas. Iowa withholding is not required when payment amounts or taxable amounts of nonwage incomes fall below certain levels, when payments are not subject to Iowa income tax, or when no federal income tax withholding is required on those payments.
+Pension and Retirement Income Exclusion (IA W-4P)
+An exemption is provided for pensions, annuities, self-employed retirement plans, deferred compensation, IRA distributions, and other retirement benefits to qualified individuals.
+To qualify you must be 55 years of age or older, disabled, or a surviving spouse of an individual who would have qualified.
+Pension and retirement plan administrators are generally not required to withhold Iowa income tax on distributions of qualifying retirement income made to eligible payees. If a payee does not qualify for the retirement income exclusion, the plan administrator is required to withhold Iowa income tax from these payments at the same rate as other nonwage income payments (3.8%). Iowa Administrative Code rule 701—307.1(2). If you qualify for the pension and retirement income exclusion, but would like tax withheld from your pension or retirement income distributions, submit a
+IA W-4P - Withholding Certificate for Pension or Annuity (44-020)
+to your plan administrator.
+Military retirement benefits can also be excluded from Iowa individual income tax and withholding. The exclusion also applies to military survivor benefits received under 10 U.S.C. §1447.
+Nonresident Wage and Salaries
+Employers doing business in Iowa are required to withhold Iowa individual income tax from the wages and salaries of nonresident employees working in Iowa at the same rate as for residents.
+Exception: See Iowa-Illinois Reciprocal Agreement below.
+Composite Return Requirement
+For tax years beginning on or after January 1, 2022, pass-through entities with nonresident members are required to file composite returns and pay composite return tax on behalf of its nonresident members. Visit the
+Iowa Composite Returns for Tax Year 2022 and Later
+guidance page for more information about the requirement.
+Other Nonresident Income
+The payer or withholding agent may withhold on a one-time basis. The following additional types of income to nonresidents are subject to Iowa withholding:
+Compensation paid to entertainers performing in Iowa, but not payments to entertainment corporations.
+Rental payments received from Iowa property.
+Income derived from any business of a temporary nature such as contracts for construction or fees paid for services in Iowa.
+For tax years beginning prior to January 1, 2022, taxable Iowa-source income paid to a beneficiary of an Iowa estate or trust.
+For tax years beginning prior to January 1, 2022, Iowa-source income received by a nonresident partner or shareholder of a partnership or S corporation doing business in Iowa.
+Nonresidents Working in Interstate Commerce – Railroads / Airlines / Trucking
+Under provisions of federal law, Iowa tax should not be withheld from nonresidents working in Iowa as employees of railroads, airlines, and trucking firms in interstate commerce if they are working in at least one other state. Withholding may be required for the employee’s state of residence or the nonresident employee may be required to make estimated payments to their state of residence.
+Iowa-Illinois Reciprocal Agreement
+Iowa and Illinois have a reciprocal agreement for individual income tax purposes.
+Any wages or salary made by an Iowa resident working in Illinois is taxable only to Iowa and not to Illinois. Any wages or salary made by an Illinois resident working in Iowa is taxable only to Illinois and not to Iowa.
+An Iowa resident working for wages or salary in Illinois should complete and file
+Illinois form
+IL-W-5-NR “Employee's Statement of Nonresidence in Illinois” with the employer so that the employer will be aware it is appropriate to withhold Iowa income tax. The Iowa resident should also complete an Iowa W-4.
+An Illinois resident working for wages or salary in Iowa should complete and file the
+Employee's Statement of Nonresidence in Iowa (44-016)
+(113.35 KB)
+Archived
+.pdf
+“Employee's Statement of Nonresidence in Iowa” with the employer so that the employer will be aware it is appropriate to withhold Illinois income tax.
+Iowa will tax any Iowa-source income received by an Illinois resident that is not from wages or salaries. Illinois will tax any Illinois-source income received by an Iowa resident that is not from wages or salaries. Examples of income that are not wages and salaries and, therefore, not covered under the Iowa-Illinois Reciprocal Agreement are Iowa gambling winnings and unemployment compensation for employment in Iowa.
+Unemployment Benefit Payments
+Recipients of benefits may choose to have state income tax withheld from the benefit payments at a rate of 3.8 percent. Questions concerning state unemployment are answered by Iowa Workforce Development at
+866-239-0843
+.
+Taxable Compensation Not Subject to Iowa Withholding
+Exemptions from Iowa withholding follow the guidelines of the Internal Revenue Service, with the following exceptions:
+Domestic Workers and Clergy
+Domestic workers and clergy are generally excluded from Iowa tax withholding requirements. However, if they anticipate an Iowa tax liability of $1,000 or more and are not subject to withholding, they may be required to submit quarterly estimated payments.
+Interest and Dividends
+Interest and dividends are not subject to Iowa withholding.
+Film or Television Production - Nonresidents
+Wages of nonresidents engaged in film production or television production may not be subject to Iowa withholding tax if an exemption has been filed. Applications for exemption must include:
+Each nonresident employee’s name and permanent address;
+Social Security Number;
+Estimated amounts the employee is to be paid.
+Nonresident Request for Release from Withholding (44-017)
+(118.16 KB)
+Archived
+.pdf
+from withholding for nonresident employees engaged in film production or television production should be directed to:
+Iowa Department of Revenue
+Alcohol & Tax Compliance
+Hoover State Office Building
+P.O. Box 10456
+Des Moines, Iowa 50306-0456
+Agricultural Payments to Nonresidents
+Agricultural payments to nonresidents are exempt from Iowa withholding if the withholding agent provides certain information to the Department about the sales of agricultural commodities or products. The following information must be included:
+Name, address, Social Security Number of each nonresident;
+Payments made in the calendar year to the nonresident;
+County or counties in which the nonresident worked, owned or leased property, had products stored or livestock located;
+The type of agricultural commodities or products: commodity credit certificates, grain, livestock, domestic fowl, or others.
+Note:
+Although these types of payments are not subject to Iowa withholding, they are subject to Iowa income tax in most instances.
+State-Declared Disaster Payments to Out-of-State Businesses and Employees
+Iowa income tax withholding is not required on payments made to an out-of-state business or out-of-state employee who enters Iowa to perform disaster and emergency-related work during a disaster response period as defined in Iowa Code section 29C.24.
+Note
+: Although these types of payments are not subject to Iowa withholding, they are subject to Iowa income tax in most instances.
+Reporting and Paying Withholding Tax
+Filing Frequencies
+Quarterly
+if you remit less than $6,000 tax per year (less than $500 per month)
+Monthly
+if you remit $6,000 - $120,000 tax per year ($500 - $10,000 per month)
+Semimonthly
+if you remit more than $120,000 tax per year (more than $10,000 per month; more than $5,000 semimonthly)
+Filing Withholding
+Based on their filing frequency, every employer is required to file for each applicable period during the calendar year, even if compensation was not paid during a period. If no wages or compensation was paid during a period, the employer will enter zeroes on the return/payment for that period.
+Quarterly filers
+are required to file a quarterly return for each calendar quarter for which they are registered.
+Monthly filers
+are required to file two monthly payments and one quarterly return for each calendar quarter.
+Semimonthly filers
+are required to file six semimonthly payments and one quarterly return for each calendar quarter.
+Withholding due dates
+Withholding returns are submitted electronically through the Department's
+online services
+. Once you are registered as a withholding agent, the Department will send you information on how to file and pay.
+If you were awarded a tax credit certificate for the period being filed, a withholding credit schedule will be provided when filing online. Each credit claimed against withholding tax is recorded separately on this schedule. Information entered on the credit schedule will be automatically populated on the withholding quarterly return.
+Credits that may be claimed against withholding tax are as follows:
+The Iowa New Jobs Training Program Credit (NJC)
+– This credit is available to businesses to cover the cost of approved training programs entered into with community colleges for new employees hired due to business expansion, the start-up of a new business, or relocation from outside Iowa. The credit equals 1.5% or 3.0% of the gross payroll attributable to the new employees, depending on the achievement of certain wage targets. The credit may only be claimed after payments are made to the community college under terms of the job training agreement. (Iowa Code chapter 260E) The community college gives the credit certificate number to the qualifying business.
+The Supplemental New Jobs Credit (SJC)
+– Businesses located in an enterprise zone or eligible for the New Jobs and Income Program (NJIP) may also be eligible to receive additional job training credits equal to 1.5% of the gross wages of new employees engaged in approved job training under the 260E program. (Iowa Code section 15.331)  The community college gives the credit certificate number to the qualifying business.
+The Accelerated Career Education Credit (ACE)
+– Businesses participating in the program may claim a credit of up to 10.0% of the hiring wage that would be paid to individuals completing approved training by community colleges. (Iowa Code chapter 260G) The community college gives the credit certificate number to the qualifying business.
+The Targeted Jobs Tax Credit (TJC)
+– This credit is available to employers that created targeted jobs in an urban renewal area and that enter into a withholding agreement with pilot project cities approved by the Iowa Department of Economic Development. The credit is equal to 3.0% of the gross wages paid to employees under the withholding agreement. The employer shall remit the amount of the credit to the pilot project city. The qualifying employer will be given the credit certificate number by the Iowa Department of Revenue.
+Remitting the Tax
+Several payment options are offered through
+EasyPay Iowa
+Failure to Withhold
+A withholding agent as defined under Iowa Code section 422.4(18) who fails to withhold and pay to the Department any money required to be withheld and paid is personally, individually and corporately liable to the State of Iowa. If this occurs, the amount of withholding may be assessed against the withholding agent in the same manner as is used to assess personal or corporate income tax.
+Penalty and Interest
+Visit our
+Penalty and Interest
+page for more information.
+End of Year Reporting
+W-2s, W-2Gs, & 1099s
+Businesses that issued W-2s or 1099s that contain Iowa withholding must electronically file those documents by February 15. If businesses did not withhold any Iowa taxes, filing is not required.
+Wage and Tax Statements (W-2)
+W-2s must be given to employees on or before the last day of January following the tax year or within 30 days of the time the last wage payment is received if requested by the employee. This statement must contain the name, address, and federal employer identification number of the employer; and the name, address, and taxpayer identification number of the employee; the gross amount of compensation paid to the employee during the year and the amount of federal and state tax withheld. Iowa Administrative Code rule 701—307.3(4)“d”(3).
+Businesses that are required to file an income statement with the Department or furnish an income statement to an income recipient may be subject to a $500 penalty for each instance of willful failure to file or furnish the income statement or for willfully furnishing or filing a false or fraudulent income statement pursuant to Iowa Code section 422.16(11)“a”.
+Employees: If you need a copy of your W-2, first ask your employer. The Department is not able to furnish W-2s. If you are unable to obtain a copy from your employer, here are some other possible options:
+Social Security Administration (SSA) - will provide copies of Forms W-2 for retirement purposes at no charge and for other than retirement purposes for a fee. Call
+800–772–1213
+, or visit the SSA website at
+www.ssa.gov
+for instructions on how to obtain wage information from the SSA.
+Internal Revenue Service (IRS) – will provide an exact copy of a previously filed and processed tax return with attachments (including Form W-2).
+For the Iowa Department of Revenue, you should complete
+Form 4506, Request for Copy of Tax Return
+, and mail it to the address listed in the instructions. A fee will be charged for each tax year requested.
+View Withholding Frequently Asked Questions
+Secondary Navigation Menu
+Withholding Tax
+Impact of One, Big, Beautiful Bill Act on Employee Withholding
+Iowa Withholding Tax Return and Jobs Credits
+Sports Wagering Withholding
+Iowa Withholding Tax Information
+2025 Withholding Tax Information
+Department of Revenue
+Footer Social Media Menu
+Opens in a new window.
+Opens in a new window.
+Opens in a new window.
+Opens in a new window.
+Phone
+515-281-3114
+How can we help?
+Share feedback with us
+Footer Menu
+Footer
+About
+Contact
+News
+Subscribe
+Taxpayer Rights
+Accessibility Assistance
+Archived Documents
+Contact Menu
+Send Feedback
+©
+2026
+State of Iowa - Read our
+accessibility, data, privacy, and other policies
+.

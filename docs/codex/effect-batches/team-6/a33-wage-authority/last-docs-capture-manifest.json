@@ -1,0 +1,110 @@
+{
+  "scope": "withholding detail and none-tax claims, same authorized research pass",
+  "captures": [
+    {
+      "place": "AK-division",
+      "requestedUrl": "https://dor.alaska.gov/tax",
+      "capturedAt": "2026-10-01T19:29:32.588402+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "FL-income",
+      "requestedUrl": "https://floridarevenue.com/faq/Pages/FAQSearch.aspx?keywords=individual%20income&cat=4&subcat=0",
+      "capturedAt": "2026-10-01T19:29:32.589948+00:00",
+      "status": 200,
+      "finalUrl": "https://floridarevenue.com/faq/Pages/FAQSearch.aspx?keywords=individual%20income&cat=4&subcat=0",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-fl-income-2026-10-01",
+      "path": "raw/fl-income.html",
+      "sha256": "eba22d65b637dd1094ddcba5db26e85a0e8f78305e480c7e0e2389c665487cf5",
+      "byteLength": 80651,
+      "textPath": "raw/fl-income.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "GA-withholding",
+      "requestedUrl": "https://dor.georgia.gov/taxes/business-taxes/withholding-tax",
+      "capturedAt": "2026-10-01T19:29:33.057122+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "HI-withholding",
+      "requestedUrl": "https://tax.hawaii.gov/geninfo/a2_b2_8wthhold/",
+      "capturedAt": "2026-10-01T19:29:32.919598+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "MT-2026",
+      "requestedUrl": "https://revenue.mt.gov/publications/publication-1",
+      "capturedAt": "2026-10-01T19:29:32.587811+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.mt.gov/publications/publication-1",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-mt-2026-2026-10-01",
+      "path": "raw/mt-2026.html",
+      "sha256": "9cd7c701a1d79e960196ad770ce016fd5752e3ebd286ed85b7db1abd51573e0c",
+      "byteLength": 52591,
+      "textPath": "raw/mt-2026.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OK-withholding",
+      "requestedUrl": "https://oklahoma.gov/tax/businesses/business-tax-types/income-tax/withholding.html",
+      "capturedAt": "2026-10-01T19:29:33.032419+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "PR-tables",
+      "requestedUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/tablas-de-retencion",
+      "capturedAt": "2026-10-01T19:29:33.189659+00:00",
+      "status": 200,
+      "finalUrl": "https://hacienda.pr.gov/pagina-no-encontrada",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-pr-tables-2026-10-01",
+      "path": "raw/pr-tables.html",
+      "sha256": "a2b7a75c8108a9c3f29a1f20affc8d1a71b3d5b49f88eac7b77fa959ef3141d5",
+      "byteLength": 29379,
+      "textPath": "raw/pr-tables.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "TX-income",
+      "requestedUrl": "https://comptroller.texas.gov/taxes/franchise/faq/general.php",
+      "capturedAt": "2026-10-01T19:29:32.588888+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "WI-withholding",
+      "requestedUrl": "https://www.revenue.wi.gov/Pages/FAQS/pcs-with.aspx",
+      "capturedAt": "2026-10-01T19:29:32.590394+00:00",
+      "status": 200,
+      "finalUrl": "https://www.revenue.wi.gov/Pages/FAQS/pcs-with.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-wi-withholding-2026-10-01",
+      "path": "raw/wi-withholding.html",
+      "sha256": "98f332c7488b9e900aa72d46cb4ab9f7e2397c5e7d57d0f13878049bee7def0f",
+      "byteLength": 78417,
+      "textPath": "raw/wi-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "WV-withholding",
+      "requestedUrl": "https://tax.wv.gov/Business/Withholding/Pages/EmployerWithholding.aspx",
+      "capturedAt": "2026-10-01T19:29:32.849232+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "WY-description",
+      "requestedUrl": "https://revenue.wyo.gov/about-us/overview",
+      "capturedAt": "2026-10-01T19:29:32.589257+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    }
+  ]
+}

@@ -1,0 +1,936 @@
+      2026 Montana
+      Publication 1
+ A Guide to Montana Tax Withholding
+    and Estimated Payments with
+Worksheets ESW, ESA, and ESW-TMSI
+
+
+            V1 September 2025
+Contents
+  What’s New?.................................................................................................. 1
+  Introduction.................................................................................................... 1
+  Tax Withholding. ............................................................................................. 1
+        Salaries and Wages................................................................................. 1
+              Wages Not Subject to Montana Tax................................................... 2
+              Form MW-4 Filing Requirement......................................................... 2
+              Form MW-4 Not Required.. ................................................................ 3
+        Pensions and Annuity Payments.............................................................. 4
+        Additional Withholding from Wages.......................................................... 4
+        Lottery Winnings. ..................................................................................... 5
+        Unemployment Compensation................................................................. 5
+        Pass-Through Entity Payments................................................................ 5
+        Composite Tax......................................................................................... 5
+        Pass-Through Entity Tax.......................................................................... 5
+        Pass-Through Withholding....................................................................... 5
+        Mineral Royalty Withholding. . ................................................................... 6
+  Estimated Tax Payments................................................................................ 6
+        Who Must Pay Estimated Tax. . ................................................................. 6
+              Estimated Tax Payment Due Dates.. .................................................. 7
+              Estimated Tax Payment Amounts .. .................................................... 7
+              Prior Year Tax Method....................................................................... 7
+              Current Year Tax Method................................................................... 7
+              Estimating Taxable Income for the Current Tax Year.......................... 7
+              How to Make Estimated Payments...................................................12
+  Legal References..........................................................................................12
+  2026 Worksheet ESW – Montana Estimated Tax........................................13
+  2026 Worksheet ESA – Estimated Tax Annualization.. ...............................14
+  2026 Worksheet ESW-TMSI – Tax on Montana Source Income.. ................15
+  2026 Tax Tables...........................................................................................16
+  2027 Tax Tables...........................................................................................16
+What’s New?                                             Salaries and wages for Montana purposes are
+                                                        the same as they are for federal purposes.
+House Bill 845, passed in 2025, increased the
+                                                        With the exception of federal and Montana
+maximum subtraction a taxpayer may take
+                                                        exemptions, salaries and wages include regular
+for contributions to a 529 plan. The bill also
+                                                        pay, bonuses, commissions, tips, vacation
+provides for annual inflationary adjustments to the
+                                                        allowances, other supplemental wages earned in
+amount of the subtraction. For tax year 2025, the
+                                                        Montana, and income recognized when property,
+maximum contribution amount has increased from
+                                                        such as stock, is transferred in connection with
+$3,000 to $4,500 (up to $9,000 if filing jointly).
+                                                        performance of services.
+The following bills, passed during the 2025
+                                                        If you do not have enough tax withheld from your
+Montana Legislative Session go into effect
+                                                        wages, estimated tax payments may be required,
+beginning with tax year 2026.
+                                                        even if you only receive wages.
+House Bill 129 created a subtraction from federal
+                                                        TIP: Montana’s income tax system changed in 2024,
+taxable income for qualified volunteer firefighters
+                                                        and your employer may not be withholding enough
+and volunteer emergency care providers.
+                                                        tax from your paycheck. If you have not updated your
+The subtraction is equal to $3,000 and is
+                                                        wage withholding since 2023, consider submitting a
+adjusted annually for inflation.
+                                                        new Form MW-4 to your employer.
+House Bill 337 lowered the top marginal tax rate
+                                                        Calculating wage withholding. Your employer
+and increased the income brackets for tax year
+                                                        calculates Montana wage withholding using the
+2026. Beginning in tax year 2027, the bill lowers the
+                                                        Montana withholding tax tables based on the
+top marginal ordinary income tax rate and increases
+                                                        length of the payroll period, your net taxable
+the income brackets even further. The bill also
+                                                        earnings, your filing status, and any other
+increases the Montana earned income tax credit
+                                                        adjustments or exemptions you claim on your
+to 20% of the federal earned income tax credit
+                                                        Montana Employee’s Withholding and Exemption
+beginning in tax year 2026. The 2026 and 2027 tax
+                                                        Certificate (Form MW-4). The Montana Employer
+tables are located at the end of this guide.
+                                                        and Information Agent Guide includes the tax
+                                                        tables your employer uses to determine the
+Introduction                                            amount to withhold from your paycheck. You must
+Montana’s income tax system is a pay-as-you-go          complete a Form MW-4 when you start working for
+tax system. You must pay your tax as you earn           a new employer. You may want to complete a new
+or receive income throughout the year. There are        Form MW-4 if your personal or financial situation
+two methods to pay your Montana income tax.             changes to adjust the amount of tax withheld.
+ ● Have tax withheld from your income                   The filing status you use on your federal
+ ● Pay estimated taxes.                                 Form 1040 is the first thing your employer will
+                                                        use to determine the amount to withhold on your
+This publication explains both of these methods.        paycheck. Your filing status is used to determine
+It also includes four worksheets you can use to         the standard deduction and tax rates used to
+determine the amount of estimated tax you may owe.      compute your wage withholding.
+                                                        If you have multiple jobs, you will likely need
+Tax Withholding
+                                                        more tax withheld than what is calculated for
+Tax withholding is the first way to pay-as-you-go for   your filing status. Complete the Multiple Jobs
+your Montana income. Several types of payments          Worksheet found in the Form MW-4 instructions
+are required to be withheld on in Montana.              to calculate the additional withholding.
+                                                        If you are married and both spouses work, and
+Salaries and Wages
+                                                        earn similar amounts, mark the box on line 2 of
+If you are an employee, your employer is required       all of your Forms MW-4. If this box is checked,
+to withhold income tax from your paycheck unless        the standard deduction and tax brackets will be
+a federal or Montana tax exemption applies.
+                                          2026 Montana Publication 1                            Page 1 of 16
+cut in half for each job to calculate withholding.        While these wages are not taxable in Montana, you
+This is roughly accurate for jobs with similar            may still need to file a Montana Individual Income
+pay; otherwise, more tax than necessary will              Tax Return (Form 2), even if the employer did not
+be withheld. If one spouse earns significantly            withhold on them. See the Form 2 instructions for
+more than the other, select the married filing            more information.
+jointly status on line 1b of the Form MW-4. Then,         If you forget to claim an exemption from wage
+complete the Multiple Jobs Worksheet on the               withholding on your Form MW-4, you may be
+Form MW-4 of the highest paid job. Report the             entitled to a refund of it. You will need to file a
+additional amount to withhold on line 3 of the            Form 2 to obtain a refund of your wage withholding.
+Form MW-4 of the highest paid job.
+TIP: If you expect to receive income outside of           Form MW-4 Filing Requirement
+your employment and do not want to pay estimated          The following types of wages are exempt from tax
+taxes for that income, you may elect to have              in Montana, but the employee must file a Form
+more tax withheld from your paycheck. Mark the            MW-4 with the employer to declare the wages are
+box for your filing status on line 1 or line 2 of your    exempt from Montana wage withholding.
+Form MW-4. Then enter the additional amount you           Enrolled tribal members. If you are an enrolled
+want withheld from your paycheck on line 3.               tribal member living and working on the reservation
+Supplemental wages. Supplemental wages,                   of your governing tribe, your wages earned on the
+such as commissions, bonuses, or overtime pay,            reservation are exempt from Montana tax.
+are subject to withholding based on the total of the      However, tribal members’ wages earned off the
+regular and supplemental wages. If supplemental           reservation of their governing tribe are always
+wages are paid separately (for example,                   subject to Montana tax.
+a holiday bonus), your employer can withhold the
+tax by using one of the following ways:                   Consequently, even if the wages earned within the
+                                                          reservation are exempt from Montana tax, tribal
+ ● the total of the supplemental wage and the             members must complete the Form MW-4 each year.
+   regular wage for the current payroll period
+ ● the total of the supplemental wage and the                  Example: You are an enrolled tribal member
+   regular wage for the last preceding payroll                 of the Crow Nation and lived on the Crow
+   period that falls within the same calendar year             Indian Reservation the entire year. In that
+                                                               year, you earned $35,000 of wages working
+ ● a flat 5 percent of the supplemental wage.                  on the Crow Indian Reservation. Your wages
+Agricultural laborers. Agricultural laborers’ wages            of $35,000 are exempt from Montana wage
+are not subject to the Montana wage withholding                withholding. That same year, you also earned
+requirement. Agricultural laborers are employees               $10,000 working in Billings and $2,000
+that work on a farm or ranch that participate in the           working on the Northern Cheyenne Indian
+cultivation of soil or in the raising or harvesting any        Reservation. The $12,000 of wages earned
+agricultural or horticultural commodity. However,              in Billings and on the Northern Cheyenne
+they are still subject to Montana tax. If you are an           Indian Reservation are subject to withholding
+agricultural laborer, your wages will not be withheld          by the employer. If you did not provide your
+upon and you may need to pay estimated taxes.                  filing status on the Form MW-4, the amount of
+                                                               withholding will be higher than necessary.
+Wages Not Subject to Montana Tax
+                                                          In addition to filing the Form MW-4 annually, tribal
+Some wages earned in Montana are not subject to           members with exempt tribal income must file the
+Montana tax under either federal law or Montana           Form ETM with the Form 2 to report this exempt
+law. If you receive any of the following types of         income. If all of the income is exempt, the tribal
+wages, your employer does not have to withhold            member can file Form ETM on its own, without
+Montana taxes from them. To request an exemption          the Form 2.
+from withholding, the employee must complete a
+Form MW-4 and provide it to the employer.
+
+                                            2026 Montana Publication 1                            Page 2 of 16
+Reservists and National Guard Members.                    to request an exemption from Montana wage
+Active-duty military compensation received for            withholding on the following types of income.
+services in the National Guard or Reserves paid           Active-duty members of the armed forces.
+under a U.S.C. Title 10 order is not subject to tax       Active-duty military compensation received for
+in Montana. You may claim an exemption from               services in the regular armed forces paid under a
+wage withholding on this income on Form MW-4 if           United States Code Title 10 order is not subject to
+you received U.S.C. Title 10 orders. Compensation         tax in Montana. This exemption applies whether
+received under a U.S.C. Title 32 order is still subject   you are a resident or a nonresident.
+to withholding in Montana, unless it was paid for
+being part of a unit engaged in a homeland defense        Nonresident employees of interstate carriers.
+activity or a contingency operation.                      Nonresident interstate employees of railroad,
+                                                          trucking, air, and water interstate carriers are
+Nonresident spouse of military service person.            exempt from Montana tax. Only nonresidents are
+If you are the spouse of a military service person,       eligible for this exemption. Residents’ wages are
+your wages earned in Montana are not subject to           subject to Montana tax and must be withheld upon.
+tax if you moved to Montana solely because:
+                                                          Thirty-Day Nonresident Worker Filing Exclusion.
+ ● You are the nonmilitary spouse of an                   There is a filing exclusion for certain nonresidents.
+   active-duty service member of the regular              Nonresidents who earned only wages for services
+   armed forces stationed in Montana in                   performed in Montana for 30 days or less and
+   compliance with U.S.C. Title 10 orders; and            worked in more than one state during the tax year
+ ● You and your spouse are both residents of              do not have to file a tax return or pay tax to Montana
+   the same state, which is not Montana.                  on that income. The exclusion does not apply to the
+These wages are not Montana source income and,            following types of employees: professional athletes,
+if applicable, are taxable in your state of residence.    entertainers, persons that perform services for
+To claim an exemption from wage withholding, you          compensation on a per-event basis, construction
+must file a Form MW-4 each year.                          workers, employees with annual salaries of more
+                                                          than $500,000, and qualified production employees
+If your situation changes, either because you choose      for the purposes of the MEDIA Credit.
+to become a Montana resident, your spouse is no
+longer serving in Montana, or you have divorced,          If a nonresident employee worked in Montana for
+your wages will become taxable in Montana.                more than 30 days or only worked in Montana,
+                                                          then all income earned while working in the state
+North Dakota residents working in Montana.                is taxable to Montana and the employee must
+If you are a North Dakota resident earning wages          follow the general filing requirement. Additionally,
+from work performed in Montana, these wages               this exclusion does not apply to nonresident
+are exempt from Montana tax. Note that the                employees who have other Montana source
+wages you earn for work in Montana are subject            income. For example, a nonresident employee
+to income tax in North Dakota.                            worked in Montana for 15 days. The nonresident
+To benefit from this exemption, mark the                  also has a rental property located in Montana.
+North Dakota Exemption box on Form MW-4 and               This nonresident’s wages and rental income are
+give it to your employer as soon as possible after        taxable to Montana.
+the hiring date or after becoming a North Dakota          This exclusion does not apply to self-employed
+resident, to avoid Montana wage withholding.              taxpayers, such as sole proprietors or owners
+If, in the next year, you receive a Form W-2              of pass-through entities, or any other Montana
+showing Montana withholding, verify with your             source income.
+employer that the amount of withholding is correct.       If you are a nonresident and expect to work in
+Form MW-4 Not Required                                    Montana for more than 30 days or only work in
+                                                          Montana, your income is subject to Montana tax.
+The following types of income are not subject to          Complete a Form MW-4 so that your employer
+Montana tax. Additionally, employees do not have          can begin withholding on your Montana wages.
+                                           2026 Montana Publication 1                                Page 3 of 16
+Pensions and Annuity Payments                             ● The amount of Montana source income on
+                                                            the return from:
+Generally, pensions and annuities are taxable
+in Montana. If you receive pension or annuity                     ○ Wages, salary, and tips from
+payments, you may choose to pay estimated taxes                     compensation performed in Montana
+on the amount or have the remitter withhold a flat                ○ Net income from a trade or business
+amount of taxes every distribution period. You can                  in Montana
+enter this flat amount on line 4 of Form MW-4.                    ○ Net income from farming activities
+The withholding can be changed or revoked                           in Montana
+at any time. All you need to do is send a new            Beneficiaries receiving military survivor benefits
+Form MW-4 to the payer of the pension or                 under the U.S. Department of Defense’s Survivor
+annuity, with a change of amount on line 4.              Benefit Plan can exempt up to 50% of their military
+The payer is not required to withhold if the             survivor benefits. Eligible beneficiaries include
+amount of tax withholding is less than $10.              spouses, eligible children, or an “insurable interest”
+                                                         as defined by the U.S. Department of Defense.
+TIP: In general, you can quickly estimate the
+additional amount you will need to withhold              Retirees and beneficiaries must meet certain
+as follows:                                              residency requirements to claim this subtraction.
+ ● Estimate your expected taxable pension and            The exemption is for taxpayers that became a
+   annuity distributions for the year.                   Montana resident after June 30, 2023, or for
+ ● Multiply the result by 5.65 percent (0.0565)          a Montana resident that was a resident before
+   to determine the overall amount of additional         receiving military retirement income or survivor
+   withholding for the rest of the year.                 benefits and remained a resident thereafter.
+
+Divide the additional withholding by the number          The exemption is not available to retirees or
+of paydays or payments left for the year.                beneficiaries that were nonresidents when they
+                                                         began receiving military retirement if they became
+Railroad Retirement Benefits. Tier I and II Railroad     a resident before June 30, 2023, or if they were
+Retirement Benefits paid by the Railroad Retirement      previously qualified to claim the exemption
+Board are exempt from Montana income tax.                but become nonresidents after receiving the
+Taxpayers must subtract these benefits from federal      exemption in a future tax year.
+taxable income on the Form 2 or Form FID-3.
+                                                         The deduction can only be claimed for five
+Subtraction for working military retirees and            consecutive years after meeting the eligibility
+military survivor benefits. Montana resident             requirements.
+working military retirees may be eligible to subtract
+a portion of their military retirement income from       See Form WMRE for more information.
+Montana taxable income. The subtraction is
+also available to resident beneficiaries receiving       Additional Withholding from Wages
+military survivor benefits. For military retirees, the   If you have a large amount of income from sources
+subtraction is equal to the lesser of:                   not subject to withholding (such as interest,
+ ● 50% of the taxpayer’s military retirement income      dividends, capital gains, or business income), you
+   received from service in the U.S. Armed Forces,       may be able to request to have an additional amount
+   Army National Guard, Air National Guard, or           withheld from your paycheck on Form MW-4, line 3.
+   U.S. Reserve Component, or                            You can use this additional withholding instead of
+                                                         making estimated tax payments.
+
+
+
+
+                                          2026 Montana Publication 1                               Page 4 of 16
+Lottery Winnings                                         not eligible to participate unless that other income
+                                                         is from pass-through entities that file composite
+Lottery winnings from a ticket purchased in Montana
+                                                         returns on behalf of the owner.
+are considered Montana source income regardless
+of the winner’s state of residency. The Montana State    Composite tax is a tax paid in lieu of an owner
+Lottery must withhold 5.56 percent on any winnings       filing its own income tax return. If you are an
+that exceed $5,000.                                      eligible participant in a composite tax return and
+                                                         Part V of your Montana Schedule K-1 (PTE)
+Unemployment Compensation                                reports composite tax paid on your behalf, do not
+                                                         file a Montana income tax return.
+Unemployment compensation is taxable in Montana.
+You may need to pay estimated taxes if you receive
+                                                         Pass-Through Entity Tax
+unemployment compensation.
+                                                         Pass-through entities may elect to pay tax on an
+Pass-Through Entity Payments                             affected owner’s distributive share of Montana
+                                                         source income. The tax is calculated at the
+If you are an owner of a pass-through entity doing
+                                                         rate of 5.65 percent of the affected owner’s
+business in Montana, you may have tax withheld or
+                                                         distributive share of Montana source income. The
+paid on your behalf. There are three types of taxes
+                                                         tax can be used as a refundable credit against
+that a pass-through entity may pay or withhold on
+                                                         the affected owner’s income tax. Affected owners
+your behalf, pass-through entity tax, composite tax,
+                                                         include individuals, estates, trusts, partnerships,
+and pass-through withholding. The tax is reported
+                                                         S corporations, and disregarded entities owned
+to you on your Montana Schedule K-1.
+                                                         by individuals, estates, or trusts. Owners that are
+                                                         not affected by the PTET are C corporations, tax-
+Composite Tax                                            exempt entities, or disregarded entities owned by
+A pass-through entity can elect to file a composite      a partnership, a corporation, or an undisclosed
+tax return and pay composite tax on behalf of            person. A nonresident affected owner that does
+eligible participants.                                   not have any other Montana source income
+Owners can elect to be a participant in a                (other than that from another pass-through entity
+composite return if they:                                that is paying composite tax or pass-through
+                                                         entity tax) does not have a filing requirement.
+ ● are a nonresident individual, nonresident
+   estate, nonresident trust, foreign C                  If a pass-through entity pays this tax, your share
+   corporation, tax-exempt entity, or a second-          of the tax will be reported to you on Part V of
+   tier pass-through entity;                             your Montana Schedule K-1 (PTE). Report this
+                                                         amount on your income tax return as indicated
+ ● have no other Montana source income (other            in the form’s instructions. This amount is fully
+   than Montana source income from another               creditable against your income tax liability. The
+   pass-through entity that is also electing to file a   excess payment is refundable.
+   composite return on the owner’s behalf); and
+ ● consent to be included in the return by               More information about pass-through entity
+   providing the entity with a written power of          tax can be found in Publication 4, Montana
+   attorney, authorizing the entity to file and act      Pass-Through Entity Tax Guide.
+   on their behalf.
+                                                         Pass-Through Withholding
+Owners who are nonresidents, foreign
+C corporations, tax-exempt entities, or second-tier      If you receive a Montana Schedule K-1 from a
+pass-through entities and who properly elect to          partnership or S corporation, the entity may be
+participate in the composite tax return do not           required to withhold tax on your behalf. If this
+file a Montana income tax return. However, if            applies to you, it will be reported on Part V of
+the owner has Montana source income from a               your Montana Schedule K-1 (PTE).
+different source in the same tax year, the owner is
+
+                                          2026 Montana Publication 1                              Page 5 of 16
+Pass-through withholding is 5.65 percent of the          Montana Schedule K-1. If you received a
+distributive share of Montana source income              Montana Schedule K-1 from a pass-through
+attributable to nonresident owners, foreign C            entity, estate, or trust, mineral royalty withholding
+corporations, or second-tier pass-through entities,      may be reported in Part V.
+unless there is a waiver of this requirement in place    In some circumstances, when tax was required to
+or the owner is included in a pass-through entity        be withheld from a distributive share of Montana
+tax election or composite tax return. A pass-through     source income from a pass-through entity, the
+entity that owns an interest in another pass-through     mineral royalty withholding may have already
+entity is called a second-tier pass-through entity.      been applied against pass-through entity tax or
+Nonresident individuals, nonresident estates,            pass-through withholding. When this is the case,
+nonresident trusts, and domestic second-tier             mineral royalty income may be reported on your
+pass-through entities may file a Form PT-AGR             Montana Schedule K-1, but no mineral royalty
+to claim a waiver from pass-through withholding.         withholding is reported in Part V.
+Domestic second-tier pass-through entities
+are owned entirely, directly or indirectly, by           Estimated Tax Payments
+resident individuals, resident estates or trusts, or
+                                                         Quarterly estimated tax payments are the second
+domestic corporations.
+                                                         part of the pay-as-you-go system. The quarterly
+A domestic corporation is a corporation registered       payments are based on either an estimation of
+to do business in Montana. See Form PT-AGR for           the taxes owed for the current tax year or 100
+more information on how to apply for the waiver.         percent of the tax liability reported on the return
+                                                         of the previous tax year.
+Mineral Royalty Withholding
+A mineral royalty interest is treated as real property   Who Must Pay Estimated Tax
+and any royalty paid for the extraction of minerals      Estimated tax payments must be made when
+located in Montana is Montana source income.             the amount of annual estimated taxes owed by a
+The remitter of Montana mineral royalty must             taxpayer, after any withholding and nonrefundable
+withhold a 5.65 percent tax from each net payable        credits, is more than $500. This is generally
+amount of royalty due to a Montana mineral royalty       the case if you receive income not subject to
+owner. Some exceptions apply. If mineral royalty         withholding, such as dividends, interest, capital
+tax was withheld, this amount can be taken as a          gains, rental income, certain royalties, or business
+refundable credit against Montana income tax.            income from self-employment.
+
+There are two ways you can receive the information       The same rules apply for all individuals, whether they
+that mineral royalty withholding tax was withheld        are residents, nonresidents, or part-year residents.
+on the amount of royalties you received: on a            You are not required to make estimated tax
+Form 1099-MISC or on a Montana Schedule K-1.             payments, even if you owe more than $500, if
+Form 1099-MISC. If you received a                        you meet one of the following criteria:
+Form 1099-MISC reporting Montana mineral                  ● You were not required to file a Montana
+royalty income, the mineral royalty withholding             income tax return in the previous tax year.
+will be reported in Box 16.                               ● Your previous tax period covered 12 months
+Make sure that Box 16 shows only Montana                    and your Montana tax liability was zero.
+withholding before claiming the credit. If Box 16         ● You retired and were at least 62 years of age at
+shows the sum of withholding amounts from mineral           the end of the previous tax year. (This exception
+royalty interests located in several states, you must       applies only in the year you retire and for one
+obtain a breakdown of Box 16 from the remitter.             additional year following the year of retirement.)
+Do not confuse the mineral royalty withholding            ● You became disabled in the previous or
+with the production taxes that are also subtracted          current tax year.
+from the royalty payments.
+                                          2026 Montana Publication 1                               Page 6 of 16
+  ● At least two-thirds of your gross income                    To calculate your estimated tax payments using
+    is derived from farming and ranching                        this method:
+    operations. (Montana does not apply a
+                                                                 1. Identify your tax liability after nonrefundable
+    “lookback” provision to determine farming                       credits reported on the return from the
+    and ranching gross income.)                                     preceding year. (For individuals this is the
+Estates and trusts must pay estimated taxes                         amount on the 2025 Form 2, line 10, and
+based on their own Montana tax obligations.                         for estates and trusts, this is the amount on
+                                                                    2025 Form FID-3, page 3, line 16.)
+The estate or trust is not required to pay estimated
+tax if it distributes all of its income to its beneficiaries.    2. Deduct any overpayment you carried over
+                                                                    from the prior year.
+Estimated Tax Payment Due Dates                                  3. Deduct the wage withholding taxes you know
+Estimated tax payments must be made in four                         will be paid on your behalf.
+installments. Payments are due on the 15th                       4. If the result is more than $500, divide it by four.
+day of the 4th month, 6th month, and 9th month
+                                                                 5. Make payments following the quarterly
+following the beginning of the tax year, and
+                                                                    installment schedule.
+of the first month following the end of the tax
+year. For taxpayers with a tax year beginning                   Current Year Tax Method
+on January 1, estimated tax payments are due
+                                                                If you do not want to use your tax liability from the
+April 15, June 15, and September 15 of that year,
+                                                                prior year, you must first estimate your tax for the
+and January 15 of the next calendar year. If any
+                                                                year and pay 90 percent of this amount with a
+of these dates fall on a weekend or a holiday,
+                                                                combination of withholding and estimated taxes to
+your payment is due on the next business day.
+                                                                avoid interest on underpayment of estimated taxes.
+Estimated Tax Payment Amounts                                   To estimate your Montana taxable income using this
+The amount of estimated taxes owed for                          method, you must first estimate your federal adjusted
+each installment, is the lesser of four equal                   gross income, net-long term capital gain (if any),
+installments of the amount of tax you owed in the               federal standard or itemized deductions, Montana
+prior year or four equal installments of 90 percent             adjustments, and Montana tax credits for the year.
+of the tax you will owe in the current year.                    You may use the Worksheet ESW to do this.
+
+Prior Year Tax Method                                           If your income varies during the year because,
+                                                                for example, you operate your business on a
+You do not need to estimate 90 percent of                       seasonal basis you may use the annualization
+your tax for the current year if you pay the                    method to estimate 90 percent of your current year
+full amount of tax you owed in the previous                     tax liability. This method may allow you to lower
+year. For individuals this is the amount on the                 or eliminate the amount of one or more required
+2025 Form 2, line 10, and for estates and trusts,               installments by using the annualization income
+this is the amount on the 2025 Form FID-3,                      installment method. The annualization method
+page 3, line 16. This also allows you to                        allows you to calculate your estimated tax and
+automatically avoid interest on underpayment.                   each installment based on the total amount of
+You may only use this method if you filed a return              income you received since the beginning of the
+for the preceding tax year. You cannot use this                 year, and up until the end of the quarter. You may
+method if your preceding return was a short year.               use the Worksheet ESA to estimate your income
+                                                                for the year if you choose to use this method.
+For example, to calculate your estimated tax for
+2026, you must use your tax liability reported on               Estimating Taxable Income for the
+your 2025 income tax return.                                    Current Tax Year
+                                                                To estimate your Montana taxable income and tax for
+                                                                the current year, begin by estimating your anticipated
+                                                                federal adjusted gross income for the year.
+
+                                                2026 Montana Publication 1                                 Page 7 of 16
+Federal standard and itemized deductions.               ● State income tax deductions included
+Individuals are allowed the federal standard              in federal taxable income, including
+deduction or the itemized deductions to estimate          state income taxes included in itemized
+the Montana taxable income. You must use the              deductions and pass-through entity tax or
+same type of deduction you will take on your federal      composite tax paid by your business
+return to determine Montana taxable income. For         ● Farm and ranch risk management account
+example, if you use the federal standard deduction        distributions
+to determine federal taxable income, the federal        ● Federal taxes paid by an S corporation
+standard deduction must also be used to determine
+Montana taxable income.                                 ● Title plant amortization and depreciation
+
+The standard deduction amount used is the same         State income tax addition. You must add back
+as the federal amount.                                 any state income tax deducted from your federal
+                                                       taxable income. This includes the state income
+If you plan to itemize your deductions, you must       tax deduction included in itemized deductions
+add back any state income taxes you take as an         and any amount taken as a deduction to calculate
+itemized deduction only to the extent that it does     your business income. State income taxes
+not reduce your deduction below your federal           included in itemized deductions are only added
+standard deduction.                                    back to the extent that it does not reduce your
+See the Montana Additions section later for            standard deduction below your federal standard.
+more information.                                      The Tax Cuts and Jobs Act of 2017 limits the
+Line 5. If you are using the annualization method,     total amount of state and local taxes an individual
+report this amount on the Worksheet ESA, line 4.       may deduct on their federal return to $10,000
+                                                       ($5,000 for married filing separately). In July 2025,
+Estates and trusts do not complete this worksheet.     H.R. 1 was passed, which temporarily increases
+Instead, use the total estimated deductions on         the cap starting in 2026 to $40,000 ($20,000 for
+the applicable worksheet. This includes all the        married filing separately) with a phaseout starting
+deductions that would normally be reported on the      at modified adjusted gross income of $500,000
+estate’s or trust’s Form 1041, line 22, except for     ($250,000 for married filing separately).
+the state income tax deduction and the qualified
+business income deduction.                             If your deduction is limited to the cap, the amount
+                                                       of the deduction added to income is reduced after
+Important: Do not include the federal qualified        considering all state and local taxes, other than
+business income deduction to determine your            state income tax.
+federal taxable income for Montana purposes.
+                                                       Examples of state income taxes that may have
+Montana additions. Certain items of income that        been deducted from your business income
+are not taxable for federal purposes are taxable       included in your federal taxable income include:
+for Montana purposes. The following items must
+be added back to your federal taxable income to         ● Pass-through entity taxes paid in another
+determine your Montana tax.                               state or in Montana
+                                                        ● Pass-through entity composite taxes paid in
+ ● Interest and mutual fund dividends from state,
+                                                          another state
+   county, or municipal bonds from other states
+                                                        ● Mineral royalty withholding taken as an
+ ● Recoveries of amounts deducted in earlier
+                                                          expense on your Form 1040, Schedule E.
+   years that reduced Montana taxable income
+ ● Expenses or deductions included in federal          Montana Subtractions. Certain items that
+   taxable income used to claim a Montana              are taxed federally are subtracted from federal
+   tax credit                                          taxable income to determine Montana taxable
+ ● Nonqualified distributions from a Montana           income. The following items may be subtracted
+                                                       from your federal taxable income.
+   Medical Savings Account or First-Time
+   Homebuyers Account
+
+                                        2026 Montana Publication 1                               Page 8 of 16
+● State income tax refunds included in federal        ● An exemption of 50% of military survivor
+  taxable income                                        benefits for certain beneficiaries
+● Interest and mutual fund dividends from               (see Form WMRE)
+  federal bonds, notes, and obligations               ● A subtraction from federal taxable income for
+● Recoveries of amounts deducted in earlier             qualified volunteer firefighters and volunteer
+  years included in federal taxable income that         emergency care providers of $3,000.
+  did not reduce Montana income tax                 Montana Tax Rates. The net long-term capital
+● Exempt tribal income                              gains of individual, estates, and trusts are taxed
+● Military wages of an active duty                  at lower rates than Montana Ordinary Income. A
+  servicemember                                     long-term capital gain is the income realized from
+● Contributions to and interest earned on the       the sale of assets such as stocks, bonds, and
+                                                    real-estate owned for more than a year. The rate
+  principal of a Montana First-Time Homebuyer
+  Account from before January 1, 2024               only applies to net long-term capital gains.
+                                                    Montana Ordinary Income is defined as all taxable
+● Contributions to and interest from a Montana      income that is not considered a net long-term
+  Medical Savings Account                           capital gain and includes qualified dividends.
+● Contributions to a Family Education Savings
+                                                    Long-term capital gains are taxed at two rates
+  Account (529 plan) ($4,500 per individual or
+                                                    unless Montana Ordinary Income is greater than
+  $9,000 if married filing jointly)
+                                                    the amount for the filing status.
+● Contributions to an Achieving a Better Life
+  Experience Account (ABLE) ($3,000 per             To determine your net long-term capital gains
+  individual or $6,000 if married filing jointly)   tax rate, calculate your total Montana Ordinary
+                                                    Income by subtracting your net long-term capital
+● Business-related expenses for purchasing
+                                                    gains from your total Montana taxable income.
+  recycled materials
+                                                    Use this amount to determine the rate for your
+● Business expenses not included in federal         long-term capital gain, up to the top of the first
+  taxable income because a federal tax credit       bracket of 3 percent. The portion of your net
+  was taken                                         long-term capital gain that exceeds the first
+● Certain business expenses incurred by             bracket will be taxed at 4.1 percent.
+  marijuana businesses
+                                                    For Montana Ordinary Income above the
+● Sales of land to beginning farmers                amounts below, all net long-term capital gains are
+● Capital gains and dividends from Montana          taxed at 4.1 percent.
+  small business investment companies
+                                                          Filing status         Montana ordinary
+● Certain gains recognized by liquidating                                           income
+● corporations                                       Single, married filing
+● Capital gains on the eligible sale of a mobile     separately, estates,
+  home park                                          and trusts                       $47,500
+● Federal taxable Tier I and II Railroad             Married filing jointly
+  Retirement benefits paid by the Railroad           and qualifying
+  Retirement Board                                   surviving spouses                $95,000
+● A subtraction of $5,660 for taxpayers 65           Head of household                $71,250
+  and older
+                                                    The Montana Ordinary Tax Tables are on page 16.
+● An exemption for certain military retirees
+  of the lesser of 50% of military retirement       Montana Nonrefundable Tax Credits.
+  benefits or 100% of Montana source                Individuals, estates, and trusts may use the
+  income of wages, business income, and             anticipated amount of a nonrefundable tax credit
+  farming income reported on the return             to reduce their estimated tax liability.
+  (see Form WMRE)
+
+                                      2026 Montana Publication 1                            Page 9 of 16
+This chart includes all of the nonrefundable tax             Tax Credit       Forms/Instructions
+credits currently available along with where to
+                                                      Elderly Homeowner/     Form 2 instructions
+find more information about the qualifications for
+                                                      Renter Credit
+each credit. Several tax credits were repealed
+beginning with tax year 2021 that had carryover       Adoption Tax Credit    Form ADPT
+provisions. See the Form 2 instructions for more      Unlocking Public Lands Form 2 instructions
+information about these credits.                      Credit
+
+       Tax Credit           Form/Instructions         Montana Estimated Tax Worksheet,
+                                                      Worksheet ESW
+Credit for income taxes Form 2 or Form FID-3
+                                                      To figure your estimated tax by estimating
+paid to another state or instructions
+                                                      your annual income, use the Worksheet ESW.
+country
+                                                      Worksheet ESW will help you calculate 90
+Qualified Endowment Form QEC                          percent of your estimated tax after credits and
+Credit                                                withholding taxes.
+Recycle Credit           Form RCYL
+                                                      If you miss a payment or if you start paying
+Apprenticeship Credit Form 2 instructions             estimated tax after the first quarterly payment
+Trades Education and Form TETC                        is due because your situation has changed
+Training Credit                                       during the year, the worksheet will include any
+Innovative Educational   Tax Credits For              necessary catch-up payment automatically.
+Program and Student      Qualified Education
+                                                      If your tax situation changes during the year, you
+Scholarship Organization Contributions Guide
+                                                      must recalculate your estimated tax using lines 1
+Tax Credits
+                                                      through 26 of a new Worksheet ESW and then enter
+Contractor’s Gross       Montana Business Tax         the refigured percentages on the column for the
+Receipts Tax Credit      Guide For The Public         quarters in which you have not yet made payments.
+                         Contractor’s 1% Gross
+                         Receipts Tax                 The installments are presented on an aggregate
+Historic Property        Form 2 instructions          basis to show the amount that should have been
+Preservation Tax Credit                               paid by each installment.
+Infrastructure Users     Form IUFC                         Example: You estimated a Montana taxable
+Fee Credit                                                 income of $50,000. Your estimated tax was
+Media Tax Credit         Form MEDIA-CLAIM                  initially $2,000. You paid $500 on April 15.
+                                                           You received an unexpected item of income
+Jobs Growth Incentive Form JGI
+                                                           of $10,000 during the second quarter. Your
+Credit
+                                                           Montana taxable income is now $60,000,
+Estimated withholding taxes and refundable                 and your estimated tax is now $2,700.
+tax credits. Apply any tax payments made on
+                                                           Your installments are now $675 each.
+your behalf and Montana refundable tax credits
+                                                           However, for the second quarter, you must
+when estimating your Montana tax, including:
+                                                           pay $850 ($675 + $175 not paid with your
+ ● Wage withholding                                        first installment).
+ ● Mineral royalty withholding                        If your federal taxable income (without regards to
+ ● Pass-through withholding or pass-through           the federal qualified business income deduction)
+   entity taxes paid on your behalf                   decreases, Worksheet ESW will allow for the
+ ● Loan-out withholding from a loan-out               payments already made in the determination of
+   company                                            your installment payment amount.
+In addition to payments, include any of these         In addition, if the prior year tax liability
+Montana refundable tax credits that you               method results in less estimated taxes to pay,
+anticipate taking.                                    Worksheet ESW will automatically use this lesser
+                                                      amount to calculate your payments.
+
+                                        2026 Montana Publication 1                          Page 10 of 16
+To estimate your amount of withholding on line 25,      determining your annualized income and tax using
+you can use the paycheck or pension check stubs         when using this method (15-30-2512(4), MCA).
+that you have received before April 15. Multiply        Line 2. Report the amount of estimated federal
+the amount of Montana withholding by the number         adjusted gross income for each period. You will
+of times you are paid throughout the year. For          report the amount cumulatively. For example, if
+example, if you receive a paycheck every two            you earn $55,000 from January 1 to March 31,
+weeks, multiply your Montana withholding by 26.         and $25,000 from April 1 to May 31, you will report
+In addition to the income tax withholding on your       $55,000 in Column 1 and $80,000 in Column 2.
+wages or other payments, remember to reduce
+                                                        Line 4. If you plan to itemize your deductions
+your estimated tax by any pass-through entity           on your federal return enter the amount of
+tax, pass-through withholding, mineral royalty          deductions you plan to have in each period.
+withholding, or any estimated refundable credits.       Report this amount cumulatively just as you
+Worksheet ESW-TMSI                                      reported your income. Skip this line if you will not
+Use Estimated Payments for Nonresidents,                itemize your federal deductions.
+Part-Year Residents, and Montana Residents              Estates and trusts report the amount of allowable
+with Nonresident or Part-Year Resident Spouses,         deductions for each period. Do not include the
+(Worksheet ESW-TMSI) if you are a nonresident,          deduction for state income taxes or federal
+part-year resident, or a Montana resident filing        qualified business income deduction.
+jointly with a nonresident or part-year resident
+spouse. Complete the Worksheet ESW before               Line 6. If you do not plan to itemize your deductions
+completing this (ESW-TMSI) worksheet.                   on your federal return report the standard deduction
+                                                        for your filing status in each column.
+Estimated Tax Annualization Worksheet –
+Worksheet ESA                                           Estates and trusts leave this line blank.
+Use Worksheet ESA if your income varies during          Line 9. Report your Montana additions for each
+the year because, for example, you operate your         period cumulatively. See page 8 for the list of
+business on a seasonal basis. This method may           Montana additions.
+allow you to lower or eliminate the amount of one or
+more required installments by using the annualization   Line 11. Report your Montana subtractions for
+income installment method. The annualization            each period cumulatively. See page 9 for the list
+method allows you to calculate your estimated tax       of Montana subtractions.
+and each installment based on the total amount of       Line 14. Use the amount on line 13 in each
+income you received since the beginning of the year,    column to determine your tax. To do this, complete
+and up until the end of the quarter.                    Worksheet ESW for the period in each column.
+This method is particularly suited for taxpayers        If any part of the amount on Worksheet ESA,
+with fluctuating or seasonal income because it          line 13, includes a long-term capital gain be
+allows you to both adjust your estimated tax and        sure to report that amount on Worksheet ESW,
+your quarterly payments, based on the income            line 7, to determine your Montana Net Long-Term
+you received during the quarter.                        Capital Gains Tax.
+
+You may still have to estimate withholding on           Line 15. Enter your anticipated amount of a
+other types of income.                                  nonrefundable tax credit in the period of the
+                                                        column you expect to incur the credit.
+Keep Worksheet ESA in your records.
+The department may ask you to provide a copy            Line 21. Complete Worksheet ESW using the
+and/or other documents showing when you                 total estimated income for the entire tax year
+received your income.                                   (January 1 through December 31 for calendar
+                                                        year filers) to determine the amount of estimated
+Line 1. Line 1 reports the annualization amounts        tax to report on line 21. Divide the total estimated
+used to determine the amounts for estimated tax.        tax amount on Worksheet ESW, line 22, by four
+These are the amounts required by law to be used in     and enter that amount in each column.
+
+                                         2026 Montana Publication 1                             Page 11 of 16
+Line 24. This line reports the lesser of            How to Make Estimated Payments
+the estimated payment determined on the             You can pay electronically at by logging into or
+Worksheet ESW or the amount determined              creating a TAP account at https://tap.dor.mt.gov.
+under the annualization method. These are your      Click on “Make a Payment.”
+quarterly estimated payments for the tax year
+if you choose to use this method. When you          You can also make estimated tax payments by
+file your Form 2 mark the “Estimated payments       check using the individual income tax payment
+made using the annualization method” box on         voucher found at MTRevenue.gov. Click on
+Schedule IV, line 2.                                “Forms” and enter “Voucher” in the search box.
+                                                    Select the voucher for your tax type.
+Moving from One Method to the Other
+You can move from one method to the other           Legal References
+freely. However, we recommend that if you
+choose the annualization method, you continue       Montana Code Annotated:
+using this method for the rest of the year. In      15-30-2501 through 15-30-2547 and
+case of underpayment of estimated tax, the          15-30-3301 through 15-30-3321
+annualization method may reduce the amount of       Administrative Rules of Montana:
+interest you will have to pay.                      42.17.304 through 42.17.314, and
+Interest on the Underpayment of Estimated Tax       42.9.101 through 42.9.540
+When there is an underpayment of quarterly          Questions? Call us at (406) 444-6900, or
+estimated tax payments, interest is assessed        Montana Relay at 711 for the hearing impaired.
+on the amount that you were required to pay
+regardless of the method you used to calculate
+your installments.
+Interest is calculated daily based on the rate
+of the calendar year in which the return for
+the tax year is due. For example, interest on
+underpayment of estimated taxes for tax year
+2026 will be calculated using the interest rate
+effective for 2027, because the 2026 income tax
+return is due in 2027.
+Note: You must indicate you are using the
+annualization method on your Montana individual
+income tax return to avoid interest based on
+irregular installments.
+
+
+
+
+                                      2026 Montana Publication 1                          Page 12 of 16
+                               2026 Worksheet ESW – Montana Estimated Tax
+ 1 Individuals: estimated federal adjusted gross income for the year.
+   Estates and trusts: estimated total income                                                              1
+ 2 Individuals: federal standard or adjusted itemized deductions (See instructions)
+   Estates and trusts: total allowable deductions
+   (Do not include deductions for state income tax or the federal qualified business income deduction)     2
+ 3 Subtract line 2 from line 1. If zero or less, enter 0.                                                  3
+ 4 Montana additions to federal taxable income                                                             4
+ 5 Montana subtractions from federal taxable income                                                        5
+ 6 Add lines 3 and 4. Then, subtract line 5.          This is your estimated Montana taxable income.       6
+ 7 Estimated net long-term capital gain for 2026.
+   If you will not have a net long-term capital gain, enter 0.                                             7
+ 8 Enter the lesser of line 6 or line 7                                                                    8
+ 9 Subtract line 8 from line 6                                                                             9
+10 Filing status limit for net long-term capital gains tax
+      ● Single, married filing separately, estates, and trusts: $47,500
+      ● Married filing jointly and qualifying surviving spouse: $95,000
+      ● Head of household: $71,250                                                                         10
+11 Subtract line 9 from line 10. If zero or less, enter zero.                                              11
+12 Enter the lesser of line 8 or line 11                                                                   12
+13 Multiply line 12 by 3% (0.03)                                                                           13
+14 Subtract line 11 from line 8. If zero or less, enter zero                                               14
+15 Multiply line 14 by 4.1% (0.041)                                                                        15
+16 Add lines 13 and 15.              This is your estimated Montana net long-term capital gains tax.       16
+17 Figure your tax on the amount on line 9 using the Montana Ordinary Income Tax Table.
+                                                 This is your estimated Montana ordinary income tax.       17
+18 Add lines 16 and 17.                              This is your total estimated Montana resident tax.    18
+19 Estimated nonrefundable tax credits for the year                                                        19
+20 Recapture or lump sum taxes you expect to owe                                                           20
+21 Add lines 19 and 20, then subtract from line 18.
+   If the result is less than $500, stop here. You do not need to make estimated payments.                 21
+22 Enter 90 percent (0.90) of line 21                                                                      22
+23 Individuals: tax liability from 2025 Form 2, line 10.
+   Estates and trusts: tax liability from 2025 Form FID-3, page 3, line 16                                 23
+24 Enter the lesser of line 22 or line 23                                                                  24
+25 Estimated withholding taxes and refundable tax credits                                                  25
+26 Subtract line 25 from line 24. If the result is less than $500, stop here.
+   You do not need to make estimated payments.             This is your estimated tax for tax year 2026.   26
+                                                    Quarters         1              2               3               4
+27 Enter 25 percent of line 26 in Column 1; 50 percent
+   of line 26 in Column 2; 75 percent of line 26 in
+   Column 3; and 100 percent of line 26 in Column 4.
+   If your estimated Montana taxable income increases
+   during the year, recalculate your estimated tax
+   (lines 1 through 26) on a new worksheet and enter
+   the updated results in the column for the quarters in
+   which you have not yet made payments.                    27
+28 Enter any overpayment from prior years in
+   Column 1 or report the total amount of estimated
+   tax required to be paid since the beginning of the
+   tax year including any carryover payments from
+   last year in Columns 2, 3, and 4.                        28
+29 Subtract line 28 from line 27.
+   If less than zero, enter zero.
+   These are your required 2026 estimated payments. 29
+
+
+
+
+                                                2026 Montana Publication 1                                      Page 13 of 16
+                              2026 Worksheet ESA – Estimated Tax Annualization
+                                                      Period     Jan 1 –        Jan 1 –   Jan 1 –    Jan 1 –
+Estimation of Annualized Tax                                     Mar 31         May 31    Aug 31     Dec 31
+ 1 Annualization amounts                                     1
+ 2 Individuals: federal adjusted gross income for
+   the period.
+   Estates and trusts: total income for the period.          2
+ 3 Multiply line 2 by line 1.
+                     This is your annualized income. 3
+ 4 Individuals:
+   If you itemize your deductions on your Form 1040,
+   enter your itemized deductions for the period
+   shown in the column headings. If you do not
+   itemize, enter zero and skip to line 6.
+   Estates and trusts:
+   Enter the allowable federal total deductions for
+   the period shown in the column headings                   4
+ 5 Multiply line 4 by line 1                                 5
+ 6 Individuals:
+   Enter the standard deduction for your filing status
+   in each column
+   Estates and trusts:
+   Enter zero.                                               6
+ 7 Enter the larger of line 5 or line 6                      7
+ 8 Subtract line 7 from line 3. This is your estimated
+      annualized federal taxable income for Montana. 8
+ 9 Enter your Montana additions to federal taxable
+   income                                                    9
+10 Multiply line 9 by line 1                                10
+11 Enter your Montana subtractions to federal
+   taxable income.                                          11
+12 Multiply line 11 by line 1.                              12
+13 Add lines 8 and 10, then subtract line 12.       This is
+            your annualized Montana taxable income.. 13
+14 Use Worksheet ESW to figure tax on the amount
+   on line 13 in each column.                               14
+15 Nonrefundable tax credits expected for the period 15
+16 Subtract line 15 from line 14.                           16
+Installments
+17 Applicable percentage                                    17   22.5%           45%      67.5%        90%
+18 Multiply line 17 by line 16                              18
+19 Enter the total of the amounts in all previous
+   columns of line 24                                       19
+20 Subtract line 19 from line 18. If zero or less, enter 0. 20
+21 Divide Worksheet ESW, line 22 by 4 and enter in
+   each column                                              21
+22 Subtract line 24 of the previous column from
+   line 23 of that column                                   22
+23 Add lines 21 and 22                                      23
+24 Enter the smaller of line 20 or line 23 here.    These
+   are your required installments for each quarter. 24
+
+
+
+
+                                                   2026 Montana Publication 1                       Page 14 of 16
+                      2026 Worksheet ESW-TMSI – Tax on Montana Source Income
+ 1 Montana resident ordinary income tax from Worksheet ESW, line 17                                          1
+ 2 Montana resident long-term capital gains tax from Worksheet ESW, line 16                                  2
+ 3 Total estimated income from all sources, excluding any net long-term capital gains                        3
+ 4 Estimated Montana source income, excluding any net long-term capital gains                                4
+ 5 Divide line 4 by line 3.                                This is your Montana ordinary income ratio.       5
+ 6 Multiply line 5 by line 1.            This is your estimated Montana source ordinary income tax.          6
+ 7 Total estimated net long-term capital gains from all sources                                              7
+ 8 Estimated Montana source net long-term capital gains                                                      8
+ 9 Divide line 8 by line 7.            This is your Montana source net long-term capital gains ratio.        9
+10 Multiply line 9 by line 2.            This is your Montana source net long-term capital gains tax.       10
+11 Add lines 6 and 10.                                This is your total tax on Montana source income.      11
+12 Estimated nonrefundable tax credits for the year                                                         12
+13 Enter any recapture or lump sum taxes you expect to owe                                                  13
+14 Add lines 12 and 13, then subtract from line 11. If the result is less than $500, stop here.
+   You do not need to make estimated payments.                                                              14
+15 Enter 90 percent (0.90) of line 14                                                                       15
+16 Individuals: 2025 Montana tax liability from Form 2, line 10
+   Estates and trusts: 2025 Montana tax liability from Form FID-3, page 3, line 16                          16
+17 Enter the lesser of line 15 or line 16                                                                   17
+18 Estimated withholding taxes and refundable tax credits                                                   18
+19 Subtract line 18 from line 17. If the result is less than $500, stop here.
+   You do not need to make estimated payments.              This is your estimated tax for tax year 2026.   19
+                                                     Quarters         1              2               3               4
+20 Enter 25 percent of line 19 in Column 1; 50 percent
+    of line 19 in Column 2; 75 percent of line 19 in
+    Column 3; and 100 percent of line 19 in Column 4.
+    If your estimated Montana taxable income increases
+    during the year, recalculate your estimated tax
+    (lines 1 through 19) on a new worksheet and enter
+    the updated results in the column for the quarters in
+    which you have not yet made payments.                   20
+21 Enter any overpayment from prior years in
+    Column 1 or report the total amount of estimated
+    tax required to be paid since the beginning of the
+    tax year including any carryover payments from
+    last year in Columns 2, 3, and 4.                       21
+22 Subtract line 21 from line 20.
+    If less than zero, enter zero.
+    These are your required 2026 estimated payments. 22
+
+
+
+
+                                                2026 Montana Publication 1                                       Page 15 of 16
+                   2026 Tax Tables                                                 2027 Tax Tables
+           Single and Married Filing Separately                            Single and Married Filing Separately
+                    Estates and Trusts                                              Estates and Trusts
+               Ordinary Income Tax Rates                                       Ordinary Income Tax Rates
+If your taxable income without net    But less   Then your      If your taxable income without net    But less    Then your
+long-term capital gains is            than       tax rate is    long-term capital gains is            than        tax rate is
+$0                                    $47,500    4.7%           $0                                    $65,000     4.7%
+$47,500 or greater                               5.65%          $65,000 or greater                                5.4%
+          Net Long-Term Capital Gains Rate                                Net Long-Term Capital Gains Rate
+For net long-term capital gains above But less   Then your      For net long-term capital gains above But less    Then your
+                                      than       tax rate is                                          than        tax rate is
+                                      $47,500                                                         $65,000
+                                      minus                                                           minus
+                                      ordinary                                                        ordinary
+$0                                    income               3%   $0                                    income                3%
+$47,500 minus ordinary income                            4.1%   $65,000 minus ordinary income                             4.1%
+If ordinary income exceeds $47,500                       4.1%   If ordinary income exceeds $65,000                        4.1%
+
+
+Married Filing Jointly and Qualifying Surviving Spouse          Married Filing Jointly and Qualifying Surviving Spouse
+
+               Ordinary Income Tax Rates                                       Ordinary Income Tax Rates
+If your taxable income without net    But less   Then your      If your taxable income without net    But less    Then your
+long-term capital gains is            than       tax rate is    long-term capital gains is            than        tax rate is
+$0                                    $95,000    4.7%           $0                                    $130,000 4.7%
+$95,000 or greater                               5.65%          $130,000 or greater                            5.4%
+          Net Long-Term Capital Gains Rate                                Net Long-Term Capital Gains Rate
+For net long-term capital gains above But less   Then your      For net long-term capital gains above But less    Then your
+                                      than       tax rate is                                          than        tax rate is
+                                      $95,000                                                         $130,000
+                                      minus                                                           minus
+                                      ordinary                                                        ordinary
+$0                                    income               3%   $0                                    income                3%
+$95,000 minus ordinary income                            4.1%   $130,000 minus ordinary income                            4.1%
+If ordinary income exceeds $95,000                       4.1%   If ordinary income exceeds $130,000                       4.1%
+
+
+                     Head of Household                                               Head of Household
+
+               Ordinary Income Tax Rates                                       Ordinary Income Tax Rates
+If your taxable income without net    But less   Then your      If your taxable income without net    But less    Then your
+long-term capital gains is            than       tax rate is    long-term capital gains is            than        tax rate is
+$0                                    $71,250    4.7%           $0                                    $97,500     4.7%
+$71,250 or greater                               5.65%          $97,500 or greater                                5.4%
+          Net Long-Term Capital Gains Rate                                Net Long-Term Capital Gains Rate
+For net long-term capital gains above But less   Then your      For net long-term capital gains above But less    Then your
+                                      than       tax rate is                                          than        tax rate is
+                                      $71,250                                                         $97,500
+                                      minus                                                           minus
+                                      ordinary                                                        ordinary
+$0                                    income               3%   $0                                    income                3%
+$71,250 minus ordinary income                            4.1%   $97,500 minus ordinary income                             4.1%
+If ordinary income exceeds $71,250                       4.1%   If ordinary income exceeds $97,500                        4.1%
+                                                 2026 Montana Publication 1                                      Page 16 of 16
+

@@ -1,0 +1,417 @@
+Florida Dept. of Revenue - 
+                        
+            
+            Corporate Income Tax
+Turn on more accessible mode
+Turn off more accessible mode
+Skip to Main Content
+Home
+Child Support
+Property Tax
+General Tax
+Tax Data
+Contact
+Important In​formation
+Privacy Notice - Disclaimer
+Quick ​Links
+Contact Us
+File and Pay Corporate
+Income Tax
+Taxes and Fees or Refunds
+Update Account Information
+Resources
+Corporate Income Tax
+Due Dates
+​
+Corporate Income Tax
+Forms and Publications
+Corporate Income Tax Frequently Asked Questions
+Corporate Income Tax Incentives
+Tax Information Publications
+​​​​​​​​​​​​​
+Tax Law Library
+External Resources
+Internal Revenue Service
+​​​​​​​​​​​​​​​​
+Page Content
+Florida Corporate Income Tax
+​​
+Florida Corporate Income Tax
+The Florida corporate income/franchise tax is imposed on all
+        corporations for the privilege of conducting business, deriving income,
+        or existing within Florida. Corporations, including entities that are
+        taxed federally as corporations, are subject to the tax.
+A corporation’s federal income, as adjusted by Florida additions,
+        subtractions, and adjustments, is apportioned to Florida based on the
+        corporation’s activities in Florida compared to its activities
+        everywhere. In most cases, this comparison includes the corporation’s
+        property, payroll and sales.
+Who Must File?
+All corporations
+(including tax-exempt organizations) doing
+            business, earning income, or existing in Florida.
+Every bank and savings association
+doing business, earning
+            income, or existing in Florida.
+All associations or artificial entities
+doing business,
+            earning income, or existing in Florida.
+Foreign (out-of-state) corporations
+that are partners or
+            members in a Florida partnership or joint venture. A "Florida
+            partnership" is a partnership doing business, earning income, or
+            existing in Florida.
+A limited liability company (LLC)
+classified as a corporation
+            for Florida and federal income tax purposes is subject to the
+            Florida Income Tax Code and must file a Florida corporate
+            income/franchise tax return.
+An LLC
+classified as a
+partnership
+for Florida and
+            federal income tax purposes must file a
+Florida Partnership Information Return
+(
+Form F-1065
+) if one or more of its owners is a corporation. In addition, the
+            corporate owner of an LLC classified as a partnership for Florida
+            and federal income tax purposes must file a Florida corporate
+            income/franchise tax return.
+A single member LLC
+disregarded for federal and Florida
+            income tax purposes is not required to file a separate Florida
+            corporate income tax return. The income must be reported on the
+            owner’s return if the single member LLC is owned, directly or
+            indirectly, by a corporation. The corporation must file a Florida
+            corporate income/franchise tax return, reporting its own income and
+            the income of the single member LLC, even if the only activity of
+            the corporation is ownership of the single member LLC.
+Homeowner and condominium associations
+that file the
+U.S. Corporation Income Tax Return
+(Federal Form 1120) must file
+Florida Corporate Income/Franchise Tax Return
+(
+Form F-1120
+) or the
+Florida Corporate Short Form Income Tax Return
+(
+Form F-1120A
+) regardless of whether any tax may be due. If you file the
+U.S. Income Tax Return for Homeowners Associations
+(Federal Form 1120-H), you are not required to file a Florida
+            return.
+Political organizations
+that file Federal Form 1120-POL.
+S corporations
+that pay federal income tax on Line 23c of
+            Federal Form 1120S.
+Tax-exempt organizations
+that have "unrelated trade or
+            business income" for federal income tax purposes are subject to
+            Florida corporate income tax and must file either
+Form F-1120
+or
+Form F-1120A
+.
+Tax Base and Rate
+Florida corporate income/franchise tax is computed using federal
+          taxable income, modified by certain Florida adjustments, additions,
+          and subtractions, to determine adjusted federal income.
+A corporation doing business outside Florida may apportion its total
+            income. Adjusted federal income is usually apportioned to Florida
+            using a three-factor formula. The formula is a weighted average,
+            designating 25% each to factors for property and payroll, and 50% to
+            sales.
+You should add non-business income allocated to Florida to the
+            Florida portion of adjusted federal income.
+You should then subtract an exemption ($50,000 as of December 31,
+            2015) to arrive at Florida net income.
+Finally, you should compute tax by multiplying Florida net income by
+            the appropriate tax rate based on the following:
+Taxable Year Beginning
+Prior to 1/1/2019
+1/1/2019 - 12/31/2020
+1/1/2021 - 12/31/2021
+On or After 1/1/2022
+Tax Rate
+5.5%
+4.458%
+3.535%
+5.5%
+Tax Incentives
+There are several credits available against the corporate income tax.
+          These include credits for paying salaries in Florida, credits for
+          paying other taxes or assessments, and credits for making certain
+          types of investments in Florida. See the
+Corporate Income Tax Incentives
+webpage for a comprehensive list. The
+Florida Corporate Income/Franchise Tax Return
+(
+Form F-1120
+) and the instructions (
+Form F-1120N
+) also provide a list and explanation of available credits each year.
+Due Date
+Corporate income tax is reported using a
+Florida Corporate Income/Franchise Tax Return
+(
+Florida Form F-1120
+). Corporations must file Florida Form F-1120 each year, even if no
+          tax is due. The due date is based on the corporation’s tax year.
+Generally, Florida Form F-1120 is due the later of:
+1.
+a.
+For tax years ending June 30, the due date is on or before the 1st
+              day of the 4th month following the close of the tax year; or
+b.
+For all other tax year endings, the due date is on or before the
+              1st day of the 5th month following the close of the tax year
+              (e.g., Florida Form F-1120 is due on May 1, 2017, for a taxpayer
+              with a taxable year end date of December 31, 2016).
+2.
+The 15th day following the due date, without extension, for the
+              filing of the related federal return for the taxable year.
+If you file your return late, a penalty of 10% of any unpaid tax due
+          with the return for each month or fraction thereof that the return is
+          late, not to exceed a total penalty of 50% of unpaid tax, is charged.
+          If no tax is due, the penalty for a late filed return is $50 per month
+          or fraction thereof that the return is late, not to exceed $300. A
+          floating rate of interest applies to underpayments and late payments
+          of tax. Interest rates can be found on the Department's
+Tax and Interest Rates
+webpage.
+Find
+due dates
+for the current year.
+The
+Florida Partnership Information Return
+(
+Form F-1065
+) is due on or before the 1st day of the 4th month following the
+          close of the tax year.
+Estimated Tax
+If the corporation owes more than $2,500 in Florida corporate income
+          tax annually, estimated tax payments must be made on a
+Declaration/Installment of Florida Estimated Income/Franchise
+            Tax
+(
+Florida Form F-1120ES
+). Form F-1120ES may be filed
+electronically
+.
+Generally, for tax years beginning prior to January 1, 2017, and for
+          tax years ending June 30, the declaration or payment of estimated tax
+          is due on or before the last day of the 4th month, the last day of the
+          6th month, the last day of the 9th month and the last day of the tax
+          year. For tax years beginning on or after January 1, 2017, that end
+          other than June 30, the declaration or payment of estimated tax is due
+          on or before the last day of the 5th month, the last day of the 6th
+          month, the last day of the 9th month, and the last day of the tax
+          year.
+If you underpay estimated tax, a penalty of 12% per year is charged.
+          For more information, see
+Underpayment of Estimated Tax
+(
+Florida Form F-2220
+) and its instructions. A floating rate of interest applies to
+          underpayments and late payments of tax. Interest rates can be found on
+          the Department's
+Tax and Interest Rates
+webpage.
+Extension of Time and Payment of Tentative Tax
+To receive an extension of time to file your return, you must file a
+Florida Tentative Income/Franchise Tax Return and Application for
+            Extension of Time to File Return
+(
+Form F-7004
+) with your tentative tax payment by the original due date of the
+          Florida return. Form F-7004 may be filed
+electronically
+.
+Extensions are valid for 6 months, with the exception of June 30 tax
+          year end extensions that are valid for 7 months. An extension does not
+          extend the due date for the payment of the tax due for the taxable
+          year. For partnerships, the extension allows 6 months from the due
+          date of the return to file.
+The tentative tax payment with your request for an extension of time
+          to file should be the balance of the tax due for the taxable year
+          after subtracting any estimated tax payments and any overpayment
+          credits from the prior year.
+If you underpay your tentative tax by more than the greater of $2,000
+          or 30 percent of the tax shown on the return when filed, the extension
+          will be invalid and a late filing penalty will be imposed. If you
+          underpay tentative tax by a lesser amount, a tentative penalty of 12%
+          per year during the extension period is charged on the underpaid
+          amount. The tentative penalty is calculated from the original due date
+          of the return. A floating rate of interest applies to underpayments
+          and late payments of tax. Interest rates can be found on the
+          Department's
+Tax and Interest Rates
+webpage.
+Qualifications to File a Florida Corporate Short Form F-1120A
+A corporation that has zero tax due or owes less than $2,500 in tax
+          may file the
+Florida Corporate Short Form Income Tax Return
+(
+Form F-1120A
+) if the corporation:
+Has Florida net income of $45,000 or less
+Conducts 100% of its business in Florida
+Does not report any additions to and/or subtractions from federal
+            taxable income other than a net operating loss deduction and/or
+            state income taxes, if any
+Is not included in a Florida or federal consolidated corporate
+            income tax return
+Claims no tax credits other than tentative tax payments or estimated
+            tax payments
+Is not required to pay Federal Alternative Minimum Tax
+Florida Form F-1120A may be filed
+electronically
+.
+Account Changes
+When to Notify the Department
+You must
+notify the Florida Department of Revenue
+, if you:
+Change your business name;
+Change your mailing address;
+Change your location address within the same county;
+Close or sell your business; or
+Your business becomes active and you will sell or rent taxable
+            property or services.
+The quickest way to notify the Department of these changes is to
+          update your account
+online
+.
+Active Corporations Not Required to File
+If you are not required to file a Florida corporate income tax return,
+          change your status to "
+in business/not required to file
+."
+Example: You created a corporate income tax account with the Florida
+            Department of Revenue through registration as a corporation for
+            Florida taxes. You subsequently make a federal election to be a S
+            corporation. Notify the Florida Department of Revenue of this change
+online
+, noting your account is in business, but does not have to file
+            Florida corporate income tax returns. Enter the effective date of
+            your federal S corporation election.
+Example: You are a new Florida corporation and your tax preparer
+            filed
+Florida Tentative Income/Franchise Tax Return and Application for
+              Extension of Time to File Return
+(
+Form F-7004
+) for you, along with all of the tax preparer’s clients. When
+            filing your federal income tax return, your tax preparer completes
+            the federal S corporation election for you and files your initial
+            federal income tax return on Form 1120S. Your tax preparer should
+            submit notification of this change to the Florida Department of
+            Revenue
+online
+, noting your account is in business, but not required to file
+            corporate income tax returns and entering the effective date of the
+            federal S corporation election.
+File and Pay Tax
+Taxpayers are required to file Florida corporate income tax returns
+          electronically if required to file federal income tax returns
+          electronically, or if $5,000 or more in Florida corporate income tax
+          was paid during the prior state fiscal year. For a list of the
+          electronic payment deadlines, visit the Department's Forms and
+          Publications webpage and select the current year
+Florida eServices Calendar of Electronic Payment Deadlines
+(Form DR-659) under the
+eServices
+section.
+File Using the Modernized e-File (MeF) Program
+Most taxpayers use a
+software vendor
+known to the Florida Department of Revenue to prepare and file Florida
+          corporate income tax returns. The vendor facilitates the filing of the
+          Florida corporate income tax return through the Internal Revenue
+          Service’s (IRS) Modernized e-File (MeF) Program. These vendors can
+          help you:
+File the Florida Corporate Income/Franchise Tax Return (Form F-1120)
+File the Declaration/Installment of Florida Estimated
+            Income/Franchise Tax (Form F-1120ES)
+File the Tentative Income/Franchise Tax Return and Application for
+            Extension of Time to File Return (Form F-7004)
+Pay the amount due on the Florida Corporate Income/Franchise Tax
+            Return (Form F-1120)
+Pay the estimated amount due on the Declaration/Installment of
+            Florida Estimated Income/Franchise Tax (Form F-1120ES, 1st, 2nd,
+            3rd, and 4th installments)
+Pay the tentative amount due on the Tentative Income/Franchise Tax
+            Return and Application for Extension of Time to File Return (Form
+            F-7004)
+For more information about MeF, visit the IRS's
+Electronic Filing Options for Businesses and Self-Employed
+            Taxpayers
+webpage.
+Electronically File and Pay with the Department
+You can use the Department’s website to file and pay most Florida
+          taxes, including the corporate income tax. You will need to
+enroll for eServices
+with the Department to use this option. Once enrolled, select
+          "Corporate Income Tax File and Pay" from the
+File and Pay
+webpage to:
+File the Florida Corporate Short Form Income Tax Return (Form
+            F-1120A)
+File Form F-7004
+Pay the corporate income tax due on Forms F-1120 and F-1120A
+Pay the tentative tax due on Form F-7004
+Pay the estimated tax due on Form F-1120ES for the 1st, 2nd, 3rd,
+            and 4th installments
+Electronically Pay with the Department
+You also have the option to only make electronic payments. You must be
+registered
+with the Department for corporate income tax to use this option. By
+          selecting "Tax/Fee/Remittance Payment Only" under “Pay a Bill or Make
+          a Payment” section on the Department’s
+File and Pay
+webpage, you can:
+Pay the corporate income tax due on Forms F-1120 and F-1120A
+Pay the tentative tax due on Form F-7004
+Pay the estimated tax due on Form F-1120ES for the 1st, 2nd, 3rd,
+            and 4th installments
+For more information on registering, visit the Department's
+Account Management and Registration
+webpage.
+If the system you usually use to make a payment is unavailable, you
+            can use one of the other options to ensure you pay timely.
+Filing Using an Alternative or Hardcopy Form
+If you are not filing electronically, you can purchase "alternative"
+          forms software from a Department
+alternative forms vendor
+and use it to prepare and file a paper return. Before using software
+          to prepare your alternative form, ask the vendor for proof that the
+          forms in the software package have been approved by the Department.
+          You can also download and print all Florida corporate income tax forms
+          from the Department's
+Forms and Publications
+webpage. Be sure to print the forms in color if you are filing them.
+If you need assistance, call the Department's Taxpayer Assistance at
+          850-488-6800 Monday through Friday, excluding holidays.
+Questions and Answers
+|
+Accessibility
+|
+Report Technical Problems
+|
+Help with Downloading Files
+|
+Browser Security
+|
+Privacy Notice
+About Us
+|
+Contact
+|
+Employment
+|
+View Full Site
+Florida Department of Revenue
+5050 West Tennessee Street, Tallahassee, FL 32399

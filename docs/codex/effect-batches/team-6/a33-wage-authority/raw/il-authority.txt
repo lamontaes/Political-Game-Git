@@ -1,0 +1,303 @@
+Pub-121, IIT Withholding for Household Employees
+Skip to main content
+Agencies
+Services
+Employment
+Sign Up for Updates
+About IDOR
+Employment Opportunities
+EEO Office & Accessibility
+Legal Notices
+Procurements
+Mission, Vision, and Value
+News
+Contact Us
+Taxpayer Answer Center
+Taxpayer Assistance
+Visit a Local Office
+Submit a FOIA Request
+Request a Speaker
+Website Feedback
+Make a Payment
+Who Must Make Electronic Payments?
+Payment Options for Individuals
+Payment Options for Businesses
+Received a Notice?
+Identity Verification Letters Information
+Letters and Notices for Individual Income Tax
+Deficiencies, Assessments, or Claim Denials
+Forms
+Business
+Cannabis
+Excise Taxes
+Gaming
+Individuals
+Miscellaneous
+Registration
+Sales & Related
+Withholding
+Federal Tax Forms
+Submit Request for Mailed Forms or Publications -Forms Ordering
+Tax Resources
+Individuals
+Businesses
+Tax Professionals
+Local Governments
+Research
+Video Library
+IDOR Tax Archive Library
+More
+Employment
+Sign Up for Updates
+Revenue
+Research
+Publications
+Tax Publications
+Pub-121, Withholding for Household Employees
+Tax Publications
+Pub-113-D, Overview of Destination-based Sales Tax
+Pub-101, Income Exempt from Tax
+Pub-102, Requirements for Military Personnel
+Pub-103, Penalties and Interest for Illinois Taxes
+Pub-105, Estimated Payments Requirements
+Pub-108, Illinois Property Tax Credit
+Pub-110, Forms Filing and Storage Requirements
+Pub-111, Schedule CR for Individuals
+Pub-112, Education Expense Credit General Rules
+Pub-113, Retailer’s Overview
+Pub-113-L, Lease Tax FAQs
+Publication 115, County Motor Fuel Tax
+Pub-119, Schedule NR for Individuals
+Pub-120, Retirement Income
+Pub-121, Withholding for Household Employees
+Pub-124, Construction Terminology
+Pub-125, Injured and Innocent Spouse Relief
+Pub-129, Pass-through Entity Information
+Pub-130, Who is Required to Withhold
+Pub-131, Withholding Income Tax Payment and Filing Requirements
+Pub-132, EITC Information
+Pub-113-SOT, Overview of Service Occupation Tax
+Pub-106, Hotel Operators' Occupation Tax
+Pub-121, Illinois Income Tax Withholding for Household Employees
+About this publication
+This publication is about current income tax withholding requirements for employers of household employees. The objectives of this publication are to identify
+who is a household employee,
+who is an employer,
+if withholding Illinois Income Tax is required,
+how to figure, pay, and report Illinois Income Tax that you withhold for your household employee,
+what records you should keep, and
+what forms you must give to your household employee.
+Related publication:
+Internal Revenue Service, Publication 926, Household Employer’s Tax Guide. Download available at
+www.irs.gov
+.
+The information in this publication is current as of the date of the publication. Please visit our website at
+tax.illinois.gov
+to verify you have the most current revision.
+This publication is written in the plain writing style so the tax information is easier to understand. As a result, we do not directly quote Illinois statutes or the Illinois Administrative Code. The contents of this publication are informational only and do not take the place of statutes, rules, or court decisions. For many topics covered in this publication, we have provided a reference to the applicable section or part of the Illinois Administrative Code for further clarification or more detail. All of the sections and parts referenced can be found in Title 86 of the Code
+Taxpayer Bill of Rights
+You have the right to call the Illinois Department of Revenue (IDOR) for help in resolving tax problems.
+You have the right to privacy and confidentiality under most tax laws.
+You have the right to respond, within specified time periods, to IDOR notices by asking questions, paying the amount due, or providing proof to refute IDOR’s findings.
+You have the right to appeal IDOR decisions, in many instances, within specified time periods, by asking for department review, by filing a petition with the Illinois Independent Tax Tribunal, or by filing a complaint in circuit court.
+If you have overpaid your taxes, you have the right, within specified time periods, to a credit (or, in some cases, a refund) of that overpayment.
+For more information about these rights and other IDOR procedures, you may write us at the following address:
+Problems Resolution Office
+Illinois Department of Revenue
+PO Box 19014
+Springfield, IL 62794-9014
+Get Illinois Department of Revenue forms and information at
+tax.illinois.gov
+.
+Contents
+Who is a household employee?
+Am I an employer of a household employee?
+Do I need to withhold Illinois Income Tax?
+What form does my household employee need to complete for Illinois withholding tax?
+How do I figure the amount to withhold?
+How do I report and pay the Illinois Income Tax I withhold?
+What form must I give to my household employee about withheld amounts?
+What records must I keep?
+What if I do not withhold the correct amount of tax or make a reporting error?
+What important dates should I remember?
+Do I owe other employment taxes?
+Who is a household employee?
+A household employee is someone you pay to do domestic work in or around your home. For example, a household employee could be a babysitter, caretaker, cleaning person, driver, health aide, housekeeper, nanny, private nurse, or yard worker. This person can be a full-time or part-time employee who you pay hourly, daily, weekly, or by the job.
+NOTE:
+We define a household employee the same as the Internal Revenue Service (IRS). For more information, visit
+www.irs.gov
+and refer to IRS Publication 926.
+Am I an employer of a household employee?
+You are the employer of a household employee if you
+control what work is done,
+and
+control how the work is done (e.g., provide the necessary equipment, supplies, or tools to do the job).
+The worker is
+not
+your employee if
+the worker controls how the work is done. This person usually provides his or her own tools and offers services to the general public in an independent business.
+an agency provides the worker and controls what work is done and how it is done.
+Do I need to withhold Illinois Income Tax?
+Generally, you must withhold Illinois Income Tax for your Illinois employee if
+you withhold federal income tax from your employee’s wages,
+or
+you and your employee enter into a voluntary withholding agreement.
+NOTE:
+Federal law excludes from withholding, wages paid to certain types of household employees. We do not require a separate agreement for payments covered by a federal voluntary withholding agreement.
+What form does my household employee need to complete for Illinois withholding tax?
+Your household employee must complete
+Form IL-W-4, Employee’s Illinois Withholding Allowance Certificate
+and Instructions. Your employee will tell you the number of allowances he or she is entitled to claim on this form. You should withhold Illinois Income Tax from his or her wages based, in part, on the number of allowances claimed. If your employee does not complete this form, you should withhold income tax as if the employee is single with no allowances.
+How do I figure the amount to withhold?
+Go to
+Booklet IL-700-T, Illinois Withholding Tax Tables
+, to determine how much tax to withhold.
+Automated payroll method allowance table
+Payroll periods
+Number
+Weekly
+52
+Bi-weekly
+26
+Semi-monthly
+24
+Monthly
+12
+Bi-monthly
+6
+Quarterly
+4
+Semi-annually
+2
+Annually
+1
+How do I report and pay the Illinois Income Tax I withhold?
+If you withhold Illinois Income Taxes from your household employee(s), you may file and pay the Illinois withholding income tax annually on your Form IL-1040, Illinois Individual Income Tax Return. No registration is required to use this option. We encourage you to file and pay electronically using MyTax Illinois at
+tax.illinois.gov
+.
+Caution:
+If you report and pay household employee Illinois withholding on Form IL-1040,
+do not
+report household employee Illinois withholding income tax on Form IL-941, Illinois Withholding Income Tax Return.
+do not
+pay household employee Illinois withholding income tax with Form IL-501, Payment Coupon, for Illinois Withholding Income Tax Return.
+NOTE:
+Forms W-2 reporting income and withholding for household employees reported on Form IL-1040
+are not
+subject to the electronic filing mandate.
+If you already file Form IL-941
+only to report household employee income tax withholding and you would like to
+convert
+to the annual Form IL-1040 reporting option for the next calendar year, you
+must
+notify us that you will no longer be reporting withholding on Form IL-941. If you do not, you may be subject to penalties and collection action.
+You may use MyTax Illinois or call 217 785-3707 to update your Illinois Withholding Income Tax account.
+If you do not report Illinois withholding for household employees on Form IL-1040, you must use Form IL-941 to file your withholding tax. For more information, see
+Publication 130, Who is Required to Withhold Illinois Income Tax
+, and
+Publication 131, Withholding Income Tax Payment and Filing Requirements
+.
+What form must I give to my household employee about withheld amounts?
+Before
+January 31
+of each year, you must give your household employee three copies of federal
+Form W-2
+, Wage and Tax Statement.
+Do not
+send this form to us. Instead, keep a copy of it in your records for three years and send it to us only if we request it.
+If your employee permanently discontinues employment before the close of the calendar year, or you terminate a federal voluntary withholding agreement, you may give the employee a completed federal Form W-2 at any time after employment ends, but it must be mailed by no later than January 31. If an employee asks for Form W-2, give the employee the completed copies within 30 days of the request or within 30 days of the final wage payment, whichever is later.
+You must keep any undeliverable Form W-2 for at least three years after the date you were required to give the form to your employee.
+What records must I keep?
+You must maintain a current and accurate record of all persons for whom you withhold Illinois Income Tax. Your records must contain the following information:
+amounts and dates of all payments from which you withhold tax
+names, addresses, and Social Security numbers of persons receiving payments
+periods of employment, including periods in which wages were paid while absent due to sickness or injury
+amounts paid by pay period
+copies of all federal W-2 forms issued to household employees
+Employee Withholding Certificate (federal Form W-4)
+Employee’s Illinois Withholding Allowance Certificate (Form IL-W-4)
+NOTE:
+You must keep these records for three years from the due date of the return or the date the return was filed, whichever is later, and provide them to us if we request them. These forms are not subject to the W-2 electronic filing mandate, unless you report your withholding on Form IL-941.
+What if I do not withhold the correct amount of tax or make a reporting error?
+If you discover that you withheld an incorrect amount of Illinois Income Tax from an employee’s compensation and it is during the
+same
+calendar year, you should correct the error by making an adjustment in the amount you withhold from that employee’s future compensation during that calendar year.
+If you withheld too much tax and cannot correct the error by reducing the employee’s withholding during the remainder of the year, you may not claim a refund. Your employees will claim a credit for the amount you withheld and receive any refund. If you withheld too little tax, your employee may owe tax when he or she files his or her returns, or will receive a smaller refund.
+If you reported more tax than you actually withheld on your original return, you must file an amended return.
+What important dates should I remember?
+January 1, current year (or as soon as you and your household employee enter into an agreement to withhold) —
+You need to have your household employee complete Form IL-W-4.
+December 1, current year —
+You should remind your household employee to review his or her current Form IL-W-4. If there has been a change in the number of allowances, he or she should complete a new Form IL-W-4 for the following calendar year, and make necessary changes in the number of allowances claimed.
+January 31, following year —
+You must give each of your household employees three copies of federal Form W-2 for wages paid and tax withheld during the previous calendar year. If you file Form IL-941, you must electronically file a copy to the Department, of any Form W-2 issued. For more information, see
+Publication 110, Forms W-2, W-2c, W-2G, and 1099 Filing and Storage Requirements for Employers and Payers, including 1099-K Electronic Filing Requirements
+.
+April 15, following year —
+You must file Form IL-1040 and pay the tax you withheld from each of your household employee’s wages during the previous calendar year.
+NOTE:
+If you file Form IL-941 to report household employee withholding, you must file and pay according to the schedule assigned to you by the Department.
+Do I owe other employment taxes?
+You should check with the Illinois Department of Employment Security (IDES) for more information about unemployment insurance contributions for employers. Visit
+ides.illinois.gov
+or call the IDES Employer Hotline at
+(800) 247-4984
+.
+You also may owe federal taxes. Refer to IRS Publication 926 for more information. Visit
+www.irs.gov
+or call
+1 800 829-3676
+.
+Contact information
+Visit our website at
+tax.illinois.gov
+.
+For specific phone number and email contacts see our
+Contact Us
+page.
+Call us at
+1 800 732-8866
+,
+217 782-3336
+or
+1 800 544-5304
+(TTY).
+Write us at Illinois Department of Revenue, PO Box 19001, Springfield, IL 62794-9001.
+Call our 24-hour Forms Order Line at
+1 800 356-6302
+.
+Printable PDF
+(Pub 121 - April 2024)
+Footer
+About IDOR
+Contact Us
+Employment
+Press Releases
+Legal Notices
+Procurements
+What We Do
+Webmaster
+Quick Links
+Taxpayer Answer Center
+Make a Payment
+MyTax Illinois
+MyDec
+Business Incentives Reporting
+Lien Registry
+Tax Rate Database
+Related Sites
+IDOR Tax Archive Library
+State of Illinois
+Illinois Business Portal
+Illinois Liquor Control Commission
+Illinois Independent Tax Tribunal
+Federation of Tax Administrators
+Internal Revenue Service (IRS)
+Additional Related Sites
+Web Accessibility
+Missing & Exploited Children
+Amber Alerts
+Illinois Privacy Info
+Governor JB Pritzker
+© 2026
+State of Illinois

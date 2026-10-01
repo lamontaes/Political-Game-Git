@@ -1,0 +1,27 @@
+{
+  "blockedCandidateHead": "04d5f7b0fc136367305cca880c2dfa2387d9b077",
+  "localPreservationBranch": "codex/team-6-a33-unpublished-raw-preservation",
+  "artifacts": [
+    {
+      "path": "raw/il.html",
+      "sha256": "3f34faefacc86eda63db536f90b183a737a3d96acfa710a410fd8f1ce89b2ba6",
+      "byteLength": 72215,
+      "publicationStatus": "RAW_WITHHELD_EMBEDDED_THIRD_PARTY_TOKEN",
+      "reason": "GitHub push protection rejected the publicly captured HTML. Original bytes preserved locally and in the unpublished preservation branch. Safe inert text, capture metadata and original SHA256 remain published; no encoding or bypass used."
+    },
+    {
+      "path": "raw/il-authority.html",
+      "sha256": "00f8f8fbf9c9fcd9c6569e154aa7755eaafebe2bfc4b6487ca381cec7ca4d866",
+      "byteLength": 101323,
+      "publicationStatus": "RAW_WITHHELD_EMBEDDED_THIRD_PARTY_TOKEN",
+      "reason": "GitHub push protection rejected the publicly captured HTML. Original bytes preserved locally and in the unpublished preservation branch. Safe inert text, capture metadata and original SHA256 remain published; no encoding or bypass used."
+    },
+    {
+      "path": "raw/il-taxable.html",
+      "sha256": "cf4a3e40eba98ff214d607244694644b54ca3592b3a7592295e32054f951d397",
+      "byteLength": 67439,
+      "publicationStatus": "RAW_WITHHELD_EMBEDDED_THIRD_PARTY_TOKEN",
+      "reason": "GitHub push protection rejected the publicly captured HTML. Original bytes preserved locally and in the unpublished preservation branch. Safe inert text, capture metadata and original SHA256 remain published; no encoding or bypass used."
+    }
+  ]
+}

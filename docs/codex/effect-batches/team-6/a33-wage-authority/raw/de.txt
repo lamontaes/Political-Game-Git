@@ -1,0 +1,203 @@
+Personal Income Tax FAQs - Division of Revenue - State of Delaware
+Skip to main content
+Visit
+Delaware.gov
+Delaware State
+Directory
+Delaware State
+News
+Delaware State
+Guides
+Delaware State
+Contact
+Search
+Submit search.
+Payment
+File
+Refund
+Forms
+Services
+Individual Taxpayers
+Business Taxpayers
+Delaware Business Licenses Search
+Trade, Business and Fictitious Names Search
+Info
+Tax Season Updates
+Voluntary Disclosure Agreement
+Business Electronic Funds Transfer
+Frequently Asked Questions
+Enforcement
+Contact
+Contact Information
+Office Locations
+Division of
+Revenue
+Personal Income Tax FAQs
+Home
+Frequently Asked Questions
+Personal Income Tax FAQs
+Listen
+Topics
+Non-Resident Working in Delaware
+Retirement Information, Pension Exclusions
+Request for Copies of Returns
+Refund of Erroneous Withholdings
+Address Change
+Volunteer Firefighter’s Credit
+Delaware Resident Working Out of State
+Bonds
+Severance Pay
+Military
+Non-Resident Working in Delaware
+Q.  I am looking at a new job in Delaware. I live in New Jersey. Someone told me if I take a job in Delaware, I can claim the extra taxes that will be withheld by Delaware. Is this true? Can I have the Delaware employer just withhold New Jersey state tax?
+A.
+As a resident of New Jersey who works in Delaware, you would be required to file a non-resident return with Delaware (Form PIT-NON). You would be allowed a credit on your New Jersey return for taxes imposed by Delaware. Your employer would be required to withhold Delaware taxes as long as you work in Delaware.
+Delaware Resident Working Out of State
+Q.  I’m considering taking a job in Maryland. I know the states do not have a reciprocal agreement. How does the credit work for taxes paid to another state? Will I owe County taxes in MD?
+A.
+If you are a resident of Delaware who works in Maryland, you may take credit on line 27 of the Delaware return (Form PIT-RES) for taxes imposed by other states. You must attach a signed copy of your Maryland return in order to take this credit.
+Even though you may not be liable for Maryland County Taxes, Maryland imposes a “Special Non-resident tax” on their non-resident income tax return.
+Retirement Information, IRA Topics, Pension Exclusions, Social Security Benefits
+Q.  I’m planning to move to Delaware within the next year. I am retired. I am receiving a pension and also withdrawing income from a 401K. My spouse receives social security. What personal income taxes will I be required to pay as a resident of Delaware? I also would like information on real estate property taxes.
+A.
+As a resident of Delaware, the amount of your pension and 401K income that is taxable for federal purposes is also taxable in Delaware. However, persons 60 years of age or older are entitled to a pension exclusion of up to $12,500 or the amount of the pension and eligible retirement income (whichever is less). Eligible retirement income includes dividends, interest, capital gains, net rental income from real property and qualified retirement plans (IRS Sec. 4974), such as IRA, 401 (K), and Keogh plans, and government deferred compensation plans (IRS Sec. 457). The combined total of pension and eligible retirement income may not exceed $12,500 per person age 60 or over. If you are under age 60 and receiving a pension, the exclusion amount is limited to $2,000.
+Social Security and Railroad Retirement benefits are not taxable in Delaware and should not be included in taxable income.
+Also, Delaware has a graduated tax rate ranging from 2.2% to 5.55% for income under $60,000, and 6.60% for income of $60,000 or over. As a result, there is no reason to withhold more than 6.6% of all taxable distributions and taxable income to the State of Delaware.
+For information regarding property taxes you may contact the Property Tax office for the county you plan to live in.
+Property Tax – New Castle County (302) 323-2600
+Property Tax – Kent County (302) 736-2077
+Property Tax – Sussex County (302) 855-7760
+Senior citizens can contact the Department of Finance
+concerning property tax reductions.
+Penalties and Interest Rates
+Q.  What are the applicable interest and penalty rates for underpayments of Delaware Income Tax?
+A.
+The interest and penalty rates for underpayment of Delaware Income Tax are as follows:
+Interest – Underpayment or late payment:
+The Delaware Code provides that interest on any underpayment or late payment of income taxes due shall accrue at the rate of ½% per month, from the date prescribed for payments to the date paid.
+Penalty – Late-filing of balance due return:
+The law imposes substantial penalties for failure to file a timely return. Late-filed returns with a balance due are subject to a penalty of 5% per month of the balance due.
+Penalty – Negligence/fraud/substantial understatement:
+The law also provides severe penalties for filing a false or fraudulent return, or for a false certification. The mere fact that the figures you report on your Delaware return are taken from your Federal return will not relieve you from the imposition of penalties for negligence or for filing a false or fraudulent return.
+Penalty – Failure to pay:
+The law provides a penalty of 1% per month (not to exceed 25%) of the net tax liabilities for failure to pay the tax liability due on a timely filed or late-filed return. This penalty is in addition to the interest charged for late payment.
+Penalty – Failure to File/Pay Estimated Taxes:
+The law provides a penalty of 1½% per month of the computed tax payment for failure to file/pay estimated taxes due. This penalty is in addition to those penalties and interest listed above. The penalty is also assessed if the estimated payment is filed late.
+Request for Copies of Returns
+Q.  How do I request a copy of a tax return I have filed?
+A.
+In order to give you this information, please provide your social security number, name, your filing status for that year, the amount of refund or balance due, and your address on the return at that time. You may email your request by clicking the personal income tax email address in the contact file, or contact our Public Service Bureau at (302) 577-8200.
+Bonds
+Q.  Are in-state municipal bonds taxable or tax-exempt to residents of your state? Are out-of-state municipal bonds taxable or tax-exempt to residents of your state? What is the maximum state income tax rate on out-of-state municipal bonds, and at what level of income does this rate apply?
+A.
+Delaware municipal bonds are tax-exempt to residents of Delaware. Municipal bonds from states other than Delaware are taxable to residents of Delaware.
+Example:
+Interest received on Pennsylvania Turnpike Bonds.
+Delaware does not have a specific income tax rate for municipal bonds. Income from out-of-state municipal bonds would be included in the federal adjusted gross income, which is carried over to the Delaware return.
+Delaware has a graduated tax rate ranging from 2.2% to 5.55% on income under $60,000. The maximum income tax rate is 6.60% on income of $60,000 or over.
+Refund of Erroneous Withholdings
+Q.  My company moved its office from Delaware to Ohio last year. I had an employment contract and the company paid me according to this contract, although my employment was terminated this year. They have taken Delaware State income tax out of my payments for part of this year. I would like to know under these circumstances why they continue to take out Delaware state tax and what if any tax liability I have, considering I do not live in Delaware and have not worked in Delaware this year. If there is any tax liability, please provide me details of why and tell me how to calculate Schedule W, which clearly shows there is no apportioned Delaware income when no days are worked in Delaware for a non-resident.
+A.
+You must file a non-resident tax return (Form PIT-NON) to receive a refund of erroneously withheld Delaware income taxes if you did not live or work in the State of Delaware at any time during the taxable year.
+You must attach to your Delaware return certification from your employer that:
+You did not work in Delaware during any part of the taxable year.
+Your employer erroneously withheld Delaware income taxes, and
+Your employer has not and will not file a Claim for Refund of such erroneous withholdings.
+Severance Pay
+Q.  I am a Resident of Pennsylvania and have worked for XYZ company in Delaware for the last 20 years. The company moved its operations to the State of North Carolina last July and did not operate in Delaware after that date. I did not relocate. The company gave me severance pay this year. Do I have to report that income to Delaware? I did not work or live in Delaware this year.
+A.
+Yes, you need to file a Delaware Non-Resident return and report the Severance Pay as Delaware sourced income. Severance Pay is taxable, based on the years of service rendered in Delaware. If you have any questions regarding severance pay, please contact Division of Revenue Public Service at (302)577-8200.
+Q.  I worked for the same company for 25 years in Delaware. During that time I was a Delaware Resident. The company downsized last year and my employment was voluntarily terminated. I moved to Florida the following January. I received severance pay during this year. Do I have to report that income to Delaware even though I did not work there this year and only lived there for a few weeks this year?
+A.
+Yes, you need to file a Delaware Non-Resident return and report the Severance Pay as Delaware sourced income. Severance Pay is taxable, based on the years of service rendered in Delaware. If you have any questions regarding severance pay, please contact Division of Revenue Public Service at (302)577-8200.
+Military
+Q.  I am in the military and stationed in Delaware, but I am a legal resident of New Jersey. I have a part-time job in Delaware and earned $10,544 from this job. Am I required to file a Delaware return? If so, do I have to include my military income on the return even though I am not a Delaware resident?
+A.
+Yes, you would be required to file a Delaware Non-Resident return and report your non-military income from your part-time job. You would include all your income in Column 1 (the Federal column) but, only your part-time Delaware income in Column B (the Delaware source income column).
+Address Change
+Q.  How do I go about changing my address with the State of Delaware so I can receive my tax information at my new address for next year?
+A.
+If you move after you file your return, you should notify the Division of Revenue of your address change in writing. To ensure correct updates of our records, please include your and your spouse’s names, social security numbers, old address and the new address. If your address is changed before the middle of November, your new tax booklet will be mailed to your new address. If your address is changed after the middle of November, your new tax booklet will be mailed to your old address. You can download forms and/or instructions from our website or contact our Public Service Bureau at (302) 577-8200 to receive a tax booklet.
+Volunteer Firefighter’s Credit
+Q.  How much is the Volunteer Firefighter’s Credit and who can claim it?
+A.
+The law allows a credit up to $1000 against the income tax liability of Delaware residents who are active firefighters, or members of fire company auxiliaries or rescue squads. To qualify for the credit, you must be an active volunteer firefighter on call to fight fires on a regular basis, a member of a fire company auxiliary or active member of an organized rescue squad in a Delaware Volunteer Company. You must enter the Fire Company number where you volunteer on the Resident return, Line 28 in the space provided, to qualify for the credit. Enter the amount of this credit on Line 28, Column A and/or B. Each spouse may claim only one $1000 credit. A credit may not be claimed for any of the following items: raffle tickets, benefit dinners, cash contributions, auctions, or any other such function.
+For tax year 2021, the credit was $500.
+For tax year 2004 thru 2020, the credit was $400.
+For tax year 2003 and before, the credit was $300.
+About Us
+Revenue Departments
+Tax Information
+Delaware Taxpayer Portal
+Frequently Asked Questions
+Contact Information
+Tax Appeal Board
+Employment
+Annual Fed/State Tax Institute
+Delaware Code
+Informational Memos
+Personal Income Tax Forms
+Individual Taxpayers
+Business Taxpayers
+One Stop Registration
+Assistance and Questions
+Tax Season Updates
+For Tax Software Developers
+For Tax Professionals
+Business Electronic Funds Transfer
+Gross Receipts Changes
+Delinquent Taxpayers
+Contract Announcements
+Gallonage Reports
+Fraud Hotline
+Bankruptcy
+Press and Media
+FOIA Requests
+Dept. of Finance
++
+Show state footer menu
+Delaware's Government
+Delaware's Governor
+State Directory
+Elected Officials
+General Assembly
+Delaware Courts
+State Employees
+Cities & Towns
+Delaware State Code
+State Regulations
+Business First Steps
+Phone Directory
+Locations Directory
+Public Meetings
+Voting & Elections
+Transparency
+Choose Health DE
+Tax Center
+Personal Income Tax
+Privacy Policy
+Weather & Travel
+Contact Us
+Corporations
+Franchise Tax
+Gross Receipts Tax
+Withholding Tax
+Guides to Services
+Help Center
+Mobile Apps
+E-mail / Text Alerts
+Social Media
+Facebook page for Delaware.gov (opens in a new window)
+X (formerly Twitter) page for Delaware.gov (opens in a new window)
+Flickr page for Delaware.gov (opens in a new window)
+YouTube page for Delaware.gov (opens in a new window)
+Instagram page for Delaware.gov (opens in a new window)
+Make Text Size Smaller
+Reset Text Size
+Make Text Size Bigger
+Built by the
+Government Information Center
+©MMXXVI
+Delaware.gov
+-
+Hide state footer menu

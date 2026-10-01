@@ -1,0 +1,1426 @@
+{
+  "artifacts": [
+    {
+      "place": "AL",
+      "requestedUrl": "https://www.revenue.alabama.gov/individual-corporate/individual-income-tax/",
+      "capturedAt": "2026-10-01T19:15:07.018263+00:00",
+      "status": 200,
+      "finalUrl": "https://www.revenue.alabama.gov/individual-corporate/individual-income-tax-filing-information/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-al-2026-10-01",
+      "path": "raw/al.html",
+      "sha256": "4c40aa8a82bb8fb60024014cf1ffa69db71b672c332b8bdb01a364372cd3a910",
+      "byteLength": 309893,
+      "textPath": "raw/al.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "AS-tax",
+      "requestedUrl": "https://www.americansamoa.gov/_files/ugd/4bfff9_a3bcba04ed65461ba9c6e20f503a8725.xlsx?dn=2025%20Tax%20Forms%20Updated-V3-%204.11.2026.xlsx",
+      "capturedAt": "2026-10-01T19:18:33.797562+00:00",
+      "status": 200,
+      "finalUrl": "https://www.americansamoa.gov/_files/ugd/4bfff9_a3bcba04ed65461ba9c6e20f503a8725.xlsx?dn=2025%20Tax%20Forms%20Updated-V3-%204.11.2026.xlsx",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "artifactId": "a33-wage-authority-as-tax-2026-10-01",
+      "path": "raw/as-tax.html",
+      "sha256": "bdf1bda02fdce508bd9f7e50d757dfe6ef642dd4624da88071df03ef936af53b",
+      "byteLength": 243669,
+      "textPath": "raw/as-tax.xlsx-extract.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "CA-withholding",
+      "requestedUrl": "https://edd.ca.gov/en/payroll_taxes/step-5-withhold-and-pay-payroll-taxes/",
+      "capturedAt": "2026-10-01T19:20:53.451895+00:00",
+      "status": 200,
+      "finalUrl": "https://edd.ca.gov/en/payroll_taxes/step-5-withhold-and-pay-payroll-taxes/",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-ca-withholding-2026-10-01",
+      "path": "raw/ca-withholding.html",
+      "sha256": "a3fb95b86ea5fd4bf06a38780d355628735ea00c8ad8988cd86f3809639aa77d",
+      "byteLength": 123313,
+      "textPath": "raw/ca-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "CT-authority",
+      "requestedUrl": "https://portal.ct.gov/drs/individuals/resident-income-tax/tax-information",
+      "capturedAt": "2026-10-01T19:24:23.133974+00:00",
+      "status": 200,
+      "finalUrl": "https://portal.ct.gov/drs/individuals/resident-income-tax/tax-information",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-ct-authority-2026-10-01",
+      "path": "raw/ct-authority.html",
+      "sha256": "713235001f11d0c12aba447a2b99ee32f7cd02a9dd2a038c7fe8183a828c8f21",
+      "byteLength": 78785,
+      "textPath": "raw/ct-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "DC-individual",
+      "requestedUrl": "https://otr.cfo.dc.gov/page/individual-filings-faqs",
+      "capturedAt": "2026-10-01T19:20:56.195821+00:00",
+      "status": 200,
+      "finalUrl": "https://otr.cfo.dc.gov/page/individual-filings-faqs",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-dc-individual-2026-10-01",
+      "path": "raw/dc-individual.html",
+      "sha256": "2eff896ff195ae498d118ef6cbdebaed870a2db8d8425d53df1f676b54761a23",
+      "byteLength": 128144,
+      "textPath": "raw/dc-individual.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "DE",
+      "requestedUrl": "https://revenue.delaware.gov/personal-income-tax/",
+      "capturedAt": "2026-10-01T19:15:07.290538+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.delaware.gov/frequently-asked-questions/personal-income-tax-faqs/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-de-2026-10-01",
+      "path": "raw/de.html",
+      "sha256": "fab237fe6fdf7e558366724caf27faaf2531f6a5bce8876a235b6f8ec73b6258",
+      "byteLength": 62932,
+      "textPath": "raw/de.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "GU-authority",
+      "requestedUrl": "https://www.guamtax.com/forms/2025GUAM1040TaxForm.pdf",
+      "capturedAt": "2026-10-01T19:24:24.010080+00:00",
+      "status": 200,
+      "finalUrl": "https://www.guamtax.com/forms/2025GUAM1040TaxForm.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-gu-authority-2026-10-01",
+      "path": "raw/gu-authority.pdf",
+      "sha256": "caf3e1adc0a47551c0ce8bbbe80bcf04d34cec2af47c42bbeecb806d6eb29e9d",
+      "byteLength": 704815,
+      "textPath": "raw/gu-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "HI-evidence",
+      "requestedUrl": "https://files.hawaii.gov/tax/forms/current/bookleta.pdf",
+      "capturedAt": "2026-10-01T19:33:55.918737+00:00",
+      "status": 200,
+      "finalUrl": "https://files.hawaii.gov/tax/forms/current/bookleta.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-hi-evidence-2026-10-01",
+      "path": "raw/hi-evidence.pdf",
+      "sha256": "db0d6ab07373559889e92cdef8e94cfdcc001a147feb23039ac88d268e8b6849",
+      "byteLength": 1250665,
+      "textPath": "raw/hi-evidence.raw-extract.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "IA-authority",
+      "requestedUrl": "https://revenue.iowa.gov/taxes/tax-guidance/withholding-tax/iowa-withholding-tax-information",
+      "capturedAt": "2026-10-01T19:24:23.135395+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.iowa.gov/taxes/tax-guidance/withholding-tax/iowa-withholding-tax-information",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-ia-authority-2026-10-01",
+      "path": "raw/ia-authority.html",
+      "sha256": "77ca50fe94d554fce547b05588aac07dafc6994d2638266932756a8388b63d57",
+      "byteLength": 211173,
+      "textPath": "raw/ia-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "ID-withholding",
+      "requestedUrl": "https://tax.idaho.gov/taxes/income-tax/withholding/",
+      "capturedAt": "2026-10-01T19:20:53.452899+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.idaho.gov/taxes/income-tax/withholding/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-id-withholding-2026-10-01",
+      "path": "raw/id-withholding.html",
+      "sha256": "ac7617cb479de79c5839e41ccd896800f8d1a24a36d48d99d30b81f6b521d16d",
+      "byteLength": 258507,
+      "textPath": "raw/id-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "IL-authority",
+      "requestedUrl": "https://tax.illinois.gov/research/publications/pubs/illinois-income-tax-withholding-for-household-employees.html",
+      "capturedAt": "2026-10-01T19:24:24.068148+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.illinois.gov/research/publications/pubs/illinois-income-tax-withholding-for-household-employees.html",
+      "contentType": "text/html;charset=utf-8",
+      "artifactId": "a33-wage-authority-il-authority-2026-10-01",
+      "path": "raw/il-authority.html",
+      "sha256": "00f8f8fbf9c9fcd9c6569e154aa7755eaafebe2bfc4b6487ca381cec7ca4d866",
+      "byteLength": 101323,
+      "textPath": "raw/il-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED",
+      "publicationStatus": "RAW_WITHHELD_EMBEDDED_THIRD_PARTY_TOKEN"
+    },
+    {
+      "place": "IN-withholding",
+      "requestedUrl": "https://www.in.gov/dor/i-am-a/business-corp/withholding",
+      "capturedAt": "2026-10-01T19:20:53.454286+00:00",
+      "status": 200,
+      "finalUrl": "https://www.in.gov/dor/i-am-a/business-corp/withholding/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-in-withholding-2026-10-01",
+      "path": "raw/in-withholding.html",
+      "sha256": "245d7399fc2fe15fa5932c90da96803622851b3d35b53f766ed033b3af3f71f1",
+      "byteLength": 81448,
+      "textPath": "raw/in-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "KS-authority",
+      "requestedUrl": "https://www.ksrevenue.gov/k4info.html",
+      "capturedAt": "2026-10-01T19:24:23.134805+00:00",
+      "status": 200,
+      "finalUrl": "https://www.ksrevenue.gov/k4info.html",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-ks-authority-2026-10-01",
+      "path": "raw/ks-authority.html",
+      "sha256": "60ebddc9a25918b136584ca93df20b733d95944693a7dd29dafd685262d5b957",
+      "byteLength": 35199,
+      "textPath": "raw/ks-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "KY-withholding",
+      "requestedUrl": "https://revenue.ky.gov/Business/Pages/Employer-Payroll-Withholding.aspx",
+      "capturedAt": "2026-10-01T19:20:53.922288+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.ky.gov/Business/Pages/Employer-Payroll-Withholding.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-ky-withholding-2026-10-01",
+      "path": "raw/ky-withholding.html",
+      "sha256": "a0d054c40e4394108656c241f8c8a32af81ac4005e3293bbcb0851207c899251",
+      "byteLength": 113345,
+      "textPath": "raw/ky-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "LA-withholding",
+      "requestedUrl": "https://revenue.louisiana.gov/businesses/widely-used-tax-types/withholding/",
+      "capturedAt": "2026-10-01T19:20:55.986444+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.louisiana.gov/businesses/widely-used-tax-types/withholding/",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-la-withholding-2026-10-01",
+      "path": "raw/la-withholding.html",
+      "sha256": "5d5aea73fd6fe12f783403f69dd551a5b6eeb6840336e3c258bb61d8eae29183",
+      "byteLength": 62960,
+      "textPath": "raw/la-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MA-resident",
+      "requestedUrl": "https://www.mass.gov/guides/personal-income-tax-for-residents",
+      "capturedAt": "2026-10-01T19:20:53.975046+00:00",
+      "status": 200,
+      "finalUrl": "https://www.mass.gov/guides/personal-income-tax-for-residents",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-ma-resident-2026-10-01",
+      "path": "raw/ma-resident.html",
+      "sha256": "7ce72b4159a624f020a3630933fe9a564ba396a8a3e1f359aa5beecd7edf6cab",
+      "byteLength": 255182,
+      "textPath": "raw/ma-resident.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "ME-detail",
+      "requestedUrl": "https://www.maine.gov/revenue/taxes/income-estate-tax/individual-income-tax-1040me",
+      "capturedAt": "2026-10-01T19:16:54.142334+00:00",
+      "status": 200,
+      "finalUrl": "https://www.maine.gov/revenue/taxes/income-estate-tax/individual-income-tax-1040me",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-me-detail-2026-10-01",
+      "path": "raw/me-detail.html",
+      "sha256": "b3c8f27663ee9e5738639e10c49ecf951b09af4fe9a8d1823f3e84d888174dfa",
+      "byteLength": 32841,
+      "textPath": "raw/me-detail.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MI-evidence",
+      "requestedUrl": "https://www.michigan.gov/taxes/business-taxes/withholding/withholding-tax-faqs",
+      "capturedAt": "2026-10-01T19:33:55.918201+00:00",
+      "status": 200,
+      "finalUrl": "https://www.michigan.gov/taxes/business-taxes/withholding/withholding-tax-faqs",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-mi-evidence-2026-10-01",
+      "path": "raw/mi-evidence.html",
+      "sha256": "a55aea6e49669c045518e2bb32d8c0e8320017ee81b643b6d74502a8c656cc6f",
+      "byteLength": 353522,
+      "textPath": "raw/mi-evidence.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MN-withholding",
+      "requestedUrl": "https://www.revenue.state.mn.us/withholding-tax",
+      "capturedAt": "2026-10-01T19:20:54.201554+00:00",
+      "status": 200,
+      "finalUrl": "https://www.revenue.state.mn.us/withholding-tax",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-mn-withholding-2026-10-01",
+      "path": "raw/mn-withholding.html",
+      "sha256": "286a26108ca80dcd891b28b72f7833149e6b53cd30de141629b78dacc6cc1e16",
+      "byteLength": 73660,
+      "textPath": "raw/mn-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MO-withholding",
+      "requestedUrl": "https://dor.mo.gov/taxation/business/tax-types/withholding/",
+      "capturedAt": "2026-10-01T19:20:54.647655+00:00",
+      "status": 200,
+      "finalUrl": "https://dor.mo.gov/taxation/business/tax-types/withholding/",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-mo-withholding-2026-10-01",
+      "path": "raw/mo-withholding.html",
+      "sha256": "d6a40eec5cdaa960c4b69b61b7db24dac04a0e3a550144021f3a89c2be2eb6b5",
+      "byteLength": 59289,
+      "textPath": "raw/mo-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MP-authority",
+      "requestedUrl": "https://www.finance.gov.mp/revenue-taxation.php",
+      "capturedAt": "2026-10-01T19:24:23.704064+00:00",
+      "status": 200,
+      "finalUrl": "https://www.finance.gov.mp/revenue-taxation.php",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-mp-authority-2026-10-01",
+      "path": "raw/mp-authority.html",
+      "sha256": "6a84e990393702ce7c66d776b8b9d31043b98472dbc603de841b05cea1fe77f1",
+      "byteLength": 18406,
+      "textPath": "raw/mp-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MT-guide",
+      "requestedUrl": "https://revenuefiles.mt.gov/files/Forms/Publication-1/Publication-1-2026.pdf",
+      "capturedAt": "2026-10-01T19:31:54.830314+00:00",
+      "status": 200,
+      "finalUrl": "https://revenuefiles.mt.gov/files/Forms/Publication-1/Publication-1-2026.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-mt-guide-2026-10-01",
+      "path": "raw/mt-guide.pdf",
+      "sha256": "e3c8ead48b90065910744bb2ffdfc23709760892bfaa34ee4b468286cdde620d",
+      "byteLength": 621496,
+      "textPath": "raw/mt-guide.raw-extract.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NC-authority",
+      "requestedUrl": "https://www.ncdor.gov/withholding-tax-frequently-asked-questions",
+      "capturedAt": "2026-10-01T19:24:23.136289+00:00",
+      "status": 200,
+      "finalUrl": "https://www.ncdor.gov/taxes-forms/withholding-tax/withholding-tax-frequently-asked-questions",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-nc-authority-2026-10-01",
+      "path": "raw/nc-authority.html",
+      "sha256": "5a6d45da856717819bfc88c8cd48744812a64b382f96ea42ab4bd75cd582fee2",
+      "byteLength": 144950,
+      "textPath": "raw/nc-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "ND-withholding",
+      "requestedUrl": "https://www.tax.nd.gov/income-tax-withholding",
+      "capturedAt": "2026-10-01T19:20:55.303833+00:00",
+      "status": 200,
+      "finalUrl": "https://www.tax.nd.gov/income-tax-withholding",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-nd-withholding-2026-10-01",
+      "path": "raw/nd-withholding.html",
+      "sha256": "337acaff265fc1e8409e41fd965aa7fc06fd02683c3cb363e4c76d46b7e2924d",
+      "byteLength": 166471,
+      "textPath": "raw/nd-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NE-authority",
+      "requestedUrl": "https://revenue.nebraska.gov/about/forms/income-tax-withholding-forms",
+      "capturedAt": "2026-10-01T19:24:23.135812+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.nebraska.gov/about/forms/income-tax-withholding-forms",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-ne-authority-2026-10-01",
+      "path": "raw/ne-authority.html",
+      "sha256": "ccca621ea408feba01c4f7bef837a497db7f7ae89995dbbfe198d3041c530d14",
+      "byteLength": 74733,
+      "textPath": "raw/ne-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NJ-withholding",
+      "requestedUrl": "https://www.nj.gov/treasury/taxation/businesses/payroll/index.shtml",
+      "capturedAt": "2026-10-01T19:20:56.145347+00:00",
+      "status": 200,
+      "finalUrl": "https://www.nj.gov/treasury/taxation/businesses/payroll/index.shtml",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-nj-withholding-2026-10-01",
+      "path": "raw/nj-withholding.html",
+      "sha256": "a6f7eac1ee0ff1c841873c286b44b554bf200b91d010fdfbcf6ac217050c128c",
+      "byteLength": 45215,
+      "textPath": "raw/nj-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NM-withholding",
+      "requestedUrl": "https://www.tax.newmexico.gov/businesses/withholding-tax-and-workers-compensation/",
+      "capturedAt": "2026-10-01T19:20:55.503854+00:00",
+      "status": 200,
+      "finalUrl": "https://www.tax.newmexico.gov/businesses/withholding-tax-and-workers-compensation/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-nm-withholding-2026-10-01",
+      "path": "raw/nm-withholding.html",
+      "sha256": "0031ccfb3d481f4ed966064546dc22fe9399d8719d77b8cc6b3ad83f1bce134c",
+      "byteLength": 455791,
+      "textPath": "raw/nm-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NV-none",
+      "requestedUrl": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/",
+      "capturedAt": "2026-10-01T19:20:56.891259+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-nv-none-2026-10-01",
+      "path": "raw/nv-none.html",
+      "sha256": "318208df96af981d21c0549398f4bb13978a8ec9c7f91ff2b52fe44ec4f0ef17",
+      "byteLength": 116629,
+      "textPath": "raw/nv-none.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NY-withholding",
+      "requestedUrl": "https://www.tax.ny.gov/bus/wt/wtidx.htm",
+      "capturedAt": "2026-10-01T19:20:55.553918+00:00",
+      "status": 200,
+      "finalUrl": "https://www.tax.ny.gov/bus/wt/wtidx.htm",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-ny-withholding-2026-10-01",
+      "path": "raw/ny-withholding.html",
+      "sha256": "99d09c1007f617ef3779b1d8829185289c197f15d6ae37f9526a91c4c201ff2b",
+      "byteLength": 25136,
+      "textPath": "raw/ny-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OH-source",
+      "requestedUrl": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/Forms/ohio_individual/individual/2025/it1040-booklet.pdf",
+      "capturedAt": "2026-10-01T19:27:02.253873+00:00",
+      "status": 200,
+      "finalUrl": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/Forms/ohio_individual/individual/2025/it1040-booklet.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-oh-source-2026-10-01",
+      "path": "raw/oh-source.pdf",
+      "sha256": "931b21e7484ba96e561cf2346d8a7d2a8005bd990724b5903c9a90acede5f50e",
+      "byteLength": 3427251,
+      "textPath": "raw/oh-source.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OK-evidence",
+      "requestedUrl": "https://oklahoma.gov/tax/businesses/withholding.html",
+      "capturedAt": "2026-10-01T19:33:55.917532+00:00",
+      "status": 200,
+      "finalUrl": "https://oklahoma.gov/tax/businesses/withholding.html",
+      "contentType": "text/html;charset=utf-8",
+      "artifactId": "a33-wage-authority-ok-evidence-2026-10-01",
+      "path": "raw/ok-evidence.html",
+      "sha256": "1d17daa4cbf2f1e2543fef8b6b2094addacfe8e20dadaa4b25fb20dcad8fc69e",
+      "byteLength": 51115,
+      "textPath": "raw/ok-evidence.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "PA",
+      "requestedUrl": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/personal-income-tax.html",
+      "capturedAt": "2026-10-01T19:15:11.240623+00:00",
+      "status": 200,
+      "finalUrl": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/personal-income-tax",
+      "contentType": "text/html;charset=utf-8",
+      "artifactId": "a33-wage-authority-pa-2026-10-01",
+      "path": "raw/pa.html",
+      "sha256": "6ca41f60a37d0639ece5f09a5f2cf769974ae27862d9d284e1d84cda9769e754",
+      "byteLength": 421073,
+      "textPath": "raw/pa.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "PR-guide",
+      "requestedUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/tablas-de-retencion-withholding-tables",
+      "capturedAt": "2026-10-01T19:31:54.831887+00:00",
+      "status": 200,
+      "finalUrl": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/tablas-de-retencion-withholding-tables",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-pr-guide-2026-10-01",
+      "path": "raw/pr-guide.html",
+      "sha256": "53411e32d6eb34bebef88d81693fea14a40397be2346cf38cbeb071c803ef787",
+      "byteLength": 33548,
+      "textPath": "raw/pr-guide.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "SC",
+      "requestedUrl": "https://dor.sc.gov/tax/individual-income",
+      "capturedAt": "2026-10-01T19:15:11.433912+00:00",
+      "status": 200,
+      "finalUrl": "https://dor.sc.gov/iit",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-sc-2026-10-01",
+      "path": "raw/sc.html",
+      "sha256": "f6de5e914f94eb26a1cf338cf73b4572cdfcc90539229fa6896cfff2f33aaedc",
+      "byteLength": 214610,
+      "textPath": "raw/sc.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "SD",
+      "requestedUrl": "https://dor.sd.gov/individuals/taxes/",
+      "capturedAt": "2026-10-01T19:15:11.484977+00:00",
+      "status": 200,
+      "finalUrl": "https://dor.sd.gov/individuals/taxes/",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-sd-2026-10-01",
+      "path": "raw/sd.html",
+      "sha256": "b30eac141b0237e2bdcfbb855a2f9ffd20d2bf1be08c8862db50a980d5e0965f",
+      "byteLength": 112100,
+      "textPath": "raw/sd.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "TN-root",
+      "requestedUrl": "https://tn.gov/revenue/taxes/hall-income-tax.html",
+      "capturedAt": "2026-10-01T19:20:56.725198+00:00",
+      "status": 200,
+      "finalUrl": "https://www.tn.gov/revenue/taxes/hall-income-tax.html",
+      "contentType": "text/html;charset=utf-8",
+      "artifactId": "a33-wage-authority-tn-root-2026-10-01",
+      "path": "raw/tn-root.html",
+      "sha256": "632d293d0391a522b1fb7c44d07d70a12ce349cc17098c86e79c6f8f48723a4a",
+      "byteLength": 37934,
+      "textPath": "raw/tn-root.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "US",
+      "requestedUrl": "https://www.irs.gov/publications/p15",
+      "capturedAt": "2026-10-01T19:15:07.017684+00:00",
+      "status": 200,
+      "finalUrl": "https://www.irs.gov/publications/p15",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-us-2026-10-01",
+      "path": "raw/us.html",
+      "sha256": "8788eb23ef7896bafd656b3744585b0dd50a9579f7ff518c659bd8166d5c1e18",
+      "byteLength": 624239,
+      "textPath": "raw/us.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "VA-authority",
+      "requestedUrl": "https://www.tax.virginia.gov/withholding-tax",
+      "capturedAt": "2026-10-01T19:24:23.297674+00:00",
+      "status": 200,
+      "finalUrl": "https://www.tax.virginia.gov/withholding-tax",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-va-authority-2026-10-01",
+      "path": "raw/va-authority.html",
+      "sha256": "76e135b94a12fb3c7eb15fc2ac9a17fa53f25b69412609688e653e4397e19c90",
+      "byteLength": 94437,
+      "textPath": "raw/va-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "VI-authority",
+      "requestedUrl": "https://bir.vi.gov/content/booklets/tax_structure.pdf",
+      "capturedAt": "2026-10-01T19:24:23.879884+00:00",
+      "status": 200,
+      "finalUrl": "https://bir.vi.gov/content/booklets/tax_structure.pdf",
+      "contentType": "application/pdf",
+      "artifactId": "a33-wage-authority-vi-authority-2026-10-01",
+      "path": "raw/vi-authority.pdf",
+      "sha256": "c7862c5ef7dc0fe38a43ce9b752d45fb61ab43368369a41518df0a34561918ce",
+      "byteLength": 268666,
+      "textPath": "raw/vi-authority.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "code": "vt",
+      "requestedUrl": "https://tax.vermont.gov/individuals/personal-income-tax",
+      "capturedAt": "2026-10-01T19:50:48.172114+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.vermont.gov/personal-income-tax",
+      "contentType": "text/html; charset=UTF-8",
+      "byteLength": 70016,
+      "sha256": "5927eee10ea02d0026675eea67f2f632d20c0e6b5ba5a709a4194a0fc52fccf5",
+      "place": "VT-broker",
+      "artifactId": "a33-wage-authority-vt-broker-2026-10-01",
+      "path": "raw/vt-broker.html",
+      "textPath": "raw/vt-broker.txt"
+    },
+    {
+      "place": "WA",
+      "requestedUrl": "https://dor.wa.gov/taxes-rates/income-tax",
+      "capturedAt": "2026-10-01T19:15:12.021818+00:00",
+      "status": 200,
+      "finalUrl": "https://dor.wa.gov/taxes-rates/income-tax",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-wa-2026-10-01",
+      "path": "raw/wa.html",
+      "sha256": "a38f103099eecd14960d42c139e5c24e91386b3c56dbbc4a5297fa37ed5691ff",
+      "byteLength": 57988,
+      "textPath": "raw/wa.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "WI-withholding",
+      "requestedUrl": "https://www.revenue.wi.gov/Pages/FAQS/pcs-with.aspx",
+      "capturedAt": "2026-10-01T19:29:32.590394+00:00",
+      "status": 200,
+      "finalUrl": "https://www.revenue.wi.gov/Pages/FAQS/pcs-with.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-wi-withholding-2026-10-01",
+      "path": "raw/wi-withholding.html",
+      "sha256": "98f332c7488b9e900aa72d46cb4ab9f7e2397c5e7d57d0f13878049bee7def0f",
+      "byteLength": 78417,
+      "textPath": "raw/wi-withholding.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "WV-guide",
+      "requestedUrl": "https://tax.wv.gov/Individuals/Pages/PersonalIncomeTaxReductionBill.aspx",
+      "capturedAt": "2026-10-01T19:31:54.832488+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.wv.gov/Individuals/Pages/PersonalIncomeTaxReductionBill.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-wv-guide-2026-10-01",
+      "path": "raw/wv-guide.html",
+      "sha256": "571c3e9c79d78932ff5692c78e2c84a77d65b0c2d0e607bb4de0e41c1e4150eb",
+      "byteLength": 63324,
+      "textPath": "raw/wv-guide.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    }
+  ],
+  "digestByArtifactId": {
+    "a33-wage-authority-al-2026-10-01": "4c40aa8a82bb8fb60024014cf1ffa69db71b672c332b8bdb01a364372cd3a910",
+    "a33-wage-authority-as-tax-2026-10-01": "bdf1bda02fdce508bd9f7e50d757dfe6ef642dd4624da88071df03ef936af53b",
+    "a33-wage-authority-ca-withholding-2026-10-01": "a3fb95b86ea5fd4bf06a38780d355628735ea00c8ad8988cd86f3809639aa77d",
+    "a33-wage-authority-ct-authority-2026-10-01": "713235001f11d0c12aba447a2b99ee32f7cd02a9dd2a038c7fe8183a828c8f21",
+    "a33-wage-authority-dc-individual-2026-10-01": "2eff896ff195ae498d118ef6cbdebaed870a2db8d8425d53df1f676b54761a23",
+    "a33-wage-authority-de-2026-10-01": "fab237fe6fdf7e558366724caf27faaf2531f6a5bce8876a235b6f8ec73b6258",
+    "a33-wage-authority-gu-authority-2026-10-01": "caf3e1adc0a47551c0ce8bbbe80bcf04d34cec2af47c42bbeecb806d6eb29e9d",
+    "a33-wage-authority-hi-evidence-2026-10-01": "db0d6ab07373559889e92cdef8e94cfdcc001a147feb23039ac88d268e8b6849",
+    "a33-wage-authority-ia-authority-2026-10-01": "77ca50fe94d554fce547b05588aac07dafc6994d2638266932756a8388b63d57",
+    "a33-wage-authority-id-withholding-2026-10-01": "ac7617cb479de79c5839e41ccd896800f8d1a24a36d48d99d30b81f6b521d16d",
+    "a33-wage-authority-il-authority-2026-10-01": "00f8f8fbf9c9fcd9c6569e154aa7755eaafebe2bfc4b6487ca381cec7ca4d866",
+    "a33-wage-authority-in-withholding-2026-10-01": "245d7399fc2fe15fa5932c90da96803622851b3d35b53f766ed033b3af3f71f1",
+    "a33-wage-authority-ks-authority-2026-10-01": "60ebddc9a25918b136584ca93df20b733d95944693a7dd29dafd685262d5b957",
+    "a33-wage-authority-ky-withholding-2026-10-01": "a0d054c40e4394108656c241f8c8a32af81ac4005e3293bbcb0851207c899251",
+    "a33-wage-authority-la-withholding-2026-10-01": "5d5aea73fd6fe12f783403f69dd551a5b6eeb6840336e3c258bb61d8eae29183",
+    "a33-wage-authority-ma-resident-2026-10-01": "7ce72b4159a624f020a3630933fe9a564ba396a8a3e1f359aa5beecd7edf6cab",
+    "a33-wage-authority-me-detail-2026-10-01": "b3c8f27663ee9e5738639e10c49ecf951b09af4fe9a8d1823f3e84d888174dfa",
+    "a33-wage-authority-mi-evidence-2026-10-01": "a55aea6e49669c045518e2bb32d8c0e8320017ee81b643b6d74502a8c656cc6f",
+    "a33-wage-authority-mn-withholding-2026-10-01": "286a26108ca80dcd891b28b72f7833149e6b53cd30de141629b78dacc6cc1e16",
+    "a33-wage-authority-mo-withholding-2026-10-01": "d6a40eec5cdaa960c4b69b61b7db24dac04a0e3a550144021f3a89c2be2eb6b5",
+    "a33-wage-authority-mp-authority-2026-10-01": "6a84e990393702ce7c66d776b8b9d31043b98472dbc603de841b05cea1fe77f1",
+    "a33-wage-authority-mt-guide-2026-10-01": "e3c8ead48b90065910744bb2ffdfc23709760892bfaa34ee4b468286cdde620d",
+    "a33-wage-authority-nc-authority-2026-10-01": "5a6d45da856717819bfc88c8cd48744812a64b382f96ea42ab4bd75cd582fee2",
+    "a33-wage-authority-nd-withholding-2026-10-01": "337acaff265fc1e8409e41fd965aa7fc06fd02683c3cb363e4c76d46b7e2924d",
+    "a33-wage-authority-ne-authority-2026-10-01": "ccca621ea408feba01c4f7bef837a497db7f7ae89995dbbfe198d3041c530d14",
+    "a33-wage-authority-nj-withholding-2026-10-01": "a6f7eac1ee0ff1c841873c286b44b554bf200b91d010fdfbcf6ac217050c128c",
+    "a33-wage-authority-nm-withholding-2026-10-01": "0031ccfb3d481f4ed966064546dc22fe9399d8719d77b8cc6b3ad83f1bce134c",
+    "a33-wage-authority-nv-none-2026-10-01": "318208df96af981d21c0549398f4bb13978a8ec9c7f91ff2b52fe44ec4f0ef17",
+    "a33-wage-authority-ny-withholding-2026-10-01": "99d09c1007f617ef3779b1d8829185289c197f15d6ae37f9526a91c4c201ff2b",
+    "a33-wage-authority-oh-source-2026-10-01": "931b21e7484ba96e561cf2346d8a7d2a8005bd990724b5903c9a90acede5f50e",
+    "a33-wage-authority-ok-evidence-2026-10-01": "1d17daa4cbf2f1e2543fef8b6b2094addacfe8e20dadaa4b25fb20dcad8fc69e",
+    "a33-wage-authority-pa-2026-10-01": "6ca41f60a37d0639ece5f09a5f2cf769974ae27862d9d284e1d84cda9769e754",
+    "a33-wage-authority-pr-guide-2026-10-01": "53411e32d6eb34bebef88d81693fea14a40397be2346cf38cbeb071c803ef787",
+    "a33-wage-authority-sc-2026-10-01": "f6de5e914f94eb26a1cf338cf73b4572cdfcc90539229fa6896cfff2f33aaedc",
+    "a33-wage-authority-sd-2026-10-01": "b30eac141b0237e2bdcfbb855a2f9ffd20d2bf1be08c8862db50a980d5e0965f",
+    "a33-wage-authority-tn-root-2026-10-01": "632d293d0391a522b1fb7c44d07d70a12ce349cc17098c86e79c6f8f48723a4a",
+    "a33-wage-authority-us-2026-10-01": "8788eb23ef7896bafd656b3744585b0dd50a9579f7ff518c659bd8166d5c1e18",
+    "a33-wage-authority-va-authority-2026-10-01": "76e135b94a12fb3c7eb15fc2ac9a17fa53f25b69412609688e653e4397e19c90",
+    "a33-wage-authority-vi-authority-2026-10-01": "c7862c5ef7dc0fe38a43ce9b752d45fb61ab43368369a41518df0a34561918ce",
+    "a33-wage-authority-vt-broker-2026-10-01": "5927eee10ea02d0026675eea67f2f632d20c0e6b5ba5a709a4194a0fc52fccf5",
+    "a33-wage-authority-wa-2026-10-01": "a38f103099eecd14960d42c139e5c24e91386b3c56dbbc4a5297fa37ed5691ff",
+    "a33-wage-authority-wi-withholding-2026-10-01": "98f332c7488b9e900aa72d46cb4ab9f7e2397c5e7d57d0f13878049bee7def0f",
+    "a33-wage-authority-wv-guide-2026-10-01": "571c3e9c79d78932ff5692c78e2c84a77d65b0c2d0e607bb4de0e41c1e4150eb"
+  },
+  "failedCaptures": [
+    {
+      "place": "AZ-form",
+      "requestedUrl": "https://azdor.gov/sites/default/files/2025-12/FORMS_WITHHOLDING_2026-A4.pdf",
+      "capturedAt": "2026-10-01T19:20:56.580599+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "CO-guide",
+      "requestedUrl": "https://tax.colorado.gov/sites/tax/files/documents/DR1098_2026.pdf",
+      "capturedAt": "2026-10-01T19:20:56.567832+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "CT-resident",
+      "requestedUrl": "https://portal.ct.gov/drs/individuals/resident-income-tax-information",
+      "capturedAt": "2026-10-01T19:20:53.452412+00:00",
+      "captureStatus": "FAILED",
+      "error": "TimeoutError: The read operation timed out",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "MP-revenue",
+      "requestedUrl": "https://www.finance.gov.mp/division/rt",
+      "capturedAt": "2026-10-01T19:20:57.383170+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "MT-withholding",
+      "requestedUrl": "https://revenue.mt.gov/taxes/wage-withholding",
+      "capturedAt": "2026-10-01T19:20:55.970898+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "NE-withholding",
+      "requestedUrl": "https://revenue.nebraska.gov/businesses/withholding",
+      "capturedAt": "2026-10-01T19:20:55.029653+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "NH-www",
+      "requestedUrl": "https://www.revenue.nh.gov/faq/interest-dividends-tax",
+      "capturedAt": "2026-10-01T19:20:56.693486+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "OH-withholding",
+      "requestedUrl": "https://tax.ohio.gov/business/ohio-business-taxes/employer-withholding",
+      "capturedAt": "2026-10-01T19:20:56.352287+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "RI-www",
+      "requestedUrl": "https://www.tax.ri.gov/tax-sections/personal-income-tax",
+      "capturedAt": "2026-10-01T19:20:56.364394+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "TX-proposition",
+      "requestedUrl": "https://comptroller.texas.gov/economy/fiscal-notes/archive/2019/sep/proposition-4.php",
+      "capturedAt": "2026-10-01T19:20:56.954095+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "UT-withholding",
+      "requestedUrl": "https://tax.utah.gov/withholding",
+      "capturedAt": "2026-10-01T19:20:55.849400+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "VI-forms",
+      "requestedUrl": "https://bir.vi.gov/forms/",
+      "capturedAt": "2026-10-01T19:20:57.466030+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "VT-www",
+      "requestedUrl": "https://www.tax.vermont.gov/individuals/personal-income-tax",
+      "capturedAt": "2026-10-01T19:20:56.462921+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "place": "WY-tax",
+      "requestedUrl": "https://revenue.wyo.gov/dor/faqs",
+      "capturedAt": "2026-10-01T19:20:57.141220+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "authority-detail-capture-manifest.json"
+    },
+    {
+      "code": "az",
+      "requestedUrl": "https://azdor.gov/individual-income-tax",
+      "capturedAt": "2026-10-01T19:50:48.170678+00:00",
+      "error": "HTTP Error 404: Not Found",
+      "place": "AZ-broker",
+      "artifactId": "a33-wage-authority-az-broker-2026-10-01",
+      "path": "raw/az-broker.html",
+      "textPath": "raw/az-broker.txt",
+      "manifest": "broker-manifest.json"
+    },
+    {
+      "code": "co",
+      "requestedUrl": "https://tax.colorado.gov/individual-income-tax",
+      "capturedAt": "2026-10-01T19:50:48.171400+00:00",
+      "error": "HTTP Error 403: Forbidden",
+      "place": "CO-broker",
+      "artifactId": "a33-wage-authority-co-broker-2026-10-01",
+      "path": "raw/co-broker.html",
+      "textPath": "raw/co-broker.txt",
+      "manifest": "broker-manifest.json"
+    },
+    {
+      "code": "nh",
+      "requestedUrl": "https://www.revenue.nh.gov/taxes-glance",
+      "capturedAt": "2026-10-01T19:50:48.171649+00:00",
+      "error": "HTTP Error 403: Forbidden",
+      "place": "NH-broker",
+      "artifactId": "a33-wage-authority-nh-broker-2026-10-01",
+      "path": "raw/nh-broker.html",
+      "textPath": "raw/nh-broker.txt",
+      "manifest": "broker-manifest.json"
+    },
+    {
+      "code": "ri",
+      "requestedUrl": "https://tax.ri.gov/tax-sections/personal-income-tax",
+      "capturedAt": "2026-10-01T19:50:48.171909+00:00",
+      "error": "HTTP Error 403: Forbidden",
+      "place": "RI-broker",
+      "artifactId": "a33-wage-authority-ri-broker-2026-10-01",
+      "path": "raw/ri-broker.html",
+      "textPath": "raw/ri-broker.txt",
+      "manifest": "broker-manifest.json"
+    },
+    {
+      "place": "AZ",
+      "requestedUrl": "https://azdor.gov/individual-income-tax",
+      "capturedAt": "2026-10-01T19:15:07.019190+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "CO",
+      "requestedUrl": "https://tax.colorado.gov/individual-income-tax",
+      "capturedAt": "2026-10-01T19:15:07.191543+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "DC",
+      "requestedUrl": "https://otr.cfo.dc.gov/page/individual-income-taxes",
+      "capturedAt": "2026-10-01T19:15:07.334690+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "FL",
+      "requestedUrl": "https://floridarevenue.com/taxes/taxesfees/Pages/income_tax.aspx",
+      "capturedAt": "2026-10-01T19:15:07.377039+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "GA",
+      "requestedUrl": "https://dor.georgia.gov/individual-taxes",
+      "capturedAt": "2026-10-01T19:15:07.519644+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "HI",
+      "requestedUrl": "https://tax.hawaii.gov/geninfo/individual/",
+      "capturedAt": "2026-10-01T19:15:07.784115+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "LA",
+      "requestedUrl": "https://revenue.louisiana.gov/IndividualIncomeTax",
+      "capturedAt": "2026-10-01T19:15:08.866390+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "MD",
+      "requestedUrl": "https://www.marylandtaxes.gov/individual/income/",
+      "capturedAt": "2026-10-01T19:15:09.088830+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "ME",
+      "requestedUrl": "https://www.maine.gov/revenue/taxes/income-estate-tax/individual-income-tax",
+      "capturedAt": "2026-10-01T19:15:09.088051+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "MP",
+      "requestedUrl": "https://www.finance.gov.mp/division/rt.php",
+      "capturedAt": "2026-10-01T19:15:12.713219+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "MT",
+      "requestedUrl": "https://revenue.mt.gov/individuals/individual-income-tax/",
+      "capturedAt": "2026-10-01T19:15:10.299118+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "NH",
+      "requestedUrl": "https://www.revenue.nh.gov/taxes-glance",
+      "capturedAt": "2026-10-01T19:15:10.651671+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "NJ",
+      "requestedUrl": "https://www.nj.gov/treasury/taxation/njit.shtml",
+      "capturedAt": "2026-10-01T19:15:10.687996+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "OH",
+      "requestedUrl": "https://tax.ohio.gov/individual",
+      "capturedAt": "2026-10-01T19:15:10.959148+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "OK",
+      "requestedUrl": "https://oklahoma.gov/tax/individuals/income-tax.html",
+      "capturedAt": "2026-10-01T19:15:11.107649+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "RI",
+      "requestedUrl": "https://tax.ri.gov/tax-sections/personal-income-tax",
+      "capturedAt": "2026-10-01T19:15:11.241161+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "TN",
+      "requestedUrl": "https://www.tn.gov/revenue/taxes/hall-income-tax.html",
+      "capturedAt": "2026-10-01T19:15:11.582914+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 503: Service Unavailable",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "VA",
+      "requestedUrl": "https://www.tax.virginia.gov/individual-income-tax",
+      "capturedAt": "2026-10-01T19:15:11.955435+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "VT",
+      "requestedUrl": "https://tax.vermont.gov/individuals/personal-income-tax",
+      "capturedAt": "2026-10-01T19:15:11.937082+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "WV",
+      "requestedUrl": "https://tax.wv.gov/Individuals/PersonalIncomeTax/Pages/PersonalIncomeTax.aspx",
+      "capturedAt": "2026-10-01T19:15:12.101448+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "capture-manifest.json"
+    },
+    {
+      "place": "AZ-detail",
+      "requestedUrl": "https://azdor.gov/forms/individual",
+      "capturedAt": "2026-10-01T19:16:53.890194+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "CA-detail",
+      "requestedUrl": "https://edd.ca.gov/en/Payroll_Taxes/Withholding_Tax/",
+      "capturedAt": "2026-10-01T19:16:55.472757+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "CO-detail",
+      "requestedUrl": "https://tax.colorado.gov/withholding-tax",
+      "capturedAt": "2026-10-01T19:16:53.890952+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "DC-detail",
+      "requestedUrl": "https://otr.cfo.dc.gov/page/individual-income-tax",
+      "capturedAt": "2026-10-01T19:16:53.891467+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "LA-detail",
+      "requestedUrl": "https://revenue.louisiana.gov/tax-information/individual-income-tax/",
+      "capturedAt": "2026-10-01T19:16:54.048220+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "MD-detail",
+      "requestedUrl": "https://www.marylandcomptroller.gov/individuals/income-and-withholding-taxes.html",
+      "capturedAt": "2026-10-01T19:16:54.072911+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "NH-detail",
+      "requestedUrl": "https://www.revenue.nh.gov/",
+      "capturedAt": "2026-10-01T19:16:54.515623+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "NJ-detail",
+      "requestedUrl": "https://www.nj.gov/treasury/taxation/individuals.shtml",
+      "capturedAt": "2026-10-01T19:16:54.536491+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "OH-detail",
+      "requestedUrl": "https://tax.ohio.gov/individual/resources",
+      "capturedAt": "2026-10-01T19:16:54.614053+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "RI-detail",
+      "requestedUrl": "https://tax.ri.gov/",
+      "capturedAt": "2026-10-01T19:16:54.824815+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "TN-detail",
+      "requestedUrl": "https://revenue.support.tn.gov/hc/en-us/articles/360059407931-HIT-1-Tennessee-Income-Tax-on-Interest-and-Dividends",
+      "capturedAt": "2026-10-01T19:16:54.849140+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "TX-detail",
+      "requestedUrl": "https://comptroller.texas.gov/taxes/individuals/",
+      "capturedAt": "2026-10-01T19:16:56.148621+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "VI-detail",
+      "requestedUrl": "https://bir.vi.gov/individual-income-tax/",
+      "capturedAt": "2026-10-01T19:16:55.847429+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "VT-detail",
+      "requestedUrl": "https://tax.vermont.gov/",
+      "capturedAt": "2026-10-01T19:16:54.969099+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "WY-detail",
+      "requestedUrl": "https://revenue.wyo.gov/tax-information",
+      "capturedAt": "2026-10-01T19:16:56.307074+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "detail-capture-manifest.json"
+    },
+    {
+      "place": "MD-authority",
+      "requestedUrl": "https://www.marylandtaxes.gov/forms/26_forms/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:24:23.481880+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "directed-capture-manifest.json"
+    },
+    {
+      "place": "MT-authority",
+      "requestedUrl": "https://revenue.mt.gov/taxes/withholding-tax",
+      "capturedAt": "2026-10-01T19:24:24.770414+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "directed-capture-manifest.json"
+    },
+    {
+      "place": "OH-authority",
+      "requestedUrl": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/Forms/ohio_individual/individual/2025/it1040-booklet.pdf",
+      "capturedAt": "2026-10-01T19:24:24.640839+00:00",
+      "captureStatus": "FAILED",
+      "error": "RuntimeError: Artifact exceeds bounded 3MiB capture",
+      "manifest": "directed-capture-manifest.json"
+    },
+    {
+      "place": "TX-authority",
+      "requestedUrl": "https://comptroller.texas.gov/economy/fiscal-notes/archive/2019/sep/ballot-propositions.php",
+      "capturedAt": "2026-10-01T19:24:24.232359+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "directed-capture-manifest.json"
+    },
+    {
+      "place": "WI-authority",
+      "requestedUrl": "https://www.revenue.wi.gov/Pages/FAQS/ise-indinc.aspx",
+      "capturedAt": "2026-10-01T19:24:23.136669+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "directed-capture-manifest.json"
+    },
+    {
+      "place": "WV-authority",
+      "requestedUrl": "https://tax.wv.gov/Business/Withholding/Pages/WithholdingTax.aspx",
+      "capturedAt": "2026-10-01T19:24:23.441868+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "directed-capture-manifest.json"
+    },
+    {
+      "place": "WY-about",
+      "requestedUrl": "https://revenue.wyo.gov/about",
+      "capturedAt": "2026-10-01T19:24:24.459070+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "directed-capture-manifest.json"
+    },
+    {
+      "place": "GA-2026",
+      "requestedUrl": "https://dor.georgia.gov/taxes/tax-registration",
+      "capturedAt": "2026-10-01T19:33:56.516029+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-evidence-capture-manifest.json"
+    },
+    {
+      "place": "GA-evidence",
+      "requestedUrl": "https://dor.georgia.gov/taxes/withholding-tax",
+      "capturedAt": "2026-10-01T19:33:55.919118+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-evidence-capture-manifest.json"
+    },
+    {
+      "place": "HI-2026",
+      "requestedUrl": "https://files.hawaii.gov/tax/forms/2026/26bookleta.pdf",
+      "capturedAt": "2026-10-01T19:33:56.431466+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-evidence-capture-manifest.json"
+    },
+    {
+      "place": "MD-evidence",
+      "requestedUrl": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/tax-forms/2026/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:33:56.222052+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-evidence-capture-manifest.json"
+    },
+    {
+      "place": "AK-source",
+      "requestedUrl": "https://tax.alaska.gov/programs/programs/help/index.aspx?10000",
+      "capturedAt": "2026-10-01T19:27:01.761559+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-links-capture-manifest.json"
+    },
+    {
+      "place": "MD-source",
+      "requestedUrl": "https://www.marylandcomptroller.gov/content/dam/mdcomp/taxpayer/tax-forms-and-instructions/2026/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:27:01.379938+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-links-capture-manifest.json"
+    },
+    {
+      "place": "TX-source",
+      "requestedUrl": "https://comptroller.texas.gov/economy/fiscal-notes/archive/2019/sep/ballot.php",
+      "capturedAt": "2026-10-01T19:27:02.003887+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-links-capture-manifest.json"
+    },
+    {
+      "place": "WV-source",
+      "requestedUrl": "https://tax.wv.gov/Business/Withholding/Pages/default.aspx",
+      "capturedAt": "2026-10-01T19:27:01.379531+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-links-capture-manifest.json"
+    },
+    {
+      "place": "WY-source",
+      "requestedUrl": "https://revenue.wyo.gov/faqs",
+      "capturedAt": "2026-10-01T19:27:01.964140+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "final-links-capture-manifest.json"
+    },
+    {
+      "place": "GA-guide",
+      "requestedUrl": "https://dor.georgia.gov/document/document/2026-employers-tax-guide/download",
+      "capturedAt": "2026-10-01T19:36:24.604668+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "finish-capture-manifest.json"
+    },
+    {
+      "place": "GA-prior-guide",
+      "requestedUrl": "https://dor.georgia.gov/document/document/2025-employers-tax-guide/download",
+      "capturedAt": "2026-10-01T19:36:24.605284+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "finish-capture-manifest.json"
+    },
+    {
+      "place": "MD-prior-guide",
+      "requestedUrl": "https://www.marylandtaxes.gov/forms/25_forms/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:36:24.606477+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "finish-capture-manifest.json"
+    },
+    {
+      "place": "MP-return",
+      "requestedUrl": "https://www.finance.gov.mp/division-forms/revenue-taxation/2025/f1040cm--2025.pdf",
+      "capturedAt": "2026-10-01T19:36:24.605913+00:00",
+      "captureStatus": "FAILED",
+      "error": "RuntimeError: Artifact exceeds bounded 3MiB capture",
+      "manifest": "finish-capture-manifest.json"
+    },
+    {
+      "place": "AK-division",
+      "requestedUrl": "https://dor.alaska.gov/tax",
+      "capturedAt": "2026-10-01T19:29:32.588402+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "last-docs-capture-manifest.json"
+    },
+    {
+      "place": "GA-withholding",
+      "requestedUrl": "https://dor.georgia.gov/taxes/business-taxes/withholding-tax",
+      "capturedAt": "2026-10-01T19:29:33.057122+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "last-docs-capture-manifest.json"
+    },
+    {
+      "place": "HI-withholding",
+      "requestedUrl": "https://tax.hawaii.gov/geninfo/a2_b2_8wthhold/",
+      "capturedAt": "2026-10-01T19:29:32.919598+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "last-docs-capture-manifest.json"
+    },
+    {
+      "place": "OK-withholding",
+      "requestedUrl": "https://oklahoma.gov/tax/businesses/business-tax-types/income-tax/withholding.html",
+      "capturedAt": "2026-10-01T19:29:33.032419+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "last-docs-capture-manifest.json"
+    },
+    {
+      "place": "TX-income",
+      "requestedUrl": "https://comptroller.texas.gov/taxes/franchise/faq/general.php",
+      "capturedAt": "2026-10-01T19:29:32.588888+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "last-docs-capture-manifest.json"
+    },
+    {
+      "place": "WV-withholding",
+      "requestedUrl": "https://tax.wv.gov/Business/Withholding/Pages/EmployerWithholding.aspx",
+      "capturedAt": "2026-10-01T19:29:32.849232+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "last-docs-capture-manifest.json"
+    },
+    {
+      "place": "WY-description",
+      "requestedUrl": "https://revenue.wyo.gov/about-us/overview",
+      "capturedAt": "2026-10-01T19:29:32.589257+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "last-docs-capture-manifest.json"
+    },
+    {
+      "place": "AK-faq",
+      "requestedUrl": "https://tax.alaska.gov/programs/programs/help/index.aspx?10000",
+      "capturedAt": "2026-10-01T19:18:33.304279+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "AZ-home",
+      "requestedUrl": "https://azdor.gov/",
+      "capturedAt": "2026-10-01T19:18:32.866590+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "CO-home",
+      "requestedUrl": "https://tax.colorado.gov/",
+      "capturedAt": "2026-10-01T19:18:32.867230+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "MP-forms",
+      "requestedUrl": "https://www.finance.gov.mp/division/rt.php",
+      "capturedAt": "2026-10-01T19:18:33.799756+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "NH-faq",
+      "requestedUrl": "https://www.revenue.nh.gov/faq",
+      "capturedAt": "2026-10-01T19:18:33.011667+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "OH-home",
+      "requestedUrl": "https://tax.ohio.gov/",
+      "capturedAt": "2026-10-01T19:18:33.070696+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "RI-forms",
+      "requestedUrl": "https://tax.ri.gov/forms",
+      "capturedAt": "2026-10-01T19:18:33.092224+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "TN-home",
+      "requestedUrl": "https://www.tn.gov/revenue.html",
+      "capturedAt": "2026-10-01T19:18:33.148568+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 503: Service Unavailable",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "TX-faq",
+      "requestedUrl": "https://comptroller.texas.gov/taxes/faq/",
+      "capturedAt": "2026-10-01T19:18:33.377809+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "VI-tax",
+      "requestedUrl": "https://bir.vi.gov/individuals/",
+      "capturedAt": "2026-10-01T19:18:34.016404+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "VT-forms",
+      "requestedUrl": "https://tax.vermont.gov/forms",
+      "capturedAt": "2026-10-01T19:18:33.225595+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "WY-faq",
+      "requestedUrl": "https://revenue.wyo.gov/about-us",
+      "capturedAt": "2026-10-01T19:18:33.738937+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "navigation-capture-manifest.json"
+    },
+    {
+      "place": "HI-guide",
+      "requestedUrl": "https://tax.hawaii.gov/forms/a1_b1_1whr/",
+      "capturedAt": "2026-10-01T19:31:54.833179+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "verified-docs-capture-manifest.json"
+    },
+    {
+      "place": "MD-guide",
+      "requestedUrl": "https://www.marylandcomptroller.gov/content/dam/mdcomp/taxpayer/tax-forms-and-instructions/2025/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:31:55.094063+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "verified-docs-capture-manifest.json"
+    },
+    {
+      "place": "OK-guide",
+      "requestedUrl": "https://oklahoma.gov/tax/businesses/business-tax-types/withholding.html",
+      "capturedAt": "2026-10-01T19:31:54.833793+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "manifest": "verified-docs-capture-manifest.json"
+    }
+  ]
+}

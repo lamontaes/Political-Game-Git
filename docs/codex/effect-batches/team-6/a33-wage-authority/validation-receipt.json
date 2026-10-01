@@ -1,0 +1,320 @@
+{
+  "sourceHead": "ed100d549bd10457cbbf0b7608a855bd10e801a8",
+  "places": 57,
+  "portableRecords": 30,
+  "quoteVerifiedDispositions": 43,
+  "verifiedRawCaptures": 121,
+  "withheldRawCaptures": 3,
+  "queryBoundaryAssertions": 120,
+  "counts": {
+    "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP": 10,
+    "WAGE_AUTHORITY_SOURCE_VERIFIED": 29,
+    "EVIDENCE_SCOPE_OR_PERIOD_GAP": 10,
+    "OFFICIAL_SOURCE_HTTP_GAP": 4,
+    "WAGE_SOURCE_VERIFIED_PUBLICATION_GAP": 1,
+    "NONE_SOURCED_CURRENT_COLLECTION_ONLY": 3
+  },
+  "outsideIntervalResults": [
+    {
+      "place": "AL",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "AL",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "CA",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "CA",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "DE",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "DE",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "HI",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "HI",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "IA",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "IA",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "ID",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "ID",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "IL",
+      "date": "2026-09-30",
+      "state": "UNESTABLISHED"
+    },
+    {
+      "place": "IL",
+      "date": "2026-10-02",
+      "state": "UNESTABLISHED"
+    },
+    {
+      "place": "IN",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "IN",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "KS",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "KS",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "KY",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "KY",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "LA",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "LA",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "ME",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "ME",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "MI",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "MI",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "MN",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "MN",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "MO",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "MO",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "MT",
+      "date": "2025-12-31",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "MT",
+      "date": "2027-01-01",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "NC",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "NC",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "ND",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "ND",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "NJ",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "NJ",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "NM",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "NM",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "NY",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "NY",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "OK",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "OK",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "PA",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "PA",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "PR",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "PR",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "SC",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "SC",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "US",
+      "date": "2025-12-31",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "US",
+      "date": "2027-01-01",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "VA",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "VA",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "VI",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "VI",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "VT",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "VT",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    },
+    {
+      "place": "WI",
+      "date": "2026-09-30",
+      "state": "NOT_YET_EFFECTIVE"
+    },
+    {
+      "place": "WI",
+      "date": "2026-10-02",
+      "state": "NO_LONGER_EFFECTIVE"
+    }
+  ],
+  "scope": "Pure existing fiscal-authority reader and local evidence validation only; no registry admission, production import, assessment activation or saved-world proof."
+}

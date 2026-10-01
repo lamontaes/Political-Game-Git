@@ -1,0 +1,383 @@
+DOR
+            
+            
+            General Withholding Tax Questions
+Skip to main content
+Wisconsin.Gov
+Agency Directory
+Online Services
+State of Wisconsin
+Department Of Revenue
+Search
+MENU
+ONLINE SERVICES
+BUSINESSES
+INDIVIDUALS
+TAX PROFESSIONALS
+GOVERNMENTS
+UNCLAIMED PROPERTY
+General Withholding Tax Questions
+Content_Area1
+​
+Who is required to withhold Wisconsin income taxes?
+Do I need to register to withhold Wisconsin income tax?
+How do I apply for a Wisconsin withholding tax number?
+Am I required to file a Form WT-6,
+Wisconsin Withholding Tax Deposit Report
+?
+What is the filing deadline?
+Are extensions to file available?
+How do I file Form WT-7,
+Employer's Annual Reconciliation of Wisconsin Income Tax Withheld from Wages
+?
+Where do I send my Forms W-2 after filing my annual reconciliation?
+My employee's Wisconsin income tax refund is being held. Why?
+Where do I send other types of information returns such as Forms 1099 and 9b?
+How do I notify the department if I change my business location or mailing address?
+Should I notify the department if I close my business?
+What records should I keep for Wisconsin tax purposes, and how long should I keep them?
+Can I claim the exemption from withholding?
+What guidance is available for worker classification (employee vs. contractor)?
+Are election worker wages subject to Wisconsin income tax withholding?
+Who is required to withhold Wisconsin income taxes?
+Every employer who meets
+both
+requirements "a" and "b", below, is required to withhold Wisconsin income taxes:
+Pays wages to:
+A Wisconsin resident (regardless of where the services were performed),
+or
+A nonresident (person domiciled outside of Wisconsin) for services performed in Wisconsin, unless:
+Employer is an interstate rail or motor carrier, subject to the jurisdiction of the Federal Interstate Commerce Commission, and the employee regularly performs duties in two or more states.
+Payment is for retirement, pension, or profit-sharing benefits received after retirement.
+Employee is a resident of a state with which Wisconsin has a reciprocity agreement.
+Wisconsin currently has reciprocity agreements with Illinois, Indiana, Kentucky, and Michigan.
+If you employ residents of those states, you are not required to withhold Wisconsin income taxes from wages paid to such employees.
+Written verification is required to relieve the employer from withholding Wisconsin income taxes from such employee's wages (
+Form W-220
+,
+Nonresident Employee's Withholding Reciprocity Declaration
+).
+Employee is a resident of a state that does not have a reciprocity agreement with Wisconsin, and either:
+The employer is an interstate air carrier and the employee, having regularly assigned duties on the carrier's aircraft, earns 50% or less of their compensation in Wisconsin, or
+The employer can reasonably expect the annual Wisconsin earnings to be less than $2,000.
+Payment is for military service by a servicemember who qualifies and elects under
+50 U.S.C. 4001(a)(3)
+to be a nonresident of Wisconsin.
+Employee is the spouse of a servicemember and the employee provides the employer with
+Form W-221
+,
+Nonresident Military Spouse Withholding Exemption
+.
+The employer meets any of the following:
+Is engaged in business in Wisconsin
+Is licensed to do business in Wisconsin
+Transacts business in Wisconsin
+Is organized under Wisconsin law
+Is primarily engaged in business outside of Wisconsin and is licensed to do business in Wisconsin or transacts business in Wisconsin
+Do I need to register to withhold Wisconsin income tax?
+Every employer who is required to withhold Wisconsin income tax must register with the Wisconsin Department of Revenue for a Wisconsin withholding tax account number.
+However, you do not need a Wisconsin withholding tax account number if you:
+Pay wages that are exempt from Wisconsin withholding (i.e., agricultural, domestic)
+and
+Have no Wisconsin withholding to report (required or voluntary) from wages or other payments made.
+How do I apply for a Wisconsin withholding tax number?
+You can register online at
+My Tax Account
+or complete an
+Application for Business Registration
+.
+The initial application fee is $20. The registration is valid for two years. At the end of that period, you will need to pay a $10 renewal fee. We will send a renewal bill and registration certificate at the time of renewal.
+Am I required to file a Form WT-6,
+Wisconsin Withholding Tax Deposit Report
+?
+Quarterly, monthly, and semi-monthly filers with an active Wisconsin withholding account must file an electronic deposit report (Form WT-6) even if no tax is withheld during the period covered. Electronic filing options include:
+My Tax Account
+Third-Party Software
+Telefile
+- call (608) 261-5340 or (414) 227-3895
+ACH Credit
+WT-6 file transmission
+For more information, see Wisconsin
+Publication W-166
+,
+Withholding Tax Guide
+.
+What is the filing deadline?
+Annual Reconciliation (WT-7), Wage Statements and Information Returns with Wisconsin Withholding
+(e.g., Forms W-2, W-2G, 1099-R)
+Filing Status
+Filing Deadline*
+All filers
+January 31
+(last day of the month following the calendar year)
+If the withholding account is closed before December 31, you must file the WT-7 within 30 days of the account cease date.
+* If the due date falls on a weekend or legal holiday, the due date is extended to the business day immediately following the weekend or legal holiday.
+Wisconsin Withholding Deposit Report (WT-6)
+Filing Status
+Filing Deadline*
+Note:
+You must initiate ACH debit payments made in My Tax Account by 4:00 p.m. Central Standard Time of the due date for the payments to be considered on time.
+Annual filers
+Do not complete a WT-6. Report your withholding on Form WT-7.
+Monthly or quarterly filers
+Due on or before the last day of the month following the monthly or quarterly withholding period.
+Semi-monthly filers
+When the employee pay date is on, or between, the first and the 15th of the month, the amount of Wisconsin income tax you withheld from the wages paid is due on or before the last day of the month.
+When the employee pay date is on, or between, the 16th of the month and the last day of the month, the amount of Wisconsin income tax you withheld from the wages paid is due on or before the 15th of the following month.
+Example
+: Your employee is paid December 16. You report withholding on the deposit report for period ending December 31. This deposit report is due January 15.
+Are extensions to file available?
+Yes. We may grant a one-month extension to file the deposit report (WT-6), the annual reconciliation (WT-7), and supporting statements and returns if you are able to demonstrate good cause and reason for the requested delay. Extension requests must be received by the original due date of the deposit report or return. To request an extension, do one of the following:
+Complete the
+Request Extension to File
+in
+My Tax Account
+Email:
+WIWithholding@wisconsin.gov
+Write:
+Tax Operations Business
+Wisconsin Department of Revenue
+PO Box 8902
+Madison, WI 53708-8902
+Note:
+We cannot extend the date for giving wage statements to employees.
+How do I file Form WT-7,
+Employer's Annual Reconciliation of Wisconsin Income Tax Withheld from Wages
+?
+Electronic filing options include:
+My Tax Account
+Third-Party Software
+Telefile
+- call (608) 261-5340 or (414) 227-3895
+WT-7 File Transmission
+Where do I send my Forms W-2 after filing my annual reconciliation?
+Employers or organizations with 10 or more wage statements must file W-2s electronically using one of the methods below.
+Use approved
+payroll software
+.
+Key Forms W-2 in
+My Tax Account
+when filing the annual reconciliation (WT-7).
+Key Forms W-2 in
+My Tax Account
+at any time during the year. Log in to My Tax Account and select "Enter W-2/1099 Information". See demonstration
+video
+.
+Submit an EFW2 file
+(for Form W-2) through the department's website.
+See
+Publication 172
+,
+Annual W-2, 1099-R, 1099-MISC, 1099-NEC, 1099-K, and W-2G Electronic Reporting
+, for Wisconsin specifications.
+Employers or organizations with fewer than 10 wage statements are encouraged to file W-2s using one of the methods above. Otherwise, send your statements to:
+Wisconsin Department of Revenue
+PO Box 8920
+Madison WI 53708-8920
+Effective December 1, 2024, for all tax years - Printable wage and information returns should be formatted to print one taxpayer per page.
+Use the following formats for printable forms:
+W-2
+W-2C
+W-2G
+1099-DIV
+1099-INT
+1099-MISC
+1099-NEC
+1099-R
+Do not mail federal or state transmittal forms.
+We cannot confirm receipt of W-2s sent by mail. Use one of the electronic filing methods above to receive a confirmation number from the Wisconsin Department of Revenue.
+My employee's Wisconsin income tax refund is being held. Why?
+We may not have the information required to verify the refund. In an effort to protect taxpayers from tax-related identity theft, sec.
+71.75(7m)
+, Wis. Stats., prohibits the department from issuing a refund to an employed individual prior to March 1, unless the employee and employer have filed all required returns and forms.
+Where do I send other types of information returns such as Forms 1099 and 9b?
+For the most current information, refer to
+Publication 117
+,
+Guide to Wisconsin Wage Statements and Information Returns
+.
+Entities required to file 10 or more of any one type of information return with the department must file such returns electronically. Electronic submissions are accepted through
+My Tax Account (MTA)
+, Third Party XML submissions, or the IRS Information Return Intake System (IRIS) as outlined in
+Publication 172
+,
+Annual W-2, W-2C, 1099-R, 1099-MISC, 1099-NEC, 1099-K, and W-2G Electronic Reporting
+.
+Note:
+For Tax Year 2026 and earlier, Wisconsin will accept submissions in the IRS Filing Information Returns Electronically format (Publication 1220) for 1099s. This system will be terminated in September 2027.
+How do I notify the department if I change my business location or mailing address?
+Update mailing address:
+Go to the
+Names and Addresses
+tab in
+My Tax Account
+Select the address you want to change
+Click on
+Change this address
+Update the address and click on
+Verify Address
+Select verified address
+Click on
+Submit
+To change your business location
+​ (if you are not registered to use
+My Tax Account
+):
+Email
+DORWithholdingTax@wisconsin.gov
+, or
+Call (608) 266-2776
+Should I notify the department if I close my business?
+Yes. You must notify us when you:
+Close your business,
+No longer have a withholding liability, or
+Need a new Wisconsin withholding number as the result of a change in business entity You must notify the department of the
+last date of withholding
+using one of the following methods:
+Complete
+Close Account
+(under "I want to...") in
+My Tax Account
+Email
+DORWithholdingTax@wisconsin.gov
+, or
+Call (608) 266-2776
+Important:
+When the withholding account is closed before December 31, the annual withholding reconciliation (WT-7) is due within 30 days of the account cease date.
+What records should I keep for Wisconsin tax purposes, and how long should I keep them?
+You must keep your tax records until the statute of limitation expires. Usually this is four years from the due date of the return or the date filed, whichever is later.
+Can I claim the exemption from withholding?
+You may claim exemption from withholding of Wisconsin income tax if you had no liability for income tax last year, and you expect to incur no liability for income tax this year. To claim complete exemption from withholding use Wisconsin
+Form WT-4
+,
+Employee's Wisconsin Withholding Exemption Certificate
+.
+What guidance is available for worker classification (employee vs. contractor)?
+Every person who pays an individual for work must classify the individual as either an employee or independent contractor. The correct classification is important because it impacts the payer's requirements for:
+Federal unemployment insurance, income tax withholding, and information return reporting under chs.
+23
+,
+24
+, and
+61
+, Internal Revenue Code, administered by the Internal Revenue Service (IRS)
+Wisconsin unemployment insurance under ch.
+108
+, Wis. Stats., administered by the Wisconsin Department of Workforce Development (DWD)
+Wisconsin income tax withholding and information return reporting under ch.
+71
+, Wis. Stats., administered by the Wisconsin Department of Revenue (DOR)
+Both the
+IRS website
+and the
+DWD website
+provide guidance to help payers determine if a worker is an employee or an independent contractor, and DOR generally follows the IRS guidance.
+The IRS, DWD, and DOR have authority to audit a payer's records to ensure compliance with these laws. If an audit by the IRS or DWD determines that an employee was misclassified, the payer must ensure that it is complying with the laws administered by DOR. Failure to comply with Wisconsin's income tax withholding and information return reporting requirements under ch.
+71
+, Wis. Stats., may result in an audit by DOR and liability for the following:
+A penalty equal to the amount of the tax, plus interest and penalties on that tax
+- A person required to withhold any tax under ch.
+71
+, Wis. Stats., who intentionally fails to withhold such tax shall be liable to a penalty equal to the amount of the tax, plus interest and penalties on that tax (sec.
+71.83(1)(b)2.
+, Wis. Stats.).
+$25,000 fine
+- Any employer engaged in the construction of roads, bridges, highways, sewers, water mains, utilities, public buildings, factories, housing, or similar construction projects who willfully provides false information to DOR, or who willfully and with intent to evade any withholding requirement, misclassifies or attempts to misclassify an individual who is an employee of the employer as a nonemployee shall be fined $25,000 for each violation (sec.
+71.65(6)
+, Wis. Stats.).
+$10 penalty
+- If a person fails to file a wage statement (e.g., Form W-2) required under sec.
+71.71
+or
+71.715
+, Wis. Stats., by the prescribed due date, including any extension, or files an incorrect or incomplete return, that person may be subject to a penalty of $10 for each violation (sec.
+71.83(1)(a)1m.
+, Wis. Stats.).
+$50 or $150 late filing fee
+- Any person who is required to file a withholding report (e.g., Form WT-7) and deposit withholding taxes that fails to do so timely and DOR shows that the taxpayer's action or inaction was due to the taxpayer's willful neglect and not to reasonable cause, shall be subject to a $50 late fee, except for corporations taxed under subch.
+IV
+or insurance companies taxed under subch.
+VII
+of ch.
+71
+, Wis. Stats., the late fee is $150 (sec.
+71.83(3)(a)
+, Wis. Stats.).
+25 percent penalty
+- Any person who is required to file a deposit report (Form WT-6) or a withholding report (Form WT-7) and files an incomplete or incorrect report, or fails to properly withhold or fails to properly deposit or pay over withheld funds, upon a showing by the department that the taxpayer's action or inaction was due to the taxpayer's willful neglect and not to reasonable cause may be subject to a penalty of 25 percent of the amount not reported or not withheld (sec.
+71.83(1)(a)3.
+, Wis. Stats.).
+1.5 percent interest per month
+- Delinquent withholding deposits or payments shall bear interest at the rate of 1.5 percent per month.
+Note:
+During a period in which an extension is granted, interest accrues at the rate of 1 percent per month (sec.
+71.82(2)(d)
+, Wis. Stats.).
+Disallowed wage expense deduction
+- If an employer fails to file wage statements (e.g. Form W-2), DOR may assess as an addition to taxable income the amount of deductions taken in arriving at federal adjusted gross income or federal taxable income by natural persons and fiduciaries for wages (sec.
+71.74(4)
+, Wis. Stats.).
+$10,000 fine and/or 9 month prison sentence
+- Any person who willfully fails or refuses to make required withholding deposits or payments or willfully renders a false or fraudulent wage statement (e.g. Form W-2) or report (e.g. Form WT-6 or Form WT-7) shall be guilty of a misdemeanor and may be fined not more than $10,000 or imprisoned for not to exceed 9 months or both, together with the cost of prosecution (sec.
+71.83(2)(a)1.
+, Wis. Stats.).
+For more information about Wisconsin income tax withholding and information return reporting requirements, see
+Publication W-166
+,
+Withholding Tax Guide
+, and
+Publication 117
+,
+Guide to Wisconsin Wage Statements and Information Returns.
+Are election worker wages subject to Wisconsin income tax withholding?
+Wages paid to an election worker are not subject to income tax withholding. However, all wages earned by the election worker are subject to income tax.
+Wisconsin Treatment
+Wages paid to election workers for services performed in national, state, county, and municipal elections are not subject to Wisconsin income tax withholding. Employers must report payments of $600 or more to election workers on Form W-2. Do not use federal Form 1099 or Wisconsin Form 9b.
+Federal Treatment
+Internal Revenue Service
+Publication 15
+,
+Employer's Tax Guide
+, directs governments to report payments of $600 or more to election workers for services performed in national, state, county, and municipal elections on Form W-2. Governments must report payments less than $600 to election workers on Form W-2 if social security and Medicare taxes were withheld. Wages paid to election workers are not subject to federal income tax withholding.
+Applicable Laws and Rules
+This document provides statements or interpretations of the following laws and regulations enacted as of April 20, 2026: secs. 71.64, 71.65, 71.66, 71.75, 71.77, 71.80, 73.03, and 990.001,
+Wis. Stats.
+, secs. Tax 1.12, 2.02, 2.04, 2.82, and 2.90,
+Wis. Adm. Code
+, and 49 U.S. Code §§ 11502, 14503, and 40116.
+Laws enacted and in effect after this date, new administrative rules, and court decisions may change the interpretations in this document. Guidance issued prior to this date, that is contrary to the information in this document is superseded by this document, according to sec. 73.16(2)(a), Wis. Stats.
+​​Contact Us​
+Customer Service Bureau
+Wisconsin Department of Revenue
+PO Box 8949
+Madison, WI 53708-8949
+Phone:
+(608) 266-2776
+Fax:
+(608) 267-1030
+Email:
+​
+DORWithholdingTax@wisconsin.gov
+The department welcomes your input on our guidance.
+Submit comments on this guidance document
+.
+Guidance Document Number: 100132
+April 20, 2026
+Back to top button
+About Us
+Contact Us
+Employment
+Media Room
+Privacy
+Legal
+Training
+Español
+Hmong
+中文
+русский
+More...
+X-Twitter
+YouTube
+Linkedin
+Facebook
+Copyright © State of Wisconsin All Rights Reserved

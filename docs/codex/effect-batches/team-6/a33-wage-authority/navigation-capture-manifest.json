@@ -1,0 +1,229 @@
+{
+  "scope": "same research pass, first-party source navigation and unresolved agency URL corrections",
+  "captures": [
+    {
+      "place": "AK-faq",
+      "requestedUrl": "https://tax.alaska.gov/programs/programs/help/index.aspx?10000",
+      "capturedAt": "2026-10-01T19:18:33.304279+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "AS-tax",
+      "requestedUrl": "https://www.americansamoa.gov/_files/ugd/4bfff9_a3bcba04ed65461ba9c6e20f503a8725.xlsx?dn=2025%20Tax%20Forms%20Updated-V3-%204.11.2026.xlsx",
+      "capturedAt": "2026-10-01T19:18:33.797562+00:00",
+      "status": 200,
+      "finalUrl": "https://www.americansamoa.gov/_files/ugd/4bfff9_a3bcba04ed65461ba9c6e20f503a8725.xlsx?dn=2025%20Tax%20Forms%20Updated-V3-%204.11.2026.xlsx",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "artifactId": "a33-wage-authority-as-tax-2026-10-01",
+      "path": "raw/as-tax.html",
+      "sha256": "bdf1bda02fdce508bd9f7e50d757dfe6ef642dd4624da88071df03ef936af53b",
+      "byteLength": 243669,
+      "textPath": "raw/as-tax.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "AZ-home",
+      "requestedUrl": "https://azdor.gov/",
+      "capturedAt": "2026-10-01T19:18:32.866590+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "CA-payroll",
+      "requestedUrl": "https://edd.ca.gov/en/Payroll_Taxes/",
+      "capturedAt": "2026-10-01T19:18:33.245031+00:00",
+      "status": 200,
+      "finalUrl": "https://edd.ca.gov/en/Payroll_Taxes/",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-ca-payroll-2026-10-01",
+      "path": "raw/ca-payroll.html",
+      "sha256": "8fd0fa1644d56d1a7e25e609efec0ccf512a7dd043e40e1c03fa0f6c4fcbe3ce",
+      "byteLength": 135752,
+      "textPath": "raw/ca-payroll.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "CO-home",
+      "requestedUrl": "https://tax.colorado.gov/",
+      "capturedAt": "2026-10-01T19:18:32.867230+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "DC-home",
+      "requestedUrl": "https://otr.cfo.dc.gov/",
+      "capturedAt": "2026-10-01T19:18:32.867717+00:00",
+      "status": 200,
+      "finalUrl": "https://otr.cfo.dc.gov/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-dc-home-2026-10-01",
+      "path": "raw/dc-home.html",
+      "sha256": "082988a06ecc3e57f982cdeb77d715ad267f1f86f3a1009a865bbbb2042925d7",
+      "byteLength": 141195,
+      "textPath": "raw/dc-home.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "FL-faq",
+      "requestedUrl": "https://floridarevenue.com/taxes/Pages/default.aspx",
+      "capturedAt": "2026-10-01T19:18:32.868102+00:00",
+      "status": 200,
+      "finalUrl": "https://floridarevenue.com/taxes/Pages/default.aspx",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-fl-faq-2026-10-01",
+      "path": "raw/fl-faq.html",
+      "sha256": "b0d3de22bb3007ee7849721b65439617e00804d2b147fc4ae5ad480d041b81db",
+      "byteLength": 79082,
+      "textPath": "raw/fl-faq.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "IRS-directory",
+      "requestedUrl": "https://www.irs.gov/businesses/small-businesses-self-employed/state-government-websites",
+      "capturedAt": "2026-10-01T19:18:34.056798+00:00",
+      "status": 200,
+      "finalUrl": "https://www.irs.gov/businesses/small-businesses-self-employed/state-government-websites",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-irs-directory-2026-10-01",
+      "path": "raw/irs-directory.html",
+      "sha256": "c96121ea46d51f786356325207490526980b79d6074361cccc3a1edea1876493",
+      "byteLength": 110436,
+      "textPath": "raw/irs-directory.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "LA-home",
+      "requestedUrl": "https://revenue.louisiana.gov/",
+      "capturedAt": "2026-10-01T19:18:32.868553+00:00",
+      "status": 200,
+      "finalUrl": "https://revenue.louisiana.gov/",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-la-home-2026-10-01",
+      "path": "raw/la-home.html",
+      "sha256": "9e42a9a19e326a34ad443f4281e96922f7b027e32b48cf5c39503889a2e5a8a4",
+      "byteLength": 87916,
+      "textPath": "raw/la-home.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MD-home",
+      "requestedUrl": "https://www.marylandcomptroller.gov/",
+      "capturedAt": "2026-10-01T19:18:32.868996+00:00",
+      "status": 200,
+      "finalUrl": "https://www.marylandcomptroller.gov/",
+      "contentType": "text/html;charset=utf-8",
+      "artifactId": "a33-wage-authority-md-home-2026-10-01",
+      "path": "raw/md-home.html",
+      "sha256": "7902afabbf787089b67287ba9844068a8bc11a43425b1008cab993758f3d859d",
+      "byteLength": 185735,
+      "textPath": "raw/md-home.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "MP-forms",
+      "requestedUrl": "https://www.finance.gov.mp/division/rt.php",
+      "capturedAt": "2026-10-01T19:18:33.799756+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "NH-faq",
+      "requestedUrl": "https://www.revenue.nh.gov/faq",
+      "capturedAt": "2026-10-01T19:18:33.011667+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "NJ-home",
+      "requestedUrl": "https://www.nj.gov/treasury/taxation/",
+      "capturedAt": "2026-10-01T19:18:33.065479+00:00",
+      "status": 200,
+      "finalUrl": "https://www.nj.gov/treasury/taxation/",
+      "contentType": "text/html",
+      "artifactId": "a33-wage-authority-nj-home-2026-10-01",
+      "path": "raw/nj-home.html",
+      "sha256": "f913908f8c8b21413c57ae8c347a3779643e5da10742035abbc861c2b93de10e",
+      "byteLength": 76354,
+      "textPath": "raw/nj-home.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "NV-income",
+      "requestedUrl": "https://tax.nv.gov/faqs/income-tax/",
+      "capturedAt": "2026-10-01T19:18:33.307875+00:00",
+      "status": 200,
+      "finalUrl": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/",
+      "contentType": "text/html; charset=UTF-8",
+      "artifactId": "a33-wage-authority-nv-income-2026-10-01",
+      "path": "raw/nv-income.html",
+      "sha256": "318208df96af981d21c0549398f4bb13978a8ec9c7f91ff2b52fe44ec4f0ef17",
+      "byteLength": 116629,
+      "textPath": "raw/nv-income.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "OH-home",
+      "requestedUrl": "https://tax.ohio.gov/",
+      "capturedAt": "2026-10-01T19:18:33.070696+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "PR-employers",
+      "requestedUrl": "https://hacienda.pr.gov/patronos-y-agentes-retenedores",
+      "capturedAt": "2026-10-01T19:18:33.756291+00:00",
+      "status": 200,
+      "finalUrl": "https://hacienda.pr.gov/pagina-no-encontrada",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-pr-employers-2026-10-01",
+      "path": "raw/pr-employers.html",
+      "sha256": "a2b7a75c8108a9c3f29a1f20affc8d1a71b3d5b49f88eac7b77fa959ef3141d5",
+      "byteLength": 29379,
+      "textPath": "raw/pr-employers.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "RI-forms",
+      "requestedUrl": "https://tax.ri.gov/forms",
+      "capturedAt": "2026-10-01T19:18:33.092224+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "TN-home",
+      "requestedUrl": "https://www.tn.gov/revenue.html",
+      "capturedAt": "2026-10-01T19:18:33.148568+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 503: Service Unavailable"
+    },
+    {
+      "place": "TX-faq",
+      "requestedUrl": "https://comptroller.texas.gov/taxes/faq/",
+      "capturedAt": "2026-10-01T19:18:33.377809+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "VI-tax",
+      "requestedUrl": "https://bir.vi.gov/individuals/",
+      "capturedAt": "2026-10-01T19:18:34.016404+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "VT-forms",
+      "requestedUrl": "https://tax.vermont.gov/forms",
+      "capturedAt": "2026-10-01T19:18:33.225595+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "place": "WY-faq",
+      "requestedUrl": "https://revenue.wyo.gov/about-us",
+      "capturedAt": "2026-10-01T19:18:33.738937+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    }
+  ]
+}

@@ -1,0 +1,330 @@
+Employer Payroll Withholding - 
+        
+    Department of Revenue
+Skip to main navigation
+Skip to 
+	main content
+Kentucky Department of
+Revenue
+Menu
+Individual
+Additional Information
+Consumer Use Tax
+Fiduciary Tax
+Free Electronic Filing
+Free Tax Return Preparation
+Identity Theft Overview
+Individual Income Tax
+Inheritance Tax
+Military Exemptions
+Motor Vehicle Usage Tax
+Tax Credits
+Voluntary Disclosure
+Where's My Refund?
+Business
+Additional Information
+Alcohol Taxes
+Bank Franchise Tax
+Business Registration
+Corporation Income and Limited Liability Entity Tax
+Electric Vehicle Power Excise Tax
+Employer Payroll Withholding
+Fantasy Contest Tax
+​​Fixed Odds Wagering Excise Tax
+Health Care Provider Tax
+Insurance Premiums Tax and Surcharge
+Inventory Tax Credit
+Motor Fuels Tax
+Motor Vehicle Rental/Ride Share Excise Tax
+Motor Vehicle Tire Fee
+Nonresident Withholding Tax
+Pari Mutuel
+Pass-Through Entities
+Prediction Market Tax
+Sales & Use Tax
+Sports Wagering Excise Tax
+Tax Credits
+Telecommunications Tax
+Tobacco and Vapor Products Taxes
+Transient Room Tax
+Utility Gross Receipts License Tax
+Tax Professionals
+Tax Professionals
+Guidance
+Guidance Library
+Property
+Property Tax
+Aircraft
+Business Personal Property
+Centrally Assessed Companies
+Mineral Severance
+Contact Your Local Officials
+Delinquent Property Tax
+Freddie Freeroader Program
+Motor Vehicles
+PVA Exam Information
+Property Tax Exemptions
+Public Service
+Residential, Farm & Commercial Property
+Third Party Purchaser
+Unmined Coal
+Natural Resources
+Watercraft
+Collections
+Collections
+E-file and Payment Options
+Collection Procedures
+Contact Collections
+Failure to File Tax Return
+Has Your Business Closed?
+Injunction Process
+Penalties, Interest and Fees
+Get Help
+Get Help
+Contact Us
+E-file Payment Options
+Find a Form
+Free Electronic Filing
+Free Tax Return Preparation
+Identity Confirmation Quiz
+Protest Procedures
+Records Requests
+Report Tax Fraud
+Research Tax Laws
+Service Centers
+Tax Area Contact Information
+Taxpayer Ombudsman
+Where's My Refund?
+News
+News
+DOR Tax Calendar
+Publications
+Administrative Writings
+Administrative Writings
+Final Rulings
+Manuals and Training Procedures
+Presentations​
+Technical Advice Memoranda
+General Information Letters
+Private Letter Rulings​
+MyTaxes
+Tax Calendar
+YouTube
+Twitter
+Tax Answers
+Careers
+Employer Payroll Withholding
+Click here to visit the Home page
+Business
+Employer Payroll Withholding
+​ ​
+​
+​
+​
+​​
+For
+immediate assistance
+, please view the
+MyTaxes
+page for Frequently Asked Questions and Quick Reference Guides and Videos. The Customer Contact Center will be available for technical support from 7am-6pm ET/6am-5pm CT at
+502-764-5555
+. We may be experiencing higher than normal call volume and wait times.
+​
+​​​​​​
+​
+​
+​​
+​​
+The ​Kentucky Withholding Tax rate will be 3.5% for tax year 2026.​
+Main Content
+​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+Kentucky Revised Statute Chapter 141
+requires employers to withhold income tax for both residents and nonresidents employees (unless exempted by law). Employers must withhold
+the income tax of the employees receiving "wages" as defined in Section 3401(a) of the Internal Revenue Code.
+2026 Electronic Filing and Paying Requirements
+All employer filing frequencies are required to electronically file and pay the income tax withheld per
+103 KAR 18:150​
+.
+To register and file and pay online, please visit the MyTaxes portal at
+MyTaxes.ky.gov​
+.
+​
+2025 Withholding Statement Reporting
+Withholding
+statements include W-2, W-2G, and 1099 forms.
+​Due Date: January 31, 202​6
+The withholding statement information
+(Forms W-2, W-2G, and 1099 Series)
+must be reported to the Kentucky Department of Revenue (DOR) on or before the January 31 due date.
+​
+​
+Withholding Statement Filing Options
+EFW2 electronic file – by web filing or on CD
+Publication 1220 electronic file or on CD​
+Form K-5 – online filing (complete and submit online)
+Form K-5 – online fill-in form (complete, print, and mail to DOR) (can't exceed 25 withholding statements)
+​Attention K-5 Filers
+A MyTaxes portal account is required to electronically file Form K-5.
+To learn more about logging on to your MyTaxes account, or opening a MyTaxes account, please visit;
+https://revenue.ky.gov/Pages/MyTaxes.aspx
+Withholding accounts submitting this information in an electronic file format EFW2 or Publication 1220 do not file Form K-5.​
+​
+Form K-5
+Form K-5 is used to report withholding statement information from Form W-2, W-2G and 1099 and can be completed and submitted online in the MyTaxes portal at
+MyTaxes.ky.gov
+. Once in the portal, you will click on "Transactions" in the page header. From this drop down box, choose, "File A Form".  When entering information on this page, choose your account "reconciliation" option.  This will allow you to choose Form Type, K-5.  Upon completion of the K-5, you can "Calculate" and then "Submit". Print a copy of your K-5 for your records, but DO NOT mail.
+You can also print and mail the K-5.  The print and mail option is only for those reporting fewer than 26 withholding statements. ​If you qualify for the mailing option, enter the portal at
+MyTaxes.​ky.gov
+and navigate to the K-5 form as described above. Once your information is entered, hit "calculate", then "print", then the "Save and Exit" button. Make a copy for your records before mailing.  Mail your K-5 to:  501 High Street, Sta. 57, Frankfort, KY 40601​.​
+​
+Electronic Submission of W2s, 1099s and W2Gs
+To file W2s, 1099s and W2Gs, electronically, you must first request access to become a Transmitter. Once completed you will be able to submit these in the
+MyTaxe​s.ky.gov
+portal.
+To become a Transmitter, please refer to the
+How to Guide for Transmitters
+. If you have questions, please email us at:
+WHTransmitterRequest@ky.gov
+Transmitter passwords expire every 90 days. Failure to update the credentials by logging in to MyTaxes will result in failed transmissions.
+​
+​
+Format Specifications of W2s, 1099s and W2Gs files
+​
+W2s:
+Kentucky follows the SSA’s EFW2 specifications with DOR defined RS Records for filing W-2 information.
+Specifications are available
+h​​e​​re
+.
+CD submission is another filing option. CD submissions must accompany a Transmitter Report, Form 42A806-CD.
+1099s and W2Gs:
+DOR follows the federal Publication 1220 specification format for filing W-2G and 1099. DOR defined B Records are required when reporting Kentucky statements.
+Specifications are available
+her​e​
+.
+CD submission is another filing option. CD submissions must accompany a Transmitter Report, Form 42A806-CD.
+Only report 1099 data to the DOR when Kentucky tax has been withheld.
+​
+Please note:
+At this time,
+corrected
+W2s, 1099s and W2Gs must be submitted via paper.
+Requesting a transcript of forms W-2, 1099, or W-2G
+To request a transcript of forms W-2, 1099, or W-2G you must request it in writing to our office and provide the following information:
+Employee’s first and last name
+Social Security number
+Tax year(s) requested
+Where the recipient would like DOR to send the completed transcript
+Contact information if there are any questions, and
+An IRS-provided Federal Wage and Income Transcript.
+IRS Form 4506-T
+(mail)
+IRS Transcripts
+(web)
+Requests should be made to the Withholding Tax Branch
+at: 502-564-1900, or
+dorwithholdingtaxcompliance@ky.gov​
+​
+​​​​​​​​​​​​​​Current Withholding Tax Forms​
+Filter Results
+Search within
+Forms
+Tax Category
+Withholding
+Tax Year
+Current
+Clear Filters
+Clear Filters
+Close
+Search
+Reset search
+Search
+FILTER
+Searching within
+No results found
+Stay Connected!
+Get the latest DOR withholding tax news and updates di​rectly in your inbox.
+Sign me up!
+​
+Relative Content
+K-5 Filing Information
+Paper copies of Forms W-2, W-2G, and 1099 are not accepted.​
+Form K-5 Instructions
+Form K-5C
+Form K-5C Instructions
+Need to update or cancel a business account?
+​
+2026 Employer Withholding Tax Calculator
+DOR has created a withholding tax calculator to assist employers in computing the correct amount of Kentucky withholding tax for employees.  The calculator was developed in a spreadsheet format so employers may use it for multiple employees
+​
+2026 Employer Withholding Ca​lculator.xl​sx
+​​
+Prior Year Calculators:
+2025 Employer Withholding Ca​lculator.xlsx
+​
+2​024 Employer Withholding Calculator.xlsx
+2​023 Employer Withholding Calculator.xlsx
+​
+2022 Employer ​Withholding Calculator.xlsx
+2021 Employer Withholding Calculator.xlsx
+​
+2020 Employer Withholding Calculator.xlsx
+​​​
+Withholding Return Filing Quick Links
+​
+2025 Specifications for Electronic Submission of Annual Wage and Tax Information via Electronic Media or Web​
+​ (11/20​​/2025)
+​​
+2025 Specifications for Electronic Submission of 1099 and W​2G
+​ (11/03​/2025)
+​
+Return Bulk Filing​ - Manual Uplo​ad
+W-2 Web Filing Link
+MyTaxes Quick Reference Guides
+How to Guide for Transmitters​
+Pay Withholding Tax: Employer Payroll
+To electronically submit W-2 files:
+Electronic Submission of Wage and Tax Statements W-2s
+Form K-5 Instructions
+CD W-2 and/or 1099 submissions should be mailed to:
+Attn: CD Processing Station 57
+Kentucky Department of Revenue
+501 High Street
+Frankfort, KY 40601
+To file a return and pay:
+​
+MyTaxes.ky.gov​
+​
+Return Bulk Filing - Manual Upload
+Mail a return with check or money order made payable to "Kentucky State Treasurer":
+Kentucky Department of Revenue
+Frankfort, KY 40620-0004
+Employer Payroll Withholding
+Phone
+(502) 564-1900 - Compliance Section (W2, 1099, and W2G submissions, K5 and W2C submission assistance)
+Fax
+(502) 564-3685
+Email
+Send us a message
+Employer Payroll Withholding
+Phone
+(502) 564-7287- Taxpayer Assistance Section (K1 and K-3 filings, payment assistance and general withholding tax assistance)
+Fax
+(502) 564-3685
+Email
+Send us a message
+Download the
+Taxpayer Bill of Rights
+The Kentucky Department of Revenue conducts work
+under the authority of the
+Finance and Administration Cabinet.
+Contact
+Site Map
+Software Developer
+Policies
+Security
+Disclaimer
+Accessibility
+©
+Commonwealth of Kentucky.
+All rights reserved.
+Kentucky.gov

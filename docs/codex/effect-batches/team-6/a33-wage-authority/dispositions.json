@@ -1,0 +1,1959 @@
+{
+  "scope": "Federal plus all56 state-level jurisdictions; research evidence, not runtime or registry admission",
+  "asOf": "2026-10-01",
+  "counts": {
+    "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP": 10,
+    "WAGE_AUTHORITY_SOURCE_VERIFIED": 29,
+    "EVIDENCE_SCOPE_OR_PERIOD_GAP": 10,
+    "OFFICIAL_SOURCE_HTTP_GAP": 4,
+    "WAGE_SOURCE_VERIFIED_PUBLICATION_GAP": 1,
+    "NONE_SOURCED_CURRENT_COLLECTION_ONLY": 3
+  },
+  "rows": [
+    {
+      "place": "AK",
+      "authorityKey": "US-AK",
+      "jurisdictionKey": "US-AK",
+      "level": "STATE",
+      "levyKey": "us-ak:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "AL",
+      "authorityKey": "US-AL",
+      "jurisdictionKey": "US-AL",
+      "level": "STATE",
+      "levyKey": "us-al:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-al-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-al-2026-10-01",
+        "quote": "Individuals who are domiciled in (or residents of) Alabama are subject to tax on their entire income whether earned within or without Alabama.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/al.txt",
+        "url": "https://www.revenue.alabama.gov/individual-corporate/individual-income-tax-filing-information/",
+        "sha256": "4c40aa8a82bb8fb60024014cf1ffa69db71b672c332b8bdb01a364372cd3a910",
+        "capturedAt": "2026-10-01T19:15:07.018263+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Resident income scope; nonresident, thresholds and exemptions must be read separately.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "AR",
+      "authorityKey": "US-AR",
+      "jurisdictionKey": "US-AR",
+      "level": "STATE",
+      "levyKey": "us-ar:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "AS",
+      "authorityKey": "US-AS",
+      "jurisdictionKey": "US-AS",
+      "level": "STATE",
+      "levyKey": "us-as:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-as-tax-2026-10-01",
+        "quote": "American Samoa income tax withheld",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/as-tax.xlsx-extract.txt",
+        "url": "https://www.americansamoa.gov/_files/ugd/4bfff9_a3bcba04ed65461ba9c6e20f503a8725.xlsx?dn=2025%20Tax%20Forms%20Updated-V3-%204.11.2026.xlsx",
+        "sha256": "bdf1bda02fdce508bd9f7e50d757dfe6ef642dd4624da88071df03ef936af53b",
+        "capturedAt": "2026-10-01T19:18:33.797562+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "2025 return workbook, not a2026 legal period; actual XLSX bytes retained with original .html filename.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "AZ",
+      "authorityKey": "US-AZ",
+      "jurisdictionKey": "US-AZ",
+      "level": "STATE",
+      "levyKey": "us-az:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_SOURCE_HTTP_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "CAPTURED_OFFICIAL_BODY",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "CA",
+      "authorityKey": "US-CA",
+      "jurisdictionKey": "US-CA",
+      "level": "STATE",
+      "levyKey": "us-ca:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-ca-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-ca-withholding-2026-10-01",
+        "quote": "Withheld from Employee Wages State Disability Insurance (SDI) Personal Income Tax (PIT)",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ca-withholding.txt",
+        "url": "https://edd.ca.gov/en/payroll_taxes/step-5-withhold-and-pay-payroll-taxes/",
+        "sha256": "a3fb95b86ea5fd4bf06a38780d355628735ea00c8ad8988cd86f3809639aa77d",
+        "capturedAt": "2026-10-01T19:20:53.451895+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Only PIT is wage-income tax; SDI, UI and ETT remain distinct.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "CO",
+      "authorityKey": "US-CO",
+      "jurisdictionKey": "US-CO",
+      "level": "STATE",
+      "levyKey": "us-co:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_SOURCE_HTTP_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "CAPTURED_OFFICIAL_BODY",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "CT",
+      "authorityKey": "US-CT",
+      "jurisdictionKey": "US-CT",
+      "level": "STATE",
+      "levyKey": "us-ct:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-ct-authority-2026-10-01",
+        "quote": "Compensation for services, including wages, fees, commissions, taxable fringe benefits, and similar items;",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ct-authority.txt",
+        "url": "https://portal.ct.gov/drs/individuals/resident-income-tax/tax-information",
+        "sha256": "713235001f11d0c12aba447a2b99ee32f7cd02a9dd2a038c7fe8183a828c8f21",
+        "capturedAt": "2026-10-01T19:24:23.133974+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Resident2025 return income scope, not verified2026 employer authority.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "DC",
+      "authorityKey": "US-DC",
+      "jurisdictionKey": "US-DC",
+      "level": "STATE",
+      "levyKey": "us-dc:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-dc-individual-2026-10-01",
+        "quote": "You must file a DC tax return if:",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/dc-individual.txt",
+        "url": "https://otr.cfo.dc.gov/page/individual-filings-faqs",
+        "sha256": "2eff896ff195ae498d118ef6cbdebaed870a2db8d8425d53df1f676b54761a23",
+        "capturedAt": "2026-10-01T19:20:56.195821+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Resident general filing guidance, not yet direct wage authority with legal scope.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "DE",
+      "authorityKey": "US-DE",
+      "jurisdictionKey": "US-DE",
+      "level": "STATE",
+      "levyKey": "us-de:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-de-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-de-2026-10-01",
+        "quote": "Your employer would be required to withhold Delaware taxes as long as you work in Delaware.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/de.txt",
+        "url": "https://revenue.delaware.gov/frequently-asked-questions/personal-income-tax-faqs/",
+        "sha256": "fab237fe6fdf7e558366724caf27faaf2531f6a5bce8876a235b6f8ec73b6258",
+        "capturedAt": "2026-10-01T19:15:07.290538+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Quote is the New Jersey resident working in Delaware case; no universal residency/reciprocity rule.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "FL",
+      "authorityKey": "US-FL",
+      "jurisdictionKey": "US-FL",
+      "level": "STATE",
+      "levyKey": "us-fl:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "GA",
+      "authorityKey": "US-GA",
+      "jurisdictionKey": "US-GA",
+      "level": "STATE",
+      "levyKey": "us-ga:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "GU",
+      "authorityKey": "US-GU",
+      "jurisdictionKey": "US-GU",
+      "level": "STATE",
+      "levyKey": "us-gu:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-gu-authority-2026-10-01",
+        "quote": "Household employee wages not reported on Form(s) W-2",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/gu-authority.txt",
+        "url": "https://www.guamtax.com/forms/2025GUAM1040TaxForm.pdf",
+        "sha256": "caf3e1adc0a47551c0ce8bbbe80bcf04d34cec2af47c42bbeecb806d6eb29e9d",
+        "capturedAt": "2026-10-01T19:24:24.010080+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "2025 Guam return; no2026 authority continuity or canonical starting mapping proved.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "HI",
+      "authorityKey": "US-HI",
+      "jurisdictionKey": "US-HI",
+      "level": "STATE",
+      "levyKey": "us-hi:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-hi-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-hi-evidence-2026-10-01",
+        "quote": "If an employee does not furnish you with a Form HW-4, you are required to withhold tax as if the employee was single and had claimed no withholding allowance.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/hi-evidence.raw-extract.txt",
+        "url": "https://files.hawaii.gov/tax/forms/current/bookleta.pdf",
+        "sha256": "db0d6ab07373559889e92cdef8e94cfdcc001a147feb23039ac88d268e8b6849",
+        "capturedAt": "2026-10-01T19:33:55.918737+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Hawaii HW-4 rules, exemptions and own state recipient; current Booklet A revision2024 says withholding January1,2025 and thereafter.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "IA",
+      "authorityKey": "US-IA",
+      "jurisdictionKey": "US-IA",
+      "level": "STATE",
+      "levyKey": "us-ia:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-ia-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-ia-authority-2026-10-01",
+        "quote": "Every employer who maintains an office or transacts business in Iowa and who is required to withhold federal income tax on any compensation paid to employees for services performed in Iowa is required to withhold Iowa individual income tax from that compensation.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ia-authority.txt",
+        "url": "https://revenue.iowa.gov/taxes/tax-guidance/withholding-tax/iowa-withholding-tax-information",
+        "sha256": "77ca50fe94d554fce547b05588aac07dafc6994d2638266932756a8388b63d57",
+        "capturedAt": "2026-10-01T19:24:23.135395+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Office/business nexus and federal-withholding condition; military-spouse exemptions and other sourced exclusions remain.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "ID",
+      "authorityKey": "US-ID",
+      "jurisdictionKey": "US-ID",
+      "level": "STATE",
+      "levyKey": "us-id:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-id-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-id-withholding-2026-10-01",
+        "quote": "Idaho law requires employers to withhold income tax from their employees’ wages.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/id-withholding.txt",
+        "url": "https://tax.idaho.gov/taxes/income-tax/withholding/",
+        "sha256": "ac7617cb479de79c5839e41ccd896800f8d1a24a36d48d99d30b81f6b521d16d",
+        "capturedAt": "2026-10-01T19:20:53.452899+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Apply employee/nexus/exemption conditions in the linked Idaho guidance; no numeric rate supplied.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "IL",
+      "authorityKey": "US-IL",
+      "jurisdictionKey": "US-IL",
+      "level": "STATE",
+      "levyKey": "us-il:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_SOURCE_VERIFIED_PUBLICATION_GAP",
+      "portableRecordId": "a33-wage-income-authority-il-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-il-authority-2026-10-01",
+        "quote": "you must withhold Illinois Income Tax for your Illinois employee if you withhold federal income tax from your employee’s wages, or you and your employee enter into a voluntary withholding agreement.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/il-authority.txt",
+        "url": "https://tax.illinois.gov/research/publications/pubs/illinois-income-tax-withholding-for-household-employees.html",
+        "sha256": "00f8f8fbf9c9fcd9c6569e154aa7755eaafebe2bfc4b6487ca381cec7ca4d866",
+        "capturedAt": "2026-10-01T19:24:24.068148+00:00",
+        "publicationStatus": "RAW_WITHHELD_EMBEDDED_THIRD_PARTY_TOKEN"
+      },
+      "scope": "HOUSEHOLD EMPLOYEE scope only, not all employers; federal-withholding or voluntary-agreement condition.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "IN",
+      "authorityKey": "US-IN",
+      "jurisdictionKey": "US-IN",
+      "level": "STATE",
+      "levyKey": "us-in:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-in-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-in-withholding-2026-10-01",
+        "quote": "These are state and county taxes that are withheld from your employees’ wages.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/in-withholding.txt",
+        "url": "https://www.in.gov/dor/i-am-a/business-corp/withholding/",
+        "sha256": "245d7399fc2fe15fa5932c90da96803622851b3d35b53f766ed033b3af3f71f1",
+        "capturedAt": "2026-10-01T19:20:53.454286+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Agency employer guide; state authority only in this packet, county power/rate is not admitted.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "KS",
+      "authorityKey": "US-KS",
+      "jurisdictionKey": "US-KS",
+      "level": "STATE",
+      "levyKey": "us-ks:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-ks-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-ks-authority-2026-10-01",
+        "quote": "A completed withholding allowance certificate will let your employer know how much Kansas income tax should be withheld from your pay on income you earn from Kansas sources.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ks-authority.txt",
+        "url": "https://www.ksrevenue.gov/k4info.html",
+        "sha256": "60ebddc9a25918b136584ca93df20b733d95944693a7dd29dafd685262d5b957",
+        "capturedAt": "2026-10-01T19:24:23.134805+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Kansas-source wages, allowance certificate and employee-specific exemptions; no catalog rate.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "KY",
+      "authorityKey": "US-KY",
+      "jurisdictionKey": "US-KY",
+      "level": "STATE",
+      "levyKey": "us-ky:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-ky-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-ky-withholding-2026-10-01",
+        "quote": "Employers must withhold the income tax of the employees receiving \"wages\" as defined in Section 3401(a) of the Internal Revenue Code.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ky-withholding.txt",
+        "url": "https://revenue.ky.gov/Business/Pages/Employer-Payroll-Withholding.aspx",
+        "sha256": "a0d054c40e4394108656c241f8c8a32af81ac4005e3293bbcb0851207c899251",
+        "capturedAt": "2026-10-01T19:20:53.922288+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Residents/nonresidents unless exempted by law; KRS141.310 and103KAR18:150 named by the source.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "LA",
+      "authorityKey": "US-LA",
+      "jurisdictionKey": "US-LA",
+      "level": "STATE",
+      "levyKey": "us-la:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-la-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-la-withholding-2026-10-01",
+        "quote": "Louisiana employers are responsible for withholding Louisiana income tax from employee wages, filing withholding tax returns, and remitting withheld taxes to the Louisiana Department of Revenue.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/la-withholding.txt",
+        "url": "https://revenue.louisiana.gov/businesses/widely-used-tax-types/withholding/",
+        "sha256": "5d5aea73fd6fe12f783403f69dd551a5b6eeb6840336e3c258bb61d8eae29183",
+        "capturedAt": "2026-10-01T19:20:55.986444+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Resident/nonresident service-in-Louisiana and exemptions; other-state withholding can change resident coverage.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "MA",
+      "authorityKey": "US-MA",
+      "jurisdictionKey": "US-MA",
+      "level": "STATE",
+      "levyKey": "us-ma:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-ma-resident-2026-10-01",
+        "quote": "For tax year 2025, Massachusetts has a 5.0% tax on both earned (salaries, wages, tips, commissions)",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ma-resident.txt",
+        "url": "https://www.mass.gov/guides/personal-income-tax-for-residents",
+        "sha256": "7ce72b4159a624f020a3630933fe9a564ba396a8a3e1f359aa5beecd7edf6cab",
+        "capturedAt": "2026-10-01T19:20:53.975046+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "2025 guide does not establish a2026 legal authority interval.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "MD",
+      "authorityKey": "US-MD",
+      "jurisdictionKey": "US-MD",
+      "level": "STATE",
+      "levyKey": "us-md:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "ME",
+      "authorityKey": "US-ME",
+      "jurisdictionKey": "US-ME",
+      "level": "STATE",
+      "levyKey": "us-me:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-me-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-me-detail-2026-10-01",
+        "quote": "Maine generally imposes an income tax on all individuals that have Maine-source income.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/me-detail.txt",
+        "url": "https://www.maine.gov/revenue/taxes/income-estate-tax/individual-income-tax-1040me",
+        "sha256": "b3c8f27663ee9e5738639e10c49ecf951b09af4fe9a8d1823f3e84d888174dfa",
+        "capturedAt": "2026-10-01T19:16:54.142334+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Maine-source individual income; exact withholding/exemptions and nonresident allocation remain separate.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "MI",
+      "authorityKey": "US-MI",
+      "jurisdictionKey": "US-MI",
+      "level": "STATE",
+      "levyKey": "us-mi:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-mi-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-mi-evidence-2026-10-01",
+        "quote": "Every employer in Michigan who is required to withhold federal income tax under the Internal Revenue Code, must also be registered for and withhold Michigan income tax.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/mi-evidence.txt",
+        "url": "https://www.michigan.gov/taxes/business-taxes/withholding/withholding-tax-faqs",
+        "sha256": "a55aea6e49669c045518e2bb32d8c0e8320017ee81b643b6d74502a8c656cc6f",
+        "capturedAt": "2026-10-01T19:33:55.918201+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Federal-withholding condition; reciprocal-state and employee exemption clauses must be preserved.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "MN",
+      "authorityKey": "US-MN",
+      "jurisdictionKey": "US-MN",
+      "level": "STATE",
+      "levyKey": "us-mn:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-mn-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-mn-withholding-2026-10-01",
+        "quote": "Minnesota Withholding Tax is state income tax you as an employer take out of your employees’ wages.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/mn-withholding.txt",
+        "url": "https://www.revenue.state.mn.us/withholding-tax",
+        "sha256": "286a26108ca80dcd891b28b72f7833149e6b53cd30de141629b78dacc6cc1e16",
+        "capturedAt": "2026-10-01T19:20:54.201554+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Deposit is to Minnesota Department of Revenue; exemptions and residency conditions are not defaults.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "MO",
+      "authorityKey": "US-MO",
+      "jurisdictionKey": "US-MO",
+      "level": "STATE",
+      "levyKey": "us-mo:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-mo-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-mo-withholding-2026-10-01",
+        "quote": "Withholding is the tax that an employer deducts and withholds from employees’ wages every pay period.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/mo-withholding.txt",
+        "url": "https://dor.mo.gov/taxation/business/tax-types/withholding/",
+        "sha256": "d6a40eec5cdaa960c4b69b61b7db24dac04a0e3a550144021f3a89c2be2eb6b5",
+        "capturedAt": "2026-10-01T19:20:54.647655+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Missouri agency withholding guidance; exemptions and specific scope must be read before collection.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "MP",
+      "authorityKey": "US-MP",
+      "jurisdictionKey": "US-MP",
+      "level": "STATE",
+      "levyKey": "us-mp:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-mp-authority-2026-10-01",
+        "quote": "Chapter 2 (Earnings Tax)",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/mp-authority.txt",
+        "url": "https://www.finance.gov.mp/revenue-taxation.php",
+        "sha256": "6a84e990393702ce7c66d776b8b9d31043b98472dbc603de841b05cea1fe77f1",
+        "capturedAt": "2026-10-01T19:24:23.704064+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Named Chapter2/1040CM allocation, not full wage/mirror recipient and operative scope; return capture exceeds bound.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "MS",
+      "authorityKey": "US-MS",
+      "jurisdictionKey": "US-MS",
+      "level": "STATE",
+      "levyKey": "us-ms:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "MT",
+      "authorityKey": "US-MT",
+      "jurisdictionKey": "US-MT",
+      "level": "STATE",
+      "levyKey": "us-mt:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-mt-2026-10-01",
+      "effectiveFrom": "2026-01-01",
+      "effectiveThrough": "2026-12-31",
+      "intervalBasis": "Publication explicitly for use in2026; this is guide applicability, not statute enactment.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-mt-guide-2026-10-01",
+        "quote": "If you are an employee, your employer is required to withhold income tax from your paycheck unless a federal or Montana tax exemption applies.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/mt-guide.raw-extract.txt",
+        "url": "https://revenuefiles.mt.gov/files/Forms/Publication-1/Publication-1-2026.pdf",
+        "sha256": "e3c8ead48b90065910744bb2ffdfc23709760892bfaa34ee4b468286cdde620d",
+        "capturedAt": "2026-10-01T19:31:54.830314+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "2026 Montana Publication1; applicable federal/Montana exemptions and Montana-source wage scope.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "NC",
+      "authorityKey": "US-NC",
+      "jurisdictionKey": "US-NC",
+      "level": "STATE",
+      "levyKey": "us-nc:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-nc-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-nc-authority-2026-10-01",
+        "quote": "An employee who is a resident of NC is subject to NC withholding on all of his wages, whether he works in NC or in another state.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/nc-authority.txt",
+        "url": "https://www.ncdor.gov/taxes-forms/withholding-tax/withholding-tax-frequently-asked-questions",
+        "sha256": "5a6d45da856717819bfc88c8cd48744812a64b382f96ea42ab4bd75cd582fee2",
+        "capturedAt": "2026-10-01T19:24:23.136289+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Exception in same source: other work state requiring income withholding; nonresident/service conditions separate.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "ND",
+      "authorityKey": "US-ND",
+      "jurisdictionKey": "US-ND",
+      "level": "STATE",
+      "levyKey": "us-nd:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-nd-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-nd-withholding-2026-10-01",
+        "quote": "An employer paying wages to an employee if the employee performs services in North Dakota and the wages are subject to federal income tax withholding.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/nd-withholding.txt",
+        "url": "https://www.tax.nd.gov/income-tax-withholding",
+        "sha256": "337acaff265fc1e8409e41fd965aa7fc06fd02683c3cb363e4c76d46b7e2924d",
+        "capturedAt": "2026-10-01T19:20:55.303833+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Who-must-register clause; farm/ranch wages not federally withheld have separate exclusion.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "NE",
+      "authorityKey": "US-NE",
+      "jurisdictionKey": "US-NE",
+      "level": "STATE",
+      "levyKey": "us-ne:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-ne-authority-2026-10-01",
+        "quote": "State copies of 2026 Forms W-2",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ne-authority.txt",
+        "url": "https://revenue.nebraska.gov/about/forms/income-tax-withholding-forms",
+        "sha256": "ccca621ea408feba01c4f7bef837a497db7f7ae89995dbbfe198d3041c530d14",
+        "capturedAt": "2026-10-01T19:24:23.135812+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "2026 reconciliation plus2027 tables; no2026 operative withholding duty clause selected.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "NH",
+      "authorityKey": "US-NH",
+      "jurisdictionKey": "US-NH",
+      "level": "STATE",
+      "levyKey": "us-nh:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_SOURCE_HTTP_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "CAPTURED_OFFICIAL_BODY",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "NJ",
+      "authorityKey": "US-NJ",
+      "jurisdictionKey": "US-NJ",
+      "level": "STATE",
+      "levyKey": "us-nj:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-nj-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-nj-withholding-2026-10-01",
+        "quote": "As a New Jersey employer, you must withhold New Jersey Income Tax from: All New Jersey resident employees, unless they're already being taxed in another state at a higher rate. Nonresident employees working in New Jersey, or those who telework here for their convenience . Pennsylvania residents working in New Jersey are an exception, but they need to fill out a form Employee's Certificate of Nonresidence in New Jersey to qualify.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/nj-withholding.txt",
+        "url": "https://www.nj.gov/treasury/taxation/businesses/payroll/index.shtml",
+        "sha256": "a6f7eac1ee0ff1c841873c286b44b554bf200b91d010fdfbcf6ac217050c128c",
+        "capturedAt": "2026-10-01T19:20:56.145347+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Source immediately enumerates resident employees unless higher other-state tax and New Jersey-working nonresidents; retain those conditions.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "NM",
+      "authorityKey": "US-NM",
+      "jurisdictionKey": "US-NM",
+      "level": "STATE",
+      "levyKey": "us-nm:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-nm-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-nm-withholding-2026-10-01",
+        "quote": "Employers must withhold a part of the employee’s wages for payment of income tax.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/nm-withholding.txt",
+        "url": "https://www.tax.newmexico.gov/businesses/withholding-tax-and-workers-compensation/",
+        "sha256": "0031ccfb3d481f4ed966064546dc22fe9399d8719d77b8cc6b3ad83f1bce134c",
+        "capturedAt": "2026-10-01T19:20:55.503854+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "New Mexico employer guidance; exemptions and worker-compensation obligations stay distinct.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "NV",
+      "authorityKey": "US-NV",
+      "jurisdictionKey": "US-NV",
+      "level": "STATE",
+      "levyKey": "us-nv:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "NONE_SOURCED_CURRENT_COLLECTION_ONLY",
+      "portableRecordId": null,
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Observed agency statement only; no historical continuity.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-nv-none-2026-10-01",
+        "quote": "No State Income Tax on Individuals: Nevada residents do not pay state tax on income earned from salaries, wages, or similar compensation.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/nv-none.txt",
+        "url": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/",
+        "sha256": "318208df96af981d21c0549398f4bb13978a8ec9c7f91ff2b52fe44ec4f0ef17",
+        "capturedAt": "2026-10-01T19:20:56.891259+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Observed current collection absence, not a legal prohibition on future enactment.",
+      "remainingGaps": [
+        "LEGAL_POWER_TO_ENACT_NOT_INFERRED_FROM_CURRENT_ABSENCE",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "NY",
+      "authorityKey": "US-NY",
+      "jurisdictionKey": "US-NY",
+      "level": "STATE",
+      "levyKey": "us-ny:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-ny-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-ny-withholding-2026-10-01",
+        "quote": "Employers are required to withhold and pay personal income taxes on wages, salaries, bonuses, commissions, and other similar income paid to employees.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ny-withholding.txt",
+        "url": "https://www.tax.ny.gov/bus/wt/wtidx.htm",
+        "sha256": "99d09c1007f617ef3779b1d8829185289c197f15d6ae37f9526a91c4c201ff2b",
+        "capturedAt": "2026-10-01T19:20:55.553918+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Read New York employee nexus/exemptions separately; city taxes are not this state authority row.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "OH",
+      "authorityKey": "US-OH",
+      "jurisdictionKey": "US-OH",
+      "level": "STATE",
+      "levyKey": "us-oh:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-oh-source-2026-10-01",
+        "quote": "Wages/Compensation:",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/oh-source.txt",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/Forms/ohio_individual/individual/2025/it1040-booklet.pdf",
+        "sha256": "931b21e7484ba96e561cf2346d8a7d2a8005bd990724b5903c9a90acede5f50e",
+        "capturedAt": "2026-10-01T19:27:02.253873+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "2025 individual return booklet; historical scope only, not current2026 employer authority.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "OK",
+      "authorityKey": "US-OK",
+      "jurisdictionKey": "US-OK",
+      "level": "STATE",
+      "levyKey": "us-ok:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-ok-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-ok-evidence-2026-10-01",
+        "quote": "Withholding tax is the amount that an employer withholds from employees' wages and pays directly to the state.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/ok-evidence.txt",
+        "url": "https://oklahoma.gov/tax/businesses/withholding.html",
+        "sha256": "1d17daa4cbf2f1e2543fef8b6b2094addacfe8e20dadaa4b25fb20dcad8fc69e",
+        "capturedAt": "2026-10-01T19:33:55.917532+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Oklahoma employee income-tax credit; exemptions and interstate rules remain source-dependent.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "OR",
+      "authorityKey": "US-OR",
+      "jurisdictionKey": "US-OR",
+      "level": "STATE",
+      "levyKey": "us-or:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "PA",
+      "authorityKey": "US-PA",
+      "jurisdictionKey": "US-PA",
+      "level": "STATE",
+      "levyKey": "us-pa:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-pa-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-pa-2026-10-01",
+        "quote": "Pennsylvania taxes eight classes of income: (1) compensation;",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/pa.txt",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/personal-income-tax",
+        "sha256": "6ca41f60a37d0639ece5f09a5f2cf769974ae27862d9d284e1d84cda9769e754",
+        "capturedAt": "2026-10-01T19:15:11.240623+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Agency PIT page plus compensation category; no wage rate/annualization inferred from this authority packet.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "PR",
+      "authorityKey": "US-PR",
+      "jurisdictionKey": "US-PR",
+      "level": "STATE",
+      "levyKey": "us-pr:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-pr-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-pr-guide-2026-10-01",
+        "quote": "Tablas de Retención aplicables a salarios pagados después del 31 de diciembre de 2016:",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/pr-guide.txt",
+        "url": "https://hacienda.pr.gov/comerciantes/patronos-y-agentes-retenedores/tablas-de-retencion-withholding-tables",
+        "sha256": "53411e32d6eb34bebef88d81693fea14a40397be2346cf38cbeb071c803ef787",
+        "capturedAt": "2026-10-01T19:31:54.831887+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Puerto Rico own wages/local withholding guidance; no federal recipient proxy or invented starting-law binding.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "RI",
+      "authorityKey": "US-RI",
+      "jurisdictionKey": "US-RI",
+      "level": "STATE",
+      "levyKey": "us-ri:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_SOURCE_HTTP_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "CAPTURED_OFFICIAL_BODY",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "SC",
+      "authorityKey": "US-SC",
+      "jurisdictionKey": "US-SC",
+      "level": "STATE",
+      "levyKey": "us-sc:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-sc-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-sc-2026-10-01",
+        "quote": "South Carolina taxes income earned here.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/sc.txt",
+        "url": "https://dor.sc.gov/iit",
+        "sha256": "f6de5e914f94eb26a1cf338cf73b4572cdfcc90539229fa6896cfff2f33aaedc",
+        "capturedAt": "2026-10-01T19:15:11.433912+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "South Carolina resident/nonresident filing and source-income conditions; enacted tax questions are not starting-law IDs.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "SD",
+      "authorityKey": "US-SD",
+      "jurisdictionKey": "US-SD",
+      "level": "STATE",
+      "levyKey": "us-sd:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "NONE_SOURCED_CURRENT_COLLECTION_ONLY",
+      "portableRecordId": null,
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Observed agency statement only; no historical continuity.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-sd-2026-10-01",
+        "quote": "South Dakota is one of seven states that does not impose a state income tax.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/sd.txt",
+        "url": "https://dor.sd.gov/individuals/taxes/",
+        "sha256": "b30eac141b0237e2bdcfbb855a2f9ffd20d2bf1be08c8862db50a980d5e0965f",
+        "capturedAt": "2026-10-01T19:15:11.484977+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Observed state income-tax absence; guidance count is not a claim about the other six states.",
+      "remainingGaps": [
+        "LEGAL_POWER_TO_ENACT_NOT_INFERRED_FROM_CURRENT_ABSENCE",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "TN",
+      "authorityKey": "US-TN",
+      "jurisdictionKey": "US-TN",
+      "level": "STATE",
+      "levyKey": "us-tn:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-tn-root-2026-10-01",
+        "quote": "The Hall income tax is imposed only on individuals and other entities receiving interest from bonds and notes and dividends from stock.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/tn-root.txt",
+        "url": "https://www.tn.gov/revenue/taxes/hall-income-tax.html",
+        "sha256": "632d293d0391a522b1fb7c44d07d70a12ce349cc17098c86e79c6f8f48723a4a",
+        "capturedAt": "2026-10-01T19:20:56.725198+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Hall tax scope/repeal is not an explicit statewide wage-tax absence proof.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "TX",
+      "authorityKey": "US-TX",
+      "jurisdictionKey": "US-TX",
+      "level": "STATE",
+      "levyKey": "us-tx:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "US",
+      "authorityKey": "US",
+      "jurisdictionKey": "US",
+      "level": "FEDERAL",
+      "levyKey": "us-federal:income-tax-withholding",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-federal-positions:tax.raise-top-income-tax-rate"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-us-2026-10-01",
+      "effectiveFrom": "2026-01-01",
+      "effectiveThrough": "2026-12-31",
+      "intervalBasis": "Publication explicitly for use in2026; this is guide applicability, not statute enactment.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-us-2026-10-01",
+        "quote": "Withhold federal income tax from each wage payment or supplemental unemployment compensation plan benefit payment according to the employee’s Form W-4 and the correct withholding table in Pub. 15-T.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/us.txt",
+        "url": "https://www.irs.gov/publications/p15",
+        "sha256": "8788eb23ef7896bafd656b3744585b0dd50a9579f7ff518c659bd8166d5c1e18",
+        "capturedAt": "2026-10-01T19:15:07.017684+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Covered federal wage withholding only; federal FICA and territory-local income taxes are distinct.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "UT",
+      "authorityKey": "US-UT",
+      "jurisdictionKey": "US-UT",
+      "level": "STATE",
+      "levyKey": "us-ut:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "VA",
+      "authorityKey": "US-VA",
+      "jurisdictionKey": "US-VA",
+      "level": "STATE",
+      "levyKey": "us-va:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-va-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-va-authority-2026-10-01",
+        "quote": "In general, an employer who pays wages to one or more employees in Virginia is required to deduct and withhold state income tax from those wages.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/va-authority.txt",
+        "url": "https://www.tax.virginia.gov/withholding-tax",
+        "sha256": "76e135b94a12fb3c7eb15fc2ac9a17fa53f25b69412609688e653e4397e19c90",
+        "capturedAt": "2026-10-01T19:24:23.297674+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Virginia employer wage nexus; source explicitly qualifies general rule, preserve exceptions.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "VI",
+      "authorityKey": "US-VI",
+      "jurisdictionKey": "US-VI",
+      "level": "STATE",
+      "levyKey": "us-vi:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-vi-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-vi-authority-2026-10-01",
+        "quote": "Income tax withheld from wages paid for services performed in the Virgin Islands, whether by a V.I. employer, an U.S. employer, or an employer based elsewhere, are remitted to the BIR.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/vi-authority.txt",
+        "url": "https://bir.vi.gov/content/booklets/tax_structure.pdf",
+        "sha256": "c7862c5ef7dc0fe38a43ce9b752d45fb61ab43368369a41518df0a34561918ce",
+        "capturedAt": "2026-10-01T19:24:23.879884+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Virgin Islands own BIR recipient, mirror-code rules; IRS Forms941/809 not interchangeable and FICA is distinct.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "VT",
+      "authorityKey": "US-VT",
+      "jurisdictionKey": "US-VT",
+      "level": "STATE",
+      "levyKey": "us-vt:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-vt-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-vt-broker-2026-10-01",
+        "quote": "Your employer withholds taxes from each paycheck and sends it to the Department of Taxes.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/vt-broker.txt",
+        "url": "https://tax.vermont.gov/personal-income-tax",
+        "sha256": "5927eee10ea02d0026675eea67f2f632d20c0e6b5ba5a709a4194a0fc52fccf5",
+        "capturedAt": "2026-10-01T19:50:48.172114+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Vermont own Department of Taxes recipient; current observed guide, not2025-return filing-season rate or historical continuity.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "WA",
+      "authorityKey": "US-WA",
+      "jurisdictionKey": "US-WA",
+      "level": "STATE",
+      "levyKey": "us-wa:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "NONE_SOURCED_CURRENT_COLLECTION_ONLY",
+      "portableRecordId": null,
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Observed agency statement only; no historical continuity.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-wa-2026-10-01",
+        "quote": "Washington does not currently have an individual income tax.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/wa.txt",
+        "url": "https://dor.wa.gov/taxes-rates/income-tax",
+        "sha256": "a38f103099eecd14960d42c139e5c24e91386b3c56dbbc4a5297fa37ed5691ff",
+        "capturedAt": "2026-10-01T19:15:12.021818+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Source also describes legislated January1,2028 high-income tax phase; current absence does not deny future authority.",
+      "remainingGaps": [
+        "LEGAL_POWER_TO_ENACT_NOT_INFERRED_FROM_CURRENT_ABSENCE",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "WI",
+      "authorityKey": "US-WI",
+      "jurisdictionKey": "US-WI",
+      "level": "STATE",
+      "levyKey": "us-wi:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "WAGE_AUTHORITY_SOURCE_VERIFIED",
+      "portableRecordId": "a33-wage-income-authority-wi-2026-10-01",
+      "effectiveFrom": "2026-10-01",
+      "effectiveThrough": "2026-10-01",
+      "intervalBasis": "Only observed source version on capture date is established; no historical continuity or enactment date inferred.",
+      "evidence": {
+        "artifactId": "a33-wage-authority-wi-withholding-2026-10-01",
+        "quote": "Every employer who meets both requirements \"a\" and \"b\", below, is required to withhold Wisconsin income taxes: Pays wages to: A Wisconsin resident (regardless of where the services were performed), or A nonresident (person domiciled outside of Wisconsin) for services performed in Wisconsin, unless:",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/wi-withholding.txt",
+        "url": "https://www.revenue.wi.gov/Pages/FAQS/pcs-with.aspx",
+        "sha256": "98f332c7488b9e900aa72d46cb4ab9f7e2397c5e7d57d0f13878049bee7def0f",
+        "capturedAt": "2026-10-01T19:29:32.590394+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Source employer two-condition test; Wisconsin resident wages or services in Wisconsin plus employer nexus, reciprocal IL/IN/KY/MI exclusions.",
+      "remainingGaps": [
+        "ROOT_REGISTRY_ADMISSION",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+        "EXACT_TERMS_AND_SAVED_RECIPIENT_FOR_COLLECTION"
+      ]
+    },
+    {
+      "place": "WV",
+      "authorityKey": "US-WV",
+      "jurisdictionKey": "US-WV",
+      "level": "STATE",
+      "levyKey": "us-wv:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "EVIDENCE_SCOPE_OR_PERIOD_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": {
+        "artifactId": "a33-wage-authority-wv-guide-2026-10-01",
+        "quote": "The withholding tax tables have been updated for the 2026 tax year.",
+        "quoteNormalization": "Unicode whitespace collapsed to single spaces; no word changes",
+        "textPath": "raw/wv-guide.txt",
+        "url": "https://tax.wv.gov/Individuals/Pages/PersonalIncomeTaxReductionBill.aspx",
+        "sha256": "571c3e9c79d78932ff5692c78e2c84a77d65b0c2d0e607bb4de0e41c1e4150eb",
+        "capturedAt": "2026-10-01T19:31:54.832488+00:00",
+        "publicationStatus": "RAW_PUBLISHED"
+      },
+      "scope": "Table update/law timing is verified but direct wage-scope authority quote remains needed.",
+      "remainingGaps": [
+        "CURRENT_WAGE_AUTHORITY_SCOPE_OR_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    },
+    {
+      "place": "WY",
+      "authorityKey": "US-WY",
+      "jurisdictionKey": "US-WY",
+      "level": "STATE",
+      "levyKey": "us-wy:wage-income-tax",
+      "instrument": "INDIVIDUAL_INCOME_TAX",
+      "startingQuestionKey": null,
+      "startingConsequenceRowId": null,
+      "startingBindingStatus": "MISSING_CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING",
+      "enactedQuestionRelationships": [
+        "us-policy-positions:fiscal.adopt-income-tax",
+        "us-policy-positions:fiscal.graduated-income-tax"
+      ],
+      "questionRelationshipLimit": "Enacted reader relationship only; does not prove this starting levy has that question or row. Territory existence/authority is separate. FICA and excise are excluded.",
+      "disposition": "OFFICIAL_BODY_OR_EXPLICIT_SCOPE_GAP",
+      "portableRecordId": null,
+      "effectiveFrom": null,
+      "effectiveThrough": null,
+      "evidence": null,
+      "scope": "No authority or sourced-none admission from menu links, error pages, HTTP status, or another jurisdiction.",
+      "remainingGaps": [
+        "DIRECT_WAGE_AUTHORITY_OR_EXPLICIT_NONE_QUOTE",
+        "EFFECTIVE_INTERVAL",
+        "CANONICAL_STARTING_LEVY_QUESTION_ROW_MAPPING"
+      ]
+    }
+  ]
+}

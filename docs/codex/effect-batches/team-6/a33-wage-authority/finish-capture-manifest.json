@@ -1,0 +1,47 @@
+{
+  "scope": "last source-specific guide lookups; no broad recapture or proxy",
+  "captures": [
+    {
+      "place": "FL-faq-index",
+      "requestedUrl": "https://floridarevenue.com/faq/Pages/FAQSearch.aspx?keywords=personal%20income&cat=4&subcat=0",
+      "capturedAt": "2026-10-01T19:36:24.606908+00:00",
+      "status": 200,
+      "finalUrl": "https://floridarevenue.com/faq/Pages/FAQSearch.aspx?keywords=personal%20income&cat=4&subcat=0",
+      "contentType": "text/html; charset=utf-8",
+      "artifactId": "a33-wage-authority-fl-faq-index-2026-10-01",
+      "path": "raw/fl-faq-index.html",
+      "sha256": "8b68f5eda67bf1961a84bb3ef8e7dae4426835fd0974f2be0bbffb03eb2ce61d",
+      "byteLength": 80805,
+      "textPath": "raw/fl-faq-index.txt",
+      "captureStatus": "CAPTURED_NOT_YET_ADMITTED"
+    },
+    {
+      "place": "GA-guide",
+      "requestedUrl": "https://dor.georgia.gov/document/document/2026-employers-tax-guide/download",
+      "capturedAt": "2026-10-01T19:36:24.604668+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "GA-prior-guide",
+      "requestedUrl": "https://dor.georgia.gov/document/document/2025-employers-tax-guide/download",
+      "capturedAt": "2026-10-01T19:36:24.605284+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "MD-prior-guide",
+      "requestedUrl": "https://www.marylandtaxes.gov/forms/25_forms/Withholding_Guide.pdf",
+      "capturedAt": "2026-10-01T19:36:24.606477+00:00",
+      "captureStatus": "FAILED",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "place": "MP-return",
+      "requestedUrl": "https://www.finance.gov.mp/division-forms/revenue-taxation/2025/f1040cm--2025.pdf",
+      "capturedAt": "2026-10-01T19:36:24.605913+00:00",
+      "captureStatus": "FAILED",
+      "error": "RuntimeError: Artifact exceeds bounded 3MiB capture"
+    }
+  ]
+}

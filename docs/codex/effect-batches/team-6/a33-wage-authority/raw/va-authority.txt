@@ -1,0 +1,486 @@
+Withholding Tax | Virginia Tax
+Skip to main content
+Menu
+Forms & Filing
+Forms & Instructions
+Individual Income Tax Filing
+Estates, Trusts, and the Deceased
+Sales and Use Tax
+Employer Withholding
+Corporation Income Tax
+Pass-Through Entities
+All Other Business Taxes
+Refunds
+Where's My Refund?
+Refund Fraud Prevention
+Refund Verification Letter
+Refund Reduced or Withheld (Offset)?
+Payments & Penalties
+Audits
+Bills
+Payments
+Penalties & Interest
+Voluntary Disclosure for Businesses
+Rulings & Decisions
+Guidance Documents
+Laws, Rules, & Decisions
+Credits & Deductions
+Tax Credits
+Deductions
+Age Deduction Calculator
+Spouse Adjustment Calculator
+Business Resources
+Register a Business
+Report Changes to Your Business
+Closing Your Business
+Nonprofit Organizations
+Electronic Filing Requirements
+Recordkeeping Requirements
+Common Mistakes
+Locality Code Lookup (FIPS)
+North American Industry Classification System (NAICS) Codes
+Log In
+Individual Account
+Don’t have an individual account?
+Sign up now
+Business Account
+Ready to try the new online experience?
+Sign up now
+Breadcrumb
+Home
+Withholding Tax
+Employer Withholding General Requirements
+In general, an employer who pays wages to one or more employees in Virginia is required to deduct and withhold state income tax from those wages. Since Virginia law substantially conforms to federal law, if federal law requires an employer to withhold tax from any payment, we also require Virginia withholding.
+File with your business account
+File with eForms
+Find more details about registering as an employer, filing requirements, and payment options below.
+Filing Requirements
+W-2 and 1099 Filing Guidelines
+Filing Options
+Form 1099-K
+Household Employer (Nanny Tax)
+Filing Requirements
+As an employer required to file withholding returns, you must
+register for withholding tax
+, file income tax withholding returns, and pay the income tax to Virginia Tax.
+Employers must file withholding returns whether or not there is withholding tax owed. The Commonwealth deems the amounts withheld as payment in trust for the employees' tax liabilities.
+Filing Frequencies
+If your withholding liability is less than $100 per month, your withholding returns and tax payments are due quarterly.
+If your withholding liability is more than $100 but less than $1,000, your withholding returns and tax payments are due monthly.
+If your withholding liability is $1,000 or more, your withholding returns and tax payments are due semi-weekly.
+See below for details for each filing frequency.
+Quarterly Filers
+If your average tax liability is less than $100 per month, you will be assigned a quarterly filing status. Quarterly returns and payments are due on the last day of the month following the close of each quarter, as shown below. File your returns on Form VA-5 using eForms (
+VA-5 Quarterly eForm
+), your
+Online Services Account
+or
+Web Upload
+.
+FOR THE QUARTER ENDING...
+FILE YOUR RETURN AND PAYMENT BY...
+March 31
+April 30
+June 30
+July 31
+September 30
+October 31
+December 31
+January 31
+Quarterly filers must also file Form VA-6, Employer's Annual Summary of Virginia Income Tax Withheld. The VA-6 is due to Virginia Tax by Jan. 31 of the following calendar year, or within 30 days of the final payment of wages by your company. When you file Form VA-6, you must submit each federal Form W-2, W-2G, 1099, or 1099-R that shows Virginia income tax withheld. You must submit Form VA-6 and all W-2 and 1099 forms electronically.
+Monthly Filers
+If your average tax liability is more than $100, but less than $1,000 per month, you will be assigned a monthly filing status. You must file your returns on Form VA-5 using our free online filing services:
+eForms
+, your
+Online Services account
+or
+Web Upload
+. The VA-5 is due on the 25th of each month (for example, the return for January is due February 25).
+Monthly filers must also file Form VA-6, Employer's Annual Summary of Virginia Income Tax Withheld. The VA-6 is due to Virginia Tax by Jan. 31 of the following calendar year, or within 30 days after the last payment of wages by your company. When you file Form VA-6, you must submit each federal Form W-2, W-2G, 1099, or 1099-R that shows Virginia income tax withheld. You must submit Form VA-6 and all W-2 and 1099 forms electronically.
+Semi-Weekly Filers
+If your average tax liability is more than $1,000 per month, you will be assigned a semi-weekly filing status. Your payments will be due within 3 banking days if the amount of Virginia income tax withheld exceeds $500 on any federal cutoff date for semi-weekly withholding. Federal cutoff dates are generally on Tuesday and Friday of each week. You must submit your payments electronically using Form VA-15. If your liability exceeds $500 for a payday that falls on a:
+Wednesday, Thursday or Friday, file your VA-15 by the following Wednesday.
+Saturday, Sunday, Monday, or Tuesday, file your VA-15 by the following Friday.
+Semi-weekly filers must file Form VA-16, Employer's Payments Quarterly Reconciliation and Return of Virginia Income Tax Withheld, for each quarter. The VA-16 must be filed electronically and is due by the end of the month following the close of the quarter:
+Certain employers may request a waiver from the Virginia semi-weekly filing requirement. To request this waiver, the employer must have no more than 5 employees subject to Virginia income tax withholding. See
+Tax Bulletin 15-3
+for more information.
+Semi-weekly filers must also file Form VA-6, Employer's Annual Summary of Virginia Income Tax Withheld. The VA-6 is due to Virginia Tax by Jan. 31 of the following calendar year, or within 30 days after the last payment of wages by your company. When you file Form VA-6, you must submit each federal Form W-2, W-2G, 1099, or 1099-R that shows Virginia income tax withheld. You must submit Form VA-6 and all W-2 and 1099 forms electronically.
+Annual Filing Option for Household Employers (Nanny Tax)
+Employers of household service employees may elect to file and pay the Virginia income tax withheld from their employees' salaries on an annual basis, at the same time they submit the employees' Forms W-2 for the year. In order to qualify for the annual filing, the employment must consist exclusively of domestic service in the private home of the employer as defined in the Federal Employment Tax Regulations. Employers may
+register for this filing option online
+, or by using
+Form R-1H
+. See
+Household Employer (Nanny Tax)
+for more information.
+Employer's Annual or Final Summary of Virginia Income Tax Withheld
+All
+filers must file Form VA-6, Employer's Annual Summary of Virginia Income Tax Withheld or Form VA-6H, Household Employer's Annual Summary of Virginia Income Tax Withheld. The VA-6 and VA-6H are due to Virginia Tax by
+Jan. 31
+of the following calendar year, or within 30 days after the final payment of wages by your company. You may file your VA-6 or VA-6H using
+eForms
+,
+Web Upload
+, or your
+Online Services account
+.
+When you file Form VA-6, you must submit each federal Form W-2, W-2G, 1099, or 1099-R that shows Virginia income tax withheld. You must submit these forms electronically using your
+Online Services account
+,
+eForms
+, or
+Web Upload
+.
+W-2 and 1099 Filing Guidelines
+You are required to file W-2 and 1099 statements with Virginia Tax when those statements reflect Virginia income tax withheld.
+W-2s and 1099s are due
+Jan. 31
+W-2s and 1099s must be submitted electronically
+Important:
+Failure to file your withholding information by the due date may cause significant delays in processing a number of your employees' and retirees' tax returns as we will need to verify their identity and return information.
+How to file W-2s and 1099s
+Web Upload
+- file-based system, multiple file types accepted, files often created using payroll software
+Online Services account
+- file returns and make payments using your banking information, schedule payments up to the due date, and view your return filing history through an online account
+eForms
+- fillable electronic forms, no files or signup required, best for companies (or household employers) with a small number of employees or payees
+W-2 eForm
+W-2C eForm
+1099-MISC eForm
+1099-NEC eForm
+1099-R eForm
+Combined VA6H/ W-2
+(for household employers with 10 employees or less)
+Note:
+Your Annual or Final Withholding Summary (Form VA-6 / Form VA-6H) is separate from W-2 and 1099 data. You are required to send both by Jan. 31. You can file your VA-6 using your regular filing method (your
+Online Services account
+,
+Web Upload
+, your
+Business Account
+,
+or
+eForms
+).
+Each method requires authentication as described in the guides below:
+Online Services account
+(video)
+Web Upload W-2 and 1099 Guide
+(pdf)
+eForms W-2 and1099 Guide
+(pdf)
+If you need help with Web Upload, email us at
+WebUpload@tax.virginia.gov
+. If you need help with eForms or have questions about your filing requirements, please call
+Customer Services
+.
+Filing Options
+Every withholding tax filer is required to file all withholding tax returns and payments electronically. Employers can meet these electronic filing and paying requirements without purchasing tax filing software. We offer several online services at no cost:
+Your
+Online Services account
+allows you to file returns and make payments using your banking information, schedule payments up to the due date, view your return filing history, make updates to your business and contact information, and manage other account activities.
+eForms
+allows you to file and pay tax returns using your bank account information. No separate signup is required. eForms also allows you to save your information and reuse it with each filing.
+Web Upload
+is a file-based system that's best if you're submitting more than a few documents and payments at once. The system accepts withholding tax data files such as spreadsheets or text files created using payroll software.
+You can also pay using ACH Credit (initiating payments from your bank account to Virginia Tax's bank account). For more information about initiating ACH creditand set up with financial institutions, see our
+Electronic Payment Guide
+.
+Note:
+You do not need to file W2s or 1099s with us if there is no Virginia withholding. See
+W-2 and 1099 Filing Guidelines for more information
+.
+If your business is required to file Form 1099-K with the IRS, you’ll also need to file a copy of each 1099-K related to a Virginia taxpayer or an individual with a Virginia mailing address with Virginia Tax.
+If your business is a third-party settlement organization and paid $600 or more to a Virginia payee, or to a payee at a Virginia mailing address, you will also need to file a Form 1099-K for that payee with Virginia Tax. This may mean you’ll need to file 1099-K forms with Virginia Tax that you would not need to otherwise submit to the IRS. You should also send a copy of this form to the payee by February 28.
+How to File
+File Form 1099-K using
+Web Upload
+.
+If you’re unable to file electronically, or if filing creates an undue burden, you may
+request a waiver
+.
+Filing Deadlines
+Form 1099-Ks are due to Virginia Tax by:
+March 31 if you filed paper 1099-Ks with the IRS
+April 30 if you filed your 1099-Ks with IRS electronically
+April 30 if you were not required to file with the IRS, but do have to file with us.
+If the deadline falls on a weekend or holiday, you have until the next business day to file.
+For more information, please see
+Tax Bulletin 20-10
+.
+Household Employer Withholding Tax (Nanny Tax)
+Employers of certain household employees have the option of reporting and paying the Virginia income tax withheld from those employees on an annual basis. For the employer to qualify, the employment must consist exclusively of domestic service in the private home of the employer, as defined in the Federal Employment Tax Regulations.
+The annual filing provision is a filing option for qualified employers. It does not establish a new requirement for withholding. Unlike the federal "nanny tax," the Virginia household employer's withholding tax is filed on a separate return, and is not included in the employer's personal income tax filing. If you choose to register for this annual filing option, you will be required to file Form VA-6H, the Virginia Household Employer's Annual Summary of Income Tax Withheld, by Jan. 31 each year to report and pay the Virginia income tax withheld for the preceding calendar year. You must file Form VA-6H online, either through your
+Online Services account
+or through
+eForms
+.
+Basic Instructions for Household Employers
+Before you begin, make sure you are liable to withhold Virginia income tax from the wages of your household employee(s). If the wages are not subject to federal withholding, they are not subject to Virginia withholding.
+Complete instructions for withholding Virginia income tax from wages, salaries, and other payments are contained in the
+Virginia Employer Withholding Instructions
+. Information on corresponding federal requirements is available from the IRS, and unemployment tax information, including an annual filing option, is provided by the
+Virginia Employment Commission
+.
+Registration
+To register for a household employer's withholding tax account, complete
+Form R-1H
+, or
+register online.
+If you are already filing for a domestic employee under a regular quarterly or monthly withholding tax account, be sure to close that account when you register for your new household employer's account, and request that any payments made for the current year be transferred to the new account. For assistance, contact us at
+804.367.8037
+.
+Once you register for a household employer's withholding tax account, you must file a Form VA-6H for each year that you keep the account open, even if you have no tax to report. Failure to file could result in penalties of up to 30% of the tax due.
+How to File and Pay
+Form VA-6H must be filed by
+Jan. 31
+each year, with copies of each W-2 issued to a household employee during the previous calendar year and payment for the tax due.
+To file W-2 information and pay the tax due, file Form VA-6H through your
+Online Services account
+.
+If you don't have an account, you can file using eForms:
+VA-6H/ W-2 combined eForm
+(for household employers who employ up to 10 household employees - see the
+VA-6H/ W-2 eForm Instructions
+for more information)
+VA-6H eForm
+W-2 eForm
+To compute the withholding tax, use the
+Virginia Employer Withholding Tables
+.
+Frequently Asked Questions
+Qualified Employers and Employees
+What is a household employer? What does it mean to have household employer status?
+A household employer is an individual who employs 1 or more people solely for the purpose of domestic service in the home of the employer. For Virginia purposes, "household employer status" means that you meet this requirement and have registered for a Virginia household employer's withholding tax account. This registration allows you to file your withholding tax on an annual basis, rather than using the quarterly or monthly filing status required for most other employers.
+How do I know if an employee qualifies as a household employee?
+The employee must be classified as an employee performing domestic service under federal definitions. This category includes employees such as nannies, babysitters, housekeepers, gardeners, elder-care workers, in-home nursing care providers, and others who provide domestic services. For details, refer to the Federal Employment Tax Regulations, which are available at
+www.irs.gov
+.
+If I have a household employee and other business employees, can I include tax for all of them on my annual Virginia Household Employer's return?
+No. You must report information on non-household employees under a separate withholding tax account for your business.
+I have a small business that I run from my home with only 1 or 2 employees. Can I sign up for household employer status?
+No. The household employer annual filing option is available only to employers whose employees provide domestic service in the home. You should register for an employer withholding tax account to report the taxes for your business employees.
+Who Should Register
+Federal law allows me to file my "nanny tax" on an annual basis, and I would like to do that for Virginia. Should I register for a household employer's withholding account?
+As long as you meet the federal requirements, you may register as a household employer for Virginia purposes. Keep in mind, however, that the reporting and payment is done on a separate return, Form VA-6H.
+I just hired a nanny. Do I have to register for a household employer's withholding tax account?
+Not necessarily. As described under Basic Instructions for Household Employers, you need to determine whether you are required to withhold Virginia income tax from your employee's wages. If withholding is required, you may register for a household employer's account, which allows you to file annually, or you may register for an employer withholding tax account, which will require quarterly filing.
+I have a gardener who has always handled his own taxes, because the wage amounts are too low for withholding to be required. Do I need to sign up for a household employer's account?
+No. You don't need to register for an account unless you are actually required to withhold Virginia income tax from your employee's wages.
+I already file withholding taxes for my household employees on a quarterly basis, and I prefer to keep my books that way. Am I required to register for a household employer's account?
+No. The household employer status offers an annual filing option for qualifying employers. You may continue to file on a quarterly basis under your existing account.
+Filing and Payment
+How do I file and pay the tax due for my household employees?
+You may file Form VA-6H through your
+Online Services account
+to report the tax due and remit your tax payment, as well as copies of the W-2s for your employees. You can also file using
+eForms
+.
+When are the return and payment due?
+Form VA-6H must be filed
+online
+by Jan. 31 of each year, along with payment for the tax due and copies of any W-2s issued to your household employees for the preceding year.
+Can I report and pay the tax due with my individual income tax return?
+No. You must make a separate filing on Form VA-6-H by Jan. 31.
+I registered for a household employer withholding tax account, but I didn't have any employees this year. Do I still need to file a return?
+Yes. You will still need to file your annual return,
+Form VA-6H
+, by Jan. 31. If you don't anticipate hiring household employees in the future, you should request that your account be closed. Otherwise, you will need to file annual returns as long as the account remains open.
+What should I do if I stop having employees during the year?
+You will still need to file your annual return,
+Form VA-6H
+, by Jan. 31 of the following year, along with copies of the W-2s issued to your employees. If you don't anticipate hiring household employees in the future, you should request that your account be closed. Otherwise, you will need to file annual returns as long as the account remains open.
+What will happen if I file Form VA-6H or pay the tax due after Jan. 31?
+Late filing or late payment of the tax may result in the assessment of penalties and interest. The minimum penalty is $10, and the maximum penalty is 30% of the tax due. Interest accrues on the tax due until the tax is paid.
+Can payroll service providers file the annual returns (Form VA-6H) for household employers?
+Yes. The service providers need to be sure to reference the proper account number, particularly the suffix. Although many accounts will carry a suffix of F001, this will not always be the case. For example, if you have accounts for both business and household employees, or if you switched to the annual filing status from a previously existing quarterly account, your household employer account may carry a suffix of F002, F003, etc. It is important to use the correct suffix to make sure that payments are applied correctly. To avoid errors, check both the name and the account number of the return being submitted. For faster processing, the provider may wish to use our
+Web Upload
+service.
+Main navigation
+Forms & Filing
+Forms & Instructions
+Individual Income Tax Filing
+Estates, Trusts, and the Deceased
+Sales and Use Tax
+Employer Withholding
+Corporation Income Tax
+Pass-Through Entities
+All Other Business Taxes
+Sign up for email updates
+Get Virginia tax filing reminders and tax news for individuals and businesses.
+Subscribe
+About Virginia Tax
+Who We Are
+Careers
+Facts, Figures & Reports
+Taxpayer Rights Advocate
+Tax Code of Virginia
+(opens in new window)
+Contact Us
+Web Resources
+Accessibility
+Website Disclaimer
+Change Language/ Translate Site
+(opens in new window)
+Site Help
+Other Resources
+Identity Theft
+FOIA
+Legal Process
+FAQs
+For Localities
+For Software Developers
+Connect with Us
+Latest News & Resources
+Facebook
+(opens in new window)
+X
+(opens in new window)
+YouTube
+(opens in new window)
+LinkedIn
+(opens in new window)
+Sign Up for Email Updates
+(opens in new window)
+Copyright © 2019 Virginia Department of Taxation. All rights reserved.
+Procurement
+|
+Expenses
+|
+Web Policy
+|
+WAI Compliant
+|
+Public Notices
+|
+Archived Public Notices
+|
+Forms & Filing
+Forms & Instructions
+Individual Income Tax Filing
+Free File
+Tax Preparation Software
+General Filing Information
+Who Must File
+Filing Status
+Residency Status
+Reciprocity
+When to File
+Missed the filing deadline?
+Recordkeeping for Individual Income Tax Purposes
+Completing Your Return
+Exemptions
+Additions
+Subtractions
+First Time Home Buyer Savings Account Subtraction
+Voluntary Contributions
+Tools, Tips, & Calculators
+Free Help with your Taxes
+Military Tax Tips
+What Form Should I File?
+Individual Income Calculator
+Spouse Adjustment Tax Calculator
+Forms and Paper Filing
+Forms and Instructions
+Where to File
+Other Filing Information
+Estimated Taxes
+Consumer's Use Tax
+Fix, or Correct a Return
+Request a Copy of a Tax Return
+Estates, Trusts, and the Deceased
+Estate and Inheritance Taxes
+Fiduciary Income Tax
+Power of Attorney and Tax Information Authorization
+Probate Tax
+Sales and Use Tax
+Sales Tax Rate and Locality Code Lookup
+Grocery Tax
+Sales Tax Exemptions
+Remote Sellers, Marketplace Facilitators & Economic Nexus
+Retail Sales Tax on Accommodations
+Motor Vehicle Rental Tax
+Peer-to-Peer Vehicle Sharing Tax
+Communications Taxes
+Aircraft and Watercraft
+Other Sales Taxes
+Disposable Plastic Bag Tax
+Sales Tax Holiday
+Employer Withholding
+Corporation Income Tax
+Pass-Through Entities
+All Other Business Taxes
+Bank Franchise Tax
+Cigarette and Tobacco Taxes
+Cigarette Manufacturers
+Cigarette Retailers
+Cigarette Resale Exemption Certificates
+Cigarette Tax for Consumers
+Regional Cigarette Tax Boards
+Cigarette Tax
+Tobacco Products Tax
+Vape Products License Requirements
+Economic Nexus for Out-of-State Tobacco Products Distributors
+Insurance Premiums License Tax
+Litter Tax
+Miscellaneous Taxes
+Refunds
+Where's My Refund?
+Refund Fraud Prevention
+Report a Data Breach
+Tax Professionals - Reporting Data Breaches
+Virginia Tax Personal Identification Number (PIN)
+What Can You Do To Help Us Process Your Return More Smoothly?
+Refund Verification Letter
+Refund Reduced or Withheld (Offset)?
+Payments & Penalties
+Audits
+Worker Misclassification
+Bills
+Payment Plans
+Existing Payment Plans
+Appeals
+Offer in Compromise
+Collections
+Payments
+Individual Tax Payments
+Business Tax Payments
+ACH Debit Block Information
+Credit Card Payments
+Penalties & Interest
+Voluntary Disclosure for Businesses
+Rulings & Decisions
+Guidance Documents
+Laws, Rules, & Decisions
+Credits & Deductions
+Tax Credits
+Common Individual Credits
+Credit for Taxes Paid to Another State
+Credit for Taxes Paid to Another State - Supporting Forms
+Low Income Individuals Credit
+Farming & Agriculture Credits
+Environmental Credits
+Land Preservation Tax Credit
+Land Preservation Credit Affidavit Requirements
+Transferring a Land Preservation Tax Credit
+Land Preservation Credit Appraisers Information
+Business Development Credits
+Housing & Community Development Credits
+Miscellaneous Credits
+Expired or Repealed Credits
+Deductions
+Age Deduction Calculator
+Spouse Adjustment Calculator
+Business Resources
+Register a Business
+Registration of Nonresident Property Owners
+Report Changes to Your Business
+Closing Your Business
+Nonprofit Organizations
+Electronic Filing Requirements
+Recordkeeping Requirements
+Common Mistakes
+Locality Code Lookup (FIPS)
+North American Industry Classification System (NAICS) Codes

@@ -1,0 +1,208 @@
+ Supplemental Instructions for Form 1040CM                                                                2020
+ ______________________________________________________________________________________________________________________
+
+ Use in conjunction with the 2020 Internal Revenue              Line 10b
+ Service (IRS) Form 1040 instructions                           Pursuant to the Coronavirus Aid, Relief and Economic
+     • Income                                                   Security (CARES) Act, individuals can claim a deduction of
+     • Additional Child Tax Credit (Schedule 8812)              up to $300 (or $150 for married individuals filing separate
+     • Education Credits - American Opportunity &               returns) for cash contributions made to qualifying
+         Lifetime Learning Credits (Form 8863)                  charities during 2020. See IRS Publication 526, Charitable
+     • Recovery Rebate Credit                                   Contributions for further guidance
+___________________________________________________
+                                                                Line 18
+ Lines 1 through 6a                                             The amount on line 18 should include all the applicable
+                                                                taxes from line 16 and line 17 (from line 3 of Schedule 2).
+ Sourcing Rules. The rules for the determination of
+ source of income are established in the Northern
+                                                                Line 21
+ Mariana Territorial Income Tax Code (“NMTIT")
+ sections 861 through 865 and associated U.S. Treasury          The amount on line 21 should include all the applicable
+ regulations. Taxpayers and professionals should                tax credits on line 19 and line 20 (from line 7 of Schedule
+ consult these statutes and regulations for detailed            3).
+ guidance on determining sources of income. You must
+ allocate the income you are reporting on these lines           Line 23
+ between income without and within the                          If you are reporting Self-employment tax (Schedule SE)
+ Commonwealth based on their sources. Enter your                line 4, or Household employment taxes (Schedule H) line
+ figure in the appropriate columns.                             7a, Part II of Schedule 2, do not report any of these
+                                                                amounts on Schedule 2. These are reported to the
+ Line 8                                                         Internal Revenue Service (IRS).
+ Use the CNMI Schedule 1CM instead of the U.S. version.
+                                                                Line 25d
+ Schedule 1CM provides the income source allocation.
+ Enter the amounts from line 9 of Schedule 1CM in to the        Enter the total Federal Income Tax withheld (from
+ respective columns.                                            Form(s) W-2 and/or Form(s) 1099 from outside source
+                                                                only, not from the CNMI). Do not include this amount on
+ Line 9a                                                        line 25e.
+ Add amounts in lines 1 through 7a in each column.
+                                                                Line 25e
+ Enter the total in their respective column.
+                                                                Enter the total NMTIT withheld (chapter 7 tax from
+ Line 9b                                                        Form(s) W-2CM and/or Form(s) 1099 from within the
+ Divide line 9b column A by line 9b, column C. If the           CNMI only). Do not include this amount on line 25d.
+ percentage is zero or less, enter zero. If the percentage
+ is more than 100, enter 100.                                   Line 30
+                                                                Recovery Rebate Credit – Use the NMI Recovery Rebate
+ Example below                                                  Credit Worksheet to figure the credit, if any, you can
+                                                                claim. Refer to the 2020 IRS 1040 and 1040-SR
+   Line        Column A        Column B       Column C
+                                                                instructions for definitions and other information
+   9a          250.00          Not            1,000.00
+                                                                needed to fill out the worksheet. Attach the worksheet
+                              applicable
+                                                                to your 2020 1040CM Northern Marianas Territorial
+ Step 1. 250.00 [col A] /1,000.00 [col C] = 0.25                Income Tax Return.
+ Step 2. 0.25 x 100 = 25; enter 25.0000 (25%) on line 9b,
+ column A                                                       Lines 34
+                                                                The amount overpaid on this line may be subject to an
+ Line 10a                                                       adjustment if there is an allowable non- refundable
+ Enter the amount from line 22 of Schedule 1CM.                 credit and/or rebate as computed in Schedule OS-3405A,
+                                                                Part B, line 15.
+Summary of Taxes Due or Overpayment                              2. Enter the amount due, if any, from line 3, Part A. If
+                                                                    this is an amended return, enter the amount from
+PART A. Combined Due or (Overpaid)/Refund                           line 10 of Part A. Otherwise, enter zero. If you
+      1. Chapter 7 amount due or (overpaid). Enter                  enter the amount as requested, you are authorizing
+         the amount from line 18, Part C, Schedule                  an offset of your tax due on this return against your
+         OS-3405A.                                                  Recovery Rebate Credit. If you do not authorize an
+      2. Chapter 2 amount due or (overpaid). Enter                  offset of your tax due, you must pay the amount
+         the amount from line 6, Part C, From Form                  shown on line 3 of Part A.
+         NMI-A.                                                  3. If line 2 is greater than line 1, enter zero.
+      3. Add line 1 and line 2 above. If the result is              Otherwise, subtract line 2 from line 1. This is your
+         less than zero, enclose the amount in                      Recovery Rebate refund after offset.
+         parenthesis to indicate an overpayment                  4. If line 1 is greater than line 2, enter zero.
+         then continue on line 4.                                   Otherwise, subtract line 1 from line 2. This is the
+                                                                    amount you owe after the Recovery Rebate Credit
+           If the amount is greater than zero, this                 offset. Pay this amount. Otherwise, go to Part C
+           indicates the amount you owe on this                     or Part D if applicable.
+           return. Pay this amount. Otherwise, you
+           may offset the amount due on this line from      For amended return of Part B. Complete lines 5 to 7.
+           either Part B, Part C, or Part D below if you        5. Enter the amount refunded to you on original or
+           have refund available from the Recovery                 previously amended return(s).
+           Rebate Credit, additional child tax credit or        6. If line 3 is greater than line 5, subtract line 5 from
+                                                                   line 3. Enter the result as a negative number. This is
+           the American opportunity tax credit.
+                                                                   your refund.
+                                                                7. If line 5 is greater than line 3, subtract line 3 from
+       4. Enter the amount on line 3 you want
+                                                                   line 5. This is the amount you owe. Pay this amount.
+          applied to your 2021 estimated tax.
+       5. Subtract line 4 from line 3. This is your
+                                                             Part C. Additional Child Tax Credit (ACTC). Complete
+          refund. If you want your refund deposited
+                                                             and attach Schedule 8812 to your return. Skip this
+          directly to your bank, see Part E.
+                                                             part if you are not claiming this credit.
+For amended return of Part A. Complete lines 6 to 11.
+                                                             Special Notice
+      6. If Part A, line 3 is a positive amount, enter
+                                                             This part is provided to enable the Division of Revenue
+          the amount here. Otherwise, enter zero.
+                                                             and Taxation to process your claim of the Additional Child
+      7. Enter the amount from Part A, line 5 if any.
+                                                             Tax Credit (ACTC), Schedule 8812. Please note that the
+          Otherwise, enter zero.
+                                                             ACTC is being paid by the United States Treasury. The
+      8. Enter the amount you owed (paid) on
+                                                             Division of Revenue and Taxation is only facilitating your
+          original or previously amended return(s).
+                                                             ACTC claim as agreed upon between the CNMI
+          Enter amount as a negative number.
+                                                             Department of Finance and the United States Treasury.
+      9. Enter the amount refunded to you on
+                                                             By applying for ACTC refund and allowing it to be
+          original or previously amended return(s).
+                                                             processed by the Division of Revenue and Taxation, you
+          Enter amount as positive number.
+                                                             are giving the Division of Revenue and Taxation
+      10. Add lines 6 through 9. If the result is greater
+                                                             authorization to release tax information to the Internal
+          than zero, enter the result here. This is the
+                                                             Revenue Services (IRS).
+          amount you owe. Otherwise enter zero.
+      11. Add line 6 through 9. If the amount is less
+                                                                 1. Enter the amount of your Additional Child Tax
+          than zero, enter the result here. This is the
+                                                                    Credit from Schedule 8812, line 13.
+          amount you overpaid. Otherwise, enter
+                                                                 2. If you’re claiming the Recovery Rebate credit,
+          zero.
+                                                                    enter the amount from line 4, Part B. If this is an
+Part B. Recovery Rebate Credit (RRC). Complete and                  amended return, enter the amount from line 7,
+attach the NMI Recovery Rebate Credit Worksheet.                    Part B. Otherwise enter zero. If you enter the
+Skip this part if you are not claiming this credit.                 amount as requested, you are authorizing an
+                                                                    offset of your tax due on this return against your
+    1. Enter the amount from line 30, page 2 of Form                ACTC. If you do not authorize an offset of your
+       1040CM.                                                      tax due, you must pay the amount shown on
+         line 4 Part B, or line 3, Part A.                         6. If line 3 is greater than line 5, subtract line 5 from
+                                                                      line 3. Enter the result as a negative number. This is
+     3. If line 2 is greater than line 1, enter zero.                 your refund.
+        Otherwise, subtract line 2 from line 1. This is            7. If line 5 is greater than line 3, subtract line 3 from
+        your ACTC refund or refund after offset.                      line 5. This is the amount you owe. Pay this amount.
+     4. If line 1 is greater than line 2, enter zero.
+        Otherwise, subtract line 1 from line 2. This is        Part E. Direct Deposit on Checking or Savings
+        the amount you owe after the ACTC offset.              Account. Simple.Safe.Secure.
+        Pay this amount. Otherwise, go to Part D if
+        you are claiming the American Opportunity                            If you want your refund deposited directly to
+        Tax Credit.                                                          your bank account, please provide your
+                                                                             checking or saving account information.
+For amended return of Part C. Complete lines 5 to 7.
+    5. Enter the amount refunded to you on original or         Why Use Direct Deposit?
+       previously amended return(s).                                •   You get your refund faster by direct deposit than
+    6. If line 3 is greater than line 5, subtract line 5                you do by check.
+       from line 3. Enter the result as a negative                  •   Payment is more secure. There is no check that
+       number. This is your additional child tax credit                 can get lost or stolen.
+       refund.                                                      •   It is more convenient. You don’t have to make a
+    7. If line 5 is greater than line 3, subtract line 3                trip to the bank to deposit your check.
+       from line 5. Enter the result as a positive                  •   It saves tax dollars. It costs the government less
+       number. This is the amount you owe. Pay this                     to refund by direct deposit.
+       amount.
+                                                               Line 1b. Account type
+ Part D. American Opportunity Tax Credit (AOTC).               Checkmark the box corresponding to the type of account
+ Complete and attach Form 8863 to your return. Skip            you entered on line 1c. For example, if your account
+ this part if you are not claiming this credit.                number is a savings account, checkmark the box for the
+                                                               savings account. Check only one box.
+     1. Enter the amount of your Refundable American
+        Opportunity Tax Credit from Form 8863, line 8.         Line 1c. Routing Number
+     2. Enter amount from line 4 of Part C. Otherwise,         The routing number must be nine digits. Enter the 9-digit
+        enter the amount from line 4 of Part B. If Part        routing number from the first set of numbers on the lower
+        B and C does not apply to you, enter the               left corner of your check.
+        amount from line 3, Part A. If this is an
+        amended return, enter the amount from line 7           Line 1d. Checking or Savings Account Number
+        of Part C. Otherwise, enter zero. If you enter         Enter the account number from your bank. This number is
+        the amount as requested, you are authorizing an        private and unique to your bank account. You’ll find it
+        offset of your tax due on this return against your     only on your personal checks.
+        AOTC. If you do not authorize an offset of your
+        tax due, you must pay the amount shown on line         For example. If your checking account number is 0017-
+        4, Part C, or line 4 Part B, or the amount on          123456, you must enter it on line 1c as shown below. Omit
+        line 3, Part A.                                        the dash. Enter only alphanumeric characters.
+     3. If line 2 is greater than line 1, enter zero.
+        Otherwise, subtract line 2 from line 1. This is your    0 0 1 7 1 2 3 4 5 6
+        AOTC refund after offset.
+     4. If line 1 is greater than line 2, enter zero.
+        Otherwise, subtract line 1 from line 2. This is the
+                                                               Reasons Your Direct Deposit Request Will Be Rejected
+        amount you owe after the Refundable American
+                                                               If any of the following apply, your direct deposit request
+        Opportunity Tax Credit offset. Pay this amount.
+                                                               will be rejected and a check will be sent instead.
+For amended return of Part C. Complete lines 5 to 7.                • You are asking to have a joint refund deposited to
+    5. Enter the amount refunded to you on original or                  an individual checking or saving account, and your
+       previously amended return(s).                                    financial institution(s) won’t allow this. The
+                                                                        Division of Revenue and Taxation isn’t responsible
+        if a financial institution rejects a direct deposit.
+    •   The name on your account doesn’t match the
+        name on the refund, and your financial
+        institution(s) won’t allow a refund to be
+        deposited unless the refund matches the name
+        on the checking account.
+    •   You haven’t given a valid account number.
+    •   Any numbers or letters on lines 1b or 1c of Part
+        D on page 5 are crossed out or whited out.
+    •   You did not attach a copy of a voided check.
+
+           The Division of Revenue and Taxation isn’t
+           responsible for a lost refund if you enter the
+           wrong account information. Check with your
+financial institution to get the correct routing and
+account numbers and to make sure your direct deposit
+will be accepted.
+
