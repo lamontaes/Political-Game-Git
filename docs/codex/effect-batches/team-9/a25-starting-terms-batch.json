@@ -1,0 +1,715 @@
+{
+  "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+  "ruling": "CTO Ruling 36",
+  "convention": "Highest age still in general juvenile jurisdiction, inclusive; no transfer authority supplied.",
+  "action": "Coordinator-only row integration; retain existing source/status/operativeAt and do not add invented dates or before ages.",
+  "rows": {
+    "US-AK": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Alaska",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-AL": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Alabama",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-AR": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Arkansas",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-AZ": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Arizona",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-CA": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=California",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-CO": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Colorado",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-CT": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Connecticut",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-DC": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/16-2301",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-DE": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Delaware",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-FL": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Florida",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-GA": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 16,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Georgia",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-GU": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://col.guamcourts.gov/sites/default/files/19gc005.pdf",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-HI": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Hawaii",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-IA": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Iowa",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-ID": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Idaho",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-IL": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Illinois",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-IN": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Indiana",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-KS": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Kansas",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-KY": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Kentucky",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-LA": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 16,
+          "unit": "years"
+        }
+      ],
+      "source": "https://legis.la.gov/Legis/Law.aspx?d=73392",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": "2024-04-19"
+    },
+    "US-MA": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Massachusetts",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-MD": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Maryland",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-ME": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Maine",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-MI": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Michigan",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-MN": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Minnesota",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-MO": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Missouri",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-MP": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://cnmilaw.gov/docs/cmc_section/T6/5101.pdf",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-MS": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Mississippi",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-MT": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Montana",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-NC": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=North%20Carolina",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-ND": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=North%20Dakota",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-NE": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Nebraska",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-NH": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Hampshire",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-NJ": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Jersey",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-NM": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Mexico",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-NV": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Nevada",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-NY": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20York",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-OH": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Ohio",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-OK": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Oklahoma",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-OR": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Oregon",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-PA": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Pennsylvania",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-PR": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://www.lexjuris.com/lexlex/lexmenor.htm",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-RI": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Rhode%20Island",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-SC": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=South%20Carolina",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-SD": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=South%20Dakota",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-TN": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Tennessee",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-TX": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 16,
+          "unit": "years"
+        }
+      ],
+      "source": "https://tcss.legis.texas.gov/resources/FA/htm/FA.51.htm",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-UT": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Utah",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-VA": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Virginia",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-VT": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 18,
+          "unit": "years"
+        }
+      ],
+      "source": "https://legislature.vermont.gov/statutes/section/33/052/05201",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": "2024-07-01"
+    },
+    "US-WA": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Washington",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-WI": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 16,
+          "unit": "years"
+        }
+      ],
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/938/i/02",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-WV": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=West%20Virginia",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    },
+    "US-WY": {
+      "lawTerms": [
+        {
+          "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+          "key": "age",
+          "value": 17,
+          "unit": "years"
+        }
+      ],
+      "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Wyoming",
+      "sourceStatus": "cited source; current-law completeness not reverified",
+      "operativeAt": null
+    }
+  },
+  "unsupported": [
+    "US-AS",
+    "US-VI"
+  ],
+  "sourceCandidateHead": "6d78aa78bd0caa51edb9fe56bd04bed4f8fc0130"
+}

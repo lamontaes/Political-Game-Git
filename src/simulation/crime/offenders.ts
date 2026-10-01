@@ -290,6 +290,7 @@ export function offenderForVictims(
   // The youngest the police charge as an adult is the law's, where the
   // offense happened; a younger offender belongs to the juvenile court.
   const youngestCharged = adultCourtAgeAt(world, town, incident.occurredAt);
+  if (youngestCharged === null) return null;
   const diplomas = recordedDiplomas(world, cutoff);
   let best: NamedOffender | null = null;
   for (const personId of Object.keys(world.people).sort() as EntityId[]) {
