@@ -9,7 +9,6 @@ import {
   recordPersonDeath,
   type EntityId,
   type IsoDate,
-  type Person,
   type World,
 } from "../simulation";
 import {

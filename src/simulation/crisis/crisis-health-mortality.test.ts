@@ -621,7 +621,7 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
           },
           causalParentIds: [],
           hazard: {
-            micros: 2_000_000_000,
+            micros: 60_000_000,
             basis: "Test fixture only; not clinical data.",
           },
         });
