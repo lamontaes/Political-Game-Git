@@ -10,7 +10,6 @@ import {
   scaleSafeIntegerByExactShare,
   subtractExactQuantities,
 } from "./quantity";
-import { SeededRng } from "./rng";
 import { scheduleFutureDueItem } from "./future-transitions";
 import type {
   FutureDueItem,
@@ -40,7 +39,6 @@ export const INCIDENT_TRANSITION_KEY = "incident:transition" as const;
 
 const ONE_SHARE = createExactQuantity(1, 1, "rate:share");
 const ZERO_SHARE = createExactQuantity(0, 1, "rate:share");
-const UINT32_RANGE = 4294967296;
 
 export interface EvaluateIncidentInput {
   readonly definitionId: IncidentDefinition["id"];
@@ -138,24 +136,10 @@ export function evaluateIncidentCore(
   const consequences = input.consequences.map((plan) =>
     applyConsequencePlan(plan, impactShare),
   );
-  const rngKey = JSON.stringify([
-    "incident-evaluation-v1",
-    world.seed,
-    definition.stableKey,
-    input.evaluationKey,
-    input.scope,
-    evaluatedAt,
-    input.cutoff,
-  ]);
-  const rng =
-    definition.occurrenceMode === "probabilistic"
-      ? evaluateProbability(rngKey, likelihood, eligible)
-      : null;
+  // Nothing is drawn: a definition occurs when its recorded conditions hold.
+  const rng = null;
   const occurred =
-    eligible &&
-    (definition.occurrenceMode === "probabilistic"
-      ? rng?.occurred === true
-      : compareExactQuantities(likelihood, ZERO_SHARE) > 0);
+    eligible && compareExactQuantities(likelihood, ZERO_SHARE) > 0;
   return {
     definitionId: definition.id,
     evaluationKey: input.evaluationKey,
@@ -787,19 +771,6 @@ function activeIncidentStates(world: World, cutoff: HistoricalCutoff) {
     const state = incidentStateAt(world, incident.id, cutoff);
     return state ? [{ incident, state }] : [];
   });
-}
-
-function evaluateProbability(
-  key: string,
-  likelihood: IncidentEvaluation["likelihood"],
-  eligible: boolean,
-) {
-  const draw = new SeededRng("incident-rng-v1").fork(key).nextUint32();
-  const occurred =
-    eligible &&
-    BigInt(draw) * BigInt(likelihood.denominator) <
-      BigInt(likelihood.numerator) * BigInt(UINT32_RANGE);
-  return { key, draw, drawRangeExclusive: 4294967296 as const, occurred };
 }
 
 function validateEvaluationInput(
