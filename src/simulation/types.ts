@@ -313,6 +313,8 @@ export interface PolicyIssueDefinition {
 export interface PropositionParameter {
   readonly key: string;
   readonly value: string;
+  /** Closed modeled choices; omission leaves categorical terms unsupported. */
+  readonly allowedValues?: readonly string[];
 }
 
 /**
@@ -5033,6 +5035,12 @@ export type LegislativeProvisionEffectIntent =
   | { readonly kind: "public-program-appropriation" };
 
 export interface LegislativeProvisionRecord {
+  /** This version's explicit categories; omission clears a revised rule. */
+  readonly lawCategories?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly values: readonly string[];
+  }[];
   /** This version's explicit numeric rules; omission clears a revised rule. */
   readonly lawTerms?: readonly {
     readonly questionKey: string;
