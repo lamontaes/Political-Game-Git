@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
@@ -24,10 +24,13 @@ import {
   recallYesShare,
   startRecallPetition,
 } from "../simulation/recall";
-import type { EntityId, IsoDate, World } from "../simulation/types";
+import type { EntityId, World } from "../simulation/types";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { openOrdinaryLife } from "./ordinary-life";
+import { addDays } from "../simulation/dates";
+import { resolveDueThrough } from "../../tests/fixtures/due-item-clock";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { projectRecall, startProjectedRecallPetition } from "./recall";
 import { recordOrganizationParticipationState } from "../simulation/life";
@@ -40,7 +43,42 @@ import { organizationParticipationStateHistory } from "../simulation/life-querie
  * circulation window.
  */
 const GRAND_ISLAND = "3119595";
-function ordinaryStart(placeKey: string, seed: string) {
+
+type OrdinaryStart = {
+  readonly world: World;
+  readonly governmentKey: string;
+  readonly player: EntityId;
+  readonly member: EntityId;
+  readonly townId: EntityId;
+};
+const starts = new Map<string, OrdinaryStart>();
+// Release the shared openings when this file is done, so a worker that runs
+// the next file does not keep them.
+afterAll(() => {
+  starts.clear();
+});
+
+/**
+ * One opened town per place and seed, shared by the cases that ask for it: a
+ * World is an immutable value, so each case advances its own copy. Only the
+ * two most recent are kept, so the worker's memory stays bounded.
+ */
+function ordinaryStart(placeKey: string, seed: string): OrdinaryStart {
+  const key = `${placeKey}:${seed}`;
+  const known = starts.get(key);
+  if (known) {
+    // Most recently used last, so the place still in use is the one kept.
+    starts.delete(key);
+    starts.set(key, known);
+    return known;
+  }
+  const opened = openStart(placeKey, seed);
+  starts.set(key, opened);
+  while (starts.size > 2) starts.delete(starts.keys().next().value!);
+  return opened;
+}
+
+function openStart(placeKey: string, seed: string): OrdinaryStart {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -68,7 +106,10 @@ function ordinaryStart(placeKey: string, seed: string) {
       seat.role === "member" &&
       seat.personId !== player &&
       world.people[seat.personId]!.homeJurisdictionId === townId &&
-      world.people[seat.personId]!.lifeStatus !== "deceased",
+      isPersonAliveAt(world, seat.personId, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      }),
   )!.personId;
   return { world, governmentKey: government.key, player, member, townId };
 }
@@ -96,10 +137,6 @@ function vacateOneSeat(
     provenance: { kind: "authored", note: "Vacancy fixture." },
     supersedesStateId: prior.id,
   });
-}
-
-function daysUntil(world: World, date: IsoDate): number {
-  return (Date.parse(date) - Date.parse(world.currentDate)) / 86_400_000 + 1;
 }
 
 function petition(
@@ -164,7 +201,10 @@ describe("recalling a town official", () => {
         }),
       ).toMatchObject({ allowed: false });
 
-      const closed = passOrdinaryDays(started, 31);
+      const closed = resolveDueThrough(
+        started,
+        addDays(started.currentDate, 31),
+      );
       const [after] = recallPetitions(closed);
       expect(["failed-to-qualify", "awaiting-election"]).toContain(
         after!.phase,
@@ -222,7 +262,10 @@ describe("recalling a town official", () => {
           id !== player &&
           !seatedIds.has(id) &&
           world.people[id]!.homeJurisdictionId === townId &&
-          world.people[id]!.lifeStatus !== "deceased",
+          isPersonAliveAt(world, id, {
+            asOfDate: world.currentDate,
+            historySequenceExclusive: world.history.nextSequence,
+          }),
       );
       for (const expected of [
         "failed-to-qualify",
@@ -246,10 +289,7 @@ describe("recalling a town official", () => {
           (due) => due.transitionKey === RECALL_PETITION_CLOSES,
         )!;
         // Through the ordinary clock, past the day the window closes.
-        const closed = passOrdinaryDays(
-          seated,
-          daysUntil(seated, closeDue.dueAt),
-        );
+        const closed = resolveDueThrough(seated, closeDue.dueAt);
         const afterClose = recallPetitions(closed)[0]!;
         if (expected === "failed-to-qualify") {
           expect(afterClose.phase).toBe("failed-to-qualify");
@@ -265,10 +305,7 @@ describe("recalling a town official", () => {
           (due) => due.transitionKey === RECALL_ELECTION,
         )!;
         expect(electionDue.dueAt).toBe(afterClose.electionAt);
-        const decided = passOrdinaryDays(
-          closed,
-          daysUntil(closed, electionDue.dueAt),
-        );
+        const decided = resolveDueThrough(closed, electionDue.dueAt);
         const outcome = recallPetitions(decided)[0]!;
         expect(outcome.phase).toBe(expected);
         expect(outcome.yes! + outcome.no!).toBe(10_000);
@@ -293,7 +330,7 @@ describe("recalling a town official", () => {
       (due) => due.transitionKey === RECALL_PETITION_CLOSES,
     )!;
     // The member resigns a week in: their seat ends on the record.
-    let resigned = passOrdinaryDays(started, 7);
+    let resigned = resolveDueThrough(started, addDays(started.currentDate, 7));
     const seat = municipalSeats(resigned, governmentKey).find(
       (row) => row.personId === member,
     )!;
@@ -311,52 +348,8 @@ describe("recalling a town official", () => {
       provenance: { kind: "authored", note: "Resignation fixture." },
       supersedesStateId: prior.id,
     });
-    const closed = passOrdinaryDays(
-      resigned,
-      daysUntil(resigned, closeDue.dueAt),
-    );
+    const closed = resolveDueThrough(resigned, closeDue.dueAt);
     expect(recallPetitions(closed)[0]!.phase).toBe("lapsed");
-  }, 60_000);
-
-  it("refuses where the law gives no recall", () => {
-    const reason = "Towns in Indiana cannot recall their officials.";
-    const town = ordinaryStart("1805860", "recall-B");
-    expect(municipalRecallRule(town.governmentKey)).toEqual({
-      available: false,
-      reason,
-    });
-    expect(
-      canStartRecallPetition(town.world, {
-        petitionerPersonId: town.player,
-        governmentKey: town.governmentKey,
-        targetPersonId: town.member,
-      }),
-    ).toEqual({ allowed: false, reason });
-    expect(() =>
-      petition(town.world, town.governmentKey, town.player, town.member),
-    ).toThrow(reason);
-  }, 60_000);
-
-  it("draws an unsettled state's rule from the national range, not a refusal", () => {
-    // New Mexico's pack does not settle town recall, so its rule is drawn
-    // from the states that do, the same for every New Mexico town and save.
-    const town = ordinaryStart("3570500", "recall-B");
-    const rule = municipalRecallRule(town.governmentKey);
-    expect(rule).toMatchObject({
-      available: true,
-      stateUsps: "NM",
-      doctrineBasis: "national-range-drawn",
-      circulationBasis: "national-range-drawn",
-      threshold: null,
-    });
-    expect(municipalRecallRule(town.governmentKey)).toEqual(rule);
-    const started = petition(
-      town.world,
-      town.governmentKey,
-      town.player,
-      town.member,
-    );
-    expect(recallPetitions(started)[0]!.phase).toBe("circulating");
   }, 60_000);
 
   it("refuses a petitioner from out of town and a target with no seat", () => {
@@ -443,5 +436,38 @@ describe("recalling a town official", () => {
       targets: [],
       petitions: [],
     });
+  }, 60_000);
+
+  it("refuses where the law gives no recall", () => {
+    const reason = "Towns in Indiana cannot recall their officials.";
+    const town = ordinaryStart("1805860", "recall-B");
+    expect(municipalRecallRule(town.governmentKey)).toEqual({
+      available: false,
+      reason,
+    });
+    expect(
+      canStartRecallPetition(town.world, {
+        petitionerPersonId: town.player,
+        governmentKey: town.governmentKey,
+        targetPersonId: town.member,
+      }),
+    ).toEqual({ allowed: false, reason });
+    expect(() =>
+      petition(town.world, town.governmentKey, town.player, town.member),
+    ).toThrow(reason);
+  }, 60_000);
+
+  it("gives an unsettled state the national modal rule, chosen by no hash (A118)", () => {
+    // New Mexico's pack does not settle town recall, so its rule is the one
+    // the most state packs name: towns may not recall (17 of the 41 packs
+    // that settle it), ESTIMATED FROM AVERAGE, the same for every unread
+    // place and save. A recall law enacted in play still replaces it.
+    const town = ordinaryStart("3570500", "recall-B");
+    const rule = municipalRecallRule(town.governmentKey);
+    expect(rule).toEqual({
+      available: false,
+      reason: "Towns in New Mexico cannot recall their officials.",
+    });
+    expect(municipalRecallRule(town.governmentKey)).toEqual(rule);
   }, 60_000);
 });
