@@ -40,7 +40,12 @@ import {
   reserveRule,
 } from "./reserve-rule";
 import { fundingGovernment } from "./staffing";
-import { SPENDING_QUESTION_EFFECTS, TAX_QUESTION_EFFECTS } from "./rules";
+import {
+  DEFAULT_LOCAL_INTEREST_RATE,
+  DEFAULT_STATE_INTEREST_RATE,
+  SPENDING_QUESTION_EFFECTS,
+  TAX_QUESTION_EFFECTS,
+} from "./rules";
 
 // A seated governor, for the tests that need one; the partial world here
 // records no executive office.
@@ -1281,6 +1286,38 @@ describe("public budgets", () => {
     expect(budgetProgramFor("transit-access:il")).toBe("transit");
     expect(budgetProgramFor("bridge-maintenance:il")).toBe("highways");
     expect(budgetProgramFor("broadband-access:il")).toBe("otherPrograms");
+  });
+});
+
+describe("a government with no recorded debt opens at the measured national rate, marked estimated (A71)", () => {
+  it("reads the default rates from Census and notes where each government's rate came from", () => {
+    // Census 2022, United States: interest on debt over debt outstanding.
+    expect(DEFAULT_STATE_INTEREST_RATE).toBeCloseTo(
+      39_876_656_000 / 1_113_243_076_000,
+      10,
+    );
+    expect(DEFAULT_LOCAL_INTEREST_RATE).toBeCloseTo(
+      80_069_542_000 / 2_042_814_731_000,
+      10,
+    );
+    const seed = "a71-interest-1";
+    const world = opened(worldAt("2026-01-05", { seed }));
+    const governments = world.publicBudgets!.governments;
+    expect(governments.length).toBeGreaterThan(0);
+    for (const government of governments) {
+      if (government.level === "federal") continue;
+      const note = government.openingNotes.find((line) =>
+        line.startsWith("Interest rate:"),
+      );
+      expect(note, `${government.key} (${seed})`).toBeDefined();
+      const fallback =
+        government.level === "state"
+          ? DEFAULT_STATE_INTEREST_RATE
+          : DEFAULT_LOCAL_INTEREST_RATE;
+      expect(note!.includes("ESTIMATED FROM AVERAGE")).toBe(
+        government.interestRate === fallback,
+      );
+    }
   });
 });
 
