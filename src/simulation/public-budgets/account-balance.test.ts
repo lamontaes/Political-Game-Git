@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { daysBetween, makeIsoDate } from "../dates";
 import { createWorld, advanceWorld } from "../world";
-import { stateJurisdictionForKey } from "../life-places";
+import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
+import { allGovernmentUnits } from "../government-units";
+import { publicGovernmentOrganizationKey } from "../public-government-identity";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
 import { createOrganization } from "../life";
@@ -16,7 +18,11 @@ import { publicOrganizationKey } from "../tax-policy";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { withOpenedBudgets } from "./index";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
-import { PUBLIC_BUDGETS_VERSION, type PublicBudgetStore } from "./store";
+import {
+  PUBLIC_BUDGETS_VERSION,
+  type PublicBudgetGovernment,
+  type PublicBudgetStore,
+} from "./store";
 
 const date = makeIsoDate("2026-03-01");
 const month = makeIsoDate("2026-02-01");
@@ -171,4 +177,98 @@ describe("M5 saved government cash replaces a separate budget stock", () => {
       );
     },
   );
+  it("does not fabricate cash for a missing account", () => {
+    const jurisdiction = stateJurisdictionForKey("US-AL")!;
+    const world = createWorld({
+      seed: "m5-missing-account",
+      currentDate: date,
+      jurisdictions: [NATIONAL_ELECTION_JURISDICTION, jurisdiction],
+      people: [],
+    });
+    const government = {
+      key: "US-AL",
+      jurisdictionId: jurisdiction.id,
+      lawJurisdictionId: jurisdiction.id,
+      level: "state",
+    } as PublicBudgetGovernment;
+    const store: PublicBudgetStore = {
+      version: PUBLIC_BUDGETS_VERSION,
+      governments: [government],
+      cursor: { flows: 0, outcomes: 0 },
+      adjustments: [],
+      unknown: [],
+    };
+    expect(
+      readMonthFlows(world, store).flows.cash?.has(government.key) ?? false,
+    ).toBe(false);
+  });
+  it("holds ambiguous legacy/local accounts for consolidation instead of selecting or adding an account balance", () => {
+    const unit = allGovernmentUnits().find(
+      (row) =>
+        row.functionalActive &&
+        row.unitType === "county" &&
+        row.countyGeoid &&
+        lifePlaceByKey(`county:${row.countyGeoid}`),
+    )!;
+    const county = lifePlaceByKey(`county:${unit.countyGeoid}`)!;
+    const jurisdiction = county.context.jurisdiction;
+    const state = stateJurisdictionForKey(`US-${unit.stateUsps}`)!;
+    let world = createWorld({
+      seed: `m5-multiple:${unit.id}`,
+      currentDate: date,
+      jurisdictions: [NATIONAL_ELECTION_JURISDICTION, state, jurisdiction],
+      people: [],
+    });
+    for (const key of [
+      publicOrganizationKey(jurisdiction.id),
+      publicGovernmentOrganizationKey({
+        kind: "local-government",
+        governmentKey: unit.id,
+        jurisdictionId: jurisdiction.id,
+      }),
+    ]) {
+      world = createOrganization(world, {
+        stableKey: key,
+        formedAt: date,
+        provenance: {
+          kind: "authored",
+          note: "Two preserved fixture accounts.",
+        },
+        initialProfile: {
+          name: key,
+          classification: "sector:government",
+          locationJurisdictionId: jurisdiction.id,
+        },
+      });
+      const organizationId = world.history.organizations.at(-1)!.id;
+      world = createResourcePosition(world, {
+        stableKey: `${key}:cash`,
+        owner: { kind: "organization", organizationId },
+        openedAt: date,
+        openingBalance: money(10000, "USD"),
+        provenance: {
+          kind: "authored",
+          note: "Explicit fixture cash awaiting consolidation.",
+        },
+      });
+    }
+    const government = {
+      key: `county:${unit.countyGeoid}`,
+      jurisdictionId: jurisdiction.id,
+      lawJurisdictionId: jurisdiction.id,
+      level: "county",
+    } as PublicBudgetGovernment;
+    const store: PublicBudgetStore = {
+      version: PUBLIC_BUDGETS_VERSION,
+      governments: [government],
+      cursor: { flows: 0, outcomes: 0 },
+      adjustments: [],
+      unknown: [],
+    };
+    const bytes = serializeWorld(world);
+    expect(
+      readMonthFlows(world, store).flows.cash?.has(government.key) ?? false,
+    ).toBe(false);
+    expect(serializeWorld(world)).toBe(bytes);
+  });
 });
