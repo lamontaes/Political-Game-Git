@@ -29,19 +29,27 @@
   "logs": {
     "tests.log": {
       "sha256": "61d8a571819c1737298ec76a262c7a8d473fae732a0658eacd49bb195fee4e0f",
-      "originalPath": "/tmp/team1-cap-admission-test.log"
+      "originalPath": "/tmp/team1-cap-admission-test.log",
+      "publishedSha256": "cb5f2ee1bd46647d564456ff4397e7565968d37adf2808a626d207c0fa70cc49",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     },
     "types.log": {
       "sha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
-      "originalPath": "/tmp/team1-cap-admission-types.log"
+      "originalPath": "/tmp/team1-cap-admission-types.log",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     },
     "lint.log": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "originalPath": "/tmp/team1-cap-admission-lint.log"
+      "originalPath": "/tmp/team1-cap-admission-lint.log",
+      "publishedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     },
     "format.log": {
       "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
-      "originalPath": "/tmp/team1-cap-admission-format.log"
+      "originalPath": "/tmp/team1-cap-admission-format.log",
+      "publishedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     },
     "typecheck.mjs": {
       "sha256": "8f0c71a25a7aed2efe3564e0111f2e6176b8cde3c4abc220a48190fb1f1404d1",
@@ -53,23 +61,33 @@
     },
     "release.log": {
       "sha256": "3a41edc89a65bc946141493e8e163010c90ba0ef29152adc47a77f809fa40285",
-      "originalPath": "/tmp/team1-cap-release.log"
+      "originalPath": "/tmp/team1-cap-release.log",
+      "publishedSha256": "3a41edc89a65bc946141493e8e163010c90ba0ef29152adc47a77f809fa40285",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     },
     "push-release.log": {
       "sha256": "7683e1e5088a2abd69cdb98999094e2a89d3c39aa385c8e07fc56d5623346060",
-      "originalPath": "/tmp/team1-cap-push-release.log"
+      "originalPath": "/tmp/team1-cap-push-release.log",
+      "publishedSha256": "7683e1e5088a2abd69cdb98999094e2a89d3c39aa385c8e07fc56d5623346060",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     },
     "dice.log": {
       "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
-      "originalPath": "/tmp/team1-cap-dice.log"
+      "originalPath": "/tmp/team1-cap-dice.log",
+      "publishedSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     },
     "spelling.log": {
       "sha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
-      "originalPath": "/tmp/team1-cap-spelling.log"
+      "originalPath": "/tmp/team1-cap-spelling.log",
+      "publishedSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     },
     "report.log": {
       "sha256": "57275969202b6e9e13efbb9f2a0d1665fb302d7242e84c615eec930db8fb9cb3",
-      "originalPath": "/tmp/team1-cap-report.log"
+      "originalPath": "/tmp/team1-cap-report.log",
+      "publishedSha256": "57275969202b6e9e13efbb9f2a0d1665fb302d7242e84c615eec930db8fb9cb3",
+      "normalization": "Trailing blank lines only; original raw SHA256 and originalPath retained."
     }
   },
   "inheritedDeclarationBlob": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8"
