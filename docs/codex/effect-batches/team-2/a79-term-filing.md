@@ -36,7 +36,7 @@ Measured: the old arithmetic predicts no filing for those same people and cause 
 
 ## Proof run
 
-Measured: all 17 focused cases passed in 52.58 seconds (`/tmp/team2-a79-term-filing-final.log`). Six cover the governor caller, including the new cause-backed filing case. Eleven preserve the state-policy caller and body guards. Four strict roots have zero diagnostics. Individual extension/restoration parity retains all 374 existing ballot and reason matches.
+Historical proof: all 17 focused cases passed in 52.58 seconds (`/tmp/team2-a79-term-filing-final.log`). Six cover the governor caller, including the new cause-backed filing case. Eleven preserve the state-policy caller and body guards. Four strict roots have zero diagnostics. Individual extension/restoration parity retains all 374 existing ballot and reason matches.
 
 Measured: the new filing case compares each recorded member ballot and reason with the retained old evaluator (`governor-constitutional-vote.test.ts:320`). Proposal sequence precedes its votes. Terms and the profile threshold are unchanged. The rejected proposal's IDs and rollcall survive canonical Continue and repeated review. No voter-ballot due item is added.
 
@@ -44,8 +44,16 @@ Measured: the new filing case compares each recorded member ballot and reason wi
 
 Measured: proposal constitutional-measure_fe5463ba463c3517 is rejected with its House rollcall saved (`/tmp/team2-a79-term-filing-final.log`). Jordan Murray, person_16b8603621962b70, votes yea because of member:other-party. The previous gate would have saved neither his vote nor this proposal. This is a change in saved filing evidence, not a change in Jordan's vote direction.
 
+## Current-main reconciliation
+
+Measured: all 22 cases in the two changed test files pass in 52.79 seconds (`/tmp/team2-1545-main-tests.log`). The original cause-backed rejection and all main reason-weight cases remain selected. This is current-main fixture proof, not a natural multiyear tenure run.
+
+Measured: the repair preserves the original filing test and main's complete reason-weight test block (`/tmp/team2-1545-main-reconcile/preservation.json`). The scoring formula, terms and thresholds stay unchanged.
+
 ## Method and handoff
 
-Audit gap A79. Executed source 8492fb4adc36f952188a6a622602444bbe103113 composes main 2b28298d55c8d5fd88af84b71a12196f31914aac. Branch codex/team2-a79-state-filing-preflight preserves the published state-context head efd8b60eb1f5ee116dbe0a5fc87017a666dca100 and governor head 6da7e1f69cab5fe380f3a4680269790656ef1e89. The PR contains these still-unmerged predecessor source dependencies; Team 2 changed neither published predecessor.
+Audit gap A79. Executed source 8492fb4adc36f952188a6a622602444bbe103113 composes main 2b28298d55c8d5fd88af84b71a12196f31914aac. Branch codex/team2-a79-state-filing-preflight preserves the published state-context head efd8b60eb1f5ee116dbe0a5fc87017a666dca100 and governor head 6da7e1f69cab5fe380f3a4680269790656ef1e89. Those predecessor PRs are now merged. Their still-unmerged description belonged to the earlier proof checkpoint; Team 2 changed neither original published head.
 
-Changed lint, format, whitespace and release checks pass. Zero-dice reports zero new findings and five inherited stale entries, exiting 1. Full suite, year-speed, natural multiyear tenure, statewide ratification and all-56 populated worlds were NOT RUN. The general-policy preflight migration is NOT COMPLETE. Earlier fixture failures and exact checks remain in the companion proof artifact. Next: exact-head CTO review of this bounded term-limit route; resolve general-policy ordering separately.
+Historical local gates: changed lint, format, whitespace and release checks passed. Zero-dice reports zero new findings and five inherited stale entries, exiting 1. Full suite, year-speed, natural multiyear tenure, statewide ratification and all-56 populated worlds were NOT RUN. The general-policy preflight migration is NOT COMPLETE. Earlier fixture failures and exact checks remain in the companion proof artifact. Next: exact-head CTO review of this bounded term-limit route; resolve general-policy ordering separately.
+
+source a566c9ad6f8653cd04d9f72cef254b4493990355 receives main d9d69001acdbf9a552195a18f75804934482ac3b additively. Original approved head 0337fe4d0f0bd43acdad871a01c67cbdaaa63d71 remains in history. Renewed exact-head approval is required. The PR now contains only eight remaining owned paths; merged predecessor source is absent from its diff. Four strict roots have zero diagnostics. Changed lint, format and owned whitespace checks pass. Release checking reproduces the inherited CI declaration failure; zero-dice reports zero new findings and five inherited stale entries. No main-owned bytes were changed to address those gates. General-policy preflight remains held. The two complete test blocks conflicted because they were inserted at the same point; the additive resolution retains both.
