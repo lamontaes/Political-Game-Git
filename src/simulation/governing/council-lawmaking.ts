@@ -1,22 +1,8 @@
-import { addDays } from "../dates";
-import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
-import { measurePosition } from "../legislation";
+import { lawInForce } from "./law-in-force";
 import { personName } from "../people";
-import type {
-  EntityId,
-  IsoDate,
-  LegislativeMeasureRecord,
-  LegislativeVoteDisposition,
-  PolicyPropositionDefinition,
-  World,
-} from "../types";
+import type { EntityId, LegislativeVoteDisposition, World } from "../types";
 import { decideChamberVote, publicPartyOf } from "./chamber-votes";
-import { outranks } from "../law-hierarchy";
-import { lawInForce, ownLawLevel } from "./law-in-force";
-import {
-  ensureOfficeholderPrinciples,
-  principledLeaning,
-} from "./officeholder-principles";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 
 /**
  * COUNCIL LAWMAKING (Build 25, CTO ruling of September 29, 12:24 a.m.).
@@ -45,19 +31,6 @@ import {
 export const COUNCIL_LAWMAKING_VERSION = "council-lawmaking/v1";
 
 /**
- * GAME ASSUMPTION, shared with the state member agenda (`member-agenda.ts`):
- * the least summed principle weight that moves a member to file.
- */
-const FILING_THRESHOLD = 3;
-
-/**
- * GAME ASSUMPTION (Build 25), hand-set until the research on how often a
- * council takes a question back up is read: a member does not refile a
- * question the same body voted down in the past year.
- */
-const REFILE_AFTER_DAYS = 365;
-
-/**
  * The reason a member with no view and no cue on an ordinance votes for it.
  * Councils vote together far more than legislatures: 87 percent of recorded
  * votes in California city councils were unanimous, against 10 percent of
@@ -83,170 +56,6 @@ export const COUNCIL_VOTE_NOTE = `${COUNCIL_LAWMAKING_VERSION}: each member deci
 
 export interface CouncilMember {
   readonly personId: EntityId;
-}
-
-export interface CouncilFiling {
-  readonly sponsorPersonId: EntityId;
-  readonly proposition: PolicyPropositionDefinition;
-  readonly answer: "yes" | "no";
-  /** The member's summed principle weight on the question: why they filed. */
-  readonly leaning: number;
-}
-
-/** Whether an ordinance on this question is still moving before the body. */
-function moving(
-  world: World,
-  measures: readonly LegislativeMeasureRecord[],
-  propositionId: EntityId,
-): boolean {
-  return measures.some(
-    (measure) =>
-      (measure.propositionIds ?? []).includes(propositionId) &&
-      !measurePosition(world, measure.id).terminal,
-  );
-}
-
-/**
- * Whether the body enacted an ordinance on this question that has not taken
- * effect yet: a member does not refile what is only waiting for its day.
- */
-function awaitingEffect(
-  world: World,
-  measures: readonly LegislativeMeasureRecord[],
-  propositionId: EntityId,
-): boolean {
-  const ids = new Set(
-    measures
-      .filter((measure) =>
-        (measure.propositionIds ?? []).includes(propositionId),
-      )
-      .map((measure) => measure.id),
-  );
-  return (world.history.legislativeEnactments ?? []).some(
-    (enactment) =>
-      ids.has(enactment.measureId) &&
-      // The same operative date the law in force reads (`law-in-force.ts`).
-      (enactment.effectiveAt ??
-        addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS)) >
-        world.currentDate,
-  );
-}
-
-/** Whether the body voted an ordinance on this question down since `since`. */
-function recentlyDefeated(
-  world: World,
-  measures: readonly LegislativeMeasureRecord[],
-  propositionId: EntityId,
-  since: IsoDate,
-): boolean {
-  return measures.some(
-    (measure) =>
-      (measure.propositionIds ?? []).includes(propositionId) &&
-      measurePosition(world, measure.id).phase === "failed" &&
-      (world.history.legislativeVotes ?? []).some(
-        (vote) =>
-          vote.measureId === measure.id &&
-          vote.outcome !== "passed" &&
-          vote.takenAt >= since,
-      ),
-  );
-}
-
-/**
- * The ordinances members file at one meeting: at most one each, on the
- * question their principles press hardest, where the town's law does not
- * already say what they want. Where two members press the same question, the
- * one with the stronger stake carries it, and the other files on their next
- * question or not at all; nothing is drawn. Empty when no member leans hard
- * enough on anything open.
- *
- * HARDWIRED, until the council seats carry seniority: between two members
- * with the same stake in the same question, the one listed first on the body
- * carries it.
- *
- * Call `ensureOfficeholderPrinciples` for the members first.
- */
-export function councilFilings(
-  world: World,
-  input: {
-    readonly stableKey: string;
-    readonly jurisdictionId: EntityId;
-    readonly members: readonly CouncilMember[];
-    readonly questions: readonly PolicyPropositionDefinition[];
-    /** Every ordinance this body has had before it. */
-    readonly measures: readonly LegislativeMeasureRecord[];
-    readonly playerPersonId: EntityId | null;
-  },
-): readonly CouncilFiling[] {
-  const members = input.members.filter(
-    (member) => member.personId !== input.playerPersonId,
-  );
-  const since = addDays(world.currentDate, -REFILE_AFTER_DAYS);
-  const own = ownLawLevel(input.jurisdictionId);
-  const closed = new Set<EntityId>();
-  for (const proposition of input.questions)
-    if (
-      moving(world, input.measures, proposition.id) ||
-      recentlyDefeated(world, input.measures, proposition.id, since) ||
-      awaitingEffect(world, input.measures, proposition.id)
-    )
-      closed.add(proposition.id);
-  // Every filing any member would make, before anyone claims a question.
-  const wanted: { filing: CouncilFiling; seat: number }[] = [];
-  for (const proposition of input.questions) {
-    if (closed.has(proposition.id)) continue;
-    let law: ReturnType<typeof lawInForce> | undefined;
-    members.forEach((member, seat) => {
-      const leaning = principledLeaning(
-        world,
-        member.personId,
-        proposition.id,
-      ).score;
-      if (Math.abs(leaning) < FILING_THRESHOLD) return;
-      if (law === undefined)
-        law = lawInForce(world, input.jurisdictionId, proposition.id);
-      // Support files to enact unless the law already says yes; opposition
-      // files only a repeal of a law that says yes.
-      const answer: "yes" | "no" | null =
-        leaning > 0
-          ? law?.answer === "yes"
-            ? null
-            : "yes"
-          : law?.answer === "yes"
-            ? "no"
-            : null;
-      if (!answer) return;
-      // A higher law this body cannot override is no reason to file: the
-      // ordinance would be on the record and govern nothing. A state "no"
-      // that leaves its localities free is not such a law.
-      if (law && outranks(law.level, own) && law.preempts !== false) return;
-      wanted.push({
-        filing: {
-          sponsorPersonId: member.personId,
-          proposition,
-          answer,
-          leaning,
-        },
-        seat,
-      });
-    });
-  }
-  // The strongest stakes are claimed first.
-  wanted.sort(
-    (left, right) =>
-      Math.abs(right.filing.leaning) - Math.abs(left.filing.leaning) ||
-      left.seat - right.seat,
-  );
-  const filed = new Set<EntityId>();
-  const filings: CouncilFiling[] = [];
-  for (const { filing } of wanted) {
-    if (filed.has(filing.sponsorPersonId)) continue;
-    if (closed.has(filing.proposition.id)) continue;
-    filed.add(filing.sponsorPersonId);
-    closed.add(filing.proposition.id);
-    filings.push(filing);
-  }
-  return filings;
 }
 
 /** Ensures every member holds principles before anything is filed or voted. */

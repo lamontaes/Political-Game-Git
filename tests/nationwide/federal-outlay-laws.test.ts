@@ -9,6 +9,7 @@ import {
   INCREASE_FOREIGN_AID_QUESTION,
 } from "../../src/simulation/federal-outlay-laws";
 import { stableHash } from "../../src/simulation/ids";
+import { createHistoryStore } from "../../src/simulation/history";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
@@ -131,10 +132,7 @@ function worldWith(laws: readonly ReturnType<typeof act>[]): World {
     jurisdictionOrder: [],
     policyCatalog: POLICY,
     history: {
-      organizations: [],
-      resourceFlows: [],
-      resourceTransferOutcomes: [],
-      futureDueItems: [],
+      ...createHistoryStore(),
       legislativeMeasures: laws.map((law) => law.measure),
       legislativeEnactments: laws.map((law) => law.enactment),
     },

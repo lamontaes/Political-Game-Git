@@ -1,5 +1,7 @@
-import type { LawEffectStampedRecord } from "../law-effect-stamp";
-import type { GovernmentLawCostAttribution } from "./age-verification-cost";
+import type {
+  LawEffectStamp,
+  LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import type { LawLevel } from "../law-hierarchy";
 import type { EntityId, IsoDate, World } from "../types";
 import {
@@ -8,6 +10,14 @@ import {
   type FederalTreasury,
 } from "./federal-treasury";
 import type { StatehoodCertification } from "./statehood-funds";
+
+/** Historical attribution bytes remain readable; they are never new invoices. */
+export interface GovernmentLawCostAttribution {
+  readonly program: BudgetProgram;
+  readonly amountUsd: number;
+  readonly basis: string;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
 
 /**
  * PUBLIC BUDGETS: every state, D.C., territory, county and city government in

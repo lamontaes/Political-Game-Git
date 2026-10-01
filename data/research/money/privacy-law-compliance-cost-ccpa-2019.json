@@ -1,0 +1,108 @@
+{
+  "id": "privacy-law-compliance-cost-ccpa-2019",
+  "status": "research",
+  "readAt": "2026-10-01",
+  "purpose": "A sourced American central estimate of what complying with a broad consumer data privacy law costs a business, for A28 (src/simulation/federal-data-privacy-law.ts). Not read by game code yet.",
+  "source": {
+    "citation": "Berkeley Economic Advising and Research, 'Standardized Regulatory Impact Assessment: California Consumer Privacy Act of 2018 Regulations,' prepared for the California Department of Justice, Attorney General's Office, August 2019 (contract 18-255U)",
+    "url": "https://dof.ca.gov/media/docs/forecasting/economics/major-regulations/major-regulations-table/CCPA_Regulations-SRIA-DOF.pdf"
+  },
+  "centralEstimate": {
+    "what": "Initial (one-time) cost for a firm to comply with the California Consumer Privacy Act, law and regulations together, by firm size.",
+    "unit": "dollars per firm, one time, as stated in the August 2019 assessment",
+    "timing": "one-time initial compliance; the SRIA calls initial compliance 'the vast majority of compliance efforts'",
+    "page": 11,
+    "location": "Section 1 text, 'back of the envelope cost of CCPA compliance' (no numbered table)",
+    "basis": "The SRIA's own assumptions, set from the TrustArc survey of privacy professionals: the median of the lowest survey bracket for the smallest firms, the top of that bracket for 20-100 employees, and stated averages above that.",
+    "bySize": [
+      {
+        "sizeClass": "fewer-than-20-employees",
+        "minEmployees": 1,
+        "maxEmployees": 19,
+        "dollarsPerFirm": 50000
+      },
+      {
+        "sizeClass": "20-to-100-employees",
+        "minEmployees": 20,
+        "maxEmployees": 99,
+        "dollarsPerFirm": 100000
+      },
+      {
+        "sizeClass": "100-to-500-employees",
+        "minEmployees": 101,
+        "maxEmployees": 500,
+        "dollarsPerFirm": 450000
+      },
+      {
+        "sizeClass": "more-than-500-employees",
+        "minEmployees": 501,
+        "maxEmployees": null,
+        "dollarsPerFirm": 2000000
+      }
+    ],
+    "quote": "Assume that smaller firms (<20 employees) will incur $50,000 in initial costs (the median of the lowest cost category)2, medium-sized firms (20-100 employees) incur an initial cost of $100,000 (the maximum of the lowest cost category in the survey), medium/large firms (100-500 employees) incur an initial cost of $450,000, and firms with greater than 500 employees incur, on average an initial cost of $2 million.",
+    "unresolvedBoundaries": [
+      {
+        "employees": 100,
+        "status": "unresolved",
+        "printedBands": [
+          {
+            "band": "medium-sized firms (20-100 employees)",
+            "dollarsPerFirm": 100000
+          },
+          {
+            "band": "medium/large firms (100-500 employees)",
+            "dollarsPerFirm": 450000
+          }
+        ],
+        "reason": "Both printed bands include exactly 100 employees and the source does not say which applies; no class is assigned here until the CTO rules."
+      }
+    ],
+    "note": "Firms of exactly 100 employees are left out of bySize (see unresolvedBoundaries). 500 is unambiguous: '100-500 employees' includes it and the next class is 'greater than 500 employees', so 500 is $450,000."
+  },
+  "economyWide": {
+    "coveredShareOfFirms": 0.75,
+    "coveredShareQuote": "Also assume that 75% of all California businesses will be required to comply with the CCPA (see Section 2.1 for detailed estimates of the number of firms affected by firm size and industry).",
+    "totalInitialDollars": 55000000000,
+    "shareOfStateGrossProduct": 0.018,
+    "shareOfStateGrossProductYear": 2018,
+    "quote": "The total cost of initial compliance with the CCPA, which constitutes the vast majority of compliance efforts, is approximately $55 billion. This is equivalent to approximately 1.8% of California Gross State Product in 2018.",
+    "page": 11,
+    "note": "The source's own one-time total for California businesses, compared by the source with California's 2018 gross state product. It is not a share of any firm's costs, and no per-firm share is derived from it here."
+  },
+  "checksOnly": {
+    "note": "Ranges and alternatives below are checks on the central estimate, never a draw.",
+    "smallFirmUpperBound": {
+      "quote": "The TrustArc survey only sampled privacy professionals from firms with at least 500 employees. Therefore, it is very possible that we are overestimating the compliance costs for smaller firms. However, in the absence of reliable compliance cost information for this category of businesses, applying the TrustArc estimates provides an upper bound on the total compliance costs.",
+      "page": 11,
+      "meaning": "The SRIA says the size figures may overstate small-firm costs; they are an upper bound for small firms."
+    },
+    "trustArcSurvey": {
+      "quote": "29% of businesses expect to spend less than $100,000 (or nothing) on compliance, 32% expect to spend $100,000-$500,000, 20% expect to spend $500,000-$1,000,000, 15% expect to spend $1,000,000-$5,000,000, and 4% of businesses expect to spend more than $5,000,000.",
+      "page": 10,
+      "meaning": "Distribution of expected spending among firms with 500+ employees that the size figures are set from."
+    },
+    "regulationOnlyCosts": {
+      "quote": "Table 3: Total Estimated Compliance Costs (million 2019$) NAICS Description >$25 million 50% 75% Code revenue Threshold Threshold threshold ... Total 466.9 11,069.4 16,454.2",
+      "page": 29,
+      "table": "Table 3",
+      "meaning": "Costs the SRIA attributes to the Department of Justice regulations alone, not the law, in millions of 2019 dollars, at three coverage thresholds."
+    },
+    "gdprComparisonRange": {
+      "lowShareOfCosts": 0.001,
+      "highShareOfCosts": 0.006,
+      "source": "Demirer, Jimenez Hernandez, Li and Peng 2024, NBER Working Paper 32146, as already cited in src/simulation/federal-data-privacy-law.ts",
+      "meaning": "Europe's GDPR as a share of a firm's production costs; a check only, and its midpoint is not an estimate."
+    }
+  },
+  "unread": [
+    {
+      "what": "A central estimate expressed as a share of a firm's yearly costs or revenue",
+      "reason": "The SRIA gives dollars per firm by size and an economy-wide one-time share of gross state product; it states no per-firm share of costs. Converting needs a firm's own costs (e.g. its payroll or receipts), which is a mechanism choice for A28, not a number from this source."
+    },
+    {
+      "what": "Ongoing yearly compliance cost per firm",
+      "reason": "The SRIA's per-firm figures are initial costs only; it quantifies ongoing costs only for the regulation-specific items in Table 3, not for the law as a whole."
+    }
+  ]
+}

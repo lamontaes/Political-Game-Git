@@ -1,3 +1,4 @@
+import { nextCountyElection } from "../simulation/nationwide-world/county-election-calendar";
 import { electionSpeechWords } from "./election-speech-english";
 import {
   legacyLegislativeSeat,
@@ -956,6 +957,36 @@ function latestReading(
  * day where the state's municipal election law puts it there, and otherwise
  * on the short placeholder schedule until the town's calendar is read.
  */
+/** County identity and calendar do not establish qualification or district domicile. */
+export function countyCandidacyUnavailableReason(
+  officeKey: string,
+): string | null {
+  return localGoverningBodyIdentityForOfficeKey(officeKey)?.unit.unitType ===
+    "county"
+    ? "The requirements for this county office have not been established."
+    : null;
+}
+
+/** A missing county calendar remains unknown for read-only consumers. */
+export function availableCampaignElectionDate(
+  world: World,
+  jurisdictionId: EntityId,
+  officeKey: string,
+  districtBinding: DistrictSeatBinding | null = null,
+): IsoDate | null {
+  const local = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (local?.unit.unitType === "county") {
+    const read = nextCountyElection(local.unit, world.currentDate);
+    return read.status === "read" ? read.dates.electionDate : null;
+  }
+  return campaignElectionDate(
+    world,
+    jurisdictionId,
+    officeKey,
+    districtBinding,
+  );
+}
+
 export function campaignElectionDate(
   world: World,
   jurisdictionId: EntityId,
@@ -965,6 +996,12 @@ export function campaignElectionDate(
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
   const town = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (town?.unit.unitType === "county") {
+    const read = nextCountyElection(town.unit, world.currentDate);
+    if (read.status === "unknown")
+      throw new Error("The county election calendar has not been read.");
+    return read.dates.electionDate;
+  }
   if (town) {
     // The state's municipal election law where it fixes the day; otherwise
     // the marked placeholder in town-election-calendar.ts.
@@ -1024,16 +1061,20 @@ export function fileForOffice(
   if (!option) {
     throw new Error("There is no office here the game has read the rules for.");
   }
+  // Refuse new admission before generating opponents or writing a candidate.
+  // Existing recorded campaigns are not changed by this filing preflight.
+  const countyRefusal = countyCandidacyUnavailableReason(option.officeKey);
+  if (countyRefusal) throw new Error(countyRefusal);
   const stableKey = `candidacy:${personId}:${world.currentDate}`;
+  const electionDate =
+    authoredElectionDate ??
+    campaignElectionDate(world, jurisdictionId, officeKey, districtBinding);
   const opponents = ensureCampaignOpponents(world, {
     stableKey,
     jurisdictionId,
     count: 1,
     excludePersonIds: [personId],
   });
-  const electionDate =
-    authoredElectionDate ??
-    campaignElectionDate(world, jurisdictionId, officeKey, districtBinding);
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,
