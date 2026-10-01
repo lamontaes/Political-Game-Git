@@ -1,5 +1,6 @@
 import { appendFileSync } from "node:fs";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as subjectResponses from "./finding-subject-response";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
@@ -8,8 +9,9 @@ import { activeWorkRelationshipsAt } from "../life-queries";
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { recordClaim } from "../records";
 import { STATES } from "../state-reference";
-import type { DecisionContext, World } from "../types";
+import type { DecisionContext, EntityId, World } from "../types";
 import {
   assertWorldIntegrity,
   createWorld,
@@ -26,6 +28,8 @@ import {
   findingOfficeResponseBinding,
   recordFindingOfficeResponse,
   PRESS_MATTER_TAG,
+  recordFindingSubjectResponses,
+  openProceeding,
 } from "./index";
 
 const seed = "team8-finding-office-response-all56";
@@ -161,6 +165,7 @@ function fixture(usps: string, controlled = false) {
 function decision(
   f: ReturnType<typeof fixture>,
   choice: "resign" | "remain" | null,
+  claimId?: EntityId,
 ) {
   const binding = findingOfficeResponseBinding(f.world, f.subject)!;
   const context: DecisionContext = {
@@ -190,13 +195,15 @@ function decision(
             {
               stableKey: "fixture:explicit-choice",
               optionKey: choice,
-              sourceType: "context:explicit-fixture-choice",
+              sourceType: claimId
+                ? "information:claim"
+                : "context:explicit-fixture-choice",
               direction: "supports",
               importance: "strong",
               confidence: "high",
               explanation:
                 "The controlled fixture supplies this explicit choice; no NPC motive is inferred.",
-              sourceRefs: [],
+              sourceRefs: claimId ? [{ kind: "claim", claimId }] : [],
             },
           ],
     perceptionIds: [],
@@ -439,5 +446,233 @@ describe("actual player office-response caller after a finding", () => {
     ).toThrow(/Only the character/);
     expect(activeWorkRelationshipsAt(f.world, f.person.id)).toHaveLength(1);
     expect(f.world.history.decisionTraces).toHaveLength(0);
+  });
+});
+
+function claimedSubjectChoice(
+  usps: string,
+  choice: "resign" | "remain" = "resign",
+) {
+  const f = fixture(usps);
+  const world = recordClaim(f.world, {
+    stableKey: "fixture:subject-own-finding-words",
+    speakerPersonId: f.person.id,
+    eventId: f.event.id,
+    madeAt: f.world.currentDate,
+    audience: "public",
+    statement:
+      choice === "resign"
+        ? "  I am resigning this office.  "
+        : "I am keeping this office.",
+    relationshipToTruth: "unknown",
+    provenance: { kind: "direct-record" },
+  });
+  const claim = world.history.claims.at(-1)!;
+  const d = decision({ ...f, world }, choice, claim.id);
+  const binding = findingOfficeResponseBinding(d.world, f.subject)!;
+  return { ...f, ...d, claim, binding };
+}
+
+describe("saved finding boundary consumes only the subject's own supported response", () => {
+  it.each(places)(
+    "binds saved subject claims and selected trace without authoring NPC words in %s",
+    (usps) => {
+      const f = claimedSubjectChoice(usps);
+      const before = serializeWorld(f.world);
+      const after = recordFindingSubjectResponses(
+        f.world,
+        f.binding.proceeding,
+        f.binding.step,
+        f.event,
+      );
+      expect(serializeWorld(f.world)).toBe(before);
+      const response = pressRecordsOfKind(after, "matter-response")[0]!;
+      expect(response.actorPersonId).toBe(f.person.id);
+      expect(response.decisionTraceId).toBe(f.input.decisionTraceId);
+      expect(after.history.decisionTraces).toBe(f.world.history.decisionTraces);
+      expect(
+        after.history.events.find((e) => e.id === response.eventId)?.context
+          .immediateReaction,
+      ).toBe(f.claim.statement);
+      expect(activeWorkRelationshipsAt(after, f.person.id)).toHaveLength(0);
+      assertWorldIntegrity(after);
+      const loaded = deserializeWorld(serializeWorld(after));
+      expect(
+        recordFindingSubjectResponses(
+          loaded,
+          f.binding.proceeding,
+          f.binding.step,
+          f.event,
+        ),
+      ).toBe(loaded);
+    },
+  );
+  it("leaves an unformed or unsupported subject choice pending", () => {
+    const f = fixture(places[0]!);
+    const binding = findingOfficeResponseBinding(f.world, f.subject)!;
+    expect(
+      recordFindingSubjectResponses(
+        f.world,
+        binding.proceeding,
+        binding.step,
+        f.event,
+      ),
+    ).toBe(f.world);
+    const d = decision(f, "resign");
+    expect(
+      recordFindingSubjectResponses(
+        d.world,
+        binding.proceeding,
+        binding.step,
+        f.event,
+      ),
+    ).toBe(d.world);
+    expect(activeWorkRelationshipsAt(d.world, f.person.id)).toHaveLength(1);
+  });
+  it("keeps a supported selected remain response from ending the office", () => {
+    const f = claimedSubjectChoice(places[0]!, "remain");
+    const after = recordFindingSubjectResponses(
+      f.world,
+      f.binding.proceeding,
+      f.binding.step,
+      f.event,
+    );
+    expect(activeWorkRelationshipsAt(after, f.person.id)).toHaveLength(1);
+    expect(pressRecordsOfKind(after, "matter-response")[0]?.response).toBe(
+      "no-action",
+    );
+    expect(
+      recordFindingSubjectResponses(
+        after,
+        f.binding.proceeding,
+        f.binding.step,
+        f.event,
+      ),
+    ).toBe(after);
+    assertWorldIntegrity(after);
+  });
+  it("preserves the controlled player's separate answer route", () => {
+    const f = fixture(places[0]!, true);
+    const binding = findingOfficeResponseBinding(f.world, f.subject)!;
+    const d = decision(f, "resign");
+    expect(
+      recordFindingSubjectResponses(
+        d.world,
+        binding.proceeding,
+        binding.step,
+        f.event,
+      ),
+    ).toBe(d.world);
+  });
+});
+
+describe("post-saved-step caller admission", () => {
+  it("invokes the existing subject module after a canonical step is saved", () => {
+    const f = fixture(places[0]!);
+    const binding = findingOfficeResponseBinding(f.world, f.subject)!;
+    const calls = vi.spyOn(subjectResponses, "recordFindingSubjectResponses");
+    try {
+      const opened = openProceeding(f.world, {
+        stableKey: "fixture:actual-post-step-caller",
+        matterId: binding.proceeding.matterId,
+        procedureKey: "simulated-inquiry",
+        complainantPersonId: null,
+        respondentPersonIds: [f.person.id],
+        openingEventId: f.event.id,
+      });
+      expect(calls).toHaveBeenCalledTimes(1);
+      const [world, proceeding, step, event] = calls.mock.calls[0]!;
+      expect(proceeding.id).toBe(opened.proceeding.id);
+      expect(
+        pressRecordsOfKind(world, "proceeding-step").some(
+          (row) => row.id === step.id,
+        ),
+      ).toBe(true);
+      expect(world.history.events.some((row) => row.id === event.id)).toBe(
+        true,
+      );
+      expect(step.eventId).toBe(event.id);
+      expect(proceeding.respondentPersonIds).toEqual([f.person.id]);
+      expect(step.sequence).toBeLessThan(world.history.nextSequence);
+      expect(
+        pressRecordsOfKind(opened.world, "matter-response").some(
+          (row) => row.actorRole === "subject",
+        ),
+      ).toBe(false);
+      assertWorldIntegrity(opened.world);
+    } finally {
+      calls.mockRestore();
+    }
+  });
+  it("does not turn a peer-demand rationale into the subject's resignation", () => {
+    const f = claimedSubjectChoice(places[0]!);
+    const original = f.world.history.decisionTraces.at(-1)!;
+    const context: DecisionContext = {
+      ...original.context,
+      stableKey: "fixture:peer-demand-not-subject-motive",
+      cutoff: {
+        asOfDate: f.world.currentDate,
+        historySequenceExclusive: f.world.history.nextSequence,
+      },
+      considerations: original.context.considerations.map((reason) => ({
+        ...reason,
+        sourceType: "social:peer-demand",
+      })),
+    };
+    const world = recordDurableDecisionTrace(
+      f.world,
+      evaluateDecision(f.world, context),
+    );
+    expect(
+      recordFindingSubjectResponses(
+        world,
+        f.binding.proceeding,
+        f.binding.step,
+        f.event,
+      ),
+    ).toBe(world);
+    expect(activeWorkRelationshipsAt(world, f.person.id)).toHaveLength(1);
+  });
+});
+
+describe("exact subject statement guards", () => {
+  it("leaves distinct supported statements pending instead of picking words", () => {
+    const f = claimedSubjectChoice(places[0]!);
+    let world = recordClaim(f.world, {
+      stableKey: "fixture:second-own-statement",
+      speakerPersonId: f.person.id,
+      eventId: f.event.id,
+      madeAt: f.world.currentDate,
+      audience: "public",
+      statement: "I will keep the office.",
+      relationshipToTruth: "unknown",
+      provenance: { kind: "direct-record" },
+    });
+    const second = world.history.claims.at(-1)!;
+    const previous = world.history.decisionTraces.at(-1)!;
+    const context: DecisionContext = {
+      ...previous.context,
+      stableKey: "fixture:ambiguous-own-statement",
+      cutoff: {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      },
+      considerations: previous.context.considerations.map((reason) => ({
+        ...reason,
+        sourceRefs: [
+          ...reason.sourceRefs,
+          { kind: "claim", claimId: second.id },
+        ],
+      })),
+    };
+    world = recordDurableDecisionTrace(world, evaluateDecision(world, context));
+    expect(
+      recordFindingSubjectResponses(
+        world,
+        f.binding.proceeding,
+        f.binding.step,
+        f.event,
+      ),
+    ).toBe(world);
   });
 });

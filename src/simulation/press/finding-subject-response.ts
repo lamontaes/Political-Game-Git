@@ -1,11 +1,21 @@
 import { isSelectedDecision } from "../decisions";
+import { claimsForEvent } from "../queries";
 import {
   officesHeldBy,
   recordOfficeConsequence,
 } from "../governing/office-consequence";
-import type { DecisionOption, EntityId, World } from "../types";
+import type {
+  DecisionOption,
+  EntityId,
+  HistoricalEvent,
+  World,
+} from "../types";
 import { recordWorldEvent } from "../world";
-import { PRESS_CONTRACT_VERSION } from "./records";
+import {
+  PRESS_CONTRACT_VERSION,
+  type MatterProceedingRecord,
+  type ProceedingStepRecord,
+} from "./records";
 import { PRESS_MATTER_TAG } from "./shared";
 import { appendPressRecord, pressRecordsOfKind } from "./store";
 
@@ -81,6 +91,116 @@ export interface FindingOfficeResponseInput extends FindingOfficeResponseSubject
   readonly decisionTraceId: EntityId;
   /** The subject's actual words, preserved exactly. No generated reason. */
   readonly statement: string;
+}
+
+/** The saved finding boundary consumes a supported NPC choice, never authors one. */
+export function recordFindingSubjectResponses(
+  world: World,
+  proceeding: MatterProceedingRecord,
+  step: ProceedingStepRecord,
+  event: HistoricalEvent,
+): World {
+  if (
+    step.outcome !== "finding" ||
+    step.eventId !== event.id ||
+    step.proceedingId !== proceeding.id
+  )
+    return world;
+  let next = world;
+  for (const personId of proceeding.respondentPersonIds) {
+    if (
+      !next.people[personId] ||
+      (next.control.kind === "person" && next.control.personId === personId)
+    )
+      continue;
+    for (const office of officesHeldBy(next, personId)) {
+      const subject = {
+        proceedingId: proceeding.id,
+        stepId: step.id,
+        personId,
+        officeKey: office.officeKey,
+      };
+      const binding = findingOfficeResponseBinding(next, subject);
+      if (!binding) continue;
+      const trace = [...next.history.decisionTraces]
+        .reverse()
+        .find(
+          (row) =>
+            row.context.actorPersonId === personId &&
+            row.context.decisionType === binding.decisionType &&
+            row.context.subject.kind === binding.subject.kind &&
+            row.context.subject.key === binding.subject.key &&
+            row.context.subject.entityId === event.id &&
+            row.sequence > step.sequence &&
+            row.recordedAt <= next.currentDate,
+        );
+      if (
+        !trace ||
+        !isSelectedDecision(trace) ||
+        trace.context.randomness !== "none" ||
+        trace.context.perceptionIds.length
+      )
+        continue;
+      const claims = claimsForEvent(next, event.id).filter(
+        (claim) =>
+          claim.speakerPersonId === personId &&
+          claim.madeAt <= trace.recordedAt &&
+          claim.sequence < trace.context.cutoff.historySequenceExclusive &&
+          claim.statement.trim().length > 0,
+      );
+      // This first admitted source lane supports only the subject's own claims.
+      // Other source families need their existing producer contract, not guessed weights.
+      if (
+        !trace.context.considerations.length ||
+        trace.context.considerations.some(
+          (reason) =>
+            reason.sourceType.startsWith("social:") ||
+            !reason.sourceRefs.length ||
+            reason.sourceRefs.some(
+              (ref) =>
+                ref.kind !== "claim" ||
+                !claims.some((claim) => claim.id === ref.claimId),
+            ),
+        )
+      )
+        continue;
+      if (
+        trace.context.constraints.some(
+          (constraint) =>
+            !constraint.sourceRefs.length ||
+            constraint.sourceRefs.some(
+              (ref) =>
+                ref.kind !== "claim" ||
+                !claims.some((claim) => claim.id === ref.claimId),
+            ),
+        )
+      )
+        continue;
+      const supportingClaims = trace.context.considerations
+        .filter(
+          (reason) =>
+            reason.optionKey === trace.selectedOptionKey &&
+            reason.direction === "supports",
+        )
+        .flatMap((reason) =>
+          reason.sourceRefs.flatMap((ref) =>
+            ref.kind === "claim"
+              ? claims.filter((claim) => claim.id === ref.claimId)
+              : [],
+          ),
+        );
+      const statements = [
+        ...new Set(supportingClaims.map((claim) => claim.statement)),
+      ];
+      if (statements.length !== 1) continue;
+      next = recordFindingOfficeResponse(next, {
+        ...subject,
+        decisionTraceId: trace.id,
+        statement: statements[0]!,
+      });
+    }
+  }
+  return next;
 }
 
 /** Consume a saved subject decision; never decide from the finding alone. */
