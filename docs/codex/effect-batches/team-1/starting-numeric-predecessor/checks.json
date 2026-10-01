@@ -1,0 +1,46 @@
+{
+  "dependencyHead": "69a4ce6434c4d0402d2e7bb0821e0affa00bf866",
+  "sourceHashes": {
+    "src/simulation/governing/automatic-legislation.ts": "6c92c3571fb0596551ff18db216ea76cef814bd3722fd3eb2e09ee7bf9581e03",
+    "src/simulation/governing/automatic-legislation-starting-predecessor.test.ts": "57542901b8670bb3356c79a83e5f474462868dbfeb116dc4a1719b226ff9f28b"
+  },
+  "native": {
+    "passed": 50,
+    "total": 50,
+    "durationSeconds": 13.26,
+    "positivePlaces": ["VT", "WA", "MI", "NH", "KY"],
+    "controlledSourceRow": true,
+    "productionCatalogEdited": false
+  },
+  "types": {
+    "roots": 2,
+    "ownedDiagnostics": 0,
+    "importDiagnostics": 0
+  },
+  "zeroDice": {
+    "ownedNew": 0,
+    "dependencyCountyFlags": 2,
+    "staleRemoved": 5,
+    "exitCode": 1,
+    "baselineEdited": false
+  },
+  "currentMainComposition": {
+    "head": "493621af2e9ddb4fb7429c49747fceb61372a9f3",
+    "status": "BLOCKED: four shared conflicts; own merge attempt aborted with preexisting dirty bytes absent",
+    "files": [
+      "src/simulation/enacted-law-effects.ts",
+      "src/simulation/law-consequence-types.ts",
+      "src/simulation/law-effect-stamp.ts",
+      "src/simulation/law-effect-stamp.test.ts"
+    ]
+  },
+  "notEstablished": [
+    "existing passage harness",
+    "current-main proof",
+    "natural numeric filing",
+    "browser",
+    "full suite",
+    "exclusive speed",
+    "calibrated filing threshold"
+  ]
+}
