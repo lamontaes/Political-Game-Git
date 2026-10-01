@@ -43,3 +43,11 @@ Rowan Hardy's controlled D.C. office job records a $100 weekly contract and 40 w
 The other saved workers are Jared McClain in Mississippi, Kian Schmidt in Washington, Nadia Pierce in Missouri and Madeline Craig in New Jersey. Their names and IDs were checked by replaying the identical identity-constructor inputs, without another payroll run. Raw receipts, source hashes and the exact command are in `proof/manifest.json`.
 
 VITAL STATISTICS: Eight of eight focused cases passed. A37 remains partial: the local-business wage path and final composed acceptance are outstanding. No new nationwide effects count is claimed.
+
+## Received vertical and renewed proof
+
+The coordinator's published earned-pay vertical was received additively at `fee98d7b00cf272020ccd7a117196dbfac9f08bd`. The sole conflict was the payment fixture's catalog setup. Its original assertion bodies were preserved; the root's catalog-before-work correction was accepted. The owned weekly adapter remained intact.
+
+The same eight office/town tests passed in 15.74 seconds against the newer coverage guard. Three strict roots again loaded 753 files with zero diagnostics. The exact receipt is `proof/vertical-manifest.json`. The coordinator's other test results remain inherited evidence. This renewal does not establish annual dispatch admission or American Samoa and New York/Oregon special-scope coverage.
+
+The local-economy worker wage creation and delegation hunks are now released. Their exact saved-work binding and monthly interval contract are with Audit before edits. Revenue and owner-draw hunks remain protected. Release checking found the inherited `ci-changed-tests-only.md` prose error. The zero-dice guard found no new lines and five stale removed-line entries; its baseline was not edited.
