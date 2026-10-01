@@ -1,9 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
   ARTICLE_V_STATE_KEYS,
   constitutionalActions,
@@ -41,16 +37,9 @@ const place = searchLifePlaces("", 1, {
 let world: World;
 let cause: FederalReformCause;
 beforeAll(() => {
+  // The opening's national offices and Congress, not its households or town.
   world = ensureNationalElectionJurisdiction(
-    generateOpeningLife(
-      prepareOpeningLife({
-        ...DEFAULT_NEW_GAME_SETUP,
-        seed,
-        placeKey: place.key,
-        startAge: 40,
-        questionnaire: "skipped",
-      }),
-    ).game!.world,
+    smallWorld({ place: place.key, seed, offices: ["congress"] }).world,
   );
   cause = {
     direction: "extend",

@@ -1099,13 +1099,6 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "return roll < 15 ? \"severe-scarcity\" : roll < 35 ? \"strained\" : \"secure\";"
-    },
-    {
-      "file": "src/simulation/people-upbringing.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
       "code": "homeRoll < 63 ? \"stable\" : homeRoll < 86 ? \"some-moves\" : \"disrupted\";"
     },
     {
@@ -1267,7 +1260,7 @@
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
-      "code": "roll < 48 ? \"female\" : roll < 96 ? \"male\" : \"nonbinary\";"
+      "code": "at < female ? \"female\" : at < female + male ? \"male\" : \"nonbinary\";"
     },
     {
       "file": "src/simulation/press/ownership-pack-default.ts",
