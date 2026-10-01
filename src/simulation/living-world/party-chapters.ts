@@ -536,6 +536,11 @@ export function chapterOutreachTransitionHandler(
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey === null
+  )
+    return deferred("organizer-undecided", OUTREACH.notNowDays);
   if (evaluation.selectedOptionKey !== "invite")
     return deferred("organizer-chose-not-now", OUTREACH.notNowDays);
 

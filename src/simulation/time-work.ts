@@ -1990,11 +1990,20 @@ function setCurrentMoment(
   moment: SimulationMoment,
   crossedFrom: World["currentDate"] = world.currentDate,
 ): World {
-  const moved = applyNationalTermTransitions({
+  return applyDateBoundary(crossedFrom, {
     ...world,
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
   });
+}
+
+/** The canonical consequences of moving between dates. Callers pass the date
+ * before due-item resolution, which may itself move the world's date. */
+export function applyDateBoundary(
+  crossedFrom: World["currentDate"],
+  world: World,
+): World {
+  const moved = applyNationalTermTransitions(world);
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.

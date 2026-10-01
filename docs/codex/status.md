@@ -1,3 +1,7 @@
+## Team 5 replacement — current roster override
+
+Owner replaced the bugged Team 5 chat. Active Team 5: `01a0f509-a0a4-7627-937d-65bb2bb5301a`, host `durable`, Sol 6.1 Medium. Assignment/handoff delivered; report automation retargeted ACTIVE. Old `01a0f112-863d-70a1-8c5f-d764c17080ea` archived; preserve its published source and workspace. Use the replacement for all future routing. Active chats renamed Team 1–9, AUDIT/SYSTEMS, Merge, Coordinator.
+
 ## CTO4:09 dual shipping order applied
 
 All builders received: continue shared handlers AND ship two more owned laws reaching named people through existing writers by5pm. Data-only waiting is superseded; existing writers become handler first version. Merge received explicit1295/1296/1302 stampportion/1303 queue plus1294. No new merge inferred. Shared file overlaps still require exact hunk transfer; no duplicate engines or invented person records.
