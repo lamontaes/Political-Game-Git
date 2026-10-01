@@ -1,0 +1,29 @@
+{
+  "asOf": "2026-10-01",
+  "artifacts": [
+    {
+      "localPath": "data/source/acs-place-housing-structure/raw/ACS20245YR_Table_Shells.txt.gz",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/documentation/ACS20245YR_Table_Shells.txt",
+      "vintage": "2020-2024 ACS 5-year",
+      "sha256": "5b46f4af873744a415c4974204010db976e2a61ff916674732f81c496a6b517d",
+      "bytes": 5622840,
+      "compressedSha256": "ba6267fbf54179bfe8d9a81fa3ab4bb8328e24dd465eeac8208dac8cb3c53541"
+    },
+    {
+      "localPath": "data/source/acs-place-housing-structure/raw/acsdt5y2024-b25024.dat.gz",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25024.dat",
+      "vintage": "2020-2024 ACS 5-year",
+      "sha256": "26ff26c645d1abc55c3b47998931cea45af40600a6e8d36228d3ed7493add2ef",
+      "bytes": 47866463,
+      "compressedSha256": "392f618842c920f7ba830336d51afd36050afcd64beaf1fb3fb641f4aca847b1"
+    },
+    {
+      "localPath": "data/source/acs-place-housing-structure/raw/acsdt5y2024-b25034.dat.gz",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25034.dat",
+      "vintage": "2020-2024 ACS 5-year",
+      "sha256": "806d6cb18e8e6c0855e065eca99164b07334cc32f521899aa45a4415ef7d380e",
+      "bytes": 50103592,
+      "compressedSha256": "b3579caabb2572eb2361abbe21c2eb6779b784295ec99c331b18167dc945fab5"
+    }
+  ]
+}

@@ -43,8 +43,10 @@ import {
   decideGoverningMatter,
   governorOfficeForJurisdiction,
   governingMatters,
+  governorDesk,
 } from "../governing/state-governing";
 import { BILL_SIGN } from "../governing/governor-bill-decision";
+import { legislativeBlueprintForMeasure } from "../governing/legislative-clock";
 import { stateJurisdictionForKey } from "../life-places";
 import { recordWorldEvent } from "../world";
 import { playerRequiredWorkIds, releasePlayerRequiredWork } from "../time-work";
@@ -205,11 +207,14 @@ function enactCapOnLeaseWorld(start: World, placeKey: string) {
         ...next,
         control: { kind: "person", personId: office.holderPersonId },
       };
-      next = applyLegislativeStep(
-        context,
+      const measure = next.history.legislativeMeasures!.find(
+        (record) => record.id === measureId,
+      )!;
+      next = governorDesk(
         next,
-        "await-executive-decision",
-      ).world;
+        measure,
+        legislativeBlueprintForMeasure(next, measure),
+      );
       const matter = governingMatters(next, office.officeKey).find(
         (row) => row.measureId === measureId && row.status === "open",
       )!;
@@ -408,7 +413,29 @@ describe("the actual lease renewal activity hook", () => {
     )!;
     expect(lease).toBeDefined();
     const enacted = enactCapOnLeaseWorld(initial, placeKey);
-    initial = enacted.world;
+    initial = withWorldIntegrityDeferred(() => {
+      let isolated = enacted.world;
+      const latest = new Map(
+        isolated.history.futureDueItemStates.map((state) => [
+          state.dueItemId,
+          state,
+        ]),
+      );
+      // Filing/enactment can schedule new activities. This isolated renewal
+      // fixture cancels those too before its explicit anniversary date jump.
+      for (const item of isolated.history.futureDueItems) {
+        if (latest.get(item.id)?.status !== "scheduled") continue;
+        isolated = cancelFutureDueItem(isolated, {
+          stableKey: `fixture:post-enactment-renewal-only:${item.id}`,
+          dueItemId: item.id,
+          effectiveAt: isolated.currentDate,
+          reasonKey: "fixture:isolated-renewal",
+          context:
+            "Controlled anniversary hook; not natural calendar progression.",
+        });
+      }
+      return isolated;
+    });
     expect(measurePosition(initial, enacted.measureId).phase).toBe("enacted");
     const day = makeIsoDate(
       `${Number(initial.currentDate.slice(0, 4)) + 1}-${lease.flow.startsAt.slice(5, 7)}-01`,

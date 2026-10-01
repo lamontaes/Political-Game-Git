@@ -62,6 +62,7 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { TOWN_RESIDENTS_VERSION, townRoster } from "./town-residents";
+import { openingDwellingStructure } from "./place-housing-structure";
 import { townWorkplaceWeights } from "./town-employment";
 import { homePurchaseTerms } from "../home-purchase";
 import {
@@ -551,13 +552,28 @@ function enterHome(
   const pool = writer.vacant.get(kind) ?? [];
   let dwellingId = pool.shift();
   if (!dwellingId) {
+    // This records existing stock, including later newcomers' homes. It is
+    // not evidence that the structure was physically built today.
+    const place = lifePlaceByJurisdictionId(writer.town);
+    const structure = openingDwellingStructure(
+      place?.sourceGeoid ?? place?.key ?? "",
+      TOWN_HOME_KINDS[kind],
+      householdRng(writer.world, `${writer.prefix}${key}:dwelling-structure`),
+      writer.today,
+    );
     writer.world = createDwelling(writer.world, {
       stableKey: `${writer.prefix}${key}:dwelling`,
       establishedAt: writer.today,
       jurisdictionId: writer.town,
       locationLabel: `${KIND_LABEL[kind][0]!.toUpperCase()}${KIND_LABEL[kind].slice(1)} in ${lifePlaceByJurisdictionId(writer.town)?.displayName ?? "town"}`,
       classification: TOWN_HOME_KINDS[kind],
-      provenance,
+      builtYear: structure.builtYear,
+      unitsInBuilding: structure.unitsInBuilding,
+      provenance: {
+        kind: "source-record",
+        reference: structure.sourceReference,
+        asOf: writer.today,
+      },
     });
     dwellingId = writer.world.history.dwellings.at(-1)!.id;
   }

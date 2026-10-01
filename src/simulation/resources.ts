@@ -188,6 +188,8 @@ export interface CreateDwellingInput {
   readonly jurisdictionId: EntityId;
   readonly locationLabel: string;
   readonly classification: DwellingClassification;
+  readonly builtYear?: number | null;
+  readonly unitsInBuilding?: number | null;
   readonly provenance: LifeRecordProvenance;
 }
 
@@ -950,6 +952,20 @@ export function createDwelling(
     "Dwelling classification",
   );
   validateLifeProvenance(world, input.provenance, establishedAt);
+  if (
+    input.builtYear != null &&
+    (!Number.isSafeInteger(input.builtYear) ||
+      input.builtYear < 1 ||
+      input.builtYear > Number(world.currentDate.slice(0, 4)))
+  )
+    throw new Error("Dwelling built year must be a past or current whole year");
+  if (
+    input.unitsInBuilding != null &&
+    (!Number.isSafeInteger(input.unitsInBuilding) || input.unitsInBuilding < 1)
+  )
+    throw new Error(
+      "Dwelling units in building must be a positive whole count",
+    );
   const record: Dwelling = {
     id: createStableId("dwelling", `${world.id}:${input.stableKey}`),
     stableKey: input.stableKey,
@@ -958,6 +974,10 @@ export function createDwelling(
     jurisdictionId: input.jurisdictionId,
     locationLabel: input.locationLabel,
     classification: input.classification,
+    ...(input.builtYear !== undefined ? { builtYear: input.builtYear } : {}),
+    ...(input.unitsInBuilding !== undefined
+      ? { unitsInBuilding: input.unitsInBuilding }
+      : {}),
     provenance: { ...input.provenance },
   };
   return appendOne(world, "dwellings", record);

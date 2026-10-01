@@ -3345,6 +3345,10 @@ export interface Dwelling {
   readonly jurisdictionId: EntityId;
   readonly locationLabel: string;
   readonly classification: DwellingClassification;
+  /** Actual construction year or sourced opening estimate; absent in old saves. */
+  readonly builtYear?: number | null;
+  /** Actual structure count or sourced opening estimate; no bedroom proxy. */
+  readonly unitsInBuilding?: number | null;
   readonly provenance: LifeRecordProvenance;
 }
 
