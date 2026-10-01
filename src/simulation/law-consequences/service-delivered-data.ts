@@ -58,3 +58,43 @@ export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
     ],
   ]),
 );
+
+/**
+ * How a person asks for each service whose request producer exists, and what
+ * the saved activity is called. A service law with no form here has no
+ * request producer yet: a request for it is unsupported, never improvised.
+ * Wording only; who may ask and what counts as delivered are the same rule
+ * for every row.
+ */
+export interface ServiceRequestForm {
+  /** What the person asked for, after "Asked {operator} for". */
+  readonly asked: string;
+  /** Title of the saved activity, with {operator} for the provider's name. */
+  readonly activityTitle: string;
+  /** The membership's context, with {operator} and {place}. */
+  readonly membership: string;
+  readonly activityKind: "travel" | "confirmed";
+}
+
+const TRANSIT_TRIP: ServiceRequestForm = {
+  asked: "a trip",
+  activityTitle: "Ride with {operator}",
+  membership: "Registered as a rider with {operator}; home is in {place}.",
+  activityKind: "travel",
+};
+
+export const SERVICE_REQUEST_FORMS: Readonly<
+  Record<string, ServiceRequestForm>
+> = {
+  "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours":
+    TRANSIT_TRIP,
+  "us-policy-positions:transportation-infrastructure.fare-free-transit":
+    TRANSIT_TRIP,
+  "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response":
+    {
+      asked: "a crisis response",
+      activityTitle: "Crisis response visit from {operator}",
+      membership: "Case opened with {operator}; home is in {place}.",
+      activityKind: "confirmed",
+    },
+};
