@@ -761,3 +761,45 @@ it("A38 scheduled town payday preserves the city law's canonical pay terms", () 
     ),
   ).toBe(paid);
 });
+
+it("A8 saved job contract pays from the actual clock before a presentation refresh", () => {
+  const o = opened("3137000");
+  const f = worker(o.world, o.place.context.jurisdiction.id, false, true);
+  const before = {
+    ...ensurePaydaySchedule(f.world),
+    control: { kind: "person" as const, personId: f.personId },
+  };
+  const paid = advanceWorld(
+    before,
+    7,
+    createCampaignElectionTransitionRegistry(),
+  );
+  const outcomes = paid.history.resourceTransferOutcomes.filter(
+    (row) => row.resourceFlowId === f.flow.id,
+  );
+  console.info("A8_CLOCK_JOB_PAY", {
+    person: personName(paid.people[f.personId]!),
+    flowId: f.flow.id,
+    workId:
+      f.flow.basisReference.kind === "work"
+        ? f.flow.basisReference.workRelationshipId
+        : null,
+    startsAt: before.currentDate,
+    endsAt: paid.currentDate,
+    payments: outcomes.length,
+    savedDueKeys: before.history.futureDueItems.map((row) => row.transitionKey),
+  });
+  expect(outcomes).toHaveLength(1);
+  const outcome = outcomes[0]!;
+  expect(outcome.status).toBe("completed");
+  expect(outcome.periodStartsAt).toBe(before.currentDate);
+  expect(outcome.periodEndsAt).toBe(addDays(before.currentDate, 6));
+  expect(outcome.occurredAt).toBe(addDays(before.currentDate, 7));
+  const replayed = advanceWorld(
+    deserializeWorld(serializeWorld(before)),
+    7,
+    createCampaignElectionTransitionRegistry(),
+  );
+  expect(serializeWorld(replayed)).toBe(serializeWorld(paid));
+  expect(settleJobPay(paid, f.personId)).toBe(paid);
+});
