@@ -1903,6 +1903,7 @@ function advanceCanonicalMinutes(
           world.currentMoment,
           target,
           true,
+          completedActivityId,
         );
       remaining.sort(compareExactTransitions);
       transitions.splice(index + 1, transitions.length, ...remaining);

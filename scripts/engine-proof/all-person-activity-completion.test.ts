@@ -145,6 +145,74 @@ function assertCompletedOnce(
 }
 
 describe("canonical clock completes saved activities for all participants", () => {
+  it.each(["saved", "reloaded"] as const)(
+    "preserves explicit optional performance across a due producer: %s",
+    (route) => {
+      let world = fixture("explicit-due-producer");
+      const personId = world.personOrder[0]!;
+      const npcId = world.personOrder[1]!;
+      const end = addSimulationMinutes(world.currentMoment, 2 * 1440);
+      const saved = activity(
+        world,
+        "optional:explicit-across-producer",
+        [personId],
+        world.currentMoment,
+        end,
+        false,
+        "tentative",
+        personId,
+      );
+      world = scheduleFutureDueItem(saved.world, {
+        stableKey: "c5:explicit-activity-producer-due",
+        dueAt: makeIsoDate("2026-01-06"),
+        transitionKey: "c5:explicit-activity-producer",
+        entityIds: [npcId],
+        jurisdictionId: world.people[npcId]!.homeJurisdictionId,
+        provenance: { kind: "authored", note: "Saved fixture producer." },
+      });
+      if (route === "reloaded") world = deserializeWorld(serializeWorld(world));
+      const registry = createFutureTransitionHandlerRegistry([
+        [
+          "c5:explicit-activity-producer",
+          (input) => {
+            const start = addSimulationMinutes(input.currentMoment, 15);
+            const created = activity(
+              input,
+              "explicit-producer:npc-session",
+              [npcId],
+              start,
+              addSimulationMinutes(start, 30),
+            );
+            return {
+              world: created.world,
+              status: "resolved",
+              reasonKey: null,
+              context: "Saved another resident's activity before explicit end.",
+              outcomeEventId: null,
+            };
+          },
+        ],
+      ]);
+      let next = performScheduledActivity(world, saved.id, registry);
+      const created = next.history.scheduledActivities.find(
+        (row) => row.stableKey === "explicit-producer:npc-session",
+      )!;
+      expect(created).toBeDefined();
+      assertCompletedOnce(next, saved.id, end);
+      assertCompletedOnce(
+        next,
+        created.id,
+        scheduledActivityState(next, created.id).end,
+      );
+      next = advanceWorldMinutes(
+        deserializeWorld(serializeWorld(next)),
+        30,
+        registry,
+      );
+      assertCompletedOnce(next, saved.id, end);
+    },
+  );
+
   it("preserves explicit performance of an optional activity", () => {
     const world = fixture("explicit-optional");
     const personId =
