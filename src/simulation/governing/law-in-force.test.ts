@@ -596,7 +596,7 @@ it("hides a later saved hourly rule provision and its enactment", () => {
     sequence: entry.enactment.sequence - 1,
     measureId: entry.measure.id,
     stateUsps: "OH",
-    officeKey: "labor:OH",
+    officeKey: "us-oh-labor-law",
     field: "labor.minimumWage.hourlyCents" as const,
     value: 1800,
     filedAt: makeIsoDate("2026-01-01"),
@@ -607,7 +607,7 @@ it("hides a later saved hourly rule provision and its enactment", () => {
   } as unknown as World;
   const query = {
     stateUsps: "OH",
-    officeKey: "labor:OH",
+    officeKey: "us-oh-labor-law",
     field: provision.field,
     onDate: world.currentDate,
   };
