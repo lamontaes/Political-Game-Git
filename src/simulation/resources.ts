@@ -733,7 +733,7 @@ function buildResourceTransferOutcome(
       ...record,
       lawEffectStamps: payStamps.map((stamp) => ({
         ...stamp,
-        effectKind: assessment ? "pay" : "work-compensation-payment",
+        effectKind: "pay",
         appliedAt: occurredAt,
         sourceRecordIds: [
           ...new Set([
