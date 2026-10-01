@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it, vi } from "vitest";
+import { writeFileSync } from "node:fs";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate, addDays } from "../dates";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -10,8 +11,30 @@ import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { stateJurisdictionForKey } from "../life-places";
-import { legislativeProcedureForJurisdiction } from "../legislative-procedure-world";
+import {
+  legislativeProcedureForJurisdiction,
+  legislativeRulePackForWorld,
+} from "../legislative-procedure-world";
+import {
+  introduceMeasure,
+  availableMeasureSteps,
+  measurePosition,
+  recordEnactment,
+} from "../legislation";
+import { recordDraftLineage } from "../legislation-draft-lineage";
+import {
+  seatBodyForPack,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+  type LegislativeProcedureContext,
+} from "../legislation-scenarios";
+import { seatsForChamber } from "../legislature-game-profile";
+import { applyLegislativeStep } from "../../presentation/legislation-session";
+import { assertWorldIntegrity } from "../world";
+import * as lifePlaces from "../life-places";
+import * as simulation from "../index";
 import { createLawConsequenceRegistry } from "../law-consequence-registry";
+import { personName } from "../people";
 import { validateLawConsequences } from "../law-consequence-validation";
 import type {
   EntityId,
@@ -47,6 +70,11 @@ const cashBailQuestion =
 const places = Object.keys(
   startingLaw.questions[cashBailQuestion].answers,
 ).sort();
+const namedProofs: unknown[] = [];
+afterAll(() => {
+  const target = process.env.G10_PROOF_REPORT_PATH;
+  if (target) writeFileSync(target, JSON.stringify(namedProofs, null, 2));
+});
 
 describe("recorded floors reach saved sentences", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
@@ -64,67 +92,161 @@ describe("recorded floors reach saved sentences", () => {
           scope: "state",
         })[0]!;
       const seed = `team9-g10-floor:${state.jurisdictionKey}`;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
+      // Only the fixture's opening input date changes. All people, activities,
+      // judicial offices and due records are produced at that date by the real
+      // opening writer; no existing save or due item is moved across a year.
+      const sittingDate = makeIsoDate("2027-01-05");
+      const lookup = lifePlaces.lifePlaceByKey;
+      const requirePlace = simulation.requireLifePlace;
+      const constructorPlace = vi
+        .spyOn(simulation, "requireLifePlace")
+        .mockImplementation((key) => {
+          const found = requirePlace(key);
+          return found.key === place.key
+            ? {
+                ...found,
+                context: {
+                  ...found.context,
+                  initialMoment: {
+                    ...found.context.initialMoment,
+                    date: sittingDate,
+                  },
+                },
+              }
+            : found;
+        });
+      const placeInput = vi
+        .spyOn(simulation, "lifePlaceByKey")
+        .mockImplementation((key) => {
+          const found = lookup(key);
+          return found?.key === place.key
+            ? {
+                ...found,
+                context: {
+                  ...found.context,
+                  initialMoment: {
+                    ...found.context.initialMoment,
+                    date: sittingDate,
+                  },
+                },
+              }
+            : found;
+        });
+      let game;
+      try {
+        game = generateOpeningLife(
+          prepareOpeningLife({
+            ...DEFAULT_NEW_GAME_SETUP,
+            seed,
+            placeKey: place.key,
+            startAge: 40,
+            questionnaire: "skipped",
+          }),
+        ).game!;
+      } finally {
+        placeInput.mockRestore();
+        constructorPlace.mockRestore();
+      }
       const personId = game.playerPersonId;
-      const jurisdictionId = game.world.people[personId]!.homeJurisdictionId;
+      expect(game.world.currentDate).toBe(sittingDate);
       const actualPropositionId = Object.values(
         game.world.policyCatalog.propositions,
       ).find((entry) => entry.stableKey === MINIMUM_CUSTODY_QUESTION)!.id;
-      const terms = fixture(state.jurisdictionKey);
-      const measured = {
-        ...terms.measure,
-        sequence: game.world.history.nextSequence,
-        rulePackId: legislativeProcedureForJurisdiction(
-          game.world,
-          terms.measure.jurisdictionId,
-        )!.baselinePack.packId,
-        jurisdictionId: terms.measure.jurisdictionId,
+      let world = game.world;
+      const venue = stateJurisdictionForKey(state.jurisdictionKey)!.id;
+      const profile = legislativeProcedureForJurisdiction(world, venue)!;
+      const pack = legislativeRulePackForWorld(
+        world,
+        profile.baselinePack.packId,
+      );
+      world = introduceMeasure(world, {
+        stableKey: "g10:canonical-floor",
+        jurisdictionId: venue,
+        rulePackId: pack.packId,
+        designation: "G10 Fictional Test Bill",
+        shortTitle: "Fictional custody floor fixture",
+        summary: "Authored test terms, not current law.",
+        origin: "member-introduction",
+        subjectClass: "general-policy",
+        sponsorPersonId: personId,
         propositionIds: [actualPropositionId],
         propositionAnswers: [
-          { propositionId: actualPropositionId, answer: "yes" as const },
+          { propositionId: actualPropositionId, answer: "yes" },
         ],
-      };
-      const world: World = {
-        ...game.world,
-        history: {
-          ...game.world.history,
-          nextSequence: game.world.history.nextSequence + 3,
-          legislativeMeasures: [
-            ...(game.world.history.legislativeMeasures ?? []),
-            measured,
-          ],
-          legislativeEnactments: [
-            ...(game.world.history.legislativeEnactments ?? []),
-            {
-              ...terms.enactment,
-              sequence: game.world.history.nextSequence + 1,
-              outcomeEventId: game.world.history.events[0]!.id,
-              effectiveAt: addDays(game.world.currentDate, -1),
-            },
-          ],
-          legislativeDraftLineages: [
-            ...(game.world.history.legislativeDraftLineages ?? []),
-            ...(terms.world.history.legislativeDraftLineages ?? []).map(
-              (entry) => ({
-                ...entry,
-                sequence: game.world.history.nextSequence + 2,
-              }),
-            ),
-          ],
+      });
+      const measured = world.history.legislativeMeasures!.at(-1)!;
+      world = recordDraftLineage(world, {
+        stableKey: "g10:canonical-floor:terms",
+        measureId: measured.id,
+        familyKey: "test:justice",
+        familyVersion: "test",
+        variantKey: "test:floor",
+        compiledAt: sittingDate,
+        parameterValues: {
+          floor: { kind: "integer", value: 120 },
+          coverage: { kind: "enumerated", value: "crime:robbery" },
         },
+        provenanceNote:
+          "Fictional fixture terms, not an empirical legal estimate.",
+      });
+      const bodies = pack.chambers.map((chamber) =>
+        seatBodyForPack(
+          chamber.chamberKey,
+          chamber.name,
+          seatsForChamber(pack, chamber.chamberKey)!.seats,
+          [],
+          pack.structure === "unicameral",
+        ),
+      );
+      const votePlan: Record<string, { yea: number }> = {};
+      for (const chamber of pack.chambers) {
+        const body = bodies.find(
+          (entry) => entry.chamberKey === chamber.chamberKey,
+        )!;
+        for (const committee of chamber.committees)
+          votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+            yea: Math.min(body.members.length, committee.appointedMembers),
+          };
+        for (const stage of chamber.floorStages)
+          votePlan[votePlanKeyForFloor(chamber.chamberKey, stage.stageKey)] = {
+            yea: body.members.length,
+          };
+      }
+      const procedure: LegislativeProcedureContext = {
+        pack,
+        measureId: measured.id,
+        bodies,
+        committeeMemberCount: null,
+        votePlan,
+        governorAction: "signed",
+        governorRationale: "Fictional unanimous fixture decisions.",
       };
+      for (
+        let guard = 0;
+        guard < 40 &&
+        measurePosition(world, measured.id).phase !== "awaiting-enactment";
+        guard++
+      ) {
+        const step = availableMeasureSteps(world, measured.id).find(
+          (key) => key !== "offer-amendment",
+        );
+        if (!step)
+          throw new Error(
+            `No canonical next step: ${measurePosition(world, measured.id).phase}`,
+          );
+        world = applyLegislativeStep(procedure, world, step).world;
+      }
+      world = recordEnactment(world, {
+        stableKey: "g10:canonical-floor:enacted",
+        measureId: measured.id,
+        effectiveAt: world.currentDate,
+      });
+      expect(measurePosition(world, measured.id).phase).toBe("enacted");
+      assertWorldIntegrity(world);
       const referred = referForProsecution(world, {
         stableKey: "g10-floor-fixture",
         subjectPersonId: personId,
-        jurisdictionId,
+        jurisdictionId: venue,
         offenseKey: "crime:robbery",
         referredBy: { kind: "police", label: "police", personId: null },
         basisEventIds: [],
@@ -193,7 +315,20 @@ describe("recorded floors reach saved sentences", () => {
         "lawEffectStamps.0.governingLawKey",
         measured.id,
       );
+      namedProofs.push({
+        seed,
+        place: state.jurisdictionKey,
+        personId,
+        name: personName(reloaded.people[personId]!),
+        sentenceId: saved.id,
+        months: 120,
+        measureId: measured.id,
+        summary: saved.summary,
+        stamps: (saved as typeof saved & { lawEffectStamps?: unknown[] })
+          .lawEffectStamps,
+      });
     },
+    120_000,
   );
 });
 
