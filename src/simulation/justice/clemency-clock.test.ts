@@ -35,8 +35,8 @@ import {
   advanceProsecutions,
   enterPlea,
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -116,7 +116,8 @@ describe("a saved clemency petition runs on its own existing boundaries", () => 
                   ...event,
                   occurredAt: addDays(
                     plea.world.currentDate,
-                    -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                    -prosecutionTimingFor(state.jurisdictionKey)
+                      .resolveAfterDays,
                   ),
                 }
               : event,

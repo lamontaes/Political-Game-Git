@@ -45,6 +45,7 @@ import {
   PROSECUTION_SENTENCED_EVENT,
   UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -123,7 +124,7 @@ function caseFixture(
               ...event,
               occurredAt: addDays(
                 plea.world.currentDate,
-                -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                -prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
               ),
             }
           : event,
@@ -158,7 +159,7 @@ function caseFixture(
               occurredAt: addDays(
                 sentenceDate,
                 -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                  UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                  prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
               ),
             }
           : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -167,7 +168,7 @@ function caseFixture(
                 ...event,
                 occurredAt: addDays(
                   sentenceDate,
-                  -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                  -prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
                 ),
               }
             : event.id === sentenceId

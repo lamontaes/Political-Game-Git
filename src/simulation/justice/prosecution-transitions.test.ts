@@ -25,6 +25,7 @@ import {
   PROSECUTION_CHARGED_EVENT,
   UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 import {
   prosecutionStageHandler,
   PROSECUTION_STAGE_TRANSITION_KEY,
@@ -162,7 +163,10 @@ describe("a saved prosecution stage owns its due item", () => {
           next.stableKey === `justice:prosecution-stage:${events[0]!.id}`,
       )!;
       expect(trialItem.dueAt).toBe(
-        addDays(item.dueAt, UNRESEARCHED_PROSECUTION.resolveAfterDays),
+        addDays(
+          item.dueAt,
+          prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
+        ),
       );
       const saved = deserializeWorld(serializeWorld(charged));
       assertWorldIntegrity(saved);

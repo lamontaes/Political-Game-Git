@@ -8,6 +8,7 @@ import {
   referForProsecution,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
+import { prosecutionTimingFor } from "../simulation/justice/prosecution-timing";
 import type { EntityId, World } from "../simulation/types";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { observerPlace } from "./observer-world";
@@ -79,7 +80,7 @@ describe("a jail term keeps a person from work", () => {
     expect(pleaded.ok).toBe(true);
     const sentenced = passOrdinaryDays(
       pleaded.world,
-      UNRESEARCHED_PROSECUTION.resolveAfterDays + 14,
+      prosecutionTimingFor(place.stateJurisdictionKey).resolveAfterDays + 14,
     );
     const term = jailTermOn(sentenced, workerId!);
     expect(term, "the judge chose jail in this life").not.toBeNull();

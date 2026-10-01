@@ -42,8 +42,8 @@ import {
   PRETRIAL_RELEASED_EVENT,
   PRETRIAL_HELD_EVENT,
   PROSECUTION_ENDED_EVENT,
-  UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 import {
   payFullCashBail,
   refundCashBailAtCaseClose,
@@ -138,7 +138,7 @@ describe("full cash bail reaches a saved court government and returns at case cl
             });
         const due = addDays(
           charged.occurredAt,
-          UNRESEARCHED_PROSECUTION.resolveAfterDays,
+          prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
         );
         const key = "fixture:g11-case-boundary";
         isolated = scheduleFutureDueItem(isolated, {

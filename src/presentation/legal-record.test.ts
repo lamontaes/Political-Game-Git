@@ -6,6 +6,7 @@ import {
   referForProsecution,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
+import { prosecutionTimingFor } from "../simulation/justice/prosecution-timing";
 import { projectLegalRecord } from "./legal-record";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { observerPlace } from "./observer-world";
@@ -80,7 +81,7 @@ describe("the player's legal record", () => {
 
     const sentenced = passOrdinaryDays(
       entered.world,
-      UNRESEARCHED_PROSECUTION.resolveAfterDays + 14,
+      prosecutionTimingFor(place.stateJurisdictionKey).resolveAfterDays + 14,
     );
     const record = projectLegalRecord(sentenced, playerId);
     expect(record.cases[0]!.status).toMatch(/^Ended in a guilty plea on /);

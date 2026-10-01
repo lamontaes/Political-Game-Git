@@ -37,8 +37,8 @@ import {
   PROSECUTION_SENTENCED_EVENT,
   PROSECUTION_MISTRIAL_EVENT,
   PROSECUTION_BENCH_ACTIVATION_EVENT,
-  UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 const receipts: unknown[] = [];
 afterAll(() => {
@@ -119,7 +119,7 @@ function preparedCase(
               ...event,
               occurredAt: addDays(
                 charged.currentDate,
-                -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                -prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
               ),
             }
           : event,

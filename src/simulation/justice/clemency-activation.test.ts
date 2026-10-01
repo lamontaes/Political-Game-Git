@@ -69,6 +69,7 @@ import {
   enterPlea,
   referForProsecution,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 // Five actual places sampled from all 56; supported executive authority is a
 // fixture prerequisite, never a production place branch.
@@ -168,7 +169,8 @@ for (const state of states)
                   ...event,
                   occurredAt: addDays(
                     plea.world.currentDate,
-                    -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                    -prosecutionTimingFor(state.jurisdictionKey)
+                      .resolveAfterDays,
                   ),
                 }
               : event,
@@ -203,7 +205,8 @@ for (const state of states)
                   occurredAt: addDays(
                     sentenceDate,
                     -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                      UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      prosecutionTimingFor(state.jurisdictionKey)
+                        .resolveAfterDays,
                   ),
                 }
               : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -212,7 +215,8 @@ for (const state of states)
                     ...event,
                     occurredAt: addDays(
                       sentenceDate,
-                      -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      -prosecutionTimingFor(state.jurisdictionKey)
+                        .resolveAfterDays,
                     ),
                   }
                 : event.id === sentenceId

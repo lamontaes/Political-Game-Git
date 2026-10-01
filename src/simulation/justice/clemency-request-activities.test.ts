@@ -25,6 +25,7 @@ import {
   enterPlea,
   UNRESEARCHED_PROSECUTION,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 import { PROSECUTION_STAGE_TRANSITION_KEY } from "./prosecution-transitions";
 
 import { considerClemencyAfterSentence } from "./clemency";
@@ -163,7 +164,10 @@ describe("a saved NPC sentence wakes its existing clemency decision", () => {
           next.stableKey === `justice:prosecution-stage:${events[0]!.id}`,
       )!;
       expect(trialItem.dueAt).toBe(
-        addDays(item.dueAt, UNRESEARCHED_PROSECUTION.resolveAfterDays),
+        addDays(
+          item.dueAt,
+          prosecutionTimingFor(state.jurisdictionKey).resolveAfterDays,
+        ),
       );
       const saved = deserializeWorld(serializeWorld(charged));
       assertWorldIntegrity(saved);
