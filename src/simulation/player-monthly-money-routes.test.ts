@@ -17,7 +17,12 @@ import {
   settleLivingCosts,
 } from "./cost-of-living";
 import { buyHome, MORTGAGE_BASIS, settleMortgages } from "./home-purchase";
-import { createResourcePosition, money } from "./resources";
+import {
+  createResourcePosition,
+  createResourceFlow,
+  recordResourceTransferOutcome,
+  money,
+} from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
 import {
   ensurePlayerMonthlyMoneySchedule,
@@ -47,13 +52,63 @@ beforeAll(() => {
     }),
   ).game!;
   playerId = game.playerPersonId;
-  let world = createResourcePosition(game.world, {
-    stableKey: "c9:funded-buyer",
-    owner: { kind: "person", personId: playerId },
-    openedAt: game.world.currentDate,
-    openingBalance: money(100_000_000, "USD"),
-    provenance: { kind: "authored", note: "Funded mortgage route test." },
+  const provenance = {
+    kind: "authored" as const,
+    note: "Recorded funded mortgage route fixture.",
+  };
+  let world = createOrganization(game.world, {
+    stableKey: "c9:funding-source",
+    formedAt: game.world.currentDate,
+    provenance,
+    initialProfile: {
+      name: "Fixture funding source",
+      classification: "custom:fixture",
+      locationJurisdictionId: null,
+    },
   });
+  const organizationId = world.history.organizations.at(-1)!.id;
+  const funding = money(100_000_000, "USD");
+  world = createResourcePosition(world, {
+    stableKey: "c9:source-cash",
+    owner: { kind: "organization", organizationId },
+    openedAt: world.currentDate,
+    openingBalance: funding,
+    provenance,
+  });
+  world = createResourceFlow(world, {
+    stableKey: "c9:buyer-funding",
+    source: { kind: "organization", organizationId },
+    recipient: { kind: "person", personId: playerId },
+    startsAt: world.currentDate,
+    amount: funding,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:fixture-funding",
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId: null,
+    provenance,
+  });
+  world = recordResourceTransferOutcome(world, {
+    stableKey: "c9:buyer-funded",
+    resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+    periodStartsAt: world.currentDate,
+    periodEndsAt: world.currentDate,
+    occurredAt: world.currentDate,
+    status: "completed",
+    attemptedAmount: funding,
+    transferredAmount: funding,
+    reasonKind: null,
+    note: "Actual recorded transfer to the existing player USD position.",
+    provenance,
+  });
+  expect(
+    world.history.resourcePositions.filter(
+      (position) =>
+        position.owner.kind === "person" &&
+        position.owner.personId === playerId &&
+        position.openingBalance.currency === funding.currency,
+    ),
+  ).toHaveLength(1);
   const purchase = buyHome(world, playerId);
   expect(purchase.status).toBe("bought");
   world = createOrganization(purchase.world, {

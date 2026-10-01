@@ -15,7 +15,7 @@ import {
 import type { World } from "./types";
 
 function fixture() {
-  const bare = createDemoWorld("c9-control-return", { peopleCount: 1 });
+  const bare = createDemoWorld("c9-control-return", { peopleCount: 3 });
   const personId = bare.personOrder[0]!;
   const controlled: World = { ...bare, control: { kind: "person", personId } };
   return {
