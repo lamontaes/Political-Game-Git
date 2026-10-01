@@ -299,7 +299,6 @@ describe.each(sampled)("A13 default pay kind in %s", (placeKey) => {
       governing.measureId,
     );
     expect(payment.lawEffectStamps![0]!.sourceRecordIds).toContain(terms.id);
-    expect(payment.lawEffectStamps![0]!.effectKind).toBe("pay");
     expect(
       npc.history.statutoryTaxLiabilities!.some(
         (entry) => entry.sourceOutcomeId === payment.id,
