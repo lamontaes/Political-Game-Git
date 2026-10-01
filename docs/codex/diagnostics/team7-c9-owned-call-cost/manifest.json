@@ -1,0 +1,30 @@
+{
+  "sourceHead": "0512d39e136367c3d3e4d599f0f92b14a7bd8118",
+  "currentMain": "e0e974e214b5f87790adcd7bbd7cdb13cb2e0385",
+  "files": [
+    {
+      "path": "src/simulation/player-monthly-money.ts",
+      "originalSHA256": "dc2e25f86fcf1412b4da997cd5de310d7a00c9ba50eaaf9c083a2aa934a404ad",
+      "instrumentedSHA256": "82205c34db9176e36329ffcd05a0670735fdd07fa03233861c7f439d7d46fdf6",
+      "parseDiagnostics": 0
+    },
+    {
+      "path": "src/simulation/life-opportunities.ts",
+      "originalSHA256": "0e7786a5f9cd3d9d937e66d6c0113f9cd68b7943f006d847c5cf35472f0511a1",
+      "instrumentedSHA256": "93277e4197102b50267e4d1a40e956e0c314e50b4743a8eaedb33cf1afdb6357",
+      "parseDiagnostics": 0
+    },
+    {
+      "path": "src/simulation/player-monthly-money-routes.test.ts",
+      "originalSHA256": "a69e9493724d594388c153e75e0c8bdca1bce058faf9e151df8deac1c2206026",
+      "instrumentedSHA256": "180f6f8a692e1673a5b4645759c691ec244aa47d0f85c46fa0a0eabed70b145a",
+      "parseDiagnostics": 0
+    }
+  ],
+  "assertionsBefore": 19,
+  "assertionsAfter": 19,
+  "budgetMs": 60000,
+  "runtime": "NOT RUN - Audit sole operator",
+  "scope": "Private diagnostic only; three owned calls; inclusive/exclusive nested timer; no World fields, serializer/history/evaluator edits",
+  "patchSHA256": "797dea12719ebdee9fc4b1e6c3f54dab357f8c75317cc5c4bb1b56eb01f52285"
+}
