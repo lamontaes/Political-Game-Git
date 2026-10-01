@@ -1,3 +1,9 @@
+## October 1, 5:17 a.m. received integration evidence
+
+The common standing-service authority is now on main through #1503. The recipient clinical consumer remains Team 5 work. Team 3 published actual payroll evidence at 37e7c327 for tested source 829d7ca9: 24 cases passed, including actual Ohio office salary callers and five ordinary-worker places. This is team-executed proof, not an independent coordinator rerun. City payroll remains pending.
+
+The privacy expense transfer is closed, enabling Team 6 to replace recurring drawn expense with the approved one-time occurrence path. No qualifying national firm or legal threshold is established, so no actual privacy charge is claimed. The exact-100-employee source overlap remains unresolved in both research and reader; no midpoint or arbitrary band is admitted.
+
 ## October 1, 5:01 a.m. integration evidence
 
 No new effect is accepted as complete from a dashboard. Standing appropriations now have a ready shared-dispatch contract in #1503; its 9 passing tests cover authority, payment controls and stamp shape, not a completed recipient service. The actual service consumer and common attendance path remain distinct open work.

@@ -1,3 +1,26 @@
+## October 1, 5:17 a.m. integration update
+
+### MERGED
+
+Standing-service authority #1503 is merged at main 22caef4de. It provides the common authority and Team 6 adapter. Team 5 owns the actual clinical consumer; delivery is not yet proved.
+
+### CONNECTIONS TABLE
+
+| Producer | Consumer | Current evidence |
+| --- | --- | --- |
+| Standing-service authority | Team 5 clinical service | Main 22caef4de contains #1503. Consumer work proceeds on its own branch. |
+| Elected-office predicate | Team 3 payroll | Published receipt 37e7c327 reports 24/24 cases at tested source 829d7ca9. Root verified the source-to-publication diff contains only evidence and a release declaration. Actual city checks remain pending. |
+| Team 1 privacy caller release | Team 6 one-time expense | Exact blobs verified; ownership transfer closed below. National legal applicability and firm facts remain missing. |
+| Team 9 required consent | Existing executive advisory deadline | #1506 ready at 2ca5596f. Kansas boundary pass reported by Team 9, not independently rerun. #1496 remains open. |
+
+### BLOCKED
+
+#1486 merged at 59afc703, not the later 37e7c327 payroll composition. Team 3 was directed to publish the unique successor in a follow-up PR. Missing national privacy thresholds must not be replaced by California coverage or modeled annual revenue. A61 still needs source assets/certificates and an approved selection rule.
+
+### EFFECTS
+
+Controlled payroll checks include actual saved transfers, withholding, replay and reload. They do not prove ordinary clock, all jurisdictions, or natural funding. Clinical recipient delivery, nationwide acceptance and the complete rebuild remain open.
+
 ## October 1, 5:01 a.m. integration checkpoint
 
 The rebuild remains incomplete. The standing-service contract is ready for review. The approved elected-office wage exception passed a bounded staff counterexample; actual Ohio payroll and city paycheck checks are now with Team 3.
