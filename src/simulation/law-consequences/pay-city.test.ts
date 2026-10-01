@@ -5,6 +5,7 @@ import { addDays, daysBetween, simulationMomentOnLocalDate } from "../dates";
 import { createScenarioWorld } from "../demo";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { advanceWorld } from "../world";
+import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {
   availableMeasureSteps,
   introduceMeasure,
