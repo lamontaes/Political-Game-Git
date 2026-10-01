@@ -1,3 +1,16 @@
+# Current ownership corrections
+
+The latest transfers below supersede the historical checkpoints retained afterward.
+
+## Closed transfers and receiving owners
+
+- Team 2 owns only A108 municipalRulePackFor council-action projection and the released council action/date hunks: CONGRESSIONAL_REVIEW, OVERRIDE_WINDOW_DAYS, CVILLE_2_98_AMENDED_ON, councilActEffectiveDate, override-date and admitCouncilAction named branches/imports. Team 1 released these cleanly. Floors, quorum, titles, fiscal writers, general legal clocks and executive decisions remain protected. The optional councilActions field still requires CTO approval.
+- Team 8 owns press/law-effect-news.ts and confirmed it clean. Its actual saved story/follower binding is pending Audit. Coordinator owns law-exposure.ts; law-effects-noticed.ts remains unreleased.
+- Coordinator received Team 3's exact A37 producer and fixture deltas in #1575 at 5109e05933e53ca643c95cc27654c4c14af4585d. Team 3 continues A38 town-floor retirement; Coordinator retains resource guards and the sole registry. New payment admission remains strict.
+- Team 6 requested five exact tax-agency captures. Coordinator's source-only broker branch 2270f838ea57c32bb6b4ade3fabab81b7da585f0 contains Vermont bytes, inert text and the failed-source manifest. Team 6 owns legal review and receipt into its packet; no parallel authority admission or PR is implied.
+
+## Historical checkpoints
+
 # Current permission, compliance and financial transfers
 
 The permission handler has one receiving owner, and the compliance reader has one builder. Approved saved-record contracts now separate historical admission from new writes.

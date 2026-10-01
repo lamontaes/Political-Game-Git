@@ -1,3 +1,34 @@
+# Payroll continuation connected; source gaps reduced
+
+The shared payroll branch now includes the historical first-day continuation repair. Its combined checks remain pending. Vermont source bytes were recovered for Team 6; the other four requested pages remain unavailable.
+
+## MERGED
+
+Live GitHub confirms #1639 merged at its published 48a9cf435d2bc3dcdcdec5ac70887874d97b44a6 head. #1619 merged as 6621651e8b0a9aa623bba23cb0b26435ad84e6c2 and #1510 as 5c6c291542c8975155a1558d409fcbcb9146d1b4. These source merges do not establish player acceptance.
+
+## CONNECTIONS TABLE
+
+| Producer | Consumer | Evidence and remaining work |
+| --- | --- | --- |
+| Team 3 historical monthly query and producers | Coordinator common payroll | #1575 head 5109e05933e53ca643c95cc27654c4c14af4585d published; donor complete file 17/17 reported passing; receiving-head checks NOT RUN |
+| Merged G1 helper and A3/A4 | Team 7 A5 | #1353 head 7c04ea624dabb21b21f464a2d2f3799a88dc9b4e received both; three complete runtime files await CTO cloud routing |
+| Coordinator Vermont source capture | Team 6 wage authority packet | Broker 2270f838ea57c32bb6b4ade3fabab81b7da585f0 delivered; legal relevance and date admission remain Team 6's |
+| Team 2 sourced council data | Existing municipal rule pack | ac5567e005417cb9548541d8da09a5d7af3da9de extracted; optional field approval pending, no runtime import |
+
+## BLOCKED
+
+A33 starting statutory levy to canonical consequence-row identity remains a CTO decision. A97's existing test stops before compliance assertions on an undefined semantic transition key; Audit received the exact composer trace. Team 8's actual story/follower contract awaits Audit. Team 9 received bounded sourced-age extraction while its two sentencing decisions are pending. No broad waiting instruction was issued.
+
+## EFFECTS
+
+The payroll repair preserves the original saved first-day payment and resumes the next calendar month without losing its first day. This is published source, not verified receiving-head runtime. No new completed-law total is claimed. Team 4's published b6502af37a86e875f38b6563966c7e6688559727 establishes actual work despite the earlier direct-message failure; its dated-reader dependency remains #1575.
+
+## Verification
+
+Updated after reading the October 1, 3:51 p.m. Eastern clock and live PR states. Shared files and index are preserved through isolated-index publication.
+
+## Historical checkpoints
+
 # Permission dispatch connected in source; cloud validation pending
 
 The released permission handler is now connected to the shared dispatcher in a published draft. The cloud checks found ten saved-world differences in the news consequence work. Those failures are assigned for diagnosis, and the builder has its formatting repairs.
