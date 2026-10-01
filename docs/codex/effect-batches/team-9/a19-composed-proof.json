@@ -1,0 +1,147 @@
+{
+  "compositionHead": "18f46d855235bdb0d30d1b0c6d068e6281fbea73",
+  "testBlob": "11d746985b0102341358642d387011a93f73de10",
+  "route": "Native Vitest in detached exact-head worktree; existing dependencies symlinked; no tracked edits",
+  "command": "G10_PROOF_REPORT_PATH=/tmp/team9-a19-composed-18f46d8.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/law-consequences/legal-outcome.test.ts -t 'recorded floors reach saved sentences'",
+  "passed": 4,
+  "failed": 1,
+  "notRun": 66,
+  "durationSeconds": 118.52,
+  "failedPlace": "US-CT",
+  "failure": "Missing pay final law term 'target' (minor/hour)",
+  "failureSource": "src/simulation/law-consequences/pay.ts:219",
+  "stack": [
+    "resolvePayConsequences",
+    "applyLawConsequences",
+    "settleTownCompensations",
+    "payTownPaydays",
+    "paydayHandler",
+    "resolveFutureDueItemsThrough",
+    "advanceCanonicalMinutes"
+  ],
+  "gate": "FAILED before legal stamp assertion in Connecticut",
+  "receipts": [
+    {
+      "seed": "team9-g10-floor:US-IA",
+      "place": "US-IA",
+      "personId": "person_bebcebd5382b5e0f",
+      "name": "Robin Jenkins",
+      "sentenceId": "event_45cf2694ca05fd67",
+      "months": 120,
+      "measureId": "legislative-measure_bed6d7e81a5aca8b",
+      "summary": "Robin Jenkins was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_af61eeaab00dd156",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_bed6d7e81a5aca8b",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-01-19",
+          "sourceRecordIds": [
+            "event_45cf2694ca05fd67",
+            "legislative-measure_bed6d7e81a5aca8b",
+            "legislative-enactment_d63229ba03aa4406",
+            "legislative-provision_7267fac2c6691e5f"
+          ]
+        }
+      ]
+    },
+    {
+      "seed": "team9-g10-floor:US-LA",
+      "place": "US-LA",
+      "personId": "person_e0e5a931374d94b7",
+      "name": "Taylor Mayer",
+      "sentenceId": "event_3f690fed62bf8a47",
+      "months": 120,
+      "measureId": "legislative-measure_aa05cdd3b281dafc",
+      "summary": "Taylor Mayer was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_a68e5945b8a3e503",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_aa05cdd3b281dafc",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-01-19",
+          "sourceRecordIds": [
+            "event_3f690fed62bf8a47",
+            "legislative-measure_aa05cdd3b281dafc",
+            "legislative-enactment_a35871d3489e68b7",
+            "legislative-provision_1d598afcef27cb6e"
+          ]
+        }
+      ]
+    },
+    {
+      "seed": "team9-g10-floor:US-TX",
+      "place": "US-TX",
+      "personId": "person_f2ffe3c884cdbafc",
+      "name": "Selena Osborne",
+      "sentenceId": "event_8a964f884f8b1d5c",
+      "months": 120,
+      "measureId": "legislative-measure_bb126466f623c98f",
+      "summary": "Selena Osborne was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_9a110aa08d4e90f1",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_bb126466f623c98f",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_00bf606d2531f337",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-01-19",
+          "sourceRecordIds": [
+            "event_8a964f884f8b1d5c",
+            "legislative-measure_bb126466f623c98f",
+            "legislative-enactment_a1b13278b4585ea3",
+            "legislative-provision_3256574763557862"
+          ]
+        }
+      ]
+    },
+    {
+      "seed": "team9-g10-floor:US-ND",
+      "place": "US-ND",
+      "personId": "person_13d3cee5cb08ac23",
+      "name": "Trevor Young",
+      "sentenceId": "event_5ca5117bc63b4673",
+      "months": 120,
+      "measureId": "legislative-measure_44ab39745f21ceb1",
+      "summary": "Trevor Young was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_b0dffab962ec7e30",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_44ab39745f21ceb1",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_7e617609be5671dd",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-01-19",
+          "sourceRecordIds": [
+            "event_5ca5117bc63b4673",
+            "legislative-measure_44ab39745f21ceb1",
+            "legislative-enactment_31bc66923be68060",
+            "legislative-provision_82b199b136954331"
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "No production or test edits in coordinator composition",
+    "No new year or whole-suite run",
+    "Earlier isolated bcc five-case pass does not replace this failed composed gate",
+    "Shared pay reader untouched; correction assigned to coordinator and Team3"
+  ]
+}
