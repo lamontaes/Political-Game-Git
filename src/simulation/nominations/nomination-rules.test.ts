@@ -6,11 +6,19 @@ import {
   describeRuleChangeValue,
 } from "../enacted-rule-changes";
 import { makeIsoDate } from "../dates";
-import type { IsoDate } from "../types";
 import { createStableId } from "../ids";
-import { createWorld } from "../world";
+import { createLightweightPerson } from "../people";
+import type { EntityId, HistoricalEvent, World } from "../types";
+import { createWorld, createWorldId } from "../world";
 import { dateFromElectionRule, type ElectionDateRule } from "./date-rules";
 import { generalElectionDay, nominationPlan } from "./nomination-rules";
+import {
+  holdNominationPrimary,
+  holdNominationRunoff,
+  nominationNominees,
+  nominationPrimaryRecord,
+  type NominationEntrant,
+} from "./party-nominations";
 
 const places = (
   nominationRules as unknown as {
@@ -239,5 +247,150 @@ describe("party nomination rules, 2026", () => {
         "us-ga-election-law",
       ),
     ).not.toThrow();
+  });
+});
+
+describe("A114: a primary is decided by the entrants' records, not a draw", () => {
+  const texas = createStableId("jurisdiction", "US-TX");
+  // One world holds the same four people every time; only its seed, the
+  // input the old campaign draw read, differs between runs.
+  const worldId = createWorldId("a114-entrants");
+  const people = [0, 1, 2, 3].map((index) =>
+    createLightweightPerson({
+      worldId,
+      worldSeed: "a114-entrants",
+      index,
+      currentDate: makeIsoDate("2026-01-05"),
+      homeJurisdictionId: texas,
+    }),
+  );
+  const entrantsWorld = createWorld({
+    seed: "a114-entrants",
+    currentDate: makeIsoDate("2026-05-26"),
+    people,
+    jurisdictions: Object.values(createMinimalWorld().jurisdictions),
+  });
+  const [first, second, third, fourth] = people.map((person) => person.id) as [
+    EntityId,
+    EntityId,
+    EntityId,
+    EntityId,
+  ];
+  const entrant = (
+    personId: EntityId,
+    party: string,
+    standing: "incumbent" | "recruit" | "self-starter",
+  ): NominationEntrant => ({
+    personId,
+    party,
+    incumbent: standing === "incumbent",
+    partyBacked: standing === "recruit",
+  });
+
+  /** Texas's 2026 House primary on March 3, held in a world on May 26. */
+  function primary(seed: string, entrants: readonly NominationEntrant[]) {
+    const world: World = { ...entrantsWorld, seed };
+    const plan = nominationPlan(world, {
+      stateUsps: "TX",
+      family: "us-house",
+      year: 2026,
+      onDate: makeIsoDate("2026-01-06"),
+    });
+    if (!plan.known) throw new Error("Texas's plan is read.");
+    const input = {
+      stableKey: "a114:us-house-tx-07:2026",
+      seatKey: "us-house-tx-07",
+      title: "Texas's 7th District",
+      jurisdictionId: texas,
+      involvedEntityIds: [],
+    };
+    const held = holdNominationPrimary(world, {
+      ...input,
+      plan,
+      entrants,
+      partyShare: () => null,
+    });
+    return {
+      world: holdNominationRunoff(held, input),
+      record: nominationPrimaryRecord(held, input.stableKey)!,
+      stableKey: input.stableKey,
+    };
+  }
+
+  /** Each entrant's recorded result, as "party|share per mille|status". */
+  const results = (event: HistoricalEvent | undefined) =>
+    Object.fromEntries(
+      (event?.participants ?? []).map((row) => [row.personId, row.detail]),
+    );
+  const runoffOf = (world: World, stableKey: string) =>
+    world.history.events.find(
+      (event) => event.stableKey === `${stableKey}:runoff`,
+    );
+
+  it("nominates the same person with the same shares under two seeds", () => {
+    const field = [
+      entrant(first, "republican", "incumbent"),
+      entrant(second, "republican", "self-starter"),
+      entrant(third, "democratic", "recruit"),
+      entrant(fourth, "democratic", "self-starter"),
+    ];
+    const one = primary("a114-first-seed", field);
+    const two = primary("a114-second-seed", field);
+    // A sitting member 1.5 to 1; a party recruit 1.25 to 1.
+    expect(results(one.record)).toEqual({
+      [first]: "republican|600|nominated",
+      [second]: "republican|400|lost",
+      [third]: "democratic|556|nominated",
+      [fourth]: "democratic|444|lost",
+    });
+    expect(results(two.record)).toEqual(results(one.record));
+    expect(nominationNominees(two.world, two.stableKey)).toEqual(
+      nominationNominees(one.world, one.stableKey),
+    );
+  });
+
+  it("decides a runoff by each finalist's recorded share of the primary vote", () => {
+    const { world, record, stableKey } = primary("a114-runoff", [
+      entrant(first, "republican", "incumbent"),
+      entrant(second, "republican", "recruit"),
+      entrant(third, "republican", "self-starter"),
+    ]);
+    // Nobody reached half of the vote, so the top two meet again.
+    expect(results(record)).toEqual({
+      [first]: "republican|400|runoff",
+      [second]: "republican|333|runoff",
+      [third]: "republican|267|lost",
+    });
+    // 400 to 333 in the primary is 546 to 454 between the two.
+    expect(results(runoffOf(world, stableKey))).toEqual({
+      [first]: "republican|546|nominated",
+      [second]: "republican|454|lost",
+    });
+    expect(nominationNominees(world, stableKey)).toEqual([
+      { personId: first, party: "republican" },
+    ]);
+  });
+
+  it("records an exact tie as tied and nominates nobody, not a coin toss", () => {
+    const { world, record, stableKey } = primary("a114-tie", [
+      entrant(first, "republican", "incumbent"),
+      entrant(second, "democratic", "self-starter"),
+      entrant(third, "democratic", "self-starter"),
+    ]);
+    // Texas sends a tied primary to its runoff, where the two tie again.
+    expect(results(record)).toEqual({
+      [first]: "republican|1000|unopposed",
+      [second]: "democratic|500|runoff",
+      [third]: "democratic|500|runoff",
+    });
+    const runoff = runoffOf(world, stableKey);
+    expect(results(runoff)).toEqual({
+      [second]: "democratic|500|tied",
+      [third]: "democratic|500|tied",
+    });
+    expect(runoff?.summary).toContain("ended in a tie");
+    expect(nominationNominees(world, stableKey)).toEqual([
+      { personId: first, party: "republican" },
+    ]);
   });
 });
