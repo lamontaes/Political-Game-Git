@@ -102,7 +102,7 @@ export function serviceLawForCommitment(
 }
 
 /** The person's recorded home is in the place the program serves. */
-function livesInServiceArea(
+export function livesInServiceArea(
   world: World,
   personId: EntityId,
   jurisdictionId: EntityId,
