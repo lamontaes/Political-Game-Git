@@ -281,7 +281,11 @@ export function recordFamilyAddition(
     ],
     personFactConstraints: [],
     visibility: "limited",
-    tags: [`family.${input.kind}`, `${PEOPLE_FAMILY_VERSION}`],
+    tags: [
+      `family.${input.kind}`,
+      `${PEOPLE_FAMILY_VERSION}`,
+      ...(input.tags ?? []),
+    ],
     summary:
       input.kind === "birth"
         ? `${personName(child)} was born to ${parentNames}.`
