@@ -943,3 +943,12 @@ Coordinator sole law-consequence-registry.ts append/sharedengine/schema/catalog;
 ## Engine rebuild narrow releases — September 30 night
 
 Current function-level ownership is in [engine-rebuild-ownership.md](engine-rebuild-ownership.md), including the released executive, payment, completed-service, permission integrity and juvenile-filter hunks. These supersede earlier whole-file claims only for the named hunks. Coordinator owns registry and catalog admission; Audit owns clock and analysis. No other surface is transferred.
+
+## Accepted narrow transfers after CTO check-in 12
+
+- Team 1 released the state-legislature-opening.ts required import and post-createWorkRelationships/createOrganizationParticipations hook before the opening event. Team 2 accepted this exact G9 scope. The release was clean at 87a4bdb6e58d7e8a1b482fd2cd89f4423b0dd8b3. Join actual saved seat work relationships to the existing shared legislature body, profile and state. Keep the state-profile guard. Member, name and party generation remain excluded.
+- Coordinator retains the shared starting-law numeric reader and dated starting-law data. Team 3 consumes that reader in the pay handler. Team 4 owns the price-cost consumer sourceRecordIds compatibility fix. Worker coverage and statutory exceptions require actual recorded predicates; a standard rate alone does not prove coverage.
+- Coordinator remains the sole law-consequence-registry.ts writer. Legal-outcome registration is published separately in PR 1378; Team 9 must not duplicate it. Registration publication is not composed runtime acceptance.
+- Audit owns the C8 paired execution and the three unchanged job-offer cases. Team 7 owns its candidate and subsequent repair, with no concurrent duplicate runner. G12 opening/load recovery remains Audit-owned; Team 7 owns the composition only.
+
+These are accepted ownership boundaries, not completion, merge or runtime claims. Team 1's requested G3 shared timing and rule-pack hunks remain pending release and are not granted by this entry.
