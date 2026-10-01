@@ -2,14 +2,21 @@ import { personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
 import {
+  evaluateDecision,
+  recordDurableDecisionTrace,
+} from "../simulation/decisions";
+import {
   PRESS_MATTER_TAG,
   matterEvents,
   mattersForSubject,
   pressRecordsOfKind,
+  findingOfficeResponseBinding,
+  recordFindingOfficeResponse,
 } from "../simulation/press";
 import {
   OFFICE_EMPLOYMENT_KINDS,
   recordOfficeConsequence,
+  officeConsequences,
 } from "../simulation/governing/office-consequence";
 import { recordWorldEvent } from "../simulation/world";
 import { proseDate } from "./prose-dates";
@@ -342,6 +349,117 @@ export function answerForOfficeOnDesk(
   world: World,
   input: AnswerForOfficeInput,
 ): { readonly world: World; readonly line: string } {
+  if (input.kind === "resignation") {
+    if (
+      world.control.kind !== "person" ||
+      world.control.personId !== input.personId
+    )
+      throw new Error(
+        "Only the character being played answers for their office.",
+      );
+    const view = projectOfficeMatters(world, input.personId).find(
+      (entry) => entry.matterId === input.matterId,
+    );
+    if (!view) throw new Error("There is nothing of yours to answer here.");
+    const proceedings = pressRecordsOfKind(world, "matter-proceeding").filter(
+      (row) => row.matterId === input.matterId,
+    );
+    const steps = pressRecordsOfKind(world, "proceeding-step")
+      .filter((row) => proceedings.some((p) => p.id === row.proceedingId))
+      .sort((a, b) => b.sequence - a.sequence);
+    for (const step of steps) {
+      const subject = {
+        proceedingId: step.proceedingId,
+        stepId: step.id,
+        personId: input.personId,
+        officeKey: view.officeKey,
+      };
+      const binding = findingOfficeResponseBinding(world, subject);
+      if (!binding) continue;
+      if (!input.statement?.trim())
+        throw new Error("Choose the words to record for your resignation.");
+      const statement = input.statement;
+      let next = recordWorldEvent(world, {
+        stableKey: `office-answer:${input.matterId}:${input.personId}`,
+        type: OFFICE_ANSWER_EVENT,
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: binding.event.jurisdictionId,
+        involvedEntityIds: [input.personId],
+        participants: [
+          { personId: input.personId, role: "agency:actor", detail: statement },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [
+          `${PRESS_MATTER_TAG}${input.matterId}`,
+          "office.answer:resignation",
+          "provenance:player-choice",
+        ],
+        summary: statement,
+        context: {
+          location: null,
+          socialContext: binding.proceeding.institutionLabel,
+          pressure: null,
+          choice: "resign",
+          motivation: null,
+          immediateReaction: statement,
+        },
+      });
+      const choiceEvent = next.history.events.at(-1)!;
+      const evaluation = evaluateDecision(next, {
+        stableKey: `${choiceEvent.stableKey}:decision`,
+        decisionType: binding.decisionType,
+        actorPersonId: input.personId,
+        cutoff: {
+          asOfDate: next.currentDate,
+          historySequenceExclusive: next.history.nextSequence,
+        },
+        subject: binding.subject,
+        options: binding.options,
+        constraints: [],
+        considerations: [
+          {
+            stableKey: `${choiceEvent.stableKey}:chosen`,
+            optionKey: "resign",
+            sourceType: "context:player-choice",
+            direction: "supports",
+            importance: "decisive",
+            confidence: "high",
+            explanation: statement,
+            sourceRefs: [{ kind: "historical-event", eventId: choiceEvent.id }],
+          },
+        ],
+        perceptionIds: [],
+        randomness: "none",
+        retention: "durable",
+      });
+      next = recordDurableDecisionTrace(next, evaluation);
+      next = recordFindingOfficeResponse(next, {
+        ...subject,
+        decisionTraceId: next.history.decisionTraces.at(-1)!.id,
+        statement,
+      });
+      const consequence = officeConsequences(next, view.officeKey).find((row) =>
+        next.history.events.some(
+          (event) =>
+            event.id === row.eventId &&
+            event.sequence >= world.history.nextSequence,
+        ),
+      );
+      const event =
+        consequence &&
+        next.history.events.find((row) => row.id === consequence.eventId);
+      if (!consequence || !event)
+        throw new Error(
+          "The recorded office response did not produce an office consequence.",
+        );
+      return {
+        world: next,
+        line: event.summary,
+      };
+    }
+  }
   const result = answerForOffice(world, input, recordOfficeConsequence);
   return { world: result.world, line: officeOutcomeLine(result) };
 }

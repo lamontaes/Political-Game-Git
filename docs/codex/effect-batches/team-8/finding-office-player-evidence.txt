@@ -1,0 +1,3 @@
+Ignored evidence: test-results/team8/finding-office-player-caller-published.jsonl
+SHA256: ad8bfd309f05b3b2234dd05fede352e9eb6179c9eb73bfc942edf88ebfdece2c
+Five controlled player callers with recorded fixture tenures; not browser or natural NPC proof.

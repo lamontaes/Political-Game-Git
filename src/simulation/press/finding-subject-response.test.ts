@@ -17,10 +17,15 @@ import {
   recordWorldEvent,
 } from "../world";
 import { officeConsequences } from "../governing/office-consequence";
+import {
+  answerForOfficeOnDesk,
+  projectOfficeMatters,
+} from "../../presentation/office-response";
 import { appendPressRecord, pressRecordsOfKind } from "./store";
 import {
   findingOfficeResponseBinding,
   recordFindingOfficeResponse,
+  PRESS_MATTER_TAG,
 } from "./index";
 
 const seed = "team8-finding-office-response-all56";
@@ -31,7 +36,7 @@ const places = Object.keys(STATES)
     ),
   )
   .slice(0, 5);
-function fixture(usps: string) {
+function fixture(usps: string, controlled = false) {
   const state = stateJurisdictionForKey(`US-${usps}`)!;
   const date = makeIsoDate("2026-03-02");
   const person = createLightweightPerson({
@@ -46,6 +51,9 @@ function fixture(usps: string) {
     currentDate: date,
     jurisdictions: [state],
     people: [person],
+    control: controlled
+      ? { kind: "person", personId: person.id }
+      : { kind: "observer" },
   });
   world = createWorkRelationship(world, {
     stableKey: "fixture:held-office",
@@ -134,6 +142,14 @@ function fixture(usps: string) {
     evidenceArtifactIds: [],
   });
   world = step.world;
+  if (controlled)
+    world = recordWorldEvent(world, {
+      ...event,
+      stableKey: "fixture:player-finding-notice",
+      type: "fixture.player-finding-notice",
+      tags: [`${PRESS_MATTER_TAG}${matter.record.id}`],
+      summary: "Controlled public notice of the saved finding.",
+    });
   const subject = {
     proceedingId: proceeding.record.id,
     stepId: step.record.id,
@@ -329,5 +345,99 @@ describe("saved finding subject choice reaches the existing office writer", () =
       },
     };
     expect(recordFindingOfficeResponse(wrong, d.input)).toBe(wrong);
+  });
+});
+
+describe("actual player office-response caller after a finding", () => {
+  it.each(places)(
+    "saves the controlled subject's own chosen words and trace in %s",
+    (usps) => {
+      const f = fixture(usps, true);
+      const view = projectOfficeMatters(f.world, f.person.id)[0]!;
+      const statement = "  I choose to resign this office today.  ";
+      const before = serializeWorld(f.world);
+      const result = answerForOfficeOnDesk(f.world, {
+        personId: f.person.id,
+        matterId: view.matterId,
+        kind: "resignation",
+        statement,
+      });
+      expect(serializeWorld(f.world)).toBe(before);
+      const trace = result.world.history.decisionTraces.at(-1)!;
+      expect(trace.context.actorPersonId).toBe(f.person.id);
+      expect(trace.selectedOptionKey).toBe("resign");
+      expect(trace.context.subject.entityId).toBe(f.event.id);
+      expect(trace.context.randomness).toBe("none");
+      expect(trace.context.considerations[0]?.explanation).toBe(statement);
+      const choiceEvent = result.world.history.events.find(
+        (event) => event.type === "office.answered-for-matter",
+      )!;
+      expect(choiceEvent.context.immediateReaction).toBe(statement);
+      expect(trace.context.considerations[0]?.sourceRefs).toEqual([
+        { kind: "historical-event", eventId: choiceEvent.id },
+      ]);
+      expect(
+        result.world.history.events.find(
+          (event) => event.type === "press.finding-office-response",
+        )?.context.immediateReaction,
+      ).toBe(statement);
+      expect(activeWorkRelationshipsAt(result.world, f.person.id)).toHaveLength(
+        0,
+      );
+      expect(result.line).toContain("The office is vacant from");
+      if (process.env.PLAYER_CALLER_RUN_OUT)
+        appendFileSync(
+          process.env.PLAYER_CALLER_RUN_OUT,
+          JSON.stringify({
+            seed: `${seed}:${usps}`,
+            usps,
+            personId: f.person.id,
+            name: `${f.person.givenName} ${f.person.familyName}`,
+            findingEventId: f.event.id,
+            choiceEventId: choiceEvent.id,
+            decisionTraceId: trace.id,
+            statement,
+            line: result.line,
+          }) + "\n",
+        );
+      assertWorldIntegrity(result.world);
+      const loaded = deserializeWorld(serializeWorld(result.world));
+      expect(serializeWorld(loaded)).toBe(serializeWorld(result.world));
+      expect(() =>
+        answerForOfficeOnDesk(loaded, {
+          personId: f.person.id,
+          matterId: view.matterId,
+          kind: "resignation",
+          statement,
+        }),
+      ).toThrow(/nothing of yours/);
+    },
+  );
+  it("requires actual chosen words instead of silently generating a finding resignation", () => {
+    const f = fixture(places[0]!, true);
+    const view = projectOfficeMatters(f.world, f.person.id)[0]!;
+    const before = serializeWorld(f.world);
+    expect(() =>
+      answerForOfficeOnDesk(f.world, {
+        personId: f.person.id,
+        matterId: view.matterId,
+        kind: "resignation",
+      }),
+    ).toThrow(/Choose the words/);
+    expect(serializeWorld(f.world)).toBe(before);
+  });
+  it("does not convert the player caller into an autonomous choice for another subject", () => {
+    const f = fixture(places[0]!);
+    const binding = findingOfficeResponseBinding(f.world, f.subject)!;
+    expect(() =>
+      answerForOfficeOnDesk(f.world, {
+        personId: f.person.id,
+        matterId: binding.proceeding.matterId,
+        kind: "resignation",
+        statement: "I resign.",
+      }),
+    ).toThrow(/Only the character/);
+    expect(activeWorkRelationshipsAt(f.world, f.person.id)).toHaveLength(1);
+    expect(f.world.history.decisionTraces).toHaveLength(0);
   });
 });
