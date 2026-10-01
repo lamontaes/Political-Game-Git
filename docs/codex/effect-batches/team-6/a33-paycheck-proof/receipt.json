@@ -101,6 +101,7 @@
     "reasons": [
       "inherited ci-changed-tests-only merge wording",
       "owned missing declaration, repaired by impact:none declaration"
-    ]
+    ],
+    "renewed": "FAIL inherited ci-changed-tests-only merge wording only; owned declaration refusal gone"
   }
 }
