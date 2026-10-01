@@ -94,9 +94,9 @@ The following limits are measured from the current source, rather than claims th
 
 The coordinator retains the dated legal-term binding. Team6 has matched the published vocabulary to its existing consumer fields and will consume that binding on its owned tax surfaces when delivered. Questionless proposals remain catalog gaps and receive no bypass. Unsupported starting, annual, per-unit, recipient or authority mappings remain explicit for Audit.
 
-Published vocabulary source: [1562](https://github.com/lamontaes/Political-Game-Git/pull/1562), READY head `bffa6f8af61f0cba16f61479c3e072c51306be46`. It was read directly from that fetched Git object; it was not merged into this consumer branch. Root's reported three passing checks and 56 own-level checks were not rerun here.
+Published vocabulary source: [1562](https://github.com/lamontaes/Political-Game-Git/pull/1562), approved source head `bffa6f8af61f0cba16f61479c3e072c51306be46`. It was first read directly from that fetched Git object. The merged vocabulary then arrived through current main. Root's reported three passing checks and 56 own-level checks were not rerun here.
 
-Consumer branch: `codex/team-6-tax-kind-fixtures`. Current main `9c08465da08be307435e9b2c4f76d9f35f105fab` was received additively; the tax handler, tax types and tax-policy source are unchanged from the accepted consumer source.
+Consumer branch: `codex/team-6-tax-kind-fixtures`. Current main `44918cd48` was received additively, including the vocabulary registration. The tax handler, tax types and tax-policy source are unchanged from the accepted consumer source.
 
 Main includes the merged tax handler and registry admission. The handler export is `TAX_REGISTRATION`.
 
