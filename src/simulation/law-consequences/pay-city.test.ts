@@ -1,12 +1,21 @@
 import { expect, it } from "vitest";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { addDays, daysBetween, simulationMomentOnLocalDate } from "../dates";
+import {
+  addDays,
+  daysBetween,
+  simulationMinutesBetween,
+  simulationMomentOnLocalDate,
+} from "../dates";
 import { createScenarioWorld } from "../demo";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { advanceWorld } from "../world";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import { settleJobPay, settleSavedWeeklyJobPay } from "../job-market";
+import {
+  scheduleLifePathSession,
+  performLifePathSession,
+} from "../life-paths2";
 import {
   fileRuleChangeProvision,
   laborLawOfficeKey,
@@ -265,6 +274,7 @@ function worker(
   jurisdictionId: EntityId,
   townPayroll = false,
   jobPayroll = false,
+  shiftPayroll = false,
 ) {
   const personId = start.personOrder[0]!;
   let world = createOrganization(start, {
@@ -283,7 +293,9 @@ function worker(
     personId,
     organizationId,
     startedAt: world.currentDate,
-    kind: "employment:staff",
+    kind: shiftPayroll
+      ? "employment:life-paths2-shop-assistant"
+      : "employment:staff",
     compensation: "paid",
     authority: "directed",
     dependency: "dependent",
@@ -312,8 +324,12 @@ function worker(
         : "fixture:city-pay:flow",
     workRelationshipId: work.id,
     startsAt: world.currentDate,
-    amount: money(100, "USD"),
-    cadenceKind: jobPayroll ? "schedule:weekly" : "schedule:town-weekly",
+    amount: money(shiftPayroll ? 7200 : 100, "USD"),
+    cadenceKind: shiftPayroll
+      ? "work:completed-shift"
+      : jobPayroll
+        ? "schedule:weekly"
+        : "schedule:town-weekly",
     restrictionKind: null,
     jurisdictionId: null,
     provenance,
@@ -760,6 +776,95 @@ it("A38 scheduled town payday preserves the city law's canonical pay terms", () 
       })),
     ),
   ).toBe(paid);
+});
+
+it("A38 earned law raises only the actual completed interval without changing its contract", () => {
+  const o = opened("3137000");
+  const law = enact(
+    o.world,
+    legislativeBlueprint("nebraska").pack,
+    stateJurisdictionForKey("US-NE")!.id,
+    STATE_MINIMUM_WAGE_QUESTION_KEY,
+    2000,
+    "yes",
+    "NE",
+  );
+  const f = worker(
+    law.world,
+    o.place.context.jurisdiction.id,
+    false,
+    false,
+    true,
+  );
+  if (f.flow.basisReference.kind !== "work")
+    throw new Error("Missing controlled shift work binding");
+  const workId = f.flow.basisReference.workRelationshipId;
+  const scheduled = scheduleLifePathSession(
+    { ...f.world, control: { kind: "person", personId: f.personId } },
+    workId,
+  );
+  expect(scheduled.ok, scheduled.message).toBe(true);
+  const activity = scheduled.world.history.scheduledActivities.at(-1)!;
+  const worked = performLifePathSession(scheduled.world, activity.id);
+  expect(worked.ok, worked.message).toBe(true);
+  const completion = worked.world.history.events.find(
+    (row) =>
+      row.type === "life-paths2.work-session" &&
+      row.involvedEntityIds.includes(activity.id),
+  )!;
+  expect(completion).toBeDefined();
+  const state = worked.world.history.scheduledActivityStates
+    .filter(
+      (row) =>
+        row.activityId === activity.id && row.sequence <= completion.sequence,
+    )
+    .at(-1)!;
+  const minutes = simulationMinutesBetween(state.start, state.end);
+  expect(minutes).toBe(240);
+  const earned = resourceFlowTermsAt(worked.world, f.flow.id, {
+    asOfDate: completion.occurredAt,
+    historySequenceExclusive: completion.sequence + 1,
+  })!;
+  expect(earned.amount.minorUnits).toBe(7200);
+  const period = {
+    stableKey: `fixture:earned-law:${completion.id}`,
+    payFlowId: f.flow.id,
+    activityId: workId,
+    periodStartsAt: completion.occurredAt,
+    periodEndsAt: completion.occurredAt,
+    onDate: worked.world.currentDate,
+    completedShift: {
+      eventId: completion.id,
+      termsId: earned.id,
+      amount: earned.amount,
+    },
+  };
+  const paid = settleTownCompensations(worked.world, [period]);
+  const outcome = paid.history.resourceTransferOutcomes.find(
+    (row) => row.stableKey === period.stableKey,
+  )!;
+  expect(outcome.attemptedAmount.minorUnits).toBe(8000);
+  expect(outcome.transferredAmount.minorUnits).toBe(8000);
+  expect(outcome.status).toBe("completed");
+  expect(paid.history.resourceFlowTerms).toEqual(
+    worked.world.history.resourceFlowTerms,
+  );
+  expect(outcome.lawEffectStamps).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        effectKind: "pay",
+        governingLawKey: law.measureId,
+      }),
+    ]),
+  );
+  expect(settleTownCompensations(paid, [period])).toBe(paid);
+  expect(
+    serializeWorld(
+      settleTownCompensations(deserializeWorld(serializeWorld(worked.world)), [
+        period,
+      ]),
+    ),
+  ).toBe(serializeWorld(paid));
 });
 
 it("A8 saved weekly adapter reuses the actual contract and common payment writer", () => {
