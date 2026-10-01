@@ -2780,7 +2780,57 @@
           "answer": "yes"
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "operativeAt": "2023-01-01",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "key": "target",
+              "value": 1550,
+              "unit": "minor/hour"
+            }
+          ],
+          "source": "https://www.dir.ca.gov/iwc/MW-2026.pdf",
+          "cite": "California Industrial Welfare Commission, General Minimum Wage Order MW-2026; Labor Code section 1182.12",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2024-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1600,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2025-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1650,
+                  "unit": "minor/hour"
+                }
+              ]
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1690,
+                  "unit": "minor/hour"
+                }
+              ]
+            }
+          ],
+          "note": "Standard statewide hourly floor. Higher industry and local floors and statutory exclusions require actual saved scope facts; this row does not determine them. No meals or lodging credit without the required actual agreement."
         },
         "US-CO": {
           "answer": "yes"
