@@ -1,4 +1,9 @@
 import {
+  createHousehold,
+  startHouseholdMembership,
+  recordHouseholdMembershipState,
+} from "./life";
+import {
   createDwelling,
   startDwellingOccupancy,
   recordDwellingOccupancyState,
@@ -157,6 +162,54 @@ describe("saved county home evidence", () => {
       ),
     ).toBe(world.currentDate);
   });
+  it("persists the actual named district and refuses a different district", () => {
+    const { world, person, binding, input, seat } = setup();
+    const districtRecordId = "controlled-map:district-1";
+    vi.mocked(countyCatalog.countySeatCatalog).mockReturnValue([
+      {
+        ...seat,
+        homeMembership: undefined,
+        electorate: { kind: "district", districtRecordId },
+        domicile: { kind: "district", districtRecordId },
+      },
+    ]);
+    const wrong = recordCountyHomeDistrictEvidence(world, {
+      ...input,
+      districtRecordId: "controlled-map:district-2",
+    });
+    expect(wrong.kind).toBe("refused");
+    expect(wrong.world).toBe(world);
+    const saved = recordCountyHomeDistrictEvidence(world, {
+      ...input,
+      districtRecordId,
+    });
+    expect(saved.kind).toBe("recorded");
+    if (saved.kind !== "recorded") throw new Error(saved.reason);
+    const joined = establishDistrictResidence(saved.world, {
+      personId: person.id,
+      binding,
+      startedOn: world.currentDate,
+      provenance: {
+        method: "county-home-join",
+        sourceEventId: saved.record.id,
+        note: "Controlled named district address determination.",
+      },
+    });
+    expect(joined.kind).toBe("recorded");
+    if (joined.kind !== "recorded") throw new Error(joined.reason);
+    const reopened = deserializeWorld(serializeWorld(joined.world));
+    const evidence = countyHomeDistrictEvidenceAt(reopened, person.id, binding);
+    expect(evidence.kind).toBe("known");
+    if (evidence.kind !== "known")
+      throw new Error("Controlled district evidence disappeared.");
+    expect(evidence.record.districtRecordId).toBe(districtRecordId);
+    expect(evidence.record.binding.governmentUnitId).toBe(
+      binding.governmentUnitId,
+    );
+    expect(
+      districtResidenceSince(reopened, person.id, binding, world.currentDate),
+    ).toBe(world.currentDate);
+  });
   it("refuses unsupported dwelling/seat/address evidence without mutation", () => {
     const { world, input } = setup();
     for (const bad of [
@@ -289,8 +342,120 @@ describe("saved county home evidence", () => {
       ).kind,
     ).toBe("unknown");
   });
+  it("uses actual person membership dates for a household dwelling", () => {
+    const { world, person, binding, input } = setup();
+    const provenance = {
+      kind: "authored",
+      note: "Controlled household fixture.",
+    } as const;
+    let housed = createHousehold(world, {
+      stableKey: "controlled-household",
+      formedAt: "2026-09-01",
+      label: "Controlled household",
+      provenance,
+    });
+    const household = housed.history.households.at(-1)!;
+    housed = startHouseholdMembership(housed, {
+      stableKey: "controlled-member",
+      personId: person.id,
+      householdId: household.id,
+      startedAt: "2026-09-10",
+      residenceRole: "primary",
+      kind: "resident:household-member",
+      provenance,
+    });
+    const membership = housed.history.householdMemberships.at(-1)!;
+    const membershipState = housed.history.householdMembershipStates.at(-1)!;
+    housed = createDwelling(housed, {
+      stableKey: "household-dwelling",
+      establishedAt: "2026-09-01",
+      jurisdictionId: person.homeJurisdictionId,
+      locationLabel: "Controlled household dwelling",
+      classification: "residential:ordinary-home",
+      provenance,
+    });
+    const dwelling = housed.history.dwellings.at(-1)!;
+    housed = startDwellingOccupancy(housed, {
+      stableKey: "household-occupancy",
+      occupant: { kind: "household", householdId: household.id },
+      dwellingId: dwelling.id,
+      startedAt: "2026-09-01",
+      residenceRole: "primary",
+      kind: "residence:primary",
+      provenance,
+    });
+    const occupancy = housed.history.dwellingOccupancies.at(-1)!;
+    const actual: CountyHomeDistrictEvidenceInput = {
+      ...input,
+      home: {
+        kind: "dwelling-occupancy",
+        dwellingId: dwelling.id,
+        dwellingOccupancyId: occupancy.id,
+      },
+      occupiedFrom: makeIsoDate("2026-09-10"),
+    };
+    expect(
+      recordCountyHomeDistrictEvidence(housed, {
+        ...actual,
+        occupiedFrom: makeIsoDate("2026-09-01"),
+      }).kind,
+    ).toBe("refused");
+    const recorded = recordCountyHomeDistrictEvidence(housed, actual);
+    expect(recorded.kind).toBe("recorded");
+    if (recorded.kind !== "recorded") throw new Error(recorded.reason);
+    expect(
+      countyHomeDistrictEvidenceAt(recorded.world, person.id, binding).kind,
+    ).toBe("known");
+    const departed = recordHouseholdMembershipState(housed, {
+      stableKey: "controlled-member:end",
+      membershipId: membership.id,
+      effectiveAt: "2026-09-20",
+      status: "ended",
+      residenceRole: "primary",
+      kind: "resident:household-member",
+      provenance,
+      supersedesStateId: membershipState.id,
+    });
+    expect(recordCountyHomeDistrictEvidence(departed, actual).kind).toBe(
+      "refused",
+    );
+    const completed = recordCountyHomeDistrictEvidence(departed, {
+      ...actual,
+      occupiedUntil: makeIsoDate("2026-09-20"),
+    });
+    expect(completed.kind).toBe("recorded");
+    if (completed.kind !== "recorded") throw new Error(completed.reason);
+    assertCountyHomeDistrictEvidenceIntegrity(completed.world);
+    expect(
+      countyHomeDistrictEvidenceAt(completed.world, person.id, binding).kind,
+    ).toBe("unknown");
+    expect(
+      recordCountyHomeDistrictEvidence(departed, {
+        ...actual,
+        occupiedUntil: makeIsoDate("2026-09-25"),
+      }).kind,
+    ).toBe("refused");
+  });
+  it("rejects unsupported saved map determinations", () => {
+    const { world, input } = setup();
+    const recorded = recordCountyHomeDistrictEvidence(world, input);
+    if (recorded.kind !== "recorded") throw new Error(recorded.reason);
+    const malformed = JSON.parse(JSON.stringify(recorded.world));
+    malformed.history.countyHomeDistrictEvidence[0].determination.kind =
+      "unrecorded-map-kind";
+    expect(() =>
+      assertCountyHomeDistrictEvidenceIntegrity(malformed),
+    ).toThrow();
+  });
   it("keeps unknown old saves and contradictory records unresolved", () => {
     const { world, person, binding, input } = setup();
+    const legacy = JSON.parse(JSON.stringify(world));
+    delete legacy.history.countyHomeDistrictEvidence;
+    const legacyReopened = deserializeWorld(serializeWorld(legacy));
+    expect(legacyReopened.history.countyHomeDistrictEvidence).toBeUndefined();
+    expect(
+      countyHomeDistrictEvidenceAt(legacyReopened, person.id, binding).kind,
+    ).toBe("unknown");
     expect(countyHomeDistrictEvidenceAt(world, person.id, binding).kind).toBe(
       "unknown",
     );

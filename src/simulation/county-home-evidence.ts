@@ -125,6 +125,13 @@ function recordError(
   record: CountyHomeDistrictEvidenceRecord,
 ): string | null {
   try {
+    if (
+      (record.home.kind !== "residence" &&
+        record.home.kind !== "dwelling-occupancy") ||
+      (record.determination.kind !== "actual-map" &&
+        record.determination.kind !== "estimated-map-unavailable")
+    )
+      return "Unsupported saved county home or map determination kind.";
     makeIsoDate(record.recordedAt);
     makeIsoDate(record.occupiedFrom);
     if (record.occupiedUntil !== null) makeIsoDate(record.occupiedUntil);
