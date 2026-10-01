@@ -1,18 +1,8 @@
 import { describe, expect, it } from "vitest";
 import table from "../../../data/research/justice/time-to-disposition-2026.json" with { type: "json" };
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays } from "../dates";
-import {
-  cancelFutureDueItem,
-  futureDueItemStateAt,
-  resolveFutureDueItemsThrough,
-} from "../future-transitions";
-import { currentLifeCutoff } from "../life-queries";
-import { searchLifePlaces } from "../life-places";
+import { resolveFutureDueItemsThrough } from "../future-transitions";
 import { composeWorldTimeHandlers } from "../campaigns";
 import { SeededRng, pickDistinct } from "../rng";
 import type { World } from "../types";
@@ -130,50 +120,13 @@ describe("per-state criminal time to disposition research file", () => {
 });
 
 /**
- * One seeded minimum world per place: the opening life, with unrelated saved
- * commitments cancelled through the canonical writer so only the case clock runs.
+ * One small world per place (tests/fixtures/small-world.ts): residents, the
+ * state and its catalog, no opening life. Only the case clock runs.
  */
 function trialDaysAfterCharge(placeCode: string, seed: string): number {
-  const place =
-    searchLifePlaces("", 5000, {
-      stateJurisdictionKey: `US-${placeCode}`,
-      scope: "locality",
-    })[0] ??
-    defined(
-      searchLifePlaces("", 5, {
-        stateJurisdictionKey: `US-${placeCode}`,
-        scope: "state",
-      })[0],
-      `place ${placeCode}`,
-    );
-  const game = defined(
-    generateOpeningLife(
-      prepareOpeningLife({
-        ...DEFAULT_NEW_GAME_SETUP,
-        seed,
-        placeKey: place.key,
-        startAge: 40,
-        questionnaire: "skipped",
-      }),
-    ).game,
-    `game ${placeCode}`,
-  );
-  let world: World = game.world;
-  for (const item of world.history.futureDueItems) {
-    if (
-      futureDueItemStateAt(world, item.id, currentLifeCutoff(world))?.status !==
-      "scheduled"
-    )
-      continue;
-    world = cancelFutureDueItem(world, {
-      stableKey: `a107-fixture-cancel:${item.id}`,
-      dueItemId: item.id,
-      effectiveAt: world.currentDate,
-      reasonKey: "fixture:isolated-court-clock",
-      context: "Controlled fixture isolates the court clock.",
-    });
-  }
-  const subjectId = game.playerPersonId;
+  const small = smallWorld({ place: placeCode, seed });
+  const world: World = small.world;
+  const subjectId = small.personId;
   const referral = referForProsecution(world, {
     stableKey: `a107-case:${placeCode}`,
     subjectPersonId: subjectId,

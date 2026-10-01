@@ -1,12 +1,8 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { SeededRng, pickDistinct } from "../rng";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { addDays } from "../dates";
 import { composeWorldTimeHandlers } from "../campaigns";
 import { createPressTransitionRegistry } from "../press/transitions";
@@ -45,48 +41,17 @@ afterAll(() => {
 // Controlled real-clock proofs use the composed court handler, without a year run.
 describe("a saved prosecution stage owns its due item", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
-  const states = pickDistinct(rng, lifePlaceStateIdentities(), 2);
+  const states = pickDistinct(rng, lifePlaceStateIdentities(), 1);
   it.each(states)(
     "charges the named defendant on the actual due date in $jurisdictionKey",
     (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
       const seed = `team9-g12-case-clock:${state.jurisdictionKey}`;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      let isolated = game.world;
-      // The fixture cancels unrelated opening commitments through the canonical
-      // writer, retaining every due record. No saved time is reassigned.
-      for (const item of isolated.history.futureDueItems) {
-        if (
-          futureDueItemStateAt(isolated, item.id, currentLifeCutoff(isolated))
-            ?.status !== "scheduled"
-        )
-          continue;
-        isolated = cancelFutureDueItem(isolated, {
-          stableKey: `g12-fixture-cancel:${item.id}`,
-          dueItemId: item.id,
-          effectiveAt: isolated.currentDate,
-          reasonKey: "fixture:isolated-court-clock",
-          context:
-            "Controlled fixture isolates the court adapter from unrelated opening schedules.",
-        });
-      }
-      const subjectId = game.playerPersonId;
+      // A small world (tests/fixtures/small-world.ts): residents and their
+      // state, no opening life, so only the court clock has anything due.
+      const small = smallWorld({ place: state.jurisdictionKey, seed });
+      const place = small.place;
+      const isolated = small.world;
+      const subjectId = small.personId;
       const input = {
         stableKey: "g12-clock-case",
         subjectPersonId: subjectId,

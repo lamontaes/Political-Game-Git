@@ -257,7 +257,13 @@ export function congressSittingHandler(
   };
 }
 
-export const CONGRESS_LAWMAKING_HANDLERS = [
-  [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
-  [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
-] as const;
+/**
+ * Built on demand, not at load: this module and the chamber module reach each
+ * other, so a constant here read its transition keys before they existed.
+ */
+export function congressLawmakingHandlers() {
+  return [
+    [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
+    [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
+  ] as const;
+}
