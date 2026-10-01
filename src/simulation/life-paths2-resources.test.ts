@@ -63,7 +63,14 @@ describe("LIFE normal earned-money account lifecycle", () => {
       const worked = performLifePathSession(shift.world, shift.id);
       expect(worked.ok).toBe(true);
       if (shiftNumber === 0) expect(balance(worked.world)).toBeUndefined();
-      w = advanceWorld(worked.world, 1, lifePaths2Handlers());
+      // The minute clock also completes ordinary shifts during a day jump.
+      // Pause after this explicit shift so waiting for its pay is not more work.
+      const paused = changeLifePathStatus(worked.world, workId, "pause");
+      expect(paused.ok, paused.message).toBe(true);
+      w = advanceWorld(paused.world, 1, lifePaths2Handlers());
+      const resumed = changeLifePathStatus(w, workId, "return");
+      expect(resumed.ok, resumed.message).toBe(true);
+      w = resumed.world;
     }
     // Each $72.00 shift has $4.46 Social Security, $1.04 Medicare, $1.01
     // federal and $2.07 Kentucky income tax withheld (a day's pay, 260 a year).
@@ -170,8 +177,12 @@ describe("LIFE normal earned-money account lifecycle", () => {
         money(0, "USD").currency,
       ),
     ).toBe(repaired);
+    // This is a historical-transfer recovery test, not 161 more days of work.
+    const workId = w.history.workRelationships.at(-1)!.id;
+    const left = changeLifePathStatus(w, workId, "leave");
+    expect(left.ok, left.message).toBe(true);
     const study = enterLifePath(
-      deserializeWorld(serializeWorld(w)),
+      deserializeWorld(serializeWorld(left.world)),
       "college-office-certificate",
     ).world;
     expect(balance(advanceWorld(study, 161, lifePaths2Handlers()))).toBe(0);
