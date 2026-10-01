@@ -1,3 +1,4 @@
+import { householdChildServiceSchedule } from "../src/simulation/public-service-schedule";
 import { beforeAll, describe, expect, it } from "vitest";
 import { advanceWorld } from "../src/simulation/world";
 import { childServiceFixture } from "./fixtures/child-service-fixture";
@@ -138,9 +139,22 @@ describe(`Public services play in ${place.displayName}, seed ${SEED}`, () => {
     ).toHaveLength(1);
   });
 
-  it.todo(
-    "step 5: the parent's family schedule reads the child's pending attendance due item (data-only reader not built)",
-  );
+  it("step 5: the parent's family schedule reads the child's pending attendance due item", () => {
+    const result = request();
+    if (result.kind !== "scheduled") throw new Error(result.reason);
+    const rows = householdChildServiceSchedule(result.world, fixture.parentId);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({
+      childPersonId: fixture.childId,
+      activityId: result.activityId,
+      attendanceStatus: "scheduled",
+    });
+    const due = result.world.history.futureDueItems.find(
+      (item) => item.id === rows[0]!.attendanceDueItemId,
+    )!;
+    expect(due.entityIds).toContain(fixture.childId);
+    expect(rows[0]!.attendanceDueAt).toBe(due.dueAt);
+  });
   it.todo(
     "step 6: the parent books and sees the child service through the ordinary player route (browser integration not admitted)",
   );
