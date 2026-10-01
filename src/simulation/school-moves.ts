@@ -1,7 +1,4 @@
-import {
-  appendChildhoodEntry,
-  childhoodRecordEntries,
-} from "./childhood-record";
+import { appendChildhoodEntry, schoolYearMovesOf } from "./childhood-record";
 import { recordEducationEnrollmentState } from "./life";
 import {
   educationEnrollmentHistoryForPerson,
@@ -95,16 +92,12 @@ export function leaveSchoolOnMove(
   moveEventId: EntityId,
   date: IsoDate,
 ): World {
-  const midYear = childhoodRecordEntries(world).find(
-    (entry) =>
-      entry.kind === "school-year-move" &&
-      entry.personId === personId &&
-      entry.sourceRecordId === moveEventId,
+  const midYear = schoolYearMovesOf(world, personId).find(
+    (entry) => entry.sourceRecordId === moveEventId,
   );
-  const reason =
-    midYear?.kind === "school-year-move"
-      ? `Moved away in the middle of the ${midYear.schoolYear}-${midYear.schoolYear + 1} school year, in ${gradeName(midYear.grade)}.`
-      : "Moved away between school years.";
+  const reason = midYear
+    ? `Moved away in the middle of the ${midYear.schoolYear}-${midYear.schoolYear + 1} school year, in ${gradeName(midYear.grade)}.`
+    : "Moved away between school years.";
   let next = world;
   for (const enrollment of educationEnrollmentHistoryForPerson(
     world,

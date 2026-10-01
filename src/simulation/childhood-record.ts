@@ -1,8 +1,8 @@
 import { ageOnDate, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
-import { appendedList } from "./history-index";
+import { appendedList, recordsByStringField } from "./history-index";
 import { createStableId } from "./ids";
-import type { ChildhoodRecordEntry, World } from "./types";
+import type { ChildhoodRecordEntry, EntityId, World } from "./types";
 
 /**
  * A person's childhood record (Fable Part 5 Social, gap 5).
@@ -34,6 +34,27 @@ export function childhoodRecordEntries(
   world: World,
 ): readonly ChildhoodRecordEntry[] {
   return world.history.childhoodRecords ?? EMPTY;
+}
+
+/**
+ * The moves that took `personId` out of school in the middle of a school
+ * year, oldest first: the one reader of that entry, for the school they
+ * leave and for the view their parents form of who answers for it.
+ */
+export function schoolYearMovesOf(
+  world: World,
+  personId: EntityId,
+  through = world.currentDate,
+): readonly Extract<ChildhoodRecordEntry, { kind: "school-year-move" }>[] {
+  return recordsByStringField(
+    childhoodRecordEntries(world),
+    "personId",
+    personId,
+  ).flatMap((entry) =>
+    entry.kind === "school-year-move" && entry.effectiveAt <= through
+      ? [entry]
+      : [],
+  );
 }
 
 type EntryInput =

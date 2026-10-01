@@ -33,7 +33,7 @@ export interface LawEffectHere {
   readonly month: IsoDate;
   readonly value: number;
   readonly valueText: string;
-  /** The value the condition would have without this law's part. */
+  /** The model-estimated value without this law's part; not an observation. */
   readonly withoutLaw: number;
   readonly withoutLawText: string;
   readonly direction: "higher" | "lower";
@@ -132,7 +132,7 @@ export function lawEffectsHere(
         headline: `${sentenceCase(definition.name)} runs ${direction} because of a change in the law`,
         sentence:
           `${level} now says ${answer} to “${question.name}”, in force since ${proseDate(law.operativeAt)}. ` +
-          `Here it stands at ${valueText}. Without that change it would stand at ${withoutLawText}.`,
+          `Here it stands at ${valueText}. The game’s model estimates that without this change it would stand at ${withoutLawText}.`,
       });
     }
   }
