@@ -1,3 +1,4 @@
+import { createStableId } from "./ids";
 import {
   createLawConsequenceRegistry,
   LAW_CONSEQUENCE_REGISTRATIONS,
@@ -851,7 +852,10 @@ export function applyStartingLawConsequences(
     {
       onDate: world.currentDate,
       activity: "effective",
-      activityId: `${world.id}:starting-laws:${world.startedAt}`,
+      activityId: createStableId(
+        "event",
+        `${world.id}:starting-laws:${world.startedAt}`,
+      ),
       subjectIds: [...world.personOrder],
       origin: "in-force-at-start",
     },
