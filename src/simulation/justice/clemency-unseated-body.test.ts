@@ -19,7 +19,11 @@ import {
   nextClemencyPetitionDueAt,
 } from "./clemency";
 import { clemencyAuthorityFor, EXECUTIVE_BODY } from "./clemency-rules";
-import { answersTo } from "./clemency-records";
+import {
+  answersTo,
+  CLEMENCY_DENIED_EVENT,
+  PETITION_TAG,
+} from "./clemency-records";
 import { composeWorldTimeHandlers } from "../campaigns";
 import {
   cancelFutureDueItem,
@@ -341,5 +345,91 @@ it("Kansas waits for the sourced advisory deadline before reaching the actual ex
     executiveOpenedAt: matter!.openedEvent.occurredAt,
     reloadRepeat: "unchanged",
     registry: "composeWorldTimeHandlers",
+  });
+});
+
+it("the actual sentence-end due item lapses a waiting body petition without votes", () => {
+  const state = lifePlaceStateIdentities().find(
+    (row) => row.jurisdictionKey === "US-MN",
+  )!;
+  const { filed, petitionerId, sentenceId, petitionId } = caseFixture(state);
+  const pending = advanceClemencyPetition(filed.world, petitionId);
+  const until = sentencesOf(pending, petitionerId).find(
+    (row) => row.sentencedEventId === sentenceId,
+  )!.until;
+  const actualDue = pending.history.futureDueItems.find(
+    (item) =>
+      item.transitionKey === CLEMENCY_PETITION_TRANSITION_KEY &&
+      item.stableKey.startsWith(
+        `${CLEMENCY_PETITION_TRANSITION_KEY}:${petitionId}:`,
+      ) &&
+      item.dueAt === until,
+  )!;
+  expect(actualDue).toBeDefined();
+  let isolated = pending;
+  for (const item of isolated.history.futureDueItems) {
+    if (item.id === actualDue.id) continue;
+    if (
+      futureDueItemStateAt(isolated, item.id, currentLifeCutoff(isolated))
+        ?.status !== "scheduled"
+    )
+      continue;
+    isolated = cancelFutureDueItem(isolated, {
+      stableKey: `fixture:a98-expiry-isolate:${item.id}`,
+      dueItemId: item.id,
+      effectiveAt: isolated.currentDate,
+      reasonKey: "fixture:isolated-body-expiry",
+      context: "Retain the actual petition sentence-end due item.",
+    });
+  }
+  // Explicit older-save boundary snapshot, not an invented hearing or retry.
+  const before: World = { ...isolated, currentDate: addDays(until, -1) };
+  expect(
+    clemencyPetitionStatus(
+      advanceClemencyPetition(before, petitionId),
+      petitionId,
+    ),
+  ).toBe("open");
+  expect(answersTo(before, petitionId)).toEqual([]);
+  const closed = resolveFutureDueItemsThrough(
+    before,
+    until,
+    composeWorldTimeHandlers(),
+  );
+  expect(clemencyPetitionStatus(closed, petitionId)).toBe("denied");
+  expect(answersTo(closed, petitionId)).toEqual([]);
+  const lapse = closed.history.events.find(
+    (event) =>
+      event.type === CLEMENCY_DENIED_EVENT &&
+      event.tags.includes(`${PETITION_TAG}${petitionId}`),
+  )!;
+  expect(lapse.tags).toContain("justice.clemency-lapsed");
+  expect(lapse.summary).toContain("The sentence ended before an answer came.");
+  expect(lapse.occurredAt).toBe(until);
+  const saved = deserializeWorld(serializeWorld(closed));
+  assertWorldIntegrity(saved);
+  expect(advanceClemencyPetition(saved, petitionId)).toBe(saved);
+  expect(answersTo(saved, petitionId)).toEqual([]);
+  expect(
+    saved.history.events.filter(
+      (event) =>
+        event.type === CLEMENCY_DENIED_EVENT &&
+        event.tags.includes(`${PETITION_TAG}${petitionId}`),
+    ),
+  ).toHaveLength(1);
+  receipts.push({
+    place: "US-MN",
+    name: personName(saved.people[petitionerId]!),
+    petitionerId,
+    sentenceId,
+    petitionId,
+    dueItemId: actualDue.id,
+    until,
+    lapseEventId: lapse.id,
+    bodyAnswers: 0,
+    status: "lapsed at actual sentence expiry",
+    reloadRepeat: "unchanged",
+    fixture:
+      "Explicit day-before snapshot; actual saved due and production registry deliver sentence expiry.",
   });
 });

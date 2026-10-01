@@ -259,5 +259,30 @@
     },
     "fiveConsentTests": "Original assertions/sharedfixture retained; passed in sixCaseRenewal; not rerun in this Kansas-only receipt"
   },
-  "notRunAtLatestSource": 5
+  "notRunAtLatestSource": 5,
+  "sentenceExpiryProof": {
+    "passed": 1,
+    "notRun": 6,
+    "durationSeconds": 42.05,
+    "parentHead": "2ca5596fa76a920e469811d6f167142a78ca114c",
+    "sourceBlob": "a849b3f5414d4421cf1bb1017565f3182a7f194b",
+    "command": "A98_PROOF_PATH=/tmp/team9-a98-expiry.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/clemency-unseated-body.test.ts -t 'actual sentence-end' --reporter=default --reporter=json --outputFile=/tmp/team9-a98-expiry-results.json",
+    "namedCase": {
+      "place": "US-MN",
+      "name": "Parker Armstrong",
+      "petitionerId": "person_1e7b0b1caf5b5d47",
+      "sentenceId": "event_f71d735366febb91",
+      "petitionId": "event_7eb0fd6451518e23",
+      "dueItemId": "future-due-item_8703fb499efa78f3",
+      "until": "2026-08-21",
+      "lapseEventId": "event_fa1f5b40509095e8",
+      "bodyAnswers": 0,
+      "status": "lapsed at actual sentence expiry",
+      "reloadRepeat": "unchanged",
+      "fixture": "Explicit day-before snapshot; actual saved due and production registry deliver sentence expiry."
+    },
+    "checks": "one strictroot988files0; lint/format/diff PASS; production unchanged",
+    "fixture": "Explicit day-before older-save snapshot; original saved due and production composer deliver actual sentence end. No new hearing/retry/body decision.",
+    "scope": "Other six tests not selected in latest run; prior consent and Kansas receipts remain source-bound."
+  }
 }
