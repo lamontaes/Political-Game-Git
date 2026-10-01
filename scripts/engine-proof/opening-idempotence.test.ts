@@ -13,6 +13,7 @@ import { observerSetup } from "../../src/presentation/observer-world";
 import { applyStartingLawConsequences } from "../../src/simulation/enacted-law-effects";
 import { searchLifePlaces } from "../../src/simulation/life-places";
 import { hasStableKey } from "../../src/simulation/history-index";
+import { LAW_CONSEQUENCE_REGISTRATIONS } from "../../src/simulation/law-consequence-registry";
 
 const observed = vi.hoisted(() => ({ calls: 0, dispatches: 0 }));
 const questionKey =
@@ -121,7 +122,10 @@ vi.mock("../../src/simulation/enacted-law-effects", async (importOriginal) => {
           },
         },
       };
-      return original.applyStartingLawConsequences(prepared, [probe]);
+      return original.applyStartingLawConsequences(prepared, [
+        ...LAW_CONSEQUENCE_REGISTRATIONS,
+        probe,
+      ]);
     },
   };
 });
