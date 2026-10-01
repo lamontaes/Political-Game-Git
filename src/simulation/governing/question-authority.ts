@@ -6,7 +6,7 @@ import {
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, HistoricalCutoff, IsoDate, World } from "../types";
 import { lawInForce } from "./law-in-force";
 
 /**
@@ -247,6 +247,7 @@ export function questionAuthority(
   jurisdictionId: EntityId,
   propositionId: EntityId,
   onDate?: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): QuestionAuthority {
   const levels = jurisdictionPowersLevels(world, jurisdictionId);
   const { reach, dial, stableKey, gate } = questionReach(world, propositionId);
@@ -286,7 +287,7 @@ export function questionAuthority(
       : "no";
   const gated =
     gate && may !== "no" && own.every((l) => l === "county" || l === "city")
-      ? stateGate(world, jurisdictionId, gate, onDate)
+      ? stateGate(world, jurisdictionId, gate, onDate, cutoff)
       : null;
   if (gated)
     return {
@@ -302,7 +303,7 @@ export function questionAuthority(
         (level === "county" || level === "city") &&
         cells?.[level]?.may === "UNKNOWN",
     )
-      ? homeRuleVerdict(world, jurisdictionId, onDate)
+      ? homeRuleVerdict(world, jurisdictionId, onDate, cutoff)
       : null;
   if (homeRule)
     return {
@@ -341,6 +342,7 @@ function homeRuleVerdict(
   world: AuthorityWorld,
   jurisdictionId: EntityId,
   onDate: IsoDate | undefined,
+  cutoff?: HistoricalCutoff,
 ): { readonly may: QuestionAuthorityVerdict; readonly reason: string } | null {
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
@@ -357,6 +359,8 @@ function homeRuleVerdict(
     state.id,
     question.id,
     onDate ?? world.currentDate,
+    "all",
+    cutoff,
   );
   if (!law) return null;
   return law.answer === "yes"
@@ -379,6 +383,7 @@ function stateGate(
   jurisdictionId: EntityId,
   gate: NonNullable<QuestionPowersRow["gate"]>,
   onDate: IsoDate | undefined,
+  cutoff?: HistoricalCutoff,
 ): { readonly may: QuestionAuthorityVerdict; readonly reason: string } | null {
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
@@ -395,6 +400,8 @@ function stateGate(
     state.id,
     question.id,
     onDate ?? world.currentDate,
+    "all",
+    cutoff,
   );
   if (!law) return null;
   if (law.answer === "yes")
@@ -415,9 +422,11 @@ export function mayAnswerQuestion(
   jurisdictionId: EntityId,
   propositionId: EntityId,
   onDate?: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): boolean {
   return (
-    questionAuthority(world, jurisdictionId, propositionId, onDate).may !== "no"
+    questionAuthority(world, jurisdictionId, propositionId, onDate, cutoff)
+      .may !== "no"
   );
 }
 

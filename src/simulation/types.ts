@@ -1,3 +1,4 @@
+import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type {
   PermitApplicationRecord,
   PermitStatusRecord,
@@ -4392,6 +4393,7 @@ export interface LegalOutcomeConsequenceRecord {
 }
 
 export interface HistoryStore {
+  readonly workPayCoverageDeterminations?: readonly WorkPayCoverageDeterminationRecord[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];

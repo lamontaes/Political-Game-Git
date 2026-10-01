@@ -1,3 +1,8 @@
+import { stateMinimumSettingAt } from "../minimum-wage";
+import { constitutionalPolicyProvisions } from "../policy-provisions";
+import { constitutionalPosition } from "../constitutional-process";
+import { enactedRuleChangeAt, ruleValueInWorld } from "../enacted-rule-changes";
+import { recordedSessionAdjournment } from "./session-adjournments";
 import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
@@ -11,7 +16,7 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
-import { lawInForce, statuteAnswer } from "./law-in-force";
+import { lawInForce, statuteAnswer, judicialRulingKey } from "./law-in-force";
 
 /**
  * The reader alone, over hand-written records: which enacted law governs a
@@ -454,4 +459,218 @@ describe("a starting answer a state's own constitution writes", () => {
       lawInForce(worldAt("2027-06-01", [change]), state, GRADUATED),
     ).toMatchObject({ origin: "enacted", level: "state-statute" });
   });
+});
+
+describe("earned legal history cutoff", () => {
+  it("keeps later same-day enactments out in all 56 jurisdictions", () => {
+    const keys = Object.keys(STATES).map((usps) => `US-${usps}`);
+    expect(new Set(keys).size).toBe(56);
+    for (const key of keys) {
+      const place = stateJurisdictionForKey(key);
+      expect(place, key).not.toBeNull();
+      const prior = law(place!.id, "yes", "2026-01-02", "2026-01-02");
+      const later = law(place!.id, "no", "2026-06-01", "2026-06-01");
+      const world = worldWith("2026-06-01", [prior, later]);
+      const cutoff = {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: later.enactment.sequence,
+      };
+      expect(
+        lawInForce(world, place!.id, QUESTION, world.currentDate, "all", cutoff)
+          ?.measureId,
+        key,
+      ).toBe(prior.measure.id);
+      expect(lawInForce(world, place!.id, QUESTION)?.measureId, key).toBe(
+        later.measure.id,
+      );
+      expect(
+        lawInForce(world, place!.id, QUESTION, world.currentDate, "all", {
+          ...cutoff,
+          historySequenceExclusive: later.enactment.sequence + 1,
+        })?.measureId,
+        key,
+      ).toBe(later.measure.id);
+    }
+  });
+  it("applies an available law on its operative day without inventing a time", () => {
+    const entry = law(ohio, "yes", "2026-01-02", "2026-06-01");
+    const world = worldWith("2026-06-01", [entry]);
+    const cutoff = {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: entry.enactment.sequence + 1,
+    };
+    expect(
+      lawInForce(world, ohio, QUESTION, world.currentDate, "all", cutoff)
+        ?.measureId,
+    ).toBe(entry.measure.id);
+    expect(
+      lawInForce(
+        world,
+        ohio,
+        QUESTION,
+        makeIsoDate("2026-05-31"),
+        "all",
+        cutoff,
+      ),
+    ).toBeNull();
+  });
+  it("does not use a later court ruling to change the earned law", () => {
+    const entry = law(ohio, "yes", "2026-01-02", "2026-01-02");
+    const base = worldWith("2026-06-01", [entry]);
+    const ruling = {
+      id: "ruling" as EntityId,
+      stableKey: judicialRulingKey(entry.enactment.id, QUESTION),
+      sequence: entry.enactment.sequence + 10,
+      occurredAt: base.currentDate,
+      tags: ["outcome:struck"],
+    };
+    // A controlled reader fixture, not a claim of natural litigation.
+    const world = {
+      ...base,
+      history: { ...base.history, events: [ruling] },
+    } as unknown as World;
+    expect(lawInForce(world, ohio, QUESTION)).toBeNull();
+    expect(
+      lawInForce(world, ohio, QUESTION, world.currentDate, "all", {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: ruling.sequence,
+      })?.measureId,
+    ).toBe(entry.measure.id);
+  });
+});
+
+it("hides later constitutional activation while preserving the current reader", () => {
+  const measure = {
+    id: "cutoff-amendment" as EntityId,
+    sequence: 1,
+    introducedAt: makeIsoDate("2026-01-01"),
+    jurisdictionKey: "US-CA",
+    processKind: "state-amendment",
+    proposedBy: "legislature",
+    ruleDelta: {
+      kind: "policy-provision",
+      propositionId: QUESTION,
+      stance: "adopt",
+    },
+    designation: "Test amendment",
+    delayedOperativeAt: null,
+    deadlineAt: null,
+  };
+  const action = {
+    id: "cutoff-ratification" as EntityId,
+    measureId: measure.id,
+    sequence: 10,
+    occurredAt: makeIsoDate("2026-06-01"),
+    detail: {
+      kind: "statewide-vote",
+      yes: 2,
+      no: 1,
+      statementFiledAt: makeIsoDate("2026-06-01"),
+    },
+  };
+  // Explicit reader records; the vote counts are fixture controls.
+  const world = {
+    currentDate: makeIsoDate("2026-06-10"),
+    history: {
+      constitutionalMeasures: [measure],
+      constitutionalActions: [action],
+    },
+  } as unknown as World;
+  const cutoff = { asOfDate: world.currentDate, historySequenceExclusive: 10 };
+  expect(constitutionalPosition(world, measure.id).operativeAt).not.toBeNull();
+  expect(
+    constitutionalPosition(world, measure.id, world.currentDate, cutoff)
+      .operativeAt,
+  ).toBeNull();
+  expect(
+    constitutionalPolicyProvisions(world, "CA", world.currentDate, cutoff),
+  ).toEqual([]);
+  expect(constitutionalPolicyProvisions(world, "CA")).toHaveLength(1);
+});
+
+it("hides a later saved hourly rule provision and its enactment", () => {
+  const entry = law(ohio, "yes", "2026-06-01", "2026-06-01");
+  const base = worldWith("2026-06-01", [entry]);
+  const provision = {
+    id: "cutoff-hourly-clause" as EntityId,
+    sequence: entry.enactment.sequence - 1,
+    measureId: entry.measure.id,
+    stateUsps: "OH",
+    officeKey: "us-oh-labor-law",
+    field: "labor.minimumWage.hourlyCents" as const,
+    value: 1800,
+    filedAt: makeIsoDate("2026-01-01"),
+  };
+  const world = {
+    ...base,
+    history: { ...base.history, ruleChangeProvisions: [provision] },
+  } as unknown as World;
+  const query = {
+    stateUsps: "OH",
+    officeKey: "us-oh-labor-law",
+    field: provision.field,
+    onDate: world.currentDate,
+  };
+  expect(enactedRuleChangeAt(world, query)?.value).toBe(1800);
+  const wageWorld = { ...world, policyCatalog: { propositions: {} } } as World;
+  expect(
+    stateMinimumSettingAt(wageWorld, "US-OH", world.currentDate)?.hourlyMinor,
+  ).toBe(1800);
+  expect(
+    stateMinimumSettingAt(wageWorld, "US-OH", world.currentDate, {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: entry.enactment.sequence,
+    }),
+  ).toBeNull();
+
+  expect(
+    ruleValueInWorld(
+      world,
+      {
+        jurisdiction: "OH",
+        officeKey: query.officeKey,
+        field: query.field,
+        onDate: query.onDate,
+        cutoff: {
+          asOfDate: world.currentDate,
+          historySequenceExclusive: entry.enactment.sequence,
+        },
+      },
+      null,
+    ),
+  ).toEqual({ source: "compiled", value: null });
+
+  expect(
+    enactedRuleChangeAt(world, {
+      ...query,
+      cutoff: {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: entry.enactment.sequence,
+      },
+    }),
+  ).toBeNull();
+});
+
+it("does not derive an earlier effective date from a later recorded adjournment", () => {
+  const world = {
+    history: {
+      sessionAdjournments: [
+        {
+          sequence: 9,
+          rulePackId: "test",
+          sessionYear: 2026,
+          adjournedOn: makeIsoDate("2026-05-01"),
+        },
+      ],
+    },
+  } as unknown as World;
+  expect(recordedSessionAdjournment(world, "test", 2026)?.adjournedOn).toBe(
+    "2026-05-01",
+  );
+  expect(
+    recordedSessionAdjournment(world, "test", 2026, {
+      asOfDate: makeIsoDate("2026-05-01"),
+      historySequenceExclusive: 9,
+    }),
+  ).toBeNull();
 });
