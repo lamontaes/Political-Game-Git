@@ -1,0 +1,436 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '1150000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_7691c6e3ae48f824',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1795,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:1150000","placeKey":"1150000","name":"Oliver Stevens","startingLaw":"starting-law:US-DC:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":71800}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 admits one default pay handler and refuses duplicate ownership 2ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-federal-positions:labor-commerce.raise-federal-minimum-wage 8ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-policy-positions:labor-workforce.raise-minimum-wage 2ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 preserves the existing coverage and service catalog rows 4ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 20553ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '2836000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_0206095076b1bcc4',
+  questionKey: 'us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  termKey: 'floor',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+  finalTerm: {
+    value: 725,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:2836000","placeKey":"2836000","name":"Melissa Santiago","startingLaw":"starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage","grossMinor":29000}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 19575ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '5363000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_aa290714a3bed098',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1713,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:5363000","placeKey":"5363000","name":"Ronald Spencer","startingLaw":"starting-law:US-WA:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":68520}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 18432ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '2938000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_365300a02261dccb',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1500,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:2938000","placeKey":"2938000","name":"Brian Roberson","startingLaw":"starting-law:US-MO:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":60000}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 17134ms
+stdout | src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+PAY_STARTING_TERM_RECEIPT {
+  placeKey: '3451000',
+  onDate: '2026-01-05',
+  jurisdictionId: 'jurisdiction_5ac4feaee63d50c6',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  governingLawKey: 'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage',
+  finalTerm: {
+    value: 1592,
+    unit: 'minor/hour',
+    measureId: 'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage',
+    provisionId: null,
+    sourceRecordIds: [
+      'starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage'
+    ]
+  }
+}
+{"seed":"pay-kind:3451000","placeKey":"3451000","name":"Anna Robbins","startingLaw":"starting-law:US-NJ:us-policy-positions:labor-workforce.raise-minimum-wage","grossMinor":63680}
+
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity 18211ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 1150000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:1150000',
+  placeKey: '1150000',
+  person: 'Olivia Newton',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_2c12a0396e3e9a99',
+  enactmentId: 'legislative-enactment_539a44504b37e4a0',
+  questionKey: null
+}
+ANNUAL_PAYROLL_BOUNDARY {
+  seed: 'office-annual:1150000',
+  placeKey: '1150000',
+  person: 'Olivia Newton',
+  activity: 'payroll',
+  activityId: 'resource-flow_12581205ada11553',
+  onDate: '2026-01-12',
+  subjectIds: [ 'person_100c2106245f5bb3' ],
+  workId: 'work-relationship_d69843f31f8f253a',
+  rowId: 'pay:us-policy-positions:labor-workforce.raise-minimum-wage',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  wageLaw: {
+    answer: 'yes',
+    measureId: 'starting-law:US-OH:us-policy-positions:labor-workforce.raise-minimum-wage',
+    origin: 'in-force-at-start',
+    level: 'state-statute',
+    operativeAt: '2000-01-01',
+    operativeBasis: 'enacted-date'
+  }
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 1150000 18824ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2836000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:2836000',
+  placeKey: '2836000',
+  person: 'Ray Melendez',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_956563cc52fc8817',
+  enactmentId: 'legislative-enactment_fa1f59385dc65e9c',
+  questionKey: null
+}
+ANNUAL_PAYROLL_BOUNDARY {
+  seed: 'office-annual:2836000',
+  placeKey: '2836000',
+  person: 'Ray Melendez',
+  activity: 'payroll',
+  activityId: 'resource-flow_6c34f8b78dd4bf4f',
+  onDate: '2026-01-12',
+  subjectIds: [ 'person_ef04613f34bc27a9' ],
+  workId: 'work-relationship_fcdfc01296059d2c',
+  rowId: 'pay:us-policy-positions:labor-workforce.raise-minimum-wage',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  wageLaw: {
+    answer: 'yes',
+    measureId: 'starting-law:US-OH:us-policy-positions:labor-workforce.raise-minimum-wage',
+    origin: 'in-force-at-start',
+    level: 'state-statute',
+    operativeAt: '2000-01-01',
+    operativeBasis: 'enacted-date'
+  }
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2836000 16915ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 5363000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:5363000',
+  placeKey: '5363000',
+  person: 'Nora Campos',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_bbdab955b045a0d6',
+  enactmentId: 'legislative-enactment_9c265d2cbabfcde8',
+  questionKey: null
+}
+ANNUAL_PAYROLL_BOUNDARY {
+  seed: 'office-annual:5363000',
+  placeKey: '5363000',
+  person: 'Nora Campos',
+  activity: 'payroll',
+  activityId: 'resource-flow_2921e70c45822891',
+  onDate: '2026-01-12',
+  subjectIds: [ 'person_94088fcf0c5aeb44' ],
+  workId: 'work-relationship_b3cf033fbdeb2e0d',
+  rowId: 'pay:us-policy-positions:labor-workforce.raise-minimum-wage',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  wageLaw: {
+    answer: 'yes',
+    measureId: 'starting-law:US-OH:us-policy-positions:labor-workforce.raise-minimum-wage',
+    origin: 'in-force-at-start',
+    level: 'state-statute',
+    operativeAt: '2000-01-01',
+    operativeBasis: 'enacted-date'
+  }
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 5363000 17086ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2938000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:2938000',
+  placeKey: '2938000',
+  person: 'Kieran Merritt',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_a7437d169dbc4b49',
+  enactmentId: 'legislative-enactment_9bbffb2d0dd76776',
+  questionKey: null
+}
+ANNUAL_PAYROLL_BOUNDARY {
+  seed: 'office-annual:2938000',
+  placeKey: '2938000',
+  person: 'Kieran Merritt',
+  activity: 'payroll',
+  activityId: 'resource-flow_7302b0c021b7af57',
+  onDate: '2026-01-12',
+  subjectIds: [ 'person_420077e6ff253ec3' ],
+  workId: 'work-relationship_f26e8561b0b339c4',
+  rowId: 'pay:us-policy-positions:labor-workforce.raise-minimum-wage',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  wageLaw: {
+    answer: 'yes',
+    measureId: 'starting-law:US-OH:us-policy-positions:labor-workforce.raise-minimum-wage',
+    origin: 'in-force-at-start',
+    level: 'state-statute',
+    operativeAt: '2000-01-01',
+    operativeBasis: 'enacted-date'
+  }
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2938000 15851ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 3451000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:3451000',
+  placeKey: '3451000',
+  person: 'Sofia Gonzales',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_678cf3cf3293a90a',
+  enactmentId: 'legislative-enactment_c5e814048556fa69',
+  questionKey: null
+}
+ANNUAL_PAYROLL_BOUNDARY {
+  seed: 'office-annual:3451000',
+  placeKey: '3451000',
+  person: 'Sofia Gonzales',
+  activity: 'payroll',
+  activityId: 'resource-flow_10cfbf2735fdd3fa',
+  onDate: '2026-01-12',
+  subjectIds: [ 'person_7fad197f7ee936a8' ],
+  workId: 'work-relationship_970abd568978435e',
+  rowId: 'pay:us-policy-positions:labor-workforce.raise-minimum-wage',
+  questionKey: 'us-policy-positions:labor-workforce.raise-minimum-wage',
+  termKey: 'target',
+  unit: 'minor/hour',
+  wageLaw: {
+    answer: 'yes',
+    measureId: 'starting-law:US-OH:us-policy-positions:labor-workforce.raise-minimum-wage',
+    origin: 'in-force-at-start',
+    level: 'state-statute',
+    operativeAt: '2000-01-01',
+    operativeBasis: 'enacted-date'
+  }
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 3451000 16757ms
+ ✓ src/simulation/office-annual-pay.test.ts > A38 refuses a salary change limited to terms beginning after its date 2891ms
+ ✓ src/simulation/office-annual-pay.test.ts > A38 reads the actual office role at the earlier payroll date 3042ms
+ ✓ src/simulation/office-annual-pay.test.ts > A38 dispatches the actual office measure through the default pay registration 8164ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 1150000
+ANNUAL_LIVE_OFFICE_PAY {
+  seed: 'office-annual:1150000',
+  placeKey: '1150000',
+  person: 'Olivia Newton',
+  workplace: 'OH',
+  clauseId: 'rule-change-provision_2c12a0396e3e9a99',
+  enactmentId: 'legislative-enactment_539a44504b37e4a0',
+  periods: [
+    { from: '2026-01-05', grossMinor: 328960 },
+    { from: '2026-01-12', grossMinor: 100000 }
+  ]
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 1150000 15763ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 2836000
+ANNUAL_LIVE_OFFICE_PAY {
+  seed: 'office-annual:2836000',
+  placeKey: '2836000',
+  person: 'Ray Melendez',
+  workplace: 'OH',
+  clauseId: 'rule-change-provision_956563cc52fc8817',
+  enactmentId: 'legislative-enactment_fa1f59385dc65e9c',
+  periods: [
+    { from: '2026-01-05', grossMinor: 328960 },
+    { from: '2026-01-12', grossMinor: 100000 }
+  ]
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 2836000 14336ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 5363000
+ANNUAL_LIVE_OFFICE_PAY {
+  seed: 'office-annual:5363000',
+  placeKey: '5363000',
+  person: 'Nora Campos',
+  workplace: 'OH',
+  clauseId: 'rule-change-provision_bbdab955b045a0d6',
+  enactmentId: 'legislative-enactment_9c265d2cbabfcde8',
+  periods: [
+    { from: '2026-01-05', grossMinor: 328960 },
+    { from: '2026-01-12', grossMinor: 100000 }
+  ]
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 5363000 15615ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 2938000
+ANNUAL_LIVE_OFFICE_PAY {
+  seed: 'office-annual:2938000',
+  placeKey: '2938000',
+  person: 'Kieran Merritt',
+  workplace: 'OH',
+  clauseId: 'rule-change-provision_a7437d169dbc4b49',
+  enactmentId: 'legislative-enactment_9bbffb2d0dd76776',
+  periods: [
+    { from: '2026-01-05', grossMinor: 328960 },
+    { from: '2026-01-12', grossMinor: 100000 }
+  ]
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 2938000 14777ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 3451000
+ANNUAL_LIVE_OFFICE_PAY {
+  seed: 'office-annual:3451000',
+  placeKey: '3451000',
+  person: 'Sofia Gonzales',
+  workplace: 'OH',
+  clauseId: 'rule-change-provision_678cf3cf3293a90a',
+  enactmentId: 'legislative-enactment_c5e814048556fa69',
+  periods: [
+    { from: '2026-01-05', grossMinor: 328960 },
+    { from: '2026-01-12', grossMinor: 100000 }
+  ]
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 3451000 14676ms
+stdout | src/simulation/office-annual-pay.test.ts > A38 extracts saved applicability facts from the retained Ohio fixture
+A38_SAVED_APPLICABILITY {
+  "fixtureSeed": "office-annual:1150000",
+  "placeKey": "1150000",
+  "actualDate": "2026-01-12",
+  "personId": "person_100c2106245f5bb3",
+  "workId": "work-relationship_d69843f31f8f253a",
+  "roleId": "work-role_1f76157c4ffdb650",
+  "employerOrganizationId": "organization_d07817435daf102c",
+  "coverage": {
+    "id": "work-pay-coverage_035d58966ff9eea3",
+    "stableKey": "work-pay-coverage:work-relationship_d69843f31f8f253a:initial",
+    "sequence": 48648,
+    "workRelationshipId": "work-relationship_d69843f31f8f253a",
+    "personId": "person_100c2106245f5bb3",
+    "employerOrganizationId": "organization_d07817435daf102c",
+    "workRoleId": "work-role_1f76157c4ffdb650",
+    "jurisdictionId": "jurisdiction_cd70b9ba3c8e7584",
+    "determinedAt": "2026-01-05",
+    "reason": "hire",
+    "defaultCategory": "standard",
+    "factRecordIds": [
+      "work-relationship_d69843f31f8f253a",
+      "work-role_1f76157c4ffdb650",
+      "work-status_bc4205fcb845d9e0",
+      "organization-profile_0f63c546b16f76d1"
+    ],
+    "sources": [
+      "https://www.dol.gov/agencies/whd/minimum-wage",
+      "https://www.dol.gov/agencies/whd/fact-sheets/14-flsa-coverage",
+      "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section206&num=0&edition=prelim"
+    ],
+    "governingLaws": [
+      {
+        "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+        "governingLawKey": "starting-law:US-OH:us-policy-positions:labor-workforce.raise-minimum-wage",
+        "origin": "in-force-at-start"
+      },
+      {
+        "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+        "governingLawKey": "starting-law:US:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+        "origin": "in-force-at-start"
+      }
+    ],
+    "exceptions": []
+  },
+  "office": {
+    "office": "governor",
+    "state": "OH"
+  },
+  "limit": "Reconstructed retained fixture, no payment or Ohio tier inference"
+}
+
+ ✓ src/simulation/office-annual-pay.test.ts > A38 extracts saved applicability facts from the retained Ohio fixture 3808ms
+ ✓ src/simulation/law-consequences/pay-elective-coverage.test.ts > excludes the recorded elected office without excluding appointed staff 83ms
+
+ Test Files  3 passed (3)
+      Tests  24 passed (24)
+   Start at  08:59:31
+   Duration  289.01s (transform 9.78s, setup 28ms, import 16.09s, tests 272.52s, environment 1ms)

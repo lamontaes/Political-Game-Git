@@ -1,0 +1,65 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 75000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'legislative-measure_0e57d79d61532c18'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload 345ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 60000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'starting-law:US-NE:us-policy-positions:labor-workforce.raise-minimum-wage'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor 103ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 60000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'starting-law:US-NE:us-policy-positions:labor-workforce.raise-minimum-wage'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck 184ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 60000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'starting-law:US-NE:us-policy-positions:labor-workforce.raise-minimum-wage'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 amountless city ordinance refuses a fabricated numeric wage 45ms
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor 111ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 100000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'legislative-measure_a80a25c15fe77d2f'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor 164ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 admits one default pay handler and refuses duplicate ownership 2ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-federal-positions:labor-commerce.raise-federal-minimum-wage 6ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-policy-positions:labor-workforce.raise-minimum-wage 1ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-policy-positions:labor-workforce.city-minimum-wage 1ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 preserves the existing coverage and service catalog rows 3ms
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+
+ Test Files  2 passed (2)
+      Tests  11 passed | 5 skipped (16)
+   Start at  09:24:58
+   Duration  26.90s (transform 18.72s, setup 22ms, import 25.69s, tests 968ms, environment 1ms)
