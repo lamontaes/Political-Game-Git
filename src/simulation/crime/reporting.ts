@@ -1,12 +1,13 @@
 import { considerationScore, evaluateDecision } from "../decisions";
-import { recordsByKey } from "../history-index";
+import { eventById, eventIndexOf } from "../event-index";
 import { eventsOfType } from "../justice/jail-terms";
-import { ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../dates";
 import { personTrait } from "../people-traits";
 import type {
   DecisionConsideration,
   DecisionImportance,
   EntityId,
+  HistoricalEvent,
   IsoDate,
   MindConfidence,
   World,
@@ -122,36 +123,55 @@ function step(points: number) {
   return best;
 }
 
-const VICTIM_ROLE = "impact:crime-victim";
-const INCIDENT_TYPES: ReadonlySet<string> = new Set([
-  "crime.offense-reported",
-  "crime.offense-unreported",
-]);
-
 /**
- * Offenses recorded against `personId` before `onDate`, reported or not.
- * Read through the history index, so a monthly pass over every resident
- * never rescans every event.
+ * The crimes a person suffered: every offense the crime producer recorded
+ * with them as its victim (`impact:crime-victim`), reported or not.
+ *
+ * This is the one reader of that fact. The principles a life forms
+ * (`principles-from-life.ts`) and the victim's own decision to report
+ * (`priorVictimizations`, below) both read it.
  */
+
+const VICTIM_EVENTS = new WeakMap<
+  readonly HistoricalEvent[],
+  ReadonlyMap<EntityId, readonly EntityId[]>
+>();
+
+/** The ids of the crimes against `personId` on or before `through`. */
+export function crimesSufferedBy(
+  world: World,
+  personId: EntityId,
+  through = world.currentDate,
+): readonly EntityId[] {
+  const events = world.history.events;
+  let index = VICTIM_EVENTS.get(events);
+  if (!index) {
+    const built = new Map<EntityId, EntityId[]>();
+    for (const event of eventIndexOf(events).values())
+      for (const participant of event.participants)
+        if (
+          participant.role === "impact:crime-victim" &&
+          participant.personId
+        ) {
+          const list = built.get(participant.personId) ?? [];
+          list.push(event.id);
+          built.set(participant.personId, list);
+        }
+    VICTIM_EVENTS.set(events, built);
+    index = built;
+  }
+  return (index.get(personId) ?? []).filter(
+    (id) => (eventById(world, id)?.occurredAt ?? "") <= through,
+  );
+}
+
+/** Offenses recorded against `personId` before `onDate`, reported or not. */
 export function priorVictimizations(
   world: World,
   personId: EntityId,
   onDate: IsoDate,
 ): number {
-  let count = 0;
-  for (const event of recordsByKey(
-    world.history.events,
-    "crime:incidents-by-victim",
-    (record) =>
-      INCIDENT_TYPES.has(record.type)
-        ? record.participants
-            .filter((row) => row.role === VICTIM_ROLE)
-            .map((row) => row.personId)
-        : [],
-    personId,
-  ))
-    if (event.occurredAt < onDate) count += 1;
-  return count;
+  return crimesSufferedBy(world, personId, addDays(onDate, -1)).length;
 }
 
 /** The victim's past with police before `onDate`: reports made, charges. */

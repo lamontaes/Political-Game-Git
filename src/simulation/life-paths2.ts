@@ -1,9 +1,7 @@
+import { SCHOOL_STAGE_TRANSITION_KEY } from "./school-calendar";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { settleTownCompensations } from "./living-world/town-pay";
-import {
-  SCHOOL_STAGE_TRANSITION_KEY,
-  schoolStageTransitionHandler,
-} from "./school-stages";
+import { schoolStageTransitionHandler } from "./school-stages";
 import {
   acceptedEducationPath,
   legacyAcceptedEducationPath,

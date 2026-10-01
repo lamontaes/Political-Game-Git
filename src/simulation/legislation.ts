@@ -1109,7 +1109,10 @@ export interface RecordVoteInput<
  * supplies member dispositions; this function never invents them.
  */
 export function buildLegislativeVoteRecord<
-  Purpose extends LegislativeVotePurpose | "constitutional-proposal",
+  Purpose extends
+    | LegislativeVotePurpose
+    | "constitutional-proposal"
+    | "constitutional-ratification",
 >(
   world: World,
   input: RecordVoteInput<Purpose>,
