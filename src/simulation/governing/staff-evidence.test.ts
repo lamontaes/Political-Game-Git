@@ -31,6 +31,28 @@ function openingWorld(suffix: string) {
 }
 
 describe("A93: a staff assessment reads the actual record", () => {
+  it("uses the same absence-of-evidence rule in all 56 starting jurisdictions", () => {
+    const identities = lifePlaceStateIdentities();
+    expect(identities).toHaveLength(56);
+    for (const identity of identities) {
+      const startingPlace = searchLifePlaces("", 1, {
+        stateJurisdictionKey: identity.jurisdictionKey,
+        scope: "locality",
+      })[0]!;
+      const at = createScenarioWorld(
+        `${seed}:absence:${identity.jurisdictionKey}`,
+        startingPlace.context,
+      );
+      const personId = at.personOrder.find(
+        (id) => workRelationshipHistoryForPerson(at, id).length === 0,
+      )!;
+      expect(personId, identity.jurisdictionKey).toBeDefined();
+      expect(staffAssessment(at, personId).steadiness).toBeNull();
+      expect(staffAssessment(at, personId).evidence).toBe("limited");
+      expect(workRelationshipHistoryForPerson(at, personId)).toHaveLength(0);
+    }
+  });
+
   it("keeps steadiness unknown without working history through Continue", () => {
     const world = openingWorld("empty");
     const personId = world.personOrder.find(
@@ -159,6 +181,22 @@ describe("A93: a staff assessment reads the actual record", () => {
         ),
       ).toBe(false);
     }
+    console.info(
+      "A93 actual office candidate record",
+      JSON.stringify({
+        seed: created.world.seed,
+        office: office.officeKey,
+        jurisdictionId: office.jurisdictionId,
+        candidates: created.personIds.map((personId) => ({
+          name: personName(created.world.people[personId]!),
+          workingPosts: workRelationshipHistoryForPerson(
+            created.world,
+            personId,
+          ).length,
+          steadiness: staffAssessment(created.world, personId).steadiness,
+        })),
+      }),
+    );
     const repeated = createCandidates(
       created.world,
       office,
