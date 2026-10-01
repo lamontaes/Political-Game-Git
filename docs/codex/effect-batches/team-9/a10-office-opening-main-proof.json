@@ -132,7 +132,7 @@
     "Controlled person switches to actual saved successor",
     "Unrelated saved due records canonically canceled for boundary isolation",
     "No sentence callback included in production prosecution.ts",
-    "Iowa timeout and opening/load integration remain Audit dependencies",
+    "Iowa reported pass awaits exact Audit source/command/assertion receipt; opening/load integration remains separate",
     "Existing A98 unseated-board gap not repaired",
     "Weekly request producer and court fallbacks remain",
     "No year/browser/whole-suite/national completion"
@@ -146,5 +146,52 @@
     "report": "0 errors, 0 warnings",
     "release": "PASS before source commit; declaration range renewed after commit",
     "zeroDice": "FAIL: 0 new, 5 inherited removed allowlisted lines; baseline untouched"
+  },
+  "externalAuditReceipt": {
+    "sourceHead": "af96d169c695bc5ed6063740919d14811e733f40",
+    "session": 44878,
+    "exitCode": 0,
+    "method": "Read-only Git-backed loader; untouched terminal saves; advanceObservedWorld(world,1) via default composeWorldTimeHandlers; existing due resolver repeat",
+    "command": "npm run storage -- run test -- node --expose-gc /tmp/audit-clemency-saved-run.mjs",
+    "heapMegabytes": 6144,
+    "originalCampaignHead": "2ce5f65",
+    "team9Execution": false,
+    "readFrom": "00c saved clemency boundary receipt",
+    "boundaries": [
+      {
+        "place": "Proctor, Vermont",
+        "person": "Elizabeth Snider",
+        "personId": "person_780d00d28a0edae5",
+        "date": "2028-03-12",
+        "dueItemId": "future-due-item_78ca9d04d7363952",
+        "reason": "justice:clemency-already-closed",
+        "statesAfterDay": 2,
+        "statesAfterRepeat": 2,
+        "outcomeEventId": null
+      },
+      {
+        "place": "Fair Oaks, Oklahoma",
+        "person": "Ryan Banks",
+        "personId": "person_7330e7c9b63fb8a7",
+        "date": "2027-10-08",
+        "dueItemId": "future-due-item_83e65efacc58d96d",
+        "reason": "justice:clemency-reviewed",
+        "statesAfterDay": 2,
+        "statesAfterRepeat": 2,
+        "outcomeEventId": "event_76fbdca39efaac33"
+      },
+      {
+        "place": "Derry, New Hampshire",
+        "person": "Eric Underwood",
+        "personId": "person_975396b34d15cdb1",
+        "date": "2028-02-07",
+        "dueItemId": "future-due-item_2310ab2f7eb442f0",
+        "reason": "justice:clemency-already-closed",
+        "statesAfterDay": 2,
+        "statesAfterRepeat": 2,
+        "outcomeEventId": null
+      }
+    ],
+    "scope": "Observed missing-handler boundaries only; no granted-clemency, Iowa-timing, opening/load-overdue or five-year claim"
   }
 }
