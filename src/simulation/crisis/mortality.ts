@@ -49,9 +49,11 @@ import {
   activeHealthEpisodes,
   closeHealthEpisodesForDeath,
 } from "./health-queries";
+import { growingIndex, type GrowingIndexKind } from "../history-index";
 import { appendCrisisRecord, crisisRecordId, crisisRecords } from "./records";
 import {
   CRISIS_MORTALITY_MODEL,
+  type CrisisRecord,
   type HealthCoverageRecord,
   type HealthEpisodeRecord,
   type MortalityWindowRecord,
@@ -108,117 +110,127 @@ function firstOfNextQuarter(date: IsoDate): IsoDate {
 }
 
 function windowRecords(world: World): readonly MortalityWindowRecord[] {
-  return crisisRecords(world).filter(
-    (record): record is MortalityWindowRecord =>
-      record.kind === "mortality-window",
-  );
+  return mortalityIndex(world).windows;
 }
 
 /**
- * Everything the hazard reads about people, indexed once per immutable
- * record array so a quarterly pass is linear in people.
+ * Everything the hazard reads about people, kept as the record list grows
+ * (`growingIndex`): each appended record updates only the person it names,
+ * so a write costs the records it adds, not the whole list. A person's
+ * multiplier timeline and condition list are derived on first read and kept
+ * until a record about that person arrives.
  */
-interface MortalityContext {
-  readonly starts: ReadonlyMap<EntityId, IsoDate>;
-  readonly calibrations: ReadonlyMap<EntityId, MortalityCalibrationCategory>;
-  readonly multipliers: ReadonlyMap<
-    EntityId,
-    readonly HazardMultiplierChange[]
-  >;
-  /** Health episodes that multiply a person's strain, with their end day. */
-  readonly conditions: ReadonlyMap<
-    EntityId,
-    readonly { readonly episode: HealthEpisodeRecord; end: IsoDate | null }[]
-  >;
+interface MortalityIndex {
+  /** Mortality windows, oldest first. */
+  readonly windows: MortalityWindowRecord[];
+  readonly starts: Map<EntityId, IsoDate>;
+  readonly calibrations: Map<EntityId, MortalityCalibrationCategory>;
+  /** Health episodes that multiply a person's strain, oldest first. */
+  readonly episodes: Map<EntityId, readonly HealthEpisodeRecord[]>;
+  /** The person each strain-multiplying episode belongs to. */
+  readonly episodePerson: Map<EntityId, EntityId>;
   /** A person's coverage records, oldest first. */
-  readonly coverage: ReadonlyMap<EntityId, readonly HealthCoverageRecord[]>;
+  readonly coverage: Map<EntityId, readonly HealthCoverageRecord[]>;
+  readonly endByEpisode: Map<EntityId, IsoDate>;
+  readonly derived: Map<EntityId, PersonStrain>;
 }
 
-const CONTEXTS = new WeakMap<object, MortalityContext>();
+interface PersonStrain {
+  readonly multipliers: readonly HazardMultiplierChange[];
+  /** Health episodes that multiply the strain, with their end day. */
+  readonly conditions: readonly {
+    readonly episode: HealthEpisodeRecord;
+    readonly end: IsoDate | null;
+  }[];
+}
 
-function mortalityContext(world: World): MortalityContext {
-  const records = crisisRecords(world);
-  const cached = CONTEXTS.get(records);
-  if (cached) return cached;
-  const starts = new Map<EntityId, IsoDate>();
-  const calibrations = new Map<EntityId, MortalityCalibrationCategory>();
-  const episodesByPerson = new Map<EntityId, HealthEpisodeRecord[]>();
-  const coverageByPerson = new Map<EntityId, HealthCoverageRecord[]>();
-  const endByEpisode = new Map<EntityId, IsoDate>();
-  for (const record of records) {
+const NO_STRAIN: PersonStrain = { multipliers: [], conditions: [] };
+
+const MORTALITY_INDEX: GrowingIndexKind<MortalityIndex> = {
+  create: () => ({
+    windows: [],
+    starts: new Map(),
+    calibrations: new Map(),
+    episodes: new Map(),
+    episodePerson: new Map(),
+    coverage: new Map(),
+    endByEpisode: new Map(),
+    derived: new Map(),
+  }),
+  add: (index, item) => {
+    const record = item as CrisisRecord;
     switch (record.kind) {
       case "mortality-window":
+        index.windows.push(record);
         for (const personId of record.newlyTrackedPersonIds)
-          if (!starts.has(personId)) starts.set(personId, record.effectiveAt);
+          if (!index.starts.has(personId))
+            index.starts.set(personId, record.effectiveAt);
         break;
       case "mortality-calibration":
-        calibrations.set(record.personId, record.category);
+        index.calibrations.set(record.personId, record.category);
         break;
       case "health-episode":
         if (record.hazardMultiplierMicros !== MULTIPLIER_ONE) {
-          const list = episodesByPerson.get(record.personId) ?? [];
-          list.push(record);
-          episodesByPerson.set(record.personId, list);
+          // A new list, so a list handed out earlier never changes.
+          index.episodes.set(record.personId, [
+            ...(index.episodes.get(record.personId) ?? []),
+            record,
+          ]);
+          index.episodePerson.set(record.id, record.personId);
+          index.derived.delete(record.personId);
         }
         break;
-      case "health-coverage": {
-        const list = coverageByPerson.get(record.personId) ?? [];
-        list.push(record);
-        coverageByPerson.set(record.personId, list);
+      case "health-coverage":
+        index.coverage.set(record.personId, [
+          ...(index.coverage.get(record.personId) ?? []),
+          record,
+        ]);
+        index.derived.delete(record.personId);
         break;
-      }
       case "health-state":
         if (
           (record.state === "recovered" || record.state === "deceased") &&
-          !endByEpisode.has(record.episodeId)
-        )
-          endByEpisode.set(record.episodeId, record.effectiveAt);
+          !index.endByEpisode.has(record.episodeId)
+        ) {
+          index.endByEpisode.set(record.episodeId, record.effectiveAt);
+          const personId = index.episodePerson.get(record.episodeId);
+          if (personId) index.derived.delete(personId);
+        }
         break;
       default:
         break;
     }
-  }
-  const intervalsByPerson = new Map<EntityId, HazardInterval[]>();
-  for (const [personId, episodes] of episodesByPerson)
-    intervalsByPerson.set(
-      personId,
-      episodes.map((episode) => ({
-        start: episode.effectiveAt,
-        end: endByEpisode.get(episode.id) ?? null,
-        micros: episode.hazardMultiplierMicros,
-      })),
-    );
-  for (const [personId, coverage] of coverageByPerson) {
-    const person = world.people[personId];
-    if (!person) continue;
-    const spans = coverageHazardIntervals(person.birthDate, coverage);
-    if (spans.length === 0) continue;
-    intervalsByPerson.set(personId, [
-      ...(intervalsByPerson.get(personId) ?? []),
-      ...spans,
-    ]);
-  }
-  const multipliers = new Map<EntityId, readonly HazardMultiplierChange[]>();
-  for (const [personId, intervals] of intervalsByPerson)
-    multipliers.set(personId, multiplierTimeline(intervals));
-  const conditions = new Map(
-    [...episodesByPerson].map(([personId, episodes]) => [
-      personId,
-      episodes.map((episode) => ({
-        episode,
-        end: endByEpisode.get(episode.id) ?? null,
-      })),
-    ]),
-  );
-  const context = {
-    starts,
-    calibrations,
-    multipliers,
-    conditions,
-    coverage: coverageByPerson,
+  },
+};
+
+function mortalityIndex(world: World): MortalityIndex {
+  return growingIndex(MORTALITY_INDEX, crisisRecords(world));
+}
+
+function personStrain(world: World, personId: EntityId): PersonStrain {
+  const index = mortalityIndex(world);
+  const cached = index.derived.get(personId);
+  if (cached) return cached;
+  const episodes = index.episodes.get(personId) ?? [];
+  const coverage = index.coverage.get(personId) ?? [];
+  if (episodes.length === 0 && coverage.length === 0) return NO_STRAIN;
+  const intervals: HazardInterval[] = episodes.map((episode) => ({
+    start: episode.effectiveAt,
+    end: index.endByEpisode.get(episode.id) ?? null,
+    micros: episode.hazardMultiplierMicros,
+  }));
+  const person = world.people[personId];
+  if (person && coverage.length > 0)
+    intervals.push(...coverageHazardIntervals(person.birthDate, coverage));
+  const strain: PersonStrain = {
+    multipliers: intervals.length > 0 ? multiplierTimeline(intervals) : [],
+    conditions: episodes.map((episode) => ({
+      episode,
+      end: index.endByEpisode.get(episode.id) ?? null,
+    })),
   };
-  CONTEXTS.set(records, context);
-  return context;
+  index.derived.set(personId, strain);
+  return strain;
 }
 
 /**
@@ -251,21 +263,21 @@ function multiplierTimeline(
 export function mortalityExposureStarts(
   world: World,
 ): ReadonlyMap<EntityId, IsoDate> {
-  return mortalityContext(world).starts;
+  return mortalityIndex(world).starts;
 }
 
 export function mortalityCalibrationOf(
   world: World,
   personId: EntityId,
 ): MortalityCalibrationCategory {
-  return mortalityContext(world).calibrations.get(personId) ?? "equal-mixture";
+  return mortalityIndex(world).calibrations.get(personId) ?? "equal-mixture";
 }
 
 export function hazardMultipliersOf(
   world: World,
   personId: EntityId,
 ): readonly HazardMultiplierChange[] {
-  return mortalityContext(world).multipliers.get(personId) ?? [];
+  return personStrain(world, personId).multipliers;
 }
 
 export function mortalityProfile(
@@ -317,15 +329,14 @@ export function strainDrivers(
   readonly coverage: HealthCoverageRecord | null;
   readonly multiplierMicros: number;
 } {
-  const context = mortalityContext(world);
-  const conditionIds = (context.conditions.get(personId) ?? [])
-    .filter(
+  const conditionIds = personStrain(world, personId)
+    .conditions.filter(
       ({ episode, end }) =>
         episode.effectiveAt <= date && (end === null || date < end),
     )
     .map(({ episode }) => episode.id);
   const coverage =
-    (context.coverage.get(personId) ?? [])
+    (mortalityIndex(world).coverage.get(personId) ?? [])
       .filter((record) => record.effectiveAt <= date)
       .at(-1) ?? null;
   let multiplierMicros = MULTIPLIER_ONE;
@@ -345,18 +356,18 @@ export function conditionStrainInput(
   world: World,
   personId: EntityId,
 ): ConditionStrainInput | null {
-  const context = mortalityContext(world);
-  const exposureStart = context.starts.get(personId);
+  const index = mortalityIndex(world);
+  const exposureStart = index.starts.get(personId);
   const person = world.people[personId];
   if (!exposureStart || !person) return null;
   const held = new Set<string>();
-  for (const { episode, end } of context.conditions.get(personId) ?? [])
+  for (const { episode, end } of personStrain(world, personId).conditions)
     if (episode.conditionKey && end === null) held.add(episode.conditionKey);
   return {
     birthDate: person.birthDate,
-    category: context.calibrations.get(personId) ?? "equal-mixture",
+    category: index.calibrations.get(personId) ?? "equal-mixture",
     exposureStart,
-    coverage: context.coverage.get(personId) ?? [],
+    coverage: index.coverage.get(personId) ?? [],
     held,
   };
 }
