@@ -411,6 +411,121 @@
       "dial": "election-rules",
       "levels": ["county", "city"],
       "why": "It asks who draws a council's own districts; the legislature's are another question."
+    },
+    "us-tax-terms:federal.income-tax-terms": {
+      "dial": "income-tax",
+      "levels": ["federal"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:federal.sales-tax-terms": {
+      "dial": "sales-tax",
+      "levels": ["federal"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:federal.excise-tax-terms": {
+      "dial": "excise-and-fees",
+      "levels": ["federal"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:federal.payroll-tax-terms": {
+      "dial": "payroll-tax",
+      "levels": ["federal"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:federal.corporate-tax-terms": {
+      "dial": "income-tax",
+      "levels": ["federal"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:state.income-tax-terms": {
+      "dial": "income-tax",
+      "levels": ["state"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:state.sales-tax-terms": {
+      "dial": "sales-tax",
+      "levels": ["state"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:state.property-tax-terms": {
+      "dial": "property-tax",
+      "levels": ["state"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:state.excise-tax-terms": {
+      "dial": "excise-and-fees",
+      "levels": ["state"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:state.payroll-tax-terms": {
+      "dial": "payroll-tax",
+      "levels": ["state"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:state.corporate-tax-terms": {
+      "dial": "income-tax",
+      "levels": ["state"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:county.income-tax-terms": {
+      "dial": "income-tax",
+      "levels": ["county"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:county.sales-tax-terms": {
+      "dial": "sales-tax",
+      "levels": ["county"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:county.property-tax-terms": {
+      "dial": "property-tax",
+      "levels": ["county"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:county.excise-tax-terms": {
+      "dial": "excise-and-fees",
+      "levels": ["county"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:county.payroll-tax-terms": {
+      "dial": "payroll-tax",
+      "levels": ["county"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:county.corporate-tax-terms": {
+      "dial": "income-tax",
+      "levels": ["county"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:city.income-tax-terms": {
+      "dial": "income-tax",
+      "levels": ["city"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:city.sales-tax-terms": {
+      "dial": "sales-tax",
+      "levels": ["city"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:city.property-tax-terms": {
+      "dial": "property-tax",
+      "levels": ["city"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:city.excise-tax-terms": {
+      "dial": "excise-and-fees",
+      "levels": ["city"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:city.payroll-tax-terms": {
+      "dial": "payroll-tax",
+      "levels": ["city"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
+    },
+    "us-tax-terms:city.corporate-tax-terms": {
+      "dial": "income-tax",
+      "levels": ["city"],
+      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
     }
   }
 }
