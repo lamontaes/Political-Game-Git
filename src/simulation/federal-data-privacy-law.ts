@@ -16,6 +16,7 @@ import { lawInForce } from "./governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { lawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
 import { SeededRng } from "./rng";
+import ccpaCosts from "../../data/research/money/privacy-law-compliance-cost-ccpa-2019.json";
 import type { EntityId, IsoDate, World } from "./types";
 
 export const NATIONAL_DATA_PRIVACY_QUESTION =
@@ -23,6 +24,44 @@ export const NATIONAL_DATA_PRIVACY_QUESTION =
 
 /** The range, as a share of a business's yearly costs. */
 export const DATA_PRIVACY_COST_RANGE = [0.001, 0.006] as const;
+
+export interface InitialPrivacyComplianceEstimate {
+  /** One-time initial dollars in the SRIA's price basis, not a yearly share. */
+  readonly initialDollars: number;
+  readonly employeeSizeClass: string;
+  readonly source: string;
+  readonly sourcePage: number;
+  readonly timing: "one-time-initial";
+  /** The SRIA warns its survey extrapolation may overstate small-firm costs. */
+  readonly sourceLimit: string;
+}
+
+/**
+ * Reads the approved SRIA band for an actual employee count. The source does
+ * not supply a zero-employee band, recurring cost, coverage rule or price-year
+ * conversion. This estimate alone neither establishes applicability nor pays
+ * an expense. The first matching band retains the source's lower-band rule
+ * at its overlapping boundary of 100 employees.
+ */
+export function initialPrivacyComplianceEstimate(
+  employeeCount: number,
+): InitialPrivacyComplianceEstimate | null {
+  if (!Number.isSafeInteger(employeeCount) || employeeCount < 1) return null;
+  const band = ccpaCosts.centralEstimate.bySize.find(
+    (row) =>
+      employeeCount >= row.minEmployees &&
+      (row.maxEmployees === null || employeeCount <= row.maxEmployees),
+  );
+  if (!band) return null;
+  return {
+    initialDollars: band.dollarsPerFirm,
+    employeeSizeClass: band.sizeClass,
+    source: ccpaCosts.source.url,
+    sourcePage: ccpaCosts.centralEstimate.page,
+    timing: "one-time-initial",
+    sourceLimit: ccpaCosts.checksOnly.smallFirmUpperBound.quote,
+  };
+}
 
 export interface DataPrivacyCost {
   /** The share of a business's yearly costs the law adds; 0 where none. */

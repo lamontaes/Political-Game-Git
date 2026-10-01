@@ -12,9 +12,15 @@ The remaining cases preserve repeated-read and JSON-reload stability, the contro
 
 ## Ownership and next dependency
 
+The CTO approved one-time initial compliance costs by employee-size band at the 4:51 checkpoint. The published CCPA research row supplies those initial costs; it supplies no recurring annual figure. The owned reader now exposes those source bands with their one-time timing, source page and small-firm caveat. Counts of 100 and 500 use the lower printed class. Zero, fractional and missing counts do not supply a band.
+
+The reader's two focused estimate cases passed. The retained four privacy cases produced three passes and the same seed-invariance failure. The combined run produced five passes and one failure in 12.86 seconds; `/tmp/team6-a28-initial-band.log` and `.json` preserve the result. Three strict roots loaded 737 files with zero owned diagnostics.
+
+This is a supported estimate-reader component, not the completed expense writer. The recurring-share caller still exists in the protected town-finance writer. Its exact privacy expense/occurrence seam was requested from Coordinator. Audit must bind the law's admitted applicability terms and saved firm facts; no California threshold, vendor, annualization or price conversion was invented. The candidate remains **NOT READY** until the approved one-time writer replaces that recurring path and passes its saved-record proof.
+
 Team1 released only the RNG/fallback-share seam in `src/simulation/federal-data-privacy-law.ts`. No production code, privacy writer or stamp was changed for this checkpoint. Team1 owns the separate general-budget consumer transfer in `program-governing.ts`.
 
-The source currently contains the GDPR comparison range `0.001–0.006`. It does not contain a sourced central point. CTO/X5's bounded research answer must supply the actual estimate or mechanism and its units before the source replacement is made. An arithmetic midpoint is not presented as an empirical estimate. This checkpoint is **NOT READY** and does not complete A28.
+The legacy source still contains the GDPR comparison range `0.001–0.006`. The newer CCPA source supplies one-time dollars per firm, not a central annual share. An arithmetic midpoint is not presented as an empirical estimate. This checkpoint does not complete A28.
 
 ## Method and retained evidence
 
