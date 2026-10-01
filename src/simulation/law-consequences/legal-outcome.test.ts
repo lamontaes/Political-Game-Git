@@ -352,7 +352,31 @@ describe("recorded floors reach saved sentences", () => {
         ),
       });
       expect(event, `${seed}, person ${personId}`).toBeDefined();
-      expect(event!.tags).toContain(`${SENTENCE_MONTHS_TAG}120`);
+      const months = Number(
+        event!.tags
+          .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
+          ?.slice(SENTENCE_MONTHS_TAG.length),
+      );
+      const bounds = sourcedCustodyBoundsForCase(sentenced, nativeCase)!;
+      expect(Number.isFinite(months)).toBe(true);
+      expect(months).toBeGreaterThanOrEqual(bounds.minimumMonths);
+      if (bounds.maximumMonths !== null)
+        expect(months).toBeLessThanOrEqual(bounds.maximumMonths);
+      const decisionKey = event!.tags
+        .find((tag) => tag.startsWith("justice.sentence-term-decision:"))!
+        .slice("justice.sentence-term-decision:".length);
+      const choice = sentenced.history.decisionTraces.find(
+        (trace) => trace.context.stableKey === decisionKey,
+      )!;
+      expect(choice).toBeDefined();
+      expect(choice.context.randomness).toBe("none");
+      expect(
+        choice.context.options.find(
+          (option) => option.key === choice.selectedOptionKey,
+        )?.label,
+      ).toBe(`${months} months`);
+      // CTO ruling 26 keeps Iowa's actual minimum choice exactly 120.
+      if (state.jurisdictionKey === "US-IA") expect(months).toBe(120);
       const resolved = legalOutcomeRegistration.resolve(
         sentenced,
         minimumCustodyRow,
@@ -382,7 +406,7 @@ describe("recorded floors reach saved sentences", () => {
       const saved = reloaded.history.events.find(
         (entry) => entry.id === event!.id,
       )!;
-      expect(saved.summary).toContain("120 months");
+      expect(saved.summary).toContain(`${months} months`);
       expect(saved).toEqual(event);
       expect(saved).not.toHaveProperty("lawEffectStamps");
       const consequence = reloaded.history.legalOutcomeConsequences!.find(
@@ -402,7 +426,12 @@ describe("recorded floors reach saved sentences", () => {
         personId,
         name: personName(reloaded.people[personId]!),
         sentenceId: saved.id,
-        months: 120,
+        months,
+        recordedChoice: choice.selectedOptionKey,
+        operativeBounds: {
+          minimumMonths: bounds.minimumMonths,
+          maximumMonths: bounds.maximumMonths,
+        },
         measureId: measured.id,
         summary: saved.summary,
         consequenceId: consequence.id,
@@ -686,12 +715,11 @@ describe("recorded custody floors through the existing sentence writer", () => {
       const range = sentencingRangeForCase(courtCase)!;
       expect(range).not.toBeNull();
       const bounds = sourcedCustodyBoundsForCase(world, courtCase);
-      if (range.maxMonths !== null && range.maxMonths < 120) {
-        expect(bounds).toBeNull(); // Conflicting floor/ceiling is not permission.
-      } else {
-        expect(bounds?.minimumMonths).toBe(Math.max(120, range.minMonths));
-        expect(bounds?.range).toEqual(range);
-      }
+      expect(bounds?.minimumMonths).toBe(Math.max(120, range.minMonths));
+      expect(bounds?.maximumMonths).toBe(
+        range.maxMonths === null ? null : Math.max(120, range.maxMonths),
+      );
+      expect(bounds?.range).toEqual(range); // Source row is never relabeled.
       const uncovered = { ...courtCase, offenseKey: "crime:vandalism" };
       expect(custodyFloorAt(world, uncovered)).toBeNull();
       expect(sourcedCustodyBoundsForCase(world, uncovered)).toBeNull();
@@ -735,6 +763,9 @@ describe("recorded custody floors through the existing sentence writer", () => {
       expect(
         sourcedCustodyBoundsForCase(repealed, courtCase)?.minimumMonths,
       ).toBe(range.minMonths);
+      expect(
+        sourcedCustodyBoundsForCase(repealed, courtCase)?.maximumMonths,
+      ).toBe(range.maxMonths);
     },
   );
 });
