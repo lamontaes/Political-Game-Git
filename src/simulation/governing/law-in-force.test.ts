@@ -611,26 +611,44 @@ it("does not derive an earlier effective date from a later recorded adjournment"
   ).toBeNull();
 });
 
-
 it("reads the dated starting terms through the same numeric query", () => {
   const questionKey = "us-policy-positions:labor-workforce.raise-minimum-wage";
   const propositionId = "starting-wage-question" as EntityId;
   const jurisdiction = stateJurisdictionForKey("US-AK")!.id;
   const world = {
     ...worldWith("2026-08-01", []),
-    policyCatalog: { propositions: {
-      [propositionId]: { id: propositionId, stableKey: questionKey },
-    } },
+    policyCatalog: {
+      propositions: {
+        [propositionId]: { id: propositionId, stableKey: questionKey },
+      },
+    },
   } as unknown as World;
-  for (const [date, expected] of [["2026-06-30", 1300], ["2026-07-01", 1400]] as const) {
+  for (const [date, expected] of [
+    ["2026-06-30", 1300],
+    ["2026-07-01", 1400],
+  ] as const) {
     const onDate = makeIsoDate(date);
     const law = lawInForce(world, jurisdiction, propositionId, onDate)!;
     expect(law.origin).toBe("in-force-at-start");
-    expect(readFinalEnactedLawTerm(world, law, {
-      questionKey, termKey: "target", unit: "minor/hour", onDate,
-    })).toMatchObject({ value: expected, provisionId: null, measureId: law.measureId });
-    expect(readFinalEnactedLawTerm(world, law, {
-      questionKey, termKey: "target", unit: "minor/hour", onDate: makeIsoDate("2027-01-01"),
-    })).toBeNull();
+    expect(
+      readFinalEnactedLawTerm(world, law, {
+        questionKey,
+        termKey: "target",
+        unit: "minor/hour",
+        onDate,
+      }),
+    ).toMatchObject({
+      value: expected,
+      provisionId: null,
+      measureId: law.measureId,
+    });
+    expect(
+      readFinalEnactedLawTerm(world, law, {
+        questionKey,
+        termKey: "target",
+        unit: "minor/hour",
+        onDate: makeIsoDate("2027-01-01"),
+      }),
+    ).toBeNull();
   }
 });
