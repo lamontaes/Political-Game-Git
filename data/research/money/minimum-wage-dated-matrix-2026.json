@@ -1,0 +1,1999 @@
+{
+  "id": "minimum-wage-dated-matrix-2026",
+  "asOf": "2026-10-01",
+  "status": "research",
+  "purpose": "Dated, sourced minimum wage rows for all 56 places, for the coordinator to integrate into the canonical starting-law wage terms. Not read by game code.",
+  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+  "termKey": "target",
+  "unit": "minor/hour",
+  "conventions": {
+    "value": "Hourly minimum in minor units (cents), matching lawTerms value/unit 'minor/hour' in data/research/laws/starting-law-2026.json.",
+    "operativeAt": "Date the rate takes effect. Never backdated.",
+    "operativeBasis": {
+      "source-stated-effective-date": "The quoted source states this effective date.",
+      "source-stated-year": "The source states the year; the date is January 1 as the same page states for the next year.",
+      "statute-stated-schedule": "Federal or state law states the schedule; the amount follows from the quoted rule.",
+      "statute-date-corrected-to-federal": "State law tracks the federal rate; the state page's date was wrong and the federal effective date is used.",
+      "in-force-as-of-source-date": "The source states no effective date; the date is the source's own 'updated' date.",
+      "in-force-as-read": "The source states no effective date; the date is the day it was read (2026-10-01)."
+    },
+    "status": "in-force: operativeAt on or before asOf; scheduled: later.",
+    "level": "state, district, territory, or federal (federal law sets the rate).",
+    "quoteCheck": {
+      "text": "Cut from the downloaded page text, verbatim.",
+      "fetch-extract": "The page refused direct download here (403 or empty); a fetch tool returned the text when asked to copy it word for word."
+    },
+    "tiers": "tier names a statutory tier (region, employer size, employer revenue, coverage, or industry). City and county ordinances, tipped, youth, and training rates are not tiers here."
+  },
+  "federalFloor": {
+    "tier": "federal",
+    "tierKind": "federal-floor",
+    "level": "federal",
+    "status": "in-force",
+    "value": 725,
+    "unit": "minor/hour",
+    "operativeAt": "2009-07-24",
+    "operativeBasis": "source-stated-effective-date",
+    "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+    "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+    "quoteCheck": "fetch-extract"
+  },
+  "unread": [
+    {
+      "place": "US-AZ",
+      "what": "Effective date of $15.15",
+      "reason": "azica.gov refused automated reading (403); the DOL table (updated July 1, 2026) gives the rate but not its date, so the row is dated July 1, 2026, not backdated to January 1."
+    },
+    {
+      "place": "US-CO",
+      "what": "Effective date of the announced $15.71 for 2027",
+      "reason": "The CDLE release names the year, not the day; no adopted 2027 order was published when read."
+    },
+    {
+      "place": "US-NY",
+      "what": "2027 regional rates",
+      "reason": "Indexed to inflation from 2027; amounts not yet published when read."
+    },
+    {
+      "place": "US-OH",
+      "what": "2027 gross-receipts threshold for the $11.40 tier",
+      "reason": "Not in the 2027 announcement text read."
+    },
+    {
+      "place": "US-MA",
+      "what": "Effective date of $15.00",
+      "reason": "Statute text is undated and mass.gov refused automated reading (403); dated the day it was read."
+    },
+    {
+      "place": "US-UT",
+      "what": "Labor Commission rule text",
+      "reason": "Not readable here; DOL table used, dated its July 1, 2026 update."
+    },
+    {
+      "place": "US-NH",
+      "what": "State labor department page",
+      "reason": "dol.nh.gov refused automated reading (403); DOL table used, dated its July 1, 2026 update."
+    },
+    {
+      "place": "US-TX",
+      "what": "Texas Workforce Commission page",
+      "reason": "Returned no readable page; Texas adopts the federal rate by reference, so the federal row is used."
+    },
+    {
+      "place": "US-GA, US-WY, US-ID, US-IA, US-NC, US-ND, US-PA, US-WV, US-MT (small-business tier)",
+      "what": "Original effective date of a long-standing rate",
+      "reason": "The source read states no date; each row is dated the day it was read (in-force-as-read), not backdated."
+    }
+  ],
+  "places": {
+    "US-AL": {
+      "name": "Alabama",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "federal-floor",
+          "level": "federal",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "quoteCheck": "fetch-extract",
+          "note": "No state minimum wage law; the federal Fair Labor Standards Act rate applies to covered employers."
+        }
+      ],
+      "stateLaw": {
+        "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+        "quote": "No state minimum wage law. Employers subject to the Fair Labor Standards Act must pay the current Federal minimum wage of $7.25 per hour.",
+        "quoteCheck": "fetch-extract"
+      }
+    },
+    "US-AK": {
+      "name": "Alaska",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1400,
+          "unit": "minor/hour",
+          "operativeAt": "2026-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://labor.alaska.gov/lss/whhome.htm",
+          "quote": "As of July 1, 2026, The Alaska minimum wage is increasing from $13.00 to $14.00 per hour.",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2027-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.elections.alaska.gov/doc/oep/2024/Ballot%20Measure%201_Eng.pdf",
+          "quote": "The Act raises it to $15.00 per hour on July 1, 2027.",
+          "quoteCheck": "text",
+          "note": "2024 Ballot Measure 1, enacted; inflation adjustment follows from 2028."
+        }
+      ]
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1515,
+          "unit": "minor/hour",
+          "operativeAt": "2026-07-01",
+          "operativeBasis": "in-force-as-of-source-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+          "quote": "Basic Minimum Rate (per hour): $15.15",
+          "quoteCheck": "fetch-extract",
+          "note": "The Industrial Commission of Arizona site refused automated reading (403); its January 1, 2026 notice could not be read, so the date is the DOL table's July 1, 2026 update. A.R.S. 23-363(B): 'The minimum wage shall be increased on January 1, 2021 and on January 1 of successive years, by the increase in the cost of living.'"
+        }
+      ]
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "rows": [
+        {
+          "tier": "four-or-more-employees",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 1100,
+          "unit": "minor/hour",
+          "operativeAt": "2021-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://labor.arkansas.gov/labor/labor-standards/minimum-wage-and-overtime/",
+          "quote": "Effective January 1, 2021, the minimum wage in Arkansas is $11.00 per hour. The Arkansas Minimum Wage Act covers employers with 4 or more employees.",
+          "quoteCheck": "fetch-extract"
+        }
+      ]
+    },
+    "US-CA": {
+      "name": "California",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1690,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dir.ca.gov/dlse/faq_minimumwage.htm",
+          "quote": "Effective January 1, 2026, the minimum wage is $16.90 per hour for all employers",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1740,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dir.ca.gov/DIRNews/2026/2026-66.html",
+          "quote": "Beginning January 1, 2027, California’s statewide minimum wage will increase to $17.40 per hour",
+          "quoteCheck": "text"
+        }
+      ],
+      "notes": "Industry minimums set by separate statutes (fast food $20.00 from April 1, 2024; health care facilities) and city or county minimums are not tiers here."
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1516,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://cdle.colorado.gov/sites/cdle/files/adopted_2026_temporary_pay_calc_order_7_ccr_1103-14_12.12.2025.pdf",
+          "quote": "Adopted as temporary rules on December 12, 2025; effective January 1, 2026 ... Minimum Pay Level in 2026 Level Future Annual COMPS Order Rule (Yearly Calculation) Adjustments $15.16 per hour",
+          "quoteCheck": "text"
+        }
+      ],
+      "notes": "CDLE announced on August 13, 2026 that the minimum wage 'will increase to $15.71 per hour in 2027' (https://cdle.colorado.gov/press-releases/press-release-colorado-minimum-wage-will-increase-to-1571/hour-in-2027); the release gives the year but not the day, so it is not dated here. Denver's higher local minimum is a city ordinance, not a state tier."
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1694,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://portal.ct.gov/dol/divisions/wage-and-workplace-standards",
+          "quote": "$16.94 effective on January 1, 2026",
+          "quoteCheck": "text",
+          "note": "Matches the coordinator's approved Connecticut terms (commit 0bde4709)."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1748,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://portal.ct.gov/governor/news/press-releases/2026/08-2026/governor-lamont-announces-minimum-wage-will-increase",
+          "quote": "Connecticut’s minimum wage will adjust to $17.48 per hour beginning January 1, 2027",
+          "quoteCheck": "text",
+          "note": "Matches the coordinator's approved Connecticut terms (commit 0bde4709)."
+        }
+      ]
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2025-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://industrialaffairs.delaware.gov/en-us/knowledgebase-employee/what-is-the-current-minimum-wage-in-delaware",
+          "quote": "As of January 1, 2025, the minimum wage is $15.00 per hour",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "district",
+          "status": "in-force",
+          "value": 1840,
+          "unit": "minor/hour",
+          "operativeAt": "2026-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://does.dc.gov/sites/default/files/dc/sites/does/publication/attachments/2026%20Minimum%20Wage%20Increase%20Notice_0.pdf",
+          "quote": "Beginning July 1, 2026, the minimum wage in the District of Columbia will increase from $17.95 per hour to $18.40 per hour for all workers, regardless of size of employer.",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-FL": {
+      "name": "Florida",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2026-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://floridajobs.org/florida-minimum-wage",
+          "quote": "The $15.00 per hour will be effective from September 30, 2026, to December 31, 2027.",
+          "quoteCheck": "text",
+          "note": "From September 2027 the rate is adjusted for inflation, taking effect the following January 1."
+        }
+      ]
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "rows": [
+        {
+          "tier": "six-or-more-employees-not-flsa-covered",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 515,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://dol.georgia.gov/minimum-wage",
+          "quote": "Georgia's minimum wage is $5.15 per hour, however, with some limited exceptions, the federal minimum wage rate applies.",
+          "quoteCheck": "text",
+          "note": "Source states no effective date; dated the day it was read. The DOL state table adds: 'Applicable to employers of 6 or more employees.'"
+        },
+        {
+          "tier": "flsa-covered",
+          "tierKind": "federal-floor",
+          "level": "federal",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "quoteCheck": "fetch-extract",
+          "note": "Georgia's own $5.15 is below the federal rate; FLSA-covered employers pay $7.25."
+        }
+      ]
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1600,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://labor.hawaii.gov/wsd/minimum-wage/",
+          "quote": "$16.00 per hour beginning January 1, 2026",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1800,
+          "unit": "minor/hour",
+          "operativeAt": "2028-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://labor.hawaii.gov/wsd/minimum-wage/",
+          "quote": "$18.00 per hour beginning January 1, 2028",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://www.labor.idaho.gov/businesses/labor-laws/labor-laws-faq/",
+          "quote": "The current Idaho state minimum wage is $7.25 per hour.",
+          "quoteCheck": "text",
+          "note": "Source states no effective date; dated the day it was read."
+        }
+      ]
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "rows": [
+        {
+          "tier": "four-or-more-employees-adults",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2025-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://labor.illinois.gov/faqs/minimum-wage-overtime-faq.html",
+          "quote": "Beginning January 1, 2025, the minimum wage in Illinois is $15.00 per hour for those individuals who are 18 years and older.",
+          "quoteCheck": "text",
+          "note": "The DOL state table adds: 'Applicable to employers of 4 or more employees, excluding family members.'"
+        }
+      ]
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "rows": [
+        {
+          "tier": "two-or-more-employees",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.in.gov/dol/files/updated-pdfs-4-7-2026/Indiana2009MinimumWage.pdf",
+          "quote": "Both the federal and Indiana state minimum wage increased from $6.55 per hour to $7.25 per hour, effective July 24, 2009.",
+          "quoteCheck": "text",
+          "note": "The DOL state table adds: 'Applicable to employers of 2 or more employees.'"
+        }
+      ]
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://dial.iowa.gov/hearings/wage-and-child-labor/wages",
+          "quote": "What is the current minimum wage? $7.25 per hour.",
+          "quoteCheck": "text",
+          "note": "Source states no effective date; dated the day it was read. Small retail and service establishments grossing under $300,000 are not covered."
+        }
+      ]
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "rows": [
+        {
+          "tier": "not-flsa-covered",
+          "tierKind": "coverage",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2010-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.ksrevisor.gov/statutes/chapters/ch44/044_012_0003.html",
+          "quote": "on and after January 1, 2010, employee wages shall be paid at a rate of not less than $7.25 an hour.",
+          "quoteCheck": "text",
+          "note": "K.S.A. 44-1203; the Kansas Department of Labor site refused automated reading. State law covers employment the federal FLSA does not."
+        }
+      ]
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://elc.ky.gov/workplace-standards/Pages/Wages-and-Hours.aspx",
+          "quote": "Effective July 1, 2009, the minimum wage is $7.25 per hour.",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "federal-floor",
+          "level": "federal",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "quoteCheck": "fetch-extract",
+          "note": "No state minimum wage law; the federal Fair Labor Standards Act rate applies to covered employers."
+        }
+      ],
+      "stateLaw": {
+        "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+        "quote": "No state minimum wage law. Employers subject to the Fair Labor Standards Act must pay the current Federal minimum wage of $7.25 per hour.",
+        "quoteCheck": "fetch-extract"
+      }
+    },
+    "US-ME": {
+      "name": "Maine",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1510,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.maine.gov/labor/news_events/article.shtml?id=13338762",
+          "quote": "Effective tomorrow, January 1, 2026, the state minimum wage will increase from $14.65 to $15.10 per hour.",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2024-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gle&section=3-413&enactments=false",
+          "quote": "(ii) beginning January 1, 2024, $15.00 per hour.",
+          "quoteCheck": "text",
+          "note": "Md. Code, Labor and Employment 3-413; the small-employer rate also reached $15.00 on January 1, 2024. County minimums (Montgomery, Howard, Prince George's) are local law, not state tiers."
+        }
+      ]
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151/Section1",
+          "quote": "A wage of less than $15.00 per hour, in any occupation, as defined in this chapter, shall conclusively be presumed to be oppressive and unreasonable",
+          "quoteCheck": "text",
+          "note": "M.G.L. c. 151, s. 1, as read; the statute text gives no date and mass.gov refused automated reading (403), so it is dated the day it was read. The DOL state table, updated July 1, 2026, lists $15.00."
+        }
+      ]
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1373,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.michigan.gov/leo/bureaus-agencies/ber/wage-and-hour/min-wage",
+          "quote": "Effective January 1, 2026, the minimum wage rate is $13.73 per hour.",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.michigan.gov/leo/bureaus-agencies/ber/wage-and-hour/min-wage",
+          "quote": "Effective January 1, 2027, the minimum wage rate is $15.00 per hour.",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "rows": [
+        {
+          "tier": "all-employers",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1141,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dli.mn.gov/business/employment-practices/minimum-wage-minnesota",
+          "quote": "Amount as of Jan. 1, 2026 Amount as of Jan. 1, 2027 State minimum wage $11.41 an hour $11.87 an hour",
+          "quoteCheck": "text",
+          "note": "One rate for all employers; the separate large and small employer rates ended in 2024."
+        },
+        {
+          "tier": "all-employers",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1187,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dli.mn.gov/business/employment-practices/minimum-wage-minnesota",
+          "quote": "Effective Jan. 1, 2027 , Minnesota’s minimum-wage rate will be adjusted for inflation to $11.87 an hour for all employers in the state.",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "federal-floor",
+          "level": "federal",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "quoteCheck": "fetch-extract",
+          "note": "No state minimum wage law; the federal Fair Labor Standards Act rate applies to covered employers."
+        }
+      ],
+      "stateLaw": {
+        "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+        "quote": "No state minimum wage law. Employers subject to the Fair Labor Standards Act must pay the current Federal minimum wage of $7.25 per hour.",
+        "quoteCheck": "fetch-extract"
+      }
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=290.502",
+          "quote": "increased by $1.25 per hour, to $15.00 per hour, effective January 1, 2026.",
+          "quoteCheck": "text",
+          "note": "Mo. Rev. Stat. 290.502; the Department of Labor page lists the 2026 rate as $15.00."
+        }
+      ]
+    },
+    "US-MT": {
+      "name": "Montana",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1085,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://erd.dli.mt.gov/_docs/labor-standards/2026-MINIMUM-WAGE-POSTER.pdf",
+          "quote": "MONTANA’S MINIMUM WAGE (Effective 1/1/2026) $10.85",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "non-flsa-business-sales-110000-or-less",
+          "tierKind": "employer-revenue",
+          "level": "state",
+          "status": "in-force",
+          "value": 400,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://erd.dli.mt.gov/labor-standards/wage-and-hour-payment-act/state-minimum-wage",
+          "quote": "Exception: A business not covered by the Fair Labor Standards Act whose gross annual sales are $110,000 or less may pay $4.00 per hour.",
+          "quoteCheck": "text",
+          "note": "Source states no effective date for this tier; dated the day it was read."
+        }
+      ]
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+          "quote": "July 18, 2026 $15.00* ... *Unchanged from January 1, 2026.",
+          "quoteCheck": "text",
+          "note": "NDOL press release: 'Nebraska’s Minimum Wage Increases to $15 Effective January 1, 2026'."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1526,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+          "quote": "January 1, 2027 $15.26",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1553,
+          "unit": "minor/hour",
+          "operativeAt": "2028-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+          "quote": "January 1, 2028 $15.53",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1580,
+          "unit": "minor/hour",
+          "operativeAt": "2029-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+          "quote": "January 1, 2029 $15.80",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1608,
+          "unit": "minor/hour",
+          "operativeAt": "2030-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.nebraska.gov/webdocs/getfile/18bc2309-85ed-4957-b072-e899caeaca99",
+          "quote": "January 1, 2030 $16.08",
+          "quoteCheck": "text"
+        }
+      ],
+      "notes": "Nebraska DOL schedule 'Updated: 7/31/2026'; a youth rate for ages 14-15 ($13.50) is listed beside each date and is not a tier here."
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1200,
+          "unit": "minor/hour",
+          "operativeAt": "2024-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://labor.nv.gov/",
+          "quote": "Minimum wage in the state of Nevada increased to $12.00 an hour on July 1, 2024.",
+          "quoteCheck": "text",
+          "note": "Ballot Question 2 (2022) ended the two-tier system."
+        }
+      ]
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2026-07-01",
+          "operativeBasis": "in-force-as-of-source-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+          "quote": "Basic Minimum Rate (per hour): $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "The New Hampshire Department of Labor site refused automated reading (403). DOL table updated July 1, 2026, adds: 'The New Hampshire minimum wage equals the federal minimum wage when set below the federal rate.'"
+        }
+      ]
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "rows": [
+        {
+          "tier": "most-employers",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 1592,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "quote": "New Jersey’s statewide minimum wage will increase by $0.43 to $15.92 per hour for most employees, effective January 1, 2026.",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "seasonal-and-small-employers",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 1523,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "quote": "The minimum hourly wage for these employees will increase to $15.23 on Jan. 1, up from $14.53.",
+          "quoteCheck": "text",
+          "note": "'These employees' are employees of seasonal and small employers (fewer than six employees), whose rate rises gradually until 2028."
+        },
+        {
+          "tier": "farm-hourly-or-piece-rate",
+          "tierKind": "industry",
+          "level": "state",
+          "status": "in-force",
+          "value": 1420,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
+          "quote": "Employees who work on a farm for an hourly or piece-rate wage will see their minimum hourly wage increase to $14.20, up from $13.40.",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1200,
+          "unit": "minor/hour",
+          "operativeAt": "2023-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dws.nm.gov/Minimum-Wage-Information",
+          "quote": "New Mexico state minimum wage $12.00 per hour effective January 1, 2023",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-NY": {
+      "name": "New York",
+      "rows": [
+        {
+          "tier": "new-york-city",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1700,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.ny.gov/minimum-wage-0",
+          "quote": "Minimum Wage as of 01/01/2026** ... New York City $17.00",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "long-island-and-westchester",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1700,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.ny.gov/minimum-wage-0",
+          "quote": "Minimum Wage as of 01/01/2026** ... Long Island & Westchester $17.00",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "remainder-of-state",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1600,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.ny.gov/minimum-wage-0",
+          "quote": "Minimum Wage as of 01/01/2026** ... Remainder of New York State $16.00",
+          "quoteCheck": "text"
+        }
+      ],
+      "notes": "From 2027 each regional rate is indexed to a three-year average of the Northeast CPI-W ('Starting in 2027, the minimum wage will be tied to inflation'); the 2027 amounts were not yet published when read, so no 2027 row is recorded."
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://www.labor.nc.gov/workplace-rights/employee-rights-regarding-time-worked-and-wages-earned/minimum-wage-nc",
+          "quote": "The minimum wage in North Carolina is currently $7.25 an hour.",
+          "quoteCheck": "text",
+          "note": "Source states no effective date; dated the day it was read."
+        }
+      ]
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://www.nd.gov/labor/sites/www/files/documents/Brochures/Wage&Hour%20and%20Equal%20Emp.pdf",
+          "quote": "The minimum wage in North Dakota is $7.25 per",
+          "quoteCheck": "text",
+          "note": "Brochure text is set in columns; the quote is the contiguous run 'The minimum wage in North Dakota is $7.25 per' followed by 'hour.' Source states no effective date; dated the day it was read."
+        }
+      ]
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "rows": [
+        {
+          "tier": "gross-receipts-over-405000",
+          "tierKind": "employer-revenue",
+          "level": "state",
+          "status": "in-force",
+          "value": 1100,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://com.ohio.gov/about-us/media-center/news/ohio-minimum-wage-set-to-increase-in-2026-11",
+          "quote": "Ohio’s minimum wage is scheduled to increase Jan. 1, 2026, to $11 per hour for non-tipped employees ... Effective Jan. 1, 2026, the Ohio minimum wage will apply to businesses with annual gross receipts of more than $405,000",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "gross-receipts-over-threshold",
+          "tierKind": "employer-revenue",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1140,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://ohio.gov/home/news-and-events/all-news/com-2027-minimum-wage-sept26",
+          "quote": "the Ohio Department of Commerce announced the 2027 Ohio minimum wage that will go into effect on Jan. 1. The adjusted amounts, $11.40 per hour for non-tipped employees",
+          "quoteCheck": "text",
+          "note": "The 2027 gross-receipts threshold was not in the text read."
+        },
+        {
+          "tier": "gross-receipts-405000-or-less",
+          "tierKind": "employer-revenue",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://com.ohio.gov/about-us/media-center/news/ohio-minimum-wage-set-to-increase-in-2026-11",
+          "quote": "For employees at businesses with annual gross receipts of $405,000 or less per year after Jan. 1, 2026, and for 14- and 15-year-old workers, the state minimum wage remains tied to the federal minimum wage of $7.25 per hour.",
+          "quoteCheck": "text",
+          "note": "Ohio law ties this tier to the federal $7.25."
+        }
+      ]
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "statute-date-corrected-to-federal",
+          "source": "https://oklahoma.gov/labor/workplace-rights/wage-hour/faqs---wage-and-hour.html",
+          "quote": "The federal and state minimum wage of $7.25 per hour has been in effect since July 24, 2000.",
+          "quoteCheck": "text",
+          "note": "The Oklahoma page says 'July 24, 2000'; the federal $7.25 took effect July 24, 2009, and Oklahoma's law tracks it, so the date used is 2009-07-24. State Question 832 to raise it failed at the June 16, 2026 election."
+        }
+      ]
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "rows": [
+        {
+          "tier": "portland-metro",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1680,
+          "unit": "minor/hour",
+          "operativeAt": "2026-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+          "quote": "For July 1, 2026, through June 30, 2027, those rates are: $16.80 per hour - Portland metro",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "standard",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1555,
+          "unit": "minor/hour",
+          "operativeAt": "2026-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+          "quote": "For July 1, 2026, through June 30, 2027, those rates are: ... $15.55 per hour - Standard",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "nonurban",
+          "tierKind": "region",
+          "level": "state",
+          "status": "in-force",
+          "value": 1455,
+          "unit": "minor/hour",
+          "operativeAt": "2026-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+          "quote": "For July 1, 2026, through June 30, 2027, those rates are: ... $14.55 per hour - Non-urban",
+          "quoteCheck": "text"
+        }
+      ],
+      "notes": "The page lists the counties in each region."
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://www.pa.gov/agencies/dli/resources/compliance-laws-and-regulations/labor-management-relations/pennsylvania-s-minimum-wage-act",
+          "quote": "Employees being paid less than $7.25/hour",
+          "quoteCheck": "text",
+          "note": "Listed as a Minimum Wage Act violation; source states no effective date; dated the day it was read."
+        }
+      ]
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1600,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-12/28-12-3.htm",
+          "quote": "(p) Commencing January 1, 2026, the minimum wage is sixteen dollars ($16.00) per hour.",
+          "quoteCheck": "text",
+          "note": "R.I. Gen. Laws 28-12-3; dlt.ri.gov refused automated reading (403)."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1700,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-12/28-12-3.htm",
+          "quote": "(q) Commencing January 1, 2027, the minimum wage is seventeen dollars ($17.00) per",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "federal-floor",
+          "level": "federal",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "quoteCheck": "fetch-extract",
+          "note": "No state minimum wage law; the federal Fair Labor Standards Act rate applies to covered employers."
+        }
+      ],
+      "stateLaw": {
+        "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+        "quote": "No state minimum wage law. Employers subject to the Fair Labor Standards Act must pay the current federal minimum wage of $7.25 per hour.",
+        "quoteCheck": "fetch-extract"
+      }
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1185,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dlr.sd.gov/employment_laws/minimum_wage.aspx",
+          "quote": "The minimum wage for non-tipped employees in South Dakota is $11.85/hour . (Effective Jan. 1, 2026.)",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "federal-floor",
+          "level": "federal",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "quoteCheck": "fetch-extract",
+          "note": "No state minimum wage law; the federal Fair Labor Standards Act rate applies to covered employers."
+        }
+      ],
+      "stateLaw": {
+        "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+        "quote": "No state minimum wage law. Employers subject to the Fair Labor Standards Act must pay the current Federal minimum wage of $7.25 per hour.",
+        "quoteCheck": "fetch-extract"
+      }
+    },
+    "US-TX": {
+      "name": "Texas",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "quoteCheck": "fetch-extract",
+          "note": "Texas adopts the federal rate by reference. DOL state table: 'The Texas State minimum wage law does not contain current dollar minimums. Instead the State adopts the federal minimum wage rate by reference.' The Texas Workforce Commission site returned no readable page."
+        }
+      ]
+    },
+    "US-UT": {
+      "name": "Utah",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2026-07-01",
+          "operativeBasis": "in-force-as-of-source-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+          "quote": "Basic Minimum Rate (per hour): $7.25",
+          "quoteCheck": "fetch-extract",
+          "note": "Utah Code 34-40-103 lets the Labor Commission set the rate by rule; the Labor Commission page was not readable. DOL table updated July 1, 2026."
+        }
+      ]
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1442,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://labor.vermont.gov/press-release/vermont-department-labor-announces-minimum-wage-increase-starting-january-2026",
+          "quote": "Beginning January 1, 2026, the State’s minimum wage will increase from $14.01 to $14.42 per hour",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1277,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://doli.virginia.gov/2025/07/29/virginia-minimum-wage-rate-increasing-effective-january-1-2026/",
+          "quote": "The Virginia adjusted state hourly minimum wage rate for January 1, 2026 until January 1, 2027 is $12.77",
+          "quoteCheck": "text"
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1375,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.governor.virginia.gov/newsroom/news-releases/2026/april-releases/name-1116004-en.html",
+          "quote": "The legislation will then increase the minimum wage to $13.75 per hour on January 1, 2027",
+          "quoteCheck": "text",
+          "note": "SB1 and HB1 (2026), signed in April 2026."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2028-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.governor.virginia.gov/newsroom/news-releases/2026/april-releases/name-1116004-en.html",
+          "quote": "subsequently increase the minimum wage to $15.00 per hour on January 1, 2028",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-WA": {
+      "name": "Washington",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 1713,
+          "unit": "minor/hour",
+          "operativeAt": "2026-01-01",
+          "operativeBasis": "source-stated-year",
+          "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/",
+          "quote": "The 2026 minimum wage in the state of Washington is $17.13 per hour.",
+          "quoteCheck": "text",
+          "note": "The page gives the year; Washington's annual rate takes effect January 1, as the page states for 2027."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "scheduled",
+          "value": 1773,
+          "unit": "minor/hour",
+          "operativeAt": "2027-01-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/",
+          "quote": "The new minimum wage for 2027 will be $17.73 an hour for most workers. The minimum wage for 14-and 15-year-old workers will be $15.07 an hour. These changes take effect Jan. 1, 2027.",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "rows": [
+        {
+          "tier": "six-or-more-employees-per-location",
+          "tierKind": "employer-size",
+          "level": "state",
+          "status": "in-force",
+          "value": 875,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://labor.wv.gov/wage-hour/jobs-act/minimum-wage",
+          "quote": "the state minimum wage of $8.75 will apply whenever there are six (6) or more non-exempt employees",
+          "quoteCheck": "text",
+          "note": "Source states no effective date on the page read; dated the day it was read. Below six employees at a location the state rate does not apply, and FLSA-covered work gets the federal $7.25."
+        }
+      ]
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "state",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dwd.wisconsin.gov/er/laborstandards/minimumwage.htm",
+          "quote": "Wisconsin's Current Minimum Wage Rates Rate Type As of 7/24/09 Adult $7.25",
+          "quoteCheck": "text"
+        }
+      ]
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "rows": [
+        {
+          "tier": "not-flsa-covered",
+          "tierKind": "coverage",
+          "level": "state",
+          "status": "in-force",
+          "value": 515,
+          "unit": "minor/hour",
+          "operativeAt": "2026-10-01",
+          "operativeBasis": "in-force-as-read",
+          "source": "https://dws.wyo.gov/dws-division/labor-standards/workers-and-job-seekers/faq/",
+          "quote": "Wyoming law sets the minimum wage at $5.15 per hour, but most workers must be paid at least the federal minimum wage of $7.25 per hour.",
+          "quoteCheck": "text",
+          "note": "Source states no effective date; dated the day it was read."
+        },
+        {
+          "tier": "flsa-covered",
+          "tierKind": "federal-floor",
+          "level": "federal",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2009-07-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "quoteCheck": "fetch-extract",
+          "note": "Wyoming's own $5.15 is below the federal rate; FLSA-covered employers pay $7.25."
+        }
+      ]
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "rows": [
+        {
+          "tier": "bottling-brewing-dairy",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 629,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/bottling",
+          "quote": "September 30, 2024 | $6.29",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "bottling-brewing-dairy",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 669,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "construction",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 670,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/construction",
+          "quote": "September 30, 2024 | $6.70",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "construction",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 710,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "finance-insurance",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 709,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/finance",
+          "quote": "September 30, 2024 | $7.09",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "finance-insurance",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 749,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "fish-canning-processing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 636,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/fish-canning",
+          "quote": "September 30, 2024 | $6.36",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "fish-canning-processing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 676,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "garment-manufacturing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 578,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/garment",
+          "quote": "September 30, 2024 | $5.78",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "garment-manufacturing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 618,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "government-employees",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 601,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/government",
+          "quote": "September 30, 2024 | $6.01",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "government-employees",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 641,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "hotel",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 610,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/hotel",
+          "quote": "September 30, 2024 | $6.10",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "hotel",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 650,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "petroleum-marketing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 695,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/petroleum",
+          "quote": "September 30, 2024 | $6.95",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "petroleum-marketing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 735,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "printing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 660,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/printing",
+          "quote": "September 30, 2024 | $6.60",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "printing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 700,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "private-hospitals-educational",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 643,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/private-hospitals",
+          "quote": "September 30, 2024 | $6.43",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "private-hospitals-educational",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 683,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "publishing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 673,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/publishing",
+          "quote": "September 30, 2024 | $6.73",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "publishing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 713,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "retail-wholesale-warehousing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 620,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
+          "quote": "September 30, 2024 | $6.20",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "retail-wholesale-warehousing",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 660,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "ship-maintenance",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 661,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/ship-maintenance",
+          "quote": "September 30, 2024 | $6.61",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "ship-maintenance",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 701,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "shipping-a-stevedoring-lighterage-agency",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 719,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+          "quote": "Classification A: Stevedoring, lighterage and maritime shipping agency activities | September 30, 2024 | $7.19",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "shipping-a-stevedoring-lighterage-agency",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 759,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "shipping-b-unloading-fish",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 702,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+          "quote": "Classification B: Unloading of Fish | September 30, 2024 | $7.02",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "shipping-b-unloading-fish",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 742,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "shipping-c-all-other",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 698,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+          "quote": "Classification C: All other activities | September 30, 2024 | $6.98",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "shipping-c-all-other",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 738,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "tour-travel-services",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 658,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/tour-travel",
+          "quote": "September 30, 2024 | $6.58",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "tour-travel-services",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 698,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        },
+        {
+          "tier": "miscellaneous",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "in-force",
+          "value": 580,
+          "unit": "minor/hour",
+          "operativeAt": "2024-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/miscellaneous",
+          "quote": "September 30, 2024 | $5.80",
+          "quoteCheck": "fetch-extract"
+        },
+        {
+          "tier": "miscellaneous",
+          "tierKind": "industry",
+          "level": "federal",
+          "status": "scheduled",
+          "value": 620,
+          "unit": "minor/hour",
+          "operativeAt": "2027-09-30",
+          "operativeBasis": "statute-stated-schedule",
+          "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+          "quote": "additional increases in those minimum wage rates of $0.40 per hour will occur every three years on September 30, until all of the minimum wage rates equal the federal minimum wage",
+          "quoteCheck": "fetch-extract",
+          "note": "2024 rate plus the $0.40 written into federal law for September 30, 2027 ('scheduled to increase again in 2021, 2024, 2027')."
+        }
+      ],
+      "notes": "American Samoa has no territorial minimum wage; federal law sets industry rates below $7.25 that rise $0.40 every three years."
+    },
+    "US-GU": {
+      "name": "Guam",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "territory",
+          "status": "in-force",
+          "value": 925,
+          "unit": "minor/hour",
+          "operativeAt": "2021-09-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://dol.guam.gov/compliance/whd/frequently-asked-questions/",
+          "quote": "As of September 01, 2021, the current minimum wage rate is $9.25 (Guam P.L. 36-1).",
+          "quoteCheck": "text",
+          "note": "Bill No. 4-38 (COR) to raise it had a hearing on January 14, 2026; no enacted change was found."
+        }
+      ]
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "federal",
+          "status": "in-force",
+          "value": 725,
+          "unit": "minor/hour",
+          "operativeAt": "2018-09-30",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.marianaslabor.net/default.asp?secID=19",
+          "quote": "The CNMI’s current minimum wage of $7.05 an hour will increase by another 20 cents to $7.25 an hour on September 30, 2018.",
+          "quoteCheck": "text",
+          "note": "Set by the federal Fair Minimum Wage Act of 2007 (Public Law 110-28) schedule for the CNMI; it now equals the federal minimum."
+        }
+      ]
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "territory",
+          "status": "in-force",
+          "value": 1050,
+          "unit": "minor/hour",
+          "operativeAt": "2024-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://bvirtualogp.pr.gov/ogp/bvirtual/leyesreferencia/pdf/47-2021.pdf",
+          "quote": "Para el 1 de julio de 2024, el aumento al salario mínimo de Puerto Rico será a diez dólares con cincuenta centavos la hora ($10.50/hr)",
+          "quoteCheck": "text",
+          "note": "Ley 47-2021 (Ley de Salario Mínimo de Puerto Rico), official compilation. The quote continues 'a menos que la Comisión Evaluadora de Salario Mínimo emita un decreto mandatorio variando el mismo'; no later decree was found."
+        }
+      ]
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "rows": [
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "territory",
+          "status": "in-force",
+          "value": 1200,
+          "unit": "minor/hour",
+          "operativeAt": "2026-04-24",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+          "quote": "$12.00 per hour – Effective April 24, 2026",
+          "quoteCheck": "text",
+          "note": "Act No. 9069; V.I. Code title 24, ch. 1, sec. 4(a)."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "territory",
+          "status": "scheduled",
+          "value": 1400,
+          "unit": "minor/hour",
+          "operativeAt": "2027-06-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+          "quote": "$14.00 per hour – Effective June 1, 2027",
+          "quoteCheck": "text",
+          "note": "Act No. 9069; V.I. Code title 24, ch. 1, sec. 4(a)."
+        },
+        {
+          "tier": "statewide",
+          "tierKind": "statewide",
+          "level": "territory",
+          "status": "scheduled",
+          "value": 1500,
+          "unit": "minor/hour",
+          "operativeAt": "2028-06-01",
+          "operativeBasis": "source-stated-effective-date",
+          "source": "https://www.vidol.gov/2026/04/10/virgin-islands-minimum-wage-increase-to-12-00-per-hour-effective-april-24-2026/",
+          "quote": "$15.00 per hour – Effective June 1, 2028",
+          "quoteCheck": "text",
+          "note": "Act No. 9069; V.I. Code title 24, ch. 1, sec. 4(a)."
+        }
+      ]
+    }
+  }
+}
