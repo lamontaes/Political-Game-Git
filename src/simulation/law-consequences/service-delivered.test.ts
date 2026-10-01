@@ -151,9 +151,9 @@ describe("service kind reuses actual completion and recipient records", () => {
       const completion = completed.history.events.find(
         (event) =>
           event.id ===
-          completed.history.scheduledActivityStates.findLast(
-            (entry) => entry.activityId === f.activityId,
-          )!.outcomeEventId,
+          [...completed.history.scheduledActivityStates]
+            .reverse()
+            .find((entry) => entry.activityId === f.activityId)!.outcomeEventId,
       )!;
       expect(receipt!.occurredAt).toBe(completion.occurredAt);
       expect(receipt!.lawEffectStamps).toHaveLength(1);
