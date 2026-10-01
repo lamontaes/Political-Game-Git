@@ -186,6 +186,63 @@ function assertCoverageAuthority(
     historySequenceExclusive: record.sequence,
   };
   const workplace = payWorkplaceAt(world, record.workRelationshipId, cutoff);
+  const expectedLawKeys = new Set<string>();
+  const expectedExceptionKeys = new Set<string>();
+  for (const question of Object.values(world.policyCatalog.propositions)) {
+    if (
+      ![
+        FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+        STATE_MINIMUM_WAGE_QUESTION_KEY,
+      ].includes(question.stableKey)
+    )
+      continue;
+    const jurisdictionId =
+      workplace.jurisdictionId ??
+      (question.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : null);
+    const law = jurisdictionId
+      ? lawInForce(
+          world,
+          jurisdictionId,
+          question.id,
+          record.determinedAt,
+          "all",
+          cutoff,
+        )
+      : null;
+    if (
+      !law ||
+      (law.origin === "enacted" && law.answer !== "yes") ||
+      (question.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY &&
+        law.origin === "in-force-at-start" &&
+        law.answer === "no")
+    )
+      continue;
+    expectedLawKeys.add(question.stableKey);
+    for (const row of question.consequences ?? []) {
+      if (
+        row.kind !== "pay" ||
+        row.who.selector !== PAY_SELECTOR ||
+        row.what !== PAY_ACTION
+      )
+        continue;
+      const predicates = [...row.who.predicates, ...row.conditions];
+      if (
+        !predicates.length ||
+        !matchPayCoveragePredicates(
+          world,
+          record.workRelationshipId,
+          predicates,
+          cutoff,
+        ).matches
+      )
+        continue;
+      if (expectedExceptionKeys.has(question.stableKey))
+        throw new Error("Pay coverage has ambiguous canonical exceptions");
+      expectedExceptionKeys.add(question.stableKey);
+    }
+  }
   const seenLaws = new Set<string>();
   for (const saved of record.governingLaws) {
     const question = Object.values(world.policyCatalog.propositions).find(
@@ -264,4 +321,13 @@ function assertCoverageAuthority(
       );
     seenExceptions.add(saved.questionKey);
   }
+  if (
+    seenLaws.size !== expectedLawKeys.size ||
+    [...expectedLawKeys].some((key) => !seenLaws.has(key)) ||
+    seenExceptions.size !== expectedExceptionKeys.size ||
+    [...expectedExceptionKeys].some((key) => !seenExceptions.has(key))
+  )
+    throw new Error(
+      "Pay coverage must retain every applicable dated law and exception",
+    );
 }

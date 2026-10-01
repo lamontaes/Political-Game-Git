@@ -77,6 +77,8 @@ const COMMUNITY_TOPICS = [
 ] as const;
 
 export interface CreateScenarioWorldOptions {
+  /** Supply the final fixture catalog before any law-dependent records are written. */
+  readonly policyCatalog?: World["policyCatalog"];
   readonly generatorVersion?: string;
   readonly corpusVersion?: string;
   readonly profile?: PersonGenerationProfile;
@@ -146,6 +148,7 @@ export function createScenarioWorld(
     currentMoment: context.initialMoment,
     jurisdictions: [jurisdiction],
     people,
+    policyCatalog: options?.policyCatalog,
   });
 
   world = recordWorldEvent(world, {
