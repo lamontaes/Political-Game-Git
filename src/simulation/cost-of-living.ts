@@ -13,7 +13,7 @@ import {
   resourcePositionAt,
   sameEndpoint,
 } from "./resource-queries";
-import { homeOwnedSince, personOwnsHome } from "./home-purchase";
+import { MORTGAGE_BASIS } from "./home-purchase";
 import { townLeases } from "./living-world/town-rent";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
@@ -80,48 +80,77 @@ export function livingCostsFlowFor(
   );
 }
 
-function primaryHouseholdId(world: World, personId: EntityId): EntityId | null {
-  const homes = householdMembershipsAt(world, personId).filter(
-    (entry) => entry.state.residenceRole === "primary",
-  );
+function primaryHouseholdId(
+  world: World,
+  personId: EntityId,
+  asOfDate = world.currentDate,
+): EntityId | null {
+  const homes = householdMembershipsAt(world, personId, {
+    asOfDate,
+    historySequenceExclusive: world.history.nextSequence,
+  }).filter((entry) => entry.state.residenceRole === "primary");
   return homes.length === 1 ? homes[0]!.household.id : null;
 }
 
 /**
- * The day the person's household began renting under a lease on record
- * (`living-world/town-rent.ts`), whose rent the leaseholder pays to the
- * landlord on rent day; null when it has none.
+ * Actual active housing contracts of the person's primary household on a date.
+ * Amounts retain their recorded currency/cadence; they are not an invented share.
  */
-function householdLeaseSince(
+export function recordedHouseholdHousingBillsAt(
   world: World,
   personId: EntityId,
   asOfDate: IsoDate,
-): IsoDate | null {
-  const householdId = primaryHouseholdId(world, personId);
+):
+  | readonly {
+      flow: ResourceFlow;
+      terms: NonNullable<ReturnType<typeof resourceFlowTermsAt>>;
+    }[]
+  | null {
+  const householdId = primaryHouseholdId(world, personId, asOfDate);
   if (!householdId) return null;
-  const lease = townLeases(world, asOfDate).find(
+  const leases = townLeases(world, asOfDate).filter(
     (row) =>
       !row.ended &&
       row.householdId === householdId &&
       row.flow.startsAt <= asOfDate,
   );
-  return lease?.flow.startsAt ?? null;
+  const mortgageFlows = world.history.resourceFlows.filter(
+    (flow) =>
+      flow.basisKind === MORTGAGE_BASIS &&
+      flow.startsAt <= asOfDate &&
+      flow.source.kind === "person" &&
+      householdMembershipsAt(world, flow.source.personId, {
+        asOfDate,
+        historySequenceExclusive: world.history.nextSequence,
+      }).some(
+        (entry) =>
+          entry.state.residenceRole === "primary" &&
+          entry.household.id === householdId,
+      ),
+  );
+  const bills = [
+    ...leases.map((lease) => lease.flow),
+    ...mortgageFlows,
+  ].flatMap((flow) => {
+    const terms = resourceFlowTermsAt(world, flow.id, {
+      asOfDate,
+      historySequenceExclusive: world.history.nextSequence,
+    });
+    return terms?.status === "active" ? [{ flow, terms }] : [];
+  });
+  // No recorded contract means an unknown housing bill, never a $900 estimate or zero.
+  return bills.length ? bills : null;
 }
 
 /**
- * What a month costs this person on a date: less the placeholder rent once
- * they own, or once the household's lease charges its real rent.
+ * Only the marked non-housing stand-in is charged here. Actual lease and
+ * mortgage writers settle housing separately; this flow must not charge it twice.
  */
-function monthlyCostMinor(
-  world: World,
-  personId: EntityId,
-  asOfDate: IsoDate,
-): number {
-  return personOwnsHome(world, personId, asOfDate) ||
-    householdLeaseSince(world, personId, asOfDate) !== null
-    ? LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-        LIVING_COSTS_PLACEHOLDER.housingShareMinor
-    : LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
+function monthlyCostMinor(): number {
+  return (
+    LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
+    LIVING_COSTS_PLACEHOLDER.housingShareMinor
+  );
 }
 
 function dollars(minor: number): string {
@@ -161,10 +190,7 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
   const householdId = primaryHouseholdId(world, personId);
   if (!householdId) return world;
 
-  const monthly = money(
-    monthlyCostMinor(world, personId, world.currentDate),
-    currency,
-  );
+  const monthly = money(monthlyCostMinor(), currency);
   let next = world;
   let flow = livingCostsFlowFor(next, personId);
   if (!flow) {
@@ -191,23 +217,14 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
     return next;
   }
 
-  // Owning a home drops the rent from the month from the day it was bought.
+  // An old save stops charging the invented housing share prospectively.
   const terms = resourceFlowTermsAt(next, flow.id);
   if (
     terms &&
     terms.status === "active" &&
     terms.amount.minorUnits !== monthly.minorUnits
   ) {
-    // Dated from the purchase or the lease, so months after it are charged
-    // without the placeholder rent even when this is the first settlement
-    // since.
-    const owned = homeOwnedSince(next, personId);
-    const leased = owned
-      ? null
-      : householdLeaseSince(next, personId, next.currentDate);
-    const since = owned ?? leased;
-    const effectiveAt =
-      since !== null && since >= terms.effectiveAt ? since : next.currentDate;
+    const effectiveAt = next.currentDate;
     next = recordResourceFlowTerms(next, {
       stableKey: `${flow.stableKey}:terms:${effectiveAt}`,
       resourceFlowId: flow.id,
@@ -216,11 +233,7 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
       amount: monthly,
       cadenceKind: terms.cadenceKind,
       reason:
-        monthly.minorUnits < terms.amount.minorUnits
-          ? leased !== null
-            ? "The household pays its landlord under its lease now, so rent is no longer part of this month."
-            : "The household owns its home now, so rent is no longer part of the month."
-          : "The household no longer owns or leases its home on record, so rent is part of the month again.",
+        "Housing is paid through the household's actual lease or mortgage; this flow covers only the marked food-and-bills stand-in.",
       provenance: flow.provenance,
       supersedesTermsId: terms.id,
     });
