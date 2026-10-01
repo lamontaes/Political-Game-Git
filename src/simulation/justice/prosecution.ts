@@ -10,7 +10,6 @@ import {
   refundCashBailAtCaseClose,
   type CashBailPayer,
 } from "./cash-bail";
-import { custodyFloorAt } from "../law-consequences/legal-outcome";
 import { isSelectedDecision, recordDurableDecisionTrace } from "../decisions";
 import { evaluateCustodyTerm } from "./sentencing-term";
 import {
@@ -89,15 +88,14 @@ export type { EvidenceStrength } from "./court-reasoning";
 
 /**
  * The hand-set parts of a criminal case: how long each step takes, and how
- * long a sentence runs once the judge has chosen jail or probation. None of
+ * long charging and trial stages take. None of
  * these decides whether anybody is charged, pleads, is convicted or goes to
  * jail; the people in the case decide that (`court-reasoning.ts`).
  *
  * PLACEHOLDER. Every number here is set by hand and filed with the research
  * queue as `criminal-sentence-consequences`: how long charging, trial and
- * retrial take, and each state's sentencing ranges. A term's length is the
- * middle of its range, lengthened by each finding that stands, until each
- * state's ranges are read.
+ * retrial take. Sentence lengths now use the applicable sourced range and
+ * the actual judge's recorded term decision; no placeholder midpoint remains.
  */
 export const UNRESEARCHED_PROSECUTION = {
   version: "prosecution-decided-v3",
@@ -108,10 +106,6 @@ export const UNRESEARCHED_PROSECUTION = {
   resolveAfterDays: 120,
   /** Trials that end with no verdict before the prosecutors drop the charge. */
   hungJuriesBeforeDismissal: 2,
-  /** A jail term in months: this range, widened per extra standing finding. */
-  jailMonths: { min: 3, max: 12, perStandingFinding: 3 },
-  /** A term of probation, in months. */
-  probationMonths: { min: 12, max: 36 },
 } as const;
 
 /**
@@ -224,36 +218,7 @@ export function prosecutorsCharge(
   return evidence !== "circumstantial" || basisEvents >= 2;
 }
 
-/** A term's length once the judge has chosen its kind. See the PLACEHOLDER above. */
-export function termMonths(
-  kind: SentenceKind,
-  standingFindings: number,
-): number {
-  const rule = UNRESEARCHED_PROSECUTION;
-  if (kind === "probation")
-    return Math.round(
-      (rule.probationMonths.min + rule.probationMonths.max) / 2,
-    );
-  const max =
-    rule.jailMonths.max +
-    rule.jailMonths.perStandingFinding * Math.max(0, standingFindings - 1);
-  return Math.round((rule.jailMonths.min + max) / 2);
-}
-
-/** The existing sentence writer, bounded by the operative law's recorded floor. */
-export function sentenceMonthsForCase(
-  world: World,
-  kind: SentenceKind,
-  courtCase: CourtCase,
-): number {
-  const ordinary = termMonths(kind, courtCase.standingFindings);
-  if (kind !== "jail") return ordinary;
-  const floor = custodyFloorAt(world, courtCase);
-  return Math.max(ordinary, floor?.months ?? 0);
-}
-
-/** The stable key a referral is recorded under. */
-export function referralStableKey(stableKey: string): string {
+function referralStableKey(stableKey: string): string {
   return `${UNRESEARCHED_PROSECUTION.version}:referral:${stableKey}`;
 }
 

@@ -47,8 +47,6 @@ import {
   type CourtCase,
 } from "../justice/court-reasoning";
 import {
-  sentenceMonthsForCase,
-  termMonths,
   referForProsecution,
   advanceProsecutions,
   PROSECUTION_CHARGED_EVENT,
@@ -64,6 +62,9 @@ import {
   assertLegalOutcomeConsequenceIntegrity,
   minimumCustodyRow,
 } from "./legal-outcome";
+
+import { sourcedCustodyBoundsForCase } from "../justice/sentencing-term";
+import { sentencingRangeForCase } from "../justice/sentencing-ranges";
 
 const propositionId = "proposition_test_minimums" as EntityId;
 const cashBailQuestion =
@@ -627,22 +628,30 @@ describe("recorded custody floors through the existing sentence writer", () => {
   });
   it("covers all 56 jurisdictions", () => expect(places).toHaveLength(56));
   it.each(places)(
-    "enforces recorded months and preserves unbound parity in %s",
+    "enforces recorded months and preserves sourced bounds after repeal in %s",
     (place) => {
       const { world, courtCase, measure, enactment } = fixture(place);
       expect(custodyFloorAt(world, courtCase)?.months).toBe(120);
       expect(mandatoryJailUnderLaw(world, courtCase)).toContain("120 months");
-      expect(sentenceMonthsForCase(world, "jail", courtCase)).toBe(120);
+      const range = sentencingRangeForCase(courtCase)!;
+      expect(range).not.toBeNull();
+      const bounds = sourcedCustodyBoundsForCase(world, courtCase);
+      if (range.maxMonths !== null && range.maxMonths < 120) {
+        expect(bounds).toBeNull(); // Conflicting floor/ceiling is not permission.
+      } else {
+        expect(bounds?.minimumMonths).toBe(Math.max(120, range.minMonths));
+        expect(bounds?.range).toEqual(range);
+      }
       const uncovered = { ...courtCase, offenseKey: "crime:vandalism" };
       expect(custodyFloorAt(world, uncovered)).toBeNull();
-      expect(sentenceMonthsForCase(world, "jail", uncovered)).toBe(
-        termMonths("jail", 1),
-      );
+      expect(sourcedCustodyBoundsForCase(world, uncovered)).toBeNull();
+      // No saved vandalism grade means no numerical charge-grade default.
       const absent = fixture(place, null);
       expect(custodyFloorAt(absent.world, absent.courtCase)).toBeNull();
       expect(
-        sentenceMonthsForCase(absent.world, "jail", absent.courtCase),
-      ).toBe(termMonths("jail", 1));
+        sourcedCustodyBoundsForCase(absent.world, absent.courtCase)
+          ?.minimumMonths,
+      ).toBe(range.minMonths);
       const zero = fixture(place, 0);
       expect(custodyFloorAt(zero.world, zero.courtCase)?.months).toBe(0);
       expect(mandatoryJailUnderLaw(zero.world, zero.courtCase)).toBeNull();
@@ -673,9 +682,9 @@ describe("recorded custody floors through the existing sentence writer", () => {
         },
       };
       expect(custodyFloorAt(repealed, courtCase)).toBeNull();
-      expect(sentenceMonthsForCase(repealed, "jail", courtCase)).toBe(
-        termMonths("jail", 1),
-      );
+      expect(
+        sourcedCustodyBoundsForCase(repealed, courtCase)?.minimumMonths,
+      ).toBe(range.minMonths);
     },
   );
 });

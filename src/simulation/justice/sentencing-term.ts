@@ -26,6 +26,21 @@ export interface SentenceTermChoice {
   readonly term: CustodyTerm | null;
 }
 
+export function sourcedCustodyBoundsForCase(
+  world: World,
+  courtCase: CourtCase,
+): {
+  readonly range: SourcedSentenceRange;
+  readonly minimumMonths: number;
+} | null {
+  const range = sentencingRangeForCase(courtCase);
+  if (!range) return null;
+  const floor = custodyFloorAt(world, courtCase);
+  const minimumMonths = Math.max(range.minMonths, floor?.months ?? 0);
+  if (range.maxMonths !== null && minimumMonths > range.maxMonths) return null;
+  return { range, minimumMonths };
+}
+
 /** Select sourced legal options through the same actor decision engine. */
 export function evaluateCustodyTerm(
   world: World,
@@ -33,11 +48,9 @@ export function evaluateCustodyTerm(
   courtCase: CourtCase,
   pleaded: boolean,
 ): SentenceTermChoice | null {
-  const range = sentencingRangeForCase(courtCase);
-  if (!range) return null;
-  const floor = custodyFloorAt(world, courtCase);
-  const minimum = Math.max(range.minMonths, floor?.months ?? 0);
-  if (range.maxMonths !== null && minimum > range.maxMonths) return null;
+  const bounds = sourcedCustodyBoundsForCase(world, courtCase);
+  if (!bounds) return null;
+  const { range, minimumMonths: minimum } = bounds;
   const key = `${courtCase.caseKey}:custody-term`;
   const candidates = [
     {
