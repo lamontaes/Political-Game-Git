@@ -499,6 +499,8 @@ function pursueLivelihood(world: World, goal: GoalStateRecord): PursuitOutcome {
     }
     if (latest.kind === "offered") {
       const decided = decideOnOffer(next, goal, application.id);
+      if (decided.accept === null)
+        return { kind: "waiting", world: decided.world };
       const answered = answerJobOfferAsResident(
         decided.world,
         application.id,
@@ -589,7 +591,7 @@ function decideOnOffer(
   world: World,
   goal: GoalStateRecord,
   applicationId: EntityId,
-): { world: World; accept: boolean } {
+): { world: World; accept: boolean | null } {
   const personId = goal.personId;
   const withTraits = ensurePeopleTraits(world, [personId]);
   const key = `goal-offer:${applicationId}`;
@@ -636,7 +638,11 @@ function decideOnOffer(
   });
   return {
     world: withTraits,
-    accept: evaluation.selectedOptionKey !== "hold-out",
+    accept:
+      evaluation.outcomeKind === "selected" &&
+      evaluation.selectedOptionKey !== null
+        ? evaluation.selectedOptionKey === "accept"
+        : null,
   };
 }
 
