@@ -330,6 +330,7 @@ export function createHistoryStore(): HistoryStore {
     resourceFlows: [],
     resourceFlowTerms: [],
     resourceTransferOutcomes: [],
+    earnedLawPayAssessments: [],
     resourceObligations: [],
     resourceObligationStates: [],
     dwellings: [],
