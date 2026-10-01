@@ -2573,15 +2573,11 @@ function rentEvent(
       ...landlord,
       ...(authority
         ? [
-            authority.courtId as EntityId,
-            authority.seatId as EntityId,
-            authority.tenureId as EntityId,
             authority.personId,
             lease.flow.id,
             lease.obligationId,
             lease.tenureId,
             lease.dwellingId,
-            ...(text.filingEventId ? [text.filingEventId] : []),
           ]
         : []),
     ],
@@ -2607,6 +2603,17 @@ function rentEvent(
       "life.home",
       TOWN_RENT_VERSION,
       `${LEASE_TAG_PREFIX}${lease.flow.id}`,
+      // Judicial record identifiers are evidence, not event entities or authority.
+      ...(authority
+        ? [
+            `justice:court-record:${authority.courtId}`,
+            `justice:seat-record:${authority.seatId}`,
+            `justice:tenure-record:${authority.tenureId}`,
+            ...(text.filingEventId
+              ? [`justice:filing-record:${text.filingEventId}`]
+              : []),
+          ]
+        : []),
     ],
     summary: text.summary,
     context: {

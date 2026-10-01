@@ -37,7 +37,11 @@ The second five-place run failed because dated snapshots skipped scheduled activ
 
 The third run failed in all five places when the judgment tried to list judicial court identifiers as event entities. These identifiers belong to judicial records; the event entity guard does not admit them. The candidate is blocked and remains a draft. A judgment-only saved provenance channel is requested for court, seat and tenure IDs. No entity is fabricated and no integrity guard is weakened.
 
-Two strict roots include 988 files with zero diagnostics. Lint, formatting, report and release checks pass. The dice guard reports two inherited county-calendar flags and five stale baseline entries; its baseline is unchanged. None of the five cases is reported as passing. The full source and failure packet is in `a102-civil-actors-proof.json`.
+Those failures remain separate baseline receipts. The narrow tag correction also exposed a rejected filing event ID in the fourth run. The final writer retains court, seat, tenure and filing record IDs in explicit judgment-only provenance tags. Actual judge and housing entities remain event entities. Tags are evidence references; the actual dated judicial readers establish authority before judgment.
+
+The final five cases pass in 149.99 seconds overall, under the unchanged 30-second per-case limit. Sandra Byrd in Oklahoma City, Ryan Ingram in Atlanta, Damian Walton in Seattle, Grace Harmon in New Orleans and James Gardner in Fargo each retain a pending filing while the court is vacant. Controlled reappointment admits the actual saved judge; the judgment keeps the precise judicial and filing references. Canonical reload and repeated rent collection preserve the result without a duplicate judgment or invented lawyer.
+
+Two strict roots include 988 files with zero diagnostics. Lint, formatting, report and release checks pass. The dice guard reports two inherited county-calendar flags and five stale baseline entries; its baseline is unchanged. The full source, named records and preserved failure packet are in `a102-civil-actors-proof.json`.
 
 The older rent stamp test expects representation inferred from eligibility. That assertion describes the behavior this repair removes. It remains preserved; its unrelated renewal and payment fixtures are outside Team9's claim.
 

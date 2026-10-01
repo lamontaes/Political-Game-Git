@@ -237,16 +237,20 @@ describe("A102 existing eviction filings require actual court actors", () => {
       );
       expect(judgment).toBeDefined();
       for (const id of [
-        court!.courtId,
-        holder!.seatId,
-        holder!.tenureId,
         holder!.personId,
-        filing!.id,
         lease!.flow.id,
         lease!.tenureId,
         lease!.dwellingId,
       ])
         expect(judgment!.involvedEntityIds).toContain(id);
+      expect(judgment!.tags).toContain(
+        `justice:court-record:${court!.courtId}`,
+      );
+      expect(judgment!.tags).toContain(`justice:seat-record:${holder!.seatId}`);
+      expect(judgment!.tags).toContain(
+        `justice:tenure-record:${holder!.tenureId}`,
+      );
+      expect(judgment!.tags).toContain(`justice:filing-record:${filing!.id}`);
       expect(
         judgment!.participants.some(
           (participant) =>
