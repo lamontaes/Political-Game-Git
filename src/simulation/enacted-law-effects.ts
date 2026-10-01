@@ -828,11 +828,7 @@ export function applyLawConsequences(
       }
     }
   }
-  if (
-    !context.questionKey &&
-    !context.governingLawId &&
-    context.origin !== "enacted"
-  ) {
+  if (!context.questionKey) {
     for (const registration of registry.handlers.values()) {
       if (!registration.resolveSavedRules) continue;
       for (const input of registration.resolveSavedRules(next, context)) {
@@ -860,6 +856,21 @@ export function applyLawConsequences(
             `Consequence ${row.id}: unsupported saved authority unit`,
           );
         if (input.effectiveAt > context.onDate) continue;
+        if (authority.kind === "enacted-typed-tax-policy") {
+          if (
+            row.kind !== "tax" ||
+            context.activity !== "assessment" ||
+            context.origin === "starting" ||
+            context.standingAppropriationId ||
+            (context.governingLawId &&
+              authority.measureId !== context.governingLawId)
+          )
+            continue;
+          // The tax registration re-resolves the saved policy/base/enactment and compares the entire result before the common assessment writer runs.
+          next = registration.apply(next, input);
+          continue;
+        }
+        if (context.governingLawId || context.origin === "enacted") continue;
         if (
           context.standingAppropriationId &&
           context.standingAppropriationId !== authority.appropriationId
