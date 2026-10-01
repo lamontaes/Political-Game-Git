@@ -1,0 +1,16 @@
+{
+  "sourceHead": "1c2d7ddf5e5ef636efd927d262a8dcbc62b2dff6",
+  "branch": "codex/team1-a97-duty-receipts",
+  "productionChanged": false,
+  "sourceBlob": "7c3c52f36955a54f18828a8aff2d125a4bd45908",
+  "testBlob": "f34ab865fc557476157d7d738d05e3d3c3cd4549",
+  "command": "npx vitest run src/presentation/enacted-duties.test.ts -t 'records the duty without mistaking workers for fulfillment' --maxWorkers=1 --reporter=verbose",
+  "passed": 0,
+  "failed": 1,
+  "skipped": 77,
+  "failure": "Future transition key must be a namespaced semantic key: undefined",
+  "failedBeforeComplianceAssertions": true,
+  "caseMilliseconds": 97,
+  "totalMilliseconds": 19640,
+  "missingPositiveBinding": "same duty, provision, body and Act fulfillment receipt"
+}
