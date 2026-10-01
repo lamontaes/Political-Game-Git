@@ -476,7 +476,7 @@ export function recordHealthCoverage(
 ): World {
   world = applyLawConsequences(world, {
     onDate,
-    activity: "application",
+    activity: "renewal",
     activityId: causeId,
     subjectIds: [...world.personOrder],
   });
