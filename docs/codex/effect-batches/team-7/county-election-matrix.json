@@ -719,6 +719,20 @@
           "section": "Congressional,state,and local candidates",
           "readOn": "2026-10-01",
           "status": "official-source-inspected-not-production-admitted"
+        },
+        "desotoSeatLabels": {
+          "value": "Official parish roster lists eleven member labels:1-A,1-B,1-C,2,3,4-A,4-B,4-C,4-D,5,6. These are observed roster labels, not yet admitted seat records, electorates, map effective dates, term phases or a person-home district join. Whole-body office key cannot substitute for one of these seats.",
+          "url": "https://www.desotoppj.com/government/police_jury.php",
+          "section": "Police Jury members; read October1,2026",
+          "readOn": "2026-10-01",
+          "status": "read"
+        },
+        "desotoProposedRedistricting": {
+          "value": "Official homepage dates a proposed redistricting announcement September24,2026. The linked notice calls its document an87-page proposal and links report9_22_26. No adoption, court order, effective map or current-seat replacement is established by this notice. Keep displayed roster and proposed map separate; no Frierson district inference.",
+          "url": "https://www.desotoppj.com/news_detail_T17_R45.php",
+          "section": "Proposed DeSoto Parish Redistricting; directHTML SHA256b8ff21ead7ba90498a026644544f83eb859ebfdabffb4e8fbc4f9029c7e1bbf1; homepage https://www.desotoppj.com/",
+          "readOn": "2026-10-01",
+          "status": "read"
         }
       },
       "openFields": [
@@ -1917,6 +1931,18 @@
       "state": "IL",
       "url": "https://cms5.revize.com/revize/dupage/Election/Documents/Candidate%20Information/ProspectiveCandidateInformation/2026%20GPE/2026%20County%20Board%20Member%20Packet.pdf",
       "result": "HTTP404; search snippet not admitted",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "LA",
+      "url": "https://www.desotoppj.com/Documents/Government/Public%20Notices/DeSoto%20Parish%20Proposed%20Redistricting%20Report%209_22_26.pdf?t=202609241639250",
+      "result": "web inaccessible/direct redirectHTTP403; full proposal NOT READ; announcementHTMLread only; adopted effective map/courtorder remains open",
+      "readOn": "2026-10-01"
+    },
+    {
+      "state": "LA",
+      "url": "https://www.desotoppj.com/how_do_i/Documents/How%20Do%20I/PJ%20Plan%20H%20rev%2024x36.pdf",
+      "result": "officialdistrict-map page relative download link webCachemiss; map/effectiveversion NOT READ",
       "readOn": "2026-10-01"
     }
   ]

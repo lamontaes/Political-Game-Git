@@ -30,6 +30,8 @@ North Carolina retains county structure and nomination/electorate options. South
 
 Georgia adds the current 2026 handbook. Illinois adds readable official FTP term cycles while retaining main-code retrieval gaps. Maryland retains the explicit Cecil County constitutional exception and local qualification rules. New York retains city/town supervisor and replacement county legislative-body variants. Every state has a first reading or a county-board exception; no complete production profile follows from that coverage.
 
+DeSoto adds eleven labels from the official member roster and a dated proposed redistricting notice. The linked proposal PDF could not be read. No adopted map, effective seat replacement, electorate or person-home join is admitted.
+
 ## Checks and limits
 
 The proof parses the JSON, preserves all 50 state keys and D.C., verifies prior claims unchanged and checks source fields. The first publication changed six records: Arkansas, Colorado, Illinois, Indiana, Iowa and New Mexico. The first renewal added Minnesota and Nebraska. The next added New Jersey, Kansas, Missouri and Minnesota candidate stages. This renewal adds Nevada, Virginia, Wisconsin and Oregon without changing prior claims. Simulation and private source packs are unchanged.

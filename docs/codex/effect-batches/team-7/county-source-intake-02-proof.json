@@ -111,5 +111,18 @@
     "productionProfilesAdmitted": 0,
     "validation": "49partial/CT exception/DC separate; all50identities and priorclaims preserved; source gaps/actualcounty plans open; no runtime changes",
     "matrixSha256": "37a8bb8bd0e6ec56549bf088181c297f79584b3a98a29ebfe32ee1fb5c13ad2d"
+  },
+  "renewal09": {
+    "previousHead": "e2be0e269605945205576cc7134a94379367a88a",
+    "changedStates": ["LA"],
+    "counts": {
+      "partially-inspected": 49,
+      "unread": 0,
+      "not-applicable-county-board": 1
+    },
+    "priorClaimsPreserved": true,
+    "productionProfilesAdmitted": 0,
+    "validation": "Observed eleven roster labels and dated proposed redistricting notice; no adopted map or person-district join; PDF retrieval failure retained; no runtime changes",
+    "matrixSha256": "f954b7c8c17c9bb9090f86b24f1f568f3fb4d66abcaa8d99c5d64a24eb63d57b"
   }
 }
