@@ -34,10 +34,11 @@
     {
       "reader": "Moving for work, family or cost",
       "readerOwner": "Migration and big social movements",
-      "state": "needs-research",
-      "detail": "A flat yearly chance with the reason life-course:unrecorded; only unemployment is read, and only through a wave.",
+      "state": "closed",
+      "detail": "Built by A135. A resident leaves only when a recorded cause (a lost job, a retirement, an eviction, rent against pay, a relative's move away) outweighs their own bar in one evaluateDecision with no randomness, and goes to the cause's place. A job offer elsewhere and school elsewhere have no producer yet.",
       "researchQuestionId": "migration-rates-and-reasons",
-      "readerAt": "src/simulation/migration/review.ts:174"
+      "proofTest": "src/simulation/migration/mover-rates.test.ts",
+      "readerAt": "src/simulation/migration/causes.ts#decideToLeave"
     }
   ],
   "measuredAt": "main at 130dd113, measured 2026-09-23",
