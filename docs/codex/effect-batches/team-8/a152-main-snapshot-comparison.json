@@ -1,0 +1,75 @@
+{
+  "main": "b84750d91daacef78fb1452b0b9dcb262306f793",
+  "candidate_composition": "e9fa7f073e897f27096d8b9548eeaf9650371998",
+  "original_writer_dependency": "3b12a5cf9ff4186785ff2d7ad8b5a24b8a9f3ffc",
+  "candidate_result": "10 FAIL / 11 PASS / 13.04s",
+  "original_writer_comparison_result": "11 FAIL / 10 PASS / 13.15s",
+  "comparison_scope": "Only original press finding-consequences module and governing adapter alias overlaid; entire remaining graph is the same current-main composition. No tracked production bytes changed. Extra baseline failure is expected old press-only monetary writer.",
+  "digest_assertions_identical": true,
+  "assertions": [
+    {
+      "test": "src/simulation/governing/finding-restitution.test.ts > A152 mechanically extracted adjudicated restitution > retains the existing full-save restitution result in AS",
+      "previous_sha256": "2e7324d18c3d4abdfe386d5f69da2c19861f04fe117896da19166a6ab6881aba",
+      "current_sha256": "0ca48563fdbba300e79542d10a25a660aa97a1ddab3de0477e8eaef2e37b82c3"
+    },
+    {
+      "test": "src/simulation/governing/finding-restitution.test.ts > A152 mechanically extracted adjudicated restitution > retains the existing full-save restitution result in AR",
+      "previous_sha256": "45a1a441aa143796209a053ccef3f4226c477e23c164d1d9a5a9e8a3feae02b4",
+      "current_sha256": "f08652c3731d8eefb7dfbd7d798b5e88a4b157c70e134abd7975b5223b2fb26e"
+    },
+    {
+      "test": "src/simulation/governing/finding-restitution.test.ts > A152 mechanically extracted adjudicated restitution > retains the existing full-save restitution result in AZ",
+      "previous_sha256": "3b63f22a12172f9ff185b4fe6d03d2594d18bc7eafa5c7e20ae56855f59dc4cb",
+      "current_sha256": "a01362c1829b7119cb27ce58216174cf1004af1d44c24f4aab2f62fc3dfb706d"
+    },
+    {
+      "test": "src/simulation/governing/finding-restitution.test.ts > A152 mechanically extracted adjudicated restitution > retains the existing full-save restitution result in AK",
+      "previous_sha256": "c4ef759eba36004bc7738ea86c760982522e6b2dcfd08a52f86baf4ad42e0cf9",
+      "current_sha256": "00d4623b2faae28169f2b04b6bf05aff911ec3da4bbeea78004f3635ef74a920"
+    },
+    {
+      "test": "src/simulation/governing/finding-restitution.test.ts > A152 mechanically extracted adjudicated restitution > retains the existing full-save restitution result in AL",
+      "previous_sha256": "f2263dc6b998467aa220893a87ea3a6f0df6a5bf15d1f373581a2061278a65e2",
+      "current_sha256": "c5165e2e626ed40e9bc62df9e88d9c696931def1b75be3dfbf20aa5cc71465d2"
+    },
+    {
+      "test": "src/simulation/press/finding-replay.test.ts > finding consequences use saved payments and authoritative closed guard > preserves linked actual restitution and closed replay in AS",
+      "previous_sha256": "2e7324d18c3d4abdfe386d5f69da2c19861f04fe117896da19166a6ab6881aba",
+      "current_sha256": "0ca48563fdbba300e79542d10a25a660aa97a1ddab3de0477e8eaef2e37b82c3"
+    },
+    {
+      "test": "src/simulation/press/finding-replay.test.ts > finding consequences use saved payments and authoritative closed guard > preserves linked actual restitution and closed replay in AR",
+      "previous_sha256": "45a1a441aa143796209a053ccef3f4226c477e23c164d1d9a5a9e8a3feae02b4",
+      "current_sha256": "f08652c3731d8eefb7dfbd7d798b5e88a4b157c70e134abd7975b5223b2fb26e"
+    },
+    {
+      "test": "src/simulation/press/finding-replay.test.ts > finding consequences use saved payments and authoritative closed guard > preserves linked actual restitution and closed replay in AZ",
+      "previous_sha256": "3b63f22a12172f9ff185b4fe6d03d2594d18bc7eafa5c7e20ae56855f59dc4cb",
+      "current_sha256": "a01362c1829b7119cb27ce58216174cf1004af1d44c24f4aab2f62fc3dfb706d"
+    },
+    {
+      "test": "src/simulation/press/finding-replay.test.ts > finding consequences use saved payments and authoritative closed guard > preserves linked actual restitution and closed replay in AK",
+      "previous_sha256": "c4ef759eba36004bc7738ea86c760982522e6b2dcfd08a52f86baf4ad42e0cf9",
+      "current_sha256": "00d4623b2faae28169f2b04b6bf05aff911ec3da4bbeea78004f3635ef74a920"
+    },
+    {
+      "test": "src/simulation/press/finding-replay.test.ts > finding consequences use saved payments and authoritative closed guard > preserves linked actual restitution and closed replay in AL",
+      "previous_sha256": "f2263dc6b998467aa220893a87ea3a6f0df6a5bf15d1f373581a2061278a65e2",
+      "current_sha256": "c5165e2e626ed40e9bc62df9e88d9c696931def1b75be3dfbf20aa5cc71465d2"
+    }
+  ],
+  "logs": {
+    "team8-a152-main-failure-reproduction.log": {
+      "sha256": "af0e53e6bf5d493a31006287dd699ad32ff831ec5804e2e808e6135d6d003414"
+    },
+    "team8-a152-main-original-writer-comparison.log": {
+      "sha256": "0a150dc51fdcf4a4420933e23db369e1c9779bfef6a2fd4296643b72ab47e323"
+    },
+    "team8-a152-main-repaired-final.log": {
+      "sha256": "2d5593cdfdeadd431e07aa4e638b70d6f7e178f0af4414dc8533791211de59af"
+    }
+  },
+  "repaired_result": "21 PASS / 0 FAIL / 17.27s",
+  "strict_actual_source_roots": 5,
+  "strict_diagnostics": 0
+}

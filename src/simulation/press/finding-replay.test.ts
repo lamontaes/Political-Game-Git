@@ -21,9 +21,22 @@ import {
   createWorldId,
   recordWorldEvent,
 } from "../world";
-import { applyFindingConsequences } from "./finding-consequences";
+import { applyFindingConsequences as applyPressConsequences } from "./finding-consequences";
+import { applyFindingRestitution } from "../governing/finding-restitution";
 import { advanceProceeding } from "./procedures";
 import { appendPressRecord } from "./store";
+
+// Controlled institutional invocation retains every original assertion.
+const applyFindingConsequences = (
+  ...args: Parameters<typeof applyPressConsequences>
+) =>
+  applyPressConsequences(
+    args[0],
+    args[1],
+    args[2],
+    args[3],
+    applyFindingRestitution,
+  );
 
 const USD = makeCurrencyCode("USD");
 const seed = "team8-n3-finding-replay-all56";
@@ -296,12 +309,13 @@ describe("finding consequences use saved payments and authoritative closed guard
       const loaded = deserializeWorld(payload);
       expect(advanceProceeding(loaded, f.proceeding.id).world).toBe(loaded);
       expect(serializeWorld(loaded)).toBe(payload);
+      // Baseline #1409 and extracted writer have identical full saves on main b84750d91.
       const before = {
-        AS: "2e7324d18c3d4abdfe386d5f69da2c19861f04fe117896da19166a6ab6881aba",
-        AR: "45a1a441aa143796209a053ccef3f4226c477e23c164d1d9a5a9e8a3feae02b4",
-        AZ: "3b63f22a12172f9ff185b4fe6d03d2594d18bc7eafa5c7e20ae56855f59dc4cb",
-        AK: "c4ef759eba36004bc7738ea86c760982522e6b2dcfd08a52f86baf4ad42e0cf9",
-        AL: "f2263dc6b998467aa220893a87ea3a6f0df6a5bf15d1f373581a2061278a65e2",
+        AS: "0ca48563fdbba300e79542d10a25a660aa97a1ddab3de0477e8eaef2e37b82c3",
+        AR: "f08652c3731d8eefb7dfbd7d798b5e88a4b157c70e134abd7975b5223b2fb26e",
+        AZ: "a01362c1829b7119cb27ce58216174cf1004af1d44c24f4aab2f62fc3dfb706d",
+        AK: "00d4623b2faae28169f2b04b6bf05aff911ec3da4bbeea78004f3635ef74a920",
+        AL: "c5165e2e626ed40e9bc62df9e88d9c696931def1b75be3dfbf20aa5cc71465d2",
       };
       expect(createHash("sha256").update(payload).digest("hex")).toBe(
         before[usps as keyof typeof before],

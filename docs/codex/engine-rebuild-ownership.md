@@ -131,3 +131,28 @@ These grants supersede earlier held entries only for the named surfaces. They do
 - Team 8 owns the bounded crisis record-parent lookup repair admitting existing resourceFlowTerms, with missing and non-earlier parent rejection preserved. Team 4 supplied its exact failing renewal fixture and retains rent source ownership.
 
 The active coordinator document is 00c. Completion requires the full rebuild docket, every effects-map link running or explicitly unsupported with a reason, passing multi-year behavior checks, and all checks green on final main. CTO heartbeat silence after 60 minutes narrows work to existing rulings; after 120 minutes finish and publish the current piece, then stop for renewed CTO or owner direction. The coordinator never merges.
+
+
+## October 1, 8:03 a.m. Eastern: A102 narrow transfer
+
+Team 4 released only town-rent.ts evictionCaseFacts counsel/judge binding, trialJudge court/seat/tenure lookup where required, and its judgment consumer to Team 9. Release head: f417d5f2183bc5ec3e2cfa263629321d0528463e. File blob: 0d9e1df512cb9233c76ca6de7be38e5f84fda9cc. Team 4 reported no staged, dirty or unpublished overlap. Lease, price, payment and other eviction logic remain protected.
+
+Audit returned the existing court/seat/holder contract. Team 9 may preserve those actual identities and leave judgment pending without an actual judge or venue. A statute or tenant answer does not establish a lawyer. A new civil-representation record requires CTO disposition; no such schema is granted here. This is an ownership transfer, not proof of implementation.
+
+Team 4 additionally confirmed the adjacent rentEvent judgment-only input and actual court, seat, tenure and judge provenance additions are clean and released at the same f417d5f2183bc5ec3e2cfa263629321d0528463e head. Team 9 owns only those additions. Other event branches, filing, payment and lease behavior stay protected.
+
+## A8 weekly-pay clock handoff
+
+Team 3 published the saved-work/flow wrapper at 5131c40cb818d10e3f7b999d6656a15f04740adb and reported its focused parity test passed. Audit owns the dated adapter and default composer. Team 3 clean-released only job-market.ts beginWork's post-createWorkCompensation hook before addStep, payWeekly's returned-world scheduling hook, and life.ts recordWorkStatus's post-coverage scheduling hook for actually activated work, plus required imports. Preserve existing-flow early return, stable keys, amounts, dates, coverage and status validation. Team 3 retains period arithmetic, pay terms and the common payment writer.
+
+No generic resource creation hook is transferred. Opening and later hires both require clock proof. The unchanged clock-only prerequisite previously failed; the held presentation caller retirement must not be applied until it passes. Wrapper parity is not clock integration completion.
+
+## A102 reference-channel clarification
+
+Team 4 confirmed that its judgment-only rentEvent release at f417d5f2183bc5ec3e2cfa263629321d0528463e includes provenance tags for actual court, seat and tenure records. Audit identified existing court and seat tag conventions. Historical filing IDs are also saved records, not canonical entities. Team 9 keeps the actual judge person as an entity and participant, validates the dated assignment before writing, and preserves base tags and nonjudgment branches. No registry, shared guard or civil-case schema expansion is granted. Tags preserve evidence; they do not establish authority.
+
+## October 1: starting-law reader dependency handoff
+
+Coordinator released the already-published starting-term reader hunks from 8f3957b1bcd161cb95c597b97fd306b6a1b277cb to Team 1. Scope: automatic-legislation.ts startingLawTerms import, nullable provision ID and dated reader; law-in-force.ts dated starting-row and term helpers; starting-law-terms.test.ts. Preserve newer compiler work. This is not a whole-file transfer. Coordinator will not concurrently edit these reader hunks.
+
+The extraction excludes handlers, registry, resource writers, canonical JSON and new HistoricalCutoff schema. Team 1 tests its exact composition. No composition pass, numeric increment or merge approval is implied.
