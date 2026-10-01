@@ -50,7 +50,7 @@ Measured: The fixture covers 50 states, excludes six ineligible jurisdictions, c
 
 Measured: Three strict roots have zero diagnostics (a79-state-ratification-proof/current-main/current-types.log:1). Owned lint emits no diagnostics (a79-state-ratification-proof/current-main/source-checks.txt:1). Owned formatting passes (a79-state-ratification-proof/current-main/format.log:2).
 
-Measured: The required macro-economy module load succeeds and collects 29 cases; none run (a79-state-ratification-proof/current-main/receipt.json:1). The full static scan executes; its classifications are not proof of production ratification (a79-state-ratification-proof/current-main/full-audit.log:1).
+Measured: Both required loads pass: Node imports world.ts; macro-economy collects 29 cases with none run (a79-state-ratification-proof/current-main/receipt.json:1). The full static scan executes; its classifications are not proof of production ratification (a79-state-ratification-proof/current-main/full-audit.log:1).
 
 ## Worked example
 

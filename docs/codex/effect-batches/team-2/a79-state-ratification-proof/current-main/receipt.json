@@ -75,5 +75,11 @@
       "exitCode": 1,
       "error": "Future transition key must be a namespaced semantic key: undefined"
     }
-  ]
+  ],
+  "worldLoad": {
+    "exitCode": 0,
+    "command": "node --import tsx -e \"await import('./src/simulation/world.ts')\"",
+    "source": "e47fad80ce30f74200513c37873eebd712ffabe3",
+    "testsExecuted": 0
+  }
 }
