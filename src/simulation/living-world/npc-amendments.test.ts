@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { addDays } from "../dates";
 import { floorStageTakesAmendments } from "../governing/chamber-procedure";
 import {
   decideChamberVote,
@@ -71,7 +72,7 @@ function floorVoteOf(world: World, measureId: EntityId) {
 function reachFloor(world: World, measureId: EntityId): World {
   const registry = createCampaignElectionTransitionRegistry();
   let next = world;
-  for (let day = 0; day < 10 && !floorVoteOf(next, measureId); day += 1)
+  for (let day = 0; day < 3 && !floorVoteOf(next, measureId); day += 1)
     next = advanceWorld(next, 1, registry);
   return next;
 }
@@ -274,7 +275,12 @@ describe("members amend a bill for their own reasons in a watched world", () => 
       stableKey: "watched-amendments:calendar",
       measureId,
     });
-    world = scheduleInstitutionStep(world, measureId);
+    // The floor takes the bill up on the next day.
+    world = scheduleInstitutionStep(
+      world,
+      measureId,
+      addDays(world.currentDate, 1),
+    );
 
     // Save and Continue before the floor day; both run to it.
     const restored = deserializeWorld(serializeWorld(world));
