@@ -1,3 +1,4 @@
+import { paidOfficeOf } from "./office-pay";
 import type { LawConsequencePredicate } from "./law-consequence-types";
 import { recordById } from "./history-index";
 import {
@@ -9,6 +10,7 @@ import {
 import type { EntityId, HistoricalCutoff, World } from "./types";
 
 export const PAY_COVERAGE_PREDICATES = [
+  "pay-not-elective-public-office",
   "pay-occupation",
   "pay-employer-classification",
   "pay-employer-workforce-at-most",
@@ -50,6 +52,17 @@ export function matchPayCoveragePredicates(
   const factRecordIds = [work.id, ...(role ? [role.id] : [])];
   for (const predicate of predicates) {
     switch (predicate.capability) {
+      case "pay-not-elective-public-office": {
+        if (Object.keys(predicate.parameters).length !== 0)
+          throw new Error("Elective office coverage takes no parameters");
+        const held = paidOfficeOf(world, work, cutoff);
+        matches &&=
+          !held ||
+          !["governor", "state-legislator", "member-of-congress"].includes(
+            held.office,
+          );
+        break;
+      }
       case "pay-occupation":
       case "pay-employer-classification": {
         if (
