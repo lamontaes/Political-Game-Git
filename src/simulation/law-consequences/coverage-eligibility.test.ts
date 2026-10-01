@@ -1,3 +1,4 @@
+import { MULTIPLIER_ONE } from "../crisis/hazard";
 import { drawLegislativeStartingProcedures } from "../legislative-starting-procedures";
 import {
   authoredScenarioSeatCount,
@@ -232,6 +233,10 @@ describe("coverage kind reuses the existing saved-record writer", () => {
       );
       for (const record of records) {
         expect(record.personId).toBe(person.id);
+        expect(record.hazardMultiplierMicros).toBe(MULTIPLIER_ONE);
+        expect(record.hazardFrom).toBe(
+          record.covered ? record.effectiveAt : null,
+        );
         expect(record.causalParentIds).toEqual([activityId]);
         expect(record.lawEffectStamps?.[0]?.effectKind).toBe(
           "coverage-eligibility",

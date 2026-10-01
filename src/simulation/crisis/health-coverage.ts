@@ -609,7 +609,8 @@ export function recordHealthCoverageForSubjects(
       monthlyIncomeMinor: decision.monthlyIncomeMinor,
       monthlyWorkHours: decision.monthlyWorkHours,
       hazardMultiplierMicros: MULTIPLIER_ONE,
-      hazardFrom: null,
+      // Preserve the existing neutral-record shape; this is not a study lag.
+      hazardFrom: decision.covered ? onDate : null,
       hazardBasis:
         "Legal eligibility alone supplies no person-level health mechanism; population mortality evidence is calibration only.",
       basis: basisFor(decision),

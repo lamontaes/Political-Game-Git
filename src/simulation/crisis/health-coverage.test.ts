@@ -244,7 +244,7 @@ describe("coverage consequence law stamps", () => {
       const first = healthCoverageRecords(covered).at(-1)!;
       expect(first.covered).toBe(true);
       expect(first.hazardMultiplierMicros).toBe(MULTIPLIER_ONE);
-      expect(first.hazardFrom).toBeNull();
+      expect(first.hazardFrom).toBe(first.effectiveAt);
       expect(first.hazardBasis).toContain(
         "population mortality evidence is calibration only",
       );
