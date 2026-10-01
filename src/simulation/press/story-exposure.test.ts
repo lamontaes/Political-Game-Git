@@ -128,6 +128,7 @@ function heardWorld() {
     jurisdictionId: null,
     involvedEntityIds: [
       governor.holderPersonId,
+      small.personId,
       ...playerRequiredWorkIds(world, governor.holderPersonId),
     ],
     participants: [],
