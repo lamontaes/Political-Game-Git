@@ -11,6 +11,7 @@ import {
 } from "./resources";
 import {
   outstandingDebtAt,
+  loanBalanceComponentsAt,
   resourceFlowTermsAt,
   resourceObligationStateAt,
   resourcePositionAt,
@@ -30,6 +31,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   HouseholdLoanKind,
+  HistoricalCutoff,
   IsoDate,
   LenderKind,
   LifeRecordProvenance,
@@ -282,16 +284,182 @@ export function reviseLoanTerms(
   });
 }
 
+/** A separate noncash discharge, never a terms revision or a forged payment. */
+export function recordLoanDischarge(
+  world: World,
+  resourceObligationId: EntityId,
+  amounts: { readonly principal: MoneyAmount; readonly interest: MoneyAmount },
+  stableKey: string,
+  provenance: LifeRecordProvenance,
+): World {
+  const existing = (world.history.loanDischarges ?? []).find(
+    (row) => row.stableKey === stableKey,
+  );
+  if (existing) {
+    if (
+      existing.resourceObligationId !== resourceObligationId ||
+      existing.principal.minorUnits !== amounts.principal.minorUnits ||
+      existing.interest.minorUnits !== amounts.interest.minorUnits ||
+      existing.principal.currency !== amounts.principal.currency ||
+      existing.interest.currency !== amounts.interest.currency
+    )
+      throw new Error(
+        "A discharge identity cannot be reused for another credit.",
+      );
+    return world;
+  }
+  if (!loanTermsAt(world, resourceObligationId, world.currentDate))
+    throw new Error("This debt has no recorded loan terms.");
+  const components = loanBalanceComponentsAt(world, resourceObligationId);
+  if (!components)
+    throw new Error("Loan discharge needs recorded repayment allocations.");
+  for (const key of ["principal", "interest"] as const) {
+    const amount = amounts[key];
+    if (
+      !Number.isSafeInteger(amount.minorUnits) ||
+      amount.minorUnits < 0 ||
+      amount.currency !== components[key].currency ||
+      amount.minorUnits > components[key].minorUnits
+    )
+      throw new Error("A loan discharge must fit its recorded component.");
+  }
+  if (amounts.principal.minorUnits + amounts.interest.minorUnits <= 0)
+    throw new Error("A discharge needs a positive credit.");
+  return append(world, "loanDischarges", "loan-discharge", {
+    stableKey,
+    resourceObligationId,
+    effectiveAt: world.currentDate,
+    principal: { ...amounts.principal },
+    interest: { ...amounts.interest },
+    provenance,
+  });
+}
+
+/** Retains the old primitive API while writing the approved separate record. */
+export function reduceLoanPrincipal(
+  world: World,
+  resourceObligationId: EntityId,
+  amount: MoneyAmount,
+  stableKey: string,
+  provenance: LifeRecordProvenance,
+): World {
+  const legacy = (world.history.loanTerms ?? []).find(
+    (row) => row.stableKey === stableKey && row.principalReduction,
+  );
+  if (legacy) {
+    if (
+      legacy.resourceObligationId !== resourceObligationId ||
+      legacy.principalReduction!.minorUnits !== amount.minorUnits ||
+      legacy.principalReduction!.currency !== amount.currency
+    )
+      throw new Error("A legacy principal credit identity cannot be reused.");
+    return world;
+  }
+  return recordLoanDischarge(
+    world,
+    resourceObligationId,
+    { principal: amount, interest: money(0, amount.currency) },
+    stableKey,
+    provenance,
+  );
+}
+
+/** The actual cash outcome is split fees, then accrued interest, then principal. */
+export function recordLoanRepaymentAllocation(
+  world: World,
+  resourceObligationId: EntityId,
+  outcomeId: EntityId,
+  stableKey: string,
+): World {
+  const existing = (world.history.loanRepaymentAllocations ?? []).find(
+    (row) =>
+      row.resourceTransferOutcomeId === outcomeId ||
+      row.stableKey === stableKey,
+  );
+  if (existing) {
+    if (
+      existing.resourceObligationId !== resourceObligationId ||
+      existing.resourceTransferOutcomeId !== outcomeId ||
+      existing.stableKey !== stableKey
+    )
+      throw new Error("A repayment allocation identity cannot be reused.");
+    return world;
+  }
+  const debt = world.history.resourceObligations.find(
+    (row) => row.id === resourceObligationId,
+  );
+  const outcome = world.history.resourceTransferOutcomes.find(
+    (row) => row.id === outcomeId,
+  );
+  if (
+    !debt?.principal ||
+    !outcome ||
+    outcome.resourceFlowId !== debt.resourceFlowId ||
+    outcome.sequence <= debt.sequence
+  )
+    throw new Error("A repayment allocation needs the loan's actual outcome.");
+  const currency = debt.principal.currency;
+  if (outcome.transferredAmount.currency !== currency)
+    throw new Error("Loan repayment currency must agree.");
+  const components = loanBalanceComponentsAt(world, resourceObligationId, {
+    asOfDate: outcome.occurredAt,
+    historySequenceExclusive: outcome.sequence,
+  });
+  const paid = outcome.transferredAmount.minorUnits;
+  if (!components && paid > 0)
+    return append(
+      world,
+      "loanRepaymentAllocations",
+      "loan-repayment-allocation",
+      {
+        stableKey,
+        resourceObligationId,
+        resourceTransferOutcomeId: outcome.id,
+        occurredAt: outcome.occurredAt,
+        fees: null,
+        interest: null,
+        principal: null,
+        unsupportedReason: "missing-prior-repayment-allocation",
+      },
+    );
+  const fees = Math.min(paid, components?.fees.minorUnits ?? 0);
+  const interest = Math.min(paid - fees, components?.interest.minorUnits ?? 0);
+  const principal = paid - fees - interest;
+  if (principal > (components?.principal.minorUnits ?? 0))
+    throw new Error("Repayment exceeds recorded loan components.");
+  return append(
+    world,
+    "loanRepaymentAllocations",
+    "loan-repayment-allocation",
+    {
+      stableKey,
+      resourceObligationId,
+      resourceTransferOutcomeId: outcome.id,
+      occurredAt: outcome.occurredAt,
+      fees: money(fees, currency),
+      interest: money(interest, currency),
+      principal: money(principal, currency),
+      unsupportedReason: null,
+    },
+  );
+}
+
 export function loanTermsAt(
   world: World,
   resourceObligationId: EntityId,
-  date: IsoDate,
+  date: IsoDate | HistoricalCutoff,
 ): LoanTermsRecord | undefined {
+  const asOfDate = typeof date === "string" ? date : date.asOfDate;
+  const frontier =
+    typeof date === "string"
+      ? world.history.nextSequence
+      : date.historySequenceExclusive;
   return (world.history.loanTerms ?? [])
     .filter(
       (row) =>
         row.resourceObligationId === resourceObligationId &&
-        row.effectiveAt <= date,
+        row.effectiveAt <= asOfDate &&
+        row.sequence < frontier,
     )
     .at(-1);
 }
@@ -516,7 +684,7 @@ function serviceLoanMonth(
   if (!position) {
     // The borrower's money is not tracked, so whether they could pay is
     // unknown. The payment is recorded as blocked, not missed; standing holds.
-    return recordResourceTransferOutcome(next, {
+    next = recordResourceTransferOutcome(next, {
       stableKey: `${key}:payment`,
       resourceFlowId: flow.id,
       periodStartsAt: dueOn,
@@ -529,6 +697,12 @@ function serviceLoanMonth(
       note: "The borrower's money is not tracked.",
       provenance: terms.provenance,
     });
+    return recordLoanRepaymentAllocation(
+      next,
+      obligation.id,
+      next.history.resourceTransferOutcomes.at(-1)!.id,
+      `${key}:allocation`,
+    );
   }
   const paid = Math.max(0, Math.min(position.liquidBalance.minorUnits, due));
   next = recordResourceTransferOutcome(next, {
@@ -544,6 +718,12 @@ function serviceLoanMonth(
     note: null,
     provenance: terms.provenance,
   });
+  next = recordLoanRepaymentAllocation(
+    next,
+    obligation.id,
+    next.history.resourceTransferOutcomes.at(-1)!.id,
+    `${key}:allocation`,
+  );
 
   const previous = debtStandingAt(next, obligation.id, dueOn);
   if (paid === due) {
@@ -689,12 +869,22 @@ function appendDebtStanding(
   return append(world, "debtStandings", "debt-standing", draft);
 }
 
-type LoanField = "loanTerms" | "debtCharges" | "debtStandings";
+type LoanField =
+  | "loanTerms"
+  | "debtCharges"
+  | "debtStandings"
+  | "loanRepaymentAllocations"
+  | "loanDischarges";
 
 function append<K extends LoanField>(
   world: World,
   field: K,
-  kind: "loan-terms" | "debt-charge" | "debt-standing",
+  kind:
+    | "loan-terms"
+    | "debt-charge"
+    | "debt-standing"
+    | "loan-repayment-allocation"
+    | "loan-discharge",
   draft: Draft<NonNullable<World["history"][K]>[number]>,
 ): World {
   const record = {
@@ -733,6 +923,8 @@ export function assertHouseholdLoanIntegrity(
     ["loan-terms", world.history.loanTerms ?? []],
     ["debt-charge", world.history.debtCharges ?? []],
     ["debt-standing", world.history.debtStandings ?? []],
+    ["loan-repayment-allocation", world.history.loanRepaymentAllocations ?? []],
+    ["loan-discharge", world.history.loanDischarges ?? []],
   ] as const;
   for (const [kind, records] of groups) {
     let previous = -1;
@@ -758,6 +950,7 @@ export function assertHouseholdLoanIntegrity(
   const terms = new Map(
     (world.history.loanTerms ?? []).map((row) => [row.id, row]),
   );
+  const reductions = new Map<EntityId, number>();
   for (const row of world.history.loanTerms ?? []) {
     const debt = debts.get(row.resourceObligationId);
     if (!debt?.principal || debt.sequence >= row.sequence)
@@ -768,6 +961,23 @@ export function assertHouseholdLoanIntegrity(
       (row.rateBasis === "capped") !== (row.rateCapMeasureId !== null)
     )
       throw new Error("Loan terms carry an invalid rate.");
+    if (row.principalReduction) {
+      const amount = row.principalReduction;
+      const total = (reductions.get(debt.id) ?? 0) + amount.minorUnits;
+      if (
+        !Number.isSafeInteger(amount.minorUnits) ||
+        amount.minorUnits <= 0 ||
+        amount.currency !== debt.principal.currency ||
+        !Number.isSafeInteger(total) ||
+        total > debt.principal.minorUnits ||
+        !row.supersedesTermsId ||
+        row.effectiveAt < debt.establishedAt
+      )
+        throw new Error(
+          "Loan principal reductions must be positive, dated credits within original principal.",
+        );
+      reductions.set(debt.id, total);
+    }
   }
   for (const row of world.history.debtCharges ?? []) {
     const governing = terms.get(row.loanTermsId);
@@ -778,6 +988,90 @@ export function assertHouseholdLoanIntegrity(
       row.amount.minorUnits <= 0
     )
       throw new Error("A debt charge must follow terms in force.");
+  }
+  const allocatedOutcomes = new Set<EntityId>();
+  for (const row of world.history.loanRepaymentAllocations ?? []) {
+    const debt = debts.get(row.resourceObligationId);
+    const outcome = world.history.resourceTransferOutcomes.find(
+      (record) => record.id === row.resourceTransferOutcomeId,
+    );
+    if (
+      !debt?.principal ||
+      !outcome ||
+      outcome.resourceFlowId !== debt.resourceFlowId ||
+      outcome.sequence >= row.sequence ||
+      outcome.sequence <= debt.sequence ||
+      row.occurredAt !== outcome.occurredAt ||
+      allocatedOutcomes.has(outcome.id)
+    )
+      throw new Error(
+        "A loan allocation must follow its unique actual repayment.",
+      );
+    allocatedOutcomes.add(outcome.id);
+    const before = loanBalanceComponentsAt(world, debt.id, {
+      asOfDate: outcome.occurredAt,
+      historySequenceExclusive: outcome.sequence,
+    });
+    const paid = outcome.transferredAmount.minorUnits;
+    if (!before && paid > 0) {
+      if (
+        row.unsupportedReason !== "missing-prior-repayment-allocation" ||
+        row.fees !== null ||
+        row.interest !== null ||
+        row.principal !== null
+      )
+        throw new Error(
+          "An unsupported legacy loan allocation cannot invent components.",
+        );
+      continue;
+    }
+    const fees = Math.min(paid, before?.fees.minorUnits ?? 0);
+    const interest = Math.min(paid - fees, before?.interest.minorUnits ?? 0);
+    const principal = paid - fees - interest;
+    if (
+      row.unsupportedReason !== null ||
+      !row.fees ||
+      !row.interest ||
+      !row.principal ||
+      row.fees.minorUnits !== fees ||
+      row.interest.minorUnits !== interest ||
+      row.principal.minorUnits !== principal ||
+      row.fees.currency !== debt.principal.currency ||
+      row.interest.currency !== debt.principal.currency ||
+      row.principal.currency !== debt.principal.currency ||
+      !Number.isSafeInteger(principal) ||
+      principal < 0 ||
+      principal > (before?.principal.minorUnits ?? 0)
+    )
+      throw new Error(
+        "Loan repayment must allocate actual cash fees first, then interest, then principal.",
+      );
+  }
+  for (const row of world.history.loanDischarges ?? []) {
+    const debt = debts.get(row.resourceObligationId);
+    const before = loanBalanceComponentsAt(world, row.resourceObligationId, {
+      asOfDate: row.effectiveAt,
+      historySequenceExclusive: row.sequence,
+    });
+    if (
+      !debt?.principal ||
+      debt.sequence >= row.sequence ||
+      !before ||
+      row.effectiveAt < debt.establishedAt ||
+      row.effectiveAt > row.recordedAt ||
+      !Number.isSafeInteger(row.principal.minorUnits) ||
+      !Number.isSafeInteger(row.interest.minorUnits) ||
+      row.principal.minorUnits < 0 ||
+      row.interest.minorUnits < 0 ||
+      row.principal.minorUnits + row.interest.minorUnits <= 0 ||
+      row.principal.currency !== debt.principal.currency ||
+      row.interest.currency !== debt.principal.currency ||
+      row.principal.minorUnits > before.principal.minorUnits ||
+      row.interest.minorUnits > before.interest.minorUnits
+    )
+      throw new Error(
+        "Loan discharges must fit recorded principal and interest without cash.",
+      );
   }
   for (const row of world.history.debtStandings ?? []) {
     if (!debts.has(row.resourceObligationId))

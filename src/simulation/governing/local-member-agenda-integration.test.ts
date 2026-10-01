@@ -30,7 +30,8 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import type { World } from "../types";
 import { advanceWorld } from "../world";
 import { AUTOMATIC_LAW_POSITION_MAPPINGS } from "./automatic-legislation";
-import { lawInForce } from "./law-in-force";
+import { lawInForce, statuteAnswer } from "./law-in-force";
+import { mayAnswerQuestion } from "./question-authority";
 import {
   LOCAL_MEMBER_AGENDA_INTAKE,
   LOCAL_MEMBER_AGENDA_VERSION,
@@ -117,7 +118,7 @@ describe("ordinary local member fiscal agenda", () => {
     });
   });
 
-  it("turns a due intake into a typed bill and a saved member-decided council disposition", () => {
+  it("files a reasoned plain bill without a numeric reference and saves the council decision", () => {
     const world = openedWorld();
     const dueAt = addDays(world.currentDate, 1);
     const queued = scheduleFutureDueItem(world, {
@@ -153,22 +154,38 @@ describe("ordinary local member fiscal agenda", () => {
     );
     expect(measure).toMatchObject({
       origin: "member-introduction",
-      subjectClass: "appropriation",
+      subjectClass: "general-policy",
       rulePackId: localPackId,
     });
     if (!measure) return;
-    const amount = currentMeasureProvisions(afterIntake, measure.id).find(
-      (provision) => provision.provisionKey === "amount-provided",
-    );
-    expect(amount?.operativeEffect).toEqual({
-      kind: "public-program-appropriation",
-    });
-    expect(amount?.fiscalExposureMinorUnits).toBeGreaterThan(0);
+    // These opening worlds have no verified current-law numeric reference.
+    expect(currentMeasureProvisions(afterIntake, measure.id)).toEqual([]);
     expect(
       afterIntake.history.legislativeDraftLineages?.find(
         (lineage) => lineage.measureId === measure.id,
-      )?.variantKey,
-    ).toBe("local-fix-it-first-v1");
+      ),
+    ).toBeUndefined();
+    expect(measure.summary).toContain("No numeric terms are requested");
+    const motive = afterIntake.history.events.find(
+      (event) => event.stableKey === `${measure.stableKey}:motive`,
+    );
+    expect(motive).toMatchObject({
+      type: "legislation.sponsor-motive",
+      involvedEntityIds: expect.arrayContaining([
+        measure.id,
+        measure.sponsorPersonId,
+      ]),
+    });
+    const reasons = motive!.tags
+      .filter((tag) => tag.startsWith("reason:principle-record:"))
+      .map((tag) => tag.slice("reason:principle-record:".length));
+    expect(reasons.length).toBeGreaterThan(0);
+    for (const id of reasons)
+      expect(
+        afterIntake.history.principles.find((row) => row.id === id),
+      ).toMatchObject({
+        personId: measure.sponsorPersonId,
+      });
 
     const reading = afterIntake.history.futureDueItems.find(
       (item) =>
@@ -212,7 +229,7 @@ describe("ordinary local member fiscal agenda", () => {
 });
 
 describe("a council's plain position bills", () => {
-  it("files a general-policy bill on a question with no local effect writer, and keeps a mapped question's bill separate", () => {
+  it("keeps mapped and unsupported questions separate without inventing numeric terms", () => {
     let world = openedWorld();
     const mappedKeys = new Set(
       AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
@@ -222,6 +239,63 @@ describe("a council's plain position bills", () => {
       ).map((mapping) => mapping.propositionKey),
     );
     for (let quarter = 0; quarter < 4; quarter += 1) {
+      if (quarter === 1) {
+        const question = world.policyCatalog.propositionOrder
+          .map((id) => world.policyCatalog.propositions[id]!)
+          .find(
+            (q) =>
+              !mappedKeys.has(q.stableKey) &&
+              mayAnswerQuestion(world, place.context.jurisdiction.id, q.id) &&
+              !["yes", "closed"].includes(
+                statuteAnswer(
+                  lawInForce(world, place.context.jurisdiction.id, q.id),
+                ) ?? "",
+              ) &&
+              (q.principles ?? []).reduce(
+                (sum, bearing) => sum + (bearing.weight ?? 1),
+                0,
+              ) >= 1,
+          );
+        expect(question).toBeDefined();
+        const playerId =
+          world.control.kind === "person" ? world.control.personId : null;
+        world = recordPrinciples(
+          world,
+          municipalSeats(world, city.id)
+            .filter(
+              (seat) =>
+                seat.personId !== playerId &&
+                (seat.role === "member" || seat.role === "presiding-member"),
+            )
+            .flatMap((seat) =>
+              question!.principles!.map((bearing) => ({
+                stableKey: `plain-agenda-reason:${seat.personId}:${bearing.principleId}`,
+                personId: seat.personId,
+                principleId: bearing.principleId,
+                formedAt: world.currentDate,
+                stance:
+                  bearing.bearing === "consistent-with"
+                    ? "endorses"
+                    : "rejects",
+                strength: 1,
+                conviction: "settled",
+                flexibility: "firm",
+                qualification: null,
+                formation: createFormationContext("experience:life", {
+                  note: "Explicit saved support for a plain council question after the mapped bill was filed.",
+                }),
+                supersedesPrincipleRecordId:
+                  world.history.principles
+                    .filter(
+                      (record) =>
+                        record.personId === seat.personId &&
+                        record.principleId === bearing.principleId,
+                    )
+                    .at(-1)?.id ?? null,
+              })),
+            ),
+        );
+      }
       const dueAt = addDays(world.currentDate, 1);
       world = advanceWorld(
         scheduleFutureDueItem(world, {
@@ -263,9 +337,18 @@ describe("a council's plain position bills", () => {
             ?.answer,
         ).toBe(bill.propositionAnswers![0]!.answer);
     }
-    // The mapped question keeps its own appropriation bill.
-    expect(
-      filed.filter((entry) => entry.subjectClass === "appropriation"),
-    ).toHaveLength(1);
+    // A mapped question also stays plain without a verified numeric reference.
+    const mappedBills = filed.filter((entry) =>
+      (entry.propositionIds ?? []).some((id) =>
+        mappedKeys.has(world.policyCatalog.propositions[id]!.stableKey),
+      ),
+    );
+    expect(mappedBills).toHaveLength(1);
+    expect(mappedBills[0]).toMatchObject({
+      subjectClass: "general-policy",
+      summary: expect.stringContaining("No numeric terms are requested"),
+    });
+    expect(currentMeasureProvisions(world, mappedBills[0]!.id)).toEqual([]);
+    expect(world.history.legislativeDraftLineages ?? []).toHaveLength(0);
   });
 });

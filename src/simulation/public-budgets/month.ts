@@ -8,7 +8,12 @@ import { appendConsumerPrivacyCostToMonth } from "./consumer-privacy-cost";
 import { stateJurisdictionForKey } from "../life-places";
 import { townTaxableSales } from "../living-world/town-finances";
 import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
-import { publicOrganizationKey } from "../tax-policy";
+import {
+  publicOrganizationKey,
+  publicTaxAccountForIdentity,
+} from "../tax-policy";
+import { publicGovernmentIdentityForRecord } from "../public-government-identity";
+import { heldCashBailMinorUnits } from "../justice/cash-bail";
 import { recordById } from "../history-index";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
@@ -128,6 +133,8 @@ export interface MonthFlows {
       readonly organizationId: EntityId;
       readonly positionId: EntityId;
       readonly balanceMinorUnits: number;
+      /** Refundable custody cash remains an asset but cannot fund this budget. */
+      readonly heldCashBailMinorUnits?: number;
     }
   >;
   /** Exact paid cash by category; forecasts never enter these totals. */
@@ -186,6 +193,7 @@ export function readMonthFlows(
     ...(store.federalGovernment ? [store.federalGovernment] : []),
   ];
   const budgetKeys = new Set(governments.map((row) => row.key));
+  const governmentByKey = new Map(governments.map((row) => [row.key, row]));
   const federalKey = store.federalGovernment?.key;
   for (const government of governments) {
     byStableKey.set(
@@ -199,6 +207,8 @@ export function readMonthFlows(
   }
   for (const organization of history.organizations) {
     let key = byStableKey.get(organization.stableKey);
+    let identity:
+      ReturnType<typeof publicGovernmentIdentityForRecord> | undefined;
     const localPrefix = "public-government:local:";
     if (!key && organization.stableKey.startsWith(localPrefix)) {
       const governmentKey = decodeURIComponent(
@@ -214,9 +224,32 @@ export function readMonthFlows(
             : municipal?.placeGeoid
               ? `place:${municipal.placeGeoid}`
               : null;
-      if (budgetKey && budgetKeys.has(budgetKey)) key = budgetKey;
+      if (budgetKey && budgetKeys.has(budgetKey)) {
+        const government = governmentByKey.get(budgetKey)!;
+        // The named identity comes from this saved account's stable key and
+        // the existing compiled-government relation, not geographic aliasing.
+        identity = publicGovernmentIdentityForRecord({
+          jurisdictionId: government.jurisdictionId,
+          publicGovernmentIdentity: {
+            kind: "local-government",
+            governmentKey,
+            jurisdictionId: government.jurisdictionId,
+          },
+        });
+        key = budgetKey;
+      }
     }
-    if (key) accountOwner.set(organization.id, key);
+    if (key) {
+      const government = governmentByKey.get(key)!;
+      if (government.level === "county" || government.level === "city") {
+        const account = publicTaxAccountForIdentity(
+          world,
+          identity ?? publicGovernmentIdentityForRecord(government),
+        );
+        if (account?.organizationId !== organization.id) continue;
+      }
+      accountOwner.set(organization.id, key);
+    }
   }
   const cash = new Map<
     string,
@@ -224,6 +257,7 @@ export function readMonthFlows(
       organizationId: EntityId;
       positionId: EntityId;
       balanceMinorUnits: number;
+      heldCashBailMinorUnits?: number;
     }
   >();
   const accountIds = new Map<string, EntityId[]>();
@@ -244,12 +278,15 @@ export function readMonthFlows(
       },
       money(0, "USD").currency,
     );
-    if (position)
+    if (position) {
+      const held = heldCashBailMinorUnits(world, organizationId);
       cash.set(key, {
         organizationId,
         positionId: position.positionId,
         balanceMinorUnits: position.liquidBalance.minorUnits,
+        ...(held > 0 ? { heldCashBailMinorUnits: held } : {}),
       });
+    }
   }
   const withheld = new Map<string, number>();
   const payers = new Map<string, Set<EntityId>>();
@@ -350,6 +387,20 @@ export function readMonthFlows(
         (outcome as typeof outcome & LawEffectStampedRecord).lawEffectStamps ??
         []
       ).filter(isLawEffectStamp);
+      // Custody deposits and returns move cash, not operating revenue/outlays.
+      // Keep their saved identities so the physical cash movement is auditable.
+      if (
+        flow.basisKind === "custom:refundable-cash-bail" ||
+        flow.basisKind === "custom:cash-bail-refund"
+      ) {
+        for (const key of [into, outOf]) {
+          if (!key) continue;
+          const row = cashRow(key);
+          row.sourceRecordIds.push(flow.id, outcome.id);
+          row.lawEffectStamps.push(...savedStamps);
+        }
+        continue;
+      }
       if (into) {
         const row = cashRow(into);
         const source =
@@ -783,13 +834,21 @@ export function settleGovernmentMonth(
 } {
   if (government.months.some((row) => row.month === month))
     return { government, adjustments: [] };
+  const publicCash = flows.cash?.get(government.key);
+  const heldCash = publicCash?.heldCashBailMinorUnits ?? 0;
+  const spendableCash = publicCash
+    ? (publicCash.balanceMinorUnits - heldCash) / 100
+    : null;
+  // A custody liability cannot fall back to forecast operating transactions.
+  if (heldCash > 0 && flows.recorded === undefined)
+    return { government, adjustments: [] };
   if (government.level === "federal") {
-    const cash = flows.cash?.get(government.key);
+    const cash = publicCash;
     // Absence of a saved account is unknown, not zero or forecast cash.
     if (!cash || !flows.recorded) return { government, adjustments: [] };
     const paid = flows.recorded.get(government.key);
     const categories = GOVERNMENT_BUDGET_CATEGORIES.federal;
-    const balance = cash.balanceMinorUnits / 100;
+    const balance = spendableCash!;
     const row = {
       month,
       revenue: categories.receipts.map(
@@ -804,6 +863,8 @@ export function settleGovernmentMonth(
       cashSettlement: {
         organizationId: cash.organizationId,
         positionId: cash.positionId,
+        accountBalanceMinorUnits: cash.balanceMinorUnits,
+        heldCashBailMinorUnits: heldCash,
         sourceRecordIds: [...new Set(paid?.sourceRecordIds ?? [])],
       },
       ...(paid?.lawEffectStamps.length
@@ -832,7 +893,13 @@ export function settleGovernmentMonth(
     };
   }
   const adjustments: BudgetAdjustment[] = [];
-  const publicCash = flows.cash?.get(government.key);
+  // A local government cannot settle from a forecast or an ambiguous/missing
+  // account. Its month must use recorded cash; never create an account here.
+  if (
+    (government.level === "county" || government.level === "city") &&
+    (flows.recorded === undefined || publicCash === undefined)
+  )
+    return { government, adjustments: [] };
   // A missing recorded map means an older caller still supplies forecasts.
   const cashSettled = publicCash !== undefined && flows.recorded !== undefined;
   const recorded = flows.recorded?.get(government.key);
@@ -1050,10 +1117,10 @@ export function settleGovernmentMonth(
   }
   // The reserve earmarks this account's cash; it is not a second cash asset.
   let reserve = publicCash
-    ? Math.min(government.reserve, publicCash.balanceMinorUnits / 100)
+    ? Math.min(government.reserve, Math.max(0, spendableCash!))
     : government.reserve;
   let balance = publicCash
-    ? publicCash.balanceMinorUnits / 100 - reserve
+    ? spendableCash! - reserve
     : government.balance + sum(revenue) - sum(spending);
   let debt = government.debt;
   let interestRate = government.interestRate;
@@ -1186,6 +1253,8 @@ export function settleGovernmentMonth(
           cashSettlement: {
             organizationId: publicCash!.organizationId,
             positionId: publicCash!.positionId,
+            accountBalanceMinorUnits: publicCash!.balanceMinorUnits,
+            heldCashBailMinorUnits: heldCash,
             sourceRecordIds: [...new Set(recorded?.sourceRecordIds ?? [])],
           },
         }

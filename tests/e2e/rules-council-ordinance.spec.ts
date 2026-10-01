@@ -47,23 +47,18 @@ async function goTo(page: Page, id: string) {
 
 async function savedRecord(page: Page): Promise<StoredBrowserWorldRecord> {
   return page.evaluate(async () => {
-    const db = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("political-life-worlds");
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-    const records = await new Promise<StoredBrowserWorldRecord[]>(
-      (resolve, reject) => {
-        const request = db
-          .transaction("worlds", "readonly")
-          .objectStore("worlds")
-          .getAll();
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      },
+    const repositoryPath = "/src/presentation/browser-world-repository.ts";
+    const { BrowserSaveStore } = await import(
+      /* @vite-ignore */ repositoryPath
     );
-    db.close();
-    return records[0]!;
+    const store = new BrowserSaveStore();
+    const listing = await store.list();
+    const saveId = listing.saves[0]?.saveId;
+    if (!saveId) throw new Error("Expected the actual saved review life.");
+    const record = await store.inspectRecord(saveId);
+    if (!record)
+      throw new Error("The saved review life could not be inspected.");
+    return record;
   });
 }
 
@@ -160,25 +155,34 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   await page.reload();
   await expect(page.getByTestId("continue")).toBeVisible();
   await page.evaluate(async (value) => {
-    const db = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("political-life-worlds");
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
+    const repositoryPath = "/src/presentation/browser-world-repository.ts";
+    const simulationPath = "/src/simulation/serialization.ts";
+    const { BrowserSaveStore } = await import(
+      /* @vite-ignore */ repositoryPath
+    );
+    const { deserializeWorld } = await import(
+      /* @vite-ignore */ simulationPath
+    );
+    const store = new BrowserSaveStore({
+      now: () => new Date(value.metadata.savedAt),
     });
-    await new Promise<void>((resolve, reject) => {
-      // The save list reads a summary kept beside each record. Replacing the
-      // record behind the store's back leaves that summary describing the old
-      // one, so it goes too, and the next list summarizes the new record.
-      const transaction = db.transaction(
-        ["worlds", "world-summaries"],
-        "readwrite",
-      );
-      transaction.objectStore("worlds").put(value);
-      transaction.objectStore("world-summaries").delete(value.saveId);
-      transaction.oncomplete = () => resolve();
-      transaction.onerror = () => reject(transaction.error);
-    });
-    db.close();
+    // Observe the actual slot generation before replacing the review fixture.
+    // The canonical writer updates its manifest, chunks and summary together.
+    const existing = await store.load(value.saveId);
+    if (!existing) throw new Error("The original saved life is missing.");
+    const saved = await store.save(
+      deserializeWorld(value.payload),
+      value.saveId,
+    );
+    if (saved.status !== "saved")
+      throw new Error(`Review fixture replacement refused: ${saved.status}`);
+    const replaced = await store.inspectRecord(value.saveId);
+    if (
+      replaced?.saveId !== value.saveId ||
+      replaced.metadata.createdAt !== value.metadata.createdAt ||
+      replaced.generation !== value.generation
+    )
+      throw new Error("Review fixture lost its saved identity or generation.");
   }, record);
   await page.reload();
   await page.getByTestId("continue").click();
@@ -195,7 +199,7 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
       .getByTestId("municipal-ordinance")
       .filter({ hasText: "Sidewalk dining permits" });
   const ordinance = mine(panel);
-  await expect(ordinance).toContainText("Ord. 26-1: Sidewalk dining permits");
+  await expect(ordinance).toContainText(/ORD \d+: Sidewalk dining permits/);
   await expect(ordinance).toContainText("not yet on the council agenda");
 
   // Put it on the agenda with Space.
@@ -209,8 +213,11 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   });
   await expect(record_).toBeDisabled();
   await expect(ordinance).toContainText("Not before");
-  await ordinance.getByText("Other councilors' ballots").click();
-  await expect(ordinance).toContainText("decides their own ballot");
+  await ordinance.getByLabel("Yea", { exact: true }).check();
+  await ordinance.getByText("How other councilors would answer now").click();
+  await expect(ordinance).toContainText(
+    "each seated councilor would decide from their recorded reasons",
+  );
   // No colleague weighs anything on a sidewalk permit, so each goes along
   // with the ordinance before the council rather than sitting it out.
   await expect(
@@ -252,7 +259,9 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   await saveLife(page);
   const after = deserializeWorld((await savedRecord(page)).payload);
   const measure = (after.history.legislativeMeasures ?? []).find(
-    (entry) => entry.designation === "Ord. 26-1",
+    (entry) =>
+      /^ORD \d+$/.test(entry.designation) &&
+      entry.shortTitle === "Sidewalk dining permits",
   )!;
   const enactment = measureEnactment(after, measure.id);
   if (outcomeText.includes("did not pass")) {

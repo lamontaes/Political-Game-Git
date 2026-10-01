@@ -1,6 +1,11 @@
-import { addDays } from "../dates";
+import { addDays, daysBetween } from "../dates";
+import { ensureClemencyPetitionSchedule } from "./clemency-transitions";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { eventById } from "../event-index";
+import {
+  electedExecutiveTermForRelationship,
+  recordedExecutiveQualification,
+} from "../executive-work-context";
 import {
   currentGoverningOffices,
   governingMatters,
@@ -11,7 +16,7 @@ import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
 } from "../life-places";
-import { currentLifeCutoff } from "../life-queries";
+import { currentLifeCutoff, workStatusAt } from "../life-queries";
 import { ensurePeopleTraits } from "../people-traits";
 import { personName } from "../people";
 import { deriveRelationshipSummary } from "../queries";
@@ -22,6 +27,7 @@ import type {
   DecisionConsideration,
   EntityId,
   HistoricalEvent,
+  IsoDate,
   World,
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
@@ -358,7 +364,10 @@ function recordPetition(
     confidence: "high",
     source: { kind: "direct" },
   });
-  return { world: next, petitionId: petition.id };
+  return {
+    world: ensureClemencyPetitionSchedule(next, petition.id),
+    petitionId: petition.id,
+  };
 }
 
 /**
@@ -761,8 +770,121 @@ function lastMovedAt(world: World, petition: HistoricalEvent) {
   );
 }
 
+/** Next existing legal/writer boundary; an undecided executive gets no retry. */
+export function nextClemencyPetitionDueAt(
+  world: World,
+  petitionId: EntityId,
+): IsoDate | null {
+  const petition = eventById(world, petitionId);
+  if (
+    petition?.type !== CLEMENCY_PETITION_EVENT ||
+    clemencyPetitionStatus(world, petitionId) !== "open"
+  )
+    return null;
+  const personId = petitionerOf(petition);
+  const sentenceId = tagValue(
+    petition,
+    CLEMENCY_SENTENCE_TAG,
+  ) as EntityId | null;
+  const sentenced = sentenceId && eventById(world, sentenceId);
+  if (!personId || !sentenced) return null;
+  const sentence = runningSentence(world, personId, sentenced.id);
+  if (!sentence || sentence.until <= world.currentDate) return null;
+  const dates = [sentence.until];
+  const route = routeFor(world, sentenced, personId);
+  if (typeof route !== "string") {
+    const answered = answersTo(world, petitionId);
+    const step = route.steps.find(
+      (entry) => !answered.some((answer) => answer.bodyKey === entry.key),
+    );
+    if (step && step.key !== EXECUTIVE_BODY) {
+      const wait = addDays(
+        lastMovedAt(world, petition),
+        UNSEATED_BODY_READING.answersAfterDays,
+      );
+      const served = addDays(
+        sentence.from,
+        Math.ceil(
+          daysBetween(sentence.from, sentence.until) *
+            UNSEATED_BODY_READING.servedShareBeforeTakenUp,
+        ),
+      );
+      const hearing = wait > served ? wait : served;
+      if (hearing > world.currentDate) dates.push(hearing);
+      const cap =
+        step.role === "advisory"
+          ? route.gate.advisory?.reportWithinDays
+          : undefined;
+      if (cap !== undefined) {
+        const report = addDays(petition.occurredAt, cap);
+        if (report > world.currentDate) dates.push(report);
+      }
+    }
+  }
+  return dates.sort()[0]!;
+}
+
+/** Review only this saved petition; leave request creation on its current caller. */
+export function advanceClemencyPetition(
+  world: World,
+  petitionId: EntityId,
+): World {
+  const petition = eventById(world, petitionId);
+  if (
+    petition?.type !== CLEMENCY_PETITION_EVENT ||
+    clemencyPetitionStatus(world, petitionId) !== "open"
+  )
+    return world;
+  const advanced = advancePetition(world, petition);
+  const scheduled = ensureClemencyPetitionSchedule(advanced, petitionId);
+  return advanced === world ? scheduled : settleJailAbsences(scheduled);
+}
+
+/** Review saved requests only after this recorded elected office became active.
+ * Request creation stays on its existing caller; asked-holder identity never moves.
+ */
+export function advanceClemencyAfterExecutiveEntry(
+  world: World,
+  relationshipId: EntityId,
+): World {
+  const term = electedExecutiveTermForRelationship(world, relationshipId);
+  if (
+    !term ||
+    workStatusAt(world, relationshipId)?.status !== "active" ||
+    world.currentDate < term.startsAt ||
+    world.currentDate >= term.endsAt ||
+    !recordedExecutiveQualification(world, relationshipId) ||
+    !isPersonAliveAt(
+      world,
+      term.relationship.personId,
+      currentLifeCutoff(world),
+    )
+  )
+    return world;
+  const placeKey = stateKeyForJurisdiction(term.governing);
+  if (!placeKey) return world;
+  let next = world;
+  for (const petition of clemencyPetitions(world)) {
+    if (tagValue(petition, PETITION_PLACE_TAG) !== placeKey) continue;
+    if (clemencyPetitionStatus(next, petition.id) !== "open") continue;
+    const before = next;
+    const advanced = advancePetition(
+      next,
+      petition,
+      term.relationship.personId,
+    );
+    next = ensureClemencyPetitionSchedule(advanced, petition.id);
+    if (advanced !== before) next = settleJailAbsences(next);
+  }
+  return next;
+}
+
 /** Moves one open petition as far as today allows. */
-function advancePetition(world: World, petition: HistoricalEvent): World {
+function advancePetition(
+  world: World,
+  petition: HistoricalEvent,
+  enteringExecutiveId?: EntityId,
+): World {
   const petitionerId = petitionerOf(petition);
   const sentencedId = tagValue(
     petition,
@@ -772,24 +894,40 @@ function advancePetition(world: World, petition: HistoricalEvent): World {
   if (!petitionerId || !sentenced) return world;
   const sentence = runningSentence(world, petitionerId, sentenced.id);
   if (!sentence) return world;
-  const route = routeFor(world, sentenced, petitionerId);
-  const answered = answersTo(world, petition.id);
-  if (typeof route === "string") return world;
-  // The executive who received the request has left: the request lapses.
-  const asked = petition.stableKey.split(":").at(-1);
-  if (route.office && asked !== route.office.holderPersonId)
-    return closePetition(
-      world,
-      petition,
-      null,
-      "The officeholder who was asked has left office.",
-    );
+  // A saved sentence end does not need a sitting executive to close its request.
   if (sentence.until <= world.currentDate)
     return closePetition(
       world,
       petition,
       null,
       "The sentence ended before an answer came.",
+    );
+  // Entry callers have just saved active work. The general office reader sees
+  // the resolved due item / late-entry event only after this hook returns.
+  // This actual elected term can lapse its predecessor's request without
+  // opening a new request or pretending the new desk is already composed.
+  const asked = petition.stableKey.split(":").at(-1);
+  if (
+    enteringExecutiveId &&
+    petition.stableKey.includes(":executive:") &&
+    asked !== enteringExecutiveId
+  )
+    return closePetition(
+      world,
+      petition,
+      null,
+      "The officeholder who was asked has left office.",
+    );
+  const route = routeFor(world, sentenced, petitionerId);
+  const answered = answersTo(world, petition.id);
+  if (typeof route === "string") return world;
+  // The executive who received the request has left: the request lapses.
+  if (route.office && asked !== route.office.holderPersonId)
+    return closePetition(
+      world,
+      petition,
+      null,
+      "The officeholder who was asked has left office.",
     );
   let next = world;
   for (const step of route.steps) {
@@ -1043,7 +1181,10 @@ export function advanceClemency(world: World): World {
   let next = produceRequests(world);
   for (const petition of clemencyPetitions(next)) {
     if (clemencyPetitionStatus(next, petition.id) !== "open") continue;
-    next = advancePetition(next, petition);
+    next = ensureClemencyPetitionSchedule(
+      advancePetition(next, petition),
+      petition.id,
+    );
   }
   // Last, so a term that began or was cut short this week moves its jobs.
   return settleJailAbsences(next);

@@ -42,6 +42,7 @@ import type {
   DwellingOccupancyStateRecord,
   DwellingOccupant,
   EntityId,
+  HistoricalCutoff,
   HousingTenure,
   HousingTenureHolder,
   HousingTenureKind,
@@ -485,6 +486,54 @@ export function recordResourceTransferOutcomes(
   return commit(world, probe.history);
 }
 
+/** Completed shifts retain the terms visible when their saved work was done.
+ * The existing event provenance is the durable link, not a caller-picked cutoff.
+ * Other settlement periods keep their existing outcome-time frontier. */
+export function resourceTransferTermsCutoff(
+  world: World,
+  flow: ResourceFlow,
+  periodStartsAt: IsoDate,
+  periodEndsAt: IsoDate,
+  provenance: LifeRecordProvenance,
+  historySequenceExclusive: number = world.history.nextSequence,
+): HistoricalCutoff {
+  const current = { asOfDate: periodStartsAt, historySequenceExclusive };
+  if (provenance.kind !== "simulated-event") return current;
+  const completed = eventById(world, provenance.eventId);
+  if (!completed || completed.sequence >= historySequenceExclusive)
+    throw new Error("Resource provenance references an unavailable event.");
+  if (completed.type !== "life-paths2.work-session") return current;
+  const work =
+    flow.basisReference.kind === "work"
+      ? recordById(
+          world.history.workRelationships,
+          flow.basisReference.workRelationshipId,
+        )
+      : undefined;
+  if (
+    !work ||
+    flow.source.kind !== "organization" ||
+    flow.source.organizationId !== work.organizationId ||
+    flow.recipient.kind !== "person" ||
+    flow.recipient.personId !== work.personId ||
+    work.sequence >= completed.sequence ||
+    flow.sequence >= completed.sequence ||
+    !completed.involvedEntityIds.includes(work.id) ||
+    !completed.involvedEntityIds.includes(work.personId) ||
+    completed.occurredAt !== periodStartsAt ||
+    completed.occurredAt !== periodEndsAt ||
+    completed.occurredAt < flow.startsAt
+  ) {
+    throw new Error(
+      "Earned transfer terms must bind the saved completed work.",
+    );
+  }
+  return {
+    asOfDate: completed.occurredAt,
+    historySequenceExclusive: completed.sequence + 1,
+  };
+}
+
 function buildResourceTransferOutcome(
   world: World,
   input: RecordResourceTransferOutcomeInput,
@@ -531,6 +580,13 @@ function buildResourceTransferOutcome(
     flow,
     periodStartsAt,
     periodEndsAt,
+    resourceTransferTermsCutoff(
+      world,
+      flow,
+      periodStartsAt,
+      periodEndsAt,
+      input.provenance,
+    ),
   );
   if (!terms || terms.status !== "active") {
     throw new Error("A transfer outcome requires active resource-flow terms.");
@@ -705,6 +761,13 @@ export function resolveWorkCompensationPeriod(
     flow,
     makeIsoDate(input.periodStartsAt),
     makeIsoDate(input.periodEndsAt),
+    resourceTransferTermsCutoff(
+      world,
+      flow,
+      makeIsoDate(input.periodStartsAt),
+      makeIsoDate(input.periodEndsAt),
+      input.provenance,
+    ),
   );
   const transferred =
     input.transferredAmount ??
@@ -1142,11 +1205,12 @@ function settlementTermsForPeriod(
   flow: ResourceFlow,
   periodStartsAt: IsoDate,
   periodEndsAt: IsoDate,
-): ResourceFlowTermsRecord {
-  const terms = resourceFlowTermsAt(world, flow.id, {
+  cutoff: HistoricalCutoff = {
     asOfDate: periodStartsAt,
     historySequenceExclusive: world.history.nextSequence,
-  });
+  },
+): ResourceFlowTermsRecord {
+  const terms = resourceFlowTermsAt(world, flow.id, cutoff);
   if (!terms || terms.status !== "active") {
     throw new Error("A transfer outcome requires active resource-flow terms.");
   }
@@ -1157,7 +1221,7 @@ function settlementTermsForPeriod(
       flow.id,
     ).some(
       (record) =>
-        record.sequence < world.history.nextSequence &&
+        record.sequence < cutoff.historySequenceExclusive &&
         record.effectiveAt > periodStartsAt &&
         record.effectiveAt <= periodEndsAt,
     )

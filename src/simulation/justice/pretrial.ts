@@ -27,9 +27,9 @@ export const END_CASH_BAIL_QUESTION =
  * The bail schedule, the dollar conversion and what a defendant pays to go
  * home are data (`data/research/justice/money-bail-2026.json`) with their
  * sources: the median bail for the charge (Bureau of Justice Statistics, NCJ
- * 243777, table 16) in 2025 dollars, and a tenth of it to go home, ESTIMATED
- * FROM AVERAGE from Illinois' old deposit rule and Florida's regulated bond
- * premium until each place's own rule is read.
+ * 243777, table 16) in 2025 dollars. The supported court route posts this
+ * amount in full cash. A commercial premium is not a court deposit; state
+ * deposit exceptions require separately researched current authority.
  */
 const BAIL_2009_DOLLARS: Readonly<Record<string, number>> =
   moneyBail.bail2009Dollars;
@@ -45,9 +45,7 @@ export function bailMinorUnits(offenseKey: string): number {
 
 /** What a defendant has to pay to go home on that bail, in cents. */
 export function bailDueMinorUnits(offenseKey: string): number {
-  return Math.round(
-    bailMinorUnits(offenseKey) * moneyBail.toGoHome.shareOfBail,
-  );
+  return bailMinorUnits(offenseKey);
 }
 
 /** The catalog's proposition whose stable key ends with `suffix`. */
