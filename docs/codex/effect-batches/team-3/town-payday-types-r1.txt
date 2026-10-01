@@ -1,0 +1,6 @@
+[96msrc/simulation/law-consequences/pay-city.test.ts[0m:[93m227[0m:[93m9[0m - [91merror[0m[90m TS2304: [0mCannot find name 'createFutureTransitionHandlerRegistry'.
+
+[7m227[0m         createFutureTransitionHandlerRegistry([]),
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+2 scoped roots; 1 diagnostics

@@ -1,0 +1,39 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 amountless city ordinance refuses a fabricated numeric wage
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor
+ × src/simulation/law-consequences/pay-city.test.ts > A38 scheduled town payday preserves the city law's canonical pay terms 273ms
+   → Missing future-transition handler for due item future-due-item_c820b59e92f09161: people:official-view-reflection
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/pay-city.test.ts > A38 scheduled town payday preserves the city law's canonical pay terms
+Error: Missing future-transition handler for due item future-due-item_c820b59e92f09161: people:official-view-reflection
+ ❯ resolveFutureDueItemsThrough src/simulation/future-transitions.ts:604:13
+    602|     const handler = handlerFor(registry, item.transitionKey);
+    603|     if (!handler) {
+    604|       throw new Error(
+       |             ^
+    605|         `Missing future-transition handler for due item ${item.id}: ${…
+    606|       );
+ ❯ advanceWorldUnchecked src/simulation/world.ts:1416:24
+ ❯ src/simulation/world.ts:1402:11
+ ❯ withWorldIntegrityDeferred src/simulation/world.ts:586:12
+ ❯ advanceWithWorldIntegrityAtEnd src/simulation/world.ts:602:18
+ ❯ advanceWorld src/simulation/world.ts:1401:10
+ ❯ src/simulation/law-consequences/pay-city.test.ts:513:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  09:44:14
+   Duration  19.25s (transform 14.59s, setup 19ms, import 18.81s, tests 275ms, environment 0ms)
+
