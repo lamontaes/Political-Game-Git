@@ -1,4 +1,5 @@
 import { evaluateDecision } from "../decisions";
+import { constitutionalEntityAvailableAt } from "../constitutional-process";
 import { requireMeasure } from "../legislation";
 import {
   memberVoteConsiderations,
@@ -200,8 +201,21 @@ export interface ChamberNominationVoteInput extends ChamberVoteCommonInput {
   >;
 }
 
+export interface ChamberConstitutionalVoteInput extends ChamberVoteCommonInput {
+  readonly kind: "constitutional";
+  readonly constitutionalMeasureId: EntityId;
+  readonly bodyKey: "house" | "senate";
+  readonly purpose: "proposal";
+  readonly considerationsByMember: ReadonlyMap<
+    string,
+    readonly DecisionConsideration[]
+  >;
+}
+
 export type ChamberVoteInput =
-  ChamberBillVoteInput | ChamberNominationVoteInput;
+  | ChamberBillVoteInput
+  | ChamberNominationVoteInput
+  | ChamberConstitutionalVoteInput;
 
 interface ChamberVoteContext {
   readonly subject: DecisionSubject;
@@ -209,6 +223,57 @@ interface ChamberVoteContext {
   memberInputs(member: SeatedMember): {
     readonly views: readonly DecisionConsideration[];
     readonly cues: readonly DecisionConsideration[];
+  };
+}
+
+function constitutionalVoteContext(
+  world: World,
+  input: ChamberConstitutionalVoteInput,
+): ChamberVoteContext {
+  const cutoff = currentHistoricalCutoff(world);
+  const measure = world.history.constitutionalMeasures?.find(
+    (row) => row.id === input.constitutionalMeasureId,
+  );
+  const body = seatedCongressChamber(world, input.bodyKey)?.body;
+  const members = new Map(
+    body?.members.map((member) => [member.memberKey, member.personId]),
+  );
+  if (
+    !measure ||
+    !constitutionalEntityAvailableAt(
+      world,
+      measure.id,
+      cutoff.asOfDate,
+      cutoff.historySequenceExclusive,
+    ) ||
+    measure.processKind !== "federal-amendment" ||
+    measure.proposedBy === "convention" ||
+    measure.proposalRule === null ||
+    input.purpose !== "proposal" ||
+    (input.bodyKey !== "house" && input.bodyKey !== "senate") ||
+    !body ||
+    new Set(input.members.map((member) => member.memberKey)).size !==
+      input.members.length ||
+    input.members.some(
+      (member) =>
+        !members.has(member.memberKey) ||
+        members.get(member.memberKey) !== member.personId,
+    )
+  )
+    throw new Error(
+      "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
+    );
+  return {
+    subject: {
+      kind: "context:constitutional-amendment",
+      key: `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
+      entityId: null,
+    },
+    committee: null,
+    memberInputs: (member) => ({
+      views: input.considerationsByMember.get(member.memberKey) ?? [],
+      cues: [],
+    }),
   };
 }
 
@@ -441,7 +506,9 @@ export function decideChamberVote(
   const context =
     input.kind === "nomination"
       ? nominationVoteContext(world, input)
-      : billVoteContext(world, input);
+      : input.kind === "constitutional"
+        ? constitutionalVoteContext(world, input)
+        : billVoteContext(world, input);
 
   // First pass: each member's own view (their principles, what they said on
   // the record, a formed belief, their own bill) and the cues every member

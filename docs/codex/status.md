@@ -1,3 +1,31 @@
+## October 1, 4:12 a.m. routing checkpoint
+
+The rebuild remains incomplete. The CTO approved a session budget bill built from adopted spending. Team 1 has received that build. Foundation payroll still needs the Ohio coverage decision; service delivery now has a Team 5 candidate awaiting review.
+
+### MERGED
+
+The CTO's 4:08 report lists #1482, #1357, #1450, #1481, #1485, #1478, #1392, #1464 and #1491. These are CTO-reported merges here, not independently rerun runtime proof. GitHub job admission is blocked according to the CTO; local composition checks remain the merge gate. Do not cancel the protected CI snapshot.
+
+### CONNECTIONS TABLE
+
+| Producer | Consumer | Current evidence and next action |
+| --- | --- | --- |
+| X5 dated wage matrix | Coordinator canonical starting terms | Published dbc66c17a8285cb8b856796c09239ced96a50023 admits 45 dated terms in 26 places. Root executed 45 focused passes and scoped types with zero diagnostics. Conditional tiers remain withheld. |
+| Team 6 standing authority | Team 5 service consumer | Root composition eef98ed6809094d6c4eec6bf62442ef111c436e2 passed four exact-Git tests. This proves authority/payment fixtures, not completed clinical care. |
+| Team 5 paid service producer | Residents and shared completion | #1494 at 71f0105995f70f295d467b0f91bf8e3ba660c0f4 reports two parks/transit producer passes and 58 related passes. Its 112 service-delivered failures are reported identical to main. CTO review pending. |
+| Audit clock composition | Team 7 three caller migrations | #1480 at 78ae4c9453d3e30dbed003fa925e5e7900046e78 is the dependency. Team 7 owns only the released caller/import changes; Audit owns the clock core. |
+| Adopted annual program spending | Team 1 session budget bill | CTO 4:08 approves current-services amounts through existing introduction, schedule, amendment and enactment paths. No invented change or forced passage. |
+
+### BLOCKED
+
+Foundation #1309 remains held. Ohio legal employer tiers cannot be inferred from modeled business revenue; the standard-coverage decision is pending CTO. Root has not rerun the known failing payroll case.
+
+Audit has the exact contracts requested by Teams 2, 6 and 8: saved fulfillment for duties, effective final paid-leave terms, and saved-subject resignation/active-goal media decisions. No positive fact may be fabricated while those answers are pending.
+
+### EFFECTS
+
+No link is marked complete from a dashboard or source merge. The root wage checks use an exact Git graph with temporary import mapping. Full payroll, nationwide natural service use, final-main clock parity, scenes and multi-year acceptance remain open. Team 4's lease test is a controlled five-place writer fixture, not a natural year.
+
 ## Current engine rebuild routing — October 1, 3:38 a.m. Eastern
 
 The rebuild remains incomplete. Starting wages still need dated legal terms, service funding still needs completed recipient activity, and clock migration still needs final composition proof. Current decisions and replies are in [00c](https://docs.google.com/document/d/1L5IksyT3b-NydhTq8Px3pVT4s8MxCZ9oAj-wqNm5AM4/edit).
