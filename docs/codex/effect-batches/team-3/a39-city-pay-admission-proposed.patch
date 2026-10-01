@@ -1,0 +1,62 @@
+--- a/src/simulation/law-consequences/pay-rows.ts
++++ b/src/simulation/law-consequences/pay-rows.ts
+@@ -4,6 +4,8 @@
+   "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
+ export const STATE_MINIMUM_WAGE_QUESTION_KEY =
+   "us-policy-positions:labor-workforce.raise-minimum-wage";
++export const CITY_MINIMUM_WAGE_QUESTION_KEY =
++  "us-policy-positions:labor-workforce.city-minimum-wage";
+ export const PAY_SELECTOR = "active-work-payflows";
+ export const ANNUAL_OFFICE_PAY_ACTION = "set-annual-office-salary";
+ export const PAY_ACTION = "raise-hourly-floor";
+@@ -12,7 +14,7 @@
+ export const MINIMUM_WAGE_PAY_ROWS: Readonly<
+   Record<string, LawConsequenceRow>
+ > = Object.fromEntries(
+-  [FEDERAL_MINIMUM_WAGE_QUESTION_KEY, STATE_MINIMUM_WAGE_QUESTION_KEY].map(
++  [FEDERAL_MINIMUM_WAGE_QUESTION_KEY, STATE_MINIMUM_WAGE_QUESTION_KEY, CITY_MINIMUM_WAGE_QUESTION_KEY].map(
+     (questionKey) => [
+       questionKey,
+       {
+@@ -24,9 +26,9 @@
+         amount: {
+           op: "term",
+           key:
+-            questionKey === STATE_MINIMUM_WAGE_QUESTION_KEY
+-              ? "target"
+-              : "floor",
++            questionKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
++              ? "floor"
++              : "target",
+           unit: "minor/hour",
+         },
+         conditions: [],
+@@ -40,7 +42,7 @@
+           population:
+             "Recorded workers with actual compensation flows and hours; federal authority applies without a saved workplace location, while state/local floors require a dated workplace.",
+           scope:
+-            "Governing federal or genuine state law, final legal floor and actual operative date; starting coverage and phase-ins belong to canonical law records.",
++            "Governing federal, genuine state or authorized city law, final legal floor and actual operative date; starting coverage and phase-ins belong to canonical law records.",
+           why: "The operative legal minimum raises the worker's prospective recorded contract; actual payroll transfers and withholding use that contract.",
+           uncertainty:
+             "Existing whole-period conversion is a game simplification; standard coverage is the approved default and exceptions require saved facts. Missing hours, exception rates and final terms remain unsupported, never guessed levels.",
+--- a/src/simulation/law-consequences/pay.ts
++++ b/src/simulation/law-consequences/pay.ts
+@@ -31,6 +31,7 @@
+   ANNUAL_OFFICE_PAY_ACTION,
+   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+   STATE_MINIMUM_WAGE_QUESTION_KEY,
++  CITY_MINIMUM_WAGE_QUESTION_KEY,
+ } from "./pay-rows";
+ export { PAY_SELECTOR, PAY_ACTION, MINIMUM_WAGE_PAY_ROWS } from "./pay-rows";
+ import { paidOfficeOf, officePayInForce, PAY_LAW_FIELD } from "../office-pay";
+@@ -160,7 +161,8 @@
+     const workplace = payWorkplaceAt(world, work.id, cutoff);
+     const minimum =
+       proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY ||
+-      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY;
++      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY ||
++      proposition.stableKey === CITY_MINIMUM_WAGE_QUESTION_KEY;
+     // Federal law applies without inventing a missing workplace. The national
+     // chain contains no state/local authority; the coverage fact stays null.
+     const jurisdictionId =

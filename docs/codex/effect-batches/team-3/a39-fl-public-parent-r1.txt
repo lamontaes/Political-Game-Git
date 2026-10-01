@@ -1,0 +1,24 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+failed to load config from /workspace/scratch/team3-a39-fl-baseline.config.ts
+
+⎯⎯⎯⎯⎯⎯⎯ Startup Error ⎯⎯⎯⎯⎯⎯⎯⎯
+Error: Build failed with 1 error:
+
+[plugin externalize-deps]
+Error: Failed to resolve "@openai/sites-vite-plugin". This package is ESM only but it was tried to load by `require`. See https://vite.dev/guide/troubleshooting.html#this-package-is-esm-only for more details.
+    at PluginContextImpl.handler (file:///workspace/Political-Game-Git/node_modules/vite/dist/node/chunks/node.js:37072:41)
+    at plugin (file:///workspace/Political-Game-Git/node_modules/rolldown/dist/shared/bindingify-input-options-COG1sboO.mjs:1457:30)
+    at file:///workspace/Political-Game-Git/node_modules/rolldown/dist/shared/bindingify-input-options-COG1sboO.mjs:1928:21
+    at plugin.<computed> (file:///workspace/Political-Game-Git/node_modules/rolldown/dist/shared/bindingify-input-options-COG1sboO.mjs:2125:18)
+    at aggregateBindingErrorsIntoJsError (file:///workspace/Political-Game-Git/node_modules/rolldown/dist/shared/error-NcRuXAVN.mjs:48:18)
+    at unwrapBindingResult (file:///workspace/Political-Game-Git/node_modules/rolldown/dist/shared/error-NcRuXAVN.mjs:18:128)
+    at #build (file:///workspace/Political-Game-Git/node_modules/rolldown/dist/shared/rolldown-vcii7mEa.mjs:132:34)
+    at async bundleConfigFile (file:///workspace/Political-Game-Git/node_modules/vite/dist/node/chunks/node.js:37116:17)
+    at async bundleAndLoadConfigFile (file:///workspace/Political-Game-Git/node_modules/vite/dist/node/chunks/node.js:37014:18)
+    at async loadConfigFromFile (file:///workspace/Political-Game-Git/node_modules/vite/dist/node/chunks/node.js:36975:42)
+    at async resolveConfig (file:///workspace/Political-Game-Git/node_modules/vite/dist/node/chunks/node.js:36581:22)
+    at async _createServer (file:///workspace/Political-Game-Git/node_modules/vite/dist/node/chunks/node.js:26388:65)
+    at async createViteServer (file:///workspace/Political-Game-Git/node_modules/vitest/dist/chunks/cli-api.BUXBO6jS.js:8819:17)
+    at async createVitest (file:///workspace/Political-Game-Git/node_modules/vitest/dist/chunks/cli-api.BUXBO6jS.js:14159:18) {
+  errors: [Getter/Setter]
+}
