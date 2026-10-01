@@ -114,5 +114,75 @@
       "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
       "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\n"
     }
-  ]
+  ],
+  "currentMainRenewal": {
+    "runtimeSource": "b2a1e48c1fd5d0305c634f36675e546cd68e9fae",
+    "main": "44918cd48b5ca0e48b004c0aeb7b3667d6e56f77",
+    "originalHead": "49d5243f95dffb84fa57085eb650daca138c930a",
+    "preservation": {
+      "originalHead": "49d5243f95dffb84fa57085eb650daca138c930a",
+      "main": "44918cd48b5ca0e48b004c0aeb7b3667d6e56f77",
+      "chamberVoteSourceKeptByteIdenticalToMain": true,
+      "resolution": "Keep proposal-first/shared congressional vote changes; reuse main existing signed score magnitude; remove obsolete helper import/export and table",
+      "noCoreDecisionTableEdit": true
+    },
+    "passed": 6,
+    "unselected": 1,
+    "durationSeconds": 75.0,
+    "comparisons": 1070,
+    "changedDirections": 0,
+    "changedReasons": 0,
+    "strictRoots": 4,
+    "diagnostics": 0,
+    "releaseFailure": "Inherited main CI declaration prose",
+    "zeroDice": {
+      "new": 0,
+      "inheritedStale": 5
+    },
+    "evidence": [
+      {
+        "name": "tests",
+        "path": "/tmp/team2-1513-main-tests.log",
+        "sha256": "c505b026ede24b9a88cf32fee2a69c6c9f2ce18ae7ea4d5fbac47578c2ee07d2",
+        "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 term-limit comparison {\"seed\":\"A79-recorded-term-limit-chamber\",\"state\":\"US-RI\",\"place\":\"Ashaway, Rhode Island\",\"direction\":\"extend\",\"body\":\"house\",\"voters\":435,\"changed\":0,\"example\":\"Elizabeth Schultz\",\"before\":\"yea\",\"after\":\"yea\",\"measureId\":\"constitutional-measure_cde9560f42ff9903\"}\nA79 term-limit comparison {\"seed\":\"A79-recorded-term-limit-chamber\",\"state\":\"US-RI\",\"place\":\"Ashaway, Rhode Island\",\"direction\":\"extend\",\"body\":\"senate\",\"voters\":100,\"changed\":0,\"example\":\"Deborah McIntyre\",\"before\":\"yea\",\"after\":\"yea\",\"measureId\":\"constitutional-measure_cde9560f42ff9903\"}\nA79 term-limit comparison {\"seed\":\"A79-recorded-term-limit-chamber\",\"state\":\"US-RI\",\"place\":\"Ashaway, Rhode Island\",\"direction\":\"restore\",\"body\":\"house\",\"voters\":435,\"changed\":0,\"example\":\"Elizabeth Schultz\",\"before\":\"nay\",\"after\":\"nay\",\"measureId\":\"constitutional-measure_cde9560f42ff9903\"}\nA79 term-limit comparison {\"seed\":\"A79-recorded-term-limit-chamber\",\"state\":\"US-RI\",\"place\":\"Ashaway, Rhode Island\",\"direction\":\"restore\",\"body\":\"senate\",\"voters\":100,\"changed\":0,\"example\":\"Deborah McIntyre\",\"before\":\"nay\",\"after\":\"nay\",\"measureId\":\"constitutional-measure_cde9560f42ff9903\"}\n\n Test Files  2 passed (2)\n      Tests  6 passed | 1 skipped (7)\n   Start at  14:57:26\n   Duration  75.00s (transform 16.09s, setup 24ms, import 22.94s, tests 51.78s, environment 1ms)\n\n"
+      },
+      {
+        "name": "types",
+        "path": "/tmp/team2-1513-main-types.log",
+        "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+        "text": "scoped roots 4; diagnostics 0\n"
+      },
+      {
+        "name": "lint",
+        "path": "/tmp/team2-1513-main-lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      },
+      {
+        "name": "format",
+        "path": "/tmp/team2-1513-main-format.log",
+        "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+        "text": "Checking formatting...\nAll matched files use Prettier code style!\n"
+      },
+      {
+        "name": "release",
+        "path": "/tmp/team2-1513-main-release.log",
+        "sha256": "6eb5bb28650e3c05c9d05a1dc41d146e3ade4518ed125d481e4b6ac6bcf79424",
+        "text": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --mode pr --base origin/main\n\nrelease:check \u2014 docs/release/changes/ci-changed-tests-only.md: player-facing prose contains merge bookkeeping (\"merge\"). Internal identifiers belong in the traceability ledger, not in patch notes.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+      },
+      {
+        "name": "zero",
+        "path": "/tmp/team2-1513-main-zero.log",
+        "sha256": "946a257437c4a9458a454ab2d4ddb375ce392ae90358d24e9df70f6229770a36",
+        "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+      }
+    ],
+    "reportMechanical": "0 errors/0 warnings",
+    "reportReviewer": "PASS",
+    "spelling": {
+      "inherited": 24,
+      "batchFindings": 0,
+      "exitCode": 1
+    }
+  }
 }

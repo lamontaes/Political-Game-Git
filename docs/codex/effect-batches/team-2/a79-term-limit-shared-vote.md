@@ -18,7 +18,7 @@ Measured primary-source reading: Article V requires two-thirds of both Houses to
 
 ## Revisions
 
-Measured source finding: only the congressional proposal caller migrates (`federal-reform.ts:315`). State ratification and state governor-term-limit callers retain their existing evaluator. Their rationale ranking now imports the existing chamber weight helper, removing the local copy of the same table.
+Measured source finding: only the congressional proposal caller migrates (`federal-reform.ts:315`). State ratification retains its existing evaluator. The merged governor and state-proposal callers retain main's current implementation. Rationale ranking now uses the magnitude of the existing considerationScore, with its unchanged scale and tie order.
 
 Measured source finding: an already resolved proposal returns its existing world without another rollcall (`federal-reform.ts:552`). The proposal keeps its stable key, terms, dates and identity. The shared constitutional arm validates the actual dated proposal and roster; no ordinary bill or nominee is fabricated.
 
@@ -27,7 +27,7 @@ Measured source finding: an already resolved proposal returns its existing world
 1. Extract the unchanged term-limit considerations for both the migrated and retained callers.
 2. Save the canonical term-limit proposal before shared House and Senate decisions.
 3. Record the result through the existing constitutional rollcall writer and retain a rejection.
-4. Export the existing rationale-weight helper and remove the caller's duplicate table.
+4. Use the existing considerationScore magnitude for reason ranking.
 5. Prove old/new directions and reasons, player absence, successful and rejected rollcalls, repeat handling and Save/Continue.
 
 ## Simulated, records, world pieces, checks
@@ -40,7 +40,7 @@ Measured: the rejected fixture saves its actual House rejection, schedules no st
 
 ## Proof run
 
-Measured: six selected tests passed in 81.67 seconds on the final main composition (`/tmp/team2-a79-term-limit-composed.log`). They include five new caller cases and the existing ratified-amendment integration case. One unrelated calendar test was not selected. Across both chambers and both amendment directions, 1,070 old/shared ballots and recorded reasons matched; zero directions changed.
+Historical proof: six selected tests passed in 81.67 seconds on that main composition (`/tmp/team2-a79-term-limit-composed.log`). They include five new caller cases and the existing ratified-amendment integration case. One unrelated calendar test was not selected. Across both chambers and both amendment directions, 1,070 old/shared ballots and recorded reasons matched; zero directions changed.
 
 Measured: the seed A79-recorded-term-limit-chamber selected Ashaway, Rhode Island, from the 56 starting jurisdiction identities (`federal-term-limit-chamber-vote.test.ts:29`). This proves one populated starting world and its national Congress. It is not a proof of 56 populated worlds or an ordinary year.
 
@@ -50,10 +50,18 @@ Measured: Elizabeth Schultz voted yea to extend the actual President's limit in 
 
 Measured: Deborah McIntyre's Senate ballots also matched for both directions (`/tmp/team2-a79-term-limit-composed.log:6`). The saved proposal identity was constitutional-measure_cde9560f42ff9903. The rejection fixture produced a recorded congressional refusal. No money moved and no 38-state ratification or operative amendment is claimed.
 
+## Current-main validation
+
+Measured: all six selected cases pass in 75.00 seconds, with the same unrelated calendar case unselected (`/tmp/team2-1513-main-tests.log`). Extension and restoration preserve all 1,070 recorded member decisions and reasons. Rejection, both successful chambers, player absence, canonical Continue, repeat behavior and the existing ratified-amendment integration remain selected.
+
+Measured: the repair preserves main's chamber source byte for byte (`/tmp/team2-1513-main-reconcile/preservation.json`). The federal caller retains proposal-first voting and uses main's existing score magnitude. No copied weight table, new engine or decision-score change remains in this PR.
+
 ## Method and handoff
 
-Audit gap A79. Owned changes are the federal-reform congressional proposal/count/order and shared input builder, the chamber rationale-helper export, the focused test, and the existing integration assertion that now requires a rejected proposal record. The previous Article V adapter is a dependency already merged on fetched main. No new chamber engine, schema, law reader, legal threshold, catalog or state ratification algorithm.
+Audit gap A79. Owned changes are the federal-reform congressional proposal/count/order and shared input builder, the retained rationale ranking, the focused test, and the existing integration assertion that now requires a rejected proposal record. The previous Article V adapter is a dependency already merged on fetched main. No new chamber engine, schema, law reader, legal threshold, catalog or state ratification algorithm.
 
-Current composed runtime source is 62a34bd3137591f762ece3ed81afe9c2a54993ee, with main 072634b352c182c0ee75abe59e1e73e772ed73e4. Its selected six-case rerun passed. Four strict roots reported zero diagnostics on this composition. Changed lint, format and whitespace passed. Zero-dice reported zero new findings and five inherited stale entries, exiting 1. The committed release check passed against fetched main.
+Historical composed runtime source is 62a34bd3137591f762ece3ed81afe9c2a54993ee, with main 072634b352c182c0ee75abe59e1e73e772ed73e4. Its selected six-case rerun passed. Four strict roots reported zero diagnostics on this composition. Changed lint, format and whitespace passed. Zero-dice reported zero new findings and five inherited stale entries, exiting 1. The committed release check passed against fetched main.
 
 The native command uses the existing Team 2 storage guard and selects only the new caller tests plus the existing ratified-amendment case. No timeout was increased. Browser, full suite, ordinary yearly review, all-56 populated-world proofs and an exclusive year-speed comparison were NOT RUN. State constitutional preflight and ratification callers remain separate unfinished A79 work. A97's positive saved-action contract remains with Audit. The CTO approved proposal-first ordering and the retained rejection action at 5:16 a.m. Next: exact-head review, then the next authorized caller.
+
+Reconciled runtime b2a1e48c1fd5d0305c634f36675e546cd68e9fae receives main 44918cd48b5ca0e48b004c0aeb7b3667d6e56f77 additively. Original 49d5243f95dffb84fa57085eb650daca138c930a remains in history. The two conflicts concerned obsolete weight helper calls and their copied table; main's existing canonical score survives. Six owned paths remain in the diff. Four strict roots have zero diagnostics. Changed lint, format and owned whitespace checks pass. Release checking still flags main's inherited CI declaration; zero-dice reports zero new findings and five inherited stale entries. Renewed exact-head approval is required.
