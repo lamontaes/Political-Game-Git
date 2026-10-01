@@ -493,20 +493,6 @@
       "code": "arrestShare: 0.1,"
     },
     {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "if (rng.next() >= monthlyChance(rate)) return;"
-    },
-    {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "while (product > limit && count < 25) {"
-    },
-    {
       "file": "src/simulation/crisis/death-causes.ts",
       "kind": "fixed-share",
       "build": "Build 21",

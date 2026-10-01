@@ -1,4 +1,5 @@
 import { considerationScore, evaluateDecision } from "../decisions";
+import { recordsByKey } from "../history-index";
 import { eventsOfType } from "../justice/jail-terms";
 import { ageOnDate } from "../dates";
 import { personTrait } from "../people-traits";
@@ -121,26 +122,35 @@ function step(points: number) {
   return best;
 }
 
-/** Offenses recorded against `personId` before `onDate`, reported or not. */
+const VICTIM_ROLE = "impact:crime-victim";
+const INCIDENT_TYPES: ReadonlySet<string> = new Set([
+  "crime.offense-reported",
+  "crime.offense-unreported",
+]);
+
+/**
+ * Offenses recorded against `personId` before `onDate`, reported or not.
+ * Read through the history index, so a monthly pass over every resident
+ * never rescans every event.
+ */
 export function priorVictimizations(
   world: World,
   personId: EntityId,
   onDate: IsoDate,
 ): number {
   let count = 0;
-  for (const type of [
-    "crime.offense-reported",
-    "crime.offense-unreported",
-  ] as const)
-    for (const event of eventsOfType(world, type))
-      if (
-        event.occurredAt < onDate &&
-        event.participants.some(
-          (row) =>
-            row.personId === personId && row.role === "impact:crime-victim",
-        )
-      )
-        count += 1;
+  for (const event of recordsByKey(
+    world.history.events,
+    "crime:incidents-by-victim",
+    (record) =>
+      INCIDENT_TYPES.has(record.type)
+        ? record.participants
+            .filter((row) => row.role === VICTIM_ROLE)
+            .map((row) => row.personId)
+        : [],
+    personId,
+  ))
+    if (event.occurredAt < onDate) count += 1;
   return count;
 }
 
