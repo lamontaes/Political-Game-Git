@@ -1,3 +1,22 @@
+# Narrow transfers for the current rebuild
+
+Each owner keeps the existing writer except for the exact functions released below. No transfer permits replacing another owner's whole file.
+
+## Current transfers
+
+- Coordinator received Team 9's prosecution.ts followUp wrapper and import only. The hook dispatches after the saved stage; current sentencing and clemency code remains intact.
+- Coordinator received Team 6's public-fiscal.ts post-transfer payment hook and Team 8's health-coverage.ts renewal hook. Both owners confirmed no unpublished overlap. Receiving physical files were clean; all shared dirty files were preserved.
+- Team 9 owns legal-record.ts termLine and servingNow life-term handling, plus only the jailed.until display sentence in campaign-projection.ts. Team 7 retains the separate county qualification and timing consumers.
+- Team 4 owns only Dwelling builtYear and unitsInBuilding, and their CreateDwellingInput/createDwelling validation and copy. Coordinator retains the disjoint payment-stamp hunk in resources.ts.
+- Team 6 owns the A33 tax-policy consumer and test. Team 3 released one town-pay consumer import and call seam; the CTO's newer one-withholding-path rule requires exact handled-levy replacement, not duplicate collection. Audit supplies that contract. Team 3 retains period and payroll writer work.
+- Coordinator's A35 pay-notice consumer release is requested, not granted. Existing law-exposure.ts ownership remains unchanged.
+
+## Gate authority
+
+Codex Merge is now Cloud Checker 3. It runs only CTO-assigned gates and never merges or approves. The CTO routes PRs to cloud checkers; no new Mac runtime gate is authorized by this ledger.
+
+## Earlier checkpoints
+
 # Exact ownership for the ordered engine work
 
 Each transfer below covers only its named functions or files. Existing financial, court and narrative writers remain with their owners.
