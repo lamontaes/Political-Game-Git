@@ -15,6 +15,7 @@ import {
 } from "../justice/prosecution";
 import { recordsByKey } from "../history-index";
 import { stableHash } from "../ids";
+import { peopleTiedTo } from "../neighbor-news";
 import { recordEventKnowledge } from "../records";
 import type {
   EntityId,
@@ -46,7 +47,6 @@ import {
   offenderFor,
   offenderWeight,
   offenseAgainstAPerson,
-  peopleKnownTo,
   policeCanName,
   UNRESEARCHED_OFFENDERS,
 } from "./offenders";
@@ -307,7 +307,7 @@ export function crimeExposures(
     const offenders = eligibleOffenders(world, town, monthStart).map(
       (offender) => ({
         offender,
-        known: peopleKnownTo(world, offender.personId),
+        known: new Set(peopleTiedTo(world, [offender.personId], "known")),
       }),
     );
     for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {

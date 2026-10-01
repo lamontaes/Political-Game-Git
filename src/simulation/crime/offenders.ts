@@ -18,7 +18,7 @@ import type {
 } from "../types";
 import { eventsOfType, jailTermOn } from "../justice/jail-terms";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
-import { recordsByKey } from "../history-index";
+import { peopleTiedTo } from "../neighbor-news";
 import { isPersonAliveAt } from "../vitality";
 import type { CrimeOffense } from "./contract";
 
@@ -221,34 +221,6 @@ function referralsByPerson(world: World): ReadonlyMap<EntityId, string> {
   return latest;
 }
 
-/**
- * Everyone who has shared a recorded interaction or a family tie with
- * `personId`, read through the history indexes so a monthly pass never
- * rescans every relationship for every person.
- */
-export function peopleKnownTo(
-  world: World,
-  personId: EntityId,
-): ReadonlySet<EntityId> {
-  const known = new Set<EntityId>();
-  for (const interaction of recordsByKey(
-    world.history.relationshipInteractions,
-    "crime:relationship-interactions-by-person",
-    (record) => record.personIds,
-    personId,
-  ))
-    for (const id of interaction.personIds) known.add(id);
-  for (const relationship of recordsByKey(
-    world.history.kinshipRelationships,
-    "crime:kinship-relationships-by-person",
-    (record) => record.personIds,
-    personId,
-  ))
-    for (const id of relationship.personIds) known.add(id);
-  known.delete(personId);
-  return known;
-}
-
 /** A resident who could be named for an offense in their own town. */
 export interface EligibleOffender {
   readonly personId: EntityId;
@@ -347,10 +319,9 @@ export function offenderForVictims(
     for (const membership of householdMembershipsAt(world, victim))
       for (const id of peopleInHouseholdAt(world, membership.household.id))
         excluded.add(id);
-  const knownToVictims = new Set<EntityId>();
-  if (AGAINST_A_PERSON[offense])
-    for (const victim of victims)
-      for (const id of peopleKnownTo(world, victim)) knownToVictims.add(id);
+  const knownToVictims = new Set<EntityId>(
+    AGAINST_A_PERSON[offense] ? peopleTiedTo(world, victims, "known") : [],
+  );
   let best: NamedOffender | null = null;
   for (const candidate of eligibleOffenders(
     world,

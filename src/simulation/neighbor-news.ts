@@ -1,10 +1,12 @@
 import {
   hasStableKey,
   recordById,
+  recordsByKey,
   recordsByStringField,
 } from "./history-index";
 import { currentLifeCutoff, organizationProfileAt } from "./life-queries";
 import { personName } from "./people";
+import { relationshipHistory } from "./queries";
 import { recordEventKnowledge } from "./records";
 import { familyAndFriendsNearby, householdmatesOf } from "./speech-reception";
 import type { EntityId, World } from "./types";
@@ -36,18 +38,51 @@ function alive(world: World, personId: EntityId): boolean {
 }
 
 /**
- * The people tied to any of these by a record, not including them: who they
- * live with, their family, and their close friends in the same place. Read it
- * before an event changes where anybody lives.
+ * How wide a tie `peopleTiedTo` reads. `close`: who they live with, their
+ * parents, children, brothers and sisters and partner, and the friends whose
+ * recorded warmth is marked or strong, all in the same place: the people who
+ * would hear their news. `known`: everybody any record ties them to, wherever
+ * they live: who they live with, any recorded kin or partner, and anybody
+ * they have a recorded interaction with, warm or hostile: the people who know
+ * them (a grievance included), which is what knowing a crime victim means.
+ */
+export type TieReach = "close" | "known";
+
+/**
+ * The living people tied to any of these by a record, not including them.
+ * The one reader of who a person knows: neighbor news reads the `close`
+ * ties, crime the `known` ones. Read through the history indexes, so a
+ * monthly pass never rescans every relationship. Read it before an event
+ * changes where anybody lives.
  */
 export function peopleTiedTo(
   world: World,
   subjects: readonly EntityId[],
+  reach: TieReach = "close",
 ): readonly EntityId[] {
   const ties = new Set<EntityId>();
   for (const subject of subjects) {
     for (const id of householdmatesOf(world, subject)) ties.add(id);
-    for (const id of familyAndFriendsNearby(world, subject)) ties.add(id);
+    if (reach === "close") {
+      for (const id of familyAndFriendsNearby(world, subject)) ties.add(id);
+      continue;
+    }
+    for (const interaction of relationshipHistory(world, subject))
+      for (const id of interaction.personIds) ties.add(id);
+    for (const kin of recordsByKey(
+      world.history.kinshipRelationships,
+      "kinship-relationships-by-person",
+      (record) => record.personIds,
+      subject,
+    ))
+      for (const id of kin.personIds) ties.add(id);
+    for (const partnership of recordsByKey(
+      world.history.partnerships,
+      "partnerships-by-person",
+      (record) => record.personIds,
+      subject,
+    ))
+      for (const id of partnership.personIds) ties.add(id);
   }
   for (const subject of subjects) ties.delete(subject);
   return [...ties].filter((id) => alive(world, id)).sort();
