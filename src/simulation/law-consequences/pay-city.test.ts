@@ -778,7 +778,7 @@ it("A38 scheduled town payday preserves the city law's canonical pay terms", () 
   ).toBe(paid);
 });
 
-it("A38 earned law raises only the actual completed interval without changing its contract", () => {
+function completedEarnedLawFixture() {
   const o = opened("3137000");
   const law = enact(
     o.world,
@@ -839,6 +839,85 @@ it("A38 earned law raises only the actual completed interval without changing it
       amount: earned.amount,
     },
   };
+  return {
+    law,
+    f,
+    workId,
+    worked,
+    completion,
+    activity,
+    state,
+    minutes,
+    earned,
+    period,
+  };
+}
+
+it("A38 assessment producer saves the actual earned obligation without posting money", () => {
+  const { law, f, workId, worked, completion, activity, state, earned } =
+    completedEarnedLawFixture();
+  const context = {
+    onDate: completion.occurredAt,
+    activity: "payroll" as const,
+    activityId: workId,
+    subjectIds: [f.personId],
+    completedShift: { eventId: completion.id, termsId: earned.id },
+  };
+  const assessed = applyLawConsequences(worked.world, context);
+  const records = assessed.history.earnedLawPayAssessments!.filter(
+    (row) => row.completionEventId === completion.id,
+  );
+  expect(records).toHaveLength(1);
+  const record = records[0]!;
+  expect(record).toMatchObject({
+    personId: f.personId,
+    organizationId: f.organizationId,
+    workRelationshipId: workId,
+    resourceFlowId: f.flow.id,
+    earnedTermsId: earned.id,
+    completionEventId: completion.id,
+    scheduledActivityId: activity.id,
+    scheduledActivityStateId: state.id,
+    recordedAt: worked.world.currentDate,
+    sequence: worked.world.history.nextSequence,
+    workedMinutes: 240,
+    contractualGross: money(7200, "USD"),
+    assessedGross: money(8000, "USD"),
+  });
+  expect(record.lawEffectStamps[0]!).toMatchObject({
+    effectKind: "pay",
+    governingLawKey: law.measureId,
+  });
+  expect(assessed.history.resourceFlowTerms).toBe(
+    worked.world.history.resourceFlowTerms,
+  );
+  expect(assessed.history.resourceTransferOutcomes).toBe(
+    worked.world.history.resourceTransferOutcomes,
+  );
+  expect(applyLawConsequences(assessed, context)).toBe(assessed);
+  console.info("EARNED_LAW_ASSESSMENT", {
+    person: personName(assessed.people[f.personId]!),
+    assessmentId: record.id,
+    contractualGrossMinor: 7200,
+    assessedGrossMinor: 8000,
+    actualMinutes: 240,
+    paymentsAdded: 0,
+  });
+});
+
+it("A38 earned law raises only the actual completed interval without changing its contract", () => {
+  const {
+    law,
+    f,
+    workId,
+    worked,
+    completion,
+    activity,
+    state,
+    minutes,
+    earned,
+    period,
+  } = completedEarnedLawFixture();
   expect(() =>
     settleTownCompensations(worked.world, [
       {
