@@ -74,9 +74,15 @@ const places = Object.keys(
   startingLaw.questions[cashBailQuestion].answers,
 ).sort();
 const namedProofs: unknown[] = [];
+const nativeDiagnostics: unknown[] = [];
 afterAll(() => {
   const target = process.env.G10_PROOF_REPORT_PATH;
   if (target) writeFileSync(target, JSON.stringify(namedProofs, null, 2));
+  if (process.env.G10_DIAGNOSTIC_REPORT_PATH)
+    writeFileSync(
+      process.env.G10_DIAGNOSTIC_REPORT_PATH,
+      JSON.stringify(nativeDiagnostics, null, 2),
+    );
 });
 
 describe("recorded floors reach saved sentences", () => {
@@ -316,6 +322,35 @@ describe("recorded floors reach saved sentences", () => {
             (p) => p.role === "focus:defendant" && p.personId === personId,
           ),
       );
+      const nativeCase: CourtCase = {
+        caseKey: `prosecution-decided-v3:referral:g10-floor-fixture`,
+        defendantId: personId,
+        offenseKey: "crime:robbery",
+        offenseLabel: "robbery",
+        evidence: "documentary",
+        standingFindings: 6,
+        venueJurisdictionId: venue,
+        stateKey: state.jurisdictionKey,
+      };
+      nativeDiagnostics.push({
+        seed,
+        state: state.jurisdictionKey,
+        personId,
+        measureId: measured.id,
+        currentDate: sentenced.currentDate,
+        effectiveAt: world.currentDate,
+        referralId: referred.referralId,
+        range: sentencingRangeForCase(nativeCase),
+        floor: custodyFloorAt(sentenced, nativeCase),
+        bounds: sourcedCustodyBoundsForCase(sentenced, nativeCase),
+        selectedSentence: event ?? null,
+        caseStages: sentenced.history.events.filter((entry) =>
+          entry.tags.includes(`justice.referral:${referred.referralId}`),
+        ),
+        termDecisions: sentenced.history.decisionTraces.filter((entry) =>
+          entry.context.stableKey.includes("g10-floor-fixture:custody-term"),
+        ),
+      });
       expect(event, `${seed}, person ${personId}`).toBeDefined();
       expect(event!.tags).toContain(`${SENTENCE_MONTHS_TAG}120`);
       const resolved = legalOutcomeRegistration.resolve(
