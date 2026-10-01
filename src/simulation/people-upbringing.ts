@@ -1,4 +1,4 @@
-import { childhoodRecord } from "./childhood-record-queries";
+import { childhoodRecordEntries } from "./childhood-record";
 import { ageOnDate, dateAtAge } from "./dates";
 import {
   annualPovertyLineMinor,
@@ -272,7 +272,9 @@ export function upbringingFor(
     { period: "early-childhood", ...earlyMoney },
     { period: "adolescence", ...laterMoney },
   ] as const;
-  const entries = childhoodRecord(world, personId)?.entries ?? [];
+  const entries = childhoodRecordEntries(world).filter(
+    (entry) => entry.personId === personId,
+  );
   if (entries.some(({ kind }) => kind === "birth")) {
     const disruption = disruptionFromMoves(
       entries.filter(({ kind }) => kind === "school-year-move").length,
