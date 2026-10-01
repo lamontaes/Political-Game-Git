@@ -1,4 +1,6 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
+import type * as LawEffectsModule from "../../src/simulation/enacted-law-effects";
+import type * as ProsecutionTransitionsModule from "../../src/simulation/justice/prosecution-transitions";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import {
   generateOpeningLife,
@@ -43,10 +45,7 @@ const trace = vi.hoisted(() => ({
   recovery: [] as { input: World; output: World }[],
 }));
 vi.mock("../../src/simulation/enacted-law-effects", async (importOriginal) => {
-  const original =
-    await importOriginal<
-      typeof import("../../src/simulation/enacted-law-effects")
-    >();
+  const original = await importOriginal<typeof LawEffectsModule>();
   return {
     ...original,
     applyStartingLawConsequences(world: World) {
@@ -62,9 +61,7 @@ vi.mock(
   "../../src/simulation/justice/prosecution-transitions",
   async (importOriginal) => {
     const original =
-      await importOriginal<
-        typeof import("../../src/simulation/justice/prosecution-transitions")
-      >();
+      await importOriginal<typeof ProsecutionTransitionsModule>();
     return {
       ...original,
       recoverOverdueProsecutions(world: World) {
