@@ -151,3 +151,132 @@ describe("Columbus, Ohio elects its council on its own", () => {
     },
   );
 });
+
+import { createWorld, createWorldId } from "../simulation/world";
+import { createLightweightPerson, personName } from "../simulation/people";
+import {
+  lifePlaceByKey,
+  stateJurisdictionForKey,
+} from "../simulation/life-places";
+import { scheduleFutureDueItem } from "../simulation/future-transitions";
+import {
+  scheduleElectionContest,
+  electionContestResult,
+} from "../simulation/election-contests";
+import { localGoverningBodyIdentity } from "../simulation/nationwide-world/local-governing-body-candidacy-packs";
+import {
+  LOCAL_ELECTION_COUNT,
+  localElectionCountHandler,
+} from "../simulation/living-world/local-elections";
+import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
+
+describe("A112 town counts use saved support without a seed draw", () => {
+  it("counts equivalent saved three-candidate Columbus support under two seeds", () => {
+    const place = lifePlaceByKey("3918000")!;
+    const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!;
+    const date = makeIsoDate("2026-01-05");
+    const unit = governmentUnitsForState("OH").find(
+      (row) =>
+        row.unitType === "municipality" && row.placeGeoid === place.sourceGeoid,
+    )!;
+    expect(unit).toBeDefined();
+    const office = localGoverningBodyIdentity(unit)!;
+    expect(office).not.toBeNull();
+    const seat = 1,
+      town = place.context.jurisdiction.id;
+    const voteDate = makeIsoDate(addDays(date, 1)),
+      generalDate = makeIsoDate(addDays(date, 2));
+    const contestKey = `local-elections/v1:${unit.id}:${generalDate}:seat-${seat}:primary`;
+    const results = ["audit-a112-count-seed-a", "audit-a112-count-seed-b"].map(
+      (seed) => {
+        const people = Array.from({ length: 4 }, (_, index) =>
+          createLightweightPerson({
+            worldId: createWorldId(seed),
+            worldSeed: seed,
+            index,
+            currentDate: date,
+            homeJurisdictionId: place.context.jurisdiction.id,
+          }),
+        );
+        let world = createWorld({
+          seed,
+          currentDate: date,
+          jurisdictions: [state, place.context.jurisdiction],
+          people,
+        });
+        world = scheduleFutureDueItem(world, {
+          stableKey: contestKey + ":count",
+          dueAt: voteDate,
+          transitionKey: LOCAL_ELECTION_COUNT,
+          entityIds: [town],
+          jurisdictionId: town,
+          provenance: {
+            kind: "authored",
+            note: "Controlled saved three-person primary; no natural filing or calendar claim.",
+          },
+        });
+        const due = world.history.futureDueItems.at(-1)!;
+        world = scheduleElectionContest(world, {
+          stableKey: contestKey,
+          jurisdictionId: town,
+          office: {
+            officeKey: office.officeKey,
+            title: office.bodyName + " controlled primary",
+            seatKey: "seat-1",
+            occupationClassification: "service:municipal-office",
+          },
+          electionDate: voteDate,
+          candidatePersonIds: world.personOrder.slice(0, 3),
+          provenance: {
+            method: "authored",
+            sourceEntityIds: world.personOrder.slice(0, 3),
+            note: "Actual saved people in a controlled primary; not legal candidacy evidence.",
+          },
+        });
+        const contest = world.history.electionContests!.at(-1)!;
+        const atVote = {
+          ...world,
+          currentDate: voteDate,
+          currentMoment: simulationMomentOnLocalDate(
+            world.currentMoment,
+            voteDate,
+          ),
+        };
+        const counted = localElectionCountHandler(atVote, due);
+        expect(counted.status).toBe("resolved");
+        const result = electionContestResult(counted.world, contest.id)!;
+        expect(result).not.toBeNull();
+        expect(result.tallies).toHaveLength(3);
+        expect(result.tallies.every((row) => row.votes > 0)).toBe(true);
+        console.log(
+          JSON.stringify({
+            a112Count: {
+              place: place.displayName,
+              seed,
+              profileTurnoutShare: 0.22,
+              candidates: result.tallies.map((row) => ({
+                name: personName(counted.world.people[row.candidatePersonId]!),
+                votes: row.votes,
+              })),
+              winner: personName(counted.world.people[result.winnerPersonId]!),
+            },
+          }),
+        );
+        return {
+          tallies: result.tallies.map((row) => ({
+            candidateIndex: contest.candidatePersonIds.indexOf(
+              row.candidatePersonId,
+            ),
+            votes: row.votes,
+            voteShare: row.voteShare,
+          })),
+          winnerIndex: contest.candidatePersonIds.indexOf(
+            result.winnerPersonId,
+          ),
+        };
+      },
+    );
+    expect(results[0]!.tallies).toEqual(results[1]!.tallies);
+    expect(results[0]!.winnerIndex).toBe(results[1]!.winnerIndex);
+  });
+});

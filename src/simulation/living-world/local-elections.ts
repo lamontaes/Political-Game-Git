@@ -1062,12 +1062,10 @@ function countVotes(
   unit: GovernmentUnitIdentity,
   town: EntityId,
   seat: number,
-  contestKey: string,
   candidates: readonly EntityId[],
   incumbent: EntityId | null,
   electionDate: IsoDate,
 ): CandidateTally[] {
-  const rng = new SeededRng(world.seed).fork(`${contestKey}:count`);
   // A ward seat's voters are its ward's residents (`town-wards.ts`).
   const plan = councilWardPlan(unit);
   const map = townWardMap(world, unit);
@@ -1078,13 +1076,15 @@ function countVotes(
       : [0, roster.households];
   const share = roster.households > 0 ? (to - from) / roster.households : 1;
   const adults = roster.population * P.adultShare;
-  const turnout = P.turnout.low + rng.next() * (P.turnout.high - P.turnout.low);
+  // No saved turnout-rate/eligible-denominator record exists yet. Use the
+  // owner-approved profile midpoint explicitly, never infer a rate from tallies.
+  const turnout = (P.turnout.low + P.turnout.high) / 2;
   const ballots = Math.max(
     candidates.length * 20,
     Math.round(adults * turnout * share),
   );
   const support = candidates.map((id) => {
-    const base = 0.6 + rng.next() * 0.8;
+    const base = 1;
     // Spec 5: what residents think of what the candidate did in office.
     const views = townSupportFromViews(world, town, id, electionDate);
     // What the households who owe the candidate a job or a seat do with it.
@@ -1140,7 +1140,6 @@ export function localElectionCountHandler(
     unit,
     town,
     seat,
-    contestKey,
     field,
     incumbent,
     electionDate,
