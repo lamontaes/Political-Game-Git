@@ -1,0 +1,266 @@
+{
+  "status": "BLOCKED: event entity guard rejects judiciary record identifiers",
+  "baseHead": "5fc4dfe908b405b1efef675a3deb2ca4368f31e4",
+  "inspectedMain": "81a950745174018598e87923da30469f86f6f0a8",
+  "productionBlob": "2dbc3f2143189f4b335efccf61349eb72a83f890",
+  "testBlob": "bf8c636e35ff6b709229c3ecae1d8e12bf9e43e8",
+  "runs": [
+    {
+      "file": "team9-a102-results.json",
+      "passed": 0,
+      "failed": 5,
+      "durationMs": 20971.47119140625,
+      "reason": "reload inside deferred integrity block",
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 4055000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 4055000",
+          "duration": 5511.349635999999,
+          "failureMessages": [
+            "Error: A full World check cannot run inside a deferred transition.\n    at assertWorldIntegrityFully (/workspace/Political-Game-Git/src/simulation/world.ts:657:11)\n    at readWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:445:3)\n    at deserializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:376:26)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:163:26\n    at withWorldIntegrityDeferred (/workspace/Political-Game-Git/src/simulation/world.ts:585:12)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:79:7\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 1304000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 1304000",
+          "duration": 3944.1902679999985,
+          "failureMessages": [
+            "Error: A full World check cannot run inside a deferred transition.\n    at assertWorldIntegrityFully (/workspace/Political-Game-Git/src/simulation/world.ts:657:11)\n    at readWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:445:3)\n    at deserializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:376:26)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:163:26\n    at withWorldIntegrityDeferred (/workspace/Political-Game-Git/src/simulation/world.ts:585:12)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:79:7\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 5363000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 5363000",
+          "duration": 3555.9287360000017,
+          "failureMessages": [
+            "Error: A full World check cannot run inside a deferred transition.\n    at assertWorldIntegrityFully (/workspace/Political-Game-Git/src/simulation/world.ts:657:11)\n    at readWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:445:3)\n    at deserializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:376:26)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:163:26\n    at withWorldIntegrityDeferred (/workspace/Political-Game-Git/src/simulation/world.ts:585:12)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:79:7\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 2255000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 2255000",
+          "duration": 3871.943220000001,
+          "failureMessages": [
+            "Error: A full World check cannot run inside a deferred transition.\n    at assertWorldIntegrityFully (/workspace/Political-Game-Git/src/simulation/world.ts:657:11)\n    at readWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:445:3)\n    at deserializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:376:26)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:163:26\n    at withWorldIntegrityDeferred (/workspace/Political-Game-Git/src/simulation/world.ts:585:12)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:79:7\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 3825700",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 3825700",
+          "duration": 4084.4711469999966,
+          "failureMessages": [
+            "Error: A full World check cannot run inside a deferred transition.\n    at assertWorldIntegrityFully (/workspace/Political-Game-Git/src/simulation/world.ts:657:11)\n    at readWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:445:3)\n    at deserializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:376:26)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:163:26\n    at withWorldIntegrityDeferred (/workspace/Political-Game-Git/src/simulation/world.ts:585:12)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:79:7\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ]
+    },
+    {
+      "file": "team9-a102-results-r2.json",
+      "passed": 0,
+      "failed": 5,
+      "durationMs": 22393.719482421875,
+      "reason": "fixture skipped unrelated scheduled due items",
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 4055000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 4055000",
+          "duration": 5482.262563000004,
+          "failureMessages": [
+            "Error: Future due item was skipped by authoritative time: future-due-item_caf29d3a917867a4\n    at assertFutureTransitionIntegrity (/workspace/Political-Game-Git/src/simulation/future-transitions.ts:914:13)\n    at validateHistoryIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:2287:3)\n    at validateWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:877:24)\n    at assertWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:650:3)\n    at createWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:91:3)\n    at serializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:111:33)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:184:41\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 1304000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 1304000",
+          "duration": 3545.022929999999,
+          "failureMessages": [
+            "Error: Future due item was skipped by authoritative time: future-due-item_29add7edf5d02c28\n    at assertFutureTransitionIntegrity (/workspace/Political-Game-Git/src/simulation/future-transitions.ts:914:13)\n    at validateHistoryIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:2287:3)\n    at validateWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:877:24)\n    at assertWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:650:3)\n    at createWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:91:3)\n    at serializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:111:33)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:184:41\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 5363000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 5363000",
+          "duration": 5050.067288999999,
+          "failureMessages": [
+            "Error: Future due item was skipped by authoritative time: future-due-item_473b0c0ae84c77f6\n    at assertFutureTransitionIntegrity (/workspace/Political-Game-Git/src/simulation/future-transitions.ts:914:13)\n    at validateHistoryIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:2287:3)\n    at validateWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:877:24)\n    at assertWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:650:3)\n    at createWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:91:3)\n    at serializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:111:33)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:184:41\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 2255000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 2255000",
+          "duration": 4814.523375999997,
+          "failureMessages": [
+            "Error: Future due item was skipped by authoritative time: future-due-item_9dcaf99b7f2f927e\n    at assertFutureTransitionIntegrity (/workspace/Political-Game-Git/src/simulation/future-transitions.ts:914:13)\n    at validateHistoryIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:2287:3)\n    at validateWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:877:24)\n    at assertWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:650:3)\n    at createWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:91:3)\n    at serializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:111:33)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:184:41\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 3825700",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 3825700",
+          "duration": 3500.7195560000036,
+          "failureMessages": [
+            "Error: Future due item was skipped by authoritative time: future-due-item_0b03774ec387c2ec\n    at assertFutureTransitionIntegrity (/workspace/Political-Game-Git/src/simulation/future-transitions.ts:914:13)\n    at validateHistoryIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:2287:3)\n    at validateWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:877:24)\n    at assertWorldIntegrity (/workspace/Political-Game-Git/src/simulation/world.ts:650:3)\n    at createWorldSnapshot (/workspace/Political-Game-Git/src/simulation/serialization.ts:91:3)\n    at serializeWorld (/workspace/Political-Game-Git/src/simulation/serialization.ts:111:33)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:184:41\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ]
+    },
+    {
+      "file": "team9-a102-results-r3.json",
+      "passed": 0,
+      "failed": 5,
+      "durationMs": 74127.43139648438,
+      "reason": "court record string is not a recognized event EntityId",
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 4055000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 4055000",
+          "duration": 14696.273700000002,
+          "failureMessages": [
+            "Error: Historical event references a missing entity: us-ok:general_trial\n    at recordWorldEvent (/workspace/Political-Game-Git/src/simulation/world.ts:1040:13)\n    at rentEvent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:2564:14)\n    at actOnArrears (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1994:16)\n    at payTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1862:10)\n    at collectTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1059:10)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:229:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 1304000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 1304000",
+          "duration": 14062.095158000004,
+          "failureMessages": [
+            "Error: Historical event references a missing entity: us-ga:general_trial\n    at recordWorldEvent (/workspace/Political-Game-Git/src/simulation/world.ts:1040:13)\n    at rentEvent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:2564:14)\n    at actOnArrears (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1994:16)\n    at payTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1862:10)\n    at collectTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1059:10)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:229:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 5363000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 5363000",
+          "duration": 16752.739587000004,
+          "failureMessages": [
+            "Error: Historical event references a missing entity: us-wa:general_trial\n    at recordWorldEvent (/workspace/Political-Game-Git/src/simulation/world.ts:1040:13)\n    at rentEvent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:2564:14)\n    at actOnArrears (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1994:16)\n    at payTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1862:10)\n    at collectTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1059:10)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:229:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 2255000",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 2255000",
+          "duration": 17581.791618000003,
+          "failureMessages": [
+            "Error: Historical event references a missing entity: us-la:general_trial\n    at recordWorldEvent (/workspace/Political-Game-Git/src/simulation/world.ts:1040:13)\n    at rentEvent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:2564:14)\n    at actOnArrears (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1994:16)\n    at payTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1862:10)\n    at collectTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1059:10)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:229:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "A102 existing eviction filings require actual court actors"
+          ],
+          "fullName": "A102 existing eviction filings require actual court actors keeps an unseated case pending and admits only the saved judge in 3825700",
+          "status": "failed",
+          "title": "keeps an unseated case pending and admits only the saved judge in 3825700",
+          "duration": 11032.431336000009,
+          "failureMessages": [
+            "Error: Historical event references a missing entity: us-nd:general_trial\n    at recordWorldEvent (/workspace/Political-Game-Git/src/simulation/world.ts:1040:13)\n    at rentEvent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:2564:14)\n    at actOnArrears (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1994:16)\n    at payTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1862:10)\n    at collectTownRent (/workspace/Political-Game-Git/src/simulation/living-world/town-rent.ts:1059:10)\n    at /workspace/Political-Game-Git/src/simulation/living-world/town-rent-civil-actors.test.ts:229:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2017:60\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20"
+          ],
+          "meta": {},
+          "tags": []
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "strictRoots": 2,
+    "strictFiles": 988,
+    "diagnostics": 0,
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "report": "PASS",
+    "release": "PASS after frontmatter correction",
+    "zeroDice": "FAIL: 2 inherited county-calendar flags, 5 stale baseline entries; unchanged",
+    "NOT_RUN": [
+      "natural play",
+      "clock-driven rent integration",
+      "nationwide",
+      "browser",
+      "year",
+      "whole suite",
+      "current-main composition"
+    ]
+  },
+  "dependency": "Judgment-only provenance tags or another admitted saved reference channel for actual court/seat/tenure string IDs; no fake entities."
+}
