@@ -1,0 +1,6 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr --from ece0eba30c52f363cfcc79021327eaadab376117 --to 82ba13a8154a2d596b44a710665bac3e0892c895
+
+release:check — version 0.4.0, revision 82ba13a, 1172 pending declaration(s), declaration range 493621af2e9ddb4fb7429c49747fceb61372a9f3..82ba13a8154a2d596b44a710665bac3e0892c895 (pr). OK.

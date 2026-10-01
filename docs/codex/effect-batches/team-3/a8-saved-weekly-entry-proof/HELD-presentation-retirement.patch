@@ -1,0 +1,21 @@
+diff --git a/src/presentation/ordinary-life.ts b/src/presentation/ordinary-life.ts
+index 521064858..94391d4d4 100644
+--- a/src/presentation/ordinary-life.ts
++++ b/src/presentation/ordinary-life.ts
+@@ -2,7 +2,6 @@ import { composeWorldTimeHandlers } from "../simulation/campaigns";
+ import {
+   advanceApplications,
+   settleHouseholdAdultJobPay,
+-  settleJobPay,
+ } from "../simulation/job-market";
+ import { settleCareerOffers } from "../simulation/career-path7";
+ import { contactBases } from "../simulation/people-contact";
+@@ -423,7 +422,7 @@ function passOrdinaryDaysUnchecked(
+     releaseMissedHolds(
+       settleCareerOffers(
+         settleHouseholdAdultJobPay(
+-          settleJobPay(advanceApplications(advanced, personId), personId),
++          advanceApplications(advanced, personId),
+           personId,
+           world.currentDate,
+         ),

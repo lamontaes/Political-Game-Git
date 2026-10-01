@@ -1,0 +1,39 @@
+{
+  "testedHead": "82ba13a8154a2d596b44a710665bac3e0892c895",
+  "base": "ece0eba30c52f363cfcc79021327eaadab376117",
+  "function": "settleSavedWeeklyJobPay(world, workRelationshipId, resourceFlowId, dueOn): World",
+  "ownedProduction": "src/simulation/job-market.ts",
+  "native": {
+    "passed": 1,
+    "notRun": 10,
+    "durationSeconds": 20.41,
+    "command": "node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/law-consequences/pay-city.test.ts --maxWorkers=1 --testNamePattern 'A8 saved weekly adapter reuses'"
+  },
+  "types": {
+    "roots": [
+      "src/simulation/job-market.ts",
+      "src/simulation/law-consequences/pay-city.test.ts"
+    ],
+    "diagnostics": 0,
+    "command": "node scripts/storage/cli.mjs run test -- node /workspace/scratch/team3-a38-job-week-types.mjs"
+  },
+  "checks": {
+    "lint": "PASS two changed TS files",
+    "format": "PASS two TS files and release declaration",
+    "whitespace": "PASS",
+    "release": "PASS corrected --base/--head range; initial --from/--to invocation ignored those flags, retained separately",
+    "zeroDice": "exit1, zero new / five inherited stale; no allowlist changes"
+  },
+  "limits": [
+    "unchanged A8 clock failure unresolved; presentation caller preserved",
+    "direct wrapper check is not scheduled clock survivor proof",
+    "Audit owns adapter/composer",
+    "raised completed-shift assessment/transfer awaits CTO core approval",
+    "no full suite/speed/browser/all56/final-main checks"
+  ],
+  "sha256": {
+    "src/simulation/job-market.ts": "6aef728dd39378bfa407a62076dcaa2fa14dc563eff2640ede826fd8cf803322",
+    "src/simulation/law-consequences/pay-city.test.ts": "e1acf4df57c70d2244434442a8e334ae1f91dcb94fa369a2376135be7ce2cae3",
+    "src/presentation/ordinary-life.ts": "d25a319a4f59f6f378240113dc028d7ce706d7a133c87d5b247945707c756086"
+  }
+}

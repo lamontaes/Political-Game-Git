@@ -1,0 +1,112 @@
+diff --git a/src/simulation/law-consequences/pay-city.test.ts b/src/simulation/law-consequences/pay-city.test.ts
+index 96072b017..8e839e090 100644
+--- a/src/simulation/law-consequences/pay-city.test.ts
++++ b/src/simulation/law-consequences/pay-city.test.ts
+@@ -6,7 +6,7 @@ import { createScenarioWorld } from "../demo";
+ import { applyLawConsequences } from "../enacted-law-effects";
+ import { advanceWorld } from "../world";
+ import { createFutureTransitionHandlerRegistry } from "../future-transitions";
+-import { settleJobPay } from "../job-market";
++import { settleJobPay, settleSavedWeeklyJobPay } from "../job-market";
+ import {
+   fileRuleChangeProvision,
+   laborLawOfficeKey,
+@@ -761,3 +761,98 @@ it("A38 scheduled town payday preserves the city law's canonical pay terms", ()
+     ),
+   ).toBe(paid);
+ });
++
++it("A8 saved weekly adapter reuses the actual contract and common payment writer", () => {
++  const o = opened("3137000");
++  const f = worker(o.world, o.place.context.jurisdiction.id, false, true);
++  if (f.flow.basisReference.kind !== "work")
++    throw new Error("Missing fixture work binding");
++  const workId = f.flow.basisReference.workRelationshipId;
++  const dueOn = addDays(f.flow.startsAt, 7);
++  expect(settleSavedWeeklyJobPay(f.world, workId, f.flow.id, dueOn)).toBe(
++    f.world,
++  );
++  expect(() =>
++    settleSavedWeeklyJobPay(f.world, f.flow.id, f.flow.id, dueOn),
++  ).toThrow("requires its saved work and compensation flow");
++  expect(() =>
++    settleSavedWeeklyJobPay(f.world, workId, f.flow.id, addDays(dueOn, -1)),
++  ).toThrow("requires a due date from its saved flow start");
++  const before = advanceWorld(
++    f.world,
++    7,
++    createCampaignElectionTransitionRegistry(),
++  );
++  const paid = settleSavedWeeklyJobPay(before, workId, f.flow.id, dueOn);
++  expect(serializeWorld(paid)).toBe(
++    serializeWorld(settleJobPay(before, f.personId)),
++  );
++  const outcomes = paid.history.resourceTransferOutcomes.filter(
++    (row) => row.resourceFlowId === f.flow.id,
++  );
++  expect(outcomes).toHaveLength(1);
++  expect(outcomes[0]!.periodStartsAt).toBe(f.flow.startsAt);
++  expect(outcomes[0]!.periodEndsAt).toBe(addDays(dueOn, -1));
++  expect(outcomes[0]!.occurredAt).toBe(dueOn);
++  expect(outcomes[0]!.status).toBe("completed");
++  expect(settleSavedWeeklyJobPay(paid, workId, f.flow.id, dueOn)).toBe(paid);
++  expect(
++    serializeWorld(
++      settleSavedWeeklyJobPay(
++        deserializeWorld(serializeWorld(before)),
++        workId,
++        f.flow.id,
++        dueOn,
++      ),
++    ),
++  ).toBe(serializeWorld(paid));
++  console.info("A8_SAVED_WEEK_ADAPTER", {
++    person: personName(paid.people[f.personId]!),
++    workId,
++    flowId: f.flow.id,
++    dueOn,
++    paidMinor: outcomes[0]!.transferredAmount.minorUnits,
++  });
++});
++
++it("A8 saved job contract pays from the actual clock before a presentation refresh", () => {
++  const o = opened("3137000");
++  const f = worker(o.world, o.place.context.jurisdiction.id, false, true);
++  const before = {
++    ...ensurePaydaySchedule(f.world),
++    control: { kind: "person" as const, personId: f.personId },
++  };
++  const paid = advanceWorld(
++    before,
++    7,
++    createCampaignElectionTransitionRegistry(),
++  );
++  const outcomes = paid.history.resourceTransferOutcomes.filter(
++    (row) => row.resourceFlowId === f.flow.id,
++  );
++  console.info("A8_CLOCK_JOB_PAY", {
++    person: personName(paid.people[f.personId]!),
++    flowId: f.flow.id,
++    workId:
++      f.flow.basisReference.kind === "work"
++        ? f.flow.basisReference.workRelationshipId
++        : null,
++    startsAt: before.currentDate,
++    endsAt: paid.currentDate,
++    payments: outcomes.length,
++    savedDueKeys: before.history.futureDueItems.map((row) => row.transitionKey),
++  });
++  expect(outcomes).toHaveLength(1);
++  const outcome = outcomes[0]!;
++  expect(outcome.status).toBe("completed");
++  expect(outcome.periodStartsAt).toBe(before.currentDate);
++  expect(outcome.periodEndsAt).toBe(addDays(before.currentDate, 6));
++  expect(outcome.occurredAt).toBe(addDays(before.currentDate, 7));
++  const replayed = advanceWorld(
++    deserializeWorld(serializeWorld(before)),
++    7,
++    createCampaignElectionTransitionRegistry(),
++  );
++  expect(serializeWorld(replayed)).toBe(serializeWorld(paid));
++  expect(settleJobPay(paid, f.personId)).toBe(paid);
++});
