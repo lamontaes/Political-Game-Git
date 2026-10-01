@@ -15,6 +15,7 @@ import {
   type GrowingIndexKind,
 } from "../history-index";
 import { workRoleAt } from "../life-queries";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { workPayCoverageAt } from "../pay-coverage";
 import {
   matchPayCoveragePredicates,
@@ -147,7 +148,17 @@ export function resolvePayConsequences(
     const role = workRoleAt(world, work.id, cutoff);
     if (!role) throw new Error("Missing pay recorded work role capability");
     const workplace = payWorkplaceAt(world, work.id, cutoff);
-    const jurisdictionId = workplace.jurisdictionId;
+    const minimum =
+      proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY ||
+      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY;
+    // Federal law applies without inventing a missing workplace. The national
+    // chain contains no state/local authority; the coverage fact stays null.
+    const jurisdictionId =
+      workplace.jurisdictionId ??
+      (proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : null);
+    if (!jurisdictionId && minimum) continue;
     if (!jurisdictionId)
       throw new Error("Missing pay recorded work jurisdiction capability");
     const predicates = [...row.who.predicates, ...row.conditions];
@@ -158,9 +169,6 @@ export function resolvePayConsequences(
       cutoff,
     );
     const coverage = workPayCoverageAt(world, work.id, cutoff);
-    const minimum =
-      proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY ||
-      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY;
     if (minimum && coverage) {
       const exception = coverage.exceptions.find(
         (entry) => entry.questionKey === proposition.stableKey,
@@ -176,6 +184,14 @@ export function resolvePayConsequences(
       context.onDate,
     );
     if (!law || (law.origin === "enacted" && law.answer !== "yes")) continue;
+    // A starting state "no" means no increase above the federal standard.
+    // The separate federal row supplies that standard, not a state statute.
+    if (
+      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY &&
+      law.origin === "in-force-at-start" &&
+      law.answer === "no"
+    )
+      continue;
     if (context.governingLawId && context.governingLawId !== law.measureId)
       continue;
     const terms = resourceFlowTermsAt(world, flow.id, cutoff);

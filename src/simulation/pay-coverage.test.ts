@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -23,9 +23,22 @@ import {
 import { TOWN_EMPLOYMENT_VERSION } from "./living-world/town-employment";
 import {
   MINIMUM_WAGE_PAY_ROWS,
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   STATE_MINIMUM_WAGE_QUESTION_KEY,
 } from "./law-consequences/pay-rows";
-import { resolvePayConsequences } from "./law-consequences/pay";
+import {
+  applyPayConsequence,
+  PAY_REGISTRATION,
+  resolvePayConsequences,
+} from "./law-consequences/pay";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { lawInForce } from "./governing/law-in-force";
+import { readFinalEnactedLawTerm } from "./governing/automatic-legislation";
+import { resourceFlowTermsAt, resourcePositionAt } from "./resource-queries";
+import { settleTownCompensations } from "./living-world/town-pay";
+import * as lawEffects from "./enacted-law-effects";
+import { LAW_CONSEQUENCE_REGISTRATIONS } from "./law-consequence-registry";
+import { personName } from "./people";
 import {
   determineWorkPayCoverage,
   workPayCoverageAt,
@@ -36,13 +49,20 @@ import {
   matchPayCoveragePredicates,
   payWorkplaceAt,
 } from "./pay-coverage-predicates";
-import { createWorkCompensation, money } from "./resources";
+import {
+  createResourcePosition,
+  createWorkCompensation,
+  money,
+} from "./resources";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { SeededRng } from "./rng";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "./territory-places";
 import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
 import type { World } from "./types";
+
+const canonicalDispatch = lawEffects.applyLawConsequences;
+afterEach(() => vi.restoreAllMocks());
 
 const places = new Map<string, [string, number]>();
 for (const pair of PLACE_POPULATION_ROWS.split(";")) {
@@ -197,7 +217,7 @@ it("records an expected job only when its actual saved status becomes active, at
   ).toBe(serializeWorld(activated));
 });
 
-it("uses only saved work-time or dated employer locations, and preserves an absent press workplace without granting a floor", () => {
+it("uses saved work-time or dated employer locations, and applies only the canonical federal floor to an absent press workplace", () => {
   const f = fixture();
   const employerPlace = organizationProfileAt(
     f.world,
@@ -234,7 +254,11 @@ it("uses only saved work-time or dated employer locations, and preserves an abse
   })!;
   expect(job).toBeDefined();
   const coverage = workPayCoverageAt(world, job.id)!;
-  expect(coverage.governingLaws).toEqual([]);
+  expect(coverage.governingLaws).toContainEqual({
+    questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+    governingLawKey: `starting-law:US:${FEDERAL_MINIMUM_WAGE_QUESTION_KEY}`,
+    origin: "in-force-at-start",
+  });
   expect(coverage.factRecordIds).toContain(workRoleAt(world, job.id)!.id);
   expect(coverage.factRecordIds).toContain(
     organizationProfileAt(world, job.organizationId!)!.id,
@@ -244,15 +268,15 @@ it("uses only saved work-time or dated employer locations, and preserves an abse
     workRelationshipId: job.id,
     startsAt: world.currentDate,
     amount: money(100, "USD"),
-    cadenceKind: "schedule:weekly",
+    cadenceKind: "schedule:town-weekly",
     restrictionKind: null,
     jurisdictionId: null,
     provenance: hireInput(f, "unused").provenance,
   });
   const question = Object.values(world.policyCatalog.propositions).find(
-    (entry) => entry.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+    (entry) => entry.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   )!;
-  const row = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
+  const row = MINIMUM_WAGE_PAY_ROWS[FEDERAL_MINIMUM_WAGE_QUESTION_KEY]!;
   world = {
     ...world,
     policyCatalog: {
@@ -263,14 +287,139 @@ it("uses only saved work-time or dated employer locations, and preserves an abse
       },
     },
   };
-  expect(() =>
-    resolvePayConsequences(world, row, {
-      onDate: world.currentDate,
-      activity: "payroll",
-      activityId: world.history.resourceFlows.at(-1)!.id,
-      subjectIds: [job.personId],
-    }),
-  ).toThrow("Missing pay recorded work jurisdiction capability");
+  const flow = world.history.resourceFlows.at(-1)!;
+  const stateQuestion = Object.values(world.policyCatalog.propositions).find(
+    (entry) => entry.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+  )!;
+  const stateRow = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
+  world = {
+    ...world,
+    policyCatalog: {
+      ...world.policyCatalog,
+      propositions: {
+        ...world.policyCatalog.propositions,
+        [stateQuestion.id]: { ...stateQuestion, consequences: [stateRow] },
+      },
+    },
+  };
+  const context = {
+    onDate: world.currentDate,
+    activity: "payroll" as const,
+    activityId: flow.id,
+    subjectIds: [job.personId],
+  };
+  expect(resolvePayConsequences(world, stateRow, context)).toEqual([]);
+  const law = lawInForce(
+    world,
+    NATIONAL_ELECTION_JURISDICTION.id,
+    question.id,
+  )!;
+  expect(law.level).toBe("federal-statute");
+  expect(law.answer).toBe("no");
+  const term = readFinalEnactedLawTerm(world, law, {
+    questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+    termKey: "floor",
+    unit: "minor/hour",
+  })!;
+  expect(term).not.toBeNull();
+  const resolved = resolvePayConsequences(world, row, context);
+  expect(resolved).toHaveLength(1);
+  expect(resolved[0]!.jurisdictionId).toBe(NATIONAL_ELECTION_JURISDICTION.id);
+  expect(resolved[0]!.law).toEqual(law);
+  expect(resolved[0]!.value).toMatchObject({ value: term.value });
+  expect(resolved[0]!.sourceRecordIds).toContain(coverage.id);
+  const raised = applyPayConsequence(world, resolved[0]!);
+  const terms = resourceFlowTermsAt(raised, flow.id)!;
+  expect(terms.amount.minorUnits).toBeGreaterThan(100);
+  expect(terms.lawEffectStamps![0]!.governingLawKey).toBe(law.measureId);
+  expect(workPayCoverageAt(raised, job.id)!.jurisdictionId).toBeNull();
+  expect(applyPayConsequence(raised, resolved[0]!)).toBe(raised);
+  expect(
+    serializeWorld(
+      applyPayConsequence(
+        deserializeWorld(serializeWorld(world)),
+        resolved[0]!,
+      ),
+    ),
+  ).toBe(serializeWorld(raised));
+  const employer = {
+    kind: "organization" as const,
+    organizationId: job.organizationId!,
+  };
+  let before = raised;
+  if (!resourcePositionAt(before, employer, terms.amount.currency))
+    before = createResourcePosition(before, {
+      stableKey: `fixture:coverage:press-cash:${job.organizationId}`,
+      owner: employer,
+      openedAt: context.onDate,
+      openingBalance: money(10_000_000, "USD"),
+      provenance: hireInput(f, "unused").provenance,
+    });
+  const payday = addDays(context.onDate, 6);
+  before = withWorldIntegrityDeferred(() => {
+    let next = before;
+    for (const due of before.history.futureDueItems) {
+      const state = futureDueItemStateAt(before, due.id, {
+        asOfDate: before.currentDate,
+        historySequenceExclusive: before.history.nextSequence,
+      });
+      if (state?.status === "scheduled" && due.dueAt < payday)
+        next = cancelFutureDueItem(next, {
+          stableKey: `fixture:coverage:pay-context:${due.id}`,
+          dueItemId: due.id,
+          effectiveAt: context.onDate,
+          reasonKey: "fixture:focused-payroll",
+          context:
+            "Controlled period context, not terminal opening or clock proof.",
+        });
+    }
+    return {
+      ...next,
+      currentDate: payday,
+      currentMoment: simulationMomentOnLocalDate(next.currentMoment, payday),
+    };
+  });
+  const period = {
+    payFlowId: flow.id,
+    activityId: flow.id,
+    stableKey: `fixture:coverage:press-period:${flow.id}`,
+    periodStartsAt: context.onDate,
+    periodEndsAt: payday,
+    onDate: payday,
+  };
+  const registrations = [...LAW_CONSEQUENCE_REGISTRATIONS, PAY_REGISTRATION];
+  vi.spyOn(lawEffects, "applyLawConsequences").mockImplementation(
+    (next, activity) => canonicalDispatch(next, activity, registrations),
+  );
+  const paid = settleTownCompensations(before, [period]);
+  const played = settleTownCompensations(
+    { ...before, control: { kind: "person", personId: job.personId } },
+    [period],
+  );
+  expect(played.history).toEqual(paid.history);
+  const payment = paid.history.resourceTransferOutcomes.find(
+    (entry) => entry.resourceFlowId === flow.id,
+  )!;
+  expect(payment.transferredAmount).toEqual(terms.amount);
+  expect(payment.lawEffectStamps![0]!.governingLawKey).toBe(law.measureId);
+  expect(payment.lawEffectStamps![0]!.sourceRecordIds).toContain(coverage.id);
+  expect(settleTownCompensations(paid, [period])).toBe(paid);
+  expect(
+    serializeWorld(
+      settleTownCompensations(deserializeWorld(serializeWorld(before)), [
+        period,
+      ]),
+    ),
+  ).toBe(serializeWorld(paid));
+  console.info("PAY_NULL_WORKPLACE_FEDERAL", {
+    person: personName(paid.people[job.personId]!),
+    workId: job.id,
+    workplace: workPayCoverageAt(paid, job.id)!.jurisdictionId,
+    governingLawKey: law.measureId,
+    hourlyMinor: term.value,
+    grossMinor: payment.transferredAmount.minorUnits,
+    controlledPayroll: true,
+  });
 });
 
 it.each(sampled)(
@@ -413,7 +562,12 @@ it.each(sampled)(
           historySequenceExclusive: f.world.history.nextSequence,
         });
         expect(record.jurisdictionId).toBe(workplace.jurisdictionId);
-        if (!workplace.jurisdictionId) expect(record.governingLaws).toEqual([]);
+        if (!workplace.jurisdictionId)
+          expect(record.governingLaws).toContainEqual({
+            questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+            governingLawKey: `starting-law:US:${FEDERAL_MINIMUM_WAGE_QUESTION_KEY}`,
+            origin: "in-force-at-start",
+          });
       }
     }
     expect(initialized.history.workPayCoverageDeterminations).toHaveLength(
