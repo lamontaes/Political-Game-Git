@@ -1,3 +1,7 @@
+import {
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "../simulation/time-work";
 import { personName } from "../simulation/people";
 import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/state-executives";
 import {
@@ -49,7 +53,7 @@ import {
   placeMunicipalOrdinanceOnAgenda,
 } from "../simulation/municipal-ordinance-procedure";
 import { requireLifePlace } from "../simulation/life-places";
-import { advanceWorld } from "../simulation/world";
+import { advanceWorld, recordWorldEvent } from "../simulation/world";
 import type {
   LegislativeVoteDisposition,
   LegislativeVoteProvenance,
@@ -62,6 +66,52 @@ import type {
  *
  * Nebraska and Alaska, not Kentucky: the owner asked that tests span places.
  */
+
+/** Record the fixture's control change without rewriting pending work. */
+function controlForFixture(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  const previous =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (previous === personId) return world;
+  const handoff = recordWorldEvent(world, {
+    stableKey,
+    type: "test.control-moved",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [
+      personId,
+      ...(previous
+        ? [previous, ...playerRequiredWorkIds(world, previous)]
+        : []),
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary:
+      "Controlled downstream fixture moves play to the actual actor for its next recorded action.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const released = previous
+    ? releasePlayerRequiredWork(handoff, {
+        personId: previous,
+        stableKeyPrefix: `${stableKey}:released`,
+        outcomeEventId: handoff.history.events.at(-1)!.id,
+      })
+    : handoff;
+  return { ...released, control: { kind: "person", personId } };
+}
 
 /** A controlled actual-office signature for downstream law-effect fixtures. */
 function signAtActualGovernorDesk(
@@ -82,6 +132,11 @@ function signAtActualGovernorDesk(
     office,
     "A recorded governor is required for this controlled signature.",
   ).not.toBeNull();
+  world = controlForFixture(
+    world,
+    office!.holderPersonId,
+    `a80:governor-control:${measureId}`,
+  );
   world = applyLegislativeStep(
     { ...scenario, measureId },
     world,
@@ -94,11 +149,7 @@ function signAtActualGovernorDesk(
     matter,
     "The actual bill must reach its recorded governor's desk.",
   ).toBeDefined();
-  const decision = decideGoverningMatter(
-    { ...world, control: { kind: "person", personId: office!.holderPersonId } },
-    matter!.id,
-    BILL_SIGN,
-  );
+  const decision = decideGoverningMatter(world, matter!.id, BILL_SIGN);
   expect(decision.ok, decision.ok ? "" : decision.reason).toBe(true);
   const next = decision.world;
   expect(measurePosition(next, measureId).phase).toBe("awaiting-enactment");
