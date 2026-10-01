@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { afterAll, describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it, vi } from "vitest";
 import { writeFileSync } from "node:fs";
 import {
   createNewGameWorld,
@@ -73,17 +73,30 @@ describe("A56 first landlords come from actual owners or the saved home roster",
           obligationId: lease.obligationId,
           bedrooms: lease.bedrooms,
         }));
-      // Controlled sensitivity check: all actual actors, homes, dates and world ID
-      // stay fixed. Only the former draw's input changes; not a new opening world.
-      for (const suffix of ["owner-a", "owner-b", "owner-c"])
-        expect(
-          identities(
-            startTownLeases(
-              { ...source, seed: `${SEED}:${suffix}` },
-              source.currentDate,
-            ),
-          ),
-        ).toEqual(identities(leased));
+      // Hold the actual seed/ID, actors, homes and dates fixed. Only the former
+      // landlord fork's output is controlled; other seeded identity stays real.
+      const nativeFork = SeededRng.prototype.fork;
+      let landlordForks = 0;
+      for (const value of [0, 0.5, 0.999999]) {
+        const fork = vi
+          .spyOn(SeededRng.prototype, "fork")
+          .mockImplementation(function (this: SeededRng, label: string) {
+            const child = nativeFork.call(this, label);
+            if (label.startsWith("landlord")) {
+              landlordForks += 1;
+              vi.spyOn(child, "next").mockReturnValue(value);
+            }
+            return child;
+          });
+        try {
+          expect(
+            identities(startTownLeases(source, source.currentDate)),
+          ).toEqual(identities(leased));
+        } finally {
+          fork.mockRestore();
+        }
+      }
+      expect(landlordForks).toBe(0);
       const save = serializeWorld(leased);
       expect(startTownLeases(leased, leased.currentDate)).toBe(leased);
       const restored = deserializeWorld(save);
