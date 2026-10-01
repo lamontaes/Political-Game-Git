@@ -1,0 +1,4 @@
+Owned ESLint completed with exit 0 and no diagnostics. Raw lint.log is empty.
+Owned Prettier completed with exit 0. Full audit:scan, zero-dice and release:check each completed with exit 0.
+Macro collection failed at d6e2a64 plus owned patch, then passed on 940549ecaf055f877000bc7a28596db3c59ad1e7 including merged revert1644.
+Macro test cases were collected, not executed.

@@ -1,0 +1,79 @@
+{
+  "branch": "codex/team2-a79-state-ratification-shared-vote",
+  "sourceCommit": "01aab88be29e4b280b562842e75b6e2af1c40040",
+  "executedHead": "940549ecaf055f877000bc7a28596db3c59ad1e7",
+  "main": "2617e39673cba08d17b2cd1831a27a775d7fc018",
+  "mergedRevert": "ed1b576df587321941c414d83f909182292f567b",
+  "sourceBlobs": {
+    "src/simulation/governing/chamber-votes.ts": "248a5575c6d0059cfe65322ac9f0aca08245f3c6",
+    "src/simulation/living-world/federal-reform.ts": "671dc471a8c25015e41d288d0514657d821682fa",
+    "src/simulation/living-world/federal-term-limit-chamber-vote.test.ts": "c671b3f0b83dffbeb715f11fe2f9e637f283783e"
+  },
+  "completeChangedFile": "src/simulation/living-world/federal-term-limit-chamber-vote.test.ts",
+  "final": {
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 51.67,
+    "statesWithActualBallots": 50,
+    "ineligibleJurisdictions": 6,
+    "comparedActualMembers": 7386,
+    "ballotOrReasonChanges": 0,
+    "stateApprovalsDerived": 0
+  },
+  "macroLoad": {
+    "collected": 29,
+    "executed": 0,
+    "exitCode": 0,
+    "preRevertExitCode": 1
+  },
+  "scopedTypeRoots": 3,
+  "typeDiagnostics": 0,
+  "seed": "A79-recorded-term-limit-chamber",
+  "startingPlace": "Ashaway, Rhode Island",
+  "measureId": "constitutional-measure_0907ffb0af89bc80",
+  "example": {
+    "state": "US-NE",
+    "name": "Jessica Shields",
+    "ballot": "nay",
+    "reason": "member:other-party",
+    "compared": 49,
+    "changed": 0
+  },
+  "status": "DRAFT; preparation only; production caller and private decider remain live",
+  "blocker": "Claude-researched per-state/chamber ratification thresholds, bases, quorum, rounding and citations; no approval inference",
+  "notRun": [
+    "macro-economy test cases",
+    "full suite",
+    "year run",
+    "natural ratification",
+    "browser",
+    "national law-effect audit",
+    "saved state-ratification rollcall"
+  ],
+  "chronology": [
+    {
+      "log": "missing-state-fixture-tests.log",
+      "passed": 4,
+      "failed": 1,
+      "cause": "Current-main smallWorld creates only requested Congress; supplied state-body preparation absent"
+    },
+    {
+      "log": "formal-seat-field-tests.log",
+      "passed": 4,
+      "failed": 1,
+      "cause": "KY/NV formal seat fields unknown; current seating resolves existing canonical profile"
+    },
+    {
+      "log": "pre-compose-tests.log",
+      "passed": 5,
+      "failed": 0,
+      "seconds": 51.5
+    },
+    {
+      "log": "pre-revert-macro-load.log",
+      "exitCode": 1,
+      "error": "Future transition key must be a namespaced semantic key: undefined"
+    }
+  ]
+}

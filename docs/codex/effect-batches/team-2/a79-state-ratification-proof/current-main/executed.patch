@@ -1,0 +1,142 @@
+diff --git a/src/simulation/governing/chamber-votes.ts b/src/simulation/governing/chamber-votes.ts
+index 6ba97ca21..248a5575c 100644
+--- a/src/simulation/governing/chamber-votes.ts
++++ b/src/simulation/governing/chamber-votes.ts
+@@ -7,6 +7,7 @@ import {
+ } from "../constitutional-process";
+ import { institutionOfficeBindingAt } from "../enacted-rule-changes";
+ import { legislativePackForJurisdiction } from "../legislative-institutions";
++import { seatsForChamber } from "../legislature-game-profile";
+ import { organizationProfileAt, workStatusAt } from "../life-queries";
+ import { requireMeasure } from "../legislation";
+ import {
+@@ -304,6 +305,7 @@ export function stateConstitutionalRoster(
+   world: World,
+   jurisdictionId: EntityId,
+   bodyKey: string,
++  purpose: "proposal" | "ratification" = "proposal",
+ ): {
+   readonly seated: SeatedChamber;
+   readonly sourceRecordIds: readonly EntityId[];
+@@ -311,15 +313,29 @@ export function stateConstitutionalRoster(
+ } | null {
+   const cutoff = currentHistoricalCutoff(world);
+   const pack = legislativePackForJurisdiction(jurisdictionId);
+-  const profile = pack && stateAmendmentProfile(pack.jurisdictionKey);
++  const profile =
++    purpose === "proposal" && pack
++      ? stateAmendmentProfile(pack.jurisdictionKey)
++      : null;
+   const chamber = pack?.chambers.find((row) => row.chamberKey === bodyKey);
+   const ruleBody = profile?.bodies.find((row) => row.bodyKey === bodyKey);
++  const actualSeats =
++    purpose === "ratification" && pack ? seatsForChamber(pack, bodyKey) : null;
++  // A federal amendment is ratified by the state's actual legislature, not
++  // the bodies/thresholds of its separate state-amendment proposal profile.
++  // The proposal arm retains its original profile guard and seat count.
++  const expectedSeats =
++    purpose === "ratification"
++      ? (actualSeats?.seats ?? null)
++      : (ruleBody?.members ?? null);
+   if (
+     !world.jurisdictions[jurisdictionId] ||
+     !pack ||
+-    !profile ||
+     !chamber ||
+-    !ruleBody
++    expectedSeats === null ||
++    (purpose === "proposal" && (!profile || !ruleBody)) ||
++    (purpose === "ratification" &&
++      !ARTICLE_V_STATE_KEYS.includes(pack.jurisdictionKey))
+   )
+     return null;
+   const seated = seatedChamberForPack(
+@@ -343,7 +359,7 @@ export function stateConstitutionalRoster(
+     binding && organizationProfileAt(world, binding.organizationId, cutoff);
+   if (
+     !seated ||
+-    seated.seats !== ruleBody.members ||
++    seated.seats !== expectedSeats ||
+     !binding ||
+     !organization ||
+     organization.sequence >= cutoff.historySequenceExclusive ||
+@@ -414,7 +430,12 @@ export function stateConstitutionalRoster(
+   return {
+     seated: body,
+     sourceRecordIds: [...new Set(sources)],
+-    profileBasis: profile.basis,
++    profileBasis:
++      purpose === "ratification"
++        ? actualSeats!.basis === "researched"
++          ? "sourced"
++          : "game-profile"
++        : profile!.basis,
+   };
+ }
+ 
+@@ -436,6 +457,7 @@ function constitutionalVoteContext(
+         world,
+         input.ratificationJurisdictionId,
+         input.bodyKey,
++        "ratification",
+       )
+     : null;
+   const body = ratification
+diff --git a/src/simulation/living-world/federal-reform.ts b/src/simulation/living-world/federal-reform.ts
+index 39d03355c..671dc471a 100644
+--- a/src/simulation/living-world/federal-reform.ts
++++ b/src/simulation/living-world/federal-reform.ts
+@@ -413,7 +413,12 @@ export function decideArticleVStateMemberVotes(
+     return null;
+   const rosters = pack.chambers.map((body) => ({
+     bodyKey: body.chamberKey,
+-    roster: stateConstitutionalRoster(world, jurisdictionId, body.chamberKey),
++    roster: stateConstitutionalRoster(
++      world,
++      jurisdictionId,
++      body.chamberKey,
++      "ratification",
++    ),
+   }));
+   if (!rosters.length || rosters.some(({ roster }) => roster === null))
+     return null;
+diff --git a/src/simulation/living-world/federal-term-limit-chamber-vote.test.ts b/src/simulation/living-world/federal-term-limit-chamber-vote.test.ts
+index cdcdacbd6..c671b3f0b 100644
+--- a/src/simulation/living-world/federal-term-limit-chamber-vote.test.ts
++++ b/src/simulation/living-world/federal-term-limit-chamber-vote.test.ts
+@@ -11,7 +11,10 @@ import {
+   searchLifePlaces,
+   stateJurisdictionForKey,
+ } from "../life-places";
+-import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
++import {
++  ensureStateLegislatureOpening,
++  prepareNationwideStateLegislatureOpeningChunks,
++} from "../nationwide-world/state-legislature-opening";
+ import { ensureNationalElectionJurisdiction } from "../national-election-geography";
+ import { createOrganizationParticipations } from "../life";
+ import { personName } from "../people";
+@@ -41,6 +44,15 @@ beforeAll(() => {
+   world = ensureNationalElectionJurisdiction(
+     smallWorld({ place: place.key, seed, offices: ["congress"] }).world,
+   );
++  if (world.control.kind !== "person")
++    throw Error("The fixture needs its actual controlled person.");
++  // Current main's small world deliberately opens only requested offices.
++  // Build the required state bodies through their ordinary saved producer.
++  for (const chunk of prepareNationwideStateLegislatureOpeningChunks(
++    world,
++    world.control.personId,
++  ))
++    world = chunk.world;
+   cause = {
+     direction: "extend",
+     holderPersonId: currentPresidentOf(world)!.personId,
+@@ -262,6 +274,7 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
+           voteWorld,
+           jurisdiction.id,
+           (input as chamber.ChamberConstitutionalVoteInput).bodyKey,
++          "ratification",
+         )!;
+         expect(input.members).toEqual(roster.seated.body.members);
+       }

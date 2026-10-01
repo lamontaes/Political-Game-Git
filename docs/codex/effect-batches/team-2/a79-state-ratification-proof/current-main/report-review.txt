@@ -1,0 +1,1 @@
+Authorized existing civic-report helper: handback PASS. PR body required moving historical load failure to final Method; exact sentence moved without changing claims.

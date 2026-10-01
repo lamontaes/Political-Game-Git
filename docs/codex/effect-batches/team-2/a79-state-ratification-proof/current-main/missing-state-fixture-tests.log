@@ -1,0 +1,94 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+A79 term-limit comparison {"seed":"A79-recorded-term-limit-chamber","state":"US-RI","place":"Ashaway, Rhode Island","direction":"extend","body":"house","voters":435,"changed":0,"example":"Eric Lawrence","before":"yea","after":"yea","measureId":"constitutional-measure_0907ffb0af89bc80"}
+A79 term-limit comparison {"seed":"A79-recorded-term-limit-chamber","state":"US-RI","place":"Ashaway, Rhode Island","direction":"extend","body":"senate","voters":100,"changed":0,"example":"Cassandra Reeves","before":"yea","after":"yea","measureId":"constitutional-measure_0907ffb0af89bc80"}
+A79 term-limit comparison {"seed":"A79-recorded-term-limit-chamber","state":"US-RI","place":"Ashaway, Rhode Island","direction":"restore","body":"house","voters":435,"changed":0,"example":"Eric Lawrence","before":"nay","after":"nay","measureId":"constitutional-measure_0907ffb0af89bc80"}
+A79 term-limit comparison {"seed":"A79-recorded-term-limit-chamber","state":"US-RI","place":"Ashaway, Rhode Island","direction":"restore","body":"senate","voters":100,"changed":0,"example":"Cassandra Reeves","before":"nay","after":"nay","measureId":"constitutional-measure_0907ffb0af89bc80"}
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > preserves old non-neutral extend ballots for the same actual members 54ms
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > preserves old non-neutral restore ballots for the same actual members 36ms
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > retains the real rejection rollcall and its IDs across repeat and Save/Continue 302ms
+A79 state ratification member comparison {"seed":"A79-recorded-term-limit-chamber","startingPlace":"Ashaway, Rhode Island","ratifyingState":"US-NE","body":"legislature","compared":49,"changed":0,"example":"Jessica Shields","ballot":"nay","reason":"member:other-party","measureId":"constitutional-measure_0907ffb0af89bc80","stateApproval":"NOT DERIVED: sourced ratification rules missing"}
+A79 all starting jurisdictions member comparison {"seed":"A79-recorded-term-limit-chamber","statesWithActualBallots":1,"ineligiblePlaces":6,"comparedStateMembers":49,"unsupportedStateBodies":["US-AL","US-AK","US-AZ","US-AR","US-CA","US-CO","US-CT","US-DE","US-FL","US-GA","US-HI","US-ID","US-IL","US-IN","US-IA","US-KS","US-KY","US-LA","US-ME","US-MD","US-MA","US-MI","US-MN","US-MS","US-MO","US-MT","US-NV","US-NH","US-NJ","US-NM","US-NY","US-NC","US-ND","US-OH","US-OK","US-OR","US-PA","US-RI","US-SC","US-SD","US-TN","US-TX","US-UT","US-VT","US-VA","US-WA","US-WV","US-WI","US-WY"],"changed":0,"stateApprovalsDerived":0}
+ × src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > records both successful chambers before scheduling the existing state actions 971ms
+   → expected [ 'US-AL', 'US-AK', 'US-AZ', …(46) ] to deeply equal []
+ ✓ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > preserves a controlled member's absence and never votes for the player 21ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/living-world/federal-term-limit-chamber-vote.test.ts > A79 recorded presidential term-limit proposal uses the shared chamber > records both successful chambers before scheduling the existing state actions
+AssertionError: expected [ 'US-AL', 'US-AK', 'US-AZ', …(46) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "US-AL",
++   "US-AK",
++   "US-AZ",
++   "US-AR",
++   "US-CA",
++   "US-CO",
++   "US-CT",
++   "US-DE",
++   "US-FL",
++   "US-GA",
++   "US-HI",
++   "US-ID",
++   "US-IL",
++   "US-IN",
++   "US-IA",
++   "US-KS",
++   "US-KY",
++   "US-LA",
++   "US-ME",
++   "US-MD",
++   "US-MA",
++   "US-MI",
++   "US-MN",
++   "US-MS",
++   "US-MO",
++   "US-MT",
++   "US-NV",
++   "US-NH",
++   "US-NJ",
++   "US-NM",
++   "US-NY",
++   "US-NC",
++   "US-ND",
++   "US-OH",
++   "US-OK",
++   "US-OR",
++   "US-PA",
++   "US-RI",
++   "US-SC",
++   "US-SD",
++   "US-TN",
++   "US-TX",
++   "US-UT",
++   "US-VT",
++   "US-VA",
++   "US-WA",
++   "US-WV",
++   "US-WI",
++   "US-WY",
++ ]
+
+ ❯ src/simulation/living-world/federal-term-limit-chamber-vote.test.ts:416:36
+    414|       }),
+    415|     );
+    416|     expect(unsupportedStateBodies).toEqual([]);
+       |                                    ^
+    417|     expect(statesWithActualBallots).toBe(50);
+    418|     expect(ineligiblePlaces).toBe(6);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  19:48:55
+   Duration  15.42s (transform 10.45s, setup 24ms, import 12.93s, tests 2.34s, environment 0ms)
+
