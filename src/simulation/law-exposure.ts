@@ -1,4 +1,7 @@
 import { addDays } from "./dates";
+import { lawInForce } from "./governing/law-in-force";
+import { stateJurisdictionForKey } from "./life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { createStableId } from "./ids";
 import { activePartnershipsAt } from "./life-queries";
 import { scheduleFutureDueItem } from "./future-transitions";
@@ -46,8 +49,8 @@ const DAYS_PER_MONTH = 365.25 / 12;
 
 /**
  * Records that a law reached a person, and their partners. Idempotent on the
- * stable key, so a replayed transition writes nothing twice. A measure that is
- * not enacted law, or a person who does not exist, is refused.
+ * stable key, so a replayed transition writes nothing twice. A law without an
+ * enactment or an operative starting-law identity, or a missing person, is refused.
  */
 export function recordLawExposure(
   world: World,
@@ -55,8 +58,8 @@ export function recordLawExposure(
 ): World {
   if (!world.people[input.personId])
     throw new Error("A law exposure needs a person in the world.");
-  if (!enactedBy(world, input.measureId, world.currentDate))
-    throw new Error("Only an enacted law can reach a person.");
+  if (!recordedLawAt(world, input.measureId, world.currentDate))
+    throw new Error("Only a recorded law in force can reach a person.");
   if ((input.amount === null) !== (input.cadence === null))
     throw new Error("A law exposure's amount and cadence go together.");
   if (input.amount !== null && input.amount.minorUnits < 0)
@@ -233,7 +236,32 @@ export function monthlyPay(
   };
 }
 
-function enactedBy(world: World, measureId: EntityId, at: IsoDate): boolean {
+/** Resolve starting identities through the same legal reader as their producers.
+ * A prefix alone is never evidence that a starting law exists or is operative.
+ * Use the law's jurisdiction, not the hearer's home: family exposure may cross
+ * a state boundary without changing which law affected the original person.
+ */
+function recordedLawAt(
+  world: World,
+  measureId: EntityId,
+  at: IsoDate,
+): boolean {
+  if (measureId.startsWith("starting-law:")) {
+    const identity = /^starting-law:([^:]+):(.+)$/.exec(measureId);
+    if (!identity) return false;
+    const [, placeKey, questionKey] = identity;
+    const jurisdiction =
+      placeKey === "US"
+        ? NATIONAL_ELECTION_JURISDICTION
+        : stateJurisdictionForKey(placeKey!);
+    if (!jurisdiction) return false;
+    const question = Object.values(
+      world.policyCatalog?.propositions ?? {},
+    ).find((row) => row.stableKey === questionKey);
+    if (!question) return false;
+    const law = lawInForce(world, jurisdiction.id, question.id, at);
+    return law?.origin === "in-force-at-start" && law.measureId === measureId;
+  }
   return (world.history.legislativeEnactments ?? []).some(
     (row) =>
       row.measureId === measureId &&
@@ -268,7 +296,7 @@ function append(
 }
 
 /**
- * Saved exposures must reconcile: a real person, an enacted law resolved on or
+ * Saved exposures must reconcile: a real person, a recorded law in force on or
  * before the exposure, a source record that came first, and a family row that
  * names whose effect it was.
  */
@@ -290,8 +318,8 @@ export function assertLawExposureIntegrity(
     lastSequence = row.sequence;
     if (!world.people[row.personId])
       throw new Error("A law exposure names a person not in the world.");
-    if (!enactedBy(world, row.measureId, row.recordedAt))
-      throw new Error("A law exposure names a law not enacted by then.");
+    if (!recordedLawAt(world, row.measureId, row.recordedAt))
+      throw new Error("A law exposure names a law not recorded by then.");
     if (!ids.has(row.sourceRecordId))
       throw new Error("A law exposure's source record is missing.");
     if ((row.relation !== "own") !== (row.viaPersonId !== null))
