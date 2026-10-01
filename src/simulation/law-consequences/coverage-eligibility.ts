@@ -76,6 +76,7 @@ export function resolveCoverageEligibility(
   if (row.when !== context.activity || context.onDate > world.currentDate)
     return [];
   const questionKey = questionFor(row);
+  if (context.questionKey && context.questionKey !== questionKey) return [];
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
   ).find((entry) => entry.stableKey === questionKey);
@@ -212,3 +213,39 @@ export const COVERAGE_ELIGIBILITY_REGISTRATION: LawConsequenceKindRegistration =
     resolve: resolveCoverageEligibility,
     apply: applyCoverageEligibility,
   };
+
+/** Existing coverage bindings; the catalog owner admits these same rows. */
+export const COVERAGE_ELIGIBILITY_ROWS: Readonly<
+  Record<string, LawConsequenceRow>
+> = Object.fromEntries(
+  Object.entries(SELECTORS).map(([selector, questionKey]) => [
+    questionKey,
+    {
+      id: `coverage-eligibility:${selector}`,
+      kind: "coverage-eligibility",
+      when: "renewal",
+      who: {
+        selector,
+        predicates: [{ capability: PREDICATE, parameters: {} }],
+      },
+      what: ACTION,
+      decision: { op: "record", key: DECISION, type: "boolean" },
+      conditions: [],
+      lag: { days: 0, sourceIds: ["existing-monthly-coverage-review"] },
+      onRepeal: "recompute-prospective",
+      evidence: {
+        sourceIds: [
+          "data/research/money/public-programs-2026.json#federal.medicaid",
+          `data/research/laws/starting-law-2026.json#questions.${questionKey}`,
+        ],
+        population:
+          "Recorded adult household members reviewed by the existing coverage writer.",
+        scope:
+          "Actual governing law and recorded household, pay, work and exemption facts.",
+        why: "The governing eligibility rule applies to the person's recorded circumstances.",
+        uncertainty:
+          "Reuses the existing modeled eligibility and exemptions; missing facts are undecided and never cause loss.",
+      },
+    } satisfies LawConsequenceRow,
+  ]),
+);

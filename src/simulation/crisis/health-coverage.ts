@@ -199,11 +199,25 @@ const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
   monthly: 12,
 };
 
+// Coverage writes only crisis history. Reuse the pay index while its
+// immutable source arrays and review date remain unchanged.
+const MONTHLY_PAY_CACHE = new WeakMap<
+  World["history"]["resourceFlowTerms"],
+  {
+    flows: World["history"]["resourceFlows"];
+    onDate: IsoDate;
+    pay: ReadonlyMap<EntityId, number>;
+  }
+>();
+
 /** Each person's recorded pay a month on a date, in cents, from pay terms. */
 function monthlyPayByPerson(
   world: World,
   onDate: IsoDate,
 ): ReadonlyMap<EntityId, number> {
+  const cached = MONTHLY_PAY_CACHE.get(world.history.resourceFlowTerms);
+  if (cached?.flows === world.history.resourceFlows && cached.onDate === onDate)
+    return cached.pay;
   const recipients = new Map<EntityId, EntityId>();
   for (const flow of world.history.resourceFlows)
     // Wages, salaries and an owner's draw from their own business.
@@ -231,6 +245,11 @@ function monthlyPayByPerson(
       (byPerson.get(personId) ?? 0) + (row.amount.minorUnits * perYear) / 12,
     );
   }
+  MONTHLY_PAY_CACHE.set(world.history.resourceFlowTerms, {
+    flows: world.history.resourceFlows,
+    onDate,
+    pay: byPerson,
+  });
   return byPerson;
 }
 
