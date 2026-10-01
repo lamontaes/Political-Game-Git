@@ -1,0 +1,68 @@
+[
+  {
+    "seed": "minority-member-filing",
+    "mode": "strong",
+    "personId": "person_dd3e25534e81d267",
+    "personName": "Cassandra Dunn",
+    "partyKey": "republican",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_2f93c7c7e3ddfb43",
+        "designation": "H.R. 43",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ee54530967e5e26a",
+            "answer": "yes"
+          }
+        ],
+        "score": 4.6,
+        "principleRecordIds": [
+          "principle_9f043190417e66fc",
+          "principle_09169054cd9b1729",
+          "principle_64487cbd98d118d0",
+          "principle_92eb6cfbe93fff26",
+          "principle_3cb65e20ff3133a7"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  },
+  {
+    "seed": "minority-member-filing",
+    "mode": "below-old-threshold",
+    "personId": "person_dd3e25534e81d267",
+    "personName": "Cassandra Dunn",
+    "partyKey": "republican",
+    "minority": true,
+    "filingThreshold": 1.575,
+    "bills": [
+      {
+        "id": "legislative-measure_2f93c7c7e3ddfb43",
+        "designation": "H.R. 43",
+        "introducedAt": "2026-02-01",
+        "answers": [
+          {
+            "propositionId": "proposition_ee54530967e5e26a",
+            "answer": "yes"
+          }
+        ],
+        "score": 2.2875,
+        "principleRecordIds": [
+          "principle_c2829362083d4daa",
+          "principle_add5772732c0d58f",
+          "principle_5c519498a99e162e",
+          "principle_76a8bed162bfc328",
+          "principle_f6fa47155150be95"
+        ]
+      }
+    ],
+    "repeatAndCanonicalReload": true,
+    "pendingQuestionCapPreserved": true,
+    "limits": "Controlled saved convictions in a real seated minority member; not natural formation, session throughput, passage or delivered effects."
+  }
+]

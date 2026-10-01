@@ -1,0 +1,134 @@
+{
+  "runtimeHead": "d459fd43af20bf763bdd7a3191cbfb336eb4e3b0",
+  "mainBase": "c5730faf39de4e923af28e0ebff41ca99950dec2",
+  "ownedDelta": "58bd755b9",
+  "testCases": 7,
+  "passed": 7,
+  "seconds": 23.43,
+  "strictRoots": 4,
+  "scopedTypes": 0,
+  "importedTypes": 0,
+  "lint": "PASS",
+  "format": "PASS",
+  "diff": "PASS",
+  "release": "Inherited main CI declaration contains merge bookkeeping; same blob verified",
+  "zeroDice": {
+    "new": 0,
+    "inheritedStale": 5
+  },
+  "sourcedChamberCaps": "NOT IMPLEMENTED; exact session/count/exemption contract asked Audit",
+  "actualCloudYearFilings": "NOT RUN",
+  "notRun": [
+    "cloud one-year behavior",
+    "full56 coverage",
+    "browser",
+    "speed",
+    "whole suite"
+  ],
+  "logs": [
+    {
+      "original": "/tmp/team1-distinct-filing-before.log",
+      "originalSha256": "5fd543b47cab73ec53c9775c97bb3819a8d9a9dbcf80691dde0ec9c72fafaf2a",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/before.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-after.log",
+      "originalSha256": "01e006ddd6124fe41aea4c7a791f972cfeec2ae7565b51ecf7593f975803189f",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/first-federal.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-fiveplaces.log",
+      "originalSha256": "7cbbc446602ff2bc676bf6f6cc5822e71113369075799ac200b4f3db59195dd4",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/wrong-import.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-fiveplaces-corrected.log",
+      "originalSha256": "7fc8eb29a66086692ec84eceb7d17e67f2145c254597565e22a4294430090ca9",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/out-of-session.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-sessionyear.log",
+      "originalSha256": "4968e851d4920216710870edb0e88f1c3493f087e4abec22501c9eafed30fdc2",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/base-pack-date.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-final.log",
+      "originalSha256": "290386a2859222d6f160985756923e83f97fa821446d24b6fafb08e36c75fb7c",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/base-pack-date-corrected.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-fresh-fixture.log",
+      "originalSha256": "a1f9fefadff2975334ae211bb19e51e323ed028589efff62a00722d933341d1a",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/fresh-fixture.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-current-main.log",
+      "originalSha256": "6af078477455ec27e8badd70fcdf990769b315b462f8021ef23cdfbe9d971d6f",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/current-main.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-current-main-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/types.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-final-lint.log",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/lint.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-final-format.log",
+      "originalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/format.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-release.log",
+      "originalSha256": "f4fdf9fba79869cc286856c0651f7f3054e6bfad840ca2e6c0bd3609b032f870",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/release.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-zero-dice.log",
+      "originalSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/zero-dice.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-report.log",
+      "originalSha256": "1add2fdd374fa8c555d19961ad905b011b0c7cc4665f352cc55abe454a0bdc9e",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/report.log",
+      "normalization": "Trailing blank lines only; original retained."
+    },
+    {
+      "original": "/tmp/team1-distinct-filing-spelling.log",
+      "originalSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "published": "docs/codex/effect-batches/team-1/distinct-member-filing-proof/spelling.log",
+      "normalization": "Trailing blank lines only; original retained."
+    }
+  ],
+  "inheritedReleaseFile": {
+    "path": "docs/release/changes/ci-changed-tests-only.md",
+    "blob": "d6c9921a82b800d9c0b27d0a9da55c2feb676ff8"
+  },
+  "sourceSha256": {
+    "src/simulation/governing/member-agenda.ts": "592d8572bb1bc9382cfe9e159021cce785aa844afdd3af702792170d3434fcb9",
+    "src/simulation/governing/member-agenda-settings.ts": "80433afa4d5575407203345ed9aedf67ae7e7282f2333bf0b70c755ec63f45b8",
+    "src/simulation/governing/member-agenda-individual.test.ts": "35dc3c77bebf4a43e782528811c1438e0b1effcd65dabf3fb9036afc4ed964ce"
+  },
+  "spelling": {
+    "inheritedFindings": 24,
+    "new": 0,
+    "verification": "Same finding words verified in each exact main file."
+  }
+}

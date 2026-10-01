@@ -1,0 +1,6 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- node --import tsx scripts/world-report/filing-score-distribution.ts --save test-results/member-filing/after-a522ed5be.world.json --out /tmp/team1-filing-score-distribution.json --head e8ab37c61d95dc644e2263e1c27ef13c043b2238
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+{"asOf":"2028-01-05","bodies":51,"seatedMembers":7780,"target":7,"selected":{"threshold":1.575,"eligiblePairs":59969,"error":5509},"output":"/tmp/team1-filing-score-distribution.json"}

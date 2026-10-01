@@ -31,6 +31,7 @@ import {
   type LegislativeRulePack,
 } from "../legislature-rules";
 import { nextMeasureNumbering } from "../measure-numbering";
+import { memberFilingCap } from "./member-filing-caps";
 import {
   legislativeProcedureForPack,
   legislativeRulePackForWorld,
@@ -349,10 +350,9 @@ function alreadyFiledForIntake(world: World, batchKey: string): boolean {
 }
 
 /**
- * At one real legislative intake, each majority member brings their best open
- * proposal. Each chamber takes the strongest proposal backed by more than
- * half that caucus and by a chamber majority; this does not promise a bill or
- * enactment in each jurisdiction or season.
+ * At one real intake, seated members bring supported open questions under
+ * their existing level settings. Canonical pending-question and sourced member
+ * limits guard admission; filing does not promise passage or enactment.
  */
 export function fileMemberAgendaBills(
   world: World,
@@ -583,12 +583,17 @@ export function fileMemberAgendaBills(
         )
           return [];
         let best: Proposal | null = null;
-        const councilProposals: Proposal[] = [];
+        const supportedProposals: Proposal[] = [];
         for (const propositionId of questions) {
           if (!questionOpen(propositionId)) continue;
           const leaning = leaningFor(sponsor.personId!, propositionId);
           if (Math.abs(leaning.score) < settings.filingThreshold) continue;
-          if (!input.council && best && Math.abs(leaning.score) <= best.weight)
+          if (
+            !input.council &&
+            !settings.multipleProposals &&
+            best &&
+            Math.abs(leaning.score) <= best.weight
+          )
             continue;
           if (!laws.has(propositionId))
             laws.set(
@@ -741,32 +746,26 @@ export function fileMemberAgendaBills(
             issueKey,
             subjectClass,
           };
-          if (input.council) councilProposals.push(best);
+          if (input.council || settings.multipleProposals)
+            supportedProposals.push(best);
         }
-        return (input.council ? councilProposals : best ? [best] : []).map(
-          (proposal) => ({ sponsor, proposal, pressure: proposal.weight }),
-        );
+        return (
+          input.council || settings.multipleProposals
+            ? supportedProposals
+            : best
+              ? [best]
+              : []
+        ).map((proposal) => ({ sponsor, proposal, pressure: proposal.weight }));
       },
     );
     const claimedMembers = new Set<EntityId>();
     const claimedQuestions = new Set<EntityId>();
     const selections = settings.individualAgenda
-      ? [...proposals]
-          .sort(
-            (a, b) =>
-              b.pressure - a.pressure ||
-              members.indexOf(a.sponsor) - members.indexOf(b.sponsor),
-          )
-          .filter(({ sponsor, proposal }) => {
-            if (
-              claimedMembers.has(sponsor.personId!) ||
-              claimedQuestions.has(proposal.propositionId)
-            )
-              return false;
-            claimedMembers.add(sponsor.personId!);
-            claimedQuestions.add(proposal.propositionId);
-            return true;
-          })
+      ? [...proposals].sort(
+          (a, b) =>
+            b.pressure - a.pressure ||
+            members.indexOf(a.sponsor) - members.indexOf(b.sponsor),
+        )
       : (() => {
           const selected = majorityAgendaChoice(
             members,
@@ -786,11 +785,19 @@ export function fileMemberAgendaBills(
     for (const selected of selections) {
       const sponsor = selected.sponsor;
       const best = selected.proposal;
+      if (
+        (!settings.multipleProposals &&
+          claimedMembers.has(sponsor.personId!)) ||
+        claimedQuestions.has(best.propositionId)
+      )
+        continue;
+      // Earlier chambers can have filed this question during the same intake.
+      if (!questionOpen(best.propositionId)) continue;
       const proposition = next.policyCatalog.propositions[best.propositionId]!;
       let stableKey = settings.municipalAgenda
         ? `${batchKey}:${sponsor.personId}:${encodeURIComponent(proposition.stableKey)}`
         : settings.actTitles
-          ? `${settings.intakeVersion}:${best.issueKey}${intakeSuffix}`
+          ? `${settings.intakeVersion}:${best.issueKey}${settings.multipleProposals ? ":" + encodeURIComponent(proposition.stableKey) : ""}${intakeSuffix}`
           : (next.history.legislativeMeasures ?? []).some(
                 (m) => m.stableKey === batchKey,
               )
@@ -804,6 +811,7 @@ export function fileMemberAgendaBills(
         rulePackId: pack.packId,
       });
       if (input.council) stableKey = input.council.measureKey(numbering);
+      const beforeIntroduction = next;
       if (!input.council && input.localGovernmentKey)
         next = withLocalSponsorControl(next, sponsor.personId!);
       let measureId: EntityId | null = null;
@@ -863,6 +871,62 @@ export function fileMemberAgendaBills(
       const measure = next.history.legislativeMeasures!.find(
         (row) => row.id === measureId,
       )!;
+      // Inspect the actual compiled subject, then admit the pure writer result.
+      // A rejected candidate has no saved bill, terms, control or reason side effects.
+      const cap = memberFilingCap(
+        beforeIntroduction.history.legislativeMeasures ?? [],
+        {
+          place: pack.jurisdictionKey,
+          jurisdictionId: input.jurisdictionId,
+          chamberKey: chamber.chamberKey,
+          sponsorPersonId: sponsor.personId!,
+          subjectClass: measure.subjectClass,
+          origin: measure.origin,
+          introducedAt: measure.introducedAt,
+          numberingSession: numbering.numberingSession,
+        },
+      );
+      if (!cap.allowed) {
+        next = beforeIntroduction;
+        continue;
+      }
+      if (cap.notAppliedLimits?.length) {
+        const explanationKey = `${batchKey}:limit-not-applied:${sponsor.personId}:${chamber.chamberKey}`;
+        if (
+          !next.history.events.some(
+            (event) => event.stableKey === explanationKey,
+          )
+        )
+          next = recordWorldEvent(next, {
+            stableKey: explanationKey,
+            type: "legislation.member-filing-limit-not-applied",
+            occurredAt: next.currentDate,
+            recordedAt: next.currentDate,
+            jurisdictionId: input.jurisdictionId,
+            involvedEntityIds: [measure.id, sponsor.personId!],
+            participants: [
+              {
+                personId: sponsor.personId!,
+                role: "agency:sponsor",
+                detail: "limit not applied: exemption unread",
+              },
+            ],
+            personFactConstraints: [],
+            visibility: "public",
+            tags: [
+              settings.intakeVersion,
+              "limit-not-applied:exemption-unread",
+              ...cap.notAppliedLimits.map((row) => `citation:${row.citation}`),
+            ],
+            summary: "limit not applied: exemption unread",
+            context: {
+              ...agendaEventContext(),
+              choice: cap.notAppliedLimits.map((row) => row.quote).join("\n"),
+            },
+          });
+      }
+      claimedMembers.add(sponsor.personId!);
+      claimedQuestions.add(best.propositionId);
       next = recordAgendaSupport(
         next,
         measure,

@@ -1,0 +1,895 @@
+{
+  "sourceHead": "e8ab37c61d95dc644e2263e1c27ef13c043b2238",
+  "save": "test-results/member-filing/after-a522ed5be.world.json",
+  "saveSha256": "3371b20fdc1baac3a887976776ee655c63aa9d556a181d288c29bd6753cc3c4d",
+  "seed": "setup-v3:11e20ccd2321f23c:{\"v\":3,\"seed\":\"team1-member-filing-20261001\",\"placeKey\":\"4434660\",\"startAge\":35,\"depth\":\"summarize-earlier-life\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+  "asOf": "2028-01-05",
+  "method": "Closest inclusive empirical positive-score cutoff to seven member-question opportunities per seated member. Higher cutoff wins an equal-error tie. Opportunity counts are NOT filed bills; actual pending-question, best-one/member/intake, current-law, compiler and session guards remain outside this static measurement.",
+  "targetOpportunitiesPerMember": 7,
+  "seatedMembers": 7780,
+  "selected": {
+    "threshold": 1.575,
+    "eligiblePairs": 59969,
+    "error": 5509
+  },
+  "actualFilingCounts": "NOT RUN; no time advanced or filer invoked",
+  "distribution": [
+    {
+      "absoluteScore": 3.3968749999999996,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 3.3937500000000003,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 3.1343750000000004,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 2.7593750000000004,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 2.7125000000000004,
+      "pairCount": 68
+    },
+    {
+      "absoluteScore": 2.69375,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 2.45,
+      "pairCount": 2534
+    },
+    {
+      "absoluteScore": 2.196875,
+      "pairCount": 2162
+    },
+    {
+      "absoluteScore": 2.1875,
+      "pairCount": 127
+    },
+    {
+      "absoluteScore": 2.0812500000000003,
+      "pairCount": 7567
+    },
+    {
+      "absoluteScore": 1.965625,
+      "pairCount": 6486
+    },
+    {
+      "absoluteScore": 1.85,
+      "pairCount": 2162
+    },
+    {
+      "absoluteScore": 1.734375,
+      "pairCount": 2162
+    },
+    {
+      "absoluteScore": 1.6624999999999999,
+      "pairCount": 6670
+    },
+    {
+      "absoluteScore": 1.61875,
+      "pairCount": 2162
+    },
+    {
+      "absoluteScore": 1.575,
+      "pairCount": 22464
+    },
+    {
+      "absoluteScore": 1.503125,
+      "pairCount": 3243
+    },
+    {
+      "absoluteScore": 1.4875,
+      "pairCount": 20940
+    },
+    {
+      "absoluteScore": 1.4000000000000001,
+      "pairCount": 8572
+    },
+    {
+      "absoluteScore": 1.3875,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 1.3125,
+      "pairCount": 17563
+    },
+    {
+      "absoluteScore": 1.271875,
+      "pairCount": 4324
+    },
+    {
+      "absoluteScore": 1.2249999999999999,
+      "pairCount": 12050
+    },
+    {
+      "absoluteScore": 1.1375,
+      "pairCount": 12109
+    },
+    {
+      "absoluteScore": 1.05,
+      "pairCount": 12678
+    },
+    {
+      "absoluteScore": 0.9625000000000001,
+      "pairCount": 17503
+    },
+    {
+      "absoluteScore": 0.925,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 0.875,
+      "pairCount": 2534
+    },
+    {
+      "absoluteScore": 0.809375,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 0.7875,
+      "pairCount": 2915
+    },
+    {
+      "absoluteScore": 0.7000000000000001,
+      "pairCount": 4568
+    },
+    {
+      "absoluteScore": 0.6124999999999999,
+      "pairCount": 4754
+    },
+    {
+      "absoluteScore": 0.5687499999999999,
+      "pairCount": 1081
+    },
+    {
+      "absoluteScore": 0.3500000000000001,
+      "pairCount": 1267
+    },
+    {
+      "absoluteScore": 0.2625000000000002,
+      "pairCount": 1267
+    }
+  ],
+  "rows": [
+    {
+      "place": "AL",
+      "packId": "us-al-legislature-profile-v1",
+      "seatedMembers": 139,
+      "questionCount": 68,
+      "measuredPairs": 9452,
+      "positivePairs": 3394,
+      "pairsClearingOldThreshold": 48,
+      "pairsClearingDerivedThreshold": 794,
+      "opportunitiesPerMember": 5.712230215827338,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "AK",
+      "packId": "us-ak-legislature-v1",
+      "seatedMembers": 57,
+      "questionCount": 68,
+      "measuredPairs": 3876,
+      "positivePairs": 1360,
+      "pairsClearingOldThreshold": 33,
+      "pairsClearingDerivedThreshold": 462,
+      "opportunitiesPerMember": 8.105263157894736,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "AZ",
+      "packId": "us-az-legislature-profile-v1",
+      "seatedMembers": 86,
+      "questionCount": 68,
+      "measuredPairs": 5848,
+      "positivePairs": 2603,
+      "pairsClearingOldThreshold": 39,
+      "pairsClearingDerivedThreshold": 810,
+      "opportunitiesPerMember": 9.418604651162791,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "AR",
+      "packId": "us-ar-legislature-profile-v1",
+      "seatedMembers": 128,
+      "questionCount": 68,
+      "measuredPairs": 8704,
+      "positivePairs": 2402,
+      "pairsClearingOldThreshold": 30,
+      "pairsClearingDerivedThreshold": 521,
+      "opportunitiesPerMember": 4.0703125,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "CA",
+      "packId": "us-ca-legislature-profile-v1",
+      "seatedMembers": 117,
+      "questionCount": 68,
+      "measuredPairs": 7956,
+      "positivePairs": 3991,
+      "pairsClearingOldThreshold": 78,
+      "pairsClearingDerivedThreshold": 1515,
+      "opportunitiesPerMember": 12.948717948717949,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "CO",
+      "packId": "us-co-legislature-profile-v1",
+      "seatedMembers": 97,
+      "questionCount": 68,
+      "measuredPairs": 6596,
+      "positivePairs": 3001,
+      "pairsClearingOldThreshold": 66,
+      "pairsClearingDerivedThreshold": 1157,
+      "opportunitiesPerMember": 11.927835051546392,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "CT",
+      "packId": "us-ct-legislature-profile-v1",
+      "seatedMembers": 182,
+      "questionCount": 68,
+      "measuredPairs": 12376,
+      "positivePairs": 6036,
+      "pairsClearingOldThreshold": 120,
+      "pairsClearingDerivedThreshold": 2143,
+      "opportunitiesPerMember": 11.774725274725276,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "DE",
+      "packId": "us-de-legislature-profile-v1",
+      "seatedMembers": 61,
+      "questionCount": 68,
+      "measuredPairs": 4148,
+      "positivePairs": 1933,
+      "pairsClearingOldThreshold": 48,
+      "pairsClearingDerivedThreshold": 776,
+      "opportunitiesPerMember": 12.721311475409836,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "FL",
+      "packId": "us-fl-legislature-profile-v1",
+      "seatedMembers": 157,
+      "questionCount": 68,
+      "measuredPairs": 10676,
+      "positivePairs": 3466,
+      "pairsClearingOldThreshold": 42,
+      "pairsClearingDerivedThreshold": 901,
+      "opportunitiesPerMember": 5.738853503184713,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "GA",
+      "packId": "us-ga-legislature-profile-v1",
+      "seatedMembers": 234,
+      "questionCount": 68,
+      "measuredPairs": 15912,
+      "positivePairs": 5699,
+      "pairsClearingOldThreshold": 84,
+      "pairsClearingDerivedThreshold": 1713,
+      "opportunitiesPerMember": 7.32051282051282,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "HI",
+      "packId": "us-hi-legislature-profile-v1",
+      "seatedMembers": 75,
+      "questionCount": 68,
+      "measuredPairs": 5100,
+      "positivePairs": 2910,
+      "pairsClearingOldThreshold": 66,
+      "pairsClearingDerivedThreshold": 1194,
+      "opportunitiesPerMember": 15.92,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "ID",
+      "packId": "us-id-legislature-profile-v1",
+      "seatedMembers": 102,
+      "questionCount": 68,
+      "measuredPairs": 6936,
+      "positivePairs": 1993,
+      "pairsClearingOldThreshold": 9,
+      "pairsClearingDerivedThreshold": 320,
+      "opportunitiesPerMember": 3.1372549019607843,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "IL",
+      "packId": "us-il-general-assembly-v1",
+      "seatedMembers": 174,
+      "questionCount": 68,
+      "measuredPairs": 11832,
+      "positivePairs": 5239,
+      "pairsClearingOldThreshold": 153,
+      "pairsClearingDerivedThreshold": 2284,
+      "opportunitiesPerMember": 13.126436781609195,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "IN",
+      "packId": "us-in-legislature-profile-v1",
+      "seatedMembers": 146,
+      "questionCount": 68,
+      "measuredPairs": 9928,
+      "positivePairs": 3432,
+      "pairsClearingOldThreshold": 36,
+      "pairsClearingDerivedThreshold": 795,
+      "opportunitiesPerMember": 5.445205479452055,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "IA",
+      "packId": "us-ia-legislature-profile-v1",
+      "seatedMembers": 146,
+      "questionCount": 68,
+      "measuredPairs": 9928,
+      "positivePairs": 3524,
+      "pairsClearingOldThreshold": 51,
+      "pairsClearingDerivedThreshold": 966,
+      "opportunitiesPerMember": 6.616438356164384,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "KS",
+      "packId": "us-ks-legislature-profile-v1",
+      "seatedMembers": 162,
+      "questionCount": 68,
+      "measuredPairs": 11016,
+      "positivePairs": 3977,
+      "pairsClearingOldThreshold": 48,
+      "pairsClearingDerivedThreshold": 978,
+      "opportunitiesPerMember": 6.037037037037037,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "KY",
+      "packId": "us-ky-general-assembly-v1",
+      "seatedMembers": 136,
+      "questionCount": 68,
+      "measuredPairs": 9248,
+      "positivePairs": 2555,
+      "pairsClearingOldThreshold": 24,
+      "pairsClearingDerivedThreshold": 556,
+      "opportunitiesPerMember": 4.088235294117647,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "LA",
+      "packId": "us-la-legislature-profile-v1",
+      "seatedMembers": 143,
+      "questionCount": 68,
+      "measuredPairs": 9724,
+      "positivePairs": 1508,
+      "pairsClearingOldThreshold": 33,
+      "pairsClearingDerivedThreshold": 506,
+      "opportunitiesPerMember": 3.5384615384615383,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "ME",
+      "packId": "us-me-legislature-profile-v1",
+      "seatedMembers": 181,
+      "questionCount": 68,
+      "measuredPairs": 12308,
+      "positivePairs": 5633,
+      "pairsClearingOldThreshold": 129,
+      "pairsClearingDerivedThreshold": 2135,
+      "opportunitiesPerMember": 11.795580110497237,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "MD",
+      "packId": "us-md-general-assembly-v1",
+      "seatedMembers": 187,
+      "questionCount": 68,
+      "measuredPairs": 12716,
+      "positivePairs": 6617,
+      "pairsClearingOldThreshold": 165,
+      "pairsClearingDerivedThreshold": 2736,
+      "opportunitiesPerMember": 14.631016042780749,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "MA",
+      "packId": "us-ma-legislature-profile-v1",
+      "seatedMembers": 199,
+      "questionCount": 68,
+      "measuredPairs": 13532,
+      "positivePairs": 7078,
+      "pairsClearingOldThreshold": 180,
+      "pairsClearingDerivedThreshold": 2974,
+      "opportunitiesPerMember": 14.944723618090451,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "MI",
+      "packId": "us-mi-legislature-profile-v1",
+      "seatedMembers": 147,
+      "questionCount": 68,
+      "measuredPairs": 9996,
+      "positivePairs": 4267,
+      "pairsClearingOldThreshold": 63,
+      "pairsClearingDerivedThreshold": 1368,
+      "opportunitiesPerMember": 9.306122448979592,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "MN",
+      "packId": "us-mn-legislature-v1",
+      "seatedMembers": 200,
+      "questionCount": 68,
+      "measuredPairs": 13600,
+      "positivePairs": 4932,
+      "pairsClearingOldThreshold": 114,
+      "pairsClearingDerivedThreshold": 1847,
+      "opportunitiesPerMember": 9.235,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "MS",
+      "packId": "us-ms-legislature-profile-v1",
+      "seatedMembers": 173,
+      "questionCount": 68,
+      "measuredPairs": 11764,
+      "positivePairs": 3404,
+      "pairsClearingOldThreshold": 39,
+      "pairsClearingDerivedThreshold": 888,
+      "opportunitiesPerMember": 5.132947976878612,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "MO",
+      "packId": "us-mo-general-assembly-v1",
+      "seatedMembers": 192,
+      "questionCount": 68,
+      "measuredPairs": 13056,
+      "positivePairs": 4603,
+      "pairsClearingOldThreshold": 75,
+      "pairsClearingDerivedThreshold": 1254,
+      "opportunitiesPerMember": 6.53125,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "MT",
+      "packId": "us-mt-legislature-profile-v1",
+      "seatedMembers": 145,
+      "questionCount": 68,
+      "measuredPairs": 9860,
+      "positivePairs": 3169,
+      "pairsClearingOldThreshold": 45,
+      "pairsClearingDerivedThreshold": 882,
+      "opportunitiesPerMember": 6.082758620689655,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "NE",
+      "packId": "us-ne-legislature-v1",
+      "seatedMembers": 49,
+      "questionCount": 68,
+      "measuredPairs": 3332,
+      "positivePairs": 855,
+      "pairsClearingOldThreshold": 3,
+      "pairsClearingDerivedThreshold": 142,
+      "opportunitiesPerMember": 2.8979591836734695,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "NV",
+      "packId": "us-nv-legislature-v1",
+      "seatedMembers": 63,
+      "questionCount": 68,
+      "measuredPairs": 4284,
+      "positivePairs": 1842,
+      "pairsClearingOldThreshold": 33,
+      "pairsClearingDerivedThreshold": 648,
+      "opportunitiesPerMember": 10.285714285714286,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "NH",
+      "packId": "us-nh-legislature-profile-v1",
+      "seatedMembers": 416,
+      "questionCount": 68,
+      "measuredPairs": 28288,
+      "positivePairs": 11522,
+      "pairsClearingOldThreshold": 189,
+      "pairsClearingDerivedThreshold": 3617,
+      "opportunitiesPerMember": 8.694711538461538,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "NJ",
+      "packId": "us-nj-legislature-profile-v1",
+      "seatedMembers": 119,
+      "questionCount": 68,
+      "measuredPairs": 8092,
+      "positivePairs": 3162,
+      "pairsClearingOldThreshold": 72,
+      "pairsClearingDerivedThreshold": 1194,
+      "opportunitiesPerMember": 10.033613445378151,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "NM",
+      "packId": "us-nm-legislature-profile-v1",
+      "seatedMembers": 112,
+      "questionCount": 68,
+      "measuredPairs": 7616,
+      "positivePairs": 3545,
+      "pairsClearingOldThreshold": 78,
+      "pairsClearingDerivedThreshold": 1297,
+      "opportunitiesPerMember": 11.580357142857142,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "NY",
+      "packId": "us-ny-legislature-profile-v1",
+      "seatedMembers": 208,
+      "questionCount": 68,
+      "measuredPairs": 14144,
+      "positivePairs": 7038,
+      "pairsClearingOldThreshold": 129,
+      "pairsClearingDerivedThreshold": 2510,
+      "opportunitiesPerMember": 12.067307692307692,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "NC",
+      "packId": "us-nc-legislature-profile-v1",
+      "seatedMembers": 168,
+      "questionCount": 68,
+      "measuredPairs": 11424,
+      "positivePairs": 3922,
+      "pairsClearingOldThreshold": 39,
+      "pairsClearingDerivedThreshold": 1042,
+      "opportunitiesPerMember": 6.2023809523809526,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "ND",
+      "packId": "us-nd-legislature-profile-v1",
+      "seatedMembers": 140,
+      "questionCount": 68,
+      "measuredPairs": 9520,
+      "positivePairs": 2941,
+      "pairsClearingOldThreshold": 9,
+      "pairsClearingDerivedThreshold": 399,
+      "opportunitiesPerMember": 2.85,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "OH",
+      "packId": "us-oh-general-assembly-v1",
+      "seatedMembers": 130,
+      "questionCount": 68,
+      "measuredPairs": 8840,
+      "positivePairs": 3178,
+      "pairsClearingOldThreshold": 57,
+      "pairsClearingDerivedThreshold": 927,
+      "opportunitiesPerMember": 7.130769230769231,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "OK",
+      "packId": "us-ok-legislature-profile-v1",
+      "seatedMembers": 147,
+      "questionCount": 68,
+      "measuredPairs": 9996,
+      "positivePairs": 2406,
+      "pairsClearingOldThreshold": 24,
+      "pairsClearingDerivedThreshold": 469,
+      "opportunitiesPerMember": 3.1904761904761907,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "OR",
+      "packId": "us-or-legislature-profile-v1",
+      "seatedMembers": 86,
+      "questionCount": 68,
+      "measuredPairs": 5848,
+      "positivePairs": 2443,
+      "pairsClearingOldThreshold": 45,
+      "pairsClearingDerivedThreshold": 869,
+      "opportunitiesPerMember": 10.104651162790697,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "PA",
+      "packId": "us-pa-legislature-profile-v1",
+      "seatedMembers": 248,
+      "questionCount": 68,
+      "measuredPairs": 16864,
+      "positivePairs": 6468,
+      "pairsClearingOldThreshold": 120,
+      "pairsClearingDerivedThreshold": 2154,
+      "opportunitiesPerMember": 8.685483870967742,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "RI",
+      "packId": "us-ri-legislature-profile-v1",
+      "seatedMembers": 106,
+      "questionCount": 68,
+      "measuredPairs": 7208,
+      "positivePairs": 3853,
+      "pairsClearingOldThreshold": 90,
+      "pairsClearingDerivedThreshold": 1559,
+      "opportunitiesPerMember": 14.70754716981132,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "SC",
+      "packId": "us-sc-legislature-profile-v1",
+      "seatedMembers": 167,
+      "questionCount": 68,
+      "measuredPairs": 11356,
+      "positivePairs": 4225,
+      "pairsClearingOldThreshold": 48,
+      "pairsClearingDerivedThreshold": 977,
+      "opportunitiesPerMember": 5.850299401197605,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "SD",
+      "packId": "us-sd-legislature-profile-v1",
+      "seatedMembers": 102,
+      "questionCount": 68,
+      "measuredPairs": 6936,
+      "positivePairs": 1449,
+      "pairsClearingOldThreshold": 9,
+      "pairsClearingDerivedThreshold": 233,
+      "opportunitiesPerMember": 2.284313725490196,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "TN",
+      "packId": "us-tn-legislature-profile-v1",
+      "seatedMembers": 130,
+      "questionCount": 68,
+      "measuredPairs": 8840,
+      "positivePairs": 2932,
+      "pairsClearingOldThreshold": 24,
+      "pairsClearingDerivedThreshold": 572,
+      "opportunitiesPerMember": 4.4,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "TX",
+      "packId": "us-tx-legislature-profile-v1",
+      "seatedMembers": 176,
+      "questionCount": 68,
+      "measuredPairs": 11968,
+      "positivePairs": 4434,
+      "pairsClearingOldThreshold": 84,
+      "pairsClearingDerivedThreshold": 1433,
+      "opportunitiesPerMember": 8.142045454545455,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "UT",
+      "packId": "us-ut-legislature-profile-v1",
+      "seatedMembers": 103,
+      "questionCount": 68,
+      "measuredPairs": 7004,
+      "positivePairs": 2019,
+      "pairsClearingOldThreshold": 12,
+      "pairsClearingDerivedThreshold": 365,
+      "opportunitiesPerMember": 3.5436893203883497,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "VT",
+      "packId": "us-vt-legislature-profile-v1",
+      "seatedMembers": 173,
+      "questionCount": 68,
+      "measuredPairs": 11764,
+      "positivePairs": 6118,
+      "pairsClearingOldThreshold": 126,
+      "pairsClearingDerivedThreshold": 2338,
+      "opportunitiesPerMember": 13.514450867052023,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "VA",
+      "packId": "us-va-legislature-profile-v1",
+      "seatedMembers": 140,
+      "questionCount": 68,
+      "measuredPairs": 9520,
+      "positivePairs": 3380,
+      "pairsClearingOldThreshold": 75,
+      "pairsClearingDerivedThreshold": 1200,
+      "opportunitiesPerMember": 8.571428571428571,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "WA",
+      "packId": "us-wa-legislature-profile-v1",
+      "seatedMembers": 145,
+      "questionCount": 68,
+      "measuredPairs": 9860,
+      "positivePairs": 4488,
+      "pairsClearingOldThreshold": 105,
+      "pairsClearingDerivedThreshold": 1774,
+      "opportunitiesPerMember": 12.23448275862069,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "WV",
+      "packId": "us-wv-legislature-profile-v1",
+      "seatedMembers": 132,
+      "questionCount": 68,
+      "measuredPairs": 8976,
+      "positivePairs": 2549,
+      "pairsClearingOldThreshold": 15,
+      "pairsClearingDerivedThreshold": 357,
+      "opportunitiesPerMember": 2.7045454545454546,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "WI",
+      "packId": "us-wi-legislature-profile-v1",
+      "seatedMembers": 129,
+      "questionCount": 68,
+      "measuredPairs": 8772,
+      "positivePairs": 3151,
+      "pairsClearingOldThreshold": 33,
+      "pairsClearingDerivedThreshold": 845,
+      "opportunitiesPerMember": 6.550387596899225,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "WY",
+      "packId": "us-wy-legislature-profile-v1",
+      "seatedMembers": 92,
+      "questionCount": 68,
+      "measuredPairs": 6256,
+      "positivePairs": 1340,
+      "pairsClearingOldThreshold": 6,
+      "pairsClearingDerivedThreshold": 174,
+      "opportunitiesPerMember": 1.891304347826087,
+      "pendingQuestionCapacityUpperBoundPerIntake": 68
+    },
+    {
+      "place": "DC",
+      "packId": null,
+      "seatedMembers": 0,
+      "questionCount": 72,
+      "measuredPairs": 0,
+      "positivePairs": 0,
+      "pairsClearingOldThreshold": 0,
+      "pairsClearingDerivedThreshold": 0,
+      "opportunitiesPerMember": null,
+      "pendingQuestionCapacityUpperBoundPerIntake": null
+    },
+    {
+      "place": "PR",
+      "packId": "us-pr-legislature-profile-v1",
+      "seatedMembers": 0,
+      "questionCount": 68,
+      "measuredPairs": 0,
+      "positivePairs": 0,
+      "pairsClearingOldThreshold": 0,
+      "pairsClearingDerivedThreshold": 0,
+      "opportunitiesPerMember": null,
+      "pendingQuestionCapacityUpperBoundPerIntake": null
+    },
+    {
+      "place": "GU",
+      "packId": null,
+      "seatedMembers": 0,
+      "questionCount": 68,
+      "measuredPairs": 0,
+      "positivePairs": 0,
+      "pairsClearingOldThreshold": 0,
+      "pairsClearingDerivedThreshold": 0,
+      "opportunitiesPerMember": null,
+      "pendingQuestionCapacityUpperBoundPerIntake": null
+    },
+    {
+      "place": "VI",
+      "packId": null,
+      "seatedMembers": 0,
+      "questionCount": 68,
+      "measuredPairs": 0,
+      "positivePairs": 0,
+      "pairsClearingOldThreshold": 0,
+      "pairsClearingDerivedThreshold": 0,
+      "opportunitiesPerMember": null,
+      "pendingQuestionCapacityUpperBoundPerIntake": null
+    },
+    {
+      "place": "AS",
+      "packId": null,
+      "seatedMembers": 0,
+      "questionCount": 68,
+      "measuredPairs": 0,
+      "positivePairs": 0,
+      "pairsClearingOldThreshold": 0,
+      "pairsClearingDerivedThreshold": 0,
+      "opportunitiesPerMember": null,
+      "pendingQuestionCapacityUpperBoundPerIntake": null
+    },
+    {
+      "place": "MP",
+      "packId": null,
+      "seatedMembers": 0,
+      "questionCount": 68,
+      "measuredPairs": 0,
+      "positivePairs": 0,
+      "pairsClearingOldThreshold": 0,
+      "pairsClearingDerivedThreshold": 0,
+      "opportunitiesPerMember": null,
+      "pendingQuestionCapacityUpperBoundPerIntake": null
+    },
+    {
+      "place": "US",
+      "packId": "us-congress-v1",
+      "seatedMembers": 533,
+      "questionCount": 20,
+      "measuredPairs": 10660,
+      "positivePairs": 2594,
+      "pairsClearingOldThreshold": 0,
+      "pairsClearingDerivedThreshold": 399,
+      "opportunitiesPerMember": 0.7485928705440901,
+      "pendingQuestionCapacityUpperBoundPerIntake": 20
+    }
+  ],
+  "measurementScriptSha256": "f95ec00da613ee7e1cf30e1e315d637f497958f01da8ad2542f267f4d4990b24",
+  "scope": "Static retained-save score calibration; no new time, existing record creation, natural filings or enactments.",
+  "approvedObservations": [
+    {
+      "place": "KS",
+      "billsPerMemberPerRegularSession": 3.7,
+      "sourceId": "kansas-2024"
+    },
+    {
+      "place": "NM",
+      "billsPerMemberPerRegularSession": 5.2,
+      "sourceId": "new-mexico-2024"
+    },
+    {
+      "place": "KY",
+      "billsPerMemberPerRegularSession": 8.8,
+      "sourceId": "kentucky-2024"
+    },
+    {
+      "place": "FL",
+      "billsPerMemberPerRegularSession": 11,
+      "sourceId": "florida-2024"
+    }
+  ],
+  "sources": {
+    "kansas-2024": {
+      "title": "Summary of Legislation 2024 and Special Session 2024",
+      "publisher": "Kansas Legislative Research Department",
+      "url": "https://www.kslegislature.gov/li/b2025_26/committees/ctte_s_ed_1/documents/testimony/20250114_06.pdf",
+      "locator": "Introduction, PDF page 2; 2024 regular session figures precede appended special session"
+    },
+    "new-mexico-2024": {
+      "title": "Highlights 2024: A Summary of the Session",
+      "publisher": "New Mexico Legislative Council Service",
+      "url": "https://www.nmlegis.gov/Publications/Session/24/highlights.pdf",
+      "locator": "Appendix A, PDF pages 44-45, bill action summary"
+    },
+    "kentucky-2024": {
+      "title": "General Assembly Action: 2024 Regular Session",
+      "publisher": "Kentucky Legislative Research Commission",
+      "url": "https://legislature.ky.gov/LRC/Publications/Informational%20Bulletins/IB266.pdf",
+      "locator": "Foreword, PDF page 4, regular-session totals"
+    },
+    "florida-2024": {
+      "title": "2024 Regular Session Statistics Report",
+      "publisher": "Florida Legislature",
+      "url": "https://www.leg.state.fl.us/data/session/2024/citator/Daily/stats.pdf",
+      "locator": "PDF pages 1-2, filed/passed by measure type and governor action; report dated August 2, 2024"
+    }
+  },
+  "pendingCadenceQuestion": "Three ordinary state intake dates, at most one best bill/member/intake; actual median-seven session filings cannot be claimed from static question opportunities. Existing caps unchanged; question sent to Audit/CTO."
+}

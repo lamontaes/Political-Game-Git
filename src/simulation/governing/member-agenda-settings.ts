@@ -1,7 +1,18 @@
 /** Pure filing settings; no World or caller imports. */
 export const LOCAL_MEMBER_AGENDA_VERSION = "local-member-agenda/v1";
-/** Existing authored filing threshold, unchanged by consolidation. */
-const FILING_THRESHOLD = 3;
+/**
+ * CTO-approved common score calibration (October 1, 3:54/4:29/8:22): median
+ * sourced session bills/member KS 3.7, NM 5.2, KY 8.8, FL 11 is 7. The saved
+ * distribution covers 7,780 seated members across all 51 recorded bodies.
+ * The closest inclusive positive cutoff is 1.575: 59,969 member-question
+ * opportunities (7.708/member), versus 37,505 (4.821/member) at 1.61875.
+ * This calibrates score coverage, not a quota or observed filing count. Existing
+ * pending-question, current-law and compiler guards stay; distinct supported
+ * questions can share the existing intake.
+ * Full derivation/citations: data/research/lawmaking-throughput/
+ * team1-filing-threshold-calibration.json. No per-state threshold or dice.
+ */
+const FILING_THRESHOLD = 1.575;
 
 /** Existing filing behavior carried as settings while callers consolidate. */
 export const MEMBER_AGENDA_LEVEL_SETTINGS = {
@@ -16,6 +27,7 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     cosponsors: false,
     actTitles: false,
     individualAgenda: true,
+    multipleProposals: true,
     municipalAgenda: false,
     mappedOnly: false,
     measureNoun: "bill",
@@ -31,6 +43,7 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     cosponsors: true,
     actTitles: true,
     individualAgenda: true,
+    multipleProposals: true,
     municipalAgenda: false,
     mappedOnly: false,
     measureNoun: "bill",
@@ -46,6 +59,7 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     cosponsors: false,
     actTitles: false,
     individualAgenda: true,
+    multipleProposals: false,
     municipalAgenda: true,
     mappedOnly: true,
     measureNoun: "ordinance",
@@ -61,6 +75,7 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     cosponsors: false,
     actTitles: false,
     individualAgenda: true,
+    multipleProposals: false,
     municipalAgenda: true,
     mappedOnly: false,
     measureNoun: "ordinance",
