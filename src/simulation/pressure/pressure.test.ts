@@ -6,12 +6,19 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
+import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import {
-  openOrdinaryLife,
-  passOrdinaryDays,
-} from "../../presentation/ordinary-life";
+  observerPlace,
+  observerSetup,
+  openObserverWorld,
+} from "../../presentation/observer-world";
 import { declareHazardEpisode } from "../crisis/disaster";
-import { statePushOnTown } from "../migration";
+import { incidentStateAt } from "../incidents";
+import {
+  MIGRATION_REVIEW_TRANSITION_KEY,
+  migrationReviewHandler,
+  statePushOnTown,
+} from "../migration";
 import { addDays } from "../dates";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import type { World } from "../types";
@@ -22,13 +29,17 @@ import {
   PRESSURE_SEAMS,
   assertPressureIntegrity,
   STATE_FLOWS_EVENT,
+  UNREST_CALMED_PHASE,
+  type PressureReading,
   causesInPeriod,
   latestReadings,
   stateFlows,
   stateWeights,
   stepPressure,
+  unrestIncidentDefinition,
   worldStates,
 } from ".";
+import { stepPressureLadder } from "./ladder";
 
 const LONG = 120_000;
 
@@ -180,7 +191,13 @@ describe("the pressure layer", { timeout: LONG }, () => {
 
   it("the first quarterly review of a current opening takes the first reading, once", () => {
     expect(opened.world.pressure).toBeUndefined();
-    const world = passOrdinaryDays(opened.world, 92);
+    // The review the opening scheduled, run by its own handler. Playing the
+    // 92 days up to it ran the whole clock and took over five minutes; the
+    // clock's running of due items is covered by its own tests.
+    const due = opened.world.history.futureDueItems.find(
+      (item) => item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY,
+    )!;
+    const world = migrationReviewHandler(opened.world, due).world;
     expect(world.pressure?.quartersStepped).toBe(1);
     // Stepping again on the same day writes nothing; a save keeps the readings.
     const stepped = stepPressure(world);
@@ -226,4 +243,88 @@ describe("the seam list", () => {
     ])
       expect(keys).toContain(required);
   });
+});
+
+/**
+ * A133: missing anger is not calm. Unrest calms only on anger read at or
+ * under the line; with no anger read for the quarter it stays open. The
+ * place is drawn by seed from all 56.
+ */
+const A133_SEED = "a133-missing-anger-1";
+const a133Place = observerPlace(A133_SEED);
+
+describe(`unrest with no anger read (A133), in ${a133Place.displayName} (${a133Place.key}, seed ${A133_SEED})`, () => {
+  it(
+    "stays open with no anger read, and calms on a low reading or a quarter that read nothing left",
+    { timeout: 60_000 },
+    () => {
+      console.log(
+        `A133 place: ${a133Place.displayName} (${a133Place.key}, ${a133Place.stateJurisdictionKey}), seed ${A133_SEED}`,
+      );
+      const opened = openObserverWorld(
+        observerSetup(A133_SEED, a133Place.key),
+      ).world;
+      const stepped = stepPressure(opened);
+      const state = worldStates(stepped).find(
+        (row) => row.stateKey === a133Place.stateJurisdictionKey,
+      )!;
+      expect(state).toBeDefined();
+      const reading = (world: World, anger: number): PressureReading => ({
+        key: `a133:${world.currentDate}:${state.stateKey}`,
+        ordinal: world.pressure!.quartersStepped,
+        stateKey: state.stateKey,
+        jurisdictionId: state.jurisdiction.id,
+        periodStart: addDays(world.currentDate, -91),
+        periodEnd: world.currentDate,
+        levels: { leave: 0, arrive: 0, anger, fear: 0, hope: 0 },
+        contributions: [],
+      });
+      const stateOf = (world: World) => {
+        const unrest = world.history.incidents.find(
+          (incident) =>
+            incident.definitionId === unrestIncidentDefinition().id &&
+            incident.scope.jurisdictionId === state.jurisdiction.id,
+        )!;
+        return incidentStateAt(world, unrest.id, {
+          asOfDate: world.currentDate,
+          historySequenceExclusive: world.history.nextSequence,
+        })!;
+      };
+
+      // Anger well over the line opens unrest.
+      const angry = stepPressureLadder(stepped, [reading(stepped, 1)]);
+      expect(stateOf(angry).status).toBe("active");
+
+      // A ladder step on a day the layer has not read: no anger is on
+      // record for it, so the unrest stays open and no stage is written on
+      // a reading nobody took.
+      const later: World = {
+        ...angry,
+        pressure: {
+          ...angry.pressure!,
+          lastPeriodEnd: addDays(angry.currentDate, -91),
+        },
+      };
+      const unread = stepPressureLadder(later, []);
+      expect(stateOf(unread).status).toBe("active");
+      expect(stateOf(unread).id).toBe(stateOf(angry).id);
+      expect(unread.history.incidentStates).toHaveLength(
+        later.history.incidentStates.length,
+      );
+
+      // A low reading calms it, and records what it read.
+      const low = stepPressureLadder(later, [reading(later, 0.1)]);
+      expect(stateOf(low).status).toBe("resolved");
+      expect(stateOf(low).phaseKey).toBe(UNREST_CALMED_PHASE);
+      expect(stateOf(low).context).toContain("Anger read 0.1000");
+
+      // A quarter the layer stepped with nothing left to carry stores no
+      // reading for the state: its anger was read as 0, so it calms too.
+      expect(angry.pressure!.lastPeriodEnd).toBe(angry.currentDate);
+      expect(latestReadings(angry).has(state.stateKey)).toBe(false);
+      const calmed = stepPressureLadder(angry, []);
+      expect(stateOf(calmed).status).toBe("resolved");
+      expect(stateOf(calmed).context).toContain("Anger read 0.0000");
+    },
+  );
 });
