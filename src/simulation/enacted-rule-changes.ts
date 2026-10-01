@@ -1271,6 +1271,7 @@ export function ruleValueInWorld<T>(
     readonly officeKey: string;
     readonly field: AmendableRuleField;
     readonly onDate: IsoDate;
+    readonly cutoff?: HistoricalCutoff;
   },
   compiled: T,
 ): RuleValueInWorld<T> {
@@ -1280,6 +1281,7 @@ export function ruleValueInWorld<T>(
     officeKey: query.officeKey,
     field: query.field,
     onDate: query.onDate,
+    cutoff: query.cutoff,
   });
   if (!change) return { source: "compiled", value: compiled };
   return {

@@ -1,6 +1,6 @@
 import { constitutionalPolicyProvisions } from "../policy-provisions";
 import { constitutionalPosition } from "../constitutional-process";
-import { enactedRuleChangeAt } from "../enacted-rule-changes";
+import { enactedRuleChangeAt, ruleValueInWorld } from "../enacted-rule-changes";
 import { recordedSessionAdjournment } from "./session-adjournments";
 import { describe, expect, it } from "vitest";
 
@@ -596,7 +596,7 @@ it("hides a later saved hourly rule provision and its enactment", () => {
     measureId: entry.measure.id,
     stateUsps: "OH",
     officeKey: "labor:OH",
-    field: "labor.minimumWage.hourlyCents",
+    field: "labor.minimumWage.hourlyCents" as const,
     value: 1800,
     filedAt: makeIsoDate("2026-01-01"),
   };
@@ -611,6 +611,23 @@ it("hides a later saved hourly rule provision and its enactment", () => {
     onDate: world.currentDate,
   };
   expect(enactedRuleChangeAt(world, query)?.value).toBe(1800);
+  expect(
+    ruleValueInWorld(
+      world,
+      {
+        jurisdiction: "OH",
+        officeKey: query.officeKey,
+        field: query.field,
+        onDate: query.onDate,
+        cutoff: {
+          asOfDate: world.currentDate,
+          historySequenceExclusive: entry.enactment.sequence,
+        },
+      },
+      null,
+    ),
+  ).toEqual({ source: "compiled", value: null });
+
   expect(
     enactedRuleChangeAt(world, {
       ...query,
