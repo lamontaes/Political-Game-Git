@@ -7,6 +7,7 @@ import {
   privateBeliefSubjectId,
   validatePrivateBeliefSubject,
 } from "./political-opinion-subjects";
+import { assertWorkPayCoverageIntegrity } from "./pay-coverage";
 import { applyDateBoundary } from "./time-work";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
@@ -2101,6 +2102,7 @@ function validateHistoryIntegrity(
         ...permitApplications(world),
         ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
+        ...(history.workPayCoverageDeterminations ?? []),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2294,6 +2296,7 @@ function validateHistoryIntegrity(
   assertLawPermissionIntegrity(world, ids);
   assertPermitIntegrity(world, ids);
   assertLegalOutcomeConsequenceIntegrity(world);
+  assertWorkPayCoverageIntegrity(world, ids);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {

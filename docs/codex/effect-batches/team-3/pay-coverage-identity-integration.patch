@@ -1,0 +1,16 @@
+diff --git a/src/simulation/types.ts b/src/simulation/types.ts
+--- a/src/simulation/types.ts
++++ b/src/simulation/types.ts
+@@ -241,3 +241,4 @@
+   | "work-role"
+   | "work-status"
++  | "work-pay-coverage"
+   | "world-metric-definition"
+diff --git a/src/simulation/world.ts b/src/simulation/world.ts
+--- a/src/simulation/world.ts
++++ b/src/simulation/world.ts
+@@ -2284,3 +2284,3 @@
+   assertLegalOutcomeConsequenceIntegrity(world);
+-  assertWorkPayCoverageIntegrity(world);
++  assertWorkPayCoverageIntegrity(world, ids);
+   for (const interval of history.districtResidenceIntervals ?? []) {

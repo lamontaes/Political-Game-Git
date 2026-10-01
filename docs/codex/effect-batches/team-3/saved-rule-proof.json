@@ -1,0 +1,55 @@
+{
+  "gap": "A38",
+  "status": "BLOCKED",
+  "testedProductionBase": "3d6ebbb0e2b106a79875c7d79d1846e08540b111",
+  "publishedTestSource": "0d91941edf0c0eacfe1f118bb5f02957d6a94bb6",
+  "nativeSource": "Production3d6 plus exactly the owned test change committed0d919; no production edits",
+  "branch": "codex/team-3-a38-retire-town-floor",
+  "native": {
+    "pass": 0,
+    "fail": 1,
+    "deliberatelyNotRun": 8,
+    "durationSeconds": 19.92,
+    "testMilliseconds": 304,
+    "route": "actual authored questionless state rule then saved14-day payroll through default registry"
+  },
+  "types": {
+    "roots": 2,
+    "diagnostics": 0
+  },
+  "case": {
+    "person": "Parker Clark",
+    "seed": "city-pay:3137000",
+    "place": "Omaha, Nebraska",
+    "measureId": "legislative-measure_9f8ac43d3f0ca4c6",
+    "ruleChangeProvisionId": "rule-change-provision_6e9b144b049ff668",
+    "field": "labor.minimumWage.hourlyCents",
+    "operativeRuleHourlyMinor": 1800,
+    "savedWeeklyHours": 40,
+    "expectedGrossMinor": 72000,
+    "actualGrossMinor": 60000,
+    "actualTermsEffectKind": "pay",
+    "policyQuestionFabricated": false
+  },
+  "action": "Converted own1521 and1524 to DRAFT while preserving published heads;1516 untouched. Need same-kind actual saved hourly rule authority admission. Retained town helper and all historical assertions.",
+  "additionalDependency": "Coordinator456a restored main merged shift caller:5FAIL5PASS, all5 actual payments fail pay.cadence.recorded-pay-period; invalid evidence5PASS. Audit exact earned-date/hours/amount contract requested; no Team3 duplicate run.",
+  "limits": [
+    "not a natural sponsor/hire decision",
+    "one controlled saved-rule case, not all56",
+    "no helper deletion or production repair yet",
+    "no old100day/year/fullsuite rerun",
+    "no final-main readiness"
+  ],
+  "receipts": {
+    "r1": {
+      "path": "docs/codex/effect-batches/team-3/saved-rule-r1.txt",
+      "sha256": "39e1a4e2f4a5b90b7aef1904cf142823d0f05ab691d69dd4fdea6ae35abe4099",
+      "exit": 1
+    },
+    "types-r1": {
+      "path": "docs/codex/effect-batches/team-3/saved-rule-types-r1.txt",
+      "sha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b",
+      "exit": 0
+    }
+  }
+}

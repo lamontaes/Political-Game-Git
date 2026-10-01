@@ -1,0 +1,55 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 75000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'legislative-measure_0e57d79d61532c18'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload 346ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 60000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'starting-law:US-NE:us-policy-positions:labor-workforce.raise-minimum-wage'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor 147ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 60000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'starting-law:US-NE:us-policy-positions:labor-workforce.raise-minimum-wage'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck 179ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 60000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'starting-law:US-NE:us-policy-positions:labor-workforce.raise-minimum-wage'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 amountless city ordinance refuses a fabricated numeric wage 49ms
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor 117ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 100000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'legislative-measure_a80a25c15fe77d2f'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor 170ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  09:19:33
+   Duration  28.01s (transform 22.37s, setup 19ms, import 26.88s, tests 1.01s, environment 0ms)

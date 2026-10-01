@@ -36,11 +36,7 @@ import {
   resourceFlowTermsAt,
   resourceFlowTermsHistory,
 } from "./resource-queries";
-import {
-  createWorkCompensation,
-  money,
-  recordResourceFlowTerms,
-} from "./resources";
+import { createWorkCompensation, money } from "./resources";
 import { playerTown, townRoster } from "./living-world/town-residents";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
@@ -1920,72 +1916,49 @@ export function settleJobPay(world: World, personId: EntityId): World {
 }
 
 /**
- * A minimum-wage law's effective date raises the pay of every job paid below
- * the new floor, from the first unpaid week that begins on or after it. Each
- * rise is recorded as a change of the flow's pay terms that names the law. A
- * law that lowers or repeals the floor cuts nobody's pay. Only pay from this
- * job market (`job-pay:`) is read; a week already paid keeps the pay it had.
- *
- * NOT MODELED: back pay, and pay changes inside a week (a week is paid at the
- * terms in force when it begins).
+ * Settles one due week of an already saved work/flow pair. The clock adapter
+ * owns scheduling; this entry point neither creates a job nor opens pay terms.
  */
-function raiseWeeklyPayToMinimum(
+export function settleSavedWeeklyJobPay(
   world: World,
-  work: WorkRelationship,
-  flow: World["history"]["resourceFlows"][number],
-  firstUnpaidWeek: number,
+  workRelationshipId: EntityId,
+  resourceFlowId: EntityId,
+  dueOn: IsoDate,
 ): World {
-  if (!flow.stableKey.startsWith(PAY_KEY_PREFIX)) return world;
-  const role = activeRole(world, work);
-  if (!role) return world;
-  const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
-  const hours = (minimumHours + maximumHours) / 2;
-  if (hours <= 0) return world;
-  const place = workplaceJurisdictionId(world, work);
-  let next = world;
-  let current = resourceFlowTermsAt(next, flow.id, {
-    asOfDate: next.currentDate,
-    historySequenceExclusive: next.history.nextSequence,
-  });
-  if (current?.status !== "active" || current.cadenceKind !== "schedule:weekly")
-    return world;
-  for (
-    let week = firstUnpaidWeek;
-    week < firstUnpaidWeek + CATCH_UP_LIMIT_WEEKS;
-    week += 1
-  ) {
-    const weekStart = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
-    if (weekStart > next.currentDate) break;
-    const setting = minimumWageSettingAt(next, place, weekStart);
-    if (!setting) continue;
-    const weekly = Math.round(setting.hourlyMinor * hours);
-    if (weekly <= current.amount.minorUnits) continue;
-    const enactment = setting.measureId
-      ? (next.history.legislativeEnactments ?? []).find(
-          (row) => row.measureId === setting.measureId,
-        )
-      : undefined;
-    const rate = `$${(setting.hourlyMinor / 100).toFixed(2)} an hour`;
-    const law = setting.designation ?? `The ${setting.level} minimum wage`;
-    next = recordResourceFlowTerms(next, {
-      stableKey: `${flow.stableKey}:minimum-wage:${weekStart}`,
-      resourceFlowId: flow.id,
-      effectiveAt: weekStart,
-      status: "active",
-      amount: money(weekly, current.amount.currency),
-      cadenceKind: current.cadenceKind,
-      reason: `${law} raised the ${setting.level} minimum wage to ${rate}.`,
-      provenance: enactment?.outcomeEventId
-        ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
-        : {
-            kind: "authored",
-            note: `${PROVENANCE_NOTE} Raised to the ${setting.level} minimum wage, ${rate}.`,
-          },
-      supersedesTermsId: current.id,
-    });
-    current = next.history.resourceFlowTerms.at(-1)!;
-  }
-  return next;
+  const work = world.history.workRelationships.find(
+    (row) => row.id === workRelationshipId,
+  );
+  const flow = world.history.resourceFlows.find(
+    (row) => row.id === resourceFlowId,
+  );
+  if (
+    !work ||
+    !flow ||
+    flow.basisKind !== "compensation:work" ||
+    flow.basisReference.kind !== "work" ||
+    flow.basisReference.workRelationshipId !== work.id ||
+    flow.recipient.kind !== "person" ||
+    flow.recipient.personId !== work.personId ||
+    flow.source.kind !== "organization" ||
+    flow.source.organizationId !== work.organizationId
+  )
+    throw new Error(
+      "Weekly job pay requires its saved work and compensation flow",
+    );
+  const elapsedDays = daysBetween(flow.startsAt, dueOn);
+  if (elapsedDays < WEEK_DAYS || elapsedDays % WEEK_DAYS !== 0)
+    throw new Error(
+      "Weekly job pay requires a due date from its saved flow start",
+    );
+  if (dueOn > world.currentDate) return world;
+  return settleRecordedJobPay(
+    world,
+    work.personId,
+    (candidateFlow, candidateWork) =>
+      candidateFlow.id === flow.id && candidateWork.id === work.id,
+    addDays(dueOn, -1),
+    (candidateDueOn) => candidateDueOn === dueOn,
+  );
 }
 
 function settleRecordedJobPay(
@@ -2031,7 +2004,6 @@ function settleRecordedJobPay(
           ) + 1
         : 1;
     const firstWeek = Math.max(paidWeeks + 1, firstNewWeek);
-    next = raiseWeeklyPayToMinimum(next, work, flow, firstWeek);
     for (
       let week = firstWeek;
       week < firstWeek + CATCH_UP_LIMIT_WEEKS;

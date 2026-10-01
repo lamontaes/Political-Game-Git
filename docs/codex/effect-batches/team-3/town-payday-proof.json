@@ -1,0 +1,99 @@
+{
+  "gap": "A38",
+  "testedHead": "f74d3e75170ffd43224d341d40d8effdddb3b70c",
+  "baseHead": "3623fa6f1eef23d50f05cf197a8b492c3155c0d3",
+  "refreshedMain": "493621af2e9ddb4fb7429c49747fceb61372a9f3",
+  "basePR": 1516,
+  "branch": "codex/team-3-a38-town-payday-caller",
+  "ownedProductionHunk": "src/simulation/living-world/town-pay.ts paydayHandler minimum pre-raise removal and existing noticing call order",
+  "native": {
+    "pass": 1,
+    "deliberatelyNotRun": 6,
+    "durationSeconds": 24.64,
+    "testMilliseconds": 340,
+    "timeoutsChanged": false,
+    "route": "advanceWorld 14 days with ensurePaydaySchedule and createCampaignElectionTransitionRegistry"
+  },
+  "types": {
+    "roots": 2,
+    "diagnostics": 0
+  },
+  "measured": {
+    "seed": "city-pay:3137000",
+    "place": "Omaha, Nebraska",
+    "person": "Parker Clark",
+    "flowId": "resource-flow_210804f26bdbf52d",
+    "weeklyHours": 40,
+    "authoredCityHourlyMinor": 1875,
+    "grossMinor": 75000,
+    "withheldMinor": 12606,
+    "netMinor": 62394,
+    "employerCashBeforeMinor": 1000000,
+    "employerCashAfterMinor": 925000,
+    "beforeTermsKind": null,
+    "afterTermsKind": "pay"
+  },
+  "baselineSource": "Published base3623 plus owned regression overlay; production unmodified. First baseline had a missing-handler fixture failure; second failed in logging the absent stamp; third captured amounts then failed canonical stamp assertion.",
+  "checks": [
+    "actual terms and transfer law stamps",
+    "same-payday saved exposure",
+    "tax liability joins actual transfer",
+    "actual withholding payments and net projection",
+    "same completed periods are idempotent",
+    "canonical scheduled-world reload and 14-day replay match"
+  ],
+  "limits": [
+    "authored hiring, work terms, employer cash and ordinance; not natural hiring or election",
+    "six completed city cases deliberately not repeated",
+    "earlier 24 annual/default cases remain at their original tested source",
+    "no all-56/year/speed/browser/full-suite/final-main proof",
+    "teacher and other legacy floor callers remain unconverted"
+  ],
+  "receipts": {
+    "baseline-r1": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-baseline-r1.txt",
+      "sha256": "c67cf2a015c0e77e8554e756cb59f7005950d32c224f34ab62ad237041ca3dfa",
+      "exit": 1
+    },
+    "baseline-r2": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-baseline-r2.txt",
+      "sha256": "9d40d0dc73f3721a11088d2f7ff365520a588b0fe93abc3d61d32d6ca3eef7cb",
+      "exit": 1
+    },
+    "baseline-r3": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-baseline-r3.txt",
+      "sha256": "27a80486f251fdb72dbd5c6839450ee8c9cd26b219b9d3e14c9a6055767b79d9",
+      "exit": 1
+    },
+    "repair-r4": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-repair-r4.txt",
+      "sha256": "29459ee82b5cfa28690420e8272ae5943b7c00941bc72796179a58ce457585c3",
+      "exit": 0
+    },
+    "final-r5": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-final-r5.txt",
+      "sha256": "2ce79eff37833fe16a0d95dfad389a70ea7da9529e5690020e9637f1a3e0e618",
+      "exit": 0
+    },
+    "final-r6": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-final-r6.txt",
+      "sha256": "0a17eed1a4e60df4058a5efc7181846d05407772ffbf5ee5934e960d5fe04d22",
+      "exit": 0
+    },
+    "types-r1": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-types-r1.txt",
+      "sha256": "2ddfaffa38cc0a764b49156ef2a935152bd440fa5b135a3f9e934779952c6df0",
+      "exit": 1
+    },
+    "types-r2": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-types-r2.txt",
+      "sha256": "1cb8992a18f25470794dc7d6266e781d4e5fdfe4e1316d9276d7c771cdd04b4b",
+      "exit": 0
+    },
+    "zero-dice-r1": {
+      "path": "docs/codex/effect-batches/team-3/town-payday-zero-dice-r1.txt",
+      "sha256": "e8c5e5fec426714c753853ba097d4e473844deab72c610fa86ce4a3b0217a17f",
+      "exit": 1
+    }
+  }
+}

@@ -1,0 +1,35 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | tests/nationwide/shift-payroll.test.ts > completed shift payroll in 0644000 > pays the saved completed work with the same employee/employer books and exact saved world after reopening
+{"placeKey":"0644000","seed":"shift-payroll:0644000","name":"Alex Nichols","hash":"618810af6d66b49db528996a49ce256541263dbb2f8dd3765e39741e4186e305"}
+
+ ✓ tests/nationwide/shift-payroll.test.ts > completed shift payroll in 0644000 > pays the saved completed work with the same employee/employer books and exact saved world after reopening 1914ms
+stdout | tests/nationwide/shift-payroll.test.ts > completed shift payroll in 3137000 > pays the saved completed work with the same employee/employer books and exact saved world after reopening
+{"placeKey":"3137000","seed":"shift-payroll:3137000","name":"Victoria Howell","hash":"e883d32811ed9a94cffa383ff0ff9c7f9c619510395f3aeea6a4adc3aae12fab"}
+
+ ✓ tests/nationwide/shift-payroll.test.ts > completed shift payroll in 3137000 > pays the saved completed work with the same employee/employer books and exact saved world after reopening 1802ms
+stdout | tests/nationwide/shift-payroll.test.ts > completed shift payroll in 4967000 > pays the saved completed work with the same employee/employer books and exact saved world after reopening
+{"placeKey":"4967000","seed":"shift-payroll:4967000","name":"Brianna Logan","hash":"146edf5c24604ff55f9823ca508a1fe28fe0a91d524dcded17d072f5789e07be"}
+
+ ✓ tests/nationwide/shift-payroll.test.ts > completed shift payroll in 4967000 > pays the saved completed work with the same employee/employer books and exact saved world after reopening 1703ms
+stdout | tests/nationwide/shift-payroll.test.ts > completed shift payroll in 4752006 > pays the saved completed work with the same employee/employer books and exact saved world after reopening
+{"placeKey":"4752006","seed":"shift-payroll:4752006","name":"Reese Silva","hash":"93bd89c32057901138e1d11f27b3d1a88d8ddfee4ea8e9ba40b3d998f6656fd9"}
+
+ ✓ tests/nationwide/shift-payroll.test.ts > completed shift payroll in 4752006 > pays the saved completed work with the same employee/employer books and exact saved world after reopening 1668ms
+stdout | tests/nationwide/shift-payroll.test.ts > completed shift payroll in 2938000 > pays the saved completed work with the same employee/employer books and exact saved world after reopening
+{"placeKey":"2938000","seed":"shift-payroll:2938000","name":"Sarah Pickett","hash":"0def38f7aa149a7cff69f871893c4d702b4f712b6ed63ee676d7b7359d86f765"}
+
+ ✓ tests/nationwide/shift-payroll.test.ts > completed shift payroll in 2938000 > pays the saved completed work with the same employee/employer books and exact saved world after reopening 1763ms
+ ✓ tests/nationwide/shift-payroll.test.ts > rejects a completed-shift claim without saved completed work in 0644000 1348ms
+ ✓ tests/nationwide/shift-payroll.test.ts > rejects a completed-shift claim without saved completed work in 3137000 1256ms
+ ✓ tests/nationwide/shift-payroll.test.ts > rejects a completed-shift claim without saved completed work in 4967000 1276ms
+ ✓ tests/nationwide/shift-payroll.test.ts > rejects a completed-shift claim without saved completed work in 4752006 1341ms
+ ✓ tests/nationwide/shift-payroll.test.ts > rejects a completed-shift claim without saved completed work in 2938000 1311ms
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  11:12:37
+   Duration  29.78s (transform 11.54s, setup 19ms, import 14.26s, tests 15.39s, environment 0ms)
+

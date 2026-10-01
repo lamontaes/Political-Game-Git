@@ -1,0 +1,77 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ tests/nationwide/state-minimum-wage-bill-terms.test.ts > a state law that answers yes to raising the minimum wage carries a term > reads the bill's explicit wage clause from its effective date, without invented yearly steps 6916ms
+ ↓ tests/nationwide/state-minimum-wage-bill-terms.test.ts > a state law that answers yes to raising the minimum wage carries a term > reaches Nebraska alone
+ ↓ tests/nationwide/state-minimum-wage-bill-terms.test.ts > a state law that answers yes to raising the minimum wage carries a term > raises the pay of every job below the new rate, and names the law
+ ↓ tests/nationwide/state-minimum-wage-bill-terms.test.ts > a state law that answers yes to raising the minimum wage carries a term > moves the poverty rate after the law's lag, and a repeal undoes it
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 reads the exact adopted hourly target rather than an average addition 103ms
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 1150000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '1150000',
+  observedKey: 'US-DC',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_1519fad497e0da65',
+  unchangedMinor: 1840,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 does not derive a numeric raise from a plain yes answer 21ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 refuses a target in the wrong unit 14ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 activates a future adopted target only on its date after an earlier read 29ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 1150000 38ms
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2836000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '2836000',
+  observedKey: 'US-MS',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_84316fd14bc4b6b9',
+  unchangedMinor: 725,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 5363000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '5363000',
+  observedKey: 'US-WA',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_af9d5d8076cb29f9',
+  unchangedMinor: 1713,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2938000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '2938000',
+  observedKey: 'US-MO',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_4fceef37fb9ef6d6',
+  unchangedMinor: 1500,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+stdout | src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 3451000
+A39_STATE_TERM_SCOPE {
+  sampleSeed: 'pay-kind-five-places',
+  placeKey: '3451000',
+  observedKey: 'US-NJ',
+  actualLawJurisdiction: 'US-NE',
+  measureId: 'legislative-measure_371cdc038f95c65b',
+  unchangedMinor: 1592,
+  fixture: 'canonical legal reader; not a paycheck or natural enactment'
+}
+
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2836000 14ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 5363000 13ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 2938000 10ms
+ ✓ src/simulation/state-minimum-final-terms.test.ts > A39 keeps the saved Nebraska target out of the actual jurisdiction for 3451000 10ms
+
+ Test Files  2 passed (2)
+      Tests  10 passed | 3 skipped (13)
+   Start at  07:39:24
+   Duration  31.12s (transform 16.98s, setup 21ms, import 23.59s, tests 7.27s, environment 1ms)

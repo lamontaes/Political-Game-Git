@@ -1,0 +1,6 @@
+[96msrc/simulation/law-consequences/pay-city.test.ts[0m:[93m465[0m:[93m9[0m - [91merror[0m[90m TS2339: [0mProperty 'work' does not exist on type '{ world: World; personId: EntityId; organizationId: EntityId; flow: ResourceFlow; }'.
+
+[7m465[0m       f.work.id,
+[7m   [0m [91m        ~~~~[0m
+
+2 scoped roots; 1 diagnostics

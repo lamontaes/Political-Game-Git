@@ -1,0 +1,96 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ × tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > Omaha's isolated ordinance reads its explicit target on the effective date and a later no ends it 2506ms
+   → Historical event references an unavailable legislative entity: test_measure_1
+ ↓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > raises the pay of every town job below it, and names the ordinance
+ ↓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > sets nothing where the state bars cities, until a state law lets them
+ ↓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > reaches the ordinance's own city alone
+ × tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'explicit target' 1813ms
+   → Historical event references an unavailable legislative entity: test_measure_2
+ ✓ tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'amountless yes' 1759ms
+ × tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'wrong unit' 1709ms
+   → Historical event references an unavailable legislative entity: test_measure_4
+ × tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > future misses do not poison the exact city target on its date 1720ms
+   → Historical event references an unavailable legislative entity: test_measure_5
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-01-01' reads its actual dated standard terms 70ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-06-30' reads its actual dated standard terms 13ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-DC' on '2026-07-01' reads its actual dated standard terms 25ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2025-09-30' reads its actual dated standard terms 11ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-29' reads its actual dated standard terms 9ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 starting 'US-FL' on '2026-09-30' reads its actual dated standard terms 9ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 does not backdate an unsupported Florida historical rate 1ms
+ ✓ src/simulation/starting-state-minimum-dated.test.ts > A39 leaves Ohio's conditional tier unsupported instead of reading the later snapshot 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/nationwide/city-minimum-wage-bill-terms.test.ts > a city minimum wage ordinance sets the wage where the state lets cities set one > Omaha's isolated ordinance reads its explicit target on the effective date and a later no ends it
+Error: Historical event references an unavailable legislative entity: test_measure_1
+ ❯ recordWorldEvent src/simulation/world.ts:1218:13
+    1216|       )
+    1217|     ) {
+    1218|       throw new Error(
+       |             ^
+    1219|         `Historical event references an unavailable legislative entity…
+    1220|       );
+ ❯ appendProvision src/simulation/legislative-politics.ts:1205:14
+ ❯ recordFiledProvision src/simulation/legislative-politics.ts:120:10
+ ❯ lawOn tests/nationwide/city-minimum-wage-bill-terms.test.ts:103:12
+ ❯ tests/nationwide/city-minimum-wage-bill-terms.test.ts:185:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'explicit target'
+Error: Historical event references an unavailable legislative entity: test_measure_2
+ ❯ recordWorldEvent src/simulation/world.ts:1218:13
+    1216|       )
+    1217|     ) {
+    1218|       throw new Error(
+       |             ^
+    1219|         `Historical event references an unavailable legislative entity…
+    1220|       );
+ ❯ appendProvision src/simulation/legislative-politics.ts:1205:14
+ ❯ recordFiledProvision src/simulation/legislative-politics.ts:120:10
+ ❯ lawOn tests/nationwide/city-minimum-wage-bill-terms.test.ts:103:12
+ ❯ tests/nationwide/city-minimum-wage-bill-terms.test.ts:340:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > 'wrong unit'
+Error: Historical event references an unavailable legislative entity: test_measure_4
+ ❯ recordWorldEvent src/simulation/world.ts:1218:13
+    1216|       )
+    1217|     ) {
+    1218|       throw new Error(
+       |             ^
+    1219|         `Historical event references an unavailable legislative entity…
+    1220|       );
+ ❯ appendProvision src/simulation/legislative-politics.ts:1205:14
+ ❯ recordFiledProvision src/simulation/legislative-politics.ts:120:10
+ ❯ lawOn tests/nationwide/city-minimum-wage-bill-terms.test.ts:103:12
+ ❯ tests/nationwide/city-minimum-wage-bill-terms.test.ts:340:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/nationwide/city-minimum-wage-bill-terms.test.ts > A39 exact city target reading > future misses do not poison the exact city target on its date
+Error: Historical event references an unavailable legislative entity: test_measure_5
+ ❯ recordWorldEvent src/simulation/world.ts:1218:13
+    1216|       )
+    1217|     ) {
+    1218|       throw new Error(
+       |             ^
+    1219|         `Historical event references an unavailable legislative entity…
+    1220|       );
+ ❯ appendProvision src/simulation/legislative-politics.ts:1205:14
+ ❯ recordFiledProvision src/simulation/legislative-politics.ts:120:10
+ ❯ lawOn tests/nationwide/city-minimum-wage-bill-terms.test.ts:103:12
+ ❯ tests/nationwide/city-minimum-wage-bill-terms.test.ts:363:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  4 failed | 9 passed | 3 skipped (16)
+   Start at  08:22:52
+   Duration  23.33s (transform 9.36s, setup 24ms, import 13.34s, tests 9.74s, environment 1ms)

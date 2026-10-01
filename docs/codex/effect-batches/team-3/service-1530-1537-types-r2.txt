@@ -1,0 +1,10 @@
+[96msrc/simulation/law-consequences/service-delivered.test.ts[0m:[93m154[0m:[93m53[0m - [91merror[0m[90m TS2339: [0mProperty 'findLast' does not exist on type 'readonly ScheduledActivityStateRecord[]'.
+
+[7m154[0m           completed.history.scheduledActivityStates.findLast(
+[7m   [0m [91m                                                    ~~~~~~~~[0m
+[96msrc/simulation/law-consequences/service-delivered.test.ts[0m:[93m155[0m:[93m14[0m - [91merror[0m[90m TS7006: [0mParameter 'entry' implicitly has an 'any' type.
+
+[7m155[0m             (entry) => entry.activityId === f.activityId,
+[7m   [0m [91m             ~~~~~[0m
+
+3 scoped roots; 2 diagnostics

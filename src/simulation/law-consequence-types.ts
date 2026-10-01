@@ -1,3 +1,7 @@
+import type {
+  RuleChangeProvisionRecord,
+  RuleChangeApplicability,
+} from "./enacted-rule-changes";
 import type { LawInForce } from "./governing/law-in-force";
 import type {
   EntityId,
@@ -79,19 +83,28 @@ export interface LawConsequenceRow {
   };
   onward?: LawConsequenceRow[];
 }
+/** Saved completion identifiers; callers cannot supply a historical cutoff. */
+export interface CompletedLawPayShift {
+  eventId: EntityId;
+  termsId: EntityId;
+}
+
 export interface LawConsequenceContext {
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
+  completedShift?: CompletedLawPayShift;
   subjectIds: EntityId[];
+  /** Opening applies only law already in force; activities may resolve either origin. */
   origin?: LawInForce["origin"];
-  standingAppropriationId?: EntityId;
   governingLawId?: EntityId;
   questionKey?: string;
+  /** Exact saved standing authority; never an invented legislative measure. */
+  standingAppropriationId?: EntityId;
 }
 
 /** The engine resolves legal authority and actual job records before invoking pay. */
-export interface ResolvedLawPayConsequence {
+export interface ResolvedHourlyLawPayConsequence {
   rowId: string;
   questionKey: string;
   jurisdictionId: EntityId;
@@ -100,11 +113,60 @@ export interface ResolvedLawPayConsequence {
   workId: EntityId;
   payFlowId: EntityId;
   activityId: EntityId;
+  completedShift?: CompletedLawPayShift;
   effectiveAt: IsoDate;
   amount: { value: number; unit: "minor/hour"; currency: "USD" };
   sourceRecordIds: EntityId[];
   action: "raise-hourly-floor";
 }
+
+/** Actual saved office rule authority; this is not a policy question. */
+export interface ResolvedAnnualOfficePayConsequence {
+  rowId: string;
+  jurisdictionId: EntityId;
+  personId: EntityId;
+  workId: EntityId;
+  payFlowId: EntityId;
+  activityId: EntityId;
+  completedShift?: CompletedLawPayShift;
+  effectiveAt: IsoDate;
+  amount: { value: number; unit: "minor"; currency: "USD" };
+  sourceRecordIds: EntityId[];
+  action: "set-annual-office-salary";
+  authority: {
+    kind: "enacted-office-rule";
+    ruleChangeProvisionId: EntityId;
+    enactmentId: EntityId;
+    measureId: EntityId;
+    officeKey: string;
+    stateUsps: string;
+    field: RuleChangeProvisionRecord["field"];
+    operativeAt: IsoDate;
+    applicability: RuleChangeApplicability;
+  };
+}
+
+/** A saved hourly clause has legal authority without a synthetic policy question. */
+export interface ResolvedSavedHourlyPayConsequence extends Omit<
+  ResolvedAnnualOfficePayConsequence,
+  "amount" | "action" | "authority"
+> {
+  amount: { value: number; unit: "minor/hour"; currency: "USD" };
+  action: "raise-saved-rule-hourly-floor";
+  authority: Omit<
+    ResolvedAnnualOfficePayConsequence["authority"],
+    "kind" | "field"
+  > & {
+    kind: "enacted-hourly-pay-rule";
+    field: "labor.minimumWage.hourlyCents";
+  };
+}
+
+/** Both actions use the existing pay writer and actual recorded pay cadence. */
+export type ResolvedLawPayConsequence =
+  | ResolvedHourlyLawPayConsequence
+  | ResolvedAnnualOfficePayConsequence
+  | ResolvedSavedHourlyPayConsequence;
 
 /** Nonnumeric legal decisions are not encoded as invented zero-dollar amounts. */
 export type ResolvedLawValue =
@@ -121,9 +183,19 @@ export interface ResolvedLawConsequence {
     id: EntityId;
   };
   activityId: EntityId;
+  completedShift?: CompletedLawPayShift;
   effectiveAt: IsoDate;
   sourceRecordIds: EntityId[];
   value: ResolvedLawValue;
+}
+/** Actual enacted rule authority uses the same kind and subject contract. */
+export interface ResolvedSavedRuleConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority:
+    | ResolvedAnnualOfficePayConsequence["authority"]
+    | ResolvedSavedHourlyPayConsequence["authority"];
 }
 /** Actual sourced appropriation already saved by the common program writer. */
 export interface StandingProgramAuthority {
@@ -143,8 +215,10 @@ export interface ResolvedStandingServiceConsequence extends Omit<
 > {
   authority: StandingProgramAuthority;
 }
+export type ResolvedSavedAuthorityConsequence =
+  ResolvedSavedRuleConsequence | ResolvedStandingServiceConsequence;
 export type ResolvedAnyLawConsequence =
-  ResolvedLawConsequence | ResolvedStandingServiceConsequence;
+  ResolvedLawConsequence | ResolvedSavedAuthorityConsequence;
 
 export type LawConsequenceHandler = (
   world: World,
@@ -164,15 +238,16 @@ export interface LawConsequenceKindRegistration<
     row: LawConsequenceRow,
     context: LawConsequenceContext,
   ) => readonly ResolvedLawConsequence[];
+  /** Only a kind admitting saved-authority inputs can supply this adapter. */
   resolveSavedRules?: Extract<
     T,
-    ResolvedStandingServiceConsequence
+    ResolvedSavedAuthorityConsequence
   > extends never
     ? never
     : (
         world: World,
         context: LawConsequenceContext,
-      ) => readonly Extract<T, ResolvedStandingServiceConsequence>[];
+      ) => readonly Extract<T, ResolvedSavedAuthorityConsequence>[];
   apply(world: World, resolved: T): World;
 }
 

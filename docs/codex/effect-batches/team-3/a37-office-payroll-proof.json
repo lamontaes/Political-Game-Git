@@ -1,0 +1,91 @@
+{
+  "scope": [
+    "A37 office payment/withholding delegation only",
+    "A13 default catalog/registry proof",
+    "A19 converted pay terms only"
+  ],
+  "branch": "codex/team-3-a37-office-payroll",
+  "testedProductionHead": "a272e430182f84365bed2cacf95912d829706373",
+  "additiveFoundationHead": "97677cc4ec207efa0a15af1577357d8ef3ce4e2d",
+  "productionBlobs": {
+    "src/simulation/office-salary.ts": "84cc18e4a5ea5fbb71960e83feda3678e6e929d3",
+    "src/simulation/office-payroll.test.ts": "706d1556e49544d32ca641ea27a7d406d7fb3ebf",
+    "src/simulation/living-world/town-pay.ts": "5ec7a0d286570d1d298ff83d09245d0b2b30eadc",
+    "src/simulation/law-consequences/pay-default-registry.test.ts": "ca7dba5ae3888add4415e3c5ef190a929a649b8c"
+  },
+  "candidateNative": {
+    "passed": 15,
+    "failed": 0,
+    "seconds": 205.16,
+    "officePassed": 6,
+    "defaultPayPassed": 9,
+    "maxWorkers": 1,
+    "testTimeoutMs": 30000
+  },
+  "defaultParentProof": {
+    "head": "fa47a1c5f0915917254ebae122f09a39709efe09",
+    "passed": 9,
+    "seconds": 105.84
+  },
+  "baseline": {
+    "productionHead": "f8399bfe646f87b41a6df110024e9717016416cb",
+    "testSource": "uncommitted owned fixture, later preserved by b73bd94b3 with branded-currency type correction",
+    "officeFivePlacePassed": 5,
+    "fundedTwoPeriodPassed": 1,
+    "fundedSeconds": 33.44,
+    "combinedReceipt": "5 unrelated extra payment-kind assertions failed; office five-place assertions passed"
+  },
+  "static": {
+    "typeRoots": 4,
+    "diagnostics": 0,
+    "lint": "PASS",
+    "format": "PASS",
+    "whitespace": "PASS",
+    "zeroDice": {
+      "exit": 1,
+      "new": 0,
+      "inheritedGone": 5,
+      "baselineModified": false
+    },
+    "release": "PASS against 2c5cf28d at f1244dd"
+  },
+  "notRun": [
+    "ordinary clock",
+    "browser",
+    "year speed",
+    "final main",
+    "annual office-law action"
+  ],
+  "remaining": [
+    "A37 business writer and office calendar cap",
+    "annual-office writer/handler contract",
+    "shared resources payment label conversion"
+  ],
+  "logs": [
+    {
+      "path": "docs/codex/effect-batches/team-3/team3-a13-default-registry-r2.txt",
+      "sha256": "1e5608bb206c589b96395b77c826af15fbef60bffd605b5bc022deb8f9225003",
+      "rawSha256": "68724d7392c7aa95579f03f067fd065160e9a924a3b18ac2b3ec177f0c2e95af",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/team3-a19-a37-before-r2.txt",
+      "sha256": "16aaec99e4311d76eacca217b19398d0c274a6134730a496ff2cad38a814a857",
+      "rawSha256": "9201dfb2f66f035f4bbd8e90f5f38b1293302974daded1c13f4038429c19e82f",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/team3-a37-cash-before-r4.txt",
+      "sha256": "8637405f31e7ce9f97844a4304b72d7677825ed25b0685bb2f9651d66f14b515",
+      "rawSha256": "2da424da64c621fbc80f5e0d7b5d72b2390218d3d5ccf0b826d5bd673f5d0cd8",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/team3-a37-a19-after-r5.txt",
+      "sha256": "4ebf9fa727e2e54d980d377bda953225d5ae44546d4c42624086fadd2c5ef0d4",
+      "rawSha256": "c7f025eebf72d80b60f9b7b87c95b567b1bdc769d15f9dc6cfec4ad651a0d164",
+      "rawTrailingLinefeeds": 2
+    }
+  ],
+  "logEncoding": "Only extra terminal blank lines are removed in published text; rawTrailingLinefeeds plus rawSha256 preserve exact reconstruction. Native workspace logs remain unchanged."
+}

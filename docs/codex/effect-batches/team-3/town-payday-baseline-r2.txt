@@ -1,0 +1,33 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 amountless city ordinance refuses a fabricated numeric wage
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor
+ ↓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor
+ × src/simulation/law-consequences/pay-city.test.ts > A38 scheduled town payday preserves the city law's canonical pay terms 369ms
+   → Cannot read properties of undefined (reading '0')
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/pay-city.test.ts > A38 scheduled town payday preserves the city law's canonical pay terms
+TypeError: Cannot read properties of undefined (reading '0')
+ ❯ src/simulation/law-consequences/pay-city.test.ts:557:22
+    555|     netMinor: stubs.map((row) => row.netPaid.minorUnits),
+    556|     employerCashMinor: cashMinor,
+    557|     termsKind: terms.lawEffectStamps![0]!.effectKind,
+       |                      ^
+    558|   });
+    559|   expect(terms.lawEffectStamps![0]!.effectKind).toBe("pay");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  09:45:15
+   Duration  20.11s (transform 15.21s, setup 17ms, import 19.60s, tests 371ms, environment 0ms)
+

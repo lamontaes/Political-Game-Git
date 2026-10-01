@@ -1,0 +1,128 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 1150000
+ANNUAL_LIVE_OFFICE_PAY {
+  seed: 'office-annual:1150000',
+  placeKey: '1150000',
+  person: 'Olivia Newton',
+  workplace: 'OH',
+  clauseId: 'rule-change-provision_2c12a0396e3e9a99',
+  enactmentId: 'legislative-enactment_539a44504b37e4a0',
+  periods: [
+    { from: '2026-01-05', grossMinor: 328960 },
+    { from: '2026-01-12', grossMinor: 100000 }
+  ]
+}
+
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 1150000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2836000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 5363000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2938000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 3451000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 refuses a salary change limited to terms beginning after its date
+ ↓ src/simulation/office-annual-pay.test.ts > A38 reads the actual office role at the earlier payroll date
+ ↓ src/simulation/office-annual-pay.test.ts > A38 dispatches the actual office measure through the default pay registration
+ ✓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 1150000 17688ms
+ ↓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 2836000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 5363000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 2938000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 live office salary caller stamps adopted annual pay in 3451000
+ ↓ src/simulation/office-annual-pay.test.ts > A38 extracts saved applicability facts from the retained Ohio fixture
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 75000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'legislative-measure_0e57d79d61532c18'
+}
+
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 default city row pays the explicit ordinance amount and retains repeat/reload 336ms
+ × src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor 63ms
+   → expected 60000 to be 61040 // Object.is equality
+ × src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck 24ms
+   → Missing actual municipal procedure for fixture
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 amountless city ordinance refuses a fabricated numeric wage 44ms
+stdout | src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor
+CITY_ACTUAL_PAY {
+  person: 'Parker Clark',
+  grossMinor: 100000,
+  flowId: 'resource-flow_7d5e34e68af4c0cd',
+  law: 'legislative-measure_a80a25c15fe77d2f'
+}
+
+ × src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor 54ms
+   → expected 60000 to be 61040 // Object.is equality
+ ✓ src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce an actual stronger federal floor 200ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 admits one default pay handler and refuses duplicate ownership 2ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-federal-positions:labor-commerce.raise-federal-minimum-wage 6ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-policy-positions:labor-workforce.raise-minimum-wage 1ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 loads the actual build catalog pay row for us-policy-positions:labor-workforce.city-minimum-wage 1ms
+ ✓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 preserves the existing coverage and service catalog rows 3ms
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 1150000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2836000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 5363000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 2938000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+ ↓ src/simulation/law-consequences/pay-default-registry.test.ts > A13 default pay kind in 3451000 > uses the default registry and unmodified build catalog dated starting terms on a named worker's actual contract, paycheck and stamped payment, with NPC/player and Save/Continue parity
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/pay-city.test.ts > A39 absent city ordinance preserves the stronger actual state floor
+AssertionError: expected 60000 to be 61040 // Object.is equality
+
+- Expected
++ Received
+
+- 61040
++ 60000
+
+ ❯ payment src/simulation/law-consequences/pay-city.test.ts:318:48
+    316|     (row) => row.stableKey === period.stableKey,
+    317|   )!;
+    318|   expect(outcome.transferredAmount.minorUnits).toBe(expectedMinor);
+       |                                                ^
+    319|   expect(outcome.lawEffectStamps!.at(-1)!.effectKind).toBe("pay");
+    320|   if (expectedLaw)
+ ❯ src/simulation/law-consequences/pay-city.test.ts:383:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/simulation/law-consequences/pay-city.test.ts > A39 preempted city ordinance cannot set a worker's paycheck
+Error: Missing actual municipal procedure for fixture
+ ❯ opened src/simulation/law-consequences/pay-city.test.ts:101:11
+     99|   const result = municipalRulePackFor(government);
+    100|   if (!result.ok)
+    101|     throw new Error("Missing actual municipal procedure for fixture");
+       |           ^
+    102|   return { world, place, pack: result.pack };
+    103| }
+ ❯ src/simulation/law-consequences/pay-city.test.ts:387:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/simulation/law-consequences/pay-city.test.ts > A39 lower city amount cannot reduce the stronger state paycheck floor
+AssertionError: expected 60000 to be 61040 // Object.is equality
+
+- Expected
++ Received
+
+- 61040
++ 60000
+
+ ❯ payment src/simulation/law-consequences/pay-city.test.ts:318:48
+    316|     (row) => row.stableKey === period.stableKey,
+    317|   )!;
+    318|   expect(outcome.transferredAmount.minorUnits).toBe(expectedMinor);
+       |                                                ^
+    319|   expect(outcome.lawEffectStamps!.at(-1)!.effectKind).toBe("pay");
+    320|   if (expectedLaw)
+ ❯ src/simulation/law-consequences/pay-city.test.ts:444:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  3 failed | 9 passed | 18 skipped (30)
+   Start at  09:13:07
+   Duration  45.07s (transform 17.72s, setup 28ms, import 26.25s, tests 18.43s, environment 1ms)

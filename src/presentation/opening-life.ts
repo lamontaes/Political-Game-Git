@@ -1,3 +1,9 @@
+import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
+import { initializeOfficeSalaryFlows } from "../simulation/office-salary";
+import { initializeLivingCostsFlow } from "../simulation/cost-of-living";
+import { ensurePlayerMonthlyMoneySchedule } from "../simulation/player-monthly-money";
+import { applyStartingLawConsequences } from "../simulation/enacted-law-effects";
+import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { recordOpeningWorkLocation } from "./opening-work-location";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
@@ -226,7 +232,7 @@ interface OpeningLifeBuildStart {
 }
 
 function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
-  const game = createNewGameWorld(session.setup);
+  const game = createNewGameWorld(session.setup, { deferStartingLaws: true });
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
   const conditioned = ensureWorldStartingConditions(game.world, {
@@ -370,12 +376,25 @@ function completeOpeningLife(
     withBudgets,
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
   );
-  const world = openedWorld(
+  const opened = openedWorld(
     withMortality,
     game.playerPersonId,
     session.setup.openingDataVersion,
     session.setup.livingWorldMemberNameVersion,
   );
+  const withSalaryFlows = initializeOfficeSalaryFlows(
+    opened,
+    game.playerPersonId,
+  );
+  const withLivingCosts = initializeLivingCostsFlow(
+    withSalaryFlows,
+    game.playerPersonId,
+  );
+  const withMonthlyMoney = ensurePlayerMonthlyMoneySchedule(
+    withLivingCosts,
+    game.playerPersonId,
+  );
+  const world = initializeWorkPayCoverage(withMonthlyMoney);
   return {
     ...session,
     phase: "world",
@@ -393,7 +412,7 @@ function completeOpeningLife(
       // not die. Starting it here costs the clock's hot path nothing, and the
       // version gate keeps a legacy replay byte-identical: those saves still
       // start it on their first ordinary-day pass, as before.
-      world,
+      world: recoverOverdueProsecutions(applyStartingLawConsequences(world)),
     },
   };
 }

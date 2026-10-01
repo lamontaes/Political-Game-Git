@@ -1,0 +1,12 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/local-economy-wage.test.ts > what a local business pays its staff > is the published wage for the worker's occupation where the town is 108ms
+ ✓ src/simulation/local-economy-wage.test.ts > what a local business pays its staff > says so when no wage is published, and uses the marked placeholder 0ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  04:50:38
+   Duration  10.22s (transform 8.11s, setup 18ms, import 9.98s, tests 109ms, environment 1ms)
+

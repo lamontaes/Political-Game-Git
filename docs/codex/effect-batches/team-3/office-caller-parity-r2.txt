@@ -1,0 +1,75 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves recorded employer cash over two office pay periods 22295ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 1150000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:1150000',
+  placeKey: '1150000',
+  person: 'Jasmine Rush',
+  flowId: 'resource-flow_b150603a82670fa1',
+  grossMinor: 334615,
+  employeeBalanceMinor: 253239,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 1150000 15963ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2836000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:2836000',
+  placeKey: '2836000',
+  person: 'Rohan Hayes',
+  flowId: 'resource-flow_309f611b4a2fcea4',
+  grossMinor: 334615,
+  employeeBalanceMinor: 263535,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2836000 16794ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 5363000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:5363000',
+  placeKey: '5363000',
+  person: 'Jade Valdez',
+  flowId: 'resource-flow_b85147585177ac5e',
+  grossMinor: 334615,
+  employeeBalanceMinor: 273272,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 5363000 15065ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2938000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:2938000',
+  placeKey: '2938000',
+  person: 'Victor Sinclair',
+  flowId: 'resource-flow_75ff81ff24a3d5a5',
+  grossMinor: 334615,
+  employeeBalanceMinor: 262049,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 2938000 15606ms
+stdout | src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 3451000
+A37_OFFICE_PAYROLL {
+  seed: 'office-payroll:3451000',
+  placeKey: '3451000',
+  person: 'Anya Arnold',
+  flowId: 'resource-flow_75516896d310bd14',
+  grossMinor: 334615,
+  employeeBalanceMinor: 259067,
+  employerBalanceMinor: null,
+  fixture: 'authored congressional work; existing published salary preserved, ordinary appointment not tested'
+}
+
+ ✓ src/simulation/office-payroll.test.ts > A37 preserves an actual saved review-office period through the one payroll in 3451000 15038ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  07:16:29
+   Duration  113.76s (transform 10.49s, setup 17ms, import 12.86s, tests 100.76s, environment 0ms)

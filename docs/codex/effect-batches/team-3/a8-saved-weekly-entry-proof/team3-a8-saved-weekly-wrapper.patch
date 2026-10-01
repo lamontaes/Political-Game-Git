@@ -1,0 +1,130 @@
+diff --git a/src/simulation/job-market.ts b/src/simulation/job-market.ts
+index fe078e405..e4d5c3fe6 100644
+--- a/src/simulation/job-market.ts
++++ b/src/simulation/job-market.ts
+@@ -1915,6 +1915,52 @@ export function settleJobPay(world: World, personId: EntityId): World {
+   );
+ }
+ 
++/**
++ * Settles one due week of an already saved work/flow pair. The clock adapter
++ * owns scheduling; this entry point neither creates a job nor opens pay terms.
++ */
++export function settleSavedWeeklyJobPay(
++  world: World,
++  workRelationshipId: EntityId,
++  resourceFlowId: EntityId,
++  dueOn: IsoDate,
++): World {
++  const work = world.history.workRelationships.find(
++    (row) => row.id === workRelationshipId,
++  );
++  const flow = world.history.resourceFlows.find(
++    (row) => row.id === resourceFlowId,
++  );
++  if (
++    !work ||
++    !flow ||
++    flow.basisKind !== "compensation:work" ||
++    flow.basisReference.kind !== "work" ||
++    flow.basisReference.workRelationshipId !== work.id ||
++    flow.recipient.kind !== "person" ||
++    flow.recipient.personId !== work.personId ||
++    flow.source.kind !== "organization" ||
++    flow.source.organizationId !== work.organizationId
++  )
++    throw new Error(
++      "Weekly job pay requires its saved work and compensation flow",
++    );
++  const elapsedDays = daysBetween(flow.startsAt, dueOn);
++  if (elapsedDays < WEEK_DAYS || elapsedDays % WEEK_DAYS !== 0)
++    throw new Error(
++      "Weekly job pay requires a due date from its saved flow start",
++    );
++  if (dueOn > world.currentDate) return world;
++  return settleRecordedJobPay(
++    world,
++    work.personId,
++    (candidateFlow, candidateWork) =>
++      candidateFlow.id === flow.id && candidateWork.id === work.id,
++    addDays(dueOn, -1),
++    (candidateDueOn) => candidateDueOn === dueOn,
++  );
++}
++
+ function settleRecordedJobPay(
+   world: World,
+   personId: EntityId,
+diff --git a/src/simulation/law-consequences/pay-city.test.ts b/src/simulation/law-consequences/pay-city.test.ts
+index ae08061ee..8e839e090 100644
+--- a/src/simulation/law-consequences/pay-city.test.ts
++++ b/src/simulation/law-consequences/pay-city.test.ts
+@@ -6,7 +6,7 @@ import { createScenarioWorld } from "../demo";
+ import { applyLawConsequences } from "../enacted-law-effects";
+ import { advanceWorld } from "../world";
+ import { createFutureTransitionHandlerRegistry } from "../future-transitions";
+-import { settleJobPay } from "../job-market";
++import { settleJobPay, settleSavedWeeklyJobPay } from "../job-market";
+ import {
+   fileRuleChangeProvision,
+   laborLawOfficeKey,
+@@ -762,6 +762,59 @@ it("A38 scheduled town payday preserves the city law's canonical pay terms", ()
+   ).toBe(paid);
+ });
+ 
++it("A8 saved weekly adapter reuses the actual contract and common payment writer", () => {
++  const o = opened("3137000");
++  const f = worker(o.world, o.place.context.jurisdiction.id, false, true);
++  if (f.flow.basisReference.kind !== "work")
++    throw new Error("Missing fixture work binding");
++  const workId = f.flow.basisReference.workRelationshipId;
++  const dueOn = addDays(f.flow.startsAt, 7);
++  expect(settleSavedWeeklyJobPay(f.world, workId, f.flow.id, dueOn)).toBe(
++    f.world,
++  );
++  expect(() =>
++    settleSavedWeeklyJobPay(f.world, f.flow.id, f.flow.id, dueOn),
++  ).toThrow("requires its saved work and compensation flow");
++  expect(() =>
++    settleSavedWeeklyJobPay(f.world, workId, f.flow.id, addDays(dueOn, -1)),
++  ).toThrow("requires a due date from its saved flow start");
++  const before = advanceWorld(
++    f.world,
++    7,
++    createCampaignElectionTransitionRegistry(),
++  );
++  const paid = settleSavedWeeklyJobPay(before, workId, f.flow.id, dueOn);
++  expect(serializeWorld(paid)).toBe(
++    serializeWorld(settleJobPay(before, f.personId)),
++  );
++  const outcomes = paid.history.resourceTransferOutcomes.filter(
++    (row) => row.resourceFlowId === f.flow.id,
++  );
++  expect(outcomes).toHaveLength(1);
++  expect(outcomes[0]!.periodStartsAt).toBe(f.flow.startsAt);
++  expect(outcomes[0]!.periodEndsAt).toBe(addDays(dueOn, -1));
++  expect(outcomes[0]!.occurredAt).toBe(dueOn);
++  expect(outcomes[0]!.status).toBe("completed");
++  expect(settleSavedWeeklyJobPay(paid, workId, f.flow.id, dueOn)).toBe(paid);
++  expect(
++    serializeWorld(
++      settleSavedWeeklyJobPay(
++        deserializeWorld(serializeWorld(before)),
++        workId,
++        f.flow.id,
++        dueOn,
++      ),
++    ),
++  ).toBe(serializeWorld(paid));
++  console.info("A8_SAVED_WEEK_ADAPTER", {
++    person: personName(paid.people[f.personId]!),
++    workId,
++    flowId: f.flow.id,
++    dueOn,
++    paidMinor: outcomes[0]!.transferredAmount.minorUnits,
++  });
++});
++
+ it("A8 saved job contract pays from the actual clock before a presentation refresh", () => {
+   const o = opened("3137000");
+   const f = worker(o.world, o.place.context.jurisdiction.id, false, true);

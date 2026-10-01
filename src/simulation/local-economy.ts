@@ -30,7 +30,11 @@ import {
   recordResourceTransferOutcomes,
   type RecordResourceTransferOutcomeInput,
 } from "./resources";
-import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
+import {
+  resourceFlowTermsAt,
+  resourcePositionAt,
+  sameEndpoint,
+} from "./resource-queries";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { SeededRng } from "./rng";
 import { writeWithWorldIntegrityOnce } from "./world";
@@ -775,10 +779,50 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
       a.input.periodStartsAt.localeCompare(b.input.periodStartsAt) ||
       Number(b.revenue) - Number(a.revenue),
   );
-  return recordResourceTransferOutcomes(
-    world,
-    due.map((entry) => entry.input),
-  );
+  const flowById = new Map(tracked.map((flow) => [flow.id, flow]));
+  return writeWithWorldIntegrityOnce(world, () => {
+    let next = world;
+    for (const entry of due) {
+      let input = entry.input;
+      const flow = flowById.get(input.resourceFlowId)!;
+      if (
+        flow.basisKind === BUSINESS_WAGES_BASIS &&
+        flow.source.kind === "organization"
+      ) {
+        const position = resourcePositionAt(
+          next,
+          flow.source,
+          input.transferredAmount.currency,
+          {
+            asOfDate: makeIsoDate(input.occurredAt),
+            historySequenceExclusive: next.history.nextSequence,
+          },
+        );
+        const paid = position
+          ? Math.min(
+              input.transferredAmount.minorUnits,
+              Math.max(0, position.liquidBalance.minorUnits),
+            )
+          : 0;
+        if (paid < input.transferredAmount.minorUnits) {
+          input = {
+            ...input,
+            status: paid > 0 ? "partial" : "blocked",
+            transferredAmount: money(paid, input.transferredAmount.currency),
+            reasonKind: position
+              ? "capacity:insufficient-liquid"
+              : "capacity:unrecorded-employer-cash",
+            note: position
+              ? "Recorded employer cash cannot pay the full wages due."
+              : "Employer cash is not recorded; the wages remain unpaid.",
+          };
+        }
+      }
+      // The canonical writer makes this receipt/debit visible to the next payment.
+      next = recordResourceTransferOutcomes(next, [input]);
+    }
+    return next;
+  });
 }
 
 /**

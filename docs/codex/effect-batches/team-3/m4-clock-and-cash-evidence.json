@@ -1,0 +1,35 @@
+{
+  "cashPr": 1402,
+  "cashHead": "863a0e62dbcca25328b03d97ac7b639e034eb278",
+  "cashBaseline": "ad87125918412f91d2ebc4e04d15585ab484d688",
+  "fullClockPreservedSourceCommit": "2b4b3794f8d0db0e816df2ae8e30a6fbe9356855",
+  "fullClockPreservedTest": "src/simulation/local-economy-pay-clock.test.ts",
+  "fullClockTestedHead": null,
+  "fullClockSourceQualification": "Original run used the owned uncommitted working-tree test under local-economy-pay-cash.test.ts before its separation. The preserved full-clock source commit is not a rerun receipt.",
+  "fullClockStatus": "five stock-budget timeouts; unresolved integration",
+  "controlledCashStatus": "five passes in 51.91 seconds; controlled month contexts",
+  "wageRegressionStatus": "two passes in 10.22 seconds; separately executed",
+  "ordinaryScheduledPayroll": "NOT RUN / unproved",
+  "controlledProofReplacesClock": false,
+  "timeoutsOrAssertionsRelaxed": false,
+  "receipts": [
+    {
+      "name": "unresolved-full-clock",
+      "path": "docs/codex/effect-batches/team-3/unresolved-full-clock.txt",
+      "sha256": "52f0424544e8addd27a2ed9fc7bc9325492c4c82fa3ead1557b4015f9526de79",
+      "exitCode": 1
+    },
+    {
+      "name": "controlled-main-based-cash",
+      "path": "docs/codex/effect-batches/team-3/controlled-main-based-cash.txt",
+      "sha256": "488b7bd74bcb68ee83d9a03bfe3f11cd8237067a9b96021b4e08a68f8c50b498",
+      "exitCode": 0
+    },
+    {
+      "name": "main-based-wage-regression",
+      "path": "docs/codex/effect-batches/team-3/main-based-wage-regression.txt",
+      "sha256": "cc1fc6945de9232a6cc22cb3b1a46b657c0784951c90df6ada4e8b2914216b49",
+      "exitCode": 0
+    }
+  ]
+}

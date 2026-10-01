@@ -1,3 +1,4 @@
+import { createStableId } from "./ids";
 import {
   createLawConsequenceRegistry,
   LAW_CONSEQUENCE_REGISTRATIONS,
@@ -285,6 +286,7 @@ export function applyEnactedLawEffects(
     activityId: enactment.id,
     subjectIds: [],
     governingLawId: measureId,
+    origin: "enacted",
   });
 }
 
@@ -840,6 +842,27 @@ function levelOfGovernment(
   return isTerritoryUsps(stateKey.slice(3)) ? "territory" : "state";
 }
 
+/** Opening rules use the same dispatcher as later enacted rules. No enactment is invented. */
+export function applyStartingLawConsequences(
+  world: World,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+): World {
+  return applyLawConsequences(
+    world,
+    {
+      onDate: world.currentDate,
+      activity: "effective",
+      activityId: createStableId(
+        "event",
+        `${world.id}:starting-laws:${world.startedAt}`,
+      ),
+      subjectIds: [...world.personOrder],
+      origin: "in-force-at-start",
+    },
+    registrations,
+  );
+}
+
 /** Shared dispatch for starting and enacted laws. Resolvers retain canonical origin. */
 export function applyLawConsequences(
   world: World,
@@ -883,6 +906,7 @@ export function applyLawConsequences(
           throw new Error(
             `Consequence ${row.id}: resolver returned inconsistent cause identity`,
           );
+        if (context.origin && input.law.origin !== context.origin) continue;
         if (
           context.governingLawId &&
           input.law.measureId !== context.governingLawId
@@ -897,21 +921,15 @@ export function applyLawConsequences(
       }
     }
   }
-  if (
-    !context.questionKey &&
-    !context.governingLawId &&
-    context.origin !== "enacted"
-  ) {
+  // Recorded rule clauses have no policy question. They still enter the same
+  // admitted kind, validator, and writer as catalog-backed consequences.
+  if (!context.questionKey) {
     for (const registration of registry.handlers.values()) {
       if (!registration.resolveSavedRules) continue;
       for (const input of registration.resolveSavedRules(next, context)) {
         const { row, authority } = input;
         const errors = validateLawConsequences([row], registry.capabilities);
         if (errors.length) throw new Error(errors.join("; "));
-        if (row.onward?.length)
-          throw new Error(
-            `Consequence ${row.id}: unsupported standing onward dispatch`,
-          );
         if (
           row.kind !== registration.kind ||
           row.when !== context.activity ||
@@ -919,54 +937,85 @@ export function applyLawConsequences(
           !context.subjectIds.includes(input.subject.id)
         )
           throw new Error(
-            `Consequence ${row.id}: inconsistent saved authority`,
+            `Consequence ${row.id}: inconsistent saved-rule authority`,
+          );
+        if (row.onward?.length)
+          throw new Error(
+            `Consequence ${row.id}: missing saved-parent onward dispatch capability`,
           );
         if (
           input.value.type === "amount" &&
           !registration.units.includes(input.value.unit)
         )
           throw new Error(
-            `Consequence ${row.id}: unsupported saved authority unit`,
+            `Consequence ${row.id}: unsupported saved-rule amount unit`,
           );
         if (input.effectiveAt > context.onDate) continue;
         if (
-          context.standingAppropriationId &&
-          context.standingAppropriationId !== authority.appropriationId
-        )
-          continue;
-        const saved = (next.history.publicProgramRecords ?? []).find(
-          (record) => record.id === authority.appropriationId,
-        );
-        if (
-          authority.kind !== "standing-program-appropriation" ||
-          row.kind !== "service-delivered" ||
-          context.activity !== "service" ||
-          saved?.kind !== "appropriation" ||
-          saved.sourceMeasureId != null ||
-          saved.basis.kind !== "sourced" ||
-          !saved.basis.note.trim() ||
-          saved.recordedAt > context.onDate ||
-          authority.programKey !== saved.programKey ||
-          authority.jurisdictionId !== saved.jurisdictionId ||
-          input.jurisdictionId !== saved.jurisdictionId ||
-          authority.accountOrganizationId !== saved.accountOrganizationId ||
-          authority.availableFrom !== saved.availableFrom ||
-          authority.availableThrough !== saved.availableThrough ||
-          authority.sourceBasis.kind !== saved.basis.kind ||
-          authority.sourceBasis.note !== saved.basis.note ||
-          JSON.stringify(authority.publicGovernmentIdentity) !==
-            JSON.stringify(saved.publicGovernmentIdentity) ||
-          !input.sourceRecordIds.includes(saved.id) ||
-          !input.sourceRecordIds.includes(saved.eventId)
-        )
-          throw new Error(
-            `Consequence ${row.id}: inconsistent standing appropriation`,
+          authority.kind === "enacted-office-rule" ||
+          authority.kind === "enacted-hourly-pay-rule"
+        ) {
+          if (
+            context.origin === "in-force-at-start" ||
+            context.standingAppropriationId
+          )
+            continue;
+          if (
+            ![
+              authority.ruleChangeProvisionId,
+              authority.enactmentId,
+              authority.measureId,
+            ].every((id) => input.sourceRecordIds.includes(id))
+          )
+            throw new Error(
+              `Consequence ${row.id}: missing saved rule references`,
+            );
+          if (
+            context.governingLawId &&
+            authority.measureId !== context.governingLawId
+          )
+            continue;
+          if (authority.operativeAt > context.onDate) continue;
+        } else {
+          if (context.governingLawId || context.origin === "enacted") continue;
+          if (
+            context.standingAppropriationId &&
+            context.standingAppropriationId !== authority.appropriationId
+          )
+            continue;
+          const saved = (next.history.publicProgramRecords ?? []).find(
+            (record) => record.id === authority.appropriationId,
           );
-        if (
-          input.effectiveAt < saved.availableFrom ||
-          input.effectiveAt > saved.availableThrough
-        )
-          continue;
+          if (
+            row.kind !== "service-delivered" ||
+            context.activity !== "service" ||
+            saved?.kind !== "appropriation" ||
+            saved.sourceMeasureId != null ||
+            saved.basis.kind !== "sourced" ||
+            !saved.basis.note.trim() ||
+            saved.recordedAt > context.onDate ||
+            authority.programKey !== saved.programKey ||
+            authority.jurisdictionId !== saved.jurisdictionId ||
+            input.jurisdictionId !== saved.jurisdictionId ||
+            authority.accountOrganizationId !== saved.accountOrganizationId ||
+            authority.availableFrom !== saved.availableFrom ||
+            authority.availableThrough !== saved.availableThrough ||
+            authority.sourceBasis.kind !== saved.basis.kind ||
+            authority.sourceBasis.note !== saved.basis.note ||
+            JSON.stringify(authority.publicGovernmentIdentity) !==
+              JSON.stringify(saved.publicGovernmentIdentity) ||
+            !input.sourceRecordIds.includes(saved.id) ||
+            !input.sourceRecordIds.includes(saved.eventId)
+          )
+            throw new Error(
+              `Consequence ${row.id}: inconsistent standing appropriation`,
+            );
+          if (
+            input.effectiveAt < saved.availableFrom ||
+            input.effectiveAt > saved.availableThrough
+          )
+            continue;
+        }
         next = registration.apply(next, input);
       }
     }

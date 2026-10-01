@@ -1,0 +1,112 @@
+{
+  "dependency": "44e9a2f70239212e2cf20576c515520dd76cb03d",
+  "pinnedSource": "0e9e4e5e59741012582b6064140fcd26b31393c0",
+  "ownedTestOverlay": {
+    "path": "src/simulation/law-consequences/pay-city.test.ts",
+    "sha256": "1091743cd0fbdd59c6b2b012efa2d52600628c086c4c12b4d04383488184aff1"
+  },
+  "initialNative": {
+    "passed": 9,
+    "failed": 3,
+    "skipped": 18,
+    "seconds": 45.07,
+    "reason": "Two fixture expectations used the later Nebraska phase; Kentucky fixture lacked an executable council procedure."
+  },
+  "pinnedCity": {
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 28.01,
+    "configurationFirstAttempt": "Failed before discovery; preserved"
+  },
+  "pendingMainMerge": {
+    "main": "22caef4de5885c4591de8a3bd4cd533ca880ac51",
+    "conflicts": [
+      "src/simulation/enacted-law-effects.ts",
+      "src/simulation/law-consequence-types.ts",
+      "src/simulation/law-effect-stamp.ts",
+      "src/simulation/law-effect-stamp.test.ts"
+    ],
+    "owner": "Coordinator",
+    "nativeProof": "11/11 city/catalog PASS; five prior payroll samples NOT RUN",
+    "status": "Resolved additively at974695bfaa808b8f317117d3b8ec9e29c50b4af2 with exactly four approved core blobs"
+  },
+  "receipts": [
+    {
+      "path": "docs/codex/effect-batches/team-3/city-pay-native-r1.txt",
+      "rawSHA256": "b2534bff98f0a5b0c43a06409f124f91772ef27c177fbf2e89b87220fdfecc02",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/city-pay-pinned-discovery-r2.txt",
+      "rawSHA256": "8f49f7a9d91214dc902dbd1c2586da67bf6e103980a062c133685798b92db2dd",
+      "rawTrailingLinefeeds": 4
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/city-pay-pinned-r3.txt",
+      "rawSHA256": "cb35bce4a59d8a0e9d1c7a2c3760ec5e199871e841d1679d6e47e8bdb26a99eb",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/city-pay-types-r1.txt",
+      "rawSHA256": "51ee650c38dae264b806d798de5a12eab1a693cab100b4cfa047191360d036d5",
+      "rawTrailingLinefeeds": 1
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/city-pay-types-r2.txt",
+      "rawSHA256": "39bfedbdf4fd4dcc2902c6841ac35404ecc27f0d5288e4b9a0b72394b034886f",
+      "rawTrailingLinefeeds": 1
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/city-pay-current-main-r4.txt",
+      "rawSHA256": "60486d5e7c95655d215a0ee83e4fb4cdfc4528e38fe6e5b82f572fe0089db374",
+      "rawTrailingLinefeeds": 2
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/city-pay-current-main-types-r3.txt",
+      "rawSHA256": "d6cf816547f1ecd26b8b38c70a35791541b0793bf980431558eee5856a0dfa86",
+      "rawTrailingLinefeeds": 1
+    },
+    {
+      "path": "docs/codex/effect-batches/team-3/city-pay-current-main-zero-dice.txt",
+      "rawSHA256": "a7dc21a7d15fd878f3b104409a8702e37c6b2e2953e3fd3d3994190ac3784044",
+      "rawTrailingLinefeeds": 1
+    }
+  ],
+  "codeHead": "3380787fb1226bb6b8ab4bf7732f5c5516736fa4",
+  "reviewDependency": "714d393fe5bf4c770ac432c29aa60034ecabba4b",
+  "nativeComposition": {
+    "passed": 11,
+    "failed": 0,
+    "skipped": 5,
+    "files": 2,
+    "seconds": 26.9,
+    "scope": "Six actual city payment/refusal cases and five default catalog/registration preservation cases. Prior completed annual/default batch not rerun."
+  },
+  "types": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "unchangedAncestryCommit": "3c55eeb6081b2daa658eb3ada048fc77a67311d1",
+  "ancestryTreeMatchesTestedSource": true,
+  "annualPayrollReceipt": {
+    "testedSource": "829d7ca9315e323ec20f1d42c127c217051815bd",
+    "publishedHead": "37e7c3277341245bd93a4dc38bb268c4a0936af3",
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "Source-bound preceding composition, not rerun on later core."
+  },
+  "zeroDice": {
+    "exit": 1,
+    "new": 2,
+    "gone": 5,
+    "scope": "Inherited county-calendar flags and stale removed entries; county blob matches exact review dependency and refreshed main."
+  },
+  "remaining": [
+    "Full clock and speed NOT RUN",
+    "Complete all-56 payroll NOT RUN",
+    "Conditional Ohio ordinary-worker tiers not admitted",
+    "Latest final-main acceptance remains open"
+  ]
+}

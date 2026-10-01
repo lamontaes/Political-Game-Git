@@ -1,0 +1,113 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 1150000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:1150000',
+  placeKey: '1150000',
+  person: 'Olivia Newton',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_2c12a0396e3e9a99',
+  enactmentId: 'legislative-enactment_539a44504b37e4a0',
+  questionKey: null
+}
+
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2836000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:2836000',
+  placeKey: '2836000',
+  person: 'Ray Melendez',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_956563cc52fc8817',
+  enactmentId: 'legislative-enactment_fa1f59385dc65e9c',
+  questionKey: null
+}
+
+ × src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 1150000 8875ms
+   → Missing pay final law term 'target' (minor/hour)
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 5363000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:5363000',
+  placeKey: '5363000',
+  person: 'Nora Campos',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_bbdab955b045a0d6',
+  enactmentId: 'legislative-enactment_9c265d2cbabfcde8',
+  questionKey: null
+}
+
+ × src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2836000 8625ms
+   → Missing pay final law term 'target' (minor/hour)
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2938000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:2938000',
+  placeKey: '2938000',
+  person: 'Kieran Merritt',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_a7437d169dbc4b49',
+  enactmentId: 'legislative-enactment_9bbffb2d0dd76776',
+  questionKey: null
+}
+
+ × src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 5363000 8029ms
+   → Missing pay final law term 'target' (minor/hour)
+stdout | src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 3451000
+ANNUAL_OFFICE_TERMS {
+  seed: 'office-annual:3451000',
+  placeKey: '3451000',
+  person: 'Sofia Gonzales',
+  workplace: 'OH',
+  annualMinor: 5200000,
+  weeklyMinor: 100000,
+  clauseId: 'rule-change-provision_678cf3cf3293a90a',
+  enactmentId: 'legislative-enactment_c5e814048556fa69',
+  questionKey: null
+}
+
+ × src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2938000 7967ms
+   → Missing pay final law term 'target' (minor/hour)
+ × src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 3451000 9502ms
+   → Missing pay final law term 'target' (minor/hour)
+ ✓ src/simulation/office-annual-pay.test.ts > A38 refuses a salary change limited to terms beginning after its date 3058ms
+ ✓ src/simulation/office-annual-pay.test.ts > A38 reads the actual office role at the earlier payroll date 3587ms
+ ✓ src/simulation/law-effect-stamp.test.ts > saved law-effect attribution > preserves a consumer's canonical law and enrollment/payment chain without changing inputs 2ms
+ ✓ src/simulation/law-effect-stamp.test.ts > saved law-effect attribution > keeps an actual starting-law key separate from enacted measures, including a no answer 0ms
+ ✓ src/simulation/law-effect-stamp.test.ts > saved law-effect attribution > refuses unknown or future law and malformed saved dates/source identities 0ms
+ ✓ src/simulation/law-effect-stamp.test.ts > questionless office rule attribution > preserves actual rule references without creating a policy question 0ms
+ ✓ src/simulation/law-effect-stamp.test.ts > questionless office rule attribution > refuses ambiguous subjects, missing causal references and starting-rule substitution 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 1150000
+ FAIL  src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2836000
+ FAIL  src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 5363000
+ FAIL  src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 2938000
+ FAIL  src/simulation/office-annual-pay.test.ts > A38 converts actual office rule authority to a named person's annual salary in 3451000
+Error: Missing pay final law term 'target' (minor/hour)
+ ❯ Object.resolvePayConsequences [as resolve] src/simulation/law-consequences/pay.ts:219:15
+    217|       });
+    218|       if (!term)
+    219|         throw new Error(`Missing pay final law term '${key}' (${unit})…
+       |               ^
+    220|       legalTerms[key] = { value: term.value, unit: term.unit };
+    221|       sourceRecordIds.push(...term.sourceRecordIds);
+ ❯ applyLawConsequences src/simulation/enacted-law-effects.ts:895:37
+ ❯ settleTownCompensations src/simulation/living-world/town-pay.ts:1567:12
+ ❯ src/simulation/office-annual-pay.test.ts:430:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  5 failed | 7 passed (12)
+   Start at  06:51:48
+   Duration  62.62s (transform 10.38s, setup 23ms, import 12.71s, tests 49.65s, environment 1ms)
