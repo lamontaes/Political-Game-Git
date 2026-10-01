@@ -81,7 +81,8 @@ export function resolveTaxConsequences(
   const statutory = taxBaseOccurrenceSource(world, context.activityId);
   if (statutory && statutory.kind !== "event") {
     return row.what === STATUTORY_TAX_ACTION
-      ? resolveStatutoryTaxConsequences(world, row, context) : [];
+      ? resolveStatutoryTaxConsequences(world, row, context)
+      : [];
   }
   if (context.activity !== "assessment" || context.onDate !== world.currentDate)
     return [];
@@ -449,7 +450,8 @@ export function applyTaxConsequence(
   const source = taxBaseOccurrenceSource(world, resolved.activityId);
   if (source && source.kind !== "event") {
     return resolved.row.what === STATUTORY_TAX_ACTION
-      ? appendStatutoryTaxLawAttribution(world, resolved) : world;
+      ? appendStatutoryTaxLawAttribution(world, resolved)
+      : world;
   }
   const current = resolveTaxConsequences(world, resolved.row, {
     onDate: resolved.effectiveAt,
