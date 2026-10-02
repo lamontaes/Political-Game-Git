@@ -2,7 +2,7 @@
 
 ## MERGED
 
-This item is not merged. Production/test checkpoint 61e401b162457d94ef539a7e3ff69c319d2b8c94 is based on main 5171b49820a1436360e3ecb4240627ddc21178c7. Final publication adds this receipt only. Jobs removal #1825 is already merged. Paycheck #1840 remains a separate preserved PR.
+This item is not merged. Production/native-test checkpoint 61e401b162457d94ef539a7e3ff69c319d2b8c94 is based on main 5171b49820a1436360e3ecb4240627ddc21178c7. Initial publication ade1a7d5a adds this receipt only. Successor 423f7e2c96cf83138647dd34a91ada7676226b65 adds a browser screenshot route without changing those production/native-test blobs. Jobs removal #1825 is already merged. Paycheck #1840 remains a separate preserved PR.
 
 ## WHAT EMERGED
 
@@ -13,6 +13,8 @@ HARDWIRED: a town opening with the existing occupation mapping now displays the 
 Complete NEW job-occupation-description.test.ts: 3/3 PASS, 27.64 seconds at 61e401b162457d94ef539a7e3ff69c319d2b8c94; test blob 7f8662f365135e6c59d06eecd09c6d5a65f7b8f8. Three changed TypeScript roots load 1,201 dependencies with zero diagnostics; changed-file lint and format pass. Earlier three-case pass at 5836c0c7f and its two test type-import lint errors remain recorded; the test repair uses a type-only namespace and strengthens posted-terms checks. No assertion, timeout or filter was removed. These are builder checks, not Claude GATE RESULTs.
 
 Browser/screenshot and official Claude gate are NOT RUN. Audit alone owns the newer bare-JSON collection repair; no blocked browser retry or cross-cutting import edit. Stock native logging suppressed the fixture's console trace, so no named player/owner-save observation is inferred from its three passing tests.
+
+Unblocked screenshot preparation: NEW tests/e2e/job-description.spec.ts creates the same seeded canonical life, selects the currently available recorded opening through openJobListings, saves it through BrowserSaveStore, and walks normal Continue and Jobs. Assertions compare actual source description, employer and offered terms, preserve the absence of median/legal-pay narration, and check the kept pay-outcome count. It attaches the actual fixture identities and captures jobs-description-after.png when executed. At 423f7e2c9 this ONE new browser-file root loads 1,002 dependencies with zero type diagnostics; its lint and format pass. Browser execution and both before/after captures remain NOT RUN, so this preparation supplies no new visual acceptance.
 
 ## 1. Why-chain to bedrock
 
