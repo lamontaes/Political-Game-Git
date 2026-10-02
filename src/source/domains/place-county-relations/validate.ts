@@ -202,7 +202,7 @@ export function validatePlaceCountyCorpus(
 
   return {
     domain: "place-county-relations",
-    checked: records.length,
+    checked: compiled.records.length,
     findings,
   };
 }
