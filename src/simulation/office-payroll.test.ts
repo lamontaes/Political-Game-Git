@@ -1,9 +1,5 @@
 import { expect, it } from "vitest";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../presentation/opening-life";
-import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import { smallWorld } from "../../tests/fixtures/small-world";
 import { addDays, simulationMomentOnLocalDate } from "./dates";
 import {
   cancelFutureDueItem,
@@ -108,15 +104,8 @@ it("A37 preserves recorded employer cash over two office pay periods", () => {
 });
 function officeFixture(placeKey: string) {
   const seed = `office-payroll:${placeKey}`;
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey,
-      startAge: 30,
-      questionnaire: "skipped",
-    }),
-  ).game!;
+  // These are authored office-period controls, not opening-population tests.
+  const game = smallWorld({ place: placeKey, seed });
   const opened = game.world;
   if (opened.control.kind !== "person")
     throw new Error("Actual player required");
