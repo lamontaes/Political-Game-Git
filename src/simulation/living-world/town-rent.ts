@@ -1,3 +1,4 @@
+import { rentConstructionCovered } from "../law-consequences/rent-construction-coverage";
 import { recordedMonthlyPayByPerson } from "../household-pay";
 /**
  * Rent day: every renting household in town pays rent on the first of the
@@ -1414,7 +1415,7 @@ export function publicHousingRentMinor(
  */
 export function inclusionaryHome(
   world: World,
-  dwelling: { readonly id: EntityId; readonly establishedAt: IsoDate },
+  dwelling: World["history"]["dwellings"][number],
   kind: TownHomeKind,
   town: EntityId,
   affordableLet: number,
@@ -1423,7 +1424,11 @@ export function inclusionaryHome(
   readonly law: LawInForce;
   readonly sourceRecordIds: readonly EntityId[];
 } | null {
-  if (!coveredKind(kind)) return null;
+  if (
+    !coveredKind(kind) ||
+    rentConstructionCovered(world, dwelling, dwelling.establishedAt, null)
+  )
+    return null;
   const law = housingLawYes(
     world,
     town,
@@ -1444,6 +1449,7 @@ export function inclusionaryHome(
     (row) =>
       row.jurisdictionId === town &&
       coveredKind(homeKindOf(row.classification)) &&
+      !rentConstructionCovered(world, row, row.establishedAt, null) &&
       row.establishedAt > law.operativeAt &&
       (row.establishedAt < dwelling.establishedAt ||
         (row.establishedAt === dwelling.establishedAt &&
