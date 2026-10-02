@@ -1,11 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import {
+  renderPlaceCountyModule,
+  renderDistrictPopulationModules,
+} from "../../../../scripts/source/export-place-county-relations";
+import { PLACE_COUNTY_RELATIONS_ROWS } from "../../../simulation/place-county-relations.generated";
+import {
   corpusCanonicalDigest,
   isClean,
   type ArtifactLock,
 } from "../../core/index";
-import { sourceDomain, type PlaceRelationRecord } from "./index";
+import {
+  sourceDomain,
+  type PlaceRelationRecord,
+  type PlaceCountyPartRecord,
+  type PlaceDistrictPopulationRecord,
+} from "./index";
 import { drawRandomPlace } from "../../../../tests/support/random-place";
 import {
   normalizeDistrictPopulationParts,
@@ -36,6 +46,79 @@ function part(index: number, overrides: Partial<Row> = {}): Row {
 }
 
 describe("normalizeDistrictPopulationParts authored source fixtures", () => {
+  it("regenerates one source line per acquired row without changing county or district records", () => {
+    const records = JSON.parse(
+      readFileSync(
+        new URL(
+          "../../../../data/source/place-county-relations/corpus.json",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    ) as PlaceRelationRecord[];
+    const counties = records
+      .filter(
+        (record): record is PlaceCountyPartRecord =>
+          !("relationKind" in record),
+      )
+      .map((record) => [
+        record.placeGeoid,
+        record.countyGeoid,
+        record.partLandAreaSquareMeters,
+        record.partPopulationCount,
+      ]);
+    const districts = records
+      .filter(
+        (record): record is PlaceDistrictPopulationRecord =>
+          "relationKind" in record,
+      )
+      .map((record) => [
+        record.placeGeoid,
+        record.chamber,
+        record.boundaryVintage,
+        record.districtGeoid,
+        record.partPopulationCount,
+        record.placePopulationCount,
+      ]);
+    expect(JSON.parse(PLACE_COUNTY_RELATIONS_ROWS)).toEqual(counties);
+    const modules = renderDistrictPopulationModules();
+    const shardRows = [...modules]
+      .filter(([path]) => path.endsWith(".json"))
+      .flatMap(([path, text]) => {
+        expect(text).toBe(
+          readFileSync(new URL(`../../../../${path}`, import.meta.url), "utf8"),
+        );
+        const rows = JSON.parse(text) as unknown[][];
+        expect(
+          text.split("\n").filter((line) => line.startsWith('["')).length,
+        ).toBe(rows.length);
+        return rows;
+      });
+    expect(shardRows.map((row) => JSON.stringify(row)).sort()).toEqual(
+      districts.map((row) => JSON.stringify(row)).sort(),
+    );
+    const loaderPath = "src/districts/district-population-loaders.generated.ts";
+    expect(modules.get(loaderPath)).toBe(
+      readFileSync(
+        new URL(`../../../../${loaderPath}`, import.meta.url),
+        "utf8",
+      ),
+    );
+    const rendered = renderPlaceCountyModule();
+    expect(rendered).toBe(
+      readFileSync(
+        new URL(
+          "../../../simulation/place-county-relations.generated.ts",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+    expect(
+      rendered.split("\n").filter((line) => line.startsWith('["')).length,
+    ).toBe(counties.length);
+  });
+
   it("replays the acquired source tables and preserves county and district population totals", () => {
     const readSourceJson = (name: string): unknown =>
       JSON.parse(

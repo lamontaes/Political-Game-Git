@@ -1,5 +1,13 @@
-import { PLACE_DISTRICT_POPULATION_ROWS } from "../simulation/place-county-relations.generated";
-import type { DistrictChamber } from "./types";
+import { readFileSync } from "node:fs";
+import type {
+  PlaceRelationRecord,
+  PlaceDistrictPopulationRecord,
+} from "../source/domains/place-county-relations/types";
+import {
+  prepareDistrictPopulationForState,
+  districtPopulationPreparationStatus,
+} from "./district-population-loader";
+import { DISTRICT_POPULATION_LOADERS } from "./district-population-loaders.generated";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { districtIdentityCatalog } from "./catalog";
 import { placeRelationVintageFor } from "./place-membership";
@@ -17,6 +25,47 @@ import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 const seed = "overflow8-a144-population-parts";
 const catalog = districtIdentityCatalog();
 const chamber = "state-lower" as const;
+const acquiredParts = (
+  JSON.parse(
+    readFileSync(
+      new URL(
+        "../../data/source/place-county-relations/corpus.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  ) as PlaceRelationRecord[]
+)
+  .filter(
+    (record): record is PlaceDistrictPopulationRecord =>
+      "relationKind" in record,
+  )
+  .map((record) => ({
+    placeGeoid: record.placeGeoid,
+    chamber: record.chamber,
+    boundaryVintage: record.boundaryVintage,
+    districtGeoid: record.districtGeoid,
+    partPopulationCount: record.partPopulationCount,
+    placePopulationCount: record.placePopulationCount,
+  }));
+const acquiredByPlace = new Map<string, typeof acquiredParts>();
+for (const part of acquiredParts) {
+  const rows = acquiredByPlace.get(part.placeGeoid) ?? [];
+  rows.push(part);
+  acquiredByPlace.set(part.placeGeoid, rows);
+}
+const acquiredRows = acquiredParts.map(
+  (row) =>
+    [
+      row.placeGeoid,
+      row.chamber,
+      row.boundaryVintage,
+      row.districtGeoid,
+      row.partPopulationCount,
+      row.placePopulationCount,
+    ] as const,
+);
+const unfilteredPlace = drawRandomPlace(seed);
 const place = drawRandomPlace(
   seed,
   (candidate) =>
@@ -28,8 +77,10 @@ const place = drawRandomPlace(
       placeGeoid: candidate.sourceGeoid!,
       chamber,
       asOf: "2026-01-05",
+      parts: acquiredByPlace.get(candidate.sourceGeoid!) ?? [],
     }).some((row) => row.populationCount > 0),
 );
+await prepareDistrictPopulationForState(place.stateJurisdictionKey);
 const placeGeoid = place.sourceGeoid!;
 const crossing = districtsCrossingPlace(catalog, placeGeoid, chamber);
 const boundaryVintage = placeRelationVintageFor(chamber, placeGeoid);
@@ -52,6 +103,37 @@ const read = (rows: Parameters<typeof districtPopulationShares>[0]["parts"]) =>
   });
 
 describe(`district population parts in ${place.displayName}, seed ${seed}`, () => {
+  it(`prepares only the requested state drawn from all 56: ${unfilteredPlace.displayName}, seed ${seed}`, async () => {
+    const pending = prepareDistrictPopulationForState(
+      unfilteredPlace.stateJurisdictionKey,
+    );
+    const stateFips = catalog.find(
+      (identity) =>
+        `US-${identity.stateUsps}` === unfilteredPlace.stateJurisdictionKey,
+    )?.stateFips;
+    const supported =
+      stateFips !== undefined &&
+      DISTRICT_POPULATION_LOADERS[stateFips] !== undefined;
+    if (supported)
+      expect(
+        prepareDistrictPopulationForState(unfilteredPlace.stateJurisdictionKey),
+      ).toBe(pending);
+    expect(await pending).toBe(supported);
+    if (unfilteredPlace.sourceGeoid)
+      expect(
+        districtPopulationPreparationStatus(unfilteredPlace.sourceGeoid),
+      ).toBe(supported ? "loaded" : "unsupported");
+    const other = acquiredParts.find(
+      (row) =>
+        row.placeGeoid.slice(0, 2) !== stateFips &&
+        row.placeGeoid.slice(0, 2) !== placeGeoid.slice(0, 2),
+    );
+    expect(other).toBeDefined();
+    expect(districtPopulationPreparationStatus(other!.placeGeoid)).toBe(
+      "not-loaded",
+    );
+  });
+
   it("uses population totals and retains zero-count district parts", () => {
     const result = read(parts);
     expect(result).toHaveLength(crossing.length);
@@ -237,16 +319,7 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
   });
 
   it("retains acquired zero-count parts with zero shares", () => {
-    const rows = JSON.parse(
-      PLACE_DISTRICT_POPULATION_ROWS,
-    ) as readonly (readonly [
-      string,
-      DistrictChamber,
-      string,
-      string,
-      number,
-      number,
-    ])[];
+    const rows = acquiredRows;
     const zeroParts = rows.filter((row) => row[4] === 0);
     expect(zeroParts.length).toBeGreaterThan(0);
     const zero = zeroParts.flatMap(([placeGeoid, chamber, , geoid]) =>
@@ -255,6 +328,7 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
         placeGeoid,
         chamber,
         asOf: "2026-01-05",
+        parts: acquiredByPlace.get(placeGeoid) ?? [],
       }).filter(
         (row) => row.identity.geoid === geoid && row.populationCount === 0,
       ),
@@ -264,16 +338,7 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
   });
 
   it("refuses acquired older congressional rows where the current catalog uses newer lines", () => {
-    const rows = JSON.parse(
-      PLACE_DISTRICT_POPULATION_ROWS,
-    ) as readonly (readonly [
-      string,
-      DistrictChamber,
-      string,
-      string,
-      number,
-      number,
-    ])[];
+    const rows = acquiredRows;
     const older = rows.find(
       ([placeGeoid, chamber, vintage]) =>
         chamber === "congressional" &&

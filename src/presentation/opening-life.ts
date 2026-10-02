@@ -57,6 +57,8 @@ import {
 import type { World, EntityId } from "../simulation";
 import { isFederalDistrictUsps } from "../simulation/state-reference";
 import { createNewGameWorld } from "./new-game";
+import { requireLifePlace } from "../simulation/life-places";
+import { prepareDistrictPopulationForState } from "../districts/district-population-loader";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
 import { buildLifeIntroduction } from "./life-introduction";
@@ -154,6 +156,10 @@ export async function generateOpeningLifeWithProgress(
   options: OpeningLifeGenerationOptions = {},
 ): Promise<OpeningLifeSession> {
   if (session.game) return session;
+  throwIfOpeningAborted(options.signal);
+  await prepareDistrictPopulationForState(
+    requireLifePlace(session.setup.placeKey).stateJurisdictionKey,
+  );
   throwIfOpeningAborted(options.signal);
   let start: OpeningLifeBuildStart | undefined;
   advanceWithWorldIntegrityAtEnd(() => {

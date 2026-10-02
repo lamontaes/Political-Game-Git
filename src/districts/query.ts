@@ -1,4 +1,4 @@
-import * as placeRelations from "../simulation/place-county-relations.generated";
+import { preparedDistrictPopulationParts } from "./district-population-loader";
 import { DISTRICT_IDENTITY_VINTAGE, type DistrictChamber } from "./types";
 import type {
   DistrictBindingResolution,
@@ -321,7 +321,7 @@ export function districtPopulationShares(input: {
     input.asOf,
   );
   const parts = (
-    input.parts ?? compiledDistrictPopulationParts(input.placeGeoid)
+    input.parts ?? preparedDistrictPopulationParts(input.placeGeoid)
   ).filter(
     (part) =>
       part.placeGeoid === input.placeGeoid &&
@@ -373,59 +373,4 @@ export function districtPopulationShares(input: {
       right.populationCount - left.populationCount ||
       left.identity.geoid.localeCompare(right.identity.geoid),
   );
-}
-
-type PopulationPart = NonNullable<
-  Parameters<typeof districtPopulationShares>[0]["parts"]
->[number];
-let populationPartsByPlace: ReadonlyMap<
-  string,
-  readonly PopulationPart[]
-> | null = null;
-
-/** Decode the existing compiler's extension once, never scan it per resident. */
-function compiledDistrictPopulationParts(
-  placeGeoid: string,
-): readonly PopulationPart[] {
-  if (!populationPartsByPlace) {
-    // Older compiler snapshots have no district rows; absence is unsupported,
-    // never an equal-share estimate or a fabricated population record.
-    if (
-      !("PLACE_DISTRICT_POPULATION_ROWS" in placeRelations) ||
-      typeof placeRelations.PLACE_DISTRICT_POPULATION_ROWS !== "string"
-    )
-      return [];
-    const rows = JSON.parse(
-      placeRelations.PLACE_DISTRICT_POPULATION_ROWS,
-    ) as readonly (readonly [
-      string,
-      DistrictChamber,
-      string,
-      string,
-      number,
-      number,
-    ])[];
-    const byPlace = new Map<string, PopulationPart[]>();
-    for (const [
-      place,
-      chamber,
-      boundaryVintage,
-      districtGeoid,
-      partPopulationCount,
-      placePopulationCount,
-    ] of rows) {
-      const parts = byPlace.get(place) ?? [];
-      parts.push({
-        placeGeoid: place,
-        chamber,
-        boundaryVintage,
-        districtGeoid,
-        partPopulationCount,
-        placePopulationCount,
-      });
-      byPlace.set(place, parts);
-    }
-    populationPartsByPlace = byPlace;
-  }
-  return populationPartsByPlace.get(placeGeoid) ?? [];
 }
