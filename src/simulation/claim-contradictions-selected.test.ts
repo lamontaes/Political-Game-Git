@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import * as decisions from "./decisions";
 import { simulationMomentAtLocalTime } from "./dates";
 import {
@@ -20,10 +21,12 @@ import type { DecisionOutcomeKind, EntityId, World } from "./types";
 
 const evaluate = decisions.evaluateDecision;
 function fixture() {
+  const seed = "a125-claim-confirmation";
+  const place = drawRandomPlace(seed);
   let world = smallWorld({
-    place: "kentucky",
+    place: place.key,
     people: 3,
-    seed: "a125-claim-confirmation",
+    seed: `${seed}:${place.key}`,
   }).world;
   const [speaker, reporter, source] = Object.keys(world.people) as EntityId[];
   expect([speaker, reporter, source].every(Boolean)).toBe(true);
