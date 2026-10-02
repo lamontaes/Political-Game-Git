@@ -27,7 +27,6 @@ export function OpeningStatePopulation({
   readonly world?: World;
 }) {
   const [result, setResult] = useState<MapPlaceDemography | null>(null);
-  const [failed, setFailed] = useState<string | null>(null);
   const key = `${stateUsps}:${asOf}`;
   const geoid = stateUsps ? stateFips.get(stateUsps) : undefined;
   useEffect(() => {
@@ -43,7 +42,7 @@ export function OpeningStatePopulation({
         if (active) setResult(next);
       },
       () => {
-        if (active) setFailed(key);
+        if (active) setResult(null);
       },
     );
     return () => {
@@ -85,16 +84,17 @@ export function OpeningStatePopulation({
       ) : estimate ? (
         <figure className="pg-state-population-figure">
           <p className="pg-state-population-number">
-            About {Math.round(estimate.mean).toLocaleString("en-US")} people
+            <span className="pg-state-population-value">
+              About {Math.round(estimate.mean).toLocaleString("en-US")}
+            </span>{" "}
+            <span className="pg-state-population-unit">people</span>
           </p>
-          <figcaption>{currentWorldEstimateCaption(estimate)}</figcaption>
+          <figcaption className="pg-state-population-caption">
+            {currentWorldEstimateCaption(estimate)}
+          </figcaption>
         </figure>
       ) : (
-        <p>
-          {!stateUsps || !geoid || ready || failed === key
-            ? "Population unavailable for this date."
-            : "Loading population…"}
-        </p>
+        <p>Population unavailable for this date.</p>
       )}
     </section>
   );

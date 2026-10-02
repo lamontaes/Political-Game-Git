@@ -1,9 +1,12 @@
 import { addDays } from "./dates";
 import {
   stateStatuteOperativeAt,
+  statuteEffectiveRule,
+  statuteEffectiveDateEstimated,
   type StatuteDateContext,
 } from "./governing/statute-effective-date";
 import type { LegislativeRulePack } from "./legislature-rules";
+import { enactingGovernmentForPack } from "./legislation-drafting";
 import type { IsoDate, LegislativeEnactmentRecord } from "./types";
 
 /**
@@ -16,7 +19,7 @@ export const STATUTE_EFFECTIVE_GAME_DEFAULT_VERSION =
 
 /** A date from an executable cited rule or the versioned game fallback. */
 export type LegislativeEffectiveDateResolution =
-  | { readonly kind: "source-default"; readonly effectiveAt: IsoDate }
+  | { readonly kind: "source-default"; readonly effectiveAt: IsoDate | null }
   | { readonly kind: "game-default"; readonly effectiveAt: IsoDate };
 
 /**
@@ -27,7 +30,32 @@ export type LegislativeEffectiveDateResolution =
 export function resolveLegislativeEffectiveDate(
   pack: LegislativeRulePack,
   enactedAt: IsoDate,
+  dateContext?: StatuteDateContext,
 ): LegislativeEffectiveDateResolution {
+  // Local packs may carry their surrounding state's key. Only the actual
+  // state/territory legislature takes that jurisdiction's statute default.
+  const government = dateContext
+    ? enactingGovernmentForPack(pack)?.government
+    : null;
+  if (
+    dateContext &&
+    (government === "state" || government === "territory") &&
+    statuteEffectiveRule(pack.jurisdictionKey)
+  ) {
+    const effectiveAt = stateStatuteOperativeAt(
+      pack.jurisdictionKey,
+      enactedAt,
+      dateContext,
+    );
+    return effectiveAt !== null &&
+      statuteEffectiveDateEstimated(
+        pack.jurisdictionKey,
+        enactedAt,
+        dateContext,
+      )
+      ? { kind: "game-default", effectiveAt }
+      : { kind: "source-default", effectiveAt };
+  }
   const schedule = pack.enactment.defaultEffectiveSchedule;
   if (schedule?.kind === "known") {
     switch (schedule.value.kind) {

@@ -95,7 +95,7 @@ export function OpeningStateVoting({
             {ready?.unavailableReason ??
               (!stateUsps || failed === key
                 ? "Voting survey information is unavailable."
-                : "Loading voting survey information…")}
+                : "No current-game turnout records are available yet.")}
           </p>
         )
       ) : (

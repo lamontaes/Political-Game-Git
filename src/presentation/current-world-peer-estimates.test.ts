@@ -96,7 +96,7 @@ describe("item16 current-game peer estimates", () => {
           asOf: date,
         }),
       );
-      expect(markup).toContain("4,321 people");
+      expect(markup.replace(/<[^>]*>/g, "")).toContain("4,321 people");
       expect(markup).toContain("Estimated from");
       expect(markup).not.toContain("Loading population");
       expect(JSON.stringify(world)).toBe(before);

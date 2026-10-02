@@ -25,6 +25,7 @@ import {
 } from "../presentation/local-economy-carried";
 import type { CarriedLocalFigure } from "../presentation/local-economy-carried";
 import type { World } from "../simulation";
+import { averageTwoBedroomRent } from "../presentation/rent-estimate";
 import "./economic-context-panel.css";
 
 const DEFAULT_PROVIDER = createEconomicContextBrowserProvider();
@@ -163,6 +164,7 @@ export function EconomicContextPanel({
         context={state.context}
         fiscalGraphs={fiscalGraphs}
         diagnostics={diagnostics}
+        stateFips={rentEstimate ? null : stateFipsOf(binding)}
         carried={
           world && jurisdictionId
             ? carriedLocalFigures(world, jurisdictionId, state.context)
@@ -178,17 +180,27 @@ export function EconomicContextView({
   fiscalGraphs = [],
   diagnostics = false,
   carried = [],
+  stateFips = null,
 }: {
   readonly context: BrowserEconomicContextResult;
   readonly fiscalGraphs?: readonly EconomicGraphModel[];
   readonly diagnostics?: boolean;
   readonly carried?: readonly CarriedLocalFigure[];
+  /** Where to average a rent from when the place has no figure of its own. */
+  readonly stateFips?: string | null;
 }) {
   const collection = useMemo(
     () => economicObservationGraphs(context),
     [context],
   );
   const graphs = [...collection.graphs, ...fiscalGraphs];
+  const hasRent = collection.graphs.some(
+    (graph) =>
+      graph.graphKey === "two-bedroom-fmr" &&
+      graph.series.some((series) =>
+        series.points.some((point) => point.value !== null),
+      ),
+  );
   const hasBudgetHistory = fiscalGraphs.some(
     (graph) =>
       graph.graphKey.startsWith("budget-history:") &&
@@ -304,6 +316,10 @@ export function EconomicContextView({
             : "No figures for this place reach this date yet."}
         </p>
       )}
+
+      {!hasRent && !diagnostics && stateFips ? (
+        <EstimatedRent stateFips={stateFips} />
+      ) : null}
 
       {diagnostics && unavailable.length > 0 ? (
         <details className="economic-unavailable">
@@ -443,6 +459,25 @@ export function EconomicGraph({
               ),
             )}
       </svg>
+      {diagnostics ? null : (
+        <ul className="economic-graph-latest" aria-label="Latest figure">
+          {graph.series.flatMap((series) => {
+            const latest = [...series.points]
+              .reverse()
+              .find((point) => point.value !== null);
+            return latest && latest.value !== null
+              ? [
+                  <li key={series.seriesKey}>
+                    <strong>
+                      {formatHeadlineValue(latest.value, graph.unit)}
+                    </strong>{" "}
+                    {periodInWords(latest.period)}
+                  </li>,
+                ]
+              : [];
+          })}
+        </ul>
+      )}
       <div className="economic-legend" aria-label="What each line shows">
         {graph.series.map((series) => (
           <span key={series.seriesKey} data-record-class={series.recordClass}>
@@ -576,4 +611,63 @@ function productLabel(
 
 function recordClassLabel(recordClass: EconomicGraphRecordClass): string {
   return recordClass.replaceAll("-", " ");
+}
+
+function stateFipsOf(binding: BrowserEconomicGeographyBinding): string | null {
+  const code =
+    binding.hudFipsCodes[0]?.hudFipsCode ??
+    binding.beaAreas[0]?.geoFips ??
+    binding.placeKey;
+  return code && /^\d{2}/.test(code) ? code.slice(0, 2) : null;
+}
+
+/** Whole dollars read better than cents for a headline; other units as is. */
+function formatHeadlineValue(value: number, unit: string): string {
+  if (unit.toLowerCase().includes("usd") || unit === "Dollars")
+    return `${new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(value)} ${unit.replace(/^USD\s*/i, "")}`.trim();
+  return formatGraphValue(value, unit);
+}
+
+/**
+ * A place with no rent figure of its own is never left blank: its state's
+ * areas are averaged, and the line says it is an estimate.
+ */
+function EstimatedRent({ stateFips }: { readonly stateFips: string }) {
+  const [rent, setRent] = useState<number | null>(null);
+  useEffect(() => {
+    let live = true;
+    void fetch(`/data/economic-context/v1/hud/${stateFips}.json`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((shard: { records?: unknown } | null) => {
+        if (live && Array.isArray(shard?.records))
+          setRent(averageTwoBedroomRent(shard.records));
+      })
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, [stateFips]);
+  if (rent === null) return null;
+  return (
+    <figure className="economic-graph" data-testid="economic-rent-estimate">
+      <figcaption>
+        <strong>Two-bedroom rent</strong>
+        <span>
+          Estimated from the average for this state; this place has no figure of
+          its own.
+        </span>
+      </figcaption>
+      <p className="economic-graph-latest">
+        {`About ${new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 0,
+        }).format(rent)} per month`}
+      </p>
+    </figure>
+  );
 }
