@@ -16,6 +16,7 @@ import {
 } from "./month";
 import {
   BUDGET_PROGRAMS,
+  BUDGET_SOURCES,
   PUBLIC_BUDGETS_VERSION,
   type PublicBudgetGovernment,
 } from "./store";
@@ -168,7 +169,7 @@ describe("age-verification without an appropriation or actual hires produces no 
           propositionIds: [cannabis.id],
           propositionAnswers: [{ propositionId: cannabis.id, answer: "no" }],
         };
-        const together = enactCostLawFixture(world, ban, {
+        const together = enactCostLawFixture(base, [measure, ban], {
           effectiveAt: date,
         }).world;
         const onlyBanFixture = enactCostLawFixture(base, ban, {
@@ -176,21 +177,50 @@ describe("age-verification without an appropriation or actual hires produces no 
         });
         const banOnly = onlyBanFixture.world;
         const actualBanId = together.history.legislativeMeasures!.at(-1)!.id;
+        const combinedFlows = flowsFor(together, government);
+        const ageOnlyFlows = flowsFor(world, government);
         const combined = settleGovernmentMonth(
           together,
           government,
           date,
-          flowsFor(together, government),
+          combinedFlows,
         ).government;
         const saved = combined.months.at(-1)! as typeof after &
-          LawEffectStampedRecord & { readonly cannabisRevenueLoss?: number };
+          LawEffectStampedRecord;
         const onlyBan = settleGovernmentMonth(
           banOnly,
           government,
           date,
           flowsFor(banOnly, government),
         ).government.months.at(-1)!;
-        expect(saved.cannabisRevenueLoss).toBeGreaterThan(0);
+        // A loss must be a difference in actual recorded receipts, never the
+        // retired population-based forecast field on a cash-settled budget.
+        expect(ageOnlyFlows.cash?.has(government.key)).toBe(true);
+        expect(combinedFlows.cash?.has(government.key)).toBe(true);
+        expect(ageOnlyFlows.recorded).toBeDefined();
+        expect(combinedFlows.recorded).toBeDefined();
+        const source = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
+        const ageOnlyReceipts = ageOnlyFlows.recorded!.get(government.key);
+        const combinedReceipts = combinedFlows.recorded!.get(government.key);
+        // A present recorded map with no entry means no positive saved transfer.
+        const beforeMinorUnits =
+          ageOnlyReceipts?.revenueMinorUnits[source] ?? 0;
+        const afterMinorUnits =
+          combinedReceipts?.revenueMinorUnits[source] ?? 0;
+        const actualRevenueLoss = (beforeMinorUnits - afterMinorUnits) / 100;
+        console.log(
+          "CASH_LOSS_PROOF",
+          JSON.stringify({
+            stateKey,
+            actualBanId,
+            beforeMinorUnits,
+            afterMinorUnits,
+            baselineSourceRecordIds: ageOnlyReceipts?.sourceRecordIds ?? [],
+            combinedSourceRecordIds: combinedReceipts?.sourceRecordIds ?? [],
+          }),
+        );
+        expect(saved.revenue[source]).toBe(afterMinorUnits / 100);
+        expect(actualRevenueLoss).toBeGreaterThan(0);
         expect(saved.lawEffectStamps).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
