@@ -1,7 +1,7 @@
 ---
 id: news-election-fixture-recorded-home
 impact: patch
-section: Internal
+section: Fixed
 title: Election conversation fixtures record actual home presence
 ---
 
