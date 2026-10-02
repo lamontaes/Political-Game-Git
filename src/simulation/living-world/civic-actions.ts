@@ -241,7 +241,7 @@ function record(
       )!
     : undefined;
   const ids = officialId ? [personId, officialId] : [personId];
-  if (meeting && held) ids.push(meeting.id, held.id);
+  if (meeting && held) ids.push(meeting.id);
   return recordWorldEvent(world, {
     stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${meeting?.id ?? reviewKey}:${action}:${personId}`,
     type: CIVIC_ACTION_EVENTS[action],
@@ -267,6 +267,7 @@ function record(
       "life.civic",
       CIVIC_ACTIONS_VERSION,
       ...(meeting ? [`meeting:${meeting.id}`] : []),
+      ...(held ? [`held-event:${held.id}`] : []),
     ],
     summary:
       action === "contacted"

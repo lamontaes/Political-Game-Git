@@ -140,7 +140,7 @@ describe(`civic attendance source (${place.displayName}, seed ${seed})`, () => {
       }
       for (const event of attendance) {
         expect(event.involvedEntityIds).toContain(due!.id);
-        expect(event.involvedEntityIds).toContain(held.id);
+        expect(event.tags).toContain(`held-event:${held.id}`);
         expect(event.tags).toContain(`meeting:${due!.id}`);
       }
       const again = reviewTownCivicActions(
