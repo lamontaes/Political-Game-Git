@@ -1438,20 +1438,104 @@
           "answer": "no"
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://edd.ca.gov/en/payroll_taxes/rates_and_withholding/",
+              "quote": "The SDI withholding rate for 2026 is 1.3 percent. Effective January 1, 2024, all wages are subject to SDI contributions.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 130,
+                  "unit": "basis-points"
+                }
+              ],
+              "note": "Joint employee SDI contribution funds disability and family leave; not a separate additional family-leave deduction. Uncapped wages cannot be represented by a finite dollars/year scalar. Income-dependent replacement is not a universal scalar. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-CO": {
           "answer": "yes"
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://www.ctpaidleave.org/how-ct-paid-leave-works/contributions",
+              "quote": "The CT Paid Leave Board of Directors has voted to maintain the contribution rate at 0.5% for 2026. Employers deduct 0.5% from an employee's pay. Employees contribute until they reach the Social Security contribution limit. SSA 2026 COLA Fact Sheet: Maximum Taxable Earnings, Social Security (OASDI only), 2026: $184,500.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 50,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 184500,
+                  "unit": "dollars/year"
+                }
+              ],
+              "note": "Annual covered-wage cap joins the CT source-stated Social Security contribution limit to the SSA 2026 OASDI base; each employer applies that limit as described by CT. Tiered replacement and duration are not admitted as universal scalars.",
+              "capSource": "https://www.ssa.gov/news/en/cola/factsheets/2026.html"
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-10-01",
+              "source": "https://dcpaidfamilyleave.dc.gov/program-updates/",
+              "quote": "These updates take effect October 1, 2026. Employer contributions: No change. Leave remains fully employer-funded with no payroll deductions from workers.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 0,
+                  "unit": "basis-points"
+                }
+              ],
+              "note": "Sourced zero employee deduction is not a zero employer tax. Sliding-scale replacement and unknown wage cap are not collapsed to scalar amounts; duration admission remains unsupported."
+            }
+          ]
         },
         "US-DE": {
           "answer": "yes",
-          "operativeAt": "2026-01-01"
+          "operativeAt": "2026-01-01",
+          "source": "https://laborfiles.delaware.gov/main/pfl/FAQs/DDOL41583_HowPaidLeaveWorks_FAQs_v1.pdf",
+          "quote": "The employee can receive 80% of their weekly wages, up to $900 per week. Employers can require their employees to pay up to 50% of the cost of the program through payroll deductions.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "replacement",
+              "value": 0.8,
+              "unit": "ratio"
+            }
+          ],
+          "note": "Optional employee contribution share is not a universal 0.4% rate. Coverage-specific premiums and FICA wage base require their exact bindings; no inferred cap. Replacement is subject to the source weekly benefit maximum. Duration compound-unit admission remains unsupported.",
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-FL": {
           "answer": "no"
@@ -1539,7 +1623,42 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "operativeBasis": "source-stated-calendar-year",
+              "source": "https://nj.gov/labor/myleavebenefits/employer/",
+              "quote": "For 2026, workers contribute 0.23% on the first $171,100 (wage cap) in covered wages earned during this calendar year. Claimants are paid 85% of their average weekly wage up to the maximum weekly benefit rate set for that calendar year.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 23,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 171100,
+                  "unit": "dollars/year"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "replacement",
+                  "value": 0.85,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "Family Leave Insurance employee share only; distinct from Temporary Disability Insurance. Replacement is subject to the sourced weekly benefit maximum; duration is not admitted as a scalar. This 2026 monetary phase does not assert a 2000 enactment date."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-NM": {
           "answer": "no"
@@ -1548,7 +1667,35 @@
           "answer": "no"
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://paidfamilyleave.ny.gov/2026",
+              "quote": "For 2026, employees will contribute 0.432% of their gross wages per pay period, with a maximum annual contribution of $411.91. Employees taking Paid Family Leave receive 67% of their average weekly wage, up to a cap of 67% of the current New York State Average Weekly Wage.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 43.2,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "replacement",
+                  "value": 0.67,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The $411.91 annual contribution maximum is not an annual covered-wage cap. No derived wage-cap scalar admitted. Replacement is subject to the source weekly benefit cap. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-OH": {
           "answer": "no"
@@ -1557,7 +1704,35 @@
           "answer": "no"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://paidleave.oregon.gov/employers-overview/",
+              "quote": "The total contribution rate for 2026 is 1% of gross wages up to $184,500. Large employers (25 or more employees on average) pay 40% of the total 1% contribution rate and employees pay 60% of the 1% contribution rate.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 60,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 184500,
+                  "unit": "dollars/year"
+                }
+              ],
+              "note": "Employee share is 60% of the stated 1% total contribution, not the total or employer share. Employer coverage/exemptions remain separate. Tiered replacement not collapsed to a scalar. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-PA": {
           "answer": "no"
