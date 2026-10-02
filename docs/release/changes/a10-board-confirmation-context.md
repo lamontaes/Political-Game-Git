@@ -5,8 +5,6 @@ section: Changed
 title: Recorded board nominees reach the existing chamber vote path
 ---
 
-# Recorded board appointees begin service pending confirmation
-
 Before: the shared chamber nomination evaluator accepted only Supreme Court nomination events. A real saved board nomination could not reach it, and the nominee never entered the board's membership records.
 
 After: the board context accepts the actual saved nomination and refuses mismatched people, places or seats. Recorded appointees now receive dated active membership while confirmation is unwired, labeled serving pending confirmation. Missing member reasons still produce no yes vote. The judicial branch and existing generic institution roster and party cues are preserved.
