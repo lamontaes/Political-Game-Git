@@ -1,0 +1,115 @@
+[
+  {
+    "artifactId": "al-constitution-2022",
+    "requestedUrl": "https://www.legislature.state.al.us/pdf/lsa/ALI/Publications/Alabama_Constitution_2022.pdf",
+    "retrievedAt": "2026-10-02T11:59:02.213910+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "co-constitution-pdf",
+    "requestedUrl": "https://leg.colorado.gov/sites/default/files/images/olls/colorado_constitution.pdf",
+    "retrievedAt": "2026-10-02T11:59:02.214543+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "ky-constitution-index",
+    "requestedUrl": "https://apps.legislature.ky.gov/Law/Constitution",
+    "retrievedAt": "2026-10-02T11:59:02.215007+00:00",
+    "url": "https://apps.legislature.ky.gov/Law/Constitution",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 102380,
+    "sha256": "a232de44808d4969d400205091d02dd488b5ec0b7f04e19ea03cb037fb85cd86",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/ky-constitution-index.html"
+  },
+  {
+    "artifactId": "la-constitution-index",
+    "requestedUrl": "https://www.legis.la.gov/Legis/Laws_Toc.aspx?folder=67&level=Parent",
+    "retrievedAt": "2026-10-02T11:59:02.974352+00:00",
+    "url": "https://www.legis.la.gov/Legis/Laws_Toc.aspx?folder=67&level=Parent",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 2133322,
+    "sha256": "02338af5e08473dd6dc7e3c468dc15f310c58e9cc8af23e985f80c47c343da85",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/la-constitution-index.html"
+  },
+  {
+    "artifactId": "mt-constitution-current",
+    "requestedUrl": "https://leg.mt.gov/bills/mca/title_0000/parts_index.html",
+    "retrievedAt": "2026-10-02T11:59:03.137727+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "nh-constitution-part2",
+    "requestedUrl": "https://www.nh.gov/glance/constitution2.htm",
+    "retrievedAt": "2026-10-02T11:59:03.550189+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "artifactId": "nm-constitution-2025",
+    "requestedUrl": "https://www.nmlegis.gov/Publications/New_Mexico_State_Government/Constitution_of_New_Mexico_2025.pdf",
+    "retrievedAt": "2026-10-02T11:59:03.799640+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "ok-constitution-2025",
+    "requestedUrl": "https://oksenate.gov/sites/default/files/2025-01/oc25.pdf",
+    "retrievedAt": "2026-10-02T11:59:03.958954+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "sd-tax-clause-api",
+    "requestedUrl": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-14.html",
+    "retrievedAt": "2026-10-02T11:59:04.380819+00:00",
+    "url": "https://sdlegislature.gov/api/Statutes/Constitution/0N-11-14.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 1966,
+    "sha256": "183691a118654bf6b03fb2a62f55e9e7dfdf0eeab55dc21a62c11226bf075e41",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/sd-tax-clause-api.html"
+  },
+  {
+    "artifactId": "tn-constitution-publications",
+    "requestedUrl": "https://wapp.capitol.tn.gov/apps/WebPublications/Index",
+    "retrievedAt": "2026-10-02T11:59:04.466081+00:00",
+    "url": "https://wapp.capitol.tn.gov/apps/WebPublications/Index",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 62915,
+    "sha256": "67daf6a634632188ae831007ce15e98d2713fd6d09dd899ef38ad9c8b3d5e5a1",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/tn-constitution-publications.html"
+  },
+  {
+    "artifactId": "wy-constitution-title97",
+    "requestedUrl": "https://wyoleg.gov/statutes/compress/title97.pdf",
+    "retrievedAt": "2026-10-02T11:59:04.543390+00:00",
+    "url": "https://wyoleg.gov/statutes/compress/title97.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 313619,
+    "sha256": "63de540304eb0e4c216bf74958835184e8b1e36c6bb9da70c77edd6c3dd1eda2",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/wy-constitution-title97.pdf"
+  },
+  {
+    "artifactId": "wa-constitution",
+    "requestedUrl": "https://leg.wa.gov/CodeReviser/Pages/WAConstitution.aspx",
+    "retrievedAt": "2026-10-02T11:59:04.749497+00:00",
+    "url": "https://leg.wa.gov/CodeReviser/Pages/WAConstitution.aspx",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 41819,
+    "sha256": "574ebcecb6450c13b892fc80cc1e07f6014c5ee9d494f97b2f74f7873acd5df0",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/wa-constitution.html"
+  },
+  {
+    "artifactId": "tx-constitution-full",
+    "requestedUrl": "https://statutes.capitol.texas.gov/Docs/CN/pdf/CN.pdf",
+    "retrievedAt": "2026-10-02T11:59:04.825853+00:00",
+    "url": "https://statutes.capitol.texas.gov/Docs/CN/pdf/CN.pdf",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 250874,
+    "sha256": "dbfba8a96dc3cd584157ca66aaafdf67e0ed15dd5a0c8a58f3d4bd0f109fc646",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-07/raw/tx-constitution-full.html"
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "artifactId": "ut-article-xiii-full",
+    "requestedUrl": "https://le.utah.gov/xcode/ArticleXIII/UC_AXIII_1800010118000101.pdf",
+    "retrievedAt": "2026-10-02T11:51:22.769239+00:00",
+    "url": "https://le.utah.gov/xcode/ArticleXIII/UC_AXIII_1800010118000101.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 13369,
+    "sha256": "a3cc0c9bcd206946eea7ea7c6f82059782f352fe0ed93bc9be84835216d75e07",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/ut-article-xiii-full.pdf"
+  },
+  {
+    "artifactId": "ky-tax-sections",
+    "requestedUrl": "https://apps.legislature.ky.gov/law/constitution/sections/171.htm",
+    "retrievedAt": "2026-10-02T11:51:22.769955+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "la-constitution-full",
+    "requestedUrl": "https://senate.la.gov/Documents/Constitution/Constitution.pdf",
+    "retrievedAt": "2026-10-02T11:51:22.770371+00:00",
+    "url": "https://senate.la.gov/Documents/Constitution/Constitution.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 1101872,
+    "sha256": "6881d9c07ba7c6fe4bfd9d3afbe6c6c98aa6adafbd6b24319f03a22056473ffb",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/la-constitution-full.pdf"
+  },
+  {
+    "artifactId": "me-constitution-publication",
+    "requestedUrl": "https://legislature.maine.gov/house/house/Documents/Constitution%20of%20Maine.pdf",
+    "retrievedAt": "2026-10-02T11:51:23.078542+00:00",
+    "error": "HTTP Error 404: Not Found"
+  }
+]

@@ -1,4 +1,5 @@
-import { describeTimeTarget } from "../presentation/time-target-label";
+import { formatMinute } from "../presentation/player-calendar";
+import { proseWeekdayDate } from "../presentation/prose-dates";
 import type { SimulationMoment } from "../simulation";
 import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
@@ -478,15 +479,6 @@ export function ShellNav({
       onKeyDown={onNavKeyDown}
     >
       <div className="pg-nav-clock-and-controls" ref={rowRef}>
-        {currentMoment ? (
-          <p
-            className="pg-nav-current-clock"
-            data-testid="shell-current-clock"
-            aria-live="polite"
-          >
-            Now: {describeTimeTarget(currentMoment)}
-          </p>
-        ) : null}
         <div className="pg-nav-row">
           <button
             type="button"
@@ -495,7 +487,7 @@ export function ShellNav({
             data-testid="shell-nav-cluster"
             aria-expanded={open}
             aria-controls={open ? "pg-nav-flyout" : undefined}
-            aria-label={`${playerName}. ${dateLabel}. ${place}. Open navigation.`}
+            aria-label={`${playerName}. ${currentMoment ? proseWeekdayDate(currentMoment.date) : dateLabel}. ${currentMoment ? formatMinute(currentMoment.minuteOfDay) + ". " : ""}${place}. Open navigation.`}
             onClick={() => dispatch({ type: "toggle-navigation" })}
           >
             <span className="pg-nav-cluster-inner" aria-hidden="true">
@@ -518,8 +510,15 @@ export function ShellNav({
                   ) : null}
                 </span>
                 <span className="pg-nav-date" data-testid="story-when">
-                  {dateLabel}
+                  {currentMoment
+                    ? proseWeekdayDate(currentMoment.date)
+                    : dateLabel}
                 </span>
+                {currentMoment ? (
+                  <span className="pg-nav-time" data-testid="story-time">
+                    {formatMinute(currentMoment.minuteOfDay)}
+                  </span>
+                ) : null}
                 <span className="pg-nav-place">{place}</span>
               </span>
             </span>
@@ -552,7 +551,6 @@ export function ShellNav({
                 className="pg-nav-day"
                 data-testid="shell-pass-day"
                 aria-disabled={passing || undefined}
-                aria-describedby={passTargets ? "pg-nav-day-target" : undefined}
                 title={
                   passTargets
                     ? `${passTargets.day}. Your routine runs; stops early for anything protected.`
@@ -569,9 +567,6 @@ export function ShellNav({
                 className="pg-nav-day"
                 data-testid="shell-pass-week"
                 aria-disabled={passing || undefined}
-                aria-describedby={
-                  passTargets ? "pg-nav-week-target" : undefined
-                }
                 title={
                   passTargets
                     ? `${passTargets.week}. Your routine runs; stops early for anything protected.`
@@ -652,43 +647,7 @@ export function ShellNav({
                   </button>
                 </div>
               ) : null}
-              {passTargets && raised && !stopsOpen ? (
-                <small
-                  className="pg-nav-days-target"
-                  aria-hidden="true"
-                  data-testid="shell-pass-targets"
-                >
-                  Day: {passTargets.day.replace(/^Skip to /, "")}
-                  <br />
-                  Week: {passTargets.week.replace(/^Skip to /, "")}
-                  {onPassUntilNeeded ? (
-                    <>
-                      <br />
-                      Until needed:{" "}
-                      {passTargets.untilNeeded ??
-                        passTargets.untilNeededReason ??
-                        "A choice needs your answer now"}
-                    </>
-                  ) : null}
-                </small>
-              ) : null}
-              {passTargets ? (
-                <>
-                  <span className="sr-only" id="pg-nav-day-target">
-                    {passTargets.day}
-                  </span>
-                  <span className="sr-only" id="pg-nav-week-target">
-                    {passTargets.week}
-                  </span>
-                  {onPassUntilNeeded ? (
-                    <span className="sr-only" id="pg-nav-until-target">
-                      {passTargets.untilNeeded ??
-                        passTargets?.untilNeededReason ??
-                        "A choice needs your answer before another quiet stretch."}
-                    </span>
-                  ) : null}
-                </>
-              ) : null}
+
               {passing ? (
                 <span
                   className="sr-only"
