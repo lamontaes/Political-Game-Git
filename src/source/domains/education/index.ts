@@ -16,6 +16,7 @@ import type {
 import type {
   EducationInstitution,
   EducationCapability,
+  EducationDirectorySource,
 } from "../../../education/types";
 import { educationAcquisition } from "./acquisition";
 export type { EducationInstitution } from "../../../education/types";
@@ -50,6 +51,28 @@ function code(value: string | undefined, width: number) {
 function date(value: string | undefined) {
   const m = value?.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
   return m ? `${m[3]}-${m[1]}-${m[2]}` : null;
+}
+/** Preserve surveyed fields without converting location or control level into ownership. */
+export function ipedsDirectorySource(
+  hd: Readonly<Record<string, string>>,
+  ic: Readonly<Record<string, string>> | undefined,
+): EducationDirectorySource {
+  const coordinate = (raw: string | undefined): number | null => {
+    if (!raw?.trim()) return null;
+    const value = Number(raw);
+    return Number.isFinite(value) ? value : null;
+  };
+  return {
+    control: hd.CONTROL ?? "",
+    controlAffiliation: ic?.CNTLAFFI ?? "",
+    primaryPublicControl: ic?.PUBPRIME ?? "",
+    secondaryPublicControl: ic?.PUBSECON ?? "",
+    calendarSystem: ic?.CALSYS ?? "",
+    controllingSystemName: hd.F1SYSNAM ?? "",
+    controllingSystemId: hd.F1SYSCOD ?? "",
+    latitude: coordinate(hd.LATITUDE),
+    longitude: coordinate(hd.LONGITUD),
+  };
 }
 export function compileEducation(
   lock: ArtifactLock,
@@ -185,6 +208,7 @@ export function compileEducation(
         state: d.STABBR!,
         stateFips: code(d.FIPS, 2),
         countyGeoid: code(d.COUNTYCD, 5),
+        directorySource: ipedsDirectorySource(d, ic?.data),
         parentDistrictId: null,
         sourceYear: `${year}-${String((year + 1) % 100).padStart(2, "0")}`,
         release:
