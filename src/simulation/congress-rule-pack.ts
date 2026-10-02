@@ -1,3 +1,4 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import statehood from "../../data/research/congress/statehood-seats.json" with { type: "json" };
 import {
   fractionOf,
@@ -489,6 +490,7 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
     source: EFFECTIVE_ON_ENACTMENT,
   },
   session: {
+    sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.congress,
     sessionLabel: "Session of Congress",
     adjournmentRule: knownRule(
       "Congress assembles at least once every year, beginning on January 3 unless a law sets a different day.",

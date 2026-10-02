@@ -94,7 +94,7 @@ function annualPay(
     const rate = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
-      townPayPercentile(tenure, 0.5),
+      townPayPercentile(tenure),
       townMinimumHourlyAt(world, role.locationJurisdictionId, onDate),
     );
     const hours = weeklyHoursOf(role);
