@@ -26,10 +26,7 @@ import {
   propositionIdFor,
   lawSpendingPerResident,
 } from "./fiscal";
-import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
-import { CANNABIS_TAX_EFFECT } from "./rules";
 import {
-  lawEffectStamp,
   isLawEffectStamp,
   type LawEffectStamp,
   type LawEffectStampedRecord,
@@ -102,7 +99,6 @@ const PENSION_PROGRAM = BUDGET_PROGRAMS.indexOf("pensionContribution");
 const STATE_AID = BUDGET_SOURCES.indexOf("intergovernmental");
 const LOCAL_AID = BUDGET_PROGRAMS.indexOf("localAid");
 const SALES_TAX = BUDGET_SOURCES.indexOf("generalSalesTax");
-const SELECTIVE_TAX = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
 
 /**
  * A city's taxable sales today, when its town keeps business books
@@ -619,7 +615,6 @@ export function taxLawFactor(
   source: BudgetSource,
   date: IsoDate,
   erodedOn: IsoDate = date,
-  includeCannabis = true,
 ): number {
   const onDate =
     source === "individualIncomeTax"
@@ -627,11 +622,7 @@ export function taxLawFactor(
       : date;
   let factor =
     source === "selectiveSalesTaxes"
-      ? // Cannabis adds its own level; the fuel tax's erosion comes off
-        // its own share. Each is measured against the opening level.
-        (includeCannabis ? cannabisSalesFactor(world, government, onDate) : 1) +
-        roadChargeFactor(world, government, onDate, erodedOn) -
-        1
+      ? roadChargeFactor(world, government, onDate, erodedOn)
       : source === "chargesAndFees"
         ? tuitionFreezeFactor(world, government, onDate)
         : source === "federalAid"
@@ -691,24 +682,6 @@ export function lawSpendingForMonth(
       (perResident * government.population) / 12;
   }
   return spending;
-}
-
-/**
- * How a law on legal cannabis sales moves a state's selective sales taxes
- * against the law it began with (the existing cannabis tax row): a law making sales
- * legal adds the cannabis tax a resident pays from the first store opening,
- * and a law ending them takes it away the day it takes effect. 1 for any
- * other state or date.
- */
-function cannabisSalesFactor(
-  world: World,
-  government: PublicBudgetGovernment,
-  date: IsoDate,
-): number {
-  const opening = government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0;
-  if (opening <= 0) return 1;
-  const reading = cannabisSalesRevenueChange(world, government, date);
-  return Math.max(0, (opening + reading.annualRevenueDelta) / opening);
 }
 
 /**
@@ -887,128 +860,6 @@ export function settleGovernmentMonth(
         (lawNow / lawAtAdoption),
     );
   });
-  // A zero opening selective-tax source cannot express an added amount as
-  // a factor. Strip the amount already in the adopted forecast before adding
-  // this month's amount, so rollover neither doubles it nor blocks repeal.
-  const zeroOpeningSelectiveTax =
-    (government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0) <= 0;
-  const cannabisReading = cannabisSalesRevenueChange(world, government, month);
-  const cannabisRevenue = cannabisReading
-    ? Math.max(0, Math.round(cannabisReading.annualRevenueDelta / 12))
-    : 0;
-  if (zeroOpeningSelectiveTax) {
-    const adoptedCannabis = Math.max(
-      0,
-      cannabisSalesRevenueChange(world, government, year.startsOn)
-        .annualRevenueDelta,
-    );
-    const nonCannabisBase = Math.max(
-      0,
-      year.expectedRevenue[SELECTIVE_TAX]! - adoptedCannabis,
-    );
-    revenue[SELECTIVE_TAX] =
-      Math.round(
-        (nonCannabisBase / 12) *
-          Math.max(
-            0,
-            1 + ECONOMY_ELASTICITY.selectiveSalesTaxes * (economy - 1),
-          ) *
-          (taxLawFactor(world, government, "selectiveSalesTaxes", month) /
-            (taxLawFactor(
-              world,
-              government,
-              "selectiveSalesTaxes",
-              year.startsOn,
-            ) || 1)),
-      ) + cannabisRevenue;
-  }
-  const previousCannabisRevenue =
-    (
-      government.months.at(-1) as
-        (BudgetMonthRow & { readonly cannabisRevenue?: number }) | undefined
-    )?.cannabisRevenue ?? 0;
-  // Attribute only the revenue actually removed by the cannabis law from
-  // this modeled source. The counterfactual keeps the same adopted budget,
-  // economy and every other tax; it does not alter cash or add a new rate.
-  let cannabisRevenueLoss = 0;
-  if (!zeroOpeningSelectiveTax && cannabisReading.annualRevenueDelta < 0) {
-    const atAdoption = taxLawFactor(
-      world,
-      government,
-      "selectiveSalesTaxes",
-      year.startsOn,
-    );
-    const beforeLaw =
-      atAdoption === 0
-        ? openingMonthLevel(
-            government,
-            "selectiveSalesTaxes",
-            SELECTIVE_TAX,
-            economyNow,
-          )
-        : ((year.expectedRevenue[SELECTIVE_TAX]! / 12) *
-            Math.max(
-              0,
-              1 + ECONOMY_ELASTICITY.selectiveSalesTaxes * (economy - 1),
-            )) /
-          atAdoption;
-    const withoutCannabis = taxLawFactor(
-      world,
-      government,
-      "selectiveSalesTaxes",
-      month,
-      month,
-      false,
-    );
-    cannabisRevenueLoss = Math.max(
-      0,
-      Math.round(beforeLaw * withoutCannabis) - revenue[SELECTIVE_TAX]!,
-    );
-  }
-  const cannabisProposition = propositionIdFor(
-    world,
-    CANNABIS_TAX_EFFECT.questionKey,
-  );
-  const cannabisStamp =
-    zeroOpeningSelectiveTax &&
-    (cannabisRevenue > 0 || previousCannabisRevenue > 0) &&
-    cannabisProposition
-      ? lawEffectStamp(
-          lawInForce(
-            world,
-            government.lawJurisdictionId,
-            cannabisProposition,
-            month,
-          ),
-          {
-            effectKind: "cannabis-selective-tax-revenue",
-            questionKey: CANNABIS_TAX_EFFECT.questionKey,
-            jurisdictionId: government.lawJurisdictionId,
-            appliedAt: month,
-          },
-        )
-      : null;
-  const cannabisCostStamp =
-    cannabisRevenueLoss > 0 && cannabisProposition
-      ? lawEffectStamp(
-          lawInForce(
-            world,
-            government.lawJurisdictionId,
-            cannabisProposition,
-            month,
-          ),
-          {
-            effectKind: "state-revenue-loss",
-            questionKey: CANNABIS_TAX_EFFECT.questionKey,
-            jurisdictionId: government.lawJurisdictionId,
-            appliedAt: month,
-          },
-        )
-      : null;
-  // Law-effect metadata survives cash settlement; it does not add paid receipts or outlays.
-  const cannabisStamps = [cannabisStamp, cannabisCostStamp].filter(
-    (stamp): stamp is NonNullable<typeof stamp> => stamp !== null,
-  );
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -1170,11 +1021,7 @@ export function settleGovernmentMonth(
   const paidLeaveStamps = (
     flows.paidLeavePaymentStamps?.get(government.key) ?? []
   ).map((stamp) => ({ ...stamp, appliedAt: asOf }));
-  const row: BudgetMonthRow &
-    LawEffectStampedRecord & {
-      readonly cannabisRevenue?: number;
-      readonly cannabisRevenueLoss?: number;
-    } = {
+  const row: BudgetMonthRow & LawEffectStampedRecord = {
     month,
     revenue,
     spending,
@@ -1197,17 +1044,9 @@ export function settleGovernmentMonth(
           },
         }
       : {}),
-    ...(zeroOpeningSelectiveTax &&
-    (cannabisRevenue > 0 || previousCannabisRevenue > 0)
-      ? { cannabisRevenue }
-      : {}),
-    ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
-    ...(cannabisStamps.length ||
-    paidLeaveStamps.length ||
-    recorded?.lawEffectStamps.length
+    ...(paidLeaveStamps.length || recorded?.lawEffectStamps.length
       ? {
           lawEffectStamps: [
-            ...cannabisStamps,
             ...paidLeaveStamps,
             ...(cashSettled ? (recorded?.lawEffectStamps ?? []) : []),
           ],
@@ -1614,45 +1453,6 @@ function adoptNextYear(
       : null;
   const expectedRevenue = BUDGET_SOURCES.map((source, at) => {
     if (rows.length === 0) return prior.expectedRevenue[at]!;
-    if (
-      source === "selectiveSalesTaxes" &&
-      (government.years[0]!.expectedRevenue[SELECTIVE_TAX] ?? 0) <= 0
-    ) {
-      // Cannabis is an additive amount, including months before retail opens.
-      // Restate the other taxes through the existing economy/law calculation,
-      // then forecast the current cannabis amount exactly once.
-      const otherTaxes = rows.map((row) => {
-        // Cash rows carry modeled law attribution separately from their paid receipts.
-        const cannabis = row.cashSettlement
-          ? 0
-          : ((row as BudgetMonthRow & { readonly cannabisRevenue?: number })
-              .cannabisRevenue ?? 0);
-        const other = Math.max(0, row.revenue[at]! - cannabis);
-        const then = Math.max(
-          0,
-          1 + ECONOMY_ELASTICITY[source] * (row.economy - 1),
-        );
-        const now =
-          economyNow === null
-            ? then
-            : Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (economyNow - 1));
-        const lawThen = taxLawFactor(world, government, source, row.month);
-        const lawNow = taxLawFactor(world, government, source, startsOn);
-        return (
-          other *
-          (then > 0 ? now / then : 1) *
-          (lawThen > 0 ? lawNow / lawThen : 1)
-        );
-      });
-      return (
-        Math.round((sum(otherTaxes) * 12) / rows.length) +
-        Math.max(
-          0,
-          cannabisSalesRevenueChange(world, government, startsOn)
-            .annualRevenueDelta,
-        )
-      );
-    }
     const elasticity = ECONOMY_ELASTICITY[source];
     const scaleAt = (economy: number) =>
       Math.max(0, 1 + elasticity * (economy - 1));
