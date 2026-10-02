@@ -129,7 +129,7 @@ describe("tuition freeze aggregate compatibility while the school route is compl
       personId: game.playerPersonId,
     });
     process.stdout.write(
-      `A21 ordinary opening place=${place.displayName} key=${place.key} head=38c6b6385 seed=${seed}\n`,
+      `A21 ordinary opening place=${place.displayName} key=${place.key} seed=${seed}\n`,
     );
   });
   it("preserves researched aggregate coverage without treating it as a school charge", () => {

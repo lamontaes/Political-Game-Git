@@ -55,6 +55,7 @@ import {
 } from "../tax-policy";
 import { settleTuitionFreezeBackfill } from "./tuition-freeze-backfill";
 import { budgetProgramFor } from "./month";
+import { playerRequiredWorkIds, releasePlayerRequiredWork } from "../time-work";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
 import { chamberByKey } from "../legislature-rules";
 import {
@@ -419,15 +420,51 @@ describe(`A21 supported saved tuition (${place.displayName}, seed ${seed})`, () 
         governorRationale: provenance.note,
       },
     });
+    funded = recordWorldEvent(
+      { ...funded, control: { kind: "person", personId: governor } },
+      {
+        stableKey: "a21:backfill-governor-control-handoff",
+        type: "fixture.control-handoff",
+        occurredAt: funded.currentDate,
+        recordedAt: funded.currentDate,
+        jurisdictionId: fixture.stateJurisdictionId,
+        involvedEntityIds: [
+          governor,
+          fixture.personId,
+          ...playerRequiredWorkIds(funded, governor),
+        ],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [],
+        summary:
+          "The actual governor releases player-required work before resident control resumes.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      },
+    );
+    funded = releasePlayerRequiredWork(funded, {
+      personId: governor,
+      stableKeyPrefix: "a21:backfill-governor-release",
+      outcomeEventId: funded.history.events.at(-1)!.id,
+    });
+    funded = {
+      ...funded,
+      control: { kind: "person", personId: fixture.personId },
+    };
     const enactment = funded.history.legislativeEnactments!.find(
       (row) => row.measureId === fundingMeasureId,
     )!;
     const availableAt = operativeDateInWorld(funded, enactment)!.date;
-    if (funded.currentDate < availableAt)
-      funded = advanceWorld(
-        funded,
-        daysBetween(funded.currentDate, availableAt),
-      );
+    const billingAt = addDays(availableAt, 1);
+    if (funded.currentDate < billingAt)
+      funded = advanceWorld(funded, daysBetween(funded.currentDate, billingAt));
     funded = ensurePublicGovernmentAccount(funded, {
       kind: "jurisdiction",
       jurisdictionId: fixture.stateJurisdictionId,
