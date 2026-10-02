@@ -7,6 +7,7 @@ import {
   macroScopeForJurisdiction,
 } from "./macro-economy/readers";
 import type { MacroScopeKey } from "./macro-economy/types";
+import { CRUNCH46_PROVISIONAL_POLICY } from "./macro-economy/policy";
 import {
   amortizedMonthlyPaymentMinor,
   cappedAnnualRateBasisPoints,
@@ -21,7 +22,10 @@ export interface MortgageFinancingQuote {
   readonly annualRateBasisPoints: number;
   readonly termMonths: number;
   readonly monthlyPaymentMinor: number;
-  readonly macroMonthKey: string;
+  readonly macroMonthKey: string | null;
+  readonly rateReferenceKey: string;
+  readonly rateBasis:
+    "recorded-macro-month" | "recorded-central-bank" | "opening-game-reference";
   readonly scope: MacroScopeKey;
   readonly recordedAt: IsoDate;
 }
@@ -44,6 +48,8 @@ export function mortgageFinancingQuote(
     input.principal.minorUnits < 0
   )
     return null;
+  const store = world.macroEconomy;
+  if (!store || store.start.effectiveDate > world.currentDate) return null;
   const local = input.jurisdictionId
     ? macroConditionsAt(
         world,
@@ -51,10 +57,26 @@ export function mortgageFinancingQuote(
         world.currentDate,
       )
     : null;
-  const month =
-    local ?? macroConditionsAt(world, "national", world.currentDate);
-  if (!month) return null;
-  const { lowerPct, upperPct } = month.policyRate;
+  let month = local ?? macroConditionsAt(world, "national", world.currentDate);
+  const bank = store.centralBank;
+  const bankIsCurrent =
+    bank && (!bank.lastMeetingAt || bank.lastMeetingAt <= world.currentDate);
+  const bankIsNewer =
+    bankIsCurrent &&
+    (!month ||
+      (bank.lastMeetingAt !== null && bank.lastMeetingAt > month.recordedAt));
+  if (bankIsNewer) month = null;
+  // Before the first month closes, reuse the macro producer's opening rate.
+  // This is the approved game reference, not a researched bank offer.
+  const reference = CRUNCH46_PROVISIONAL_POLICY.baseline.policyRateRangePct;
+  const { lowerPct, upperPct } =
+    month?.policyRate ??
+    (bankIsNewer
+      ? bank.policyRate
+      : {
+          lowerPct: reference.lower,
+          upperPct: reference.upper,
+        });
   if (
     !Number.isFinite(lowerPct) ||
     !Number.isFinite(upperPct) ||
@@ -76,9 +98,21 @@ export function mortgageFinancingQuote(
       annualRateBasisPoints,
       FIXED_MORTGAGE_TERM_MONTHS,
     ),
-    macroMonthKey: month.key,
-    scope: month.scope,
-    recordedAt: month.recordedAt,
+    macroMonthKey: month?.key ?? null,
+    rateReferenceKey:
+      month?.key ??
+      (bankIsNewer ? bank.policyRate.decisionEventId : null) ??
+      store.policyVersion,
+    rateBasis: month
+      ? "recorded-macro-month"
+      : bankIsNewer
+        ? "recorded-central-bank"
+        : "opening-game-reference",
+    scope: month?.scope ?? "national",
+    recordedAt:
+      month?.recordedAt ??
+      (bankIsNewer ? bank.lastMeetingAt : null) ??
+      store.start.effectiveDate,
   };
 }
 
