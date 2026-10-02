@@ -125,8 +125,9 @@ describe("Legislative work reads recorded measures and seated members", () => {
     expect(measurePosition(loaded, ready.measure.id).phase).toBe(
       measurePosition(moved, ready.measure.id).phase,
     );
-    expect(loaded.history.legislativeReferrals).toEqual(
-      moved.history.legislativeReferrals,
+    expect(loaded.history.committeeReferrals).toHaveLength(1);
+    expect(loaded.history.committeeReferrals).toEqual(
+      moved.history.committeeReferrals,
     );
   });
 
