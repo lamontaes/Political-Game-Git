@@ -1,0 +1,107 @@
+{
+  "item": "A33",
+  "sourceHead": "548930a18936d2828bf506af55e09c4f2a05909f",
+  "base": "5392685cb31e98a171a950cce2b3cf391933f646",
+  "production": [
+    "src/simulation/federal-cost-ledger.ts",
+    "src/simulation/public-budgets/month.ts"
+  ],
+  "changedTest": "src/simulation/public-program-cost-ledger.test.ts",
+  "nativeResult": {
+    "passed": 6,
+    "total": 6,
+    "totalSeconds": 26.72,
+    "testSeconds": 3.55,
+    "workers": 1,
+    "limits": "stock"
+  },
+  "controlledPlaces": [
+    "US-HI",
+    "US-IA",
+    "US-ID",
+    "US-IN",
+    "US-IL"
+  ],
+  "controlledAmountMinorUnits": 25000,
+  "nativeBegin": {
+    "seed": "a33-state-paid-program-cost-all56:native-begin",
+    "place": "0872320",
+    "date": "2026-01-05",
+    "programCosts": 0,
+    "transferOutcomes": 0,
+    "proof": "read purity and actual opening; no pension recipient/payment/service claim"
+  },
+  "checks": {
+    "scopedTypes": {
+      "roots": 3,
+      "dependencies": 1239,
+      "diagnostics": 0,
+      "limit": "before final zero-dollar fixture position addition; canonical renewal covers final source"
+    },
+    "canonicalTypecheck": "exit 0; zero unresolved imports; explicitly reports 779 test files outside projects",
+    "lint": "changed 3 TS files PASS",
+    "format": "4 changed source/test/release paths PASS",
+    "whitespace": "PASS",
+    "release": "PASS origin/main..548930a18936d2828bf506af55e09c4f2a05909f",
+    "mergeTree": "07e24d5a7270e31eaf2d767d8607e1d62daa0b7b",
+    "auditMain": "A33 2/5",
+    "auditBranch": "A33 2/5",
+    "checksFlipped": []
+  },
+  "historicalFailures": [
+    {
+      "nativePassed": 1,
+      "nativeFailed": 5,
+      "cause": "fixture restored resident control while governor implementation work remained player-required"
+    },
+    {
+      "nativePassed": 1,
+      "nativeFailed": 5,
+      "cause": "fixture recipient lacked a recorded zero-dollar USD opening position"
+    },
+    {
+      "scopedDiagnostics": 2,
+      "canonicalExit": 2,
+      "cause": "readonly arrays passed to mutable Vitest arrayContaining matcher",
+      "repair": "copy arrays, preserving assertions"
+    }
+  ],
+  "ownership": "O1 successful-post hook/federal claims untouched; O4 fixture file untouched",
+  "notRun": [
+    "full suite",
+    "unchanged test files",
+    "browser",
+    "official checker gate"
+  ],
+  "remaining": "actual supported pension/juvenile authorized recipient and schedule; carry credit contract; whole A33 factor retirement",
+  "logs": [
+    {
+      "path": "/tmp/team6-a33-program-tests.log",
+      "sha256": "4e5e0cc502e9b4675649c1a6e5b5ceb82dfd22c87d674069d7652a6a7577e1a2"
+    },
+    {
+      "path": "/tmp/team6-a33-program-tests-repaired.log",
+      "sha256": "adaf6eeb5e73aa2106b617665e848b13a8bebe3fe844c60d62cc8e32c72de934"
+    },
+    {
+      "path": "/tmp/team6-a33-program-tests-final.log",
+      "sha256": "c6a6ce97abf5807097ba42bb188fc31f1f2522aa7a354c6bdf86baeedf8797f3"
+    },
+    {
+      "path": "/tmp/team6-a33-program-three-types.log",
+      "sha256": "967bf0cb78c7d29c54fb4984766dab160e34dc508ab445961cb2665fe67f45e8"
+    },
+    {
+      "path": "/tmp/team6-a33-program-three-types-repaired.log",
+      "sha256": "51951f5b052f7405dda9f0e2c4d29b2129d903e9738a6ae5515e5ed645be6610"
+    },
+    {
+      "path": "/tmp/team6-a33-program-canonical-types.log",
+      "sha256": "5c09b53ba7c2f70b6b962ee199de15002e06274c8449f7ce293a9c6dd8ce410d"
+    },
+    {
+      "path": "/tmp/team6-a33-program-canonical-types-repaired.log",
+      "sha256": "a4f7a47786535d22e3d02ca80f8354760cee4fe2e23f165111908d75bdcc0746"
+    }
+  ]
+}
