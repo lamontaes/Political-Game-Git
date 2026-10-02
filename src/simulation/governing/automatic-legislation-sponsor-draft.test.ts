@@ -1,4 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
+import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
+import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
 import { makeIsoDate } from "../dates";
 import { createWorld, assertWorldIntegrity } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
@@ -12,14 +14,11 @@ import {
 } from "../legislation-scenarios";
 import {
   introduceMeasure,
-  availableMeasureSteps,
   measurePosition,
-  recordEnactment,
   referMeasure,
   recordCommitteeDisposition,
 } from "../legislation";
 import { recordFiledProvision } from "../legislative-politics";
-import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { stateJurisdictionForKey } from "../life-places";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { serializeWorld, deserializeWorld } from "../serialization";
@@ -239,28 +238,8 @@ function enact(start: World, place: string, measureId: EntityId): World {
     ),
     committeeMemberCount: pack.chambers[0]!.committees[0]!.appointedMembers,
     votePlan,
-    governorAction: "signed",
-    governorRationale:
-      "Controlled unanimous fixture decisions; not a simulated real vote.",
   };
-  let next = start;
-  for (let guard = 0; guard < 40; guard++) {
-    if (measurePosition(next, measureId).phase === "awaiting-enactment")
-      return recordEnactment(next, {
-        stableKey: `${measureId}:law`,
-        measureId,
-        effectiveAt: next.currentDate,
-      });
-    const step = availableMeasureSteps(next, measureId).find(
-      (key) => key !== "offer-amendment",
-    );
-    if (!step)
-      throw new Error(
-        `No next step in ${place}: ${measurePosition(next, measureId).phase}`,
-      );
-    next = applyLegislativeStep(context, next, step).world;
-  }
-  throw new Error(`No enactment in ${place}`);
+  return enactThroughDesk(start, measureId, { context });
 }
 function input(start: World, place: string) {
   return {
@@ -311,6 +290,7 @@ beforeAll(() => {
   });
   for (const place of places) {
     const pack = legislativePackForJurisdiction(jurisdiction(place))!;
+    world = ensureStateExecutiveIncumbent(world, world.personOrder[0]!, place);
     world = ensureStateLegislatureOpening(world, world.personOrder[0]!, place);
     const member = stateLegislators(world, `${pack.packId}:candidacy`).find(
       (row) => row.officeKey.endsWith(`:${pack.chamberOrder[0]}`),

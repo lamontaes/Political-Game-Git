@@ -1,4 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
+import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
+import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
 import { createWorld, assertWorldIntegrity } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import {
@@ -9,9 +11,6 @@ import {
 } from "../legislation-scenarios";
 import {
   introduceMeasure,
-  availableMeasureSteps,
-  measurePosition,
-  recordEnactment,
   offerFloorAmendment,
   measureAmendments,
 } from "../legislation";
@@ -80,30 +79,9 @@ function file(start: World, key: string, values?: readonly string[]) {
   return { world: next, measureId };
 }
 function enact(start: World, measureId: EntityId): World {
-  let next = start;
-  const context = {
-    ...scenario,
-    measureId,
-    governorAction: "signed" as const,
-    governorRationale: "Explicit favorable decision in a controlled test.",
-  };
-  for (let guard = 0; guard < 40; guard++) {
-    if (measurePosition(next, measureId).phase === "awaiting-enactment")
-      return recordEnactment(next, {
-        stableKey: `${measureId}:law`,
-        measureId,
-        effectiveAt: next.currentDate,
-      });
-    const step = availableMeasureSteps(next, measureId).find(
-      (key) => key !== "offer-amendment",
-    );
-    if (!step)
-      throw new Error(
-        `No canonical next step at ${measurePosition(next, measureId).phase}`,
-      );
-    next = applyLegislativeStep(context, next, step).world;
-  }
-  throw new Error("Controlled coverage bill did not reach enactment.");
+  return enactThroughDesk(start, measureId, {
+    context: { ...scenario, measureId },
+  });
 }
 beforeAll(() => {
   scenario = createLegislativeScenario("kentucky");
@@ -143,6 +121,11 @@ beforeAll(() => {
     jurisdictions: [...jurisdictions.values()],
     policyCatalog: declaredCatalog,
   });
+  world = ensureStateExecutiveIncumbent(
+    world,
+    scenario.playerPersonId,
+    state.jurisdictionKey.slice(3),
+  );
   const baseline = file(world, "category-proof:baseline", ["robbery"]);
   baselineId = baseline.measureId;
   world = enact(baseline.world, baselineId);
