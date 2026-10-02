@@ -1,7 +1,7 @@
 import { makeIsoDate } from "../dates";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import type { EntityId, IsoDate, World } from "../types";
-import { CANNABIS_TAX_EFFECT } from "./rules";
+import { CANNABIS_TAX_EFFECT, TAX_QUESTION_EFFECTS } from "./rules";
 import type { PublicBudgetGovernment } from "./store";
 import { propositionIdFor } from "./fiscal";
 
@@ -42,7 +42,11 @@ export function cannabisSalesRevenueChange(
     annualRevenueDelta: 0,
     sourceMeasureId: null,
   });
-  if (government.level !== "state") return unchanged("not-state-budget");
+  const effect = TAX_QUESTION_EFFECTS.find(
+    (row) => row.questionKey === CANNABIS_TAX_EFFECT.questionKey,
+  );
+  if (!effect || !(effect.levels ?? ["state"]).includes(government.level))
+    return unchanged("not-state-budget");
   const propositionId = propositionIdFor(
     world,
     CANNABIS_TAX_EFFECT.questionKey,

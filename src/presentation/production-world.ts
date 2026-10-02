@@ -408,7 +408,7 @@ export function buildProductionWorld(
     !input.preStartYear &&
     ageOnDate(player.birthDate, world.currentDate) >= DEPENDENT_AGE_CEILING
   )
-    world = establishDrawnAdultFamily(world, {
+    world = establishDrawnAdultFamily(ensureTownResidents(world, player.id), {
       personId: player.id,
       jurisdictionId: jurisdiction.id,
     });
