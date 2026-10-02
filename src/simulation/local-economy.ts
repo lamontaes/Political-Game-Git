@@ -1,3 +1,18 @@
+import {
+  LOCAL_BUSINESS_PLACEHOLDER,
+  localBusinessWageMinor,
+} from "./recorded-employer";
+export {
+  LOCAL_BUSINESS_PLACEHOLDER,
+  LOCAL_BUSINESS_WAGE_PERCENTILE,
+  localBusinessWageMinor,
+  adultStartEmployer,
+} from "./recorded-employer";
+import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+  type InventedPersonRole,
+} from "./invented-person-age";
 import { makeIsoDate } from "./dates";
 import {
   createCharacterHistoryContextPeople,
@@ -10,14 +25,7 @@ import {
   type CreateWorkRelationshipInput,
 } from "./life";
 import { lifePlaceByJurisdictionId } from "./life-places";
-import {
-  activeWorkRelationshipsAt,
-  householdMembershipsAt,
-  kinshipRelationshipsAt,
-  workRoleAt,
-} from "./life-queries";
 import { localBusinessSupplyFor } from "./local-business-counts";
-import { townJobRate } from "./living-world/town-pay";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   drawCanonicalNameForGender,
@@ -71,48 +79,6 @@ import type {
  * `localBusinessWageMinor`. `monthlyWageMinor` below is used only where no
  * published wage covers the town, and is marked as the placeholder it is.
  */
-export const LOCAL_BUSINESS_PLACEHOLDER = {
-  researchQuestionId: "businesses-owners-and-wealth",
-  currency: "USD",
-  /** PLACEHOLDER: a worker's monthly pay where no published wage covers. */
-  monthlyWageMinor: 280_000,
-} as const;
-
-/**
- * GAME ASSUMPTION: the percentile of the published wage distribution a
- * business's staff are paid at. Staff have been there for years, so the
- * middle of the distribution.
- */
-export const LOCAL_BUSINESS_WAGE_PERCENTILE = 50;
-
-const HOURS_PER_YEAR = 2_080;
-
-/**
- * What one of a business's workers is paid a month in `jurisdictionId`: the
- * BLS Occupational Employment and Wage Statistics wage for the worker's
- * occupation in the town's area, never below the minimum wage. The marked
- * placeholder pay where no wage is published for that occupation and area.
- */
-export function localBusinessWageMinor(
-  kind: Pick<LocalBusinessKind, "workerOccupation">,
-  jurisdictionId: EntityId | null,
-): { readonly monthlyMinor: number; readonly sourced: boolean } {
-  const rate = townJobRate(
-    kind.workerOccupation,
-    jurisdictionId,
-    LOCAL_BUSINESS_WAGE_PERCENTILE,
-  );
-  return rate
-    ? {
-        monthlyMinor: Math.round((rate.hourlyMinor * HOURS_PER_YEAR) / 12),
-        sourced: true,
-      }
-    : {
-        monthlyMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
-        sourced: false,
-      };
-}
-
 export interface LocalBusinessKind {
   readonly key: string;
   readonly name: (familyName: string) => string;
@@ -317,7 +283,8 @@ export const BUSINESS_WORKER_WORK_KIND = "employment:local-business" as const;
 
 const CATCH_UP_LIMIT_MONTHS = 240;
 
-const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
+/** The hours and demands of a local business's full-time job. */
+export const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
   expectedWeekly: { minimumHours: 35, maximumHours: 45 },
   attention: "moderate",
   concurrency: "mostly-exclusive",
@@ -382,15 +349,6 @@ export function localBusinessesIn(
   return found
     .sort((a, b) => a.order - b.order || a.index - b.index)
     .map(({ organization, kind }) => ({ organization, kind }));
-}
-
-function birthDateFor(rng: SeededRng, today: IsoDate, age: number): IsoDate {
-  const year = Number(today.slice(0, 4)) - age - 1;
-  const month = rng.integer(1, 13);
-  const day = rng.integer(1, 29);
-  return makeIsoDate(
-    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-  );
 }
 
 function yearsBefore(date: IsoDate, years: number): IsoDate {
@@ -486,7 +444,7 @@ function seatMissingLocalBusinesses(
     const kindRng = rng.fork(
       planned.index === 0 ? kind.key : `${kind.key}:${planned.index + 1}`,
     );
-    const draw = (role: string, minAge: number, maxAge: number) => {
+    const draw = (role: string, ageRole: InventedPersonRole) => {
       const personRng = kindRng.fork(role);
       const identity = generatePersonIdentity(personRng.fork("identity"));
       let name = drawCanonicalNameForGender(
@@ -512,24 +470,24 @@ function seatMissingLocalBusinesses(
         stableKey: `${businessKey(jurisdictionId, kind, planned.index)}:${role}`,
         ...name,
         identity,
-        birthDate: birthDateFor(
-          personRng.fork("age"),
-          today,
-          personRng.integer(minAge, maxAge + 1),
-        ),
+        birthDate: inventedPersonBirthDate(personRng.fork("age"), {
+          role: ageRole,
+          referenceDate: today,
+          age: inventedPersonAge(personRng, ageRole),
+        }),
         homeJurisdictionId: jurisdictionId,
       };
       people.push(input);
       return input;
     };
-    const owner = draw("owner", 30, 64);
+    const owner = draw("owner", "business-owner");
     const ownerAdult = yearsBefore(owner.birthDate, -22);
     const formedAt = later(
       yearsBefore(today, kindRng.integer(1, 31)),
       ownerAdult,
     );
     const workers = Array.from({ length: planned.workers }, (_, index) => {
-      const input = draw(`worker:${index + 1}`, 18, 60);
+      const input = draw(`worker:${index + 1}`, "business-worker");
       const since = later(
         yearsBefore(today, kindRng.integer(0, 6)),
         later(formedAt, yearsBefore(input.birthDate, -16)),
@@ -824,71 +782,4 @@ export function refreshLocalEconomy(world: World, personId: EntityId): World {
     seatLocalBusinesses(world, jurisdictionId),
     jurisdictionId,
   );
-}
-
-/**
- * The local business a grown-up new life works at when the game opens, chosen
- * from the person's own situation rather than first in the town's list.
- *
- * - Only work the person is fit for: the professional roles (legal
- *   assistant, bookkeeper) need schooling no summarized history gives. A
- *   trade is learned on the job, as most builders and mechanics learn it;
- *   an apprenticeship the history records counts as that line of work.
- * - Somebody they know works there or owns it: family and household put a
- *   person forward, as they do in the job market.
- * - Otherwise the line of work they already did: a person who worked a shop
- *   counter at school goes back to a counter.
- * - Otherwise the best-paid of those jobs, at the town's own published pay.
- *
- * Null when the town has no business, or none the person is fit for, and
- * then nobody is hired: the person starts looking for work.
- */
-export function adultStartEmployer(
-  world: World,
-  personId: EntityId,
-  jurisdictionId: EntityId,
-): { organization: Organization; kind: LocalBusinessKind } | null {
-  const past = world.history.workRelationships.filter(
-    (work) => work.personId === personId,
-  );
-  const fit = localBusinessesIn(world, jurisdictionId).filter(
-    ({ kind }) => !kind.workerOccupation.startsWith("profession:"),
-  );
-  if (fit.length === 0) return null;
-  const known = new Set<EntityId>();
-  for (const kin of kinshipRelationshipsAt(world, personId))
-    for (const id of kin.personIds) if (id !== personId) known.add(id);
-  const homes = new Set(
-    householdMembershipsAt(world, personId).map((entry) => entry.household.id),
-  );
-  for (const record of world.history.householdMemberships)
-    if (record.personId !== personId && homes.has(record.householdId))
-      known.add(record.personId);
-  const vouched = fit.filter(({ organization }) =>
-    [...known].some(
-      (id) =>
-        world.people[id] &&
-        activeWorkRelationshipsAt(world, id).some(
-          (entry) => entry.relationship.organizationId === organization.id,
-        ),
-    ),
-  );
-  const lines = new Set(
-    past.flatMap((work) => {
-      const occupation = workRoleAt(world, work.id)?.occupationClassification;
-      return occupation ? [occupation.split(":")[0]!] : [];
-    }),
-  );
-  const experienced = fit.filter(({ kind }) =>
-    lines.has(kind.workerOccupation.split(":")[0]!),
-  );
-  const pool =
-    vouched.length > 0 ? vouched : experienced.length > 0 ? experienced : fit;
-  const pay = (kind: LocalBusinessKind) =>
-    localBusinessWageMinor(kind, jurisdictionId).monthlyMinor;
-  return [...pool].sort(
-    (left, right) =>
-      pay(right.kind) - pay(left.kind) ||
-      left.organization.id.localeCompare(right.organization.id),
-  )[0]!;
 }

@@ -92,6 +92,7 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "childhood-entry"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
@@ -949,10 +950,11 @@ export interface LawExposureRecord {
   readonly sectionKey: string | null;
   readonly channel: LawExposureChannel;
   /**
-   * Their own money or service, a family member's, or something a person
-   * they know told them it did to them ("friend").
+   * Their own money or service, a family member's, something a person they
+   * know told them it did to them ("friend"), or a published story about what
+   * it did that they read ("news": heard from the news).
    */
-  readonly relation: "own" | "family" | "friend";
+  readonly relation: "own" | "family" | "friend" | "news";
   /** For a family or friend exposure, whose paycheck, bill or service it was. */
   readonly viaPersonId: EntityId | null;
   /** Whether the law cost them or paid them; "none" for a non-money effect. */
@@ -967,8 +969,23 @@ export interface LawExposureRecord {
    * landed on them.
    */
   readonly monthlyPay: MoneyAmount | null;
-  /** The record showing the effect happened (a tax collection, a paycheck). */
+  /**
+   * The record showing the effect happened (a tax collection, a paycheck);
+   * for a news exposure, the reader's knowledge of the story.
+   */
   readonly sourceRecordId: EntityId;
+  /** For a news exposure: the story it came from, record by record. */
+  readonly news?: LawExposureNewsProvenance;
+}
+
+/** Where a news exposure came from (`recordStoryHeardExposure`). */
+export interface LawExposureNewsProvenance {
+  /** The reader's knowledge of the story (EventKnowledgeRecord). */
+  readonly knowledgeId: EntityId;
+  readonly publicationId: EntityId;
+  readonly storyLeadId: EntityId;
+  /** The law-effect event the story reported. */
+  readonly basisEventId: EntityId;
 }
 
 /** Why a person's view of an official moved (spec 5, "Reasons for a view"). */
@@ -1394,6 +1411,8 @@ export interface OrganizationProfileRecord {
   readonly name: string;
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
+  /** Source-backed legal employer identity; not a funder or public account. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
   /**
@@ -2116,8 +2135,7 @@ export type IncidentSemanticKey = `${string}:${string}`;
  * with no draw and no actor. It is the mode for conditions that last, where
  * the design sets how bad counts as bad but never the chance of an outcome.
  */
-export type IncidentOccurrenceMode =
-  "probabilistic" | "actor-initiated" | "condition";
+export type IncidentOccurrenceMode = "actor-initiated" | "condition";
 export type IncidentStatus = "active" | "resolved";
 export type IncidentRuleComparison = "at-least" | "at-most";
 
@@ -2327,6 +2345,10 @@ export interface IncidentLikelihoodModifierEvaluation {
   readonly sourceEntityIds: readonly EntityId[];
 }
 
+/**
+ * A draw an old save recorded before incidents stopped being drawn (A134).
+ * Read as recorded; nothing writes one now.
+ */
 export interface IncidentRngResult {
   readonly key: string;
   readonly draw: number;
@@ -4404,7 +4426,50 @@ export interface LegalOutcomeConsequenceRecord {
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }
 
+/**
+ * One dated entry in a person's childhood record (`childhood-record.ts`).
+ * Append-only, written only while the person is under 18, and each entry
+ * cites the record that produced it.
+ */
+interface ChildhoodRecordEntryBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  readonly recordedAt: IsoDate;
+  readonly effectiveAt: IsoDate;
+  /** The record this entry was read from, such as the birth or move event. */
+  readonly sourceRecordId: EntityId;
+}
+
+export type ChildhoodRecordEntry =
+  | (ChildhoodRecordEntryBase & {
+      readonly kind: "birth";
+      readonly jurisdictionId: EntityId;
+      readonly birthDate: IsoDate;
+    })
+  | (ChildhoodRecordEntryBase & {
+      readonly kind: "school-year-move";
+      readonly fromJurisdictionId: EntityId;
+      readonly toJurisdictionId: EntityId;
+      /** The calendar year the school year began in. */
+      readonly schoolYear: number;
+      /** 0 for kindergarten through 12. */
+      readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /**
+       * A pupil moved somewhere the World holds no school for their grade,
+       * so nobody enrolled them; the move is the source.
+       */
+      readonly kind: "no-school-on-record";
+      readonly toJurisdictionId: EntityId;
+      readonly grade: number;
+    });
+
 export interface HistoryStore {
+  /** Childhood entries, one record per person, read with `childhoodRecord`. */
+  readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
@@ -5527,6 +5592,7 @@ export type AdultLifeSituationKey =
   | "adult.household-repair"
   | "adult.household-money-shortfall"
   | "adult.eviction-case"
+  | "adult.crime-report"
   | "adult.family-request"
   | "adult.care-request"
   | "adult.partner-plan"

@@ -1,3 +1,4 @@
+import { livesInJuryCatchment } from "./jury-catchment";
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
 import { lawInForce } from "../governing/law-in-force";
@@ -6,17 +7,13 @@ import {
   ensureOfficeholderPrinciples,
   principledLeaning,
 } from "../governing/officeholder-principles";
-import {
-  courtsForJurisdiction,
-  seatHolderAt,
-  seatsForCourt,
-} from "../judiciary/courts";
+import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
+import { courtFor } from "../judiciary/court-for";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
   kinshipRelationshipsAt,
 } from "../life-queries";
-import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { ensurePeopleTraits } from "../people-traits";
 import { deriveRelationshipSummary } from "../queries";
 import { SeededRng } from "../rng";
@@ -32,6 +29,7 @@ import { isPersonAliveAt } from "../vitality";
 import { JURY_VOTE_DECISION, PLEA_DECISION } from "./court-decisions";
 import { sentencesOf } from "./jail-terms";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
+import type { SentencingApplicability } from "./sentencing-applicability";
 
 /**
  * How the people in a criminal case decide, through the shared decision
@@ -67,6 +65,7 @@ const PUBLIC_TRUST_OFFENSES = new Set(["campaign-funds-personal-use"]);
 
 /** The case as every decider in it sees it. */
 export interface CourtCase {
+  readonly sentencingApplicability?: SentencingApplicability;
   readonly caseKey: string;
   readonly defendantId: EntityId;
   readonly offenseKey: string;
@@ -207,7 +206,7 @@ export function evaluatePlea(
 // The jury.
 
 /**
- * Who may sit: living adults of the place the case is tried, and none who
+ * Who may sit: living adults of the estimated county catchment, and none who
  * know the defendant. Voir dire excuses the defendant's family, household and
  * anyone who has dealt with them, so no juror is somebody the record shows
  * they know.
@@ -226,7 +225,14 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
   const pool: EntityId[] = [];
   const cutoff = currentLifeCutoff(world);
   for (const person of Object.values(world.people)) {
-    if (person.homeJurisdictionId !== courtCase.venueJurisdictionId) continue;
+    if (
+      !courtCase.venueJurisdictionId ||
+      !livesInJuryCatchment(
+        person.homeJurisdictionId,
+        courtCase.venueJurisdictionId,
+      )
+    )
+      continue;
     if (excused.has(person.id)) continue;
     if (world.control.kind === "person" && world.control.personId === person.id)
       continue;
@@ -249,6 +255,12 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
  * jury statute draws its panels by lot. The draw picks who sits; it decides
  * nothing any of them does.
  */
+/** Existing blanket panel target; jurisdiction-specific legal sizes are unread. */
+export const UNRESEARCHED_JURY_PANEL = {
+  size: 12,
+  provenance: "unresearched-existing-panel-size",
+} as const;
+
 export function empanelJury(
   world: World,
   courtCase: CourtCase,
@@ -260,7 +272,7 @@ export function empanelJury(
   );
   const drawn: EntityId[] = [];
   const remaining = [...pool];
-  while (drawn.length < 12 && remaining.length > 0)
+  while (drawn.length < UNRESEARCHED_JURY_PANEL.size && remaining.length > 0)
     drawn.push(remaining.splice(rng.integer(0, remaining.length), 1)[0]!);
   return drawn;
 }
@@ -429,25 +441,26 @@ export function sentencingJudge(
   courtCase: CourtCase,
   turn: number,
 ): EntityId | null {
-  const usps = courtCase.stateKey?.slice(3) ?? null;
-  const state = usps ? chiefExecutiveJurisdiction(usps) : null;
-  if (!state) return null;
+  if (!courtCase.venueJurisdictionId) return null;
+  const court = courtFor(
+    world,
+    courtCase.venueJurisdictionId,
+    "local-general-trial",
+    "criminal",
+  );
+  if (!court) return null;
   const judges: EntityId[] = [];
-  const courts = courtsForJurisdiction(world, state.id)
-    .filter((court) => court.level === "local-general-trial")
-    .sort((a, b) => a.courtId.localeCompare(b.courtId));
-  for (const court of courts)
-    for (const seat of seatsForCourt(world, court.courtId)) {
-      const holder = seatHolderAt(world, seat.seatId);
-      if (!holder || judges.includes(holder.personId)) continue;
-      if (holder.personId === courtCase.defendantId) continue;
-      if (
-        deriveRelationshipSummary(world, holder.personId, courtCase.defendantId)
-          .closeness !== "none"
-      )
-        continue;
-      judges.push(holder.personId);
-    }
+  for (const seat of seatsForCourt(world, court.courtId)) {
+    const holder = seatHolderAt(world, seat.seatId);
+    if (!holder || judges.includes(holder.personId)) continue;
+    if (holder.personId === courtCase.defendantId) continue;
+    if (
+      deriveRelationshipSummary(world, holder.personId, courtCase.defendantId)
+        .closeness !== "none"
+    )
+      continue;
+    judges.push(holder.personId);
+  }
   if (judges.length === 0) return null;
   return judges[turn % judges.length]!;
 }
@@ -497,7 +510,7 @@ export function mandatoryJailUnderLaw(
 }
 
 /** The judge's own view of fixed minimum sentences, when they hold one. */
-function judgePrincipleConsideration(
+export function judgePrincipleConsideration(
   world: World,
   judgeId: EntityId,
   key: string,

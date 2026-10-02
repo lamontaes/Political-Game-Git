@@ -3,9 +3,15 @@ import {
   applyCharacterHistoryPlan,
   generateQuickCharacterHistory,
 } from "./character-history";
-import { ageOnDate, dateAtAge, makeIsoDate } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  dateAtAge,
+  makeIsoDate,
+  simulationMomentOnLocalDate,
+  simulationMinutesBetween,
+} from "./dates";
 import { createStableId } from "./ids";
-import { advanceWorld } from "./world";
 import {
   householdMembershipStateHistory,
   householdMembershipsAt,
@@ -22,9 +28,14 @@ import type {
   IsoDate,
   World,
 } from "./types";
-import { playerRequiredWorkIds, releasePlayerRequiredWork } from "./time-work";
+import {
+  advanceWorldMinutes,
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "./time-work";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 /**
  * Playing on after a life ends (CRUNCH46 P5).
@@ -868,7 +879,15 @@ export function waitThenContinue(
   }
   const observing = keepObserving(world, input.predecessorId);
   const days = daysBetween(observing.currentDate, candidate.playableOn!);
-  const advanced = advanceWorld(observing, days, input.handlers);
+  const target = simulationMomentOnLocalDate(
+    observing.currentMoment,
+    addDays(observing.currentDate, days),
+  );
+  const advanced = advanceWorldMinutes(
+    observing,
+    simulationMinutesBetween(observing.currentMoment, target),
+    composeWorldTimeHandlers(input.handlers),
+  );
   if (advanced.currentDate < candidate.playableOn!) {
     throw new Error("The world could not run on to that date.");
   }

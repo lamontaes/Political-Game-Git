@@ -99,6 +99,8 @@ export const GEO_FIELD = {
   COUNTY: 14,
   AREALAND: 84,
   AREAWATR: 85,
+  /** POP100, the published population count (legacy field 91). */
+  POP100: 90,
   PARTFLAG: 95,
 } as const;
 export const GEO_FIELD_COUNT = 97;

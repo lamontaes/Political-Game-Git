@@ -7,6 +7,7 @@ import {
   recordStatewideRatification,
   sameRuleChanged,
   stateAmendmentProfile,
+  type ProposeConstitutionalMeasureInput,
 } from "../constitutional-process";
 import type {
   ConstitutionalMeasureRecord,
@@ -851,6 +852,21 @@ function recordStateProposalVotes(
           ]),
       ),
     });
+    const reasonCounts = new Map<string, number>();
+    for (const disposition of dispositions) {
+      if (disposition.reason)
+        reasonCounts.set(
+          disposition.reason,
+          (reasonCounts.get(disposition.reason) ?? 0) + 1,
+        );
+    }
+    const mostOften = [...reasonCounts].sort((a, b) => b[1] - a[1])[0]?.[0];
+    const memberReasons = dispositions.map((disposition) => {
+      const member = seated.body.members.find(
+        (candidate) => candidate.memberKey === disposition.memberKey,
+      );
+      return `${member?.name ?? disposition.memberKey}: ${disposition.reason ?? "no recorded reason"}`;
+    });
     next = recordConstitutionalProposalVote(
       next,
       measure.id,
@@ -859,7 +875,7 @@ function recordStateProposalVotes(
       seated.seats,
       {
         method: "member-decisions",
-        note: `Actual saved state members decided through the shared chamber vote; constitutional profile basis: ${profileBasis}. No delegation or synthetic seats were used.`,
+        note: `Actual saved state members decided for their own reasons${mostOften ? `, most often ${mostOften}` : "; no member reason was recorded"}. Recorded member reasons: ${memberReasons.join("; ")}. They used the shared chamber vote; constitutional profile basis: ${profileBasis}. No delegation or synthetic seats were used.`,
         sourceEntityIds: [...sourceRecordIds, ...causeRecordIds],
       },
     );
@@ -881,6 +897,47 @@ function proposeAndVote(
   );
 }
 
+/**
+ * The shared initial amendment writer. Automatic proposals use the same
+ * initial text version and unset sponsor/operative/ordinary-measure fields;
+ * an explicit caller value remains authoritative. The canonical producer
+ * still validates identity, authority, dates, and the jurisdiction's rule.
+ */
+export function proposeAmendment(
+  world: World,
+  input: Omit<
+    ProposeConstitutionalMeasureInput,
+    | "textVersion"
+    | "sponsorPersonId"
+    | "delayedOperativeAt"
+    | "ordinaryMeasureId"
+  > &
+    Partial<
+      Pick<
+        ProposeConstitutionalMeasureInput,
+        | "textVersion"
+        | "sponsorPersonId"
+        | "delayedOperativeAt"
+        | "ordinaryMeasureId"
+      >
+    >,
+): World {
+  const {
+    textVersion = "v1",
+    sponsorPersonId = null,
+    delayedOperativeAt = null,
+    ordinaryMeasureId = null,
+    ...proposal
+  } = input;
+  return proposeConstitutionalMeasure(world, {
+    ...proposal,
+    textVersion,
+    sponsorPersonId,
+    delayedOperativeAt,
+    ordinaryMeasureId,
+  });
+}
+
 function proposeAndVoteUnchecked(
   world: World,
   stateUsps: string,
@@ -892,7 +949,7 @@ function proposeAndVoteUnchecked(
   const stateName = world.jurisdictions[stateId]?.name ?? stateUsps;
   const key = spec.key;
   const policy = isPolicyReform(key);
-  let next = proposeConstitutionalMeasure(world, {
+  let next = proposeAmendment(world, {
     stableKey: key,
     jurisdictionId: stateId,
     jurisdictionKey: `US-${stateUsps}`,
@@ -903,14 +960,10 @@ function proposeAndVoteUnchecked(
       : `Proposed Amendment (${year})`,
     shortTitle: spec.shortTitle,
     text: spec.text,
-    textVersion: "v1",
     sponsoringAuthority: `The ${stateName} Legislature`,
-    sponsorPersonId: null,
     ratificationMode: "statewide-electors",
     deadlineAt: null,
-    delayedOperativeAt: null,
     ruleDelta: spec.ruleDelta,
-    ordinaryMeasureId: null,
   });
   const measureId = next.history.constitutionalMeasures!.at(-1)!.id;
   if (policy) {
@@ -1070,7 +1123,9 @@ export function constitutionalReformBallotHandler(
   );
 }
 
-export const CONSTITUTIONAL_REFORM_HANDLERS = [
-  [CONSTITUTIONAL_REFORM_REVIEW, constitutionalReformReviewHandler],
-  [CONSTITUTIONAL_REFORM_BALLOT, constitutionalReformBallotHandler],
-] as const;
+export function constitutionalReformHandlers() {
+  return [
+    [CONSTITUTIONAL_REFORM_REVIEW, constitutionalReformReviewHandler],
+    [CONSTITUTIONAL_REFORM_BALLOT, constitutionalReformBallotHandler],
+  ] as const;
+}

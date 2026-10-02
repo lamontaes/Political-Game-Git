@@ -4,6 +4,8 @@ import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
 
 import {
   activeDwellingOccupanciesAt,
+  DEATH_CAUSE_INJURY,
+  deathCauseSummary,
   activeHousingTenuresAt,
   activateEffect,
   advanceWorld,
@@ -31,8 +33,6 @@ import {
   createWorkRelationship,
   createWorld,
   currentResourceCutoff,
-  dateAtAge,
-  daysBetween,
   deserializeWorld,
   distinctRootCausalIds,
   directPolicyImplementationFactor,
@@ -80,9 +80,6 @@ import {
   futureDueItemStateAt,
   latestObservationForSeriesAt,
   makeIsoDate,
-  mortalityRngForPlan,
-  mortalityTransitionHandler,
-  MORTALITY_TRANSITION_KEY,
   isPersonAliveAt,
   personFunctionalCapacityAt,
   worldMetricStateForPeriodAt,
@@ -98,9 +95,8 @@ import {
   evidenceArtifactsRelatedToEntity,
   hasPersonDiscoveredEvidence,
   recordPersonFunctionalCapacity,
-  schedulePersonMortalityCheck,
+  recordPersonDeath,
   scheduleIncidentTransition,
-  yearOf,
 } from "./index";
 import type {
   CharacterHistoryMode,
@@ -2446,7 +2442,6 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
         },
       ],
       [INCIDENT_TRANSITION_KEY, incidentTransitionHandler],
-      [MORTALITY_TRANSITION_KEY, mortalityTransitionHandler],
     ]);
     world = advanceWorld(world, 5, transitionHandlers);
 
@@ -3232,16 +3227,6 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     if (world.people[peer]?.detailLevel === "lightweight") {
       world = materializePerson(world, peer);
     }
-    const peerPerson = world.people[peer]!;
-    const currentYear = yearOf(world.currentDate);
-    const ageThisYear = currentYear - yearOf(peerPerson.birthDate);
-    const checkYear =
-      dateAtAge(peerPerson.birthDate, ageThisYear) > world.currentDate
-        ? currentYear
-        : currentYear + 1;
-    const certainDeathTable = Object.values(
-      world.vitalityCatalog.mortalityTables,
-    ).find((table) => table.stableKey === "vitality.synthetic-certain-death")!;
     const transferCountBeforeDeath =
       world.history.resourceTransferOutcomes.length;
     const flowCountBeforeDeath = world.history.resourceFlows.length;
@@ -3253,31 +3238,20 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
       provenance: AUTHORED,
     });
     const peerPosition = world.history.resourcePositions.at(-1)!;
-    world = schedulePersonMortalityCheck(world, {
-      stableKey: "end-to-end:mortality:peer",
+    // The peer dies of a recorded injury, written through the one canonical
+    // death writer the crisis producers use (no annual check decides it).
+    world = advanceWorld(world, 1, transitionHandlers);
+    const aliveBeforeDeath = currentResourceCutoff(world);
+    world = recordPersonDeath(world, {
+      stableKey: "end-to-end:death:peer",
       personId: peer,
-      mortalityTableId: certainDeathTable.id,
-      checkYear,
+      diedAt: world.currentDate,
+      causeKey: DEATH_CAUSE_INJURY,
+      sourceEntityIds: [world.jurisdictionOrder[0]!],
+      summary: deathCauseSummary(DEATH_CAUSE_INJURY),
       provenance: AUTHORED,
     });
-    const mortalityPlan = world.history.mortalityCheckPlans.at(-1)!;
-    const aliveBeforeDeath = currentResourceCutoff(world);
-    const expectedMortalityRng = mortalityRngForPlan(world, mortalityPlan);
-    expect(expectedMortalityRng.died).toBe(true);
-    world = advanceWorld(
-      world,
-      daysBetween(world.currentDate, mortalityPlan.dueAt),
-      transitionHandlers,
-    );
-    const mortalityResult = world.history.mortalityCheckResults.at(-1)!;
-    const death = world.history.personDeaths.at(-1)!;
-    expect(mortalityResult.rng).toStrictEqual(expectedMortalityRng);
-    expect(mortalityResult).toMatchObject({
-      planId: mortalityPlan.id,
-      outcome: "died",
-      deathEventId: death.eventId,
-      deathRecordId: death.id,
-    });
+    expect(world.history.personDeaths.at(-1)!.personId).toBe(peer);
     expect(isPersonAliveAt(world, peer, aliveBeforeDeath)).toBe(true);
     expect(isPersonAliveAt(world, peer, currentResourceCutoff(world))).toBe(
       false,

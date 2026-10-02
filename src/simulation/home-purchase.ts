@@ -16,6 +16,7 @@ import {
 } from "./life";
 import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
 import { homeValueForJurisdiction } from "./county-home-value";
+import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { personName } from "./people";
 import {
   createDwelling,
@@ -98,8 +99,9 @@ function roundTo(minor: number, step: number): number {
  * The price is the county's median home value read as the world's first-month
  * price. Since then the world has its own price level, and rent on the same
  * screen already moves with it, so a house that never moved read as a bargain
- * within a few years. The terms move by the same price level the rent line
- * uses, the town's own where it has one and the nation's before that. What a
+ * within a few years. The purchase price uses the housing market's home-price
+ * level, the town's own where it has one and the nation's before that. The
+ * legacy down payment and monthly payment retain their consumer-price adjustment. What a
  * down payment and a monthly payment are for a price is still the research
  * question's to answer.
  */
@@ -117,20 +119,24 @@ export function homePurchaseTerms(
         )
       : null) ?? macroConditionsAt(world, "national", today);
   const first = macroMonthHistory(world, "national", today)[0] ?? null;
-  const factor =
+  const legacyPaymentFactor =
     now && first && first.priceIndex > 0
       ? now.priceIndex / first.priceIndex
       : 1;
   const openingPriceMinor =
     homeValueForJurisdiction(jurisdictionId).dollars * 100;
+  const housingFactor = jurisdictionId
+    ? homePriceLevel(world, jurisdictionId, today)
+    : (homePriceLevels(macroMonthHistory(world, "national", today)).at(-1)
+        ?.level ?? 1);
   return {
-    priceMinor: roundTo(openingPriceMinor * factor, 100_000),
+    priceMinor: roundTo(openingPriceMinor * housingFactor, 100_000),
     downPaymentMinor: roundTo(
-      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * factor,
+      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * legacyPaymentFactor,
       100_000,
     ),
     monthlyPaymentMinor: roundTo(
-      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * factor,
+      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * legacyPaymentFactor,
       1_000,
     ),
   };

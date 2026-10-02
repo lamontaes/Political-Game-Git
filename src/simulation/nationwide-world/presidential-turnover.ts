@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import { decideAnotherTerm } from "../careers/another-term";
 import {
   characterHistoryContextPersonId,
@@ -151,7 +152,6 @@ export const PRESIDENTIAL_TURNOVER_PROFILE = {
   /** The nominating field closes this many days before election day. */
   fieldClosesDaysBefore: 60,
   /** Age range of a newly drawn nominee, inclusive of the minimum. */
-  nomineeAge: { minimum: 45, maximumExclusive: 70 },
 } as const;
 
 /** U.S. Const. art. II, § 1, cl. 5. */
@@ -191,10 +191,6 @@ function cycleKey(cycle: number): string {
 function cycleForDue(due: FutureDueItem): number | null {
   const match = /^presidential-turnover\/v1:(\d{4}):/.exec(due.stableKey);
   return match ? Number(match[1]) : null;
-}
-
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
 }
 
 function done(world: World, context: string): FutureTransitionHandlerResult {
@@ -428,7 +424,8 @@ interface Nominee {
   readonly state: string;
 }
 
-function drawNominee(
+/** A party's nominee, a person invented for the cycle (exported for A161's test). */
+export function drawNominee(
   world: World,
   cycle: number,
   stableKey: string,
@@ -438,10 +435,6 @@ function drawNominee(
   const rng = new SeededRng(world.seed).fork(stableKey);
   const state = drawState(rng.fork("state"), excludeState);
   const jurisdiction = nationalUnitJurisdiction(cycle, state);
-  const age = rng.integer(
-    PRESIDENTIAL_TURNOVER_PROFILE.nomineeAge.minimum,
-    PRESIDENTIAL_TURNOVER_PROFILE.nomineeAge.maximumExclusive,
-  );
   let next = ensureJurisdiction(world, jurisdiction);
   next = createCharacterHistoryContextPeople(next, [
     {
@@ -452,9 +445,10 @@ function drawNominee(
       ),
       // Born before the election's field closes, so the minimum age holds on
       // election day and at the oath.
-      birthDate: makeIsoDate(
-        `${cycle - age - 1}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-      ),
+      birthDate: inventedPersonBirthDate(rng, {
+        role: "presidential-nominee",
+        referenceDate: makeIsoDate(`${cycle}-01-01`),
+      }),
       homeJurisdictionId: jurisdiction.id,
       birthplaceJurisdictionId: jurisdiction.id,
     },
@@ -1124,12 +1118,14 @@ export function presidentialTermPlanHandler(
   return done(next, `The ${cycle} winners' terms were dated.`);
 }
 
-export const PRESIDENTIAL_TURNOVER_HANDLERS = [
-  [PRESIDENTIAL_FIELD_CLOSE, presidentialFieldCloseHandler],
-  [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
-  [PRESIDENTIAL_ELECTORS_MEET, presidentialElectorsMeetHandler],
-  [PRESIDENTIAL_TERM_PLAN, presidentialTermPlanHandler],
-] as const;
+export function presidentialTurnoverHandlers() {
+  return [
+    [PRESIDENTIAL_FIELD_CLOSE, presidentialFieldCloseHandler],
+    [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
+    [PRESIDENTIAL_ELECTORS_MEET, presidentialElectorsMeetHandler],
+    [PRESIDENTIAL_TERM_PLAN, presidentialTermPlanHandler],
+  ] as const;
+}
 
 /** Noon on January 20 has passed: a living winner takes the oath. */
 function swearInWinners(world: World): World {

@@ -1,9 +1,22 @@
+import { childhoodRecordEntries } from "./childhood-record";
+import { recordsByStringField } from "./history-index";
 import { ageOnDate, dateAtAge } from "./dates";
-import { kinshipRelationshipsAt } from "./life-queries";
+import {
+  annualPovertyLineMinor,
+  recordedMonthlyPayByPerson,
+} from "./household-pay";
+import { homeStateKey } from "./state-jurisdiction-id";
+import {
+  activeWorkRelationshipsAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  peopleInHouseholdAt,
+} from "./life-queries";
 import { SeededRng } from "./rng";
-import type { EntityId, World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 import type { PeopleTrait, TraitValue } from "./people-trait-definitions";
 import type { TraitLifePart } from "./personality-trait-registry";
+import { isPersonAliveAt } from "./vitality-integrity";
 
 /** Broad periods preserve change without pretending to know annual household accounts. */
 export type UpbringingPeriod = "early-childhood" | "adolescence";
@@ -14,7 +27,10 @@ export type CaregivingClimate =
   | "consistent-firm"
   | "inconsistent"
   | "high-conflict"
-  | "harsh";
+  | "harsh"
+  // A person born in play: no household record says how their caregivers
+  // treated them yet, so nothing is drawn and no tendency is read from it.
+  | "not-recorded";
 export type UpbringingEvent =
   | "parent-death"
   | "parent-separation"
@@ -45,11 +61,21 @@ export interface UpbringingSource {
 
 export interface PersonUpbringing {
   readonly personId: EntityId;
+  /**
+   * "childhood-record": a person born in play, read from their childhood
+   * record, the household pay and the family records with no draw.
+   * "game-profile": an opening-world person whose childhood predates the
+   * world, so named game profiles stand in for what was never recorded.
+   */
+  readonly basis: "childhood-record" | "game-profile";
   readonly money: readonly {
     readonly period: UpbringingPeriod;
     readonly level: FamilyMoney;
     readonly source: UpbringingSource;
   }[];
+  /** 0 to 1: moves / (moves + K). The number readers weigh by. */
+  readonly disruption: number;
+  /** Display only; see `homeStabilityLabel`. */
   readonly homeStability: HomeStability;
   readonly caregiving: CaregivingClimate;
   readonly protectiveCaregiver: boolean;
@@ -60,23 +86,105 @@ export interface PersonUpbringing {
 
 export interface UpbringingTraitTendency {
   readonly trait: string;
-  readonly weight: 1 | 2 | 3;
+  readonly weight: number;
   readonly lifePart: TraitLifePart | null;
   readonly because: string;
   readonly pole: "low" | "high";
 }
 
-const GAME_PROFILE: UpbringingSource = {
-  kind: "game-profile",
-  key: "upbringing-v1-national-profile",
-  note: "A bounded national game profile; no admitted nationwide longitudinal source fixes this joint childhood distribution.",
+/**
+ * A family's money when the World holds no household pay for that part of a
+ * childhood: the level of the median child, marked as an estimate.
+ *
+ * ACS 2024 1-year, table B17024 (ratio of income to poverty level by age),
+ * United States: of 21,699,134 children under 6, 3,568,376 (16.4%) lived
+ * under the poverty level, 4,304,160 (19.8%) at 100 to 199% of it and
+ * 13,826,598 (63.7%) at 200% or more; of 25,998,996 aged 12 to 17, 14.5%,
+ * 18.7% and 66.8%. The median child in both periods is in a family at 200%
+ * of poverty or more, which this model calls secure.
+ */
+const MONEY_ESTIMATE: UpbringingSource = {
+  kind: "public-data",
+  key: "acs-2024-1yr-b17024-median-child",
+  note: "ESTIMATED FROM AVERAGE: no household pay is on record for this part of the childhood, so it takes the median U.S. child's family level (ACS 2024 1-year B17024: 63.7% of children under 6 and 66.8% aged 12 to 17 live at 200% of poverty or more).",
 };
 
-function drawMoney(rng: SeededRng): FamilyMoney {
-  const roll = rng.integer(0, 100);
-  // PRIVATE GAME PROFILE. Severe scarcity is deliberately uncommon; this is
-  // not presented as a Census estimate until a nationwide donor is admitted.
-  return roll < 15 ? "severe-scarcity" : roll < 35 ? "strained" : "secure";
+const MONEY_FROM_RECORDS: UpbringingSource = {
+  kind: "world-record",
+  key: "household-pay-against-poverty-line",
+  note: "The household's recorded pay against the HHS poverty guideline for its size and state: at or under 100% is severe scarcity and at or under 200% strained (the Census poverty and low-income bands).",
+};
+
+/** The ages each money period covers, and the age its record is read at. */
+const MONEY_PERIODS: Readonly<
+  Record<UpbringingPeriod, { from: number; until: number; readAt: number }>
+> = {
+  "early-childhood": { from: 0, until: 6, readAt: 3 },
+  adolescence: { from: 12, until: 18, readAt: 15 },
+};
+
+/**
+ * The day a money period's records are read: today while the person is in
+ * it, the middle of it once it is over. None when the period is still ahead
+ * or was over before the World's history begins.
+ */
+function moneyRecordDate(
+  world: World,
+  birthDate: IsoDate,
+  period: UpbringingPeriod,
+): IsoDate | null {
+  const { from, until, readAt } = MONEY_PERIODS[period];
+  if (world.currentDate < dateAtAge(birthDate, from)) return null;
+  if (world.currentDate < dateAtAge(birthDate, until)) return world.currentDate;
+  const middle = dateAtAge(birthDate, readAt);
+  return middle < world.startedAt ? null : middle;
+}
+
+/**
+ * A family's money in one part of a childhood, read from the household's
+ * recorded pay on that day. When the World has no such record (the period
+ * is before its history, still ahead, or someone at work has no recorded
+ * pay), it is the median child's level, marked as an estimate.
+ */
+export function familyMoneyFor(
+  world: World,
+  personId: EntityId,
+  period: UpbringingPeriod,
+): { readonly level: FamilyMoney; readonly source: UpbringingSource } {
+  const estimate = { level: "secure" as const, source: MONEY_ESTIMATE };
+  const person = world.people[personId]!;
+  const onDate = moneyRecordDate(world, person.birthDate, period);
+  if (onDate === null) return estimate;
+  const cutoff = {
+    asOfDate: onDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const household = householdMembershipsAt(world, personId, cutoff)[0];
+  const stateKey = homeStateKey(world, personId);
+  if (!household || !stateKey) return estimate;
+  const members = peopleInHouseholdAt(
+    world,
+    household.household.id,
+    cutoff,
+  ).filter((id) => isPersonAliveAt(world, id, cutoff));
+  const pay = recordedMonthlyPayByPerson(world, onDate);
+  const working = members.filter(
+    (id) => activeWorkRelationshipsAt(world, id, cutoff).length > 0,
+  );
+  // Unknown is not zero: a household with nobody on a payroll, or somebody
+  // at work whose pay is not recorded, has no income the World can read.
+  if (working.length === 0 || working.some((id) => !pay.has(id)))
+    return estimate;
+  const annualMinor =
+    members.reduce((sum, id) => sum + (pay.get(id) ?? 0), 0) * 12;
+  const line = annualPovertyLineMinor(stateKey, members.length, onDate);
+  const level: FamilyMoney =
+    annualMinor <= line
+      ? "severe-scarcity"
+      : annualMinor <= line * 2
+        ? "strained"
+        : "secure";
+  return { level, source: MONEY_FROM_RECORDS };
 }
 
 function otherPerson(
@@ -115,6 +223,36 @@ function recordedChildhoodParentDeath(
 }
 
 /**
+ * How disrupted a childhood was, from 0 (no move during a school year) toward
+ * 1 (ever more of them): moves / (moves + K). PLACEHOLDER: K = 2 until the
+ * research on how many school-year moves a child takes in stride is read.
+ * Every reader weighs by this number; nothing flips at a count.
+ */
+const DISRUPTION_K = 2;
+function disruptionFromMoves(moves: number): number {
+  return moves / (moves + DISRUPTION_K);
+}
+
+/**
+ * HARDWIRED display rule: the label a screen may show for a disruption number.
+ * No reader uses it as a weight.
+ */
+function homeStabilityLabel(disruption: number): HomeStability {
+  return disruption === 0
+    ? "stable"
+    : disruption < 0.5
+      ? "some-moves"
+      : "disrupted";
+}
+
+/** What the old profile label stands for, in school-year moves (PLACEHOLDER). */
+const PROFILE_MOVES: Readonly<Record<HomeStability, number>> = {
+  stable: 0,
+  "some-moves": 1,
+  disrupted: 4,
+};
+
+/**
  * The same person in the same world always receives the same upbringing.
  * Existing parent and life records win over profile draws; missing history is
  * filled from named game profiles rather than disguised as sourced fact.
@@ -129,8 +267,34 @@ export function upbringingFor(
   const parents = recordedParents(world, personId);
   const parentDied = recordedChildhoodParentDeath(world, personId, parents);
   const age = ageOnDate(person.birthDate, world.currentDate);
-  const earlyMoney = drawMoney(rng.fork("money:early"));
-  const laterMoney = drawMoney(rng.fork("money:adolescence"));
+  const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
+  const laterMoney = familyMoneyFor(world, personId, "adolescence");
+  const money = [
+    { period: "early-childhood", ...earlyMoney },
+    { period: "adolescence", ...laterMoney },
+  ] as const;
+  const entries = recordsByStringField(
+    childhoodRecordEntries(world),
+    "personId",
+    personId,
+  );
+  if (entries.some(({ kind }) => kind === "birth")) {
+    const disruption = disruptionFromMoves(
+      entries.filter(({ kind }) => kind === "school-year-move").length,
+    );
+    return {
+      personId,
+      basis: "childhood-record",
+      money,
+      disruption,
+      homeStability: homeStabilityLabel(disruption),
+      caregiving: "not-recorded",
+      protectiveCaregiver: false,
+      events: parentDied ? ["parent-death"] : [],
+      schooling: [],
+      firstJob: "none",
+    };
+  }
   const homeRoll = rng.fork("home").integer(0, 100);
   const homeStability: HomeStability =
     homeRoll < 63 ? "stable" : homeRoll < 86 ? "some-moves" : "disrupted";
@@ -202,10 +366,9 @@ export function upbringingFor(
 
   return {
     personId,
-    money: [
-      { period: "early-childhood", level: earlyMoney, source: GAME_PROFILE },
-      { period: "adolescence", level: laterMoney, source: GAME_PROFILE },
-    ],
+    basis: "game-profile",
+    money,
+    disruption: disruptionFromMoves(PROFILE_MOVES[homeStability]),
     homeStability,
     caregiving,
     protectiveCaregiver,
@@ -217,7 +380,7 @@ export function upbringingFor(
 
 const candidate = (
   trait: string,
-  weight: 1 | 2 | 3,
+  weight: number,
   because: string,
   lifePart: TraitLifePart | null = null,
   pole: "low" | "high" = "high",
@@ -301,25 +464,41 @@ export function upbringingTraitTendencies(
         "family",
       ),
     );
-  if (upbringing.homeStability === "some-moves")
+  // Smooth in the disruption number: learning to adapt is strongest in the
+  // middle (4d(1-d)), the cost of lost homes grows with it (d).
+  const d = upbringing.disruption;
+  const adapting = 4 * d * (1 - d);
+  if (adapting > 0)
     rows.push(
       candidate(
         "personality-v1:method-revision",
-        2,
+        2 * adapting,
         "repeated safe transitions",
       ),
-      candidate("personality-v1:facet-observant", 1, "repeated transitions"),
-      candidate("personality-v1:facet-independent", 1, "repeated transitions"),
+      candidate(
+        "personality-v1:facet-observant",
+        adapting,
+        "repeated transitions",
+      ),
+      candidate(
+        "personality-v1:facet-independent",
+        adapting,
+        "repeated transitions",
+      ),
     );
-  if (upbringing.homeStability === "disrupted")
+  if (d > 0)
     rows.push(
       candidate(
         "personality-v1:facet-nostalgic",
-        2,
+        2 * d,
         "lost homes and relationships",
       ),
-      candidate("personality-v1:facet-guarded", 2, "disruptive moves"),
-      candidate("personality-v1:facet-slow-to-warm-up", 2, "disruptive moves"),
+      candidate("personality-v1:facet-guarded", 2 * d, "disruptive moves"),
+      candidate(
+        "personality-v1:facet-slow-to-warm-up",
+        2 * d,
+        "disruptive moves",
+      ),
     );
   for (const event of upbringing.events) {
     if (event === "parent-death")
@@ -561,7 +740,18 @@ export function upbringingCoreValue(
   personId: EntityId,
   trait: PeopleTrait,
 ): TraitValue {
-  const upbringing = upbringingFor(world, personId);
+  return upbringingCoreValueFrom(upbringingFor(world, personId), trait);
+}
+
+/**
+ * A core direction from an upbringing alone. Pure: the same upbringing gives
+ * the same value in every world. An upbringing that says nothing about this
+ * trait, or pulls both ways equally, leaves the person at the middle.
+ */
+export function upbringingCoreValueFrom(
+  upbringing: PersonUpbringing,
+  trait: PeopleTrait,
+): TraitValue {
   let score = 0;
   if (trait === "deliberation") {
     if (upbringing.caregiving === "consistent-firm") score -= 1;
@@ -589,18 +779,12 @@ export function upbringingCoreValue(
       score += 1;
     if (upbringing.caregiving === "inconsistent") score -= 1;
   } else if (trait === "risk") {
-    if (
-      upbringing.homeStability === "disrupted" ||
-      upbringing.events.includes("serious-illness")
-    )
-      score -= 1;
+    score -= Math.max(
+      upbringing.disruption,
+      upbringing.events.includes("serious-illness") ? 1 : 0,
+    );
     if (upbringing.firstJob === "autonomy") score += 1;
   }
-  if (score === 0) {
-    const rng = new SeededRng(world.seed).fork(
-      `upbringing-v1:core:${personId}:${trait}`,
-    );
-    score = rng.pick([-1, 0, 0, 0, 1] as const);
-  }
-  return Math.max(-2, Math.min(2, score)) as TraitValue;
+  // The scale is whole numbers; the score is rounded once, at the very end.
+  return (Math.round(Math.max(-2, Math.min(2, score))) + 0) as TraitValue;
 }

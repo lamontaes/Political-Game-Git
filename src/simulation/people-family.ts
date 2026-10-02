@@ -3,6 +3,7 @@ import {
   createCharacterHistoryContextPerson,
 } from "./character-history";
 import { YOUNGEST_AGE_AT_BIRTH } from "./birth-rates";
+import { appendChildhoodEntry } from "./childhood-record";
 import { ageOnDate, makeIsoDate } from "./dates";
 import {
   createChildAuthority,
@@ -16,6 +17,7 @@ import {
 } from "./life-queries";
 import { drawCanonicalNameForGender, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
+import { peopleTiedTo, tellPeopleOf } from "./neighbor-news";
 import { recordEventKnowledge } from "./records";
 import { SeededRng } from "./rng";
 import type {
@@ -281,7 +283,11 @@ export function recordFamilyAddition(
     ],
     personFactConstraints: [],
     visibility: "limited",
-    tags: [`family.${input.kind}`, `${PEOPLE_FAMILY_VERSION}`],
+    tags: [
+      `family.${input.kind}`,
+      `${PEOPLE_FAMILY_VERSION}`,
+      ...(input.tags ?? []),
+    ],
     summary:
       input.kind === "birth"
         ? `${personName(child)} was born to ${parentNames}.`
@@ -296,6 +302,18 @@ export function recordFamilyAddition(
     },
   });
   const event = next.history.events.at(-1)!;
+  if (input.kind === "birth" && event.jurisdictionId) {
+    // The first line of the child's childhood record: where and when.
+    next = appendChildhoodEntry(next, {
+      kind: "birth",
+      stableKey: `${input.stableKey}:childhood:birth`,
+      personId: childId,
+      effectiveAt: child.birthDate,
+      sourceRecordId: event.id,
+      jurisdictionId: event.jurisdictionId,
+      birthDate: child.birthDate,
+    });
+  }
   const provenance: LifeRecordProvenance = {
     kind: "simulated-event",
     eventId: event.id,
@@ -395,8 +413,9 @@ export function recordFamilyAddition(
     }
   }
 
-  // The parents, and whoever lives with them, know it happened. Nobody else
-  // learns of it from this record.
+  // The parents, and whoever lives with them, know it happened. So do the
+  // people the parents are tied to by a record (family and close friends),
+  // told by the parent; nobody with no recorded tie learns of it.
   const informed = [
     ...new Set([...parents.map((parent) => parent.id), ...householdPeople]),
   ].filter((id) => next.people[id] && alive(next, id, next.currentDate));
@@ -414,6 +433,13 @@ export function recordFamilyAddition(
         : { kind: "told-by", sourcePersonId: parents[0]!.id, claimId: null },
     });
   }
+  next = tellPeopleOf(next, event.id, {
+    tied: peopleTiedTo(
+      next,
+      parents.map((parent) => parent.id),
+    ).filter((id) => id !== childId),
+    teller: parents[0]!.id,
+  });
   return { world: next, childPersonId: childId, eventId: event.id };
 }
 

@@ -4,11 +4,14 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { sha256Hex } from "../../src/source/core/index";
+import type { ArtifactLock } from "../../src/source/core/index";
 import {
   PL_STATES,
   archiveCachePath,
   cutPlaceCountyParts,
   slicePath,
+  openPlaceCountyProduction,
+  compilePlaceCountyRelations,
 } from "../../src/source/domains/place-county-relations/index";
 import { parsePlaceCountyParts } from "../../src/source/domains/place-county-relations/parse";
 import { normalizePlaceCountyParts } from "../../src/source/domains/place-county-relations/normalize";
@@ -23,6 +26,7 @@ function geoLine(
   land: number,
   water: number,
   flag: string,
+  population: number | string = 0,
 ): string {
   const fields = Array.from({ length: 97 }, () => "");
   const geocode = `${state}${place}${county}`;
@@ -35,6 +39,7 @@ function geoLine(
   fields[14] = county;
   fields[84] = String(land);
   fields[85] = String(water);
+  fields[90] = String(population);
   fields[95] = flag;
   return fields.join("|");
 }
@@ -44,8 +49,8 @@ describe("place-county-relations parser and parts", () => {
     const parsed = parsePlaceCountyParts(
       Buffer.from(
         [
-          geoLine("40", "55000", "017", 300, 1, "P"),
-          geoLine("40", "55000", "109", 700, 2, "P"),
+          geoLine("40", "55000", "017", 300, 1, "P", 70),
+          geoLine("40", "55000", "109", 700, 2, "P", 30),
           geoLine("40", "00100", "001", 50, 0, "P"),
           "",
         ].join("\n"),
@@ -58,6 +63,7 @@ describe("place-county-relations parser and parts", () => {
       (record) => record.placeGeoid === "4055000",
     );
     expect(okc.map((record) => record.countyGeoid)).toEqual(["40017", "40109"]);
+    expect(okc.map((record) => record.partPopulationCount)).toEqual([70, 30]);
     expect(
       okc.every(
         (record) =>
@@ -65,6 +71,57 @@ describe("place-county-relations parser and parts", () => {
           record.placeCountyPartCount === 2,
       ),
     ).toBe(true);
+  });
+
+  it("refuses missing, negative, fractional and unsafe population counts, preserving measured zero", () => {
+    const lines = ["", "-1", "1.5", "9007199254740992", "0"].map(
+      (population, index) =>
+        geoLine(
+          "40",
+          "55000",
+          `${index + 1}`.padStart(3, "0"),
+          10,
+          0,
+          "P",
+          population,
+        ),
+    );
+    const parsed = parsePlaceCountyParts(Buffer.from(lines.join("\n")));
+    const result = normalizePlaceCountyParts(parsed.rows, "40", "fixture");
+    expect(result.defects).toHaveLength(4);
+    expect(result.records).toHaveLength(1);
+    expect(result.records[0]!.partPopulationCount).toBe(0);
+  });
+
+  it("replays the population-extended existing corpus from all locked source slices", () => {
+    const lock = JSON.parse(
+      readFileSync(
+        resolve(REPO, "data/source/place-county-relations/artifact-lock.json"),
+        "utf8",
+      ),
+    ) as ArtifactLock;
+    const compiled = compilePlaceCountyRelations(
+      openPlaceCountyProduction(lock),
+    );
+    const records = JSON.parse(
+      readFileSync(
+        resolve(REPO, "data/source/place-county-relations/corpus.json"),
+        "utf8",
+      ),
+    );
+    const manifest = JSON.parse(
+      readFileSync(
+        resolve(
+          REPO,
+          "data/source/place-county-relations/corpus-manifest.json",
+        ),
+        "utf8",
+      ),
+    );
+    expect(compiled.records).toEqual(records);
+    expect(compiled.corpus.canonicalSha256).toBe(manifest.canonicalSha256);
+    expect(compiled.corpus.inputs).toHaveLength(51);
+    expect(compiled.records).toHaveLength(33037);
   });
 
   it("refuses a blank area and a row from another state's file instead of guessing", () => {

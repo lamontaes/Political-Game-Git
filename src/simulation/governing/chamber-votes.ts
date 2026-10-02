@@ -1,10 +1,18 @@
 import { considerationScore, evaluateDecision } from "../decisions";
 import {
+  ARTICLE_V_STATE_KEYS,
   constitutionalEntityAvailableAt,
+  constitutionalPosition,
   stateAmendmentProfile,
 } from "../constitutional-process";
 import { institutionOfficeBindingAt } from "../enacted-rule-changes";
-import { legislativePackForJurisdiction } from "../legislative-institutions";
+import {
+  legislativePackForJurisdiction,
+  legislativePackForWorkKey,
+} from "../legislative-institutions";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
+import { chamberByKey } from "../legislature-rules";
+import { seatsForChamber } from "../legislature-game-profile";
 import { organizationProfileAt, workStatusAt } from "../life-queries";
 import { requireMeasure } from "../legislation";
 import {
@@ -30,7 +38,6 @@ import {
   stateLegislativeSeats,
 } from "../nationwide-world/state-legislature-opening";
 import { activeOrganizationParticipationsAt } from "../life-queries";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { measureCosponsors, seatedCongressChamber } from "./congress-chambers";
 import { personName } from "../people";
 import { readRelationshipStanding } from "../relationship-standing";
@@ -91,8 +98,11 @@ export function seatedChamberForPack(
   chamberKey: string,
   chamberName: string,
 ): SeatedChamber | null {
-  // Congress is seated from the living world's own seat roll.
-  if (rulePackId === US_CONGRESS_PACK_ID)
+  // Unregistered institutions still have no roster. The admitted pack reads
+  // its declared saved source, including any active procedure overlay.
+  if (!legislativePackForWorkKey(`institution:${rulePackId}`)) return null;
+  const pack = legislativeRulePackForWorld(world, rulePackId);
+  if (pack.seatRollSource?.kind === "national-election-seats")
     return seatedCongressChamber(world, chamberKey);
   const candidacyPackId = `${rulePackId}:candidacy`;
   if (!stateLegislatureEstablished(world, candidacyPackId)) return null;
@@ -208,16 +218,26 @@ export interface ChamberNominationVoteInput extends ChamberVoteCommonInput {
   >;
 }
 
-export interface ChamberConstitutionalVoteInput extends ChamberVoteCommonInput {
+interface ChamberConstitutionalVoteCommonInput extends ChamberVoteCommonInput {
   readonly kind: "constitutional";
   readonly constitutionalMeasureId: EntityId;
   readonly bodyKey: string;
-  readonly purpose: "proposal";
   readonly considerationsByMember: ReadonlyMap<
     string,
     readonly DecisionConsideration[]
   >;
 }
+
+export type ChamberConstitutionalVoteInput =
+  ChamberConstitutionalVoteCommonInput &
+    (
+      | { readonly purpose: "proposal" }
+      | {
+          readonly purpose: "ratification";
+          /** Actual state jurisdiction, distinct from the federal proposal. */
+          readonly ratificationJurisdictionId: EntityId;
+        }
+    );
 
 export type ChamberVoteInput =
   | ChamberBillVoteInput
@@ -292,6 +312,7 @@ export function stateConstitutionalRoster(
   world: World,
   jurisdictionId: EntityId,
   bodyKey: string,
+  purpose: "proposal" | "ratification" = "proposal",
 ): {
   readonly seated: SeatedChamber;
   readonly sourceRecordIds: readonly EntityId[];
@@ -299,15 +320,29 @@ export function stateConstitutionalRoster(
 } | null {
   const cutoff = currentHistoricalCutoff(world);
   const pack = legislativePackForJurisdiction(jurisdictionId);
-  const profile = pack && stateAmendmentProfile(pack.jurisdictionKey);
+  const profile =
+    purpose === "proposal" && pack
+      ? stateAmendmentProfile(pack.jurisdictionKey)
+      : null;
   const chamber = pack?.chambers.find((row) => row.chamberKey === bodyKey);
   const ruleBody = profile?.bodies.find((row) => row.bodyKey === bodyKey);
+  const actualSeats =
+    purpose === "ratification" && pack ? seatsForChamber(pack, bodyKey) : null;
+  // A federal amendment is ratified by the state's actual legislature, not
+  // the bodies/thresholds of its separate state-amendment proposal profile.
+  // The proposal arm retains its original profile guard and seat count.
+  const expectedSeats =
+    purpose === "ratification"
+      ? (actualSeats?.seats ?? null)
+      : (ruleBody?.members ?? null);
   if (
     !world.jurisdictions[jurisdictionId] ||
     !pack ||
-    !profile ||
     !chamber ||
-    !ruleBody
+    expectedSeats === null ||
+    (purpose === "proposal" && (!profile || !ruleBody)) ||
+    (purpose === "ratification" &&
+      !ARTICLE_V_STATE_KEYS.includes(pack.jurisdictionKey))
   )
     return null;
   const seated = seatedChamberForPack(
@@ -331,7 +366,7 @@ export function stateConstitutionalRoster(
     binding && organizationProfileAt(world, binding.organizationId, cutoff);
   if (
     !seated ||
-    seated.seats !== ruleBody.members ||
+    seated.seats !== expectedSeats ||
     !binding ||
     !organization ||
     organization.sequence >= cutoff.historySequenceExclusive ||
@@ -402,7 +437,12 @@ export function stateConstitutionalRoster(
   return {
     seated: body,
     sourceRecordIds: [...new Set(sources)],
-    profileBasis: profile.basis,
+    profileBasis:
+      purpose === "ratification"
+        ? actualSeats!.basis === "researched"
+          ? "sourced"
+          : "game-profile"
+        : profile!.basis,
   };
 }
 
@@ -415,13 +455,27 @@ function constitutionalVoteContext(
     (row) => row.id === input.constitutionalMeasureId,
   );
   const stateProposal = measure?.processKind === "state-amendment";
-  const body = stateProposal
-    ? stateConstitutionalBody(
+  const ratification = input.purpose === "ratification";
+  const ratificationPack = ratification
+    ? legislativePackForJurisdiction(input.ratificationJurisdictionId)
+    : null;
+  const ratificationRoster = ratification
+    ? stateConstitutionalRoster(
         world,
-        input.constitutionalMeasureId,
+        input.ratificationJurisdictionId,
         input.bodyKey,
-      ).seated.body
-    : seatedCongressChamber(world, input.bodyKey)?.body;
+        "ratification",
+      )
+    : null;
+  const body = ratification
+    ? ratificationRoster?.seated.body
+    : stateProposal
+      ? stateConstitutionalBody(
+          world,
+          input.constitutionalMeasureId,
+          input.bodyKey,
+        ).seated.body
+      : seatedCongressChamber(world, input.bodyKey)?.body;
   const members = new Map(
     body?.members.map((member) => [member.memberKey, member.personId]),
   );
@@ -434,13 +488,21 @@ function constitutionalVoteContext(
       cutoff.historySequenceExclusive,
     ) ||
     (measure.processKind !== "federal-amendment" && !stateProposal) ||
-    measure.proposedBy === "convention" ||
-    measure.proposalRule === null ||
-    input.purpose !== "proposal" ||
-    (!stateProposal &&
+    (!ratification && measure.proposedBy === "convention") ||
+    (!ratification && measure.proposalRule === null) ||
+    (ratification &&
+      (measure.processKind !== "federal-amendment" ||
+        measure.ratificationMode !== "state-legislatures" ||
+        constitutionalPosition(world, measure.id).phase !== "ratification" ||
+        !ratificationPack ||
+        !ARTICLE_V_STATE_KEYS.includes(ratificationPack.jurisdictionKey) ||
+        !ratificationRoster)) ||
+    (!ratification &&
+      !stateProposal &&
       input.bodyKey !== "house" &&
       input.bodyKey !== "senate") ||
-    (stateProposal && input.members.length !== body?.members.length) ||
+    ((stateProposal || ratification) &&
+      input.members.length !== body?.members.length) ||
     !body ||
     new Set(input.members.map((member) => member.memberKey)).size !==
       input.members.length ||
@@ -451,14 +513,18 @@ function constitutionalVoteContext(
     )
   )
     throw new Error(
-      stateProposal
-        ? "A constitutional chamber vote requires its actual dated state proposal, body and seated members."
-        : "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
+      ratification
+        ? "A constitutional ratification vote requires its actual federal proposal in ratification, dated state body and seated members."
+        : stateProposal
+          ? "A constitutional chamber vote requires its actual dated state proposal, body and seated members."
+          : "A constitutional chamber vote requires its actual dated congressional proposal, body and seated members.",
     );
   return {
     subject: {
       kind: "context:constitutional-amendment",
-      key: `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
+      key: ratification
+        ? `${measure.stableKey}:${input.ratificationJurisdictionId}:${input.bodyKey}:ratification`
+        : `${measure.stableKey}:${input.bodyKey}:${input.purpose}`,
       entityId: null,
     },
     committee: null,
@@ -529,15 +595,20 @@ function billVoteContext(
   input: ChamberBillVoteInput,
 ): ChamberVoteContext {
   const measure = requireMeasure(world, input.question.question.measureId);
-  // A Congress bill's backers may sit in the other House, and a member of
-  // Congress holds their party on the seat roll rather than as a
-  // participation record, so both Houses are read.
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  // A pack can supply party cues from its entire saved institution. Supplied
+  // members retain precedence; older packs still read only the voting body.
   const known = [
     ...input.members,
-    ...(measure.rulePackId === US_CONGRESS_PACK_ID
-      ? ["house", "senate"].flatMap(
+    ...(pack.seatRollSource?.partyCueScope === "institution"
+      ? pack.chamberOrder.flatMap(
           (chamberKey) =>
-            seatedCongressChamber(world, chamberKey)?.body.members ?? [],
+            seatedChamberForPack(
+              world,
+              pack.packId,
+              chamberKey,
+              chamberByKey(pack, chamberKey).name,
+            )?.body.members ?? [],
         )
       : []),
   ];

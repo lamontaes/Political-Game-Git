@@ -1,3 +1,5 @@
+import { nextSessionCalendarDate } from "./legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 /**
  * A municipal ordinance from introduction to a recorded effective outcome.
  *
@@ -24,6 +26,7 @@
  */
 import { applyInstitutionStep } from "./governing/legislative-clock";
 import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
+import { recordWorldEvent } from "./world";
 
 import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
@@ -373,17 +376,29 @@ export function scheduleOrdinaryCouncilReading(
     governmentKey,
     measureId,
   )?.earliestPassageOn;
-  const tomorrow = addDays(world.currentDate, 1);
-  const dueAt = earliest && earliest > tomorrow ? earliest : tomorrow;
+  const calendar =
+    legislativeRulePackForWorld(world, measure.rulePackId).session
+      .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(
+    calendar,
+    world.currentDate,
+    "reading",
+    {
+      notBefore: earliest ?? undefined,
+    },
+  );
+  const stableKey = `${measure.stableKey}:reading:${question.floorStageKey}:due`;
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
   return scheduleFutureDueItem(world, {
-    stableKey: `${measure.stableKey}:reading:${question.floorStageKey}:due`,
+    stableKey,
     dueAt,
     transitionKey: COUNCIL_READING_DUE,
     entityIds: [measureId],
     jurisdictionId: measure.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `The game's next ${measure.designation} council reading is set for ${dueAt}, respecting the compiled minimum interval.`,
+      note: `${calendar.id}: ${calendar.note} The game's next ${measure.designation} council reading is set for ${dueAt}, respecting the compiled minimum interval.`,
     },
   });
 }
@@ -535,7 +550,26 @@ export function recordCouncilReadingVote(
         },
       },
     );
-    if (result.kind === "blocked") return refuse(world, result.reason);
+    if (result.kind === "blocked") {
+      // The shared writer owns date admission. Present its reading refusal
+      // in the compiled procedure's units (elapsed or whole intervening days).
+      const nextReading = earliestNextReading(
+        world,
+        municipalProcedureReading(government),
+        measure.id,
+      );
+      if (
+        nextReading &&
+        world.currentDate < nextReading.date &&
+        result.reason.includes("the declared reading interval is")
+      )
+        return refuse(
+          world,
+          `The next reading requires ${nextReading.description} between readings and cannot be taken until ${nextReading.date}.`,
+        );
+      return refuse(world, result.reason);
+    }
+    if (result.kind === "ended") return { ok: true, world: result.world };
     if (result.kind !== "applied")
       return refuse(world, "The council has no floor vote to take.");
     next = result.world;
@@ -549,7 +583,7 @@ export function recordCouncilReadingVote(
   }
   return {
     ok: true,
-    world: afterFinalPassage(next, input.governmentKey, measure),
+    world: completeCouncilPassage(next, measure, input.governmentKey),
   };
 }
 
@@ -778,39 +812,73 @@ function executiveWindow(governmentKey: string) {
 }
 
 /** Enroll, present, or record as law, whichever the pack says comes next. */
-function afterFinalPassage(
+export function completeCouncilPassage(
   world: World,
-  governmentKey: string,
   measure: LegislativeMeasureRecord,
+  governmentKey: string | null = null,
 ): World {
-  const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = municipalProcedureReading(government);
+  if (measurePosition(world, measure.id).phase !== "awaiting-enrollment")
+    return world;
+  const government = governmentKey
+    ? municipalGovernmentByKey(governmentKey)
+    : null;
+  const reading = government ? municipalProcedureReading(government) : null;
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const presentment = pack.executive.presentmentRequired;
   let next = enrollMeasure(world, {
     stableKey: `${measure.stableKey}:enrolled`,
     measureId: measure.id,
   });
-  if (measurePosition(next, measure.id).phase === "awaiting-enactment") {
+  if (presentment.kind === "known" && presentment.value === false) {
+    next = recordWorldEvent(next, {
+      stableKey: `${measure.stableKey}:executive-not-presented`,
+      type: "legislation.executive-not-presented",
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: measure.jurisdictionId,
+      involvedEntityIds: [measure.id],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["legislation.executive-not-presented", `pack:${pack.packId}`],
+      summary: `${measure.designation} was not presented to the ${pack.executive.titleLabel} under this profile.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
     const effectiveFromPassage =
-      reading.procedure.effectivePublication?.includes(
+      reading?.procedure.effectivePublication?.includes(
         "from the date of its passage",
       ) === true;
     next = recordEnactment(next, {
       stableKey: `${measure.stableKey}:enactment`,
       measureId: measure.id,
       actDesignation: measure.designation,
-      // ESTIMATED where the charter's rule is unread
-      // (`ordinance-effective-date.ts`).
-      effectiveAt: effectiveFromPassage
-        ? next.currentDate
-        : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+      // The admitted town profile's executable date is saved by the writer.
+      // Compiled publication rules retain their existing adapter until typed.
+      ...(governmentKey
+        ? {
+            effectiveAt: effectiveFromPassage
+              ? next.currentDate
+              : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+          }
+        : {}),
     });
     // Every enactment passes through the one effects step, a council's too.
     return applyEnactedLawEffects(next, measure.id);
   }
+  // An unread rule does not permit enactment or an invented executive route.
+  if (presentment.kind !== "known" || presentment.value !== true) return next;
   next = presentMeasureToExecutive(next, {
     stableKey: `${measure.stableKey}:presented`,
     measureId: measure.id,
   });
+  if (!governmentKey || !government) return next;
   const actionWindow = executiveWindow(governmentKey);
   if (!actionWindow) return next;
   const dueAt =
@@ -1053,6 +1121,19 @@ export function overrideCouncilVeto(
     "vote-on-ordinance",
   );
   if (!authority.ok) return refuse(world, authority.reason);
+  return recordCouncilOverrideVote(world, input);
+}
+
+/** A saved council roll call reenacts a returned measure, independent of player control. */
+export function recordCouncilOverrideVote(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly measureId: EntityId;
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+    readonly provenance: LegislativeVoteProvenance;
+  },
+): MunicipalOrdinanceResult {
   const measure = measureOfThisCouncil(
     world,
     input.governmentKey,
@@ -1298,11 +1379,13 @@ export function councilActOverrideDeadlineHandler(
   );
 }
 
-export const COUNCIL_ACT_HANDLERS = [
-  [COUNCIL_READING_DUE, councilReadingDueHandler],
-  [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
-  [COUNCIL_ACT_OVERRIDE_DEADLINE, councilActOverrideDeadlineHandler],
-] as const;
+export function councilActHandlers() {
+  return [
+    [COUNCIL_READING_DUE, councilReadingDueHandler],
+    [COUNCIL_ACT_EXECUTIVE_DEADLINE, councilActExecutiveDeadlineHandler],
+    [COUNCIL_ACT_OVERRIDE_DEADLINE, councilActOverrideDeadlineHandler],
+  ] as const;
+}
 
 // ---------------------------------------------------------------------------
 // rules-municipal-authority/v1 — what a council action needs

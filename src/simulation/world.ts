@@ -7,7 +7,8 @@ import {
   privateBeliefSubjectId,
   validatePrivateBeliefSubject,
 } from "./political-opinion-subjects";
-import { applyDateBoundary } from "./time-work";
+import { advanceWorldMinutes } from "./time-work";
+import { composeWorldTimeHandlers } from "./campaigns";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
   changedHistoryCheckCounts,
@@ -42,6 +43,10 @@ import {
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
 import { assertLegalOutcomeConsequenceIntegrity } from "./law-consequences/legal-outcome";
 import {
+  assertChildhoodRecordIntegrity,
+  childhoodRecordEntries,
+} from "./childhood-record";
+import {
   assertLawPermissionIntegrity,
   lawPermissionRecords,
 } from "./law-consequences/permission-records";
@@ -73,6 +78,7 @@ import {
   makeIsoDate,
   makeSimulationMoment,
   simulationMomentOnLocalDate,
+  simulationMinutesBetween,
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
@@ -128,12 +134,10 @@ import {
   publicInformationHistoryRecords,
 } from "./public-information-integrity";
 import {
-  EMPTY_FUTURE_TRANSITION_HANDLERS,
   assertFutureTransitionIntegrity,
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
   futureTransitionHistoryRecords,
-  resolveFutureDueItemsThrough,
 } from "./future-transitions";
 import {
   appendHistoricalEvent,
@@ -1383,75 +1387,26 @@ export function recordWorldEvent(
   };
 }
 
+/** Compatibility day entry; the canonical minute clock owns completion. */
 export function advanceWorld(
   world: World,
   days: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   if (!Number.isSafeInteger(days) || days <= 0) {
     throw new Error(
       "Time advancement must be a positive whole number of days.",
     );
   }
-
-  assertWorldIntegrity(world);
-  // Every writer inside a day advance skips the whole-world check; the
-  // advanced World is checked once at the end, as a clock press is.
-  return advanceWithWorldIntegrityAtEnd(
-    () => advanceWorldUnchecked(world, days, transitionHandlers),
-    world,
+  const target = simulationMomentOnLocalDate(
+    world.currentMoment,
+    addDays(world.currentDate, days),
   );
-}
-
-function advanceWorldUnchecked(
-  world: World,
-  days: number,
-  transitionHandlers: FutureTransitionHandlerRegistry,
-): World {
-  const actionSequence = world.actionSequence;
-  const nextDate = addDays(world.currentDate, days);
-  const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
-  const primaryJurisdictionId = world.jurisdictionOrder[0] ?? null;
-  const transitioned = resolveFutureDueItemsThrough(
+  return advanceWorldMinutes(
     world,
-    nextDate,
+    simulationMinutesBetween(world.currentMoment, target),
     transitionHandlers,
   );
-  const advanced: World = {
-    ...transitioned,
-    currentDate: nextDate,
-    currentMoment: nextMoment,
-    actionSequence: actionSequence + 1,
-  };
-
-  const continued = applyDateBoundary(world.currentDate, advanced);
-  return recordWorldEvent(continued, {
-    stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
-    type: "simulation.time-advanced",
-    occurredAt: nextDate,
-    recordedAt: nextDate,
-    jurisdictionId: primaryJurisdictionId,
-    involvedEntityIds: primaryJurisdictionId ? [primaryJurisdictionId] : [],
-    participants: [],
-    personFactConstraints: [],
-    visibility: "public",
-    tags: ["simulation.time"],
-    summary: `Simulation time advanced ${days} days to ${nextDate}.`,
-    context: {
-      location: primaryJurisdictionId
-        ? {
-            jurisdictionId: primaryJurisdictionId,
-            label: "Primary simulation jurisdiction",
-            setting: null,
-          }
-        : null,
-      socialContext: "Deterministic simulation clock transition.",
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
 }
 
 export function materializePerson(world: World, personId: EntityId): World {
@@ -2101,6 +2056,7 @@ function validateHistoryIntegrity(
         ...permitApplications(world),
         ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
+        ...childhoodRecordEntries(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2294,6 +2250,9 @@ function validateHistoryIntegrity(
   assertLawPermissionIntegrity(world, ids);
   assertPermitIntegrity(world, ids);
   assertLegalOutcomeConsequenceIntegrity(world);
+  for (const entry of childhoodRecordEntries(world))
+    assertUniqueId(ids, entry.id);
+  assertChildhoodRecordIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {

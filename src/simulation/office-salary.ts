@@ -1,8 +1,14 @@
 import { assessPaycheckTaxes } from "./statutory-tax";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
-import { currentLifeCutoff, workStatusAt } from "./life-queries";
+import { currentLifeCutoff, workStatusAt, workRoleAt } from "./life-queries";
 import { officePayInForce } from "./office-pay";
+import {
+  townJobRate,
+  townMinimumHourlyAt,
+  townPayPercentile,
+  weeklyHoursOf,
+} from "./living-world/town-pay";
 import {
   createWorkCompensation,
   money,
@@ -62,13 +68,42 @@ function annualPay(
   world: World,
   work: WorkRelationship,
   onDate: IsoDate,
-): { readonly annualMinor: number; readonly note: string } {
+): { readonly annualMinor: number; readonly note: string } | null {
   const inForce = officePayInForce(world, work, onDate);
   if (inForce?.law)
     return {
       annualMinor: inForce.annualDollars * 100,
       note: `${inForce.law.designation} set this office's salary to $${inForce.annualDollars.toLocaleString("en-US")} a year.`,
     };
+  if (
+    !inForce &&
+    [
+      "employment:civil-service",
+      "employment:executive-staff",
+      "employment:state-agency-director",
+    ].includes(work.kind)
+  ) {
+    const role = workRoleAt(world, work.id, {
+      ...currentLifeCutoff(world),
+      asOfDate: onDate,
+    });
+    if (!role?.locationJurisdictionId) return null;
+    const tenure = Math.max(0, daysBetween(work.startedAt, onDate) / 365.25);
+    // Use the existing tenure mechanism's central position, with no person draw.
+    // Credential sizing remains the separate A40 contract, not an invented step.
+    const rate = townJobRate(
+      role.occupationClassification,
+      role.locationJurisdictionId,
+      townPayPercentile(tenure),
+      townMinimumHourlyAt(world, role.locationJurisdictionId, onDate),
+    );
+    const hours = weeklyHoursOf(role);
+    if (!rate || hours <= 0) return null;
+    return {
+      annualMinor: Math.round(rate.hourlyMinor * hours * 52),
+      note: `Recorded ${hours} hours a week at $${(rate.hourlyMinor / 100).toFixed(2)} an hour; SOC ${rate.soc}, OEWS area ${rate.area}, ${Math.round(rate.percentile)}th percentile from recorded tenure.`,
+    };
+  }
   return inForce
     ? {
         annualMinor: inForce.annualDollars * 100,
@@ -131,12 +166,13 @@ function initializeOneSalaryFlow(world: World, work: WorkRelationship): World {
     !isActiveOn(world, work.id, world.currentDate)
   )
     return world;
+  const pay = annualPay(world, work, world.currentDate);
+  if (!pay) return world;
   const next = ensureLifePathPersonalPosition(
     world,
     work.personId,
     money(0, OFFICE_SALARY_PLACEHOLDER.currency).currency,
   );
-  const pay = annualPay(world, work, world.currentDate);
   return createWorkCompensation(next, {
     stableKey: salaryKey(work),
     workRelationshipId: work.id,

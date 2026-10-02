@@ -1,3 +1,4 @@
+import { recordedMonthlyPayByPerson } from "../household-pay";
 /**
  * Rent day: every renting household in town pays rent on the first of the
  * month, to a landlord on record.
@@ -89,7 +90,12 @@ import {
   lawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
+import {
+  seatHolderAt,
+  seatsForCourt,
+  type JudicialSeatHolder,
+} from "../judiciary/courts";
+import { courtFor } from "../judiciary/court-for";
 import { personTrait } from "../people-traits";
 import {
   macroConditionsAt,
@@ -671,48 +677,15 @@ function householdMembers(
   return members;
 }
 
-const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
-  weekly: 52,
-  biweekly: 26,
-  semimonthly: 24,
-  monthly: 12,
-};
-
-/** Each person's recorded pay a month on a date, in cents, from pay terms. */
-function monthlyPayByPerson(
+/**
+ * Each person's recorded wages a month on a date, in cents: the shared pay
+ * reader (`household-pay.ts`), wages from work only.
+ */
+export function monthlyPayByPerson(
   world: World,
   onDate: IsoDate,
 ): Map<EntityId, number> {
-  const pay = new Map<EntityId, ResourceFlow>();
-  for (const flow of world.history.resourceFlows)
-    if (
-      flow.basisKind === "compensation:work" &&
-      flow.recipient.kind === "person"
-    )
-      pay.set(flow.id, flow);
-  const terms = latest(
-    world.history.resourceFlowTerms.filter((row) =>
-      pay.has(row.resourceFlowId),
-    ),
-    (row) => row.resourceFlowId,
-    onDate,
-  );
-  const byPerson = new Map<EntityId, number>();
-  for (const [flowId, record] of terms) {
-    if (record.status !== "active") continue;
-    const match = /(weekly|biweekly|semimonthly|monthly)/.exec(
-      record.cadenceKind,
-    );
-    const perYear = match ? PERIODS_PER_YEAR[match[1]!] : undefined;
-    if (!perYear) continue;
-    const flow = pay.get(flowId)!;
-    const personId = (flow.recipient as { personId: EntityId }).personId;
-    byPerson.set(
-      personId,
-      (byPerson.get(personId) ?? 0) + (record.amount.minorUnits * perYear) / 12,
-    );
-  }
-  return byPerson;
+  return recordedMonthlyPayByPerson(world, onDate, "work");
 }
 
 /** A household's recorded pay a month, or null when nobody's pay is known. */
@@ -1035,9 +1008,9 @@ export function rentDayHandler(
   };
 }
 
-export const RENT_DAY_HANDLERS = [
-  [RENT_DAY_TRANSITION_KEY, rentDayHandler],
-] as const;
+export function rentDayHandlers() {
+  return [[RENT_DAY_TRANSITION_KEY, rentDayHandler]] as const;
+}
 
 // ─── Rent day ───────────────────────────────────────────────────────────
 
@@ -1149,6 +1122,36 @@ function chooseLeaseholder(
   )[0]!.id;
 }
 
+/** Existing ownership mixture spread across the actual home roster, not rolled.
+ * The owner's verified A56 contract retains these existing representative shares.
+ */
+function landlordKindsByHome(
+  world: World,
+  dueOn: IsoDate,
+): Map<EntityId, LandlordKind> {
+  const rosters = new Map<EntityId, Map<TownHomeKind, EntityId[]>>();
+  for (const home of world.history.dwellings) {
+    if (home.establishedAt > dueOn) continue;
+    const town =
+      rosters.get(home.jurisdictionId) ?? new Map<TownHomeKind, EntityId[]>();
+    const kind = homeKindOf(home.classification);
+    const homes = town.get(kind) ?? [];
+    homes.push(home.id);
+    town.set(kind, homes);
+    rosters.set(home.jurisdictionId, town);
+  }
+  const kinds = new Map<EntityId, LandlordKind>();
+  for (const town of rosters.values())
+    for (const [kind, homes] of town)
+      homes.forEach((id, index) => {
+        kinds.set(
+          id,
+          pick(LANDLORD_SHARES[kind], (index + 0.5) / homes.length),
+        );
+      });
+  return kinds;
+}
+
 /** Writes a lease for every rented town home that has none. */
 export function startTownLeases(world: World, dueOn: IsoDate): World {
   const h = world.history;
@@ -1172,6 +1175,20 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       dwellings.has(tenure.dwellingId),
   );
   if (candidates.length === 0) return world;
+  const owners = new Map<EntityId, typeof h.housingTenures>();
+  for (const tenure of h.housingTenures) {
+    if (
+      !tenure.kind.startsWith("ownership:") ||
+      tenure.startedAt > dueOn ||
+      tenureState.get(tenure.id)?.status !== "active"
+    )
+      continue;
+    owners.set(tenure.dwellingId, [
+      ...(owners.get(tenure.dwellingId) ?? []),
+      tenure,
+    ]);
+  }
+  const landlordKinds = landlordKindsByHome(world, dueOn);
   const members = householdMembers(world, dueOn);
   const pay = monthlyPayByPerson(world, dueOn);
   const index = townIndex(world, dueOn, members);
@@ -1205,9 +1222,6 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     const stableKey = `${LEASE_PREFIX}${tenure.id}:${leaseholderId}`;
     if (next.history.resourceFlows.some((flow) => flow.stableKey === stableKey))
       continue;
-    const rng = new SeededRng(next.seed).fork(
-      `${TOWN_RENT_VERSION}:home:${dwelling.id}`,
-    );
     const previous = lastOnHome.get(dwelling.id);
     const kind = homeKindOf(dwelling.classification);
     const bedrooms =
@@ -1218,12 +1232,33 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       previous && landlordStands(next, previous.flow.recipient, town, dueOn)
         ? previous.flow.recipient
         : null;
+    const recordedOwners = owners.get(dwelling.id) ?? [];
+    if (recordedOwners.length) {
+      // Known ownership never becomes an invented landlord proxy. Household
+      // owners and co-owners await the canonical recipient contract from Audit.
+      if (recordedOwners.length !== 1) continue;
+      const owner = recordedOwners[0]!.holder;
+      if (owner.kind === "household") continue;
+      if (owner.kind === "person") {
+        if (
+          !next.people[owner.personId] ||
+          next.history.personDeaths.some(
+            (death) =>
+              death.personId === owner.personId && death.diedAt <= dueOn,
+          )
+        )
+          continue;
+      } else {
+        const profile = organizationProfileAt(next, owner.organizationId);
+        if (!profile || profile.closed) continue;
+      }
+      landlord = owner;
+    }
     if (!landlord) {
-      const sold = previous ? `:sold:${dueOn}` : "";
       const landlordKind: LandlordKind =
         previous && landlordKindOf(next, previous.flow.recipient) === "public"
           ? "public"
-          : pick(LANDLORD_SHARES[kind], rng.fork(`landlord${sold}`).next());
+          : landlordKinds.get(dwelling.id)!;
       const chosen = chooseLandlord(
         next,
         index,
@@ -1961,10 +1996,26 @@ function actOnArrears(
         continue;
       }
       pay ??= monthlyPayByPerson(next, dueOn);
-      const facts = evictionCaseFacts(next, lease, adults, owed, open.filedOn, {
-        played,
-        pay,
-      });
+      const facts = evictionCaseFacts(
+        next,
+        lease,
+        adults,
+        owed,
+        open.filedOn,
+        dueOn,
+        {
+          played,
+          pay,
+        },
+      );
+      // A filing cannot produce a judgment without an actual seated judge.
+      if (!facts?.judicialAuthority) continue;
+      const filing = next.history.events.find(
+        (event) =>
+          event.stableKey ===
+          `${lease.flow.stableKey}:${RENT_EVENTS.filed}:${open.filedOn}`,
+      );
+      if (!filing) continue;
       const decision = decideEvictionCase(facts);
       const lawyer = facts.lawyer
         ? ` A lawyer represented them under ${facts.lawyer}.`
@@ -1973,12 +2024,16 @@ function actOnArrears(
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.evicted, {
           summary: `${householdName(next, lease.householdId)} was evicted from ${bedroomHome(lease)} for ${dollarsOf(owed.owed)} in unpaid rent: ${decision.reason(facts.court)}.${lawyer}`,
           lawEffectStamps: facts.lawEffectStamps,
+          judicialAuthority: facts.judicialAuthority,
+          filingEventId: filing.id,
         });
         next = endTenancy(next, lease, dueOn, "evicted", "Evicted.");
       } else {
         next = rentEvent(next, lease, adults, dueOn, RENT_EVENTS.settled, {
           summary: `${householdName(next, lease.householdId)} kept ${bedroomHome(lease)}, still owing ${landlordName(next, lease.flow.recipient)} ${dollarsOf(owed.owed)}: ${decision.reason(facts.court)}.${lawyer}`,
           lawEffectStamps: facts.lawEffectStamps,
+          judicialAuthority: facts.judicialAuthority,
+          filingEventId: filing.id,
         });
       }
       continue;
@@ -2014,6 +2069,10 @@ function fileAtMonths(world: World, lease: LeaseFacts): number {
 
 /** What an eviction case is decided from, read from the record. */
 export interface EvictionCaseFacts extends LawEffectStampedRecord {
+  /** Actual dated court and seat tenure, absent when no judge can hear it. */
+  readonly judicialAuthority?: JudicialSeatHolder & {
+    readonly courtId: string;
+  };
   /** Rent owed over the month's rent. */
   readonly monthsBehind: number;
   /** Whether the landlord pursues the case to a hearing. */
@@ -2029,7 +2088,7 @@ export interface EvictionCaseFacts extends LawEffectStampedRecord {
   readonly planCarried: boolean | null;
   /** The judge's lean: -1 conciliatory, 0 neither, 1 strict; null unseated. */
   readonly judgeLean: -1 | 0 | 1 | null;
-  /** How the summary names the court: "Judge Ana Ruiz" or "the court". */
+  /** How the summary names the actual seated judge: "Judge Ana Ruiz". */
   readonly court: string;
 }
 
@@ -2038,14 +2097,13 @@ function trialJudge(
   world: World,
   town: EntityId,
   onDate: IsoDate,
-): EntityId | null {
-  const state = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
-  if (!state) return null;
-  const courtId = `${state.toLowerCase()}:general_trial`;
-  if (!world.judiciary?.courts[courtId]) return null;
+): (JudicialSeatHolder & { readonly courtId: string }) | null {
+  const court = courtFor(world, town, "local-general-trial", "civil");
+  if (!court) return null;
+  const courtId = court.courtId;
   for (const seat of seatsForCourt(world, courtId, onDate)) {
     const holder = seatHolderAt(world, seat.seatId, onDate);
-    if (holder) return holder.personId;
+    if (holder && world.people[holder.personId]) return { ...holder, courtId };
   }
   return null;
 }
@@ -2056,23 +2114,18 @@ function evictionCaseFacts(
   adults: readonly Member[],
   owed: { readonly owed: number; readonly rent: number },
   filedOn: IsoDate,
+  hearingOn: IsoDate,
   read: {
     readonly played: EntityId | null;
     readonly pay: ReadonlyMap<EntityId, number>;
   },
-): EvictionCaseFacts {
+): EvictionCaseFacts | null {
   const monthsBehind = owed.rent > 0 ? owed.owed / owed.rent : 0;
   const landlord = lease.flow.recipient;
   const landlordPursues = !(
     landlord.kind === "person" &&
     personTrait(world, landlord.personId, "conflict").value < 0 &&
     monthsBehind <= EVICTION.conciliatoryLandlordSettlesUpTo
-  );
-  const law = housingLawYes(
-    world,
-    lease.town,
-    RENT_LAW_KEYS.rightToCounsel,
-    filedOn,
   );
   const householdPay = adults.reduce(
     (sum, member) => sum + (read.pay.get(member.id) ?? 0),
@@ -2082,10 +2135,9 @@ function evictionCaseFacts(
     owed.rent + owed.owed / EVICTION.planMonths <=
     householdPay * EVICTION.planLimitOfPay;
   // The played leaseholder answers for themselves; anyone else answers as
-  // their own reliability goes, takes the lawyer the law provides, and
-  // offers a plan when their pay could carry one.
+  // their own reliability goes and offers a plan when their pay could carry one.
+  // A request for counsel is not a saved admission of a lawyer to this case.
   let tenantAnswers: boolean;
-  let lawyer: boolean;
   let planCarried: boolean | null;
   // A case filed before the notice existed (an older save) was never put to
   // the player, so it is decided like anyone's.
@@ -2098,42 +2150,26 @@ function evictionCaseFacts(
   ) {
     const answer = evictionCaseAnswer(world, read.played, filedOn);
     tenantAnswers = answer !== null;
-    lawyer = answer === EVICTION_CASE_CHOICES.lawyer && law !== null;
-    // A lawyer offers the plan for them when their pay could carry one.
-    planCarried =
-      answer === EVICTION_CASE_CHOICES.plan
-        ? carried
-        : lawyer && carried
-          ? true
-          : null;
+    planCarried = answer === EVICTION_CASE_CHOICES.plan ? carried : null;
   } else {
     tenantAnswers =
       personTrait(world, lease.leaseholderId, "reliability").value >= 0;
-    lawyer = tenantAnswers && law !== null;
     planCarried = tenantAnswers && carried ? true : null;
   }
-  const judge = trialJudge(world, lease.town, filedOn);
-  const conflict = judge ? personTrait(world, judge, "conflict").value : null;
-  const counselStamp =
-    lawyer && law
-      ? lawEffectStamp(law, {
-          effectKind: "eviction-counsel-representation",
-          questionKey: RENT_LAW_KEYS.rightToCounsel,
-          jurisdictionId: lease.town,
-          appliedAt: firstOfNextMonth(filedOn),
-          sourceRecordIds: [lease.flow.id, lease.tenureId, lease.leaseholderId],
-        })
-      : null;
+  const judge = trialJudge(world, lease.town, hearingOn);
+  if (!judge) return null;
+  const conflict = personTrait(world, judge.personId, "conflict").value;
   return {
-    ...(counselStamp ? { lawEffectStamps: [counselStamp] } : {}),
+    judicialAuthority: judge,
     monthsBehind,
     landlordPursues,
     tenantAnswers,
-    lawyer: lawyer && law ? measureDesignation(world, law.measureId) : null,
+    // Eligibility and an answer do not establish actual case representation.
+    // No saved civil counsel admission is available at this boundary yet.
+    lawyer: null,
     planCarried,
-    judgeLean:
-      conflict === null ? null : conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
-    court: judge ? `Judge ${personName(world.people[judge]!)}` : "the court",
+    judgeLean: conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
+    court: `Judge ${personName(world.people[judge.personId]!)}`,
   };
 }
 
@@ -2532,7 +2568,11 @@ function rentEvent(
   adults: readonly Member[],
   onDate: IsoDate,
   type: (typeof RENT_EVENTS)[keyof typeof RENT_EVENTS],
-  text: { readonly summary: string } & LawEffectStampedRecord,
+  text: {
+    readonly summary: string;
+    readonly judicialAuthority?: EvictionCaseFacts["judicialAuthority"];
+    readonly filingEventId?: EntityId;
+  } & LawEffectStampedRecord,
 ): World {
   const stableKey = `${lease.flow.stableKey}:${type}:${onDate}`;
   if (world.history.events.some((event) => event.stableKey === stableKey))
@@ -2542,24 +2582,63 @@ function rentEvent(
     lease.flow.recipient.kind === "person"
       ? [lease.flow.recipient.personId]
       : [];
+  const authority =
+    type === RENT_EVENTS.evicted || type === RENT_EVENTS.settled
+      ? text.judicialAuthority
+      : undefined;
   let next = recordWorldEvent(world, {
     stableKey,
     type,
     occurredAt: onDate,
     recordedAt: onDate,
     jurisdictionId: lease.town,
-    involvedEntityIds: [lease.householdId, ...people, ...landlord],
-    participants: people.map((personId) => ({
-      personId,
-      role: "focus:subject" as const,
-      detail: text.summary,
-    })),
+    involvedEntityIds: [
+      lease.householdId,
+      ...people,
+      ...landlord,
+      ...(authority
+        ? [
+            authority.personId,
+            lease.flow.id,
+            lease.obligationId,
+            lease.tenureId,
+            lease.dwellingId,
+          ]
+        : []),
+    ],
+    participants: [
+      ...people.map((personId) => ({
+        personId,
+        role: "focus:subject" as const,
+        detail: text.summary,
+      })),
+      ...(authority
+        ? [
+            {
+              personId: authority.personId,
+              role: "focus:judge" as const,
+              detail: text.summary,
+            },
+          ]
+        : []),
+    ],
     personFactConstraints: [],
     visibility: "limited",
     tags: [
       "life.home",
       TOWN_RENT_VERSION,
       `${LEASE_TAG_PREFIX}${lease.flow.id}`,
+      // Judicial record identifiers are evidence, not event entities or authority.
+      ...(authority
+        ? [
+            `justice:court-record:${authority.courtId}`,
+            `justice:seat-record:${authority.seatId}`,
+            `justice:tenure-record:${authority.tenureId}`,
+            ...(text.filingEventId
+              ? [`justice:filing-record:${text.filingEventId}`]
+              : []),
+          ]
+        : []),
     ],
     summary: text.summary,
     context: {

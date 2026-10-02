@@ -25,7 +25,7 @@ import {
   executiveStaffRoles,
 } from "./executive-work-context";
 import {
-  EXECUTIVE_TERM_HANDLERS,
+  executiveTermHandlers,
   synchronizeElectedExecutiveOffices,
 } from "./executive-work-entry";
 import {
@@ -636,84 +636,91 @@ export function actOnExecutiveWork(
   }
 }
 
-const cycleHandlers = createFutureTransitionHandlerRegistry([
-  [
-    EXECUTIVE_GOVERNING_CYCLE_TRANSITION_KEY,
-    (world, item) => {
-      const office = resolveExecutiveOffice(world);
-      if (!office || !item.entityIds.includes(office.relationship.id))
-        return {
-          world,
-          status: "blocked",
-          reasonKey: "executive-work:expired-office",
-          context: "The originating office term is no longer active.",
-          outcomeEventId: null,
-        };
-      const active = new Set(Object.values(executiveStaffRoles(world, office)));
-      if (item.entityIds.some((id) => world.people[id] && !active.has(id)))
-        return {
-          world,
-          status: "blocked",
-          reasonKey: "executive-work:staff-unavailable",
-          context:
-            "An assigned person no longer holds the required office role.",
-          outcomeEventId: null,
-        };
-      const result = executiveGoverningCycleTransitionHandler(world, item);
-      if (result.world === world) return result;
-      const origin = world.history.workItems.find((w) =>
-        item.stableKey.startsWith(`exec-work:${w.id}:`),
-      );
-      if (!origin)
-        return {
-          world,
-          status: "blocked",
-          reasonKey: "executive-work:missing-origin",
-          context: "The originating office work is unavailable.",
-          outcomeEventId: null,
-        };
-      const created = result.world.history.workItems.at(-1)!;
-      const next = {
-        ...result.world,
-        history: {
-          ...result.world.history,
-          workItems: [
-            ...world.history.workItems,
-            {
-              ...created,
-              title: "Office follow-up",
-              summary: origin.summary,
-              sourceEntityIds: [
-                office.entry.id,
-                origin.id,
-                ...origin.sourceEntityIds,
-              ]
-                .filter((id, i, a) => a.indexOf(id) === i)
-                .sort(),
-              focus: {
-                kind: "other" as const,
-                targetKey: "executive-work:follow-up",
-                sourceEntityId: origin.id,
+let cycleHandlersCache: FutureTransitionHandlerRegistry | undefined;
+
+/** Built on first use, after every module has loaded, so no key is still undefined. */
+function cycleHandlers(): FutureTransitionHandlerRegistry {
+  return (cycleHandlersCache ??= createFutureTransitionHandlerRegistry([
+    [
+      EXECUTIVE_GOVERNING_CYCLE_TRANSITION_KEY,
+      (world, item) => {
+        const office = resolveExecutiveOffice(world);
+        if (!office || !item.entityIds.includes(office.relationship.id))
+          return {
+            world,
+            status: "blocked",
+            reasonKey: "executive-work:expired-office",
+            context: "The originating office term is no longer active.",
+            outcomeEventId: null,
+          };
+        const active = new Set(
+          Object.values(executiveStaffRoles(world, office)),
+        );
+        if (item.entityIds.some((id) => world.people[id] && !active.has(id)))
+          return {
+            world,
+            status: "blocked",
+            reasonKey: "executive-work:staff-unavailable",
+            context:
+              "An assigned person no longer holds the required office role.",
+            outcomeEventId: null,
+          };
+        const result = executiveGoverningCycleTransitionHandler(world, item);
+        if (result.world === world) return result;
+        const origin = world.history.workItems.find((w) =>
+          item.stableKey.startsWith(`exec-work:${w.id}:`),
+        );
+        if (!origin)
+          return {
+            world,
+            status: "blocked",
+            reasonKey: "executive-work:missing-origin",
+            context: "The originating office work is unavailable.",
+            outcomeEventId: null,
+          };
+        const created = result.world.history.workItems.at(-1)!;
+        const next = {
+          ...result.world,
+          history: {
+            ...result.world.history,
+            workItems: [
+              ...world.history.workItems,
+              {
+                ...created,
+                title: "Office follow-up",
+                summary: origin.summary,
+                sourceEntityIds: [
+                  office.entry.id,
+                  origin.id,
+                  ...origin.sourceEntityIds,
+                ]
+                  .filter((id, i, a) => a.indexOf(id) === i)
+                  .sort(),
+                focus: {
+                  kind: "other" as const,
+                  targetKey: "executive-work:follow-up",
+                  sourceEntityId: origin.id,
+                },
+                access: {
+                  kind: "private" as const,
+                  personIds: [office.personId],
+                },
               },
-              access: {
-                kind: "private" as const,
-                personIds: [office.personId],
-              },
-            },
-          ],
-        },
-      };
-      assertWorldIntegrity(next);
-      return { ...result, world: next };
-    },
-  ],
-]);
+            ],
+          },
+        };
+        assertWorldIntegrity(next);
+        return { ...result, world: next };
+      },
+    ],
+  ]));
+}
 export function composeExecutiveWorkHandlers(
   existing?: FutureTransitionHandlerRegistry,
 ) {
   return composeFutureTransitionHandlerRegistries(
-    EXECUTIVE_TERM_HANDLERS,
-    cycleHandlers,
+    executiveTermHandlers(),
+    cycleHandlers(),
     ...(existing ? [existing] : []),
   );
 }

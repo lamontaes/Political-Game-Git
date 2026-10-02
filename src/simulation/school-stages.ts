@@ -1,4 +1,4 @@
-import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "./dates";
 import {
   futureDueItemStateAt,
   scheduleFutureDueItem,
@@ -10,6 +10,18 @@ import {
 } from "./life";
 import { residentNameForJurisdiction } from "./life-places";
 import {
+  kindergartenYear,
+  onCalendar,
+  SCHOOL_STAGE_CALENDAR,
+  SCHOOL_STAGE_CONTEXT,
+  SCHOOL_STAGE_PROGRAM,
+  SCHOOL_STAGE_TRANSITION_KEY,
+  schoolGradeOn,
+  schoolStageForGrade,
+  type SchoolStageKey,
+} from "./school-calendar";
+import { recordsByStringField } from "./history-index";
+import {
   educationEnrollmentStateAt,
   organizationProfileAt,
 } from "./life-queries";
@@ -20,9 +32,11 @@ import type {
   EducationEnrollment,
   EntityId,
   FutureDueItem,
+  FutureDueItemProvenance,
   FutureTransitionHandlerResult,
   IsoDate,
   Jurisdiction,
+  LifeRecordProvenance,
   World,
 } from "./types";
 
@@ -39,10 +53,13 @@ import type {
  * PLACEHOLDER, NOT RESEARCHED — the same calendar a summarized childhood uses
  * (`how-a-summarized-childhood-varies`): a child who is five by September 1
  * starts kindergarten that fall; middle school six years on, high school three
- * after that, graduation four after that; school years start between August
- * 15 and September 8 and end between May 20 and June 15.
+ * after that, graduation four after that. A school year starts on the first
+ * Monday on or after August 24 and ends on the Friday of its fortieth week
+ * (May 28 to June 3), the same days for every child in the district: one
+ * calendar a year, not one drawn per child (A140). Every district keeps the
+ * same rule until district calendars are researched.
  */
-export const SCHOOL_STAGE_TRANSITION_KEY = "schooling:stage-change" as const;
+export { SCHOOL_STAGE_TRANSITION_KEY } from "./school-calendar";
 
 /**
  * Absent on a replay descriptor keeps the old start: one enrollment and
@@ -61,28 +78,17 @@ export const SCHOOL_STAGES_V2 = "school-stages-v2" as const;
 export type SchoolStageVersion =
   typeof SCHOOL_STAGES_V1 | typeof SCHOOL_STAGES_V2;
 
-export const SCHOOL_STAGE_CALENDAR = {
-  schoolAgeCutoff: "09-01",
-  termStarts: { month: 8, day: 15, spreadDays: 25 },
-  termEnds: { month: 5, day: 20, spreadDays: 27 },
-  /** Years after kindergarten begins that each stage ends. */
-  endsAfterYears: { elementary: 6, middle: 9, high: 13 },
-  /** Years after kindergarten begins that each stage starts. */
-  startsAfterYears: { elementary: 0, middle: 6, high: 9 },
-} as const;
+export {
+  kindergartenYear,
+  SCHOOL_STAGE_CALENDAR,
+  schoolGradeOn,
+  schoolTermOn,
+} from "./school-calendar";
 
-export type SchoolStageKey = keyof typeof SCHOOL_STAGE_CALENDAR.endsAfterYears;
+export type { SchoolStageKey } from "./school-calendar";
 
-const PROGRAM: Record<SchoolStageKey, EducationEnrollment["programKind"]> = {
-  elementary: "schooling:elementary",
-  middle: "schooling:middle",
-  high: "schooling:secondary",
-};
-const CONTEXT = {
-  elementary: "stage:elementary",
-  middle: "stage:school",
-  high: "stage:secondary",
-} as const;
+const PROGRAM = SCHOOL_STAGE_PROGRAM;
+const CONTEXT = SCHOOL_STAGE_CONTEXT;
 const FINISHED: Record<SchoolStageKey, string> = {
   elementary: "Completed elementary school.",
   middle: "Completed the middle-school program.",
@@ -98,36 +104,6 @@ const PROVENANCE = {
   generatorKey: "school-stages-v1",
 };
 
-/** The fall a child starts kindergarten, which is also the class they are in. */
-export function kindergartenYear(birthDate: IsoDate): number {
-  const year = Number(birthDate.slice(0, 4));
-  return birthDate.slice(5) <= SCHOOL_STAGE_CALENDAR.schoolAgeCutoff
-    ? year + 5
-    : year + 6;
-}
-
-function onCalendar(
-  world: World,
-  personId: EntityId,
-  year: number,
-  range: {
-    readonly month: number;
-    readonly day: number;
-    readonly spreadDays: number;
-  },
-  suffix: string,
-): IsoDate {
-  const spread = new SeededRng(world.seed)
-    .fork(`schooling:stages:${personId}:${year}:${suffix}`)
-    .integer(0, range.spreadDays + 1);
-  return addDays(
-    makeIsoDate(
-      `${String(year).padStart(4, "0")}-${String(range.month).padStart(2, "0")}-${String(range.day).padStart(2, "0")}`,
-    ),
-    spread,
-  );
-}
-
 /**
  * The day a stage's last school year ends for this child. A start that placed
  * the child a year ahead of the calendar (the start reads age, not grade)
@@ -142,22 +118,10 @@ export function schoolStageEndsAt(
   let year =
     kindergartenYear(person.birthDate) +
     SCHOOL_STAGE_CALENDAR.endsAfterYears[stage];
-  let date = onCalendar(
-    world,
-    personId,
-    year,
-    SCHOOL_STAGE_CALENDAR.termEnds,
-    "ends",
-  );
+  let date = onCalendar(year, "ends");
   while (date <= world.currentDate) {
     year += 1;
-    date = onCalendar(
-      world,
-      personId,
-      year,
-      SCHOOL_STAGE_CALENDAR.termEnds,
-      "ends",
-    );
+    date = onCalendar(year, "ends");
   }
   return date;
 }
@@ -169,11 +133,8 @@ export function schoolStageCalendarStart(
   stage: SchoolStageKey,
 ): IsoDate {
   return onCalendar(
-    world,
-    personId,
     kindergartenYear(world.people[personId]!.birthDate) +
       SCHOOL_STAGE_CALENDAR.startsAfterYears[stage],
-    SCHOOL_STAGE_CALENDAR.termStarts,
     "starts",
   );
 }
@@ -185,11 +146,8 @@ export function schoolStageCalendarEnd(
   stage: SchoolStageKey,
 ): IsoDate {
   return onCalendar(
-    world,
-    personId,
     kindergartenYear(world.people[personId]!.birthDate) +
       SCHOOL_STAGE_CALENDAR.endsAfterYears[stage],
-    SCHOOL_STAGE_CALENDAR.termEnds,
     "ends",
   );
 }
@@ -223,6 +181,7 @@ export function scheduleSchoolStageBegin(
     readonly stage: SchoolStageKey;
     readonly jurisdictionId: EntityId | null;
     readonly dueAt: IsoDate;
+    readonly provenance?: FutureDueItemProvenance;
   },
 ): World {
   return scheduleFutureDueItem(world, {
@@ -231,32 +190,19 @@ export function scheduleSchoolStageBegin(
     transitionKey: SCHOOL_STAGE_TRANSITION_KEY,
     entityIds: [input.personId],
     jurisdictionId: input.jurisdictionId,
-    provenance: { kind: "initialization", reference: input.schoolKey },
+    provenance: input.provenance ?? {
+      kind: "initialization",
+      reference: input.schoolKey,
+    },
   });
 }
 
-function schoolYearStartsAfter(
-  world: World,
-  personId: EntityId,
-  date: IsoDate,
-): IsoDate {
+function schoolYearStartsAfter(date: IsoDate): IsoDate {
   let year = Number(date.slice(0, 4));
-  let start = onCalendar(
-    world,
-    personId,
-    year,
-    SCHOOL_STAGE_CALENDAR.termStarts,
-    "starts",
-  );
+  let start = onCalendar(year, "starts");
   while (start <= date) {
     year += 1;
-    start = onCalendar(
-      world,
-      personId,
-      year,
-      SCHOOL_STAGE_CALENDAR.termStarts,
-      "starts",
-    );
+    start = onCalendar(year, "starts");
   }
   return start;
 }
@@ -272,6 +218,7 @@ export function scheduleSchoolStageEnd(
     readonly personId: EntityId;
     readonly stage: SchoolStageKey;
     readonly jurisdictionId: EntityId | null;
+    readonly provenance?: FutureDueItemProvenance;
   },
 ): World {
   return scheduleFutureDueItem(world, {
@@ -280,8 +227,142 @@ export function scheduleSchoolStageEnd(
     transitionKey: SCHOOL_STAGE_TRANSITION_KEY,
     entityIds: [input.personId],
     jurisdictionId: input.jurisdictionId,
-    provenance: { kind: "initialization", reference: input.schoolKey },
+    provenance: input.provenance ?? {
+      kind: "initialization",
+      reference: input.schoolKey,
+    },
   });
+}
+
+/**
+ * The one opener of a grade-school place: it enrolls a class (one pupil or
+ * many who start together) at a school for a stage, and schedules what comes
+ * next for the class under its key. An active place schedules the end of the
+ * stage (`scheduleSchoolStageEnd`); a place waiting for the fall schedules
+ * its first day (`scheduleSchoolStageBegin`). The stage handler, the legacy
+ * catch-up and a pupil who moved (`school-moves.ts`) all open places here.
+ */
+export function enrollClassInStage(
+  world: World,
+  input: {
+    /** What the class's due items are filed under. */
+    readonly schoolKey: string;
+    /** The pupil the due items name; the whole class moves with them. */
+    readonly anchorPersonId: EntityId;
+    readonly pupils: readonly {
+      readonly stableKey: string;
+      readonly personId: EntityId;
+    }[];
+    readonly organizationId: EntityId;
+    readonly stage: SchoolStageKey;
+    /** The stage's own program unless the school teaches all grades. */
+    readonly programKind?: EducationEnrollment["programKind"];
+    readonly startedAt: IsoDate;
+    readonly status: "active" | "expected";
+    readonly provenance: LifeRecordProvenance;
+    readonly jurisdictionId: EntityId | null;
+    readonly scheduleProvenance?: FutureDueItemProvenance;
+  },
+): World {
+  let next = world;
+  for (const pupil of input.pupils)
+    next = createEducationEnrollment(next, {
+      stableKey: pupil.stableKey,
+      personId: pupil.personId,
+      organizationId: input.organizationId,
+      startedAt: input.startedAt,
+      initialStatus: input.status,
+      programKind: input.programKind ?? PROGRAM[input.stage],
+      contextKind: CONTEXT[input.stage],
+      provenance: input.provenance,
+    });
+  const schedule = {
+    schoolKey: input.schoolKey,
+    personId: input.anchorPersonId,
+    stage: input.stage,
+    jurisdictionId: input.jurisdictionId,
+    ...(input.scheduleProvenance
+      ? { provenance: input.scheduleProvenance }
+      : {}),
+  };
+  return input.status === "active"
+    ? scheduleSchoolStageEnd(next, schedule)
+    : scheduleSchoolStageBegin(next, { ...schedule, dueAt: input.startedAt });
+}
+
+// Organizations by the place any of their profiles names, built once per
+// profile list (append-only, so a new list means a new index).
+const BY_PLACE = new WeakMap<
+  World["history"]["organizationProfiles"],
+  Map<EntityId, Set<EntityId>>
+>();
+
+function organizationsByPlace(world: World): Map<EntityId, Set<EntityId>> {
+  const profiles = world.history.organizationProfiles;
+  let index = BY_PLACE.get(profiles);
+  if (!index) {
+    index = new Map();
+    for (const profile of profiles) {
+      if (!profile.locationJurisdictionId) continue;
+      let set = index.get(profile.locationJurisdictionId);
+      if (!set) index.set(profile.locationJurisdictionId, (set = new Set()));
+      set.add(profile.organizationId);
+    }
+    BY_PLACE.set(profiles, index);
+  }
+  return index;
+}
+
+/**
+ * The school a place records for a stage: an open organization there whose
+ * own pupils were enrolled in the stage's program, or else in a program for
+ * all grades. A building nobody attended teaches no grade the World knows.
+ * HARDWIRED: among several, the one with the most pupils attending, then the
+ * lowest id. Null when the place records none.
+ */
+export function recordedSchoolFor(
+  world: World,
+  jurisdictionId: EntityId,
+  stage: SchoolStageKey,
+): {
+  readonly id: EntityId;
+  readonly programKind: EducationEnrollment["programKind"];
+} | null {
+  const choices: {
+    id: EntityId;
+    pupils: number;
+    programKind: EducationEnrollment["programKind"];
+  }[] = [];
+  for (const id of organizationsByPlace(world).get(jurisdictionId) ?? []) {
+    const profile = organizationProfileAt(world, id);
+    if (
+      !profile ||
+      profile.closed ||
+      profile.locationJurisdictionId !== jurisdictionId
+    )
+      continue;
+    const rows = recordsByStringField(
+      world.history.educationEnrollments,
+      "organizationId",
+      id,
+    );
+    for (const programKind of [PROGRAM[stage], "schooling:general"] as const) {
+      const taught = rows.filter((row) => row.programKind === programKind);
+      if (taught.length === 0) continue;
+      choices.push({
+        id,
+        programKind,
+        pupils: taught.filter(
+          (row) =>
+            educationEnrollmentStateAt(world, row.id)?.status === "active",
+        ).length,
+      });
+      break;
+    }
+  }
+  choices.sort((a, b) => b.pupils - a.pupils || a.id.localeCompare(b.id));
+  const best = choices[0];
+  return best ? { id: best.id, programKind: best.programKind } : null;
 }
 
 /** The person's schooling enrollment still open today, if any. */
@@ -296,35 +377,6 @@ function openSchooling(
       enrollment.programKind.startsWith("schooling:") &&
       educationEnrollmentStateAt(world, enrollment.id)?.status === status,
   );
-}
-
-/**
- * The grade the school calendar puts a child in on a date: 0 for
- * kindergarten, then 1 through 12, or null before kindergarten or after
- * senior year.
- *
- * The same calendar that moves children through school: kindergarten in the
- * fall after they are five by September 1. The summer counts as the grade
- * just finished, until this child's next school year starts.
- */
-export function schoolGradeOn(
-  world: World,
-  personId: EntityId,
-  date: IsoDate = world.currentDate,
-): number | null {
-  const person = world.people[personId];
-  if (!person) return null;
-  const year = Number(date.slice(0, 4));
-  const starts = onCalendar(
-    world,
-    personId,
-    year,
-    SCHOOL_STAGE_CALENDAR.termStarts,
-    "starts",
-  );
-  const schoolYear = date >= starts ? year : year - 1;
-  const grade = schoolYear - kindergartenYear(person.birthDate);
-  return grade >= 0 && grade <= 12 ? grade : null;
 }
 
 export interface CurrentSchooling {
@@ -552,42 +604,49 @@ export function schoolStageTransitionHandler(
       FINISHED[stage],
     );
   const following = NEXT[stage];
-  const school = following
-    ? world.history.organizations.find(
-        (organization) =>
-          organization.stableKey === `${schoolKey}:${following}`,
-      )?.id
-    : undefined;
-  if (!following || !school) return done(next, FINISHED[stage]);
-  const startsAt = schoolYearStartsAfter(next, personId!, today);
-  for (const enrollment of classmates) {
-    next = createEducationEnrollment(next, {
+  if (!following) return done(next, FINISHED[stage]);
+  // The school the class was filed with for the next stage, or else the one
+  // the place where they go to school records for it (a pupil who moved in).
+  const keyed = world.history.organizations.find(
+    (organization) => organization.stableKey === `${schoolKey}:${following}`,
+  )?.id;
+  const place = organizationProfileAt(
+    world,
+    current.organizationId,
+  )?.locationJurisdictionId;
+  const school = keyed
+    ? { id: keyed, programKind: PROGRAM[following] }
+    : place
+      ? recordedSchoolFor(world, place, following)
+      : null;
+  if (!school) return done(next, FINISHED[stage]);
+  next = enrollClassInStage(next, {
+    schoolKey,
+    anchorPersonId: personId!,
+    pupils: classmates.map((enrollment) => ({
       stableKey: `${schoolKey}:${following}:${enrollment.personId}`,
       personId: enrollment.personId,
-      organizationId: school,
-      startedAt: startsAt,
-      initialStatus: "expected",
-      programKind: PROGRAM[following],
-      contextKind: CONTEXT[following],
-      provenance: PROVENANCE,
-    });
-  }
-  next = scheduleFutureDueItem(next, {
-    stableKey: `${schoolKey}:stage:begins:${following}`,
-    dueAt: startsAt,
-    transitionKey: SCHOOL_STAGE_TRANSITION_KEY,
-    entityIds: [personId!],
+    })),
+    organizationId: school.id,
+    stage: following,
+    programKind: school.programKind,
+    startedAt: schoolYearStartsAfter(today),
+    status: "expected",
+    provenance: PROVENANCE,
     jurisdictionId: dueItem.jurisdictionId,
-    provenance: { kind: "simulated", sourceEntityIds: [personId!] },
+    scheduleProvenance: { kind: "simulated", sourceEntityIds: [personId!] },
   });
   return done(next, FINISHED[stage]);
 }
 
 const STAGES: readonly SchoolStageKey[] = ["elementary", "middle", "high"];
 
-/** The stage a child started a school in, read from their age that day. */
+/**
+ * The stage a child started a school in, read from their age that day: the
+ * grade that age starts (age less five) on the one grade-to-stage rule.
+ */
 function stageAtAge(age: number): SchoolStageKey {
-  return age < 11 ? "elementary" : age < 14 ? "middle" : "high";
+  return schoolStageForGrade(Math.max(0, age - 5));
 }
 
 function wholeYearsBetween(from: IsoDate, to: IsoDate): number {
@@ -603,20 +662,12 @@ function stageOnCalendar(
   world: World,
   personId: EntityId,
 ): SchoolStageKey | null {
-  const start = kindergartenYear(world.people[personId]!.birthDate);
-  return (
-    STAGES.find(
-      (stage) =>
-        world.currentDate <
-        onCalendar(
-          world,
-          personId,
-          start + SCHOOL_STAGE_CALENDAR.endsAfterYears[stage],
-          SCHOOL_STAGE_CALENDAR.termEnds,
-          "ends",
-        ),
-    ) ?? null
-  );
+  // The school year whose last day is still ahead (the summer belongs to the
+  // year after it), read as a grade, on the one grade-to-stage rule.
+  let year = Number(world.currentDate.slice(0, 4)) - 1;
+  while (onCalendar(year + 1, "ends") <= world.currentDate) year += 1;
+  const grade = year - kindergartenYear(world.people[personId]!.birthDate);
+  return grade > 12 ? null : schoolStageForGrade(Math.max(0, grade));
 }
 
 /**
@@ -744,16 +795,21 @@ function catchUpSchool(
         provenance: PROVENANCE,
         supersedesStateId: educationEnrollmentStateAt(next, enrollment.id)!.id,
       });
-      next = createEducationEnrollment(next, {
+    }
+    return enrollClassInStage(next, {
+      schoolKey,
+      anchorPersonId: personId,
+      pupils: classmates.map((enrollment) => ({
         stableKey: `${schoolKey}:${due}:${enrollment.personId}`,
         personId: enrollment.personId,
-        organizationId: school,
-        startedAt: today,
-        programKind: PROGRAM[due],
-        contextKind: CONTEXT[due],
-        provenance: PROVENANCE,
-      });
-    }
+      })),
+      organizationId: school,
+      stage: due,
+      startedAt: today,
+      status: "active",
+      provenance: PROVENANCE,
+      jurisdictionId,
+    });
   }
   return scheduleSchoolStageEnd(next, {
     schoolKey,

@@ -80,10 +80,6 @@ function sentenceFor(line: LawEffectLine): string {
           : `It made ${amount} available to spend${program} through ${proseDate(line.availableThrough)}.`;
       return `${window} ${spent}${failed}${delivered ? ` ${delivered}` : ""}`;
     }
-    case "transit":
-      return line.status === "available"
-        ? `Its transit money${line.amountMinorUnits !== null ? `, ${dollars(line.amountMinorUnits)},` : ""} is available to run service.`
-        : "Its transit money has not reached service yet.";
     case "rule-change": {
       const rule = isAmendableRuleField(line.field)
         ? amendableRuleFieldLabel(line.field)

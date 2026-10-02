@@ -19,6 +19,8 @@ import {
   MAXIMUM_START_AGE,
   MINIMUM_START_AGE,
   newGameSetupProblems,
+  otherParentQuestionApplies,
+  type NewGameOtherParent,
   type NewGameSetup,
 } from "../presentation/new-game";
 import {
@@ -110,6 +112,29 @@ const CUSTOM_CREATOR_STEPS = [
 
 type CreatorStep =
   (typeof NORMAL_CREATOR_STEPS)[number] | (typeof CUSTOM_CREATOR_STEPS)[number];
+
+/** The answers about the other parent, as the player reads them. */
+const OTHER_PARENT_CHOICES: readonly {
+  readonly key: NewGameOtherParent;
+  readonly label: string;
+  readonly detail: string;
+}[] = [
+  {
+    key: "living",
+    label: "Living",
+    detail: "Alive, and not part of this story.",
+  },
+  {
+    key: "nonresident",
+    label: "Lives elsewhere",
+    detail: "Alive, and living somewhere else.",
+  },
+  {
+    key: "deceased",
+    label: "Has died",
+    detail: "Died before your story begins.",
+  },
+];
 
 export function SetupScreen({
   seed,
@@ -960,6 +985,33 @@ export function SetupScreen({
               </small>
             </button>
           </div>
+          {otherParentQuestionApplies(setup) ? (
+            <>
+              <h3>Your other parent</h3>
+              <p className="game-note" data-testid="other-parent-note">
+                One parent is raising you. Say what is true of the other, or
+                leave it unsaid.
+              </p>
+              <div className="game-choices" data-testid="other-parent-choices">
+                {OTHER_PARENT_CHOICES.map((choice) => (
+                  <button
+                    key={choice.key}
+                    type="button"
+                    data-testid={`other-parent-${choice.key}`}
+                    className={
+                      setup.otherParent === choice.key ? "is-chosen" : undefined
+                    }
+                    onClick={() =>
+                      setSetup((now) => ({ ...now, otherParent: choice.key }))
+                    }
+                  >
+                    {choice.label}
+                    <small>{choice.detail}</small>
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : null}
         </section>
       ) : null}
 

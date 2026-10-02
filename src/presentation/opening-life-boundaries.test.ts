@@ -10,7 +10,11 @@ import {
   assertWorldIntegrity,
   recordPersonDeath,
 } from "../simulation";
-import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+  otherParentQuestionApplies,
+} from "./new-game";
 import { assertLifeMindContent } from "../simulation/life-mind-content";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import { openNextLifeScene, currentOpeningLifeScene } from "./life-scene-flow";
@@ -30,17 +34,21 @@ function start() {
   });
 }
 describe("OPENING-LIFE1 refusals and historical truth", () => {
-  it("generates known nonresident and deceased parents without inventing cause or household presence", () => {
+  it("records the nonresident or deceased parent the player names, without inventing cause or household presence", () => {
     const covered = new Set<string>();
-    for (let seed = 0; seed < 80 && covered.size < 2; seed++) {
-      const game = createNewGameWorld({
-        ...DEFAULT_NEW_GAME_SETUP,
-        startAge: 7,
-        seed: `parent-history-${seed}`,
-      });
+    // The other parent is the player's answer (A148): find a life with one
+    // parent at home, then give each answer.
+    const setups = Array.from({ length: 80 }, (_, seed) => ({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startAge: 7,
+      seed: `parent-history-${seed}`,
+    })).filter((setup) => otherParentQuestionApplies(setup));
+    for (const answer of ["nonresident", "deceased"] as const) {
+      const game = createNewGameWorld({ ...setups[0]!, otherParent: answer });
       const kinship = game.world.history.kinshipRelationships.find((entry) =>
         entry.stableKey.endsWith(":nonresident-parent:kinship"),
       );
+      expect(kinship, answer).toBeDefined();
       if (!kinship) continue;
       const parentId = kinship.personIds.find(
         (id) => id !== game.playerPersonId,

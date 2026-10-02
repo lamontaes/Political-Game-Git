@@ -6,7 +6,7 @@ Feature owner: Codex LIFE-PATHS2, branch `codex/life-paths2`.
 `src/player/LifePathsPanel.tsx` accepts canonical `world`, `onWorldChange`, and
 optional `transitionHandlers`. Mount it in the ordinary-day surface. The exact
 unapplied patch beside this note adds the adapter to `PlayerGame` and composes
-`LIFE_PATHS2_HANDLERS` into the shared campaign/future transition registry. QUAL
+`lifePaths2Handlers()` into the shared campaign/future transition registry. QUAL
 has been notified of the registry hunk. Apply or adapt it once in the owning
 integration branch; do not create a second pay loop.
 

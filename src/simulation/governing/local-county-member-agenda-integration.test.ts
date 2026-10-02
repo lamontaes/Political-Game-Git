@@ -24,7 +24,7 @@ import {
   municipalSeats,
 } from "../municipal-public-work";
 import {
-  COUNCIL_ACT_HANDLERS,
+  councilActHandlers,
   COUNCIL_READING_DUE,
 } from "../municipal-ordinance-procedure";
 import { ensureHomeLocalGovernments } from "../nationwide-world/local-governments";
@@ -33,7 +33,7 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import type { IsoDate, World } from "../types";
 import { advanceWorld } from "../world";
 import {
-  LOCAL_MEMBER_AGENDA_HANDLERS,
+  localMemberAgendaHandlers,
   LOCAL_MEMBER_AGENDA_INTAKE,
   LOCAL_MEMBER_AGENDA_VERSION,
   scheduleLocalMemberAgendaIntakes,
@@ -44,8 +44,8 @@ const place = requireLifePlace("county:01001");
 const packId = `${county.id}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
 const scope = localFiscalGameAuthorityForRulePackId(packId)!;
 const handlers = createFutureTransitionHandlerRegistry([
-  ...LOCAL_MEMBER_AGENDA_HANDLERS,
-  ...COUNCIL_ACT_HANDLERS,
+  ...localMemberAgendaHandlers(),
+  ...councilActHandlers(),
 ]);
 
 function nextQuarterStart(date: IsoDate): IsoDate {

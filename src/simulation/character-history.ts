@@ -6,6 +6,8 @@ import {
   dateAtAge,
   daysBetween,
   makeIsoDate,
+  simulationMomentOnLocalDate,
+  simulationMinutesBetween,
 } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -96,9 +98,9 @@ import {
 } from "./school-stages";
 import { householdMembershipsAt } from "./life-queries";
 import { recordPersonDeath } from "./vitality";
-import { personMortalityThreshold } from "./crisis/mortality";
+import { STRAIN_THRESHOLD } from "./crisis/mortality";
 import { firstThresholdDay, thresholdUnits } from "./crisis/hazard";
-import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
+import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import {
   createDwelling,
   createHousingTenure,
@@ -154,6 +156,8 @@ import type {
   PersonIdentity,
   World,
 } from "./types";
+import { advanceWorldMinutes } from "./time-work";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 /** A small, explicit production boundary; it stores no biography alongside world history. */
 export type CharacterHistoryMode = "played" | "quick-generated" | "authored";
@@ -1097,10 +1101,10 @@ function drawnAdultFamily(
 /**
  * Deaths of older relatives before the start, by the game's own ordinary
  * mortality (./crisis/mortality.ts): the same SSA 2023 life table and the same
- * per-person threshold the running world uses, accumulated from the last day
- * the record shows the relative alive (the birth of their youngest recorded
- * child) up to the start. Nothing is rolled here beyond that nature value; no
- * cause is inferred. The 2023 table is applied to earlier decades too, which
+ * one strain threshold the running world uses (Ruling 29), accumulated from
+ * the last day the record shows the relative alive (the birth of their
+ * youngest recorded child) up to the start. Nothing is rolled; no cause is
+ * inferred, and no serious episode is written for a death before the start. The 2023 table is applied to earlier decades too, which
  * slightly shortens lives the record places before it. A relative the opening
  * already seats in a home at the start is living there, so is never given a
  * death before it.
@@ -1141,7 +1145,7 @@ function recordRelativeDeaths(
         exposureStart: knownAlive,
         multipliers: [],
       },
-      thresholdUnits(personMortalityThreshold(world, relativeId)),
+      thresholdUnits(STRAIN_THRESHOLD),
       knownAlive,
       world.currentDate,
     );
@@ -2294,7 +2298,20 @@ export function advanceFormativeInterval(
     throw new Error(
       "Formative interval advancement requires a person under 18.",
     );
-  const next = advanceWorld(world, input.days);
+  if (!Number.isSafeInteger(input.days) || input.days <= 0) {
+    throw new Error(
+      "Time advancement must be a positive whole number of days.",
+    );
+  }
+  const target = simulationMomentOnLocalDate(
+    world.currentMoment,
+    addDays(world.currentDate, input.days),
+  );
+  const next = advanceWorldMinutes(
+    world,
+    simulationMinutesBetween(world.currentMoment, target),
+    composeWorldTimeHandlers(),
+  );
   return {
     world: next,
     prior,

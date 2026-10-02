@@ -488,9 +488,9 @@
   background:
     linear-gradient(
       90deg,
-      transparent 0 40%,
-      rgb(242 235 224 / 35%) 56%,
-      rgb(242 235 224 / 82%) 100%
+      transparent 0 70%,
+      rgb(242 235 224 / 15%) 85%,
+      rgb(242 235 224 / 35%) 100%
     ),
     linear-gradient(
       0deg,

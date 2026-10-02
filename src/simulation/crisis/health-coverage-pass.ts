@@ -7,7 +7,7 @@ import {
   recordHealthCoverage,
   scheduleHealthCoveragePass,
 } from "./health-coverage";
-import { crisisMortalityWindowAt, scheduleMortalityWithin } from "./mortality";
+import { crisisMortalityWindowAt, scheduleStrainOnset } from "./mortality";
 
 /**
  * The monthly coverage pass: records who gained or lost coverage, then
@@ -31,7 +31,7 @@ export const healthCoveragePassHandler: FutureTransitionHandler = (
       if (!person) continue;
       const age = ageOnDate(person.birthDate, item.dueAt);
       if (age < ages.minimumAge || age > ages.maximumAge) continue;
-      next = scheduleMortalityWithin(
+      next = scheduleStrainOnset(
         next,
         record.personId,
         window.effectiveAt,

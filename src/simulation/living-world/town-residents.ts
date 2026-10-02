@@ -30,6 +30,11 @@
  */
 
 import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+  type InventedPersonRole,
+} from "../invented-person-age";
+import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
@@ -271,19 +276,29 @@ export function townHouseholdSkeleton(
   const rng = householdRng(world, town, index);
   const shape = pickShape(rng.fork("shape"), town);
   const members: SkeletonMember[] = [];
-  const adult = (n: number, min: number, max: number) => {
-    const age = rng.fork(`age:${n}`).integer(min, max + 1);
+  const push = (age: number) => {
     members.push({ age, role: "adult" });
     return age;
   };
-  if (shape === "alone") adult(0, 20, 88);
+  const adult = (n: number, role: InventedPersonRole) =>
+    push(inventedPersonAge(rng.fork(`age:${n}`), role));
+  if (shape === "alone") adult(0, "household-adult-alone");
   else if (shape === "housemates") {
-    adult(0, 19, 40);
-    adult(1, 19, 40);
+    adult(0, "household-housemate");
+    adult(1, "household-housemate");
   } else {
-    const head = shape === "couple" ? adult(0, 22, 85) : adult(0, 26, 52);
+    const head = adult(
+      0,
+      shape === "couple" ? "household-couple-head" : "household-single-parent",
+    );
+    // A partner is within six years of the first adult, and no younger
+    // than a housemate can be.
     if (shape !== "parent-with-children")
-      adult(1, Math.max(19, head - 6), Math.min(90, head + 6));
+      push(
+        rng
+          .fork("age:1")
+          .integer(Math.max(19, head - 6), Math.min(90, head + 6) + 1),
+      );
     if (shape === "couple-with-children" || shape === "parent-with-children") {
       const children = rng.fork("children").integer(1, 4);
       const youngest = Math.max(0, head - 45);
@@ -327,17 +342,6 @@ export function townHouseholdMaterialized(
   index: number,
 ): boolean {
   return !!world.people[townResidentId(world, town, index, 0)];
-}
-
-function birthDateForAge(rng: SeededRng, today: IsoDate, age: number): IsoDate {
-  const month = String(rng.integer(1, 13)).padStart(2, "0");
-  const day = String(rng.integer(1, 29)).padStart(2, "0");
-  const year = Number(today.slice(0, 4)) - age;
-  const candidate = makeIsoDate(`${year}-${month}-${day}`);
-  // Before this year's birthday they are still a year younger.
-  return ageOnDate(candidate, today) === age
-    ? candidate
-    : makeIsoDate(`${year - 1}-${month}-${day}`);
 }
 
 /**
@@ -404,11 +408,12 @@ function namedMembers(
     // Skeleton ages are ages on the day the world began, so a household
     // written years into a save has the same birthdays as one written on day
     // one (`materializeTownHousehold`).
-    const birthDate = birthDateForAge(
-      personRng.fork("birth"),
-      world.startedAt,
-      member.age,
-    );
+    const birthDate = inventedPersonBirthDate(personRng.fork("birth"), {
+      role: "household-member",
+      referenceDate: world.startedAt,
+      age: member.age,
+      placement: "drawn-exact",
+    });
     // Housemates keep their own names; a family shares the first adult's.
     const surname =
       skeleton.shape === "housemates" || familyName === null

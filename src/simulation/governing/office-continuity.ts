@@ -1,6 +1,8 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
+  type CharacterHistoryContextPersonInput,
 } from "../character-history";
 import {
   addDays,
@@ -588,6 +590,31 @@ export function houseSpecialElectionHandler(
   return seatNewMember(world, due, "special-election");
 }
 
+/**
+ * The member a special election or a legislature seats when no known person
+ * is chosen: invented for the seat, with an age from the shared table.
+ */
+export function newMemberInput(
+  world: World,
+  seat: CongressSeat,
+  memberKey: string,
+  rng: SeededRng,
+): CharacterHistoryContextPersonInput {
+  return {
+    stableKey: memberKey,
+    ...drawCanonicalNamedIdentity(
+      rng.fork("name"),
+      generatePersonIdentity(rng.fork("identity")),
+    ),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "legislative-successor",
+      referenceDate: world.currentDate,
+      legalMinimumAge: MINIMUM_AGE[seat.chamberKey],
+    }),
+    homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
+  };
+}
+
 function seatNewMember(
   world: World,
   due: FutureDueItem,
@@ -737,25 +764,12 @@ function seatNewMember(
   const appointedParty = appointed
     ? publicPartyOf(appointed.world, appointed.personId)
     : null;
-  const age = rng.integer(MINIMUM_AGE[seat.chamberKey] + 3, 70);
-  const year = Number(world.currentDate.slice(0, 4));
   let next = appointed
     ? appointed.world
     : electedPersonId
       ? world
       : createCharacterHistoryContextPeople(world, [
-          {
-            stableKey: memberKey,
-            ...drawCanonicalNamedIdentity(
-              rng.fork("name"),
-              generatePersonIdentity(rng.fork("identity")),
-            ),
-            birthDate: makeIsoDate(
-              `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-            ),
-            homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!
-              .id,
-          },
+          newMemberInput(world, seat, memberKey, rng),
         ]);
   const winner = appointed
     ? appointed.personId
@@ -1879,13 +1893,15 @@ export function officeContinuityRulings(
     .reverse();
 }
 
-export const OFFICE_CONTINUITY_HANDLERS = [
-  [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
-  [SENATE_APPOINTMENT, senateAppointmentHandler],
-  [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
-  [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
-  [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
-  [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
-  [ASSOCIATE_JUSTICE_NOMINATION, associateJusticeNominationHandler],
-  [ASSOCIATE_JUSTICE_CONFIRMATION, associateJusticeConfirmationHandler],
-] as const;
+export function officeContinuityHandlers() {
+  return [
+    [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
+    [SENATE_APPOINTMENT, senateAppointmentHandler],
+    [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
+    [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
+    [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
+    [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
+    [ASSOCIATE_JUSTICE_NOMINATION, associateJusticeNominationHandler],
+    [ASSOCIATE_JUSTICE_CONFIRMATION, associateJusticeConfirmationHandler],
+  ] as const;
+}

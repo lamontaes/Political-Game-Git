@@ -1,3 +1,4 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 /**
  * Disclosed, versioned play rules for a general-purpose local government whose
  * own ordinance procedure has not been compiled. The Census unit supplies only
@@ -252,6 +253,7 @@ export function localOrdinanceGameRulePack(
       source,
     },
     session: {
+      sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${unit.name} local legislative year (game profile)`,
       adjournmentRule: unknownRule(
         "The game profile has no fixed adjournment date.",
@@ -306,7 +308,7 @@ function body(unit: GovernmentUnitIdentity): { name: string; seats: number } {
         // The same typical size localGoverningBodyRules gives a town that was
         // not read, so its seats, elections and ordinance votes count one
         // council. A read size replaces this through the procedure reading.
-        seats: typicalCouncilSeats(unit.id) ?? 5,
+        seats: typicalCouncilSeats() ?? 5,
       };
   }
 }
