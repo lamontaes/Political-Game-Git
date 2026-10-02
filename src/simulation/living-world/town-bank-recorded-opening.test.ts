@@ -27,7 +27,7 @@ import {
 } from "./town-bank-shapes.generated";
 import { TOWN_WORKPLACES, writeTownEmployer } from "./town-employment";
 import {
-  medianBankShape,
+  recordedBankShape,
   stepTownFinances,
   uninsuredDepositShare,
 } from "./town-finances";
@@ -102,26 +102,43 @@ function paidBank(usps = place.usps) {
   return { ...fixture, world, organizationId };
 }
 
-describe("recorded median bank profile", () => {
-  it("selects one actual lower-median asset row without changing saved ratio indexes", () => {
+describe("recorded size-matched bank profile", () => {
+  it("selects the nearest observed asset row with certificate ties and paired ratios", () => {
+    const nationalRecords = Object.keys(FDIC_SMALL_BANK_SHAPES)
+      .sort()
+      .flatMap((state) => FDIC_SMALL_BANK_RECORDS[state]!);
     for (const [state, records] of Object.entries(FDIC_SMALL_BANK_RECORDS)) {
-      const selected = medianBankShape(state);
-      if (records.length < 5) {
-        expect(selected, state).toBeNull();
-        continue;
+      const source = records.length >= 5 ? records : nationalRecords;
+      const assets = source.map(([asset]) => asset).sort((a, b) => a - b);
+      const targets = [
+        assets[0]!,
+        assets.at(-1)!,
+        (assets[0]! + assets[1]!) / 2,
+      ];
+      for (const target of targets) {
+        const nearest = source
+          .map(([asset, cert], index) => ({ asset, cert, index }))
+          .sort(
+            (a, b) =>
+              Math.abs(a.asset - target) - Math.abs(b.asset - target) ||
+              a.cert - b.cert,
+          )[0]!;
+        const selected = recordedBankShape(state, target * 1000);
+        expect(selected.index, `${state}; assets ${target}`).toBe(
+          nearest.index,
+        );
+        expect(selected.state).toBe(records.length >= 5 ? state : null);
+        const ratios =
+          records.length >= 5
+            ? FDIC_SMALL_BANK_SHAPES[state]!.split(";")
+            : Object.keys(FDIC_SMALL_BANK_SHAPES)
+                .sort()
+                .flatMap((key) => FDIC_SMALL_BANK_SHAPES[key]!.split(";"));
+        const row = ratios[selected.index]!.split(",").map(Number);
+        expect(selected.cushion).toBe(row[0]);
+        expect(selected.otherAssets).toBe(row[1]);
+        expect(uninsuredDepositShare(selected)).toBe(row[2]);
       }
-      expect(selected, state).not.toBeNull();
-      const ranked = records
-        .map(([assets, cert], index) => ({ assets, cert, index }))
-        .sort((a, b) => a.assets - b.assets || a.cert - b.cert);
-      expect(selected!.index, state).toBe(
-        ranked[Math.floor((records.length - 1) / 2)]!.index,
-      );
-      const cells = FDIC_SMALL_BANK_SHAPES[state]!.split(";");
-      const row = cells[selected!.index]!.split(",").map(Number);
-      expect(selected!.cushion).toBe(row[0]);
-      expect(selected!.otherAssets).toBe(row[1]);
-      expect(uninsuredDepositShare(selected!)).toBe(row[2]);
     }
     const national = Object.keys(FDIC_SMALL_BANK_SHAPES)
       .sort()
@@ -160,8 +177,9 @@ describe("recorded median bank profile", () => {
     expect(books, `${place.usps}; seed ${seed}`).toBeDefined();
     expect(books).toEqual(second.townFinances!.banks[f.organizationId]);
     expect(books.shape).toEqual(
-      medianBankShape(
+      recordedBankShape(
         f.world.jurisdictions[f.jurisdictionId]!.parentName ?? null,
+        books.deposits,
       ),
     );
     expect(books.liquid).toBeCloseTo(books.deposits * books.shape.cushion, 2);
@@ -176,7 +194,7 @@ describe("recorded median bank profile", () => {
     );
   });
 
-  it("keeps a legacy non-median profile and its paired uninsured share after reopening", () => {
+  it("keeps a legacy profile and its paired uninsured share after reopening", () => {
     const f = paidBank();
     const opened = stepTownFinances(
       f.world,
@@ -191,7 +209,7 @@ describe("recorded median bank profile", () => {
     const cells = FDIC_SMALL_BANK_SHAPES[state]!.split(";");
     const [cushion, otherAssets, uninsured] =
       cells[index]!.split(",").map(Number);
-    // Authored legacy book control using an original, deliberately non-median row.
+    // Authored legacy book control using an original, deliberately different row.
     const original = {
       ...books,
       shape: { state, index, cushion: cushion!, otherAssets: otherAssets! },
@@ -215,36 +233,46 @@ describe("recorded median bank profile", () => {
     expect(uninsuredDepositShare(original.shape)).toBe(uninsured);
   });
 
-  it("does not open guessed books when the actual place's observation group is too small", () => {
-    const smallPlace = places.find((p) => {
-      const rows = FDIC_SMALL_BANK_RECORDS[p.name];
-      return rows && rows.length < 5;
-    })!;
-    expect(smallPlace).toBeDefined();
-    const f = paidBank(smallPlace.usps);
-    const reviewed = stepTownFinances(
-      f.world,
-      f.jurisdictionId,
-      [],
-      new Set(),
-      "a61:unread",
-    ).world;
-    expect(
-      reviewed.townFinances!.banks[f.organizationId],
-      smallPlace.name,
-    ).toBeUndefined();
-    expect(reviewed.history.resourceTransferOutcomes).toEqual(
-      f.world.history.resourceTransferOutcomes,
-    );
-  });
+  it.each(places)(
+    "opens actual books in $name, using observed national estimates for small groups",
+    (home) => {
+      expect(places).toHaveLength(56);
+      const f = paidBank(home.usps);
+      const reviewed = stepTownFinances(
+        f.world,
+        f.jurisdictionId,
+        [],
+        new Set(),
+        "a61:all-places",
+      ).world;
+      const books = reviewed.townFinances!.banks[f.organizationId]!;
+      expect(books, `${home.usps}; seed ${seed}`).toBeDefined();
+      const sourceState =
+        f.world.jurisdictions[f.jurisdictionId]!.parentName ?? null;
+      expect(books.shape).toEqual(
+        recordedBankShape(sourceState, books.deposits),
+      );
+      const records = sourceState
+        ? FDIC_SMALL_BANK_RECORDS[sourceState]
+        : undefined;
+      if (!records || records.length < 5) expect(books.shape.state).toBeNull();
+      expect(Number.isFinite(uninsuredDepositShare(books.shape))).toBe(true);
+      expect(reviewed.history.resourceTransferOutcomes).toEqual(
+        f.world.history.resourceTransferOutcomes,
+      );
+    },
+  );
 
-  it("leaves a missing or under-five observation group unread without borrowing national ratios", () => {
-    expect(medianBankShape(null)).toBeNull();
-    expect(medianBankShape("unrecorded source group")).toBeNull();
-    const small = Object.entries(FDIC_SMALL_BANK_RECORDS).filter(
-      ([, rows]) => rows.length < 5,
+  it("uses actual size for variety and the same national observed pool for absent groups", () => {
+    const [state, records] = Object.entries(FDIC_SMALL_BANK_RECORDS).find(
+      ([, rows]) => rows.length >= 5,
+    )!;
+    const assets = records.map(([asset]) => asset);
+    const smallest = recordedBankShape(state, Math.min(...assets) * 1000);
+    const largest = recordedBankShape(state, Math.max(...assets) * 1000);
+    expect(smallest.index).not.toBe(largest.index);
+    expect(recordedBankShape(null, 100_000_000)).toEqual(
+      recordedBankShape("unrecorded source group", 100_000_000),
     );
-    expect(small.length).toBeGreaterThan(0);
-    for (const [state] of small) expect(medianBankShape(state)).toBeNull();
   });
 });

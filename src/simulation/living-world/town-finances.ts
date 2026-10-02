@@ -272,29 +272,95 @@ export function uninsuredDepositShare(shape: BankShape): number {
   return nationalShapes[shape.index]!.uninsured;
 }
 
-/**
- * The observed median-ASSET small bank in the state. Preserve certificate-order
- * row indexes for old saves and the paired uninsured share. A group with fewer
- * than five observations remains unread; it does not borrow another place's bank.
- */
-const medianShapes = new Map<string, BankShape | null>();
-export function medianBankShape(state: string | null): BankShape | null {
-  if (state === null) return null;
-  if (medianShapes.has(state)) return medianShapes.get(state)!;
-  const records = FDIC_SMALL_BANK_RECORDS[state];
-  const pool = FDIC_SMALL_BANK_SHAPES[state];
-  let shape: BankShape | null = null;
-  if (records && records.length >= 5 && pool) {
-    // All rows have the same report date. Certificate resolves asset ties.
-    const ranked = records
-      .map(([assets, certificate], index) => ({ assets, certificate, index }))
-      .sort((a, b) => a.assets - b.assets || a.certificate - b.certificate);
-    const { index } = ranked[Math.floor((ranked.length - 1) / 2)]!;
-    const { cushion, otherAssets } = parseShapes(pool)[index]!;
-    shape = { state, index, cushion, otherAssets };
+interface ObservedBankShape extends BankShape {
+  readonly assetsThousands: number;
+  readonly certificate: number;
+}
+
+// Build each observed source index on first use, not at module import or daily.
+const observedBankPools = new Map<
+  string | null,
+  readonly ObservedBankShape[]
+>();
+function observedBankPool(state: string | null): readonly ObservedBankShape[] {
+  const own = state === null ? undefined : FDIC_SMALL_BANK_RECORDS[state];
+  const sourceState = own && own.length >= 5 ? state : null;
+  const cached = observedBankPools.get(sourceState);
+  if (cached) return cached;
+  const states =
+    sourceState === null
+      ? Object.keys(FDIC_SMALL_BANK_SHAPES).sort()
+      : [sourceState];
+  const rows: ObservedBankShape[] = [];
+  let offset = 0;
+  for (const key of states) {
+    const shapes = parseShapes(FDIC_SMALL_BANK_SHAPES[key]!);
+    const records = FDIC_SMALL_BANK_RECORDS[key]!;
+    if (records.length !== shapes.length)
+      throw new Error(
+        "Observed bank metadata must preserve the original ratio rows.",
+      );
+    records.forEach(([assetsThousands, certificate], index) => {
+      const { cushion, otherAssets } = shapes[index]!;
+      rows.push({
+        state: sourceState,
+        index: sourceState === null ? offset + index : index,
+        assetsThousands,
+        certificate,
+        cushion,
+        otherAssets,
+      });
+    });
+    offset += shapes.length;
   }
-  medianShapes.set(state, shape);
-  return shape;
+  rows.sort(
+    (a, b) =>
+      a.assetsThousands - b.assetsThousands || a.certificate - b.certificate,
+  );
+  // The lowest certificate represents an asset tie, including national ties.
+  const ranked = rows.filter(
+    (row, index) =>
+      index === 0 || row.assetsThousands !== rows[index - 1]!.assetsThousands,
+  );
+  observedBankPools.set(sourceState, ranked);
+  return ranked;
+}
+
+/**
+ * One observed profile nearest this bank's recorded modeled deposits. Small
+ * source groups use the national observed pool (state:null), an estimate from
+ * real records. Original own/national ratio indexes remain valid for old saves.
+ */
+export function recordedBankShape(
+  state: string | null,
+  depositsDollars: number,
+): BankShape {
+  if (!Number.isFinite(depositsDollars) || depositsDollars < 0)
+    throw new Error(
+      "Bank profile selection requires nonnegative recorded deposits.",
+    );
+  const pool = observedBankPool(state);
+  if (pool.length === 0)
+    throw new Error("Bank profile selection requires observed records.");
+  const target = depositsDollars / 1000;
+  let low = 0;
+  let high = pool.length;
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    if (pool[middle]!.assetsThousands < target) low = middle + 1;
+    else high = middle;
+  }
+  const left = pool[Math.max(0, low - 1)]!;
+  const right = pool[Math.min(low, pool.length - 1)]!;
+  const leftDistance = Math.abs(left.assetsThousands - target);
+  const rightDistance = Math.abs(right.assetsThousands - target);
+  const chosen =
+    leftDistance < rightDistance ||
+    (leftDistance === rightDistance && left.certificate < right.certificate)
+      ? left
+      : right;
+  const { state: chosenState, index, cushion, otherAssets } = chosen;
+  return { state: chosenState, index, cushion, otherAssets };
 }
 
 const round2 = (value: number) => Math.round(value * 100) / 100;
@@ -588,15 +654,14 @@ function openBankBooks(
   organizationId: EntityId,
   banksInTown: number,
   round: string,
-): TownBankBooks | null {
+): TownBankBooks {
   const P = TOWN_FINANCE_POLICY.bank;
   const state = world.jurisdictions[town]?.parentName ?? null;
-  const shape = medianBankShape(state);
-  if (!shape) return null;
   const deposits = round2(
     (townDepositsPerResident(world, town) * townPeople(world, town)) /
       Math.max(1, banksInTown),
   );
+  const shape = recordedBankShape(state, deposits);
   const liquid = round2(deposits * shape.cushion);
   const loans = round2(deposits * shape.otherAssets);
   return {
@@ -823,8 +888,7 @@ export function stepTownFinances(
     ) * 4;
   for (const bankId of bankIds) {
     if (!banks[bankId] && yearlyTownPay > 0) {
-      const opened = openBankBooks(world, town, bankId, bankIds.length, round);
-      if (opened) banks[bankId] = opened;
+      banks[bankId] = openBankBooks(world, town, bankId, bankIds.length, round);
     }
   }
 

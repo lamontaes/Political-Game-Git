@@ -70,7 +70,7 @@ out.append("")
 out.extend([
     "/** Observed [assets in thousands of dollars, certificate], in the same row order.",
     " * Source: https://banks.data.fdic.gov/api/financials; June 30, 2026 report.",
-    " * Recovered October 2, 2026; all original 3,194 ratio rows are preserved.",
+    " * Recovered October 1, 2026; all original 3,194 ratio rows are preserved.",
     " */",
     "export const FDIC_SMALL_BANK_RECORDS: Readonly<Record<string, readonly (readonly [number, number])[]>> = {",
 ])
