@@ -17657,8 +17657,36 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Iowa Code § 257.11B",
-          "source": "https://www.edchoice.org/school-choice/programs/education-savings-account-program/",
-          "note": "Universal education savings accounts (Students First) since 2023, plus a tax-credit scholarship."
+          "source": "https://www.legis.iowa.gov/docs/code/257.11B.pdf",
+          "note": "Students First ESA: $7,988 (798800 USD minor units) per approved pupil for the 2025-26 school budget year, July 1, 2025 through June 30, 2026; not a monthly or calendar-year payment. Eligible pupils are Iowa residents in K-12 attending an accredited nonpublic school located in Iowa full-time, regardless of family income; an approved application is required each school year. The existing tax-credit scholarship answer is preserved; this award term describes Students First only.",
+          "operativeAt": "2025-07-01",
+          "operativeBasis": "source-stated-effective-date",
+          "quote": "257.11B(2)(a)(3): For school budget years beginning on or after July 1, 2025, resident pupils eligible to enroll in kindergarten through grade twelve who attend a nonpublic school are eligible. 257.11B(4): Each payment equals the regular program state cost per pupil for the same school budget year.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+              "key": "award",
+              "value": 798800,
+              "unit": "minor"
+            }
+          ],
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "preempts": true,
+              "operativeAt": "2026-07-01",
+              "source": "https://www.legis.iowa.gov/docs/code/257.11B.pdf",
+              "note": "Annual applications and a same-school-budget-year award are required. The 2025-26 amount is not carried into a later school year."
+            }
+          ],
+          "awardSource": "https://drive.google.com/uc?id=1jRZY13wU6vWnWw5s4ZbEHN0n5B714v9K&export=download",
+          "awardSourceField": "Iowa Department of Management, Aid and Levy, Tax Certification, and Program Summary FY2026: Aid&Levy F214/G214 labels L729 FY26 Regular Program State Cost Per Pupil; Data_AidAndLevy GN1=L729, GN2=7988 (also GN3/GN4=7988). Linked by https://dom.iowa.gov/local-government/school-resources.",
+          "eligibilitySource": "https://educate.iowa.gov/press-release/2025-04-15/iowa-department-education-announces-opening-2025-26-students-first-education-savings-account",
+          "eligibilitySourceDate": "2025-04-15"
         },
         "US-ID": {
           "answer": "yes",
