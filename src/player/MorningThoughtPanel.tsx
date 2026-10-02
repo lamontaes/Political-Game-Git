@@ -22,10 +22,6 @@ export function MorningThoughtPanel({
       <h2 id="pg-morning-thought-title" className="pg-recap-title">
         Morning note
       </h2>
-      <p className="pg-recap-meta">
-        {today.dateLabel} · {today.timeLabel}
-        {today.placeName ? ` · ${today.placeName}` : ""}
-      </p>
       <p className="pg-recap-headline">{today.now}</p>
       {today.next ? (
         <p className="pg-recap-meta">
