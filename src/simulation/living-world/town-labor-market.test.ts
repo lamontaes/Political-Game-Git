@@ -3,6 +3,13 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { advanceWorld } from "../world";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { activeWorkRelationshipsAt } from "../life-queries";
 import { seatLocalBusinesses } from "../local-economy";
 import { openWeeklyListings, applicationsFor, jobOpening } from "../job-market";
 import { reviewPeopleGoals } from "../people-goal-review";
@@ -25,6 +32,7 @@ import { createWorkRelationship, recordWorkStatus } from "../life";
 import { createMindProvenance, recordGoalState } from "../mind";
 import {
   TOWN_EMPLOYMENT_VERSION,
+  TOWN_WORKPLACES,
   fillTownJobs,
   townResidents,
 } from "./town-employment";
@@ -758,4 +766,112 @@ describe("A70 employer's recorded staffing choice", () => {
       ),
     ).toBeNull();
   });
+});
+
+describe("A70 ordinary opening employer authority", () => {
+  it("fills only vacant eligible catalog lead slots at the actual outlet and preserves recorded review/reload", () => {
+    const seed =
+      "a70-ordinary-recorded-books:84506e84-db56-4187-88ad-022276872f2c";
+    const place = drawRandomPlace(seed);
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+      }),
+    ).game;
+    if (!game) throw new Error("Ordinary opening did not produce a game.");
+    let next = game.world;
+    const active = next.personOrder.flatMap((id) =>
+      activeWorkRelationshipsAt(next, id),
+    );
+    const leadEmployers: EntityId[] = [];
+    for (const organization of next.history.organizations) {
+      if (!organization.stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:`))
+        continue;
+      const kind = /:employer:([a-z-]+):\d+$/.exec(organization.stableKey)?.[1];
+      if (!kind) continue;
+      const organizationId = organization.id;
+      const workplace = TOWN_WORKPLACES.find((row) => row.key === kind)!;
+      const lead = workplace.roles.find(
+        (row) => row.authority === "directs-others",
+      );
+      const staff = active.filter(
+        (row) => row.relationship.organizationId === organizationId,
+      );
+      const directors = staff.filter(
+        (row) => row.relationship.authority === "directs-others",
+      );
+      expect(directors.length).toBeLessThanOrEqual(1);
+      if (!lead) {
+        expect(directors).toEqual([]);
+        continue;
+      }
+      if (
+        !staff.some(
+          (row) =>
+            ageOnDate(
+              next.people[row.relationship.personId]!.birthDate,
+              next.currentDate,
+            ) >= lead.minAge!,
+        )
+      ) {
+        expect(directors).toEqual([]);
+        continue;
+      }
+      expect(
+        directors,
+        JSON.stringify({
+          organizationId,
+          kind,
+          staff: staff.map((row) => ({
+            personId: row.relationship.personId,
+            age: ageOnDate(
+              next.people[row.relationship.personId]!.birthDate,
+              next.currentDate,
+            ),
+            authority: row.relationship.authority,
+            title: row.role.title,
+          })),
+        }),
+      ).toHaveLength(1);
+      expect(directors[0]!.role.title).toBe(lead.title);
+      expect(
+        ageOnDate(
+          next.people[directors[0]!.relationship.personId]!.birthDate,
+          next.currentDate,
+        ),
+      ).toBeGreaterThanOrEqual(lead.minAge!);
+      leadEmployers.push(organizationId as EntityId);
+    }
+    expect(leadEmployers.length).toBeGreaterThan(0);
+    const opened = serializeWorld(next);
+    expect(serializeWorld(deserializeWorld(opened))).toBe(opened);
+    next = advanceWorld(next, 91, createCampaignElectionTransitionRegistry());
+    const traces = next.history.decisionTraces.filter(
+      (row) => row.context.decisionType === "labor.employer-staffing",
+    );
+    for (const trace of traces) {
+      expect(leadEmployers).toContain(trace.context.subject.entityId);
+      expect(trace.context.randomness).toBe("none");
+      expect(
+        trace.sourceSnapshots.some(
+          (row) => row.reference.kind === "historical-event",
+        ),
+      ).toBe(true);
+    }
+    const saved = serializeWorld(next);
+    expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
+    console.log(
+      JSON.stringify({
+        a70Opening: {
+          seed,
+          place: place.key,
+          name: place.displayName,
+          leadEmployers: leadEmployers.length,
+          staffingDecisions: traces.length,
+        },
+      }),
+    );
+  }, 600_000);
 });

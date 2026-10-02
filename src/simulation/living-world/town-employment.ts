@@ -1612,6 +1612,7 @@ export function fillTownJobs(
   };
 
   const jobs: CreateWorkRelationshipInput[] = [];
+  let openingDirectors: Set<EntityId> | null = null;
   const hire = (
     resident: Resident,
     workplace: Workplace,
@@ -1621,6 +1622,55 @@ export function fillTownJobs(
   ) => {
     const organizationId = at ?? employer(workplace);
     if (!organizationId) return false;
+    // Ordinary opening hires use the same eligible lead slot as a new
+    // employer's explicit intake, after the actual outlet is known. A
+    // town-wide role share cannot establish who directs each employer.
+    if (round === null && !options.into && !civic) {
+      const leads = workplace.roles.filter(
+        (entry) => entry.authority === "directs-others",
+      );
+      if (leads.length > 0) {
+        if (!openingDirectors) {
+          const dead = new Set(
+            next.history.personDeaths
+              .filter((row) => row.diedAt <= today)
+              .map((row) => row.personId),
+          );
+          openingDirectors = new Set([
+            ...next.personOrder.flatMap((personId) =>
+              dead.has(personId)
+                ? []
+                : activeWorkRelationshipsAt(next, personId).flatMap((job) =>
+                    job.relationship.authority === "directs-others" &&
+                    job.relationship.organizationId !== null
+                      ? [job.relationship.organizationId]
+                      : [],
+                  ),
+            ),
+            ...jobs.flatMap((job) =>
+              job.authority === "directs-others" && job.organizationId !== null
+                ? [job.organizationId]
+                : [],
+            ),
+          ]);
+        }
+        const lead = leads.find(
+          (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
+        );
+        const selected =
+          !openingDirectors.has(organizationId) && lead
+            ? lead
+            : roleFor(
+                workplace,
+                resident,
+                workplace.roles.filter(
+                  (entry) => entry.authority !== "directs-others",
+                ),
+              );
+        if (!selected) return false;
+        chosen = selected;
+      }
+    }
     const books = next.townFinances?.businesses[organizationId];
     if (options.requireRecordedBooks && !books) return false;
     if (round !== null && books) {
@@ -1668,6 +1718,8 @@ export function fillTownJobs(
             0.5);
     counted().kindOf.set(organizationId, workplace.key);
     countHire(counted(), organizationId, chosen.title, partTime);
+    if (chosen.authority === "directs-others")
+      openingDirectors?.add(organizationId);
     const [minimumHours, maximumHours] =
       chosen.hours ?? (partTime ? PART_TIME_HOURS : FULL_TIME_HOURS);
     jobs.push({
