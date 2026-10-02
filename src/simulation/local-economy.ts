@@ -1,4 +1,12 @@
 import {
+  aggregateCustomers,
+  BUSINESS_REVENUE_BASIS,
+} from "./business-receipt-counterparty";
+export {
+  aggregateCustomers,
+  BUSINESS_REVENUE_BASIS,
+} from "./business-receipt-counterparty";
+import {
   LOCAL_BUSINESS_PLACEHOLDER,
   localBusinessWageMinor,
 } from "./recorded-employer";
@@ -236,7 +244,6 @@ export function localBusinessPlansFor(
   return plans;
 }
 
-export const BUSINESS_REVENUE_BASIS = "custom:business-revenue" as const;
 export const BUSINESS_WAGES_BASIS = "compensation:wages" as const;
 export const OWNER_DRAW_BASIS = "compensation:owner-draw" as const;
 export const BUSINESS_OWNER_WORK_KIND = "independent:business-owner" as const;
@@ -320,32 +327,6 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
 
 function later(a: IsoDate, b: IsoDate): IsoDate {
   return a > b ? a : b;
-}
-
-function aggregateCustomers(
-  world: World,
-  jurisdictionId: EntityId,
-): { world: World; organizationId: EntityId } {
-  const stableKey = `local-customers:${jurisdictionId}`;
-  const existing = world.history.organizations.find(
-    (organization) => organization.stableKey === stableKey,
-  );
-  if (existing) return { world, organizationId: existing.id };
-  const next = createOrganization(world, {
-    stableKey,
-    formedAt: world.currentDate,
-    detailLevel: "lightweight",
-    provenance: {
-      kind: "authored",
-      note: "An aggregate counterparty for what a town's customers spend at its businesses. The game has no individual shoppers and does not pretend to model them.",
-    },
-    initialProfile: {
-      name: "Local customers",
-      classification: "custom:aggregate-customers",
-      locationJurisdictionId: jurisdictionId,
-    },
-  });
-  return { world: next, organizationId: next.history.organizations.at(-1)!.id };
 }
 
 /**
@@ -727,6 +708,19 @@ export function settleBusinessMoney(
   organizationId: EntityId,
 ): World {
   return settleFlows(world, businessFlows(world, organizationId));
+}
+
+/** Actual dated customer receipts only; payroll and owner draws stay with their callers. */
+export function settleBusinessReceipts(
+  world: World,
+  organizationId: EntityId,
+): World {
+  return settleFlows(
+    world,
+    businessFlows(world, organizationId).filter(
+      (flow) => flow.basisKind === BUSINESS_REVENUE_BASIS,
+    ),
+  );
 }
 
 /** The same, for every business seated in a town, as one batch. */

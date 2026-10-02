@@ -1,3 +1,5 @@
+import { TYPED_TAX_QUESTION_KEYS } from "./law-consequences/typed-tax-question-data";
+import { recordedCannabisSalesTaxInput } from "./public-budgets/recorded-cannabis-sales";
 import wageAuthority from "../../data/research/money/wage-income-authority.json" with { type: "json" };
 import {
   queryFiscalAuthority,
@@ -419,7 +421,7 @@ export function attachTaxProposal(
     throw new Error("Tax terms must be filed before legislative deliberation.");
   const exciseQuestion = (measure.propositionIds ?? [])
     .map((id) => world.policyCatalog.propositions[id])
-    .find((row) => row?.stableKey === "us-tax-terms:state.excise-tax-terms");
+    .find((row) => row && TYPED_TAX_QUESTION_KEYS.includes(row.stableKey));
   let next = ensurePublicGovernmentAccount(world, publicGovernmentIdentity);
   next = recordFiledProvision(next, {
     stableKey: `${input.stableKey}:levy`,
@@ -764,6 +766,43 @@ export function taxBaseOccurrenceSource(
   const flow = transfer
     ? recordById(world.history.resourceFlows, transfer.resourceFlowId)
     : null;
+  const cannabis = recordedCannabisSalesTaxInput(world, sourceId, cutoff);
+  if (cannabis.kind === "recorded")
+    return {
+      kind: "paid-sale" as const,
+      occurredAt: cannabis.occurredAt,
+      recordedAt: cannabis.occurredAt,
+      sequence: transfer!.sequence,
+      jurisdictionId: cannabis.jurisdictionId,
+      payer: cannabis.payer,
+      amount: cannabis.amount,
+      sourceRecordIds: cannabis.sourceRecordIds,
+    };
+  // A paid purchase is its own saved occurrence. Never turn an asking price,
+  // a sales estimate or an unpaid flow into a taxable sale.
+  if (
+    transfer &&
+    flow?.basisKind === "custom:retail-purchase" &&
+    flow.source.kind === "person" &&
+    flow.recipient.kind === "organization" &&
+    flow.jurisdictionId &&
+    world.people[flow.source.personId] &&
+    flow.sequence < transfer.sequence &&
+    transfer.sequence < cutoff.historySequenceExclusive &&
+    transfer.occurredAt <= cutoff.asOfDate &&
+    (transfer.status === "completed" || transfer.status === "partial") &&
+    transfer.transferredAmount.minorUnits > 0
+  )
+    return {
+      kind: "paid-sale" as const,
+      occurredAt: transfer.occurredAt,
+      recordedAt: transfer.occurredAt,
+      sequence: transfer.sequence,
+      jurisdictionId: flow.jurisdictionId,
+      payer: flow.source,
+      amount: transfer.transferredAmount,
+      sourceRecordIds: [transfer.id, flow.id],
+    };
   if (
     allocations.length === 0 ||
     !transfer ||
@@ -1028,7 +1067,7 @@ export function assessTaxBase(
     asOfDate: base.recordedAt,
     historySequenceExclusive: base.sequence,
   });
-  if (source && source.kind !== "event")
+  if (source && source.kind !== "event" && source.kind !== "paid-sale")
     throw new Error(
       "A saved statutory source reuses its existing liability/payment; a second assessment or collection schedule is forbidden.",
     );
@@ -1209,6 +1248,29 @@ export function taxCollectionTransition(
         status === "collected" ? null : "capacity:tax-settlement-unavailable",
       note: reason,
       provenance: { kind: "simulated-event", eventId: payerEventId },
+      // The budget consumes the actual paid outcome, not an assessment forecast.
+      // Carry its already-saved governing law through that cash boundary.
+      ...(status === "collected" && assessment.lawEffectStamps?.length
+        ? {
+            lawEffectStamps: assessment.lawEffectStamps
+              .map((stamp) => ({
+                ...stamp,
+                effectKind: "tax-collection",
+                appliedAt: world.currentDate,
+                sourceRecordIds: [
+                  ...new Set([
+                    ...(stamp.sourceRecordIds ?? []),
+                    assessment.id,
+                    base.id,
+                    policy.id,
+                    proposal.id,
+                    flow.id,
+                  ]),
+                ],
+              }))
+              .filter(isLawEffectStamp),
+          }
+        : {}),
     });
     resourceOutcomeId = next.history.resourceTransferOutcomes.at(-1)!.id;
   }
@@ -1834,7 +1896,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       asOfDate: base.recordedAt,
       historySequenceExclusive: base.sequence,
     });
-    if (!source || source.kind !== "event")
+    if (!source || (source.kind !== "event" && source.kind !== "paid-sale"))
       throw new Error(
         "A saved statutory source cannot have a second modeled assessment or collection schedule.",
       );

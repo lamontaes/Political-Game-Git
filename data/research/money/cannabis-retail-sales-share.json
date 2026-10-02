@@ -1,0 +1,57 @@
+{
+  "auditItem": "A31",
+  "status": "proposed-estimated-retail-receipt-allocation",
+  "runtimeApplied": true,
+  "geography": "Washington",
+  "periodStartsAt": "2022-07-01",
+  "periodEndsAt": "2023-06-30",
+  "currency": "USD",
+  "numerator": {
+    "amount": 1257812688.03,
+    "unit": "nominal dollars for fiscal year",
+    "measure": "Cannabis retailer sales only; producer and processor wholesale sales excluded",
+    "sourceUrl": "https://lcb.wa.gov/sites/default/files/publications/Cannabis/sales_activity/FY2018-FY2024-Sales-and-Excise-Tax-by-County-retail-sales-only.xlsx",
+    "locator": "FY23 sheet, final Total row"
+  },
+  "denominator": {
+    "amount": 231095384354,
+    "unit": "nominal dollars for matching four quarters",
+    "measure": "Washington taxable retail sales; includes certain services and excludes exempt sales",
+    "quarters": [
+      {
+        "quarter": "2022-Q3",
+        "amount": 60528479490,
+        "sourceUrl": "https://dor.wa.gov/sites/default/files/2023-02/T2Q322.xlsx"
+      },
+      {
+        "quarter": "2022-Q4",
+        "amount": 58882783755,
+        "sourceUrl": "https://dor.wa.gov/sites/default/files/2023-05/T2Q422.xlsx"
+      },
+      {
+        "quarter": "2023-Q1",
+        "amount": 52686892315,
+        "sourceUrl": "https://dor.wa.gov/sites/default/files/2023-07/T2Q123.xlsx"
+      },
+      {
+        "quarter": "2023-Q2",
+        "amount": 58997228794,
+        "sourceUrl": "https://dor.wa.gov/sites/default/files/2023-11/T2Q223.xlsx"
+      }
+    ],
+    "locator": "Each Table 2: Retail Sales, code 1, Taxable Amount"
+  },
+  "derivedShare": 0.005442829122468489,
+  "limits": [
+    "This is a Washington taxable-retail denominator, not all retail merchandise sales or all business revenue.",
+    "It is one state's fiscal-year calibration, not an observed nationwide share or a measured per-business cannabis purchase.",
+    "The native sales receipt has actual paid USD minor units and period but no admitted taxable-retail/exempt-sales allocation.",
+    "No tax rate, new money movement, annual-to-quarter division, or repeated exclusion is supplied by this research row."
+  ],
+  "neededDecisions": [],
+  "retrieval": {
+    "date": "2026-10-02",
+    "method": "Read-only helper recovered the official workbooks and matching table values; parent preserves the reported source pair. No raw-download hash or independent parent download is claimed."
+  },
+  "admission": "Selected existing-code option under CTO October 2 4:00 flow, pending CTO review: use native retail receipt base with the cited Washington taxable-retail share as an explicit estimate; preserve denominator limits."
+}
