@@ -73,6 +73,9 @@ import {
 } from "../simulation/local-economy";
 import { hireAtAdultStart } from "../simulation/job-market";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
+import { ensureTownHomes } from "../simulation/living-world/town-homes";
+import { ensureTownEmployment } from "../simulation/living-world/town-employment";
+import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import type {
   CharacterHistoryTransition,
@@ -133,17 +136,7 @@ export type OpeningOtherParent = "living" | "nonresident" | "deceased";
 /** Children younger than this are not asked about the other parent. */
 export const OTHER_PARENT_MINIMUM_AGE = 5;
 
-/**
- * Who raises a dependent child at the start, from the world's identity seed.
- * Authored household configurations, not survey probabilities.
- */
-export function openingFamilyShape(
-  familyStructureSeed: string,
-): "one-parent" | "two-parents" | "guardian" {
-  return new SeededRng(familyStructureSeed)
-    .fork("opening-life-family-v1")
-    .pick(["one-parent", "two-parents", "two-parents", "guardian"] as const);
-}
+export type OpeningFamilyShape = "one-parent" | "two-parents" | "guardian";
 
 export interface ProductionWorldInput {
   /** The full world seed, already derived from the player's setup. */
@@ -175,6 +168,8 @@ export interface ProductionWorldInput {
   readonly household: ProductionHousehold;
   /** The player's answer about the other parent, when they gave one. */
   readonly otherParent?: OpeningOtherParent;
+  /** A stated household fact; absent reuses the current game's family records. */
+  readonly familyShape?: OpeningFamilyShape;
   /**
    * The questionnaire answers, carried into the world's non-diegetic corner.
    *
@@ -378,6 +373,11 @@ export function buildProductionWorld(
   });
 
   world = recordCreation(world, player, place, input);
+  const estimateOpeningFamily =
+    input.age < DEPENDENT_AGE_CEILING &&
+    input.familyShape === undefined &&
+    input.otherParent === undefined;
+  if (estimateOpeningFamily) world = ensureTownResidents(world, player.id);
   world = establishAgeEligibleState(
     world,
     player,
@@ -401,7 +401,15 @@ export function buildProductionWorld(
     nameCorpusVersion,
     input.preStartYear !== undefined,
     input.otherParent ?? null,
+    input.familyShape ?? null,
   );
+  // Early family evidence seated the town before the player's caregivers existed.
+  // Complete their employment and home through the existing opening writers.
+  if (estimateOpeningFamily)
+    world = ensureTownHomes(
+      ensureTownEmployment(world, jurisdiction.id, player.id),
+      jurisdiction.id,
+    );
   // An adult New Game start draws the rest of the family around the parent
   // the earlier life recorded. The prior-year start draws its own below.
   if (
@@ -602,6 +610,7 @@ export function finalizePreStartPlayer(
     nameCorpusVersion,
     true,
     input.otherParent ?? null,
+    input.familyShape ?? null,
   );
   if (input.age < 18) {
     world = establishPreStartChildHistory(world, {
@@ -738,6 +747,7 @@ function establishAgeEligibleState(
   nameCorpusVersion: string,
   preStartDates: boolean,
   otherParent: OpeningOtherParent | null,
+  statedFamilyShape: OpeningFamilyShape | null,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -939,8 +949,46 @@ function establishAgeEligibleState(
     spokenFor,
   );
   spokenFor.push(guardianName.givenName);
-  // This stream cannot change existing names, ages, or the sibling draw.
-  const familyShape = openingFamilyShape(familyStructureSeed);
+  const estimatedFamily =
+    statedFamilyShape === null && otherParent === null
+      ? drawFamilyShape(world, familyStructureSeed)
+      : null;
+  const familyShape: OpeningFamilyShape =
+    statedFamilyShape ??
+    (otherParent !== null
+      ? "one-parent"
+      : !estimatedFamily!.estimate.samples.length
+        ? "guardian"
+        : estimatedFamily!.secondParent
+          ? "two-parents"
+          : "one-parent");
+  if (estimatedFamily) {
+    world = recordWorldEvent(world, {
+      stableKey: `${stableKey}:family-estimate`,
+      type: "life.family-estimate",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [player.id],
+      participants: [
+        { personId: player.id, role: "focus:subject", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["life.family-estimate", "estimated-from-average"],
+      summary: estimatedFamily.estimate.samples.length
+        ? "ESTIMATED FROM AVERAGE: opening household uses the current game's recorded family spread."
+        : "Opening care records guardianship without assuming parent kinship; no comparable family records were available.",
+      context: {
+        location: { jurisdictionId, label: "Home", setting: "home" },
+        socialContext: estimatedFamily.estimate.note,
+        pressure: null,
+        choice: familyShape,
+        motivation: JSON.stringify(estimatedFamily.estimate),
+        immediateReaction: null,
+      },
+    });
+  }
   // The band the guardian's age is drawn from. Unleant it is 24 to 41, exactly
   // as it has always been; a calibration that leaned toward keeping the ground
   // firm moves both ends later and one that leaned toward disruption moves them

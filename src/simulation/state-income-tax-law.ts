@@ -5,7 +5,7 @@
  * income tax?" (`fiscal.adopt-income-tax`) and "Should the state have a
  * graduated income tax?" (`fiscal.graduated-income-tax`). The 2026 schedules
  * in `state-income-tax-2026.json` already carry the law each state began
- * with. Structured flat starting-law terms reach that same calculator;
+ * with. Structured starting-law terms reach that same calculator;
  * a law enacted in play can then change it:
  * 1. a repeal ("no" on the first question) where the state taxes wages ends
  *    the state's withholding;
@@ -48,7 +48,10 @@ import {
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import type { EntityId, IsoDate, World } from "./types";
 import { censusRegionOf } from "./world-setup/census-regions";
-import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
+import {
+  readFinalEnactedLawTerm,
+  readFinalEnactedLawSchedule,
+} from "./governing/final-law-term-query";
 
 export const ADOPT_STATE_INCOME_TAX_QUESTION =
   "us-policy-positions:fiscal.adopt-income-tax";
@@ -79,7 +82,7 @@ export type StateIncomeTaxUnderLaw =
   /** Recorded starting/adopted numeric terms; an unread deduction can be estimated. */
   | {
       readonly kind: "enacted";
-      readonly shape: "flat";
+      readonly shape: TaxShape;
       readonly lawMeasureIds: readonly EntityId[];
       readonly schedule: IncomeTaxSchedule;
       readonly estimatedFromAverage?: string;
@@ -137,6 +140,48 @@ export function stateIncomeTaxUnderLaw(
       ? "graduated"
       : "flat"
     : (begunShape ?? "graduated");
+  // Keep a starting table only while its sourced shape still governs. An
+  // enacted reshape uses its own terms or the existing labeled fallback.
+  let tableLaw =
+    graduated?.answer === "yes"
+      ? graduated
+      : shapeLaw?.answer === "yes" &&
+          shape === "graduated" &&
+          adopt?.origin !== "enacted"
+        ? shapeLaw
+        : adopt;
+  let table =
+    tableLaw && (tableLaw.origin === "enacted" || shape === begunShape)
+      ? readFinalEnactedLawSchedule(world, tableLaw, {
+          questionKey:
+            tableLaw === shapeLaw
+              ? GRADUATED_STATE_INCOME_TAX_QUESTION
+              : ADOPT_STATE_INCOME_TAX_QUESTION,
+          termKey: tableLaw === shapeLaw ? "brackets" : "rate",
+          onDate: taxYearStart,
+        })
+      : null;
+  if (!table && adopt?.origin === "in-force-at-start" && shape === begunShape) {
+    tableLaw = adopt;
+    table = readFinalEnactedLawSchedule(world, adopt, {
+      questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+      termKey: "rate",
+      onDate: taxYearStart,
+    });
+  }
+  if (table?.term.kind === "income-tax")
+    return {
+      kind: "enacted",
+      shape,
+      lawMeasureIds: [
+        ...new Set([
+          tableLaw!.measureId,
+          ...(adopt?.answer === "yes" ? [adopt.measureId] : []),
+          ...(graduated?.answer === "yes" ? [graduated.measureId] : []),
+        ]),
+      ],
+      schedule: stateScheduleForFilingStatus(table.term.schedule, status),
+    };
   const flatRate =
     adopt?.answer === "yes"
       ? readFinalEnactedLawTerm(world, adopt, {
