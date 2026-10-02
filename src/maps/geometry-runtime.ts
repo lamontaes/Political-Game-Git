@@ -21,7 +21,7 @@ const STATE_PACK_LOADERS = import.meta.glob<{ default: unknown }>(
 );
 
 const NATIONAL_LOADER: PackLoader = () =>
-  import("./geometry/national.generated.json");
+  import("./geometry/national.generated.json", { with: { type: "json" } });
 
 export function validateGeometryPack(
   value: unknown,

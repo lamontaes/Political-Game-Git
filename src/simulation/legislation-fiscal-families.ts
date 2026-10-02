@@ -1,4 +1,4 @@
-import fiscalData from "../../data/content/legislation-families/fiscal.json";
+import fiscalData from "../../data/content/legislation-families/fiscal.json" with { type: "json" };
 import {
   STATE_TRANSIT_SERVICE_VARIANT,
   TRANSIT_SERVICE_VARIANT,
