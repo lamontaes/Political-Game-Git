@@ -1,3 +1,4 @@
+import { recordedDistrictOpeningWinner } from "./state-legislative-result-source";
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
@@ -105,8 +106,9 @@ import {
  *
  * **Party.** A chamber's aggregate party totals and a congressional result
  * do not identify a state district's winner or lean. The retained sources
- * have no district election results for these seats. New members therefore
- * have no assigned party or share; the opening records the research gap.
+ * now include compiled district results, but no verified crosswalk to the
+ * current Census boundaries. Only an evidenced own-seat binding can select
+ * a recent recorded winner. Unbound seats retain an explicit source gap.
  * Existing saved rosters are preserved by the established-opening guard.
  *
  * The player's home state remains first in the opening history; other states
@@ -561,6 +563,7 @@ export function ensureStateLegislatureOpening(
     readonly memberKey: string;
     readonly party: string | null;
     readonly democraticShare: number | null;
+    readonly sourceCaseIds: readonly string[];
     readonly serviceSince: IsoDate;
     readonly person: CharacterHistoryContextPersonInput;
   }
@@ -583,7 +586,25 @@ export function ensureStateLegislatureOpening(
     for (let ordinal = 1; ordinal <= chamber.size; ordinal += 1) {
       const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, ordinal);
       const seatRng = rng.fork(`seat:${chamber.officeKey}:${ordinal}`);
-      const party: string | null = null;
+      const district = chamber.districts[ordinal - 1] ?? null;
+      const memberOrdinal = district
+        ? chamber.districts
+            .slice(0, ordinal)
+            .filter((row) => row?.recordId === district.recordId).length
+        : ordinal;
+      const recordedWinner = recordedDistrictOpeningWinner(
+        district,
+        memberOrdinal,
+        date,
+        seatRng.fork("recorded-result"),
+      );
+      const party: string | null =
+        recordedWinner?.partyCode === "d"
+          ? "democratic"
+          : recordedWinner?.partyCode === "r"
+            ? "republican"
+            : null;
+      // A winning party is not a measured district vote share.
       const democraticShare: number | null = null;
       const age = inventedPersonAge(seatRng, "sitting-legislator-at-opening", {
         legalMinimumAge: minimumAge,
@@ -615,10 +636,11 @@ export function ensureStateLegislatureOpening(
         chamber,
         office,
         ordinal,
-        district: chamber.districts[ordinal - 1] ?? null,
+        district,
         memberKey: `${seatKey}:member`,
         party,
         democraticShare,
+        sourceCaseIds: recordedWinner?.caseIds ?? [],
         serviceSince,
         person: {
           stableKey: `${seatKey}:member`,
@@ -769,7 +791,15 @@ export function ensureStateLegislatureOpening(
     visibility: "public",
     tags: [
       V,
-      "PLACEHOLDER:state-legislative-district-results",
+      ...(members.some((member) => member.party === null)
+        ? ["PLACEHOLDER:state-legislative-district-results"]
+        : []),
+      ...members.flatMap((member) =>
+        member.sourceCaseIds.map(
+          (id) =>
+            `seat-result:${member.office.officeKey}|${member.ordinal}|klarner:${id}`,
+        ),
+      ),
       `pack:${pack.packId}`,
       // The opening's own generated seat view is saved so later fictional
       // candidate choices and results read one durable baseline.
