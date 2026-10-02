@@ -9,6 +9,7 @@ import {
 } from "./json-chunks";
 import { packRollCalls, unpackRollCalls } from "./roll-call-packing";
 import { packPrinciples, unpackPrinciples } from "./principle-packing";
+import { packTendencies, unpackTendencies } from "./tendency-packing";
 import type { EntityId, IsoDate, World } from "./types";
 import { assertWorldIntegrity, assertWorldIntegrityFully } from "./world";
 
@@ -42,6 +43,19 @@ export const PRINCIPLE_WORLD_SNAPSHOT_FORMAT_VERSION = 19;
 export const PRINCIPLE_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 20;
 export const PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION = 21;
 export const PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 22;
+/**
+ * Formats 23–30 are 15–22, in the same order, with the personality tendencies
+ * a life worked out from upbringing packed on disk (see `tendency-packing.ts`).
+ */
+const TENDENCY_FORMAT_OFFSET = 8;
+export const TENDENCY_WORLD_SNAPSHOT_FORMAT_VERSION = 23;
+export const TENDENCY_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 24;
+export const TENDENCY_PACKED_WORLD_SNAPSHOT_FORMAT_VERSION = 25;
+export const TENDENCY_PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 26;
+export const TENDENCY_PRINCIPLE_WORLD_SNAPSHOT_FORMAT_VERSION = 27;
+export const TENDENCY_PRINCIPLE_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 28;
+export const TENDENCY_PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION = 29;
+export const TENDENCY_PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 30;
 
 export type WorldSnapshotFormatVersion =
   | typeof WORLD_SNAPSHOT_FORMAT_VERSION
@@ -51,7 +65,15 @@ export type WorldSnapshotFormatVersion =
   | typeof PRINCIPLE_WORLD_SNAPSHOT_FORMAT_VERSION
   | typeof PRINCIPLE_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION
   | typeof PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION
-  | typeof PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION;
+  | typeof PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION
+  | typeof TENDENCY_WORLD_SNAPSHOT_FORMAT_VERSION
+  | typeof TENDENCY_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION
+  | typeof TENDENCY_PACKED_WORLD_SNAPSHOT_FORMAT_VERSION
+  | typeof TENDENCY_PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION
+  | typeof TENDENCY_PRINCIPLE_WORLD_SNAPSHOT_FORMAT_VERSION
+  | typeof TENDENCY_PRINCIPLE_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION
+  | typeof TENDENCY_PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION
+  | typeof TENDENCY_PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION;
 
 export interface WorldSnapshot {
   readonly format: "political-life-world";
@@ -151,21 +173,27 @@ function payloadOf(form: object, chunkLength: number): WorldPayload {
   return collectJsonChunks((emit) => writeJson(form, emit), chunkLength);
 }
 
-/** The object a snapshot is stored as: packed when there are roll calls. */
+/** The object a snapshot is stored as, with every disk-only pack that applies. */
 function storedForm(snapshot: WorldSnapshot): object {
   const rollCalls = packRollCalls(snapshot.world);
   const principles = packPrinciples(rollCalls?.world ?? snapshot.world);
-  if (rollCalls === null && principles === null) return snapshot;
+  const tendencies = packTendencies(
+    principles?.world ?? rollCalls?.world ?? snapshot.world,
+  );
+  if (rollCalls === null && principles === null && tendencies === null)
+    return snapshot;
   return {
     ...snapshot,
     formatVersion: formatFor(
       snapshot.world,
       rollCalls !== null,
       principles !== null,
+      tendencies !== null,
     ),
-    world: principles?.world ?? rollCalls!.world,
+    world: tendencies?.world ?? principles?.world ?? rollCalls!.world,
     ...(rollCalls ? { rollCalls: rollCalls.packing } : {}),
     ...(principles ? { principlesPacking: principles.packing } : {}),
+    ...(tendencies ? { tendenciesPacking: tendencies.packing } : {}),
   };
 }
 
@@ -177,6 +205,7 @@ export function storedFormatVersion(
     snapshot.world,
     packRollCallsApplies(snapshot.world),
     packPrinciples(snapshot.world) !== null,
+    packTendencies(snapshot.world) !== null,
   );
 }
 
@@ -192,6 +221,7 @@ export function serializeWorldAs(
   const snapshot = createWorldSnapshot(world);
   const roll = formatHasRollCalls(formatVersion);
   const principles = formatHasPrinciples(formatVersion);
+  const tendencies = formatHasTendencies(formatVersion);
   if (
     formatHasContentPacks(formatVersion) !==
     (world.contentPacks !== undefined)
@@ -199,7 +229,7 @@ export function serializeWorldAs(
     throw new Error(
       "World content packs do not match the requested snapshot format.",
     );
-  if (!roll && !principles) return JSON.stringify(snapshot);
+  if (!roll && !principles && !tendencies) return JSON.stringify(snapshot);
   const packedRolls = roll ? packRollCalls(world) : null;
   if (roll && !packedRolls)
     throw new Error("World has no roll calls for its saved format.");
@@ -208,13 +238,22 @@ export function serializeWorldAs(
     : null;
   if (principles && !packedPrinciples)
     throw new Error("World has no generated principles for its saved format.");
+  const packedTendencies = tendencies
+    ? packTendencies(packedPrinciples?.world ?? packedRolls?.world ?? world)
+    : null;
+  if (tendencies && !packedTendencies)
+    throw new Error("World has no worked-out tendencies for its saved format.");
   return JSON.stringify({
     ...snapshot,
     formatVersion,
-    world: packedPrinciples?.world ?? packedRolls!.world,
+    world:
+      packedTendencies?.world ?? packedPrinciples?.world ?? packedRolls!.world,
     ...(packedRolls ? { rollCalls: packedRolls.packing } : {}),
     ...(packedPrinciples
       ? { principlesPacking: packedPrinciples.packing }
+      : {}),
+    ...(packedTendencies
+      ? { tendenciesPacking: packedTendencies.packing }
       : {}),
   });
 }
@@ -294,6 +333,18 @@ function formatFor(
   world: World,
   rollCalls: boolean,
   principles: boolean,
+  tendencies: boolean,
+): WorldSnapshotFormatVersion {
+  const base = baseFormatFor(world, rollCalls, principles);
+  return tendencies
+    ? ((base + TENDENCY_FORMAT_OFFSET) as WorldSnapshotFormatVersion)
+    : base;
+}
+
+function baseFormatFor(
+  world: World,
+  rollCalls: boolean,
+  principles: boolean,
 ): WorldSnapshotFormatVersion {
   const content = world.contentPacks !== undefined;
   if (rollCalls && principles)
@@ -313,7 +364,21 @@ function formatFor(
     : WORLD_SNAPSHOT_FORMAT_VERSION;
 }
 
-function formatHasRollCalls(version: WorldSnapshotFormatVersion): boolean {
+/** The format without its packed tendencies, for the checks below. */
+function withoutTendencies(
+  version: WorldSnapshotFormatVersion,
+): WorldSnapshotFormatVersion {
+  return formatHasTendencies(version)
+    ? ((version - TENDENCY_FORMAT_OFFSET) as WorldSnapshotFormatVersion)
+    : version;
+}
+
+function formatHasTendencies(version: WorldSnapshotFormatVersion): boolean {
+  return version >= TENDENCY_WORLD_SNAPSHOT_FORMAT_VERSION;
+}
+
+function formatHasRollCalls(format: WorldSnapshotFormatVersion): boolean {
+  const version = withoutTendencies(format);
   return (
     version === PACKED_WORLD_SNAPSHOT_FORMAT_VERSION ||
     version === PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION ||
@@ -322,7 +387,8 @@ function formatHasRollCalls(version: WorldSnapshotFormatVersion): boolean {
   );
 }
 
-function formatHasPrinciples(version: WorldSnapshotFormatVersion): boolean {
+function formatHasPrinciples(format: WorldSnapshotFormatVersion): boolean {
+  const version = withoutTendencies(format);
   return (
     version === PRINCIPLE_WORLD_SNAPSHOT_FORMAT_VERSION ||
     version === PRINCIPLE_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION ||
@@ -331,7 +397,8 @@ function formatHasPrinciples(version: WorldSnapshotFormatVersion): boolean {
   );
 }
 
-function formatHasContentPacks(version: WorldSnapshotFormatVersion): boolean {
+function formatHasContentPacks(format: WorldSnapshotFormatVersion): boolean {
+  const version = withoutTendencies(format);
   return (
     version === CONTENT_PACK_SNAPSHOT_FORMAT_VERSION ||
     version === PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION ||
@@ -405,7 +472,8 @@ export function readWorldSnapshot(payload: WorldPayload): {
     typeof formatVersion === "number" &&
     Number.isInteger(formatVersion) &&
     formatVersion >= WORLD_SNAPSHOT_FORMAT_VERSION &&
-    formatVersion <= PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION;
+    formatVersion <=
+      TENDENCY_PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION;
   if (
     parsed.format !== "political-life-world" ||
     typeof formatVersion !== "number" ||
@@ -427,13 +495,21 @@ export function readWorldSnapshot(payload: WorldPayload): {
   }
   if (!principled && parsed.principlesPacking !== undefined)
     throw new Error("World snapshot packs principles its format does not.");
+  const tendencied = formatHasTendencies(
+    formatVersion as WorldSnapshotFormatVersion,
+  );
+  if (!tendencied && parsed.tendenciesPacking !== undefined)
+    throw new Error("World snapshot packs tendencies its format does not.");
 
   const withRollCalls = rolled
     ? unpackRollCalls(parsed.world as unknown as World, parsed.rollCalls)
     : (parsed.world as unknown as World);
-  const unpacked = principled
+  const withPrinciples = principled
     ? unpackPrinciples(withRollCalls, parsed.principlesPacking)
     : withRollCalls;
+  const unpacked = tendencied
+    ? unpackTendencies(withPrinciples, parsed.tendenciesPacking)
+    : withPrinciples;
   // A save from before incidents stopped being drawn names the retired mode;
   // its stored id was taken over the world as written, before this reading.
   const world = retireDrawnIncidentModes(unpacked);
@@ -463,6 +539,8 @@ export function readWorldSnapshot(payload: WorldPayload): {
   }
   if (principled && packPrinciples(world) === null)
     throw new Error("World snapshot format does not match its principles.");
+  if (tendencied && packTendencies(world) === null)
+    throw new Error("World snapshot format does not match its tendencies.");
   return {
     world,
     formatVersion: formatVersion as WorldSnapshotFormatVersion,
