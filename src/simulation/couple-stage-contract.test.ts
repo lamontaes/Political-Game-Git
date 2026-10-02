@@ -16,7 +16,9 @@ function actorPacket(
 ) {
   return {
     ...result,
-    context: { actorPersonId: createStableId("person", `a136-contract:${actor}`) },
+    context: {
+      actorPersonId: createStableId("person", `a136-contract:${actor}`),
+    },
   };
 }
 
@@ -183,14 +185,16 @@ describe("couple stage consequence admission contract", () => {
         { outcomeKind: "selected", selectedOptionKey: optionKey },
         "first",
       );
-      expect(coupleStageConsent({
-        stage,
-        startedAt,
-        asOfDate,
-        optionKey,
-        first: selected,
-        second: selected,
-      })).toBe(false);
+      expect(
+        coupleStageConsent({
+          stage,
+          startedAt,
+          asOfDate,
+          optionKey,
+          first: selected,
+          second: selected,
+        }),
+      ).toBe(false);
     }
   });
 

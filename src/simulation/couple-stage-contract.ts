@@ -63,7 +63,9 @@ export function coupleStageConsent(input: {
   const selects = (result: CoupleChoice) =>
     isSelectedDecision(result) && result.selectedOptionKey === choice.key;
   return choice.consent === "both"
-    ? input.first.context.actorPersonId !== input.second.context.actorPersonId &&
-        selects(input.first) && selects(input.second)
+    ? input.first.context.actorPersonId !==
+        input.second.context.actorPersonId &&
+        selects(input.first) &&
+        selects(input.second)
     : selects(input.first) || selects(input.second);
 }
