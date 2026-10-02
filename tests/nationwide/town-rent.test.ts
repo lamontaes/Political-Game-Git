@@ -359,39 +359,43 @@ describe("rent day", { timeout: 600_000 }, () => {
       1;
     const cap = Math.min(capTerm.value, offset.value + inflation);
     expect(cap).toBeGreaterThan(0);
-    const requested = recordResourceFlowTerms(world, {
-      stableKey: `${lease.flow.stableKey}:controlled-over-ceiling-renewal`,
-      resourceFlowId: lease.flow.id,
-      effectiveAt: world.currentDate,
-      status: "active",
-      amount: money(
-        Math.ceil(previous.amount.minorUnits * (1 + 2 * cap)),
-        previous.amount.currency,
-      ),
-      cadenceKind: previous.cadenceKind,
-      reason:
-        "Explicit test request above the sourced ceiling on the actual saved lease.",
-      provenance: {
-        kind: "authored",
-        note: "Controlled renewal challenge; ordinary market result reported separately.",
-      },
-      supersedesTermsId: previous.id,
+    // Continue within the existing monthly harness integrity boundary: it
+    // deliberately advances town pay/rent without the full due-item clock.
+    withWorldIntegrityDeferred(() => {
+      const requested = recordResourceFlowTerms(world, {
+        stableKey: `${lease.flow.stableKey}:controlled-over-ceiling-renewal`,
+        resourceFlowId: lease.flow.id,
+        effectiveAt: world.currentDate,
+        status: "active",
+        amount: money(
+          Math.ceil(previous.amount.minorUnits * (1 + 2 * cap)),
+          previous.amount.currency,
+        ),
+        cadenceKind: previous.cadenceKind,
+        reason:
+          "Explicit test request above the sourced ceiling on the actual saved lease.",
+        provenance: {
+          kind: "authored",
+          note: "Controlled renewal challenge; ordinary market result reported separately.",
+        },
+        supersedesTermsId: previous.id,
+      });
+      const result = applyLawConsequences(requested, {
+        activity: "renewal",
+        activityId: requested.history.resourceFlowTerms.at(-1)!.id,
+        subjectIds: [lease.leaseholderId],
+        onDate: world.currentDate,
+        questionKey: RENT_LAW_KEYS.rentStabilization,
+      });
+      const actual = resourceFlowTermsAt(result, lease.flow.id)!;
+      expect(actual.amount.minorUnits).toBe(
+        Math.floor(previous.amount.minorUnits * (1 + cap)),
+      );
+      expect(actual.lawEffectStamps?.[0]?.effectKind).toBe("price-cost");
+      process.stdout.write(
+        `A57 controlled saved-lease renewal: requested=${requested.history.resourceFlowTerms.at(-1)!.amount.minorUnits}; applied=${actual.amount.minorUnits}; prior=${previous.amount.minorUnits}; sourcedCapRatio=${cap}; source=${law.measureId}\n`,
+      );
     });
-    const result = applyLawConsequences(requested, {
-      activity: "renewal",
-      activityId: requested.history.resourceFlowTerms.at(-1)!.id,
-      subjectIds: [lease.leaseholderId],
-      onDate: world.currentDate,
-      questionKey: RENT_LAW_KEYS.rentStabilization,
-    });
-    const actual = resourceFlowTermsAt(result, lease.flow.id)!;
-    expect(actual.amount.minorUnits).toBe(
-      Math.floor(previous.amount.minorUnits * (1 + cap)),
-    );
-    expect(actual.lawEffectStamps?.[0]?.effectKind).toBe("price-cost");
-    process.stdout.write(
-      `A57 controlled saved-lease renewal: requested=${requested.history.resourceFlowTerms.at(-1)!.amount.minorUnits}; applied=${actual.amount.minorUnits}; prior=${previous.amount.minorUnits}; sourcedCapRatio=${cap}; source=${law.measureId}\n`,
-    );
     for (const terms of capped) {
       const requested = world.history.resourceFlowTerms.find(
         (row) => row.id === terms.supersedesTermsId,
