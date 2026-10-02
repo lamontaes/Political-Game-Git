@@ -1,4 +1,9 @@
 import { recordGovernorDecisionOnMeasure } from "./governing/legislative-clock";
+import { stateGoverningHandlers } from "./governing/state-governing";
+import {
+  composeFutureTransitionHandlerRegistries,
+  createFutureTransitionHandlerRegistry,
+} from "./future-transition-registry";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as lawEffects from "./enacted-law-effects";
@@ -49,6 +54,13 @@ import type {
   PublicPaymentInput,
   PublicFundingMandate,
 } from "./public-fiscal";
+
+function fiscalFixtureHandlers() {
+  return composeFutureTransitionHandlerRegistries(
+    createTaxTransitionHandlerRegistry(),
+    createFutureTransitionHandlerRegistry(stateGoverningHandlers()),
+  );
+}
 
 function fundedFixture(saveAppropriation = true) {
   const fixture = enactedTaxFixture(10000);
@@ -167,7 +179,7 @@ function fundedFixture(saveAppropriation = true) {
   world = advanceWorld(
     world,
     daysBetween(world.currentDate, mandate.availableAt),
-    createTaxTransitionHandlerRegistry(),
+    fiscalFixtureHandlers(),
   );
   const input: PublicPaymentInput = {
     fundingId: mandate.fundingId,
@@ -191,7 +203,7 @@ function fundedWithCashForBothRoutes() {
     assumptionNote:
       "One fictional test occurrence funds 2 USD cash, separate from the 1 USD appropriation.",
   });
-  world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+  world = advanceWorld(world, 2, fiscalFixtureHandlers());
   world = ensureStateExecutiveIncumbent(world, fixture.personId, "AK");
   const governor = currentStateExecutiveHolders(world).find(
     (holder) => holder.stateUsps === "AK",
@@ -330,7 +342,7 @@ describe("shared public cash settlement for T", () => {
       assumptionNote:
         "One fictional test occurrence; no income or purchase money.",
     });
-    world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+    world = advanceWorld(world, 2, fiscalFixtureHandlers());
     const before = serializeWorld(world);
     expect(
       settlePublicResourcePayment(world, fixture.input, fixture.resolver),
@@ -353,7 +365,7 @@ describe("shared public cash settlement for T", () => {
       assumptionNote:
         "One fictional test occurrence; no income or purchase money.",
     });
-    world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+    world = advanceWorld(world, 2, fiscalFixtureHandlers());
     const result = settlePublicResourcePayment(
       world,
       fixture.input,
