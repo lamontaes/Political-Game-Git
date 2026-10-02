@@ -20,12 +20,7 @@ import {
   type CampaignLifeOutcomeRecord,
   type CampaignSupportDecision,
 } from "./campaign-life-types";
-import {
-  assessKentuckyCampaignContribution,
-  campaignCompliancePackFor,
-  type CampaignComplianceRulePack,
-} from "./campaign-compliance";
-import { assessContribution } from "./campaign-compliance-rules";
+import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
 import {
   activeCampaignForCandidate,
   campaignById,
@@ -72,8 +67,6 @@ import {
 import { drawCanonicalNamedIdentity, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
-import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
-import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
 import { SeededRng } from "./rng";
 import {
   cancelScheduledActivity,
@@ -142,7 +135,6 @@ const LIFE = {
   inPersonStartMinute: 18 * 60 + 30,
   phoneStartMinute: 19 * 60,
   memoryDays: 42,
-  fundraiserMinorUnits: [25_000, 150_000],
 } as const;
 
 /** Whether this person is old enough to take up party and campaign work. */
@@ -457,10 +449,6 @@ function subjectBusy(
       compareSimulationMoments(state.start, home) < 0
     );
   });
-}
-
-function formatMoney(amount: MoneyAmount): string {
-  return `$${(amount.minorUnits / 100).toFixed(2)}`;
 }
 
 function titleFor(
@@ -1442,179 +1430,6 @@ function supportRequestDecision(
       : "deferred";
 }
 
-interface FundraiserPlan {
-  readonly amount: MoneyAmount;
-  readonly allowed: boolean;
-  readonly note: string;
-  readonly decisionTag: string;
-}
-
-function planFundraiser(
-  world: World,
-  campaign: CampaignRecord,
-  donorPersonId: EntityId,
-  outcomeId: EntityId,
-): FundraiserPlan {
-  const amount: MoneyAmount = {
-    minorUnits: new SeededRng(world.seed)
-      .fork(`campaign-life-fundraiser:${outcomeId}`)
-      .integer(LIFE.fundraiserMinorUnits[0], LIFE.fundraiserMinorUnits[1] + 1),
-    currency: campaign.treasuryCurrency,
-  };
-  const donor = world.people[donorPersonId]!;
-  const kentucky = campaignCompliancePackFor(world, campaign.id);
-  let planned: FundraiserPlan;
-  if (kentucky) {
-    planned = planKentuckyGift(
-      world,
-      campaign,
-      donorPersonId,
-      amount,
-      kentucky,
-    );
-  } else {
-    const ruling = assessContribution(world, {
-      campaignId: campaign.id,
-      sourcePersonId: donorPersonId,
-      incomingMinorUnits: amount.minorUnits,
-      statementOfOrganizationFiled: null,
-      treasurerPersonId: null,
-      treasurerQualifiedElector: null,
-    });
-    planned = {
-      amount,
-      allowed: ruling.decision !== "refused",
-      note:
-        ruling.decision === "refused"
-          ? `The committee could not accept the gift: ${ruling.reason}`
-          : ruling.reason,
-      decisionTag: `compliance:${ruling.decision}`,
-    };
-  }
-  if (!planned.allowed) return planned;
-  const donorPosition = resourcePositionAt(
-    world,
-    { kind: "person", personId: donorPersonId },
-    planned.amount.currency,
-  );
-  if (!donorPosition) {
-    return {
-      ...planned,
-      allowed: false,
-      note: `The available money for ${personName(donor)} is not established, so nothing was collected.`,
-      decisionTag: "compliance:not-attempted",
-    };
-  }
-  if (donorPosition.liquidBalance.minorUnits < planned.amount.minorUnits) {
-    return {
-      ...planned,
-      allowed: false,
-      note: `${personName(donor)} did not have ${formatMoney(planned.amount)} to give, so nothing was collected.`,
-      decisionTag: "compliance:not-attempted",
-    };
-  }
-  return planned;
-}
-
-/** What this donor has already given this committee through recorded gifts. */
-function givenByDonorMinorUnits(
-  world: World,
-  campaign: CampaignRecord,
-  donorPersonId: EntityId,
-): number {
-  const flowIds = new Set(
-    world.history.resourceFlows
-      .filter(
-        (flow) =>
-          flow.source.kind === "person" &&
-          flow.source.personId === donorPersonId &&
-          flow.recipient.kind === "organization" &&
-          flow.recipient.organizationId === campaign.organizationId &&
-          flow.basisKind === "custom:campaign-contribution",
-      )
-      .map((flow) => flow.id),
-  );
-  return world.history.resourceTransferOutcomes
-    .filter(
-      (outcome) =>
-        flowIds.has(outcome.resourceFlowId) &&
-        outcome.transferredAmount.currency === campaign.treasuryCurrency,
-    )
-    .reduce((sum, outcome) => sum + outcome.transferredAmount.minorUnits, 0);
-}
-
-/**
- * A Kentucky gift under the reviewed pack.
- *
- * The pack requires a contributor's address, employer and occupation once a
- * contributor's gifts pass its itemization threshold. This World does not
- * record any of those for a generated donor, and they are never invented, so
- * the donor keeps their total at or under the threshold — the one path the
- * pack itself makes recordable without them. The total is counted across all
- * of this donor's recorded gifts to the committee (the conservative reading).
- * When nothing more fits, or the threshold is not established on this date,
- * nothing is collected and the outcome says exactly why.
- */
-function planKentuckyGift(
-  world: World,
-  campaign: CampaignRecord,
-  donorPersonId: EntityId,
-  drawn: MoneyAmount,
-  pack: CampaignComplianceRulePack,
-): FundraiserPlan {
-  const donorName = personName(world.people[donorPersonId]!);
-  const threshold = pack.itemizationThresholdMinorUnits;
-  const given = givenByDonorMinorUnits(world, campaign, donorPersonId);
-  const missingFacts =
-    "the game does not record this donor's address, employer or occupation";
-  let amount = drawn;
-  let capNote = "";
-  if (
-    threshold.state === "KNOWN" &&
-    given + drawn.minorUnits > threshold.value
-  ) {
-    const room = threshold.value - given;
-    const limit = formatMoney({
-      minorUnits: threshold.value,
-      currency: drawn.currency,
-    });
-    if (room <= 0) {
-      return {
-        amount: drawn,
-        allowed: false,
-        note: `${donorName} has already given ${limit}, the most Kentucky lets a committee record without itemizing (${threshold.source.legalLocator}), and ${missingFacts}, so nothing more was collected.`,
-        decisionTag: "compliance:refused",
-      };
-    }
-    amount = { minorUnits: room, currency: drawn.currency };
-    capNote = ` The gift was kept to ${formatMoney(amount)} so ${donorName}'s total stays within ${limit}, because ${missingFacts} and Kentucky requires them above that amount (${threshold.source.legalLocator}).`;
-  }
-  const assessment = assessKentuckyCampaignContribution({
-    onDate: world.currentDate,
-    contributorKind: "individual",
-    // Assessed on the donor's running total, not on this gift alone.
-    amountMinorUnits: given + amount.minorUnits,
-    currency: amount.currency,
-    contributorName: donorName,
-    contributorAddress: null,
-    employer: null,
-    occupation: null,
-  });
-  return assessment.acceptableForRecording
-    ? {
-        amount,
-        allowed: true,
-        note: `The Kentucky pack's recordability checks were satisfied; the gift needs no itemization.${capNote}`,
-        decisionTag: "compliance:allowed",
-      }
-    : {
-        amount,
-        allowed: false,
-        note: `The committee could not record the gift: ${assessment.refusals.join(" ")}${assessment.requiresItemization === true ? ` (${missingFacts}.)` : ""}`,
-        decisionTag: "compliance:refused",
-      };
-}
-
 /**
  * Records what happened at a completed party/campaign activity.
  *
@@ -1713,7 +1528,9 @@ export function recordCampaignLifeAttendance(
       ...activity.participantPersonIds.filter((id) => id !== personId),
     );
   } else if (record.form === "fundraiser") {
-    addContact(`${orgKey}:campaign-life:donor`, 1);
+    contactPersonIds.push(
+      ...activity.participantPersonIds.filter((id) => id !== personId),
+    );
   } else if (record.form === "town-hall") {
     // TODO(PRESS): a reporter covering the town hall belongs to PRESS's
     // persistent press people; none is invented here.
@@ -1728,10 +1545,6 @@ export function recordCampaignLifeAttendance(
     record.form === "candidate-guidance"
       ? projectCampaignGuidance(world, personId)
       : null;
-  const fundraiser =
-    record.form === "fundraiser" && openCampaign
-      ? planFundraiser(next, openCampaign, contactPersonIds[0]!, outcomeId)
-      : null;
   let summary: string;
   switch (record.form) {
     case "organization-meeting":
@@ -1745,11 +1558,7 @@ export function recordCampaignLifeAttendance(
       summary = `${personName(host)} went over what is known about running for office here. ${guidanceText(guidance!)}`;
       break;
     case "fundraiser":
-      summary = !openCampaign
-        ? `A small fundraiser with ${personName(host)} and ${contactNames[0]}. The campaign was no longer running, so nothing was collected.`
-        : fundraiser!.allowed
-          ? `A small fundraiser with ${personName(host)}. ${contactNames[0]} gave ${formatMoney(fundraiser!.amount)} to the campaign committee. ${fundraiser!.note}`
-          : `A small fundraiser with ${personName(host)} and ${contactNames[0]}. ${fundraiser!.note}`;
+      summary = `A small fundraiser with ${personName(host)}. ${openCampaign ? "Attendance is recorded; no new payment was attempted without a recorded monetary ask and applicable contribution-cap law term." : "The campaign was no longer running, so nothing was collected."}`;
       break;
     case "support-request":
       summary = !openCampaign
@@ -1797,7 +1606,7 @@ export function recordCampaignLifeAttendance(
       `form:${record.form}`,
       `invitation:${record.invitationEventId}`,
       `organization:${record.hostOrganizationId}`,
-      ...(fundraiser ? [fundraiser.decisionTag] : []),
+      ...(record.form === "fundraiser" ? ["compliance:not-attempted"] : []),
     ],
     summary,
     context: {
@@ -1850,39 +1659,16 @@ export function recordCampaignLifeAttendance(
 
   let resourceFlowId: EntityId | null = null;
   let raisedAmount: MoneyAmount | null = null;
-  if (fundraiser?.allowed && openCampaign) {
-    next = createResourceFlow(next, {
-      stableKey: `${keyBase}:contribution`,
-      source: { kind: "person", personId: contactPersonIds[0]! },
-      recipient: positionOwnerEndpoint({
-        kind: "organization",
-        organizationId: openCampaign.organizationId,
-      }),
-      startsAt: next.currentDate,
-      initialStatus: "active",
-      amount: fundraiser.amount,
-      cadenceKind: "schedule:one-time",
-      basisKind: "custom:campaign-contribution",
-      basisReference: { kind: "general" },
-      restrictionKind: "purpose:campaign",
-      jurisdictionId: openCampaign.jurisdictionId,
-      provenance: { kind: "simulated-event", eventId: outcomeEvent.id },
+  if (record.form === "fundraiser" && openCampaign) {
+    const receipts = recordCampaignFundraiserReceipts(next, {
+      eventId: outcomeEvent.id,
+      committeeOrganizationId: openCampaign.organizationId,
+      candidatePersonId: openCampaign.candidatePersonId,
+      currency: openCampaign.treasuryCurrency,
     });
-    resourceFlowId = next.history.resourceFlows.at(-1)!.id;
-    next = recordResourceTransferOutcome(next, {
-      stableKey: `${keyBase}:contribution:transfer`,
-      resourceFlowId,
-      periodStartsAt: next.currentDate,
-      periodEndsAt: next.currentDate,
-      occurredAt: next.currentDate,
-      status: "completed",
-      attemptedAmount: fundraiser.amount,
-      transferredAmount: fundraiser.amount,
-      reasonKind: null,
-      note: "A gift at a small fundraiser, received by the campaign committee.",
-      provenance: { kind: "simulated-event", eventId: outcomeEvent.id },
-    });
-    raisedAmount = fundraiser.amount;
+    next = receipts.world;
+    resourceFlowId = receipts.resourceFlowId;
+    raisedAmount = receipts.raisedAmount;
   }
 
   let recordedDecision: CampaignLifeOutcomeRecord["supportDecision"] = null;
@@ -1996,7 +1782,8 @@ export function recordCampaignLifeAttendance(
     contactPersonIds,
     campaign: openCampaign,
     outcomeEventId: outcomeEvent.id,
-    donated: raisedAmount !== null,
+    // Receipts report an existing gift; they do not authorize a new donor favor.
+    donated: false,
     endorsed:
       recordedDecision?.decision === "granted" ? supportDecisionEventId : null,
     audience: record.form === "town-hall" ? "public" : "limited",
@@ -2362,6 +2149,7 @@ export function campaignLifeOutreachTransitionHandler(
       subjectId,
   ).length;
   const forms: CampaignLifeForm[] = [
+    "organization-meeting",
     "door-canvass",
     "phone-shift",
     "town-hall",
