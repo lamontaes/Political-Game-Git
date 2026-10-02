@@ -1,21 +1,94 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import { stableHash } from "../ids";
-import { lifePlaceStateIdentities } from "../life-places";
+import {
+  governmentUnitJurisdictionId,
+  governmentUnitsForState,
+  governmentUnitsForPlace,
+} from "../government-units";
+import { lifePlaceStateIdentities, lifePlaceByKey } from "../life-places";
+import { publicGovernmentOrganizationKey } from "../public-government-identity";
+import { createOrganization, recordOrganizationProfile } from "../life";
+import { createResourcePosition, money } from "../resources";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../national-election-geography";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
   ensurePublicGovernmentAccount,
   publicOrganizationKey,
 } from "../tax-policy";
-import type { EntityId, World } from "../types";
+import type { EntityId, World, PublicGovernmentIdentity } from "../types";
 import { createWorld } from "../world";
-import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import {
+  ensureWorldStartingConditions,
+  worldOpeningRecord,
+} from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { ensurePublicBudgets, settlePublicBudgets } from "./index";
 import { readMonthFlows } from "./month";
-import { ensureOpeningGovernmentAccounts } from "./opening-government-accounts";
+import {
+  ensureOpeningGovernmentAccounts,
+  selectLocalOpeningAccount,
+} from "./opening-government-accounts";
+import { budgetCandidates, type BudgetCandidate } from "./opening";
+
+const localUnits = identitiesForLocalProof();
+function identitiesForLocalProof() {
+  const units = lifePlaceStateIdentities().flatMap((state) =>
+    governmentUnitsForState(state.jurisdictionKey.slice(3)).filter(
+      (unit) =>
+        unit.functionalActive &&
+        unit.unitType === "municipality" &&
+        unit.placeGeoid &&
+        governmentUnitsForPlace(unit.placeGeoid).filter(
+          (row) => row.functionalActive && row.unitType === "municipality",
+        ).length === 1 &&
+        lifePlaceByKey(unit.placeGeoid)?.context.jurisdiction.id ===
+          governmentUnitJurisdictionId(unit),
+    ),
+  );
+  return units
+    .sort((a, b) =>
+      stableHash(`local-opening:${a.id}`).localeCompare(
+        stableHash(`local-opening:${b.id}`),
+      ),
+    )
+    .slice(0, 5);
+}
+function localFixture(): World {
+  return ensureWorldStartingConditions(
+    createWorld({
+      seed: "a33-local-opening-cash",
+      currentDate: date,
+      jurisdictions: localUnits.map(
+        (unit) => lifePlaceByKey(unit.placeGeoid!)!.context.jurisdiction,
+      ),
+      people: [],
+      lineage: "production",
+    }),
+    { openingVersion: CRUNCH46_WORLD_OPENING_VERSION },
+  );
+}
+function localCandidate(world: World): BudgetCandidate {
+  return budgetCandidates(world).candidates.find(
+    (row) => row.key === `place:${localUnits[0]!.placeGeoid}`,
+  )!;
+}
+function accountPosition(world: World, identity: PublicGovernmentIdentity) {
+  const organization = world.history.organizations.find(
+    (row) => row.stableKey === publicGovernmentOrganizationKey(identity),
+  );
+  return world.history.resourcePositions.find(
+    (row) =>
+      row.owner.kind === "organization" &&
+      row.owner.organizationId === organization?.id &&
+      row.openingBalance.currency === "USD",
+  );
+}
 
 const seed = "a33-all-place-opening-cash";
 const date = makeIsoDate("2026-02-28");
@@ -59,6 +132,352 @@ function position(world: World, jurisdictionId: EntityId) {
 }
 
 describe("A33 sourced opening cash uses the existing government account", () => {
+  it("opens an exact sourced county account rather than inferring one from a city", () => {
+    const unit = lifePlaceStateIdentities()
+      .flatMap((state) =>
+        governmentUnitsForState(state.jurisdictionKey.slice(3)),
+      )
+      .filter(
+        (row) =>
+          row.functionalActive &&
+          row.unitType === "county" &&
+          row.countyGeoid &&
+          lifePlaceByKey(`county:${row.countyGeoid}`)?.context.jurisdiction
+            .id === governmentUnitJurisdictionId(row),
+      )
+      .sort((a, b) =>
+        stableHash(`county-opening:${a.id}`).localeCompare(
+          stableHash(`county-opening:${b.id}`),
+        ),
+      )[0]!;
+    expect(unit).toBeDefined();
+    const place = lifePlaceByKey(`county:${unit.countyGeoid}`)!;
+    const before = ensureWorldStartingConditions(
+      createWorld({
+        seed: "county-opening",
+        currentDate: date,
+        jurisdictions: [place.context.jurisdiction],
+        people: [],
+        lineage: "production",
+      }),
+      { openingVersion: CRUNCH46_WORLD_OPENING_VERSION },
+    );
+    const candidate = budgetCandidates(before).candidates.find(
+      (row) => row.key === `county:${unit.countyGeoid}`,
+    )!;
+    expect(selectLocalOpeningAccount(before, candidate)).toMatchObject({
+      status: "unique-compiled",
+      identity: {
+        kind: "local-government",
+        governmentKey: unit.id,
+        jurisdictionId: place.context.jurisdiction.id,
+      },
+    });
+    const world = ensurePublicBudgets(before);
+    const selection = selectLocalOpeningAccount(world, candidate);
+    expect(selection.status).toBe("saved");
+    if (selection.status !== "saved")
+      throw new Error("Expected saved county account.");
+    expect(
+      readMonthFlows(world, world.publicBudgets!).flows.cash?.get(candidate.key)
+        ?.positionId,
+    ).toBe(accountPosition(world, selection.identity)!.id);
+  });
+
+  it("opens five actual local identities from saved cash and uses the common settlement through Continue", () => {
+    expect(localUnits).toHaveLength(5);
+    const before = localFixture();
+    const cash = worldOpeningRecord(before)!.publicCashOpening!;
+    const world = ensurePublicBudgets(before);
+    const store = world.publicBudgets!;
+    const flows = readMonthFlows(world, store).flows;
+    const settled = settlePublicBudgets(world, month);
+    for (const unit of localUnits) {
+      const candidate = budgetCandidates(world).candidates.find(
+        (row) => row.key === `place:${unit.placeGeoid}`,
+      )!;
+      const selection = selectLocalOpeningAccount(world, candidate);
+      expect(selection.status).toBe("saved");
+      if (selection.status !== "saved")
+        throw new Error("Expected saved local account.");
+      expect(selection.identity).toEqual({
+        kind: "local-government",
+        governmentKey: unit.id,
+        jurisdictionId: candidate.jurisdictionId,
+      });
+      expect(selection.sourceRecordIds).toHaveLength(2);
+      const position = accountPosition(world, selection.identity)!;
+      expect(position.openingBalance.minorUnits).toBe(cash.localMinorUnits);
+      expect(flows.cash?.get(candidate.key)?.positionId).toBe(position.id);
+      const government = settled.publicBudgets!.governments.find(
+        (row) => row.key === candidate.key,
+      )!;
+      expect(government.months).toHaveLength(1);
+      expect(government.months[0]!.cashSettlement?.positionId).toBe(
+        position.id,
+      );
+      expect(
+        government.months[0]!.balance + government.months[0]!.reserve,
+      ).toBe(cash.localMinorUnits / 100);
+    }
+    expect(settled.history.resourceFlows).toEqual(before.history.resourceFlows);
+    expect(settled.history.resourceTransferOutcomes).toEqual(
+      before.history.resourceTransferOutcomes,
+    );
+    const bytes = serializeWorld(settled);
+    expect(
+      serializeWorld(ensureOpeningGovernmentAccounts(deserializeWorld(bytes))),
+    ).toBe(bytes);
+  });
+
+  it("preserves a sole saved jurisdiction account instead of relabeling it as a named government", () => {
+    const before = localFixture();
+    const candidate = localCandidate(before);
+    const identity: PublicGovernmentIdentity = {
+      kind: "jurisdiction",
+      jurisdictionId: candidate.jurisdictionId,
+    };
+    const world = ensurePublicGovernmentAccount(before, identity, {
+      amountMinorUnits: 7123,
+      sourceNote: "Existing account control.",
+    });
+    expect(selectLocalOpeningAccount(world, candidate)).toMatchObject({
+      status: "saved",
+      identity,
+    });
+    const next = ensureOpeningGovernmentAccounts(world);
+    expect(accountPosition(next, identity)).toEqual(
+      accountPosition(world, identity),
+    );
+    expect(
+      next.history.organizations.filter((row) =>
+        row.stableKey.startsWith("public-government:local:"),
+      ),
+    ).toHaveLength(4);
+    expect(
+      readMonthFlows(
+        ensurePublicBudgets(next),
+        ensurePublicBudgets(next).publicBudgets!,
+      ).flows.cash?.get(candidate.key)?.balanceMinorUnits,
+    ).toBe(7123);
+  });
+
+  it("refuses two actual saved accounts without consolidation or replacement", () => {
+    const before = localFixture();
+    const candidate = localCandidate(before);
+    const named = selectLocalOpeningAccount(before, candidate);
+    expect(named.status).toBe("unique-compiled");
+    if (named.status !== "unique-compiled")
+      throw new Error("Expected unique compiled unit.");
+    let world = ensurePublicGovernmentAccount(before, named.identity);
+    expect(() =>
+      ensurePublicGovernmentAccount(world, {
+        kind: "jurisdiction",
+        jurisdictionId: candidate.jurisdictionId,
+      }),
+    ).not.toThrow();
+    // Preserve an explicit legacy duplicate as input; the current account writer no longer creates one.
+    world = createOrganization(world, {
+      stableKey: publicOrganizationKey(candidate.jurisdictionId),
+      formedAt: world.currentDate,
+      provenance: {
+        kind: "authored",
+        note: "Explicit existing legacy duplicate control, not an opening writer.",
+      },
+      initialProfile: {
+        name: "Legacy jurisdiction account",
+        classification: "sector:government",
+        locationJurisdictionId: candidate.jurisdictionId,
+      },
+    });
+    const organizationId = world.history.organizations.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "legacy-duplicate:cash",
+      owner: { kind: "organization", organizationId },
+      openedAt: world.currentDate,
+      openingBalance: money(7123, "USD"),
+      provenance: {
+        kind: "authored",
+        note: "Explicit preserved duplicate cash control.",
+      },
+    });
+    expect(selectLocalOpeningAccount(world, candidate).status).toBe(
+      "ambiguous",
+    );
+    const next = ensureOpeningGovernmentAccounts(world);
+    expect(
+      next.history.resourcePositions.filter(
+        (row) =>
+          row.owner.kind === "organization" &&
+          world.history.resourcePositions.some((saved) => saved.id === row.id),
+      ),
+    ).toEqual(world.history.resourcePositions);
+    const opened = ensurePublicBudgets(next);
+    expect(
+      readMonthFlows(opened, opened.publicBudgets!).flows.cash?.has(
+        candidate.key,
+      ),
+    ).toBe(false);
+  });
+
+  it("does not replace a matching account with unusable saved ownership evidence", () => {
+    const before = localFixture();
+    const candidate = localCandidate(before);
+    const identity: PublicGovernmentIdentity = {
+      kind: "jurisdiction",
+      jurisdictionId: candidate.jurisdictionId,
+    };
+    const saved = ensurePublicGovernmentAccount(before, identity);
+    const organization = saved.history.organizations.find(
+      (row) => row.stableKey === publicGovernmentOrganizationKey(identity),
+    )!;
+    const profile = saved.history.organizationProfiles.find(
+      (row) => row.organizationId === organization.id,
+    )!;
+    const world = recordOrganizationProfile(saved, {
+      stableKey: "local-opening:unsupported-profile",
+      organizationId: organization.id,
+      effectiveAt: saved.currentDate,
+      name: profile.name,
+      classification: "sector:business",
+      locationJurisdictionId: profile.locationJurisdictionId,
+      supersedesProfileId: profile.id,
+      provenance: {
+        kind: "authored",
+        note: "Changed account classification control; no ownership assumption.",
+      },
+    });
+    expect(selectLocalOpeningAccount(world, candidate).status).toBe(
+      "unsupported",
+    );
+    const next = ensureOpeningGovernmentAccounts(world);
+    expect(
+      next.history.organizations.some(
+        (row) =>
+          row.stableKey ===
+          publicGovernmentOrganizationKey({
+            kind: "local-government",
+            governmentKey: localUnits[0]!.id,
+            jurisdictionId: candidate.jurisdictionId,
+          }),
+      ),
+    ).toBe(false);
+  });
+
+  it("refuses replacement when the saved account is outside the requested sequence cutoff", () => {
+    const before = localFixture();
+    const candidate = localCandidate(before);
+    const identity: PublicGovernmentIdentity = {
+      kind: "jurisdiction",
+      jurisdictionId: candidate.jurisdictionId,
+    };
+    const saved = ensurePublicGovernmentAccount(before, identity);
+    expect(
+      selectLocalOpeningAccount(saved, candidate, {
+        asOfDate: before.currentDate,
+        historySequenceExclusive: before.history.nextSequence,
+      }).status,
+    ).toBe("unsupported");
+  });
+
+  it("reports absent and unsupported joins and refuses local opening without the saved cash profile", () => {
+    const before = localFixture();
+    const candidate = localCandidate(before);
+    expect(
+      selectLocalOpeningAccount(before, {
+        ...candidate,
+        key: "place:absent",
+        geoid: "absent",
+      }).status,
+    ).toBe("absent");
+    expect(
+      selectLocalOpeningAccount(before, {
+        ...candidate,
+        key: "town:unsupported",
+      }).status,
+    ).toBe("unsupported");
+    const world: World = {
+      ...before,
+      history: {
+        ...before.history,
+        worldConditions: before.history.worldConditions!.map((record) => {
+          if (record.kind !== "world-opening") return record;
+          const legacy = { ...record };
+          delete legacy.publicCashOpening;
+          return legacy;
+        }),
+      },
+    };
+    const next = ensureOpeningGovernmentAccounts(world);
+    expect(
+      next.history.organizations.some((row) =>
+        row.stableKey.startsWith("public-government:local:"),
+      ),
+    ).toBe(false);
+  });
+  it("materializes the saved federal opening and settles the common account without new receipts", () => {
+    const before = fixture();
+    const profile = worldOpeningRecord(before)?.publicCashOpening;
+    expect(profile).toBeDefined();
+    const world = ensurePublicBudgets(before);
+    const government = world.publicBudgets!.federalGovernment;
+    expect(government?.jurisdictionId).toBe(NATIONAL_ELECTION_JURISDICTION.id);
+    const saved = position(world, NATIONAL_ELECTION_JURISDICTION.id);
+    expect(saved.openingBalance.minorUnits).toBe(profile!.federalMinorUnits);
+    expect(saved.provenance).toMatchObject({
+      note: expect.stringContaining(profile!.contractVersion),
+    });
+    const settled = settlePublicBudgets(world, month);
+    const row = settled.publicBudgets!.federalGovernment!.months[0]!;
+    expect(row.cashSettlement?.positionId).toBe(saved.id);
+    expect(row.balance).toBe(profile!.federalMinorUnits / 100);
+    expect(row.revenue).toEqual(row.revenue.map(() => 0));
+    expect(row.spending).toEqual(row.spending.map(() => 0));
+    expect(row.cashSettlement?.sourceRecordIds).toEqual([]);
+    expect(settled.history.resourceFlows).toEqual(before.history.resourceFlows);
+    expect(settled.history.resourceTransferOutcomes).toEqual(
+      before.history.resourceTransferOutcomes,
+    );
+    expect(settled.history.resourcePositions).toEqual(
+      world.history.resourcePositions,
+    );
+    const bytes = serializeWorld(settled);
+    expect(
+      serializeWorld(ensureOpeningGovernmentAccounts(deserializeWorld(bytes))),
+    ).toBe(bytes);
+    expect(
+      settlePublicBudgets(settled, month).publicBudgets!.federalGovernment!
+        .months,
+    ).toHaveLength(1);
+  });
+
+  it("does not substitute zero federal opening cash when the saved profile is absent", () => {
+    const before = ensureNationalElectionJurisdiction(fixture());
+    const world: World = {
+      ...before,
+      history: {
+        ...before.history,
+        worldConditions: before.history.worldConditions!.map((record) => {
+          if (record.kind !== "world-opening") return record;
+          const legacy = { ...record };
+          delete legacy.publicCashOpening;
+          return legacy;
+        }),
+      },
+    };
+    const next = ensureOpeningGovernmentAccounts(world);
+    expect(
+      next.history.organizations.some(
+        (record) =>
+          record.stableKey ===
+          publicOrganizationKey(NATIONAL_ELECTION_JURISDICTION.id),
+      ),
+    ).toBe(false);
+    expect(next.history.resourceTransferOutcomes).toEqual(
+      world.history.resourceTransferOutcomes,
+    );
+  });
+
   it("opens all 56 actual government identities with one sourced estimated position each", () => {
     const before = fixture();
     const world = ensurePublicBudgets(before);
