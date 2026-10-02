@@ -19,7 +19,6 @@ import { recordEventKnowledge } from "./records";
 import { createScheduledActivity, createWorkItem } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
-import { refreshLocalEconomy } from "./local-economy";
 import { advanceJobMarket } from "./job-market";
 import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
@@ -75,6 +74,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "candidacy-approach",
   "household-shortfall",
   "eviction-case",
+  "crime-report",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -93,6 +93,9 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   // Written by the rent day in `living-world/town-rent.ts` when a landlord
   // files against the lease the played person holds.
   "eviction-case": "adult.eviction-case",
+  // Written by the monthly crime pass in `crime/producer.ts` when an offense
+  // happened to the played person and nobody else it happened to reported it.
+  "crime-report": "adult.crime-report",
 };
 
 /**
@@ -115,6 +118,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "candidacy-approach": false,
   "household-shortfall": false,
   "eviction-case": false,
+  "crime-report": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -448,7 +452,7 @@ export function refreshLifeOpportunities(
   if (!person) return world;
   if (formativeIntervalAt(world, personId) !== null) return world;
 
-  let next = refreshLocalEconomy(world, personId);
+  let next = world;
   next = settleOfficeSalaries(next, personId);
   next = advanceJobMarket(next, personId);
   next = settleMortgages(next, personId);

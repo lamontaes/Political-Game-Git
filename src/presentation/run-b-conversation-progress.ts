@@ -115,7 +115,7 @@ export interface LegislativeBargainingSubjectFacts {
   readonly programProvisionKey: string;
   readonly programSectionLabel: string;
   readonly programHeading: string;
-  readonly programReach: string;
+  readonly programReach: ProvisionReach;
   /** What the whole bill commits as it currently reads. */
   readonly billAmountLabel: string;
 
@@ -410,7 +410,7 @@ export function canListenToRunBConversation(
 ): boolean {
   return progress.pendingContributions.length > 0 || !progress.silenceSettled;
 }
-import type { EntityId, MetricSegmentKey } from "../simulation";
+import type { EntityId, MetricSegmentKey, ProvisionReach } from "../simulation";
 import type {
   LegislativeMotifFamily,
   LegislativeVoice,

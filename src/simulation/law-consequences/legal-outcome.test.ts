@@ -1,13 +1,15 @@
-import { afterAll, describe, expect, it, vi } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate, addDays } from "../dates";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+  buildOpeningCourtCatalog,
+  seatsForCourt,
+  seatJudge,
+} from "../judiciary/courts";
+import { courtFor } from "../judiciary/court-for";
+import { lifePlaceStateIdentities } from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { stateJurisdictionForKey } from "../life-places";
@@ -30,9 +32,8 @@ import {
 } from "../legislation-scenarios";
 import { seatsForChamber } from "../legislature-game-profile";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
+import { recordGovernorDecisionOnMeasure } from "../governing/legislative-clock";
 import { assertWorldIntegrity } from "../world";
-import * as lifePlaces from "../life-places";
-import * as simulation from "../index";
 import { createLawConsequenceRegistry } from "../law-consequence-registry";
 import { personName } from "../people";
 import { validateLawConsequences } from "../law-consequence-validation";
@@ -47,11 +48,9 @@ import {
   type CourtCase,
 } from "../justice/court-reasoning";
 import {
-  sentenceMonthsForCase,
-  termMonths,
   referForProsecution,
   advanceProsecutions,
-  PROSECUTION_CHARGED_EVENT,
+  enterPlea,
 } from "../justice/prosecution";
 import {
   PROSECUTION_SENTENCED_EVENT,
@@ -65,6 +64,13 @@ import {
   minimumCustodyRow,
 } from "./legal-outcome";
 
+import { prosecutionTimingFor } from "../justice/prosecution-timing";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { resolveFutureDueItemsThrough } from "../future-transitions";
+
+import { sourcedCustodyBoundsForCase } from "../justice/sentencing-term";
+import { sentencingRangeForCase } from "../justice/sentencing-ranges";
+
 const propositionId = "proposition_test_minimums" as EntityId;
 const cashBailQuestion =
   "us-policy-positions:justice-public-safety.end-cash-bail";
@@ -72,9 +78,15 @@ const places = Object.keys(
   startingLaw.questions[cashBailQuestion].answers,
 ).sort();
 const namedProofs: unknown[] = [];
+const nativeDiagnostics: unknown[] = [];
 afterAll(() => {
   const target = process.env.G10_PROOF_REPORT_PATH;
   if (target) writeFileSync(target, JSON.stringify(namedProofs, null, 2));
+  if (process.env.G10_DIAGNOSTIC_REPORT_PATH)
+    writeFileSync(
+      process.env.G10_DIAGNOSTIC_REPORT_PATH,
+      JSON.stringify(nativeDiagnostics, null, 2),
+    );
 });
 
 describe("recorded floors reach saved sentences", () => {
@@ -83,77 +95,43 @@ describe("recorded floors reach saved sentences", () => {
   it.each(states)(
     "saves the actual defendant's sentence and stamp in $jurisdictionKey",
     (state) => {
-      const place =
-        searchLifePlaces("", 5000, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "locality",
-        })[0] ??
-        searchLifePlaces("", 5, {
-          stateJurisdictionKey: state.jurisdictionKey,
-          scope: "state",
-        })[0]!;
       const seed = `team9-g10-floor:${state.jurisdictionKey}`;
-      // Only the fixture's opening input date changes. All people, activities,
-      // judicial offices and due records are produced at that date by the real
-      // opening writer; no existing save or due item is moved across a year.
       const sittingDate = makeIsoDate("2027-01-05");
-      const lookup = lifePlaces.lifePlaceByKey;
-      const requirePlace = simulation.requireLifePlace;
-      const constructorPlace = vi
-        .spyOn(simulation, "requireLifePlace")
-        .mockImplementation((key) => {
-          const found = requirePlace(key);
-          return found.key === place.key
-            ? {
-                ...found,
-                context: {
-                  ...found.context,
-                  initialMoment: {
-                    ...found.context.initialMoment,
-                    date: sittingDate,
-                  },
-                },
-              }
-            : found;
-        });
-      const placeInput = vi
-        .spyOn(simulation, "lifePlaceByKey")
-        .mockImplementation((key) => {
-          const found = lookup(key);
-          return found?.key === place.key
-            ? {
-                ...found,
-                context: {
-                  ...found.context,
-                  initialMoment: {
-                    ...found.context.initialMoment,
-                    date: sittingDate,
-                  },
-                },
-              }
-            : found;
-        });
-      let game;
-      try {
-        game = generateOpeningLife(
-          prepareOpeningLife({
-            ...DEFAULT_NEW_GAME_SETUP,
-            seed,
-            placeKey: place.key,
-            startAge: 40,
-            questionnaire: "skipped",
-          }),
-        ).game!;
-      } finally {
-        placeInput.mockRestore();
-        constructorPlace.mockRestore();
-      }
-      const personId = game.playerPersonId;
-      expect(game.world.currentDate).toBe(sittingDate);
+      const opening = smallWorld({
+        place: state.jurisdictionKey,
+        people: 40,
+        seed,
+        date: sittingDate,
+        offices: ["governor", "state-legislature"],
+      });
+      const personId = opening.personId;
+      let world = buildOpeningCourtCatalog(opening.world);
+      const court = courtFor(
+        world,
+        opening.jurisdictionId,
+        "local-general-trial",
+        "criminal",
+      );
+      expect(court).toBeDefined();
+      const seat = seatsForCourt(world, court!.courtId)[0]!;
+      world = seatJudge(world, {
+        seatId: seat.seatId,
+        personId: world.personOrder[39]!,
+        startedAt: world.currentDate,
+        selection: {
+          path: "initial-world",
+          selectionRecordId: null,
+          decisionRecordId: null,
+          selectingPersonId: null,
+          contestId: null,
+          note: "Authored court fixture seats an actual generated resident through the existing writer.",
+        },
+        termEndsAt: null,
+        retentionDueAt: null,
+      });
       const actualPropositionId = Object.values(
-        game.world.policyCatalog.propositions,
+        world.policyCatalog.propositions,
       ).find((entry) => entry.stableKey === MINIMUM_CUSTODY_QUESTION)!.id;
-      let world = game.world;
       const venue = stateJurisdictionForKey(state.jurisdictionKey)!.id;
       const profile = legislativeProcedureForJurisdiction(world, venue)!;
       const pack = legislativeRulePackForWorld(
@@ -242,6 +220,17 @@ describe("recorded floors reach saved sentences", () => {
         measurePosition(world, measured.id).phase !== "awaiting-enactment";
         guard++
       ) {
+        if (
+          measurePosition(world, measured.id).phase === "awaiting-executive"
+        ) {
+          world = recordGovernorDecisionOnMeasure(
+            world,
+            measured.id,
+            "signed",
+            "Authored test approval: the governor signs the minimum-custody act.",
+          );
+          continue;
+        }
         const step = availableMeasureSteps(world, measured.id).find(
           (key) => key !== "offer-amendment",
         );
@@ -251,6 +240,9 @@ describe("recorded floors reach saved sentences", () => {
           );
         world = applyLegislativeStep(procedure, world, step).world;
       }
+      expect(measurePosition(world, measured.id).phase).toBe(
+        "awaiting-enactment",
+      );
       world = recordEnactment(world, {
         stableKey: "g10:canonical-floor:enacted",
         measureId: measured.id,
@@ -268,31 +260,29 @@ describe("recorded floors reach saved sentences", () => {
         evidence: "documentary",
         standingFindings: 6,
       });
-      const due: World = {
-        ...referred.world,
-        history: {
-          ...referred.world.history,
-          events: referred.world.history.events.map((entry) =>
-            entry.id === referred.referralId
-              ? { ...entry, occurredAt: addDays(world.currentDate, -200) }
-              : entry,
-          ),
-        },
-      };
-      const charged = advanceProsecutions(due);
-      const trialDue: World = {
-        ...charged,
-        history: {
-          ...charged.history,
-          events: charged.history.events.map((entry) =>
-            entry.type === PROSECUTION_CHARGED_EVENT &&
-            entry.involvedEntityIds.includes(personId)
-              ? { ...entry, occurredAt: addDays(world.currentDate, -120) }
-              : entry,
-          ),
-        },
-      };
-      const sentenced = advanceProsecutions(trialDue);
+      // Use the existing actual-state court clock; never rewrite saved dates.
+      const timing = prosecutionTimingFor(state.jurisdictionKey);
+      const chargedAt = addDays(
+        referred.world.currentDate,
+        timing.chargeDecisionDays,
+      );
+      const charged = resolveFutureDueItemsThrough(
+        referred.world,
+        chargedAt,
+        createCampaignElectionTransitionRegistry(),
+      );
+      const plea = enterPlea(charged, {
+        personId,
+        referralId: referred.referralId,
+        plea: "guilty",
+      });
+      expect(plea.ok).toBe(true);
+      const trialAt = addDays(chargedAt, timing.resolveAfterDays);
+      const sentenced = resolveFutureDueItemsThrough(
+        plea.world,
+        trialAt,
+        createCampaignElectionTransitionRegistry(),
+      );
       const event = sentenced.history.events.find(
         (entry) =>
           entry.type === PROSECUTION_SENTENCED_EVENT &&
@@ -300,13 +290,66 @@ describe("recorded floors reach saved sentences", () => {
             (p) => p.role === "focus:defendant" && p.personId === personId,
           ),
       );
+      const nativeCase: CourtCase = {
+        caseKey: `prosecution-decided-v3:referral:g10-floor-fixture`,
+        defendantId: personId,
+        offenseKey: "crime:robbery",
+        offenseLabel: "robbery",
+        evidence: "documentary",
+        standingFindings: 6,
+        venueJurisdictionId: venue,
+        stateKey: state.jurisdictionKey,
+      };
+      nativeDiagnostics.push({
+        seed,
+        state: state.jurisdictionKey,
+        personId,
+        measureId: measured.id,
+        currentDate: sentenced.currentDate,
+        effectiveAt: world.currentDate,
+        referralId: referred.referralId,
+        range: sentencingRangeForCase(nativeCase),
+        floor: custodyFloorAt(sentenced, nativeCase),
+        bounds: sourcedCustodyBoundsForCase(sentenced, nativeCase),
+        selectedSentence: event ?? null,
+        caseStages: sentenced.history.events.filter((entry) =>
+          entry.tags.includes(`justice.referral:${referred.referralId}`),
+        ),
+        termDecisions: sentenced.history.decisionTraces.filter((entry) =>
+          entry.context.stableKey.includes("g10-floor-fixture:custody-term"),
+        ),
+      });
       expect(event, `${seed}, person ${personId}`).toBeDefined();
-      expect(event!.tags).toContain(`${SENTENCE_MONTHS_TAG}120`);
+      const months = Number(
+        event!.tags
+          .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
+          ?.slice(SENTENCE_MONTHS_TAG.length),
+      );
+      const bounds = sourcedCustodyBoundsForCase(sentenced, nativeCase)!;
+      expect(Number.isFinite(months)).toBe(true);
+      expect(months).toBeGreaterThanOrEqual(bounds.minimumMonths);
+      if (bounds.maximumMonths !== null)
+        expect(months).toBeLessThanOrEqual(bounds.maximumMonths);
+      const decisionKey = event!.tags
+        .find((tag) => tag.startsWith("justice.sentence-term-decision:"))!
+        .slice("justice.sentence-term-decision:".length);
+      const choice = sentenced.history.decisionTraces.find(
+        (trace) => trace.context.stableKey === decisionKey,
+      )!;
+      expect(choice).toBeDefined();
+      expect(choice.context.randomness).toBe("none");
+      expect(
+        choice.context.options.find(
+          (option) => option.key === choice.selectedOptionKey,
+        )?.label,
+      ).toBe(`${months} months`);
+      // CTO ruling 26 keeps Iowa's actual minimum choice exactly 120.
+      if (state.jurisdictionKey === "US-IA") expect(months).toBe(120);
       const resolved = legalOutcomeRegistration.resolve(
         sentenced,
         minimumCustodyRow,
         {
-          onDate: world.currentDate,
+          onDate: event!.occurredAt,
           activity: "case-stage",
           activityId: event!.id,
           subjectIds: [personId],
@@ -331,7 +374,7 @@ describe("recorded floors reach saved sentences", () => {
       const saved = reloaded.history.events.find(
         (entry) => entry.id === event!.id,
       )!;
-      expect(saved.summary).toContain("120 months");
+      expect(saved.summary).toContain(`${months} months`);
       expect(saved).toEqual(event);
       expect(saved).not.toHaveProperty("lawEffectStamps");
       const consequence = reloaded.history.legalOutcomeConsequences!.find(
@@ -351,7 +394,12 @@ describe("recorded floors reach saved sentences", () => {
         personId,
         name: personName(reloaded.people[personId]!),
         sentenceId: saved.id,
-        months: 120,
+        months,
+        recordedChoice: choice.selectedOptionKey,
+        operativeBounds: {
+          minimumMonths: bounds.minimumMonths,
+          maximumMonths: bounds.maximumMonths,
+        },
         measureId: measured.id,
         summary: saved.summary,
         consequenceId: consequence.id,
@@ -627,22 +675,29 @@ describe("recorded custody floors through the existing sentence writer", () => {
   });
   it("covers all 56 jurisdictions", () => expect(places).toHaveLength(56));
   it.each(places)(
-    "enforces recorded months and preserves unbound parity in %s",
+    "enforces recorded months and preserves sourced bounds after repeal in %s",
     (place) => {
       const { world, courtCase, measure, enactment } = fixture(place);
       expect(custodyFloorAt(world, courtCase)?.months).toBe(120);
       expect(mandatoryJailUnderLaw(world, courtCase)).toContain("120 months");
-      expect(sentenceMonthsForCase(world, "jail", courtCase)).toBe(120);
+      const range = sentencingRangeForCase(courtCase)!;
+      expect(range).not.toBeNull();
+      const bounds = sourcedCustodyBoundsForCase(world, courtCase);
+      expect(bounds?.minimumMonths).toBe(Math.max(120, range.minMonths));
+      expect(bounds?.maximumMonths).toBe(
+        range.maxMonths === null ? null : Math.max(120, range.maxMonths),
+      );
+      expect(bounds?.range).toEqual(range); // Source row is never relabeled.
       const uncovered = { ...courtCase, offenseKey: "crime:vandalism" };
       expect(custodyFloorAt(world, uncovered)).toBeNull();
-      expect(sentenceMonthsForCase(world, "jail", uncovered)).toBe(
-        termMonths("jail", 1),
-      );
+      expect(sourcedCustodyBoundsForCase(world, uncovered)).toBeNull();
+      // No saved vandalism grade means no numerical charge-grade default.
       const absent = fixture(place, null);
       expect(custodyFloorAt(absent.world, absent.courtCase)).toBeNull();
       expect(
-        sentenceMonthsForCase(absent.world, "jail", absent.courtCase),
-      ).toBe(termMonths("jail", 1));
+        sourcedCustodyBoundsForCase(absent.world, absent.courtCase)
+          ?.minimumMonths,
+      ).toBe(range.minMonths);
       const zero = fixture(place, 0);
       expect(custodyFloorAt(zero.world, zero.courtCase)?.months).toBe(0);
       expect(mandatoryJailUnderLaw(zero.world, zero.courtCase)).toBeNull();
@@ -673,9 +728,12 @@ describe("recorded custody floors through the existing sentence writer", () => {
         },
       };
       expect(custodyFloorAt(repealed, courtCase)).toBeNull();
-      expect(sentenceMonthsForCase(repealed, "jail", courtCase)).toBe(
-        termMonths("jail", 1),
-      );
+      expect(
+        sourcedCustodyBoundsForCase(repealed, courtCase)?.minimumMonths,
+      ).toBe(range.minMonths);
+      expect(
+        sourcedCustodyBoundsForCase(repealed, courtCase)?.maximumMonths,
+      ).toBe(range.maxMonths);
     },
   );
 });

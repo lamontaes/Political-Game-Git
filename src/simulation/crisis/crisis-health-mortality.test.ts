@@ -8,7 +8,12 @@ import { addDays, makeIsoDate } from "../dates";
 import { createDemoWorld } from "../demo";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, IsoDate, Person, World } from "../types";
-import { isPersonAliveAt, personFunctionalCapacityAt } from "../vitality";
+import * as vitality from "../vitality";
+import {
+  isPersonAliveAt,
+  MORTALITY_TRANSITION_KEY,
+  personFunctionalCapacityAt,
+} from "../vitality";
 import {
   advanceWorld,
   assertWorldIntegrity,
@@ -29,9 +34,10 @@ import {
   DEATH_CAUSE_SUDDEN_ILLNESS,
   discloseHealthEpisode,
   ensureCrisisMortality,
+  FATAL_ILLNESS_EPISODE_PREFIX,
   latestHealthState,
   MORTALITY_CAUSE_KEY,
-  mortalityCrossingDay,
+  strainCrossingDay,
   OFFICIAL_FUNERAL_EVENT_TYPES,
   publicOfficesHeldBy,
   UNRESEARCHED_OFFICIAL_FUNERAL,
@@ -143,15 +149,10 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
       const whole = advanceWorld(world, 1_100, REGISTRY);
       const deaths = deathsOf(whole);
       expect(deaths.length).toBeGreaterThan(0);
-      // Each death carries a broad cause now; none is left unresolved.
+      // Each death follows its serious episode (Ruling 29); none is left
+      // unresolved.
       expect(
-        deaths.every((d) =>
-          [
-            DEATH_CAUSE_ILLNESS_WITH_COURSE,
-            DEATH_CAUSE_SUDDEN_ILLNESS,
-            DEATH_CAUSE_INJURY,
-          ].some((key) => d.endsWith(key)),
-        ),
+        deaths.every((d) => d.endsWith(DEATH_CAUSE_ILLNESS_WITH_COURSE)),
       ).toBe(true);
       expect(deaths.some((d) => d.endsWith(MORTALITY_CAUSE_KEY))).toBe(false);
       for (const step of [1, 7, 31, 90, 365]) {
@@ -174,7 +175,7 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
   );
 
   it(
-    "is deterministic by seed, records each death on its exact crossing day, and never prewrites a date",
+    "is deterministic by seed, begins each death's episode on its strain's crossing day, and never prewrites a date",
     () => {
       const a = advanceWorld(cohortWorld("crisis-seed-a").world, 800, REGISTRY);
       const b = advanceWorld(cohortWorld("crisis-seed-a").world, 800, REGISTRY);
@@ -183,10 +184,24 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
       const c = advanceWorld(cohortWorld("crisis-seed-c").world, 800, REGISTRY);
       expect(deathsOf(c)).not.toEqual(deathsOf(a));
       for (const death of a.history.personDeaths) {
-        const month = `${death.diedAt.slice(0, 8)}01` as IsoDate;
-        expect(
-          mortalityCrossingDay(a, death.personId, month, addDays(month, 40)),
-        ).toBe(death.diedAt);
+        const episode = crisisRecords(a).find(
+          (record) =>
+            record.kind === "health-episode" &&
+            record.personId === death.personId &&
+            record.stableKey.startsWith(FATAL_ILLNESS_EPISODE_PREFIX),
+        )!;
+        expect(death.sourceEntityIds).toContain(episode.id);
+        // The episode began the day the strain crossed, or the next day when
+        // the crossing was found on its own day.
+        const month = `${episode.effectiveAt.slice(0, 8)}01` as IsoDate;
+        const crossed = strainCrossingDay(
+          a,
+          death.personId,
+          month,
+          addDays(month, 40),
+        )!;
+        expect([crossed, addDays(crossed, 1)]).toContain(episode.effectiveAt);
+        expect(episode.stableKey.endsWith(`:${death.diedAt}`)).toBe(true);
         expect(death.recordedAt).toBe(death.diedAt);
       }
       // No stored record carries a future death date.
@@ -224,8 +239,8 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
       );
       const notices = crisisPersonDeathNotices(run);
       expect(notices.length).toBe(run.history.personDeaths.length);
-      // A drawn broad cause is a resolved cause; the older unresolved key is
-      // the only unresolved one.
+      // A death after its serious episode is a resolved cause; the older
+      // unresolved key is the only unresolved one.
       expect(notices.every((n) => !n.heldOffice && n.causeResolved)).toBe(true);
       expect(crisisOfficeContinuityNotices(run)).toEqual([]);
       // The private death event is not public news.
@@ -236,6 +251,91 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
     },
     SLOW,
   );
+});
+
+describe("one death engine (A130)", () => {
+  it("writes every ordinary death through crisis/mortality.ts, and nothing schedules or handles an annual check", () => {
+    // The annual check's writer and handler are gone from the code.
+    expect(vitality).not.toHaveProperty("schedulePersonMortalityCheck");
+    expect(vitality).not.toHaveProperty("mortalityTransitionHandler");
+    expect(vitality).not.toHaveProperty("mortalityRngForPlan");
+    // The clock a player's day runs on has no handler for one.
+    expect(
+      createCampaignElectionTransitionRegistry().get(MORTALITY_TRANSITION_KEY),
+    ).toBeUndefined();
+    expect(REGISTRY.get(MORTALITY_TRANSITION_KEY)).toBeUndefined();
+
+    const run = advanceWorld(
+      cohortWorld("a130-one-engine").world,
+      800,
+      REGISTRY,
+    );
+    expect(run.history.personDeaths.length).toBeGreaterThan(0);
+    for (const death of run.history.personDeaths) {
+      // The stable key crisis/mortality.ts writes, with a crisis cause.
+      expect(death.stableKey).toBe(
+        `crisis:mortality:death:${death.personId}:${death.diedAt}`,
+      );
+      expect([
+        DEATH_CAUSE_ILLNESS_WITH_COURSE,
+        DEATH_CAUSE_SUDDEN_ILLNESS,
+        DEATH_CAUSE_INJURY,
+      ]).toContain(death.causeKey);
+    }
+    expect(run.history.mortalityCheckPlans).toEqual([]);
+    expect(run.history.mortalityCheckResults).toEqual([]);
+    expect(
+      run.history.futureDueItems.some(
+        (item) => item.transitionKey === MORTALITY_TRANSITION_KEY,
+      ),
+    ).toBe(false);
+  }, 60_000);
+
+  it("still opens a save whose death the annual check wrote, and writes nothing new for it", async () => {
+    // Written by the annual check before it was removed: one person, a
+    // certain-death life table, the check's plan, its died result, the death.
+    const fixture = await import("./fixtures/dormant-annual-check-save.json", { with: { type: "json" } });
+    const old = deserializeWorld(JSON.stringify(fixture.default));
+    expect(() => assertWorldIntegrity(old)).not.toThrow();
+    expect(old.history.mortalityCheckPlans).toHaveLength(1);
+    const result = old.history.mortalityCheckResults[0]!;
+    expect(result.outcome).toBe("died");
+    const death = old.history.personDeaths.find(
+      (row) => row.id === result.deathRecordId,
+    )!;
+    expect(
+      isPersonAliveAt(old, death.personId, {
+        asOfDate: old.currentDate,
+        historySequenceExclusive: old.history.nextSequence,
+      }),
+    ).toBe(false);
+
+    // A year on, the save keeps its records as written and gains none.
+    const later = advanceWorld(ensureCrisisMortality(old), 365, REGISTRY);
+    expect(later.history.mortalityCheckPlans).toEqual(
+      old.history.mortalityCheckPlans,
+    );
+    expect(later.history.mortalityCheckResults).toEqual(
+      old.history.mortalityCheckResults,
+    );
+    expect(
+      later.history.futureDueItems.filter(
+        (item) => item.transitionKey === MORTALITY_TRANSITION_KEY,
+      ),
+    ).toEqual(
+      old.history.futureDueItems.filter(
+        (item) => item.transitionKey === MORTALITY_TRANSITION_KEY,
+      ),
+    );
+    expect(
+      later.history.personDeaths.filter(
+        (row) => row.personId === death.personId,
+      ),
+    ).toEqual([death]);
+    expect(() =>
+      assertWorldIntegrity(deserializeWorld(serializeWorld(later))),
+    ).not.toThrow();
+  }, 60_000);
 });
 
 describe("CRISIS K2 health, disclosure, recovery and death", () => {

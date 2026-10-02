@@ -1,4 +1,11 @@
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  dateAtAge,
+  makeIsoDate,
+  spokenDate,
+} from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
@@ -7,8 +14,10 @@ import {
   referForProsecution,
   type ProsecutionReferralInput,
 } from "../justice/prosecution";
+import { recordsByKey } from "../history-index";
+import { stableHash } from "../ids";
+import { peopleTiedTo } from "../neighbor-news";
 import { recordEventKnowledge } from "../records";
-import { SeededRng } from "../rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -19,11 +28,13 @@ import type {
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
-import { worldOpeningVersionOf } from "../world-setup/conditions";
+import {
+  worldOpeningRecord,
+  worldOpeningVersionOf,
+} from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import {
   CRIME_CONTRACT_VERSION,
-  crimeRule,
   REPORTED_OFFENSE_PHRASE,
   UNRESEARCHED_LOCAL_CRIME,
   UNRESEARCHED_TOWN_POLICE_LOG,
@@ -32,14 +43,25 @@ import {
   type CrimeOffense,
 } from "./contract";
 import { crimeRateMultiplier } from "./causes";
-import { offenderFor, policeCanName } from "./offenders";
+import {
+  eligibleOffenders,
+  offenderFor,
+  offenderWeight,
+  offenseAgainstAPerson,
+  policeCanName,
+  UNRESEARCHED_OFFENDERS,
+} from "./offenders";
+import { decideReport, priorVictimizations } from "./reporting";
 
 /**
  * Ordinary local crime, as background life.
  *
- * Once a month the world looks back over the month that just ended and draws,
+ * Once a month the world looks back over the month that just ended and finds,
  * for every represented resident and home in a local place, whether any of
- * the represented offenses happened to them. An offense the victim reports
+ * the represented offenses happened to them. Nothing is drawn: the town's
+ * rate is spread over its people and homes by the causes that point at each
+ * one (`UNRESEARCHED_VICTIM_EXPOSURE`), and an offense happens on the day a
+ * target's exposure reaches it. An offense the victim reports
  * becomes a public police record in their town, which the local paper sees on
  * its weekly sweep like any other public record. One the victim keeps to
  * themselves stays private: only the people it happened to know.
@@ -119,16 +141,342 @@ export interface SampledCrime {
   readonly victimPersonIds: readonly EntityId[];
   readonly occurredAt: IsoDate;
   readonly reported: boolean;
+  /**
+   * The played person, when it happened to them and nobody else reported
+   * it: the choice to report is put to them in play.
+   */
+  readonly playerChooses: EntityId | null;
 }
 
-function monthlyChance(annualRate: number): number {
-  return 1 - Math.exp(-annualRate / 12);
+/**
+ * PLACEHOLDER sizes: how a town's offenses fall on its people and homes
+ * (A131). Nothing is drawn. The town's total for each offense is the rate in
+ * `UNRESEARCHED_LOCAL_CRIME` times every represented target, moved by the
+ * place's conditions (`./causes`); that total is a check, and causes decide
+ * who it falls on:
+ *
+ * - the resident whose circumstances point at the target most, by the
+ *   offender weights in `./offenders` (being out of work, age, a past record,
+ *   a taste for risk, a diploma, and knowing the victim, which is the
+ *   recorded relationship). Who can offend at all is the law in force: the
+ *   adult court age where the town is, and nobody serving a jail term;
+ * - people the world does not name, as a stranger with `strangerPoints`;
+ * - earlier offenses against the same victims: repeat victims are a fifth of
+ *   victims and half of all violent victimizations (BJS, Repeat Violent
+ *   Victimization, 2005-14, NCJ 250567); the size of the pull is a
+ *   placeholder.
+ *
+ * Each target's exposure builds at its share of the town's rate from the
+ * later of the day the world opened and the day its exposure began (a
+ * person's `minimumVictimAge` birthday, a home's first day at its address).
+ * An offense happens on the day the exposure built since then reaches one
+ * more offense than are on record against the target since then. Counting
+ * the record, not a remembered total, means a change in causes moves the
+ * next day without ever repeating or skipping one.
+ *
+ * How far along a target already was when the world opened is not on record;
+ * see `openingExposure`. Research: `who-becomes-a-victim-of-local-crime`.
+ */
+export const UNRESEARCHED_VICTIM_EXPOSURE = {
+  provenance: "unresearched-blanket-rule",
+  /** Offender-weight points that multiply a target's exposure by e. */
+  pointsPerFold: 1,
+  /** The circumstances of a stranger the world does not name, in points. */
+  strangerPoints: 0,
+  /** How far earlier offenses against the victims raise exposure, at most. */
+  repeatPull: 1,
+  researchQuestions: ["who-becomes-a-victim-of-local-crime"],
+} as const;
+
+const DAYS_PER_YEAR = 365.25;
+
+/** One target's exposure to one offense in the month being looked back on. */
+export interface CrimeExposure {
+  readonly offense: CrimeOffense;
+  readonly jurisdictionId: EntityId;
+  /** The represented person, or the represented household. */
+  readonly targetId: EntityId;
+  readonly victimPersonIds: readonly EntityId[];
+  /**
+   * The day exposure is counted from: the world's opening, or the later day
+   * this target's exposure began.
+   */
+  readonly since: IsoDate;
+  /** Exposure already built on `since`, in offenses (below one). */
+  readonly startingExposure: number;
+  /** Offenses on record against this target since `since`. */
+  readonly recorded: number;
+  /** The resident whose circumstances point at the target most, or null. */
+  readonly pointedAtBy: EntityId | null;
+  /** That resident's circumstances, in the offender weights' points. */
+  readonly points: number | null;
+  /** Earlier offenses against the victims (the most any of them has had). */
+  readonly priorVictimizations: number;
+  /** Expected offenses per year against this target: its share of the town's. */
+  readonly annualRate: number;
 }
 
-function stream(world: World, ...parts: readonly string[]): SeededRng {
-  return new SeededRng(CRIME_CONTRACT_VERSION).fork(
-    JSON.stringify([CRIME_CONTRACT_VERSION, world.seed, ...parts]),
-  );
+interface Target {
+  readonly offense: CrimeOffense;
+  readonly targetId: EntityId;
+  readonly victimPersonIds: readonly EntityId[];
+  readonly since: IsoDate;
+}
+
+/**
+ * Every represented target's exposure to every offense for the month
+ * starting `monthStart`. Pure: reads the world, writes nothing.
+ */
+export function crimeExposures(
+  world: World,
+  monthStart: IsoDate,
+): readonly CrimeExposure[] {
+  const cutoff = {
+    asOfDate: world.currentDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const alive = (personId: EntityId) =>
+    isPersonAliveAt(world, personId, cutoff);
+  const { minimumVictimAge } = UNRESEARCHED_LOCAL_CRIME;
+  const oldEnough = (personId: EntityId) =>
+    ageOnDate(world.people[personId]!.birthDate, monthStart) >=
+    minimumVictimAge;
+  const targetsByTown = new Map<EntityId, Target[]>();
+  const add = (town: EntityId, target: Target) => {
+    const list = targetsByTown.get(town) ?? [];
+    list.push(target);
+    targetsByTown.set(town, list);
+  };
+  // Nobody offends against their own home, so housemates never point at
+  // each other's victims.
+  const housemates = new Map<EntityId, Set<EntityId>>();
+
+  for (const household of [...world.history.households].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    const location = householdLocationAt(world, household.id, cutoff);
+    if (!location || !isLocalPlace(location.jurisdictionId)) continue;
+    if (!world.jurisdictions[location.jurisdictionId]) continue;
+    const residents = peopleInHouseholdAt(world, household.id, cutoff).filter(
+      (personId) => world.people[personId] && alive(personId),
+    );
+    for (const personId of residents) {
+      const mates = housemates.get(personId) ?? new Set<EntityId>();
+      for (const mate of residents) mates.add(mate);
+      housemates.set(personId, mates);
+    }
+    // A home nobody represented lives in has nobody to notice or report it.
+    const knowers = residents.filter(oldEnough);
+    if (knowers.length === 0) continue;
+    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+      if (rule.target !== "household") continue;
+      add(location.jurisdictionId, {
+        offense: rule.offense,
+        targetId: household.id,
+        victimPersonIds: knowers,
+        since: location.effectiveAt,
+      });
+    }
+  }
+
+  for (const personId of Object.keys(world.people).sort() as EntityId[]) {
+    const person = world.people[personId]!;
+    if (person.birthDate > monthStart) continue;
+    if (!isLocalPlace(person.homeJurisdictionId)) continue;
+    if (!world.jurisdictions[person.homeJurisdictionId]) continue;
+    if (!alive(personId) || !oldEnough(personId)) continue;
+    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+      if (rule.target !== "person") continue;
+      add(person.homeJurisdictionId, {
+        offense: rule.offense,
+        targetId: personId,
+        victimPersonIds: [personId],
+        since: dateAtAge(person.birthDate, minimumVictimAge),
+      });
+    }
+  }
+
+  const multiplier = causeMultipliers(world, monthStart);
+  const opened = openedOn(world, monthStart);
+  const { pointsPerFold, strangerPoints, repeatPull } =
+    UNRESEARCHED_VICTIM_EXPOSURE;
+  const { nameAt } = UNRESEARCHED_OFFENDERS;
+  const pull = (points: number) => Math.exp((points - nameAt) / pointsPerFold);
+  const exposures: CrimeExposure[] = [];
+  for (const town of [...targetsByTown.keys()].sort()) {
+    const targets = targetsByTown.get(town)!;
+    const offenders = eligibleOffenders(world, town, monthStart).map(
+      (offender) => ({
+        offender,
+        known: new Set(peopleTiedTo(world, [offender.personId], "known")),
+      }),
+    );
+    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
+      const ofRule = targets.filter(
+        (target) => target.offense === rule.offense,
+      );
+      if (ofRule.length === 0) continue;
+      const againstPerson = offenseAgainstAPerson(rule.offense);
+      const scored = offenders.map(({ offender, known }) => {
+        const score = (knowsVictim: boolean) =>
+          offenderWeight(world, offender.personId, rule.offense, {
+            age: offender.age,
+            priorRecord: offender.priorRecord,
+            knowsVictim,
+            diploma: offender.diploma,
+          }).score;
+        return {
+          personId: offender.personId,
+          known,
+          stranger: score(false),
+          acquainted: againstPerson ? score(true) : score(false),
+        };
+      });
+      const weighed = ofRule.map((target) => {
+        const excluded = new Set<EntityId>(target.victimPersonIds);
+        for (const victim of target.victimPersonIds)
+          for (const mate of housemates.get(victim) ?? []) excluded.add(mate);
+        let pointedAtBy: EntityId | null = null;
+        let points: number | null = null;
+        for (const row of scored) {
+          if (excluded.has(row.personId)) continue;
+          const knows = target.victimPersonIds.some((victim) =>
+            row.known.has(victim),
+          );
+          const value = knows ? row.acquainted : row.stranger;
+          if (points === null || value > points) {
+            points = value;
+            pointedAtBy = row.personId;
+          }
+        }
+        const prior = Math.max(
+          0,
+          ...target.victimPersonIds.map((victim) =>
+            priorVictimizations(world, victim, monthStart),
+          ),
+        );
+        const weight =
+          (pull(strangerPoints) + (points === null ? 0 : pull(points))) *
+          (1 + repeatPull * (1 - Math.exp(-prior)));
+        return { target, pointedAtBy, points, prior, weight };
+      });
+      const total = weighed.reduce((sum, row) => sum + row.weight, 0);
+      const townRate =
+        rule.annualRate * multiplier(town, rule.offense) * ofRule.length;
+      for (const row of weighed) {
+        const key = `${rule.offense}:${row.target.targetId}`;
+        const since = row.target.since > opened ? row.target.since : opened;
+        exposures.push({
+          offense: rule.offense,
+          jurisdictionId: town,
+          targetId: row.target.targetId,
+          victimPersonIds: row.target.victimPersonIds,
+          since,
+          startingExposure: since === opened ? openingExposure(world, key) : 0,
+          recorded: offensesOnRecord(world, key, since, monthStart),
+          pointedAtBy: row.pointedAtBy,
+          points: row.points,
+          priorVictimizations: row.prior,
+          annualRate: total > 0 ? (townRate * row.weight) / total : 0,
+        });
+      }
+    }
+  }
+  return exposures;
+}
+
+/** What an exposure needs to say when the next offense comes. */
+export interface ExposureClock {
+  readonly since: IsoDate;
+  readonly startingExposure: number;
+  readonly recorded: number;
+  readonly annualRate: number;
+}
+
+/**
+ * The days in [from, to] on which the exposure built since `since` reaches
+ * one more offense than `recorded`, oldest first. One already owed when
+ * causes rose comes on `from`. Pure.
+ */
+export function exposureDays(
+  clock: ExposureClock,
+  from: IsoDate,
+  to: IsoDate,
+): readonly IsoDate[] {
+  if (!(clock.annualRate > 0) || clock.since > to) return [];
+  const perDay = clock.annualRate / DAYS_PER_YEAR;
+  // A target whose share of the town's rate is tiny reaches its next offense
+  // centuries out; counting the offset against the window first keeps that
+  // day from ever being written as a date.
+  const span = daysBetween(clock.since, to);
+  const days: IsoDate[] = [];
+  for (let unit = clock.recorded + 1; ; unit += 1) {
+    // The day whose end brings the exposure to `unit` offenses.
+    const needed = (unit - clock.startingExposure) / perDay;
+    const offset = Math.max(0, Math.ceil(needed) - 1);
+    if (!(offset <= span)) break;
+    const day = addDays(clock.since, offset);
+    if (day > to) break;
+    days.push(day < from ? from : day);
+  }
+  return days;
+}
+
+/**
+ * ESTIMATED FROM AVERAGE: how far toward its next offense a target already
+ * was on the day the world opened. Nothing before the opening is on record,
+ * so a starting value is spread evenly between none and one whole offense
+ * (the average is half) across the targets of one world, fixed by the world
+ * and the target. It is a starting condition only: it never decides whether
+ * an offense happens, which the causes above do, and a target whose exposure
+ * begins after the opening starts from none.
+ */
+function openingExposure(world: World, key: string): number {
+  const hex = stableHash(
+    `${CRIME_CONTRACT_VERSION}:opening-exposure:${world.seed}:${key}`,
+  ).slice(0, 8);
+  return parseInt(hex, 16) / 0x1_0000_0000;
+}
+
+/** The day the world opened, or `fallback` for a save with no opening record. */
+function openedOn(world: World, fallback: IsoDate): IsoDate {
+  return worldOpeningRecord(world)?.effectiveDate ?? fallback;
+}
+
+/** The key an offense on record counts under: its target, or its town's log. */
+function offenseRecordKeys(event: HistoricalEvent): readonly string[] {
+  if (
+    event.type !== CRIME_EVENT_TYPES.reported &&
+    event.type !== CRIME_EVENT_TYPES.unreported
+  )
+    return [];
+  const offense = offenseOf(event);
+  // A later report repeats an offense already on record.
+  if (!offense || event.tags.includes("crime:reported-later")) return [];
+  if (event.tags.includes("crime:town-log"))
+    return event.jurisdictionId
+      ? [`town-log:${offense}:${event.jurisdictionId}`]
+      : [];
+  const targetId = targetOfIncidentKey(event.stableKey);
+  return targetId ? [`${offense}:${targetId}`] : [];
+}
+
+/** Offenses on record under `key` on or after `since` and before `before`. */
+function offensesOnRecord(
+  world: World,
+  key: string,
+  since: IsoDate,
+  before: IsoDate,
+): number {
+  let count = 0;
+  for (const event of recordsByKey(
+    world.history.events,
+    "crime:offenses-by-target",
+    offenseRecordKeys,
+    key,
+  ))
+    if (event.occurredAt >= since && event.occurredAt < before) count += 1;
+  return count;
 }
 
 /**
@@ -140,69 +488,31 @@ export function sampleMonthlyCrime(
   monthStart: IsoDate,
 ): readonly SampledCrime[] {
   const monthEnd = addDays(firstOfNextMonth(monthStart), -1);
-  const days = Number(monthEnd.slice(8, 10));
-  const cutoff = {
-    asOfDate: world.currentDate,
-    historySequenceExclusive: world.history.nextSequence,
-  };
-  const alive = (personId: EntityId) =>
-    isPersonAliveAt(world, personId, cutoff);
-  const oldEnough = (personId: EntityId) =>
-    ageOnDate(world.people[personId]!.birthDate, monthStart) >=
-    UNRESEARCHED_LOCAL_CRIME.minimumVictimAge;
   const sampled: SampledCrime[] = [];
-  const multiplier = causeMultipliers(world, monthStart);
-  const draw = (
-    offense: CrimeOffense,
-    targetId: EntityId,
-    jurisdictionId: EntityId,
-    victimPersonIds: readonly EntityId[],
-  ) => {
-    const rule = crimeRule(offense);
-    const rng = stream(world, monthKeyOf(monthStart), offense, targetId);
-    const rate = rule.annualRate * multiplier(jurisdictionId, offense);
-    if (rng.next() >= monthlyChance(rate)) return;
-    const day = rng.integer(1, days + 1);
-    sampled.push({
-      offense,
-      jurisdictionId,
-      targetId,
-      victimPersonIds,
-      occurredAt: makeIsoDate(
-        `${monthStart.slice(0, 7)}-${String(day).padStart(2, "0")}`,
-      ),
-      reported: rng.next() < rule.reportedShare,
+  for (const exposure of crimeExposures(world, monthStart)) {
+    // One offense of a kind against one target in a month, on the day its
+    // exposure reached it.
+    const occurredAt = exposureDays(exposure, monthStart, monthEnd)[0];
+    if (!occurredAt) continue;
+    // The victims decide, from what was done to them, whether it happened
+    // before, their past with police and their temperament (`./reporting`);
+    // nothing is drawn. The played person decides in play.
+    const decision = decideReport(world, {
+      offense: exposure.offense,
+      jurisdictionId: exposure.jurisdictionId,
+      occurredAt,
+      targetId: exposure.targetId,
+      victimPersonIds: exposure.victimPersonIds,
     });
-  };
-
-  for (const personId of Object.keys(world.people).sort() as EntityId[]) {
-    const person = world.people[personId]!;
-    if (person.birthDate > monthStart) continue;
-    if (!isLocalPlace(person.homeJurisdictionId)) continue;
-    if (!world.jurisdictions[person.homeJurisdictionId]) continue;
-    if (!alive(personId) || !oldEnough(personId)) continue;
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
-      if (rule.target !== "person") continue;
-      draw(rule.offense, personId, person.homeJurisdictionId, [personId]);
-    }
-  }
-
-  for (const household of [...world.history.households].sort((a, b) =>
-    a.id.localeCompare(b.id),
-  )) {
-    const location = householdLocationAt(world, household.id, cutoff);
-    if (!location || !isLocalPlace(location.jurisdictionId)) continue;
-    if (!world.jurisdictions[location.jurisdictionId]) continue;
-    const residents = peopleInHouseholdAt(world, household.id, cutoff).filter(
-      (personId) => world.people[personId] && alive(personId),
-    );
-    // A home nobody represented lives in has nobody to notice or report it.
-    const knowers = residents.filter(oldEnough);
-    if (knowers.length === 0) continue;
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
-      if (rule.target !== "household") continue;
-      draw(rule.offense, household.id, location.jurisdictionId, knowers);
-    }
+    sampled.push({
+      offense: exposure.offense,
+      jurisdictionId: exposure.jurisdictionId,
+      targetId: exposure.targetId,
+      victimPersonIds: exposure.victimPersonIds,
+      occurredAt,
+      reported: decision.reported,
+      playerChooses: decision.playerChooses,
+    });
   }
   return sampled.sort(
     (a, b) =>
@@ -222,19 +532,6 @@ export function townsWithResidents(world: World): readonly EntityId[] {
   return [...towns].filter((id) => world.jurisdictions[id]).sort();
 }
 
-/** Knuth's method, on the shared deterministic stream. */
-function poisson(rng: SeededRng, mean: number): number {
-  if (mean <= 0) return 0;
-  const limit = Math.exp(-mean);
-  let count = 0;
-  let product = rng.next();
-  while (product > limit && count < 25) {
-    count += 1;
-    product *= rng.next();
-  }
-  return count;
-}
-
 export interface LoggedTownCrime {
   readonly offense: CrimeOffense;
   readonly jurisdictionId: EntityId;
@@ -245,53 +542,54 @@ export interface LoggedTownCrime {
 /**
  * Reports in each town's police log during the month starting `monthStart`,
  * about residents the world does not name. Pure: the caller writes.
+ *
+ * Nothing is drawn. Each offense's share of the log builds from the day the
+ * world opened, at its blanket monthly expectation moved by the place's
+ * conditions (`./causes`), and a report is logged on each day it reaches one
+ * more report than the log holds.
  */
 export function sampleTownPoliceLog(
   world: World,
   monthStart: IsoDate,
 ): readonly LoggedTownCrime[] {
   const monthEnd = addDays(firstOfNextMonth(monthStart), -1);
-  const days = Number(monthEnd.slice(8, 10));
   const multiplier = causeMultipliers(world, monthStart);
+  const since = openedOn(world, monthStart);
   const baseWeights = UNRESEARCHED_LOCAL_CRIME.offenses.map((rule) => ({
     offense: rule.offense,
     weight: rule.annualRate * rule.reportedShare,
   }));
   const baseTotal = baseWeights.reduce((sum, row) => sum + row.weight, 0);
+  const perYear = UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * 12;
   const logged: LoggedTownCrime[] = [];
   for (const jurisdictionId of townsWithResidents(world)) {
     // The causes move each offense; the log's size moves with their mix.
-    const weights = baseWeights.map((row) => ({
-      offense: row.offense,
-      weight: row.weight * multiplier(jurisdictionId, row.offense),
-    }));
-    const total = weights.reduce((sum, row) => sum + row.weight, 0);
-    const rng = stream(
-      world,
-      "town-log",
-      monthKeyOf(monthStart),
-      jurisdictionId,
-    );
-    const count = poisson(
-      rng.fork("count"),
-      (UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * total) / baseTotal,
-    );
-    for (let index = 0; index < count; index += 1) {
-      const draw = rng.fork(`report:${index}`);
-      let roll = draw.next() * total;
-      const offense =
-        weights.find((row) => (roll -= row.weight) < 0)?.offense ??
-        weights.at(-1)!.offense;
-      const day = draw.integer(1, days + 1);
-      logged.push({
-        offense,
-        jurisdictionId,
-        occurredAt: makeIsoDate(
-          `${monthStart.slice(0, 7)}-${String(day).padStart(2, "0")}`,
-        ),
-        index,
-      });
+    const entries: { offense: CrimeOffense; occurredAt: IsoDate }[] = [];
+    for (const row of baseWeights) {
+      const annualRate =
+        (perYear * row.weight * multiplier(jurisdictionId, row.offense)) /
+        baseTotal;
+      const key = `town-log:${row.offense}:${jurisdictionId}`;
+      for (const occurredAt of exposureDays(
+        {
+          since,
+          startingExposure: openingExposure(world, key),
+          recorded: offensesOnRecord(world, key, since, monthStart),
+          annualRate,
+        },
+        monthStart,
+        monthEnd,
+      ))
+        entries.push({ offense: row.offense, occurredAt });
     }
+    entries.sort(
+      (a, b) =>
+        a.occurredAt.localeCompare(b.occurredAt) ||
+        a.offense.localeCompare(b.offense),
+    );
+    entries.forEach((entry, index) =>
+      logged.push({ ...entry, jurisdictionId, index }),
+    );
   }
   return logged;
 }
@@ -349,6 +647,34 @@ function causeMultipliers(
 
 function incidentKey(monthStart: IsoDate, crime: SampledCrime): string {
   return `${CRIME_CONTRACT_VERSION}:${monthKeyOf(monthStart)}:${crime.offense}:${crime.targetId}`;
+}
+
+/** The target an incident's stable key names, or null for another key. */
+function targetOfIncidentKey(stableKey: string): EntityId | null {
+  const parts = stableKey.split(":");
+  return parts.length === 4 && parts[0] === CRIME_CONTRACT_VERSION
+    ? (parts[3] as EntityId)
+    : null;
+}
+
+/**
+ * One offense from the month starting `monthStart`, on record: the incident,
+ * and, when it happened to the played person and nobody else reported it,
+ * their own choice whether to.
+ */
+export function recordSampledCrime(
+  world: World,
+  monthStart: IsoDate,
+  crime: SampledCrime,
+): World {
+  const next = recordIncident(world, monthStart, crime);
+  return crime.playerChooses && !crime.reported
+    ? recordReportChoice(
+        next,
+        incidentKey(monthStart, crime),
+        crime.playerChooses,
+      )
+    : next;
 }
 
 function recordIncident(
@@ -409,6 +735,157 @@ function recordIncident(
     });
   }
   return known;
+}
+
+/**
+ * The played person's own choice whether to report an offense against them
+ * (A131, CTO Ruling 11). Nobody decides it for them: the offense stays
+ * unreported until they report it, and reporting it is a police report made
+ * that day.
+ */
+export const CRIME_REPORT_CHOICE_TAG = "life.opportunity:crime-report";
+export const CRIME_REPORT_ANSWER = "adult.crime-report";
+export const CRIME_REPORT_CHOICE_EVENT = "crime.report-choice";
+
+/** What the played person knows happened to them, said to them. */
+const TO_THE_VICTIM: Readonly<Record<CrimeOffense, string>> = {
+  assault: "You were assaulted in {place} on {date}.",
+  robbery: "You were robbed in {place} on {date}.",
+  burglary: "Someone broke into your home in {place} on {date}.",
+  vandalism: "Someone vandalized your home in {place} on {date}.",
+};
+
+/** The offense put to the played person as their choice to report. */
+function recordReportChoice(
+  world: World,
+  incidentStableKey: string,
+  personId: EntityId,
+): World {
+  const incident = world.history.events.find(
+    (event) => event.stableKey === incidentStableKey,
+  );
+  const offense = incident ? offenseOf(incident) : null;
+  if (!incident || !offense || !incident.jurisdictionId) return world;
+  const stableKey = `${incidentStableKey}:report-choice`;
+  const others = incident.participants.filter(
+    (row) => row.personId !== personId,
+  ).length;
+  const summary = `${TO_THE_VICTIM[offense]
+    .replace("{place}", placeName(incident.jurisdictionId))
+    .replace("{date}", spokenDate(incident.occurredAt))} ${
+    others > 0
+      ? "Nobody in your home has told the police."
+      : "You have not told the police."
+  }`;
+  const next = recordWorldEvent(world, {
+    stableKey,
+    type: CRIME_REPORT_CHOICE_EVENT,
+    occurredAt: incident.occurredAt,
+    recordedAt: incident.occurredAt,
+    jurisdictionId: incident.jurisdictionId,
+    involvedEntityIds: [personId],
+    participants: [
+      { personId, role: "focus:subject", detail: "Deciding whether to report" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      CRIME_REPORT_CHOICE_TAG,
+      `${CRIME_INCIDENT_TAG_PREFIX}${incidentStableKey}`,
+      `${CRIME_OFFENSE_TAG_PREFIX}${offense}`,
+      `policy:${CRIME_CONTRACT_VERSION}`,
+    ],
+    summary,
+    context: EMPTY_CONTEXT,
+  });
+  return recordEventKnowledge(next, {
+    stableKey: `${stableKey}:knows:${personId}`,
+    personId,
+    eventId: next.history.events.at(-1)!.id,
+    learnedAt: incident.occurredAt,
+    believedSummary: summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+}
+
+function lateReportKey(incidentStableKey: string): string {
+  return `${incidentStableKey}:reported-later`;
+}
+
+/**
+ * The latest offense put to `personId` that they have not yet reported, or
+ * null. Read-only.
+ */
+export function unreportedOffenseFor(
+  world: World,
+  personId: EntityId,
+): HistoricalEvent | null {
+  const choices = world.history.events.filter(
+    (event) =>
+      event.type === CRIME_REPORT_CHOICE_EVENT &&
+      event.involvedEntityIds.includes(personId),
+  );
+  for (const choice of [...choices].reverse()) {
+    const incidentStableKey = choice.tags
+      .find((tag) => tag.startsWith(CRIME_INCIDENT_TAG_PREFIX))
+      ?.slice(CRIME_INCIDENT_TAG_PREFIX.length);
+    if (!incidentStableKey) continue;
+    if (
+      world.history.events.some(
+        (event) => event.stableKey === lateReportKey(incidentStableKey),
+      )
+    )
+      continue;
+    const incident = world.history.events.find(
+      (event) => event.stableKey === incidentStableKey,
+    );
+    if (incident?.type === CRIME_EVENT_TYPES.unreported) return incident;
+  }
+  return null;
+}
+
+/**
+ * The played person reports the offense against them to police, today. A
+ * public police report, read by the paper, the arrest pass the month after
+ * and the state's fear like any other. Writes nothing when nothing is open.
+ */
+export function reportOffenseToPolice(world: World, personId: EntityId): World {
+  const incident = unreportedOffenseFor(world, personId);
+  const offense = incident ? offenseOf(incident) : null;
+  if (!incident || !offense || !incident.jurisdictionId) return world;
+  const place = placeName(incident.jurisdictionId);
+  return recordWorldEvent(world, {
+    stableKey: lateReportKey(incident.stableKey),
+    type: CRIME_EVENT_TYPES.reported,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: incident.jurisdictionId,
+    involvedEntityIds: [...incident.involvedEntityIds],
+    // The offense itself is already on record against its victims; this is
+    // the report, made by the person who chose to make it.
+    participants: incident.participants.map((row) => ({
+      personId: row.personId,
+      role:
+        row.personId === personId
+          ? ("agency:crime-reporter" as const)
+          : ("presence:crime-victim" as const),
+      detail: null,
+    })),
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      CRIME_TAG,
+      `${CRIME_INCIDENT_TAG_PREFIX}${incident.stableKey}`,
+      `${CRIME_OFFENSE_TAG_PREFIX}${offense}`,
+      "crime:reported",
+      "crime:reported-later",
+      `policy:${CRIME_CONTRACT_VERSION}`,
+    ],
+    summary: `Police in ${place} took a report of ${REPORTED_OFFENSE_PHRASE[offense]} on ${spokenDate(incident.occurredAt)}.`,
+    context: EMPTY_CONTEXT,
+  });
 }
 
 /** "Ana Ruiz", "Ana Ruiz and Ben Ruiz", "Ana Ruiz, Ben Ruiz, and Cy Ruiz". */
@@ -637,7 +1114,7 @@ export function crimeSampleHandler(
   let recorded = 0;
   for (const crime of sampleMonthlyCrime(next, sampledMonth)) {
     if (openedAt !== null && crime.occurredAt < openedAt) continue;
-    next = recordIncident(next, sampledMonth, crime);
+    next = recordSampledCrime(next, sampledMonth, crime);
     recorded += 1;
   }
   for (const entry of sampleTownPoliceLog(next, sampledMonth)) {

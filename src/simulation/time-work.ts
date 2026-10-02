@@ -51,15 +51,13 @@ import type {
   WorkPlayerRequirement,
   World,
 } from "./types";
-import {
-  EMPTY_FUTURE_TRANSITION_HANDLERS,
-  resolveFutureDueItemsThrough,
-} from "./future-transitions";
+import { resolveFutureDueItemsThrough } from "./future-transitions";
 import {
   advanceWithWorldIntegrityAtEnd,
   assertWorldIntegrity,
   recordWorldEvent,
 } from "./world";
+import { composeWorldTimeHandlers } from "./campaigns";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -1112,7 +1110,7 @@ export function controlledCommitmentsBlockingMinuteAdvance(
 export function advanceWorldMinutes(
   world: World,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   return advanceWithWorldIntegrityAtEnd(() => {
     if (!transitionHandlers.routine) {
@@ -1139,7 +1137,7 @@ export function advanceWhileJoiningScheduledActivity(
   world: World,
   activityId: EntityId,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -1196,7 +1194,7 @@ export function advanceWhileJoiningScheduledActivity(
 export function performRemainingScheduledActivity(
   world: World,
   activityId: EntityId,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -1399,7 +1397,7 @@ export function controlledCommitmentsBlockingActivityPerformance(
 export function performScheduledActivity(
   world: World,
   activityId: EntityId,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(

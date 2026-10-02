@@ -47,8 +47,8 @@ import { recordWorldEvent } from "./world";
  * authorized resolver `resolveMunicipalRecallRule` (`municipal-ballot-rules.ts`),
  * which reads the state's municipal rule pack. Where the pack is missing or
  * does not settle the doctrine or window, the owner's standing rule applies:
- * it is drawn from the range the read states span, stable per state, and
- * labeled `national-range-drawn`. It is never another state's law.
+ * it takes the rule the most read states name (no draw), ESTIMATED FROM
+ * AVERAGE and labeled `national-estimated`. It is never another state's law.
  *
  * PLACEHOLDERS, NOT RESEARCH, pending `recall-of-officials-52`:
  * - Whether a petition gathers enough signatures. The game has no count of a
@@ -114,7 +114,7 @@ export type RecallRule =
  * The recall rule for a seat on one town's governing body, read through the
  * authorized municipal rule resolver: a law this World enacted on it where one
  * is in force, else the state's own reading where its pack settles it, else
- * drawn from the national range, stable per state.
+ * the national modal rule, ESTIMATED FROM AVERAGE (no draw).
  *
  * Without a World only the compiled rule is read.
  */
@@ -397,8 +397,8 @@ export function startRecallPetition(
     provenance: {
       kind: "authored",
       note:
-        rule.circulationBasis === "national-range-drawn"
-          ? `The circulation window is drawn from the national range; ${rule.stateUsps}'s own is not settled.`
+        rule.circulationBasis === "national-estimated"
+          ? `The circulation window is the national modal window, ESTIMATED FROM AVERAGE; ${rule.stateUsps}'s own is not settled.`
           : `The petition circulates for ${rule.circulationDays} days under ${rule.stateUsps} law.`,
     },
   });
@@ -634,7 +634,9 @@ export function recallElectionHandler(
   return done(next, "The official was removed by recall.");
 }
 
-export const RECALL_HANDLERS = [
-  [RECALL_PETITION_CLOSES, recallPetitionClosesHandler],
-  [RECALL_ELECTION, recallElectionHandler],
-] as const;
+export function recallHandlers() {
+  return [
+    [RECALL_PETITION_CLOSES, recallPetitionClosesHandler],
+    [RECALL_ELECTION, recallElectionHandler],
+  ] as const;
+}

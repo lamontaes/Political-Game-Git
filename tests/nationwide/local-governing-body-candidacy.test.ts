@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 import { allGovernmentUnits } from "../../src/simulation/government-units";
 import {
   candidacyEligibility,
@@ -9,14 +9,19 @@ import {
   localGoverningBodiesForJurisdiction,
   localGoverningBodyIdentity,
   localGoverningBodyIdentityForOfficeKey,
-  localGovernmentOrganizationKey,
   searchLifePlaces,
   serializeWorld,
 } from "../../src/simulation";
-import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
-import { addDays } from "../../src/simulation/dates";
+import {
+  activeOrganizationParticipationsAt,
+  activeWorkRelationshipsAt,
+} from "../../src/simulation/life-queries";
+import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import { campaignElectionDate } from "../../src/presentation/campaign-projection";
-import { nextTownElection } from "../../src/simulation/nationwide-world/town-election-calendar";
+import {
+  FILING_LEAD_DAYS,
+  nextTownElection,
+} from "../../src/simulation/nationwide-world/town-election-calendar";
 import { personName } from "../../src/simulation";
 import { projectCampaignGuidance } from "../../src/simulation/campaign-life-activities";
 import { projectWorkRole } from "../../src/presentation/day-overview";
@@ -34,13 +39,16 @@ import {
   prepareOpeningLife,
 } from "../../src/presentation/opening-life";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
+import { suppliedWin } from "../fixtures/state-executive-entry";
 import {
-  passUntil,
-  runToElection,
-  suppliedWin,
-} from "../fixtures/state-executive-entry";
+  resolveDueThrough,
+  resolveThroughOwnElection,
+} from "../fixtures/due-item-clock";
 import { electionContestResult } from "../../src/simulation/election-contests";
-import { localCampaignSeat } from "../../src/simulation/living-world/local-elections";
+import {
+  LOCAL_ELECTION_FILING,
+  localCampaignSeat,
+} from "../../src/simulation/living-world/local-elections";
 import { sittingLocalOfficers } from "../../src/simulation/living-world/local-government-seats";
 import { localGoverningBodyRules } from "../../src/simulation/nationwide-world/local-governing-body-rules";
 
@@ -58,20 +66,46 @@ const PADUCAH = "2158836";
 const AMERICAN_FALLS = "1601900";
 const ELY = "2719142";
 
-function adultLifeAt(placeKey: string, seed: string) {
+const openedLives = new Map<string, { world: World; personId: EntityId }>();
+// Release the shared openings when this file is done, so a worker that runs
+// the next file does not keep them.
+afterAll(() => {
+  openedLives.clear();
+});
+
+/**
+ * A grown adult's life opened in a place, built once per place and shared by
+ * every case there: a World is an immutable value, so each case advances its
+ * own copy from the same opening. Building a life is most of this file's
+ * time, so one opening per place keeps the file's every place and assertion
+ * at a fraction of the cost. The seed names the place. Only the two most
+ * recent openings are kept, so the worker's memory stays bounded.
+ */
+function adultLifeAt(placeKey: string) {
+  const known = openedLives.get(placeKey);
+  if (known) {
+    // Most recently used last, so the place still in use is the one kept.
+    openedLives.delete(placeKey);
+    openedLives.set(placeKey, known);
+    return known;
+  }
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
-      seed,
+      seed: `town-body-${placeKey}`,
       placeKey,
       startAge: 40,
       questionnaire: "skipped",
     }),
   ).game!;
-  return {
+  const opened = {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
   };
+  openedLives.set(placeKey, opened);
+  while (openedLives.size > 2)
+    openedLives.delete(openedLives.keys().next().value!);
+  return opened;
 }
 
 function jurisdictionOf(placeKey: string): EntityId {
@@ -88,12 +122,22 @@ describe("a town's governing body, across the country", () => {
         unit.placeGeoid !== null && localGoverningBodyIdentity(unit) !== null,
     );
     expect(offered.length).toBe(OFFERED_TOWN_GOVERNMENTS);
-    // Counties and townships are not offered; a township joins to no place.
+    // A county's board is offered too, joined to no place of its own;
+    // townships and special districts are not offered.
     expect(
       units.filter(
         (unit) =>
           unit.unitType !== "municipality" &&
+          unit.unitType !== "county" &&
           localGoverningBodyIdentity(unit) !== null,
+      ),
+    ).toEqual([]);
+    expect(
+      units.filter(
+        (unit) =>
+          unit.unitType === "county" &&
+          localGoverningBodyIdentity(unit) !== null &&
+          unit.placeGeoid !== null,
       ),
     ).toEqual([]);
     // Every office key resolves back to its own unit, and its pack to itself,
@@ -112,15 +156,22 @@ describe("a town's governing body, across the country", () => {
   it("offers Bowling Green's body beside Kentucky's seats, and invents nothing about it", () => {
     const here = jurisdictionOf(BOWLING_GREEN);
     const bodies = localGoverningBodiesForJurisdiction(here);
-    // The body, and the mayor the city's voters elect at large.
-    expect(bodies.map((office) => office.seat)).toEqual([
-      "governing-body",
-      "chief-executive",
-    ]);
+    // The body, the mayor the city's voters elect at large, then the board
+    // of the county the city sits in.
+    expect(bodies.map((office) => [office.seat, office.unit.unitType])).toEqual(
+      [
+        ["governing-body", "municipality"],
+        ["chief-executive", "municipality"],
+        ["governing-body", "county"],
+      ],
+    );
     const offices = electiveOfficesForJurisdiction(here);
     // The state's offices are still reached; the town's are added, not swapped.
-    expect(offices.length).toBeGreaterThan(2);
-    const body = offices.at(-2)!;
+    expect(offices.length).toBeGreaterThan(3);
+    expect(offices.slice(-3).map((office) => office.officeKey)).toEqual(
+      bodies.map((office) => office.officeKey),
+    );
+    const body = offices.at(-3)!;
     expect(body.officeKey).toBe(bodies[0]!.officeKey);
     // The body the city's own government names, not a generic label.
     expect(body.chamberName).toBe("Bowling Green Board of Commissioners");
@@ -153,9 +204,25 @@ describe("a town's governing body, across the country", () => {
       );
       // The city's own body is on offer whatever the state above it has read;
       // a state legislature, where one is added, sits before it, never instead.
-      const local = offices.filter((office) =>
+      const all = offices.filter((office) =>
         localGoverningBodyIdentityForOfficeKey(office.officeKey),
       );
+      const local = all.filter(
+        (office) =>
+          localGoverningBodyIdentityForOfficeKey(office.officeKey)!.unit
+            .unitType === "municipality",
+      );
+      // The city's offices come before the county boards above it.
+      expect(all.slice(0, local.length)).toEqual(local);
+      expect(
+        all
+          .slice(local.length)
+          .map(
+            (office) =>
+              localGoverningBodyIdentityForOfficeKey(office.officeKey)!.unit
+                .unitType,
+          ),
+      ).toEqual(all.slice(local.length).map(() => "county"));
       // The body first, then the mayor where the town's voters elect one.
       expect(local[0]!.recordedBy.packName).toBe(government);
       expect(local[0]!.office.title).toBe("Council member");
@@ -164,7 +231,7 @@ describe("a town's governing body, across the country", () => {
           .slice(1)
           .map((office) => [office.recordedBy.packName, office.office.title]),
       ).toEqual(local.length > 1 ? [[government, "Mayor"]] : []);
-      expect(offices.slice(-local.length)).toEqual(local);
+      expect(offices.slice(-all.length)).toEqual(all);
     },
   );
 
@@ -181,7 +248,7 @@ describe("a town's governing body, across the country", () => {
   });
 
   it("does not let a Boise resident stand for Bowling Green's body", () => {
-    const { world, personId } = adultLifeAt(BOISE, "town-body-elsewhere");
+    const { world, personId } = adultLifeAt(BOISE);
     const bowlingGreen = localGoverningBodiesForJurisdiction(
       jurisdictionOf(BOWLING_GREEN),
     )[0]!;
@@ -189,6 +256,7 @@ describe("a town's governing body, across the country", () => {
       personId,
       jurisdictionId: world.people[personId]!.homeJurisdictionId,
       officeKey: bowlingGreen.officeKey,
+      alreadyACandidate: false,
     });
     expect(refused.eligible).toBe(false);
     expect(refused.blocks.map((block) => block.kind)).toContain(
@@ -199,6 +267,7 @@ describe("a town's governing body, across the country", () => {
       personId,
       jurisdictionId: jurisdictionOf(BOWLING_GREEN),
       officeKey: bowlingGreen.officeKey,
+      alreadyACandidate: false,
     });
     expect(elsewhere.eligible).toBe(false);
     expect(elsewhere.blocks.map((block) => block.kind)).toContain(
@@ -207,250 +276,13 @@ describe("a town's governing body, across the country", () => {
   }, 60_000);
 });
 
-describe("standing for the town's governing body and taking the seat", () => {
-  // Bowling Green's government has been read in depth; Paducah's and American
-  // Falls' have not, and are seated in the government the listing records.
-  it.each([
-    ["Bowling Green, Kentucky", BOWLING_GREEN, true],
-    ["Paducah, Kentucky", PADUCAH, false],
-    ["American Falls, Idaho", AMERICAN_FALLS, false],
-  ])(
-    "%s: listed, filed, won, seated in the town's own government",
-    (_, placeKey, expectCityScreen) => {
-      const { world, personId } = adultLifeAt(
-        placeKey,
-        `town-body-${placeKey}`,
-      );
-      const home = world.people[personId]!.homeJurisdictionId;
-      const body = localGoverningBodiesForJurisdiction(home)[0]!;
-
-      const listed = projectCampaignOffices(world, personId).find(
-        (office) => office.officeKey === body.officeKey,
-      );
-      expect(listed?.governmentLevel).toBe("Local government");
-      expect(listed?.eligible).toBe(true);
-
-      // The town's own calendar is proved in the calendar test below; the
-      // race here is authored four weeks out so seating is what is tested.
-      const filed = fileForOffice(
-        world,
-        personId,
-        null,
-        body.officeKey,
-        addDays(world.currentDate, 28),
-      );
-      const contest = filed.history.electionContests!.at(-1)!;
-      expect(contest.office.officeKey).toBe(body.officeKey);
-      expect(contest.jurisdictionId).toBe(home);
-
-      const decided = runToElection(filed, personId, suppliedWin(personId));
-      expect(projectCampaign(decided, personId).phase).toBe("won");
-
-      // Seated in the town's own government, never in the state's legislature.
-      const seat = localGoverningSeatFor(decided, personId);
-      expect(seat).not.toBeNull();
-      expect(seat!.since).toBe(contest.electionDate);
-      expect(seat!.hasCityScreen).toBe(expectCityScreen);
-      expect(
-        decided.history.workRelationships.some(
-          (relationship) =>
-            relationship.personId === personId &&
-            relationship.kind.startsWith("employment:legislative-"),
-        ),
-      ).toBe(false);
-      if (!expectCityScreen)
-        expect(
-          decided.history.organizations.find(
-            (organization) => organization.id === seat!.organizationId,
-          )?.stableKey,
-        ).toBe(localGovernmentOrganizationKey(body.unit));
-
-      // A reloaded save keeps the seat and the campaign's authority.
-      const reloaded: World = deserializeWorld(serializeWorld(decided));
-      expect(projectCampaign(reloaded, personId).phase).toBe("won");
-      expect(localGoverningSeatFor(reloaded, personId)?.organizationId).toBe(
-        seat!.organizationId,
-      );
-    },
-    60_000,
-  );
-});
-
-describe("standing again after a race is over", () => {
-  // Found in a playtest in Ely, Minnesota: after one council race the game
-  // never offered another filing, and a sitting member's re-election refused
-  // its own result.
-  it("Ely, Minnesota: files, wins, and stands again twice, keeping one seat", () => {
-    const { world: opening, personId } = adultLifeAt(ELY, "town-body-again");
-    const home = opening.people[personId]!.homeJurisdictionId;
-    const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    let world = opening;
-    for (const race of [1, 2, 3]) {
-      // Picking the office again offers the filing, whatever came before.
-      expect(projectCampaign(world, personId, body.officeKey).phase).toBe(
-        "can-file",
-      );
-      world = fileForOffice(
-        world,
-        personId,
-        null,
-        body.officeKey,
-        addDays(world.currentDate, 28),
-      );
-      expect(
-        world.history.electionContests!.filter((contest) =>
-          contest.candidatePersonIds.includes(personId),
-        ).length,
-      ).toBe(race);
-      world = runToElection(world, personId, suppliedWin(personId));
-      // Until another office is picked, the last race's result stays up.
-      expect(projectCampaign(world, personId).phase).toBe("won");
-      const seats = activeOrganizationParticipationsAt(world, personId).filter(
-        (active) => active.state.roleKind === "leader:municipal-member",
-      );
-      expect(seats).toHaveLength(1);
-      expect(localGoverningSeatFor(world, personId)).not.toBeNull();
-    }
-
-    // The seat reads as an office everywhere the life is described. A small
-    // town's council is part-time, so the job the person started with stays.
-    const name = personName(world.people[personId]!);
-    expect(projectWorkRole(world, personId).sentence).toBe(
-      "Your roles: Sales clerk; Member of the City Council, City of Ely.",
-    );
-    const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
-      (entry) => entry.key === `unit:${body.unit.id}`,
-    );
-    // The town's council is seated from its residents, so the player is one
-    // member on its roster, not the town's only officeholder.
-    expect(ely?.roster?.map((row) => row.holderName)).toContain(name);
-    expect(ely?.detail).toContain("Members of the Ely City Council.");
-    // The county above it is named the way Minnesotans say it.
-    expect(
-      projectGovernmentBrowser(world, personId).alsoGoverning.map(
-        (entry) => entry.title,
-      ),
-    ).toContain("St. Louis County");
-    // A party host's advice knows the town's own seat.
-    expect(
-      projectCampaignGuidance(world, personId).offices.map(
-        (office) => office.officeKey,
-      ),
-    ).toContain(body.officeKey);
-  }, 120_000);
-});
-
-describe("a player's campaign and the town's own race", () => {
-  it("Ely, Minnesota: the town leaves the player's seat off its ballot, and the winner keeps it", () => {
-    const { world: opening, personId } = adultLifeAt(ELY, "town-body-seat");
-    const home = opening.people[personId]!.homeJurisdictionId;
-    const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    let world = fileForOffice(opening, personId, null, body.officeKey);
-    const electionDate = world.history.electionContests!.at(-1)!.electionDate;
-    const seat = localCampaignSeat(body.unit, false, electionDate);
-    expect(seat).not.toBeNull();
-    world = runToElection(world, personId, suppliedWin(personId));
-    expect(projectCampaign(world, personId).phase).toBe("won");
-    // Past the town's own count for the same election day.
-    world = passUntil(world, addDays(electionDate, 14));
-
-    const townRaces = world.history.electionContests!.filter(
-      (contest) =>
-        contest.stableKey.includes(`:${body.unit.id}:${electionDate}:`) &&
-        !contest.candidatePersonIds.includes(personId),
-    );
-    expect(townRaces.length).toBeGreaterThan(0);
-    expect(
-      townRaces.some((contest) => contest.office.seatKey === `seat-${seat}`),
-    ).toBe(false);
-
-    const officers = sittingLocalOfficers(world, body.unit);
-    const mine = officers.find((row) => row.personId === personId);
-    expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
-    const members = officers.filter((row) => !row.mayor);
-    expect(members).toHaveLength(
-      localGoverningBodyRules(body.unit)!.seats!.value!,
-    );
-  }, 120_000);
-  it("Ely, Minnesota: a campaign filed after the town's field closed calls off the town's race for that seat", () => {
-    const { world: opening, personId } = adultLifeAt(ELY, "town-body-late");
-    const home = opening.people[personId]!.homeJurisdictionId;
-    const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    // The town's field closes four weeks before its November 3 election.
-    let world = passUntil(opening, "2026-10-08");
-    const electionDate = "2026-11-03";
-    const seat = localCampaignSeat(body.unit, false, electionDate)!;
-    const townRace = () =>
-      world.history.electionContests!.find(
-        (contest) =>
-          contest.stableKey.includes(`:${body.unit.id}:${electionDate}:`) &&
-          contest.office.seatKey === `seat-${seat}`,
-      );
-    expect(townRace()).toBeDefined();
-    world = fileForOffice(world, personId, null, body.officeKey, electionDate);
-    world = runToElection(world, personId, suppliedWin(personId));
-    world = passUntil(world, addDays(electionDate, 14));
-    expect(projectCampaign(world, personId).phase).toBe("won");
-    expect(electionContestResult(world, townRace()!.id)).toBeNull();
-    const mine = sittingLocalOfficers(world, body.unit).find(
-      (row) => row.personId === personId,
-    );
-    expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
-  }, 120_000);
-});
-
-describe("when a town's race is held", () => {
-  // Filed on the opening day, January 5, 2026.
-  it.each([
-    // Minnesota and Kentucky elect towns on the even-year November general
-    // election day; Idaho on the odd-year one.
-    ["Ely, Minnesota", ELY, "2026-11-03"],
-    ["Paducah, Kentucky", PADUCAH, "2026-11-03"],
-    ["American Falls, Idaho", AMERICAN_FALLS, "2027-11-02"],
-  ])(
-    "%s is elected on the day state law sets",
-    (_, placeKey, expected) => {
-      const { world, personId } = adultLifeAt(placeKey, `calendar-${placeKey}`);
-      const home = world.people[personId]!.homeJurisdictionId;
-      const body = localGoverningBodiesForJurisdiction(home)[0]!;
-      expect(world.currentDate).toBe("2026-01-05");
-      expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
-      const filed = fileForOffice(world, personId, null, body.officeKey);
-      expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(
-        expected,
-      );
-    },
-    60_000,
-  );
-
-  it("a town whose state law leaves the timing open, and names no day, keeps the four-week placeholder", () => {
-    // Maine lets each town choose town meeting day or November; Presque Isle's
-    // drawn choice is town meeting day, whose date has not been read.
-    expect(nextTownElection("ME", "2360825", "2026-01-05" as never)).toBeNull();
-    const { world, personId } = adultLifeAt("2360825", "calendar-presque-isle");
-    const home = world.people[personId]!.homeJurisdictionId;
-    const body = localGoverningBodiesForJurisdiction(home)[0]!;
-    expect(campaignElectionDate(world, home, body.officeKey)).toBe(
-      addDays(world.currentDate, 28),
-    );
-  }, 60_000);
-
-  it("never sets an election closer than the filing lead", () => {
-    expect(nextTownElection("MN", "2719142", "2026-10-10" as never)).toEqual({
-      electionDate: "2028-11-07",
-      timing: "even-year-november-consolidated",
-      basis: "state-law-unverified",
-    });
-  });
-});
-
 describe("a council campaign saved before the body had its own name", () => {
   it("still opens: the office's title is display text, not its identity", () => {
     // Saves written before a town's body was named recorded every council
     // contest's office as "Member of the governing body". The pack now says
     // "Council member", and the load check once compared the two titles, so
     // every such save refused to open (a San Antonio life, playtest 9/24).
-    const { world, personId } = adultLifeAt(BOISE, "council-title-rename");
+    const { world, personId } = adultLifeAt(BOISE);
     const home = world.people[personId]!.homeJurisdictionId;
     const body = localGoverningBodiesForJurisdiction(home)[0]!;
     expect(body.officeTitle).not.toBe("Member of the governing body");
@@ -488,3 +320,273 @@ describe("a council campaign saved before the body had its own name", () => {
 
 // 19,480 municipalities join to a place; 18 of them are not functionally active.
 const OFFERED_TOWN_GOVERNMENTS = 19_462;
+
+describe("standing for the town's governing body and taking the seat", () => {
+  // Bowling Green's government has been read in depth; Paducah's and American
+  // Falls' have not, and are seated in the town's ordinary council, keyed by
+  // the unit the listing records. Every town's council has a screen.
+  it.each([
+    ["Bowling Green, Kentucky", BOWLING_GREEN, true],
+    ["Paducah, Kentucky", PADUCAH, false],
+    ["American Falls, Idaho", AMERICAN_FALLS, false],
+  ])(
+    "%s: listed, filed, won, seated in the town's own government",
+    (_, placeKey, readInDepth) => {
+      const { world, personId } = adultLifeAt(placeKey);
+      const home = world.people[personId]!.homeJurisdictionId;
+      const body = localGoverningBodiesForJurisdiction(home)[0]!;
+
+      const listed = projectCampaignOffices(world, personId).find(
+        (office) => office.officeKey === body.officeKey,
+      );
+      expect(listed?.governmentLevel).toBe("Local government");
+      expect(listed?.eligible).toBe(true);
+
+      // The town's own calendar is proved in the calendar test below; the
+      // race here is authored four weeks out so seating is what is tested.
+      const filed = fileForOffice(
+        world,
+        personId,
+        null,
+        body.officeKey,
+        addDays(world.currentDate, 28),
+      );
+      const contest = filed.history.electionContests!.at(-1)!;
+      expect(contest.office.officeKey).toBe(body.officeKey);
+      expect(contest.jurisdictionId).toBe(home);
+
+      const decided = resolveThroughOwnElection(
+        filed,
+        personId,
+        suppliedWin(personId),
+      );
+      expect(projectCampaign(decided, personId).phase).toBe("won");
+
+      // Seated in the town's own government, never in the state's legislature.
+      const seat = localGoverningSeatFor(decided, personId);
+      expect(seat).not.toBeNull();
+      expect(seat!.since).toBe(contest.electionDate);
+      expect(seat!.hasCityScreen).toBe(true);
+      expect(
+        decided.history.workRelationships.some(
+          (relationship) =>
+            relationship.personId === personId &&
+            relationship.kind.startsWith("employment:legislative-"),
+        ),
+      ).toBe(false);
+      if (!readInDepth)
+        expect(
+          decided.history.organizations.find(
+            (organization) => organization.id === seat!.organizationId,
+          )?.stableKey,
+        ).toBe(`municipal-government:${body.unit.id}`);
+
+      // A reloaded save keeps the seat and the campaign's authority.
+      const reloaded: World = deserializeWorld(serializeWorld(decided));
+      expect(projectCampaign(reloaded, personId).phase).toBe("won");
+      expect(localGoverningSeatFor(reloaded, personId)?.organizationId).toBe(
+        seat!.organizationId,
+      );
+    },
+    60_000,
+  );
+});
+
+describe("when a town's race is held", () => {
+  // Filed on the opening day, January 5, 2026.
+  it.each([
+    // Minnesota and Kentucky elect towns on the even-year November general
+    // election day; Idaho on the odd-year one.
+    ["American Falls, Idaho", AMERICAN_FALLS, "2027-11-02"],
+    ["Paducah, Kentucky", PADUCAH, "2026-11-03"],
+    ["Ely, Minnesota", ELY, "2026-11-03"],
+  ])(
+    "%s is elected on the day state law sets",
+    (_, placeKey, expected) => {
+      const { world, personId } = adultLifeAt(placeKey);
+      const home = world.people[personId]!.homeJurisdictionId;
+      const body = localGoverningBodiesForJurisdiction(home)[0]!;
+      expect(world.currentDate).toBe("2026-01-05");
+      expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
+      const filed = fileForOffice(world, personId, null, body.officeKey);
+      expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(
+        expected,
+      );
+    },
+    60_000,
+  );
+
+  it("a town whose state law leaves the timing open takes the option most states name, chosen by no hash (A118)", () => {
+    // Maine lets each town choose town meeting day or November. Of those,
+    // November is the one the most state packs name, so Presque Isle votes
+    // on the November general election day, ESTIMATED FROM AVERAGE, and the
+    // race's date is that day, at least the filing lead out.
+    const read = nextTownElection("ME", "2360825", makeIsoDate("2026-01-05"));
+    expect(read).toMatchObject({
+      electionDate: "2026-11-03",
+      basis: "local-choice-estimated",
+    });
+    const { world, personId } = adultLifeAt("2360825");
+    const home = world.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    expect(campaignElectionDate(world, home, body.officeKey)).toBe(
+      read!.electionDate,
+    );
+    expect(
+      read!.electionDate >= addDays(world.currentDate, FILING_LEAD_DAYS),
+    ).toBe(true);
+  }, 60_000);
+
+  it("never sets an election closer than the filing lead", () => {
+    expect(
+      nextTownElection("MN", "2719142", makeIsoDate("2026-10-10")),
+    ).toEqual({
+      electionDate: "2028-11-07",
+      timing: "even-year-november-consolidated",
+      basis: "state-law-unverified",
+    });
+  });
+});
+
+describe("standing again after a race is over", () => {
+  // Found in a playtest in Ely, Minnesota: after one council race the game
+  // never offered another filing, and a sitting member's re-election refused
+  // its own result.
+  it("Ely, Minnesota: files, wins, and stands again twice, keeping one seat", () => {
+    const { world: opening, personId } = adultLifeAt(ELY);
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    let world = opening;
+    for (const race of [1, 2, 3]) {
+      // Picking the office again offers the filing, whatever came before.
+      expect(projectCampaign(world, personId, body.officeKey).phase).toBe(
+        "can-file",
+      );
+      world = fileForOffice(
+        world,
+        personId,
+        null,
+        body.officeKey,
+        addDays(world.currentDate, 28),
+      );
+      expect(
+        world.history.electionContests!.filter((contest) =>
+          contest.candidatePersonIds.includes(personId),
+        ).length,
+      ).toBe(race);
+      world = resolveThroughOwnElection(world, personId, suppliedWin(personId));
+      // Until another office is picked, the last race's result stays up.
+      expect(projectCampaign(world, personId).phase).toBe("won");
+      const seats = activeOrganizationParticipationsAt(world, personId).filter(
+        (active) => active.state.roleKind === "leader:municipal-member",
+      );
+      expect(seats).toHaveLength(1);
+      expect(localGoverningSeatFor(world, personId)).not.toBeNull();
+    }
+
+    // The seat reads as an office everywhere the life is described. A small
+    // town's council is part-time, so the job the person started with stays:
+    // whatever job the town's employers gave them at the opening, read from
+    // the record, followed by the seat.
+    const name = personName(world.people[personId]!);
+    const startingJobs = activeWorkRelationshipsAt(opening, personId).map(
+      (entry) => entry.role.title,
+    );
+    expect(startingJobs.length).toBeGreaterThan(0);
+    expect(
+      activeWorkRelationshipsAt(world, personId).map(
+        (entry) => entry.role.title,
+      ),
+    ).toEqual(startingJobs);
+    expect(projectWorkRole(world, personId).sentence).toBe(
+      `Your roles: ${[
+        ...new Set(startingJobs),
+        "Member of the City Council, City of Ely",
+      ].join("; ")}.`,
+    );
+    const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
+      (entry) => entry.key === `unit:${body.unit.id}`,
+    );
+    // The town's council is seated from its residents, so the player is one
+    // member on its roster, not the town's only officeholder.
+    expect(ely?.roster?.map((row) => row.holderName)).toContain(name);
+    expect(ely?.detail).toContain("Members of the Ely City Council.");
+    // The county above it is named the way Minnesotans say it.
+    expect(
+      projectGovernmentBrowser(world, personId).alsoGoverning.map(
+        (entry) => entry.title,
+      ),
+    ).toContain("St. Louis County");
+    // A party host's advice knows the town's own seat.
+    expect(
+      projectCampaignGuidance(world, personId).offices.map(
+        (office) => office.officeKey,
+      ),
+    ).toContain(body.officeKey);
+  }, 120_000);
+});
+
+describe("a player's campaign and the town's own race", () => {
+  it("Ely, Minnesota: the town leaves the player's seat off its ballot, and the winner keeps it", () => {
+    const { world: opening, personId } = adultLifeAt(ELY);
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    let world = fileForOffice(opening, personId, null, body.officeKey);
+    const electionDate = world.history.electionContests!.at(-1)!.electionDate;
+    const seat = localCampaignSeat(body.unit, false, electionDate);
+    expect(seat).not.toBeNull();
+    world = resolveThroughOwnElection(world, personId, suppliedWin(personId));
+    expect(projectCampaign(world, personId).phase).toBe("won");
+    // Past the town's own count for the same election day.
+    world = resolveDueThrough(world, addDays(electionDate, 14));
+
+    const townRaces = world.history.electionContests!.filter(
+      (contest) =>
+        contest.stableKey.includes(`:${body.unit.id}:${electionDate}:`) &&
+        !contest.candidatePersonIds.includes(personId),
+    );
+    expect(townRaces.length).toBeGreaterThan(0);
+    expect(
+      townRaces.some((contest) => contest.office.seatKey === `seat-${seat}`),
+    ).toBe(false);
+
+    const officers = sittingLocalOfficers(world, body.unit);
+    const mine = officers.find((row) => row.personId === personId);
+    expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
+    const members = officers.filter((row) => !row.mayor);
+    expect(members).toHaveLength(
+      localGoverningBodyRules(body.unit)!.seats!.value!,
+    );
+  }, 120_000);
+  it("Ely, Minnesota: a campaign filed after the town's field closed calls off the town's race for that seat", () => {
+    const { world: opening, personId } = adultLifeAt(ELY);
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    // The town's field closes the filing lead (85 days) before its
+    // November 3 election's first vote; the campaign files the day after.
+    const fieldCloses = opening.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === LOCAL_ELECTION_FILING &&
+        item.jurisdictionId === home,
+    )!.dueAt;
+    let world = resolveDueThrough(opening, addDays(fieldCloses, 1));
+    const electionDate = makeIsoDate("2026-11-03");
+    const seat = localCampaignSeat(body.unit, false, electionDate)!;
+    const townRace = () =>
+      world.history.electionContests!.find(
+        (contest) =>
+          contest.stableKey.includes(`:${body.unit.id}:${electionDate}:`) &&
+          contest.office.seatKey === `seat-${seat}`,
+      );
+    expect(townRace()).toBeDefined();
+    world = fileForOffice(world, personId, null, body.officeKey, electionDate);
+    world = resolveThroughOwnElection(world, personId, suppliedWin(personId));
+    world = resolveDueThrough(world, addDays(electionDate, 14));
+    expect(projectCampaign(world, personId).phase).toBe("won");
+    expect(electionContestResult(world, townRace()!.id)).toBeNull();
+    const mine = sittingLocalOfficers(world, body.unit).find(
+      (row) => row.personId === personId,
+    );
+    expect(mine?.seatLabel).toMatch(new RegExp(`seat ${seat}$`));
+  }, 120_000);
+});

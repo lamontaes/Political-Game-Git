@@ -2,15 +2,13 @@ import {
   ARTICLE_V_CONVENTION_BODY,
   ARTICLE_V_STATE_KEYS,
   constitutionalPosition,
-  proposeConstitutionalMeasure,
   recordArticleVRatification,
   constitutionalActions,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
+import { proposeAmendment } from "../living-world/constitutional-reform";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision } from "../decisions";
-import { currentHistoricalCutoff } from "../queries";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {
@@ -34,7 +32,10 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { seatedCongressChamber } from "./congress-chambers";
-import { decideChamberVote } from "./chamber-votes";
+import {
+  decideChamberVote,
+  type ChamberConstitutionalVoteInput,
+} from "./chamber-votes";
 import { lawInForce } from "./law-in-force";
 import {
   ensureOfficeholderPrinciples,
@@ -129,11 +130,6 @@ const CONTEXT = {
   motivation: null,
   immediateReaction: null,
 } as const;
-
-const VOTE_OPTIONS = [
-  { key: "vote-yea", label: "Vote yes", description: "Propose it." },
-  { key: "vote-nay", label: "Vote no", description: "Leave it out." },
-] as const;
 
 function done(world: World, context: string): FutureTransitionHandlerResult {
   return {
@@ -330,47 +326,14 @@ export const CONSTITUTIONAL_BAR: DecisionConsideration = {
 };
 
 /**
- * A member's vote on writing a policy into a constitution, or, with the
- * answer "no", on taking it out.
+ * A saved constitutional chamber vote through the common member evaluator.
+ * The caller supplies the actual proposal, body and unchanged considerations.
  */
 export function memberBallot(
   world: World,
-  stableKey: string,
-  personId: EntityId,
-  propositionId: EntityId,
-  answer: "yes" | "no" = "yes",
-  extra: readonly DecisionConsideration[] = [],
-): { readonly ballot: "yea" | "nay"; readonly reason: string } {
-  const considerations = constitutionalMemberConsiderations(
-    world,
-    personId,
-    propositionId,
-    answer,
-    extra,
-  );
-  const evaluation = evaluateDecision(world, {
-    stableKey,
-    decisionType: "governing.constitutional-amendment-vote",
-    actorPersonId: personId,
-    cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:constitutional-amendment",
-      key: stableKey,
-      entityId: null,
-    },
-    options: [...VOTE_OPTIONS],
-    constraints: [],
-    considerations,
-    perceptionIds: [],
-    randomness: "none",
-    retention: "ephemeral",
-  });
-  const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
-  const reason =
-    considerations.find(
-      (consideration) => consideration.optionKey === `vote-${ballot}`,
-    )?.stableKey ?? "member:no-reason";
-  return { ballot, reason };
+  input: ChamberConstitutionalVoteInput,
+): readonly LegislativeVoteDisposition[] {
+  return decideChamberVote(world, input);
 }
 
 export function constitutionalMemberConsiderations(
@@ -420,7 +383,7 @@ export function articleVProposalBallots(
   const members = body.members.filter((member) => member.personId !== null);
   const answer = measure.ruleDelta.stance === "adopt" ? "yes" : "no";
   const propositionId = measure.ruleDelta.propositionId;
-  return decideChamberVote(world, {
+  return memberBallot(world, {
     kind: "constitutional",
     stableKey: measure.stableKey,
     constitutionalMeasureId: measure.id,
@@ -488,36 +451,29 @@ function propose(
   const name =
     world.policyCatalog.propositions[input.propositionId]?.name ?? "";
   const year = world.currentDate.slice(0, 4);
-  const next = proposeConstitutionalMeasure(
-    ensureNationalElectionJurisdiction(world),
-    {
-      stableKey: input.measureKey,
-      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      jurisdictionKey: "US",
-      processKind: "federal-amendment",
-      designation: `Proposed Amendment to the Constitution (${year}): ${name}`,
-      shortTitle: name,
-      text: proposalText(world, input.propositionId),
-      textVersion: "v1",
-      sponsoringAuthority: input.byConvention
-        ? "A convention called on the applications of two-thirds of the states"
-        : "The Congress of the United States",
-      sponsorPersonId: null,
-      ratificationMode: "state-legislatures",
-      deadlineAt: yearsLater(
-        world.currentDate,
-        ARTICLE_V_PROFILE.ratificationYears,
-      ),
-      delayedOperativeAt: null,
-      ruleDelta: {
-        kind: "policy-provision",
-        propositionId: input.propositionId,
-        stance: "adopt",
-      },
-      ordinaryMeasureId: null,
-      ...(input.byConvention ? { proposedBy: "convention" as const } : {}),
+  const next = proposeAmendment(ensureNationalElectionJurisdiction(world), {
+    stableKey: input.measureKey,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    jurisdictionKey: "US",
+    processKind: "federal-amendment",
+    designation: `Proposed Amendment to the Constitution (${year}): ${name}`,
+    shortTitle: name,
+    text: proposalText(world, input.propositionId),
+    sponsoringAuthority: input.byConvention
+      ? "A convention called on the applications of two-thirds of the states"
+      : "The Congress of the United States",
+    ratificationMode: "state-legislatures",
+    deadlineAt: yearsLater(
+      world.currentDate,
+      ARTICLE_V_PROFILE.ratificationYears,
+    ),
+    ruleDelta: {
+      kind: "policy-provision",
+      propositionId: input.propositionId,
+      stance: "adopt",
     },
-  );
+    ...(input.byConvention ? { proposedBy: "convention" as const } : {}),
+  });
   return {
     world: next,
     measureId: next.history.constitutionalMeasures!.at(-1)!.id,
@@ -907,8 +863,10 @@ export function articleVStateActionHandler(
   );
 }
 
-export const ARTICLE_V_HANDLERS = [
-  [ARTICLE_V_REVIEW, articleVReviewHandler],
-  [ARTICLE_V_CONVENTION, articleVConventionHandler],
-  [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
-] as const;
+export function articleVHandlers() {
+  return [
+    [ARTICLE_V_REVIEW, articleVReviewHandler],
+    [ARTICLE_V_CONVENTION, articleVConventionHandler],
+    [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
+  ] as const;
+}

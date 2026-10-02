@@ -72,6 +72,7 @@ import {
   seatLocalBusinesses,
 } from "../simulation/local-economy";
 import { hireAtAdultStart } from "../simulation/job-market";
+import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import type {
   CharacterHistoryTransition,
@@ -120,11 +121,33 @@ export type ProductionDepth = "play-formative-years" | "summarize-earlier-life";
 /** Whether an adult's household has anybody else in it. Asked, never guessed. */
 export type ProductionHousehold = "lives-alone" | "shares-a-home";
 
+/**
+ * What the player says about the parent who is not raising them, when one
+ * parent is: alive and left out of the story (`living`), alive and living
+ * elsewhere (`nonresident`), or dead (`deceased`). The player's own fact
+ * about their character; the world never draws it. Unanswered, nothing is
+ * recorded, which is not a claim of absence or death.
+ */
+export type OpeningOtherParent = "living" | "nonresident" | "deceased";
+
+/** Children younger than this are not asked about the other parent. */
+export const OTHER_PARENT_MINIMUM_AGE = 5;
+
+/**
+ * Who raises a dependent child at the start, from the world's identity seed.
+ * Authored household configurations, not survey probabilities.
+ */
+export function openingFamilyShape(
+  familyStructureSeed: string,
+): "one-parent" | "two-parents" | "guardian" {
+  return new SeededRng(familyStructureSeed)
+    .fork("opening-life-family-v1")
+    .pick(["one-parent", "two-parents", "two-parents", "guardian"] as const);
+}
+
 export interface ProductionWorldInput {
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
-  /** Independent raw seed; excludes names, demographics and setup identity. */
-  readonly personalitySeed?: string;
   /** World identity seed, before calibration; topology is not a shaped age range. */
   readonly familyStructureSeed?: string;
   readonly place: LifePlace;
@@ -150,6 +173,8 @@ export interface ProductionWorldInput {
   readonly startingLife: ProductionStartingLife;
   readonly depth: ProductionDepth;
   readonly household: ProductionHousehold;
+  /** The player's answer about the other parent, when they gave one. */
+  readonly otherParent?: OpeningOtherParent;
   /**
    * The questionnaire answers, carried into the world's non-diegetic corner.
    *
@@ -375,6 +400,7 @@ export function buildProductionWorld(
     input.parentPartnerVersion,
     nameCorpusVersion,
     input.preStartYear !== undefined,
+    input.otherParent ?? null,
   );
   // An adult New Game start draws the rest of the family around the parent
   // the earlier life recorded. The prior-year start draws its own below.
@@ -432,7 +458,7 @@ export function buildProductionWorld(
     ageOnDate(player.birthDate, world.currentDate) >= 19
   ) {
     // A grown-up start arrives with the job they hold, not between jobs.
-    world = hireAtAdultStart(seatLocalBusinesses(world, jurisdiction.id), {
+    world = hireAtAdultStart(ensureTownResidents(world, player.id), {
       personId: player.id,
       jurisdictionId: jurisdiction.id,
     });
@@ -446,10 +472,7 @@ export function buildProductionWorld(
       )
     )
       continue;
-    world = establishLifePersonality(world, personId, {
-      seed: input.personalitySeed ?? input.seed,
-      key: `person:${world.personOrder.indexOf(personId)}`,
-    });
+    world = establishLifePersonality(world, personId);
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
   world = syncDistrictMembershipFromCanonicalHome(
@@ -575,6 +598,7 @@ export function finalizePreStartPlayer(
     input.parentPartnerVersion,
     nameCorpusVersion,
     true,
+    input.otherParent ?? null,
   );
   if (input.age < 18) {
     world = establishPreStartChildHistory(world, {
@@ -611,10 +635,7 @@ export function finalizePreStartPlayer(
       )
     )
       continue;
-    world = establishLifePersonality(world, personId, {
-      seed: input.personalitySeed ?? input.seed,
-      key: `person:${world.personOrder.indexOf(personId)}`,
-    });
+    world = establishLifePersonality(world, personId);
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
   world = syncDistrictMembershipFromCanonicalHome(
@@ -710,6 +731,7 @@ function establishAgeEligibleState(
   parentPartnerVersion: ParentPartnerVersion | undefined,
   nameCorpusVersion: string,
   preStartDates: boolean,
+  otherParent: OpeningOtherParent | null,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -911,11 +933,8 @@ function establishAgeEligibleState(
     spokenFor,
   );
   spokenFor.push(guardianName.givenName);
-  // Authored household configurations, not survey probabilities. This stream
-  // cannot change existing names, ages, or the sibling draw.
-  const familyShape = new SeededRng(familyStructureSeed)
-    .fork("opening-life-family-v1")
-    .pick(["one-parent", "two-parents", "two-parents", "guardian"] as const);
+  // This stream cannot change existing names, ages, or the sibling draw.
+  const familyShape = openingFamilyShape(familyStructureSeed);
   // The band the guardian's age is drawn from. Unleant it is 24 to 41, exactly
   // as it has always been; a calibration that leaned toward keeping the ground
   // firm moves both ends later and one that leaned toward disruption moves them
@@ -1190,13 +1209,14 @@ function establishAgeEligibleState(
     if (partnered) transitions.push(parentsPartnership(otherId));
   }
 
-  // Fictional starting circumstances are independent of identity and setup priors.
-  // A missing parent record is not a claim of abandonment or death.
+  // The other parent is what the player said, never a draw. "living", or no
+  // answer, records nothing: a missing parent record is not a claim of
+  // abandonment or death.
   const otherParentState =
-    familyShape === "one-parent" && age >= 5
-      ? new SeededRng(familyStructureSeed)
-          .fork("opening-life-other-parent-v1")
-          .pick(["unrecorded", "nonresident", "deceased"] as const)
+    familyShape === "one-parent" &&
+    age >= OTHER_PARENT_MINIMUM_AGE &&
+    (otherParent === "nonresident" || otherParent === "deceased")
+      ? otherParent
       : "unrecorded";
   const otherParentKey = `${stableKey}:nonresident-parent`;
   const otherParentId = characterHistoryContextPersonId(world, otherParentKey);

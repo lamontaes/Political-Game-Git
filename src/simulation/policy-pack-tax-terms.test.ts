@@ -33,7 +33,16 @@ it("loads tax questions without assigning any rates or replacing existing questi
     expect(row.parameters?.map((term) => term.key)).toEqual(
       Object.values(TAX_LAW_TERM_KEYS),
     );
-    expect(row.consequences).toBeUndefined();
+    if (row.key.endsWith(".excise-tax-terms")) {
+      expect(row.consequences).toHaveLength(1);
+      expect(row.consequences![0]).toMatchObject({
+        kind: "tax",
+        when: "assessment",
+        who: { selector: "recorded-tax-base-payer" },
+        what: "assess-enacted-tax-base",
+        amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+      });
+    } else expect(row.consequences).toBeUndefined();
     expect(row.principles).toBeUndefined();
   }
 });

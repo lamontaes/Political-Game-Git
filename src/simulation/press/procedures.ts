@@ -1,3 +1,4 @@
+import { applyFindingReferral } from "../justice/finding-referral";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { personName } from "../people";
@@ -13,6 +14,7 @@ import type {
 import { recordWorldEvent } from "../world";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { applyFindingConsequences } from "./finding-consequences";
+import { applyFindingRestitution } from "../governing/finding-restitution";
 import {
   canInstitutionAct,
   type AccountableInstitution,
@@ -916,7 +918,14 @@ export function advanceProceeding(
       linkedAt: next.currentDate,
     }).world;
   }
-  next = applyFindingConsequences(next, proceeding, appended.record, event);
+  next = applyFindingConsequences(
+    next,
+    proceeding,
+    appended.record,
+    event,
+    applyFindingRestitution,
+    applyFindingReferral,
+  );
   if (nextDueAt) {
     next = scheduleFutureDueItem(next, {
       stableKey: `press46:proceeding:${proceeding.id}:${steps.length + 1}`,

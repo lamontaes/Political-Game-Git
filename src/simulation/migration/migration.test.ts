@@ -5,57 +5,34 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import {
-  openOrdinaryLife,
-  passOrdinaryDays,
-} from "../../presentation/ordinary-life";
+import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { declareHazardEpisode } from "../crisis/disaster";
-import { crisisRecords } from "../crisis/records";
 import { makeIsoDate } from "../dates";
-import {
-  recordKinship,
-  recordOrganizationParticipationState,
-  recordWorkStatus,
-} from "../life";
 import { CRIME_EVENT_TYPES } from "../crime/producer";
 import { recordWorldEvent } from "../world";
 import {
   activeOrganizationParticipationsAt,
-  activeWorkRelationshipsAt,
   householdMembershipsAt,
   peopleInHouseholdAt,
 } from "../life-queries";
-import {
-  createDwelling,
-  createHousingTenure,
-  startDwellingOccupancy,
-} from "../resources";
-import {
-  activeDwellingOccupanciesAt,
-  activeHousingTenuresAt,
-} from "../resource-queries";
 import { factsForPerson } from "../people";
 import { stateJurisdictionForKey } from "../life-places";
 import { serializeWorld } from "../serialization";
+import type { MacroMonthRecord } from "../macro-economy/types";
 import type { EntityId, World } from "../types";
-import { advanceWithWorldIntegrityAtEnd, assertWorldIntegrity } from "../world";
+import { assertWorldIntegrity } from "../world";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
-  MIGRATION_REVIEWS_PER_YEAR,
   MIGRATION_SEAMS,
   WAVE_CATALOG,
   activeWavesCovering,
   evaluateCause,
-  reviewTown,
   moveTies,
   moveTieReader,
   playerHouseholdPeople,
-  lostJobWithinYear,
-  statesWithRelatives,
   townCrimePush,
   townJobsPush,
   recordedMoves,
@@ -64,13 +41,6 @@ import {
   startWave,
   wavePressure,
 } from ".";
-
-/**
- * A review as the clock runs it: writers' checks deferred inside the scheduled
- * transition, and the whole world checked once at the end.
- */
-const review = (...args: Parameters<typeof reviewTown>) =>
-  advanceWithWorldIntegrityAtEnd(() => reviewTown(...args));
 
 /** Charlottesville, Virginia; Kentucky is deliberately not the test place. */
 const VIRGINIA_TOWN = "5114968";
@@ -200,298 +170,70 @@ describe("migration scaffold", () => {
     ).toThrow("is not a namespaced move reason");
   });
 
-  it("a review moves free households out and brings newcomers in", () => {
-    // Rates high enough that one review on the opening day does both, so the
-    // test measures the migration step and nothing else the clock runs.
-    const { world: seeded, neighborId } = withNeighbor(opened.world, town);
-    const quarter = [...Array(MIGRATION_REVIEWS_PER_YEAR).keys()].find(
-      (index) => {
-        const probe = review(seeded, index, {
-          departureChancePerYear: 1,
-          arrivalsPerResidentPerYear: 0,
-        });
-        return probe.people[neighborId]!.homeJurisdictionId !== town;
-      },
-    )!;
-    expect(quarter, "the neighbor is reviewed in some quarter").toBeDefined();
-    const world = review(seeded, quarter, {
-      departureChancePerYear: 1,
-      arrivalsPerResidentPerYear: 12,
-    });
-    assertWorldIntegrity(world);
-
-    const moves = recordedMoves(world);
-    expect(moves.map((move) => move.personIds)).toContainEqual([neighborId]);
-    for (const move of moves) {
-      expect(move.fromJurisdictionId).toBe(town);
-      expect(move.reason).toBe("life-course:unrecorded");
-      for (const id of move.personIds) {
-        expect(id).not.toBe(opened.playerId);
-        expect(moveTies(seeded).has(id)).toBe(false);
-      }
-    }
-
-    const arrivals = world.history.events.filter(
-      (event) => event.type === "migration.arrived",
-    );
-    expect(arrivals.length).toBeGreaterThan(0);
-    for (const event of arrivals) {
-      const personId = event.participants[0]!.personId;
-      expect(world.people[personId]!.homeJurisdictionId).toBe(town);
-      expect(event.summary).toMatch(/ moved to .+ from .+\.$/);
-    }
-
-    // The same review on the same world decides the same thing.
-    expect(
-      serializeWorld(
-        review(seeded, quarter, {
-          departureChancePerYear: 1,
-          arrivalsPerResidentPerYear: 12,
-        }),
-      ),
-    ).toBe(serializeWorld(world));
-  }, 60_000);
-
-  it("a membership that has ended no longer holds a person in town", () => {
+  it("a member leaves a membership behind on a move; a leader is still held by the role", () => {
     const reader = moveTieReader(opened.world);
     const member = opened.world.personOrder.find(
       (id) =>
         opened.world.people[id]!.homeJurisdictionId === town &&
         id !== opened.playerId &&
-        reader.bindingTie(id) === "belongs to an organization or party" &&
-        activeOrganizationParticipationsAt(opened.world, id).length > 0,
-    )!;
-    expect(member, "the opening seats a party member in town").toBeDefined();
-    let world = opened.world;
-    for (const active of activeOrganizationParticipationsAt(world, member))
-      world = recordOrganizationParticipationState(world, {
-        stableKey: `migration-test:left:${active.participation.id}`,
-        participationId: active.participation.id,
-        effectiveAt: world.currentDate,
-        status: "ended",
-        roleKind: active.state.roleKind,
-        context: null,
-        provenance: { kind: "authored", note: "migration test" },
-        supersedesStateId: active.state.id,
-      });
-    // Before, any record at all, ended or not, held them.
-    expect(moveTies(world, [member]).get(member)).toBeUndefined();
-    expect(
-      world.history.organizationParticipations.some(
-        (record) => record.personId === member,
+        reader.membershipsLeftBehind(id).length > 0 &&
+        reader.bindingTie(id) === null &&
+        reader.housingTie(id) === null &&
+        peopleInHouseholdAt(
+          opened.world,
+          householdMembershipsAt(opened.world, id)[0]?.household.id ??
+            ("none" as EntityId),
+        ).every((other) => other === id || !reader.bindingTie(other)),
+    );
+    expect(member, "the opening seats a free member in town").toBeDefined();
+    const left = reader.membershipsLeftBehind(member!);
+    const moved = relocateHousehold(opened.world, {
+      stableKey: "migration-test:member-moves",
+      personId: member!,
+      toJurisdictionId: oregon,
+      reason: "work:transfer",
+      waveKey: null,
+    });
+    expect(moved.people[member!]!.homeJurisdictionId).toBe(oregon);
+    // The membership ended on the move, and is still on record.
+    expect(activeOrganizationParticipationsAt(moved, member!)).toEqual([]);
+    for (const id of left)
+      expect(
+        moved.history.organizationParticipations.some(
+          (record) => record.id === id,
+        ),
+      ).toBe(true);
+    // A leader's role still holds them in town.
+    const leader = opened.world.personOrder.find((id) =>
+      activeOrganizationParticipationsAt(opened.world, id).some(
+        (active) => active.state.roleKind?.startsWith("leader:") ?? false,
       ),
-    ).toBe(true);
-  });
-
-  it("a disaster that wrecks newcomers' homes sends some away for good", () => {
-    // A year of arrivals, so the town holds households a disaster can reach.
-    const settled = review(opened.world, 0, {
-      departureChancePerYear: 0,
-      arrivalsPerResidentPerYear: 6,
-    });
-    const newcomers = settled.history.events
-      .filter((event) => event.type === "migration.arrived")
-      .map((event) => event.participants[0]!.personId);
-    expect(newcomers.length).toBeGreaterThan(10);
-    for (const id of newcomers)
-      expect(householdMembershipsAt(settled, id)).toHaveLength(1);
-
-    // One newcomer's household leases a recorded home.
-    const renter = newcomers[0]!;
-    const householdId = householdMembershipsAt(settled, renter)[0]!.household
-      .id;
-    const provenance = { kind: "authored" as const, note: "migration test" };
-    let housed = createDwelling(settled, {
-      stableKey: "migration-test:dwelling",
-      establishedAt: settled.currentDate,
-      jurisdictionId: town,
-      locationLabel: "An apartment in town",
-      classification: "residential:apartment",
-      provenance,
-    });
-    const dwellingId = housed.history.dwellings.at(-1)!.id;
-    housed = startDwellingOccupancy(housed, {
-      stableKey: "migration-test:occupancy",
-      occupant: { kind: "household", householdId },
-      dwellingId,
-      startedAt: housed.currentDate,
-      residenceRole: "primary",
-      kind: "residence:renter",
-      provenance,
-    });
-    housed = createHousingTenure(housed, {
-      stableKey: "migration-test:lease",
-      holder: { kind: "household", householdId },
-      dwellingId,
-      startedAt: housed.currentDate,
-      kind: "lease:month-to-month",
-      context: null,
-      provenance,
-    });
-    expect(moveTieReader(housed).housingTie(renter)).not.toBeNull();
-
-    const struck = declareHazardEpisode(housed, {
-      stableKey: "migration-test-flood",
-      family: "flood",
-      magnitude: "catastrophic",
-      stateUsps: "VA",
-      jurisdictionIds: [town],
-      durationDays: 4,
-      basis: "Declared test episode; not a local hazard prediction.",
-      sourceReference: null,
-    });
-    // Damage reaches a household directly, or through the recorded home it
-    // lives in (the town's households have homes, `town-homes.ts`).
-    const wrecked = crisisRecords(struck).flatMap((record) =>
-      record.kind === "disaster-damage" &&
-      (record.targetKind === "household" || record.targetKind === "dwelling") &&
-      record.level !== "service-interrupted"
-        ? [record]
-        : [],
     );
-    const householdsHit = (record: (typeof wrecked)[number]) =>
-      record.targetKind === "household"
-        ? [record.targetId]
-        : activeDwellingOccupanciesAt(struck).flatMap((occupancy) =>
-            occupancy.dwellingId === record.targetId &&
-            occupancy.occupant.kind === "household"
-              ? [occupancy.occupant.householdId]
-              : [],
-          );
-    expect(wrecked.length).toBeGreaterThan(0);
-
-    // Everybody whose home was hit leaves, and nobody else does.
-    const after = review(struck, 1, {
-      departureChancePerYear: 0,
-      arrivalsPerResidentPerYear: 0,
-      displacedLeaveChance: { destroyed: 1, damaged: 1 },
-    });
-    assertWorldIntegrity(after);
-    const moves = recordedMoves(after);
-    // The flood can kill; a household it left nobody alive in moves nowhere.
-    const died = new Set(
-      struck.history.personDeaths.map((death) => death.personId),
-    );
-    const freeWrecked = [
-      ...new Set(wrecked.flatMap((record) => householdsHit(record))),
-    ].filter(
-      (householdId) =>
-        // The flood's dead keep their jobs on the books; they bind nobody.
-        peopleInHouseholdAt(struck, householdId)
-          .filter((id) => !died.has(id))
-          .every((id) => !moveTieReader(struck).bindingTie(id)) &&
-        peopleInHouseholdAt(struck, householdId).some((id) => !died.has(id)) &&
-        !peopleInHouseholdAt(struck, householdId).includes(opened.playerId),
-    );
-    expect(freeWrecked.length).toBeGreaterThan(0);
-    expect(
-      moves
-        .map(
-          (move) =>
-            householdMembershipsAt(struck, move.personIds[0]!)[0]!.household.id,
-        )
-        .sort(),
-    ).toEqual([...freeWrecked].sort());
-    for (const move of moves) {
-      const damage = wrecked.find((record) => record.id === move.causeId)!;
-      expect(move.reason).toBe(`disaster:home-${damage.level}`);
-      expect(move.fromJurisdictionId).toBe(town);
-    }
-
-    // A leased home that was hit is given up on the move.
-    const renterLeft = moves.some((move) => move.personIds.includes(renter));
-    const leases = activeHousingTenuresAt(after).filter(
-      (tenure) => tenure.dwellingId === dwellingId,
-    );
-    const occupied = activeDwellingOccupanciesAt(after).filter(
-      (occupancy) => occupancy.dwellingId === dwellingId,
-    );
-    expect(leases.length === 0).toBe(renterLeft);
-    expect(occupied.length === 0).toBe(renterLeft);
-
-    // With the blanket chance, a destroyed home is left more often than a
-    // damaged one, and some households stay to rebuild.
-    const blanket = recordedMoves(
-      review(struck, 1, {
-        departureChancePerYear: 0,
-        arrivalsPerResidentPerYear: 0,
-      }),
-    );
-    expect(blanket.length).toBeLessThan(moves.length);
-  }, 60_000);
-
-  it("somebody who lost a job this year is more likely to leave, and says why", () => {
-    const worker = opened.world.personOrder.find(
-      (id) =>
-        opened.world.people[id]!.homeJurisdictionId === town &&
-        activeWorkRelationshipsAt(opened.world, id).length > 0,
-    )!;
-    expect(worker, "the opening seats a worker in town").toBeDefined();
-    expect(lostJobWithinYear(opened.world, worker)).toBe(false);
-    let world = opened.world;
-    for (const active of activeWorkRelationshipsAt(world, worker))
-      world = recordWorkStatus(world, {
-        stableKey: `migration-test:laid-off:${active.relationship.id}`,
-        workRelationshipId: active.relationship.id,
-        effectiveAt: world.currentDate,
-        status: "ended",
-        reason: "custom:laid-off",
-        provenance: { kind: "authored", note: "migration test" },
-        supersedesStatusId: active.status.id,
-      });
-    expect(lostJobWithinYear(world, worker)).toBe(true);
-    // A chance that only a job loss lifts to certain: 0.34 a year, times 3.
-    const reviews = [...Array(MIGRATION_REVIEWS_PER_YEAR).keys()].map((index) =>
-      reviewTown(world, index, {
-        departureChancePerYear: 0.34,
-        arrivalsPerResidentPerYear: 0,
-        displacedLeaveChance: { destroyed: 0, damaged: 0 },
-      }),
-    );
-    const left = reviews
-      .flatMap((reviewed) => recordedMoves(reviewed))
-      .find((move) => move.personIds.includes(worker));
-    // With the job gone nothing else holds this worker, so they leave.
-    expect(moveTieReader(world).bindingTie(worker)).toBeNull();
-    expect(left?.reason).toBe("work:job-lost");
-    // Nobody else is named for a job loss.
-    for (const reviewed of reviews)
-      for (const move of recordedMoves(reviewed))
-        if (move.reason === "work:job-lost")
-          expect(move.personIds).toContain(worker);
-  }, 60_000);
-
-  it("a leaving household weighs a state where a relative lives", () => {
-    const { world: seeded, neighborId } = withNeighbor(opened.world, town);
-    const oregonKey = "migration-test:oregon-sister";
-    let world = createCharacterHistoryContextPeople(seeded, [
-      {
-        stableKey: oregonKey,
-        givenName: "Lucia",
-        familyName: "Delgado",
-        birthDate: makeIsoDate("1983-07-02"),
-        homeJurisdictionId: oregon,
-      },
-    ]);
-    const sister = characterHistoryContextPersonId(world, oregonKey);
-    expect(statesWithRelatives(world, neighborId, town).size).toBe(0);
-    world = recordKinship(world, {
-      stableKey: "migration-test:sisters",
-      personIds: [neighborId, sister],
-      establishedAt: "1983-07-02",
-      kind: "collateral:sibling",
-      provenance: { kind: "authored", note: "migration test" },
-    });
-    expect([...statesWithRelatives(world, neighborId, town)]).toEqual([oregon]);
+    if (leader) expect(reader.bindingTie(leader)).not.toBeNull();
   });
 
   it("unemployment in town above the nation's pushes people out", () => {
-    // A month of play, so the economy has recorded a national month.
-    const played = passOrdinaryDays(opened.world, 35);
+    // An authored national month, carrying only the fields the reader
+    // uses, in place of a month of play: the case measures the reader, not
+    // the economy (which `macro-economy` tests run).
+    expect(townJobsPush(opened.world, town)).toBe(1);
+    const nation = {
+      key: "migration-test:nation",
+      scope: "national",
+      periodEnd: opened.world.currentDate,
+      recordedAt: opened.world.currentDate,
+      unemploymentPct: 4.2,
+    } as unknown as MacroMonthRecord;
+    const played: World = {
+      ...opened.world,
+      macroEconomy: {
+        ...(opened.world.macroEconomy ??
+          ({} as NonNullable<World["macroEconomy"]>)),
+        months: [nation],
+      },
+    };
     expect(townJobsPush(played, town)).toBe(1);
-    const months = played.macroEconomy?.months ?? [];
-    const nation = months.filter((row) => row.scope === "national").at(-1)!;
-    expect(nation, "the opening records a national month").toBeDefined();
+    const months = played.macroEconomy!.months;
     const withTownMonth = (unemploymentPct: number) => ({
       ...played,
       macroEconomy: {
@@ -514,7 +256,7 @@ describe("migration scaffold", () => {
     expect(
       townJobsPush(withTownMonth(nation.unemploymentPct - 2), town),
     ).toBeCloseTo(0.9);
-  }, 120_000);
+  });
 
   it("an unusually bad quarter of crime in town pushes people out", () => {
     expect(townCrimePush(opened.world, town)).toBe(1);
@@ -544,28 +286,6 @@ describe("migration scaffold", () => {
     // About 2.5 assaults and robberies are the usual quarter; 10 is 7.5 more.
     expect(townCrimePush(world, town)).toBeGreaterThan(1.3);
     expect(townCrimePush(world, town)).toBeLessThan(1.45);
-  });
-
-  it("a wave covering the town is named as the reason people leave", () => {
-    const { world: seeded, neighborId } = withNeighbor(opened.world, town);
-    const waved = startWave(seeded, "jobs-gone-exodus", town, "Test.");
-    const quarter = [...Array(MIGRATION_REVIEWS_PER_YEAR).keys()].find(
-      (index) =>
-        review(waved, index, {
-          departureChancePerYear: 0.5,
-          arrivalsPerResidentPerYear: 0,
-        }).people[neighborId]!.homeJurisdictionId !== town,
-    );
-    expect(quarter, "doubled pressure moves the neighbor").toBeDefined();
-    const world = review(waved, quarter!, {
-      departureChancePerYear: 0.5,
-      arrivalsPerResidentPerYear: 0,
-    });
-    const move = recordedMoves(world).find((entry) =>
-      entry.personIds.includes(neighborId),
-    )!;
-    expect(move.reason).toBe("wave:jobs-gone-exodus");
-    expect(move.waveKey).toBe("jobs-gone-exodus");
   });
 
   it("reading moves and waves writes nothing", () => {

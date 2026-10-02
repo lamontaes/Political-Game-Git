@@ -14,6 +14,7 @@ import {
   currentHistoricalCutoff,
   evaluateDecision,
   personName,
+  reachPhrase,
   recordDurableDecisionTrace,
   recordLegislativeCommitment,
   recordLegislativeNegotiation,
@@ -34,6 +35,7 @@ import type {
 import {
   legislativeMotifLine,
   type LegislativeMotifFacts,
+  type LegislativeMotifGrounding,
   type LegislativeMotifFamily,
   type LegislativeVoice,
 } from "./legislative-dialogue-motifs";
@@ -180,7 +182,7 @@ export function describeBargainingBriefingContext(
   progress: LegislativeBargainingProgress,
 ): string {
   const facts = progress.subjectFacts;
-  return `${facts.designation} — ${facts.shortTitle} is on the ${facts.chamberName} floor. ${facts.programSectionLabel} funds ${facts.programReach.replace(/^language /, "")}. One member wants ${facts.requestedSectionLabel} written in for ${facts.requestedBeneficiaryLabel}; another is counting what the bill already commits.`;
+  return `${facts.designation} — ${facts.shortTitle} is on the ${facts.chamberName} floor. ${facts.programSectionLabel} funds ${reachPhrase(facts.programReach)}. One member wants ${facts.requestedSectionLabel} written in for ${facts.requestedBeneficiaryLabel}; another is counting what the bill already commits.`;
 }
 
 // ---------------------------------------------------------------------------
@@ -308,6 +310,7 @@ export function bargainingOpeningBeat(
     priorFamily: progress.lastFamilyByPerson[speakerPersonId] ?? null,
     variantSeed: `${facts.measureStableKey}:opening:${speakerPersonId}:${progress.phase}:${progress.playerOffer}`,
     facts: motifFacts(world, progress, speakerPersonId),
+    grounding: motifGrounding(world, progress, speakerPersonId),
   });
 }
 
@@ -896,6 +899,7 @@ function say(
         input.progress.lastFamilyByPerson[input.speakerPersonId] ?? null,
       variantSeed: input.turnKey,
       facts: motifFacts(world, input.progress, input.speakerPersonId),
+      grounding: motifGrounding(world, input.progress, input.speakerPersonId),
     }),
     perception: detail.perception,
     durableDecisionRecorded: false,
@@ -942,7 +946,10 @@ function motifFacts(
       : facts.programSectionLabel,
     sectionHeading: isAdvocate ? facts.requestedHeading : facts.programHeading,
     reach: sectionExists
-      ? `language written for ${facts.requestedBeneficiaryLabel}`
+      ? {
+          relation: "written-for" as const,
+          who: facts.requestedBeneficiaryLabel,
+        }
       : facts.programReach,
     beneficiary: facts.requestedBeneficiaryLabel,
     place: facts.requestedPlaceLabel,
@@ -955,6 +962,50 @@ function motifFacts(
     chamber: facts.chamberName,
     nextStep: facts.nextStepLabel,
     priorStatement: held.at(-1)?.statement ?? null,
+    statedGround: isAdvocate ? facts.requestedStatedGround : null,
+    // The bargaining room is a legislature's floor; what it passes is a bill.
+    instrument: "bill",
+  };
+}
+
+/** The records the words in `motifFacts` come from. */
+function motifGrounding(
+  world: World,
+  progress: LegislativeBargainingProgress,
+  speakerPersonId: EntityId,
+): LegislativeMotifGrounding {
+  const facts = progress.subjectFacts;
+  const committing = currentMeasureProvisions(world, facts.measureId).filter(
+    (provision) => (provision.fiscalExposureMinorUnits ?? 0) !== 0,
+  );
+  return {
+    worldSeed: world.seed,
+    speakerPersonId,
+    listenerPersonId:
+      speakerPersonId === facts.advocatePersonId
+        ? facts.guardianPersonId
+        : facts.advocatePersonId,
+    measureId: facts.measureId,
+    analystPersonId: facts.analystPersonId,
+    // The total is summed from the provisions that commit money; with none,
+    // the label is the measure's own stated amount.
+    billAmountSourceIds:
+      committing.length > 0
+        ? committing.map((provision) => provision.id)
+        : [facts.measureId],
+    // The advocate speaks about the requested section; whether the bill now
+    // holds it is read from the current provisions.
+    requestedSection:
+      speakerPersonId === facts.advocatePersonId
+        ? {
+            adoptedProvisionId:
+              currentProvisionByKey(
+                world,
+                facts.measureId,
+                facts.requestedProvisionKey,
+              )?.id ?? null,
+          }
+        : null,
   };
 }
 

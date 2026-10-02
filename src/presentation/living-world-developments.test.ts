@@ -17,12 +17,8 @@ describe("synthetic news retirement", () => {
       startAge: 8,
     });
     const world = game.world;
-    expect(ensureLivingWorldDevelopments(world, game.playerPersonId)).toBe(
-      world,
-    );
-    expect(ensureOpeningPriorLocalRecords(world, game.playerPersonId)).toBe(
-      world,
-    );
+    expect(ensureLivingWorldDevelopments(world)).toBe(world);
+    expect(ensureOpeningPriorLocalRecords(world)).toBe(world);
     const scheduled = scheduleFutureDueItem(world, {
       stableKey: "retired:step:1",
       dueAt: addDays(world.currentDate, 1),

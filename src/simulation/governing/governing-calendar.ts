@@ -1,62 +1,22 @@
-import { makeIsoDate } from "../dates";
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { regularSessionYearForWorld } from "../legislative-procedure-world";
-import type { EntityId, IsoDate, World } from "../types";
+import {
+  legislativeProcedureForJurisdiction,
+  regularSessionYearForWorld,
+} from "../legislative-procedure-world";
+import type { EntityId, World } from "../types";
 
 /**
- * The state governing calendar the canonical clock keeps filled. Dependency
- * free on purpose: the clock's continuity step imports it.
+ * The state governing due records the canonical clock keeps filled. Dates
+ * come from the body's shared timetable; session-year admission stays separate.
  */
 
 const STATE_GOVERNING_VERSION = "state-governing/v1";
 
-/**
- * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off. A
- * disclosed game calendar, not any state's law. A returned bill's override
- * is its members' own vote against the state's threshold, not a chance
- * (legislative-clock.ts; the national 25 percent chance was removed on
- * September 29, 2026).
- */
-export const STATE_GOVERNING_CALENDAR = {
-  id: "ocd-state-governing-calendar/v1",
-  /** Budget requests are prepared each year from this day. */
-  budgetSeason: "12-01",
-  /** Days in a year when the legislature sends the governor a bill. */
-  billDays: ["02-15", "03-15", "04-15"],
-} as const;
-
 export const GOVERNING_SEASON = "governing:season" as const;
 
 export type SeasonKind = "budget" | "bill";
-
-function seasonDates(kind: SeasonKind): readonly string[] {
-  return kind === "budget"
-    ? [STATE_GOVERNING_CALENDAR.budgetSeason]
-    : STATE_GOVERNING_CALENDAR.billDays;
-}
-
-function nextSeasonDate(
-  world: World,
-  jurisdictionId: EntityId,
-  kind: SeasonKind,
-  after: IsoDate,
-): IsoDate {
-  const year = Number(after.slice(0, 4));
-  // A biennial legislature can have passed its final bill day in an active
-  // year. Search through the next active year instead of assuming next year.
-  for (let y = year; y <= year + 4; y += 1) {
-    if (
-      kind === "bill" &&
-      !regularSessionYearForWorld(world, jurisdictionId, y)
-    )
-      continue;
-    for (const monthDay of seasonDates(kind)) {
-      const date = makeIsoDate(`${y}-${monthDay}`);
-      if (date > after) return date;
-    }
-  }
-  throw new Error("No season date found.");
-}
 
 /**
  * Makes sure a governorship has its next budget season and bill day on the
@@ -68,9 +28,17 @@ export function scheduleGoverningSeasons(
   officeKey: string,
   jurisdictionId: EntityId,
 ): World {
+  const calendar =
+    legislativeProcedureForJurisdiction(world, jurisdictionId)?.baselinePack
+      .session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
   let next = world;
   for (const kind of ["budget", "bill"] as const) {
-    const dueAt = nextSeasonDate(next, jurisdictionId, kind, next.currentDate);
+    const dueAt = nextSessionCalendarDate(calendar, next.currentDate, kind, {
+      eligibleYear:
+        kind === "bill"
+          ? (year) => regularSessionYearForWorld(next, jurisdictionId, year)
+          : undefined,
+    });
     const stableKey = `${STATE_GOVERNING_VERSION}:season:${officeKey}:${kind}:${dueAt}`;
     if (next.history.futureDueItems.some((due) => due.stableKey === stableKey))
       continue;
@@ -82,7 +50,7 @@ export function scheduleGoverningSeasons(
       jurisdictionId,
       provenance: {
         kind: "authored",
-        note: `${STATE_GOVERNING_CALENDAR.id}: the game's ${kind === "budget" ? "budget season" : "bill presentment day"}, not a state's law.`,
+        note: `${calendar.id}: ${calendar.note}`,
       },
     });
   }

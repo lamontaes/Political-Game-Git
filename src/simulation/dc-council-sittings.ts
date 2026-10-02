@@ -1,5 +1,7 @@
-import { addDays } from "./dates";
+import { nextSessionCalendarDate } from "./legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
+import { applyInstitutionSessionEnd } from "./governing/legislative-clock";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
 import {
@@ -15,6 +17,7 @@ import {
 import {
   municipalExecutiveHolder,
   recordCouncilReadingVote,
+  recordCouncilOverrideVote,
 } from "./municipal-ordinance-procedure";
 import {
   municipalGovernmentJurisdictionId,
@@ -55,11 +58,6 @@ import type {
 export const DC_COUNCIL_SITTING = "civic:dc-council-sitting" as const;
 export const DC_COUNCIL_SITTINGS_VERSION = "dc-council-sittings/v1" as const;
 
-export const DC_COUNCIL_SITTING_PROFILE = {
-  id: "ocd-dc-council-sitting-placeholder/v1",
-  daysBetweenSittings: 14,
-} as const;
-
 function councilMembers(world: World) {
   return municipalSeats(world, DC_GOVERNMENT_KEY).filter(
     (seat) => seat.role === "member" || seat.role === "presiding-member",
@@ -76,7 +74,13 @@ export function scheduleDcCouncilSitting(
     DC_GOVERNMENT_KEY,
   );
   if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) return world;
-  const dueAt = addDays(after, DC_COUNCIL_SITTING_PROFILE.daysBetweenSittings);
+  const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY);
+  if (!government) return world;
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) return world;
+  const calendar =
+    rules.pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(calendar, after);
   const stableKey = `${DC_COUNCIL_SITTINGS_VERSION}:sitting:${dueAt}`;
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -88,7 +92,7 @@ export function scheduleDcCouncilSitting(
     jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `${DC_COUNCIL_SITTING_PROFILE.id}: a sitting every ${DC_COUNCIL_SITTING_PROFILE.daysBetweenSittings} days, pending dc-council-legislative-volume.`,
+      note: calendar.note,
     },
   });
 }
@@ -137,25 +141,10 @@ function fileActs(world: World): World {
       ),
       measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
       playerPersonId: player,
-      title: dcCouncilActTitle,
       measureKey: (numbering) =>
         municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
     },
   });
-}
-
-/** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */
-export function dcCouncilActTitle(questionName: string, year: string): string {
-  const words = questionName
-    .replace(/\s+(law|act)$/i, "")
-    .split(/\s+/)
-    .map((word, index) =>
-      index > 0 &&
-      /^(a|an|and|as|at|by|for|in|of|on|or|the|to|with)$/i.test(word)
-        ? word.toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    );
-  return `${words.join(" ")} Act of ${year}`;
 }
 
 /** Every act a non-player sponsor carries takes its next lawful step. */
@@ -165,6 +154,11 @@ function moveActs(world: World): World {
   let next = world;
   for (const measure of municipalMeasures(world, DC_GOVERNMENT_KEY)) {
     if (player && measure.sponsorPersonId === player) continue;
+    const sessionEnd = applyInstitutionSessionEnd(next, measure.id);
+    if (sessionEnd) {
+      if ("world" in sessionEnd && sessionEnd.world) next = sessionEnd.world;
+      continue;
+    }
     const phase = measurePosition(next, measure.id).phase;
     if (phase === "awaiting-referral") {
       next = placeMeasureOnCalendar(next, {
@@ -175,7 +169,7 @@ function moveActs(world: World): World {
       });
       continue;
     }
-    if (phase !== "on-floor") continue;
+    if (phase !== "on-floor" && phase !== "awaiting-override") continue;
     const members = councilMembers(next);
     const mayor = municipalExecutiveHolder(next, DC_GOVERNMENT_KEY);
     next = ensureCouncilPrinciples(next, [
@@ -183,19 +177,26 @@ function moveActs(world: World): World {
       ...(mayor ? [{ personId: mayor }] : []),
     ]);
     const dispositions = decideCouncilVote(next, {
-      stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
+      stableKey: `${measure.stableKey}:${phase === "awaiting-override" ? "override" : "vote"}:${next.currentDate}`,
       measureId: measure.id,
       jurisdictionId: measure.jurisdictionId,
       members,
       playerPersonId: player,
-      questionLabel: `Pass ${measure.designation}`,
+      questionLabel:
+        phase === "awaiting-override"
+          ? `Reenact ${measure.designation} over the executive return`
+          : `Pass ${measure.designation}`,
       executivePersonId: mayor,
       // The Council is elected in party primaries, and the Home Rule Act
       // limits how many at-large seats one party may hold (D.C. Code
       // § 1-204.01), so its members' parties are cues.
       nonpartisan: false,
     });
-    const result = recordCouncilReadingVote(next, {
+    const recordVote =
+      phase === "awaiting-override"
+        ? recordCouncilOverrideVote
+        : recordCouncilReadingVote;
+    const result = recordVote(next, {
       governmentKey: DC_GOVERNMENT_KEY,
       measureId: measure.id,
       dispositions,
@@ -235,6 +236,6 @@ export function dcCouncilSittingHandler(
   };
 }
 
-export const DC_COUNCIL_SITTING_HANDLERS = [
-  [DC_COUNCIL_SITTING, dcCouncilSittingHandler],
-] as const;
+export function dcCouncilSittingHandlers() {
+  return [[DC_COUNCIL_SITTING, dcCouncilSittingHandler]] as const;
+}

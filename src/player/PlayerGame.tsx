@@ -40,6 +40,7 @@ import {
   SavedAppearanceControls,
 } from "./SavedAppearance";
 import { createOpeningLifeController } from "../presentation/opening-life";
+import { openSavedPlayedLife } from "../presentation/open-saved-played-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
@@ -612,9 +613,12 @@ export function PlayerGame() {
       // A world being observed, or a played life that ended before anything
       // followed it, has nobody whose week could be opened: loading such a
       // save must not write new work for the retired or dead character.
-      world: shellReadOnly(prepared)
-        ? prepared
-        : openOrdinaryLife(prepared, personId),
+      world:
+        saveId !== null
+          ? openSavedPlayedLife(prepared, personId)
+          : shellReadOnly(prepared)
+            ? prepared
+            : openOrdinaryLife(prepared, personId),
       personId,
       unsavedSeed: seed,
       saveId,
@@ -2725,9 +2729,7 @@ function PlayingScreen({
                     selectedDossier.personId,
                     {
                       presentPersonIds,
-                      handlers: interruptionHandlers(
-                        shell.preferences.interruptions,
-                      ),
+                      handlers: interruptionHandlers(),
                     },
                   );
                   if (next !== session.world) {
@@ -3006,6 +3008,7 @@ function PlayingScreen({
                   ) : null
                 }
                 dateLabel={moment.dateLabel}
+                currentMoment={session.world.currentMoment}
                 placeName={moment.placeName}
                 destinations={destinations}
                 canSave={!savesUnavailable}
@@ -3908,6 +3911,7 @@ function renderWorkspace({
                 world={session.world}
                 personId={session.personId}
                 onOpenPerson={openPerson}
+                onWorldChange={onWorldChange}
               />
             </>
           }
@@ -4749,6 +4753,7 @@ function renderWorkspace({
           {half === "office" ? politicsTabs("office") : null}
           {half === "campaign" ? politicsTabs("campaigns") : null}
           <WorkLayout
+            showIntro={half !== "jobs"}
             roleSentence={role.sentence}
             pending={
               half === "office" ? null : (
@@ -5300,11 +5305,13 @@ interface WorkSection {
  * and it reads nothing and changes nothing.
  */
 function WorkLayout({
+  showIntro = true,
   roleSentence,
   pending,
   sections,
   timeControl,
 }: {
+  readonly showIntro?: boolean;
   readonly roleSentence: string;
   /** What is waiting on the character, said right after who they are. */
   readonly pending: ReactNode;
@@ -5318,11 +5325,15 @@ function WorkLayout({
   };
   return (
     <div className="pg-work" data-testid="work-layout">
-      <p className="game-scene" data-testid="work-role">
-        {roleSentence}
-      </p>
-      {pending}
-      {sections.length > 1 ? (
+      {showIntro ? (
+        <>
+          <p className="game-scene" data-testid="work-role">
+            {roleSentence}
+          </p>
+          {pending}
+        </>
+      ) : null}
+      {showIntro && sections.length > 1 ? (
         <nav className="pg-work-jump" aria-label="On this page">
           {sections.map((section) => (
             <button

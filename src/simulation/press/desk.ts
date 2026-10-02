@@ -1,6 +1,10 @@
 import { eventById } from "../event-index";
 import { addDays, spokenDate } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { personName } from "../people";
 import { correctPublication, publishPublicEvent } from "../public-information";
@@ -60,6 +64,7 @@ import {
   reportLawEffects,
   reportLawOutcomes,
 } from "./law-effect-news";
+import { recordStoryHeardExposure } from "./story-exposure";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -280,9 +285,9 @@ export function outletAssignmentCapacity(
     (role) => role.startedAt <= outlet.establishedAt,
   ).length;
   const staffed = opening > 0 ? opening : roles.length;
-  // An outlet with no recorded newsroom keeps its tier's capacity; assignment
-  // still needs a current reporter, so it takes nothing either way.
-  if (staffed === 0) return full;
+  // A tier describes a staffed newsroom; absent reporter records supply no
+  // people who can carry an assignment.
+  if (staffed === 0) return 0;
   const current = roles.filter((role) => reporterIsCurrent(world, role)).length;
   return Math.min(full, Math.ceil((full * current) / staffed));
 }
@@ -380,6 +385,7 @@ export function assignStory(world: World, leadId: EntityId): World {
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
   if (evaluation.selectedOptionKey !== "take") {
@@ -783,6 +789,7 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
       randomness: "close-choices",
       retention: "durable",
     });
+    if (!isSelectedDecision(evaluation)) continue;
     next = recordDurableDecisionTrace(next, evaluation);
     if (evaluation.selectedOptionKey === "no-response") continue;
     const dispute = evaluation.selectedOptionKey === "dispute";
@@ -980,9 +987,18 @@ function editorialDecision(
     randomness: "none",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) {
+    return {
+      world: world,
+      status: "blocked",
+      reasonKey: "press:decision-undecided",
+      context: null,
+      outcomeEventId: null,
+    };
+  }
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
-  const choice = evaluation.selectedOptionKey ?? "decline";
+  const choice = evaluation.selectedOptionKey;
   if (choice === "hold") {
     next = writeDisposition(next, lead, "held", {
       reporterPersonId: reporterId,
@@ -1259,6 +1275,16 @@ function recordProfessionalReaders(
         reference: publication.id,
       },
     });
+    // A story about what a law did is heard from the news (story-exposure.ts).
+    const knowledge = next.history.knowledge.find(
+      (row) => row.stableKey === `${publication.stableKey}:read:${personId}`,
+    );
+    if (knowledge)
+      for (const basisEventId of lead.basisEventIds)
+        next = recordStoryHeardExposure(next, {
+          knowledgeId: knowledge.id,
+          basisEventId,
+        });
   }
   if (lead.matterId) {
     next = produceMatterResponses(next, lead.matterId, story);

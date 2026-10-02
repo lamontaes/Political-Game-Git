@@ -10,7 +10,6 @@ import {
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
 import {
-  LIVING_COSTS_PLACEHOLDER,
   livingCostsFlowFor,
   settleLivingCosts,
 } from "../../src/simulation/cost-of-living";
@@ -27,7 +26,7 @@ import {
 import {
   affordableRentMinor,
   collectTownRent,
-  drawBedrooms,
+  bedroomsForHousehold,
   housingLawYes,
   hudRentRowFor,
   INCLUSIONARY_SET_ASIDE,
@@ -166,17 +165,12 @@ describe("rent arithmetic", () => {
   });
 
   it("fits a home's bedrooms to who first rents it", () => {
-    const sizes = [1, 2, 4, 6].map((people) =>
-      Array.from({ length: 200 }, (_, index) =>
-        drawBedrooms("suburban-house", people, (index + 0.5) / 200),
-      ).reduce((sum, bedrooms) => sum + bedrooms, 0),
-    );
-    expect(sizes[0]!).toBeLessThan(sizes[3]!);
-    expect(
-      Array.from({ length: 200 }, (_, index) =>
-        drawBedrooms("small-apartment", 1, (index + 0.5) / 200),
-      ).some((bedrooms) => bedrooms === 0),
-    ).toBe(true);
+    // The household's recorded size decides, two people to a bedroom (A56).
+    const sizes = [1, 2, 4, 6].map((people) => bedroomsForHousehold(people));
+    expect(sizes).toEqual([0, 1, 2, 3]);
+    // One person rents a studio, and no household needs more than four.
+    expect(bedroomsForHousehold(1)).toBe(0);
+    expect(bedroomsForHousehold(11)).toBe(4);
   });
 });
 
@@ -316,7 +310,7 @@ describe("rent day", { timeout: 600_000 }, () => {
     ).toBeNull();
   });
 
-  it("the flat $900 leaves the player's month once their household holds a lease", () => {
+  it("A52 retained nonhousing bills stay separate from actual household rent", () => {
     // Several openings, so both a renting and an owning player household are
     // seen; each one's month follows its own home.
     const seen = new Set<string>();
@@ -347,9 +341,8 @@ describe("rent day", { timeout: 600_000 }, () => {
         (lease) => !lease.ended && lease.householdId === household,
       );
       const monthly = resourceFlowTermsAt(settled, flow.id)!.amount.minorUnits;
-      const full = LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
-      const housing = LIVING_COSTS_PLACEHOLDER.housingShareMinor;
-      if (leased) expect(monthly, seed).toBe(full - housing);
+      // Chicago: independently rounded 2024 CES Midwest retained categories.
+      expect(monthly, seed).toBe(79_125);
       seen.add(leased ? "leased" : "not leased");
     }
     expect(seen.has("leased")).toBe(true);

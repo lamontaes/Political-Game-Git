@@ -24,6 +24,7 @@ import {
   fiscalYearContaining,
   nominalEconomyIndex,
   propositionIdFor,
+  lawSpendingPerResident,
 } from "./fiscal";
 import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
@@ -663,10 +664,10 @@ export function taxLawFactor(
 }
 
 /**
- * What a state's laws cost it to carry out in one month, by program, against
+ * What a government's laws cost it to carry out in one month, by program, against
  * the laws it began with (`SPENDING_QUESTION_EFFECTS`): nothing where no law
- * changed, where the cost is not researched, or for a county or city, which
- * these state questions do not bind. A law counts from the day it takes
+ * changed, where the cost is not researched, or where the row does not cover
+ * the government's level. A law counts from the day it takes
  * effect, at the government's own population.
  */
 export function lawSpendingForMonth(
@@ -675,28 +676,14 @@ export function lawSpendingForMonth(
   date: IsoDate,
 ): readonly number[] {
   const spending = BUDGET_PROGRAMS.map(() => 0);
-  if (government.level !== "state") return spending;
   for (const effect of SPENDING_QUESTION_EFFECTS) {
-    const propositionId = propositionIdFor(world, effect.questionKey);
-    if (!propositionId) continue;
-    const now = lawInForce(
+    if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
+    const perResident = lawSpendingPerResident(
       world,
       government.lawJurisdictionId,
-      propositionId,
-      date,
-    )?.answer;
-    const began = lawInForceAtStart(
-      world,
-      government.lawJurisdictionId,
-      propositionId,
+      effect,
       date,
     );
-    const perResident =
-      began === "no" && now === "yes"
-        ? effect.toYes
-        : began === "yes" && now === "no"
-          ? effect.toNo
-          : null;
     if (perResident === null) continue;
     spending[BUDGET_PROGRAMS.indexOf(effect.program)]! +=
       (perResident * government.population) / 12;
@@ -891,14 +878,11 @@ export function settleGovernmentMonth(
     };
   }
   const adjustments: BudgetAdjustment[] = [];
-  // A local government cannot settle from a forecast or an ambiguous/missing
-  // account. Its month must use recorded cash; never create an account here.
-  if (
-    (government.level === "county" || government.level === "city") &&
-    (flows.recorded === undefined || publicCash === undefined)
-  )
+  // Every government needs recorded cash and an unambiguous saved account.
+  // Never settle forecast receipts or create an account here.
+  if (flows.recorded === undefined || publicCash === undefined)
     return { government, adjustments: [] };
-  // A missing recorded map means an older caller still supplies forecasts.
+  // A present recorded map permits actual zero activity in a saved account.
   const cashSettled = publicCash !== undefined && flows.recorded !== undefined;
   const recorded = flows.recorded?.get(government.key);
   const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;

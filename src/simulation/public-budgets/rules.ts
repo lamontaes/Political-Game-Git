@@ -1,6 +1,9 @@
 import stateLocalFinances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
-import { MILEAGE_FEE_QUESTION, ROAD_CHARGE_BASIS } from "./road-usage-charge";
+import {
+  MILEAGE_FEE_QUESTION,
+  ROAD_CHARGE_BASIS,
+} from "./road-usage-charge-constants";
 import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
 
 /** Should a fixed share of revenue be dedicated to parks and recreation? */
@@ -156,6 +159,7 @@ export const TAX_QUESTION_EFFECTS: readonly {
   {
     questionKey: MILEAGE_FEE_QUESTION,
     source: "selectiveSalesTaxes",
+    levels: ["state"],
     // A share that grows each year the fuel tax erodes, not one size:
     // `road-usage-charge.ts`.
     toYes: null,
@@ -215,12 +219,14 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
   readonly program: BudgetProgram;
   readonly toYes: number | null;
   readonly toNo: number | null;
+  readonly levels?: readonly BudgetLevel[];
   readonly basis: string;
 }[] = [
   {
     questionKey:
       "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
     program: "corrections",
+    levels: ["state"],
     // New York's Raise the Age aid, $250 million each state fiscal year since
     // 2021 (Office of the State Comptroller, 2025), over 19,867,248 residents.
     // A state that lowers the age again stops paying it.
@@ -232,6 +238,7 @@ export const SPENDING_QUESTION_EFFECTS: readonly {
   {
     questionKey: PARKS_DEDICATION_QUESTION,
     program: "parks",
+    levels: ["state"],
     // What a dedicated tax adds to the state's parks line, from the two
     // constitutions Research 1 read: Missouri's 0.05% of sales (the parks half
     // of its 0.1% tax, Const. art. IV, sec. 47) yields $53.9 million a year

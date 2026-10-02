@@ -1,4 +1,7 @@
-import { settleTownCompensations } from "./living-world/town-pay";
+import {
+  settleTownCompensations,
+  stateMedianAnnualWage,
+} from "./living-world/town-pay";
 import {
   addDays,
   ageOnDate,
@@ -17,9 +20,13 @@ import {
   organizationProfileAt,
   peopleInHouseholdAt,
   workStatusAt,
+  workRoleAt,
 } from "./life-queries";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
-import { adultStartEmployer, localBusinessWageMinor } from "./local-economy";
+import {
+  adultStartEmployer,
+  localBusinessWageMinor,
+} from "./recorded-employer";
 import { governmentUnit } from "./government-units";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
@@ -71,8 +78,8 @@ import type {
  *      public bodies the Census 2025 listing verifies. Nothing here invents an
  *      employer or names one; a public body keeps the name its seated
  *      organization was recorded under.
- *   2. A listing shows actual pay and hours. A national median is kept for
- *      optional detail by the screen, never beside the offer.
+ *   2. A listing shows its saved pay and hours. A vacant public role without
+ *      recorded employer pay uses the approved sourced median estimate.
  *   3. Pay is quoted by the hour or as an annual salary.
  *   4. A person applies, or is put forward by someone they know who works
  *      there; either can be turned down, for a reason tied to the role.
@@ -161,15 +168,15 @@ export const JOB_TURNOVER = {
 /**
  * PLACEHOLDER(research: public-employer-roles-and-pay). One role for every
  * county, city and township government in the country, standing in until
- * ChatGPT says which jobs a public body posts and what it pays. The pay is
- * the published national median for general office clerks (BLS OEWS, May
- * 2025, $21.64 an hour), not this government's pay scale.
+ * ChatGPT says which jobs a public body posts and what it pays. Its pay
+ * rate is read from recorded employer pay when available; otherwise the
+ * sourced occupation/workplace median is an estimated vacant-role offer
+ * (owner approval, October 1, 9:47 p.m.), not this government's pay scale.
  */
 export const PUBLIC_BODY_ROLE_PLACEHOLDER = {
   researchQuestionId: "public-employer-roles-and-pay",
   title: "Office clerk",
   occupationClassification: "occupation:office-clerk",
-  hourlyMinor: 2164,
   weeklyHours: { minimumHours: 37, maximumHours: 40 },
 } as const;
 
@@ -255,6 +262,54 @@ function publicBodyOrganizations(
   return ids;
 }
 
+/** Read an actual employer rate before the approved sourced vacant-role estimate. */
+function publicBodyRolePay(
+  world: World,
+  organizationId: EntityId,
+  jurisdictionId: EntityId,
+): {
+  annualMinor: number;
+  currency: string;
+  source: EmployerRole["source"];
+} | null {
+  const role = PUBLIC_BODY_ROLE_PLACEHOLDER;
+  const offeredHours =
+    (role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2;
+  const cutoff = currentLifeCutoff(world);
+  for (const work of world.history.workRelationships) {
+    if (
+      work.organizationId !== organizationId ||
+      (work.compensation !== "paid" && work.compensation !== "mixed") ||
+      work.startedAt > cutoff.asOfDate ||
+      workStatusAt(world, work.id, cutoff)?.status !== "active"
+    )
+      continue;
+    const actualRole = workRoleAt(world, work.id, cutoff);
+    if (actualRole?.occupationClassification !== role.occupationClassification)
+      continue;
+    const pay = staffPay(world, work);
+    const hours = actualRole.timeDemand.expectedWeekly;
+    const actualHours = (hours.minimumHours + hours.maximumHours) / 2;
+    if (!pay || actualHours <= 0) continue;
+    return {
+      annualMinor: Math.round((pay.annualMinor * offeredHours) / actualHours),
+      currency: pay.currency,
+      source: "staff-pay",
+    };
+  }
+  const annualMedian = stateMedianAnnualWage(
+    role.occupationClassification,
+    jurisdictionId,
+  );
+  if (annualMedian === null) return null;
+  // OEWS annual wages use 2,080 hours; preserve the role's recorded offer hours.
+  return {
+    annualMinor: Math.round((annualMedian * 100 * offeredHours) / 40),
+    currency: "USD",
+    source: "public-body-profile",
+  };
+}
+
 /**
  * The work each of the town's employers takes people on for.
  *
@@ -275,6 +330,12 @@ export function townEmployerRoles(
     const profile = organizationProfileAt(world, organizationId);
     if (!profile?.locationJurisdictionId) continue;
     const role = PUBLIC_BODY_ROLE_PLACEHOLDER;
+    const pay = publicBodyRolePay(
+      world,
+      organizationId,
+      profile.locationJurisdictionId,
+    );
+    if (!pay) continue;
     const town = playerTown(world, personId);
     roles.push({
       key: `${organizationId}:${slug(role.title)}`,
@@ -282,15 +343,11 @@ export function townEmployerRoles(
       jurisdictionId: profile.locationJurisdictionId,
       title: role.title,
       occupationClassification: role.occupationClassification,
-      annualMinor: Math.round(
-        role.hourlyMinor *
-          52 *
-          ((role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2),
-      ),
-      currency: "USD",
+      annualMinor: pay.annualMinor,
+      currency: pay.currency,
       weeklyHours: role.weeklyHours,
       salaried: false,
-      source: "public-body-profile",
+      source: pay.source,
       holders: town
         ? Math.max(
             1,
@@ -831,7 +888,7 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
         kind: "authored",
         note:
           role.source === "public-body-profile"
-            ? `${PROVENANCE_NOTE} The role and its pay are the placeholder public-body profile (research: ${PUBLIC_BODY_ROLE_PLACEHOLDER.researchQuestionId}).`
+            ? `Opening, answer and start timing are drawn from the placeholder calibration in job-market.ts. The role remains the public-body profile (research: ${PUBLIC_BODY_ROLE_PLACEHOLDER.researchQuestionId}). ESTIMATE FROM SOURCE: its vacant-role offer uses the BLS May 2025 OEWS occupation median for the recorded workplace's state or territory, with the source reader's national fallback where that cell is withheld (https://www.bls.gov/oes/); occupation ${role.occupationClassification}, workplace ${role.jurisdictionId}, annual base ${role.annualMinor} USD cents at the stated hours. Recorded employer pay replaces this estimate when read; this is not an observed employer pay scale.`
             : PROVENANCE_NOTE,
       },
     });
@@ -1078,6 +1135,127 @@ function addStep(
   });
 }
 
+/** Work a resident looks for at a recorded employer outside their town. */
+export interface WorkElsewhere {
+  readonly personId: EntityId;
+  /** The employer, recorded in the world at `jurisdictionId`. */
+  readonly organizationId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly title: string;
+  readonly occupationClassification: OccupationClassification | null;
+  readonly pay: JobPayTerms;
+  readonly weeklyHours: {
+    readonly minimumHours: number;
+    readonly maximumHours: number;
+  };
+  /** Where the role and its pay come from, kept on the opening. */
+  readonly note: string;
+  /** Names the review, so the same review writes nothing twice. */
+  readonly round: string;
+  /**
+   * Whether the work needs no credential or experience, so the employer
+   * hires somebody who has not done it before. Read from the occupation's
+   * record by the caller.
+   */
+  readonly needsNoExperience: boolean;
+}
+
+/**
+ * A resident's search for work elsewhere (A135): the opening at the employer
+ * elsewhere, their application, and the employer's answer on the same day.
+ *
+ * Nothing is drawn. The employer offers when the applicant has done this
+ * line of work before (`daysInLine`) or the work needs no credential or
+ * experience, and otherwise declines for want of experience. The offer
+ * waits the job market's longest reply window and starts the day it is
+ * accepted: somebody who takes it is moving for it. Refuses the played
+ * person, who applies for themselves.
+ */
+export function offerWorkElsewhere(
+  world: World,
+  input: WorkElsewhere,
+): JobMarketResult {
+  const refusal = residentCanAct(world, input.personId);
+  if (refusal) return { world, ok: false, message: refusal };
+  const openingKey = `job-opening:elsewhere:${input.organizationId}:${input.personId}:${input.round}`;
+  if (
+    (world.history.jobOpenings ?? []).some(
+      (row) => row.stableKey === openingKey,
+    )
+  )
+    return { world, ok: false, message: "This search was already made." };
+  const today = world.currentDate;
+  // Hourly pay is never below the minimum wage where the work is.
+  const minimum = minimumHourlyMinorFor(world, input.jurisdictionId, today);
+  const pay: JobPayTerms =
+    input.pay.basis === "hourly" && input.pay.amount.minorUnits < minimum
+      ? { ...input.pay, amount: money(minimum, input.pay.amount.currency) }
+      : input.pay;
+  let next = append(world, "jobOpenings", "job-opening", {
+    stableKey: openingKey,
+    organizationId: input.organizationId,
+    jurisdictionId: input.jurisdictionId,
+    title: input.title,
+    occupationClassification: input.occupationClassification,
+    pay,
+    weeklyHours: input.weeklyHours,
+    schedule: null,
+    qualifications: null,
+    earliestStartAt: null,
+    opensAt: today,
+    closesAt: addDays(today, JOB_TIMING.recruitmentWindowDays.maximum),
+    provenance: { kind: "authored", note: `${PROVENANCE_NOTE} ${input.note}` },
+  });
+  const opening = next.history.jobOpenings!.at(-1)!;
+  const stableKey = `job-application:${opening.id}:${input.personId}`;
+  const employer = organizationName(next, opening.organizationId);
+  const name = residentName(next, input.personId);
+  next = note(next, {
+    key: stableKey,
+    type: "applied",
+    occurredAt: today,
+    personId: input.personId,
+    involved: [opening.organizationId],
+    jurisdictionId: opening.jurisdictionId,
+    summary: `${name} applied to ${employer} for ${input.title.toLowerCase()} work.`,
+  }).world;
+  next = append(next, "jobApplications", "job-application", {
+    stableKey,
+    openingId: opening.id,
+    personId: input.personId,
+    route: "applied",
+    introducerPersonId: null,
+    submittedAt: today,
+    decisionAt: today,
+  });
+  const application = next.history.jobApplications!.at(-1)!;
+  const experienced =
+    daysInLine(next, input.personId, opening, today) > 0 ||
+    input.needsNoExperience;
+  if (!experienced)
+    return {
+      world: addStep(next, application, {
+        kind: "declined",
+        occurredAt: today,
+        reason: "They wanted someone who had done this work before.",
+        summary: `${employer} turned down ${name}: they wanted someone who had done this work before.`,
+      }),
+      ok: true,
+      message: `${employer} turned ${name} down.`,
+    };
+  const replyBy = addDays(today, JOB_TIMING.offerReplyDays.maximum);
+  next = addStep(next, application, {
+    kind: "offered",
+    occurredAt: today,
+    replyBy,
+    startAt: today,
+    agreedWeeklyHours:
+      pay.basis === "hourly" ? input.weeklyHours.maximumHours : null,
+    summary: `${employer} offered ${name} ${input.title.toLowerCase()} work in ${next.jurisdictions[input.jurisdictionId]?.name ?? "another place"} at ${payPhrase(pay)}. They asked for an answer by ${spoken(replyBy)}.`,
+  });
+  return { world: next, ok: true, message: `${employer} made an offer.` };
+}
+
 /** The offer an application is answering to, if it has one. */
 export function applicationOffer(
   world: World,
@@ -1132,10 +1310,14 @@ export function holdsWork(world: World, personId: EntityId): boolean {
  * Days the person has done this line of work, from their recorded jobs: the
  * same title, or the same occupation when the opening names one.
  */
-function daysInLine(
+/**
+ * Days `personId` has worked, by `on`, in the opening's line of work: a job
+ * with the same title or occupation. What an employer reads as experience.
+ */
+export function daysInLine(
   world: World,
   personId: EntityId,
-  opening: JobOpeningRecord,
+  opening: Pick<JobOpeningRecord, "title" | "occupationClassification">,
   on: IsoDate,
 ): number {
   let days = 0;
