@@ -250,12 +250,10 @@ test.describe("The front door stays compact and readable over the room", () => {
       "ui-kit12-foundation-20261002",
       (candidate) => candidate.scope === "locality",
     );
-    test
-      .info()
-      .annotations.push({
-        type: "random-place",
-        description: place.displayName,
-      });
+    test.info().annotations.push({
+      type: "random-place",
+      description: place.displayName,
+    });
     await startLife(page, {
       age: 34,
       givenName: "Alexandrina-Therese",

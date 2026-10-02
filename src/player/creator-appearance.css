@@ -56,7 +56,7 @@
   max-height: 100%;
   padding: 18px;
   overflow: auto;
-  background: transparent;
+  background: var(--kit12-glass);
 }
 .title-tableau--art.front-door .game-creator--appearance .creator-summary {
   display: inline-flex;
@@ -507,4 +507,38 @@
 .engine-appearance-label {
   color: var(--text-strong);
   text-shadow: 0 0 1px rgb(0 0 0 / 60%);
+}
+
+/* Appearance completion uses the same kit12 actions as Back and Next. */
+.title-tableau--art.front-door
+  .game-creator
+  .kit41-creator
+  .game-setup-actions
+  button {
+  min-height: 2.75rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--gold);
+  font: 600 12px var(--ui);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: none;
+}
+.title-tableau--art.front-door
+  .game-creator
+  .kit41-creator
+  .game-setup-actions
+  button[data-testid="begin"] {
+  color: var(--text-strong);
+  border-bottom: 1.5px solid var(--red);
+}
+.title-tableau--art.front-door
+  .game-creator
+  .kit41-creator
+  .game-setup-actions
+  button:disabled {
+  color: var(--text-3);
+  background: transparent;
+  box-shadow: none;
 }
