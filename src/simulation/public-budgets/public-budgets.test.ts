@@ -574,7 +574,7 @@ describe("public budgets", () => {
       propositionIds: [propositionId],
       propositionAnswers: [{ propositionId, answer: "no" }],
     });
-    const measureId = without.history.legislativeMeasures.at(-1)!.id;
+    const measureId = without.history.legislativeMeasures!.at(-1)!.id;
     without = enactThroughDesk(without, measureId, {
       context: {
         pack,
