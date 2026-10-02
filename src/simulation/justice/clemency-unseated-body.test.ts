@@ -232,8 +232,15 @@ describe("unsupported campaign-funds sentencing remains visibly pending", () => 
       const restored = deserializeWorld(serializeWorld(sentenced));
       const repeated = advanceProsecutions(restored);
       expect(repeated.history.events).toEqual(sentenced.history.events);
+      expect(repeated.history.decisionTraces).toEqual(
+        sentenced.history.decisionTraces,
+      );
       expect(courtCasesOf(repeated, petitionerId)).toContainEqual(visibleCase);
       expect(sentencesOf(repeated, petitionerId)).toHaveLength(0);
+      const continued = deserializeWorld(serializeWorld(repeated));
+      expect(advanceProsecutions(continued).history.decisionTraces).toEqual(
+        sentenced.history.decisionTraces,
+      );
     },
     30_000,
   );
