@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
+import { decideAtDesk } from "../../tests/fixtures/enact-through-desk";
 import { suppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
+import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/state-executives";
+import { createLightweightPerson } from "../simulation/people";
+import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import {
@@ -205,6 +209,38 @@ function fileSavedFixtureBill(stateUsps: string): FiledProcedure {
   return fileProcedureBill(stateUsps, base, pack);
 }
 
+/**
+ * The state's governor, seated through the canonical writer so the bill's
+ * desk has an officeholder to decide it (#1478). A fixture world with nobody
+ * in it first gets one resident to anchor the governor's context record.
+ */
+function seatGovernor(world: World, stateUsps: string): World {
+  let next = world;
+  let subjectId = next.personOrder[0];
+  if (!subjectId) {
+    const person = createLightweightPerson({
+      worldId: next.id,
+      worldSeed: next.seed,
+      index: 0,
+      currentDate: next.currentDate,
+      homeJurisdictionId: stateJurisdictionForKey(`US-${stateUsps}`)!.id,
+    });
+    next = {
+      ...next,
+      people: { ...next.people, [person.id]: person },
+      personOrder: [...next.personOrder, person.id],
+    };
+    subjectId = person.id;
+  }
+  next = ensureStateExecutiveIncumbent(next, subjectId, stateUsps);
+  // The governor's desk work is the controlled person's, as in #1910.
+  const holder = governorOfficeForJurisdiction(
+    next,
+    `US-${stateUsps}`,
+  )!.holderPersonId!;
+  return { ...next, control: { kind: "person", personId: holder } };
+}
+
 function enactFiledBill(
   filed: FiledProcedure,
   startingWorld = filed.world,
@@ -213,6 +249,14 @@ function enactFiledBill(
   for (let guard = 0; guard < 40; guard += 1) {
     const position = measurePosition(world, filed.measureId);
     if (position.phase === "enacted") return world;
+    if (position.phase === "awaiting-executive") {
+      // The seated governor decides the bill at the actual desk.
+      world = decideAtDesk(
+        seatGovernor(world, filed.stateUsps),
+        filed.measureId,
+      );
+      continue;
+    }
     if (position.terminal) {
       throw new Error(`${filed.stateUsps}: bill ended as ${position.outcome}`);
     }

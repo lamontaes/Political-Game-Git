@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { composeWorldTimeHandlers } from "../campaigns";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -294,7 +295,9 @@ describe("one death engine (A130)", () => {
   it("still opens a save whose death the annual check wrote, and writes nothing new for it", async () => {
     // Written by the annual check before it was removed: one person, a
     // certain-death life table, the check's plan, its died result, the death.
-    const fixture = await import("./fixtures/dormant-annual-check-save.json");
+    const fixture = await import("./fixtures/dormant-annual-check-save.json", {
+      with: { type: "json" },
+    });
     const old = deserializeWorld(JSON.stringify(fixture.default));
     expect(() => assertWorldIntegrity(old)).not.toThrow();
     expect(old.history.mortalityCheckPlans).toHaveLength(1);
@@ -625,7 +628,9 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
             basis: "Test fixture only; not clinical data.",
           },
         });
-        const advanced = advanceWorld(aged, 365, REGISTRY);
+        // A seated presidency schedules the clock's other yearly work (the
+        // federal reform review), so a year runs on the real world handlers.
+        const advanced = advanceWorld(aged, 365, composeWorldTimeHandlers());
         if (
           advanced.history.personDeaths.some(
             (d) => d.personId === fixture.president,

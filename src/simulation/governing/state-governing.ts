@@ -63,7 +63,6 @@ import {
   clemencyQuestionFor,
   evaluateClemency,
 } from "../justice/clemency-reasoning";
-import { isCongressMeasure } from "./congress-chambers";
 import { congressLawmakingHandlers, presidentDesk } from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
@@ -116,7 +115,7 @@ import { publicPartyOf } from "./chamber-votes";
  *
  * Budget season, bill presentment dates, the action deadline and what an
  * unsigned bill does are the disclosed calendar in
- * `STATE_GOVERNING_CALENDAR`, not compiled state law.
+ * the shared session timetable, not compiled state law.
  *
  * These are the office's own staffing and management choices. They claim no
  * statutory power: hiring personal staff and directing a priority are ordinary
@@ -2949,7 +2948,7 @@ export const executiveDesk: ExecutiveDeskHandler = (
   measure,
   blueprint,
 ) =>
-  isCongressMeasure(measure)
+  world.jurisdictions[measure.jurisdictionId]?.kind === "federal"
     ? presidentDesk(world, measure)
     : governorDesk(world, measure, blueprint);
 

@@ -1,3 +1,4 @@
+import type { SittingCalendar } from "./legislative-session-calendar";
 import {
   assertMeasureTitleTemplate,
   type MeasureTitleTemplate,
@@ -513,6 +514,8 @@ export interface EnactmentRule {
 }
 
 export interface SessionRule {
+  /** Optional in old packs/saves; shared timetable, with explicit provenance. */
+  readonly sittingCalendar?: SittingCalendar;
   /** A saved game's regular-session cadence; absent in legacy rule packs. */
   readonly regularSessionYears?: KnownRuleValue<"annual" | "odd" | "even">;
   /** Outer regular-session boundary only; not proof of convening or bill expiration. */
@@ -583,6 +586,15 @@ export interface LegislativeRulePack {
   readonly packId: string;
   readonly jurisdictionKey: string;
   readonly displayName: string;
+  /**
+   * The saved roster this institution reads, and how far that roster supplies
+   * party cues. Older packs use candidacy openings and the current chamber.
+   * This selects a data reader; it grants no seats or legislative authority.
+   */
+  readonly seatRollSource?: {
+    readonly kind: "national-election-seats" | "candidacy-opening";
+    readonly partyCueScope: "chamber" | "institution";
+  };
   /**
    * Whether this pack states read law or the game's own rule.
    *
@@ -878,6 +890,18 @@ function assertOriginationChambers(
  */
 export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   if (pack.titleTemplate) assertMeasureTitleTemplate(pack.titleTemplate);
+  if (pack.seatRollSource !== undefined) {
+    const source = pack.seatRollSource;
+    if (
+      !source ||
+      !["national-election-seats", "candidacy-opening"].includes(source.kind) ||
+      !["chamber", "institution"].includes(source.partyCueScope)
+    ) {
+      throw new Error(
+        `Rule pack '${pack.packId}' declares an invalid seat roll source.`,
+      );
+    }
+  }
   if (pack.packId.trim().length === 0) {
     throw new Error("A rule pack must have an identifier.");
   }

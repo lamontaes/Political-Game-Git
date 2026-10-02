@@ -14,7 +14,14 @@ import {
   recordResourceTransferOutcome,
 } from "../resources";
 import { resourcePositionAt } from "../resource-queries";
-import { publicOrganizationKey } from "../tax-policy";
+import {
+  publicOrganizationKey,
+  publicTaxAccountForJurisdiction,
+  publicTaxAccountEvidenceForIdentity,
+  ensurePublicGovernmentAccount,
+} from "../tax-policy";
+import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
+import { ensureOpeningGovernmentAccounts } from "./opening-government-accounts";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { withOpenedBudgets } from "./index";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
@@ -65,6 +72,24 @@ describe("M5 saved government cash replaces a separate budget stock", () => {
           note: "Explicit fixture opening, no forecast receipts or expenses.",
         },
       });
+      const positionId = world.history.resourcePositions.at(-1)!.id;
+      world = ensureOpeningGovernmentAccounts(world);
+      const governingJurisdiction = chiefExecutiveJurisdiction(
+        stateKey.slice(3),
+      )!;
+      expect(
+        publicTaxAccountForJurisdiction(world, governingJurisdiction.id)
+          ?.organizationId,
+      ).toBe(organizationId);
+      expect(
+        publicTaxAccountForJurisdiction(world, jurisdiction.id)?.organizationId,
+      ).toBe(organizationId);
+      expect(
+        world.history.organizations.filter((row) =>
+          row.stableKey.startsWith("public-government:"),
+        ),
+      ).toHaveLength(56);
+      expect(ensureOpeningGovernmentAccounts(world)).toBe(world);
       const empty: PublicBudgetStore = {
         version: PUBLIC_BUDGETS_VERSION,
         cursor: { flows: 0, outcomes: 0 },
@@ -87,7 +112,7 @@ describe("M5 saved government cash replaces a separate budget stock", () => {
       expect(settled.balance + settled.reserve).toBe(1000);
       expect(settled.publicAccountMigration).toMatchObject({
         organizationId,
-        positionId: world.history.resourcePositions.at(-1)!.id,
+        positionId,
         previousBudgetBalance: government.balance,
         previousBudgetReserve: government.reserve,
         accountBalanceMinorUnits: 100000,
@@ -241,6 +266,12 @@ describe("M5 saved government cash replaces a separate budget stock", () => {
       jurisdictions: [NATIONAL_ELECTION_JURISDICTION, state, jurisdiction],
       people: [],
     });
+    const historicalCutoff = {
+      asOfDate: date,
+      historySequenceExclusive: world.history.nextSequence,
+    };
+    let firstAccountCutoff = historicalCutoff;
+    let firstOrganizationId = "";
     for (const key of [
       publicOrganizationKey(jurisdiction.id),
       publicGovernmentOrganizationKey({
@@ -273,7 +304,27 @@ describe("M5 saved government cash replaces a separate budget stock", () => {
           note: "Explicit fixture cash awaiting consolidation.",
         },
       });
+      if (!firstOrganizationId) {
+        firstOrganizationId = organizationId;
+        firstAccountCutoff = {
+          asOfDate: date,
+          historySequenceExclusive: world.history.nextSequence,
+        };
+      }
     }
+    expect(
+      publicTaxAccountEvidenceForIdentity(
+        world,
+        { kind: "jurisdiction", jurisdictionId: jurisdiction.id },
+        firstAccountCutoff,
+      )?.organizationId,
+    ).toBe(firstOrganizationId);
+    expect(() =>
+      ensurePublicGovernmentAccount(world, {
+        kind: "jurisdiction",
+        jurisdictionId: jurisdiction.id,
+      }),
+    ).toThrow("Multiple saved public accounts");
     const government = {
       key: `county:${unit.countyGeoid}`,
       jurisdictionId: jurisdiction.id,

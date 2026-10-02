@@ -1,3 +1,4 @@
+import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { lawEffectStamp } from "../law-effect-stamp";
@@ -214,15 +215,22 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
     place.sourceGeoid && /^\d{7}$/.test(place.sourceGeoid)
       ? place.sourceGeoid
       : null;
+  const countyGeoid =
+    place.scope === "county" &&
+    place.sourceGeoid &&
+    /^\d{5}$/.test(place.sourceGeoid)
+      ? place.sourceGeoid
+      : null;
   const stateFips =
-    geoid?.slice(0, 2) ??
+    (geoid ?? countyGeoid)?.slice(0, 2) ??
     TERRITORY_FIPS[place.stateJurisdictionKey ?? ""] ??
     null;
   // BLS publishes no wages for American Samoa or the Northern Mariana
   // Islands: pay there is UNKNOWN, not the nation's.
   if (!stateFips || NOT_IN_OEWS.has(stateFips)) return [];
   const areas: string[] = [];
-  const county = geoid ? countyGeoidsForPlace(geoid)[0] : undefined;
+  const county =
+    countyGeoid ?? (geoid ? countyGeoidsForPlace(geoid)[0] : undefined);
   const area = county ? countyArea(county) : undefined;
   if (area) areas.push(area);
   areas.push(`S${stateFips}`, "US");
@@ -1589,6 +1597,7 @@ export function settleTownCompensations(
     .slice(first)
     .map((outcome) => outcome.id);
   next = assessPaychecksTaxes(next, ids);
+  next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.
   return payPaidLeaveClaims(next, claims);

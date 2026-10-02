@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import catalogJson from "../../art/fixtures/valid_character_catalog.json";
-import manifestJson from "../../art/fixtures/valid_character_manifest.json";
+import catalogJson from "../../art/fixtures/valid_character_catalog.json" with { type: "json" };
+import manifestJson from "../../art/fixtures/valid_character_manifest.json" with { type: "json" };
 import { createDemoWorld } from "../simulation/demo";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import type { PersonAppearance } from "../simulation/types";

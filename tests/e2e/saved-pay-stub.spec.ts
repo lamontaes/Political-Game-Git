@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures";
-import { enterLife } from "./support/creator";
+import { enterLife, goTo } from "./support/creator";
 
 test("payday displays actual starting federal and state withholding on the player's stub", async ({
   page,
@@ -48,6 +48,28 @@ test("payday displays actual starting federal and state withholding on the playe
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await goTo(page, "nav-jobs");
+  const jobs = page.getByTestId("work-layout");
+  await expect(jobs.getByTestId("work-role")).toHaveCount(0);
+  await expect(
+    jobs.getByRole("heading", { name: "Waiting on you" }),
+  ).toHaveCount(0);
+  await expect(
+    jobs.getByRole("navigation", { name: "On this page" }),
+  ).toHaveCount(0);
+  await expect(jobs.getByTestId("job-pay-floor")).toHaveCount(0);
+  await expect(jobs.getByText("Other work", { exact: true })).toHaveCount(0);
+  await expect(
+    jobs.getByText("Career opportunities", { exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    jobs.getByRole("button", { name: "Work", exact: true }),
+  ).toBeVisible();
+  await expect(
+    jobs.getByRole("button", { name: "Study", exact: true }),
+  ).toBeVisible();
+  await page.screenshot({ path: info.outputPath("jobs-owner-after.png") });
+  await page.getByRole("button", { name: "Close", exact: true }).click();
   await page.getByTestId("shell-pass-day").click();
   const notice = page.getByTestId("pass-outcome");
   await expect(notice).toContainText("Paycheck: gross $72");
