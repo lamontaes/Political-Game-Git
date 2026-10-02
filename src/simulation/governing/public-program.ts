@@ -1,3 +1,4 @@
+import { farmProgramPaymentAt } from "../federal-farm-payments";
 import { createStableId } from "../ids";
 import { addDays, daysBetween } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -371,8 +372,16 @@ export function programPosition(
     if (record.status !== "posted") continue;
     const plan = commitments.find((c) => c.id === record.commitmentId)!
       .installments[record.installmentIndex]!;
-    posted += plan.amount.minorUnits;
-    if (plan.purpose === "operating") operating += plan.amount.minorUnits;
+    const paidMinorUnits = world.history.resourceTransferOutcomes
+      .filter(
+        (outcome) =>
+          outcome.resourceFlowId === record.resourceFlowId &&
+          (outcome.status === "completed" || outcome.status === "partial") &&
+          outcome.transferredAmount.currency === plan.amount.currency,
+      )
+      .reduce((sum, outcome) => sum + outcome.transferredAmount.minorUnits, 0);
+    posted += paidMinorUnits;
+    if (plan.purpose === "operating") operating += paidMinorUnits;
   }
   const scheduled = commitments.reduce(
     (total, record) => total + record.installments.length,
@@ -990,12 +999,22 @@ export function settleProgramInstallment(
     kind: "organization" as const,
     organizationId: appropriation.accountOrganizationId,
   };
-  const cash = resourcePositionAt(world, account, plan.amount.currency);
-  let reason: string | null = null;
+  const farmPayment = farmProgramPaymentAt(
+    world,
+    appropriation,
+    commitment,
+    plan.amount,
+  );
+  const paymentAmount = farmPayment.amount;
+  const cash = resourcePositionAt(world, account, paymentAmount.currency);
+  let reason: string | null = farmPayment.reason;
   if (world.currentDate > appropriation.availableThrough)
     reason = "The appropriation lapsed before this payment fell due.";
-  else if (!cash || cash.liquidBalance.minorUnits < plan.amount.minorUnits)
-    reason = `The account held ${cash ? dollars(cash.liquidBalance) : "no recorded cash"}, short of the ${dollars(plan.amount)} due. An appropriation is not cash.`;
+  else if (
+    !reason &&
+    (!cash || cash.liquidBalance.minorUnits < paymentAmount.minorUnits)
+  )
+    reason = `The account held ${cash ? dollars(cash.liquidBalance) : "no recorded cash"}, short of the ${dollars(paymentAmount)} due. An appropriation is not cash.`;
   const label = `${commitment.alternativeTitle}, payment ${index + 1} of ${commitment.installments.length}`;
   let next = world;
   let flowId: EntityId | null = null;
@@ -1009,7 +1028,7 @@ export function settleProgramInstallment(
         organizationId: commitment.recipientOrganizationId!,
       },
       startsAt: next.currentDate,
-      amount: plan.amount,
+      amount: paymentAmount,
       cadenceKind: "custom:public-program-installment",
       basisKind: "custom:public-program-commitment",
       basisReference: {
@@ -1028,12 +1047,15 @@ export function settleProgramInstallment(
       periodStartsAt: next.currentDate,
       periodEndsAt: next.currentDate,
       occurredAt: next.currentDate,
-      attemptedAmount: plan.amount,
-      transferredAmount: plan.amount,
+      attemptedAmount: paymentAmount,
+      transferredAmount: paymentAmount,
       status: "completed",
       reasonKind: null,
       note: `${label}; ${plan.purpose}.`,
       provenance: flow.provenance,
+      ...(farmPayment.lawEffectStamps.length
+        ? { lawEffectStamps: farmPayment.lawEffectStamps }
+        : {}),
     });
     flowId = flow.id;
   }
@@ -1056,7 +1078,7 @@ export function settleProgramInstallment(
       programKey: commitment.programKey,
       summary: reason
         ? `${label} did not post. ${reason}`
-        : `${label} posted: ${dollars(plan.amount)} for ${plan.purpose}.`,
+        : `${label} posted: ${dollars(paymentAmount)} for ${plan.purpose}.`,
     },
     {
       kind: "installment",
@@ -1140,7 +1162,13 @@ function recordProgramOutlaysForDate(
         : undefined;
     if (!plan)
       throw new Error("A posted program installment needs its committed plan.");
-    amounts.push(plan.amount);
+    const payments = world.history.resourceTransferOutcomes.filter(
+      (outcome) =>
+        outcome.resourceFlowId === installment.resourceFlowId &&
+        outcome.occurredAt === occurredAt &&
+        (outcome.status === "completed" || outcome.status === "partial"),
+    );
+    amounts.push(...payments.map((outcome) => outcome.transferredAmount));
     sourceEventIds.push(installment.eventId);
   }
   return recordDailyGovernmentFiscalFlow(world, {

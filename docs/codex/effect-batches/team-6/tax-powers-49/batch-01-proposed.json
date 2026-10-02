@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "7eec00b799b1e35ba3024acbaaf2c2dda5fd51b5",
+  "powers": [
+    {
+      "key": "US-FL:STATE:selective-excise",
+      "jurisdictionKey": "US-FL",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-09-06",
+      "sourceArtifactId": "fl-constitution",
+      "sourceSha256": "cd56710740c0ff6e7595384afd7b12745c19ee28f44abbad8a32a20e4f4d82db",
+      "sourceUrl": "https://www.flsenate.gov/Laws/Constitution",
+      "citations": [
+        "Fla. Const. art. VII, §1(a),(c),(d)",
+        "Fla. Const. art. VII, §19(a)–(e)"
+      ],
+      "constraints": [
+        "New or increased state taxes require two-thirds of each house and presentment under Article III §8.",
+        "Article VII §19 does not authorize otherwise-prohibited taxes; state-tax legislation must satisfy its separate-bill requirement.",
+        "No state ad valorem tax on real estate or tangible personal property is authorized by this selective-excise row.",
+        "The written tax must complete the actual legislative/executive process and use its operative date; this record does not supply a universal effective delay.",
+        "Public expenditure still needs an actual appropriation; legal taxation power is not cash or service delivery.",
+        "This is a captured constitutional baseline for prospective legislation, not an existing tax, rate, taxable occurrence, or verified historical amendment chain."
+      ]
+    },
+    {
+      "key": "US-HI:STATE:selective-excise",
+      "jurisdictionKey": "US-HI",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-09-06",
+      "sourceArtifactId": "hi-constitution",
+      "sourceSha256": "d9a7b4af7ae2cc6c0ddb4ccf54e2f5d392d2962a1205dc5076e56cc793cd97e3",
+      "sourceUrl": "https://lrb.hawaii.gov/constitution/",
+      "citations": [
+        "Haw. Const. art. III, §1",
+        "Haw. Const. art. VII, §§1,4"
+      ],
+      "constraints": [
+        "Taxation and expenditure must serve a public purpose.",
+        "This is the legislative taxation foundation; it does not identify any existing excise statute or exempt bases.",
+        "The written tax must complete the actual legislative/executive process and use its operative date; this record does not supply a universal effective delay.",
+        "Public expenditure still needs an actual appropriation; legal taxation power is not cash or service delivery.",
+        "This is a captured constitutional baseline for prospective legislation, not an existing tax, rate, taxable occurrence, or verified historical amendment chain."
+      ]
+    },
+    {
+      "key": "US-MA:STATE:selective-excise",
+      "jurisdictionKey": "US-MA",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-09-06",
+      "sourceArtifactId": "ma-constitution",
+      "sourceSha256": "d78569b99a5fb26a60c6291653389df991d9db257925958cc321de71bf8f64e6",
+      "sourceUrl": "https://malegislature.gov/Laws/Constitution",
+      "citations": [
+        "Mass. Const. pt. II, ch. I, §I, art. IV",
+        "Mass. Const. amend. art. XLIV",
+        "Mass. Const. pt. II, ch. I, §III, art. VII"
+      ],
+      "constraints": [
+        "Money bills must originate in the House of Representatives; Senate amendments remain available.",
+        "Duties and excises must be reasonable and within the constitutional grant on goods/commodities.",
+        "The constitutional income-tax rule is not a substitute for a selective-excise rate or base.",
+        "The written tax must complete the actual legislative/executive process and use its operative date; this record does not supply a universal effective delay.",
+        "Public expenditure still needs an actual appropriation; legal taxation power is not cash or service delivery.",
+        "This is a captured constitutional baseline for prospective legislation, not an existing tax, rate, taxable occurrence, or verified historical amendment chain."
+      ]
+    },
+    {
+      "key": "US-MN:STATE:selective-excise",
+      "jurisdictionKey": "US-MN",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-09-06",
+      "sourceArtifactId": "mn-constitution",
+      "sourceSha256": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254",
+      "sourceUrl": "https://www.revisor.mn.gov/constitution/",
+      "citations": [
+        "Minn. Const. art. X, §1",
+        "Minn. Const. art. XIV, §§5,10",
+        "Minn. Const. art. IV, §18"
+      ],
+      "constraints": [
+        "Revenue bills must originate in the House of Representatives; Senate amendments remain available.",
+        "Same-class uniformity and public-purpose limits apply.",
+        "Constitutional exemptions remain operative.",
+        "Motor-fuel excises require the Article XIV highway-user fund and distribution restrictions; this row does not permit depositing dedicated motor-fuel receipts into an unrestricted service account.",
+        "The written tax must complete the actual legislative/executive process and use its operative date; this record does not supply a universal effective delay.",
+        "Public expenditure still needs an actual appropriation; legal taxation power is not cash or service delivery.",
+        "This is a captured constitutional baseline for prospective legislation, not an existing tax, rate, taxable occurrence, or verified historical amendment chain."
+      ]
+    },
+    {
+      "key": "US-NV:STATE:selective-excise",
+      "jurisdictionKey": "US-NV",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-09-06",
+      "sourceArtifactId": "nv-constitution",
+      "sourceSha256": "726067b645f47709f00c2cf23ee6a514f7fc64381fd6c1f6eb0b1f48b31c51cc",
+      "sourceUrl": "https://www.leg.state.nv.us/const/nvconst.html",
+      "citations": [
+        "Nev. Const. art. IV, §§1,18(2)–(3)",
+        "Nev. Const. art. IX, §5",
+        "Nev. Const. art. X, §§1,3A,6"
+      ],
+      "constraints": [
+        "Covered retail-excise exemptions require findings on economic/social benefit or public-service necessity and impairment of pledged obligations; similar classes need similar requirements and an expiration date under Article X §6.",
+        "Revenue increases require two-thirds of each elected house unless the Article IV §18(3) voter-referral route is used and approved.",
+        "No personal-income tax is established by this selective-excise row.",
+        "Constitutional retail-food exemptions and Article IX §5 motor-fuel/highway dedication are not overridden.",
+        "The written tax must complete the actual legislative/executive process and use its operative date; this record does not supply a universal effective delay.",
+        "Public expenditure still needs an actual appropriation; legal taxation power is not cash or service delivery.",
+        "This is a captured constitutional baseline for prospective legislation, not an existing tax, rate, taxable occurrence, or verified historical amendment chain."
+      ]
+    },
+    {
+      "key": "US-OR:STATE:selective-excise",
+      "jurisdictionKey": "US-OR",
+      "level": "STATE",
+      "instrument": "selective-excise",
+      "asOf": "2026-09-06",
+      "sourceArtifactId": "or-constitution",
+      "sourceSha256": "25e2dfcc84c3fbd851f6dff028abd7114888607985ea6ea74252e758bc7f3673",
+      "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+      "citations": [
+        "Or. Const. art. I, §32",
+        "Or. Const. art. IV, §25(2)",
+        "Or. Const. art. IX, §§3,3a,3b",
+        "Or. Const. art. IV, §18"
+      ],
+      "constraints": [
+        "Revenue bills must originate in the House of Representatives.",
+        "Revenue bills require three-fifths of elected members of each house under Article IV §25(2).",
+        "The enacted tax must state its revenue purpose and comply with same-class uniformity.",
+        "Motor-vehicle/fuel dedication and oil/gas excise limitations in Article IX §§3a–3b remain operative.",
+        "The written tax must complete the actual legislative/executive process and use its operative date; this record does not supply a universal effective delay.",
+        "Public expenditure still needs an actual appropriation; legal taxation power is not cash or service delivery.",
+        "This is a captured constitutional baseline for prospective legislation, not an existing tax, rate, taxable occurrence, or verified historical amendment chain."
+      ]
+    }
+  ],
+  "evidenceScopes": [
+    {
+      "jurisdictionKey": "US-FL",
+      "sourceArtifactId": "fl-constitution",
+      "parentLocalPath": "data/source/state-legislatures/raw/fl-constitution.html",
+      "parentSha256": "cd56710740c0ff6e7595384afd7b12745c19ee28f44abbad8a32a20e4f4d82db",
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 622854,
+        "retrievedAt": "2026-09-06T18:45:29.862Z",
+        "url": "https://www.flsenate.gov/Laws/Constitution"
+      },
+      "citations": [
+        "Fla. Const. art. VII, §1(a),(c),(d)",
+        "Fla. Const. art. VII, §19(a)–(e)"
+      ],
+      "legalTextQuotes": [
+        "No tax shall be levied except in pursuance of law.",
+        "All other forms of taxation shall be preempted to the state except as provided by general law.",
+        "No new state tax or fee may be imposed or authorized by the legislature except through legislation approved by two-thirds of the membership of each house of the legislature and presented to the Governor for approval pursuant to Article III, Section 8.",
+        "No state tax or fee may be raised by the legislature except through legislation approved by two-thirds of the membership of each house of the legislature and presented to the Governor for approval pursuant to Article III, Section 8."
+      ],
+      "excerptSha256": "9d25f5d3a695ca18dbd39ef9be7c9a2f3f32ca36212cf85a9626cb1be02cad3c",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money",
+      "mediaType": "text/html; charset=utf-8"
+    },
+    {
+      "jurisdictionKey": "US-HI",
+      "sourceArtifactId": "hi-constitution",
+      "parentLocalPath": "data/source/state-legislatures/raw/hi-constitution.html",
+      "parentSha256": "d9a7b4af7ae2cc6c0ddb4ccf54e2f5d392d2962a1205dc5076e56cc793cd97e3",
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 236123,
+        "retrievedAt": "2026-09-06T18:45:30.799Z",
+        "url": "https://lrb.hawaii.gov/constitution/"
+      },
+      "citations": [
+        "Haw. Const. art. III, §1",
+        "Haw. Const. art. VII, §§1,4"
+      ],
+      "legalTextQuotes": [
+        "Such power shall extend to all rightful subjects of legislation not inconsistent with this constitution or the Constitution of the United States.",
+        "The power of taxation shall never be surrendered, suspended or contracted away.",
+        "No tax shall be levied or appropriation of public money or property made, nor shall the public credit be used, directly or indirectly, except for a public purpose."
+      ],
+      "excerptSha256": "74d6e93d605af9218290e8d77f1b06bf4e6fadd0d8f3af7cdcd39eb18c8878e0",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money",
+      "mediaType": "text/html; charset=utf-8"
+    },
+    {
+      "jurisdictionKey": "US-MA",
+      "sourceArtifactId": "ma-constitution",
+      "parentLocalPath": "data/source/state-legislatures/raw/ma-constitution.html",
+      "parentSha256": "d78569b99a5fb26a60c6291653389df991d9db257925958cc321de71bf8f64e6",
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 458396,
+        "retrievedAt": "2026-09-06T18:45:32.550Z",
+        "url": "https://malegislature.gov/Laws/Constitution"
+      },
+      "citations": [
+        "Mass. Const. pt. II, ch. I, §I, art. IV",
+        "Mass. Const. amend. art. XLIV",
+        "Mass. Const. pt. II, ch. I, §III, art. VII"
+      ],
+      "legalTextQuotes": [
+        "and also to impose and levy, reasonable duties and excises, upon any produce, goods, wares, merchandise, and commodities, whatsoever, brought into, produced, manufactured, or being within the same;",
+        "This article shall not be construed to limit the power of the general court to impose and levy reasonable duties and excises.",
+        "All money bills shall originate in the house of representatives; but the senate may propose or concur with amendments, as on other bills."
+      ],
+      "excerptSha256": "31714e359413a0c45637a5aa8190bfd689ed3243b1d021bdd343a5c288182921",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money",
+      "mediaType": "text/html; charset=utf-8"
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "sourceArtifactId": "mn-constitution",
+      "parentLocalPath": "data/source/state-legislatures/raw/mn-constitution.html",
+      "parentSha256": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254",
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 150014,
+        "retrievedAt": "2026-09-06T18:45:33.018Z",
+        "url": "https://www.revisor.mn.gov/constitution/"
+      },
+      "citations": [
+        "Minn. Const. art. X, §1",
+        "Minn. Const. art. XIV, §§5,10",
+        "Minn. Const. art. IV, §18"
+      ],
+      "legalTextQuotes": [
+        "The power of taxation shall never be surrendered, suspended or contracted away.",
+        "Taxes shall be uniform upon the same class of subjects and shall be levied and collected for public purposes,",
+        "The legislature may levy an excise tax on any means or substance used for propelling vehicles on the public highways of this state or on the business of selling it.",
+        "The proceeds of the tax shall be paid into the highway user tax distribution fund.",
+        "All bills for raising revenue shall originate in the house of representatives, but the senate may propose and concur with the amendments as on other bills."
+      ],
+      "excerptSha256": "b37c965ece4dd24e84f79ada3f4d3289a41ed438ae18484901a7343d3d5ca8d6",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money",
+      "mediaType": "text/html; charset=utf-8"
+    },
+    {
+      "jurisdictionKey": "US-NV",
+      "sourceArtifactId": "nv-constitution",
+      "parentLocalPath": "data/source/state-legislatures/raw/nv-constitution.html",
+      "parentSha256": "726067b645f47709f00c2cf23ee6a514f7fc64381fd6c1f6eb0b1f48b31c51cc",
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 431607,
+        "retrievedAt": "2026-09-06T18:45:34.207Z",
+        "url": "https://www.leg.state.nv.us/const/nvconst.html"
+      },
+      "citations": [
+        "Nev. Const. art. IV, §§1,18(2)–(3)",
+        "Nev. Const. art. IX, §5",
+        "Nev. Const. art. X, §§1,3A,6"
+      ],
+      "legalTextQuotes": [
+        "Except as otherwise provided in subsection 3, an affirmative vote of not fewer than two-thirds of the members elected to each House is necessary to pass a bill or joint resolution which creates, generates, or increases any public revenue in any form, including but not limited to taxes, fees, assessments and rates, or changes in the computation bases for taxes, fees, assessments and rates.",
+        "Provide a specific date on which the exemption will cease to be effective."
+      ],
+      "excerptSha256": "e2cdf3bd2a8fbf2f7ae705bafff260f9e9b2497b7e5038e840efa0323ffcdec3",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money",
+      "mediaType": "text/html; charset=windows-1252"
+    },
+    {
+      "jurisdictionKey": "US-OR",
+      "sourceArtifactId": "or-constitution",
+      "parentLocalPath": "data/source/state-legislatures/raw/or-constitution.html",
+      "parentSha256": "25e2dfcc84c3fbd851f6dff028abd7114888607985ea6ea74252e758bc7f3673",
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 643208,
+        "retrievedAt": "2026-09-06T18:45:35.554Z",
+        "url": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx"
+      },
+      "citations": [
+        "Or. Const. art. I, §32",
+        "Or. Const. art. IV, §25(2)",
+        "Or. Const. art. IX, §§3,3a,3b",
+        "Or. Const. art. IV, §18"
+      ],
+      "legalTextQuotes": [
+        "No tax or duty shall be imposed without the consent of the people or their representatives in the Legislative Assembly; and all taxation shall be uniform on the same class of subjects within the territorial limits of the authority levying the tax.",
+        "No tax shall be levied except in accordance with law. Every law imposing a tax shall state distinctly the purpose to which the revenue shall be applied.",
+        "Bills may originate in either house, but may be amended, or rejected in the other; except that bills for raising revenue shall originate in the House of Representatives.",
+        "Three-fifths of all members elected to each House shall be necessary to pass bills for raising revenue."
+      ],
+      "excerptSha256": "65822191a92214d91e5ffd2f04116a2571581a919f7616e2d0900c8b876e94bc",
+      "sourceApproval": "CTO REVIEW REQUIRED",
+      "scope": "enacted-legal-text-only; conditional state legislative taxing power, not unconditional liability or money",
+      "mediaType": "text/html; charset=utf-8"
+    }
+  ],
+  "limits": "Six proposed non-Alaska rows from already acquired official constitutional texts. Source approval/admission pending; no quarantined comparative input or generated power. Remaining43 non-Alaska states not admitted by this packet."
+}

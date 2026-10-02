@@ -5,7 +5,12 @@ import { suppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislati
 import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/state-executives";
 import { createLightweightPerson } from "../simulation/people";
 import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import {
+  stateStatuteOperativeAt,
+  statuteEffectiveDateEstimated,
+} from "../simulation/governing/statute-effective-date";
+import { enactmentStatuteDateContext } from "../simulation/enacted-rule-changes";
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import {
   enactedRuleChangeAt,
@@ -327,12 +332,35 @@ describe("one shared state bill procedure across the fifty states", () => {
       const enactment = enacted.history.legislativeEnactments?.at(-1);
       expect(measurePosition(enacted, filed.measureId).outcome).toBe("enacted");
       expect(enactment?.measureId).toBe(filed.measureId);
-      // The act saves no invented interval: a date its cited rule or the
-      // caller gave is kept, and the state's researched rule dates the rest.
-      expect(enactment?.effectiveDateGameProfile).toBeUndefined();
+      const dateContext = enactmentStatuteDateContext(enacted, enactment!);
+      const sourceDate = stateStatuteOperativeAt(
+        `US-${usps}`,
+        enactment!.resolvedAt,
+        dateContext,
+      );
+      const estimated = statuteEffectiveDateEstimated(
+        `US-${usps}`,
+        enactment!.resolvedAt,
+        dateContext,
+      );
+      expect(enactment!.effectiveAt).toBe(sourceDate);
+      expect(enactment!.effectiveDateBasis).toBe(
+        estimated ? "game-default" : "source-default",
+      );
+      // An estimate keeps explicit provenance; a sourced default saves no fictional interval.
+      expect(enactment!.effectiveDateGameProfile).toEqual(
+        estimated && sourceDate !== null
+          ? {
+              version: `${filed.context.pack.packId}:statute-default-estimate`,
+              days: daysBetween(enactment!.resolvedAt, sourceDate),
+            }
+          : undefined,
+      );
       const operative = operativeDateInWorld(enacted, enactment!);
-      expect(operative).not.toBeNull();
-      expect(operative!.date >= enactment!.resolvedAt).toBe(true);
+      if (sourceDate !== null) {
+        expect(operative!.date).toBe(sourceDate);
+        expect(operative!.date >= enactment!.resolvedAt).toBe(true);
+      } else expect(operative).toBeNull();
     },
   );
 

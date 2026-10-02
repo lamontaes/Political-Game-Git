@@ -16,7 +16,6 @@ import {
   bindingFromIdentity,
   districtMembershipFromCanonicalHome,
   districtsCrossingPlace,
-  districtPopulationShares,
   gazetteerChamberForOfficeChamberKey,
   resolveDistrictBinding,
 } from "../districts/query";
@@ -24,7 +23,13 @@ import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
 import { homeJurisdictionResidenceSince } from "./nationwide-world/residence-duration";
+import {
+  appendedList,
+  hasStableKey,
+  recordsWithFieldValue,
+} from "./history-index";
 import { createStableId } from "./ids";
+import { largestPopulationShareDistrict } from "../districts/place-population-share";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { factsForPerson } from "./people";
 import type {
@@ -109,6 +114,18 @@ export function districtResidenceIntervals(
   return world.history.districtResidenceIntervals ?? [];
 }
 
+/** One person's intervals in list order, read from the growing index. */
+function districtResidenceIntervalsOf(
+  world: World,
+  personId: EntityId,
+): readonly DistrictResidenceInterval[] {
+  return recordsWithFieldValue(
+    districtResidenceIntervals(world),
+    "personId",
+    personId,
+  );
+}
+
 export function districtSeatIntents(
   world: World,
 ): readonly DistrictSeatIntent[] {
@@ -187,11 +204,10 @@ export function districtResidenceSince(
 ): IsoDate | null {
   const resolved = resolveDistrictBinding(districtIdentityCatalog(), binding);
   if (resolved.kind === "refused") return null;
-  const covering = districtResidenceIntervals(world)
+  const covering = districtResidenceIntervalsOf(world, personId)
     .filter(
       (interval) =>
         isSupportedDistrictMembership(interval) &&
-        interval.personId === personId &&
         interval.binding.recordId === resolved.binding.recordId &&
         interval.binding.vintage === resolved.binding.vintage &&
         interval.binding.compilerVersion === resolved.binding.compilerVersion &&
@@ -305,11 +321,10 @@ export function recordedDistrictMembership(
   onDate: IsoDate,
 ): DistrictResidenceInterval | null {
   return (
-    districtResidenceIntervals(world)
+    districtResidenceIntervalsOf(world, personId)
       .filter(
         (interval) =>
           isSupportedDistrictMembership(interval) &&
-          interval.personId === personId &&
           interval.binding.chamber === chamber &&
           interval.startedOn <= onDate &&
           (interval.endedOn === null || interval.endedOn > onDate),
@@ -437,13 +452,16 @@ export function establishDistrictResidence(
       return { kind: "refused", reason: confirmed.reason, world };
     }
   }
-  const openSameChamber = districtResidenceIntervals(world).filter(
+  const recorded = districtResidenceIntervals(world);
+  const openSameChamber = districtResidenceIntervalsOf(
+    world,
+    input.personId,
+  ).filter(
     (interval) =>
-      interval.personId === input.personId &&
-      interval.binding.chamber === binding.chamber &&
-      interval.endedOn === null,
+      interval.binding.chamber === binding.chamber && interval.endedOn === null,
   );
-  let nextIntervals = [...districtResidenceIntervals(world)];
+  // Closing an open interval rewrites the list; a first interval appends.
+  let nextIntervals: readonly DistrictResidenceInterval[] = recorded;
   for (const open of openSameChamber) {
     if (
       open.binding.recordId === binding.recordId &&
@@ -486,9 +504,7 @@ export function establishDistrictResidence(
       note: input.provenance.note,
     },
   };
-  if (
-    nextIntervals.some((existing) => existing.stableKey === interval.stableKey)
-  ) {
+  if (hasStableKey(nextIntervals, interval.stableKey)) {
     return {
       kind: "refused",
       reason: "That district-residence interval is already recorded.",
@@ -500,7 +516,7 @@ export function establishDistrictResidence(
     history: {
       ...world.history,
       nextSequence: world.history.nextSequence + 1,
-      districtResidenceIntervals: [...nextIntervals, interval],
+      districtResidenceIntervals: appendedList(nextIntervals, [interval]),
     },
   };
   assertWorldIntegrity(next);
@@ -744,11 +760,11 @@ export function splitHomeDistricts(
   personId: EntityId,
   chamber: DistrictChamber,
 ): readonly DistrictIdentity[] {
+  if (chamber === "congressional") return [];
   return districtsCrossingPlace(
     districtIdentityCatalog(),
     canonicalHomePlaceGeoid(world, personId),
     chamber,
-    world.currentDate,
   );
 }
 
@@ -797,15 +813,17 @@ function confirmSplitHomeAssignment(
  * Place a split town's resident in one of the districts crossing their town,
  * for each chamber where the world has no membership for them yet.
  *
- * A split town's resident is estimated in its largest Census population part.
- * Population ties use the larger recorded place-part land area as an estimate.
+ * The published 2020 block population, 2020 block-to-place assignment and
+ * 2024 legislative block allocation identify each crossing district's share
+ * of the place's tabulated population. The largest share places the initial
+ * home, with equal counts resolved by recorded place-part land area. This is an estimated
+ * home assignment, not evidence locating a particular address. The player
+ * can still choose another crossing district through chooseSplitHomeDistrict.
+ * Existing residence intervals and whole-place joins retain their records.
  *
- * The population parts estimate which crossing district contains a home;
- * they do not certify an individual address. The estimate is recorded through
- * `establishDistrictResidence`, the existing writer. The player may confirm a
- * different crossing district through `chooseSplitHomeDistrict`. Existing open
- * intervals and whole-place joins are preserved. Deserialization never calls
- * this writer or backfills an older save.
+ * Called only for an opening of the current version: a legacy replay
+ * descriptor rebuilds its exact bytes, and a save from before this existed is
+ * not backfilled on load.
  */
 export function assignSplitHomeDistricts(
   world: World,
@@ -830,52 +848,23 @@ export function assignSplitHomeDistricts(
     if (open) continue;
     const placeGeoid = canonicalHomePlaceGeoid(next, personId);
     if (!placeGeoid) continue;
-    const shares = districtPopulationShares({
-      catalog: districtIdentityCatalog(),
+    const largestShare = largestPopulationShareDistrict(
       placeGeoid,
       chamber,
-      asOf: next.currentDate,
-    });
-    const largest = shares[0];
-    if (!largest) continue;
-    const tied = shares.filter(
-      (part) => part.populationCount === largest.populationCount,
+      crossing,
     );
-    const byArea =
-      tied.length > 1
-        ? [...tied].sort(
-            (left, right) =>
-              (right.partLandAreaSquareMeters ?? -1) -
-              (left.partLandAreaSquareMeters ?? -1),
-          )
-        : tied;
-    const placement = byArea[0]!;
-    if (
-      tied.length > 1 &&
-      (!tied.every(
-        (part) =>
-          part.partLandAreaSquareMeters !== null &&
-          part.partLandAreaSquareMeters !== undefined &&
-          Number.isSafeInteger(part.partLandAreaSquareMeters) &&
-          part.partLandAreaSquareMeters >= 0,
-      ) ||
-        byArea[1]?.partLandAreaSquareMeters ===
-          placement.partLandAreaSquareMeters)
-    )
-      continue;
-    const evidence =
-      tied.length > 1
-        ? `ESTIMATED FROM RECORDED PART LAND AREA: population tied at ${largest.populationCount}; district ${placement.identity.recordId} has the larger place-part land area (${placement.partLandAreaSquareMeters} square meters). Compared actual parts: ${tied.map((part) => `${part.identity.recordId}=${part.partLandAreaSquareMeters} square meters`).join(", ")}.`
-        : `ESTIMATED FROM CENSUS POPULATION: the largest recorded district part contains ${placement.populationCount} of ${shares.reduce((sum, row) => sum + row.populationCount, 0)} residents.`;
-    const pick = placement.identity;
+    if (!largestShare)
+      throw new Error(
+        `No recorded district population for ${placeGeoid}/${chamber}.`,
+      );
     const recorded = establishDistrictResidence(next, {
       personId,
-      binding: bindingFromIdentity(pick),
-      startedOn: next.currentDate,
+      binding: bindingFromIdentity(largestShare.identity),
+      startedOn: residence.occurredAt,
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,
-        note: `${evidence} Census place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). This estimates home placement, not a verified address.`,
+        note: `Estimated home assignment to the largest recorded population-share district: ${largestShare.population} of ${largestShare.totalPopulation} Census 2020 tabulated residents among the crossing districts of place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). ${largestShare.tieBreak ? `ESTIMATED FROM RECORDED PART LAND AREA: ${largestShare.tieBreak.parts.map((part) => `${part.districtGeoid}=${part.squareMeters} square meters (${part.sourcePath}:${part.sourceRow}; SHA256 ${part.sourceSha256})`).join("; ")}.` : "Population has a unique maximum."} This does not locate a particular address.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;
@@ -895,11 +884,9 @@ export function chooseSplitHomeDistrict(
   binding: DistrictSeatBinding,
 ): DistrictResidenceWriteResult {
   const residenceId = currentResidenceFactId(world, personId);
-  const open = districtResidenceIntervals(world).find(
+  const open = districtResidenceIntervalsOf(world, personId).find(
     (interval) =>
-      interval.personId === personId &&
-      interval.binding.chamber === binding.chamber &&
-      interval.endedOn === null,
+      interval.binding.chamber === binding.chamber && interval.endedOn === null,
   );
   if (open && open.binding.recordId === binding.recordId) {
     return { kind: "recorded", world, interval: open };

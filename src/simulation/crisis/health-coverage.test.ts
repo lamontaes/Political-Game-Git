@@ -36,7 +36,6 @@ import { ensureCrisisMortality } from "./mortality";
 import { annualPovertyLineMinor } from "../household-pay";
 import { MULTIPLIER_ONE } from "./hazard";
 import {
-  coverageHazardIntervals,
   healthCoverageRecords,
   MEDICAID_EXPANSION_RULES,
   medicaidCoverageDecision,
@@ -380,31 +379,29 @@ describe("coverage consequence law stamps", () => {
 });
 
 describe("Medicaid expansion coverage reaches named people", () => {
-  it("counts a covered year off a covered 55-to-64-year-old's hazard, and only while covered and in that age", () => {
-    const record = {
+  it("does not apply an old covered-person multiplier to individual hazard", () => {
+    const { seed, state } = watchedPlace("yes");
+    const world = openWorld(seed, state.usps);
+    const personId = world.personOrder.at(-1)!;
+    const legacy = {
+      kind: "health-coverage",
+      personId,
       covered: true,
-      effectiveAt: makeIsoDate("2026-04-01"),
-      hazardFrom: makeIsoDate("2026-04-01"),
-      hazardMultiplierMicros:
-        MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
+      effectiveAt: world.currentDate,
+      hazardFrom: world.currentDate,
+      hazardMultiplierMicros: 906_000,
     } as HealthCoverageRecord;
-    const lost = {
-      covered: false,
-      effectiveAt: makeIsoDate("2028-01-01"),
-      hazardFrom: null,
-      hazardMultiplierMicros: MULTIPLIER_ONE,
-    } as HealthCoverageRecord;
-    // Turns 55 on 1/1/2027.
-    expect(
-      coverageHazardIntervals(makeIsoDate("1972-01-01"), [record, lost]),
-    ).toEqual([
-      {
-        start: "2027-01-01",
-        end: "2028-01-01",
-        micros: MEDICAID_EXPANSION_RULES.mortality.multiplierMicros,
+    const covered = {
+      ...world,
+      history: {
+        ...world.history,
+        crisisRecords: [...(world.history.crisisRecords ?? []), legacy],
       },
-    ]);
-    expect(MEDICAID_EXPANSION_RULES.mortality.multiplierMicros).toBe(906_000);
+    };
+    expect(hazardMultipliersOf(covered, personId)).toEqual(
+      hazardMultipliersOf(world, personId),
+    );
+    expect(hazardMultipliersOf(covered, personId)).toEqual([]);
     // The HHS guideline, and a state's own where it has one.
     const day = makeIsoDate("2026-06-01");
     expect(annualPovertyLineMinor("US-OH", 1, day)).toBe(1_596_000);
@@ -436,8 +433,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
         expect(row.stateKey).toBe(stateKey);
       }
 
-      // Death risk: a covered 55-to-64-year-old's hazard carries the
-      // multiplier, and their crossing day never comes sooner for it.
+      // Coverage enrollment cannot change personal mortality strain.
       const older = covered.filter((row) => {
         const age = ageOnDate(
           world.people[row.personId]!.birthDate,
@@ -457,28 +453,11 @@ describe("Medicaid expansion coverage reaches named people", () => {
       const horizon = addDays(world.currentDate, 365 * 12);
       let later = 0;
       for (const row of older) {
-        // Coverage multiplies the strain, alongside any starting condition
-        // the person holds (Ruling 38): without it, the multipliers differ by
-        // exactly the coverage factor from the day it applies.
-        const covering = hazardMultipliersOf(world, row.personId);
-        const bare = hazardMultipliersOf(without, row.personId);
-        const microsOn = (
-          changes: readonly { effectiveAt: IsoDate; micros: number }[],
-          day: IsoDate,
-        ) =>
-          changes.filter((change) => change.effectiveAt <= day).at(-1)
-            ?.micros ?? MULTIPLIER_ONE;
-        expect(
-          covering.some(
-            (change) =>
-              Math.abs(
-                (microsOn(bare, change.effectiveAt) *
-                  MEDICAID_EXPANSION_RULES.mortality.multiplierMicros) /
-                  MULTIPLIER_ONE -
-                  change.micros,
-              ) <= 1,
-          ),
-        ).toBe(true);
+        expect(row.hazardMultiplierMicros).toBe(MULTIPLIER_ONE);
+        expect(row.hazardFrom).toBeNull();
+        expect(hazardMultipliersOf(world, row.personId)).toEqual(
+          hazardMultipliersOf(without, row.personId),
+        );
         const withCoverage = strainCrossingDay(
           world,
           row.personId,
@@ -491,8 +470,7 @@ describe("Medicaid expansion coverage reaches named people", () => {
           world.currentDate,
           horizon,
         );
-        if (uncovered !== null)
-          expect(withCoverage === null || withCoverage >= uncovered).toBe(true);
+        expect(withCoverage).toBe(uncovered);
         if (uncovered !== null && withCoverage !== uncovered) later += 1;
       }
 
@@ -539,9 +517,8 @@ describe("Medicaid expansion coverage reaches named people", () => {
       expect(ended.filter((row) => !row.covered).length).toBe(alive.length);
       expect(ended.every((row) => !row.covered)).toBe(true);
       for (const row of older) {
-        // The lower hazard ends at the repeal's pass, or sooner at 65.
-        // What remains is the person's own recorded conditions, if any.
-        const last = hazardMultipliersOf(repealed, row.personId).at(-1)!;
+        // Losing enrollment does not change the person's condition hazard.
+        const actual = hazardMultipliersOf(repealed, row.personId);
         const conditionsOnly = hazardMultipliersOf(
           {
             ...repealed,
@@ -553,9 +530,8 @@ describe("Medicaid expansion coverage reaches named people", () => {
             },
           },
           row.personId,
-        ).at(-1);
-        expect(last.micros).toBe(conditionsOnly?.micros ?? MULTIPLIER_ONE);
-        expect(last.effectiveAt <= passAt).toBe(true);
+        );
+        expect(actual).toEqual(conditionsOnly);
       }
 
       write({

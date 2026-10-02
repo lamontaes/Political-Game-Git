@@ -25,6 +25,7 @@ import type {
 import type { SeatedMember } from "../legislation-scenarios";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { introduceMeasure, measurePosition } from "../legislation";
+import { recordsByKey, recordsByStringField } from "../history-index";
 import {
   legislativePackForJurisdiction,
   legislativePackForWorkKey,
@@ -135,24 +136,33 @@ function councilQuestionClosed(
     world.currentDate,
     -COUNCIL_MEMBER_AGENDA_SETTINGS.refileAfterDays,
   );
-  const measures = council.measures.filter((measure) =>
-    (measure.propositionIds ?? []).includes(propositionId),
+  const measures = recordsByKey(
+    council.measures,
+    "council-agenda-measures-by-proposition",
+    (measure) => measure.propositionIds ?? [],
+    propositionId,
   );
-  const ids = new Set(measures.map((measure) => measure.id));
-  return (
-    measures.some(
-      (measure) =>
-        !measurePosition(world, measure.id).terminal ||
-        (measurePosition(world, measure.id).phase === "failed" &&
-          (world.history.legislativeVotes ?? []).some(
-            (vote) =>
-              vote.measureId === measure.id &&
-              vote.outcome !== "passed" &&
-              vote.takenAt >= since,
-          )),
-    ) ||
-    (world.history.legislativeEnactments ?? []).some((enactment) => {
-      if (!ids.has(enactment.measureId)) return false;
+  if (
+    measures.some((measure) => {
+      const position = measurePosition(world, measure.id);
+      return (
+        !position.terminal ||
+        (position.phase === "failed" &&
+          recordsByStringField(
+            world.history.legislativeVotes ?? [],
+            "measureId",
+            measure.id,
+          ).some((vote) => vote.outcome !== "passed" && vote.takenAt >= since))
+      );
+    })
+  )
+    return true;
+  return measures.some((measure) =>
+    recordsByStringField(
+      world.history.legislativeEnactments ?? [],
+      "measureId",
+      measure.id,
+    ).some((enactment) => {
       // Read an admitted saved fictional profile through the shared date reader.
       if (
         enactment.effectiveDateBasis === "game-default" &&
@@ -167,7 +177,7 @@ function councilQuestionClosed(
           addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS)) >
         world.currentDate
       );
-    })
+    }),
   );
 }
 

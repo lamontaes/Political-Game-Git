@@ -15,18 +15,8 @@
  * whose parts do not add up to the publisher's place areas is never written.
  */
 
-import {
-  parseDelimited,
-  readZipMember,
-  listZipMembers,
-} from "../../core/index";
+import { parseDelimited, readZipMember } from "../../core/index";
 import type { AcquisitionPlan, AcquisitionRequest } from "../../core/index";
-import { normalizeDistrictPopulationParts } from "./normalize";
-import type { DistrictPopulationBlock } from "./normalize";
-import type { PlaceDistrictPopulationRecord } from "./types";
-import { isStateLegislativeGeoid } from "../sld-place-relations/identity";
-import { isCongressionalGeoid } from "../cd-place-relations/identity";
-import districtCatalog from "../../../districts/place-membership.generated.json";
 
 const PL_BASE =
   "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171";
@@ -105,7 +95,6 @@ export const GEO_FIELD = {
   GEOCOMP: 3,
   GEOID: 8,
   GEOCODE: 9,
-  LOGRECNO: 7,
   STATE: 12,
   COUNTY: 14,
   AREALAND: 84,
@@ -193,6 +182,13 @@ function stateRequests(usps: string, folder: string): AcquisitionRequest[] {
   ];
 }
 
+export const placeCountyRelationsAcquisition: AcquisitionPlan = {
+  domain: PLACE_COUNTY_DOMAIN,
+  requests: PL_STATES.flatMap(([usps, , folder]) =>
+    stateRequests(usps, folder),
+  ),
+};
+
 /**
  * Cut one state's summary-level-155 lines out of its archive.
  *
@@ -216,15 +212,9 @@ export function cutPlaceCountyParts(archive: Buffer, usps: string): Buffer {
     const line = geoheader.subarray(start, end + 1);
     start = end + 1;
     lineNumber += 1;
-    // Selection fields are ASCII. Do not decode unrelated geography names:
-    // publisher rows outside the retained slice may use another encoding.
-    const sumlevBytes = line.toString("latin1").split("|", 4)[GEO_FIELD.SUMLEV];
-    if (sumlevBytes !== "155" && sumlevBytes !== "160") continue;
     const parsed = parseDelimited(line, {
       delimiter: "|",
-      // Read only ASCII identity/area fields; names never enter this cut.
-      // Latin-1 preserves every original byte, including other-level names.
-      encoding: "latin1",
+      encoding: LATIN1_GEOHEADER_STATES.has(usps) ? "latin1" : "utf-8",
     });
     if (parsed.defects.length > 0 || parsed.rows.length !== 1) {
       const detail = parsed.defects.map((defect) => defect.message).join("; ");
@@ -272,300 +262,3 @@ export function cutPlaceCountyParts(archive: Buffer, usps: string): Buffer {
   }
   return Buffer.concat(kept);
 }
-
-const BEF_BASE =
-  "https://www2.census.gov/programs-surveys/decennial/rdo/mapping-files";
-const DISTRICT_SOURCES = [
-  {
-    artifactId: "census-bef-sldl24",
-    url: `${BEF_BASE}/2025/2024-state-legislative-bef/sldl24.zip`,
-    member: "NationalSLDL24.txt",
-    header: "GEOID,SLDLST",
-    chamber: "state-lower",
-    vintage: "census-rel-2024-sld-place20",
-  },
-  {
-    artifactId: "census-bef-sldu24",
-    url: `${BEF_BASE}/2025/2024-state-legislative-bef/sldu24.zip`,
-    member: "NationalSLDU24.txt",
-    header: "GEOID,SLDUST",
-    chamber: "state-upper",
-    vintage: "census-rel-2024-sld-place20",
-  },
-  {
-    artifactId: "census-bef-cd119",
-    url: `${BEF_BASE}/2025/119-congressional-district-befs/cd119.zip`,
-    member: "NationalCD119.txt",
-    header: "GEOID,CDFP",
-    chamber: "congressional",
-    vintage: "census-rel-2020-cd119-place20",
-  },
-] as const;
-const CD120_ARTIFACT = "census-bef-cd120";
-const CD120_URL = `${BEF_BASE}/2027/120-congressional-district-befs/cd120.zip`;
-
-export function districtPopulationArtifactId(usps: string): string {
-  return `census-pl2020-${usps.toLowerCase()}-place-district-population`;
-}
-
-function cachedDistrictRequest(
-  artifactId: string,
-  url: string,
-): AcquisitionRequest {
-  return {
-    artifactId,
-    url,
-    provider: "U.S. Census Bureau, Geography Division",
-    method: "bulk-download",
-    mediaType: "application/zip",
-    publisher: {
-      statedVintage: artifactId,
-      releaseDate: null,
-      schemaVersion: "2020 Census block to district assignment",
-      documentationUrl:
-        "https://www.census.gov/geographies/reference-files/time-series/geo/block-assignment-files.html",
-    },
-    rights: RIGHTS,
-    storage: "cached-not-committed",
-    localPath: null,
-    cachePath: `.source-cache/${PLACE_COUNTY_DOMAIN}/${artifactId}.zip`,
-  };
-}
-
-/** One line at a time: national block files never become millions of row objects. */
-function* textLines(bytes: Buffer): Generator<string> {
-  let start = 0;
-  while (start < bytes.length) {
-    const next = bytes.indexOf(10, start);
-    const end = next === -1 ? bytes.length : next;
-    yield bytes.toString("utf8", start, end).replace(/\r$/, "");
-    start = end + 1;
-  }
-}
-
-const nationalMembers = new WeakMap<Buffer, ReadonlyMap<string, Buffer>>();
-function districtAssignments(
-  archive: Buffer,
-  member: string,
-  header: string,
-  state: string,
-): Map<string, string> {
-  let states = nationalMembers.get(archive);
-  if (!states) {
-    const bytes = readZipMember(archive, member);
-    const headerEnd = bytes.indexOf(10);
-    if (bytes.toString("utf8", 0, headerEnd).replace(/\r$/, "") !== header)
-      throw new Error(`Unexpected district header in ${member}`);
-    const chunks = new Map<string, Buffer[]>();
-    let start = headerEnd + 1;
-    let partStart = start;
-    let previous = bytes.toString("ascii", start, start + 2);
-    const retain = (end: number) => {
-      const list = chunks.get(previous) ?? [];
-      list.push(bytes.subarray(partStart, end));
-      chunks.set(previous, list);
-    };
-    while (start < bytes.length) {
-      const current = bytes.toString("ascii", start, start + 2);
-      if (current !== previous) {
-        retain(start);
-        partStart = start;
-        previous = current;
-      }
-      const end = bytes.indexOf(10, start);
-      start = end === -1 ? bytes.length : end + 1;
-    }
-    retain(bytes.length);
-    states = new Map(
-      [...chunks].map(([key, pieces]) => [
-        key,
-        pieces.length === 1 ? pieces[0]! : Buffer.concat(pieces),
-      ]),
-    );
-    nationalMembers.set(archive, states);
-  }
-  const map = new Map<string, string>();
-  const bytes = states.get(state);
-  if (!bytes) return map;
-  for (const line of textLines(bytes)) {
-    if (!line) continue;
-    const [block, code] = line.split(",");
-    if (!block || !code || map.has(block))
-      throw new Error(`Duplicate or incomplete district block in ${member}`);
-    map.set(block, code);
-  }
-  return map;
-}
-
-/** Aggregated QA slice; all raw block/P1/assignment archives stay in cache. */
-export function cutDistrictPopulationParts(
-  archive: Buffer,
-  usps: string,
-  state: string,
-  acquired: ReadonlyMap<string, Buffer>,
-): Buffer {
-  const required = (id: string) => {
-    const bytes = acquired.get(id);
-    if (!bytes) throw new Error(`Missing district join artifact ${id}`);
-    return bytes;
-  };
-  const placeArchive = required(`census-baf2020-place-${usps.toLowerCase()}`);
-  const places = new Map<string, string>();
-  const placeLines = textLines(
-    readZipMember(
-      placeArchive,
-      `BlockAssign_ST${state}_${usps}_INCPLACE_CDP.txt`,
-    ),
-  );
-  if (placeLines.next().value !== "BLOCKID|PLACEFP")
-    throw new Error("Unexpected block-to-place header");
-  for (const line of placeLines) {
-    if (!line) continue;
-    const [block, place] = line.split("|");
-    if (!block || places.has(block))
-      throw new Error("Duplicate or missing place-assignment block");
-    places.set(block, place ?? "");
-  }
-  const p1 = new Map<string, number>();
-  for (const line of textLines(
-    readZipMember(archive, `${usps.toLowerCase()}000012020.pl`),
-  )) {
-    if (!line) continue;
-    const cells = line.split("|");
-    const population = Number(cells[5]);
-    if (
-      !cells[4] ||
-      cells[5] === "" ||
-      !Number.isSafeInteger(population) ||
-      population < 0 ||
-      p1.has(cells[4])
-    )
-      throw new Error("Invalid P1 total or LOGRECNO");
-    p1.set(cells[4], population);
-  }
-  const blocks = new Map<
-    string,
-    { place: string | null; population: number }
-  >();
-  for (const line of textLines(readZipMember(archive, geoheaderMember(usps)))) {
-    const cells = line.split("|");
-    if (cells[GEO_FIELD.SUMLEV] !== "750") continue;
-    const block = cells[GEO_FIELD.GEOCODE]!;
-    const population = p1.get(cells[GEO_FIELD.LOGRECNO]!);
-    const place = places.get(block);
-    if (
-      population === undefined ||
-      population !== Number(cells[GEO_FIELD.POP100]) ||
-      place === undefined ||
-      blocks.has(block)
-    )
-      throw new Error(`Incomplete or inconsistent P1/place join for ${block}`);
-    blocks.set(block, { place: place ? `${state}${place}` : null, population });
-  }
-  const records: PlaceDistrictPopulationRecord[] = [];
-  const artifactId = districtPopulationArtifactId(usps);
-  for (const source of DISTRICT_SOURCES) {
-    const assignments = districtAssignments(
-      required(source.artifactId),
-      source.member,
-      source.header,
-      state,
-    );
-    if (assignments.size === 0) continue; // A chamber absent from the publisher's universe.
-    function* joined(): Generator<DistrictPopulationBlock> {
-      for (const [block, data] of blocks) {
-        const code = assignments.get(block);
-        if (code === undefined)
-          throw new Error(`Missing ${source.chamber} assignment for ${block}`);
-        const districtGeoid = `${state}${code}`;
-        const valid =
-          source.chamber === "congressional"
-            ? isCongressionalGeoid(districtGeoid)
-            : isStateLegislativeGeoid(districtGeoid);
-        if (!valid) throw new Error(`Invalid district code ${districtGeoid}`);
-        yield {
-          blockGeoid: block,
-          placeGeoid: data.place,
-          population: data.population,
-          districtGeoid: `${state}${code}`,
-          chamber: source.chamber,
-          boundaryVintage: source.vintage,
-        };
-      }
-    }
-    records.push(...normalizeDistrictPopulationParts(joined(), artifactId));
-  }
-  const cd120 = required(CD120_ARTIFACT);
-  // Changed-state members are defined by the existing dated district catalog.
-  const member = `CD120_${state}.txt`;
-  const datedStates = districtCatalog.congressional.dated
-    .filter((set) => set.vintage === "census-bef-cd120-2026")
-    .flatMap((set) => set.stateFips);
-  if (datedStates.includes(state)) {
-    if (!listZipMembers(cd120).some((entry) => entry.path === member))
-      throw new Error(`Catalog requires missing CD120 member ${member}`);
-    const bytes = readZipMember(cd120, member);
-    const lines = textLines(bytes);
-    if (lines.next().value !== "GEOID,STATEFP,COUNTYFP,TRACTCE,BLOCKCE,CDFP")
-      throw new Error("Unexpected CD120 header");
-    const assignments = new Map<string, string>();
-    for (const line of lines) {
-      if (!line) continue;
-      const cells = line.split(",");
-      if (assignments.has(cells[0]!)) throw new Error("Duplicate CD120 block");
-      assignments.set(cells[0]!, cells[5]!);
-    }
-    function* joined(): Generator<DistrictPopulationBlock> {
-      for (const [block, data] of blocks) {
-        const code = assignments.get(block);
-        if (code === undefined)
-          throw new Error(`Missing CD120 assignment for ${block}`);
-        yield {
-          blockGeoid: block,
-          placeGeoid: data.place,
-          population: data.population,
-          districtGeoid: `${state}${code}`,
-          chamber: "congressional",
-          boundaryVintage: "census-bef-cd120-2026",
-        };
-      }
-    }
-    records.push(...normalizeDistrictPopulationParts(joined(), artifactId));
-  }
-  return Buffer.from(JSON.stringify(records));
-}
-
-export const placeCountyRelationsAcquisition: AcquisitionPlan = {
-  domain: PLACE_COUNTY_DOMAIN,
-  requests: [
-    ...DISTRICT_SOURCES.map((source) =>
-      cachedDistrictRequest(source.artifactId, source.url),
-    ),
-    cachedDistrictRequest(CD120_ARTIFACT, CD120_URL),
-    ...PL_STATES.flatMap(([usps, fips, folder]) => [
-      ...stateRequests(usps, folder),
-      cachedDistrictRequest(
-        `census-baf2020-place-${usps.toLowerCase()}`,
-        `https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST${fips}_${usps}.zip`,
-      ),
-      {
-        artifactId: districtPopulationArtifactId(usps),
-        provider: "U.S. Census Bureau",
-        url: `${PL_BASE}/${folder}/${usps.toLowerCase()}2020.pl.zip`,
-        method: "bulk-download" as const,
-        mediaType: "application/json",
-        publisher: PUBLISHER,
-        rights: RIGHTS,
-        storage: "derived-qa-slice" as const,
-        localPath: `data/source/${PLACE_COUNTY_DOMAIN}/raw/${usps.toLowerCase()}-place-district-population.json`,
-        sliceOf: {
-          parentArtifactId: archiveArtifactId(usps),
-          selectionPredicate:
-            "Join 2020 block P1 totals via LOGRECNO to 2020 block/place assignments and catalog-vintage district block assignments; aggregate place×district×chamber; retain zero-population parts.",
-          cut: (bytes: Buffer, acquired: ReadonlyMap<string, Buffer>) =>
-            cutDistrictPopulationParts(bytes, usps, fips, acquired),
-        },
-      },
-    ]),
-  ],
-};

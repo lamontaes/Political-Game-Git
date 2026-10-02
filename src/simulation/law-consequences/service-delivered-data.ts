@@ -9,6 +9,9 @@ export const SERVICE_RECIPIENT_KIND = "activity:public-service";
 export const PUBLIC_SERVICE_ATTENDANCE = "public-service:attendance";
 
 /** Catalog data for completed, funded service; fare pricing is a separate consequence. */
+export const FARM_PAYMENT_QUESTION =
+  "us-federal-positions:agriculture.cut-farm-subsidies";
+
 export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
   Record<string, readonly LawConsequenceRow[]>
 > = Object.fromEntries(
@@ -60,6 +63,41 @@ export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
     ],
   ]),
 );
+
+// Money delivered by the existing public-program writer is separate from attendance.
+(SERVICE_DELIVERED_LAW_ROWS as Record<string, readonly LawConsequenceRow[]>)[
+  "us-federal-positions:agriculture.cut-farm-subsidies"
+] = [
+  {
+    id: "us-federal-positions:agriculture.cut-farm-subsidies:recorded-payment-cap",
+    kind: "service-delivered",
+    when: "payment",
+    who: { selector: "public-program.recorded-recipient", predicates: [] },
+    what: "settle-recorded-program-payment",
+    amount: {
+      op: "minimum",
+      operands: [
+        { op: "record", key: "farm.committed-payment", unit: "minor" },
+        { op: "record", key: "farm.remaining-annual-cap", unit: "minor" },
+      ],
+    },
+    conditions: [],
+    lag: { days: 0, sourceIds: [] },
+    onRepeal: "preserve-completed",
+    evidence: {
+      sourceIds: [
+        "src/simulation/governing/public-program.ts:settleProgramInstallment",
+      ],
+      population:
+        "Actual saved recipients of recorded farm-authorized commitments.",
+      scope:
+        "Adopted dollars-per-recipient annual cap minus that recipient's actual same-year payments.",
+      why: "The legal cap limits the existing payment; only the shared payment writer moves available government cash to the recorded recipient.",
+      uncertainty:
+        "No farm, eligible recipient, appropriation or payment is inferred from research totals or a yes/no answer.",
+    },
+  },
+];
 
 /**
  * How a person asks for each service whose request producer exists, and what

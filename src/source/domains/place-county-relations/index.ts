@@ -25,22 +25,13 @@ import {
   PL_STATES,
   placeCountyRelationsAcquisition,
   sliceArtifactId,
-  districtPopulationArtifactId,
 } from "./acquisition";
 import { parsePlaceCountyParts } from "./parse";
 import { normalizePlaceCountyParts } from "./normalize";
 import { validatePlaceCountyCorpus } from "./validate";
-import type {
-  PlaceRelationRecord,
-  PlaceDistrictPopulationRecord,
-} from "./types";
+import type { PlaceCountyPartRecord } from "./types";
 
-export type {
-  PlaceCountyPartRecord,
-  PublisherPartFlag,
-  PlaceDistrictPopulationRecord,
-  PlaceRelationRecord,
-} from "./types";
+export type { PlaceCountyPartRecord, PublisherPartFlag } from "./types";
 export {
   EXPECTED_PART_RECORD_COUNT,
   EXPECTED_PLACE_COUNT,
@@ -53,20 +44,21 @@ export {
   slicePath,
 } from "./acquisition";
 
-export const PLACE_COUNTY_COMPILER_VERSION = "1.2.0";
+export const PLACE_COUNTY_COMPILER_VERSION = "1.1.0";
 export const PLACE_COUNTY_PARSER_VERSION = "1.0.0";
 /** Census Day, the reference date of 2020 Census geography. */
 export const PLACE_COUNTY_CORPUS_AS_OF = "2020-04-01";
 
-export type PlaceCountyArtifacts = OpenedArtifacts<string>;
+type StateRole = (typeof PL_STATES)[number][0];
+export type PlaceCountyArtifacts = OpenedArtifacts<StateRole>;
 
 /** Compile place-within-county parts from locked slice bytes. */
 export function compilePlaceCountyRelations(
   input:
     ProductionInput<PlaceCountyArtifacts> | FixtureInput<PlaceCountyArtifacts>,
-): CompiledCorpus<PlaceRelationRecord> {
+): CompiledCorpus<PlaceCountyPartRecord> {
   const inputClass = "lock" in input ? "production" : "fixture";
-  const records: PlaceRelationRecord[] = [];
+  const records: PlaceCountyPartRecord[] = [];
   const defects: string[] = [];
   const inputs: { artifactId: string; sha256: string }[] = [];
 
@@ -82,30 +74,6 @@ export function compilePlaceCountyRelations(
       opened.artifact.artifactId,
     );
     records.push(...normalized.records);
-    const district = input.artifacts[districtPopulationArtifactId(usps)];
-    if (district) {
-      const parts = JSON.parse(
-        district.bytes.toString("utf8"),
-      ) as PlaceDistrictPopulationRecord[];
-      records.push(
-        ...parts.map((part, index) => ({
-          ...part,
-          evidence: {
-            artifactId: district.artifact.artifactId,
-            locator: {
-              kind: "api-record" as const,
-              artifactId: district.artifact.artifactId,
-              recordPath: `[${index}]`,
-            },
-            providerNativeId: part.recordId,
-          },
-        })),
-      );
-      inputs.push({
-        artifactId: district.artifact.artifactId,
-        sha256: district.artifact.bytes.sha256,
-      });
-    }
     for (const defect of [...parsed.defects, ...normalized.defects]) {
       defects.push(`${opened.artifact.artifactId}: ${defect.message}`);
     }
@@ -121,18 +89,6 @@ export function compilePlaceCountyRelations(
     );
   }
 
-  if ("lock" in input) {
-    for (const artifact of input.lock.artifacts) {
-      if (
-        artifact.artifactId.startsWith("census-bef-") ||
-        artifact.artifactId.startsWith("census-baf2020-place-")
-      )
-        inputs.push({
-          artifactId: artifact.artifactId,
-          sha256: artifact.bytes.sha256,
-        });
-    }
-  }
   records.sort((left, right) => left.recordId.localeCompare(right.recordId));
 
   return {
@@ -154,44 +110,40 @@ export function compilePlaceCountyRelations(
       coverage: {
         isCompleteUniverse: true,
         universeDescription:
-          "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land area, water area and POP100 population count. Puerto Rico is not included. Legislative district parts additionally join 2020 block P1 population to 2024 SLD, 119th Congress and catalog dated 120th Congress block assignments; their denominators sum the place parts within each chamber and vintage.",
+          "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land area, water area and POP100 population count. Puerto Rico is not included.",
         boundedSampleReason: null,
       },
     },
     records,
-  } as CompiledCorpus<PlaceRelationRecord>;
+  } as CompiledCorpus<PlaceCountyPartRecord>;
 }
 
 export function openPlaceCountyProduction(
   lock: ArtifactLock,
 ): ProductionInput<PlaceCountyArtifacts> {
-  return openProductionArtifacts<string>(
+  return openProductionArtifacts<StateRole>(
     PLACE_COUNTY_DOMAIN,
     lock,
-    Object.fromEntries([
-      ...PL_STATES.map(([usps]) => [usps, sliceArtifactId(usps)]),
-      ...PL_STATES.map(([usps]) => [
-        districtPopulationArtifactId(usps),
-        districtPopulationArtifactId(usps),
-      ]),
-    ]) as Record<string, string>,
+    Object.fromEntries(
+      PL_STATES.map(([usps]) => [usps, sliceArtifactId(usps)]),
+    ) as Record<StateRole, string>,
   );
 }
 
-export const sourceDomain: SourceDomainModule<PlaceRelationRecord> = {
+export const sourceDomain: SourceDomainModule<PlaceCountyPartRecord> = {
   domain: PLACE_COUNTY_DOMAIN,
   compilerVersion: PLACE_COUNTY_COMPILER_VERSION,
   acquisitionPlan: placeCountyRelationsAcquisition,
   lockPath: `data/source/${PLACE_COUNTY_DOMAIN}/artifact-lock.json`,
   compileProduction(
     lock: ArtifactLock,
-  ): CompiledCorpus<PlaceRelationRecord, "production"> {
+  ): CompiledCorpus<PlaceCountyPartRecord, "production"> {
     return compilePlaceCountyRelations(
       openPlaceCountyProduction(lock),
-    ) as CompiledCorpus<PlaceRelationRecord, "production">;
+    ) as CompiledCorpus<PlaceCountyPartRecord, "production">;
   },
   validateCorpus(
-    corpus: CompiledCorpus<PlaceRelationRecord>,
+    corpus: CompiledCorpus<PlaceCountyPartRecord>,
   ): ValidationReport {
     return validatePlaceCountyCorpus(corpus);
   },

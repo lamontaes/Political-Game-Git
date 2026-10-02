@@ -12,18 +12,14 @@
  * build never runs Node source code.
  */
 
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 import {
   PLACE_COUNTY_COMPILER_VERSION,
   PLACE_COUNTY_CORPUS_AS_OF,
 } from "../../src/source/domains/place-county-relations/index";
-import type {
-  PlaceCountyPartRecord,
-  PlaceRelationRecord,
-  PlaceDistrictPopulationRecord,
-} from "../../src/source/domains/place-county-relations/index";
+import type { PlaceCountyPartRecord } from "../../src/source/domains/place-county-relations/index";
 import type { NormalizedCorpus } from "../../src/source/core/index";
 import { NATIONAL_COUNTIES_ROWS } from "../../src/simulation/national-counties.generated";
 import { REPO_ROOT, domainDataDir } from "./registry";
@@ -39,24 +35,11 @@ export const PLACE_COUNTY_OUTPUT_PATH =
  */
 const RETIRED_2020_COUNTY_STATE_FIPS = "09";
 
-/** Keep each JSON row on its own source line without changing its values. */
-function jsonTableLiteral(rows: readonly (readonly unknown[])[]): string {
-  const text = rows.map((row) => JSON.stringify(row)).join(",\n");
-  const escaped = text
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${");
-  return "`[\n" + escaped + "\n]`";
-}
-
 export function renderPlaceCountyModule(): string {
   const dir = domainDataDir("place-county-relations");
-  const allRecords = JSON.parse(
+  const records = JSON.parse(
     readFileSync(resolve(dir, "corpus.json"), "utf-8"),
-  ) as PlaceRelationRecord[];
-  const records = allRecords.filter(
-    (record): record is PlaceCountyPartRecord => !("relationKind" in record),
-  );
+  ) as PlaceCountyPartRecord[];
   const manifest = JSON.parse(
     readFileSync(resolve(dir, "corpus-manifest.json"), "utf-8"),
   ) as NormalizedCorpus;
@@ -138,115 +121,9 @@ export function renderPlaceCountyModule(): string {
     `export const PLACE_COUNTY_RELATIONS_META = ${JSON.stringify(meta, null, 2)} as const;`,
     "",
     "/** One JSON string, parsed once on first use. */",
-    `export const PLACE_COUNTY_RELATIONS_ROWS: string = ${jsonTableLiteral(rows)};`,
+    `export const PLACE_COUNTY_RELATIONS_ROWS: string = ${JSON.stringify(JSON.stringify(rows))};`,
     "",
   ].join("\n");
-}
-
-/** Measured place-part land areas from the already locked relationship tables. */
-function recordedDistrictPartAreas(): ReadonlyMap<string, number> {
-  const areas = new Map<string, number>();
-  const sources = [
-    [
-      "state-lower",
-      "sld-place-relations",
-      "tab20_sldl202420_place20_natl.txt",
-      "GEOID_SLDL2024_20",
-      "census-rel-2024-sld-place20",
-    ],
-    [
-      "state-upper",
-      "sld-place-relations",
-      "tab20_sldu202420_place20_natl.txt",
-      "GEOID_SLDU2024_20",
-      "census-rel-2024-sld-place20",
-    ],
-    [
-      "congressional",
-      "cd-place-relations",
-      "tab20_cd11920_place20_natl.txt",
-      "GEOID_CD119_20",
-      "census-rel-2020-cd119-place20",
-    ],
-  ] as const;
-  for (const [chamber, domain, file, districtColumn, vintage] of sources) {
-    const lines = readFileSync(
-      resolve(domainDataDir(domain), "raw", file),
-      "utf8",
-    )
-      .replace(/^\uFEFF/, "")
-      .trimEnd()
-      .split(/\r?\n/);
-    const header = lines.shift()!.split("|");
-    const columns = ["GEOID_PLACE_20", districtColumn, "AREALAND_PART"].map(
-      (name) => header.indexOf(name),
-    );
-    if (columns.some((index) => index < 0))
-      throw new Error(`Missing relationship area column in ${file}`);
-    for (const line of lines) {
-      const cells = line.split("|");
-      const place = cells[columns[0]!]!;
-      const district = cells[columns[1]!]!;
-      if (!district) continue;
-      const area = Number(cells[columns[2]!]!);
-      if (!Number.isSafeInteger(area) || area < 0)
-        throw new Error(`Invalid part area in ${file}`);
-      const key = `${place}:${chamber}:${vintage}:${district}`;
-      areas.set(key, (areas.get(key) ?? 0) + area);
-    }
-  }
-  return areas;
-}
-
-/** State shards retain the corpus order and every measured zero-count part. */
-export function renderDistrictPopulationModules(): ReadonlyMap<string, string> {
-  const records = JSON.parse(
-    readFileSync(
-      resolve(domainDataDir("place-county-relations"), "corpus.json"),
-      "utf8",
-    ),
-  ) as PlaceRelationRecord[];
-  const areas = recordedDistrictPartAreas();
-  const byState = new Map<string, unknown[][]>();
-  for (const record of records) {
-    if (!("relationKind" in record)) continue;
-    const row = record as PlaceDistrictPopulationRecord;
-    const parts = byState.get(row.stateFips) ?? [];
-    parts.push([
-      row.placeGeoid,
-      row.chamber,
-      row.boundaryVintage,
-      row.districtGeoid,
-      row.partPopulationCount,
-      row.placePopulationCount,
-      areas.get(
-        `${row.placeGeoid}:${row.chamber}:${row.boundaryVintage}:${row.districtGeoid}`,
-      ) ?? null,
-    ]);
-    byState.set(row.stateFips, parts);
-  }
-  const modules = new Map<string, string>();
-  const loaders = [
-    "/** GENERATED by export-place-county-relations.ts. Only the requested state loads. */",
-    "export const DISTRICT_POPULATION_LOADERS: Readonly<Record<string, () => Promise<{ default: unknown }>>> = {",
-  ];
-  for (const [stateFips, rows] of [...byState].sort(([a], [b]) =>
-    a.localeCompare(b),
-  )) {
-    modules.set(
-      `src/districts/district-population/${stateFips}.json`,
-      "[\n" + rows.map((row) => JSON.stringify(row)).join(",\n") + "\n]\n",
-    );
-    loaders.push(
-      `  ${JSON.stringify(stateFips)}: () => import("./district-population/${stateFips}.json", { with: { type: "json" } }),`,
-    );
-  }
-  loaders.push("};", "");
-  modules.set(
-    "src/districts/district-population-loaders.generated.ts",
-    loaders.join("\n"),
-  );
-  return modules;
 }
 
 if (process.argv[1]?.endsWith("export-place-county-relations.ts")) {
@@ -255,9 +132,4 @@ if (process.argv[1]?.endsWith("export-place-county-relations.ts")) {
   console.log(
     `export-place-county-relations wrote ${PLACE_COUNTY_OUTPUT_PATH} (${text.length} bytes).`,
   );
-  for (const [path, module] of renderDistrictPopulationModules()) {
-    const target = resolve(REPO_ROOT, path);
-    mkdirSync(dirname(target), { recursive: true });
-    writeFileSync(target, module, "utf8");
-  }
 }

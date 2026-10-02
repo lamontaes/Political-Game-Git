@@ -6,11 +6,22 @@ import {
   describeRuleChangeValue,
 } from "../enacted-rule-changes";
 import { makeIsoDate } from "../dates";
-import type { IsoDate } from "../types";
 import { createStableId } from "../ids";
-import { createWorld } from "../world";
+import { stateJurisdictionForKey } from "../life-places";
+import { createLightweightPerson } from "../people";
+import { STATES } from "../state-reference";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
+import { createWorld, createWorldId } from "../world";
 import { dateFromElectionRule, type ElectionDateRule } from "./date-rules";
 import { generalElectionDay, nominationPlan } from "./nomination-rules";
+import {
+  holdNominationPrimary,
+  holdNominationRunoff,
+  nominationNominees,
+  nominationPrimaryRecord,
+  type NominationEntrant,
+} from "./party-nominations";
 
 const places = (
   nominationRules as unknown as {
@@ -239,5 +250,233 @@ describe("party nomination rules, 2026", () => {
         "us-ga-election-law",
       ),
     ).not.toThrow();
+  });
+});
+
+describe("A114: a primary is decided by the entrants' records, not a draw", () => {
+  const planOf = (usps: string) =>
+    nominationPlan(createMinimalWorld(), {
+      stateUsps: usps,
+      family: "us-house",
+      year: 2026,
+      onDate: makeIsoDate("2026-01-06"),
+    });
+  type KnownPlan = Extract<ReturnType<typeof planOf>, { known: true }>;
+  /**
+   * A place drawn at random from all 56 by `seed`, among those whose 2026
+   * House plan fits; the test title names it with its seed.
+   */
+  const placeWhere = (seed: string, fits: (plan: KnownPlan) => boolean) => {
+    const place = drawRandomPlace(seed, (candidate) => {
+      const plan = planOf(candidate.stateJurisdictionKey!.slice(3));
+      return plan.known && fits(plan);
+    });
+    const usps = place.stateJurisdictionKey!.slice(3);
+    const plan = planOf(usps);
+    if (!plan.known) throw new Error("The drawn place's plan is read.");
+    return { usps, plan, seed, name: place.displayName };
+  };
+  const partyPrimary = (plan: KnownPlan) => plan.method === "party-primary";
+  /** A runoff, held without a request, that a lead of `permille` misses. */
+  const runoffMissedAt = (permille: number) => (plan: KnownPlan) =>
+    partyPrimary(plan) &&
+    plan.runoff !== null &&
+    plan.runoff.date !== null &&
+    !plan.runoff.onRequest &&
+    (plan.runoff.outright === "at-least"
+      ? permille < plan.runoff.thresholdPercent * 10
+      : permille <= plan.runoff.thresholdPercent * 10);
+
+  // The same four people every time; only the world's seed, the input the
+  // old campaign draw read, differs between runs. A person's id comes from
+  // the world id and their index, not from where they live.
+  const worldId = createWorldId("a114-entrants");
+  const person = (index: number, homeJurisdictionId: EntityId) =>
+    createLightweightPerson({
+      worldId,
+      worldSeed: "a114-entrants",
+      index,
+      currentDate: makeIsoDate("2026-01-05"),
+      homeJurisdictionId,
+    });
+  const entrantsWorld = (usps: string) => {
+    const state = stateJurisdictionForKey(`US-${usps}`)!;
+    return createWorld({
+      seed: "a114-entrants",
+      currentDate: makeIsoDate("2026-12-31"),
+      people: [0, 1, 2, 3].map((index) => person(index, state.id)),
+      jurisdictions: [state],
+    });
+  };
+  const [first, second, third, fourth] = [0, 1, 2, 3].map(
+    (index) => person(index, stateJurisdictionForKey("US-DC")!.id).id,
+  ) as [EntityId, EntityId, EntityId, EntityId];
+  const entrant = (
+    personId: EntityId,
+    party: string,
+    standing: "incumbent" | "recruit" | "self-starter",
+  ): NominationEntrant => ({
+    personId,
+    party,
+    incumbent: standing === "incumbent",
+    partyBacked: standing === "recruit",
+  });
+
+  /** The place's 2026 House primary, and its runoff when one is left open. */
+  function primary(
+    usps: string,
+    plan: KnownPlan,
+    seed: string,
+    entrants: readonly NominationEntrant[],
+  ) {
+    const base = entrantsWorld(usps);
+    const world: World = { ...base, seed };
+    const input = {
+      stableKey: `a114:us-house-${usps}-01:2026`,
+      seatKey: `us-house-${usps}-01`,
+      title: `${STATES[usps]!.name}'s 1st District`,
+      jurisdictionId: stateJurisdictionForKey(`US-${usps}`)!.id,
+      involvedEntityIds: [],
+    };
+    const held = holdNominationPrimary(world, {
+      ...input,
+      plan,
+      entrants,
+      partyShare: () => null,
+    });
+    return {
+      world: holdNominationRunoff(held, input),
+      record: nominationPrimaryRecord(held, input.stableKey)!,
+      stableKey: input.stableKey,
+    };
+  }
+
+  /** Each entrant's recorded result, as "party|share per mille|status". */
+  const results = (event: HistoricalEvent | undefined) =>
+    Object.fromEntries(
+      (event?.participants ?? []).map((row) => [row.personId, row.detail]),
+    );
+  const runoffOf = (world: World, stableKey: string) =>
+    world.history.events.find(
+      (event) => event.stableKey === `${stableKey}:runoff`,
+    );
+
+  const outright = placeWhere(
+    "a114-outright",
+    (plan) =>
+      partyPrimary(plan) &&
+      (plan.runoff === null || !runoffMissedAt(556)(plan)),
+  );
+  const withRunoff = placeWhere("a114-runoff", runoffMissedAt(400));
+  const noRunoff = placeWhere(
+    "a114-no-runoff",
+    (plan) => partyPrimary(plan) && plan.runoff === null,
+  );
+  const runoffAtHalf = placeWhere("a114-runoff-tie", runoffMissedAt(500));
+  const where = (drawn: { usps: string; name: string; seed: string }) =>
+    `${drawn.name}, ${drawn.usps}, place seed ${drawn.seed}`;
+
+  it(`nominates the same person with the same shares under two seeds (${where(outright)})`, () => {
+    const field = [
+      entrant(first, "republican", "incumbent"),
+      entrant(second, "republican", "self-starter"),
+      entrant(third, "democratic", "recruit"),
+      entrant(fourth, "democratic", "self-starter"),
+    ];
+    const one = primary(outright.usps, outright.plan, "a114-first-seed", field);
+    const two = primary(
+      outright.usps,
+      outright.plan,
+      "a114-second-seed",
+      field,
+    );
+    // Shares are per 1,000 primary votes in each party: a sitting member 1.5
+    // to 1, a party recruit 1.25 to 1.
+    expect(results(one.record)).toEqual({
+      [first]: "republican|600|nominated",
+      [second]: "republican|400|lost",
+      [third]: "democratic|556|nominated",
+      [fourth]: "democratic|444|lost",
+    });
+    expect(results(two.record)).toEqual(results(one.record));
+    expect(nominationNominees(two.world, two.stableKey)).toEqual(
+      nominationNominees(one.world, one.stableKey),
+    );
+  });
+
+  it(`decides a runoff by each finalist's recorded share of the primary vote (${where(withRunoff)})`, () => {
+    const { world, record, stableKey } = primary(
+      withRunoff.usps,
+      withRunoff.plan,
+      "a114-runoff",
+      [
+        entrant(first, "republican", "incumbent"),
+        entrant(second, "republican", "recruit"),
+        entrant(third, "republican", "self-starter"),
+      ],
+    );
+    // Nobody reached the place's threshold, so the top two meet again.
+    expect(results(record)).toEqual({
+      [first]: "republican|400|runoff",
+      [second]: "republican|333|runoff",
+      [third]: "republican|267|lost",
+    });
+    // 400 to 333 in the primary is 546 to 454 between the two.
+    expect(results(runoffOf(world, stableKey))).toEqual({
+      [first]: "republican|546|nominated",
+      [second]: "republican|454|lost",
+    });
+    expect(nominationNominees(world, stableKey)).toEqual([
+      { personId: first, party: "republican" },
+    ]);
+  });
+
+  it(`records a tied primary as tied and nominates nobody, not a coin toss (${where(noRunoff)})`, () => {
+    const { world, record, stableKey } = primary(
+      noRunoff.usps,
+      noRunoff.plan,
+      "a114-tie",
+      [
+        entrant(first, "republican", "incumbent"),
+        entrant(second, "democratic", "self-starter"),
+        entrant(third, "democratic", "self-starter"),
+      ],
+    );
+    expect(results(record)).toEqual({
+      [first]: "republican|1000|unopposed",
+      [second]: "democratic|500|tied",
+      [third]: "democratic|500|tied",
+    });
+    expect(record.summary).toContain("ended in a tie");
+    expect(nominationNominees(world, stableKey)).toEqual([
+      { personId: first, party: "republican" },
+    ]);
+  });
+
+  it(`sends a tie to the runoff where the law holds one, and a tied runoff nominates nobody (${where(runoffAtHalf)})`, () => {
+    const { world, record, stableKey } = primary(
+      runoffAtHalf.usps,
+      runoffAtHalf.plan,
+      "a114-runoff-tie",
+      [
+        entrant(first, "republican", "incumbent"),
+        entrant(second, "democratic", "self-starter"),
+        entrant(third, "democratic", "self-starter"),
+      ],
+    );
+    expect(results(record)).toEqual({
+      [first]: "republican|1000|unopposed",
+      [second]: "democratic|500|runoff",
+      [third]: "democratic|500|runoff",
+    });
+    const runoff = runoffOf(world, stableKey);
+    expect(results(runoff)).toEqual({
+      [second]: "democratic|500|tied",
+      [third]: "democratic|500|tied",
+    });
+    expect(runoff?.summary).toContain("ended in a tie");
+    expect(nominationNominees(world, stableKey)).toEqual([
+      { personId: first, party: "republican" },
+    ]);
   });
 });
