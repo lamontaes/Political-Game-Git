@@ -167,7 +167,11 @@ describe.each(samples)(
         });
       }
       const next = assignStory(world, f.lead.id);
-      expect(assignedReporter(next, f.lead.id)).toBeNull();
+      expect(
+        reporterRoles(next, f.lead.outletId).some(
+          (role) => role.personId === assignedReporter(next, f.lead.id),
+        ),
+      ).toBe(true);
       expect(next.history.pressRecords?.at(-1)).toMatchObject({
         decision: "queued",
       });

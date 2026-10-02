@@ -59,6 +59,7 @@ import {
 } from "./index";
 import { recordEvidenceDiscovery } from "../evidence";
 import { contradictionFound } from "../claim-stances";
+import { PRESS_DESK_INTERVALS } from "./desk";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
 const KY = KENTUCKY_CONTEXT.jurisdiction.id;
@@ -799,7 +800,15 @@ describe("PRESS46 off-record control, hold and repeat reporter", () => {
     matterId: matter.matter.id,
   });
   const assigned = assignStory(told.world, told.leadId!);
-  const later = days(assigned, 14);
+  // Reporting now finishes through a saved work item before editorial review.
+  // Allow the existing weekly retry and hold-review intervals to run as well.
+  const later = days(
+    assigned,
+    14 +
+      PRESS_DESK_INTERVALS.sweepDays +
+      PRESS_DESK_INTERVALS.routinePublishDays +
+      PRESS_DESK_INTERVALS.holdRecheckDays,
+  );
 
   it("never publishes off-record material: the story is held, then dropped", () => {
     expect(terms.agreement!.publiclyUsable).toBe(false);

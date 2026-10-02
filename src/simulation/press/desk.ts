@@ -5,7 +5,10 @@ import {
   isSelectedDecision,
   recordDurableDecisionTrace,
 } from "../decisions";
-import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  futureDueItemStateAt,
+  scheduleFutureDueItem,
+} from "../future-transitions";
 import { personName } from "../people";
 import { correctPublication, publishPublicEvent } from "../public-information";
 import {
@@ -313,6 +316,7 @@ export function assignStory(world: World, leadId: EntityId): World {
     return latest
       ? world
       : writeDisposition(world, lead, "queued", {
+          reporterPersonId: reporter.personId,
           reasonKey: "press:capacity-full",
         });
   }
@@ -1494,6 +1498,42 @@ export function pressDeskSweepHandler(
       event.sequence > frontier && eventIsNewsCandidate(reported, event),
   );
   let next = reported;
+  // A work-blocked checkpoint is terminal on the due ledger. The existing
+  // weekly desk resumes it only after its saved work actually becomes ready.
+  for (const lead of storyLeads(next)) {
+    if (
+      !ACTIVE_STORY_DECISIONS.includes(
+        latestDisposition(next, lead.id)?.decision ?? "declined",
+      )
+    )
+      continue;
+    const work = storyWorkItem(next, lead.id);
+    if (!work) continue;
+    const state = workItemState(next, work.id);
+    if (state.status !== "ready-for-review" && state.status !== "completed")
+      continue;
+    const checkpoint = next.history.futureDueItems
+      .filter((item) =>
+        item.stableKey.startsWith(`press46:story-step:${lead.id}:`),
+      )
+      .at(-1);
+    if (!checkpoint) continue;
+    const dueState = futureDueItemStateAt(
+      next,
+      checkpoint.id,
+      currentHistoricalCutoff(next),
+    );
+    if (
+      dueState?.status === "blocked" &&
+      dueState.reasonKey === "press:reporting-work-incomplete"
+    ) {
+      next = scheduleStoryStep(
+        next,
+        lead,
+        addDays(next.currentDate, PRESS_DESK_INTERVALS.routinePublishDays),
+      );
+    }
+  }
   for (const outlet of mediaOutlets(world)) {
     next = sweepOutlet(next, outlet, candidates);
   }
@@ -1948,18 +1988,9 @@ function chooseReporter(
   lead: StoryLeadRecord,
   beat: MediaBeat,
 ): ReporterRoleRecord | null {
-  const current = reporterRoles(world, outlet.id).filter((role) => {
-    if (!reporterIsCurrent(world, role)) return false;
-    const budget = reporterWorkBudget(world, role);
-    const estimate = storyEffortEstimate(world, lead, role);
-    return (
-      budget !== null &&
-      estimate !== null &&
-      budget.availableMinutes.minimum > 0 &&
-      (estimate.requiredMinutes <= budget.availableMinutes.minimum ||
-        budget.reservedMinutes === 0)
-    );
-  });
+  const current = reporterRoles(world, outlet.id).filter((role) =>
+    reporterIsCurrent(world, role),
+  );
   if (current.length === 0) return null;
   // A tip stays with the reporter the source actually talked to.
   const tipped = pressRecordsOfKind(world, "source-contribution")
@@ -1974,7 +2005,7 @@ function chooseReporter(
   const tippedRole = current.find((role) => tipped.includes(role.personId));
   if (tippedRole) return tippedRole;
   const load = (role: ReporterRoleRecord) =>
-    reporterWorkBudget(world, role)!.reservedMinutes;
+    reporterWorkBudget(world, role)?.reservedMinutes ?? Infinity;
   // A reporter who already covered these subjects keeps the relationship.
   const familiar = (role: ReporterRoleRecord) =>
     storyLeads(world).some(
