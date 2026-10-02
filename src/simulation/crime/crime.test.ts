@@ -26,6 +26,14 @@ import {
 import { arrestReferral } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { referForProsecution } from "../justice/prosecution";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { stableHash } from "../ids";
+import { lifePlaceStateIdentities } from "../life-places";
+import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { ensureTownResidents } from "../living-world/town-residents";
+import { ensureCrimeProduction } from "./producer";
 
 const LONG = 900_000;
 
@@ -44,6 +52,34 @@ function open(seed: string) {
   ).game!;
 }
 
+/**
+ * A small world in a place drawn from all 56 by the seed: its residents, the
+ * world's starting conditions (which a current opening records, and which
+ * people the town), and the monthly crime pass, as a new game schedules it.
+ * Nothing else a full opening builds is needed by the cases that run time.
+ */
+function smallCrimeWorld(seed: string) {
+  const states = lifePlaceStateIdentities();
+  expect(states).toHaveLength(56);
+  const state =
+    states[parseInt(stableHash(seed).slice(0, 8), 16) % states.length]!;
+  const small = smallWorld({ place: state.jurisdictionKey, seed });
+  const world = ensureCrimeProduction(
+    ensureTownResidents(
+      ensureWorldStartingConditions(small.world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+        political: generatePoliticalStartingConditions,
+      }),
+      small.personId,
+    ),
+  );
+  return {
+    world,
+    playerPersonId: small.personId,
+    label: `${small.place.displayName}, ${state.jurisdictionKey}, seed ${seed}`,
+  };
+}
+
 describe("ordinary local crime", () => {
   it("every rate is marked as an unresearched placeholder", () => {
     expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
@@ -60,7 +96,7 @@ describe("ordinary local crime", () => {
   it(
     "a year of ordinary time in a new game produces reported, unreported and solved crime that the local paper can see",
     () => {
-      const life = open("local-crime-virginia");
+      const life = smallCrimeWorld("local-crime-year");
       const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
       expect(
         life.world.history.futureDueItems.filter(
@@ -98,6 +134,7 @@ describe("ordinary local crime", () => {
       );
       console.info(
         JSON.stringify({
+          place: life.label,
           people: Object.keys(later.people).length,
           households: later.history.households.length,
           reported: reported.length,
@@ -230,16 +267,8 @@ describe("ordinary local crime", () => {
   it(
     "the Around you feed shows only the player's own town's crime",
     () => {
-      // Clarksdale, Mississippi: measured showing Washington police reports.
-      const life = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: "feed-2813820",
-          placeKey: "2813820",
-          startAge: 30,
-          depth: "summarize-earlier-life",
-        }),
-      ).game!;
+      // Measured once showing another state's police reports in the feed.
+      const life = smallCrimeWorld("local-crime-feed");
       const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
       const later = advanceWorld(
         life.world,
@@ -318,7 +347,7 @@ describe("ordinary local crime", () => {
   it(
     "police arrest a named resident the offense points to, and prosecutors take the case",
     () => {
-      const life = open("probe");
+      const life = smallCrimeWorld("local-crime-arrests");
       const world = advanceWorld(
         life.world,
         400,
