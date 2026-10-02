@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import outlayTerms from "../../data/research/federal/federal-outlay-terms-fy2025.json" with { type: "json" };
+import { FEDERAL_OUTLAYS } from "../../src/simulation/public-budgets/federal-budget-categories";
 
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import {
@@ -33,7 +35,7 @@ import type {
   World,
 } from "../../src/simulation";
 
-/** Adopted annual amounts do not imply local aid allocation or dollar GDP. */
+/** Authored adopted amounts use saved spending; the GDP denominator stays sourced. */
 
 const SEED = "federal-outlay-laws";
 const POLICY = createProductionPolicyCatalog();
@@ -146,7 +148,7 @@ function recordedAidYear(world: World): World {
       federalGovernment: {
         months: Array.from({ length: 12 }, (_, i) => ({
           month: makeIsoDate(`2026-${String(i + 1).padStart(2, "0")}-01`),
-          spending: Array(13).fill(100),
+          spending: FEDERAL_OUTLAYS.map(() => 100),
         })),
       },
     },
@@ -179,7 +181,7 @@ describe("federal outlay laws use final adopted annual dollar terms", () => {
       federalOutlayChangeAt(world, makeIsoDate("2027-06-01")),
     ).toMatchObject({ cutDollars: 700, lawMeasureIds: [cut.measure.id] });
     expect(federalAidFactor(world, makeIsoDate("2027-06-01"))).toBeCloseTo(
-      1 - 700 / (12 * 13 * 100),
+      1 - 700 / (12 * FEDERAL_OUTLAYS.length * 100),
       12,
     );
     expect(federalAidFactor(worldWith([cut]), makeIsoDate("2027-06-01"))).toBe(
@@ -224,11 +226,65 @@ describe("federal outlay laws use final adopted annual dollar terms", () => {
       expect(
         federalAidFactor(world, world.currentDate),
         place.jurisdictionKey,
-      ).toBe(1);
+      ).toBeCloseTo(aid.amount / (12 * 100), 12);
     }
+    expect(federalAidFactor(world, makeIsoDate("2026-12-01"))).toBe(1);
+    expect(
+      federalAidFactor(recordedAidYear(worldWith([])), world.currentDate),
+    ).toBe(1);
+    const repealed = recordedAidYear(
+      worldWith([
+        aid,
+        act(INCREASE_FOREIGN_AID_QUESTION, "no", makeIsoDate("2029-01-01")),
+      ]),
+    );
+    expect(federalAidFactor(repealed, makeIsoDate("2029-06-01"))).toBe(1);
   });
 
-  it(`keeps the borrowing link in ${PLACE.name} dormant without an actual dollar GDP denominator (seed ${SEED})`, () => {
+  it.each([
+    "missing month",
+    "gap",
+    "duplicate month",
+    "missing line",
+    "negative line",
+    "zero base",
+  ])("leaves %s aid spending explicitly unsupported", (invalid) => {
+    const aid = act(
+      INCREASE_FOREIGN_AID_QUESTION,
+      "yes",
+      makeIsoDate("2027-01-01"),
+      2400,
+    );
+    const original = recordedAidYear(worldWith([aid]));
+    const rows = original.publicBudgets!.federalGovernment!.months.map(
+      (row) => ({ ...row, spending: [...row.spending] }),
+    );
+    const at = FEDERAL_OUTLAYS.indexOf("internationalAffairs");
+    if (invalid === "missing month") rows.pop();
+    if (invalid === "gap") rows[5]!.month = makeIsoDate("2026-07-01");
+    if (invalid === "duplicate month") rows[5]!.month = rows[4]!.month;
+    if (invalid === "missing line") rows[5]!.spending.splice(at);
+    if (invalid === "negative line") rows[5]!.spending[at] = -100;
+    if (invalid === "zero base") for (const row of rows) row.spending[at] = 0;
+    const invalidWorld = {
+      ...original,
+      publicBudgets: {
+        ...original.publicBudgets!,
+        federalGovernment: {
+          ...original.publicBudgets!.federalGovernment!,
+          months: rows,
+        },
+      },
+    };
+    expect(
+      federalOutlayChangeAt(invalidWorld, invalidWorld.currentDate).aidDollars,
+    ).toBeNull();
+    expect(
+      federalDeficitChangePctOfGdp(invalidWorld, invalidWorld.currentDate),
+    ).toBeNull();
+  });
+
+  it(`reads the adopted aid deficit in ${PLACE.name} against sourced national GDP (seed ${SEED})`, () => {
     const link = OUTCOME_LINKS.find(
       (row) => row.key === "federal-deficit-to-borrowing-cost",
     )!;
@@ -243,7 +299,29 @@ describe("federal outlay laws use final adopted annual dollar terms", () => {
         ),
       ]),
     );
-    expect(federalDeficitChangePctOfGdp(world, world.currentDate)).toBeNull();
+    expect(federalDeficitChangePctOfGdp(world, world.currentDate)).toBeCloseTo(
+      (100 * 1200) / outlayTerms.nationalGdp2025,
+      18,
+    );
+    const cut = act(
+      DEBT_LIMIT_CUTS_QUESTION,
+      "yes",
+      makeIsoDate("2027-01-01"),
+      700,
+    );
+    const aid = act(
+      INCREASE_FOREIGN_AID_QUESTION,
+      "yes",
+      makeIsoDate("2027-01-01"),
+      2400,
+    );
+    const combined = recordedAidYear(worldWith([cut, aid]));
+    expect(
+      federalDeficitChangePctOfGdp(combined, combined.currentDate),
+    ).toBeCloseTo((100 * (1200 - 700)) / outlayTerms.nationalGdp2025, 18);
+    expect(
+      federalDeficitChangePctOfGdp(worldWith([aid]), combined.currentDate),
+    ).toBeNull();
     expect(federalDeficitChangePctOfGdp(worldWith([]), world.currentDate)).toBe(
       0,
     );
@@ -254,7 +332,7 @@ describe("federal outlay laws use final adopted annual dollar terms", () => {
       records
         .find((row) => row.placeKey === PLACE.jurisdictionKey)
         ?.causes.some((cause) => cause.key === link.key),
-    ).not.toBe(true);
+    ).toBe(true);
     expect(
       PLACE_OUTCOME_BASES[BORROWING]!.places[PLACE.jurisdictionKey] ===
         undefined || records.some((row) => row.jurisdictionId === STATE),
