@@ -1072,14 +1072,29 @@ export function fileRuleChangeProvision(
 }
 
 /** Every change a law has made, whether or not it is operative yet. */
-export function enactedRuleChanges(world: World, cutoff?: HistoricalCutoff): readonly EnactedRuleChange[] {
+export function enactedRuleChanges(
+  world: World,
+  cutoff?: HistoricalCutoff,
+): readonly EnactedRuleChange[] {
   const changes: EnactedRuleChange[] = [];
   for (const provision of ruleChangeProvisionHistoryRecords(world)) {
-    if (cutoff && (provision.sequence >= cutoff.historySequenceExclusive || provision.filedAt > cutoff.asOfDate)) continue;
+    if (
+      cutoff &&
+      (provision.sequence >= cutoff.historySequenceExclusive ||
+        provision.filedAt > cutoff.asOfDate)
+    )
+      continue;
     const enactment = (world.history.legislativeEnactments ?? []).find(
       (row) => row.measureId === provision.measureId,
     );
-    if (!enactment || enactment.outcome !== "enacted" || (cutoff && (enactment.sequence >= cutoff.historySequenceExclusive || enactment.resolvedAt > cutoff.asOfDate))) continue;
+    if (
+      !enactment ||
+      enactment.outcome !== "enacted" ||
+      (cutoff &&
+        (enactment.sequence >= cutoff.historySequenceExclusive ||
+          enactment.resolvedAt > cutoff.asOfDate))
+    )
+      continue;
     const federal = provision.stateUsps === FEDERAL_JURISDICTION_KEY;
     const stateKey = federal ? null : `US-${provision.stateUsps}`;
     const dateContext = enactmentStatuteDateContext(world, enactment, cutoff);
@@ -1113,7 +1128,12 @@ export function enactedRuleChanges(world: World, cutoff?: HistoricalCutoff): rea
     });
   }
   for (const measure of world.history.constitutionalMeasures ?? []) {
-    if (cutoff && (measure.sequence >= cutoff.historySequenceExclusive || measure.introducedAt > cutoff.asOfDate)) continue;
+    if (
+      cutoff &&
+      (measure.sequence >= cutoff.historySequenceExclusive ||
+        measure.introducedAt > cutoff.asOfDate)
+    )
+      continue;
     const delta = measure.ruleDelta;
     if (delta.kind !== "rule-field") continue;
     const federal = measure.jurisdictionKey === FEDERAL_JURISDICTION_KEY;
@@ -1121,7 +1141,12 @@ export function enactedRuleChanges(world: World, cutoff?: HistoricalCutoff): rea
       ? FEDERAL_JURISDICTION_KEY
       : constitutionalStateUsps(measure.jurisdictionKey);
     if (!stateUsps) continue;
-    const position = constitutionalPosition(world, measure.id, cutoff?.asOfDate ?? world.currentDate, cutoff);
+    const position = constitutionalPosition(
+      world,
+      measure.id,
+      cutoff?.asOfDate ?? world.currentDate,
+      cutoff,
+    );
     if (!position.operativeAt) continue;
     changes.push({
       stateUsps,

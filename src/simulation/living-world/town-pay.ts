@@ -50,7 +50,12 @@ import { createStableId } from "../ids";
  * last day of each month), each writing all of that day's paychecks.
  */
 
-import { addDays, daysBetween, makeIsoDate, simulationMinutesBetween } from "../dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  simulationMinutesBetween,
+} from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   enactedRuleChanges,
@@ -72,7 +77,11 @@ import {
   workStatusAt,
   workRoleAt,
 } from "../life-queries";
-import { lifePlaceByJurisdictionId, stateJurisdictionForKey, stateKeyForJurisdiction } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction,
+} from "../life-places";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
   federalMinimumSchedule,
@@ -938,7 +947,6 @@ export function completedPayShift(
   return { completion, cutoff, terms, activity, state, minutes };
 }
 
-
 export function applyLawPayConsequence(
   world: World,
   resolved: ResolvedHourlyLawPayConsequence | ResolvedSavedHourlyPayConsequence,
@@ -1772,13 +1780,19 @@ export function settleTownCompensations(
         earnedTerms.status !== "active" ||
         period.completedShift.amount.currency !== earnedTerms.amount.currency ||
         !Number.isSafeInteger(period.completedShift.amount.minorUnits) ||
-        period.completedShift.amount.minorUnits !== earnedTerms.amount.minorUnits)
+        period.completedShift.amount.minorUnits !==
+          earnedTerms.amount.minorUnits)
     )
       throw new Error(
         "Completed shift pay must bind its saved work and earned terms.",
       );
     if (period.completedShift)
-      completedPayShift(next, flow, period.completedShift, period.periodStartsAt);
+      completedPayShift(
+        next,
+        flow,
+        period.completedShift,
+        period.periodStartsAt,
+      );
     const window = {
       startsAt: period.periodStartsAt,
       endsAt: period.periodEndsAt,
@@ -1793,7 +1807,12 @@ export function settleTownCompensations(
       activityId: period.activityId,
       subjectIds: [recipientId],
       ...(period.completedShift
-        ? { completedShift: { eventId: period.completedShift.eventId, termsId: period.completedShift.termsId } }
+        ? {
+            completedShift: {
+              eventId: period.completedShift.eventId,
+              termsId: period.completedShift.termsId,
+            },
+          }
         : {}),
     });
     // A raise takes effect on the first day of a period, and a period is
@@ -1839,7 +1858,10 @@ export function settleTownCompensations(
             null,
           )
       : null;
-    const gross = assessment?.assessedGross ?? period.completedShift?.amount ?? terms.amount;
+    const gross =
+      assessment?.assessedGross ??
+      period.completedShift?.amount ??
+      terms.amount;
     const amount =
       unpaidDays === 0
         ? gross

@@ -21,7 +21,13 @@ import {
   type AmendableRuleField,
   type RuleChangeApplicability,
 } from "./enacted-rule-changes";
-import type { EntityId, HistoricalCutoff, IsoDate, World, WorkRelationship } from "./types";
+import type {
+  EntityId,
+  HistoricalCutoff,
+  IsoDate,
+  World,
+  WorkRelationship,
+} from "./types";
 
 export { OFFICE_PAY_META };
 

@@ -76,7 +76,14 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       ];
       return service.length === 0 && !pay
         ? row
-        : { ...row, consequences: [...(row.consequences ?? []), ...(pay ? [pay] : []), ...service] };
+        : {
+            ...row,
+            consequences: [
+              ...(row.consequences ?? []),
+              ...(pay ? [pay] : []),
+              ...service,
+            ],
+          };
     }),
   },
   TAX_TERMS_POLICY_PACK,

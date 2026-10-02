@@ -888,7 +888,14 @@ export function applyLawConsequences(
           continue;
         }
         if (authority.kind === "enacted-hourly-pay-rule") {
-          if (row.kind !== "pay" || context.activity !== "payroll" || context.standingAppropriationId || (context.governingLawId && authority.measureId !== context.governingLawId)) continue;
+          if (
+            row.kind !== "pay" ||
+            context.activity !== "payroll" ||
+            context.standingAppropriationId ||
+            (context.governingLawId &&
+              authority.measureId !== context.governingLawId)
+          )
+            continue;
           next = registration.apply(next, input);
           continue;
         }

@@ -319,9 +319,10 @@ function computeStateMinimumSetting(
   const stateQuestion = Object.values(world.policyCatalog.propositions).find(
     (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
   );
-  const startingLaw = stateId && stateQuestion
-    ? lawInForce(world, stateId, stateQuestion.id, onDate, "all", cutoff)
-    : null;
+  const startingLaw =
+    stateId && stateQuestion
+      ? lawInForce(world, stateId, stateQuestion.id, onDate, "all", cutoff)
+      : null;
   const startingTerm = startingLaw
     ? readFinalEnactedLawTerm(world, startingLaw, {
         questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
