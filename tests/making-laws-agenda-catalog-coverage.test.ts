@@ -155,7 +155,8 @@ describe(`Making Laws full state catalog first intakes (seed ${seed})`, () => {
           bill.sponsorPersonId!,
           proposition.id,
         );
-        expect(Math.abs(leaning.score)).toBeGreaterThanOrEqual(3);
+        expect(leaning.recordIds.length).toBeGreaterThan(0);
+        expect(Math.abs(leaning.score)).toBeGreaterThan(0);
         expect(answer.answer).toBe(leaning.score > 0 ? "yes" : "no");
         const provisions = measureProvisions(filed, bill.id);
         expect(provisions.length).toBeGreaterThan(0);

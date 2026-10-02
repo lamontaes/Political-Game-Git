@@ -25,6 +25,7 @@ import type {
 import type { SeatedMember } from "../legislation-scenarios";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { introduceMeasure, measurePosition } from "../legislation";
+import { recordFiledProvision } from "../legislative-politics";
 import {
   legislativePackForJurisdiction,
   legislativePackForWorkKey,
@@ -565,6 +566,7 @@ export function fileMemberAgendaBills(
         for (const propositionId of questions) {
           if (!questionOpen(propositionId)) continue;
           const leaning = leaningFor(sponsor.personId!, propositionId);
+          if (!leaning.recordIds.length || leaning.score === 0) continue;
           if (Math.abs(leaning.score) < settings.filingThreshold) continue;
           if (
             !input.council &&
@@ -656,6 +658,15 @@ export function fileMemberAgendaBills(
             requestedChange = compileForSponsor("yes");
             if (requestedChange) answer = "yes";
           }
+          // A state policy bill can state either answer in its own terms,
+          // including an explicit no where the starting law was silent. A
+          // family compiler is needed only for its supported numeric effects.
+          if (
+            !answer &&
+            settings.governmentLevel === "state" &&
+            lawAnswers.get(propositionId) !== "closed"
+          )
+            answer = leaning.score > 0 ? "yes" : "no";
           if (!answer) continue;
           const issueKey = next.policyCatalog.issues[
             proposition.issueId
@@ -832,9 +843,11 @@ export function fileMemberAgendaBills(
           ),
           summary: input.council
             ? `Answers "${proposition.question}" with ${best.answer}.`
-            : best.answer === "yes"
-              ? `${proposition.question} This ${settings.measureNoun} says yes.${best.mapped ? " No numeric terms are requested because a verified current-law reference is unavailable." : ""}`
-              : `${proposition.question} This ${settings.measureNoun} repeals the law that says yes.`,
+            : settings.governmentLevel === "state"
+              ? `${proposition.question} This bill answers ${best.answer}.`
+              : best.answer === "yes"
+                ? `${proposition.question} This ${settings.measureNoun} says yes.${best.mapped ? " No numeric terms are requested because a verified current-law reference is unavailable." : ""}`
+                : `${proposition.question} This ${settings.measureNoun} repeals the law that says yes.`,
           origin: "member-introduction",
           subjectClass: best.subjectClass,
           sponsorPersonId: sponsor.personId,
@@ -845,6 +858,32 @@ export function fileMemberAgendaBills(
           ],
         });
         measureId = next.history.legislativeMeasures!.at(-1)!.id;
+        if (settings.governmentLevel === "state")
+          next = recordFiledProvision(next, {
+            stableKey: `${stableKey}:policy-answer`,
+            measureId,
+            provisionKey: "policy-answer",
+            sectionNumber: 1,
+            heading: proposition.name,
+            text: [
+              `${proposition.question} The statutory answer is ${best.answer}.`,
+              ...proposition.parameters.map(
+                (parameter) => `${parameter.key}: ${parameter.value}`,
+              ),
+            ].join("\n"),
+            beneficiary: {
+              kind: "general-application",
+              appliesToLabel: next.jurisdictions[input.jurisdictionId]!.name,
+            },
+            applicationScope: {
+              jurisdictionId: input.jurisdictionId,
+              segmentKey: null,
+            },
+            answers: {
+              propositionId: proposition.id,
+              answer: best.answer,
+            },
+          });
       }
       const measure = next.history.legislativeMeasures!.find(
         (row) => row.id === measureId,
