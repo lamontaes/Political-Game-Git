@@ -1,4 +1,7 @@
 import { addDays } from "./dates";
+import { lawInForce } from "./governing/law-in-force";
+import { stateJurisdictionForKey } from "./life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { createStableId } from "./ids";
 import { activePartnershipsAt } from "./life-queries";
 import { scheduleFutureDueItem } from "./future-transitions";
@@ -6,6 +9,7 @@ import type {
   EntityId,
   IsoDate,
   LawExposureChannel,
+  LawExposureNewsProvenance,
   LawExposureRecord,
   MoneyAmount,
   World,
@@ -64,6 +68,17 @@ export type LawExposureFeltSize =
   | null;
 
 /**
+ * A rights loss or an eligibility loss: the law cost the person something
+ * other than money, so there is no amount to set against their pay. It is
+ * felt at `NON_MONEY_FELT_SIZE`.
+ */
+export function rightsOrEligibilityLoss(
+  exposure: Pick<LawExposureRecord, "direction" | "amount">,
+): boolean {
+  return exposure.direction === "cost" && exposure.amount === null;
+}
+
+/**
  * The felt size of an exposure against `monthlyPayMinor`, the pay it lands
  * on (the reader decides whose: the person's own, or a household's).
  */
@@ -72,7 +87,9 @@ export function lawExposureFeltSize(
   monthlyPayMinor: number,
 ): LawExposureFeltSize {
   if (exposure.direction === "none") return null;
-  if (exposure.amount === null)
+  // A right or an eligibility lost, or one gained (the remaining exposure
+  // with no amount), is felt at the same size.
+  if (rightsOrEligibilityLoss(exposure) || exposure.amount === null)
     return { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true };
   if (monthlyPayMinor <= 0) return "unmeasured";
   return {
@@ -88,8 +105,8 @@ const DAYS_PER_MONTH = 365.25 / 12;
 
 /**
  * Records that a law reached a person, and their partners. Idempotent on the
- * stable key, so a replayed transition writes nothing twice. A measure that is
- * not enacted law, or a person who does not exist, is refused.
+ * stable key, so a replayed transition writes nothing twice. A law without an
+ * enactment or an operative starting-law identity, or a missing person, is refused.
  */
 export function recordLawExposure(
   world: World,
@@ -97,8 +114,8 @@ export function recordLawExposure(
 ): World {
   if (!world.people[input.personId])
     throw new Error("A law exposure needs a person in the world.");
-  if (!enactedBy(world, input.measureId, world.currentDate))
-    throw new Error("Only an enacted law can reach a person.");
+  if (!recordedLawAt(world, input.measureId, world.currentDate))
+    throw new Error("Only a recorded law in force can reach a person.");
   if ((input.amount === null) !== (input.cadence === null))
     throw new Error("A law exposure's amount and cadence go together.");
   if (input.amount !== null && input.amount.minorUnits < 0)
@@ -192,20 +209,57 @@ export function scheduleOfficialViewReflection(
   exposure: LawExposureRecord,
 ): World {
   if (exposure.direction === "none") return world;
-  if (
-    world.control.kind === "person" &&
-    world.control.personId === exposure.personId
-  )
+  return scheduleReflection(
+    world,
+    exposure.personId,
+    officialViewReflectionKey(exposure),
+  );
+}
+
+/**
+ * The reflection on something that happened to a person that an official
+ * answers for (a job they did not choose to leave): the same dated
+ * reflection a law's effect gets, keyed by the record that shows it
+ * happened. `living-world/lived-outcomes.ts` reads the record back.
+ */
+export function livedOutcomeReflectionKey(
+  personId: EntityId,
+  sourceRecordId: EntityId,
+): string {
+  return `${LIVED_OUTCOME_REFLECTION_PREFIX}${sourceRecordId}:${personId}`;
+}
+
+export const LIVED_OUTCOME_REFLECTION_PREFIX = "lived-outcome:reflect:";
+
+/** Schedules one reflection on one recorded outcome. */
+export function scheduleLivedOutcomeReflection(
+  world: World,
+  personId: EntityId,
+  sourceRecordId: EntityId,
+): World {
+  if (!world.people[personId]) return world;
+  return scheduleReflection(
+    world,
+    personId,
+    livedOutcomeReflectionKey(personId, sourceRecordId),
+  );
+}
+
+function scheduleReflection(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  if (world.control.kind === "person" && world.control.personId === personId)
     return world;
-  const stableKey = officialViewReflectionKey(exposure);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
   return scheduleFutureDueItem(world, {
     stableKey,
     dueAt: addDays(world.currentDate, REFLECTION_DAYS),
     transitionKey: OFFICIAL_VIEW_TRANSITION_KEY,
-    // The exposure itself is named in the key; due items reference people.
-    entityIds: [exposure.personId],
+    // The record reflected on is named in the key; due items reference people.
+    entityIds: [personId],
     jurisdictionId: null,
     provenance: { kind: "initialization", reference: `official-view:reflect` },
   });
@@ -275,7 +329,40 @@ export function monthlyPay(
   };
 }
 
-function enactedBy(world: World, measureId: EntityId, at: IsoDate): boolean {
+/** Resolve starting identities through the same legal reader as their producers.
+ * A prefix alone is never evidence that a starting law exists or is operative.
+ * Use the law's jurisdiction, not the hearer's home: family exposure may cross
+ * a state boundary without changing which law affected the original person.
+ */
+function recordedLawAt(
+  world: World,
+  measureId: EntityId,
+  at: IsoDate,
+): boolean {
+  if (measureId.startsWith("starting-law:")) {
+    const identity = /^starting-law:([^:]+):(.+)$/.exec(measureId);
+    if (!identity) return false;
+    const [, placeKey, questionKey] = identity;
+    const jurisdiction =
+      placeKey === "US"
+        ? NATIONAL_ELECTION_JURISDICTION
+        : stateJurisdictionForKey(placeKey!);
+    if (!jurisdiction) return false;
+    const question = Object.values(
+      world.policyCatalog?.propositions ?? {},
+    ).find((row) => row.stableKey === questionKey);
+    if (!question) return false;
+    const law = lawInForce(world, jurisdiction.id, question.id, at);
+    return law?.origin === "in-force-at-start" && law.measureId === measureId;
+  }
+  return enactedBy(world, measureId, at);
+}
+
+export function enactedBy(
+  world: World,
+  measureId: EntityId,
+  at: IsoDate,
+): boolean {
   return (world.history.legislativeEnactments ?? []).some(
     (row) =>
       row.measureId === measureId &&
@@ -296,21 +383,60 @@ function append(
     sequence: world.history.nextSequence,
     recordedAt: world.currentDate,
   };
-  return scheduleOfficialViewReflection(
-    {
-      ...world,
-      history: {
-        ...world.history,
-        nextSequence: world.history.nextSequence + 1,
-        lawExposures: [...existing, record],
-      },
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      lawExposures: [...existing, record],
     },
-    record,
-  );
+  };
+  // A story read in the news carries no opinion weight: nothing reflects on it.
+  return record.relation === "news"
+    ? next
+    : scheduleOfficialViewReflection(next, record);
 }
 
 /**
- * Saved exposures must reconcile: a real person, an enacted law resolved on or
+ * Records that a person read a published story about what an enacted law did
+ * (relation "news"). It carries no money, no pay and no opinion weight, and
+ * names its story record by record. Idempotent on the stable key. The press
+ * desk derives every field from the records (`press/story-exposure.ts`).
+ */
+export function recordNewsLawExposure(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly personId: EntityId;
+    readonly measureId: EntityId;
+    readonly sectionKey: string | null;
+    readonly channel: LawExposureChannel;
+    readonly news: LawExposureNewsProvenance;
+  },
+): World {
+  if (!world.people[input.personId])
+    throw new Error("A law exposure needs a person in the world.");
+  if (!enactedBy(world, input.measureId, world.currentDate))
+    throw new Error("Only an enacted law can reach a person.");
+  return append(world, {
+    stableKey: input.stableKey,
+    personId: input.personId,
+    measureId: input.measureId,
+    sectionKey: input.sectionKey,
+    channel: input.channel,
+    relation: "news",
+    viaPersonId: null,
+    direction: "none",
+    amount: null,
+    cadence: null,
+    monthlyPay: null,
+    sourceRecordId: input.news.knowledgeId,
+    news: input.news,
+  });
+}
+
+/**
+ * Saved exposures must reconcile: a real person, a recorded law in force on or
  * before the exposure, a source record that came first, and a family row that
  * names whose effect it was.
  */
@@ -319,6 +445,24 @@ export function assertLawExposureIntegrity(
   ids: Set<EntityId>,
 ): void {
   const rows = world.history.lawExposures ?? [];
+  if (rows.length === 0) return;
+  const hasNews = rows.some((row) => row.relation === "news");
+  const knowledgeById = new Map(
+    (hasNews ? world.history.knowledge : []).map((row) => [row.id, row]),
+  );
+  const publicationsById = new Map(
+    (hasNews ? (world.history.publications ?? []) : []).map((row) => [
+      row.id,
+      row,
+    ]),
+  );
+  const pressById = new Map(
+    (hasNews ? (world.history.pressRecords ?? []) : []).map((row) => [
+      row.id,
+      row,
+    ]),
+  );
+  const eventsById = new Map(world.history.events.map((row) => [row.id, row]));
   const keys = new Set<string>();
   let lastSequence = -1;
   for (const row of rows) {
@@ -332,14 +476,54 @@ export function assertLawExposureIntegrity(
     lastSequence = row.sequence;
     if (!world.people[row.personId])
       throw new Error("A law exposure names a person not in the world.");
-    if (!enactedBy(world, row.measureId, row.recordedAt))
-      throw new Error("A law exposure names a law not enacted by then.");
-    if (!ids.has(row.sourceRecordId))
+    if (!recordedLawAt(world, row.measureId, row.recordedAt))
+      throw new Error("A law exposure names a law not recorded by then.");
+    if (
+      !ids.has(row.sourceRecordId) &&
+      !eventsById.has(row.sourceRecordId) &&
+      !(row.relation === "news" && knowledgeById.has(row.sourceRecordId))
+    )
       throw new Error("A law exposure's source record is missing.");
-    if ((row.relation !== "own") !== (row.viaPersonId !== null))
+    if (
+      (row.relation === "family" || row.relation === "friend") !==
+      (row.viaPersonId !== null)
+    )
       throw new Error(
         "Only a family or friend exposure names whose effect it was.",
       );
+    if ((row.relation === "news") !== (row.news !== undefined))
+      throw new Error("Only a news exposure names the story it came from.");
+    if (row.news) {
+      const knowledge = knowledgeById.get(row.news.knowledgeId);
+      const publication = publicationsById.get(row.news.publicationId);
+      const story = publication && eventsById.get(publication.sourceEventId);
+      const lead = pressById.get(row.news.storyLeadId);
+      const basis = eventsById.get(row.news.basisEventId);
+      if (
+        !knowledge ||
+        knowledge.id !== row.sourceRecordId ||
+        knowledge.personId !== row.personId ||
+        knowledge.sequence >= row.sequence ||
+        knowledge.learnedAt > row.recordedAt ||
+        knowledge.source.kind !== "media" ||
+        knowledge.source.reference !== publication?.id ||
+        !story ||
+        knowledge.eventId !== story.id ||
+        !story.tags.includes(`press.lead:${row.news.storyLeadId}`) ||
+        !lead ||
+        lead.kind !== "story-lead" ||
+        !lead.basisEventIds.includes(row.news.basisEventId) ||
+        !basis
+      )
+        throw new Error("A news exposure's provenance does not reconcile.");
+    }
+    if (
+      row.relation === "news" &&
+      (row.direction !== "none" ||
+        row.amount !== null ||
+        row.monthlyPay !== null)
+    )
+      throw new Error("A news exposure carries no money.");
     if ((row.amount === null) !== (row.cadence === null))
       throw new Error("A law exposure's amount and cadence go together.");
     if (row.direction === "none" && row.amount !== null)

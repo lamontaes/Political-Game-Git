@@ -46,6 +46,8 @@ import {
   officialFuneralHandler,
 } from "./official-funeral";
 import { fatalIllnessOnsetHandler } from "./fatal-illness";
+import { CONDITION_ONSET_KEY } from "./condition-pack";
+import { conditionOnsetHandler } from "./condition-onset";
 import { HEALTH_COVERAGE_KEY } from "./health-coverage";
 import { healthCoveragePassHandler } from "./health-coverage-pass";
 import {
@@ -62,6 +64,8 @@ export * from "./hazard";
 export * from "./mortality";
 export * from "./death-causes";
 export * from "./fatal-illness";
+export * from "./condition-pack";
+export * from "./condition-onset";
 export * from "./health";
 export * from "./health-queries";
 export * from "./offices";
@@ -81,6 +85,8 @@ export function createCrisisTransitionRegistry() {
     [MORTALITY_WINDOW_KEY, mortalityWindowHandler],
     [MORTALITY_DEATH_KEY, mortalityDeathHandler],
     [FATAL_ILLNESS_ONSET_KEY, fatalIllnessOnsetHandler],
+    // A chronic condition beginning on its own strain crossing (Ruling 38).
+    [CONDITION_ONSET_KEY, conditionOnsetHandler],
     [HEALTH_REVIEW_KEY, healthReviewHandler],
     [NPC_DISCLOSURE_KEY, npcHealthDisclosureHandler],
     // Illness spreading between named people, and officials' closures.

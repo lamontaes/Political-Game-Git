@@ -25,7 +25,7 @@ import {
 } from "./municipal-public-work";
 import {
   admitCouncilAction,
-  COUNCIL_ACT_HANDLERS,
+  councilActHandlers,
   municipalOrdinanceStatus,
   municipalReadingQuestion,
   passMunicipalOrdinance,
@@ -133,7 +133,7 @@ describe("a Charlottesville general ordinance through the shared measure engine"
     const finished = advanceWorld(
       restored,
       4,
-      createFutureTransitionHandlerRegistry([...COUNCIL_ACT_HANDLERS]),
+      createFutureTransitionHandlerRegistry([...councilActHandlers()]),
     );
     expect(measurePosition(finished, measureId).phase).toBe("enacted");
     const vote = finished.history.legislativeVotes!.find(

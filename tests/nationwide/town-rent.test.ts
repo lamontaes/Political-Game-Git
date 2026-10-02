@@ -10,7 +10,6 @@ import {
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
 import {
-  LIVING_COSTS_PLACEHOLDER,
   livingCostsFlowFor,
   settleLivingCosts,
 } from "../../src/simulation/cost-of-living";
@@ -311,7 +310,7 @@ describe("rent day", { timeout: 600_000 }, () => {
     ).toBeNull();
   });
 
-  it("the flat $900 leaves the player's month once their household holds a lease", () => {
+  it("A52 retained nonhousing bills stay separate from actual household rent", () => {
     // Several openings, so both a renting and an owning player household are
     // seen; each one's month follows its own home.
     const seen = new Set<string>();
@@ -342,9 +341,8 @@ describe("rent day", { timeout: 600_000 }, () => {
         (lease) => !lease.ended && lease.householdId === household,
       );
       const monthly = resourceFlowTermsAt(settled, flow.id)!.amount.minorUnits;
-      const full = LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
-      const housing = LIVING_COSTS_PLACEHOLDER.housingShareMinor;
-      if (leased) expect(monthly, seed).toBe(full - housing);
+      // Chicago: independently rounded 2024 CES Midwest retained categories.
+      expect(monthly, seed).toBe(79_125);
       seen.add(leased ? "leased" : "not leased");
     }
     expect(seen.has("leased")).toBe(true);

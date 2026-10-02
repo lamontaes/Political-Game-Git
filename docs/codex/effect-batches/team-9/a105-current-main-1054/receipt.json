@@ -1,0 +1,20 @@
+{
+  "source": "4c80668cd862713fd5321cdfa886ed786700805c",
+  "main": "740f52f41f72a781b372352d927346d7c51c04fe",
+  "testsPassed": 116,
+  "filesPassed": 2,
+  "seconds": 33.08,
+  "exitCode": 0,
+  "juryRows": 56,
+  "juryPlaces": 56,
+  "sentencingRows": 57,
+  "sentencingPlaces": 56,
+  "limits": [
+    "Controlled jury selector",
+    "Panel size12 marked unresearched-existing-panel-size",
+    "46sourced/10ESTIMATEDFROMAVERAGE base sentence ranges"
+  ],
+  "static": "2changedfileseslint0/prettier0/diff0",
+  "officialGate": "NOT RUN",
+  "replaces": "Existing full-opening and five-place fixtures; real court/sentence/serialization writers survive. No new exports."
+}

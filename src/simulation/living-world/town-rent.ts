@@ -1,3 +1,4 @@
+import { recordedMonthlyPayByPerson } from "../household-pay";
 /**
  * Rent day: every renting household in town pays rent on the first of the
  * month, to a landlord on record.
@@ -676,48 +677,15 @@ function householdMembers(
   return members;
 }
 
-const PERIODS_PER_YEAR: Readonly<Record<string, number>> = {
-  weekly: 52,
-  biweekly: 26,
-  semimonthly: 24,
-  monthly: 12,
-};
-
-/** Each person's recorded pay a month on a date, in cents, from pay terms. */
+/**
+ * Each person's recorded wages a month on a date, in cents: the shared pay
+ * reader (`household-pay.ts`), wages from work only.
+ */
 export function monthlyPayByPerson(
   world: World,
   onDate: IsoDate,
 ): Map<EntityId, number> {
-  const pay = new Map<EntityId, ResourceFlow>();
-  for (const flow of world.history.resourceFlows)
-    if (
-      flow.basisKind === "compensation:work" &&
-      flow.recipient.kind === "person"
-    )
-      pay.set(flow.id, flow);
-  const terms = latest(
-    world.history.resourceFlowTerms.filter((row) =>
-      pay.has(row.resourceFlowId),
-    ),
-    (row) => row.resourceFlowId,
-    onDate,
-  );
-  const byPerson = new Map<EntityId, number>();
-  for (const [flowId, record] of terms) {
-    if (record.status !== "active") continue;
-    const match = /(weekly|biweekly|semimonthly|monthly)/.exec(
-      record.cadenceKind,
-    );
-    const perYear = match ? PERIODS_PER_YEAR[match[1]!] : undefined;
-    if (!perYear) continue;
-    const flow = pay.get(flowId)!;
-    const personId = (flow.recipient as { personId: EntityId }).personId;
-    byPerson.set(
-      personId,
-      (byPerson.get(personId) ?? 0) + (record.amount.minorUnits * perYear) / 12,
-    );
-  }
-  return byPerson;
+  return recordedMonthlyPayByPerson(world, onDate, "work");
 }
 
 /** A household's recorded pay a month, or null when nobody's pay is known. */
@@ -1040,9 +1008,9 @@ export function rentDayHandler(
   };
 }
 
-export const RENT_DAY_HANDLERS = [
-  [RENT_DAY_TRANSITION_KEY, rentDayHandler],
-] as const;
+export function rentDayHandlers() {
+  return [[RENT_DAY_TRANSITION_KEY, rentDayHandler]] as const;
+}
 
 // ─── Rent day ───────────────────────────────────────────────────────────
 
@@ -1154,6 +1122,36 @@ function chooseLeaseholder(
   )[0]!.id;
 }
 
+/** Existing ownership mixture spread across the actual home roster, not rolled.
+ * The owner's verified A56 contract retains these existing representative shares.
+ */
+function landlordKindsByHome(
+  world: World,
+  dueOn: IsoDate,
+): Map<EntityId, LandlordKind> {
+  const rosters = new Map<EntityId, Map<TownHomeKind, EntityId[]>>();
+  for (const home of world.history.dwellings) {
+    if (home.establishedAt > dueOn) continue;
+    const town =
+      rosters.get(home.jurisdictionId) ?? new Map<TownHomeKind, EntityId[]>();
+    const kind = homeKindOf(home.classification);
+    const homes = town.get(kind) ?? [];
+    homes.push(home.id);
+    town.set(kind, homes);
+    rosters.set(home.jurisdictionId, town);
+  }
+  const kinds = new Map<EntityId, LandlordKind>();
+  for (const town of rosters.values())
+    for (const [kind, homes] of town)
+      homes.forEach((id, index) => {
+        kinds.set(
+          id,
+          pick(LANDLORD_SHARES[kind], (index + 0.5) / homes.length),
+        );
+      });
+  return kinds;
+}
+
 /** Writes a lease for every rented town home that has none. */
 export function startTownLeases(world: World, dueOn: IsoDate): World {
   const h = world.history;
@@ -1177,6 +1175,20 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       dwellings.has(tenure.dwellingId),
   );
   if (candidates.length === 0) return world;
+  const owners = new Map<EntityId, typeof h.housingTenures>();
+  for (const tenure of h.housingTenures) {
+    if (
+      !tenure.kind.startsWith("ownership:") ||
+      tenure.startedAt > dueOn ||
+      tenureState.get(tenure.id)?.status !== "active"
+    )
+      continue;
+    owners.set(tenure.dwellingId, [
+      ...(owners.get(tenure.dwellingId) ?? []),
+      tenure,
+    ]);
+  }
+  const landlordKinds = landlordKindsByHome(world, dueOn);
   const members = householdMembers(world, dueOn);
   const pay = monthlyPayByPerson(world, dueOn);
   const index = townIndex(world, dueOn, members);
@@ -1210,9 +1222,6 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
     const stableKey = `${LEASE_PREFIX}${tenure.id}:${leaseholderId}`;
     if (next.history.resourceFlows.some((flow) => flow.stableKey === stableKey))
       continue;
-    const rng = new SeededRng(next.seed).fork(
-      `${TOWN_RENT_VERSION}:home:${dwelling.id}`,
-    );
     const previous = lastOnHome.get(dwelling.id);
     const kind = homeKindOf(dwelling.classification);
     const bedrooms =
@@ -1223,12 +1232,33 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
       previous && landlordStands(next, previous.flow.recipient, town, dueOn)
         ? previous.flow.recipient
         : null;
+    const recordedOwners = owners.get(dwelling.id) ?? [];
+    if (recordedOwners.length) {
+      // Known ownership never becomes an invented landlord proxy. Household
+      // owners and co-owners await the canonical recipient contract from Audit.
+      if (recordedOwners.length !== 1) continue;
+      const owner = recordedOwners[0]!.holder;
+      if (owner.kind === "household") continue;
+      if (owner.kind === "person") {
+        if (
+          !next.people[owner.personId] ||
+          next.history.personDeaths.some(
+            (death) =>
+              death.personId === owner.personId && death.diedAt <= dueOn,
+          )
+        )
+          continue;
+      } else {
+        const profile = organizationProfileAt(next, owner.organizationId);
+        if (!profile || profile.closed) continue;
+      }
+      landlord = owner;
+    }
     if (!landlord) {
-      const sold = previous ? `:sold:${dueOn}` : "";
       const landlordKind: LandlordKind =
         previous && landlordKindOf(next, previous.flow.recipient) === "public"
           ? "public"
-          : pick(LANDLORD_SHARES[kind], rng.fork(`landlord${sold}`).next());
+          : landlordKinds.get(dwelling.id)!;
       const chosen = chooseLandlord(
         next,
         index,

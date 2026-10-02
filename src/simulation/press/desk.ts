@@ -64,6 +64,7 @@ import {
   reportLawEffects,
   reportLawOutcomes,
 } from "./law-effect-news";
+import { recordStoryHeardExposure } from "./story-exposure";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -284,9 +285,9 @@ export function outletAssignmentCapacity(
     (role) => role.startedAt <= outlet.establishedAt,
   ).length;
   const staffed = opening > 0 ? opening : roles.length;
-  // An outlet with no recorded newsroom keeps its tier's capacity; assignment
-  // still needs a current reporter, so it takes nothing either way.
-  if (staffed === 0) return full;
+  // A tier describes a staffed newsroom; absent reporter records supply no
+  // people who can carry an assignment.
+  if (staffed === 0) return 0;
   const current = roles.filter((role) => reporterIsCurrent(world, role)).length;
   return Math.min(full, Math.ceil((full * current) / staffed));
 }
@@ -1274,6 +1275,16 @@ function recordProfessionalReaders(
         reference: publication.id,
       },
     });
+    // A story about what a law did is heard from the news (story-exposure.ts).
+    const knowledge = next.history.knowledge.find(
+      (row) => row.stableKey === `${publication.stableKey}:read:${personId}`,
+    );
+    if (knowledge)
+      for (const basisEventId of lead.basisEventIds)
+        next = recordStoryHeardExposure(next, {
+          knowledgeId: knowledge.id,
+          basisEventId,
+        });
   }
   if (lead.matterId) {
     next = produceMatterResponses(next, lead.matterId, story);
