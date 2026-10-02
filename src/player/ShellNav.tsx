@@ -276,6 +276,7 @@ export function ShellNav({
     readonly day: string;
     readonly week: string;
     readonly untilNeeded?: string | null;
+    readonly untilNeededReason?: string | null;
   };
   /** A time command is running; the controls keep focus but take no click. */
   readonly passing?: boolean;
@@ -594,7 +595,8 @@ export function ShellNav({
                   title={
                     passTargets?.untilNeeded
                       ? `${passTargets.untilNeeded}. Your routine stops for the next thing that needs you.`
-                      : "Resolve the decision under Work before another quiet stretch."
+                      : (passTargets?.untilNeededReason ??
+                        "A choice needs your answer before another quiet stretch.")
                   }
                   onClick={() => {
                     if (!passing && passTargets?.untilNeeded)
@@ -663,7 +665,9 @@ export function ShellNav({
                     <>
                       <br />
                       Until needed:{" "}
-                      {passTargets.untilNeeded ?? "Work needs you now"}
+                      {passTargets.untilNeeded ??
+                        passTargets.untilNeededReason ??
+                        "A choice needs your answer now"}
                     </>
                   ) : null}
                 </small>
@@ -679,7 +683,8 @@ export function ShellNav({
                   {onPassUntilNeeded ? (
                     <span className="sr-only" id="pg-nav-until-target">
                       {passTargets.untilNeeded ??
-                        "Resolve the decision under Work before another quiet stretch."}
+                        passTargets?.untilNeededReason ??
+                        "A choice needs your answer before another quiet stretch."}
                     </span>
                   ) : null}
                 </>

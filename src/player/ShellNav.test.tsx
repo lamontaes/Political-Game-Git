@@ -256,7 +256,13 @@ describe("ShellNav interrupt checklist", () => {
         onLeave={() => {}}
         onPassDays={() => {}}
         onPassUntilNeeded={() => {}}
-        passTargets={{ day: "Tomorrow", week: "Next week", untilNeeded: null }}
+        passTargets={{
+          day: "Tomorrow",
+          week: "Next week",
+          untilNeeded: null,
+          untilNeededReason:
+            "Resolve the decision under Work before another quiet stretch.",
+        }}
       />,
     );
     expect(html).toMatch(
@@ -367,4 +373,32 @@ describe("the shell bar displays the received world's actual clock", () => {
       expect(later.history).toBe(laterHistory);
     },
   );
+});
+it("names a civic calendar choice without routing it to Work", () => {
+  const html = renderToStaticMarkup(
+    <ShellNav
+      state={INITIAL_SHELL_STATE}
+      dispatch={() => {}}
+      playerName="Jordan"
+      dateLabel="Tuesday"
+      placeName={null}
+      destinations={DESTINATIONS}
+      canSave
+      unsaved={false}
+      onSave={() => {}}
+      onLeave={() => {}}
+      onPassDays={() => {}}
+      onPassUntilNeeded={() => {}}
+      passTargets={{
+        day: "Tomorrow",
+        week: "Next week",
+        untilNeeded: null,
+        untilNeededReason:
+          "Resident meeting is waiting on your calendar. Decide whether to attend or decline before another quiet stretch.",
+      }}
+    />,
+  );
+  expect(html).toContain("Resident meeting is waiting on your calendar");
+  expect(html).not.toContain("under Work");
+  expect(html).not.toContain("Work needs you now");
 });
