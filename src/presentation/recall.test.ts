@@ -358,7 +358,7 @@ describe("recalling a town official", () => {
 
   it(
     "qualifies exactly at the sourced threshold using recorded supporters and registered residents",
-    { timeout: 300_000 },
+    { timeout: 120_000 },
     () => {
       const town = ordinaryStart(GRAND_ISLAND, "recall-A");
       const rule = municipalRecallRule(town.governmentKey, town.world);
