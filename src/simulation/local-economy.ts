@@ -38,7 +38,13 @@ import {
   recordResourceTransferOutcomes,
   type RecordResourceTransferOutcomeInput,
 } from "./resources";
-import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
+import {
+  resourceFlowTermsAt,
+  resourceFlowsTouching,
+  resourcePositionAt,
+  resourceTransferOutcomesOfFlows,
+  sameEndpoint,
+} from "./resource-queries";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { SeededRng } from "./rng";
 import { writeWithWorldIntegrityOnce } from "./world";
@@ -87,7 +93,6 @@ export interface LocalBusinessKind {
   readonly workerTitle: string;
   readonly workerOccupation: OccupationClassification;
   readonly workers: number;
-  readonly monthlyRevenueMinor: number;
   readonly monthlyOwnerDrawMinor: number;
 }
 
@@ -100,7 +105,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Cashier",
     workerOccupation: "occupation:cashier",
     workers: 3,
-    monthlyRevenueMinor: 6_000_000,
     monthlyOwnerDrawMinor: 500_000,
   },
   {
@@ -111,7 +115,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Sales clerk",
     workerOccupation: "occupation:retail-sales",
     workers: 2,
-    monthlyRevenueMinor: 4_000_000,
     monthlyOwnerDrawMinor: 450_000,
   },
   {
@@ -122,7 +125,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Server",
     workerOccupation: "service:food-server",
     workers: 3,
-    monthlyRevenueMinor: 3_500_000,
     monthlyOwnerDrawMinor: 350_000,
   },
   {
@@ -133,7 +135,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Mechanic",
     workerOccupation: "trade:automotive-mechanic",
     workers: 2,
-    monthlyRevenueMinor: 3_000_000,
     monthlyOwnerDrawMinor: 500_000,
   },
   {
@@ -144,7 +145,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Legal assistant",
     workerOccupation: "profession:legal-assistant",
     workers: 1,
-    monthlyRevenueMinor: 2_500_000,
     monthlyOwnerDrawMinor: 900_000,
   },
   {
@@ -155,7 +155,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Bookkeeper",
     workerOccupation: "profession:bookkeeper",
     workers: 1,
-    monthlyRevenueMinor: 2_000_000,
     monthlyOwnerDrawMinor: 700_000,
   },
   {
@@ -166,7 +165,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Carpenter",
     workerOccupation: "trade:carpenter",
     workers: 4,
-    monthlyRevenueMinor: 8_000_000,
     monthlyOwnerDrawMinor: 800_000,
   },
   {
@@ -177,7 +175,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Stylist",
     workerOccupation: "service:hairstylist",
     workers: 2,
-    monthlyRevenueMinor: 1_500_000,
     monthlyOwnerDrawMinor: 300_000,
   },
 ];
@@ -218,22 +215,16 @@ export interface LocalBusinessPlan {
  * staff. GAME ASSUMPTION: a town whose every share rounds to zero still has
  * its likeliest kind once, because an adult in town needs an employer.
  *
- * Where the population is not held, each kind once with the marked
- * placeholder figures on the kind: unknown is not none.
+ * Where the population is not held, no new plan is established. This refuses
+ * an unsupported opening estimate; it does not assert that the town has none.
  */
 export function localBusinessPlansFor(
   jurisdictionId: EntityId,
 ): readonly LocalBusinessPlan[] {
   const supply = localBusinessSupplyFor(jurisdictionId);
-  if (!supply)
-    return LOCAL_BUSINESS_KINDS.map((kind) => ({
-      kind,
-      index: 0,
-      workers: kind.workers,
-      monthlyRevenueMinor: kind.monthlyRevenueMinor,
-      expected: null,
-      sourced: false,
-    }));
+  // Missing source coverage cannot establish businesses or their revenue.
+  // Existing saved organizations and contracts remain available to readers.
+  if (!supply) return [];
   const plans: LocalBusinessPlan[] = [];
   const build = (
     kind: LocalBusinessKind,
@@ -416,6 +407,7 @@ function seatMissingLocalBusinesses(
   // before the list followed the town's counts) are kept as they are.
   if (seatedBusinessKeys(world, jurisdictionId).size > 0) return world;
   const missing = localBusinessPlansFor(jurisdictionId);
+  if (missing.length === 0) return world;
   const today = world.currentDate;
   const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;
   const rng = new SeededRng(world.seed).fork(
@@ -630,12 +622,17 @@ function firstOfNextMonth(date: IsoDate): IsoDate {
 }
 
 /** What one flow is owed for each first of the month since it last settled. */
+type ScheduledBusinessPayment = Omit<
+  RecordResourceTransferOutcomeInput,
+  "status" | "transferredAmount" | "reasonKind"
+>;
+
 function dueOutcomes(
   world: World,
   flow: ResourceFlow,
   latest: IsoDate | null,
-): RecordResourceTransferOutcomeInput[] {
-  const due: RecordResourceTransferOutcomeInput[] = [];
+): ScheduledBusinessPayment[] {
+  const due: ScheduledBusinessPayment[] = [];
   let dueOn = firstOfNextMonth(latest ?? flow.startsAt);
   for (
     let month = 0;
@@ -653,12 +650,9 @@ function dueOutcomes(
       periodStartsAt: dueOn,
       periodEndsAt: dueOn,
       occurredAt: dueOn,
-      status: "completed",
       attemptedAmount: terms.amount,
-      transferredAmount: terms.amount,
-      reasonKind: null,
       note: null,
-      provenance: flow.provenance,
+      provenance: terms.provenance,
     });
     dueOn = firstOfNextMonth(dueOn);
   }
@@ -725,6 +719,7 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
   const due = tracked.flatMap((flow) =>
     dueOutcomes(world, flow, latest.get(flow.id) ?? null).map((input) => ({
       input,
+      flow,
       revenue: flow.basisKind === BUSINESS_REVENUE_BASIS,
     })),
   );
@@ -733,10 +728,80 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
       a.input.periodStartsAt.localeCompare(b.input.periodStartsAt) ||
       Number(b.revenue) - Number(a.revenue),
   );
-  return recordResourceTransferOutcomes(
-    world,
-    due.map((entry) => entry.input),
-  );
+  return writeWithWorldIntegrityOnce(world, () => {
+    let next = world;
+    for (const { input, flow } of due) {
+      const cutoff = {
+        asOfDate: makeIsoDate(input.occurredAt),
+        historySequenceExclusive: next.history.nextSequence,
+      };
+      const position = resourcePositionAt(
+        next,
+        flow.source,
+        input.attemptedAmount.currency,
+        cutoff,
+      );
+      // Untracked payer money is unknown, never an automatic completed sale.
+      // A catch-up must also preserve cash already spent after this due date.
+      const checkpoints = new Set<IsoDate>([
+        input.occurredAt as IsoDate,
+        next.currentDate,
+      ]);
+      if (position) {
+        const touching = resourceFlowsTouching(next, flow.source);
+        for (const outcome of resourceTransferOutcomesOfFlows(
+          next,
+          touching.map((record) => record.id),
+        )) {
+          if (
+            outcome.occurredAt > input.occurredAt &&
+            outcome.occurredAt < next.currentDate
+          )
+            checkpoints.add(outcome.occurredAt);
+        }
+      }
+      const available = position
+        ? Math.max(
+            0,
+            Math.min(
+              ...[...checkpoints].map(
+                (asOfDate) =>
+                  resourcePositionAt(
+                    next,
+                    flow.source,
+                    input.attemptedAmount.currency,
+                    {
+                      asOfDate,
+                      historySequenceExclusive: next.history.nextSequence,
+                    },
+                  )!.liquidBalance.minorUnits,
+              ),
+            ),
+          )
+        : 0;
+      const paid = Math.min(available, input.attemptedAmount.minorUnits);
+      const status = !position
+        ? "blocked"
+        : paid === input.attemptedAmount.minorUnits
+          ? "completed"
+          : paid > 0
+            ? "partial"
+            : "missed";
+      next = recordResourceTransferOutcomes(next, [
+        {
+          ...input,
+          status,
+          transferredAmount: money(paid, input.attemptedAmount.currency),
+          reasonKind: !position
+            ? "capacity:money-unknown"
+            : status === "completed"
+              ? null
+              : "capacity:insufficient-funds",
+        },
+      ]);
+    }
+    return next;
+  });
 }
 
 /**
@@ -745,8 +810,9 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
  *
  * General on purpose: any organization whose revenue, wages or owner's draw
  * are written as these flows is settled by this, whatever kind of business it
- * is. Every payment completes. A business that cannot make payroll, closes
- * or is sold is part of the same research question and is not modeled yet.
+ * is. The dated payer balance determines a completed, partial or missed
+ * transfer; an untracked payer is blocked. Canonical town books separately
+ * model operating sales, payroll capacity and closure, not cash receipts.
  */
 export function settleBusinessMoney(
   world: World,

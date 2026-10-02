@@ -76,11 +76,7 @@ describe("the businesses a town really has", () => {
     expect(total(kualapuu)).toBeGreaterThan(total(limeRidge));
   });
 
-  it("keeps the marked placeholder list where the town's population is not held", () => {
-    const plans = localBusinessPlansFor("no-such-town" as never);
-    expect(plans).toHaveLength(LOCAL_BUSINESS_KINDS.length);
-    expect(plans.every((plan) => !plan.sourced && plan.expected === null)).toBe(
-      true,
-    );
+  it("refuses unsupported business and revenue plans when population is not held", () => {
+    expect(localBusinessPlansFor("no-such-town" as never)).toEqual([]);
   });
 });
