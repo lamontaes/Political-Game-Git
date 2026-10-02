@@ -227,14 +227,6 @@ export const HUD_FAMILY_SIZE_FACTORS = [
 export const INCLUSIONARY_SET_ASIDE = 0.15;
 
 /**
- * Rent stabilization's cap on a renewal: the price level's rise plus five
- * points, at most ten percent. Modeled on California's 2019 statute (Civil
- * Code 1947.12); one rule stands in for every place's own. PLACEHOLDER
- * (research: rent-stabilization-cap-by-place).
- */
-export const RENT_STABILIZATION_CAP = { overPrices: 0.05, most: 0.1 } as const;
-
-/**
  * Measured, a check and never a rule: Diamond, McQuade and Qian 2019 found
  * renters covered by San Francisco's rent control 20% less likely to move.
  * The game's renters move when their rent outruns their pay
@@ -1567,19 +1559,20 @@ function chooseLandlord(
 export function renewedMarketRent(
   oldMinor: number,
   homePrices: number,
-  prices: number,
+  _prices: number,
   stabilized: boolean,
+  recordedCapRatio?: number,
 ): {
   readonly amountMinor: number;
   readonly uncappedMinor: number;
   readonly capped: boolean;
   readonly cap: number;
 } {
-  const cap = Math.min(
-    RENT_STABILIZATION_CAP.most,
-    prices - 1 + RENT_STABILIZATION_CAP.overPrices,
-  );
-  const capped = stabilized && homePrices - 1 > cap;
+  // A caller can supply a recorded clause for arithmetic fixtures. Production
+  // renewals are restricted by the shared price-cost writer after recording
+  // their requested terms; a yes/no answer supplies no numeric ceiling.
+  const cap = recordedCapRatio ?? Infinity;
+  const capped = stabilized && Number.isFinite(cap) && homePrices - 1 > cap;
   const uncappedMinor = Math.round((oldMinor * homePrices) / 100) * 100;
   return {
     amountMinor: capped

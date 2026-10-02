@@ -222,7 +222,7 @@ describe("the federal treasury", () => {
     );
   });
 
-  it("spends $3.9 billion a year less on farms under a subsidy cut, and more on defense each year of a build-up, up to five", () => {
+  it("does not invent farm payments from a subsidy cap while preserving the defense forecast", () => {
     const farm = FEDERAL_OUTLAYS.indexOf("agriculture");
     const defense = FEDERAL_OUTLAYS.indexOf("nationalDefense");
     const months = ["2026-03-01", "2027-04-01", "2033-04-01"];
@@ -234,10 +234,14 @@ describe("the federal treasury", () => {
     ).months;
     // Before either law, nothing moves.
     expect(withLaws[0]!.outlays).toEqual(none[0]!.outlays);
-    // 21.18% of $18.35 billion of payments: 7.88% of Agriculture.
-    expect(
-      ((none[1]!.outlays[farm]! - withLaws[1]!.outlays[farm]!) * 12) / 1e9,
-    ).toBeCloseTo(0.2118 * 18.3524102, 1);
+    // A legal recipient cap does not establish eligible recipients or payments.
+    // Actual farm payments belong to the shared financial writer, not this forecast.
+    for (let index = 0; index < months.length; index++) {
+      expect(withLaws[index]!.outlays[farm]).toBe(none[index]!.outlays[farm]);
+      expect(
+        withLaws[index]!.laws.some((law) => law.line === "agriculture"),
+      ).toBe(false);
+    }
     // A year in, contracts ($445.8 billion, 48.6% of defense) are 6.94% up.
     const rise = (index: number) =>
       withLaws[index]!.outlays[defense]! / none[index]!.outlays[defense]! - 1;
@@ -249,7 +253,6 @@ describe("the federal treasury", () => {
     );
     expect(withLaws[1]!.laws.map((law) => law.line)).toEqual([
       "nationalDefense",
-      "agriculture",
     ]);
     expect(withLaws[1]!.laws[0]!.measureId).toBe(build.measure.id);
   });
