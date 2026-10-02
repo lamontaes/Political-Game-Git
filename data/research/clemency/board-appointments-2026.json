@@ -1,0 +1,83 @@
+{
+  "asOf": "2026-10-02",
+  "rows": [
+    {
+      "jurisdictionKey": "US-LA",
+      "bodyKey": "board",
+      "label": "Board of Pardons",
+      "seatCount": 5,
+      "requiresSenateConfirmation": true,
+      "experienceYears": 5,
+      "experienceFields": [
+        "penology",
+        "corrections",
+        "law-enforcement",
+        "sociology",
+        "law",
+        "education",
+        "social-work",
+        "medicine"
+      ],
+      "termMonths": null,
+      "quorum": null,
+      "sources": [
+        {
+          "citation": "Louisiana Department of Public Safety and Corrections, About the Board of Pardons & Committee on Parole",
+          "url": "https://doc.la.gov/imprisoned-person-programs-resources/pardons-parole/",
+          "readAt": "2026-10-02",
+          "fields": [
+            "seatCount",
+            "requiresSenateConfirmation",
+            "experienceYears",
+            "experienceFields"
+          ],
+          "quote": "All members of the Board are appointed by the governor and confirmed by the Louisiana Senate. The Board of Pardons has five members."
+        }
+      ],
+      "missing": [
+        "term/holdover rule from R.S. 15:572.1",
+        "quorum and voting denominator",
+        "shared Senate confirmation binding",
+        "recorded qualification fields for opening people"
+      ],
+      "notes": [
+        "Two additional at-large members serve only on the Committee on Parole. The facility warden is nonvoting and not counted toward quorum.",
+        "The official page requires at least five years in the listed fields or a combination; exact professional occupation records can establish a field, never a person's title alone."
+      ]
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "bodyKey": "board",
+      "label": "Board of Pardons and Paroles",
+      "seatCount": null,
+      "requiresSenateConfirmation": null,
+      "experienceYears": null,
+      "experienceFields": [],
+      "termMonths": null,
+      "quorum": null,
+      "sources": [],
+      "missing": [
+        "Acquire approved Gen. Stat. 54-124a: count, appointing/confirmation authority, terms, qualifications and quorum; official chapter request returned HTTP503"
+      ],
+      "notes": ["No numeric appointment facts inferred from gate metadata."]
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "bodyKey": "board",
+      "label": "Board of Pardons and Paroles",
+      "seatCount": null,
+      "requiresSenateConfirmation": null,
+      "experienceYears": null,
+      "experienceFields": [],
+      "termMonths": null,
+      "quorum": null,
+      "sources": [],
+      "missing": [
+        "Acquire approved Gov't Code 508.031 and Constitution IV section11: count, appointing/confirmation authority, terms, qualifications and quorum; legacy official URLs returned homepage HTML"
+      ],
+      "notes": [
+        "Homepage HTML is not statutory evidence; no guessed appointment values."
+      ]
+    }
+  ]
+}
