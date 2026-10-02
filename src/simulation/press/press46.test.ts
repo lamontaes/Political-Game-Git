@@ -56,7 +56,6 @@ import {
   reporterRoles,
   storyLeads,
   spendCampaignFundsPersonally,
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
 } from "./index";
 import { recordEvidenceDiscovery } from "../evidence";
 import { contradictionFound } from "../claim-stances";
@@ -204,11 +203,15 @@ describe("PRESS46 M1 media seed pack", () => {
     for (const outlet of outlets) {
       expect(reporterRoles(fixture.world, outlet.id).length).toBeGreaterThan(0);
     }
-    expect(MEDIA_ACTIVE_ASSIGNMENT_CAPACITY).toEqual({
-      small: 1,
-      standard: 3,
-      major: 8,
-    });
+    expect(
+      outlets.every((outlet) =>
+        reporterRoles(fixture.world, outlet.id).every((role) =>
+          fixture.world.history.workRelationships.some(
+            (work) => work.id === role.workRelationshipId,
+          ),
+        ),
+      ),
+    ).toBe(true);
   });
 
   it("is idempotent and survives a save with the same outlets and people", () => {

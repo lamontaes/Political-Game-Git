@@ -29,7 +29,13 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { workItemState } from "../time-work";
-import { storyWorkItem } from "./story-work";
+import {
+  createStoryWorkItem,
+  outletReportingWorkBudget,
+  reporterWorkBudget,
+  storyEffortEstimate,
+  storyWorkItem,
+} from "./story-work";
 import { ACTIVE_STORY_DECISIONS } from "./integrity";
 import {
   colleaguesOf,
@@ -48,7 +54,6 @@ import {
 } from "./outlets";
 import { sharingSiblings } from "./ownership";
 import {
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
   PRESS_CONTRACT_VERSION,
   type LeadRoute,
   type MediaBeat,
@@ -260,38 +265,14 @@ function writeDisposition(
   }).world;
 }
 
-/**
- * How many stories the outlet can work at once, which follows its newsroom.
- *
- * The tier's capacity is what the outlet carries fully staffed. After a cut it
- * carries the same share of that capacity as it keeps of its recorded
- * reporters, rounded up so one reporter still works one story, and nothing
- * once nobody is left. The owner decided (2026-09-22) that fewer local
- * reporters can mean fewer local stories, following the recorded staffing
- * rather than a fixed percentage; this is that rule with no number of its own.
- * PLACEHOLDER, NOT RESEARCHED: that capacity scales in proportion to staff is
- * itself a design choice, not a finding.
- *
- * NOT MODELED YET: which beats go uncovered first. A smaller newsroom takes
- * fewer stories of every kind, ranked by the same newsworthiness as before.
- */
+/** Remaining recorded weekly reporting minutes, not a number of stories. */
 export function outletAssignmentCapacity(
   world: World,
   outlet: MediaOutletRecord,
 ): number {
-  const full = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
-  const roles = reporterRoles(world, outlet.id);
-  // The newsroom the outlet opened with is what its tier capacity was set
-  // for; a later hire replaces somebody rather than growing that base.
-  const opening = roles.filter(
-    (role) => role.startedAt <= outlet.establishedAt,
-  ).length;
-  const staffed = opening > 0 ? opening : roles.length;
-  // A tier describes a staffed newsroom; absent reporter records supply no
-  // people who can carry an assignment.
-  if (staffed === 0) return 0;
-  const current = roles.filter((role) => reporterIsCurrent(world, role)).length;
-  return Math.min(full, Math.ceil((full * current) / staffed));
+  return (
+    outletReportingWorkBudget(world, outlet.id)?.availableMinutes.minimum ?? 0
+  );
 }
 
 /**
@@ -307,12 +288,28 @@ export function assignStory(world: World, leadId: EntityId): World {
   const beat = beatForLead(world, lead);
   const reporter = chooseReporter(world, outlet, lead, beat);
   if (!reporter) {
-    return writeDisposition(world, lead, "declined", {
-      reasonKey: "press:no-current-reporter-for-beat",
-    });
+    const hasStaff = reporterRoles(world, outlet.id).some((role) =>
+      reporterIsCurrent(world, role),
+    );
+    return latest
+      ? world
+      : writeDisposition(world, lead, hasStaff ? "queued" : "declined", {
+          reasonKey: hasStaff
+            ? "press:capacity-or-effort-unsupported"
+            : "press:no-current-reporter-for-beat",
+        });
   }
-  const capacity = outletAssignmentCapacity(world, outlet);
-  if (activeAssignments(world, outlet.id).length >= capacity) {
+  const estimate = storyEffortEstimate(world, lead, reporter);
+  const budget = reporterWorkBudget(world, reporter);
+  // Multi-week work may start in an otherwise unreserved work budget; its full
+  // remaining effort then reserves that reporter until real progress frees time.
+  if (
+    !estimate ||
+    !budget ||
+    budget.availableMinutes.minimum <= 0 ||
+    (estimate.requiredMinutes > budget.availableMinutes.minimum &&
+      budget.reservedMinutes > 0)
+  ) {
     return latest
       ? world
       : writeDisposition(world, lead, "queued", {
@@ -397,10 +394,11 @@ export function assignStory(world: World, leadId: EntityId): World {
       reasonKey: "press:reporter-chose-no-story",
     });
   }
+  next = createStoryWorkItem(next, lead, reporter, estimate);
   next = writeDisposition(next, lead, "assigned", {
     reporterPersonId: reporter.personId,
     decisionTraceId: traceId,
-    reasonKey: `press:beat:${beat}`,
+    reasonKey: `press:estimated-work:${beat}`,
   });
   if (needsSubjectResponse(lead)) {
     return requestSubjectResponse(next, lead.id);
@@ -1623,17 +1621,14 @@ function sweepOutlet(
     if (matterId) byMatter.set(matterId, created);
   }
   const capacity = outletAssignmentCapacity(next, outlet);
-  const free = Math.max(
-    0,
-    capacity - activeAssignments(next, outlet.id).length,
-  );
+  if (capacity <= 0) return next;
   // Authored editorial attention: one routine item per weekly review; items
   // with a substantive reason (a matter, named people, a recorded scale above
   // minor, a public office) may use the rest of the free capacity. Being on
   // the beat or in the outlet's own town does not by itself make an item more
   // than routine.
   let routineTaken = 0;
-  const chosen = routed.slice(0, free).filter(({ routine }) => {
+  const chosen = routed.filter(({ routine }) => {
     if (!routine) return true;
     routineTaken += 1;
     return routineTaken <= PRESS_DESK_INTERVALS.routineItemsPerSweep;
@@ -1953,9 +1948,18 @@ function chooseReporter(
   lead: StoryLeadRecord,
   beat: MediaBeat,
 ): ReporterRoleRecord | null {
-  const current = reporterRoles(world, outlet.id).filter((role) =>
-    reporterIsCurrent(world, role),
-  );
+  const current = reporterRoles(world, outlet.id).filter((role) => {
+    if (!reporterIsCurrent(world, role)) return false;
+    const budget = reporterWorkBudget(world, role);
+    const estimate = storyEffortEstimate(world, lead, role);
+    return (
+      budget !== null &&
+      estimate !== null &&
+      budget.availableMinutes.minimum > 0 &&
+      (estimate.requiredMinutes <= budget.availableMinutes.minimum ||
+        budget.reservedMinutes === 0)
+    );
+  });
   if (current.length === 0) return null;
   // A tip stays with the reporter the source actually talked to.
   const tipped = pressRecordsOfKind(world, "source-contribution")
@@ -1970,9 +1974,7 @@ function chooseReporter(
   const tippedRole = current.find((role) => tipped.includes(role.personId));
   if (tippedRole) return tippedRole;
   const load = (role: ReporterRoleRecord) =>
-    activeAssignments(world, outlet.id).filter(
-      (item) => assignedReporter(world, item.id) === role.personId,
-    ).length;
+    reporterWorkBudget(world, role)!.reservedMinutes;
   // A reporter who already covered these subjects keeps the relationship.
   const familiar = (role: ReporterRoleRecord) =>
     storyLeads(world).some(
