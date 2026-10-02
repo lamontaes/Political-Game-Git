@@ -20,6 +20,8 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import {
+  activeDwellingOccupanciesAt,
+  dwellingOccupancyStateAt,
   resourceFlowTermsAt,
   resourceFlowsTouching,
   resourceTransferOutcomesOfFlows,
@@ -194,9 +196,25 @@ export function recordedHouseholdHousingBillsAt(
   | null {
   const householdId = primaryHouseholdId(world, personId, asOfDate);
   if (!householdId) return null;
+  const cutoff = {
+    asOfDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const primaryDwellings = new Set(
+    activeDwellingOccupanciesAt(world, cutoff)
+      .filter(
+        (row) =>
+          row.occupant.kind === "household" &&
+          row.occupant.householdId === householdId &&
+          dwellingOccupancyStateAt(world, row.id, cutoff)?.residenceRole ===
+            "primary",
+      )
+      .map((row) => row.dwellingId),
+  );
   const leases = townLeases(world, asOfDate).filter(
     (row) =>
       !row.ended &&
+      primaryDwellings.has(row.dwellingId) &&
       row.householdId === householdId &&
       row.flow.startsAt <= asOfDate,
   );

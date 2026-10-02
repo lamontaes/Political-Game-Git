@@ -5,6 +5,11 @@ import {
   dwellingOccupancyStateAt,
 } from "../resource-queries";
 import type { EntityId, HousingTenure, World } from "../types";
+import { homePurchaseTerms } from "../home-purchase";
+import { homeBuyerKind, homeDownPaymentShare } from "../home-down-payment";
+import { openingMortgageFinancingQuote } from "../mortgage-financing";
+import { openHouseholdLoan } from "../household-loans";
+import { money } from "../resources";
 import { openingOwnerMortgageEvidence } from "./opening-mortgage-evidence";
 
 export interface OpeningMortgageTenureReading {
@@ -14,7 +19,10 @@ export interface OpeningMortgageTenureReading {
   readonly ageBand: string | null;
   readonly paidMonths: number | null;
   readonly basis:
-    "recorded-home-start" | "same-town-owner-average" | "missing-owner-tenure";
+    | "recorded-home-start"
+    | "same-town-owner-average"
+    | "same-town-initialized-owner-average"
+    | "missing-owner-tenure";
   readonly sourceRecordIds: readonly EntityId[];
 }
 
@@ -27,6 +35,7 @@ export interface OpeningMortgageTenureReading {
 export function openingMortgageTenureReadings(
   world: World,
   jurisdictionId: EntityId,
+  includeInitializedAverage = false,
 ): readonly OpeningMortgageTenureReading[] {
   const deceased = new Set(
     world.history.personDeaths
@@ -139,6 +148,9 @@ export function openingMortgageTenureReadings(
     string,
     { months: number; count: number; sourceRecordIds: EntityId[] }
   >();
+  const occupancyById = new Map(
+    world.history.dwellingOccupancies.map((row) => [row.id, row]),
+  );
   for (const row of readings) {
     if (row.paidMonths === null || row.ageBand === null) continue;
     const group = cohorts.get(row.ageBand) ?? {
@@ -154,6 +166,9 @@ export function openingMortgageTenureReadings(
   return readings.map((row) => {
     if (row.paidMonths !== null || row.ageBand === null) return row;
     const cohort = cohorts.get(row.ageBand);
+    const initializedPeers = includeInitializedAverage
+      ? readings.filter((peer) => peer.ageBand === row.ageBand)
+      : [];
     return cohort
       ? {
           ...row,
@@ -161,6 +176,99 @@ export function openingMortgageTenureReadings(
           basis: "same-town-owner-average",
           sourceRecordIds: [...row.sourceRecordIds, ...cohort.sourceRecordIds],
         }
-      : row;
+      : initializedPeers.length > 0
+        ? {
+            ...row,
+            // Explicit game-initialization peer average, not observed past residence.
+            // CTO3:59 permits choosing the existing-record option for empty cohorts.
+            paidMonths: Math.round(
+              initializedPeers.reduce(
+                (sum, peer) =>
+                  sum +
+                  completedMonthsBetween(
+                    occupancyById.get(peer.sourceRecordIds[1]!)!.startedAt,
+                    world.currentDate,
+                  ),
+                0,
+              ) / initializedPeers.length,
+            ),
+            basis: "same-town-initialized-owner-average",
+            sourceRecordIds: initializedPeers.flatMap(
+              (peer) => peer.sourceRecordIds,
+            ),
+          }
+        : row;
   });
+}
+
+/** Ordinary owned-with-mortgage homes reuse the shared loan writer and servicer. */
+export function ensureOpeningMortgages(
+  world: World,
+  jurisdictionId: EntityId,
+): World {
+  const existing = new Set(
+    world.history.resourceObligations
+      .filter((row) => row.principal !== null)
+      .map((row) => row.housingTenureId),
+  );
+  const tenures = new Map(
+    world.history.housingTenures.map((row) => [row.id, row]),
+  );
+  const price = homePurchaseTerms(world, jurisdictionId, null).priceMinor;
+  const readings = openingMortgageTenureReadings(world, jurisdictionId, true);
+  let next = world;
+  for (const row of readings) {
+    if (
+      existing.has(row.housingTenureId) ||
+      row.paidMonths === null ||
+      tenures.get(row.housingTenureId)?.kind !== "ownership:mortgaged"
+    )
+      continue;
+    const down = homeDownPaymentShare(
+      next,
+      homeBuyerKind(next, row.ownerPersonId),
+    );
+    const quote = openingMortgageFinancingQuote(next, {
+      homePrice: money(price, "USD"),
+      downPaymentShare: down.share,
+      paidMonths: row.paidMonths,
+      jurisdictionId,
+      rateCap: null,
+    });
+    if (
+      !quote ||
+      quote.remainingPrincipalMinor <= 0 ||
+      quote.remainingTermMonths <= 0
+    )
+      continue;
+    next = openHouseholdLoan(next, {
+      stableKey: `opening-mortgage:${row.housingTenureId}`,
+      borrower: { kind: "person", personId: row.ownerPersonId },
+      lenderOrganizationId: null,
+      lenderKind: "other",
+      kind: "mortgage",
+      principal: money(quote.remainingPrincipalMinor, "USD"),
+      marketAnnualRateBasisPoints: quote.marketAnnualRateBasisPoints,
+      rateCap: null,
+      repayment: { kind: "installment", termMonths: quote.remainingTermMonths },
+      lateFee: null,
+      missedPaymentsToDefault: null,
+      missedPaymentsToCollections: null,
+      jurisdictionId,
+      housingTenureId: row.housingTenureId,
+      provenance: {
+        kind: "authored",
+        note:
+          `Opening mortgage ESTIMATED FROM GAME INPUTS: home value ${price} USDminor; ` +
+          `down-payment ${down.share} (${down.source}); ${quote.annualRateBasisPoints}bps ` +
+          `(${quote.rateReferenceKey}, ${quote.mortgageSpreadReferenceKey}); ` +
+          `${row.paidMonths} paid months (${row.basis}); owner ${row.ownerPersonId}, ` +
+          `tenure ${row.housingTenureId}, dwelling ${row.dwellingId}; ` +
+          `peer evidence count ${row.sourceRecordIds.length} at ${world.currentDate}, history frontier ${world.history.nextSequence}. ` +
+          `Explicit CTO3:58 simplified no-late-fee contract; automatic escalation unrecorded.`,
+      },
+    });
+    existing.add(row.housingTenureId);
+  }
+  return next;
 }

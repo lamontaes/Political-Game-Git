@@ -36,6 +36,18 @@ describe("adopted term history boundary", () => {
     expect(finalTermProvisions(world, "bill" as EntityId, 3)).toEqual([
       replacement,
     ]);
+    expect(
+      finalTermProvisions(
+        world,
+        "bill" as EntityId,
+        3,
+        "2026-01-01" as World["currentDate"],
+        {
+          asOfDate: "2026-01-01" as World["currentDate"],
+          historySequenceExclusive: 3,
+        },
+      ),
+    ).toEqual([first]);
   });
   it("does not infer numeric terms from an unenacted or future law", () => {
     const world = {

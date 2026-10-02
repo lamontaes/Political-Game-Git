@@ -1,14 +1,24 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createHash } from "node:crypto";
 import { runNationalParity } from "./national";
 import { readFileSync } from "node:fs";
 import {
   createWorkItem,
   applyDateBoundary,
+  advanceWorldMinutes,
+  createScheduledActivity,
+  performScheduledActivity,
+  scheduledActivityState,
 } from "../../src/simulation/time-work";
+import * as officeContinuity from "../../src/simulation/governing/office-continuity";
+import { EMPTY_FUTURE_TRANSITION_HANDLERS } from "../../src/simulation/future-transitions";
 import { baselineAdvanceWorld } from "./baseline-date-route";
 import { advanceWorld, createWorldId } from "../../src/simulation/world";
-import { makeIsoDate } from "../../src/simulation/dates";
+import {
+  addDays,
+  addSimulationMinutes,
+  makeIsoDate,
+} from "../../src/simulation/dates";
 import { createLightweightPerson } from "../../src/simulation/people";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import {
@@ -81,6 +91,73 @@ function open(input: ProofInput) {
   });
 }
 describe("C5 independent route proof", () => {
+  it.each(nationalPlacePlan("audit-a2-two-activities").jurisdictions)(
+    "two activities in one day run the daily chain zero extra times in $jurisdictionKey",
+    ({ seed, placeKey }) => {
+      let world = open({ seed, placeKey, steps: schedule("minutes", 30, 2) });
+      const personId = world.personOrder[0]!;
+      world = { ...world, control: { kind: "person", personId } };
+      const initialDate = world.currentDate;
+      const initialMoment = world.currentMoment;
+      const activityIds = [0, 1].map((index) => {
+        world = createScheduledActivity(world, {
+          stableKey: `daily-chain-activity:${index}`,
+          title: "Recorded activity",
+          summary: "Two saved activities on the same date.",
+          kind: "confirmed",
+          start: addSimulationMinutes(initialMoment, index * 30),
+          end: addSimulationMinutes(initialMoment, (index + 1) * 30),
+          participantPersonIds: [personId],
+          responsiblePersonId: personId,
+          location: {
+            locationKey: "daily-chain-room",
+            label: "Recorded activity room",
+            jurisdictionId: world.people[personId]!.homeJurisdictionId,
+          },
+          sourceEntityIds: [personId],
+          flexibility: { kind: "fixed" },
+          access: { kind: "private", personIds: [personId] },
+        });
+        return world.history.scheduledActivities.at(-1)!.id;
+      });
+      const dailyConsumer = vi.spyOn(officeContinuity, "applyOfficeLifecycle");
+      try {
+        for (const activityId of activityIds) {
+          world = performScheduledActivity(
+            world,
+            activityId,
+            EMPTY_FUTURE_TRANSITION_HANDLERS,
+          );
+          const state = scheduledActivityState(world, activityId);
+          expect(state.status).toBe("completed");
+          expect(state.outcomeEventId).not.toBeNull();
+          expect(
+            world.history.events.some(
+              (event) => event.id === state.outcomeEventId,
+            ),
+          ).toBe(true);
+        }
+        expect(world.currentDate).toBe(initialDate);
+        expect(world.currentMoment).toEqual(
+          addSimulationMinutes(initialMoment, 60),
+        );
+        expect(dailyConsumer).not.toHaveBeenCalled();
+
+        world = advanceWorldMinutes(
+          world,
+          1440,
+          EMPTY_FUTURE_TRANSITION_HANDLERS,
+        );
+        expect(world.currentDate).toBe(addDays(initialDate, 1));
+        expect(dailyConsumer).toHaveBeenCalledTimes(1);
+        expect(dailyConsumer.mock.calls[0]![0]).toBe(initialDate);
+        expect(applyDateBoundary(world.currentDate, world)).toBe(world);
+        expect(dailyConsumer).toHaveBeenCalledTimes(1);
+      } finally {
+        dailyConsumer.mockRestore();
+      }
+    },
+  );
   it("covers all 56 source jurisdictions and reproducible watched selections", () => {
     const plan = nationalPlacePlan("c5-coverage-20260930");
     expect(plan.jurisdictions).toHaveLength(56);
