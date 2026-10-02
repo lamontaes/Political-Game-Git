@@ -1417,11 +1417,15 @@ export function performScheduledActivity(
   ) {
     return world;
   }
-  return advanceCanonicalMinutes(
+  return advanceWithWorldIntegrityAtEnd(
+    () =>
+      advanceCanonicalMinutes(
+        world,
+        timing.totalElapsedMinutes,
+        activityId,
+        transitionHandlers,
+      ),
     world,
-    timing.totalElapsedMinutes,
-    activityId,
-    transitionHandlers,
   );
 }
 
