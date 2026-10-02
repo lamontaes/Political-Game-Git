@@ -5,4 +5,4 @@ section: Fixed
 title: Keep an unanswered goal call pending
 ---
 
-An unanswered goal call remains pending instead of writing a declined-call event or a completed goal step.
+A goal call remains pending when either its caller has no selected decision to act or its recipient has no selected answer. Neither writes a call event or completed goal step.
