@@ -1,6 +1,7 @@
 import {
   growingIndex,
   recordById,
+  recordsWithFieldValue,
   type GrowingIndexKind,
 } from "../history-index";
 import { workRoleAt, workStatusAt } from "../life-queries";
@@ -107,7 +108,11 @@ export function resolveSavedAnnualOfficePayConsequences(
     return [];
   const { rule, legal, state, field } = saved;
   const officeKey = officePayLawOfficeKey(state);
-  const clauses = ruleChangeProvisionHistoryRecords(world).filter(
+  const clauses = recordsWithFieldValue(
+    ruleChangeProvisionHistoryRecords(world),
+    "measureId",
+    rule.measureId,
+  ).filter(
     (p) =>
       p.measureId === rule.measureId &&
       p.stateUsps === state &&
@@ -115,7 +120,11 @@ export function resolveSavedAnnualOfficePayConsequences(
       p.field === field &&
       p.filedAt <= context.onDate,
   );
-  const enactments = (world.history.legislativeEnactments ?? []).filter(
+  const enactments = recordsWithFieldValue(
+    world.history.legislativeEnactments ?? [],
+    "measureId",
+    rule.measureId,
+  ).filter(
     (e) =>
       e.measureId === rule.measureId &&
       e.outcome === "enacted" &&
