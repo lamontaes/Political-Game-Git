@@ -524,7 +524,15 @@ function schoolDecisions(
     const school = profile?.name ?? "the school";
     const town = profile?.locationJurisdictionId ?? null;
     const who = principal ? personName(next.people[principal]!) : null;
-    const counted = `${out} of its ${people.length} students and staff ${out === 1 ? "was" : "were"} out sick`;
+    // The index contains materialized work/enrollment members, not a school's
+    // total enrollment or staffing. Report actual absences without turning
+    // the cohort's size (or zero known absences) into a whole-school count.
+    const counted =
+      out === 0
+        ? null
+        : out === 1
+          ? "one student or staff member was out sick"
+          : `${out} students and staff were out sick`;
     const lean = APPROACH_WORD[approach];
     let type: string | null = null;
     let summary = "";
@@ -536,7 +544,10 @@ function schoolDecisions(
       summary = `${who}, the principal, closed ${school} because ${counted}.`;
     } else if (isClosed && share < bar * U.reopenFractionOfBar) {
       type = EPIDEMIC_EVENT_TYPES.schoolReopened;
-      summary = `${who}, the principal, reopened ${school} now that ${counted}.`;
+      summary =
+        out === 0
+          ? `${who}, the principal, reopened ${school}.`
+          : `${who}, the principal, reopened ${school} while ${counted}.`;
     } else if (!isClosed && share >= bar * U.reopenFractionOfBar) {
       type = EPIDEMIC_EVENT_TYPES.schoolKeptOpen;
       summary = `${who}, the principal, kept ${school} open although ${counted}.`;
@@ -568,9 +579,13 @@ function schoolDecisions(
       context: {
         ...EMPTY_CONTEXT,
         choice: type,
-        motivation: lean
-          ? `${counted}; the principal is ${lean}.`
-          : `${counted}.`,
+        motivation: counted
+          ? lean
+            ? `${counted}; the principal is ${lean}.`
+            : `${counted}.`
+          : lean
+            ? `The principal is ${lean}.`
+            : null,
       },
     });
   }
