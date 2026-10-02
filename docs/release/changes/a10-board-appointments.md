@@ -1,6 +1,6 @@
 ---
 id: a10-board-appointments
-impact: feature
+impact: minor
 ---
 
 A10 / R16 first appointment stage: the opening calls the existing governor appointer decision over people the governor actually knows. A selected qualified person gets a saved public nomination pointing to the actual durable decision. A nomination does not seat anyone or supply a board vote. The shared Senate-confirmation binding is not yet available; all Senate-required nominations remain pending.

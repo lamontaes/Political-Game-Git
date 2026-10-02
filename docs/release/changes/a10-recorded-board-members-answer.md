@@ -16,7 +16,8 @@ quorum and four favorable votes (La. R.S. 15:572.1(E), the existing cited profil
 Departed members cannot provide the quorum, and three recorded votes cannot
 authorize an answer. The changed consumer test does not establish Connecticut panel assignments, Texas voting
 eligibility, all-state board coverage or the three remaining positive fixtures
-in #1871. No missing legal rule or actual person is supplied by this consumer.
+in the existing clemency decision tests. No missing legal rule or actual person
+is supplied by this consumer.
 
 Validation: the complete changed consumer test file passed both cases, including
 the actual court sentence, appointment, member decision, quorum and replay joins.
