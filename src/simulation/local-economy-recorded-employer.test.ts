@@ -7,10 +7,25 @@ import {
 } from "../presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import { hireAtAdultStart } from "./job-market";
-import { adultStartEmployer } from "./recorded-employer";
-import { lifePlaceByKey } from "./life-places";
-import { activeWorkRelationshipsAt, workRoleAt } from "./life-queries";
-import { townBusinesses } from "./living-world/town-businesses";
+import { localBusinessWageMinor } from "./recorded-employer";
+import { lifePlaceByKey, lifePlaces } from "./life-places";
+import { SeededRng } from "./rng";
+import {
+  activeWorkRelationshipsAt,
+  workRoleAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+} from "./life-queries";
+import {
+  townBusinesses,
+  recordedTownEmployer,
+} from "./living-world/town-businesses";
+import type {
+  EntityId,
+  OccupationClassification,
+  Organization,
+  World,
+} from "./types";
 import { personName } from "./people";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { withWorldIntegrityDeferred, createWorld, worldLineage } from "./world";
@@ -20,11 +35,21 @@ const receipts: unknown[] = [];
 afterAll(() => {
   if (process.env.TEAM4_RECORD_A58 === "1")
     writeFileSync(
-      "/tmp/team4-a58-saved-employers.json",
+      "/tmp/team2-a58-saved-employers.json",
       JSON.stringify(receipts, null, 2),
     );
 });
-const places = ["5553000", "1304000", "4159000", "0820000", "1921000"];
+const randomPlace = new SeededRng("team2-a58-canonical-selector-opening").pick(
+  lifePlaces().filter((place) => place.scope === "locality"),
+);
+const places = [
+  "5553000",
+  "1304000",
+  "4159000",
+  "0820000",
+  "1921000",
+  randomPlace.key,
+];
 
 describe("A58 adult starting jobs use the town's recorded employers", () => {
   it.each(places)(
@@ -51,8 +76,9 @@ describe("A58 adult starting jobs use the town's recorded employers", () => {
       const recorded = townBusinesses(world, town);
       expect(recorded.length).toBeGreaterThan(0);
       const before = serializeWorld(world);
-      const selected = adultStartEmployer(world, personId, town);
+      const selected = recordedTownEmployer(world, personId, town);
       expect(selected).not.toBeNull();
+      expect(selected).toEqual(previousRecordedEmployer(world, personId, town));
       const business = recorded.find(
         (entry) => entry.organizationId === selected!.organization.id,
       );
@@ -69,7 +95,7 @@ describe("A58 adult starting jobs use the town's recorded employers", () => {
       ).toBe(true);
       expect(serializeWorld(world)).toBe(before);
       expect(
-        adultStartEmployer(deserializeWorld(before), personId, town),
+        recordedTownEmployer(deserializeWorld(before), personId, town),
       ).toEqual(selected);
 
       // Explicit ordinary hiring writer after town records exist, not proof of
@@ -114,12 +140,22 @@ describe("A58 adult starting jobs use the town's recorded employers", () => {
         policyCatalog: world.policyCatalog,
       });
       const sparseSaved = serializeWorld(sparse);
-      expect(adultStartEmployer(sparse, personId, town)).toBeNull();
+      expect(recordedTownEmployer(sparse, personId, town)).toBeNull();
       expect(
         serializeWorld(
           hireAtAdultStart(sparse, { personId, jurisdictionId: town }),
         ),
       ).toBe(sparseSaved);
+      console.log(
+        JSON.stringify({
+          audit: "A58",
+          seed: world.seed,
+          place: lifePlaceByKey(placeKey)!.displayName,
+          person: personName(world.people[personId]!),
+          organization: business!.name,
+          oldNewParity: true,
+        }),
+      );
       receipts.push({
         seed: world.seed,
         placeKey,
@@ -137,3 +173,113 @@ describe("A58 adult starting jobs use the town's recorded employers", () => {
     },
   );
 });
+
+// Exact selector from main b219621a7, test-only parity witness before its move.
+/**
+ * The local business a grown-up new life works at when the game opens, chosen
+ * from the person's own situation rather than first in the town's list.
+ *
+ * - Only work the person is fit for: the professional roles (legal
+ *   assistant, bookkeeper) need schooling no summarized history gives. A
+ *   trade is learned on the job, as most builders and mechanics learn it;
+ *   an apprenticeship the history records counts as that line of work.
+ * - Somebody they know works there or owns it: family and household put a
+ *   person forward, as they do in the job market.
+ * - Otherwise the line of work they already did: a person who worked a shop
+ *   counter at school goes back to a counter.
+ * - Otherwise the best-paid of those jobs, at the town's own published pay.
+ *
+ * Null when the town has no business, or none the person is fit for, and
+ * then nobody is hired: the person starts looking for work.
+ */
+function previousRecordedEmployer(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+): {
+  organization: Organization;
+  kind: {
+    readonly workerTitle: string;
+    readonly workerOccupation: OccupationClassification;
+    readonly workerRelationshipId: EntityId;
+  };
+} | null {
+  if (!world.people[personId]) return null;
+  const past = world.history.workRelationships.filter(
+    (work) => work.personId === personId,
+  );
+  // Borrow only roles that an actual open town business employs today.
+  // A legacy player-only business and its fixed revenue are never candidates.
+  const fit = townBusinesses(world, jurisdictionId).flatMap((business) => {
+    const organization = world.history.organizations.find(
+      (record) => record.id === business.organizationId,
+    );
+    if (!organization || organization.formedAt > world.currentDate) return [];
+    const seen = new Set<string>();
+    return business.jobs.flatMap((job) => {
+      const work = world.history.workRelationships.find(
+        (record) => record.id === job.relationshipId,
+      );
+      const role = workRoleAt(world, job.relationshipId);
+      if (
+        !work ||
+        work.startedAt > world.currentDate ||
+        work.compensation !== "paid" ||
+        job.directsOthers ||
+        !role ||
+        !role.occupationClassification ||
+        role.occupationClassification.startsWith("profession:") ||
+        role.locationJurisdictionId !== jurisdictionId
+      )
+        return [];
+      const kind = {
+        workerTitle: role.title,
+        workerOccupation: role.occupationClassification,
+        workerRelationshipId: work.id,
+      };
+      if (!localBusinessWageMinor(kind, jurisdictionId, world).sourced)
+        return [];
+      const key = JSON.stringify(kind);
+      if (seen.has(key)) return [];
+      seen.add(key);
+      return [{ organization, kind }];
+    });
+  });
+  if (fit.length === 0) return null;
+  const known = new Set<EntityId>();
+  for (const kin of kinshipRelationshipsAt(world, personId))
+    for (const id of kin.personIds) if (id !== personId) known.add(id);
+  const homes = new Set(
+    householdMembershipsAt(world, personId).map((entry) => entry.household.id),
+  );
+  for (const record of world.history.householdMemberships)
+    if (record.personId !== personId && homes.has(record.householdId))
+      known.add(record.personId);
+  const vouched = fit.filter(({ organization }) =>
+    [...known].some(
+      (id) =>
+        world.people[id] &&
+        activeWorkRelationshipsAt(world, id).some(
+          (entry) => entry.relationship.organizationId === organization.id,
+        ),
+    ),
+  );
+  const lines = new Set(
+    past.flatMap((work) => {
+      const occupation = workRoleAt(world, work.id)?.occupationClassification;
+      return occupation ? [occupation.split(":")[0]!] : [];
+    }),
+  );
+  const experienced = fit.filter(({ kind }) =>
+    lines.has(kind.workerOccupation.split(":")[0]!),
+  );
+  const pool =
+    vouched.length > 0 ? vouched : experienced.length > 0 ? experienced : fit;
+  const pay = (kind: { readonly workerOccupation: OccupationClassification }) =>
+    localBusinessWageMinor(kind, jurisdictionId, world).monthlyMinor;
+  return [...pool].sort(
+    (left, right) =>
+      pay(right.kind) - pay(left.kind) ||
+      left.organization.id.localeCompare(right.organization.id),
+  )[0]!;
+}
