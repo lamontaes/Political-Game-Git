@@ -20,10 +20,12 @@ import {
 } from "../../presentation/ordinary-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import {
+  addDays,
   ageOnDate,
   daysBetween,
   makeIsoDate,
   simulationMomentAtLocalTime,
+  simulationMinutesBetween,
 } from "../dates";
 import { createDemoWorld } from "../demo";
 import {
@@ -353,9 +355,17 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     );
     expect(Boolean(special)).toBe(ruling.outcome === "special-election");
     if (special) {
-      next = passOrdinaryDays(
+      // Replay the actual special-election schedule through the complete existing due handlers.
+      // This focused government case supplies no standing daily work routine.
+      const target = simulationMomentAtLocalTime({
+        date: addDays(special.dueAt, 1),
+        minuteOfDay: next.currentMoment.minuteOfDay,
+        timeZone: next.currentMoment.timeZone,
+      });
+      next = advanceWorldMinutes(
         next,
-        daysBetween(next.currentDate, special.dueAt) + 1,
+        simulationMinutesBetween(next.currentMoment, target),
+        { get: handlers().get },
       );
       const elected = view();
       expect(elected.occupant.kind).toBe("member");
