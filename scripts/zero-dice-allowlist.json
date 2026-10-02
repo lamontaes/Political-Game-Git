@@ -423,13 +423,6 @@
       "code": "if (jurisdictionKey === \"US-CA\")"
     },
     {
-      "file": "src/simulation/constitutional-process.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if ([\"california\", \"us-ca\"].includes(j.slug)) return \"US-CA\";"
-    },
-    {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
@@ -658,13 +651,6 @@
       "kind": "place-in-logic",
       "build": "Build 27",
       "count": 1,
-      "code": "usps === \"DC\" ? \"dc\" : TERRITORIES.has(usps) ? \"territory\" : \"state\","
-    },
-    {
-      "file": "src/simulation/governing/question-authority.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
       "code": "if (place?.stateJurisdictionKey === \"US-DC\") return [\"dc\"];"
     },
     {
@@ -822,32 +808,11 @@
       "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
     },
     {
-      "file": "src/simulation/municipal-ordinance-procedure.ts",
-      "kind": "place-in-logic",
-      "build": "Build 25",
-      "count": 1,
-      "code": "if (input.governmentKey !== \"us-va-charlottesville\") {"
-    },
-    {
       "file": "src/simulation/national-election-consumer.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
       "count": 1,
       "code": "allocationWinnerPersonId: input.unitKey.startsWith(\"ME\")"
-    },
-    {
-      "file": "src/simulation/national-election-rules.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": ".filter((key) => key !== \"DC\")"
-    },
-    {
-      "file": "src/simulation/national-election-rules.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (state === \"ME\" || state === \"NE\")"
     },
     {
       "file": "src/simulation/national-elections.ts",
@@ -1128,13 +1093,6 @@
       "build": "Build 23",
       "count": 1,
       "code": "if (draw < 0) return row;"
-    },
-    {
-      "file": "src/simulation/press/ownership.ts",
-      "kind": "roll",
-      "build": "Build 23",
-      "count": 1,
-      "code": "if (rng.next() >= practice.likelihoodPerReview) continue;"
     },
     {
       "file": "src/simulation/recall.ts",
