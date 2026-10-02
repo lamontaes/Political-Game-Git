@@ -821,7 +821,7 @@ describe(
         life.personId,
       );
       const outcome = campaignLifeOutcomeRecords(raised).at(-1)!;
-      expect(outcome.contactPersonIds).toHaveLength(1);
+      expect(outcome.contactPersonIds).toEqual([running.organizerId]);
       expect(outcome.raisedAmount).toBeNull();
       expect(outcome.resourceFlowId).toBeNull();
       expect(
@@ -843,7 +843,7 @@ describe(
       )!;
       expect(event.tags).toContain("compliance:not-attempted");
       expect(event.summary).toMatch(
-        /available money for .* is not established/,
+        /recorded monetary ask and applicable contribution-cap law term/,
       );
       // Nobody's tracked money went negative.
       for (const position of raised.history.resourcePositions) {
@@ -857,7 +857,7 @@ describe(
       }
     });
 
-    it("a Kentucky fundraiser follows the reviewed pack: unknown before its coverage", () => {
+    it("an early fundraiser does not treat an itemization threshold as a gift cap", () => {
       const running = withCampaign(adultLife("life-a"));
       const campaign = activeCampaignForCandidate(
         running.world,
@@ -885,11 +885,13 @@ describe(
       const event = done.history.events.find(
         (e) => e.id === outcome.outcomeEventId,
       )!;
-      expect(event.tags).toContain("compliance:refused");
-      expect(event.summary).toMatch(/itemization threshold is UNKNOWN/);
+      expect(event.tags).toContain("compliance:not-attempted");
+      expect(event.summary).toMatch(
+        /recorded monetary ask and applicable contribution-cap law term/,
+      );
     });
 
-    it("a covered Kentucky fundraiser keeps the named donor but needs recorded funds", () => {
+    it("a covered fundraiser preserves the recorded attendee and needs a saved payment basis", () => {
       const staffed = staffedKentuckyCampaign("life-ky-covered", 247);
       const { campaign } = staffed;
       const running = staffed.life;
@@ -925,7 +927,7 @@ describe(
         running.personId,
       );
       const outcome = campaignLifeOutcomeRecords(first).at(-1)!;
-      expect(outcome.contactPersonIds).toHaveLength(1);
+      expect(outcome.contactPersonIds).toEqual([running.organizerId]);
       expect(outcome.raisedAmount).toBeNull();
       expect(outcome.resourceFlowId).toBeNull();
       // No money moved, so nobody gave anything.
@@ -946,7 +948,7 @@ describe(
       )!;
       expect(event.tags).toContain("compliance:not-attempted");
       expect(event.summary).toMatch(
-        /available money for .* is not established/,
+        /recorded monetary ask and applicable contribution-cap law term/,
       );
 
       // A second meeting keeps the same person and still cannot debit them.
@@ -973,7 +975,7 @@ describe(
       )!;
       expect(refused.tags).toContain("compliance:not-attempted");
       expect(refused.summary).toMatch(
-        /available money for .* is not established/,
+        /recorded monetary ask and applicable contribution-cap law term/,
       );
     });
 

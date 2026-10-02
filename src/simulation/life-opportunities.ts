@@ -17,8 +17,6 @@ import {
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
 import { createScheduledActivity, createWorkItem } from "./time-work";
-import { settleLivingCosts } from "./cost-of-living";
-import { settleOfficeSalaries } from "./office-salary";
 import { advanceJobMarket } from "./job-market";
 import { settleHouseholdLoanPayments } from "./household-loans";
 import { recordWorldEvent } from "./world";
@@ -455,10 +453,8 @@ export function refreshLifeOpportunities(
   if (formativeIntervalAt(world, personId) !== null) return world;
 
   let next = world;
-  next = settleOfficeSalaries(next, personId);
   next = advanceJobMarket(next, personId);
   next = settleHouseholdLoanPayments(next, personId);
-  next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;
 }
