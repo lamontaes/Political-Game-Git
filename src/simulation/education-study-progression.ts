@@ -23,7 +23,7 @@ import type { EntityId, IsoDate, World } from "./types";
 import {
   recordedTuitionFreezePrice,
   recordedStudyPeriodTuitionPrice,
-} from "./public-budgets/tuition-freeze";
+} from "../education/tuition-prices";
 import { TUITION_FREEZE_ROW } from "./law-consequences/tuition-freeze-row";
 import {
   resolvePriceCostConsequences,
