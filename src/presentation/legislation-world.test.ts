@@ -2,23 +2,24 @@ import { describe, expect, it } from "vitest";
 
 import {
   deserializeWorld,
-  legislativeScenarioKeys,
+  introduceMeasure,
+  legislativeBlueprint,
   measurePosition,
   serializeWorld,
 } from "../simulation";
-import type { MeasureStepKey, World } from "../simulation";
+import type { World } from "../simulation";
 import {
+  openingMeasureContentKey,
   applyLegislativeCommand,
   legislativeWorkAvailableIn,
   openLegislativeWork,
 } from "./legislation-world";
-import type { LegislativeAssignment } from "./legislation-world";
+import { suppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { projectMeasureBriefing } from "./legislation-projection";
 import { fileDraft } from "./legislation-docket";
-import { measurePropositions } from "../simulation/legislation";
 
 /**
  * A bill belongs to the save it was moved through.
@@ -44,162 +45,160 @@ function staffer(seed: string, placeKey = "kentucky") {
   return { ...game, capabilities };
 }
 
-function open(seed: string, scenarioKey = "kentucky", placeKey = "kentucky") {
-  const { world, playerPersonId, capabilities } = staffer(seed, placeKey);
-  return openLegislativeWork(world, {
-    scenarioKey,
-    playerPersonId,
-    jurisdictionId: capabilities.legislativeJurisdictionId!,
+let seatFixture: ReturnType<typeof suppliedLegislativeSeat> | undefined;
+function recorded(stableKey = "recorded-member-bill") {
+  const seat = (seatFixture ??= suppliedLegislativeSeat("US-KY", "house"));
+  const blueprint = legislativeBlueprint("kentucky");
+  const world = introduceMeasure(seat.world, {
+    stableKey,
+    jurisdictionId: seat.jurisdictionId,
+    rulePackId: seat.packId,
+    designation: "HB 1",
+    shortTitle: blueprint.shortTitle,
+    summary: blueprint.summary,
+    origin: "member-introduction",
+    subjectClass: blueprint.subjectClass,
+    originChamberKey: "house",
+    sponsorPersonId: seat.personId,
   });
+  return {
+    ...seat,
+    world,
+    measure: world.history.legislativeMeasures!.at(-1)!,
+    input: {
+      scenarioKey: "kentucky",
+      playerPersonId: seat.personId,
+      jurisdictionId: seat.jurisdictionId,
+    },
+  };
 }
 
-/** Runs the steps the briefing says the player may actually take. */
-function take(
-  world: World,
-  assignment: LegislativeAssignment,
-  steps: readonly MeasureStepKey[],
-): World {
-  let next = world;
-  for (const step of steps) {
-    next = applyLegislativeCommand(next, assignment, {
-      kind: "take-step",
-      step,
-    }).world;
-  }
-  return next;
-}
-
-describe("Legislative work happens in the player's own world", () => {
-  it("files the bill into the loaded world, not a world of its own", () => {
-    const { world: before, playerPersonId, capabilities } = staffer("one");
-    expect(before.history.legislativeMeasures ?? []).toHaveLength(0);
-
-    const { world, assignment } = openLegislativeWork(before, {
-      scenarioKey: "kentucky",
-      playerPersonId,
-      jurisdictionId: capabilities.legislativeJurisdictionId!,
-    });
-
-    const measures = world.history.legislativeMeasures ?? [];
-    expect(measures).toHaveLength(1);
-    expect(measures[0]!.id).toBe(assignment.measureId);
-    expect(world.id).toBe(before.id);
-    // The sponsor is somebody this world contains, not a scenario's person.
-    expect(world.people[assignment.sponsorPersonId]).toBeDefined();
+describe("Legislative work reads recorded measures and seated members", () => {
+  it("opens an eligible measure without creating a bill, person or outcome", () => {
+    const ready = recorded();
+    const before = serializeWorld(ready.world);
+    const opened = openLegislativeWork(ready.world, ready.input);
+    expect(opened.world).toBe(ready.world);
+    expect(serializeWorld(opened.world)).toBe(before);
+    expect(opened.assignment.measureId).toBe(ready.measure.id);
+    expect(opened.assignment.sponsorPersonId).toBe(ready.personId);
+    expect(opened.assignment.procedure.votePlan).toEqual({});
+    expect(opened.assignment.procedure.governorAction).toBeNull();
   });
 
-  it("keeps a step in the world it was taken in, through save and reload", () => {
-    const { world, assignment } = open("two");
-    const moved = take(world, assignment, [
-      "request-referral",
-      "request-committee-hearing",
-      "move-committee-report",
-    ]);
-    const before = measurePosition(moved, assignment.measureId);
-
-    const reloaded = deserializeWorld(serializeWorld(moved));
-    const reopened = openLegislativeWork(reloaded, {
-      scenarioKey: "kentucky",
-      playerPersonId:
-        reloaded.control.kind === "person" ? reloaded.control.personId : "",
-      jurisdictionId: (reloaded.history.legislativeMeasures ?? [])[0]!
-        .jurisdictionId,
-    });
-
-    // Reopening finds the bill where it was left rather than filing it again.
-    expect(reopened.world.history.legislativeMeasures ?? []).toHaveLength(1);
-    expect(reopened.assignment.measureId).toBe(assignment.measureId);
-    const after = measurePosition(
-      reopened.world,
-      reopened.assignment.measureId,
+  it("keeps the recorded measure and source through save and reload", () => {
+    const ready = recorded();
+    const loaded = deserializeWorld(serializeWorld(ready.world));
+    const reopened = openLegislativeWork(loaded, ready.input);
+    expect(reopened.world).toBe(loaded);
+    expect(reopened.assignment.measureId).toBe(ready.measure.id);
+    expect(reopened.world.history.legislativeMeasures).toEqual(
+      ready.world.history.legislativeMeasures,
     );
-    expect(after.phase).toBe(before.phase);
-    expect(after.chamberKey).toBe(before.chamberKey);
+  });
+
+  it("preserves an older saved office bill's identity and authored procedure", () => {
+    const ready = recorded("legislative-work:kentucky:measure");
+    const opened = openLegislativeWork(ready.world, ready.input);
+    expect(opened.world).toBe(ready.world);
+    expect(opened.assignment.measureId).toBe(ready.measure.id);
+    expect(opened.assignment.scenarioKey).toBe("kentucky");
     expect(
-      reopened.world.history.legislativeCommitteeActions ??
-        reopened.world.history.events.length,
-    ).toBeDefined();
-  });
-
-  it("does not let two saves in the same place share a bill's history", () => {
-    const first = open("save-one");
-    const second = open("save-two");
-    expect(first.world.id).not.toBe(second.world.id);
-    // Different worlds, therefore different measures: moving one bill through
-    // committee cannot show up in somebody else's game.
-    expect(first.assignment.measureId).not.toBe(second.assignment.measureId);
-
-    const movedFirst = take(first.world, first.assignment, [
-      "request-referral",
-    ]);
-    expect(
-      measurePosition(movedFirst, first.assignment.measureId).phase,
-    ).not.toBe(
-      measurePosition(second.world, second.assignment.measureId).phase,
-    );
-  });
-
-  it("offers only the bills written for the legislature the job is in", () => {
-    const kentucky = staffer("place-ky", "kentucky");
-    const nebraska = staffer("place-ne", "nebraska");
-
-    const kentuckyKeys = legislativeWorkAvailableIn(
-      kentucky.capabilities.legislativeJurisdictionId!,
-    );
-    const nebraskaKeys = legislativeWorkAvailableIn(
-      nebraska.capabilities.legislativeJurisdictionId!,
-    );
-    expect(kentuckyKeys.length).toBeGreaterThan(0);
-    expect(nebraskaKeys.length).toBeGreaterThan(0);
-    for (const key of kentuckyKeys) expect(nebraskaKeys).not.toContain(key);
-  });
-
-  it("refuses a bill from a legislature this character does not work in", () => {
-    const { world, playerPersonId, capabilities } = staffer("wrong-place");
-    expect(() =>
-      openLegislativeWork(world, {
-        scenarioKey: "nebraska",
-        playerPersonId,
-        jurisdictionId: capabilities.legislativeJurisdictionId!,
+      openingMeasureContentKey(ready.world, {
+        ...ready.input,
+        filed: ready.measure,
       }),
-    ).toThrow(/does not belong to this character's legislature/);
+    ).toBe("kentucky");
   });
 
-  it("shows the authored-measure notice on every bill", () => {
-    for (const scenarioKey of legislativeScenarioKeys()) {
-      expect(scenarioKey.trim().length).toBeGreaterThan(0);
-    }
-    const { world, assignment } = open("notice");
-    expect(assignment.measureNotice).toContain("not a real one");
-    const briefing = projectMeasureBriefing(world, assignment.measureId);
-    // The briefing renders whatever this world numbered its bill. It used to
-    // assert "HB 214", which is exactly the expectation a fresh life must not
-    // have to satisfy, so what is checked now is that a designation exists, is
-    // the origin chamber's, and is the one on the filed record.
-    expect(briefing.designation).toMatch(/^HB \d+$/);
-    const filed = world.history.legislativeMeasures.find(
-      (record) => record.id === assignment.measureId,
+  it("keeps a saved office bill's recorded step through reopening", () => {
+    const ready = recorded("legislative-work:kentucky:measure");
+    const opened = openLegislativeWork(ready.world, ready.input);
+    const moved = applyLegislativeCommand(ready.world, opened.assignment, {
+      kind: "take-step",
+      step: "request-referral",
+    }).world;
+    const loaded = deserializeWorld(serializeWorld(moved));
+    const reopened = openLegislativeWork(loaded, ready.input);
+    expect(reopened.world).toBe(loaded);
+    expect(reopened.assignment.measureId).toBe(ready.measure.id);
+    expect(measurePosition(loaded, ready.measure.id).phase).toBe(
+      measurePosition(moved, ready.measure.id).phase,
     );
-    expect(filed?.designation).toBe(briefing.designation);
+    expect(loaded.history.committeeReferrals).toHaveLength(1);
+    expect(loaded.history.committeeReferrals).toEqual(
+      moved.history.committeeReferrals,
+    );
+  });
+
+  it("does not fabricate an opening bill when the actual docket is empty", () => {
+    const ready = recorded();
+    const empty = seatFixture!.world;
+    const before = serializeWorld(empty);
+    expect(() => openLegislativeWork(empty, ready.input)).toThrow(
+      /No pending measure with a currently seated sponsor/,
+    );
+    expect(serializeWorld(empty)).toBe(before);
+  });
+
+  it.each(["existing-unseated", null])(
+    "rejects an unseated sponsor %s without creating a replacement",
+    (sponsorPersonId) => {
+      const ready = recorded();
+      const world: World = {
+        ...ready.world,
+        history: {
+          ...ready.world.history,
+          legislativeMeasures: [
+            {
+              ...ready.measure,
+              sponsorPersonId:
+                sponsorPersonId === null
+                  ? null
+                  : ready.world.personOrder.find(
+                      (id) => id !== ready.personId,
+                    )!,
+            },
+          ],
+        },
+      };
+      const before = serializeWorld(world);
+      expect(() => openLegislativeWork(world, ready.input)).toThrow(
+        /No pending measure with a currently seated sponsor/,
+      );
+      expect(serializeWorld(world)).toBe(before);
+    },
+  );
+
+  it("rejects a measure whose sponsor is seated in the other chamber", () => {
+    const ready = recorded();
+    const world: World = {
+      ...ready.world,
+      history: {
+        ...ready.world.history,
+        legislativeMeasures: [{ ...ready.measure, originChamberKey: "senate" }],
+      },
+    };
+    expect(() => openLegislativeWork(world, ready.input)).toThrow(
+      /No pending measure with a currently seated sponsor/,
+    );
+  });
+
+  it("offers only work belonging to the character's legislature", () => {
+    const ready = recorded();
+    expect(legislativeWorkAvailableIn(ready.jurisdictionId)).toContain(
+      "kentucky",
+    );
+    expect(() =>
+      openLegislativeWork(ready.world, {
+        ...ready.input,
+        scenarioKey: "nebraska",
+      }),
+    ).toThrow(/No active supported member seat matches/);
   });
 });
 
 describe("a bill says which catalog question it bears on", () => {
-  it("opens a Kentucky staffer's bill on the free-transit question, through a reload", () => {
-    const { world, assignment } = open("bears-on-kentucky");
-    const reloaded = deserializeWorld(serializeWorld(world));
-    expect(
-      measurePropositions(reloaded, assignment.measureId).map(
-        (proposition) => proposition.stableKey,
-      ),
-    ).toEqual([
-      "us-policy-positions:transportation-infrastructure.fare-free-transit",
-    ]);
-    expect(
-      projectMeasureBriefing(reloaded, assignment.measureId).questions,
-    ).toEqual(["Should local transit be free to ride?"]);
-  });
-
   it("links a drafted bill only where its configuration fits a shipped question", () => {
     const { world, playerPersonId, capabilities } = staffer("bears-on-draft");
     const draft = (variantKey: string, at: World) =>

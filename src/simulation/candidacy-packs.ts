@@ -63,19 +63,6 @@ import type {
  * to cover the gap.
  */
 
-/**
- * The game's own floor, not a jurisdiction's.
- *
- * Every real qualification below is `unknown`, and "unknown" must not resolve
- * to "anyone". So the game applies one conservative rule of its own and labels
- * it as its own: the same adult threshold the accepted setup screen already
- * uses before it will put a character to work in a legislature. When a
- * jurisdiction's real minimum age is sourced it replaces this, and a character
- * this rule turned away was turned away by the game, which is a different
- * sentence from "the law says no".
- */
-export const GAME_ADULT_CANDIDACY_AGE = 21;
-
 export interface ElectiveOfficeQualification {
   /** The age the jurisdiction requires. Unknown until a source says. */
   readonly minimumAge: RuleValue<number>;

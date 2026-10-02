@@ -4,10 +4,10 @@ import {
 } from "./recorded-employer";
 export {
   LOCAL_BUSINESS_PLACEHOLDER,
-  LOCAL_BUSINESS_WAGE_PERCENTILE,
   localBusinessWageMinor,
-  adultStartEmployer,
 } from "./recorded-employer";
+// Preserve the published opening API while the sole selector lives with town businesses.
+export { recordedTownEmployer as adultStartEmployer } from "./living-world/town-businesses";
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
@@ -555,7 +555,7 @@ function seatMissingLocalBusinesses(
         recipient: { kind: "person", personId: workerId },
         startsAt: today,
         amount: money(
-          localBusinessWageMinor(plan.kind, jurisdictionId).monthlyMinor,
+          localBusinessWageMinor(plan.kind, jurisdictionId, world).monthlyMinor,
           currency,
         ),
         cadenceKind: "schedule:monthly",

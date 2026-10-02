@@ -2,7 +2,6 @@ import {
   activeMemberSeats,
   resolveActiveMemberSeat,
 } from "./legislative-member-seat";
-import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import {
   canonicalStateExecutiveWaitAvailable,
@@ -19,23 +18,13 @@ import {
 import { addDays } from "../simulation/dates";
 import {
   AUTHORED_MEASURE_NOTICE,
-  applyCharacterHistoryPlan,
   authoredScenarioSeatCount,
-  characterHistoryContextPersonId,
-  createStableId,
-  chamberByKey,
-  defaultOriginChamber,
-  drawGeneratedPersonName,
-  catalogPropositionIds,
-  introduceMeasure,
   legislativeBlueprint,
   legislativeScenarioKeysForPlace,
   measurePosition,
   rulePackForMeasure,
-  nextMeasureNumbering,
   personName,
   seatBodyForPack,
-  SeededRng,
   simulationMinutesBetween,
   simulationMomentAtLocalTime,
 } from "../simulation";
@@ -45,7 +34,6 @@ import {
 } from "../simulation/legislative-procedure-world";
 import type {
   EntityId,
-  IsoDate,
   LegislativeBlueprint,
   LegislativeMeasureRecord,
   LegislativeProcedureContext,
@@ -69,7 +57,6 @@ import {
 } from "../simulation/governing/congress-chambers";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import { describeRoutineOutcome } from "./routine-outcome";
-import { BARGAINING_BRIEF_SCENARIO_KEY } from "./legislative-bargaining-brief";
 import {
   readRecordedLegislativeSitting,
   RECORDED_SITTING_NOTICE,
@@ -204,70 +191,26 @@ export function resolveLegislativeAssignmentForMeasure(
   };
 }
 
-/**
- * Which authored measure this world's session opened on.
- *
- * The bank already holds several written measures per legislature. The world's
- * own seed decides which of them this life is carrying — once, as a pure
- * function of facts the save already holds, so nothing is rolled when a menu
- * opens and the same seed replays the same bill.
- *
- * A world that has already filed its measure is never asked again. The filed
- * record is the answer, and the authored entry behind it is recovered from the
- * bill's own short title, so a save made before any of this keeps the exact
- * measure, procedure and votes it was played with.
- *
- * Institutional work keys have no authored alternatives; callers keep the
- * institution's blueprint rather than asking this.
- */
+/** Recover saved authored content without choosing or filing another measure. */
 export function openingMeasureContentKey(
-  world: World,
+  _world: World,
   input: {
     readonly scenarioKey: string;
     readonly jurisdictionId: EntityId;
     readonly filed?: LegislativeMeasureRecord | null;
   },
 ): string {
-  const eligible = legislativeScenarioKeysForPlace(input.jurisdictionId);
-  if (eligible.length === 0) return input.scenarioKey;
-
-  const filed = input.filed ?? null;
-  if (filed) {
-    const authored = eligible.find(
+  const filed = input.filed;
+  if (!filed) return input.scenarioKey;
+  return (
+    legislativeScenarioKeysForPlace(input.jurisdictionId).find(
       (key) => legislativeBlueprint(key).shortTitle === filed.shortTitle,
-    );
-    // A bill the player drafted themselves matches no authored entry. The
-    // capability key still names the right legislature, which is all the
-    // procedure needs.
-    return authored ?? input.scenarioKey;
-  }
-
-  // Where a legislature has an authored deliberation brief, the session opens
-  // on the measure that brief was written about.
-  //
-  // This is the split the numbering does not need. A bill's NUMBER is safe to
-  // draw everywhere, because it is the jurisdiction's own fact. WHICH written
-  // measure a session carries is not free in the same way: the filed sections,
-  // the fiscal note and its amounts, the beneficiary and its place, and what
-  // the colleagues in the members' room want are all written about one
-  // measure. Drawing a different one here would leave the room describing a
-  // bill the world did not file — which is the fabrication this whole wave
-  // exists to remove, not a second seed's worth of variety.
-  //
-  // So the constraint is a real content dependency, not a literal a component
-  // happens to contain: it binds only where authored deliberation exists, and
-  // a legislature without one still draws from its written measures below.
-  if (eligible.includes(BARGAINING_BRIEF_SCENARIO_KEY))
-    return BARGAINING_BRIEF_SCENARIO_KEY;
-
-  const index = new SeededRng(world.seed)
-    .fork(`legislative-work:opening-measure:${input.jurisdictionId}`)
-    .integer(0, eligible.length);
-  return eligible[index] ?? input.scenarioKey;
+    ) ?? input.scenarioKey
+  );
 }
 
 /**
- * Puts a bill in front of the player, in their own world.
+ * Opens a recorded bill in the player's own world without creating facts.
  *
  * Called again for a world that already has the measure, it returns the same
  * assignment rather than filing a second copy — which is what makes save,
@@ -333,82 +276,42 @@ export function openLegislativeWork(
     );
   }
 
-  // The office's bills, in the order it filed them. A finished bill, or one
-  // whose session has closed, is history; the next opening files a new one.
+  // Older office assignments keep their recorded identity, including completed
+  // measures. Opening never replaces a saved bill or rewrites its history.
   const baseKey = `legislative-work:${input.scenarioKey}:measure`;
-  const officeMeasures = (world.history.legislativeMeasures ?? []).filter(
-    (record) =>
-      record.stableKey === baseKey ||
-      record.stableKey.startsWith(`${baseKey}:`),
-  );
-  const latest = officeMeasures.at(-1);
-  // A new bill is filed only when a session is open to take it; until then
-  // the finished or closed bill stays the office's readable record.
-  const latestDone =
-    latest !== undefined &&
-    (measurePosition(world, latest.id).terminal ||
-      measureSessionIsClosed(world, latest.id).closed) &&
-    regularSessionActionRefusal(activePack, world.currentDate) === null;
-  const measureStableKey =
-    latest === undefined
-      ? baseKey
-      : latestDone
-        ? `${baseKey}:${officeMeasures.length + 1}`
-        : latest.stableKey;
-  const existing = latestDone ? undefined : latest;
-
-  // Which authored measure this world's session is carrying.
-  //
-  // The institutional route has no bank of alternatives to draw from, so it
-  // keeps the institution's own blueprint and the seat checks above stand
-  // unchanged. The authored route draws one of that legislature's written
-  // measures from the world's seed, so two lives in the same state are not
-  // handed the same bill because one capability key names one entry.
-  //
-  // Only the authored CONTENT is chosen here. The pack, the seat checks and
-  // the work key are the institution's and are not re-decided: every authored
-  // entry for a jurisdiction shares its rule pack.
-  const content = institutional
-    ? blueprint
-    : legislativeBlueprint(
-        openingMeasureContentKey(world, {
-          scenarioKey: input.scenarioKey,
-          jurisdictionId: input.jurisdictionId,
-          filed: existing ?? null,
-        }),
+  const saved = (world.history.legislativeMeasures ?? [])
+    .filter(
+      (record) =>
+        record.jurisdictionId === input.jurisdictionId &&
+        record.rulePackId === activePack.packId &&
+        (record.stableKey === baseKey ||
+          record.stableKey.startsWith(`${baseKey}:`)),
+    )
+    .at(-1);
+  if (saved) {
+    if (!saved.sponsorPersonId || !world.people[saved.sponsorPersonId])
+      throw new RegularSessionUnavailableError(
+        "The saved bill has no recorded sponsor in this world.",
       );
-
-  // The member the office serves. A staffer does not sponsor bills, so the
-  // sponsor is a legislator this world actually contains rather than the
-  // player with a title they do not hold.
-  //
-  // Where the state's legislature is seated with real people, the office
-  // works for one of them: a member of the chamber the bill starts in, the
-  // same one every time in this world. Otherwise the office's member is a
-  // person made for the purpose, as before.
-  const sponsorKey = `legislative-work:${input.scenarioKey}:member`;
-  const seatedSponsor = institutional
-    ? null
-    : seatedOfficeMember(world, content, input.scenarioKey);
-  const sponsorPersonId = institutional
-    ? input.playerPersonId
-    : (seatedSponsor ?? characterHistoryContextPersonId(world, sponsorKey));
-
-  if (existing) {
+    const content = institutional
+      ? blueprint
+      : legislativeBlueprint(
+          openingMeasureContentKey(world, { ...input, filed: saved }),
+        );
     return {
       world,
       assignment: {
         ...assignmentFor(
           world,
           content,
-          existing.id,
-          existing.sponsorPersonId ?? sponsorPersonId,
+          saved.id,
+          saved.sponsorPersonId,
           input.playerPersonId,
         ),
-        ...(institutional
+        ...(institutional && seat
           ? {
               playerPersonId: input.playerPersonId,
-              memberSeatStableKey: seat!.relationshipStableKey,
+              memberSeatStableKey: seat.relationshipStableKey,
             }
           : {}),
       },
@@ -421,86 +324,41 @@ export function openLegislativeWork(
   );
   if (sessionRefusal) throw new RegularSessionUnavailableError(sessionRefusal);
 
-  const rng = new SeededRng(world.seed).fork(
-    `legislative-member:${input.scenarioKey}`,
+  // Filing order is the recorded docket order. A pending bill is eligible only
+  // in this institution, with its sponsor still seated on the origin floor.
+  const measure = (world.history.legislativeMeasures ?? []).find(
+    (record) =>
+      record.jurisdictionId === input.jurisdictionId &&
+      record.rulePackId === activePack.packId &&
+      !measurePosition(world, record.id).terminal &&
+      !measureSessionIsClosed(world, record.id).closed &&
+      seatedOfficeMember(world, record) !== null,
   );
-  const name = drawGeneratedPersonName(rng);
-  // The office's member is the same person for every bill it files.
-  const sponsorExists =
-    !institutional &&
-    (seatedSponsor !== null || Boolean(world.people[sponsorPersonId]));
-  let next =
-    institutional || sponsorExists
-      ? world
-      : applyCharacterHistoryPlan(world, {
-          stableKey: sponsorKey,
-          mode: "quick-generated",
-          personId: input.playerPersonId,
-          transitions: [
-            {
-              kind: "context-person",
-              input: {
-                stableKey: sponsorKey,
-                givenName: name.givenName,
-                familyName: name.familyName,
-                identity: name.identity,
-                birthDate: memberBirthDate(world.currentDate),
-                homeJurisdictionId: input.jurisdictionId,
-              },
-            },
-          ],
-        }).world;
-
-  // Where the bill starts, and therefore what it is called.
-  //
-  // A seated member introduces in their own chamber, which is the fact the
-  // institutional route already established; the authored route keeps the
-  // pack's own default origin. Naming it explicitly on both paths is what lets
-  // the number come from the same chamber the bill is actually filed in.
-  const originChamber = institutional
-    ? chamberByKey(content.pack, seat!.chamberKey)
-    : defaultOriginChamber(content.pack);
-
-  next = introduceMeasure(next, {
-    stableKey: measureStableKey,
-    jurisdictionId: input.jurisdictionId,
-    rulePackId: content.pack.packId,
-    // This jurisdiction's numbering, in this world — never the bank's literal.
-    ...nextMeasureNumbering(next, {
-      jurisdictionId: input.jurisdictionId,
-      originChamber,
-      rulePackId: content.pack.packId,
-    }),
-    shortTitle: content.shortTitle,
-    summary: content.summary,
-    origin: "member-introduction",
-    subjectClass: content.subjectClass,
-    sponsorPersonId,
-    originChamberKey: originChamber.chamberKey,
-    propositionIds: catalogPropositionIds(next, content.propositionKeys),
-  });
-
-  const measureId = createStableId(
-    "legislative-measure",
-    `${next.id}:${input.jurisdictionId}:${measureStableKey}`,
-  );
+  if (!measure)
+    throw new RegularSessionUnavailableError(
+      "No pending measure with a currently seated sponsor is recorded for this legislature. File a supported draft or wait for a member to introduce a measure.",
+    );
+  // Ordinary recorded measures use the institution's procedure, not an authored
+  // bill's predetermined votes or executive disposition.
+  if (seat) {
+    const resolved = resolveLegislativeAssignmentForMeasure(world, {
+      measureId: measure.id,
+      playerPersonId: input.playerPersonId,
+      memberSeatStableKey: seat.relationshipStableKey,
+    });
+    if (resolved.kind === "unavailable")
+      throw new RegularSessionUnavailableError(resolved.reason);
+    return { world, assignment: resolved.assignment };
+  }
   return {
-    world: next,
-    assignment: {
-      ...assignmentFor(
-        next,
-        content,
-        measureId,
-        sponsorPersonId,
-        input.playerPersonId,
-      ),
-      ...(institutional
-        ? {
-            playerPersonId: input.playerPersonId,
-            memberSeatStableKey: seat!.relationshipStableKey,
-          }
-        : {}),
-    },
+    world,
+    assignment: assignmentFor(
+      world,
+      legislativeBlueprint(`institution:${measure.rulePackId}`),
+      measure.id,
+      measure.sponsorPersonId!,
+      input.playerPersonId,
+    ),
   };
 }
 
@@ -921,26 +779,39 @@ function seatedBodies(
     : null;
 }
 
-/** The seated member a staffer's office works for, picked once per world. */
+/** Read the sponsor of record against the actual current origin chamber. */
 function seatedOfficeMember(
   world: World,
-  blueprint: LegislativeBlueprint,
-  scenarioKey: string,
+  measure: LegislativeMeasureRecord,
 ): EntityId | null {
-  if (!seatedBodies(world, blueprint)) return null;
-  const origin = defaultOriginChamber(blueprint.pack);
-  const members =
-    seatedChamberForPack(
-      world,
-      blueprint.pack.packId,
-      origin.chamberKey,
-      origin.name,
-    )?.body.members.filter((member) => member.personId) ?? [];
-  if (members.length === 0) return null;
-  const pick = new SeededRng(world.seed)
-    .fork(`legislative-member:${scenarioKey}:seated`)
-    .integer(0, members.length);
-  return members[pick]!.personId;
+  if (
+    !measure.originChamberKey ||
+    !measure.sponsorPersonId ||
+    !world.people[measure.sponsorPersonId]
+  )
+    return null;
+  const membership = resolveActiveMemberSeat(world, measure.sponsorPersonId, {
+    governingJurisdictionId: measure.jurisdictionId,
+    legislativeRulePackId: measure.rulePackId,
+    chamberKey: measure.originChamberKey,
+  });
+  if (membership.kind === "seated") return measure.sponsorPersonId;
+  const pack = rulePackForMeasure(world, measure.id);
+  const origin = pack.chambers.find(
+    (chamber) => chamber.chamberKey === measure.originChamberKey,
+  );
+  if (!origin) return null;
+  const chamber = seatedChamberForPack(
+    world,
+    pack.packId,
+    origin.chamberKey,
+    origin.name,
+  );
+  return chamber?.body.members.some(
+    (member) => member.personId === measure.sponsorPersonId,
+  )
+    ? measure.sponsorPersonId
+    : null;
 }
 
 /**
@@ -1011,14 +882,4 @@ function linkedPeopleForChamber(
     push(input.sponsorPersonId);
   }
   return linked;
-}
-
-/** An adult old enough to be seated. No other claim is made about them. */
-function memberBirthDate(currentDate: IsoDate): IsoDate {
-  return inventedPersonBirthDate(null, {
-    role: "seated-colleague",
-    referenceDate: currentDate,
-    age: 47,
-    placement: { monthDay: currentDate.slice(5) as `${number}-${number}` },
-  });
 }

@@ -408,7 +408,7 @@ export function buildProductionWorld(
     !input.preStartYear &&
     ageOnDate(player.birthDate, world.currentDate) >= DEPENDENT_AGE_CEILING
   )
-    world = establishDrawnAdultFamily(world, {
+    world = establishDrawnAdultFamily(ensureTownResidents(world, player.id), {
       personId: player.id,
       jurisdictionId: jurisdiction.id,
     });
@@ -445,8 +445,11 @@ export function buildProductionWorld(
       employerId: employer.organization.id,
       employerName,
       employerFormedAt: employer.organization.formedAt,
-      monthlyWageMinor: localBusinessWageMinor(employer.kind, jurisdiction.id)
-        .monthlyMinor,
+      monthlyWageMinor: localBusinessWageMinor(
+        employer.kind,
+        jurisdiction.id,
+        world,
+      ).monthlyMinor,
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
   }
@@ -622,8 +625,11 @@ export function finalizePreStartPlayer(
       employerId: employer.organization.id,
       employerName,
       employerFormedAt: employer.organization.formedAt,
-      monthlyWageMinor: localBusinessWageMinor(employer.kind, jurisdiction.id)
-        .monthlyMinor,
+      monthlyWageMinor: localBusinessWageMinor(
+        employer.kind,
+        jurisdiction.id,
+        world,
+      ).monthlyMinor,
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
   }

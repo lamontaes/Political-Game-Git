@@ -37,7 +37,10 @@ import {
 import { resolveRequiredVotes } from "./legislature-rules";
 import { stateConstitutionalRoster } from "./governing/chamber-votes";
 import { activeWorkRelationshipsAt } from "./life-queries";
-import { stateJurisdictionForKey } from "./life-places";
+import {
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction as canonicalStateKeyForJurisdiction,
+} from "./life-places";
 import type { ConstitutionalProcessKind } from "./constitutional-types";
 import { assertConstitutionalRuleFieldDelta } from "./enacted-rule-changes";
 import { assertPolicyProvisionDelta } from "./policy-provisions";
@@ -188,7 +191,9 @@ function stateKeyForJurisdiction(
 ): `US-${string}` | null {
   const j = world.jurisdictions[jurisdictionId];
   if (!j) return null;
-  if (["california", "us-ca"].includes(j.slug)) return "US-CA";
+  const recordedKey = canonicalStateKeyForJurisdiction(j);
+  if (recordedKey && ARTICLE_V_STATE_KEYS.includes(recordedKey))
+    return recordedKey as `US-${string}`;
   for (const usps of ARTICLE_V_STATE_KEYS) {
     const canonical = stateJurisdictionForKey(usps);
     if (
