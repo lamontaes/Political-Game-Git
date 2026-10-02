@@ -594,7 +594,18 @@ export function studyProgressSummary(
           studyInactiveDays(world, enrollmentId),
         )
       : null;
-  const periodCost = path.periodCostMinor ?? 0;
+  const periodCost =
+    recordedStudyPeriodTuitionPrice(world, enrollmentId, completed + 1)
+      ?.amountMinor ??
+    path.periodCostMinor ??
+    0;
+  let totalCost = 0;
+  for (let period = 1; period <= total; period++)
+    totalCost +=
+      recordedStudyPeriodTuitionPrice(world, enrollmentId, period)
+        ?.amountMinor ??
+      path.periodCostMinor ??
+      0;
   return {
     model: "periods",
     completed,
@@ -603,7 +614,7 @@ export function studyProgressSummary(
     periodInYear,
     nextDueDate,
     periodCostMinor: periodCost,
-    totalCostMinor: total * periodCost,
+    totalCostMinor: totalCost,
   };
 }
 
