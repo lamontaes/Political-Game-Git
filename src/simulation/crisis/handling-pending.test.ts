@@ -61,7 +61,14 @@ function fixture(twoReaders = false) {
     visibility: "public",
     tags: [],
     summary: "The actor requested disaster help.",
-    context: null,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: "Requested help",
+      motivation: null,
+      immediateReaction: null,
+    },
   });
   world = appendCrisisRecord(world, {
     stableKey: "a125:response",
