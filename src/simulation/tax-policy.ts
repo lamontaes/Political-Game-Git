@@ -923,9 +923,11 @@ export function recordTaxBase(
   makeIsoDate(input.occurredAt);
   validatePayer(world, input.payer);
   if (
-    world.history.taxBases?.some(
-      (row) => row.sourceEventId === input.sourceEventId,
-    )
+    recordsByStringField(
+      world.history.taxBases ?? [],
+      "sourceEventId",
+      input.sourceEventId,
+    ).length > 0
   )
     throw new Error("This occurrence already has a recorded tax base.");
   const source = taxBaseOccurrenceSource(world, input.sourceEventId);

@@ -99,7 +99,6 @@ import {
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
-import { ensureEmployerCashPositions } from "../opening-employer-cash";
 import {
   resourceFlowTermsAt,
   resourceTransferOutcomesForFlow,
