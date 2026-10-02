@@ -38,12 +38,50 @@
       "retrievedAt": "2026-10-02",
       "downloadSha256": "37eeccdcad8f263149a621c9fae91647fd939f3fd27ea67321b743ee8300ec86",
       "aggregation": "FRED annual average of monthly observations, as returned by FRED"
+    },
+    "decemberPrices": {
+      "seriesId": "CPIAUCSL",
+      "provider": "FRED; original provider BLS",
+      "seriesUrl": "https://fred.stlouisfed.org/series/CPIAUCSL",
+      "downloadUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2014-01-01&coed=2024-12-31",
+      "retrievedAt": "2026-10-02",
+      "downloadSha256": "bb26fe6cf50524ec95e91306d2e0fef5dc08493b72276bb495270d0b6966f92e",
+      "aggregation": "December monthly observation"
+    },
+    "medianHomePrice": {
+      "seriesId": "MSPUS",
+      "provider": "FRED; original provider Census/HUD",
+      "seriesUrl": "https://fred.stlouisfed.org/series/MSPUS",
+      "downloadUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MSPUS&cosd=2015-01-01&coed=2024-12-31&fq=Annual&fam=avg",
+      "retrievedAt": "2026-10-02",
+      "downloadSha256": "ccdeb063902860d500c35a1ac10d63852633cb49ed422209de7caebd758c9c99",
+      "aggregation": "Annual average of quarterly median new-home sale prices"
+    },
+    "medianHouseholdIncome": {
+      "seriesId": "MEHOINUSA646N",
+      "provider": "FRED; original provider Census",
+      "seriesUrl": "https://fred.stlouisfed.org/series/MEHOINUSA646N",
+      "downloadUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MEHOINUSA646N&cosd=2015-01-01&coed=2024-12-31",
+      "retrievedAt": "2026-10-02",
+      "downloadSha256": "d3ea7bd3c4b0a36f3451d12e5dcab052d181b25ef671d2ead23fcd78a3368eed",
+      "aggregation": "Native annual nominal-dollar median household income"
+    },
+    "householdDebtService": {
+      "seriesId": "TDSP",
+      "provider": "FRED; original provider Federal Reserve Board",
+      "seriesUrl": "https://fred.stlouisfed.org/series/TDSP",
+      "downloadUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TDSP&cosd=2015-01-01&coed=2024-12-31&fq=Annual&fam=avg",
+      "retrievedAt": "2026-10-02",
+      "downloadSha256": "5c397913acd61519f9c87c604dcae4ae89fe6b334ab1337726a1a9d185566a8d",
+      "aggregation": "Annual average of quarterly household debt-service ratios"
     }
   },
   "calculations": {
     "inflationAnnualAveragePct": "100 * (annual CPI average / prior annual CPI average - 1); not December-over-December inflation",
     "realGdpGrowthAnnualPct": "100 * (annual real GDP / prior annual real GDP - 1)",
-    "realGrowthContinuouslyCompoundedAnnualPct": "100 * ln(annual real GDP / prior annual real GDP)"
+    "realGrowthContinuouslyCompoundedAnnualPct": "100 * ln(annual real GDP / prior annual real GDP)",
+    "inflation12mPct": "100 * (December CPIAUCSL / prior December CPIAUCSL - 1)",
+    "homePriceToHouseholdIncomeRatio": "Annual average nominal median new-home sale price / same-year nominal median household income; affordability ratio, not supply-demand balance"
   },
   "incompleteYears": [
     {
@@ -56,11 +94,9 @@
     }
   ],
   "missingContract": [
-    "No recorded regime or admitted mapping to near-reference/modest/major.",
-    "Housing supply/demand ratio not in these four sources.",
-    "Federal funds is a percent interest rate, not a measured 0..1 credit-tightness score.",
-    "Legacy macro volatilityScale and cycle/cost/housing/credit latents are model fields, not observations in these sources.",
-    "Annual-average CPI change must not be mislabeled as a December 12-month rate."
+    "Housing affordability is observed; no admitted conversion to housing supply/demand balance.",
+    "TDSP is percent disposable income spent on household debt service; no admitted conversion to a credit-tightness score.",
+    "R21 permits neutral MODEL STATE for undefined model components; model labels must remain separate from observed-year fields."
   ],
   "rows": [
     {
@@ -74,9 +110,13 @@
       "realGdpGrowthAnnualPct": 2.945550455997714,
       "realGrowthContinuouslyCompoundedAnnualPct": 2.9030026114549488,
       "effectiveFederalFundsAnnualAveragePct": 0.13,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 237.761,
+      "priorConsumerPriceIndexDecember": 236.252,
+      "inflation12mPct": 0.6387247515364791,
+      "medianHomeSalePriceUsd": 294150.0,
+      "medianHouseholdIncomeUsd": 56520.0,
+      "homePriceToHouseholdIncomeRatio": 5.2043524416135885,
+      "householdDebtServicePctDisposableIncome": 11.596811
     },
     {
       "year": 2016,
@@ -89,9 +129,13 @@
       "realGdpGrowthAnnualPct": 1.8194514762052139,
       "realGrowthContinuouslyCompoundedAnnualPct": 1.8030975280517232,
       "effectiveFederalFundsAnnualAveragePct": 0.4,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 242.637,
+      "priorConsumerPriceIndexDecember": 237.761,
+      "inflation12mPct": 2.0507989115119862,
+      "medianHomeSalePriceUsd": 305125.0,
+      "medianHouseholdIncomeUsd": 59040.0,
+      "homePriceToHouseholdIncomeRatio": 5.168106368563685,
+      "householdDebtServicePctDisposableIncome": 11.791257
     },
     {
       "year": 2017,
@@ -104,9 +148,13 @@
       "realGdpGrowthAnnualPct": 2.4576223017508614,
       "realGrowthContinuouslyCompoundedAnnualPct": 2.4279086141565958,
       "effectiveFederalFundsAnnualAveragePct": 1.0,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 247.805,
+      "priorConsumerPriceIndexDecember": 242.637,
+      "inflation12mPct": 2.129930719552253,
+      "medianHomeSalePriceUsd": 322425.0,
+      "medianHouseholdIncomeUsd": 61140.0,
+      "homePriceToHouseholdIncomeRatio": 5.273552502453386,
+      "householdDebtServicePctDisposableIncome": 11.778974
     },
     {
       "year": 2018,
@@ -119,9 +167,13 @@
       "realGdpGrowthAnnualPct": 2.966505069165981,
       "realGrowthContinuouslyCompoundedAnnualPct": 2.923355585142827,
       "effectiveFederalFundsAnnualAveragePct": 1.83,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 252.767,
+      "priorConsumerPriceIndexDecember": 247.805,
+      "inflation12mPct": 2.0023809043401064,
+      "medianHomeSalePriceUsd": 325275.0,
+      "medianHouseholdIncomeUsd": 63180.0,
+      "homePriceToHouseholdIncomeRatio": 5.148385565052232,
+      "householdDebtServicePctDisposableIncome": 11.632242
     },
     {
       "year": 2019,
@@ -134,9 +186,13 @@
       "realGdpGrowthAnnualPct": 2.5838253301888825,
       "realGrowthContinuouslyCompoundedAnnualPct": 2.551008646693919,
       "effectiveFederalFundsAnnualAveragePct": 2.16,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 258.63,
+      "priorConsumerPriceIndexDecember": 252.767,
+      "inflation12mPct": 2.3195274699624457,
+      "medianHomeSalePriceUsd": 320250.0,
+      "medianHouseholdIncomeUsd": 68700.0,
+      "homePriceToHouseholdIncomeRatio": 4.6615720524017465,
+      "householdDebtServicePctDisposableIncome": 11.625294
     },
     {
       "year": 2020,
@@ -149,9 +205,13 @@
       "realGdpGrowthAnnualPct": -2.08137597860093,
       "realGrowthContinuouslyCompoundedAnnualPct": -2.1033419391852113,
       "effectiveFederalFundsAnnualAveragePct": 0.38,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 262.045,
+      "priorConsumerPriceIndexDecember": 258.63,
+      "inflation12mPct": 1.3204191315779434,
+      "medianHomeSalePriceUsd": 328150.0,
+      "medianHouseholdIncomeUsd": 68010.0,
+      "homePriceToHouseholdIncomeRatio": 4.825025731510072,
+      "householdDebtServicePctDisposableIncome": 10.444725
     },
     {
       "year": 2021,
@@ -164,9 +224,13 @@
       "realGdpGrowthAnnualPct": 6.268342823338013,
       "realGrowthContinuouslyCompoundedAnnualPct": 6.079724525345092,
       "effectiveFederalFundsAnnualAveragePct": 0.08,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 280.845,
+      "priorConsumerPriceIndexDecember": 262.045,
+      "inflation12mPct": 7.174340285065539,
+      "medianHomeSalePriceUsd": 383000.0,
+      "medianHouseholdIncomeUsd": 70780.0,
+      "homePriceToHouseholdIncomeRatio": 5.411133088443063,
+      "householdDebtServicePctDisposableIncome": 9.782719
     },
     {
       "year": 2022,
@@ -179,9 +243,13 @@
       "realGdpGrowthAnnualPct": 2.4295971024682617,
       "realGrowthContinuouslyCompoundedAnnualPct": 2.400551905876915,
       "effectiveFederalFundsAnnualAveragePct": 1.68,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 298.832,
+      "priorConsumerPriceIndexDecember": 280.845,
+      "inflation12mPct": 6.404600402357152,
+      "medianHomeSalePriceUsd": 432950.0,
+      "medianHouseholdIncomeUsd": 74580.0,
+      "homePriceToHouseholdIncomeRatio": 5.805175650308394,
+      "householdDebtServicePctDisposableIncome": 10.615479
     },
     {
       "year": 2023,
@@ -194,9 +262,13 @@
       "realGdpGrowthAnnualPct": 2.918555239317744,
       "realGrowthContinuouslyCompoundedAnnualPct": 2.876776362110971,
       "effectiveFederalFundsAnnualAveragePct": 5.02,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 308.741,
+      "priorConsumerPriceIndexDecember": 298.832,
+      "inflation12mPct": 3.3159099427102934,
+      "medianHomeSalePriceUsd": 426525.0,
+      "medianHouseholdIncomeUsd": 80610.0,
+      "homePriceToHouseholdIncomeRatio": 5.291216970599181,
+      "householdDebtServicePctDisposableIncome": 10.746274
     },
     {
       "year": 2024,
@@ -209,9 +281,13 @@
       "realGdpGrowthAnnualPct": 2.9517383169920475,
       "realGrowthContinuouslyCompoundedAnnualPct": 2.909013240378789,
       "effectiveFederalFundsAnnualAveragePct": 5.14,
-      "regime": null,
-      "housingSupplyDemandRatio": null,
-      "creditTightness": null
+      "consumerPriceIndexDecember": 317.604,
+      "priorConsumerPriceIndexDecember": 308.741,
+      "inflation12mPct": 2.870690967509981,
+      "medianHomeSalePriceUsd": 418975.0,
+      "medianHouseholdIncomeUsd": 83160.0,
+      "homePriceToHouseholdIncomeRatio": 5.038179413179413,
+      "householdDebtServicePctDisposableIncome": 11.08488
     }
   ]
 }

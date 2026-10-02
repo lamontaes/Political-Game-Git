@@ -107,6 +107,15 @@ export interface PoliticalStartingConditionsRecord extends ConditionRecordBase {
 }
 
 export interface MacroStartingConditionsRecord extends ConditionRecordBase {
+  /** Absent on older saves. Observations stay distinct from model coordinates. */
+  readonly observedYear?: {
+    readonly year: number;
+    readonly source: string;
+    readonly effectiveFederalFundsAnnualAveragePct: number;
+    readonly homePriceToHouseholdIncomeRatio: number | null;
+    readonly householdDebtServicePctDisposableIncome: number | null;
+  };
+  readonly modelStateBasis?: string;
   readonly kind: "macro-starting-conditions";
   readonly contractVersion: "crunch46-macro-start/v1";
   readonly regime: StartingRegime;

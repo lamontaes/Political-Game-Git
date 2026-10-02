@@ -24,9 +24,50 @@ import {
   zeroPoliticalLatents,
 } from "./political-start";
 import type { StartingRegime } from "./types";
+import nationalAnnualConditions from "../../../data/research/macro/national-annual-conditions.json" with { type: "json" };
 
 /** Only the seed feeds these generators; no other World field is read. */
 const seedWorld = (seed: string) => ({ seed }) as unknown as World;
+
+describe("R21 observed-year macro opening", () => {
+  it("uses one actual year for every observation and labels neutral model state", () => {
+    const selectedYears = new Set<number>();
+    for (let index = 0; index < 40; index += 1) {
+      const world = seedWorld(`r21-observed-year:${index}`);
+      const regime = drawStartingRegime(world);
+      const record = drawMacroStartingConditions(world, regime);
+      const source = nationalAnnualConditions.rows.find(
+        (row) => row.year === record.observedYear!.year,
+      )!;
+      selectedYears.add(source.year);
+      expect(record.initial.unemploymentPct).toBe(
+        source.unemploymentAnnualAveragePct,
+      );
+      expect(record.initial.inflation12mPct).toBeCloseTo(
+        source.inflation12mPct,
+        5,
+      );
+      expect(record.initial.realGrowthAnnualPct).toBeCloseTo(
+        source.realGrowthContinuouslyCompoundedAnnualPct,
+        5,
+      );
+      expect(record.observedYear!.effectiveFederalFundsAnnualAveragePct).toBe(
+        source.effectiveFederalFundsAnnualAveragePct,
+      );
+      expect(record.observedYear!.homePriceToHouseholdIncomeRatio).toBe(
+        source.homePriceToHouseholdIncomeRatio,
+      );
+      expect(record.observedYear!.householdDebtServicePctDisposableIncome).toBe(
+        source.householdDebtServicePctDisposableIncome,
+      );
+      expect(record.modelStateBasis).toContain("MODEL STATE AT START");
+      expect(record.latents.housing).toBe(0);
+      expect(record.latents.credit).toBe(0);
+      expect(drawMacroStartingConditions(world, regime)).toEqual(record);
+    }
+    expect(selectedYears.size).toBeGreaterThan(1);
+  });
+});
 
 describe("deterministic math", () => {
   it("matches the platform functions closely without depending on them", () => {
