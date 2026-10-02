@@ -1,15 +1,10 @@
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import defenseData from "../../../data/research/federal/defense-contracts-by-state-fy2024.json" with { type: "json" };
-import farmData from "../../../data/research/federal/farm-payments-and-land-values-2025.json" with { type: "json" };
 import outlayTerms from "../../../data/research/federal/federal-outlay-terms-fy2025.json" with { type: "json" };
 import {
   defenseBuildUpShare,
   GROW_DEFENSE_SPENDING_QUESTION,
 } from "../federal-defense-spending";
-import {
-  CUT_FARM_SUBSIDIES_QUESTION,
-  FARM_PAYMENT_CUT_SHARE,
-} from "../federal-farm-subsidy-law";
 import {
   DEBT_LIMIT_CUTS_QUESTION,
   INCREASE_FOREIGN_AID_QUESTION,
@@ -116,11 +111,6 @@ const DEBT_LIMIT_CUT_SHARE_OF_LINES =
     0,
   );
 
-/** Farm program payments a cut removes, as a share of all farm outlays. */
-const FARM_CUT_SHARE_OF_AGRICULTURE =
-  (FARM_PAYMENT_CUT_SHARE * farmData.national.meanPaymentsYearly) /
-  federal.outlays.agriculture;
-
 /** Defense contracts, fiscal 2024, as a share of fiscal 2025 defense outlays. */
 const CONTRACTS_SHARE_OF_DEFENSE =
   (defenseData.buildUp.contractsByFiscalYearBillions["2024"] * 1e9) /
@@ -146,14 +136,6 @@ export const FEDERAL_LAW_EFFECTS: readonly FederalLawEffect[] = [
     timing: "month",
     basis: `Paying for a higher debt limit cuts $${outlayTerms.debtLimitCut.yearlyDollars / 1e9} billion a year, the Fiscal Responsibility Act of 2023's $1.5 trillion over ten years (Congressional Budget Office), taken evenly from every outlay but national defense and net interest: ${(DEBT_LIMIT_CUT_SHARE_OF_LINES * 100).toFixed(2)}% of each.`,
   })),
-  {
-    questionKey: CUT_FARM_SUBSIDIES_QUESTION,
-    line: { kind: "outlay", key: "agriculture" },
-    toYes: -FARM_CUT_SHARE_OF_AGRICULTURE,
-    toNo: null,
-    timing: "month",
-    basis: `Cutting farm subsidies removes ${(FARM_PAYMENT_CUT_SHARE * 100).toFixed(2)}% of the $${(farmData.national.meanPaymentsYearly / 1e9).toFixed(1)} billion a year of government payments to farms (2021 to 2025 average, USDA ERS), the median fall in the years payments fell since 1996: ${(FARM_CUT_SHARE_OF_AGRICULTURE * 100).toFixed(2)}% of Agriculture outlays (Build 11's federal-farm-subsidy-law.ts).`,
-  },
   {
     questionKey: GROW_DEFENSE_SPENDING_QUESTION,
     line: { kind: "outlay", key: "nationalDefense" },
@@ -372,6 +354,7 @@ export function settleFederalTreasuryMonth(
 
 /** Existing intercity rail payments use transportation; unclassified ones remain explicit. */
 export function federalProgramLine(programKey: string): FederalOutlay {
+  if (programKey.split(":")[0] === "farm") return "agriculture";
   return programKey.split(":")[0] === "passenger-rail"
     ? "transportation"
     : "otherPrograms";

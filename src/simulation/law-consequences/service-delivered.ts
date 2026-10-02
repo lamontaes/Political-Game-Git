@@ -28,6 +28,7 @@ import type {
 import type { EntityId, PublicProgramRecord, World } from "../types";
 
 import {
+  FARM_PAYMENT_QUESTION,
   SERVICE_SELECTOR,
   SERVICE_ACTION,
   SERVICE_HOURS,
@@ -282,11 +283,100 @@ function paidServiceRecipients(
   return [];
 }
 
+/** The native program writer already moved and stamped this exact cash payment. */
+function resolveRecordedFarmPayment(
+  world: World,
+  row: LawConsequenceRow,
+  context: LawConsequenceContext,
+): readonly ResolvedLawConsequence[] {
+  if (
+    row.id !== SERVICE_DELIVERED_LAW_ROWS[FARM_PAYMENT_QUESTION]?.[0]?.id ||
+    context.activity !== "payment" ||
+    context.questionKey !== FARM_PAYMENT_QUESTION
+  )
+    return [];
+  const payment = recordById(
+    world.history.resourceTransferOutcomes,
+    context.activityId,
+  );
+  if (
+    !payment ||
+    payment.occurredAt !== context.onDate ||
+    payment.occurredAt > world.currentDate ||
+    !["completed", "partial"].includes(payment.status) ||
+    payment.transferredAmount.minorUnits <= 0
+  )
+    return [];
+  const flow = recordById(world.history.resourceFlows, payment.resourceFlowId);
+  if (
+    !flow ||
+    flow.basisReference.kind !== "public-program" ||
+    flow.recipient.kind !== "organization" ||
+    !context.subjectIds.includes(flow.recipient.organizationId)
+  )
+    return [];
+  const commitment = recordById(
+    publicProgramRecords(world),
+    flow.basisReference.commitmentId,
+  );
+  if (
+    commitment?.kind !== "commitment" ||
+    commitment.recipientOrganizationId !== flow.recipient.organizationId
+  )
+    return [];
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (candidate) => candidate.stableKey === FARM_PAYMENT_QUESTION,
+  );
+  const law = proposition
+    ? lawInForce(
+        world,
+        commitment.jurisdictionId,
+        proposition.id,
+        context.onDate,
+      )
+    : null;
+  if (
+    !law ||
+    law.answer !== "yes" ||
+    (context.governingLawId && context.governingLawId !== law.measureId)
+  )
+    return [];
+  const stamp = payment.lawEffectStamps?.find(
+    (stamp) =>
+      stamp.effectKind === "service-delivered" &&
+      stamp.questionKey === FARM_PAYMENT_QUESTION &&
+      stamp.governingLawKey === law.measureId &&
+      stamp.appliedAt === context.onDate &&
+      stamp.sourceRecordIds?.includes(commitment.id),
+  );
+  if (!stamp) return [];
+  return [
+    {
+      row,
+      law,
+      questionKey: FARM_PAYMENT_QUESTION,
+      jurisdictionId: commitment.jurisdictionId,
+      subject: { kind: "organization", id: flow.recipient.organizationId },
+      activityId: payment.id,
+      effectiveAt: payment.occurredAt,
+      sourceRecordIds: [...(stamp.sourceRecordIds ?? []), flow.id, payment.id],
+      value: {
+        type: "amount",
+        value: payment.transferredAmount.minorUnits,
+        unit: "minor",
+        currency: payment.transferredAmount.currency,
+      },
+    },
+  ];
+}
+
 export function resolveLawServiceConsequence(
   world: World,
   row: LawConsequenceRow,
   context: LawConsequenceContext,
 ): readonly ResolvedLawConsequence[] {
+  if (context.activity === "payment")
+    return resolveRecordedFarmPayment(world, row, context);
   if (
     !validServiceRow(row) ||
     context.activity !== "service" ||
@@ -390,6 +480,9 @@ export function applyLawServiceConsequence(
   world: World,
   resolved: ResolvedAnyLawConsequence,
 ): World {
+  // Funding is saved once by settleProgramInstallment, never counted as attendance.
+  // Replay of its canonical receipt preserves the existing cash and immutable stamp.
+  if (resolved.subject.kind === "organization") return world;
   if (resolved.subject.kind !== "person") return world;
   const context = {
     activity: "service" as const,
@@ -484,10 +577,10 @@ export const SERVICE_DELIVERED_REGISTRATION: LawConsequenceKindRegistration<Reso
   {
     kind: "service-delivered",
     owner: "Team5",
-    selectors: [SERVICE_SELECTOR],
-    actions: [SERVICE_ACTION],
+    selectors: [SERVICE_SELECTOR, "public-program.recorded-recipient"],
+    actions: [SERVICE_ACTION, "settle-recorded-program-payment"],
     predicates: [FUNDED_SERVICE],
-    units: ["hours"],
+    units: ["hours", "minor"],
     resolve: resolveLawServiceConsequence,
     resolveSavedRules: resolveStandingServiceConsequences,
     apply: applyLawServiceConsequence,
