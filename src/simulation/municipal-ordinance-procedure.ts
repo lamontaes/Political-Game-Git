@@ -696,25 +696,6 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * no congressional sitting calendar is read. No joint resolution of
  * disapproval is ever enacted in play.
  */
-const CONGRESSIONAL_REVIEW: Readonly<
-  Record<
-    string,
-    {
-      readonly days: number;
-      readonly citation: string;
-      readonly criminalCodeDays: number;
-      readonly criminalCodeCitation: string;
-    }
-  >
-> = {
-  "us-dc-washington": {
-    days: 30,
-    citation: "D.C. Code § 1-206.02(c)(1)",
-    criminalCodeDays: 60,
-    criminalCodeCitation: "D.C. Code § 1-206.02(c)(2)",
-  },
-};
-
 /**
  * Questions whose acts the game treats as codified in Title 22 (criminal
  * offenses), 23 (criminal procedure) or 24 (prisoners and their treatment),
@@ -745,11 +726,6 @@ export function actAmendsCriminalCode(
     return issue !== undefined && CRIMINAL_CODE_ISSUE_KEYS.has(issue.stableKey);
   });
 }
-
-/** Calendar days allowed to reenact a returned act (D.C. Code § 1-204.04(e)). */
-const OVERRIDE_WINDOW_DAYS: Readonly<Record<string, number>> = {
-  "us-dc-washington": 30,
-};
 
 function isWeekend(date: IsoDate): boolean {
   const day = new Date(`${date}T00:00:00Z`).getUTCDay();
@@ -905,27 +881,45 @@ export function completeCouncilPassage(
   });
 }
 
+/** Read the actual measure's sourced pack; an absent numeric rule stays absent. */
+function councilActionDays(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  field:
+    "overrideWindowDays" | "congressionalReviewDays" | "criminalCodeReviewDays",
+): number | null {
+  const rule = legislativeRulePackForWorld(world, measure.rulePackId)
+    .councilActions?.[field];
+  return rule?.kind === "known" ? rule.value : null;
+}
+
 /** Record a measure the executive approved, or the council reenacted, as law. */
 function enactCouncilMeasure(
   world: World,
   governmentKey: string,
   measure: LegislativeMeasureRecord,
 ): World {
-  const review = CONGRESSIONAL_REVIEW[governmentKey];
+  const review = councilActionDays(world, measure, "congressionalReviewDays");
+  const criminalReview = councilActionDays(
+    world,
+    measure,
+    "criminalCodeReviewDays",
+  );
   const government = municipalGovernmentByKey(governmentKey)!;
   const reading = municipalProcedureReading(government);
-  const effectiveAt = review
-    ? congressionalReviewEffectiveOn(
-        world.currentDate,
-        actAmendsCriminalCode(world, measure)
-          ? review.criminalCodeDays
-          : review.days,
-      )
-    : reading.procedure.effectivePublication?.includes(
-          "from the date of its passage",
-        )
-      ? world.currentDate
-      : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
+  const reviewDays = actAmendsCriminalCode(world, measure)
+    ? criminalReview
+    : review;
+  const effectiveAt =
+    review !== null
+      ? reviewDays !== null
+        ? congressionalReviewEffectiveOn(world.currentDate, reviewDays)
+        : null
+      : reading.procedure.effectivePublication?.includes(
+            "from the date of its passage",
+          )
+        ? world.currentDate
+        : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
   const next = recordEnactment(world, {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,
@@ -960,7 +954,7 @@ function recordCouncilExecutiveDecision(
   });
   if (action === "signed")
     return enactCouncilMeasure(next, governmentKey, measure);
-  const days = OVERRIDE_WINDOW_DAYS[governmentKey];
+  const days = councilActionDays(world, measure, "overrideWindowDays");
   if (days)
     next = scheduleFutureDueItem(next, {
       stableKey: `${measure.stableKey}:override-deadline`,
@@ -1098,7 +1092,10 @@ export function overrideDeadline(
   governmentKey: string,
   measureId: EntityId,
 ): IsoDate | null {
-  const days = OVERRIDE_WINDOW_DAYS[governmentKey];
+  const measure = measureOfThisCouncil(world, governmentKey, measureId);
+  const days = measure
+    ? councilActionDays(world, measure, "overrideWindowDays")
+    : null;
   const vetoed = measureActions(world, measureId)
     .filter((action) => action.kind === "vetoed")
     .at(-1);
@@ -1420,9 +1417,6 @@ export type CouncilActionAdmission =
       readonly citations: readonly string[];
     };
 
-/** The date Ord. No. O-26-017 last amended City Code § 2-98. */
-const CVILLE_2_98_AMENDED_ON = "2026-02-02";
-
 /**
  * What one council action needs, for one member, on one date.
  *
@@ -1444,7 +1438,12 @@ export function admitCouncilAction(
   },
 ): CouncilActionAdmission {
   const version = RULES_MUNICIPAL_AUTHORITY_VERSION;
-  if (input.governmentKey !== "us-va-charlottesville") {
+  const government = municipalGovernmentByKey(input.governmentKey);
+  const compiled = government ? municipalRulePackFor(government) : null;
+  const actions = compiled?.ok ? compiled.pack.councilActions : undefined;
+  const localRule = actions?.financialLocalRule;
+  const generalRule = actions?.financialGeneralThresholdUsd;
+  if (localRule?.kind !== "known" || generalRule?.kind !== "known") {
     return {
       ruleVersion: version,
       admitted: false,
@@ -1481,6 +1480,7 @@ export function admitCouncilAction(
       citations: [],
     };
   }
+  const local = localRule.value;
   if (input.kind === "ORDINANCE") {
     return {
       ruleVersion: version,
@@ -1488,17 +1488,11 @@ export function admitCouncilAction(
       requiredVote: {
         basis: "MAJORITY_PRESENT_AND_VOTING",
         recordedYeaNay: true,
-        citations: [
-          "Code of Virginia § 15.2-1427(A)",
-          "City Code § 2-78",
-          "Charter § 12",
-        ],
+        citations: local.ordinaryCitations,
       },
-      minimumInterveningDays: 3,
+      minimumInterveningDays: local.minimumInterveningDays,
       vetoApplies: false,
-      unresolved: [
-        "City Code § 2-97's four-fifths same-day exception does not say what the fraction counts.",
-      ],
+      unresolved: local.ordinaryUnresolved,
     };
   }
   if (input.kind === "APPROPRIATION" && input.amountUsd === undefined) {
@@ -1509,29 +1503,31 @@ export function admitCouncilAction(
       unknownField: "amountUsd",
       detail:
         "Whether § 15.2-1428 and City Code § 2-98 apply turns on the amount appropriated.",
-      citations: ["Code of Virginia § 15.2-1428", "City Code § 2-98"],
+      citations: [generalRule.source.citation, localRule.source.citation],
     };
   }
-  const current2_98 = input.onDate >= CVILLE_2_98_AMENDED_ON;
+  const currentLocalRule = input.onDate >= local.operativeOn;
   const amount = input.amountUsd ?? 0;
-  const stateRuleApplies = input.kind !== "APPROPRIATION" || amount > 500;
+  const stateRuleApplies =
+    input.kind !== "APPROPRIATION" || amount > generalRule.value;
   const cityRuleApplies =
-    current2_98 && (input.kind !== "APPROPRIATION" || amount > 100);
-  if (!stateRuleApplies && !current2_98) {
+    currentLocalRule &&
+    (input.kind !== "APPROPRIATION" || amount > local.fullMembershipAboveUsd);
+  if (!stateRuleApplies && !currentLocalRule) {
     return {
       ruleVersion: version,
       admitted: false,
       reason: "FIELD_UNKNOWN",
-      unknownField: "City Code § 2-98 before 2026-02-02",
-      detail:
-        "The acquired City Code shows § 2-98 as amended on 2026-02-02; the text in force before then was not retrieved, and a small appropriation's vote rule then turns on it.",
-      citations: ["City Code § 2-98"],
+      unknownField: `${localRule.source.citation} before ${local.operativeOn}`,
+      detail: `The acquired local text was amended on ${local.operativeOn}; the earlier text was not retrieved, and this appropriation's vote rule turns on it.`,
+      citations: [localRule.source.citation],
     };
   }
   const intervening =
-    current2_98 && (input.kind !== "APPROPRIATION" || amount > 5000)
-      ? 3
-      : current2_98
+    currentLocalRule &&
+    (input.kind !== "APPROPRIATION" || amount > local.delayedAboveUsd)
+      ? local.minimumInterveningDays
+      : currentLocalRule
         ? null
         : null;
   return {
@@ -1544,17 +1540,17 @@ export function admitCouncilAction(
           : "MAJORITY_PRESENT_AND_VOTING",
       recordedYeaNay: true,
       citations: [
-        ...(stateRuleApplies ? ["Code of Virginia § 15.2-1428"] : []),
-        ...(cityRuleApplies ? ["City Code § 2-98(a)"] : []),
-        "Charter § 12",
+        ...(stateRuleApplies ? [generalRule.source.citation] : []),
+        ...(cityRuleApplies ? [localRule.source.citation] : []),
+        local.quorumCitation,
       ],
     },
     minimumInterveningDays: intervening,
     vetoApplies: false,
-    unresolved: current2_98
+    unresolved: currentLocalRule
       ? []
       : [
-          "City Code § 2-98 before its 2026-02-02 amendment was not retrieved; only Code of Virginia § 15.2-1428 is applied on this date.",
+          `${localRule.source.citation} before its ${local.operativeOn} amendment was not retrieved; only ${generalRule.source.citation} is applied on this date.`,
         ],
   };
 }

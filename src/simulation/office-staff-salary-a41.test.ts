@@ -4,6 +4,8 @@ import { addDays } from "./dates";
 import { createOrganization, createWorkRelationship } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
 import {
+  stateMedianAnnualWage,
+  townMinimumHourly,
   townJobRate,
   townMinimumHourlyAt,
   townPayPercentile,
@@ -240,10 +242,47 @@ describe("A41 recorded staff pay uses existing occupational data", () => {
         jurisdictionId,
         recorded,
       ).monthlyMinor,
+    ).toBe(390_000);
+    expect(
+      localBusinessWageMinor(
+        { workerOccupation: "occupation:office-clerk" },
+        jurisdictionId,
+        recorded,
+        work.id,
+      ).monthlyMinor,
     ).toBe(520_000);
+    expect(
+      localBusinessWageMinor(
+        { workerOccupation: "occupation:office-clerk" },
+        jurisdictionId,
+        recorded,
+        newWork.id,
+      ).monthlyMinor,
+    ).toBe(260_000);
     expect(serializeWorld(deserializeWorld(serializeWorld(opened)))).toBe(
       serializeWorld(opened),
     );
+  });
+
+  it("uses recorded hours for the minimum-wage floor when only published occupation pay is available", () => {
+    const { world, jurisdictionId, work, hours } = fixture(
+      "NE",
+      "employment:civil-service",
+      "occupation:office-clerk",
+      80,
+    );
+    const annualFloor = townMinimumHourly(jurisdictionId)! * hours * 52;
+    expect(
+      stateMedianAnnualWage("occupation:office-clerk", jurisdictionId)!,
+    ).toBeLessThan(annualFloor);
+    const wage = localBusinessWageMinor(
+      { workerOccupation: "occupation:office-clerk" },
+      jurisdictionId,
+      world,
+      work.id,
+    );
+    expect(wage.monthlyMinor).toBe(Math.round((annualFloor * 100) / 12));
+    expect(wage.sourced).toBe(true);
   });
 
   it.todo(

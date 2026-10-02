@@ -1,5 +1,10 @@
 import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
 import { payWorkplaceAt } from "../pay-coverage-predicates";
+import {
+  ensureLocalPublicAccount,
+  ensureTaxPublicAccount,
+  publicTaxAccountForIdentity,
+} from "../tax-policy";
 import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
@@ -438,7 +443,11 @@ export function townPayPeriod(
   classification: OrganizationClassification | string,
   staff: number,
 ): TownPayPeriod {
-  if (GOVERNMENT_CLASSIFICATIONS.has(classification)) return "biweekly";
+  if (
+    GOVERNMENT_CLASSIFICATIONS.has(classification) ||
+    organizationProfileAt(world, organizationId)?.publicGovernmentIdentity
+  )
+    return "biweekly";
   const overall = TOWN_PAY_PERIOD_SHARES["overall|all private establishments"]!;
   const industry = INDUSTRY_OF[classification];
   const byIndustry = industry
@@ -694,6 +703,7 @@ export function startTownJobPay(
   exceptPersonId: EntityId | null,
   since: IsoDate,
 ): World {
+  let next = world;
   const paid = new Set<EntityId>();
   for (const flow of world.history.resourceFlows)
     if (flow.basisReference.kind === "work")
@@ -733,11 +743,22 @@ export function startTownJobPay(
       continue;
     const terms = resourceFlowTermsAt(world, flow.id);
     const note = terms ? payNoteOf(terms.cadenceKind) : null;
-    if (note) periods.set(flow.source.organizationId, note.period);
+    if (note) {
+      const employer =
+        flow.basisReference.kind === "work"
+          ? recordById(
+              world.history.workRelationships,
+              flow.basisReference.workRelationshipId,
+            )?.organizationId
+          : null;
+      periods.set(employer ?? flow.source.organizationId, note.period);
+    }
   }
   for (const work of candidates) {
     const role = roles.get(work.id);
     if (!role) continue;
+    const payer = townPaySource(next, work.organizationId!);
+    next = payer.world;
     // A job held before `since` is paid from the period that was running
     // then; a later hire from the day it starts.
     const earliest = addDays(since, -31);
@@ -745,8 +766,12 @@ export function startTownJobPay(
       world.history.organizations.find(
         (organization) => organization.id === work.organizationId,
       )?.formedAt ?? work.startedAt;
-    const startsAt = [work.startedAt, earliest, formedAt].reduce((a, b) =>
-      a > b ? a : b,
+    const payerFormedAt = recordById(
+      next.history.organizations,
+      payer.organizationId,
+    )!.formedAt;
+    const startsAt = [work.startedAt, earliest, formedAt, payerFormedAt].reduce(
+      (a, b) => (a > b ? a : b),
     );
     const tenure = daysBetween(work.startedAt, startsAt) / 365.25;
     // The floor on the first day paid; a later rise is recorded as a raise.
@@ -810,7 +835,7 @@ export function startTownJobPay(
     if (perPeriod <= 0) continue;
     inputs.push({
       stableKey: `${PAY_KEY_PREFIX}${work.id}`,
-      source: { kind: "organization", organizationId },
+      source: { kind: "organization", organizationId: payer.organizationId },
       recipient: { kind: "person", personId: work.personId },
       startsAt,
       amount: money(perPeriod, "USD"),
@@ -825,7 +850,31 @@ export function startTownJobPay(
       },
     });
   }
-  return createResourceFlows(world, inputs);
+  return createResourceFlows(next, inputs);
+}
+
+/** Resolve the saved legal employer's government account, never its geography. */
+export function townPaySource(
+  world: World,
+  employerId: EntityId,
+): { readonly world: World; readonly organizationId: EntityId } {
+  const profile = organizationProfileAt(world, employerId);
+  if (!profile)
+    throw new Error("A payroll employer needs its recorded profile.");
+  const identity = profile.publicGovernmentIdentity;
+  // An unbound legacy profile retains its recorded employer; never infer
+  // government ownership from a classification, name or location.
+  if (!identity) return { world, organizationId: employerId };
+  const next =
+    identity.kind === "local-government"
+      ? ensureLocalPublicAccount(world, identity)
+      : ensureTaxPublicAccount(world, identity.jurisdictionId);
+  const account = publicTaxAccountForIdentity(next, identity);
+  if (!account)
+    throw new Error(
+      "The recorded payroll government has no canonical public account.",
+    );
+  return { world: next, organizationId: account.organizationId };
 }
 
 /**
@@ -944,6 +993,18 @@ export function applyLawPayConsequence(
   let governing: Parameters<typeof lawEffectStamp>[0] = null;
   const work = recordById(world.history.workRelationships, resolved.workId);
   const flow = recordById(world.history.resourceFlows, resolved.payFlowId);
+  const employerIdentity = work?.organizationId
+    ? organizationProfileAt(world, work.organizationId, {
+        asOfDate: effectiveAt,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.publicGovernmentIdentity
+    : undefined;
+  const payerId = employerIdentity
+    ? publicTaxAccountForIdentity(world, employerIdentity, {
+        asOfDate: effectiveAt,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.organizationId
+    : work?.organizationId;
   if (!world.people[resolved.personId] || work?.personId !== resolved.personId)
     refuse("pay.worker-and-job.binding");
   if (
@@ -953,7 +1014,7 @@ export function applyLawPayConsequence(
     flow.basisReference.kind !== "work" ||
     flow.basisReference.workRelationshipId !== resolved.workId ||
     flow.source.kind !== "organization" ||
-    flow.source.organizationId !== work!.organizationId
+    flow.source.organizationId !== payerId
   )
     refuse("pay.flow-worker-employer.binding");
   const completed = resolved.completedShift
@@ -1381,7 +1442,11 @@ export function raiseTeacherPayToFloor(
     const role = roles.get(flow.basisReference.workRelationshipId);
     if (!role || role.occupationClassification !== TEACHER_FLOOR_OCCUPATION)
       continue;
-    const organizationId = flow.source.organizationId;
+    const organizationId = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    )?.organizationId;
+    if (!organizationId) continue;
     let current = termsByFlow.get(flow.id)?.at(-1);
     const note = current ? payNoteOf(current.cadenceKind) : null;
     if (!current || current.status !== "active" || !note) continue;
@@ -1589,11 +1654,25 @@ export function settleTownCompensations(
       );
     const workId = flow.basisReference.workRelationshipId;
     const work = recordById(next.history.workRelationships, workId);
+    const payerCutoff = {
+      asOfDate: period.periodStartsAt,
+      historySequenceExclusive: next.history.nextSequence,
+    };
+    const employer = work?.organizationId
+      ? organizationProfileAt(next, work.organizationId, payerCutoff)
+      : undefined;
+    const payerId = employer?.publicGovernmentIdentity
+      ? publicTaxAccountForIdentity(
+          next,
+          employer.publicGovernmentIdentity,
+          payerCutoff,
+        )?.organizationId
+      : work?.organizationId;
     if (
       !work ||
       work.personId !== flow.recipient.personId ||
       flow.source.kind !== "organization" ||
-      flow.source.organizationId !== work.organizationId
+      flow.source.organizationId !== payerId
     )
       throw new Error("Pay period must bind the recorded worker and employer.");
     if (period.activityId !== flow.id && period.activityId !== work.id)

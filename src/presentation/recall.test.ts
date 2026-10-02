@@ -1,8 +1,13 @@
+import { resolveRequiredSignatures } from "../simulation/municipal-election-rules";
+import { randomInt, randomUUID } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { afterAll, describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
   deserializeWorld,
+  lifePlaceStateIdentities,
+  searchLifePlaces,
   serializeWorld,
 } from "../simulation";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
@@ -10,26 +15,31 @@ import {
   installMunicipalGovernment,
   municipalGovernmentJurisdictionId,
   municipalSeats,
-  seatMunicipalMember,
 } from "../simulation/municipal-public-work";
 import {
   RECALL_ELECTION,
   RECALL_PETITION_CLOSES,
-  RECALL_PROFILE,
+  RECALL_PETITION_CLOSED,
+  RECALL_VERSION,
+  recallElectionHandler,
+  recallResidentViews,
   canStartRecallPetition,
   municipalRecallRule,
-  recallPetitionKey,
-  recallPetitionQualifies,
   recallPetitions,
-  recallYesShare,
   startRecallPetition,
 } from "../simulation/recall";
 import type { EntityId, World } from "../simulation/types";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
-import { addDays } from "../simulation/dates";
+import { addDays, ageOnDate } from "../simulation/dates";
+import {
+  createFormationContext,
+  recordPrivateBelief,
+} from "../simulation/politics";
+import { recordWorldEvent } from "../simulation/world";
+import { scheduleFutureDueItem } from "../simulation/future-transitions";
 import { resolveDueThrough } from "../../tests/fixtures/due-item-clock";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { projectRecall, startProjectedRecallPetition } from "./recall";
@@ -114,31 +124,6 @@ function openStart(placeKey: string, seed: string): OrdinaryStart {
   return { world, governmentKey: government.key, player, member, townId };
 }
 
-/** Ends one sitting member's seat other than `keep`'s, as a resignation. */
-function vacateOneSeat(
-  world: World,
-  governmentKey: string,
-  keep: EntityId,
-): World {
-  const seat = municipalSeats(world, governmentKey).find(
-    (row) => row.role === "member" && row.personId !== keep,
-  )!;
-  const prior = organizationParticipationStateHistory(
-    world,
-    seat.participationId,
-  ).at(-1)!;
-  return recordOrganizationParticipationState(world, {
-    stableKey: `fixture:vacated:${seat.participationId}`,
-    participationId: seat.participationId,
-    effectiveAt: world.currentDate,
-    status: "ended",
-    roleKind: prior.roleKind,
-    context: "Resigned.",
-    provenance: { kind: "authored", note: "Vacancy fixture." },
-    supersedesStateId: prior.id,
-  });
-}
-
 function petition(
   world: World,
   governmentKey: string,
@@ -152,9 +137,162 @@ function petition(
   });
 }
 
+/** Explicit historical qualified snapshot; no signature producer is asserted. */
+function qualifiedSnapshot(town: OrdinaryStart) {
+  let world = petition(
+    town.world,
+    town.governmentKey,
+    town.player,
+    town.member,
+  );
+  const open = recallPetitions(world)[0]!;
+  const electionAt = addDays(open.closesAt, 75);
+  world = recordWorldEvent(world, {
+    stableKey: `${open.stableKey}:closed`,
+    type: RECALL_PETITION_CLOSED,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: town.townId,
+    involvedEntityIds: [town.member],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      RECALL_VERSION,
+      `petition:${open.stableKey}`,
+      "outcome:qualified",
+      `election:${electionAt}`,
+    ],
+    summary:
+      "Supplied historical qualified recall snapshot; signature production is outside this fixture.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  world = scheduleFutureDueItem(world, {
+    stableKey: `${open.stableKey}:election`,
+    dueAt: electionAt,
+    transitionKey: RECALL_ELECTION,
+    entityIds: [town.townId],
+    jurisdictionId: town.townId,
+    provenance: {
+      kind: "authored",
+      note: "Supplied historical election date, not a legal scheduling producer.",
+    },
+  });
+  return { world, due: world.history.futureDueItems.at(-1)!, open };
+}
+
+function withViews(
+  world: World,
+  target: EntityId,
+  personIds: readonly EntityId[],
+  positions: readonly ("support" | "oppose" | "conflicted")[],
+) {
+  let next = world;
+  for (let index = 0; index < personIds.length; index += 1) {
+    const personId = personIds[index]!;
+    const prior = next.history.privateBeliefs
+      .filter(
+        (row) =>
+          row.personId === personId &&
+          row.subject?.kind === "official" &&
+          row.subject.personId === target,
+      )
+      .at(-1);
+    next = recordPrivateBelief(next, {
+      stableKey: `recall-view:${target}:${personId}:${next.history.nextSequence}`,
+      personId,
+      propositionId: null,
+      subject: { kind: "official", personId: target },
+      formedAt: next.currentDate,
+      position: positions[index]!,
+      conviction: "strong",
+      salience: "high",
+      flexibility: "firm",
+      rationale: "Explicit resident view supplied for the recall reader test.",
+      formation: createFormationContext("reflection:initial"),
+      supersedesBeliefId: prior?.id ?? null,
+    });
+  }
+  return next;
+}
+
+function adultResidents(town: OrdinaryStart) {
+  return town.world.personOrder.filter(
+    (id) =>
+      id !== town.member &&
+      town.world.people[id]!.homeJurisdictionId === town.townId &&
+      ageOnDate(town.world.people[id]!.birthDate, town.world.currentDate) >=
+        18 &&
+      isPersonAliveAt(town.world, id, {
+        asOfDate: town.world.currentDate,
+        historySequenceExclusive: town.world.history.nextSequence,
+      }),
+  );
+}
+
 describe("recalling a town official", () => {
+  it("opens one new game at a randomly selected sourced locality before recall reads", () => {
+    const states = lifePlaceStateIdentities();
+    const state = states[randomInt(states.length)]!;
+    const localities = searchLifePlaces("", Number.MAX_SAFE_INTEGER, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
+    });
+    expect(localities.length).toBeGreaterThan(0);
+    const place = localities[randomInt(localities.length)]!;
+    const seed = randomUUID();
+    console.info(
+      `A88 RANDOM OPENING place=${place.displayName} key=${place.key} state=${state.jurisdictionKey} seed=${seed}`,
+    );
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed,
+      depth: "summarize-earlier-life",
+      questionnaire: "skipped",
+    });
+    expect(resolvePlayerCapabilities(game.world).homePlace?.key).toBe(
+      place.key,
+    );
+    expect(game.world.control).toMatchObject({
+      kind: "person",
+      personId: game.playerPersonId,
+    });
+    const before = serializeWorld(game.world);
+    expect(recallPetitions(game.world)).toEqual([]);
+    expect(serializeWorld(game.world)).toBe(before);
+    assertWorldIntegrity(game.world);
+    if (process.env.OCD_RECALL_OPENING_RECEIPT) {
+      writeFileSync(
+        process.env.OCD_RECALL_OPENING_RECEIPT,
+        JSON.stringify(
+          {
+            place: place.displayName,
+            placeKey: place.key,
+            state: state.jurisdictionKey,
+            seed,
+            worldId: game.world.id,
+            personId: game.playerPersonId,
+            opening: "passed",
+            integrity: "passed",
+            recallReadOnly: "passed",
+          },
+          null,
+          2,
+        ) + "\n",
+      );
+    }
+  });
+
   it(
-    "circulates a petition on the ordinary clock and decides it when the window closes",
+    "circulates on the ordinary clock and fails without recorded supporters",
     { timeout: 300_000 },
     () => {
       const { world, governmentKey, player, member } = ordinaryStart(
@@ -206,119 +344,190 @@ describe("recalling a town official", () => {
         addDays(started.currentDate, 31),
       );
       const [after] = recallPetitions(closed);
-      expect(["failed-to-qualify", "awaiting-election"]).toContain(
-        after!.phase,
-      );
-      if (after!.phase === "awaiting-election")
-        expect(
-          closed.history.futureDueItems.some(
-            (due) =>
-              due.transitionKey === RECALL_ELECTION &&
-              due.dueAt === after!.electionAt,
-          ),
-        ).toBe(true);
+      expect(after!.phase).toBe("failed-to-qualify");
+      expect(
+        closed.history.futureDueItems.some(
+          (due) => due.transitionKey === RECALL_ELECTION,
+        ),
+      ).toBe(false);
       const saved = deserializeWorld(serializeWorld(closed));
       expect(recallPetitions(saved)).toEqual(recallPetitions(closed));
       expect(() => assertWorldIntegrity(saved)).not.toThrow();
     },
   );
 
-  it("draws qualification and the vote from the placeholder profile", () => {
-    let qualified = 0;
-    const trials = 2_000;
-    for (let i = 0; i < trials; i += 1) {
-      const key = `probe:${i}`;
-      if (recallPetitionQualifies("recall-A", key)) qualified += 1;
-      const yes = recallYesShare("recall-A", key);
-      expect(yes).toBeGreaterThanOrEqual(RECALL_PROFILE.removeYesShare[0]);
-      expect(yes).toBeLessThan(RECALL_PROFILE.removeYesShare[1]);
-    }
-    // About 35% qualify under the placeholder.
-    expect(qualified / trials).toBeGreaterThan(0.3);
-    expect(qualified / trials).toBeLessThan(0.4);
-  });
-
   it(
-    "fails, keeps or removes, and a removal empties the seat",
-    { timeout: 300_000 },
+    "qualifies exactly at the sourced threshold using recorded supporters and registered residents",
+    { timeout: 120_000 },
     () => {
-      const { world, governmentKey, player, member, townId } = ordinaryStart(
-        GRAND_ISLAND,
-        "recall-A",
-      );
-      // Which resident a petition targets is what varies the keyed draws, so
-      // pick one resident per outcome and petition against them.
-      const outcomeFor = (target: EntityId) => {
-        const key = recallPetitionKey(governmentKey, target, world.currentDate);
-        if (!recallPetitionQualifies(world.seed, key))
-          return "failed-to-qualify";
-        return recallYesShare(world.seed, key) > 5_000 ? "removed" : "retained";
-      };
-      const seatedIds = new Set(
-        municipalSeats(world, governmentKey).map((seat) => seat.personId),
-      );
-      const residents = world.personOrder.filter(
-        (id) =>
-          id !== player &&
-          !seatedIds.has(id) &&
-          world.people[id]!.homeJurisdictionId === townId &&
-          isPersonAliveAt(world, id, {
-            asOfDate: world.currentDate,
-            historySequenceExclusive: world.history.nextSequence,
-          }),
-      );
-      for (const expected of [
-        "failed-to-qualify",
-        "retained",
-        "removed",
-      ] as const) {
-        const target = residents.find((id) => outcomeFor(id) === expected)!;
-        expect(target, expected).toBeDefined();
-        // The council is full from the opening, so a neighbor's seat is
-        // opened for the target first.
-        let seated = vacateOneSeat(world, governmentKey, member);
-        seated = seatMunicipalMember(seated, {
-          governmentKey,
-          personId: target,
-          startedAt: world.currentDate,
-          role: "member",
-          seatLabel: "Seat 2",
-        });
-        seated = petition(seated, governmentKey, player, target);
-        const closeDue = seated.history.futureDueItems.find(
-          (due) => due.transitionKey === RECALL_PETITION_CLOSES,
-        )!;
-        // Through the ordinary clock, past the day the window closes.
-        const closed = resolveDueThrough(seated, closeDue.dueAt);
-        const afterClose = recallPetitions(closed)[0]!;
-        if (expected === "failed-to-qualify") {
-          expect(afterClose.phase).toBe("failed-to-qualify");
-          expect(
-            closed.history.futureDueItems.some(
-              (due) => due.transitionKey === RECALL_ELECTION,
-            ),
-          ).toBe(false);
-          continue;
-        }
-        expect(afterClose.phase).toBe("awaiting-election");
-        const electionDue = closed.history.futureDueItems.find(
-          (due) => due.transitionKey === RECALL_ELECTION,
-        )!;
-        expect(electionDue.dueAt).toBe(afterClose.electionAt);
-        const decided = resolveDueThrough(closed, electionDue.dueAt);
-        const outcome = recallPetitions(decided)[0]!;
-        expect(outcome.phase).toBe(expected);
-        expect(outcome.yes! + outcome.no!).toBe(10_000);
-        const sitting = municipalSeats(decided, governmentKey).map(
-          (seat) => seat.personId,
+      const town = ordinaryStart(GRAND_ISLAND, "recall-A");
+      const rule = municipalRecallRule(town.governmentKey, town.world);
+      if (!rule.available || !rule.threshold)
+        throw new Error("Expected sourced recall threshold");
+      const base = recallResidentViews(town.world, {
+        jurisdictionId: municipalGovernmentJurisdictionId(
+          town.world,
+          town.governmentKey,
+        )!,
+        targetPersonId: town.member,
+      }).registeredVoters;
+      const required = resolveRequiredSignatures(rule.threshold, base);
+      expect(required).toBeGreaterThan(0);
+      const residents = adultResidents(town).slice(0, required);
+      expect(residents).toHaveLength(required);
+      for (const signatures of [required - 1, required]) {
+        const supporters = residents.slice(0, signatures);
+        const started = petition(
+          withViews(
+            town.world,
+            town.member,
+            supporters,
+            supporters.map(() => "oppose"),
+          ),
+          town.governmentKey,
+          town.player,
+          town.member,
         );
-        if (expected === "retained") expect(sitting).toContain(target);
-        else expect(sitting).not.toContain(target);
-        // The other council member is untouched either way.
-        expect(sitting).toContain(member);
+        const due = started.history.futureDueItems.find(
+          (row) => row.transitionKey === RECALL_PETITION_CLOSES,
+        )!;
+        const result = { world: resolveDueThrough(started, due.dueAt) };
+        expect(recallPetitions(result.world)[0]!.phase).toBe(
+          signatures === required ? "awaiting-election" : "failed-to-qualify",
+        );
+        const closed = result.world.history.events.find(
+          (row) => row.type === RECALL_PETITION_CLOSED,
+        )!;
+        expect(closed.tags).toEqual(
+          expect.arrayContaining([
+            `signatures:${signatures}`,
+            `registered-voters:${base}`,
+            `required-signatures:${required}`,
+            `threshold-base:${rule.threshold.base}`,
+          ]),
+        );
+        expect(municipalRecallRule(town.governmentKey, result.world)).toEqual(
+          rule,
+        );
+        expect(() =>
+          assertWorldIntegrity(deserializeWorld(serializeWorld(result.world))),
+        ).not.toThrow();
+        if (signatures === required) {
+          const election = result.world.history.futureDueItems.find(
+            (row) => row.transitionKey === RECALL_ELECTION,
+          )!;
+          expect(election).toBeDefined();
+          const voted = {
+            world: resolveDueThrough(result.world, election.dueAt),
+          };
+          expect(recallPetitions(voted.world)[0]).toMatchObject({
+            phase: "removed",
+            yes: required,
+            no: 0,
+          });
+        }
       }
     },
   );
+
+  it.each(["retained", "removed"] as const)(
+    "counts recorded resident views and %s leaves the other seats intact",
+    (expected) => {
+      const town = ordinaryStart(GRAND_ISLAND, "recall-A");
+      const snapshot = qualifiedSnapshot(town);
+      const residents = adultResidents(town).slice(0, 3);
+      expect(residents).toHaveLength(3);
+      const positions =
+        expected === "removed"
+          ? (["oppose", "oppose", "support"] as const)
+          : (["support", "support", "oppose"] as const);
+      const world = withViews(
+        snapshot.world,
+        town.member,
+        residents,
+        positions,
+      );
+      const result = recallElectionHandler(world, snapshot.due);
+      expect(result.status).toBe("resolved");
+      const outcome = recallPetitions(result.world)[0]!;
+      expect(outcome.phase).toBe(expected);
+      expect(outcome.yes! + outcome.no!).toBe(3);
+      expect(outcome.yes).toBe(expected === "removed" ? 2 : 1);
+      expect(outcome.no).toBe(expected === "removed" ? 1 : 2);
+      const sitting = municipalSeats(result.world, town.governmentKey).map(
+        (seat) => seat.personId,
+      );
+      if (expected === "retained") expect(sitting).toContain(town.member);
+      else expect(sitting).not.toContain(town.member);
+      const otherSeats = municipalSeats(town.world, town.governmentKey)
+        .filter((seat) => seat.personId !== town.member)
+        .map((seat) => seat.personId);
+      expect(sitting).toEqual(expect.arrayContaining(otherSeats));
+      expect(
+        recallPetitions(deserializeWorld(serializeWorld(result.world))),
+      ).toEqual(recallPetitions(result.world));
+      expect(() => assertWorldIntegrity(result.world)).not.toThrow();
+    },
+    60_000,
+  );
+
+  it("keeps zero counts exact and does not extrapolate a turnout when views are absent", () => {
+    const town = ordinaryStart(GRAND_ISLAND, "recall-A");
+    const snapshot = qualifiedSnapshot(town);
+    const missing = recallElectionHandler(snapshot.world, snapshot.due);
+    expect(missing).toMatchObject({
+      world: snapshot.world,
+      status: "blocked",
+      reasonKey: "recall:no-recorded-resident-views",
+    });
+    const resident = adultResidents(town)[0]!;
+    const world = withViews(
+      snapshot.world,
+      town.member,
+      [resident],
+      ["support"],
+    );
+    const result = recallElectionHandler(world, snapshot.due);
+    expect(recallPetitions(result.world)[0]).toMatchObject({
+      phase: "retained",
+      yes: 0,
+      no: 1,
+    });
+    expect(recallResidentViews(world, snapshot.open)).toMatchObject({
+      yes: 0,
+      no: 1,
+    });
+  });
+
+  it("uses the latest view once, ignores outsiders and conflicted residents, and preserves source IDs", () => {
+    const town = ordinaryStart(GRAND_ISLAND, "recall-A");
+    const snapshot = qualifiedSnapshot(town);
+    const residents = adultResidents(town).slice(0, 2);
+    let world = withViews(snapshot.world, town.member, residents, [
+      "oppose",
+      "conflicted",
+    ]);
+    world = withViews(world, town.member, [residents[0]!], ["support"]);
+    const outsider = world.personOrder.find(
+      (id) => world.people[id]!.homeJurisdictionId !== town.townId,
+    )!;
+    expect(outsider).toBeDefined();
+    world = withViews(world, town.member, [outsider], ["oppose"]);
+    const latest = world.history.privateBeliefs
+      .filter((row) => row.personId === residents[0]!)
+      .at(-1)!;
+    const count = recallResidentViews(world, snapshot.open);
+    expect(count).toMatchObject({
+      yes: 0,
+      no: 1,
+      sourceRecordIds: [latest.id],
+    });
+    expect(count.registeredVoters).toBeGreaterThan(0);
+    const result = recallElectionHandler(world, snapshot.due);
+    expect(result.world.history.events.at(-1)!.tags).toContain(
+      `view-source:${latest.id}`,
+    );
+  });
 
   it("lapses when the official leaves before the window closes", () => {
     const { world, governmentKey, player, member } = ordinaryStart(

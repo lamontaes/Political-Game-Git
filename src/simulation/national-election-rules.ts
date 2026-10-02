@@ -1,3 +1,4 @@
+import { STATES } from "./state-reference";
 import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
 
 /** Reviewed 2026-09-13. NARA expressly limits this allocation to 2024 and 2028. */
@@ -104,7 +105,7 @@ export const ELECTORAL_ALLOCATION: Readonly<Record<string, number>> =
   });
 export const CONTINGENT_STATES = Object.freeze(
   Object.keys(ELECTORAL_ALLOCATION)
-    .filter((key) => key !== "DC")
+    .filter((key) => STATES[key]?.jurisdictionKind === "state")
     .sort(),
 );
 function buildNationalElectionRules(cycle: number) {
@@ -113,7 +114,7 @@ function buildNationalElectionRules(cycle: number) {
   const units = Object.keys(ELECTORAL_ALLOCATION)
     .sort()
     .flatMap((state) => {
-      if (state === "ME" || state === "NE")
+      if (STATES[state]?.electorAllocation === "congressional-district")
         return [
           { key: state, state, electors: 2, countsPopular: true },
           ...Array.from(
