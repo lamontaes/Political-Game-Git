@@ -3,10 +3,6 @@ import { appendFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "../simulation/dates";
-import {
-  COUNCIL_DEFERENCE_REASON,
-  COUNCIL_PRECEDENT_REASON,
-} from "../simulation/governing/council-lawmaking";
 import { lawInForce } from "../simulation/governing/law-in-force";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
 import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "../simulation/governing/ordinance-effective-date";
@@ -102,7 +98,7 @@ describe("a town council makes law for its own reasons", () => {
                       (vote) =>
                         `${vote.outcome} ${vote.tally.yea}-${vote.tally.nay}, ${
                           vote.dispositions.filter(
-                            (row) => row.reason === COUNCIL_DEFERENCE_REASON,
+                            (row) => row.reason === "member:institutional-deference",
                           ).length
                         } going along`,
                     ),
@@ -132,13 +128,15 @@ describe("a town council makes law for its own reasons", () => {
           for (const row of vote.dispositions) {
             if (row.disposition === "yea" || row.disposition === "nay")
               expect(row.reason).toMatch(/^member:/);
-            // A member with nothing to weigh goes along; nobody abstains
-            // for want of a reason.
-            if (row.reason === COUNCIL_DEFERENCE_REASON)
+            // Institutional reasons are weighed by the shared vote engine;
+            // council ballots are not rewritten after it decides.
+            if (row.reason === "member:institutional-deference")
               expect(row.disposition).toBe("yea");
-            if (row.reason === COUNCIL_PRECEDENT_REASON)
+            if (row.reason === "member:institutional-precedent")
               expect(row.disposition).toBe("nay");
             expect(row.reason).not.toBe("member:no-reason");
+            expect(row.reason).not.toBe("member:council-deference");
+            expect(row.reason).not.toBe("member:council-precedent");
           }
         }
         for (const enactment of enactments) {
