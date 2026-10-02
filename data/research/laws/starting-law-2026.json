@@ -16727,8 +16727,16 @@
           "operativeAt": "2007-03-14",
           "preempts": false,
           "cite": "D.C. Code § 6-1041.01 et seq.; 11-C DCMR ch. 10",
-          "source": "https://code.dccouncil.gov/us/dc/council/code/sections/6-1041.02",
-          "note": "The District's own inclusionary zoning law and zoning regulations require affordable units in covered new residential developments across the District."
+          "source": "https://dcoz.dc.gov/sites/default/files/dc/sites/dcoz/publication/attachments/Subtitle%20C.pdf",
+          "note": "The District's own inclusionary zoning law and zoning regulations require affordable units in covered new residential developments across the District. ESTIMATED FROM AVERAGE: 0.09 = (0.10 + 0.08) / 2, the two residential floor-area minimums in 11-C DCMR 1003.1-1003.2. The game has no frame, height, bonus-density or floor-area facts; this is the equal-weight two-category average represented as a share of comparable-sized game homes, not an exact project compliance finding.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "key": "share",
+              "value": 0.09,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-DE": {
           "answer": "no",
@@ -16893,7 +16901,15 @@
           "preempts": false,
           "cite": "N.J. Stat. Ann. § 52:27D-329.9; Fair Housing Act, N.J. Stat. Ann. § 52:27D-301 et seq.",
           "source": "https://pub.njleg.state.nj.us/bills/2008/PL08/46_.HTM",
-          "note": "Under the Mount Laurel doctrine and Fair Housing Act every town must plan for its fair share of affordable housing, typically through mandatory set-asides, and P.L.2008, c.46 requires a 20 percent set-aside in new developments in regional planning areas and state-funded projects."
+          "note": "Under the Mount Laurel doctrine and Fair Housing Act every town must plan for its fair share of affordable housing, typically through mandatory set-asides, and P.L.2008, c.46 requires a 20 percent set-aside in new developments in regional planning areas and state-funded projects. ESTIMATED FROM AVERAGE: 0.20 = (0.20 + 0.20) / 2, the two new-unit set-aside rules in P.L.2008 c.46 section 18(a)-(b), for regional-planning and state-financed projects. The game lacks these project-category facts and municipal exceptions; this source-category average supplies its existing covered private-home boundary, not a claim every New Jersey project is legally covered.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "key": "share",
+              "value": 0.2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NM": {
           "answer": "no",
