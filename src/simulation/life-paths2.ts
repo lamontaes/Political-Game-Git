@@ -80,7 +80,9 @@ import {
 } from "./future-transitions";
 import { recordWorldEvent } from "./world";
 import { evaluateLifeEligibility } from "./life-eligibility";
-import { SeededRng } from "./rng";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
+import { goalConsiderations } from "./people-goal-pursuit";
+import { traitConsiderations } from "./people-traits";
 import {
   employerName,
   lifePathDefinition,
@@ -1344,6 +1346,100 @@ export function recruitLifePathPerson(
   );
   if (previousOffer)
     return fail(world, "This person already has an engagement on this path.");
+  const latestGoals = new Map<
+    string,
+    (typeof world.history.goalStates)[number]
+  >();
+  for (const g of world.history.goalStates.filter(
+    (g) => g.personId === personId,
+  ))
+    latestGoals.set(g.goalKey, g);
+  const unwilling = [...latestGoals.values()].some(
+    (g) => g.status === "active" && g.goalKey === "life-paths2:decline-work",
+  );
+  const busy = activeWorkRelationshipsAt(world, personId).some(
+    (w) => w.role.timeDemand.scheduleRigidity === "rigid",
+  );
+  const responseKey = `${prefix}work-answer:${personId}:${pathId}:${world.currentDate}`;
+  const preferred =
+    proposedPay < path.sessionPayMinor ? "negotiated" : "accepted";
+  const evaluation = evaluateDecision(world, {
+    stableKey: responseKey,
+    decisionType: "people.session-work-answer",
+    actorPersonId: personId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: { kind: "context:life", key: pathId, entityId: null },
+    options: [
+      {
+        key: "accepted",
+        label: "Accept",
+        description: "Agree to the proposed session work.",
+      },
+      { key: "refused", label: "Decline", description: "Decline this offer." },
+      {
+        key: "negotiated",
+        label: "Discuss pay",
+        description: "Discuss compensation before agreeing.",
+      },
+    ],
+    constraints: [
+      ...(unwilling || busy
+        ? ["accepted", "negotiated"].map((optionKey) => ({
+            stableKey: `${responseKey}:unavailable:${optionKey}`,
+            optionKey,
+            kind: "context:work-unavailable",
+            explanation: busy
+              ? "Existing rigid work makes them unavailable."
+              : "They have a recorded intention to decline additional work.",
+            sourceRefs: [],
+          }))
+        : []),
+      {
+        stableKey: `${responseKey}:terms`,
+        optionKey: preferred === "accepted" ? "negotiated" : "accepted",
+        kind: "context:session-compensation",
+        explanation:
+          preferred === "accepted"
+            ? "The proposed pay meets this path's existing session terms."
+            : "The proposed pay is below this path's existing session terms.",
+        sourceRefs: [],
+      },
+    ],
+    considerations: [
+      ...goalConsiderations(
+        world,
+        personId,
+        responseKey,
+        [...latestGoals.values()]
+          .filter(
+            (g) => g.status === "active" && isLivelihoodGoalKey(g.goalKey),
+          )
+          .map((g) => ({
+            optionKey: preferred,
+            goalKey: g.goalKey,
+            direction: "supports" as const,
+            explanation: "They have been looking for suitable work.",
+          })),
+      ),
+      ...traitConsiderations(world, personId, responseKey, [
+        {
+          optionKey: "refused",
+          trait: "risk",
+          pole: "high",
+          explanation: "They would chance waiting for something better.",
+        },
+      ]),
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  });
+  if (!isSelectedDecision(evaluation))
+    return fail(world, "They have not decided whether to accept this work.");
+  const response = evaluation.selectedOptionKey;
   let contextWorld = world;
   let organizationId = campaign?.organizationId;
   if (!organizationId) {
@@ -1381,39 +1477,6 @@ export function recruitLifePathPerson(
     [actor, personId, work.id],
     `You proposed ${proposedPay === 0 ? "volunteer work" : `$${(proposedPay / 100).toFixed(2)} per completed shift`} as ${path.title}.`,
   );
-  // Repeated offers never reroll consent. Existing commitments and an expressed
-  // refusal to seek work outrank the bounded fictional response variation.
-  const latestGoals = new Map<
-    string,
-    (typeof world.history.goalStates)[number]
-  >();
-  for (const g of world.history.goalStates.filter(
-    (g) => g.personId === personId,
-  ))
-    latestGoals.set(g.goalKey, g);
-  const unwilling = [...latestGoals.values()].some(
-    (g) => g.status === "active" && g.goalKey === "life-paths2:decline-work",
-  );
-  const seeking = [...latestGoals.values()].some(
-    (g) => g.status === "active" && isLivelihoodGoalKey(g.goalKey),
-  );
-  const busy = activeWorkRelationshipsAt(world, personId).some(
-    (w) => w.role.timeDemand.scheduleRigidity === "rigid",
-  );
-  const response =
-    unwilling || busy
-      ? "refused"
-      : seeking
-        ? proposedPay < path.sessionPayMinor
-          ? "negotiated"
-          : "accepted"
-        : new SeededRng(
-            `${world.seed}:${personId}:${pathId}:work-response-v1`,
-          ).pick(
-            path.sessionPayMinor === 0
-              ? (["accepted", "refused"] as const)
-              : (["accepted", "refused", "negotiated"] as const),
-          );
   if (response === "refused") {
     const status = workStatusAt(next, work.id)!;
     next = recordWorkStatus(next, {
