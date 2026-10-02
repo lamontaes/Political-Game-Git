@@ -27,8 +27,6 @@ import type {
 import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
 import { isTerritoryUsps } from "../simulation/state-reference";
-import { OpeningStatePopulation } from "./OpeningStatePopulation";
-import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PlacePeopleLayer } from "./PlacePeopleLayer";
 import { placeBackdropPeople } from "../presentation/backdrop-people";
@@ -600,16 +598,6 @@ export function WorldOrientationPanel({
                         </ul>
                       ) : null}
                     </section>
-                    <OpeningStatePopulation
-                      stateUsps={homeStateUsps}
-                      asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
-                    />
-                    {isTerritoryUsps(homeStateUsps) ? null : (
-                      <OpeningStateVoting
-                        stateUsps={homeStateUsps}
-                        asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
-                      />
-                    )}
                   </div>
                   {backdrop.kind === "region-preview" &&
                   regionalPlates.length > 1 ? (
