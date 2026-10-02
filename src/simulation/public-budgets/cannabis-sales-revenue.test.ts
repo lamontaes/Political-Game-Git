@@ -21,11 +21,32 @@ import { makeIsoDate } from "../dates";
 
 import { serializeWorld, deserializeWorld } from "../serialization";
 
-import { createTaxTransitionHandlerRegistry } from "../tax-policy";
+import {
+  createTaxTransitionHandlerRegistry,
+  recordTaxBase,
+  taxBaseOccurrenceSource,
+} from "../tax-policy";
+import { createOrganization } from "../life";
+import {
+  createResourceFlow,
+  createResourcePosition,
+  money,
+  recordResourceTransferOutcome,
+} from "../resources";
+import {
+  resourceFlowTermsAt,
+  resourcePositionAt,
+  currentResourceCutoff,
+} from "../resource-queries";
+import { paymentFromDatedCash } from "../resource-payments";
 
 describe("recorded cannabis receipts replace population forecasts", () => {
   it("recorded cannabis purchases use the enacted tax rate and credit actual paid cash once", () => {
-    const f = fixture();
+    const f = fixture(10000, 0, true, QUESTION, false);
+    expect(f.world.history.taxBases ?? []).toHaveLength(0);
+    expect(
+      dispatch(f.world, f.context).history.taxAssessments ?? [],
+    ).toHaveLength(0);
     const seed = "overflow3:a16:typed-tax-new-game";
     const place = drawRandomPlace(seed);
     const { world: opened } = smallWorld({ place: place.key, seed, people: 3 });
@@ -39,7 +60,7 @@ describe("recorded cannabis receipts replace population forecasts", () => {
       (row) => row.stableKey === QUESTION,
     )!;
     expect(question.consequences).toContainEqual(typedTaxQuestionRow(QUESTION));
-    const world = {
+    let world = {
       ...f.world,
       policyCatalog: {
         ...f.world.policyCatalog,
@@ -52,17 +73,120 @@ describe("recorded cannabis receipts replace population forecasts", () => {
         },
       },
     };
-    const assessed = dispatch(world, f.context);
+    const provenance = {
+      kind: "authored" as const,
+      note: "Controlled buyer and seller agree this purchase; amounts below are actual recorded transfers, not a sales-level forecast.",
+    };
+    world = createOrganization(world, {
+      stableKey: "paid-sale:retailer",
+      formedAt: world.currentDate,
+      provenance,
+      initialProfile: {
+        name: "Controlled retail seller",
+        classification: "enterprise:retail",
+        locationJurisdictionId: world.history.taxProposals![0]!.jurisdictionId,
+      },
+    });
+    const sellerId = world.history.organizations.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "paid-sale:seller-cash",
+      owner: { kind: "organization", organizationId: sellerId },
+      openedAt: world.currentDate,
+      openingBalance: money(0, "USD"),
+      provenance,
+    });
+    world = createResourceFlow(world, {
+      stableKey: "paid-sale:purchase",
+      source: { kind: "person", personId: f.personId },
+      recipient: { kind: "organization", organizationId: sellerId },
+      startsAt: world.currentDate,
+      initialStatus: "active",
+      amount: money(2100, "USD"),
+      cadenceKind: "schedule:one-time",
+      basisKind: "custom:retail-purchase",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: world.history.taxProposals![0]!.jurisdictionId,
+      provenance,
+    });
+    const sale = world.history.resourceFlows.at(-1)!;
+    const terms = resourceFlowTermsAt(
+      world,
+      sale.id,
+      currentResourceCutoff(world),
+    )!;
+    expect(taxBaseOccurrenceSource(world, sale.id)).toBeNull();
+    const payment = paymentFromDatedCash(
+      world,
+      { kind: "person", personId: f.personId },
+      terms.amount,
+      world.currentDate,
+    );
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "paid-sale:receipt",
+      resourceFlowId: sale.id,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      status: payment.status,
+      attemptedAmount: terms.amount,
+      transferredAmount: payment.transferredAmount,
+      reasonKind: payment.reasonKind,
+      note: "Actual paid purchase",
+      provenance,
+    });
+    const receipt = world.history.resourceTransferOutcomes.at(-1)!;
+    expect(receipt.status).toBe("completed");
+    expect(
+      taxBaseOccurrenceSource(world, receipt.id, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: receipt.sequence,
+      }),
+    ).toBeNull();
+    expect(
+      resourcePositionAt(
+        world,
+        { kind: "organization", organizationId: sellerId },
+        terms.amount.currency,
+        currentResourceCutoff(world),
+      )!.liquidBalance.minorUnits,
+    ).toBe(receipt.transferredAmount.minorUnits);
+    const saleBase = {
+      stableKey: "paid-sale:tax-base",
+      jurisdictionId: sale.jurisdictionId!,
+      payer: sale.source as { kind: "person"; personId: typeof f.personId },
+      baseKey: TEST_TAX_TERMS.baseKey,
+      occurredAt: receipt.occurredAt,
+      amount: receipt.transferredAmount,
+      sourceEventId: receipt.id,
+      assumptionNote:
+        "Existing fictional levy applied to the actual paid purchase, never estimated or attempted sales.",
+    };
+    expect(() =>
+      recordTaxBase(world, {
+        ...saleBase,
+        amount: money(receipt.transferredAmount.minorUnits + 1, "USD"),
+      }),
+    ).toThrow(/exact visible occurrence/);
+    world = recordTaxBase(world, saleBase);
+    expect(() => recordTaxBase(world, saleBase)).toThrow(
+      /already has a recorded tax base/,
+    );
+    const context = {
+      ...f.context,
+      activityId: world.history.taxBases!.at(-1)!.id,
+    };
+    const assessed = dispatch(world, context);
     expect(assessed.history.taxAssessments).toHaveLength(1);
     expect(assessed.history.taxAssessments![0]!.taxAmount.minorUnits).toBe(100);
     expect(
       assessed.history.taxAssessments![0]!.lawEffectStamps![0]!.questionKey,
     ).toBe(QUESTION);
     expect(
-      dispatch(deserializeWorld(serializeWorld(assessed)), f.context).history
+      dispatch(deserializeWorld(serializeWorld(assessed)), context).history
         .taxAssessments,
     ).toHaveLength(1);
-    // The loaded cannabis row applies ONLY the saved fictional levy and base.
+    // The loaded cannabis row applies the saved levy to the actual paid sale.
     // Legalization alone supplies neither a purchase nor a legal tax rate.
     const paid = advanceWorld(
       assessed,
@@ -71,7 +195,7 @@ describe("recorded cannabis receipts replace population forecasts", () => {
     );
     const collection = paid.history.taxCollections!.at(-1)!;
     expect(collection.transferredAmount.minorUnits).toBe(100);
-    expect(balances(paid, f.personId)).toEqual([9900, 100]);
+    expect(balances(paid, f.personId)).toEqual([7800, 100]);
     const empty = {
       version: PUBLIC_BUDGETS_VERSION,
       cursor: { flows: 0, outcomes: 0 },

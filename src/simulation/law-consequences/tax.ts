@@ -209,6 +209,7 @@ function resolveStatutoryTaxConsequences(
   if (
     !source ||
     source.kind === "event" ||
+    source.kind === "paid-sale" ||
     source.occurredAt !== context.onDate ||
     source.payer.kind !== "person" ||
     !context.subjectIds.includes(source.payer.personId) ||

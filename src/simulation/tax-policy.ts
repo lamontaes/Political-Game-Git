@@ -765,6 +765,31 @@ export function taxBaseOccurrenceSource(
   const flow = transfer
     ? recordById(world.history.resourceFlows, transfer.resourceFlowId)
     : null;
+  // A paid purchase is its own saved occurrence. Never turn an asking price,
+  // a sales estimate or an unpaid flow into a taxable sale.
+  if (
+    transfer &&
+    flow?.basisKind === "custom:retail-purchase" &&
+    flow.source.kind === "person" &&
+    flow.recipient.kind === "organization" &&
+    flow.jurisdictionId &&
+    world.people[flow.source.personId] &&
+    flow.sequence < transfer.sequence &&
+    transfer.sequence < cutoff.historySequenceExclusive &&
+    transfer.occurredAt <= cutoff.asOfDate &&
+    (transfer.status === "completed" || transfer.status === "partial") &&
+    transfer.transferredAmount.minorUnits > 0
+  )
+    return {
+      kind: "paid-sale" as const,
+      occurredAt: transfer.occurredAt,
+      recordedAt: transfer.occurredAt,
+      sequence: transfer.sequence,
+      jurisdictionId: flow.jurisdictionId,
+      payer: flow.source,
+      amount: transfer.transferredAmount,
+      sourceRecordIds: [transfer.id, flow.id],
+    };
   if (
     allocations.length === 0 ||
     !transfer ||
@@ -1029,7 +1054,7 @@ export function assessTaxBase(
     asOfDate: base.recordedAt,
     historySequenceExclusive: base.sequence,
   });
-  if (source && source.kind !== "event")
+  if (source && source.kind !== "event" && source.kind !== "paid-sale")
     throw new Error(
       "A saved statutory source reuses its existing liability/payment; a second assessment or collection schedule is forbidden.",
     );
@@ -1858,7 +1883,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       asOfDate: base.recordedAt,
       historySequenceExclusive: base.sequence,
     });
-    if (!source || source.kind !== "event")
+    if (!source || (source.kind !== "event" && source.kind !== "paid-sale"))
       throw new Error(
         "A saved statutory source cannot have a second modeled assessment or collection schedule.",
       );

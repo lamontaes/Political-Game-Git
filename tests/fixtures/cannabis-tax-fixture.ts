@@ -80,6 +80,7 @@ export function fixture(
   amount = 2100,
   effective = true,
   questionKey = QUESTION,
+  recordAuthoredBase = true,
 ) {
   let cache = fixtureCache.get(questionKey);
   if (!cache) {
@@ -196,43 +197,45 @@ export function fixture(
     },
   });
   const proposal = world.history.taxProposals![0]!;
-  world = recordWorldEvent(world, {
-    stableKey: "tax-kind:occurrence",
-    type: "tax.test-occurrence",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: proposal.jurisdictionId,
-    involvedEntityIds: [cache.personId],
-    visibility: "private",
-    tags: [],
-    participants: [],
-    personFactConstraints: [],
-    context: {
-      location: null,
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-    summary:
-      "One explicitly authored taxable occurrence for canonical assessment integration.",
-  });
-  world = recordTaxBase(world, {
-    stableKey: "tax-kind:base",
-    jurisdictionId: proposal.jurisdictionId,
-    payer: { kind: "person", personId: cache.personId },
-    baseKey: TEST_TAX_TERMS.baseKey,
-    occurredAt: world.currentDate,
-    amount: money(amount, "USD"),
-    sourceEventId: world.history.events.at(-1)!.id,
-    assumptionNote:
-      "Existing fictional excise test terms and an authored recorded base; no real earnings or legal sales are inferred.",
-  });
+  if (recordAuthoredBase) {
+    world = recordWorldEvent(world, {
+      stableKey: "tax-kind:occurrence",
+      type: "tax.test-occurrence",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: proposal.jurisdictionId,
+      involvedEntityIds: [cache.personId],
+      visibility: "private",
+      tags: [],
+      participants: [],
+      personFactConstraints: [],
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+      summary:
+        "One explicitly authored taxable occurrence for canonical assessment integration.",
+    });
+    world = recordTaxBase(world, {
+      stableKey: "tax-kind:base",
+      jurisdictionId: proposal.jurisdictionId,
+      payer: { kind: "person", personId: cache.personId },
+      baseKey: TEST_TAX_TERMS.baseKey,
+      occurredAt: world.currentDate,
+      amount: money(amount, "USD"),
+      sourceEventId: world.history.events.at(-1)!.id,
+      assumptionNote:
+        "Existing fictional excise test terms and an authored recorded base; no real earnings or legal sales are inferred.",
+    });
+  }
   const context: LawConsequenceContext = {
     onDate: world.currentDate,
     activity: "assessment",
-    activityId: world.history.taxBases!.at(-1)!.id,
+    activityId: world.history.taxBases?.at(-1)?.id ?? policy.id,
     subjectIds: [cache.personId],
     questionKey,
     governingLawId: cache.measureId,
