@@ -1,0 +1,13 @@
+# Restoration and eligibility primary-law subset
+
+Question: `us-policy-positions:justice-public-safety.restore-voting-after-sentence`. This source-only subset updates existing citation and note fields for US-AZ, US-DC, US-ID, US-NC, US-NE, US-OH, US-WA. Existing answers, other rows and historical reader defaults remain unchanged. No runtime producer or categorical schema is introduced.
+
+The selected existing-code option is the existing source/cite/note record. The catalog restoration-event and coverage labels are categorical descriptions; numeric lawTerms cannot represent them. No fee, age, amount or numeric gap count is added.
+
+Nine official source captures are preserved with URL, retrieval date, byte count and SHA-256 in captures.json. Each row was reviewed against its named statutory subdivisions. Ohio release conditions differ from full civil-rights restoration; Arizona distinguishes in-state and out-of-state first convictions and restitution; Idaho preserves out-of-jurisdiction treason and separate firearm exclusions; North Carolina requires unconditional discharge or a qualifying pardon; Nebraska distinguishes voting from jury/office rights; Washington preserves its 2022 effective date, community-custody exception and reregistration; D.C. no longer disqualifies on criminal conviction.
+
+Current text and revision dates do not prove earlier historical law. No operativeAt is manufactured. D.C.'s prior 2020 repeal note and Nebraska's unverified July 19, 2024 task-brief date remain identified as prior context, rather than promoted to newly verified effective dates. Ohio's prior pardon qualification is retained as prior context because section 3599.39 itself states no restoration procedure.
+
+Reviewed: seven rows. Outstanding: 49 rows, exactly US-AK, US-AL, US-AR, US-AS, US-CA, US-CO, US-CT, US-DE, US-FL, US-GA, US-GU, US-HI, US-IA, US-IL, US-IN, US-KS, US-KY, US-LA, US-MA, US-MD, US-ME, US-MI, US-MN, US-MO, US-MP, US-MS, US-MT, US-ND, US-NH, US-NJ, US-NM, US-NV, US-NY, US-OK, US-OR, US-PA, US-PR, US-RI, US-SC, US-SD, US-TN, US-TX, US-UT, US-VA, US-VI, US-VT, US-WI, US-WV, US-WY. American Samoa and USVI remain explicitly estimated; no estimate is relabeled sourced. Other pending rows retain their existing completion, monetary-obligation, offense-exclusion and executive-restoration distinctions.
+
+Source/data isolation check compares parsed current-main JSON with the candidate after restoring only these seven original rows: all other values must match. The same check requires unchanged answer values and no newly added operativeAt or numeric lawTerms. Capture verification recomputes each byte count and hash. No ordinary-year rerun is claimed; the preserved A114 failure remains separate.

@@ -1,0 +1,74 @@
+[
+  {
+    "capture": "oh-2961-01.html",
+    "source": "https://codes.ohio.gov/ohio-revised-code/section-2961.01",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 17392,
+    "sha256": "be53f1010d99aa4df615a55c97458910508e6dd398af77836efa67197cf8bd4a"
+  },
+  {
+    "capture": "oh-3599-39.html",
+    "source": "https://codes.ohio.gov/ohio-revised-code/section-3599.39",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 15167,
+    "sha256": "d823cc5b660f9bca6c897fff23d15a857fa78d80471ea128ffdbad97a5c30282"
+  },
+  {
+    "capture": "az-13-907.html",
+    "source": "https://www.azleg.gov/ars/13/00907.htm",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 2602,
+    "sha256": "1838e8233d9904a5677b211c0ef3ed5d4ff68b7296bed835ff17ea7ed8c462ec"
+  },
+  {
+    "capture": "az-13-908.html",
+    "source": "https://www.azleg.gov/ars/13/00908.htm",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 2862,
+    "sha256": "18d5b0b85c998e16b5373277bf2f38e79183b802c12b7e49ca0b80e80feb6169"
+  },
+  {
+    "capture": "dc-1-1001-02.html",
+    "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1001.02",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 53923,
+    "sha256": "12405d8d48eb83e8e0f502ea7f53cc0b12ccb7a11f6cc688747dd97778b4f900"
+  },
+  {
+    "capture": "nc-13-1.html",
+    "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_13/GS_13-1.html",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 2826,
+    "sha256": "dd55f9b70c67eb50553a5bf3b99678081dbb4eaf7992c715465528eebc1c40d9"
+  },
+  {
+    "capture": "wa-29a-08-520.html",
+    "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.08.520",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 112516,
+    "sha256": "142247e0dc901b9dea50ae0497d5424ed2b6b47cd1424f00049502cdac71eb59"
+  },
+  {
+    "capture": "ne-29-112.html",
+    "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-112",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 24837,
+    "sha256": "69c806dbb94c42c47c81e34d95d126db31564633232d11b3fd3ab6f7e00e771b"
+  },
+  {
+    "capture": "id-18-310.html",
+    "source": "https://legislature.idaho.gov/statutesrules/idstat/Title18/T18CH3/SECT18-310/",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 105802,
+    "sha256": "f0d5fe4eb951debf3ee64e7a6dad2d0433fef3d10949934291d1d45f03c29842"
+  }
+]
