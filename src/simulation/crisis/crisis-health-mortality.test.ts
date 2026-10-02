@@ -3,7 +3,10 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "../character-history";
-import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import {
+  composeWorldTimeHandlers,
+  createCampaignElectionTransitionRegistry,
+} from "../campaigns";
 import { addDays, makeIsoDate } from "../dates";
 import { createDemoWorld } from "../demo";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -627,7 +630,7 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
             basis: "Test fixture only; not clinical data.",
           },
         });
-        const advanced = advanceWorld(aged, 365, REGISTRY);
+        const advanced = advanceWorld(aged, 365, composeWorldTimeHandlers());
         if (
           advanced.history.personDeaths.some(
             (d) => d.personId === fixture.president,
@@ -668,7 +671,7 @@ describe("CRISIS K3 continuity notices for GOVERNING", () => {
       ).toHaveLength(1);
       // The funeral follows a week after the death, and a president who
       // dies in office first lies in state in the Capitol Rotunda.
-      const later = advanceWorld(run!, 10, REGISTRY);
+      const later = advanceWorld(run!, 10, composeWorldTimeHandlers());
       const funeral = later.history.events.find(
         (e) =>
           e.type === OFFICIAL_FUNERAL_EVENT_TYPES.funeral &&
