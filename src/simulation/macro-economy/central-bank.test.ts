@@ -439,9 +439,11 @@ describe("A65: new members remain undecided without a recorded view", () => {
       tags: ["office:us-president"],
       summary: "Controlled appointment test: a president holds office.",
       context: {
-        placeLabel: null,
-        eventFamily: "world.office-tenure",
-        occasion: null,
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
         immediateReaction: null,
       },
     });
