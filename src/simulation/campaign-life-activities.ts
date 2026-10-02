@@ -1221,16 +1221,17 @@ export function projectCampaignGuidance(
   // so the advice matches the office list on Campaigns. Reading only the
   // state's pack told an Eastport, Maine resident no office was known while
   // the town council was open to file for.
-  const offices = electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
-    (option) => ({
-      officeKey: option.officeKey,
-      chamberName: option.chamberName,
-      minimumAge: guidanceValue(option.qualification.minimumAge),
-      residency: guidanceValue(option.qualification.residency),
-      termYears: guidanceValue(option.qualification.termYears),
-      filing: guidanceValue(option.qualification.filing),
-    }),
-  );
+  const offices = electiveOfficesForJurisdiction(
+    person.homeJurisdictionId,
+    world.currentDate,
+  ).map((option) => ({
+    officeKey: option.officeKey,
+    chamberName: option.chamberName,
+    minimumAge: guidanceValue(option.qualification.minimumAge),
+    residency: guidanceValue(option.qualification.residency),
+    termYears: guidanceValue(option.qualification.termYears),
+    filing: guidanceValue(option.qualification.filing),
+  }));
   return {
     personId,
     jurisdictionId: person.homeJurisdictionId,

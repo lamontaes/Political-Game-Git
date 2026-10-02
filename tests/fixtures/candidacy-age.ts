@@ -1,4 +1,7 @@
-import { candidacyPackForJurisdiction } from "../../src/simulation/candidacy";
+import {
+  candidacyPackForJurisdiction,
+  electiveOfficesForJurisdiction,
+} from "../../src/simulation/candidacy";
 import { ageOnDate } from "../../src/simulation/dates";
 import type { EntityId, World } from "../../src/simulation/types";
 
@@ -11,8 +14,13 @@ export function fixtureMeetsRecordedCandidacyAge(
 ): boolean {
   const person = world.people[personId];
   if (!person) return false;
-  const age = candidacyPackForJurisdiction(person.homeJurisdictionId)
-    ?.offices[0]?.qualification.minimumAge;
+  const pack = candidacyPackForJurisdiction(person.homeJurisdictionId);
+  const office = pack?.offices[0];
+  if (!pack || !office) return false;
+  const age = electiveOfficesForJurisdiction(
+    person.homeJurisdictionId,
+    world.currentDate,
+  ).find((row) => row.officeKey === office.officeKey)?.qualification.minimumAge;
   return (
     age?.kind === "known" &&
     ageOnDate(person.birthDate, world.currentDate) >= age.value

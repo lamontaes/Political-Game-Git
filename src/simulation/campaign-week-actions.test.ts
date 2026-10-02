@@ -6,7 +6,10 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  fileForOffice,
+  namedSeatForFixture,
+} from "../../tests/fixtures/campaign-fixture";
 import { attendPartyWork } from "../presentation/campaign-life-actions";
 import {
   campaignById,
@@ -89,6 +92,12 @@ function staffedLife(seed: string) {
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: candidacyPackById("us-ky-general-assembly-v1:candidacy")!
       .offices[0]!.officeKey,
+    districtBinding: namedSeatForFixture(
+      opponents.world,
+      personId,
+      candidacyPackById("us-ky-general-assembly-v1:candidacy")!.offices[0]!
+        .officeKey,
+    ),
     electionDate: addDays(base.currentDate, 28),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,

@@ -1,5 +1,9 @@
 import { placeLocalGovernmentUnits } from "./nationwide-world/local-governments";
 import { candidacyPackById, stateCandidacyPack } from "./candidacy-packs";
+import { settledQualification } from "./settled-qualifications";
+import { knownRule, unknownRule } from "./legislature-rules";
+import type { RuleValue } from "./legislature-rules";
+import type { QualificationOfficeFamily } from "./office-qualification-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import {
   assessSecondCommittee,
@@ -105,13 +109,28 @@ export function localGoverningBodiesForJurisdiction(
  */
 export function electiveOfficesForJurisdiction(
   jurisdictionId: EntityId,
+  onDate?: string,
 ): readonly ElectiveOfficeOption[] {
-  return [
-    ...(candidacyAuthority(jurisdictionId).pack?.offices ?? []),
+  const authority = candidacyAuthority(jurisdictionId);
+  const offices = [
+    ...(authority.pack?.offices ?? []),
     ...localGoverningBodiesForJurisdiction(jurisdictionId).flatMap(
       (identity) => localGoverningBodyCandidacyPack(identity).offices,
     ),
   ];
+  if (onDate === undefined) return offices;
+  return offices.map((office) => ({
+    ...office,
+    qualification: {
+      ...office.qualification,
+      minimumAge: recordedMinimumAge(
+        office,
+        authority.stateJurisdictionKey,
+        officeFamilyForChamberKey(office.officeKey.split(":").at(-1)!),
+        onDate,
+      ),
+    },
+  }));
 }
 
 /** The town governing body this office names, if this place has it. */
@@ -189,10 +208,29 @@ export function candidacyAuthority(
 
 /** The office's recorded age rule; source provenance does not change its value. */
 function recordedMinimumAge(
-  option: ElectiveOfficeOption | null,
-): number | null {
-  const rule = option?.qualification.minimumAge;
-  return rule?.kind === "known" ? rule.value : null;
+  option: ElectiveOfficeOption,
+  jurisdictionKey: string | null,
+  officeFamily: QualificationOfficeFamily | null,
+  onDate: string,
+): RuleValue<number> {
+  const row =
+    jurisdictionKey === null || officeFamily === null
+      ? null
+      : settledQualification(jurisdictionKey, "MINIMUM_AGE", officeFamily);
+  if (row !== null) {
+    const dated = settledQualification(
+      jurisdictionKey!,
+      "MINIMUM_AGE",
+      officeFamily!,
+      onDate,
+    );
+    return dated === null
+      ? unknownRule(
+          "This office's minimum age has not been established for this date.",
+        )
+      : knownRule(dated.value, dated.source);
+  }
+  return option.qualification.minimumAge;
 }
 
 /**
@@ -719,20 +757,24 @@ export function candidacyEligibility(
   // Dated compiled and enacted assessments above take precedence. Only an
   // office with no assessed age reads its own pack; no general adult floor.
   if (qualificationRules === null && !sourcedMinimumAge && option) {
-    const minimumAge = recordedMinimumAge(option);
-    if (minimumAge !== null && age < minimumAge) {
-      const rule = option.qualification.minimumAge;
+    const rule = recordedMinimumAge(
+      option,
+      stateJurisdictionKey,
+      officeFamily,
+      world.currentDate,
+    );
+    if (rule.kind === "known" && age < rule.value) {
       blocks.push({
         kind:
           rule.kind === "known" && rule.source.verification === "game-profile"
             ? "profile-minimum-age"
             : "sourced-minimum-age",
-        reason: `You must be at least ${minimumAge} to run for this office.`,
+        reason: `You must be at least ${rule.value} to run for this office.`,
       });
-    } else if (option.qualification.minimumAge.kind === "unknown") {
+    } else if (rule.kind === "unknown") {
       blocks.push({
         kind: "unproved-sourced-qualification",
-        reason: option.qualification.minimumAge.note,
+        reason: rule.note,
       });
     }
   }

@@ -155,6 +155,35 @@ function officeQualification(
   jurisdictionKey: string,
   chamberKey: string,
 ): ElectiveOfficeQualification {
+  const qualification = compiledQualificationForOffice(
+    packId,
+    jurisdictionKey,
+    chamberKey,
+  );
+  if (qualification.minimumAge.kind !== "unknown") return qualification;
+  const officeFamily = officeFamilyForChamberKey(chamberKey);
+  const settled =
+    officeFamily === null
+      ? null
+      : settledQualification(
+          jurisdictionKey,
+          "MINIMUM_AGE",
+          officeFamily,
+          OFFICE_QUALIFICATIONS_META.asOf,
+        );
+  return settled === null
+    ? qualification
+    : {
+        ...qualification,
+        minimumAge: knownRule(settled.value, settled.source),
+      };
+}
+
+function compiledQualificationForOffice(
+  packId: string,
+  jurisdictionKey: string,
+  chamberKey: string,
+): ElectiveOfficeQualification {
   const rules = candidateQualificationRuleSet(
     `${packId}:candidacy`,
     `${packId}:${chamberKey}`,
@@ -338,6 +367,7 @@ function officeQualification(
         jurisdictionKey,
         field,
         officeFamily,
+        OFFICE_QUALIFICATIONS_META.asOf,
       );
       if (settled !== null) return knownRule(settled.value, settled.source);
       const drawn = standInQualification(jurisdictionKey, field, officeFamily);

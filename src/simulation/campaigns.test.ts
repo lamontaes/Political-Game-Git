@@ -1,4 +1,6 @@
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
+import { settledQualification } from "./settled-qualifications";
+import { officeFamilyForChamberKey } from "./office-qualification-rules";
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
@@ -204,10 +206,28 @@ describe("candidacy coverage is stated, never assumed", () => {
     }
   });
 
-  it("keeps unsupported Kentucky qualifications unknown rather than borrowing another state's", () => {
+  it("records sourced Kentucky office ages and keeps unsupported qualification fields unknown", () => {
     const pack = candidacyPackById(KENTUCKY_PACK)!;
     for (const office of pack.offices) {
-      expect(office.qualification.minimumAge.kind).toBe("unknown");
+      expect(office.qualification.minimumAge.kind).toBe("known");
+      const family = officeFamilyForChamberKey(
+        office.officeKey.split(":").at(-1)!,
+      );
+      const age = settledQualification(
+        pack.jurisdictionKey,
+        "MINIMUM_AGE",
+        family!,
+      );
+      expect(age).not.toBeNull();
+      if (office.qualification.minimumAge.kind === "known") {
+        expect(office.qualification.minimumAge.value).toBe(age!.value);
+        expect(office.qualification.minimumAge.source.citation).toBe(
+          age!.source.citation,
+        );
+        expect(office.qualification.minimumAge.source.sourceUrl).toBe(
+          age!.source.sourceUrl,
+        );
+      }
       expect(office.qualification.residency.kind).toBe("unknown");
       expect(office.qualification.termYears.kind).toBe("unknown");
       expect(office.qualification.filing.kind).toBe("unknown");

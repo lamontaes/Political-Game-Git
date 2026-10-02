@@ -3,10 +3,13 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import {
   candidacyEligibility,
   candidacyPackForJurisdiction,
+  electiveOfficesForJurisdiction,
 } from "./candidacy";
 import * as packs from "./candidacy-packs";
 import { projectCampaignGuidance } from "./campaign-life-activities";
-import { isoDateFromParts, yearOf } from "./dates";
+import { addDays, isoDateFromParts, makeIsoDate, yearOf } from "./dates";
+import { officeFamilyForChamberKey } from "./office-qualification-rules";
+import { settledQualification } from "./settled-qualifications";
 import { lifePlaceStateIdentities } from "./life-places";
 import { unknownRule, notApplicableRule } from "./legislature-rules";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
@@ -14,6 +17,19 @@ import type { EntityId, World } from "./types";
 
 const identities = lifePlaceStateIdentities();
 const seed = "a116-recorded-office-age";
+const datedAgeOffices = identities.flatMap((place) => {
+  const pack = packs.stateCandidacyPack(place.jurisdictionKey);
+  return (pack?.offices ?? []).flatMap((office) => {
+    const family = officeFamilyForChamberKey(
+      office.officeKey.split(":").at(-1)!,
+    );
+    const row =
+      family === null
+        ? null
+        : settledQualification(place.jurisdictionKey, "MINIMUM_AGE", family);
+    return row?.validFrom === undefined ? [] : [{ place, office, row }];
+  });
+});
 afterEach(() => vi.restoreAllMocks());
 
 function atAge(world: World, personId: EntityId, age: number): World {
@@ -44,6 +60,59 @@ function eligibility(
 }
 
 describe("one recorded office-age route across all places", () => {
+  it("includes every newly sourced missing office in the date-bound proof", () => {
+    expect(datedAgeOffices).toHaveLength(12);
+  });
+  it.each(datedAgeOffices)(
+    "enforces $office.officeKey from its own sourced age and refuses unproved history",
+    ({ place, office, row }) => {
+      const { world, personId } = smallWorld({
+        place: place.jurisdictionKey,
+        seed,
+      });
+      const observed = makeIsoDate(row.source.retrievedAt!.slice(0, 10));
+      const datedWorld = { ...world, currentDate: observed };
+      const young = eligibility(
+        atAge(datedWorld, personId, row.value - 1),
+        personId,
+        office,
+      );
+      expect(young.blocks.map((block) => block.kind)).toContain(
+        "sourced-minimum-age",
+      );
+      const oldEnough = eligibility(
+        atAge(datedWorld, personId, row.value),
+        personId,
+        office,
+      );
+      expect(oldEnough.blocks.map((block) => block.kind)).not.toContain(
+        "sourced-minimum-age",
+      );
+      const early = {
+        ...world,
+        currentDate: addDays(makeIsoDate(row.validFrom!), -1),
+      };
+      const unavailable = eligibility(
+        atAge(early, personId, row.value),
+        personId,
+        office,
+      );
+      expect(unavailable.blocks.map((block) => block.kind)).toContain(
+        "unproved-sourced-qualification",
+      );
+      expect(row.source.citation).not.toBe("");
+      expect(row.source.sourceUrl).not.toBeNull();
+      expect(row.source.verification).toBe("partial");
+      const shown = projectCampaignGuidance(datedWorld, personId).offices.find(
+        (item) => item.officeKey === office.officeKey,
+      );
+      expect(shown?.minimumAge.state).toBe("known");
+      const historical = projectCampaignGuidance(early, personId).offices.find(
+        (item) => item.officeKey === office.officeKey,
+      );
+      expect(historical?.minimumAge.state).toBe("unknown");
+    },
+  );
   it.each(identities)(
     "keeps $usps office guidance free of a universal age",
     (place) => {
@@ -65,7 +134,11 @@ describe("one recorded office-age route across all places", () => {
           (row) => row.officeKey === office.officeKey,
         );
         expect(shown?.minimumAge.state).toBe(
-          office.qualification.minimumAge.kind,
+          electiveOfficesForJurisdiction(
+            world.people[personId]!.homeJurisdictionId,
+            world.currentDate,
+          ).find((item) => item.officeKey === office.officeKey)!.qualification
+            .minimumAge.kind,
         );
       }
     },
