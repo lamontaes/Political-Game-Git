@@ -257,10 +257,30 @@ const PROFILE_MOVES: Readonly<Record<HomeStability, number>> = {
  * Existing parent and life records win over profile draws; missing history is
  * filled from named game profiles rather than disguised as sourced fact.
  */
+// The World is immutable. Repeated trait reads of this exact snapshot may
+// share one upbringing, but another snapshot or date always reads afresh.
+const UPBRINGING_READS = new WeakMap<
+  World,
+  { readonly date: IsoDate; readonly byPerson: Map<EntityId, PersonUpbringing> }
+>();
+
 export function upbringingFor(
   world: World,
   personId: EntityId,
 ): PersonUpbringing {
+  let snapshot = UPBRINGING_READS.get(world);
+  if (!snapshot || snapshot.date !== world.currentDate) {
+    snapshot = { date: world.currentDate, byPerson: new Map() };
+    UPBRINGING_READS.set(world, snapshot);
+  }
+  const prior = snapshot.byPerson.get(personId);
+  if (prior) return prior;
+  const result = readUpbringing(world, personId);
+  snapshot.byPerson.set(personId, result);
+  return result;
+}
+
+function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
   const person = world.people[personId];
   if (!person) throw new Error(`No person ${personId} exists.`);
   const rng = new SeededRng(world.seed).fork(`upbringing-v1:${personId}`);

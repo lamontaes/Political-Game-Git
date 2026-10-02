@@ -21,7 +21,7 @@ export {
   SUPREME_COURT_APPOINTMENT_PROFILE,
 } from "./supreme-court-appointment-profile";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision } from "../decisions";
+import { evaluateDecision, isSelectedDecision } from "../decisions";
 import { currentFederalTenure } from "../federal-tenures";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
@@ -292,7 +292,6 @@ export function choosePresidentialNominee(
     ...(input.exclude ?? []),
   ]);
   if (pool.length === 0) return null;
-  if (pool.length === 1) return pool[0]!;
   const evaluation = evaluateDecision(world, {
     stableKey: `${input.stableKey}:president-choice`,
     decisionType: "governing.supreme-court-nomination",
@@ -303,21 +302,27 @@ export function choosePresidentialNominee(
       key: input.stableKey,
       entityId: null,
     },
-    options: pool.map((candidate) => ({
-      key: candidate.personId,
-      label: personName(world.people[candidate.personId]!),
-      description: "Nominate this judge.",
-    })),
+    options: [
+      ...pool.map((candidate) => ({
+        key: candidate.personId,
+        label: personName(world.people[candidate.personId]!),
+        description: "Nominate this judge.",
+      })),
+      {
+        key: "no-nomination",
+        label: "Leave the nomination pending",
+        description: "Do not nominate a judge yet.",
+      },
+    ],
     constraints: [],
     considerations: pool.flatMap((candidate) =>
       candidateReasons(world, candidate, input.presidentId),
     ),
     perceptionIds: [],
-    // Among judges the President has equal reason to name, the choice is
-    // the President's own; a seeded nudge only breaks a genuine tie.
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) return null;
   const chosen = evaluation.selectedOptionKey;
   return pool.find((candidate) => candidate.personId === chosen) ?? null;
 }
@@ -818,7 +823,15 @@ export function associateJusticeNominationHandler(
     office: "associate",
     exclude: rejectedNominees(world, vacancyTag),
   });
-  if (!nominee) return resolved(world, "Nobody in the World can be nominated.");
+  if (!nominee)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "governing:no-recorded-associate-justice-nominee",
+      context:
+        "The Supreme Court nomination remains pending until the President selects a recorded eligible judge.",
+      outcomeEventId: null,
+    };
   const nomineeName = personName(world.people[nominee.personId]!);
   let next = recordWorldEvent(world, {
     stableKey: `${due.stableKey}:nominated`,
