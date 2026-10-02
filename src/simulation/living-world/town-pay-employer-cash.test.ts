@@ -1,15 +1,23 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { observerSetup } from "../../presentation/observer-world";
 import { createOrganization, createWorkRelationship } from "../life";
 import { lifePlaceStateIdentities } from "../life-places";
 import { resourcePositionAt } from "../resource-queries";
 import {
   createResourcePosition,
+  createResourceFlow,
   createWorkCompensation,
   money,
 } from "../resources";
 import { SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { makeIsoDate, simulationMomentOnLocalDate } from "../dates";
+import { BUSINESS_REVENUE_BASIS, OWNER_DRAW_BASIS } from "../local-economy";
 import type { EntityId } from "../types";
 import {
   settleTownCompensations,
@@ -102,6 +110,129 @@ function fixture(cash: number | null, workers = 1) {
 }
 
 describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () => {
+  it.each([150_000, null])(
+    "settles real incoming sales before payroll, preserving customer debit and replay (customer cash %s)",
+    (customerCash) => {
+      const base = fixture(0);
+      let world = createOrganization(base.world, {
+        stableKey: "a60:customers",
+        formedAt: base.world.currentDate,
+        initialProfile: {
+          name: "Controlled customers",
+          classification: "custom:aggregate-customers",
+          locationJurisdictionId: null,
+        },
+        provenance,
+      });
+      const customerOwner = {
+        kind: "organization" as const,
+        organizationId: world.history.organizations.at(-1)!.id,
+      };
+      if (customerCash !== null)
+        world = createResourcePosition(world, {
+          stableKey: "a60:customer-cash",
+          owner: customerOwner,
+          openedAt: world.currentDate,
+          openingBalance: money(customerCash, "USD"),
+          provenance,
+        });
+      world = createResourceFlow(world, {
+        stableKey: "a60:actual-sale",
+        source: customerOwner,
+        recipient: base.owner,
+        startsAt: world.currentDate,
+        amount: money(100_000, "USD"),
+        cadenceKind: "schedule:monthly",
+        basisKind: BUSINESS_REVENUE_BASIS,
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance,
+      });
+      const revenueFlowId = world.history.resourceFlows.at(-1)!.id;
+      world = createResourceFlow(world, {
+        stableKey: "a60:legacy-draw",
+        source: base.owner,
+        recipient: customerOwner,
+        startsAt: world.currentDate,
+        amount: money(50_000, "USD"),
+        cadenceKind: "schedule:monthly",
+        basisKind: OWNER_DRAW_BASIS,
+        basisReference: { kind: "general" },
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance,
+      });
+      const drawFlowId = world.history.resourceFlows.at(-1)!.id;
+      const payday = makeIsoDate("2026-02-01");
+      world = {
+        ...world,
+        currentDate: payday,
+        currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
+      };
+      const period = {
+        ...base.periods[0]!,
+        onDate: payday,
+        periodStartsAt: payday,
+        periodEndsAt: payday,
+      };
+      const paid = settleTownCompensations(world, [period]);
+      const sale = paid.history.resourceTransferOutcomes.find(
+        (outcome) => outcome.resourceFlowId === revenueFlowId,
+      )!;
+      const wage = paid.history.resourceTransferOutcomes.find(
+        (outcome) => outcome.stableKey === period.stableKey,
+      )!;
+      expect(
+        paid.history.resourceTransferOutcomes.some(
+          (outcome) => outcome.resourceFlowId === drawFlowId,
+        ),
+      ).toBe(false);
+      expect(sale.transferredAmount.minorUnits).toBe(
+        customerCash === null ? 0 : 100_000,
+      );
+      expect(wage.transferredAmount.minorUnits).toBe(
+        customerCash === null ? 0 : 100_000,
+      );
+      expect(
+        resourcePositionAt(paid, base.owner, money(0, "USD").currency)!.liquidBalance.minorUnits,
+      ).toBe(0);
+      if (customerCash !== null)
+        expect(
+          resourcePositionAt(paid, customerOwner, money(0, "USD").currency)!.liquidBalance
+            .minorUnits,
+        ).toBe(50_000);
+      else expect(sale.status).toBe("blocked");
+      const replay = deserializeWorld(serializeWorld(paid));
+      expect(settleTownCompensations(replay, [period])).toEqual(replay);
+    },
+  );
+  it("opens a new game in a random place with the current payroll code", () => {
+    const openingSeed = "standby4-a60-current-main-new-game-20261002";
+    const setup = observerSetup(openingSeed);
+    const opened = generateOpeningLife(
+      prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
+    );
+    expect(opened.game).not.toBeNull();
+    const game = opened.game!;
+    expect(game.world.people[game.playerPersonId]).toBeDefined();
+    expect(game.world.history.workRelationships.length).toBeGreaterThan(0);
+    expect(
+      game.world.history.resourceFlows.some(
+        (flow) => flow.basisKind === "compensation:work",
+      ),
+    ).toBe(true);
+    process.stdout.write(
+      JSON.stringify({
+        receipt: "A60 new game",
+        seed: openingSeed,
+        placeKey: setup.placeKey,
+        playerPersonId: game.playerPersonId,
+        date: game.world.currentDate,
+        workRelationships: game.world.history.workRelationships.length,
+      }) + "\n",
+    );
+  });
   it("blocks unknown employer cash without opening an invented employer position", () => {
     const { world, owner, periods } = fixture(null);
     const paid = settleTownCompensations(world, periods);

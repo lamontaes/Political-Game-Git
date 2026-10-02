@@ -91,6 +91,8 @@ import {
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
+import { ensureEmployerCashPositions } from "../opening-employer-cash";
+import { settleBusinessReceipts } from "../local-economy";
 import { resourceFlowTermsAt, resourcePositionAt } from "../resource-queries";
 import { paymentFromDatedCash } from "../resource-payments";
 import { writeWithWorldIntegrityOnce } from "../world";
@@ -1850,6 +1852,18 @@ export function settleTownCompensations(
     pending.add(stableKey);
   }
   if (inputs.length === 0) return next;
+  next = ensureEmployerCashPositions(next, "later");
+  // Existing business contracts settle actual customer payments into the same
+  // canonical payer position before payroll. Saved sales estimates alone
+  // cannot fund a receipt: settlement debits the customer's dated cash.
+  const employers = new Set<EntityId>();
+  for (const input of inputs) {
+    const flow = recordById(next.history.resourceFlows, input.resourceFlowId);
+    if (flow?.source.kind === "organization")
+      employers.add(flow.source.organizationId);
+  }
+  for (const organizationId of employers)
+    next = settleBusinessReceipts(next, organizationId);
   for (const personId of recipients)
     next = ensureLifePathPersonalPosition(
       next,
