@@ -37,7 +37,7 @@ const admitted = ARTICLE_V_STATE_KEYS.filter((key) =>
   stateRatificationChambers(key),
 );
 const sample = [...admitted];
-const rng = new SeededRng(seed).fork("sourced state chambers");
+const rng = new SeededRng(seed).fork("state chambers");
 const states = Array.from(
   { length: Math.min(5, sample.length) },
   () => sample.splice(rng.integer(0, sample.length), 1)[0]!,
@@ -148,7 +148,7 @@ describe("A79 scheduled policy amendment state action uses actual state chambers
       );
       const next = dispatch(actual, stateKey);
       expect(next).not.toBeNull();
-      if (!next) throw Error("Expected sourced actual-state admission.");
+      if (!next) throw Error("Expected disclosed actual-state admission.");
       const action = constitutionalActions(next, measureId).find(
         (row) =>
           row.detail.kind === "state-ratification" &&
@@ -217,10 +217,13 @@ describe("A79 scheduled policy amendment state action uses actual state chambers
     expect(stateActions(dispatch(world, states[0]!))).toEqual([]);
   });
 
-  it("leaves every unsourced or ineligible starting jurisdiction without fabricated state action", () => {
+  it("covers all states with disclosed rules and leaves ineligible jurisdictions without fabricated action", () => {
+    expect(admitted).toHaveLength(50);
+    expect(new Set(admitted).size).toBe(50);
     const unsupported = places.filter(
-      (row) => !admitted.includes(row.jurisdictionKey),
+      (row) => !ARTICLE_V_STATE_KEYS.includes(row.jurisdictionKey),
     );
+    expect(unsupported).toHaveLength(6);
     for (const place of unsupported) {
       expect(stateRatificationChambers(place.jurisdictionKey)).toBeNull();
       expect(
@@ -236,7 +239,7 @@ describe("A79 scheduled policy amendment state action uses actual state chambers
         startingPlaces: places.length,
         admitted,
         sample: states,
-        unboundOrIneligible: unsupported.map((row) => row.jurisdictionKey),
+        ineligible: unsupported.map((row) => row.jurisdictionKey),
       }),
     );
   });
