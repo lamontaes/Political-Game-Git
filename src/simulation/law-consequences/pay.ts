@@ -413,6 +413,7 @@ export function resolveSavedHourlyPayConsequences(
       stateKey,
       context.onDate,
       cutoff,
+      place ? lifePlaceByJurisdictionId(place.id)?.key : undefined,
     );
     if (!rule || !legal?.measureId) continue;
     if (
