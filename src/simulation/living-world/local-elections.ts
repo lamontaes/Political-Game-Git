@@ -18,12 +18,15 @@ import {
   cancelElectionContest,
   electionContestById,
   electionContestResult,
+  ELECTION_CONTEST_TRANSITION_KEY,
   electionContestStatus,
   resolveElectionContest,
   scheduleElectionContest,
 } from "../election-contests";
 import {
   cancelFutureDueItem,
+  futureDueItemStateAt,
+  setFutureDueItemTerminalState,
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { governmentUnit } from "../government-units";
@@ -68,6 +71,7 @@ function nameOf(world: World, personId: EntityId): string {
 import { SeededRng } from "../rng";
 import type {
   CandidateTally,
+  ElectionContestRecord,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -800,6 +804,40 @@ export function ensureLocalElectionCalendar(
 /* Filing: who runs                                                            */
 /* -------------------------------------------------------------------------- */
 
+/** A local count owns its result; the shared fallback must not decide it. */
+function blockSharedContestCount(
+  world: World,
+  contest: ElectionContestRecord,
+): World {
+  const due = world.history.futureDueItems.find(
+    (item) =>
+      item.stableKey === `${contest.stableKey}:due` &&
+      item.transitionKey === ELECTION_CONTEST_TRANSITION_KEY &&
+      item.dueAt === contest.electionDate &&
+      item.jurisdictionId === contest.jurisdictionId &&
+      item.entityIds.length === 1 &&
+      item.entityIds[0] === contest.id,
+  );
+  if (
+    !due ||
+    futureDueItemStateAt(world, due.id, {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    })?.status !== "scheduled"
+  )
+    return world;
+  return setFutureDueItemTerminalState(world, {
+    stableKey: `${contest.stableKey}:local-count:shared-count-blocked`,
+    dueItemId: due.id,
+    effectiveAt: world.currentDate,
+    status: "blocked",
+    reasonKey: "local-election:local-count-blocked",
+    outcomeEventId: null,
+    context:
+      "The local count has no result; the shared fallback cannot resolve this pending contest.",
+  });
+}
+
 function scheduleRace(
   world: World,
   input: {
@@ -816,8 +854,7 @@ function scheduleRace(
 ): World {
   const race = raceKey(input.unit.id, input.generalDate, input.seat);
   const stableKey = `${race}:${input.stage}`;
-  // The count is scheduled first so it runs before the shared contest item
-  // due the same day, which then finds the contest already decided.
+  // The local count runs first. A refusal also blocks the shared fallback.
   let next = scheduleFutureDueItem(world, {
     stableKey: `${stableKey}:count`,
     dueAt: input.voteDate,
@@ -1155,7 +1192,7 @@ export function localElectionCountHandler(
   );
   if (!counted || counted.length === 0)
     return {
-      world,
+      world: blockSharedContestCount(world, contest),
       status: "blocked",
       reasonKey: counted
         ? "local-election:no-ballots"
@@ -1167,7 +1204,7 @@ export function localElectionCountHandler(
     };
   if (counted.length > 1 && counted[0]!.votes === counted[1]!.votes)
     return {
-      world,
+      world: blockSharedContestCount(world, contest),
       status: "blocked",
       reasonKey: "local-election:tied-count",
       context:
@@ -1213,7 +1250,7 @@ export function localElectionCountHandler(
     } else {
       if (counted.length > 2 && counted[1]!.votes === counted[2]!.votes)
         return {
-          world,
+          world: blockSharedContestCount(world, contest),
           status: "blocked",
           reasonKey: "local-election:tied-advancement",
           context:

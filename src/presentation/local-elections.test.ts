@@ -180,10 +180,18 @@ import {
   lifePlaceByKey,
   stateJurisdictionForKey,
 } from "../simulation/life-places";
-import { scheduleFutureDueItem } from "../simulation/future-transitions";
+import {
+  setFutureDueItemTerminalState,
+  createFutureTransitionHandlerRegistry,
+  resolveFutureDueItemsThrough,
+  scheduleFutureDueItem,
+} from "../simulation/future-transitions";
 import {
   scheduleElectionContest,
+  ELECTION_CONTEST_TRANSITION_KEY,
+  electionContestTransitionHandler,
   electionContestResult,
+  electionContestStatus,
 } from "../simulation/election-contests";
 import { localGoverningBodyIdentity } from "../simulation/nationwide-world/local-governing-body-candidacy-packs";
 import {
@@ -302,14 +310,107 @@ describe("A112 town counts use saved support without a seed draw", () => {
           },
         });
         const contest = world.history.electionContests!.at(-1)!;
-        const atVote = {
-          ...world,
-          currentDate: voteDate,
-          currentMoment: simulationMomentOnLocalDate(
-            world.currentMoment,
+        const sharedCount = world.history.futureDueItems.find(
+          (item) => item.stableKey === `${contestKey}:due`,
+        )!;
+        const queued = world;
+        let neutralQueued = queued;
+        for (const belief of queued.history.privateBeliefs) {
+          neutralQueued = recordPrivateBelief(neutralQueued, {
+            stableKey: `${belief.stableKey}:uncertain`,
+            personId: belief.personId,
+            propositionId: belief.propositionId,
+            subject: belief.subject,
+            formedAt: date,
+            position: "uncertain",
+            conviction: belief.conviction,
+            salience: belief.salience,
+            flexibility: belief.flexibility,
+            rationale:
+              "The controlled voter records no preference for this candidate.",
+            formation: createFormationContext("reflection:fixture", {
+              note: "Authored neutral views retain complete saved history.",
+            }),
+            supersedesBeliefId: belief.id,
+          });
+        }
+        const registry = createFutureTransitionHandlerRegistry([
+          [LOCAL_ELECTION_COUNT, localElectionCountHandler],
+          [ELECTION_CONTEST_TRANSITION_KEY, electionContestTransitionHandler],
+        ]);
+        // Older scheduled races still contain both due items. The local
+        // refusal must block the shared fallback before the queue reaches it.
+        for (const pending of [
+          { ...queued, placeOutcomes: undefined },
+          neutralQueued,
+          {
+            ...queued,
+            placeOutcomes: {
+              months: queued.placeOutcomes!.months.map((row) => ({
+                ...row,
+                records: row.records.map((record) => ({
+                  ...record,
+                  value: 0,
+                })),
+              })),
+            },
+          },
+        ]) {
+          const settled = resolveFutureDueItemsThrough(
+            pending,
             voteDate,
-          ),
-        };
+            registry,
+          );
+          expect(electionContestResult(settled, contest.id)).toBeNull();
+          expect(electionContestStatus(settled, contest.id)).toBe("pending");
+          expect(
+            settled.history.futureDueItemStates
+              .filter((state) => state.dueItemId === due.id)
+              .at(-1)!.status,
+          ).toBe("blocked");
+          expect(
+            settled.history.futureDueItemStates
+              .filter((state) => state.dueItemId === sharedCount.id)
+              .at(-1)!.status,
+          ).toBe("blocked");
+          expect(
+            pending.history.futureDueItemStates
+              .filter((state) => state.dueItemId === sharedCount.id)
+              .at(-1)!.status,
+          ).toBe("scheduled");
+          expect(
+            resolveFutureDueItemsThrough(settled, voteDate, registry),
+          ).toBe(settled);
+        }
+        const resolvedQueue = resolveFutureDueItemsThrough(
+          queued,
+          voteDate,
+          registry,
+        );
+        expect(electionContestResult(resolvedQueue, contest.id)).not.toBeNull();
+        expect(electionContestStatus(resolvedQueue, contest.id)).toBe(
+          "resolved",
+        );
+        const atVote = setFutureDueItemTerminalState(
+          {
+            ...world,
+            currentDate: voteDate,
+            currentMoment: simulationMomentOnLocalDate(
+              world.currentMoment,
+              voteDate,
+            ),
+          },
+          {
+            // Direct refusals are idempotent when the shared count is already blocked.
+            stableKey: `${contestKey}:fixture-shared-count-blocked`,
+            dueItemId: sharedCount.id,
+            effectiveAt: voteDate,
+            status: "blocked",
+            reasonKey: "local-election:local-count-blocked",
+            context: "The controlled local count retains pending authority.",
+            outcomeEventId: null,
+          },
+        );
         const unavailable = localElectionCountHandler(
           { ...atVote, placeOutcomes: undefined },
           due,
