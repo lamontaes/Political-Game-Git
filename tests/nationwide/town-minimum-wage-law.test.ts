@@ -15,6 +15,7 @@ import {
   laborLawOfficeKey,
 } from "../../src/simulation/enacted-rule-changes";
 import { createFutureTransitionHandlerRegistry } from "../../src/simulation/future-transitions";
+import { applyLawConsequences } from "../../src/simulation/enacted-law-effects";
 import {
   enrollMeasure,
   introduceMeasure,
@@ -40,7 +41,6 @@ import {
   PAYDAY_TRANSITION_KEY,
   paydayHandler,
   payPeriodEndingOn,
-  raiseTownPayToMinimum,
   type TownPayPeriod,
   townMinimumHourly,
   townMinimumHourlyAt,
@@ -53,7 +53,6 @@ import {
 } from "../../src/simulation/world";
 import type {
   EntityId,
-  FutureDueItem,
   IsoDate,
   World,
 } from "../../src/simulation";
@@ -229,10 +228,13 @@ function runPaydays(
         currentDate: payday,
         currentMoment: simulationMomentOnLocalDate(world.currentMoment, payday),
       };
-      world = paydayHandler(world, {
-        stableKey: `town-pay-v2:payday:${paidThrough}`,
-        transitionKey: PAYDAY_TRANSITION_KEY,
-      } as FutureDueItem).world;
+      const due = world.history.futureDueItems.find(
+        (item) =>
+          item.stableKey === `town-pay-v2:payday:${paidThrough}` &&
+          item.transitionKey === PAYDAY_TRANSITION_KEY,
+      );
+      if (!due) throw new Error("Missing recorded payroll calendar item");
+      world = paydayHandler(world, due).world;
       paidThrough = payday;
     }
   });
@@ -323,12 +325,12 @@ describe(
       for (const flow of payFlows) {
         if (flow.basisReference.kind !== "work") continue;
         const workId = flow.basisReference.workRelationshipId;
-        const role = world.history.workRoles.findLast(
-          (row) => row.workRelationshipId === workId,
-        )!;
-        const terms = world.history.resourceFlowTerms.findLast(
-          (row) => row.resourceFlowId === flow.id,
-        )!;
+        const role = world.history.workRoles
+          .filter((row) => row.workRelationshipId === workId)
+          .at(-1)!;
+        const terms = world.history.resourceFlowTerms
+          .filter((row) => row.resourceFlowId === flow.id)
+          .at(-1)!;
         const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
         const period = /town-(\w+?)(?:-\d)?$/.exec(terms.cadenceKind)![1]!;
         const floor = Math.round(
@@ -340,9 +342,20 @@ describe(
         );
       }
       // Raising again changes nothing.
-      const player =
-        world.control.kind === "person" ? world.control.personId : null;
-      expect(raiseTownPayToMinimum(world, player)).toBe(world);
+      for (const flow of payFlows) {
+        if (flow.recipient.kind !== "person") continue;
+        const personId = flow.recipient.personId;
+        expect(
+          withWorldIntegrityDeferred(() =>
+            applyLawConsequences(world, {
+              onDate: world.currentDate,
+              activity: "payroll",
+              activityId: flow.id,
+              subjectIds: [personId],
+            }),
+          ),
+        ).toBe(world);
+      }
     });
 
     it("reaches Nebraska alone: every other state, D.C. and territory keeps its own rate", () => {

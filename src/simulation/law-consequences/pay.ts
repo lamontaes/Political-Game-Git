@@ -28,6 +28,7 @@ import { workPayCoverageAt } from "../pay-coverage-query";
 import {
   matchPayCoveragePredicates,
   payWorkplaceAt,
+  payPayerAt,
 } from "../pay-coverage-predicates";
 import { applyLawPayConsequence } from "../living-world/town-pay";
 import {
@@ -194,13 +195,13 @@ export function resolvePayConsequences(
       world.history.workRelationships,
       flow.basisReference.workRelationshipId,
     );
+    const cutoff = payActivityCutoff(world, flow, context);
     if (
       !work ||
       work.personId !== personId ||
-      work.organizationId !== flow.source.organizationId
+      payPayerAt(world, work.id, cutoff) !== flow.source.organizationId
     )
       throw new Error("Pay flow must bind its actual worker and employer");
-    const cutoff = payActivityCutoff(world, flow, context);
     const role = workRoleAt(world, work.id, cutoff);
     if (!role) throw new Error("Missing pay recorded work role capability");
     const workplace = payWorkplaceAt(world, work.id, cutoff);
@@ -364,13 +365,13 @@ export function resolveSavedHourlyPayConsequences(
       world.history.workRelationships,
       flow.basisReference.workRelationshipId,
     );
+    const cutoff = payActivityCutoff(world, flow, context);
     if (
       !work ||
       work.personId !== personId ||
-      work.organizationId !== flow.source.organizationId
+      payPayerAt(world, work.id, cutoff) !== flow.source.organizationId
     )
       throw new Error("Hourly rule must bind its actual worker and employer");
-    const cutoff = payActivityCutoff(world, flow, context);
     if (workStatusAt(world, work.id, cutoff)?.status !== "active") continue;
     const role = workRoleAt(world, work.id, cutoff),
       terms = resourceFlowTermsAt(world, flow.id, cutoff);

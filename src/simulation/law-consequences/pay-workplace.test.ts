@@ -5,7 +5,15 @@ import { ensureJurisdiction } from "../national-election-geography";
 import { createOrganization, createWorkRelationship } from "../life";
 import { requireLifePlace, stateJurisdictionForKey } from "../life-places";
 import * as minimumWage from "../minimum-wage";
-import { createWorkCompensation, money } from "../resources";
+import {
+  createResourceFlow,
+  createWorkCompensation,
+  money,
+} from "../resources";
+import {
+  ensureTaxPublicAccount,
+  publicTaxAccountForIdentity,
+} from "../tax-policy";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { resolveSavedHourlyPayConsequences } from "./pay";
 import { STATE_MINIMUM_WAGE_QUESTION_KEY } from "./pay-rows";
@@ -30,7 +38,7 @@ const provenance = {
 };
 afterEach(() => vi.restoreAllMocks());
 
-it.each(["role", "employer", "unbound"] as const)(
+it.each(["role", "employer", "unbound", "public-employer"] as const)(
   "PAY forwards the actual %s workplace to the regional reader, including reload",
   (source) => {
     let { world } = smallWorld({
@@ -44,15 +52,34 @@ it.each(["role", "employer", "unbound"] as const)(
         ? stateJurisdictionForKey(stateKey)!
         : workplace.context.jurisdiction;
     world = ensureJurisdiction(world, location);
+    const government = stateJurisdictionForKey(stateKey)!;
+    world = ensureJurisdiction(world, government);
+    const identity = {
+      kind: "jurisdiction" as const,
+      jurisdictionId: government.id,
+    };
+    if (source === "public-employer")
+      world = ensureTaxPublicAccount(world, government.id);
     const personId = world.personOrder[0]!;
     world = createOrganization(world, {
       stableKey: "fixture:regional-pay:employer",
       formedAt: world.currentDate,
-      provenance,
+      provenance:
+        source === "public-employer"
+          ? {
+              kind: "source-record",
+              reference: "fixture:recorded-government-payer",
+              asOf: world.currentDate,
+            }
+          : provenance,
       initialProfile: {
         name: "Controlled test employer",
-        classification: "sector:private",
+        classification:
+          source === "public-employer" ? "sector:government" : "sector:private",
         locationJurisdictionId: location.id,
+        ...(source === "public-employer"
+          ? { publicGovernmentIdentity: identity }
+          : {}),
       },
     });
     const organizationId = world.history.organizations.at(-1)!.id;
@@ -82,16 +109,30 @@ it.each(["role", "employer", "unbound"] as const)(
       },
     });
     const work = world.history.workRelationships.at(-1)!;
-    world = createWorkCompensation(world, {
+    const contract = {
       stableKey: `job-pay:${work.id}`,
       workRelationshipId: work.id,
       startsAt: world.currentDate,
       amount: money(regions[1]!.lawTerms[0]!.value, "USD"),
-      cadenceKind: "schedule:weekly",
+      cadenceKind: "schedule:weekly" as const,
       restrictionKind: null,
       jurisdictionId: location.id,
       provenance,
-    });
+    };
+    world =
+      source === "public-employer"
+        ? createResourceFlow(world, {
+            ...contract,
+            source: {
+              kind: "organization",
+              organizationId: publicTaxAccountForIdentity(world, identity)!
+                .organizationId,
+            },
+            recipient: { kind: "person", personId },
+            basisKind: "compensation:work",
+            basisReference: { kind: "work", workRelationshipId: work.id },
+          })
+        : createWorkCompensation(world, contract);
     const flow = world.history.resourceFlows.at(-1)!;
     const reader = vi.spyOn(minimumWage, "stateMinimumSettingAt");
     for (const snapshot of [world, deserializeWorld(serializeWorld(world))]) {
@@ -110,6 +151,34 @@ it.each(["role", "employer", "unbound"] as const)(
       if (source === "unbound") expect(actual).toBeNull();
       else expect(actual?.hourlyMinor).toBe(regions[1]!.lawTerms[0]!.value);
       expect(serializeWorld(snapshot)).toBe(before);
+      if (source === "public-employer") {
+        expect(flow.source).not.toEqual({
+          kind: "organization",
+          organizationId,
+        });
+        const wrongPayer = {
+          ...snapshot,
+          history: {
+            ...snapshot.history,
+            resourceFlows: snapshot.history.resourceFlows.map((row) =>
+              row.id === flow.id
+                ? {
+                    ...row,
+                    source: { kind: "organization" as const, organizationId },
+                  }
+                : row,
+            ),
+          },
+        };
+        expect(() =>
+          resolveSavedHourlyPayConsequences(wrongPayer, {
+            onDate: wrongPayer.currentDate,
+            activity: "payroll",
+            activityId: flow.id,
+            subjectIds: [personId],
+          }),
+        ).toThrow("Hourly rule must bind its actual worker and employer");
+      }
     }
   },
 );

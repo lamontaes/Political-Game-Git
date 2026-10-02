@@ -1,6 +1,7 @@
 import { paidOfficeOf } from "./office-pay";
 import type { LawConsequencePredicate } from "./law-consequence-types";
 import { recordById } from "./history-index";
+import { publicTaxAccountForIdentity } from "./tax-policy";
 import {
   organizationProfileAt,
   workRelationshipHistoryForOrganization,
@@ -10,6 +11,22 @@ import {
 import type { EntityId, HistoricalCutoff, World } from "./types";
 
 export { PAY_COVERAGE_PREDICATES } from "./law-consequences/pay-rows";
+
+/** Actual dated payer: the employer, or its recorded government's account. */
+export function payPayerAt(
+  world: World,
+  workId: EntityId,
+  cutoff: HistoricalCutoff,
+): EntityId | null {
+  const work = recordById(world.history.workRelationships, workId);
+  if (!work?.organizationId) return null;
+  const profile = organizationProfileAt(world, work.organizationId, cutoff);
+  const identity = profile?.publicGovernmentIdentity;
+  return identity
+    ? (publicTaxAccountForIdentity(world, identity, cutoff)?.organizationId ??
+        null)
+    : work.organizationId;
+}
 
 /** A workplace from saved, dated work/employer facts, never a home default. */
 export function payWorkplaceAt(

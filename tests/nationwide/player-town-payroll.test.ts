@@ -18,7 +18,6 @@ import {
   payPeriodEndingOn,
   paydayHandler,
   startTownJobPay,
-  raiseTownPayToMinimum,
   raiseTeacherPayToFloor,
   payTownPaydays,
 } from "../../src/simulation/living-world/town-pay";
@@ -63,15 +62,14 @@ function allPlaces() {
   }));
 }
 
-/** Exact pre-change payday caller, from main ab4ac1b8. */
-function previousPayday(world: World, due: FutureDueItem): World {
+/** NPC route through the same canonical payroll settlement as played work. */
+function npcPayday(world: World, due: FutureDueItem): World {
   const since = due.stableKey.slice(
     `${TOWN_PAY_VERSION}:payday:`.length,
   ) as World["currentDate"];
   const played =
     world.control.kind === "person" ? world.control.personId : null;
   let next = startTownJobPay(world, played, since);
-  next = raiseTownPayToMinimum(next, played);
   next = raiseTeacherPayToFloor(next, played);
   next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, played);
@@ -178,7 +176,7 @@ describe.each(allPlaces())(
       )!;
       expect(due).toBeDefined();
       const npc = withWorldIntegrityDeferred(() =>
-        previousPayday({ ...base, control: { kind: "observer" } }, due),
+        npcPayday({ ...base, control: { kind: "observer" } }, due),
       );
       const player = withWorldIntegrityDeferred(
         () =>

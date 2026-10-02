@@ -15,6 +15,7 @@ import { stateMinimumSettingAt } from "./minimum-wage";
 import {
   matchPayCoveragePredicates,
   payWorkplaceAt,
+  payPayerAt,
 } from "./pay-coverage-predicates";
 import { workPayCoverageAt } from "./pay-coverage-query";
 import {
@@ -90,7 +91,8 @@ export function validateEarnedLawPayAssessment(
     work!.personId !== assessment.personId ||
     work!.organizationId !== assessment.organizationId ||
     flow!.source.kind !== "organization" ||
-    flow!.source.organizationId !== assessment.organizationId ||
+    flow!.source.organizationId !==
+      payPayerAt(world, work!.id, assessment.earnedCutoff) ||
     flow!.recipient.kind !== "person" ||
     flow!.recipient.personId !== assessment.personId ||
     flow!.basisReference.kind !== "work" ||
