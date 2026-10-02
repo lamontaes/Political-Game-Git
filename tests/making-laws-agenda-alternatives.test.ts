@@ -42,7 +42,9 @@ function opening(usps: string) {
     place: usps,
     seed: SEED,
     date: `${year}-01-05`,
-    offices: ["state-legislature"],
+    // Living-world party organizations must exist before the state opening
+    // records its actual affiliations; a state-only opening is nonpartisan.
+    offices: ["congress", "state-legislature"],
   });
   const pack = legislativePackForJurisdiction(fixture.stateJurisdictionId)!;
   const chamber = pack.chambers.find((body) => body.introductionAllowed)!;

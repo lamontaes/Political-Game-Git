@@ -561,12 +561,17 @@ export function fileMemberAgendaBills(
         )
           return [];
         let best: Proposal | null = null;
-        const councilProposals: Proposal[] = [];
+        const candidateProposals: Proposal[] = [];
         for (const propositionId of questions) {
           if (!questionOpen(propositionId)) continue;
           const leaning = leaningFor(sponsor.personId!, propositionId);
           if (Math.abs(leaning.score) < settings.filingThreshold) continue;
-          if (!input.council && best && Math.abs(leaning.score) <= best.weight)
+          if (
+            !input.council &&
+            !settings.retainAlternatives &&
+            best &&
+            Math.abs(leaning.score) <= best.weight
+          )
             continue;
           if (!laws.has(propositionId))
             laws.set(
@@ -719,11 +724,19 @@ export function fileMemberAgendaBills(
             issueKey,
             subjectClass,
           };
-          if (input.council) councilProposals.push(best);
+          if (input.council || settings.retainAlternatives)
+            candidateProposals.push(best);
         }
-        return (input.council ? councilProposals : best ? [best] : []).map(
-          (proposal) => ({ sponsor, proposal, pressure: proposal.weight }),
-        );
+        // A state member's next eligible priority remains available when an
+        // earlier selection takes their first choice. The existing selector
+        // still admits at most one bill per member and question per intake.
+        return (
+          input.council || settings.retainAlternatives
+            ? candidateProposals
+            : best
+              ? [best]
+              : []
+        ).map((proposal) => ({ sponsor, proposal, pressure: proposal.weight }));
       },
     );
     const claimedMembers = new Set<EntityId>();
