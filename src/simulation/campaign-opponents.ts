@@ -1,3 +1,4 @@
+import { requestedCampaignAdvertisingGainBasisPoints } from "./campaigns";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import { jailTermOn } from "./justice/jail-terms";
@@ -985,9 +986,7 @@ function writeMessaging(
   const shifted = recordSupportShift(next, campaign, {
     stableKeyBase: stepKey,
     gainerPersonId: opponent.candidatePersonId,
-    // The player's paid message gains the same: a basis point per $5
-    // (`campaigns.ts` requestedGainBasisPoints).
-    gainBasisPoints: Math.floor(spend / 500),
+    gainBasisPoints: requestedCampaignAdvertisingGainBasisPoints(amount),
     sourceEntityIds: [outcomeEventId],
   });
   return {

@@ -1108,6 +1108,13 @@ function bookCampaignAction(
   return { world: next, action };
 }
 
+/** The existing paid-message effect, shared by every committee. */
+export function requestedCampaignAdvertisingGainBasisPoints(
+  spend: MoneyAmount,
+): number {
+  return Math.floor(spend.minorUnits / 500);
+}
+
 /**
  * What an afternoon actually moves.
  *
@@ -1151,7 +1158,12 @@ function requestedGainBasisPoints(
             doorKnockingReturn(world, campaign, action.id).percent) /
             200,
         )
-      : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
+      : requestedCampaignAdvertisingGainBasisPoints(
+          action.plannedSpend ?? {
+            minorUnits: 0,
+            currency: campaign.treasuryCurrency,
+          },
+        );
   const swing = new SeededRng(world.seed)
     .fork(`campaign-action-effect:${action.id}`)
     .integer(60, 141);
