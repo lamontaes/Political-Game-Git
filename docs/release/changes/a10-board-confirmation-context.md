@@ -9,7 +9,7 @@ Before: the shared chamber nomination evaluator accepted only Supreme Court nomi
 
 After: the board context accepts the actual saved nomination and refuses mismatched people, places or seats. Recorded appointees now receive dated active membership while confirmation is unwired, labeled serving pending confirmation. Missing member reasons still produce no yes vote. The judicial branch and existing generic institution roster and party cues are preserved.
 
-## Source and remaining work
+Source and remaining work
 
 Replaces: the judicial-only nomination context restriction for actual board nominations. No second vote engine, weight or fabricated judicial event is added. Team2's exact `decideMemberVote` leaf is preserved from its published donor at f0a16f2623125be65e37fe7b6829a8e485c33c89; its separate bargaining caller remains in that donor dependency.
 
@@ -17,7 +17,7 @@ Measured in the changed test: the actual saved nomination reaches the shared pat
 
 The superseding October 2, 2026, 08:06 ruling allows actual appointees to serve pending unwired confirmation. Measured in the changed test, the writer preserves the nomination and appointer decision, appends an appointment event, and creates active participation through the existing life writer (`src/simulation/justice/clemency-board-seating.ts:220`). Its provenance points to that actual appointment. It rejects dead nominees and invalid or later appointer traces. It does not save a confirmation or close the complete board/candidate and positive clemency fixture gaps. Connecticut's both-house requirement remains in the profile. CT's confirmation threshold is awaiting the designated legal packet; no legal mode is invented. Core/shared review remains required.
 
-## Louisiana source correction
+Louisiana source correction
 
 Measured source: [R.S.24:14(A), (F)](https://www.legis.la.gov/Legis/LawPrint.aspx?d=84056) expressly covers governor appointments, including boards, and requires a strict majority of elected Senate members voting in open regular session. B separately covers other appointing officials. The earlier restriction based on the B snippet is withdrawn. The proposed LA threshold records greater than one-half of elected members, not a majority of attendees.
 
@@ -25,7 +25,7 @@ C–K submission, interim/special-meeting, expiry, exception, applicable tax-ret
 
 CTO08:28 assigns all missing legal-rule research to the designated Claude session. No modal legal fallback was implemented. Full board size/term/quorum/procedure, unsourced sentencing and juvenile rows will consume its published packet. Existing actual-person candidate generation remains an explicit dependency; an empty governor circle is not presented as complete board coverage.
 
-## Method
+Method
 
 AUDIT: A10 5/5 → 5/5, checks flipped: none. The five static checks cover removal of newspaper prosecution/clemency advancement, the two saved-due consumers and their two production registry registrations. Main6ad1064aa280441713da222ea4054410e0360343 and receiving branch scans executed. This unblocks the actual board nomination context for the existing shared chamber decision path, not the complete confirmed seating consumer.
 
