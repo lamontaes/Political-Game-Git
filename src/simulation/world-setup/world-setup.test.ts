@@ -23,10 +23,50 @@ import {
   referenceReconstruction,
   zeroPoliticalLatents,
 } from "./political-start";
-import type { StartingRegime } from "./types";
+import nationalAnnualConditions from "../../../data/research/macro/national-annual-conditions.json" with { type: "json" };
 
 /** Only the seed feeds these generators; no other World field is read. */
 const seedWorld = (seed: string) => ({ seed }) as unknown as World;
+
+describe("R21 observed-year macro opening", () => {
+  it("uses one actual year for every observation and labels neutral model state", () => {
+    const selectedYears = new Set<number>();
+    for (let index = 0; index < 40; index += 1) {
+      const world = seedWorld(`r21-observed-year:${index}`);
+      const regime = drawStartingRegime(world);
+      const record = drawMacroStartingConditions(world, regime);
+      const source = nationalAnnualConditions.rows.find(
+        (row) => row.year === record.observedYear!.year,
+      )!;
+      selectedYears.add(source.year);
+      expect(record.initial.unemploymentPct).toBe(
+        source.unemploymentAnnualAveragePct,
+      );
+      expect(record.initial.inflation12mPct).toBeCloseTo(
+        source.inflation12mPct,
+        5,
+      );
+      expect(record.initial.realGrowthAnnualPct).toBeCloseTo(
+        source.realGrowthContinuouslyCompoundedAnnualPct,
+        5,
+      );
+      expect(record.observedYear!.effectiveFederalFundsAnnualAveragePct).toBe(
+        source.effectiveFederalFundsAnnualAveragePct,
+      );
+      expect(record.observedYear!.homePriceToHouseholdIncomeRatio).toBe(
+        source.homePriceToHouseholdIncomeRatio,
+      );
+      expect(record.observedYear!.householdDebtServicePctDisposableIncome).toBe(
+        source.householdDebtServicePctDisposableIncome,
+      );
+      expect(record.modelStateBasis).toContain("MODEL STATE AT START");
+      expect(record.latents.housing).toBe(0);
+      expect(record.latents.credit).toBe(0);
+      expect(drawMacroStartingConditions(world, regime)).toEqual(record);
+    }
+    expect(selectedYears.size).toBeGreaterThan(1);
+  });
+});
 
 describe("deterministic math", () => {
   it("matches the platform functions closely without depending on them", () => {
@@ -53,23 +93,26 @@ describe("deterministic math", () => {
 });
 
 describe("starting regime and macro kernel (crunch46-provisional-v1)", () => {
-  it("draws regimes at the authored frequencies", () => {
-    const counts: Record<StartingRegime, number> = {
-      "near-reference": 0,
-      modest: 0,
-      major: 0,
-    };
-    const n = 6000;
-    for (let i = 0; i < n; i += 1) {
-      counts[drawStartingRegime(seedWorld(`regime-${i}`))] += 1;
+  it("selects actual national years while retaining explicitly neutral regime state", () => {
+    const years = new Set<number>();
+    for (let i = 0; i < 6000; i += 1) {
+      const world = seedWorld(`regime-${i}`);
+      const regime = drawStartingRegime(world);
+      expect(regime).toBe("near-reference");
+      const macro = drawMacroStartingConditions(world, regime);
+      expect(
+        nationalAnnualConditions.rows.some(
+          (row) => row.year === macro.observedYear!.year,
+        ),
+      ).toBe(true);
+      years.add(macro.observedYear!.year);
     }
-    for (const regime of CRUNCH46_POLICY.regimes.order) {
-      const expected = CRUNCH46_POLICY.regimes.frequency[regime];
-      expect(Math.abs(counts[regime] / n - expected)).toBeLessThan(0.02);
-    }
+    expect([...years].sort()).toEqual(
+      nationalAnnualConditions.rows.map((row) => row.year).sort(),
+    );
   });
 
-  it("applies the section 13 startup equations exactly", () => {
+  it("retains recorded unemployment and applies defined model equations exactly", () => {
     for (const regime of CRUNCH46_POLICY.regimes.order) {
       const macro = drawMacroStartingConditions(seedWorld("macro-a"), regime);
       const scale = CRUNCH46_POLICY.macro.volatilityScale[regime];
@@ -80,7 +123,9 @@ describe("starting regime and macro kernel (crunch46-provisional-v1)", () => {
         5,
       );
       expect(macro.initial.unemploymentPct).toBeCloseTo(
-        logistic(Math.log(0.046 / 0.954) - 0.2 * scale * cycle) * 100,
+        nationalAnnualConditions.rows.find(
+          (row) => row.year === macro.observedYear!.year,
+        )!.unemploymentAnnualAveragePct,
         5,
       );
       expect(macro.initial.inflation12mPct).toBeCloseTo(
@@ -286,7 +331,7 @@ describe("political starting conditions", () => {
     }
   });
 
-  it("across many seeds: recognizable starts are common, departures possible, nothing capped", () => {
+  it("across many seeds: single-cycle congressional results remain certified while macro years vary", () => {
     const summary: Record<
       string,
       { houseD: number[]; flips: number[]; presidents: Record<string, number> }
@@ -349,7 +394,17 @@ describe("political starting conditions", () => {
     );
     expect(Math.abs(median(near.houseD) - referenceHouseD)).toBeLessThan(30);
     const all = Object.values(summary).flatMap((bucket) => bucket.flips);
-    expect(Math.max(...all)).toBeGreaterThan(median(near.flips));
+    expect(all).toHaveLength(240);
+    expect(all.every((flips) => flips === 0)).toBe(true);
+    expect(near.houseD.every((count) => count === referenceHouseD)).toBe(true);
+    const years = new Set(
+      Array.from({ length: 240 }, (_, index) => {
+        const world = seedWorld(`distribution-${index}`);
+        return drawMacroStartingConditions(world, drawStartingRegime(world))
+          .observedYear!.year;
+      }),
+    );
+    expect(years.size).toBeGreaterThan(1);
   });
 
   it("replays exactly from the same seed", () => {

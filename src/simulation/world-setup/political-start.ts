@@ -9,15 +9,7 @@ import {
   censusRegionStates,
 } from "./census-regions";
 import type { CensusRegion } from "./census-regions";
-import {
-  clampShare,
-  logistic,
-  logit,
-  openUniform,
-  roundTo,
-  standardNormal,
-} from "./deterministic-math";
-import { worldSetupRng } from "./conditions";
+import { clampShare, logistic, logit, roundTo } from "./deterministic-math";
 import { CRUNCH46_POLICY } from "./policy";
 import type {
   GeneratedPresidency,
@@ -124,39 +116,13 @@ export function zeroPoliticalLatents(regime: StartingRegime): PoliticalLatents {
   };
 }
 
-/** Shared national, Census-region and state effects: never independent flips. */
+/** Opening political results come from each office's certified observations. */
 export function drawPoliticalLatents(
-  world: World,
+  _world: World,
   regime: StartingRegime,
 ): PoliticalLatents {
-  const policy = CRUNCH46_POLICY.political;
-  const national =
-    policy.nationalSwingSd[regime] *
-    standardNormal(worldSetupRng(world, "politics:national"));
-  const regionSwingPp = Object.fromEntries(
-    CENSUS_REGION_ORDER.map((region) => [
-      region,
-      roundTo(
-        policy.censusRegionResidualSd[regime] *
-          standardNormal(worldSetupRng(world, `politics:region:${region}`)),
-      ),
-    ]),
-  ) as Record<CensusRegion, number>;
-  const stateSwingPp = Object.fromEntries(
-    censusRegionStates().map((usps) => [
-      usps,
-      roundTo(
-        policy.stateResidualSd[regime] *
-          standardNormal(worldSetupRng(world, `politics:state:${usps}`)),
-      ),
-    ]),
-  );
-  return {
-    regime,
-    nationalSwingPp: roundTo(national),
-    regionSwingPp,
-    stateSwingPp,
-  };
+  // Preserve the saved shape and caller contract without inventing vote swings.
+  return zeroPoliticalLatents(regime);
 }
 
 export function sharedSwing(
@@ -170,16 +136,6 @@ export function sharedSwing(
   );
 }
 
-function zeroed(latents: PoliticalLatents): boolean {
-  return (
-    latents.nationalSwingPp === 0 &&
-    CENSUS_REGION_ORDER.every(
-      (region) => latents.regionSwingPp[region] === 0,
-    ) &&
-    Object.values(latents.stateSwingPp).every((value) => value === 0)
-  );
-}
-
 /** Section 13: logit of the baseline, plus swing / 25, then back to a share. */
 export function applySwing(baselineShare: number, swingPp: number): number {
   const policy = CRUNCH46_POLICY.political;
@@ -190,33 +146,31 @@ export function applySwing(baselineShare: number, swingPp: number): number {
 }
 
 function decide(
-  world: World,
   key: string,
   share: number,
-): "democratic" | "republican" {
+  recordedWinner: string | null,
+): string {
   if (share > 0.5) return "democratic";
   if (share < 0.5) return "republican";
-  // An exact tie is a mathematical boundary, resolved by an authored even draw.
-  return openUniform(worldSetupRng(world, `tie:${key}`)) < 0.5
-    ? "democratic"
-    : "republican";
+  // A tied share does not replace the contest's certified officeholder.
+  if (recordedWinner !== null) return recordedWinner;
+  throw new Error(`Missing certified winner for tied contest ${key}.`);
 }
 
 /**
  * One contest's starting affiliation.
  *
- * With a certified two-major-party margin the shared swings and this contest's
- * own residual move the share. Without one the office's recorded affiliation
- * is preserved exactly, with the compiler's reason for the missing margin: a
+ * With a certified two-major-party margin, preserve its share unless the
+ * caller supplies recorded shared effects. No per-seat residual is drawn.
+ * Without a margin the office's recorded affiliation is preserved exactly, with the compiler's reason for the missing margin: a
  * bounded calibration limitation, never a substituted number from another
  * office and never an invented neutral share.
  */
 export function generateContest(
-  world: World,
+  _world: World,
   latents: PoliticalLatents,
   row: CalibrationRow,
 ): GeneratedSeatCondition {
-  const policy = CRUNCH46_POLICY.political;
   const reference = row.referenceAffiliation;
   const caucus = (affiliation: string) =>
     MAJOR.has(affiliation)
@@ -250,21 +204,18 @@ export function generateContest(
     };
   }
   const baselineShare = row.democraticTwoPartyShare;
-  // Rounded before use, so a later reader recomputing from the saved record
-  // lands on exactly the saved share.
-  const residual = zeroed(latents)
-    ? 0
-    : roundTo(
-        policy.seatResidualSd[latents.regime] *
-          standardNormal(
-            worldSetupRng(world, `politics:seat:${row.contestKey}`),
-          ),
-      );
+  const residual = 0;
   const generated = applySwing(
     baselineShare,
-    sharedSwing(latents, row.stateUsps) + residual,
+    sharedSwing(latents, row.stateUsps),
   );
-  const affiliation = decide(world, row.contestKey, generated);
+  // A tied observed share cannot establish a different officeholder.
+  const affiliation =
+    generated > 0.5
+      ? "democratic"
+      : generated < 0.5
+        ? "republican"
+        : (reference ?? "unrecorded");
   return {
     seatKey: row.contestKey,
     baselineKind: "certified-two-party",
@@ -272,7 +223,7 @@ export function generateContest(
     seatResidualPp: residual,
     generatedShare: roundTo(generated),
     affiliation,
-    caucus: affiliation,
+    caucus: affiliation === "unrecorded" ? null : affiliation,
     referenceWinner: reference,
     uncertaintyReason: null,
   };
@@ -282,7 +233,7 @@ const UNIT_RULE_NOTE =
   "Statewide electors follow the generated statewide presidential share. Maine and Nebraska award district electors separately, but this compiled source has no certified presidential result by congressional district, so those electors follow their state's generated result and are recorded as an unmet unit-rule input. A House district's vote share is not a presidential vote share and is not used here.";
 
 export function generatePresidency(
-  world: World,
+  _world: World,
   latents: PoliticalLatents,
 ): GeneratedPresidency {
   const electoralVotes: Record<string, number> = {};
@@ -295,11 +246,11 @@ export function generatePresidency(
     const baseline = row?.democraticTwoPartyShare ?? null;
     const winner =
       baseline === null
-        ? (row?.referenceAffiliation ?? decide(world, `president:${usps}`, 0.5))
+        ? decide(`president:${usps}`, 0.5, row?.referenceAffiliation ?? null)
         : decide(
-            world,
             `president:${usps}`,
             applySwing(baseline, sharedSwing(latents, usps)),
+            row?.referenceAffiliation ?? null,
           );
     stateWinners[usps] = winner;
     add(winner, ELECTORAL_ALLOCATION[usps]!);

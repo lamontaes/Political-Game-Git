@@ -1,0 +1,2075 @@
+{
+  "sources": [
+    {
+      "id": "mn-sos-certified-2024",
+      "stateUsps": "MN",
+      "stateFips": "27",
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-11-21",
+      "updatedAt": "2024-12-02",
+      "url": "https://www.sos.state.mn.us/media/yt3llxwd/2024-general-federal-state-results-by-precinct-official.xlsx",
+      "certificationUrl": "https://www.sos.state.mn.us/elections-voting/election-results/2024/2024-general-election-results/2024-state-canvassing-board-general/",
+      "certificationDocumentUrl": "https://officialdocuments.sos.state.mn.us/Document/Details/152508",
+      "worksheet": "Precinct-Results",
+      "precinctIdField": "VTDID",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Minnesota changed both chamber plans for 2024. Bind only the official 2024 district labels; do not borrow the 2022 returns.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "contests": [
+        {
+          "chamber": "state-lower",
+          "districtField": "MNLEGDIST",
+          "voteFields": {
+            "MNLEGR": "r",
+            "MNLEGDFL": "d",
+            "MNLEGWI": null
+          },
+          "partyNames": {
+            "r": "Republican",
+            "d": "Democratic-Farmer-Labor"
+          }
+        },
+        {
+          "chamber": "state-upper",
+          "districtField": "MNSENDIST",
+          "voteFields": {
+            "MNSENR": "r",
+            "MNSENDFL": "d",
+            "MNSENWI": null
+          },
+          "partyNames": {
+            "r": "Republican",
+            "d": "Democratic-Farmer-Labor"
+          }
+        }
+      ],
+      "sha256": "13adf003bfabf1a19e4c47dc7fe100d8862cd22186b1f6ae0f52a721a5b57459",
+      "retrievedAt": "2026-10-02"
+    },
+    {
+      "id": "wy-sos-certified-2024-house",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-11-13",
+      "url": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_Statewide_House_Candidates_Summary.pdf",
+      "sha256": "8bd0a76b3a7302887bd450debbb84e43f5b857e62e4dbf6b0ab733a22ae8d652",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_State_Canvassing_Board_Minutes.pdf",
+      "certificationSha256": "fc735f734678dfdc4106878e0f9eed63e99114e8c48be6cb26339984e9e9b87d",
+      "certificationLocator": "Signed certification page9, viewed original scanned page",
+      "certificationStatement": "This is to certify that the undersigned members of the State Canvassing Board, having canvassed all of the returns of the General Election held on November 5th, 2024, do hereby certify that the attached is a full, true and correct summary of said canvass.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 explicitly identifies the2024-cycle plans and states all states outside its enumerated changed-plan lists retained2022 boundaries. Wyoming is not in either changed-plan list. These records use certified2024 results.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-lower",
+      "districtHeading": "House District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "Only contests elected in2024;2022 Senate16odd districts remain unbound pending explicit2022 certification."
+    },
+    {
+      "id": "wy-sos-certified-2024-senate",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-11-13",
+      "url": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_Statewide_Senate_Candidates_Summary.pdf",
+      "sha256": "b98f5610a344eca446cdd0e9162cb29494e3b3c44ec4fefd8ed22f326680edad",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://sos.wyo.gov/Elections/Docs/2024/Results/General/2024_General_State_Canvassing_Board_Minutes.pdf",
+      "certificationSha256": "fc735f734678dfdc4106878e0f9eed63e99114e8c48be6cb26339984e9e9b87d",
+      "certificationLocator": "Signed certification page9, viewed original scanned page",
+      "certificationStatement": "This is to certify that the undersigned members of the State Canvassing Board, having canvassed all of the returns of the General Election held on November 5th, 2024, do hereby certify that the attached is a full, true and correct summary of said canvass.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 explicitly identifies the2024-cycle plans and states all states outside its enumerated changed-plan lists retained2022 boundaries. Wyoming is not in either changed-plan list. These records use certified2024 results.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-upper",
+      "districtHeading": "Senate District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "Only the15even-district contests elected in2024;2022odd districts supplied by a separate certified source."
+    },
+    {
+      "id": "me-sos-certified-2022-house",
+      "stateUsps": "ME",
+      "stateFips": "23",
+      "chamber": "state-lower",
+      "seatSeriesId": "me-certified-current-plan",
+      "planCycle": 2022,
+      "electionDate": "2022-11-08",
+      "certifiedAt": "2022-12-01",
+      "url": "https://www.maine.gov/sos/sites/maine.gov.sos/files/inline-files/Rep%20to%20the%20Legislature.xlsx",
+      "sha256": "738b163116b726df9902fd6fca479f0dbef5be9a302cf2a675701695a0ebda14",
+      "retrievedAt": "2026-10-02",
+      "worksheetPath": "xl/worksheets/sheet1.xml",
+      "expectedContests": 151,
+      "designationCodes": {
+        "Democratic": "d",
+        "Republican": "r",
+        "Unenrolled": "designation:Unenrolled",
+        "Independent": "designation:Independent",
+        "Green Independent": "designation:Green Independent",
+        "Independent for Maine": "designation:Independent for Maine",
+        "Your Local Independent": "designation:Your Local Independent",
+        "Independent-Unenrolled": "designation:Independent-Unenrolled",
+        "Unaffiliated Independent": "designation:Unaffiliated Independent",
+        "Practical Thrifty Independent": "designation:Practical Thrifty Independent",
+        "A True Independent": "designation:A True Independent",
+        "Real Maine Independent": "designation:Real Maine Independent",
+        "Independent For Maine": "designation:Independent For Maine",
+        "Wicked Thrifty Independent": "designation:Wicked Thrifty Independent",
+        "Non Party Candidate": "designation:Non Party Candidate",
+        "Common Sense Independent": "designation:Common Sense Independent",
+        "Maine Independent": "designation:Maine Independent"
+      },
+      "certificationEvidence": {
+        "url": "https://legislature.maine.gov/house/Repository/Documents/131/LegislativeRecords/d314a156-00df-4479-8a77-568a361fccbf_20221207.pdf",
+        "sha256": "372c937b0bd4ad8a98e2f5088279abcbc213156b77694369e5a82a5ebb65a564",
+        "locator": "Opening communication H.C.1 / S.C.1 and certified vote tabulation",
+        "statement": "Secretary of State certifies elected legislative names/residences and true tabulation of general-election votes reported by cities, towns and plantations."
+      },
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "Census 2025 uses state-submitted plans in effect for the 2024 election cycle; Maine is not among the listed 2024 changed plans, so its 2022 and 2024 returns use the same submitted plan.",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Minnesota changed both chamber plans for 2024. Bind only the official 2024 district labels; do not borrow the 2022 returns.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "sourceLimit": "Unaffiliated or nonmajor designations retained exactly; no party organization is inferred and those seats are not bound to the major-party consumer."
+    },
+    {
+      "id": "me-sos-certified-2022-senate",
+      "stateUsps": "ME",
+      "stateFips": "23",
+      "chamber": "state-upper",
+      "seatSeriesId": "me-certified-current-plan",
+      "planCycle": 2022,
+      "electionDate": "2022-11-08",
+      "certifiedAt": "2022-12-01",
+      "url": "https://www.maine.gov/sos/sites/maine.gov.sos/files/inline-files/State%20Senate.xlsx",
+      "sha256": "82630d2338be303817af8c1ded0bcac5577897cff834d24e743743910ed8f057",
+      "retrievedAt": "2026-10-02",
+      "worksheetPath": "xl/worksheets/sheet1.xml",
+      "expectedContests": 35,
+      "designationCodes": {
+        "Democratic": "d",
+        "Republican": "r",
+        "Unenrolled": "designation:Unenrolled",
+        "Independent": "designation:Independent",
+        "Green Independent": "designation:Green Independent",
+        "Independent for Maine": "designation:Independent for Maine",
+        "Your Local Independent": "designation:Your Local Independent",
+        "Independent-Unenrolled": "designation:Independent-Unenrolled",
+        "Unaffiliated Independent": "designation:Unaffiliated Independent",
+        "Practical Thrifty Independent": "designation:Practical Thrifty Independent",
+        "A True Independent": "designation:A True Independent",
+        "Real Maine Independent": "designation:Real Maine Independent",
+        "Independent For Maine": "designation:Independent For Maine",
+        "Wicked Thrifty Independent": "designation:Wicked Thrifty Independent",
+        "Non Party Candidate": "designation:Non Party Candidate",
+        "Common Sense Independent": "designation:Common Sense Independent",
+        "Maine Independent": "designation:Maine Independent"
+      },
+      "certificationEvidence": {
+        "url": "https://legislature.maine.gov/uploads/visual_edit/01-12-07-2022r2.pdf",
+        "sha256": "8a5b0366a03beb51f9717a464de7e744693f4d6a5a24c1e739ba855e6cdad7b7",
+        "locator": "Opening communication H.C.1 / S.C.1 and certified vote tabulation",
+        "statement": "Secretary of State certifies elected legislative names/residences and true tabulation of general-election votes reported by cities, towns and plantations."
+      },
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "Census 2025 uses state-submitted plans in effect for the 2024 election cycle; Maine is not among the listed 2024 changed plans, so its 2022 and 2024 returns use the same submitted plan.",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Minnesota changed both chamber plans for 2024. Bind only the official 2024 district labels; do not borrow the 2022 returns.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "sourceLimit": "Unaffiliated or nonmajor designations retained exactly; no party organization is inferred and those seats are not bound to the major-party consumer."
+    },
+    {
+      "id": "me-sos-certified-2024-house",
+      "stateUsps": "ME",
+      "stateFips": "23",
+      "chamber": "state-lower",
+      "seatSeriesId": "me-certified-current-plan",
+      "planCycle": 2022,
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-12-02",
+      "url": "https://www.maine.gov/sos/sites/maine.gov.sos/files/content/assets/Rep-20to-20the-20Legislature-20FINAL-20--20Corrected.xlsx",
+      "sha256": "8eadd8e088727b520cec0e09c4f8584abdb63d69d49b4a4ec9cc536f7872a44a",
+      "retrievedAt": "2026-10-02",
+      "worksheetPath": "xl/worksheets/sheet1.xml",
+      "expectedContests": 151,
+      "designationCodes": {
+        "Democratic": "d",
+        "Republican": "r",
+        "Unenrolled": "designation:Unenrolled",
+        "Independent": "designation:Independent",
+        "Green Independent": "designation:Green Independent",
+        "Independent for Maine": "designation:Independent for Maine",
+        "Your Local Independent": "designation:Your Local Independent",
+        "Independent-Unenrolled": "designation:Independent-Unenrolled",
+        "Unaffiliated Independent": "designation:Unaffiliated Independent",
+        "Practical Thrifty Independent": "designation:Practical Thrifty Independent",
+        "A True Independent": "designation:A True Independent",
+        "Real Maine Independent": "designation:Real Maine Independent",
+        "Independent For Maine": "designation:Independent For Maine",
+        "Wicked Thrifty Independent": "designation:Wicked Thrifty Independent",
+        "Non Party Candidate": "designation:Non Party Candidate",
+        "Common Sense Independent": "designation:Common Sense Independent",
+        "Maine Independent": "designation:Maine Independent"
+      },
+      "certificationEvidence": {
+        "url": "https://legislature.maine.gov/house/Repository/Documents/132/LegislativeRecords/63b12a60-3275-4662-a4b0-47bc70c89dff_20241204.pdf",
+        "sha256": "a89ceb40a09005790fe17f2d8ffcb4ac08bf6f69cf457bfb160e83a425883f48",
+        "locator": "Opening communication H.C.1 / S.C.1 and certified vote tabulation",
+        "statement": "Secretary of State certifies elected legislative names/residences and true tabulation of general-election votes reported by cities, towns and plantations."
+      },
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "Census 2025 uses state-submitted plans in effect for the 2024 election cycle; Maine is not among the listed 2024 changed plans, so its 2022 and 2024 returns use the same submitted plan.",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Minnesota changed both chamber plans for 2024. Bind only the official 2024 district labels; do not borrow the 2022 returns.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "sourceLimit": "Unaffiliated or nonmajor designations retained exactly; no party organization is inferred and those seats are not bound to the major-party consumer."
+    },
+    {
+      "id": "me-sos-certified-2024-senate",
+      "stateUsps": "ME",
+      "stateFips": "23",
+      "chamber": "state-upper",
+      "seatSeriesId": "me-certified-current-plan",
+      "planCycle": 2022,
+      "electionDate": "2024-11-05",
+      "certifiedAt": "2024-12-02",
+      "url": "https://www.maine.gov/sos/sites/maine.gov.sos/files/content/assets/State-20Senator-20FINAL.xlsx",
+      "sha256": "a60cd8ab36b889c945fb87da3b205ec1f4bc748e611c87d3eb780ad9174d4d48",
+      "retrievedAt": "2026-10-02",
+      "worksheetPath": "xl/worksheets/sheet1.xml",
+      "expectedContests": 35,
+      "designationCodes": {
+        "Democratic": "d",
+        "Republican": "r",
+        "Unenrolled": "designation:Unenrolled",
+        "Independent": "designation:Independent",
+        "Green Independent": "designation:Green Independent",
+        "Independent for Maine": "designation:Independent for Maine",
+        "Your Local Independent": "designation:Your Local Independent",
+        "Independent-Unenrolled": "designation:Independent-Unenrolled",
+        "Unaffiliated Independent": "designation:Unaffiliated Independent",
+        "Practical Thrifty Independent": "designation:Practical Thrifty Independent",
+        "A True Independent": "designation:A True Independent",
+        "Real Maine Independent": "designation:Real Maine Independent",
+        "Independent For Maine": "designation:Independent For Maine",
+        "Wicked Thrifty Independent": "designation:Wicked Thrifty Independent",
+        "Non Party Candidate": "designation:Non Party Candidate",
+        "Common Sense Independent": "designation:Common Sense Independent",
+        "Maine Independent": "designation:Maine Independent"
+      },
+      "certificationEvidence": {
+        "url": "https://legislature.maine.gov/uploads/visual_edit/01-12-04-24r2-3.pdf",
+        "sha256": "8c670ec1da927048894b9c9c96d09a3383cbc2a3a474ef4ad97b2d5ba0039c61",
+        "locator": "Opening communication H.C.1 / S.C.1 and certified vote tabulation",
+        "statement": "Secretary of State certifies elected legislative names/residences and true tabulation of general-election votes reported by cities, towns and plantations."
+      },
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "Census 2025 uses state-submitted plans in effect for the 2024 election cycle; Maine is not among the listed 2024 changed plans, so its 2022 and 2024 returns use the same submitted plan.",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Minnesota changed both chamber plans for 2024. Bind only the official 2024 district labels; do not borrow the 2022 returns.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "sourceLimit": "Unaffiliated or nonmajor designations retained exactly; no party organization is inferred and those seats are not bound to the major-party consumer."
+    },
+    {
+      "id": "wy-sos-certified-2022-senate",
+      "format": "official-summary-pdf",
+      "stateUsps": "WY",
+      "stateFips": "56",
+      "electionDate": "2022-11-08",
+      "certifiedAt": "2022-12-14",
+      "url": "https://sos.wyo.gov/Elections/Docs/2022/Results/General/2022_General_Statewide_Senate_Candidates_Summary.pdf",
+      "sha256": "cc2ef5c4bbabb94a6bebd959966a15666cc4878108401f2f4b20af507a46295d",
+      "retrievedAt": "2026-10-02",
+      "certificationUrl": "https://www.wyoleg.gov/2023/SenateJournal.pdf",
+      "certificationSha256": "9c1355025ca20f2ba50219476df4947b0007af070d7aa7e1798bbb6bae449b29",
+      "certificationLocator": "Printed Senate journal pages1\u20132, secretary certification executed December14,2022",
+      "certificationStatement": "Full, true and correct list of persons duly elected to the Wyoming Senate at the General Election held on the eighth day of November2022 according to the Certificates of the State Canvassing Board, as filed in this office.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 section4.19 identifies2024-cycle plans and unchanged2022 boundaries for states outside its enumerated changed-plan lists. Wyoming is not in either changed-plan list; these2022returns therefore use the same state-submitted Census2025 districts.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "chamber": "state-upper",
+      "districtHeading": "Senate District",
+      "firstDataLabel": "Albany",
+      "partyCodes": {
+        "R": "r",
+        "D": "d"
+      },
+      "partyNames": {
+        "r": "Republican",
+        "d": "Democratic"
+      },
+      "sourceLimit": "The16odd Senate districts elected in2022, each exact single-cycle result."
+    },
+    {
+      "id": "ak-doe-certified-2024",
+      "stateUsps": "AK",
+      "stateFips": "02",
+      "electionDate": "2024-11-05",
+      "planCycle": 2022,
+      "retrievedAt": "2026-10-02",
+      "url": "https://www.elections.alaska.gov/election-results/e/?id=24genr",
+      "certificationEvidence": "Official Division of Elections results archive labels this election Official and describes its archive as certified results. Summary is labeled OFFICIAL RESULTS; final ranked-choice elected statements and HD28recount supersede initial choice totals where applicable. Certification date is not separately supplied.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 identifies2024-cycle state-submitted plans; Alaska is absent from the enumerated2024changed-plan lists. Actual official legislative labels bind to those same Census participant codes, numeric or letter padded to3characters.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "partyCodes": {
+        "DEM": "d",
+        "REP": "r"
+      },
+      "expectedContests": 50,
+      "artifacts": [
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+          "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+          "file": "o3-ak-summary2024.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/RCV-SenD.pdf",
+          "sha256": "24cfff36076ef875c130bb1631c33abe786be4e1179353777fb94dc3194b4f66",
+          "file": "o3-ak-helper-RCV-SenD.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/RCV-SenF.pdf",
+          "sha256": "9cfc3778a625da8c06e2d0e0d7999d2d62d3d011ca2d8f2a8a8630d60d20269c",
+          "file": "o3-ak-helper-RCV-SenF.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/RCV-SenL.pdf",
+          "sha256": "27b08b5ff36fba7f7047878f022acf93746825374dc4d4ba762f955ce9c5a8fa",
+          "file": "o3-ak-helper-RCV-SenL.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/RCV-HD6.pdf",
+          "sha256": "9b54f157ff08af8fd10ac8ba5ff0e97f85e1ba7d057d1267ab35720a79f2d175",
+          "file": "o3-ak-helper-RCV-HD6.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/RcvDetailedReport-HD28-Recount.pdf",
+          "sha256": "106d00a5629f0f963cb8a2385bb5b7d84baef29a96fded13d94a762a778e5fd9",
+          "file": "o3-ak-helper-RcvDetailedReport-HD28-Recount.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport-Recount-Result.pdf",
+          "sha256": "ab6f5740fc04d73a3999806c29a494832833152dfd46cca0f28f767d06249760",
+          "file": "o3-ak-helper-ElectionSummaryReport-Recount-Result.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/RCV-HD36.pdf",
+          "sha256": "f1c72b09134d01f8d801863138d4eea8ab23d49d2d8285feb8386b3b3108775d",
+          "file": "o3-ak-helper-RCV-HD36.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/RCV-HD38.pdf",
+          "sha256": "a5937088ccd568f4e65dd2f109b1b65da92aad98fd2003b4f8a5001096c993b1",
+          "file": "o3-ak-helper-RCV-HD38.pdf"
+        },
+        {
+          "url": "https://www.elections.alaska.gov/results/24GENR/RCV-HD40.pdf",
+          "sha256": "3424fa4b74907b2a23b18421e4973513e274dca68ee855b887f305427a176acd",
+          "file": "o3-ak-helper-RCV-HD40.pdf"
+        }
+      ],
+      "electedRecords": [
+        {
+          "chamber": "state-upper",
+          "districtCode": "00B",
+          "candidateName": "Kiehl, Jesse",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 2,
+            "textLine": 53,
+            "districtLabel": "Senate District B"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 2,
+            "textLine": 53,
+            "districtLabel": "Senate District B"
+          },
+          "locator": "PDF page 2, Senate District B, text line 53",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 96.51,
+          "finalRound": 1,
+          "finalRoundVotes": 15508,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00D",
+          "candidateName": "Bjorkman, Jesse J.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/RCV-SenD.pdf",
+            "sha256": "24cfff36076ef875c130bb1631c33abe786be4e1179353777fb94dc3194b4f66",
+            "pdfPage": 2,
+            "textLine": 85
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 2,
+            "textLine": 67,
+            "districtLabel": "Senate District D"
+          },
+          "locator": "PDF page 2, Senate District D, text line 85",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Bjorkman, Jesse J. is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 47.82,
+          "finalRound": 2,
+          "finalRoundVotes": 9802,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00F",
+          "candidateName": "Kaufman, James D.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/RCV-SenF.pdf",
+            "sha256": "9cfc3778a625da8c06e2d0e0d7999d2d62d3d011ca2d8f2a8a8630d60d20269c",
+            "pdfPage": 2,
+            "textLine": 82
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 2,
+            "textLine": 83,
+            "districtLabel": "Senate District F"
+          },
+          "locator": "PDF page 2, Senate District F, text line 82",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Kaufman, James D. is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 47.91,
+          "finalRound": 2,
+          "finalRoundVotes": 8678,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00H",
+          "candidateName": "Claman, Matt",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 2,
+            "textLine": 99,
+            "districtLabel": "Senate District H"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 2,
+            "textLine": 99,
+            "districtLabel": "Senate District H"
+          },
+          "locator": "PDF page 2, Senate District H, text line 99",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 55.24,
+          "finalRound": 1,
+          "finalRoundVotes": 9924,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00J",
+          "candidateName": "Dunbar, Forrest",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 3,
+            "textLine": 114,
+            "districtLabel": "Senate District J"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 3,
+            "textLine": 114,
+            "districtLabel": "Senate District J"
+          },
+          "locator": "PDF page 3, Senate District J, text line 114",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 69.83,
+          "finalRound": 1,
+          "finalRoundVotes": 7292,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00L",
+          "candidateName": "Merrick, Kelly R.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/RCV-SenL.pdf",
+            "sha256": "27b08b5ff36fba7f7047878f022acf93746825374dc4d4ba762f955ce9c5a8fa",
+            "pdfPage": 2,
+            "textLine": 85
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 3,
+            "textLine": 129,
+            "districtLabel": "Senate District L"
+          },
+          "locator": "PDF page 2, Senate District L, text line 85",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Merrick, Kelly R. is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 46.32,
+          "finalRound": 2,
+          "finalRoundVotes": 9892,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00N",
+          "candidateName": "Yundt, Robert",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 3,
+            "textLine": 145,
+            "districtLabel": "Senate District N"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 3,
+            "textLine": 145,
+            "districtLabel": "Senate District N"
+          },
+          "locator": "PDF page 3, Senate District N, text line 145",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 52.69,
+          "finalRound": 1,
+          "finalRoundVotes": 8163,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00P",
+          "candidateName": "Kawasaki, Scott",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 3,
+            "textLine": 161,
+            "districtLabel": "Senate District P"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 3,
+            "textLine": 161,
+            "districtLabel": "Senate District P"
+          },
+          "locator": "PDF page 3, Senate District P, text line 161",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 51.39,
+          "finalRound": 1,
+          "finalRoundVotes": 5913,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00R",
+          "candidateName": "Cronk, Mike",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 4,
+            "textLine": 176,
+            "districtLabel": "Senate District R"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 4,
+            "textLine": 176,
+            "districtLabel": "Senate District R"
+          },
+          "locator": "PDF page 4, Senate District R, text line 176",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 51.84,
+          "finalRound": 1,
+          "finalRoundVotes": 9387,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00T",
+          "candidateName": "Olson, Donald C. \"Donny\"",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 4,
+            "textLine": 192,
+            "districtLabel": "Senate District T"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 4,
+            "textLine": 192,
+            "districtLabel": "Senate District T"
+          },
+          "locator": "PDF page 4, Senate District T, text line 192",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 97.63,
+          "finalRound": 1,
+          "finalRoundVotes": 6273,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "001",
+          "candidateName": "Bynum, Jeremy T.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 4,
+            "textLine": 206,
+            "districtLabel": "House District 1"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 4,
+            "textLine": 206,
+            "districtLabel": "House District 1"
+          },
+          "locator": "PDF page 4, House District 1, text line 206",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 51.97,
+          "finalRound": 1,
+          "finalRoundVotes": 4243,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "002",
+          "candidateName": "Himschoot, Rebecca",
+          "partyLabel": "NON",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 4,
+            "textLine": 222,
+            "districtLabel": "House District 2"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 4,
+            "textLine": 222,
+            "districtLabel": "House District 2"
+          },
+          "locator": "PDF page 4, House District 2, text line 222",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 97.53,
+          "finalRound": 1,
+          "finalRoundVotes": 7060,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "003",
+          "candidateName": "Story, Andrea \"Andi\"",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 5,
+            "textLine": 236,
+            "districtLabel": "House District 3"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 5,
+            "textLine": 236,
+            "districtLabel": "House District 3"
+          },
+          "locator": "PDF page 5, House District 3, text line 236",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 96.02,
+          "finalRound": 1,
+          "finalRoundVotes": 7961,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "004",
+          "candidateName": "Hannan, Sara",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 5,
+            "textLine": 250,
+            "districtLabel": "House District 4"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 5,
+            "textLine": 250,
+            "districtLabel": "House District 4"
+          },
+          "locator": "PDF page 5, House District 4, text line 250",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 96.63,
+          "finalRound": 1,
+          "finalRoundVotes": 7000,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "005",
+          "candidateName": "Stutes, Louise B.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 5,
+            "textLine": 264,
+            "districtLabel": "House District 5"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 5,
+            "textLine": 264,
+            "districtLabel": "House District 5"
+          },
+          "locator": "PDF page 5, House District 5, text line 264",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 77.37,
+          "finalRound": 1,
+          "finalRoundVotes": 5445,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "006",
+          "candidateName": "Vance, Sarah L.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/RCV-HD6.pdf",
+            "sha256": "9b54f157ff08af8fd10ac8ba5ff0e97f85e1ba7d057d1267ab35720a79f2d175",
+            "pdfPage": 2,
+            "textLine": 82
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 5,
+            "textLine": 279,
+            "districtLabel": "House District 6"
+          },
+          "locator": "PDF page 2, House District 6, text line 82",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Vance, Sarah L. is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 46.95,
+          "finalRound": 2,
+          "finalRoundVotes": 5638,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "007",
+          "candidateName": "Ruffridge, Justin M.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 6,
+            "textLine": 295,
+            "districtLabel": "House District 7"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 6,
+            "textLine": 295,
+            "districtLabel": "House District 7"
+          },
+          "locator": "PDF page 6, House District 7, text line 295",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 58.92,
+          "finalRound": 1,
+          "finalRoundVotes": 4985,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "008",
+          "candidateName": "Elam, Bill",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 6,
+            "textLine": 310,
+            "districtLabel": "House District 8"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 6,
+            "textLine": 310,
+            "districtLabel": "House District 8"
+          },
+          "locator": "PDF page 6, House District 8, text line 310",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 51.53,
+          "finalRound": 1,
+          "finalRoundVotes": 4655,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "009",
+          "candidateName": "Holland, Ky",
+          "partyLabel": "NON",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 6,
+            "textLine": 325,
+            "districtLabel": "House District 9"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 6,
+            "textLine": 325,
+            "districtLabel": "House District 9"
+          },
+          "locator": "PDF page 6, House District 9, text line 325",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 54.3,
+          "finalRound": 1,
+          "finalRoundVotes": 6085,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "010",
+          "candidateName": "Kopp, Charles M. \"Chuck\"",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 6,
+            "textLine": 340,
+            "districtLabel": "House District 10"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 6,
+            "textLine": 340,
+            "districtLabel": "House District 10"
+          },
+          "locator": "PDF page 6, House District 10, text line 340",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 61.59,
+          "finalRound": 1,
+          "finalRoundVotes": 4669,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "011",
+          "candidateName": "Coulombe, Julie",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 7,
+            "textLine": 355,
+            "districtLabel": "House District 11"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 7,
+            "textLine": 355,
+            "districtLabel": "House District 11"
+          },
+          "locator": "PDF page 7, House District 11, text line 355",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 52.6,
+          "finalRound": 1,
+          "finalRoundVotes": 4836,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "012",
+          "candidateName": "Schrage, Calvin R.",
+          "partyLabel": "NON",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 7,
+            "textLine": 370,
+            "districtLabel": "House District 12"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 7,
+            "textLine": 370,
+            "districtLabel": "House District 12"
+          },
+          "locator": "PDF page 7, House District 12, text line 370",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 60.82,
+          "finalRound": 1,
+          "finalRoundVotes": 4763,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "013",
+          "candidateName": "Josephson, Andrew L. \"Andy\"",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 7,
+            "textLine": 385,
+            "districtLabel": "House District 13"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 7,
+            "textLine": 385,
+            "districtLabel": "House District 13"
+          },
+          "locator": "PDF page 7, House District 13, text line 385",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 53.29,
+          "finalRound": 1,
+          "finalRoundVotes": 3743,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "014",
+          "candidateName": "Galvin, Alyse S.",
+          "partyLabel": "NON",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 7,
+            "textLine": 402,
+            "districtLabel": "House District 14"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 7,
+            "textLine": 402,
+            "districtLabel": "House District 14"
+          },
+          "locator": "PDF page 7, House District 14, text line 402",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 77.51,
+          "finalRound": 1,
+          "finalRoundVotes": 4847,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "015",
+          "candidateName": "Costello, Mia",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 8,
+            "textLine": 417,
+            "districtLabel": "House District 15"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 8,
+            "textLine": 417,
+            "districtLabel": "House District 15"
+          },
+          "locator": "PDF page 8, House District 15, text line 417",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 51.53,
+          "finalRound": 1,
+          "finalRoundVotes": 4543,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "016",
+          "candidateName": "Hall, Carolyn",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 8,
+            "textLine": 433,
+            "districtLabel": "House District 16"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 8,
+            "textLine": 433,
+            "districtLabel": "House District 16"
+          },
+          "locator": "PDF page 8, House District 16, text line 433",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 56.56,
+          "finalRound": 1,
+          "finalRoundVotes": 4860,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "017",
+          "candidateName": "Fields, William Z. \"Zack\"",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 8,
+            "textLine": 448,
+            "districtLabel": "House District 17"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 8,
+            "textLine": 448,
+            "districtLabel": "House District 17"
+          },
+          "locator": "PDF page 8, House District 17, text line 448",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 93.56,
+          "finalRound": 1,
+          "finalRoundVotes": 5243,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "018",
+          "candidateName": "Nelson, David",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 8,
+            "textLine": 462,
+            "districtLabel": "House District 18"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 8,
+            "textLine": 462,
+            "districtLabel": "House District 18"
+          },
+          "locator": "PDF page 8, House District 18, text line 462",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 50.25,
+          "finalRound": 1,
+          "finalRoundVotes": 1878,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "019",
+          "candidateName": "Mina, Genevieve G.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 9,
+            "textLine": 477,
+            "districtLabel": "House District 19"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 9,
+            "textLine": 477,
+            "districtLabel": "House District 19"
+          },
+          "locator": "PDF page 9, House District 19, text line 477",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 60.83,
+          "finalRound": 1,
+          "finalRoundVotes": 2654,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "020",
+          "candidateName": "Gray, Andrew T.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 9,
+            "textLine": 493,
+            "districtLabel": "House District 20"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 9,
+            "textLine": 493,
+            "districtLabel": "House District 20"
+          },
+          "locator": "PDF page 9, House District 20, text line 493",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 63.78,
+          "finalRound": 1,
+          "finalRoundVotes": 3927,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "021",
+          "candidateName": "Mears, Donna C.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 9,
+            "textLine": 508,
+            "districtLabel": "House District 21"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 9,
+            "textLine": 508,
+            "districtLabel": "House District 21"
+          },
+          "locator": "PDF page 9, House District 21, text line 508",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 55.35,
+          "finalRound": 1,
+          "finalRoundVotes": 4664,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "022",
+          "candidateName": "Eischeid, Ted J.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 9,
+            "textLine": 523,
+            "districtLabel": "House District 22"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 9,
+            "textLine": 523,
+            "districtLabel": "House District 22"
+          },
+          "locator": "PDF page 9, House District 22, text line 523",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 52.38,
+          "finalRound": 1,
+          "finalRoundVotes": 2633,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "023",
+          "candidateName": "Allard, Jamie",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 10,
+            "textLine": 538,
+            "districtLabel": "House District 23"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 10,
+            "textLine": 538,
+            "districtLabel": "House District 23"
+          },
+          "locator": "PDF page 10, House District 23, text line 538",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 61.84,
+          "finalRound": 1,
+          "finalRoundVotes": 6132,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "024",
+          "candidateName": "Saddler, Dan",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 10,
+            "textLine": 553,
+            "districtLabel": "House District 24"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 10,
+            "textLine": 553,
+            "districtLabel": "House District 24"
+          },
+          "locator": "PDF page 10, House District 24, text line 553",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 96.82,
+          "finalRound": 1,
+          "finalRoundVotes": 7981,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "025",
+          "candidateName": "Johnson, DeLena M.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 10,
+            "textLine": 567,
+            "districtLabel": "House District 25"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 10,
+            "textLine": 567,
+            "districtLabel": "House District 25"
+          },
+          "locator": "PDF page 10, House District 25, text line 567",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 95.86,
+          "finalRound": 1,
+          "finalRoundVotes": 7817,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "026",
+          "candidateName": "Tilton, Cathy",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 10,
+            "textLine": 581,
+            "districtLabel": "House District 26"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 10,
+            "textLine": 581,
+            "districtLabel": "House District 26"
+          },
+          "locator": "PDF page 10, House District 26, text line 581",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 96.66,
+          "finalRound": 1,
+          "finalRoundVotes": 7353,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "027",
+          "candidateName": "Underwood, Jubilee L.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 11,
+            "textLine": 595,
+            "districtLabel": "House District 27"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 11,
+            "textLine": 595,
+            "districtLabel": "House District 27"
+          },
+          "locator": "PDF page 11, House District 27, text line 595",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 50.64,
+          "finalRound": 1,
+          "finalRoundVotes": 3856,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "028",
+          "candidateName": "Moore, Elexie",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/RcvDetailedReport-HD28-Recount.pdf",
+            "sha256": "106d00a5629f0f963cb8a2385bb5b7d84baef29a96fded13d94a762a778e5fd9",
+            "pdfPage": 2,
+            "textLine": 85
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport-Recount-Result.pdf",
+            "sha256": "ab6f5740fc04d73a3999806c29a494832833152dfd46cca0f28f767d06249760",
+            "pdfPage": 1,
+            "textLine": 25,
+            "districtLabel": "House District 28",
+            "officialHeader": "OFFICIAL RECOUNT RESULTS"
+          },
+          "locator": "PDF page 2, House District 28, text line 85",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Moore, Elexie is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 37.31,
+          "finalRound": 2,
+          "finalRoundVotes": 3243,
+          "recountSupersedesOriginal": true
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "029",
+          "candidateName": "Rauscher, George",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 11,
+            "textLine": 626,
+            "districtLabel": "House District 29"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 11,
+            "textLine": 626,
+            "districtLabel": "House District 29"
+          },
+          "locator": "PDF page 11, House District 29, text line 626",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 95.56,
+          "finalRound": 1,
+          "finalRoundVotes": 7807,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "030",
+          "candidateName": "McCabe, Kevin J.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 11,
+            "textLine": 640,
+            "districtLabel": "House District 30"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 11,
+            "textLine": 640,
+            "districtLabel": "House District 30"
+          },
+          "locator": "PDF page 11, House District 30, text line 640",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 54.13,
+          "finalRound": 1,
+          "finalRoundVotes": 4731,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "031",
+          "candidateName": "Dibert, Maxine L.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 12,
+            "textLine": 655,
+            "districtLabel": "House District 31"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 12,
+            "textLine": 655,
+            "districtLabel": "House District 31"
+          },
+          "locator": "PDF page 12, House District 31, text line 655",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 54.24,
+          "finalRound": 1,
+          "finalRoundVotes": 3518,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "032",
+          "candidateName": "Stapp, Will",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 12,
+            "textLine": 670,
+            "districtLabel": "House District 32"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 12,
+            "textLine": 670,
+            "districtLabel": "House District 32"
+          },
+          "locator": "PDF page 12, House District 32, text line 670",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 67.29,
+          "finalRound": 1,
+          "finalRoundVotes": 3227,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "033",
+          "candidateName": "Prax, Glenn \"Mike\"",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 12,
+            "textLine": 685,
+            "districtLabel": "House District 33"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 12,
+            "textLine": 685,
+            "districtLabel": "House District 33"
+          },
+          "locator": "PDF page 12, House District 33, text line 685",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 96.75,
+          "finalRound": 1,
+          "finalRoundVotes": 6966,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "034",
+          "candidateName": "Tomaszewski, Frank",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 12,
+            "textLine": 699,
+            "districtLabel": "House District 34"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 12,
+            "textLine": 699,
+            "districtLabel": "House District 34"
+          },
+          "locator": "PDF page 12, House District 34, text line 699",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 55.95,
+          "finalRound": 1,
+          "finalRoundVotes": 4887,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "035",
+          "candidateName": "Carrick, Ashley E.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 13,
+            "textLine": 714,
+            "districtLabel": "House District 35"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 13,
+            "textLine": 714,
+            "districtLabel": "House District 35"
+          },
+          "locator": "PDF page 13, House District 35, text line 714",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 55.24,
+          "finalRound": 1,
+          "finalRoundVotes": 5047,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "036",
+          "candidateName": "Schwanke, Rebecca A.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/RCV-HD36.pdf",
+            "sha256": "f1c72b09134d01f8d801863138d4eea8ab23d49d2d8285feb8386b3b3108775d",
+            "pdfPage": 3,
+            "textLine": 120
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 13,
+            "textLine": 729,
+            "districtLabel": "House District 36"
+          },
+          "locator": "PDF page 3, House District 36, text line 120",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Schwanke, Rebecca A. is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 35.67,
+          "finalRound": 3,
+          "finalRoundVotes": 4070,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "037",
+          "candidateName": "Edgmon, Bryce",
+          "partyLabel": "UND",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 13,
+            "textLine": 748,
+            "districtLabel": "House District 37"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 13,
+            "textLine": 748,
+            "districtLabel": "House District 37"
+          },
+          "locator": "PDF page 13, House District 37, text line 748",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 72.49,
+          "finalRound": 1,
+          "finalRoundVotes": 2748,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "038",
+          "candidateName": "Jimmie, Nellie D. \"Unangik\"",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/RCV-HD38.pdf",
+            "sha256": "a5937088ccd568f4e65dd2f109b1b65da92aad98fd2003b4f8a5001096c993b1",
+            "pdfPage": 3,
+            "textLine": 112
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 14,
+            "textLine": 763,
+            "districtLabel": "House District 38"
+          },
+          "locator": "PDF page 3, House District 38, text line 112",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Jimmie, Nellie D. \"Unangik\" is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 36.67,
+          "finalRound": 3,
+          "finalRoundVotes": 1548,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "039",
+          "candidateName": "Foster, Neal W.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 14,
+            "textLine": 780,
+            "districtLabel": "House District 39"
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 14,
+            "textLine": 780,
+            "districtLabel": "House District 39"
+          },
+          "locator": "PDF page 14, House District 39, text line 780",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this legislative district. This is a majority determination, not plurality selection.",
+          "reportedPercentage": 58.12,
+          "finalRound": 1,
+          "finalRoundVotes": 2333,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-lower",
+          "districtCode": "040",
+          "candidateName": "Burke, Robyn \"Niayuq\"",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/RCV-HD40.pdf",
+            "sha256": "3424fa4b74907b2a23b18421e4973513e274dca68ee855b887f305427a176acd",
+            "pdfPage": 2,
+            "textLine": 85
+          },
+          "partySource": {
+            "url": "https://www.elections.alaska.gov/results/24GENR/ElectionSummaryReport.pdf",
+            "sha256": "28ad3a6eac9a0976965995060f2223249f0a31d49da31fa1bfdcb4ee0a0d8953",
+            "pdfPage": 14,
+            "textLine": 795,
+            "districtLabel": "House District 40"
+          },
+          "locator": "PDF page 2, House District 40, text line 85",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Burke, Robyn \"Niayuq\" is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 46.73,
+          "finalRound": 2,
+          "finalRoundVotes": 1541,
+          "recountSupersedesOriginal": false
+        }
+      ],
+      "sourceLimit": "All40House and10even-letterSenate contests from2024; other10Senate supplied separately by2022source. ExactNON/UNDlabels retained without inferred major-party membership or invented organization."
+    },
+    {
+      "id": "ak-doe-certified-2022-odd-senate",
+      "stateUsps": "AK",
+      "stateFips": "02",
+      "electionDate": "2022-11-08",
+      "planCycle": 2022,
+      "retrievedAt": "2026-10-02",
+      "url": "https://www.elections.alaska.gov/election-results/e/?id=22genr",
+      "certificationEvidence": "Official Division of Elections archive labels these results Official and describes the archive as certified results; summary OFFICIAL RESULTS and final SenateE recount elected statement retained. Certification date is not separately supplied.",
+      "boundaryEvidence": {
+        "url": "https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2025/TGRSHP2025_TechDoc.pdf",
+        "locator": "Section 4.19, page 4-45",
+        "statement": "The 2025 SLDs include the state legislative district plans as submitted by the state liaisons in Phase 4 of the Redistricting Data Program (i.e., those in effect for the 2024 election cycle).",
+        "identityStatement": "A unique 3-character census code (SLD code), identified by state participants, is assigned to each SLDU (senate) and SLDL (house) within a state.",
+        "limit": "Census2025 identifies2024-cycle state-submitted plans; Alaska is absent from the enumerated2024changed-plan lists. Actual official legislative labels bind to those same Census participant codes, numeric or letter padded to3characters.",
+        "sha256": "21476bdba82fe8072f8994ae59bda484260d1b932c13f31991f6414f8e04d551",
+        "retrievedAt": "2026-10-02"
+      },
+      "partyCodes": {
+        "DEM": "d",
+        "REP": "r"
+      },
+      "expectedContests": 10,
+      "artifacts": [
+        {
+          "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+          "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+          "file": "o3-ak-helper-2022-ElectionSummaryReportRPT.pdf"
+        },
+        {
+          "url": "https://elections.alaska.gov/results/22GENR/E_recount_rcv.pdf",
+          "sha256": "de217b3267661cd74db1681229468948a985fe14d1c918bc6981becbb50d529d",
+          "file": "o3-ak-helper-2022-E_recount_rcv.pdf"
+        }
+      ],
+      "electedRecords": [
+        {
+          "chamber": "state-upper",
+          "districtCode": "00A",
+          "candidateName": "Stedman, Bert K.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 2,
+            "textLine": 72
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 2,
+            "textLine": 72
+          },
+          "locator": "PDF page 2, Senate District A, text line 72",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 68.79,
+          "finalRound": 1,
+          "finalRoundVotes": 8902,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00C",
+          "candidateName": "Stevens, Gary",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 3,
+            "textLine": 104
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 3,
+            "textLine": 104
+          },
+          "locator": "PDF page 3, Senate District C, text line 104",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 56.29,
+          "finalRound": 1,
+          "finalRoundVotes": 7867,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00E",
+          "candidateName": "Giessel, Cathy",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/E_recount_rcv.pdf",
+            "sha256": "de217b3267661cd74db1681229468948a985fe14d1c918bc6981becbb50d529d",
+            "pdfPage": 2,
+            "textLine": 73
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 3,
+            "textLine": 138
+          },
+          "locator": "PDF page 2, Senate District E, text line 73",
+          "proofKind": "explicit-rcv-elected-statement",
+          "selectionEvidence": "Giessel, Cathy is elected because all other candidates have been eliminated.",
+          "reportedPercentage": 33.64,
+          "finalRound": 2,
+          "finalRoundVotes": 7880,
+          "recountSupersedesOriginal": true
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00G",
+          "candidateName": "Gray-Jackson, Elvi",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 4,
+            "textLine": 172
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 4,
+            "textLine": 172
+          },
+          "locator": "PDF page 4, Senate District G, text line 172",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 56.48,
+          "finalRound": 1,
+          "finalRoundVotes": 6325,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00I",
+          "candidateName": "Tobin, L\u00f6ki G.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 4,
+            "textLine": 204
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 4,
+            "textLine": 204
+          },
+          "locator": "PDF page 4, Senate District I, text line 204",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 66.42,
+          "finalRound": 1,
+          "finalRoundVotes": 5011,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00K",
+          "candidateName": "Wielechowski, Bill",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 5,
+            "textLine": 238
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 5,
+            "textLine": 238
+          },
+          "locator": "PDF page 5, Senate District K, text line 238",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 58.0,
+          "finalRound": 1,
+          "finalRoundVotes": 6267,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00M",
+          "candidateName": "Hughes, Shelley",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 6,
+            "textLine": 271
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 6,
+            "textLine": 271
+          },
+          "locator": "PDF page 6, Senate District M, text line 271",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 75.8,
+          "finalRound": 1,
+          "finalRoundVotes": 11257,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00O",
+          "candidateName": "Shower, Michael K.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 6,
+            "textLine": 304
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 6,
+            "textLine": 304
+          },
+          "locator": "PDF page 6, Senate District O, text line 304",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 51.8,
+          "finalRound": 1,
+          "finalRoundVotes": 7396,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00Q",
+          "candidateName": "Myers, Robert H. Jr.",
+          "partyLabel": "REP",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 7,
+            "textLine": 338
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 7,
+            "textLine": 338
+          },
+          "locator": "PDF page 7, Senate District Q, text line 338",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 62.57,
+          "finalRound": 1,
+          "finalRoundVotes": 8119,
+          "recountSupersedesOriginal": false
+        },
+        {
+          "chamber": "state-upper",
+          "districtCode": "00S",
+          "candidateName": "Hoffman, Lyman F.",
+          "partyLabel": "DEM",
+          "winnerSource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 8,
+            "textLine": 373
+          },
+          "partySource": {
+            "url": "https://elections.alaska.gov/results/22GENR/ElectionSummaryReportRPT.pdf",
+            "sha256": "89178766ab47b4eb53480488498c1cd1d41e267019e870ac890f01e8a230cd8f",
+            "pdfPage": 8,
+            "textLine": 373
+          },
+          "locator": "PDF page 8, Senate District S, text line 373",
+          "proofKind": "official-summary-majority",
+          "selectionEvidence": "Official summary candidate has more than 50% of reported votes; no linked later RCV report for this odd-letter Senate district.",
+          "reportedPercentage": 64.72,
+          "finalRound": 1,
+          "finalRoundVotes": 4436,
+          "recountSupersedesOriginal": false
+        }
+      ],
+      "sourceLimit": "Only ten odd-letter Senate contests from2022. SenateE finalrecount supersedes original firstchoice totals. Exactlabels retained; no guessed affiliation."
+    }
+  ]
+}

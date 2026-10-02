@@ -8,14 +8,7 @@ import {
 } from "../legislative-starting-procedures";
 import type { World } from "../types";
 import { assertWorldIntegrity } from "../world";
-import {
-  detExp,
-  detLog,
-  logistic,
-  openUniform,
-  roundTo,
-  standardNormal,
-} from "./deterministic-math";
+import { detExp, logistic, roundTo } from "./deterministic-math";
 import { WORLD_CONDITION_ID_KIND, worldConditionRecords } from "./integrity";
 import { CRUNCH46_POLICY } from "./policy";
 import type {
@@ -29,6 +22,8 @@ import type {
   PublicCashOpeningProfile,
 } from "./types";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "./types";
+
+import nationalAnnualConditions from "../../../data/research/macro/national-annual-conditions.json" with { type: "json" };
 
 const KEY = "world-setup:crunch46-v1";
 
@@ -45,15 +40,10 @@ export function worldSetupRng(world: World, purpose: string): SeededRng {
 }
 
 export function drawStartingRegime(world: World): StartingRegime {
-  const u = openUniform(worldSetupRng(world, "regime"));
-  let cumulative = 0;
-  for (const regime of CRUNCH46_POLICY.regimes.order) {
-    cumulative += CRUNCH46_POLICY.regimes.frequency[regime];
-    if (u < cumulative) return regime;
-  }
-  return CRUNCH46_POLICY.regimes.order[
-    CRUNCH46_POLICY.regimes.order.length - 1
-  ]!;
+  // R21: a regime is model state, not a randomly assigned observation.
+  // No observation-to-regime mapping is defined, so retain neutral model state.
+  void world;
+  return CRUNCH46_POLICY.regimes.order[0]!;
 }
 
 type Draft<T extends WorldConditionRecord> = T extends WorldConditionRecord
@@ -179,20 +169,41 @@ export function drawMacroStartingConditions(
 ): Draft<MacroStartingConditionsRecord> {
   const policy = CRUNCH46_POLICY.macro;
   const scale = policy.volatilityScale[regime];
-  const latent = (name: string) =>
-    standardNormal(worldSetupRng(world, `macro:${name}`));
-  const cycle = latent("cycle");
-  const cost = latent("cost");
-  const housing = latent("housing");
-  const credit = latent("credit");
+  // One seeded pick among actual complete historical years, once at Begin.
+  // Every observed component comes from this same row; no independent draws.
+  const observed = worldSetupRng(world, "macro:observed-year").pick(
+    nationalAnnualConditions.rows,
+  );
   const coefficients = policy.startupCoefficients;
-  const baseUnemployment = policy.unemploymentReferencePct / 100;
+  const cycle =
+    (observed.realGrowthContinuouslyCompoundedAnnualPct -
+      policy.growthAnchorAnnualPct) /
+    scale;
+  const cost =
+    (observed.inflation12mPct - policy.inflationReference12mPct) /
+    (coefficients.inflationCost * scale);
+  // Affordability and debt service are not supply balance or credit tightness.
+  // Their raw observations are saved below; undefined model coordinates stay
+  // neutral under R21 instead of pretending an unapproved mapping exists.
+  const housing = 0;
+  const credit = 0;
   return {
     kind: "macro-starting-conditions",
     stableKey: `${KEY}:macro-starting-conditions`,
     contractVersion: "crunch46-macro-start/v1",
     regime,
     volatilityScale: scale,
+    observedYear: {
+      year: observed.year,
+      source: "data/research/macro/national-annual-conditions.json",
+      effectiveFederalFundsAnnualAveragePct:
+        observed.effectiveFederalFundsAnnualAveragePct,
+      homePriceToHouseholdIncomeRatio: observed.homePriceToHouseholdIncomeRatio,
+      householdDebtServicePctDisposableIncome:
+        observed.householdDebtServicePctDisposableIncome,
+    },
+    modelStateBasis:
+      "MODEL STATE AT START: regime is neutral; volatility uses existing policy; cycle and cost invert existing growth/inflation equations; housing and credit latents are neutral/no deviation because affordability and debt service do not define their model coordinates. Observed unemployment is retained directly.",
     latents: {
       cycle: roundTo(cycle),
       cost: roundTo(cost),
@@ -201,18 +212,10 @@ export function drawMacroStartingConditions(
     },
     initial: {
       realGrowthAnnualPct: roundTo(
-        policy.growthAnchorAnnualPct + scale * cycle,
+        observed.realGrowthContinuouslyCompoundedAnnualPct,
       ),
-      unemploymentPct: roundTo(
-        logistic(
-          detLog(baseUnemployment / (1 - baseUnemployment)) +
-            coefficients.unemploymentCycleLogit * scale * cycle,
-        ) * 100,
-      ),
-      inflation12mPct: roundTo(
-        policy.inflationReference12mPct +
-          coefficients.inflationCost * scale * cost,
-      ),
+      unemploymentPct: observed.unemploymentAnnualAveragePct,
+      inflation12mPct: roundTo(observed.inflation12mPct),
       housingSupplyDemandRatio: roundTo(
         detExp(coefficients.housingLog * scale * housing),
       ),
