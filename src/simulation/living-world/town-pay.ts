@@ -86,7 +86,9 @@ import {
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
-import { resourceFlowTermsAt } from "../resource-queries";
+import { resourceFlowTermsAt, resourcePositionAt } from "../resource-queries";
+import { paymentFromDatedCash } from "../resource-payments";
+import { writeWithWorldIntegrityOnce } from "../world";
 import {
   ensureLocalPublicAccount,
   ensureTaxPublicAccount,
@@ -1842,7 +1844,55 @@ export function settleTownCompensations(
       money(0, "USD").currency,
     );
   const first = next.history.resourceTransferOutcomes.length;
-  next = recordResourceTransferOutcomes(next, inputs);
+  next = writeWithWorldIntegrityOnce(next, () => {
+    let settled = next;
+    // Settle in payday order, reading each prior payment before the next worker.
+    // The shared dated-cash reader also preserves cash spent after an overdue day.
+    for (const input of inputs.sort((a, b) =>
+      a.occurredAt.localeCompare(b.occurredAt),
+    )) {
+      const flow = recordById(
+        settled.history.resourceFlows,
+        input.resourceFlowId,
+      )!;
+      const cash = resourcePositionAt(
+        settled,
+        flow.source,
+        input.transferredAmount.currency,
+        {
+          asOfDate: makeIsoDate(input.occurredAt),
+          historySequenceExclusive: settled.history.nextSequence,
+        },
+      );
+      const payment = cash
+        ? paymentFromDatedCash(
+            settled,
+            flow.source,
+            input.transferredAmount,
+            makeIsoDate(input.occurredAt),
+          )
+        : null;
+      settled = recordResourceTransferOutcomes(settled, [
+        {
+          ...input,
+          status: !payment
+            ? "blocked"
+            : payment.status === "completed"
+              ? input.status
+              : payment.status,
+          transferredAmount:
+            payment?.transferredAmount ??
+            money(0, input.transferredAmount.currency),
+          reasonKind: !payment
+            ? "capacity:unrecorded-employer-cash"
+            : payment.status === "completed"
+              ? input.reasonKind
+              : "capacity:insufficient-employer-cash",
+        },
+      ]);
+    }
+    return settled;
+  });
   const ids = next.history.resourceTransferOutcomes
     .slice(first)
     .map((outcome) => outcome.id);
