@@ -81,6 +81,10 @@ export function programVariantFromData(
             return {
               ...rendering,
               text: renderText(rendering.text, resolved),
+              fiscalExposureLabel:
+                rendering.fiscalExposureLabel === null
+                  ? null
+                  : renderText(rendering.fiscalExposureLabel, resolved),
               fiscalExposureMinorUnits:
                 amount?.kind === "money" ? amount.minorUnits : null,
               ...(positiveAmountEffect &&
