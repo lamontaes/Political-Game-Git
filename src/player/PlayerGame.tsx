@@ -3008,6 +3008,7 @@ function PlayingScreen({
                   ) : null
                 }
                 dateLabel={moment.dateLabel}
+                currentMoment={session.world.currentMoment}
                 placeName={moment.placeName}
                 destinations={destinations}
                 canSave={!savesUnavailable}
