@@ -278,6 +278,11 @@ describe("a trait declaration has to be coherent before anything reads it", () =
         /seeds the value 3, which its scale does not declare/,
       ],
       [
+        "a seed that follows a key with no pack",
+        { seed: { spread: [1], follows: ["patience"] } },
+        /follows "patience", which is not a qualified trait key/,
+      ],
+      [
         "two magnitudes stored as one strength",
         {
           scale: {
