@@ -1,4 +1,9 @@
 import { useEffect, useState } from "react";
+import type { World } from "../simulation/types";
+import {
+  currentWorldVotingEstimate,
+  currentWorldEstimateCaption,
+} from "../presentation/current-world-peer-estimates";
 import { GameSelect } from "./controls/GameSelect";
 import {
   queryStateVotingContext,
@@ -37,9 +42,11 @@ export function plainRate(value: CpsVotingCell, margin: CpsVotingCell): string {
 export function OpeningStateVoting({
   stateUsps,
   asOf,
+  world,
 }: {
   readonly stateUsps: string | null;
   readonly asOf: string;
+  readonly world?: World;
 }) {
   const [result, setResult] = useState<StateVotingContext | null>(null);
   const [failed, setFailed] = useState<string | null>(null);
@@ -64,16 +71,33 @@ export function OpeningStateVoting({
     result?.stateUsps === stateUsps && result.asOf === asOf ? result : null;
   const totals = ready?.totals;
   const groups = ready?.breakdowns[breakdown] ?? [];
+  const estimate =
+    world && stateUsps ? currentWorldVotingEstimate(world, stateUsps) : null;
   return (
     <section data-testid="opening-state-voting">
-      <h3>Reported voting · November 2024</h3>
+      <h3>
+        {!totals && estimate
+          ? "Voting in the current game"
+          : "Reported voting · November 2024"}
+      </h3>
       {!totals ? (
-        <p role="status">
-          {ready?.unavailableReason ??
-            (!stateUsps || failed === key
-              ? "Voting survey information is unavailable."
-              : "Loading voting survey information…")}
-        </p>
+        estimate ? (
+          <>
+            <p>Estimated turnout: about {Math.round(estimate.mean)}%.</p>
+            <p>{currentWorldEstimateCaption(estimate)}</p>
+            <p>
+              This is simulated turnout, not a survey of registration or
+              reported voting in November 2024.
+            </p>
+          </>
+        ) : (
+          <p role="status">
+            {ready?.unavailableReason ??
+              (!stateUsps || failed === key
+                ? "Voting survey information is unavailable."
+                : "Loading voting survey information…")}
+          </p>
+        )
       ) : (
         <>
           <p>

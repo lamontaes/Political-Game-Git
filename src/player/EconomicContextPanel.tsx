@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  currentWorldTwoBedroomRentEstimate,
+  currentWorldEstimateCaption,
+} from "../presentation/current-world-peer-estimates";
+import {
   createEconomicContextBrowserProvider,
   type BrowserEconomicContextResult,
   type BrowserEconomicGeographyBinding,
@@ -95,9 +99,35 @@ export function EconomicContextPanel({
     };
   }, [binding, provider, simulationDate]);
 
+  const rentEstimate =
+    world && jurisdictionId
+      ? currentWorldTwoBedroomRentEstimate(world, jurisdictionId)
+      : null;
+  const hasRent =
+    state.status === "ready" &&
+    economicObservationGraphs(state.context).graphs.some(
+      (graph) =>
+        graph.graphKey === "two-bedroom-fmr" &&
+        graph.series.some((series) =>
+          series.points.some((point) => point.value !== null),
+        ),
+    );
+  const estimatedRent =
+    !hasRent && rentEstimate ? (
+      <figure data-testid="current-world-two-bedroom-rent">
+        <h3>Two-bedroom rent</h3>
+        <p>
+          About ${Math.round(rentEstimate.mean).toLocaleString("en-US")} a month
+          · estimated
+        </p>
+        <figcaption>{currentWorldEstimateCaption(rentEstimate)}</figcaption>
+      </figure>
+    ) : null;
+
   if (state.status === "loading") {
     return (
       <section className="economic-context-panel" aria-busy="true">
+        {estimatedRent}
         <p>Looking up the numbers for this place…</p>
       </section>
     );
@@ -113,28 +143,33 @@ export function EconomicContextPanel({
     if (diagnostics)
       return (
         <section className="economic-context-panel" role="status">
+          {estimatedRent}
           <h2>Economic context unavailable</h2>
           <p>{state.message}</p>
         </section>
       );
     return (
       <section className="economic-context-panel" role="status">
+        {estimatedRent}
         <h2>Figures unavailable</h2>
         <p>The figures for this place aren&apos;t available right now.</p>
       </section>
     );
   }
   return (
-    <EconomicContextView
-      context={state.context}
-      fiscalGraphs={fiscalGraphs}
-      diagnostics={diagnostics}
-      carried={
-        world && jurisdictionId
-          ? carriedLocalFigures(world, jurisdictionId, state.context)
-          : []
-      }
-    />
+    <>
+      {estimatedRent}
+      <EconomicContextView
+        context={state.context}
+        fiscalGraphs={fiscalGraphs}
+        diagnostics={diagnostics}
+        carried={
+          world && jurisdictionId
+            ? carriedLocalFigures(world, jurisdictionId, state.context)
+            : []
+        }
+      />
+    </>
   );
 }
 

@@ -1,4 +1,9 @@
 import { useEffect, useState } from "react";
+import type { World } from "../simulation/types";
+import {
+  currentWorldPopulationEstimate,
+  currentWorldEstimateCaption,
+} from "../presentation/current-world-peer-estimates";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
@@ -15,9 +20,11 @@ stateFips.set("DC", "11");
 export function OpeningStatePopulation({
   stateUsps,
   asOf,
+  world,
 }: {
   readonly stateUsps: string | null;
   readonly asOf: string;
+  readonly world?: World;
 }) {
   const [result, setResult] = useState<MapPlaceDemography | null>(null);
   const [failed, setFailed] = useState<string | null>(null);
@@ -48,6 +55,10 @@ export function OpeningStatePopulation({
       ? result
       : null;
   const population = ready?.population;
+  const estimate =
+    world && stateUsps
+      ? currentWorldPopulationEstimate(world, stateUsps)
+      : null;
   return (
     <section data-testid="opening-state-population">
       <h3>
@@ -70,6 +81,13 @@ export function OpeningStatePopulation({
             {populationCaption(population.geography.name, population.period)}
             {population.estimated ? " estimate" : ""}
           </figcaption>
+        </figure>
+      ) : estimate ? (
+        <figure className="pg-state-population-figure">
+          <p className="pg-state-population-number">
+            About {Math.round(estimate.mean).toLocaleString("en-US")} people
+          </p>
+          <figcaption>{currentWorldEstimateCaption(estimate)}</figcaption>
         </figure>
       ) : (
         <p>
