@@ -1,6 +1,9 @@
 import stateLocalFinances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import { CANNABIS_TAX_BASIS } from "./cannabis-sales-tax";
-import { MILEAGE_FEE_QUESTION, ROAD_CHARGE_BASIS } from "./road-usage-charge";
+import {
+  MILEAGE_FEE_QUESTION,
+  ROAD_CHARGE_BASIS,
+} from "./road-usage-charge-constants";
 import type { BudgetLevel, BudgetProgram, BudgetSource } from "./store";
 
 /** Should a fixed share of revenue be dedicated to parks and recreation? */
@@ -156,6 +159,7 @@ export const TAX_QUESTION_EFFECTS: readonly {
   {
     questionKey: MILEAGE_FEE_QUESTION,
     source: "selectiveSalesTaxes",
+    levels: ["state"],
     // A share that grows each year the fuel tax erodes, not one size:
     // `road-usage-charge.ts`.
     toYes: null,
