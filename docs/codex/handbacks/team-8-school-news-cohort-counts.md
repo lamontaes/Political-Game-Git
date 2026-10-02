@@ -54,6 +54,14 @@ executed by the builder. Official Claude gate and current-main acceptance are
 pending. Browser screenshot is blocked by CTO10:47's JSON-import collection
 repair, owned exclusively by Audit. No blocked browser collection was repeated.
 
+The new Node/browser fixture drew Koblerville, Northern Mariana Islands with
+`school-cohort-summary:browser`. Its actual saved principal Jasper Ward reopened
+the controlled school through the real due-item handler. Canonical serialization
+and the existing Around projection retained event `event_6c94ca93dfc11948` with
+the count-free reopening sentence. Two added fixture/spec files pass scoped
+lint/format. The ordinary Continue → News → Around screenshot test is authored,
+not yet collected or run before Audit's fix.
+
 # 7. Worked example
 
 A controlled saved principal reopens “Fixture learning center.” The event says
