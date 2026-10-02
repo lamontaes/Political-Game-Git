@@ -10,7 +10,11 @@ import type {
   ValidationFinding,
   ValidationReport,
 } from "../../core/index";
-import type { PlaceCountyPartRecord } from "./types";
+import type {
+  PlaceCountyPartRecord,
+  PlaceRelationRecord,
+  PlaceDistrictPopulationRecord,
+} from "./types";
 
 /** Place-within-county parts in the 50 state and DC files. */
 export const EXPECTED_PART_RECORD_COUNT = 33037;
@@ -30,10 +34,53 @@ export const OFFICIAL_PLACE_COUNTY_VECTORS: Readonly<
 };
 
 export function validatePlaceCountyCorpus(
-  compiled: CompiledCorpus<PlaceCountyPartRecord>,
+  compiled: CompiledCorpus<PlaceRelationRecord>,
 ): ValidationReport {
   const findings: ValidationFinding[] = [];
-  const records = compiled.records;
+  const districtRecords = compiled.records.filter(
+    (record): record is PlaceDistrictPopulationRecord =>
+      "relationKind" in record,
+  );
+  const records = compiled.records.filter(
+    (record): record is PlaceCountyPartRecord => !("relationKind" in record),
+  );
+  const groups = new Map<string, PlaceDistrictPopulationRecord[]>();
+  const districtIds = new Set<string>();
+  for (const record of districtRecords) {
+    const key = `${record.boundaryVintage}:${record.placeGeoid}:${record.chamber}`;
+    const parts = groups.get(key) ?? [];
+    parts.push(record);
+    groups.set(key, parts);
+    if (
+      districtIds.has(record.recordId) ||
+      !Number.isSafeInteger(record.partPopulationCount) ||
+      record.partPopulationCount < 0 ||
+      record.districtGeoid.slice(0, 2) !== record.stateFips ||
+      record.placeGeoid.slice(0, 2) !== record.stateFips ||
+      record.populationAsOf !== "2020-04-01"
+    )
+      findings.push({
+        severity: "error",
+        code: "place-county-relations/district-population",
+        message: `Invalid district part ${record.recordId}`,
+      });
+    districtIds.add(record.recordId);
+  }
+  for (const [key, parts] of groups) {
+    const total = parts.reduce(
+      (sum, part) => sum + part.partPopulationCount,
+      0,
+    );
+    if (
+      !Number.isSafeInteger(total) ||
+      parts.some((part) => part.placePopulationCount !== total)
+    )
+      findings.push({
+        severity: "error",
+        code: "place-county-relations/district-partition",
+        message: `District parts do not reconcile for ${key}`,
+      });
+  }
   const production = compiled.corpus.inputClass === "production";
   const places = new Map<string, PlaceCountyPartRecord[]>();
   const ids = new Set<string>();
@@ -72,6 +119,24 @@ export function validatePlaceCountyCorpus(
     const list = places.get(record.placeGeoid);
     if (list) list.push(record);
     else places.set(record.placeGeoid, [record]);
+  }
+
+  const countyPopulation = new Map(
+    [...places].map(([place, parts]) => [
+      place,
+      parts.reduce((sum, part) => sum + part.partPopulationCount, 0),
+    ]),
+  );
+  for (const [key, parts] of groups) {
+    if (
+      countyPopulation.get(parts[0]!.placeGeoid) !==
+      parts[0]!.placePopulationCount
+    )
+      findings.push({
+        severity: "error",
+        code: "place-county-relations/district-place-total",
+        message: `District P1 total differs from existing county parts for ${key}`,
+      });
   }
 
   for (const [placeGeoid, parts] of places) {
