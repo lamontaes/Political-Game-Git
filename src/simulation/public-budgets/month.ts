@@ -44,7 +44,6 @@ import {
   decideStatehoodCertification,
   statehoodFederalAidFactor,
 } from "./statehood-funds";
-import { tuitionFreezeFactor } from "./tuition-freeze";
 import { federalAidFactor } from "../federal-outlay-laws";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { principledLeaning } from "../governing/officeholder-principles";
@@ -610,7 +609,7 @@ function monthsInto(year: AdoptedBudget, month: IsoDate): number {
  * income tax question). Income tax is read on January 1
  * of the date's year, the law paychecks withhold under for that tax year
  * (`stateIncomeTaxUnderLaw`), so the budget collects what paychecks withhold.
- * A tuition freeze moves charges and fees (`tuition-freeze.ts`). The fuel
+ * The fuel
  * tax erodes, and a road charge holds it (`road-usage-charge.ts`); given
  * `erodedOn`, the erosion is read on that date instead, so two dates' laws
  * compare over the same fleet.
@@ -638,12 +637,10 @@ export function taxLawFactor(
             : 1) +
           roadChargeFactor(world, government, onDate, erodedOn) -
           1
-        : source === "chargesAndFees"
-          ? tuitionFreezeFactor(world, government, onDate)
-          : source === "federalAid"
-            ? federalAidFactor(world, onDate) *
-              statehoodFederalAidFactor(government, onDate)
-            : 1;
+        : source === "federalAid"
+          ? federalAidFactor(world, onDate) *
+            statehoodFederalAidFactor(government, onDate)
+          : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
