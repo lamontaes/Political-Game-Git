@@ -10,12 +10,7 @@ import {
   townPayPercentile,
   weeklyHoursOf,
 } from "./living-world/town-pay";
-import {
-  createWorkCompensation,
-  money,
-  recordResourceFlowTerms,
-} from "./resources";
-import { resourceFlowTermsHistory } from "./resource-queries";
+import { createWorkCompensation, money } from "./resources";
 import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
 
 /**
@@ -217,7 +212,6 @@ function settleOne(world: World, work: WorkRelationship): World {
     if (dueOn > next.currentDate) break;
     // A week that ends after the office did is not paid, and nothing later is.
     if (!isActiveOn(next, work.id, addDays(dueOn, -1))) break;
-    next = raiseToPayInForce(next, work, flow.id, periodStartsAt);
     next = settleTownCompensations(next, [
       {
         stableKey: `${flow.stableKey}:${periodStartsAt}`,
@@ -232,44 +226,4 @@ function settleOne(world: World, work: WorkRelationship): World {
     ]);
   }
   return next;
-}
-
-/**
- * Moves a salary to what a state's pay law sets, from the first week that
- * begins on or after the day the law is operative. The change is recorded as
- * new terms that name the law, so an earlier week keeps the pay it was paid
- * at. A salary no law has touched keeps the terms it was created with.
- */
-function raiseToPayInForce(
-  world: World,
-  work: WorkRelationship,
-  flowId: EntityId,
-  weekStartsAt: IsoDate,
-): World {
-  const inForce = officePayInForce(world, work, weekStartsAt);
-  if (!inForce?.law) return world;
-  const current = resourceFlowTermsHistory(world, flowId).at(-1);
-  if (!current || current.status !== "active") return world;
-  const weekly = weeklyMinor(inForce.annualDollars * 100);
-  if (current.amount.minorUnits === weekly) return world;
-  const enactment = (world.history.legislativeEnactments ?? []).find(
-    (row) => row.measureId === inForce.law!.measureId,
-  );
-  return recordResourceFlowTerms(world, {
-    stableKey: `${salaryKey(work)}:pay-law:${inForce.law.measureId}:${weekStartsAt}`,
-    resourceFlowId: flowId,
-    effectiveAt:
-      weekStartsAt > current.effectiveAt ? weekStartsAt : current.effectiveAt,
-    status: "active",
-    amount: money(weekly, current.amount.currency),
-    cadenceKind: current.cadenceKind,
-    reason: `${inForce.law.designation} set this office's salary to $${inForce.annualDollars.toLocaleString("en-US")} a year.`,
-    provenance: enactment
-      ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
-      : {
-          kind: "authored",
-          note: `${inForce.law.designation} set this office's salary.`,
-        },
-    supersedesTermsId: current.id,
-  });
 }

@@ -1,3 +1,8 @@
+import {
+  resolveSavedAnnualOfficePayConsequences,
+  applyAnnualOfficePayConsequence,
+} from "./annual-office-pay";
+import { ANNUAL_OFFICE_PAY_ACTION } from "./pay-rows";
 import { evaluateLawAmount } from "../law-consequence-amount";
 import { MissingLawConsequenceTerm } from "../law-consequence-integrity-gap";
 import type {
@@ -515,6 +520,8 @@ export function applyPayConsequence(
   resolved: ResolvedAnyLawConsequence,
 ): World {
   if ("authority" in resolved) {
+    if (resolved.authority.kind === "enacted-annual-office-pay-rule")
+      return applyAnnualOfficePayConsequence(world, resolved);
     if (resolved.authority.kind === "enacted-hourly-pay-rule") {
       const current = resolveSavedHourlyPayConsequences(world, {
         onDate: resolved.effectiveAt,
@@ -607,10 +614,13 @@ export const PAY_REGISTRATION: LawConsequenceKindRegistration<ResolvedAnyLawCons
     kind: "pay",
     owner: "Team3",
     selectors: [PAY_SELECTOR],
-    actions: [PAY_ACTION],
+    actions: [PAY_ACTION, ANNUAL_OFFICE_PAY_ACTION],
     predicates: PAY_COVERAGE_PREDICATES,
-    units: ["minor/hour"],
+    units: ["minor/hour", "dollars/year"],
     resolve: resolvePayConsequences,
-    resolveSavedRules: resolveSavedHourlyPayConsequences,
+    resolveSavedRules: (world, context) => [
+      ...resolveSavedHourlyPayConsequences(world, context),
+      ...resolveSavedAnnualOfficePayConsequences(world, context),
+    ],
     apply: applyPayConsequence,
   };
