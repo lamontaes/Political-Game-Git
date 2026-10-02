@@ -354,7 +354,7 @@ describe("sizes are a baseline, not literal numbers", () => {
     );
   });
 
-  it("a link without a researched range spreads by its evidence, and an about-zero link stays zero", () => {
+  it("a link without a recorded range keeps its central size, and an about-zero link stays zero", () => {
     const researched = {
       key: "x",
       size: 0.1,
@@ -362,8 +362,7 @@ describe("sizes are a baseline, not literal numbers", () => {
     };
     for (let index = 0; index < 20; index += 1) {
       const size = drawnLinkSize(seeded(`s${index}`), researched, place);
-      expect(size).toBeGreaterThanOrEqual(0.075);
-      expect(size).toBeLessThanOrEqual(0.125);
+      expect(size).toBe(researched.size);
     }
     for (const zero of OUTCOME_LINKS.filter(
       (candidate) => candidate.evidence === "about-zero",

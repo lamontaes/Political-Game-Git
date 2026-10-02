@@ -707,21 +707,11 @@ export function shapedLinkFactor(
   }
 }
 
-/** How far either way a size may fall when the research gave no range. */
-const DEFAULT_SPREAD: Readonly<Record<OutcomeEvidence, number>> = {
-  researched: 0.25,
-  provisional: 0.5,
-  contested: 1,
-  "about-zero": 0,
-  "to-confirm": 0.5,
-};
-
 /**
  * The size this world uses for a link in one place. Research sizes are a
  * baseline, not literal numbers (Lamontae, Sept. 28): each world draws each
- * place's size once, stable for the whole game, within the link's range, or
- * within a default spread by evidence. A world without a seed (a fixture)
- * uses the central size.
+ * place's size once, stable for the whole game, within its recorded range.
+ * Without a recorded range, or a world seed, it uses the recorded central size.
  */
 export function drawnLinkSize(
   world: World,
@@ -734,11 +724,9 @@ export function drawnLinkSize(
     : undefined;
   const size = own ? own.size : (link.size ?? 0);
   if (size === 0 || !world.seed) return size;
-  const spread = DEFAULT_SPREAD[link.evidence];
-  const [low, high] = (own ? own.range : link.range) ?? [
-    size * (1 - spread),
-    size * (1 + spread),
-  ];
+  const range = own ? own.range : link.range;
+  if (!range) return size;
+  const [low, high] = range;
   // Two draws averaged: the middle of the range is likelier than its ends.
   const rng = new SeededRng(world.seed).fork(
     `outcome-web:${link.key}:${jurisdictionId}`,
