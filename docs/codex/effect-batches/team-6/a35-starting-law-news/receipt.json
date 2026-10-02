@@ -1,0 +1,52 @@
+{
+  "base": "57ad2144291912d571d3f80842fbf08ace64db99",
+  "sourceBlobs": {
+    "src/simulation/law-exposure.ts": "3e722851339ea23f6817da93be6d899d9d8e6b06",
+    "src/simulation/press/story-exposure.ts": "41acef07a7c72870f6e455b7afabaf269b305822",
+    "src/simulation/press/starting-law-story-exposure.test.ts": "897ac5476ee13b2de34ad61a7e8a42bff49b314c"
+  },
+  "native": {
+    "testFile": "src/simulation/press/starting-law-story-exposure.test.ts",
+    "passed": 2,
+    "failed": 0,
+    "exitCode": 0,
+    "startedAt": "2026-10-02T18:44:04Z",
+    "durationSeconds": 12.79,
+    "testMilliseconds": 251,
+    "command": "OCD_STORAGE_OVERRIDE='Owner approved cloud storage-reserve bypass 2026-10-02' node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/press/starting-law-story-exposure.test.ts --maxWorkers=1"
+  },
+  "scopedTypes": {
+    "changedRoots": 3,
+    "files": 1063,
+    "diagnostics": 0
+  },
+  "lint": "changed files PASS",
+  "format": "changed files PASS",
+  "audit": {
+    "main": {
+      "head": "57ad2144291912d571d3f80842fbf08ace64db99",
+      "passed": 1,
+      "total": 2
+    },
+    "branch": {
+      "passed": 2,
+      "total": 2
+    },
+    "status": "PARTLY",
+    "commands": [
+      "node --import /tmp/team6-a35-main-loader.mjs --import tsx scripts/audit/autoscan.ts --only A35 --out /tmp/team6-a35-pinned-main-audit.json",
+      "npm run -s audit:scan -- --only A35 --out /tmp/team6-a35-branch-audit.json"
+    ]
+  },
+  "proof": "Real random-place new game plus authored publication/knowledge/effect chain reaches the production story consumer and exposure writer. News has no money or opinion. Exact starting identity, provenance integrity, repeat and JSON reload checked.",
+  "notRun": [
+    "natural press delivery",
+    "canonical save migration",
+    "official Claude gate",
+    "full suite",
+    "unchanged LOAD"
+  ],
+  "newExports": [
+    "recordedLawAt: existing dated law identity validator shared with press caller"
+  ]
+}

@@ -5,7 +5,12 @@
  * above $25m saved revenue and the explicit 100/500 employee convention.
  * No sourced recurring amount exists; no annual share or level is drawn.
  */
-import { lawInForce, type LawInForce } from "./governing/law-in-force";
+import {
+  startingLawTerms,
+  startingLawScope,
+  lawInForce,
+  type LawInForce,
+} from "./governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { lawEffectStamp } from "./law-effect-stamp";
 import { recordsWithFieldValue } from "./history-index";
@@ -127,19 +132,25 @@ export function dataPrivacyInitialCostOn(
     NATIONAL_ELECTION_JURISDICTION.id,
     proposition.id,
     asOf,
-    "enacted-only",
   );
-  if (!law || law.origin !== "enacted" || law.answer !== "yes") return null;
+  if (!law || law.answer !== "yes") return null;
   const enactment = (world.history.legislativeEnactments ?? []).find(
     (row) => row.measureId === law.measureId && row.outcome === "enacted",
   );
-  if (!enactment) return null;
+  if (law.origin === "enacted" && !enactment) return null;
+  if (
+    law.origin === "in-force-at-start" &&
+    (startingLawTerms(law, NATIONAL_DATA_PRIVACY_QUESTION, asOf).length ||
+      startingLawScope(law, NATIONAL_DATA_PRIVACY_QUESTION, asOf))
+  )
+    return null;
   // No admitted national applicability adapter exists. Refuse final own-law
   // terms/categories rather than replacing them with the temporary estimate.
   const finalProvisions = new Map<string, LegislativeProvisionRecord>();
   for (const provision of world.history.legislativeProvisions ?? []) {
     if (
       provision.measureId !== law.measureId ||
+      !enactment ||
       provision.sequence > enactment.sequence
     )
       continue;
@@ -192,7 +203,7 @@ export function dataPrivacyInitialCostOn(
       organizationId,
       profile.id,
       law.measureId,
-      enactment.id,
+      ...(enactment ? [enactment.id] : []),
       ...[...employees.values()].flat(),
     ],
   };

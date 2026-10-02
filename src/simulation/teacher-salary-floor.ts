@@ -6,9 +6,8 @@
  * teachers above the current floor?"
  * (`education.raise-teacher-minimum-salary`), read through `lawInForce`.
  *
- * - A law the game began with changes no one's pay. Town pay comes from the
- *   BLS May 2025 wage tables (`town-pay.ts`), which already measure what
- *   teachers earn under each state's floor in force then.
+ * - A law the game began with uses its structured annual floor term. A yes
+ *   answer or citation text alone does not establish a numeric salary floor.
  * - A law enacted in play that answers yes sets a floor. The floor is
  *   ESTIMATED FROM AVERAGE: a stable world/state draw between 67% and 95% of
  *   the state's median public school teacher wage (below). A
@@ -23,6 +22,7 @@
  */
 
 import { addDays, makeIsoDate, yearOf } from "./dates";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { lawInForce } from "./governing/law-in-force";
 import {
   lifePlaceByJurisdictionId,
@@ -100,7 +100,7 @@ export function schoolYearStartOnOrAfter(date: IsoDate): IsoDate {
 export interface TeacherSalaryFloor {
   /** Dollars a year. */
   readonly annual: number;
-  /** The enacted measure that set it. */
+  /** Exact enacted measure or canonical starting-law key. */
   readonly measureId: EntityId;
   /** The first day the floor applies: a school year's first day. */
   readonly from: IsoDate;
@@ -108,7 +108,7 @@ export interface TeacherSalaryFloor {
 
 /**
  * The minimum teacher salary in force where the job is on `onDate`, in
- * dollars a year, or null when no law enacted in play sets one.
+ * dollars a year, or null when the operative floor amount is unavailable.
  * `stateMedian` is the state's median teacher wage in dollars a
  * year, or null where BLS publishes none (then no floor is claimed).
  */
@@ -118,13 +118,16 @@ export function teacherSalaryFloorAt(
   onDate: IsoDate,
   stateMedian: number | null,
 ): TeacherSalaryFloor | null {
-  if (!jurisdictionId || stateMedian === null || stateMedian <= 0) return null;
+  if (!jurisdictionId) return null;
   const proposition = teacherFloorProposition(world);
   if (!proposition) return null;
   // The law in force on the first day of the school year `onDate` falls in.
   const law = lawInForce(world, jurisdictionId, proposition, onDate);
-  if (!law || law.origin !== "enacted" || law.answer !== "yes") return null;
-  const from = schoolYearStartOnOrAfter(law.operativeAt);
+  if (!law || law.answer !== "yes") return null;
+  const from =
+    law.origin === "in-force-at-start"
+      ? law.operativeAt
+      : schoolYearStartOnOrAfter(law.operativeAt);
   if (from > onDate) {
     // Enacted but its school year has not begun: the floor before it, if an
     // earlier law set one, still governs.
@@ -133,10 +136,28 @@ export function teacherSalaryFloorAt(
       ? teacherSalaryFloorAt(world, jurisdictionId, before, stateMedian)
       : null;
   }
+  const startingFloor =
+    law.origin === "in-force-at-start"
+      ? readFinalEnactedLawTerm(world, law, {
+          questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+          termKey: "floor",
+          unit: "dollars/year",
+          onDate,
+        })
+      : null;
+  // A starting yes establishes the rule, not an invented numeric floor.
+  if (
+    law.origin === "in-force-at-start" &&
+    (!startingFloor ||
+      !Number.isFinite(startingFloor.value) ||
+      startingFloor.value <= 0)
+  )
+    return null;
+  if (!startingFloor && (stateMedian === null || stateMedian <= 0)) return null;
   return {
-    annual: Math.round(
-      stateMedian * teacherFloorRatioAt(world, jurisdictionId),
-    ),
+    annual:
+      startingFloor?.value ??
+      Math.round(stateMedian! * teacherFloorRatioAt(world, jurisdictionId)),
     measureId: law.measureId,
     from,
   };
@@ -158,17 +179,10 @@ function teacherFloorProposition(world: World): EntityId | null {
   return found;
 }
 
-/**
- * Whether a law enacted in play could set a floor: the question is in the
- * catalog and some law was enacted. A cheap test before reading pay; the law
- * itself is read through `lawInForce`, which also finds a floor an amendment
- * or a rider put into another bill.
+/** Cheap catalog gate before reading pay. The dated reader checks whether
+ * starting or enacted law supplies an operative floor for the actual place.
+ * Retained export name preserves the existing payroll caller contract.
  */
 export function anyTeacherFloorLawEnacted(world: World): boolean {
-  return (
-    teacherFloorProposition(world) !== null &&
-    (world.history.legislativeEnactments ?? []).some(
-      (enactment) => enactment.outcome === "enacted",
-    )
-  );
+  return teacherFloorProposition(world) !== null;
 }
