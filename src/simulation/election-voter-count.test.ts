@@ -1,4 +1,5 @@
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import { randomUUID } from "node:crypto";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -25,6 +26,12 @@ import { createFormationContext, recordPrivateBelief } from "./politics";
 import { SeededRng } from "./rng";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, World } from "./types";
+import {
+  recordPrimaryPartyRegistration,
+  recordPrimaryBallotSelection,
+  recordedPrimaryPartyAdmission,
+  primaryVoterAccessFor,
+} from "./nominations/primary-voter-access";
 
 const placeSeed = "a114-recorded-voter-place";
 const place = new SeededRng(placeSeed).pick(lifePlaceStateIdentities()).usps;
@@ -108,6 +115,125 @@ describe(`shared recorded voter count (${place}, all56 draw ${placeSeed})`, () =
     );
     expect(countRecordedVoterBallots(world, fixture.input)).toBeNull();
   });
+  it("keeps admitted votes when another elector's admission is unread", () => {
+    const fixture = setup("a114-partial-admission");
+    const voter = fixture.voters[0]!;
+    const world = support(
+      fixture.world,
+      voter,
+      fixture.input.candidatePersonIds[0]!,
+    );
+    const result = countRecordedVoterBallots(world, {
+      ...fixture.input,
+      admitVoter: (id) => (id === voter ? true : null),
+    });
+    expect(result?.tallies.map((row) => row.votes)).toEqual([1, 0]);
+  });
+});
+
+it("a contested closed primary reads actual registration and one saved ballot, not affiliation", () => {
+  const seed = "a114-recorded-closed-ballot";
+  const place = drawRandomPlace(seed, (candidate) => {
+    const state = candidate.stateJurisdictionKey?.slice(3);
+    return (
+      candidate.scope === "locality" &&
+      state !== undefined &&
+      nominationRuleRow(state)?.method === "party-primary" &&
+      primaryVoterAccessFor(state) === "Closed"
+    );
+  });
+  const built = smallWorld({ place: place.key, seed, people: 8 });
+  const stateUsps = place.stateJurisdictionKey!.slice(3);
+  const plan = nominationPlan(built.world, {
+    stateUsps,
+    family: "us-house",
+    year: 2026,
+    onDate: built.world.currentDate,
+  });
+  if (!plan.known) throw new Error(plan.reason);
+  let world = advanceWorld(
+    built.world,
+    daysBetween(built.world.currentDate, plan.primaryDate),
+  );
+  const adults = world.personOrder.filter((id) =>
+    isEligibleVoterIn(world, id, built.jurisdictionId, plan.primaryDate),
+  );
+  const candidates = adults.slice(0, 2);
+  const voter = adults[2]!;
+  expect(candidates).toHaveLength(2);
+  expect(voter).toBeDefined();
+  world = support(world, voter, candidates[0]!);
+  const admissionInput = {
+    personId: voter,
+    jurisdictionId: built.jurisdictionId,
+    electionStableKey: "recorded-closed",
+    electionDate: plan.primaryDate,
+    stateUsps,
+    primaryPartyId: "party-a",
+  };
+  expect(recordedPrimaryPartyAdmission(world, admissionInput)).toBeNull();
+  world = recordPrimaryPartyRegistration(world, {
+    stableKey: "register-voter",
+    personId: voter,
+    jurisdictionId: built.jurisdictionId,
+    registeredPartyId: "party-a",
+  });
+  expect(recordedPrimaryPartyAdmission(world, admissionInput)).toBeNull();
+  world = recordPrimaryBallotSelection(world, {
+    stableKey: "choose-ballot",
+    personId: voter,
+    jurisdictionId: built.jurisdictionId,
+    electionStableKey: "recorded-closed",
+    selectedPartyId: "party-a",
+  });
+  expect(recordedPrimaryPartyAdmission(world, admissionInput)).toBe(true);
+  expect(
+    recordedPrimaryPartyAdmission(world, {
+      ...admissionInput,
+      primaryPartyId: "party-b",
+    }),
+  ).toBe(false);
+  expect(
+    recordedPrimaryPartyAdmission(world, {
+      ...admissionInput,
+      electionStableKey: "other-election",
+    }),
+  ).toBeNull();
+  expect(() =>
+    recordPrimaryBallotSelection(world, {
+      stableKey: "second-ballot",
+      personId: voter,
+      jurisdictionId: built.jurisdictionId,
+      electionStableKey: "recorded-closed",
+      selectedPartyId: "party-b",
+    }),
+  ).toThrow("two party ballots");
+  const input = {
+    stableKey: "recorded-closed",
+    seatKey: "closed-seat",
+    title: "Recorded closed primary",
+    jurisdictionId: built.jurisdictionId,
+    involvedEntityIds: candidates,
+    plan,
+    entrants: candidates.map((personId) => ({
+      personId,
+      party: "party-a",
+      incumbent: false,
+      partyBacked: false,
+    })),
+    partyShare: () => {
+      throw new Error("No synthetic party share");
+    },
+  };
+  const held = holdNominationPrimary(world, input);
+  const record = nominationPrimaryRecord(held, input.stableKey)!;
+  expect(record).not.toBeNull();
+  expect(
+    record.participants.find((row) => row.personId === candidates[0])?.detail,
+  ).toBe("party-a|1000|nominated");
+  const reopened = deserializeWorld(serializeWorld(held));
+  expect(recordedPrimaryPartyAdmission(reopened, admissionInput)).toBe(true);
+  expect(holdNominationPrimary(reopened, input)).toBe(reopened);
 });
 
 it("holds a sourced all-party primary from saved voter views and retains its tally after reopening", () => {
@@ -206,9 +332,12 @@ it("holds a sourced all-party primary from saved voter views and retains its tal
   expect(holdNominationPrimary(reopened, input)).toBe(reopened);
 });
 
-const openingSeed = "overflow8-a114-continuation-opening";
+const openingSeed = `a114-opening-${randomUUID()}`;
 const openingPlace = drawRandomPlace(openingSeed);
 it(`opens a new game in ${openingPlace.displayName}, ${openingPlace.stateJurisdictionKey}, seed ${openingSeed}`, () => {
+  console.info(
+    `A114 opening: ${openingPlace.displayName}, ${openingPlace.stateJurisdictionKey}, seed ${openingSeed}`,
+  );
   const opened = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,

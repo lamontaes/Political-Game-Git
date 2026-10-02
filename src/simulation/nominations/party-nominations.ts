@@ -5,7 +5,7 @@ import {
   traitConsiderations,
 } from "../people-traits";
 import { countRecordedVoterBallots } from "../election-contests";
-import { primaryPartyBallotAdmission } from "./primary-voter-access";
+import { recordedPrimaryPartyAdmission } from "./primary-voter-access";
 import type {
   DecisionConsideration,
   EntityId,
@@ -274,18 +274,15 @@ export function holdNominationPrimary(
       plan.primaryDate,
       isAllParty(plan.method)
         ? undefined
-        : () => {
-            // No saved registration/party-ballot producer is admitted yet.
-            const admission = primaryPartyBallotAdmission(
-              plan.stateUsps,
-              group.party,
-              undefined,
-              undefined,
-            );
-            return admission === "requires-record"
-              ? null
-              : admission === "eligible";
-          },
+        : (personId) =>
+            recordedPrimaryPartyAdmission(next, {
+              personId,
+              jurisdictionId: input.jurisdictionId,
+              electionStableKey: input.stableKey,
+              electionDate: plan.primaryDate,
+              stateUsps: plan.stateUsps,
+              primaryPartyId: group.party,
+            }),
     );
     if (!tallies) return world;
     if (isAllParty(plan.method)) {
@@ -383,6 +380,7 @@ export function holdNominationPrimary(
         : "recorded-voter-count/v1",
       `seat:${input.seatKey}`,
       `method:${plan.method}`,
+      `state:${plan.stateUsps}`,
       `date-basis:${plan.dateBasis}`,
       ...plan.estimated.map((part) => `estimated-from-average:${part}`),
       ...runoffParties.map((party) => `runoff-party:${party}`),
@@ -463,7 +461,18 @@ export function holdNominationRunoff(
       living,
       input.jurisdictionId,
       date,
-      () => null,
+      (personId) => {
+        const stateUsps = tagOf(primary, "state:");
+        if (!stateUsps) return null;
+        return recordedPrimaryPartyAdmission(world, {
+          personId,
+          jurisdictionId: input.jurisdictionId,
+          electionStableKey: input.stableKey,
+          electionDate: date,
+          stateUsps,
+          primaryPartyId: party,
+        });
+      },
     );
     if (!tallies) return world;
     tallies.forEach((row, index) =>

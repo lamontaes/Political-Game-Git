@@ -171,6 +171,28 @@ export interface RecordedVoterCountInput {
   readonly admitVoter?: (personId: EntityId) => boolean | null;
 }
 
+// Candidate views are immutable history. Reuse one index across the many
+// primary contests held on a date rather than scan all beliefs per seat.
+const CANDIDATE_VIEWS = new WeakMap<
+  readonly PrivateBeliefRecord[],
+  Map<EntityId, PrivateBeliefRecord[]>
+>();
+
+function candidateViews(world: World): Map<EntityId, PrivateBeliefRecord[]> {
+  let index = CANDIDATE_VIEWS.get(world.history.privateBeliefs);
+  if (!index) {
+    index = new Map();
+    for (const belief of world.history.privateBeliefs) {
+      if (belief.subject?.kind !== "official") continue;
+      const rows = index.get(belief.subject.personId) ?? [];
+      rows.push(belief);
+      index.set(belief.subject.personId, rows);
+    }
+    CANDIDATE_VIEWS.set(world.history.privateBeliefs, index);
+  }
+  return index;
+}
+
 /** Evaluate actual saved candidate views through the one decision function.
  * A missing consideration is omitted, never estimated from party shares.
  */
@@ -189,28 +211,32 @@ export function countRecordedVoterBallots(
     throw new Error("A voter count requires distinct candidate records.");
   // Index saved candidate views once for this election, never once per voter.
   const views = new Map<EntityId, Map<EntityId, PrivateBeliefRecord>>();
-  for (const belief of world.history.privateBeliefs) {
-    if (
-      belief.subject?.kind !== "official" ||
-      !candidates.has(belief.subject.personId) ||
-      belief.formedAt > input.electionDate
-    )
-      continue;
-    const byCandidate =
-      views.get(belief.personId) ?? new Map<EntityId, PrivateBeliefRecord>();
-    const previous = byCandidate.get(belief.subject.personId);
-    if (
-      !previous ||
-      belief.formedAt > previous.formedAt ||
-      (belief.formedAt === previous.formedAt &&
-        belief.sequence > previous.sequence)
-    ) {
-      byCandidate.set(belief.subject.personId, belief);
-      views.set(belief.personId, byCandidate);
+  for (const candidateId of input.candidatePersonIds) {
+    for (const belief of candidateViews(world).get(candidateId) ?? []) {
+      if (
+        belief.subject?.kind !== "official" ||
+        !candidates.has(belief.subject.personId) ||
+        belief.formedAt > input.electionDate
+      )
+        continue;
+      const byCandidate =
+        views.get(belief.personId) ?? new Map<EntityId, PrivateBeliefRecord>();
+      const previous = byCandidate.get(belief.subject.personId);
+      if (
+        !previous ||
+        belief.formedAt > previous.formedAt ||
+        (belief.formedAt === previous.formedAt &&
+          belief.sequence > previous.sequence)
+      ) {
+        byCandidate.set(belief.subject.personId, belief);
+        views.set(belief.personId, byCandidate);
+      }
     }
   }
   const contexts = new Map<EntityId, DecisionContext>();
-  for (const voterId of world.personOrder) {
+  // Without a saved candidate view a voter contributes no consideration and
+  // cannot select a candidate. Only view holders need electorate evaluation.
+  for (const voterId of views.keys()) {
     if (
       !isEligibleVoterIn(
         world,
@@ -298,8 +324,9 @@ export function countRecordedVoterBallots(
       continue;
     const admission =
       input.admitVoter?.(voterId) ?? (input.admitVoter ? null : true);
-    if (admission === null) return null;
-    if (!admission) continue;
+    // Unsupported admission excludes this elector, not every recorded ballot.
+    // No admitted ballots still returns null below; it never invents a result.
+    if (admission !== true) continue;
     if (
       context.options.length < 2 ||
       context.randomness !== "none" ||
