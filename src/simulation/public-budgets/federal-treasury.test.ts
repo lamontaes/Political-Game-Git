@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createHistoryStore } from "../history";
 import { makeIsoDate } from "../dates";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { GROW_DEFENSE_SPENDING_QUESTION } from "../federal-defense-spending";
@@ -103,6 +104,7 @@ function lawWorld(laws: readonly ReturnType<typeof enacted>[]): World {
       },
     },
     history: {
+      ...createHistoryStore(),
       legislativeMeasures: laws.map((entry) => entry.measure),
       legislativeEnactments: laws.map((entry) => entry.enactment),
     },

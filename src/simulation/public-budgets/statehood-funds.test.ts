@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createHistoryStore } from "../history";
 import { addDays, makeIsoDate } from "../dates";
 import {
   STATEHOOD_ADMISSION_DAYS,
@@ -47,6 +48,7 @@ function worldWith(effectiveAt: string | null): World {
       },
     },
     history: {
+      ...createHistoryStore(),
       organizations: [],
       resourceFlows: [],
       resourceTransferOutcomes: [],

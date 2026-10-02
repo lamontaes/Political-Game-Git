@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createHistoryStore } from "../../src/simulation/history";
 
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import {
@@ -115,6 +116,7 @@ function worldWith(laws: readonly ReturnType<typeof act>[]): World {
     jurisdictionOrder: [],
     policyCatalog: POLICY,
     history: {
+      ...createHistoryStore(),
       organizations: [],
       resourceFlows: [],
       resourceTransferOutcomes: [],
