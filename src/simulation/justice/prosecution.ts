@@ -11,6 +11,7 @@ import {
   currentLifeCutoff,
   organizationProfileAt,
 } from "../life-queries";
+import { assertPublicGovernmentIdentity } from "../public-government-identity";
 import { isPersonAliveAt } from "../vitality";
 import { addDays } from "../dates";
 import {
@@ -306,12 +307,20 @@ function recordedProsecutorForCase(world: World, courtCase: CourtCase) {
     const profile = relationship.organizationId
       ? organizationProfileAt(world, relationship.organizationId, cutoff)
       : null;
-    if (
-      !active ||
-      profile?.classification !== "sector:government" ||
-      profile.closed
-    )
-      continue;
+    if (!active || !profile || profile.closed) continue;
+    if (profile.classification !== "sector:government") {
+      // Canonical county employers carry their compiled government identity.
+      if (
+        profile.classification !== "service:county-government" ||
+        profile.publicGovernmentIdentity?.kind !== "local-government"
+      )
+        continue;
+      assertPublicGovernmentIdentity(
+        world,
+        profile.publicGovernmentIdentity,
+        cutoff,
+      );
+    }
     holders.set(relationship.personId, {
       personId: relationship.personId,
       workRelationshipId: relationship.id,

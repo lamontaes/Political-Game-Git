@@ -1,4 +1,9 @@
 import {
+  ensureLocalGovernmentOrganization,
+  localGovernmentOrganizationKey,
+  placeLocalGovernmentUnits,
+} from "../nationwide-world/local-governments";
+import {
   createOrganization,
   createWorkRelationship,
   recordWorkStatus,
@@ -48,6 +53,7 @@ function seatedProsecutor(
   world: World,
   defendantId: EntityId,
   jurisdictionId: World["people"][string]["homeJurisdictionId"],
+  existingOrganizationId?: EntityId,
 ) {
   const person = Object.values(world.people).find(
     (person) =>
@@ -59,17 +65,20 @@ function seatedProsecutor(
     kind: "authored" as const,
     note: "Controlled recorded prosecutor appointment fixture; no opening official is invented.",
   };
-  let next = createOrganization(world, {
-    stableKey: "a104:fixture:office",
-    formedAt: world.currentDate,
-    provenance,
-    initialProfile: {
-      name: "Recorded prosecution office",
-      classification: "sector:government",
-      locationJurisdictionId: jurisdictionId,
-    },
-  });
-  const organizationId = next.history.organizations.at(-1)!.id;
+  let next = existingOrganizationId
+    ? world
+    : createOrganization(world, {
+        stableKey: "a104:fixture:office",
+        formedAt: world.currentDate,
+        provenance,
+        initialProfile: {
+          name: "Recorded prosecution office",
+          classification: "sector:government",
+          locationJurisdictionId: jurisdictionId,
+        },
+      });
+  const organizationId =
+    existingOrganizationId ?? next.history.organizations.at(-1)!.id;
   next = createWorkRelationship(next, {
     stableKey: "a104:fixture:appointment",
     personId: person.id,
@@ -455,6 +464,52 @@ describe("A104 an unseated prosecutor leaves the saved case pending", () => {
     expect(
       serializeWorld(advanceProsecutions(world, built.referral.referralId)),
     ).toBe(serializeWorld(world));
+  });
+  it("admits a prosecutor employed by the actual compiled county government", () => {
+    const countyPlace = drawRandomPlace("gate-2080-2026-10-02");
+    const fixture = smallWorld({
+      seed: "a104:canonical-county-employer",
+      place: countyPlace.key,
+    });
+    const county = placeLocalGovernmentUnits(countyPlace).counties[0];
+    expect(county).toBeDefined();
+    let world = ensureLocalGovernmentOrganization(fixture.world, county!);
+    const organization = world.history.organizations.find(
+      (row) => row.stableKey === localGovernmentOrganizationKey(county!),
+    )!;
+    world = seatedProsecutor(
+      world,
+      fixture.personId,
+      fixture.jurisdictionId,
+      organization.id,
+    ).world;
+    const referral = referForProsecution(world, {
+      stableKey: "a104:county-employer-referral",
+      subjectPersonId: fixture.personId,
+      jurisdictionId: fixture.jurisdictionId,
+      offenseKey: "crime:robbery",
+      evidence: "documentary",
+      standingFindings: 0,
+      basisEventIds: [],
+      referredBy: {
+        kind: "police",
+        label: "recorded police referral",
+        personId: null,
+      },
+    });
+    const due = referral.world.history.futureDueItems.find(
+      (item) => item.transitionKey === PROSECUTION_STAGE_TRANSITION_KEY,
+    )!;
+    const reviewed = resolveFutureDueItemsThrough(
+      referral.world,
+      due.dueAt,
+      createProsecutionTransitionRegistry(),
+    );
+    expect(
+      reviewed.history.decisionTraces.some(
+        (trace) => trace.context.decisionType === "justice.charge",
+      ),
+    ).toBe(true);
   });
   it("opens an actual random-place new game", () => {
     const opened = generateOpeningLife(
