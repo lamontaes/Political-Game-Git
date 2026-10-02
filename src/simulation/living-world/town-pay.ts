@@ -61,7 +61,11 @@ import {
   makeIsoDate,
   simulationMinutesBetween,
 } from "../dates";
-import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  cancelFutureDueItem,
+  scheduleFutureDueItem,
+  scheduledFutureDueItemsThrough,
+} from "../future-transitions";
 import {
   enactedRuleChangeAt,
   laborLawOfficeKey,
@@ -544,21 +548,66 @@ export function nextPaydayDate(date: IsoDate): IsoDate {
   throw new Error("No payday within a week.");
 }
 
+const OFFICE_CALENDAR_FLOWS: GrowingIndexKind<ResourceFlow[]> = {
+  create: () => [],
+  add: (flows, record) => {
+    const flow = record as ResourceFlow;
+    if (flow.stableKey.startsWith("office-salary:")) flows.push(flow);
+  },
+};
+
+/** The shared clock also visits each saved office flow's weekly due date. */
+export function nextRecordedPaydayDate(world: World): IsoDate {
+  let dueAt = nextPaydayDate(world.currentDate);
+  for (const flow of growingIndex(
+    OFFICE_CALENDAR_FLOWS,
+    world.history.resourceFlows,
+  )) {
+    if (flow.basisReference.kind !== "work") continue;
+    const terms = resourceFlowTermsAt(world, flow.id);
+    if (terms?.status !== "active" || terms.cadenceKind !== "schedule:weekly")
+      continue;
+    const work = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    );
+    if (!work || workStatusAt(world, work.id)?.status !== "active") continue;
+    const week = Math.max(
+      1,
+      Math.floor(daysBetween(flow.startsAt, world.currentDate) / 7) + 1,
+    );
+    const officeDue = addDays(flow.startsAt, week * 7);
+    if (officeDue < dueAt) dueAt = officeDue;
+  }
+  return dueAt;
+}
+
 // ─── Schedule ───────────────────────────────────────────────────────────
 
-/** Schedules the first payday for a life opened at the current version. Idempotent. */
+/** Refresh the existing clock when recorded office work adds an earlier due date. */
 export function ensurePaydaySchedule(world: World): World {
-  if (
-    world.history.futureDueItems.some((item) =>
-      item.stableKey.startsWith(PAYDAY_KEY_PREFIX),
-    )
-  )
-    return world;
-  return scheduleFutureDueItem(world, {
-    stableKey: `${PAYDAY_KEY_PREFIX}${world.currentDate}`,
-    dueAt: nextPaydayDate(world.currentDate),
+  const dueAt = nextRecordedPaydayDate(world);
+  const pending = scheduledFutureDueItemsThrough(
+    world,
+    world.currentDate,
+    addDays(world.currentDate, 7),
+  ).filter((item) => item.transitionKey === PAYDAY_TRANSITION_KEY);
+  if (pending.some((item) => item.dueAt <= dueAt)) return world;
+  let next = world;
+  for (const item of pending) {
+    next = cancelFutureDueItem(next, {
+      stableKey: `${item.stableKey}:earlier-office:${next.history.nextSequence}`,
+      dueItemId: item.id,
+      effectiveAt: next.currentDate,
+      reasonKey: "payday:earlier-recorded-office-due",
+      context: null,
+    });
+  }
+  return scheduleFutureDueItem(next, {
+    stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}:${dueAt}:${next.history.nextSequence}`,
+    dueAt,
     transitionKey: PAYDAY_TRANSITION_KEY,
-    entityIds: [world.id],
+    entityIds: [next.id],
     jurisdictionId: null,
     provenance: { kind: "initialization", reference: TOWN_PAY_VERSION },
   });
@@ -570,7 +619,12 @@ export function paydayHandler(
 ): FutureTransitionHandlerResult {
   if (dueItem.transitionKey !== PAYDAY_TRANSITION_KEY)
     throw new Error("Payday received another transition.");
-  const since = makeIsoDate(dueItem.stableKey.slice(PAYDAY_KEY_PREFIX.length));
+  const since = makeIsoDate(
+    dueItem.stableKey.slice(
+      PAYDAY_KEY_PREFIX.length,
+      PAYDAY_KEY_PREFIX.length + 10,
+    ),
+  );
   let next = startTownJobPay(world, null, since);
   next = raiseTeacherPayToFloor(next, null);
   next = settleAllOfficeSalaries(next);
@@ -578,8 +632,8 @@ export function paydayHandler(
   next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, null);
   next = scheduleFutureDueItem(next, {
-    stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}`,
-    dueAt: nextPaydayDate(next.currentDate),
+    stableKey: `${PAYDAY_KEY_PREFIX}${next.currentDate}:${next.history.nextSequence}`,
+    dueAt: nextRecordedPaydayDate(next),
     transitionKey: PAYDAY_TRANSITION_KEY,
     entityIds: [next.id],
     jurisdictionId: null,
