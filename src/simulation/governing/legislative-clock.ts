@@ -563,18 +563,14 @@ export function applyInstitutionStep(
       reason:
         "The council's members decide this step; a supplied tally cannot replace them.",
     };
-  if (input.recordedFloorVote) {
-    if (input.recordedFloorVote.measureId !== measureId)
-      return {
-        kind: "blocked",
-        reason: "The recorded floor vote belongs to another measure.",
-      };
-    return applyInstitutionFloorVote(
-      before,
-      input.recordedFloorVote,
-      input.recordedFloorVote.seatedMemberPersonIds,
-    );
-  }
+  if (
+    input.recordedFloorVote &&
+    input.recordedFloorVote.measureId !== measureId
+  )
+    return {
+      kind: "blocked",
+      reason: "The recorded floor vote belongs to another measure.",
+    };
   const local = input.localCouncil;
   const unit = local ? governmentUnit(local.governmentUnitId) : null;
   if (local && (!unit || councilRules(unit)?.packId !== measure.rulePackId))
@@ -634,28 +630,35 @@ export function applyInstitutionStep(
   // Every seated member who may vote on the bill holds principles of their
   // own before any question is put, Congress's members included: without
   // them a member had only a party cue, and every roll call was unanimous.
-  const world = closeLapsedVoteNotices(
-    local
-      ? ensureCouncilPrinciples(before, [
-          ...councilMembers,
-          ...(mayorPersonId ? [{ personId: mayorPersonId }] : []),
-        ])
-      : ensureOfficeholderPrinciples(
-          before,
-          bodies.flatMap((body) =>
-            body.members.flatMap((member) =>
-              member.personId ? [member.personId] : [],
+  const world = input.recordedFloorVote
+    ? before
+    : closeLapsedVoteNotices(
+        local
+          ? ensureCouncilPrinciples(before, [
+              ...councilMembers,
+              ...(mayorPersonId ? [{ personId: mayorPersonId }] : []),
+            ])
+          : ensureOfficeholderPrinciples(
+              before,
+              bodies.flatMap((body) =>
+                body.members.flatMap((member) =>
+                  member.personId ? [member.personId] : [],
+                ),
+              ),
             ),
-          ),
-        ),
-    measureId,
-  );
+        measureId,
+      );
   // Drawing principles and closing notices change neither the rule pack nor
   // the seated roster. Reuse the roster already read for this same step.
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
-  if (owner === null || owner === "sponsor-office") return { kind: "idle" };
+  if (
+    !input.recordedFloorVote &&
+    (owner === null || owner === "sponsor-office")
+  )
+    return { kind: "idle" };
   const position = measurePosition(world, measureId);
+  if (position.terminal) return { kind: "idle" };
   const session = measureSessionIsClosed(world, measureId);
   const phase = position.phase;
   const reconsidersVetoLater =
@@ -700,6 +703,14 @@ export function applyInstitutionStep(
         ? `The regular session ended on ${session.closedOn}; the bill remains pending for the next regular session.`
         : `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
     };
+  // A caller may supply its actual members' decisions, including the
+  // controlled sponsor's ballot, but cannot bypass the session's end.
+  if (input.recordedFloorVote)
+    return applyInstitutionFloorVote(
+      world,
+      input.recordedFloorVote,
+      input.recordedFloorVote.seatedMemberPersonIds,
+    );
   if (owner === "executive")
     return {
       kind: "executive",
