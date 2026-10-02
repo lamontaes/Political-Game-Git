@@ -1,5 +1,5 @@
 import { FEDERAL_EMPLOYMENT_RULES } from "../statutory-tax-rules";
-import { federalProgramCostsForMonth } from "../federal-cost-ledger";
+import { publicProgramCostsForMonth } from "../federal-cost-ledger";
 import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
 import { federalProgramLine } from "./federal-treasury";
 import { PAID_LEAVE_QUESTION } from "../state-paid-leave-law";
@@ -337,7 +337,7 @@ export function readMonthFlows(
     rows.push(payment);
     taxPaymentsByOutcome.set(payment.resourceOutcomeId, rows);
   }
-  const federalCostsByTransfer = new Map(
+  const programCostsByTransfer = new Map(
     [
       ...new Set(
         history.resourceTransferOutcomes
@@ -345,7 +345,7 @@ export function readMonthFlows(
           .map((row) => `${row.occurredAt.slice(0, 7)}-01` as IsoDate),
       ),
     ]
-      .flatMap((month) => federalProgramCostsForMonth(world, month))
+      .flatMap((month) => publicProgramCostsForMonth(world, month))
       .map((cost) => [cost.transferId, cost] as const),
   );
   const paidLeavePaymentStamps = new Map<string, LawEffectStamp[]>();
@@ -481,13 +481,20 @@ export function readMonthFlows(
           outcome.transferredAmount.minorUnits;
         row.sourceRecordIds.push(flow.id, outcome.id);
         row.lawEffectStamps.push(...savedStamps);
-        if (outOf === federalKey) {
-          const cost = federalCostsByTransfer.get(outcome.id);
-          if (cost) {
-            row.sourceRecordIds.push(...cost.sourceRecordIds);
-            if (!savedStamps.length)
-              row.lawEffectStamps.push(...cost.lawEffectStamps);
-          }
+        const cost = programCostsByTransfer.get(outcome.id);
+        if (cost) {
+          row.sourceRecordIds.push(...cost.sourceRecordIds);
+          row.lawEffectStamps.push(
+            ...cost.lawEffectStamps.filter(
+              (stamp) =>
+                !savedStamps.some(
+                  (saved) =>
+                    saved.governingLawKey === stamp.governingLawKey &&
+                    saved.effectKind === stamp.effectKind &&
+                    saved.questionKey === stamp.questionKey,
+                ),
+            ),
+          );
         }
       }
     }
