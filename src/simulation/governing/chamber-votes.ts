@@ -43,6 +43,7 @@ import { personName } from "../people";
 import { readRelationshipStanding } from "../relationship-standing";
 import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
+import { stateMemberSeatingEvidence } from "./member-seating";
 import type {
   DecisionConsideration,
   DecisionSubject,
@@ -123,15 +124,27 @@ export function seatedChamberForPack(
     body: {
       chamberKey,
       chamberName,
-      members: members.map((member): SeatedMember => ({
-        memberKey: `${officeKey}:seat:${member.ordinal}`,
-        name: personName(world.people[member.personId]!),
-        personId: member.personId,
-        partyKey: member.party,
-        caucusLabel: member.party
-          ? `${member.party.charAt(0).toUpperCase()}${member.party.slice(1)}`
-          : "No party",
-      })),
+      members: members.map((member): SeatedMember => {
+        const seating = opening?.jurisdictionId
+          ? stateMemberSeatingEvidence(
+              world,
+              candidacyPackId,
+              opening.jurisdictionId,
+              member,
+            )
+          : null;
+        return {
+          memberKey: `${officeKey}:seat:${member.ordinal}`,
+          name: personName(world.people[member.personId]!),
+          personId: member.personId,
+          partyKey: member.party,
+          caucusLabel: member.party
+            ? `${member.party.charAt(0).toUpperCase()}${member.party.slice(1)}`
+            : "No party",
+          tenureStartedAt: seating?.occurredAt ?? null,
+          seatingEventId: seating?.eventId ?? null,
+        };
+      }),
     },
   };
 }
