@@ -1,5 +1,7 @@
+import { householdMembershipsAt } from "./life-queries";
 import type {
   CurrencyCode,
+  Dwelling,
   DwellingOccupancy,
   DwellingOccupancyStateRecord,
   EntityId,
@@ -563,6 +565,37 @@ export function activeHousingTenuresAt(
       availableOn(record, record.startedAt, cutoff) &&
       housingTenureStateAt(world, record.id, cutoff)?.status === "active",
   );
+}
+
+/** Latest recorded primary occupancy supported by a matching active tenure. */
+export function primaryDwellingOf(
+  world: World,
+  personId: EntityId,
+): Dwelling | null {
+  if (!world.people[personId]) return null;
+  const primaryHouseholds = new Set(
+    householdMembershipsAt(world, personId)
+      .filter((row) => row.state.residenceRole === "primary")
+      .map((row) => row.household.id),
+  );
+  const tenures = activeHousingTenuresAt(world);
+  const occupancy = [...activeDwellingOccupanciesAt(world)]
+    .reverse()
+    .find(
+      (row) =>
+        (row.occupant.kind === "person"
+          ? row.occupant.personId === personId
+          : primaryHouseholds.has(row.occupant.householdId)) &&
+        dwellingOccupancyStateAt(world, row.id)?.residenceRole === "primary" &&
+        tenures.some(
+          (tenure) =>
+            tenure.dwellingId === row.dwellingId &&
+            sameEndpoint(tenure.holder, row.occupant),
+        ),
+    );
+  return occupancy
+    ? (recordById(world.history.dwellings, occupancy.dwellingId) ?? null)
+    : null;
 }
 
 export function sameEndpoint(
