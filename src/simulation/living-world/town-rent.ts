@@ -118,6 +118,7 @@ import {
   type RecordResourceTransferOutcomeInput,
 } from "../resources";
 import { SeededRng } from "../rng";
+import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
 import type {
   EntityId,
   FutureDueItem,
@@ -1621,7 +1622,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
     const old = current.amount.minorUnits;
     let amount = old;
     let reason: string;
-    let provenance: LifeRecordProvenance = PROVENANCE;
+    const provenance: LifeRecordProvenance = PROVENANCE;
     let lawEffectStamps: LawEffectStampedRecord["lawEffectStamps"];
     if (lease.regime === "public") {
       const income = householdMonthlyIncome(
@@ -1667,50 +1668,45 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const homePrices =
         marketRentLevel(next, lease.town, dueOn) /
         marketRentLevel(next, lease.town, lastYear);
-      const prices =
-        rentPriceLevel(next, lease.town, dueOn) /
-        rentPriceLevel(next, lease.town, lastYear);
       const rule = housingLawYes(
         next,
         lease.town,
         RENT_LAW_KEYS.rentStabilization,
         dueOn,
       );
-      const renewal = renewedMarketRent(
-        old,
-        homePrices,
-        prices,
-        rule !== null &&
-          landlordKindOf(next, lease.flow.recipient) !== "public",
-      );
-      const { capped, cap } = renewal;
-      amount = renewal.amountMinor;
-      if (capped) {
-        const stamp = lawEffectStamp(rule, {
-          effectKind: "rent-stabilization-renewal",
-          questionKey: RENT_LAW_KEYS.rentStabilization,
-          jurisdictionId: lease.town,
-          appliedAt: dueOn,
-          sourceRecordIds: [
-            lease.flow.id,
-            current.id,
-            lease.tenureId,
-            lease.leaseholderId,
-          ],
-        });
-        if (stamp) lawEffectStamps = [stamp];
-        const uncapped = renewal.uncappedMinor;
-        const designation = measureDesignation(next, rule!.measureId);
-        reason = `Rent stabilization under ${designation} held the increase to ${(cap * 100).toFixed(1)}% (the landlord sought ${dollarsOf(uncapped)}).`;
-        const enactment = next.history.legislativeEnactments?.find(
-          (row) => row.measureId === rule!.measureId,
-        );
-        if (enactment?.outcomeEventId)
-          provenance = {
-            kind: "simulated-event",
-            eventId: enactment.outcomeEventId,
-          };
-      } else reason = "The landlord renewed the lease at this year's rent.";
+      // A final numeric cap belongs to the registered price-cost consumer.
+      // Do not constrain its actual renewal input with the legacy blanket cap.
+      const finalCap = rule
+        ? readFinalEnactedLawTerm(next, rule, {
+            questionKey: RENT_LAW_KEYS.rentStabilization,
+            termKey: "cap",
+            unit: "ratio",
+            onDate: dueOn,
+          })
+        : null;
+      // A yes answer alone supplies no lawful increase. Preserve the saved
+      // rent until the canonical reader can resolve the actual numeric term;
+      // missing CPI/coverage data must never become the universal old cap.
+      if (
+        rule &&
+        landlordKindOf(next, lease.flow.recipient) !== "public" &&
+        (finalCap === null ||
+          !next.policyCatalog.propositions[
+            propositionId(next, RENT_LAW_KEYS.rentStabilization)!
+          ]?.consequences?.some(
+            (row) =>
+              row.kind === "price-cost" &&
+              row.when === "renewal" &&
+              row.conditions.some(
+                (condition) =>
+                  condition.capability === "price-flow-basis" &&
+                  condition.parameters?.basisKind === lease.flow.basisKind,
+              ),
+          ))
+      )
+        continue;
+      amount = Math.round((old * homePrices) / 100) * 100;
+      reason = "The landlord renewed the lease at this year's rent.";
     }
     if (amount === old && lease.regime !== "market") continue;
     next = recordResourceFlowTerms(next, {
