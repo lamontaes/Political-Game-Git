@@ -4,9 +4,19 @@ import { drawRandomPlace } from "../../../tests/support/random-place";
 import { recordWorkStatus } from "../life";
 import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { createWorkItem, workItemState } from "../time-work";
+import {
+  advanceWorldMinutes,
+  createWorkItem,
+  workItemState,
+} from "../time-work";
 import { recordWorldEvent } from "../world";
-import { recordStoryLead } from "./desk";
+import {
+  assignedReporter,
+  assignStory,
+  pressStoryStepHandler,
+  PRESS_STORY_STEP_TRANSITION_KEY,
+  recordStoryLead,
+} from "./desk";
 import {
   ensurePressMediaOpening,
   mediaOutlets,
@@ -81,6 +91,39 @@ describe.each(samples)(
         source,
       };
     }
+
+    it("keeps an actual assignment pending until its canonical reporting work finishes", () => {
+      const f = fixture();
+      const assigned = assignStory(f.world, f.lead.id);
+      const reporterId = assignedReporter(assigned, f.lead.id);
+      expect(reporterId).not.toBeNull();
+      const reporter = reporterRoles(assigned, f.lead.outletId).find(
+        (role) => role.personId === reporterId,
+      )!;
+      const world = createStoryWorkItem(assigned, f.lead, reporter, estimate);
+      const due = world.history.futureDueItems.find(
+        (item) => item.transitionKey === PRESS_STORY_STEP_TRANSITION_KEY,
+      )!;
+      expect(due).toBeDefined();
+      const result = pressStoryStepHandler(world, due);
+      expect(result.status).toBe("blocked");
+      expect(result.reasonKey).toBe("press:reporting-work-incomplete");
+      expect(result.outcomeEventId).toBeNull();
+      expect(serializeWorld(result.world)).toBe(serializeWorld(world));
+      const loaded = deserializeWorld(serializeWorld(world));
+      expect(serializeWorld(pressStoryStepHandler(loaded, due).world)).toBe(
+        serializeWorld(loaded),
+      );
+      const advanced = advanceWorldMinutes(loaded, estimate.requiredMinutes);
+      const item = storyWorkItem(advanced, f.lead.id)!;
+      expect(workItemState(advanced, item.id).status).toBe("ready-for-review");
+      expect(workItemState(advanced, item.id).completedEffortMinutes).toBe(
+        estimate.requiredMinutes,
+      );
+      expect(pressStoryStepHandler(advanced, due).reasonKey).not.toBe(
+        "press:reporting-work-incomplete",
+      );
+    });
 
     it("projects outlet minutes from its actual current reporters", () => {
       const f = fixture();

@@ -28,6 +28,8 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import { workItemState } from "../time-work";
+import { storyWorkItem } from "./story-work";
 import { ACTIVE_STORY_DECISIONS } from "./integrity";
 import {
   colleaguesOf,
@@ -669,6 +671,22 @@ export function pressStoryStepHandler(
       context: null,
       outcomeEventId: null,
     };
+  }
+  const reportingWork = storyWorkItem(world, lead.id);
+  if (reportingWork) {
+    const state = workItemState(world, reportingWork.id);
+    if (
+      !state.assignedPersonIds.includes(reporterId) ||
+      (state.status !== "ready-for-review" && state.status !== "completed")
+    ) {
+      return {
+        world,
+        status: "blocked",
+        reasonKey: "press:reporting-work-incomplete",
+        context: null,
+        outcomeEventId: null,
+      };
+    }
   }
   let next = world;
   if (
