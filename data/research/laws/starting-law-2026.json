@@ -1039,13 +1039,35 @@
       "note": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
       "answers": {
         "US-AK": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-AL": {
           "answer": "no"
         },
         "US-AR": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-AS": {
           "answer": "no",
@@ -1053,22 +1075,88 @@
           "note": "American Samoa runs Medicaid under a waiver that pays for care in proportion to residents under 200 percent of the poverty level with no individual enrollment, so it has not expanded to the adult group (MACPAC, February 2021)."
         },
         "US-AZ": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-CO": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://dhcf.dc.gov/sites/default/files/dc/sites/dhcf/page_content/attachments/Medicaid%20Changes%202025%20Fact%20Sheet%20FAQ%2010.2025.pdf",
+          "cite": "DC DHCF Medicaid Changes Fact Sheet FAQ, October 2025, questions 1 and 4, effective 1/1/2026",
+          "note": "As of 1/1/2026, the Childless Adult ceiling is 133% FPL plus the 5-percentage-point disregard (effective ratio 1.38), replacing 215%; Parent/Caretaker also falls to 138%. Other categories retain their own limits. The FAQ heading and dated table specify 2026; its question 4 prose mistakenly says 2025. Reader default 2000-01-01 is not a researched enactment date."
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-FL": {
           "answer": "no"
@@ -1083,46 +1171,189 @@
           "note": "Guam covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
         },
         "US-HI": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-IA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-ID": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-IL": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-IN": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-KS": {
           "answer": "no"
         },
         "US-KY": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-LA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-ME": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-MO": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-MP": {
           "answer": "no",
@@ -1133,43 +1364,186 @@
           "answer": "no"
         },
         "US-MT": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-NC": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-ND": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-NE": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-NH": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-NV": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-OH": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-OK": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-PA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-PR": {
           "answer": "yes",
@@ -1177,13 +1551,35 @@
           "note": "Puerto Rico covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-SC": {
           "answer": "no"
         },
         "US-SD": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-TN": {
           "answer": "no"
@@ -1192,10 +1588,32 @@
           "answer": "no"
         },
         "US-UT": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-VA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-VI": {
           "answer": "yes",
@@ -1203,17 +1621,50 @@
           "note": "The U.S. Virgin Islands covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
         },
         "US-VT": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-WI": {
           "answer": "no",
           "note": "Covers adults to 100% of poverty without adopting the expansion."
         },
         "US-WV": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "key": "income-limit",
+              "value": 1.38,
+              "unit": "ratio"
+            }
+          ],
+          "source": "https://www.ecfr.gov/on/2026-01-01/title-42/chapter-IV/subchapter-C/part-435/subpart-B/section-435.119",
+          "cite": "42 CFR 435.119(b)(5) and 435.603(d)(4), as of 1/1/2026",
+          "note": "ACA adult-group financial ceiling: 133% of the applicable federal poverty guideline plus the five-percentage-point MAGI disregard, represented as ratio 1.38. Other Medicaid categories and separate state coverage may have different ceilings. The reader default 2000-01-01 is not a researched enactment date."
         },
         "US-WY": {
           "answer": "no"
@@ -6176,7 +6627,18 @@
       "answers": {
         "US": {
           "answer": "yes",
-          "operativeAt": "2027-01-01"
+          "operativeAt": "2027-01-01",
+          "source": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.htm",
+          "cite": "Public Law 119-21, section 71119; Social Security Act section 1902(xx)(1)-(3)",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ],
+          "note": "The federal deadline is 1/1/2027; states may begin earlier. The 80-hour monthly route covers work, community service, a work program, or combined qualifying activities. Half-time education, qualifying monthly income and seasonal-worker income are alternative compliance routes; statutory exclusions and exceptions apply. This scalar does not make hours the sole route or remove exceptions."
         },
         "US-AK": {
           "answer": "no",
@@ -6235,7 +6697,18 @@
         },
         "US-GA": {
           "answer": "yes",
-          "operativeAt": "2023-07-01"
+          "operativeAt": "2023-07-01",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ],
+          "source": "https://pathways.georgia.gov/eligibility",
+          "cite": "Georgia Pathways official eligibility; Georgia Governor releases 1/15/2025 and 9/25/2025",
+          "note": "Pathways requires 80 hours of qualifying activities per month, applies only to Pathways members, and offers reasonable modifications. The Governor’s 1/15/2025 release records the July 2023 launch; the 9/25/2025 release records extension from 10/1/2025 through 12/31/2026. Current qualifying-activity categories and verification timing are not inferred to have applied unchanged since launch. Official chronology: https://gov.georgia.gov/press-releases/2025-01-15/gov-kemp-announces-proposed-change-georgia-pathways ; https://gov.georgia.gov/press-releases/2025-09-25/cms-approves-georgia-pathways-coveragetm-extension-further-validates ."
         },
         "US-GU": {
           "answer": "no",
@@ -6253,8 +6726,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 12/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://hhs.iowa.gov/medicaid/plans-programs/iowa-health-wellness-plan/ihawp-community-engagement-requirements",
+          "note": "Starts the federal work requirement early, on 12/1/2026, by state plan amendment; none was in force on 1/1/2026. Requires 80 qualifying hours in an applicable review month; education or income alternatives, exclusions, exceptions and verification periods remain distinct requirements. This scalar does not authorize automatic monthly loss of coverage. Saved operativeAt and before/phases are preserved.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-ID": {
           "answer": "no",
@@ -6332,8 +6813,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 7/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://dphhs.mt.gov/News/2026/June/MT-Medicaid-Community-Engagement-July-1",
+          "note": "Starts the federal work requirement early, on 7/1/2026, by state plan amendment; none was in force on 1/1/2026. Requires 80 qualifying hours in an applicable review month; education or income alternatives, exclusions, exceptions and verification periods remain distinct requirements. This scalar does not authorize automatic monthly loss of coverage. Saved operativeAt and before/phases are preserved.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no",
@@ -6351,8 +6840,16 @@
           "before": {
             "answer": "no"
           },
-          "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
-          "note": "Starts the federal work requirement early, on 5/1/2026, by state plan amendment; none was in force on 1/1/2026."
+          "source": "https://dhhs.ne.gov/Pages/WorkRequirements.aspx",
+          "note": "Starts the federal work requirement early, on 5/1/2026, by state plan amendment; none was in force on 1/1/2026. Requires 80 qualifying hours in an applicable review month; education or income alternatives, exclusions, exceptions and verification periods remain distinct requirements. This scalar does not authorize automatic monthly loss of coverage. Saved operativeAt and before/phases are preserved.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "key": "hours",
+              "value": 80,
+              "unit": "hours"
+            }
+          ]
         },
         "US-NH": {
           "answer": "no",
