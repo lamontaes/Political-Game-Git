@@ -134,6 +134,38 @@
     "failed": 3,
     "durationSeconds": 125.82,
     "change": "Fixture uses same canonical inventedPersonBirthDate as main base",
-    "attribution": "The same three campaign-scene assertions fail; no same-base baseline reproduction yet"
+    "attribution": "Historical renewal receipt; subsequent same-base comparison below reproduces all three assertions before and after the A153 changes"
+  },
+  "sameBaseComparison": {
+    "base": "d9694fcd6a1967c62d391e6231e357043fedf9b8",
+    "sourceHead": "631c20f6dcb84c1985e7a094cd0955d95e94b761",
+    "testNameFilter": "the household asks whether|a win asks when|a loss is met differently",
+    "files": [
+      "src/presentation/contextual-scene-variants.test.ts",
+      "src/presentation/contextual-scenes-public.test.ts"
+    ],
+    "baseline": {
+      "passed": 0,
+      "failed": 3,
+      "skipped": 10,
+      "durationSeconds": 59.36,
+      "logFilename": "team8-a153-same-base-three.log",
+      "logSha256": "693fa87b4bb32108c1a636435d012e2718377e8fd73697c4f22fe306ba0e15b4"
+    },
+    "candidate": {
+      "passed": 0,
+      "failed": 3,
+      "skipped": 10,
+      "durationSeconds": 59.85,
+      "logFilename": "team8-a153-same-head-three.log",
+      "logSha256": "10d5db4660a4dc94e5a5f2fea337c4925c7ba0dceb6c5bdada687b1e0f3141c4"
+    },
+    "conclusion": "All three identical failures are present on the exact tested base; they are not newly introduced by the replaced A153 reporter fixture under this filter. The runtime missing scene prerequisite remains undiagnosed, not assigned to Audit by this receipt.",
+    "unchangedSourcePaths": [
+      "src/presentation/contextual-scene-producers.ts",
+      "src/presentation/ordinary-life.ts",
+      "src/presentation/recorded-room-presence.ts",
+      "tests/fixtures/recorded-legislative-term.ts"
+    ]
   }
 }
