@@ -1,59 +1,62 @@
 import { describe, expect, it } from "vitest";
-import { smallWorld } from "../../../tests/fixtures/small-world";
-import { nationalPlacePlan } from "../../../scripts/engine-proof/places";
-import { canonicalHash } from "../../../scripts/engine-proof/parity";
-import { crisisRecords } from "../crisis/records";
-import { crisisOfficeContinuityNotices } from "../crisis/notices";
-import { recordOfficialContinuity } from "../crisis/continuity";
-import { recordPersonDeath } from "../vitality";
-import { applyStateLegislatureTurnover } from "../nationwide-world/state-legislature-turnover";
-import { applyCongressTurnover } from "../living-world/congress-turnover";
-import { applyGovernorTurnover } from "../nationwide-world/state-executive-turnover-calendar";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { nationalPlacePlan } from "./places";
+import { canonicalHash } from "./parity";
+import { crisisRecords } from "../../src/simulation/crisis/records";
+import { crisisOfficeContinuityNotices } from "../../src/simulation/crisis/notices";
+import { recordOfficialContinuity } from "../../src/simulation/crisis/continuity";
+import { recordPersonDeath } from "../../src/simulation/vitality";
+import { applyStateLegislatureTurnover } from "../../src/simulation/nationwide-world/state-legislature-turnover";
+import { applyCongressTurnover } from "../../src/simulation/living-world/congress-turnover";
+import { applyGovernorTurnover } from "../../src/simulation/nationwide-world/state-executive-turnover-calendar";
 import {
   applyPresidentialTurnover,
   PRESIDENTIAL_TURNOVER_VERSION,
-} from "../nationwide-world/presidential-turnover";
-import { applyConstitutionalReform } from "../living-world/constitutional-reform";
-import { applyArticleV } from "./article-v";
-import { applyFederalReform } from "../living-world/federal-reform";
-import { applyCongressLawmaking } from "./congress-lawmaking";
-import { projectCongress } from "../living-world/congress";
+} from "../../src/simulation/nationwide-world/presidential-turnover";
+import { applyConstitutionalReform } from "../../src/simulation/living-world/constitutional-reform";
+import { applyArticleV } from "../../src/simulation/governing/article-v";
+import { applyFederalReform } from "../../src/simulation/living-world/federal-reform";
+import { applyCongressLawmaking } from "../../src/simulation/governing/congress-lawmaking";
+import { projectCongress } from "../../src/simulation/living-world/congress";
 import {
   addDays,
   makeIsoDate,
   simulationMomentAtLocalTime,
   simulationMomentOnLocalDate,
-} from "../dates";
-import { deserializeWorld, serializeWorld } from "../serialization";
-import type { IsoDate, World } from "../types";
-import { advanceWithWorldIntegrityAtEnd } from "../world";
-import { applyDateBoundary } from "../time-work";
+} from "../../src/simulation/dates";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
+import type { IsoDate, World } from "../../src/simulation/types";
+import { advanceWithWorldIntegrityAtEnd } from "../../src/simulation/world";
+import { applyDateBoundary } from "../../src/simulation/time-work";
 import {
   applyNationalTermTransitions,
   nationalOfficeHolder,
   planNationalOfficeTerm,
-} from "../national-election-consumer";
+} from "../../src/simulation/national-election-consumer";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
-} from "../national-election-geography";
+} from "../../src/simulation/national-election-geography";
 import {
   appendNationalRecord,
   nationalAllocation,
   nationalRecords,
   recordNationalCount,
   registerNationalElection,
-} from "../national-elections";
-import { nationalElectionRules } from "../national-election-rules";
-import { applyEnactedCourtSizes } from "./court-size-law";
-import { applyCrisisRepairFunding } from "./repair-funding";
-import { applyJudicialReview } from "../judiciary/judicial-review";
+} from "../../src/simulation/national-elections";
+import { nationalElectionRules } from "../../src/simulation/national-election-rules";
+import { applyEnactedCourtSizes } from "../../src/simulation/governing/court-size-law";
+import { applyCrisisRepairFunding } from "../../src/simulation/governing/repair-funding";
+import { applyJudicialReview } from "../../src/simulation/judiciary/judicial-review";
 import {
   applyOfficeLifecycle,
   OFFICE_CONTINUITY_EVENT,
   officeContinuityRulings,
   applyOfficeContinuityNotices,
-} from "./office-continuity";
+} from "../../src/simulation/governing/office-continuity";
 
 const plan = nationalPlacePlan("a12-office-lifecycle-parity");
 
