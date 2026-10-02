@@ -1,16 +1,30 @@
-import { describe, expect, it } from "vitest";
-import { smallWorld } from "../../../tests/fixtures/small-world";
-import { nationalPlacePlan } from "../../../scripts/engine-proof/places";
-import { deserializeWorld, serializeWorld } from "../serialization";
-import type { DecisionEvaluation, EntityId, World } from "../types";
-import { recordPrinciples, createFormationContext } from "../politics";
-import { npcEligibleProgramConfigurations } from "../legislation-program-families";
-import { considerationScore } from "../decisions";
-import { personName } from "../people";
-import { ensureOfficeholderPrinciples } from "./officeholder-principles";
-import { daysBetween } from "../dates";
-import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { advanceWorld, advanceWithWorldIntegrityAtEnd } from "../world";
+import { afterAll, describe, expect, it } from "vitest";
+import { writeFileSync } from "node:fs";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { nationalPlacePlan } from "./places";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
+import type {
+  DecisionEvaluation,
+  EntityId,
+  World,
+} from "../../src/simulation/types";
+import {
+  recordPrinciples,
+  createFormationContext,
+} from "../../src/simulation/politics";
+import { npcEligibleProgramConfigurations } from "../../src/simulation/legislation-program-families";
+import { considerationScore } from "../../src/simulation/decisions";
+import { personName } from "../../src/simulation/people";
+import { ensureOfficeholderPrinciples } from "../../src/simulation/governing/officeholder-principles";
+import { daysBetween } from "../../src/simulation/dates";
+import { createCampaignElectionTransitionRegistry } from "../../src/simulation/campaigns";
+import {
+  advanceWorld,
+  advanceWithWorldIntegrityAtEnd,
+} from "../../src/simulation/world";
 import {
   chiefOfStaffFor,
   currentGoverningOffices,
@@ -23,10 +37,16 @@ import {
   evaluateAgendaPriority,
   GOVERNING_NPC_DECISION,
   governingNpcDecisionHandler,
-} from "./state-governing";
+} from "../../src/simulation/governing/state-governing";
 
 const seed = "a92-recorded-agenda-priority";
 const plan = nationalPlacePlan(seed, 56);
+const observations: unknown[] = [];
+afterAll(() => {
+  const path = process.env.TEAM2_A92_RECEIPT;
+  if (path)
+    writeFileSync(path, JSON.stringify({ seed, observations }, null, 2));
+});
 
 describe("A92 advice follows an actual saved agenda choice", () => {
   it("admits actual saved offices across all 56 seeded jurisdictions", () => {
@@ -410,23 +430,20 @@ describe("A92 actual NPC agenda callback from recorded chief principles", () => 
           governingMatterById(continued, agenda.id)!,
         )?.optionKey,
       ).toBe(admitted!.chosenKey);
-      console.info(
-        "A92 ordinary clock",
-        JSON.stringify({
-          seed: input.seed,
-          place: fixture.place.displayName,
-          state: row.jurisdictionKey,
-          chief: personName(result.people[chiefId]!),
-          holder: personName(result.people[office.holderPersonId]!),
-          choice: admitted!.chosenKey,
-          observedAt: result.currentDate,
-          dueAt: due.dueAt,
-          adviceEventId: adviceEvent.id,
-          chiefTraceId: trace.id,
-          principleSourceIds: admitted!.sourceIds,
-          decisionEventId: decided.decision!.id,
-        }),
-      );
+      observations.push({
+        seed: input.seed,
+        place: fixture.place.displayName,
+        state: row.jurisdictionKey,
+        chief: personName(result.people[chiefId]!),
+        holder: personName(result.people[office.holderPersonId]!),
+        choice: admitted!.chosenKey,
+        observedAt: result.currentDate,
+        dueAt: due.dueAt,
+        adviceEventId: adviceEvent.id,
+        chiefTraceId: trace.id,
+        principleSourceIds: admitted!.sourceIds,
+        decisionEventId: decided.decision!.id,
+      });
     });
   }
 });
