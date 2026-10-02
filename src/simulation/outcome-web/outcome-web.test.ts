@@ -1,3 +1,5 @@
+import { PLACE_POPULATION_ROWS } from "../nationwide-world/place-population.generated";
+import { SeededRng } from "../rng";
 import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
@@ -611,4 +613,25 @@ describe("declared outcome-link inventory", () => {
     expect(outcomeLinkStatus(forged)).toBe("size-not-set");
     expect(() => validateOutcomeLinkInventory([forged])).toThrow(link.key);
   });
+});
+
+const openingSeed = "a128-recorded-effects:opening";
+const openingPlaces = PLACE_POPULATION_ROWS.split(";").map(
+  (row) => row.split(":")[0]!,
+);
+const openingPlaceKey =
+  openingPlaces[
+    new SeededRng(openingSeed).integer(0, openingPlaces.length - 1)
+  ]!;
+it(`opens a new game in ${openingPlaceKey}, selected from the complete place table`, async () => {
+  const { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } =
+    await import("../../presentation/new-game");
+  const { assertWorldIntegrity } = await import("../world");
+  const opened = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    placeKey: openingPlaceKey,
+    seed: openingSeed,
+  });
+  expect(opened.world.personOrder).toContain(opened.playerPersonId);
+  expect(() => assertWorldIntegrity(opened.world)).not.toThrow();
 });
