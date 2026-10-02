@@ -461,6 +461,7 @@ export function recordProgramAppropriation(
     readonly programKey: string;
     readonly jurisdictionId: EntityId;
     readonly accountOrganizationId: EntityId;
+    readonly statePaymentClaims?: PublicProgramAppropriationRecord["statePaymentClaims"];
     readonly amount: MoneyAmount;
     readonly availableFrom: IsoDate;
     readonly availableThrough: IsoDate;
@@ -835,6 +836,7 @@ export function commitPublicProgram(
     readonly personId: EntityId;
     readonly office: PublicProgramOffice;
     readonly recipientOrganizationId: EntityId | null;
+    readonly federalStatePayment?: PublicProgramCommitmentRecord["federalStatePayment"];
   },
 ): PublicProgramResult {
   const refuse = (reason: string): PublicProgramResult => ({
@@ -914,6 +916,9 @@ export function commitPublicProgram(
         ? { publicGovernmentIdentity: identity }
         : {}),
       appropriationId: appropriation.id,
+      ...(input.federalStatePayment
+        ? { federalStatePayment: input.federalStatePayment }
+        : {}),
       alternativeKey: input.alternative.key,
       alternativeTitle: input.alternative.title,
       decidedByPersonId: input.personId,
