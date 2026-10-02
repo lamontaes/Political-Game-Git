@@ -584,7 +584,7 @@ What triggered it: I wrote an area-by-area legislation plan from memory. It cont
 **How to apply:** before any plan, design or claim about what's decided, read these first. The Decision Register is 04_CURRENT_DECISION_CHANGE_AND_TRACEABILITY_REGISTER (Drive 1bZWrzjUgDql2CIo_k1ElcQ2GrBZOzC_xJs8D-JswKpE; save it and grep the section). Also read the Idea Inbox (1aYWy-oyD53iI1LJrWQvEAnsfO08-4BJGFjyuN3ALeFw), the repo's docs/reports/owner-record/, the research in docs/research/ (chatgpt-answers, requests, policy-crosswalk) and the release notes. Take the extra minutes, and say what I read. Related: [[check-record-before-speaking]], [[never-narrow-legislation-backbone]], [[dialogue-box-and-lie-button]].
 
 ## cto-role-from-sept28-night
-_From 7:50 p.m. Sept 28 onward: Claude CTO does NO cloud sessions and very little coding. Only orchestration, image generation (Firefly) and fleshing out designs with Lamontae. The $200 Junior Claude project does all the coding._
+_From 7:50 p.m. Sept 28 onward: Claude CTO does NO cloud sessions and very little coding. Only orchestration, image generation (Firefly) and fleshing out designs with Lamontae. The Junior Claude project does all the coding._
 
 On Sept 28 in the evening, Lamontae said that from my 7:50 p.m. reset onward:
 - **No cloud sessions.** Don't start, message or brief cloud Teams A–J for work.
@@ -1524,7 +1524,7 @@ Owner, Fri Oct 2, about 2:00 a.m., before bed:
 **Why:** the day's process "has been working good". He wants fewer interruptions and less usage overnight, and a clear morning picture.
 **How to apply:** check-ins every 30 minutes (gates and merges as they come); check usage at each check-in; no artifact publishes until 9 a.m. Related: [[rebuild-done-definition]], [[queue-means-queue]], [[ui-kit-picks-oct1]].
 
-**Update, ~2:05 a.m.: SPEND, don't conserve.** He'd rather I use my remaining weekly usage to reach 80% by Saturday than hold out until the Monday reset. Codex resets tomorrow on both accounts ($100 and $200), and tonight has been running on the $2,500 credit grant, so there's plenty to go around. Push hard, and let Codex push. If Codex can open new cloud sessions, it may (each with up to 2 Sol Light sub-agents) and should give them failing audit checks. The hard stop moves to 95% weekly. Check-ins go back to every 20 minutes.
+**Update, ~2:05 a.m.: SPEND, don't conserve.** He'd rather I use my remaining weekly usage to reach 80% by Saturday than hold out until the Monday reset. Codex resets tomorrow on both accounts (both plans), and tonight has been running on the $2,500 credit grant, so there's plenty to go around. Push hard, and let Codex push. If Codex can open new cloud sessions, it may (each with up to 2 Sol Light sub-agents) and should give them failing audit checks. The hard stop moves to 95% weekly. Check-ins go back to every 20 minutes.
 
 ## overnight-sept28
 _Night of Sept 28→29 — his final instructions before bed (~1:15 a.m.): work until 8 a.m., usage stop at 98%, four morning artifacts 8:30–9 a.m., runs of many lengths, continuous bug fixing_
