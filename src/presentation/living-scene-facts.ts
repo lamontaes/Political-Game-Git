@@ -184,31 +184,35 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
     house: boolean,
   ) => {
     const seats = chamber.seats.filter((entry) => entry.stateUsps === homeUsps);
-    if (!house) return seats.find((entry) => entry.occupant.kind === "member");
-    if (houseDistrict)
-      return seats.find(
+    if (!house)
+      return seats.filter((entry) => entry.occupant.kind === "member");
+    if (houseDistrict) {
+      const seat = seats.find(
         (entry) =>
           entry.stateUsps === houseDistrict.stateUsps &&
           entry.district === houseDistrict.geoid.slice(2),
       );
-    return seats.length === 1 && seats[0]!.district === "00"
-      ? seats[0]
-      : undefined;
+      return seat ? [seat] : [];
+    }
+    return seats.length === 1 && seats[0]!.district === "00" ? seats : [];
   };
   const congressActors = orientation.congress
     ? [orientation.congress.house, orientation.congress.senate].flatMap(
         (chamber, index) => {
-          const seat = homeSeat(chamber, index === 0);
-          return seat?.occupant.kind === "member"
-            ? [
-                actorFor(
-                  seat.occupant.member,
-                  "congress-member",
-                  `congress:${seat.seatKey}`,
-                  chamber.organizationId,
-                ),
-              ].filter(valid)
-            : [];
+          return homeSeat(chamber, index === 0)
+            .flatMap((seat) =>
+              seat.occupant.kind === "member"
+                ? [
+                    actorFor(
+                      seat.occupant.member,
+                      "congress-member",
+                      `congress:${seat.seatKey}`,
+                      chamber.organizationId,
+                    ),
+                  ]
+                : [],
+            )
+            .filter(valid);
         },
       )
     : [];

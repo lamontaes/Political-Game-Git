@@ -823,6 +823,7 @@ export function applyInstitutionStep(
         measureId,
         recommendation: "favorable",
         dispositions: decided.dispositions,
+        presentMembers: present(decided.dispositions),
         rationale:
           "The committee weighed the testimony it heard and voted on reporting the bill.",
         provenance: provenance(

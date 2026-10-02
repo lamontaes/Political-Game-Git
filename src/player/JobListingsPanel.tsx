@@ -36,9 +36,6 @@ export function JobListingsPanel({
   return (
     <section aria-label="Jobs" data-testid="job-listings">
       <h3>{view.townName ? `Jobs in ${view.townName}` : "Jobs"}</h3>
-      {view.payFloor ? (
-        <p data-testid="job-pay-floor">{view.payFloor}</p>
-      ) : null}
       <p role="status" aria-live="polite">
         {notice}
       </p>
@@ -147,12 +144,6 @@ export function JobListingsPanel({
             </button>
           ))}
           {listing.applyBlocked ? <small> {listing.applyBlocked}</small> : null}
-          {listing.nationalMedian ? (
-            <details>
-              <summary>About this kind of work</summary>
-              <p>{listing.nationalMedian}</p>
-            </details>
-          ) : null}
         </article>
       ))}
     </section>
