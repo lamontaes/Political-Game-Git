@@ -651,12 +651,25 @@ export function lawInForceAtStart(
   onDate: IsoDate,
 ): PropositionAnswer | null {
   return (
-    startingLawCandidate(
-      world,
-      governingChain(jurisdictionId),
-      propositionId,
-      onDate,
-    )?.answer ?? null
+    startingLawInForce(world, jurisdictionId, propositionId, onDate)?.answer ??
+    null
+  );
+}
+
+/** The canonical starting law, for readers that also need its adopted terms. */
+export function startingLawInForce(
+  world: World,
+  jurisdictionId: EntityId,
+  propositionId: EntityId,
+  onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
+): LawInForce | null {
+  return startingLawCandidate(
+    world,
+    governingChain(jurisdictionId),
+    propositionId,
+    onDate,
+    cutoff,
   );
 }
 
