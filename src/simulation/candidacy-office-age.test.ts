@@ -1,3 +1,8 @@
+import { randomInt } from "node:crypto";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../presentation/new-game";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import {
@@ -10,7 +15,7 @@ import { projectCampaignGuidance } from "./campaign-life-activities";
 import { addDays, isoDateFromParts, makeIsoDate, yearOf } from "./dates";
 import { officeFamilyForChamberKey } from "./office-qualification-rules";
 import { settledQualification } from "./settled-qualifications";
-import { lifePlaceStateIdentities } from "./life-places";
+import { lifePlaces, lifePlaceStateIdentities } from "./life-places";
 import { unknownRule, notApplicableRule } from "./legislature-rules";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
 import type { EntityId, World } from "./types";
@@ -60,6 +65,25 @@ function eligibility(
 }
 
 describe("one recorded office-age route across all places", () => {
+  it("opens a new game in a randomly selected accepted place", () => {
+    const places = lifePlaces();
+    const place = places[randomInt(places.length)]!;
+    const built = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed,
+    });
+    expect(built.place.key).toBe(place.key);
+    expect(Object.keys(built.world.people).length).toBeGreaterThan(0);
+    process.stdout.write(
+      `${JSON.stringify({
+        receipt: "A116 random-place new-game",
+        placeKey: place.key,
+        worldId: built.world.id,
+        currentDate: built.world.currentDate,
+      })}\n`,
+    );
+  });
   it("includes every newly sourced missing office in the date-bound proof", () => {
     expect(datedAgeOffices).toHaveLength(16);
   });
