@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import federalBudget from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import { observerPlace } from "../../presentation/observer-world";
 import { createWorld } from "../world";
 import { makeIsoDate } from "../dates";
@@ -16,6 +17,7 @@ import type {
   IsoDate,
   LegislativeMeasureRecord,
   LegislativeEnactmentRecord,
+  LegislativeProvisionRecord,
   World,
 } from "../types";
 import { PUBLIC_BUDGETS_VERSION } from "./store";
@@ -24,6 +26,8 @@ import {
   openFederalTreasury,
   settleFederalTreasuryMonth,
 } from "./federal-treasury";
+
+import { assertRecordedFarmCost } from "../../../tests/fixtures/farm-cost-fixture";
 
 /** Archived forecast compatibility only; the live budget pass no longer invokes it. */
 function settleArchivedForecast(world: World, month: IsoDate): World {
@@ -77,6 +81,49 @@ function enact(
     effectiveAt: at,
     outcomeEventId: `event_defense_${n}` as EntityId,
   };
+  // Controlled adopted amounts, not production defaults or cash payments.
+  const term =
+    questionKey === DEBT_LIMIT_CUTS_QUESTION
+      ? { key: "offset", value: 1200 }
+      : questionKey === GROW_DEFENSE_SPENDING_QUESTION
+        ? {
+            key: "appropriation",
+            value: federalBudget.outlays.nationalDefense + 1200,
+          }
+        : questionKey === INCREASE_FOREIGN_AID_QUESTION
+          ? {
+              key: "appropriation",
+              value: federalBudget.outlays.internationalAffairs + 1200,
+            }
+          : null;
+  const provision: LegislativeProvisionRecord | null =
+    answer === "yes" && term
+      ? {
+          id: `provision_defense_${n}` as EntityId,
+          stableKey: `test:defense:${n}:annual-amount`,
+          sequence: measure.sequence,
+          measureId: measure.id,
+          provisionKey: term.key,
+          sectionNumber: 1,
+          heading: "Controlled annual amount",
+          text: "Explicit annual amount for the archived budget reader fixture.",
+          beneficiary: {
+            kind: "general-application",
+            appliesToLabel: "Federal budget",
+          },
+          applicationScope: {
+            jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+            segmentKey: null,
+          },
+          fiscalExposureLabel: null,
+          fiscalExposureMinorUnits: null,
+          recordedAt: at,
+          supersedesProvisionId: null,
+          originAmendmentId: null,
+          eventId: `event_provision_defense_${n}` as EntityId,
+          lawTerms: [{ questionKey, ...term, unit: "dollars/year" }],
+        }
+      : null;
   return {
     ...world,
     history: {
@@ -88,6 +135,10 @@ function enact(
       legislativeEnactments: [
         ...(world.history.legislativeEnactments ?? []),
         enactment,
+      ],
+      legislativeProvisions: [
+        ...(world.history.legislativeProvisions ?? []),
+        ...(provision ? [provision] : []),
       ],
     },
   };
@@ -122,8 +173,18 @@ function fixture(seed: string, stateKey: string): World {
       adjustments: [],
       unknown: [],
       federal: openFederalTreasury(makeIsoDate("2026-01-05")),
+      // Explicit saved spending inputs to this archived compatibility reader.
+      // These do not claim a production settlement or actual cash receipt.
+      federalGovernment: {
+        months: Array.from({ length: 12 }, (_, index) => ({
+          month: makeIsoDate(`2025-${String(index + 1).padStart(2, "0")}-01`),
+          spending: FEDERAL_OUTLAYS.map(
+            (key) => federalBudget.outlays[key] / 12,
+          ),
+        })),
+      },
     },
-  };
+  } as unknown as World;
 }
 const questions = [
   { questionKey: GROW_DEFENSE_SPENDING_QUESTION, sign: 1 },
@@ -132,7 +193,7 @@ const questions = [
   { questionKey: CUT_FARM_SUBSIDIES_QUESTION, sign: -1 },
 ];
 // Minimal budget-reader fixtures, not ordinary political passage or residents.
-// The fixed legacy amount mechanisms are independently held for golden-rule repair.
+// Adopted terms and saved bases are mandatory; yes/no alone creates no cost.
 describe("archived federal forecast laws retain compatibility stamps across five seeded states", () => {
   it.each(
     cases.flatMap((place) =>
@@ -141,6 +202,10 @@ describe("archived federal forecast laws retain compatibility stamps across five
   )(
     "$questionKey saves a changed federal budget row in $place.displayName ($seed)",
     ({ seed, place, questionKey, sign }) => {
+      if (questionKey === CUT_FARM_SUBSIDIES_QUESTION) {
+        assertRecordedFarmCost(seed, place.key);
+        return;
+      }
       const world = fixture(seed, place.stateJurisdictionKey!);
       const month = makeIsoDate("2026-07-01");
       const baseline = settleArchivedForecast(
@@ -216,7 +281,8 @@ describe("archived federal forecast laws retain compatibility stamps across five
           changedOutlays: changed,
           extraBorrowing: after.deficit - baseline.deficit,
           stampedRows: costs.length,
-          scope: "controlled minimal budget fixture; legacy amount unrepaired",
+          scope:
+            "controlled archived budget fixture; adopted terms and saved base, not actual cash",
           reloadAndRepeal: "PASS",
         }),
       );
