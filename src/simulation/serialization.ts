@@ -1,6 +1,7 @@
 import { writeCanonicalJson, writeJson } from "./canonical-json";
 import { createStableIdFromParts } from "./ids";
 import { retireDrawnIncidentModes } from "./incident-legacy-modes";
+import { restoreLegacyPrincipleStrengths } from "./principle-legacy-strength";
 import {
   collectJsonChunks,
   JSON_CHUNK_LENGTH,
@@ -434,9 +435,11 @@ export function readWorldSnapshot(payload: WorldPayload): {
   const unpacked = principled
     ? unpackPrinciples(withRollCalls, parsed.principlesPacking)
     : withRollCalls;
-  // A save from before incidents stopped being drawn names the retired mode;
-  // its stored id was taken over the world as written, before this reading.
-  const world = retireDrawnIncidentModes(unpacked);
+  // Authenticate the world as written before either reader migration. A
+  // legacy principle's conviction retains its former score as strength * 4.
+  const world = restoreLegacyPrincipleStrengths(
+    retireDrawnIncidentModes(unpacked),
+  );
   const writtenId = world === unpacked ? null : snapshotIdOf(unpacked);
   if (
     (world.contentPacks !== undefined) !==
