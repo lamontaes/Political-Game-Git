@@ -39,3 +39,11 @@ The NC ordinance reaches its recorded vote without an author call because permis
 ## Dependencies and next action
 
 Base is Team1's exact released 53c6b41be5f6177453d8c6c564443cc31f4dd030 on codex/team1-a77-caller-preparation. Its A77 driver replacement and removal of direct recordCouncilReadingVote are retained. Preserve A83/A77 and Overflow 4's A20. The admitted proposal/reading/Continue path is proved; broader riders, item vetoes, all-body coverage, second-reading and browser acceptance remain separate. Team1 is renewing the parent; current-main composition and CTO admission are not claimed from this named-base receipt. No court or unrelated law source changed.
+
+## Current-main renewal
+
+The later CTO HOLD requires preserving main's canonical governmentUnit lookup and current council driver. Main 508accd567f746b5f6fd4f893b056fd756434b11 merged cleanly into the owned branch. Compared with that main, only the four A85 files differ. Every other file touched by the merged council-driver dependency is byte-identical to main. The production delta remains the same 47-line author hook; no unitById lookup is restored.
+
+At source 158e410ede9803826c0da4c1e7006df3e5907d0b, the complete changed amendment test file passed 2 of 2 in 21.41 seconds. Node world LOAD passed; macro collection-only LOAD passed with 29 skipped tests in 20.57 seconds. The specifically requested whole-app TypeScript gate exited zero with no diagnostics. Initial sandbox launches stopped before collection at Vite's Git build-identity probe; authorized child-process launches then collected normally. These startup failures remain local evidence. No assertion, stock limit or fixture behavior changed. This renewal is source-bound, not full A85 or browser acceptance.
+
+The next court dependency request identifies the existing A103 governor enactment fixture: saved player-required governor work must be completed through its admitted writer before defendant control is restored. Audit owns that writer/order contract; Claude owns the fixture conversion. No work is deleted or relabeled, and no new authority is inferred. The request is recorded in status comment 5943883788.
