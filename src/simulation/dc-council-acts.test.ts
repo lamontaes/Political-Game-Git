@@ -15,7 +15,8 @@ import {
 import { addDays, ageOnDate, makeIsoDate } from "./dates";
 import { personName } from "./people";
 import { renderMeasureTitle } from "./measure-title";
-import { lifePlaceSearch } from "./life-places";
+import { lifePlaceSearch, lifePlaces } from "./life-places";
+import { SeededRng } from "./rng";
 import { recordOrganizationParticipationState } from "./life";
 import { organizationParticipationStateAt } from "./life-queries";
 import {
@@ -103,6 +104,34 @@ describe("the D.C. Council's procedure, compiled from the Home Rule Act", () => 
   const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY)!;
   const pack = municipalRulePackFor(government);
 
+  it("A108 opens a new game in a seeded random recorded locality", () => {
+    const seed = "team2-a108-random-opening";
+    const place = new SeededRng(seed).pick(
+      lifePlaces().filter((entry) => entry.scope === "locality"),
+    );
+    const opening = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        placeKey: place.key,
+        seed,
+      }),
+    );
+    expect(opening.game).not.toBeNull();
+    const world = opening.game!.world;
+    expect(world.control.kind).toBe("person");
+    expect(world.jurisdictions[place.context.jurisdiction.id]).toBeDefined();
+    process.stdout.write(
+      JSON.stringify({
+        audit: "A108",
+        seed,
+        place: place.displayName,
+        placeKey: place.key,
+        currentDate: world.currentDate,
+        personCount: world.personOrder.length,
+      }) + "\n",
+    );
+  });
+
   it("admits a complete rule pack", () => {
     expect(pack.ok).toBe(true);
     if (!pack.ok) return;
@@ -127,6 +156,48 @@ describe("the D.C. Council's procedure, compiled from the Home Rule Act", () => 
     expect(pack.carriedOutsideThePack.join(" ")).toContain(
       "dc-council-rules-of-organization-and-procedure",
     );
+  });
+
+  it("A108 reads review and return windows from the sourced charter pack", () => {
+    const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY)!;
+    const compiled = municipalRulePackFor(government);
+    expect(compiled.ok).toBe(true);
+    if (!compiled.ok) throw new Error("Actual charter must be admitted.");
+    const actions = compiled.pack.councilActions!;
+    expect(actions.overrideWindowDays).toMatchObject({
+      kind: "known",
+      value: 30,
+    });
+    expect(actions.congressionalReviewDays).toMatchObject({
+      kind: "known",
+      value: 30,
+    });
+    expect(actions.criminalCodeReviewDays).toMatchObject({
+      kind: "known",
+      value: 60,
+    });
+    for (const field of [
+      "overrideWindowDays",
+      "congressionalReviewDays",
+      "criminalCodeReviewDays",
+    ] as const) {
+      const rule = actions[field]!;
+      if (rule.kind === "known")
+        expect(rule.source.verification).toBe("verified");
+    }
+    const ordinary = municipalRulePackFor(
+      municipalGovernmentByKey("us-va-charlottesville")!,
+    );
+    expect(ordinary.ok).toBe(true);
+    if (ordinary.ok) {
+      expect(
+        ordinary.pack.councilActions?.congressionalReviewDays,
+      ).toBeUndefined();
+      expect(
+        ordinary.pack.councilActions?.managerElectionThreshold?.source
+          .verification,
+      ).toBe("verified");
+    }
   });
 
   it("reads 13 intervening days and a 10-weekday executive window", () => {
