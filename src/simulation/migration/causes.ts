@@ -44,6 +44,13 @@
  * home; their own taste for risk; and the town's pushes (waves, the state's
  * pressure, crime, jobs) on either side.
  *
+ * - a home a disaster destroyed or damaged (`disaster:home-destroyed`,
+ *   `disaster:home-damaged`): a disaster-damage record on their household or
+ *   the dwelling they live in since the last review (`homeLostCause`). The
+ *   household weighs it with its other causes against the same bar, so a
+ *   renter with family elsewhere leaves a wrecked home sooner than an owner
+ *   with children in school.
+ *
  * NOT PRODUCED, filed as a gap: school elsewhere (an admission elsewhere is
  * not recorded, and an active enrollment holds a person in town,
  * `who-may-move`).
@@ -105,6 +112,38 @@ export const NEW_HOUSEHOLD_STRENGTH: Readonly<Record<string, number>> = {
   [TOWN_FAMILY_EVENTS.divorced]: 0.3,
 };
 
+/**
+ * PLACEHOLDER strengths (research: `disaster-displacement-and-return`) of a
+ * home a disaster wrecked since the last review. After Hurricane Katrina many
+ * households never came back (the owner, September 22, 2026); after most
+ * disasters most households repair and stay. So a destroyed home is a strong
+ * push that a home owned, children at home or a settled age can still hold
+ * against, and a damaged one a slight push that tips only somebody already
+ * near leaving.
+ */
+export const HOME_LOST_STRENGTH = {
+  destroyed: 0.6,
+  damaged: 0.2,
+} as const;
+
+/** The cause a home a disaster destroyed or damaged gives its household. */
+export function homeLostCause(
+  damageId: EntityId,
+  level: keyof typeof HOME_LOST_STRENGTH,
+): LeaveCause {
+  return {
+    kind: "home-lost",
+    reason: `disaster:home-${level}`,
+    strength: HOME_LOST_STRENGTH[level],
+    causeId: damageId,
+    placeId: null,
+    explanation:
+      level === "destroyed"
+        ? "a disaster destroyed their home"
+        : "a disaster damaged their home",
+  };
+}
+
 const NEW_HOUSEHOLD_WORDS: Readonly<Record<string, string>> = {
   [LEAVING_HOME_EVENT]: "they moved out of a parent's home",
   [TOWN_FAMILY_EVENTS.movedIn]: "they moved in with their partner",
@@ -121,7 +160,8 @@ export interface LeaveCause {
     | "rent-burden"
     | "retired"
     | "kin-moved"
-    | "new-household";
+    | "new-household"
+    | "home-lost";
   readonly reason: MoveReasonKey;
   /** 0 to 1, smooth in the facts it reads. */
   readonly strength: number;
@@ -404,12 +444,25 @@ export function importanceOf(strength: number): DecisionImportance | null {
   return null;
 }
 
+/**
+ * PLACEHOLDER(research: school-move-to-scores): how much a mid-year school
+ * change weighs against moving at the very middle of a term; less toward
+ * either break, nothing over the summer.
+ */
+export const SCHOOL_YEAR_HOLD_AT_MID_TERM = 0.5;
+
 /** What the person weighs on staying beside the causes. */
 export interface LeaveBar {
   /** The yearly share of people their age in their state who move away. */
   readonly ageMoverRate: number;
   readonly ownsHome: boolean;
   readonly childrenAtHome: number;
+  /**
+   * How deep into a school year a move would land for a pupil at home: 0 at
+   * a term break or with no pupil, rising smoothly to 1 at the middle of the
+   * term (`schoolYearDepth`). Absent is 0.
+   */
+  readonly schoolYearDepth?: number;
   /** The town's pushes multiplied: above 1 pushes out, below holds. */
   readonly townPush: number;
 }
@@ -506,6 +559,17 @@ export function decideToLeave(
       "keep-home",
       clamp01(0.25 * bar.childrenAtHome),
       "they have children at home",
+      "medium",
+    );
+  if ((bar.schoolYearDepth ?? 0) > 0)
+    add(
+      "bar:school-year",
+      "keep-home",
+      // PLACEHOLDER(research: school-move-to-scores): the size a mid-year
+      // move weighs against leaving, at the middle of the term. Families are
+      // known to time moves to the summer; how strongly is not sized here.
+      clamp01(SCHOOL_YEAR_HOLD_AT_MID_TERM * bar.schoolYearDepth!),
+      "a child at home would have to change schools in the middle of the year",
       "medium",
     );
   if (bar.townPush > 1)

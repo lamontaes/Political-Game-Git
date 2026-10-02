@@ -560,7 +560,7 @@
       "note": "All four still match, so not-started as verified. Line numbers in types.ts moved since the audit text (now :2120)."
     },
     "A135": {
-      "covers": "part",
+      "covers": "whole",
       "checks": [
         {
           "kind": "absent",
@@ -596,9 +596,33 @@
           "file": "src/simulation/migration/review.ts",
           "pattern": "rng\\.next\\(\\)\\s*<\\s*expected",
           "why": "the drawn count of newcomers per quarter (review.ts:812)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "arrivalsPerResidentPerYear\\s*\\?\\?",
+          "why": "the newcomer count from a blanket per-resident rate"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "homeLostCause\\(",
+          "why": "a wrecked home is a cause the household weighs in decideToLeave"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/migration/review.ts",
+          "pattern": "townOpenings\\(",
+          "why": "newcomers come for recorded jobs in town nobody in town can take, against the rent"
+        },
+        {
+          "kind": "test",
+          "file": "tests/migration-causes.test.ts",
+          "pattern": "A135: moving comes from jobs, rent and family",
+          "why": "the small-world proof, place drawn from all 56 by seed"
         }
       ],
-      "note": "The 4% constant BLANKET_DEPARTURE_CHANCE_PER_YEAR is gone since the audit (A165 'departure and arrival rates from the ACS by age and place', 2026-10-01 15:51 UTC, review.ts:100-160), so scans partly; the departure draw (review.ts:433), displaced draw (:387), destination draw (:773) and arrival-count draw (:812) are all still live, so it is still not whole."
+      "note": "Whole on claude/x5-a135-migration-rolls: the departure, displaced, destination and arrival draws are gone. A wrecked home is a cause weighed in decideToLeave, destinations come from the cause, the closest relative elsewhere or the own state, and newcomers come for recorded openings in town against the rent."
     },
     "A151": {
       "covers": "whole",
@@ -1470,11 +1494,17 @@
         {
           "kind": "present",
           "file": "src/simulation/living-world/town-families.ts",
-          "pattern": "familyPlans\\(|familyPlanAvailability\\(",
-          "why": "a town birth follows a couple's recorded family plan from people-family-plan.ts"
+          "pattern": "weighTownFamilyPlans\\(",
+          "why": "the town's quarterly review hands its couples to the family-plan weighing (#1588; the wiring moved out of town-families.ts into town-family-plans.ts)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/living-world/town-family-plans.ts",
+          "pattern": "proposeFamilyPlan\\(",
+          "why": "a town birth follows a couple's recorded family plan from people-family-plan.ts (#1588)"
         }
       ],
-      "note": "Partly: #1387 (couples.ts isSelectedDecision) is in; every quarterly roll in reviewTownFamilies (break-up :583, move-in :609, marry :646, child :757, dating :818/:829, same-gender :339) is still live and town-families.ts does not read people-family-plan.ts. Marked part because replacing break-up/marriage rolls with decisions is not provable from one file."
+      "note": "Partly: #1387 (couples.ts isSelectedDecision), #1588 (a town birth only from a recorded family plan, through town-family-plans.ts) and the same-gender share (allocated by largest remainder, not drawn) are in; the break-up, move-in, marriage and dating-match rolls in reviewTownFamilies are still live and wait on A124. Marked part because replacing break-up/marriage rolls with decisions is not provable from one file."
     },
     "A158": {
       "covers": "whole",
@@ -1561,7 +1591,7 @@
       "note": "Not started: drawMoney (people-upbringing.ts:75) and every percent roll in upbringingFor (:132-196, including parent death 4%, illness 9%/12%, law trouble 5%/3%) are still live. The no-signal core-trait pick at :603 belongs to A138 and is checked there."
     },
     "A138": {
-      "covers": "part",
+      "covers": "whole",
       "checks": [
         {
           "kind": "absent",
@@ -1592,9 +1622,33 @@
           "file": "src/simulation/people-upbringing.ts",
           "pattern": "rng\\.pick\\(\\[-1,\\s*0,\\s*0,\\s*0,\\s*1\\]",
           "why": "a core trait with no upbringing signal is picked from a weighted lottery instead of taking the middle value (people-upbringing.ts:603)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/people-traits.ts",
+          "pattern": "registeredTraitLean\\(",
+          "why": "a registered pack's seeded trait starts from the upbringing lean on its own key and the keys it follows, the middle otherwise"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/legislature-manner.ts",
+          "pattern": "SeededRng|\\brng\\.",
+          "why": "the other trait writer outside people-traits.ts draws nothing"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-trait-change.ts",
+          "pattern": "SeededRng|\\brng\\.",
+          "why": "trait changes are written from events, never drawn"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/people-traits.test.ts",
+          "pattern": "A138: traits come from upbringing, not a lottery",
+          "why": "the small-world proof, place drawn from all 56 by seed, with an installed pack's trait included"
         }
       ],
-      "note": "Not started: SeededRng and rng.integer/rng.pick are still how traits (people-traits.ts:313, :438-479) and life tendencies (life-personality.ts:41, :59, :67) are chosen; all five absent checks fail (including the no-signal core-trait pick at people-upbringing.ts:603). Marked part because other trait writers may exist."
+      "note": "Done: every trait writer (people-traits.ts core five, the catalog's notable qualities and registered pack traits; life-personality.ts; people-trait-change.ts; legislature-manner.ts) reads the person's upbringing or a recorded event, and a trait with no lean starts at the middle. The upbringing's own percent rolls belong to A137."
     },
     "A139": {
       "covers": "whole",
@@ -1682,9 +1736,21 @@
           "file": "src/presentation/life-scene-flow.ts",
           "pattern": "stableHash\\(",
           "why": "openNextLifeScene still picks the next scene with stableHash (life-scene-flow.ts:362)"
+        },
+        {
+          "kind": "present",
+          "file": "src/presentation/life-scene-flow.ts",
+          "pattern": "sceneTiedToLatestEvent\\(",
+          "why": "the next scene is the one the latest recorded event in the life ties to, else the first in order"
+        },
+        {
+          "kind": "test",
+          "file": "src/presentation/life-scene.test.ts",
+          "pattern": "A146: the next life scene follows recent events, not a hash",
+          "why": "the small-world proof, place drawn from all 56 by seed: a second world seed opens the same scene, and a new event steers the next one"
         }
       ],
-      "note": "The only stableHash( call in life-scene-flow.ts is the pick at :362, so not-started as verified; the follow-through reply that already goes first (the 'continuation' lookup) is not scored as done because the audit counts the item not-started."
+      "note": "Done: the stableHash pick is gone; a follow-through to the scene just resolved still goes first, then the scene tied to the newest event in the life (same family, or its counterpart was in it), else the first in order. The opening records follows-event:<id>."
     },
     "A147": {
       "covers": "whole",
@@ -1825,7 +1891,7 @@
       "note": "Part only: the checks cover the interest-group half (rights losses count); the official-views placeholder weights fold into A158/N2 and are not checked. Scans unknown (pending law-interest-groups.test.ts)."
     },
     "A161": {
-      "covers": "part",
+      "covers": "whole",
       "checks": [
         {
           "kind": "present",
@@ -1886,9 +1952,57 @@
           "file": "src/simulation/living-world/party-chapters.ts",
           "pattern": "personRng\\.integer\\(28,\\s*72\\)",
           "why": "inline age window at party-chapters.ts:186"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-residents.ts",
+          "pattern": "function birthDateForAge",
+          "why": "the town residents' own birth-date helper"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/living-world/town-residents.ts",
+          "pattern": "\\.integer\\(min,\\s*max\\s*\\+\\s*1\\)",
+          "why": "the town households' inline age windows (alone, housemates, couple, single parent)"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people.ts",
+          "pattern": "function birthDateForSelectedAge",
+          "why": "the scenario generator's own exact-age birth-date normalizer"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people.ts",
+          "pattern": "rng\\.integer\\((21|30|50|65|22|24),\\s*(30|50|65|76|70|68)\\)",
+          "why": "the scenario generator's inline age bands, stress ages and legacy ages"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/civil-personnel-start.ts",
+          "pattern": "slice\\(0,\\s*4\\)\\)\\s*-\\s*age",
+          "why": "the agency start's own birth-year arithmetic"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/judicial-office-start.ts",
+          "pattern": "slice\\(0,\\s*4\\)\\)\\s*-\\s*40",
+          "why": "the court start's fixed-age birth date"
+        },
+        {
+          "kind": "absent",
+          "file": "src/presentation/",
+          "pattern": "slice\\(0,\\s*4\\)\\)\\s*-\\s*(35|47|51)\\}",
+          "why": "the bill fixtures' and ordinary community's fixed-age birth dates"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/invented-person-age.test.ts",
+          "pattern": "a small world's people, its town's households and the player are all aged by the table",
+          "why": "the small-world proof, place drawn from all 56 by seed"
         }
       ],
-      "note": "Part only: the seven sites the audit lists, plus the helper. A grep finds 30+ other makeIsoDate birth-date sites (civil-personnel-start, congress-turnover, party-evolution, municipal-council-opening, state-executives and others) that the evidence does not list, so passing every check cannot mean 'every invented person'. The shared test (file not named) is not a check."
+      "note": "Whole on claude/x5-a161-invented-person-age: the town residents, the scenario generator (production, stress and legacy profiles, and the player character), the agency and court starts and the bill fixtures take ages from INVENTED_PERSON_AGE_WINDOWS and birth dates from inventedPersonBirthDate; the remaining makeIsoDate birthDate sites read a recorded date. The shared test walks src for any producer that still counts years back from an age."
     },
     "A35": {
       "covers": "part",
@@ -4722,8 +4836,8 @@
         {
           "kind": "absent",
           "file": "src/simulation/crisis/health-coverage-pass.ts",
-          "pattern": "scheduleMortalityWithin\\(",
-          "why": "the monthly pass re-plans the death day of covered people (health-coverage-pass.ts:34)"
+          "pattern": "scheduleStrainOnset\\(",
+          "why": "the monthly pass re-plans the serious-episode onset of covered people (health-coverage-pass.ts:34)"
         },
         {
           "kind": "present",

@@ -8,10 +8,10 @@ import {
   catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
-  makeIsoDate,
   recordFiledProvision,
   SeededRng,
 } from "../simulation";
+import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   BillConfigurationError,
@@ -125,9 +125,12 @@ export interface FileBundleDraftResult {
 
 /** An adult old enough to be seated. No other claim is made about them. */
 function memberBirthDate(currentDate: IsoDate): IsoDate {
-  return makeIsoDate(
-    `${Number(currentDate.slice(0, 4)) - 47}${currentDate.slice(4)}`,
-  );
+  return inventedPersonBirthDate(null, {
+    role: "seated-colleague",
+    referenceDate: currentDate,
+    age: 47,
+    placement: { monthDay: currentDate.slice(5) as `${number}-${number}` },
+  });
 }
 
 /**

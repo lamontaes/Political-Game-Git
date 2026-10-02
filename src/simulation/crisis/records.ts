@@ -115,6 +115,52 @@ export function appendCrisisRecord(
   };
 }
 
+/**
+ * Several records at once, each checked and numbered exactly as
+ * `appendCrisisRecord` would, appended to the list in one step. For a writer
+ * that records something for many people on one day (starting conditions),
+ * so the list is copied once rather than once per record.
+ */
+export function appendCrisisRecords(
+  world: World,
+  inputs: readonly CrisisRecordInput[],
+): World {
+  if (inputs.length === 0) return world;
+  const index = crisisRecordIndex(world);
+  const seen = new Set<EntityId>();
+  const added: CrisisRecord[] = [];
+  let sequence = world.history.nextSequence;
+  for (const input of inputs) {
+    if (input.stableKey.trim() !== input.stableKey || !input.stableKey)
+      throw new Error("A CRISIS record needs a trimmed stable key.");
+    const id = crisisRecordId(world, input.stableKey);
+    if (index.has(id) || seen.has(id))
+      throw new Error(`Duplicate CRISIS record: ${input.stableKey}`);
+    seen.add(id);
+    const effectiveAt = makeIsoDate(input.effectiveAt);
+    if (effectiveAt > world.currentDate)
+      throw new Error("A CRISIS record cannot take effect in the future.");
+    added.push({
+      ...input,
+      id,
+      sequence,
+      schemaVersion: CRISIS_RECORD_SCHEMA,
+      recordedAt: world.currentDate,
+      effectiveAt,
+      causalParentIds: [...input.causalParentIds],
+    } as CrisisRecord);
+    sequence += 1;
+  }
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence,
+      crisisRecords: appendedList(crisisRecords(world), added),
+    },
+  };
+}
+
 const ACCESS_ORDER: readonly HealthAccess[] = [
   "private",
   "specific-people",

@@ -54,7 +54,7 @@ import {
   enterLifePath,
   scheduleLifePathSession,
   performLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "../life-paths2";
 import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
 import { FEDERAL_EMPLOYMENT_RULES } from "../statutory-tax-rules";
@@ -622,7 +622,7 @@ describe("M5 federal government uses the same saved-payment settler", () => {
       scheduled.world.history.scheduledActivities.at(-1)!.id,
     );
     expect(performed.ok, performed.message).toBe(true);
-    const world = advanceWorld(performed.world, 1, LIFE_PATHS2_HANDLERS);
+    const world = advanceWorld(performed.world, 1, lifePaths2Handlers());
     const month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
     const store = withOpenedBudgets(
       world,

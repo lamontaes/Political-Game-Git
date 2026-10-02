@@ -1,0 +1,39 @@
+{
+  "version": "legislative-session-calendar/v1",
+  "calendars": {
+    "state": {
+      "id": "state-session-game-calendar/v1",
+      "basis": "game-profile",
+      "note": "Preserves the prior disclosed state governing and legislative cadence profiles. These are game scheduling rows, not proof of convening or a state's law; legislative-step-pacing-and-veto-override remains unresolved.",
+      "sitting": { "kind": "interval", "days": 3 },
+      "tasks": {
+        "hearing": { "kind": "interval", "days": 7 },
+        "budget": { "kind": "annual", "monthDays": ["12-01"] },
+        "bill": { "kind": "annual", "monthDays": ["02-15", "03-15", "04-15"] },
+        "resume": { "kind": "annual", "monthDays": ["02-15"] }
+      }
+    },
+    "congress": {
+      "id": "congress-session-game-calendar/v1",
+      "basis": "game-profile",
+      "note": "Preserves the prior disclosed Tuesday/Thursday Congress game sittings, not the actual chamber calendars. The constitutional yearly assembly rule does not establish these weekdays.",
+      "sitting": { "kind": "weekdays", "weekdays": [2, 4] },
+      "tasks": {
+        "hearing": { "kind": "interval", "days": 7 }
+      }
+    },
+    "council": {
+      "id": "council-session-game-calendar/v1",
+      "basis": "game-profile",
+      "note": "Preserves the prior disclosed 14-day council sittings, quarterly member intake and next-day ordinary reading profile. Actual local and DC sitting calendars remain research gaps. Compiled minimum reading intervals still constrain the reading date independently.",
+      "sitting": { "kind": "interval", "days": 14 },
+      "tasks": {
+        "agenda": {
+          "kind": "annual",
+          "monthDays": ["01-01", "04-01", "07-01", "10-01"]
+        },
+        "reading": { "kind": "interval", "days": 1 }
+      }
+    }
+  }
+}

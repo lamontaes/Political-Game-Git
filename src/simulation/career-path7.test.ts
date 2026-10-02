@@ -27,7 +27,7 @@ import {
   enterLifePath,
   scheduleLifePathSession,
   hasLifePathCredential,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
   changeLifePathStatus,
 } from "./life-paths2";
 import { workStatusAt } from "./life-queries";
@@ -92,11 +92,11 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     w = respondCareerOffer(w, id, p, true).world;
     expect(respondCareerOffer(w, id, p, true).world).toBe(w);
     expect(startCareerWork(w, id, p).ok).toBe(false);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     w = startCareerWork(w, id, p).world;
     expect(acceptCareerResponsibilities(w, id, p).ok).toBe(false);
     for (let i = 0; i < 2; i++) {
-      w = advanceWorldMinutes(w, 24 * 60, LIFE_PATHS2_HANDLERS);
+      w = advanceWorldMinutes(w, 24 * 60, lifePaths2Handlers());
       expect(
         w.history.events.filter((e) => e.type === "life-paths2.work-session"),
       ).toHaveLength(i + 1);
@@ -126,7 +126,7 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     expect(workStatusAt(w, id)?.status).toBe("ended");
     expect(scheduledActivityState(w, cancelled).status).toBe("cancelled");
     expect(scheduleCareerTask(w, id, p, p.tasks[0]!.id).world).toBe(w);
-    w = advanceWorld(w, 2, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 2, lifePaths2Handlers());
     expect(pay(w)).toHaveLength(2);
     expect(pay(w).every((o) => o.transferredAmount.minorUnits === 7200)).toBe(
       true,
@@ -140,7 +140,7 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     w = seekCareerOffer(w, p).world;
     const old = w.history.workRelationships.at(-1)!.id;
     w = respondCareerOffer(w, old, p, true).world;
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     w = startCareerWork(w, old, p).world;
     w = resignCareer(w, old, p).world;
     w = enterLifePath(w, "trade-training").world;
@@ -155,7 +155,7 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     // The accepted 12-session total remains in the terms and migration credit,
     // but normal progression is one 77-day period rather than twelve clicks.
     expect(scheduleLifePathSession(w, enrollment).ok).toBe(false);
-    w = advanceWorld(w, 77, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 77, lifePaths2Handlers());
     expect(
       hasLifePathCredential(
         w,
@@ -169,7 +169,7 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
       w.history.workRelationships.find((r) => r.id === old)!.organizationId,
     );
     w = respondCareerOffer(w, next.id, repair, true).world;
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     w = startCareerWork(w, next.id, repair).world;
     expect(workStatusAt(w, old)?.status).toBe("ended");
     expect(workStatusAt(w, next.id)?.status).toBe("active");
@@ -191,7 +191,7 @@ function employed() {
   w = seekCareerOffer(w, p).world;
   const id = w.history.workRelationships.at(-1)!.id;
   w = respondCareerOffer(w, id, p, true).world;
-  w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+  w = advanceWorld(w, 1, lifePaths2Handlers());
   w = startCareerWork(w, id, p).world;
   return { w, id };
 }
@@ -230,22 +230,22 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     const started = employed();
     let w = started.w;
     const id = started.id;
-    w = advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS);
+    w = advanceWorldMinutes(w, 20 * 60, lifePaths2Handlers());
     expect(sessions(w, id)).toHaveLength(1);
     expect(
       w.history.events.some((e) => e.type === "career-path7.deliverable"),
     ).toBe(false);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     expect(pay(w)).toHaveLength(1);
     expect(pay(w)[0]?.transferredAmount.minorUnits).toBe(7200);
   });
   it("completes the authored 09:00–13:00 shift once when skipping to 20:00", () => {
     const { w, id } = employed();
-    const skipped = advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS);
+    const skipped = advanceWorldMinutes(w, 20 * 60, lifePaths2Handlers());
     expect(skipped.currentMoment.minuteOfDay).toBe(20 * 60);
     expect(sessions(skipped, id)).toHaveLength(1);
     expect(skipped.history.resourceTransferOutcomes).toHaveLength(0);
-    const paid = advanceWorld(skipped, 1, LIFE_PATHS2_HANDLERS);
+    const paid = advanceWorld(skipped, 1, lifePaths2Handlers());
     expect(pay(paid)).toHaveLength(1);
   });
   it("completes an authored 09:00–17:00 routine on one skip to 20:00", () => {
@@ -360,7 +360,7 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     expect(skipped.currentMoment.minuteOfDay).toBe(20 * 60);
   });
   it("does not invent work when unemployed or interrupted, and does not double a completed day", () => {
-    const idle = advanceWorldMinutes(fixture(), 20 * 60, LIFE_PATHS2_HANDLERS);
+    const idle = advanceWorldMinutes(fixture(), 20 * 60, lifePaths2Handlers());
     expect(
       idle.history.events.filter((e) => e.type === "life-paths2.work-session"),
     ).toHaveLength(0);
@@ -369,12 +369,12 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     const id = started.id;
     w = changeLifePathStatus(w, id, "pause").world;
     expect(
-      sessions(advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS), id),
+      sessions(advanceWorldMinutes(w, 20 * 60, lifePaths2Handlers()), id),
     ).toHaveLength(0);
     const once = employed();
-    const evening = advanceWorldMinutes(once.w, 18 * 60, LIFE_PATHS2_HANDLERS);
+    const evening = advanceWorldMinutes(once.w, 18 * 60, lifePaths2Handlers());
     expect(sessions(evening, once.id)).toHaveLength(1);
-    const later = advanceWorldMinutes(evening, 2 * 60, LIFE_PATHS2_HANDLERS);
+    const later = advanceWorldMinutes(evening, 2 * 60, lifePaths2Handlers());
     expect(sessions(later, once.id)).toHaveLength(1);
   });
   it("stops for a conflicting appointment instead of overlapping ordinary work", () => {
@@ -402,7 +402,7 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
       flexibility: { kind: "fixed" },
       access: { kind: "private", personIds: [actor] },
     });
-    const skipped = advanceWorldMinutes(w, 20 * 60, LIFE_PATHS2_HANDLERS);
+    const skipped = advanceWorldMinutes(w, 20 * 60, lifePaths2Handlers());
     expect(skipped.currentMoment.minuteOfDay).toBe(10 * 60);
     expect(sessions(skipped, id)).toHaveLength(0);
   });
@@ -445,21 +445,21 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     const long = advanceWorldMinutes(
       longStart.w,
       3 * 1440,
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
     );
     expect(sessions(long, longStart.id)).toHaveLength(3);
     expect(pay(long)).toHaveLength(3);
     let short = employed();
     for (let i = 0; i < 3; i++)
       short = {
-        w: advanceWorldMinutes(short.w, 1440, LIFE_PATHS2_HANDLERS),
+        w: advanceWorldMinutes(short.w, 1440, lifePaths2Handlers()),
         id: short.id,
       };
     expect(sessions(short.w, short.id)).toHaveLength(3);
     expect(pay(short.w)).toHaveLength(3);
     let mid = employed();
     mid = {
-      w: advanceWorldMinutes(mid.w, 10 * 60, LIFE_PATHS2_HANDLERS),
+      w: advanceWorldMinutes(mid.w, 10 * 60, lifePaths2Handlers()),
       id: mid.id,
     };
     expect(sessions(mid.w, mid.id)).toHaveLength(0);
@@ -467,7 +467,7 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     const finished = advanceWorldMinutes(
       restored,
       10 * 60,
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
     );
     expect(sessions(finished, mid.id)).toHaveLength(1);
     expect(finished.currentMoment.minuteOfDay).toBe(20 * 60);
