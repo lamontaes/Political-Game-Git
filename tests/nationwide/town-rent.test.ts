@@ -1,3 +1,9 @@
+import { randomInt } from "node:crypto";
+import startingLaws from "../../data/research/laws/starting-law-2026.json";
+import {
+  allGovernmentUnits,
+  governmentUnitJurisdictionId,
+} from "../../src/simulation/government-units";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -277,6 +283,53 @@ describe("rent day", { timeout: 600_000 }, () => {
     expect(again.history.resourceTransferOutcomes).toHaveLength(
       world.history.resourceTransferOutcomes.length,
     );
+  });
+
+  it("opens a random rent-stabilized new game through an actual annual renewal", () => {
+    const answers =
+      startingLaws.questions[RENT_LAW_KEYS.rentStabilization].answers;
+    const places = allGovernmentUnits().flatMap((unit) => {
+      if (
+        unit.unitType !== "municipality" ||
+        !unit.functionalActive ||
+        !unit.placeGeoid
+      )
+        return [];
+      const place = lifePlaceByKey(unit.placeGeoid);
+      const answer =
+        place && answers[place.stateJurisdictionKey as keyof typeof answers];
+      return place &&
+        answer?.answer === "yes" &&
+        place.context.jurisdiction.id === governmentUnitJurisdictionId(unit)
+        ? [place]
+        : [];
+    });
+    const place = places[randomInt(places.length)]!;
+    process.stdout.write(
+      `A57 renewal opening: ${place.key} ${place.context.jurisdiction.name}; pool=${places.length}; seed=a57-actual-renewal\n`,
+    );
+    const { world, town } = liveMonths(place.key, "a57-actual-renewal", 13);
+    const leases = townLeases(world).filter(
+      (lease) =>
+        lease.town === town && lease.regime === "market" && !lease.ended,
+    );
+    const renewals = world.history.resourceFlowTerms.filter(
+      (terms) =>
+        leases.some((lease) => lease.flow.id === terms.resourceFlowId) &&
+        terms.stableKey.endsWith(":renewal:1"),
+    );
+    expect(renewals.length).toBeGreaterThan(0);
+    const capped = world.history.resourceFlowTerms.filter((terms) =>
+      terms.lawEffectStamps?.some(
+        (stamp) =>
+          stamp.effectKind === "price-cost" &&
+          stamp.questionKey === RENT_LAW_KEYS.rentStabilization,
+      ),
+    );
+    process.stdout.write(
+      `A57 actual renewal result: date=${world.currentDate}; marketLeases=${leases.length}; annualRenewals=${renewals.length}; appliedCaps=${capped.length}\n`,
+    );
+    // Zero binding caps is an explicit receipt, not a cap-effect pass.
   });
 
   it("Portland: rent stabilization in force at the start covers private leases", () => {

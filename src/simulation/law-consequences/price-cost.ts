@@ -193,7 +193,8 @@ export function resolvePriceCostConsequences(
   if (!terms || terms.status !== "active" || flow.startsAt > context.onDate)
     return [];
   const requestedTerms = requiredTermUnits(row.amount);
-  const legalTerms = [...requestedTerms].map(([termKey, unit]) => {
+  const legalTerms = [];
+  for (const [termKey, unit] of requestedTerms) {
     const term = readFinalEnactedLawTerm(world, law, {
       questionKey: proposition.stableKey,
       termKey,
@@ -206,8 +207,8 @@ export function resolvePriceCostConsequences(
       throw new Error(
         `Price-cost term '${termKey}' differs from its governing law`,
       );
-    return { termKey, term };
-  });
+    legalTerms.push({ termKey, term });
+  }
   // No catalog parameter declaration is mistaken for an operative numeric value.
   // Unsupported term, capacity or exposure keys fail in the shared evaluator.
   const amount = evaluateLawAmount(row.amount, {
@@ -370,7 +371,7 @@ export const TEAM_4_PRICE_COST_REGISTRATION: LawConsequenceKindRegistration = {
   owner: "Team4",
   selectors: [SELECTOR],
   actions: [ACTION],
-  predicates: [BASIS],
+  predicates: [BASIS, RENT_COVERAGE_PREDICATE],
   units: ["minor"],
   resolve: resolvePriceCostConsequences,
   apply: applyPriceCostConsequence,
