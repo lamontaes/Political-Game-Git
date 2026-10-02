@@ -12,10 +12,14 @@ interface StoredClause extends Omit<ClauseTemplate, "render"> {
     "fiscalExposureMinorUnits" | "operativeEffect"
   >;
   readonly requiredAuthority?: {
-    readonly key: string;
+    readonly key?: string;
     readonly message: string;
   };
   readonly moneyParameter?: { readonly key: string; readonly message: string };
+  readonly durationParameter?: {
+    readonly key: string;
+    readonly message: string;
+  };
   readonly positiveAmountEffect?: ClauseRendering["operativeEffect"];
 }
 
@@ -33,10 +37,16 @@ export interface ProgramVariantData extends Omit<
  * No expression evaluation, legal-rule inference, or per-law/level dispatch. */
 function renderText(text: string, resolved: ResolvedParameters): string {
   return text.replace(
-    /\{\{(authority|money|choice):([^{}]+)\}\}/g,
+    /\{\{(authority|money|choice|duration):([^{}]+)\}\}/g,
     (_match, kind: string, key: string) => {
       if (kind === "money") return resolved.money(key);
       if (kind === "choice") return resolved.choice(key).clausePhrase;
+      if (kind === "duration") {
+        const duration = resolved.values[key];
+        if (duration?.kind !== "duration-years" || duration.years === null)
+          throw new Error(`Missing duration wording parameter '${key}'.`);
+        return String(duration.years);
+      }
       if (key !== "programLabel" && key !== "citationLabel")
         throw new Error(`Unknown authority wording field '${key}'.`);
       if (!resolved.authority)
@@ -63,6 +73,7 @@ export function programVariantFromData(
           rendering,
           requiredAuthority,
           moneyParameter,
+          durationParameter,
           positiveAmountEffect,
           ...clause
         }) => ({
@@ -70,7 +81,9 @@ export function programVariantFromData(
           render: (resolved): ClauseRendering => {
             if (
               requiredAuthority &&
-              resolved.authority?.authorityKey !== requiredAuthority.key
+              (!resolved.authority ||
+                (requiredAuthority.key !== undefined &&
+                  resolved.authority.authorityKey !== requiredAuthority.key))
             )
               throw new Error(requiredAuthority.message);
             const amount = moneyParameter
@@ -78,6 +91,14 @@ export function programVariantFromData(
               : undefined;
             if (moneyParameter && amount?.kind !== "money")
               throw new Error(moneyParameter.message);
+            if (durationParameter) {
+              const duration = resolved.values[durationParameter.key];
+              if (
+                duration?.kind !== "duration-years" ||
+                duration.years === null
+              )
+                throw new Error(durationParameter.message);
+            }
             return {
               ...rendering,
               text: renderText(rendering.text, resolved),
