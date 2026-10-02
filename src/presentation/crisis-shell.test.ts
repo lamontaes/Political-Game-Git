@@ -1,3 +1,7 @@
+import { projectWorldRecap } from "./world-recap";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { SeededRng, pickDistinct } from "../simulation/rng";
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   beginHealthEpisode,
@@ -7,6 +11,9 @@ import {
   declareHazardEpisode,
   discloseHealthEpisode,
   homeStateUsps,
+  personName,
+  serializeWorld,
+  deserializeWorld,
   type EntityId,
   type Person,
   type World,
@@ -16,6 +23,7 @@ import {
   crisisStopAfter,
   crisisStopBaseline,
   knownHealthNotices,
+  healthKnowledgeLine,
   ownHealthNotices,
   publicCrisisEvents,
 } from "./crisis-shell";
@@ -178,12 +186,65 @@ describe("protected decisions after time passed", () => {
     const since = crisisStopBaseline(world);
     const stop = crisisStopAfter(withEpisode(), since);
     expect(stop?.target).toBe("health");
-    expect(stop?.sentence).toBe(
-      "Decide whether to disclose your health matter.",
+    expect(stop?.sentence).toEqual(
+      expect.stringMatching(
+        /^Do you want to tell someone about your serious illness or injury, which began on .+\?$/,
+      ),
     );
   });
 
   it("offers no decision to a character who holds no such office", () => {
     expect(authorityDecisions(withEpisode())).toEqual([]);
+  });
+});
+
+describe("record-grounded health knowledge wording", () => {
+  it("names the actual teller and recorded episode and survives Continue without inventing hospitalization", () => {
+    const seed = "health-disclosure-plain-english";
+    const identities = lifePlaceStateIdentities();
+    expect(identities).toHaveLength(56);
+    const [place] = pickDistinct(new SeededRng(seed), identities, 1);
+    const fixture = smallWorld({
+      place: place!.jurisdictionKey,
+      seed,
+      people: 3,
+    });
+    const patient = fixture.personId;
+    const confidant = fixture.world.personOrder.find((id) => id !== patient)!;
+    const ill = beginHealthEpisode(fixture.world, {
+      stableKey: "plain-health-episode",
+      personId: patient,
+      severity: "serious",
+      initialLimitation: "limited",
+      origin: { kind: "authored", note: "Recorded health wording fixture." },
+      causalParentIds: [],
+    });
+    const told = discloseHealthEpisode(ill, {
+      stableKey: "plain-health-words",
+      episodeId: episodeIdOf(ill),
+      access: "specific-people",
+      recipientIds: [confidant],
+      decidedByPersonId: patient,
+    });
+    const knowledge = told.history.knowledge.find(
+      (row) =>
+        row.personId === confidant &&
+        row.source.kind === "told-by" &&
+        row.source.sourcePersonId === patient,
+    )!;
+    const saved = serializeWorld(told);
+    const line = healthKnowledgeLine(told, knowledge);
+    const recap = projectWorldRecap(told, confidant, knowledge.sequence);
+    expect(
+      recap?.entries.some(
+        (entry) => entry.headline === line && entry.attribution === null,
+      ),
+    ).toBe(true);
+    expect(line).toContain(
+      `${personName(told.people[patient]!)} told you about their serious illness or injury`,
+    );
+    expect(line).not.toMatch(/hospital|diagnos|Learned about a health episode/);
+    expect(healthKnowledgeLine(deserializeWorld(saved), knowledge)).toBe(line);
+    expect(serializeWorld(told)).toBe(saved);
   });
 });

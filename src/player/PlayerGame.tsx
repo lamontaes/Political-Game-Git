@@ -2926,7 +2926,9 @@ function PlayingScreen({
                       );
                     }}
                   >
-                    Go to it
+                    {crisisStop.stop.target === "health"
+                      ? "Choose who to tell"
+                      : "Review the decision"}
                   </button>
                   <button
                     type="button"

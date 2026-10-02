@@ -1,3 +1,4 @@
+import { healthKnowledgeLine } from "./crisis-shell";
 import { readerHeadline } from "./news-headlines";
 import {
   personName,
@@ -274,6 +275,7 @@ function learnedSince(
     if (event.type === "life.social-occasion-invited" && !invitation) continue;
     const hostId = invitation?.counterpartPersonId;
     const host = hostId ? world.people[hostId] : null;
+    const healthLine = healthKnowledgeLine(world, record);
     entries.push({
       key: `known:${record.id}`,
       eventId: event.id,
@@ -282,8 +284,9 @@ function learnedSince(
       headline:
         invitation && host && invitationAtHostHome(world, invitation)
           ? invitationNoticeLine(host.givenName, invitation.start.date)
-          : record.believedSummary,
-      attribution: invitation ? null : attributionFor(world, record),
+          : (healthLine ?? record.believedSummary),
+      attribution:
+        invitation || healthLine ? null : attributionFor(world, record),
       inNews: false,
       people: participantsOf(world, event, playerPersonId),
       matterId: null,
