@@ -1,3 +1,4 @@
+import { playerMonthlyMoneyHandlers } from "./player-monthly-money";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
@@ -2317,6 +2318,7 @@ export function composeWorldTimeHandlers(
       // G12: a saved clemency petition comes due on its own court date.
       createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
+        ...playerMonthlyMoneyHandlers(),
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),
