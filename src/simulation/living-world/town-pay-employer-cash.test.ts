@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { observerSetup } from "../../presentation/observer-world";
 import { createOrganization, createWorkRelationship } from "../life";
 import { lifePlaceStateIdentities } from "../life-places";
 import { resourcePositionAt } from "../resource-queries";
@@ -102,6 +107,32 @@ function fixture(cash: number | null, workers = 1) {
 }
 
 describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () => {
+  it("opens a new game in a random place with the current payroll code", () => {
+    const openingSeed = "standby4-a60-current-main-new-game-20261002";
+    const setup = observerSetup(openingSeed);
+    const opened = generateOpeningLife(
+      prepareOpeningLife({ ...setup, questionnaire: "skipped" }),
+    );
+    expect(opened.game).not.toBeNull();
+    const game = opened.game!;
+    expect(game.world.people[game.playerPersonId]).toBeDefined();
+    expect(game.world.history.workRelationships.length).toBeGreaterThan(0);
+    expect(
+      game.world.history.resourceFlows.some(
+        (flow) => flow.basisKind === "compensation:work",
+      ),
+    ).toBe(true);
+    process.stdout.write(
+      JSON.stringify({
+        receipt: "A60 new game",
+        seed: openingSeed,
+        placeKey: setup.placeKey,
+        playerPersonId: game.playerPersonId,
+        date: game.world.currentDate,
+        workRelationships: game.world.history.workRelationships.length,
+      }) + "\n",
+    );
+  });
   it("blocks unknown employer cash without opening an invented employer position", () => {
     const { world, owner, periods } = fixture(null);
     const paid = settleTownCompensations(world, periods);
