@@ -11,6 +11,11 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
+  COHERENT_APPEARANCE_RECIPE_VERSION,
+  derivePersonAppearance,
+} from "../simulation/person-appearance";
+
+import {
   BROWSER_WORLD_RECORD_KIND,
   BrowserSaveStore,
   SavesKeptByNewerBuildError,
@@ -1935,17 +1940,32 @@ describe("Read-only developer snapshots", () => {
 });
 
 describe("MORNING23 durable appearance migration", () => {
-  it("migrates two old lives separately and persists pins on save without corrupting original reads", async () => {
-    const unpinned = await import("./fixtures/morning23-old-unpinned.json", {
-      with: { type: "json" },
-    });
-    const pinned = await import("./fixtures/morning23-old-gen2.json", {
-      with: { type: "json" },
-    });
+  it("keeps two current-format lives separate and persists appearance pins without corrupting original reads", async () => {
     const { store, factory } = storeWith();
-    const originals = [unpinned.default, pinned.default].map((f) =>
-      deserializeWorld(f.payload),
-    );
+    const originals = (
+      [
+        ["morning23-current-unpinned", undefined],
+        ["morning23-current-gen2", 2],
+      ] as const
+    ).map(([seed, generation]) => {
+      const fresh = createDemoWorld(seed);
+      return {
+        ...fresh,
+        people: Object.fromEntries(
+          Object.entries(fresh.people).map(([id, person]) => [
+            id,
+            {
+              ...person,
+              appearance: derivePersonAppearance(
+                person.id,
+                COHERENT_APPEARANCE_RECIPE_VERSION,
+                generation,
+              ),
+            },
+          ]),
+        ),
+      };
+    });
     const slots = originals.map((w) => store.newSaveId(w));
     for (let i = 0; i < originals.length; i++) {
       const old = originals[i]!;
@@ -1953,7 +1973,7 @@ describe("MORNING23 durable appearance migration", () => {
         ...old,
         control: { kind: "person", personId: old.personOrder[0]! },
       };
-      // Imported old payload enters the same validated record seam as storage.
+      // Fresh current-format worlds enter the same validated record seam as storage.
       const record = createBrowserWorldRecord(
         world,
         "2026-05-01T10:00:00.000Z",
