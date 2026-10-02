@@ -826,11 +826,15 @@ export function completeCouncilPassage(
       stableKey: `${measure.stableKey}:enactment`,
       measureId: measure.id,
       actDesignation: measure.designation,
-      // ESTIMATED where the charter's rule is unread
-      // (`ordinance-effective-date.ts`).
-      effectiveAt: effectiveFromPassage
-        ? next.currentDate
-        : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+      // The admitted town profile's executable date is saved by the writer.
+      // Compiled publication rules retain their existing adapter until typed.
+      ...(governmentKey
+        ? {
+            effectiveAt: effectiveFromPassage
+              ? next.currentDate
+              : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+          }
+        : {}),
     });
     // Every enactment passes through the one effects step, a council's too.
     return applyEnactedLawEffects(next, measure.id);
@@ -1084,6 +1088,19 @@ export function overrideCouncilVeto(
     "vote-on-ordinance",
   );
   if (!authority.ok) return refuse(world, authority.reason);
+  return recordCouncilOverrideVote(world, input);
+}
+
+/** A saved council roll call reenacts a returned measure, independent of player control. */
+export function recordCouncilOverrideVote(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly measureId: EntityId;
+    readonly dispositions: readonly LegislativeVoteDisposition[];
+    readonly provenance: LegislativeVoteProvenance;
+  },
+): MunicipalOrdinanceResult {
   const measure = measureOfThisCouncil(
     world,
     input.governmentKey,

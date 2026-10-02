@@ -430,13 +430,6 @@
       "code": "if ([\"california\", \"us-ca\"].includes(j.slug)) return \"US-CA\";"
     },
     {
-      "file": "src/simulation/cost-of-living.ts",
-      "kind": "fixed-share",
-      "build": "Build 10",
-      "count": 1,
-      "code": "housingShareMinor: 90_000,"
-    },
-    {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
@@ -491,62 +484,6 @@
       "build": "Build 21",
       "count": 1,
       "code": "arrestShare: 0.1,"
-    },
-    {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "if (rng.next() >= monthlyChance(rate)) return;"
-    },
-    {
-      "file": "src/simulation/crime/producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "while (product > limit && count < 25) {"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 0, shares: [55, 35, 10] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 1, shares: [40, 15, 45] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 15, shares: [20, 15, 65] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 35, shares: [50, 30, 20] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 55, shares: [65, 28, 7] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 75, shares: [75, 20, 5] },"
     },
     {
       "file": "src/simulation/crisis/disaster.ts",
@@ -862,27 +799,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "if (rng.fork(\"looks\").next() >= chance) continue;"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "if (point < 0) return KINDS[index]!;"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "if (rng.fork(\"own\").next() >= own) return TOWN_TENURE_KINDS.rented;"
-    },
-    {
-      "file": "src/simulation/living-world/town-homes.ts",
-      "kind": "roll",
-      "build": "Build 10",
-      "count": 1,
-      "code": "return head < 60 && rng.fork(\"mortgage\").next() < 0.7"
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",

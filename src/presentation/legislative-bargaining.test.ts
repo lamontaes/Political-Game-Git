@@ -827,7 +827,7 @@ describe("the motif layer", () => {
     shortTitle: "Transit Access Pilot",
     sectionLabel: "Section 4",
     sectionHeading: "Local project match",
-    reach: "language reaching every eligible rider",
+    reach: { relation: "reaching", who: "every eligible rider" },
     beneficiary: "the Ashland–Boyd County Transit Authority",
     place: "Ashland",
     amount: "$1,400,000",
@@ -912,6 +912,7 @@ describe("the motif layer", () => {
       facts: { ...facts, amount: null },
       grounding,
     });
-    expect(keys).not.toContain("capped");
+    expect(keys.length).toBeGreaterThan(0);
+    expect(keys.some((key) => key.endsWith(":capped"))).toBe(false);
   });
 });

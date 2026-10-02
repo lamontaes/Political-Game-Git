@@ -1,4 +1,5 @@
 import { addDays } from "./dates";
+import { COUNCIL_ACT_MEASURE_TITLE, renderMeasureTitle } from "./measure-title";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
@@ -15,6 +16,7 @@ import {
 import {
   municipalExecutiveHolder,
   recordCouncilReadingVote,
+  recordCouncilOverrideVote,
 } from "./municipal-ordinance-procedure";
 import {
   municipalGovernmentJurisdictionId,
@@ -137,7 +139,6 @@ function fileActs(world: World): World {
       ),
       measures: municipalMeasures(world, DC_GOVERNMENT_KEY),
       playerPersonId: player,
-      title: dcCouncilActTitle,
       measureKey: (numbering) =>
         municipalMeasureKey(DC_GOVERNMENT_KEY, numbering.designation),
     },
@@ -146,16 +147,12 @@ function fileActs(world: World): World {
 
 /** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */
 export function dcCouncilActTitle(questionName: string, year: string): string {
-  const words = questionName
-    .replace(/\s+(law|act)$/i, "")
-    .split(/\s+/)
-    .map((word, index) =>
-      index > 0 &&
-      /^(a|an|and|as|at|by|for|in|of|on|or|the|to|with)$/i.test(word)
-        ? word.toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    );
-  return `${words.join(" ")} Act of ${year}`;
+  return renderMeasureTitle(
+    COUNCIL_ACT_MEASURE_TITLE,
+    questionName,
+    year,
+    false,
+  );
 }
 
 /** Every act a non-player sponsor carries takes its next lawful step. */
@@ -175,7 +172,7 @@ function moveActs(world: World): World {
       });
       continue;
     }
-    if (phase !== "on-floor") continue;
+    if (phase !== "on-floor" && phase !== "awaiting-override") continue;
     const members = councilMembers(next);
     const mayor = municipalExecutiveHolder(next, DC_GOVERNMENT_KEY);
     next = ensureCouncilPrinciples(next, [
@@ -183,19 +180,26 @@ function moveActs(world: World): World {
       ...(mayor ? [{ personId: mayor }] : []),
     ]);
     const dispositions = decideCouncilVote(next, {
-      stableKey: `${measure.stableKey}:vote:${next.currentDate}`,
+      stableKey: `${measure.stableKey}:${phase === "awaiting-override" ? "override" : "vote"}:${next.currentDate}`,
       measureId: measure.id,
       jurisdictionId: measure.jurisdictionId,
       members,
       playerPersonId: player,
-      questionLabel: `Pass ${measure.designation}`,
+      questionLabel:
+        phase === "awaiting-override"
+          ? `Reenact ${measure.designation} over the executive return`
+          : `Pass ${measure.designation}`,
       executivePersonId: mayor,
       // The Council is elected in party primaries, and the Home Rule Act
       // limits how many at-large seats one party may hold (D.C. Code
       // § 1-204.01), so its members' parties are cues.
       nonpartisan: false,
     });
-    const result = recordCouncilReadingVote(next, {
+    const recordVote =
+      phase === "awaiting-override"
+        ? recordCouncilOverrideVote
+        : recordCouncilReadingVote;
+    const result = recordVote(next, {
       governmentKey: DC_GOVERNMENT_KEY,
       measureId: measure.id,
       dispositions,
