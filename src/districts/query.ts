@@ -4,7 +4,7 @@ import type {
   DistrictIdentity,
   DistrictSeatBinding,
 } from "./types";
-import { placeDistrictJoin } from "./place-membership";
+import { placeDistrictJoin, placeRelationVintageFor } from "./place-membership";
 
 export const DISTRICT_MEMBERSHIP_REFUSAL =
   "Gazetteer interior points are not district boundaries or home membership. The game will not assign a district from a coordinate, a nearest centroid, a city, a county, or statewide residence.";
@@ -169,9 +169,10 @@ export function districtsCrossingPlace(
   catalog: readonly DistrictIdentity[],
   placeGeoid: string | null,
   chamber: DistrictChamber,
+  asOf?: string | null,
 ): readonly DistrictIdentity[] {
   if (!placeGeoid) return [];
-  const joined = placeDistrictJoin(placeGeoid, chamber);
+  const joined = placeDistrictJoin(placeGeoid, chamber, asOf);
   if (joined.kind !== "split") return [];
   return (joined.candidateDistrictGeoids ?? []).flatMap((geoid) => {
     const identity = districtIdentityByRecordId(
@@ -288,4 +289,81 @@ export function bindingFromIdentity(
     recordId: identity.recordId,
     stateUsps: identity.stateUsps,
   };
+}
+
+/**
+ * Population parts of the canonical place, for the boundary set in force.
+ * Counts describe Census residents, not a verified address for an individual.
+ * The source compiler owns the rows; this reader never substitutes area.
+ */
+export function districtPopulationShares(input: {
+  readonly catalog: readonly DistrictIdentity[];
+  readonly parts: readonly {
+    readonly placeGeoid: string;
+    readonly chamber: DistrictChamber;
+    readonly districtGeoid: string;
+    readonly boundaryVintage: string;
+    readonly partPopulationCount: number;
+    readonly placePopulationCount: number;
+  }[];
+  readonly placeGeoid: string;
+  readonly chamber: DistrictChamber;
+  readonly asOf?: string | null;
+}): readonly {
+  readonly identity: DistrictIdentity;
+  readonly populationCount: number;
+  readonly populationShare: number;
+}[] {
+  const vintage = placeRelationVintageFor(
+    input.chamber,
+    input.placeGeoid,
+    input.asOf,
+  );
+  const parts = input.parts.filter(
+    (part) =>
+      part.placeGeoid === input.placeGeoid &&
+      part.chamber === input.chamber &&
+      part.boundaryVintage === vintage,
+  );
+  if (parts.length === 0) return [];
+  const total = parts.reduce((sum, part) => sum + part.partPopulationCount, 0);
+  if (
+    !Number.isSafeInteger(total) ||
+    total < 0 ||
+    parts.some(
+      (part) =>
+        !Number.isSafeInteger(part.partPopulationCount) ||
+        part.partPopulationCount < 0 ||
+        part.placePopulationCount !== total,
+    ) ||
+    new Set(parts.map((part) => part.districtGeoid)).size !== parts.length
+  )
+    return [];
+  const joined = placeDistrictJoin(input.placeGeoid, input.chamber, input.asOf);
+  const candidates =
+    joined.kind === "whole-place"
+      ? [joined.districtGeoid]
+      : joined.kind === "split"
+        ? (joined.candidateDistrictGeoids ?? [])
+        : [];
+  if (parts.some((part) => !candidates.includes(part.districtGeoid))) return [];
+  const result = [];
+  for (const part of parts) {
+    const identity = districtIdentityByRecordId(
+      input.catalog,
+      districtRecordId(input.chamber, part.districtGeoid),
+    );
+    // Missing or residual identities must not redistribute their residents.
+    if (!identity || identity.isUnassignedResidual) return [];
+    result.push({
+      identity,
+      populationCount: part.partPopulationCount,
+      populationShare: total === 0 ? 0 : part.partPopulationCount / total,
+    });
+  }
+  return result.sort(
+    (left, right) =>
+      right.populationCount - left.populationCount ||
+      left.identity.geoid.localeCompare(right.identity.geoid),
+  );
 }
