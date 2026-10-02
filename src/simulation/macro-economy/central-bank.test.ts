@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../../../tests/support/random-place";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import type { NewGameSetup } from "../../presentation/new-game";
 import {
@@ -8,7 +9,7 @@ import {
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { World } from "../types";
-import { advanceWorld } from "../world";
+import { advanceWorld, recordWorldEvent } from "../world";
 import { startValuesFromLatents } from "./kernel";
 import { CRUNCH46_PROVISIONAL_POLICY } from "./policy";
 import { ensureMacroEconomyStarted } from "./producer";
@@ -19,6 +20,8 @@ import {
   CENTRAL_BANK_RATE_EVENT,
   RESERVE_BANKS,
   chooseCentralBankRate,
+  ensureCentralBankSeated,
+  ensureReserveBankPresidents,
   holdCentralBankMeeting,
   stepCentralBankSeats,
   votingReserveBanks,
@@ -33,11 +36,11 @@ import type { MacroMonthRecord } from "./types";
 const registry = createCampaignElectionTransitionRegistry();
 
 /** A life whose economy starts from a controlled near-reference record. */
-function started(seed: string): World {
+function started(seed: string, placeKey = "nebraska"): World {
   const setup: NewGameSetup = {
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
-    placeKey: "nebraska",
+    placeKey,
     startAge: 34,
     questionnaire: "skipped" as const,
   };
@@ -60,10 +63,16 @@ const tagValue = (tags: readonly string[], prefix: string) =>
   tags.find((tag) => tag.startsWith(prefix))?.slice(prefix.length);
 
 describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
-  const later = advanceWorld(started("b19-central-bank"), 100, registry);
-  const bank = later.macroEconomy!.centralBank!;
+  let later: World;
+  let bank: NonNullable<NonNullable<World["macroEconomy"]>["centralBank"]>;
+  function initialize() {
+    if (later) return;
+    later = advanceWorld(started("b19-central-bank"), 100, registry);
+    bank = later.macroEconomy!.centralBank!;
+  }
 
   it("seats seven governors and a chair, each a person with a recorded view", () => {
+    initialize();
     expect(bank.seats).toHaveLength(CENTRAL_BANK_PROFILE.seats);
     const people = bank.seats.map((seat) => seat!.personId);
     expect(new Set(people).size).toBe(CENTRAL_BANK_PROFILE.seats);
@@ -85,6 +94,7 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
   });
 
   it("votes with the twelve: the governors, New York and four presidents in rotation", () => {
+    initialize();
     expect(votingReserveBanks(2026)).toEqual([
       "new-york",
       "philadelphia",
@@ -116,6 +126,7 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
   });
 
   it("meets in its meeting months and sets the rate from what the members decided", () => {
+    initialize();
     const meetings = later.history.events.filter(
       (event) => event.type === CENTRAL_BANK_RATE_EVENT,
     );
@@ -140,6 +151,7 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
   });
 
   it("the President names the chair from the sitting governors by a recorded decision, not a draw", () => {
+    initialize();
     const president = currentPresidentOf(later)!.personId;
     expect(later.control).not.toMatchObject({ personId: president });
     const store = later.macroEconomy!;
@@ -178,6 +190,7 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
   });
 
   it("never names a sitting member of Congress to the board, even one who helped the President", () => {
+    initialize();
     const president = currentPresidentOf(later)!.personId;
     const members = federalColleaguesOf(later).filter(
       (id) =>
@@ -231,6 +244,7 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
   });
 
   it("never decides for a player who chairs the board", () => {
+    initialize();
     const controlled =
       later.control.kind === "person" ? later.control.personId : null;
     expect(controlled).not.toBeNull();
@@ -267,6 +281,7 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
   });
 
   it("round-trips through Save/Continue and carries on", () => {
+    initialize();
     const reopened = deserializeWorld(serializeWorld(later));
     expect(reopened.macroEconomy!.centralBank).toEqual(bank);
     const a = advanceWorld(reopened, 70, registry);
@@ -275,6 +290,7 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
   });
 
   it("a save whose months carry no credit record starts one at its next month", () => {
+    initialize();
     const store = later.macroEconomy!;
     const withoutCredit = (month: MacroMonthRecord): MacroMonthRecord => {
       const copy: {
@@ -294,5 +310,211 @@ describe("Build 19: the central bank is people", { timeout: 900_000 }, () => {
     );
     expect(national.at(-1)!.credit).toBeDefined();
     expect(national.at(-1)!.drivers).toBeDefined();
+  });
+});
+
+describe("A65: new members remain undecided without a recorded view", () => {
+  const seed = "a65-undecided-bank-members";
+  const place = drawRandomPlace(seed);
+  const rate = {
+    lowerPct: CRUNCH46_PROVISIONAL_POLICY.baseline.policyRateRangePct.lower,
+    upperPct: CRUNCH46_PROVISIONAL_POLICY.baseline.policyRateRangePct.upper,
+    basis: "retained-reference" as const,
+    decisionEventId: null,
+  };
+  const seated = (world: World) =>
+    ensureReserveBankPresidents(ensureCentralBankSeated(world, rate));
+
+  it("seats identical absent leans under two seeds, without claiming a balanced opinion", () => {
+    const a = seated(started(`${seed}:a`, place.key));
+    const b = seated(started(`${seed}:b`, place.key));
+    const leans = (world: World) => {
+      const bank = world.macroEconomy!.centralBank!;
+      return [...bank.seats, ...bank.presidents!].map(
+        (seat) => seat!.inflationLean,
+      );
+    };
+    expect(leans(a)).toHaveLength(19);
+    expect(leans(a)).toEqual(Array.from({ length: 19 }, () => null));
+    expect(leans(b)).toEqual(leans(a));
+    for (const world of [a, b]) {
+      const appointments = world.history.events.filter(
+        (event) => event.type === CENTRAL_BANK_APPOINTED_EVENT,
+      );
+      expect(appointments).toHaveLength(20);
+      for (const event of appointments) {
+        expect(event.tags).toContain("view:inflation-lean:null");
+        expect(event.summary).toContain(
+          "has not formed a view on prices versus jobs",
+        );
+        expect(event.summary).not.toContain("weighs prices and jobs evenly");
+      }
+    }
+    console.info(
+      `A65 controlled bank record: ${place.displayName} (${place.key}), ${seed}:a / ${seed}:b`,
+    );
+  });
+
+  it("preserves absent and legacy numeric views through a meeting and Save/Continue", () => {
+    const world = seated(started(`${seed}:saved`, place.key));
+    const store = world.macroEconomy!;
+    const bank = store.centralBank!;
+    const legacy: World = {
+      ...world,
+      macroEconomy: {
+        ...store,
+        centralBank: {
+          ...bank,
+          seats: bank.seats.map((seat, index) =>
+            index === 0 ? { ...seat!, inflationLean: 2 } : seat,
+          ),
+        },
+      },
+    };
+    const reopened = deserializeWorld(serializeWorld(legacy));
+    expect(reopened.macroEconomy!.centralBank).toEqual(
+      legacy.macroEconomy!.centralBank,
+    );
+    const meeting = holdCentralBankMeeting(reopened, "2026-01");
+    expect(meeting.history.events.at(-1)!.type).toBe(CENTRAL_BANK_RATE_EVENT);
+    expect(meeting.history.events.at(-1)!.involvedEntityIds).toHaveLength(12);
+    expect(meeting.macroEconomy!.centralBank!.seats[0]!.inflationLean).toBe(2);
+    expect(
+      meeting.macroEconomy!.centralBank!.seats[1]!.inflationLean,
+    ).toBeNull();
+    expect(holdCentralBankMeeting(meeting, "2026-01")).toBe(meeting);
+    const continued = deserializeWorld(serializeWorld(meeting));
+    expect(continued.macroEconomy!.centralBank).toEqual(
+      meeting.macroEconomy!.centralBank,
+    );
+  });
+
+  it("seats a reserve-bank successor without inventing a view", () => {
+    const world = seated(started(`${seed}:successor`, place.key));
+    const store = world.macroEconomy!;
+    const bank = store.centralBank!;
+    const prior = bank.presidents![0]!;
+    const opened: World = {
+      ...world,
+      macroEconomy: {
+        ...store,
+        centralBank: {
+          ...bank,
+          presidents: bank.presidents!.map((seat, index) =>
+            index === 0 ? null : seat,
+          ),
+          presidentOpenings: [
+            { bank: prior.bank, since: addDays(world.currentDate, -180) },
+          ],
+        },
+      },
+    };
+    const successor = stepCentralBankSeats(opened);
+    const replacement = successor.macroEconomy!.centralBank!.presidents![0]!;
+    expect(replacement.personId).not.toBe(prior.personId);
+    expect(successor.people[replacement.personId]).toBeDefined();
+    expect(replacement.inflationLean).toBeNull();
+    expect(
+      successor.history.events.find(
+        (event) => event.id === replacement.appointedEventId,
+      )!.tags,
+    ).toContain("view:inflation-lean:null");
+  });
+
+  it("confirms a governor without inventing a view", () => {
+    const world = seated(started(`${seed}:confirmed`, place.key));
+    const presidentId = world.personOrder[0]!;
+    const recorded = recordWorldEvent(world, {
+      stableKey: "a65-controlled-president-tenure",
+      type: "world.office-tenure",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [presidentId],
+      participants: [
+        { personId: presidentId, role: "focus:subject", detail: "President" },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["office:us-president"],
+      summary: "Controlled appointment test: a president holds office.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    expect(currentPresidentOf(recorded)!.personId).toBe(presidentId);
+    const store = recorded.macroEconomy!;
+    const bank = store.centralBank!;
+    const nomineeId = bank.presidents![0]!.personId;
+    const nominated: World = {
+      ...recorded,
+      macroEconomy: {
+        ...store,
+        centralBank: {
+          ...bank,
+          nominations: [
+            {
+              office: "governor",
+              seat: 0,
+              nomineeId,
+              presidentId,
+              nominatedAt: world.currentDate,
+              confirmationDue: world.currentDate,
+              eventId: recorded.history.events.at(-1)!.id,
+            },
+          ],
+        },
+      },
+    };
+    const confirmed = stepCentralBankSeats(nominated);
+    const governor = confirmed.macroEconomy!.centralBank!.seats[0]!;
+    expect(governor.personId).toBe(nomineeId);
+    expect(governor.inflationLean).toBeNull();
+    const event = confirmed.history.events.find(
+      (row) => row.id === governor.appointedEventId,
+    )!;
+    expect(event.tags).toContain("basis:confirmed");
+    expect(event.tags).toContain("view:inflation-lean:null");
+  });
+
+  it("seats an ordinary random opening's bank without changing its generated macro evidence", () => {
+    const openingSeed = `${seed}:ordinary`;
+    const world = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: openingSeed,
+        placeKey: place.key,
+        startAge: 34,
+        questionnaire: "skipped",
+      }),
+    ).game!.world;
+    expect(world.macroEconomy).toBeDefined();
+    const bankWorld = seated(world);
+    expect(bankWorld.macroEconomy!.start).toEqual(world.macroEconomy!.start);
+    expect(bankWorld.macroEconomy!.centralBank!.seats).toHaveLength(7);
+    expect(bankWorld.macroEconomy!.centralBank!.presidents).toHaveLength(12);
+    for (const member of [
+      ...bankWorld.macroEconomy!.centralBank!.seats,
+      ...bankWorld.macroEconomy!.centralBank!.presidents!,
+    ])
+      expect(member!.inflationLean).toBeNull();
+    const meeting = holdCentralBankMeeting(bankWorld, "2026-01");
+    const event = meeting.history.events.at(-1)!;
+    expect(event.type).toBe(CENTRAL_BANK_RATE_EVENT);
+    expect(event.involvedEntityIds).toHaveLength(12);
+    expect(
+      deserializeWorld(serializeWorld(meeting)).macroEconomy!.centralBank,
+    ).toEqual(meeting.macroEconomy!.centralBank);
+    const withoutMacro = { ...world };
+    delete (withoutMacro as { macroEconomy?: unknown }).macroEconomy;
+    expect(ensureCentralBankSeated(withoutMacro, rate)).toBe(withoutMacro);
+    console.info(
+      `A65 ordinary opening and direct bank handler: ${place.displayName} (${place.key}), ${openingSeed}; ${world.personOrder.length} opening people; 19 undecided bank members; 12 meeting participants; generated macro evidence preserved.`,
+    );
   });
 });
