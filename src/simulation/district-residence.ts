@@ -798,7 +798,7 @@ function confirmSplitHomeAssignment(
  * for each chamber where the world has no membership for them yet.
  *
  * A split town's resident is estimated in its largest Census population part.
- * Equal counts use district identity order; unread or zero totals do not assign.
+ * Tied largest parts, unread rows, and zero totals do not assign.
  *
  * The population parts estimate which crossing district contains a home;
  * they do not certify an individual address. The estimate is recorded through
@@ -837,7 +837,12 @@ export function assignSplitHomeDistricts(
       asOf: next.currentDate,
     });
     const placement = shares[0];
-    if (!placement || placement.populationCount === 0) continue;
+    if (
+      !placement ||
+      placement.populationCount === 0 ||
+      shares[1]?.populationCount === placement.populationCount
+    )
+      continue;
     const pick = placement.identity;
     const recorded = establishDistrictResidence(next, {
       personId,
@@ -846,7 +851,7 @@ export function assignSplitHomeDistricts(
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,
-        note: `ESTIMATED FROM CENSUS POPULATION: the largest recorded district part contains ${placement.populationCount} of ${shares.reduce((sum, row) => sum + row.populationCount, 0)} residents of Census place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}); equal counts use district identity order. This estimates home placement, not a verified address.`,
+        note: `ESTIMATED FROM CENSUS POPULATION: the largest recorded district part contains ${placement.populationCount} of ${shares.reduce((sum, row) => sum + row.populationCount, 0)} residents of Census place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). This estimates home placement, not a verified address.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;

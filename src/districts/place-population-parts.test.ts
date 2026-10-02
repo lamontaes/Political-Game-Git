@@ -4,7 +4,8 @@ import { drawRandomPlace } from "../../tests/support/random-place";
 import { districtIdentityCatalog } from "./catalog";
 import { placeRelationVintageFor } from "./place-membership";
 import { districtPopulationShares, districtsCrossingPlace } from "./query";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as districtQueries from "./query";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import {
   assignSplitHomeDistricts,
@@ -17,6 +18,7 @@ const chamber = "state-lower" as const;
 const place = drawRandomPlace(
   seed,
   (candidate) =>
+    candidate.sourceGeoid !== undefined &&
     districtsCrossingPlace(catalog, candidate.sourceGeoid, chamber).length >
       1 &&
     districtPopulationShares({
@@ -172,6 +174,42 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
     expect(serializeWorld(reopened)).toBe(saved);
     expect(assignSplitHomeDistricts(reopened, personId)).toBe(reopened);
   });
+  it("does not choose a residence by identity when the largest parts tie", () => {
+    const { world, personId } = smallWorld({
+      place: place.key,
+      seed,
+      household: true,
+    });
+    const original = districtQueries.districtPopulationShares;
+    const tied = read(
+      parts.map((row) => ({
+        ...row,
+        partPopulationCount: 10,
+        placePopulationCount: parts.length * 10,
+      })),
+    );
+    expect(tied.length).toBeGreaterThan(1);
+    const reader = vi
+      .spyOn(districtQueries, "districtPopulationShares")
+      .mockImplementation((input) =>
+        input.chamber === chamber && input.placeGeoid === placeGeoid
+          ? tied
+          : original(input),
+      );
+    try {
+      const next = assignSplitHomeDistricts(world, personId);
+      expect(
+        districtResidenceIntervals(next).filter(
+          (interval) =>
+            interval.personId === personId &&
+            interval.binding.chamber === chamber,
+        ),
+      ).toEqual([]);
+    } finally {
+      reader.mockRestore();
+    }
+  });
+
   it("retains acquired zero-count parts with zero shares", () => {
     const rows = JSON.parse(
       PLACE_DISTRICT_POPULATION_ROWS,
@@ -212,16 +250,42 @@ describe(`district population parts in ${place.displayName}, seed ${seed}`, () =
     ])[];
     const older = rows.find(
       ([placeGeoid, chamber, vintage]) =>
+        chamber === "congressional" &&
         placeRelationVintageFor(chamber, placeGeoid, "2026-11-03") !== vintage,
     );
     expect(older).toBeDefined();
-    const [placeGeoid, chamber] = older!;
+    const [placeGeoid, chamber, boundaryVintage] = older!;
+    const parts = rows
+      .filter(
+        (row) =>
+          row[0] === placeGeoid &&
+          row[1] === chamber &&
+          row[2] === boundaryVintage,
+      )
+      .map(
+        ([
+          placeGeoid,
+          chamber,
+          boundaryVintage,
+          districtGeoid,
+          partPopulationCount,
+          placePopulationCount,
+        ]) => ({
+          placeGeoid,
+          chamber,
+          boundaryVintage,
+          districtGeoid,
+          partPopulationCount,
+          placePopulationCount,
+        }),
+      );
     expect(
       districtPopulationShares({
         catalog,
         placeGeoid,
         chamber,
         asOf: "2026-11-03",
+        parts,
       }),
     ).toEqual([]);
   });
