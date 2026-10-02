@@ -1,3 +1,4 @@
+import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
 import {
   requestedCampaignAdvertisingGainBasisPoints,
   recordCampaignAdvertisingExpenditure,
@@ -57,12 +58,8 @@ import {
 } from "./people-traits";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
-import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
-import {
-  createResourceFlow,
-  createResourcePosition,
-  recordResourceTransferOutcome,
-} from "./resources";
+import { resourcePositionAt } from "./resource-queries";
+import { createResourcePosition } from "./resources";
 import { SeededRng } from "./rng";
 import type {
   CampaignRecord,
@@ -105,8 +102,6 @@ import { assertWorldIntegrity, recordWorldEvent } from "./world";
  * not grow opponent campaigns here; that remains a later increment.
  */
 
-/** Authored game default; fundraising remains separately owned by A66. */
-const FUNDRAISING_RANGE = [60_000, 250_001] as const;
 const EVALUATION_INTERVAL_DAYS = 7;
 const LATE_CAMPAIGN_DAYS = 21;
 const PUBLIC_MEMORY_DAYS = 14;
@@ -386,6 +381,58 @@ function decideEmphasis(
  * the candidate's recorded temperament (`decideEmphasis`) and is never shown
  * to the player.
  */
+/** A new committee's cash estimate uses only comparable saved committee accounts. */
+export function comparableCampaignCommitteeBalance(
+  world: World,
+  campaign: CampaignRecord,
+): {
+  readonly amount: MoneyAmount;
+  readonly sourceRecordIds: readonly EntityId[];
+} {
+  const committees = new Set<EntityId>();
+  for (const peer of campaignRecords(world)) {
+    if (
+      peer.officeKey === campaign.officeKey &&
+      peer.treasuryCurrency === campaign.treasuryCurrency
+    )
+      committees.add(peer.organizationId);
+  }
+  for (const peer of campaignOpponentRecords(world)) {
+    const contest = electionContestById(world, peer.contestId);
+    if (contest?.office.officeKey === campaign.officeKey)
+      committees.add(peer.committeeOrganizationId);
+  }
+  const accounts = [...committees].flatMap((organizationId) => {
+    const account = resourcePositionAt(
+      world,
+      { kind: "organization", organizationId },
+      campaign.treasuryCurrency,
+    );
+    return account ? [account] : [];
+  });
+  if (!accounts.length)
+    throw new Error("No recorded comparable campaign committee balance.");
+  return {
+    amount: {
+      currency: campaign.treasuryCurrency,
+      minorUnits: Math.round(
+        accounts.reduce(
+          (total, account) => total + account.liquidBalance.minorUnits,
+          0,
+        ) / accounts.length,
+      ),
+    },
+    sourceRecordIds: [
+      ...new Set(
+        accounts.flatMap((account) => [
+          account.positionId,
+          ...account.outcomeIds,
+        ]),
+      ),
+    ],
+  };
+}
+
 function ensureOpponent(
   world: World,
   campaign: CampaignRecord,
@@ -449,14 +496,16 @@ function ensureOpponent(
     },
   });
   const vendorOrganizationId = lastOrganizationId(next);
+  const opening = comparableCampaignCommitteeBalance(world, campaign);
   next = createResourcePosition(next, {
     stableKey: `${stableKey}:treasury`,
     owner: { kind: "organization", organizationId: committeeOrganizationId },
     openedAt: date,
-    openingBalance: { minorUnits: 0, currency: campaign.treasuryCurrency },
+    openingBalance: opening.amount,
     provenance: {
-      kind: "authored",
-      note: "The opponent committee's own account, opened empty.",
+      kind: "source-record",
+      asOf: date,
+      reference: `ESTIMATED FROM GAME COMMITTEES: same recorded office and currency; mean saved cash from ${opening.sourceRecordIds.join(", ")}.`,
     },
   });
   const treasuryPositionId = next.history.resourcePositions.at(-1)!.id;
@@ -780,53 +829,6 @@ function location(world: World, campaign: CampaignRecord, setting: string) {
   };
 }
 
-function moveMoney(
-  world: World,
-  opponent: CampaignOpponentRecord,
-  stepKey: string,
-  kind: "fundraising",
-  amount: MoneyAmount,
-  eventId: EntityId,
-  jurisdictionId: EntityId,
-): { readonly world: World; readonly resourceFlowId: EntityId } {
-  void kind;
-  let next = createResourceFlow(world, {
-    stableKey: `${stepKey}:flow`,
-    source: {
-      kind: "organization",
-      organizationId: opponent.donorPoolOrganizationId,
-    },
-    recipient: positionOwnerEndpoint({
-      kind: "organization",
-      organizationId: opponent.committeeOrganizationId,
-    }),
-    startsAt: world.currentDate,
-    initialStatus: "active",
-    amount,
-    cadenceKind: "schedule:one-time",
-    basisKind: "custom:campaign-contribution",
-    basisReference: { kind: "general" },
-    restrictionKind: "purpose:campaign",
-    jurisdictionId,
-    provenance: { kind: "simulated-event", eventId },
-  });
-  const resourceFlowId = next.history.resourceFlows.at(-1)!.id;
-  next = recordResourceTransferOutcome(next, {
-    stableKey: `${stepKey}:transfer`,
-    resourceFlowId,
-    periodStartsAt: next.currentDate,
-    periodEndsAt: next.currentDate,
-    occurredAt: next.currentDate,
-    status: "completed",
-    attemptedAmount: amount,
-    transferredAmount: amount,
-    reasonKind: null,
-    note: "Contributions an opponent's committee received this week.",
-    provenance: { kind: "simulated-event", eventId },
-  });
-  return { world: next, resourceFlowId };
-}
-
 function lastEventId(world: World): EntityId {
   return world.history.events.at(-1)!.id;
 }
@@ -838,12 +840,6 @@ function writeFundraising(
   stepKey: string,
   note: string | null,
 ): StepWrite {
-  const amount: MoneyAmount = {
-    minorUnits: new SeededRng(world.seed)
-      .fork(`campaign-opponent-fundraising:${stepKey}`)
-      .integer(FUNDRAISING_RANGE[0], FUNDRAISING_RANGE[1]),
-    currency: campaign.treasuryCurrency,
-  };
   const name = personName(world.people[opponent.candidatePersonId]!);
   let next = recordWorldEvent(world, {
     stableKey: `${stepKey}:event`,
@@ -865,7 +861,7 @@ function writeFundraising(
     personFactConstraints: [],
     visibility: "limited",
     tags: ["campaign.opponent", "campaign.fundraising", WRITER_NOTE],
-    summary: `${name}'s committee took in contributions from supporters.`,
+    summary: `${name}'s committee held a fundraising session; only recorded completed gifts are reported.`,
     context: {
       location: location(world, campaign, "Fundraising calls"),
       socialContext: "Supporters asked one at a time.",
@@ -876,24 +872,21 @@ function writeFundraising(
     },
   });
   const outcomeEventId = lastEventId(next);
-  const moved = moveMoney(
-    next,
-    opponent,
-    stepKey,
-    "fundraising",
-    amount,
-    outcomeEventId,
-    campaign.jurisdictionId,
-  );
-  next = moved.world;
+  const receipts = recordCampaignFundraiserReceipts(next, {
+    eventId: outcomeEventId,
+    committeeOrganizationId: opponent.committeeOrganizationId,
+    candidatePersonId: opponent.candidatePersonId,
+    currency: campaign.treasuryCurrency,
+  });
+  next = receipts.world;
   return {
     world: next,
     outcomeEventId,
-    resourceFlowId: moved.resourceFlowId,
-    amount,
+    resourceFlowId: receipts.resourceFlowId,
+    amount: receipts.raisedAmount,
     supportStateIds: [],
     supportDecision: null,
-    note,
+    note: receipts.note,
   };
 }
 

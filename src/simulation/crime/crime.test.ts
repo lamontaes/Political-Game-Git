@@ -464,11 +464,17 @@ describe("ordinary local crime", () => {
         expect(offender.personId).not.toBe(life.playerPersonId);
         const person = world.people[offender.personId]!;
         expect(person.homeJurisdictionId).toBe(arrest.jurisdictionId);
+        const adultAge = adultCourtAgeAt(
+          world,
+          arrest.jurisdictionId!,
+          arrest.occurredAt,
+        );
+        expect(adultAge).not.toBeNull();
+        if (adultAge === null)
+          throw new Error("Recorded arrest has no adult-age rule.");
         expect(
           ageOnDate(person.birthDate, arrest.occurredAt),
-        ).toBeGreaterThanOrEqual(
-          adultCourtAgeAt(world, arrest.jurisdictionId!, arrest.occurredAt),
-        );
+        ).toBeGreaterThanOrEqual(adultAge);
         expect(arrest.summary).toContain(personName(person));
         // The circumstances that pointed to them ride on the record.
         expect(offender.detail).toMatch(/^Arrested; /);

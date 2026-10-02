@@ -1,6 +1,6 @@
 import {
   ageOnDate,
-  SeededRng,
+  resolveStartingBirthday,
   isoDateFromParts,
   lifePlaceByKey,
   type IsoDate,
@@ -171,37 +171,41 @@ export function randomFullBirthday(
   return { year, month, day };
 }
 
-/** Completion is a command at Next, never a render-time draw. */
+/** Next preserves stated fields and the canonical age-only start; it draws no date. */
 export function resolveCreatorBirthday(
   setup: NewGameSetup,
   yearChosen: boolean,
 ): NewGameSetup | null {
   const start = creatorStartDate(setup);
-  const year = yearChosen ? birthYearForSetup(setup) : null;
-  const dates: FullBirthday[] = [];
-  const startYear = Number(start.slice(0, 4));
-  for (
-    let y = year ?? startYear - MAXIMUM_START_AGE - 1;
-    y <= (year ?? startYear - MINIMUM_START_AGE);
-    y++
-  ) {
-    for (let month = 1; month <= 12; month++) {
-      if (setup.birthMonth !== undefined && month !== setup.birthMonth)
-        continue;
-      for (let day = 1; day <= 31; day++) {
-        if (setup.birthDay !== undefined && day !== setup.birthDay) continue;
-        if (!dateExists(y, month, day)) continue;
-        const age = ageOnDate(isoDateFromParts(y, month, day), start);
-        if (age < MINIMUM_START_AGE || age > MAXIMUM_START_AGE) continue;
-        // An unnamed year retains the existing selected starting age.
-        if (year === null && age !== setup.startAge) continue;
-        dates.push({ year: y, month, day });
-      }
-    }
-  }
-  if (!dates.length) return null;
-  const rng = new SeededRng(setup.seed).fork("creator-birthday-completion-v1");
-  return applyFullBirthday(setup, dates[rng.integer(0, dates.length)]!);
+  if (setup.birthMonth === undefined && setup.birthDay === undefined)
+    return yearChosen
+      ? applyFullBirthday(setup, {
+          year: birthYearForSetup(setup),
+          month: null,
+          day: null,
+        })
+      : setup;
+  if (setup.birthMonth === undefined || setup.birthDay === undefined)
+    return null;
+  if (yearChosen)
+    return applyFullBirthday(setup, {
+      year: birthYearForSetup(setup),
+      month: setup.birthMonth,
+      day: setup.birthDay,
+    });
+  const resolved = resolveStartingBirthday({
+    currentDate: start,
+    startAge: setup.startAge,
+    birthMonth: setup.birthMonth,
+    birthDay: setup.birthDay,
+  });
+  return resolved.ok
+    ? applyFullBirthday(setup, {
+        year: parts(resolved.birthDate).year,
+        month: setup.birthMonth,
+        day: setup.birthDay,
+      })
+    : null;
 }
 
 /** Incomplete anniversaries are a range, never a claimed final age. */

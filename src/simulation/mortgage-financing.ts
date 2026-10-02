@@ -11,6 +11,7 @@ import { CRUNCH46_PROVISIONAL_POLICY } from "./macro-economy/policy";
 import {
   amortizedMonthlyPaymentMinor,
   cappedAnnualRateBasisPoints,
+  monthlyInterestMinor,
 } from "./public-benefit-formulas";
 import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
 
@@ -158,4 +159,79 @@ export function openMortgageFinancing(
     marketAnnualRateBasisPoints: quote.marketAnnualRateBasisPoints,
     repayment: { kind: "installment", termMonths: quote.termMonths },
   });
+}
+
+/**
+ * Opening debt is an estimate of a loan already being paid, not a new
+ * 30-year loan on the remaining balance. The approved opening rule uses the
+ * current home valuation, cited down-payment share, game rate and recorded
+ * or explicitly estimated months in the home. No past payment is recorded.
+ */
+export function openingMortgageFinancingQuote(
+  world: World,
+  input: {
+    readonly homePrice: MoneyAmount;
+    readonly downPaymentShare: number;
+    readonly paidMonths: number;
+    readonly jurisdictionId: EntityId;
+    readonly rateCap: OpenHouseholdLoanInput["rateCap"];
+  },
+):
+  | (MortgageFinancingQuote & {
+      readonly originalPrincipalMinor: number;
+      readonly remainingPrincipalMinor: number;
+      readonly paidMonths: number;
+      readonly remainingTermMonths: number;
+    })
+  | null {
+  if (
+    !Number.isSafeInteger(input.homePrice.minorUnits) ||
+    input.homePrice.minorUnits <= 0 ||
+    !Number.isFinite(input.downPaymentShare) ||
+    input.downPaymentShare < 0 ||
+    input.downPaymentShare > 1 ||
+    !Number.isSafeInteger(input.paidMonths) ||
+    input.paidMonths < 0
+  )
+    return null;
+  const originalPrincipalMinor = Math.round(
+    input.homePrice.minorUnits * (1 - input.downPaymentShare),
+  );
+  const quote = mortgageFinancingQuote(world, {
+    principal: {
+      currency: input.homePrice.currency,
+      minorUnits: originalPrincipalMinor,
+    },
+    jurisdictionId: input.jurisdictionId,
+    rateCap: input.rateCap,
+  });
+  if (!quote) return null;
+  const paidMonths = Math.min(input.paidMonths, quote.termMonths);
+  let remainingPrincipalMinor = originalPrincipalMinor;
+  for (let month = 0; month < paidMonths; month += 1)
+    remainingPrincipalMinor = Math.max(
+      0,
+      remainingPrincipalMinor +
+        monthlyInterestMinor(
+          remainingPrincipalMinor,
+          quote.annualRateBasisPoints,
+        ) -
+        quote.monthlyPaymentMinor,
+    );
+  const remainingTermMonths = quote.termMonths - paidMonths;
+  return {
+    ...quote,
+    originalPrincipalMinor,
+    remainingPrincipalMinor,
+    paidMonths,
+    remainingTermMonths,
+    monthlyPaymentMinor:
+      remainingPrincipalMinor > 0 && remainingTermMonths > 0
+        ? amortizedMonthlyPaymentMinor(
+            remainingPrincipalMinor,
+            quote.annualRateBasisPoints,
+            remainingTermMonths,
+          )
+        : 0,
+  };
 }

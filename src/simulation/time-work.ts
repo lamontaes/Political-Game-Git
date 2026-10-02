@@ -1418,11 +1418,15 @@ export function performScheduledActivity(
   ) {
     return world;
   }
-  return advanceCanonicalMinutes(
+  return advanceWithWorldIntegrityAtEnd(
+    () =>
+      advanceCanonicalMinutes(
+        world,
+        timing.totalElapsedMinutes,
+        activityId,
+        transitionHandlers,
+      ),
     world,
-    timing.totalElapsedMinutes,
-    activityId,
-    transitionHandlers,
   );
 }
 
@@ -2025,8 +2029,10 @@ export function applyDateBoundary(
   world: World,
 ): World {
   const transitioned = applyNationalTermTransitions(world);
+  // Term entry can happen within a date; the daily chain only runs on a new date.
+  if (world.currentDate === crossedFrom) return transitioned;
   const moved =
-    crossedFrom !== world.currentDate && transitioned.control.kind === "person"
+    transitioned.control.kind === "person"
       ? settleJobPay(transitioned, transitioned.control.personId)
       : transitioned;
   // CRISIS records the death or capacity change; the office consequence is
