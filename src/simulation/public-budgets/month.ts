@@ -24,6 +24,7 @@ import {
   fiscalYearContaining,
   nominalEconomyIndex,
   propositionIdFor,
+  lawSpendingPerResident,
 } from "./fiscal";
 import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
@@ -677,26 +678,12 @@ export function lawSpendingForMonth(
   const spending = BUDGET_PROGRAMS.map(() => 0);
   if (government.level !== "state") return spending;
   for (const effect of SPENDING_QUESTION_EFFECTS) {
-    const propositionId = propositionIdFor(world, effect.questionKey);
-    if (!propositionId) continue;
-    const now = lawInForce(
+    const perResident = lawSpendingPerResident(
       world,
       government.lawJurisdictionId,
-      propositionId,
-      date,
-    )?.answer;
-    const began = lawInForceAtStart(
-      world,
-      government.lawJurisdictionId,
-      propositionId,
+      effect,
       date,
     );
-    const perResident =
-      began === "no" && now === "yes"
-        ? effect.toYes
-        : began === "yes" && now === "no"
-          ? effect.toNo
-          : null;
     if (perResident === null) continue;
     spending[BUDGET_PROGRAMS.indexOf(effect.program)]! +=
       (perResident * government.population) / 12;
