@@ -1,59 +1,369 @@
 {
-  "sourceHead": "dff1be945e8ab8792a5bfd76307366c385c74781",
-  "fiscalParent": "1e39e86234e4cf22085a155c52b6021d70efd61a",
+  "sourceBase": "20424a69668dc782672c484d1c7d3f3e67195678",
+  "sourceMain": "6e969ab6241b19392c487f5da779b7771e8bc737",
+  "guardSourceBlob": "456a655ee47b1ca865b0bf23d6226eccaf92b963",
   "native": {
-    "command": "OCD_STORAGE_OVERRIDE=\"Owner approved cloud storage-reserve bypass 2026-10-02\" npm test -- src/simulation/governing/starting-law-required-terms.test.ts --maxWorkers=1",
-    "guardFile": "4PASS / 1FAIL; complete5-case file executed",
-    "globalFailure": "705 missing/unsupported numeric requirements",
-    "durationSeconds": 11.93,
+    "command": "OCD_STORAGE_OVERRIDE='Owner approved cloud storage-reserve bypass 2026-10-02' node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/governing/starting-law-required-terms.test.ts --maxWorkers=1",
+    "guardFile": "7PASS / 1FAIL; COMPLETE8-case changed file executed",
+    "globalFailure": "659 missing/unsupported active numeric/category requirements",
+    "durationSeconds": 42.75,
+    "testSeconds": 16.65,
     "stockCaseTimeoutMilliseconds": 30000
   },
+  "inventory": {
+    "questions": 58,
+    "requiredParameters": 70,
+    "affirmativeDatedRows": 760,
+    "missingOrUnsupported": 659
+  },
+  "ordinaryNewGame": {
+    "proof": "native Begin and ordinary 14-day payroll, not authored wages",
+    "seed": "fiscal-starting-terms-new-game:natural-pay",
+    "place": "1757693",
+    "state": "US-IL",
+    "openedAt": "2026-01-05",
+    "through": "2026-01-19",
+    "law": "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax",
+    "startingTerm": {
+      "value": 0.0495,
+      "unit": "ratio",
+      "measureId": "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax",
+      "provisionId": null,
+      "sourceRecordIds": [
+        "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+      ]
+    },
+    "consumerSchedule": {
+      "standardDeductionMinor": 1292000,
+      "brackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 495
+        }
+      ],
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "liabilityCount": 10,
+    "paymentCount": 10,
+    "paymentTotalMinorUnits": 67154,
+    "paycheckIds": [
+      "resource-transfer-outcome_235b09e3f1d1073a",
+      "resource-transfer-outcome_a048cd575ceb28d2",
+      "resource-transfer-outcome_2e9966dad981539c",
+      "resource-transfer-outcome_7fbf1779f5a80be8",
+      "resource-transfer-outcome_96f4f700341f5504",
+      "resource-transfer-outcome_62b3615ea0625c4a",
+      "resource-transfer-outcome_3ec2c7362d87634e",
+      "resource-transfer-outcome_76ccbad94a81d81b",
+      "resource-transfer-outcome_38465932b921c85e",
+      "resource-transfer-outcome_d9b34ed62865da7f"
+    ],
+    "liabilities": [
+      {
+        "id": "statutory-tax-liability_190909b129e57e9c",
+        "sourceOutcomeId": "resource-transfer-outcome_235b09e3f1d1073a",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 12904,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_0d0fcc6a02c407a9",
+        "sourceOutcomeId": "resource-transfer-outcome_a048cd575ceb28d2",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 12097,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_fd453a75c64b00d0",
+        "sourceOutcomeId": "resource-transfer-outcome_2e9966dad981539c",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 5384,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_10c9d29a4fb4280e",
+        "sourceOutcomeId": "resource-transfer-outcome_7fbf1779f5a80be8",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 5384,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_a436e89ec1a0edd8",
+        "sourceOutcomeId": "resource-transfer-outcome_96f4f700341f5504",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 15364,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_b2f4c32e68873c16",
+        "sourceOutcomeId": "resource-transfer-outcome_62b3615ea0625c4a",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 4925,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_0d5f56868d40eaf1",
+        "sourceOutcomeId": "resource-transfer-outcome_3ec2c7362d87634e",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 1263,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_11f18dcd50d53f66",
+        "sourceOutcomeId": "resource-transfer-outcome_76ccbad94a81d81b",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 6207,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_78a3f72985ff359f",
+        "sourceOutcomeId": "resource-transfer-outcome_38465932b921c85e",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 510,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-liability_945ae88d7384dbc0",
+        "sourceOutcomeId": "resource-transfer-outcome_d9b34ed62865da7f",
+        "lawMeasureIds": [
+          "starting-law:US-IL:us-policy-positions:fiscal.adopt-income-tax"
+        ],
+        "amount": {
+          "minorUnits": 3116,
+          "currency": "USD"
+        }
+      }
+    ],
+    "payments": [
+      {
+        "id": "statutory-tax-payment_ce5451be199810d2",
+        "liabilityId": "statutory-tax-liability_190909b129e57e9c",
+        "transferId": "resource-transfer-outcome_d8229c1a473b9290",
+        "amount": {
+          "minorUnits": 12904,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_802d7f121eaa0c9b",
+        "liabilityId": "statutory-tax-liability_0d0fcc6a02c407a9",
+        "transferId": "resource-transfer-outcome_5709ad2ef40590b7",
+        "amount": {
+          "minorUnits": 12097,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_b3b59dc6f1c661fa",
+        "liabilityId": "statutory-tax-liability_fd453a75c64b00d0",
+        "transferId": "resource-transfer-outcome_57b9a0b09e8b30a0",
+        "amount": {
+          "minorUnits": 5384,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_71216ced32b6fa24",
+        "liabilityId": "statutory-tax-liability_10c9d29a4fb4280e",
+        "transferId": "resource-transfer-outcome_71a41d0519dff5f6",
+        "amount": {
+          "minorUnits": 5384,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_2507f0edff7a7b12",
+        "liabilityId": "statutory-tax-liability_a436e89ec1a0edd8",
+        "transferId": "resource-transfer-outcome_f1b3210d2ed5e00c",
+        "amount": {
+          "minorUnits": 15364,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_5da97feddc97b46c",
+        "liabilityId": "statutory-tax-liability_b2f4c32e68873c16",
+        "transferId": "resource-transfer-outcome_70fc2c31a1eb19d6",
+        "amount": {
+          "minorUnits": 4925,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_d22bdcae9c92e7b7",
+        "liabilityId": "statutory-tax-liability_0d5f56868d40eaf1",
+        "transferId": "resource-transfer-outcome_21c0a0f27812412f",
+        "amount": {
+          "minorUnits": 1263,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_a197191440e7ff88",
+        "liabilityId": "statutory-tax-liability_11f18dcd50d53f66",
+        "transferId": "resource-transfer-outcome_271b64d13aec177a",
+        "amount": {
+          "minorUnits": 6207,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_0da96fb42e817bb9",
+        "liabilityId": "statutory-tax-liability_78a3f72985ff359f",
+        "transferId": "resource-transfer-outcome_a85c4396dca8c929",
+        "amount": {
+          "minorUnits": 510,
+          "currency": "USD"
+        }
+      },
+      {
+        "id": "statutory-tax-payment_9b0323db6549053a",
+        "liabilityId": "statutory-tax-liability_945ae88d7384dbc0",
+        "transferId": "resource-transfer-outcome_8e9181dc90478f80",
+        "amount": {
+          "minorUnits": 3116,
+          "currency": "USD"
+        }
+      }
+    ]
+  },
   "types": {
+    "command": "node /tmp/team6-required-guard-types.mjs",
     "roots": ["src/simulation/governing/starting-law-required-terms.test.ts"],
-    "dependencies": 1014,
+    "dependencies": 1236,
     "diagnostics": 0,
-    "result": "PASS; guard source unchanged since ce8bfe1d0; subsequent intake only production data/dependencies already present"
+    "result": "PASS"
+  },
+  "canonicalTypecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "unresolvedImports": 0,
+    "testFilesOutsideCanonicalProjects": 779,
+    "result": "PASS; canonical projects and import audit, not full test type coverage"
+  },
+  "lint": "PASS changed guard test",
+  "format": "PASS changed guard test; final owned data/declaration check pending",
+  "zeroDice": {
+    "scope": ["src/simulation/governing/starting-law-required-terms.test.ts"],
+    "findings": 0,
+    "result": "PASS scoped source scan; no repository sweep"
+  },
+  "ownedDataReview": "Inventory has unique question/parameter/gap keys; test-only malformed fixtures explicit, no production values/rows added or duplicate calculator",
+  "audit": {
+    "item": "A15",
+    "main": "8/8",
+    "branch": "8/8",
+    "flippedChecks": [],
+    "ruleEdits": false,
+    "result": "Prerequisite only; strict source coverage remains failed"
+  },
+  "helper": {
+    "name": "a22_a45_reuse",
+    "output": "/tmp/team6-required-guard-native-case.txt",
+    "ownership": "draft only; parent adopted/validated sole test; no production edits or gates"
   },
   "historicalReceipt": {
-    "sourceHead": "ddecdc0e4335a8372c839ea923d4ab78de1055b0",
-    "fiscalParent": "f86d6f03fbecc3697eb7d290abcf93f32486259d",
+    "sourceHead": "dff1be945e8ab8792a5bfd76307366c385c74781",
+    "fiscalParent": "1e39e86234e4cf22085a155c52b6021d70efd61a",
     "native": {
-      "command": "OCD_STORAGE_OVERRIDE=\"Owner approved cloud storage-reserve bypass 2026-10-02\" node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/public-budgets/fiscal-starting-terms.test.ts src/simulation/governing/starting-law-required-terms.test.ts --maxWorkers=1",
-      "guardFile": "2 PASS / 1 FAIL; complete3-case file executed",
-      "globalFailure": "764 missing/unsupported numeric requirements",
-      "durationSeconds": 12.41,
-      "combinedRun": "2 PASS / 3 FAIL: guard global FAIL plus two fiscal seed-index errors; fiscal errors repaired and separately2/2PASS. Guard not relabeled PASS.",
-      "previousGuardRun": "2 PASS / 1 FAIL;832requirements before53-row overlay;492ms"
+      "command": "OCD_STORAGE_OVERRIDE=\"Owner approved cloud storage-reserve bypass 2026-10-02\" npm test -- src/simulation/governing/starting-law-required-terms.test.ts --maxWorkers=1",
+      "guardFile": "4PASS / 1FAIL; complete5-case file executed",
+      "globalFailure": "705 missing/unsupported numeric requirements",
+      "durationSeconds": 11.93,
+      "stockCaseTimeoutMilliseconds": 30000
     },
     "types": {
       "roots": ["src/simulation/governing/starting-law-required-terms.test.ts"],
-      "dependencies": 1010,
+      "dependencies": 1014,
       "diagnostics": 0,
-      "result": "PASS"
+      "result": "PASS; guard source unchanged since ce8bfe1d0; subsequent intake only production data/dependencies already present"
     },
-    "lint": "PASS guard test",
-    "format": "PASS all guard slice files",
-    "release": "parse + PR transition PASS; no problems atddecdc0e",
-    "mergeTree": {
-      "main": "d9c960b1b548f74e916593d619593ce488f7b627",
-      "tree": "32ed9bc46a8ae40a7d8c7296578357564487755e",
-      "result": "clean"
+    "historicalReceipt": {
+      "sourceHead": "ddecdc0e4335a8372c839ea923d4ab78de1055b0",
+      "fiscalParent": "f86d6f03fbecc3697eb7d290abcf93f32486259d",
+      "native": {
+        "command": "OCD_STORAGE_OVERRIDE=\"Owner approved cloud storage-reserve bypass 2026-10-02\" node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/public-budgets/fiscal-starting-terms.test.ts src/simulation/governing/starting-law-required-terms.test.ts --maxWorkers=1",
+        "guardFile": "2 PASS / 1 FAIL; complete3-case file executed",
+        "globalFailure": "764 missing/unsupported numeric requirements",
+        "durationSeconds": 12.41,
+        "combinedRun": "2 PASS / 3 FAIL: guard global FAIL plus two fiscal seed-index errors; fiscal errors repaired and separately2/2PASS. Guard not relabeled PASS.",
+        "previousGuardRun": "2 PASS / 1 FAIL;832requirements before53-row overlay;492ms"
+      },
+      "types": {
+        "roots": [
+          "src/simulation/governing/starting-law-required-terms.test.ts"
+        ],
+        "dependencies": 1010,
+        "diagnostics": 0,
+        "result": "PASS"
+      },
+      "lint": "PASS guard test",
+      "format": "PASS all guard slice files",
+      "release": "parse + PR transition PASS; no problems atddecdc0e",
+      "mergeTree": {
+        "main": "d9c960b1b548f74e916593d619593ce488f7b627",
+        "tree": "32ed9bc46a8ae40a7d8c7296578357564487755e",
+        "result": "clean"
+      },
+      "status": "DRAFT: global testFAIL, no official Claude gate or merge",
+      "notRun": ["full suite", "browser", "nationwide simulation activation"]
     },
-    "status": "DRAFT: global testFAIL, no official Claude gate or merge",
+    "historicalRuns": [
+      {
+        "source": "4d378a3b1",
+        "result": "collectionFAIL,no tests",
+        "reason": "validation World lacked any jurisdiction; repaired using actual compiled jurisdiction"
+      },
+      {
+        "source": "ce8bfe1d017604899af093d6c2bc5212cb86b2a3",
+        "result": "4PASS1FAIL701requirements",
+        "reason": "included eight canonical-invalid source tables; strict guard caused removal from2090"
+      }
+    ],
+    "status": "DRAFT: global testFAIL; no official Claude gate/merge",
     "notRun": ["full suite", "browser", "nationwide simulation activation"]
   },
-  "historicalRuns": [
-    {
-      "source": "4d378a3b1",
-      "result": "collectionFAIL,no tests",
-      "reason": "validation World lacked any jurisdiction; repaired using actual compiled jurisdiction"
-    },
-    {
-      "source": "ce8bfe1d017604899af093d6c2bc5212cb86b2a3",
-      "result": "4PASS1FAIL701requirements",
-      "reason": "included eight canonical-invalid source tables; strict guard caused removal from2090"
-    }
-  ],
-  "status": "DRAFT: global testFAIL; no official Claude gate/merge",
-  "notRun": ["full suite", "browser", "nationwide simulation activation"]
+  "status": "DRAFT: strict global coverage FAIL; no official Claude gate/merge",
+  "notRun": [
+    "full suite",
+    "browser",
+    "nationwide simulation activation",
+    "official Claude gate"
+  ]
 }

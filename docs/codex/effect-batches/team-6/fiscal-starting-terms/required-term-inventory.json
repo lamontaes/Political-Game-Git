@@ -1,9 +1,7 @@
 {
-  "sourceBase": "dff1be945e8ab8792a5bfd76307366c385c74781",
-  "numericQuestions": 58,
-  "requiredParameters": 68,
-  "numericYesDatedRows": 760,
-  "missingOrUnsupported": 705,
+  "sourceBase": "20424a69668dc782672c484d1c7d3f3e67195678",
+  "requiredParameters": 70,
+  "missingOrUnsupported": 659,
   "inventory": [
     {
       "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
@@ -309,6 +307,12 @@
           },
           "canonicalUnit": "months",
           "representation": "scalar-or-dimensional-schedule"
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-offense-categories",
+          "allowedValues": ["assault", "robbery", "burglary", "vandalism"],
+          "representation": "canonical-closed-category"
         }
       ],
       "presentInStartingLaw": false
@@ -355,6 +359,31 @@
           },
           "canonicalUnit": "ratio",
           "representation": "scalar-or-dimensional-schedule"
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-tenancy-and-building-categories",
+          "allowedValues": [
+            "market:residential:apartment",
+            "market:residential:rowhouse",
+            "market:residential:house",
+            "market:residential:large-house",
+            "market:residential:mobile-home",
+            "market:residential:farmhouse",
+            "public:residential:apartment",
+            "public:residential:rowhouse",
+            "public:residential:house",
+            "public:residential:large-house",
+            "public:residential:mobile-home",
+            "public:residential:farmhouse",
+            "affordable:residential:apartment",
+            "affordable:residential:rowhouse",
+            "affordable:residential:house",
+            "affordable:residential:large-house",
+            "affordable:residential:mobile-home",
+            "affordable:residential:farmhouse"
+          ],
+          "representation": "canonical-closed-category"
         }
       ],
       "presentInStartingLaw": true
@@ -5278,5 +5307,4004 @@
       "phase": "2000-01-01",
       "reason": "share: expected one numeric term, found 0"
     }
-  ]
+  ],
+  "historicalSummary": {
+    "sourceBase": "dff1be945e8ab8792a5bfd76307366c385c74781",
+    "numericQuestions": 58,
+    "requiredParameters": 68,
+    "numericYesDatedRows": 760,
+    "missingOrUnsupported": 705
+  },
+  "sourceMain": "6e969ab6241b19392c487f5da779b7771e8bc737",
+  "questionsWithRequiredTerms": 58,
+  "affirmativeDatedRows": 760,
+  "gaps": [
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-AK",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-HI",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-ID",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-IL",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-IN",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-KY",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-LA",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-MN",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-ND",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-NE",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-NH",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-PA",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-SD",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-UT",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-VA",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+      "place": "US",
+      "phase": "2025-11-01",
+      "reason": "hours: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-DE",
+      "phase": "2026-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-DE",
+      "phase": "2026-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-DE",
+      "phase": "2026-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-DE",
+      "phase": "2026-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MD",
+      "phase": "2028-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MD",
+      "phase": "2028-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MD",
+      "phase": "2028-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MD",
+      "phase": "2028-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-ME",
+      "phase": "2026-05-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-ME",
+      "phase": "2026-05-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-ME",
+      "phase": "2026-05-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-ME",
+      "phase": "2026-05-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MN",
+      "phase": "2026-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MN",
+      "phase": "2026-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MN",
+      "phase": "2026-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-MN",
+      "phase": "2026-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-VA",
+      "phase": "2028-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-VA",
+      "phase": "2028-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-VA",
+      "phase": "2028-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-VA",
+      "phase": "2028-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "duration: unsupported compound/dimensional contract (weeks-of-paid-leave)"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "replacement: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-AK",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-AK",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-GU",
+      "phase": "2019-04-04",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-GU",
+      "phase": "2019-04-04",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-IL",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-IL",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MN",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MN",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MP",
+      "phase": "2018-09-21",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MP",
+      "phase": "2018-09-21",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-VA",
+      "phase": "2027-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-VA",
+      "phase": "2027-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "tax-rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+      "place": "US-CA",
+      "phase": "2020-01-01",
+      "reason": "coverage: expected one unambiguous closed category, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "coverage: expected one unambiguous closed category, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+      "place": "US-OR",
+      "phase": "2019-02-28",
+      "reason": "coverage: expected one unambiguous closed category, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+      "place": "US-WA",
+      "phase": "2025-05-07",
+      "reason": "coverage: expected one unambiguous closed category, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-CA",
+      "phase": "2025-07-01",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-CA",
+      "phase": "2025-07-01",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-CO",
+      "phase": "2023-08-01",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-CO",
+      "phase": "2023-08-01",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-VI",
+      "phase": "2012-03-07",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-VI",
+      "phase": "2012-03-07",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "eligible-ages: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "funding: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "target: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "target: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-MP",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-MP",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-ND",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-ND",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "rate: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "threshold: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "place": "US",
+      "phase": "2027-01-01",
+      "reason": "hours: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "place": "US-GA",
+      "phase": "2023-07-01",
+      "reason": "hours: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "place": "US-IA",
+      "phase": "2026-12-01",
+      "reason": "hours: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "place": "US-MT",
+      "phase": "2026-07-01",
+      "reason": "hours: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "place": "US-NE",
+      "phase": "2026-05-01",
+      "reason": "hours: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-LA",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-MI",
+      "phase": "2022-12-23",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-ND",
+      "phase": "2023-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-NE",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.legislative-term-limits",
+      "place": "US-SD",
+      "phase": "2000-01-01",
+      "reason": "limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-MA",
+      "phase": "2023-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-MP",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-ND",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "place": "US-HI",
+      "phase": "2025-07-01",
+      "reason": "rate: unsupported compound/dimensional contract (usd-per-vehicle-mile)"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "place": "US-OR",
+      "phase": "2015-07-01",
+      "reason": "rate: unsupported compound/dimensional contract (usd-per-vehicle-mile)"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "place": "US-UT",
+      "phase": "2020-01-01",
+      "reason": "rate: unsupported compound/dimensional contract (usd-per-vehicle-mile)"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "place": "US-VA",
+      "phase": "2022-07-01",
+      "reason": "rate: unsupported compound/dimensional contract (usd-per-vehicle-mile)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-AL",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-GA",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-HI",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-ID",
+      "phase": "2022-08-25",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-IL",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-IN",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-KS",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-KY",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-LA",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-MP",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-MS",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-ND",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-NE",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-NH",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-PA",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-SC",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-SD",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-TN",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-TX",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-UT",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-VA",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-WI",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "place": "US-WY",
+      "phase": "2000-01-01",
+      "reason": "general-limit: unsupported compound/dimensional contract (weeks-of-pregnancy)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-HI",
+      "phase": "2005-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "deposit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-HI",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-IL",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-MN",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-MP",
+      "phase": "2006-08-10",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-NH",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-PA",
+      "phase": "2005-02-28",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-PR",
+      "phase": "2019-04-11",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-VA",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "place": "US-WI",
+      "phase": "2000-01-01",
+      "reason": "target: unsupported compound/dimensional contract (share-by-year)"
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-AZ",
+      "phase": "2010-07-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-GA",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-IL",
+      "phase": "2021-03-23",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-MN",
+      "phase": "2024-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-MP",
+      "phase": "2007-09-20",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-NE",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-NH",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-PA",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-SD",
+      "phase": "2016-11-16",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-CT",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-DE",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-MA",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-MD",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-ME",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-NH",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-NY",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-RI",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-VT",
+      "phase": "2009-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.price-carbon",
+      "place": "US-WA",
+      "phase": "2023-01-01",
+      "reason": "price: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-AZ",
+      "phase": "2015-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-GA",
+      "phase": "2025-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-SC",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-TX",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "place": "US-WY",
+      "phase": "2000-01-01",
+      "reason": "cap: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-AK",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-AL",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-CA",
+      "phase": "2015-07-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-GA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-HI",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-ID",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-IL",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-IN",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-KS",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-KY",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-LA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-MN",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-MS",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-ND",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-NE",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-NH",
+      "phase": "2001-06-30",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-PA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-SC",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-SD",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-TN",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-TX",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-UT",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-VA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-WA",
+      "phase": "2008-07-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-WI",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:fiscal.minimum-reserve-balance",
+      "place": "US-WY",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "place": "US-MN",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "place": "US-NE",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "place": "US-WA",
+      "phase": "2021-04-22",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "place": "US-AZ",
+      "phase": "2026-01-01",
+      "reason": "units: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "place": "US-CA",
+      "phase": "2022-01-01",
+      "reason": "units: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "place": "US-ME",
+      "phase": "2024-01-01",
+      "reason": "units: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "units: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "place": "US-OR",
+      "phase": "2021-06-30",
+      "reason": "units: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "units: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "place": "US-VT",
+      "phase": "2023-07-01",
+      "reason": "units: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "units: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-AL",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-GA",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-ID",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-IN",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-KS",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-LA",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-MS",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-NH",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-PA",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-SC",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-SD",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-TN",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-UT",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-VA",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-WI",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "award: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "place": "US-FL",
+      "phase": "2025-11-25",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "place": "US-MS",
+      "phase": "2000-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "place": "US-TN",
+      "phase": "2025-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "place": "US-VA",
+      "phase": "2026-01-01",
+      "reason": "minimum-age: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "place": "US-DC",
+      "phase": "2007-03-14",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "income-limit: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-AK",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-AL",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-CO",
+      "phase": "2006-12-31",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-FL",
+      "phase": "2022-12-31",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-GA",
+      "phase": "2007-01-08",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-GU",
+      "phase": "2010-08-28",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-HI",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-IL",
+      "phase": "2023-01-11",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-IN",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-KY",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-LA",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-MO",
+      "phase": "2018-12-06",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-ND",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-PA",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-SC",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-SD",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-TN",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-UT",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "period: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-AL",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "floor: expected finite dollars/year, got 5000000 minor"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-GA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected finite dollars/year, got 5000000 minor"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-ID",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-IL",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-KY",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-MS",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-PA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-PR",
+      "phase": "2008-07-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-SC",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-TN",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-TX",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "floor: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-HI",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-MP",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-SC",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-VA",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-GA",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-HI",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-KY",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-ME",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-NC",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-NH",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-PA",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-RI",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-SC",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-TN",
+      "phase": "2026-09-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-TX",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-UT",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-VA",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-WI",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "place": "US-WV",
+      "phase": "2000-01-01",
+      "reason": "appropriation: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-AK",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-AS",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-CT",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-DC",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-DE",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-GA",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-GU",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-IA",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-ID",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-KS",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-KY",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-MA",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-MD",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-MN",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-MP",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-MS",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-ND",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-NH",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-NM",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-NV",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-NY",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-OH",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-OK",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-PR",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-SD",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-UT",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-VI",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-VT",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-WA",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-WI",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "place": "US-WY",
+      "phase": "2000-01-01",
+      "reason": "cap: unsupported compound/dimensional contract (water-volume-per-permit-period)"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-AL",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-AR",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-AZ",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-CA",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-CO",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-FL",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-GA",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-MI",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-MN",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-MO",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-MT",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-NE",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-NJ",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-OR",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "place": "US-TX",
+      "phase": "2000-01-01",
+      "reason": "share: expected one numeric term, found 0"
+    }
+  ],
+  "missingByQuestion": {
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": 37,
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": 31,
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": 26,
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": 56,
+    "us-policy-positions:civil-family-community.dedicated-parks-funding": 15,
+    "us-policy-positions:civil-family-community.restrict-abortion": 45,
+    "us-policy-positions:education.public-funds-for-private-schooling": 32,
+    "us-policy-positions:education.raise-teacher-minimum-salary": 26,
+    "us-policy-positions:education.universal-preschool": 18,
+    "us-policy-positions:environment-energy.bottle-deposit": 10,
+    "us-policy-positions:environment-energy.clean-electricity-standard": 33,
+    "us-policy-positions:environment-energy.price-carbon": 12,
+    "us-policy-positions:fiscal.adopt-income-tax": 26,
+    "us-policy-positions:fiscal.cap-property-tax-growth": 16,
+    "us-policy-positions:fiscal.graduated-income-tax": 13,
+    "us-policy-positions:fiscal.minimum-reserve-balance": 54,
+    "us-policy-positions:government-operations.ban-lobbying-after-office": 34,
+    "us-policy-positions:government-operations.legislative-term-limits": 16,
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": 44,
+    "us-policy-positions:health-human-services.medicaid-work-requirement": 5,
+    "us-policy-positions:health-human-services.work-requirement-for-assistance": 1,
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": 8,
+    "us-policy-positions:housing-land-use.inclusionary-requirement": 2,
+    "us-policy-positions:housing-land-use.rent-stabilization": 4,
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": 6,
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": 2,
+    "us-policy-positions:labor-workforce.paid-family-leave": 60,
+    "us-policy-positions:labor-workforce.raise-minimum-wage": 2,
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": 4,
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": 4,
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": 17
+  }
 }

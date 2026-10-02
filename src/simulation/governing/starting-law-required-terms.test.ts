@@ -1,16 +1,39 @@
 import { readFileSync } from "node:fs";
+import { stdout } from "node:process";
+import incomeTables from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
+import { stableHash } from "../ids";
+import { placeReferencePopulation } from "../nationwide-world/place-population";
+import {
+  observerSetup,
+  openObserverWorld,
+  advanceObservedWorld,
+} from "../../presentation/observer-world";
+import { lawInForce } from "./law-in-force";
+import { readFinalEnactedLawTerm } from "./final-law-term-query";
+import {
+  ADOPT_STATE_INCOME_TAX_QUESTION,
+  stateIncomeTaxUnderLaw,
+} from "../state-income-tax-law";
+import { assessPaychecksTaxes } from "../statutory-tax";
+import { serializeWorld, deserializeWorld } from "../serialization";
+
 import { describe, expect, it } from "vitest";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
-import { US_FEDERAL_POSITIONS_PACK } from "../policy-pack-us-federal-positions";
 import {
+  assertLawCategories,
   assertLawSchedules,
   type LawScheduleTerm,
 } from "../law-structured-terms";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { createWorld } from "../world";
 import { makeIsoDate } from "../dates";
+import { LAW_AMOUNT_UNITS } from "../law-consequence-types";
 import {
+  RENT_STABILIZATION_QUESTION,
+  RENT_COVERAGE_VALUES,
+} from "../law-consequences/rent-stabilization-row";
+import {
+  searchLifePlaces,
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
 } from "../life-places";
@@ -18,6 +41,7 @@ import {
 interface Parameter {
   readonly key: string;
   readonly unit: string;
+  readonly allowedValues?: readonly string[];
 }
 interface Term {
   readonly questionKey: string;
@@ -29,6 +53,11 @@ interface Row {
   readonly answer: string;
   readonly lawTerms?: readonly Term[];
   readonly lawSchedules?: readonly LawScheduleTerm[];
+  readonly lawCategories?: readonly {
+    readonly questionKey: string;
+    readonly key: string;
+    readonly values: readonly string[];
+  }[];
   readonly operativeAt?: string;
   readonly before?: Row;
   readonly phases?: readonly Row[];
@@ -96,6 +125,7 @@ const SCHEMA_WORLD = createWorld({
 });
 
 function numericUnit(unit: string): string | null | undefined {
+  if (LAW_AMOUNT_UNITS.some((candidate) => candidate === unit)) return unit;
   if (
     unit.startsWith("share-of-") ||
     unit === "state-share-of-eligible-disaster-cost"
@@ -113,15 +143,19 @@ function requirements(): ReadonlyMap<string, readonly Parameter[]> {
     row.set(parameter.key, parameter);
     result.set(questionKey, row);
   };
-  // Production parameters include reserve floors and juvenile ages omitted
-  // from the research batches. Batch declarations refine the same key.
-  for (const pack of [US_POLICY_POSITIONS_PACK, US_FEDERAL_POSITIONS_PACK])
-    for (const question of pack.propositions ?? [])
-      for (const parameter of question.parameters ?? [])
-        put(`${pack.pack}:${question.key}`, {
-          key: parameter.key,
-          unit: parameter.value,
-        });
+  // The registered catalog includes categories added by existing kind rows.
+  // Raw packs alone omit those active closed coverage contracts.
+  for (const id of SCHEMA_WORLD.policyCatalog.propositionOrder) {
+    const question = SCHEMA_WORLD.policyCatalog.propositions[id]!;
+    for (const parameter of question.parameters)
+      put(question.stableKey, {
+        key: parameter.key,
+        unit: parameter.value,
+        ...(parameter.allowedValues
+          ? { allowedValues: parameter.allowedValues }
+          : {}),
+      });
+  }
   for (let batch = 1; batch <= 5; batch += 1) {
     const content = JSON.parse(
       readFileSync(
@@ -138,14 +172,20 @@ function requirements(): ReadonlyMap<string, readonly Parameter[]> {
       }[];
     };
     for (const question of content.laws)
-      for (const parameter of question.parameters)
-        put(question.questionKey, parameter);
+      for (const parameter of question.parameters) {
+        const active = result.get(question.questionKey)?.get(parameter.key);
+        // Preserve numeric research requirements that still await catalog
+        // admission, without erasing an active category's declared choices.
+        put(question.questionKey, active?.allowedValues ? active : parameter);
+      }
   }
   return new Map(
     [...result].map(([key, value]) => [
       key,
       [...value.values()].filter(
-        (parameter) => numericUnit(parameter.unit) !== undefined,
+        (parameter) =>
+          parameter.allowedValues?.length ||
+          numericUnit(parameter.unit) !== undefined,
       ),
     ]),
   );
@@ -159,12 +199,33 @@ function missingTerms(
   if (row.answer !== "yes") return [];
   return parameters.flatMap((parameter) => {
     const unit = numericUnit(parameter.unit);
+    const categories = (row.lawCategories ?? []).filter(
+      (term) => term.questionKey === questionKey && term.key === parameter.key,
+    );
     const matches = (row.lawTerms ?? []).filter(
       (term) => term.questionKey === questionKey && term.key === parameter.key,
     );
     const schedules = (row.lawSchedules ?? []).filter(
       (term) => term.questionKey === questionKey && term.key === parameter.key,
     );
+    if (parameter.allowedValues?.length) {
+      if (categories.length !== 1 || matches.length || schedules.length)
+        return [
+          `${parameter.key}: expected one unambiguous closed category, found ${categories.length}`,
+        ];
+      try {
+        assertLawCategories(SCHEMA_WORLD, categories);
+      } catch (error) {
+        return [
+          `${parameter.key}: invalid active catalog category (${String(error)})`,
+        ];
+      }
+      return [];
+    }
+    if (categories.length)
+      return [
+        `${parameter.key}: category cannot replace numeric ${parameter.unit}`,
+      ];
     if (schedules.length) {
       if (schedules.length !== 1 || matches.length)
         return [
@@ -205,16 +266,13 @@ function missingTerms(
       return [
         `${parameter.key}: expected finite ${unit}, got ${term.value} ${term.unit}`,
       ];
-    if (
-      (unit === "minor" || unit === "minor/hour") &&
-      !Number.isSafeInteger(term.value)
-    )
+    if (unit?.startsWith("minor") && !Number.isSafeInteger(term.value))
       return [`${parameter.key}: minor units require a safe integer`];
     return [];
   });
 }
 
-describe("starting laws carry their catalog-required numeric terms", () => {
+describe("starting laws carry their active catalog-required terms", () => {
   it("rejects missing, duplicate, wrong-question and wrong-unit terms without requiring yes/no categories", () => {
     const parameters = [{ key: "rate", unit: "share-of-taxable-income" }];
     const term = {
@@ -240,6 +298,69 @@ describe("starting laws carry their catalog-required numeric terms", () => {
       expect(
         missingTerms("test:tax", { answer: "yes", lawTerms }, parameters),
       ).toHaveLength(1);
+  });
+
+  it("discovers active closed categories and canonical units without static-pack shortcuts", () => {
+    const coverage = requirements()
+      .get(RENT_STABILIZATION_QUESTION)
+      ?.find((parameter) => parameter.key === "coverage");
+    expect(coverage?.allowedValues).toEqual(RENT_COVERAGE_VALUES);
+    for (const unit of LAW_AMOUNT_UNITS) expect(numericUnit(unit)).toBe(unit);
+  });
+
+  it("requires each active closed category without numeric or duplicate stand-ins", () => {
+    const parameters = requirements()
+      .get(RENT_STABILIZATION_QUESTION)!
+      .filter((parameter) => parameter.key === "coverage");
+    const category = {
+      questionKey: RENT_STABILIZATION_QUESTION,
+      key: "coverage",
+      values: [RENT_COVERAGE_VALUES[0]!],
+    };
+    expect(
+      missingTerms(RENT_STABILIZATION_QUESTION, { answer: "yes" }, parameters),
+    ).toHaveLength(1);
+    expect(
+      missingTerms(RENT_STABILIZATION_QUESTION, { answer: "no" }, parameters),
+    ).toEqual([]);
+    expect(
+      missingTerms(
+        RENT_STABILIZATION_QUESTION,
+        { answer: "yes", lawCategories: [category] },
+        parameters,
+      ),
+    ).toEqual([]);
+    for (const lawCategories of [
+      [category, category],
+      [{ ...category, values: ["undeclared-coverage"] }],
+      [{ ...category, values: [category.values[0]!, category.values[0]!] }],
+      [{ ...category, questionKey: "other:question" }],
+    ])
+      expect(
+        missingTerms(
+          RENT_STABILIZATION_QUESTION,
+          { answer: "yes", lawCategories },
+          parameters,
+        ),
+      ).toHaveLength(1);
+    expect(
+      missingTerms(
+        RENT_STABILIZATION_QUESTION,
+        {
+          answer: "yes",
+          lawCategories: [category],
+          lawTerms: [
+            {
+              questionKey: category.questionKey,
+              key: category.key,
+              unit: "count",
+              value: 1,
+            },
+          ],
+        },
+        parameters,
+      ),
+    ).toHaveLength(1);
   });
 
   it("refuses a scalar stand-in for a bracket list", () => {
@@ -391,6 +512,13 @@ describe("starting laws carry their catalog-required numeric terms", () => {
       Record<string, { answers: Readonly<Record<string, Row>> }>
     >;
     const failures: string[] = [];
+    const gaps: {
+      questionKey: string;
+      place: string;
+      phase: string;
+      reason: string;
+    }[] = [];
+    let affirmativeDatedRows = 0;
     for (const [questionKey, question] of Object.entries(questions)) {
       const parameters = required.get(questionKey) ?? [];
       for (const [place, row] of Object.entries(question.answers)) {
@@ -402,20 +530,206 @@ describe("starting laws carry their catalog-required numeric terms", () => {
             phase: phase.operativeAt ?? "MISSING DATE",
           })),
         ];
-        for (const entry of dated)
+        for (const entry of dated) {
+          if (entry.row.answer === "yes" && parameters.length)
+            affirmativeDatedRows += 1;
           for (const failure of missingTerms(
             questionKey,
             entry.row,
             parameters,
-          ))
+          )) {
             failures.push(
               `${questionKey} | ${place} | ${entry.phase} | ${failure}`,
             );
+            gaps.push({
+              questionKey,
+              place,
+              phase: entry.phase,
+              reason: failure,
+            });
+          }
+        }
       }
     }
+    console.info(
+      "TEAM6_REQUIRED_TERM_INVENTORY=" +
+        JSON.stringify({
+          questions: [...required].filter(([, parameters]) => parameters.length)
+            .length,
+          requiredParameters: [...required.values()].reduce(
+            (sum, parameters) => sum + parameters.length,
+            0,
+          ),
+          affirmativeDatedRows,
+          missingOrUnsupported: gaps.length,
+          inventory: [...required]
+            .filter(([, parameters]) => parameters.length)
+            .map(([questionKey, parameters]) => ({ questionKey, parameters })),
+          gaps,
+        }),
+    );
     expect(
       failures,
       `${failures.length} missing/unsupported starting terms:\n${failures.join("\n")}`,
     ).toEqual([]);
   });
+});
+
+it("carries a required starting flat wage term into native payday and canonical reload", () => {
+  // Same reproducible native route as fiscal-starting-terms.test.ts; no work,
+  // wages, taxpayers or outcomes selected or authored by this test.
+  const seed = "fiscal-starting-terms-new-game:natural-pay";
+  const states = lifePlaceStateIdentities().filter(
+    (place) =>
+      incomeTables.places[
+        place.jurisdictionKey as keyof typeof incomeTables.places
+      ]?.wageIncomeTax === "flat",
+  );
+  expect(states.length).toBeGreaterThan(0);
+  const state =
+    states[Number.parseInt(stableHash(seed).slice(0, 8), 16) % states.length]!;
+  const places = searchLifePlaces("", 5000, {
+    stateJurisdictionKey: state.jurisdictionKey,
+    scope: "locality",
+  }).filter((place) => {
+    const population = place.sourceGeoid
+      ? placeReferencePopulation(place.sourceGeoid)?.value
+      : null;
+    return (
+      place.context.jurisdiction.kind === "census-place" &&
+      population != null &&
+      population > 0 &&
+      population <= 1000
+    );
+  });
+  expect(places.length).toBeGreaterThan(0);
+  const place =
+    places[
+      Number.parseInt(stableHash(`${seed}:town`).slice(0, 8), 16) %
+        places.length
+    ]!;
+  const opened = openObserverWorld(observerSetup(seed, place.key));
+  const world = advanceObservedWorld(opened.world, 14);
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === ADOPT_STATE_INCOME_TAX_QUESTION,
+  )!;
+  const law = lawInForce(
+    world,
+    stateJurisdictionForKey(state.jurisdictionKey)!.id,
+    proposition.id,
+    world.currentDate,
+  )!;
+  expect(law.origin).toBe("in-force-at-start");
+  const term = readFinalEnactedLawTerm(world, law, {
+    questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+    termKey: "rate",
+    unit: "ratio",
+    onDate: world.currentDate,
+  });
+  expect(term).not.toBeNull();
+  expect(term!.measureId).toBe(law.measureId);
+  expect(term!.value).toBeGreaterThan(0);
+  const read = stateIncomeTaxUnderLaw(
+    world,
+    state.jurisdictionKey,
+    "single",
+    world.currentDate,
+  );
+  if (read.kind !== "enacted")
+    throw new Error(
+      "Starting numeric terms did not reach native payroll reader",
+    );
+  expect(read.shape).toBe("flat");
+  expect(read.lawMeasureIds).toContain(law.measureId);
+  const nativeFlows = new Set(
+    world.history.resourceFlows
+      .filter((row) => row.stableKey.startsWith("town-pay-v2:job-pay:"))
+      .map((row) => row.id),
+  );
+  const paychecks = world.history.resourceTransferOutcomes.filter(
+    (row) =>
+      nativeFlows.has(row.resourceFlowId) &&
+      row.status === "completed" &&
+      row.transferredAmount.minorUnits > 0,
+  );
+  const paycheckIds = new Set(paychecks.map((row) => row.id));
+  const liabilities = (world.history.statutoryTaxLiabilities ?? []).filter(
+    (row) =>
+      paycheckIds.has(row.sourceOutcomeId) &&
+      row.authorityKey === state.jurisdictionKey &&
+      row.taxKey.endsWith(":wage-income-tax") &&
+      (row.liability?.minorUnits ?? 0) > 0,
+  );
+  const liabilityIds = new Set(liabilities.map((row) => row.id));
+  const payments = (world.history.statutoryTaxPayments ?? []).filter(
+    (row) => liabilityIds.has(row.liabilityId) && row.amount.minorUnits > 0,
+  );
+  expect(paychecks.length).toBeGreaterThan(0);
+  expect(liabilities.length).toBeGreaterThan(0);
+  expect(payments.length).toBeGreaterThan(0);
+  for (const liability of liabilities)
+    expect(liability.lawMeasureIds).toContain(law.measureId);
+  for (const payment of payments) {
+    const outcome = world.history.resourceTransferOutcomes.find(
+      (row) => row.id === payment.resourceOutcomeId,
+    )!;
+    expect(outcome.status).toBe("completed");
+    expect(outcome.transferredAmount.minorUnits).toBeGreaterThanOrEqual(
+      payment.amount.minorUnits,
+    );
+  }
+  const totalMinor = payments.reduce(
+    (sum, row) => sum + row.amount.minorUnits,
+    0,
+  );
+  expect(totalMinor).toBeGreaterThan(0);
+  expect(assessPaychecksTaxes(world, [...paycheckIds])).toBe(world);
+  const restored = deserializeWorld(serializeWorld(world));
+  expect(restored.history.statutoryTaxLiabilities).toEqual(
+    world.history.statutoryTaxLiabilities,
+  );
+  expect(restored.history.statutoryTaxPayments).toEqual(
+    world.history.statutoryTaxPayments,
+  );
+  expect(restored.history.resourceTransferOutcomes).toEqual(
+    world.history.resourceTransferOutcomes,
+  );
+  expect(assessPaychecksTaxes(restored, [...paycheckIds])).toBe(restored);
+  expect(
+    readFinalEnactedLawTerm(restored, law, {
+      questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
+      termKey: "rate",
+      unit: "ratio",
+      onDate: restored.currentDate,
+    }),
+  ).toEqual(term);
+  stdout.write(
+    JSON.stringify({
+      proof: "native Begin and ordinary 14-day payroll, not authored wages",
+      seed,
+      place: place.key,
+      state: state.jurisdictionKey,
+      openedAt: opened.world.currentDate,
+      through: world.currentDate,
+      law: law.measureId,
+      startingTerm: term,
+      consumerSchedule: read.schedule,
+      liabilityCount: liabilities.length,
+      paymentCount: payments.length,
+      paymentTotalMinorUnits: totalMinor,
+      paycheckIds: [...paycheckIds],
+      liabilities: liabilities.map((row) => ({
+        id: row.id,
+        sourceOutcomeId: row.sourceOutcomeId,
+        lawMeasureIds: row.lawMeasureIds,
+        amount: row.liability,
+      })),
+      payments: payments.map((row) => ({
+        id: row.id,
+        liabilityId: row.liabilityId,
+        transferId: row.resourceOutcomeId,
+        amount: row.amount,
+      })),
+    }) + "\n",
+  );
 });

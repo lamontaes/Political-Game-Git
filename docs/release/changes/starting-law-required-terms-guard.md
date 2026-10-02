@@ -2,12 +2,13 @@
 id: starting-law-required-terms-guard
 impact: patch
 section: Fixed
-title: Starting-law checks identify missing numeric terms.
+title: Starting-law checks identify missing required terms.
 ---
 
-The starting-law guard checks every yes row and its separate dated phases
-against the catalog's numeric parameters. It reports absent, duplicate and
-wrong-unit terms, and refuses scalar substitutes for structured schedules.
-The current data still fails this check. The existing shared table validator and explicit dimensional units now admit
-complete tax schedules and deposit tiers. Policy owners supply their own cited
-rows; missing values are not waived.
+The starting-law guard checks affirmative rows and their dated phases against
+required numeric units and the active catalog's closed categories. It uses the
+existing category and schedule validators, reports missing or ambiguous
+bindings, and rejects scalars that lose their quantity denominators. The current
+source data still fails the strict coverage case. An ordinary new-game proof
+checks a supported starting wage-tax term through recorded pay and reload.
+Policy owners supply cited rows; missing terms are not waived.
