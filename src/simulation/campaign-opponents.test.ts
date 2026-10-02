@@ -1,3 +1,4 @@
+import { comparableCampaignCommitteeBalance } from "./campaign-opponents";
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import {
   suggestedAdvertising,
@@ -69,12 +70,6 @@ interface Filed {
   readonly rivalPersonId: EntityId;
 }
 
-function firstAdult(world: World): EntityId {
-  return world.personOrder.find((personId) =>
-    fixtureMeetsRecordedCandidacyAge(world, personId),
-  )!;
-}
-
 /**
  * A Kentucky race with one opponent. With `chapters`, the World also holds
  * the two national parties and the home chapters with their organizers, and
@@ -96,7 +91,11 @@ function fileRace(
   const created = createScenarioWorld(seed, context, {
     peopleCount: 6,
   });
-  const candidatePersonId = firstAdult(created);
+  const candidatePersonId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
+  );
+  if (!candidatePersonId)
+    throw new Error("No recorded-age eligible candidate.");
   let world: World = {
     ...created,
     control: { kind: "person", personId: candidatePersonId },
@@ -266,7 +265,10 @@ describe("CRUNCH46 opponent campaigns", () => {
       const flow = world.history.resourceFlows.find(
         (record) => record.id === step.resourceFlowId,
       );
-      if (step.kind === "fundraising" || step.kind === "messaging") {
+      if (
+        step.kind === "messaging" ||
+        (step.kind === "fundraising" && step.amount !== null)
+      ) {
         expect(flow?.basisKind).toBe(
           step.kind === "fundraising"
             ? "custom:campaign-contribution"
@@ -295,7 +297,8 @@ describe("CRUNCH46 opponent campaigns", () => {
       expect(steps.length).toBe(9);
       let balance = 0;
       for (const step of steps) {
-        if (step.kind === "fundraising") balance += step.amount!.minorUnits;
+        if (step.kind === "fundraising")
+          balance += step.amount?.minorUnits ?? 0;
         if (step.kind === "messaging") {
           expect(step.amount!.minorUnits).toBeGreaterThanOrEqual(
             Math.min(
@@ -812,11 +815,17 @@ describe("A123: a rival campaign acts from its records, not draws", () => {
     const billsBefore = (sequence: number) =>
       campaignOperatingSpending(world, committee) -
       campaignOperatingSpending(world, committee, sequence);
-    let raisedLessSpent = 0;
+    const position = world.history.resourcePositions.find(
+      (row) =>
+        row.owner.kind === "organization" &&
+        row.owner.organizationId === committee,
+    )!;
+    expect(position.provenance.kind).toBe("source-record");
+    let raisedLessSpent = position.openingBalance.minorUnits;
     let messages = 0;
     for (const step of campaignOpponentStepRecords(world)) {
       if (step.kind === "fundraising")
-        raisedLessSpent += step.amount!.minorUnits;
+        raisedLessSpent += step.amount?.minorUnits ?? 0;
       if (step.kind === "messaging") {
         messages += 1;
         // The account before the message: money raised, less earlier
@@ -868,4 +877,38 @@ describe("A123: a rival campaign acts from its records, not draws", () => {
       }),
     );
   }, 120_000);
+});
+
+it("estimates committee cash only from recorded same-office accounts", () => {
+  const filed = fileRace("opponents-recorded-cash-estimate");
+  const position = filed.world.history.resourcePositions.find(
+    (row) =>
+      row.owner.kind === "organization" &&
+      row.owner.organizationId === filed.campaign.organizationId,
+  )!;
+  // Controlled saved account, not a production cash calibration.
+  const recorded: World = {
+    ...filed.world,
+    history: {
+      ...filed.world.history,
+      resourcePositions: filed.world.history.resourcePositions.map((row) =>
+        row.id === position.id
+          ? {
+              ...row,
+              openingBalance: { ...row.openingBalance, minorUnits: 12000 },
+            }
+          : row,
+      ),
+    },
+  };
+  const estimate = comparableCampaignCommitteeBalance(recorded, filed.campaign);
+  expect(estimate.amount).toEqual({
+    minorUnits: 12000,
+    currency: filed.campaign.treasuryCurrency,
+  });
+  expect(estimate.sourceRecordIds).toContain(position.id);
+  expect(
+    comparableCampaignCommitteeBalance(filed.world, filed.campaign).amount
+      .minorUnits,
+  ).toBe(0);
 });
