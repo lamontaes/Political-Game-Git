@@ -27,8 +27,6 @@ export const LOCAL_BUSINESS_PLACEHOLDER = {
   monthlyWageMinor: 280_000,
 } as const;
 
-const HOURS_PER_YEAR = 2_080;
-
 /**
  * What one of a business's workers is paid a month in `jurisdictionId`: the
  * average comparable active saved pay, otherwise the existing state/national
@@ -67,10 +65,14 @@ export function localBusinessWageMinor(
     };
   const annual = stateMedianAnnualWage(kind.workerOccupation, jurisdictionId);
   const minimum = townMinimumHourly(jurisdictionId);
-  return annual !== null && minimum !== null
+  const minimumAnnual =
+    minimum !== null && weeklyHours !== null
+      ? minimum * weeklyHours * 52
+      : null;
+  return annual !== null
     ? {
         monthlyMinor: Math.round(
-          (Math.max(annual, minimum * HOURS_PER_YEAR) * 100) / 12,
+          (Math.max(annual, minimumAnnual ?? annual) * 100) / 12,
         ),
         sourced: true,
       }
