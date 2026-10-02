@@ -36,6 +36,7 @@
 import programs from "../../../data/research/money/public-programs-2026.json" with { type: "json" };
 import { ageOnDate, isoDateFromParts, yearOf } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { applyLawConsequences } from "../enacted-law-effects";
 import type { LawInForce } from "../governing/law-in-force";
 import { readEligibilityLawsInForce } from "../enacted-eligibility";
 import { COVERAGE_QUESTION_KEYS } from "../law-consequences/coverage-eligibility-rows";
@@ -383,6 +384,12 @@ export function recordHealthCoverage(
   onDate: IsoDate,
   causeId: EntityId,
 ): World {
+  world = applyLawConsequences(world, {
+    onDate,
+    activity: "renewal",
+    activityId: causeId,
+    subjectIds: [...world.personOrder],
+  });
   return recordHealthCoverageForSubjects(
     world,
     onDate,

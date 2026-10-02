@@ -1,4 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { recordGovernorDecisionOnMeasure } from "./governing/legislative-clock";
+import { stateGoverningHandlers } from "./governing/state-governing";
+import {
+  composeFutureTransitionHandlerRegistries,
+  createFutureTransitionHandlerRegistry,
+} from "./future-transition-registry";
+import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import * as lawEffects from "./enacted-law-effects";
+afterEach(() => vi.restoreAllMocks());
 import {
   enactedTaxFixture,
   TEST_TAX_TERMS,
@@ -45,6 +54,13 @@ import type {
   PublicPaymentInput,
   PublicFundingMandate,
 } from "./public-fiscal";
+
+function fiscalFixtureHandlers() {
+  return composeFutureTransitionHandlerRegistries(
+    createTaxTransitionHandlerRegistry(),
+    createFutureTransitionHandlerRegistry(stateGoverningHandlers()),
+  );
+}
 
 function fundedFixture(saveAppropriation = true) {
   const fixture = enactedTaxFixture(10000);
@@ -100,15 +116,29 @@ function fundedFixture(saveAppropriation = true) {
     step < 40 && measurePosition(world, measureId).phase !== "enacted";
     step++
   ) {
+    if (measurePosition(world, measureId).phase === "awaiting-executive") {
+      world = recordGovernorDecisionOnMeasure(
+        world,
+        measureId,
+        "signed",
+        "Authored test contract: the governor signs the appropriation.",
+      );
+      continue;
+    }
     const key = availableMeasureSteps(world, measureId).find(
       (row) => row !== "offer-amendment",
     );
     if (!key) throw new Error("No supported next appropriation step.");
-    world = applyLegislativeStep(procedure, world, key).world;
+    world = publishLegislativeTransition(
+      world,
+      applyLegislativeStep(procedure, world, key).world,
+    );
   }
   const enactment = world.history.legislativeEnactments!.find(
     (row) => row.measureId === measureId && row.outcome === "enacted",
   )!;
+  if (!enactment)
+    throw new Error("The funding fixture did not enact its appropriation.");
   const availableAt = addDays(enactment.resolvedAt, 90);
   const adopted = saveAppropriation
     ? recordAdoptedAppropriation(world, {
@@ -149,7 +179,7 @@ function fundedFixture(saveAppropriation = true) {
   world = advanceWorld(
     world,
     daysBetween(world.currentDate, mandate.availableAt),
-    createTaxTransitionHandlerRegistry(),
+    fiscalFixtureHandlers(),
   );
   const input: PublicPaymentInput = {
     fundingId: mandate.fundingId,
@@ -173,7 +203,7 @@ function fundedWithCashForBothRoutes() {
     assumptionNote:
       "One fictional test occurrence funds 2 USD cash, separate from the 1 USD appropriation.",
   });
-  world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+  world = advanceWorld(world, 2, fiscalFixtureHandlers());
   world = ensureStateExecutiveIncumbent(world, fixture.personId, "AK");
   const governor = currentStateExecutiveHolders(world).find(
     (holder) => holder.stateUsps === "AK",
@@ -220,7 +250,10 @@ describe("shared public cash settlement for T", () => {
       fixture.input,
       fixture.resolver,
     );
-    expect(first.kind).toBe("paid");
+    expect(
+      first.kind,
+      first.kind === "refused" ? first.reason : undefined,
+    ).toBe("paid");
     if (first.kind !== "paid") throw new Error(first.reason);
     const attempted = commitPublicProgram(first.world, {
       appropriationId: fixture.mandate.appropriationId!,
@@ -309,7 +342,7 @@ describe("shared public cash settlement for T", () => {
       assumptionNote:
         "One fictional test occurrence; no income or purchase money.",
     });
-    world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+    world = advanceWorld(world, 2, fiscalFixtureHandlers());
     const before = serializeWorld(world);
     expect(
       settlePublicResourcePayment(world, fixture.input, fixture.resolver),
@@ -321,6 +354,7 @@ describe("shared public cash settlement for T", () => {
     expect(serializeWorld(world)).toBe(before);
   });
   it("spends actual collected public cash once and reloads with reconciled funding/debit identity", () => {
+    const activity = vi.spyOn(lawEffects, "applyLawConsequences");
     const fixture = fundedFixture();
     let world = declarePersonalTaxOccurrence(fixture.world, {
       personId: fixture.personId,
@@ -331,14 +365,34 @@ describe("shared public cash settlement for T", () => {
       assumptionNote:
         "One fictional test occurrence; no income or purchase money.",
     });
-    world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+    world = advanceWorld(world, 2, fiscalFixtureHandlers());
     const result = settlePublicResourcePayment(
       world,
       fixture.input,
       fixture.resolver,
     );
-    expect(result.kind).toBe("paid");
+    expect(
+      result.kind,
+      result.kind === "refused" ? result.reason : undefined,
+    ).toBe("paid");
     if (result.kind !== "paid") throw new Error(result.reason);
+    const paymentHooks = () =>
+      activity.mock.calls.filter(
+        ([, context]) => context.activityId === result.outcomeId,
+      );
+    expect(paymentHooks()).toHaveLength(1);
+    expect(paymentHooks()[0]![1]).toEqual({
+      onDate: result.world.currentDate,
+      activity: "payment",
+      activityId: result.outcomeId,
+      subjectIds: [result.publicOrganizationId, fixture.personId],
+      governingLawId: fixture.mandate.measureId,
+    });
+    expect(
+      paymentHooks()[0]![0].history.resourceTransferOutcomes.some(
+        (row) => row.id === result.outcomeId,
+      ),
+    ).toBe(true);
     expect(
       resourcePositionAt(
         result.world,
@@ -361,6 +415,7 @@ describe("shared public cash settlement for T", () => {
     }));
     expect(replay).toMatchObject({ kind: "paid", outcomeId: result.outcomeId });
     expect(replay.world).toBe(loaded);
+    expect(paymentHooks()).toHaveLength(1);
     expect(
       settlePublicResourcePayment(
         loaded,
