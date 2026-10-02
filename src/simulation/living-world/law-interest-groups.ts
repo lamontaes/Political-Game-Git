@@ -28,6 +28,12 @@ import { reactionLens } from "./official-views";
  * (`reactionLens`), and whether they already know a member through family or
  * work. The same person in the same situation always decides the same way.
  *
+ * A rights loss or an eligibility loss (a cost with no money on record) is
+ * felt at `NON_MONEY_FELT_SIZE`, so six residents who lost the same right
+ * found a group just as six who lost a tenth of a month's pay do. The resident
+ * whose reflection founds it joins first, alongside the others the law hit,
+ * so a group is never founded with nobody in it (A159).
+ *
  * NOT MODELED yet: an owner joining because their business paid (no writer
  * records a business paying a law's cost yet), group money, and donations.
  */
@@ -56,6 +62,14 @@ function shareOfPay(exposure: LawExposureRecord): number | null {
     exposure.monthlyPay?.minorUnits ?? 0,
   );
   return felt !== null && felt !== "unmeasured" ? felt.share : null;
+}
+
+/**
+ * A rights loss or an eligibility loss: the law cost the person something
+ * other than money, so there is no amount to set against their pay.
+ */
+export function rightsOrEligibilityLoss(exposure: LawExposureRecord): boolean {
+  return exposure.direction === "cost" && exposure.amount === null;
 }
 
 /** A person's own exposure that counts toward a group: a big enough loss. */
@@ -91,6 +105,10 @@ export function joinLawInterestGroup(
         .map((row) => row.personId),
     );
     if (hit.size < FOUNDING_RESIDENTS) return world;
+    // The founder joins alongside the other residents the law hit, so they
+    // need only the resolve of someone joining with a tie; short of it, the
+    // group waits for a resident who has it.
+    if (resolveOf(world, exposure) < RESOLVE_TO_JOIN_WITH_A_TIE) return world;
     const measure = world.history.legislativeMeasures?.find(
       (row) => row.id === exposure.measureId,
     );
@@ -101,7 +119,9 @@ export function joinLawInterestGroup(
       formedAt: next.currentDate,
       provenance: {
         kind: "authored",
-        note: "Residents a law cost a tenth of a month's pay or more, or a right or an eligibility.",
+        note: rightsOrEligibilityLoss(exposure)
+          ? "Founded by residents a law cost a right or an eligibility."
+          : "Founded by residents a law cost a tenth of a month's pay or more.",
       },
       initialProfile: {
         // PLACEHOLDER wording, awaiting editorial review.
@@ -111,16 +131,37 @@ export function joinLawInterestGroup(
       },
     });
     groupId = lawInterestGroup(next, town, exposure.measureId)!;
+    return joinGroup(next, exposure, groupId, "founded");
   }
   if (lawInterestMembers(next, groupId).includes(exposure.personId))
     return next;
   const members = lawInterestMembers(next, groupId);
-  const resolve =
-    (shareOfPay(exposure)! / LOSS_THAT_COUNTS_PER_MONTH_OF_PAY) *
-    reactionLens(next, exposure.personId);
   const tied = knowsAMember(next, exposure.personId, members);
-  if (resolve < (tied ? RESOLVE_TO_JOIN_WITH_A_TIE : RESOLVE_TO_JOIN_ALONE))
+  if (
+    resolveOf(next, exposure) <
+    (tied ? RESOLVE_TO_JOIN_WITH_A_TIE : RESOLVE_TO_JOIN_ALONE)
+  )
     return next;
+  return joinGroup(next, exposure, groupId, tied ? "tied" : "alone");
+}
+
+/** The loss in multiples of the loss that counts, through their temperament. */
+function resolveOf(world: World, exposure: LawExposureRecord): number {
+  return (
+    (shareOfPay(exposure)! / LOSS_THAT_COUNTS_PER_MONTH_OF_PAY) *
+    reactionLens(world, exposure.personId)
+  );
+}
+
+function joinGroup(
+  next: World,
+  exposure: LawExposureRecord,
+  groupId: EntityId,
+  how: "founded" | "tied" | "alone",
+): World {
+  const lost = rightsOrEligibilityLoss(exposure)
+    ? "a right or an eligibility"
+    : "a real share of their pay";
   return createOrganizationParticipation(next, {
     stableKey: `${G}:member:${groupId}:${exposure.personId}`,
     personId: exposure.personId,
@@ -131,9 +172,12 @@ export function joinLawInterestGroup(
     context: null,
     provenance: {
       kind: "authored",
-      note: tied
-        ? "Joined after the law cost them a real share of their pay, alongside someone they know."
-        : "Joined after the law cost them a real share of their pay.",
+      note:
+        how === "founded"
+          ? `Founded the group after the law cost them ${lost}, with the other residents it hit.`
+          : how === "tied"
+            ? `Joined after the law cost them ${lost}, alongside someone they know.`
+            : `Joined after the law cost them ${lost}.`,
     },
   });
 }
