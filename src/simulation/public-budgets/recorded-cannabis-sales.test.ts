@@ -21,7 +21,11 @@ const provenance = {
   note: "Controlled saved business books; not an observed cannabis share or tax rate.",
 };
 
-function fixture(sourceCash: number | null = null, initial?: World) {
+function fixture(
+  sourceCash: number | null = null,
+  initial?: World,
+  opening = false,
+) {
   let world = initial ?? smallWorld({ place: "OH", date: "2026-01-01" }).world;
   const town =
     initial?.history.taxProposals?.[0]?.jurisdictionId ??
@@ -56,7 +60,7 @@ function fixture(sourceCash: number | null = null, initial?: World) {
     });
   }
   world = {
-    ...advanceWorld(world, 91),
+    ...(opening ? world : advanceWorld(world, 91)),
     townFinances: {
       version: "town-finances-v1",
       banks: {},
@@ -97,6 +101,27 @@ function fixture(sourceCash: number | null = null, initial?: World) {
 }
 
 describe("A31 reuses the actual native employer receipt", () => {
+  it("admits the producer's day-one point period without a second cash receipt", () => {
+    const enacted = enactedCannabisFixture(10000, 0, true, QUESTION, false);
+    const world = fixture(null, enacted.world, true);
+    const receipt = world.history.resourceTransferOutcomes.at(-1)!;
+    expect(receipt.periodStartsAt).toBe(receipt.periodEndsAt);
+    const input = recordedCannabisSalesTaxInput(world, receipt.id);
+    expect(input.kind).toBe("recorded");
+    if (input.kind !== "recorded") throw new Error(input.reason);
+    expect(input.periodStartsAt).toBe(world.currentDate);
+    expect(input.periodEndsAt).toBe(world.currentDate);
+    const assessed = assessRecordedCannabisSales(world);
+    expect(assessed.history.resourceFlows).toHaveLength(
+      world.history.resourceFlows.length,
+    );
+    expect(assessed.history.taxBases!.at(-1)!.sourceEventId).toBe(receipt.id);
+    expect(
+      assessed.history.taxAssessments!.at(-1)!.taxAmount.minorUnits,
+    ).toBeGreaterThan(0);
+    const restored = deserializeWorld(serializeWorld(assessed));
+    expect(assessRecordedCannabisSales(restored)).toBe(restored);
+  });
   it("assesses the same seller receipt under its actual adopted rate and collects once after reload", () => {
     const enacted = enactedCannabisFixture(10000, 0, true, QUESTION, false);
     const world = fixture(null, enacted.world);
