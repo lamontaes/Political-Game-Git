@@ -51,11 +51,7 @@ import {
   advanceWorld,
   withWorldIntegrityDeferred,
 } from "../../src/simulation/world";
-import type {
-  EntityId,
-  IsoDate,
-  World,
-} from "../../src/simulation";
+import type { EntityId, IsoDate, World } from "../../src/simulation";
 
 const AUTHORED = {
   method: "authored-fixture" as const,
