@@ -1,23 +1,41 @@
-import {
-  makeIsoDate,
-  simulationMomentOnLocalDate,
-} from "../../src/simulation/dates";
+import { makeIsoDate, daysBetween } from "../../src/simulation/dates";
 import {
   availableMeasureSteps,
   introduceMeasure,
   measurePosition,
   recordEnactment,
 } from "../../src/simulation/legislation";
-import { rulePackById } from "../../src/simulation/legislature-rule-packs";
+import {
+  legislativeRulePackForWorld,
+  regularSessionRefusalText,
+  regularSessionYearForWorld,
+} from "../../src/simulation/legislative-procedure-world";
+import { nextSessionCalendarDate } from "../../src/simulation/legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../../src/simulation/legislative-session-calendar-data";
+import { sessionClosesOn } from "../../src/simulation/governing/session-adjournments";
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   votePlanKeyForConcurrence,
   type LegislativeProcedureContext,
 } from "../../src/simulation/legislation-scenarios";
+import { recordWorldEvent } from "../../src/simulation/world";
+import {
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "../../src/simulation/time-work";
+import { enactThroughDesk } from "./enact-through-desk";
+import { ensureStateExecutiveIncumbent } from "../../src/simulation/nationwide-world/state-executives";
+import { governorOfficeForJurisdiction } from "../../src/simulation/governing/state-governing";
+import {
+  createCharacterHistoryContextPerson,
+  characterHistoryContextPersonId,
+} from "../../src/simulation/character-history";
+import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import type {
   LegislativeMeasureRecord,
+  IsoDate,
   World,
 } from "../../src/simulation/types";
 
@@ -25,22 +43,38 @@ import type {
 export function enactCostLawFixture(
   base: World,
   input: LegislativeMeasureRecord,
+  options: {
+    /** The authored operative date is separate from the actual filing date. */
+    readonly effectiveAt?: IsoDate;
+    /** Leave the clock at enactment when the caller will file another bill. */
+    readonly advanceToObservation?: boolean;
+  } = {},
 ): { world: World; measure: LegislativeMeasureRecord } {
-  const pack = rulePackById(input.rulePackId);
-  if (!pack)
-    throw new Error("The fixture needs an existing registered rule pack.");
-  const on =
-    input.introducedAt > base.currentDate
-      ? input.introducedAt
-      : base.currentDate;
-  let world = introduceMeasure(
-    {
-      ...base,
-      currentDate: on,
-      currentMoment: simulationMomentOnLocalDate(base.currentMoment, on),
-    },
-    input,
-  );
+  const pack = legislativeRulePackForWorld(base, input.rulePackId);
+  const calendar =
+    pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state;
+  const on = nextSessionCalendarDate(calendar, base.currentDate, "bill", {
+    eligibleYear: (year) =>
+      regularSessionYearForWorld(base, input.jurisdictionId, year),
+  });
+  const closedOn = sessionClosesOn(base, pack, Number(on.slice(0, 4)));
+  const refusal = regularSessionRefusalText(pack, on);
+  if (refusal || (closedOn !== null && on > closedOn))
+    throw new Error(
+      refusal ??
+        `The fixture's filing opportunity is after the session ended on ${closedOn}.`,
+    );
+  const effectiveAt = options.effectiveAt ?? input.introducedAt;
+  if (on > effectiveAt)
+    throw new Error(
+      "The fixture has no filing opportunity before its intended effective date.",
+    );
+  const filingWorld = passOrdinaryDays(base, daysBetween(base.currentDate, on));
+  if (filingWorld.currentDate !== on)
+    throw new Error(
+      "The cost fixture stopped at a commitment before its filing date.",
+    );
+  let world = introduceMeasure(filingWorld, input);
   const measure = world.history.legislativeMeasures!.at(-1)!;
   const votePlan: Record<string, { yea: number }> = {};
   const bodies = pack.chambers.map((chamber) => {
@@ -80,32 +114,115 @@ export function enactCostLawFixture(
     bodies,
     committeeMemberCount: pack.chambers[0]!.committees[0]!.appointedMembers,
     votePlan,
-    governorAction: "signed",
+    governorAction: null,
     governorRationale:
-      "Explicit favorable decision in an authored cost fixture.",
+      "The fixture holder signs the bound matter through the real executive desk.",
   };
   for (let steps = 0; steps < 40; steps += 1) {
-    if (measurePosition(world, measure.id).phase === "awaiting-enactment") {
-      world = recordEnactment(world, {
-        stableKey: input.stableKey + ":law",
-        measureId: measure.id,
-        effectiveAt: input.introducedAt,
+    if (measurePosition(world, measure.id).phase === "awaiting-executive") {
+      if (
+        !governorOfficeForJurisdiction(world, pack.jurisdictionKey)
+          ?.holderPersonId
+      ) {
+        let subjectPersonId = world.personOrder[0];
+        if (!subjectPersonId) {
+          // An explicit fixture resident anchors the existing opening writer;
+          // the actual incumbent and its tenure still come from that writer.
+          const stableKey = `cost-fixture:executive-subject:${pack.jurisdictionKey}`;
+          world = createCharacterHistoryContextPerson(world, {
+            stableKey,
+            givenName: "Fixture",
+            familyName: "Resident",
+            birthDate: makeIsoDate(
+              `${Number(world.currentDate.slice(0, 4)) - 40}-01-01`,
+            ),
+            homeJurisdictionId: input.jurisdictionId,
+          });
+          subjectPersonId = characterHistoryContextPersonId(world, stableKey);
+        }
+        world = ensureStateExecutiveIncumbent(
+          world,
+          subjectPersonId,
+          pack.jurisdictionKey.replace(/^US-/, ""),
+        );
+      }
+      const originalControl = world.control;
+      const holder = governorOfficeForJurisdiction(
+        world,
+        pack.jurisdictionKey,
+      )!.holderPersonId;
+      world = enactThroughDesk(world, measure.id, {
+        effectiveAt,
       });
+      if (
+        originalControl.kind !== "person" ||
+        originalControl.personId !== holder
+      ) {
+        // The signing consequence can open implementation work. Restore the
+        // fixture's control through the existing handoff writer, leaving that
+        // work with the actual officeholder rather than awaiting this player.
+        const controlled: World = {
+          ...world,
+          control: { kind: "person", personId: holder },
+        };
+        const required = playerRequiredWorkIds(controlled, holder);
+        if (required.length > 0) {
+          const stableKey = `${input.stableKey}:executive-control-restored`;
+          const handoff = recordWorldEvent(controlled, {
+            stableKey,
+            type: "test.control-moved",
+            occurredAt: world.currentDate,
+            recordedAt: world.currentDate,
+            jurisdictionId: input.jurisdictionId,
+            involvedEntityIds: [holder, ...required],
+            participants: [],
+            personFactConstraints: [],
+            visibility: "private",
+            tags: [],
+            summary:
+              "The cost fixture returns temporary executive control while the office retains its implementation work.",
+            context: {
+              location: null,
+              socialContext: null,
+              pressure: null,
+              choice: null,
+              motivation: null,
+              immediateReaction: null,
+            },
+          });
+          world = {
+            ...releasePlayerRequiredWork(handoff, {
+              personId: holder,
+              stableKeyPrefix: `${stableKey}:released`,
+              outcomeEventId: handoff.history.events.at(-1)!.id,
+            }),
+            control: originalControl,
+          };
+        }
+      }
+    }
+    const phase = measurePosition(world, measure.id).phase;
+    if (phase === "awaiting-enactment" || phase === "enacted") {
+      if (phase === "awaiting-enactment")
+        world = recordEnactment(world, {
+          stableKey: input.stableKey + ":law",
+          measureId: measure.id,
+          effectiveAt,
+        });
+      if (options.advanceToObservation === false) return { measure, world };
       const currentDate =
         world.currentDate > makeIsoDate("2026-06-01")
           ? world.currentDate
           : makeIsoDate("2026-06-01");
-      return {
-        measure,
-        world: {
-          ...world,
-          currentDate,
-          currentMoment: simulationMomentOnLocalDate(
-            world.currentMoment,
-            currentDate,
-          ),
-        },
-      };
+      const advanced =
+        currentDate > world.currentDate
+          ? passOrdinaryDays(world, daysBetween(world.currentDate, currentDate))
+          : world;
+      if (advanced.currentDate < currentDate)
+        throw new Error(
+          "The cost fixture stopped at a commitment before its end date.",
+        );
+      return { measure, world: advanced };
     }
     const step = availableMeasureSteps(world, measure.id).find(
       (candidate) => candidate !== "offer-amendment",
