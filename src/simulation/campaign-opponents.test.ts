@@ -269,7 +269,10 @@ describe("CRUNCH46 opponent campaigns", () => {
       const flow = world.history.resourceFlows.find(
         (record) => record.id === step.resourceFlowId,
       );
-      if (step.kind === "fundraising" || step.kind === "messaging") {
+      if (
+        step.kind === "messaging" ||
+        (step.kind === "fundraising" && step.amount !== null)
+      ) {
         expect(flow?.basisKind).toBe(
           step.kind === "fundraising"
             ? "custom:campaign-contribution"
@@ -298,7 +301,8 @@ describe("CRUNCH46 opponent campaigns", () => {
       expect(steps.length).toBe(9);
       let balance = 0;
       for (const step of steps) {
-        if (step.kind === "fundraising") balance += step.amount!.minorUnits;
+        if (step.kind === "fundraising")
+          balance += step.amount?.minorUnits ?? 0;
         if (step.kind === "messaging") {
           expect(step.amount!.minorUnits).toBeGreaterThanOrEqual(
             Math.min(

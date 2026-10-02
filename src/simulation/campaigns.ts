@@ -1,3 +1,4 @@
+import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
@@ -18,7 +19,6 @@ import {
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
-import { campaignPollingQuality } from "./campaign-polling";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
@@ -264,13 +264,6 @@ import { moneyText } from "./money-text";
 export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
   "campaign.candidate-support-share";
 
-/**
- * What the campaign's field memo claims about its own precision. Four points is
- * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgment.
- */
-const OBSERVATION_MARGIN_BASIS_POINTS = 400;
-
 export interface CampaignActivityPlan {
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
@@ -342,7 +335,7 @@ function campaignSupportDefinition(): WorldMetricDefinition {
     stableKey: CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
     name: "Candidate support",
     description:
-      "Canonical bounded support for one candidate in one contest at an explicit point in time. Not shown to any player; the campaign reads it only through fallible observations.",
+      "Canonical bounded support for one candidate in one contest at an explicit point in time. The campaign reads the saved support through separate observation records.",
     domainKey: "campaign.support",
     valueKind: "quantity",
     quantityUnit: "rate:share",
@@ -440,11 +433,7 @@ export function canonicalSupportBasisPoints(
 }
 
 function recordInitialSupport(world: World, campaign: CampaignRecord): World {
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-initial-support:${campaign.contestId}`,
-  );
-  // A first-time filer starts behind somebody who is already known. Nothing
-  // here is a handicap the player can read; it is a starting position.
+  // Every candidate starts from the same owner-approved baseline.
   // A candidate's past moves where they start: a remembered ethics finding,
   // a sitting governor's record on the economy, or how the voters here see
   // their votes on the questions they hold views about (`record-in-office.ts`).
@@ -453,8 +442,6 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
     weight: Math.max(
       1,
       850 +
-        rng.fork(scope.candidatePersonId).integer(0, 301) +
-        (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0) +
         startingSupportAdjustment(
           world,
           scope.candidatePersonId,
@@ -1209,10 +1196,7 @@ function requestedGainBasisPoints(
             currency: campaign.treasuryCurrency,
           },
         );
-  const swing = new SeededRng(world.seed)
-    .fork(`campaign-action-effect:${action.id}`)
-    .integer(60, 141);
-  return Math.max(1, Math.floor((base * swing) / 100));
+  return Math.max(1, Math.floor(base));
 }
 
 /**
@@ -1244,15 +1228,7 @@ function recordSupportAfterAction(
   return { world: shift.world, stateIds: shift.stateIds, candidateStateId };
 }
 
-/**
- * The field memo.
- *
- * Three small independent draws rather than one wide one, so the error clusters
- * near the truth and occasionally does not. The memo states a four-point margin
- * and the error can exceed it, which is true of real polling and is the whole
- * reason the number is worth arguing about. How wide the draws are depends on
- * who on the campaign does the reading (`campaign-polling.ts`).
- */
+/** Record the saved support reading without an added error or sampling claim. */
 function recordCampaignObservation(
   world: World,
   campaign: CampaignRecord,
@@ -1266,19 +1242,7 @@ function recordCampaignObservation(
     (candidate) => candidate.id === candidateStateId,
   )!;
   const trueBasisPoints = quantityBasisPoints(state);
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-observation:${action.id}:${candidateStateId}`,
-  );
-  // How far off the memo can be depends on who on the campaign reads it.
-  const spread = campaignPollingQuality(world, campaign).drawBasisPoints;
-  const error =
-    rng.integer(-spread, spread + 1) +
-    rng.integer(-spread, spread + 1) +
-    rng.integer(-spread, spread + 1);
-  const observedBasisPoints = Math.max(
-    0,
-    Math.min(SUPPORT_DENOMINATOR, trueBasisPoints + error),
-  );
+  const observedBasisPoints = Math.round(trueBasisPoints);
   const previous = world.history.metricObservations
     .filter(
       (observation) =>
@@ -1304,24 +1268,13 @@ function recordCampaignObservation(
       ),
     },
     sourceSeriesKey: "campaign.field-memo",
-    sourceLabel: "Campaign field memo",
+    sourceLabel: "Recorded campaign support",
     sourceReference: null,
-    methodologyKey: "campaign.bounded-contact-sample",
+    methodologyKey: null,
     releaseDate: world.currentDate,
     recordedAt: world.currentDate,
     vintageKey: `campaign.v${world.history.nextSequence}`,
-    uncertainty: {
-      kind: "margin-of-error",
-      margin: {
-        kind: "quantity",
-        quantity: createExactQuantity(
-          OBSERVATION_MARGIN_BASIS_POINTS,
-          SUPPORT_DENOMINATOR,
-          "rate:share",
-        ),
-      },
-      confidence: createExactQuantity(19, 20, "rate:share"),
-    },
+    uncertainty: { kind: "none" },
     supersedesObservationId: previous?.id ?? null,
     underlyingStateId: candidateStateId,
   });
@@ -1443,51 +1396,17 @@ function actionMoney(
     });
     return { ...paid, raisedAmount: null, spentAmount: amount };
   }
-  const amount: MoneyAmount = {
-    minorUnits: new SeededRng(world.seed)
-      .fork(`campaign-fundraising:${action.id}`)
-      .integer(85_000, 175_001),
+  const receipts = recordCampaignFundraiserReceipts(world, {
+    eventId: completionEventId,
+    committeeOrganizationId: campaign.organizationId,
+    candidatePersonId: campaign.candidatePersonId,
     currency: campaign.treasuryCurrency,
-  };
-  let next = createResourceFlow(world, {
-    stableKey: `${action.stableKey}:flow`,
-    source: {
-      kind: "organization",
-      organizationId: campaign.donorPoolOrganizationId,
-    },
-    recipient: positionOwnerEndpoint({
-      kind: "organization",
-      organizationId: campaign.organizationId,
-    }),
-    startsAt: world.currentDate,
-    initialStatus: "active",
-    amount,
-    cadenceKind: "schedule:one-time",
-    basisKind: "custom:campaign-contribution",
-    basisReference: { kind: "general" },
-    restrictionKind: "purpose:campaign",
-    jurisdictionId: campaign.jurisdictionId,
-    provenance: { kind: "simulated-event", eventId: completionEventId },
-  });
-  const resourceFlowId = next.history.resourceFlows.at(-1)!.id;
-  next = recordResourceTransferOutcome(next, {
-    stableKey: `${action.stableKey}:transfer`,
-    resourceFlowId,
-    periodStartsAt: next.currentDate,
-    periodEndsAt: next.currentDate,
-    occurredAt: next.currentDate,
-    status: "completed",
-    attemptedAmount: amount,
-    transferredAmount: amount,
-    reasonKind: null,
-    note: "Proceeds of a scheduled fundraising session, received by the committee.",
-    provenance: { kind: "simulated-event", eventId: completionEventId },
   });
   return {
-    world: next,
-    resourceFlowId,
-    resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
-    raisedAmount: amount,
+    world: receipts.world,
+    resourceFlowId: receipts.resourceFlowId,
+    resourceOutcomeId: receipts.resourceOutcomeId,
+    raisedAmount: receipts.raisedAmount,
     spentAmount: null,
   };
 }
@@ -1571,7 +1490,9 @@ function recordCampaignActionOutcome(
 
   const baseOutcomeSummary =
     action.kind === "fundraising"
-      ? `The committee spent the session on the phones and took in ${moneyLabel(money.raisedAmount!)}.`
+      ? money.raisedAmount
+        ? `The committee reported completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
+        : "The fundraising session recorded no completed gifts; a dated monetary ask and contribution-cap law term are not available."
       : action.kind === "advertising"
         ? `The committee placed an advertising buy worth ${moneyLabel(money.spentAmount!)}.`
         : "The campaign spent the session knocking on doors and talking to people who answered.";
@@ -1741,15 +1662,7 @@ function recordCampaignActionOutcome(
 /* Election day                                                                */
 /* -------------------------------------------------------------------------- */
 
-/**
- * The result.
- *
- * Canonical support decides it, with a bounded keyed swing on top, because an
- * election is not a poll of the electorate's settled mind — turnout, weather and
- * the last week all move it. The swing is drawn per candidate from the world's
- * seed and the contest's identity, so the same world always produces the same
- * night, and a campaign that is genuinely behind can still occasionally win.
- */
+/** Read the latest saved candidate support without an election-night swing. */
 export function evaluateCampaignAwareOutcome(
   world: World,
   contestId: EntityId,
@@ -1765,20 +1678,9 @@ export function evaluateCampaignAwareOutcome(
     const support = quantityBasisPoints(
       latestSupportState(world, campaign, scope),
     );
-    const swing = new SeededRng(world.seed)
-      .fork(
-        `campaign-election-uncertainty:${contest.id}:${scope.candidatePersonId}`,
-      )
-      .integer(-350, 351);
-    // The swing is wider than the support floor, so clamping at one basis
-    // point let election night print a share the support model forbids: a
-    // candidate held at the one-percent floor all campaign, drawing the worst
-    // swing, came out on 0.01 percent — one vote in ten thousand, which is not
-    // a result any real contest produces and read on screen as 0.0%. The floor
-    // is the floor at both ends of the day.
     return {
       id: scope.candidatePersonId,
-      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support + swing),
+      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support),
     };
   });
   const votes = allocateBasisPoints(scores);
@@ -2279,7 +2181,7 @@ export function campaignElectionTransitionHandler(
     provenance: {
       method: "simulated",
       sourceEntityIds: [dueItem.id, campaign.contestId, ...workEventIds],
-      note: "Resolved from canonical candidate support with a bounded keyed swing.",
+      note: "Resolved from recorded canonical candidate support.",
     },
   });
   const result = electionContestResult(resolved, campaign.contestId)!;

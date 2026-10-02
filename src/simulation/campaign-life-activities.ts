@@ -20,12 +20,7 @@ import {
   type CampaignLifeOutcomeRecord,
   type CampaignSupportDecision,
 } from "./campaign-life-types";
-import {
-  assessKentuckyCampaignContribution,
-  campaignCompliancePackFor,
-  type CampaignComplianceRulePack,
-} from "./campaign-compliance";
-import { assessContribution } from "./campaign-compliance-rules";
+import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
 import {
   activeCampaignForCandidate,
   campaignById,
@@ -35,7 +30,6 @@ import {
   campaigns,
 } from "./campaign-queries";
 import { recordSupportShift } from "./campaign-support";
-import { GAME_ADULT_CANDIDACY_AGE } from "./candidacy-packs";
 import {
   candidacyAuthority,
   electiveOfficesForJurisdiction,
@@ -49,7 +43,6 @@ import {
   addSimulationMinutes,
   ageOnDate,
   compareSimulationMoments,
-  daysBetween,
   makeIsoDate,
   simulationMinutesBetween,
   simulationMomentAtLocalTime,
@@ -74,8 +67,6 @@ import {
 import { drawCanonicalNamedIdentity, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
-import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
-import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
 import { SeededRng } from "./rng";
 import {
   cancelScheduledActivity,
@@ -140,16 +131,10 @@ export const CAMPAIGN_LIFE_LATEST_END_MINUTE = 21 * 60;
 /** Authored cadence for this fictional setting, not a claim about any party. */
 const LIFE = {
   minimumAge: 18,
-  firstOutreachDays: [5, 12],
-  deferDays: 7,
-  nextOutreachDays: [10, 21],
-  offerDays: [2, 9],
   requestWindowDays: 14,
   inPersonStartMinute: 18 * 60 + 30,
   phoneStartMinute: 19 * 60,
   memoryDays: 42,
-  rosterThreshold: 3,
-  fundraiserMinorUnits: [25_000, 150_000],
 } as const;
 
 /** Whether this person is old enough to take up party and campaign work. */
@@ -464,10 +449,6 @@ function subjectBusy(
       compareSimulationMoments(state.start, home) < 0
     );
   });
-}
-
-function formatMoney(amount: MoneyAmount): string {
-  return `$${(amount.minorUnits / 100).toFixed(2)}`;
 }
 
 function titleFor(
@@ -1086,10 +1067,6 @@ export function planCampaignLifeRequest(
     campaignId,
   });
   const first = input.earliestDate ?? addDays(world.currentDate, 1);
-  const startMinute =
-    entry.presence === "remote"
-      ? LIFE.phoneStartMinute
-      : LIFE.inPersonStartMinute;
   const ordinal =
     campaignLifeActivityRecords(world).filter(
       (record) =>
@@ -1102,16 +1079,15 @@ export function planCampaignLifeRequest(
     world,
     input.hostOrganizationId,
   )!.stableKey;
-  for (let offset = 0; offset < LIFE.requestWindowDays; offset += 1) {
-    const start = momentAt(world, addDays(first, offset), startMinute);
-    if (timingProblem(world, entry, start, parties.campaign)) continue;
-    const end = addSimulationMinutes(start, entry.defaultMinutes);
-    const leave =
-      entry.journeyKey === null
-        ? start
-        : addSimulationMinutes(start, -entry.journeyMinutes);
-    if (subjectBusy(world, personId, entry, leave, end)) continue;
-    if (busy(world, [hostPersonId], start, end)) continue;
+  const start = sharedCampaignLifeStart(
+    world,
+    personId,
+    hostPersonId,
+    parties.entry,
+    parties.campaign,
+    first,
+  );
+  if (start)
     return {
       form: input.form,
       hostOrganizationId: input.hostOrganizationId,
@@ -1122,10 +1098,37 @@ export function planCampaignLifeRequest(
       start,
       stableKey: `${organizationKey}:campaign-life:request:${personId}:${input.form}:${ordinal}`,
     };
-  }
   throw new Error(
     `Neither you nor ${parties.hostName} has a shared free evening in the next two weeks for a ${entry.title.toLowerCase()}.`,
   );
+}
+
+/** The same saved-calendar search for requests and organizer follow-up. */
+function sharedCampaignLifeStart(
+  world: World,
+  personId: EntityId,
+  hostPersonId: EntityId,
+  entry: CampaignLifeCatalogEntry,
+  campaign: CampaignRecord | null,
+  first: IsoDate,
+): SimulationMoment | null {
+  const startMinute =
+    entry.presence === "remote"
+      ? LIFE.phoneStartMinute
+      : LIFE.inPersonStartMinute;
+  for (let offset = 0; offset < LIFE.requestWindowDays; offset += 1) {
+    const start = momentAt(world, addDays(first, offset), startMinute);
+    if (timingProblem(world, entry, start, campaign)) continue;
+    const end = addSimulationMinutes(start, entry.defaultMinutes);
+    const leave =
+      entry.journeyKey === null
+        ? start
+        : addSimulationMinutes(start, -entry.journeyMinutes);
+    if (subjectBusy(world, personId, entry, leave, end)) continue;
+    if (busy(world, [hostPersonId], start, end)) continue;
+    return start;
+  }
+  return null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1169,8 +1172,6 @@ export interface CampaignGuidanceView {
   readonly filingDeadline: CampaignGuidanceUnestablished;
   readonly filingFees: CampaignGuidanceUnestablished;
   readonly petitions: CampaignGuidanceUnestablished;
-  /** The game's own adult floor, labeled as the game's and not the law's. */
-  readonly gameAdultCandidacyAge: number;
   readonly runningNow: boolean;
 }
 
@@ -1208,16 +1209,18 @@ export function projectCampaignGuidance(
   // so the advice matches the office list on Campaigns. Reading only the
   // state's pack told an Eastport, Maine resident no office was known while
   // the town council was open to file for.
-  const offices = electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
-    (option) => ({
-      officeKey: option.officeKey,
-      chamberName: option.chamberName,
-      minimumAge: guidanceValue(option.qualification.minimumAge),
-      residency: guidanceValue(option.qualification.residency),
-      termYears: guidanceValue(option.qualification.termYears),
-      filing: guidanceValue(option.qualification.filing),
-    }),
-  );
+  const offices = electiveOfficesForJurisdiction(
+    person.homeJurisdictionId,
+    world.currentDate,
+    world,
+  ).map((option) => ({
+    officeKey: option.officeKey,
+    chamberName: option.chamberName,
+    minimumAge: guidanceValue(option.qualification.minimumAge),
+    residency: guidanceValue(option.qualification.residency),
+    termYears: guidanceValue(option.qualification.termYears),
+    filing: guidanceValue(option.qualification.filing),
+  }));
   return {
     personId,
     jurisdictionId: person.homeJurisdictionId,
@@ -1235,7 +1238,6 @@ export function projectCampaignGuidance(
     filingDeadline: NOT_ESTABLISHED("a filing deadline"),
     filingFees: NOT_ESTABLISHED("a filing fee"),
     petitions: NOT_ESTABLISHED("a petition or signature requirement"),
-    gameAdultCandidacyAge: GAME_ADULT_CANDIDACY_AGE,
     runningNow: activeCampaignForCandidate(world, personId) !== null,
   };
 }
@@ -1254,7 +1256,7 @@ function guidanceText(view: CampaignGuidanceView): string {
               `${office.chamberName}: ${describe("minimum age", office.minimumAge)}; ${describe("residency", office.residency)}; ${describe("term in years", office.termYears)}`,
           )
           .join(". ");
-  return `${offices}. Who accepts filings, the deadline, any fee and any petition requirement are not established by this game's sourced rules. The game itself will not put anyone under ${view.gameAdultCandidacyAge} on a ballot.`;
+  return `${offices}. Who accepts filings, the deadline, any fee and any petition requirement are not established by this game's sourced rules.`;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1428,179 +1430,6 @@ function supportRequestDecision(
       : "deferred";
 }
 
-interface FundraiserPlan {
-  readonly amount: MoneyAmount;
-  readonly allowed: boolean;
-  readonly note: string;
-  readonly decisionTag: string;
-}
-
-function planFundraiser(
-  world: World,
-  campaign: CampaignRecord,
-  donorPersonId: EntityId,
-  outcomeId: EntityId,
-): FundraiserPlan {
-  const amount: MoneyAmount = {
-    minorUnits: new SeededRng(world.seed)
-      .fork(`campaign-life-fundraiser:${outcomeId}`)
-      .integer(LIFE.fundraiserMinorUnits[0], LIFE.fundraiserMinorUnits[1] + 1),
-    currency: campaign.treasuryCurrency,
-  };
-  const donor = world.people[donorPersonId]!;
-  const kentucky = campaignCompliancePackFor(world, campaign.id);
-  let planned: FundraiserPlan;
-  if (kentucky) {
-    planned = planKentuckyGift(
-      world,
-      campaign,
-      donorPersonId,
-      amount,
-      kentucky,
-    );
-  } else {
-    const ruling = assessContribution(world, {
-      campaignId: campaign.id,
-      sourcePersonId: donorPersonId,
-      incomingMinorUnits: amount.minorUnits,
-      statementOfOrganizationFiled: null,
-      treasurerPersonId: null,
-      treasurerQualifiedElector: null,
-    });
-    planned = {
-      amount,
-      allowed: ruling.decision !== "refused",
-      note:
-        ruling.decision === "refused"
-          ? `The committee could not accept the gift: ${ruling.reason}`
-          : ruling.reason,
-      decisionTag: `compliance:${ruling.decision}`,
-    };
-  }
-  if (!planned.allowed) return planned;
-  const donorPosition = resourcePositionAt(
-    world,
-    { kind: "person", personId: donorPersonId },
-    planned.amount.currency,
-  );
-  if (!donorPosition) {
-    return {
-      ...planned,
-      allowed: false,
-      note: `The available money for ${personName(donor)} is not established, so nothing was collected.`,
-      decisionTag: "compliance:not-attempted",
-    };
-  }
-  if (donorPosition.liquidBalance.minorUnits < planned.amount.minorUnits) {
-    return {
-      ...planned,
-      allowed: false,
-      note: `${personName(donor)} did not have ${formatMoney(planned.amount)} to give, so nothing was collected.`,
-      decisionTag: "compliance:not-attempted",
-    };
-  }
-  return planned;
-}
-
-/** What this donor has already given this committee through recorded gifts. */
-function givenByDonorMinorUnits(
-  world: World,
-  campaign: CampaignRecord,
-  donorPersonId: EntityId,
-): number {
-  const flowIds = new Set(
-    world.history.resourceFlows
-      .filter(
-        (flow) =>
-          flow.source.kind === "person" &&
-          flow.source.personId === donorPersonId &&
-          flow.recipient.kind === "organization" &&
-          flow.recipient.organizationId === campaign.organizationId &&
-          flow.basisKind === "custom:campaign-contribution",
-      )
-      .map((flow) => flow.id),
-  );
-  return world.history.resourceTransferOutcomes
-    .filter(
-      (outcome) =>
-        flowIds.has(outcome.resourceFlowId) &&
-        outcome.transferredAmount.currency === campaign.treasuryCurrency,
-    )
-    .reduce((sum, outcome) => sum + outcome.transferredAmount.minorUnits, 0);
-}
-
-/**
- * A Kentucky gift under the reviewed pack.
- *
- * The pack requires a contributor's address, employer and occupation once a
- * contributor's gifts pass its itemization threshold. This World does not
- * record any of those for a generated donor, and they are never invented, so
- * the donor keeps their total at or under the threshold — the one path the
- * pack itself makes recordable without them. The total is counted across all
- * of this donor's recorded gifts to the committee (the conservative reading).
- * When nothing more fits, or the threshold is not established on this date,
- * nothing is collected and the outcome says exactly why.
- */
-function planKentuckyGift(
-  world: World,
-  campaign: CampaignRecord,
-  donorPersonId: EntityId,
-  drawn: MoneyAmount,
-  pack: CampaignComplianceRulePack,
-): FundraiserPlan {
-  const donorName = personName(world.people[donorPersonId]!);
-  const threshold = pack.itemizationThresholdMinorUnits;
-  const given = givenByDonorMinorUnits(world, campaign, donorPersonId);
-  const missingFacts =
-    "the game does not record this donor's address, employer or occupation";
-  let amount = drawn;
-  let capNote = "";
-  if (
-    threshold.state === "KNOWN" &&
-    given + drawn.minorUnits > threshold.value
-  ) {
-    const room = threshold.value - given;
-    const limit = formatMoney({
-      minorUnits: threshold.value,
-      currency: drawn.currency,
-    });
-    if (room <= 0) {
-      return {
-        amount: drawn,
-        allowed: false,
-        note: `${donorName} has already given ${limit}, the most Kentucky lets a committee record without itemizing (${threshold.source.legalLocator}), and ${missingFacts}, so nothing more was collected.`,
-        decisionTag: "compliance:refused",
-      };
-    }
-    amount = { minorUnits: room, currency: drawn.currency };
-    capNote = ` The gift was kept to ${formatMoney(amount)} so ${donorName}'s total stays within ${limit}, because ${missingFacts} and Kentucky requires them above that amount (${threshold.source.legalLocator}).`;
-  }
-  const assessment = assessKentuckyCampaignContribution({
-    onDate: world.currentDate,
-    contributorKind: "individual",
-    // Assessed on the donor's running total, not on this gift alone.
-    amountMinorUnits: given + amount.minorUnits,
-    currency: amount.currency,
-    contributorName: donorName,
-    contributorAddress: null,
-    employer: null,
-    occupation: null,
-  });
-  return assessment.acceptableForRecording
-    ? {
-        amount,
-        allowed: true,
-        note: `The Kentucky pack's recordability checks were satisfied; the gift needs no itemization.${capNote}`,
-        decisionTag: "compliance:allowed",
-      }
-    : {
-        amount,
-        allowed: false,
-        note: `The committee could not record the gift: ${assessment.refusals.join(" ")}${assessment.requiresItemization === true ? ` (${missingFacts}.)` : ""}`,
-        decisionTag: "compliance:refused",
-      };
-}
-
 /**
  * Records what happened at a completed party/campaign activity.
  *
@@ -1693,21 +1522,15 @@ export function recordCampaignLifeAttendance(
     return ensured.personId;
   };
   if (FIELD_FORMS.includes(record.form)) {
-    const priorShifts = campaignLifeOutcomeRecords(world).filter((outcome) => {
-      const prior = lifeActivityById(world, outcome.activityId)!;
-      return (
-        prior.hostOrganizationId === record.hostOrganizationId &&
-        FIELD_FORMS.includes(prior.form)
-      );
-    }).length;
-    const second =
-      priorShifts >= LIFE.rosterThreshold &&
-      new SeededRng(world.seed)
-        .fork(`campaign-life-roster:${outcomeId}`)
-        .integer(0, 2) === 1;
-    addContact(`${orgKey}:campaign-life:volunteer`, second ? 2 : 1);
+    // A completed hold names the people who actually worked, including its
+    // host. Membership alone is not attendance and creates no extra person.
+    contactPersonIds.push(
+      ...activity.participantPersonIds.filter((id) => id !== personId),
+    );
   } else if (record.form === "fundraiser") {
-    addContact(`${orgKey}:campaign-life:donor`, 1);
+    contactPersonIds.push(
+      ...activity.participantPersonIds.filter((id) => id !== personId),
+    );
   } else if (record.form === "town-hall") {
     // TODO(PRESS): a reporter covering the town hall belongs to PRESS's
     // persistent press people; none is invented here.
@@ -1722,10 +1545,6 @@ export function recordCampaignLifeAttendance(
     record.form === "candidate-guidance"
       ? projectCampaignGuidance(world, personId)
       : null;
-  const fundraiser =
-    record.form === "fundraiser" && openCampaign
-      ? planFundraiser(next, openCampaign, contactPersonIds[0]!, outcomeId)
-      : null;
   let summary: string;
   switch (record.form) {
     case "organization-meeting":
@@ -1733,17 +1552,13 @@ export function recordCampaignLifeAttendance(
       break;
     case "door-canvass":
     case "phone-shift":
-      summary = `A ${entry.title.toLowerCase()} for ${orgName} with ${personName(host)} and ${contactNames[0]}.${openCampaign ? " The work was for the campaign." : ""}`;
+      summary = `A ${entry.title.toLowerCase()} for ${orgName} with ${contactNames.join(", ")}.${openCampaign ? " The work was for the campaign." : ""}`;
       break;
     case "candidate-guidance":
       summary = `${personName(host)} went over what is known about running for office here. ${guidanceText(guidance!)}`;
       break;
     case "fundraiser":
-      summary = !openCampaign
-        ? `A small fundraiser with ${personName(host)} and ${contactNames[0]}. The campaign was no longer running, so nothing was collected.`
-        : fundraiser!.allowed
-          ? `A small fundraiser with ${personName(host)}. ${contactNames[0]} gave ${formatMoney(fundraiser!.amount)} to the campaign committee. ${fundraiser!.note}`
-          : `A small fundraiser with ${personName(host)} and ${contactNames[0]}. ${fundraiser!.note}`;
+      summary = `A small fundraiser with ${personName(host)}. ${openCampaign ? "Attendance is recorded; no new payment was attempted without a recorded monetary ask and applicable contribution-cap law term." : "The campaign was no longer running, so nothing was collected."}`;
       break;
     case "support-request":
       summary = !openCampaign
@@ -1766,7 +1581,7 @@ export function recordCampaignLifeAttendance(
       record.hostPersonId,
       record.hostOrganizationId,
       activity.id,
-      ...contactPersonIds,
+      ...contactPersonIds.filter((id) => id !== record.hostPersonId),
       ...(openCampaign ? [openCampaign.id] : []),
     ],
     participants: [
@@ -1776,11 +1591,13 @@ export function recordCampaignLifeAttendance(
         role: "presence:participant",
         detail: "Hosted",
       },
-      ...contactPersonIds.map((id) => ({
-        personId: id,
-        role: "presence:participant" as const,
-        detail: "Was there",
-      })),
+      ...contactPersonIds
+        .filter((id) => id !== record.hostPersonId)
+        .map((id) => ({
+          personId: id,
+          role: "presence:participant" as const,
+          detail: "Was there",
+        })),
     ],
     personFactConstraints: [],
     visibility: record.form === "town-hall" ? "public" : "limited",
@@ -1789,7 +1606,7 @@ export function recordCampaignLifeAttendance(
       `form:${record.form}`,
       `invitation:${record.invitationEventId}`,
       `organization:${record.hostOrganizationId}`,
-      ...(fundraiser ? [fundraiser.decisionTag] : []),
+      ...(record.form === "fundraiser" ? ["compliance:not-attempted"] : []),
     ],
     summary,
     context: {
@@ -1810,16 +1627,11 @@ export function recordCampaignLifeAttendance(
   // Field work for a running campaign moves canonical support.
   let supportStateIds: readonly EntityId[] = [];
   if (FIELD_FORMS.includes(record.form) && openCampaign) {
-    const workers = 2 + contactPersonIds.length;
-    const swing = new SeededRng(world.seed)
-      .fork(`campaign-life-field:${outcomeId}`)
-      .integer(60, 141);
+    const workers = new Set(activity.participantPersonIds).size;
     const shift = recordSupportShift(next, openCampaign, {
       stableKeyBase: keyBase,
       gainerPersonId: openCampaign.candidatePersonId,
-      gainBasisPoints: Math.floor(
-        ((minutes * workers * 3) / 2) * (swing / 100),
-      ),
+      gainBasisPoints: Math.floor((minutes * workers * 3) / 2),
       sourceEntityIds: [outcomeEvent.id],
     });
     next = shift.world;
@@ -1847,39 +1659,16 @@ export function recordCampaignLifeAttendance(
 
   let resourceFlowId: EntityId | null = null;
   let raisedAmount: MoneyAmount | null = null;
-  if (fundraiser?.allowed && openCampaign) {
-    next = createResourceFlow(next, {
-      stableKey: `${keyBase}:contribution`,
-      source: { kind: "person", personId: contactPersonIds[0]! },
-      recipient: positionOwnerEndpoint({
-        kind: "organization",
-        organizationId: openCampaign.organizationId,
-      }),
-      startsAt: next.currentDate,
-      initialStatus: "active",
-      amount: fundraiser.amount,
-      cadenceKind: "schedule:one-time",
-      basisKind: "custom:campaign-contribution",
-      basisReference: { kind: "general" },
-      restrictionKind: "purpose:campaign",
-      jurisdictionId: openCampaign.jurisdictionId,
-      provenance: { kind: "simulated-event", eventId: outcomeEvent.id },
+  if (record.form === "fundraiser" && openCampaign) {
+    const receipts = recordCampaignFundraiserReceipts(next, {
+      eventId: outcomeEvent.id,
+      committeeOrganizationId: openCampaign.organizationId,
+      candidatePersonId: openCampaign.candidatePersonId,
+      currency: openCampaign.treasuryCurrency,
     });
-    resourceFlowId = next.history.resourceFlows.at(-1)!.id;
-    next = recordResourceTransferOutcome(next, {
-      stableKey: `${keyBase}:contribution:transfer`,
-      resourceFlowId,
-      periodStartsAt: next.currentDate,
-      periodEndsAt: next.currentDate,
-      occurredAt: next.currentDate,
-      status: "completed",
-      attemptedAmount: fundraiser.amount,
-      transferredAmount: fundraiser.amount,
-      reasonKind: null,
-      note: "A gift at a small fundraiser, received by the campaign committee.",
-      provenance: { kind: "simulated-event", eventId: outcomeEvent.id },
-    });
-    raisedAmount = fundraiser.amount;
+    next = receipts.world;
+    resourceFlowId = receipts.resourceFlowId;
+    raisedAmount = receipts.raisedAmount;
   }
 
   let recordedDecision: CampaignLifeOutcomeRecord["supportDecision"] = null;
@@ -1945,7 +1734,7 @@ export function recordCampaignLifeAttendance(
     }),
   );
   const relationshipInteractionIds: EntityId[] = [];
-  for (const otherId of [record.hostPersonId, ...contactPersonIds]) {
+  for (const otherId of new Set([record.hostPersonId, ...contactPersonIds])) {
     const other = next.people[otherId]!;
     const pair = [personId, otherId].sort();
     const knownBefore = next.history.relationshipInteractions.some(
@@ -1993,7 +1782,8 @@ export function recordCampaignLifeAttendance(
     contactPersonIds,
     campaign: openCampaign,
     outcomeEventId: outcomeEvent.id,
-    donated: raisedAmount !== null,
+    // Receipts report an existing gift; they do not authorize a new donor favor.
+    donated: false,
     endorsed:
       recordedDecision?.decision === "granted" ? supportDecisionEventId : null,
     audience: record.form === "town-hall" ? "public" : "limited",
@@ -2011,7 +1801,10 @@ export function recordCampaignLifeAttendance(
     outcomeEventId: outcomeEvent.id,
     contactPersonIds,
     fieldReach: openCampaign
-      ? modelCampaignFieldReach(record.form, minutes)
+      ? modelCampaignFieldReach(
+          record.form,
+          minutes * new Set(activity.participantPersonIds).size,
+        )
       : null,
     relationshipInteractionIds,
     resourceFlowId,
@@ -2160,6 +1953,60 @@ function outreachPrefix(
   return `${key}:campaign-life:outreach:${subjectPersonId}:`;
 }
 
+/** Follow up after outstanding booked hours, at the next shared free evening. */
+function campaignLifeFollowUpDate(
+  world: World,
+  chapter: HomePartyChapter,
+  subjectPersonId: EntityId,
+): IsoDate | null {
+  if (!chapter.organizerPersonId) return null;
+  let first = addDays(world.currentDate, 1);
+  for (const record of campaignLifeActivityRecords(world)) {
+    if (
+      record.subjectPersonId !== subjectPersonId ||
+      record.hostPersonId !== chapter.organizerPersonId ||
+      !offerIsOpen(world, record)
+    )
+      continue;
+    const after = addDays(
+      makeIsoDate(
+        scheduledActivityState(world, currentHold(world, record).id).end.date,
+      ),
+      1,
+    );
+    if (after > first) first = after;
+  }
+  // Keep the request window bounded; a full window advances to the next
+  // recorded commitment's end, never a hand-set retry delay.
+  const commitments = world.history.scheduledActivities
+    .filter((activity) =>
+      activity.participantPersonIds.some(
+        (id) => id === subjectPersonId || id === chapter.organizerPersonId,
+      ),
+    )
+    .map((activity) => scheduledActivityState(world, activity.id))
+    .filter((state) => state.status === "scheduled");
+  for (let remaining = commitments.length; remaining >= 0; remaining -= 1) {
+    const start = sharedCampaignLifeStart(
+      world,
+      subjectPersonId,
+      chapter.organizerPersonId,
+      campaignLifeCatalogEntry("organization-meeting"),
+      null,
+      first,
+    );
+    if (start) return makeIsoDate(start.date);
+    const windowEnd = addDays(first, LIFE.requestWindowDays - 1);
+    const release = commitments
+      .map((state) => makeIsoDate(state.end.date))
+      .filter((date) => date >= windowEnd)
+      .sort()[0];
+    if (!release) return null;
+    first = addDays(release, 1);
+  }
+  return null;
+}
+
 /**
  * Makes sure a chapter organizer will think about this person again. Only an
  * action calls this; reading never schedules anything. Returns the same world
@@ -2189,14 +2036,11 @@ export function ensureCampaignLifeOutreach(
       0,
       ...items.map((item) => Number(item.stableKey.slice(prefix.length))),
     ) + 1;
+  const dueAt = campaignLifeFollowUpDate(world, chapter, subjectPersonId);
+  if (!dueAt) return world;
   const next = scheduleFutureDueItem(world, {
     stableKey: `${prefix}${n}`,
-    dueAt: addDays(
-      world.currentDate,
-      new SeededRng(world.seed)
-        .fork(`${prefix}${n}:first`)
-        .integer(LIFE.firstOutreachDays[0], LIFE.firstOutreachDays[1] + 1),
-    ),
+    dueAt,
     transitionKey: CAMPAIGN_LIFE_OUTREACH_KEY,
     entityIds: [
       chapter.organizerPersonId,
@@ -2265,27 +2109,21 @@ export function campaignLifeOutreachTransitionHandler(
     dueItem.stableKey.lastIndexOf(":") + 1,
   );
   const n = Number(dueItem.stableKey.slice(prefix.length)) + 1;
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-life-outreach:${dueItem.stableKey}`,
-  );
-  const reschedule = (next: World, days: number): World =>
-    scheduleFutureDueItem(next, {
-      stableKey: `${prefix}${n}`,
-      dueAt: addDays(world.currentDate, days),
-      transitionKey: CAMPAIGN_LIFE_OUTREACH_KEY,
-      entityIds: [...dueItem.entityIds],
-      jurisdictionId: chapter.jurisdictionId,
-      provenance: { kind: "simulated", sourceEntityIds: [hostId] },
-    });
-  const nextGap = () =>
-    rng
-      .fork("next")
-      .integer(LIFE.nextOutreachDays[0], LIFE.nextOutreachDays[1] + 1);
-  const deferred = (
-    reason: string,
-    days: number,
-  ): FutureTransitionHandlerResult => ({
-    world: reschedule(world, days),
+  const reschedule = (next: World): World => {
+    const dueAt = campaignLifeFollowUpDate(next, chapter, subjectId);
+    return dueAt
+      ? scheduleFutureDueItem(next, {
+          stableKey: `${prefix}${n}`,
+          dueAt,
+          transitionKey: CAMPAIGN_LIFE_OUTREACH_KEY,
+          entityIds: [...dueItem.entityIds],
+          jurisdictionId: chapter.jurisdictionId,
+          provenance: { kind: "simulated", sourceEntityIds: [hostId] },
+        })
+      : next;
+  };
+  const deferred = (reason: string): FutureTransitionHandlerResult => ({
+    world: reschedule(world),
     status: "resolved",
     reasonKey: `campaign:${reason}`,
     context: null,
@@ -2294,15 +2132,15 @@ export function campaignLifeOutreachTransitionHandler(
 
   const subject = world.people[subjectId]!;
   if (world.control.kind !== "person" || world.control.personId !== subjectId)
-    return deferred("subject-not-in-play", LIFE.deferDays);
+    return deferred("subject-not-in-play");
   if (ageOnDate(subject.birthDate, world.currentDate) < LIFE.minimumAge)
-    return deferred("subject-not-adult", LIFE.deferDays);
+    return deferred("subject-not-adult");
   const fromHost = campaignLifeActivityRecords(world).filter(
     (record) =>
       record.subjectPersonId === subjectId && record.hostPersonId === hostId,
   );
   if (fromHost.some((record) => offerIsOpen(world, record)))
-    return deferred("offer-already-open", LIFE.deferDays);
+    return deferred("offer-already-open");
 
   const campaign = openCampaignFor(world, subjectId);
   const attendedCount = campaignLifeOutcomeRecords(world).filter(
@@ -2389,17 +2227,17 @@ export function campaignLifeOutreachTransitionHandler(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (
     evaluation.outcomeKind !== "selected" ||
     evaluation.selectedOptionKey === null
   )
-    return deferred("organizer-undecided", nextGap());
+    return deferred("organizer-undecided");
   const chosen = evaluation.selectedOptionKey;
   if (!chosen || chosen === "not-now")
-    return deferred("organizer-chose-not-now", nextGap());
+    return deferred("organizer-chose-not-now");
   const form = chosen as CampaignLifeForm;
   const entry = CAMPAIGN_LIFE_CATALOG[form];
   const campaignId =
@@ -2408,41 +2246,34 @@ export function campaignLifeOutreachTransitionHandler(
     FIELD_FORMS.includes(form)
       ? (campaign?.id ?? null)
       : null;
-  const startMinute =
-    entry.presence === "remote"
-      ? LIFE.phoneStartMinute
-      : LIFE.inPersonStartMinute;
-  for (let days = LIFE.offerDays[0]; days <= LIFE.offerDays[1]; days += 1) {
-    const date = addDays(world.currentDate, days);
-    const start = momentAt(world, date, startMinute);
-    try {
-      const offered = offerCampaignLifeActivity(world, {
-        form,
-        hostOrganizationId: chapter.organizationId,
-        hostPersonId: hostId,
-        subjectPersonId: subjectId,
-        campaignId,
-        origin: "host-outreach",
-        start,
-        stableKey: `${dueItem.stableKey}:offer`,
-      });
-      return {
-        world: reschedule(
-          offered,
-          daysBetween(world.currentDate, date) + nextGap(),
-        ),
-        status: "resolved",
-        reasonKey: "campaign:offered",
-        context: null,
-        outcomeEventId: offered.history.events.find(
-          (event) => event.stableKey === `${dueItem.stableKey}:offer:offered`,
-        )!.id,
-      };
-    } catch {
-      // A busy evening for either person: try the next one.
-    }
-  }
-  return deferred("no-free-evening", LIFE.deferDays);
+  const start = sharedCampaignLifeStart(
+    world,
+    subjectId,
+    hostId,
+    entry,
+    campaignId === null ? null : campaign,
+    addDays(world.currentDate, 1),
+  );
+  if (!start) return deferred("no-free-evening");
+  const offered = offerCampaignLifeActivity(world, {
+    form,
+    hostOrganizationId: chapter.organizationId,
+    hostPersonId: hostId,
+    subjectPersonId: subjectId,
+    campaignId,
+    origin: "host-outreach",
+    start,
+    stableKey: `${dueItem.stableKey}:offer`,
+  });
+  return {
+    world: reschedule(offered),
+    status: "resolved",
+    reasonKey: "campaign:offered",
+    context: null,
+    outcomeEventId: offered.history.events.find(
+      (event) => event.stableKey === `${dueItem.stableKey}:offer:offered`,
+    )!.id,
+  };
 }
 
 /* -------------------------------------------------------------------------- */

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
+  createResourcePosition,
   GAME_ADULT_CANDIDACY_AGE,
   ageOnDate,
   advanceWorld,
@@ -38,6 +39,7 @@ import {
   assessContribution,
   assessSecondCommittee,
 } from "./index";
+import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
@@ -682,7 +684,7 @@ describe("filing", () => {
 });
 
 describe("campaign work", () => {
-  it("raises money into the committee's own account", () => {
+  it("does not invent a contribution without recorded donors and an ask", () => {
     const filed = fileKentuckyCampaign("work-fundraising");
     const after = doOneSession(
       filed.world,
@@ -692,17 +694,25 @@ describe("campaign work", () => {
       null,
     );
     const treasury = campaignTreasuryPosition(after, filed.campaign)!;
-    expect(treasury.liquidBalance.minorUnits).toBeGreaterThan(0);
+    expect(treasury.liquidBalance.minorUnits).toBe(0);
   });
 
   it("spends the committee's own money on an advertising buy", () => {
     const filed = fileKentuckyCampaign("work-advertising");
-    const raised = doOneSession(
-      filed.world,
-      filed.campaign,
-      "fundraising",
-      1,
-      null,
+    const cash = createResourcePosition(filed.world, {
+      stableKey: "advertising:recorded-candidate-cash",
+      owner: { kind: "person", personId: filed.campaign.candidatePersonId },
+      openedAt: filed.world.currentDate,
+      openingBalance: {
+        minorUnits: 50000,
+        currency: filed.campaign.treasuryCurrency,
+      },
+      provenance: { kind: "authored", note: "Saved candidate money fixture" },
+    });
+    const raised = contributeOwnMoneyToCampaign(
+      cash,
+      filed.campaign.candidatePersonId,
+      50000,
     );
     const before = campaignTreasuryPosition(raised, filed.campaign)!;
     const spent = doOneSession(
@@ -726,9 +736,7 @@ describe("campaign work", () => {
   });
 
   it("raises money without moving canonical support at all", () => {
-    // Fundraising converts time into committee money. It is not a way to
-    // persuade anybody, so it must leave the distribution exactly as it found
-    // it — not "almost", and not by a single basis point.
+    // Recording attendance without a dated ask cannot create money or persuasion.
     const filed = fileKentuckyCampaign("fundraising-support-neutral", 3);
     const contest = requireElectionContest(
       filed.world,
@@ -747,7 +755,7 @@ describe("campaign work", () => {
       null,
     );
     const treasury = campaignTreasuryPosition(after, filed.campaign)!;
-    expect(treasury.liquidBalance.minorUnits).toBeGreaterThan(0);
+    expect(treasury.liquidBalance.minorUnits).toBe(0);
     expect(
       supportSnapshot(after, filed.campaign, contest.candidatePersonIds),
     ).toEqual(before);
@@ -786,7 +794,7 @@ describe("campaign work", () => {
     expect(
       campaignTreasuryPosition(raised, filed.campaign)!.liquidBalance
         .minorUnits,
-    ).toBeGreaterThan(
+    ).toBe(
       campaignTreasuryPosition(knocked, filed.campaign)!.liquidBalance
         .minorUnits,
     );
@@ -1126,11 +1134,12 @@ describe("determinism and persistence", () => {
     const raisedPlain = (
       performCampaignAction(plain.world, plain.action.id).history
         .campaignActionResults ?? []
-    ).at(-1)!.raisedAmount!;
+    ).at(-1)!.raisedAmount;
     const raisedBusier = (
       performCampaignAction(busier.world, withExtra.action.id).history
         .campaignActionResults ?? []
-    ).at(-1)!.raisedAmount!;
-    expect(raisedBusier.minorUnits).toBe(raisedPlain.minorUnits);
+    ).at(-1)!.raisedAmount;
+    expect(raisedPlain).toBeNull();
+    expect(raisedBusier).toBeNull();
   });
 });
