@@ -6,3 +6,5 @@ title: Keep an unanswered goal call pending
 ---
 
 A goal call remains pending when either its caller has no selected decision to act or its recipient has no selected answer. Neither writes a call event or completed goal step.
+
+Regression checks retain the ordinary clock and original assertions, with recorded business listings and one isolated connection intention.
