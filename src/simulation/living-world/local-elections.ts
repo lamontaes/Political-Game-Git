@@ -10,10 +10,9 @@ import {
   lawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { townSupportFromViews } from "../official-view-reads";
-import { townSupportFromFavors } from "../patronage/following";
 import { campaigns } from "../campaign-queries";
 import {
+  countRecordedVoterBallots,
   cancelElectionContest,
   electionContestById,
   electionContestResult,
@@ -84,7 +83,7 @@ import {
 } from "./local-government-seats";
 import type { SeatedLocalOffice } from "./local-government-seats";
 import { peopleKnownTo } from "./official-views";
-import { playerTown, townRoster } from "./town-residents";
+import { playerTown } from "./town-residents";
 import {
   councilWardPlan,
   homePosition,
@@ -158,12 +157,6 @@ export const LOCAL_ELECTIONS_PROFILE = {
   challengersAgainstIncumbent: [0.2, 0.45, 0.2, 0.1, 0.05],
   /** How many file for an open seat (index = count). */
   candidatesForOpenSeat: [0, 0.15, 0.45, 0.25, 0.15],
-  /** A sitting member's share of support is multiplied by this. */
-  incumbentEdge: 1.35,
-  /** The share of grown residents who vote in a town election. */
-  turnout: { low: 0.12, high: 0.32 },
-  /** Grown residents per resident, for the count. */
-  adultShare: 0.75,
 } as const;
 
 const P = LOCAL_ELECTIONS_PROFILE;
@@ -815,8 +808,7 @@ function scheduleRace(
 ): World {
   const race = raceKey(input.unit.id, input.generalDate, input.seat);
   const stableKey = `${race}:${input.stage}`;
-  // The count is scheduled first so it runs before the shared contest item
-  // due the same day, which then finds the contest already decided.
+  // The local count runs first; each handler returns its own terminal outcome.
   let next = scheduleFutureDueItem(world, {
     stableKey: `${stableKey}:count`,
     dueAt: input.voteDate,
@@ -1065,50 +1057,27 @@ function countVotes(
   unit: GovernmentUnitIdentity,
   town: EntityId,
   seat: number,
-  contestKey: string,
   candidates: readonly EntityId[],
-  incumbent: EntityId | null,
   electionDate: IsoDate,
-): CandidateTally[] {
-  const rng = new SeededRng(world.seed).fork(`${contestKey}:count`);
-  // A ward seat's voters are its ward's residents (`town-wards.ts`).
+): CandidateTally[] | null {
   const plan = councilWardPlan(unit);
   const map = townWardMap(world, unit);
-  const roster = townRoster(town);
-  const [from, to] =
-    map && isWardSeat(plan, seat)
-      ? wardRange(map, seatWard(map, seat))
-      : [0, roster.households];
-  const share = roster.households > 0 ? (to - from) / roster.households : 1;
-  const adults = roster.population * P.adultShare;
-  const turnout = P.turnout.low + rng.next() * (P.turnout.high - P.turnout.low);
-  const ballots = Math.max(
-    candidates.length * 20,
-    Math.round(adults * turnout * share),
-  );
-  const support = candidates.map((id) => {
-    const base = 0.6 + rng.next() * 0.8;
-    // Spec 5: what residents think of what the candidate did in office.
-    const views = townSupportFromViews(world, town, id, electionDate);
-    // What the households who owe the candidate a job or a seat do with it.
-    const debts = townSupportFromFavors(world, town, id, electionDate);
-    return (id === incumbent ? base * P.incumbentEdge : base) * views * debts;
+  const ward = map && isWardSeat(plan, seat) ? seatWard(map, seat) : null;
+  const result = countRecordedVoterBallots(world, {
+    stableKey: `${raceKey(unit.id, electionDate, seat)}:recorded-voters`,
+    jurisdictionId: town,
+    electionDate,
+    candidatePersonIds: candidates,
+    ...(ward === null
+      ? {}
+      : {
+          admitVoter: (personId: EntityId) => {
+            const recordedWard = wardOfPerson(world, unit, town, personId);
+            return recordedWard === null ? null : recordedWard === ward;
+          },
+        }),
   });
-  const total = support.reduce((sum, value) => sum + value, 0);
-  const votes = support.map((value) =>
-    Math.max(1, Math.round((ballots * value) / total)),
-  );
-  // No two candidates finish level: how a real tie is broken is not modeled.
-  for (let i = 0; i < votes.length; i += 1)
-    for (let j = 0; j < i; j += 1) if (votes[j] === votes[i]) votes[i]! += 1;
-  const counted = votes.reduce((sum, value) => sum + value, 0);
-  return candidates
-    .map((candidatePersonId, index) => ({
-      candidatePersonId,
-      votes: votes[index]!,
-      voteShare: votes[index]! / counted,
-    }))
-    .sort((left, right) => right.votes - left.votes);
+  return result ? [...result.tallies] : null;
 }
 
 export function localElectionCountHandler(
@@ -1132,10 +1101,6 @@ export function localElectionCountHandler(
   const label = seatLabelFor(office, seat);
   const phrase = seatPhrase(office, seat);
   const holder = holderOf(sittingLocalOfficers(world, unit), seat);
-  const incumbent =
-    holder && contest.candidatePersonIds.includes(holder.personId)
-      ? holder.personId
-      : null;
   const living = contest.candidatePersonIds.filter((id) => alive(world, id));
   const field = living.length > 0 ? living : contest.candidatePersonIds;
   const counted = countVotes(
@@ -1143,11 +1108,30 @@ export function localElectionCountHandler(
     unit,
     town,
     seat,
-    contestKey,
     field,
-    incumbent,
-    electionDate,
+    contest.electionDate,
   );
+  if (!counted || counted.length === 0)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: counted
+        ? "local-election:no-ballots"
+        : "local-election:no-recorded-decision",
+      context: counted
+        ? "No admitted voter recorded a ballot; this race has no winner."
+        : "The saved voter decisions do not identify a unique winner.",
+      outcomeEventId: null,
+    };
+  if (counted.length > 1 && counted[0]!.votes === counted[1]!.votes)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "local-election:tied-count",
+      context:
+        "The leading candidates have equal vote totals; no winner has been recorded.",
+      outcomeEventId: null,
+    };
   // Candidates who died before the vote are on the ballot with no votes.
   const tallies: CandidateTally[] = [
     ...counted,
@@ -1185,6 +1169,15 @@ export function localElectionCountHandler(
     if (outcome?.kind === "decided") {
       ruleNote = ` and won outright under ${unit.stateUsps}'s ${rule.rule} rule (${rule.basis})`;
     } else {
+      if (counted.length > 2 && counted[1]!.votes === counted[2]!.votes)
+        return {
+          world,
+          status: "blocked",
+          reasonKey: "local-election:tied-advancement",
+          context:
+            "Candidates are tied for the last advancing position; no advancing field has been recorded.",
+          outcomeEventId: null,
+        };
       advancing = counted.slice(0, 2).map((row) => row.candidatePersonId);
       winner = counted[0]!.candidatePersonId;
     }
@@ -1199,7 +1192,7 @@ export function localElectionCountHandler(
     provenance: {
       method: "simulated",
       sourceEntityIds: [due.id, contest.id],
-      note: `${P.id}: a placeholder count of a town ${stage}.`,
+      note: `${P.id}: eligible residents' saved candidate views at ${contest.electionDate} determine this town ${stage} count through the shared voter decision.`,
     },
   });
 
