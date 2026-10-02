@@ -117,7 +117,7 @@ import { publicPartyOf } from "./chamber-votes";
  *
  * Budget season, bill presentment dates, the action deadline and what an
  * unsigned bill does are the disclosed calendar in
- * `STATE_GOVERNING_CALENDAR`, not compiled state law.
+ * the shared session timetable, not compiled state law.
  *
  * These are the office's own staffing and management choices. They claim no
  * statutory power: hiring personal staff and directing a priority are ordinary
