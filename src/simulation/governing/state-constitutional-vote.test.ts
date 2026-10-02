@@ -1,5 +1,5 @@
 import { legacyPolicyMemberBallot } from "../../../tests/fixtures/a79-legacy-policy-ballot";
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stateCandidacyPack } from "../candidacy-packs";
 import {
@@ -51,6 +51,9 @@ import {
 } from "../world";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createFormationContext, recordPrinciples } from "../politics";
+import * as chamberVotes from "./chamber-votes";
+
+afterEach(() => vi.restoreAllMocks());
 
 // The substrate cases retain authored choices. The A79 migration cases below
 // exercise the shared state evaluator and the actual policy recording caller.
@@ -574,6 +577,7 @@ describe("A79 shared saved state policy proposal votes", () => {
   });
 
   it("uses the ordinary review caller to save a proposal before actual state rollcalls", () => {
+    const evaluator = vi.spyOn(chamberVotes, "decideChamberVote");
     let at = authoredViews(beforeProposal, true);
     const year = Number(at.currentDate.slice(0, 4));
     const stableKey = `constitutional-reform/v1:${state.jurisdictionKey.slice(3)}:${year}:review`;
@@ -608,9 +612,35 @@ describe("A79 shared saved state policy proposal votes", () => {
     expect(votes).toHaveLength(
       stateAmendmentProfile(state.jurisdictionKey)!.bodies.length,
     );
+    const evaluated = evaluator.mock.calls.flatMap(([world, input], index) =>
+      input.kind === "constitutional" &&
+      input.constitutionalMeasureId === proposal.id
+        ? [{ world, input, result: evaluator.mock.results[index]! }]
+        : [],
+    );
+    expect(evaluated).toHaveLength(votes.length);
     for (const action of votes) {
       if (action.detail.kind !== "proposal-vote")
         throw Error("Missing rollcall.");
+      const { bodyKey, vote } = action.detail;
+      const call = evaluated.find((entry) => entry.input.bodyKey === bodyKey);
+      expect(call).toBeDefined();
+      expect(call!.world.history.constitutionalMeasures).toContainEqual(
+        proposal,
+      );
+      expect(
+        call!.input.members.map(({ memberKey, personId }) => ({
+          memberKey,
+          personId,
+        })),
+      ).toEqual(
+        vote.dispositions.map(({ memberKey, personId }) => ({
+          memberKey,
+          personId,
+        })),
+      );
+      expect(call!.result.type).toBe("return");
+      expect(call!.result.value).toEqual(vote.dispositions);
       expect(action.sequence).toBeGreaterThan(proposal.sequence);
       expect(action.detail.vote.provenance.method).toBe("member-decisions");
       expect(
