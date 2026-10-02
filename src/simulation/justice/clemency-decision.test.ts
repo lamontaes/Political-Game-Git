@@ -1,10 +1,13 @@
+import { advanceWorld } from "../world";
+import {
+  recordedVandalismClemencyCase,
+  recordedCourtFixtureClock,
+} from "../../../tests/fixtures/clemency-court-case";
+import { createProsecutionTransitionRegistry } from "./prosecution-transitions";
+import { REFERRAL_TAG } from "./jail-terms";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays, daysBetween } from "../dates";
 import {
   cancelFutureDueItem,
@@ -20,7 +23,7 @@ import {
   type GoverningMatter,
 } from "../governing/state-governing";
 import { currentLifeCutoff } from "../life-queries";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { lifePlaceStateIdentities } from "../life-places";
 import { personName } from "../people";
 import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -47,8 +50,6 @@ import {
 import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
-  UNRESEARCHED_PROSECUTION,
-  advanceProsecutions,
   enterPlea,
   referForProsecution,
 } from "./prosecution";
@@ -110,79 +111,100 @@ describe("a saved executive decision immediately reaches its actual petition", (
         sentenceId: EntityId,
         matter: GoverningMatter;
       beforeAll(() => {
-        const place =
-          searchLifePlaces("", 5000, {
-            stateJurisdictionKey: state.jurisdictionKey,
-            scope: "locality",
-          })[0] ??
-          searchLifePlaces("", 5, {
-            stateJurisdictionKey: state.jurisdictionKey,
-            scope: "state",
-          })[0]!;
-        const game = generateOpeningLife(
-          prepareOpeningLife({
-            ...DEFAULT_NEW_GAME_SETUP,
-            seed: `team9-g12-decision:${state.jurisdictionKey}`,
-            placeKey: place.key,
-            startAge: 40,
-            questionnaire: "skipped",
-          }),
-        ).game!;
+        const small = smallWorld({
+          place: state.jurisdictionKey,
+          seed: `team9-g12-decision:${state.jurisdictionKey}`,
+          offices: ["governor"],
+        });
+        const game = { world: small.world, playerPersonId: small.personId };
         petitionerId = game.playerPersonId;
-        const referred = referForProsecution(game.world, {
+        const facts = recordedVandalismClemencyCase(
+          game.world,
+          petitionerId,
+          state.jurisdictionKey,
+        );
+        const referred = referForProsecution(facts.world, {
           stableKey: "fixture:g12-executive-case",
           subjectPersonId: petitionerId,
           jurisdictionId: game.world.people[petitionerId]!.homeJurisdictionId,
-          offenseKey: "campaign-funds-personal-use",
+          offenseKey: "crime:vandalism",
           referredBy: {
-            kind: "regulator",
-            label: "state regulator",
+            kind: "police",
+            label: "police (authored vandalism fixture)",
             personId: null,
           },
-          basisEventIds: [],
+          basisEventIds: facts.basisEventIds,
+          sentencingAllegations: facts.sentencingAllegations,
           evidence: "documentary",
           standingFindings: 6,
         });
-        const stale: World = {
-          ...referred.world,
-          history: {
-            ...referred.world.history,
-            events: referred.world.history.events.map((event) =>
-              event.id === referred.referralId
-                ? {
-                    ...event,
-                    occurredAt: addDays(game.world.currentDate, -200),
-                  }
-                : event,
-            ),
-          },
-        };
-        const charged = advanceProsecutions(stale);
+        const referral = referred.world.history.events.find(
+          (event) => event.id === referred.referralId,
+        )!;
+
+        const chargeDue = referred.world.history.futureDueItems.find(
+          (item) =>
+            item.stableKey === `justice:prosecution-stage:${referral.id}`,
+        );
+        expect(chargeDue).toBeDefined();
+        expect(chargeDue!.entityIds).toContain(petitionerId);
+        expect(chargeDue!.jurisdictionId).toBe(referral.jurisdictionId);
+        let caseWorld = referred.world;
+        for (const item of caseWorld.history.futureDueItems) {
+          if (
+            item.id === chargeDue!.id ||
+            futureDueItemStateAt(
+              caseWorld,
+              item.id,
+              currentLifeCutoff(caseWorld),
+            )?.status !== "scheduled"
+          )
+            continue;
+          caseWorld = cancelFutureDueItem(caseWorld, {
+            stableKey: `fixture:clemency-isolate:${item.id}`,
+            dueItemId: item.id,
+            effectiveAt: caseWorld.currentDate,
+            reasonKey: "fixture:isolated-court",
+            context:
+              "Retain unrelated commitments while isolating this saved court case.",
+          });
+        }
+        const charged = resolveFutureDueItemsThrough(
+          caseWorld,
+          chargeDue!.dueAt,
+          createProsecutionTransitionRegistry(),
+        );
         const plea = enterPlea(charged, {
           personId: petitionerId,
           referralId: referred.referralId,
           plea: "guilty",
         });
         expect(plea.ok).toBe(true);
-        const trialDue: World = {
-          ...plea.world,
-          history: {
-            ...plea.world.history,
-            events: plea.world.history.events.map((event) =>
-              event.type === PROSECUTION_CHARGED_EVENT &&
-              event.involvedEntityIds.includes(petitionerId)
-                ? {
-                    ...event,
-                    occurredAt: addDays(
-                      plea.world.currentDate,
-                      -UNRESEARCHED_PROSECUTION.resolveAfterDays,
-                    ),
-                  }
-                : event,
-            ),
-          },
-        };
-        const sentenced = advanceProsecutions(trialDue);
+        const chargedEvent = charged.history.events.find(
+          (event) =>
+            event.type === PROSECUTION_CHARGED_EVENT &&
+            event.tags.includes(`${REFERRAL_TAG}${referral.id}`),
+        )!;
+        expect(chargedEvent).toBeDefined();
+        expect(
+          chargedEvent.participants.some(
+            (participant) =>
+              participant.role === "focus:defendant" &&
+              participant.personId === petitionerId,
+          ),
+        ).toBe(true);
+        const trialDue = plea.world.history.futureDueItems.find(
+          (item) =>
+            item.stableKey === `justice:prosecution-stage:${chargedEvent.id}`,
+        );
+        expect(trialDue).toBeDefined();
+        expect(trialDue!.entityIds).toContain(petitionerId);
+        expect(trialDue!.jurisdictionId).toBe(chargedEvent.jurisdictionId);
+        const sentenced = resolveFutureDueItemsThrough(
+          plea.world,
+          trialDue!.dueAt,
+          createProsecutionTransitionRegistry(),
+        );
         const actualSentence = sentenced.history.events.find(
           (event) =>
             event.type === PROSECUTION_SENTENCED_EVENT &&
@@ -196,49 +218,23 @@ describe("a saved executive decision immediately reaches its actual petition", (
         expect(term.until).not.toBeNull();
         if (term.until === null)
           throw new Error("The fixture's recorded sentence has no end date.");
-        // Authored older-save fixture: the real sentence has already reached
-        // the existing body's service gate. No outcome or new wait is invented.
-        const sentenceDate = addDays(
-          sentenced.currentDate,
-          -Math.ceil(daysBetween(term.from, term.until) / 2) - 1,
-        );
-        const served: World = {
-          ...sentenced,
-          history: {
-            ...sentenced.history,
-            events: sentenced.history.events.map((event) =>
-              event.id === referred.referralId
-                ? {
-                    ...event,
-                    occurredAt: addDays(
-                      sentenceDate,
-                      -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                        UNRESEARCHED_PROSECUTION.resolveAfterDays,
-                    ),
-                  }
-                : event.type === PROSECUTION_CHARGED_EVENT &&
-                    event.involvedEntityIds.includes(petitionerId)
-                  ? {
-                      ...event,
-                      occurredAt: addDays(
-                        sentenceDate,
-                        -UNRESEARCHED_PROSECUTION.resolveAfterDays,
-                      ),
-                    }
-                  : event.id === sentenceId
-                    ? {
-                        ...event,
-                        occurredAt: sentenceDate,
-                      }
-                    : event,
+        // Reach the existing service gate through the real clock; never backdate saved events.
+        const served = advanceWorld(
+          sentenced,
+          daysBetween(
+            sentenced.currentDate,
+            addDays(
+              term.from,
+              Math.ceil(daysBetween(term.from, term.until) / 2) + 1,
             ),
-          },
-        };
+          ),
+          recordedCourtFixtureClock(),
+        );
         const filed = fileClemencyPetition(served, {
           personId: petitionerId,
           sentencedEventId: sentenceId,
         });
-        expect(filed.ok).toBe(true);
+        expect(filed.ok, filed.ok ? undefined : filed.reason).toBe(true);
         if (!filed.ok) throw new Error(filed.reason);
         petitionId = filed.petitionId;
         ready = advanceClemencyPetition(filed.world, petitionId);
@@ -262,12 +258,28 @@ describe("a saved executive decision immediately reaches its actual petition", (
           );
         }
         matter = findMatter(ready)!;
+        const actualRouteEvidence = JSON.stringify({
+          currentDate: ready.currentDate,
+          term,
+          status: clemencyPetitionStatus(ready, petitionId),
+          recentSavedEvents: ready.history.events
+            .slice(-6)
+            .map((event) => ({
+              type: event.type,
+              occurredAt: event.occurredAt,
+              summary: event.summary,
+              tags: event.tags,
+            })),
+        });
         if (!needsExecutive(state)) {
           expect(matter).toBeUndefined();
-          expect(clemencyPetitionStatus(ready, petitionId)).toBe("granted");
+          expect(
+            clemencyPetitionStatus(ready, petitionId),
+            actualRouteEvidence,
+          ).toBe("granted");
           return;
         }
-        expect(matter).toBeDefined();
+        expect(matter, actualRouteEvidence).toBeDefined();
         expect(matter.status).toBe("open");
       });
 

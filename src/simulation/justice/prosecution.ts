@@ -9,6 +9,7 @@ import {
 import { considerClemencyAfterSentence } from "./clemency";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
+import { recordByStableKey } from "../history-index";
 import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
 import { ensureStartingPersonalMoney } from "../starting-money";
 import {
@@ -870,9 +871,25 @@ export function advanceProsecutions(
 
     // The sitting judge who allowed this case to proceed chooses the sentence.
     next = prepareJudge(next, judgeId);
-    const sentence = evaluateSentence(next, judgeId, courtCase, pleaded);
+    // A missing custody range does not erase the judge's saved sentence choice.
+    // Replaying that case reuses its trace rather than writing the same key twice.
+    const savedSentenceChoice = recordByStableKey(
+      next.history.decisionTraces,
+      `${courtCase.caseKey}:sentence:trace`,
+    );
+    if (
+      savedSentenceChoice &&
+      (savedSentenceChoice.context.actorPersonId !== judgeId ||
+        savedSentenceChoice.context.decisionType !== "justice.sentence" ||
+        savedSentenceChoice.context.subject.kind !== "context:criminal-case" ||
+        savedSentenceChoice.context.subject.key !== courtCase.caseKey)
+    )
+      continue;
+    const sentence =
+      savedSentenceChoice ??
+      evaluateSentence(next, judgeId, courtCase, pleaded);
     if (!isSelectedDecision(sentence)) continue;
-    next = recordDurableDecisionTrace(next, sentence);
+    if (!savedSentenceChoice) next = recordDurableDecisionTrace(next, sentence);
     const kind: SentenceKind =
       sentence.selectedOptionKey === SENTENCE_JAIL ? "jail" : "probation";
     const choice =
