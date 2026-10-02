@@ -27,8 +27,8 @@ import { SeededRng } from "../rng";
 import { seatedChamberForPack } from "./chamber-votes";
 import { BILL_SIGN } from "./governor-bill-decision";
 import type { World } from "../types";
-import { advanceWorld } from "../world";
-import { daysBetween } from "../dates";
+import { addDays } from "../dates";
+import { resolveFutureDueItemsThrough } from "../future-transitions";
 import { currentPresidentOf } from "../crisis/offices";
 import { composeWorldTimeHandlers } from "../campaigns";
 import { ensureOpeningJudiciary } from "../judiciary/opening";
@@ -363,21 +363,24 @@ describe("Running Government: the holder chooses on the actual desk", () => {
         formerHolderId: formerHolder.personId,
         reason: "resignation",
       }).world;
+      // Exercise the canonical due dispatcher at the actual saved dates.
+      // The full ordinary-day chain remains an explicit timed-out proof below.
       const handlers = composeWorldTimeHandlers();
       const nominationDue = world.history.futureDueItems.find(
         (row) => row.transitionKey === ASSOCIATE_JUSTICE_NOMINATION,
       )!;
       expect(nominationDue).toBeDefined();
       expect(seatHolderAt(world, seat.seatId)).toBeNull();
-      world = advanceWorld(
+      world = resolveFutureDueItemsThrough(
         world,
-        daysBetween(world.currentDate, nominationDue.dueAt),
+        nominationDue.dueAt,
         handlers,
       );
       const nomination = world.history.events.find(
         (row) => row.type === SUPREME_COURT_NOMINATED_EVENT,
       )!;
       expect(nomination).toBeDefined();
+      expect(nomination.occurredAt).toBe(nominationDue.dueAt);
       const nomineeId = nomination.participants.find(
         (row) => row.role === "focus:subject",
       )!.personId;
@@ -404,15 +407,16 @@ describe("Running Government: the holder chooses on the actual desk", () => {
           (row) => row.id === confirmationDue.id,
         ),
       ).toEqual(confirmationDue);
-      world = advanceWorld(
+      world = resolveFutureDueItemsThrough(
         world,
-        daysBetween(world.currentDate, confirmationDue.dueAt),
+        confirmationDue.dueAt,
         handlers,
       );
       const vote = world.history.events.find(
         (row) => row.type === SUPREME_COURT_VOTE_EVENT,
       )!;
       expect(vote).toBeDefined();
+      expect(vote.occurredAt).toBe(confirmationDue.dueAt);
       const senate = seatedCongressChamber(world, "senate")!.body.members;
       const ballots = vote.participants.filter(
         (row) => row.role === "agency:senate-vote",
@@ -454,7 +458,11 @@ describe("Running Government: the holder chooses on the actual desk", () => {
       expect(
         continued.history.events.find((row) => row.id === vote.id),
       ).toEqual(vote);
-      const repeated = advanceWorld(continued, 1, handlers);
+      const repeated = resolveFutureDueItemsThrough(
+        continued,
+        addDays(continued.currentDate, 1),
+        handlers,
+      );
       expect(
         repeated.history.events.filter(
           (row) => row.stableKey === vote.stableKey,
@@ -477,6 +485,9 @@ describe("Running Government: the holder chooses on the actual desk", () => {
       );
     });
   }
+  it.todo(
+    "runs the whole vacancy-to-confirmation ordinary-day chain within the unchanged case limit",
+  );
   it.todo("crosses a legal term boundary through the single office lifecycle");
   it.todo("takes the same steps in the ordinary browser play route");
 });
