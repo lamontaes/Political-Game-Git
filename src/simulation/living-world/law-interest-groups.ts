@@ -1,4 +1,4 @@
-import { lawExposureFeltSize } from "../law-exposure";
+import { lawExposureFeltSize, rightsOrEligibilityLoss } from "../law-exposure";
 import { createOrganization, createOrganizationParticipation } from "../life";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
@@ -62,14 +62,6 @@ function shareOfPay(exposure: LawExposureRecord): number | null {
     exposure.monthlyPay?.minorUnits ?? 0,
   );
   return felt !== null && felt !== "unmeasured" ? felt.share : null;
-}
-
-/**
- * A rights loss or an eligibility loss: the law cost the person something
- * other than money, so there is no amount to set against their pay.
- */
-export function rightsOrEligibilityLoss(exposure: LawExposureRecord): boolean {
-  return exposure.direction === "cost" && exposure.amount === null;
 }
 
 /** A person's own exposure that counts toward a group: a big enough loss. */

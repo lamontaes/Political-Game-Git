@@ -5,7 +5,11 @@ import {
   procedure,
 } from "../../../tests/fixtures/funded-service-fixture";
 import { stableHash } from "../ids";
-import { lawExposuresOf, recordLawExposure } from "../law-exposure";
+import {
+  lawExposuresOf,
+  recordLawExposure,
+  rightsOrEligibilityLoss,
+} from "../law-exposure";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,
@@ -17,10 +21,7 @@ import { lawInterestGroup, lawInterestMembers } from "../official-view-reads";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, Person, World } from "../types";
 import { assertWorldIntegrity } from "../world";
-import {
-  joinLawInterestGroup,
-  rightsOrEligibilityLoss,
-} from "./law-interest-groups";
+import { joinLawInterestGroup } from "./law-interest-groups";
 import { reactionLens } from "./official-views";
 
 /** A place from all 56 with a playable locality, named by its seed. */
