@@ -78,21 +78,35 @@ describe("full birthday with a derived starting age", () => {
 });
 
 describe("PLAYTEST65 birthday completion", () => {
-  it("preserves each chosen component and is stable after completion", () => {
+  it("requires both anniversary fields and preserves a complete chosen date", () => {
     const partial = applyFullBirthday(SETUP, {
       year: 1991,
       month: 7,
       day: null,
     })!;
-    const result = resolveCreatorBirthday(partial, true)!;
+    expect(resolveCreatorBirthday(partial, true)).toBeNull();
+    const complete = applyFullBirthday(partial, {
+      year: 1991,
+      month: 7,
+      day: 14,
+    })!;
+    const result = resolveCreatorBirthday(complete, true)!;
     expect(result.birthYear).toBe(1991);
     expect(result.birthMonth).toBe(7);
-    expect(result.birthDay).toBeGreaterThan(0);
+    expect(result.birthDay).toBe(14);
     expect(resolveCreatorBirthday(result, true)).toEqual(result);
-    expect(resolveCreatorBirthday(partial, true)).toEqual(result);
-    const dayOnly = resolveCreatorBirthday({ ...SETUP, birthDay: 31 }, false)!;
-    expect(dayOnly.birthDay).toBe(31);
-    expect(dayOnly.startAge).toBe(SETUP.startAge);
+    expect(resolveCreatorBirthday(complete, true)).toEqual(result);
+    expect(
+      resolveCreatorBirthday({ ...SETUP, birthDay: 31 }, false),
+    ).toBeNull();
+    expect(resolveCreatorBirthday(SETUP, false)).toBe(SETUP);
+    const ageOnly = resolveCreatorBirthday(
+      { ...SETUP, birthMonth: 7, birthDay: 14 },
+      false,
+    )!;
+    expect(ageOnly.startAge).toBe(SETUP.startAge);
+    expect(ageOnly.birthMonth).toBe(7);
+    expect(ageOnly.birthDay).toBe(14);
   });
   it("rejects impossible chosen dates and reports a year-only age range", () => {
     expect(

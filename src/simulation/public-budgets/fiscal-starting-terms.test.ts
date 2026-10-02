@@ -38,7 +38,8 @@ import {
 } from "../income-tax-withholding";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { budgetCandidates, openGovernmentBudget } from "./opening";
-import { openingPaidShare, pensionPayment } from "./pension-share";
+import { openingPaidShare } from "./opening";
+import { budgetObligationPayment as pensionPayment } from "./fiscal";
 import { BUDGET_LAW_KEYS, BUDGET_PROGRAMS } from "./store";
 
 const PENSION = BUDGET_LAW_KEYS.pensions;

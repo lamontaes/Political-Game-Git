@@ -1,3 +1,4 @@
+import { campaignFundraiserPayments } from "./campaign-money-source-queries";
 import { eventById } from "./event-index";
 import {
   assertCampaignRecordIdentity,
@@ -158,6 +159,23 @@ export function assertCampaignOpponentIntegrity(
       if (step.resourceFlowId !== null || step.amount !== null) {
         fail("Campaign opponent step invented a transfer", step.id);
       }
+    } else if (step.kind === "fundraising") {
+      const campaign = campaignById.get(opponent.rivalCampaignId)!;
+      const paid = campaignFundraiserPayments(world, {
+        eventId: step.outcomeEventId,
+        committeeOrganizationId: opponent.committeeOrganizationId,
+        currency: campaign.treasuryCurrency,
+        historySequenceExclusive: step.sequence,
+      });
+      const first = paid.receipts[0];
+      if (
+        step.resourceFlowId !== (first?.resourceFlowId ?? null) ||
+        (first
+          ? step.amount?.minorUnits !== paid.totalMinorUnits ||
+            step.amount.currency !== campaign.treasuryCurrency
+          : step.amount !== null)
+      )
+        fail("Campaign opponent fundraising receipts are invalid", step.id);
     } else {
       const flow = world.history.resourceFlows.find(
         (record) => record.id === step.resourceFlowId,
@@ -167,18 +185,11 @@ export function assertCampaignOpponentIntegrity(
           record.resourceFlowId === step.resourceFlowId &&
           record.status === "completed",
       );
-      const [source, recipient, basis] =
-        step.kind === "fundraising"
-          ? [
-              opponent.donorPoolOrganizationId,
-              opponent.committeeOrganizationId,
-              "custom:campaign-contribution",
-            ]
-          : [
-              opponent.committeeOrganizationId,
-              opponent.vendorOrganizationId,
-              "custom:campaign-expenditure",
-            ];
+      const [source, recipient, basis] = [
+        opponent.committeeOrganizationId,
+        opponent.vendorOrganizationId,
+        "custom:campaign-expenditure",
+      ];
       if (
         !flow ||
         !transfer ||
