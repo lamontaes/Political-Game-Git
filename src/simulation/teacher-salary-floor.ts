@@ -298,7 +298,8 @@ export function teacherSalaryFloorAt(
     unit: "minor",
     onDate,
   });
-  if (!term || !Number.isSafeInteger(term.value) || term.value < 0) return null;
+  if (!term || !Number.isSafeInteger(term.value) || term.value <= 0)
+    return null;
   return { annual: term.value / 100, measureId: law.measureId, from };
 }
 

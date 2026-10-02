@@ -281,6 +281,30 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
       // A saved numeric law also governs where BLS has no wage survey.
       expect(floor?.annual, state.jurisdictionKey).toBe(FLOOR_DOLLARS);
       expect(floor?.measureId).toBe("measure_teacher_floor_1");
+      // A yes answer without its adopted amount cannot manufacture a floor.
+      for (const lawTerms of [[], [{ ...SOURCED_FLOOR_TERM, value: 0 }]]) {
+        const withoutAmount = {
+          ...world,
+          history: {
+            ...world.history,
+            legislativeProvisions: world.history.legislativeProvisions.map(
+              (provision) =>
+                provision.measureId === floor!.measureId
+                  ? { ...provision, lawTerms }
+                  : provision,
+            ),
+          },
+        };
+        expect(
+          teacherSalaryFloorAt(
+            withoutAmount,
+            jurisdiction,
+            world.currentDate,
+            median,
+          ),
+          state.jurisdictionKey,
+        ).toBeNull();
+      }
       floors += 1;
       // A later law answering no ends it, from its own effective day.
       const repealed = enactStateLaw(
