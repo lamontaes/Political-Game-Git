@@ -150,20 +150,6 @@ export const TAX_QUESTION_EFFECTS: readonly {
     basis:
       "A repeal ends the tax, so the state collects none. An adopted tax collects through recorded paycheck withholding using its operative terms; no population-based revenue level is inferred.",
   },
-  {
-    questionKey: "us-policy-positions:fiscal.graduated-income-tax",
-    source: "individualIncomeTax",
-    // Illinois' 2020 graduated-rate amendment: the $3.4 billion a year the
-    // rates passed with it were estimated to raise, over Illinois' $22.70
-    // billion (2022).
-    toYes: 3.4 / 22.7,
-    // Iowa's 2024 SF 2442, which replaced the brackets due in 2025 with a
-    // flat 3.8% rate: $605.3 million in its first full year (FY 2026, Iowa
-    // Legislative Services Agency fiscal note), over Iowa's $4.97 billion.
-    toNo: -0.6053 / 4.97,
-    basis:
-      "Illinois 2020 graduated-rate estimate ($3.4 billion a year) and Iowa SF 2442 fiscal note, final action ($605.3 million in FY 2026), each over the state's 2022 individual income tax collections (Census Bureau).",
-  },
   CANNABIS_TAX_EFFECT,
   {
     questionKey: MILEAGE_FEE_QUESTION,

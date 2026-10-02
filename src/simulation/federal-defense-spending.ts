@@ -1,91 +1,60 @@
-/**
- * A federal law that grows defense spending faster than inflation, reaching
- * the states that get the contracts.
- *
- * A yes from Congress to "should defense spending grow faster than
- * inflation?" raises defense contracts year over year, in real terms, at the
- * pace they rose in the fiscal years they beat inflation (2016 to 2020 and
- * 2023: 6.9% a year, USAspending.gov contract obligations deflated by CPI-U,
- * `defense-contracts-by-state-fy2024.json`), for as long as the law stays in
- * force and for at most the longest run on record, five years. Each state
- * gets the extra contracts in proportion to what it draws today, its fiscal
- * year 2024 contract dollars per resident. Each extra dollar spent in a state
- * adds about $1.50 of output there, relative to other states (Nakamura and
- * Steinsson 2014, NBER w17391), so the state's earnings rise by that share of
- * what it produces per resident (BEA 2024 GDP). A later law answering no ends
- * the build-up the day it takes effect.
- *
- * The outcome web reads the result as the cause `federal.defense-boost-pct`
- * (`outcome-web/index.ts`), so the earnings, the size drawn for the world and
- * the chain of causes are recorded the same way as any other link.
- */
-import defenseData from "../../data/research/federal/defense-contracts-by-state-fy2024.json" with { type: "json" };
-import { daysBetween } from "./dates";
-import { lawInForce } from "./governing/law-in-force";
-import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+/** A defense law carries its own annual appropriation, not a historical growth ramp. */
+import { FEDERAL_OUTLAYS } from "./public-budgets/federal-budget-categories";
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
+import {
+  federalLawInForceAt,
+  recordedFederalAnnualSpendingBefore,
+} from "./federal-outlay-laws";
 import type { IsoDate, World } from "./types";
-
 export const GROW_DEFENSE_SPENDING_QUESTION =
   "us-federal-positions:defense.grow-defense-spending";
 
-/** Real yearly rise of defense contracts in the years they beat inflation. */
-export const DEFENSE_BUILD_UP_YEARLY_RISE =
-  defenseData.buildUp.meanYearlyRealRise;
-
-/** The longest run of real rises on record, in years: the build-up stops there. */
-export const DEFENSE_BUILD_UP_MAX_YEARS = defenseData.buildUp.longestRunYears;
-
-const DAYS_PER_YEAR = 365.25;
-
-interface DefensePlace {
-  readonly contractsPerResident: number;
-  readonly gdpPerResident: number;
-  readonly gdpBasis: string;
-}
-
-const PLACES = defenseData.places as Readonly<Record<string, DefensePlace>>;
-
-/** How much a state's defense contracts have grown from where they began, as a share. */
 export function defenseBuildUpShare(
   world: World,
   onDate: IsoDate,
-): { readonly share: number; readonly lawMeasureId: string | null } {
-  const proposition = Object.values(
-    world.policyCatalog?.propositions ?? {},
-  ).find(
-    (definition) => definition.stableKey === GROW_DEFENSE_SPENDING_QUESTION,
-  );
-  if (!proposition) return { share: 0, lawMeasureId: null };
-  const law = lawInForce(
+): {
+  readonly share: number;
+  readonly lawMeasureId: string | null;
+  readonly unsupportedReason: string | null;
+} {
+  const law = federalLawInForceAt(
     world,
-    NATIONAL_ELECTION_JURISDICTION.id,
-    proposition.id,
+    GROW_DEFENSE_SPENDING_QUESTION,
     onDate,
-    "enacted-only",
   );
-  if (!law || law.origin !== "enacted" || law.answer !== "yes")
-    return { share: 0, lawMeasureId: null };
-  const years = Math.min(
-    DEFENSE_BUILD_UP_MAX_YEARS,
-    Math.max(0, daysBetween(law.operativeAt, onDate)) / DAYS_PER_YEAR,
+  if (!law) return { share: 0, lawMeasureId: null, unsupportedReason: null };
+  // Read this consumer's exact canonical term, with starting/enacted parity.
+  const term = readFinalEnactedLawTerm(world, law, {
+    questionKey: GROW_DEFENSE_SPENDING_QUESTION,
+    termKey: "appropriation",
+    unit: "dollars/year",
+    onDate,
+  });
+  const base = recordedFederalAnnualSpendingBefore(
+    world,
+    FEDERAL_OUTLAYS.indexOf("nationalDefense"),
+    law.operativeAt,
   );
+  if (!term || !Number.isFinite(term.value) || term.value < 0 || base === null)
+    return {
+      share: 0,
+      lawMeasureId: law.measureId,
+      unsupportedReason:
+        "annual-appropriation-or-recorded-defense-base-unavailable",
+    };
   return {
-    share: (1 + DEFENSE_BUILD_UP_YEARLY_RISE) ** years - 1,
+    share: (term.value - base) / base,
     lawMeasureId: law.measureId,
+    unsupportedReason: null,
   };
 }
 
-/**
- * The extra defense contracts a state has received, as a percent of what it
- * produces: 0 with no law; null for a place with no defense record.
- */
+/** National appropriations do not establish a state's contracts or dollar GDP. */
 export function defenseBoostPct(
   world: World,
-  placeKey: string,
+  _placeKey: string,
   onDate: IsoDate,
 ): number | null {
-  const place = PLACES[placeKey];
-  if (!place) return null;
-  const { share } = defenseBuildUpShare(world, onDate);
-  return ((place.contractsPerResident * share) / place.gdpPerResident) * 100;
+  const read = defenseBuildUpShare(world, onDate);
+  return read.unsupportedReason || read.share !== 0 ? null : 0;
 }
