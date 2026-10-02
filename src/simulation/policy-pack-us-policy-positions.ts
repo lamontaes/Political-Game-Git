@@ -2151,6 +2151,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       parameters: [
         { key: "duration", value: "weeks-of-paid-leave" },
         { key: "replacement", value: "share-of-covered-weekly-wages" },
+        {
+          key: "rate",
+          value: "employee-premium-basis-points-of-covered-wages",
+        },
+        { key: "cap", value: "annual-covered-wage-cap-dollars-per-year" },
       ],
       issue: "us-state-and-local:labor-workforce.leave-policy",
       name: "Paid family and medical leave",
