@@ -144,7 +144,7 @@ describe("tuition freeze aggregate compatibility while the school route is compl
       expect(tuitionShareOfCharges(key), key).toBeNull();
   });
   it.each(samples)(
-    "retains main's tuition factor without inventing cash receipts in $place.displayName ($seed)",
+    "keeps aggregate fees unchanged while school billing owns tuition in $place.displayName ($seed)",
     ({ seed, place }) => {
       const stateKey = place.stateJurisdictionKey;
       if (!stateKey)
@@ -192,6 +192,15 @@ describe("tuition freeze aggregate compatibility while the school route is compl
             makeIsoDate(month),
           ),
         ).toBe(tuitionFreezeFactor(frozenWorld, frozen, makeIsoDate(month)));
+      }
+      for (const level of ["state", "county", "city"] as const) {
+        expect(
+          tuitionFreezeFactor(
+            frozenWorld,
+            { ...frozen, level },
+            makeIsoDate("2027-08-01"),
+          ),
+        ).toBe(1);
       }
       // These sparse fixtures have no recorded cash: settlement must not invent receipts.
       expect(frozen.months).toEqual([]);
