@@ -40,7 +40,7 @@ export function recordedTownSalesTaxInput(
     outcome.occurredAt > cutoff.asOfDate ||
     outcome.occurredAt !== outcome.periodEndsAt ||
     outcome.periodStartsAt !== flow.startsAt ||
-    outcome.periodStartsAt >= outcome.periodEndsAt ||
+    outcome.periodStartsAt > outcome.periodEndsAt ||
     (outcome.status !== "completed" && outcome.status !== "partial") ||
     outcome.transferredAmount.currency !== "USD" ||
     outcome.transferredAmount.minorUnits <= 0
