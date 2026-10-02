@@ -1,4 +1,12 @@
 import { eventById } from "./event-index";
+import {
+  compareDecisionOptionScores,
+  decisionConsiderationScore,
+} from "./decision-scores";
+import {
+  currentGameDecisionPeerEstimates,
+  validateDecisionPeerEstimates,
+} from "./decision-peer-estimates";
 import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
 import { recordById } from "./history-index";
@@ -14,7 +22,6 @@ import {
 import { validateMindSourceReferences } from "./mind";
 import { factsForPerson } from "./people";
 import { validateCutoff } from "./perception";
-import { SeededRng } from "./rng";
 import {
   assertOpenTaxonomyKey,
   decisionSourceRequiresReference,
@@ -25,14 +32,11 @@ import type {
   DecisionConsideration,
   DecisionContext,
   DecisionEvaluation,
-  DecisionImportance,
   DecisionOptionEvaluation,
   DecisionPreference,
   DecisionSourceSnapshot,
   EntityId,
-  MindConfidence,
   MindSourceReference,
-  RandomContribution,
   World,
 } from "./types";
 import { assertWorldIntegrity, resolveEntityLabel } from "./world";
@@ -41,19 +45,6 @@ const IMPORTANCES = ["slight", "moderate", "strong", "decisive"] as const;
 const CONFIDENCES = ["low", "medium", "high"] as const;
 const RANDOMNESS_POLICIES = ["none", "close-choices"] as const;
 const RETENTION_POLICIES = ["ephemeral", "durable"] as const;
-
-const IMPORTANCE_WEIGHT: Record<DecisionImportance, number> = {
-  slight: 1,
-  moderate: 2,
-  strong: 4,
-  decisive: 6,
-};
-const CONFIDENCE_WEIGHT: Record<MindConfidence, number> = {
-  low: 1,
-  medium: 2,
-  high: 3,
-};
-const CLOSE_CHOICE_WINDOW = 2;
 
 /** Only a selected result authorizes an option's consequence. An undecided
  * result has no selected key and leaves the actor's choice pending. */
@@ -104,7 +95,7 @@ export function evaluateDecision(
     );
   }
 
-  const context = canonicalDecisionContext(contextInput);
+  let context = canonicalDecisionContext(contextInput);
   if (context.options.length < 2) {
     throw new Error("A decision requires at least two distinct options.");
   }
@@ -179,7 +170,8 @@ export function evaluateDecision(
     const score = context.considerations
       .filter((consideration) => consideration.optionKey === option.key)
       .reduce(
-        (total, consideration) => total + considerationScore(consideration),
+        (total, consideration) =>
+          total + decisionConsiderationScore(consideration),
         0,
       );
     baseScores.set(option.key, score);
@@ -188,43 +180,73 @@ export function evaluateDecision(
   const available = context.options.filter(
     (option) => (blockedByOption.get(option.key)?.length ?? 0) === 0,
   );
-  const randomByOption = new Map<string, number>();
-  for (const option of context.options) randomByOption.set(option.key, 0);
-  if (context.randomness === "close-choices" && available.length > 1) {
-    const highest = Math.max(
-      ...available.map((option) => baseScores.get(option.key) ?? 0),
-    );
-    const closeOptions = available.filter(
-      (option) =>
-        highest - (baseScores.get(option.key) ?? 0) <= CLOSE_CHOICE_WINDOW,
-    );
-    for (const option of closeOptions.length > 1 ? closeOptions : []) {
-      const optionRng = new SeededRng(world.seed)
-        .fork(`decision-v1:${decisionId}:${context.actorPersonId}`)
-        .fork(`option:${option.key}`);
-      randomByOption.set(option.key, optionRng.integer(-1, 2));
+  const highestBaseScore = Math.max(
+    ...available.map((option) => baseScores.get(option.key) ?? 0),
+  );
+  const leaders = available.filter(
+    (option) => (baseScores.get(option.key) ?? 0) === highestBaseScore,
+  );
+  const hasAvailableConsideration = context.considerations.some(
+    (consideration) =>
+      available.some((option) => option.key === consideration.optionKey),
+  );
+  // Constraints select the sole available option. With two or more available
+  // options, equal reasons cannot acquire a preference from an option key or
+  // a random contribution. Reuse only this actor's last visible trace of this
+  // decision type, including an unanswered last trace.
+  const unresolvedBaseChoice =
+    available.length > 1 && (!hasAvailableConsideration || leaders.length > 1);
+  const lastTrace = unresolvedBaseChoice
+    ? [...world.history.decisionTraces]
+        .reverse()
+        .find(
+          (trace) =>
+            trace.context.actorPersonId === context.actorPersonId &&
+            trace.context.decisionType === context.decisionType &&
+            trace.recordedAt <= context.cutoff.asOfDate &&
+            trace.sequence < context.cutoff.historySequenceExclusive,
+        )
+    : undefined;
+  const priorSelection =
+    lastTrace?.outcomeKind === "selected" &&
+    leaders.some((option) => option.key === lastTrace.selectedOptionKey)
+      ? lastTrace.selectedOptionKey
+      : null;
+  if (context.peerEstimates !== undefined) {
+    if (!unresolvedBaseChoice || priorSelection !== null) {
+      throw new Error(
+        "Decision peer estimates cannot replace a recorded actor preference.",
+      );
     }
+    validateDecisionPeerEstimates(world, context);
+  } else if (unresolvedBaseChoice && priorSelection === null) {
+    const peerEstimates = currentGameDecisionPeerEstimates(world, context);
+    if (peerEstimates.length > 0) context = { ...context, peerEstimates };
   }
-
   const ranked = available
     .map((option) => ({
       option,
-      score:
-        (baseScores.get(option.key) ?? 0) +
-        (randomByOption.get(option.key) ?? 0),
+      score: baseScores.get(option.key) ?? 0,
     }))
-    .sort(
-      (left, right) =>
-        right.score - left.score ||
-        left.option.key.localeCompare(right.option.key),
+    .sort((left, right) =>
+      compareDecisionOptionScores(context, right.option.key, left.option.key),
     );
   const rankByOption = new Map(
-    ranked.map((entry, index) => [entry.option.key, index + 1]),
+    ranked.map((entry) => [
+      entry.option.key,
+      ranked.findIndex(
+        (other) =>
+          compareDecisionOptionScores(
+            context,
+            other.option.key,
+            entry.option.key,
+          ) === 0,
+      ) + 1,
+    ]),
   );
   const optionEvaluations: readonly DecisionOptionEvaluation[] =
     context.options.map((option) => {
       const blockers = blockedByOption.get(option.key) ?? [];
-      const random = randomByOption.get(option.key) ?? 0;
       return {
         optionKey: option.key,
         available: blockers.length === 0,
@@ -233,7 +255,7 @@ export function evaluateDecision(
           .filter((consideration) => consideration.optionKey === option.key)
           .map((consideration) => consideration.stableKey),
         preference: preferenceFor(baseScores.get(option.key) ?? 0),
-        randomContribution: randomContributionFor(random),
+        randomContribution: "none",
         finalRank: rankByOption.get(option.key) ?? null,
       };
     });
@@ -249,12 +271,28 @@ export function evaluateDecision(
     })),
   ]);
 
+  const unresolvedChoice =
+    unresolvedBaseChoice &&
+    ranked.length > 1 &&
+    compareDecisionOptionScores(
+      context,
+      ranked[0]!.option.key,
+      ranked[1]!.option.key,
+    ) === 0;
+
   return {
     decisionId,
     context,
     optionEvaluations,
-    outcomeKind: ranked.length > 0 ? "selected" : "no-available-option",
-    selectedOptionKey: ranked[0]?.option.key ?? null,
+    outcomeKind:
+      ranked.length === 0
+        ? "no-available-option"
+        : unresolvedChoice && priorSelection === null
+          ? "undecided"
+          : "selected",
+    selectedOptionKey: unresolvedChoice
+      ? priorSelection
+      : (ranked[0]?.option.key ?? null),
     sourceSnapshots: sourceRefs.map((reference) =>
       snapshotSource(world, reference),
     ),
@@ -384,18 +422,20 @@ function canonicalDecisionContext(input: DecisionContext): DecisionContext {
       }))
       .sort((left, right) => left.stableKey.localeCompare(right.stableKey)),
     perceptionIds: [...new Set(input.perceptionIds)].sort(),
+    ...(input.peerEstimates === undefined
+      ? {}
+      : {
+          peerEstimates: input.peerEstimates.map((row) => ({
+            ...row,
+            cutoff: { ...row.cutoff },
+            samples: row.samples.map((sample) => ({ ...sample })),
+          })),
+        }),
   };
 }
 
-/** The signed weight one consideration adds to its option's score. */
-export function considerationScore(
-  consideration: DecisionConsideration,
-): number {
-  const magnitude =
-    IMPORTANCE_WEIGHT[consideration.importance] *
-    CONFIDENCE_WEIGHT[consideration.confidence];
-  return consideration.direction === "supports" ? magnitude : -magnitude;
-}
+/** Preserve the public filing-score API through the sole pure calculation. */
+export { decisionConsiderationScore as considerationScore } from "./decision-scores";
 
 function preferenceFor(score: number): DecisionPreference {
   if (score <= -8) return "strongly-opposed";
@@ -403,12 +443,6 @@ function preferenceFor(score: number): DecisionPreference {
   if (score === 0) return "mixed";
   if (score < 8) return "supported";
   return "strongly-supported";
-}
-
-function randomContributionFor(value: number): RandomContribution {
-  if (value < 0) return "slight-penalty";
-  if (value > 0) return "slight-boost";
-  return "none";
 }
 
 function snapshotSource(
