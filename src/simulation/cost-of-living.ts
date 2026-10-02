@@ -1,9 +1,19 @@
+import { createOrganization } from "./life";
+import {
+  LIVING_COSTS_CATEGORY_DATA,
+  LIVING_COSTS_CATEGORY_SOURCES,
+} from "./living-costs-category-data";
 import { makeIsoDate } from "./dates";
-import { householdMembershipsAt, peopleInHouseholdAt } from "./life-queries";
+import {
+  householdMembershipsAt,
+  householdLocationAt,
+  peopleInHouseholdAt,
+} from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
 import {
   createResourceFlow,
+  createResourcePosition,
   money,
   recordResourceFlowTerms,
   recordResourceTransferOutcome,
@@ -17,7 +27,6 @@ import { MORTGAGE_BASIS } from "./home-purchase";
 import {
   LIVING_COSTS_SOURCE,
   REPRESENTATIVE_LIVING_COSTS,
-  representativeMonthlyLivingCostsMinor,
   livingCostsRegionForState,
   estimatedMonthlyHouseholdLivingCosts,
 } from "./living-costs-data";
@@ -27,28 +36,11 @@ import { drawnLinkSize } from "./outcome-web";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
 
 /**
- * What it costs a person to live, charged on the first of each month.
- *
- * Before this nothing was ever spent. Pay arrived after every shift and no
- * rent, food or bill was ever charged, so in the long playthrough Fatima
- * Erickson worked a part-time shop job in Eastport, Maine for three years and
- * had $87,984 saved. Money never forced a choice.
- *
- * The plumbing is real; the nonhousing amount is a sourced representative
- * estimate, not an observed bill. Each month the person being
- * played pays their share of the household's living costs from their own
- * recorded money, through the same flow-and-outcome records pay and tuition
- * already use, so the balance anywhere in the game reads it with no extra
- * code. A month they cannot cover is recorded as short, not as debt, and the
- * first shortfall is written down as something the life now carries, which is
- * what `adult.household-money-shortfall` was withheld for.
- *
- * Two rules keep it honest:
- *
- * - Nobody is charged whose money the game is not tracking. A person with no
- *   recorded position has unknown finances, and unknown is not zero.
- * - Nothing is charged for time before the charge existed. An old save starts
- *   paying from the day it is next opened, not for the years behind it.
+ * Monthly nonhousing costs belong to the actual primary household. Saved provider
+ * bills retain their amounts and payees. Missing sellers use the admitted one-per-
+ * place outside-sellers account and a labeled size/region CES estimate.
+ * Recorded household cash limits payment; personal money is never pooled or spent.
+ * Housing keeps its existing separate contract writers. Old payments are immutable.
  */
 
 /**
@@ -73,10 +65,22 @@ export function livingCostsFlowFor(
   world: World,
   personId: EntityId,
 ): ResourceFlow | null {
+  const householdId = primaryHouseholdId(world, personId);
+  const bills = householdBills(world, personId);
   return (
+    bills.find(
+      (flow) =>
+        flow.stableKey.startsWith(`${householdFlowKey(householdId)}:`) &&
+        resourceFlowTermsAt(world, flow.id)?.status === "active",
+    ) ??
+    bills.find(
+      (flow) => resourceFlowTermsAt(world, flow.id)?.status === "active",
+    ) ??
+    bills[0] ??
     world.history.resourceFlows.find(
       (flow) => flow.stableKey === flowKey(personId),
-    ) ?? null
+    ) ??
+    null
   );
 }
 
@@ -118,18 +122,18 @@ export function estimatedHouseholdLivingCostsAt(
     ),
   );
   if (!residents.size) return null;
-  const place = lifePlaceByJurisdictionId(
-    world.people[personId]!.homeJurisdictionId,
-  );
+  const locationId =
+    householdLocationAt(world, householdId, cutoff)?.jurisdictionId ??
+    world.people[personId]!.homeJurisdictionId;
+  const place = lifePlaceByJurisdictionId(locationId);
   const estimate = estimatedMonthlyHouseholdLivingCosts(
     livingCostsRegionForState(place?.stateJurisdictionKey ?? null),
     residents.size,
   );
-  const jurisdictionId =
-    place?.context.jurisdiction.id ??
-    world.people[personId]!.homeJurisdictionId;
+  const jurisdictionId = place?.context.jurisdiction.id ?? locationId;
   return {
     householdId,
+    jurisdictionId,
     ...estimate,
     averageMonthlyMinor: estimate.monthlyMinor,
     // Reuse the world's established estimate spread, never a payment/outcome roll.
@@ -197,24 +201,15 @@ export function recordedHouseholdHousingBillsAt(
   return bills.length ? bills : null;
 }
 
-/**
- * Only the sourced representative nonhousing basket is charged here. Actual lease and
- * mortgage writers settle housing separately; this flow must not charge it twice.
- */
-function monthlyCostMinor(world: World, personId: EntityId): number {
-  const place = lifePlaceByJurisdictionId(
-    world.people[personId]!.homeJurisdictionId,
-  );
-  return representativeMonthlyLivingCostsMinor(
-    livingCostsRegionForState(place?.stateJurisdictionKey ?? null),
-  );
-}
-
 const livingCostsProvenance = {
   kind: "source-record" as const,
-  reference: `${LIVING_COSTS_SOURCE}#Table-1800; 2024 observation year; A637 gives December 2025 publication, month-end availability cutoff is not an exact publication day; ESTIMATED FROM AVERAGE: selected retained regional annual categories per consumer unit divided by derived adults and 12 months; territories use the national estimate; not an observed bill.`,
+  reference: `${LIVING_COSTS_CATEGORY_SOURCES["consumer-unit-size"].url}#Table-1400; ${LIVING_COSTS_SOURCE}#Table-1800; 2024 Consumer Expenditure category means; conservative availability cutoff December 31, 2025. ESTIMATED FROM AVERAGE: household size category times regional/national category ratio, existing stable world spread; not observed household purchases. Missing recorded sellers use the R15 outside-sellers counterparty.`,
   asOf: makeIsoDate(REPRESENTATIVE_LIVING_COSTS.sourceAvailableBy),
 };
+
+function householdFlowKey(householdId: EntityId | null): string {
+  return `living-costs:household:${householdId}`;
+}
 
 function dollars(minor: number): string {
   return (minor / 100).toLocaleString("en-US", {
@@ -223,212 +218,253 @@ function dollars(minor: number): string {
   });
 }
 
-function livingCostsPayerContext(world: World, personId: EntityId) {
-  const person = world.people[personId];
-  if (!person) return null;
-  if (world.control.kind !== "person" || world.control.personId !== personId)
-    return null;
-  if (
-    world.history.personDeaths.some(
-      (death) =>
-        death.personId === personId && death.diedAt <= world.currentDate,
-    )
-  )
-    return null;
-  const currency = money(0, REPRESENTATIVE_LIVING_COSTS.currency).currency;
-  const owner = { kind: "person" as const, personId };
-  const tracked = world.history.resourcePositions.some(
-    (position) =>
-      sameEndpoint(position.owner, owner) &&
-      position.openingBalance.currency === currency,
-  );
-  if (!tracked) return null;
-  const householdId = primaryHouseholdId(world, personId);
-  if (!householdId) return null;
-  return { person, currency, owner, householdId };
-}
-
-function openLivingCostsFlow(
-  world: World,
-  personId: EntityId,
-  context: NonNullable<ReturnType<typeof livingCostsPayerContext>>,
-): World {
-  if (livingCostsFlowFor(world, personId)) return world;
-  if (world.currentDate < livingCostsProvenance.asOf) return world;
-  const { person, currency, owner, householdId } = context;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  return createResourceFlow(world, {
-    stableKey: flowKey(personId),
-    source: owner,
-    // Paid to the household, which is what consumes it. No household keeps
-    // a balance today; if one ever does, this money is spent, not saved,
-    // and must be routed on rather than shown as the household's.
-    recipient: { kind: "household", householdId },
-    startsAt: world.currentDate,
-    amount: money(monthlyCostMinor(world, personId), currency),
-    cadenceKind: "schedule:monthly",
-    basisKind: LIVING_COSTS_BASIS,
-    basisReference: { kind: "general" },
-    restrictionKind: null,
-    jurisdictionId: place?.context.jurisdiction.id ?? null,
-    provenance: livingCostsProvenance,
-  });
-}
-
-/**
- * Opens the recorded charge at the caller's actual date without making a payment.
- * Opening callers use this before scheduling the next monthly settlement. Old
- * saves open a missing flow now, never retroactively; existing flows are untouched.
- */
-export function initializeLivingCostsFlow(
-  world: World,
-  personId: EntityId,
-): World {
-  if (recordedProviderBills(world, personId).length)
-    return endReplacedPersonalEstimate(world, personId);
-  const context = livingCostsPayerContext(world, personId);
-  return context ? openLivingCostsFlow(world, personId, context) : world;
-}
-
-/**
- * Settles every month of living costs that has come due, and stops.
- *
- * Idempotent: each month is keyed by the first day it is due, so calling this twice,
- * or after a reload, writes nothing new. Called from the same transitions that
- * write the household's next week of errands, and from nothing that only reads.
- */
-export function settleLivingCosts(world: World, personId: EntityId): World {
-  const providerBills = recordedProviderBills(world, personId);
-  if (providerBills.length) {
-    let next = endReplacedPersonalEstimate(world, personId);
-    const latest = new Map<EntityId, IsoDate>();
-    const ids = new Set(providerBills.map((flow) => flow.id));
-    for (const outcome of next.history.resourceTransferOutcomes)
-      if (
-        ids.has(outcome.resourceFlowId) &&
-        (!latest.has(outcome.resourceFlowId) ||
-          latest.get(outcome.resourceFlowId)! < outcome.periodStartsAt)
-      )
-        latest.set(outcome.resourceFlowId, outcome.periodStartsAt);
-    const due: { flow: ResourceFlow; on: IsoDate }[] = [];
-    for (const flow of providerBills) {
-      let on = firstOfNextMonth(latest.get(flow.id) ?? flow.startsAt);
-      for (
-        let month = 0;
-        month < CATCH_UP_LIMIT_MONTHS && on <= next.currentDate;
-        month++
-      ) {
-        due.push({ flow, on });
-        on = firstOfNextMonth(on);
-      }
-    }
-    // Saved creation order breaks same-day ties; no invented provider priority.
-    due.sort(
-      (a, b) => a.on.localeCompare(b.on) || a.flow.sequence - b.flow.sequence,
-    );
-    for (const payment of due)
-      next = settleMonth(next, personId, payment.flow, payment.on);
-    return next;
-  }
-  const context = livingCostsPayerContext(world, personId);
-  if (!context) return world;
-  let next = openLivingCostsFlow(world, personId, context);
-  if (next !== world) return next; // First call only opens the charge, as before.
-  const existingFlow = livingCostsFlowFor(next, personId);
-  if (!existingFlow) return next; // The cited estimate is not available yet.
-  let flow = existingFlow;
-  const monthly = money(monthlyCostMinor(world, personId), context.currency);
-
-  // Replace legacy estimates prospectively, never rewrite saved old terms/payments.
-  const terms = resourceFlowTermsAt(next, flow.id);
-  if (
-    terms &&
-    next.currentDate >= livingCostsProvenance.asOf &&
-    terms.status === "active" &&
-    terms.amount.minorUnits !== monthly.minorUnits
-  ) {
-    const effectiveAt = next.currentDate;
-    next = recordResourceFlowTerms(next, {
-      stableKey: `${flow.stableKey}:terms:${effectiveAt}`,
-      resourceFlowId: flow.id,
-      effectiveAt,
-      status: "active",
-      amount: monthly,
-      cadenceKind: terms.cadenceKind,
-      reason:
-        "Representative food, gasoline, vehicle upkeep, drugs, medical supplies, clothing and miscellaneous bills; housing is paid separately. Public transit, health premiums and medical services are outside this retained basket.",
-      provenance: livingCostsProvenance,
-      supersedesTermsId: terms.id,
-    });
-  }
-
-  // Rent is paid monthly, so everything is due on the first of the month,
-  // starting with the first one after the charge began. Resume after the
-  // latest month settled; the limit bounds one transition's catch-up only.
-  let latest: IsoDate | null = null;
-  for (const outcome of next.history.resourceTransferOutcomes)
-    if (
-      outcome.resourceFlowId === flow.id &&
-      (latest === null || outcome.periodStartsAt > latest)
-    )
-      latest = outcome.periodStartsAt;
-  let dueOn = firstOfNextMonth(latest ?? flow.startsAt);
-  for (
-    let month = 0;
-    month < CATCH_UP_LIMIT_MONTHS && dueOn <= next.currentDate;
-    month += 1
-  ) {
-    next = settleMonth(next, personId, flow, dueOn);
-    flow = livingCostsFlowFor(next, personId)!;
-    dueOn = firstOfNextMonth(dueOn);
-  }
-  return next;
-}
-
-/** R9's admitted provider path uses a saved bill, never a guessed merchant. */
-function recordedProviderBills(
+function householdBills(
   world: World,
   personId: EntityId,
 ): readonly ResourceFlow[] {
-  if (
-    world.control.kind !== "person" ||
-    world.control.personId !== personId ||
-    world.history.personDeaths.some(
-      (death) =>
-        death.personId === personId && death.diedAt <= world.currentDate,
-    )
-  )
-    return [];
   const householdId = primaryHouseholdId(world, personId);
   if (!householdId) return [];
+  const categoryBases = new Set(
+    Object.keys(LIVING_COSTS_CATEGORY_DATA).map(
+      (key) => `${LIVING_COSTS_BASIS}.${key.toLowerCase()}`,
+    ),
+  );
   return world.history.resourceFlows.filter(
     (flow) =>
       flow.source.kind === "household" &&
       flow.source.householdId === householdId &&
-      flow.basisKind === LIVING_COSTS_BASIS &&
+      (flow.basisKind === LIVING_COSTS_BASIS ||
+        categoryBases.has(flow.basisKind)) &&
       flow.startsAt <= world.currentDate &&
       resourceFlowTermsAt(world, flow.id)?.cadenceKind === "schedule:monthly" &&
       !sameEndpoint(flow.source, flow.recipient),
   );
 }
 
-function endReplacedPersonalEstimate(world: World, personId: EntityId): World {
-  const old = livingCostsFlowFor(world, personId);
-  if (!old) return world;
-  const terms = resourceFlowTermsAt(world, old.id);
+function payerIsControlled(world: World, personId: EntityId): boolean {
+  return (
+    world.control.kind === "person" &&
+    world.control.personId === personId &&
+    !!world.people[personId] &&
+    !world.history.personDeaths.some(
+      (death) =>
+        death.personId === personId && death.diedAt <= world.currentDate,
+    )
+  );
+}
+
+function endFlow(world: World, flow: ResourceFlow, reason: string): World {
+  const terms = resourceFlowTermsAt(world, flow.id);
   if (!terms || terms.status !== "active") return world;
   return recordResourceFlowTerms(world, {
-    stableKey: `${old.stableKey}:recorded-provider-cutover:${world.currentDate}`,
-    resourceFlowId: old.id,
+    stableKey: `${flow.stableKey}:cutover:${world.currentDate}`,
+    resourceFlowId: flow.id,
     effectiveAt: world.currentDate,
     status: "ended",
     amount: terms.amount,
     cadenceKind: terms.cadenceKind,
-    reason:
-      "Recorded household provider bills replace the personal nonhousing estimate prospectively.",
+    reason,
     provenance: terms.provenance,
     supersedesTermsId: terms.id,
   });
+}
+
+function prepareHouseholdCosts(
+  world: World,
+  personId: EntityId,
+  reprice: boolean,
+): World {
+  if (!payerIsControlled(world, personId)) return world;
+  const estimate = estimatedHouseholdLivingCostsAt(world, personId);
+  if (!estimate || world.currentDate < livingCostsProvenance.asOf) return world;
+  let next = world;
+  // End all replaced personal estimates for this household, retaining old receipts.
+  for (const id of peopleInHouseholdAt(world, estimate.householdId)) {
+    if (primaryHouseholdId(world, id) !== estimate.householdId) continue;
+    const legacy = world.history.resourceFlows.find(
+      (flow) => flow.stableKey === flowKey(id),
+    );
+    if (legacy)
+      next = endFlow(
+        next,
+        legacy,
+        "Household bills replace the personal nonhousing estimate prospectively.",
+      );
+  }
+  const jurisdictionId = estimate.jurisdictionId;
+  const fallbackPrefix = `${householdFlowKey(estimate.householdId)}:`;
+  const fallbackKey = `${fallbackPrefix}${jurisdictionId}`;
+  for (const flow of householdBills(next, personId))
+    if (
+      flow.stableKey.startsWith(fallbackPrefix) &&
+      flow.stableKey !== fallbackKey
+    )
+      next = endFlow(
+        next,
+        flow,
+        "Household moved; outside-seller spending follows its current place prospectively.",
+      );
+  const existing = next.history.resourceFlows.find(
+    (flow) => flow.stableKey === fallbackKey,
+  );
+  const providers = householdBills(next, personId).filter(
+    (flow) =>
+      !flow.stableKey.startsWith(fallbackPrefix) &&
+      resourceFlowTermsAt(next, flow.id)?.status === "active",
+  );
+  // A saved whole-basket bill already covers the basket; never charge it again.
+  const bundledProvider = providers.some(
+    (flow) => flow.basisKind === LIVING_COSTS_BASIS,
+  );
+  const missing = bundledProvider
+    ? []
+    : estimate.categories.filter(
+        (row) =>
+          !providers.some(
+            (flow) =>
+              flow.basisKind ===
+              `${LIVING_COSTS_BASIS}.${row.key.toLowerCase()}`,
+          ),
+      );
+  if (!missing.length)
+    return existing
+      ? endFlow(
+          next,
+          existing,
+          "Recorded provider bills cover the nonhousing basket.",
+        )
+      : next;
+  const owner = {
+    kind: "household" as const,
+    householdId: estimate.householdId,
+  };
+  const currency = money(0, REPRESENTATIVE_LIVING_COSTS.currency).currency;
+  if (!resourcePositionAt(next, owner, currency)) return next; // Do not invent household cash.
+  const totalAnnual = estimate.categories.reduce(
+    (sum, row) => sum + row.annualMeanUsd,
+    0,
+  );
+  const missingAnnual = missing.reduce(
+    (sum, row) => sum + row.annualMeanUsd,
+    0,
+  );
+  const amount = money(
+    Math.round((estimate.monthlyMinor * missingAnnual) / totalAnnual),
+    currency,
+  );
+  const reason = `ESTIMATED FROM AVERAGE: ${missing.map((row) => row.label).join(", ")}; ${estimate.householdSize} household residents, ${estimate.region}; recorded provider categories are excluded. Housing is paid separately.`;
+  if (existing) {
+    const terms = resourceFlowTermsAt(next, existing.id);
+    // An ended saved charge stays ended; a missing seller never revives a contract.
+    if (
+      !reprice ||
+      !terms ||
+      terms.status !== "active" ||
+      terms.amount.minorUnits === amount.minorUnits
+    )
+      return next;
+    return recordResourceFlowTerms(next, {
+      stableKey: `${fallbackKey}:terms:${next.currentDate}`,
+      resourceFlowId: existing.id,
+      effectiveAt: next.currentDate,
+      status: "active",
+      amount,
+      cadenceKind: terms.cadenceKind,
+      reason,
+      provenance: livingCostsProvenance,
+      supersedesTermsId: terms.id,
+    });
+  }
+  const sellerKey = `living-costs:outside-sellers:${jurisdictionId}`;
+  let seller = next.history.organizations.find(
+    (row) => row.stableKey === sellerKey,
+  );
+  if (!seller) {
+    next = createOrganization(next, {
+      stableKey: sellerKey,
+      formedAt: next.currentDate,
+      initialProfile: {
+        name: "Sellers outside this town's simulated businesses",
+        classification: "custom:outside-sellers",
+        locationJurisdictionId: jurisdictionId,
+      },
+      provenance: {
+        kind: "authored",
+        note: "CTO R15 Oct 2 06:38: labeled aggregate outside-sellers counterparty for recorded spending leakage; not a named local vendor.",
+      },
+    });
+    seller = next.history.organizations.at(-1)!;
+  }
+  const recipient = {
+    kind: "organization" as const,
+    organizationId: seller.id,
+  };
+  if (!resourcePositionAt(next, recipient, currency))
+    next = createResourcePosition(next, {
+      stableKey: `${sellerKey}:cash:${currency}`,
+      owner: recipient,
+      openedAt: next.currentDate,
+      openingBalance: money(0, currency),
+      provenance: seller.provenance,
+    });
+  return createResourceFlow(next, {
+    stableKey: fallbackKey,
+    source: owner,
+    recipient,
+    startsAt: next.currentDate,
+    amount,
+    cadenceKind: "schedule:monthly",
+    basisKind: LIVING_COSTS_BASIS,
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId,
+    provenance: {
+      ...livingCostsProvenance,
+      reference: `${livingCostsProvenance.reference} ${reason}`,
+    },
+  });
+}
+
+/** Opens a charge now; never backdates payments or reprices a saved contract. */
+export function initializeLivingCostsFlow(
+  world: World,
+  personId: EntityId,
+): World {
+  return prepareHouseholdCosts(world, personId, false);
+}
+
+/** Settle saved household bills in due-date order through the existing cash writer. */
+export function settleLivingCosts(world: World, personId: EntityId): World {
+  if (!payerIsControlled(world, personId)) return world;
+  let next = prepareHouseholdCosts(world, personId, true);
+  const bills = householdBills(next, personId);
+  const latest = new Map<EntityId, IsoDate>();
+  const ids = new Set(bills.map((flow) => flow.id));
+  for (const outcome of next.history.resourceTransferOutcomes)
+    if (
+      ids.has(outcome.resourceFlowId) &&
+      (!latest.has(outcome.resourceFlowId) ||
+        latest.get(outcome.resourceFlowId)! < outcome.periodStartsAt)
+    )
+      latest.set(outcome.resourceFlowId, outcome.periodStartsAt);
+  const due: { flow: ResourceFlow; on: IsoDate }[] = [];
+  for (const flow of bills) {
+    let on = firstOfNextMonth(latest.get(flow.id) ?? flow.startsAt);
+    for (
+      let month = 0;
+      month < CATCH_UP_LIMIT_MONTHS && on <= next.currentDate;
+      month++
+    ) {
+      due.push({ flow, on });
+      on = firstOfNextMonth(on);
+    }
+  }
+  due.sort(
+    (a, b) => a.on.localeCompare(b.on) || a.flow.sequence - b.flow.sequence,
+  );
+  for (const payment of due)
+    next = settleMonth(next, personId, payment.flow, payment.on);
+  return next;
 }
 
 function firstOfNextMonth(date: IsoDate): IsoDate {

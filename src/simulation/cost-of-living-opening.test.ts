@@ -1,3 +1,4 @@
+import { householdMembershipsAt } from "./life-queries";
 import { describe, expect, it } from "vitest";
 import {
   createNewGameWorld,
@@ -58,16 +59,19 @@ describe("the pure living-cost opening initializer", () => {
       });
       const personId = game.playerPersonId;
       let original = game.world;
+      const householdId = householdMembershipsAt(original, personId).find(
+        (row) => row.state.residenceRole === "primary",
+      )!.household.id;
       if (
         !original.history.resourcePositions.some(
           (position) =>
-            position.owner.kind === "person" &&
-            position.owner.personId === personId,
+            position.owner.kind === "household" &&
+            position.owner.householdId === householdId,
         )
       )
         original = createResourcePosition(original, {
           stableKey: `fixture:opening-funds:${personId}`,
-          owner: { kind: "person", personId },
+          owner: { kind: "household", householdId },
           openedAt: original.currentDate,
           openingBalance: money(100_000, "USD"),
           provenance: {

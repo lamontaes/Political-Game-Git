@@ -2,7 +2,7 @@
 id: household-size-cost-estimates
 impact: patch
 section: Fixed
-title: Household spending estimates retain size and regional source data
+title: Household bills pay saved providers or labeled outside sellers
 ---
 
 A dated household spending reader includes resident children and uses the
@@ -15,5 +15,10 @@ payment on their ended due date.
 Existing nonhousing provider bills spend recorded household cash and credit their
 saved recipients. The replaced personal estimate ends prospectively without
 rewriting earlier payments. Missing household cash never becomes a zero balance.
-The local-economy spending-category fallback remains an explicit receipt-binding
-dependency; no provider, cash or category mapping is invented.
+Categories without a recorded provider pay one shared counterparty per place,
+"Sellers outside this town's simulated businesses," through the existing account
+and transfer records. Its account starts at zero, and household payments credit
+the same amount they debit. Saved category invoices exclude their category from
+the fallback estimate; saved whole-basket invoices replace the fallback basket.
+Future local-seller category receipts remain with their existing producer. No
+personal cash pooling or additional accounts are introduced.

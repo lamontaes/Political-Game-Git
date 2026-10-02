@@ -1,3 +1,4 @@
+import { householdMembershipsAt } from "./life-queries";
 import { describe, expect, it } from "vitest";
 import {
   createNewGameWorld,
@@ -5,6 +6,7 @@ import {
 } from "../presentation/new-game";
 import {
   recordedHouseholdHousingBillsAt,
+  estimatedHouseholdLivingCostsAt,
   livingCostsFlowFor,
   settleLivingCosts,
   initializeLivingCostsFlow,
@@ -26,10 +28,6 @@ import {
   townLeases,
 } from "./living-world/town-rent";
 import { lifePlaceByKey } from "./life-places";
-import {
-  livingCostsRegionForState,
-  representativeMonthlyLivingCostsMinor,
-} from "./living-costs-data";
 
 const seed = "team4-m12-recorded-bills-20260930";
 const largest = new Map<string, [string, number]>();
@@ -76,16 +74,19 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
       });
       const personId = game.playerPersonId;
       let world = game.world;
+      const householdId = householdMembershipsAt(world, personId).find(
+        (row) => row.state.residenceRole === "primary",
+      )!.household.id;
       if (
         !world.history.resourcePositions.some(
           (position) =>
-            position.owner.kind === "person" &&
-            position.owner.personId === personId,
+            position.owner.kind === "household" &&
+            position.owner.householdId === householdId,
         )
       ) {
         world = createResourcePosition(world, {
           stableKey: `fixture:tracked:${personId}`,
-          owner: { kind: "person", personId },
+          owner: { kind: "household", householdId },
           openedAt: world.currentDate,
           openingBalance: money(100_000, "USD"),
           provenance: {
@@ -105,11 +106,7 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
       expect(flow).toBeDefined();
       expect(flow.startsAt).toBe(world.currentDate);
       expect(resourceFlowTermsAt(changed, flow.id)!.amount.minorUnits).toBe(
-        representativeMonthlyLivingCostsMinor(
-          livingCostsRegionForState(
-            lifePlaceByKey(placeKey)!.stateJurisdictionKey,
-          ),
-        ),
+        estimatedHouseholdLivingCostsAt(changed, personId)!.monthlyMinor,
       );
       expect(
         changed.history.resourceFlows.slice(0, originalFlows.length),
