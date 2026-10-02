@@ -16,7 +16,8 @@ import {
   upbringingTraitTendencies,
   type PersonUpbringing,
 } from "./people-upbringing";
-import { annualPovertyLineMinor } from "./crisis/health-coverage";
+import { annualPovertyLineMinor } from "./household-pay";
+import { homeStateKey } from "./state-jurisdiction-id";
 import { stableHash } from "./ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import {
@@ -185,6 +186,8 @@ describe("upbringing and starting traits", () => {
     const base: PersonUpbringing = {
       personId: "person_test" as EntityId,
       money: [],
+      basis: "game-profile",
+      disruption: 0,
       homeStability: "stable",
       caregiving: "consistent-firm",
       protectiveCaregiver: true,
@@ -212,6 +215,8 @@ describe("upbringing and starting traits", () => {
     const upbringing: PersonUpbringing = {
       personId: "person_test" as EntityId,
       money: [],
+      basis: "game-profile",
+      disruption: 0,
       homeStability: "stable",
       caregiving: "consistent-firm",
       protectiveCaregiver: false,
@@ -344,6 +349,10 @@ describe("A137: a childhood's money comes from the family's records", () => {
       "public-data",
     );
 
+    // The leaf's reading of the home state agrees with the tax system's.
+    expect(homeStateKey(world, childId)).toBe(
+      residenceStateKey(world, childId),
+    );
     const household = householdMembershipsAt(world, childId)[0]!;
     const members = peopleInHouseholdAt(world, household.household.id);
     const line = annualPovertyLineMinor(

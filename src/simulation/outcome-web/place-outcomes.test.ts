@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
+import { renderPlaceCountyModule } from "../../../scripts/source/export-place-county-relations";
+import { drawRandomPlace } from "../../../tests/support/random-place";
 import { makeIsoDate } from "../dates";
-import { stateJurisdictionForKey } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceByKey,
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import type {
   EntityId,
@@ -9,11 +16,21 @@ import type {
   World,
 } from "../types";
 import {
+  areaResidents,
+  localResidents,
+  localWeights,
   PLACE_OUTCOME_BASES,
   placeOutcomeAt,
   placeOutcomeRecords,
+  placeOutcomeValue,
   placeOutcomesForMonth,
 } from "./place-outcomes";
+import {
+  countyGeoidsForPlace,
+  countyPopulationSharesForPlace,
+  PLACE_COUNTY_RELATIONS_META,
+} from "../government-units";
+import { PLACE_COUNTY_RELATIONS_ROWS } from "../place-county-relations.generated";
 import { outcomeFactor } from ".";
 
 /*
@@ -105,6 +122,164 @@ function valueFor(
 const UNINSURED = "health.uninsured-pct";
 const base = (placeKey: string) =>
   PLACE_OUTCOME_BASES[UNINSURED]!.places[placeKey]!;
+
+describe("A167 city population across counties", () => {
+  const seed = "team2-a167-county-population";
+  const places = Array.from({ length: 5 }, (_, index) =>
+    drawRandomPlace(`${seed}:${index}`, (place) => {
+      if (!place.sourceGeoid || localResidents(place.sourceGeoid) === null)
+        return false;
+      const parts = countyPopulationSharesForPlace(place.sourceGeoid);
+      return (
+        parts.length === 2 &&
+        parts.every(
+          ([county, share]) =>
+            share !== null && share > 0 && areaResidents(county) !== null,
+        )
+      );
+    }),
+  );
+
+  it.each(places)(
+    "splits $displayName residents between both county areas",
+    (place) => {
+      const key = place.sourceGeoid!;
+      const population = localResidents(key)!;
+      const state = areaResidents(place.stateJurisdictionKey!)!;
+      const parts = countyPopulationSharesForPlace(key);
+      const countyKeys = parts.map(([county]) => `county:${county}`);
+      const weights = localWeights(place.stateJurisdictionKey!, [
+        key,
+        ...countyKeys,
+      ]);
+      expect(parts.reduce((sum, [, share]) => sum + share!, 0)).toBeCloseTo(
+        1,
+        12,
+      );
+      expect(weights.get(key)! * state).toBeCloseTo(population, 8);
+      for (const [county, share] of parts) {
+        expect(weights.get(`county:${county}`)! * state).toBeCloseTo(
+          areaResidents(county)! - population * share!,
+          8,
+        );
+      }
+      const represented = [...weights.values()].reduce<number>(
+        (sum, weight) => sum + weight! * state,
+        0,
+      );
+      expect(represented).toBeCloseTo(
+        parts.reduce((sum, [county]) => sum + areaResidents(county)!, 0),
+        8,
+      );
+
+      // The ordinary monthly writer records exactly those allocation weights.
+      const jurisdictions = [
+        place.context.jurisdiction.id,
+        ...countyKeys.map(
+          (countyKey) => lifePlaceByKey(countyKey)?.context.jurisdiction.id,
+        ),
+      ];
+      expect(jurisdictions.every((id) => id !== undefined)).toBe(true);
+      const laws = jurisdictions.map((jurisdictionId, index) => {
+        const law = texasExpansion("2026-01-01");
+        const measureId = `measure_a167_${index}` as EntityId;
+        return {
+          measure: {
+            ...law.measure,
+            id: measureId,
+            jurisdictionId: jurisdictionId!,
+            stableKey: `a167:${index}`,
+          },
+          enactment: {
+            ...law.enactment,
+            id: `enactment_a167_${index}` as EntityId,
+            measureId,
+            resolvedAt: makeIsoDate("2026-01-01"),
+          },
+        };
+      });
+      const world = worldAt("2026-02-01", laws);
+      const records = placeOutcomesForMonth(world, world.currentDate);
+      const stateRecord = records.find(
+        (record) =>
+          record.measure === UNINSURED &&
+          record.placeKey === place.stateJurisdictionKey,
+      )!;
+      expect(stateRecord.places).toBeDefined();
+      for (const share of stateRecord.places!)
+        expect(share.weight).toBeCloseTo(weights.get(share.placeKey)!, 12);
+      const continued = JSON.parse(
+        JSON.stringify({
+          ...world,
+          placeOutcomes: { months: [{ month: world.currentDate, records }] },
+        }),
+      ) as World;
+      expect(
+        placeOutcomeAt(
+          continued,
+          UNINSURED,
+          place.context.jurisdiction.id,
+          world.currentDate,
+        )?.weight,
+      ).toBeCloseTo(weights.get(key)!, 12);
+      expect(placeOutcomesForMonth(continued, world.currentDate)).toEqual(
+        records,
+      );
+      expect(
+        lifePlaceByJurisdictionId(place.context.jurisdiction.id)?.sourceGeoid,
+      ).toBe(key);
+    },
+  );
+
+  it("preserves measured zero parts and existing single-county geography", () => {
+    const austin = countyPopulationSharesForPlace("4805000");
+    expect(austin.find(([county]) => county === "48021")?.[1]).toBe(0);
+    expect(austin.find(([county]) => county === "48209")?.[1]).toBeCloseTo(
+      933 / 961855,
+      12,
+    );
+    expect(countyPopulationSharesForPlace("1714000")).toEqual([
+      ["17031", 1],
+      ["17043", 0],
+    ]);
+    expect(countyPopulationSharesForPlace("0100460")).toEqual([["01073", 1]]);
+    expect(countyPopulationSharesForPlace("not-a-census-place")).toEqual([]);
+    expect(countyPopulationSharesForPlace("7200000")).toEqual([]);
+    expect(PLACE_COUNTY_RELATIONS_META.populationAsOf).toBe("2020-04-01");
+    expect([...countyGeoidsForPlace("4805000")].sort()).toEqual(
+      austin.map(([county]) => county).sort(),
+    );
+  });
+
+  it("replays the projection from all 51 hash-verified locked Census slices", () => {
+    const rendered = renderPlaceCountyModule();
+    const literal = rendered
+      .split("export const PLACE_COUNTY_RELATIONS_ROWS: string = ")[1]!
+      .trim()
+      .slice(0, -1);
+    expect(JSON.parse(literal)).toEqual(PLACE_COUNTY_RELATIONS_ROWS);
+    expect(PLACE_COUNTY_RELATIONS_META.inputs).toHaveLength(51);
+  });
+
+  it("leaves county deductions unknown when the city has no current resident count", () => {
+    // Bucks CDP has measured 2020 parts in Mobile and Washington counties,
+    // but the incorporated-place estimates do not supply its current total.
+    const place = "0111488";
+    expect(localResidents(place)).toBeNull();
+    const parts = countyPopulationSharesForPlace(place);
+    expect(parts).toEqual([
+      ["01097", 102 / 255],
+      ["01129", 153 / 255],
+    ]);
+    const weights = localWeights("US-AL", [
+      place,
+      ...parts.map(([county]) => `county:${county}`),
+    ]);
+    expect(weights.get(place)).toBeNull();
+    for (const [county] of parts)
+      expect(weights.get(`county:${county}`)).toBeNull();
+  });
+});
 
 describe("place outcomes", () => {
   it("every state, D.C. and Puerto Rico where measured starts at its real 2024 level", () => {
@@ -485,10 +660,16 @@ describe("environment, public safety and homelessness", () => {
   });
 });
 
-describe("the entire world changes: place outcomes drift, and no two worlds end alike", () => {
-  /** Runs `months` of monthly passes from January 2026 on a seeded world. */
-  function run(seed: string, months: number): World {
-    let world = { ...worldAt("2026-01-01"), seed } as World;
+describe("place outcomes move only from recorded causes: nothing is drawn", () => {
+  /**
+   * Runs `months` of monthly passes from January 2026. A world with a seed
+   * has a drawn size for each link (the outcome web's own draw); one without
+   * does not, and every link acts at its researched size.
+   */
+  function run(seed: string | null, months: number): World {
+    let world = (
+      seed ? { ...worldAt("2026-01-01"), seed } : worldAt("2026-01-01")
+    ) as World;
     let month = makeIsoDate("2026-01-01");
     for (let index = 0; index < months; index += 1) {
       world = {
@@ -511,48 +692,124 @@ describe("the entire world changes: place outcomes drift, and no two worlds end 
     placeOutcomeRecords(world)
       .filter((r) => r.measure === measure && r.placeKey === placeKey)
       .at(-1)!;
+  const causesOf = (record: { causes: readonly unknown[] }) =>
+    JSON.stringify(record.causes);
 
-  it("over a decade each state's level wanders from its base, partly with the nation, within its bounds", () => {
-    const world = run("drift-a", 120);
-    const ends = Object.keys(PLACE_OUTCOME_BASES[UNINSURED]!.places).map(
-      (placeKey) => last(world, placeKey),
+  it("with no law change and no crisis, every place of all 56 holds its starting value month after month, in any world", () => {
+    const worlds = [run(null, 36), run("quiet-a", 36), run("quiet-b", 36)];
+    // One rule for every state, D.C. and the five territories: a measure
+    // keeps a record for exactly the places it has a base for, and never a
+    // zero for one it has none for.
+    const everyPlace = lifePlaceStateIdentities().map(
+      (state) => state.jurisdictionKey,
     );
-    expect(ends.filter((r) => r.structural !== r.base).length).toBe(
-      ends.length,
-    );
-    for (const record of ends) {
-      expect(record.structural!).toBeGreaterThanOrEqual(1);
-      expect(record.structural!).toBeLessThanOrEqual(40);
+    expect(everyPlace).toHaveLength(56);
+    const covered = new Set<string>();
+    let moved = 0;
+    let held = 0;
+    for (const [measure, definition] of Object.entries(PLACE_OUTCOME_BASES)) {
+      const withBase = Object.keys(definition.places).sort();
+      for (const world of worlds) {
+        const records = placeOutcomeRecords(world).filter(
+          (record) => record.measure === measure,
+        );
+        expect(
+          [...new Set(records.map((record) => record.placeKey))].sort(),
+          measure,
+        ).toEqual(withBase);
+        for (const placeKey of withBase) {
+          const series = records.filter(
+            (record) => record.placeKey === placeKey,
+          );
+          expect(series, `${measure} ${placeKey}`).toHaveLength(36);
+          series.forEach((record, index) => {
+            const where = `${measure} ${placeKey} ${record.month}`;
+            // The underlying level never moves: nothing is drawn.
+            expect(record.structural, where).toBe(record.base);
+            // The value is the level times the causes at work, and nothing else.
+            expect(record.value, where).toBeCloseTo(
+              placeOutcomeValue(
+                definition,
+                record.structural!,
+                record.multiplier,
+                record.causes.map((cause) => cause.factor),
+              ),
+              1,
+            );
+            if (index === 0) return;
+            const before = series[index - 1]!;
+            if (causesOf(before) === causesOf(record)) {
+              // The same causes at the same strength: the same value.
+              expect(record.value, where).toBe(before.value);
+              held += 1;
+            } else {
+              // A cause arrived, changed or ended: the record names it.
+              expect(causesOf(record), where).not.toBe(causesOf(before));
+              moved += 1;
+            }
+          });
+        }
+      }
+      for (const placeKey of withBase) covered.add(placeKey);
     }
-    // Most states moved the same way as the nation did.
-    const moves = ends.map((r) => Math.sign(r.structural! - r.base));
-    const shared = Math.max(
-      moves.filter((m) => m > 0).length,
-      moves.filter((m) => m < 0).length,
-    );
-    expect(shared / moves.length).toBeGreaterThan(0.6);
-  }, 60_000);
+    // Between them the measures reach every one of the 56, and none else.
+    expect([...covered].sort()).toEqual([...everyPlace].sort());
+    // The month-to-month record is mostly causes holding still, and at least
+    // some causes did arrive in these three years.
+    expect(held).toBeGreaterThan(moved);
+    expect(moved).toBeGreaterThan(0);
+    // The seed is not a cause of any movement: the underlying levels of
+    // every world are the same record for record.
+    const levels = (world: World) =>
+      placeOutcomeRecords(world).map((record) => [
+        record.measure,
+        record.placeKey,
+        record.month,
+        record.structural,
+      ]);
+    expect(levels(worlds[1]!)).toEqual(levels(worlds[0]!));
+    expect(levels(worlds[2]!)).toEqual(levels(worlds[0]!));
+  }, 240_000);
 
-  it("twenty-five years on, the same state ends in very different places in different worlds", () => {
-    const worlds = ["w1", "w2", "w3", "w4"].map((seed) => run(seed, 300));
-    const spread = (measure: string) => {
-      const values = worlds.map((world) => last(world, "US-TX", measure).value);
-      return Math.max(...values) - Math.min(...values);
-    };
-    expect(spread(UNINSURED)).toBeGreaterThan(3);
-    // Schools change too: graduation and math proficiency end apart.
-    expect(spread("school.graduation-pct")).toBeGreaterThan(2);
-    expect(spread("school.math-proficient-pct")).toBeGreaterThan(2);
-    // Crime and births drift as levels: a quarter century apart in each world.
-    expect(spread("crime.violent")).toBeGreaterThan(60);
-    expect(spread("births.rate-index")).toBeGreaterThan(5);
+  it("a measure still moves when a built link's cause changes: Ohio's uninsured share steps up when the work requirement takes effect, and stays there", () => {
+    const world = run(null, 28);
+    const ohio = (month: string) =>
+      placeOutcomeRecords(world).find(
+        (r) =>
+          r.measure === UNINSURED &&
+          r.placeKey === "US-OH" &&
+          r.month === month,
+      )!;
+    // Until the cause arrives the share is its start, month after month.
+    for (const month of ["2026-01-01", "2026-12-01", "2027-06-01"]) {
+      expect(ohio(month).value, month).toBe(base("US-OH"));
+      expect(ohio(month).causes, month).toEqual([]);
+    }
+    // The month it takes effect, the share moves by the link's effect and
+    // the record names the cause.
+    const after = ohio("2027-08-01");
+    expect(after.multiplier).toBeCloseTo(1.32, 10);
+    expect(after.value).toBeCloseTo(base("US-OH") * 1.32, 1);
+    expect(after.causes.map((cause) => cause.key)).toEqual([
+      "work-requirement-to-coverage",
+    ]);
+    // The underlying level never moved; the cause did, and it holds.
+    for (const record of placeOutcomeRecords(world).filter(
+      (r) => r.measure === UNINSURED && r.placeKey === "US-OH",
+    ))
+      expect(record.structural).toBe(base("US-OH"));
+    expect(ohio("2028-04-01").multiplier).toBeCloseTo(1.32, 10);
+    // A state the link does not name has nothing to move it.
+    expect(last(world, "US-TX").value).toBe(base("US-TX"));
+    expect(last(world, "US-FL").value).toBe(base("US-FL"));
   }, 120_000);
 
-  it("laws still act on top of the drift: the work requirement multiplies Ohio's level from mid-2027", () => {
-    const world = run("drift-b", 20);
+  it("the same cause moves a seeded world too, by the size that world drew for the link", () => {
+    const world = run("moves-with-its-cause", 20);
     const ohio = last(world, "US-OH");
     expect(ohio.month).toBe("2027-08-01");
     expect(ohio.multiplier).toBeGreaterThan(1.19);
-    expect(ohio.value).toBeCloseTo(ohio.structural! * ohio.multiplier, 1);
-  });
+    expect(ohio.structural).toBe(base("US-OH"));
+    expect(ohio.value).toBeCloseTo(base("US-OH") * ohio.multiplier, 1);
+  }, 120_000);
 });

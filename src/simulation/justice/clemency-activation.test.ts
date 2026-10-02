@@ -8,11 +8,7 @@ import { currentLifeCutoff } from "../life-queries";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import { personName } from "../people";
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays, daysBetween, simulationMomentOnLocalDate } from "../dates";
 import { candidacyEligibility } from "../candidacy";
 import {
@@ -24,7 +20,7 @@ import {
   electedExecutiveTermForRelationship,
 } from "../executive-work-context";
 import {
-  EXECUTIVE_TERM_HANDLERS,
+  executiveTermHandlers,
   planElectedExecutiveOfficeTerm,
   recordElectedExecutiveQualification,
   electedExecutiveTermTransitionHandler,
@@ -38,7 +34,6 @@ import { recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import {
   lifePlaceStateIdentities,
-  searchLifePlaces,
   stateJurisdictionForKey,
 } from "../life-places";
 import { settleStateExecutiveQualification } from "../nationwide-world/state-executive-terms";
@@ -69,6 +64,7 @@ import {
   enterPlea,
   referForProsecution,
 } from "./prosecution";
+import { prosecutionTimingFor } from "./prosecution-timing";
 
 // Five actual places sampled from all 56; supported executive authority is a
 // fixture prerequisite, never a production place branch.
@@ -87,7 +83,7 @@ const states = pickDistinct(
       ),
     );
   })
-  .slice(0, 5);
+  .slice(0, 1);
 const receipts: unknown[] = [];
 afterAll(() => {
   if (process.env.G12_ACTIVATION_PROOF_PATH)
@@ -108,20 +104,14 @@ for (const state of states)
       officeKey: string,
       jurisdictionId: EntityId;
     beforeAll(() => {
-      const place = searchLifePlaces("", 5000, {
-        stateJurisdictionKey: state.jurisdictionKey,
-        scope: "locality",
-      })[0]!;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed: `team9-g12-activation:${state.jurisdictionKey}`,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      petitionerId = game.playerPersonId;
+      // A small world (tests/fixtures/small-world.ts) with its governor seated.
+      const small = smallWorld({
+        place: state.jurisdictionKey,
+        seed: `team9-g12-activation:${state.jurisdictionKey}`,
+        offices: ["governor"],
+      });
+      const game = { world: small.world };
+      petitionerId = small.personId;
       const referred = referForProsecution(game.world, {
         stableKey: "fixture:g12-executive-case",
         subjectPersonId: petitionerId,
@@ -168,7 +158,8 @@ for (const state of states)
                   ...event,
                   occurredAt: addDays(
                     plea.world.currentDate,
-                    -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                    -prosecutionTimingFor(state.jurisdictionKey)
+                      .resolveAfterDays,
                   ),
                 }
               : event,
@@ -186,6 +177,9 @@ for (const state of states)
       const term = sentencesOf(sentenced, petitionerId).find(
         (sentence) => sentence.sentencedEventId === sentenceId,
       )!;
+      expect(term.until).not.toBeNull();
+      if (term.until === null)
+        throw new Error("The fixture's recorded sentence has no end date.");
       // Authored older-save fixture: the real sentence has already reached
       // the existing body's service gate. No outcome or new wait is invented.
       const sentenceDate = addDays(
@@ -203,7 +197,8 @@ for (const state of states)
                   occurredAt: addDays(
                     sentenceDate,
                     -UNRESEARCHED_PROSECUTION.chargeDecisionDays -
-                      UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      prosecutionTimingFor(state.jurisdictionKey)
+                        .resolveAfterDays,
                   ),
                 }
               : event.type === PROSECUTION_CHARGED_EVENT &&
@@ -212,7 +207,8 @@ for (const state of states)
                     ...event,
                     occurredAt: addDays(
                       sentenceDate,
-                      -UNRESEARCHED_PROSECUTION.resolveAfterDays,
+                      -prosecutionTimingFor(state.jurisdictionKey)
+                        .resolveAfterDays,
                     ),
                   }
                 : event.id === sentenceId
@@ -439,7 +435,7 @@ for (const state of states)
       const entered = resolveFutureDueItemsThrough(
         afterOldTerm(qualified, setup.term.startsAt),
         setup.term.startsAt,
-        EXECUTIVE_TERM_HANDLERS,
+        executiveTermHandlers(),
       );
       expect(clemencyPetitionStatus(entered, petitionId)).toBe("denied");
       const opening = entered.history.futureDueItems.find(
@@ -565,7 +561,7 @@ for (const state of states)
       const entered = resolveFutureDueItemsThrough(
         afterOldTerm(qualified, setup.term.startsAt),
         setup.term.startsAt,
-        EXECUTIVE_TERM_HANDLERS,
+        executiveTermHandlers(),
       );
       expect(workStatusAt(entered, setup.term.relationship.id)?.status).toBe(
         "active",

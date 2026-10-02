@@ -8,6 +8,7 @@ import type {
   AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
+import { openProgramMattersForAllOffices } from "./governing/state-governing";
 import {
   applyEnactedDuties,
   clauseOrigins,
@@ -251,11 +252,27 @@ export function applyEnactedLawEffects(
   if (proposal && taxActivationReadiness(next, proposal.id).kind === "ready")
     next = adoptEnactedTaxPolicy(next, proposal.id);
   // Every enacted amount has one saved program authority, transit included.
+  const previousAppropriations = new Set(
+    (next.history.publicProgramRecords ?? [])
+      .filter((record) => record.kind === "appropriation")
+      .map((record) => record.id),
+  );
   next = appropriationFromEnactedMeasure(next, measureId);
   // A family's own appropriating section, e.g. "There is appropriated to a
   // service line replacement fund a sum not to exceed ...". A generic
   // "amount provided" clause is not one, so nothing is written twice.
   next = applyFamilyAppropriations(next, measureId);
+  const newAppropriations = new Set(
+    (next.history.publicProgramRecords ?? [])
+      .filter(
+        (record) =>
+          record.kind === "appropriation" &&
+          !previousAppropriations.has(record.id),
+      )
+      .map((record) => record.id),
+  );
+  if (newAppropriations.size > 0)
+    next = openProgramMattersForAllOffices(next, newAppropriations);
   // A section that places a duty on a class of body.
   next = applyEnactedDuties(next, measureId);
   // A section that says who qualifies for, or is subject to, the Act.
@@ -828,11 +845,7 @@ export function applyLawConsequences(
       }
     }
   }
-  if (
-    !context.questionKey &&
-    !context.governingLawId &&
-    context.origin !== "enacted"
-  ) {
+  if (!context.questionKey) {
     for (const registration of registry.handlers.values()) {
       if (!registration.resolveSavedRules) continue;
       for (const input of registration.resolveSavedRules(next, context)) {
@@ -860,6 +873,21 @@ export function applyLawConsequences(
             `Consequence ${row.id}: unsupported saved authority unit`,
           );
         if (input.effectiveAt > context.onDate) continue;
+        if (authority.kind === "enacted-typed-tax-policy") {
+          if (
+            row.kind !== "tax" ||
+            context.activity !== "assessment" ||
+            context.origin === "in-force-at-start" ||
+            context.standingAppropriationId ||
+            (context.governingLawId &&
+              authority.measureId !== context.governingLawId)
+          )
+            continue;
+          // The tax registration re-resolves the saved policy/base/enactment and compares the entire result before the common assessment writer runs.
+          next = registration.apply(next, input);
+          continue;
+        }
+        if (context.governingLawId || context.origin === "enacted") continue;
         if (
           context.standingAppropriationId &&
           context.standingAppropriationId !== authority.appropriationId

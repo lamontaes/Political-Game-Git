@@ -108,6 +108,18 @@ export function playerMonthlyMoneyHandler(
   };
 }
 
-export const PLAYER_MONTHLY_MONEY_HANDLERS = [
-  [PLAYER_MONTHLY_MONEY_KEY, playerMonthlyMoneyHandler],
-] as const;
+let monthlyMoneyHandlers:
+  | readonly [
+      readonly [
+        typeof PLAYER_MONTHLY_MONEY_KEY,
+        typeof playerMonthlyMoneyHandler,
+      ],
+    ]
+  | undefined;
+
+/** Compose handlers on first use, after simulation modules finish loading. */
+export function playerMonthlyMoneyHandlers() {
+  return (monthlyMoneyHandlers ??= [
+    [PLAYER_MONTHLY_MONEY_KEY, playerMonthlyMoneyHandler],
+  ] as const);
+}

@@ -1,6 +1,6 @@
-import assetManifest from "../../art/manifest/asset_manifest.json";
-import environmentIntake from "../../art/intake/ax-92b1/environment-intake-report.json";
-import driveInventory from "./public-drive-inventory.generated.json";
+import assetManifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
+import environmentIntake from "../../art/intake/ax-92b1/environment-intake-report.json" with { type: "json" };
+import driveInventory from "./public-drive-inventory.generated.json" with { type: "json" };
 
 /**
  * EVERY ENVIRONMENT, TITLE, BACKGROUND AND PROP SOURCE THIS PROJECT HOLDS, AND

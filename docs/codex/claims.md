@@ -1,3 +1,63 @@
+# Current ownership corrections
+
+The latest transfers below supersede the historical checkpoints retained afterward.
+
+## Closed slice transfers, October 1 at 5:16 p.m. Eastern
+
+- Coordinator owns the dated legal-reader extraction in #1679 at 40462483772ec3227302e412bbcf9fe45c851974. It includes existing law-in-force, final-law-term-query, question-authority, session-adjournments, policy-provisions, constitutionalPosition cutoff, and only enactmentStatuteDateContext's cutoff hunk. The two canonical wage question families are received without replacing newer unrelated rows. Team 4's dated rent consumer remains in #1673.
+- Team 3 released ONLY the completedPayShift declaration export in living-world/town-pay.ts. Coordinator published that one-line addition in #1575 at 44de52b98557c9ed1da8410acf1efe1afc7a21dc; the reader body and all payroll writers remain unchanged. Team 3 retains A43 fairness-pay-law work; its minimumWageSettingAt fallback remains separate from root's stateMinimumSettingAt and canonical data.
+- Team 2 owns ONLY the buildLegislativeVoteRecord genericPurpose literal admission for constitutional-ratification in legislation.ts. It does not own another vote threshold or tally path. The published receipt is b62cb23b87b902e41b566cbb36cc0495efed789b in #1637.
+- Team 6 owns ONLY PlayerGame's transit subItems admission, transit-withheld resident branch, and required imports. Tax/office permissions and other shell mounts remain protected. Its source work uses actual resident offers and saved trip/service records.
+- Overflow 5 inherits Claude G's story-heard API seam; Team 8's parked reader and Coordinator's starting-law identity work stay protected. Team 6 supplied the exact saved-work fixture release from 173fcd9d0231dffab14106878452118c06f0aff9. #1663 is verified merged at 5a2b2fa0596692fcba823f3755fe55082d5ffd64.
+- Overflow 6 owns coverage-lost, rent-raised and crime-suffered adapters only. Standby Team 5 retains job loss and the shared pipeline. Receivable seam: #1675 at 0ac5fe04ea171a334d6630fca2a594b0fcd2a769; scheduleLivedOutcomeReflection is now in law-exposure.ts and crimesSufferedBy in crime/reporting.ts. No duplicate scheduler is authorized.
+- Overflow 7 receives Team 7's #1353 at 7c04ea624dabb21b21f464a2d2f3799a88dc9b4e: player-monthly-money scheduling, handler and its three tests only. Keep existing salary, mortgage and living-cost settlement; underlying money writers remain Team 3's. Team 7 retains A9 speech work; Claude retains the held central registry changes.
+- Overflow 8 owns A54 home purchase-price callers from #1441. Replacement Team 4 retains rent, first-landlord and A57 work. No shared purchase/rent writer overlap is authorized.
+
+## Replacement teams and narrow releases, October 1 at 4:41 p.m. Eastern
+
+- Team 1 is now the owner-created replacement chat 01a0f92d-7edc-707a-b728-03688195800c, Making Laws, Sol 6.1 High. Its A77 and A97 published work and exact existing claims transfer intact. The old chat receives no new work. Assignment delivery succeeded; a working-source receipt is pending.
+- Team 4 is now the owner-created replacement chat 01a0f92d-d8e9-7630-bb41-ee43da95f009, Your Home, Sol 6.1 Medium. Its preserved A57 branch ends at b6502af37a86e875f38b6563966c7e6688559727. Claude J retains A54 purchase-price work. Assignment delivery succeeded; a working-source receipt is pending.
+- Team 3 owns ONLY the minimumWageSettingAt fallback hunk in src/simulation/minimum-wage.ts for A39/A40. Coordinator has no unpublished overlap and retains stateMinimumSettingAt, dated cutoffs and regional data/readers. Canonical federal law terms may supply an explicitly established no-higher-state-floor case; unknown regional or industry coverage must remain unknown. Audit owns the contract question; Team 3 builds.
+- Claude G owns the approved Ruling 28 recordStoryHeardExposure API/schema boundary. Team 8's overlapping reader is parked at 47db087ba5bc9d2f7cb129025b71d4870d84d023. Coordinator's #1616 starting-law identity changes remain protected. The prior Team 8 reader claim below is superseded.
+- Team 7 received Audit’s exact time-work.ts speech import/wrapper release from #1446 at 4be70ec5a246b3361096a47508d7bcdc147bf552. Preserve every enclosed consumer and its order, saved-noon, oath and clock hunks. Claude retains composer/starting registration; activation awaits that release. Team 7's draft #1665 is published at 35ef6ef855ef7dc53c9f0819454011dc7b24ac95; runtime and LOAD checks are NOT RUN.
+
+## Parallel playable-slice transfers, CTO October 1 4:22 correction
+
+All slices build their existing Fable Part 5 and owned audit items in parallel toward at least 80 percent. This is a target, not a measured completion claim. Finish in-flight work only when it is on the slice path. Shared functions still have one writer.
+
+- Team 3 receives from Team 6 at aff3042b34f959051ce8539636f18bb7a350dd8b only PaycheckTaxLevyIdentity, recordedPaycheckTaxInput, matchRecordedPaycheckLevy, preparePaycheckLevyPartition and preparePaycheckTaxAssessment consumer hunks in tax-policy.ts, plus paycheck-tax-consumer.test.ts. Team 6 reports no active or unpublished overlapping bytes. Coordinator retains the tax authority provider, attach/integrity selectors, taxBaseOccurrenceSource admission, shared handler and the #1653 collection regression repair. The packet does not admit employer withholding merely from general income authority.
+- Team 6 owns new presentation/public-service-work.ts and its focused test, wrapping the existing resident request writer. No shared writer transfer is implied.
+- Team 8 owns new simulation/press/law-story-readings.ts and its focused test for the actual saved publication, story, basis and EventKnowledge join. Coordinator retains law-exposure.ts and schema; story exposure admission awaits CTO review. No invented view weights or sustained attention.
+- Team 1 retains the exact A77 local council admission transfer above. Its direct message route is unconfirmed; the same release is posted in 00d. Team 4's direct route rejects steering; its Your Home assignment is posted in 00d. Neither error authorizes a new team or proves a stopped process.
+- Claude's lazy-transition-registries lane owns all current module-load registry/key repair; the separate Claude fixture lane owns governor-fixture conversion after load recovery. Other slice owners do not duplicate those repairs.
+
+## Closed transfers and receiving owners
+
+- Team 1 now owns only legislative-institutions.ts legislativePackForWorkKey townCouncilProfilePackById admission/import and legislativeInstitutionContext LOCAL context branch for A77. Coordinator released these after Audit identified the missing admission. Reuse validated town profiles and actual local-government organization identities; preserve Congress/state/fiscal branches and unsupported values. Core diff goes to CTO. Direct chat submission was unconfirmed; the release is posted in 00d.
+
+- Team 2 owns only A108 municipalRulePackFor council-action projection and the released council action/date hunks: CONGRESSIONAL_REVIEW, OVERRIDE_WINDOW_DAYS, CVILLE_2_98_AMENDED_ON, councilActEffectiveDate, override-date and admitCouncilAction named branches/imports. Team 1 released these cleanly. Floors, quorum, titles, fiscal writers, general legal clocks and executive decisions remain protected. The optional councilActions field still requires CTO approval.
+- Team 8 owns press/law-effect-news.ts and confirmed it clean. Its actual saved story/follower binding is pending Audit. Coordinator owns law-exposure.ts; law-effects-noticed.ts remains unreleased.
+- Coordinator received Team 3's exact A37 producer and fixture deltas in #1575 at 5109e05933e53ca643c95cc27654c4c14af4585d. Team 3 continues A38 town-floor retirement; Coordinator retains resource guards and the sole registry. New payment admission remains strict.
+- Team 6 requested five exact tax-agency captures. Coordinator's source-only broker branch 2270f838ea57c32bb6b4ade3fabab81b7da585f0 contains Vermont bytes, inert text and the failed-source manifest. Team 6 owns legal review and receipt into its packet; no parallel authority admission or PR is implied.
+
+## Historical checkpoints
+
+# Current permission, compliance and financial transfers
+
+The permission handler has one receiving owner, and the compliance reader has one builder. Approved saved-record contracts now separate historical admission from new writes.
+
+## Exact ownership
+
+- Coordinator received Team 8's right-permission.ts and its test from 16f5fb09c493f1b4d0f5e5117e0eeb524673eaf8 and owns the sole-registry registration. Published draft #1636 at 0f54a7d785f0250a6d9a7ce56aa38d035c2b908e. No core/type replacement or new permission rows are included.
+- Team 2 released to Team 1 only settleEnactedDuty's compliance-outcome reader, required imports and staffed/no-duty-receipt/qualifying-receipt tests. Clean donor 072a2d976a40e24e8764e24981c1554828495fa7; source blob 7c3c52f36955a54f18828a8aff2d125a4bd45908 and test blob f34ab865fc557476157d7d738d05e3d3c3cd4549. Positive fulfillment still needs Audit's exact same-duty/body/Act receipt contract. Other duty writers, declarations and provenance stay with existing owners.
+- Team 2's requested A108 municipal council projection and action-date reader transfer is pending Team 1's exact clean release. No overlap is authorized.
+- CTO Ruling 19 authorizes Coordinator's append-only statutory tax attribution receipt, once per saved liability or payment. No amounts, cash or old records may change. Team 6 retains source admission and authority research; Coordinator retains the previously released tax authority selector and shared handler.
+- CTO Ruling 20 admits historical first-of-month monthly point payments read-only for the preceding calendar month. Team 3 owns the pure shared coverage query and producer; Coordinator owns the matching resource guards. January 20 remains outside that rule; all new writes remain strict.
+- CTO 3:24 assigns A63 drift to claude/a63-no-dice-drift, missing measure base data to claude/outcome-bases-new-measures and eight policy questions to claude/new-policy-questions-fable. Existing teams must not duplicate those surfaces.
+- Team 8's heard-exposure consumer request in press/law-effect-news.ts still needs the current owner's clean release. Coordinator retains law-exposure.ts; the separate law-effects-noticed.ts release also remains pending.
+
+## Earlier checkpoints
+
 # Ratification and tax ownership transfers
 
 The ratification writer now has one assigned builder. The tax integration has a narrow receiving boundary. Existing records, unrelated branches and unpublished work remain protected.
@@ -258,7 +318,6 @@ The following transfers preserve one writer for each named part of the rebuild. 
 - Team 8 completed and returned the narrow coverage-catalog-admission.test.ts wage-row expectation and right-permission.test.ts default-registry proof. Both are integrated in foundation 2c5cf28db1c4048eea89033cb6262064fa83e3ae. Coordinator retains policy-pack and registry composition.
 - Team 2 owns only nullable deadline display/day-count guards in presentation/governing-briefing.ts and player/GoverningBriefing.tsx alongside its bill-deadline changes. Team 2 separately released only governingTransitionHandler's post-openTransitionMatters callback and required clemency import to Team 9, clean at 5d3facee5516e28b06b21c7a6829afe204db5b08. Preserve the actual office/holder guards and all other governing changes.
 - For A19, Team 3 owns the canonical pay stamp in its converted pay writer; Team 8 owns the canonical coverage stamp in coverage-eligibility.ts; Team 9 owns canonical legal-outcome stamps in legal-outcome.ts. Each changes only its converted writer and focused assertions. Coordinator retains the shared stamp contract. Historical saved records and unconverted readers are not silently rewritten.
-
 
 - Team 7 released only the saved-staff fixture setup at presentation/contextual-scene-variants.test.ts:190 and contextual-scenes-public.test.ts:214, plus necessary test-only imports, to Team 8. The release was clean at ad75e8e; downstream assertions, production and art remain protected.
 - Coordinator received the seven released A19 stamp files in 18f46d855235bdb0d30d1b0c6d068e6281fbea73: Team 3 pay label and assertion, Team 8 coverage resolver/actual writer/test, and Team 9 legal stamp/test. Combined checks are pending; unrelated ongoing owner edits remain theirs.

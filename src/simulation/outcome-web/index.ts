@@ -8,7 +8,11 @@ import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { defenseBoostPct } from "../federal-defense-spending";
 import { railExpansionPct } from "../federal-passenger-rail";
 import { federalDeficitChangePctOfGdp } from "../federal-outlay-laws";
-import { parksLawAddedPct } from "../public-budgets/parks-dedication";
+import {
+  lawSpendingPerResident,
+  spendingPerResident,
+} from "../public-budgets/fiscal";
+import { SPENDING_QUESTION_EFFECTS } from "../public-budgets/rules";
 import { farmPaymentsCutPctOfLandValue } from "../federal-farm-subsidy-law";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
@@ -56,6 +60,9 @@ export const OUTCOME_WEB_VERSION = web.version;
 export const OUTCOME_WEB_CALIBRATED_AT = web.calibratedAt as IsoDate;
 
 const FEDERAL_MINIMUM_HOURLY = minimumWages.federalHourly;
+
+/** Hours in a full-time work year, as pay and local-economy code count them. */
+const WORK_HOURS_PER_YEAR = 2_080;
 
 export type OutcomeEvidence =
   "researched" | "provisional" | "contested" | "about-zero" | "to-confirm";
@@ -208,18 +215,49 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
       return minimum === null ? null : (minimum.now / minimum.before - 1) * 100;
     },
   },
+  "labor.minimum-wage-to-median": {
+    key: "labor.minimum-wage-to-median",
+    unit: "the state minimum wage in force as a share of the place's typical hourly pay",
+    // The minimum wage in force (`minimum-wage.ts`, `stateMinimumSettingAt`)
+    // over the place's own recorded median earnings (`place-outcomes.ts`, the
+    // `labor.median-earnings` record) spread over a 2,080-hour year. Both are
+    // saved: a law that sets the wage or a month that moves the earnings
+    // changes the reading. Median earnings count people with part-year work,
+    // so the ratio reads a little above one built on full-time hourly pay.
+    // Null until the place has a recorded month.
+    read: (world, jurisdictionId, asOf) => {
+      const minimum = stateMinimumHourlyAt(world, jurisdictionId, asOf);
+      if (minimum === null) return null;
+      const earnings = placeOutcomeAt(
+        world,
+        "labor.median-earnings",
+        jurisdictionId,
+        asOf,
+      );
+      if (earnings === null || !(earnings.value > 0)) return null;
+      return minimum.now / (earnings.value / WORK_HOURS_PER_YEAR);
+    },
+  },
 
   "budget.parks-added-pct": {
     key: "budget.parks-added-pct",
     unit: "percent of what the place spends on parks that a dedicated parks tax adds or a repeal takes away",
-    // A dedication (or a repeal of the one the game began with) moves the
-    // state's parks line by the same dollars per resident every month it
-    // stands (`public-budgets/parks-dedication.ts`); with none it is zero.
+    // Read the same annual per-resident row delta used by the monthly budget.
     read: (world, jurisdictionId, asOf) => {
       const key = placeOutcomeKey(jurisdictionId);
       return key === null
         ? null
-        : parksLawAddedPct(world, jurisdictionId, key, asOf);
+        : (SPENDING_QUESTION_EFFECTS.filter(
+            (effect) => effect.program === "parks",
+          ).reduce(
+            (change, effect) =>
+              change +
+              (lawSpendingPerResident(world, jurisdictionId, effect, asOf) ??
+                0),
+            0,
+          ) /
+            spendingPerResident(key, "parksAndRecreation")) *
+            100;
     },
   },
   "federal.defense-boost-pct": {

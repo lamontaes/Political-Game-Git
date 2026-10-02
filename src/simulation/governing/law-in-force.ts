@@ -1,11 +1,9 @@
 import { recordById, recordByStableKey } from "../history-index";
 import { operativeDateForEnactment } from "../legislative-effective-date";
-import { stateStatuteOperativeAt } from "./statute-effective-date";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../dates";
+import { makeIsoDate } from "../dates";
 import {
   enactmentStatuteDateContext,
-  STATUTE_EFFECTIVE_DEFAULT_DAYS,
   stateRuleBasis,
 } from "../enacted-rule-changes";
 import { type PropositionAnswer } from "../issue-record";
@@ -18,9 +16,11 @@ import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { STATES } from "../state-reference";
 import type {
   EntityId,
+  HistoricalCutoff,
   IsoDate,
   LegislativeEnactmentRecord,
   LegislativeMeasureRecord,
+  LegislativeProvisionRecord,
   World,
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
@@ -33,10 +33,8 @@ import { constitutionalPolicyProvisions } from "../policy-provisions";
  *
  * Derived, never stored: read from the enacted measures that answered the
  * question (`propositionAnswers`), each operative from its enactment's own
- * effective date, else its state's own effective-date rule
- * (`statute-effective-date.ts`, read or estimated), else, where that rule
- * does not date the act, the blanket statute default the rule-change reader
- * also uses.
+ * saved date and profile through `operativeDateForEnactment`. A source-dated
+ * enactment without its required date governs nothing until that date is known.
  *
  * Which law governs follows `law-hierarchy.ts`: the place's own ordinances,
  * then its state's statutes, then Acts of Congress, and a higher level in
@@ -126,6 +124,7 @@ export function lawInForce(
    * later (a program scheduled for 2028 and repealed in 2026 stays repealed).
    */
   scope: "all" | "enacted-only" = "all",
+  cutoff?: HistoricalCutoff,
 ): LawInForce | null {
   const chain = governingChain(jurisdictionId);
   let best: Candidate | null = null;
@@ -133,6 +132,13 @@ export function lawInForce(
   for (const { enactment, measure } of enactedByQuestion(world).get(
     propositionId,
   ) ?? []) {
+    if (
+      cutoff &&
+      (enactment.sequence >= cutoff.historySequenceExclusive ||
+        measure.sequence >= cutoff.historySequenceExclusive ||
+        enactment.resolvedAt > cutoff.asOfDate)
+    )
+      continue;
     const level = chain.get(measure.jurisdictionId);
     if (!level) continue;
     // The law as enacted, sections an amendment or a rider put in included.
@@ -149,19 +155,19 @@ export function lawInForce(
         measure.jurisdictionId,
         propositionId,
         onDate,
+        cutoff,
       );
       authority.set(measure.jurisdictionId, may);
     }
     if (!may) continue;
-    const { operativeAt, operativeBasis } = enactmentOperative(
-      world,
-      measure,
-      enactment,
-    );
+    const operative = enactmentOperative(world, measure, enactment, cutoff);
+    if (!operative) continue;
+    const { operativeAt, operativeBasis } = operative;
     if (operativeAt > onDate) continue;
     // Struck down by a court before this day: on the record, and governing
     // nothing (judiciary/judicial-review.ts).
-    if (struckDownBy(world, enactment.id, propositionId, onDate)) continue;
+    if (struckDownBy(world, enactment.id, propositionId, onDate, cutoff))
+      continue;
     const candidate = {
       answer,
       measureId: measure.id,
@@ -173,7 +179,13 @@ export function lawInForce(
     };
     if (!best || governs(candidate, best)) best = candidate;
   }
-  const starting = startingLawCandidate(world, chain, propositionId, onDate);
+  const starting = startingLawCandidate(
+    world,
+    chain,
+    propositionId,
+    onDate,
+    cutoff,
+  );
   if (scope === "all") {
     if (starting && (!best || governs(starting, best))) best = starting;
   } else if (
@@ -184,7 +196,13 @@ export function lawInForce(
     governs(starting, best)
   )
     best = null;
-  const amended = constitutionalCandidate(world, chain, propositionId, onDate);
+  const amended = constitutionalCandidate(
+    world,
+    chain,
+    propositionId,
+    onDate,
+    cutoff,
+  );
   if (amended && (!best || governs(amended, best))) best = amended;
   if (!best) return null;
   return {
@@ -198,38 +216,26 @@ export function lawInForce(
   };
 }
 
-/** The day a law enacted in play takes effect, and on what basis. */
+/** The shared day and basis, or null when the saved source date is missing. */
 export function enactmentOperative(
   world: World,
   measure: LegislativeMeasureRecord,
   enactment: LegislativeEnactmentRecord,
+  cutoff?: HistoricalCutoff,
 ): {
   readonly operativeAt: IsoDate;
   readonly operativeBasis: LawInForce["operativeBasis"];
-} {
+} | null {
   const placeKey = startingLawPlaceKey(measure.jurisdictionId);
-  const stateRuleAt =
-    enactment.effectiveAt || !placeKey?.startsWith("US-")
-      ? null
-      : stateStatuteOperativeAt(
-          placeKey,
-          enactment.resolvedAt,
-          enactmentStatuteDateContext(world, enactment),
-        );
+  const context = enactmentStatuteDateContext(world, enactment, cutoff);
+  const operative = operativeDateForEnactment(enactment, placeKey, context);
+  if (!operative) return null;
   return {
-    operativeAt:
-      enactment.effectiveAt ??
-      stateRuleAt ??
-      addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
-    operativeBasis: enactment.effectiveAt
-      ? "enacted-date"
-      : stateRuleAt
-        ? stateRuleBasis(
-            placeKey!,
-            enactment.resolvedAt,
-            enactmentStatuteDateContext(world, enactment),
-          )
-        : "game-default",
+    operativeAt: operative.date,
+    operativeBasis:
+      operative.basis === "state-rule"
+        ? stateRuleBasis(placeKey!, enactment.resolvedAt, context)
+        : operative.basis,
   };
 }
 
@@ -247,6 +253,7 @@ function struckDownBy(
   enactmentId: EntityId,
   propositionId: EntityId,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): boolean {
   // A partial world read by a rule's own tests may carry no events.
   const events = world.history.events;
@@ -257,6 +264,9 @@ function struckDownBy(
   );
   return (
     ruling !== undefined &&
+    (!cutoff ||
+      (ruling.sequence < cutoff.historySequenceExclusive &&
+        ruling.occurredAt <= cutoff.asOfDate)) &&
     ruling.occurredAt <= onDate &&
     ruling.tags.includes("outcome:struck")
   );
@@ -323,7 +333,22 @@ function enactedByQuestion(
   return byQuestion;
 }
 
+export interface StartingLawScope {
+  readonly kind:
+    "federal-standard" | "unresolved-regional" | "unresolved-industry";
+  readonly rows: readonly {
+    readonly matrixRow: string;
+    readonly source: string;
+    readonly operativeAt: string;
+  }[];
+}
+
 interface StartingLawRow {
+  readonly scopeEvidence?: StartingLawScope;
+  readonly phases?: readonly (Omit<StartingLawRow, "phases" | "before"> & {
+    readonly operativeAt: string;
+  })[];
+  readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
   readonly answer: PropositionAnswer;
   readonly operativeAt?: string;
   /**
@@ -338,6 +363,8 @@ interface StartingLawRow {
    * started). Unsaid: nothing is known before that date.
    */
   readonly before?: {
+    readonly scopeEvidence?: StartingLawScope;
+    readonly lawTerms?: LegislativeProvisionRecord["lawTerms"];
     readonly answer: PropositionAnswer;
     readonly preempts?: boolean;
   };
@@ -381,6 +408,88 @@ export function startingLawPlaceKey(
   return startingLawPlaceKeys.get(jurisdictionId);
 }
 
+/** The same dated legal text is used by authority selection and numeric readers. */
+function startingLawRowAt(
+  dated: StartingLawRow,
+  onDate: IsoDate,
+): {
+  readonly row: StartingLawRow;
+  readonly operativeAt: IsoDate;
+} | null {
+  const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
+  const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
+  let selected: { row: StartingLawRow; operativeAt: IsoDate } | null =
+    answerAt <= onDate
+      ? { row: dated, operativeAt: answerAt }
+      : dated.before && defaultAt <= onDate
+        ? { row: dated.before, operativeAt: defaultAt }
+        : null;
+  const seen = new Set<string>([answerAt]);
+  for (const phase of dated.phases ?? []) {
+    const operativeAt = makeIsoDate(phase.operativeAt);
+    if (operativeAt <= answerAt || seen.has(operativeAt))
+      throw new Error(
+        "Starting law phases require distinct dates after the initial rule",
+      );
+    seen.add(operativeAt);
+    if (
+      operativeAt <= onDate &&
+      (!selected || operativeAt > selected.operativeAt)
+    )
+      selected = { row: phase, operativeAt };
+  }
+  return selected;
+}
+
+/** Numeric text belonging to the canonical starting row, not an invented enactment. */
+function selectedStartingLawRow(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): StartingLawRow | null {
+  if (law.origin !== "in-force-at-start" || law.operativeAt > onDate)
+    return null;
+  const prefix = "starting-law:";
+  const suffix = `:${questionKey}`;
+  if (!law.measureId.startsWith(prefix) || !law.measureId.endsWith(suffix))
+    return null;
+  const placeKey = law.measureId.slice(prefix.length, -suffix.length);
+  const dated = STARTING_LAW.questions[questionKey]?.answers[placeKey];
+  if (!dated) return null;
+  const selected = startingLawRowAt(dated, onDate);
+  if (
+    !selected ||
+    selected.row.answer !== law.answer ||
+    selected.operativeAt !== law.operativeAt
+  )
+    return null;
+  return selected.row;
+}
+
+export function startingLawTerms(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): NonNullable<LegislativeProvisionRecord["lawTerms"]> {
+  return selectedStartingLawRow(law, questionKey, onDate)?.lawTerms ?? [];
+}
+
+/** Structured applicability evidence; absent or not yet operative stays unknown. */
+export function startingLawScope(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): StartingLawScope | null {
+  const evidence = selectedStartingLawRow(
+    law,
+    questionKey,
+    onDate,
+  )?.scopeEvidence;
+  if (!evidence) return null;
+  const rows = evidence.rows.filter((row) => row.operativeAt <= onDate);
+  return rows.length ? { kind: evidence.kind, rows } : null;
+}
+
 type Candidate = LawInForce & {
   readonly sequence: number;
   /** A state "no" that leaves its localities free to answer otherwise. */
@@ -396,6 +505,7 @@ function startingLawCandidate(
   chain: ReadonlyMap<EntityId, LawLevel>,
   propositionId: EntityId,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): Candidate | null {
   let best: Candidate | null = null;
   const questionKey =
@@ -406,15 +516,9 @@ function startingLawCandidate(
       const placeKey = startingLawPlaceKey(placeId);
       const dated = placeKey ? starting.answers[placeKey] : undefined;
       if (!dated) continue;
-      const defaultAt = makeIsoDate(STARTING_LAW.defaultOperativeAt);
-      const answerAt = makeIsoDate(dated.operativeAt ?? defaultAt);
-      // Before its answer takes effect, a row says what held until then.
-      const row =
-        answerAt > onDate && dated.before
-          ? { ...dated.before, operativeAt: undefined }
-          : dated;
-      const operativeAt = row === dated ? answerAt : defaultAt;
-      if (operativeAt > onDate) continue;
+      const selected = startingLawRowAt(dated, onDate);
+      if (!selected) continue;
+      const { row, operativeAt } = selected;
       const candidate: Candidate = {
         answer: row.answer,
         measureId: `starting-law:${placeKey}:${questionKey}` as EntityId,
@@ -425,6 +529,7 @@ function startingLawCandidate(
           placeKey!,
           propositionId,
           onDate,
+          cutoff,
         ),
         operativeAt,
         operativeBasis: "enacted-date" as const,
@@ -459,6 +564,7 @@ function startingLevel(
   placeKey: string,
   propositionId: EntityId,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): LawLevel {
   if (!row.constitution || level !== "state-statute") return level;
   const amended =
@@ -467,9 +573,12 @@ function startingLevel(
         measure.ruleDelta.kind === "policy-provision" &&
         measure.ruleDelta.propositionId === propositionId,
     ) &&
-    constitutionalPolicyProvisions(world, placeKey.slice(3), onDate).some(
-      (provision) => provision.propositionId === propositionId,
-    );
+    constitutionalPolicyProvisions(
+      world,
+      placeKey.slice(3),
+      onDate,
+      cutoff,
+    ).some((provision) => provision.propositionId === propositionId);
   return amended ? level : "state-constitution";
 }
 
@@ -483,6 +592,7 @@ function constitutionalCandidate(
   chain: ReadonlyMap<EntityId, LawLevel>,
   propositionId: EntityId,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): Candidate | null {
   // Cheap guard: only a measure on this very question can answer it.
   if (
@@ -500,11 +610,16 @@ function constitutionalCandidate(
     const federal = placeKey === "US";
     // A state constitution answers only what the state may decide, as a
     // state statute does.
-    if (!federal && !mayAnswerQuestion(world, placeId, propositionId)) continue;
+    if (
+      !federal &&
+      !mayAnswerQuestion(world, placeId, propositionId, onDate, cutoff)
+    )
+      continue;
     const provision = constitutionalPolicyProvisions(
       world,
       federal ? "US" : placeKey.slice(3),
       onDate,
+      cutoff,
     ).find((row) => row.propositionId === propositionId);
     if (!provision || provision.stance !== "adopt") continue;
     const measure = world.history.constitutionalMeasures!.find(
@@ -613,6 +728,7 @@ function stateOf(jurisdictionId: EntityId): EntityId | null {
 export function operativeDateInWorld(
   world: World,
   enactment: LegislativeEnactmentRecord,
+  cutoff?: HistoricalCutoff,
 ): ReturnType<typeof operativeDateForEnactment> {
   const measure = (world.history.legislativeMeasures ?? []).find(
     (row) => row.id === enactment.measureId,
@@ -620,6 +736,6 @@ export function operativeDateInWorld(
   return operativeDateForEnactment(
     enactment,
     measure ? startingLawPlaceKey(measure.jurisdictionId) : null,
-    enactmentStatuteDateContext(world, enactment),
+    enactmentStatuteDateContext(world, enactment, cutoff),
   );
 }

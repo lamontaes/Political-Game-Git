@@ -1,12 +1,12 @@
-import { PLAYER_MONTHLY_MONEY_HANDLERS } from "./player-monthly-money";
+import { playerMonthlyMoneyHandlers } from "./player-monthly-money";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
   householdLoanMonthHandler,
 } from "./household-loans";
-import { PAYDAY_HANDLERS } from "./living-world/town-pay";
-import { RENT_DAY_HANDLERS } from "./living-world/town-rent";
+import { paydayHandlers } from "./living-world/town-pay";
+import { rentDayHandlers } from "./living-world/town-rent";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -28,30 +28,27 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
-import {
-  stateGoverningHandlers,
-  withProgramMatters,
-} from "./governing/state-governing";
-import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
-import { PUBLIC_SERVICE_HANDLERS } from "./public-service-producer";
-import { ENACTED_DUTY_HANDLERS } from "./enacted-duties";
-import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
-import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
-import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
-import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
-import { ARTICLE_V_HANDLERS } from "./governing/article-v";
+import { stateGoverningHandlers } from "./governing/state-governing";
+import { publicProgramHandlers } from "./governing/public-program";
+import { publicServiceHandlers } from "./public-service-producer";
+import { enactedDutyHandlers } from "./enacted-duties";
+import { officeContinuityHandlers } from "./governing/office-continuity";
+import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
+import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
+import { federalReformHandlers } from "./living-world/federal-reform";
+import { articleVHandlers } from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
 } from "./living-world/political-reflection";
-import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-turnover";
-import { RECALL_HANDLERS } from "./recall";
-import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
-import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
-import { LOCAL_COUNCIL_MEETING_HANDLERS } from "./living-world/local-council-meetings";
+import { presidentialTurnoverHandlers } from "./nationwide-world/presidential-turnover";
+import { recallHandlers } from "./recall";
+import { councilActHandlers } from "./municipal-ordinance-procedure";
+import { dcCouncilSittingHandlers } from "./dc-council-sittings";
+import { localCouncilMeetingHandlers } from "./living-world/local-council-meetings";
 import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
 import {
-  LOCAL_MEMBER_AGENDA_HANDLERS,
+  localMemberAgendaHandlers,
   scheduleLocalMemberAgendaIntakes,
 } from "./governing/member-agenda";
 import {
@@ -64,13 +61,13 @@ import { createTaxTransitionHandlerRegistry } from "./tax-policy";
 import { createCrisisTransitionRegistry } from "./crisis";
 import { createClemencyTransitionRegistry } from "./justice/clemency-transitions";
 import { composeExecutiveWorkHandlers } from "./executive-work";
-import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
+import { lifePaths2Handlers } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
-  LOCAL_ELECTION_HANDLERS,
+  localElectionHandlers,
   localCampaignSeat,
   localSeatHolder,
   withdrawTownRaceForCampaign,
@@ -134,10 +131,10 @@ import {
   recordOrganizationParticipationState,
   recordWorkStatus,
 } from "./life";
-import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
+import { lifeTransitionHandlers } from "./life-callbacks";
 import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
-import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
+import { peopleFamilyHandlers } from "./people-family-plan";
 import {
   CLAIM_CONTRADICTION_TRANSITION_KEY,
   claimContradictionTransitionHandler,
@@ -170,7 +167,7 @@ import {
 } from "./life-places";
 import { drawGeneratedPersonName } from "./people";
 import { createExactQuantity } from "./quantity";
-import { positionOwnerEndpoint } from "./resource-queries";
+import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -229,7 +226,7 @@ import {
   assertWorldIntegrity,
   recordWorldEvent,
 } from "./world";
-import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
+import { campaignLifeHandlers } from "./campaign-life-handlers";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
   SUPPORT_DENOMINATOR,
@@ -1112,6 +1109,58 @@ function bookCampaignAction(
   return { world: next, action };
 }
 
+/** The existing paid-message effect, shared by every committee. */
+export function requestedCampaignAdvertisingGainBasisPoints(
+  spend: MoneyAmount,
+): number {
+  return Math.floor(spend.minorUnits / 500);
+}
+
+/** Field effect from recorded effort, shared by player and rival work. */
+export function requestedCampaignFieldGainBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  minutes: number,
+  workers: number,
+  excludingActionId: EntityId | null = null,
+): number {
+  if (!Number.isFinite(minutes) || !Number.isFinite(workers)) return 0;
+  if (minutes <= 0 || workers <= 0) return 0;
+  return Math.floor(
+    (minutes *
+      workers *
+      3 *
+      doorKnockingReturn(world, campaign, excludingActionId).percent) /
+      200,
+  );
+}
+
+/** Only a completed activity linked to this outcome proves field effort. */
+export function requestedCompletedCampaignFieldGainBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  candidatePersonId: EntityId,
+  outcomeEventId: EntityId,
+): number {
+  const completion = world.history.scheduledActivityStates.find(
+    (state) =>
+      state.status === "completed" &&
+      state.outcomeEventId === outcomeEventId &&
+      compareSimulationMoments(state.end, world.currentMoment) <= 0,
+  );
+  if (!completion) return 0;
+  const activity = world.history.scheduledActivities.find(
+    (record) => record.id === completion.activityId,
+  );
+  if (!activity?.participantPersonIds.includes(candidatePersonId)) return 0;
+  return requestedCampaignFieldGainBasisPoints(
+    world,
+    { ...campaign, candidatePersonId },
+    simulationMinutesBetween(completion.start, completion.end),
+    activity.participantPersonIds.length,
+  );
+}
+
 /**
  * What an afternoon actually moves.
  *
@@ -1148,14 +1197,19 @@ function requestedGainBasisPoints(
   // Who is knocking changes what a door returns: see `campaign-recognition.ts`.
   const base =
     action.kind === "outreach"
-      ? Math.floor(
-          (minutes *
-            workers *
-            3 *
-            doorKnockingReturn(world, campaign, action.id).percent) /
-            200,
+      ? requestedCampaignFieldGainBasisPoints(
+          world,
+          campaign,
+          minutes,
+          workers,
+          action.id,
         )
-      : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
+      : requestedCampaignAdvertisingGainBasisPoints(
+          action.plannedSpend ?? {
+            minorUnits: 0,
+            currency: campaign.treasuryCurrency,
+          },
+        );
   const swing = new SeededRng(world.seed)
     .fork(`campaign-action-effect:${action.id}`)
     .integer(60, 141);
@@ -1287,6 +1341,75 @@ function moneyLabel(amount: MoneyAmount): string {
   return moneyText(amount);
 }
 
+/** The existing advertising transfer, using the spender's actual saved endpoints. */
+export function recordCampaignAdvertisingExpenditure(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly committeeOrganizationId: EntityId;
+    readonly vendorOrganizationId: EntityId;
+    readonly treasuryPositionId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly outcomeEventId: EntityId;
+    readonly amount: MoneyAmount;
+  },
+) {
+  const amount = input.amount;
+  const treasury = resourcePositionAt(
+    world,
+    { kind: "organization", organizationId: input.committeeOrganizationId },
+    amount.currency,
+  );
+  if (
+    !treasury ||
+    treasury.positionId !== input.treasuryPositionId ||
+    amount.minorUnits <= 0 ||
+    treasury.liquidBalance.minorUnits < amount.minorUnits
+  )
+    throw new Error(
+      "The spending committee cannot overdraw its recorded treasury.",
+    );
+  let next = createResourceFlow(world, {
+    stableKey: `${input.stableKey}:flow`,
+    source: {
+      kind: "organization",
+      organizationId: input.committeeOrganizationId,
+    },
+    recipient: positionOwnerEndpoint({
+      kind: "organization",
+      organizationId: input.vendorOrganizationId,
+    }),
+    startsAt: world.currentDate,
+    initialStatus: "active",
+    amount,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-expenditure",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: input.jurisdictionId,
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+  });
+  const resourceFlowId = next.history.resourceFlows.at(-1)!.id;
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${input.stableKey}:transfer`,
+    resourceFlowId,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    status: "completed",
+    attemptedAmount: amount,
+    transferredAmount: amount,
+    reasonKind: null,
+    note: "An advertising buy, paid out of the committee's own account.",
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+  });
+  return {
+    world: next,
+    resourceFlowId,
+    resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
+  };
+}
+
 function actionMoney(
   world: World,
   campaign: CampaignRecord,
@@ -1308,36 +1431,40 @@ function actionMoney(
       spentAmount: null,
     };
   }
-  const raising = action.kind === "fundraising";
-  const amount: MoneyAmount = raising
-    ? {
-        minorUnits: new SeededRng(world.seed)
-          .fork(`campaign-fundraising:${action.id}`)
-          .integer(85_000, 175_001),
-        currency: campaign.treasuryCurrency,
-      }
-    : { ...action.plannedSpend! };
+  if (action.kind === "advertising") {
+    const amount = { ...action.plannedSpend! };
+    const paid = recordCampaignAdvertisingExpenditure(world, {
+      stableKey: action.stableKey,
+      committeeOrganizationId: campaign.organizationId,
+      vendorOrganizationId: campaign.advertisingVendorOrganizationId,
+      treasuryPositionId: campaign.treasuryPositionId,
+      jurisdictionId: campaign.jurisdictionId,
+      outcomeEventId: completionEventId,
+      amount,
+    });
+    return { ...paid, raisedAmount: null, spentAmount: amount };
+  }
+  const amount: MoneyAmount = {
+    minorUnits: new SeededRng(world.seed)
+      .fork(`campaign-fundraising:${action.id}`)
+      .integer(85_000, 175_001),
+    currency: campaign.treasuryCurrency,
+  };
   let next = createResourceFlow(world, {
     stableKey: `${action.stableKey}:flow`,
     source: {
       kind: "organization",
-      organizationId: raising
-        ? campaign.donorPoolOrganizationId
-        : campaign.organizationId,
+      organizationId: campaign.donorPoolOrganizationId,
     },
     recipient: positionOwnerEndpoint({
       kind: "organization",
-      organizationId: raising
-        ? campaign.organizationId
-        : campaign.advertisingVendorOrganizationId,
+      organizationId: campaign.organizationId,
     }),
     startsAt: world.currentDate,
     initialStatus: "active",
     amount,
     cadenceKind: "schedule:one-time",
-    basisKind: raising
-      ? "custom:campaign-contribution"
-      : "custom:campaign-expenditure",
+    basisKind: "custom:campaign-contribution",
     basisReference: { kind: "general" },
     restrictionKind: "purpose:campaign",
     jurisdictionId: campaign.jurisdictionId,
@@ -1354,17 +1481,15 @@ function actionMoney(
     attemptedAmount: amount,
     transferredAmount: amount,
     reasonKind: null,
-    note: raising
-      ? "Proceeds of a scheduled fundraising session, received by the committee."
-      : "An advertising buy, paid out of the committee's own account.",
+    note: "Proceeds of a scheduled fundraising session, received by the committee.",
     provenance: { kind: "simulated-event", eventId: completionEventId },
   });
   return {
     world: next,
     resourceFlowId,
     resourceOutcomeId: next.history.resourceTransferOutcomes.at(-1)!.id,
-    raisedAmount: raising ? amount : null,
-    spentAmount: raising ? null : amount,
+    raisedAmount: amount,
+    spentAmount: null,
   };
 }
 
@@ -2185,7 +2310,7 @@ export function composeWorldTimeHandlers(
       ),
       createTaxTransitionHandlerRegistry(),
       createProsecutionTransitionRegistry(),
-      LIFE_PATHS2_HANDLERS,
+      lifePaths2Handlers(),
       // D-11: the candidate's standing campaign hours, after the day job's.
       createFutureTransitionHandlerRegistry([], campaignRoutineHook()),
       // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
@@ -2193,45 +2318,46 @@ export function composeWorldTimeHandlers(
       // G12: a saved clemency petition comes due on its own court date.
       createClemencyTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
-        ...PLAYER_MONTHLY_MONEY_HANDLERS,
+        ...playerMonthlyMoneyHandlers(),
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
         ...stateGoverningHandlers(),
-        ...GOVERNOR_TURNOVER_HANDLERS,
+        ...governorTurnoverHandlers(),
         // A legislature and voters changing the governor's term limit.
-        ...CONSTITUTIONAL_REFORM_HANDLERS,
+        ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
-        ...FEDERAL_REFORM_HANDLERS,
-        ...ARTICLE_V_HANDLERS,
-        ...PRESIDENTIAL_TURNOVER_HANDLERS,
+        ...federalReformHandlers(),
+        ...articleVHandlers(),
+        ...presidentialTurnoverHandlers(),
         // Voters recalling a town official: petition, then recall election.
-        ...RECALL_HANDLERS,
+        ...recallHandlers(),
         // The player's town electing its council and mayor on its own.
-        ...LOCAL_ELECTION_HANDLERS,
+        ...localElectionHandlers(),
         // Local councils enact on their own clocks. Money they appropriate
         // goes to their executive the same day, as a legislature's does.
         ...[
           // Scheduled council readings and executive/return deadlines.
-          ...COUNCIL_ACT_HANDLERS,
+          ...councilActHandlers(),
           // The Council of the District of Columbia sitting on its own.
-          ...DC_COUNCIL_SITTING_HANDLERS,
+          ...dcCouncilSittingHandlers(),
           // Admitted city and county councils use a separate quarterly game clock.
-          ...LOCAL_MEMBER_AGENDA_HANDLERS,
+          ...localMemberAgendaHandlers(),
           // The player's town council meeting and voting on ordinances.
-          ...LOCAL_COUNCIL_MEETING_HANDLERS,
-        ].map(([key, handler]) => [key, withProgramMatters(handler)] as const),
-        ...PUBLIC_PROGRAM_HANDLERS,
+          ...localCouncilMeetingHandlers(),
+        ],
+        ...publicProgramHandlers(),
         // Residents ask for a paid public service, then take part in it.
-        ...PUBLIC_SERVICE_HANDLERS,
+        ...publicServiceHandlers(),
         // An enacted law's duty falling due on the bodies it covers.
-        ...ENACTED_DUTY_HANDLERS,
-        ...OFFICE_CONTINUITY_HANDLERS,
+        ...enactedDutyHandlers(),
+        ...officeContinuityHandlers(),
         [
           POLITICAL_REFLECTION_TRANSITION_KEY,
           politicalReflectionTransitionHandler,
         ],
         // Spec 5: people credit or blame the officials behind a law that
-        // reached them.
+        // reached them, and the official who answers for what happened to
+        // them.
         [OFFICIAL_VIEW_TRANSITION_KEY, officialViewReflectionHandler],
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
@@ -2250,11 +2376,11 @@ export function composeWorldTimeHandlers(
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
-        ...PAYDAY_HANDLERS,
+        ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
-        ...RENT_DAY_HANDLERS,
+        ...rentDayHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
-        ...CAMPAIGN_LIFE_HANDLERS,
+        ...campaignLifeHandlers(),
       ]),
       // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
       createPressTransitionRegistry(),
@@ -2263,8 +2389,8 @@ export function composeWorldTimeHandlers(
       // 1A PEOPLE: residents take their own steps toward private goals.
       PEOPLE_GOAL_HANDLERS,
       // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
-      PEOPLE_FAMILY_HANDLERS,
-      LIFE_TRANSITION_HANDLERS,
+      peopleFamilyHandlers(),
+      lifeTransitionHandlers(),
     ),
   );
   return additional

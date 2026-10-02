@@ -10,6 +10,7 @@ import {
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import { COHERENT_APPEARANCE_RECIPE_VERSION } from "../simulation";
 import {
   BROWSER_WORLD_RECORD_KIND,
   BrowserSaveStore,
@@ -1936,11 +1937,32 @@ describe("Read-only developer snapshots", () => {
 
 describe("MORNING23 durable appearance migration", () => {
   it("migrates two old lives separately and persists pins on save without corrupting original reads", async () => {
-    const unpinned = await import("./fixtures/morning23-old-unpinned.json");
-    const pinned = await import("./fixtures/morning23-old-gen2.json");
+    // Two fresh lives made by today's code, each pinned to a catalog
+    // generation when it was created. No saved file is read.
     const { store, factory } = storeWith();
-    const originals = [unpinned.default, pinned.default].map((f) =>
-      deserializeWorld(f.payload),
+    const originals = [
+      { seed: "morning23-life-a", household: "lives-alone" as const },
+      { seed: "morning23-life-b", household: "shares-a-home" as const },
+    ].map(
+      ({ seed, household }) =>
+        createNewGameWorld({
+          placeKey: "kentucky",
+          startAge: 30,
+          depth: "summarize-earlier-life",
+          startingLife: "ordinary-life",
+          household,
+          seed,
+          givenName: null,
+          familyName: null,
+          appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
+        }).world,
+    );
+    const firstPerson = (w: World) => w.people[w.personOrder[0]!]!;
+    for (const w of originals)
+      expect(firstPerson(w).appearance?.catalogGeneration).toBe(2);
+    expect(originals[0]!.id).not.toBe(originals[1]!.id);
+    expect(firstPerson(originals[0]!).appearance?.seed).not.toBe(
+      firstPerson(originals[1]!).appearance?.seed,
     );
     const slots = originals.map((w) => store.newSaveId(w));
     for (let i = 0; i < originals.length; i++) {
@@ -1949,7 +1971,7 @@ describe("MORNING23 durable appearance migration", () => {
         ...old,
         control: { kind: "person", personId: old.personOrder[0]! },
       };
-      // Imported old payload enters the same validated record seam as storage.
+      // The world enters the same validated record seam as storage.
       const record = createBrowserWorldRecord(
         world,
         "2026-05-01T10:00:00.000Z",
@@ -1965,6 +1987,9 @@ describe("MORNING23 durable appearance migration", () => {
       expect(
         loaded.people[loaded.personOrder[0]!]!.appearance?.catalogGeneration,
       ).toBe(2);
+      expect(firstPerson(loaded).appearance).toEqual(
+        firstPerson(old).appearance,
+      );
       expect((await store.save(loaded, slots[i]!)).status).toBe("saved");
       const stored = factory.records.get(slots[i]!) as { payload: string };
       expect(deserializeWorld(stored.payload)).toEqual(loaded);

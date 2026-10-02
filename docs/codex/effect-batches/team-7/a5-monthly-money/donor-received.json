@@ -1,9 +1,0 @@
-{
-  "handoffHead": "43b90556efa81062a87f1d8fa4dbc6b0ddfc80de",
-  "donorBlob": "a959258563f00a929e3a5dd0f7989b8656accbed",
-  "donorSha256": "f950cf519578bf8af8edb0af9cc322974213bf5af3d64eb6794680f86fa9647e",
-  "patchBlob": "0945ae585231eef318c38c3c00d4c1dcf884dd0c",
-  "comparison": "retained candidate identical except independent import ordering",
-  "sharedPhysicalRecipient": "4939587159d1a9a3db21c6adf3818c6044117f3b untouched",
-  "sourceMode": "released caller chain already present; no full donor overwrite"
-}

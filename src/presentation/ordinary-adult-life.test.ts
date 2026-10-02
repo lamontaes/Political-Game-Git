@@ -8,10 +8,7 @@ import {
   serializeWorld,
   refreshLifeOpportunities,
 } from "../simulation";
-import {
-  LIVING_COSTS_PLACEHOLDER,
-  livingCostsFlowFor,
-} from "../simulation/cost-of-living";
+import { livingCostsFlowFor } from "../simulation/cost-of-living";
 import { ensureLifePathPersonalPosition } from "../simulation/life-paths2-resources";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
@@ -142,7 +139,7 @@ describe("living costs are charged on the first of each month", () => {
       buildAdultLifeContext(broke, personId),
     ).find((situation) => situation.key === "adult.household-money-shortfall");
     expect(offered?.prose).toMatch(
-      /^[A-Z][a-z]+'s food and bills came to \$600\.00/,
+      /^[A-Z][a-z]+'s food and bills came to \$791\.25/,
     );
     const answered = chooseAdultOption(broke, {
       personId,
@@ -170,10 +167,7 @@ describe("living costs are charged on the first of each month", () => {
     const charges = chargesOf(later, personId);
     expect(charges.every((charge) => charge.status === "completed")).toBe(true);
     expect(positionOf(later, personId)!.liquidBalance.minorUnits).toBe(
-      1_000_000 -
-        charges.length *
-          (LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-            LIVING_COSTS_PLACEHOLDER.housingShareMinor),
+      1_000_000 - charges.length * 79_125,
     );
     expect(
       buildAdultLifeContext(later, personId).openOpportunityKinds.has(

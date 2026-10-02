@@ -1,3 +1,123 @@
+# Dated law terms are ready for core review
+
+The shared reader now has a tested candidate for reading the law that applied when work was done. Housing can receive the same dated query after review. The story handoff has merged, and the belief team has its newly published dependency.
+
+## MERGED
+
+Verified on GitHub: ownership update #1667 and story work #1663. The latter merged at 5a2b2fa0596692fcba823f3755fe55082d5ffd64. No whole-slice acceptance follows from these merges.
+
+## CONNECTIONS TABLE
+
+| Producer                        | Consumer                 | Evidence and next action                                                                                                         |
+| ------------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Canonical dated legal terms     | Payroll and Team 4 rent  | #1679 READY at 404624837; Checker 3 reports 80/80 changed tests and eight scoped roots with zero diagnostics; CTO review pending |
+| Saved completed shift           | Shared payroll operation | Existing reader exported unchanged at 44de52b98; causal-operation identity mapping still requested from Audit                    |
+| Resident saved-work fixture     | Story exposure           | Team 6 donor received by Overflow 5; #1663 merged                                                                                |
+| Standby lived-outcome pipeline  | Overflow 6 adapters      | Exact #1675 head 0ac5fe04 supplied; implementation receipt pending                                                               |
+| Team 7 existing bill settlement | Overflow 7               | Exact scheduling/test release supplied; receiving implementation remains unverified                                              |
+
+## BLOCKED
+
+The CTO has requested extra load checks while the latest direct owner instruction permits only changed-file checks. The coordinator requested an explicit reconciliation; no full suite is authorized. Federal fallback scope metadata still needs the exact admission decision. The shared causal operation needs its existing saved identity mapping before actual payroll quantities can replace estimated realization.
+
+## EFFECTS
+
+The reader test covers historical enactment, constitutional and adjournment cutoffs, including a 56-jurisdiction loop and a dated starting-wage transition. These controlled checks do not prove actual pay, rent or browser behavior. #1575 remains a draft; its new export is not a fresh runtime pass.
+
+## Verification
+
+Updated October 1 at 5:16 p.m. Eastern. Main reference: 13a14f758749bf0a8ee92e78f952588bf933891a. Reader checks are Checker 3's reported results on main 13a14f758 and composition ec640ea085f6af73da7105fed9adfbacb4defcb3. Coordinator preserved the shared working files and index.
+
+## Historical checkpoints
+
+# Replacement builders have their preserved work
+
+The replacement lawmaking and housing chats have their assignments and preserved branches. The wage fallback has a named writer, and the speech work has been published for integration. These handoffs do not establish runtime completion.
+
+## MERGED
+
+Live GitHub confirms coordinator ownership PR #1648 merged at c7ee4265c8eb120b707b8f27698eca06926134fe. The current main read for this update is 3056b44e042b2de40f67a1241beb52e11b62ba1b.
+
+## CONNECTIONS TABLE
+
+| Producer                      | Consumer                          | Current state                                                                        |
+| ----------------------------- | --------------------------------- | ------------------------------------------------------------------------------------ |
+| Preserved Team 1 A77/A97 work | Replacement Team 1, Making Laws   | Assignment delivered to 01a0f92d-7edc-707a-b728-03688195800c; source receipt pending |
+| Preserved Team 4 A57 work     | Replacement Team 4, Your Home     | Assignment delivered to 01a0f92d-d8e9-7630-bb41-ee43da95f009; source receipt pending |
+| Canonical federal wage terms  | Team 3 actual worker starting pay | Exact fallback hunk released; Audit contract answer and implementation pending       |
+| Audit speech-wrapper release  | Team 7 monthly speech scheduler   | #1665 published; Claude registration release and runtime checks pending              |
+| Claude G story-heard API      | Team 8 News                       | Ruling 28 boundary released; Team 8 overlapping reader parked                        |
+
+## BLOCKED
+
+Team 7 cannot activate its replacement until Claude releases the composer and starting registration. Team 9's A103 test still fails before collection; Claude owns that shared import repair. Team 9 was directed to continue another admitted Crime and Courts build. No broad hold was issued.
+
+## EFFECTS
+
+No new player-visible effect is verified by this ledger update. Team 3's fallback repair is intended to restore starting pay where canonical law establishes the applicable federal floor. Unknown coverage must not become permission. Team 7's published test is authored but unrun.
+
+## Verification
+
+Updated October 1 at 4:41 p.m. Eastern after live chat delivery, compact turn checks, 00d replies and GitHub verification. Team 1 and Team 4 show active turns; their implementation receipts remain pending. Only coordinator documentation changes in this commit.
+
+## Historical checkpoints
+
+# Payroll continuation connected; source gaps reduced
+
+The shared payroll branch now includes the historical first-day continuation repair. Its combined checks remain pending. Vermont source bytes were recovered for Team 6; the other four requested pages remain unavailable.
+
+## MERGED
+
+Live GitHub confirms #1639 merged at its published 48a9cf435d2bc3dcdcdec5ac70887874d97b44a6 head. #1619 merged as 6621651e8b0a9aa623bba23cb0b26435ad84e6c2 and #1510 as 5c6c291542c8975155a1558d409fcbcb9146d1b4. These source merges do not establish player acceptance.
+
+## CONNECTIONS TABLE
+
+| Producer                                      | Consumer                     | Evidence and remaining work                                                                                                              |
+| --------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Team 3 historical monthly query and producers | Coordinator common payroll   | #1575 head 5109e05933e53ca643c95cc27654c4c14af4585d published; donor complete file 17/17 reported passing; receiving-head checks NOT RUN |
+| Merged G1 helper and A3/A4                    | Team 7 A5                    | #1353 head 7c04ea624dabb21b21f464a2d2f3799a88dc9b4e received both; three complete runtime files await CTO cloud routing                  |
+| Coordinator Vermont source capture            | Team 6 wage authority packet | Broker 2270f838ea57c32bb6b4ade3fabab81b7da585f0 delivered; legal relevance and date admission remain Team 6's                            |
+| Team 2 sourced council data                   | Existing municipal rule pack | ac5567e005417cb9548541d8da09a5d7af3da9de extracted; optional field approval pending, no runtime import                                   |
+
+## BLOCKED
+
+A33 starting statutory levy to canonical consequence-row identity remains a CTO decision. A97's existing test stops before compliance assertions on an undefined semantic transition key; Audit received the exact composer trace. Team 8's actual story/follower contract awaits Audit. Team 9 received bounded sourced-age extraction while its two sentencing decisions are pending. No broad waiting instruction was issued.
+
+## EFFECTS
+
+The payroll repair preserves the original saved first-day payment and resumes the next calendar month without losing its first day. This is published source, not verified receiving-head runtime. No new completed-law total is claimed. Team 4's published b6502af37a86e875f38b6563966c7e6688559727 establishes actual work despite the earlier direct-message failure; its dated-reader dependency remains #1575.
+
+## Verification
+
+Updated after reading the October 1, 3:51 p.m. Eastern clock and live PR states. Shared files and index are preserved through isolated-index publication.
+
+## Historical checkpoints
+
+# Permission dispatch connected in source; cloud validation pending
+
+The released permission handler is now connected to the shared dispatcher in a published draft. The cloud checks found ten saved-world differences in the news consequence work. Those failures are assigned for diagnosis, and the builder has its formatting repairs.
+
+## Current evidence
+
+- Coordinator #1636 is draft at 0f54a7d785f0250a6d9a7ce56aa38d035c2b908e on main 524f8bdfb5e662eeca3442b9ad39890ca43ee481. The received test now uses default dispatch. Formatting and diff checks pass; runtime, types, release and player checks NOT RUN. CTO cloud routing requested.
+- Foundation #1611 at a57a71daa9806f6e268098cdb56c8973eec45092 has Checker 3's complete public-fiscal file passing 6/6. Opening and types on that exact head remain pending; older receipts do not complete this gate.
+- Team 7 #1510 at 953d3ef38fffd6c309fc328d4e885da2e31f7365 has cloud 12/12 across four complete files with clean app and strict types. Its separate A5 work is idle behind #1619, verified open and unmerged.
+- Team 8 #1623 at 90d49e607c22ab0f6f7a3979af480182aa094391 has 31 passes and 10 saved-world hash failures on main e5a40e9ee. Types and lint pass; three files fail formatting. Team 8 received formatting repair; Audit received attribution of restitution and replay failures. No hashes or assertions may be refreshed without diagnosis.
+- Team 8 published draft #1633 for the modeled-counterfactual label; native checks remain unrun in its receipt.
+- Team 3 is implementing the approved first-of-month historical coverage query. Root's payroll #1575 remains incomplete until that query is received and the guard is validated.
+- Team 6 is compiling actual federal and jurisdiction wage-authority evidence. Tax attribution and activation remain incomplete.
+- Team 4's sidebar reports active, but direct delivery repeatedly fails with no active turn ID and its latest command failed. The precise delivery failure and assignment were posted to the CTO; no healthy progress or restart is claimed.
+
+## Connections and next actions
+
+Team 1 receives the narrow compliance reader from Team 2. Audit supplies its actual receipt binding. Team 4 and Team 8 have Social's requests for poverty, rent and coverage records, so Social can consume existing facts. Root continues permission admission, monthly guards and tax attribution. The CTO routes gates and merges; Coordinator and Checker 3 do neither.
+
+## Verification
+
+Prepared after reading the October 1 system clock and latest CTO entries. Source, test, merge and player acceptance remain separate. Isolated-index publication preserves the shared worktree.
+
+## Earlier checkpoints
+
 # Foundation repair and current integration blockers
 
 The foundation repair is published for cloud checking. Ratification ownership is closed, and the sentencing check has a concrete repair route. Monthly payroll and wage-tax attribution still require decisions about existing saved records.
@@ -196,13 +316,13 @@ GitHub verifies #1529 and #1538 merged at their reviewed heads, adding actual-me
 
 ## CONNECTIONS TABLE
 
-| Producer and consumer | Current evidence | Next owner |
-| --- | --- | --- |
-| Starting-law terms to automatic bill compiler | Three reader paths from 8f3957b1 released without held payroll changes | Team 1 composes and tests |
-| Saved weekly pay to ordinary clock | Audit reports unchanged clock case passed, then four route cases passed; publication pending | Audit publishes; Team 3 consumes proved caller retirement |
-| Typed tax base to assessment and collection | Dedicated handler under construction; no test pass or registration claimed | Team 6 supplies export; coordinator reviews registry |
-| Actual judge to eviction judgment | Draft #1546 at 5fd1c48a has five team-reported passes; source reviewed | CTO review; counsel producer remains separate |
-| Saved finding to subject's own response | Context #1505 at b1297d18 reviewed; no automatic decision yet | Audit supplies actual consideration contract |
+| Producer and consumer                         | Current evidence                                                                             | Next owner                                                |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Starting-law terms to automatic bill compiler | Three reader paths from 8f3957b1 released without held payroll changes                       | Team 1 composes and tests                                 |
+| Saved weekly pay to ordinary clock            | Audit reports unchanged clock case passed, then four route cases passed; publication pending | Audit publishes; Team 3 consumes proved caller retirement |
+| Typed tax base to assessment and collection   | Dedicated handler under construction; no test pass or registration claimed                   | Team 6 supplies export; coordinator reviews registry      |
+| Actual judge to eviction judgment             | Draft #1546 at 5fd1c48a has five team-reported passes; source reviewed                       | CTO review; counsel producer remains separate             |
+| Saved finding to subject's own response       | Context #1505 at b1297d18 reviewed; no automatic decision yet                                | Audit supplies actual consideration contract              |
 
 ## BLOCKED
 
@@ -263,13 +383,13 @@ GitHub confirms that the privacy research, privacy implementation and previous c
 
 ## CONNECTIONS TABLE
 
-| Producer | Consumer | Verified state and next action |
-| --- | --- | --- |
-| Coordinator saved hourly authority and completion evidence | Team 3 common pay writer | Published completion contract bb5e17a7529d30fc41c93b48d06520ae7f0ba811; follow-up 701103d83e9c62d26e1741104b32ba53a4c47300 corrects the recorded workplace city-to-state lookup. Runtime remains pending. Completion event and earned terms identify the historical work, coverage and pay terms. Team 3 acknowledged the earlier authority head and began service checks on composition 657247d9b5ffd73a790e589ce1c52ff2eacc49ba. New completion-contract integration remains pending. |
-| Coordinator service-authority guard | Team 3 payroll prerequisite | #1530 remains draft at 34879816f9232f1240137b793dec2482799f8637. Cloud composition 657247 has 112 failed receipt assertions and five passed row cases. Three scoped type roots pass. Audit must establish baseline attribution before a repair is accepted. |
-| Team 1 starting-law compiler | Shared foundation | Published integration ed503c51ed5eb76fbe4c2781482ff707c79784a6 preserves the exact owned compiler changes. Its historical 50-case pass is source-bound, not current-main acceptance. Budget and threshold work resumed by dispatch. |
-| Audit election-count repair | Automatic election resolution | CTO released the evaluator, automatic resolver and scheduled-handler hunks. Unsupported counts must remain unresolved. The release was sent to Audit. |
-| Team 6 merged privacy work | Budget fixture repair | Canonical World fixture repair was explicitly approved. Team 6 received the twelve case areas and the narrow no-draw assertion correction. |
+| Producer                                                   | Consumer                      | Verified state and next action                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Coordinator saved hourly authority and completion evidence | Team 3 common pay writer      | Published completion contract bb5e17a7529d30fc41c93b48d06520ae7f0ba811; follow-up 701103d83e9c62d26e1741104b32ba53a4c47300 corrects the recorded workplace city-to-state lookup. Runtime remains pending. Completion event and earned terms identify the historical work, coverage and pay terms. Team 3 acknowledged the earlier authority head and began service checks on composition 657247d9b5ffd73a790e589ce1c52ff2eacc49ba. New completion-contract integration remains pending. |
+| Coordinator service-authority guard                        | Team 3 payroll prerequisite   | #1530 remains draft at 34879816f9232f1240137b793dec2482799f8637. Cloud composition 657247 has 112 failed receipt assertions and five passed row cases. Three scoped type roots pass. Audit must establish baseline attribution before a repair is accepted.                                                                                                                                                                                                                             |
+| Team 1 starting-law compiler                               | Shared foundation             | Published integration ed503c51ed5eb76fbe4c2781482ff707c79784a6 preserves the exact owned compiler changes. Its historical 50-case pass is source-bound, not current-main acceptance. Budget and threshold work resumed by dispatch.                                                                                                                                                                                                                                                     |
+| Audit election-count repair                                | Automatic election resolution | CTO released the evaluator, automatic resolver and scheduled-handler hunks. Unsupported counts must remain unresolved. The release was sent to Audit.                                                                                                                                                                                                                                                                                                                                   |
+| Team 6 merged privacy work                                 | Budget fixture repair         | Canonical World fixture repair was explicitly approved. Team 6 received the twelve case areas and the narrow no-draw assertion correction.                                                                                                                                                                                                                                                                                                                                              |
 
 ## BLOCKED
 
@@ -287,7 +407,6 @@ No complete-law, nationwide, final-main or named-person delivery total is establ
 
 Checkpoint prepared October 1, 2026, after reading the CTO's restart notice and live cloud snapshots. The shared checkout remains at ad75e8e377881724246022b8345476de4f1356e4 with 224 dirty entries preserved. The published contract changed only the coordinator-owned shared types and pay resolver through an isolated index. Format and whitespace checks passed; composed payroll runtime and strict checks are pending Team 3. The separate service result is recorded above. Team 9 received the actual-governor fixture correction, and Team 4 received its next bounded business-caller task.
 
-
 ## October 1, 6:09 a.m. rebuild checkpoint
 
 The rebuild is incomplete. The foundation's dated wage data is repaired, but a completed-shift caller still needs restoration and runtime proof. Privacy and payroll pieces are published for review. Coordination now uses [00d](https://docs.google.com/document/d/1RxVEUcyebasz0-6C0zyHv40d4LwrB2PJXzji17saVdk/edit).
@@ -298,19 +417,19 @@ Observed main remains 493621af. No additional merge is claimed by this checkpoin
 
 ### CONNECTIONS TABLE
 
-| Owner | Published output | Consumer or outstanding proof |
-| --- | --- | --- |
-| Coordinator | Foundation #1309 7f8e4880, draft WIP | Exact main shift caller restored. Ten-case proof: five cadence failures and five invalid-evidence passes. Audit supplies contract; Team 3 owns writer repair. |
-| Team 1 | Budget #1512 69d38271, draft | Saved national budget run and threshold calibration; no budget-passage claim from filing counts. |
-| Team 2 | Vote #1513 49d5243f, ready | State roster contract with Audit; independent A97 compliance build resumed. |
-| Team 3 | City #1516 3623fa6f; weekly caller #1524 3d6ebbb0, ready | Stack includes #1462, #1519 and #1521. Exact main shift survivor must be retained. |
-| Team 4 | Opening #1520 8777bd47, draft | Depends on #1500. Reported five natural openings; saved pay flow is not completed cash. |
-| Standby Team 5 | Clinical #1515 bb73e52e, ready | New head needs K4 re-review; clinical eligibility/weights need CTO decision. |
-| Team 6 | Privacy #1523 41aaeaed, ready | Consumes research #1518; reported 22 tests. Next: twelve inherited budget failures, exact receipt requested from Audit. |
-| Team 7 | County source #1508 3136c590, draft | Actual seat, residence and voter binding contract awaits core admission; no county filing enabled. |
-| Team 8 | Subject response #1505 3e463689, draft | Player adapter published; NPC consideration contract remains separate. |
-| Team 9 | Clemency #1506 2ca5596f, ready | CT renewal failed at awaiting-executive before wage/legal assertion; Audit supplies existing fixture contract. |
-| Audit | Completion #1480 8bef6550; SQLite #1511 53b470a6, drafts | Reported focused proof retained. Exclusive speed window not granted while other owners' simulations run. |
+| Owner          | Published output                                         | Consumer or outstanding proof                                                                                                                                 |
+| -------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Coordinator    | Foundation #1309 7f8e4880, draft WIP                     | Exact main shift caller restored. Ten-case proof: five cadence failures and five invalid-evidence passes. Audit supplies contract; Team 3 owns writer repair. |
+| Team 1         | Budget #1512 69d38271, draft                             | Saved national budget run and threshold calibration; no budget-passage claim from filing counts.                                                              |
+| Team 2         | Vote #1513 49d5243f, ready                               | State roster contract with Audit; independent A97 compliance build resumed.                                                                                   |
+| Team 3         | City #1516 3623fa6f; weekly caller #1524 3d6ebbb0, ready | Stack includes #1462, #1519 and #1521. Exact main shift survivor must be retained.                                                                            |
+| Team 4         | Opening #1520 8777bd47, draft                            | Depends on #1500. Reported five natural openings; saved pay flow is not completed cash.                                                                       |
+| Standby Team 5 | Clinical #1515 bb73e52e, ready                           | New head needs K4 re-review; clinical eligibility/weights need CTO decision.                                                                                  |
+| Team 6         | Privacy #1523 41aaeaed, ready                            | Consumes research #1518; reported 22 tests. Next: twelve inherited budget failures, exact receipt requested from Audit.                                       |
+| Team 7         | County source #1508 3136c590, draft                      | Actual seat, residence and voter binding contract awaits core admission; no county filing enabled.                                                            |
+| Team 8         | Subject response #1505 3e463689, draft                   | Player adapter published; NPC consideration contract remains separate.                                                                                        |
+| Team 9         | Clemency #1506 2ca5596f, ready                           | CT renewal failed at awaiting-executive before wage/legal assertion; Audit supplies existing fixture contract.                                                |
+| Audit          | Completion #1480 8bef6550; SQLite #1511 53b470a6, drafts | Reported focused proof retained. Exclusive speed window not granted while other owners' simulations run.                                                      |
 
 ### BLOCKED
 
@@ -338,18 +457,18 @@ Main 577b0ac03 contains the coordinator ledger #1507, county calendar profile re
 
 ### CONNECTIONS TABLE
 
-| Owner | Current output | Next consumer or proof |
-| --- | --- | --- |
-| Coordinator and Team 3 | Shared authority composition 714d393f; root 11/11 authority tests and five type roots clean | Four resolved files delivered; Team 3 renews city/default payroll and opens a follow-up to merged #1486. |
-| Team 1 | Budget filing #1512, 4e7111a2; reported 125/125 controlled tests | National budget behavior and CTO mechanism review remain pending. |
-| Team 2 | Shared congressional vote #1513 READY, 49d5243f | CTO review; state ratification remains unmigrated. Reported 1,070 controlled decisions retained directions and reasons. |
-| Team 4 | Recorded-employer adapter #1500, 45e6d251 | Preparing actual-opening test; exact adult-hire caller release with Audit. |
-| Team 5 | Standing authority received from main | Clinical consumer must show an eligible operator and named recipient completing a paid visit. |
-| Team 6 | Privacy expense writer transfer accepted | Build one-time occurrence with CTO-approved estimated applicability; no recurring research claim. |
-| Team 7 and Audit | Caller #1510, a6743164, depends on #1358, 92233b49 | Reported 8/8 controlled caller tests with boundary overlays; final-main and long-world parity unrun. |
-| Team 8 | Unpaid liability #1409, 2c07a79f; reported 10/10 | CTO review; player resignation adapter admitted narrowly and cleanly. Natural collection unproved. |
-| Team 9 | Clemency consent repair #1506 READY, 2ca5596f | CTO review and #1496 dependency; Kansas deadline proof is controlled, not nationwide. |
-| Audit | SQLite chunks #1511, 66a84c6e | Seven reported cases; constructor migration race confirmed and bounded repair underway. |
+| Owner                  | Current output                                                                              | Next consumer or proof                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Coordinator and Team 3 | Shared authority composition 714d393f; root 11/11 authority tests and five type roots clean | Four resolved files delivered; Team 3 renews city/default payroll and opens a follow-up to merged #1486.                |
+| Team 1                 | Budget filing #1512, 4e7111a2; reported 125/125 controlled tests                            | National budget behavior and CTO mechanism review remain pending.                                                       |
+| Team 2                 | Shared congressional vote #1513 READY, 49d5243f                                             | CTO review; state ratification remains unmigrated. Reported 1,070 controlled decisions retained directions and reasons. |
+| Team 4                 | Recorded-employer adapter #1500, 45e6d251                                                   | Preparing actual-opening test; exact adult-hire caller release with Audit.                                              |
+| Team 5                 | Standing authority received from main                                                       | Clinical consumer must show an eligible operator and named recipient completing a paid visit.                           |
+| Team 6                 | Privacy expense writer transfer accepted                                                    | Build one-time occurrence with CTO-approved estimated applicability; no recurring research claim.                       |
+| Team 7 and Audit       | Caller #1510, a6743164, depends on #1358, 92233b49                                          | Reported 8/8 controlled caller tests with boundary overlays; final-main and long-world parity unrun.                    |
+| Team 8                 | Unpaid liability #1409, 2c07a79f; reported 10/10                                            | CTO review; player resignation adapter admitted narrowly and cleanly. Natural collection unproved.                      |
+| Team 9                 | Clemency consent repair #1506 READY, 2ca5596f                                               | CTO review and #1496 dependency; Kansas deadline proof is controlled, not nationwide.                                   |
+| Audit                  | SQLite chunks #1511, 66a84c6e                                                               | Seven reported cases; constructor migration race confirmed and bounded repair underway.                                 |
 
 ### BLOCKED
 
@@ -367,12 +486,12 @@ Standing-service authority #1503 is merged at main 22caef4de. It provides the co
 
 ### CONNECTIONS TABLE
 
-| Producer | Consumer | Current evidence |
-| --- | --- | --- |
-| Standing-service authority | Team 5 clinical service | Main 22caef4de contains #1503. Consumer work proceeds on its own branch. |
-| Elected-office predicate | Team 3 payroll | Published receipt 37e7c327 reports 24/24 cases at tested source 829d7ca9. Root verified the source-to-publication diff contains only evidence and a release declaration. Actual city checks remain pending. |
-| Team 1 privacy caller release | Team 6 one-time expense | Exact blobs verified; ownership transfer closed below. National legal applicability and firm facts remain missing. |
-| Team 9 required consent | Existing executive advisory deadline | #1506 ready at 2ca5596f. Kansas boundary pass reported by Team 9, not independently rerun. #1496 remains open. |
+| Producer                      | Consumer                             | Current evidence                                                                                                                                                                                            |
+| ----------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Standing-service authority    | Team 5 clinical service              | Main 22caef4de contains #1503. Consumer work proceeds on its own branch.                                                                                                                                    |
+| Elected-office predicate      | Team 3 payroll                       | Published receipt 37e7c327 reports 24/24 cases at tested source 829d7ca9. Root verified the source-to-publication diff contains only evidence and a release declaration. Actual city checks remain pending. |
+| Team 1 privacy caller release | Team 6 one-time expense              | Exact blobs verified; ownership transfer closed below. National legal applicability and firm facts remain missing.                                                                                          |
+| Team 9 required consent       | Existing executive advisory deadline | #1506 ready at 2ca5596f. Kansas boundary pass reported by Team 9, not independently rerun. #1496 remains open.                                                                                              |
 
 ### BLOCKED
 
@@ -392,14 +511,14 @@ GitHub confirms paid services #1494 merged at 9891ad2ebdfde4bb79869ae290d26ba98e
 
 ### CONNECTIONS TABLE
 
-| Producer | Consumer | Evidence and next action |
-| --- | --- | --- |
-| Sourced standing appropriations | Team 5 service consumer | #1503 ready at 0af3c81fecdd064588a8bf6f2b53a18bb41cc690. Root executed 9/9 changed-file tests and scoped types, zero diagnostics. Resident completion and clinical delivery remain unverified. |
-| Actual elected office role | Shared wage coverage and payroll | 4d150a17f06d83407c58425d243051b7c1f84c81 passed one elected-office versus appointed-staff regression and scoped types. |
-| Team 3 city wage terms | Existing pay handler | Composed candidate 44e9a2f70239212e2cf20576c515520dd76cb03d received Team 3 reader fixes and city-row admission. Team 3 owns actual Ohio and city paycheck proof; not yet passed. |
-| Team 7 caller patch | Audit clock import repair | Exact 154-line patch delivered, SHA256 dd8240a480d1967bfb5eeeaf744eba00a8aac3b201c10745d36c18b4613c5dd1. All-three caller import/parity remains unproven. |
-| X5 initial privacy costs | Team 6 financial consumer | CTO approved a one-time per-firm charge using actual law applicability and existing writers. Recurring expense remains an evidence gap. |
-| Team 8 finding response | Existing subject action | Press export is within Team 8 ownership; Audit is locating the actual caller and recorded words. No live resignation claim. |
+| Producer                        | Consumer                         | Evidence and next action                                                                                                                                                                       |
+| ------------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sourced standing appropriations | Team 5 service consumer          | #1503 ready at 0af3c81fecdd064588a8bf6f2b53a18bb41cc690. Root executed 9/9 changed-file tests and scoped types, zero diagnostics. Resident completion and clinical delivery remain unverified. |
+| Actual elected office role      | Shared wage coverage and payroll | 4d150a17f06d83407c58425d243051b7c1f84c81 passed one elected-office versus appointed-staff regression and scoped types.                                                                         |
+| Team 3 city wage terms          | Existing pay handler             | Composed candidate 44e9a2f70239212e2cf20576c515520dd76cb03d received Team 3 reader fixes and city-row admission. Team 3 owns actual Ohio and city paycheck proof; not yet passed.              |
+| Team 7 caller patch             | Audit clock import repair        | Exact 154-line patch delivered, SHA256 dd8240a480d1967bfb5eeeaf744eba00a8aac3b201c10745d36c18b4613c5dd1. All-three caller import/parity remains unproven.                                      |
+| X5 initial privacy costs        | Team 6 financial consumer        | CTO approved a one-time per-firm charge using actual law applicability and existing writers. Recurring expense remains an evidence gap.                                                        |
+| Team 8 finding response         | Existing subject action          | Press export is within Team 8 ownership; Audit is locating the actual caller and recorded words. No live resignation claim.                                                                    |
 
 ### BLOCKED
 
@@ -419,13 +538,13 @@ The CTO's 4:08 report lists #1482, #1357, #1450, #1481, #1485, #1478, #1392, #14
 
 ### CONNECTIONS TABLE
 
-| Producer | Consumer | Current evidence and next action |
-| --- | --- | --- |
-| X5 dated wage matrix | Coordinator canonical starting terms | Published dbc66c17a8285cb8b856796c09239ced96a50023 admits 45 dated terms in 26 places. Root executed 45 focused passes and scoped types with zero diagnostics. Conditional tiers remain withheld. |
-| Team 6 standing authority | Team 5 service consumer | Root composition eef98ed6809094d6c4eec6bf62442ef111c436e2 passed four exact-Git tests. This proves authority/payment fixtures, not completed clinical care. |
-| Team 5 paid service producer | Residents and shared completion | #1494 at 71f0105995f70f295d467b0f91bf8e3ba660c0f4 reports two parks/transit producer passes and 58 related passes. Its 112 service-delivered failures are reported identical to main. CTO review pending. |
-| Audit clock composition | Team 7 three caller migrations | #1480 at 78ae4c9453d3e30dbed003fa925e5e7900046e78 is the dependency. Team 7 owns only the released caller/import changes; Audit owns the clock core. |
-| Adopted annual program spending | Team 1 session budget bill | CTO 4:08 approves current-services amounts through existing introduction, schedule, amendment and enactment paths. No invented change or forced passage. |
+| Producer                        | Consumer                             | Current evidence and next action                                                                                                                                                                          |
+| ------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| X5 dated wage matrix            | Coordinator canonical starting terms | Published dbc66c17a8285cb8b856796c09239ced96a50023 admits 45 dated terms in 26 places. Root executed 45 focused passes and scoped types with zero diagnostics. Conditional tiers remain withheld.         |
+| Team 6 standing authority       | Team 5 service consumer              | Root composition eef98ed6809094d6c4eec6bf62442ef111c436e2 passed four exact-Git tests. This proves authority/payment fixtures, not completed clinical care.                                               |
+| Team 5 paid service producer    | Residents and shared completion      | #1494 at 71f0105995f70f295d467b0f91bf8e3ba660c0f4 reports two parks/transit producer passes and 58 related passes. Its 112 service-delivered failures are reported identical to main. CTO review pending. |
+| Audit clock composition         | Team 7 three caller migrations       | #1480 at 78ae4c9453d3e30dbed003fa925e5e7900046e78 is the dependency. Team 7 owns only the released caller/import changes; Audit owns the clock core.                                                      |
+| Adopted annual program spending | Team 1 session budget bill           | CTO 4:08 approves current-services amounts through existing introduction, schedule, amendment and enactment paths. No invented change or forced passage.                                                  |
 
 ### BLOCKED
 
@@ -443,18 +562,18 @@ The rebuild remains incomplete. Starting wages still need dated legal terms, ser
 
 Standby Claude owns Team 5. Its stopped Codex predecessor must not be restarted. Existing roster:
 
-| Lane | Existing chat ID | Host |
-| --- | --- | --- |
-| Team 1 | 01a0f110-800f-73d5-bc95-e63ac4e160cc | durable |
-| Team 2 | 01a0f111-398b-7417-a1f6-dc61533ac0dc | durable |
-| Team 3 | 01a0f111-abf7-70c1-b648-e8d4a41bd0dc | durable |
-| Team 4 | 01a0f112-2b2c-70fa-9c11-5f406ec0c0f2 | durable |
-| Team 6 | 01a0f112-ac3c-7054-af78-9dcebb1a30d7 | durable |
-| Team 7 | 01a0ef18-7d76-7220-9e0b-f89ad55bc6c3 | local |
-| Team 8 | 01a0f112-db5b-7030-b9e8-38027ef090ca | durable |
-| Team 9 | 01a0f113-051b-71e6-b663-8ab0a0a990c5 | durable |
+| Lane          | Existing chat ID                     | Host    |
+| ------------- | ------------------------------------ | ------- |
+| Team 1        | 01a0f110-800f-73d5-bc95-e63ac4e160cc | durable |
+| Team 2        | 01a0f111-398b-7417-a1f6-dc61533ac0dc | durable |
+| Team 3        | 01a0f111-abf7-70c1-b648-e8d4a41bd0dc | durable |
+| Team 4        | 01a0f112-2b2c-70fa-9c11-5f406ec0c0f2 | durable |
+| Team 6        | 01a0f112-ac3c-7054-af78-9dcebb1a30d7 | durable |
+| Team 7        | 01a0ef18-7d76-7220-9e0b-f89ad55bc6c3 | local   |
+| Team 8        | 01a0f112-db5b-7030-b9e8-38027ef090ca | durable |
+| Team 9        | 01a0f113-051b-71e6-b663-8ab0a0a990c5 | durable |
 | AUDIT/SYSTEMS | 01a0f364-0f5e-7172-b8a5-3792039aa0dc | durable |
-| Merge | 01a0f113-5d55-7686-9094-92bf1b52e0e9 | durable |
+| Merge         | 01a0f113-5d55-7686-9094-92bf1b52e0e9 | durable |
 
 ### MERGED
 
@@ -462,13 +581,13 @@ GitHub confirms #1468, the preceding ownership checkpoint, merged at f8832b620bd
 
 ### CONNECTIONS TABLE
 
-| Producer | Consumer and owner | Evidence and next action |
-| --- | --- | --- |
-| X5 dated wage matrix #1482 | Coordinator starting-law data | Research head c4e1a148049a654920a9811c8d2a25aec44c8c96 covers 56 places in 118 rows. Admission must preserve effective dates and statutory tiers. Research coverage is not runtime coverage. |
-| Coordinator standing authority | Team 5 service consumer and Team 6 funding | Contract d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec published; Team 5 acknowledged at 3:35. Actual paid installment and completed recipient activity remain required. |
-| Team 3 annual office pay | Coordinator shared pay dispatch | Composition 67ef03bb422c2a3b054778b0d4d35d99dfb7ae57 receives annual adapter and CT correction. Actual caller repair 28236ff5da1e4add3dbe59ef87eeb39611465813 has pending terminal/composition receipts. |
-| Audit general completion | Team 7 day routes and Team 5 attendance | Published 78ae4c9453d3e30dbed003fa925e5e7900046e78 reports 24 focused passes. Day-route transfer, natural attendance and final-main clock parity remain open. |
-| Team 1 saved filing export | Audit diagnosis | Supplement requested for actual NJ/Congress due-item states and operative session records. No duplicate year run or threshold change. |
+| Producer                       | Consumer and owner                         | Evidence and next action                                                                                                                                                                                 |
+| ------------------------------ | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| X5 dated wage matrix #1482     | Coordinator starting-law data              | Research head c4e1a148049a654920a9811c8d2a25aec44c8c96 covers 56 places in 118 rows. Admission must preserve effective dates and statutory tiers. Research coverage is not runtime coverage.             |
+| Coordinator standing authority | Team 5 service consumer and Team 6 funding | Contract d9e5aa9be7c5116b1aeb55bdde67cdccf2e012ec published; Team 5 acknowledged at 3:35. Actual paid installment and completed recipient activity remain required.                                      |
+| Team 3 annual office pay       | Coordinator shared pay dispatch            | Composition 67ef03bb422c2a3b054778b0d4d35d99dfb7ae57 receives annual adapter and CT correction. Actual caller repair 28236ff5da1e4add3dbe59ef87eeb39611465813 has pending terminal/composition receipts. |
+| Audit general completion       | Team 7 day routes and Team 5 attendance    | Published 78ae4c9453d3e30dbed003fa925e5e7900046e78 reports 24 focused passes. Day-route transfer, natural attendance and final-main clock parity remain open.                                            |
+| Team 1 saved filing export     | Audit diagnosis                            | Supplement requested for actual NJ/Congress due-item states and operative session records. No duplicate year run or threshold change.                                                                    |
 
 ### BLOCKED
 
@@ -487,7 +606,6 @@ Team 1's preserved comparison reports 46 to 149 filings, with 17 enactments in b
 Completion still requires the whole rebuild and audit-gap docket, actual saved effects, multi-year behavior, scenes and final-main checks. No percentage or complete-law total is inferred. Coordinator never merges; only the existing Merge lane applies current CTO approval rules.
 
 ## Historical status below
-
 
 ## Team 5 replacement — current roster override
 

@@ -110,8 +110,9 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "A household whose home a disaster destroyed or damaged leaving town for good.",
     status: "built",
-    rule: "BLANKET: at the next quarterly review, 40 percent of households whose home was destroyed and 5 percent of those whose home was damaged leave town, reason disaster:home-destroyed or disaster:home-damaged, and their dwelling occupancy and housing tenure end on the move. A household held by a job, school, membership or campaign stays, because ending those is not built.",
-    where: "src/simulation/migration/review.ts BLANKET_DISPLACED_LEAVE_CHANCE",
+    rule: "At the next quarterly review, a household whose home a disaster destroyed or damaged weighs the wreck (PLACEHOLDER strengths, HOME_LOST_STRENGTH) with its other recorded causes against the same bar as anyone leaving: their age's mover rate in their state, a home they own, children at home and their taste for risk, in one evaluateDecision with no randomness. One that leaves goes where its cause or its closest relative elsewhere lives, reason disaster:home-destroyed or disaster:home-damaged when the wreck weighs most, and its dwelling occupancy and housing tenure end on the move. A household held by a job, school, membership or campaign stays, because ending those is not built.",
+    where:
+      "src/simulation/migration/causes.ts homeLostCause(), review.ts reviewTown()",
   },
   {
     key: "displacement-and-return",
@@ -148,22 +149,22 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "Economy, family, housing cost, age and life stage as reasons to move.",
     status: "built",
-    rule: "Each adult in a town is reviewed once a year, and leaves only when a recorded cause pushes them past their own bar: an offer of work from a recorded employer elsewhere still waiting for their answer (job-offers.ts: whether they look comes from their own work, pay, age, field and taste for risk), a job lost or a retirement in the last year, an eviction, the household's rent against its pay, or a relative's move away. The bar is how rarely people their age in their state move (American Community Survey 2024, data/research/migration/mover-rates-acs-2024.json), a home they own, children at home and their taste for risk; the town's waves, state push, crime and jobs weigh on either side. One evaluateDecision with no randomness decides it. School elsewhere has no producer yet, so it is never read.",
+    rule: "Each adult in a town is reviewed once a year, and leaves only when a recorded cause pushes them past their own bar: an offer of work from a recorded employer elsewhere still waiting for their answer (job-offers.ts: whether they look comes from their own work, pay, age, field and taste for risk), a job lost or a retirement in the last year, an eviction, the household's rent against its pay, a relative's move away, or a household of their own formed in the last year (they left a parent's home by their own decision, living-world/leaving-home.ts, moved in with a partner, or moved out after a breakup). The bar is how rarely people their age in their state move (American Community Survey 2024, data/research/migration/mover-rates-acs-2024.json), a home they own, children at home and their taste for risk; the town's waves, state push, crime and jobs weigh on either side. One evaluateDecision with no randomness decides it. School elsewhere has no producer yet, so it is never read.",
     where: "src/simulation/migration/causes.ts decideToLeave()",
   },
   {
     key: "where-people-go",
     connects: "Choosing a destination from distance, jobs, family and cost.",
     status: "not-built",
-    rule: "A resident goes to the place their cause names: the place of the offer they take, which they accept and start on arrival, or where the relative they follow now lives. A push from a lost job, rent, eviction or retirement names no place, so they go where their closest living relative outside town lives, and with nobody there, to the rest of their own state (HARDWIRED until a home found elsewhere is recorded). A household a disaster displaced, and a newcomer's origin, are still drawn from the world's own jurisdictions weighted by the pressure layer's pull and push. Departures land at state level because the world holds no other seated towns.",
-    where: "src/simulation/migration/review.ts chooseDestination()",
+    rule: "A resident goes to the place their cause names: the place of the offer they take, which they accept and start on arrival, or where the relative they follow now lives. A push from a lost job, rent, eviction or retirement names no place, so they go where their closest living relative outside town lives, and with nobody there, to the rest of their own state (HARDWIRED until a home found elsewhere is recorded). A household a disaster displaced goes the same way. Nothing is drawn. A newcomer comes from the town's own state's largest other town (HARDWIRED, placeToLookFor), where a resident looking for work elsewhere looks first.",
+    where: "src/simulation/migration/review.ts reviewTown(), arrivalInputs()",
   },
   {
     key: "arrivals",
     connects: "New residents of the player's town.",
     status: "built",
-    rule: "Arrivals per resident a year are the survey's newcomers for the place's state, a quarter at each review, counted by carrying the fraction forward from review to review (largest remainder over the run of reviews), with no draw. Each arrival is one adult with a name, an identity and a recorded state they came from.",
-    where: "src/simulation/migration/review.ts",
+    rule: "A newcomer comes for a job in town that nobody in town is there to take: a job whose worker moved away, died or retired in the last two years (PLACEHOLDER, OPENING_REVIEWS_HELD), less as many of the newest as the town has residents out of work and looking. Each opening pulls from 1 when the rent of a one-person home takes no more than 30 percent of its pay (HUD's cost-burden line), sliding to nothing at 80 percent, over the town's push; it is taken once the reviews it has stood open times its pull reach one, so a job whose pay covers the rent is taken at once and one the rent swallows never is. No draw. The survey's newcomers per resident for the place's state (mover-rates-acs-2024.json) check the total and decide no arrival. Each arrival is one adult with a name, an identity and the place they came from, tagged with the opening they came for.",
+    where: "src/simulation/migration/review.ts townOpenings(), arrivalInputs()",
   },
   {
     key: "arrival-history",

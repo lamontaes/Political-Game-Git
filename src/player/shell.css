@@ -195,6 +195,7 @@
 }
 
 .pg-nav-date,
+.pg-nav-time,
 .pg-nav-place {
   font-size: 0.72rem;
   color: var(--pg-ivory-dim);
@@ -2950,4 +2951,11 @@
   margin: 0.15rem 0 0;
   font-size: 0.86rem;
   color: var(--pg-ivory-dim);
+}
+
+/* The saved clock stays visible independently of skip destinations. */
+.pg-nav-clock-and-controls {
+  display: grid;
+  gap: 0.35rem;
+  max-width: calc(100dvw - 2.3rem);
 }

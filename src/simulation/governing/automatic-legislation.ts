@@ -36,7 +36,6 @@ import {
   draftParameterValues,
   recordDraftLineage,
 } from "../legislation-draft-lineage";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
   npcEligibleProgramConfigurations,
@@ -476,13 +475,11 @@ function profileContextForMapping(
     rulePackId = pack.packId;
     scenarioKey = legislativeWorkKey(pack);
   } else if (governmentLevel === "federal") {
-    if (jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id) return null;
-    const pack = legislativePackForWorkKey(
-      `institution:${US_CONGRESS_PACK_ID}`,
-    );
-    if (!pack || pack.packId !== US_CONGRESS_PACK_ID) return null;
+    if (world.jurisdictions[jurisdictionId]?.kind !== "federal") return null;
+    const pack = legislativePackForJurisdiction(jurisdictionId);
+    if (!pack) return null;
     rulePackId = pack.packId;
-    scenarioKey = `institution:${pack.packId}`;
+    scenarioKey = legislativeWorkKey(pack);
   } else {
     return null;
   }
@@ -666,14 +663,13 @@ function contextSupportsMapping(
       return false;
   }
   const pack =
-    mapping.governmentLevel === "state"
+    mapping.governmentLevel === "state" || mapping.governmentLevel === "federal"
       ? legislativePackForJurisdiction(jurisdictionId)
       : legislativePackForWorkKey(context.scenarioKey);
   if (!pack || pack.packId !== context.rulePackId) return false;
   if (
     mapping.governmentLevel === "federal" &&
-    (pack.packId !== US_CONGRESS_PACK_ID ||
-      jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id)
+    context.scenarioKey !== legislativeWorkKey(pack)
   )
     return false;
   return true;
@@ -728,12 +724,13 @@ function verifiedReferenceDraft(
   measure: LegislativeMeasureRecord,
   lineage: LegislativeDraftLineageRecord,
   mapping: AutomaticLawPositionMapping,
+  suppliedContext?: AutomaticLawCompileContext,
 ) {
-  const context = profileContextForMapping(
-    world,
-    measure.jurisdictionId,
-    mapping,
-  );
+  const context =
+    suppliedContext &&
+    contextSupportsMapping(suppliedContext, measure.jurisdictionId, mapping)
+      ? suppliedContext
+      : profileContextForMapping(world, measure.jurisdictionId, mapping);
   if (
     !context ||
     !contextSupportsMapping(context, measure.jurisdictionId, mapping)
@@ -922,6 +919,7 @@ export function compileAutomaticLawDraft(input: {
     currentMeasure,
     currentLineage,
     currentMapping,
+    input.context,
   );
   const currentAmount =
     current?.draft.parameterValues[currentMapping.effectParameterKey];
@@ -965,7 +963,10 @@ export function compileAutomaticLawDraft(input: {
           row.variantKey === mapping.variantKey &&
           row.propositionKey === proposition.stableKey &&
           row.answer === input.answer &&
-          profileContextForMapping(world, measure.jurisdictionId, row),
+          (input.context &&
+          contextSupportsMapping(input.context, measure.jurisdictionId, row)
+            ? input.context
+            : profileContextForMapping(world, measure.jurisdictionId, row)),
       );
       if (!sourceMapping) return [];
       const source = verifiedReferenceDraft(
@@ -973,6 +974,7 @@ export function compileAutomaticLawDraft(input: {
         measure,
         lineage,
         sourceMapping,
+        input.context,
       );
       const amount = source?.draft.parameterValues[mapping.effectParameterKey];
       const population = publicBudgetFor(

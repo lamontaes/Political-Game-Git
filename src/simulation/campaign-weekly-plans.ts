@@ -526,7 +526,7 @@ function cheapestChannel(): CampaignAdChannelEntry {
   )[0]!;
 }
 
-function suggestedAdvertising(
+export function suggestedAdvertising(
   treasury: MoneyAmount,
   geography: CampaignWeekGeographyChoice,
 ): {

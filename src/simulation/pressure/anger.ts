@@ -21,12 +21,8 @@
 import { handlingVerdict } from "../crisis/handling-reactions";
 import { crisisRecords } from "../crisis/records";
 import type { HazardMagnitude } from "../crisis/types";
-import {
-  lifePlaceByJurisdictionId,
-  stateKeyForJurisdiction,
-} from "../life-places";
 import { macroReleasesAt } from "../macro-economy/readers";
-import type { EntityId, IsoDate, World } from "../types";
+import type { IsoDate, World } from "../types";
 import type { PressureContribution } from "./contract";
 
 /**
@@ -51,18 +47,8 @@ export const BLANKET_UNEMPLOYMENT_RISE_ANGER = 0.1;
 /** BLANKET: what an attack adds in the target's state. Not researched. */
 export const BLANKET_ATTACK_PRESSURE = { anger: 0.2, fear: 0.2 } as const;
 
-/** The state a person's home belongs to, or null when it cannot be read. */
-export function homeStateKeyOf(
-  world: World,
-  personId: EntityId,
-): string | null {
-  const home = world.people[personId]?.homeJurisdictionId;
-  if (!home) return null;
-  const place = lifePlaceByJurisdictionId(home)?.stateJurisdictionKey;
-  if (place) return place;
-  const jurisdiction = world.jurisdictions[home];
-  return jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
-}
+import { homeStateKey as homeStateKeyOf } from "../state-jurisdiction-id";
+export { homeStateKeyOf };
 
 /**
  * Anger and fear contributions for one quarter, `periodStart` to `periodEnd`

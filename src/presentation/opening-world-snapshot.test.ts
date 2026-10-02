@@ -152,7 +152,7 @@ describe("PLAYTEST65 canonical opening", () => {
         )
         .every((matter) => matter.concluded && !matter.openForComment),
     ).toBe(true);
-    expect(ensureOpeningPriorLocalRecords(world, playerPersonId)).toBe(world);
+    expect(ensureOpeningPriorLocalRecords(world)).toBe(world);
     const archivedPublications = (world.history.publications ?? []).filter(
       (publication) =>
         prior.some((event) => event.id === publication.sourceEventId),

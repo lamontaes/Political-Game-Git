@@ -1,3 +1,10 @@
+import {
+  requestedCampaignAdvertisingGainBasisPoints,
+  recordCampaignAdvertisingExpenditure,
+  requestedCompletedCampaignFieldGainBasisPoints,
+} from "./campaigns";
+import { suggestedAdvertising } from "./campaign-weekly-plans";
+import { contestDistrictGeography } from "./campaign-geography";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { eventById } from "./event-index";
 import { jailTermOn } from "./justice/jail-terms";
@@ -25,7 +32,11 @@ import {
 import { planCampaignOperatingWeek } from "./campaign-operating-costs";
 import { recordSupportShift } from "./campaign-support";
 import { addDays } from "./dates";
-import { evaluateDecision } from "./decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import {
   electionContestById,
   electionContestStatus,
@@ -38,6 +49,12 @@ import { publicPartyAffiliation } from "./living-world/congress";
 import { homePartyChapters } from "./living-world/party-chapters";
 import type { HomePartyChapter } from "./living-world/party-chapters";
 import { drawCanonicalNamedIdentity, personName } from "./people";
+import {
+  ensurePeopleTraitCatalog,
+  ensurePeopleTraits,
+  traitConsiderations,
+  type TraitLean,
+} from "./people-traits";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
@@ -88,30 +105,51 @@ import { assertWorldIntegrity, recordWorldEvent } from "./world";
  * not grow opponent campaigns here; that remains a later increment.
  */
 
-/** Below this, a paid message is not something the committee can buy. */
-const MESSAGING_MINIMUM_MINOR_UNITS = 20_000;
-/** Authored game defaults; not empirical campaign finance. */
+/** Authored game default; fundraising remains separately owned by A66. */
 const FUNDRAISING_RANGE = [60_000, 250_001] as const;
-const MESSAGING_RANGE = [20_000, 120_001] as const;
-const SWING_RANGE = [60, 141] as const;
-/**
- * A field event: ninety minutes with the two people actually present, the
- * candidate and their field lead. The effect uses the same formula as a
- * player's outreach afternoon (`campaigns.ts` requestedGainBasisPoints:
- * minutes x workers x 3/2, then the seeded swing), so a rival's evening on the
- * doors is worth what the player's is, not a multiple of it.
- */
-const FIELD_EVENT_MINUTES = 90;
-const FIELD_EVENT_WORKERS = 2;
 const EVALUATION_INTERVAL_DAYS = 7;
 const LATE_CAMPAIGN_DAYS = 21;
 const PUBLIC_MEMORY_DAYS = 14;
 
-const EMPHASES: readonly CampaignPlanEmphasis[] = [
-  "field",
-  "communications",
-  "relationships",
-];
+/**
+ * HARDWIRED, a game assumption: which side of a candidate's recorded
+ * temperament leans toward which way of campaigning. A sociable, steady
+ * candidate works the doors; one who would rather not meet strangers, or who
+ * weighs every word, puts out a message; one who avoids conflict works
+ * through the people around them.
+ */
+const EMPHASIS_LEANS = [
+  {
+    optionKey: "field",
+    trait: "sociability",
+    pole: "high",
+    explanation: "They would rather meet voters in person.",
+  },
+  {
+    optionKey: "field",
+    trait: "reliability",
+    pole: "high",
+    explanation: "They trust steady, regular work on the doors.",
+  },
+  {
+    optionKey: "communications",
+    trait: "sociability",
+    pole: "low",
+    explanation: "They would rather reach voters through a message.",
+  },
+  {
+    optionKey: "communications",
+    trait: "deliberation",
+    pole: "high",
+    explanation: "They want every word weighed before it goes out.",
+  },
+  {
+    optionKey: "relationships",
+    trait: "conflict",
+    pole: "low",
+    explanation: "They work through the people around them.",
+  },
+] as const satisfies readonly TraitLean[];
 
 const WRITER_NOTE = "crunch46-campaign-opponents-v1";
 
@@ -281,10 +319,72 @@ function lastOrganizationId(world: World): EntityId {
 const SEAT_TITLE_PREFIX = "Seat in the ";
 
 /**
+ * How the rival believes a campaign is won, decided once from their recorded
+ * temperament (`EMPHASIS_LEANS`) and kept as a decision trace. A candidate
+ * with no leaning trait holds no particular belief, and their weekly choices
+ * then rest on the race alone.
+ */
+function decideEmphasis(
+  world: World,
+  stableKey: string,
+  candidatePersonId: EntityId,
+): { readonly world: World; readonly emphasis: CampaignPlanEmphasis | null } {
+  let next = ensurePeopleTraits(ensurePeopleTraitCatalog(world), [
+    candidatePersonId,
+  ]);
+  const key = `${stableKey}:emphasis`;
+  const considerations = traitConsiderations(
+    next,
+    candidatePersonId,
+    key,
+    EMPHASIS_LEANS,
+  );
+  if (considerations.length === 0) return { world: next, emphasis: null };
+  const evaluation = evaluateDecision(next, {
+    stableKey: key,
+    decisionType: "campaign.opponent-emphasis",
+    actorPersonId: candidatePersonId,
+    cutoff: {
+      asOfDate: next.currentDate,
+      historySequenceExclusive: next.history.nextSequence,
+    },
+    subject: { kind: "context:campaign", key: "emphasis", entityId: null },
+    options: [
+      {
+        key: "field",
+        label: "Field work",
+        description: "Meet voters at events and on the doors.",
+      },
+      {
+        key: "communications",
+        label: "The message",
+        description: "Reach voters with paid messages.",
+      },
+      {
+        key: "relationships",
+        label: "The people around them",
+        description: "Work through donors and the party.",
+      },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  next = recordDurableDecisionTrace(next, evaluation);
+  return {
+    world: next,
+    emphasis: evaluation.selectedOptionKey as CampaignPlanEmphasis | null,
+  };
+}
+
+/**
  * The rival's own campaign, written the first time they act: a committee, the
  * two aggregate counterparties the player's committee also has, an empty
- * account and a persistent field lead. The emphasis is drawn once from the
- * record's identity and is never shown to the player.
+ * account and a persistent field lead. The emphasis is decided once from
+ * the candidate's recorded temperament (`decideEmphasis`) and is never shown
+ * to the player.
  */
 function ensureOpponent(
   world: World,
@@ -392,9 +492,9 @@ function ensureOpponent(
     provenance: { kind: "authored", note: WRITER_NOTE },
   });
 
-  const emphasis = new SeededRng(world.seed)
-    .fork(`campaign-opponent-emphasis:${id}`)
-    .pick(EMPHASES);
+  const decided = decideEmphasis(next, stableKey, candidatePersonId);
+  next = decided.world;
+  const emphasis = decided.emphasis;
   const opponent: CampaignOpponentRecord = {
     id,
     stableKey,
@@ -481,7 +581,7 @@ function chooseStep(
   contest: ElectionContestRecord,
   opponent: CampaignOpponentRecord,
   stepKey: string,
-): CampaignOpponentStepKind {
+): CampaignOpponentStepKind | null {
   const treasury = opponentTreasury(world, opponent, campaign.treasuryCurrency);
   const daysLeft = daysBetween(world.currentDate, contest.electionDate);
   const alreadyAsked = campaignOpponentStepRecords(world).some(
@@ -507,7 +607,7 @@ function chooseStep(
       sourceRefs: [],
     });
 
-  if (treasury < MESSAGING_MINIMUM_MINOR_UNITS) {
+  if (!opponentAdvertisingPlan(world, campaign, opponent)) {
     constraints.push({
       stableKey: `${stepKey}:constraint:messaging-funds`,
       optionKey: "messaging",
@@ -530,7 +630,7 @@ function chooseStep(
       "strong",
       "The committee's account is empty.",
     );
-  } else if (treasury < MESSAGING_MINIMUM_MINOR_UNITS * 3) {
+  } else if (!opponentAdvertisingPlan(world, campaign, opponent)) {
     consider(
       "thin-treasury",
       "fundraising",
@@ -651,13 +751,11 @@ function chooseStep(
     constraints,
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
-  return (
-    (evaluation.selectedOptionKey as CampaignOpponentStepKind | null) ??
-    "fundraising"
-  );
+  if (!isSelectedDecision(evaluation)) return null;
+  return evaluation.selectedOptionKey as CampaignOpponentStepKind;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -686,33 +784,27 @@ function moveMoney(
   world: World,
   opponent: CampaignOpponentRecord,
   stepKey: string,
-  kind: "fundraising" | "messaging",
+  kind: "fundraising",
   amount: MoneyAmount,
   eventId: EntityId,
   jurisdictionId: EntityId,
 ): { readonly world: World; readonly resourceFlowId: EntityId } {
-  const raising = kind === "fundraising";
+  void kind;
   let next = createResourceFlow(world, {
     stableKey: `${stepKey}:flow`,
     source: {
       kind: "organization",
-      organizationId: raising
-        ? opponent.donorPoolOrganizationId
-        : opponent.committeeOrganizationId,
+      organizationId: opponent.donorPoolOrganizationId,
     },
     recipient: positionOwnerEndpoint({
       kind: "organization",
-      organizationId: raising
-        ? opponent.committeeOrganizationId
-        : opponent.vendorOrganizationId,
+      organizationId: opponent.committeeOrganizationId,
     }),
     startsAt: world.currentDate,
     initialStatus: "active",
     amount,
     cadenceKind: "schedule:one-time",
-    basisKind: raising
-      ? "custom:campaign-contribution"
-      : "custom:campaign-expenditure",
+    basisKind: "custom:campaign-contribution",
     basisReference: { kind: "general" },
     restrictionKind: "purpose:campaign",
     jurisdictionId,
@@ -729,9 +821,7 @@ function moveMoney(
     attemptedAmount: amount,
     transferredAmount: amount,
     reasonKind: null,
-    note: raising
-      ? "Contributions an opponent's committee received this week."
-      : "A paid message, paid out of the opponent committee's own account.",
+    note: "Contributions an opponent's committee received this week.",
     provenance: { kind: "simulated-event", eventId },
   });
   return { world: next, resourceFlowId };
@@ -807,21 +897,40 @@ function writeFundraising(
   };
 }
 
+function opponentAdvertisingPlan(
+  world: World,
+  campaign: CampaignRecord,
+  opponent: CampaignOpponentRecord,
+) {
+  const district = contestDistrictGeography(
+    requireElectionContest(world, campaign.contestId).office,
+  );
+  const geography = district
+    ? { ...district, kind: "district" as const }
+    : {
+        key: `jurisdiction:${campaign.jurisdictionId}`,
+        label:
+          world.jurisdictions[campaign.jurisdictionId]?.name ??
+          "the campaign jurisdiction",
+        kind: "jurisdiction" as const,
+      };
+  return suggestedAdvertising(
+    {
+      minorUnits: opponentTreasury(world, opponent, campaign.treasuryCurrency),
+      currency: campaign.treasuryCurrency,
+    },
+    geography,
+  );
+}
+
 function writeMessaging(
   world: World,
   campaign: CampaignRecord,
   opponent: CampaignOpponentRecord,
   stepKey: string,
 ): StepWrite {
-  const treasury = opponentTreasury(world, opponent, campaign.treasuryCurrency);
-  const rng = new SeededRng(world.seed).fork(
-    `campaign-opponent-messaging:${stepKey}`,
-  );
-  const drawn = rng
-    .fork("spend")
-    .integer(MESSAGING_RANGE[0], MESSAGING_RANGE[1]);
-  const spend = Math.min(treasury, drawn);
-  if (spend < MESSAGING_MINIMUM_MINOR_UNITS) {
+  const plan = opponentAdvertisingPlan(world, campaign, opponent);
+  if (!plan) {
     // The decision excludes this already; never overdraw regardless.
     return writeFundraising(
       world,
@@ -831,9 +940,8 @@ function writeMessaging(
       "The committee could not pay for a message, so it raised money instead.",
     );
   }
-  const swing = rng.fork("swing").integer(SWING_RANGE[0], SWING_RANGE[1]);
   const amount: MoneyAmount = {
-    minorUnits: spend,
+    minorUnits: plan.buys * plan.advertising.amount.minorUnits,
     currency: campaign.treasuryCurrency,
   };
   const name = personName(world.people[opponent.candidatePersonId]!);
@@ -870,20 +978,20 @@ function writeMessaging(
     },
   });
   const outcomeEventId = lastEventId(next);
-  const moved = moveMoney(
-    next,
-    opponent,
-    stepKey,
-    "messaging",
-    amount,
+  const moved = recordCampaignAdvertisingExpenditure(next, {
+    stableKey: stepKey,
+    committeeOrganizationId: opponent.committeeOrganizationId,
+    vendorOrganizationId: opponent.vendorOrganizationId,
+    treasuryPositionId: opponent.treasuryPositionId,
+    jurisdictionId: campaign.jurisdictionId,
     outcomeEventId,
-    campaign.jurisdictionId,
-  );
+    amount,
+  });
   next = moved.world;
   const shifted = recordSupportShift(next, campaign, {
     stableKeyBase: stepKey,
     gainerPersonId: opponent.candidatePersonId,
-    gainBasisPoints: Math.floor((spend * swing) / 50_000),
+    gainBasisPoints: requestedCampaignAdvertisingGainBasisPoints(amount),
     sourceEntityIds: [outcomeEventId],
   });
   return {
@@ -954,9 +1062,6 @@ function writeFieldEvent(
   opponent: CampaignOpponentRecord,
   stepKey: string,
 ): StepWrite {
-  const swing = new SeededRng(world.seed)
-    .fork(`campaign-opponent-field-event:${stepKey}`)
-    .integer(SWING_RANGE[0], SWING_RANGE[1]);
   const name = personName(world.people[opponent.candidatePersonId]!);
   const lead = world.people[opponent.fieldLeadPersonId]!;
   let next = recordWorldEvent(world, {
@@ -1008,8 +1113,11 @@ function writeFieldEvent(
   const shifted = recordSupportShift(next, campaign, {
     stableKeyBase: stepKey,
     gainerPersonId: opponent.candidatePersonId,
-    gainBasisPoints: Math.floor(
-      (FIELD_EVENT_MINUTES * FIELD_EVENT_WORKERS * 3 * swing) / 200,
+    gainBasisPoints: requestedCompletedCampaignFieldGainBasisPoints(
+      next,
+      campaign,
+      opponent.candidatePersonId,
+      outcomeEventId,
     ),
     sourceEntityIds: [outcomeEventId],
   });
@@ -1029,7 +1137,7 @@ function writeSupportRequest(
   campaign: CampaignRecord,
   opponent: CampaignOpponentRecord,
   stepKey: string,
-): StepWrite {
+): StepWrite | null {
   const chapter = reachableChapter(world, opponent);
   if (!chapter) {
     return writeFundraising(
@@ -1155,9 +1263,10 @@ function writeSupportRequest(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) return null;
   const decision: CampaignSupportDecision =
     evaluation.selectedOptionKey === "grant"
       ? "granted"
@@ -1249,9 +1358,10 @@ function runOpponentStep(
   contest: ElectionContestRecord,
   opponent: CampaignOpponentRecord,
   weekStart: IsoDate,
-): { readonly world: World; readonly step: CampaignOpponentStepRecord } {
+): { readonly world: World; readonly step: CampaignOpponentStepRecord | null } {
   const stepKey = stepKeyFor(opponent, weekStart);
   const chosen = chooseStep(world, campaign, contest, opponent, stepKey);
+  if (chosen === null) return { world, step: null };
   const written =
     chosen === "fundraising"
       ? writeFundraising(world, campaign, opponent, stepKey, null)
@@ -1260,6 +1370,7 @@ function runOpponentStep(
         : chosen === "field-event"
           ? writeFieldEvent(world, campaign, opponent, stepKey)
           : writeSupportRequest(world, campaign, opponent, stepKey);
+  if (written === null) return { world, step: null };
   // A fallback changes what actually happened, and the record says so.
   const kind: CampaignOpponentStepKind =
     written.note !== null ? "fundraising" : chosen;
@@ -1394,6 +1505,15 @@ export function campaignWeeklyEvaluationHandler(
       weekStart,
     );
     next = ran.world;
+    if (ran.step === null) {
+      return {
+        world: next,
+        status: "blocked",
+        reasonKey: "campaign:opponent-undecided",
+        context: "The opponent or chapter has not selected an action.",
+        outcomeEventId,
+      };
+    }
     outcomeEventId = ran.step.outcomeEventId;
   }
 

@@ -1,7 +1,10 @@
-import { addDays, makeIsoDate, spokenDate } from "./dates";
+import { addDays, daysBetween, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
+import { statuteEffectiveRule } from "./governing/statute-effective-date";
+import { enactingGovernmentForPack } from "./legislation-drafting";
+import { recordedSessionAdjournment } from "./governing/session-adjournments";
 import {
   growingIndex,
   indexOverArrays,
@@ -1109,7 +1112,10 @@ export interface RecordVoteInput<
  * supplies member dispositions; this function never invents them.
  */
 export function buildLegislativeVoteRecord<
-  Purpose extends LegislativeVotePurpose | "constitutional-proposal",
+  Purpose extends
+    | LegislativeVotePurpose
+    | "constitutional-proposal"
+    | "constitutional-ratification",
 >(
   world: World,
   input: RecordVoteInput<Purpose>,
@@ -2927,10 +2933,58 @@ export function recordEnactment(
   );
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
 
-  const resolvedDate = resolveLegislativeEffectiveDate(pack, world.currentDate);
-  const sourceDate =
-    resolvedDate.kind === "source-default" ? resolvedDate : null;
-  const profile = input.effectiveDateGameProfile;
+  // Chamber passage and concurrence only: a veto override is not the
+  // passage a state counts an effective date from.
+  const finalPassage = measureActions(world, measure.id)
+    .filter(
+      (action) =>
+        action.kind === "floor-stage-passed" || action.kind === "concurred",
+    )
+    .at(-1);
+
+  const government = enactingGovernmentForPack(pack)?.government;
+  const stateRule =
+    government === "state" || government === "territory"
+      ? statuteEffectiveRule(pack.jurisdictionKey)
+      : null;
+  const dateContext = {
+    finalPassageAt: () => finalPassage?.occurredAt ?? null,
+    sessionEnds: (year: number) => {
+      const adjourned = recordedSessionAdjournment(
+        world,
+        measure.rulePackId,
+        year,
+      );
+      return adjourned ? [adjourned.adjournedOn] : null;
+    },
+  };
+  const resolvedDate = resolveLegislativeEffectiveDate(
+    pack,
+    world.currentDate,
+    dateContext,
+  );
+  // A state's canonical default precedes a fictional starting-procedure interval.
+  // Nonstate bodies retain their own executable pack declarations.
+  const distinct = pack.enactment.effectiveDateDistinctFromEnactment;
+  const packDate =
+    stateRule ||
+    pack.enactment.defaultEffectiveSchedule?.kind === "known" ||
+    (distinct.kind === "known" && !distinct.value)
+      ? resolvedDate
+      : null;
+  const profile =
+    input.effectiveDateGameProfile ??
+    (input.effectiveAt == null &&
+    packDate?.kind === "game-default" &&
+    packDate.effectiveAt !== null
+      ? {
+          version:
+            stateRule && resolvedDate.kind === "game-default"
+              ? `${pack.packId}:statute-default-estimate`
+              : pack.packId,
+          days: daysBetween(world.currentDate, packDate.effectiveAt),
+        }
+      : undefined);
   if (profile) {
     if (
       !profile.version.trim() ||
@@ -2947,15 +3001,6 @@ export function recordEnactment(
       );
     }
   }
-
-  // Chamber passage and concurrence only: a veto override is not the
-  // passage a state counts an effective date from.
-  const finalPassage = measureActions(world, measure.id)
-    .filter(
-      (action) =>
-        action.kind === "floor-stage-passed" || action.kind === "concurred",
-    )
-    .at(-1);
 
   const next = appendAction(world, {
     measure,
@@ -2990,22 +3035,22 @@ export function recordEnactment(
     resolvedAt: next.currentDate,
     outcome: "enacted",
     actDesignation: input.actDesignation ?? null,
-    // An explicit date, an explicit game profile, or a date the pack's own
-    // cited rule gives is saved with the act. Otherwise the date stays null
+    // An explicit date, an explicit game profile, or an executable pack date
+    // is saved with the act. Otherwise the date stays null
     // and the state's researched effective-date rule dates it where it is read
     // (`governing/statute-effective-date.ts`); no invented interval is saved.
-    effectiveAt: profile
-      ? addDays(next.currentDate, profile.days)
+    effectiveAt: input.effectiveDateGameProfile
+      ? addDays(next.currentDate, input.effectiveDateGameProfile.days)
       : input.effectiveAt != null
         ? makeIsoDate(input.effectiveAt)
-        : sourceDate
-          ? sourceDate.effectiveAt
+        : packDate
+          ? packDate.effectiveAt
           : null,
-    ...(input.effectiveAt == null && (profile || sourceDate)
+    ...(input.effectiveAt == null && (profile || packDate)
       ? {
           effectiveDateBasis: profile
             ? ("game-default" as const)
-            : ("source-default" as const),
+            : packDate!.kind,
           ...(profile
             ? {
                 effectiveDateGameProfile: {

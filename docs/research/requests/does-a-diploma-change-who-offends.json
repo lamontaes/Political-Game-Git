@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-10-01T22:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Local crime",
+  "notes": [
+    "Under Fable W-J37 a resident's recorded high school bears on how strongly an offense points to them (src/simulation/crime/offenders.ts, UNRESEARCHED_DIPLOMA_OFFENDING). The record read is the existing education enrollment: a completed high school, or a completed degree that required one, counts as a diploma; a high school withdrawn from counts as leaving without one; a resident with no schooling on record is weighed as the average resident, with no change.",
+    "The direction follows the study's average effect, the same for everybody; the size is a PLACEHOLDER, not derived from the study: a one-point gap between a graduate and a dropout, split evenly, so a graduate sits half a point below a resident with no schooling on record and a dropout half a point above. Centering it instead on the 91 percent of adults 25 and older with at least a high-school diploma (Census Bureau, Educational Attainment in the United States: 2022) would put a graduate 0.09 below and a dropout 0.91 above; that waits on the attainment share being read from each place's data rather than written into the rule.",
+    "Research note only, not a weight: Lochner and Moretti (2004) report the effect of finishing high school on the chance of being incarcerated separately by race, about 0.76 percentage points for white men and 3.4 for Black men. The game weighs nobody by race. Whether the larger estimated effect for Black men reflects schooling, the places and schools involved, or differences in policing and sentencing is a question for the justice lanes, and the answer belongs in place and law data, not in a person's race.",
+    "No town resident currently opens with a schooling record (town-residents.ts enrolls children only), so today the diploma moves the weight of characters whose history was written in full, children who finish school in play, and anyone whose record gains a degree."
+  ],
+  "priority": "P2",
+  "question": "How large is the effect of finishing high school on committing ordinary offenses (assault, robbery, burglary, vandalism), as distinct from being arrested or incarcerated, in terms that can set one additive weight beside age, work, a past record and knowing the victim?",
+  "questionId": "does-a-diploma-change-who-offends",
+  "relatedQuestionIds": ["who-commits-crime-and-what-changes-it"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5, for the Fable Part 5 Social audit card W-J37",
+  "sourcesChecked": [
+    {
+      "source": "Lance Lochner and Enrico Moretti, 'The Effect of Education on Crime: Evidence from Prison Inmates, Arrests, and Self-Reports', American Economic Review 94(1), 2004 (NBER working paper 8605)",
+      "whatItDidNotSettle": "The effect is measured on incarceration and arrest rates, with self-reports showing it is offending rather than detection; it is not given as an odds ratio by offense that sits beside the other offender weights, so the one-point gap is still a placeholder size."
+    },
+    {
+      "source": "Census Bureau, Educational Attainment in the United States: 2022, press release February 16, 2023",
+      "whatItDidNotSettle": "The share of adults 25 and older with a diploma (91 percent) centers the weight; it says nothing about offending."
+    }
+  ],
+  "title": "Does a high-school diploma change who commits ordinary crime, and by how much",
+  "usableAnswer": "An odds ratio or relative risk of committing each ordinary offense for high-school graduates against dropouts, with age and work held equal, from a named study, so the one-point gap in UNRESEARCHED_DIPLOMA_OFFENDING can be read as data.",
+  "whyItMatters": "Schooling is something a player can change: a policy that keeps students in school should, through the people it reaches, change who in town offends."
+}

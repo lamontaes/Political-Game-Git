@@ -1,0 +1,13 @@
+{
+  "testedHead": "83c6e58fc3e488feb18a4d425237d548f44b5b49",
+  "mainHead": "3e6d737c07424d66d66a1b95cf474aab9e71d0c3",
+  "testFile": "src/simulation/legislative-institutions-local.test.ts",
+  "passed": 7,
+  "failed": 0,
+  "skipped": 0,
+  "logSha256": "cd8b93b065631031c93ea1154c3a1d74f261fd98da1788cd8741237aca50a3bf",
+  "release": "pass",
+  "ownerOverride": "Only changed PR files are required. No future world/macro, repository-wide typecheck or zero-dice rerun. Earlier completed results retained as historical.",
+  "status": "DRAFT; same council behavior import blocker; no merge",
+  "branch": "codex/team1-a77-caller-preparation"
+}

@@ -236,13 +236,12 @@ describe("what a control says after the clock answers", () => {
   });
 });
 
-describe("an offer from the older work list, under Jobs", () => {
-  // Folded away, it hid the only Begin button, and a Greenwich life sat on
-  // an accepted job that never started. Reno, not the Lexington fixture above.
+describe("Jobs offers only the town employer listings", () => {
+  // Existing work and its financial records survive removal of its old UI.
   const life = adultLife("3260600");
   const sought = seekCareerOffer(life.world, CAREER_PROVIDERS[0]!);
 
-  it("stays unfolded while it waits to be answered or begun", () => {
+  it("does not mount the separate authored work list, even with a saved offer", () => {
     expect(sought.ok).toBe(true);
     const folded = withRunner(
       stubRunner(false),
@@ -252,7 +251,12 @@ describe("an offer from the older work list, under Jobs", () => {
       stubRunner(false),
       <LifePathsPanel world={sought.world} onWorldChange={() => {}} />,
     );
-    expect(folded).toMatch(/<details><summary>Other work/);
-    expect(open).toMatch(/<details open=""><summary>Other work/);
+    for (const markup of [folded, open]) {
+      expect(markup).toContain('data-testid="job-listings"');
+      expect(markup).not.toContain("Other work");
+      expect(markup).not.toContain("Career opportunities");
+      expect(markup).not.toContain("Browse all listed work");
+      expect(markup).not.toContain("Accept Shop assistant");
+    }
   });
 });

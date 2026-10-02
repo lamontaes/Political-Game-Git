@@ -31,6 +31,8 @@ export interface PlaceCountyPartRecord {
   readonly stateFips: string;
   readonly partLandAreaSquareMeters: number;
   readonly partWaterAreaSquareMeters: number;
+  /** POP100: residents of this county part on Census Day, April 1, 2020. */
+  readonly partPopulationCount: number;
   /** The place's land area: the sum of its county parts' land. */
   readonly placeLandAreaSquareMeters: number;
   /** How many county parts the place has in the file. */

@@ -5,9 +5,9 @@ import {
 } from "../presentation/bundled-art";
 import { runtimeArtUrls } from "../presentation/runtime-art";
 
-import assetRequestDocument from "../../art/requests/asset-requests.json";
-import intakeDispositions from "../../art/qa/p71/source_intake_dispositions.json";
-import candidateReview from "../../art/qa/p95-recent-drive-sweep/candidate-component-review.json";
+import assetRequestDocument from "../../art/requests/asset-requests.json" with { type: "json" };
+import intakeDispositions from "../../art/qa/p71/source_intake_dispositions.json" with { type: "json" };
+import candidateReview from "../../art/qa/p95-recent-drive-sweep/candidate-component-review.json" with { type: "json" };
 import {
   openAssetRequests,
   summarizeAssetRequests,
