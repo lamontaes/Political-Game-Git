@@ -1689,6 +1689,8 @@ export function localGovernmentYearHandler(
           },
         })
       : null;
+    // A mayor who has not selected an appointee has not delegated a draw.
+    if (mayor && !choice) continue;
     const drawn = choice
       ? { world: choice.world, personId: choice.personId }
       : drawTownResident(
