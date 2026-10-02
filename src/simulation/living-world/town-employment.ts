@@ -22,9 +22,10 @@
  *   state's total employment. Both come from the regional data in #701
  *   (`town-employment.generated.ts`).
  * - Which workplaces and job titles stand for each industry, how many
- *   outlets of each a town has, and the shares of students, retirees, parents
- *   at home and job seekers are GAME ASSUMPTIONS, marked below, until a
- *   researched occupation-by-industry table replaces them.
+ *   outlets of each a town has are GAME ASSUMPTIONS, marked below, until a
+ *   researched occupation-by-industry table replaces them. Labor matching
+ *   reads active jobs, enrollment and primary care records; it does not draw
+ *   unemployment or retirement from population shares.
  *
  * The rest of the town stays in the roster (`town-residents.ts`): a household
  * is given its jobs when it is written out, never before.
@@ -35,7 +36,13 @@ import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
-import { organizationClosingAt, organizationProfileAt } from "../life-queries";
+import {
+  activeCareResponsibilitiesAt,
+  activeEducationEnrollmentsAt,
+  activeWorkRelationshipsAt,
+  organizationClosingAt,
+  organizationProfileAt,
+} from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   countyGeoidsForPlace,
@@ -1076,21 +1083,8 @@ export function townWorkplaceWeights(
 }
 
 /* -------------------------------------------------------------------------- */
-/* Labor status (GAME ASSUMPTION)                                              */
+/* Labor status from recorded circumstances                                   */
 /* -------------------------------------------------------------------------- */
-
-/**
- * GAME ASSUMPTION pending a researched labor-force table by age and household:
- * the shares of working-age residents who are not working. A student is 18 to
- * 24 and enrolled; retirement is from 62; a parent at home has a partner and a
- * child under six.
- */
-const NOT_WORKING = {
-  studentWithoutJob: 0.6,
-  retiredFrom62: 0.35,
-  parentAtHome: 0.15,
-  lookingForWork: 0.04,
-} as const;
 
 export type TownLaborStatus =
   "employed" | "student" | "retired" | "parent-at-home" | "looking-for-work";
@@ -1103,18 +1097,23 @@ export interface Resident {
 }
 
 export function laborStatus(world: World, resident: Resident): TownLaborStatus {
-  const rng = new SeededRng(world.seed).fork(
-    `${TOWN_EMPLOYMENT_VERSION}:status:${resident.personId}`,
-  );
-  const draw = rng.next();
-  if (resident.enrolled && resident.age <= 24)
-    return draw < NOT_WORKING.studentWithoutJob ? "student" : "employed";
-  if (resident.age >= 62 && draw < NOT_WORKING.retiredFrom62) return "retired";
-  if (resident.parentOfYoungChild && draw < NOT_WORKING.parentAtHome)
+  // A saved job takes precedence over enrollment or household composition.
+  if (activeWorkRelationshipsAt(world, resident.personId).length > 0)
+    return "employed";
+  if (activeEducationEnrollmentsAt(world, resident.personId).length > 0)
+    return "student";
+  if (
+    resident.parentOfYoungChild &&
+    activeCareResponsibilitiesAt(world, resident.personId).some(
+      ({ state }) => state.share === "primary",
+    )
+  )
     return "parent-at-home";
-  return rng.fork("looking").next() < NOT_WORKING.lookingForWork
-    ? "looking-for-work"
-    : "employed";
+  // Here employed means eligible for the existing job-matching path, not a
+  // claim that a job exists. The summary counts only actual active jobs and
+  // reports an unmatched candidate as looking for work. Age alone is not a
+  // retirement record, and a seed supplies no evidence of unemployment.
+  return "employed";
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1218,8 +1217,8 @@ export function activeWorkers(world: World): ReadonlySet<EntityId> {
 /**
  * Fill the town's jobs for every working-age resident written out who has no
  * job and whose place in the labor force has not been decided. Idempotent:
- * a resident is decided by a pure draw from the world seed and their id, and
- * a job written once is never written again. The player is never given one.
+ * recorded enrollment and care circumstances determine matching eligibility,
+ * and a job written once is never written again. The player is never given one.
  */
 export function ensureTownEmployment(
   world: World,

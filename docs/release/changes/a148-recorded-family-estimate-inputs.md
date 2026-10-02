@@ -13,3 +13,8 @@ recorded pattern nearest these averages and estimates whole-year intervals
 from saved parent ages, rather than rolling external percentages or ranges.
 Generated family links retain the estimate label and compared record IDs;
 missing age evidence does not create a guessed birth date.
+
+Town job matching now reads active work, education and primary care records.
+Age and world seed no longer invent retirement or job-seeking status. Old
+enrollments and household hints do not replace active records; unmatched
+eligible residents still use the existing job-matching and summary paths.
