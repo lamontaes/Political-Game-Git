@@ -1,4 +1,5 @@
 ---
+id: graduated-tax-budget-uses-saved-collections
 impact: patch
 section: Fixed
 title: Graduated tax laws no longer apply an unrelated fiscal-note multiplier
