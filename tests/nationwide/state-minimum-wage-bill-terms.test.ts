@@ -8,7 +8,6 @@ import {
   lifePlaceByKey,
   stateJurisdictionForKey,
 } from "../../src/simulation/life-places";
-import { STATE_RAISE_TERM } from "../../src/simulation/minimum-wage";
 import { outcomeFactor } from "../../src/simulation/outcome-web";
 import {
   nextPaydayDate,
@@ -18,7 +17,12 @@ import {
   townMinimumHourlyAt,
 } from "../../src/simulation/living-world/town-pay";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
-import type { FutureDueItem, IsoDate, World } from "../../src/simulation";
+import type {
+  EntityId,
+  FutureDueItem,
+  IsoDate,
+  World,
+} from "../../src/simulation";
 
 import {
   omahaWithRaiseBills,
@@ -32,7 +36,25 @@ const LB_900: RaiseBill = {
   effectiveInDays: 45,
 };
 
+// Explicit authored bill amount through the existing saved rule provision.
+// This is a test control, not a researched or default wage.
+const ADOPTED_FLOOR_MINOR = 1700;
+const NUMERIC_LB_900: RaiseBill = { ...LB_900, cents: ADOPTED_FLOOR_MINOR };
+
 const NEBRASKA = () => stateJurisdictionForKey("US-NE")!.id;
+
+/** Query the recorded legal rate at the actual snapshot date. */
+function rateOn(world: World, jurisdictionId: EntityId, onDate: IsoDate) {
+  return townMinimumHourlyAt(
+    {
+      ...world,
+      currentDate: onDate,
+      currentMoment: simulationMomentOnLocalDate(world.currentMoment, onDate),
+    },
+    jurisdictionId,
+    onDate,
+  );
+}
 
 function runPaydays(start: World, since: IsoDate, days: number): World {
   let world = start;
@@ -60,51 +82,56 @@ function runPaydays(start: World, since: IsoDate, days: number): World {
 }
 
 describe(
-  "a state law that answers yes to raising the minimum wage carries a term",
+  "a state wage law uses its actual saved amount, not an average raise",
   { timeout: 600_000 },
   () => {
-    it("adds the average raise in yearly steps from its effective date, then holds", () => {
-      const { world, opened } = omahaWithRaiseBills([LB_900]);
+    it("reads the bill's explicit $17 floor from its effective date, then holds", () => {
+      const { world, opened } = omahaWithRaiseBills([NUMERIC_LB_900]);
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
-      const before = STATE_RAISE_TERM.yearlyStepMinor;
       const rateBefore = townMinimumHourly(
         lifePlaceByKey("3137000")!.context.jurisdiction.id,
       )!;
       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
-      expect(townMinimumHourlyAt(world, omaha, addDays(effectiveAt, -1))).toBe(
-        rateBefore,
-      );
-      expect(townMinimumHourlyAt(world, omaha, effectiveAt)).toBeCloseTo(
-        rateBefore + before / 100,
+      expect(rateOn(world, omaha, addDays(effectiveAt, -1))).toBe(rateBefore);
+      expect(rateOn(world, omaha, effectiveAt)).toBeCloseTo(
+        ADOPTED_FLOOR_MINOR / 100,
         5,
       );
-      expect(
-        townMinimumHourlyAt(world, omaha, addDays(effectiveAt, 366)),
-      ).toBeCloseTo(rateBefore + (2 * before) / 100, 5);
-      // The third step is cut to the total: $2.00 above the rate before.
+      expect(rateOn(world, omaha, addDays(effectiveAt, 366))).toBeCloseTo(
+        ADOPTED_FLOOR_MINOR / 100,
+        5,
+      );
+      // The adopted amount does not acquire an average annual step.
       for (const days of [731, 3650]) {
-        expect(
-          townMinimumHourlyAt(world, omaha, addDays(effectiveAt, days)),
-        ).toBeCloseTo(rateBefore + STATE_RAISE_TERM.totalMinor / 100, 5);
+        expect(rateOn(world, omaha, addDays(effectiveAt, days))).toBeCloseTo(
+          ADOPTED_FLOOR_MINOR / 100,
+          5,
+        );
       }
     });
 
     it("reaches Nebraska alone", () => {
-      const { world, opened } = omahaWithRaiseBills([LB_900]);
+      const { world, opened } = omahaWithRaiseBills([NUMERIC_LB_900]);
       const effectiveAt = addDays(opened, LB_900.effectiveInDays + 400);
       for (const key of ["3651000", "0644000", "4819000", "5363000"]) {
         const jurisdiction = lifePlaceByKey(key)!.context.jurisdiction.id;
-        expect(townMinimumHourlyAt(world, jurisdiction, effectiveAt), key).toBe(
+        expect(rateOn(world, jurisdiction, effectiveAt), key).toBe(
           townMinimumHourly(jurisdiction),
         );
       }
     });
 
     it("raises the pay of every job below the new rate, and names the law", () => {
-      const { world: enacted, opened } = omahaWithRaiseBills([LB_900]);
+      const { world: enacted, opened } = omahaWithRaiseBills([NUMERIC_LB_900]);
+      const measure = enacted.history.legislativeMeasures!.find(
+        (row) => row.stableKey === `raise:${LB_900.key}:measure`,
+      )!;
       const world = runPaydays(enacted, opened, 800);
       const raises = world.history.resourceFlowTerms.filter((terms) =>
-        terms.stableKey.includes(":minimum-wage:"),
+        terms.lawEffectStamps?.some(
+          (stamp) =>
+            stamp.effectKind === "pay" && stamp.governingLawKey === measure.id,
+        ),
       );
       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
       {
@@ -139,15 +166,24 @@ describe(
         hourly.sort((x, y) => x - y);
         // The floor at the end is $17.00; no job is left under it.
         expect(hourly[0]).toBeGreaterThanOrEqual(
-          townMinimumHourlyAt(world, omaha, world.currentDate)! - 0.01,
+          rateOn(world, omaha, world.currentDate)! - 0.01,
         );
       }
       expect(raises.length).toBeGreaterThan(0);
       for (const raise of raises) {
-        const floor = townMinimumHourlyAt(world, omaha, raise.effectiveAt)!;
-        expect(raise.reason).toBe(
-          `LB 900 raised the state minimum wage to $${floor.toFixed(2)} an hour.`,
-        );
+        expect(
+          raise.lawEffectStamps?.find(
+            (stamp) =>
+              stamp.effectKind === "pay" &&
+              stamp.governingLawKey === measure.id,
+          ),
+        ).toMatchObject({
+          governingLawKey: measure.id,
+          questionKey: "us-policy-positions:labor-workforce.raise-minimum-wage",
+          jurisdictionId: NEBRASKA(),
+          source: "enacted",
+        });
+        expect(measure.designation).toBe("LB 900");
       }
       console.info(
         `Nebraska LB 900 answered yes: ${raises.length} raises to the pay of town jobs in 800 days.`,
@@ -176,9 +212,7 @@ describe(
       // The repeal takes the state's rate back to where it began, and the
       // effect ends the day it takes effect.
       const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
-      expect(townMinimumHourlyAt(world, omaha, repealAt)).toBe(
-        townMinimumHourly(omaha),
-      );
+      expect(rateOn(world, omaha, repealAt)).toBe(townMinimumHourly(omaha));
       // The state's poverty rate follows its rate back with the same lag.
       expect(poverty(addDays(repealAt, 1_100))).toBe(1);
       console.info(
