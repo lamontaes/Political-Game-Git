@@ -35,10 +35,6 @@ import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
 import { roadChargeFactor } from "./road-usage-charge";
-import {
-  decideStatehoodCertification,
-  statehoodFederalAidFactor,
-} from "./statehood-funds";
 import { tuitionFreezeFactor } from "./tuition-freeze";
 import { federalAidFactor } from "../federal-outlay-laws";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
@@ -623,8 +619,7 @@ export function taxLawFactor(
       : source === "chargesAndFees"
         ? tuitionFreezeFactor(world, government, onDate)
         : source === "federalAid"
-          ? federalAidFactor(world, onDate) *
-            statehoodFederalAidFactor(government, onDate)
+          ? federalAidFactor(world, onDate)
           : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
@@ -1666,13 +1661,6 @@ function adoptNextYear(
   );
   appropriations[INTEREST] = interest;
   appropriations[PENSION_PROGRAM] = pensionPaid;
-  // A place admitted as a state decides whether to certify, from its books
-  // as this budget is adopted.
-  const statehoodCertification = decideStatehoodCertification(
-    world,
-    government,
-    startsOn,
-  );
   return {
     fiscalYear: year.fiscalYear,
     startsOn: year.startsOn,
@@ -1688,7 +1676,6 @@ function adoptNextYear(
     laws,
     carriedBalance,
     stateLocalAidAtAdoption,
-    ...(statehoodCertification ? { statehoodCertification } : {}),
     ...(townSalesAtAdoption !== null
       ? { townSalesAtAdoption: Math.round(townSalesAtAdoption * 1e6) / 1e6 }
       : {}),

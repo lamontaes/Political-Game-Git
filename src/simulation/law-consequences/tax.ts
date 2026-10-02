@@ -63,7 +63,8 @@ function checkRow(row: LawConsequenceRow): void {
 
 /** The activity is a saved base, not a wage forecast, sale estimate or liability override.
  * A typed levy and the governing question must belong to the same actual law.
- * Questionless proposals and starting laws need a separate admitted binding.
+ * Saved proposal or statutory lineage must bind the exact governing law;
+ * a starting answer alone never creates a levy, rate or assessment.
  */
 export function resolveTaxConsequences(
   world: World,
@@ -112,7 +113,6 @@ export function resolveTaxConsequences(
   );
   if (
     !law ||
-    law.origin !== "enacted" ||
     (context.governingLawId && context.governingLawId !== law.measureId)
   )
     return [];
@@ -233,7 +233,6 @@ function resolveStatutoryTaxConsequences(
       source.jurisdictionId,
       proposition.id,
       `${liability.taxYear}-01-01` as typeof context.onDate,
-      "enacted-only",
     );
     if (
       !law ||

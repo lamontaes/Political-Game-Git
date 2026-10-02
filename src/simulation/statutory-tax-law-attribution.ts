@@ -13,7 +13,7 @@ import type { EntityId, World } from "./types";
 
 /** Attribution only. The statutory writer has already assessed and paid this
  * occurrence. Generic TaxBase assessment must never run for this source.
- * Starting-law levy/question bindings remain unsupported here.
+ * Starting-law attribution requires the same exact saved levy/question join.
  */
 export function appendStatutoryTaxLawAttribution(
   world: World,
@@ -23,7 +23,6 @@ export function appendStatutoryTaxLawAttribution(
     resolved.row.kind !== "tax" ||
     (resolved.row.when !== "assessment" && resolved.row.when !== "payment") ||
     resolved.row.onRepeal !== "preserve-completed" ||
-    resolved.law.origin !== "enacted" ||
     resolved.subject.kind !== "person" ||
     !world.people[resolved.subject.id] ||
     resolved.value.type !== "amount" ||
@@ -145,7 +144,6 @@ function matchesLaw(
     resolved.jurisdictionId,
     proposition.id,
     `${liability.taxYear}-01-01` as typeof liability.occurredAt,
-    "enacted-only",
   );
   return law !== null && canonicalJson(law) === canonicalJson(resolved.law);
 }
