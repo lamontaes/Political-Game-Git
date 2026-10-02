@@ -414,7 +414,9 @@ export function formativeStepDays(
     Math.max(daysBetween(interval.beginsAt, world.currentDate), 0),
     bandDays,
   );
-  const nextMark = Math.floor((elapsed * anchors) / bandDays) + 1;
+  // A mark rounds to a day after elapsed only once its unrounded position
+  // reaches elapsed + half a day. Skip marks already rounded to today.
+  const nextMark = Math.ceil(((elapsed + 0.5) * anchors) / bandDays);
   const nextAt = Math.min(
     Math.round((nextMark * bandDays) / anchors),
     bandDays,

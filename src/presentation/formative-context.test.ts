@@ -1,4 +1,3 @@
-import { serializeWorld } from "../simulation";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -12,6 +11,7 @@ import {
   recordEducationEnrollmentState,
   formativeIntervalAt,
   selectPersonHistory,
+  serializeWorld,
 } from "../simulation";
 import type { CharacterHistoryTransition, World } from "../simulation";
 import {
