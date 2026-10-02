@@ -189,7 +189,10 @@ export function recordArticleVStateMemberVote(
         dispositions: chamber.dispositions,
         provenance: {
           method: "member-decisions",
-          note: "Actual state members use the shared chamber vote and sourced ratification rule.",
+          note:
+            rule.basis === "sourced"
+              ? "Actual state members use the shared chamber vote and sourced ratification rule."
+              : `Actual state members use the shared chamber vote; ESTIMATE ratification admission. ${rule.threshold.source.note}`,
           sourceEntityIds: [...chamber.sourceRecordIds],
         },
       }),
