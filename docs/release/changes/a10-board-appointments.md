@@ -13,4 +13,6 @@ Replaces: the absent saved board nomination producer; reuses `chooseAppointee`, 
 
 Dependency: complete #1820 source03ee6f9a7499e310e950c3ab99ff2ee87dfc23dc, including dynamic district loader/shards and post-load abort. The opening adds only the nominee call after actual officeholders are established. Existing positive LA/TX/CT clemency assertions remain unchanged. Seating via `createOrganizationParticipation` and positive grant proof remain TODO until lawful confirmation and remaining appointment rules are available. No active participation, confirmation ballot or board decision is fabricated.
 
-Validation pending on this source; this is not READY or completed board seating.
+Validation: only the new changed test file, 8 PASS / 1 TODO, 21.57 seconds; scoped three roots / 1,118 dependencies / zero diagnostics; changed lint, formatting and whitespace pass. Earlier attempts (5 PASS / 3 FAIL / 1 TODO, missing fixture employer; then 7 PASS / 1 FAIL / 1 TODO, later-acquired source provenance) are retained. The fixture now writes its actual employer; the opening organization uses canonical generated construction provenance without falsely backdating the acquired source.
+
+AUDIT: A10 5/5 → 5/5, checks flipped: none. Executed main7eec00b799b1e35ba3024acbaaf2c2dda5fd51b5 and branch scans. This prerequisite unblocks durable real-person board nominations; static counts do not prove completed seating or clemency grants. No full suite, unchanged LOAD, app-wide type check or official GATE. This is DRAFT, not READY or completed board seating.

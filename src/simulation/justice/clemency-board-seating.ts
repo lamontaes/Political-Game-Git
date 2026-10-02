@@ -9,7 +9,7 @@ import {
   workStatusAt,
 } from "../life-queries";
 import { appointmentCircle, chooseAppointee } from "../patronage/appointments";
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
 
 export const CLEMENCY_BOARD_NOMINATED = "justice.clemency-board-nominated";
@@ -128,11 +128,11 @@ export function ensureOpeningClemencyBoardAppointments(world: World): World {
           stableKey: boardKey,
           formedAt: next.currentDate,
           provenance: {
-            kind: "source-record",
-            reference: profile.sources
-              .map((source) => source.citation)
-              .join("; "),
-            asOf: table.asOf as IsoDate,
+            // This is the opening's institution construction, not an assertion
+            // that the later-acquired source was recorded on this earlier date.
+            // The acquired sources stay attached to the saved nomination.
+            kind: "generated",
+            generatorKey: `clemency-board-opening:${table.asOf}:${boardKey}`,
           },
           initialProfile: {
             name: profile.label,

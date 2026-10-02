@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { dateAtAge, ageOnDate } from "../dates";
 import { governorOfficeForJurisdiction } from "../governing/state-governing";
-import { createWorkRelationship } from "../life";
+import { createOrganization, createWorkRelationship } from "../life";
 import { lifePlaceStateIdentities } from "../life-places";
 import { recordRelationshipInteraction } from "../records";
 import { pickDistinct, SeededRng } from "../rng";
@@ -72,11 +72,25 @@ describe("R16 recorded board nominations", () => {
           "Authored fixture: the actual professional helped the actual governor.",
         tags: [`relationship.actor:${candidate}`],
       });
+      const workStartedAt = dateAtAge(world.people[candidate!]!.birthDate, 20);
+      world = createOrganization(world, {
+        stableKey: "fixture:board-professional-workplace",
+        formedAt: workStartedAt,
+        provenance: {
+          kind: "authored",
+          note: "Explicit fixture correctional employer, not a generated government office or appointment.",
+        },
+        initialProfile: {
+          name: "Authored correctional workplace",
+          classification: "service:corrections",
+          locationJurisdictionId: office!.jurisdictionId,
+        },
+      });
       world = createWorkRelationship(world, {
         stableKey: "fixture:board-professional-work",
         personId: candidate!,
-        organizationId: null,
-        startedAt: dateAtAge(world.people[candidate!]!.birthDate, 20),
+        organizationId: world.history.organizations.at(-1)!.id,
+        startedAt: workStartedAt,
         kind: "employment:staff",
         compensation: "paid",
         authority: "directed",
