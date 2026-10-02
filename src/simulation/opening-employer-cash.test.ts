@@ -11,6 +11,10 @@ import {
   ensureEmployerCashPositions,
 } from "./opening-employer-cash";
 import { townBusinessKindBooks } from "./living-world/town-business-books";
+import {
+  lifePathDefinition,
+  type LifePathDefinition,
+} from "./life-paths2-catalog";
 import { resourcePositionAt } from "./resource-queries";
 import { advanceWorld } from "./world";
 import { addDays } from "./dates";
@@ -38,6 +42,8 @@ function employer(
   cash: number | null,
   classification: OrganizationClassification = "enterprise:retail",
   workers = 1,
+  shiftPath?: LifePathDefinition,
+  weeklyHours?: number,
 ) {
   let next = createOrganization(world, {
     stableKey: key,
@@ -65,7 +71,9 @@ function employer(
       personId: world.personOrder[index]!,
       organizationId: id,
       startedAt: world.currentDate,
-      kind: "employment:staff",
+      kind: shiftPath
+        ? `employment:life-paths2-${shiftPath.id}`
+        : "employment:staff",
       compensation: "paid",
       authority: "directed",
       dependency: "dependent",
@@ -76,7 +84,10 @@ function employer(
         occupationClassification: "occupation:cashier",
         locationJurisdictionId: null,
         timeDemand: {
-          expectedWeekly: { minimumHours: 32, maximumHours: 40 },
+          expectedWeekly:
+            weeklyHours === undefined
+              ? { minimumHours: 32, maximumHours: 40 }
+              : { minimumHours: weeklyHours, maximumHours: weeklyHours },
           attention: "moderate",
           concurrency: "mostly-exclusive",
           scheduleRigidity: "rigid",
@@ -101,6 +112,57 @@ function fixture() {
 }
 
 describe("saved comparable employer cash reader", () => {
+  it.each([20, 10])(
+    "annualizes completed shifts using the worker's recorded %s weekly hours",
+    (weeklyHours) => {
+      const path = lifePathDefinition("shop-assistant");
+      const target = employer(
+        smallWorld({
+          seed: "a60:completed-shift-cash",
+          place: "US-OH",
+          date: "2026-01-05",
+        }).world,
+        "shift-employer",
+        null,
+        "enterprise:retail",
+        1,
+        path,
+        weeklyHours,
+      );
+      const world = createWorkCompensation(target.world, {
+        stableKey: "shift-employer:pay",
+        workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
+        startsAt: target.world.currentDate,
+        amount: money(path.sessionPayMinor, USD),
+        cadenceKind: "work:completed-shift",
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance,
+      });
+      const opened = ensureEmployerCashPositions(world, "opening");
+      const yearlyPay =
+        path.sessionPayMinor * (weeklyHours / (path.sessionMinutes / 60)) * 52;
+      const costs = townBusinessKindBooks("retail");
+      const expected = Math.round(
+        (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
+      );
+      expect(
+        resourcePositionAt(
+          opened,
+          { kind: "organization", organizationId: target.id },
+          USD,
+        )!.liquidBalance.minorUnits,
+      ).toBe(expected);
+      expect(opened.history.resourceTransferOutcomes).toEqual(
+        world.history.resourceTransferOutcomes,
+      );
+      const restored = deserializeWorld(serializeWorld(opened));
+      expect(ensureEmployerCashPositions(restored, "opening")).toEqual(
+        restored,
+      );
+    },
+  );
+
   it("bootstraps retail from daily outflows and sourced 19 days, preserving existing cash and save replay", () => {
     const target = fixture();
     const world = createWorkCompensation(target.world, {
