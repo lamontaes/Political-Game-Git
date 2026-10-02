@@ -2,7 +2,7 @@
 id: tuition-freeze-requires-school-price-records
 impact: patch
 section: Fixed
-title: Tuition freezes no longer apply an aggregate state-fee discount
+title: Tuition freeze readers use operative recorded period prices
 ---
 
-A tuition freeze no longer changes all state charges and fees using a drawn growth rate or a fixed July 1 calendar. The researched aggregate context remains available. A school-level charge limit still requires recorded school ownership, resident tuition category and applicable tuition revisions; this change does not invent those records or claim that missing consumer is complete.
+A tuition freeze no longer changes all state charges and fees using a drawn growth rate or a fixed July 1 calendar. Its reader uses saved state ownership, school location, operative law and study-period charge terms. Missing coverage or price remains unknown. The outstanding-tuition reader preserves existing charge terms and limits new period costs without recouping earlier frozen savings. Ordinary directory schools still need source-backed ownership and location records; no public classification or annual price allocation is inferred.

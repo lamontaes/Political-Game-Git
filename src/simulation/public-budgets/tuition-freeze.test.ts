@@ -3,6 +3,12 @@ import tuitionRevenue from "../../../data/research/money/state-tuition-revenue.j
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import { drawRandomPlace } from "../../../tests/support/random-place";
+import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { assertWorldIntegrity } from "../world";
 import type { EntityId, World } from "../types";
 import {
   BUDGET_PROGRAMS,
@@ -105,6 +111,27 @@ const samples = Array.from({ length: 5 }, (_, index) => {
 });
 
 describe("school tuition policy does not invent aggregate state receipts", () => {
+  it("opens an ordinary new game in an unfiltered random place", () => {
+    const seed = "overflow5-a21-ordinary-opening-all56";
+    const place = drawRandomPlace(seed);
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+      }),
+    ).game;
+    expect(game).not.toBeNull();
+    if (!game) throw new Error("Ordinary opening did not produce a game");
+    assertWorldIntegrity(game.world);
+    expect(game.world.control).toEqual({
+      kind: "person",
+      personId: game.playerPersonId,
+    });
+    process.stdout.write(
+      `A21 ordinary opening place=${place.displayName} key=${place.key} head=38c6b6385 seed=${seed}\n`,
+    );
+  });
   it("preserves researched aggregate coverage without treating it as a school charge", () => {
     expect(STATE_KEYS).toHaveLength(50);
     expect(TUITION_GROWTH_PER_YEAR).toBe(0.031);
