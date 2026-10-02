@@ -127,6 +127,7 @@ export function normalizeCircuits(
       composition: splitStatutoryList(composition),
       circuitId: null,
       jurisdictionName: null,
+      comprisesCounties: null,
       divisions: null,
       courtHeldAt: null,
       parentDistrictCourtId: null,
@@ -153,9 +154,32 @@ export function normalizeCircuits(
  */
 const DIVISION_SENTENCE =
   /^\((\d+)\)\s+The\s+(.+?)\s+[Dd]ivision comprises\s+(?:the\s+[Cc]ount(?:ies|y)\s+of\s+)?([\s\S]+)$/;
+const DISTRICT_SENTENCE =
+  /\bThe\s+.+?\s+[Dd]istrict comprises\s+the\s+(?:[Cc]ount(?:ies|y)|[Pp]arishes)\s+of\s+([\s\S]+)$/;
 const COURT_SENTENCE = /\bCourt(?: for the .+?)? shall be held at\b/;
 const COURT_HELD_AT =
   /Court(?: for the (.+?))? shall be held at\s+([\s\S]*?)\.\s*$/;
+
+/** Keep parentheses intact: exclusions are not additional whole counties. */
+function wholeCountyMembers(text: string): readonly string[] {
+  const members: string[] = [];
+  let depth = 0;
+  let member = "";
+  for (const character of text) {
+    if (character === "(") depth += 1;
+    if (character === ")") depth -= 1;
+    if (character === "," && depth === 0) {
+      members.push(member);
+      member = "";
+    } else member += character;
+  }
+  members.push(member);
+  return members.flatMap((value) =>
+    value.includes("(") || value.includes(")")
+      ? []
+      : splitStatutoryList(value.trim().replace(/^and\s+/, "")),
+  );
+}
 
 /**
  * Read one state's judicial districts.
@@ -185,6 +209,7 @@ export function normalizeStateDistricts(
   let index = -1;
   let divisions: JudicialDivision[] = [];
   let heldAt: string[] = [];
+  let counties: readonly string[] | null = null;
 
   const flush = (): void => {
     if (index < 0) return;
@@ -206,11 +231,13 @@ export function normalizeStateDistricts(
       composition: null,
       circuitId: null,
       jurisdictionName,
+      comprisesCounties: counties,
       divisions,
       courtHeldAt: heldAt,
       parentDistrictCourtId: null,
       evidence,
     });
+    counties = null;
     divisions = [];
     heldAt = [];
   };
@@ -221,6 +248,20 @@ export function normalizeStateDistricts(
     if (paragraph.className === "centered") {
       flush();
       index += 1;
+      continue;
+    }
+
+    const membership = DISTRICT_SENTENCE.exec(paragraph.text);
+    if (membership) {
+      const text = (membership[1] ?? "").split(COURT_SENTENCE)[0] ?? "";
+      // A county-name join cannot establish the military/federal boundaries of
+      // qualified portions. Retain only the whole counties preceding that rule;
+      // the cited primary section remains the authority for excluded portions.
+      const wholeCounties =
+        text.split(
+          /,\s*(?:and\s+)?(?:those|that|the)\s+(?:portions?|parts?)\s+of\b/,
+        )[0] ?? "";
+      counties = wholeCountyMembers(wholeCounties);
       continue;
     }
 
@@ -278,6 +319,7 @@ export function normalizeTerritorialDistricts(
       composition: null,
       circuitId: court.circuitId,
       jurisdictionName: court.jurisdictionName,
+      comprisesCounties: null,
       divisions: [],
       courtHeldAt: [],
       parentDistrictCourtId: null,
@@ -311,6 +353,7 @@ export function designateBankruptcyCourts(
     composition: null,
     circuitId: district.circuitId,
     jurisdictionName: district.jurisdictionName,
+    comprisesCounties: null,
     divisions: null,
     courtHeldAt: null,
     parentDistrictCourtId: district.courtId,

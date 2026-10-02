@@ -58,6 +58,8 @@ export interface FederalCourtRecord {
   /** District and bankruptcy courts only: the state or territory. */
   readonly jurisdictionName: string | null;
   /** District courts only: the statutory divisions, in published order. */
+  /** District-level county membership stated by the statute; null when not listed. */
+  readonly comprisesCounties: readonly string[] | null;
   readonly divisions: readonly JudicialDivision[] | null;
   /** District courts only: places named for the district as a whole. */
   readonly courtHeldAt: readonly string[] | null;

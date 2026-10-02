@@ -31,6 +31,7 @@ export interface FederalCourtProjection {
   readonly composition: readonly string[] | null;
   readonly circuitId: string | null;
   readonly jurisdictionName: string | null;
+  readonly comprisesCounties: readonly string[] | null;
   readonly divisions:
     | readonly {
         readonly divisionName: string;

@@ -65,6 +65,7 @@ interface SourceFederalCourt {
   readonly composition: readonly string[] | null;
   readonly circuitId: string | null;
   readonly jurisdictionName: string | null;
+  readonly comprisesCounties: readonly string[] | null;
   readonly divisions:
     | readonly {
         readonly divisionName: string;
@@ -86,6 +87,7 @@ export function projectFederalCourt(record: SourceFederalCourt) {
     composition: record.composition,
     circuitId: record.circuitId,
     jurisdictionName: record.jurisdictionName,
+    comprisesCounties: record.comprisesCounties,
     divisions:
       record.divisions?.map((division) => ({
         divisionName: division.divisionName,

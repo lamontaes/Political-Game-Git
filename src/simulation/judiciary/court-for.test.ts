@@ -4,7 +4,6 @@ import {
   observerSetup,
   openObserverWorld,
 } from "../../presentation/observer-world";
-import { addDays } from "../dates";
 import { currentLifeCutoff } from "../life-queries";
 import {
   lifePlaceStateIdentities,
@@ -28,11 +27,11 @@ import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   enterPlea,
-  UNRESEARCHED_PROSECUTION,
 } from "../justice/prosecution";
 import { sentencingJudge, type CourtCase } from "../justice/court-reasoning";
 import { createProsecutionTransitionRegistry } from "../justice/prosecution-transitions";
 import { courtFor } from "./court-for";
+import { REFERRAL_TAG } from "../justice/jail-terms";
 import {
   courtsForJurisdiction,
   seatHolderAt,
@@ -57,6 +56,118 @@ afterAll(() => {
 });
 
 describe("one finder reads saved courts", () => {
+  it("routes a recorded county to its sourced federal district and circuit, never residence or ID order", () => {
+    const base = world();
+    const venue = searchLifePlaces("San Francisco", 100, {
+      stateJurisdictionKey: "US-CA",
+      scope: "county",
+    })[0]!;
+    expect(venue).toBeDefined();
+    const district = courtFor(
+      base,
+      venue.context.jurisdiction.id,
+      "federal-district",
+      "criminal",
+    );
+    expect(district?.sourceRecordId).toBe("d-california-northern");
+    const circuit = courtFor(
+      base,
+      venue.context.jurisdiction.id,
+      "federal-appellate",
+      "criminal",
+    );
+    expect(circuit?.courtId).toBe(district?.parentCourtId);
+    expect(circuit?.level).toBe("federal-appellate");
+    expect(
+      courtFor(
+        base,
+        stateJurisdictionForKey("US-CA")!.id,
+        "federal-district",
+        "criminal",
+      ),
+    ).toBeNull();
+    const absent = {
+      ...base,
+      judiciary: {
+        ...base.judiciary!,
+        courts: Object.fromEntries(
+          Object.entries(base.judiciary!.courts).filter(
+            ([, court]) => court.courtId !== district!.courtId,
+          ),
+        ),
+      },
+    };
+    expect(
+      courtFor(
+        absent,
+        venue.context.jurisdiction.id,
+        "federal-district",
+        "criminal",
+      ),
+    ).toBeNull();
+    const oneWrongDistrict = {
+      ...base,
+      judiciary: {
+        ...base.judiciary!,
+        courts: Object.fromEntries(
+          Object.entries(base.judiciary!.courts).filter(
+            ([, court]) =>
+              court.level !== "federal-district" ||
+              court.sourceRecordId === "d-california-southern",
+          ),
+        ),
+      },
+    };
+    expect(
+      courtFor(
+        oneWrongDistrict,
+        venue.context.jurisdiction.id,
+        "federal-district",
+        "criminal",
+      ),
+    ).toBeNull();
+  });
+  it("leaves qualified county portions unresolved without saved boundary evidence", () => {
+    const base = world();
+    for (const name of ["Moore", "Scotland"]) {
+      const venue = searchLifePlaces(name, 100, {
+        stateJurisdictionKey: "US-NC",
+        scope: "county",
+      })[0]!;
+      expect(venue).toBeDefined();
+      expect(
+        courtFor(
+          base,
+          venue.context.jurisdiction.id,
+          "federal-district",
+          "criminal",
+        ),
+      ).toBeNull();
+    }
+  });
+
+  it("uses sourced parish and inline-heading membership without guessing aliases", () => {
+    const base = world();
+    for (const [state, name, district] of [
+      ["US-LA", "Orleans", "d-louisiana-eastern"],
+      ["US-NC", "Cabarrus", "d-north-carolina-middle"],
+    ]) {
+      const venue = searchLifePlaces(name!, 100, {
+        stateJurisdictionKey: state,
+        scope: "county",
+      })[0]!;
+      expect(venue).toBeDefined();
+      expect(
+        courtFor(
+          base,
+          venue.context.jurisdiction.id,
+          "federal-district",
+          "civil",
+        )?.sourceRecordId,
+      ).toBe(district);
+    }
+  });
+
   it("retains the existing trial court family in all 56 places", () => {
     const base = world();
     for (const state of lifePlaceStateIdentities()) {
@@ -217,10 +328,14 @@ describe("one finder reads saved courts", () => {
         });
       }
       expect(sentencingJudge(unseated, input, 0)).toBeNull();
-      const dueAt = addDays(
-        base.currentDate,
-        UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+      const chargeDue = referred.world.history.futureDueItems.find(
+        (item) => item.stableKey === `justice:prosecution-stage:${referral.id}`,
       );
+      expect(chargeDue).toBeDefined();
+      expect(chargeDue!.transitionKey).toBe("justice:prosecution-stage");
+      expect(chargeDue!.entityIds).toContain(defendantId);
+      expect(chargeDue!.jurisdictionId).toBe(referral.jurisdictionId);
+      const dueAt = chargeDue!.dueAt;
       const charged = resolveFutureDueItemsThrough(
         referred.world,
         dueAt,
@@ -249,7 +364,23 @@ describe("one finder reads saved courts", () => {
       });
       expect(chargedPlea.ok).toBe(true);
       expect(pendingPlea.ok).toBe(true);
-      const trialAt = addDays(dueAt, UNRESEARCHED_PROSECUTION.resolveAfterDays);
+      expect(charges[0]!.tags).toContain(`${REFERRAL_TAG}${referral.id}`);
+      expect(
+        charges[0]!.participants.some(
+          (participant) =>
+            participant.role === "focus:defendant" &&
+            participant.personId === defendantId,
+        ),
+      ).toBe(true);
+      const trialDue = chargedPlea.world.history.futureDueItems.find(
+        (item) =>
+          item.stableKey === `justice:prosecution-stage:${charges[0]!.id}`,
+      );
+      expect(trialDue).toBeDefined();
+      expect(trialDue!.transitionKey).toBe("justice:prosecution-stage");
+      expect(trialDue!.entityIds).toContain(defendantId);
+      expect(trialDue!.jurisdictionId).toBe(charges[0]!.jurisdictionId);
+      const trialAt = trialDue!.dueAt;
       const sentenced = resolveFutureDueItemsThrough(
         chargedPlea.world,
         trialAt,
@@ -304,6 +435,8 @@ describe("one finder reads saved courts", () => {
         judgeName: personName(charged.people[judge!]!),
         referralId: referral.id,
         chargeId: charges[0]!.id,
+        chargeDueItemId: chargeDue!.id,
+        trialDueItemId: trialDue!.id,
         sentenceId: sentences[0]!.id,
         sentenceJudgeId,
         sentenceJudgeName: personName(sentenced.people[sentenceJudgeId!]!),
