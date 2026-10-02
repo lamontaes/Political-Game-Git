@@ -50,10 +50,14 @@ import {
 } from "../national-elections";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { advanceWorldMinutes } from "../time-work";
+import {
+  advanceWorldMinutes,
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "../time-work";
 import type { EntityId, World } from "../types";
 import { recordPersonDeath } from "../vitality";
-import { advanceWorld } from "../world";
+import { advanceWorld, recordWorldEvent } from "../world";
 import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
 import { PRESIDING_OFFICER_VOTE_EVENT } from "./presiding-officers";
 import { currentFederalTenure } from "../federal-tenures";
@@ -116,6 +120,52 @@ function openingWorld(seed: string): World {
     prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
   ).game!;
   return openOrdinaryLife(game.world, game.playerPersonId);
+}
+
+/** Move the fixture's control through the existing append-only work handoff. */
+function controlForAppointment(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  const previous =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (previous === personId) return world;
+  const handoff = recordWorldEvent(world, {
+    stableKey,
+    type: "test.control-moved",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [
+      personId,
+      ...(previous
+        ? [previous, ...playerRequiredWorkIds(world, previous)]
+        : []),
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary:
+      "The continuity fixture moves control to the actual governor for the recorded appointment.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const released = previous
+    ? releasePlayerRequiredWork(handoff, {
+        personId: previous,
+        stableKeyPrefix: `${stableKey}:released`,
+        outcomeEventId: handoff.history.events.at(-1)!.id,
+      })
+    : handoff;
+  return { ...released, control: { kind: "person", personId } };
 }
 
 describe("GOVERNING K3: an office after its holder dies", () => {
@@ -201,10 +251,11 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     )!;
     expect(governor).toBeDefined();
     let next = applyOfficeContinuityNotices(
-      {
-        ...died.world,
-        control: { kind: "person", personId: governor.holderPersonId },
-      },
+      controlForAppointment(
+        died.world,
+        governor.holderPersonId,
+        "k3:senate:control-governor",
+      ),
       [died.notice],
     );
     expect(applyOfficeContinuityNotices(next, [died.notice])).toBe(next);
@@ -231,7 +282,13 @@ describe("GOVERNING K3: an office after its holder dies", () => {
       matter.options[0]!.key,
     );
     expect(choice.ok).toBe(true);
-    next = { ...choice.world, control: world.control };
+    if (world.control.kind !== "person")
+      throw Error("Actual opening player required");
+    next = controlForAppointment(
+      choice.world,
+      world.control.personId,
+      "k3:senate:restore-control",
+    );
     const appointed = view();
     expect(appointed.occupant.kind).toBe("member");
     if (appointed.occupant.kind !== "member") return;

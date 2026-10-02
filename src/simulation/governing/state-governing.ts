@@ -1533,7 +1533,11 @@ function openMatter(
     });
     // A real bill lapses only through an executable, declared legal window.
     if (input.family === "bill") return next;
-    if (input.family === "appointment" && !deadline) return next;
+    if (
+      input.family === "appointment" &&
+      (!deadline || deadline < next.currentDate)
+    )
+      return next;
     return scheduleFutureDueItem(next, {
       stableKey: `${stableKey}:deadline`,
       dueAt: input.family === "appointment" ? addDays(deadline!, 1) : deadline!,
