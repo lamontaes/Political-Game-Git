@@ -37,6 +37,7 @@
 import townBusinessResearch from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
 import { privacyInitialOccurrence } from "../federal-data-privacy-law";
 import { recordTownSalesReceipts } from "./town-sales-receipts";
+import { assessRecordedCannabisSales } from "../public-budgets/cannabis-sales-tax-consumer";
 import { addDays } from "../dates";
 import { acuteWeight } from "../outcome-web";
 import { recordOrganizationProfile } from "../life";
@@ -1345,6 +1346,7 @@ export function stepTownFinances(
     round,
     priceLevel,
   );
+  next = assessRecordedCannabisSales(next);
   return { world: next, closing };
 }
 
