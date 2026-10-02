@@ -60,7 +60,7 @@ import type {
   MunicipalMeetingSeries,
   MunicipalReading,
 } from "./municipal-government";
-import { majorityOf, resolveRequiredVotes } from "./legislature-rules";
+import { resolveRequiredVotes } from "./legislature-rules";
 import { tallyDispositions } from "./legislation";
 import {
   createScheduledActivity,
@@ -1545,24 +1545,13 @@ export type MunicipalManagerElection =
  * Virginia Code § 15.2-1420; appointment authority and quorum are not its source.
  * Other missing thresholds remain unresolved.
  */
-const MUNICIPAL_MANAGER_DECISION_RULES: Readonly<
-  Record<string, ReturnType<typeof majorityOf>>
-> = {
-  "us-va-charlottesville": majorityOf(
-    "members-voting",
-    "Majority of members voting on the question",
-    {
-      authority: "statute",
-      citation: "Va. Code § 15.2-1420",
-      sourceTitle: "Code of Virginia — How questions determined; tie breaker",
-      sourceUrl:
-        "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1420/",
-      retrievedAt: "2026-09-14",
-      verification: "verified",
-      note: "Applied only to the supported Charlottesville manager election under Charter § 5(e). Does not authorize appropriations, tax or borrowing decisions under § 15.2-1428.",
-    },
-  ),
-};
+function managerElectionDecisionRule(governmentKey: string) {
+  const government = municipalGovernmentByKey(governmentKey);
+  const compiled = government ? municipalRulePackFor(government) : null;
+  return compiled?.ok
+    ? (compiled.pack.councilActions?.managerElectionThreshold ?? null)
+    : null;
+}
 
 /**
  * The source of the manager-election decision rule for one government, where
@@ -1570,7 +1559,7 @@ const MUNICIPAL_MANAGER_DECISION_RULES: Readonly<
  * city.
  */
 export function municipalManagerDecisionRuleSource(governmentKey: string) {
-  const rule = MUNICIPAL_MANAGER_DECISION_RULES[governmentKey] ?? null;
+  const rule = managerElectionDecisionRule(governmentKey);
   return rule ? { label: rule.label, source: rule.source } : null;
 }
 
@@ -1672,7 +1661,7 @@ export function evaluateMunicipalManagerElection(
         appointment.conditions.join(" ") || `Election of the ${title}.`,
         municipalRuleSourceRef(reading, appointment.target ?? title),
       )
-    : (MUNICIPAL_MANAGER_DECISION_RULES[input.governmentKey] ?? null);
+    : managerElectionDecisionRule(input.governmentKey);
   if (!electionRule) {
     return {
       ok: false,

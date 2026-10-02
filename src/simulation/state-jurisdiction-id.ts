@@ -24,6 +24,8 @@ export function canonicalStateJurisdictionId(
 }
 
 const AUTHORED_STATE_JURISDICTION_SLUGS: Readonly<Record<string, string>> = {
+  california: "US-CA",
+  "us-ca": "US-CA",
   "us-ky-commonwealth-placeholder": "US-KY",
   "us-ne-state-placeholder": "US-NE",
   "us-ak-state-placeholder": "US-AK",
