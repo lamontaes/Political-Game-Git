@@ -1,0 +1,2834 @@
+diff --git a/src/simulation/law-consequences/pay.ts b/src/simulation/law-consequences/pay.ts
+new file mode 100644
+--- /dev/null
++++ b/src/simulation/law-consequences/pay.ts
+@@ -0,0 +1,606 @@
++import { evaluateLawAmount } from "../law-consequence-amount";
++import type {
++  LawAmountExpression,
++  LawAmountUnit,
++  LawConsequenceContext,
++  LawConsequenceKindRegistration,
++  LawConsequenceRow,
++  ResolvedLawConsequence,
++  ResolvedAnyLawConsequence,
++  ResolvedSavedRuleConsequence,
++} from "../law-consequence-types";
++import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
++import { lawInForce } from "../governing/law-in-force";
++import {
++  growingIndex,
++  recordById,
++  type GrowingIndexKind,
++} from "../history-index";
++import { workRoleAt, workStatusAt } from "../life-queries";
++import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
++import { workPayCoverageAt } from "../pay-coverage-query";
++import {
++  matchPayCoveragePredicates,
++  payWorkplaceAt,
++} from "../pay-coverage-predicates";
++import { applyLawPayConsequence } from "../living-world/town-pay";
++import {
++  PAY_COVERAGE_PREDICATES,
++  PAY_SELECTOR,
++  PAY_ACTION,
++  NON_ELECTIVE_PAY_PREDICATE,
++  MINIMUM_WAGE_PAY_ROWS,
++  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
++  STATE_MINIMUM_WAGE_QUESTION_KEY,
++  CITY_MINIMUM_WAGE_QUESTION_KEY,
++} from "./pay-rows";
++export { PAY_SELECTOR, PAY_ACTION, MINIMUM_WAGE_PAY_ROWS } from "./pay-rows";
++import {
++  enactedRuleChangeAt,
++  laborLawOfficeKey,
++  ruleChangeProvisionHistoryRecords,
++} from "../enacted-rule-changes";
++import {
++  stateJurisdictionForKey,
++  stateKeyForJurisdiction,
++  lifePlaceByJurisdictionId,
++} from "../life-places";
++import { stateMinimumSettingAt } from "../minimum-wage";
++import { resourceTransferTermsCutoff } from "../resources";
++import { resourceFlowTermsAt } from "../resource-queries";
++import type { EntityId, ResourceFlow, World } from "../types";
++
++const WORK_FLOWS: GrowingIndexKind<Map<EntityId, ResourceFlow[]>> = {
++  create: () => new Map(),
++  add: (index, input) => {
++    const flow = input as ResourceFlow;
++    if (flow.basisReference.kind !== "work") return;
++    const id = flow.basisReference.workRelationshipId;
++    const rows = index.get(id) ?? [];
++    rows.push(flow);
++    index.set(id, rows);
++  },
++};
++
++function activityFlows(
++  world: World,
++  activityId: EntityId,
++): readonly ResourceFlow[] {
++  const flow = recordById(world.history.resourceFlows, activityId);
++  if (flow) return [flow];
++  if (!recordById(world.history.workRelationships, activityId))
++    throw new Error("Missing pay saved-flow/work activity capability");
++  return (
++    growingIndex(WORK_FLOWS, world.history.resourceFlows).get(activityId) ?? []
++  );
++}
++
++function payActivityCutoff(
++  world: World,
++  flow: ResourceFlow,
++  context: LawConsequenceContext,
++) {
++  if (!context.completedShift)
++    return {
++      asOfDate: context.onDate,
++      historySequenceExclusive: world.history.nextSequence,
++    };
++  const completion = recordById(
++    world.history.events,
++    context.completedShift.eventId,
++  );
++  if (
++    context.activity !== "payroll" ||
++    !completion ||
++    completion.type !== "life-paths2.work-session" ||
++    completion.occurredAt !== context.onDate
++  )
++    throw new Error(
++      "Pay completion must bind the actual earned date and work event",
++    );
++  const cutoff = resourceTransferTermsCutoff(
++    world,
++    flow,
++    completion.occurredAt,
++    completion.occurredAt,
++    { kind: "simulated-event", eventId: completion.id },
++  );
++  const terms = resourceFlowTermsAt(world, flow.id, cutoff);
++  if (!terms || terms.id !== context.completedShift.termsId)
++    throw new Error("Pay completion must retain its actual earned terms");
++  return cutoff;
++}
++
++function termUnits(
++  expression: LawAmountExpression,
++): ReadonlyMap<string, LawAmountUnit> {
++  const units = new Map<string, LawAmountUnit>();
++  const visit = (node: LawAmountExpression): void => {
++    switch (node.op) {
++      case "term":
++        if (units.has(node.key) && units.get(node.key) !== node.unit)
++          throw new Error(`Pay term '${node.key}' has conflicting units`);
++        units.set(node.key, node.unit);
++        return;
++      case "sum":
++      case "minimum":
++      case "maximum":
++        node.operands.forEach(visit);
++        return;
++      case "difference":
++      case "product":
++      case "ratio":
++        visit(node.left);
++        visit(node.right);
++        return;
++      default:
++        return;
++    }
++  };
++  visit(expression);
++  return units;
++}
++
++/** Resolve only the actual recorded payroll activity and its governing final terms. */
++export function resolvePayConsequences(
++  world: World,
++  row: LawConsequenceRow,
++  context: LawConsequenceContext,
++): readonly ResolvedLawConsequence[] {
++  if (
++    row.kind !== "pay" ||
++    row.who.selector !== PAY_SELECTOR ||
++    row.what !== PAY_ACTION
++  )
++    throw new Error("Missing pay selector/action capability");
++  if (!row.amount || row.decision)
++    throw new Error("Pay floor requires a numeric amount");
++  if (row.lag.days !== 0)
++    throw new Error("Missing pay delayed-activity capability");
++  if (context.onDate > world.currentDate)
++    throw new Error("Pay activity cannot be in the future");
++  if (row.when !== context.activity) return [];
++  const proposition = Object.values(world.policyCatalog.propositions).find(
++    (entry) => entry.consequences?.some((candidate) => candidate.id === row.id),
++  );
++  if (!proposition) throw new Error(`Missing canonical pay row '${row.id}'`);
++  if (context.questionKey && context.questionKey !== proposition.stableKey)
++    return [];
++  if (
++    JSON.stringify(
++      proposition.consequences!.find((candidate) => candidate.id === row.id),
++    ) !== JSON.stringify(row)
++  )
++    throw new Error("Pay row differs from its canonical catalog input");
++  const resolved: ResolvedLawConsequence[] = [];
++  for (const flow of activityFlows(world, context.activityId)) {
++    if (
++      flow.basisReference.kind !== "work" ||
++      flow.recipient.kind !== "person" ||
++      flow.source.kind !== "organization"
++    )
++      throw new Error(
++        "Pay requires a recorded worker/employer compensation flow",
++      );
++    const personId = flow.recipient.personId;
++    if (!context.subjectIds.includes(personId)) continue;
++    const work = recordById(
++      world.history.workRelationships,
++      flow.basisReference.workRelationshipId,
++    );
++    if (
++      !work ||
++      work.personId !== personId ||
++      work.organizationId !== flow.source.organizationId
++    )
++      throw new Error("Pay flow must bind its actual worker and employer");
++    const cutoff = payActivityCutoff(world, flow, context);
++    const role = workRoleAt(world, work.id, cutoff);
++    if (!role) throw new Error("Missing pay recorded work role capability");
++    const workplace = payWorkplaceAt(world, work.id, cutoff);
++    const minimum =
++      proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY ||
++      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY ||
++      proposition.stableKey === CITY_MINIMUM_WAGE_QUESTION_KEY;
++    // Federal law applies without inventing a missing workplace. The national
++    // chain contains no state/local authority; the coverage fact stays null.
++    const jurisdictionId =
++      workplace.jurisdictionId ??
++      (proposition.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
++        ? NATIONAL_ELECTION_JURISDICTION.id
++        : null);
++    if (!jurisdictionId && minimum) continue;
++    if (!jurisdictionId)
++      throw new Error("Missing pay recorded work jurisdiction capability");
++    const allPredicates = [...row.who.predicates, ...row.conditions];
++    const officePredicates = allPredicates.filter(
++      (predicate) => predicate.capability === NON_ELECTIVE_PAY_PREDICATE,
++    );
++    if (
++      officePredicates.length &&
++      !matchPayCoveragePredicates(world, work.id, officePredicates, cutoff)
++        .matches
++    )
++      continue;
++    // This universal exclusion remains separate from employer-specific saved
++    // exceptions, so an ordinary worker's standard coverage still admits the row.
++    const predicates = allPredicates.filter(
++      (predicate) => predicate.capability !== NON_ELECTIVE_PAY_PREDICATE,
++    );
++    const match = matchPayCoveragePredicates(
++      world,
++      work.id,
++      predicates,
++      cutoff,
++    );
++    const coverage = workPayCoverageAt(world, work.id, cutoff);
++    if (minimum && coverage) {
++      const exception = coverage.exceptions.find(
++        (entry) => entry.questionKey === proposition.stableKey,
++      );
++      if (exception ? exception.rowId !== row.id : predicates.length > 0)
++        continue;
++    }
++    if (!(minimum && coverage) && !match.matches) continue;
++    const law = lawInForce(
++      world,
++      jurisdictionId,
++      proposition.id,
++      context.onDate,
++      "all",
++      cutoff,
++    );
++    if (!law || (law.origin === "enacted" && law.answer !== "yes")) continue;
++    // A starting state "no" means no increase above the federal standard.
++    // The separate federal row supplies that standard, not a state statute.
++    if (
++      proposition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY &&
++      law.origin === "in-force-at-start" &&
++      law.answer === "no"
++    )
++      continue;
++    if (context.governingLawId && context.governingLawId !== law.measureId)
++      continue;
++    const terms = resourceFlowTermsAt(world, flow.id, cutoff);
++    if (!terms || terms.status !== "active" || terms.amount.currency !== "USD")
++      continue;
++    const sourceRecordIds = [
++      work.id,
++      role.id,
++      flow.id,
++      terms.id,
++      ...(minimum && coverage ? coverage.factRecordIds : match.factRecordIds),
++      ...(coverage ? [coverage.id] : []),
++      ...workplace.factRecordIds,
++    ];
++    const legalTerms: Record<string, { value: number; unit: LawAmountUnit }> =
++      {};
++    for (const [key, unit] of termUnits(row.amount)) {
++      const term = readFinalEnactedLawTerm(world, law, {
++        questionKey: proposition.stableKey,
++        termKey: key,
++        unit,
++        onDate: context.onDate,
++        cutoff,
++      });
++      if (!term)
++        throw new Error(`Missing pay final law term '${key}' (${unit})`);
++      legalTerms[key] = { value: term.value, unit: term.unit };
++      sourceRecordIds.push(...term.sourceRecordIds);
++    }
++    const amount = evaluateLawAmount(row.amount, {
++      term: legalTerms,
++      record: {},
++      capacity: {},
++      exposure: {},
++    });
++    if (
++      amount.unit !== "minor/hour" ||
++      !Number.isSafeInteger(amount.value) ||
++      amount.value < 0
++    )
++      throw new Error(
++        "Pay floor must resolve to nonnegative integer cents per hour",
++      );
++    resolved.push({
++      row,
++      law,
++      questionKey: proposition.stableKey,
++      jurisdictionId,
++      subject: { kind: "person", id: personId },
++      activityId: context.activityId,
++      completedShift: context.completedShift,
++      effectiveAt: context.onDate,
++      sourceRecordIds: [...new Set(sourceRecordIds)],
++      value: {
++        type: "amount",
++        value: amount.value,
++        unit: amount.unit,
++        currency: "USD",
++      },
++    });
++  }
++  return resolved;
++}
++
++export function resolveSavedHourlyPayConsequences(
++  world: World,
++  context: LawConsequenceContext,
++): readonly ResolvedSavedRuleConsequence[] {
++  if (
++    context.activity !== "payroll" ||
++    context.questionKey ||
++    context.origin === "in-force-at-start"
++  )
++    return [];
++  if (context.onDate > world.currentDate)
++    throw new Error("Pay activity cannot be in the future");
++  const results: ResolvedSavedRuleConsequence[] = [];
++  const template = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
++  for (const flow of activityFlows(world, context.activityId)) {
++    if (
++      flow.basisReference.kind !== "work" ||
++      flow.recipient.kind !== "person" ||
++      flow.source.kind !== "organization"
++    )
++      continue;
++    const personId = flow.recipient.personId;
++    if (!context.subjectIds.includes(personId)) continue;
++    const work = recordById(
++      world.history.workRelationships,
++      flow.basisReference.workRelationshipId,
++    );
++    if (
++      !work ||
++      work.personId !== personId ||
++      work.organizationId !== flow.source.organizationId
++    )
++      throw new Error("Hourly rule must bind its actual worker and employer");
++    const cutoff = payActivityCutoff(world, flow, context);
++    if (workStatusAt(world, work.id, cutoff)?.status !== "active") continue;
++    const role = workRoleAt(world, work.id, cutoff),
++      terms = resourceFlowTermsAt(world, flow.id, cutoff);
++    if (
++      !role ||
++      !terms ||
++      terms.status !== "active" ||
++      terms.amount.currency !== "USD"
++    )
++      continue;
++    const workplace = payWorkplaceAt(world, work.id, cutoff);
++    const place = workplace.jurisdictionId
++      ? world.jurisdictions[workplace.jurisdictionId]
++      : null;
++    const stateKey = place
++      ? (stateKeyForJurisdiction(place) ??
++        lifePlaceByJurisdictionId(place.id)?.stateJurisdictionKey ??
++        null)
++      : null;
++    if (!stateKey) continue;
++    const match = matchPayCoveragePredicates(
++      world,
++      work.id,
++      template.who.predicates,
++      cutoff,
++    );
++    if (!match.matches) continue;
++    const coverage = workPayCoverageAt(world, work.id, cutoff);
++    const exception = coverage?.exceptions.find(
++      (e) => e.questionKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
++    );
++    if (exception && exception.rowId !== template.id) continue;
++    const state = stateKey.slice(3),
++      officeKey = laborLawOfficeKey(state);
++    const field = "labor.minimumWage.hourlyCents" as const;
++    const rule = enactedRuleChangeAt(world, {
++      stateUsps: state,
++      officeKey,
++      field,
++      onDate: context.onDate,
++      cutoff,
++    });
++    const legal = stateMinimumSettingAt(
++      world,
++      stateKey,
++      context.onDate,
++      cutoff,
++    );
++    if (!rule || !legal?.measureId) continue;
++    if (
++      rule.measureId !== legal.measureId ||
++      rule.operativeAt !== legal.effectiveAt ||
++      rule.value !== legal.hourlyMinor
++    )
++      throw new Error("Hourly rule differs from operative state floor");
++    if (context.governingLawId && context.governingLawId !== rule.measureId)
++      continue;
++    const clauses = ruleChangeProvisionHistoryRecords(world).filter(
++      (p) =>
++        p.measureId === rule.measureId &&
++        p.stateUsps === state &&
++        p.officeKey === officeKey &&
++        p.field === field &&
++        p.filedAt <= context.onDate &&
++        p.filedAt <= cutoff.asOfDate &&
++        p.sequence < cutoff.historySequenceExclusive,
++    );
++    const enactments = (world.history.legislativeEnactments ?? []).filter(
++      (e) =>
++        e.measureId === rule.measureId &&
++        e.outcome === "enacted" &&
++        e.resolvedAt <= context.onDate &&
++        e.resolvedAt <= cutoff.asOfDate &&
++        e.sequence < cutoff.historySequenceExclusive,
++    );
++    if (clauses.length !== 1 || enactments.length !== 1)
++      throw new Error("Missing or ambiguous adopted hourly authority");
++    const clause = clauses[0]!,
++      enactment = enactments[0]!;
++    if (
++      clause.sequence >= enactment.sequence ||
++      clause.filedAt > enactment.resolvedAt ||
++      clause.value !== rule.value
++    )
++      throw new Error("Hourly clause was not adopted by this enactment");
++    if (!Number.isSafeInteger(legal.hourlyMinor) || legal.hourlyMinor < 0)
++      throw new Error("Hourly rule requires nonnegative integer USD cents");
++    const jurisdiction = stateJurisdictionForKey(stateKey);
++    if (!jurisdiction || !world.jurisdictions[jurisdiction.id])
++      throw new Error("Missing actual hourly rule jurisdiction");
++    const sourceRecordIds = [
++      ...new Set([
++        work.id,
++        role.id,
++        flow.id,
++        terms.id,
++        clause.id,
++        enactment.id,
++        rule.measureId,
++        ...workplace.factRecordIds,
++        ...match.factRecordIds,
++        ...(coverage ? [coverage.id, ...coverage.factRecordIds] : []),
++      ]),
++    ];
++    results.push({
++      row: {
++        ...template,
++        id: `pay:hourly-rule:${clause.id}`,
++        amount: { op: "term", key: field, unit: "minor/hour" },
++        evidence: {
++          ...template.evidence,
++          sourceIds: [clause.id, enactment.id],
++        },
++      },
++      authority: {
++        kind: "enacted-hourly-pay-rule",
++        ruleChangeProvisionId: clause.id,
++        enactmentId: enactment.id,
++        measureId: rule.measureId,
++        officeKey,
++        stateUsps: state,
++        field,
++        operativeAt: rule.operativeAt,
++        applicability: rule.applicability,
++      },
++      jurisdictionId: jurisdiction.id,
++      subject: { kind: "person", id: personId },
++      activityId: context.activityId,
++      completedShift: context.completedShift,
++      effectiveAt: context.onDate,
++      sourceRecordIds,
++      value: {
++        type: "amount",
++        value: legal.hourlyMinor,
++        unit: "minor/hour",
++        currency: "USD",
++      },
++    });
++  }
++  return results;
++}
++
++/** The existing pay-term writer remains the sole writer behind this kind. */
++export function applyPayConsequence(
++  world: World,
++  resolved: ResolvedAnyLawConsequence,
++): World {
++  if ("authority" in resolved) {
++    if (resolved.authority.kind === "enacted-hourly-pay-rule") {
++      const current = resolveSavedHourlyPayConsequences(world, {
++        onDate: resolved.effectiveAt,
++        activity: "payroll",
++        activityId: resolved.activityId,
++        completedShift: resolved.completedShift,
++        subjectIds: [resolved.subject.id],
++        governingLawId: resolved.authority.measureId,
++      }).find(
++        (input) =>
++          input.row.id === resolved.row.id &&
++          input.subject.id === resolved.subject.id,
++      );
++      if (
++        !current ||
++        JSON.stringify(current) !== JSON.stringify(resolved) ||
++        current.authority.kind !== "enacted-hourly-pay-rule" ||
++        current.value.type !== "amount" ||
++        current.value.unit !== "minor/hour" ||
++        current.value.currency !== "USD"
++      )
++        throw new Error("Hourly resolution differs from its saved authority");
++      const flow = activityFlows(world, current.activityId).find(
++        (f) =>
++          f.recipient.kind === "person" &&
++          f.recipient.personId === current.subject.id &&
++          current.sourceRecordIds.includes(f.id),
++      );
++      if (!flow || flow.basisReference.kind !== "work")
++        throw new Error("Missing actual hourly rule flow");
++      return applyLawPayConsequence(world, {
++        rowId: current.row.id,
++        jurisdictionId: current.jurisdictionId,
++        personId: current.subject.id,
++        workId: flow.basisReference.workRelationshipId,
++        payFlowId: flow.id,
++        activityId: current.activityId,
++        completedShift: current.completedShift,
++        effectiveAt: current.effectiveAt,
++        amount: {
++          value: current.value.value,
++          unit: "minor/hour",
++          currency: "USD",
++        },
++        sourceRecordIds: current.sourceRecordIds,
++        action: "raise-saved-rule-hourly-floor",
++        authority: current.authority,
++      });
++    }
++    throw new Error("Pay cannot consume non-hourly saved authority");
++  }
++  if (
++    resolved.subject.kind !== "person" ||
++    resolved.value.type !== "amount" ||
++    resolved.value.unit !== "minor/hour" ||
++    resolved.value.currency !== "USD"
++  )
++    throw new Error("Pay requires a resolved worker and USD hourly floor");
++  const flow = activityFlows(world, resolved.activityId).find(
++    (candidate) =>
++      candidate.recipient.kind === "person" &&
++      candidate.recipient.personId === resolved.subject.id &&
++      resolved.sourceRecordIds.includes(candidate.id),
++  );
++  if (!flow || flow.basisReference.kind !== "work")
++    throw new Error("Missing resolved actual pay flow");
++  return applyLawPayConsequence(world, {
++    rowId: resolved.row.id,
++    questionKey: resolved.questionKey,
++    jurisdictionId: resolved.jurisdictionId,
++    law: resolved.law,
++    personId: resolved.subject.id,
++    workId: flow.basisReference.workRelationshipId,
++    payFlowId: flow.id,
++    activityId: resolved.activityId,
++    completedShift: resolved.completedShift,
++    effectiveAt: resolved.effectiveAt,
++    amount: {
++      value: resolved.value.value,
++      unit: "minor/hour",
++      currency: "USD",
++    },
++    sourceRecordIds: resolved.sourceRecordIds,
++    action: "raise-hourly-floor",
++  });
++}
++
++export const PAY_REGISTRATION: LawConsequenceKindRegistration<ResolvedAnyLawConsequence> =
++  {
++    kind: "pay",
++    owner: "Team3",
++    selectors: [PAY_SELECTOR],
++    actions: [PAY_ACTION],
++    predicates: PAY_COVERAGE_PREDICATES,
++    units: ["minor/hour"],
++    resolve: resolvePayConsequences,
++    resolveSavedRules: resolveSavedHourlyPayConsequences,
++    apply: applyPayConsequence,
++  };
+diff --git a/src/simulation/law-consequences/pay-rows.ts b/src/simulation/law-consequences/pay-rows.ts
+new file mode 100644
+--- /dev/null
++++ b/src/simulation/law-consequences/pay-rows.ts
+@@ -0,0 +1,69 @@
++import type { LawConsequenceRow } from "../law-consequence-types";
++
++export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
++  "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
++export const STATE_MINIMUM_WAGE_QUESTION_KEY =
++  "us-policy-positions:labor-workforce.raise-minimum-wage";
++export const CITY_MINIMUM_WAGE_QUESTION_KEY =
++  "us-policy-positions:labor-workforce.city-minimum-wage";
++export const PAY_SELECTOR = "active-work-payflows";
++export const ANNUAL_OFFICE_PAY_ACTION = "set-annual-office-salary";
++export const NON_ELECTIVE_PAY_PREDICATE = "pay-not-elective-public-office";
++export const PAY_ACTION = "raise-hourly-floor";
++
++/** Data-only catalog-owner payload; legal values belong to the final law terms. */
++export const MINIMUM_WAGE_PAY_ROWS: Readonly<
++  Record<string, LawConsequenceRow>
++> = Object.fromEntries(
++  [
++    FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
++    STATE_MINIMUM_WAGE_QUESTION_KEY,
++    CITY_MINIMUM_WAGE_QUESTION_KEY,
++  ].map((questionKey) => [
++    questionKey,
++    {
++      id: `pay:${questionKey}`,
++      kind: "pay",
++      when: "payroll",
++      who: {
++        selector: PAY_SELECTOR,
++        predicates: [
++          { capability: NON_ELECTIVE_PAY_PREDICATE, parameters: {} },
++        ],
++      },
++      what: PAY_ACTION,
++      amount: {
++        op: "term",
++        key:
++          questionKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
++            ? "floor"
++            : "target",
++        unit: "minor/hour",
++      },
++      conditions: [],
++      lag: { days: 0, sourceIds: ["existing-contract-pay-period-boundary"] },
++      onRepeal: "preserve-completed",
++      evidence: {
++        sourceIds: [
++          "data/research/money/minimum-wage-2026.json",
++          "https://www.dol.gov/agencies/whd/minimum-wage/state",
++          "https://www.law.cornell.edu/uscode/text/29/203#e_2_C",
++        ],
++        population:
++          "Recorded workers with actual compensation flows and hours; federal authority applies without a saved workplace location, while state/local floors require a dated workplace.",
++        scope:
++          "Governing federal, genuine state or authorized city law, final legal floor and actual operative date; starting coverage and phase-ins belong to canonical law records.",
++        why: "The operative legal minimum raises the worker's prospective recorded contract; actual payroll transfers and withholding use that contract.",
++        uncertainty:
++          "Existing whole-period conversion is a game simplification; standard coverage is the approved default and exceptions require saved facts. The approved elective-public-office exclusion uses the actual paid office role; it does not exclude appointed staff or infer how judicial offices are selected. Missing hours, exception rates and final terms remain unsupported, never guessed levels.",
++      },
++    } satisfies LawConsequenceRow,
++  ]),
++);
++
++export const PAY_COVERAGE_PREDICATES = [
++  "pay-not-elective-public-office",
++  "pay-occupation",
++  "pay-employer-classification",
++  "pay-employer-workforce-at-most",
++] as const;
+diff --git a/src/simulation/pay-coverage-query.ts b/src/simulation/pay-coverage-query.ts
+new file mode 100644
+--- /dev/null
++++ b/src/simulation/pay-coverage-query.ts
+@@ -0,0 +1,333 @@
++import { lawInForce } from "./governing/law-in-force";
++import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
++import {
++  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
++  STATE_MINIMUM_WAGE_QUESTION_KEY,
++  PAY_SELECTOR,
++  PAY_ACTION,
++} from "./law-consequences/pay-rows";
++import { makeIsoDate } from "./dates";
++import { createStableId } from "./ids";
++import { workRoleAt } from "./life-queries";
++import {
++  matchPayCoveragePredicates,
++  payWorkplaceAt,
++} from "./pay-coverage-predicates";
++import { recordById, recordsWithFieldValue } from "./history-index";
++import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
++import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
++
++export function workPayCoverageAt(
++  world: World,
++  workId: EntityId,
++  cutoff: HistoricalCutoff = {
++    asOfDate: world.currentDate,
++    historySequenceExclusive: world.history.nextSequence,
++  },
++): WorkPayCoverageDeterminationRecord | undefined {
++  return recordsWithFieldValue(
++    world.history.workPayCoverageDeterminations ?? [],
++    "workRelationshipId",
++    workId,
++  )
++    .filter(
++      (record) =>
++        record.determinedAt <= cutoff.asOfDate &&
++        record.sequence < cutoff.historySequenceExclusive,
++    )
++    .at(-1);
++}
++
++const VALIDATED = new WeakMap<
++  readonly WorkPayCoverageDeterminationRecord[],
++  {
++    work: World["history"]["workRelationships"];
++    roles: World["history"]["workRoles"];
++    profiles: World["history"]["organizationProfiles"];
++    statuses: World["history"]["workStatuses"];
++    latestDate: IsoDate;
++  }
++>();
++
++export function assertWorkPayCoverageIntegrity(
++  world: World,
++  ids: Set<EntityId> = new Set(),
++): void {
++  const records = world.history.workPayCoverageDeterminations;
++  if (!records?.length) return;
++  // Register identity on every call, even when the dated facts are cached.
++  for (const record of records) {
++    if (ids.has(record.id))
++      throw new Error(`Duplicate world entity ID: ${record.id}`);
++    const stableKey = `work-pay-coverage:${record.workRelationshipId}:initial`;
++    if (
++      record.stableKey !== stableKey ||
++      record.id !==
++        createStableId("work-pay-coverage", `${world.id}:${stableKey}`)
++    )
++      throw new Error("Pay coverage ID must match its canonical stable key");
++    ids.add(record.id);
++  }
++  // Authority depends on catalog and legal history, so recheck even on a fact-cache hit.
++  for (const record of records) assertCoverageAuthority(world, record);
++  const cached = VALIDATED.get(records);
++  if (
++    cached &&
++    cached.work === world.history.workRelationships &&
++    cached.roles === world.history.workRoles &&
++    cached.profiles === world.history.organizationProfiles &&
++    cached.statuses === world.history.workStatuses &&
++    cached.latestDate <= world.currentDate
++  )
++    return;
++  const seen = new Set<EntityId>();
++  let latestDate = records[0]!.determinedAt;
++  for (const record of records) {
++    const work = recordById(
++      world.history.workRelationships,
++      record.workRelationshipId,
++    );
++    const role = recordById(world.history.workRoles, record.workRoleId);
++    const date: IsoDate = makeIsoDate(record.determinedAt);
++    const cutoff = {
++      asOfDate: date,
++      historySequenceExclusive: record.sequence,
++    };
++    const workplace =
++      work && role ? payWorkplaceAt(world, work.id, cutoff) : null;
++    if (
++      seen.has(record.workRelationshipId) ||
++      !work ||
++      !role ||
++      work.personId !== record.personId ||
++      work.organizationId !== record.employerOrganizationId ||
++      role.workRelationshipId !== work.id ||
++      workplace?.jurisdictionId !== record.jurisdictionId ||
++      workRoleAt(world, work.id, cutoff)?.id !== record.workRoleId ||
++      role.sequence >= record.sequence ||
++      work.sequence >= record.sequence ||
++      role.effectiveAt > date ||
++      date > world.currentDate ||
++      record.defaultCategory !== "standard" ||
++      !["hire", "opening"].includes(record.reason) ||
++      record.sources.length === 0 ||
++      !record.factRecordIds.includes(work.id) ||
++      !record.factRecordIds.includes(role.id)
++    )
++      throw new Error(
++        "Pay coverage determination must bind its actual dated work facts",
++      );
++    seen.add(record.workRelationshipId);
++    latestDate = date > latestDate ? date : latestDate;
++    for (const id of record.factRecordIds) {
++      const relatedWork = recordById(world.history.workRelationships, id);
++      const relatedRole = recordById(world.history.workRoles, id);
++      const relatedStatus = recordById(world.history.workStatuses, id);
++      const relatedProfile = recordById(world.history.organizationProfiles, id);
++      const fact =
++        relatedWork ?? relatedRole ?? relatedStatus ?? relatedProfile;
++      if (!fact || fact.sequence >= record.sequence)
++        throw new Error(
++          "Pay coverage evidence must be an actual prior saved fact",
++        );
++      if (
++        relatedWork &&
++        (relatedWork.organizationId !== work!.organizationId ||
++          relatedWork.recordedAt > date)
++      )
++        throw new Error(
++          "Pay coverage workforce evidence must belong to the dated employer",
++        );
++      if (
++        relatedProfile &&
++        (relatedProfile.organizationId !== work!.organizationId ||
++          relatedProfile.effectiveAt > date)
++      )
++        throw new Error(
++          "Pay coverage employer evidence must precede its determination",
++        );
++      if (
++        relatedRole &&
++        (relatedRole.workRelationshipId !== work!.id ||
++          relatedRole.effectiveAt > date)
++      )
++        throw new Error("Pay coverage role evidence must bind its dated work");
++      if (relatedStatus) {
++        const statusWork = recordById(
++          world.history.workRelationships,
++          relatedStatus.workRelationshipId,
++        );
++        if (
++          statusWork?.organizationId !== work!.organizationId ||
++          relatedStatus.effectiveAt > date
++        )
++          throw new Error(
++            "Pay coverage status evidence must bind the dated employer",
++          );
++      }
++    }
++  }
++  VALIDATED.set(records, {
++    work: world.history.workRelationships,
++    roles: world.history.workRoles,
++    profiles: world.history.organizationProfiles,
++    statuses: world.history.workStatuses,
++    latestDate,
++  });
++}
++
++/** Revalidate saved exception authority from the same dated facts used at determination. */
++function assertCoverageAuthority(
++  world: World,
++  record: WorkPayCoverageDeterminationRecord,
++): void {
++  const cutoff = {
++    asOfDate: record.determinedAt,
++    historySequenceExclusive: record.sequence,
++  };
++  const workplace = payWorkplaceAt(world, record.workRelationshipId, cutoff);
++  const expectedLawKeys = new Set<string>();
++  const expectedExceptionKeys = new Set<string>();
++  for (const question of Object.values(world.policyCatalog.propositions)) {
++    if (
++      ![
++        FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
++        STATE_MINIMUM_WAGE_QUESTION_KEY,
++      ].includes(question.stableKey)
++    )
++      continue;
++    const jurisdictionId =
++      workplace.jurisdictionId ??
++      (question.stableKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
++        ? NATIONAL_ELECTION_JURISDICTION.id
++        : null);
++    const law = jurisdictionId
++      ? lawInForce(
++          world,
++          jurisdictionId,
++          question.id,
++          record.determinedAt,
++          "all",
++          cutoff,
++        )
++      : null;
++    if (
++      !law ||
++      (law.origin === "enacted" && law.answer !== "yes") ||
++      (question.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY &&
++        law.origin === "in-force-at-start" &&
++        law.answer === "no")
++    )
++      continue;
++    expectedLawKeys.add(question.stableKey);
++    for (const row of question.consequences ?? []) {
++      if (
++        row.kind !== "pay" ||
++        row.who.selector !== PAY_SELECTOR ||
++        row.what !== PAY_ACTION
++      )
++        continue;
++      const predicates = [...row.who.predicates, ...row.conditions];
++      if (
++        !predicates.length ||
++        !matchPayCoveragePredicates(
++          world,
++          record.workRelationshipId,
++          predicates,
++          cutoff,
++        ).matches
++      )
++        continue;
++      if (expectedExceptionKeys.has(question.stableKey))
++        throw new Error("Pay coverage has ambiguous canonical exceptions");
++      expectedExceptionKeys.add(question.stableKey);
++    }
++  }
++  const seenLaws = new Set<string>();
++  for (const saved of record.governingLaws) {
++    const question = Object.values(world.policyCatalog.propositions).find(
++      (p) => p.stableKey === saved.questionKey,
++    );
++    const jurisdictionId =
++      workplace.jurisdictionId ??
++      (saved.questionKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
++        ? NATIONAL_ELECTION_JURISDICTION.id
++        : null);
++    const law =
++      question && jurisdictionId
++        ? lawInForce(
++            world,
++            jurisdictionId,
++            question.id,
++            record.determinedAt,
++            "all",
++            cutoff,
++          )
++        : null;
++    if (
++      seenLaws.has(saved.questionKey) ||
++      ![
++        FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
++        STATE_MINIMUM_WAGE_QUESTION_KEY,
++      ].includes(saved.questionKey) ||
++      !law ||
++      law.measureId !== saved.governingLawKey ||
++      law.origin !== saved.origin ||
++      (law.origin === "enacted" && law.answer !== "yes") ||
++      (saved.questionKey === STATE_MINIMUM_WAGE_QUESTION_KEY &&
++        law.origin === "in-force-at-start" &&
++        law.answer === "no")
++    )
++      throw new Error(
++        "Pay coverage governing law must match its actual dated authority",
++      );
++    seenLaws.add(saved.questionKey);
++  }
++  const seenExceptions = new Set<string>();
++  for (const saved of record.exceptions) {
++    const question = Object.values(world.policyCatalog.propositions).find(
++      (p) => p.stableKey === saved.questionKey,
++    );
++    const row = question?.consequences?.find((r) => r.id === saved.rowId);
++    if (
++      !seenLaws.has(saved.questionKey) ||
++      seenExceptions.has(saved.questionKey) ||
++      !row ||
++      row.kind !== "pay" ||
++      row.who.selector !== PAY_SELECTOR ||
++      row.what !== PAY_ACTION
++    )
++      throw new Error(
++        "Pay coverage exception must name its canonical governing pay row",
++      );
++    const predicates = [...row.who.predicates, ...row.conditions];
++    const match = matchPayCoveragePredicates(
++      world,
++      record.workRelationshipId,
++      predicates,
++      cutoff,
++    );
++    const actualIds = [...new Set(match.factRecordIds)].sort();
++    const savedIds = [...new Set(saved.factRecordIds)].sort();
++    if (
++      !predicates.length ||
++      !match.matches ||
++      saved.factRecordIds.length !== savedIds.length ||
++      JSON.stringify(actualIds) !== JSON.stringify(savedIds) ||
++      savedIds.some((id) => !record.factRecordIds.includes(id))
++    )
++      throw new Error(
++        "Pay coverage exception evidence must match its actual dated predicates",
++      );
++    seenExceptions.add(saved.questionKey);
++  }
++  if (
++    seenLaws.size !== expectedLawKeys.size ||
++    [...expectedLawKeys].some((key) => !seenLaws.has(key)) ||
++    seenExceptions.size !== expectedExceptionKeys.size ||
++    [...expectedExceptionKeys].some((key) => !seenExceptions.has(key))
++  )
++    throw new Error(
++      "Pay coverage must retain every applicable dated law and exception",
++    );
++}
+diff --git a/src/simulation/pay-coverage-predicates.ts b/src/simulation/pay-coverage-predicates.ts
+new file mode 100644
+--- /dev/null
++++ b/src/simulation/pay-coverage-predicates.ts
+@@ -0,0 +1,118 @@
++import { paidOfficeOf } from "./office-pay";
++import type { LawConsequencePredicate } from "./law-consequence-types";
++import { recordById } from "./history-index";
++import {
++  organizationProfileAt,
++  workRelationshipHistoryForOrganization,
++  workRoleAt,
++  workStatusAt,
++} from "./life-queries";
++import type { EntityId, HistoricalCutoff, World } from "./types";
++
++export { PAY_COVERAGE_PREDICATES } from "./law-consequences/pay-rows";
++
++/** A workplace from saved, dated work/employer facts, never a home default. */
++export function payWorkplaceAt(
++  world: World,
++  workId: EntityId,
++  cutoff: HistoricalCutoff,
++): { jurisdictionId: EntityId | null; factRecordIds: EntityId[] } {
++  const work = recordById(world.history.workRelationships, workId);
++  if (!work?.organizationId)
++    throw new Error("Missing pay workplace actual employer");
++  const role = workRoleAt(world, workId, cutoff);
++  if (!role) throw new Error("Missing pay workplace actual dated role");
++  const rolePlace =
++    role.locationJurisdictionId ?? role.timeDemand.locationJurisdictionId;
++  if (rolePlace) return { jurisdictionId: rolePlace, factRecordIds: [role.id] };
++  const profile = organizationProfileAt(world, work.organizationId, cutoff);
++  return {
++    jurisdictionId: profile?.locationJurisdictionId ?? null,
++    factRecordIds: [role.id, ...(profile ? [profile.id] : [])],
++  };
++}
++
++/** Actual dated facts only; missing exception evidence does not override the standard. */
++export function matchPayCoveragePredicates(
++  world: World,
++  workId: EntityId,
++  predicates: readonly LawConsequencePredicate[],
++  cutoff: HistoricalCutoff,
++): { matches: boolean; factRecordIds: EntityId[] } {
++  const work = recordById(world.history.workRelationships, workId);
++  if (!work?.organizationId)
++    throw new Error("Missing pay coverage actual employer");
++  const role = workRoleAt(world, workId, cutoff);
++  let matches = true;
++  const factRecordIds = [work.id, ...(role ? [role.id] : [])];
++  for (const predicate of predicates) {
++    switch (predicate.capability) {
++      case "pay-not-elective-public-office": {
++        if (Object.keys(predicate.parameters).length !== 0)
++          throw new Error("Elective office coverage takes no parameters");
++        const held = paidOfficeOf(world, work, cutoff);
++        matches &&=
++          !held ||
++          !["governor", "state-legislator", "member-of-congress"].includes(
++            held.office,
++          );
++        break;
++      }
++      case "pay-occupation":
++      case "pay-employer-classification": {
++        if (
++          Object.keys(predicate.parameters).length !== 1 ||
++          typeof predicate.parameters.value !== "string"
++        )
++          throw new Error("Pay coverage predicate requires one recorded value");
++        if (predicate.capability === "pay-occupation") {
++          matches &&=
++            role?.occupationClassification === predicate.parameters.value;
++        } else {
++          const profile = organizationProfileAt(
++            world,
++            work.organizationId,
++            cutoff,
++          );
++          matches &&= profile?.classification === predicate.parameters.value;
++          if (profile) factRecordIds.push(profile.id);
++        }
++        break;
++      }
++      case "pay-employer-workforce-at-most": {
++        const count = predicate.parameters.count;
++        if (
++          Object.keys(predicate.parameters).length !== 1 ||
++          typeof count !== "number" ||
++          !Number.isSafeInteger(count) ||
++          count < 0
++        )
++          throw new Error(
++            "Pay workforce predicate requires an authored nonnegative count",
++          );
++        const active = workRelationshipHistoryForOrganization(
++          world,
++          work.organizationId,
++          cutoff,
++        ).flatMap((entry) => {
++          const status = workStatusAt(world, entry.id, cutoff);
++          return status?.status === "active" &&
++            (entry.compensation === "paid" || entry.compensation === "mixed")
++            ? [{ work: entry, status }]
++            : [];
++        });
++        matches &&=
++          new Set(active.map((entry) => entry.work.personId)).size <= count;
++        factRecordIds.push(
++          ...active.flatMap((entry) => [entry.work.id, entry.status.id]),
++        );
++        break;
++      }
++      default:
++        throw new Error(
++          `Missing pay predicate capability '${predicate.capability}'`,
++        );
++    }
++  }
++  return { matches, factRecordIds: [...new Set(factRecordIds)] };
++}
+diff --git a/src/simulation/pay-coverage-types.ts b/src/simulation/pay-coverage-types.ts
+new file mode 100644
+--- /dev/null
++++ b/src/simulation/pay-coverage-types.ts
+@@ -0,0 +1,30 @@
++import type { EntityId, IsoDate } from "./types";
++
++/** A work relationship's dated facts, never a copied wage amount. */
++export interface WorkPayCoverageDeterminationRecord {
++  readonly id: EntityId;
++  readonly stableKey: string;
++  readonly sequence: number;
++  readonly workRelationshipId: EntityId;
++  readonly personId: EntityId;
++  readonly employerOrganizationId: EntityId;
++  readonly workRoleId: EntityId;
++  /** Null preserves an absent workplace; it never borrows the worker's home. */
++  readonly jurisdictionId: EntityId | null;
++  readonly determinedAt: IsoDate;
++  readonly reason: "hire" | "opening";
++  readonly defaultCategory: "standard";
++  readonly factRecordIds: readonly EntityId[];
++  readonly sources: readonly string[];
++  readonly governingLaws: readonly {
++    readonly questionKey: string;
++    readonly governingLawKey: EntityId;
++    readonly origin: "enacted" | "in-force-at-start";
++  }[];
++  /** Only a matching, authored canonical exception row overrides the standard. */
++  readonly exceptions: readonly {
++    readonly questionKey: string;
++    readonly rowId: string;
++    readonly factRecordIds: readonly EntityId[];
++  }[];
++}
+diff --git a/src/simulation/completed-hourly-gross.ts b/src/simulation/completed-hourly-gross.ts
+new file mode 100644
+--- /dev/null
++++ b/src/simulation/completed-hourly-gross.ts
+@@ -0,0 +1,29 @@
++/**
++ * Existing completed-work obligation: operative hourly minor units times the
++ * actual saved minutes, rounded to whole minor units, preserving the contract.
++ * This leaf has no history reads, resource imports or payment writer.
++ */
++export function assessedCompletedHourlyGrossMinor(
++  hourlyMinor: number,
++  workedMinutes: number,
++  contractualGrossMinor: number,
++): number {
++  if (!Number.isFinite(hourlyMinor) || hourlyMinor < 0)
++    throw new Error(
++      "Completed hourly gross requires a nonnegative finite rate.",
++    );
++  if (!Number.isSafeInteger(workedMinutes) || workedMinutes <= 0)
++    throw new Error(
++      "Completed hourly gross requires positive saved whole minutes.",
++    );
++  if (!Number.isSafeInteger(contractualGrossMinor) || contractualGrossMinor < 0)
++    throw new Error(
++      "Completed hourly gross requires a safe contractual amount.",
++    );
++  const legalGrossMinor = Math.round((hourlyMinor * workedMinutes) / 60);
++  if (!Number.isSafeInteger(legalGrossMinor))
++    throw new Error(
++      "Completed hourly gross must be a safe whole minor-unit amount.",
++    );
++  return Math.max(contractualGrossMinor, legalGrossMinor);
++}
+diff --git a/src/simulation/earned-law-pay-integrity.ts b/src/simulation/earned-law-pay-integrity.ts
+new file mode 100644
+--- /dev/null
++++ b/src/simulation/earned-law-pay-integrity.ts
+@@ -0,0 +1,484 @@
++import { assessedCompletedHourlyGrossMinor } from "./completed-hourly-gross";
++import { makeIsoDate, simulationMinutesBetween } from "./dates";
++import { recordById, recordsWithFieldValue } from "./history-index";
++import { createStableId } from "./ids";
++import { resourceFlowTermsAt } from "./resource-queries";
++import { workRoleAt, workStatusAt } from "./life-queries";
++import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
++import { lawInForce } from "./governing/law-in-force";
++import type { LawInForce } from "./governing/law-in-force";
++import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
++import { evaluateLawAmount, type LawAmount } from "./law-consequence-amount";
++import type { LawAmountExpression } from "./law-consequence-types";
++import { enactedRuleChangeAt, laborLawOfficeKey } from "./enacted-rule-changes";
++import { stateMinimumSettingAt } from "./minimum-wage";
++import {
++  matchPayCoveragePredicates,
++  payWorkplaceAt,
++} from "./pay-coverage-predicates";
++import { workPayCoverageAt } from "./pay-coverage-query";
++import {
++  lifePlaceByJurisdictionId,
++  stateJurisdictionForKey,
++  stateKeyForJurisdiction,
++} from "./life-places";
++import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
++import {
++  CITY_MINIMUM_WAGE_QUESTION_KEY,
++  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
++  STATE_MINIMUM_WAGE_QUESTION_KEY,
++  MINIMUM_WAGE_PAY_ROWS,
++  NON_ELECTIVE_PAY_PREDICATE,
++  PAY_ACTION,
++  PAY_SELECTOR,
++} from "./law-consequences/pay-rows";
++import type {
++  EarnedLawPayAssessmentRecord,
++  EntityId,
++  MoneyAmount,
++  World,
++} from "./types";
++
++function sameMoney(left: MoneyAmount, right: MoneyAmount): boolean {
++  return (
++    left.currency === right.currency && left.minorUnits === right.minorUnits
++  );
++}
++
++/** Independently validates immutable saved work. No writer or resource import. */
++export function validateEarnedLawPayAssessment(
++  world: World,
++  assessment: EarnedLawPayAssessmentRecord,
++): void {
++  const fail = (detail: string): never => {
++    throw new Error(
++      `Invalid earned law pay assessment (${detail}): ${assessment.id}`,
++    );
++  };
++  const h = world.history;
++  const completion = recordById(h.events, assessment.completionEventId);
++  const work = recordById(h.workRelationships, assessment.workRelationshipId);
++  const flow = recordById(h.resourceFlows, assessment.resourceFlowId);
++  const activity = recordById(
++    h.scheduledActivities,
++    assessment.scheduledActivityId,
++  );
++  const state = recordById(
++    h.scheduledActivityStates,
++    assessment.scheduledActivityStateId,
++  );
++  if (!completion || !work || !flow || !activity || !state)
++    fail("saved completion references");
++  if (
++    !Number.isSafeInteger(assessment.sequence) ||
++    assessment.sequence < 0 ||
++    assessment.sequence >= h.nextSequence ||
++    !assessment.stableKey.trim() ||
++    makeIsoDate(assessment.recordedAt) > world.currentDate ||
++    assessment.recordedAt < completion!.occurredAt ||
++    completion!.sequence >= assessment.sequence ||
++    completion!.type !== "life-paths2.work-session" ||
++    assessment.periodStartsAt !== completion!.occurredAt ||
++    assessment.periodEndsAt !== completion!.occurredAt ||
++    assessment.earnedCutoff.asOfDate !== completion!.occurredAt ||
++    assessment.earnedCutoff.historySequenceExclusive !==
++      completion!.sequence + 1
++  )
++    fail("earned frontier and chronology");
++  if (
++    !world.people[assessment.personId] ||
++    work!.personId !== assessment.personId ||
++    work!.organizationId !== assessment.organizationId ||
++    flow!.source.kind !== "organization" ||
++    flow!.source.organizationId !== assessment.organizationId ||
++    flow!.recipient.kind !== "person" ||
++    flow!.recipient.personId !== assessment.personId ||
++    flow!.basisReference.kind !== "work" ||
++    flow!.basisReference.workRelationshipId !== work!.id ||
++    work!.sequence >= completion!.sequence ||
++    flow!.sequence >= completion!.sequence ||
++    work!.startedAt > completion!.occurredAt ||
++    flow!.startsAt > completion!.occurredAt ||
++    !completion!.involvedEntityIds.includes(work!.id) ||
++    !completion!.involvedEntityIds.includes(assessment.personId) ||
++    !completion!.involvedEntityIds.includes(activity!.id) ||
++    activity!.sequence >= completion!.sequence ||
++    !activity!.sourceEntityIds.includes(work!.id) ||
++    !activity!.participantPersonIds.includes(assessment.personId) ||
++    state!.activityId !== activity!.id ||
++    state!.status !== "completed" ||
++    state!.sequence >= assessment.earnedCutoff.historySequenceExclusive ||
++    state!.recordedAt.date > assessment.recordedAt
++  )
++    fail("worker employer flow and performed activity");
++  const savedActivities = completion!.involvedEntityIds.flatMap(
++    (id) => recordById(h.scheduledActivities, id) ?? [],
++  );
++  const latest = recordsWithFieldValue(
++    h.scheduledActivityStates,
++    "activityId",
++    activity!.id,
++  )
++    .filter(
++      (row) => row.sequence < assessment.earnedCutoff.historySequenceExclusive,
++    )
++    .at(-1);
++  if (
++    savedActivities.length !== 1 ||
++    latest?.id !== state!.id ||
++    simulationMinutesBetween(state!.start, state!.end) !==
++      assessment.workedMinutes
++  )
++    fail("actual completed interval");
++  const terms = resourceFlowTermsAt(world, flow!.id, assessment.earnedCutoff);
++  if (
++    !terms ||
++    terms.id !== assessment.earnedTermsId ||
++    terms.status !== "active" ||
++    terms.cadenceKind !== "work:completed-shift" ||
++    !sameMoney(terms.amount, assessment.contractualGross) ||
++    workStatusAt(world, work!.id, assessment.earnedCutoff)?.status !==
++      "active" ||
++    !workRoleAt(world, work!.id, assessment.earnedCutoff)
++  )
++    fail("immutable earned terms and active work");
++  const resolved = assessment.resolvedConsequence;
++  if (
++    resolved.personId !== assessment.personId ||
++    resolved.workId !== work!.id ||
++    resolved.payFlowId !== flow!.id ||
++    (resolved.activityId !== work!.id && resolved.activityId !== flow!.id) ||
++    resolved.completedShift?.eventId !== completion!.id ||
++    resolved.completedShift?.termsId !== terms!.id ||
++    resolved.effectiveAt !== completion!.occurredAt ||
++    resolved.amount.unit !== "minor/hour" ||
++    resolved.amount.currency !== "USD" ||
++    assessment.contractualGross.currency !== "USD" ||
++    !Number.isSafeInteger(resolved.amount.value) ||
++    resolved.amount.value < 0
++  )
++    fail("resolved completion joins");
++  if (
++    !sameMoney(assessment.assessedGross, {
++      currency: assessment.contractualGross.currency,
++      minorUnits: assessedCompletedHourlyGrossMinor(
++        resolved.amount.value,
++        assessment.workedMinutes,
++        assessment.contractualGross.minorUnits,
++      ),
++    })
++  )
++    fail("assessed gross");
++  validateEarnedLawPayAuthority(world, assessment);
++}
++
++function validateEarnedLawPayAuthority(
++  world: World,
++  assessment: EarnedLawPayAssessmentRecord,
++): void {
++  const resolved = assessment.resolvedConsequence;
++  const cutoff = assessment.earnedCutoff;
++  const fail = (detail: string): never => {
++    throw new Error(
++      `Invalid earned law pay authority (${detail}): ${assessment.id}`,
++    );
++  };
++  const work = recordById(
++    world.history.workRelationships,
++    assessment.workRelationshipId,
++  )!;
++  const role = workRoleAt(world, work.id, cutoff)!;
++  const workplace = payWorkplaceAt(world, work.id, cutoff);
++  const coverage = workPayCoverageAt(world, work.id, cutoff);
++  let governing: Pick<LawInForce, "measureId" | "origin" | "operativeAt">;
++  let legalSources: EntityId[] = [];
++  let factSources: readonly EntityId[] = [];
++  if (resolved.action === "raise-hourly-floor") {
++    const question = Object.values(world.policyCatalog.propositions).find(
++      (p) => p.stableKey === resolved.questionKey,
++    );
++    const row = question?.consequences?.find((r) => r.id === resolved.rowId);
++    if (
++      !question ||
++      !row ||
++      row.kind !== "pay" ||
++      row.what !== PAY_ACTION ||
++      row.who.selector !== PAY_SELECTOR ||
++      row.when !== "payroll" ||
++      row.lag.days !== 0 ||
++      !row.amount ||
++      row.decision
++    )
++      fail("canonical hourly row");
++    const minimum = [
++      FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
++      STATE_MINIMUM_WAGE_QUESTION_KEY,
++      CITY_MINIMUM_WAGE_QUESTION_KEY,
++    ].includes(resolved.questionKey);
++    const jurisdictionId =
++      workplace.jurisdictionId ??
++      (resolved.questionKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY
++        ? NATIONAL_ELECTION_JURISDICTION.id
++        : null);
++    if (!jurisdictionId || jurisdictionId !== resolved.jurisdictionId)
++      fail("actual work jurisdiction");
++    const predicates = [...row!.who.predicates, ...row!.conditions];
++    const office = predicates.filter(
++      (p) => p.capability === NON_ELECTIVE_PAY_PREDICATE,
++    );
++    if (
++      office.length &&
++      !matchPayCoveragePredicates(world, work.id, office, cutoff).matches
++    )
++      fail("elective-office applicability");
++    const others = predicates.filter(
++      (p) => p.capability !== NON_ELECTIVE_PAY_PREDICATE,
++    );
++    const match = matchPayCoveragePredicates(world, work.id, others, cutoff);
++    if (minimum && coverage) {
++      const exception = coverage.exceptions.find(
++        (e) => e.questionKey === resolved.questionKey,
++      );
++      if (exception ? exception.rowId !== row!.id : others.length > 0)
++        fail("saved pay coverage exception");
++    } else if (!match.matches) fail("recorded pay applicability");
++    factSources =
++      minimum && coverage ? coverage.factRecordIds : match.factRecordIds;
++    const law = lawInForce(
++      world,
++      resolved.jurisdictionId,
++      question!.id,
++      cutoff.asOfDate,
++      "all",
++      cutoff,
++    );
++    if (
++      !law ||
++      JSON.stringify(law) !== JSON.stringify(resolved.law) ||
++      (law.origin === "enacted" && law.answer !== "yes") ||
++      (resolved.questionKey === STATE_MINIMUM_WAGE_QUESTION_KEY &&
++        law.origin === "in-force-at-start" &&
++        law.answer === "no")
++    )
++      fail("operative canonical law at earned cutoff");
++    const inputs: Record<string, LawAmount> = {};
++    const collect = (expression: LawAmountExpression): void => {
++      if (expression.op === "term") {
++        const term = readFinalEnactedLawTerm(world, law!, {
++          questionKey: resolved.questionKey,
++          termKey: expression.key,
++          unit: expression.unit,
++          onDate: cutoff.asOfDate,
++          cutoff,
++        });
++        if (
++          !term ||
++          (inputs[expression.key] && inputs[expression.key]!.unit !== term.unit)
++        )
++          fail("adopted numeric term");
++        inputs[expression.key] = { value: term!.value, unit: term!.unit };
++        legalSources.push(...term!.sourceRecordIds);
++      } else if (
++        expression.op === "sum" ||
++        expression.op === "minimum" ||
++        expression.op === "maximum"
++      )
++        expression.operands.forEach(collect);
++      else if (
++        expression.op === "difference" ||
++        expression.op === "product" ||
++        expression.op === "ratio"
++      ) {
++        collect(expression.left);
++        collect(expression.right);
++      }
++    };
++    collect(row!.amount!);
++    const amount = evaluateLawAmount(row!.amount!, {
++      term: inputs,
++      record: {},
++      capacity: {},
++      exposure: {},
++    });
++    if (
++      amount.unit !== resolved.amount.unit ||
++      amount.value !== resolved.amount.value
++    )
++      fail("canonical amount evaluator");
++    governing = law!;
++  } else if (resolved.action === "raise-saved-rule-hourly-floor") {
++    const authority = resolved.authority;
++    const place = workplace.jurisdictionId
++      ? world.jurisdictions[workplace.jurisdictionId]
++      : null;
++    const stateKey = place
++      ? (stateKeyForJurisdiction(place) ??
++        lifePlaceByJurisdictionId(place.id)?.stateJurisdictionKey ??
++        null)
++      : null;
++    const clause = recordById(
++      world.history.ruleChangeProvisions ?? [],
++      authority.ruleChangeProvisionId,
++    );
++    const enactment = recordById(
++      world.history.legislativeEnactments ?? [],
++      authority.enactmentId,
++    );
++    const change = enactedRuleChangeAt(world, {
++      stateUsps: authority.stateUsps,
++      officeKey: authority.officeKey,
++      field: authority.field,
++      onDate: cutoff.asOfDate,
++      cutoff,
++    });
++    const legal = stateKey
++      ? stateMinimumSettingAt(world, stateKey, cutoff.asOfDate, cutoff)
++      : null;
++    const template = MINIMUM_WAGE_PAY_ROWS[STATE_MINIMUM_WAGE_QUESTION_KEY]!;
++    const match = matchPayCoveragePredicates(
++      world,
++      work.id,
++      template.who.predicates,
++      cutoff,
++    );
++    const exception = coverage?.exceptions.find(
++      (e) => e.questionKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
++    );
++    if (!match.matches || (exception && exception.rowId !== template.id))
++      fail("saved-rule worker applicability");
++    if (
++      authority.kind !== "enacted-hourly-pay-rule" ||
++      authority.field !== "labor.minimumWage.hourlyCents" ||
++      authority.officeKey !== laborLawOfficeKey(authority.stateUsps) ||
++      stateKey !== `US-${authority.stateUsps}` ||
++      stateJurisdictionForKey(stateKey!)?.id !== resolved.jurisdictionId ||
++      !clause ||
++      !enactment ||
++      !change ||
++      !legal?.measureId ||
++      change.measureId !== legal.measureId ||
++      change.operativeAt !== legal.effectiveAt ||
++      change.value !== legal.hourlyMinor ||
++      clause.sequence >= enactment.sequence ||
++      enactment.sequence >= cutoff.historySequenceExclusive ||
++      clause.filedAt > cutoff.asOfDate ||
++      enactment.resolvedAt > cutoff.asOfDate ||
++      enactment.outcome !== "enacted" ||
++      enactment.measureId !== clause.measureId ||
++      clause.measureId !== authority.measureId ||
++      clause.stateUsps !== authority.stateUsps ||
++      clause.officeKey !== authority.officeKey ||
++      clause.field !== authority.field ||
++      resolved.rowId !== `pay:hourly-rule:${clause.id}` ||
++      change.instrument !== "statute" ||
++      change.measureId !== authority.measureId ||
++      change.operativeAt !== authority.operativeAt ||
++      change.value !== clause.value ||
++      change.value !== resolved.amount.value ||
++      JSON.stringify(change.applicability) !==
++        JSON.stringify(authority.applicability) ||
++      (change.applicability.appliesTo === "terms-beginning-after" &&
++        work.startedAt < change.operativeAt)
++    )
++      fail("adopted saved hourly authority");
++    legalSources = [clause!.id, enactment!.id, change!.measureId];
++    factSources = [...match.factRecordIds, ...(coverage?.factRecordIds ?? [])];
++    governing = {
++      measureId: change!.measureId,
++      origin: "enacted",
++      operativeAt: change!.operativeAt,
++    };
++  } else fail("supported hourly action");
++  const expectedSources = [
++    ...new Set([
++      work.id,
++      role.id,
++      assessment.resourceFlowId,
++      assessment.earnedTermsId,
++      ...factSources,
++      ...(coverage ? [coverage.id] : []),
++      ...workplace.factRecordIds,
++      ...legalSources,
++    ]),
++  ];
++  if (!sameIds(expectedSources, resolved.sourceRecordIds))
++    fail("canonical source records");
++  const expectedKey = `earned-law-pay:${assessment.resourceFlowId}:${assessment.completionEventId}:${assessment.earnedTermsId}:${resolved.rowId}:${governing!.measureId}`;
++  if (
++    assessment.stableKey !== expectedKey ||
++    assessment.id !==
++      createStableId("earned-law-pay-assessment", `${world.id}:${expectedKey}`)
++  )
++    fail("stable identity");
++  const stamp = lawEffectStamp(governing!, {
++    effectKind: "pay",
++    questionKey:
++      resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
++    ...(resolved.action === "raise-saved-rule-hourly-floor"
++      ? {
++          ruleAuthority: {
++            ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
++            enactmentId: resolved.authority.enactmentId,
++            field: resolved.authority.field,
++          },
++        }
++      : {}),
++    jurisdictionId: resolved.jurisdictionId,
++    appliedAt: assessment.recordedAt,
++    sourceRecordIds: [
++      ...new Set([
++        ...resolved.sourceRecordIds,
++        assessment.id,
++        resolved.activityId,
++        work.id,
++        role.id,
++        assessment.resourceFlowId,
++        assessment.earnedTermsId,
++        assessment.completionEventId,
++        assessment.scheduledActivityId,
++        assessment.scheduledActivityStateId,
++      ]),
++    ],
++  });
++  if (
++    !stamp ||
++    assessment.lawEffectStamps.length !== 1 ||
++    !isLawEffectStamp(assessment.lawEffectStamps[0])
++  )
++    fail("required law stamp");
++  const actual = assessment.lawEffectStamps[0]!;
++  const { sourceRecordIds: actualIds, ...actualFields } = actual;
++  const { sourceRecordIds: expectedIds, ...expectedFields } = stamp!;
++  if (
++    JSON.stringify(actualFields) !== JSON.stringify(expectedFields) ||
++    !sameIds(actualIds ?? [], expectedIds ?? [])
++  )
++    fail("canonical law stamp");
++}
++
++function sameIds(
++  left: readonly EntityId[],
++  right: readonly EntityId[],
++): boolean {
++  return (
++    left.length === new Set(left).size &&
++    right.length === new Set(right).size &&
++    left.length === right.length &&
++    left.every((id) => right.includes(id))
++  );
++}
++
++/** Old saves have no assessments; each new record has one globally unique ID. */
++export function assertEarnedLawPayIntegrity(
++  world: World,
++  ids: Set<EntityId>,
++): void {
++  const keys = new Set<string>();
++  for (const assessment of world.history.earnedLawPayAssessments ?? []) {
++    if (ids.has(assessment.id) || keys.has(assessment.stableKey))
++      throw new Error(`Duplicate earned law pay assessment: ${assessment.id}`);
++    ids.add(assessment.id);
++    keys.add(assessment.stableKey);
++    validateEarnedLawPayAssessment(world, assessment);
++  }
++}
+diff --git a/src/simulation/types.ts b/src/simulation/types.ts
+--- a/src/simulation/types.ts
++++ b/src/simulation/types.ts
+@@ -1,3 +1,4 @@
++import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
+ import type {
+   PermitApplicationRecord,
+   PermitStatusRecord,
+@@ -237,6 +238,7 @@
+   | "resource-obligation-state"
+   | "resource-position"
+   | "earned-law-pay-assessment"
++  | "work-pay-coverage"
+   | "resource-transfer-outcome"
+   | "scheduled-activity"
+   | "scheduled-activity-state"
+@@ -4530,6 +4532,7 @@
+   readonly resourceTransferOutcomes: readonly ResourceTransferOutcome[];
+   /** Absent in saves made before earned-law assessments were recorded. */
+   readonly earnedLawPayAssessments?: readonly EarnedLawPayAssessmentRecord[];
++  readonly workPayCoverageDeterminations?: readonly WorkPayCoverageDeterminationRecord[];
+   readonly resourceObligations: readonly ResourceObligation[];
+   readonly resourceObligationStates: readonly ResourceObligationStateRecord[];
+   readonly dwellings: readonly Dwelling[];
+diff --git a/src/simulation/law-consequence-types.ts b/src/simulation/law-consequence-types.ts
+--- a/src/simulation/law-consequence-types.ts
++++ b/src/simulation/law-consequence-types.ts
+@@ -119,6 +119,7 @@
+   onward?: LawConsequenceRow[];
+ }
+ export interface LawConsequenceContext {
++  completedShift?: { eventId: EntityId; termsId: EntityId };
+   onDate: IsoDate;
+   activity: LawConsequenceRow["when"];
+   activityId: EntityId;
+@@ -175,6 +176,7 @@
+   | { type: "boolean"; value: boolean }
+   | { type: "decision"; value: string };
+ export interface ResolvedLawConsequence {
++  completedShift?: { eventId: EntityId; termsId: EntityId };
+   row: LawConsequenceRow;
+   law: LawInForce;
+   questionKey: string;
+@@ -220,8 +222,16 @@
+     levyProvisionId: EntityId;
+   };
+ }
++export interface ResolvedSavedRuleConsequence extends Omit<
++  ResolvedLawConsequence,
++  "law" | "questionKey"
++> {
++  authority: ResolvedSavedHourlyPayConsequence["authority"];
++}
+ export type ResolvedSavedLawConsequence =
+-  ResolvedStandingServiceConsequence | ResolvedTypedTaxConsequence;
++  | ResolvedStandingServiceConsequence
++  | ResolvedTypedTaxConsequence
++  | ResolvedSavedRuleConsequence;
+ export type ResolvedAnyLawConsequence =
+   ResolvedLawConsequence | ResolvedSavedLawConsequence;
+ 
+diff --git a/src/simulation/office-pay.ts b/src/simulation/office-pay.ts
+--- a/src/simulation/office-pay.ts
++++ b/src/simulation/office-pay.ts
+@@ -21,7 +21,7 @@
+   type AmendableRuleField,
+   type RuleChangeApplicability,
+ } from "./enacted-rule-changes";
+-import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
++import type { EntityId, HistoricalCutoff, IsoDate, World, WorkRelationship } from "./types";
+ 
+ export { OFFICE_PAY_META };
+ 
+@@ -189,8 +189,9 @@
+ export function paidOfficeOf(
+   world: World,
+   work: WorkRelationship,
++  cutoff?: HistoricalCutoff,
+ ): { readonly office: PaidOffice; readonly state: string } | null {
+-  const role = workRoleAt(world, work.id);
++  const role = workRoleAt(world, work.id, cutoff);
+   if (!role) return null;
+   if (work.kind === "employment:congress-member")
+     return { office: "member-of-congress", state: "US" };
+diff --git a/src/simulation/law-effect-stamp.ts b/src/simulation/law-effect-stamp.ts
+--- a/src/simulation/law-effect-stamp.ts
++++ b/src/simulation/law-effect-stamp.ts
+@@ -16,6 +16,12 @@
+   readonly standingAuthority?: StandingProgramAuthority;
+   readonly effectKind: string;
+   readonly questionKey: string | null;
++  /** Present only for a real enacted rule with no policy question. */
++  readonly ruleAuthority?: {
++    readonly ruleChangeProvisionId: EntityId;
++    readonly enactmentId: EntityId;
++    readonly field: string;
++  };
+   /** The jurisdiction where the consequence applies, including federal effects. */
+   readonly jurisdictionId: EntityId;
+   readonly operativeAt: IsoDate;
+@@ -27,6 +33,12 @@
+ export interface LawEffectContext {
+   readonly effectKind: LawConsequenceKind | LegacyEffectKind;
+   readonly questionKey: string | null;
++  /** Present only for a real enacted rule with no policy question. */
++  readonly ruleAuthority?: {
++    readonly ruleChangeProvisionId: EntityId;
++    readonly enactmentId: EntityId;
++    readonly field: string;
++  };
+   readonly jurisdictionId: EntityId;
+   readonly appliedAt: IsoDate;
+   readonly sourceRecordIds?: readonly EntityId[];
+@@ -74,6 +86,9 @@
+       : {}),
+     effectKind: context.effectKind,
+     questionKey: context.questionKey,
++    ...(context.ruleAuthority
++      ? { ruleAuthority: { ...context.ruleAuthority } }
++      : {}),
+     jurisdictionId: context.jurisdictionId,
+     operativeAt: standing ? standing.availableFrom : measure!.operativeAt,
+     appliedAt: context.appliedAt,
+@@ -161,5 +176,22 @@
+       row.sourceRecordIds.includes(ref.appropriationId)
+     );
+   }
+-  return nonempty(row.questionKey);
++  if (nonempty(row.questionKey)) return row.ruleAuthority === undefined;
++  if (
++    row.questionKey !== null ||
++    row.source !== "enacted" ||
++    row.effectKind !== "pay"
++  )
++    return false;
++  const authority = row.ruleAuthority;
++  if (!authority || typeof authority !== "object") return false;
++  const ref = authority as Record<string, unknown>;
++  return (
++    nonempty(ref.ruleChangeProvisionId) &&
++    nonempty(ref.enactmentId) &&
++    nonempty(ref.field) &&
++    Array.isArray(row.sourceRecordIds) &&
++    row.sourceRecordIds.includes(ref.ruleChangeProvisionId) &&
++    row.sourceRecordIds.includes(ref.enactmentId)
++  );
+ }
+diff --git a/src/simulation/world.ts b/src/simulation/world.ts
+--- a/src/simulation/world.ts
++++ b/src/simulation/world.ts
+@@ -1,3 +1,5 @@
++import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
++import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
+ import {
+   assertPermitIntegrity,
+   permitApplications,
+@@ -2067,6 +2069,8 @@
+         ...(history.sessionAdjournments ?? []),
+         ...(history.itemVetoes ?? []),
+         ...(history.favors ?? []),
++        ...(history.earnedLawPayAssessments ?? []),
++        ...(history.workPayCoverageDeterminations ?? []),
+         ...history.events,
+         ...history.memories,
+         ...history.knowledge,
+@@ -2220,6 +2224,8 @@
+     );
+   }
+   assertResourceHousingIntegrity(world, ids);
++  assertEarnedLawPayIntegrity(world, ids);
++  assertWorkPayCoverageIntegrity(world, ids);
+   assertTaxIntegrity(world, ids);
+   assertStatutoryTaxIntegrity(world, ids);
+   assertHouseholdLoanIntegrity(world, ids);
+diff --git a/src/simulation/living-world/town-pay.ts b/src/simulation/living-world/town-pay.ts
+--- a/src/simulation/living-world/town-pay.ts
++++ b/src/simulation/living-world/town-pay.ts
+@@ -1,10 +1,15 @@
++import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
++import { payWorkplaceAt } from "../pay-coverage-predicates";
+ import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
+ import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+ import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
+ import { lawEffectStamp } from "../law-effect-stamp";
+ import { lawInForce } from "../governing/law-in-force";
+ import { applyLawConsequences } from "../enacted-law-effects";
+-import type { ResolvedLawPayConsequence } from "../law-consequence-types";
++import type {
++  ResolvedHourlyLawPayConsequence,
++  ResolvedSavedHourlyPayConsequence,
++} from "../law-consequence-types";
+ import { createStableId } from "../ids";
+ /**
+  * Payday: everyone with a town job is paid, on their employer's own payday.
+@@ -45,10 +50,12 @@
+  * last day of each month), each writing all of that day's paychecks.
+  */
+ 
+-import { addDays, daysBetween, makeIsoDate } from "../dates";
++import { addDays, daysBetween, makeIsoDate, simulationMinutesBetween } from "../dates";
+ import { scheduleFutureDueItem } from "../future-transitions";
+ import {
+   enactedRuleChanges,
++  enactedRuleChangeAt,
++  laborLawOfficeKey,
+   type EnactedRuleChange,
+ } from "../enacted-rule-changes";
+ import { countyGeoidsForPlace } from "../government-units";
+@@ -65,7 +72,7 @@
+   workStatusAt,
+   workRoleAt,
+ } from "../life-queries";
+-import { lifePlaceByJurisdictionId } from "../life-places";
++import { lifePlaceByJurisdictionId, stateJurisdictionForKey, stateKeyForJurisdiction } from "../life-places";
+ import {
+   FEDERAL_MINIMUM_HOURLY_MINOR,
+   federalMinimumSchedule,
+@@ -88,6 +95,7 @@
+   money,
+   recordResourceFlowTerms,
+   recordResourceTransferOutcomes,
++  resourceTransferTermsCutoff,
+   type CreateResourceFlowInput,
+   type RecordResourceTransferOutcomeInput,
+ } from "../resources";
+@@ -114,6 +122,7 @@
+   type WorkAbsence,
+ } from "../crisis/epidemic";
+ import type {
++  EarnedLawPayAssessmentRecord,
+   EntityId,
+   FutureDueItem,
+   FutureTransitionHandlerResult,
+@@ -873,15 +882,70 @@
+  * was recorded raises pay from the first period after it was recorded.
+  */
+ /** Applies one resolved legal floor to an actual job's prospective pay terms. */
++export function completedPayShift(
++  world: World,
++  flow: ResourceFlow,
++  shift: NonNullable<ResolvedHourlyLawPayConsequence["completedShift"]>,
++  onDate: IsoDate,
++) {
++  const completion = recordById(world.history.events, shift.eventId);
++  if (
++    !completion ||
++    completion.type !== "life-paths2.work-session" ||
++    completion.occurredAt !== onDate
++  )
++    throw new Error("Completed pay requires its actual work-session event.");
++  const cutoff = resourceTransferTermsCutoff(world, flow, onDate, onDate, {
++    kind: "simulated-event",
++    eventId: completion.id,
++  });
++  const terms = resourceFlowTermsAt(world, flow.id, cutoff);
++  if (!terms || terms.id !== shift.termsId || terms.status !== "active")
++    throw new Error("Completed pay requires its actual earned terms.");
++  const workId =
++    flow.basisReference.kind === "work"
++      ? flow.basisReference.workRelationshipId
++      : null;
++  const activities = completion.involvedEntityIds.flatMap((id) => {
++    const activity = recordById(world.history.scheduledActivities, id);
++    return activity ? [activity] : [];
++  });
++  if (activities.length !== 1)
++    throw new Error("Completed pay requires exactly one saved work activity.");
++  const activity = activities[0]!;
++  const state = recordsWithFieldValue(
++    world.history.scheduledActivityStates,
++    "activityId",
++    activity.id,
++  )
++    .filter((row) => row.sequence < cutoff.historySequenceExclusive)
++    .at(-1);
++  if (
++    !workId ||
++    flow.recipient.kind !== "person" ||
++    activity.sequence >= completion.sequence ||
++    !activity.sourceEntityIds.includes(workId) ||
++    !activity.participantPersonIds.includes(flow.recipient.personId) ||
++    !state ||
++    state.status !== "completed"
++  )
++    throw new Error(
++      "Completed pay must bind the worker and performed activity.",
++    );
++  const minutes = simulationMinutesBetween(state.start, state.end);
++  if (!Number.isSafeInteger(minutes) || minutes <= 0)
++    throw new Error("Completed pay requires a positive actual work interval.");
++  return { completion, cutoff, terms, activity, state, minutes };
++}
++
++
+ export function applyLawPayConsequence(
+   world: World,
+-  resolved: ResolvedLawPayConsequence,
++  resolved: ResolvedHourlyLawPayConsequence | ResolvedSavedHourlyPayConsequence,
+ ): World {
+   const refuse = (capability: string): never => {
+     throw new Error(`Law pay consequence requires capability: ${capability}`);
+   };
+-  if (resolved.action !== "raise-hourly-floor")
+-    refuse("pay.raise-hourly-floor");
+   if (!resolved.rowId.trim() || !resolved.activityId.trim())
+     refuse("pay.row-and-activity-identity");
+   if (
+@@ -893,24 +957,7 @@
+     refuse("pay.amount.finite-nonnegative");
+   const effectiveAt = makeIsoDate(resolved.effectiveAt);
+   if (effectiveAt > world.currentDate) refuse("pay.activity.current-or-past");
+-  const question = Object.values(world.policyCatalog.propositions).find(
+-    (row) => row.stableKey === resolved.questionKey,
+-  );
+-  if (!question) refuse("pay.question.canonical");
+-  const governing = lawInForce(
+-    world,
+-    resolved.jurisdictionId,
+-    question!.id,
+-    effectiveAt,
+-  );
+-  if (
+-    !governing ||
+-    governing.measureId !== resolved.law.measureId ||
+-    governing.origin !== resolved.law.origin ||
+-    governing.operativeAt !== resolved.law.operativeAt ||
+-    governing.answer !== resolved.law.answer
+-  )
+-    refuse("pay.law.operative");
++  let governing: Parameters<typeof lawEffectStamp>[0] = null;
+   const work = recordById(world.history.workRelationships, resolved.workId);
+   const flow = recordById(world.history.resourceFlows, resolved.payFlowId);
+   if (!world.people[resolved.personId] || work?.personId !== resolved.personId)
+@@ -925,10 +972,36 @@
+     flow.source.organizationId !== work!.organizationId
+   )
+     refuse("pay.flow-worker-employer.binding");
+-  const cutoff = {
++  const completed = resolved.completedShift
++    ? completedPayShift(world, flow!, resolved.completedShift, effectiveAt)
++    : null;
++  const cutoff = completed?.cutoff ?? {
+     asOfDate: effectiveAt,
+     historySequenceExclusive: world.history.nextSequence,
+   };
++  if (resolved.action === "raise-hourly-floor") {
++    const question = Object.values(world.policyCatalog.propositions).find(
++      (row) => row.stableKey === resolved.questionKey,
++    );
++    if (!question) refuse("pay.question.canonical");
++    const law = lawInForce(
++      world,
++      resolved.jurisdictionId,
++      question!.id,
++      effectiveAt,
++      "all",
++      cutoff,
++    );
++    if (
++      !law ||
++      law.measureId !== resolved.law.measureId ||
++      law.origin !== resolved.law.origin ||
++      law.operativeAt !== resolved.law.operativeAt ||
++      law.answer !== resolved.law.answer
++    )
++      refuse("pay.law.operative");
++    governing = law;
++  }
+   const role = workRoleAt(world, resolved.workId, cutoff);
+   if (
+     !role ||
+@@ -936,17 +1009,226 @@
+     workStatusAt(world, resolved.workId, cutoff)?.status !== "active"
+   )
+     refuse("pay.job.active-with-recorded-hours");
+-  const current = resourceFlowTermsAt(world, flow!.id);
++  if (resolved.action === "raise-saved-rule-hourly-floor") {
++    const authority = resolved.authority;
++    const workplace = payWorkplaceAt(world, work!.id, cutoff);
++    const jurisdiction = workplace.jurisdictionId
++      ? world.jurisdictions[workplace.jurisdictionId]
++      : null;
++    const stateKey =
++      (workplace.jurisdictionId
++        ? lifePlaceByJurisdictionId(workplace.jurisdictionId)
++            ?.stateJurisdictionKey
++        : null) ??
++      (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null);
++    const clause = recordById(
++      world.history.ruleChangeProvisions ?? [],
++      authority.ruleChangeProvisionId,
++    );
++    const enactment = recordById(
++      world.history.legislativeEnactments ?? [],
++      authority.enactmentId,
++    );
++    const change = enactedRuleChangeAt(world, {
++      stateUsps: authority.stateUsps,
++      officeKey: authority.officeKey,
++      field: authority.field,
++      onDate: effectiveAt,
++      cutoff,
++    });
++    if (
++      authority.kind !== "enacted-hourly-pay-rule" ||
++      stateKey !== `US-${authority.stateUsps}` ||
++      authority.officeKey !== laborLawOfficeKey(authority.stateUsps) ||
++      authority.field !== "labor.minimumWage.hourlyCents" ||
++      stateJurisdictionForKey(stateKey!)?.id !== resolved.jurisdictionId ||
++      (resolved.activityId !== work!.id && resolved.activityId !== flow!.id) ||
++      !clause ||
++      resolved.rowId !== `pay:hourly-rule:${clause.id}` ||
++      clause.measureId !== authority.measureId ||
++      clause.stateUsps !== authority.stateUsps ||
++      clause.officeKey !== authority.officeKey ||
++      clause.field !== authority.field ||
++      clause.filedAt > effectiveAt ||
++      !enactment ||
++      enactment.outcome !== "enacted" ||
++      enactment.measureId !== clause.measureId ||
++      enactment.resolvedAt > effectiveAt ||
++      clause.sequence >= enactment.sequence ||
++      !change ||
++      change.instrument !== "statute" ||
++      change.measureId !== clause.measureId ||
++      change.operativeAt !== authority.operativeAt ||
++      change.value !== clause.value ||
++      change.value !== resolved.amount.value ||
++      change.applicability.appliesTo !== authority.applicability.appliesTo ||
++      change.applicability.countsPriorService !==
++        authority.applicability.countsPriorService ||
++      (change.applicability.appliesTo === "terms-beginning-after" &&
++        work!.startedAt < change.operativeAt) ||
++      !resolved.sourceRecordIds.includes(clause.id) ||
++      !resolved.sourceRecordIds.includes(enactment.id)
++    )
++      refuse("pay.hourly-rule.actual-operative-binding");
++    governing = {
++      measureId: change!.measureId,
++      origin: "enacted",
++      operativeAt: change!.operativeAt,
++    };
++  }
++  if (!governing) refuse("pay.law.operative");
++  const current = completed?.terms ?? resourceFlowTermsAt(world, flow!.id);
+   if (!current || current.status !== "active") refuse("pay.flow.active-terms");
+   if (current!.amount.currency !== resolved.amount.currency)
+     refuse("pay.flow.currency-matches-amount");
++  if (completed) {
++    if (current!.cadenceKind !== "work:completed-shift")
++      refuse("pay.completed-shift.hourly-earned-cadence");
++    if (governing!.origin === "enacted") {
++      const enactment = recordsWithFieldValue(
++        world.history.legislativeEnactments ?? [],
++        "measureId",
++        governing!.measureId,
++      ).at(-1);
++      if (!enactment || enactment.sequence >= cutoff.historySequenceExclusive)
++        refuse("pay.completed-shift.authority-at-earned-sequence");
++    }
++    const floor = assessedCompletedHourlyGrossMinor(
++      resolved.amount.value,
++      completed.minutes,
++      current!.amount.minorUnits,
++    );
++    if (floor <= current!.amount.minorUnits) return world;
++    const stableKey = `earned-law-pay:${flow!.id}:${completed.completion.id}:${current!.id}:${resolved.rowId}:${governing!.measureId}`;
++    const id = createStableId(
++      "earned-law-pay-assessment",
++      `${world.id}:${stableKey}`,
++    );
++    const prior = recordsWithFieldValue(
++      world.history.earnedLawPayAssessments ?? [],
++      "stableKey",
++      stableKey,
++    ).at(-1);
++    if (prior) {
++      if (
++        prior.id !== id ||
++        prior.personId !== work!.personId ||
++        prior.organizationId !== work!.organizationId ||
++        prior.workRelationshipId !== work!.id ||
++        prior.resourceFlowId !== flow!.id ||
++        prior.completionEventId !== completed.completion.id ||
++        prior.scheduledActivityId !== completed.activity.id ||
++        prior.scheduledActivityStateId !== completed.state.id ||
++        prior.earnedCutoff.asOfDate !== cutoff.asOfDate ||
++        prior.earnedCutoff.historySequenceExclusive !==
++          cutoff.historySequenceExclusive ||
++        prior.periodStartsAt !== completed.completion.occurredAt ||
++        prior.periodEndsAt !== completed.completion.occurredAt ||
++        prior.contractualGross.minorUnits !== current!.amount.minorUnits ||
++        prior.contractualGross.currency !== current!.amount.currency ||
++        prior.assessedGross.minorUnits !== floor ||
++        prior.assessedGross.currency !== current!.amount.currency ||
++        prior.workedMinutes !== completed.minutes ||
++        prior.earnedTermsId !== current!.id
++      )
++        refuse("pay.completed-shift.assessment-replay-equality");
++      return world;
++    }
++    const sourceRecordIds = [
++      ...new Set([
++        ...resolved.sourceRecordIds,
++        id,
++        resolved.activityId,
++        work!.id,
++        role!.id,
++        flow!.id,
++        current!.id,
++        completed.completion.id,
++        completed.activity.id,
++        completed.state.id,
++      ]),
++    ];
++    const stamp = lawEffectStamp(governing, {
++      effectKind: "pay",
++      questionKey:
++        resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
++      ...(resolved.action === "raise-saved-rule-hourly-floor"
++        ? {
++            ruleAuthority: {
++              ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
++              enactmentId: resolved.authority.enactmentId,
++              field: resolved.authority.field,
++            },
++          }
++        : {}),
++      jurisdictionId: resolved.jurisdictionId,
++      appliedAt: world.currentDate,
++      sourceRecordIds,
++    });
++    if (!stamp) refuse("pay.attribution.canonical");
++    const assessment: EarnedLawPayAssessmentRecord = {
++      id,
++      stableKey,
++      sequence: world.history.nextSequence,
++      recordedAt: world.currentDate,
++      personId: work!.personId,
++      organizationId: work!.organizationId!,
++      workRelationshipId: work!.id,
++      resourceFlowId: flow!.id,
++      earnedTermsId: current!.id,
++      completionEventId: completed.completion.id,
++      scheduledActivityId: completed.activity.id,
++      scheduledActivityStateId: completed.state.id,
++      earnedCutoff: { ...completed.cutoff },
++      periodStartsAt: completed.completion.occurredAt,
++      periodEndsAt: completed.completion.occurredAt,
++      workedMinutes: completed.minutes,
++      contractualGross: { ...current!.amount },
++      assessedGross: money(floor, current!.amount.currency),
++      resolvedConsequence:
++        resolved.action === "raise-hourly-floor"
++          ? {
++              ...resolved,
++              law: { ...resolved.law },
++              amount: { ...resolved.amount },
++              completedShift: { ...resolved.completedShift! },
++              sourceRecordIds: [...resolved.sourceRecordIds],
++            }
++          : {
++              ...resolved,
++              authority: {
++                ...resolved.authority,
++                applicability: { ...resolved.authority.applicability },
++              },
++              amount: { ...resolved.amount },
++              completedShift: { ...resolved.completedShift! },
++              sourceRecordIds: [...resolved.sourceRecordIds],
++            },
++      lawEffectStamps: [stamp!],
++    };
++    return {
++      ...world,
++      history: {
++        ...world.history,
++        nextSequence: world.history.nextSequence + 1,
++        earnedLawPayAssessments: [
++          ...(world.history.earnedLawPayAssessments ?? []),
++          assessment,
++        ],
++      },
++    };
++  }
+   const note = payNoteOf(current!.cadenceKind);
+-  if (!note) refuse("pay.cadence.town-pay-period");
++  const weekly = current!.cadenceKind === "schedule:weekly";
++  if (!note && !weekly) refuse("pay.cadence.recorded-pay-period");
+   const weeklyHours = weeklyHoursOf(role!);
+   if (!Number.isFinite(weeklyHours) || weeklyHours <= 0)
+     refuse("pay.job.positive-recorded-hours");
+   const amount = Math.round(
+-    (resolved.amount.value * weeklyHours * 52) / PERIODS_PER_YEAR[note!.period],
++    weekly
++      ? resolved.amount.value * weeklyHours
++      : (resolved.amount.value * weeklyHours * 52) /
++          PERIODS_PER_YEAR[note!.period],
+   );
+   if (!Number.isSafeInteger(amount)) refuse("pay.period.amount-safe-integer");
+   // A floor cannot cut an existing contractual wage, including after repeal.
+@@ -955,7 +1237,9 @@
+     refuse("pay.terms.prospective");
+   if (
+     effectiveAt !== flow!.startsAt &&
+-    !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase)
++    (weekly
++      ? daysBetween(flow!.startsAt, effectiveAt) % 7 !== 0
++      : !payPeriodEndingOn(note!.period, addDays(effectiveAt, -1), note!.phase))
+   )
+     refuse("pay.period.starts-on-effective-date");
+   if (
+@@ -974,8 +1258,8 @@
+   const revision = createStableId(
+     "resource-flow-terms",
+     `law-pay-revision:${JSON.stringify([
+-      resolved.law.measureId,
+-      resolved.law.operativeAt,
++      governing!.measureId,
++      governing!.operativeAt,
+       [...new Set(resolved.sourceRecordIds)].sort(),
+     ])}`,
+   );
+@@ -983,15 +1267,15 @@
+   if (hasStableKey(world.history.resourceFlowTerms, stableKey))
+     refuse("pay.revision.unique-amount");
+   const enactment =
+-    resolved.law.origin === "enacted"
++    governing!.origin === "enacted"
+       ? recordsWithFieldValue(
+           world.history.legislativeEnactments ?? [],
+           "measureId",
+-          resolved.law.measureId,
++          governing!.measureId,
+         ).at(-1)
+       : undefined;
+   if (
+-    resolved.law.origin === "enacted" &&
++    governing!.origin === "enacted" &&
+     (!enactment || enactment.resolvedAt > effectiveAt)
+   )
+     refuse("pay.law.recorded-enactment");
+@@ -1007,8 +1291,18 @@
+     ]),
+   ];
+   const stamp = lawEffectStamp(governing, {
+-    effectKind: "law.pay-compensation",
+-    questionKey: resolved.questionKey,
++    effectKind: "pay",
++    questionKey:
++      resolved.action === "raise-hourly-floor" ? resolved.questionKey : null,
++    ...(resolved.action === "raise-saved-rule-hourly-floor"
++      ? {
++          ruleAuthority: {
++            ruleChangeProvisionId: resolved.authority.ruleChangeProvisionId,
++            enactmentId: resolved.authority.enactmentId,
++            field: resolved.authority.field,
++          },
++        }
++      : {}),
+     jurisdictionId: resolved.jurisdictionId,
+     appliedAt: effectiveAt,
+     sourceRecordIds,
+@@ -1026,7 +1320,7 @@
+       ? { kind: "simulated-event", eventId: enactment.outcomeEventId }
+       : {
+           kind: "authored",
+-          note: `Starting law ${resolved.law.measureId}; resolved pay row ${resolved.rowId}.`,
++          note: `Starting law ${governing!.measureId}; resolved pay row ${resolved.rowId}.`,
+         },
+     supersedesTermsId: current!.id,
+     lawEffectStamps: [stamp!],
+@@ -1478,11 +1772,13 @@
+         earnedTerms.status !== "active" ||
+         period.completedShift.amount.currency !== earnedTerms.amount.currency ||
+         !Number.isSafeInteger(period.completedShift.amount.minorUnits) ||
+-        period.completedShift.amount.minorUnits < earnedTerms.amount.minorUnits)
++        period.completedShift.amount.minorUnits !== earnedTerms.amount.minorUnits)
+     )
+       throw new Error(
+         "Completed shift pay must bind its saved work and earned terms.",
+       );
++    if (period.completedShift)
++      completedPayShift(next, flow, period.completedShift, period.periodStartsAt);
+     const window = {
+       startsAt: period.periodStartsAt,
+       endsAt: period.periodEndsAt,
+@@ -1496,6 +1792,9 @@
+       activity: "payroll",
+       activityId: period.activityId,
+       subjectIds: [recipientId],
++      ...(period.completedShift
++        ? { completedShift: { eventId: period.completedShift.eventId, termsId: period.completedShift.termsId } }
++        : {}),
+     });
+     // A raise takes effect on the first day of a period, and a period is
+     // paid at the terms in force the day it began.
+@@ -1517,7 +1816,30 @@
+       absence && workdays > 0 && !jobPaysSickLeave(world, workId)
+         ? Math.min(absence.missedDays, workdays)
+         : 0;
+-    const gross = period.completedShift?.amount ?? terms.amount;
++    const assessment = completion
++      ? recordsWithFieldValue(
++          next.history.earnedLawPayAssessments ?? [],
++          "resourceFlowId",
++          flow.id,
++        )
++          .filter(
++            (record) =>
++              record.earnedTermsId === earnedTerms?.id &&
++              record.completionEventId === completion.id &&
++              record.workRelationshipId === work.id &&
++              record.periodStartsAt === window.startsAt &&
++              record.periodEndsAt === window.endsAt,
++          )
++          .reduce<EarnedLawPayAssessmentRecord | null>(
++            (highest, record) =>
++              !highest ||
++              record.assessedGross.minorUnits > highest.assessedGross.minorUnits
++                ? record
++                : highest,
++            null,
++          )
++      : null;
++    const gross = assessment?.assessedGross ?? period.completedShift?.amount ?? terms.amount;
+     const amount =
+       unpaidDays === 0
+         ? gross
+@@ -1567,6 +1889,7 @@
+             : "missed",
+       attemptedAmount: gross,
+       transferredAmount: amount,
++      ...(assessment ? { earnedLawPayAssessmentId: assessment.id } : {}),
+       reasonKind:
+         unpaidDays === 0
+           ? null
+diff --git a/src/simulation/enacted-rule-changes.ts b/src/simulation/enacted-rule-changes.ts
+--- a/src/simulation/enacted-rule-changes.ts
++++ b/src/simulation/enacted-rule-changes.ts
+@@ -1072,16 +1072,17 @@
+ }
+ 
+ /** Every change a law has made, whether or not it is operative yet. */
+-export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
++export function enactedRuleChanges(world: World, cutoff?: HistoricalCutoff): readonly EnactedRuleChange[] {
+   const changes: EnactedRuleChange[] = [];
+   for (const provision of ruleChangeProvisionHistoryRecords(world)) {
++    if (cutoff && (provision.sequence >= cutoff.historySequenceExclusive || provision.filedAt > cutoff.asOfDate)) continue;
+     const enactment = (world.history.legislativeEnactments ?? []).find(
+       (row) => row.measureId === provision.measureId,
+     );
+-    if (!enactment || enactment.outcome !== "enacted") continue;
++    if (!enactment || enactment.outcome !== "enacted" || (cutoff && (enactment.sequence >= cutoff.historySequenceExclusive || enactment.resolvedAt > cutoff.asOfDate))) continue;
+     const federal = provision.stateUsps === FEDERAL_JURISDICTION_KEY;
+     const stateKey = federal ? null : `US-${provision.stateUsps}`;
+-    const dateContext = enactmentStatuteDateContext(world, enactment);
++    const dateContext = enactmentStatuteDateContext(world, enactment, cutoff);
+     const operative = operativeDateForEnactment(
+       enactment,
+       stateKey,
+@@ -1112,6 +1113,7 @@
+     });
+   }
+   for (const measure of world.history.constitutionalMeasures ?? []) {
++    if (cutoff && (measure.sequence >= cutoff.historySequenceExclusive || measure.introducedAt > cutoff.asOfDate)) continue;
+     const delta = measure.ruleDelta;
+     if (delta.kind !== "rule-field") continue;
+     const federal = measure.jurisdictionKey === FEDERAL_JURISDICTION_KEY;
+@@ -1119,7 +1121,7 @@
+       ? FEDERAL_JURISDICTION_KEY
+       : constitutionalStateUsps(measure.jurisdictionKey);
+     if (!stateUsps) continue;
+-    const position = constitutionalPosition(world, measure.id);
++    const position = constitutionalPosition(world, measure.id, cutoff?.asOfDate ?? world.currentDate, cutoff);
+     if (!position.operativeAt) continue;
+     changes.push({
+       stateUsps,
+@@ -1169,10 +1171,11 @@
+     readonly officeKey: string | null;
+     readonly field: string;
+     readonly onDate: IsoDate;
++    readonly cutoff?: HistoricalCutoff;
+   },
+ ): EnactedRuleChange | null {
+   if (!query.officeKey || !isAmendableRuleField(query.field)) return null;
+-  const inForce = enactedRuleChanges(world).filter(
++  const inForce = enactedRuleChanges(world, query.cutoff).filter(
+     (change) =>
+       change.stateUsps === query.stateUsps &&
+       change.officeKey === query.officeKey &&
+@@ -1227,6 +1230,7 @@
+     readonly officeKey: string;
+     readonly field: AmendableRuleField;
+     readonly onDate: IsoDate;
++    readonly cutoff?: HistoricalCutoff;
+   },
+   compiled: T,
+ ): RuleValueInWorld<T> {
+@@ -1236,6 +1240,7 @@
+     officeKey: query.officeKey,
+     field: query.field,
+     onDate: query.onDate,
++    cutoff: query.cutoff,
+   });
+   if (!change) return { source: "compiled", value: compiled };
+   return {
+diff --git a/src/simulation/minimum-wage.ts b/src/simulation/minimum-wage.ts
+--- a/src/simulation/minimum-wage.ts
++++ b/src/simulation/minimum-wage.ts
+@@ -1,3 +1,4 @@
++import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
+ /**
+  * The minimum wage in force where a job is, on a date.
+  *
+@@ -38,7 +39,7 @@
+   stateJurisdictionForKey,
+ } from "./life-places";
+ import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+-import type { EntityId, IsoDate, World } from "./types";
++import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
+ 
+ /** The policy question a federal minimum wage raise answers. */
+ export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
+@@ -290,6 +291,7 @@
+   world: World,
+   stateKey: string,
+   onDate: IsoDate,
++  cutoff?: HistoricalCutoff,
+ ): StateMinimumSetting | null {
+   const enactments = world.history.legislativeEnactments;
+   let cache: Map<string, StateMinimumSetting | null> | null = null;
+@@ -301,9 +303,9 @@
+     }
+   }
+   const cacheKey = `${stateKey}:${onDate}`;
+-  if (cache?.has(cacheKey)) return cache.get(cacheKey)!;
+-  const setting = computeStateMinimumSetting(world, stateKey, onDate);
+-  cache?.set(cacheKey, setting);
++  if (!cutoff && cache?.has(cacheKey)) return cache.get(cacheKey)!;
++  const setting = computeStateMinimumSetting(world, stateKey, onDate, cutoff);
++  if (!cutoff) cache?.set(cacheKey, setting);
+   return setting;
+ }
+ 
+@@ -311,10 +313,25 @@
+   world: World,
+   stateKey: string,
+   onDate: IsoDate,
++  cutoff?: HistoricalCutoff,
+ ): StateMinimumSetting | null {
+   const stateId = stateJurisdictionForKey(stateKey)?.id ?? null;
+-  const starting = startingStateMinimumHourly(stateKey);
+-  const beforeMinor = starting === null ? null : Math.round(starting * 100);
++  const stateQuestion = Object.values(world.policyCatalog.propositions).find(
++    (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
++  );
++  const startingLaw = stateId && stateQuestion
++    ? lawInForce(world, stateId, stateQuestion.id, onDate, "all", cutoff)
++    : null;
++  const startingTerm = startingLaw
++    ? readFinalEnactedLawTerm(world, startingLaw, {
++        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
++        termKey: "target",
++        unit: "minor/hour",
++        onDate,
++        cutoff,
++      })
++    : null;
++  const beforeMinor = startingTerm?.value ?? null;
+   const filed = /^US-[A-Z]{2}$/.test(stateKey)
+     ? ruleValueInWorld(
+         world,
+@@ -323,6 +340,7 @@
+           officeKey: laborLawOfficeKey(stateKey.slice(3)),
+           field: "labor.minimumWage.hourlyCents",
+           onDate,
++          cutoff,
+         },
+         null,
+       )
+@@ -335,11 +353,7 @@
+       designation: filed.designation,
+       effectiveAt: filed.effectiveAt,
+     };
+-  const proposition = Object.values(
+-    world.policyCatalog?.propositions ?? {},
+-  ).find(
+-    (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+-  );
++  const proposition = stateQuestion;
+   if (proposition && stateId && beforeMinor !== null) {
+     const law = lawInForce(
+       world,
+@@ -347,16 +361,23 @@
+       proposition.id,
+       onDate,
+       "enacted-only",
++      cutoff,
+     );
+     if (law?.origin === "enacted" && law.answer === "yes") {
++      const term = readFinalEnactedLawTerm(world, law, {
++        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
++        termKey: "target",
++        unit: "minor/hour",
++        onDate,
++        cutoff,
++      });
++      if (!term) return null;
+       const measure = world.history.legislativeMeasures?.find(
+         (entry) => entry.id === law.measureId,
+       );
+       return {
+-        hourlyMinor:
+-          beforeMinor +
+-          stateRaiseAfterDays(daysBetween(law.operativeAt, onDate)),
+-        beforeMinor,
++        hourlyMinor: term.value,
++        beforeMinor: beforeMinor ?? term.value,
+         measureId: law.measureId,
+         designation: measure?.designation ?? "A state law",
+         effectiveAt: law.operativeAt,
+diff --git a/src/simulation/resources.ts b/src/simulation/resources.ts
+--- a/src/simulation/resources.ts
++++ b/src/simulation/resources.ts
+@@ -1,3 +1,4 @@
++import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
+ import type { LawEffectStampedRecord } from "./law-effect-stamp";
+ import { eventById } from "./event-index";
+ import {
+@@ -123,6 +124,7 @@
+ }
+ 
+ export interface RecordResourceTransferOutcomeInput {
++  readonly earnedLawPayAssessmentId?: EntityId;
+   readonly stableKey: string;
+   readonly resourceFlowId: EntityId;
+   readonly periodStartsAt: string;
+@@ -593,7 +595,55 @@
+   }
+   validateMoney(input.attemptedAmount, "Attempted transfer", true);
+   validateMoney(input.transferredAmount, "Transferred amount");
+-  if (!sameMoney(input.attemptedAmount, terms.amount)) {
++  const assessment =
++    input.earnedLawPayAssessmentId === undefined
++      ? undefined
++      : recordById(
++          world.history.earnedLawPayAssessments ?? [],
++          input.earnedLawPayAssessmentId,
++        );
++  if (input.earnedLawPayAssessmentId !== undefined) {
++    if (!assessment) throw new Error("Earned pay assessment was not recorded.");
++    // A saved assessment is evidence, not permission to bypass the writer.
++    validateEarnedLawPayAssessment(world, assessment);
++    const cutoff = resourceTransferTermsCutoff(
++      world,
++      flow,
++      periodStartsAt,
++      periodEndsAt,
++      input.provenance,
++    );
++    if (
++      input.provenance.kind !== "simulated-event" ||
++      input.provenance.eventId !== assessment.completionEventId ||
++      assessment.sequence >= world.history.nextSequence ||
++      assessment.recordedAt > occurredAt ||
++      assessment.recordedAt < assessment.earnedCutoff.asOfDate ||
++      assessment.resourceFlowId !== flow.id ||
++      assessment.earnedTermsId !== terms.id ||
++      assessment.periodStartsAt !== periodStartsAt ||
++      assessment.periodEndsAt !== periodEndsAt ||
++      assessment.earnedCutoff.asOfDate !== cutoff.asOfDate ||
++      assessment.earnedCutoff.historySequenceExclusive !==
++        cutoff.historySequenceExclusive ||
++      flow.basisReference.kind !== "work" ||
++      flow.basisReference.workRelationshipId !==
++        assessment.workRelationshipId ||
++      flow.source.kind !== "organization" ||
++      flow.source.organizationId !== assessment.organizationId ||
++      flow.recipient.kind !== "person" ||
++      flow.recipient.personId !== assessment.personId ||
++      !sameMoney(assessment.contractualGross, terms.amount) ||
++      assessment.assessedGross.currency !== terms.amount.currency ||
++      assessment.assessedGross.minorUnits < terms.amount.minorUnits
++    )
++      throw new Error(
++        "Earned pay assessment must bind this exact completed transfer.",
++      );
++  }
++  const expectedAmount = assessment?.assessedGross ?? terms.amount;
++  validateMoney(expectedAmount, "Expected earned transfer", true);
++  if (!sameMoney(input.attemptedAmount, expectedAmount)) {
+     throw new Error(
+       "Attempted transfer must match the effective expected terms.",
+     );
+@@ -673,22 +723,24 @@
+     transferredAmount: { ...input.transferredAmount },
+     provenance: { ...input.provenance },
+   };
++  const payStamps = assessment?.lawEffectStamps ?? terms.lawEffectStamps;
+   if (
+     flow.basisReference.kind === "work" &&
+     input.transferredAmount.minorUnits > 0 &&
+-    terms.lawEffectStamps?.length
++    payStamps?.length
+   ) {
+     return {
+       ...record,
+-      lawEffectStamps: terms.lawEffectStamps.map((stamp) => ({
++      lawEffectStamps: payStamps.map((stamp) => ({
+         ...stamp,
+-        effectKind: "work-compensation-payment",
++        effectKind: "pay",
+         appliedAt: occurredAt,
+         sourceRecordIds: [
+           ...new Set([
+             ...(stamp.sourceRecordIds ?? []),
+             terms.id,
+             flow.id,
++            ...(assessment ? [assessment.id] : []),
+             record.id,
+           ]),
+         ],
+diff --git a/src/simulation/resource-integrity.ts b/src/simulation/resource-integrity.ts
+--- a/src/simulation/resource-integrity.ts
++++ b/src/simulation/resource-integrity.ts
+@@ -1,3 +1,4 @@
++import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
+ import { assertPublicFundingMandate } from "./public-fiscal";
+ import { assertProgramInstallmentBasis } from "./public-program-integrity";
+ import { makeIsoDate } from "./dates";
+@@ -379,10 +380,37 @@
+         `Resource outcome crosses an unprorated terms change: ${outcome.id}`,
+       );
+     }
++    let expectedAmount = terms?.amount;
++    if (outcome.earnedLawPayAssessmentId !== undefined) {
++      const assessment = recordById(
++        h.earnedLawPayAssessments ?? [],
++        outcome.earnedLawPayAssessmentId,
++      );
++      if (
++        !assessment ||
++        assessment.sequence >= outcome.sequence ||
++        assessment.recordedAt > outcome.occurredAt ||
++        assessment.resourceFlowId !== flow.id ||
++        assessment.earnedTermsId !== terms?.id ||
++        assessment.periodStartsAt !== outcome.periodStartsAt ||
++        assessment.periodEndsAt !== outcome.periodEndsAt ||
++        assessment.earnedCutoff.asOfDate !== termsCutoff.asOfDate ||
++        assessment.earnedCutoff.historySequenceExclusive !==
++          termsCutoff.historySequenceExclusive ||
++        outcome.provenance.kind !== "simulated-event" ||
++        outcome.provenance.eventId !== assessment.completionEventId
++      )
++        throw new Error(
++          `Resource outcome lacks matching saved earned assessment: ${outcome.id}`,
++        );
++      validateEarnedLawPayAssessment(world, assessment);
++      expectedAmount = assessment.assessedGross;
++    }
+     if (
+       !terms ||
+       terms.status !== "active" ||
+-      !sameMoney(terms.amount, outcome.attemptedAmount)
++      !expectedAmount ||
++      !sameMoney(expectedAmount, outcome.attemptedAmount)
+     )
+       throw new Error(
+         `Resource outcome lacks matching active terms: ${outcome.id}`,
+diff --git a/src/simulation/enacted-law-effects.ts b/src/simulation/enacted-law-effects.ts
+--- a/src/simulation/enacted-law-effects.ts
++++ b/src/simulation/enacted-law-effects.ts
+@@ -887,6 +887,11 @@
+           next = registration.apply(next, input);
+           continue;
+         }
++        if (authority.kind === "enacted-hourly-pay-rule") {
++          if (row.kind !== "pay" || context.activity !== "payroll" || context.standingAppropriationId || (context.governingLawId && authority.measureId !== context.governingLawId)) continue;
++          next = registration.apply(next, input);
++          continue;
++        }
+         if (context.governingLawId || context.origin === "enacted") continue;
+         if (
+           context.standingAppropriationId &&
+diff --git a/src/simulation/policy-pack-registry.ts b/src/simulation/policy-pack-registry.ts
+--- a/src/simulation/policy-pack-registry.ts
++++ b/src/simulation/policy-pack-registry.ts
+@@ -1,3 +1,4 @@
++import { MINIMUM_WAGE_PAY_ROWS } from "./law-consequences/pay-rows";
+ import { STATUTORY_WAGE_TAX_ROWS } from "./law-consequences/statutory-wage-tax-rows";
+ import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
+ import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
+@@ -39,16 +40,18 @@
+     propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
+       const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
+       const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
++      const pay = MINIMUM_WAGE_PAY_ROWS[key];
+       const service = [
+         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
+         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
+       ];
+-      if (!coverage && service.length === 0) return row;
++      if (!coverage && !pay && service.length === 0) return row;
+       return {
+         ...row,
+         consequences: [
+           ...(row.consequences ?? []),
+           ...(coverage ? [coverage] : []),
++          ...(pay ? [pay] : []),
+           ...service,
+         ],
+       };
+@@ -66,13 +69,14 @@
+     ...US_FEDERAL_POSITIONS_PACK,
+     propositions: US_FEDERAL_POSITIONS_PACK.propositions?.map((row) => {
+       const key = `${US_FEDERAL_POSITIONS_PACK.pack}:${row.key}`;
++      const pay = MINIMUM_WAGE_PAY_ROWS[key];
+       const service = [
+         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
+         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
+       ];
+-      return service.length === 0
++      return service.length === 0 && !pay
+         ? row
+-        : { ...row, consequences: [...(row.consequences ?? []), ...service] };
++        : { ...row, consequences: [...(row.consequences ?? []), ...(pay ? [pay] : []), ...service] };
+     }),
+   },
+   TAX_TERMS_POLICY_PACK,
