@@ -10,6 +10,10 @@ import {
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { createWorld } from "../world";
 import { makeIsoDate } from "../dates";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
 
 interface Parameter {
   readonly key: string;
@@ -85,7 +89,9 @@ const SCHEMA_WORLD = createWorld({
   seed: "starting-law-required-term-validation",
   currentDate: makeIsoDate("2026-01-01"),
   people: [],
-  jurisdictions: [],
+  jurisdictions: [
+    stateJurisdictionForKey(lifePlaceStateIdentities()[0]!.jurisdictionKey)!,
+  ],
   policyCatalog: createProductionPolicyCatalog(),
 });
 
