@@ -1,4 +1,4 @@
-import lexingtonEconomicContext from "./generated/economic-context-lexington.json";
+import lexingtonEconomicContext from "./generated/economic-context-lexington.json" with { type: "json" };
 
 /**
  * The generated economic contexts this build carries, by place key.

@@ -550,7 +550,26 @@ export function recordCouncilReadingVote(
         },
       },
     );
-    if (result.kind === "blocked") return refuse(world, result.reason);
+    if (result.kind === "blocked") {
+      // The shared writer owns date admission. Present its reading refusal
+      // in the compiled procedure's units (elapsed or whole intervening days).
+      const nextReading = earliestNextReading(
+        world,
+        municipalProcedureReading(government),
+        measure.id,
+      );
+      if (
+        nextReading &&
+        world.currentDate < nextReading.date &&
+        result.reason.includes("the declared reading interval is")
+      )
+        return refuse(
+          world,
+          `The next reading requires ${nextReading.description} between readings and cannot be taken until ${nextReading.date}.`,
+        );
+      return refuse(world, result.reason);
+    }
+    if (result.kind === "ended") return { ok: true, world: result.world };
     if (result.kind !== "applied")
       return refuse(world, "The council has no floor vote to take.");
     next = result.world;

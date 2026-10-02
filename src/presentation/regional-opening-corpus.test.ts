@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import coverageDocument from "../../art/regions/regional-scene-places.json";
+import coverageDocument from "../../art/regions/regional-scene-places.json" with { type: "json" };
 import type { RegionalSceneCoverageDocument } from "../authoring/regional-scene-coverage";
 import {
   REGIONAL_SCENE_COVERAGE_VERSION,

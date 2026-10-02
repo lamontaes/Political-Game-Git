@@ -6,7 +6,12 @@ import {
   stateAmendmentProfile,
 } from "../constitutional-process";
 import { institutionOfficeBindingAt } from "../enacted-rule-changes";
-import { legislativePackForJurisdiction } from "../legislative-institutions";
+import {
+  legislativePackForJurisdiction,
+  legislativePackForWorkKey,
+} from "../legislative-institutions";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
+import { chamberByKey } from "../legislature-rules";
 import { seatsForChamber } from "../legislature-game-profile";
 import { organizationProfileAt, workStatusAt } from "../life-queries";
 import { requireMeasure } from "../legislation";
@@ -33,7 +38,6 @@ import {
   stateLegislativeSeats,
 } from "../nationwide-world/state-legislature-opening";
 import { activeOrganizationParticipationsAt } from "../life-queries";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { measureCosponsors, seatedCongressChamber } from "./congress-chambers";
 import { personName } from "../people";
 import { readRelationshipStanding } from "../relationship-standing";
@@ -94,8 +98,11 @@ export function seatedChamberForPack(
   chamberKey: string,
   chamberName: string,
 ): SeatedChamber | null {
-  // Congress is seated from the living world's own seat roll.
-  if (rulePackId === US_CONGRESS_PACK_ID)
+  // Unregistered institutions still have no roster. The admitted pack reads
+  // its declared saved source, including any active procedure overlay.
+  if (!legislativePackForWorkKey(`institution:${rulePackId}`)) return null;
+  const pack = legislativeRulePackForWorld(world, rulePackId);
+  if (pack.seatRollSource?.kind === "national-election-seats")
     return seatedCongressChamber(world, chamberKey);
   const candidacyPackId = `${rulePackId}:candidacy`;
   if (!stateLegislatureEstablished(world, candidacyPackId)) return null;
@@ -588,15 +595,20 @@ function billVoteContext(
   input: ChamberBillVoteInput,
 ): ChamberVoteContext {
   const measure = requireMeasure(world, input.question.question.measureId);
-  // A Congress bill's backers may sit in the other House, and a member of
-  // Congress holds their party on the seat roll rather than as a
-  // participation record, so both Houses are read.
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  // A pack can supply party cues from its entire saved institution. Supplied
+  // members retain precedence; older packs still read only the voting body.
   const known = [
     ...input.members,
-    ...(measure.rulePackId === US_CONGRESS_PACK_ID
-      ? ["house", "senate"].flatMap(
+    ...(pack.seatRollSource?.partyCueScope === "institution"
+      ? pack.chamberOrder.flatMap(
           (chamberKey) =>
-            seatedCongressChamber(world, chamberKey)?.body.members ?? [],
+            seatedChamberForPack(
+              world,
+              pack.packId,
+              chamberKey,
+              chamberByKey(pack, chamberKey).name,
+            )?.body.members ?? [],
         )
       : []),
   ];
