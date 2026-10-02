@@ -21,7 +21,7 @@ import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 
 import localPremium from "../../data/research/labor/local-minimum-wage-premium.json" with { type: "json" };
 import raiseTerm from "../../data/research/labor/state-minimum-wage-raise-term.json" with { type: "json" };
-import { addDays, daysBetween } from "./dates";
+import { addDays } from "./dates";
 import {
   laborLawOfficeKey,
   ruleValueInWorld,
