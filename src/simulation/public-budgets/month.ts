@@ -25,6 +25,7 @@ import {
   nominalEconomyIndex,
   propositionIdFor,
   lawSpendingPerResident,
+  budgetObligationPayment,
 } from "./fiscal";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
 import { CANNABIS_TAX_EFFECT } from "./rules";
@@ -34,8 +35,7 @@ import {
   type LawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { actuarialContribution } from "./opening";
-import { pensionFlows, pensionPayment } from "./pension-share";
+import { actuarialContribution, pensionFlows } from "./opening";
 import { reserveRule } from "./reserve-rule";
 import { roadChargeFactor } from "./road-usage-charge";
 import { tuitionFreezeFactor } from "./tuition-freeze";
@@ -1690,7 +1690,7 @@ function adoptNextYear(
     government.pension,
     pensionFlows(government).normalCostShare,
   );
-  const pensionPaid = pensionPayment(
+  const pensionPaid = budgetObligationPayment(
     pensionRequired,
     government.pension.paidShare,
     laws.pensions,

@@ -44,7 +44,7 @@ import {
   MEDIAN_NORMAL_COST_SHARE,
   MEDIAN_PAID_SHARE,
   openingLiabilityToSpending,
-} from "./pension-share";
+} from "./opening";
 import { SeededRng } from "../rng";
 import {
   MEDIAN_RESERVE_DEPOSIT,

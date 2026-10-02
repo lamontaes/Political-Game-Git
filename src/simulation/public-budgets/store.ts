@@ -168,6 +168,8 @@ export interface BudgetLawReading {
    * rule's basis, marked ESTIMATED FROM AVERAGE. Absent where a law answers.
    */
   readonly estimated?: string;
+  /** Adopted contribution ratio, when the law supplies numeric terms. */
+  readonly requiredContributionShare?: number;
 }
 
 export interface AdoptedBudget {
@@ -304,7 +306,7 @@ export interface PensionRecord {
   /**
    * The share of the required contribution this government pays when no law
    * requires the full amount: ESTIMATED FROM AVERAGE, measured spread and
-   * drift (`pension-share.ts`).
+   * drift (`opening.ts`).
    */
   readonly paidShare: number;
 }
