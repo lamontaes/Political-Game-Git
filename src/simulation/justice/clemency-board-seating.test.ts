@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { dateAtAge, ageOnDate } from "../dates";
 import { governorOfficeForJurisdiction } from "../governing/state-governing";
+import { decideChamberVote } from "../governing/chamber-votes";
+import type { ChamberNominationVoteInput } from "../governing/chamber-votes";
 import { createOrganization, createWorkRelationship } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import { lifePlaceStateIdentities } from "../life-places";
@@ -11,6 +13,7 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import { assertWorldIntegrity } from "../world";
 import {
   CLEMENCY_BOARD_NOMINATED,
+  CLEMENCY_BOARD_APPOINTED,
   clemencyBoardAppointmentProfiles,
   ensureOpeningClemencyBoardAppointments,
 } from "./clemency-board-seating";
@@ -163,11 +166,133 @@ describe("R16 recorded board nominations", () => {
         expect(nomination.tags).toContain(
           "appointment-status:nominated-pending",
         );
+        // Binding proof only: this supplied member is not a compiled state
+        // chamber or a recorded confirmation. No member reasons means no yes.
+        const voterId = prepared.personOrder.find(
+          (id) => id !== candidate && id !== office!.holderPersonId,
+        )!;
+        const boardKey = nomination.tags
+          .find((tag) => tag.startsWith("board-key:"))!
+          .slice("board-key:".length);
+        const ordinal = Number(
+          nomination.tags
+            .find((tag) => tag.startsWith("seat:"))!
+            .slice("seat:".length),
+        );
+        const input: ChamberNominationVoteInput = {
+          kind: "nomination",
+          nominationKind: "clemency-board",
+          stableKey: `${nomination.stableKey}:fixture-binding`,
+          nominationEventId: nomination.id,
+          nomineeId: candidate!,
+          appointerId: office!.holderPersonId,
+          jurisdictionId: office!.jurisdictionId,
+          boardKey,
+          seatOrdinal: ordinal,
+          officeKey: `${boardKey}:seat:${ordinal}`,
+          members: [
+            {
+              memberKey: "fixture:supplied-member",
+              personId: voterId,
+              name: "Supplied binding fixture member",
+              partyKey: null,
+              caucusLabel: "Fixture",
+            },
+          ],
+          considerationsByMember: new Map(),
+        };
+        const votes = decideChamberVote(prepared, input);
+        expect(votes).toEqual([
+          {
+            memberKey: "fixture:supplied-member",
+            personId: voterId,
+            disposition: "present-not-voting",
+            reason: "member:no-reason",
+          },
+        ]);
+        expect(decideChamberVote(prepared, input)).toEqual(votes);
+        expect(
+          decideChamberVote(deserializeWorld(serializeWorld(prepared)), input),
+        ).toEqual(votes);
+        // Authored test consideration, not a production weight or saved vote.
+        const withReason: ChamberNominationVoteInput = {
+          ...input,
+          considerationsByMember: new Map([
+            [
+              "fixture:supplied-member",
+              [
+                {
+                  stableKey: "fixture:explicit-member-reason",
+                  optionKey: "vote-yea",
+                  sourceType: "context:test",
+                  direction: "supports",
+                  importance: "strong",
+                  confidence: "high",
+                  explanation:
+                    "Authored binding test only: this supplied member supports the actual nominee.",
+                  sourceRefs: [],
+                },
+              ],
+            ],
+          ]),
+        };
+        const decided = decideChamberVote(prepared, withReason);
+        expect(decided[0]!.disposition).toBe("yea");
+        expect(
+          decideChamberVote(
+            deserializeWorld(serializeWorld(prepared)),
+            withReason,
+          ),
+        ).toEqual(decided);
+        expect(() =>
+          decideChamberVote(prepared, { ...input, appointerId: voterId }),
+        ).toThrow("actual dated nomination");
+        expect(() =>
+          decideChamberVote(prepared, { ...input, nomineeId: voterId }),
+        ).toThrow("actual dated nomination");
+        expect(() =>
+          decideChamberVote(prepared, { ...input, seatOrdinal: ordinal + 1 }),
+        ).toThrow("actual dated nomination");
+        expect(() =>
+          decideChamberVote(prepared, {
+            ...input,
+            jurisdictionId: prepared.jurisdictionOrder.find(
+              (id) => id !== office!.jurisdictionId,
+            )!,
+          }),
+        ).toThrow("actual dated nomination");
+        expect(
+          prepared.history.events.filter(
+            (event) => event.type === "governing.supreme-court-nominated",
+          ),
+        ).toHaveLength(0);
       }
-      // A nomination, guessed board vote or missing confirmation cannot seat anyone.
-      expect(prepared.history.organizationParticipations).toBe(
-        world.history.organizationParticipations,
+      // Superseding CTO08:06: actual appointees serve while confirmation is unwired.
+      // This membership is not a successful chamber confirmation.
+      const members = prepared.history.organizationParticipations.filter(
+        (row) => row.kind === "membership:clemency-board",
       );
+      expect(members).toHaveLength(nominations.length);
+      for (const member of members) {
+        expect(member.personId).toBe(candidate);
+        expect(member.provenance.kind).toBe("simulated-event");
+        if (member.provenance.kind !== "simulated-event")
+          throw new Error("Actual saved appointment provenance required");
+        const appointmentEventId = member.provenance.eventId;
+        const appointed = prepared.history.events.find(
+          (event) => event.id === appointmentEventId,
+        );
+        expect(appointed?.type).toBe(CLEMENCY_BOARD_APPOINTED);
+        expect(appointed?.tags).toContain(
+          "appointment-status:serving-pending-confirmation",
+        );
+        expect(appointed?.tags).toContain(`nomination:${nominations[0]!.id}`);
+        expect(
+          prepared.history.organizationParticipationStates.find(
+            (state) => state.participationId === member.id,
+          )?.status,
+        ).toBe("active");
+      }
       expect(ensureOpeningClemencyBoardAppointments(prepared)).toBe(prepared);
       const restored = deserializeWorld(serializeWorld(prepared));
       assertWorldIntegrity(restored);
@@ -177,11 +302,14 @@ describe("R16 recorded board nominations", () => {
           (event) => event.type === CLEMENCY_BOARD_NOMINATED,
         ),
       ).toEqual(nominations);
+      expect(restored.history.organizationParticipations).toEqual(
+        prepared.history.organizationParticipations,
+      );
     },
     30_000,
   );
 
   it.todo(
-    "seats confirmed members through the shared Senate confirmation binding, then proves original positive clemency fixtures; missing adapter and sourced terms/quorum remain pending",
+    "builds complete board/candidate and current-world peer rule consumers, then proves original positive clemency fixtures; no static fallback or invented confirmation",
   );
 });

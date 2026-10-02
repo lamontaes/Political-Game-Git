@@ -90,6 +90,28 @@
           "citation": "La. R.S. 15:572.1(G(2))",
           "fields": ["exOfficio"],
           "quote": "(2) \u00a0The ex officio member shall not be a voting member and shall not be counted or permitted to be counted for purposes of the number of members necessary to take board action or the number of members necessary to establish a quorum."
+        },
+        {
+          "citation": "La. R.S. 24:14(A), (C)-(K)",
+          "url": "https://www.legis.la.gov/Legis/LawPrint.aspx?d=84056",
+          "readAt": "2026-10-02",
+          "retrievedAt": "2026-10-02T11:45:18.307839+00:00",
+          "rawPath": "data/research/clemency/raw/louisiana-rs24-14-2026-10-02.html",
+          "sha256": "869807c8117a8faa320478fc4efa773fe875980580cb7c08bfe21156dcf8a20b",
+          "fields": ["confirmation"],
+          "quotes": {
+            "A": "A.  Whenever an appointment to public office, whether to a board, commission, committee, or district, or to an executive or other office in the executive branch of state government or in a local governmental entity, and whether to fill an initial or succeeding full term of office or the unexpired portion of a term of office, is made by the governor, the governor shall submit the appointment to the Senate for confirmation.",
+            "B": "B.  Whenever an appointment to public office, whether to a board, commission, committee, or district, or to an executive or other office, and whether to fill an initial or succeeding full term of office or the unexpired portion of a term of office is made by a public official other than the governor, the public official making the appointment shall submit the name of the appointee to the Senate for confirmation if the constitution or statute providing for the appointment requires that the appointment be made with advice and consent of the Senate, with consent of the Senate, subject to confirmation by the Senate, or in any other language requiring confirmation by the Senate.",
+            "C": "C.  If the legislature is in regular session, any public official making an appointment subject to Senate confirmation shall submit the name of the appointee to the Senate for confirmation within forty-eight hours after the appointment is made.  Failure of the Senate to confirm the appointment prior to the end of the session shall constitute rejection.",
+            "D": "D.  If the legislature is not in regular session, the public official making an appointment subject to Senate confirmation may make interim appointments which shall expire at the end of the next regular session unless submitted to and confirmed by the Senate during that session.",
+            "E": "E.  When a statute requires confirmation by the Senate of all or a part of a board or commission before the board or commission can begin any official business, and when the appointing public official has submitted the names of the appointees to the Senate for confirmation, the president of the Senate shall call the Senate into a special confirmation meeting not to exceed three days to consider confirmation of only those appointees.  Each appointee confirmed during this special meeting may serve as an interim appointee until the end of the next regular session unless again submitted to and confirmed by the Senate during that session.  The appointment of any appointee not confirmed by the Senate at the special meeting shall expire at the end of the special confirmation meeting and that person shall not be appointed to the same office during any recess of the legislature.",
+            "F": "F.  In order for an appointee to be confirmed, the name of the appointee shall be submitted by the appointing public official to the Senate during the next regular session following the appointment and a majority of the elected members of the Senate must vote in favor of confirming the appointee in open session during that regular session.  The Senate can refuse to confirm an appointee by either taking no action at all or by voting not to confirm an appointee in open session.",
+            "G": "G.  The appointment of any appointee who is not confirmed by the Senate or who is not submitted to the Senate for confirmation, or who is not reconfirmed pursuant to Subsection K of this Section, notwithstanding the provision of R.S. 42:2, during the regular session shall expire at the end of the regular session and a vacancy shall be immediately created for that position.  The appointee shall not be appointed to the same office during any recess of the legislature.",
+            "I": "I.  The provisions of this Section shall not apply to appointments made pursuant to the provisions of Article X, Sections 3, 27, and 43 of the Constitution of Louisiana.",
+            "J": "J.(1)  Notwithstanding any provision of law to the contrary, no appointee to public office required by law to file a state tax return and who failed to file such return during any year of the five years immediately preceding his appointment to office, shall be confirmed.",
+            "K": "K.  Notwithstanding any other provision of law, all persons who are appointed to a position on a board, commission, committee, or district, which requires Senate confirmation, including persons appointed to a partial term shall be subject to reconfirmation as follows:"
+          },
+          "scope": "A expressly covers governor board appointments; F establishes majority of elected Senate members in open regular session. B is a distinct non-governor appointment scope, not a restriction on A or F."
         }
       ],
       "missing": [
@@ -97,7 +119,9 @@
         "actual qualifying victim-advocacy organization and submitted three-name list",
         "accredited bachelor degree evidence binding and actual grandfathered membership evidence",
         "recorded qualification fields for opening people and combined work intervals",
-        "actual post-confirmation employment/office conflict and governor-designated chair joins"
+        "actual post-confirmation employment/office conflict and governor-designated chair joins",
+        "actual Senate elected-member roll, governor submission and open regular session confirmation records",
+        "actual applicable tax-return compliance and reconfirmation/session-expiry records"
       ],
       "notes": [
         "Current statutory text governs the recovered profile; the older DOC summary alone did not include the seven-year alternative or degree condition.",
@@ -105,7 +129,8 @@
         "At least one member must come from the legally qualified advocacy-list route. Until actual list records are bound, ordinary nominees cannot consume the final required capacity.",
         "No retrieval date is treated as an operative date. Only the exact appointment cutoffs explicitly given in the statute are dated.",
         "Unknown accredited degree is not treated as a degree: seven recorded years suffice under both alternatives; five-year degree and grandfather paths stay pending absent actual evidence.",
-        "No active participation or vote exists until the shared Senate confirmation route is wired."
+        "No active participation or vote exists until the shared Senate confirmation route is wired.",
+        "Full R.S.24:14 A and F resolves governor confirmation: strict majority of ELECTED Senate members in open regular session. This corrects the earlier B-snippet scope warning. It does not create submission, attendance, compliance, confirmation or seated membership records."
       ],
       "qualifications": {
         "appointmentsAfter": "2014-08-01",
@@ -143,8 +168,26 @@
       },
       "confirmation": {
         "requiredChambers": ["senate"],
-        "threshold": null,
-        "source": "LaRS15:572.1A(1)(d)"
+        "threshold": {
+          "numerator": 1,
+          "denominator": 2,
+          "basis": "senate-elected",
+          "comparison": "greater-than"
+        },
+        "source": "LaRS15:572.1A(1)(d)",
+        "thresholdSource": "La. R.S. 24:14(A), (F)",
+        "requiresActualRecordedSubmission": true,
+        "requiresOpenRegularSessionVote": true,
+        "actualSessionAndRollRequired": true,
+        "additionalSourceConditions": [
+          "C regular-session submission within forty-eight hours; failure to confirm before session end rejects",
+          "D interim appointments expire at next regular session end unless submitted and confirmed",
+          "E conditional special-confirmation meeting and interim/reconfirmation terms are not automatic",
+          "G rejection/non-submission/reconfirmation expiry and recess reappointment restriction",
+          "I Article X sections 3, 27 and 43 exceptions; no pardonboard exception inferred",
+          "J applicable state tax return compliance for five years preceding appointment",
+          "K dated reconfirmation and term-expiry/holdover requirements"
+        ]
       }
     },
     {
