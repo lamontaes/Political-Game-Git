@@ -84,70 +84,73 @@ describe.each(cases)("dated cash for $kind in $place", ({ kind, place }) => {
     });
   });
 
-  it("retains an intervening expense after later income and save/reload", () => {
-    const { payer, small, world: initial } = fixture();
-    let world = initial;
-    const other = {
-      kind: "person" as const,
-      personId: world.personOrder[1]!,
-    };
-    world = createResourcePosition(world, {
-      stableKey: "dated-cash:position",
-      owner: payer,
-      openedAt: world.currentDate,
-      openingBalance: money(100, "USD"),
-      provenance,
-    });
-    for (const [key, day, source, recipient] of [
-      ["expense", "2026-01-10", payer, other],
-      ["income", "2026-01-20", other, payer],
-    ] as const) {
-      const date = makeIsoDate(day);
-      world = {
-        ...world,
-        currentDate: date,
-        currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
+  it.each(["2026-01-10", "2026-01-20"])(
+    "retains an intervening expense after income on %s and save/reload",
+    (incomeDate) => {
+      const { payer, small, world: initial } = fixture();
+      let world = initial;
+      const other = {
+        kind: "person" as const,
+        personId: world.personOrder[1]!,
       };
-      world = createResourceFlows(world, [
-        {
-          stableKey: `dated-cash:${key}`,
-          source,
-          recipient,
-          startsAt: date,
-          amount: money(80, "USD"),
-          cadenceKind: "schedule:once",
-          basisKind: "custom:payment-fixture",
-          basisReference: { kind: "general" },
-          restrictionKind: null,
-          jurisdictionId: small.jurisdictionId,
-          provenance,
-        },
-      ]);
-      world = recordResourceTransferOutcome(world, {
-        stableKey: `dated-cash:${key}:paid`,
-        resourceFlowId: world.history.resourceFlows.at(-1)!.id,
-        periodStartsAt: date,
-        periodEndsAt: date,
-        occurredAt: date,
-        status: "completed",
-        attemptedAmount: money(80, "USD"),
-        transferredAmount: money(80, "USD"),
-        reasonKind: null,
-        note: "Recorded fixture transfer.",
+      world = createResourcePosition(world, {
+        stableKey: "dated-cash:position",
+        owner: payer,
+        openedAt: world.currentDate,
+        openingBalance: money(100, "USD"),
         provenance,
       });
-    }
-    const reopened = deserializeWorld(serializeWorld(world));
-    const before = serializeWorld(reopened);
-    const payment = paymentFromDatedCash(
-      reopened,
-      payer,
-      money(100, "USD"),
-      makeIsoDate("2026-01-05"),
-    );
-    expect(payment.status).toBe("partial");
-    expect(payment.availableMinor).toBe(20);
-    expect(payment.transferredAmount.minorUnits).toBe(20);
-    expect(serializeWorld(reopened)).toBe(before);
-  });
+      for (const [key, day, source, recipient] of [
+        ["expense", "2026-01-10", payer, other],
+        ["income", incomeDate, other, payer],
+      ] as const) {
+        const date = makeIsoDate(day);
+        world = {
+          ...world,
+          currentDate: date,
+          currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
+        };
+        world = createResourceFlows(world, [
+          {
+            stableKey: `dated-cash:${key}`,
+            source,
+            recipient,
+            startsAt: date,
+            amount: money(80, "USD"),
+            cadenceKind: "schedule:once",
+            basisKind: "custom:payment-fixture",
+            basisReference: { kind: "general" },
+            restrictionKind: null,
+            jurisdictionId: small.jurisdictionId,
+            provenance,
+          },
+        ]);
+        world = recordResourceTransferOutcome(world, {
+          stableKey: `dated-cash:${key}:paid`,
+          resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+          periodStartsAt: date,
+          periodEndsAt: date,
+          occurredAt: date,
+          status: "completed",
+          attemptedAmount: money(80, "USD"),
+          transferredAmount: money(80, "USD"),
+          reasonKind: null,
+          note: "Recorded fixture transfer.",
+          provenance,
+        });
+      }
+      const reopened = deserializeWorld(serializeWorld(world));
+      const before = serializeWorld(reopened);
+      const payment = paymentFromDatedCash(
+        reopened,
+        payer,
+        money(100, "USD"),
+        makeIsoDate("2026-01-05"),
+      );
+      expect(payment.status).toBe("partial");
+      expect(payment.availableMinor).toBe(20);
+      expect(payment.transferredAmount.minorUnits).toBe(20);
+      expect(serializeWorld(reopened)).toBe(before);
+    },
+  );
 });

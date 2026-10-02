@@ -12,6 +12,7 @@ import type {
   ResourceOutcomeReasonKind,
   ResourceTransferOutcomeStatus,
   World,
+  HistoricalCutoff,
 } from "./types";
 
 /**
@@ -42,28 +43,43 @@ export function paymentFromDatedCash(
       transferredAmount: money(0, attemptedAmount.currency),
       reasonKind: "capacity:money-unknown",
     };
-  const checkpoints = new Set<IsoDate>([occurredAt, world.currentDate]);
+  const checkpoints: HistoricalCutoff[] = [
+    {
+      asOfDate: occurredAt,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+  ];
   const touching = resourceFlowsTouching(world, payer);
   for (const outcome of resourceTransferOutcomesOfFlows(
     world,
     touching.map((flow) => flow.id),
   )) {
     if (
-      outcome.occurredAt > occurredAt &&
-      outcome.occurredAt < world.currentDate
+      outcome.occurredAt >= occurredAt &&
+      outcome.occurredAt <= world.currentDate
     )
-      checkpoints.add(makeIsoDate(outcome.occurredAt));
+      checkpoints.push({
+        asOfDate: makeIsoDate(outcome.occurredAt),
+        historySequenceExclusive: outcome.sequence + 1,
+      });
   }
   const availableMinor = Math.max(
     0,
     Math.min(
-      ...[...checkpoints].map(
-        (asOfDate) =>
-          resourcePositionAt(world, payer, attemptedAmount.currency, {
-            asOfDate,
-            historySequenceExclusive: world.history.nextSequence,
-          })!.liquidBalance.minorUnits,
-      ),
+      ...checkpoints.flatMap((cutoff) => {
+        const snapshot = resourcePositionAt(
+          world,
+          payer,
+          attemptedAmount.currency,
+          cutoff,
+        );
+        // Transfers before this position was opened do not establish its cash.
+        return snapshot ? [snapshot.liquidBalance.minorUnits] : [];
+      }),
     ),
   );
   const paid = Math.min(availableMinor, attemptedAmount.minorUnits);
