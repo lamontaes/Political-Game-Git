@@ -1224,6 +1224,7 @@ export function projectCampaignGuidance(
   const offices = electiveOfficesForJurisdiction(
     person.homeJurisdictionId,
     world.currentDate,
+    world,
   ).map((option) => ({
     officeKey: option.officeKey,
     chamberName: option.chamberName,
