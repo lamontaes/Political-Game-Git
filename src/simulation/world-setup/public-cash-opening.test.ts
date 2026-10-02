@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import federalBudget from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 
 import {
   createNewGameWorld,
@@ -64,7 +65,7 @@ function cashOpening(world: World, identity: PublicGovernmentIdentity) {
   )?.openingBalance.minorUnits;
 }
 
-describe("researched state and local opening public cash", () => {
+describe("researched and estimated opening public cash", () => {
   it("saves all fifty state amounts and materializes federal, state and local accounts once", () => {
     let world = openingWorld();
     const profile = worldOpeningRecord(world)?.publicCashOpening;
@@ -94,9 +95,9 @@ describe("researched state and local opening public cash", () => {
     for (const identity of [federal, alaska, kentucky, local]) {
       world = ensurePublicGovernmentAccount(world, identity);
     }
-    expect(cashOpening(world, federal)).toBe(100_000_000_000);
     const candidates = budgetCandidates(world).candidates;
     const localAmounts: number[] = [];
+    const stateRatios: number[] = [];
     for (const candidate of candidates) {
       const budget = openGovernmentBudget(
         world,
@@ -106,12 +107,29 @@ describe("researched state and local opening public cash", () => {
       if (typeof budget === "string") continue;
       const amount = Math.round((budget.balance + budget.reserve) * 100);
       if (candidate.level === "state") {
-        if (candidate.jurisdictionId in profile!.stateByJurisdictionId)
+        if (candidate.jurisdictionId in profile!.stateByJurisdictionId) {
+          stateRatios.push(
+            (budget.balance + budget.reserve) /
+              budget.years[0]!.appropriations.reduce(
+                (sum, amount) => sum + amount,
+                0,
+              ),
+          );
           expect(profile!.stateByJurisdictionId[candidate.jurisdictionId]).toBe(
             amount,
           );
+        }
       } else localAmounts.push(amount);
     }
+    expect(stateRatios).toHaveLength(50);
+    expect(cashOpening(world, federal)).toBe(
+      Math.round(
+        federalBudget.outlaysTotal *
+          (stateRatios.reduce((sum, ratio) => sum + ratio, 0) /
+            stateRatios.length) *
+          100,
+      ),
+    );
     expect(cashOpening(world, alaska)).toBe(
       profile!.stateByJurisdictionId[alaska.jurisdictionId],
     );
