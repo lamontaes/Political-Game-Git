@@ -2,6 +2,7 @@ import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId, lifePlaceSearch } from "../life-places";
 import { SeededRng } from "../rng";
+import { countyGeoidsForPlace } from "../government-units";
 import type {
   EntityId,
   FutureDueItem,
@@ -23,10 +24,9 @@ import type { HazardFamily, HazardMagnitude } from "./types";
  * household. Every rate comes from that catalog's own declared window; the
  * catalog counts REPORTED events, so a rate here is a recorded-report rate for
  * 2000–2024 and not a claim about the chance of a hazard in any future year.
- * A sampled episode's footprint size is resampled from an actual recorded
- * episode of the same state, family and month; the places it actually touches
- * are the represented places of this World, because damage is bounded by what
- * the World represents.
+ * A sampled episode touches only represented places joined to its recorded
+ * county footprint. Census place-within-county geography supplies the join;
+ * forecast-zone codes are not treated as counties.
  *
  * Mitigation, response and damage stay where they already are: this module
  * only decides that an episode occurs, where, and how wide.
@@ -49,7 +49,7 @@ export const HAZARD_SAMPLING_CONTRACT = {
    * only step in this module that is not read straight from the catalog.
    */
   countyThinning: "recorded-median-footprint-over-counties-in-state",
-  footprintSource: "resampled-recorded-episode-of-the-same-state-family-month",
+  footprintSource: "recorded-county-footprint-joined-to-represented-geography",
   magnitudeLadder: "authored-from-the-recorded-episode-area-count",
   label: "historical-report-resampling",
 } as const;
@@ -64,6 +64,7 @@ interface StormEpisode {
   readonly affectedAreas: readonly {
     readonly stateFips: string;
     readonly countyFips: string;
+    readonly czType: string;
   }[];
 }
 
@@ -151,6 +152,7 @@ function firstOfNextMonth(date: IsoDate): IsoDate {
 export interface RepresentedArea {
   readonly jurisdictionId: EntityId;
   readonly stateUsps: string;
+  readonly countyGeoids: readonly string[];
 }
 
 /**
@@ -174,9 +176,31 @@ export function representedHazardAreas(
       exposure.organizations.length === 0
     )
       continue;
-    areas.push({ jurisdictionId, stateUsps: usps });
+    const countyGeoids = !place.sourceGeoid
+      ? []
+      : place.scope === "county"
+        ? [place.sourceGeoid]
+        : countyGeoidsForPlace(place.sourceGeoid);
+    areas.push({ jurisdictionId, stateUsps: usps, countyGeoids });
   }
   return areas;
+}
+
+/** County-coded reports join to represented geography; forecast zones are
+ * not county FIPS codes and cannot establish a county footprint. */
+export function recordedHazardFootprint(
+  areas: readonly RepresentedArea[],
+  affectedAreas: StormEpisode["affectedAreas"],
+): readonly EntityId[] {
+  const counties = new Set(
+    affectedAreas
+      .filter((area) => area.czType === "C")
+      .map((area) => `${area.stateFips}${area.countyFips}`),
+  );
+  return areas
+    .filter((area) => area.countyGeoids.some((geoid) => counties.has(geoid)))
+    .map((area) => area.jurisdictionId)
+    .sort();
 }
 
 function stateMonthRate(
@@ -331,12 +355,11 @@ export function sampleMonthlyHazards(
         const recordedAreaCount = recorded.affectedAreas.filter(
           (area) => area.stateFips === stateFipsOf(stateUsps),
         ).length;
-        // The footprint's SIZE is resampled; the places are this World's own.
-        const width = Math.max(
-          1,
-          Math.min(jurisdictionIds.length, recordedAreaCount),
+        const chosen = recordedHazardFootprint(
+          areas.filter((area) => area.stateUsps === stateUsps),
+          recorded.affectedAreas,
         );
-        const chosen = [...jurisdictionIds].sort().slice(0, width);
+        if (chosen.length === 0) continue;
         sampled.push({
           stateUsps,
           sourceFamily,
