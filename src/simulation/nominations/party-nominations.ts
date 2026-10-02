@@ -4,7 +4,8 @@ import {
   ensurePeopleTraits,
   traitConsiderations,
 } from "../people-traits";
-import { SeededRng } from "../rng";
+import { countRecordedVoterBallots } from "../election-contests";
+import { primaryPartyBallotAdmission } from "./primary-voter-access";
 import type {
   DecisionConsideration,
   EntityId,
@@ -35,28 +36,14 @@ import type { NominationMethod, NominationPlan } from "./nomination-rules";
  * vote and what became of them. Nothing else is stored: who is on the general
  * ballot is read back from those records.
  *
- * PLACEHOLDER(build-24-step-1): how primary voters split. Until the
- * incumbent-standing reader (Careers step 3) supplies each candidate's
- * standing with the party's own voters, a candidate's pull is set by hand:
- * a sitting member 1.5, someone the party asked to run 1.25, anyone else 1,
- * each multiplied by a draw from 0.5 to 1.5 for the campaign they run, seeded
- * by the seat, the year and the person. In an all-party primary the pull is
- * also multiplied by the party's share of the district's voters. These are
- * set by hand, not measured.
+ * Counts reuse the ordinary recorded-voter evaluator. A missing ballot,
+ * registration or invitation record never becomes party support. Such a
+ * primary remains pending instead of manufacturing a nomination.
  */
 
 export const NOMINATION_VERSION = "party-nominations/v1";
 export const NOMINATION_EVENT = "election.party-nomination";
 export const NOMINATION_RUNOFF_EVENT = "election.nomination-runoff";
-
-export const NOMINATION_PULL = {
-  id: "ocd-primary-pull-placeholder/v1",
-  incumbent: 1.5,
-  partyBacked: 1.25,
-  other: 1,
-  campaignLow: 0.5,
-  campaignHigh: 1.5,
-} as const;
 
 export interface NominationEntrant {
   readonly personId: EntityId;
@@ -108,48 +95,37 @@ function eventByKey(world: World, stableKey: string): HistoricalEvent | null {
   return index.get(stableKey) ?? null;
 }
 
-function pullOf(
-  world: World,
-  stageKey: string,
-  entrant: NominationEntrant,
-  partyShare: ((party: string) => number | null) | null,
-): number {
-  const base = entrant.incumbent
-    ? NOMINATION_PULL.incumbent
-    : entrant.partyBacked
-      ? NOMINATION_PULL.partyBacked
-      : NOMINATION_PULL.other;
-  const draw = new SeededRng(world.seed)
-    .fork(`${stageKey}:${entrant.personId}`)
-    .next();
-  const campaign =
-    NOMINATION_PULL.campaignLow +
-    draw * (NOMINATION_PULL.campaignHigh - NOMINATION_PULL.campaignLow);
-  const share = partyShare ? (partyShare(entrant.party) ?? 0.5) : 1;
-  return base * campaign * Math.max(share, 0.01);
-}
-
 function tally(
   world: World,
   stageKey: string,
   entrants: readonly NominationEntrant[],
-  partyShare: ((party: string) => number | null) | null,
-): readonly Tally[] {
-  const pulls = entrants.map((entrant) => ({
-    entrant,
-    pull: pullOf(world, stageKey, entrant, partyShare),
+  jurisdictionId: EntityId,
+  electionDate: IsoDate,
+  admitVoter?: (personId: EntityId) => boolean | null,
+): readonly Tally[] | null {
+  if (entrants.length === 0) return null;
+  const counted = countRecordedVoterBallots(world, {
+    stableKey: stageKey,
+    jurisdictionId,
+    electionDate,
+    candidatePersonIds: entrants.map((entrant) => entrant.personId),
+    admitVoter,
+  });
+  if (!counted) return null;
+  // A tied advancement boundary is not resolved by entrant order or ID.
+  if (
+    counted.tallies.some(
+      (row, index) =>
+        index > 0 && row.votes === counted.tallies[index - 1]!.votes,
+    )
+  )
+    return null;
+  return counted.tallies.map((row) => ({
+    entrant: entrants.find(
+      (entrant) => entrant.personId === row.candidatePersonId,
+    )!,
+    permille: Math.round(row.voteShare * 1000),
   }));
-  const total = pulls.reduce((sum, row) => sum + row.pull, 0);
-  return pulls
-    .map((row) => ({
-      entrant: row.entrant,
-      permille: Math.round((row.pull / total) * 1000),
-    }))
-    .sort(
-      (a, b) =>
-        b.permille - a.permille ||
-        a.entrant.personId.localeCompare(b.entrant.personId),
-    );
 }
 
 function reachesThreshold(
@@ -280,8 +256,24 @@ export function holdNominationPrimary(
       next,
       `${stableKey}:${group.party}`,
       group.entrants,
-      isAllParty(plan.method) ? input.partyShare : null,
+      input.jurisdictionId,
+      plan.primaryDate,
+      isAllParty(plan.method)
+        ? undefined
+        : () => {
+            // No saved registration/party-ballot producer is admitted yet.
+            const admission = primaryPartyBallotAdmission(
+              plan.stateUsps,
+              group.party,
+              undefined,
+              undefined,
+            );
+            return admission === "requires-record"
+              ? null
+              : admission === "eligible";
+          },
     );
+    if (!tallies) return world;
     if (isAllParty(plan.method)) {
       const majority =
         plan.method === "all-party-majority" &&
@@ -372,7 +364,7 @@ export function holdNominationPrimary(
     visibility: "public",
     tags: [
       NOMINATION_VERSION,
-      NOMINATION_PULL.id,
+      "recorded-voter-count/v1",
       `seat:${input.seatKey}`,
       `method:${plan.method}`,
       `date-basis:${plan.dateBasis}`,
@@ -453,8 +445,11 @@ export function holdNominationRunoff(
       world,
       `${runoffKey(input.stableKey)}:${party}`,
       living,
-      null,
+      input.jurisdictionId,
+      date,
+      () => null,
     );
+    if (!tallies) return world;
     tallies.forEach((row, index) =>
       rows.push({
         personId: row.entrant.personId,
@@ -480,7 +475,7 @@ export function holdNominationRunoff(
     visibility: "public",
     tags: [
       NOMINATION_VERSION,
-      NOMINATION_PULL.id,
+      "recorded-voter-count/v1",
       `seat:${input.seatKey}`,
       `primary:${primary.id}`,
     ],
