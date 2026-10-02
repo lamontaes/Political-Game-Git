@@ -105,7 +105,8 @@ function townshipRoutesForProof() {
         candidate: {
           ...serving,
           stateKey: place.stateJurisdictionKey,
-          lawJurisdictionId: serving.jurisdictionId,
+          lawJurisdictionId:
+            serving.lawJurisdictionId ?? serving.jurisdictionId,
         },
       });
   }
@@ -259,6 +260,12 @@ describe("A33 sourced opening cash uses the existing government account", () => 
       ).toHaveLength(1);
       const position = accountPosition(world, identity)!;
       expect(position).toBeDefined();
+      const budget = world.publicBudgets!.governments.find(
+        (row) => row.key === candidate.key,
+      )!;
+      expect(budget.jurisdictionId).toBe(identity.jurisdictionId);
+      expect(budget.publicGovernmentIdentity).toEqual(identity);
+      expect(budget.lawJurisdictionId).toBe(places[0]!.context.jurisdiction.id);
       expect(position.openingBalance.minorUnits).toBe(
         worldOpeningRecord(before)!.publicCashOpening!.localMinorUnits,
       );
@@ -306,7 +313,7 @@ describe("A33 sourced opening cash uses the existing government account", () => 
       ensurePublicGovernmentAccount(materialized, {
         kind: "local-government",
         governmentKey: unit.id,
-        jurisdictionId: candidate.jurisdictionId,
+        jurisdictionId: candidate.lawJurisdictionId,
       }),
     ).toThrow(/canonical/);
     const jurisdictions = { ...materialized.jurisdictions };
@@ -405,7 +412,7 @@ describe("A33 sourced opening cash uses the existing government account", () => 
     console.info("T6 saved township transfer join", {
       unitId: unit.id,
       budgetKey: candidate.key,
-      servedJurisdictionId: candidate.jurisdictionId,
+      servedJurisdictionId: candidate.lawJurisdictionId,
       canonicalJurisdictionId: identity.jurisdictionId,
       positionId: account.id,
       flowId: world.history.resourceFlows.at(-1)!.id,
