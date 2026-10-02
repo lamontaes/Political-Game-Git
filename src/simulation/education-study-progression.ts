@@ -732,20 +732,15 @@ export function completeStudyPeriod(
     )
   )
     return world;
-  const legacyPaid =
-    completedStudySessions(world, enrollmentId) * path.sessionCostMinor;
-  let cost = Math.max(
-    0,
-    periodNumber * (path.periodCostMinor ?? 0) -
-      legacyPaid -
-      paidPeriodTuitionMinor(world, enrollmentId),
-  );
   const actor = enrollment.personId;
   let next = world;
   const chargeKey = `${prefix}study-period:${enrollmentId}:${periodNumber}`;
   let charge = next.history.resourceFlows.find(
     (record) => record.stableKey === chargeKey,
   );
+  let cost = charge
+    ? resourceFlowTermsAt(next, charge.id)!.amount.minorUnits
+    : studyPeriodTuitionOutstanding(world, enrollmentId, path);
   if (cost > 0 && !charge) {
     next = createResourceFlow(next, {
       stableKey: chargeKey,
