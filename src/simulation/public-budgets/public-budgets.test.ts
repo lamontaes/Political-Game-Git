@@ -659,7 +659,7 @@ function settleRecordedProgramMonths(
   inspect?: (
     flows: MonthFlows,
     government: PublicBudgetGovernment,
-    month: string,
+    month: World["currentDate"],
   ) => void,
 ) {
   let current = government;
