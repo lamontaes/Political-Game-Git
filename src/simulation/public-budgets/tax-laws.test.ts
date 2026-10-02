@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createHistoryStore } from "../history";
 import stateIncomeTax2026 from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { lawInForceAtStart } from "../governing/law-in-force";
@@ -64,6 +65,7 @@ function worldWith(stateKey: string, laws: readonly Law[]): World {
       ),
     },
     history: {
+      ...createHistoryStore(),
       organizations: [],
       resourceFlows: [],
       resourceTransferOutcomes: [],

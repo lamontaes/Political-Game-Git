@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createHistoryStore } from "../history";
 import tuitionRevenue from "../../../data/research/money/state-tuition-revenue.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
@@ -57,6 +58,7 @@ function worldWith(
       },
     },
     history: {
+      ...createHistoryStore(),
       events: [],
       organizations: [],
       resourceFlows: [],
