@@ -36,7 +36,7 @@ interface ConditionRecordBase {
 export interface WorldOpeningRecord extends ConditionRecordBase {
   readonly kind: "world-opening";
   readonly openingVersion: WorldOpeningVersion;
-  readonly regime: StartingRegime;
+  readonly regime: StartingRegime | null;
   /** Absent on saves opened before this fictional cash profile was introduced. */
   readonly publicCashOpening?: PublicCashOpeningProfile;
 }
@@ -96,7 +96,7 @@ export interface GeneratedPresidency {
 export interface PoliticalStartingConditionsRecord extends ConditionRecordBase {
   readonly kind: "political-starting-conditions";
   readonly contractVersion: "crunch46-political-start/v1";
-  readonly regime: StartingRegime;
+  readonly regime: StartingRegime | null;
   readonly calibrationSchema: string;
   readonly calibrationSha256: string;
   readonly nationalSwingPp: number;

@@ -1023,13 +1023,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "if (point < 0) return value;"
-    },
-    {
-      "file": "src/simulation/world-setup/conditions.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (u < cumulative) return regime;"
     }
   ]
 }

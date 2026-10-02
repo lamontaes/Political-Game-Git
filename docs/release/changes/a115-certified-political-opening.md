@@ -5,10 +5,13 @@ section: Fixed
 title: Opening political affiliations preserve certified records
 ---
 
-New games preserve each House seat, Senate seat, governor and statewide
-presidential winner's own recorded affiliation. Certified seat shares are
-copied without random national, regional, state or seat swings. An exact tie
-keeps the recorded winner instead of drawing a party. Existing saves retain
-their saved opening records. Missing district presidential results remain
-explicitly identified in the opening record. Macro starting conditions and
-state legislative seat generation are separate remaining work.
+New games copy each office's own certified shares and recorded affiliations,
+including tied results. State legislative seats retain their own recorded
+result where available; otherwise party and share remain unrecorded. Federal
+results and chamber-wide totals no longer assign parties to state seats.
+
+New openings no longer invent an economic regime or macro starting levels.
+Without admitted levels, macro history remains unscheduled through the
+existing unavailable-data path. Saved political and macro records remain
+readable. Missing presidential district-elector results remain explicitly
+identified in the opening record.

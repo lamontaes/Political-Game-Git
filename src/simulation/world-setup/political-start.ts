@@ -96,14 +96,16 @@ const RETAINED_CAUCUS: Readonly<Record<string, string>> = {
 };
 
 export interface PoliticalLatents {
-  readonly regime: StartingRegime;
+  readonly regime: StartingRegime | null;
   readonly nationalSwingPp: number;
   readonly regionSwingPp: Readonly<Record<CensusRegion, number>>;
   readonly stateSwingPp: Readonly<Record<string, number>>;
 }
 
 /** Every effect zero: the diagnostic that must reconstruct the input rows. */
-export function zeroPoliticalLatents(regime: StartingRegime): PoliticalLatents {
+export function zeroPoliticalLatents(
+  regime: StartingRegime | null,
+): PoliticalLatents {
   return {
     regime,
     nationalSwingPp: 0,
@@ -119,7 +121,7 @@ export function zeroPoliticalLatents(regime: StartingRegime): PoliticalLatents {
 /** Compatibility shape: certified opening records have no simulated swing. */
 export function drawPoliticalLatents(
   _world: World,
-  regime: StartingRegime,
+  regime: StartingRegime | null,
 ): PoliticalLatents {
   return zeroPoliticalLatents(regime);
 }
@@ -296,7 +298,7 @@ type Draft = Omit<
 
 function conditionsFor(
   world: World,
-  regime: StartingRegime,
+  regime: StartingRegime | null,
   latents: PoliticalLatents,
 ): Draft {
   const seats = [
@@ -323,7 +325,7 @@ function conditionsFor(
 
 export function generatePoliticalStartingConditions(
   world: World,
-  regime: StartingRegime,
+  regime: StartingRegime | null,
 ): Draft {
   return referenceReconstruction(world, regime);
 }
@@ -334,7 +336,7 @@ export function generatePoliticalStartingConditions(
  */
 export function referenceReconstruction(
   world: World,
-  regime: StartingRegime = "near-reference",
+  regime: StartingRegime | null = "near-reference",
 ): Draft {
   return conditionsFor(world, regime, zeroPoliticalLatents(regime));
 }

@@ -7,7 +7,6 @@ import {
   detExp,
   detLog,
   inverseStandardNormal,
-  logistic,
   standardNormal,
 } from "./deterministic-math";
 import { CRUNCH46_POLICY } from "./policy";
@@ -23,7 +22,6 @@ import {
   referenceReconstruction,
   zeroPoliticalLatents,
 } from "./political-start";
-import type { StartingRegime } from "./types";
 
 /** Only the seed feeds these generators; no other World field is read. */
 const seedWorld = (seed: string) => ({ seed }) as unknown as World;
@@ -52,67 +50,16 @@ describe("deterministic math", () => {
   });
 });
 
-describe("starting regime and macro kernel (crunch46-provisional-v1)", () => {
-  it("draws regimes at the authored frequencies", () => {
-    const counts: Record<StartingRegime, number> = {
-      "near-reference": 0,
-      modest: 0,
-      major: 0,
-    };
-    const n = 6000;
-    for (let i = 0; i < n; i += 1) {
-      counts[drawStartingRegime(seedWorld(`regime-${i}`))] += 1;
+describe("starting regime and macro evidence", () => {
+  it("leaves unrecorded regime and macro levels unavailable instead of drawing them", () => {
+    for (const seed of ["macro-a", "macro-b"]) {
+      const world = {
+        ...seedWorld(seed),
+        history: { worldConditions: [] },
+      } as unknown as World;
+      expect(drawStartingRegime(world)).toBeNull();
+      expect(drawMacroStartingConditions(world, null)).toBeNull();
     }
-    for (const regime of CRUNCH46_POLICY.regimes.order) {
-      const expected = CRUNCH46_POLICY.regimes.frequency[regime];
-      expect(Math.abs(counts[regime] / n - expected)).toBeLessThan(0.02);
-    }
-  });
-
-  it("applies the section 13 startup equations exactly", () => {
-    for (const regime of CRUNCH46_POLICY.regimes.order) {
-      const macro = drawMacroStartingConditions(seedWorld("macro-a"), regime);
-      const scale = CRUNCH46_POLICY.macro.volatilityScale[regime];
-      const { cycle, cost, housing, credit } = macro.latents;
-      expect(macro.volatilityScale).toBe(scale);
-      expect(macro.initial.realGrowthAnnualPct).toBeCloseTo(
-        2 + scale * cycle,
-        5,
-      );
-      expect(macro.initial.unemploymentPct).toBeCloseTo(
-        logistic(Math.log(0.046 / 0.954) - 0.2 * scale * cycle) * 100,
-        5,
-      );
-      expect(macro.initial.inflation12mPct).toBeCloseTo(
-        2.7 + 0.6 * scale * cost,
-        5,
-      );
-      expect(macro.initial.housingSupplyDemandRatio).toBeCloseTo(
-        Math.exp(0.06 * scale * housing),
-        5,
-      );
-      expect(macro.initial.creditTightness).toBeCloseTo(
-        logistic(0.4 * scale * credit),
-        5,
-      );
-    }
-  });
-
-  it("an adequate-housing draw is recorded as adequate, not as a shortage", () => {
-    let found = false;
-    for (let i = 0; i < 50 && !found; i += 1) {
-      const macro = drawMacroStartingConditions(
-        seedWorld(`housing-${i}`),
-        "near-reference",
-      );
-      if (macro.latents.housing >= 0) {
-        expect(macro.initial.housingSupplyDemandRatio).toBeGreaterThanOrEqual(
-          1,
-        );
-        found = true;
-      }
-    }
-    expect(found).toBe(true);
   });
 });
 

@@ -338,24 +338,15 @@ describe("CHANGE canonical macro history", { timeout: 1_800_000 }, () => {
     ).toBe(false);
   });
 
-  it("starts from WORLD's persisted draw in an ordinary seeded opening", () => {
+  it("leaves ordinary opening macro history unavailable without admitted levels", () => {
     const seeded = life("change-macro-world", true);
-    const record = macroStartingConditions(seeded)!;
-    expect(record).not.toBeNull();
-    const store = seeded.macroEconomy!;
-    expect(store.start.regime).toBe(record.regime);
-    expect(store.start.latents).toEqual(record.latents);
-    expect(store.start.initial).toEqual(record.initial);
-    expect(store.months).toEqual([]);
-    const recomputed = startValuesFromLatents(record.regime, record.latents);
-    for (const key of Object.keys(recomputed) as (keyof typeof recomputed)[]) {
-      expect(recomputed[key]).toBeCloseTo(record.initial[key], 5);
-    }
+    expect(macroStartingConditions(seeded)).toBeNull();
+    expect(seeded.macroEconomy).toBeUndefined();
     expect(
-      seeded.history.futureDueItems.filter(
+      seeded.history.futureDueItems.some(
         (item) => item.transitionKey === MACRO_MONTHLY_STEP_KEY,
       ),
-    ).toHaveLength(1);
+    ).toBe(false);
   });
 
   it("records each crossed month exactly once, with releases published to News", () => {
