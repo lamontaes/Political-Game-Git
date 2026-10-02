@@ -2,14 +2,16 @@ import { applyInstitutionStep } from "../governing/legislative-clock";
 import {
   councilRules,
   lawJurisdiction,
-  unitById,
   type CouncilRules,
 } from "./local-council-binding";
 import { addDays } from "../dates";
 import { fileMemberAgendaBills } from "../governing/member-agenda";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { mayAnswerQuestion } from "../governing/question-authority";
-import type { GovernmentUnitIdentity } from "../government-units";
+import {
+  governmentUnit,
+  type GovernmentUnitIdentity,
+} from "../government-units";
 import {
   introduceMeasure,
   measurePosition,
@@ -482,7 +484,7 @@ export function localCouncilMeetingHandler(
   const match = new RegExp(
     `^${V.replace("/", "\\/")}:((?:gus2025|municipio):[^:]+):(meeting|posted-meeting):`,
   ).exec(due.stableKey);
-  const unit = match ? unitById(match[1]!) : null;
+  const unit = match ? governmentUnit(match[1]!) : null;
   const town = due.jurisdictionId;
   const player = due.entityIds[1] ?? null;
   const done = (next: World, context: string) => ({
@@ -574,6 +576,6 @@ export function localCouncilMeetingHandler(
   return done(next, `The ${identity.bodyName} met.`);
 }
 
-export const LOCAL_COUNCIL_MEETING_HANDLERS = [
-  [LOCAL_COUNCIL_MEETING, localCouncilMeetingHandler],
-] as const;
+export function localCouncilMeetingHandlers() {
+  return [[LOCAL_COUNCIL_MEETING, localCouncilMeetingHandler]] as const;
+}

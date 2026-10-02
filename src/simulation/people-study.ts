@@ -1,4 +1,4 @@
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import {
   activeEducationEnrollmentsAt,
   currentLifeCutoff,
@@ -113,7 +113,7 @@ function hasCollaboration(
 export function decideStudyPeerOutcome(
   world: World,
   input: { readonly personId: EntityId; readonly peerPersonId: EntityId },
-): { readonly outcome: StudyPeerOutcome; readonly world: World } {
+): { readonly outcome: StudyPeerOutcome | null; readonly world: World } {
   const peer = studyPeers(world, input.personId).find(
     (entry) => entry.personId === input.peerPersonId,
   );
@@ -188,7 +188,9 @@ export function decideStudyPeerOutcome(
     retention: "ephemeral",
   });
   return {
-    outcome: (evaluation.selectedOptionKey ?? "declines") as StudyPeerOutcome,
+    outcome: isSelectedDecision(evaluation)
+      ? (evaluation.selectedOptionKey as StudyPeerOutcome)
+      : null,
     world: withTraits,
   };
 }

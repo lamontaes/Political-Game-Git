@@ -14,6 +14,12 @@ import {
   sameEndpoint,
 } from "./resource-queries";
 import { MORTGAGE_BASIS } from "./home-purchase";
+import {
+  LIVING_COSTS_SOURCE,
+  REPRESENTATIVE_LIVING_COSTS,
+  representativeMonthlyLivingCostsMinor,
+  livingCostsRegionForState,
+} from "./living-costs-data";
 import { townLeases } from "./living-world/town-rent";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
@@ -26,7 +32,8 @@ import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
  * Erickson worked a part-time shop job in Eastport, Maine for three years and
  * had $87,984 saved. Money never forced a choice.
  *
- * The plumbing is real and the amount is not. Each month the person being
+ * The plumbing is real; the nonhousing amount is a sourced representative
+ * estimate, not an observed bill. Each month the person being
  * played pays their share of the household's living costs from their own
  * recorded money, through the same flow-and-outcome records pay and tuition
  * already use, so the balance anywhere in the game reads it with no extra
@@ -43,20 +50,11 @@ import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
  */
 
 /**
- * PLACEHOLDER(research: what-a-person-spends-to-live). Nobody has researched
- * the nonhousing remainder. The legacy total and housing share remain for
- * interpreting old charge records; new charges use only their nonhousing
- * remainder, pending sourced regional categories. Housing is charged by actual
- * lease/mortgage contracts, never by the legacy share. Replace it; do not tune it.
+ * Interpret the rent-included label on old authored charge records only.
+ * This is not an amount used to open or migrate a charge. New terms use the
+ * representative BLS basket; actual lease/mortgage writers settle housing.
  */
-export const LIVING_COSTS_PLACEHOLDER = {
-  monthlyPerAdultMinor: 150_000,
-  /** The rent inside that figure, which a household that owns its home pays
-   * as a mortgage instead. Same research question, same status. */
-  housingShareMinor: 90_000,
-  currency: "USD",
-  researchQuestionId: "what-a-person-spends-to-live",
-} as const;
+const LEGACY_RENT_INCLUDED_MINIMUM_MINOR = 150_000;
 
 export const LIVING_COSTS_BASIS = "custom:living-costs" as const;
 export const HOUSEHOLD_SHORTFALL_TAG = "life.opportunity:household-shortfall";
@@ -143,15 +141,23 @@ export function recordedHouseholdHousingBillsAt(
 }
 
 /**
- * Only the marked non-housing stand-in is charged here. Actual lease and
+ * Only the sourced representative nonhousing basket is charged here. Actual lease and
  * mortgage writers settle housing separately; this flow must not charge it twice.
  */
-function monthlyCostMinor(): number {
-  return (
-    LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-    LIVING_COSTS_PLACEHOLDER.housingShareMinor
+function monthlyCostMinor(world: World, personId: EntityId): number {
+  const place = lifePlaceByJurisdictionId(
+    world.people[personId]!.homeJurisdictionId,
+  );
+  return representativeMonthlyLivingCostsMinor(
+    livingCostsRegionForState(place?.stateJurisdictionKey ?? null),
   );
 }
+
+const livingCostsProvenance = {
+  kind: "source-record" as const,
+  reference: `${LIVING_COSTS_SOURCE}#Table-1800; 2024 observation year; A637 gives December 2025 publication, month-end availability cutoff is not an exact publication day; ESTIMATED FROM AVERAGE: selected retained regional annual categories per consumer unit divided by derived adults and 12 months; territories use the national estimate; not an observed bill.`,
+  asOf: makeIsoDate(REPRESENTATIVE_LIVING_COSTS.sourceAvailableBy),
+};
 
 function dollars(minor: number): string {
   return (minor / 100).toLocaleString("en-US", {
@@ -172,7 +178,7 @@ function livingCostsPayerContext(world: World, personId: EntityId) {
     )
   )
     return null;
-  const currency = money(0, LIVING_COSTS_PLACEHOLDER.currency).currency;
+  const currency = money(0, REPRESENTATIVE_LIVING_COSTS.currency).currency;
   const owner = { kind: "person" as const, personId };
   const tracked = world.history.resourcePositions.some(
     (position) =>
@@ -191,6 +197,7 @@ function openLivingCostsFlow(
   context: NonNullable<ReturnType<typeof livingCostsPayerContext>>,
 ): World {
   if (livingCostsFlowFor(world, personId)) return world;
+  if (world.currentDate < livingCostsProvenance.asOf) return world;
   const { person, currency, owner, householdId } = context;
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   return createResourceFlow(world, {
@@ -201,16 +208,13 @@ function openLivingCostsFlow(
     // and must be routed on rather than shown as the household's.
     recipient: { kind: "household", householdId },
     startsAt: world.currentDate,
-    amount: money(monthlyCostMinor(), currency),
+    amount: money(monthlyCostMinor(world, personId), currency),
     cadenceKind: "schedule:monthly",
     basisKind: LIVING_COSTS_BASIS,
     basisReference: { kind: "general" },
     restrictionKind: null,
     jurisdictionId: place?.context.jurisdiction.id ?? null,
-    provenance: {
-      kind: "authored",
-      note: `Placeholder living costs pending research question ${LIVING_COSTS_PLACEHOLDER.researchQuestionId}.`,
-    },
+    provenance: livingCostsProvenance,
   });
 }
 
@@ -239,13 +243,16 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
   if (!context) return world;
   let next = openLivingCostsFlow(world, personId, context);
   if (next !== world) return next; // First call only opens the charge, as before.
-  let flow = livingCostsFlowFor(next, personId)!;
-  const monthly = money(monthlyCostMinor(), context.currency);
+  const existingFlow = livingCostsFlowFor(next, personId);
+  if (!existingFlow) return next; // The cited estimate is not available yet.
+  let flow = existingFlow;
+  const monthly = money(monthlyCostMinor(world, personId), context.currency);
 
-  // An old save stops charging the invented housing share prospectively.
+  // Replace legacy estimates prospectively, never rewrite saved old terms/payments.
   const terms = resourceFlowTermsAt(next, flow.id);
   if (
     terms &&
+    next.currentDate >= livingCostsProvenance.asOf &&
     terms.status === "active" &&
     terms.amount.minorUnits !== monthly.minorUnits
   ) {
@@ -258,8 +265,8 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
       amount: monthly,
       cadenceKind: terms.cadenceKind,
       reason:
-        "Housing is paid through the household's actual lease or mortgage; this flow covers only the marked food-and-bills stand-in.",
-      provenance: flow.provenance,
+        "Representative food, gasoline, vehicle upkeep, drugs, medical supplies, clothing and miscellaneous bills; housing is paid separately. Public transit, health premiums and medical services are outside this retained basket.",
+      provenance: livingCostsProvenance,
       supersedesTermsId: terms.id,
     });
   }
@@ -309,12 +316,16 @@ function settleMonth(
   flow: ResourceFlow,
   dueOn: IsoDate,
 ): World {
-  const monthly = resourceFlowTermsAt(world, flow.id, {
+  const periodTerms = resourceFlowTermsAt(world, flow.id, {
     asOfDate: dueOn,
     historySequenceExclusive: world.history.nextSequence,
-  })!.amount;
+  })!;
+  const monthly = periodTerms.amount;
+  // The old authored $1,500+ basket included housing. A sourced nonhousing
+  // basket is never labeled rent merely because its dollar amount is higher.
   const renting =
-    monthly.minorUnits >= LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
+    periodTerms.provenance.kind === "authored" &&
+    monthly.minorUnits >= LEGACY_RENT_INCLUDED_MINIMUM_MINOR;
   // The lowest balance from the day the month fell due to today. A long quiet
   // stretch is settled late, and a charge backdated to its due day must not
   // take money that something dated after it (tuition, say) already spent.
@@ -345,7 +356,7 @@ function settleMonth(
     note: renting
       ? `Rent, food and bills for ${monthName(dueOn)}.`
       : `Food and bills for ${monthName(dueOn)}.`,
-    provenance: flow.provenance,
+    provenance: periodTerms.provenance,
   });
   return status === "completed"
     ? next

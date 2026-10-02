@@ -1,7 +1,3 @@
-import {
-  lifePlaceByJurisdictionId,
-  stateKeyForJurisdiction,
-} from "./life-places";
 import type { EntityId, IsoDate, World } from "./types";
 
 /** Where an age of majority was read, so anybody can check it. */
@@ -45,18 +41,8 @@ export const AGE_OF_MAJORITY_RULES: AgeOfMajorityRules = {};
  */
 export const GROWN_UP_PRESENTATION_AGE_PLACEHOLDER = 18;
 
-/**
- * The state or territory a person lives in, from their home jurisdiction's
- * own record. Null when the record does not say.
- */
-export function homeStateKey(world: World, personId: EntityId): string | null {
-  const person = world.people[personId];
-  if (!person) return null;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  if (place?.stateJurisdictionKey) return place.stateJurisdictionKey;
-  const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
-  return jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
-}
+import { homeStateKey } from "./state-jurisdiction-id";
+export { homeStateKey };
 
 /** The rule for where this person lives, or null when there is none. */
 export function ageOfMajorityFor(

@@ -11,16 +11,29 @@ import { latestPersonalityTendenciesForPerson } from "./queries";
 import { traitDefinitionFromPack } from "./trait-packs";
 import { traitRegistryFor } from "./trait-registry";
 import {
+  familyMoneyFor,
   upbringingFor,
   upbringingTraitTendencies,
   type PersonUpbringing,
 } from "./people-upbringing";
+import { annualPovertyLineMinor } from "./household-pay";
+import { homeStateKey } from "./state-jurisdiction-id";
+import { stableHash } from "./ids";
+import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
+import {
+  activeChildAuthoritiesAt,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+} from "./life-queries";
+import { residenceStateKey } from "./statutory-tax";
+import { createOrganization, createWorkRelationship } from "./life";
+import { createWorkCompensation, money } from "./resources";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import type { EntityId } from "./types";
+import type { EntityId, World } from "./types";
 
 function adultLife(seed: string) {
   const game = createNewGameWorld({
@@ -117,7 +130,7 @@ describe("upbringing and starting traits", () => {
     expect(notableRecords(world, playerId)).toEqual([]);
   }, 120_000);
 
-  it("is deterministic and labels unsourced calibration as a game profile", () => {
+  it("is deterministic and labels where the family's money came from", () => {
     const first = adultLife("upbringing-repeat");
     const second = adultLife("upbringing-repeat");
     const firstNpc = first.world.personOrder.find(
@@ -131,7 +144,10 @@ describe("upbringing and starting traits", () => {
     );
     expect(
       upbringingFor(first.world, firstNpc).money.every(
-        ({ source }) => source.kind === "game-profile",
+        ({ source }) =>
+          source.kind === "world-record" ||
+          (source.kind === "public-data" &&
+            source.note.startsWith("ESTIMATED FROM AVERAGE")),
       ),
     ).toBe(true);
 
@@ -170,6 +186,8 @@ describe("upbringing and starting traits", () => {
     const base: PersonUpbringing = {
       personId: "person_test" as EntityId,
       money: [],
+      basis: "game-profile",
+      disruption: 0,
       homeStability: "stable",
       caregiving: "consistent-firm",
       protectiveCaregiver: true,
@@ -197,6 +215,8 @@ describe("upbringing and starting traits", () => {
     const upbringing: PersonUpbringing = {
       personId: "person_test" as EntityId,
       money: [],
+      basis: "game-profile",
+      disruption: 0,
       homeStability: "stable",
       caregiving: "consistent-firm",
       protectiveCaregiver: false,
@@ -221,4 +241,140 @@ describe("upbringing and starting traits", () => {
       true,
     );
   });
+});
+
+/** The place of all 56 that this seed draws, with a locality to start in. */
+function drawPlace(): { seed: string; usps: string; placeKey: string } {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  for (let n = 1; n < 200; n++) {
+    const seed = `a137-${n}`;
+    const place =
+      places[parseInt(stableHash(seed).slice(0, 8), 16) % places.length]!;
+    const locality = searchLifePlaces("", 1, {
+      stateJurisdictionKey: place.jurisdictionKey,
+      scope: "locality",
+    })[0];
+    if (locality) return { seed, usps: place.usps, placeKey: locality.key };
+  }
+  throw new Error("No place with a locality was drawn.");
+}
+
+describe("A137: a childhood's money comes from the family's records", () => {
+  const { seed, usps, placeKey } = drawPlace();
+  const provenance = { kind: "authored" as const, note: "A137 family pay" };
+
+  /** A 13-year-old's opening, with the guardian and household on record. */
+  function teenLife() {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startKind: "custom",
+      seed,
+      placeKey,
+      startAge: 13,
+      depth: "play-formative-years",
+      startingLife: "ordinary-life",
+      questionnaire: "skipped",
+      household: "shares-a-home",
+    });
+    const world = game.world;
+    const childId = game.playerPersonId;
+    const authority = activeChildAuthoritiesAt(world, childId).find(
+      (row) => row.authority.holder.kind === "person",
+    );
+    if (authority?.authority.holder.kind !== "person")
+      throw new Error("The child needs a recorded guardian.");
+    return { world, childId, adultId: authority.authority.holder.personId };
+  }
+
+  /** The guardian's job at a weekly wage, through the canonical writers. */
+  function withJob(world: World, adultId: EntityId, weeklyMinor: number) {
+    const home = world.people[adultId]!.homeJurisdictionId;
+    let next = createOrganization(world, {
+      stableKey: `a137:${adultId}:employer`,
+      formedAt: world.currentDate,
+      provenance,
+      initialProfile: {
+        name: "Test employer",
+        classification: "enterprise:retail",
+        locationJurisdictionId: home,
+      },
+    });
+    next = createWorkRelationship(next, {
+      stableKey: `a137:${adultId}:work`,
+      personId: adultId,
+      organizationId: next.history.organizations.at(-1)!.id,
+      startedAt: world.currentDate,
+      kind: "employment:local-business",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "Clerk",
+        occupationClassification: "occupation:office-clerk",
+        locationJurisdictionId: home,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 30, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "rigid",
+          interruptibility: "limited",
+          locationJurisdictionId: home,
+        },
+      },
+    });
+    return createWorkCompensation(next, {
+      stableKey: `a137:${adultId}:wages`,
+      workRelationshipId: next.history.workRelationships.at(-1)!.id,
+      startsAt: world.currentDate,
+      amount: money(weeklyMinor, "USD"),
+      cadenceKind: "schedule:weekly",
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance,
+    });
+  }
+
+  it(`reads a teenager's family money from the household's recorded pay (US-${usps}, seed ${seed})`, () => {
+    const { world, childId, adultId } = teenLife();
+    // Nobody in the household has a recorded job yet: unknown is not zero,
+    // so the money is the median child's, marked as an estimate.
+    const before = familyMoneyFor(world, childId, "adolescence");
+    expect(before.level).toBe("secure");
+    expect(before.source.note).toMatch(/^ESTIMATED FROM AVERAGE/);
+    // An adult whose early childhood was before the World began: estimated.
+    expect(familyMoneyFor(world, adultId, "early-childhood").source.kind).toBe(
+      "public-data",
+    );
+
+    // The leaf's reading of the home state agrees with the tax system's.
+    expect(homeStateKey(world, childId)).toBe(
+      residenceStateKey(world, childId),
+    );
+    const household = householdMembershipsAt(world, childId)[0]!;
+    const members = peopleInHouseholdAt(world, household.household.id);
+    const line = annualPovertyLineMinor(
+      residenceStateKey(world, childId)!,
+      members.length,
+      world.currentDate,
+    );
+    // The same household at half, one and a half, and three times the line.
+    for (const [multiple, level] of [
+      [0.5, "severe-scarcity"],
+      [1.5, "strained"],
+      [3, "secure"],
+    ] as const) {
+      const weekly = Math.round((line * multiple) / 52);
+      const paid = withJob(world, adultId, weekly);
+      const money = familyMoneyFor(paid, childId, "adolescence");
+      expect(money.level, `${multiple} times the poverty line`).toBe(level);
+      expect(money.source.kind).toBe("world-record");
+      expect(upbringingFor(paid, childId).money[1]).toMatchObject({
+        period: "adolescence",
+        level,
+      });
+    }
+  }, 60_000);
 });

@@ -494,10 +494,13 @@ export function familyPlanTransitionHandler(
   return done("family-arrived", resolved.world, resolved.eventId);
 }
 
-export const PEOPLE_FAMILY_HANDLERS: FutureTransitionHandlerRegistry =
-  createFutureTransitionHandlerRegistry([
+let peopleFamilyHandlersCache: FutureTransitionHandlerRegistry | undefined;
+
+export function peopleFamilyHandlers(): FutureTransitionHandlerRegistry {
+  return (peopleFamilyHandlersCache ??= createFutureTransitionHandlerRegistry([
     [FAMILY_RESOLUTION_TRANSITION_KEY, familyPlanTransitionHandler],
-  ]);
+  ]));
+}
 
 /** Children of this pair that the world already records. */
 export function childrenTogether(
