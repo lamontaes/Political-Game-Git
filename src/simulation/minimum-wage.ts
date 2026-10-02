@@ -330,7 +330,28 @@ function computeStateMinimumSetting(
         cutoff,
       })
     : null;
-  const beforeMinor = startingTerm?.value ?? null;
+  // The effect baseline is the saved world opening, not a later statutory phase.
+  // Current scheduled floors above still use the actual earning date.
+  const baselineLaw =
+    stateId && stateQuestion
+      ? startingLawInForce(
+          world,
+          stateId,
+          stateQuestion.id,
+          world.startedAt,
+          cutoff,
+        )
+      : null;
+  const baselineTerm = baselineLaw
+    ? readFinalEnactedLawTerm(world, baselineLaw, {
+        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+        termKey: "target",
+        unit: "minor/hour",
+        onDate: world.startedAt,
+        cutoff,
+      })
+    : null;
+  const beforeMinor = baselineTerm?.value ?? null;
   const filed = /^US-[A-Z]{2}$/.test(stateKey)
     ? ruleValueInWorld(
         world,
@@ -383,10 +404,10 @@ function computeStateMinimumSetting(
       };
     }
   }
-  return beforeMinor === null
+  return beforeMinor === null || startingTerm === null
     ? null
     : {
-        hourlyMinor: beforeMinor,
+        hourlyMinor: startingTerm.value,
         beforeMinor,
         measureId: null,
         designation: null,
