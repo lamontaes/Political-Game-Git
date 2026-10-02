@@ -63,7 +63,6 @@ import {
   clemencyQuestionFor,
   evaluateClemency,
 } from "../justice/clemency-reasoning";
-import { isCongressMeasure } from "./congress-chambers";
 import { congressLawmakingHandlers, presidentDesk } from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
@@ -2949,7 +2948,7 @@ export const executiveDesk: ExecutiveDeskHandler = (
   measure,
   blueprint,
 ) =>
-  isCongressMeasure(measure)
+  world.jurisdictions[measure.jurisdictionId]?.kind === "federal"
     ? presidentDesk(world, measure)
     : governorDesk(world, measure, blueprint);
 

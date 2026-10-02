@@ -76,6 +76,7 @@ export function selectLocalOpeningAccount(
     sourceRecordIds: readonly EntityId[];
   }[] = [];
   let unsupportedSaved = false;
+  let matchingSavedAccounts = 0;
   const prefix = "public-government:local:";
   // A saved but cutoff-invisible account also blocks replacement; the dated
   // evidence reader below decides whether its actual ownership is usable.
@@ -115,6 +116,7 @@ export function selectLocalOpeningAccount(
         };
     }
     if (!identity) continue;
+    matchingSavedAccounts += 1;
     const evidence = publicTaxAccountEvidenceForIdentity(
       world,
       identity,
@@ -124,17 +126,17 @@ export function selectLocalOpeningAccount(
       unsupportedSaved = true;
     else matches.push({ identity, sourceRecordIds: evidence.sourceRecordIds });
   }
+  if (matchingSavedAccounts > 1)
+    return {
+      status: "ambiguous",
+      reason:
+        "Multiple saved accounts match this government; consolidation requires recorded migration.",
+    };
   if (unsupportedSaved)
     return {
       status: "unsupported",
       reason:
         "A matching saved account lacks valid dated ownership evidence; do not open a replacement.",
-    };
-  if (matches.length > 1)
-    return {
-      status: "ambiguous",
-      reason:
-        "Multiple saved accounts match this government; consolidation requires recorded migration.",
     };
   if (matches.length === 1) return { status: "saved", ...matches[0]! };
 

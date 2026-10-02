@@ -80,7 +80,12 @@ export function enactThroughDesk(
   });
 }
 
-function decideAtDesk(world: World, measureId: EntityId): World {
+/**
+ * The seated governor, or the President for an Act of Congress, decides the
+ * bill waiting at the desk. Exported for procedure tests that carry the bill
+ * the rest of the way by their own steps.
+ */
+export function decideAtDesk(world: World, measureId: EntityId): World {
   const measure = (world.history.legislativeMeasures ?? []).find(
     (row) => row.id === measureId,
   );

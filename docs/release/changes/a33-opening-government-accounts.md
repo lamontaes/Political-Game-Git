@@ -2,7 +2,7 @@
 id: a33-opening-government-accounts
 impact: patch
 section: Fixed
-title: Public budgets start with saved cash accounts.
+title: State budgets start with a saved public cash account.
 ---
 
-New worlds open one public cash account for each state, D.C. and territory. Opening cash is labeled as an estimate from the existing researched general-fund and rainy-day balances. Federal and uniquely identified local accounts reuse the opening cash already recorded for that saved world. An absent opening profile creates no replacement federal or local balance. Existing local accounts keep their exact identity; ambiguous or unsupported ownership opens no replacement. Existing saved accounts keep their money, and opening cash is never recorded as tax revenue.
+New worlds open one public cash account for each state, D.C. and territory. Federal and uniquely identified local governments use the same writer and their saved opening cash profile. Unsupported or ambiguous local ownership creates no replacement account. The saved world’s opening cash profile takes precedence, with researched general-fund and rainy-day balances used only where that profile has no value. All openings are labeled as estimates. Existing saved government accounts are reused without changing their identities or money, and opening cash is never recorded as tax revenue. Cash-settled months retain law-effect attribution without treating modeled effects as payments.

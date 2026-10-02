@@ -8,7 +8,8 @@ import {
 } from "../government-units";
 import { lifePlaceStateIdentities, lifePlaceByKey } from "../life-places";
 import { publicGovernmentOrganizationKey } from "../public-government-identity";
-import { recordOrganizationProfile } from "../life";
+import { createOrganization, recordOrganizationProfile } from "../life";
+import { createResourcePosition, money } from "../resources";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import {
@@ -268,10 +269,38 @@ describe("A33 sourced opening cash uses the existing government account", () => 
     expect(named.status).toBe("unique-compiled");
     if (named.status !== "unique-compiled")
       throw new Error("Expected unique compiled unit.");
-    const world = ensurePublicGovernmentAccount(
-      ensurePublicGovernmentAccount(before, named.identity),
-      { kind: "jurisdiction", jurisdictionId: candidate.jurisdictionId },
-    );
+    let world = ensurePublicGovernmentAccount(before, named.identity);
+    expect(() =>
+      ensurePublicGovernmentAccount(world, {
+        kind: "jurisdiction",
+        jurisdictionId: candidate.jurisdictionId,
+      }),
+    ).not.toThrow();
+    // Preserve an explicit legacy duplicate as input; the current account writer no longer creates one.
+    world = createOrganization(world, {
+      stableKey: publicOrganizationKey(candidate.jurisdictionId),
+      formedAt: world.currentDate,
+      provenance: {
+        kind: "authored",
+        note: "Explicit existing legacy duplicate control, not an opening writer.",
+      },
+      initialProfile: {
+        name: "Legacy jurisdiction account",
+        classification: "sector:government",
+        locationJurisdictionId: candidate.jurisdictionId,
+      },
+    });
+    const organizationId = world.history.organizations.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "legacy-duplicate:cash",
+      owner: { kind: "organization", organizationId },
+      openedAt: world.currentDate,
+      openingBalance: money(7123, "USD"),
+      provenance: {
+        kind: "authored",
+        note: "Explicit preserved duplicate cash control.",
+      },
+    });
     expect(selectLocalOpeningAccount(world, candidate).status).toBe(
       "ambiguous",
     );
@@ -472,16 +501,29 @@ describe("A33 sourced opening cash uses the existing government account", () => 
         government.key,
       ).toBeDefined();
       const saved = position(world, jurisdiction!.id);
+      const opening = before.history.worldConditions!.find(
+        (row) => row.kind === "world-opening",
+      )!;
+      const profileAmount =
+        opening.kind === "world-opening"
+          ? opening.publicCashOpening?.stateByJurisdictionId[jurisdiction!.id]
+          : undefined;
       expect(saved.openingBalance.minorUnits, government.key).toBe(
-        Math.round((government.balance + government.reserve) * 100),
+        profileAmount ??
+          Math.round((government.balance + government.reserve) * 100),
       );
       expect(saved.provenance).toMatchObject({
         kind: "authored",
-        note: expect.stringContaining("ESTIMATED FROM RESEARCH"),
+        note: expect.stringContaining(
+          profileAmount !== undefined
+            ? "ESTIMATED FROM SAVED WORLD"
+            : "ESTIMATED FROM RESEARCH",
+        ),
       });
-      expect(saved.provenance).toMatchObject({
-        note: expect.stringContaining("public-budget-bases.json"),
-      });
+      if (profileAmount === undefined)
+        expect(saved.provenance).toMatchObject({
+          note: expect.stringContaining("public-budget-bases.json"),
+        });
       expect(flows.cash?.get(government.key)?.positionId, government.key).toBe(
         saved.id,
       );
@@ -549,6 +591,99 @@ describe("A33 sourced opening cash uses the existing government account", () => 
       expect(ensureOpeningGovernmentAccounts(next)).toBe(next);
     },
   );
+
+  it.each([1, 41723])(
+    "the saved world's opening cash %i wins over a research fallback",
+    (amountMinorUnits) => {
+      const key = selected[0]!.jurisdictionKey;
+      let world = ensureStateJurisdictionForKey(fixture(), key);
+      const jurisdictionId = chiefExecutiveJurisdiction(key.slice(3))!.id;
+      world = {
+        ...world,
+        history: {
+          ...world.history,
+          worldConditions: world.history.worldConditions!.map((row) =>
+            row.kind === "world-opening" && row.publicCashOpening
+              ? {
+                  ...row,
+                  publicCashOpening: {
+                    ...row.publicCashOpening,
+                    stateByJurisdictionId: {
+                      ...row.publicCashOpening.stateByJurisdictionId,
+                      [jurisdictionId]: amountMinorUnits,
+                    },
+                  },
+                }
+              : row,
+          ),
+        },
+      };
+      const next = ensurePublicGovernmentAccount(
+        world,
+        { kind: "jurisdiction", jurisdictionId },
+        {
+          amountMinorUnits: 987654,
+          sourceNote: "ESTIMATED FROM RESEARCH: fallback fixture.",
+        },
+      );
+      expect(position(next, jurisdictionId).openingBalance.minorUnits).toBe(
+        amountMinorUnits,
+      );
+      expect(position(next, jurisdictionId).provenance).toMatchObject({
+        note: expect.stringContaining("ESTIMATED FROM SAVED WORLD"),
+      });
+      expect(
+        ensurePublicGovernmentAccount(
+          next,
+          { kind: "jurisdiction", jurisdictionId },
+          {
+            amountMinorUnits: 123,
+            sourceNote: "Later estimate cannot replace saved cash.",
+          },
+        ),
+      ).toBe(next);
+    },
+  );
+
+  it("uses the research fallback only when the saved profile does not cover that government", () => {
+    const before = fixture();
+    const opening = before.history.worldConditions!.find(
+      (row) => row.kind === "world-opening",
+    )!;
+    if (opening.kind !== "world-opening" || !opening.publicCashOpening)
+      throw new Error("Missing saved profile fixture.");
+    const uncovered = identities.find(({ jurisdictionKey }) => {
+      const jurisdictionId = chiefExecutiveJurisdiction(
+        jurisdictionKey.slice(3),
+      )!.id;
+      return (
+        opening.publicCashOpening!.stateByJurisdictionId[jurisdictionId] ===
+        undefined
+      );
+    })!;
+    expect(uncovered).toBeDefined();
+    const world = ensureStateJurisdictionForKey(
+      before,
+      uncovered.jurisdictionKey,
+    );
+    const jurisdictionId = chiefExecutiveJurisdiction(
+      uncovered.jurisdictionKey.slice(3),
+    )!.id;
+    const next = ensurePublicGovernmentAccount(
+      world,
+      { kind: "jurisdiction", jurisdictionId },
+      {
+        amountMinorUnits: 27123,
+        sourceNote: "ESTIMATED FROM RESEARCH: uncovered government fixture.",
+      },
+    );
+    expect(position(next, jurisdictionId).openingBalance.minorUnits).toBe(
+      27123,
+    );
+    expect(position(next, jurisdictionId).provenance).toMatchObject({
+      note: expect.stringContaining("ESTIMATED FROM RESEARCH"),
+    });
+  });
 
   it("refuses invalid opening estimates without writing accounts", () => {
     const key = selected[0]!.jurisdictionKey;
