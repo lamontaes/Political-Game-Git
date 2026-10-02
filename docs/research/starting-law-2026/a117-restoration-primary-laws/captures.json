@@ -1,0 +1,173 @@
+[
+  {
+    "capture": "oh-2961-01.html",
+    "source": "https://codes.ohio.gov/ohio-revised-code/section-2961.01",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 17392,
+    "sha256": "be53f1010d99aa4df615a55c97458910508e6dd398af77836efa67197cf8bd4a"
+  },
+  {
+    "capture": "oh-3599-39.html",
+    "source": "https://codes.ohio.gov/ohio-revised-code/section-3599.39",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 15167,
+    "sha256": "d823cc5b660f9bca6c897fff23d15a857fa78d80471ea128ffdbad97a5c30282"
+  },
+  {
+    "capture": "az-13-907.html",
+    "source": "https://www.azleg.gov/ars/13/00907.htm",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 2602,
+    "sha256": "1838e8233d9904a5677b211c0ef3ed5d4ff68b7296bed835ff17ea7ed8c462ec"
+  },
+  {
+    "capture": "az-13-908.html",
+    "source": "https://www.azleg.gov/ars/13/00908.htm",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 2862,
+    "sha256": "18d5b0b85c998e16b5373277bf2f38e79183b802c12b7e49ca0b80e80feb6169"
+  },
+  {
+    "capture": "dc-1-1001-02.html",
+    "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1001.02",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 53923,
+    "sha256": "12405d8d48eb83e8e0f502ea7f53cc0b12ccb7a11f6cc688747dd97778b4f900"
+  },
+  {
+    "capture": "nc-13-1.html",
+    "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_13/GS_13-1.html",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 2826,
+    "sha256": "dd55f9b70c67eb50553a5bf3b99678081dbb4eaf7992c715465528eebc1c40d9"
+  },
+  {
+    "capture": "wa-29a-08-520.html",
+    "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.08.520",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 112516,
+    "sha256": "142247e0dc901b9dea50ae0497d5424ed2b6b47cd1424f00049502cdac71eb59"
+  },
+  {
+    "capture": "ne-29-112.html",
+    "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-112",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 24837,
+    "sha256": "69c806dbb94c42c47c81e34d95d126db31564633232d11b3fd3ab6f7e00e771b"
+  },
+  {
+    "capture": "id-18-310.html",
+    "source": "https://legislature.idaho.gov/statutesrules/idstat/Title18/T18CH3/SECT18-310/",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 105802,
+    "sha256": "f0d5fe4eb951debf3ee64e7a6dad2d0433fef3d10949934291d1d45f03c29842"
+  },
+  {
+    "capture": "mn-201-014.html",
+    "source": "https://www.revisor.mn.gov/statutes/cite/201.014",
+    "finalUrl": "https://www.revisor.mn.gov/statutes/cite/201.014",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 65709,
+    "sha256": "e3d6a5722cd37d8137d1c224762c9e42c5fdb34cf915b1740d5a4eda9961a64a"
+  },
+  {
+    "capture": "mn-2023-62.html",
+    "source": "https://www.revisor.mn.gov/laws/2023/0/Session+Law/Chapter/62/",
+    "finalUrl": "https://www.revisor.mn.gov/laws/2023/0/Session+Law/Chapter/62/",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 1693749,
+    "sha256": "48de8df3dc2e66e43fcc7154ec429b7563a962fa55d04c395d6da0917ddc0179"
+  },
+  {
+    "capture": "md-el-3-102.html",
+    "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gel&section=3-102&enactments=false",
+    "finalUrl": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gel&section=3-102&enactments=false",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 63416,
+    "sha256": "f5b75e2a16ac79d80093a1eb810ff6cd7a52405974c4332f59fdeb3aba4f3b56"
+  },
+  {
+    "capture": "nv-293.html",
+    "source": "https://www.leg.state.nv.us/NRS/NRS-293.html",
+    "finalUrl": "https://www.leg.state.nv.us/NRS/NRS-293.html",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 1031544,
+    "sha256": "4ce9599105f7005e65fec7d73faddc76d11bb692fda4ceedfd11db5cfea977af"
+  },
+  {
+    "capture": "nv-213.html",
+    "source": "https://www.leg.state.nv.us/NRS/NRS-213.html",
+    "finalUrl": "https://www.leg.state.nv.us/NRS/NRS-213.html",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 421710,
+    "sha256": "bb955f023180be7701750c23a537d4e4db9231805292efed667ae32ab0e18b8a"
+  },
+  {
+    "capture": "nj-election-faq.html",
+    "source": "https://www.nj.gov/state/elections/voter-rights.shtml",
+    "finalUrl": "https://www.nj.gov/state/elections/voter-rights.shtml",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 49102,
+    "sha256": "3616e38870f464f7a4bcc55f84e4ba631e6521750a4467af41fde7e79d839919"
+  },
+  {
+    "capture": "hi-felony.html",
+    "source": "https://elections.hawaii.gov/voters/voters-with-a-felony-conviction/",
+    "finalUrl": "https://elections.hawaii.gov/voting/voters-with-a-felony-conviction/",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 123277,
+    "sha256": "f53268a43d887682efa787a4301987a68afbac2c55dfd9cfca053308ee1ce12e"
+  },
+  {
+    "capture": "ca-sos-rights.html",
+    "source": "https://www.sos.ca.gov/elections/voting-resources/voting-california/who-can-vote-california/voting-rights-californians",
+    "finalUrl": "https://www.sos.ca.gov/elections/voting-resources/voting-california/who-can-vote-california/voting-rights-californians",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 71188,
+    "sha256": "120deb898babbbd8006b1d00938267c98736d36e17c5204f52b0a328905ba7fc"
+  },
+  {
+    "capture": "co-sos-conviction.html",
+    "source": "https://www.sos.state.co.us/pubs/elections/FAQs/VotingAndConviction.html",
+    "finalUrl": "https://www.sos.state.co.us/pubs/elections/FAQs/VotingAndConviction.html",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 30609,
+    "sha256": "2f6eb6788cee7634b06c220f8f77f0efbced87033903c347ec08008e303e9220"
+  },
+  {
+    "capture": "ma-constitution.html",
+    "source": "https://malegislature.gov/Laws/Constitution",
+    "finalUrl": "https://malegislature.gov/Laws/Constitution",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 458487,
+    "sha256": "c6e560edbc2b7891241e9defce1c3ffab9fd39a64fb3b06dac641aab2e81d9d7"
+  },
+  {
+    "capture": "ri-17-9-2-3.html",
+    "source": "https://webserver.rilegislature.gov/Statutes/TITLE17/17-9.2/17-9.2-3.htm",
+    "finalUrl": "https://webserver.rilegislature.gov/Statutes/TITLE17/17-9.2/17-9.2-3.htm",
+    "retrievedOn": "2026-10-02",
+    "status": 200,
+    "bytes": 9692,
+    "sha256": "6551729cde63bac814e0ff308cf2974e5bc5a40ada8181d43f2e112b8f24068c"
+  }
+]
