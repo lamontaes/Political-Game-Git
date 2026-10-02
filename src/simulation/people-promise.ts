@@ -1,4 +1,4 @@
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { personName } from "./people";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordEventKnowledge } from "./records";
@@ -71,7 +71,7 @@ export interface DecidePromiseInput {
 export function decidePromiseRenegotiation(
   world: World,
   input: DecidePromiseInput,
-): { readonly outcome: PromiseOutcome; readonly world: World } {
+): { readonly outcome: PromiseOutcome | null; readonly world: World } {
   if (!promiseRevision(input.revisionId)) {
     throw new Error(
       `Not an arrangement anybody can ask for: ${input.revisionId}`,
@@ -143,7 +143,9 @@ export function decidePromiseRenegotiation(
     retention: "ephemeral",
   });
   return {
-    outcome: (evaluation.selectedOptionKey ?? "needs-answer") as PromiseOutcome,
+    outcome: isSelectedDecision(evaluation)
+      ? (evaluation.selectedOptionKey as PromiseOutcome)
+      : null,
     world: withTraits,
   };
 }

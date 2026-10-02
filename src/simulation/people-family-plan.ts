@@ -1,6 +1,6 @@
 import { eventById } from "./event-index";
 import { addDays } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import {
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
@@ -255,7 +255,7 @@ export function proposeFamilyPlan(
 function answerFamilyPlan(
   world: World,
   intentionId: EntityId,
-): { world: World; eventId: EntityId; agreed: boolean } {
+): { world: World; eventId: EntityId; agreed: boolean } | null {
   const intention = eventById(world, intentionId)!;
   const proposer = intention.participants.find(
     (entry) => entry.role === "agency:actor",
@@ -320,6 +320,7 @@ function answerFamilyPlan(
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) return null;
   const agreed = evaluation.selectedOptionKey === "agree";
   const on = addDays(withTraits.currentDate, WAIT_DAYS[kind]);
   const partner = withTraits.people[partnerId]!;
@@ -477,6 +478,15 @@ export function familyPlanTransitionHandler(
   );
   if (!answered) {
     const answer = answerFamilyPlan(world, intentionId);
+    if (!answer) {
+      return {
+        world,
+        status: "blocked",
+        reasonKey: "people:family-plan-undecided",
+        context: "The person has not selected an answer to the family plan.",
+        outcomeEventId: null,
+      };
+    }
     return done(
       answer.agreed ? "family-plan-agreed" : "family-plan-not-now",
       answer.world,

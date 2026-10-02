@@ -1675,33 +1675,39 @@ function studyPlanAnswers(context: SceneContext): readonly SceneAnswer[] {
   if (context.binding.variant === "proposal") {
     // Theirs is settled before the player picks anything; the same approach
     // comes back whichever choice is taken.
-    const theirs = studyApproach(
-      peerStudyApproach(context.world, {
-        personId: playerId,
-        peerPersonId: peerId,
-      }).approachId,
-    )!;
+    const decided = peerStudyApproach(context.world, {
+      personId: playerId,
+      peerPersonId: peerId,
+    }).approachId;
+    const theirs = decided === null ? null : studyApproach(decided)!;
     return PROPOSABLE_APPROACHES.map((id) => {
       const mine = studyApproach(id)!;
-      const same = mine.id === theirs.id;
+      const same = theirs !== null && mine.id === theirs.id;
       return {
         key: id,
         label: `Say you would ${mine.label}`,
         description: mine.requires,
         statement: `I think we should ${mine.label}.`,
-        replies: says(
-          context,
-          same
-            ? [`“That’s what I was going to say,” {name} says. “Good.”`]
-            : [`“I’d rather we ${theirs.label},” {name} says.`],
-        ),
+        replies:
+          theirs === null
+            ? ["You have not had an answer."]
+            : says(
+                context,
+                same
+                  ? [`“That’s what I was going to say,” {name} says. “Good.”`]
+                  : [`“I’d rather we ${theirs.label},” {name} says.`],
+              ),
         record: `The player said they would ${mine.label}.`,
-        apply: (world: World) =>
-          recordStudyProposals(world, {
-            personId: playerId,
-            peerPersonId: peerId,
-            approachId: id,
-          }).world,
+        ...(theirs === null
+          ? { followUp: true }
+          : {
+              apply: (world: World) =>
+                recordStudyProposals(world, {
+                  personId: playerId,
+                  peerPersonId: peerId,
+                  approachId: id,
+                }).world,
+            }),
       };
     });
   }
@@ -1785,16 +1791,21 @@ function studyPlanAnswers(context: SceneContext): readonly SceneAnswer[] {
       ]),
       record: `The player asked ${context.name} to compare the two approaches.`,
     },
-    ...(revision && onCompromise
+    ...(revision
       ? [
           {
             key: "compromise",
             label: `Suggest you ${revision.label}`,
             description: revision.requires,
             statement: `What about this — we ${revision.label}?`,
-            replies: says(context, lines(onCompromise, revision, "compromise")),
+            replies:
+              onCompromise === null
+                ? ["You have not had an answer."]
+                : says(context, lines(onCompromise, revision, "compromise")),
             record: `The player suggested they ${revision.label}.`,
-            apply: settle("compromise", onCompromise),
+            ...(onCompromise === null
+              ? { followUp: true }
+              : { apply: settle("compromise", onCompromise) }),
           },
         ]
       : []),
@@ -1806,9 +1817,14 @@ function studyPlanAnswers(context: SceneContext): readonly SceneAnswer[] {
       statement: theirs.concern
         ? `I still think we should ${mine.label}. What worries me about the other way is that ${theirs.concern}.`
         : `I still think we should ${mine.label}.`,
-      replies: says(context, lines(onHold, revision, "hold")),
+      replies:
+        onHold === null
+          ? ["You have not had an answer."]
+          : says(context, lines(onHold, revision, "hold")),
       record: `The player kept their own proposal.`,
-      apply: settle("hold", onHold),
+      ...(onHold === null
+        ? { followUp: true }
+        : { apply: settle("hold", onHold) }),
     },
   ];
 }
