@@ -8,13 +8,13 @@ Verified on GitHub: ownership update #1667 and story work #1663. The latter merg
 
 ## CONNECTIONS TABLE
 
-| Producer | Consumer | Evidence and next action |
-| --- | --- | --- |
-| Canonical dated legal terms | Payroll and Team 4 rent | #1679 READY at 404624837; Checker 3 reports 80/80 changed tests and eight scoped roots with zero diagnostics; CTO review pending |
-| Saved completed shift | Shared payroll operation | Existing reader exported unchanged at 44de52b98; causal-operation identity mapping still requested from Audit |
-| Resident saved-work fixture | Story exposure | Team 6 donor received by Overflow 5; #1663 merged |
-| Standby lived-outcome pipeline | Overflow 6 adapters | Exact #1675 head 0ac5fe04 supplied; implementation receipt pending |
-| Team 7 existing bill settlement | Overflow 7 | Exact scheduling/test release supplied; receiving implementation remains unverified |
+| Producer                        | Consumer                 | Evidence and next action                                                                                                         |
+| ------------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Canonical dated legal terms     | Payroll and Team 4 rent  | #1679 READY at 404624837; Checker 3 reports 80/80 changed tests and eight scoped roots with zero diagnostics; CTO review pending |
+| Saved completed shift           | Shared payroll operation | Existing reader exported unchanged at 44de52b98; causal-operation identity mapping still requested from Audit                    |
+| Resident saved-work fixture     | Story exposure           | Team 6 donor received by Overflow 5; #1663 merged                                                                                |
+| Standby lived-outcome pipeline  | Overflow 6 adapters      | Exact #1675 head 0ac5fe04 supplied; implementation receipt pending                                                               |
+| Team 7 existing bill settlement | Overflow 7               | Exact scheduling/test release supplied; receiving implementation remains unverified                                              |
 
 ## BLOCKED
 
@@ -40,13 +40,13 @@ Live GitHub confirms coordinator ownership PR #1648 merged at c7ee4265c8eb120b70
 
 ## CONNECTIONS TABLE
 
-| Producer | Consumer | Current state |
-| --- | --- | --- |
-| Preserved Team 1 A77/A97 work | Replacement Team 1, Making Laws | Assignment delivered to 01a0f92d-7edc-707a-b728-03688195800c; source receipt pending |
-| Preserved Team 4 A57 work | Replacement Team 4, Your Home | Assignment delivered to 01a0f92d-d8e9-7630-bb41-ee43da95f009; source receipt pending |
-| Canonical federal wage terms | Team 3 actual worker starting pay | Exact fallback hunk released; Audit contract answer and implementation pending |
-| Audit speech-wrapper release | Team 7 monthly speech scheduler | #1665 published; Claude registration release and runtime checks pending |
-| Claude G story-heard API | Team 8 News | Ruling 28 boundary released; Team 8 overlapping reader parked |
+| Producer                      | Consumer                          | Current state                                                                        |
+| ----------------------------- | --------------------------------- | ------------------------------------------------------------------------------------ |
+| Preserved Team 1 A77/A97 work | Replacement Team 1, Making Laws   | Assignment delivered to 01a0f92d-7edc-707a-b728-03688195800c; source receipt pending |
+| Preserved Team 4 A57 work     | Replacement Team 4, Your Home     | Assignment delivered to 01a0f92d-d8e9-7630-bb41-ee43da95f009; source receipt pending |
+| Canonical federal wage terms  | Team 3 actual worker starting pay | Exact fallback hunk released; Audit contract answer and implementation pending       |
+| Audit speech-wrapper release  | Team 7 monthly speech scheduler   | #1665 published; Claude registration release and runtime checks pending              |
+| Claude G story-heard API      | Team 8 News                       | Ruling 28 boundary released; Team 8 overlapping reader parked                        |
 
 ## BLOCKED
 
@@ -72,12 +72,12 @@ Live GitHub confirms #1639 merged at its published 48a9cf435d2bc3dcdcdec5ac70887
 
 ## CONNECTIONS TABLE
 
-| Producer | Consumer | Evidence and remaining work |
-| --- | --- | --- |
-| Team 3 historical monthly query and producers | Coordinator common payroll | #1575 head 5109e05933e53ca643c95cc27654c4c14af4585d published; donor complete file 17/17 reported passing; receiving-head checks NOT RUN |
-| Merged G1 helper and A3/A4 | Team 7 A5 | #1353 head 7c04ea624dabb21b21f464a2d2f3799a88dc9b4e received both; three complete runtime files await CTO cloud routing |
-| Coordinator Vermont source capture | Team 6 wage authority packet | Broker 2270f838ea57c32bb6b4ade3fabab81b7da585f0 delivered; legal relevance and date admission remain Team 6's |
-| Team 2 sourced council data | Existing municipal rule pack | ac5567e005417cb9548541d8da09a5d7af3da9de extracted; optional field approval pending, no runtime import |
+| Producer                                      | Consumer                     | Evidence and remaining work                                                                                                              |
+| --------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Team 3 historical monthly query and producers | Coordinator common payroll   | #1575 head 5109e05933e53ca643c95cc27654c4c14af4585d published; donor complete file 17/17 reported passing; receiving-head checks NOT RUN |
+| Merged G1 helper and A3/A4                    | Team 7 A5                    | #1353 head 7c04ea624dabb21b21f464a2d2f3799a88dc9b4e received both; three complete runtime files await CTO cloud routing                  |
+| Coordinator Vermont source capture            | Team 6 wage authority packet | Broker 2270f838ea57c32bb6b4ade3fabab81b7da585f0 delivered; legal relevance and date admission remain Team 6's                            |
+| Team 2 sourced council data                   | Existing municipal rule pack | ac5567e005417cb9548541d8da09a5d7af3da9de extracted; optional field approval pending, no runtime import                                   |
 
 ## BLOCKED
 
