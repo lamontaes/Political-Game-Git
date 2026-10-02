@@ -1,4 +1,4 @@
-import staging from "../../art/backdrops/staging.json";
+import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import { peopleAtWorkAt } from "../simulation/living-world/work-schedules";
 import { playerTown } from "../simulation/living-world/town-residents";
 import { personName } from "../simulation/people";
