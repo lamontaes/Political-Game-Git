@@ -1,3 +1,4 @@
+import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 /**
  * The minimum wage in force where a job is, on a date.
  *
@@ -38,7 +39,7 @@ import {
   stateJurisdictionForKey,
 } from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import type { EntityId, IsoDate, World } from "./types";
+import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 
 /** The policy question a federal minimum wage raise answers. */
 export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
@@ -290,6 +291,7 @@ export function stateMinimumSettingAt(
   world: World,
   stateKey: string,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): StateMinimumSetting | null {
   const enactments = world.history.legislativeEnactments;
   let cache: Map<string, StateMinimumSetting | null> | null = null;
@@ -301,9 +303,9 @@ export function stateMinimumSettingAt(
     }
   }
   const cacheKey = `${stateKey}:${onDate}`;
-  if (cache?.has(cacheKey)) return cache.get(cacheKey)!;
-  const setting = computeStateMinimumSetting(world, stateKey, onDate);
-  cache?.set(cacheKey, setting);
+  if (!cutoff && cache?.has(cacheKey)) return cache.get(cacheKey)!;
+  const setting = computeStateMinimumSetting(world, stateKey, onDate, cutoff);
+  if (!cutoff) cache?.set(cacheKey, setting);
   return setting;
 }
 
@@ -311,10 +313,25 @@ function computeStateMinimumSetting(
   world: World,
   stateKey: string,
   onDate: IsoDate,
+  cutoff?: HistoricalCutoff,
 ): StateMinimumSetting | null {
   const stateId = stateJurisdictionForKey(stateKey)?.id ?? null;
-  const starting = startingStateMinimumHourly(stateKey);
-  const beforeMinor = starting === null ? null : Math.round(starting * 100);
+  const stateQuestion = Object.values(world.policyCatalog.propositions).find(
+    (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+  );
+  const startingLaw = stateId && stateQuestion
+    ? lawInForce(world, stateId, stateQuestion.id, onDate, "all", cutoff)
+    : null;
+  const startingTerm = startingLaw
+    ? readFinalEnactedLawTerm(world, startingLaw, {
+        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+        termKey: "target",
+        unit: "minor/hour",
+        onDate,
+        cutoff,
+      })
+    : null;
+  const beforeMinor = startingTerm?.value ?? null;
   const filed = /^US-[A-Z]{2}$/.test(stateKey)
     ? ruleValueInWorld(
         world,
@@ -323,6 +340,7 @@ function computeStateMinimumSetting(
           officeKey: laborLawOfficeKey(stateKey.slice(3)),
           field: "labor.minimumWage.hourlyCents",
           onDate,
+          cutoff,
         },
         null,
       )
@@ -335,11 +353,7 @@ function computeStateMinimumSetting(
       designation: filed.designation,
       effectiveAt: filed.effectiveAt,
     };
-  const proposition = Object.values(
-    world.policyCatalog?.propositions ?? {},
-  ).find(
-    (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
-  );
+  const proposition = stateQuestion;
   if (proposition && stateId && beforeMinor !== null) {
     const law = lawInForce(
       world,
@@ -347,16 +361,23 @@ function computeStateMinimumSetting(
       proposition.id,
       onDate,
       "enacted-only",
+      cutoff,
     );
     if (law?.origin === "enacted" && law.answer === "yes") {
+      const term = readFinalEnactedLawTerm(world, law, {
+        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
+        termKey: "target",
+        unit: "minor/hour",
+        onDate,
+        cutoff,
+      });
+      if (!term) return null;
       const measure = world.history.legislativeMeasures?.find(
         (entry) => entry.id === law.measureId,
       );
       return {
-        hourlyMinor:
-          beforeMinor +
-          stateRaiseAfterDays(daysBetween(law.operativeAt, onDate)),
-        beforeMinor,
+        hourlyMinor: term.value,
+        beforeMinor: beforeMinor ?? term.value,
         measureId: law.measureId,
         designation: measure?.designation ?? "A state law",
         effectiveAt: law.operativeAt,

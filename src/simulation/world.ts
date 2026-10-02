@@ -1,3 +1,5 @@
+import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
+import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
 import {
   assertPermitIntegrity,
   permitApplications,
@@ -2067,6 +2069,8 @@ function validateHistoryIntegrity(
         ...(history.sessionAdjournments ?? []),
         ...(history.itemVetoes ?? []),
         ...(history.favors ?? []),
+        ...(history.earnedLawPayAssessments ?? []),
+        ...(history.workPayCoverageDeterminations ?? []),
         ...history.events,
         ...history.memories,
         ...history.knowledge,
@@ -2220,6 +2224,8 @@ function validateHistoryIntegrity(
     );
   }
   assertResourceHousingIntegrity(world, ids);
+  assertEarnedLawPayIntegrity(world, ids);
+  assertWorkPayCoverageIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
   assertStatutoryTaxIntegrity(world, ids);
   assertHouseholdLoanIntegrity(world, ids);

@@ -119,6 +119,7 @@ export interface LawConsequenceRow {
   onward?: LawConsequenceRow[];
 }
 export interface LawConsequenceContext {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
@@ -175,6 +176,7 @@ export type ResolvedLawValue =
   | { type: "boolean"; value: boolean }
   | { type: "decision"; value: string };
 export interface ResolvedLawConsequence {
+  completedShift?: { eventId: EntityId; termsId: EntityId };
   row: LawConsequenceRow;
   law: LawInForce;
   questionKey: string;
@@ -220,8 +222,16 @@ export interface ResolvedTypedTaxConsequence extends Omit<
     levyProvisionId: EntityId;
   };
 }
+export interface ResolvedSavedRuleConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: ResolvedSavedHourlyPayConsequence["authority"];
+}
 export type ResolvedSavedLawConsequence =
-  ResolvedStandingServiceConsequence | ResolvedTypedTaxConsequence;
+  | ResolvedStandingServiceConsequence
+  | ResolvedTypedTaxConsequence
+  | ResolvedSavedRuleConsequence;
 export type ResolvedAnyLawConsequence =
   ResolvedLawConsequence | ResolvedSavedLawConsequence;
 
