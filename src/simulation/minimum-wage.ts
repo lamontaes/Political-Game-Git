@@ -23,7 +23,11 @@ import {
   ruleValueInWorld,
   STATUTE_EFFECTIVE_DEFAULT_DAYS,
 } from "./enacted-rule-changes";
-import { lawInForce, startingLawScope } from "./governing/law-in-force";
+import {
+  lawInForce,
+  startingLawInForce,
+  startingLawScope,
+} from "./governing/law-in-force";
 import { measurePropositionAnswer } from "./issue-record";
 import { measureAnswersAt } from "./vote-bundle";
 import {
@@ -315,7 +319,7 @@ function computeStateMinimumSetting(
   );
   const startingLaw =
     stateId && stateQuestion
-      ? lawInForce(world, stateId, stateQuestion.id, onDate, "all", cutoff)
+      ? startingLawInForce(world, stateId, stateQuestion.id, onDate, cutoff)
       : null;
   const startingTerm = startingLaw
     ? readFinalEnactedLawTerm(world, startingLaw, {
