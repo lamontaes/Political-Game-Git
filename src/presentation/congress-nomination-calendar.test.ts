@@ -1,3 +1,5 @@
+import { recordPrimaryFixtureViews } from "../../tests/fixtures/recorded-primary-electorate";
+import { primaryVoterAccessFor } from "../simulation/nominations/primary-voter-access";
 import { describe, expect, it } from "vitest";
 import rules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import { drawRandomPlace } from "../../tests/support/random-place";
@@ -89,13 +91,19 @@ it("checks dated primary and filing rows for all 56 places without advancing the
 function field(seed: string, fits: (plan: Plan) => boolean, shared = false) {
   const place = drawRandomPlace(seed, (candidate) => {
     const plan = planOf(candidate.stateJurisdictionKey!.slice(3));
-    return plan.known && fits(plan);
+    return (
+      plan.known &&
+      fits(plan) &&
+      (plan.method !== "party-primary" ||
+        primaryVoterAccessFor(candidate.stateJurisdictionKey!.slice(3)) ===
+          "Open")
+    );
   });
   const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!;
   const plan = planOf(place.stateJurisdictionKey!.slice(3));
   if (!plan.known) throw new Error("The selected field has no primary.");
   const worldId = createWorldId("a114-entrants");
-  const people = [0, 1, 2, 3].map((index) =>
+  const people = Array.from({ length: 60 }, (_, index) =>
     createLightweightPerson({
       worldId,
       worldSeed: "a114-entrants",
@@ -106,7 +114,7 @@ function field(seed: string, fits: (plan: Plan) => boolean, shared = false) {
   );
   const world = createWorld({
     seed: "a114-entrants",
-    currentDate: makeIsoDate("2026-12-31"),
+    currentDate: makeIsoDate("2026-01-05"),
     people,
     jurisdictions: [state],
   });
@@ -125,14 +133,35 @@ function field(seed: string, fits: (plan: Plan) => boolean, shared = false) {
     })),
     partyShare: () => null,
   };
-  const primaryWorld = holdNominationPrimary(world, input);
+  const withViews = recordPrimaryFixtureViews(
+    world,
+    state.id,
+    input.entrants.map((row) => row.personId),
+    shared ? [4, 3, 2, 1] : [6, 5, 4],
+  );
+  const onDate = {
+    ...withViews,
+    currentDate: plan.primaryDate,
+    currentMoment: { ...withViews.currentMoment, date: plan.primaryDate },
+  };
+  const primaryWorld = holdNominationPrimary(onDate, input);
   const primary = nominationPrimaryRecord(primaryWorld, input.stableKey)!;
   return {
     place,
     plan,
     primary,
     input,
-    world: holdNominationRunoff(primaryWorld, input),
+    world: holdNominationRunoff(
+      {
+        ...primaryWorld,
+        currentDate: plan.runoff?.date ?? plan.primaryDate,
+        currentMoment: {
+          ...primaryWorld.currentMoment,
+          date: plan.runoff?.date ?? plan.primaryDate,
+        },
+      },
+      input,
+    ),
   };
 }
 const shares = (event: HistoricalEvent) =>
