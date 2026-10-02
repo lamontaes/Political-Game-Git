@@ -3,13 +3,16 @@ import type * as StateExecutives from "../nationwide-world/state-executives";
 import type { StateExecutiveHolderRecord } from "../nationwide-world/state-executives";
 import { makeIsoDate } from "../dates";
 import { createWorld } from "../world";
-import { createOrganization } from "../life";
+import { createOrganization, createWorkRelationship } from "../life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { assessPaychecksTaxes } from "../statutory-tax";
 import {
   publicGovernmentOrganizationKey,
   publicGovernmentIdentityForRecord,
 } from "../public-government-identity";
 import {
   createResourceFlow,
+  createWorkCompensation,
   createResourcePosition,
   money,
   recordResourceTransferOutcome,
@@ -37,6 +40,7 @@ import {
   decideShortfallOrder,
   lawSpendingForMonth,
   settleGovernmentMonth,
+  readMonthFlows,
   taxLawFactor,
   type MonthFlows,
 } from "./month";
@@ -771,54 +775,140 @@ describe("public budgets", () => {
     );
   });
 
-  it("income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else", () => {
-    const account = "organization_il" as EntityId;
-    const history = {
-      organizations: [
-        { id: account, stableKey: `public-government:${illinois}` },
-      ],
-      resourceFlows: [
-        {
-          id: "flow_1" as EntityId,
-          stableKey: "withholding:1",
-          source: { kind: "person", personId: "person_1" },
-          recipient: { kind: "organization", organizationId: account },
-          basisKind: "custom:tax-withholding",
-          basisReference: { kind: "general" },
+  it("income tax withheld from a represented payer is counted dollar for dollar from saved receipts, without population subtraction", () => {
+    const f = smallWorld({
+      place: "US-IL",
+      date: "2026-01-05",
+      people: 3,
+      seed: "controlled-budget-withholding",
+    });
+    const provenance = {
+      kind: "authored" as const,
+      note: "Explicit controlled one-thousand-dollar paycheck; not ordinary-play or population-wide revenue proof.",
+    };
+    let world = createOrganization(f.world, {
+      stableKey: "controlled-budget-withholding:employer",
+      formedAt: f.world.currentDate,
+      provenance,
+      initialProfile: {
+        name: "Controlled withholding employer",
+        classification: "enterprise:retail",
+        locationJurisdictionId: f.stateJurisdictionId,
+      },
+    });
+    const organizationId = world.history.organizations.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "controlled-budget-withholding:employer-cash",
+      owner: { kind: "organization", organizationId },
+      openedAt: world.currentDate,
+      openingBalance: money(100_000, "USD"),
+      provenance,
+    });
+    world = createWorkRelationship(world, {
+      stableKey: "controlled-budget-withholding:work",
+      personId: f.personId,
+      organizationId,
+      startedAt: world.currentDate,
+      kind: "employment:employee",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "Controlled worker",
+        occupationClassification: null,
+        locationJurisdictionId: f.stateJurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "rigid",
+          interruptibility: "limited",
+          locationJurisdictionId: f.stateJurisdictionId,
         },
-      ],
-      resourceTransferOutcomes: [
-        {
-          id: "outcome_1" as EntityId,
-          resourceFlowId: "flow_1" as EntityId,
-          periodStartsAt: makeIsoDate("2026-01-01"),
-          periodEndsAt: makeIsoDate("2026-01-31"),
-          occurredAt: makeIsoDate("2026-01-05"),
-          status: "completed",
-          transferredAmount: { minorUnits: 123_456, currency: "USD" },
-        },
-      ],
-    } as unknown as Partial<World["history"]>;
-    const world = worldAt("2026-01-05", { history });
-    const base = opened(worldAt("2026-01-05"));
-    const settled = settlePublicBudgets(
-      { ...opened(world), currentDate: makeIsoDate("2026-02-01") },
-      makeIsoDate("2026-01-01"),
+      },
+    });
+    world = createWorkCompensation(world, {
+      stableKey: "controlled-budget-withholding:pay",
+      workRelationshipId: world.history.workRelationships.at(-1)!.id,
+      startsAt: world.currentDate,
+      amount: money(100_000, "USD"),
+      cadenceKind: "schedule:weekly",
+      restrictionKind: null,
+      jurisdictionId: f.stateJurisdictionId,
+      provenance,
+    });
+    const resourceFlowId = world.history.resourceFlows.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "controlled-budget-withholding:person-cash",
+      owner: { kind: "person", personId: f.personId },
+      openedAt: world.currentDate,
+      openingBalance: money(0, "USD"),
+      provenance,
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "controlled-budget-withholding:paid",
+      resourceFlowId,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      status: "completed",
+      attemptedAmount: money(100_000, "USD"),
+      transferredAmount: money(100_000, "USD"),
+      reasonKind: null,
+      note: provenance.note,
+      provenance,
+    });
+    const paycheckId = world.history.resourceTransferOutcomes.at(-1)!.id;
+    world = assessPaychecksTaxes(world, [paycheckId]);
+    const government = publicBudgetFor(opened(world), f.stateJurisdictionId)!;
+    const books = opened(world).publicBudgets!;
+    const read = readMonthFlows(world, books);
+    const cash = read.flows.cash!.get(government.key)!;
+    const receipts = world.history.resourceTransferOutcomes.filter(
+      (outcome) => {
+        const flow = world.history.resourceFlows.find(
+          (row) => row.id === outcome.resourceFlowId,
+        )!;
+        return (
+          (outcome.status === "completed" || outcome.status === "partial") &&
+          flow.basisKind === "custom:tax-withholding" &&
+          flow.recipient.kind === "organization" &&
+          flow.recipient.organizationId === cash.organizationId
+        );
+      },
     );
-    const plain = settlePublicBudgets(
-      { ...base, currentDate: makeIsoDate("2026-02-01") },
-      makeIsoDate("2026-01-01"),
+    expect(receipts.length).toBeGreaterThan(0);
+    const minorUnits = receipts.reduce(
+      (total, row) => total + row.transferredAmount.minorUnits,
+      0,
     );
-    const at = BUDGET_SOURCES.indexOf("individualIncomeTax");
-    const row = publicBudgetFor(settled, illinois)!.months[0]!;
-    const without = publicBudgetFor(plain, illinois)!.months[0]!;
+    const income = BUDGET_SOURCES.indexOf("individualIncomeTax");
+    expect(read.flows.represented.get(government.key)).toBe(1);
+    expect(read.flows.withheld.get(government.key)).toBe(minorUnits / 100);
+    expect(
+      read.flows.recorded!.get(government.key)!.revenueMinorUnits[income],
+    ).toBe(minorUnits);
+    const settled = settleGovernmentMonth(
+      world,
+      government,
+      makeIsoDate("2026-01-01"),
+      read.flows,
+    );
+    const row = settled.government.months.at(-1)!;
     expect(row.represented).toBe(1);
-    const perResident = without.revenue[at]! / 12_710_158;
-    expect(row.revenue[at]! - without.revenue[at]!).toBeCloseTo(
-      1234.56 - perResident,
-      -1,
-    );
-    expect(settled.publicBudgets!.cursor).toEqual({ flows: 1, outcomes: 1 });
+    expect(row.revenue[income]).toBe(minorUnits / 100);
+    for (const receipt of receipts)
+      expect(row.cashSettlement!.sourceRecordIds).toContain(receipt.id);
+    expect(read.cursor).toEqual({
+      flows: world.history.resourceFlows.length,
+      outcomes: world.history.resourceTransferOutcomes.length,
+    });
+    expect(
+      readMonthFlows(world, { ...books, cursor: read.cursor }).flows.recorded!
+        .size,
+    ).toBe(0);
   });
 
   it("each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's", () => {
