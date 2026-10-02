@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../../tests/support/random-place";
-import { recordWorkStatus } from "../life";
+import {
+  createWorkRelationship,
+  recordWorkRole,
+  recordWorkStatus,
+} from "../life";
+import { addDays } from "../dates";
 import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
@@ -27,6 +32,7 @@ import {
   outletReportingWorkBudget,
   reporterWorkBudget,
   storyWorkItem,
+  storyEffortEstimate,
 } from "./story-work";
 
 // Unfiltered draws from the existing all-56 jurisdiction sampler.
@@ -100,7 +106,14 @@ describe.each(samples)(
       const reporter = reporterRoles(assigned, f.lead.outletId).find(
         (role) => role.personId === reporterId,
       )!;
-      const world = createStoryWorkItem(assigned, f.lead, reporter, estimate);
+      const world = assigned;
+      const reportingItem = storyWorkItem(world, f.lead.id)!;
+      expect(reportingItem).not.toBeNull();
+      expect(reportingItem.summary).toContain("CTO-admitted estimate");
+      expect(
+        workItemState(world, reportingItem.id).assignedPersonIds,
+      ).toContain(reporter.personId);
+      const requiredMinutes = reportingItem.effort!.requiredMinutes;
       const due = world.history.futureDueItems.find(
         (item) => item.transitionKey === PRESS_STORY_STEP_TRANSITION_KEY,
       )!;
@@ -114,15 +127,122 @@ describe.each(samples)(
       expect(serializeWorld(pressStoryStepHandler(loaded, due).world)).toBe(
         serializeWorld(loaded),
       );
-      const advanced = advanceWorldMinutes(loaded, estimate.requiredMinutes);
+      const advanced = advanceWorldMinutes(loaded, requiredMinutes);
       const item = storyWorkItem(advanced, f.lead.id)!;
       expect(workItemState(advanced, item.id).status).toBe("ready-for-review");
       expect(workItemState(advanced, item.id).completedEffortMinutes).toBe(
-        estimate.requiredMinutes,
+        requiredMinutes,
       );
       expect(pressStoryStepHandler(advanced, due).reasonKey).not.toBe(
         "press:reporting-work-incomplete",
       );
+    });
+
+    it("queues a new story when recorded open tasks reserve every reporter's hours", () => {
+      const f = fixture();
+      let world = f.world;
+      for (const reporter of reporterRoles(world, f.lead.outletId)) {
+        const budget = reporterWorkBudget(world, reporter)!;
+        world = createWorkItem(world, {
+          stableKey: `${seed}:reserved:${reporter.id}`,
+          title: "Recorded existing task",
+          summary: "Controlled open task reserves the saved weekly job hours.",
+          jurisdictionId: f.jurisdictionId,
+          sourceEntityIds: [f.source.id, reporter.workRelationshipId],
+          focus: {
+            kind: "other",
+            targetKey: "fixture:existing-work",
+            sourceEntityId: f.source.id,
+          },
+          effort: {
+            kind: "authored-duration",
+            requiredMinutes: budget.availableMinutes.minimum,
+          },
+          access: { kind: "private", personIds: [reporter.personId] },
+          assignedPersonIds: [reporter.personId],
+          playerRequirement: "none",
+          waitingOnPersonIds: [],
+          blocker: null,
+          scheduledActivityId: null,
+        });
+      }
+      const next = assignStory(world, f.lead.id);
+      expect(
+        reporterRoles(next, f.lead.outletId).some(
+          (role) => role.personId === assignedReporter(next, f.lead.id),
+        ),
+      ).toBe(true);
+      expect(next.history.pressRecords?.at(-1)).toMatchObject({
+        decision: "queued",
+      });
+      expect(storyWorkItem(next, f.lead.id)).toBeNull();
+      expect(
+        outletReportingWorkBudget(next, f.lead.outletId)?.availableMinutes
+          .minimum,
+      ).toBe(0);
+      expect(serializeWorld(assignStory(next, f.lead.id))).toBe(
+        serializeWorld(next),
+      );
+    });
+
+    it("excludes gaps and later non-journalism roles from the recorded experience estimate", () => {
+      const f = fixture();
+      const current = activeWorkRelationshipsAt(
+        f.world,
+        f.reporter.personId,
+      ).find(
+        ({ relationship }) => relationship.id === f.reporter.workRelationshipId,
+      )!;
+      const start = addDays(f.world.currentDate, -4000);
+      const end = addDays(start, 365);
+      const provenance = {
+        kind: "authored" as const,
+        note: "Controlled recorded journalism spell and subsequent role change.",
+      };
+      let world = createWorkRelationship(f.world, {
+        stableKey: `${seed}:earlier-work`,
+        personId: f.reporter.personId,
+        organizationId: null,
+        startedAt: start,
+        kind: "employment:fixture-news",
+        compensation: "paid",
+        authority: "self-directed",
+        dependency: "partly-dependent",
+        economicRisk: "organization-borne",
+        provenance,
+        initialRole: {
+          title: "Earlier recorded reporting",
+          occupationClassification: "profession:journalism",
+          locationJurisdictionId: f.jurisdictionId,
+          timeDemand: current.role.timeDemand,
+        },
+      });
+      const relationship = world.history.workRelationships.at(-1)!;
+      const earlierRole = world.history.workRoles.at(-1)!;
+      world = recordWorkRole(world, {
+        stableKey: `${seed}:non-journalism`,
+        workRelationshipId: relationship.id,
+        effectiveAt: end,
+        title: "Later recorded work",
+        occupationClassification: null,
+        locationJurisdictionId: f.jurisdictionId,
+        timeDemand: current.role.timeDemand,
+        provenance,
+        supersedesRoleId: earlierRole.id,
+      });
+      expect(
+        storyEffortEstimate(world, f.lead, f.reporter)?.requiredMinutes,
+      ).toBe(312);
+      expect(
+        storyEffortEstimate(world, f.lead, f.reporter)?.description,
+      ).toContain("experience multiplier 1.3");
+      expect(
+        storyEffortEstimate(
+          deserializeWorld(serializeWorld(world)),
+          f.lead,
+          f.reporter,
+        ),
+      ).toEqual(storyEffortEstimate(world, f.lead, f.reporter));
     });
 
     it("projects outlet minutes from its actual current reporters", () => {
@@ -135,6 +255,10 @@ describe.each(samples)(
         read: (budget: NonNullable<(typeof budgets)[number]>) => number,
       ) => budgets.reduce((total, budget) => total + read(budget!), 0);
       expect(outletReportingWorkBudget(f.world, f.lead.outletId)).toEqual({
+        workdayMinutes: {
+          minimum: sum((budget) => budget.workdayMinutes.minimum),
+          maximum: sum((budget) => budget.workdayMinutes.maximum),
+        },
         weeklyMinutes: {
           minimum: sum((budget) => budget.weeklyMinutes.minimum),
           maximum: sum((budget) => budget.weeklyMinutes.maximum),
