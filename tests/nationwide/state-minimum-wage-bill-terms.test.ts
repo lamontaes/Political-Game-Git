@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   addDays,
+  daysBetween,
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
 import {
@@ -211,34 +212,82 @@ describe(
     });
 
     it("moves the poverty rate after the law's lag, and a repeal undoes it", () => {
+      const baseline = omahaWithRaiseBills([]);
+      const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
+      const initialRate = townMinimumHourlyAt(
+        baseline.world,
+        omaha,
+        baseline.world.currentDate,
+      );
+      if (initialRate === null)
+        throw new Error(
+          "The fixture needs its actual recorded starting floor.",
+        );
       const repeal: RaiseBill = {
         key: "lb-901",
         designation: "LB 901, 2026",
         answer: "no",
         effectiveInDays: 1_200,
+        // Authored repeal text restores the fixture's recorded starting floor.
+        cents: Math.round(initialRate * 100),
       };
-      const { world, opened } = omahaWithRaiseBills([LB_900, repeal]);
+      const { world: enacted, opened } = omahaWithRaiseBills([
+        NUMERIC_LB_900,
+        repeal,
+      ]);
+      const measure = enacted.history.legislativeMeasures!.find(
+        (row) => row.stableKey === `raise:${LB_900.key}:measure`,
+      )!;
       const state = NEBRASKA();
       const effectiveAt = addDays(opened, LB_900.effectiveInDays);
       const repealAt = addDays(opened, repeal.effectiveInDays);
-      const poverty = (on: IsoDate) =>
-        outcomeFactor(world, state, "household.poverty-pct", on).multiplier;
+      const poverty = (snapshot: World) =>
+        outcomeFactor(
+          snapshot,
+          state,
+          "household.poverty-pct",
+          snapshot.currentDate,
+        ).multiplier;
+      const through = (snapshot: World, until: IsoDate) =>
+        runPaydays(
+          snapshot,
+          snapshot.currentDate,
+          daysBetween(snapshot.currentDate, until),
+        );
+      // Every observation uses an actual saved canonical payday snapshot.
       // Nothing moves before the law, or before its 36-month lag has run.
-      expect(poverty(addDays(effectiveAt, -1))).toBe(1);
-      expect(poverty(addDays(effectiveAt, 400))).toBe(1);
-      // After the lag, the raise is felt, and the poverty rate is lower.
-      const felt = poverty(addDays(repealAt, -1));
-      expect(felt).toBeLessThan(1);
-      // The repeal takes the state's rate back to where it began, and the
-      // effect ends the day it takes effect.
-      const omaha = lifePlaceByKey("3137000")!.context.jurisdiction.id;
-      expect(rateOn(world, omaha, repealAt)).toBe(
-        rateOn(omahaWithRaiseBills([]).world, omaha, repealAt),
+      const before = runPaydays(enacted, opened, LB_900.effectiveInDays - 1);
+      expect(poverty(before)).toBe(1);
+      const early = through(before, addDays(effectiveAt, 400));
+      expect(poverty(early)).toBe(1);
+      const feltWorld = through(early, addDays(repealAt, -1));
+      const paid = feltWorld.history.resourceTransferOutcomes.filter(
+        (row) =>
+          row.status === "completed" &&
+          row.transferredAmount.minorUnits > 0 &&
+          row.lawEffectStamps?.some(
+            (stamp) =>
+              stamp.effectKind === "pay" &&
+              stamp.governingLawKey === measure.id,
+          ),
       );
-      // The state's poverty rate follows its rate back with the same lag.
-      expect(poverty(addDays(repealAt, 1_100))).toBe(1);
+      expect(paid.length).toBeGreaterThan(0);
+      expect(townMinimumHourlyAt(feltWorld, omaha, feltWorld.currentDate)).toBe(
+        ADOPTED_FLOOR_MINOR / 100,
+      );
+      // The saved pay evidence is necessary; the shared before-law measure
+      // and researched link must still establish the poverty effect.
+      const felt = poverty(feltWorld);
+      expect(felt).toBeLessThan(1);
+      const repealed = through(
+        feltWorld,
+        nextPaydayDate(addDays(repealAt, -1)),
+      );
+      expect(townMinimumHourlyAt(repealed, omaha, repealAt)).toBe(initialRate);
+      const later = through(repealed, addDays(repealAt, 1_100));
+      expect(poverty(later)).toBe(1);
       console.info(
-        `Nebraska LB 900 answered yes: poverty factor ${felt.toFixed(4)} the day before the repeal, 1.0000 1,100 days after it took effect.`,
+        `Nebraska LB 900: ${paid.length} completed law-stamped paychecks; poverty factor ${felt.toFixed(4)} at saved payday ${feltWorld.currentDate}, 1.0000 after the repeal's lag.`,
       );
     });
   },
