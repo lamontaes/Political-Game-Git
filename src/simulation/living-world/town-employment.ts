@@ -56,6 +56,8 @@ import {
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import { SeededRng } from "../rng";
+import { decideTownStaffingFromBooks } from "./town-staffing-decision";
+import { isSelectedDecision, recordDurableDecisionTrace } from "../decisions";
 import { townBusinessHasRoomToHire } from "./town-business-books";
 import type {
   EntityId,
@@ -1365,6 +1367,8 @@ export function fillTownJobs(
   open: readonly Resident[],
   options: {
     readonly round: string | null;
+    /** Live book-backed hiring; opening/bootstrap callers retain their route. */
+    readonly requireRecordedBooks?: boolean;
     /**
      * Hire everyone into this one employer instead (a business just opened):
      * the first who is old enough runs it, the rest take its other roles.
@@ -1608,6 +1612,7 @@ export function fillTownJobs(
   };
 
   const jobs: CreateWorkRelationshipInput[] = [];
+  let openingDirectors: Set<EntityId> | null = null;
   const hire = (
     resident: Resident,
     workplace: Workplace,
@@ -1617,6 +1622,80 @@ export function fillTownJobs(
   ) => {
     const organizationId = at ?? employer(workplace);
     if (!organizationId) return false;
+    // Ordinary opening hires use the same eligible lead slot as a new
+    // employer's explicit intake, after the actual outlet is known. A
+    // town-wide role share cannot establish who directs each employer.
+    if (round === null && !options.into && !civic) {
+      const leads = workplace.roles.filter(
+        (entry) => entry.authority === "directs-others",
+      );
+      if (leads.length > 0) {
+        if (!openingDirectors) {
+          const dead = new Set(
+            next.history.personDeaths
+              .filter((row) => row.diedAt <= today)
+              .map((row) => row.personId),
+          );
+          openingDirectors = new Set([
+            ...next.personOrder.flatMap((personId) =>
+              dead.has(personId)
+                ? []
+                : activeWorkRelationshipsAt(next, personId).flatMap((job) =>
+                    job.relationship.authority === "directs-others" &&
+                    job.relationship.organizationId !== null
+                      ? [job.relationship.organizationId]
+                      : [],
+                  ),
+            ),
+            ...jobs.flatMap((job) =>
+              job.authority === "directs-others" && job.organizationId !== null
+                ? [job.organizationId]
+                : [],
+            ),
+          ]);
+        }
+        const lead = leads.find(
+          (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
+        );
+        const selected =
+          !openingDirectors.has(organizationId) && lead
+            ? lead
+            : roleFor(
+                workplace,
+                resident,
+                workplace.roles.filter(
+                  (entry) => entry.authority !== "directs-others",
+                ),
+              );
+        if (!selected) return false;
+        chosen = selected;
+      }
+    }
+    const books = next.townFinances?.businesses[organizationId];
+    if (options.requireRecordedBooks && !books) return false;
+    if (round !== null && books) {
+      const market = next.townFinances?.markets[`${town}:${books.kind}`];
+      const averagePay =
+        market?.townPay !== undefined && market.townJobs > 0
+          ? market.townPay / market.townJobs
+          : 0;
+      const decision = decideTownStaffingFromBooks(
+        next,
+        organizationId,
+        `${prefix}:review:${round}:hire:${organizationId}:${resident.personId}`,
+        "hire",
+        [{ key: `hire:${resident.personId}`, personId: resident.personId }],
+        staffAt(organizationId),
+        averagePay,
+      );
+      if (!decision) return false;
+      next = recordDurableDecisionTrace(decision.world, decision.evaluation);
+      if (
+        !isSelectedDecision(decision.evaluation) ||
+        decision.evaluation.selectedOptionKey !== `hire:${resident.personId}`
+      )
+        return false;
+    }
     const person = next.people[resident.personId]!;
     const adultSince = yearsBefore(person.birthDate, -WORKING_AGE_MIN);
     const hired =
@@ -1639,6 +1718,8 @@ export function fillTownJobs(
             0.5);
     counted().kindOf.set(organizationId, workplace.key);
     countHire(counted(), organizationId, chosen.title, partTime);
+    if (chosen.authority === "directs-others")
+      openingDirectors?.add(organizationId);
     const [minimumHours, maximumHours] =
       chosen.hours ?? (partTime ? PART_TIME_HOURS : FULL_TIME_HOURS);
     jobs.push({

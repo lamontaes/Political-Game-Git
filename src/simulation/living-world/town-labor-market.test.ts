@@ -1,18 +1,47 @@
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { advanceWorld } from "../world";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { activeWorkRelationshipsAt } from "../life-queries";
+import { seatLocalBusinesses } from "../local-economy";
+import { openWeeklyListings, applicationsFor, jobOpening } from "../job-market";
+import { reviewPeopleGoals } from "../people-goal-review";
+import { workStatusAt, activeEducationEnrollmentsAt } from "../life-queries";
+import { serializeWorld, deserializeWorld } from "../serialization";
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../demo";
 
-import { makeIsoDate } from "../dates";
+import { makeIsoDate, ageOnDate } from "../dates";
 import type { EntityId, World } from "../types";
 import { outOfWorkSince } from "./town-labor-market";
 import {
   decideTownWorkerQuit,
+  decideTownEmployerLayoff,
+  activeTownJobs,
   reviewTownJobs,
   TOWN_JOB_END_REASONS,
 } from "./town-labor-market";
-import { createWorkRelationship } from "../life";
+import { createWorkRelationship, recordWorkStatus } from "../life";
 import { createMindProvenance, recordGoalState } from "../mind";
-import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
+import {
+  TOWN_EMPLOYMENT_VERSION,
+  TOWN_WORKPLACES,
+  fillTownJobs,
+  townResidents,
+} from "./town-employment";
 import { workStatusHistory } from "../life-queries";
+import {
+  money,
+  createWorkCompensation,
+  recordResourceTransferOutcome,
+} from "../resources";
 
 const NEWCOMER = "person_newcomer" as EntityId;
 const LAID_OFF = "person_laid_off" as EntityId;
@@ -255,4 +284,594 @@ describe("a town worker's saved quit choice", () => {
       workStatusHistory(protectedWorld, fixture.jobId).at(-1)?.status,
     ).toBe("active");
   });
+});
+
+describe("A70 hiring through the saved application route", () => {
+  it("quarterly review does not manufacture hires and the existing goal review submits to an actual opening", () => {
+    const place = drawRandomPlace("a70-recorded-application-route");
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "a70-recorded-application-route",
+      placeKey: place.key,
+      startKind: "custom",
+      startAge: 30,
+      depth: "summarize-earlier-life",
+      questionnaire: "skipped",
+    });
+    let next = seatLocalBusinesses(
+      game.world,
+      game.world.people[game.playerPersonId]!.homeJurisdictionId,
+    );
+    next = openWeeklyListings(next, game.playerPersonId);
+    const prior = next.history.workRelationships.find(
+      (row) =>
+        row.personId !== game.playerPersonId &&
+        row.compensation === "paid" &&
+        row.organizationId !== null &&
+        next.people[row.personId]!.homeJurisdictionId ===
+          next.people[game.playerPersonId]!.homeJurisdictionId &&
+        ageOnDate(next.people[row.personId]!.birthDate, next.currentDate) >=
+          18 &&
+        ageOnDate(next.people[row.personId]!.birthDate, next.currentDate) <=
+          67 &&
+        activeEducationEnrollmentsAt(next, row.personId).length === 0 &&
+        next.history.workRelationships.filter(
+          (other) =>
+            other.personId === row.personId &&
+            other.compensation === "paid" &&
+            workStatusAt(next, other.id)?.status === "active",
+        ).length === 1 &&
+        workStatusAt(next, row.id)?.status === "active",
+    )!;
+    expect(prior).toBeDefined();
+    const town = next.people[prior.personId]!.homeJurisdictionId;
+    next = recordWorkStatus(next, {
+      stableKey: `a70:actual-job-ended:${prior.id}`,
+      workRelationshipId: prior.id,
+      effectiveAt: next.currentDate,
+      status: "ended",
+      reason:
+        "Test-only recorded job loss for the application-route regression.",
+      supersedesStatusId: workStatusAt(next, prior.id)!.id,
+      provenance: {
+        kind: "authored",
+        note: "Controlled test circumstance; existing worker and employer.",
+      },
+    });
+    const before = next.history.workRelationships;
+    const quarterly = reviewTownJobs(
+      next,
+      town,
+      game.playerPersonId,
+      "a70-no-callback",
+    );
+    expect(quarterly.history.workRelationships).toEqual(before);
+    expect(applicationsFor(quarterly, prior.personId)).toHaveLength(0);
+    const reviewed = reviewPeopleGoals(quarterly).world;
+    const applications = applicationsFor(reviewed, prior.personId);
+    expect(
+      applications.length,
+      JSON.stringify(
+        reviewed.history.goalStates
+          .filter((row) => row.personId === prior.personId)
+          .map((row) => ({
+            goalKey: row.goalKey,
+            status: row.status,
+            outcome: row.outcome,
+          })),
+      ),
+    ).toBeGreaterThan(0);
+    for (const application of applications) {
+      const opening = jobOpening(reviewed, application.openingId)!;
+      expect(opening).not.toBeNull();
+      expect(application.submittedAt >= opening.opensAt).toBe(true);
+      expect(application.submittedAt <= opening.closesAt).toBe(true);
+    }
+    const saved = serializeWorld(reviewed);
+    expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
+  });
+});
+
+function employerFixture(twoWorkers = false) {
+  const base = quitFixture();
+  let next = base.world;
+  const worker = next.history.workRelationships.find(
+    (row) => row.id === base.jobId,
+  )!;
+  const role = next.history.workRoles.find(
+    (row) => row.workRelationshipId === worker.id,
+  )!;
+  const actor = next.personOrder.find(
+    (id) =>
+      id !== base.personId && next.people[id]!.homeJurisdictionId === base.town,
+  )!;
+  next = createWorkRelationship(next, {
+    stableKey: "a70:explicit-employer-manager",
+    personId: actor,
+    organizationId: worker.organizationId,
+    startedAt: next.currentDate,
+    kind: worker.kind,
+    compensation: "paid",
+    authority: "directs-others",
+    dependency: worker.dependency,
+    economicRisk: worker.economicRisk,
+    provenance: {
+      kind: "authored",
+      note: "Controlled actual organization manager.",
+    },
+    initialRole: {
+      title: role.title,
+      occupationClassification: role.occupationClassification,
+      locationJurisdictionId: base.town,
+      timeDemand: role.timeDemand,
+    },
+  });
+  const managerId = next.history.workRelationships.at(-1)!.id;
+  const targets = [base.jobId];
+  if (twoWorkers) {
+    const other = next.personOrder.find(
+      (id) =>
+        id !== actor &&
+        id !== base.personId &&
+        next.people[id]!.homeJurisdictionId === base.town,
+    )!;
+    next = createWorkRelationship(next, {
+      stableKey: `${TOWN_EMPLOYMENT_VERSION}:${base.town}:job:a70-other`,
+      personId: other,
+      organizationId: worker.organizationId,
+      startedAt: next.currentDate,
+      kind: worker.kind,
+      compensation: "paid",
+      authority: "directed",
+      dependency: worker.dependency,
+      economicRisk: worker.economicRisk,
+      provenance: {
+        kind: "authored",
+        note: "Controlled second actual subordinate.",
+      },
+      initialRole: {
+        title: role.title,
+        occupationClassification: role.occupationClassification,
+        locationJurisdictionId: base.town,
+        timeDemand: role.timeDemand,
+      },
+    });
+    targets.push(next.history.workRelationships.at(-1)!.id);
+  }
+  for (const target of targets) {
+    next = createWorkCompensation(next, {
+      stableKey: `a70:controlled-payroll:${target}`,
+      workRelationshipId: target,
+      startsAt: next.currentDate,
+      amount: money(10000, "USD"),
+      cadenceKind: "schedule:monthly",
+      restrictionKind: null,
+      jurisdictionId: base.town,
+      provenance: {
+        kind: "authored",
+        note: "Controlled actual payroll terms.",
+      },
+    });
+    const flow = next.history.resourceFlows.at(-1)!;
+    next = recordResourceTransferOutcome(next, {
+      stableKey: `a70:controlled-paid-payroll:${target}`,
+      resourceFlowId: flow.id,
+      periodStartsAt: next.currentDate,
+      periodEndsAt: next.currentDate,
+      occurredAt: next.currentDate,
+      status: "completed",
+      attemptedAmount: money(10000, "USD"),
+      transferredAmount: money(10000, "USD"),
+      reasonKind: null,
+      note: "Controlled actual paid payroll.",
+      provenance: { kind: "authored", note: "Recorded payment fixture." },
+    });
+  }
+  next = {
+    ...next,
+    townFinances: {
+      version: "town-finances-v1",
+      banks: {},
+      markets: {},
+      businesses: {
+        [worker.organizationId!]: {
+          organizationId: worker.organizationId!,
+          openedAt: next.currentDate,
+          cash: 10000,
+          debt: 0,
+          annualRevenue: 100000,
+          kind: "retail",
+          capacity: 100000,
+          annualOtherCosts: 70000,
+          margin: 0.1,
+          ownDemandLog: 0,
+          openingShare: 1,
+          openingMarketSales: 100000,
+          bankId: null,
+          lineLimit: 0,
+          lastQuarterNet: -45000,
+          lastQuarterPay: 50000,
+          lastRound: "fixture-quarter",
+        },
+      },
+    },
+  };
+  return {
+    ...base,
+    world: next,
+    actor,
+    managerId,
+    organizationId: worker.organizationId!,
+    targets,
+  };
+}
+
+describe("A70 employer's recorded staffing choice", () => {
+  it("requires actual recorded books, payroll and unambiguous authority", () => {
+    const base = quitFixture();
+    const organizationId = base.world.history.workRelationships.find(
+      (row) => row.id === base.jobId,
+    )!.organizationId!;
+    expect(
+      decideTownEmployerLayoff(
+        base.world,
+        organizationId,
+        activeTownJobs(base.world, base.town),
+        "a70:no-authority",
+      ),
+    ).toBeNull();
+    const fixture = employerFixture();
+    const missing = { ...fixture.world, townFinances: undefined };
+    expect(
+      decideTownEmployerLayoff(
+        missing,
+        fixture.organizationId,
+        activeTownJobs(missing, fixture.town),
+        "a70:no-books",
+      ),
+    ).toBeNull();
+    const old = {
+      ...fixture.world,
+      townFinances: {
+        ...fixture.world.townFinances!,
+        businesses: {
+          [fixture.organizationId]: {
+            ...fixture.world.townFinances!.businesses[fixture.organizationId]!,
+            lastQuarterPay: undefined,
+          },
+        },
+      },
+    };
+    expect(
+      decideTownEmployerLayoff(
+        old,
+        fixture.organizationId,
+        activeTownJobs(old, fixture.town),
+        "a70:no-pay-record",
+      ),
+    ).toBeNull();
+  });
+
+  it("keeps equal recorded payroll savings undecided without tenure or ID selection", () => {
+    const fixture = employerFixture(true);
+    const absent = decideTownEmployerLayoff(
+      fixture.world,
+      fixture.organizationId,
+      activeTownJobs(fixture.world, fixture.town),
+      "a70:absent-staff-choice",
+    )!;
+    expect(absent.evaluation.outcomeKind).toBe("undecided");
+    const next = fixture.world;
+    const tied = decideTownEmployerLayoff(
+      next,
+      fixture.organizationId,
+      activeTownJobs(next, fixture.town),
+      "a70:tied-staff-choice",
+    )!;
+    expect(tied.evaluation.outcomeKind).toBe("undecided");
+    expect(tied.evaluation.selectedOptionKey).toBeNull();
+    expect(tied.evaluation.context.randomness).toBe("none");
+  });
+
+  it("saves the actual manager's selected target and payroll source before one canonical job loss, with repeat/reload parity", () => {
+    const fixture = employerFixture();
+    const saved = fixture.world;
+    const next = reviewTownJobs(
+      saved,
+      fixture.town,
+      fixture.actor,
+      "a70-employer-choice",
+    );
+    expect(workStatusAt(next, fixture.jobId)?.reason).toBe(
+      TOWN_JOB_END_REASONS.laidOff,
+    );
+    const trace = next.history.decisionTraces.find(
+      (row) => row.context.decisionType === "labor.employer-staffing",
+    )!;
+    expect(trace.context.actorPersonId).toBe(fixture.actor);
+    expect(trace.selectedOptionKey).toBe(`end:${fixture.jobId}`);
+    expect(trace.context.considerations[0]!.importance).toBe("strong");
+    const review = next.history.events.find(
+      (row) => row.type === "labor.payroll-reviewed",
+    )!;
+    expect(review.tags).toContain("books-round:fixture-quarter");
+    expect(review.tags).toContain(
+      `source:${saved.history.resourceTransferOutcomes.at(-1)!.id}`,
+    );
+    expect(JSON.parse(review.context!.pressure!).lastQuarterNet).toBe(-45000);
+    expect(
+      trace.sourceSnapshots.some(
+        (row) =>
+          row.reference.kind === "historical-event" &&
+          row.reference.eventId === review.id,
+      ),
+    ).toBe(true);
+    expect(
+      reviewTownJobs(next, fixture.town, fixture.actor, "a70-employer-choice"),
+    ).toBe(next);
+    const text = serializeWorld(next);
+    const loaded = deserializeWorld(text);
+    expect(serializeWorld(loaded)).toBe(text);
+    expect(
+      reviewTownJobs(
+        loaded,
+        fixture.town,
+        fixture.actor,
+        "a70-employer-choice",
+      ),
+    ).toBe(loaded);
+    expect(loaded.history.resourceTransferOutcomes).toEqual(
+      saved.history.resourceTransferOutcomes,
+    );
+  });
+
+  it("saves a book-backed hire decision before the existing job writer, without staffing goals", () => {
+    const fixture = employerFixture();
+    let next = fixture.world;
+    for (const relationship of next.history.workRelationships.filter(
+      (row) => row.personId === fixture.personId,
+    )) {
+      const status = workStatusAt(next, relationship.id);
+      if (status?.status !== "active") continue;
+      next = recordWorkStatus(next, {
+        stableKey: `a70:hire-prior-ended:${relationship.id}`,
+        workRelationshipId: relationship.id,
+        effectiveAt: next.currentDate,
+        status: "ended",
+        reason: "Controlled prior work ended.",
+        supersedesStatusId: status.id,
+        provenance: {
+          kind: "authored",
+          note: "Actual fixture worker available for hire.",
+        },
+      });
+    }
+    next = {
+      ...next,
+      townFinances: {
+        ...next.townFinances!,
+        businesses: {
+          [fixture.organizationId]: {
+            ...next.townFinances!.businesses[fixture.organizationId]!,
+            lastQuarterPay: 100,
+            lastQuarterNet: 10000,
+          },
+        },
+      },
+    };
+    const resident = townResidents(next, fixture.town).find(
+      (row) => row.personId === fixture.personId,
+    )!;
+    expect(resident).toBeDefined();
+    const hired = fillTownJobs(next, fixture.town, [resident], {
+      round: "a70-book-hire",
+      requireRecordedBooks: true,
+      into: { workplace: "retail", organizationId: fixture.organizationId },
+    });
+    const trace = hired.history.decisionTraces.find((row) =>
+      row.context.stableKey.includes(":hire:"),
+    )!;
+    expect(trace).toBeDefined();
+    expect(trace.context.decisionType).toBe("labor.employer-staffing");
+    expect(trace.selectedOptionKey).toBe(`hire:${fixture.personId}`);
+    expect(hired.history.workRelationships.at(-1)!.personId).toBe(
+      fixture.personId,
+    );
+    expect(hired.history.workRelationships.at(-1)!.organizationId).toBe(
+      fixture.organizationId,
+    );
+    expect(
+      trace.sourceSnapshots.some(
+        (row) => row.reference.kind === "historical-event",
+      ),
+    ).toBe(true);
+    const saved = serializeWorld(hired);
+    expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
+  });
+
+  it("weighs an actual net loss even when sales cover payroll, and keeps a solvent surplus", () => {
+    const fixture = employerFixture();
+    const withNet = (lastQuarterNet: number): World => ({
+      ...fixture.world,
+      townFinances: {
+        ...fixture.world.townFinances!,
+        businesses: {
+          [fixture.organizationId]: {
+            ...fixture.world.townFinances!.businesses[fixture.organizationId]!,
+            lastQuarterPay: 100,
+            lastQuarterNet,
+          },
+        },
+      },
+    });
+    const loss = withNet(-45000);
+    const cut = decideTownEmployerLayoff(
+      loss,
+      fixture.organizationId,
+      activeTownJobs(loss, fixture.town),
+      "a70:actual-net-loss",
+    )!;
+    expect(cut.evaluation.selectedOptionKey).toBe(`end:${fixture.jobId}`);
+    expect(
+      cut.evaluation.context.considerations.some((row) =>
+        row.explanation.includes("-45000 net dollars"),
+      ),
+    ).toBe(true);
+    const surplus = withNet(10000);
+    const keep = decideTownEmployerLayoff(
+      surplus,
+      fixture.organizationId,
+      activeTownJobs(surplus, fixture.town),
+      "a70:actual-net-surplus",
+    )!;
+    expect(keep.evaluation.selectedOptionKey).toBe("hold-staff");
+    expect(keep.evaluation.context.randomness).toBe("none");
+  });
+
+  it("refuses multiple active managers instead of picking one by ID", () => {
+    const fixture = employerFixture();
+    const manager = fixture.world.history.workRelationships.find(
+      (row) => row.id === fixture.managerId,
+    )!;
+    const role = fixture.world.history.workRoles.find(
+      (row) => row.workRelationshipId === manager.id,
+    )!;
+    const next = createWorkRelationship(fixture.world, {
+      stableKey: "a70:ambiguous-manager",
+      personId: fixture.personId,
+      organizationId: manager.organizationId,
+      startedAt: fixture.world.currentDate,
+      kind: manager.kind,
+      compensation: "paid",
+      authority: "directs-others",
+      dependency: manager.dependency,
+      economicRisk: manager.economicRisk,
+      provenance: {
+        kind: "authored",
+        note: "Explicit ambiguous manager control.",
+      },
+      initialRole: {
+        title: role.title,
+        occupationClassification: role.occupationClassification,
+        locationJurisdictionId: fixture.town,
+        timeDemand: role.timeDemand,
+      },
+    });
+    expect(
+      decideTownEmployerLayoff(
+        next,
+        fixture.organizationId,
+        activeTownJobs(next, fixture.town),
+        "a70:ambiguous-authority",
+      ),
+    ).toBeNull();
+  });
+});
+
+describe("A70 ordinary opening employer authority", () => {
+  it("fills only vacant eligible catalog lead slots at the actual outlet and preserves recorded review/reload", () => {
+    const seed =
+      "a70-ordinary-recorded-books:84506e84-db56-4187-88ad-022276872f2c";
+    const place = drawRandomPlace(seed);
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+      }),
+    ).game;
+    if (!game) throw new Error("Ordinary opening did not produce a game.");
+    let next = game.world;
+    const active = next.personOrder.flatMap((id) =>
+      activeWorkRelationshipsAt(next, id),
+    );
+    const leadEmployers: EntityId[] = [];
+    for (const organization of next.history.organizations) {
+      if (!organization.stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:`))
+        continue;
+      const kind = /:employer:([a-z-]+):\d+$/.exec(organization.stableKey)?.[1];
+      if (!kind) continue;
+      const organizationId = organization.id;
+      const workplace = TOWN_WORKPLACES.find((row) => row.key === kind)!;
+      const lead = workplace.roles.find(
+        (row) => row.authority === "directs-others",
+      );
+      const staff = active.filter(
+        (row) => row.relationship.organizationId === organizationId,
+      );
+      const directors = staff.filter(
+        (row) => row.relationship.authority === "directs-others",
+      );
+      expect(directors.length).toBeLessThanOrEqual(1);
+      if (!lead) {
+        expect(directors).toEqual([]);
+        continue;
+      }
+      if (
+        !staff.some(
+          (row) =>
+            ageOnDate(
+              next.people[row.relationship.personId]!.birthDate,
+              next.currentDate,
+            ) >= lead.minAge!,
+        )
+      ) {
+        expect(directors).toEqual([]);
+        continue;
+      }
+      expect(
+        directors,
+        JSON.stringify({
+          organizationId,
+          kind,
+          staff: staff.map((row) => ({
+            personId: row.relationship.personId,
+            age: ageOnDate(
+              next.people[row.relationship.personId]!.birthDate,
+              next.currentDate,
+            ),
+            authority: row.relationship.authority,
+            title: row.role.title,
+          })),
+        }),
+      ).toHaveLength(1);
+      expect(directors[0]!.role.title).toBe(lead.title);
+      expect(
+        ageOnDate(
+          next.people[directors[0]!.relationship.personId]!.birthDate,
+          next.currentDate,
+        ),
+      ).toBeGreaterThanOrEqual(lead.minAge!);
+      leadEmployers.push(organizationId as EntityId);
+    }
+    expect(leadEmployers.length).toBeGreaterThan(0);
+    const opened = serializeWorld(next);
+    expect(serializeWorld(deserializeWorld(opened))).toBe(opened);
+    next = advanceWorld(next, 91, createCampaignElectionTransitionRegistry());
+    const traces = next.history.decisionTraces.filter(
+      (row) => row.context.decisionType === "labor.employer-staffing",
+    );
+    for (const trace of traces) {
+      expect(leadEmployers).toContain(trace.context.subject.entityId);
+      expect(trace.context.randomness).toBe("none");
+      expect(
+        trace.sourceSnapshots.some(
+          (row) => row.reference.kind === "historical-event",
+        ),
+      ).toBe(true);
+    }
+    const saved = serializeWorld(next);
+    expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
+    console.log(
+      JSON.stringify({
+        a70Opening: {
+          seed,
+          place: place.key,
+          name: place.displayName,
+          leadEmployers: leadEmployers.length,
+          staffingDecisions: traces.length,
+        },
+      }),
+    );
+  }, 600_000);
 });
