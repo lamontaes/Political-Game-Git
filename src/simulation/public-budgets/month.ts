@@ -149,6 +149,13 @@ export interface MonthFlows {
 /** The budget program an appropriation's program key belongs to. */
 export function budgetProgramFor(programKey: string): BudgetProgram {
   const key = programKey.toLowerCase();
+  // A saved program may already name an exact canonical budget category.
+  // Preserve that binding before interpreting descriptive legacy keys.
+  const namespace = key.split(":", 1)[0];
+  const category = BUDGET_PROGRAMS.find(
+    (program) => program.toLowerCase() === namespace,
+  );
+  if (category) return category;
   if (/transit/.test(key)) return "transit";
   if (/bridge|highway|(^|[^a-z])road/.test(key)) return "highways";
   if (/school|education|teacher/.test(key)) return "schools";
