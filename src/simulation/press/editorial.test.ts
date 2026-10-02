@@ -1,12 +1,20 @@
+import { createFormationContext, recordPrivateBelief } from "../politics";
+import { officialOpinionSubject } from "../political-opinion-subjects";
+import { isEligibleVoterIn } from "../issue-record";
+import { randomInt } from "node:crypto";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../../presentation/new-game";
+import { lifePlaces } from "../life-places";
+import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 
 import {
   addDays,
   advanceWorld,
-  ageOnDate,
   createCampaignElectionTransitionRegistry,
   createScenarioWorld,
-  GAME_ADULT_CANDIDACY_AGE,
 } from "../index";
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import { personName } from "../people";
@@ -40,10 +48,8 @@ function fixture(): { world: World; personId: EntityId } {
   const created = createScenarioWorld("editorial", KENTUCKY_CONTEXT, {
     peopleCount: 5,
   });
-  const personId = created.personOrder.find(
-    (id) =>
-      ageOnDate(created.people[id]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const personId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
   let world: World = { ...created, control: { kind: "person", personId } };
   world = ensurePressMediaOpening(world, personId);
@@ -90,6 +96,20 @@ function stateOutlet(world: World) {
 }
 
 describe("editorial copy", () => {
+  it("opens a new game in a random accepted place for the receiving repair", () => {
+    const places = lifePlaces();
+    const place = places[randomInt(places.length)]!;
+    const built = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed: "a116-editorial-receiving",
+    });
+    expect(built.place.key).toBe(place.key);
+    expect(Object.keys(built.world.people).length).toBeGreaterThan(0);
+    process.stdout.write(
+      `${JSON.stringify({ receipt: "A116 editorial random opening", placeKey: place.key, worldId: built.world.id, currentDate: built.world.currentDate })}\n`,
+    );
+  });
   it("dates the earlier steps of the same development, and only that one", () => {
     const { world } = fixture();
     const first = record(world, "posted", {
@@ -234,8 +254,33 @@ describe("editorial copy", () => {
   });
 
   it("reports who won an election and whom they beat, with no tally", () => {
-    const { world } = fixture();
-    const [winnerId, loserId] = world.personOrder;
+    let { world } = fixture();
+    const [winnerId, loserId] = world.personOrder.filter((id) =>
+      fixtureMeetsRecordedCandidacyAge(world, id),
+    );
+    // Controlled editorial input: the existing counter needs saved voter views,
+    // rather than inferring ballots from the presence of two candidates.
+    const voters = world.personOrder.filter(
+      (id) =>
+        id !== winnerId && isEligibleVoterIn(world, id, KY, world.currentDate),
+    );
+    expect(voters.length).toBeGreaterThan(0);
+    for (const voterId of voters) {
+      world = recordPrivateBelief(world, {
+        stableKey: `editorial-test:vote:${voterId}`,
+        personId: voterId,
+        propositionId: null,
+        subject: officialOpinionSubject(winnerId!),
+        formedAt: world.currentDate,
+        position: "support",
+        conviction: "moderate",
+        salience: "moderate",
+        flexibility: "open",
+        rationale: "Authored candidate preference for editorial result copy.",
+        formation: createFormationContext("reflection:initial"),
+        supersedesBeliefId: null,
+      });
+    }
     const scheduled = scheduleElectionContest(world, {
       stableKey: "editorial-test:contest",
       jurisdictionId: KY,

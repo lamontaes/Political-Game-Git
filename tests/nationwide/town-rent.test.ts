@@ -1,3 +1,15 @@
+import { rentConstructionCovered } from "../../src/simulation/law-consequences/rent-construction-coverage";
+import { dateAtAge } from "../../src/simulation/dates";
+import {
+  createMacroMonthlyStepHandler,
+  MACRO_MONTHLY_STEP_KEY,
+} from "../../src/simulation/macro-economy";
+import { randomInt } from "node:crypto";
+import startingLaws from "../../data/research/laws/starting-law-2026.json";
+import {
+  allGovernmentUnits,
+  governmentUnitJurisdictionId,
+} from "../../src/simulation/government-units";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -15,7 +27,13 @@ import {
 } from "../../src/simulation/cost-of-living";
 import { householdMembershipsAt } from "../../src/simulation/life-queries";
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
-import { money } from "../../src/simulation/resources";
+import { applyLawConsequences } from "../../src/simulation/enacted-law-effects";
+import { readFinalEnactedLawTerm } from "../../src/simulation/governing/automatic-legislation";
+import {
+  money,
+  recordResourceFlowTerms,
+  createDwelling,
+} from "../../src/simulation/resources";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
 import {
@@ -36,6 +54,7 @@ import {
   RENT_DAY_TRANSITION_KEY,
   RENT_LAW_KEYS,
   renewedMarketRent,
+  rentPriceLevel,
   townLeases,
   townRentSnapshot,
   veryLowIncomeLimit,
@@ -145,9 +164,9 @@ describe("rent arithmetic", () => {
     expect(inclusionarySetAsideOpen(1, 6)).toBe(false);
   });
 
-  it("caps a stabilized renewal at the price rise plus five points, at most ten", () => {
+  it("caps a stabilized renewal only with an explicit recorded ratio", () => {
     // Home prices up 9% while prices in general rose 3%.
-    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true);
+    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true, 0.08);
     expect(steep.capped).toBe(true);
     expect(steep.cap).toBeCloseTo(0.08);
     expect(steep.amountMinor).toBe(2160_00);
@@ -156,10 +175,15 @@ describe("rent arithmetic", () => {
     const free = renewedMarketRent(2000_00, 1.09, 1.03, false);
     expect(free.capped).toBe(false);
     expect(free.amountMinor).toBe(steep.uncappedMinor);
-    // High inflation: never more than ten percent.
-    expect(renewedMarketRent(2000_00, 1.12, 1.08, true).cap).toBeCloseTo(0.1);
+    expect(renewedMarketRent(2000_00, 1.09, 1.03, true).amountMinor).toBe(
+      2180_00,
+    );
+    // Another explicitly recorded cap.
+    expect(renewedMarketRent(2000_00, 1.12, 1.08, true, 0.1).cap).toBeCloseTo(
+      0.1,
+    );
     // An ordinary renewal is under the cap and untouched.
-    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true);
+    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true, 0.08);
     expect(ordinary.capped).toBe(false);
     expect(ordinary.amountMinor).toBe(2080_00);
   });
@@ -175,7 +199,12 @@ describe("rent arithmetic", () => {
 });
 
 /** An opened life stepped day by day, paid on paydays, rent collected on the first. */
-function liveMonths(placeKey: string, seed: string, months: number) {
+function liveMonths(
+  placeKey: string,
+  seed: string,
+  months: number,
+  beforeRentDay?: (world: World, day: IsoDate) => World,
+) {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -205,6 +234,7 @@ function liveMonths(placeKey: string, seed: string, months: number) {
         lastPay = day;
       }
       if (day.endsWith("-01")) {
+        if (beforeRentDay) world = beforeRentDay(world, day);
         world = collectTownRent(world, day);
         rentDays.push(day);
       }
@@ -272,6 +302,214 @@ describe("rent day", { timeout: 600_000 }, () => {
     expect(again.history.resourceTransferOutcomes).toHaveLength(
       world.history.resourceTransferOutcomes.length,
     );
+  });
+
+  it("opens a random rent-stabilized new game through an actual annual renewal", () => {
+    const answers =
+      startingLaws.questions[RENT_LAW_KEYS.rentStabilization].answers;
+    const places = allGovernmentUnits().flatMap((unit) => {
+      if (
+        unit.unitType !== "municipality" ||
+        !unit.functionalActive ||
+        !unit.placeGeoid
+      )
+        return [];
+      const place = lifePlaceByKey(unit.placeGeoid);
+      const answer =
+        place && answers[place.stateJurisdictionKey as keyof typeof answers];
+      return place &&
+        answer?.answer === "yes" &&
+        place.context.jurisdiction.id === governmentUnitJurisdictionId(unit)
+        ? [place]
+        : [];
+    });
+    const place = places[randomInt(places.length)]!;
+    process.stdout.write(
+      `A57 renewal opening: ${place.key} ${place.context.jurisdiction.name}; pool=${places.length}; seed=a57-actual-renewal\n`,
+    );
+    const { world, town } = liveMonths(
+      place.key,
+      "a57-actual-renewal",
+      13,
+      (incoming, day) => {
+        // Controlled market stress in the existing monthly fixture. Annual
+        // renewal itself must create the capped terms via canonical dispatch.
+        const due = incoming.history.futureDueItems.find(
+          (item) =>
+            item.transitionKey === MACRO_MONTHLY_STEP_KEY &&
+            item.dueAt <= day &&
+            !incoming.macroEconomy?.months.some((month) =>
+              month.key.includes(item.stableKey.split(":").at(-1)!),
+            ),
+        );
+        if (!due) return incoming;
+        const stepped = createMacroMonthlyStepHandler()(incoming, due);
+        const next =
+          "world" in stepped ? (stepped.world ?? incoming) : incoming;
+        if (!next.macroEconomy) return next;
+        const lease = townLeases(next).find(
+          (candidate) => candidate.regime === "market",
+        );
+        if (!lease) return next;
+        const law = housingLawYes(
+          next,
+          lease.town,
+          RENT_LAW_KEYS.rentStabilization,
+          day,
+        )!;
+        const cap = readFinalEnactedLawTerm(next, law, {
+          questionKey: RENT_LAW_KEYS.rentStabilization,
+          termKey: "cap",
+          unit: "ratio",
+        })!;
+        return {
+          ...next,
+          macroEconomy: {
+            ...next.macroEconomy,
+            months: next.macroEconomy.months.map((month) => ({
+              ...month,
+              growthPct: 2 * cap.value * 100,
+            })),
+          },
+        };
+      },
+    );
+    const leases = townLeases(world).filter(
+      (lease) =>
+        lease.town === town && lease.regime === "market" && !lease.ended,
+    );
+    const renewals = world.history.resourceFlowTerms.filter(
+      (terms) =>
+        leases.some((lease) => lease.flow.id === terms.resourceFlowId) &&
+        terms.stableKey.endsWith(":renewal:1"),
+    );
+    expect(renewals.length).toBeGreaterThan(0);
+    const capped = world.history.resourceFlowTerms.filter((terms) =>
+      terms.lawEffectStamps?.some(
+        (stamp) =>
+          stamp.effectKind === "price-cost" &&
+          stamp.questionKey === RENT_LAW_KEYS.rentStabilization,
+      ),
+    );
+    process.stdout.write(
+      `A57 actual renewal result: date=${world.currentDate}; marketLeases=${leases.length}; annualRenewals=${renewals.length}; appliedCaps=${capped.length}\n`,
+    );
+    expect(capped.length).toBeGreaterThan(0);
+    // The ordinary run may stay below the ceiling. Challenge that same saved
+    // lease with an explicit over-ceiling renewal request; do not count the
+    // ordinary run as a binding cap when it did not bind.
+    const lease = leases[0]!;
+    const previous = resourceFlowTermsAt(world, lease.flow.id)!;
+    const law = housingLawYes(
+      world,
+      town,
+      RENT_LAW_KEYS.rentStabilization,
+      world.currentDate,
+    )!;
+    const capTerm = readFinalEnactedLawTerm(world, law, {
+      questionKey: RENT_LAW_KEYS.rentStabilization,
+      termKey: "cap",
+      unit: "ratio",
+    })!;
+    const offset = readFinalEnactedLawTerm(world, law, {
+      questionKey: RENT_LAW_KEYS.rentStabilization,
+      termKey: "cap-inflation-offset",
+      unit: "ratio",
+    })!;
+    const inflation =
+      rentPriceLevel(world, town, world.currentDate) /
+        rentPriceLevel(world, town, addDays(world.currentDate, -365)) -
+      1;
+    const cap = Math.min(capTerm.value, offset.value + inflation);
+    expect(cap).toBeGreaterThan(0);
+    // Continue within the existing monthly harness integrity boundary: it
+    // deliberately advances town pay/rent without the full due-item clock.
+    withWorldIntegrityDeferred(() => {
+      const requested = recordResourceFlowTerms(world, {
+        stableKey: `${lease.flow.stableKey}:controlled-over-ceiling-renewal`,
+        resourceFlowId: lease.flow.id,
+        effectiveAt: world.currentDate,
+        status: "active",
+        amount: money(
+          Math.ceil(previous.amount.minorUnits * (1 + 2 * cap)),
+          previous.amount.currency,
+        ),
+        cadenceKind: previous.cadenceKind,
+        reason:
+          "Explicit test request above the sourced ceiling on the actual saved lease.",
+        provenance: {
+          kind: "authored",
+          note: "Controlled renewal challenge; ordinary market result reported separately.",
+        },
+        supersedesTermsId: previous.id,
+      });
+      const result = applyLawConsequences(requested, {
+        activity: "renewal",
+        activityId: requested.history.resourceFlowTerms.at(-1)!.id,
+        subjectIds: [lease.leaseholderId],
+        onDate: world.currentDate,
+        questionKey: RENT_LAW_KEYS.rentStabilization,
+      });
+      const actual = resourceFlowTermsAt(result, lease.flow.id)!;
+      expect(actual.amount.minorUnits).toBe(
+        Math.floor(previous.amount.minorUnits * (1 + cap)),
+      );
+      expect(actual.lawEffectStamps?.[0]?.effectKind).toBe("price-cost");
+      const built = createDwelling(result, {
+        stableKey: "a57-controlled:in-play-construction",
+        establishedAt: result.currentDate,
+        jurisdictionId: town,
+        locationLabel: "Recorded in-play dwelling for exemption boundary",
+        classification: "residential:apartment",
+        provenance: {
+          kind: "authored",
+          note: "Test construction at the actual current simulation date.",
+        },
+      });
+      const newHome = built.history.dwellings.at(-1)!;
+      const exemption = readFinalEnactedLawTerm(built, law, {
+        questionKey: RENT_LAW_KEYS.rentStabilization,
+        termKey: "new-construction-exemption-years",
+        unit: "years",
+      });
+      expect(
+        rentConstructionCovered(
+          built,
+          newHome,
+          built.currentDate,
+          exemption?.value ?? null,
+        ),
+      ).toBe(false);
+      if (exemption) {
+        const boundary = dateAtAge(newHome.establishedAt, exemption.value);
+        expect(
+          rentConstructionCovered(built, newHome, boundary, exemption.value),
+        ).toBe(false);
+        expect(
+          rentConstructionCovered(
+            built,
+            newHome,
+            addDays(boundary, 1),
+            exemption.value,
+          ),
+        ).toBe(true);
+        process.stdout.write(
+          `A57 construction boundary: recorded=${newHome.establishedAt}; sourcedYears=${exemption.value}; exemptThrough=${boundary}; coveredAfter=${addDays(boundary, 1)}\n`,
+        );
+      }
+      process.stdout.write(
+        `A57 controlled saved-lease renewal: requested=${requested.history.resourceFlowTerms.at(-1)!.amount.minorUnits}; applied=${actual.amount.minorUnits}; prior=${previous.amount.minorUnits}; sourcedCapRatio=${cap}; source=${law.measureId}\n`,
+      );
+    });
+    for (const terms of capped) {
+      const requested = world.history.resourceFlowTerms.find(
+        (row) => row.id === terms.supersedesTermsId,
+      )!;
+      expect(terms.amount.minorUnits).toBeLessThan(requested.amount.minorUnits);
+      expect(terms.lawEffectStamps![0]!.sourceRecordIds.length).toBeGreaterThan(
+        0,
+      );
+    }
   });
 
   it("Portland: rent stabilization in force at the start covers private leases", () => {
