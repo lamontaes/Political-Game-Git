@@ -17,7 +17,6 @@ import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
  * time it is read.
  */
 
-import raiseTerm from "../../data/research/labor/state-minimum-wage-raise-term.json" with { type: "json" };
 import { addDays } from "./dates";
 import {
   laborLawOfficeKey,
@@ -45,18 +44,6 @@ export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
 /** The policy question a state minimum wage raise answers. */
 export const STATE_MINIMUM_WAGE_QUESTION_KEY =
   "us-policy-positions:labor-workforce.raise-minimum-wage";
-
-/**
- * ESTIMATED FROM AVERAGE (`state-minimum-wage-raise-term.json`, Department of
- * Labor table of state rates, 2013 to 2024): what a state law that answers
- * "raise the minimum wage" with yes adds when its bill names no dollar figure.
- * The total is the median raise of a stretch of increases; the yearly step is
- * the median single-year raise. A bill that files its own wage term wins.
- */
-export const STATE_RAISE_TERM = {
-  totalMinor: raiseTerm.totalMinor,
-  yearlyStepMinor: raiseTerm.yearlyStepMinor,
-} as const;
 
 /**
  * The state question that decides whether a city's minimum wage counts: a
@@ -233,20 +220,6 @@ export function startingStateMinimumHourly(
   const state = TOWN_MINIMUM_WAGES[stateKey];
   if (state === null || state === undefined) return null;
   return Math.max(FEDERAL_MINIMUM_HOURLY, state);
-}
-
-/**
- * What a state law that answered yes to "raise the minimum wage" adds to the
- * rate before it, `daysSince` days after it took effect: the yearly step at the
- * start and again each year, up to the total.
- */
-export function stateRaiseAfterDays(daysSince: number): number {
-  if (daysSince < 0) return 0;
-  const steps = Math.floor(daysSince / 365) + 1;
-  return Math.min(
-    STATE_RAISE_TERM.totalMinor,
-    steps * STATE_RAISE_TERM.yearlyStepMinor,
-  );
 }
 
 const minimumWageQuestionLaws = new WeakMap<object, boolean>();
