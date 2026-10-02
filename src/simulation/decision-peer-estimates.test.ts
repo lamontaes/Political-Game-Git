@@ -160,6 +160,17 @@ describe("saved current-game peer estimate query", () => {
       }),
     ).toThrow("recorded actor preference");
   });
+  it("rejects peer replacement of equal recorded actor reasons", () => {
+    const world = saved([trace(first, 1)]);
+    const input = context();
+    expect(() =>
+      validateDecisionPeerEstimates(world, {
+        ...input,
+        peerEstimates: currentGameDecisionPeerEstimates(world, input),
+        considerations: [reason("act"), reason("wait")],
+      }),
+    ).toThrow("recorded actor preference");
+  });
   it("rejects peer replacement of the actor's latest eligible saved choice", () => {
     const world = saved([trace(first, 1), trace(actor, 2)]);
     const input = context();

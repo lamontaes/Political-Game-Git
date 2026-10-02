@@ -76,7 +76,7 @@
                 "why": "evaluateDecision returns an 'undecided' outcome for a true tie (today only a comment mentions it)"
               },
               "pass": true,
-              "at": ["src/simulation/decisions.ts:291"]
+              "at": ["src/simulation/decisions.ts:299"]
             }
           ],
           "step": "2"
@@ -113,7 +113,7 @@
                 "why": "evaluateDecision returns the 'undecided' outcome when the top two scores are equal (today only a comment names it)"
               },
               "pass": true,
-              "at": ["src/simulation/decisions.ts:291"]
+              "at": ["src/simulation/decisions.ts:299"]
             }
           ],
           "step": "3"
