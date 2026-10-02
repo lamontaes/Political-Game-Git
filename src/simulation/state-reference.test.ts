@@ -31,8 +31,9 @@ describe("place data owns jurisdiction kind and elector allocation", () => {
     const place = drawRandomPlace(
       seed,
       (candidate) =>
+        candidate.stateJurisdictionKey !== null &&
         STATES[candidate.stateJurisdictionKey.slice(3)]?.electorAllocation !==
-        "none",
+          "none",
     );
     const fixture = smallWorld({
       place: place.key,
@@ -46,7 +47,7 @@ describe("place data owns jurisdiction kind and elector allocation", () => {
     const provenance = {
       method: "authored" as const,
       sourceEntityIds: [],
-      note: `Supplied certification fixture in ${fixture.place.name}; seed ${seed}. Not a voter prediction.`,
+      note: `Supplied certification fixture in ${fixture.place.displayName}; seed ${seed}. Not a voter prediction.`,
     };
     let world = registerNationalElection(
       ensureNationalElectionJurisdiction(fixture.world),
@@ -101,7 +102,7 @@ describe("place data owns jurisdiction kind and elector allocation", () => {
     const allocation = nationalAllocation(world, electionId);
     expect(
       allocation.electors,
-      `${fixture.place.name}; seed ${seed}`,
+      `${fixture.place.displayName}; seed ${seed}`,
     ).toHaveLength(538);
     expect(allocation.units.every((unit) => unit.status === "allocated")).toBe(
       true,
