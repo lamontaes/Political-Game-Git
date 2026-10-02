@@ -269,6 +269,13 @@ describe("A33 sourced opening cash uses the existing government account", () => 
           lawJurisdictionId: place.context.jurisdiction.id,
         });
         expect(selection).toMatchObject({ status: "saved", identity });
+        expect(
+          selectLocalOpeningAccount(world, {
+            ...candidate,
+            jurisdictionId: identity.jurisdictionId,
+            lawJurisdictionId: place.context.jurisdiction.id,
+          }),
+        ).toMatchObject({ status: "saved", identity });
         expect(identity.jurisdictionId).not.toBe(place.context.jurisdiction.id);
         expect(accountPosition(world, identity)?.id).toBe(position.id);
       }
@@ -289,6 +296,12 @@ describe("A33 sourced opening cash uses the existing government account", () => 
     const { unit, candidate } = townshipRoutes[0]!;
     const materialized = ensureLocalGovernmentOrganization(before, unit);
     const canonical = governmentUnitJurisdictionId(unit);
+    expect(
+      selectLocalOpeningAccount(materialized, {
+        ...candidate,
+        jurisdictionId: townshipRoutes[1]!.places[0]!.context.jurisdiction.id,
+      }).status,
+    ).toBe("unsupported");
     expect(() =>
       ensurePublicGovernmentAccount(materialized, {
         kind: "local-government",

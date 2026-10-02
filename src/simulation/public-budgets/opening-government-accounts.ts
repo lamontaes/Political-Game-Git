@@ -65,7 +65,7 @@ function townshipForOpeningCandidate(
     candidate.key !== `town:${candidate.geoid}`
   )
     return null;
-  const servedPlace = lifePlaceByJurisdictionId(candidate.jurisdictionId);
+  const servedPlace = lifePlaceByJurisdictionId(candidate.lawJurisdictionId);
   if (
     !servedPlace?.sourceGeoid ||
     servedPlace.stateJurisdictionKey !== candidate.stateKey
@@ -74,7 +74,7 @@ function townshipForOpeningCandidate(
   const serving = servingGovernment(
     servedPlace.sourceGeoid,
     candidate.stateKey,
-    candidate.jurisdictionId,
+    candidate.lawJurisdictionId,
   );
   if (
     typeof serving === "string" ||
@@ -91,7 +91,14 @@ function townshipForOpeningCandidate(
       unit.countyGeoid === candidate.geoid!.slice(0, 5) &&
       unit.publisherPlaceCode === candidate.geoid!.slice(5),
   );
-  return units.length === 1 ? units[0]! : null;
+  const unit = units.length === 1 ? units[0]! : null;
+  if (
+    !unit ||
+    (candidate.jurisdictionId !== candidate.lawJurisdictionId &&
+      candidate.jurisdictionId !== governmentUnitJurisdictionId(unit))
+  )
+    return null;
+  return unit;
 }
 
 /** Account ownership selection only; neither geography nor opening cash grants authority. */
@@ -119,8 +126,11 @@ export function selectLocalOpeningAccount(
         "public-government:".length,
       ) as EntityId;
       return (
-        townshipForOpeningCandidate({ ...inputCandidate, jurisdictionId })
-          ?.id === township.id
+        townshipForOpeningCandidate({
+          ...inputCandidate,
+          jurisdictionId,
+          lawJurisdictionId: jurisdictionId,
+        })?.id === township.id
       );
     })
   )
