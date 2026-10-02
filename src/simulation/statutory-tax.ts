@@ -924,10 +924,11 @@ export function assertStatutoryTaxIntegrity(
     ) {
       // A paid leave premium's rate comes from the program or its estimate,
       // so the record is checked for bounds: taxed pay never exceeds the pay,
-      // and no program's employee share reaches 5% of it.
+      // and an adopted bill cannot withhold more than the covered wages.
+      // A researched 5% typical-program ceiling is not a bound on bill terms.
       if (
         row.taxableAmount!.minorUnits > row.wages.minorUnits ||
-        row.liability!.minorUnits * 20 > row.taxableAmount!.minorUnits + 20 ||
+        row.liability!.minorUnits > row.taxableAmount!.minorUnits + 1 ||
         row.collection !== "withheld-from-pay"
       )
         throw new Error("A paid leave premium is out of bounds.");
