@@ -1,4 +1,6 @@
 import { renderMeasureTitle } from "../measure-title";
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
   MEMBER_AGENDA_LEVEL_SETTINGS,
   COUNCIL_MEMBER_AGENDA_SETTINGS,
@@ -9,7 +11,7 @@ export {
   COUNCIL_MEMBER_AGENDA_SETTINGS,
   LOCAL_MEMBER_AGENDA_VERSION,
 } from "./member-agenda-settings";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import { outranks } from "../law-hierarchy";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
@@ -97,9 +99,6 @@ import {
 export const MEMBER_AGENDA_VERSION = "member-agenda/v2";
 export const LOCAL_MEMBER_AGENDA_INTAKE =
   "government:local-member-agenda-intake" as const;
-
-/** A game scheduling default, not a claim about a place's legislative law. */
-const LOCAL_AGENDA_DEFAULT_QUARTERS = 1;
 
 /**
  * The questions the state's own law may answer (`question-authority.ts`), in
@@ -958,14 +957,15 @@ function localContext(
   };
 }
 
-function nextQuarterStart(after: IsoDate): IsoDate {
-  const year = Number(after.slice(0, 4));
-  const month = Number(after.slice(5, 7));
-  const nextQuarterMonth = (Math.floor((month - 1) / 3) + 1) * 3 + 1;
-  const nextYear = nextQuarterMonth > 12 ? year + 1 : year;
-  const normalizedMonth = nextQuarterMonth > 12 ? 1 : nextQuarterMonth;
-  return makeIsoDate(
-    `${nextYear}-${String(normalizedMonth).padStart(2, "0")}-01`,
+function nextLocalAgendaDate(governmentKey: string, after: IsoDate): IsoDate | null {
+  const government = municipalGovernmentByKey(governmentKey);
+  if (!government) return null;
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) return null;
+  return nextSessionCalendarDate(
+    rules.pack.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council,
+    after,
+    "agenda",
   );
 }
 
@@ -1073,13 +1073,14 @@ function localMemberAgendaGovernments(world: World) {
   return [...governments.values()];
 }
 
-/** Schedule each seated, admitted local council on a separate quarterly clock. */
+/** Schedule each seated, admitted council using its shared intake timetable. */
 export function scheduleLocalMemberAgendaIntakes(world: World): World {
   let next = world;
   for (const government of localMemberAgendaGovernments(next)) {
     const grant = localAuthorityForCouncil(next, government.key);
     if (!grant) continue;
-    const dueAt = nextQuarterStart(next.currentDate as IsoDate);
+    const dueAt = nextLocalAgendaDate(government.key, next.currentDate as IsoDate);
+    if (!dueAt) continue;
     const stableKey = localIntakeStableKey(government.key, dueAt);
     if (
       next.history.futureDueItems.some((item) => item.stableKey === stableKey)
@@ -1093,7 +1094,7 @@ export function scheduleLocalMemberAgendaIntakes(world: World): World {
       jurisdictionId: grant.jurisdictionId,
       provenance: {
         kind: "authored",
-        note: `${LOCAL_MEMBER_AGENDA_VERSION}: quarterly game scheduling default for ${government.key}; it is not a statement of local legislative calendar law.`,
+        note: `${LOCAL_MEMBER_AGENDA_VERSION}: shared game timetable intake for ${government.key}; it is not a statement of local legislative calendar law.`,
       },
     });
   }
@@ -1141,7 +1142,7 @@ export function localMemberAgendaIntakeHandler(
     status: "resolved",
     reasonKey: null,
     context:
-      "The local council reached its quarterly game-profile agenda date.",
+      "The local council reached its shared timetable agenda date.",
     outcomeEventId: null,
   };
 }
@@ -1153,10 +1154,8 @@ function scheduleLocalMemberAgendaIntakeAfter(
 ): World {
   const grant = localAuthorityForCouncil(world, governmentKey);
   if (!grant) return world;
-  const quarters = LOCAL_AGENDA_DEFAULT_QUARTERS;
-  let dueAt = after;
-  for (let index = 0; index < quarters; index += 1)
-    dueAt = nextQuarterStart(dueAt);
+  const dueAt = nextLocalAgendaDate(governmentKey, after);
+  if (!dueAt) return world;
   const stableKey = localIntakeStableKey(governmentKey, dueAt);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -1168,7 +1167,7 @@ function scheduleLocalMemberAgendaIntakeAfter(
     jurisdictionId: grant.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `${LOCAL_MEMBER_AGENDA_VERSION}: quarterly game scheduling default for ${governmentKey}; it is not a statement of local legislative calendar law.`,
+      note: `${LOCAL_MEMBER_AGENDA_VERSION}: shared game timetable intake for ${governmentKey}; it is not a statement of local legislative calendar law.`,
     },
   });
 }
