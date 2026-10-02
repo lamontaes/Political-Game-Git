@@ -21,6 +21,8 @@ files:
   - "!*.yml"
   - "!*.md"
 extraResources:
+  - from: build/icon.png
+    to: branding/icon.png
   - from: staged/client
     to: client
   - from: staged/build-identity.json

@@ -156,7 +156,7 @@
 .title-tableau--art.front-door
   .game-title
   button:is(:hover, :focus-visible):not(:disabled) {
-  color: var(--front-door-accent);
+  color: #fff;
   background: linear-gradient(
     90deg,
     rgb(176 138 62 / 0.24) 0%,
@@ -203,7 +203,7 @@
 .title-tableau--art.front-door
   .game-creator
   button:is(:hover, :focus-visible):not(:disabled) {
-  color: var(--front-door-accent);
+  color: #fff;
   background: rgba(22, 22, 24, 0.82);
   border-color: rgb(176 138 62 / 0.8);
   box-shadow: inset 3px 0 var(--run-a-brass, #b08a3e);
