@@ -17,6 +17,8 @@ import {
 import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
+import { homeBuyerKind, homeDownPaymentShare } from "./home-down-payment";
+import { mortgageFinancingQuote } from "./mortgage-financing";
 import { personName } from "./people";
 import {
   createDwelling,
@@ -63,46 +65,28 @@ import type {
  * the housing share and the mortgage is charged instead.
  */
 
-/**
- * The price is the county's median home value (Census ACS, 2020-2024,
- * `county-home-value.ts`). The rest is still a PLACEHOLDER(research:
- * what-it-takes-to-buy-a-home): nobody has researched down payments by
- * buyer age, mortgage terms or interest. The two amounts below are the old
- * national figures, the same in every town, and interest is not modeled: the
- * payments simply pay down the loan. The shared housing module's mortgage
- * rate replaces them. Replace them; do not tune them.
- */
-export const HOME_PURCHASE_PLACEHOLDER = {
-  downPaymentMinor: 5_000_000,
-  monthlyPaymentMinor: 120_000,
-  currency: "USD",
-  researchQuestionId: "what-it-takes-to-buy-a-home",
-} as const;
+/** The existing purchase and mortgage records are denominated in USD. */
+export const HOME_PURCHASE_CURRENCY = "USD" as const;
 
 export interface HomePurchaseTerms {
   readonly priceMinor: number;
   readonly downPaymentMinor: number;
-  readonly monthlyPaymentMinor: number;
+  readonly monthlyPaymentMinor: number | null;
+  readonly downPaymentBasis: ReturnType<typeof homeDownPaymentShare>["basis"];
+  readonly downPaymentSource: string;
 }
 
 function roundTo(minor: number, step: number): number {
   return Math.max(step, Math.round(minor / step) * step);
 }
 
-/**
- * The terms in today's prices.
- *
- * The price is the county's median home value read as the world's first-month
- * price. Since then the world has its own price level, and rent on the same
- * screen already moves with it, so a house that never moved read as a bargain
- * within a few years. The purchase price uses the housing market's home-price
- * level, the town's own where it has one and the nation's before that. The
- * legacy down payment and monthly payment use that same housing level. Their
- * opening amounts remain placeholders pending the financing research question.
- */
+/** Housing price, sourced/recorded down-payment share, and the shared mortgage quote. */
 export function homePurchaseTerms(
   world: World,
   jurisdictionId: EntityId | null,
+  buyerId: EntityId | null = world.control.kind === "person"
+    ? world.control.personId
+    : null,
 ): HomePurchaseTerms {
   const today = world.currentDate;
   const openingPriceMinor =
@@ -111,16 +95,20 @@ export function homePurchaseTerms(
     ? homePriceLevel(world, jurisdictionId, today)
     : (homePriceLevels(macroMonthHistory(world, "national", today)).at(-1)
         ?.level ?? 1);
+  const priceMinor = roundTo(openingPriceMinor * housingFactor, 100_000);
+  const down = homeDownPaymentShare(world, homeBuyerKind(world, buyerId));
+  const downPaymentMinor = Math.round(priceMinor * down.share);
+  const financing = mortgageFinancingQuote(world, {
+    principal: money(priceMinor - downPaymentMinor, HOME_PURCHASE_CURRENCY),
+    jurisdictionId,
+    rateCap: null,
+  });
   return {
-    priceMinor: roundTo(openingPriceMinor * housingFactor, 100_000),
-    downPaymentMinor: roundTo(
-      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * housingFactor,
-      100_000,
-    ),
-    monthlyPaymentMinor: roundTo(
-      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * housingFactor,
-      1_000,
-    ),
+    priceMinor,
+    downPaymentMinor,
+    monthlyPaymentMinor: financing?.monthlyPaymentMinor ?? null,
+    downPaymentBasis: down.basis,
+    downPaymentSource: down.source,
   };
 }
 
@@ -260,15 +248,12 @@ function balance(world: World, personId: EntityId): number | null {
   const tracked = world.history.resourcePositions.some(
     (position) =>
       sameEndpoint(position.owner, owner) &&
-      position.openingBalance.currency === HOME_PURCHASE_PLACEHOLDER.currency,
+      position.openingBalance.currency === HOME_PURCHASE_CURRENCY,
   );
   if (!tracked) return null;
   return (
-    resourcePositionAt(
-      world,
-      owner,
-      money(0, HOME_PURCHASE_PLACEHOLDER.currency).currency,
-    )?.liquidBalance.minorUnits ?? 0
+    resourcePositionAt(world, owner, money(0, HOME_PURCHASE_CURRENCY).currency)
+      ?.liquidBalance.minorUnits ?? 0
   );
 }
 
@@ -294,10 +279,12 @@ export function homePurchaseReason(
     return "Your household already owns its home.";
   const have = balance(world, personId);
   if (have === null) return "The game is not tracking your money.";
-  const { downPaymentMinor } = homePurchaseTerms(
+  const { downPaymentMinor, monthlyPaymentMinor } = homePurchaseTerms(
     world,
     person.homeJurisdictionId,
   );
+  if (monthlyPaymentMinor === null)
+    return "A mortgage quote is unavailable until the economy has a recorded rate.";
   if (have < downPaymentMinor)
     return `The down payment is ${dollars(downPaymentMinor)}. You have ${dollars(have)}.`;
   return null;
@@ -350,13 +337,20 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
   const householdId = primaryHouseholdId(world, personId)!;
   const today = world.currentDate;
   const key = `home-purchase:${householdId}:${today}`;
-  const currency = money(0, HOME_PURCHASE_PLACEHOLDER.currency).currency;
+  const currency = money(0, HOME_PURCHASE_CURRENCY).currency;
   const terms = homePurchaseTerms(world, person.homeJurisdictionId);
   const price = money(terms.priceMinor, currency);
   const down = money(terms.downPaymentMinor, currency);
   const principal = money(price.minorUnits - down.minorUnits, currency);
+  if (terms.monthlyPaymentMinor === null)
+    return {
+      status: "not-bought",
+      world,
+      reason:
+        "A mortgage quote is unavailable until the economy has a recorded rate.",
+    };
   const monthly = money(terms.monthlyPaymentMinor, currency);
-  const provenanceNote = `Placeholder home purchase pending research question ${HOME_PURCHASE_PLACEHOLDER.researchQuestionId}.`;
+  const provenanceNote = `Home purchase down payment: ${terms.downPaymentBasis}; ${terms.downPaymentSource}. Mortgage quote uses the saved game macro rate and CTO-approved fixed term.`;
 
   const summary = `You bought a home in ${place.displayName} for ${dollars(price.minorUnits)}, putting ${dollars(down.minorUnits)} down. The mortgage is ${dollars(monthly.minorUnits)} a month.`;
   let next = recordWorldEvent(world, {
