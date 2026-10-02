@@ -1,6 +1,8 @@
 ---
 id: college-directory-source-fields
 section: Improved
+impact: patch
+title: College directories retain campus and control evidence
 ---
 
 College directory records retain the source's campus coordinates, public-control
