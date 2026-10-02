@@ -1907,7 +1907,12 @@ export function settleTownCompensations(
   const ids = next.history.resourceTransferOutcomes
     .slice(first)
     .map((outcome) => outcome.id);
-  next = assessPaychecksTaxes(next, ids);
+  // Keep sequential withholding reads while materializing each payment list once.
+  next = withHistoryAppendTransaction(
+    next,
+    ["resourceFlows", "resourceTransferOutcomes"],
+    (initial) => assessPaychecksTaxes(initial, ids),
+  );
   next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.
