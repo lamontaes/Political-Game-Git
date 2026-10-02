@@ -1,5 +1,9 @@
 import { expect, it } from "vitest";
-import { createLawConsequenceRegistry } from "./law-consequence-registry";
+import {
+  createLawConsequenceRegistry,
+  LAW_CONSEQUENCE_REGISTRATIONS,
+} from "./law-consequence-registry";
+import { PAY_REGISTRATION } from "./law-consequences/pay";
 import { validateLawConsequences } from "./law-consequence-validation";
 import type {
   LawConsequenceKindRegistration,
@@ -80,4 +84,18 @@ it("admits the existing rights handler without borrowing another kind capability
       ?.get("right-permission")
       ?.has("recorded-tax-base-payer"),
   ).toBe(false);
+});
+
+it("registers the reviewed pay adapter once in the ordinary registry", () => {
+  const registry = createLawConsequenceRegistry();
+  expect(registry.handlers.get("pay")).toBe(PAY_REGISTRATION);
+  expect(
+    LAW_CONSEQUENCE_REGISTRATIONS.filter((entry) => entry.kind === "pay"),
+  ).toEqual([PAY_REGISTRATION]);
+  expect(registry.capabilities.selectorsByKind?.get("pay")).toEqual(
+    new Set(PAY_REGISTRATION.selectors),
+  );
+  expect(registry.capabilities.actions.get("pay")).toEqual(
+    new Set(PAY_REGISTRATION.actions),
+  );
 });
