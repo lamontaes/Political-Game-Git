@@ -24,6 +24,7 @@ import {
 } from "../simulation/municipal-public-work";
 import { scheduledActivityState } from "../simulation/time-work";
 import { measureActions } from "../simulation/legislation";
+import { councilSitsOnAuthoredCalendar } from "../simulation/municipal-seat-identity";
 import { nextMeasureNumbering } from "../simulation/measure-numbering";
 import {
   introduceProjectedOrdinance,
@@ -435,8 +436,9 @@ export function MunicipalWorkspace({
               ) : (
                 <ul className="municipal-ordinance-list">
                   {governing.ordinances.map((ordinance) => {
-                    const ordinary =
-                      governing.governmentKey !== "us-dc-washington";
+                    const ordinary = !councilSitsOnAuthoredCalendar(
+                      governing.governmentKey,
+                    );
                     const ballot =
                       ballots[ordinance.measureId] ??
                       ordinance.savedBallot ??

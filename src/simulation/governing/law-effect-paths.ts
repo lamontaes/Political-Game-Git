@@ -23,7 +23,7 @@ import {
 } from "../outcome-web";
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
-import { CANNABIS_SALES_QUESTION } from "../public-budgets/cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT } from "../public-budgets/rules";
 import { MILEAGE_FEE_QUESTION } from "../public-budgets/road-usage-charge";
 import {
   SPENDING_QUESTION_EFFECTS,
@@ -215,9 +215,9 @@ const DIRECT_PATHS: readonly LawEffectPath[] = [
     via: "src/simulation/federal-outlay-laws.ts",
   },
   {
-    questionKey: CANNABIS_SALES_QUESTION,
+    questionKey: CANNABIS_TAX_EFFECT.questionKey,
     kind: "state-revenue",
-    via: "src/simulation/public-budgets/cannabis-sales-tax.ts",
+    via: "src/simulation/public-budgets/rules.ts",
   },
   {
     questionKey: MILEAGE_FEE_QUESTION,
