@@ -112,6 +112,103 @@ function fixture() {
 }
 
 describe("saved comparable employer cash reader", () => {
+  it.each([
+    { path: undefined, hours: 20 },
+    {
+      path: {
+        ...lifePathDefinition("shop-assistant"),
+        id: "unrecorded-shift-path",
+      },
+      hours: 20,
+    },
+    { path: lifePathDefinition("shop-assistant"), hours: 0 },
+  ])(
+    "preserves unannualizable completed-shift terms without opening cash ($hours hours, $path.id)",
+    ({ path, hours }) => {
+      const target = employer(
+        smallWorld({
+          seed: "a60:unannualizable-shift",
+          place: "US-OH",
+          date: "2026-01-05",
+        }).world,
+        "unannualizable-shift",
+        null,
+        "enterprise:retail",
+        1,
+        path,
+        hours,
+      );
+      const world = createWorkCompensation(target.world, {
+        stableKey: "unannualizable-shift:pay",
+        workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
+        startsAt: target.world.currentDate,
+        amount: money(
+          lifePathDefinition("shop-assistant").sessionPayMinor,
+          USD,
+        ),
+        cadenceKind: "work:completed-shift",
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance,
+      });
+      const opened = ensureEmployerCashPositions(world, "opening");
+      const owner = {
+        kind: "organization" as const,
+        organizationId: target.id,
+      };
+      expect(resourcePositionAt(opened, owner, USD)).toBeUndefined();
+      expect(opened.history.resourceFlows).toEqual(world.history.resourceFlows);
+      expect(opened.history.resourceFlowTerms).toEqual(
+        world.history.resourceFlowTerms,
+      );
+      expect(opened.history.resourceTransferOutcomes).toEqual(
+        world.history.resourceTransferOutcomes,
+      );
+      const restored = deserializeWorld(serializeWorld(opened));
+      expect(ensureEmployerCashPositions(restored, "opening")).toEqual(
+        restored,
+      );
+      expect(
+        resourcePositionAt(
+          ensureEmployerCashPositions(opened, "later"),
+          owner,
+          USD,
+        ),
+      ).toBeUndefined();
+      const withPeer = employer(opened, "recorded-shift-peer", 61_234).world;
+      const later = ensureEmployerCashPositions(withPeer, "later");
+      expect(
+        resourcePositionAt(later, owner, USD)!.liquidBalance.minorUnits,
+      ).toBe(61_234);
+      expect(later.history.resourceFlowTerms).toEqual(
+        withPeer.history.resourceFlowTerms,
+      );
+      expect(later.history.resourceTransferOutcomes).toEqual(
+        withPeer.history.resourceTransferOutcomes,
+      );
+    },
+  );
+
+  it("still refuses unrelated unrecorded payroll cadences", () => {
+    const target = fixture();
+    const world = createWorkCompensation(target.world, {
+      stableKey: "target:unrecorded-cadence",
+      workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
+      startsAt: target.world.currentDate,
+      amount: money(lifePathDefinition("shop-assistant").sessionPayMinor, USD),
+      cadenceKind: "schedule:unrecorded-pay-period",
+      restrictionKind: null,
+      jurisdictionId: null,
+      provenance,
+    });
+    expect(() => ensureEmployerCashPositions(world, "opening")).toThrow(
+      "No recorded calendar conversion for employer payroll cadence schedule:unrecorded-pay-period.",
+    );
+    expect(() => ensureEmployerCashPositions(world, "later")).toThrow(
+      "No recorded calendar conversion for employer payroll cadence schedule:unrecorded-pay-period.",
+    );
+  });
+
   it.each([20, 10])(
     "annualizes completed shifts using the worker's recorded %s weekly hours",
     (weeklyHours) => {
