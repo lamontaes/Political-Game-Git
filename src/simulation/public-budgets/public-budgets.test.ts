@@ -1,11 +1,21 @@
 import { describe, expect, it, vi } from "vitest";
 import type * as StateExecutives from "../nationwide-world/state-executives";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import type { StateExecutiveHolderRecord } from "../nationwide-world/state-executives";
 import { makeIsoDate } from "../dates";
 import { createWorld } from "../world";
 import { createOrganization, createWorkRelationship } from "../life";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { assessPaychecksTaxes } from "../statutory-tax";
+import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
+import { introduceMeasure } from "../legislation";
+import { legislativePackForJurisdiction } from "../legislative-institutions";
+import {
+  authoredScenarioSeatCount,
+  seatBodyForPack,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+} from "../legislation-scenarios";
 import {
   publicGovernmentOrganizationKey,
   publicGovernmentIdentityForRecord,
@@ -176,8 +186,11 @@ function opened(world: World): World {
   };
 }
 
-/** Explicit controlled accounts with no cash activity; absence is not converted to zero. */
-function withSavedIdleAccounts(world: World): World {
+/** Explicit controlled saved cash; the default account has no cash activity. */
+function withSavedIdleAccounts(
+  world: World,
+  openingCashMinorByKey: ReadonlyMap<string, number> = new Map(),
+): World {
   const jurisdictions = Object.keys(STATES)
     .map((usps) => stateJurisdictionForKey(`US-${usps}`)!)
     .filter(Boolean);
@@ -232,10 +245,13 @@ function withSavedIdleAccounts(world: World): World {
       stableKey: `${stableKey}:idle-fixture-cash`,
       owner: { kind: "organization", organizationId },
       openedAt: world.currentDate,
-      openingBalance: money(0, "USD"),
+      openingBalance: money(
+        openingCashMinorByKey.get(government.key) ?? 0,
+        "USD",
+      ),
       provenance: {
         kind: "authored",
-        note: "Controlled actual zero opening cash, with no transfers; not a missing-data default.",
+        note: "Explicit controlled opening cash, with no transfers; not forecast receipts or a missing-data default.",
       },
     });
   }
@@ -283,13 +299,14 @@ function settleAlone(
   world: World,
   government: PublicBudgetGovernment,
   lastMonth: string,
+  flows: MonthFlows = NO_FLOWS,
 ) {
   let current = government;
   const adjustments = [];
   const adoptions = [];
   let month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
   while (month <= lastMonth) {
-    const settled = settleGovernmentMonth(world, current, month, NO_FLOWS);
+    const settled = settleGovernmentMonth(world, current, month, flows);
     if (settled.government.years.length > current.years.length)
       adoptions.push({
         month,
@@ -485,17 +502,26 @@ describe("public budgets", () => {
   });
 
   it("a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance", () => {
-    // The reserve law alone: Illinois' own balanced-budget law, which the
-    // game begins with, would cut a shortfall to a small surplus instead.
-    const withLaw = worldAt("2026-01-05", {
-      laws: [
-        { question: RESERVE, answer: "yes", jurisdictionId: illinois },
-        { question: BALANCED, answer: "no", jurisdictionId: illinois },
-      ],
-    });
-    const state = publicBudgetFor(opened(withLaw), illinois)!;
+    // Use the actual beginning law and complete history required by cash writers.
+    const withLaw = smallWorld({
+      place: "US-IL",
+      date: "2026-01-05",
+      people: 3,
+      seed: "controlled-reserve-cash",
+    }).world;
+    // Controlled saved $1,000 cash is the surplus input, never forecast revenue.
+    const funded = withSavedIdleAccounts(
+      opened(withLaw),
+      new Map([["US-IL", 100_000]]),
+    );
+    const state = publicBudgetFor(funded, illinois)!;
     const low = { ...state, reserve: 0 };
-    const run = settleAlone(withLaw, low, "2026-06-01");
+    const run = settleAlone(
+      funded,
+      low,
+      "2026-06-01",
+      readMonthFlows(funded, funded.publicBudgets!).flows,
+    );
     const moved = run.adjustments.find(
       (row) => row.kind === "surplus-to-reserve",
     );
@@ -503,10 +529,12 @@ describe("public budgets", () => {
     expect(run.government.reserve).toBeGreaterThan(0);
     // A year with no surplus leaves the reserve short, so next year's budget
     // sets a deposit aside.
+    const empty = withSavedIdleAccounts(opened(withLaw));
     const short = settleAlone(
-      withLaw,
+      empty,
       { ...shortfall(state), reserve: 0 },
       "2026-06-01",
+      readMonthFlows(empty, empty.publicBudgets!).flows,
     );
     expect(short.government.reserve).toBe(0);
     const deposit = short.adjustments.find(
@@ -521,14 +549,85 @@ describe("public budgets", () => {
 
     // Illinois begins with a reserve law, so "without" is a law enacted in
     // play that says no.
-    const without = worldAt("2026-01-05", {
-      laws: [{ question: RESERVE, answer: "no", jurisdictionId: illinois }],
+    const f = smallWorld({
+      place: "US-IL",
+      date: "2025-12-18",
+      people: 3,
+      seed: "controlled-reserve-repeal",
+      offices: ["governor"],
+      laws: ["us-policy-positions:fiscal.minimum-reserve-balance"],
     });
+    const pack = legislativePackForJurisdiction(f.stateJurisdictionId)!;
+    const propositionId =
+      f.propositionIds["us-policy-positions:fiscal.minimum-reserve-balance"]!;
+    let without = introduceMeasure(f.world, {
+      stableKey: "controlled-reserve-repeal:bill",
+      jurisdictionId: f.stateJurisdictionId,
+      rulePackId: pack.packId,
+      designation: "Controlled reserve repeal",
+      shortTitle: "Controlled reserve repeal",
+      summary: "Explicit fixture repeal, not ordinary-play proof.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: pack.chamberOrder[0]!,
+      sponsorPersonId: null,
+      propositionIds: [propositionId],
+      propositionAnswers: [{ propositionId, answer: "no" }],
+    });
+    const measureId = without.history.legislativeMeasures.at(-1)!.id;
+    without = enactThroughDesk(without, measureId, {
+      context: {
+        pack,
+        measureId,
+        bodies: pack.chambers.map((chamber) =>
+          seatBodyForPack(
+            chamber.chamberKey,
+            chamber.name,
+            authoredScenarioSeatCount(pack, chamber.chamberKey),
+            [],
+            false,
+          ),
+        ),
+        committeeMemberCount: null,
+        votePlan: Object.fromEntries(
+          pack.chambers.flatMap((chamber) => [
+            ...chamber.committees.map((committee) => [
+              votePlanKeyForCommittee(committee.committeeKey),
+              { yea: committee.appointedMembers ?? 1 },
+            ]),
+            ...chamber.floorStages.map((stage) => [
+              votePlanKeyForFloor(chamber.chamberKey, stage.stageKey),
+              { yea: authoredScenarioSeatCount(pack, chamber.chamberKey) },
+            ]),
+          ]),
+        ),
+        governorAction: null,
+        governorRationale:
+          "Authored favorable votes for the controlled reserve repeal.",
+      },
+    });
+    // The desk assigned required work to the signer; retain their actual control.
+    const signer = currentStateExecutiveHolders(without).find(
+      (row) => row.stateUsps === f.stateUsps,
+    )!;
+    without = {
+      ...without,
+      control: { kind: "person", personId: signer.personId },
+    };
+    const fundedWithout = withSavedIdleAccounts(
+      opened(without),
+      new Map([["US-IL", 100_000]]),
+    );
     const loose = {
-      ...publicBudgetFor(opened(without), illinois)!,
+      ...publicBudgetFor(fundedWithout, illinois)!,
       reserve: 0,
     };
-    const kept = settleAlone(without, loose, "2026-06-01");
+    const kept = settleAlone(
+      fundedWithout,
+      loose,
+      "2026-06-01",
+      readMonthFlows(fundedWithout, fundedWithout.publicBudgets!).flows,
+    );
     expect(
       kept.adjustments.some((row) => row.kind === "surplus-to-reserve"),
     ).toBe(false);
