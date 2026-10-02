@@ -14,6 +14,7 @@ import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
 import { recordPaidTransitProgramService } from "./public-program-transit";
 import { scheduleResidentServiceRequests } from "../public-service-producer";
 import { reviewGoverningOutturns } from "./state-governing";
+import { programFamilyTitle } from "./program-families";
 import {
   appropriationCommittedMinorUnits,
   appropriationPinnedPaymentsMinorUnits,
@@ -270,6 +271,31 @@ export function programCapacity(
   identity?: PublicGovernmentIdentity,
 ): PublicProgramCapacityRecord | null {
   return ofKind(world, programKey, "capacity", identity).at(-1) ?? null;
+}
+
+/** A saved program subject, never an internal program/jurisdiction key. */
+function programSubject(
+  world: World,
+  appropriation: PublicProgramAppropriationRecord,
+  identity: PublicGovernmentIdentity,
+): string | null {
+  const capacity = programCapacity(world, appropriation.programKey, identity);
+  const measure = appropriation.sourceMeasureId
+    ? world.history.legislativeMeasures?.find(
+        (row) => row.id === appropriation.sourceMeasureId,
+      )
+    : null;
+  const familyKey = appropriation.programKey.split(":")[0] ?? "";
+  const family =
+    familyKey === "appropriations" ? null : programFamilyTitle(familyKey);
+  return (
+    [capacity?.serviceLabel, measure?.shortTitle, family].find(
+      (label): label is string =>
+        typeof label === "string" &&
+        label.trim().length > 0 &&
+        !/\b[\w-]+:us-[a-z]{2}\b/i.test(label),
+    ) ?? null
+  );
 }
 
 export function programAppropriations(
@@ -846,6 +872,8 @@ export function commitPublicProgram(
   );
   if (authority.status !== "available") return refuse(authority.reason);
   const identity = publicGovernmentIdentityForRecord(appropriation);
+  const subject = programSubject(world, appropriation, identity);
+  const programPhrase = subject ? ` for ${subject}` : "";
   if (
     world.currentDate < appropriation.availableFrom ||
     world.currentDate > appropriation.availableThrough
@@ -894,8 +922,8 @@ export function commitPublicProgram(
       programKey: appropriation.programKey,
       summary:
         forecast.total.minorUnits === 0
-          ? `Decided to commit nothing for ${appropriation.programKey}: ${input.alternative.title}.`
-          : `Committed ${dollars(forecast.total)} for ${appropriation.programKey}: ${input.alternative.title}. Payments post only as each falls due and cash allows.`,
+          ? `Decided not to commit money${programPhrase}.`
+          : `Committed ${dollars(forecast.total)}${programPhrase}: ${input.alternative.title}. Payments post only as each falls due and cash allows.`,
     },
     {
       kind: "commitment",
