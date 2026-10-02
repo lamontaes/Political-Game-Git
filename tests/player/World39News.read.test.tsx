@@ -1,46 +1,49 @@
 import { describe, expect, it } from "vitest";
 import { isValidElement, type ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { World39News } from "./World39News";
+import { World39News } from "../../src/player/World39News";
 
 import {
   advanceWorld,
   createCampaignElectionTransitionRegistry,
   deserializeWorld,
   serializeWorld,
-} from "../simulation/index";
-import { recordLawExposure } from "../simulation/law-exposure";
-import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";
-import { smallWorld } from "../../tests/fixtures/small-world";
-import { introduceMeasure } from "../simulation/legislation";
+} from "../../src/simulation/index";
+import { recordLawExposure } from "../../src/simulation/law-exposure";
+import { enactThroughDesk } from "../fixtures/enact-through-desk";
+import { smallWorld } from "../fixtures/small-world";
+import { introduceMeasure } from "../../src/simulation/legislation";
 import {
   playerRequiredWorkIds,
   releasePlayerRequiredWork,
-} from "../simulation/time-work";
+} from "../../src/simulation/time-work";
 import {
   KENTUCKY_CONTEXT,
   createLegislativeScenario,
-} from "../simulation/legislation-scenarios";
-import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/state-executives";
-import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
-import { officialViewReflectionEventKey } from "../simulation/official-view-reads";
-import { publishPublicEvent } from "../simulation/public-information";
+} from "../../src/simulation/legislation-scenarios";
+import { ensureStateExecutiveIncumbent } from "../../src/simulation/nationwide-world/state-executives";
+import { governorOfficeForJurisdiction } from "../../src/simulation/governing/state-governing";
+import { officialViewReflectionEventKey } from "../../src/simulation/official-view-reads";
+import { publishPublicEvent } from "../../src/simulation/public-information";
 import {
   PRESS_STORY_EVENT_TYPE,
   PRESS_STORY_OUTLET_TAG,
   PRESS_STORY_LEAD_TAG,
-} from "../simulation/public-information-integrity";
-import { readPressPublication } from "../simulation/press/read-publication";
-import type { World } from "../simulation/types";
-import { assertWorldIntegrity, recordWorldEvent } from "../simulation/world";
+} from "../../src/simulation/public-information-integrity";
+import { readPressPublication } from "../../src/simulation/press/read-publication";
+import type { World } from "../../src/simulation/types";
+import {
+  assertWorldIntegrity,
+  recordWorldEvent,
+} from "../../src/simulation/world";
 import {
   ensurePressDeskSchedule,
   ensurePressStateCoverage,
   ensurePressLocalCoverage,
   mediaOutlets,
   recordStoryLead,
-} from "../simulation/press/index";
-import { reportLawEffects } from "../simulation/press/law-effect-news";
+} from "../../src/simulation/press/index";
+import { reportLawEffects } from "../../src/simulation/press/law-effect-news";
 
 const KY = KENTUCKY_CONTEXT.jurisdiction.id;
 

@@ -414,7 +414,7 @@ function ageInYears(row: SourcedQualification): number | null {
  * a player says "6 months" where the law says six months, rather than
  * translating it into a half year nobody wrote.
  */
-function durationMonths(
+export function durationMonths(
   row: SourcedQualification,
 ): { readonly months: number; readonly label: string } | null {
   if (typeof row.value === "number") {

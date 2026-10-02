@@ -1,0 +1,33 @@
+{
+  "sourceHead": "773949100aeac0194f98dece99a4f95b348c9371",
+  "mainHead": "3e6d737c07424d66d66a1b95cf474aab9e71d0c3",
+  "passed": 6,
+  "failed": 0,
+  "skipped": 0,
+  "durationMilliseconds": 12560,
+  "caseMilliseconds": 815,
+  "councils": 5,
+  "savedMemberDecisions": 25,
+  "enactments": 5,
+  "seed": "a77-town-profile-roll-call-20261001",
+  "sampledPlaces": [
+    "2112898",
+    "3661489",
+    "0567370",
+    "4543495",
+    "4284272"
+  ],
+  "scope": "Controlled authored nonfiscal bill; existing smallWorld and seat producers; shared driver and existing passage callback; canonical Continue and repeated-step checks. Does not prove presentation/new-game entry or all A77 drivers.",
+  "types": {
+    "roots": 1,
+    "files": 999,
+    "diagnostics": 0
+  },
+  "lint": "pass",
+  "format": "pass",
+  "sourceSha256": "b2d09ae4025e7e61e500909b84295c8a35fa0797561b647605ce5b0438aa000a",
+  "checksRun": "Changed proof test, one scoped type root, changed-file lint/format/whitespace only.",
+  "observedGap": "All enacted Jan5 with Feb4 effective date; pack says on adoption. Existing callback preserved; A83 remains open.",
+  "priorEntryFailure": "Existing local-law-clock-parity test remains separately import-blocked; no new run or shared fix.",
+  "whitespace": "pass"
+}

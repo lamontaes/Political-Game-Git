@@ -3008,6 +3008,7 @@ function PlayingScreen({
                   ) : null
                 }
                 dateLabel={moment.dateLabel}
+                currentMoment={session.world.currentMoment}
                 placeName={moment.placeName}
                 destinations={destinations}
                 canSave={!savesUnavailable}
@@ -4752,6 +4753,7 @@ function renderWorkspace({
           {half === "office" ? politicsTabs("office") : null}
           {half === "campaign" ? politicsTabs("campaigns") : null}
           <WorkLayout
+            showIntro={half !== "jobs"}
             roleSentence={role.sentence}
             pending={
               half === "office" ? null : (
@@ -5303,11 +5305,13 @@ interface WorkSection {
  * and it reads nothing and changes nothing.
  */
 function WorkLayout({
+  showIntro = true,
   roleSentence,
   pending,
   sections,
   timeControl,
 }: {
+  readonly showIntro?: boolean;
   readonly roleSentence: string;
   /** What is waiting on the character, said right after who they are. */
   readonly pending: ReactNode;
@@ -5321,11 +5325,15 @@ function WorkLayout({
   };
   return (
     <div className="pg-work" data-testid="work-layout">
-      <p className="game-scene" data-testid="work-role">
-        {roleSentence}
-      </p>
-      {pending}
-      {sections.length > 1 ? (
+      {showIntro ? (
+        <>
+          <p className="game-scene" data-testid="work-role">
+            {roleSentence}
+          </p>
+          {pending}
+        </>
+      ) : null}
+      {showIntro && sections.length > 1 ? (
         <nav className="pg-work-jump" aria-label="On this page">
           {sections.map((section) => (
             <button

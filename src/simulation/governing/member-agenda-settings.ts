@@ -1,3 +1,4 @@
+import { CATALOG_MEASURE_TITLE, FEDERAL_MEASURE_TITLE } from "../measure-title";
 /** Pure filing settings; no World or caller imports. */
 export const LOCAL_MEMBER_AGENDA_VERSION = "local-member-agenda/v1";
 /** Existing authored filing threshold, unchanged by consolidation. */
@@ -6,6 +7,7 @@ const FILING_THRESHOLD = 3;
 /** Existing filing behavior carried as settings while callers consolidate. */
 export const MEMBER_AGENDA_LEVEL_SETTINGS = {
   state: {
+    titleTemplate: CATALOG_MEASURE_TITLE,
     governmentLevel: "state",
     intakeVersion: "legislative-intake/v1",
     filingThreshold: FILING_THRESHOLD,
@@ -16,11 +18,13 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     cosponsors: false,
     actTitles: false,
     individualAgenda: true,
+    retainAlternatives: true,
     municipalAgenda: false,
     mappedOnly: false,
     measureNoun: "bill",
   },
   federal: {
+    titleTemplate: FEDERAL_MEASURE_TITLE,
     governmentLevel: "federal",
     intakeVersion: "congress-intake/v1",
     filingThreshold: FILING_THRESHOLD,
@@ -31,11 +35,13 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     cosponsors: true,
     actTitles: true,
     individualAgenda: true,
+    retainAlternatives: false,
     municipalAgenda: false,
     mappedOnly: false,
     measureNoun: "bill",
   },
   localFiscal: {
+    titleTemplate: CATALOG_MEASURE_TITLE,
     governmentLevel: "municipality",
     intakeVersion: LOCAL_MEMBER_AGENDA_VERSION,
     filingThreshold: FILING_THRESHOLD,
@@ -46,11 +52,13 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     cosponsors: false,
     actTitles: false,
     individualAgenda: true,
+    retainAlternatives: false,
     municipalAgenda: true,
     mappedOnly: true,
     measureNoun: "ordinance",
   },
   localPosition: {
+    titleTemplate: CATALOG_MEASURE_TITLE,
     governmentLevel: "municipality",
     intakeVersion: LOCAL_MEMBER_AGENDA_VERSION,
     filingThreshold: FILING_THRESHOLD,
@@ -61,6 +69,7 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     cosponsors: false,
     actTitles: false,
     individualAgenda: true,
+    retainAlternatives: false,
     municipalAgenda: true,
     mappedOnly: false,
     measureNoun: "ordinance",

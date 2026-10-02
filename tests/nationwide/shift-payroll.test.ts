@@ -199,11 +199,87 @@ describe.each(sampled)("completed shift payroll in %s", (placeKey) => {
     );
     expect(serializeWorld(reopened)).toBe(serializeWorld(paid));
     const repeated = advanceWorld(paid, 1, lifePaths2Handlers());
-    expect(
-      repeated.history.resourceTransferOutcomes.filter(
-        (row) => row.resourceFlowId === flow.id,
-      ),
-    ).toHaveLength(1);
+    if (process.env.TEAM3_SHIFT_RECORD) {
+      appendFileSync(
+        process.env.TEAM3_SHIFT_RECORD,
+        JSON.stringify({
+          placeKey,
+          seed,
+          personId,
+          name: personName(paid.people[personId]!),
+          workRelationshipId: work.id,
+          resourceFlowId: flow.id,
+          originalCompletionEventId: completion.id,
+          payments: repeated.history.resourceTransferOutcomes
+            .filter((row) => row.resourceFlowId === flow.id)
+            .map((payment) => {
+              const eventId =
+                payment.provenance.kind === "simulated-event"
+                  ? payment.provenance.eventId
+                  : null;
+              return {
+                payment,
+                completion: eventId
+                  ? repeated.history.events.find(
+                      (event) => event.id === eventId,
+                    )
+                  : null,
+              };
+            }),
+        }) + "\n",
+      );
+    }
+    // A further day can complete different work on this recurring flow.
+    // Replay must preserve the original payment and pay each saved completion once.
+    const repeatedPayments = repeated.history.resourceTransferOutcomes.filter(
+      (row) => row.resourceFlowId === flow.id,
+    );
+    const originalPayments = repeatedPayments.filter(
+      (row) =>
+        row.provenance.kind === "simulated-event" &&
+        row.provenance.eventId === completion.id,
+    );
+    expect(originalPayments).toHaveLength(1);
+    expect(originalPayments[0]).toEqual(outcome);
+    const paidCompletionIds: string[] = [];
+    for (const payment of repeatedPayments) {
+      expect(payment.provenance.kind).toBe("simulated-event");
+      if (payment.provenance.kind !== "simulated-event")
+        throw new Error("Shift payment lost its completion event.");
+      const completionEventId = payment.provenance.eventId;
+      const actualWork = repeated.history.events.find(
+        (event) => event.id === completionEventId,
+      );
+      expect(actualWork).toMatchObject({
+        type: "life-paths2.work-session",
+        occurredAt: payment.periodStartsAt,
+      });
+      expect(actualWork!.involvedEntityIds).toEqual(
+        expect.arrayContaining([work.id, personId]),
+      );
+      expect(payment.periodEndsAt).toBe(actualWork!.occurredAt);
+      paidCompletionIds.push(actualWork!.id);
+    }
+    expect(new Set(paidCompletionIds).size).toBe(paidCompletionIds.length);
+    const payableCompletionIds = repeated.history.futureDueItems
+      .filter(
+        (item) =>
+          item.transitionKey === "life-paths2:pay" &&
+          item.entityIds.includes(flow.id) &&
+          item.dueAt <= repeated.currentDate,
+      )
+      .map((item) => {
+        const actualWork = repeated.history.events.find(
+          (event) =>
+            item.entityIds.includes(event.id) &&
+            event.type === "life-paths2.work-session",
+        );
+        expect(actualWork).toBeDefined();
+        return actualWork!.id;
+      });
+    expect([...paidCompletionIds].sort()).toEqual(
+      [...payableCompletionIds].sort(),
+    );
     const hash = createHash("sha256")
       .update(serializeWorld(paid))
       .digest("hex");

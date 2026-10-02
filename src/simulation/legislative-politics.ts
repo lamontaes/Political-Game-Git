@@ -347,12 +347,51 @@ export function isParticularizedProvision(provision: {
 export function describeProvisionReach(provision: {
   readonly beneficiary: LegislativeProvisionBeneficiary;
 }): string {
+  return reachInSummary(provisionReach(provision));
+}
+
+/**
+ * Who a provision reaches, as a fact rather than a sentence: whether it
+ * reaches everyone a rule applies to or is written for someone in
+ * particular, and who. Each reader words it its own way: a summary says
+ * "language reaching …", a legislator says "covers …".
+ */
+export interface ProvisionReach {
+  readonly relation: "reaching" | "written-for";
+  readonly who: string;
+}
+
+export function provisionReach(provision: {
+  readonly beneficiary: LegislativeProvisionBeneficiary;
+}): ProvisionReach {
   const beneficiary = provision.beneficiary;
-  if (beneficiary.kind === "general-application") {
-    return `language reaching ${beneficiary.appliesToLabel}`;
-  }
+  if (beneficiary.kind === "general-application")
+    return { relation: "reaching", who: beneficiary.appliesToLabel };
   const place = beneficiary.placeLabel ? ` in ${beneficiary.placeLabel}` : "";
-  return `language written for ${beneficiary.beneficiaryLabel}${place}`;
+  return {
+    relation: "written-for",
+    who: `${beneficiary.beneficiaryLabel}${place}`,
+  };
+}
+
+/** "reaching every rider", "written for the transit authority". */
+export function reachPhrase(reach: ProvisionReach): string {
+  return `${reach.relation === "reaching" ? "reaching" : "written for"} ${reach.who}`;
+}
+
+/** How a bill summary says it: "language reaching every rider". */
+export function reachInSummary(reach: ProvisionReach): string {
+  return `language ${reachPhrase(reach)}`;
+}
+
+/**
+ * How a legislator says it after the section's label: "Section 4 covers every
+ * rider", "Section 4 is written for the transit authority".
+ */
+export function reachInSpeech(reach: ProvisionReach): string {
+  return reach.relation === "reaching"
+    ? `covers ${reach.who}`
+    : `is written for ${reach.who}`;
 }
 
 // ---------------------------------------------------------------------------
