@@ -858,13 +858,6 @@
     },
     {
       "file": "src/simulation/nationwide-world/presidential-turnover.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "(unit.state === \"DC\""
-    },
-    {
-      "file": "src/simulation/nationwide-world/presidential-turnover.ts",
       "kind": "roll",
       "build": "Build 27",
       "count": 1,

@@ -1,3 +1,4 @@
+import { isFederalDistrictUsps } from "../state-reference";
 import { inventedPersonBirthDate } from "../invented-person-age";
 import { decideAnotherTerm } from "../careers/another-term";
 import {
@@ -759,7 +760,7 @@ export function presidentialElectionDayHandler(
       const row = calibrationRow(`us-president:${unit.state}`);
       const swing =
         national +
-        (unit.state === "DC"
+        (isFederalDistrictUsps(unit.state)
           ? 0
           : (regional[censusRegionOf(unit.state)] ?? 0)) +
         policy.stateResidualSd[regime] *
