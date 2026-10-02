@@ -1,3 +1,5 @@
+import { describeTimeTarget } from "../presentation/time-target-label";
+import type { SimulationMoment } from "../simulation";
 import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
   useEffect,
@@ -228,6 +230,7 @@ export function ShellNav({
   playerName,
   portrait = null,
   dateLabel,
+  currentMoment,
   placeName,
   destinations,
   canSave,
@@ -252,6 +255,8 @@ export function ShellNav({
    */
   readonly portrait?: ReactNode;
   readonly dateLabel: string;
+  /** The actual saved clock, separate from any requested skip destination. */
+  readonly currentMoment?: SimulationMoment;
   readonly placeName: string | null;
   readonly destinations: readonly ShellDestination[];
   readonly canSave: boolean;
@@ -471,212 +476,226 @@ export function ShellNav({
       data-testid="shell-nav"
       onKeyDown={onNavKeyDown}
     >
-      <div className="pg-nav-row" ref={rowRef}>
-        <button
-          type="button"
-          className="pg-nav-cluster"
-          ref={clusterRef}
-          data-testid="shell-nav-cluster"
-          aria-expanded={open}
-          aria-controls={open ? "pg-nav-flyout" : undefined}
-          aria-label={`${playerName}. ${dateLabel}. ${place}. Open navigation.`}
-          onClick={() => dispatch({ type: "toggle-navigation" })}
-        >
-          <span className="pg-nav-cluster-inner" aria-hidden="true">
-            <span className="pg-nav-avatar-slot" />
-            <span className="pg-nav-copy">
-              <span
-                className="pg-nav-identity"
-                data-testid="shell-nav-identity"
-              >
-                <span className="life-identity-name" data-testid="story-who">
-                  {playerName}
-                </span>
-                {unsaved ? (
-                  <span
-                    className="pg-nav-unsaved"
-                    title="This life has not been saved yet."
-                  >
-                    unsaved
+      <div className="pg-nav-clock-and-controls" ref={rowRef}>
+        {currentMoment ? (
+          <p
+            className="pg-nav-current-clock"
+            data-testid="shell-current-clock"
+            aria-live="polite"
+          >
+            Now: {describeTimeTarget(currentMoment)}
+          </p>
+        ) : null}
+        <div className="pg-nav-row">
+          <button
+            type="button"
+            className="pg-nav-cluster"
+            ref={clusterRef}
+            data-testid="shell-nav-cluster"
+            aria-expanded={open}
+            aria-controls={open ? "pg-nav-flyout" : undefined}
+            aria-label={`${playerName}. ${dateLabel}. ${place}. Open navigation.`}
+            onClick={() => dispatch({ type: "toggle-navigation" })}
+          >
+            <span className="pg-nav-cluster-inner" aria-hidden="true">
+              <span className="pg-nav-avatar-slot" />
+              <span className="pg-nav-copy">
+                <span
+                  className="pg-nav-identity"
+                  data-testid="shell-nav-identity"
+                >
+                  <span className="life-identity-name" data-testid="story-who">
+                    {playerName}
                   </span>
-                ) : null}
+                  {unsaved ? (
+                    <span
+                      className="pg-nav-unsaved"
+                      title="This life has not been saved yet."
+                    >
+                      unsaved
+                    </span>
+                  ) : null}
+                </span>
+                <span className="pg-nav-date" data-testid="story-when">
+                  {dateLabel}
+                </span>
+                <span className="pg-nav-place">{place}</span>
               </span>
-              <span className="pg-nav-date" data-testid="story-when">
-                {dateLabel}
-              </span>
-              <span className="pg-nav-place">{place}</span>
             </span>
-          </span>
-        </button>
-        {/*
+          </button>
+          {/*
           The portrait sits over the button's reserved circle rather than
           inside the button, because a portrait is a figure and a button may
           only hold phrasing content. It takes no pointer events, so a press on
           the face is a press on the button beneath it.
         */}
-        <div
-          className="pg-nav-avatar"
-          data-testid="shell-nav-portrait"
-          data-fallback={portrait ? undefined : "initials"}
-          aria-hidden="true"
-        >
-          {portrait ?? (
-            <span className="pg-nav-initials">{initialsOf(playerName)}</span>
-          )}
-        </div>
-        {onPassDays ? (
           <div
-            className="pg-nav-days"
-            role="group"
-            aria-label="Move time"
-            data-testid="shell-day-controls"
+            className="pg-nav-avatar"
+            data-testid="shell-nav-portrait"
+            data-fallback={portrait ? undefined : "initials"}
+            aria-hidden="true"
           >
-            <button
-              type="button"
-              className="pg-nav-day"
-              data-testid="shell-pass-day"
-              aria-disabled={passing || undefined}
-              aria-describedby={passTargets ? "pg-nav-day-target" : undefined}
-              title={
-                passTargets
-                  ? `${passTargets.day}. Your routine runs; stops early for anything protected.`
-                  : "Let the day run through your routine. Stops for anything that needs you."
-              }
-              onClick={() => {
-                if (!passing) onPassDays(1);
-              }}
+            {portrait ?? (
+              <span className="pg-nav-initials">{initialsOf(playerName)}</span>
+            )}
+          </div>
+          {onPassDays ? (
+            <div
+              className="pg-nav-days"
+              role="group"
+              aria-label="Move time"
+              data-testid="shell-day-controls"
             >
-              Day <span aria-hidden="true">›</span>
-            </button>
-            <button
-              type="button"
-              className="pg-nav-day"
-              data-testid="shell-pass-week"
-              aria-disabled={passing || undefined}
-              aria-describedby={passTargets ? "pg-nav-week-target" : undefined}
-              title={
-                passTargets
-                  ? `${passTargets.week}. Your routine runs; stops early for anything protected.`
-                  : "Let the week run through your routine. Stops for anything that needs you."
-              }
-              onClick={() => {
-                if (!passing) onPassDays(7);
-              }}
-            >
-              Week <span aria-hidden="true">»</span>
-            </button>
-            {onPassUntilNeeded ? (
               <button
                 type="button"
                 className="pg-nav-day"
-                data-testid="shell-pass-until-needed"
-                aria-disabled={
-                  passing || !passTargets?.untilNeeded || undefined
-                }
-                aria-describedby="pg-nav-until-target"
+                data-testid="shell-pass-day"
+                aria-disabled={passing || undefined}
+                aria-describedby={passTargets ? "pg-nav-day-target" : undefined}
                 title={
-                  passTargets?.untilNeeded
-                    ? `${passTargets.untilNeeded}. Your routine stops for the next thing that needs you.`
-                    : "Resolve the decision under Work before another quiet stretch."
+                  passTargets
+                    ? `${passTargets.day}. Your routine runs; stops early for anything protected.`
+                    : "Let the day run through your routine. Stops for anything that needs you."
                 }
                 onClick={() => {
-                  if (!passing && passTargets?.untilNeeded) onPassUntilNeeded();
+                  if (!passing) onPassDays(1);
                 }}
               >
-                Until needed <span aria-hidden="true">»</span>
+                Day <span aria-hidden="true">›</span>
               </button>
-            ) : null}
-            <button
-              type="button"
-              className="pg-nav-day pg-nav-stops-toggle"
-              data-testid="shell-stops-toggle"
-              aria-expanded={stopsOpen}
-              aria-controls="pg-nav-stops"
-              onClick={() => {
-                dispatch({ type: "close-navigation" });
-                setStopsOpen((value) => !value);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Escape") setStopsOpen(false);
-              }}
-            >
-              Stops
-            </button>
-            {stopsOpen && !open && !state.confirmingLeave ? (
-              <div
-                id="pg-nav-stops"
-                className="pg-nav-stops"
-                role="dialog"
-                aria-label="What passing time stops for"
-                data-testid="shell-stops"
+              <button
+                type="button"
+                className="pg-nav-day"
+                data-testid="shell-pass-week"
+                aria-disabled={passing || undefined}
+                aria-describedby={
+                  passTargets ? "pg-nav-week-target" : undefined
+                }
+                title={
+                  passTargets
+                    ? `${passTargets.week}. Your routine runs; stops early for anything protected.`
+                    : "Let the week run through your routine. Stops for anything that needs you."
+                }
+                onClick={() => {
+                  if (!passing) onPassDays(7);
+                }}
+              >
+                Week <span aria-hidden="true">»</span>
+              </button>
+              {onPassUntilNeeded ? (
+                <button
+                  type="button"
+                  className="pg-nav-day"
+                  data-testid="shell-pass-until-needed"
+                  aria-disabled={
+                    passing || !passTargets?.untilNeeded || undefined
+                  }
+                  aria-describedby="pg-nav-until-target"
+                  title={
+                    passTargets?.untilNeeded
+                      ? `${passTargets.untilNeeded}. Your routine stops for the next thing that needs you.`
+                      : "Resolve the decision under Work before another quiet stretch."
+                  }
+                  onClick={() => {
+                    if (!passing && passTargets?.untilNeeded)
+                      onPassUntilNeeded();
+                  }}
+                >
+                  Until needed <span aria-hidden="true">»</span>
+                </button>
+              ) : null}
+              <button
+                type="button"
+                className="pg-nav-day pg-nav-stops-toggle"
+                data-testid="shell-stops-toggle"
+                aria-expanded={stopsOpen}
+                aria-controls="pg-nav-stops"
+                onClick={() => {
+                  dispatch({ type: "close-navigation" });
+                  setStopsOpen((value) => !value);
+                }}
                 onKeyDown={(event) => {
                   if (event.key === "Escape") setStopsOpen(false);
                 }}
               >
-                <p className="pg-nav-stops-title">
-                  What passing time stops for
-                </p>
-                <InterruptionChecklist
-                  interruptions={state.preferences.interruptions}
-                  onChange={(key, value) =>
-                    dispatch({ type: "set-interruption", key, value })
-                  }
-                  testIdPrefix="shell-stop"
-                />
-                <button
-                  type="button"
-                  className="ui-action ui-action--subtle"
-                  onClick={() => setStopsOpen(false)}
+                Stops
+              </button>
+              {stopsOpen && !open && !state.confirmingLeave ? (
+                <div
+                  id="pg-nav-stops"
+                  className="pg-nav-stops"
+                  role="dialog"
+                  aria-label="What passing time stops for"
+                  data-testid="shell-stops"
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") setStopsOpen(false);
+                  }}
                 >
-                  Done
-                </button>
-              </div>
-            ) : null}
-            {passTargets && raised && !stopsOpen ? (
-              <small
-                className="pg-nav-days-target"
-                aria-hidden="true"
-                data-testid="shell-pass-targets"
-              >
-                Day: {passTargets.day.replace(/^Skip to /, "")}
-                <br />
-                Week: {passTargets.week.replace(/^Skip to /, "")}
-                {onPassUntilNeeded ? (
-                  <>
-                    <br />
-                    Until needed:{" "}
-                    {passTargets.untilNeeded ?? "Work needs you now"}
-                  </>
-                ) : null}
-              </small>
-            ) : null}
-            {passTargets ? (
-              <>
-                <span className="sr-only" id="pg-nav-day-target">
-                  {passTargets.day}
-                </span>
-                <span className="sr-only" id="pg-nav-week-target">
-                  {passTargets.week}
-                </span>
-                {onPassUntilNeeded ? (
-                  <span className="sr-only" id="pg-nav-until-target">
-                    {passTargets.untilNeeded ??
-                      "Resolve the decision under Work before another quiet stretch."}
+                  <p className="pg-nav-stops-title">
+                    What passing time stops for
+                  </p>
+                  <InterruptionChecklist
+                    interruptions={state.preferences.interruptions}
+                    onChange={(key, value) =>
+                      dispatch({ type: "set-interruption", key, value })
+                    }
+                    testIdPrefix="shell-stop"
+                  />
+                  <button
+                    type="button"
+                    className="ui-action ui-action--subtle"
+                    onClick={() => setStopsOpen(false)}
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : null}
+              {passTargets && raised && !stopsOpen ? (
+                <small
+                  className="pg-nav-days-target"
+                  aria-hidden="true"
+                  data-testid="shell-pass-targets"
+                >
+                  Day: {passTargets.day.replace(/^Skip to /, "")}
+                  <br />
+                  Week: {passTargets.week.replace(/^Skip to /, "")}
+                  {onPassUntilNeeded ? (
+                    <>
+                      <br />
+                      Until needed:{" "}
+                      {passTargets.untilNeeded ?? "Work needs you now"}
+                    </>
+                  ) : null}
+                </small>
+              ) : null}
+              {passTargets ? (
+                <>
+                  <span className="sr-only" id="pg-nav-day-target">
+                    {passTargets.day}
                   </span>
-                ) : null}
-              </>
-            ) : null}
-            {passing ? (
-              <span
-                className="sr-only"
-                role="status"
-                data-testid="shell-time-pending"
-              >
-                Time is passing…
-              </span>
-            ) : null}
-          </div>
-        ) : null}
+                  <span className="sr-only" id="pg-nav-week-target">
+                    {passTargets.week}
+                  </span>
+                  {onPassUntilNeeded ? (
+                    <span className="sr-only" id="pg-nav-until-target">
+                      {passTargets.untilNeeded ??
+                        "Resolve the decision under Work before another quiet stretch."}
+                    </span>
+                  ) : null}
+                </>
+              ) : null}
+              {passing ? (
+                <span
+                  className="sr-only"
+                  role="status"
+                  data-testid="shell-time-pending"
+                >
+                  Time is passing…
+                </span>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
       </div>
 
       {open || closing ? (
