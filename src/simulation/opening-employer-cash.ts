@@ -1,4 +1,9 @@
-import { organizationProfileAt, workStatusAt } from "./life-queries";
+import {
+  organizationProfileAt,
+  workRoleAt,
+  workStatusAt,
+} from "./life-queries";
+import { lifePathDefinition } from "./life-paths2-catalog";
 import {
   resourceFlowTermsAt,
   resourcePositionAt,
@@ -153,7 +158,19 @@ export function ensureEmployerCashPositions(
       /^schedule:(?:town-)?(weekly|biweekly|semimonthly|monthly|annual)(?:-\d+)?$/.exec(
         terms.cadenceKind,
       );
-    if (!cadence)
+    let periods = cadence ? annualPeriods[cadence[1]!]! : null;
+    if (terms.cadenceKind === "work:completed-shift") {
+      const pathId = /^employment:life-paths2-(.+)$/.exec(work.kind)?.[1];
+      const role = workRoleAt(world, work.id);
+      const path = pathId ? lifePathDefinition(pathId) : null;
+      if (role && path?.kind === "work" && path.sessionMinutes > 0) {
+        const hours = role.timeDemand.expectedWeekly;
+        const weeklyHours = (hours.minimumHours + hours.maximumHours) / 2;
+        if (Number.isFinite(weeklyHours) && weeklyHours > 0)
+          periods = (weeklyHours / (path.sessionMinutes / 60)) * 52;
+      }
+    }
+    if (periods === null)
       throw new Error(
         `No recorded calendar conversion for employer payroll cadence ${terms.cadenceKind}.`,
       );
@@ -162,7 +179,7 @@ export function ensureEmployerCashPositions(
       flowIds: [],
       termsIds: [],
     };
-    row.annualMinor += terms.amount.minorUnits * annualPeriods[cadence[1]!]!;
+    row.annualMinor += terms.amount.minorUnits * periods;
     row.flowIds.push(flow.id);
     row.termsIds.push(terms.id);
     payroll.set(flow.source.organizationId, row);
