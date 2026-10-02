@@ -24,11 +24,14 @@ import {
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
+import { schoolTermOn } from "../school-calendar";
+import { attendingSchool } from "../school-moves";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
+  type LifePlace,
 } from "../life-places";
 import { drawCanonicalNamedIdentity } from "../people";
 import { observerAnchorPersonId } from "../people-continuation";
@@ -38,6 +41,8 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
+  IsoDate,
+  OccupationClassification,
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
@@ -52,7 +57,11 @@ import {
   recordHouseholdLocation,
   startHouseholdMembership,
 } from "../life";
-import { householdMembershipsAt, peopleInHouseholdAt } from "../life-queries";
+import {
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+  workRoleAt,
+} from "../life-queries";
 import {
   UNRESEARCHED_LOCAL_CRIME,
   UNRESEARCHED_TOWN_POLICE_LOG,
@@ -74,7 +83,6 @@ import {
 import {
   latestReadings,
   pushOf,
-  stateWeights,
   stepPressure,
   stepPressureEvents,
 } from "../pressure";
@@ -82,16 +90,34 @@ import { activeWavesCovering, stepWaves, wavePressure } from "./waves";
 import {
   causeReader,
   decideToLeave,
+  homeLostCause,
   type CauseReader,
+  type HOME_LOST_STRENGTH,
   type LeaveCause,
 } from "./causes";
+import { placeToLookFor } from "./employers-elsewhere";
+import { ensureJurisdiction } from "../national-election-geography";
+import {
+  nationalMedianAnnualWage,
+  townJobRate,
+  townPayPercentile,
+} from "../living-world/town-pay";
+import {
+  bedroomsForHousehold,
+  hudRentRowFor,
+  marketRentMinor,
+} from "../living-world/town-rent";
+import { townUnemploymentRate } from "../living-world/town-economy-measures";
 import {
   answerOfferElsewhere,
   openOfferElsewhere,
   reviewJobSearchElsewhere,
 } from "./job-offers";
 import { ensurePeopleTraits } from "../people-traits";
-import { reviewTownJobs } from "../living-world/town-labor-market";
+import {
+  reviewTownJobs,
+  TOWN_JOB_END_REASONS,
+} from "../living-world/town-labor-market";
 import { staffPublicJobs } from "../public-budgets/staffing";
 import {
   reviewTownBusinesses,
@@ -148,22 +174,26 @@ export function moverArrivalRate(stateKey: string | null | undefined): number {
   return moverRatesFor(stateKey).arrivalsPerResidentPerYear;
 }
 
-/** BLANKET: share of departures that stay in their own state. Not researched. */
-export const BLANKET_SAME_STATE_SHARE = 0.5;
-
-/** BLANKET: a newcomer's age on arrival, inclusive-exclusive. Not researched. */
-export const BLANKET_ARRIVAL_AGE = [20, 66] as const;
+/**
+ * Why a job in town is left open for somebody from elsewhere: its worker
+ * moved away (`relocate.ts`), died or retired. A layoff or a quit leaves no
+ * opening: the employer cut the job, or the worker is still in town looking.
+ */
+const OPENING_REASONS: ReadonlySet<string> = new Set([
+  "labor:moved-away",
+  TOWN_JOB_END_REASONS.died,
+  TOWN_JOB_END_REASONS.retired,
+]);
 
 /**
- * BLANKET: the chance a household whose home a disaster destroyed or damaged
- * leaves town for good rather than staying to rebuild. The owner, September
- * 22, 2026: after Hurricane Katrina, many people never came back. Not
- * researched; filed as `disaster-displacement-and-return`.
+ * PLACEHOLDER (research: `migration-rates-and-reasons`): how many reviews an employer holds a
+ * job open for somebody from elsewhere before it stops looking: two years.
  */
-export const BLANKET_DISPLACED_LEAVE_CHANCE = {
-  destroyed: 0.4,
-  damaged: 0.05,
-} as const;
+export const OPENING_REVIEWS_HELD = 8;
+
+/** HUD's cost-burden line: rent over 30 percent of pay, severe over half. */
+const RENT_BURDEN_LINE = 0.3;
+const RENT_BURDEN_SEVERE = 0.5;
 
 /**
  * BLANKET: how much a reported assault or robbery in town beyond the police
@@ -275,31 +305,25 @@ export function migrationTown(world: World): EntityId | null {
 }
 
 /**
- * Rates a scenario or a test sets in place of the place's measured ones:
- * newcomers per resident, and how many displaced households leave. Play sets
- * neither. Nobody's departure is a rate: it is their own decision
- * (`causes.ts`).
+ * What a scenario or a test may leave out of a review. Play leaves nothing
+ * out. Nobody's departure or arrival is a rate: a departure is the resident's
+ * own decision (`causes.ts`), and a newcomer comes for a job in town that
+ * nobody in town is there to take (`townOpenings`).
  */
-export interface MigrationRates {
-  readonly arrivalsPerResidentPerYear?: number;
-  readonly displacedLeaveChance?: Readonly<
-    Record<keyof typeof BLANKET_DISPLACED_LEAVE_CHANCE, number>
-  >;
+export interface MigrationReviewOptions {
+  /** False keeps newcomers out, for a case that measures departures. */
+  readonly arrivals?: boolean;
 }
-
-export const PLACE_MIGRATION_RATES: MigrationRates = {
-  displacedLeaveChance: BLANKET_DISPLACED_LEAVE_CHANCE,
-};
 
 /**
  * One review of the player's town on the world's current date, as the
- * quarterly handler runs it. `index` is the review's count since opening. Exposed so a
- * scenario or a test can apply other rates; play reads the place's own.
+ * quarterly handler runs it. `index` is the review's count since opening.
+ * Exposed so a scenario or a test can run one review.
  */
 export function reviewTown(
   world: World,
   index: number,
-  rates: MigrationRates = PLACE_MIGRATION_RATES,
+  options: MigrationReviewOptions = {},
 ): World {
   const town = migrationTown(world);
   if (!town) return world;
@@ -340,49 +364,27 @@ export function reviewTown(
 
   // Households whose homes a disaster destroyed or damaged since the last
   // review, whatever quarter they are reviewed in (`disaster-displacement`).
-  // A household and its dwelling can both be recorded as damaged; one draw.
+  // A household and its dwelling can both be recorded as damaged; it weighs
+  // the wreck once, through its first living adult, with its other causes.
+  const displaced = new Map<EntityId, LeaveCause>();
   const considered = new Set<EntityId>();
   for (const home of displacedHomes(next, town)) {
     if (home.personIds.some((id) => considered.has(id))) continue;
     for (const id of home.personIds) considered.add(id);
-    const rng = new SeededRng(next.seed).fork(
-      `${MIGRATION_CONTRACT_VERSION}:displaced:${home.damageId}`,
-    );
-    const leaveChance = (rates.displacedLeaveChance ??
-      BLANKET_DISPLACED_LEAVE_CHANCE)[home.level];
-    if (rng.next() >= leaveChance) continue;
-    context ??= {
-      ties: moveTieReader(next),
-      playerHousehold: playerHouseholdPeople(next),
-      dead,
-    };
-    const personId = home.personIds.find((id) => !dead.has(id));
-    if (!personId || moving.has(personId)) continue;
-    planned(
-      planMove(
-        next,
-        {
-          stableKey: `${index}:displaced:${home.damageId}`,
-          personId,
-          toJurisdictionId: chooseDestination(
-            rng.fork("destination"),
-            destinations,
-          ),
-          reason: `disaster:home-${home.level}`,
-          waveKey: null,
-          endsHousing: true,
-          causeId: home.damageId,
-        },
-        context,
-      ),
-    );
+    const living = home.personIds.filter((id) => !dead.has(id));
+    const personId =
+      living.find(
+        (id) => ageOnDate(next.people[id]!.birthDate, next.currentDate) >= 18,
+      ) ?? living[0];
+    if (personId)
+      displaced.set(personId, homeLostCause(home.damageId, home.level));
   }
 
   // Everybody else reviewed this quarter: an adult leaves only when a
   // recorded cause pushes them past their own bar, to the cause's place.
   const reviewed = residents.filter(
     (personId) =>
-      !moving.has(personId) &&
+      !considered.has(personId) &&
       reviewQuarter(personId) === index % MIGRATION_REVIEWS_PER_YEAR &&
       ageOnDate(next.people[personId]!.birthDate, next.currentDate) >= 18,
   );
@@ -399,11 +401,23 @@ export function reviewTown(
   );
   let causes: CauseReader | null = null;
   const offers: { personId: EntityId; placeId: EntityId }[] = [];
-  const candidates: { personId: EntityId; found: readonly LeaveCause[] }[] = [];
+  const candidates: {
+    personId: EntityId;
+    found: readonly LeaveCause[];
+    wreck: LeaveCause | null;
+  }[] = [];
+  for (const [personId, wreck] of displaced) {
+    causes ??= causeReader(next, town);
+    candidates.push({
+      personId,
+      found: [wreck, ...causes.causesFor(personId)],
+      wreck,
+    });
+  }
   for (const personId of reviewed) {
     causes ??= causeReader(next, town);
     const found = causes.causesFor(personId);
-    if (found.length > 0) candidates.push({ personId, found });
+    if (found.length > 0) candidates.push({ personId, found, wreck: null });
   }
   if (candidates.length > 0) {
     // Temperament is read for those with a cause only, in one batch.
@@ -419,7 +433,7 @@ export function reviewTown(
     };
     const ties = context;
     const owned = ownedTenureIds(next);
-    for (const { personId, found } of candidates) {
+    for (const { personId, found, wreck } of candidates) {
       if (moving.has(personId)) continue;
       const followed = found.find((cause) => cause.placeId !== null);
       const place = followed
@@ -446,6 +460,7 @@ export function reviewTown(
             .housingOf(personId)
             .tenureIds.some((id) => owned.has(id)),
           childrenAtHome: childrenAtHome(next, personId),
+          schoolYearDepth: schoolYearDepth(next, personId),
           townPush,
         },
         place,
@@ -457,14 +472,18 @@ export function reviewTown(
         planMove(
           next,
           {
-            stableKey: `${index}:${personId}`,
+            stableKey: wreck
+              ? `${index}:displaced:${wreck.causeId}`
+              : `${index}:${personId}`,
             personId,
             toJurisdictionId: place.placeId,
             reason: decision.lead.reason,
-            waveKey: departure.waveKey,
+            waveKey: wreck ? null : departure.waveKey,
             ...(decision.lead.causeId
               ? { causeId: decision.lead.causeId }
               : {}),
+            // A wrecked home is given up on the move.
+            ...(wreck ? { endsHousing: true } : {}),
             why: decision.why,
           },
           ties,
@@ -485,20 +504,20 @@ export function reviewTown(
     );
   }
 
-  const arrivals = arrivalInputs(
-    next,
-    town,
-    index,
-    residents.length,
-    (rates.arrivalsPerResidentPerYear ?? moverArrivalRate(stateKey)) *
-      arrival.multiplier,
-    destinations,
-  );
+  if (options.arrivals === false) return next;
+  // A town pushing its people out draws fewer in; a wave drawing people in
+  // draws more.
+  const arrivals = arrivalInputs(next, town, townPush / arrival.multiplier);
   if (arrivals.length === 0) return next;
-  next = createCharacterHistoryContextPeople(next, arrivals);
-  for (const input of arrivals) {
+  for (const { origin } of arrivals)
+    next = ensureJurisdiction(next, origin.context.jurisdiction);
+  next = createCharacterHistoryContextPeople(
+    next,
+    arrivals.map((row) => row.input),
+  );
+  for (const { input, opening, origin: from } of arrivals) {
     const personId = characterHistoryContextPersonId(next, input.stableKey);
-    const origin = input.birthplaceJurisdictionId!;
+    const origin = from.context.jurisdiction.id;
     const person = next.people[personId]!;
     next = recordWorldEvent(next, {
       stableKey: `migration:arrived:${input.stableKey}`,
@@ -511,12 +530,13 @@ export function reviewTown(
       personFactConstraints: [],
       visibility: "limited",
       tags: [
-        `reason:life-course:unrecorded`,
+        `reason:${ARRIVAL_REASON}`,
+        `opening:${opening.statusId}`,
         `from:${origin}`,
         `to:${town}`,
         ...(arrival.waveKey ? [`wave:${arrival.waveKey}`] : []),
       ],
-      summary: `${person.givenName} ${person.familyName} moved to ${next.jurisdictions[town]!.name} from ${next.jurisdictions[origin]!.name}.`,
+      summary: `${person.givenName} ${person.familyName} moved to ${next.jurisdictions[town]!.name} from ${next.jurisdictions[origin]!.name} to work as the town's new ${opening.title.toLowerCase()}.`,
       context: {
         location: {
           jurisdictionId: town,
@@ -526,7 +546,7 @@ export function reviewTown(
         socialContext: null,
         pressure: null,
         choice: null,
-        motivation: "life-course:unrecorded",
+        motivation: opening.why,
         immediateReaction: null,
       },
     });
@@ -595,7 +615,7 @@ export function statePushOnTown(world: World, town: EntityId): number {
 
 interface DisplacedHome {
   readonly damageId: EntityId;
-  readonly level: keyof typeof BLANKET_DISPLACED_LEAVE_CHANCE;
+  readonly level: keyof typeof HOME_LOST_STRENGTH;
   readonly personIds: readonly EntityId[];
 }
 
@@ -701,6 +721,32 @@ function ownedTenureIds(world: World): ReadonlySet<EntityId> {
   );
 }
 
+/**
+ * How deep into the school year today is for a household with a pupil in it:
+ * 0 at either break or with nobody at school, 1 at the middle of the term,
+ * changing smoothly between (the shared calendar, `school-calendar.ts`).
+ */
+export function schoolYearDepth(world: World, personId: EntityId): number {
+  const term = schoolTermOn(world.currentDate);
+  if (!term) return 0;
+  const household = householdMembershipsAt(world, personId).find(
+    (active) => active.state.residenceRole === "primary",
+  )?.household.id;
+  if (!household) return 0;
+  const pupil = peopleInHouseholdAt(world, household).some(
+    (id) =>
+      ageOnDate(world.people[id]!.birthDate, world.currentDate) < 18 &&
+      attendingSchool(world, id),
+  );
+  if (!pupil) return 0;
+  const half = daysBetween(term.startsAt, term.endsAt) / 2;
+  const fromBreak = Math.min(
+    daysBetween(term.startsAt, world.currentDate),
+    daysBetween(world.currentDate, term.endsAt),
+  );
+  return Math.max(0, Math.min(1, fromBreak / half));
+}
+
 /** Children under 18 living in this person's primary household today. */
 function childrenAtHome(world: World, personId: EntityId): number {
   const household = householdMembershipsAt(world, personId).find(
@@ -715,14 +761,51 @@ function childrenAtHome(world: World, personId: EntityId): number {
 }
 
 /**
- * This review's newcomers when a town is owed `perReview` a review: the
- * whole newcomers owed by the end of this review less those owed by the end
- * of the last one. The fraction is carried from review to review (largest
- * remainder over the run of reviews), so no draw rounds it.
+ * This review's newcomers: one for each opening in town whose pull has
+ * carried it to being taken (`townOpenings`). BLANKET (`arrival-history`,
+ * `arriving-families`): single adults with a canonical name and identity, a
+ * seeded pick among real options, and nothing else yet. Where they come from
+ * is HARDWIRED: the town's own state's largest other town, the place a
+ * resident looking for work elsewhere looks first (`placeToLookFor`).
  */
-export function arrivalCount(perReview: number, index: number): number {
-  if (!(perReview > 0)) return 0;
-  return Math.floor(perReview * (index + 1)) - Math.floor(perReview * index);
+function arrivalInputs(
+  world: World,
+  town: EntityId,
+  push: number,
+): readonly {
+  readonly input: CharacterHistoryContextPersonInput;
+  readonly opening: TownOpening;
+  readonly origin: LifePlace;
+}[] {
+  const taken = townOpenings(world, town, push).filter(
+    (opening) => opening.pull * (opening.reviewsOpen + 1) >= 1,
+  );
+  if (taken.length === 0) return [];
+  const origin = placeToLookFor(town, null);
+  if (!origin) return [];
+  const year = Number(world.currentDate.slice(0, 4));
+  return taken.map((opening) => {
+    const personRng = new SeededRng(world.seed).fork(
+      `${MIGRATION_CONTRACT_VERSION}:arrive:${opening.statusId}`,
+    );
+    return {
+      opening,
+      origin,
+      input: {
+        stableKey: `migration:newcomer:${town}:${opening.statusId}`,
+        ...drawCanonicalNamedIdentity(
+          personRng.fork("name"),
+          generatePersonIdentity(personRng.fork("identity")),
+        ),
+        birthDate: inventedPersonBirthDate(personRng, {
+          role: "migration-newcomer",
+          referenceDate: makeIsoDate(`${year}-01-01`),
+        }),
+        homeJurisdictionId: town,
+        birthplaceJurisdictionId: origin.context.jurisdiction.id,
+      },
+    };
+  });
 }
 
 /** Which quarter of the year a person is reviewed in: fixed per person. */
@@ -735,99 +818,152 @@ export function reviewQuarter(personId: EntityId): number {
 
 interface DestinationPool {
   readonly ownState: EntityId | null;
-  readonly otherStates: readonly EntityId[];
-  /** Pull of each other state, for a destination; all 1 with no readings. */
-  readonly pull: readonly number[];
-  /** Push of each other state, for a newcomer's origin. */
-  readonly push: readonly number[];
 }
 
 /**
- * BLANKET (`where-people-go`): somewhere else in the town's own state, or
- * another state. The world's state-level jurisdictions are the only other
- * places it holds.
+ * The town's own state, where a resident with a push and no relative
+ * elsewhere goes (`where-people-go`, HARDWIRED until a home found elsewhere
+ * is recorded).
  */
 function destinationPool(world: World, town: EntityId): DestinationPool {
-  const states = world.jurisdictionOrder.filter(
-    (id) => world.jurisdictions[id]?.kind === "state-placeholder",
-  );
   const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
   const ownStateId = stateKey ? stateJurisdictionForKey(stateKey)?.id : null;
-  const ownState =
-    ownStateId && states.includes(ownStateId) ? ownStateId : null;
-  const otherStates = states.filter((id) => id !== ownState);
   return {
-    ownState,
-    otherStates,
-    pull: stateWeights(world, otherStates, "pull"),
-    push: stateWeights(world, otherStates, "push"),
+    ownState:
+      ownStateId &&
+      world.jurisdictions[ownStateId]?.kind === "state-placeholder"
+        ? ownStateId
+        : null,
   };
 }
 
-/**
- * Own state or another, and which other state weighted by the pressure
- * layer's latest readings (`town-movers`): pull for a household leaving, push
- * for where a newcomer came from. Even weights when nothing is recorded.
- */
-function chooseDestination(
-  rng: SeededRng,
-  pool: DestinationPool,
-  weighting: "pull" | "push" = "pull",
-): EntityId {
-  if (pool.ownState && rng.next() < BLANKET_SAME_STATE_SHARE)
-    return pool.ownState;
-  const weights = weighting === "pull" ? pool.pull : pool.push;
-  const total = weights.reduce((sum, weight) => sum + weight, 0);
-  let draw = rng.next() * total;
-  for (let index = 0; index < pool.otherStates.length; index += 1) {
-    draw -= weights[index]!;
-    if (draw < 0) return pool.otherStates[index]!;
-  }
-  return pool.otherStates.at(-1)!;
+/** Why a newcomer came: a job in town nobody in town was there to take. */
+export const ARRIVAL_REASON = "work:job-opening" as const;
+
+/** A job in town left open by a worker who moved away, died or retired. */
+export interface TownOpening {
+  /** The ended work status that left it open. */
+  readonly statusId: EntityId;
+  readonly title: string;
+  readonly occupation: OccupationClassification | null;
+  readonly openedAt: IsoDate;
+  /** Reviews it has stood open, from 0 on the first one after it opened. */
+  readonly reviewsOpen: number;
+  /** A one-person home's rent against the job's pay; null when either is unknown. */
+  readonly rentShare: number | null;
+  /**
+   * How strongly it draws somebody from elsewhere, from 1 when the rent of
+   * a one-person home takes no more than 30 percent of its pay, sliding to
+   * nothing at 80 percent, over the town's push.
+   */
+  readonly pull: number;
+  /** In the words the arrival records. */
+  readonly why: string;
 }
 
 /**
- * This quarter's newcomers. BLANKET (`arrivals`, `arrival-history`,
- * `arriving-families`): single adults, born where they came from, with a
- * canonical name and identity and nothing else yet.
+ * The jobs in town held open for somebody from elsewhere today: jobs whose
+ * worker moved away, died or retired in the last two years
+ * (`OPENING_REVIEWS_HELD`), that no newcomer has come for yet, less as many
+ * of the newest as the town has residents looking for work, who are hired
+ * first (`town-labor-market.ts`). Oldest first.
+ *
+ * An opening is taken once the review count it has stood open, times its
+ * pull, reaches one: a job whose pay covers the town's rent is taken at the
+ * first review, one whose pay barely does waits a year or more, and one the
+ * rent swallows is never taken. Nothing is drawn.
  */
-function arrivalInputs(
+export function townOpenings(
   world: World,
   town: EntityId,
-  index: number,
-  residentCount: number,
-  ratePerResidentPerYear: number,
-  pool: DestinationPool,
-): readonly CharacterHistoryContextPersonInput[] {
-  // Who each newcomer is (name, identity, age, origin) is a seeded pick
-  // among real options; how many come is not.
-  const rng = new SeededRng(world.seed).fork(
-    `${MIGRATION_CONTRACT_VERSION}:arrive:${index}`,
+  push: number,
+): readonly TownOpening[] {
+  const today = world.currentDate;
+  const since = addDays(
+    today,
+    -OPENING_REVIEWS_HELD * MIGRATION_REVIEW_INTERVAL_DAYS,
   );
-  // No draw rounds the count: the fraction is carried from review to review
-  // (largest remainder over the run of reviews), so a town owed a third of a
-  // newcomer a quarter gains one every third review.
-  const expected =
-    (residentCount * ratePerResidentPerYear) / MIGRATION_REVIEWS_PER_YEAR;
-  const count = arrivalCount(expected, index);
-  const year = Number(world.currentDate.slice(0, 4));
-  const inputs: CharacterHistoryContextPersonInput[] = [];
-  for (let n = 0; n < count; n += 1) {
-    const personRng = rng.fork(`newcomer:${n}`);
-    const origin = chooseDestination(personRng.fork("origin"), pool, "push");
-    inputs.push({
-      stableKey: `migration:newcomer:${town}:${index}:${n}`,
-      ...drawCanonicalNamedIdentity(
-        personRng.fork("name"),
-        generatePersonIdentity(personRng.fork("identity")),
-      ),
-      birthDate: inventedPersonBirthDate(personRng, {
-        role: "migration-newcomer",
-        referenceDate: makeIsoDate(`${year}-01-01`),
-      }),
-      homeJurisdictionId: town,
-      birthplaceJurisdictionId: origin,
+  const ended = world.history.workStatuses.filter(
+    (status) =>
+      status.status === "ended" &&
+      OPENING_REASONS.has(status.reason ?? "") &&
+      status.effectiveAt > since &&
+      status.effectiveAt <= today,
+  );
+  if (ended.length === 0) return [];
+  // Openings a newcomer already came for, from the newest arrivals back.
+  const taken = new Set<string>();
+  const events = world.history.events;
+  for (let index = events.length - 1; index >= 0; index -= 1) {
+    const event = events[index]!;
+    if (event.occurredAt <= since) break;
+    if (event.type !== MIGRATION_ARRIVED_EVENT) continue;
+    for (const tag of event.tags)
+      if (tag.startsWith("opening:")) taken.add(tag.slice("opening:".length));
+  }
+  const rentRow = hudRentRowFor(town);
+  const rentMinor = rentRow
+    ? marketRentMinor(world, town, rentRow, bedroomsForHousehold(1), today)
+    : null;
+  const open: TownOpening[] = [];
+  for (const status of ended) {
+    if (taken.has(status.id)) continue;
+    const role = workRoleAt(world, status.workRelationshipId);
+    if (!role || role.locationJurisdictionId !== town) continue;
+    // What the town pays a new hire in the line, or the nation's median
+    // where BLS publishes no wage there; over the job's recorded hours.
+    const hourlyMinor =
+      townJobRate(
+        role.occupationClassification,
+        town,
+        townPayPercentile(0, 0.5),
+      )?.hourlyMinor ??
+      (role.occupationClassification
+        ? ((nationalMedianAnnualWage(role.occupationClassification) ?? 0) /
+            (52 * 40)) *
+          100
+        : 0);
+    const hours = role.timeDemand.expectedWeekly.maximumHours;
+    const payMinor = (hourlyMinor * hours * 52) / 12;
+    const rentShare =
+      rentMinor !== null && payMinor > 0 ? rentMinor / payMinor : null;
+    // Unknown pay or rent is not a burden: the job alone draws.
+    const affordable =
+      rentShare === null
+        ? 1
+        : 1 -
+          Math.min(
+            1,
+            Math.max(0, (rentShare - RENT_BURDEN_LINE) / RENT_BURDEN_SEVERE),
+          );
+    const reviewsOpen = Math.floor(
+      (Date.parse(today) - Date.parse(status.effectiveAt)) /
+        86_400_000 /
+        MIGRATION_REVIEW_INTERVAL_DAYS,
+    );
+    open.push({
+      statusId: status.id,
+      title: role.title,
+      occupation: role.occupationClassification,
+      openedAt: status.effectiveAt,
+      reviewsOpen,
+      rentShare,
+      pull: affordable / push,
+      why:
+        rentShare === null
+          ? `${role.title.toLowerCase()} work in town stood open`
+          : `${role.title.toLowerCase()} work in town stood open, and a home there would take ${Math.round(rentShare * 100)} percent of its pay`,
     });
   }
-  return inputs;
+  open.sort(
+    (a, b) =>
+      a.openedAt.localeCompare(b.openedAt) ||
+      a.statusId.localeCompare(b.statusId),
+  );
+  const seekers = townUnemploymentRate(world, town);
+  const looking =
+    seekers.value === null
+      ? 0
+      : Math.round((seekers.value * seekers.basis) / 100);
+  return open.slice(0, Math.max(0, open.length - looking));
 }

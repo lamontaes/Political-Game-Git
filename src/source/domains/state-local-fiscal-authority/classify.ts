@@ -151,7 +151,7 @@ export function classifyBalancedBudget(
   return {
     state: "COMPLETE",
     stagesEnforced: enforced,
-    highestStage: enforced.length === 0 ? null : enforced[enforced.length - 1],
+    highestStage: enforced[enforced.length - 1] ?? null,
   };
 }
 

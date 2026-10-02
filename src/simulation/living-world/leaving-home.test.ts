@@ -377,7 +377,7 @@ describe(`a new household forms only from a recorded cause (A135; place ${PLACE}
         for (let quarter = 0; quarter < 4; quarter += 1)
           year = advanceWithWorldIntegrityAtEnd(() => {
             const moved = reviewTown(year, quarter, {
-              arrivalsPerResidentPerYear: 0,
+              arrivals: false,
             });
             const families = reviewTownFamilies(
               moved,

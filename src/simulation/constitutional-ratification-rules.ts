@@ -1,4 +1,4 @@
-import research from "../../data/research/legislature/federal-amendment-ratification-rules-2026.json";
+import research from "../../data/research/legislature/federal-amendment-ratification-rules-2026.json" with { type: "json" };
 import type { VoteThresholdRule } from "./legislature-rules";
 
 /** Only explicit ratification rules without an unimplemented condition are

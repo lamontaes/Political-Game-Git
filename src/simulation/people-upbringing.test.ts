@@ -186,6 +186,8 @@ describe("upbringing and starting traits", () => {
     const base: PersonUpbringing = {
       personId: "person_test" as EntityId,
       money: [],
+      basis: "game-profile",
+      disruption: 0,
       homeStability: "stable",
       caregiving: "consistent-firm",
       protectiveCaregiver: true,
@@ -213,6 +215,8 @@ describe("upbringing and starting traits", () => {
     const upbringing: PersonUpbringing = {
       personId: "person_test" as EntityId,
       money: [],
+      basis: "game-profile",
+      disruption: 0,
       homeStability: "stable",
       caregiving: "consistent-firm",
       protectiveCaregiver: false,

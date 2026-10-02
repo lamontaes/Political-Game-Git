@@ -18,7 +18,7 @@ import {
 import { ELECTION_CONTEST_TRANSITION_KEY } from "../simulation/election-contests";
 import { createFutureTransitionHandlerRegistry } from "../simulation/future-transitions";
 import { memberBallotOn } from "../simulation/governing/member-ballots";
-import { LOCAL_COUNCIL_MEETING_HANDLERS } from "../simulation/living-world/local-council-meetings";
+import { localCouncilMeetingHandlers } from "../simulation/living-world/local-council-meetings";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import {
   municipalOrganizationFor,
@@ -91,7 +91,7 @@ describe("elected city councilor's saved reading ballot", () => {
         ],
         // The town's own council meeting falls due the same day now that the
         // opening schedules it; it runs on its real handler.
-        ...LOCAL_COUNCIL_MEETING_HANDLERS,
+        ...localCouncilMeetingHandlers(),
       ]),
     );
     const elected = resolveCampaignElectionFromRecordedInput(electionDay, {

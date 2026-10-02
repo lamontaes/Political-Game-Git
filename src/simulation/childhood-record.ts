@@ -15,7 +15,9 @@ import type { ChildhoodRecordEntry, EntityId, World } from "./types";
  *   and the date;
  * - `school-year-move`: the migration move (`migration/relocate.ts`) when it
  *   lands while school is in session on the shared calendar
- *   (`school-stages.ts`), with the grade.
+ *   (`school-calendar.ts`), with the grade;
+ * - `no-school-on-record`: the same move when the destination holds no
+ *   school for the pupil's grade, so nobody enrolled them there.
  *
  * Nothing here draws or estimates. A measure the World does not record yet
  * (years in poverty, school funding per pupil, preschool years, particulates
@@ -62,6 +64,10 @@ type EntryInput =
     >
   | Omit<
       Extract<ChildhoodRecordEntry, { kind: "school-year-move" }>,
+      "id" | "sequence" | "recordedAt"
+    >
+  | Omit<
+      Extract<ChildhoodRecordEntry, { kind: "no-school-on-record" }>,
       "id" | "sequence" | "recordedAt"
     >;
 
@@ -119,7 +125,7 @@ export function assertChildhoodRecordIntegrity(world: World): void {
       source.sequence >= entry.sequence ||
       !source.involvedEntityIds.includes(entry.personId) ||
       (entry.kind === "birth" && entry.birthDate !== person.birthDate) ||
-      (entry.kind === "school-year-move" &&
+      (entry.kind !== "birth" &&
         (!Number.isInteger(entry.grade) || entry.grade < 0 || entry.grade > 12))
     )
       throw new Error(`Invalid childhood entry: ${entry.stableKey}`);
