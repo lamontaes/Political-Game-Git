@@ -562,7 +562,6 @@ export function paydayHandler(
     throw new Error("Payday received another transition.");
   const since = makeIsoDate(dueItem.stableKey.slice(PAYDAY_KEY_PREFIX.length));
   let next = startTownJobPay(world, null, since);
-  next = raiseTownPayToMinimum(next, null);
   next = raiseTeacherPayToFloor(next, null);
   // A raise a law made reaches the person it raised.
   next = noticeLawPayChanges(next, since);
