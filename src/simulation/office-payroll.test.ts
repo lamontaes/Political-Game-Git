@@ -201,6 +201,18 @@ it.each(sampled)(
   "A37 preserves an actual saved review-office period through the one payroll in %s",
   (placeKey) => {
     const f = officeFixture(placeKey);
+    const pay = resourceFlowTermsAt(f.world, f.flow.id)!.amount;
+    // This is recorded fixture funding, not an inferred runtime government balance.
+    f.world = createResourcePosition(f.world, {
+      stableKey: `fixture:a37:sampled-cash:${f.flow.id}`,
+      owner: f.flow.source,
+      openedAt: f.world.currentDate,
+      openingBalance: money(pay.minorUnits * 2, pay.currency),
+      provenance: {
+        kind: "authored",
+        note: "Controlled saved government cash for the sampled office period and payroll costs; not an observed treasury balance.",
+      },
+    });
     const firstDue = addDays(f.flow.startsAt, 7);
     expect(
       settleOfficeSalaries(
