@@ -17,12 +17,8 @@ import {
 import {
   TOWN_BUSINESS_CLOSING_REASONS,
   TOWN_BUSINESS_WORKPLACES,
-  TOWN_CLUB_PROFILE,
-  TOWN_CONGREGATION_PROFILE,
   describeTownBusinesses,
   reviewTownBusinesses,
-  reviewTownGroups,
-  townGroups,
   townBusinesses,
 } from "../../src/simulation/living-world/town-businesses";
 import { TOWN_JOB_END_REASONS } from "../../src/simulation/living-world/town-labor-market";
@@ -30,7 +26,7 @@ import { reviewTownJobs } from "../../src/simulation/living-world/town-labor-mar
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import { BUSINESS_CLOSED_EVENT } from "../../src/simulation/living-world/town-finances";
 import { openingTakesApplications } from "../../src/simulation/job-market";
-import type { JobOpeningRecord } from "../../src/simulation/types";
+import type { JobOpeningRecord } from "../../src/simulation/job-market-types";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import {
   TOWN_EMPLOYMENT_VERSION,
@@ -240,7 +236,9 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
             stableKey: "test-jail-term",
             type: PROSECUTION_SENTENCED_EVENT,
             occurredAt: world.currentDate,
-            participants: [{ personId: first!, role: "focus:defendant" }],
+            participants: [
+              { personId: first!, role: "focus:defendant", detail: null },
+            ],
             tags: [`${SENTENCE_KIND_TAG}jail`, `${SENTENCE_MONTHS_TAG}120`],
           },
         ],
@@ -259,74 +257,5 @@ describe("the town's businesses open and close", { timeout: 600_000 }, () => {
   });
 });
 
-describe(
-  "the town's congregations and clubs disband and are founded",
-  {
-    timeout: 600_000,
-  },
-  () => {
-    it("over a long run, a disbanded one's members and staff leave with it", () => {
-      const opened = openAt("2146027", "congregations-lexington");
-      const { personId, town } = opened;
-      let world: World = opened.world;
-      // A century of quarters, so rates of about 1% a year show.
-      withWorldIntegrityDeferred(() => {
-        for (let round = 0; round < 400; round += 1) {
-          const date = addDays(world.currentDate, 91);
-          world = {
-            ...world,
-            currentDate: date,
-            currentMoment: simulationMomentOnLocalDate(
-              world.currentMoment,
-              date,
-            ),
-          };
-          world = reviewTownGroups(world, town, personId, `c-${round}`);
-        }
-      });
-      const closings = world.history.organizationProfiles.filter(
-        (profile) =>
-          profile.closed?.reason === TOWN_CONGREGATION_PROFILE.closingReason,
-      );
-      const founded = world.history.organizations.filter((organization) =>
-        organization.stableKey.endsWith(":congregation:founded"),
-      );
-      expect(closings.length).toBeGreaterThan(0);
-      expect(founded.length).toBeGreaterThan(0);
-      const latest = new Map<string, string>();
-      for (const state of world.history.organizationParticipationStates)
-        latest.set(state.participationId, state.status);
-      for (const closing of closings) {
-        for (const participation of world.history.organizationParticipations)
-          if (participation.organizationId === closing.organizationId)
-            expect(latest.get(participation.id)).toBe("ended");
-        for (const id of world.personOrder)
-          for (const job of activeWorkRelationshipsAt(world, id))
-            expect(job.relationship.organizationId).not.toBe(
-              closing.organizationId,
-            );
-      }
-      // Clubs are founded and disband by the same rule, up to five at once.
-      const clubs = world.history.organizations.filter((organization) =>
-        organization.stableKey.endsWith(":club:founded"),
-      );
-      expect(clubs.length).toBeGreaterThan(0);
-      expect(
-        world.history.organizationProfiles.some(
-          (profile) =>
-            profile.closed?.reason === TOWN_CLUB_PROFILE.closingReason,
-        ),
-      ).toBe(true);
-      expect(
-        townGroups(world, town, TOWN_CLUB_PROFILE).length,
-      ).toBeLessThanOrEqual(TOWN_CLUB_PROFILE.most);
-      // Every founded congregation starts with members from town.
-      for (const organization of founded)
-        expect(
-          world.history.organizationParticipations.filter(
-            (row) => row.organizationId === organization.id,
-          ).length,
-        ).toBeGreaterThanOrEqual(10);
-    });
-  },
-);
+// Group lifecycle proofs moved to src/simulation/living-world/town-group-lifecycle.test.ts.
+// They use actual empty memberships and recorded founding choices, rather than century-long rolls.

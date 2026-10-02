@@ -7,7 +7,6 @@ import {
 } from "../life";
 import { createStableId } from "../ids";
 import { jailTermOn } from "../justice/jail-terms";
-import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   activeWorkRelationshipsAt,
   organizationClosingAt,
@@ -16,7 +15,16 @@ import {
   kinshipRelationshipsAt,
   workRoleAt,
 } from "../life-queries";
-import { SeededRng } from "../rng";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
+import { goalConsiderations } from "../people-goal-pursuit";
+import {
+  CONNECTION_GOAL_KEY,
+  PRIVACY_GOAL_KEY,
+} from "../people-goal-pursuit-content";
 import { localBusinessWageMinor } from "../recorded-employer";
 import type {
   EntityId,
@@ -566,30 +574,12 @@ export function describeTownBusinesses(
   };
 }
 
-/**
- * A kind of town group people belong to, which disbands and is founded by
- * its membership: a small one is likelier to disband, and a new one is
- * founded only where enough adults belong to none of its kind.
- */
+/** The recorded classifications and existing staff/closure writers for town groups. */
 export interface TownGroupProfile {
   readonly key: string;
   readonly classification: OrganizationClassification;
   readonly participationKind: OrganizationParticipationKind;
   readonly roleKind: OrganizationParticipationRoleKind;
-  /** Chance a year that one of them disbands. */
-  readonly closingPerYear: number;
-  /**
-   * Chance a year that one is founded: per group already in town, or, for a
-   * kind a town may have none of, for the town as a whole.
-   */
-  readonly openingPerYear: number;
-  readonly openingBasis: "per-group" | "per-town";
-  /** Fewer members than this doubles the chance to disband; founding takes this many. */
-  readonly smallMembership: number;
-  /** The most a town has at once. */
-  readonly most: number;
-  readonly names: readonly ((town: string) => string)[];
-  /** The town workplace whose staff work there, if it has paid staff. */
   readonly staff: {
     readonly workplace: string;
     readonly minAge: number;
@@ -598,59 +588,21 @@ export interface TownGroupProfile {
   readonly closedJobReason: string;
 }
 
-/**
- * CALIBRATION, approved by Claude CTO on 9/28/2026 as provisional: about
- * 4,000 Protestant churches closed and 3,800 opened in 2024 (Lifeway
- * Research), and 1.4% of Southern Baptist congregations closed; inferred as
- * about 1.3% of congregations disbanding and 1.2% founded a year. The
- * doubling for a small congregation, the founding size and the names are
- * game assumptions.
- */
 export const TOWN_CONGREGATION_PROFILE: TownGroupProfile = {
   key: "congregation",
   classification: "community:congregation",
   participationKind: "membership:congregation",
   roleKind: "member:congregant",
-  closingPerYear: 0.013,
-  openingPerYear: 0.012,
-  openingBasis: "per-group",
-  smallMembership: 10,
-  most: 8,
-  names: [
-    (town) => `New Hope Church of ${town}`,
-    (town) => `${town} Bible Fellowship`,
-    (town) => `Cornerstone Church of ${town}`,
-    (town) => `${town} Chapel`,
-  ],
   staff: { workplace: "congregation", minAge: 30 },
   closingReason: "congregation:disbanded",
   closedJobReason: "labor:congregation-closed",
 };
 
-/**
- * GAME PROFILE, approved by Claude CTO on 9/28/2026 as a labeled game
- * profile (no official series of club openings and closings was found):
- * a town founds a club about once every four years until it has five, and
- * one disbands about once in ten years; clubs have no paid staff.
- */
 export const TOWN_CLUB_PROFILE: TownGroupProfile = {
   key: "club",
   classification: "community:association",
   participationKind: "membership:club",
   roleKind: "member:club-member",
-  closingPerYear: 0.1,
-  openingPerYear: 0.25,
-  openingBasis: "per-town",
-  smallMembership: 6,
-  most: 5,
-  names: [
-    (town) => `${town} Garden Club`,
-    (town) => `${town} Historical Society`,
-    (town) => `${town} Book Club`,
-    (town) => `${town} Bowling League`,
-    (town) => `${town} Veterans Club`,
-    (town) => `${town} Quilting Circle`,
-  ],
   staff: null,
   closingReason: "club:disbanded",
   closedJobReason: "labor:club-closed",
@@ -694,8 +646,6 @@ export function townGroups(
     if (!ids.has(participation.organizationId)) continue;
     const state = latest.get(participation.id);
     if (state?.status !== "active") continue;
-    if (world.people[participation.personId]?.homeJurisdictionId !== town)
-      continue;
     const list = members.get(participation.organizationId) ?? [];
     list.push({
       participationId: participation.id,
@@ -743,7 +693,6 @@ function reviewTownGroupsOf(
   )
     return world;
   const groups = townGroups(world, town, profile);
-  const rng = new SeededRng(world.seed).fork(prefix);
   const provenance = {
     kind: "generated" as const,
     generatorKey: TOWN_BUSINESSES_VERSION,
@@ -755,10 +704,9 @@ function reviewTownGroupsOf(
       latestWork.set(status.workRelationshipId, status);
 
   for (const group of groups) {
-    const chance =
-      (profile.closingPerYear / 4) *
-      (group.members.length < profile.smallMembership ? 2 : 1);
-    if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;
+    // CTO Oct 2: only an actual loss of every active local member closes
+    // the group; annual totals never choose an individual group's fate.
+    if (group.members.length !== 0) continue;
     const current = organizationProfileAt(next, group.organizationId)!;
     next = recordOrganizationProfile(next, {
       stableKey: `${prefix}close:${group.organizationId}`,
@@ -798,106 +746,185 @@ function reviewTownGroupsOf(
     }
   }
 
-  // A founding, where enough adults belong to none of this kind.
-  const still = townGroups(next, town, profile);
-  if (still.length >= profile.most) return next;
-  const expected =
-    profile.openingBasis === "per-group"
-      ? Math.max(1, groups.length) * (profile.openingPerYear / 4)
-      : profile.openingPerYear / 4;
-  if (rng.fork("found").next() >= expected) return next;
+  // Unaffiliation alone says nothing about faith or interest. An ended
+  // membership in a closed group supplies this person's actual same-group
+  // demand, with its recorded context; no generic town population is enrolled.
   const belonging = new Set(
-    still.flatMap((entry) => entry.members.map((member) => member.personId)),
+    townGroups(next, town, profile).flatMap((group) =>
+      group.members.map((member) => member.personId),
+    ),
   );
-  const unaffiliated = townResidents(next, town)
-    .filter(
-      (resident) =>
-        resident.personId !== playerPersonId &&
-        !belonging.has(resident.personId),
-    )
-    .sort((a, b) => a.personId.localeCompare(b.personId));
-  if (unaffiliated.length < profile.smallMembership) return next;
-  const place = lifePlaceByJurisdictionId(town);
-  const townName = place?.displayName.split(",")[0]!.trim() ?? "Town";
-  const taken = new Set(
-    next.history.organizationProfiles
-      .filter((row) => row.locationJurisdictionId === town)
-      .map((row) => row.name),
-  );
-  const name = profile.names
-    .map((named) => named(townName))
-    .find((candidate) => !taken.has(candidate));
-  if (!name) return next;
-  const stableKey = `${prefix}founded`;
-  next = createOrganization(next, {
-    stableKey,
-    formedAt: today,
-    provenance,
-    initialProfile: {
-      name,
-      classification: profile.classification,
-      locationJurisdictionId: town,
-    },
-  });
-  const organizationId = createStableId(
-    "organization",
-    `${next.id}:${stableKey}`,
-  );
-  // Who founds it: first the people who belonged to one of this kind that
-  // has since ended for them (a disbanded congregation's members are the
-  // ones who start the next), then the eldest, then by id.
-  const kindIds = new Set(
-    next.history.organizations
+  const residents = new Map(
+    townResidents(next, town)
       .filter(
-        (organization) =>
-          organizationProfileAt(next, organization.id)?.classification ===
-          profile.classification,
+        (resident) =>
+          resident.personId !== playerPersonId &&
+          !(
+            next.control.kind === "person" &&
+            next.control.personId === resident.personId
+          ) &&
+          !belonging.has(resident.personId),
       )
-      .map((organization) => organization.id),
+      .map((resident) => [resident.personId, resident]),
   );
-  const belongedBefore = new Set(
-    next.history.organizationParticipations
-      .filter((participation) => kindIds.has(participation.organizationId))
-      .map((participation) => participation.personId),
-  );
-  const founders = [...unaffiliated]
-    .sort(
-      (a, b) =>
-        Number(belongedBefore.has(b.personId)) -
-          Number(belongedBefore.has(a.personId)) ||
-        b.age - a.age ||
-        a.personId.localeCompare(b.personId),
+  const latestParticipation = new Map<
+    EntityId,
+    OrganizationParticipationStateRecord
+  >();
+  for (const state of next.history.organizationParticipationStates)
+    if (state.effectiveAt <= today)
+      latestParticipation.set(state.participationId, state);
+  const demand = new Map<
+    EntityId,
+    (typeof next.history.organizationParticipations)[number][]
+  >();
+  for (const participation of next.history.organizationParticipations) {
+    if (
+      !residents.has(participation.personId) ||
+      participation.startedAt > today
     )
-    .slice(0, profile.smallMembership);
-  for (const founder of founders)
-    next = createOrganizationParticipation(next, {
-      stableKey: `${prefix}member:${founder.personId}`,
-      personId: founder.personId,
-      organizationId,
-      startedAt: today,
-      kind: profile.participationKind,
-      roleKind: profile.roleKind,
-      context: null,
+      continue;
+    const state = latestParticipation.get(participation.id);
+    const source = organizationProfileAt(next, participation.organizationId);
+    if (
+      state?.status !== "ended" ||
+      source?.classification !== profile.classification ||
+      !source.closed ||
+      source.locationJurisdictionId !== town
+    )
+      continue;
+    const entries = demand.get(participation.organizationId) ?? [];
+    // A person may have multiple dated memberships in the same group.
+    if (!entries.some((entry) => entry.personId === participation.personId))
+      entries.push(participation);
+    demand.set(participation.organizationId, entries);
+  }
+
+  for (const [sourceGroupId, entries] of demand) {
+    const source = organizationProfileAt(next, sourceGroupId)!;
+    const stableKey = `${prefix}founded:${sourceGroupId}`;
+    const founders: typeof entries = [];
+    for (const entry of entries) {
+      const decisionKey = `${stableKey}:decision:${entry.personId}`;
+      if (
+        next.history.decisionTraces.some(
+          (trace) => trace.context.stableKey === decisionKey,
+        )
+      )
+        continue;
+      const state = latestParticipation.get(entry.id)!;
+      const evaluation = evaluateDecision(next, {
+        stableKey: decisionKey,
+        decisionType: `community.found-${profile.key}`,
+        actorPersonId: entry.personId,
+        cutoff: {
+          asOfDate: today,
+          historySequenceExclusive: next.history.nextSequence,
+        },
+        subject: {
+          kind: "entity:organization",
+          key: sourceGroupId,
+          entityId: sourceGroupId,
+        },
+        options: [
+          {
+            key: "found-local-group",
+            label: "Found a local group",
+            description: `Continue the recorded community of ${source.name} in a new group.`,
+          },
+          {
+            key: "continue-current-arrangement",
+            label: "Keep the current arrangement",
+            description: "Do not found a new local group.",
+          },
+        ],
+        constraints: [],
+        considerations: goalConsiderations(next, entry.personId, decisionKey, [
+          {
+            optionKey: "found-local-group",
+            goalKey: CONNECTION_GOAL_KEY,
+            direction: "supports",
+            explanation:
+              "Rebuild the community they belonged to, pursuing their recorded connection goal.",
+          },
+          {
+            optionKey: "continue-current-arrangement",
+            goalKey: PRIVACY_GOAL_KEY,
+            direction: "supports",
+            explanation:
+              "Keep time for themselves, pursuing their recorded privacy goal.",
+          },
+        ]).map((consideration) => ({
+          ...consideration,
+          sourceRefs: [
+            ...consideration.sourceRefs,
+            {
+              kind: "life-history" as const,
+              reference: {
+                family: "organization-participation" as const,
+                recordId: entry.id,
+              },
+            },
+            {
+              kind: "life-history" as const,
+              reference: {
+                family: "organization-participation-state" as const,
+                recordId: state.id,
+              },
+            },
+          ],
+        })),
+        perceptionIds: [],
+        randomness: "none",
+        retention: "durable",
+      });
+      next = recordDurableDecisionTrace(next, evaluation);
+      if (
+        isSelectedDecision(evaluation) &&
+        evaluation.selectedOptionKey === "found-local-group"
+      )
+        founders.push(entry);
+    }
+    if (founders.length === 0) continue;
+    next = createOrganization(next, {
+      stableKey,
+      formedAt: today,
       provenance,
+      initialProfile: {
+        name: source.name,
+        classification: profile.classification,
+        locationJurisdictionId: town,
+      },
     });
-  if (!profile.staff) return next;
-  // Its leader, from the founders out of work and old enough.
-  const working = new Set(
-    next.history.workRelationships
-      .filter((row) => latestWork.get(row.id)?.status === "active")
-      .map((row) => row.personId),
-  );
-  const minAge = profile.staff.minAge;
-  const leader = founders.find(
-    (founder) =>
-      founder.age >= minAge &&
-      !working.has(founder.personId) &&
-      laborStatus(next, founder) !== "retired",
-  );
-  if (leader)
-    next = fillTownJobs(next, town, [leader], {
-      round: `${round}:${profile.key}:founded`,
-      into: { workplace: profile.staff.workplace, organizationId },
-    });
+    const organizationId = createStableId(
+      "organization",
+      `${next.id}:${stableKey}`,
+    );
+    for (const founder of founders)
+      next = createOrganizationParticipation(next, {
+        stableKey: `${stableKey}:member:${founder.personId}`,
+        personId: founder.personId,
+        organizationId,
+        startedAt: today,
+        kind: profile.participationKind,
+        roleKind: profile.roleKind,
+        context: latestParticipation.get(founder.id)!.context,
+        provenance,
+      });
+    if (!profile.staff) continue;
+    const leader = founders
+      .map((entry) => residents.get(entry.personId)!)
+      .find(
+        (resident) =>
+          resident.age >= profile.staff!.minAge &&
+          activeWorkRelationshipsAt(next, resident.personId).length === 0 &&
+          laborStatus(next, resident) !== "retired",
+      );
+    if (leader)
+      next = fillTownJobs(next, town, [leader], {
+        round: `${round}:${profile.key}:founded:${sourceGroupId}`,
+        into: { workplace: profile.staff.workplace, organizationId },
+      });
+  }
   return next;
 }
