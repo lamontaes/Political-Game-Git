@@ -188,7 +188,7 @@ describe(`Making Laws saved committee receipts (seed ${seed})`, () => {
         const receipt = `${tally.yea} in favor, ${tally.nay} against, ${tally.presentNotVoting} present without voting, ${tally.absent} absent, ${tally.excused} excused; ${vote.requiredVotes} of ${vote.denominatorValue} needed`;
         const expected =
           control === "passed"
-            ? `The ${fixture.committee.name} reported ${fixture.measure.designation} to the floor favorably (${receipt}).`
+            ? `The ${fixture.committee.name} reported ${fixture.measure.designation} to the floor with the recommendation that it pass (${receipt}).`
             : `The ${fixture.committee.name} did not report ${fixture.measure.designation} (${receipt}).`;
         const action = world.history.legislativeActions!.find(
           (entry) =>
