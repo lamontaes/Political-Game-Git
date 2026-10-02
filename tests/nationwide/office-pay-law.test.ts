@@ -7,7 +7,11 @@ import {
   prepareOpeningLife,
 } from "../../src/presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
-import { addDays, daysBetween } from "../../src/simulation/dates";
+import {
+  addDays,
+  daysBetween,
+  simulationMomentOnLocalDate,
+} from "../../src/simulation/dates";
 import {
   fileRuleChangeProvision,
   officePayLawOfficeKey,
@@ -15,6 +19,7 @@ import {
 import type { RuleChangeApplicability } from "../../src/simulation/enacted-rule-changes";
 import {
   initializeOfficeSalaryFlows,
+  initializeAllOfficeSalaryFlows,
   settleOfficeSalaries,
 } from "../../src/simulation/office-salary";
 import { createResourcePosition, money } from "../../src/simulation/resources";
@@ -27,7 +32,9 @@ import {
   searchLifePlaces,
 } from "../../src/simulation/life-places";
 import { SeededRng, pickDistinct } from "../../src/simulation/rng";
-import { statePayFor } from "../../src/simulation/office-pay";
+import { applyLawConsequences } from "../../src/simulation/enacted-law-effects";
+import { settleTownCompensations } from "../../src/simulation/living-world/town-pay";
+import { paidOfficeOf, statePayFor } from "../../src/simulation/office-pay";
 import { resourceFlowTermsHistory } from "../../src/simulation/resource-queries";
 import { createFutureTransitionHandlerRegistry } from "../../src/simulation/future-transitions";
 import {
@@ -49,7 +56,10 @@ import {
   dispositionsFromCounts,
 } from "../../src/simulation/legislation-scenarios";
 import { chamberByKey } from "../../src/simulation/legislature-rules";
-import { advanceWorld } from "../../src/simulation/world";
+import {
+  advanceWorld,
+  withWorldIntegrityDeferred,
+} from "../../src/simulation/world";
 import type { EntityId, World } from "../../src/simulation";
 
 const AUTHORED = {
@@ -64,6 +74,7 @@ interface PayBill {
   readonly annualDollars: number;
   readonly effectiveInDays: number;
   readonly applicability?: RuleChangeApplicability;
+  readonly field?: "pay.stateLegislator.annualDollars";
 }
 
 /**
@@ -72,14 +83,17 @@ interface PayBill {
  * Legislature's seats are the Nebraska scenario's, voting by seat without a
  * person in this world behind each one.
  */
-function omahaWithGovernorPayLaw(bill: PayBill) {
+function omahaWithGovernorPayLaw(bill: PayBill, initialWorld?: World) {
   const scenario = createLegislativeScenario("nebraska");
   const template = scenario.world.history.legislativeMeasures!.find(
     (measure) => measure.id === scenario.measureId,
   )!;
   const game = smallWorld({ place: "3137000", seed: "office-pay-law-omaha" });
-  const player = game.personId;
-  const opened = game.world.currentDate;
+  const startingWorld = initialWorld ?? game.world;
+  if (startingWorld.control.kind !== "person")
+    throw new Error("Actual controlled person required");
+  const player = startingWorld.control.personId;
+  const opened = startingWorld.currentDate;
   const chamber = chamberByKey(scenario.pack, "legislature");
   const committee = chamber.committees[0]!;
   const seated = bodyForChamber(scenario, "legislature");
@@ -87,7 +101,7 @@ function omahaWithGovernorPayLaw(bill: PayBill) {
     ...seated,
     members: seated.members.map((member) => ({ ...member, personId: null })),
   };
-  let world: World = game.world;
+  let world: World = startingWorld;
   const key = `office-pay:${bill.key}`;
   world = introduceMeasure(world, {
     stableKey: `${key}:measure`,
@@ -107,7 +121,7 @@ function omahaWithGovernorPayLaw(bill: PayBill) {
     stableKey: `${key}:pay`,
     measureId,
     officeKey: officePayLawOfficeKey("NE"),
-    field: "pay.governor.annualDollars",
+    field: bill.field ?? "pay.governor.annualDollars",
     value: bill.annualDollars,
     ...(bill.applicability ? { applicability: bill.applicability } : {}),
   });
@@ -418,6 +432,90 @@ it("opens an actual new game in a sampled place for the annual-office correction
     kind: "person",
     personId: opened!.playerPersonId,
   });
+  const salaries = initializeAllOfficeSalaryFlows(opened!.world);
+  const held = salaries.history.workRelationships.filter(
+    (work) =>
+      work.organizationId &&
+      (work.compensation === "paid" || work.compensation === "mixed") &&
+      paidOfficeOf(salaries, work),
+  );
+  const flows = new Map(
+    salaries.history.resourceFlows.flatMap((flow) =>
+      flow.basisReference.kind === "work"
+        ? [[flow.basisReference.workRelationshipId, flow] as const]
+        : [],
+    ),
+  );
+  expect(held.length).toBeGreaterThan(0);
+  for (const work of held) expect(flows.has(work.id), work.id).toBe(true);
+  expect(initializeAllOfficeSalaryFlows(salaries)).toBe(salaries);
+  const bill = {
+    key: "recorded-legislators",
+    designation: "Recorded legislators' salary act",
+    annualDollars: statePayFor("state-legislator", "NE")!.annualDollars * 2,
+    effectiveInDays: 14,
+    field: "pay.stateLegislator.annualDollars" as const,
+  };
+  const enacted = omahaWithGovernorPayLaw(bill, salaries);
+  let governed = withWorldIntegrityDeferred(() => ({
+    ...enacted.world,
+    currentDate: enacted.effectiveAt,
+    currentMoment: simulationMomentOnLocalDate(
+      enacted.world.currentMoment,
+      enacted.effectiveAt,
+    ),
+  }));
+  const officials = held.filter((work) => {
+    const office = paidOfficeOf(salaries, work);
+    return office?.office === "state-legislator" && office.state === "NE";
+  });
+  expect(officials.length).toBeGreaterThan(0);
+  const newWeekly = Math.round((bill.annualDollars * 100) / 52);
+  for (const work of officials) {
+    expect(work.personId).not.toBe(opened!.playerPersonId);
+    const flow = flows.get(work.id)!;
+    expect(
+      resourceFlowTermsHistory(salaries, flow.id).at(-1)!.amount.minorUnits,
+    ).not.toBe(newWeekly);
+    governed = applyLawConsequences(governed, {
+      onDate: enacted.effectiveAt,
+      activity: "payroll",
+      activityId: flow.id,
+      subjectIds: [work.personId],
+    });
+    const changed = resourceFlowTermsHistory(governed, flow.id).at(-1)!;
+    expect(changed.amount.minorUnits).toBe(newWeekly);
+    expect(changed.lawEffectStamps?.[0]?.ruleAuthority?.field).toBe(bill.field);
+  }
+  const payday = addDays(enacted.effectiveAt, 7);
+  governed = withWorldIntegrityDeferred(() => ({
+    ...governed,
+    currentDate: payday,
+    currentMoment: simulationMomentOnLocalDate(governed.currentMoment, payday),
+  }));
+  const paid = settleTownCompensations(
+    governed,
+    officials.map((work) => {
+      const flow = flows.get(work.id)!;
+      return {
+        payFlowId: flow.id,
+        activityId: flow.id,
+        stableKey: `${flow.stableKey}:${enacted.effectiveAt}`,
+        periodStartsAt: enacted.effectiveAt,
+        periodEndsAt: addDays(payday, -1),
+        onDate: payday,
+      };
+    }),
+  );
+  for (const work of officials) {
+    const flow = flows.get(work.id)!;
+    const outcome = paid.history.resourceTransferOutcomes.find(
+      (row) =>
+        row.resourceFlowId === flow.id &&
+        row.periodStartsAt === enacted.effectiveAt,
+    )!;
+    expect(outcome.transferredAmount.minorUnits, work.id).toBe(newWeekly);
+  }
   writeFileSync(
     "/tmp/standby3-a38-opening.json",
     JSON.stringify(
@@ -428,6 +526,9 @@ it("opens an actual new game in a sampled place for the annual-office correction
         place: place.context.jurisdiction.name,
         date: opened!.world.currentDate,
         personId: opened!.playerPersonId,
+        recordedOfficeHolders: held.length,
+        affectedNpcOfficials: officials.length,
+        weeklySalaryMinor: newWeekly,
       },
       null,
       2,

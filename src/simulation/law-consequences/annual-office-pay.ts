@@ -36,8 +36,7 @@ export function resolveSavedAnnualOfficePayConsequences(
   if (
     !flow ||
     flow.basisReference.kind !== "work" ||
-    flow.recipient.kind !== "person" ||
-    !flow.stableKey.startsWith("office-salary:")
+    flow.recipient.kind !== "person"
   )
     return [];
   const work = recordById(

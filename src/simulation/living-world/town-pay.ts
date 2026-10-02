@@ -1,3 +1,4 @@
+import { settleAllOfficeSalaries } from "../office-salary";
 import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
 import { payWorkplaceAt } from "../pay-coverage-predicates";
 import {
@@ -565,6 +566,7 @@ export function paydayHandler(
   const since = makeIsoDate(dueItem.stableKey.slice(PAYDAY_KEY_PREFIX.length));
   let next = startTownJobPay(world, null, since);
   next = raiseTeacherPayToFloor(next, null);
+  next = settleAllOfficeSalaries(next);
   // A raise a law made reaches the person it raised.
   next = noticeLawPayChanges(next, since);
   next = payTownPaydays(next, since, null);

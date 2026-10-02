@@ -1,3 +1,4 @@
+import { initializeAllOfficeSalaryFlows } from "../simulation/office-salary";
 import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
@@ -379,17 +380,18 @@ function completeOpeningLife(
     session.setup.openingDataVersion,
     session.setup.livingWorldMemberNameVersion,
   );
+  const withOfficeSalaries = initializeAllOfficeSalaryFlows(withPayAgreements);
   const withEmployerCash =
-    worldOpeningVersionOf(withPayAgreements) === CRUNCH46_WORLD_OPENING_VERSION
+    worldOpeningVersionOf(withOfficeSalaries) === CRUNCH46_WORLD_OPENING_VERSION
       ? ensureEmployerCashPositions(
           startTownJobPay(
-            withPayAgreements,
+            withOfficeSalaries,
             null,
-            withPayAgreements.currentDate,
+            withOfficeSalaries.currentDate,
           ),
           "opening",
         )
-      : withPayAgreements;
+      : withOfficeSalaries;
   const world = initializeWorkPayCoverage(withEmployerCash);
   return {
     ...session,
