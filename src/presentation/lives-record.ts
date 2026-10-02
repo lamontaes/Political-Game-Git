@@ -71,7 +71,7 @@ const CARE: Record<CaregivingClimate, string> = {
   "high-conflict": "There was a lot of conflict in the house.",
   harsh: "The adults who raised you were harsh.",
   "estimated-care":
-    "ESTIMATED caregiver availability from recorded family circumstances.",
+    "ESTIMATED FROM AVERAGE: adults shared the care of the children in your family.",
   "not-recorded": "How the adults who raised you treated you is not on record.",
 };
 const EVENT: Record<UpbringingEvent, string> = {
@@ -109,33 +109,29 @@ function upbringingLines(world: World, personId: EntityId): readonly string[] {
   if (record.familyContext) {
     const context = record.familyContext;
     const names = context.parentIds.map((id) => personName(world.people[id]!));
-    const home = context.householdId
-      ? world.history.households.find((row) => row.id === context.householdId)
-          ?.label
-      : null;
     const place = context.placeId
       ? world.jurisdictions[context.placeId]?.name
       : null;
     lines.push(
-      `ESTIMATED childhood context from recorded family circumstances: ${names.length ? `parents ${names.join(" and ")}` : context.estimatedParentCount !== null ? `a saved family pattern has ${context.estimatedParentCount} recorded parents` : `household circumstances in ${place}`}${home ? `; household ${home}` : ""}${place ? ` in ${place}` : ""}; ${context.householdMemberIds.length} recorded household members.`,
+      names.length
+        ? `Your parents were ${names.join(" and ")}${place ? `, in ${place}` : ""}.`
+        : `ESTIMATED FROM AVERAGE: ${context.estimatedParentCount !== null ? `you grew up with ${context.estimatedParentCount} ${context.estimatedParentCount === 1 ? "parent" : "parents"}` : "you grew up"}${place ? ` in ${place}` : ""}.`,
     );
     if (context.caregiverCapacity !== null)
       lines.push(
-        `ESTIMATED FROM GAME FAMILIES: caregiver availability of ${context.caregiverCapacity}; ${context.cohortScope === "exact" ? "matching place, household type and income band" : context.cohortScope === "place" ? "recorded families in the same place" : context.cohortScope === "world" ? "the game's recorded family patterns" : "recorded household adults"}.`,
+        `ESTIMATED FROM AVERAGE: about ${Number(context.caregiverCapacity.toFixed(2))} ${context.caregiverCapacity === 1 ? "caregiver" : "caregivers"} per child in your family.`,
       );
     if (context.estimatedSiblingCount !== null)
       lines.push(
-        `ESTIMATED FROM GAME FAMILIES: ${context.estimatedSiblingCount} siblings in the saved family pattern, from ${context.comparablePersonIds.length} ${context.cohortScope === "exact" ? "families in the same place, household type and income band" : context.cohortScope === "place" ? "families in the same place" : "recorded families in this game"}.`,
+        `ESTIMATED FROM AVERAGE: you grew up with ${context.estimatedSiblingCount} ${context.estimatedSiblingCount === 1 ? "sibling" : "siblings"}.`,
       );
     if (context.congregationIds.length)
-      lines.push(
-        `The family context includes ${context.congregationIds.length} recorded congregation memberships; these do not establish how adults treated you.`,
-      );
+      lines.push("Your family belonged to a congregation.");
     if (
-      early?.source.kind === "game-profile" ||
-      later?.source.kind === "game-profile"
+      (early && early.source.kind !== "world-record") ||
+      (later && later.source.kind !== "world-record")
     )
-      lines[0] = `ESTIMATED FROM RECORDED HOUSEHOLD PAY: ${lines[0]}`;
+      lines[0] = `ESTIMATED FROM AVERAGE: ${lines[0]}`;
   } else {
     lines.push(STABILITY[record.homeStability]);
   }

@@ -19,3 +19,11 @@ unrecorded treatment, illness or other events. Caregiver availability is estimat
 from recorded parents or household adults, otherwise the saved pattern's parent
 count per child; its continuous value contributes to the existing reliability
 reader. Emotional warmth or harshness is never inferred.
+
+Opening childhood money now uses the family's pay and household size. Where
+pay is absent, the existing place and occupation wage reader supplies a labeled
+estimate from recorded jobs, tenure and hours. A comparable paid family in the
+same place, then state, then observed game pool supplies missing income; source
+people remain attached to the estimate. When no parent-child sample exists,
+actual household adults and children supply the caregiver proxy. Childhood
+estimates display plain prose, rounded ratios and correct singular forms.

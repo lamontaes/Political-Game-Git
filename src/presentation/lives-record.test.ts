@@ -99,7 +99,7 @@ describe(`LIVES screens in ${state!.jurisdictionKey} (seed ${SEED})`, () => {
     // No trait was ever recorded for this person, so none is claimed.
     expect(first.leanings).toEqual([]);
     expect(first.around).toEqual([]);
-    expect(first.upbringing.join(" ")).toContain("ESTIMATED childhood context");
+    expect(first.upbringing.join(" ")).toContain("ESTIMATED FROM AVERAGE");
     // Composition estimates do not fabricate how caregivers treated someone.
     expect(first.upbringing.join(" ")).toContain("not on record");
   });

@@ -140,7 +140,12 @@ describe("upbringing and starting traits", () => {
         ),
       ).size,
     ).toBeGreaterThan(1);
+    expect(
+      new Set(contexts.map((row) => row.money[0]?.level)).size,
+    ).toBeGreaterThan(1);
     for (const row of contexts) {
+      for (const id of row.familyContext?.incomeSourcePersonIds ?? [])
+        expect(world.people[id]).toBeDefined();
       // Estimates describe available caregivers, never emotional treatment.
       expect(row.caregiving).toBe("estimated-care");
       expect(row.familyContext?.caregiverCapacity).toBeGreaterThan(0);

@@ -5,7 +5,9 @@ import {
 } from "./family-shape";
 import { childhoodRecordEntries } from "./childhood-record";
 import { recordsByStringField } from "./history-index";
-import { dateAtAge } from "./dates";
+import { dateAtAge, daysBetween } from "./dates";
+import { townJobRate, townPayPercentile } from "./living-world/town-pay";
+import { stableHash } from "./ids";
 import {
   annualPovertyLineMinor,
   recordedMonthlyPayByPerson,
@@ -202,6 +204,8 @@ export interface ChildhoodFamilyContext {
   readonly placeId: EntityId | null;
   readonly householdType: string;
   readonly incomeBand: FamilyMoney | "unrecorded-pay";
+  readonly estimatedIncomeBand?: FamilyMoney;
+  readonly incomeSourcePersonIds?: readonly EntityId[];
   readonly congregationIds: readonly EntityId[];
   readonly comparablePersonIds: readonly EntityId[];
   readonly cohortScope: "exact" | "place" | "world" | "household" | "no-sample";
@@ -298,6 +302,20 @@ interface FamilyCohortIndex {
   readonly byPerson: ReadonlyMap<EntityId, RecordedFamilySample>;
   readonly exact: Map<string, RecordedFamilySample[]>;
   readonly places: Map<EntityId, RecordedFamilySample[]>;
+  readonly paidPeopleByPlace: Map<EntityId, EntityId[]>;
+  readonly paidPeopleByState: Map<string, EntityId[]>;
+  readonly paidPeople: readonly EntityId[];
+  readonly estimatedMonthlyPay: ReadonlyMap<EntityId, number>;
+  readonly householdsByPlace: ReadonlyMap<
+    EntityId,
+    FamilyCohortIndex["householdSamples"]
+  >;
+  readonly householdSamples: readonly {
+    personId: EntityId;
+    placeId: EntityId;
+    adultIds: readonly EntityId[];
+    childCount: number;
+  }[];
 }
 const FAMILY_COHORTS = new WeakMap<object, FamilyCohortIndex>();
 function cohortKey(row: FamilyContextRead): string {
@@ -361,7 +379,79 @@ function familyCohortIndex(world: World): FamilyCohortIndex {
   for (const relationship of world.history.kinshipRelationships)
     for (const id of relationship.personIds)
       consider(world.people[id]?.birthDate);
+  const estimatedMonthlyPay = new Map(
+    recordedMonthlyPayByPerson(world, world.currentDate),
+  );
+  for (const id of world.personOrder) {
+    if (estimatedMonthlyPay.has(id)) continue;
+    let monthly = 0;
+    for (const { relationship, role } of activeWorkRelationshipsAt(world, id)) {
+      if (relationship.compensation !== "paid") continue;
+      const rate = townJobRate(
+        role.occupationClassification,
+        role.locationJurisdictionId,
+        townPayPercentile(
+          daysBetween(relationship.startedAt, world.currentDate) / 365.25,
+        ),
+      );
+      const hours = role.timeDemand.expectedWeekly;
+      if (rate && hours)
+        monthly +=
+          (((rate.hourlyMinor * (hours.minimumHours + hours.maximumHours)) /
+            2) *
+            52) /
+          12;
+    }
+    if (monthly > 0) estimatedMonthlyPay.set(id, monthly);
+  }
+  const paidPeople = [...estimatedMonthlyPay.keys()].sort();
+  const paidPeopleByPlace = new Map<EntityId, EntityId[]>();
+  const paidPeopleByState = new Map<string, EntityId[]>();
+  for (const id of paidPeople) {
+    const place = world.people[id]?.homeJurisdictionId;
+    if (!place) continue;
+    const group = paidPeopleByPlace.get(place) ?? [];
+    group.push(id);
+    paidPeopleByPlace.set(place, group);
+    const state = homeStateKey(world, id);
+    if (state) {
+      const group = paidPeopleByState.get(state) ?? [];
+      group.push(id);
+      paidPeopleByState.set(state, group);
+    }
+  }
+  const seenHouseholds = new Set<EntityId>();
+  const householdSamples = [];
+  for (const membership of world.history.householdMemberships) {
+    const context = householdContext(world, membership.personId);
+    const householdId = context.household?.household.id;
+    if (
+      !householdId ||
+      seenHouseholds.has(householdId) ||
+      !context.adultMembers.length
+    )
+      continue;
+    seenHouseholds.add(householdId);
+    householdSamples.push({
+      personId: membership.personId,
+      placeId: context.placeId,
+      adultIds: context.adultMembers,
+      childCount: context.members.length - context.adultMembers.length,
+    });
+  }
+  const householdsByPlace = new Map<EntityId, typeof householdSamples>();
+  for (const row of householdSamples) {
+    const group = householdsByPlace.get(row.placeId) ?? [];
+    group.push(row);
+    householdsByPlace.set(row.placeId, group);
+  }
   const result = {
+    householdsByPlace,
+    householdSamples,
+    estimatedMonthlyPay,
+    paidPeople,
+    paidPeopleByPlace,
+    paidPeopleByState,
     date: world.currentDate,
     validUntil,
     inputs,
@@ -409,12 +499,80 @@ function childhoodFamilyContext(
   const caregiverPersonIds = own.parents.length
     ? own.parents
     : own.adultMembers;
+  const localHouseholds = index.householdsByPlace.get(own.placeId) ?? [];
+  const householdPeers = localHouseholds.length
+    ? localHouseholds
+    : index.householdSamples;
+  const householdProxy = householdPeers.length
+    ? householdPeers[
+        Number.parseInt(
+          stableHash(world.people[personId]!.generationKey).slice(-8),
+          16,
+        ) % householdPeers.length
+      ]
+    : undefined;
   const caregiverCapacity = caregiverPersonIds.length
     ? caregiverPersonIds.length
     : pattern
       ? pattern.parentIds.length / (pattern.siblingCount + 1)
+      : householdProxy
+        ? householdProxy.adultIds.length /
+          Math.max(1, householdProxy.childCount)
+        : null;
+  // Opening adults have no childhood payroll. Use their family's current
+  // pay as a labeled historical proxy; otherwise reuse a real family/job pay estimate in
+  // their place/state. Retain the sourced spread, never a universal secure band.
+  const pay = index.estimatedMonthlyPay;
+  const ownPayIds = [...new Set([...own.parents, ...own.members])].filter(
+    (id) => pay.has(id),
+  );
+  const state = homeStateKey(world, personId);
+  const localPay = index.paidPeopleByPlace.get(own.placeId);
+  const statePay = state ? index.paidPeopleByState.get(state) : undefined;
+  const candidates = localPay?.length
+    ? localPay
+    : statePay?.length
+      ? statePay
+      : index.paidPeople;
+  const donorId = candidates.length
+    ? candidates[
+        Number.parseInt(
+          stableHash(world.people[personId]!.generationKey).slice(-8),
+          16,
+        ) % candidates.length
+      ]
+    : undefined;
+  const incomeSourcePersonIds = ownPayIds.length
+    ? ownPayIds
+    : donorId
+      ? [donorId]
+      : [];
+  const donorMembers = donorId ? householdContext(world, donorId).members : [];
+  const familySize =
+    own.members.length ||
+    donorMembers.length ||
+    (pattern
+      ? pattern.parentIds.length + pattern.siblingCount + 1
+      : householdProxy
+        ? householdProxy.adultIds.length + householdProxy.childCount
+        : 0);
+  const annualPay =
+    incomeSourcePersonIds.reduce((sum, id) => sum + pay.get(id)!, 0) * 12;
+  const povertyLine =
+    state && familySize
+      ? annualPovertyLineMinor(state, familySize, world.currentDate)
       : null;
+  const estimatedIncomeBand: FamilyMoney | undefined =
+    incomeSourcePersonIds.length && povertyLine !== null
+      ? annualPay <= povertyLine
+        ? "severe-scarcity"
+        : annualPay <= povertyLine * 2
+          ? "strained"
+          : "secure"
+      : undefined;
   return {
+    estimatedIncomeBand,
+    incomeSourcePersonIds,
     parentIds: own.parents,
     householdId: own.household?.household.id ?? null,
     householdMemberIds: own.members,
@@ -422,9 +580,12 @@ function childhoodFamilyContext(
     householdType: own.householdType,
     incomeBand: own.incomeBand,
     congregationIds: own.congregationIds,
-    comparablePersonIds: peers.map((row) => row.personId),
-    cohortScope,
-    estimateSamplePersonId: pattern?.personId ?? null,
+    comparablePersonIds: pattern
+      ? peers.map((row) => row.personId)
+      : householdPeers.map((row) => row.personId),
+    cohortScope: !pattern && householdProxy ? "household" : cohortScope,
+    estimateSamplePersonId:
+      pattern?.personId ?? householdProxy?.personId ?? null,
     caregiverPersonIds,
     caregiverCapacity,
     estimatedParentCount: own.parents.length
@@ -434,7 +595,7 @@ function childhoodFamilyContext(
     source: {
       kind: "game-profile",
       key: "recorded-family-childhood-context",
-      note: `ESTIMATED FROM GAME FAMILIES: parents, household adults, pay, place and congregation records supply the person's context. Caregiver availability uses those recorded adults or a saved family pattern's parents per child. Cohort scope: ${cohortScope}; exact place/type/income first, same place next, then the game's recorded families. The existing family-pattern reader retains observed spread. It assigns no real relatives, emotional treatment, faith or events.`,
+      note: `ESTIMATED FROM GAME FAMILIES: parents, household adults, pay, place and congregation records supply the person's context. Caregiver availability uses those recorded adults or a saved family pattern's parents per child. Cohort scope: ${cohortScope}; exact place/type/income first, same place next, then the game's recorded families. Current payroll takes priority; otherwise the existing BLS May 2025 place/occupation wage reader and recorded job tenure/hours supply a labeled pay proxy. Income contributors are retained in incomeSourcePersonIds. The existing family-pattern reader retains observed spread. It assigns no real relatives, emotional treatment, faith or events.`,
     },
   };
 }
@@ -534,8 +695,15 @@ function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
   const laterMoney = familyMoneyFor(world, personId, "adolescence");
   const contextualMoney = (row: ReturnType<typeof familyMoneyFor>) =>
     row.source.kind === "public-data" &&
-    familyContext.incomeBand !== "unrecorded-pay"
-      ? { level: familyContext.incomeBand, source: familyContext.source }
+    (familyContext.incomeBand !== "unrecorded-pay" ||
+      familyContext.estimatedIncomeBand !== undefined)
+      ? {
+          level:
+            familyContext.incomeBand === "unrecorded-pay"
+              ? familyContext.estimatedIncomeBand!
+              : familyContext.incomeBand,
+          source: familyContext.source,
+        }
       : row;
   const money = [
     { period: "early-childhood", ...contextualMoney(earlyMoney) },
