@@ -240,7 +240,23 @@ describe("A41 recorded staff pay uses existing occupational data", () => {
         jurisdictionId,
         recorded,
       ).monthlyMinor,
+    ).toBe(390_000);
+    expect(
+      localBusinessWageMinor(
+        { workerOccupation: "occupation:office-clerk" },
+        jurisdictionId,
+        recorded,
+        work.id,
+      ).monthlyMinor,
     ).toBe(520_000);
+    expect(
+      localBusinessWageMinor(
+        { workerOccupation: "occupation:office-clerk" },
+        jurisdictionId,
+        recorded,
+        newWork.id,
+      ).monthlyMinor,
+    ).toBe(260_000);
     expect(serializeWorld(deserializeWorld(serializeWorld(opened)))).toBe(
       serializeWorld(opened),
     );

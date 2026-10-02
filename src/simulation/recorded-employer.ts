@@ -8,7 +8,10 @@ import {
   stateMedianAnnualWage,
   townMinimumHourly,
 } from "./living-world/town-pay";
-import { recordedWorkAnnualPay } from "./recorded-work-pay";
+import {
+  recordedOccupationWeeklyHours,
+  recordedWorkAnnualPay,
+} from "./recorded-work-pay";
 import { townBusinesses } from "./living-world/town-businesses";
 import type {
   EntityId,
@@ -33,17 +36,30 @@ const HOURS_PER_YEAR = 2_080;
  * placeholder pay where no wage is published for that occupation and area.
  */
 export function localBusinessWageMinor(
-  kind: { readonly workerOccupation: OccupationClassification },
+  kind: {
+    readonly workerOccupation: OccupationClassification;
+    readonly workerRelationshipId?: EntityId;
+  },
   jurisdictionId: EntityId | null,
   world?: World,
+  workRelationshipId = kind.workerRelationshipId,
 ): { readonly monthlyMinor: number; readonly sourced: boolean } {
-  const recorded = world
-    ? recordedWorkAnnualPay(world, {
-        occupation: kind.workerOccupation,
+  const weeklyHours = world
+    ? recordedOccupationWeeklyHours(
+        world,
+        kind.workerOccupation,
         jurisdictionId,
-        weeklyHours: 40,
-      })
+        workRelationshipId,
+      )
     : null;
+  const recorded =
+    world && weeklyHours !== null
+      ? recordedWorkAnnualPay(world, {
+          occupation: kind.workerOccupation,
+          jurisdictionId,
+          weeklyHours,
+        })
+      : null;
   if (recorded)
     return {
       monthlyMinor: Math.round(recorded.annualMinor / 12),
@@ -90,6 +106,7 @@ export function adultStartEmployer(
   kind: {
     readonly workerTitle: string;
     readonly workerOccupation: OccupationClassification;
+    readonly workerRelationshipId: EntityId;
   };
 } | null {
   if (!world.people[personId]) return null;
@@ -123,6 +140,7 @@ export function adultStartEmployer(
       const kind = {
         workerTitle: role.title,
         workerOccupation: role.occupationClassification,
+        workerRelationshipId: work.id,
       };
       if (!localBusinessWageMinor(kind, jurisdictionId, world).sourced)
         return [];
