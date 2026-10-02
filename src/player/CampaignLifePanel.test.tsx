@@ -14,6 +14,8 @@ import {
 import { projectPartyAndCommunityWork } from "../presentation/campaign-life-surface";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { drawRandomPlace } from "../../tests/support/random-place";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { ensureHomePartyChapters } from "../simulation/living-world/party-chapters";
 import {
   addDays,
   homePartyChapters,
@@ -85,17 +87,44 @@ beforeAll(() => {
   withShift = acceptPartyWork(offered, life.personId, view.lifeActivityId);
 }, 300_000);
 
-function render(world: World): string {
+function render(world: World, personId = life.personId): string {
   return renderToStaticMarkup(
     <CampaignLifePanel
       world={world}
-      personId={life.personId}
+      personId={personId}
       onWorldChange={() => {}}
     />,
   );
 }
 
 describe(`CampaignLifePanel as mounted (${PLACE.displayName}, seed ${SEED})`, () => {
+  it("connects one Go to a canonical small-world saved request", () => {
+    const fixture = smallWorld({
+      place: PLACE.key,
+      seed: SEED,
+      offices: ["congress"],
+      household: true,
+    });
+    const ready = ensureHomePartyChapters(fixture.world, fixture.personId);
+    const chapter = homePartyChapters(ready)[0]!;
+    expect(chapter).toBeDefined();
+    const requested = requestPartyWork(
+      ready,
+      fixture.personId,
+      "organization-meeting",
+      chapter.organizationId,
+    );
+    const reopened = deserializeWorld(serializeWorld(requested));
+    const row = projectPartyAndCommunityWork(reopened, fixture.personId)
+      .rows[0]!;
+    expect(row.actions).toEqual(["attend"]);
+    expect(render(reopened, fixture.personId)).toContain(
+      `party-work-attend-${row.lifeActivityId}`,
+    );
+    expect(projectCampaignLifeActivities(reopened, fixture.personId)).toEqual(
+      projectCampaignLifeActivities(requested, fixture.personId),
+    );
+  });
   it("keeps a chapter visible after every request is saved and reopened", () => {
     let requested = life.world;
     const options = projectPartyAndCommunityWork(
@@ -176,5 +205,25 @@ describe(`CampaignLifePanel as mounted (${PLACE.displayName}, seed ${SEED})`, ()
   it("shows no outcome for a shift that has not happened", () => {
     const html = render(withShift);
     expect(html).not.toContain("party-work-outcome-");
+  });
+
+  it("offers one Go for a saved in-person request, without mechanical travel prose", () => {
+    const requested = requestPartyWork(
+      life.world,
+      life.personId,
+      "organization-meeting",
+      life.chapterId,
+    );
+    const row = projectPartyAndCommunityWork(requested, life.personId).rows[0]!;
+    const html = render(requested);
+    expect(row.actions).toEqual(["attend"]);
+    expect(html).toContain(`party-work-attend-${row.lifeActivityId}`);
+    expect(html).not.toContain(
+      `party-work-attend-condensed-${row.lifeActivityId}`,
+    );
+    expect(html).not.toMatch(
+      /Go briefly|same outcome|20-minute|no fare|Going briefly/,
+    );
+    expect(html).toContain(row.placeLabel);
   });
 });

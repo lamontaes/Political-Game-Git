@@ -95,10 +95,9 @@ describe(
       const view = projectPartyAndCommunityWork(requested, player);
       const row = view.rows[0]!;
       expect(row.state).toBe("accepted");
-      expect(row.actions).toEqual(["attend", "attend-condensed"]);
+      expect(row.actions).toEqual(["attend"]);
       expect(row.when).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}, 6:30 PM$/);
-      expect(row.travelNote).toMatch(/20-minute local journey/);
-      expect(row.travelNote).toMatch(/There is no fare\./);
+      expect(row.travelNote).toBeNull();
       expect(row.hostName.length).toBeGreaterThan(0);
       // The same request is not offered twice while it is on the calendar.
       expect(
@@ -113,7 +112,7 @@ describe(
         requested,
         player,
         row.lifeActivityId,
-        "condensed",
+        "attended",
       );
       expect(projectPartyAndCommunityWork(arrived, player).rows[0]?.state).toBe(
         "accepted",
@@ -122,7 +121,7 @@ describe(
         arrived,
         player,
         row.lifeActivityId,
-        "condensed",
+        "attended",
       );
       const after = projectPartyAndCommunityWork(done, player).rows[0]!;
       expect(after.state).toBe("completed");
@@ -131,7 +130,9 @@ describe(
         /went over what is known about running for office here/,
       );
       expect(after.outcomeLines.join(" ")).toMatch(/You met /);
-      expect(after.outcomeLines.join(" ")).toMatch(/less of the evening shown/);
+      expect(after.outcomeLines.join(" ")).not.toMatch(
+        /briefly|same outcome|less of the evening shown|no fare|20-minute/,
+      );
       expect(after.guidanceFacts).toEqual([]);
       expect(allText(after)).not.toMatch(/\b\d{4}-\d{2}-\d{2}\b/);
       expect(allText(after)).not.toMatch(METER_WORDS);

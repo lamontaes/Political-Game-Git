@@ -25,8 +25,7 @@ import type {
  * Party and community work (CRUNCH46 CAMPAIGN).
  *
  * The chapter organizer's offers and anything the player asked for, each an
- * ordinary calendar entry: say yes, decline, go, or go briefly. Going briefly is
- * the same outcome with less of the evening shown — never a different result.
+ * ordinary calendar entry: say yes, decline or go, followed by its saved result.
  * Nothing here is joining, endorsing or voting, and nothing here is a meter.
  *
  * Standalone: the parties surface can mount it with one line, passing the same
@@ -49,7 +48,7 @@ function actionLabel(action: PartyWorkAction, row: PartyWorkRow): string {
     case "attend":
       return "Go";
     case "attend-condensed":
-      return row.awaitingRecord ? "Find out how it went" : "Go briefly";
+      return row.awaitingRecord ? "Find out how it went" : "Go";
     case "take-shift":
       return "Take the phone shift";
   }
@@ -212,12 +211,6 @@ export function CampaignLifePanel({
                 {row.familyLabel} · with {row.hostName} · {row.when}
               </span>
               <span className="game-campaign-life-line">{row.placeLabel}</span>
-              {row.travelNote &&
-              (row.state === "offered" || row.state === "accepted") ? (
-                <span className="game-campaign-life-line">
-                  {row.travelNote}
-                </span>
-              ) : null}
               <span
                 className="game-campaign-life-state"
                 data-testid={`party-work-state-${row.lifeActivityId}`}
@@ -259,13 +252,6 @@ export function CampaignLifePanel({
                       </button>
                     ))}
                 </span>
-              ) : null}
-              {row.actions.includes("attend-condensed") &&
-              row.form !== "candidate-guidance" &&
-              !row.awaitingRecord ? (
-                <small className="game-campaign-life-line">
-                  Going briefly: same outcome, less of the evening shown.
-                </small>
               ) : null}
               {row.outcomeLines.length > 0 ? (
                 <div
