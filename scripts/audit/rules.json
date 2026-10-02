@@ -4818,8 +4818,8 @@
         {
           "kind": "absent",
           "file": "src/simulation/crisis/health-coverage-pass.ts",
-          "pattern": "scheduleMortalityWithin\\(",
-          "why": "the monthly pass re-plans the death day of covered people (health-coverage-pass.ts:34)"
+          "pattern": "scheduleStrainOnset\\(",
+          "why": "the monthly pass re-plans the serious-episode onset of covered people (health-coverage-pass.ts:34)"
         },
         {
           "kind": "present",

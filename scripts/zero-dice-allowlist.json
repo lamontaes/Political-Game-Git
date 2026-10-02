@@ -507,48 +507,6 @@
       "code": "while (product > limit && count < 25) {"
     },
     {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 0, shares: [55, 35, 10] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 1, shares: [40, 15, 45] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 15, shares: [20, 15, 65] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 35, shares: [50, 30, 20] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 55, shares: [65, 28, 7] },"
-    },
-    {
-      "file": "src/simulation/crisis/death-causes.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "{ fromAge: 75, shares: [75, 20, 5] },"
-    },
-    {
       "file": "src/simulation/crisis/disaster.ts",
       "kind": "fixed-share",
       "build": "Build 21",
