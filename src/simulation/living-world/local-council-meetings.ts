@@ -1,4 +1,12 @@
 import { applyInstitutionStep } from "../governing/legislative-clock";
+import { offerPlannedAmendment } from "../governing/amendment-authors";
+import {
+  amendmentAdmissible,
+  floorStageTakesAmendments,
+} from "../governing/chamber-procedure";
+import { councilBallotPartisanship } from "../governing/body-partisanship";
+import { publicPartyOf } from "../governing/chamber-votes";
+import { personName } from "../people";
 import {
   councilRules,
   lawJurisdiction,
@@ -271,6 +279,45 @@ function moveOrdinances(
     // Taken up at a meeting after the one it was introduced at.
     if (phase === "on-floor" && measure.introducedAt >= next.currentDate)
       continue;
+    if (phase === "on-floor") {
+      const position = measurePosition(next, measure.id);
+      const pack = rulePackById(rules.packId);
+      const chamber = chamberByKey(pack, "council");
+      const stage = chamber.floorStages.find(
+        (row) => row.stageKey === position.floorStageKey,
+      );
+      const seats = members(next, unit);
+      if (
+        stage &&
+        seats.length > 0 &&
+        seats.every((seat) => next.people[seat.personId]) &&
+        (!position.earliestNextFloorDate ||
+          position.earliestNextFloorDate <= next.currentDate) &&
+        floorStageTakesAmendments(chamber, stage)
+      ) {
+        next = offerPlannedAmendment(next, {
+          measureId: measure.id,
+          chamber,
+          stage,
+          members: seats.map((seat, index) => ({
+            memberKey: `council:${index + 1}`,
+            personId: seat.personId,
+            name: personName(next.people[seat.personId]!),
+            caucusLabel: publicPartyOf(next, seat.personId) ?? "No party",
+          })),
+          stableKey: `${measure.stableKey}:reading:${stage.stageKey}:amendment`,
+          nonpartisan: councilBallotPartisanship(unit).nonpartisan,
+          admissible: (bill, part) =>
+            mayAnswerQuestion(
+              next,
+              measure.jurisdictionId,
+              part.propositionId,
+            ) &&
+            amendmentAdmissible(next, pack, chamber.chamberKey, bill, part)
+              .admissible,
+        });
+      }
+    }
     const result = applyInstitutionStep(
       next,
       measure.id,
