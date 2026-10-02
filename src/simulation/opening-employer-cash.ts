@@ -16,6 +16,7 @@ import {
   townWorkplaceFor,
 } from "./living-world/town-employment";
 import { townBusinessKindBooks } from "./living-world/town-business-books";
+import { ensureTownOpeningBusinessBooks } from "./living-world/town-finances";
 import { writeWithWorldIntegrityOnce } from "./world";
 import cashBuffers from "../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
@@ -261,6 +262,11 @@ export function ensureEmployerCashPositions(
         provenance: { kind: "authored", note },
       });
     }
-    return next;
+    return phase === "opening"
+      ? ensureTownOpeningBusinessBooks(
+          next,
+          new Map([...payroll].map(([id, pay]) => [id, pay.annualMinor / 400])),
+        )
+      : next;
   });
 }
