@@ -129,8 +129,11 @@ describe(`Fable gap 5: the childhood record, in ${label}`, () => {
       endsHousing: true,
     });
     assertWorldIntegrity(moved);
+    // The destination (another state's own record) holds no school, which
+    // step 1c's own entry records; this case reads the move entry only.
     const entries = childhoodRecordEntries(moved).filter(
-      (entry) => entry.personId === pupil,
+      (entry) =>
+        entry.personId === pupil && entry.kind !== "no-school-on-record",
     );
     const left = moved.history.educationEnrollments
       .filter(

@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { assertPublicGovernmentIdentity } from "./public-government-identity";
 import { addDays, makeIsoDate } from "./dates";
 import {
   appendedList,
@@ -85,6 +86,7 @@ import type {
   Partnership,
   PartnershipKind,
   PartnershipStateRecord,
+  PublicGovernmentIdentity,
   RecoveryLevel,
   ResidenceRole,
   TimeDemandProfile,
@@ -111,6 +113,7 @@ export interface CreateOrganizationInput {
     readonly name: string;
     readonly classification: OrganizationClassification;
     readonly locationJurisdictionId: EntityId | null;
+    readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   };
 }
 
@@ -121,6 +124,7 @@ export interface RecordOrganizationProfileInput {
   readonly name: string;
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId;
   /** Present when this profile closes the organization. */
@@ -368,6 +372,15 @@ export function createOrganization(
     input.initialProfile.classification,
     input.initialProfile.locationJurisdictionId,
   );
+  validateOrganizationPublicIdentity(
+    world,
+    input.initialProfile.publicGovernmentIdentity,
+    input.provenance,
+    {
+      asOfDate: formedAt,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+  );
   const organization: Organization = {
     id: createStableId("organization", `${world.id}:${input.stableKey}`),
     stableKey: input.stableKey,
@@ -389,6 +402,13 @@ export function createOrganization(
     name: input.initialProfile.name,
     classification: input.initialProfile.classification,
     locationJurisdictionId: input.initialProfile.locationJurisdictionId,
+    ...(input.initialProfile.publicGovernmentIdentity === undefined
+      ? {}
+      : {
+          publicGovernmentIdentity: {
+            ...input.initialProfile.publicGovernmentIdentity,
+          },
+        }),
     provenance: cloneLifeProvenance(input.provenance),
     supersedesProfileId: null,
   };
@@ -449,6 +469,15 @@ export function recordOrganizationProfile(
     input.locationJurisdictionId,
   );
   validateLifeProvenance(world, input.provenance, effectiveAt);
+  validateOrganizationPublicIdentity(
+    world,
+    input.publicGovernmentIdentity,
+    input.provenance,
+    {
+      asOfDate: effectiveAt,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+  );
   const previous = organizationProfileHistory(world, organization.id).at(-1);
   if (
     !previous ||
@@ -467,6 +496,9 @@ export function recordOrganizationProfile(
     ),
     sequence: world.history.nextSequence,
     effectiveAt,
+    ...(input.publicGovernmentIdentity === undefined
+      ? {}
+      : { publicGovernmentIdentity: { ...input.publicGovernmentIdentity } }),
     provenance: cloneLifeProvenance(input.provenance),
   };
   return appendOne(world, "organizationProfiles", record);
@@ -1931,6 +1963,27 @@ function commit(world: World, history: World["history"]): World {
   const next = { ...world, history };
   assertWorldIntegrity(next);
   return next;
+}
+
+function validateOrganizationPublicIdentity(
+  world: World,
+  identity: PublicGovernmentIdentity | undefined,
+  provenance: LifeRecordProvenance,
+  cutoff: HistoricalCutoff,
+): void {
+  if (identity === undefined) return;
+  if (provenance.kind !== "source-record") {
+    throw new Error(
+      "A public employer identity requires source-record profile provenance.",
+    );
+  }
+  if (
+    identity.kind !== "jurisdiction" &&
+    identity.kind !== "local-government"
+  ) {
+    throw new Error("Invalid public employer government identity kind.");
+  }
+  assertPublicGovernmentIdentity(world, identity, cutoff);
 }
 
 function validateOrganizationProfile(

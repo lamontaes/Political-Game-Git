@@ -93,6 +93,12 @@ export interface LawConsequenceRow {
     | "payment";
   who: { selector: string; predicates: LawConsequencePredicate[] };
   what: string;
+  /** Binding to an already saved statutory levy; never an assessment formula. */
+  attributes?: {
+    level: LawInForce["level"];
+    taxKey: string;
+    authority?: string;
+  };
   amount?: LawAmountExpression;
   decision?: {
     op: "term" | "record";
@@ -200,8 +206,24 @@ export interface ResolvedStandingServiceConsequence extends Omit<
 > {
   authority: StandingProgramAuthority;
 }
+/** Actual adopted typed levy, without fabricating a catalog question. */
+export interface ResolvedTypedTaxConsequence extends Omit<
+  ResolvedLawConsequence,
+  "law" | "questionKey"
+> {
+  authority: {
+    kind: "enacted-typed-tax-policy";
+    measureId: EntityId;
+    proposalId: EntityId;
+    policyId: EntityId;
+    enactmentId: EntityId;
+    levyProvisionId: EntityId;
+  };
+}
+export type ResolvedSavedLawConsequence =
+  ResolvedStandingServiceConsequence | ResolvedTypedTaxConsequence;
 export type ResolvedAnyLawConsequence =
-  ResolvedLawConsequence | ResolvedStandingServiceConsequence;
+  ResolvedLawConsequence | ResolvedSavedLawConsequence;
 
 export type LawConsequenceHandler = (
   world: World,
@@ -221,15 +243,12 @@ export interface LawConsequenceKindRegistration<
     row: LawConsequenceRow,
     context: LawConsequenceContext,
   ) => readonly ResolvedLawConsequence[];
-  resolveSavedRules?: Extract<
-    T,
-    ResolvedStandingServiceConsequence
-  > extends never
+  resolveSavedRules?: Extract<T, ResolvedSavedLawConsequence> extends never
     ? never
     : (
         world: World,
         context: LawConsequenceContext,
-      ) => readonly Extract<T, ResolvedStandingServiceConsequence>[];
+      ) => readonly Extract<T, ResolvedSavedLawConsequence>[];
   apply(world: World, resolved: T): World;
 }
 

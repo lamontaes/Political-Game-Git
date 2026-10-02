@@ -18,6 +18,7 @@ import type {
 } from "../types";
 import { eventsOfType, jailTermOn } from "../justice/jail-terms";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
+import { peopleTiedTo } from "../neighbor-news";
 import { isPersonAliveAt } from "../vitality";
 import type { CrimeOffense } from "./contract";
 
@@ -220,20 +221,65 @@ function referralsByPerson(world: World): ReadonlyMap<EntityId, string> {
   return latest;
 }
 
-/** Everyone who has shared a recorded interaction or a family tie with `personId`. */
-function peopleKnownTo(
+/** A resident who could be named for an offense in their own town. */
+export interface EligibleOffender {
+  readonly personId: EntityId;
+  /** Age on the day of the offense. */
+  readonly age: number;
+  readonly priorRecord: boolean;
+  readonly diploma: RecordedDiploma;
+}
+
+/**
+ * The residents of `town` who could commit an offense there on `onDate`:
+ * alive, old enough for the law in force there to charge them as adults, not
+ * answering for a recent case, not serving a jail term, and never the played
+ * person. The one rule both for naming an offender and for whom a town's
+ * offenses fall on (`./producer`). Pure.
+ */
+export function eligibleOffenders(
   world: World,
-  personId: EntityId,
-): ReadonlySet<EntityId> {
-  const known = new Set<EntityId>();
-  for (const interaction of world.history.relationshipInteractions)
-    if (interaction.personIds.includes(personId))
-      for (const id of interaction.personIds) known.add(id);
-  for (const relationship of world.history.kinshipRelationships)
-    if (relationship.personIds.includes(personId))
-      for (const id of relationship.personIds) known.add(id);
-  known.delete(personId);
-  return known;
+  town: EntityId,
+  onDate: IsoDate,
+): readonly EligibleOffender[] {
+  const cutoff = currentLifeCutoff(world);
+  const referred = referralsByPerson(world);
+  const busyFrom = addDays(
+    world.currentDate,
+    -UNRESEARCHED_OFFENDERS.busyAfterReferralDays,
+  );
+  // The youngest the police charge as an adult is the law's, where the
+  // offense happened; a younger offender belongs to the juvenile court.
+  const youngestCharged = adultCourtAgeAt(world, town, onDate);
+  if (youngestCharged === null) return [];
+  const diplomas = recordedDiplomas(world, cutoff);
+  const player =
+    world.control.kind === "person" ? world.control.personId : null;
+  const eligible: EligibleOffender[] = [];
+  for (const personId of Object.keys(world.people).sort() as EntityId[]) {
+    const person = world.people[personId]!;
+    if (person.homeJurisdictionId !== town || personId === player) continue;
+    if (!isPersonAliveAt(world, personId, cutoff)) continue;
+    const age = ageOnDate(person.birthDate, onDate);
+    if (age < youngestCharged) continue;
+    const lastReferral = referred.get(personId);
+    // Someone already answering for a recent case is not out offending.
+    if (lastReferral && lastReferral >= busyFrom) continue;
+    // Someone serving a jail term is not in town to offend.
+    if (jailTermOn(world, personId, onDate)) continue;
+    eligible.push({
+      personId,
+      age,
+      priorRecord: lastReferral !== undefined,
+      diploma: diplomas.get(personId) ?? "not-on-record",
+    });
+  }
+  return eligible;
+}
+
+/** Whether `offense` is done to a person, so knowing the victim bears on it. */
+export function offenseAgainstAPerson(offense: CrimeOffense): boolean {
+  return AGAINST_A_PERSON[offense];
 }
 
 /**
@@ -267,8 +313,6 @@ export function offenderForVictims(
   },
   offense: CrimeOffense,
 ): NamedOffender | null {
-  const town = incident.jurisdictionId;
-  const cutoff = currentLifeCutoff(world);
   const victims = [...incident.victimPersonIds];
   const excluded = new Set<EntityId>(victims);
   // Nobody is charged with an offense against their own home.
@@ -276,40 +320,24 @@ export function offenderForVictims(
     for (const membership of householdMembershipsAt(world, victim))
       for (const id of peopleInHouseholdAt(world, membership.household.id))
         excluded.add(id);
-  if (world.control.kind === "person") excluded.add(world.control.personId);
-  const knownToVictims = new Set<EntityId>();
-  if (AGAINST_A_PERSON[offense])
-    for (const victim of victims)
-      for (const id of peopleKnownTo(world, victim)) knownToVictims.add(id);
-  const referred = referralsByPerson(world);
-  const busyFrom = addDays(
-    world.currentDate,
-    -UNRESEARCHED_OFFENDERS.busyAfterReferralDays,
+  const knownToVictims = new Set<EntityId>(
+    AGAINST_A_PERSON[offense] ? peopleTiedTo(world, victims, "known") : [],
   );
 
-  // The youngest the police charge as an adult is the law's, where the
-  // offense happened; a younger offender belongs to the juvenile court.
-  const youngestCharged = adultCourtAgeAt(world, town, incident.occurredAt);
-  const diplomas = recordedDiplomas(world, cutoff);
   let best: NamedOffender | null = null;
-  for (const personId of Object.keys(world.people).sort() as EntityId[]) {
-    const person = world.people[personId]!;
-    if (person.homeJurisdictionId !== town || excluded.has(personId)) continue;
-    if (!isPersonAliveAt(world, personId, cutoff)) continue;
-    const age = ageOnDate(person.birthDate, incident.occurredAt);
-    if (age < youngestCharged) continue;
-    const lastReferral = referred.get(personId);
-    // Someone already answering for a recent case is not out offending.
-    if (lastReferral && lastReferral >= busyFrom) continue;
-    // Someone serving a jail term is not in town to offend.
-    if (jailTermOn(world, personId, incident.occurredAt)) continue;
-    const priorRecord = lastReferral !== undefined;
+  for (const candidate of eligibleOffenders(
+    world,
+    incident.jurisdictionId,
+    incident.occurredAt,
+  )) {
+    const { personId, priorRecord } = candidate;
+    if (excluded.has(personId)) continue;
     const knowsVictim = knownToVictims.has(personId);
     const { score, reasons } = offenderWeight(world, personId, offense, {
-      age,
+      age: candidate.age,
       priorRecord,
       knowsVictim,
-      diploma: diplomas.get(personId) ?? "not-on-record",
+      diploma: candidate.diploma,
     });
     if (score < UNRESEARCHED_OFFENDERS.nameAt) continue;
     if (!best || score > best.score)

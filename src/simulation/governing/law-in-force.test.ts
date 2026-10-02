@@ -1,3 +1,4 @@
+import { startingLawScope } from "./law-in-force";
 import { constitutionalPolicyProvisions } from "../policy-provisions";
 import { constitutionalPosition } from "../constitutional-process";
 import { recordedSessionAdjournment } from "./session-adjournments";
@@ -651,4 +652,59 @@ it("reads the dated starting terms through the same numeric query", () => {
       }),
     ).toBeNull();
   }
+});
+
+it("keeps structured starting scope distinct from missing or future evidence", () => {
+  const questionKey = "us-policy-positions:labor-workforce.raise-minimum-wage";
+  const propositionId = "scope-question" as EntityId;
+  const world = {
+    ...worldWith("2026-08-01", []),
+    policyCatalog: {
+      propositions: {
+        [propositionId]: { id: propositionId, stableKey: questionKey },
+      },
+    },
+  } as unknown as World;
+  const onDate = makeIsoDate("2026-08-01");
+  for (const [place, kind] of [
+    ["US-MS", "federal-standard"],
+    ["US-TN", "federal-standard"],
+    ["US-NY", "unresolved-regional"],
+    ["US-OR", "unresolved-regional"],
+    ["US-AS", "unresolved-industry"],
+  ] as const) {
+    const law = lawInForce(
+      world,
+      stateJurisdictionForKey(place)!.id,
+      propositionId,
+      onDate,
+    )!;
+    const scope = startingLawScope(law, questionKey, onDate);
+    expect(scope?.kind).toBe(kind);
+    expect(scope!.rows.length).toBeGreaterThan(0);
+    for (const row of scope!.rows) {
+      expect(row.matrixRow).toContain(`#places/${place}/rows/`);
+      expect(row.source).toMatch(/^https:\/\//);
+      expect(row.operativeAt <= onDate).toBe(true);
+    }
+    expect(
+      startingLawScope({ ...law, origin: "enacted" }, questionKey, onDate),
+    ).toBeNull();
+    expect(startingLawScope(law, "another-question", onDate)).toBeNull();
+  }
+  const unknown = lawInForce(
+    world,
+    stateJurisdictionForKey("US-AK")!.id,
+    propositionId,
+    onDate,
+  )!;
+  expect(startingLawScope(unknown, questionKey, onDate)).toBeNull();
+  const earlier = makeIsoDate("2009-07-23");
+  const law = lawInForce(
+    world,
+    stateJurisdictionForKey("US-MS")!.id,
+    propositionId,
+    earlier,
+  )!;
+  expect(startingLawScope(law, questionKey, earlier)).toBeNull();
 });

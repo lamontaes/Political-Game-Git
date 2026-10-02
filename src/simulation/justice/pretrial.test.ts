@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
-import { SeededRng } from "../rng";
+import { SeededRng, pickDistinct } from "../rng";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -11,7 +11,6 @@ import type {
   World,
 } from "../types";
 import { mandatoryJailUnderLaw, type CourtCase } from "./court-reasoning";
-import { adultCourtAgeAt } from "./juvenile-court";
 import { bailDueMinorUnits, bailMinorUnits, pretrialLawAt } from "./pretrial";
 
 /**
@@ -27,9 +26,6 @@ const MINIMUMS =
   "us-policy-positions:justice-public-safety.mandatory-minimum-sentences";
 const BAIL_ID = "proposition_end_cash_bail" as EntityId;
 const MINIMUMS_ID = "proposition_mandatory_minimums" as EntityId;
-const JUVENILE =
-  "us-policy-positions:justice-public-safety.raise-juvenile-court-age";
-const JUVENILE_ID = "proposition_juvenile_court_age" as EntityId;
 
 const questions = (
   startingLaw as unknown as {
@@ -102,7 +98,6 @@ function worldWith(
       propositions: {
         [BAIL_ID]: { stableKey: CASH_BAIL },
         [MINIMUMS_ID]: { stableKey: MINIMUMS },
-        [JUVENILE_ID]: { stableKey: JUVENILE },
       },
     },
     history: {
@@ -143,13 +138,35 @@ describe("cash bail, as the law in force answers it", () => {
     );
   });
 
-  it("sets bail at the 2009 median for the charge, in 2025 dollars, and a tenth of it sends the defendant home", () => {
+  it("reads the historical offense calibration without treating a commercial premium as a court deposit", () => {
     // $50,000 x 321.943 / 214.537 = $75,032.46, rounded to whole dollars.
     expect(bailMinorUnits("crime:robbery")).toBe(7_503_200);
-    expect(bailDueMinorUnits("crime:robbery")).toBe(750_320);
+    expect(bailDueMinorUnits("crime:robbery")).toBe(7_503_200);
     expect(bailMinorUnits("crime:assault")).toBe(2_251_000);
     expect(bailMinorUnits("crime:vandalism")).toBe(750_300);
     expect(bailMinorUnits("something-unread")).toBe(1_500_600);
+  });
+});
+
+describe("court cash bail follows the actual place law, not a universal premium", () => {
+  const places = pickDistinct(
+    new SeededRng("team9-a25-court-cash-rule-20261001"),
+    Object.keys(questions[CASH_BAIL]!.answers).sort(),
+    5,
+  );
+  it.each(places)("reads the actual law and full-cash route in %s", (place) => {
+    const jurisdictionId = stateJurisdictionForKey(place)!.id;
+    const world = worldWith("2026-06-01", []);
+    const answer = questions[CASH_BAIL]!.answers[place]!.answer;
+    expect(pretrialLawAt(world, jurisdictionId)).toBe(
+      answer === "yes" ? "no-money-bail" : "money-bail",
+    );
+    // No saved court order here admits a state percentage-deposit option.
+    // The existing supported route posts the amount in full, never a premium.
+    if (answer === "no")
+      expect(bailDueMinorUnits("crime:robbery")).toBe(
+        bailMinorUnits("crime:robbery"),
+      );
   });
 });
 
@@ -195,28 +212,5 @@ describe("mandatory minimum sentences, as the law in force answers them", () => 
     expect(
       mandatoryJailUnderLaw(worldWith("2026-08-01", [sets]), vandalism),
     ).toBeNull();
-  });
-});
-
-describe("the juvenile court age, as the law in force answers it", () => {
-  const notRaised = drawPlace("pretrial-law-3", "no", JUVENILE);
-  const raised = drawPlace("pretrial-law-3", "yes", JUVENILE);
-  const state = stateJurisdictionForKey(notRaised)!.id;
-  const other = stateJurisdictionForKey(raised)!.id;
-
-  it(`tries a 17-year-old as an adult only where the law has not raised the age (${notRaised}, ${raised})`, () => {
-    const world = worldWith("2026-06-01", []);
-    expect(adultCourtAgeAt(world, state)).toBe(17);
-    expect(adultCourtAgeAt(world, other)).toBe(18);
-  });
-
-  it(`raises the age from the law's effective date, and a repeal lowers it again (${notRaised})`, () => {
-    const raises = law(state, JUVENILE_ID, "yes", "2026-07-01");
-    expect(adultCourtAgeAt(worldWith("2026-06-30", [raises]), state)).toBe(17);
-    expect(adultCourtAgeAt(worldWith("2026-07-01", [raises]), state)).toBe(18);
-    const repeal = law(state, JUVENILE_ID, "no", "2027-01-01");
-    expect(
-      adultCourtAgeAt(worldWith("2027-01-01", [raises, repeal]), state),
-    ).toBe(17);
   });
 });

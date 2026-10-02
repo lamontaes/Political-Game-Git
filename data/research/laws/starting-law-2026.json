@@ -2779,7 +2779,17 @@
         "US-AL": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AL/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-AR": {
           "answer": "yes",
@@ -2805,7 +2815,192 @@
           "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
           "note": "American Samoa has no territorial minimum wage; its industry rates are set by federal law and stay below $7.25 (for example $6.20 for retail since September 30, 2024) until they reach the federal rate.",
           "wageTermsStatus": "Federal authority only; no state numeric term. Industry-specific federal rates need actual saved scope.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS",
+          "scopeEvidence": {
+            "kind": "unresolved-industry",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/bottling",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/1",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/2",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/construction",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/3",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/4",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/finance",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/5",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/6",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/fish-canning",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/7",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/8",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/garment",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/9",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/10",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/government",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/11",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/12",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/hotel",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/13",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/14",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/petroleum",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/15",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/16",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/printing",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/17",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/18",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/private-hospitals",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/19",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/20",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/publishing",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/21",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/22",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/retail",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/23",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/24",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/ship-maintenance",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/25",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/26",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/27",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/28",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/29",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/30",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/shipping-transport",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/31",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/32",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/tour-travel",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/33",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/34",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa/miscellaneous",
+                "operativeAt": "2024-09-30"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-AS/rows/35",
+                "source": "https://www.dol.gov/agencies/whd/state/minimum-wage/american-samoa",
+                "operativeAt": "2027-09-30"
+              }
+            ]
+          }
         },
         "US-AZ": {
           "answer": "yes",
@@ -3242,7 +3437,17 @@
         "US-LA": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-LA/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-MA": {
           "answer": "yes",
@@ -3414,7 +3619,17 @@
         "US-MS": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-MS/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-MT": {
           "answer": "yes",
@@ -3683,7 +3898,27 @@
         "US-NY": {
           "answer": "yes",
           "wageTermsStatus": "Unbound regional scope; no universal state amount.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY",
+          "scopeEvidence": {
+            "kind": "unresolved-regional",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/0",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/1",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/2",
+                "source": "https://dol.ny.gov/minimum-wage-0",
+                "operativeAt": "2026-01-01"
+              }
+            ]
+          }
         },
         "US-OH": {
           "answer": "yes",
@@ -3742,7 +3977,42 @@
         "US-OR": {
           "answer": "yes",
           "wageTermsStatus": "Unbound regional scope; no universal state amount.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR",
+          "scopeEvidence": {
+            "kind": "unresolved-regional",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/0",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/1",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/2",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+                "operativeAt": "2025-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/3",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/4",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              },
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/5",
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "operativeAt": "2026-07-01"
+              }
+            ]
+          }
         },
         "US-PA": {
           "answer": "no",
@@ -3837,7 +4107,17 @@
         "US-SC": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-SC/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-SD": {
           "answer": "yes",
@@ -3860,7 +4140,17 @@
         "US-TN": {
           "answer": "no",
           "wageTermsStatus": "Federal authority supplies the numeric floor; no state statute or state numeric term.",
-          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN"
+          "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN",
+          "scopeEvidence": {
+            "kind": "federal-standard",
+            "rows": [
+              {
+                "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-TN/rows/0",
+                "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+                "operativeAt": "2009-07-24"
+              }
+            ]
+          }
         },
         "US-TX": {
           "answer": "no",
@@ -10321,19 +10611,43 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Alaska",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-AL": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Alabama",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-AR": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Arkansas",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-AS": {
           "answer": "yes",
@@ -10344,98 +10658,226 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Arizona",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-CA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=California",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-CO": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Colorado",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-CT": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Connecticut",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-DC": {
           "answer": "yes",
           "preempts": true,
           "cite": "D.C. Code § 16-2301(3)",
           "source": "https://code.dccouncil.gov/us/dc/council/code/sections/16-2301",
-          "note": "Through age 17, except that the U.S. Attorney may charge 16- and 17-year-olds as adults for murder, first-degree sexual abuse, first-degree burglary, armed robbery or assault with intent to commit them."
+          "note": "Through age 17, except that the U.S. Attorney may charge 16- and 17-year-olds as adults for murder, first-degree sexual abuse, first-degree burglary, armed robbery or assault with intent to commit them.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-DE": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Delaware",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-FL": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Florida",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-GA": {
           "answer": "no",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Georgia",
-          "note": "Through age 16: OJJDP lists 16 as Georgia's upper age, so 17-year-olds start in adult court; a primary Georgia code page could not be fetched and no 2025 raise-the-age enactment was confirmed."
+          "note": "Through age 16: OJJDP lists 16 as Georgia's upper age, so 17-year-olds start in adult court; a primary Georgia code page could not be fetched and no 2025 raise-the-age enactment was confirmed.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 16,
+              "unit": "years"
+            }
+          ]
         },
         "US-GU": {
           "answer": "yes",
           "cite": "19 GCA §§ 5102(d), 5103(a)(4)",
           "source": "https://col.guamcourts.gov/sites/default/files/19gc005.pdf",
-          "note": "Through age 17: the Family Division has exclusive jurisdiction over any child under 18 who is alleged to have violated Guam law."
+          "note": "Through age 17: the Family Division has exclusive jurisdiction over any child under 18 who is alleged to have violated Guam law.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-HI": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Hawaii",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-IA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Iowa",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-ID": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Idaho",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-IL": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Illinois",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-IN": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Indiana",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-KS": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Kansas",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-KY": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Kentucky",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-LA": {
           "answer": "no",
@@ -10443,184 +10885,424 @@
           "preempts": true,
           "cite": "La. Ch.C. art. 804(1)(a)",
           "source": "https://legis.la.gov/Legis/Law.aspx?d=73392",
-          "note": "Through age 16: Acts 2024, 2nd Ex. Sess., No. 13 returned 17-year-olds to adult court on 4/19/2024, reversing the 2019-2020 raise to 17 (OJJDP's 2023 data still shows 17)."
+          "note": "Through age 16: Acts 2024, 2nd Ex. Sess., No. 13 returned 17-year-olds to adult court on 4/19/2024, reversing the 2019-2020 raise to 17 (OJJDP's 2023 data still shows 17).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 16,
+              "unit": "years"
+            }
+          ]
         },
         "US-MA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Massachusetts",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MD": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Maryland",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Maine",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MI": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Michigan",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MN": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Minnesota",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MO": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Missouri",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MP": {
           "answer": "yes",
           "preempts": true,
           "cite": "6 CMC §§ 5101(m), 5121",
           "source": "https://cnmilaw.gov/docs/cmc_section/T6/5101.pdf",
-          "note": "Through age 17: a \"juvenile\" is anyone under 18 at the time of the act, and the Superior Court's juvenile jurisdiction covers them unless waived under 6 CMC § 5124."
+          "note": "Through age 17: a \"juvenile\" is anyone under 18 at the time of the act, and the Superior Court's juvenile jurisdiction covers them unless waived under 6 CMC § 5124.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MS": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Mississippi",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-MT": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Montana",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NC": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=North%20Carolina",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-ND": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=North%20Dakota",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NE": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Nebraska",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NH": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Hampshire",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NJ": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Jersey",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NM": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20Mexico",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NV": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Nevada",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-NY": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=New%20York",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-OH": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Ohio",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-OK": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Oklahoma",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-OR": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Oregon",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-PA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Pennsylvania",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-PR": {
           "answer": "yes",
           "preempts": true,
           "cite": "P.R. Laws Ann. tit. 34, § 2204 (Ley Núm. 88 de 1986, art. 4)",
           "source": "https://www.lexjuris.com/lexlex/lexmenor.htm",
-          "note": "Through age 17: the juvenile court hears offenses committed before 18, but first-degree murder (and related charges) by a minor 15 or older is excluded to adult court."
+          "note": "Through age 17: the juvenile court hears offenses committed before 18, but first-degree murder (and related charges) by a minor 15 or older is excluded to adult court.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-RI": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Rhode%20Island",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-SC": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=South%20Carolina",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-SD": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=South%20Dakota",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-TN": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Tennessee",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-TX": {
           "answer": "no",
           "preempts": true,
           "cite": "Tex. Fam. Code § 51.02(2)",
           "source": "https://tcss.legis.texas.gov/resources/FA/htm/FA.51.htm",
-          "note": "Through age 16: a \"child\" for delinquency is 10 or older and under 17, so 17-year-olds are charged as adults."
+          "note": "Through age 16: a \"child\" for delinquency is 10 or older and under 17, so 17-year-olds are charged as adults.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 16,
+              "unit": "years"
+            }
+          ]
         },
         "US-UT": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Utah",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-VA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Virginia",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-VI": {
           "answer": "yes",
@@ -10633,32 +11315,72 @@
           "preempts": true,
           "cite": "33 V.S.A. § 5201(d)",
           "source": "https://legislature.vermont.gov/statutes/section/33/052/05201",
-          "note": "Through age 18: most offenses committed before age 19 originate in the Family Division since 7/1/2024 (2023 Act 125), with a short list of serious offenses at 16 and older starting in the Criminal Division; 2025 Act 4 amends subsection (d) effective 7/1/2027."
+          "note": "Through age 18: most offenses committed before age 19 originate in the Family Division since 7/1/2024 (2023 Act 125), with a short list of serious offenses at 16 and older starting in the Criminal Division; 2025 Act 4 amends subsection (d) effective 7/1/2027.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 18,
+              "unit": "years"
+            }
+          ]
         },
         "US-WA": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Washington",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
           "preempts": true,
           "cite": "Wis. Stat. § 938.02(1), (10m)",
           "source": "https://docs.legis.wisconsin.gov/statutes/statutes/938/i/02",
-          "note": "Through age 16: for investigating or prosecuting a crime, anyone who has turned 17 is an adult (1995 Wis. Act 77)."
+          "note": "Through age 16: for investigating or prosecuting a crime, anyone who has turned 17 is an adult (1995 Wis. Act 77).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 16,
+              "unit": "years"
+            }
+          ]
         },
         "US-WV": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=West%20Virginia",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-WY": {
           "answer": "yes",
           "preempts": true,
           "source": "https://charts.ojp.usdoj.gov/t/public/views/OJJDP-QA04101/QA04101Chart.csv?State=Wyoming",
-          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction."
+          "note": "Through age 17: OJJDP's Statistical Briefing Book (released 10/6/2025, law as of the end of the 2023 sessions) lists 17 as the upper age of juvenile court delinquency jurisdiction.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         }
       }
     },

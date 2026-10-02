@@ -1,6 +1,8 @@
 ---
 id: dated-canonical-law-terms
 impact: patch
+section: Fixed
+title: Starting wage terms follow their effective dates
 ---
 
 Wage terms already in force use the same dated legal-text reader as laws passed

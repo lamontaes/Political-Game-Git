@@ -41,6 +41,16 @@ export function resolveLegislativeEffectiveDate(
         };
     }
   }
+  const distinct = pack.enactment.effectiveDateDistinctFromEnactment;
+  if (distinct.kind === "known" && !distinct.value) {
+    return {
+      kind:
+        distinct.source.verification === "game-profile"
+          ? "game-default"
+          : "source-default",
+      effectiveAt: enactedAt,
+    };
+  }
   return {
     kind: "game-default",
     effectiveAt: addDays(enactedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),

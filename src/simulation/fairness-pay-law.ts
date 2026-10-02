@@ -15,13 +15,11 @@ import type { EntityId, IsoDate, World } from "./types";
  * for women in same-sex couples (Delhommer and Vamossy find the same pattern
  * for state and local laws).
  *
- * The game knows a man is in a same-sex couple only through a recorded,
- * active partnership with another man; that is how the study found them too
- * (couples in the Census). A man hired where neither his state's law nor his
- * town's ordinance covers him is paid his job's rate less the gap; where one
- * does, the full rate. The rate is set when he is hired, so a new law or a
- * repeal changes the pay of later hires, not of people already in the job.
- * Women, and anyone the record gives no gender, are paid the job's rate.
+ * That population estimate checks totals; it does not set an individual
+ * employer's offer. A recorded partnership and absence of legal protection
+ * supply no evidence that this employer offered a lower wage. Initial pay
+ * therefore preserves the actual job offer. The existing legal coverage
+ * query remains available to the employer's nondiscrimination rule reader.
  *
  * The state question's "yes" means the law names both sexual orientation and
  * gender identity. A place whose starting law names sexual orientation only
@@ -33,12 +31,6 @@ export const FAIRNESS_STATE_QUESTION =
   "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work";
 export const FAIRNESS_CITY_QUESTION =
   "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance";
-
-/** Burn (2018): the pay gain such a law brings, as a share of pay. */
-export const FAIRNESS_LAW_PAY_GAIN = 0.027;
-
-/** The pay of a covered man hired where no law covers him, as a share of the job's rate. */
-export const UNCOVERED_PAY_SHARE = 1 / (1 + FAIRNESS_LAW_PAY_GAIN);
 
 const SEXUAL_ORIENTATION = "sexual-orientation";
 
@@ -142,18 +134,16 @@ export function fairnessLawCovers(
   );
 }
 
-/** The share of the job's pay a man partnered with a man is hired at, as the provenance of his pay says it. */
-export const UNCOVERED_PAY_NOTE = `${((1 - UNCOVERED_PAY_SHARE) * 100).toFixed(1)}% below the job's rate: no fairness law covers him where he works`;
+/** Compatibility for existing callers; no inferred discount is recorded. */
+export const UNCOVERED_PAY_NOTE = "";
 
 /**
- * What a person hired on `date` for work in `jobJurisdictionId` is paid, from
- * the job's pay `amountMinor`: the job's pay over 1.027 when he is a man
- * partnered with a man whom no fairness law covers there, never below
- * `floorMinor` (the minimum wage for the same hours); otherwise the job's
- * pay. One rule for every hire, the player's and the town's alike.
+ * Preserve the recorded job offer. Neither relationship identity nor the
+ * absence of a law writes an employer decision or lowers that offer. Legal
+ * wage floors are read and applied by the existing common payroll writer.
  */
 export function payAtHire(
-  world: World,
+  _world: World,
   input: {
     readonly personId: EntityId;
     readonly jobJurisdictionId: EntityId | null;
@@ -162,18 +152,5 @@ export function payAtHire(
     readonly floorMinor: number;
   },
 ): { readonly amountMinor: number; readonly belowRate: boolean } {
-  const unchanged = { amountMinor: input.amountMinor, belowRate: false };
-  if (
-    input.amountMinor <= 0 ||
-    !menPartneredWithMen(world, input.date, input.personId).has(
-      input.personId,
-    ) ||
-    fairnessLawCovers(world, input.jobJurisdictionId, input.date)
-  )
-    return unchanged;
-  const amountMinor = Math.max(
-    Math.round(input.amountMinor * UNCOVERED_PAY_SHARE),
-    Math.min(Math.round(input.floorMinor), input.amountMinor),
-  );
-  return { amountMinor, belowRate: amountMinor < input.amountMinor };
+  return { amountMinor: input.amountMinor, belowRate: false };
 }

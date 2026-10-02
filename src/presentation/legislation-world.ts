@@ -2,6 +2,7 @@ import {
   activeMemberSeats,
   resolveActiveMemberSeat,
 } from "./legislative-member-seat";
+import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import {
   canonicalStateExecutiveWaitAvailable,
@@ -29,7 +30,6 @@ import {
   introduceMeasure,
   legislativeBlueprint,
   legislativeScenarioKeysForPlace,
-  makeIsoDate,
   measurePosition,
   rulePackForMeasure,
   nextMeasureNumbering,
@@ -1015,7 +1015,10 @@ function linkedPeopleForChamber(
 
 /** An adult old enough to be seated. No other claim is made about them. */
 function memberBirthDate(currentDate: IsoDate): IsoDate {
-  return makeIsoDate(
-    `${Number(currentDate.slice(0, 4)) - 47}${currentDate.slice(4)}`,
-  );
+  return inventedPersonBirthDate(null, {
+    role: "seated-colleague",
+    referenceDate: currentDate,
+    age: 47,
+    placement: { monthDay: currentDate.slice(5) as `${number}-${number}` },
+  });
 }
