@@ -165,6 +165,7 @@ export function townCouncilProfilePack(
               "Whether this body amends an ordinance before adopting it has not been read.",
             ),
             separateLegislativeDayRequired: false,
+            readingIntervalDays: knownRule(0, PASSAGE),
             vote: knownRule(
               majorityOf(
                 "members-voting",
