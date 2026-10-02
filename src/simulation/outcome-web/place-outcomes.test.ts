@@ -123,7 +123,7 @@ const UNINSURED = "health.uninsured-pct";
 const base = (placeKey: string) =>
   PLACE_OUTCOME_BASES[UNINSURED]!.places[placeKey]!;
 
-describe("A167 city population across counties", () => {
+describe("A167 city population across two counties", () => {
   const seed = "team2-a167-county-population";
   const places = Array.from({ length: 5 }, (_, index) =>
     drawRandomPlace(`${seed}:${index}`, (place) => {
