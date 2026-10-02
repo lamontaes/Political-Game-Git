@@ -8,6 +8,7 @@ import type {
   AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
+import { openProgramMattersForAllOffices } from "./governing/state-governing";
 import {
   applyEnactedDuties,
   clauseOrigins,
@@ -251,11 +252,27 @@ export function applyEnactedLawEffects(
   if (proposal && taxActivationReadiness(next, proposal.id).kind === "ready")
     next = adoptEnactedTaxPolicy(next, proposal.id);
   // Every enacted amount has one saved program authority, transit included.
+  const previousAppropriations = new Set(
+    (next.history.publicProgramRecords ?? [])
+      .filter((record) => record.kind === "appropriation")
+      .map((record) => record.id),
+  );
   next = appropriationFromEnactedMeasure(next, measureId);
   // A family's own appropriating section, e.g. "There is appropriated to a
   // service line replacement fund a sum not to exceed ...". A generic
   // "amount provided" clause is not one, so nothing is written twice.
   next = applyFamilyAppropriations(next, measureId);
+  const newAppropriations = new Set(
+    (next.history.publicProgramRecords ?? [])
+      .filter(
+        (record) =>
+          record.kind === "appropriation" &&
+          !previousAppropriations.has(record.id),
+      )
+      .map((record) => record.id),
+  );
+  if (newAppropriations.size > 0)
+    next = openProgramMattersForAllOffices(next, newAppropriations);
   // A section that places a duty on a class of body.
   next = applyEnactedDuties(next, measureId);
   // A section that says who qualifies for, or is subject to, the Act.
