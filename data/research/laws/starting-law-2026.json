@@ -3897,7 +3897,7 @@
         },
         "US-NY": {
           "answer": "yes",
-          "wageTermsStatus": "Unbound regional scope; no universal state amount.",
+          "wageTermsStatus": "Partially bound exact county workplace identities; unresolved locality/metro-boundary joins remain explicit.",
           "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY",
           "scopeEvidence": {
             "kind": "unresolved-regional",
@@ -3918,7 +3918,29 @@
                 "operativeAt": "2026-01-01"
               }
             ]
-          }
+          },
+          "regionalTerms": [
+            {
+              "workplaceKeys": ["county:36059", "county:36103", "county:36119"],
+              "operativeAt": "2026-01-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1700,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://dol.ny.gov/minimum-wage-0",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-NY/rows/1",
+              "tier": "long-island-and-westchester",
+              "geographyEvidence": {
+                "source": "https://www.nysenate.gov/legislation/laws/LAB/652",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            }
+          ]
         },
         "US-OH": {
           "answer": "yes",
@@ -3976,7 +3998,7 @@
         },
         "US-OR": {
           "answer": "yes",
-          "wageTermsStatus": "Unbound regional scope; no universal state amount.",
+          "wageTermsStatus": "Partially bound exact county workplace identities; unresolved locality/metro-boundary joins remain explicit.",
           "wageResearchSource": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR",
           "scopeEvidence": {
             "kind": "unresolved-regional",
@@ -4012,7 +4034,159 @@
                 "operativeAt": "2026-07-01"
               }
             ]
-          }
+          },
+          "regionalTerms": [
+            {
+              "workplaceKeys": [
+                "county:41003",
+                "county:41007",
+                "county:41009",
+                "county:41017",
+                "county:41027",
+                "county:41029",
+                "county:41033",
+                "county:41039",
+                "county:41041",
+                "county:41043",
+                "county:41047",
+                "county:41053",
+                "county:41057",
+                "county:41065",
+                "county:41071"
+              ],
+              "operativeAt": "2025-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1505,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/1",
+              "tier": "standard",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41001",
+                "county:41011",
+                "county:41013",
+                "county:41015",
+                "county:41019",
+                "county:41021",
+                "county:41023",
+                "county:41025",
+                "county:41031",
+                "county:41035",
+                "county:41037",
+                "county:41045",
+                "county:41049",
+                "county:41055",
+                "county:41059",
+                "county:41061",
+                "county:41063",
+                "county:41069"
+              ],
+              "operativeAt": "2025-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1405,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/2",
+              "tier": "nonurban",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41003",
+                "county:41007",
+                "county:41009",
+                "county:41017",
+                "county:41027",
+                "county:41029",
+                "county:41033",
+                "county:41039",
+                "county:41041",
+                "county:41043",
+                "county:41047",
+                "county:41053",
+                "county:41057",
+                "county:41065",
+                "county:41071"
+              ],
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1555,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/4",
+              "tier": "standard",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            },
+            {
+              "workplaceKeys": [
+                "county:41001",
+                "county:41011",
+                "county:41013",
+                "county:41015",
+                "county:41019",
+                "county:41021",
+                "county:41023",
+                "county:41025",
+                "county:41031",
+                "county:41035",
+                "county:41037",
+                "county:41045",
+                "county:41049",
+                "county:41055",
+                "county:41059",
+                "county:41061",
+                "county:41063",
+                "county:41069"
+              ],
+              "operativeAt": "2026-07-01",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.raise-minimum-wage",
+                  "key": "target",
+                  "value": 1455,
+                  "unit": "minor/hour"
+                }
+              ],
+              "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+              "matrixRow": "data/research/money/minimum-wage-dated-matrix-2026.json#places/US-OR/rows/5",
+              "tier": "nonurban",
+              "geographyEvidence": {
+                "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
+                "recordSource": "src/simulation/national-counties.generated.ts",
+                "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
+              }
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",

@@ -69,12 +69,18 @@ export function readFinalEnactedLawTerm(
     readonly unit: LawAmountUnit;
     readonly onDate?: IsoDate;
     readonly cutoff?: HistoricalCutoff;
+    readonly workplaceKey?: string;
   },
 ): FinalEnactedLawTerm | null {
   const onDate = input.onDate ?? world.currentDate;
   if (onDate > world.currentDate) return null;
   if (law.origin === "in-force-at-start") {
-    const matches = startingLawTerms(law, input.questionKey, onDate).filter(
+    const matches = startingLawTerms(
+      law,
+      input.questionKey,
+      onDate,
+      input.workplaceKey,
+    ).filter(
       (term) =>
         term.questionKey === input.questionKey && term.key === input.termKey,
     );
