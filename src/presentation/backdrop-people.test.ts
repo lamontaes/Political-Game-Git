@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import staging from "../../art/backdrops/staging.json";
+import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {

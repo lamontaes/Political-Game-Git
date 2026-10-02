@@ -878,14 +878,11 @@ export function settleGovernmentMonth(
     };
   }
   const adjustments: BudgetAdjustment[] = [];
-  // A local government cannot settle from a forecast or an ambiguous/missing
-  // account. Its month must use recorded cash; never create an account here.
-  if (
-    (government.level === "county" || government.level === "city") &&
-    (flows.recorded === undefined || publicCash === undefined)
-  )
+  // Every government needs recorded cash and an unambiguous saved account.
+  // Never settle forecast receipts or create an account here.
+  if (flows.recorded === undefined || publicCash === undefined)
     return { government, adjustments: [] };
-  // A missing recorded map means an older caller still supplies forecasts.
+  // A present recorded map permits actual zero activity in a saved account.
   const cashSettled = publicCash !== undefined && flows.recorded !== undefined;
   const recorded = flows.recorded?.get(government.key);
   const stateId = stateJurisdictionForKey(government.stateKey)?.id ?? null;

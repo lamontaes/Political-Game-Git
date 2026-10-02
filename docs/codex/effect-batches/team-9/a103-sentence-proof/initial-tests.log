@@ -1,0 +1,45 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/justice/sentencing-term.test.ts (7 tests | 5 failed) 3342ms
+     ✓ reads all 56 base robbery rows without turning missing facts into a grade  3031ms
+     ✓ does not accept unsupported fact provenance or substitute findings for convictions  301ms
+     × saves an actual bounded term for the named defendant in US-ND 5ms
+     × saves an actual bounded term for the named defendant in US-MA 0ms
+     × saves an actual bounded term for the named defendant in US-HI 0ms
+     × saves an actual bounded term for the named defendant in US-IA 0ms
+     × saves an actual bounded term for the named defendant in US-CA 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/justice/sentencing-term.test.ts > recorded applicability and sourced sentencing options > saves an actual bounded term for the named defendant in US-ND
+ FAIL  src/simulation/justice/sentencing-term.test.ts > recorded applicability and sourced sentencing options > saves an actual bounded term for the named defendant in US-MA
+ FAIL  src/simulation/justice/sentencing-term.test.ts > recorded applicability and sourced sentencing options > saves an actual bounded term for the named defendant in US-HI
+ FAIL  src/simulation/justice/sentencing-term.test.ts > recorded applicability and sourced sentencing options > saves an actual bounded term for the named defendant in US-IA
+ FAIL  src/simulation/justice/sentencing-term.test.ts > recorded applicability and sourced sentencing options > saves an actual bounded term for the named defendant in US-CA
+TypeError: Cannot read properties of undefined (reading 'asOfDate')
+ ❯ validateCutoff src/simulation/future-transitions.ts:1097:22
+    1095|
+    1096| function validateCutoff(world: World, cutoff: HistoricalCutoff): void {
+    1097|   makeIsoDate(cutoff.asOfDate);
+       |                      ^
+    1098|   if (cutoff.asOfDate > world.currentDate) {
+    1099|     throw new Error("Historical cutoff is after the current world date…
+ ❯ futureDueItemStateAt src/simulation/future-transitions.ts:421:3
+ ❯ src/simulation/justice/sentencing-term.test.ts:128:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 2 passed (7)
+   Start at  18:13:14
+   Duration  40.66s (transform 29.42s, setup 27ms, import 37.09s, tests 3.34s, environment 1ms)
+
+JSON report written to /tmp/team9-a103-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
