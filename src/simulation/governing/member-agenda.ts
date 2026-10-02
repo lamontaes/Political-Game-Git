@@ -11,6 +11,7 @@ export {
 } from "./member-agenda-settings";
 import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
+import { operativeDateForEnactment } from "../legislative-effective-date";
 import { outranks } from "../law-hierarchy";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { ensureNationalElectionJurisdiction } from "../national-election-geography";
@@ -152,13 +153,23 @@ function councilQuestionClosed(
               vote.takenAt >= since,
           )),
     ) ||
-    (world.history.legislativeEnactments ?? []).some(
-      (enactment) =>
-        ids.has(enactment.measureId) &&
+    (world.history.legislativeEnactments ?? []).some((enactment) => {
+      if (!ids.has(enactment.measureId)) return false;
+      // A saved fictional profile is an admitted date, even without its cache.
+      if (
+        enactment.effectiveDateBasis === "game-default" &&
+        enactment.effectiveDateGameProfile
+      ) {
+        const operative = operativeDateForEnactment(enactment);
+        if (operative) return operative.date > world.currentDate;
+      }
+      // General legacy/source-default handling awaits its separate contract.
+      return (
         (enactment.effectiveAt ??
           addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS)) >
-          world.currentDate,
-    )
+        world.currentDate
+      );
+    })
   );
 }
 
