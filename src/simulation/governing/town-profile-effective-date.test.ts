@@ -24,7 +24,10 @@ import { addDays } from "../dates";
 import { personName } from "../people";
 import { completeCouncilPassage } from "../municipal-ordinance-procedure";
 import { serializeWorld, deserializeWorld } from "../serialization";
-import { operativeDateForEnactment } from "../legislative-effective-date";
+import {
+  operativeDateForEnactment,
+  resolveLegislativeEffectiveDate,
+} from "../legislative-effective-date";
 import { ensureCouncilPrinciples } from "./council-lawmaking";
 import { applyInstitutionStep } from "./legislative-clock";
 
@@ -143,6 +146,16 @@ describe("the town profile saves its effective date once", () => {
       expect(enactments[0]!.effectiveDateGameProfile).toEqual({
         version: pack.packId,
         days: 0,
+      });
+      // A recorded state-date context must not replace this council's own
+      // on-adoption rule merely because its pack carries a US-XX key.
+      expect(
+        resolveLegislativeEffectiveDate(pack, enactments[0]!.resolvedAt, {
+          finalPassageAt: () => vote.takenAt,
+        }),
+      ).toEqual({
+        kind: "game-default",
+        effectiveAt: enactments[0]!.resolvedAt,
       });
       expect(
         operativeDateForEnactment(enactments[0]!, `US-${unit.stateUsps}`),

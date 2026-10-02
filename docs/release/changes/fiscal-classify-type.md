@@ -1,5 +1,5 @@
 ---
-title: Fix the type error in the fiscal authority classifier
+id: fiscal-classify-type
 impact: none
 ---
 

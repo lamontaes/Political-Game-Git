@@ -13,6 +13,7 @@ import { recordEventKnowledge } from "./records";
 import { relationshipHistory } from "./queries";
 import { readRelationshipStanding } from "./relationship-standing";
 import { recordWorldEvent } from "./world";
+import { ensureSpeechRetellingSchedule } from "./speech-retelling";
 import type {
   DecisionConsideration,
   DecisionImportance,
@@ -323,7 +324,7 @@ export function recordSpeechReception(
         `${counts[reaction]} ${reaction === "stayed-quiet" ? "stayed quiet" : reaction}`,
     )
     .join(", ");
-  return recordWorldEvent(next, {
+  const received = recordWorldEvent(next, {
     stableKey: `${speech.stableKey}:reception`,
     type: SPEECH_RECEPTION_EVENT,
     occurredAt: next.currentDate,
@@ -358,4 +359,5 @@ export function recordSpeechReception(
       immediateReaction: null,
     },
   });
+  return ensureSpeechRetellingSchedule(received);
 }

@@ -1,5 +1,6 @@
 import { legacyTermLimitBallot as termLimitBallot } from "../../../tests/fixtures/legacy-term-limit-ballot";
 import { beforeAll, describe, expect, it, vi } from "vitest";
+import ratificationResearch from "../../../data/research/legislature/federal-amendment-ratification-rules-2026.json" with { type: "json" };
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
   ARTICLE_V_STATE_KEYS,
@@ -445,111 +446,139 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
     expect(ineligiblePlaces).toBe(6);
   });
 
-  it("saves sourced actual chamber rollcalls and refuses unbound state actions", () => {
-    const result = proposeAndVote(supportedWorld(), 2027, cause);
-    const measure = result.history.constitutionalMeasures!.at(-1)!;
+  describe("sourced actual chamber rollcalls", () => {
+    let result: World;
+    beforeAll(() => {
+      result = proposeAndVote(supportedWorld(), 2027, cause);
+    });
     const admitted = ARTICLE_V_STATE_KEYS.filter((key) =>
       stateRatificationChambers(key),
     );
-    expect(admitted).toHaveLength(6);
+    it("admits the complete set of sourced state pairs", () => {
+      const sourced = ratificationResearch.rows
+        .filter(
+          (row) =>
+            !("conditions" in row && (row.conditions?.length ?? 0) > 0) &&
+            row.chambers.every((body) => {
+              if (body.ruleKind === "ratification-specific") return true;
+              if (!("ratificationBridge" in body)) return false;
+              const bridge = body.ratificationBridge;
+              return (
+                !!bridge &&
+                typeof bridge === "object" &&
+                "kind" in bridge &&
+                bridge.kind === "sourced-form-and-vote-rule"
+              );
+            }),
+        )
+        .map((row) => row.stateKey);
+      expect([...admitted].sort()).toEqual(sourced.sort());
+    });
     let chamberCount = 0;
     const examples: unknown[] = [];
-    for (const stateKey of admitted) {
-      const due = result.history.futureDueItems.find((row) =>
-        row.stableKey.endsWith(`:state:${stateKey}`),
-      )!;
-      const outcome = federalReformStateActionHandler(result, due);
-      const next = outcome.world;
-      const action = constitutionalActions(next, measure.id).find(
-        (row) =>
-          row.detail.kind === "state-ratification" &&
-          row.detail.stateKey === stateKey,
-      )!;
-      expect(action).toBeDefined();
-      if (action.detail.kind !== "state-ratification")
-        throw Error("Actual state action required.");
-      const detail = action.detail;
-      expect(detail.chamberVotes).toHaveLength(
-        stateRatificationChambers(stateKey)!.length,
-      );
-      for (const row of detail.chamberVotes!) {
-        const rule = stateRatificationRule(stateKey, row.bodyKey)!;
-        expect(row.vote.purpose).toBe("constitutional-ratification");
-        expect(row.vote.measureId).toBe(measure.id);
-        expect(row.vote.denominatorKind).toBe(rule.threshold.countedAgainst);
-        expect(row.vote.thresholdLabel).toBe(rule.threshold.label);
-        expect(row.vote.dispositions.every((v) => v.personId && v.reason)).toBe(
-          true,
+    it.each(admitted)(
+      "saves bound rollcalls and rejects unbound actions for %s",
+      (stateKey) => {
+        const measure = result.history.constitutionalMeasures!.at(-1)!;
+        const due = result.history.futureDueItems.find((row) =>
+          row.stableKey.endsWith(`:state:${stateKey}`),
+        )!;
+        const outcome = federalReformStateActionHandler(result, due);
+        const next = outcome.world;
+        const action = constitutionalActions(next, measure.id).find(
+          (row) =>
+            row.detail.kind === "state-ratification" &&
+            row.detail.stateKey === stateKey,
+        )!;
+        expect(action).toBeDefined();
+        if (action.detail.kind !== "state-ratification")
+          throw Error("Actual state action required.");
+        const detail = action.detail;
+        expect(detail.chamberVotes).toHaveLength(
+          stateRatificationChambers(stateKey)!.length,
+        );
+        for (const row of detail.chamberVotes!) {
+          const rule = stateRatificationRule(stateKey, row.bodyKey)!;
+          expect(row.vote.purpose).toBe("constitutional-ratification");
+          expect(row.vote.measureId).toBe(measure.id);
+          expect(row.vote.denominatorKind).toBe(rule.threshold.countedAgainst);
+          expect(row.vote.thresholdLabel).toBe(rule.threshold.label);
+          expect(
+            row.vote.dispositions.every((v) => v.personId && v.reason),
+          ).toBe(true);
+          expect(
+            next.history.organizations.some(
+              (org) => org.id === row.organizationId,
+            ),
+          ).toBe(true);
+          expect(row.sourceRecordIds).toContain(row.organizationId);
+          const person = row.vote.dispositions.find((v) => v.personId)!;
+          examples.push({
+            stateKey,
+            body: row.bodyKey,
+            person: personName(next.people[person.personId!]!),
+            ballot: person.disposition,
+            reason: person.reason,
+            required: row.vote.requiredVotes,
+            denominator: row.vote.denominatorValue,
+            approved: detail.approved,
+          });
+          chamberCount++;
+        }
+        expect(detail.approved).toBe(
+          detail.chamberVotes!.every((row) => row.vote.outcome === "passed"),
+        );
+        expect(recordArticleVStateMemberVote(next, measure.id, stateKey)).toBe(
+          next,
+        );
+        const loaded = deserializeWorld(serializeWorld(next));
+        expect(constitutionalActions(loaded, measure.id)).toEqual(
+          constitutionalActions(next, measure.id),
         );
         expect(
-          next.history.organizations.some(
-            (org) => org.id === row.organizationId,
-          ),
-        ).toBe(true);
-        expect(row.sourceRecordIds).toContain(row.organizationId);
-        const person = row.vote.dispositions.find((v) => v.personId)!;
-        examples.push({
-          stateKey,
-          body: row.bodyKey,
-          person: personName(next.people[person.personId!]!),
-          ballot: person.disposition,
-          reason: person.reason,
-          required: row.vote.requiredVotes,
-          denominator: row.vote.denominatorValue,
-          approved: detail.approved,
-        });
-        chamberCount++;
-      }
-      expect(detail.approved).toBe(
-        detail.chamberVotes!.every((row) => row.vote.outcome === "passed"),
-      );
-      expect(recordArticleVStateMemberVote(next, measure.id, stateKey)).toBe(
-        next,
-      );
-      const loaded = deserializeWorld(serializeWorld(next));
-      expect(constitutionalActions(loaded, measure.id)).toEqual(
-        constitutionalActions(next, measure.id),
-      );
-      expect(recordArticleVStateMemberVote(loaded, measure.id, stateKey)).toBe(
-        loaded,
-      );
-      expect(() =>
-        recordArticleVRatification(result, measure.id, {
+          recordArticleVStateMemberVote(loaded, measure.id, stateKey),
+        ).toBe(loaded);
+        expect(() =>
+          recordArticleVRatification(result, measure.id, {
+            ...detail,
+            approved: !detail.approved,
+          }),
+        ).toThrow(/each actual chamber/);
+        const fake = {
           ...detail,
-          approved: !detail.approved,
-        }),
-      ).toThrow(/each actual chamber/);
-      const fake = {
-        ...detail,
-        chamberVotes: detail.chamberVotes!.map((row, index) =>
-          index ? row : { ...row, organizationId: measure.id },
-        ),
-      };
-      expect(() =>
-        recordArticleVRatification(result, measure.id, fake),
-      ).toThrow(/actual dated body/);
-    }
-    for (const stateKey of ARTICLE_V_STATE_KEYS.filter(
-      (key) => !admitted.includes(key),
-    )) {
-      const due = result.history.futureDueItems.find((row) =>
-        row.stableKey.endsWith(`:state:${stateKey}`),
-      )!;
-      expect(federalReformStateActionHandler(result, due).world).toBe(result);
-      expect(
-        recordArticleVStateMemberVote(result, measure.id, stateKey),
-      ).toBeNull();
-    }
-    console.info(
-      "A79 sourced state actions",
-      JSON.stringify({
-        seed,
-        admitted,
-        refused: 50 - admitted.length,
-        chamberCount,
-        examples,
-      }),
+          chamberVotes: detail.chamberVotes!.map((row, index) =>
+            index ? row : { ...row, organizationId: measure.id },
+          ),
+        };
+        expect(() =>
+          recordArticleVRatification(result, measure.id, fake),
+        ).toThrow(/actual dated body/);
+      },
     );
+    it("refuses unsupported state actions", () => {
+      const measure = result.history.constitutionalMeasures!.at(-1)!;
+      for (const stateKey of ARTICLE_V_STATE_KEYS.filter(
+        (key) => !admitted.includes(key),
+      )) {
+        const due = result.history.futureDueItems.find((row) =>
+          row.stableKey.endsWith(`:state:${stateKey}`),
+        )!;
+        expect(federalReformStateActionHandler(result, due).world).toBe(result);
+        expect(
+          recordArticleVStateMemberVote(result, measure.id, stateKey),
+        ).toBeNull();
+      }
+      console.info(
+        "A79 sourced state actions",
+        JSON.stringify({
+          seed,
+          admitted,
+          refused: 50 - admitted.length,
+          chamberCount,
+          examples,
+        }),
+      );
+    });
   });
 
   it("preserves a controlled member's absence and never votes for the player", () => {
