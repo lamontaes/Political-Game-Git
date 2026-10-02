@@ -1,9 +1,16 @@
+// Load the existing world entrypoint first, as the game and A131 exposure fixture do.
+import { advanceWorld, assertWorldIntegrity } from "../world";
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { stableHash } from "../ids";
+import { lifePlaceStateIdentities } from "../life-places";
+import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { storyLeads } from "../press/desk";
 import { jailTermOn } from "../justice/jail-terms";
-import { advanceWorld, assertWorldIntegrity } from "../world";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
   generateOpeningLife,
@@ -23,7 +30,7 @@ import {
   sampleMonthlyCrime,
   UNRESEARCHED_LOCAL_CRIME,
 } from "./index";
-import { arrestReferral } from "./producer";
+import { arrestReferral, ensureCrimeProduction } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { referForProsecution } from "../justice/prosecution";
 
@@ -44,6 +51,35 @@ function open(seed: string) {
   ).game!;
 }
 
+/** Same real clock and starting-condition writers, without the full life opening. */
+function openCrimeSmallWorld(seed: string) {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  const place =
+    places[parseInt(stableHash(seed).slice(0, 8), 16) % places.length]!;
+  const small = smallWorld({
+    place: place.usps,
+    people: 64,
+    household: true,
+    seed,
+  });
+  const world = ensureCrimeProduction(
+    ensureWorldStartingConditions(small.world, {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      political: generatePoliticalStartingConditions,
+    }),
+  );
+  console.info(
+    JSON.stringify({
+      fixture: "crime-small-world",
+      seed,
+      place: place.usps,
+      people: 64,
+    }),
+  );
+  return { world, playerPersonId: small.personId };
+}
+
 describe("ordinary local crime", () => {
   it("every rate is marked as an unresearched placeholder", () => {
     expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
@@ -58,9 +94,9 @@ describe("ordinary local crime", () => {
   });
 
   it(
-    "a year of ordinary time in a new game produces reported, unreported and solved crime that the local paper can see",
+    "a year of ordinary time in a small world produces reported, unreported and solved crime that the local paper can see",
     () => {
-      const life = open("local-crime-virginia");
+      const life = openCrimeSmallWorld("local-crime-virginia");
       const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
       expect(
         life.world.history.futureDueItems.filter(
@@ -318,7 +354,7 @@ describe("ordinary local crime", () => {
   it(
     "police arrest a named resident the offense points to, and prosecutors take the case",
     () => {
-      const life = open("probe");
+      const life = openCrimeSmallWorld("probe");
       const world = advanceWorld(
         life.world,
         400,
