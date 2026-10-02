@@ -281,7 +281,6 @@ import { useShell } from "./useShell";
 
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
-import { WorldRecapPanel } from "./WorldRecapPanel";
 import { MorningThoughtPanel } from "./MorningThoughtPanel";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
@@ -2940,42 +2939,13 @@ function PlayingScreen({
                 </p>
               ) : null}
               {/*
-                The recap and the morning note are for a life already under
-                way: neither opens over the first orientation tour. Nor do they
-                stand in the room while somebody is being spoken to there: the
-                conversation is the one surface in front of the people, and at
-                720 px tall a note beside it leaves the box no room for its
-                replies. Meeting controls and a selected person's dossier
-                also take the foreground. Both notes return undismissed when
-                that panel closes.
+                The optional morning note waits until the first orientation
+                tour, conversations, meetings and selected dossiers close.
               */}
               {!showOrientation &&
               !talkingInTheRoom &&
               !meeting &&
               !selectedDossier &&
-              dayRhythm.summary ? (
-                <WorldRecapPanel
-                  summary={dayRhythm.summary}
-                  onDismiss={(throughSequence, throughMoment) =>
-                    dispatch({
-                      type: "acknowledge-recap",
-                      throughSequence,
-                      throughMoment,
-                    })
-                  }
-                  onOpenNews={() =>
-                    dispatch({ type: "go-to-surface", surface: "news" })
-                  }
-                  onOpenPerson={(personId) =>
-                    dispatch({ type: "open-quick-dossier", personId })
-                  }
-                />
-              ) : null}
-              {!showOrientation &&
-              !talkingInTheRoom &&
-              !meeting &&
-              !selectedDossier &&
-              !dayRhythm.summary &&
               dayRhythm.morningThought ? (
                 <MorningThoughtPanel
                   thought={dayRhythm.morningThought}
