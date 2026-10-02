@@ -5,6 +5,7 @@ import { recordRelationshipInteraction } from "../records";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { chooseAppointee } from "./appointments";
 const evaluate = decisions.evaluateDecision;
+type EvaluationArgs = Parameters<typeof evaluate>;
 afterEach(() => vi.restoreAllMocks());
 function fixture() {
   const world = createPortabilityFixture();
@@ -15,16 +16,21 @@ function fixture() {
 describe("A125 appointment pending boundary", () => {
   it.each(["null", "stale-key"] as const)(
     "an undecided %s packet writes no durable appointment trace, including after reload",
-    (packet) => {
+    (packet: "null" | "stale-key") => {
       const { world, appointer, candidate } = fixture();
       const trace = vi.spyOn(decisions, "recordDurableDecisionTrace");
       const decision = vi
         .spyOn(decisions, "evaluateDecision")
-        .mockImplementation((inputWorld, input) => ({
-          ...evaluate(inputWorld, input),
-          outcomeKind: "undecided",
-          selectedOptionKey: packet === "null" ? null : `person:${candidate}`,
-        }));
+        .mockImplementation(
+          (
+            inputWorld: EvaluationArgs[0],
+            input: EvaluationArgs[1],
+          ): ReturnType<typeof evaluate> => ({
+            ...evaluate(inputWorld, input),
+            outcomeKind: "undecided",
+            selectedOptionKey: packet === "null" ? null : `person:${candidate}`,
+          }),
+        );
       for (const current of [world, deserializeWorld(serializeWorld(world))]) {
         const before = serializeWorld(current);
         expect(
