@@ -1,0 +1,390 @@
+{
+  "familyKey": "appropriations",
+  "familyVersion": "v3",
+  "legacyCompiledState": "US-AK",
+  "programKey": "standing:rural-transit-assistance",
+  "serviceQuestion": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+  "contractPriceMinorUnitsPerHour": 10000,
+  "serviceChoices": [
+    {
+      "value": "weekday",
+      "label": "Additional weekday service",
+      "clausePhrase": "additional weekday vehicle-service hours"
+    },
+    {
+      "value": "weekend",
+      "label": "Additional weekend service",
+      "clausePhrase": "additional weekend vehicle-service hours"
+    }
+  ],
+  "variants": [
+    {
+      "variantKey": "transit-staged-service-v1",
+      "propositionKeys": [
+        "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours"
+      ],
+      "label": "Two periods of additional service",
+      "instrument": "appropriation",
+      "synopsis": "Provide money for two periods of added service; expenditure still requires collected public cash.",
+      "shortTitle": "Additional Service Hours",
+      "subjectClass": "appropriation",
+      "authorizesAppropriation": true,
+      "defaults": {
+        "appropriation": {
+          "kind": "money",
+          "minorUnits": 2000000,
+          "currency": "USD"
+        },
+        "service-window": {
+          "kind": "enumerated",
+          "value": "weekday"
+        }
+      },
+      "parameters": [
+        {
+          "key": "appropriation",
+          "dimension": "funding-cap",
+          "kind": "money",
+          "label": "Total amount provided",
+          "minMinorUnits": 20000,
+          "maxMinorUnits": 4000000000,
+          "currency": "USD",
+          "evidence": {
+            "kind": "authored-parameter",
+            "note": "Fictional prospective service appropriation and contract terms. No real fund balance, officials, ridership or effectiveness coefficient is asserted."
+          }
+        },
+        {
+          "key": "service-window",
+          "dimension": "oversight",
+          "kind": "enumerated",
+          "label": "Service period",
+          "options": [
+            {
+              "value": "weekday",
+              "label": "Additional weekday service",
+              "clausePhrase": "additional weekday vehicle-service hours"
+            },
+            {
+              "value": "weekend",
+              "label": "Additional weekend service",
+              "clausePhrase": "additional weekend vehicle-service hours"
+            }
+          ],
+          "evidence": {
+            "kind": "authored-parameter",
+            "note": "Fictional prospective service appropriation and contract terms. No real fund balance, officials, ridership or effectiveness coefficient is asserted."
+          }
+        }
+      ],
+      "clauses": [
+        {
+          "provisionKey": "authority-named",
+          "dimension": "authority-reference",
+          "heading": "Program funded",
+          "parameterKey": null,
+          "rendering": {
+            "text": "This appropriation funds {{authority:programLabel}} under {{authority:citationLabel}}. It changes no eligibility rule of that program.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          },
+          "requiredAuthority": {
+            "key": "standing:rural-transit-assistance",
+            "message": "This transit variant requires the authored rural transit program."
+          }
+        },
+        {
+          "provisionKey": "amount-provided",
+          "dimension": "funding-cap",
+          "heading": "Amount appropriated",
+          "parameterKey": "appropriation",
+          "rendering": {
+            "text": "There is appropriated {{money:appropriation}} from collected, unrestricted state public receipts for additional service under the program named in section 1. This Act creates no cash and dedicates no tax revenue.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": "Amount appropriated"
+          },
+          "moneyParameter": {
+            "key": "appropriation",
+            "message": "Missing transit appropriation amount."
+          },
+          "positiveAmountEffect": {
+            "kind": "public-program-appropriation"
+          }
+        },
+        {
+          "provisionKey": "administrative-mandate",
+          "dimension": "oversight",
+          "heading": "Administrative implementation",
+          "parameterKey": "service-window",
+          "rendering": {
+            "text": "The state government shall administer this appropriation and purchase {{choice:service-window}} at the authored contract price of $100 per vehicle-service hour. Half of the amount is available for each of two separate service periods. Each period is fourteen days; service is paid and recorded at its completion. Unpaid hours shall not be represented as delivered. No member of the legislature is granted executive authority by this Act.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          }
+        },
+        {
+          "provisionKey": "transit-effective-date",
+          "dimension": "timing",
+          "heading": "Effective date and availability",
+          "parameterKey": null,
+          "rendering": {
+            "text": "This Act takes effect ninety days after enactment.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          }
+        },
+        {
+          "provisionKey": "availability",
+          "dimension": "timing",
+          "heading": "Period of availability",
+          "parameterKey": null,
+          "rendering": {
+            "text": "The appropriation remains available for 365 days after its effective date. No payment may be made before its effective date or after its availability expires.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          }
+        },
+        {
+          "provisionKey": "service-report",
+          "dimension": "oversight",
+          "heading": "Delivery and cancellation reports",
+          "parameterKey": null,
+          "rendering": {
+            "text": "The state government shall preserve the paid amount and vehicle-service hours for each period. The sponsor may request implementation or cancel an undelivered period. Cancellation shall preserve prior delivery and shall not refund an already completed service period. Published reports shall distinguish proposals from delivered service.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          }
+        }
+      ],
+      "declaredLimits": [
+        "All program labels and contract prices are authored fiction.",
+        "A passed appropriation supplies authority, not collected cash.",
+        "No ridership, access, effectiveness or electoral consequence is inferred."
+      ],
+      "amendmentInvitation": {
+        "provisionKey": "service-report-detail",
+        "sectionNumber": 7,
+        "heading": "Report timing",
+        "beneficiaryLabel": "people reading the service record",
+        "placeLabel": "the governing state",
+        "statedGround": "Request a dated delivery statement.",
+        "segmentKey": "transit.reporting",
+        "requestedMinorUnits": 0,
+        "cappedMinorUnits": 0,
+        "evidence": {
+          "kind": "authored-parameter",
+          "note": "Fictional prospective service appropriation and contract terms. No real fund balance, officials, ridership or effectiveness coefficient is asserted."
+        },
+        "text": "The report shall include the date of each completed service period."
+      }
+    },
+    {
+      "variantKey": "transit-staged-service-v2",
+      "propositionKeys": [
+        "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours"
+      ],
+      "label": "State transit service by recorded effective date",
+      "instrument": "appropriation",
+      "synopsis": "Provides state transit spending authority from the effective date recorded for the enacted measure.",
+      "shortTitle": "State Transit Appropriation",
+      "subjectClass": "appropriation",
+      "authorizesAppropriation": true,
+      "defaults": {
+        "appropriation": {
+          "kind": "money",
+          "minorUnits": 2000000,
+          "currency": "USD"
+        },
+        "service-window": {
+          "kind": "enumerated",
+          "value": "weekday"
+        }
+      },
+      "parameters": [
+        {
+          "key": "appropriation",
+          "dimension": "funding-cap",
+          "kind": "money",
+          "label": "Total amount provided",
+          "minMinorUnits": 20000,
+          "maxMinorUnits": 4000000000,
+          "currency": "USD",
+          "evidence": {
+            "kind": "authored-parameter",
+            "note": "Fictional prospective service appropriation and contract terms. No real fund balance, officials, ridership or effectiveness coefficient is asserted."
+          }
+        },
+        {
+          "key": "service-window",
+          "dimension": "oversight",
+          "kind": "enumerated",
+          "label": "Service period",
+          "options": [
+            {
+              "value": "weekday",
+              "label": "Additional weekday service",
+              "clausePhrase": "additional weekday vehicle-service hours"
+            },
+            {
+              "value": "weekend",
+              "label": "Additional weekend service",
+              "clausePhrase": "additional weekend vehicle-service hours"
+            }
+          ],
+          "evidence": {
+            "kind": "authored-parameter",
+            "note": "Fictional prospective service appropriation and contract terms. No real fund balance, officials, ridership or effectiveness coefficient is asserted."
+          }
+        }
+      ],
+      "clauses": [
+        {
+          "provisionKey": "authority-named",
+          "dimension": "authority-reference",
+          "heading": "Program funded",
+          "parameterKey": null,
+          "rendering": {
+            "text": "This appropriation funds {{authority:programLabel}} under {{authority:citationLabel}}. It changes no eligibility rule of that program.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          },
+          "requiredAuthority": {
+            "key": "standing:rural-transit-assistance",
+            "message": "This transit variant requires the authored rural transit program."
+          }
+        },
+        {
+          "provisionKey": "amount-provided",
+          "dimension": "funding-cap",
+          "heading": "Amount appropriated",
+          "parameterKey": "appropriation",
+          "rendering": {
+            "text": "There is appropriated {{money:appropriation}} from collected, unrestricted state public receipts for additional service under the program named in section 1. This Act creates no cash and dedicates no tax revenue.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": "Amount appropriated"
+          },
+          "moneyParameter": {
+            "key": "appropriation",
+            "message": "Missing transit appropriation amount."
+          },
+          "positiveAmountEffect": {
+            "kind": "public-program-appropriation"
+          }
+        },
+        {
+          "provisionKey": "administrative-mandate",
+          "dimension": "oversight",
+          "heading": "Administrative implementation",
+          "parameterKey": "service-window",
+          "rendering": {
+            "text": "The state government shall administer this appropriation and purchase {{choice:service-window}} at the authored contract price of $100 per vehicle-service hour. Half of the amount is available for each of two separate service periods. Each period is fourteen days; service is paid and recorded at its completion. Unpaid hours shall not be represented as delivered. No member of the legislature is granted executive authority by this Act.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          }
+        },
+        {
+          "provisionKey": "transit-effective-date",
+          "dimension": "timing",
+          "heading": "Effective date and availability",
+          "parameterKey": null,
+          "rendering": {
+            "text": "This appropriation is available from this Act's recorded effective date.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          }
+        },
+        {
+          "provisionKey": "availability",
+          "dimension": "timing",
+          "heading": "Period of availability",
+          "parameterKey": null,
+          "rendering": {
+            "text": "The appropriation remains available for 365 days after its effective date. No payment may be made before its effective date or after its availability expires.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          }
+        },
+        {
+          "provisionKey": "service-report",
+          "dimension": "oversight",
+          "heading": "Delivery and cancellation reports",
+          "parameterKey": null,
+          "rendering": {
+            "text": "The state government shall preserve the paid amount and vehicle-service hours for each period. The sponsor may request implementation or cancel an undelivered period. Cancellation shall preserve prior delivery and shall not refund an already completed service period. Published reports shall distinguish proposals from delivered service.",
+            "beneficiary": {
+              "kind": "general-application",
+              "appliesToLabel": "the existing rural transit assistance program"
+            },
+            "fiscalExposureLabel": null
+          }
+        }
+      ],
+      "declaredLimits": [
+        "All program labels and contract prices are authored fiction.",
+        "A passed appropriation supplies authority, not collected cash.",
+        "No ridership, access, effectiveness or electoral consequence is inferred."
+      ],
+      "amendmentInvitation": {
+        "provisionKey": "service-report-detail",
+        "sectionNumber": 7,
+        "heading": "Report timing",
+        "beneficiaryLabel": "people reading the service record",
+        "placeLabel": "the governing state",
+        "statedGround": "Request a dated delivery statement.",
+        "segmentKey": "transit.state-service-reporting",
+        "requestedMinorUnits": 0,
+        "cappedMinorUnits": 0,
+        "evidence": {
+          "kind": "authored-parameter",
+          "note": "Fictional prospective service appropriation and contract terms. No real fund balance, officials, ridership or effectiveness coefficient is asserted."
+        },
+        "text": "The report shall include the date of each completed service period."
+      },
+      "npcEligibility": [
+        {
+          "propositionKey": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+          "answer": "yes",
+          "governmentLevel": "state",
+          "authorityKind": "game-profile",
+          "authorityKey": null,
+          "operativeEffectKind": "public-program-appropriation",
+          "effectProvisionKey": "amount-provided",
+          "effectParameterKey": "appropriation"
+        }
+      ]
+    }
+  ]
+}

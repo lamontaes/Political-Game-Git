@@ -2,6 +2,13 @@ import methods from "../../../data/research/local-government/council-election-me
 import { governmentUnitsForState } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { householdMembershipsAt } from "../life-queries";
+import {
+  activeDwellingOccupanciesAt,
+  activeHousingTenuresAt,
+  dwellingOccupancyStateAt,
+  sameEndpoint,
+} from "../resource-queries";
+import { TOWN_HOMES_VERSION } from "./town-homes";
 import { primaryReading } from "../municipal-government";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
@@ -170,8 +177,55 @@ export function homePosition(
   const { households } = townRoster(town);
   if (households === 0 || !world.people[personId]) return null;
   const prefix = `${TOWN_RESIDENTS_VERSION}:${town}:household:`;
+  const memberships = householdMembershipsAt(world, personId);
+  const primaryHouseholds = new Set(
+    memberships
+      .filter((row) => row.state.residenceRole === "primary")
+      .map((row) => row.household.id),
+  );
+  const tenures = activeHousingTenuresAt(world);
+  const occupancy = [...activeDwellingOccupanciesAt(world)]
+    .reverse()
+    .find(
+      (row) =>
+        (row.occupant.kind === "person"
+          ? row.occupant.personId === personId
+          : primaryHouseholds.has(row.occupant.householdId)) &&
+        dwellingOccupancyStateAt(world, row.id)?.residenceRole === "primary" &&
+        tenures.some(
+          (tenure) =>
+            tenure.dwellingId === row.dwellingId &&
+            sameEndpoint(tenure.holder, row.occupant),
+        ),
+    );
+  if (occupancy) {
+    const dwelling = world.history.dwellings.find(
+      (row) => row.id === occupancy.dwellingId,
+    );
+    if (dwelling && dwelling.jurisdictionId !== town) return null;
+    if (dwelling?.stableKey.startsWith(`${TOWN_HOMES_VERSION}:${town}:`)) {
+      // The first roster holder identifies this dwelling's recorded address.
+      // A later tenant inherits its position, not the old tenant's identity.
+      for (const tenure of world.history.housingTenures) {
+        if (
+          tenure.dwellingId !== dwelling.id ||
+          tenure.startedAt > world.currentDate ||
+          tenure.holder.kind !== "household"
+        )
+          continue;
+        const householdId = tenure.holder.householdId;
+        const holder = world.history.households.find(
+          (row) => row.id === householdId,
+        );
+        if (!holder?.stableKey.startsWith(prefix)) continue;
+        const index = Number(holder.stableKey.slice(prefix.length));
+        if (Number.isInteger(index) && index >= 0 && index < households)
+          return index;
+      }
+    }
+  }
   let inTown = world.people[personId]!.homeJurisdictionId === town;
-  for (const row of householdMembershipsAt(world, personId)) {
+  for (const row of memberships) {
     if (row.household.stableKey.startsWith(prefix)) {
       const index = Number(row.household.stableKey.slice(prefix.length));
       if (Number.isInteger(index)) return index;
@@ -179,8 +233,8 @@ export function homePosition(
     if (row.location?.jurisdictionId === town) inTown = true;
   }
   if (!inTown) return null;
-  // A household the town's roster did not write (the life being played, or
-  // one that moved in) has its place in the order from its own id: a
+  // Without a recorded roster dwelling, a household the roster did not
+  // write keeps the legacy position from its own id: a
   // stand-in address, not a choice anyone makes.
   let hash = 2166136261;
   for (const char of personId) {

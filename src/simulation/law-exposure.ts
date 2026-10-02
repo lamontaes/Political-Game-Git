@@ -68,6 +68,17 @@ export type LawExposureFeltSize =
   | null;
 
 /**
+ * A rights loss or an eligibility loss: the law cost the person something
+ * other than money, so there is no amount to set against their pay. It is
+ * felt at `NON_MONEY_FELT_SIZE`.
+ */
+export function rightsOrEligibilityLoss(
+  exposure: Pick<LawExposureRecord, "direction" | "amount">,
+): boolean {
+  return exposure.direction === "cost" && exposure.amount === null;
+}
+
+/**
  * The felt size of an exposure against `monthlyPayMinor`, the pay it lands
  * on (the reader decides whose: the person's own, or a household's).
  */
@@ -76,7 +87,9 @@ export function lawExposureFeltSize(
   monthlyPayMinor: number,
 ): LawExposureFeltSize {
   if (exposure.direction === "none") return null;
-  if (exposure.amount === null)
+  // A right or an eligibility lost, or one gained (the remaining exposure
+  // with no amount), is felt at the same size.
+  if (rightsOrEligibilityLoss(exposure) || exposure.amount === null)
     return { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true };
   if (monthlyPayMinor <= 0) return "unmeasured";
   return {

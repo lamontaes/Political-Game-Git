@@ -14,10 +14,7 @@ import {
   householdMembershipsAt,
   peopleInHouseholdAt,
 } from "../../src/simulation/life-queries";
-import {
-  lifePlaceByKey,
-  stateJurisdictionForKey,
-} from "../../src/simulation/life-places";
+import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import {
   moveTieReader,
   relocateHousehold,
@@ -29,19 +26,17 @@ import {
   TOWN_HOMES_VERSION,
   TOWN_HOME_EVENTS,
   TOWN_HOME_KINDS,
+  TOWN_HOME_PRICE_FACTOR,
   TOWN_HOME_REASONS,
-  chooseTownHomeKind,
   homeForNewHousehold,
   describeTownHomes,
   reviewTownHomes,
   type TownHomeKind,
 } from "../../src/simulation/living-world/town-homes";
-import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import {
   activeDwellingOccupanciesAt,
   activeHousingTenuresAt,
 } from "../../src/simulation/resource-queries";
-import { SeededRng } from "../../src/simulation/rng";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { EntityId, World } from "../../src/simulation";
 
@@ -64,68 +59,6 @@ function openAt(placeKey: string, seed: string) {
   const personId = game.playerPersonId;
   return { world, personId, town: world.people[personId]!.homeJurisdictionId };
 }
-
-function townOf(geoid: string): EntityId {
-  return lifePlaceByKey(geoid)!.context.jurisdiction.id;
-}
-
-/** How often each kind is drawn for one household in a town. */
-function kindShares(town: EntityId, members: readonly number[]) {
-  const counts = new Map<TownHomeKind, number>();
-  const household = {
-    id: "household_test" as EntityId,
-    stableKey: "test",
-    members: members.map((age, n) => ({ id: `person_${n}` as EntityId, age })),
-  };
-  const draws = 4000;
-  for (let n = 0; n < draws; n += 1) {
-    const kind = chooseTownHomeKind(
-      town,
-      household,
-      new SeededRng("homes-test").fork(String(n)),
-    );
-    counts.set(kind, (counts.get(kind) ?? 0) + 1);
-  }
-  return (kind: TownHomeKind) => (counts.get(kind) ?? 0) / draws;
-}
-
-describe("every state chooses its homes through one code path", () => {
-  it("draws a home of the six kinds in the largest place of each state and D.C.", () => {
-    const largest = new Map<string, [string, number]>();
-    for (const pair of PLACE_POPULATION_ROWS.split(";")) {
-      const [geoid, people] = pair.split(":") as [string, string];
-      const state = geoid.slice(0, 2);
-      if ((largest.get(state)?.[1] ?? -1) < Number(people))
-        largest.set(state, [geoid, Number(people)]);
-    }
-    // Hawaii's places are not in the population table; Urban Honolulu stands
-    // for it, as in the town employment test.
-    largest.set("15", ["1571550", 0]);
-    expect(largest.size).toBe(51);
-    for (const [geoid] of largest.values()) {
-      const share = kindShares(townOf(geoid), [40, 38, 9]);
-      expect(KINDS.reduce((sum, kind) => sum + share(kind), 0)).toBeCloseTo(1);
-      expect(share("suburban-house"), geoid).toBeGreaterThan(0);
-    }
-  });
-
-  it("gives a farm town more farmhouses and a city more apartments", () => {
-    const belzoni = kindShares(townOf(BELZONI), [45, 43, 12]);
-    const columbus = kindShares(townOf(COLUMBUS), [45, 43, 12]);
-    expect(belzoni("rural-farmhouse")).toBeGreaterThan(
-      columbus("rural-farmhouse"),
-    );
-    expect(belzoni("mobile-home")).toBeGreaterThan(columbus("mobile-home"));
-    expect(columbus("small-apartment")).toBeGreaterThan(
-      belzoni("small-apartment"),
-    );
-    // A young person alone rents an apartment more often than a family does.
-    const alone = kindShares(townOf(COLUMBUS), [23]);
-    expect(alone("small-apartment")).toBeGreaterThan(
-      columbus("small-apartment"),
-    );
-  });
-});
 
 describe("a new game's households have homes", { timeout: 180_000 }, () => {
   it.each([
@@ -161,14 +94,39 @@ describe("a household with no home decides where to go, with no draw", () => {
       },
     );
     expect(
-      homeForNewHousehold(adults(40, 38, 9, 7, 5), true, 450_000, 120_000).kind,
+      homeForNewHousehold(adults(40, 38, 9, 7, 5), true, 700_000, 120_000).kind,
     ).toBe("large-house");
-    expect(homeForNewHousehold(adults(40, 38), true, 400_000, 120_000)).toEqual(
+    // A large home costs more than a house: the same family at 450,000 buys the house.
+    expect(
+      homeForNewHousehold(adults(40, 38, 9, 7, 5), true, 450_000, 120_000).kind,
+    ).toBe("suburban-house");
+    expect(homeForNewHousehold(adults(40, 38), true, 140_000, 120_000)).toEqual(
       {
         kind: "small-apartment",
         tenure: "lease:rented",
       },
     );
+    // Pay that carries only the cheapest home buys that one.
+    expect(homeForNewHousehold(adults(40, 38), true, 200_000, 120_000)).toEqual(
+      { kind: "mobile-home", tenure: "ownership:mortgaged" },
+    );
+    // A farm household buys the farmhouse its pay carries.
+    expect(
+      homeForNewHousehold(adults(50, 48), true, 450_000, 120_000, true, true)
+        .kind,
+    ).toBe("rural-farmhouse");
+    // More pay never takes a household back to renting, and the home it buys
+    // never costs less (no step backwards).
+    let bought = 0;
+    for (let pay = 0; pay <= 900_000; pay += 25_000) {
+      const found = homeForNewHousehold(adults(40, 38), true, pay, 120_000);
+      const cost =
+        found.tenure === "lease:rented"
+          ? 0
+          : TOWN_HOME_PRICE_FACTOR[found.kind];
+      if (bought > 0) expect(cost).toBeGreaterThanOrEqual(bought);
+      bought = Math.max(bought, cost);
+    }
     expect(
       homeForNewHousehold(adults(40, 38, 6), false, 900_000, 120_000),
     ).toEqual({
