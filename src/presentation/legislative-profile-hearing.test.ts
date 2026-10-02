@@ -29,6 +29,18 @@ import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import type { LegislativeProcedureContext } from "../simulation/legislation-scenarios";
 import type { LegislativeMeasureRecord } from "../simulation/types";
 import { applyLegislativeStep } from "./legislation-session";
+import {
+  governorOfficeForJurisdiction,
+  governingMatters,
+  GOVERNING_MATTER_DECIDED,
+} from "../simulation/governing/state-governing";
+import { lawInForce } from "../simulation/governing/law-in-force";
+import { withOpenedBudgets } from "../simulation/public-budgets";
+import {
+  PUBLIC_BUDGETS_VERSION,
+  BUDGET_PROGRAMS,
+} from "../simulation/public-budgets/store";
+import { lawSpendingForMonth } from "../simulation/public-budgets/month";
 
 const seed = "team1-main-green-profile-hearing-all56-20261002";
 const identities = lifePlaceStateIdentities();
@@ -189,6 +201,52 @@ it("carries the existing Maryland age-verification cost fixture through its prof
     propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
   };
   const enacted = enactCostLawFixture(base, input);
+  const holder = governorOfficeForJurisdiction(
+    enacted.world,
+    "US-MD",
+  )?.holderPersonId;
+  expect(holder).toBeDefined();
+  const matter = governingMatters(enacted.world).find(
+    (row) => row.measureId === enacted.measure.id,
+  );
+  expect(matter?.holderPersonId).toBe(holder);
+  expect(
+    enacted.world.history.events.filter(
+      (event) =>
+        event.type === GOVERNING_MATTER_DECIDED &&
+        event.tags.includes(`matter:${matter!.id}`),
+    ),
+  ).toEqual([
+    expect.objectContaining({
+      participants: expect.arrayContaining([
+        { personId: holder, role: "agency:decider", detail: "player" },
+      ]),
+    }),
+  ]);
+  expect(enacted.world.control).toEqual(base.control);
+  expect(enacted.measure.propositionAnswers).toEqual(input.propositionAnswers);
+  expect(
+    lawInForce(enacted.world, state.id, question.id, enacted.world.currentDate)
+      ?.measureId,
+  ).toBe(enacted.measure.id);
+  const government = withOpenedBudgets(
+    base,
+    {
+      version: PUBLIC_BUDGETS_VERSION,
+      cursor: { flows: 0, outcomes: 0 },
+      governments: [],
+      adjustments: [],
+      unknown: [],
+    },
+    base.currentDate,
+  ).governments.find((row) => row.key === "US-MD")!;
+  expect(
+    lawSpendingForMonth(enacted.world, government, input.introducedAt),
+  ).toEqual(BUDGET_PROGRAMS.map(() => 0));
+  const loaded = deserializeWorld(serializeWorld(enacted.world));
+  expect(lawInForce(loaded, state.id, question.id, loaded.currentDate)).toEqual(
+    lawInForce(enacted.world, state.id, question.id, enacted.world.currentDate),
+  );
   expect(measurePosition(enacted.world, enacted.measure.id).phase).toBe(
     "enacted",
   );
