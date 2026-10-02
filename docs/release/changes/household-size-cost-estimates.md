@@ -12,5 +12,8 @@ existing stable world estimate spread. Published sampling errors remain separate
 from household spending variation. Ended monthly bill terms cannot produce a new
 payment on their ended due date.
 
-The household payment recipient remains an explicit integration dependency; this
-prerequisite does not replace the existing personal-payment route or invent cash.
+Existing nonhousing provider bills spend recorded household cash and credit their
+saved recipients. The replaced personal estimate ends prospectively without
+rewriting earlier payments. Missing household cash never becomes a zero balance.
+The local-economy spending-category fallback remains an explicit receipt-binding
+dependency; no provider, cash or category mapping is invented.

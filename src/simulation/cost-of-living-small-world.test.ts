@@ -2,10 +2,15 @@ import { describe, expect, it } from "vitest";
 import { createStartingPerson } from "./people";
 import type { World } from "./types";
 import { smallWorld } from "../../tests/fixtures/small-world";
-import { createHousehold, startHouseholdMembership } from "./life";
+import {
+  createHousehold,
+  createOrganization,
+  startHouseholdMembership,
+} from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
 import {
   createResourcePosition,
+  createResourceFlow,
   money,
   recordResourceFlowTerms,
 } from "./resources";
@@ -249,6 +254,119 @@ describe.each(places)(
       ).toBe(estimate.monthlyMinor);
       expect(world.history.resourceTransferOutcomes).toHaveLength(0);
     });
+
+    it.each(["completed", "partial", "missed", "unknown"] as const)(
+      `settles a recorded household provider with %s cash and preserves conservation/reload (seed ${seed})`,
+      (status) => {
+        const fixture = household(place.jurisdictionKey);
+        let world = createOrganization(fixture.world, {
+          stableKey: "a52-small:recorded-provider",
+          formedAt: fixture.world.currentDate,
+          provenance,
+          initialProfile: {
+            name: "Recorded fixture provider",
+            classification: "enterprise:retail",
+            locationJurisdictionId: fixture.small.jurisdictionId,
+          },
+        });
+        const provider = {
+          kind: "organization" as const,
+          organizationId: world.history.organizations.at(-1)!.id,
+        };
+        const payer = {
+          kind: "household" as const,
+          householdId: fixture.householdId,
+        };
+        const cash =
+          status === "completed" ? 600000 : status === "partial" ? 5000 : 0;
+        // Personal cash is deliberately ample, but never funds this saved household bill.
+        world = createResourcePosition(world, {
+          stableKey: "a52-small:personal-funds",
+          owner: fixture.owner,
+          openedAt: world.currentDate,
+          openingBalance: money(900000, "USD"),
+          provenance,
+        });
+        world = initializeLivingCostsFlow(world, fixture.small.personId);
+        const old = livingCostsFlowFor(world, fixture.small.personId)!;
+        const oldTerms = [...world.history.resourceFlowTerms];
+        if (status !== "unknown")
+          world = createResourcePosition(world, {
+            stableKey: "a52-small:household-funds",
+            owner: payer,
+            openedAt: world.currentDate,
+            openingBalance: money(cash, "USD"),
+            provenance,
+          });
+        world = createResourcePosition(world, {
+          stableKey: "a52-small:provider-funds",
+          owner: provider,
+          openedAt: world.currentDate,
+          openingBalance: money(0, "USD"),
+          provenance,
+        });
+        world = createResourceFlow(world, {
+          stableKey: "a52-small:provider-bill",
+          source: payer,
+          recipient: provider,
+          startsAt: world.currentDate,
+          amount: money(status === "completed" ? 200000 : 10000, "USD"),
+          cadenceKind: "schedule:monthly",
+          basisKind: "custom:living-costs",
+          basisReference: { kind: "general" },
+          restrictionKind: null,
+          jurisdictionId: fixture.small.jurisdictionId,
+          provenance,
+        });
+        const bill = world.history.resourceFlows.at(-1)!;
+        world = initializeLivingCostsFlow(world, fixture.small.personId);
+        expect(world.history.resourceTransferOutcomes).toHaveLength(0);
+        expect(resourceFlowTermsAt(world, old.id)!.status).toBe("ended");
+        expect(
+          world.history.resourceFlowTerms.slice(0, oldTerms.length),
+        ).toEqual(oldTerms);
+        const dueOn = makeIsoDate("2026-02-01");
+        world = {
+          ...world,
+          currentDate: dueOn,
+          currentMoment: simulationMomentOnLocalDate(
+            world.currentMoment,
+            dueOn,
+          ),
+        };
+        const paid = settleLivingCosts(world, fixture.small.personId);
+        const outcomes = paid.history.resourceTransferOutcomes;
+        const expectedPaid = status === "completed" ? 200000 : cash;
+        if (status === "unknown") expect(outcomes).toHaveLength(0);
+        else {
+          expect(outcomes).toHaveLength(1);
+          expect(outcomes[0]).toMatchObject({
+            resourceFlowId: bill.id,
+            status,
+            transferredAmount: money(expectedPaid, "USD"),
+            periodStartsAt: dueOn,
+            note: "Food and bills for February.",
+          });
+          expect(
+            resourcePositionAt(paid, payer, money(0, "USD").currency)!
+              .liquidBalance.minorUnits,
+          ).toBe(cash - expectedPaid);
+        }
+        expect(
+          resourcePositionAt(paid, provider, money(0, "USD").currency)!
+            .liquidBalance.minorUnits,
+        ).toBe(expectedPaid);
+        expect(
+          resourcePositionAt(paid, fixture.owner, money(0, "USD").currency)!
+            .liquidBalance.minorUnits,
+        ).toBe(900000);
+        expect(settleLivingCosts(paid, fixture.small.personId)).toBe(paid);
+        const reopened = deserializeWorld(serializeWorld(paid));
+        expect(settleLivingCosts(reopened, fixture.small.personId)).toBe(
+          reopened,
+        );
+      },
+    );
 
     it(`refuses untracked money and a source not available yet (seed ${seed})`, () => {
       const fixture = household(place.jurisdictionKey);

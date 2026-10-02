@@ -284,6 +284,8 @@ export function initializeLivingCostsFlow(
   world: World,
   personId: EntityId,
 ): World {
+  if (recordedProviderBills(world, personId).length)
+    return endReplacedPersonalEstimate(world, personId);
   const context = livingCostsPayerContext(world, personId);
   return context ? openLivingCostsFlow(world, personId, context) : world;
 }
@@ -296,6 +298,38 @@ export function initializeLivingCostsFlow(
  * write the household's next week of errands, and from nothing that only reads.
  */
 export function settleLivingCosts(world: World, personId: EntityId): World {
+  const providerBills = recordedProviderBills(world, personId);
+  if (providerBills.length) {
+    let next = endReplacedPersonalEstimate(world, personId);
+    const latest = new Map<EntityId, IsoDate>();
+    const ids = new Set(providerBills.map((flow) => flow.id));
+    for (const outcome of next.history.resourceTransferOutcomes)
+      if (
+        ids.has(outcome.resourceFlowId) &&
+        (!latest.has(outcome.resourceFlowId) ||
+          latest.get(outcome.resourceFlowId)! < outcome.periodStartsAt)
+      )
+        latest.set(outcome.resourceFlowId, outcome.periodStartsAt);
+    const due: { flow: ResourceFlow; on: IsoDate }[] = [];
+    for (const flow of providerBills) {
+      let on = firstOfNextMonth(latest.get(flow.id) ?? flow.startsAt);
+      for (
+        let month = 0;
+        month < CATCH_UP_LIMIT_MONTHS && on <= next.currentDate;
+        month++
+      ) {
+        due.push({ flow, on });
+        on = firstOfNextMonth(on);
+      }
+    }
+    // Saved creation order breaks same-day ties; no invented provider priority.
+    due.sort(
+      (a, b) => a.on.localeCompare(b.on) || a.flow.sequence - b.flow.sequence,
+    );
+    for (const payment of due)
+      next = settleMonth(next, personId, payment.flow, payment.on);
+    return next;
+  }
   const context = livingCostsPayerContext(world, personId);
   if (!context) return world;
   let next = openLivingCostsFlow(world, personId, context);
@@ -351,6 +385,52 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
   return next;
 }
 
+/** R9's admitted provider path uses a saved bill, never a guessed merchant. */
+function recordedProviderBills(
+  world: World,
+  personId: EntityId,
+): readonly ResourceFlow[] {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== personId ||
+    world.history.personDeaths.some(
+      (death) =>
+        death.personId === personId && death.diedAt <= world.currentDate,
+    )
+  )
+    return [];
+  const householdId = primaryHouseholdId(world, personId);
+  if (!householdId) return [];
+  return world.history.resourceFlows.filter(
+    (flow) =>
+      flow.source.kind === "household" &&
+      flow.source.householdId === householdId &&
+      flow.basisKind === LIVING_COSTS_BASIS &&
+      flow.startsAt <= world.currentDate &&
+      resourceFlowTermsAt(world, flow.id)?.cadenceKind === "schedule:monthly" &&
+      !sameEndpoint(flow.source, flow.recipient),
+  );
+}
+
+function endReplacedPersonalEstimate(world: World, personId: EntityId): World {
+  const old = livingCostsFlowFor(world, personId);
+  if (!old) return world;
+  const terms = resourceFlowTermsAt(world, old.id);
+  if (!terms || terms.status !== "active") return world;
+  return recordResourceFlowTerms(world, {
+    stableKey: `${old.stableKey}:recorded-provider-cutover:${world.currentDate}`,
+    resourceFlowId: old.id,
+    effectiveAt: world.currentDate,
+    status: "ended",
+    amount: terms.amount,
+    cadenceKind: terms.cadenceKind,
+    reason:
+      "Recorded household provider bills replace the personal nonhousing estimate prospectively.",
+    provenance: terms.provenance,
+    supersedesTermsId: terms.id,
+  });
+}
+
 function firstOfNextMonth(date: IsoDate): IsoDate {
   const [year, month] = date.split("-").map(Number) as [number, number];
   return makeIsoDate(
@@ -383,12 +463,20 @@ function settleMonth(
   // The old authored $1,500+ basket included housing. A sourced nonhousing
   // basket is never labeled rent merely because its dollar amount is higher.
   const renting =
+    flow.source.kind === "person" &&
     periodTerms.provenance.kind === "authored" &&
     monthly.minorUnits >= LEGACY_RENT_INCLUDED_MINIMUM_MINOR;
   // The lowest balance from the day the month fell due to today. A long quiet
   // stretch is settled late, and a charge backdated to its due day must not
   // take money that something dated after it (tuition, say) already spent.
-  const owner = { kind: "person" as const, personId };
+  const owner = flow.source;
+  if (
+    !resourcePositionAt(world, owner, monthly.currency, {
+      asOfDate: dueOn,
+      historySequenceExclusive: world.history.nextSequence,
+    })
+  )
+    return world; // Missing saved cash is not a zero balance or a missed payment.
   const balanceOn = (asOfDate: IsoDate) =>
     resourcePositionAt(world, owner, monthly.currency, {
       asOfDate,
