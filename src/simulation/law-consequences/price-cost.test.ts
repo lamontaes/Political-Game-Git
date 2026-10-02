@@ -27,7 +27,17 @@ import {
   resolvePriceCostConsequences,
   TEAM_4_PRICE_COST_REGISTRATION,
 } from "./price-cost";
-import { TUITION_COVERAGE_PREDICATE } from "./tuition-freeze-row";
+import {
+  TUITION_COVERAGE_PREDICATE,
+  TUITION_FREEZE_ROW,
+} from "./tuition-freeze-row";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { advanceWorld, assertWorldIntegrity } from "../world";
+import { composeWorldTimeHandlers } from "../campaigns";
 
 const QUESTION = "us-policy-positions:housing-land-use.rent-stabilization";
 const SEED = "team4-price-kind-five-places-20260930";
@@ -320,6 +330,42 @@ describe("the shared price-cost handler reuses saved flow terms", () => {
     expect(TEAM_4_PRICE_COST_REGISTRATION.kind).toBe("price-cost");
     expect(TEAM_4_PRICE_COST_REGISTRATION.predicates).toContain(
       TUITION_COVERAGE_PREDICATE,
+    );
+  });
+});
+
+describe("price-cost payment applicability", () => {
+  it("runs an ordinary random town through 45 days of paydays with the tuition row registered", () => {
+    const seed = "gate-2085-2026-10-02";
+    const place = drawRandomPlace(seed);
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+      }),
+    ).game;
+    expect(game).not.toBeNull();
+    if (!game) throw new Error("Ordinary opening did not produce a game.");
+    expect(
+      Object.values(game.world.policyCatalog.propositions).some((proposition) =>
+        proposition.consequences?.some(
+          (entry) => entry.id === TUITION_FREEZE_ROW.id,
+        ),
+      ),
+    ).toBe(true);
+    const paymentsBefore = game.world.history.statutoryTaxPayments?.length ?? 0;
+    const progressed = advanceWorld(game.world, 45, composeWorldTimeHandlers());
+    assertWorldIntegrity(progressed);
+    expect(progressed.currentDate).toBe(addDays(game.world.currentDate, 45));
+    expect(progressed.history.statutoryTaxPayments!.length).toBeGreaterThan(
+      paymentsBefore,
+    );
+    expect(
+      deserializeWorld(serializeWorld(progressed)).history.statutoryTaxPayments,
+    ).toEqual(progressed.history.statutoryTaxPayments);
+    process.stdout.write(
+      `A21 payday opening place=${place.displayName} key=${place.key} seed=${seed} days=45 taxPayments=${progressed.history.statutoryTaxPayments!.length}\n`,
     );
   });
 });
