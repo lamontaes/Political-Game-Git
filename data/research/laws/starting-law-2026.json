@@ -1539,7 +1539,42 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "operativeBasis": "source-stated-calendar-year",
+              "source": "https://nj.gov/labor/myleavebenefits/employer/",
+              "quote": "For 2026, workers contribute 0.23% on the first $171,100 (wage cap) in covered wages earned during this calendar year. Claimants are paid 85% of their average weekly wage up to the maximum weekly benefit rate set for that calendar year.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 23,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 171100,
+                  "unit": "dollars/year"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "replacement",
+                  "value": 0.85,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "Family Leave Insurance employee share only; distinct from Temporary Disability Insurance. Replacement is subject to the sourced weekly benefit maximum; duration is not admitted as a scalar. This 2026 monetary phase does not assert a 2000 enactment date."
+            },
+            {
+              "answer": "yes",
+              "operativeAt": "2027-01-01",
+              "note": "Research boundary: the cited annual contribution figures cover calendar 2026 only. No 2027 monetary terms are admitted here; this does not end the Family Leave Insurance program."
+            }
+          ]
         },
         "US-NM": {
           "answer": "no"
