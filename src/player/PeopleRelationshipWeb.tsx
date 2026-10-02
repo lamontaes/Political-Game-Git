@@ -24,7 +24,6 @@ const EDGE_KIND_ORDER: readonly RelationshipEdgeKind[] = [
   "household",
   "work",
   "politics",
-  "acquaintance",
 ];
 
 /**
@@ -97,7 +96,7 @@ export function PeopleRelationshipWeb({
   } else if (category !== "all") {
     caption = `${CATEGORY_LABELS[category]} are shown in full color; everyone else is dimmed.`;
   } else {
-    caption = "Choose a face to see how you know them.";
+    caption = "The people in your life. Select someone to see your connection.";
   }
 
   return (

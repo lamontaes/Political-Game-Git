@@ -45,8 +45,7 @@ export const PERSON_CATEGORIES: readonly PersonCategory[] = [
 
 /*
  * Labels only; the keys are saved view state. "family" also holds household
- * members who are not kin, and "friends" is anyone known with no other
- * category — neither is a friendship or kinship claim, so the labels say so.
+ * members who are not kin, and "friends" is anyone with a recorded interaction — neither is a friendship or kinship claim, so the labels say so.
  */
 export const CATEGORY_LABELS: Readonly<Record<PersonCategory, string>> = {
   family: "Home and family",
@@ -230,9 +229,7 @@ export function projectPeopleDirectory(
   for (const interaction of relationshipHistory(world, playerId)) {
     for (const otherId of interaction.personIds) {
       if (otherId === playerId) continue;
-      if (!categories.has(otherId)) {
-        addCategory(categories, otherId, "friends");
-      }
+      addCategory(categories, otherId, "friends");
     }
   }
 

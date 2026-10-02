@@ -607,5 +607,5 @@ export const EDGE_KIND_LABELS: Readonly<Record<RelationshipEdgeKind, string>> =
     household: "Household",
     work: "Work",
     politics: "Politics",
-    acquaintance: "On the record",
+    acquaintance: "Met",
   };
