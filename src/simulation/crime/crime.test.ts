@@ -28,11 +28,14 @@ import { adultCourtAgeAt } from "../justice/juvenile-court";
 import { referForProsecution } from "../justice/prosecution";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stableHash } from "../ids";
-import { lifePlaceStateIdentities } from "../life-places";
+import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
 import { ensureWorldStartingConditions } from "../world-setup/conditions";
 import { generatePoliticalStartingConditions } from "../world-setup/political-start";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
-import { ensureTownResidents } from "../living-world/town-residents";
+import {
+  ensureTownResidents,
+  materializeSettledTownHousehold,
+} from "../living-world/town-residents";
 import { ensureCrimeProduction } from "./producer";
 
 const LONG = 900_000;
@@ -52,11 +55,19 @@ function open(seed: string) {
   ).game!;
 }
 
+/** Households written out in the player's town and in one neighbor town. */
+const HOME_HOUSEHOLDS = 40;
+const NEIGHBOR_HOUSEHOLDS = 20;
+
 /**
- * A small world in a place drawn from all 56 by the seed: its residents, the
- * world's starting conditions (which a current opening records, and which
- * people the town), and the monthly crime pass, as a new game schedules it.
- * Nothing else a full opening builds is needed by the cases that run time.
+ * A small world in a place drawn from all 56 by the seed, built only by the
+ * writers a new game uses: the residents, the world's starting conditions (a
+ * current opening records them, and crime counts from that day), the
+ * player's town seated (its employers, congregations and nearest neighbors),
+ * more of its households written out as a town government writes one, a
+ * neighbor town in the same state with households of its own, and the monthly
+ * crime pass as a new game schedules it. The state, nation and everything
+ * else a full opening builds are left out: none of them is read by crime.
  */
 function smallCrimeWorld(seed: string) {
   const states = lifePlaceStateIdentities();
@@ -64,17 +75,35 @@ function smallCrimeWorld(seed: string) {
   const state =
     states[parseInt(stableHash(seed).slice(0, 8), 16) % states.length]!;
   const small = smallWorld({ place: state.jurisdictionKey, seed });
-  const world = ensureCrimeProduction(
-    ensureTownResidents(
-      ensureWorldStartingConditions(small.world, {
-        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
-        political: generatePoliticalStartingConditions,
-      }),
-      small.personId,
-    ),
+  let world = ensureTownResidents(
+    ensureWorldStartingConditions(small.world, {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      political: generatePoliticalStartingConditions,
+    }),
+    small.personId,
   );
+  const town = small.jurisdictionId;
+  for (let index = 0; index < HOME_HOUSEHOLDS; index += 1)
+    world = materializeSettledTownHousehold(world, town, index);
+  const neighbor = searchLifePlaces("", 4, {
+    stateJurisdictionKey: state.jurisdictionKey,
+    scope: "locality",
+  }).find((place) => place.context.jurisdiction.id !== town);
+  if (neighbor) {
+    const jurisdiction = neighbor.context.jurisdiction;
+    world = {
+      ...world,
+      jurisdictions: {
+        ...world.jurisdictions,
+        [jurisdiction.id]: jurisdiction,
+      },
+      jurisdictionOrder: [...world.jurisdictionOrder, jurisdiction.id],
+    };
+    for (let index = 0; index < NEIGHBOR_HOUSEHOLDS; index += 1)
+      world = materializeSettledTownHousehold(world, jurisdiction.id, index);
+  }
   return {
-    world,
+    world: ensureCrimeProduction(world),
     playerPersonId: small.personId,
     label: `${small.place.displayName}, ${state.jurisdictionKey}, seed ${seed}`,
   };
