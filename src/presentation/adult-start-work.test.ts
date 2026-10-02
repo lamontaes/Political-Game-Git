@@ -5,8 +5,12 @@ import {
   activeWorkRelationshipsAt,
   organizationProfileAt,
   workRoleAt,
+  workStatusAt,
 } from "../simulation/life-queries";
-import { adultStartEmployer } from "../simulation/recorded-adult-employer";
+import {
+  adultStartEmployer,
+  recordedAdultEmployerMonthlyWage,
+} from "../simulation/recorded-adult-employer";
 import { townBusinesses } from "../simulation/living-world/town-businesses";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -33,10 +37,46 @@ function adultLife(seed: string) {
     }),
   );
   expect(life.game).not.toBeNull();
+  const world = life.game!.world;
+  const personId = life.game!.playerPersonId;
+  const home = world.people[personId]!.homeJurisdictionId;
+  const openingWork = activeWorkRelationshipsAt(world, personId);
+  const context =
+    openingWork.length > 0
+      ? ""
+      : JSON.stringify({
+          currentDate: world.currentDate,
+          selected: adultStartEmployer(world, personId, home),
+          pastWork: world.history.workRelationships
+            .filter((work) => work.personId === personId)
+            .map((work) => ({
+              stableKey: work.stableKey,
+              startedAt: work.startedAt,
+              status: workStatusAt(world, work.id),
+            })),
+          employers: townBusinesses(world, home).map((business) => ({
+            name: business.name,
+            staff: business.jobs.map((job) => {
+              const role = workRoleAt(world, job.relationshipId);
+              return {
+                directsOthers: job.directsOthers,
+                occupation: role?.occupationClassification,
+                monthlyWage: role?.occupationClassification
+                  ? recordedAdultEmployerMonthlyWage(
+                      {
+                        workerOccupation: role.occupationClassification,
+                      },
+                      home,
+                    )
+                  : null,
+              };
+            }),
+          })),
+        });
   return {
-    label: `${place.key} seed ${seed}`,
-    world: life.game!.world,
-    personId: life.game!.playerPersonId,
+    label: `${place.key} seed ${seed} ${context}`,
+    world,
+    personId,
   };
 }
 
