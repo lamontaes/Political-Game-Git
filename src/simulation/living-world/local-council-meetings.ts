@@ -1,4 +1,14 @@
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { applyInstitutionStep } from "../governing/legislative-clock";
+import { offerPlannedAmendment } from "../governing/amendment-authors";
+import {
+  amendmentAdmissible,
+  floorStageTakesAmendments,
+} from "../governing/chamber-procedure";
+import { councilBallotPartisanship } from "../governing/body-partisanship";
+import { publicPartyOf } from "../governing/chamber-votes";
+import { personName } from "../people";
 import {
   councilRules,
   lawJurisdiction,
@@ -70,20 +80,13 @@ import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
  * the one enacted-law effects step.
  *
  * PLACEHOLDER, pending `local-council-legislative-volume`: the council meets
- * every `daysBetweenMeetings` days, which is not any town's schedule.
+ * on the shared game timetable, which is not any town's sourced schedule.
  */
 
 export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
 const V = LOCAL_COUNCIL_MEETINGS_VERSION;
 
 export const LOCAL_COUNCIL_MEETING = "civic:local-council-meeting" as const;
-
-export const LOCAL_COUNCIL_MEETING_PROFILE = {
-  id: "ocd-local-council-meeting-placeholder/v1",
-  daysBetweenMeetings: 14,
-} as const;
-
-const P = LOCAL_COUNCIL_MEETING_PROFILE;
 
 /** The ordinance the posted public meeting takes up, for one town. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {
@@ -127,6 +130,11 @@ function scheduleMeeting(
   player: EntityId,
   dueAt: string,
 ): World {
+  const rules = councilRules(unit);
+  const calendar = rules
+    ? (rulePackById(rules.packId).session.sittingCalendar ??
+      LEGISLATIVE_SESSION_CALENDARS.council)
+    : LEGISLATIVE_SESSION_CALENDARS.council;
   const stableKey = meetingKey(unit.id, dueAt);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -138,7 +146,7 @@ function scheduleMeeting(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: `${P.id}: ${unit.name}'s council meets every ${P.daysBetweenMeetings} days, pending local-council-legislative-volume.`,
+      note: calendar.note,
     },
   });
 }
@@ -164,20 +172,6 @@ export function townQuestions(
         proposition !== undefined &&
         mayAnswerQuestion(world, town, proposition.id),
     );
-}
-
-/** "Short-term rental rules" becomes "Short-Term Rental Rules Ordinance". */
-function ordinanceTitle(questionName: string): string {
-  const words = questionName
-    .replace(/\s+(law|act|ordinance)$/i, "")
-    .split(/\s+/)
-    .map((word, index) =>
-      index > 0 &&
-      /^(a|an|and|as|at|by|for|in|of|on|or|the|to|with)$/i.test(word)
-        ? word.toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    );
-  return `${words.join(" ")} Ordinance`;
 }
 
 function introduce(
@@ -250,7 +244,6 @@ function fileOrdinances(
       ),
       measures: councilMeasures(law.world, rules, law.jurisdictionId),
       playerPersonId: player,
-      title: ordinanceTitle,
       measureKey: (numbering) =>
         `${V}:${unit.id}:${numbering.numberingSession.key}:${numbering.designation}`,
     },
@@ -286,6 +279,45 @@ function moveOrdinances(
     // Taken up at a meeting after the one it was introduced at.
     if (phase === "on-floor" && measure.introducedAt >= next.currentDate)
       continue;
+    if (phase === "on-floor") {
+      const position = measurePosition(next, measure.id);
+      const pack = rulePackById(rules.packId);
+      const chamber = chamberByKey(pack, "council");
+      const stage = chamber.floorStages.find(
+        (row) => row.stageKey === position.floorStageKey,
+      );
+      const seats = members(next, unit);
+      if (
+        stage &&
+        seats.length > 0 &&
+        seats.every((seat) => next.people[seat.personId]) &&
+        (!position.earliestNextFloorDate ||
+          position.earliestNextFloorDate <= next.currentDate) &&
+        floorStageTakesAmendments(chamber, stage)
+      ) {
+        next = offerPlannedAmendment(next, {
+          measureId: measure.id,
+          chamber,
+          stage,
+          members: seats.map((seat, index) => ({
+            memberKey: `council:${index + 1}`,
+            personId: seat.personId,
+            name: personName(next.people[seat.personId]!),
+            caucusLabel: publicPartyOf(next, seat.personId) ?? "No party",
+          })),
+          stableKey: `${measure.stableKey}:reading:${stage.stageKey}:amendment`,
+          nonpartisan: councilBallotPartisanship(unit).nonpartisan,
+          admissible: (bill, part) =>
+            mayAnswerQuestion(
+              next,
+              measure.jurisdictionId,
+              part.propositionId,
+            ) &&
+            amendmentAdmissible(next, pack, chamber.chamberKey, bill, part)
+              .admissible,
+        });
+      }
+    }
     const result = applyInstitutionStep(
       next,
       measure.id,
@@ -347,7 +379,7 @@ function seatedCouncil(
 
 /**
  * Put the town council's regular meetings on the calendar, the first
- * `daysBetweenMeetings` after the opening. Unchanged where the town
+ * after the opening on its shared timetable. Unchanged where the town
  * government is not seated.
  */
 export function ensureLocalCouncilMeetings(
@@ -361,7 +393,11 @@ export function ensureLocalCouncilMeetings(
     council.unit,
     council.town,
     playerPersonId,
-    addDays(world.currentDate, P.daysBetweenMeetings),
+    nextSessionCalendarDate(
+      rulePackById(council.rules.packId).session.sittingCalendar ??
+        LEGISLATIVE_SESSION_CALENDARS.council,
+      world.currentDate,
+    ),
   );
 }
 
@@ -409,6 +445,9 @@ export function ensurePostedMeetingOnCouncilAgenda(
     rationale: "Posted on the agenda of the public meeting.",
   });
   const dueAt = addDays(world.currentDate, 1);
+  const calendar =
+    rulePackById(rules.packId).session.sittingCalendar ??
+    LEGISLATIVE_SESSION_CALENDARS.council;
   const stableKey = `${V}:${unit.id}:posted-meeting:${dueAt}`;
   if (next.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return next;
@@ -420,7 +459,7 @@ export function ensurePostedMeetingOnCouncilAgenda(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: `${P.id}: the posted public meeting is a meeting of ${unit.name}'s council.`,
+      note: `${calendar.id}: the posted public meeting is a meeting of ${unit.name}'s council.`,
     },
   });
 }
@@ -535,7 +574,11 @@ export function localCouncilMeetingHandler(
         unit,
         town,
         player,
-        addDays(due.dueAt, P.daysBetweenMeetings),
+        nextSessionCalendarDate(
+          rulePackById(rules.packId).session.sittingCalendar ??
+            LEGISLATIVE_SESSION_CALENDARS.council,
+          due.dueAt,
+        ),
       );
     return done(next, `The ${identity.bodyName} did not meet.`);
   }
@@ -586,7 +629,11 @@ export function localCouncilMeetingHandler(
       unit,
       town,
       player,
-      addDays(due.dueAt, P.daysBetweenMeetings),
+      nextSessionCalendarDate(
+        rulePackById(rules.packId).session.sittingCalendar ??
+          LEGISLATIVE_SESSION_CALENDARS.council,
+        due.dueAt,
+      ),
     );
   return done(next, `The ${identity.bodyName} met.`);
 }

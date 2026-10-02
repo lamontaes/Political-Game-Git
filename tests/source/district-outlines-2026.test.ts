@@ -38,7 +38,9 @@ describe("district outlines dissolved from blocks", () => {
       counterclockwise(2, 2, 4, 4),
       clockwise(20, 0, 30, 10),
     ]);
-    expect(polygons.map((polygon) => polygon.length).sort()).toEqual([1, 2]);
+    expect(
+      polygons.map((polygon: readonly unknown[]) => polygon.length).sort(),
+    ).toEqual([1, 2]);
   });
 
   it("cuts district color that runs past the shoreline", () => {
