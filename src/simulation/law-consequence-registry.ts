@@ -1,4 +1,5 @@
 import { PAY_REGISTRATION } from "./law-consequences/pay";
+import { RIGHT_PERMISSION_REGISTRATION } from "./law-consequences/right-permission";
 import { TAX_REGISTRATION } from "./law-consequences/tax";
 import { INSTITUTION_RULE_REGISTRATION } from "./law-consequences/institution-rule";
 import { legalOutcomeRegistration } from "./law-consequences/legal-outcome";
@@ -20,7 +21,7 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegist
     TAX_REGISTRATION,
     TEAM_4_PRICE_COST_REGISTRATION,
     SERVICE_DELIVERED_REGISTRATION,
-    // right-permission: Team1
+    RIGHT_PERMISSION_REGISTRATION,
     INSTITUTION_RULE_REGISTRATION,
   ];
 
