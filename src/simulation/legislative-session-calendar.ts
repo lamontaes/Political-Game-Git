@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, daysBetween, makeIsoDate } from "./dates";
 import type { IsoDate } from "./types";
 
 export type SessionCalendarRecurrence =
@@ -67,14 +67,18 @@ export function nextSessionCalendarDate(
     )
       throw new Error(`Calendar '${calendar.id}' has invalid weekdays.`);
     let date = addDays(after, rule.kind === "interval" ? rule.days : 1);
-    // A legal minimum can fall between ordinary interval dates. Keep the
-    // existing minimum-date behavior rather than delay it a second interval.
+    // A legal minimum never creates an extra sitting between recurrence dates.
+    // The retained next-day reading row can still hit every allowed date.
     if (
       rule.kind === "interval" &&
       options.notBefore &&
       date < options.notBefore
     )
-      date = options.notBefore;
+      date = addDays(
+        after,
+        Math.ceil(daysBetween(after, options.notBefore) / rule.days) *
+          rule.days,
+      );
     while (Number(date.slice(0, 4)) <= endYear) {
       if (
         eligible(date) &&

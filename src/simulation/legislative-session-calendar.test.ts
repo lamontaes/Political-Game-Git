@@ -74,6 +74,16 @@ describe("one legislative session timetable", () => {
     expect(
       nextSessionCalendarDate(LEGISLATIVE_SESSION_CALENDARS.council, after),
     ).toBe("2026-01-19");
+    expect(
+      nextSessionCalendarDate(
+        LEGISLATIVE_SESSION_CALENDARS.council,
+        after,
+        "sitting",
+        {
+          notBefore: makeIsoDate("2026-01-20"),
+        },
+      ),
+    ).toBe("2026-02-02");
   });
 
   it("keeps the compiled legal reading minimum instead of replacing it with a timetable", () => {
