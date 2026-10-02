@@ -661,6 +661,7 @@ function note(formed: FormedPrinciple): string {
  */
 export const FORMATION_HISTORY_INPUTS = [
   "childhoodRecords",
+  "educationEnrollments",
   "householdLocations",
   "householdMembershipStates",
   "householdMemberships",

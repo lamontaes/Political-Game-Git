@@ -80,10 +80,18 @@ describe(`life formation inputs (${place.displayName}, seed ${SEED})`, () => {
         },
       }) as World;
     };
-    formPrinciplesFromLife(recording(fresh(game.world)), adults, {
+    // A settled World, so the reading writes nothing: what a write checks
+    // across all of history is the writer's, not the formation's.
+    const people = adults.slice(0, 300);
+    const world = settled(game.world, people);
+    expect(
+      formPrinciplesFromLife(fresh(world), people, { officeholders: true })
+        .history.principles,
+    ).toBe(world.history.principles);
+    formPrinciplesFromLife(recording(fresh(world)), people, {
       officeholders: true,
     });
-    formPrinciplesFromLife(recording(fresh(game.world)), adults);
+    formPrinciplesFromLife(recording(fresh(world)), people);
     const declared = new Set([
       ...FORMATION_HISTORY_INPUTS.map((key) => `history.${key}`),
       ...FORMATION_PER_PERSON_INPUTS.map((key) => `history.${key}`),
@@ -101,7 +109,9 @@ describe(`life formation inputs (${place.displayName}, seed ${SEED})`, () => {
     });
     expect(reused).toBe(world);
     expect(
-      rowsOf(formPrinciplesFromLife(fresh(world), people, { officeholders: true })),
+      rowsOf(
+        formPrinciplesFromLife(fresh(world), people, { officeholders: true }),
+      ),
     ).toBe(rowsOf(world));
   });
 
@@ -120,12 +130,15 @@ describe(`life formation inputs (${place.displayName}, seed ${SEED})`, () => {
     const tradition = world.policyCatalog.principleOrder.find((id) =>
       world.policyCatalog.principles[id]!.stableKey.endsWith(":tradition"),
     )!;
+    const held = [...world.history.principles]
+      .reverse()
+      .find((row) => row.personId === parent && row.principleId === tradition);
     const taught = recordPrinciple(world, {
       stableKey: "formation-inputs-test:parent",
       personId: parent,
       principleId: tradition,
       formedAt: world.currentDate,
-      stance: "rejects",
+      stance: held?.stance === "rejects" ? "endorses" : "rejects",
       strength: 0.75,
       conviction: "strong",
       flexibility: "firm",
@@ -133,7 +146,7 @@ describe(`life formation inputs (${place.displayName}, seed ${SEED})`, () => {
       formation: createFormationContext("reflection:test", {
         note: "Test fixture: what the parent holds.",
       }),
-      supersedesPrincipleRecordId: null,
+      supersedesPrincipleRecordId: held?.id ?? null,
     });
     expect(taught.people).toBe(world.people);
     expect(
