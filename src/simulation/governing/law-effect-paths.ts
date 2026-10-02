@@ -18,9 +18,9 @@ import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../nationwide-world/state-legis
 import {
   LAW_QUESTION_MEASURES,
   OUTCOME_LINKS,
-  outcomeLinksFedByQuestion,
   outcomeLinkStatus,
 } from "../outcome-web";
+import { policyOutcomeLinks } from "../policy-semantics";
 import { HOUSING_SUPPLY_LAWS } from "../living-world/housing-market";
 import { RENT_LAW_KEYS } from "../living-world/town-rent";
 import { CANNABIS_TAX_EFFECT } from "../public-budgets/rules";
@@ -273,7 +273,7 @@ export function lawEffectPaths(): readonly LawEffectPath[] {
   // A question whose bill term sets a measure the web reads acts through the
   // links from that measure (`LAW_QUESTION_MEASURES`).
   const viaMeasure = Object.keys(LAW_QUESTION_MEASURES).flatMap((questionKey) =>
-    outcomeLinksFedByQuestion(questionKey)
+    policyOutcomeLinks(questionKey)
       .filter(
         (link) =>
           !link.from.startsWith(LAW_CAUSE_PREFIX) &&

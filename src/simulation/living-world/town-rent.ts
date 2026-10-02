@@ -1,3 +1,4 @@
+import { rentConstructionCovered } from "../law-consequences/rent-construction-coverage";
 import { recordedMonthlyPayByPerson } from "../household-pay";
 /**
  * Rent day: every renting household in town pays rent on the first of the
@@ -84,6 +85,7 @@ import { createStableId } from "../ids";
 import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import type { LawInForce } from "../governing/law-in-force";
 import {
@@ -216,15 +218,6 @@ export const AFFORDABLE_LIMIT_OF_VERY_LOW = 1.2;
 export const HUD_FAMILY_SIZE_FACTORS = [
   0.7, 0.8, 0.9, 1, 1.08, 1.16, 1.24, 1.32,
 ] as const;
-
-/**
- * PLACEHOLDER(research: inclusionary-set-aside). The law's set-aside: the part
- * of the apartments and rowhouses recorded after an inclusionary housing law
- * took effect that it makes affordable. Local laws set 10% to 20%; the game
- * uses one figure. These rent terms are law, not odds: nothing is drawn
- * against them.
- */
-export const INCLUSIONARY_SET_ASIDE = 0.15;
 
 /**
  * Measured, a check and never a rule: Diamond, McQuade and Qian 2019 found
@@ -1341,6 +1334,7 @@ export function startTownLeases(world: World, dueOn: IsoDate): World {
         jurisdictionId: town,
         appliedAt: dueOn,
         sourceRecordIds: [
+          ...inclusionary.sourceRecordIds,
           flow.id,
           terms.id,
           tenure.id,
@@ -1419,14 +1413,22 @@ export function publicHousingRentMinor(
  * set-aside is filled by the covered homes eligible households rent, not by
  * whichever homes come first; the caller checks the household's income.
  */
-function inclusionaryHome(
+export function inclusionaryHome(
   world: World,
-  dwelling: { readonly id: EntityId; readonly establishedAt: IsoDate },
+  dwelling: World["history"]["dwellings"][number],
   kind: TownHomeKind,
   town: EntityId,
   affordableLet: number,
-): { readonly designation: string; readonly law: LawInForce } | null {
-  if (!coveredKind(kind)) return null;
+): {
+  readonly designation: string;
+  readonly law: LawInForce;
+  readonly sourceRecordIds: readonly EntityId[];
+} | null {
+  if (
+    !coveredKind(kind) ||
+    rentConstructionCovered(world, dwelling, dwelling.establishedAt, null)
+  )
+    return null;
   const law = housingLawYes(
     world,
     town,
@@ -1434,34 +1436,46 @@ function inclusionaryHome(
     dwelling.establishedAt,
   );
   if (!law) return null;
+  const share = readFinalEnactedLawTerm(world, law, {
+    questionKey: RENT_LAW_KEYS.inclusionary,
+    termKey: "share",
+    unit: "ratio",
+    onDate: dwelling.establishedAt,
+  });
+  if (!share || share.value < 0 || share.value > 1) return null;
   // A law in force at the opening applies only to homes built after it.
   if (dwelling.establishedAt <= law.operativeAt) return null;
   const covered = world.history.dwellings.filter(
     (row) =>
       row.jurisdictionId === town &&
       coveredKind(homeKindOf(row.classification)) &&
+      !rentConstructionCovered(world, row, row.establishedAt, null) &&
       row.establishedAt > law.operativeAt &&
       (row.establishedAt < dwelling.establishedAt ||
         (row.establishedAt === dwelling.establishedAt &&
           row.id.localeCompare(dwelling.id) <= 0)),
   ).length;
-  if (!inclusionarySetAsideOpen(affordableLet, covered)) return null;
-  return { designation: measureDesignation(world, law.measureId), law };
+  if (!inclusionarySetAsideOpen(affordableLet, covered, share.value))
+    return null;
+  return {
+    designation: measureDesignation(world, law.measureId),
+    law,
+    sourceRecordIds: share.sourceRecordIds,
+  };
 }
 
 /**
  * Whether the set-aside still owes an affordable home: fewer are let than the
  * set-aside of the covered homes so far, rounded up the way ordinances round a
- * building's affordable units (with 15%, one for the first six homes, two by
- * the seventh).
+ * building's affordable units, using the adopted share rather than a common
+ * percentage for every ordinance.
  */
 export function inclusionarySetAsideOpen(
   affordableLet: number,
   coveredHomes: number,
+  recordedShare: number,
 ): boolean {
-  return (
-    affordableLet < Math.ceil(coveredHomes * INCLUSIONARY_SET_ASIDE - 1e-9)
-  );
+  return affordableLet < Math.ceil(coveredHomes * recordedShare - 1e-9);
 }
 
 function coveredKind(kind: TownHomeKind): boolean {
