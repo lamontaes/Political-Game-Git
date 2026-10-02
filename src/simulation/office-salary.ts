@@ -1,7 +1,8 @@
-import { assessPaycheckTaxes } from "./statutory-tax";
+import { settleTownCompensations } from "./living-world/town-pay";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { currentLifeCutoff, workStatusAt, workRoleAt } from "./life-queries";
+import { recordedWorkAnnualPay } from "./recorded-work-pay";
 import { officePayInForce } from "./office-pay";
 import {
   townJobRate,
@@ -13,7 +14,6 @@ import {
   createWorkCompensation,
   money,
   recordResourceFlowTerms,
-  resolveWorkCompensationPeriod,
 } from "./resources";
 import { resourceFlowTermsHistory } from "./resource-queries";
 import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
@@ -32,20 +32,6 @@ import type { EntityId, IsoDate, World, WorkRelationship } from "./types";
  * and ordinary jobs from a generated past are not touched.
  */
 
-/**
- * PLACEHOLDER(research: what-public-officials-are-paid). A governor, a state
- * legislator, a judge and a member of Congress are paid the published salary
- * (`office-pay.ts`). Every other office, and a state whose tables give no single annual figure, is paid this
- * one national annual figure: nobody has researched it, and it is the same for
- * a judge, a mayor and a civil servant in every state. Replace it; do not tune
- * it.
- */
-export const OFFICE_SALARY_PLACEHOLDER = {
-  annualMinor: 6_000_000,
-  currency: "USD",
-  researchQuestionId: "what-public-officials-are-paid",
-} as const;
-
 /** The work kinds that are public offices. */
 export const PAID_OFFICE_KINDS: readonly string[] = [
   "employment:executive-office",
@@ -58,11 +44,10 @@ export const PAID_OFFICE_KINDS: readonly string[] = [
 ];
 
 const WEEK_DAYS = 7;
-const CATCH_UP_LIMIT_WEEKS = 520;
 
 /**
  * The annual pay for an office on a date: what the state's pay law says if one
- * is in force, else the state's published figure, else the placeholder.
+ * is in force, else the state's published figure, else comparable recorded pay or the recorded occupation’s published wage.
  */
 function annualPay(
   world: World,
@@ -75,18 +60,20 @@ function annualPay(
       annualMinor: inForce.annualDollars * 100,
       note: `${inForce.law.designation} set this office's salary to $${inForce.annualDollars.toLocaleString("en-US")} a year.`,
     };
-  if (
-    !inForce &&
-    [
-      "employment:civil-service",
-      "employment:executive-staff",
-      "employment:state-agency-director",
-    ].includes(work.kind)
-  ) {
-    const role = workRoleAt(world, work.id, {
-      ...currentLifeCutoff(world),
-      asOfDate: onDate,
+  const role = workRoleAt(world, work.id, {
+    ...currentLifeCutoff(world),
+    asOfDate: onDate,
+  });
+  if (!inForce) {
+    const recorded = recordedWorkAnnualPay(world, {
+      occupation: role?.occupationClassification ?? null,
+      workKind: work.kind,
+      jurisdictionId: role?.locationJurisdictionId ?? null,
+      weeklyHours: role ? weeklyHoursOf(role) : 0,
+      onDate,
+      excludeWorkId: work.id,
     });
+    if (recorded) return recorded;
     if (!role?.locationJurisdictionId) return null;
     const tenure = Math.max(0, daysBetween(work.startedAt, onDate) / 365.25);
     // Use the existing tenure mechanism's central position, with no person draw.
@@ -111,10 +98,7 @@ function annualPay(
           inForce.estimatedBecause ??
           `Salary for this office, published (The Book of the States 2023; Congressional Research Service 97-1011 for Congress).`,
       }
-    : {
-        annualMinor: OFFICE_SALARY_PLACEHOLDER.annualMinor,
-        note: `Placeholder office salary pending research question ${OFFICE_SALARY_PLACEHOLDER.researchQuestionId}.`,
-      };
+    : null;
 }
 
 function weeklyMinor(annualMinor: number): number {
@@ -171,16 +155,13 @@ function initializeOneSalaryFlow(world: World, work: WorkRelationship): World {
   const next = ensureLifePathPersonalPosition(
     world,
     work.personId,
-    money(0, OFFICE_SALARY_PLACEHOLDER.currency).currency,
+    money(0, "USD").currency,
   );
   return createWorkCompensation(next, {
     stableKey: salaryKey(work),
     workRelationshipId: work.id,
     startsAt: next.currentDate,
-    amount: money(
-      weeklyMinor(pay.annualMinor),
-      OFFICE_SALARY_PLACEHOLDER.currency,
-    ),
+    amount: money(weeklyMinor(pay.annualMinor), "USD"),
     cadenceKind: "schedule:weekly",
     restrictionKind: null,
     jurisdictionId: null,
@@ -227,7 +208,8 @@ function settleOne(world: World, work: WorkRelationship): World {
   }
   for (
     let week = paidWeeks + 1;
-    week <= paidWeeks + CATCH_UP_LIMIT_WEEKS;
+    week <=
+    Math.floor(daysBetween(flow.startsAt, next.currentDate) / WEEK_DAYS);
     week += 1
   ) {
     const periodStartsAt = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
@@ -236,21 +218,18 @@ function settleOne(world: World, work: WorkRelationship): World {
     // A week that ends after the office did is not paid, and nothing later is.
     if (!isActiveOn(next, work.id, addDays(dueOn, -1))) break;
     next = raiseToPayInForce(next, work, flow.id, periodStartsAt);
-    next = resolveWorkCompensationPeriod(next, {
-      stableKey: `${flow.stableKey}:${periodStartsAt}`,
-      workRelationshipId: work.id,
-      periodStartsAt,
-      periodEndsAt: addDays(dueOn, -1),
-      occurredAt: dueOn,
-      status: "completed",
-      reasonKind: null,
-      note: "Salary for the week.",
-      provenance: flow.provenance,
-    });
-    next = assessPaycheckTaxes(
-      next,
-      next.history.resourceTransferOutcomes.at(-1)!.id,
-    );
+    next = settleTownCompensations(next, [
+      {
+        stableKey: `${flow.stableKey}:${periodStartsAt}`,
+        payFlowId: flow.id,
+        activityId: flow.id,
+        periodStartsAt,
+        periodEndsAt: addDays(dueOn, -1),
+        onDate: dueOn,
+        note: "Salary for the week.",
+        provenance: flow.provenance,
+      },
+    ]);
   }
   return next;
 }

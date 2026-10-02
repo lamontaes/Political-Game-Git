@@ -39,7 +39,7 @@ export type OwnershipPackProvenance =
 export interface OwnershipPracticeRow {
   readonly key: string;
   readonly effect: string;
-  /** Chance, 0 to 1, that the owner takes this decision at one review. */
+  /** Legacy pack compatibility value; owner reviews do not roll this probability. */
   readonly likelihoodPerReview: number;
   /**
    * What the decision is, in plain words. Recorded with the decision, so a
@@ -112,9 +112,9 @@ export interface OwnershipPack {
  *   Needs outlet editorial stance, which the desk does not model.
  * - `consolidate-newsrooms` — merging desks or closing an outlet. Needs an
  *   outlet lifecycle (closure, merger) that press records do not carry.
- * - Owner finances. There is no media revenue model, so no practice is
- *   triggered by an owner's balance sheet: every trigger is the blanket
- *   `likelihoodPerReview` draw until one exists.
+ * Owner reviews use saved principals and the shared decision function.
+ * Missing principals leave a practice pending. Loss and acquisition paths
+ * additionally require their recorded operating books and payment inputs.
  */
 export const MEDIA_OWNER_EFFECTS = [
   "reduce-newsroom-staff",
