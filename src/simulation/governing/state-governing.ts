@@ -2422,8 +2422,16 @@ export function governingNpcDecisionHandler(
             (a, b) => b.assessment!.steadiness! - a.assessment!.steadiness!,
           )[0]
       : undefined;
-  // PLACEHOLDER (zero-dice row, left): an agenda with no chief of staff to
-  // advise still falls to a seeded pick.
+  if (
+    (matter.family === "chief-of-staff" || matter.family === "agenda") &&
+    !recommended &&
+    !steadiest
+  )
+    return resolved(
+      next,
+      "No recorded advice or candidate assessment selects a choice; the matter remains open.",
+    );
+  // Remaining families retain their existing fallback, tracked under A92.
   const option =
     recommended ??
     steadiest ??

@@ -1,6 +1,6 @@
 import { confidantsOf } from "./confidants";
 import { ageOnDate } from "./dates";
-import { eventById, eventIndexOf } from "./event-index";
+import { crimesSufferedBy } from "./crime/reporting";
 import { recordsByStringField } from "./history-index";
 import { personOwnsHome } from "./home-purchase";
 import { lifePlaceByJurisdictionId } from "./life-places";
@@ -9,8 +9,6 @@ import {
   activeWorkRelationshipsAt,
   householdMembershipsAt,
   organizationProfileAt,
-  workRelationshipHistoryForPerson,
-  workStatusHistory,
 } from "./life-queries";
 import { publicPartyAffiliation } from "./living-world/congress";
 import {
@@ -18,7 +16,7 @@ import {
   livingWorldOrganizationId,
 } from "./living-world/opening";
 import { affiliationAt } from "./living-world/party-evolution";
-import { TOWN_JOB_END_REASONS } from "./living-world/town-labor-market";
+import { jobsLostBy } from "./living-world/town-labor-market";
 import { placeReferencePopulation } from "./nationwide-world/place-population";
 import { factsForPerson, personName } from "./people";
 import { parentsOf } from "./people-family";
@@ -29,7 +27,6 @@ import type { PrincipleRecordInput } from "./history";
 import type {
   BeliefConviction,
   EntityId,
-  HistoricalEvent,
   PoliticalFlexibility,
   PrincipleRecord,
   PrincipleStance,
@@ -230,35 +227,6 @@ function latestPrinciples(
  * principles from their recorded lives and affiliations.
  */
 const OFFICEHOLDER_DRAW = "officeholder-principles/v1:";
-
-const VICTIM_EVENTS = new WeakMap<
-  readonly HistoricalEvent[],
-  ReadonlyMap<EntityId, readonly EntityId[]>
->();
-
-/** The crimes each person was the victim of, indexed once per history. */
-function crimesAgainst(world: World, personId: EntityId): readonly EntityId[] {
-  const events = world.history.events;
-  let index = VICTIM_EVENTS.get(events);
-  if (!index) {
-    const built = new Map<EntityId, EntityId[]>();
-    for (const event of eventIndexOf(events).values())
-      for (const participant of event.participants)
-        if (
-          participant.role === "impact:crime-victim" &&
-          participant.personId
-        ) {
-          const list = built.get(participant.personId) ?? [];
-          list.push(event.id);
-          built.set(participant.personId, list);
-        }
-    VICTIM_EVENTS.set(events, built);
-    index = built;
-  }
-  return (index.get(personId) ?? []).filter(
-    (id) => (eventById(world, id)?.occurredAt ?? "") <= world.currentDate,
-  );
-}
 
 function partyKey(
   world: World,
@@ -528,15 +496,7 @@ export function principlePullsOf(
     });
 
   // What they lived through.
-  const lostJob = workRelationshipHistoryForPerson(world, personId).some(
-    (relationship) =>
-      workStatusHistory(world, relationship.id).some(
-        (status) =>
-          status.status === "ended" &&
-          (status.reason === TOWN_JOB_END_REASONS.laidOff ||
-            status.reason === TOWN_JOB_END_REASONS.businessClosed),
-      ),
-  );
+  const lostJob = jobsLostBy(world, personId).length > 0;
   if (lostJob) {
     pulls.push({
       principle: "worker-protection",
@@ -551,7 +511,7 @@ export function principlePullsOf(
       because: "they lost a job they did not choose to leave",
     });
   }
-  const crimes = crimesAgainst(world, personId);
+  const crimes = crimesSufferedBy(world, personId);
   if (crimes.length > 0)
     pulls.push({
       principle: "public-safety",

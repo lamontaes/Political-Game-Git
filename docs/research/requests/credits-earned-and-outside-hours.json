@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-10-02T00:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "education",
+  "notes": [
+    "Under A141 a credential needs its credits, not only paid elapsed periods. Each period a student attempts the program's on-time share of credits, and the share they earn slides with the weekly hours they owe elsewhere (work, care and other commitments from the life-load record): 1 / (1 + max(0, hours - 15) / 30). The two sizes are PLACEHOLDER in STUDY_CREDIT_PACE, src/simulation/education-study-progression.ts.",
+    "Credit requirements use common totals: 30 for a one-year certificate, 60 for an associate degree, 120 for a bachelor's degree, 36 for a master's degree, and 83 for a J.D. (the ABA's minimum, Standard 311(a)). Saved terms without a requirement read thirty credits an academic year.",
+    "A student short of credits keeps studying and paying one period at a time up to 150% of the planned length, the federal maximum timeframe for satisfactory academic progress (34 CFR 668.34(b)), applied here to every student, not only those receiving federal aid."
+  ],
+  "priority": "P2",
+  "question": "How does the number of hours a college student works or spends caregiving each week change the share of attempted credits they complete in a term, and what credit totals do certificate, associate, bachelor's and master's programs require across U.S. colleges?",
+  "questionId": "credits-earned-and-outside-hours",
+  "relatedQuestionIds": ["who-gets-into-college-and-what-it-costs"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5 (A141)",
+  "sourcesChecked": [
+    {
+      "source": "NCES, The Condition of Education, College Student Employment indicator",
+      "whatItDidNotSettle": "Reports how many students work and how many hours; it does not give the share of attempted credits completed by hours worked."
+    },
+    {
+      "source": "34 CFR 668.34 (satisfactory academic progress)",
+      "whatItDidNotSettle": "Sets the 150% maximum timeframe and a pace measure for aid eligibility; it does not say how outside hours affect earned credits."
+    }
+  ],
+  "title": "How outside hours change the credits a student earns",
+  "usableAnswer": "Credit-completion rates (credits earned over credits attempted) by weekly hours worked or caregiving, from a national survey such as NPSAS or BPS, so the curve in STUDY_CREDIT_PACE can be measured; and typical credit totals by credential level.",
+  "whyItMatters": "Without credits, paying for the years was enough to graduate, so a student working full time finished a degree as surely as one who studied full time, and the player's choices about work and study did not matter."
+}

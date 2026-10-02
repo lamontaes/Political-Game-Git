@@ -18,6 +18,7 @@ import {
   scheduleFutureDueItem,
 } from "../future-transitions";
 import {
+  governmentUnit,
   governmentUnitsForPlace,
   governmentUnitsForState,
 } from "../government-units";
@@ -77,7 +78,7 @@ import {
   ensureCouncilPrinciples,
 } from "./council-lawmaking";
 import { sittingLocalOfficers } from "../living-world/local-government-seats";
-import { councilRules, unitById } from "../living-world/local-council-binding";
+import { councilRules } from "../living-world/local-council-binding";
 import {
   LOCAL_COUNCIL_MEETING,
   LOCAL_COUNCIL_MEETINGS_VERSION,
@@ -481,7 +482,7 @@ describe("automatic local law under thirty days of the World clock", () => {
   expect(councilProofPlaces).toHaveLength(5);
   it.each(councilProofPlaces)(
     "A77 decides the actual council's ballots through the shared driver in $placeKey",
-    ({ placeKey }) => {
+    ({ placeKey }: { placeKey: string }) => {
       const opening = thirtyDayLawOpening(placeKey, true);
       const meetingOpening = scheduleFutureDueItem(opening.world, {
         stableKey: `${LOCAL_COUNCIL_MEETINGS_VERSION}:${opening.governmentKey}:posted-meeting:${addDays(opening.world.currentDate, 1)}`,
@@ -502,7 +503,7 @@ describe("automatic local law under thirty days of the World clock", () => {
           ...localCouncilMeetingHandlers(),
         ]),
       );
-      const unit = unitById(opening.governmentKey)!;
+      const unit = governmentUnit(opening.governmentKey)!;
       const rules = councilRules(unit)!;
       const officers = sittingLocalOfficers(world, unit);
       const members = officers.filter((seat) => !seat.mayor);
@@ -929,7 +930,7 @@ const referencePlaces = CHIEF_EXECUTIVE_JURISDICTIONS.flatMap(
 describe("saved local reference authority sampled from all 56 places", () => {
   it.each(referencePlaces)(
     "uses the saved context and refuses missing or mismatched evidence in $placeKey",
-    ({ placeKey }) => {
+    ({ placeKey }: { placeKey: string }) => {
       expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
       expect(referencePlaces).toHaveLength(5);
       const opening = thirtyDayLawOpening(placeKey, true);

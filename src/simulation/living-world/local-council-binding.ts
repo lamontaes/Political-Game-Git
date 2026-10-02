@@ -1,10 +1,8 @@
-import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { municipalRulePackFor } from "../municipal-government";
 import { ensureJurisdiction } from "../national-election-geography";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { localGovernmentJurisdiction } from "../nationwide-world/local-governments";
-import { municipioUnit } from "../nationwide-world/county-governing-body-rules";
 import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { townCouncilProfilePackId } from "../town-council-profile";
@@ -53,14 +51,4 @@ export function lawJurisdiction(
     world: ensureJurisdiction(world, county),
     jurisdictionId: county.id,
   };
-}
-
-/** A government unit by the id a meeting was scheduled under. */
-export function unitById(id: string): GovernmentUnitIdentity | null {
-  return (
-    governmentUnit(id) ??
-    (id.startsWith("municipio:")
-      ? municipioUnit(id.slice("municipio:".length))
-      : null)
-  );
 }

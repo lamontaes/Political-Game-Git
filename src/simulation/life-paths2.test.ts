@@ -23,7 +23,7 @@ import {
   scheduleLifePathSession,
   performLifePathSession,
   changeLifePathStatus,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
   recruitLifePathPerson,
   activateLifePathRecruit,
   delegateLifePathWork,
@@ -74,12 +74,12 @@ describe("LIFE-PATHS2 canonical progression", () => {
     const id = w.history.educationEnrollments.at(-1)!.id;
     expect(balance(w)).toBe(100000);
     expect(scheduleLifePathSession(w, id).world).toBe(w);
-    w = advanceWorld(w, 80, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 80, lifePaths2Handlers());
     w = changeLifePathStatus(w, id, "pause").world;
     expect(scheduleLifePathSession(w, id).world).toBe(w);
     w = deserializeWorld(serializeWorld(w));
     w = changeLifePathStatus(w, id, "return").world;
-    w = advanceWorld(w, 81, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 81, lifePaths2Handlers());
     expect(balance(w)).toBe(40000);
     expect(
       hasLifePathCredential(
@@ -100,11 +100,11 @@ describe("LIFE-PATHS2 canonical progression", () => {
       w.history.scheduledActivities.at(-1)!.id,
     ).world;
     expect(balance(w)).toBe(100000);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     // Each $72.00 shift has $4.46 Social Security, $1.04 Medicare, $1.01
     // federal and $2.07 Kentucky income tax withheld (a day's pay, 260 a year).
     expect(balance(w)).toBe(107200 - 858);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     // Each $72.00 shift has $4.46 Social Security, $1.04 Medicare, $1.01
     // federal and $2.07 Kentucky income tax withheld (a day's pay, 260 a year).
     expect(balance(w)).toBe(107200 - 858);
@@ -146,14 +146,14 @@ describe("LIFE-PATHS2 canonical progression", () => {
     w = response.world;
     const id = w.history.workRelationships.at(-1)!.id;
     expect(activateLifePathRecruit(w, id).world).toBe(w);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     w = activateLifePathRecruit(w, id).world;
     w = delegateLifePathWork(w, id).world;
     const item = w.history.workItems.at(-1)!.id;
-    w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+    w = advanceWorldMinutes(w, 30, lifePaths2Handlers());
     expect(workItemState(w, item).completedEffortMinutes).toBe(30);
     w = departLifePathRecruit(w, id).world;
-    w = advanceWorldMinutes(w, 150, LIFE_PATHS2_HANDLERS);
+    w = advanceWorldMinutes(w, 150, lifePaths2Handlers());
     expect(workItemState(w, item).completedEffortMinutes).toBe(30);
   });
 });
@@ -162,11 +162,11 @@ describe("LIFE-PATHS2 complete path and refusals", () => {
   it("earns a college credential only after its period, surviving interruption and reload", () => {
     let w = enterLifePath(fixture(), "college-office-certificate").world;
     const id = w.history.educationEnrollments.at(-1)!.id;
-    w = advanceWorld(w, 80, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 80, lifePaths2Handlers());
     w = changeLifePathStatus(w, id, "pause").world;
     w = deserializeWorld(serializeWorld(w));
     w = changeLifePathStatus(w, id, "return").world;
-    w = advanceWorld(w, 81, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 81, lifePaths2Handlers());
     expect(w.history.educationEnrollmentStates.at(-1)?.status).toBe(
       "completed",
     );
@@ -304,11 +304,11 @@ describe("LIFE-PATHS2 negotiated pay and contention", () => {
       0,
     ).world;
     const id = w.history.workRelationships.at(-1)!.id;
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     w = activateLifePathRecruit(w, id).world;
     w = delegateLifePathWork(w, id).world;
     const item = w.history.workItems.at(-1)!.id;
-    w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+    w = advanceWorldMinutes(w, 30, lifePaths2Handlers());
     const control = w.control;
     w = changeLifePathStatus(
       { ...w, control: { kind: "person", personId: setup.person } },
@@ -316,7 +316,7 @@ describe("LIFE-PATHS2 negotiated pay and contention", () => {
       "leave",
     ).world;
     w = deserializeWorld(serializeWorld({ ...w, control }));
-    w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+    w = advanceWorldMinutes(w, 30, lifePaths2Handlers());
     expect(workItemState(w, item).completedEffortMinutes).toBe(30);
     expect(workItemState(w, item).status).toBe("active");
     expect(w.history.resourceTransferOutcomes).toHaveLength(0);
@@ -328,22 +328,22 @@ describe("LIFE-PATHS2 negotiated pay and contention", () => {
     const id = w.history.workRelationships.at(-1)!.id;
     expect(w.history.events.at(-1)?.type).toBe("life-paths2.offer-negotiated");
     expect(delegateLifePathWork(w, id).world).toBe(w);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     const accepted = acceptLifePathCounteroffer(w, id);
     expect(accepted.ok).toBe(true);
     w = accepted.world;
     w = activateLifePathRecruit(w, id).world;
     expect(balance(w)).toBe(100000);
     w = delegateLifePathWork(w, id).world;
-    w = advanceWorldMinutes(w, 240, LIFE_PATHS2_HANDLERS);
+    w = advanceWorldMinutes(w, 240, lifePaths2Handlers());
     expect(workItemState(w, w.history.workItems.at(-1)!.id).status).toBe(
       "ready-for-review",
     );
     expect(balance(w)).toBe(100000);
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     expect(balance(w)).toBe(91000);
     const saved = deserializeWorld(serializeWorld(w));
-    expect(balance(advanceWorld(saved, 1, LIFE_PATHS2_HANDLERS))).toBe(91000);
+    expect(balance(advanceWorld(saved, 1, lifePaths2Handlers()))).toBe(91000);
   });
 });
 
@@ -365,7 +365,7 @@ describe("LIFE-PATHS2 progression and shared execution", () => {
         w.history.scheduledActivities.at(-1)!.id,
       );
       expect(result.ok).toBe(true);
-      w = advanceWorld(result.world, 1, LIFE_PATHS2_HANDLERS);
+      w = advanceWorld(result.world, 1, lifePaths2Handlers());
     }
     // Each $72.00 shift has $4.46 Social Security, $1.04 Medicare, $1.01
     // federal and $2.07 Kentucky income tax withheld (a day's pay, 260 a year).
@@ -383,7 +383,7 @@ describe("LIFE-PATHS2 progression and shared execution", () => {
       w.history.scheduledActivities.at(-1)!.id,
     ).world;
     w = changeLifePathStatus(w, id, "leave").world;
-    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = advanceWorld(w, 1, lifePaths2Handlers());
     // The raised $79.20 shift has $4.91 Social Security, $1.15 Medicare, $1.73
     // federal and $2.32 Kentucky income tax withheld.
     expect(balance(w)).toBe(179920 - 10 * 858 - 1011);
@@ -411,9 +411,9 @@ describe("LIFE-PATHS2 progression and shared execution", () => {
           scheduledActivityId: null,
         });
       }
-      w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+      w = advanceWorldMinutes(w, 30, lifePaths2Handlers());
       w = deserializeWorld(serializeWorld(w));
-      w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+      w = advanceWorldMinutes(w, 30, lifePaths2Handlers());
       expect(
         w.history.workItems.reduce(
           (sum, item) => sum + workItemState(w, item.id).completedEffortMinutes,
@@ -533,7 +533,7 @@ for (const [path, intervals, totalCost, program, timeout] of [
       expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(false);
       expect(scheduleLifePathSession(w, id).world).toBe(w);
       for (let i = 0; i < intervals.length; i++) {
-        w = advanceWorld(w, intervals[i]!, LIFE_PATHS2_HANDLERS);
+        w = advanceWorld(w, intervals[i]!, lifePaths2Handlers());
         if (i === Math.floor(intervals.length / 2))
           w = deserializeWorld(serializeWorld(w));
       }
@@ -548,7 +548,7 @@ for (const [path, intervals, totalCost, program, timeout] of [
           w.history.scheduledActivities.at(-1)!.id,
         ).world;
         const earned = balance(w);
-        w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+        w = advanceWorld(w, 1, lifePaths2Handlers());
         // $150.00 of pay less $9.30 Social Security, $2.18 Medicare, $9.62
         // federal and $4.80 Kentucky income tax.
         expect(balance(w)).toBe(earned + 15000 - 1148 - 1442);

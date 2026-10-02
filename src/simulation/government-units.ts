@@ -23,6 +23,7 @@ import {
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "./place-county-relations.generated";
 import { createStableId } from "./ids";
+import { municipioUnit } from "./nationwide-world/county-governing-body-rules";
 import type { EntityId } from "./types";
 
 export { GOVERNMENT_UNITS_META, PLACE_COUNTY_RELATIONS_META };
@@ -126,9 +127,14 @@ function load(): Index {
   return index;
 }
 
-/** One government by its `gus2025:<PID6>` id, or null. */
+/** One catalog government or municipio by its saved identity, or null. */
 export function governmentUnit(id: string): GovernmentUnitIdentity | null {
-  return load().byId.get(id) ?? null;
+  return (
+    load().byId.get(id) ??
+    (id.startsWith("municipio:")
+      ? municipioUnit(id.slice("municipio:".length))
+      : null)
+  );
 }
 
 /** The municipal government(s) of a Census place; empty for a statistical place. */
