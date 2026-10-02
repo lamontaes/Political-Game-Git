@@ -13,6 +13,7 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import { assertWorldIntegrity } from "../world";
 import {
   CLEMENCY_BOARD_NOMINATED,
+  CLEMENCY_BOARD_APPOINTED,
   clemencyBoardAppointmentProfiles,
   ensureOpeningClemencyBoardAppointments,
 } from "./clemency-board-seating";
@@ -266,10 +267,32 @@ describe("R16 recorded board nominations", () => {
           ),
         ).toHaveLength(0);
       }
-      // A nomination, guessed board vote or missing confirmation cannot seat anyone.
-      expect(prepared.history.organizationParticipations).toBe(
-        world.history.organizationParticipations,
+      // Superseding CTO08:06: actual appointees serve while confirmation is unwired.
+      // This membership is not a successful chamber confirmation.
+      const members = prepared.history.organizationParticipations.filter(
+        (row) => row.kind === "membership:clemency-board",
       );
+      expect(members).toHaveLength(nominations.length);
+      for (const member of members) {
+        expect(member.personId).toBe(candidate);
+        expect(member.provenance.kind).toBe("simulated-event");
+        if (member.provenance.kind !== "simulated-event")
+          throw new Error("Actual saved appointment provenance required");
+        const appointmentEventId = member.provenance.eventId;
+        const appointed = prepared.history.events.find(
+          (event) => event.id === appointmentEventId,
+        );
+        expect(appointed?.type).toBe(CLEMENCY_BOARD_APPOINTED);
+        expect(appointed?.tags).toContain(
+          "appointment-status:serving-pending-confirmation",
+        );
+        expect(appointed?.tags).toContain(`nomination:${nominations[0]!.id}`);
+        expect(
+          prepared.history.organizationParticipationStates.find(
+            (state) => state.participationId === member.id,
+          )?.status,
+        ).toBe("active");
+      }
       expect(ensureOpeningClemencyBoardAppointments(prepared)).toBe(prepared);
       const restored = deserializeWorld(serializeWorld(prepared));
       assertWorldIntegrity(restored);
@@ -279,11 +302,14 @@ describe("R16 recorded board nominations", () => {
           (event) => event.type === CLEMENCY_BOARD_NOMINATED,
         ),
       ).toEqual(nominations);
+      expect(restored.history.organizationParticipations).toEqual(
+        prepared.history.organizationParticipations,
+      );
     },
     30_000,
   );
 
   it.todo(
-    "seats confirmed members through the shared Senate confirmation binding, then proves original positive clemency fixtures; missing adapter and sourced terms/quorum remain pending",
+    "builds complete board/candidate and current-world peer rule consumers, then proves original positive clemency fixtures; no static fallback or invented confirmation",
   );
 });

@@ -1,7 +1,7 @@
 import table from "../../../data/research/clemency/board-appointments-2026.json" with { type: "json" };
 import { completedMonthsBetween } from "../dates";
 import { governorOfficeForJurisdiction } from "../governing/state-governing";
-import { createOrganization } from "../life";
+import { createOrganization, createOrganizationParticipation } from "../life";
 import {
   currentLifeCutoff,
   workRelationshipHistoryForPerson,
@@ -13,6 +13,7 @@ import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
 
 export const CLEMENCY_BOARD_NOMINATED = "justice.clemency-board-nominated";
+export const CLEMENCY_BOARD_APPOINTED = "justice.clemency-board-appointed";
 export const clemencyBoardAppointmentProfiles = table.rows;
 
 type Profile = (typeof table.rows)[number];
@@ -80,9 +81,8 @@ function recordedQualification(
   return false;
 }
 
-/** R16 first saved stage: an actual governor nominates an actual qualified person.
- * Confirmation has no nomination-bound shared chamber adapter yet, so this writer
- * NEVER creates active participation or speaks for an unseated board.
+/** R16: actual recorded appointees serve while the confirmation path is unwired.
+ * The appointment remains distinct from an actual chamber confirmation.
  */
 export function ensureOpeningClemencyBoardAppointments(world: World): World {
   let next = world;
@@ -209,6 +209,117 @@ export function ensureOpeningClemencyBoardAppointments(world: World): World {
         },
       });
     }
+  }
+  return seatRecordedClemencyBoardAppointees(next);
+}
+
+/** CTO October 2 08:06: an appointed member serves pending confirmation.
+ * No person or successful confirmation is manufactured by this saved-record join.
+ */
+export function seatRecordedClemencyBoardAppointees(world: World): World {
+  let next = world;
+  for (const nomination of world.history.events) {
+    if (
+      nomination.type !== CLEMENCY_BOARD_NOMINATED ||
+      nomination.occurredAt > world.currentDate ||
+      nomination.recordedAt > world.currentDate
+    )
+      continue;
+    const boardKey = nomination.tags
+      .find((tag) => tag.startsWith("board-key:"))
+      ?.slice("board-key:".length);
+    const nomineeId = nomination.participants.find(
+      (row) => row.role === "agency:nominee",
+    )?.personId;
+    const appointerId = nomination.participants.find(
+      (row) => row.role === "agency:appointer",
+    )?.personId;
+    const traceId = nomination.tags
+      .find((tag) => tag.startsWith("appointment-decision:"))
+      ?.slice("appointment-decision:".length);
+    const trace = next.history.decisionTraces.find((row) => row.id === traceId);
+    const board = next.history.organizations.find(
+      (row) => row.stableKey === boardKey,
+    );
+    if (
+      !board ||
+      !nomineeId ||
+      !appointerId ||
+      !next.people[nomineeId] ||
+      !next.people[appointerId] ||
+      next.history.personDeaths.some(
+        (row) => row.personId === nomineeId && row.diedAt <= next.currentDate,
+      ) ||
+      !trace ||
+      trace.sequence >= nomination.sequence ||
+      trace.recordedAt > nomination.recordedAt ||
+      trace.context.decisionType !== "appointment.choose-appointee" ||
+      trace.context.actorPersonId !== appointerId ||
+      trace.selectedOptionKey !== `person:${nomineeId}`
+    )
+      continue;
+    const stableKey = `${nomination.stableKey}:membership`;
+    if (
+      next.history.organizationParticipations.some(
+        (row) => row.stableKey === stableKey,
+      )
+    )
+      continue;
+    const appointmentKey = `${nomination.stableKey}:appointed`;
+    const existing = next.history.events.find(
+      (event) => event.stableKey === appointmentKey,
+    );
+    if (!existing)
+      next = recordWorldEvent(next, {
+        stableKey: appointmentKey,
+        type: CLEMENCY_BOARD_APPOINTED,
+        occurredAt: next.currentDate,
+        recordedAt: next.currentDate,
+        jurisdictionId: nomination.jurisdictionId,
+        involvedEntityIds: [nomineeId, appointerId, board.id],
+        participants: [
+          {
+            personId: appointerId,
+            role: "agency:appointer",
+            detail: "Recorded governor appointer",
+          },
+          {
+            personId: nomineeId,
+            role: "agency:appointee",
+            detail: "Serving pending confirmation",
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [
+          `nomination:${nomination.id}`,
+          `board-key:${boardKey}`,
+          `appointment-decision:${trace.id}`,
+          "appointment-status:serving-pending-confirmation",
+        ],
+        summary:
+          "The recorded board appointee begins service pending confirmation.",
+        context: {
+          location: null,
+          socialContext: "Clemency board appointment",
+          pressure: null,
+          choice: "Begin service pending confirmation",
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    const appointment = existing ?? next.history.events.at(-1)!;
+    next = createOrganizationParticipation(next, {
+      stableKey,
+      personId: nomineeId,
+      organizationId: board.id,
+      startedAt: appointment.occurredAt,
+      initialStatus: "active",
+      kind: "membership:clemency-board",
+      roleKind: "member:board",
+      context: "Serving pending confirmation; not confirmed by a chamber vote.",
+      provenance: { kind: "simulated-event", eventId: appointment.id },
+    });
   }
   return next;
 }
