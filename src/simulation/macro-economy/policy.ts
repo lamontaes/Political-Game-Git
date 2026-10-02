@@ -235,14 +235,6 @@ export const CHANGE_AUTHORED_IMPULSES: Readonly<
 };
 
 /**
- * UNRESEARCHED. Realized public money in one jurisdiction in one month that
- * counts as a full-intensity shock; smaller amounts scale linearly below it.
- * One figure for every jurisdiction regardless of size, which is exactly the
- * kind of simplification the research request asks to replace.
- */
-export const UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS = 5_000_000_000; // $50 million
-
-/**
  * ALIVE44 chunk 2: seven gameplay sectors, an authored aggregation of
  * BEA/NAICS rows, not a claim that BEA publishes these buckets.
  */
