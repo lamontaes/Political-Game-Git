@@ -1,0 +1,85 @@
+diff --git a/src/simulation/life-paths2.ts b/src/simulation/life-paths2.ts
+--- a/src/simulation/life-paths2.ts
++++ b/src/simulation/life-paths2.ts
+@@ -1094,8 +1094,7 @@
+             historySequenceExclusive: worked.sequence + 1,
+           });
+           if (!terms) throw new Error("Earned pay terms are missing.");
+-          const raised = raiseShiftPayToMinimum(world, flow, terms, worked);
+-          const next = settleTownCompensations(raised.world, [
++          const next = settleTownCompensations(world, [
+             {
+               stableKey: `${due.stableKey}:paid`,
+               payFlowId: flow.id,
+@@ -1109,7 +1108,7 @@
+               completedShift: {
+                 eventId: worked.id,
+                 termsId: terms.id,
+-                amount: raised.terms,
++                amount: terms.amount,
+               },
+               note: "Payment for the completed shift; advertised pay alone never posts money.",
+               provenance: authored,
+diff --git a/src/simulation/earned-law-pay-payment.test.ts b/src/simulation/earned-law-pay-payment.test.ts
+--- a/src/simulation/earned-law-pay-payment.test.ts
++++ b/src/simulation/earned-law-pay-payment.test.ts
+@@ -8,7 +8,7 @@
+ import {
+   scheduleLifePathSession,
+   performLifePathSession,
+-  LIFE_PATHS2_HANDLERS,
++  lifePaths2Handlers,
+ } from "./life-paths2";
+ import {
+   fileRuleChangeProvision,
+@@ -634,7 +634,7 @@
+       item.entityIds.includes(completion.id),
+   )!;
+   expect(due).toBeDefined();
+-  const paid = advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
++  const paid = advanceWorld(worked.world, 1, lifePaths2Handlers());
+   const outcome = paid.history.resourceTransferOutcomes.find(
+     (row) => row.stableKey === `${due.stableKey}:paid`,
+   )!;
+diff --git a/src/simulation/earned-law-pay-integrity.test.ts b/src/simulation/earned-law-pay-integrity.test.ts
+--- a/src/simulation/earned-law-pay-integrity.test.ts
++++ b/src/simulation/earned-law-pay-integrity.test.ts
+@@ -353,11 +353,19 @@
+         resolvedConsequence: { ...a.resolvedConsequence, sourceRecordIds: [] },
+       }),
+     ],
+-  ] as const)("rejects tampered %s", (_name, change) => {
+-    expect(() =>
+-      validateEarnedLawPayAssessment(world, change(assessment)),
+-    ).toThrow();
+-  });
++  ] as const)(
++    "rejects tampered %s",
++    (
++      _name: string,
++      change: (
++        record: EarnedLawPayAssessmentRecord,
++      ) => EarnedLawPayAssessmentRecord,
++    ) => {
++      expect(() =>
++        validateEarnedLawPayAssessment(world, change(assessment)),
++      ).toThrow();
++    },
++  );
+ 
+   it("rejects duplicate assessment identity in the global integrity channel", () => {
+     expect(() =>
+@@ -459,7 +467,12 @@
+     ],
+   ] as const)(
+     "rejects %s before accepting a saved assessment",
+-    (_name, change) => {
++    (
++      _name: string,
++      change: (
++        record: WorkPayCoverageDeterminationRecord,
++      ) => WorkPayCoverageDeterminationRecord,
++    ) => {
+       // Validate coverage independently of the assessment's narrower joins.
+       // Restore the actual completed-work frontier before its explicit assessment.
+       const coverageWorld: World = {
