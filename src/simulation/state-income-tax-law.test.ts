@@ -488,27 +488,29 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
 
 describe("a state's income tax law, as enacted in play", () => {
   it("keeps sourced schedules and admits a flat starting law's recorded terms", () => {
-    for (const key of ["US-WA", "US-OR"])
+    for (const key of ["US-WA"])
       expect(
         stateIncomeTaxUnderLaw(lawWorld("s", []), key, "single", paid),
       ).toEqual({ kind: "as-begun" });
-    const starting = stateIncomeTaxUnderLaw(
-      lawWorld("s", []),
-      "US-CO",
-      "single",
-      paid,
-    );
-    expect(starting.kind).toBe("enacted");
-    if (starting.kind !== "enacted") throw new Error(starting.kind);
-    expect(starting.schedule.brackets).toEqual(
-      stateIncomeTax2026.places["US-CO"].brackets.map((row) => ({
-        overMinor: row.overSingle * 100,
-        rateBasisPoints: Math.round(row.ratePercent * 100),
-      })),
-    );
-    expect(starting.lawMeasureIds).toContain(
-      `starting-law:US-CO:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
-    );
+    for (const key of ["US-CO", "US-OR"] as const) {
+      const starting = stateIncomeTaxUnderLaw(
+        lawWorld("s", []),
+        key,
+        "single",
+        paid,
+      );
+      expect(starting.kind).toBe("enacted");
+      if (starting.kind !== "enacted") throw new Error(starting.kind);
+      expect(starting.schedule.brackets).toEqual(
+        stateIncomeTax2026.places[key].brackets.map((row) => ({
+          overMinor: row.overSingle * 100,
+          rateBasisPoints: Math.round(row.ratePercent * 100),
+        })),
+      );
+      expect(starting.lawMeasureIds).toContain(
+        `starting-law:${key}:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+      );
+    }
   });
 
   it("ends the withholding when a taxing state repeals its tax", () => {
@@ -531,8 +533,8 @@ describe("a state's income tax law, as enacted in play", () => {
   it("waits for the next tax year when a law takes effect during one", () => {
     const repeal = enacted(stateId("US-OR"), ADOPT, "no", "2027-03-01");
     const world = lawWorld("s", [repeal]);
-    expect(stateIncomeTaxUnderLaw(world, "US-OR", "single", paid).kind).toBe(
-      "as-begun",
+    expect(stateIncomeTaxUnderLaw(world, "US-OR", "single", paid)).toEqual(
+      stateIncomeTaxUnderLaw(lawWorld("s", []), "US-OR", "single", paid),
     );
     expect(
       stateIncomeTaxUnderLaw(
@@ -641,7 +643,9 @@ describe("a state's income tax law, as enacted in play", () => {
     const oregon = enacted(stateId("US-OR"), GRADUATED, "yes", "2027-01-01");
     expect(
       stateIncomeTaxUnderLaw(lawWorld("s", [oregon]), "US-OR", "single", paid),
-    ).toEqual({ kind: "as-begun" });
+    ).toEqual(
+      stateIncomeTaxUnderLaw(lawWorld("s", []), "US-OR", "single", paid),
+    );
   });
 
   it("doubles a joint return's brackets and deduction, and says so", () => {
