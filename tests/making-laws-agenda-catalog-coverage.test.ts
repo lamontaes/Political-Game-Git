@@ -146,7 +146,9 @@ describe(`Making Laws full state catalog first intakes (seed ${seed})`, () => {
         filed: [...new Set(keys)].sort(),
         ordered: keys,
       });
-      console.info("STATE_CATALOG_RECEIPT", JSON.stringify(receipts.at(-1)));
+      process.stderr.write(
+        `STATE_CATALOG_RECEIPT ${JSON.stringify(receipts.at(-1))}\n`,
+      );
       expect(new Set(keys).size).toBeGreaterThan(3);
       for (const bill of bills) {
         expect(bill.sponsorPersonId).not.toBe(fixture.personId);

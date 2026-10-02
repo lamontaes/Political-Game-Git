@@ -867,9 +867,7 @@ export function fileMemberAgendaBills(
             heading: proposition.name,
             text: [
               `${proposition.question} The statutory answer is ${best.answer}.`,
-              ...proposition.parameters.map(
-                (parameter) => `${parameter.key}: ${parameter.value}`,
-              ),
+              ...proposition.parameters.map((parameter) => parameter.value),
             ].join("\n"),
             beneficiary: {
               kind: "general-application",
