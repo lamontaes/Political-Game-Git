@@ -755,10 +755,9 @@ function reviewTownGroupsOf(
       latestWork.set(status.workRelationshipId, status);
 
   for (const group of groups) {
-    const chance =
-      (profile.closingPerYear / 4) *
-      (group.members.length < profile.smallMembership ? 2 : 1);
-    if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;
+    // CTO Oct 2: only an actual loss of every active local member closes
+    // the group; annual totals never choose an individual group's fate.
+    if (group.members.length !== 0) continue;
     const current = organizationProfileAt(next, group.organizationId)!;
     next = recordOrganizationProfile(next, {
       stableKey: `${prefix}close:${group.organizationId}`,
