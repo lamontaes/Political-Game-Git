@@ -1,3 +1,4 @@
+import { adultStartEmployer } from "../simulation/recorded-adult-employer";
 import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
@@ -67,7 +68,6 @@ import {
 import { establishLifePersonality } from "../simulation/life-personality";
 import {
   localBusinessWageMinor,
-  adultStartEmployer,
   localBusinessesIn,
   seatLocalBusinesses,
 } from "../simulation/local-economy";

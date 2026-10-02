@@ -4,12 +4,16 @@ import { leaveJob } from "../simulation/job-market";
 import {
   activeWorkRelationshipsAt,
   organizationProfileAt,
+  workRoleAt,
+  workStatusAt,
 } from "../simulation/life-queries";
 import {
   adultStartEmployer,
-  localBusinessesIn,
-} from "../simulation/local-economy";
-import { createExplicitGeographyLife } from "./new-game-geography";
+  recordedAdultEmployerMonthlyWage,
+} from "../simulation/recorded-adult-employer";
+import { townBusinesses } from "../simulation/living-world/town-businesses";
+import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { observerPlace } from "./observer-world";
 import { letAdultTimePass } from "./adult-life";
 import { openOrdinaryLife } from "./ordinary-life";
@@ -23,15 +27,56 @@ import { openOrdinaryLife } from "./ordinary-life";
 
 function adultLife(seed: string) {
   const place = observerPlace(seed);
-  const life = createExplicitGeographyLife({
-    placeKey: place.key,
-    seed,
-    startAge: 34,
-  });
+  const life = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed,
+      startAge: 34,
+      questionnaire: "skipped",
+    }),
+  );
+  expect(life.game).not.toBeNull();
+  const world = life.game!.world;
+  const personId = life.game!.playerPersonId;
+  const home = world.people[personId]!.homeJurisdictionId;
+  const openingWork = activeWorkRelationshipsAt(world, personId);
+  const context =
+    openingWork.length > 0
+      ? ""
+      : JSON.stringify({
+          currentDate: world.currentDate,
+          selected: adultStartEmployer(world, personId, home),
+          pastWork: world.history.workRelationships
+            .filter((work) => work.personId === personId)
+            .map((work) => ({
+              stableKey: work.stableKey,
+              startedAt: work.startedAt,
+              status: workStatusAt(world, work.id),
+            })),
+          employers: townBusinesses(world, home).map((business) => ({
+            name: business.name,
+            staff: business.jobs.map((job) => {
+              const role = workRoleAt(world, job.relationshipId);
+              return {
+                directsOthers: job.directsOthers,
+                occupation: role?.occupationClassification,
+                monthlyWage: role?.occupationClassification
+                  ? recordedAdultEmployerMonthlyWage(
+                      {
+                        workerOccupation: role.occupationClassification,
+                      },
+                      home,
+                    )
+                  : null,
+              };
+            }),
+          })),
+        });
   return {
-    label: `${place.key} seed ${seed}`,
-    world: life.game.world,
-    personId: life.game.playerPersonId,
+    label: `${place.key} seed ${seed} ${context}`,
+    world,
+    personId,
   };
 }
 
@@ -44,10 +89,15 @@ describe("a grown-up new life", () => {
       const job = jobs[0]!;
       const home = world.people[personId]!.homeJurisdictionId;
       expect(
-        localBusinessesIn(world, home).map((b) => b.organization.id),
+        townBusinesses(world, home).map((b) => b.organizationId),
         label,
       ).toContain(job.relationship.organizationId);
-      expect(job.relationship.startedAt < world.currentDate, label).toBe(true);
+      const employer = world.history.organizations.find(
+        (record) => record.id === job.relationship.organizationId,
+      )!;
+      // The actual town employer opened on the saved opening date.
+      expect(job.relationship.startedAt, label).toBe(employer.formedAt);
+      expect(job.relationship.startedAt <= world.currentDate, label).toBe(true);
       expect(
         organizationProfileAt(world, job.relationship.organizationId!)?.name,
         label,
@@ -64,19 +114,34 @@ describe("a grown-up new life", () => {
     expect(chosen?.organization.id, label).toBe(
       held.relationship.organizationId,
     );
-    // Nobody the person knows works in town, so their school job's line
-    // (a shop counter) decides: they work a counter, not a trade.
-    expect(chosen?.kind.workerOccupation.startsWith("occupation:"), label).toBe(
-      true,
+    const role = workRoleAt(world, held.relationship.id)!;
+    expect(chosen?.kind.workerOccupation, label).toBe(
+      role.occupationClassification,
     );
+    expect(chosen?.kind.workerTitle, label).toBe(role.title);
+    expect(
+      townBusinesses(world, home).some((business) =>
+        business.jobs.some((staff) => {
+          if (staff.personId === personId || staff.directsOthers) return false;
+          const staffRole = workRoleAt(world, staff.relationshipId);
+          return (
+            staffRole?.title === role.title &&
+            staffRole.occupationClassification === role.occupationClassification
+          );
+        }),
+      ),
+      label,
+    ).toBe(true);
   });
 
   it("is paid each week by the employer, and can leave the job", () => {
     const { label, world, personId } = adultLife("adult-work-3");
+    const openingJobs = activeWorkRelationshipsAt(world, personId);
+    expect(openingJobs, label).toHaveLength(1);
+    const job = openingJobs[0]!;
     const played = openOrdinaryLife(world, personId);
     // The player's own "let time pass".
     const later = letAdultTimePass(played, 21);
-    const job = activeWorkRelationshipsAt(later, personId)[0]!;
     const pay = later.history.resourceFlows.find(
       (flow) =>
         flow.basisReference.kind === "work" &&
