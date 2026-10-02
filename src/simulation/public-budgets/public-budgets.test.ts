@@ -499,7 +499,7 @@ function settleWithPaidProgram(
     ) * 100,
     "USD",
   );
-  const months = [];
+  const months: World["currentDate"][] = [];
   let scheduled = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
   while (scheduled <= lastMonth) {
     months.push(scheduled);
