@@ -10136,14 +10136,16 @@
         "US-CA": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.sos.ca.gov/elections/voting-resources/voting-california/who-can-vote-california/voting-rights-californians",
+          "note": "Restoration event and coverage: voting is barred while serving a state or federal prison term for a felony, including such a term housed in a local detention facility under Penal Code section 2910. A local felony jail sentence, probation-condition jail time, pretrial detention, parole, probation, mandatory supervision, post-release community supervision and federal supervised release remain eligible categories in the official guidance. Completion of the disqualifying prison term restores voting rights, but voter registration is still required. Official guidance fetched October 2, 2026; no effective date inferred.",
+          "cite": "California Secretary of State, Voting Rights: Persons with a Prior Felony Conviction"
         },
         "US-CO": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.sos.state.co.us/pubs/elections/FAQs/VotingAndConviction.html",
+          "note": "Restoration event: the day of release from felony detention or incarceration restores eligibility to register. Parole and probation allow voting; pretrial detention and misdemeanor sentences do not impose the felony voting bar. Coverage includes state and federal convictions; restitution payment is not a voting condition. Prior registration cancelled for felony incarceration requires reregistration, so restoration does not itself produce registration. Official guidance fetched October 2, 2026; no enactment date inferred.",
+          "cite": "Colorado Secretary of State, Voting and Conviction FAQs, questions 1-11"
         },
         "US-CT": {
           "answer": "yes",
@@ -10187,8 +10189,9 @@
         "US-HI": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://elections.hawaii.gov/voting/voters-with-a-felony-conviction/",
+          "note": "Restoration event and coverage: administering-agency guidance bars a person sentenced for a felony from sentence to final discharge, but expressly permits registration and voting during probation or parole after commitment to imprisonment. Those supervision exceptions preserve voting before full sentence completion. Official guidance last updated March 3, 2021, fetched October 2, 2026; the update date is not a statutory effective date. The separately requested legislative statute endpoint returned HTTP 403; that statute text is not claimed acquired.",
+          "cite": "Hawaii Office of Elections, Voters with a Felony Conviction; citing Haw. Const. art. II, § 2 and HRS § 831-2"
         },
         "US-IA": {
           "answer": "no",
@@ -10238,14 +10241,16 @@
         "US-MA": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://malegislature.gov/Laws/Constitution",
+          "note": "Coverage: amendment Article CXX excludes persons incarcerated in a correctional facility due to a felony conviction from the constitutional voting qualification. The exclusion is tied to that incarceration, not all convictions or completion of probation or parole; release removes this felony-incarceration exclusion while other voter qualifications remain separate. Current official constitutional text fetched October 2, 2026; amendment text supplies no precise ratification date here, and the reader-default date is not researched enactment.",
+          "cite": "Mass. Const. amend. art. CXX, amending art. III"
         },
         "US-MD": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison. A conviction for buying or selling votes is a permanent bar unless pardoned, a narrow election-crime exception."
+          "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gel&section=3-102&enactments=false",
+          "note": "Restoration event: a felony disqualifies voter registration only while currently serving a court-ordered sentence of imprisonment for that conviction; probation or parole alone is not that statutory imprisonment condition. Coverage separately excludes conviction for buying or selling votes under subsection (b)(3), preserving the prior record of a permanent bar unless pardoned; this fetched section does not itself state a pardon procedure. A precise voting-related judicial finding in a guardianship is a separate exclusion under subsection (b)(2), not inferred from conviction. Current official text fetched October 2, 2026; no enactment date inferred.",
+          "cite": "Md. Code, Election Law § 3-102(b)(1)-(3)"
         },
         "US-ME": {
           "answer": "yes",
@@ -10262,8 +10267,9 @@
         "US-MN": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.revisor.mn.gov/statutes/cite/201.014",
+          "note": "Restoration event: an individual ineligible because of a felony conviction regains the civil right to vote during any period not incarcerated for that offense; later incarceration for the offense removes that right only during that incarceration. Coverage includes the statutory work-release provisions under sections 241.26, 244.065 and 631.425, which are not deemed incarceration for this voting rule. Court-ordered voting incapacity and guardianship revocation remain separate exclusions under subdivision 2. Official 2025 statutory publication fetched October 2, 2026, cites 2023 chapters 12 and 62. The current subdivision 2a amendment is effective June 1, 2023 under Laws 2023, chapter 62, article 4, section 10 (https://www.revisor.mn.gov/laws/2023/0/Session+Law/Chapter/62/); this revision date is not the beginning of the broader yes-after-sentence policy and is not inferred from the reader default.",
+          "cite": "Minn. Stat. § 201.014, subds. 2, 2a"
         },
         "US-MO": {
           "answer": "yes",
@@ -10320,8 +10326,9 @@
         "US-NJ": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.nj.gov/state/elections/voter-rights.shtml",
+          "note": "Restoration event and coverage: official election guidance allows voting when not serving a sentence of incarceration resulting from an indictable-offense conviction under New Jersey, another state or federal law, by completing a new voter registration form. Release-stage voting eligibility does not itself create that registration record. Official administering-agency guidance fetched October 2, 2026; no statute enactment date or automatic registration inferred.",
+          "cite": "New Jersey Division of Elections, Voting Right Restoration"
         },
         "US-NM": {
           "answer": "yes",
@@ -10332,8 +10339,9 @@
         "US-NV": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://www.leg.state.nv.us/NRS/NRS-213.html#NRS213Sec157",
+          "note": "Restoration event: a person convicted of a felony is immediately restored to voting upon probation, parole or pardon, or after serving the sentence and release from prison. Registration cancelled for felony incarceration may be renewed upon release; the county clerk may not require evidence or a court order to prove that release-stage qualification under section 293.543(4). Voting restoration is separate from officeholding and jury-service restoration periods. Companion official registration provisions: https://www.leg.state.nv.us/NRS/NRS-293.html#NRS293Sec543. Current official texts fetched October 2, 2026; no historic effective date inferred.",
+          "cite": "Nev. Rev. Stat. §§ 213.157(1), 293.540(2)(c), 293.543(2), (4)"
         },
         "US-NY": {
           "answer": "yes",
@@ -10375,8 +10383,9 @@
         "US-RI": {
           "answer": "yes",
           "preempts": true,
-          "source": "https://www.brennancenter.org/our-work/research-reports/can-people-convicted-felony-vote",
-          "note": "Automatic restoration upon release from prison."
+          "source": "https://webserver.rilegislature.gov/Statutes/TITLE17/17-9.2/17-9.2-3.htm",
+          "note": "Restoration event: discharge from felony incarceration restores the right to vote. Coverage includes Rhode Island residents discharged from incarceration or never incarcerated following felony convictions, whether discharged or sentenced before or after this section took effect; probation and parole are included in the notice program. Corrections provides registration assistance and forwards completed forms unless permission is refused; restoration is distinct from registration. Official statute fetched October 2, 2026; history lists 2006 chapters 366 and 476 but no precise effective date, so no enactment date is inferred.",
+          "cite": "R.I. Gen. Laws § 17-9.2-3(a), (c), (f)-(h)"
         },
         "US-SC": {
           "answer": "yes",
