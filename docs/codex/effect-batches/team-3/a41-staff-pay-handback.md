@@ -4,7 +4,7 @@ Three staff job kinds now initialize salary terms from actual occupation, workpl
 
 ## MERGED
 
-Not merged. This bounded main-based piece starts at b881f3874414e9451b4dda932760bf827f6d54a5. Root retains common-pay integration, state cutoff, law reader, registry and the released A33/R34 payroll hooks.
+Not merged. This bounded main-based piece starts at b881f3874414e9451b4dda932760bf827f6d54a5 and additively receives main 8e173a6aa before publication. The renewed tested composition is e1c8915baea254162614e09191e1da091330e7c4. Root retains common-pay integration, state cutoff, law reader, registry and the released A33/R34 payroll hooks.
 
 ## WHAT EMERGED
 
@@ -12,7 +12,7 @@ HARDWIRED: office-salary.ts annualPay reads an actual dated staff role and reuse
 
 ## VITAL STATISTICS
 
-Seed a41-recorded-office-staff-all56 selects all 56 jurisdictions. The complete changed test file returned 61 PASS / 4 TODO in 17.59 seconds. Its geographic cases accept an available occupational rate or verify refusal where none exists; these are not 56 supported floor or payday claims. Three changed scoped type roots loaded 1009 files with zero diagnostics. Changed lint and whitespace passed. The first run returned 55 FAIL / 6 PASS / 4 TODO because the fixture searched terms.reason instead of the existing authored provenance note; amounts and production guards were unchanged by that correction. No full suite, unchanged LOAD, browser play or final common-pay composition was run.
+Seed a41-recorded-office-staff-all56 selects all 56 jurisdictions. The complete changed test file returned 61 PASS / 4 TODO in 17.59 seconds, then the same counts in 17.05 seconds on the additive current-main composition. Its geographic cases accept an available occupational rate or verify refusal where none exists; these are not 56 supported floor or payday claims. Three changed scoped type roots loaded 1013 files with zero diagnostics on the renewed composition (1009 on its predecessor). Changed lint and whitespace passed. The first run returned 55 FAIL / 6 PASS / 4 TODO because the fixture searched terms.reason instead of the existing authored provenance note; amounts and production guards were unchanged by that correction. No full suite, unchanged LOAD, browser play or final common-pay composition was run.
 
 ## 1. Why-chain to bedrock
 
