@@ -423,13 +423,6 @@
       "code": "if (jurisdictionKey === \"US-CA\")"
     },
     {
-      "file": "src/simulation/constitutional-process.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if ([\"california\", \"us-ca\"].includes(j.slug)) return \"US-CA\";"
-    },
-    {
       "file": "src/simulation/crime/contract.ts",
       "kind": "fixed-share",
       "build": "Build 21",
