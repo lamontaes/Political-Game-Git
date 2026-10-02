@@ -1,0 +1,8 @@
+/* Multiple actual district/at-large lawmakers keep their complete figures.
+ * A large saved delegation can be read by scrolling, without discarding seats. */
+.pg-orientation-state-cast {
+  flex-wrap: wrap;
+  max-height: calc(100% - var(--pg-orientation-actions-height) - 5rem);
+  overflow-y: auto;
+  align-content: flex-start;
+}
