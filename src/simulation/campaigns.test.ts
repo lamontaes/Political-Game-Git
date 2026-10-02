@@ -1,9 +1,10 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
+import { settledQualification } from "./settled-qualifications";
+import { officeFamilyForChamberKey } from "./office-qualification-rules";
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
-  ageOnDate,
   advanceWorld,
   campaignActionResult,
   campaignForCandidate,
@@ -61,8 +62,7 @@ function firstAdult(world: World): EntityId {
   const personId = world.personOrder.find((candidate) => {
     const person = world.people[candidate];
     return (
-      person !== undefined &&
-      ageOnDate(person.birthDate, world.currentDate) >= GAME_ADULT_CANDIDACY_AGE
+      person !== undefined && fixtureMeetsRecordedCandidacyAge(world, candidate)
     );
   });
   if (!personId) throw new Error("The fixture produced no adult.");
@@ -118,11 +118,7 @@ function fileKentuckyCampaign(
   const staffPersonIds = base.personOrder
     .filter((personId) => personId !== candidatePersonId)
     .filter((personId) => {
-      const person = base.people[personId]!;
-      return (
-        ageOnDate(person.birthDate, base.currentDate) >=
-        GAME_ADULT_CANDIDACY_AGE
-      );
+      return fixtureMeetsRecordedCandidacyAge(base, personId);
     })
     .slice(0, staffCount);
   const opponents = ensureCampaignOpponents(base, {
@@ -222,10 +218,28 @@ describe("candidacy coverage is stated, never assumed", () => {
     }
   });
 
-  it("keeps unsupported Kentucky qualifications unknown rather than borrowing another state's", () => {
+  it("records sourced Kentucky office ages and keeps unsupported qualification fields unknown", () => {
     const pack = candidacyPackById(KENTUCKY_PACK)!;
     for (const office of pack.offices) {
-      expect(office.qualification.minimumAge.kind).toBe("unknown");
+      expect(office.qualification.minimumAge.kind).toBe("known");
+      const family = officeFamilyForChamberKey(
+        office.officeKey.split(":").at(-1)!,
+      );
+      const age = settledQualification(
+        pack.jurisdictionKey,
+        "MINIMUM_AGE",
+        family!,
+      );
+      expect(age).not.toBeNull();
+      if (office.qualification.minimumAge.kind === "known") {
+        expect(office.qualification.minimumAge.value).toBe(age!.value);
+        expect(office.qualification.minimumAge.source.citation).toBe(
+          age!.source.citation,
+        );
+        expect(office.qualification.minimumAge.source.sourceUrl).toBe(
+          age!.source.sourceUrl,
+        );
+      }
       expect(office.qualification.residency.kind).toBe("unknown");
       expect(office.qualification.termYears.kind).toBe("unknown");
       expect(office.qualification.filing.kind).toBe("unknown");
