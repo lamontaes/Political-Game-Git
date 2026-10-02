@@ -74,7 +74,7 @@ function life(seed = "goal-pursuit-life") {
     "Recorded town employers expose actual roles",
   ).toBeGreaterThan(0);
   expect(
-    world.history.jobOpenings.length,
+    world.history.jobOpenings?.length,
     "Actual market producer lists roles before pursuit",
   ).toBeGreaterThan(0);
   return { world, playerId: personId };
