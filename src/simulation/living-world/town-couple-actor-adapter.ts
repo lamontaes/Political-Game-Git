@@ -4,7 +4,7 @@ import {
   coupleStageOptions,
 } from "../couple-stage-contract";
 import type { CoupleStage } from "../couple-stage-data";
-import { evaluateDecision } from "../decisions";
+import { evaluateDecision, isSelectedDecision } from "../decisions";
 import type { EntityId, IsoDate, World } from "../types";
 
 /** One actor evaluator, with the same saved romantic evidence for each actor.
@@ -66,4 +66,121 @@ export function evaluateTownCoupleActors(
       }),
     ),
   };
+}
+
+/** Candidates are supplied from the review's eligibility guards; acquaintance
+ * and desire must still have saved support. The shared evaluator owns ranking
+ * and ties, including the disclosed A124 regression. */
+export function evaluateTownDateProposal(
+  world: World,
+  stableKey: string,
+  askerId: EntityId,
+  candidates: readonly EntityId[],
+): EntityId | null {
+  const known = new Set(
+    world.history.relationshipInteractions
+      .filter(
+        (row) =>
+          row.occurredAt <= world.currentDate &&
+          row.personIds.includes(askerId),
+      )
+      .flatMap((row) => row.personIds),
+  );
+  const eligible = candidates.filter(
+    (id) => id !== askerId && known.has(id) && world.people[id],
+  );
+  const evidence = eligible.map((id) => ({
+    id,
+    considerations: romanticConsiderations(
+      world,
+      `${stableKey}:${id}`,
+      askerId,
+      id,
+    ),
+  }));
+  const supported = evidence.filter((row) =>
+    row.considerations.some(
+      (c) =>
+        c.optionKey === "accept" &&
+        c.direction === "supports" &&
+        c.sourceRefs.length > 0,
+    ),
+  );
+  if (supported.length === 0) return null;
+  const evaluation = evaluateDecision(world, {
+    stableKey: `${stableKey}:ask`,
+    decisionType: "people.date-proposal",
+    actorPersonId: askerId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: { kind: "context:life", key: "date-proposal", entityId: null },
+    options: [
+      {
+        key: "stay-single",
+        label: "Do not ask",
+        description: "Make no proposal.",
+      },
+      ...supported.map((row) => ({
+        key: `date:${row.id}`,
+        label: "Ask this person out",
+        description: "Propose a first date to this recorded acquaintance.",
+      })),
+    ],
+    constraints: [],
+    considerations: supported.flatMap((row) =>
+      row.considerations.map((c) => ({
+        ...c,
+        optionKey: `date:${row.id}`,
+        direction:
+          c.optionKey === "accept"
+            ? c.direction
+            : c.direction === "supports"
+              ? ("opposes" as const)
+              : ("supports" as const),
+      })),
+    ),
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  });
+  if (!isSelectedDecision(evaluation)) return null;
+  const recipient = supported.find(
+    (row) => `date:${row.id}` === evaluation.selectedOptionKey,
+  )?.id;
+  if (!recipient) return null;
+  const considerations = romanticConsiderations(
+    world,
+    `${stableKey}:answer`,
+    recipient,
+    askerId,
+  );
+  if (considerations.length === 0) return null;
+  const answer = evaluateDecision(world, {
+    stableKey: `${stableKey}:answer`,
+    decisionType: "people.date-answer",
+    actorPersonId: recipient,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: { kind: "context:life", key: "date-proposal", entityId: null },
+    options: [
+      { key: "accept", label: "Accept the date", description: "Go on a date." },
+      {
+        key: "decline",
+        label: "Decline the date",
+        description: "Do not go on a date.",
+      },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  });
+  return isSelectedDecision(answer) && answer.selectedOptionKey === "accept"
+    ? recipient
+    : null;
 }
