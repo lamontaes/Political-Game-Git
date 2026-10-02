@@ -5,4 +5,4 @@ section: Fixed
 title: Adult charging reads the dated juvenile age
 ---
 
-Adult charging reads the law's numeric juvenile-age ceiling instead of converting a yes/no answer to age 17 or 18. The reader uses the previously sourced starting-law terms and preserves their operative dates. Unread age and adult-transfer authority are not invented.
+Adult charging reads the law's numeric juvenile-age ceiling and preserves its operative date. Where an age is unread, the reader labels the observed same-answer peer-rule mode and exposes its contributing jurisdictions instead of stopping all adult charging. Ordinary sponsor filings persist that peer-derived age through the existing bill-section writer. This general age does not authorize an individual adult-court transfer.

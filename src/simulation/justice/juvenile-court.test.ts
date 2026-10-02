@@ -5,8 +5,9 @@ import { assertWorldIntegrity } from "../world";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { makeIsoDate } from "../dates";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { offenderForVictims } from "../crime/offenders";
-import { adultCourtAgeAt } from "./juvenile-court";
+import { eligibleOffenders } from "../crime/offenders";
+import { adultCourtAgeAt, juvenileCourtAgeRuleAt } from "./juvenile-court";
+import { recordJuvenileAgeBillTerm } from "./juvenile-law-term";
 import type {
   EntityId,
   LegislativeMeasureRecord,
@@ -32,7 +33,7 @@ describe("general adult age comes from the dated numeric juvenile ceiling", () =
     );
     console.info(`A25 new game ${place.key}; seed ${seed}`);
   });
-  it("does not turn a later enacted Boolean answer into an age", () => {
+  it("labels the peer-mode estimate for an enacted law without a numeric age", () => {
     const small = smallWorld({
       place: "US-LA",
       seed: "team9-a25-boolean-act",
@@ -93,9 +94,58 @@ describe("general adult age comes from the dated numeric juvenile ceiling", () =
     expect(
       adultCourtAgeAt(world, small.jurisdictionId, makeIsoDate("2026-01-03")),
     ).toBe(17);
+    const rule = juvenileCourtAgeRuleAt(
+      world,
+      small.jurisdictionId,
+      makeIsoDate("2026-01-04"),
+    );
+    expect(rule?.estimated).toBe(true);
+    expect(rule!.contributors.length).toBeGreaterThan(0);
     expect(
       adultCourtAgeAt(world, small.jurisdictionId, makeIsoDate("2026-01-04")),
-    ).toBeNull();
+    ).toBe(rule!.juvenileCeiling + 1);
+    // The ordinary filing adapter persists the amount before enactment.
+    const sponsorPersonId = Object.values(small.world.people)[0]!.id;
+    const filingWorld = {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: Math.max(
+          world.history.nextSequence,
+          measure.sequence + 1,
+        ),
+        legislativeMeasures: [{ ...measure, sponsorPersonId }],
+        legislativeEnactments: small.world.history.legislativeEnactments,
+      },
+    };
+    const filed = recordJuvenileAgeBillTerm(filingWorld, measureId);
+    const provision = filed.history.legislativeProvisions!.at(-1)!;
+    expect(provision.lawTerms?.[0]?.key).toBe("age");
+    expect(provision.lawTerms?.[0]?.value).toBe(rule!.juvenileCeiling);
+    expect(provision.text).toContain(
+      "Estimated from the current same-answer peer rule mode",
+    );
+    expect(recordJuvenileAgeBillTerm(filed, measureId)).toBe(filed);
+    const enacted = {
+      ...filed,
+      history: {
+        ...filed.history,
+        nextSequence: filed.history.nextSequence + 1,
+        legislativeEnactments: [
+          {
+            ...enactment,
+            sequence: filed.history.nextSequence,
+            resolvedAt: filed.currentDate,
+            effectiveAt: filed.currentDate,
+          },
+        ],
+      },
+    };
+    const exact = juvenileCourtAgeRuleAt(enacted, small.jurisdictionId);
+    expect(exact?.estimated).toBe(false);
+    expect(exact?.juvenileCeiling).toBe(provision.lawTerms![0]!.value);
+    // The authored enactment isolates final-term selection; ordinary
+    // territory openings above and below cover canonical save/reload.
   });
   it.each([
     ["US-LA", 17],
@@ -139,21 +189,25 @@ describe("general adult age comes from the dated numeric juvenile ceiling", () =
   });
 
   it.each(["US-AS", "US-VI"])(
-    "refuses a Boolean-only row and adult offender admission in %s",
+    "keeps adult offender admission using the observed peer mode in %s",
     (place) => {
       const small = smallWorld({ place, seed: `team9-a25-unknown:${place}` });
-      expect(adultCourtAgeAt(small.world, small.jurisdictionId)).toBeNull();
+      const rule = juvenileCourtAgeRuleAt(small.world, small.jurisdictionId);
+      expect(rule?.estimated).toBe(true);
+      expect(rule!.contributors.length).toBeGreaterThan(0);
+      const candidates = eligibleOffenders(
+        small.world,
+        small.jurisdictionId,
+        small.world.currentDate,
+      );
+      expect(candidates.length).toBeGreaterThan(0);
+      expect(candidates.every((person) => person.age >= rule!.adultAge)).toBe(
+        true,
+      );
+      const restored = deserializeWorld(serializeWorld(small.world));
       expect(
-        offenderForVictims(
-          small.world,
-          {
-            jurisdictionId: small.jurisdictionId,
-            occurredAt: small.world.currentDate,
-            victimPersonIds: [],
-          },
-          "burglary",
-        ),
-      ).toBeNull();
+        eligibleOffenders(restored, small.jurisdictionId, restored.currentDate),
+      ).toEqual(candidates);
     },
   );
 });
