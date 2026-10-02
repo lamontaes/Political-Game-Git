@@ -3,6 +3,13 @@ import { describe, expect, it } from "vitest";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
 import { US_FEDERAL_POSITIONS_PACK } from "../policy-pack-us-federal-positions";
+import {
+  assertLawSchedules,
+  type LawScheduleTerm,
+} from "../law-structured-terms";
+import { createProductionPolicyCatalog } from "../production-catalog";
+import { createWorld } from "../world";
+import { makeIsoDate } from "../dates";
 
 interface Parameter {
   readonly key: string;
@@ -17,6 +24,7 @@ interface Term {
 interface Row {
   readonly answer: string;
   readonly lawTerms?: readonly Term[];
+  readonly lawSchedules?: readonly LawScheduleTerm[];
   readonly operativeAt?: string;
   readonly before?: Row;
   readonly phases?: readonly Row[];
@@ -43,6 +51,8 @@ const SCALAR_UNITS: Readonly<Record<string, string>> = {
   "usd-per-work-hour": "minor/hour",
   "hourly-rate": "minor/hour",
   "basis-points": "basis-points",
+  "usd-per-container": "minor/container",
+  "usd-per-tonne-co2-equivalent": "minor/tonne-co2-equivalent",
   "employee-premium-basis-points-of-covered-wages": "basis-points",
   "annual-percentage": "ratio",
   "annual-percentage-increase": "ratio",
@@ -65,13 +75,19 @@ const NON_SCALAR_NUMERIC = new Set([
   "share-by-year",
   "weeks-of-paid-leave",
   "weeks-of-pregnancy",
-  "usd-per-container",
   "usd-per-ride",
   "usd-per-vehicle-mile",
-  "usd-per-tonne-co2-equivalent",
   "water-volume-per-permit-period",
   "co2-mass-per-electricity-output-unit",
 ]);
+
+const SCHEMA_WORLD = createWorld({
+  seed: "starting-law-required-term-validation",
+  currentDate: makeIsoDate("2026-01-01"),
+  people: [],
+  jurisdictions: [],
+  policyCatalog: createProductionPolicyCatalog(),
+});
 
 function numericUnit(unit: string): string | null | undefined {
   if (
@@ -140,6 +156,36 @@ function missingTerms(
     const matches = (row.lawTerms ?? []).filter(
       (term) => term.questionKey === questionKey && term.key === parameter.key,
     );
+    const schedules = (row.lawSchedules ?? []).filter(
+      (term) => term.questionKey === questionKey && term.key === parameter.key,
+    );
+    if (schedules.length) {
+      if (schedules.length !== 1 || matches.length)
+        return [
+          `${parameter.key}: expected one unambiguous scalar or schedule`,
+        ];
+      const schedule = schedules[0]!;
+      const taxTable =
+        schedule.kind === "income-tax" &&
+        (parameter.unit === "income-thresholds-and-marginal-rates" ||
+          parameter.unit === "share-of-taxable-income");
+      const dimensionalTiers =
+        schedule.kind === "tiers" &&
+        (unit === "minor/container" || unit === "minor/tonne-co2-equivalent") &&
+        schedule.tiers.every((tier) => tier.amount.unit === unit);
+      if (!taxTable && !dimensionalTiers)
+        return [
+          `${parameter.key}: schedule does not preserve ${parameter.unit}`,
+        ];
+      try {
+        assertLawSchedules(SCHEMA_WORLD, [schedule]);
+      } catch (error) {
+        return [
+          `${parameter.key}: invalid canonical schedule (${String(error)})`,
+        ];
+      }
+      return [];
+    }
     if (unit === null)
       return [
         `${parameter.key}: unsupported compound/dimensional contract (${parameter.unit})`,
@@ -210,6 +256,85 @@ describe("starting laws carry their catalog-required numeric terms", () => {
     ).toEqual([
       "brackets: unsupported compound/dimensional contract (income-thresholds-and-marginal-rates)",
     ]);
+  });
+
+  it("admits canonical tax schedules and rejects duplicates or invalid brackets", () => {
+    const questionKey = "us-policy-positions:fiscal.graduated-income-tax";
+    const table: LawScheduleTerm = {
+      questionKey,
+      key: "brackets",
+      kind: "income-tax",
+      schedule: {
+        standardDeductionMinor: 0,
+        sourceUrl: "https://example.test/guard-fixture",
+        brackets: [
+          { overMinor: 0, rateBasisPoints: 100 },
+          { overMinor: 100, rateBasisPoints: 200 },
+        ],
+      },
+    };
+    const parameters = [
+      { key: "brackets", unit: "income-thresholds-and-marginal-rates" },
+    ];
+    expect(
+      missingTerms(
+        questionKey,
+        { answer: "yes", lawSchedules: [table] },
+        parameters,
+      ),
+    ).toEqual([]);
+    expect(
+      missingTerms(
+        questionKey,
+        { answer: "yes", lawSchedules: [table, table] },
+        parameters,
+      ),
+    ).toHaveLength(1);
+    expect(
+      missingTerms(
+        questionKey,
+        {
+          answer: "yes",
+          lawSchedules: [
+            {
+              ...table,
+              schedule: {
+                ...table.schedule,
+                brackets: [{ overMinor: 100, rateBasisPoints: 100 }],
+              },
+            },
+          ],
+        },
+        parameters,
+      ),
+    ).toHaveLength(1);
+  });
+
+  it("preserves a deposit denominator in both scalar and tiered terms", () => {
+    const questionKey = "us-policy-positions:environment-energy.bottle-deposit";
+    const parameters = [{ key: "deposit", unit: "usd-per-container" }];
+    expect(
+      missingTerms(
+        questionKey,
+        {
+          answer: "yes",
+          lawTerms: [
+            { questionKey, key: "deposit", value: 5, unit: "minor/container" },
+          ],
+        },
+        parameters,
+      ),
+    ).toEqual([]);
+    expect(
+      missingTerms(
+        questionKey,
+        {
+          answer: "yes",
+          lawTerms: [{ questionKey, key: "deposit", value: 5, unit: "minor" }],
+        },
+        parameters,
+      ),
+    ).toHaveLength(1);
   });
 
   it("covers every yes row and its separate before/phase rules", () => {
