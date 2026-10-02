@@ -55,11 +55,13 @@ export interface ProgramVariantData extends Omit<
  * No expression evaluation, legal-rule inference, or per-law/level dispatch. */
 function renderText(text: string, resolved: ResolvedParameters): string {
   return text.replace(
-    /\{\{(authority|money|choice|duration|integer|integer-word|years-phrase|date):([^{}]+)\}\}/g,
+    /\{\{(authority|money|choice|duration|integer|integer-locale|integer-word|years-phrase|date):([^{}]+)\}\}/g,
     (_match, kind: string, key: string) => {
       if (kind === "money") return resolved.money(key);
       if (kind === "choice") return resolved.choice(key).clausePhrase;
       if (kind === "integer") return String(resolved.integer(key));
+      if (kind === "integer-locale")
+        return resolved.integer(key).toLocaleString("en-US");
       if (kind === "integer-word") return numberWord(resolved.integer(key));
       if (kind === "date") {
         if (key !== "endsOn" || resolved.endsOn === null)
