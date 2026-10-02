@@ -1,4 +1,9 @@
 import { MINIMUM_WAGE_PAY_ROWS } from "./law-consequences/pay-rows";
+import {
+  RENT_STABILIZATION_QUESTION,
+  RENT_STABILIZATION_ROW,
+  RENT_COVERAGE_VALUES,
+} from "./law-consequences/rent-stabilization-row";
 import { STATUTORY_WAGE_TAX_ROWS } from "./law-consequences/statutory-wage-tax-rows";
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
@@ -45,11 +50,22 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
       ];
-      if (!coverage && !pay && service.length === 0) return row;
+      const rent = key === RENT_STABILIZATION_QUESTION;
+      if (!coverage && !pay && service.length === 0 && !rent) return row;
       return {
         ...row,
+        ...(rent
+          ? {
+              parameters: row.parameters?.map((parameter) =>
+                parameter.key === "coverage"
+                  ? { ...parameter, allowedValues: RENT_COVERAGE_VALUES }
+                  : parameter,
+              ),
+            }
+          : {}),
         consequences: [
           ...(row.consequences ?? []),
+          ...(rent ? [RENT_STABILIZATION_ROW] : []),
           ...(coverage ? [coverage] : []),
           ...(pay ? [pay] : []),
           ...service,
