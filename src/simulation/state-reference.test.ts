@@ -1,4 +1,17 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "./national-election-geography";
+import {
+  appendNationalRecord,
+  nationalAllocation,
+  nationalRecords,
+  registerNationalElection,
+} from "./national-elections";
+import { deserializeWorld, serializeWorld } from "./serialization";
 import {
   CONTINGENT_STATES,
   ELECTORAL_ALLOCATION,
@@ -13,6 +26,94 @@ import {
 } from "./state-reference";
 
 describe("place data owns jurisdiction kind and elector allocation", () => {
+  it("carries every recorded unit into the saved allocation and reopens unchanged", () => {
+    const seed = "a109-place-allocation-save-proof";
+    const place = drawRandomPlace(
+      seed,
+      (candidate) =>
+        STATES[candidate.stateJurisdictionKey.slice(3)]?.electorAllocation !==
+        "none",
+    );
+    const fixture = smallWorld({
+      place: place.key,
+      people: 4,
+      date: "2028-11-08",
+      seed,
+    });
+    const [a, av, b, bv] = fixture.world.personOrder;
+    if (!a || !av || !b || !bv)
+      throw new Error("Four recorded residents are required.");
+    const provenance = {
+      method: "authored" as const,
+      sourceEntityIds: [],
+      note: `Supplied certification fixture in ${fixture.place.name}; seed ${seed}. Not a voter prediction.`,
+    };
+    let world = registerNationalElection(
+      ensureNationalElectionJurisdiction(fixture.world),
+      {
+        stableKey: "a109-allocation-proof",
+        cycle: 2028,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        tickets: [
+          {
+            presidentPersonId: a,
+            vicePresidentPersonId: av,
+            presidentState: fixture.stateUsps,
+            vicePresidentState: fixture.stateUsps,
+          },
+          {
+            presidentPersonId: b,
+            vicePresidentPersonId: bv,
+            presidentState: fixture.stateUsps,
+            vicePresidentState: fixture.stateUsps,
+          },
+        ],
+        provenance,
+      },
+    );
+    const electionId = world.history.nationalElections!.at(-1)!.id;
+    for (const unit of nationalElectionRules(2028).units) {
+      world = appendNationalRecord(world, {
+        stableKey: `a109-result:${unit.key}`,
+        electionId,
+        kind: "unit-result",
+        unitKey: unit.key,
+        sourceContestResultId: null,
+        allocationWinnerPersonId: a,
+        tallies: [
+          { candidatePersonId: a, votes: 2 },
+          { candidatePersonId: b, votes: 1 },
+        ],
+        provenance,
+      });
+      const result = nationalRecords(world, electionId).at(-1)!;
+      world = appendNationalRecord(world, {
+        stableKey: `a109-certification:${unit.key}`,
+        electionId,
+        kind: "certification",
+        resultId: result.id,
+        disposition: "certified",
+        allocationWinnerPersonId: a,
+        authorityNote: "Supplied canonical test certification.",
+        provenance,
+      });
+    }
+    const allocation = nationalAllocation(world, electionId);
+    expect(
+      allocation.electors,
+      `${fixture.place.name}; seed ${seed}`,
+    ).toHaveLength(538);
+    expect(allocation.units.every((unit) => unit.status === "allocated")).toBe(
+      true,
+    );
+    expect(nationalRecords(world, electionId)).toHaveLength(
+      nationalElectionRules(2028).units.length * 2,
+    );
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(nationalAllocation(reopened, electionId)).toEqual(allocation);
+    expect(serializeWorld(reopened)).toBe(serializeWorld(world));
+  }, 120_000);
+
   it("classifies all 56 places without giving territories electors or a contingent state vote", () => {
     const places = Object.entries(STATES);
     expect(places).toHaveLength(56);

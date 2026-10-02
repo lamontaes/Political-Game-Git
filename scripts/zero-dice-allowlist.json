@@ -850,20 +850,6 @@
       "code": "allocationWinnerPersonId: input.unitKey.startsWith(\"ME\")"
     },
     {
-      "file": "src/simulation/national-election-rules.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": ".filter((key) => key !== \"DC\")"
-    },
-    {
-      "file": "src/simulation/national-election-rules.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (state === \"ME\" || state === \"NE\")"
-    },
-    {
       "file": "src/simulation/national-elections.ts",
       "kind": "place-in-logic",
       "build": "Build 27",
