@@ -162,7 +162,7 @@ describe("epidemics among named people", () => {
         )!;
         expect(later.people[decider.personId]).toBeDefined();
         expect(closure.summary).toMatch(
-          /, the principal, closed .+ because \d+ of its \d+ students and staff were out sick\.$/,
+          /, the principal, closed .+ because \d+ students and staff were out sick\.$/,
         );
         expect(closure.visibility).toBe("public");
         const schoolTag = closure.tags.find((tag) =>
