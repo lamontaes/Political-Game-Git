@@ -11,6 +11,7 @@ import {
 } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
+import { paymentFromDatedCash } from "./resource-payments";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -267,6 +268,9 @@ function endFlow(world: World, flow: ResourceFlow, reason: string): World {
   });
 }
 
+const HOUSEHOLD_MOVE_REASON =
+  "Household moved; outside-seller spending follows its current place prospectively.";
+
 function prepareHouseholdCosts(
   world: World,
   personId: EntityId,
@@ -292,21 +296,35 @@ function prepareHouseholdCosts(
   }
   const jurisdictionId = estimate.jurisdictionId;
   const fallbackPrefix = `${householdFlowKey(estimate.householdId)}:`;
-  const fallbackKey = `${fallbackPrefix}${jurisdictionId}`;
+  const baseKey = `${fallbackPrefix}${jurisdictionId}`;
+  const householdFlows = resourceFlowsTouching(next, {
+    kind: "household",
+    householdId: estimate.householdId,
+  });
+  const firstVisit = householdFlows.find((flow) => flow.stableKey === baseKey);
+  const firstTerms = firstVisit && resourceFlowTermsAt(next, firstVisit.id);
+  const residence = householdLocationAt(next, estimate.householdId);
+  // Returning to a place opens a new contract for the recorded residence,
+  // while its existing outside-seller account and ended bill stay intact.
+  // An explicitly ended bill is never revived by initializing the same visit.
+  const fallbackKey =
+    firstVisit &&
+    firstTerms?.status === "ended" &&
+    firstTerms.reason === HOUSEHOLD_MOVE_REASON &&
+    residence &&
+    residence.sequence > firstVisit.sequence &&
+    residence.effectiveAt >= firstVisit.startsAt
+      ? `${baseKey}:residence:${residence.id}`
+      : baseKey;
   for (const flow of householdBills(next, personId))
     if (
       flow.stableKey.startsWith(fallbackPrefix) &&
       flow.stableKey !== fallbackKey
     )
-      next = endFlow(
-        next,
-        flow,
-        "Household moved; outside-seller spending follows its current place prospectively.",
-      );
-  const existing = resourceFlowsTouching(next, {
-    kind: "household",
-    householdId: estimate.householdId,
-  }).find((flow) => flow.stableKey === fallbackKey);
+      next = endFlow(next, flow, HOUSEHOLD_MOVE_REASON);
+  const existing = householdFlows.find(
+    (flow) => flow.stableKey === fallbackKey,
+  );
   const providers = householdBills(next, personId).filter(
     (flow) =>
       !flow.stableKey.startsWith(fallbackPrefix) &&
@@ -496,33 +514,11 @@ function settleMonth(
   // A current reader cannot revive an ended or suspended bill for an old due day.
   if (!periodTerms || periodTerms.status !== "active") return world;
   const monthly = periodTerms.amount;
-  // The lowest balance from the day the month fell due to today. A long quiet
-  // stretch is settled late, and a charge backdated to its due day must not
-  // take money that something dated after it (tuition, say) already spent.
-  const owner = flow.source;
-  if (
-    !resourcePositionAt(world, owner, monthly.currency, {
-      asOfDate: dueOn,
-      historySequenceExclusive: world.history.nextSequence,
-    })
-  )
-    return world; // Missing saved cash is not a zero balance or a missed payment.
-  const balanceOn = (asOfDate: IsoDate) =>
-    resourcePositionAt(world, owner, monthly.currency, {
-      asOfDate,
-      historySequenceExclusive: world.history.nextSequence,
-    })?.liquidBalance.minorUnits ?? 0;
-  const checkpoints = new Set<IsoDate>([dueOn, world.currentDate]);
-  for (const outcome of resourceTransferOutcomesOfFlows(
-    world,
-    resourceFlowsTouching(world, owner).map((row) => row.id),
-  ))
-    if (outcome.occurredAt > dueOn && outcome.occurredAt < world.currentDate)
-      checkpoints.add(outcome.occurredAt);
-  const available = Math.max(0, Math.min(...[...checkpoints].map(balanceOn)));
-  const paid = Math.min(available, monthly.minorUnits);
-  const status =
-    paid === monthly.minorUnits ? "completed" : paid > 0 ? "partial" : "missed";
+  // Reuse the shared dated/sequence cash assessment. Same-day replenishment
+  // cannot conceal money already spent while this bill was overdue.
+  const payment = paymentFromDatedCash(world, flow.source, monthly, dueOn);
+  if (payment.availableMinor === null) return world;
+  const { status, transferredAmount, reasonKind } = payment;
   const next = recordResourceTransferOutcome(world, {
     stableKey: `${flow.stableKey}:${dueOn}`,
     resourceFlowId: flow.id,
@@ -531,14 +527,20 @@ function settleMonth(
     occurredAt: dueOn,
     status,
     attemptedAmount: monthly,
-    transferredAmount: money(paid, monthly.currency),
-    reasonKind: status === "completed" ? null : "capacity:insufficient-funds",
+    transferredAmount,
+    reasonKind,
     note: `Food and bills for ${monthName(dueOn)}.`,
     provenance: periodTerms.provenance,
   });
   return status === "completed"
     ? next
-    : recordFirstShortfall(next, personId, monthly.minorUnits, paid, dueOn);
+    : recordFirstShortfall(
+        next,
+        personId,
+        monthly.minorUnits,
+        transferredAmount.minorUnits,
+        dueOn,
+      );
 }
 
 /**

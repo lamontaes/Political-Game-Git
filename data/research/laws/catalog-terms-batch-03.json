@@ -98,6 +98,24 @@
             "owner": "Team9",
             "request": "Jurisdiction-specific lawful selection bounds for replacement; no universal numeric bound inferred."
           }
+        },
+        {
+          "key": "rate",
+          "unit": "basis-points",
+          "basis": "Final adopted employee premium, not a researched default or universal rate.",
+          "selectableRange": {
+            "status": "requires-jurisdiction-resolution",
+            "request": "Actual lawful bill rate and operative scope; missing legal bounds are not authority."
+          }
+        },
+        {
+          "key": "cap",
+          "unit": "dollars/year",
+          "basis": "Final adopted annual covered-wage cap, not a researched default.",
+          "selectableRange": {
+            "status": "requires-jurisdiction-resolution",
+            "request": "Actual lawful bill cap and operative scope; missing legal bounds are not authority."
+          }
         }
       ],
       "currentLawSource": {

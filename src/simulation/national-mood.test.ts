@@ -1,3 +1,18 @@
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { campaigns } from "./campaign-queries";
+import {
+  latestSupportState,
+  quantityBasisPoints,
+  recordSupportShift,
+  SUPPORT_DENOMINATOR,
+} from "./campaign-support";
+import { cancelElectionContest } from "./election-contests";
+import { createOrganizationParticipation } from "./life";
+import {
+  LIVING_WORLD_KEYS,
+  livingWorldOrganizationId,
+} from "./living-world/opening";
+import { PARTY_AFFILIATION_KIND } from "./living-world/opening";
 import { describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { ageOnDate, makeIsoDate } from "./dates";
@@ -85,6 +100,38 @@ function fixture() {
   const sign =
     majorPartyOf(world, president, world.currentDate) === "democratic" ? 1 : -1;
   return { world, president, voters, adults, sign };
+}
+function campaignFixture() {
+  const f = fixture();
+  const candidate = f.voters[0]!;
+  const party = majorPartyOf(f.world, f.president, f.world.currentDate)!;
+  const affiliated = createOrganizationParticipation(f.world, {
+    stableKey: "a117:campaign-affiliation",
+    personId: candidate,
+    organizationId: livingWorldOrganizationId(
+      f.world,
+      LIVING_WORLD_KEYS.nationalParty(party),
+    ),
+    startedAt: f.world.currentDate,
+    kind: PARTY_AFFILIATION_KIND,
+    roleKind: "member:public-affiliation",
+    context: "Explicit same-party reader fixture, not a natural party choice.",
+    provenance: {
+      kind: "authored",
+      note: "Controlled candidate affiliation for support consumer test.",
+    },
+  });
+  const world = fileForOffice(affiliated, candidate);
+  const campaign = campaigns(world).find(
+    (c) => c.candidatePersonId === candidate,
+  )!;
+  expect(campaign).toBeDefined();
+  const adults = new Set(
+    world.personOrder.filter(
+      (id) => ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
+    ),
+  ).size;
+  return { ...f, world, campaign, candidate, adults };
 }
 const election = makeIsoDate("2026-11-03");
 describe(`recorded presidential standing (${place!.name}; seed ${seed})`, () => {
@@ -350,6 +397,92 @@ describe(`recorded presidential standing (${place!.name}; seed ${seed})`, () => 
     expect(
       viewOfOfficial(changed, f.voters[0]!, f.president).belief?.position,
     ).toBe("oppose");
+  });
+  it("reads current canonical campaign shares as labeled comparable estimates and follows same-day support writes", () => {
+    const f = campaignFixture();
+    const read = (world: World) =>
+      presidentialSupportEstimate(world, f.president, world.currentDate)!;
+    const before = read(f.world);
+    expect(before.label).toContain("ESTIMATED");
+    expect(before.label).toContain("campaign support");
+    const peer = before.peers.find((p) => p.officialId === f.candidate)!;
+    const scope = f.campaign.candidateSupportScopes.find(
+      (s) => s.candidatePersonId === f.candidate,
+    )!;
+    const first = latestSupportState(f.world, f.campaign, scope);
+    expect(peer.supportStateId).toBe(first.id);
+    expect(peer.favorableShare).toBe(
+      quantityBasisPoints(first) / SUPPORT_DENOMINATOR,
+    );
+    expect(peer.voterIds).toEqual([]);
+    const changed = recordSupportShift(f.world, f.campaign, {
+      stableKeyBase: "a117:same-day-contact-support",
+      gainerPersonId: f.candidate,
+      gainBasisPoints: 100,
+      sourceEntityIds: [f.campaign.filingEventId],
+    }).world;
+    const after = read(changed);
+    const latest = latestSupportState(changed, f.campaign, scope);
+    expect(latest.sequence).toBeGreaterThan(first.sequence);
+    expect(
+      after.peers.find((p) => p.officialId === f.candidate)!.supportStateId,
+    ).toBe(latest.id);
+    expect(
+      after.peers.find((p) => p.officialId === f.candidate)!.favorableShare,
+    ).toBe(quantityBasisPoints(latest) / SUPPORT_DENOMINATOR);
+    expect(after.mean).not.toBe(before.mean);
+    expect(nationalMoodDemocraticShift(changed, election)).toBe(
+      f.sign * ((after.mean * f.adults - 1) / f.adults),
+    );
+    const saved = deserializeWorld(serializeWorld(changed));
+    expect(read(saved)).toEqual(after);
+    expect(nationalMoodDemocraticShift(saved, election)).toBe(
+      nationalMoodDemocraticShift(changed, election),
+    );
+  });
+  it("counts each canonical candidate scope once and excludes canceled contests", () => {
+    const f = campaignFixture();
+    const doubled = {
+      ...f.world,
+      history: {
+        ...f.world.history,
+        campaigns: [...campaigns(f.world), f.campaign],
+      },
+    };
+    const before = presidentialSupportEstimate(
+      f.world,
+      f.president,
+      f.world.currentDate,
+    )!;
+    expect(
+      presidentialSupportEstimate(doubled, f.president, doubled.currentDate),
+    ).toEqual(before);
+    const canceled = cancelElectionContest(f.world, {
+      contestId: f.campaign.contestId,
+      stableKey: "a117:canceled",
+      effectiveAt: f.world.currentDate,
+      reason: "Explicit reader control.",
+    });
+    expect(
+      presidentialSupportEstimate(
+        canceled,
+        f.president,
+        canceled.currentDate,
+      )!.peers.every((p) => p.supportStateId === undefined),
+    ).toBe(true);
+  });
+  it("keeps actual re-recorded presidential adult support ahead of comparable campaign estimates", () => {
+    const f = campaignFixture();
+    const exact = support(
+      f.world,
+      f.voters[0]!,
+      f.president,
+      false,
+      "a117:exact-over-campaign",
+    );
+    expect(nationalMoodDemocraticShift(exact, election)).toBe(
+      -f.sign / f.adults,
+    );
   });
   it("adds nothing in a presidential year or an odd year", () => {
     const { world } = fixture();
