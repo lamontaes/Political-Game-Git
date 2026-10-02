@@ -5,6 +5,231 @@ import { lawInForce } from "./governing/law-in-force";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import type { EntityId, IsoDate, World } from "./types";
+import {
+  organizationProfileAt,
+  workRoleAt,
+  workStatusAt,
+} from "./life-queries";
+import { resourceFlowTermsAt } from "./resource-queries";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "./life-places";
+import { principledLeaning } from "./governing/officeholder-principles";
+import { recordFiledProvision } from "./legislative-politics";
+import { recordWorldEvent } from "./world";
+
+function stateOf(world: World, jurisdictionId: EntityId | null) {
+  if (!jurisdictionId) return null;
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  return (
+    (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null) ??
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ??
+    null
+  );
+}
+
+/** The state's recorded public-teacher median, normalized to the existing 40-hour pay year. */
+export function recordedTeacherSalaryMedian(
+  world: World,
+  jurisdictionId: EntityId,
+) {
+  const state = stateOf(world, jurisdictionId);
+  if (!state) return null;
+  const work = new Map(
+    world.history.workRelationships.map((row) => [row.id, row]),
+  );
+  const salaries: { minor: number; sourceRecordIds: EntityId[] }[] = [];
+  for (const flow of world.history.resourceFlows) {
+    if (
+      flow.startsAt > world.currentDate ||
+      flow.recordedAt > world.currentDate ||
+      flow.sequence >= world.history.nextSequence ||
+      flow.basisReference.kind !== "work" ||
+      flow.source.kind !== "organization"
+    )
+      continue;
+    const relationship = work.get(flow.basisReference.workRelationshipId);
+    if (
+      !relationship ||
+      relationship.organizationId !== flow.source.organizationId ||
+      relationship.startedAt > world.currentDate ||
+      relationship.recordedAt > world.currentDate
+    )
+      continue;
+    const status = workStatusAt(world, relationship.id);
+    const role = workRoleAt(world, relationship.id);
+    const profile = organizationProfileAt(world, flow.source.organizationId);
+    const terms = resourceFlowTermsAt(world, flow.id);
+    if (
+      status?.status !== "active" ||
+      role?.occupationClassification !== TEACHER_FLOOR_OCCUPATION ||
+      profile?.classification !== TEACHER_FLOOR_EMPLOYER ||
+      stateOf(world, role.locationJurisdictionId) !== state ||
+      terms?.status !== "active" ||
+      terms.amount.currency !== "USD" ||
+      terms.amount.minorUnits <= 0
+    )
+      continue;
+    const cadence =
+      /^schedule:town-(weekly|biweekly|semimonthly|monthly)(?:-\d)?$/.exec(
+        terms.cadenceKind,
+      );
+    if (!cadence) continue;
+    // These are the same calendar conversions used by town-pay, not a wage estimate.
+    const periods = { weekly: 52, biweekly: 26, semimonthly: 24, monthly: 12 }[
+      cadence[1] as "weekly" | "biweekly" | "semimonthly" | "monthly"
+    ];
+    const hours =
+      (role.timeDemand.expectedWeekly.minimumHours +
+        role.timeDemand.expectedWeekly.maximumHours) /
+      2;
+    if (!(hours > 0)) continue;
+    const minor = Math.round((terms.amount.minorUnits * periods * 40) / hours);
+    if (!Number.isSafeInteger(minor)) continue;
+    salaries.push({
+      minor,
+      sourceRecordIds: [
+        relationship.id,
+        status.id,
+        role.id,
+        flow.id,
+        terms.id,
+        profile.id,
+      ],
+    });
+  }
+  if (!salaries.length) return null;
+  salaries.sort((a, b) => a.minor - b.minor);
+  const middle = Math.floor(salaries.length / 2);
+  const minor =
+    salaries.length % 2
+      ? salaries[middle]!.minor
+      : Math.round((salaries[middle - 1]!.minor + salaries[middle]!.minor) / 2);
+  return {
+    minor,
+    teacherCount: salaries.length,
+    sourceRecordIds: [
+      ...new Set(salaries.flatMap((row) => row.sourceRecordIds)),
+    ],
+  };
+}
+
+/** A supporting sponsor writes a floor from actual state pay, with no prior-floor prerequisite. */
+export function requestedTeacherSalaryFloor(
+  world: World,
+  jurisdictionId: EntityId,
+  sponsorPersonId: EntityId,
+) {
+  const proposition = teacherFloorProposition(world);
+  if (!proposition) return null;
+  const leaning = principledLeaning(world, sponsorPersonId, proposition);
+  if (leaning.score <= 0 || !leaning.recordIds.length) return null;
+  const salary = recordedTeacherSalaryMedian(world, jurisdictionId);
+  if (!salary) return null;
+  const current = teacherSalaryFloorAt(
+    world,
+    jurisdictionId,
+    world.currentDate,
+    null,
+  );
+  if (current && salary.minor <= current.annual * 100) return null;
+  return {
+    ...salary,
+    score: leaning.score,
+    principleRecordIds: leaning.recordIds,
+  };
+}
+
+export function recordTeacherSponsorFloor(
+  world: World,
+  measureId: EntityId,
+): World {
+  const measure = world.history.legislativeMeasures?.find(
+    (row) => row.id === measureId,
+  );
+  const proposition = teacherFloorProposition(world);
+  if (
+    !measure?.sponsorPersonId ||
+    !proposition ||
+    !measure.propositionAnswers?.some(
+      (row) => row.propositionId === proposition && row.answer === "yes",
+    )
+  )
+    return world;
+  const stableKey = `${measure.stableKey}:requested-teacher-floor`;
+  if (
+    world.history.legislativeProvisions?.some(
+      (row) => row.stableKey === stableKey,
+    )
+  )
+    return world;
+  const requested = requestedTeacherSalaryFloor(
+    world,
+    measure.jurisdictionId,
+    measure.sponsorPersonId,
+  );
+  if (!requested) return world;
+  const heading = world.policyCatalog.propositions[proposition]!.name;
+  const next = recordFiledProvision(world, {
+    stableKey,
+    measureId,
+    provisionKey: "teacher-salary-floor",
+    sectionNumber: 1,
+    heading,
+    text: `The minimum annual salary for a full-time public school teacher is $${(requested.minor / 100).toLocaleString("en-US")}.`,
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: "Public school teachers",
+    },
+    applicationScope: {
+      jurisdictionId: measure.jurisdictionId,
+      segmentKey: null,
+    },
+    lawTerms: [
+      {
+        questionKey: TEACHER_SALARY_FLOOR_QUESTION,
+        key: "floor",
+        value: requested.minor,
+        unit: "minor",
+      },
+    ],
+  });
+  return recordWorldEvent(next, {
+    stableKey: `${stableKey}:requested-term-reason`,
+    type: "legislation.sponsor-requested-term",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: measure.jurisdictionId,
+    involvedEntityIds: [measure.id, measure.sponsorPersonId],
+    participants: [
+      {
+        personId: measure.sponsorPersonId,
+        role: "agency:sponsor",
+        detail:
+          "Requested the recorded median public-teacher salary from saved pay and principles.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [...requested.sourceRecordIds, ...requested.principleRecordIds]
+      .map((id) => `source-record:${id}`)
+      .concat(`term:floor`, `principle-score:${requested.score}`),
+    summary: `${measure.designation}'s sponsor requested ${heading} from the state's recorded public-teacher pay.`,
+    context: {
+      location: {
+        jurisdictionId: measure.jurisdictionId,
+        label: world.jurisdictions[measure.jurisdictionId]!.name,
+        setting: null,
+      },
+      socialContext: measure.designation,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
 
 export const TEACHER_SALARY_FLOOR_QUESTION =
   "us-policy-positions:education.raise-teacher-minimum-salary";
