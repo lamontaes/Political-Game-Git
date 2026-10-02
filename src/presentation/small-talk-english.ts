@@ -551,6 +551,9 @@ function outcomeFacts(
 ): GroundedEnglishPacket["facts"] | null {
   const source = [outcome.sourceRecordId];
   switch (outcome.kind) {
+    case "pay-changed-by-law":
+      // Existing law-effect talk covers this saved pay effect.
+      return null;
     case "job-lost": {
       const reason = world.history.workStatuses.find(
         (row) => row.id === outcome.sourceRecordId,

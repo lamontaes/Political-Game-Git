@@ -1,7 +1,14 @@
 import { schoolYearMovesOf } from "../childhood-record";
+import { recordById } from "../history-index";
+import { LAW_EFFECTS_NOTICED_VERSION } from "../law-effects-noticed";
 import { currentGovernorOf } from "../crisis/offices";
 import { eventById } from "../event-index";
-import { NON_MONEY_FELT_SIZE, type LawExposureFeltSize } from "../law-exposure";
+import {
+  NON_MONEY_FELT_SIZE,
+  lawExposuresOf,
+  lawExposureFeltSize,
+  type LawExposureFeltSize,
+} from "../law-exposure";
 import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
@@ -22,6 +29,9 @@ import { jobsLostBy } from "./town-labor-market";
  * - a child of theirs who had to leave school in the middle of a school
  *   year when the family moved: `schoolYearMovesOf` (childhood-record.ts).
  *
+ * Completed law-changed pay adapts the saved paycheck law exposure; its
+ * existing reflection attributes only recorded signatures and votes.
+ *
  * Nothing is invented: an outcome with no record is not here.
  *
  * Adding a kind takes four things, and no second pipeline: the kind and its
@@ -33,7 +43,8 @@ import { jobsLostBy } from "./town-labor-market";
  * count and the talk line read every kind the same way.
  */
 
-export type LivedOutcomeKind = "job-lost" | "school-move";
+export type LivedOutcomeKind =
+  "job-lost" | "school-move" | "pay-changed-by-law";
 
 export interface LivedOutcome {
   readonly kind: LivedOutcomeKind;
@@ -41,6 +52,8 @@ export interface LivedOutcome {
   /** The record that shows it happened. */
   readonly sourceRecordId: EntityId;
   readonly direction: "cost" | "gain";
+  /** Pay effects retain the existing law reflection and its recorded voters. */
+  readonly lawExposureId?: EntityId;
   /** How big it was next to the person's month's pay. */
   readonly felt: Exclude<LawExposureFeltSize, null>;
 }
@@ -50,7 +63,8 @@ export interface LivedOutcome {
  * person's state or territory, or the head of their local government (with
  * the governor where no local government is seated).
  */
-export type AnsweringOffice = "state-executive" | "local-executive";
+export type AnsweringOffice =
+  "state-executive" | "local-executive" | "recorded-law-voters";
 
 /**
  * PLACEHOLDER (research: who-answers-for-what-happened-to-me): a lost job is
@@ -64,6 +78,7 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
   Record<LivedOutcomeKind, AnsweringOffice>
 > = {
   "job-lost": "state-executive",
+  "pay-changed-by-law": "recorded-law-voters",
   // PLACEHOLDER (same research request): a child pulled out of school in the
   // middle of a year is held against the head of the family's local
   // government, where they live now.
@@ -74,6 +89,7 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
 export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string>> =
   {
     "job-lost": "losing a job they did not choose to leave",
+    "pay-changed-by-law": "a recorded paycheck changed by a law",
     "school-move":
       "their child having to leave school in the middle of the year",
   };
@@ -90,6 +106,50 @@ type LivedOutcomeReader = (
 ) => readonly LivedOutcome[];
 
 const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
+  // The payday consumer already schedules the law reflection. Adapt the saved
+  // result, preserving its actual payment, amount and recorded attribution;
+  // no generic governor blame or second reflection is introduced.
+  (world, personId, through) =>
+    lawExposuresOf(world, personId).flatMap((exposure) => {
+      if (
+        exposure.relation !== "own" ||
+        exposure.channel !== "paycheck" ||
+        exposure.recordedAt > through ||
+        !exposure.stableKey.startsWith(
+          `${LAW_EFFECTS_NOTICED_VERSION}:paid:`,
+        ) ||
+        exposure.direction === "none" ||
+        exposure.amount === null
+      )
+        return [];
+      const payment = recordById(
+        world.history.resourceTransferOutcomes,
+        exposure.sourceRecordId,
+      );
+      if (
+        !payment ||
+        payment.status !== "completed" ||
+        payment.occurredAt > through
+      )
+        return [];
+      const felt = lawExposureFeltSize(
+        exposure,
+        exposure.monthlyPay?.minorUnits ?? 0,
+      );
+      return felt === null
+        ? []
+        : [
+            {
+              kind: "pay-changed-by-law" as const,
+              at: payment.occurredAt,
+              sourceRecordId: payment.id,
+              lawExposureId: exposure.id,
+              direction: exposure.direction,
+              felt,
+            },
+          ];
+    }),
+
   // A lost job takes all of that job's pay: the whole of a month's pay.
   (world, personId, through) =>
     jobsLostBy(world, personId, through).map((status) => ({
@@ -148,6 +208,9 @@ export function officialAnsweringFor(
     ? (currentGovernorOf(world, stateKey.slice(3))?.personId ?? null)
     : null;
   switch (office) {
+    case "recorded-law-voters":
+      // Recorded law votes are resolved by the existing law reflection.
+      return null;
     case "state-executive":
       return governor;
     case "local-executive":
