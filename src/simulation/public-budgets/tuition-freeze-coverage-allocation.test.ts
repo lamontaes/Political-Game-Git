@@ -1,4 +1,10 @@
 import { beforeAll, describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import {
+  schoolTuitionQuote,
+  recordSchoolTuitionPriceRevision,
+  type SchoolTuitionInput,
+} from "../../education/tuition-prices";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { enactThroughDesk } from "../../../tests/fixtures/enact-through-desk";
 import { drawRandomPlace } from "../../../tests/support/random-place";
@@ -39,10 +45,29 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
 import {
   recordedTuitionFreezePrice,
+  recordedSchoolTuitionFreezeQuote,
   TUITION_FREEZE_QUESTION,
 } from "./tuition-freeze";
 
 const seed = "overflow8-a21-coverage-proof";
+const tuitionSource = JSON.parse(
+  readFileSync("data/source/education-tuition/tuition-input.json", "utf8"),
+) as SchoolTuitionInput;
+const sourcedSchool = tuitionSource.components.IC2023_AY!.rows.find(
+  ([id]) =>
+    schoolTuitionQuote(tuitionSource, {
+      institutionId: id,
+      artifactId: "IC2023_AY",
+      field: "TUITION2",
+    }).status === "sourced",
+);
+if (!sourcedSchool) throw new Error("No retained sourced tuition row");
+const tuitionSelector = {
+  institutionId: sourcedSchool[0],
+  artifactId: "IC2023_AY",
+  field: "TUITION2",
+};
+let sourcePriceId: EntityId;
 const place = drawRandomPlace(seed);
 const path = LIFE_PATHS2_CATALOG.find(
   (row) =>
@@ -115,6 +140,13 @@ beforeAll(() => {
     },
   );
   schoolId = world.history.organizations.at(-1)!.id;
+  world = recordSchoolTuitionPriceRevision(world, {
+    stableKey: "a21:dated-source-price",
+    organizationId: schoolId,
+    source: tuitionSource,
+    selector: tuitionSelector,
+  });
+  sourcePriceId = world.history.evidenceArtifacts.at(-1)!.id;
   profileId = world.history.organizationProfiles.at(-1)!.id;
   world = createEducationEnrollment(world, {
     stableKey: "a21:recorded-enrollment",
@@ -204,6 +236,39 @@ beforeAll(() => {
 });
 
 describe(`A21 supported saved tuition (${place.displayName}, seed ${seed})`, () => {
+  it("consumes the school price recorded at the operative date without dividing source units", () => {
+    const quote = recordedSchoolTuitionFreezeQuote(
+      world,
+      enrollmentId,
+      tuitionSelector,
+    );
+    expect(quote).toEqual({
+      status: "frozen",
+      quote: schoolTuitionQuote(tuitionSource, tuitionSelector),
+      sourceRecordIds: [measureId, profileId, sourcePriceId],
+    });
+    if (quote.status !== "frozen")
+      throw new Error("Missing recorded source quote");
+    expect(quote.quote.chargeUnit).toBe("academic-year");
+    expect(quote.quote.academicYear).toBe("2023-24");
+    expect(quote).not.toHaveProperty("periodAmountMinor");
+    const later = recordSchoolTuitionPriceRevision(world, {
+      stableKey: "a21:later-source-observation",
+      organizationId: schoolId,
+      source: tuitionSource,
+      selector: tuitionSelector,
+    });
+    expect(
+      recordedSchoolTuitionFreezeQuote(later, enrollmentId, tuitionSelector),
+    ).toEqual(quote);
+    expect(
+      recordedSchoolTuitionFreezeQuote(
+        deserializeWorld(serializeWorld(later)),
+        enrollmentId,
+        tuitionSelector,
+      ),
+    ).toEqual(quote);
+  });
   it("freezes the operative saved period price with exact provenance and survives save/reopen", () => {
     const saved = serializeWorld(world);
     const expected = {
