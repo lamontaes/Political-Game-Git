@@ -985,7 +985,6 @@ export function purchaseOutlet(
     visibility: "public",
     tags: [
       PRESS_CONTRACT_VERSION,
-      ...(input.lossPeriodKeys ?? []),
       `press.owner:${owner.id}`,
       `press.outlet:${outlet.id}`,
       "provenance:player-choice",
