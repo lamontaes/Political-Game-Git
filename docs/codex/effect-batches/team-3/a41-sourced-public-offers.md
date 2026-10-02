@@ -2,7 +2,7 @@
 
 ## MERGED
 
-Not merged. This is a narrow main-based A41 reader build on fecced182, following the October 1, 9:47 p.m. owner ruling. Only the released job-market public-body pay/import/provenance surface, its new test and documentation change. Existing A40 #1798 and A38 #1801 source remains preserved.
+Not merged. This is a narrow main-based A41 reader build on fecced182, following the October 1, 9:47 p.m. owner ruling. The released job-market public-body pay/import/provenance surface, the retained Team3 townPayAreas county-GEOID reader hunk, the new test and documentation change. Root tax/metric/settlement hunks remain untouched. Existing A40 #1798 and A38 #1801 source remains preserved.
 
 ## WHAT EMERGED
 
@@ -10,7 +10,7 @@ HARDWIRED: publicBodyRolePay first reads an active actual employer/work/occupati
 
 ## VITAL STATISTICS
 
-All checks on this new graph are NOT RUN by Team 3 under CTO9:34; Claude owns the gate. The changed test contains seeded all56 opening/median/negative-binding/repeat/reload controls, five seeded actual staff-pay precedence controls, and one explicit natural hire/payday TODO. No assertion has been reported passed. The new reader never writes wages or transfers. Existing legal floors, offered hours, rounding, vacancies, role counts, hiring and scheduling remain in their existing owners' paths.
+Initial official Claude gate at92eed0a84 composed with main14e0668ed returned57PASS/4FAIL/1TODO in28.5seconds; LOAD passed. The four original staff-precedence failures found real public employers with missing offers. The first all56 expected-set filter had repeated the null-median defect. Read-only helper source inventory identified the actual county GEOID mismatch, not missing employer identity. The retained townPayAreas reader now accepts sourced five-digit county GEOIDs alongside seven-digit localities, with unchanged territory exclusions and wage tables. The all56 source oracle was strengthened; original failing assertions remain. At committed4db032f3019ca12bf6a49218f2be1b3b0dc8e21c the complete changed file returned61PASS/1TODO in15.16seconds under stock limits/maxWorkers1. This is a permitted builder-helper receipt, not an official GATE RESULT; Claude re-gate remains required. The first sandbox attempt failed before collection at Vite git EPERM and is NOT RUN; the identical authorized retry supplied that terminal receipt. No full suite or official self-approval. The changed test contains seeded all56 opening/median/negative-binding/repeat/reload controls, five seeded actual staff-pay precedence controls, and one explicit natural hire/payday TODO. Only the exact changed-file builder assertions above are reported passed; types/lint/release/renewed LOAD and the official final-head gate remain NOT RUN here. The new reader never writes wages or transfers. Existing legal floors, offered hours, rounding, vacancies, role counts, hiring and scheduling remain in their existing owners' paths.
 
 ## 1. Why-chain to bedrock
 
@@ -22,7 +22,7 @@ Reuse the existing BLS May2025 OEWS state/territory occupation median and its do
 
 ## 3. Revisions
 
-Remove PUBLIC_BODY_ROLE_PLACEHOLDER.hourlyMinor2164. Replace the public annual pay calculation with the existing sourced reader. When an active actual worker has the same employer and recorded occupation, read staffPay and normalize its actual recorded weekly hours to the unchanged offered hours. Ended/future work cannot supply the observed staff rate. Existing opening records are append-only and do not acquire new terms or a changed provenance when the current role reader finds actual pay.
+Replaces: the locality-only GEOID assumption in townPayAreas with the existing canonical county sourceGeoid, countyArea and countyGeoidsForPlace readers. No workplace substitution, national-when-geography-unknown fallback or new state table is added. Remove PUBLIC_BODY_ROLE_PLACEHOLDER.hourlyMinor2164. Replace the public annual pay calculation with the existing sourced reader. When an active actual worker has the same employer and recorded occupation, read staffPay and normalize its actual recorded weekly hours to the unchanged offered hours. Ended/future work cannot supply the observed staff rate. Existing opening records are append-only and do not acquire new terms or a changed provenance when the current role reader finds actual pay.
 
 ## 4. What gets built
 
@@ -34,8 +34,8 @@ SIMULATED: no new worker or employer decision. RECORDS: actual sourced local-gov
 
 ## 6. Proof run
 
-NOT RUN. Seed a41-sourced-vacant-public-offer-all56 selects every jurisdiction once and the first five for actual staff-pay controls. Tests require saved estimate source/amount inputs, preserved role/hours, actual opening records, no money settlement, repeat and Save/Continue. Authored staff agreements are marked controls and do not claim observed public pay. The natural application/hire/first-payday route remains it.todo rather than a fabricated pass.
+Builder-helper receipt61PASS/1TODO at4db032f30, official re-gate pending. Seed a41-sourced-vacant-public-offer-all56 selects every jurisdiction once and the first five for actual staff-pay controls. Tests require saved estimate source/amount inputs, preserved role/hours, actual opening records, no money settlement, repeat and Save/Continue. Authored staff agreements are marked controls and do not claim observed public pay. The natural application/hire/first-payday route remains it.todo rather than a fabricated pass.
 
 ## 7. Worked example
 
-The authored staff control records an actual forty-hour agreement paying140000USD cents weekly. The reader therefore uses3500cents/hour and scales the unchanged offered38.5hours to7007000annual cents. This is an authored test input and expected calculation, not a watched outcome. An already saved median-based vacancy remains unchanged; reopening still reads the same actual staff agreement. With that work ended, the current rate reader returns to the explicitly sourced estimate. A50's dated employer→PublicGovernmentIdentity field remains with Audit and its supported producers; no payroll/account redirection occurs here.
+The authored staff control records an actual forty-hour agreement paying140000USD cents weekly. The reader therefore uses3500cents/hour and scales the unchanged offered38.5hours to7007000annual cents. This authored input and calculation passed in the five selected staff-precedence controls; it is not observed employer research or a natural hire. An already saved median-based vacancy remains unchanged; reopening still reads the same actual staff agreement. With that work ended, the current rate reader returns to the explicitly sourced estimate. A50's dated employer→PublicGovernmentIdentity field remains with Audit and its supported producers; no payroll/account redirection occurs here.
