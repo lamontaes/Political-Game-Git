@@ -1,4 +1,8 @@
 import {
+  TYPED_TAX_QUESTION_KEYS,
+  typedTaxQuestionRow,
+} from "./law-consequences/typed-tax-question-data";
+import {
   RENT_STABILIZATION_QUESTION,
   RENT_STABILIZATION_ROW,
   RENT_COVERAGE_VALUES,
@@ -51,6 +55,9 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
+        ...(TYPED_TAX_QUESTION_KEYS.includes(key)
+          ? [typedTaxQuestionRow(key)]
+          : []),
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;

@@ -1,43 +1,46 @@
-import { describe, expect, it, vi } from "vitest";
-import { makeIsoDate } from "../dates";
-import type { EntityId, World } from "../types";
-import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
-import { CANNABIS_TAX_EFFECT, TAX_QUESTION_EFFECTS } from "./rules";
+import { describe, expect, it } from "vitest";
+import type { EntityId } from "../types";
+import {
+  fixture,
+  dispatch,
+} from "../../../tests/fixtures/cannabis-tax-fixture";
+import { readPublicTaxReceipts } from "../../presentation/tax-work";
+import { advanceWorld } from "../world";
+import { createTaxTransitionHandlerRegistry } from "../tax-policy";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import { createExplicitGeographyLife } from "../../presentation/new-game-geography";
 
 describe("cannabis reader uses the declared tax jurisdiction scope", () => {
-  const date = makeIsoDate("2026-10-02");
-  const world = { policyCatalog: { propositions: {} } } as unknown as World;
-  const government = {
-    level: "county" as const,
-    lawJurisdictionId: "jurisdiction_missing" as EntityId,
-    population: 0,
-  };
-
   it("keeps an undeclared local budget outside the state tax row", () => {
-    expect(cannabisSalesRevenueChange(world, government, date).reason).toBe(
-      "not-state-budget",
+    const f = fixture();
+    // The fixture enacts an explicitly authored levy. Its actual collection,
+    // not a population-based revenue forecast, belongs to its saved government.
+    const world = advanceWorld(
+      dispatch(f.world, f.context),
+      2,
+      createTaxTransitionHandlerRegistry(),
     );
+    const jurisdictionId = world.history.taxProposals![0]!.jurisdictionId;
+    expect(readPublicTaxReceipts(world, jurisdictionId)).toHaveLength(1);
+    expect(
+      readPublicTaxReceipts(world, "jurisdiction_missing" as EntityId),
+    ).toEqual([]);
   });
 
   it("reads a declared local scope without inventing a governing law or revenue", () => {
-    const row = TAX_QUESTION_EFFECTS.find(
-      (effect) => effect.questionKey === CANNABIS_TAX_EFFECT.questionKey,
-    )!;
-    const lookup = vi.spyOn(TAX_QUESTION_EFFECTS, "find").mockReturnValue({
-      ...row,
-      levels: [government.level],
-    });
-    try {
-      expect(cannabisSalesRevenueChange(world, government, date)).toEqual({
-        reason: "question-not-present",
-        annualRevenueDelta: 0,
-        sourceMeasureId: null,
-      });
-    } finally {
-      lookup.mockRestore();
-    }
+    const f = fixture();
+    const world = {
+      ...f.world,
+      policyCatalog: { ...f.world.policyCatalog, propositions: {} },
+    };
+    expect(dispatch(world, f.context)).toBe(world);
+    expect(world.history.taxAssessments ?? []).toHaveLength(0);
+    expect(
+      readPublicTaxReceipts(
+        world,
+        world.history.taxProposals![0]!.jurisdictionId,
+      ),
+    ).toEqual([]);
   });
 
   it("opens a new game in a recorded random place", () => {
