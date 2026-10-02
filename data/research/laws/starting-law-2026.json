@@ -20060,9 +20060,22 @@
         "US-MO": {
           "answer": "yes",
           "preempts": true,
-          "cite": "RSMo § 163.172",
-          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=163.172",
-          "note": "$40,000 for a starting teacher from the 2025-26 school year (it was $25,000 through 2024-25), with inflation adjustments from 2028-29."
+          "cite": "RSMo § 163.172.1(2); § 160.041",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=163.172&bid=57286",
+          "note": "$40,000 basic-contract minimum for the 2025-26 school year and subsequent years; the school year begins July 1 under § 160.041. The current provision and its 2024 predecessor both prescribe this amount. Teachers with a master's degree and ten years of experience have a higher $46,000 minimum in 2025-26; part-time certificated teachers are prorated and extra-duty supplements are excluded. Inflation adjustments begin in 2028-29.",
+          "operativeAt": "2025-07-01",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-MP": {
           "answer": "no",
@@ -20113,9 +20126,22 @@
         "US-NJ": {
           "answer": "yes",
           "preempts": true,
-          "cite": "N.J.S.A. 18A:29-5",
+          "cite": "N.J.S.A. 18A:29-5; 18A:29-5.3-.4",
           "source": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
-          "note": "$18,500 statutory minimum for a full-time teacher, unchanged since 1985 and far below actual pay."
+          "note": "$18,500 per academic year for eligible full-time teaching staff, including new full-time hires from 1985-86 onward; less than an academic year is proportionate. Existing staff must have the prescribed acceptable-performance certification, and day-to-day substitutes are excluded. Extra-duty, coaching, extracurricular and summer pay do not count toward the minimum. The latest amendment to § 18A:29-5 took effect March 28, 1986; the official compilation carries no later amendment to this minimum.",
+          "operativeAt": "1986-03-28",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 1850000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-NM": {
           "answer": "yes",
@@ -20139,9 +20165,22 @@
         "US-OH": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Ohio Rev. Code § 3317.13",
+          "cite": "Ohio Rev. Code § 3317.13(B)-(C)",
           "source": "https://codes.ohio.gov/ohio-revised-code/section-3317.13",
-          "note": "$35,000 for a starting teacher with a bachelor's degree, on the state minimum salary schedule (as amended by House Bill 33, effective 10/3/2023)."
+          "note": "$30,275 is the lowest mandatory salary-schedule cell, for zero years of service and less than a bachelor's degree, excluding retirement and sick leave. The zero-service bachelor's cell is $35,000; training and credited service require higher cells. This records the general lower bound rather than treating the bachelor's cell as a universal floor. House Bill 33 took effect October 3, 2023.",
+          "operativeAt": "2023-10-03",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 3027500,
+              "unit": "minor"
+            }
+          ]
         },
         "US-OK": {
           "answer": "yes",
