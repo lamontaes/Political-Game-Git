@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { stdout } from "node:process";
 import stateTax from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
@@ -512,4 +513,11 @@ describe("A33 saved statutory attribution without another assessment", () => {
       later.history.futureDueItems,
     );
   });
+});
+
+
+it("keeps question-specific bindings in rows rather than the attribution engine", () => {
+  const source = readFileSync(new URL("./statutory-tax-law-attribution.ts", import.meta.url), "utf8");
+  expect(source).not.toMatch(/import[\s\S]*?from ["'][^"']*(?:federal-top-income-tax-law|state-income-tax-law)["']/);
+  expect(source).not.toMatch(/RAISE_TOP_FEDERAL_RATE_QUESTION|ADOPT_STATE_INCOME_TAX_QUESTION|GRADUATED_STATE_INCOME_TAX_QUESTION/);
 });

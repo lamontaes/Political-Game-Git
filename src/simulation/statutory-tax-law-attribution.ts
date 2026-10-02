@@ -1,5 +1,4 @@
 import { canonicalJson } from "./canonical-json";
-import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "./federal-top-income-tax-law";
 import { lawInForce } from "./governing/law-in-force";
 import { recordById } from "./history-index";
 import { lawEffectStamp } from "./law-effect-stamp";
@@ -8,11 +7,6 @@ import type {
   LawEffectStampedRecord,
 } from "./law-effect-stamp";
 import type { ResolvedLawConsequence } from "./law-consequence-types";
-import {
-  ADOPT_STATE_INCOME_TAX_QUESTION,
-  GRADUATED_STATE_INCOME_TAX_QUESTION,
-} from "./state-income-tax-law";
-import { FEDERAL_INCOME_TAX_KEY } from "./statutory-tax";
 import { taxBaseOccurrenceSource } from "./tax-policy";
 import type { StatutoryTaxLiabilityRecord } from "./tax-types";
 import type { EntityId, World } from "./types";
@@ -131,23 +125,15 @@ function matchesLaw(
     liability.taxYear !== Number(liability.occurredAt.slice(0, 4))
   )
     return false;
-  const federal = resolved.questionKey === RAISE_TOP_FEDERAL_RATE_QUESTION;
-  const state =
-    resolved.questionKey === ADOPT_STATE_INCOME_TAX_QUESTION ||
-    resolved.questionKey === GRADUATED_STATE_INCOME_TAX_QUESTION;
-  if (
-    (!federal && !state) ||
-    (federal &&
-      (liability.authorityKey !== "US" ||
-        liability.taxKey !== FEDERAL_INCOME_TAX_KEY ||
-        resolved.law.level !== "federal-statute")) ||
-    (state &&
-      (liability.authorityKey === "US" ||
-        liability.taxKey !==
-          `${liability.authorityKey.toLowerCase()}:wage-income-tax` ||
-        resolved.law.level !== "state-statute"))
-  )
+  const binding = resolved.row.attributes;
+  if (!binding || binding.level !== resolved.law.level) return false;
+  if (binding.authority && binding.authority !== liability.authorityKey)
     return false;
+  const taxKey = binding.taxKey.replaceAll(
+    "{authority}",
+    liability.authorityKey.toLowerCase(),
+  );
+  if (taxKey !== liability.taxKey) return false;
   const proposition = Object.values(world.policyCatalog.propositions).find(
     (entry) => entry.stableKey === resolved.questionKey,
   );
