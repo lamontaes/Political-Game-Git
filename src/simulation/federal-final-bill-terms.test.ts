@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { buildProductionWorld } from "../presentation/production-world";
 import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { createHistoryStore } from "./history";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
@@ -110,6 +112,28 @@ function books(world: World, monthly = 100): World {
 }
 
 describe("federal adopted amounts replace historical policy examples", () => {
+  it("opens a new production game in a random recorded place", () => {
+    const seed = "team6-a28-final-bill-new-game-20261002";
+    const place = drawRandomPlace(seed);
+    const built = buildProductionWorld({
+      seed,
+      place,
+      age: 34,
+      givenName: null,
+      familyName: null,
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      depth: "summarize-earlier-life",
+    });
+    expect(built.world.people[built.playerPersonId]).toBeDefined();
+    expect(
+      built.world.jurisdictions[place.context.jurisdiction.id],
+    ).toBeDefined();
+    expect(built.world.currentDate).toBe(place.context.initialMoment.date);
+    process.stdout.write(
+      `A28 NEW GAME seed=${seed} place=${place.key} player=${built.playerPersonId} date=${built.world.currentDate}\n`,
+    );
+  });
   it.each(CASES)("reads %s using its catalog parameter %s", (question, key) => {
     expect(
       federalLawAmountAt(fixture(question, key, 2400), question, key, NOW)
@@ -247,6 +271,17 @@ describe("federal adopted amounts replace historical policy examples", () => {
     ).toBeNull();
     expect(federalDeficitChangePctOfGdp(aid, NOW)).toBeNull();
     expect(federalAidFactor(aid, NOW)).toBe(1);
+    const cut = books(fixture(DEBT_LIMIT_CUTS_QUESTION, "offset", 700));
+    expect(federalAidFactor(cut, NOW)).toBeCloseTo(
+      1 - 700 / (12 * 13 * 100),
+      12,
+    );
+    expect(
+      federalAidFactor(
+        books(fixture(DEBT_LIMIT_CUTS_QUESTION, "offset", 20000)),
+        NOW,
+      ),
+    ).toBe(0);
   });
   it("reads a per-recipient farm cap without inventing recipients or a national cut", () => {
     const world = fixture(CUT_FARM_SUBSIDIES_QUESTION, "cap", 5000);

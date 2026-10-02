@@ -1,4 +1,5 @@
 /** Federal spending amounts come from adopted bill text, including starting law. */
+import { FEDERAL_OUTLAYS } from "./public-budgets/federal-budget-categories";
 import { lawInForce } from "./governing/law-in-force";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
@@ -107,9 +108,12 @@ export function federalOutlayChangeAt(
     "appropriation",
     onDate,
   );
-  // Existing federal category order: international affairs is index 7.
   const base = aid.law
-    ? recordedFederalAnnualSpendingBefore(world, 7, aid.law.operativeAt)
+    ? recordedFederalAnnualSpendingBefore(
+        world,
+        FEDERAL_OUTLAYS.indexOf("internationalAffairs"),
+        aid.law.operativeAt,
+      )
     : null;
   return {
     cutDollars: cut.amount,
@@ -133,9 +137,19 @@ export function federalDeficitChangePctOfGdp(
   return cutDollars === 0 && aidDollars === 0 ? 0 : null;
 }
 
-/** A federal aggregate offset alone does not specify a cut to every government's aid. */
-export function federalAidFactor(_world: World, _onDate: IsoDate): number {
-  void _world;
-  void _onDate;
-  return 1;
+/** Apply the adopted offset as a share of the complete recorded federal spending base. */
+export function federalAidFactor(world: World, onDate: IsoDate): number {
+  const cut = federalLawAmountAt(
+    world,
+    DEBT_LIMIT_CUTS_QUESTION,
+    "offset",
+    onDate,
+  );
+  if (!cut.law || cut.amount === null) return 1;
+  const base = recordedFederalAnnualSpendingBefore(
+    world,
+    null,
+    cut.law.operativeAt,
+  );
+  return base === null ? 1 : Math.max(0, 1 - cut.amount / base);
 }

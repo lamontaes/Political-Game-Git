@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { stdout } from "node:process";
+import federalBudget from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { GROW_DEFENSE_SPENDING_QUESTION } from "../federal-defense-spending";
@@ -222,16 +223,60 @@ describe("the federal treasury", () => {
     );
   });
 
-  it("does not invent farm payments from a subsidy cap while preserving the defense forecast", () => {
+  it("does not invent farm payments from a subsidy cap while using the final defense appropriation", () => {
     const farm = FEDERAL_OUTLAYS.indexOf("agriculture");
     const defense = FEDERAL_OUTLAYS.indexOf("nationalDefense");
     const months = ["2026-03-01", "2027-04-01", "2033-04-01"];
     const none = settleThrough(lawWorld([]), months).months;
     const build = enacted("yes", "2026-04-01", DEFENSE);
-    const withLaws = settleThrough(
-      lawWorld([enacted("yes", "2026-04-01", FARM), build]),
-      months,
-    ).months;
+    const annualBase = federalBudget.outlays.nationalDefense;
+    const annualAmount = annualBase * 1.1;
+    const initial = lawWorld([enacted("yes", "2026-04-01", FARM), build]);
+    const world = {
+      ...initial,
+      currentDate: makeIsoDate("2034-01-01"),
+      publicBudgets: {
+        federalGovernment: {
+          months: Array.from({ length: 12 }, (_, index) => ({
+            month: makeIsoDate(
+              `${index < 9 ? "2025" : "2026"}-${String(((index + 3) % 12) + 1).padStart(2, "0")}-01`,
+            ),
+            spending: FEDERAL_OUTLAYS.map((_, line) =>
+              line === defense ? annualBase / 12 : 0,
+            ),
+          })),
+        },
+      },
+      history: {
+        ...initial.history,
+        legislativeProvisions: [
+          {
+            id: "defense:adopted" as EntityId,
+            sequence: build.enactment.sequence - 1,
+            measureId: build.measure.id,
+            recordedAt: build.enactment.resolvedAt,
+            supersedesProvisionId: null,
+            applicationScope: {
+              jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+              segmentKey: null,
+            },
+            lawTerms: [
+              {
+                questionKey: GROW_DEFENSE_SPENDING_QUESTION,
+                key: "appropriation",
+                unit: "dollars/year",
+                value: annualAmount,
+              },
+            ],
+          },
+        ],
+      },
+    } as unknown as World;
+    const treasury = settleThrough(world, months);
+    const withLaws = treasury.months;
+    stdout.write(
+      `A28 DEFENSE records=${JSON.stringify(withLaws.map((row) => row.laws))}\n`,
+    );
     // Before either law, nothing moves.
     expect(withLaws[0]!.outlays).toEqual(none[0]!.outlays);
     // A legal recipient cap does not establish eligible recipients or payments.
@@ -242,15 +287,20 @@ describe("the federal treasury", () => {
         withLaws[index]!.laws.some((law) => law.line === "agriculture"),
       ).toBe(false);
     }
-    // A year in, contracts ($445.8 billion, 48.6% of defense) are 6.94% up.
-    const rise = (index: number) =>
-      withLaws[index]!.outlays[defense]! / none[index]!.outlays[defense]! - 1;
-    expect(rise(1)).toBeCloseTo((445.8e9 / 916_648_676_662.05) * 0.0694, 3);
-    // Seven years in, the build-up stopped after five.
-    expect(rise(2)).toBeCloseTo(
-      (445.8e9 / 916_648_676_662.05) * (1.0694 ** 5 - 1),
-      4,
-    );
+    for (const index of [1, 2]) {
+      expect(withLaws[index]!.outlays[defense]).toBe(
+        Math.round(annualAmount / 12),
+      );
+      expect(withLaws[index]!.laws[0]!.amount).toBe(
+        Math.round((annualAmount - annualBase) / 12),
+      );
+      expect(
+        withLaws[index]!.laws[0]!.lawEffectStamps?.[0]?.governingLawKey,
+      ).toBe(build.measure.id);
+    }
+    expect(
+      settleFederalTreasuryMonth(world, treasury, makeIsoDate(months[2]!)),
+    ).toBe(treasury);
     expect(withLaws[1]!.laws.map((law) => law.line)).toEqual([
       "nationalDefense",
     ]);

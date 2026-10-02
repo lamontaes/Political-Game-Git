@@ -1,3 +1,38 @@
+CTO11:22 FINAL REPAIR RECEIPT (supersedes earlier publication)
+All three nationwide tests now read final adopted annual-dollar terms, not
+removed historical constants. Defense treasury uses actual saved annual
+base/12 and adopted target, retaining positive amount, measure/stamp/replay
+and all farm no-invented-savings guards. Shared canonical category arrays
+are extracted unchanged with existing treasury exports preserved, avoiding
+an observed circular import; readers select named categories. Aid factor
+uses adopted offset / complete recorded annual total; missing bases cannot
+produce an invented cut. No defense contracts multiplier or growth ramp.
+
+COMPLETE changed five-file native run35/35PASS25.79s,1.21s bodies,
+session65957exit0,stocklimits/oneworker. Files:
+src/simulation/federal-final-bill-terms.test.ts
+src/simulation/public-budgets/federal-treasury.test.ts
+tests/nationwide/federal-defense-spending-law.test.ts
+tests/nationwide/federal-outlay-laws.test.ts
+tests/nationwide/federal-passenger-rail-law.test.ts
+Actual production NEW GAME seedteam6-a28-final-bill-new-game-20261002,
+randomplace4707860,playerperson_245d88c1871cba1b,date2026-01-05.
+Strict11changedroots1057importedfiles0diagnostics,16582exit0.
+11-file ESLint/PrettierPASS,whitespacePASS; release renewed at publication.
+Pinnedmainf65A285/11 -> branch11/11,rulecoveragePART ONLY; no rules edited.
+Owner approved cloudstorage override used; no fullsuite,unchangedLOAD,
+repo-wide types or officialClaudeGATE. Actual farm recipient/payment
+producer and rail-service/dollarGDP conversions remain unproved.
+Positive defense forecast attribution is not completed payment evidence.
+Root2007 exact21eed consumer retirement received; its farmguards preserved.
+
+Historical failures retained: initial sentback5TS2305 in3nationwide tests;
+firstnew4files26/26PASS but8roottypes2optionalfixtureaccess errors corrected.
+First five-file integration34PASS1FAIL25.19s: positive defense amount was
+correct but stamp absent. Exact record omitted questionKey from a category
+import cycle; extraction fixed it without weakening any amount/stamp guard.
+Final35/35 receipt above is the renewed result, not the earlier15/15 result.
+
 FINAL CHILD RECEIVING RESULT
 Published root2007 consumer-retirement21eedbdd296900e57d1a7d13305642096286403d
 received additively as13b3f5613e6f68c315f2784f13b99407e3076990.

@@ -1,5 +1,4 @@
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
-import defenseData from "../../../data/research/federal/defense-contracts-by-state-fy2024.json" with { type: "json" };
 import outlayTerms from "../../../data/research/federal/federal-outlay-terms-fy2025.json" with { type: "json" };
 import {
   defenseBuildUpShare,
@@ -8,6 +7,8 @@ import {
 import {
   DEBT_LIMIT_CUTS_QUESTION,
   INCREASE_FOREIGN_AID_QUESTION,
+  federalLawInForceAt,
+  recordedFederalAnnualSpendingBefore,
 } from "../federal-outlay-laws";
 import { lawInForce } from "../governing/law-in-force";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
@@ -41,37 +42,18 @@ import {
  * This legacy forecast reader is not a producer of actual cash receipts.
  */
 
-export const FEDERAL_RECEIPTS = [
-  "individualIncomeTax",
-  "payrollTaxes",
-  "corporateIncomeTax",
-  "customsDuties",
-  "exciseTaxes",
-  "estateAndGiftTaxes",
-  "miscellaneousReceipts",
-] as const;
-export type FederalReceipt = (typeof FEDERAL_RECEIPTS)[number];
-
-export const FEDERAL_OUTLAYS = [
-  "socialSecurity",
-  "medicare",
-  /** Medicaid and other health programs. */
-  "health",
-  "incomeSecurity",
-  "nationalDefense",
-  "veterans",
-  "netInterest",
-  /** Foreign aid and the State Department. */
-  "internationalAffairs",
-  /** Farm programs. */
-  "agriculture",
-  /** Includes FEMA disaster relief. */
-  "communityAndRegionalDevelopment",
-  "transportation",
-  "education",
-  "otherPrograms",
-] as const;
-export type FederalOutlay = (typeof FEDERAL_OUTLAYS)[number];
+import {
+  FEDERAL_RECEIPTS,
+  FEDERAL_OUTLAYS,
+  type FederalReceipt,
+  type FederalOutlay,
+} from "./federal-budget-categories";
+export {
+  FEDERAL_RECEIPTS,
+  FEDERAL_OUTLAYS,
+  type FederalReceipt,
+  type FederalOutlay,
+} from "./federal-budget-categories";
 
 type FederalLine =
   | { readonly kind: "receipt"; readonly key: FederalReceipt }
@@ -97,7 +79,11 @@ export interface FederalLawEffect {
   readonly shareOn?: (
     world: World,
     month: IsoDate,
-  ) => { readonly share: number; readonly measureId: EntityId } | null;
+  ) => {
+    readonly share: number;
+    readonly measureId: EntityId;
+    readonly monthlyBase?: number;
+  } | null;
 }
 
 const DEBT_LIMIT_CUT_LINES = FEDERAL_OUTLAYS.filter(
@@ -110,11 +96,6 @@ const DEBT_LIMIT_CUT_SHARE_OF_LINES =
       sum + (federal.outlays as Readonly<Record<string, number>>)[key]!,
     0,
   );
-
-/** Defense contracts, fiscal 2024, as a share of fiscal 2025 defense outlays. */
-const CONTRACTS_SHARE_OF_DEFENSE =
-  (defenseData.buildUp.contractsByFiscalYearBillions["2024"] * 1e9) /
-  federal.outlays.nationalDefense;
 
 export const FEDERAL_LAW_EFFECTS: readonly FederalLawEffect[] = [
   {
@@ -142,14 +123,33 @@ export const FEDERAL_LAW_EFFECTS: readonly FederalLawEffect[] = [
     toYes: null,
     toNo: null,
     timing: "month",
-    basis: `Growing defense faster than inflation raises defense contracts, $${defenseData.buildUp.contractsByFiscalYearBillions["2024"]} billion in fiscal 2024 (USAspending.gov), ${(defenseData.buildUp.meanYearlyRealRise * 100).toFixed(2)}% a year for at most ${defenseData.buildUp.longestRunYears} years, the pace of the years they beat inflation (Build 11's federal-defense-spending.ts). Contracts are ${(CONTRACTS_SHARE_OF_DEFENSE * 100).toFixed(1)}% of defense outlays, so the line grows by that share of the contracts' rise.`,
+    basis:
+      "Final adopted annual defense appropriation against the complete saved preceding defense spending year; no contracts multiplier or historical ramp.",
     shareOn: (world, month) => {
-      const { share, lawMeasureId } = defenseBuildUpShare(world, month);
-      return lawMeasureId === null
+      const { share, lawMeasureId, unsupportedReason } = defenseBuildUpShare(
+        world,
+        month,
+      );
+      const law = federalLawInForceAt(
+        world,
+        GROW_DEFENSE_SPENDING_QUESTION,
+        month,
+      );
+      const annualBase = law
+        ? recordedFederalAnnualSpendingBefore(
+            world,
+            FEDERAL_OUTLAYS.indexOf("nationalDefense"),
+            law.operativeAt,
+          )
+        : null;
+      return lawMeasureId === null ||
+        unsupportedReason !== null ||
+        annualBase === null
         ? null
         : {
-            share: CONTRACTS_SHARE_OF_DEFENSE * share,
+            share,
             measureId: lawMeasureId as EntityId,
+            monthlyBase: annualBase / 12,
           };
     },
   },
@@ -233,10 +233,22 @@ function lawFactor(
   world: World,
   effect: FederalLawEffect,
   month: IsoDate,
-): { readonly factor: number; readonly measureId: EntityId } | null {
+): {
+  readonly factor: number;
+  readonly measureId: EntityId;
+  readonly baseAmount?: number;
+} | null {
   if (effect.shareOn) {
     const moved = effect.shareOn(world, month);
-    return moved && { factor: 1 + moved.share, measureId: moved.measureId };
+    return (
+      moved && {
+        factor: 1 + moved.share,
+        measureId: moved.measureId,
+        ...(moved.monthlyBase !== undefined
+          ? { baseAmount: moved.monthlyBase }
+          : {}),
+      }
+    );
   }
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
@@ -276,8 +288,9 @@ export function settleFederalTreasuryMonth(
       if (effect.line.kind !== kind || effect.line.key !== key) continue;
       const moved = lawFactor(world, effect, month);
       if (!moved) continue;
-      const next = amount * moved.factor;
-      const changedAmount = Math.round(next - amount);
+      const actualBase = moved.baseAmount ?? amount;
+      const next = actualBase * moved.factor;
+      const changedAmount = Math.round(next - actualBase);
       const proposition =
         kind === "outlay" && changedAmount !== 0
           ? Object.values(world.policyCatalog?.propositions ?? {}).find(

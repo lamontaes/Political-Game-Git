@@ -1,4 +1,5 @@
 /** A defense law carries its own annual appropriation, not a historical growth ramp. */
+import { FEDERAL_OUTLAYS } from "./public-budgets/federal-budget-categories";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import {
   federalLawInForceAt,
@@ -29,7 +30,11 @@ export function defenseBuildUpShare(
     unit: "dollars/year",
     onDate,
   });
-  const base = recordedFederalAnnualSpendingBefore(world, 4, law.operativeAt);
+  const base = recordedFederalAnnualSpendingBefore(
+    world,
+    FEDERAL_OUTLAYS.indexOf("nationalDefense"),
+    law.operativeAt,
+  );
   if (!term || !Number.isFinite(term.value) || term.value < 0 || base === null)
     return {
       share: 0,
