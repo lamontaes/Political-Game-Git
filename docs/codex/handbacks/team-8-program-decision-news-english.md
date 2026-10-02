@@ -59,6 +59,13 @@ Official Claude gate, current-main acceptance and required browser screenshot
 remain pending. Browser collection awaits Audit's exclusive CTO10:47 repair;
 no blocked collection or full suite was repeated.
 
+The prepared Node/browser fixture additionally drew Tupelo, Arkansas with
+`team8-program-decision-news-all56`. Canonical serialization and the existing
+Around projection retained its actual commitment event with “Decided not to
+commit money for Regional crisis response.” Two new fixture/spec files pass
+scoped lint/format. The ordinary Continue → News → Around screenshot test is
+authored but has not been collected or run before Audit's repair.
+
 # 7. Worked example
 
 A controlled saved service is labeled “Recorded state bus service.” The zero
