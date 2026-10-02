@@ -12,7 +12,7 @@ import {
 } from "../simulation";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import { localGovernmentSeatsKey } from "../simulation/living-world/local-government-seats";
-import { LOCAL_COUNCIL_MEETING_HANDLERS } from "../simulation/living-world/local-council-meetings";
+import { localCouncilMeetingHandlers } from "../simulation/living-world/local-council-meetings";
 import { resolveCampaignElectionFromRecordedInput } from "../simulation/campaigns";
 import { ELECTION_CONTEST_TRANSITION_KEY } from "../simulation/election-contests";
 import { createFutureTransitionHandlerRegistry } from "../simulation/future-transitions";
@@ -209,7 +209,7 @@ describe("an elected municipal council member", () => {
         ],
         // The town's own council meeting falls due the next day; it runs on
         // its real handler.
-        ...LOCAL_COUNCIL_MEETING_HANDLERS,
+        ...localCouncilMeetingHandlers(),
       ]),
     );
     expect(contest.candidatePersonIds).toHaveLength(2);

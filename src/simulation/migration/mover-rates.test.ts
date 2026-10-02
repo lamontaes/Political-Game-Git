@@ -116,7 +116,7 @@ describe("measured mover rates (A165)", () => {
         if (reader.causesFor(id).length === 0) {
           const quarter = reviewQuarter(id);
           const reviewed = advanceWithWorldIntegrityAtEnd(() =>
-            reviewTown(world, quarter, { arrivalsPerResidentPerYear: 0 }),
+            reviewTown(world, quarter, { arrivals: false }),
           );
           expect(reviewed.people[id]!.homeJurisdictionId, id).toBe(town);
           break;
@@ -203,7 +203,7 @@ describe(`leaving town is a decision from a recorded cause (A135), in ${a135Plac
       let reviewed = world;
       for (const quarter of quarters)
         reviewed = advanceWithWorldIntegrityAtEnd(() =>
-          reviewTown(reviewed, quarter, { arrivalsPerResidentPerYear: 0 }),
+          reviewTown(reviewed, quarter, { arrivals: false }),
         );
       assertWorldIntegrity(reviewed);
       const rosaMove = recordedMoves(reviewed).find((move) =>
@@ -229,7 +229,7 @@ describe(`leaving town is a decision from a recorded cause (A135), in ${a135Plac
       let again = world;
       for (const quarter of quarters)
         again = advanceWithWorldIntegrityAtEnd(() =>
-          reviewTown(again, quarter, { arrivalsPerResidentPerYear: 0 }),
+          reviewTown(again, quarter, { arrivals: false }),
         );
       expect(recordedMoves(again)).toEqual(recordedMoves(reviewed));
 
@@ -238,7 +238,7 @@ describe(`leaving town is a decision from a recorded cause (A135), in ${a135Plac
       let year = opened;
       for (let quarter = 0; quarter < 4; quarter += 1)
         year = advanceWithWorldIntegrityAtEnd(() =>
-          reviewTown(year, quarter, { arrivalsPerResidentPerYear: 0 }),
+          reviewTown(year, quarter, { arrivals: false }),
         );
       const adults = opened.personOrder.filter((id) => {
         const person = opened.people[id]!;

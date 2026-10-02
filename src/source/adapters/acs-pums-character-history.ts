@@ -22,7 +22,6 @@ import {
   createStableId,
   makeIsoDate,
   normalizeSeed,
-  SeededRng,
 } from "../../simulation/index";
 import type {
   CharacterHistoryApplication,
@@ -37,7 +36,6 @@ import type {
 } from "../../simulation/index";
 
 const BRIDGE_VERSION = "acs-pums-character-history-v1";
-const UINT64_RANGE = 1n << 64n;
 declare const ACS_PUMS_HOUSEHOLD_SELECTION: unique symbol;
 
 export interface AcsPumsDonorConstraints {
@@ -55,6 +53,14 @@ export interface AcsPumsDonorSelectionContext {
   readonly stateUsps: string;
   readonly stateFips: string;
   readonly constraints: AcsPumsDonorConstraints;
+  /**
+   * Which of the world's donor households this is: `slot` of `slots` drawn
+   * from the same state and constraints. The slots are shared out among the
+   * matching survey households by their weights (largest remainder), so a
+   * world that seats `slots` households takes each survey household as often
+   * as its weight says, with no draw.
+   */
+  readonly allocation: { readonly slot: number; readonly slots: number };
 }
 
 export interface AcsPumsHouseholdSelection {
@@ -179,30 +185,50 @@ function normalizedConstraints(
   return { ...constraints, pumaCodes };
 }
 
-function randomUint64(rng: SeededRng): bigint {
-  return (BigInt(rng.nextUint32()) << 32n) | BigInt(rng.nextUint32());
-}
-
-function exactWeightedIndex(
-  rng: SeededRng,
+/**
+ * Largest remainder (Hamilton's method) in exact integers: how many of
+ * `slots` each weight is owed. Every weight first gets the whole slots its
+ * share earns, rounded down; the slots left go one each to the largest
+ * remainders, ties to the larger weight and then the earlier entry. The
+ * counts always sum to `slots`. Neither existing allocator fits:
+ * `displayedSharePercents` rounds floating percentages for display, and
+ * `apportionHouse` guarantees every entry one seat.
+ */
+export function largestRemainderAllocation(
   weights: readonly number[],
-): number {
-  const total = weights.reduce((sum, weight) => sum + BigInt(weight), 0n);
-  if (total <= 0n || total > UINT64_RANGE) {
-    throw new Error(
-      "PUMS donor weight total must fit in an unsigned 64-bit draw.",
+  slots: number,
+): readonly number[] {
+  if (!Number.isSafeInteger(slots) || slots < 1)
+    throw new Error("A donor allocation needs a positive whole slot count.");
+  const exact = weights.map((weight) => {
+    if (!Number.isSafeInteger(weight) || weight <= 0)
+      throw new Error("A donor allocation needs positive whole weights.");
+    return BigInt(weight);
+  });
+  const total = exact.reduce((sum, weight) => sum + weight, 0n);
+  if (total <= 0n) throw new Error("A donor allocation needs some weight.");
+  const owed = exact.map((weight) => weight * BigInt(slots));
+  const counts = owed.map((value) => Number(value / total));
+  let left = slots - counts.reduce((sum, count) => sum + count, 0);
+  const order = owed
+    .map((value, index) => ({ index, remainder: value % total }))
+    .sort((a, b) =>
+      a.remainder !== b.remainder
+        ? a.remainder > b.remainder
+          ? -1
+          : 1
+        : exact[a.index]! !== exact[b.index]!
+          ? exact[a.index]! > exact[b.index]!
+            ? -1
+            : 1
+          : a.index - b.index,
     );
+  for (const { index } of order) {
+    if (left <= 0) break;
+    counts[index] = counts[index]! + 1;
+    left -= 1;
   }
-  const acceptanceLimit = UINT64_RANGE - (UINT64_RANGE % total);
-  let draw = randomUint64(rng);
-  while (draw >= acceptanceLimit) draw = randomUint64(rng);
-  let target = draw % total;
-  for (let index = 0; index < weights.length; index += 1) {
-    const weight = BigInt(weights[index] as number);
-    if (target < weight) return index;
-    target -= weight;
-  }
-  throw new Error("Weighted donor draw failed to resolve an index.");
+  return counts;
 }
 
 function eligibleSubject(
@@ -231,7 +257,13 @@ function eligibleSubject(
   return true;
 }
 
-/** Select one whole household by exact integer WGTP, then a keyed eligible subject. */
+/**
+ * Select one whole household for the world's donor slot. The slots are
+ * shared out among the matching households by exact integer WGTP (largest
+ * remainder), in serial-number order, and the world's seed only turns where
+ * slot 0 starts; within a household's share, its eligible subjects take
+ * turns in record order. Nothing is drawn.
+ */
 export function selectAcsPumsHouseholdDonor(
   compiled: AcsPumsDonorCorpus,
   context: AcsPumsDonorSelectionContext,
@@ -274,33 +306,51 @@ export function selectAcsPumsHouseholdDonor(
       `No coherent PUMS household donor matches ${context.surveyYear} ${stateUsps}/${stateFips} and the declared constraints.`,
     );
   }
+  const allocation = {
+    bridgeVersion: BRIDGE_VERSION,
+    corpusId: compiled.corpus.corpusId,
+    compiler: compiled.corpus.compiler,
+    parser: compiled.corpus.parser,
+    corpusCanonicalSha256: compiled.corpus.canonicalSha256,
+    worldSeed: normalizeSeed(context.worldSeed),
+    surveyYear: context.surveyYear,
+    stateUsps,
+    stateFips,
+    constraints,
+    slots: context.allocation.slots,
+  };
+  // The allocation is the same for every slot; the selection names its slot.
+  const allocationKey = toCanonicalJson(allocation, 0).trim();
   const selectionKey = toCanonicalJson(
-    {
-      bridgeVersion: BRIDGE_VERSION,
-      corpusId: compiled.corpus.corpusId,
-      compiler: compiled.corpus.compiler,
-      parser: compiled.corpus.parser,
-      corpusCanonicalSha256: compiled.corpus.canonicalSha256,
-      worldSeed: normalizeSeed(context.worldSeed),
-      surveyYear: context.surveyYear,
-      stateUsps,
-      stateFips,
-      constraints,
-    },
+    { ...allocation, slot: context.allocation.slot },
     0,
   ).trim();
-  const rng = new SeededRng(selectionKey);
-  const selected = candidates[
-    exactWeightedIndex(
-      rng.fork("household"),
-      candidates.map((candidate) =>
-        knownWeight(candidate.household.householdWeight),
-      ),
-    )
-  ] as (typeof candidates)[number];
-  const subject = rng
-    .fork(`subject:${selected.household.serialNumber}`)
-    .pick(selected.subjects);
+  const { slot, slots } = context.allocation;
+  if (!Number.isSafeInteger(slot) || slot < 0 || slot >= slots)
+    throw new Error(`Donor slot ${slot} is outside the ${slots} allocated.`);
+  const counts = largestRemainderAllocation(
+    candidates.map((candidate) =>
+      knownWeight(candidate.household.householdWeight),
+    ),
+    slots,
+  );
+  // The seed turns where slot 0 starts, so two worlds that seat the same
+  // number of households begin at different survey households.
+  const start =
+    parseInt(
+      sha256Hex(new TextEncoder().encode(allocationKey)).slice(0, 12),
+      16,
+    ) % slots;
+  let position = (slot + start) % slots;
+  let chosen = 0;
+  while (position >= counts[chosen]!) {
+    position -= counts[chosen]!;
+    chosen += 1;
+  }
+  const selected = candidates[chosen] as (typeof candidates)[number];
+  const subject = selected.subjects[
+    position % selected.subjects.length
+  ] as PumsDonorPerson;
   return {
     selectionKey,
     corpusId: compiled.corpus.corpusId,

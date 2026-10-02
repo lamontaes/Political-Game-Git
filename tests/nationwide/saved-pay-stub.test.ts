@@ -11,7 +11,7 @@ import {
   enterLifePath,
   performLifePathSession,
   scheduleLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "../../src/simulation/life-paths2";
 import { recordedPayStubs } from "../../src/simulation/resource-income";
 import { resourcePositionAt } from "../../src/simulation/resource-queries";
@@ -74,7 +74,7 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
     );
     expect(worked.ok, worked.message).toBe(true);
     const before = worked.world;
-    const paid = advanceWorld(before, 1, LIFE_PATHS2_HANDLERS);
+    const paid = advanceWorld(before, 1, lifePaths2Handlers());
     const saved = serializeWorld(paid);
     const stubs = recordedPayStubs(paid, personId);
     expect(stubs).toHaveLength(1);
