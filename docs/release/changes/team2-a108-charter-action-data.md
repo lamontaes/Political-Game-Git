@@ -1,6 +1,6 @@
 ---
 id: team2-a108-charter-action-data
-impact: patch
+impact: none
 ---
 
 Read executive override and congressional review windows, dated municipal
