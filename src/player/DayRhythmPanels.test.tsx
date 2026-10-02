@@ -42,6 +42,8 @@ describe("daily notes in the player room", () => {
       />,
     );
     expect(html).toContain(read.morningThought!.today.now);
+    expect(html).not.toContain(read.morningThought!.today.dateLabel + " ·");
+    expect(html).not.toContain(read.morningThought!.today.timeLabel);
     expect(html).toContain('data-testid="morning-thought-open-today"');
     expect(html).toContain('data-testid="morning-thought-dismiss"');
   });

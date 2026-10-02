@@ -298,9 +298,15 @@ function renderReceivedClockWorld(
 }
 
 function receivedClockLabel(html: string) {
-  const found = html.match(/data-testid="shell-current-clock"[^>]*>([^<]*)</);
-  expect(found).not.toBeNull();
-  return found![1]!;
+  const date = html.match(/data-testid="story-when"[^>]*>([^<]*)</);
+  const time = html.match(/data-testid="story-time"[^>]*>([^<]*)</);
+  expect(date).not.toBeNull();
+  expect(time).not.toBeNull();
+  expect(html).not.toContain('data-testid="shell-current-clock"');
+  expect(html).not.toContain('data-testid="shell-pass-targets"');
+  expect(html.match(/data-testid="story-when"/g)).toHaveLength(1);
+  expect(html.match(/data-testid="story-time"/g)).toHaveLength(1);
+  return date![1]! + ", " + time![1]!;
 }
 
 describe("the shell bar displays the received world's actual clock", () => {
