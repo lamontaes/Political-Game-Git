@@ -292,6 +292,10 @@ describe("A53 mortgage rates are saved macro inputs", () => {
         item.resourceFlowId === flow.id && item.occurredAt === due.dueAt,
     )!;
     expect(receipt).toBeDefined();
+    expect(receipt.status).toBe("completed");
+    expect(receipt.transferredAmount.minorUnits).toBe(
+      quoted.monthlyPaymentMinor,
+    );
     expect(receipt.attemptedAmount.minorUnits).toBe(
       reading.monthlyPayment!.minorUnits,
     );
