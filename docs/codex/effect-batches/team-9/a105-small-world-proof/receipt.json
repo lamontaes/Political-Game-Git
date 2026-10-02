@@ -1,0 +1,46 @@
+{
+  "testedSource": "b8f62c377511328a6ef11f15fed2a45b882d1540",
+  "currentMainReceived": "e1a70959633d49e7c7a3d10bb1f5b361346de4cc",
+  "sliceStep": "Crime & Courts: incomplete trial panel stays pending before deliberation",
+  "command": "A105_PROOF_PATH=/tmp/team9-a105-smallworld-receipts.json npx vitest run src/simulation/justice/incomplete-jury.test.ts --maxWorkers=1",
+  "passed": 5,
+  "failed": 0,
+  "seconds": 24.32,
+  "caseSeconds": 1.35,
+  "timeoutMs": 30000,
+  "load": {
+    "worldNode": {
+      "exitCode": 0,
+      "command": "node --import tsx -e \"await import('./src/simulation/world.ts')\""
+    },
+    "macro": {
+      "exitCode": 0,
+      "collected": 29,
+      "executed": 0,
+      "command": "npx vitest list src/simulation/macro-economy/macro-economy.test.ts"
+    }
+  },
+  "types": {
+    "roots": 4,
+    "files": 1004,
+    "diagnostics": 0
+  },
+  "controlledSelector": true,
+  "notRun": [
+    "natural jury recruitment",
+    "jurisdiction-specific legal sizes",
+    "slice end-to-end",
+    "browser",
+    "nationwide",
+    "year",
+    "full suite",
+    "final-main acceptance"
+  ],
+  "artifacts": {
+    "native.log": "549737361353ea82dd4fda018d53ee6b75bbb529b07c261c5db2a8adf4f0e2f3",
+    "world-load.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "named-records.json": "b7fa308ec1c61a299347b597fa1274f73f04be8896f3cd006c8f6e1c4edab1e3",
+    "macro-load.log": "2d0994945d2bb6d3eff0c313f7bd81655b64213f2fe0bfc01203e3af556c3ac2",
+    "types.log": "6f4f753a05daef9403ee77473f53964b62fdf41b99d80d22f65ae4e11ce24763"
+  }
+}

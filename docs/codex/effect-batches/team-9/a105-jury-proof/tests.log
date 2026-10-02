@@ -1,0 +1,22 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/justice/incomplete-jury.test.ts (5 tests) 70673ms
+     ✓ keeps the original case pending in 'US-ND'  17273ms
+     ✓ keeps the original case pending in 'US-MA'  12835ms
+     ✓ keeps the original case pending in 'US-HI'  11987ms
+     ✓ keeps the original case pending in 'US-IA'  14133ms
+     ✓ keeps the original case pending in 'US-CA'  14441ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  19:03:46
+   Duration  108.16s (transform 29.17s, setup 33ms, import 37.27s, tests 70.67s, environment 1ms)
+
+JSON report written to /tmp/team9-a105-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
