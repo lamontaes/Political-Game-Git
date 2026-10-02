@@ -138,6 +138,11 @@ function forceUndecided(chapterOnly: boolean) {
       ): ReturnType<typeof evaluate> => {
         const packet = evaluate(world, input);
         if (
+          input.decisionType !== "campaign.opponent-weekly-step" &&
+          input.decisionType !== "campaign.chapter-support-request"
+        )
+          return packet;
+        if (
           chapterOnly &&
           input.decisionType === "campaign.opponent-weekly-step"
         ) {
@@ -232,11 +237,16 @@ describe(`A125 opponent caller pending choices in ${state!.jurisdictionKey} (see
       (
         at: Parameters<typeof evaluate>[0],
         input: Parameters<typeof evaluate>[1],
-      ): ReturnType<typeof evaluate> => ({
-        ...evaluate(at, input),
-        outcomeKind: "selected",
-        selectedOptionKey: "fundraising",
-      }),
+      ): ReturnType<typeof evaluate> => {
+        const packet = evaluate(at, input);
+        return input.decisionType === "campaign.opponent-weekly-step"
+          ? {
+              ...packet,
+              outcomeKind: "selected",
+              selectedOptionKey: "fundraising",
+            }
+          : packet;
+      },
     );
     // The actual resolver supplies the due date before invoking this writer.
     const resolved = resolveFutureDueItemsThrough(
