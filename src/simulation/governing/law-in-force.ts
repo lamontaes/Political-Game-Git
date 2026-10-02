@@ -1,11 +1,9 @@
 import { recordById, recordByStableKey } from "../history-index";
 import { operativeDateForEnactment } from "../legislative-effective-date";
-import { stateStatuteOperativeAt } from "./statute-effective-date";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../dates";
+import { makeIsoDate } from "../dates";
 import {
   enactmentStatuteDateContext,
-  STATUTE_EFFECTIVE_DEFAULT_DAYS,
   stateRuleBasis,
 } from "../enacted-rule-changes";
 import { type PropositionAnswer } from "../issue-record";
@@ -35,10 +33,8 @@ import { constitutionalPolicyProvisions } from "../policy-provisions";
  *
  * Derived, never stored: read from the enacted measures that answered the
  * question (`propositionAnswers`), each operative from its enactment's own
- * effective date, else its state's own effective-date rule
- * (`statute-effective-date.ts`, read or estimated), else, where that rule
- * does not date the act, the blanket statute default the rule-change reader
- * also uses.
+ * saved date and profile through `operativeDateForEnactment`. A source-dated
+ * enactment without its required date governs nothing until that date is known.
  *
  * Which law governs follows `law-hierarchy.ts`: the place's own ordinances,
  * then its state's statutes, then Acts of Congress, and a higher level in
@@ -164,12 +160,9 @@ export function lawInForce(
       authority.set(measure.jurisdictionId, may);
     }
     if (!may) continue;
-    const { operativeAt, operativeBasis } = enactmentOperative(
-      world,
-      measure,
-      enactment,
-      cutoff,
-    );
+    const operative = enactmentOperative(world, measure, enactment, cutoff);
+    if (!operative) continue;
+    const { operativeAt, operativeBasis } = operative;
     if (operativeAt > onDate) continue;
     // Struck down by a court before this day: on the record, and governing
     // nothing (judiciary/judicial-review.ts).
@@ -223,7 +216,7 @@ export function lawInForce(
   };
 }
 
-/** The day a law enacted in play takes effect, and on what basis. */
+/** The shared day and basis, or null when the saved source date is missing. */
 export function enactmentOperative(
   world: World,
   measure: LegislativeMeasureRecord,
@@ -232,30 +225,17 @@ export function enactmentOperative(
 ): {
   readonly operativeAt: IsoDate;
   readonly operativeBasis: LawInForce["operativeBasis"];
-} {
+} | null {
   const placeKey = startingLawPlaceKey(measure.jurisdictionId);
-  const stateRuleAt =
-    enactment.effectiveAt || !placeKey?.startsWith("US-")
-      ? null
-      : stateStatuteOperativeAt(
-          placeKey,
-          enactment.resolvedAt,
-          enactmentStatuteDateContext(world, enactment, cutoff),
-        );
+  const context = enactmentStatuteDateContext(world, enactment, cutoff);
+  const operative = operativeDateForEnactment(enactment, placeKey, context);
+  if (!operative) return null;
   return {
-    operativeAt:
-      enactment.effectiveAt ??
-      stateRuleAt ??
-      addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
-    operativeBasis: enactment.effectiveAt
-      ? "enacted-date"
-      : stateRuleAt
-        ? stateRuleBasis(
-            placeKey!,
-            enactment.resolvedAt,
-            enactmentStatuteDateContext(world, enactment, cutoff),
-          )
-        : "game-default",
+    operativeAt: operative.date,
+    operativeBasis:
+      operative.basis === "state-rule"
+        ? stateRuleBasis(placeKey!, enactment.resolvedAt, context)
+        : operative.basis,
   };
 }
 
