@@ -816,7 +816,7 @@ function confirmSplitHomeAssignment(
  * The published 2020 block population, 2020 block-to-place assignment and
  * 2024 legislative block allocation identify each crossing district's share
  * of the place's tabulated population. The largest share places the initial
- * home, with equal counts ordered by district GEOID. This is an estimated
+ * home, with equal counts resolved by recorded place-part land area. This is an estimated
  * home assignment, not evidence locating a particular address. The player
  * can still choose another crossing district through chooseSplitHomeDistrict.
  * Existing residence intervals and whole-place joins retain their records.
@@ -864,7 +864,7 @@ export function assignSplitHomeDistricts(
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,
-        note: `Estimated home assignment to the largest recorded population-share district: ${largestShare.population} of ${largestShare.totalPopulation} Census 2020 tabulated residents among the crossing districts of place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). Equal population counts use district GEOID. This does not locate a particular address.`,
+        note: `Estimated home assignment to the largest recorded population-share district: ${largestShare.population} of ${largestShare.totalPopulation} Census 2020 tabulated residents among the crossing districts of place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). ${largestShare.tieBreak ? `ESTIMATED FROM RECORDED PART LAND AREA: ${largestShare.tieBreak.parts.map((part) => `${part.districtGeoid}=${part.squareMeters} square meters (${part.sourcePath}:${part.sourceRow}; SHA256 ${part.sourceSha256})`).join("; ")}.` : "Population has a unique maximum."} This does not locate a particular address.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;

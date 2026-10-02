@@ -248,40 +248,47 @@ describe("split-home placement follows recorded population rather than a seed", 
     });
   }
 
-  it("breaks equal recorded-count ties by district GEOID regardless of candidate order", async () => {
-    const { place } = sampled[0]!;
-    const { chamber, candidates } = selectedCase(place.sourceGeoid!);
-    const ordered = [...candidates].sort((left, right) =>
-      left.geoid.localeCompare(right.geoid),
-    );
-    // Explicit query fixture using real crossing identities; these equal counts
-    // test tie behavior and are not presented as Census measurements.
-    const counts = Object.fromEntries(
-      ordered.map((identity, index) => [identity.geoid, index < 2 ? 17 : 0]),
-    );
-    vi.resetModules();
-    vi.doMock("../districts/place-district-population.generated.json", () => ({
-      default: {
-        ...populationData,
-        populations: { [`${place.sourceGeoid}:${chamber}`]: counts },
-      },
-    }));
-    try {
-      const reader = await import("../districts/place-population-share");
-      for (const list of [ordered, [...ordered].reverse()]) {
-        const result = reader.largestPopulationShareDistrict(
-          place.sourceGeoid!,
+  it("resolves every actual recorded population tie by measured part land area, independent of candidate order", () => {
+    const data = populationData as unknown as PopulationCatalog & {
+      tiePartLandAreas: Record<
+        string,
+        Record<string, { squareMeters: number }>
+      >;
+    };
+    let checked = 0;
+    for (const [key, counts] of Object.entries(data.populations)) {
+      const maximum = Math.max(...Object.values(counts));
+      const tied = Object.entries(counts).filter(
+        ([, count]) => count === maximum,
+      );
+      if (tied.length < 2) continue;
+      const [placeGeoid, chamber] = key.split(":") as [string, DistrictChamber];
+      const candidates = districtsCrossingPlace(
+        identities,
+        placeGeoid,
+        chamber,
+      );
+      const areas = data.tiePartLandAreas[key]!;
+      const expected = [...tied].sort(
+        (a, b) => areas[b[0]]!.squareMeters - areas[a[0]]!.squareMeters,
+      )[0]!;
+      for (const list of [candidates, [...candidates].reverse()]) {
+        const selected = largestPopulationShareDistrict(
+          placeGeoid,
           chamber,
           list,
+        )!;
+        expect(selected.identity.geoid).toBe(expected[0]);
+        expect(selected.population).toBe(maximum);
+        expect(selected.totalPopulation).toBe(
+          Object.values(counts).reduce((sum, count) => sum + count, 0),
         );
-        expect(result?.identity.geoid).toBe(ordered[0]!.geoid);
-        expect(result?.population).toBe(17);
-        expect(result?.totalPopulation).toBe(34);
-        expect(result?.share).toBe(0.5);
+        expect(selected.tieBreak?.kind).toBe("recorded-part-land-area");
+        if (selected.totalPopulation === 0) expect(selected.share).toBe(0);
       }
-    } finally {
-      vi.doUnmock("../districts/place-district-population.generated.json");
-      vi.resetModules();
+      checked += 1;
     }
+    expect(checked).toBe(Object.keys(data.tiePartLandAreas).length);
+    expect(checked).toBeGreaterThan(0);
   });
 });

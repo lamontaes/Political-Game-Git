@@ -30394,5 +30394,574 @@
     "55",
     "56",
     "72"
-  ]
+  ],
+  "tiePartLandAreas": {
+    "1301248:state-lower": {
+      "13134": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 8581,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 610992
+      },
+      "13135": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 8596,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 7525
+      }
+    },
+    "1916140:state-lower": {
+      "19088": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 13728,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 19921
+      },
+      "19092": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 13786,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 383283
+      },
+      "19095": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 13812,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 194381
+      }
+    },
+    "1916140:state-upper": {
+      "19044": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldu202420_place20_natl.txt",
+        "sourceRow": 11580,
+        "sourceSha256": "359f18be7d89150b82dfffbf3a2cce6e59903ef49c4c67e5077e36bd886317db",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldu202420_place20_natl.txt",
+        "squareMeters": 19921
+      },
+      "19046": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldu202420_place20_natl.txt",
+        "sourceRow": 11631,
+        "sourceSha256": "359f18be7d89150b82dfffbf3a2cce6e59903ef49c4c67e5077e36bd886317db",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldu202420_place20_natl.txt",
+        "squareMeters": 383283
+      },
+      "19048": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldu202420_place20_natl.txt",
+        "sourceRow": 11674,
+        "sourceSha256": "359f18be7d89150b82dfffbf3a2cce6e59903ef49c4c67e5077e36bd886317db",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldu202420_place20_natl.txt",
+        "squareMeters": 194381
+      }
+    },
+    "2925120:state-upper": {
+      "29010": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldu202420_place20_natl.txt",
+        "sourceRow": 17637,
+        "sourceSha256": "359f18be7d89150b82dfffbf3a2cce6e59903ef49c4c67e5077e36bd886317db",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldu202420_place20_natl.txt",
+        "squareMeters": 6863107
+      },
+      "29026": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldu202420_place20_natl.txt",
+        "sourceRow": 18274,
+        "sourceSha256": "359f18be7d89150b82dfffbf3a2cce6e59903ef49c4c67e5077e36bd886317db",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldu202420_place20_natl.txt",
+        "squareMeters": 7673213
+      }
+    },
+    "3545890:state-lower": {
+      "35006": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 24111,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 99538
+      },
+      "35009": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 24157,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 2540275
+      }
+    },
+    "3651000:state-lower": {
+      "36023": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25176,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 30742059
+      },
+      "36024": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25177,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 14915498
+      },
+      "36025": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25178,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 17296683
+      },
+      "36026": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25179,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 27078646
+      },
+      "36027": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25180,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 20496233
+      },
+      "36028": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25181,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 13585906
+      },
+      "36029": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25182,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 16186374
+      },
+      "36030": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25183,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 7702889
+      },
+      "36031": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25184,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 38601541
+      },
+      "36032": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25185,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 11311155
+      },
+      "36033": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25186,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 16468165
+      },
+      "36034": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25187,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 9196398
+      },
+      "36035": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25188,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 9990562
+      },
+      "36036": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25189,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 8337616
+      },
+      "36037": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25190,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 14698300
+      },
+      "36038": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25191,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 11466820
+      },
+      "36039": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25192,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 4949681
+      },
+      "36040": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25193,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 8569642
+      },
+      "36041": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25194,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 9205006
+      },
+      "36042": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25195,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 5802165
+      },
+      "36043": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25196,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 5504551
+      },
+      "36044": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25197,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 8449494
+      },
+      "36045": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25198,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 9267044
+      },
+      "36046": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25199,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 12065659
+      },
+      "36047": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25200,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 6347183
+      },
+      "36048": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25201,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 6705024
+      },
+      "36049": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25202,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 6094903
+      },
+      "36050": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25203,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 7668932
+      },
+      "36051": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25204,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 11559843
+      },
+      "36052": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25205,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 8488500
+      },
+      "36053": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25206,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 7291156
+      },
+      "36054": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25207,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 7522915
+      },
+      "36055": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25208,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 6412437
+      },
+      "36056": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25209,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 5950653
+      },
+      "36057": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25210,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 5815494
+      },
+      "36058": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25211,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 8707326
+      },
+      "36059": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25212,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 25964195
+      },
+      "36060": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25213,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 12574420
+      },
+      "36061": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25214,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 19430832
+      },
+      "36062": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25215,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 51789326
+      },
+      "36063": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25216,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 48142207
+      },
+      "36064": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25217,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 34072792
+      },
+      "36065": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25218,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 3859128
+      },
+      "36066": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25219,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 5153954
+      },
+      "36067": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25220,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 3937665
+      },
+      "36068": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25221,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 7170337
+      },
+      "36069": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25222,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 4355775
+      },
+      "36070": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25223,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 4454117
+      },
+      "36071": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25224,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 5505511
+      },
+      "36072": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25225,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 4263659
+      },
+      "36073": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25226,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 4266565
+      },
+      "36074": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25227,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 3844462
+      },
+      "36075": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25228,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 6864808
+      },
+      "36076": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25229,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 2838466
+      },
+      "36077": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25230,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 4278389
+      },
+      "36078": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25231,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 5758571
+      },
+      "36079": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25232,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 5385060
+      },
+      "36080": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25233,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 9508675
+      },
+      "36081": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25234,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 17200354
+      },
+      "36082": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25235,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 26677758
+      },
+      "36083": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25236,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 9608662
+      },
+      "36084": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25237,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 10309915
+      },
+      "36085": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25238,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 9370122
+      },
+      "36086": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25239,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 4246419
+      },
+      "36087": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 25240,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 6880686
+      }
+    },
+    "4730280:state-lower": {
+      "47080": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 35429,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 1887933
+      },
+      "47094": {
+        "sourcePath": "data/source/sld-place-relations/raw/tab20_sldl202420_place20_natl.txt",
+        "sourceRow": 35514,
+        "sourceSha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+        "sourceUrl": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_place20_natl.txt",
+        "squareMeters": 1186448
+      }
+    }
+  }
 }

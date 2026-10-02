@@ -7,6 +7,7 @@ Run through the repository storage guard. Raw sources remain in .source-cache.
 
 import argparse
 import collections
+import csv
 import gzip
 import hashlib
 import io
@@ -143,6 +144,37 @@ def allocation_tables():
     return result
 
 
+def tie_part_land_areas(populations):
+    """Retain measured AREALAND_PART only for existing equal-population joins."""
+    tied = {key for key, counts in populations.items()
+            if list(counts.values()).count(max(counts.values())) > 1}
+    areas = {}
+    lock = json.loads((ROOT / "data/source/sld-place-relations/artifact-lock.json").read_text())
+    for artifact in lock["artifacts"]:
+        raw = (ROOT / artifact["localPath"]).read_bytes()
+        if sha(raw) != artifact["bytes"]["sha256"]:
+            raise ValueError("Recorded district relationship source hash mismatch")
+        chamber = "state-lower" if "sldl" in artifact["localPath"] else "state-upper"
+        field = "GEOID_SLDL2024_20" if chamber == "state-lower" else "GEOID_SLDU2024_20"
+        for ordinal, row in enumerate(csv.DictReader(io.StringIO(raw.decode("utf-8-sig")), delimiter="|"), 2):
+            key = row["GEOID_PLACE_20"] + ":" + chamber
+            district = row[field]
+            if key not in tied or district not in populations[key]:
+                continue
+            part = areas.setdefault(key, {})
+            if district in part or not row["AREALAND_PART"].isdigit():
+                raise ValueError("Duplicate or missing recorded place-part land area")
+            part[district] = {"squareMeters": int(row["AREALAND_PART"]),
+                              "sourcePath": artifact["localPath"],
+                              "sourceSha256": artifact["bytes"]["sha256"],
+                              "sourceRow": ordinal,
+                              "sourceUrl": artifact["retrieval"]["url"]}
+    for key in tied:
+        if set(areas.get(key, {})) != set(populations[key]):
+            raise ValueError("Incomplete recorded area coverage for population tie")
+    return areas
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--states", help="Bounded source intake; comma-separated FIPS")
@@ -200,7 +232,8 @@ def main():
     payload = {"format": "ocd-place-district-population/v1", "compilerVersion": "1.0.0", "populationVintage": "census-2020",
                "relationVintage": catalog["relationVintage"], "states": states,
                "note": "Census-tabulated full-block POP20, joined to 2020 place and 2024 SLD allocations. Split blocks follow the state's published data-tabulation district; this does not locate a particular address.",
-               "sources": [SOURCES[url] for url in sorted(SOURCES)], "populations": populations}
+               "sources": [SOURCES[url] for url in sorted(SOURCES)], "populations": populations,
+               "tiePartLandAreas": tie_part_land_areas(populations)}
     Path(args.out).write_text(json.dumps(payload, sort_keys=True, indent=2) + "\n")
     print(f"Wrote {len(populations)} recorded population joins to {args.out}", flush=True)
 
