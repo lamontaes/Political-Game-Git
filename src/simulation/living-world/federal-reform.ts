@@ -4,7 +4,6 @@ import {
   constitutionalActions,
   constitutionalPosition,
   constitutionalProposalRuleForWorld,
-  proposeConstitutionalMeasure,
   recordArticleVRatification,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
@@ -18,6 +17,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import {
   CONSTITUTIONAL_BAR,
   congressVoters,
+  constitutionalMemberConsiderations,
   type Voter,
 } from "../governing/article-v";
 import {
@@ -50,6 +50,7 @@ import {
   presidentialTermsCounted,
 } from "../nationwide-world/presidential-turnover";
 import { SeededRng } from "../rng";
+import { proposeAmendment } from "./constitutional-reform";
 import type {
   DecisionConsideration,
   EntityId,
@@ -411,10 +412,11 @@ export function decideArticleVStateMemberVotes(
     constitutionalPosition(world, measureId).phase !== "ratification" ||
     !pack ||
     !ARTICLE_V_STATE_KEYS.includes(pack.jurisdictionKey) ||
-    !holder ||
-    delta?.kind !== "rule-field" ||
-    delta.officeKey !== PRESIDENT_OFFICE_KEY ||
-    delta.field !== "executive.term.limit"
+    (delta?.kind !== "policy-provision" &&
+      (!holder ||
+        delta?.kind !== "rule-field" ||
+        delta.officeKey !== PRESIDENT_OFFICE_KEY ||
+        delta.field !== "executive.term.limit"))
   )
     return null;
   const rosters = pack.chambers.map((body) => ({
@@ -436,13 +438,16 @@ export function decideArticleVStateMemberVotes(
       ),
     ),
   );
-  const cause = {
-    direction:
-      delta.applicability?.appliesTo === "immediately"
-        ? ("extend" as const)
-        : ("restore" as const),
-    holderPersonId: holder,
-  };
+  const cause =
+    delta?.kind === "rule-field" && holder
+      ? {
+          direction:
+            delta.applicability?.appliesTo === "immediately"
+              ? ("extend" as const)
+              : ("restore" as const),
+          holderPersonId: holder,
+        }
+      : null;
   return {
     world: next,
     chambers: rosters.map(({ bodyKey, roster }) => {
@@ -468,14 +473,21 @@ export function decideArticleVStateMemberVotes(
                 ? [
                     [
                       member.memberKey,
-                      termLimitConsiderations(
-                        next,
-                        {
-                          memberKey: member.memberKey,
-                          personId: member.personId,
-                        },
-                        cause,
-                      ),
+                      delta?.kind === "policy-provision"
+                        ? constitutionalMemberConsiderations(
+                            next,
+                            member.personId,
+                            delta.propositionId,
+                            delta.stance === "adopt" ? "yes" : "no",
+                          )
+                        : termLimitConsiderations(
+                            next,
+                            {
+                              memberKey: member.memberKey,
+                              personId: member.personId,
+                            },
+                            cause!,
+                          ),
                     ] as const,
                   ]
                 : [],
@@ -650,7 +662,7 @@ function proposeTermLimitMeasure(
     (row) => row.stableKey === key,
   );
   if (existing) return world;
-  return proposeConstitutionalMeasure(world, {
+  return proposeAmendment(world, {
     stableKey: key,
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     jurisdictionKey: FEDERAL_JURISDICTION_KEY,
@@ -658,15 +670,12 @@ function proposeTermLimitMeasure(
     designation: `Proposed Amendment to the Constitution (${year})`,
     shortTitle: "The President's term limit",
     text: `No person shall be elected to the office of the President more than ${describeRuleChangeValue(cause.value)}.`,
-    textVersion: "v1",
     sponsoringAuthority: "The Congress of the United States",
-    sponsorPersonId: null,
     ratificationMode: "state-legislatures",
     deadlineAt: yearsLater(
       world.currentDate,
       FEDERAL_REFORM_PROFILE.ratificationYears,
     ),
-    delayedOperativeAt: null,
     ruleDelta: {
       kind: "rule-field",
       officeKey: PRESIDENT_OFFICE_KEY,
@@ -677,7 +686,6 @@ function proposeTermLimitMeasure(
           ? { appliesTo: "immediately", countsPriorService: true }
           : { appliesTo: "terms-beginning-after", countsPriorService: false },
     },
-    ordinaryMeasureId: null,
   });
 }
 

@@ -124,7 +124,7 @@ function account(world: World, stableKey: string, openingMinor = 10000) {
 }
 
 describe("M5 federal government uses the same saved-payment settler", () => {
-  it("opens only the common federal budget without creating forecast books or cash", () => {
+  it("opens no federal forecast books and exactly 56 estimated state, district and territory cash accounts", () => {
     const world = createWorld({
       seed: "a47:single-federal-opening",
       currentDate: date,
@@ -150,9 +150,43 @@ describe("M5 federal government uses the same saved-payment settler", () => {
     expect(currentOpening.publicBudgets!.federalGovernment).toEqual(
       opened.federalGovernment,
     );
-    expect(currentOpening.history.resourcePositions).toEqual(
-      world.history.resourcePositions,
+    const governments = currentOpening.publicBudgets!.governments.filter(
+      (government) => government.level === "state",
     );
+    expect(governments).toHaveLength(56);
+    const accountIds = governments.map((government) => {
+      const saved = publicTaxAccountForJurisdiction(
+        currentOpening,
+        government.jurisdictionId,
+      );
+      expect(saved, government.key).not.toBeNull();
+      const positions = currentOpening.history.resourcePositions.filter(
+        (position) =>
+          position.owner.kind === "organization" &&
+          position.owner.organizationId === saved!.organizationId &&
+          position.openingBalance.currency === "USD",
+      );
+      expect(positions, government.key).toHaveLength(1);
+      expect(positions[0]!.provenance).toMatchObject({
+        kind: "authored",
+        note: expect.stringContaining("ESTIMATED"),
+      });
+      return saved!.organizationId;
+    });
+    expect(new Set(accountIds).size).toBe(56);
+    expect(currentOpening.history.resourcePositions).toHaveLength(57);
+    const federalAccount = publicTaxAccountForJurisdiction(
+      currentOpening,
+      NATIONAL_ELECTION_JURISDICTION.id,
+    );
+    expect(federalAccount).not.toBeNull();
+    expect(
+      currentOpening.history.resourcePositions.filter(
+        (position) =>
+          position.owner.kind === "organization" &&
+          position.owner.organizationId === federalAccount!.organizationId,
+      ),
+    ).toHaveLength(1);
     expect(currentOpening.history.resourceTransferOutcomes).toEqual(
       world.history.resourceTransferOutcomes,
     );

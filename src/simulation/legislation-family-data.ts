@@ -1,9 +1,13 @@
-import type {
-  AmendmentInvitation,
-  ClauseRendering,
-  ClauseTemplate,
-  ProgramVariant,
-  ResolvedParameters,
+import {
+  formatStatutoryDate,
+  numberWord,
+  yearsAttributive,
+  yearsPhrase,
+  type AmendmentInvitation,
+  type ClauseRendering,
+  type ClauseTemplate,
+  type ProgramVariant,
+  type ResolvedParameters,
 } from "./legislation-content-contracts";
 
 interface StoredClause extends Omit<ClauseTemplate, "render"> {
@@ -16,6 +20,21 @@ interface StoredClause extends Omit<ClauseTemplate, "render"> {
     readonly message: string;
   };
   readonly moneyParameter?: { readonly key: string; readonly message: string };
+  readonly fiscalMoneyParameter?: string;
+  readonly textWhenNoEndDate?: string;
+  readonly durationFallback?: {
+    readonly key: string;
+    readonly rendering: StoredClause["rendering"];
+  };
+  readonly authorityFallback?: {
+    readonly rendering: StoredClause["rendering"];
+    readonly textWhenNoEndDate?: string;
+  };
+  readonly integerCases?: readonly {
+    readonly key: string;
+    readonly equals: number;
+    readonly rendering: StoredClause["rendering"];
+  }[];
   readonly durationParameter?: {
     readonly key: string;
     readonly message: string;
@@ -37,10 +56,27 @@ export interface ProgramVariantData extends Omit<
  * No expression evaluation, legal-rule inference, or per-law/level dispatch. */
 function renderText(text: string, resolved: ResolvedParameters): string {
   return text.replace(
-    /\{\{(authority|money|choice|duration):([^{}]+)\}\}/g,
+    /\{\{(authority|money|choice|duration|integer|integer-locale|integer-word|date|years-attributive|years-phrase):([^{}]+)\}\}/g,
     (_match, kind: string, key: string) => {
       if (kind === "money") return resolved.money(key);
       if (kind === "choice") return resolved.choice(key).clausePhrase;
+      if (kind === "integer") return String(resolved.integer(key));
+      if (kind === "years-attributive" || kind === "years-phrase") {
+        const duration = resolved.values[key];
+        if (duration?.kind !== "duration-years" || duration.years === null)
+          throw new Error(`Missing duration wording parameter '${key}'.`);
+        return kind === "years-attributive"
+          ? yearsAttributive(duration.years)
+          : yearsPhrase(duration.years);
+      }
+      if (kind === "integer-locale")
+        return resolved.integer(key).toLocaleString("en-US");
+      if (kind === "integer-word") return numberWord(resolved.integer(key));
+      if (kind === "date") {
+        if (key !== "endsOn" || resolved.endsOn === null)
+          throw new Error(`Missing statutory date wording field '${key}'.`);
+        return formatStatutoryDate(resolved.endsOn);
+      }
       if (kind === "duration") {
         const duration = resolved.values[key];
         if (duration?.kind !== "duration-years" || duration.years === null)
@@ -73,6 +109,11 @@ export function programVariantFromData(
           rendering,
           requiredAuthority,
           moneyParameter,
+          fiscalMoneyParameter,
+          textWhenNoEndDate,
+          durationFallback,
+          authorityFallback,
+          integerCases,
           durationParameter,
           positiveAmountEffect,
           ...clause
@@ -86,9 +127,8 @@ export function programVariantFromData(
                   resolved.authority.authorityKey !== requiredAuthority.key))
             )
               throw new Error(requiredAuthority.message);
-            const amount = moneyParameter
-              ? resolved.values[moneyParameter.key]
-              : undefined;
+            const moneyKey = moneyParameter?.key ?? fiscalMoneyParameter;
+            const amount = moneyKey ? resolved.values[moneyKey] : undefined;
             if (moneyParameter && amount?.kind !== "money")
               throw new Error(moneyParameter.message);
             if (durationParameter) {
@@ -99,13 +139,46 @@ export function programVariantFromData(
               )
                 throw new Error(durationParameter.message);
             }
+            const duration = durationFallback
+              ? resolved.values[durationFallback.key]
+              : undefined;
+            const authorityCase = !resolved.authority
+              ? authorityFallback
+              : undefined;
+            const integerCase = integerCases?.find(
+              (row) => resolved.integer(row.key) === row.equals,
+            );
+            const selectedRendering =
+              integerCase?.rendering ??
+              authorityCase?.rendering ??
+              (durationFallback &&
+              (duration?.kind !== "duration-years" || duration.years === null)
+                ? durationFallback.rendering
+                : rendering);
+            const noEndText =
+              authorityCase?.textWhenNoEndDate ?? textWhenNoEndDate;
             return {
-              ...rendering,
-              text: renderText(rendering.text, resolved),
+              ...selectedRendering,
+              text: renderText(
+                resolved.endsOn === null && noEndText !== undefined
+                  ? noEndText
+                  : selectedRendering.text,
+                resolved,
+              ),
+              beneficiary:
+                selectedRendering.beneficiary.kind === "general-application"
+                  ? {
+                      ...selectedRendering.beneficiary,
+                      appliesToLabel: renderText(
+                        selectedRendering.beneficiary.appliesToLabel,
+                        resolved,
+                      ),
+                    }
+                  : selectedRendering.beneficiary,
               fiscalExposureLabel:
-                rendering.fiscalExposureLabel === null
+                selectedRendering.fiscalExposureLabel === null
                   ? null
-                  : renderText(rendering.fiscalExposureLabel, resolved),
+                  : renderText(selectedRendering.fiscalExposureLabel, resolved),
               fiscalExposureMinorUnits:
                 amount?.kind === "money" ? amount.minorUnits : null,
               ...(positiveAmountEffect &&
@@ -120,7 +193,8 @@ export function programVariantFromData(
     },
     amendmentInvitation: {
       ...invitation,
-      render: () => invitationText,
+      render: (amountLabel) =>
+        invitationText.replaceAll("{{amount-label}}", () => amountLabel),
     },
   };
 }

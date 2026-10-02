@@ -1,3 +1,6 @@
+import { renderMeasureTitle } from "../measure-title";
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
   MEMBER_AGENDA_LEVEL_SETTINGS,
   COUNCIL_MEMBER_AGENDA_SETTINGS,
@@ -8,10 +11,10 @@ export {
   COUNCIL_MEMBER_AGENDA_SETTINGS,
   LOCAL_MEMBER_AGENDA_VERSION,
 } from "./member-agenda-settings";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
+import { operativeDateForEnactment } from "../legislative-effective-date";
 import { outranks } from "../law-hierarchy";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { ensureNationalElectionJurisdiction } from "../national-election-geography";
 import { recordWorldEvent } from "../world";
 import { COSPONSOR_EVENT } from "./congress-chambers";
@@ -97,9 +100,6 @@ export const MEMBER_AGENDA_VERSION = "member-agenda/v2";
 export const LOCAL_MEMBER_AGENDA_INTAKE =
   "government:local-member-agenda-intake" as const;
 
-/** A game scheduling default, not a claim about a place's legislative law. */
-const LOCAL_AGENDA_DEFAULT_QUARTERS = 1;
-
 /**
  * The questions the state's own law may answer (`question-authority.ts`), in
  * catalog order.
@@ -120,7 +120,6 @@ export interface CouncilMemberAgendaInput {
   readonly questions: readonly EntityId[];
   readonly measures: readonly LegislativeMeasureRecord[];
   readonly playerPersonId: EntityId | null;
-  readonly title: (questionName: string, year: string) => string;
   readonly measureKey: (
     numbering: ReturnType<typeof nextMeasureNumbering>,
   ) => string;
@@ -152,38 +151,26 @@ function councilQuestionClosed(
               vote.takenAt >= since,
           )),
     ) ||
-    (world.history.legislativeEnactments ?? []).some(
-      (enactment) =>
-        ids.has(enactment.measureId) &&
+    (world.history.legislativeEnactments ?? []).some((enactment) => {
+      if (!ids.has(enactment.measureId)) return false;
+      // Read an admitted saved fictional profile through the shared date reader.
+      if (
+        enactment.effectiveDateBasis === "game-default" &&
+        enactment.effectiveDateGameProfile
+      ) {
+        const operative = operativeDateForEnactment(enactment);
+        if (operative) return operative.date > world.currentDate;
+      }
+      // General legacy/source-default handling awaits its separate contract.
+      return (
         (enactment.effectiveAt ??
           addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS)) >
-          world.currentDate,
-    )
+        world.currentDate
+      );
+    })
   );
 }
 
-const SMALL_TITLE_WORDS = new Set([
-  "a",
-  "an",
-  "and",
-  "of",
-  "the",
-  "for",
-  "in",
-  "on",
-  "or",
-  "to",
-]);
-function agendaTitle(name: string): string {
-  return name
-    .split(" ")
-    .map((word, index) =>
-      index > 0 && SMALL_TITLE_WORDS.has(word)
-        ? word
-        : `${word.charAt(0).toUpperCase()}${word.slice(1)}`,
-    )
-    .join(" ");
-}
 function agendaSubject(issueKey: string): LegislativeSubjectClass {
   if (issueKey.startsWith("tax.")) return "revenue";
   if (issueKey === "budget.appropriations") return "appropriation";
@@ -395,7 +382,7 @@ export function fileMemberAgendaBills(
           ? input.localFiscalFirst
             ? "localFiscal"
             : "localPosition"
-          : pack.packId === US_CONGRESS_PACK_ID
+          : world.jurisdictions[input.jurisdictionId]?.kind === "federal"
             ? "federal"
             : "state"
       ];
@@ -584,12 +571,17 @@ export function fileMemberAgendaBills(
         )
           return [];
         let best: Proposal | null = null;
-        const councilProposals: Proposal[] = [];
+        const candidateProposals: Proposal[] = [];
         for (const propositionId of questions) {
           if (!questionOpen(propositionId)) continue;
           const leaning = leaningFor(sponsor.personId!, propositionId);
           if (Math.abs(leaning.score) < settings.filingThreshold) continue;
-          if (!input.council && best && Math.abs(leaning.score) <= best.weight)
+          if (
+            !input.council &&
+            !settings.retainAlternatives &&
+            best &&
+            Math.abs(leaning.score) <= best.weight
+          )
             continue;
           if (!laws.has(propositionId))
             laws.set(
@@ -742,11 +734,19 @@ export function fileMemberAgendaBills(
             issueKey,
             subjectClass,
           };
-          if (input.council) councilProposals.push(best);
+          if (input.council || settings.retainAlternatives)
+            candidateProposals.push(best);
         }
-        return (input.council ? councilProposals : best ? [best] : []).map(
-          (proposal) => ({ sponsor, proposal, pressure: proposal.weight }),
-        );
+        // A state member's next eligible priority remains available when an
+        // earlier selection takes their first choice. The existing selector
+        // still admits at most one bill per member and question per intake.
+        return (
+          input.council || settings.retainAlternatives
+            ? candidateProposals
+            : best
+              ? [best]
+              : []
+        ).map((proposal) => ({ sponsor, proposal, pressure: proposal.weight }));
       },
     );
     const claimedMembers = new Set<EntityId>();
@@ -834,13 +834,12 @@ export function fileMemberAgendaBills(
           jurisdictionId: input.jurisdictionId,
           rulePackId: pack.packId,
           ...numbering,
-          shortTitle: input.council
-            ? `${best.answer === "yes" ? "" : "Repeal: "}${input.council.title(proposition.name, world.currentDate.slice(0, 4))}`
-            : settings.actTitles
-              ? `${agendaTitle(proposition.name)}${best.answer === "yes" ? "" : " Repeal"} Act of ${world.currentDate.slice(0, 4)}`
-              : best.answer === "yes"
-                ? proposition.name
-                : `Repeal: ${proposition.name}`,
+          shortTitle: renderMeasureTitle(
+            pack.titleTemplate ?? settings.titleTemplate,
+            proposition.name,
+            world.currentDate.slice(0, 4),
+            best.answer === "no",
+          ),
           summary: input.council
             ? `Answers "${proposition.question}" with ${best.answer}.`
             : best.answer === "yes"
@@ -981,17 +980,6 @@ function localContext(
   };
 }
 
-function nextQuarterStart(after: IsoDate): IsoDate {
-  const year = Number(after.slice(0, 4));
-  const month = Number(after.slice(5, 7));
-  const nextQuarterMonth = (Math.floor((month - 1) / 3) + 1) * 3 + 1;
-  const nextYear = nextQuarterMonth > 12 ? year + 1 : year;
-  const normalizedMonth = nextQuarterMonth > 12 ? 1 : nextQuarterMonth;
-  return makeIsoDate(
-    `${nextYear}-${String(normalizedMonth).padStart(2, "0")}-01`,
-  );
-}
-
 function localIntakeStableKey(governmentKey: string, dueAt: IsoDate): string {
   return `${LOCAL_MEMBER_AGENDA_VERSION}:intake:${encodeURIComponent(governmentKey)}:${dueAt}`;
 }
@@ -1096,13 +1084,16 @@ function localMemberAgendaGovernments(world: World) {
   return [...governments.values()];
 }
 
-/** Schedule each seated, admitted local council on a separate quarterly clock. */
+/** Schedule each seated, admitted council using its shared intake timetable. */
 export function scheduleLocalMemberAgendaIntakes(world: World): World {
   let next = world;
   for (const government of localMemberAgendaGovernments(next)) {
     const grant = localAuthorityForCouncil(next, government.key);
     if (!grant) continue;
-    const dueAt = nextQuarterStart(next.currentDate as IsoDate);
+    const calendar =
+      legislativeRulePackForWorld(next, grant.authority.rulePackId).session
+        .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+    const dueAt = nextSessionCalendarDate(calendar, next.currentDate, "agenda");
     const stableKey = localIntakeStableKey(government.key, dueAt);
     if (
       next.history.futureDueItems.some((item) => item.stableKey === stableKey)
@@ -1116,7 +1107,7 @@ export function scheduleLocalMemberAgendaIntakes(world: World): World {
       jurisdictionId: grant.jurisdictionId,
       provenance: {
         kind: "authored",
-        note: `${LOCAL_MEMBER_AGENDA_VERSION}: quarterly game scheduling default for ${government.key}; it is not a statement of local legislative calendar law.`,
+        note: `${LOCAL_MEMBER_AGENDA_VERSION}: ${calendar.id}: ${calendar.note} Intake for ${government.key}.`,
       },
     });
   }
@@ -1163,8 +1154,7 @@ export function localMemberAgendaIntakeHandler(
     world: next,
     status: "resolved",
     reasonKey: null,
-    context:
-      "The local council reached its quarterly game-profile agenda date.",
+    context: "The local council reached its shared timetable agenda date.",
     outcomeEventId: null,
   };
 }
@@ -1176,10 +1166,10 @@ function scheduleLocalMemberAgendaIntakeAfter(
 ): World {
   const grant = localAuthorityForCouncil(world, governmentKey);
   if (!grant) return world;
-  const quarters = LOCAL_AGENDA_DEFAULT_QUARTERS;
-  let dueAt = after;
-  for (let index = 0; index < quarters; index += 1)
-    dueAt = nextQuarterStart(dueAt);
+  const calendar =
+    legislativeRulePackForWorld(world, grant.authority.rulePackId).session
+      .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(calendar, after, "agenda");
   const stableKey = localIntakeStableKey(governmentKey, dueAt);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -1191,7 +1181,7 @@ function scheduleLocalMemberAgendaIntakeAfter(
     jurisdictionId: grant.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `${LOCAL_MEMBER_AGENDA_VERSION}: quarterly game scheduling default for ${governmentKey}; it is not a statement of local legislative calendar law.`,
+      note: `${LOCAL_MEMBER_AGENDA_VERSION}: ${calendar.id}: ${calendar.note} Intake for ${governmentKey}.`,
     },
   });
 }

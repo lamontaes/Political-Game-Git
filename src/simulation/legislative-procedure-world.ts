@@ -1,3 +1,4 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import {
   LEGISLATIVE_STARTING_PROCEDURES_VERSION,
   type LegislativeStartingProcedureEntry,
@@ -155,6 +156,8 @@ export function activeLegislativePackFromEntry(
     basis: "game-profile",
     session: {
       ...baseline.session,
+      sittingCalendar:
+        baseline.session.sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.state,
       regularSessionYears: knownRule(sessionYears, source),
       ...(entry.regularSessionCutoff
         ? {
