@@ -128,6 +128,25 @@ describe("one finder reads saved courts", () => {
       ),
     ).toBeNull();
   });
+  it("leaves qualified county portions unresolved without saved boundary evidence", () => {
+    const base = world();
+    for (const name of ["Moore", "Scotland"]) {
+      const venue = searchLifePlaces(name, 100, {
+        stateJurisdictionKey: "US-NC",
+        scope: "county",
+      })[0]!;
+      expect(venue).toBeDefined();
+      expect(
+        courtFor(
+          base,
+          venue.context.jurisdiction.id,
+          "federal-district",
+          "criminal",
+        ),
+      ).toBeNull();
+    }
+  });
+
   it("retains the existing trial court family in all 56 places", () => {
     const base = world();
     for (const state of lifePlaceStateIdentities()) {

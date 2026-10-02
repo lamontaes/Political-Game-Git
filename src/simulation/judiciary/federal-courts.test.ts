@@ -31,6 +31,16 @@ describe("locked federal court projection", () => {
         (row) => row.courtId === "d-california-northern",
       )?.comprisesCounties,
     ).toContain("San Francisco");
+    const eastern = normalizeStateDistricts(xml, "113", "locked-title-28").find(
+      (row) => row.courtId === "d-north-carolina-eastern",
+    )!;
+    expect(eastern.comprisesCounties).toContain("Wake");
+    expect(eastern.comprisesCounties).not.toContain("Moore");
+    expect(eastern.comprisesCounties).not.toContain("Scotland");
+    expect(
+      FEDERAL_COURTS_PROJECTION.find((row) => row.courtId === eastern.courtId)
+        ?.comprisesCounties,
+    ).toEqual(eastern.comprisesCounties);
   });
   it("preserves 13 appellate and 94 district identities without bankruptcy detail", () => {
     const circuits = FEDERAL_COURTS_PROJECTION.filter(

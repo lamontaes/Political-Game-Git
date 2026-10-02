@@ -232,9 +232,15 @@ export function normalizeStateDistricts(
 
     const membership = DISTRICT_SENTENCE.exec(paragraph.text);
     if (membership) {
-      counties = splitStatutoryList(
-        (membership[1] ?? "").split(COURT_SENTENCE)[0] ?? "",
-      );
+      const text = (membership[1] ?? "").split(COURT_SENTENCE)[0] ?? "";
+      // A county-name join cannot establish the military/federal boundaries of
+      // qualified portions. Retain only the whole counties preceding that rule;
+      // the cited primary section remains the authority for excluded portions.
+      const wholeCounties =
+        text.split(
+          /,\s*(?:and\s+)?(?:those|that|the)\s+(?:portions?|parts?)\s+of\b/,
+        )[0] ?? "";
+      counties = splitStatutoryList(wholeCounties);
       continue;
     }
 
