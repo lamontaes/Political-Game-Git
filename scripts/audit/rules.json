@@ -3269,8 +3269,8 @@
         {
           "kind": "present",
           "file": "src/simulation/living-world/constitutional-reform.ts",
-          "pattern": "decideChamberVote\\(",
-          "why": "state amendment roll calls use it (constitutional-reform.ts:912)"
+          "pattern": "memberBallot\\(",
+          "why": "state amendment roll calls use memberBallot (constitutional-reform.ts:837), whose unchanged input delegates to decideChamberVote (governing/article-v.ts:336); the ordinary-review regression verifies the canonical call and saved dispositions"
         },
         {
           "kind": "absent",
