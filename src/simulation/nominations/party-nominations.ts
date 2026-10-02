@@ -4,6 +4,9 @@ import {
   ensurePeopleTraits,
   traitConsiderations,
 } from "../people-traits";
+import { countRecordedVoterBallots } from "../election-contests";
+import { recordedPrimaryPartyAdmission } from "./primary-voter-access";
+import { considerPrimaryPartyBallots } from "./primary-ballot-actions";
 import type {
   DecisionConsideration,
   EntityId,
@@ -34,31 +37,14 @@ import type { NominationMethod, NominationPlan } from "./nomination-rules";
  * vote and what became of them. Nothing else is stored: who is on the general
  * ballot is read back from those records.
  *
- * PLACEHOLDER(build-24-step-1): how primary voters split. Until the
- * incumbent-standing reader (Careers step 3) supplies each candidate's
- * standing with the party's own voters, a candidate's pull is set by hand
- * from their recorded standing: a sitting member 1.5, someone the party asked
- * to run 1.25, anyone else 1. In an all-party primary the pull is also
- * multiplied by the party's share of the district's voters. These weights
- * are set by hand, not measured. Nothing is drawn: the same field gives the
- * same result in every world. A runoff is decided by each finalist's
- * recorded share of the primary vote.
- *
- * An exact tie at the place that decides who goes on is not broken here:
- * the tied entrants are recorded as tied and nobody takes that place, as the
- * state's own recount or lot would have to settle it.
+ * Counts reuse the ordinary recorded-voter evaluator. A missing ballot,
+ * registration or invitation record never becomes party support. Such a
+ * primary remains pending instead of manufacturing a nomination.
  */
 
 export const NOMINATION_VERSION = "party-nominations/v1";
 export const NOMINATION_EVENT = "election.party-nomination";
 export const NOMINATION_RUNOFF_EVENT = "election.nomination-runoff";
-
-export const NOMINATION_PULL = {
-  id: "ocd-primary-pull-placeholder/v2",
-  incumbent: 1.5,
-  partyBacked: 1.25,
-  other: 1,
-} as const;
 
 export interface NominationEntrant {
   readonly personId: EntityId;
@@ -74,13 +60,7 @@ export interface Nominee {
 }
 
 type Status =
-  | "unopposed"
-  | "nominated"
-  | "advanced"
-  | "runoff"
-  | "lost"
-  | "conceded"
-  | "tied";
+  "unopposed" | "nominated" | "advanced" | "runoff" | "lost" | "conceded";
 
 interface Tally {
   readonly entrant: NominationEntrant;
@@ -116,50 +96,38 @@ function eventByKey(world: World, stableKey: string): HistoricalEvent | null {
   return index.get(stableKey) ?? null;
 }
 
-/** An entrant's pull with the voters, from their recorded standing. */
-function pullOf(
-  entrant: NominationEntrant,
-  partyShare: ((party: string) => number | null) | null,
-): number {
-  const base = entrant.incumbent
-    ? NOMINATION_PULL.incumbent
-    : entrant.partyBacked
-      ? NOMINATION_PULL.partyBacked
-      : NOMINATION_PULL.other;
-  const share = partyShare ? (partyShare(entrant.party) ?? 0.5) : 1;
-  return base * Math.max(share, 0.01);
-}
-
 function tally(
+  world: World,
+  stageKey: string,
   entrants: readonly NominationEntrant[],
-  pull: (entrant: NominationEntrant) => number,
-): readonly Tally[] {
-  const pulls = entrants.map((entrant) => ({
-    entrant,
-    pull: pull(entrant),
+  jurisdictionId: EntityId,
+  electionDate: IsoDate,
+  admitVoter?: (personId: EntityId) => boolean | null,
+): readonly Tally[] | null {
+  if (entrants.length === 0) return null;
+  const counted = countRecordedVoterBallots(world, {
+    stableKey: stageKey,
+    jurisdictionId,
+    electionDate,
+    candidatePersonIds: entrants.map((entrant) => entrant.personId),
+    includeRecordedRelationships: true,
+    admitVoter,
+  });
+  if (!counted) return null;
+  // A tied advancement boundary is not resolved by entrant order or ID.
+  if (
+    counted.tallies.some(
+      (row, index) =>
+        index > 0 && row.votes === counted.tallies[index - 1]!.votes,
+    )
+  )
+    return null;
+  return counted.tallies.map((row) => ({
+    entrant: entrants.find(
+      (entrant) => entrant.personId === row.candidatePersonId,
+    )!,
+    permille: Math.round(row.voteShare * 1000),
   }));
-  const total = pulls.reduce((sum, row) => sum + row.pull, 0);
-  return pulls
-    .map((row) => ({
-      entrant: row.entrant,
-      permille: Math.round((row.pull / total) * 1000),
-    }))
-    .sort(
-      (a, b) =>
-        b.permille - a.permille ||
-        a.entrant.personId.localeCompare(b.entrant.personId),
-    );
-}
-
-/**
- * The share tied across the line when the first `goOn` finishers go on, or
- * null when the line falls between different shares. Entrants with that
- * share neither go on nor lose: the tie is the state's to settle.
- */
-function tiedAtLine(tallies: readonly Tally[], goOn: number): number | null {
-  const last = tallies[goOn - 1];
-  const next = tallies[goOn];
-  return last && next && last.permille === next.permille ? last.permille : null;
 }
 
 function reachesThreshold(
@@ -275,8 +243,22 @@ export function holdNominationPrimary(
   if (eventByKey(world, stableKey)) return world;
   const { plan } = input;
   let next = world;
-  const rows: { tally: Tally; status: Status; party: string }[] = [];
+  const rows: {
+    tally: Omit<Tally, "permille"> & { readonly permille: number | null };
+    status: Status;
+    party: string;
+  }[] = [];
   const runoffParties: string[] = [];
+  const pendingParties: string[] = [];
+  if (!isAllParty(plan.method)) {
+    next = considerPrimaryPartyBallots(next, {
+      stableKey: input.stableKey,
+      jurisdictionId: input.jurisdictionId,
+      stateUsps: plan.stateUsps,
+      electionDate: plan.primaryDate,
+      entrants: input.entrants,
+    });
+  }
   const groups = isAllParty(plan.method)
     ? [{ party: "all", entrants: input.entrants }]
     : [...new Set(input.entrants.map((entrant) => entrant.party))]
@@ -286,16 +268,44 @@ export function holdNominationPrimary(
           entrants: input.entrants.filter((entrant) => entrant.party === party),
         }));
   for (const group of groups) {
-    const tallies = tally(group.entrants, (entrant) =>
-      pullOf(entrant, isAllParty(plan.method) ? input.partyShare : null),
+    // Preserve the existing uncontested filing result. No voter choice is
+    // needed between candidates when this already-filed group has only one.
+    if (group.entrants.length === 1) {
+      rows.push({
+        tally: { entrant: group.entrants[0]!, permille: null },
+        party: group.party,
+        status: "unopposed",
+      });
+      continue;
+    }
+    const tallies = tally(
+      next,
+      `${stableKey}:${group.party}`,
+      group.entrants,
+      input.jurisdictionId,
+      plan.primaryDate,
+      isAllParty(plan.method)
+        ? undefined
+        : (personId) =>
+            recordedPrimaryPartyAdmission(next, {
+              personId,
+              jurisdictionId: input.jurisdictionId,
+              electionStableKey: input.stableKey,
+              electionDate: plan.primaryDate,
+              stateUsps: plan.stateUsps,
+              primaryPartyId: group.party,
+            }),
     );
+    if (!tallies) {
+      pendingParties.push(group.party);
+      continue;
+    }
     if (isAllParty(plan.method)) {
       const majority =
         plan.method === "all-party-majority" &&
         tallies.length > 0 &&
         tallies[0]!.permille > 500;
       const goOn = majority ? 1 : plan.advance;
-      const tied = tiedAtLine(tallies, goOn);
       tallies.forEach((row, index) =>
         rows.push({
           tally: row,
@@ -303,13 +313,11 @@ export function holdNominationPrimary(
           status:
             tallies.length === 1
               ? "unopposed"
-              : tied !== null && row.permille === tied
-                ? "tied"
-                : index < goOn
-                  ? majority
-                    ? "nominated"
-                    : "advanced"
-                  : "lost",
+              : index < goOn
+                ? majority
+                  ? "nominated"
+                  : "advanced"
+                : "lost",
         }),
       );
       continue;
@@ -341,29 +349,26 @@ export function holdNominationPrimary(
       next = asked.world;
       needsRunoff = asked.asks;
     }
-    const tied = tiedAtLine(tallies, needsRunoff ? 2 : 1);
     tallies.forEach((row, index) =>
       rows.push({
         tally: row,
         party: group.party,
-        status:
-          tied !== null && row.permille === tied
-            ? "tied"
-            : needsRunoff
-              ? index < 2
-                ? "runoff"
-                : "lost"
-              : index === 0
-                ? "nominated"
-                : runoff?.onRequest &&
-                    index === 1 &&
-                    !reachesThreshold(leader.permille, runoff)
-                  ? "conceded"
-                  : "lost",
+        status: needsRunoff
+          ? index < 2
+            ? "runoff"
+            : "lost"
+          : index === 0
+            ? "nominated"
+            : runoff?.onRequest &&
+                index === 1 &&
+                !reachesThreshold(leader.permille, runoff)
+              ? "conceded"
+              : "lost",
       }),
     );
     if (needsRunoff) runoffParties.push(group.party);
   }
+  if (rows.length === 0) return next;
   const runoffDate = runoffParties.length ? plan.runoff!.date : null;
   return recordWorldEvent(next, {
     stableKey,
@@ -380,21 +385,29 @@ export function holdNominationPrimary(
     participants: rows.map((row) => ({
       personId: row.tally.entrant.personId,
       role: "presence:candidate" as const,
-      detail: `${row.tally.entrant.party}|${row.tally.permille}|${row.status}`,
+      detail: `${row.tally.entrant.party}|${row.tally.permille ?? ""}|${row.status}`,
     })),
     personFactConstraints: [],
     visibility: "public",
     tags: [
       NOMINATION_VERSION,
-      NOMINATION_PULL.id,
+      rows.every((row) => row.status === "unopposed")
+        ? "unopposed-filing/v1"
+        : "recorded-voter-count/v1",
       `seat:${input.seatKey}`,
       `method:${plan.method}`,
+      `state:${plan.stateUsps}`,
       `date-basis:${plan.dateBasis}`,
       ...plan.estimated.map((part) => `estimated-from-average:${part}`),
+      ...pendingParties.map((party) => `pending-party:${party}`),
       ...runoffParties.map((party) => `runoff-party:${party}`),
       ...(runoffDate ? [`runoff-date:${runoffDate}`] : []),
     ],
-    summary: nominationSummary(input.title, plan.method, rows, runoffParties),
+    summary:
+      nominationSummary(input.title, plan.method, rows, runoffParties) +
+      (pendingParties.length
+        ? ` The ${pendingParties.join(" and ")} count remains pending.`
+        : ""),
     context: {
       location: null,
       socialContext: null,
@@ -415,15 +428,6 @@ function nominationSummary(
   const contested = new Set(
     rows.filter((row) => row.status !== "unopposed").map((row) => row.party),
   );
-  const tied = [
-    ...new Set(
-      rows.filter((row) => row.status === "tied").map((row) => row.party),
-    ),
-  ];
-  if (tied.length)
-    return isAllParty(method)
-      ? `The primary for ${title} ended in a tie for the last place on the ballot, which the state must settle.`
-      : `The ${tied.join(" and ")} primary for ${title} ended in a tie, which the state must settle before anyone is nominated.`;
   if (isAllParty(method))
     return rows.length === 1
       ? `One candidate filed for ${title}, so the primary sent them on alone.`
@@ -448,24 +452,20 @@ export function holdNominationRunoff(
     .filter((tag) => tag.startsWith("runoff-party:"))
     .map((tag) => tag.slice("runoff-party:".length));
   const rows: { personId: EntityId; detail: string }[] = [];
-  let tiedParties: string[] = [];
   for (const party of parties) {
-    // Each finalist's recorded share of the primary vote is their standing
-    // with the party's voters in the runoff.
-    const primaryShare = new Map<EntityId, number>();
     const entrants: NominationEntrant[] = primary.participants.flatMap(
       (participant) => {
-        const [p, permille, status] = (participant.detail ?? "").split("|");
-        if (p !== party || status !== "runoff") return [];
-        primaryShare.set(participant.personId, Number(permille));
-        return [
-          {
-            personId: participant.personId,
-            party,
-            incumbent: false,
-            partyBacked: false,
-          },
-        ];
+        const [p, , status] = (participant.detail ?? "").split("|");
+        return p === party && status === "runoff"
+          ? [
+              {
+                personId: participant.personId,
+                party,
+                incumbent: false,
+                partyBacked: false,
+              },
+            ]
+          : [];
       },
     );
     // A candidate who died before the runoff cannot win it.
@@ -476,21 +476,30 @@ export function holdNominationRunoff(
             death.personId === entrant.personId && death.diedAt <= date,
         ),
     );
-    const tallies = tally(living, (entrant) =>
-      Math.max(primaryShare.get(entrant.personId) ?? 0, 1),
+    const tallies = tally(
+      world,
+      `${runoffKey(input.stableKey)}:${party}`,
+      living,
+      input.jurisdictionId,
+      date,
+      (personId) => {
+        const stateUsps = tagOf(primary, "state:");
+        if (!stateUsps) return null;
+        return recordedPrimaryPartyAdmission(world, {
+          personId,
+          jurisdictionId: input.jurisdictionId,
+          electionStableKey: input.stableKey,
+          electionDate: date,
+          stateUsps,
+          primaryPartyId: party,
+        });
+      },
     );
-    const tied = tiedAtLine(tallies, 1);
-    if (tied !== null) tiedParties = [...tiedParties, party];
+    if (!tallies) return world;
     tallies.forEach((row, index) =>
       rows.push({
         personId: row.entrant.personId,
-        detail: `${party}|${row.permille}|${
-          tied !== null && row.permille === tied
-            ? "tied"
-            : index === 0
-              ? "nominated"
-              : "lost"
-        }`,
+        detail: `${party}|${row.permille}|${index === 0 ? "nominated" : "lost"}`,
       }),
     );
   }
@@ -512,13 +521,11 @@ export function holdNominationRunoff(
     visibility: "public",
     tags: [
       NOMINATION_VERSION,
-      NOMINATION_PULL.id,
+      "recorded-voter-count/v1",
       `seat:${input.seatKey}`,
       `primary:${primary.id}`,
     ],
-    summary: tiedParties.length
-      ? `The ${tiedParties.join(" and ")} runoff for ${input.title} ended in a tie, which the state must settle before anyone is nominated.`
-      : `The ${parties.join(" and ")} runoff for ${input.title} chose a nominee.`,
+    summary: `The ${parties.join(" and ")} runoff for ${input.title} chose a nominee.`,
     context: {
       location: null,
       socialContext: null,

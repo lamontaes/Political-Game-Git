@@ -1,3 +1,4 @@
+import { recordOpeningPrimaryRegistrations } from "../simulation/nominations/primary-registration-opening";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { recordOpeningWorkLocation } from "./opening-work-location";
@@ -391,7 +392,9 @@ function completeOpeningLife(
       // not die. Starting it here costs the clock's hot path nothing, and the
       // version gate keeps a legacy replay byte-identical: those saves still
       // start it on their first ordinary-day pass, as before.
-      world: recoverOverdueProsecutions(world),
+      world: recordOpeningPrimaryRegistrations(
+        recoverOverdueProsecutions(world),
+      ),
     },
   };
 }

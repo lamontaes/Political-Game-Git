@@ -1,3 +1,4 @@
+import { recordOpeningPrimaryRegistrations } from "../nominations/primary-registration-opening";
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
@@ -569,37 +570,39 @@ export function ensureLivingWorldOpening(
     );
   }
 
-  return recordWorldEvent(next, {
-    stableKey: LIVING_WORLD_OPENING_KEY,
-    type: "setup.living-world-opening",
-    occurredAt: date,
-    recordedAt: date,
-    jurisdictionId: null,
-    involvedEntityIds: (["us-house", "us-senate"] as const).map((chamber) =>
-      livingWorldOrganizationId(next, LIVING_WORLD_KEYS.chamber(chamber)),
-    ),
-    participants: [],
-    personFactConstraints: [],
-    visibility: "public",
-    tags: [
-      V,
-      ...(political ? [] : [PROFILE.id]),
-      `contract:${LIVING_WORLD_CONTRACT_VERSION}`,
-      ...(memberNameVersion ? [`member-names:${memberNameVersion}`] : []),
-      ...scenarioTags,
-    ],
-    summary: political
-      ? `This save's public world was generated from its starting conditions (${political.contractVersion}). ${Object.values(CONGRESS_SEAT_SOURCES).length} institutional sources.`
-      : `This save's public world was established from ${PROFILE.id}. ${Object.values(CONGRESS_SEAT_SOURCES).length} institutional sources.`,
-    context: {
-      location: null,
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
+  return recordOpeningPrimaryRegistrations(
+    recordWorldEvent(next, {
+      stableKey: LIVING_WORLD_OPENING_KEY,
+      type: "setup.living-world-opening",
+      occurredAt: date,
+      recordedAt: date,
+      jurisdictionId: null,
+      involvedEntityIds: (["us-house", "us-senate"] as const).map((chamber) =>
+        livingWorldOrganizationId(next, LIVING_WORLD_KEYS.chamber(chamber)),
+      ),
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        V,
+        ...(political ? [] : [PROFILE.id]),
+        `contract:${LIVING_WORLD_CONTRACT_VERSION}`,
+        ...(memberNameVersion ? [`member-names:${memberNameVersion}`] : []),
+        ...scenarioTags,
+      ],
+      summary: political
+        ? `This save's public world was generated from its starting conditions (${political.contractVersion}). ${Object.values(CONGRESS_SEAT_SOURCES).length} institutional sources.`
+        : `This save's public world was established from ${PROFILE.id}. ${Object.values(CONGRESS_SEAT_SOURCES).length} institutional sources.`,
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    }),
+  );
 }
 
 interface ExecutiveHolder {

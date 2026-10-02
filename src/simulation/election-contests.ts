@@ -1,3 +1,5 @@
+import { relationshipHistory } from "./queries";
+import { relationshipConsiderations } from "./governing/standing-considerations";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { isEligibleVoterIn } from "./issue-record";
 import { eventById } from "./event-index";
@@ -12,6 +14,7 @@ import type {
   CandidateTally,
   DecisionContext,
   PrivateBeliefRecord,
+  RelationshipInteraction,
   CancelElectionContestInput,
   ElectionContestProvenance,
   ElectionContestRecord,
@@ -169,18 +172,61 @@ export interface RecordedVoterCountInput {
   readonly candidatePersonIds: readonly EntityId[];
   /** Additional legal admission, e.g. a primary party ballot. Null is unread. */
   readonly admitVoter?: (personId: EntityId) => boolean | null;
+  /** Primaries can reuse actual dated personal conduct as a voter reason. */
+  readonly includeRecordedRelationships?: boolean;
+}
+
+// Candidate views are immutable history. Reuse one index across the many
+// primary contests held on a date rather than scan all beliefs per seat.
+const CANDIDATE_VIEWS = new WeakMap<
+  readonly PrivateBeliefRecord[],
+  Map<EntityId, PrivateBeliefRecord[]>
+>();
+
+function candidateViews(world: World): Map<EntityId, PrivateBeliefRecord[]> {
+  let index = CANDIDATE_VIEWS.get(world.history.privateBeliefs);
+  if (!index) {
+    index = new Map();
+    for (const belief of world.history.privateBeliefs) {
+      if (belief.subject?.kind !== "official") continue;
+      const rows = index.get(belief.subject.personId) ?? [];
+      rows.push(belief);
+      index.set(belief.subject.personId, rows);
+    }
+    CANDIDATE_VIEWS.set(world.history.privateBeliefs, index);
+  }
+  return index;
+}
+
+const PRIMARY_RELATIONSHIPS = new WeakMap<
+  readonly RelationshipInteraction[],
+  Map<IsoDate, readonly RelationshipInteraction[]>
+>();
+
+/** Date-slice once; the canonical relationship reader owns its person index. */
+function primaryRelationships(world: World, date: IsoDate) {
+  let dates = PRIMARY_RELATIONSHIPS.get(world.history.relationshipInteractions);
+  if (!dates) {
+    dates = new Map();
+    PRIMARY_RELATIONSHIPS.set(world.history.relationshipInteractions, dates);
+  }
+  let dated = dates.get(date);
+  if (!dated) {
+    dated = world.history.relationshipInteractions.filter(
+      (row) => row.occurredAt <= date,
+    );
+    dates.set(date, dated);
+  }
+  return dated;
 }
 
 /** Evaluate actual saved candidate views through the one decision function.
  * A missing consideration is omitted, never estimated from party shares.
  */
-export function countRecordedVoterBallots(
+export function recordedVoterDecisionContexts(
   world: World,
   input: RecordedVoterCountInput,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
+): ReadonlyMap<EntityId, DecisionContext> {
   const candidates = new Set<string>(input.candidatePersonIds);
   if (
     candidates.size === 0 ||
@@ -189,28 +235,56 @@ export function countRecordedVoterBallots(
     throw new Error("A voter count requires distinct candidate records.");
   // Index saved candidate views once for this election, never once per voter.
   const views = new Map<EntityId, Map<EntityId, PrivateBeliefRecord>>();
-  for (const belief of world.history.privateBeliefs) {
-    if (
-      belief.subject?.kind !== "official" ||
-      !candidates.has(belief.subject.personId) ||
-      belief.formedAt > input.electionDate
-    )
-      continue;
-    const byCandidate =
-      views.get(belief.personId) ?? new Map<EntityId, PrivateBeliefRecord>();
-    const previous = byCandidate.get(belief.subject.personId);
-    if (
-      !previous ||
-      belief.formedAt > previous.formedAt ||
-      (belief.formedAt === previous.formedAt &&
-        belief.sequence > previous.sequence)
-    ) {
-      byCandidate.set(belief.subject.personId, belief);
-      views.set(belief.personId, byCandidate);
+  for (const candidateId of input.candidatePersonIds) {
+    for (const belief of candidateViews(world).get(candidateId) ?? []) {
+      if (
+        belief.subject?.kind !== "official" ||
+        !candidates.has(belief.subject.personId) ||
+        belief.formedAt > input.electionDate
+      )
+        continue;
+      const byCandidate =
+        views.get(belief.personId) ?? new Map<EntityId, PrivateBeliefRecord>();
+      const previous = byCandidate.get(belief.subject.personId);
+      if (
+        !previous ||
+        belief.formedAt > previous.formedAt ||
+        (belief.formedAt === previous.formedAt &&
+          belief.sequence > previous.sequence)
+      ) {
+        byCandidate.set(belief.subject.personId, belief);
+        views.set(belief.personId, byCandidate);
+      }
     }
   }
   const contexts = new Map<EntityId, DecisionContext>();
-  for (const voterId of world.personOrder) {
+  const relationshipInputs = input.includeRecordedRelationships
+    ? primaryRelationships(world, input.electionDate)
+    : null;
+  const relationshipWorld = relationshipInputs
+    ? {
+        ...world,
+        currentDate: input.electionDate,
+        currentMoment: { ...world.currentMoment, date: input.electionDate },
+        history: {
+          ...world.history,
+          relationshipInteractions: relationshipInputs,
+        },
+      }
+    : null;
+  const voters = new Set(views.keys());
+  if (relationshipWorld) {
+    for (const candidateId of input.candidatePersonIds)
+      for (const interaction of relationshipHistory(
+        relationshipWorld,
+        candidateId,
+      ))
+        for (const personId of interaction.personIds)
+          if (personId !== candidateId) voters.add(personId);
+  }
+  // Only people with actual candidate views or recorded candidate conduct
+  // enter this decision; a label or unknown relationship supplies no support.
+  for (const voterId of voters) {
     if (
       !isEligibleVoterIn(
         world,
@@ -251,6 +325,30 @@ export function countRecordedVoterBallots(
         sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
       });
     }
+    if (relationshipWorld) {
+      for (const candidateId of input.candidatePersonIds) {
+        considerations.push(
+          ...relationshipConsiderations(
+            relationshipWorld,
+            voterId,
+            candidateId,
+            {
+              optionKey: candidateId,
+              fond: {
+                stableKey: `${input.stableKey}:${voterId}:${candidateId}:good-conduct`,
+                explanation:
+                  "Their recorded conduct gives this elector trust or regard for the candidate.",
+              },
+              strain: {
+                stableKey: `${input.stableKey}:${voterId}:${candidateId}:strained-conduct`,
+                explanation:
+                  "Their recorded conduct leaves this elector distrustful or in conflict with the candidate.",
+              },
+            },
+          ),
+        );
+      }
+    }
     contexts.set(voterId, {
       stableKey: `${input.stableKey}:voter:${voterId}`,
       decisionType: "election.vote",
@@ -284,6 +382,19 @@ export function countRecordedVoterBallots(
       retention: "ephemeral",
     });
   }
+  return contexts;
+}
+
+/** Count with the same contexts exposed to the primary ballot-choice action. */
+export function countRecordedVoterBallots(
+  world: World,
+  input: RecordedVoterCountInput,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  const candidates = new Set<string>(input.candidatePersonIds);
+  const contexts = recordedVoterDecisionContexts(world, input);
   if (contexts.size === 0) return null;
   const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
   for (const [voterId, context] of contexts) {
@@ -298,8 +409,9 @@ export function countRecordedVoterBallots(
       continue;
     const admission =
       input.admitVoter?.(voterId) ?? (input.admitVoter ? null : true);
-    if (admission === null) return null;
-    if (!admission) continue;
+    // Unsupported admission excludes this elector, not every recorded ballot.
+    // No admitted ballots still returns null below; it never invents a result.
+    if (admission !== true) continue;
     if (
       context.options.length < 2 ||
       context.randomness !== "none" ||
