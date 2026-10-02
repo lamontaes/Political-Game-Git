@@ -5092,7 +5092,37 @@
           "note": "2026 single-filer flat marginal rate and taxable-income threshold from state-income-tax-2026.json; threshold is cents of annual taxable income, after the separately read deduction."
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 440000,
+                "sourceUrl": "https://www.mass.gov/info-details/personal-income-tax-exemptions",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 500
+                  },
+                  {
+                    "overMinor": 108315000,
+                    "rateBasisPoints": 900
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " Massachusetts DOR page updated January 6, 2026, and TIR 08-24, effective January 1, 2008 until statutory amendment, record the $4,400 single personal exemption. The existing schedule calculator's deduction field carries this exact base single-taxpayer personal exemption as a taxable-income offset, not a legal standard deduction. The 2026 single-filer brackets are from data/research/money/state-income-tax-2026.json. Additional dependent, age, disability, itemized deductions, and credit provisions are not represented by this base schedule."
         },
         "US-MD": {
           "answer": "yes",
@@ -5468,7 +5498,57 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 100000,
+                "sourceUrl": "https://www.nj.gov/treasury/taxation/njit13.shtml",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 140
+                  },
+                  {
+                    "overMinor": 2000000,
+                    "rateBasisPoints": 175
+                  },
+                  {
+                    "overMinor": 3500000,
+                    "rateBasisPoints": 350
+                  },
+                  {
+                    "overMinor": 4000000,
+                    "rateBasisPoints": 553
+                  },
+                  {
+                    "overMinor": 7500000,
+                    "rateBasisPoints": 637
+                  },
+                  {
+                    "overMinor": 50000000,
+                    "rateBasisPoints": 897
+                  },
+                  {
+                    "overMinor": 100000000,
+                    "rateBasisPoints": 1075
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " New Jersey Division of Taxation current deductions page, last updated December 3, 2025, records the $1,000 regular taxpayer exemption. The existing schedule calculator's deduction field carries this exact base single-taxpayer personal exemption as a taxable-income offset, not a legal standard deduction. The 2026 single-filer brackets are from data/research/money/state-income-tax-2026.json. Additional dependent, age, disability, itemized deductions, and credit provisions are not represented by this base schedule."
         },
         "US-NM": {
           "answer": "yes",
@@ -5944,7 +6024,49 @@
           "note": " Recorded 2026 single-filer graduated schedule, including the read standard deduction, from Tax Foundation 2026. Bracket thresholds apply to taxable income after the deduction; the zero taxable-income threshold is not a flat-rate replacement."
         },
         "US-WV": {
-          "answer": "yes"
+          "answer": "yes",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "rate",
+              "kind": "income-tax",
+              "schedule": {
+                "standardDeductionMinor": 200000,
+                "sourceUrl": "https://tax.wv.gov/Individuals/Pages/PersonalIncomeTaxReductionBill.aspx",
+                "brackets": [
+                  {
+                    "overMinor": 0,
+                    "rateBasisPoints": 211
+                  },
+                  {
+                    "overMinor": 1000000,
+                    "rateBasisPoints": 281
+                  },
+                  {
+                    "overMinor": 2500000,
+                    "rateBasisPoints": 316
+                  },
+                  {
+                    "overMinor": 4000000,
+                    "rateBasisPoints": 422
+                  },
+                  {
+                    "overMinor": 6000000,
+                    "rateBasisPoints": 458
+                  }
+                ]
+              }
+            }
+          ],
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+              "key": "threshold",
+              "value": 0,
+              "unit": "minor"
+            }
+          ],
+          "note": " West Virginia Tax Division 2026 Income Tax Rate Cut page records W. Va. Code 11-21-4j codification effective June 12, 2026 and the rate cut retroactive to January 1, 2026. Form WV IT-100.2A (March 2026), optional one-earner single/head-of-household annual table, explicitly subtracts $2,000 per claimed exemption: https://tax.wv.gov/Documents/Withholding/it100.2a.pdf. The existing schedule calculator offset records one base taxpayer exemption, not a legal standard deduction; additional exemptions and credits are outside this base schedule. These official 2026 rates supersede the older rates in the retained Tax Foundation calibration packet."
         },
         "US-WY": {
           "answer": "no"
