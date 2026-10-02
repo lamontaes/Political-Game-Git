@@ -2,6 +2,11 @@ import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
 
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../../presentation/new-game";
+import { municipalRulePackFor } from "../municipal-government";
 import { addDays } from "../dates";
 import { enactedLawEffects } from "../enacted-law-effects";
 import {
@@ -48,7 +53,7 @@ import { personName } from "../people";
 import { ensureMunicipalCouncilOpening } from "../municipal-council-opening";
 import { municipalSeats } from "../municipal-public-work";
 import {
-  COUNCIL_ACT_HANDLERS,
+  councilActHandlers,
   COUNCIL_READING_DUE,
   completeCouncilPassage,
 } from "../municipal-ordinance-procedure";
@@ -72,7 +77,7 @@ import { councilRules, unitById } from "../living-world/local-council-binding";
 import {
   LOCAL_COUNCIL_MEETING,
   LOCAL_COUNCIL_MEETINGS_VERSION,
-  LOCAL_COUNCIL_MEETING_HANDLERS,
+  localCouncilMeetingHandlers,
 } from "../living-world/local-council-meetings";
 import { recordCouncilReadingVote } from "../municipal-ordinance-procedure";
 import { nextMeasureNumbering } from "../measure-numbering";
@@ -83,7 +88,7 @@ import {
   politicalReflectionTransitionHandler,
 } from "../living-world/political-reflection";
 import {
-  LOCAL_MEMBER_AGENDA_HANDLERS,
+  localMemberAgendaHandlers,
   LOCAL_MEMBER_AGENDA_INTAKE,
   LOCAL_MEMBER_AGENDA_VERSION,
 } from "./member-agenda";
@@ -119,20 +124,29 @@ const councilProofPlaces = CHIEF_EXECUTIVE_JURISDICTIONS.flatMap(
   .slice(0, 5);
 
 /** A compact real council keeps this comparison to one bill and two due steps. */
-function thirtyDayLawOpening(placeKey = "0162328"): {
+function thirtyDayLawOpening(
+  placeKey = "0162328",
+  compact = false,
+): {
   readonly world: World;
   readonly governmentKey: string;
   readonly jurisdictionId: EntityId;
+  readonly members: ReturnType<typeof municipalSeats>;
   readonly memberSeats: ReturnType<typeof municipalSeats>;
 } {
   const place = requireLifePlace(placeKey);
   const government = governmentUnitsForPlace(place.sourceGeoid!).find(
     (unit) => unit.unitType === "municipality" && unit.functionalActive,
   )!;
-  const game = smallWorld({
-    seed: "legislative-clock-30-day-local",
-    place: place.key,
-  });
+  const game = compact
+    ? smallWorld({ seed: "legislative-clock-30-day-local", place: place.key })
+    : createNewGameWorld({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "legislative-clock-30-day-local",
+        placeKey: place.key,
+        startAge: 40,
+        questionnaire: "skipped",
+      });
   // Use the existing council binding's canonical organization identity.
   const rosterGovernmentKey =
     councilRules(government)?.governmentKey ?? government.id;
@@ -185,6 +199,7 @@ function thirtyDayLawOpening(placeKey = "0162328"): {
     world,
     governmentKey: government.id,
     jurisdictionId: place.context.jurisdiction.id,
+    members,
     memberSeats: members,
   };
 }
@@ -459,7 +474,7 @@ describe("automatic local law under thirty days of the World clock", () => {
   it.each(councilProofPlaces)(
     "A77 decides the actual council's ballots through the shared driver in $placeKey",
     ({ placeKey }) => {
-      const opening = thirtyDayLawOpening(placeKey);
+      const opening = thirtyDayLawOpening(placeKey, true);
       const meetingOpening = scheduleFutureDueItem(opening.world, {
         stableKey: `${LOCAL_COUNCIL_MEETINGS_VERSION}:${opening.governmentKey}:posted-meeting:${addDays(opening.world.currentDate, 1)}`,
         dueAt: addDays(opening.world.currentDate, 1),
@@ -475,8 +490,8 @@ describe("automatic local law under thirty days of the World clock", () => {
         meetingOpening,
         1,
         createFutureTransitionHandlerRegistry([
-          ...LOCAL_MEMBER_AGENDA_HANDLERS,
-          ...LOCAL_COUNCIL_MEETING_HANDLERS,
+          ...localMemberAgendaHandlers(),
+          ...localCouncilMeetingHandlers(),
         ]),
       );
       const unit = unitById(opening.governmentKey)!;
@@ -566,9 +581,9 @@ describe("automatic local law under thirty days of the World clock", () => {
           world,
           stage.minimumDaysFromIntroduction.value,
           createFutureTransitionHandlerRegistry([
-            ...LOCAL_MEMBER_AGENDA_HANDLERS,
-            ...LOCAL_COUNCIL_MEETING_HANDLERS,
-            ...COUNCIL_ACT_HANDLERS,
+            ...localMemberAgendaHandlers(),
+            ...localCouncilMeetingHandlers(),
+            ...councilActHandlers(),
             [
               POLITICAL_REFLECTION_TRANSITION_KEY,
               politicalReflectionTransitionHandler,
@@ -671,9 +686,9 @@ describe("automatic local law under thirty days of the World clock", () => {
         callerOpening,
         1,
         createFutureTransitionHandlerRegistry([
-          ...LOCAL_MEMBER_AGENDA_HANDLERS,
-          ...LOCAL_COUNCIL_MEETING_HANDLERS,
-          ...COUNCIL_ACT_HANDLERS,
+          ...localMemberAgendaHandlers(),
+          ...localCouncilMeetingHandlers(),
+          ...councilActHandlers(),
           [
             POLITICAL_REFLECTION_TRANSITION_KEY,
             politicalReflectionTransitionHandler,
@@ -724,8 +739,8 @@ describe("automatic local law under thirty days of the World clock", () => {
       memberSeats,
     );
     const handlers = createFutureTransitionHandlerRegistry([
-      ...LOCAL_MEMBER_AGENDA_HANDLERS,
-      ...COUNCIL_ACT_HANDLERS,
+      ...localMemberAgendaHandlers(),
+      ...councilActHandlers(),
       [
         POLITICAL_REFLECTION_TRANSITION_KEY,
         politicalReflectionTransitionHandler,
@@ -870,4 +885,162 @@ describe("automatic local law under thirty days of the World clock", () => {
       `[law-clock-30] ${opening.currentDate} to ${jumped.currentDate}; single jump ${jumpMs} ms; thirty daily steps ${dailyMs} ms; ${jumpEvidence.votes.length} saved votes`,
     );
   }, 900_000);
+});
+
+const referenceSeed = "local-reference-context-all56-20261001";
+const referencePlaces = CHIEF_EXECUTIVE_JURISDICTIONS.flatMap(
+  governmentUnitsForState,
+)
+  .flatMap((unit) => {
+    if (
+      unit.unitType !== "municipality" ||
+      !unit.functionalActive ||
+      !unit.placeGeoid
+    )
+      return [];
+    const place = lifePlaceByKey(unit.placeGeoid);
+    const government = municipalGovernmentByKey(unit.id);
+    const rules = government && municipalRulePackFor(government);
+    return place &&
+      rules &&
+      rules.ok &&
+      String(rules.evidence) === "game-profile"
+      ? [
+          {
+            placeKey: place.key,
+            rank: createHash("sha256")
+              .update(`${referenceSeed}:${unit.id}`)
+              .digest("hex"),
+          },
+        ]
+      : [];
+  })
+  .sort((a, b) => a.rank.localeCompare(b.rank))
+  .slice(0, 5);
+
+describe("saved local reference authority sampled from all 56 places", () => {
+  it.each(referencePlaces)(
+    "uses the saved context and refuses missing or mismatched evidence in $placeKey",
+    ({ placeKey }) => {
+      expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+      expect(referencePlaces).toHaveLength(5);
+      const opening = thirtyDayLawOpening(placeKey, true);
+      const { governmentKey, jurisdictionId, members } = opening;
+      const world = withRecordedFiscalReferences(
+        opening.world,
+        governmentKey,
+        jurisdictionId,
+        members,
+      );
+      const grant = localFiscalAuthorityFor(
+        {
+          ...world,
+          control: { kind: "person", personId: members[0]!.personId },
+        },
+        governmentKey,
+        LOCAL_FIX_IT_FIRST_PROPOSITION_KEY,
+      );
+      if (!grant.ok) throw new Error(grant.reason);
+      const context = {
+        governmentLevel: grant.authority.level,
+        jurisdictionId,
+        rulePackId: grant.authority.rulePackId,
+        scenarioKey: `institution:${grant.authority.rulePackId}`,
+        predicateAuthority: localFiscalPredicateAuthority(grant),
+      };
+      const input = {
+        world,
+        jurisdictionId,
+        propositionId: grant.propositionId,
+        answer: "yes" as const,
+        designation: "Reference context proof",
+        intakeKey: "reference-context-proof",
+        sponsorPersonId: members[0]!.personId,
+        context,
+      };
+      const before = serializeWorld(world);
+      const draft = compileAutomaticLawDraft(input);
+      expect(draft).not.toBeNull();
+      expect(draft!.subjectClass).toBe("appropriation");
+      expect(draft!.appropriatedMinorUnits).toBeGreaterThan(0);
+      expect(
+        compileAutomaticLawDraft({ ...input, context: undefined }),
+      ).toBeNull();
+      expect(
+        compileAutomaticLawDraft({
+          ...input,
+          context: { ...context, rulePackId: "unadmitted-reference-pack" },
+        }),
+      ).toBeNull();
+      expect(
+        compileAutomaticLawDraft({
+          ...input,
+          context: {
+            ...context,
+            predicateAuthority: {
+              ...context.predicateAuthority,
+              authorityKey: "mismatched-reference-authority",
+            },
+          },
+        }),
+      ).toBeNull();
+      expect(
+        compileAutomaticLawDraft({
+          ...input,
+          world: { ...world, publicBudgets: undefined },
+        }),
+      ).toBeNull();
+      expect(
+        compileAutomaticLawDraft({
+          ...input,
+          world: {
+            ...world,
+            history: {
+              ...world.history,
+              legislativeDraftLineages:
+                world.history.legislativeDraftLineages!.slice(-1),
+            },
+          },
+        }),
+      ).toBeNull();
+      expect(
+        compileAutomaticLawDraft({
+          ...input,
+          world: {
+            ...world,
+            history: { ...world.history, legislativeEnactments: [] },
+          },
+        }),
+      ).toBeNull();
+      expect(
+        compileAutomaticLawDraft({
+          ...input,
+          world: {
+            ...world,
+            history: {
+              ...world.history,
+              legislativeProvisions: world.history.legislativeProvisions!.map(
+                (row) => ({ ...row, text: `${row.text} altered` }),
+              ),
+            },
+          },
+        }),
+      ).toBeNull();
+      expect(serializeWorld(world)).toBe(before);
+      expect(
+        compileAutomaticLawDraft({ ...input, world: deserializeWorld(before) }),
+      ).toEqual(draft);
+      console.info(
+        "[local-reference-context]",
+        JSON.stringify({
+          seed: referenceSeed,
+          placeKey,
+          governmentKey,
+          jurisdictionId,
+          appropriation: draft!.appropriatedMinorUnits,
+          refusalControls: 7,
+        }),
+      );
+    },
+  );
 });
