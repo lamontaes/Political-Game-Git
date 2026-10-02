@@ -233,7 +233,9 @@ it("retains equal ranks when actual current-game peer means still tie", () => {
   expect(
     [stay, leave].every((row) => row.count === 2 && row.standardDeviation > 0),
   ).toBe(true);
-  const ranked = result.first.optionEvaluations.filter((row) => row.finalRank === 1);
+  const ranked = result.first.optionEvaluations.filter(
+    (row) => row.finalRank === 1,
+  );
   expect(ranked.map((row) => row.optionKey).sort()).toEqual([
     "break-up",
     "stay",
