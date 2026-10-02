@@ -2024,6 +2024,8 @@ export function applyDateBoundary(
   world: World,
 ): World {
   const moved = applyNationalTermTransitions(world);
+  // Term entry can happen within a date; the daily chain only runs on a new date.
+  if (world.currentDate === crossedFrom) return moved;
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
