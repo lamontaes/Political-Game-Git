@@ -1,3 +1,6 @@
+import { futureDueItemStateAt } from "../future-transitions";
+import { recordByStableKey } from "../history-index";
+import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
 import { currentGovernorOf } from "../crisis/offices";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -8,7 +11,7 @@ import {
   lawInterestMembersInTown,
   strongestOfficialStanding,
 } from "../official-view-reads";
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, FutureDueItem, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
   localHeadOfGovernment,
@@ -36,8 +39,9 @@ import { reactionLens } from "./official-views";
  * government meeting (Pew). The measures below are set so a town's totals
  * land near them; `tests/nationwide/town-civic-actions.test.ts` checks it.
  *
- * NOT MODELED: what the contact said, and which meeting was attended; the
- * event records only that it happened, whom it reached and the government.
+ * NOT MODELED: what the contact said. Attendance names the existing scheduled
+ * council meeting held in the reviewed quarter, dated on that meeting. A
+ * scheduled meeting is eligible only on the current review date.
  */
 
 export const CIVIC_ACTIONS_VERSION = "civic-actions-v2";
@@ -190,6 +194,8 @@ export function reviewTownCivicActions(
     null;
   const groupMembers = lawInterestMembersInTown(world, town);
   const today = world.currentDate;
+  // Resolve the calendar once for this quarterly town pass, not per resident.
+  const meeting = latestQuarterMeeting(world, town);
   let next = world;
   for (const personId of residents) {
     const stake = civicStake(world, personId, town, groupMembers);
@@ -199,9 +205,58 @@ export function reviewTownCivicActions(
         next = record(next, town, reviewKey, "contacted", personId, officialId);
     }
     if (officers.length > 0 && passesMeasure(stake, "attended", today))
-      next = record(next, town, reviewKey, "attended", personId, null);
+      next = record(next, town, reviewKey, "attended", personId, null, meeting);
   }
   return next;
+}
+
+interface QuarterMeeting {
+  readonly item: FutureDueItem;
+  readonly occurredAt: IsoDate;
+}
+
+/** Saved held meetings, or a still-scheduled meeting taking place today. */
+function latestQuarterMeeting(
+  world: World,
+  town: EntityId,
+): QuarterMeeting | null {
+  const today = world.currentDate;
+  const quarterStart = addDays(today, -DAYS_PER_QUARTER);
+  let latest: QuarterMeeting | null = null;
+  for (const item of world.history.futureDueItems) {
+    if (
+      item.transitionKey !== LOCAL_COUNCIL_MEETING ||
+      item.jurisdictionId !== town
+    )
+      continue;
+    const held = recordByStableKey(
+      world.history.events,
+      `${item.stableKey}:held`,
+    );
+    const heldMeeting =
+      held?.type === "local.council-meeting-held" &&
+      held.jurisdictionId === town
+        ? held
+        : null;
+    const occurredAt =
+      heldMeeting?.occurredAt ?? (item.dueAt === today ? today : null);
+    if (
+      !occurredAt ||
+      occurredAt <= quarterStart ||
+      occurredAt > today ||
+      (latest && occurredAt <= latest.occurredAt)
+    )
+      continue;
+    const state = futureDueItemStateAt(world, item.id, {
+      asOfDate: today,
+      historySequenceExclusive: world.history.nextSequence,
+    });
+    if (!state || state.status === "cancelled" || state.status === "blocked")
+      continue;
+    if (!heldMeeting && state.status !== "scheduled") continue;
+    latest = { item, occurredAt };
+  }
+  return latest;
 }
 
 function record(
@@ -211,13 +266,16 @@ function record(
   action: keyof typeof CIVIC_ACTION_EVENTS,
   personId: EntityId,
   officialId: EntityId | null,
+  meeting: QuarterMeeting | null = null,
 ): World {
   const today = world.currentDate;
+  if (action === "attended" && !meeting) return world;
   const ids = officialId ? [personId, officialId] : [personId];
+  if (meeting) ids.push(meeting.item.id);
   return recordWorldEvent(world, {
     stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
     type: CIVIC_ACTION_EVENTS[action],
-    occurredAt: today,
+    occurredAt: meeting?.occurredAt ?? today,
     recordedAt: today,
     jurisdictionId: town,
     involvedEntityIds: ids,
@@ -235,7 +293,11 @@ function record(
     ],
     personFactConstraints: [],
     visibility: "limited",
-    tags: ["life.civic", CIVIC_ACTIONS_VERSION],
+    tags: [
+      "life.civic",
+      CIVIC_ACTIONS_VERSION,
+      ...(meeting ? [`meeting:${meeting.item.id}`] : []),
+    ],
     summary:
       action === "contacted"
         ? "A resident contacted an elected official."
