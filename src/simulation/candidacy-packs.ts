@@ -63,19 +63,6 @@ import type {
  * to cover the gap.
  */
 
-/**
- * The game's own floor, not a jurisdiction's.
- *
- * Every real qualification below is `unknown`, and "unknown" must not resolve
- * to "anyone". So the game applies one conservative rule of its own and labels
- * it as its own: the same adult threshold the accepted setup screen already
- * uses before it will put a character to work in a legislature. When a
- * jurisdiction's real minimum age is sourced it replaces this, and a character
- * this rule turned away was turned away by the game, which is a different
- * sentence from "the law says no".
- */
-export const GAME_ADULT_CANDIDACY_AGE = 21;
-
 export interface ElectiveOfficeQualification {
   /** The age the jurisdiction requires. Unknown until a source says. */
   readonly minimumAge: RuleValue<number>;
@@ -164,6 +151,35 @@ function stateLawHasBeenRead(stateJurisdictionKey: string): boolean {
 }
 
 function officeQualification(
+  packId: string,
+  jurisdictionKey: string,
+  chamberKey: string,
+): ElectiveOfficeQualification {
+  const qualification = compiledQualificationForOffice(
+    packId,
+    jurisdictionKey,
+    chamberKey,
+  );
+  if (qualification.minimumAge.kind !== "unknown") return qualification;
+  const officeFamily = officeFamilyForChamberKey(chamberKey);
+  const settled =
+    officeFamily === null
+      ? null
+      : settledQualification(
+          jurisdictionKey,
+          "MINIMUM_AGE",
+          officeFamily,
+          OFFICE_QUALIFICATIONS_META.asOf,
+        );
+  return settled === null
+    ? qualification
+    : {
+        ...qualification,
+        minimumAge: knownRule(settled.value, settled.source),
+      };
+}
+
+function compiledQualificationForOffice(
   packId: string,
   jurisdictionKey: string,
   chamberKey: string,
@@ -351,6 +367,7 @@ function officeQualification(
         jurisdictionKey,
         field,
         officeFamily,
+        OFFICE_QUALIFICATIONS_META.asOf,
       );
       if (settled !== null) return knownRule(settled.value, settled.source);
       const drawn = standInQualification(jurisdictionKey, field, officeFamily);
@@ -406,12 +423,30 @@ export function stateChamberName(
   return `${state} ${chamberName}`;
 }
 
+const CANDIDACY_PACKS_FROM_RULE_PACKS = new WeakMap<
+  LegislativeRulePack,
+  CandidacyPack
+>();
+
 /**
  * Turns an accepted legislative pack into the offices it demonstrably
  * establishes. One office per chamber, carrying that chamber's own citation.
  * Nothing is added that the pack does not already assert.
  */
 export function candidacyPackFromRulePack(
+  pack: LegislativeRulePack,
+): CandidacyPack {
+  // A rule pack is fixed data, so its candidacy pack is built once and the
+  // same object answers every lookup.
+  let built = CANDIDACY_PACKS_FROM_RULE_PACKS.get(pack);
+  if (!built) {
+    built = buildCandidacyPackFromRulePack(pack);
+    CANDIDACY_PACKS_FROM_RULE_PACKS.set(pack, built);
+  }
+  return built;
+}
+
+function buildCandidacyPackFromRulePack(
   pack: LegislativeRulePack,
 ): CandidacyPack {
   const offices = pack.chambers.map((chamber): ElectiveOfficeOption => {

@@ -108,7 +108,7 @@ import {
   scheduleCongressSitting,
 } from "./congress-chambers";
 import { chamberByKey, floorStageByKey } from "../legislature-rules";
-import type { LegislativeRulePack } from "../legislature-rules";
+import type { CommitteeRule, LegislativeRulePack } from "../legislature-rules";
 import { personName } from "../people";
 import type {
   EntityId,
@@ -622,6 +622,23 @@ export function applyInstitutionSessionEnd(
   return null;
 }
 
+/** The same compiled referral choice for an automatic step or a player command. */
+export function referralCommittee(
+  world: World,
+  measureId: EntityId,
+  chamberKey: string,
+): CommitteeRule | null {
+  const measure = requireMeasure(world, measureId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const chamber = chamberByKey(pack, chamberKey);
+  const referredKey = congressReferralCommittee(world, measure, chamberKey);
+  return (
+    chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
+    chamber.committees[0] ??
+    null
+  );
+}
+
 /** Applies the institution's next step to one measure, if it has one. */
 export function applyInstitutionStep(
   before: World,
@@ -802,12 +819,7 @@ export function applyInstitutionStep(
     };
   }
   if (steps.includes("request-referral")) {
-    // A Congress bill goes to the committee for its policy field; any other
-    // bill to the chamber's first compiled committee.
-    const referredKey = congressReferralCommittee(world, measure, chamberKey);
-    const committee =
-      chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
-      chamber.committees[0];
+    const committee = referralCommittee(world, measureId, chamberKey);
     if (!committee)
       return {
         kind: "blocked",

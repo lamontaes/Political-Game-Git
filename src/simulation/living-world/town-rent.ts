@@ -227,14 +227,6 @@ export const HUD_FAMILY_SIZE_FACTORS = [
 export const INCLUSIONARY_SET_ASIDE = 0.15;
 
 /**
- * Rent stabilization's cap on a renewal: the price level's rise plus five
- * points, at most ten percent. Modeled on California's 2019 statute (Civil
- * Code 1947.12); one rule stands in for every place's own. PLACEHOLDER
- * (research: rent-stabilization-cap-by-place).
- */
-export const RENT_STABILIZATION_CAP = { overPrices: 0.05, most: 0.1 } as const;
-
-/**
  * Measured, a check and never a rule: Diamond, McQuade and Qian 2019 found
  * renters covered by San Francisco's rent control 20% less likely to move.
  * The game's renters move when their rent outruns their pay
@@ -1567,19 +1559,20 @@ function chooseLandlord(
 export function renewedMarketRent(
   oldMinor: number,
   homePrices: number,
-  prices: number,
+  _prices: number,
   stabilized: boolean,
+  recordedCapRatio?: number,
 ): {
   readonly amountMinor: number;
   readonly uncappedMinor: number;
   readonly capped: boolean;
   readonly cap: number;
 } {
-  const cap = Math.min(
-    RENT_STABILIZATION_CAP.most,
-    prices - 1 + RENT_STABILIZATION_CAP.overPrices,
-  );
-  const capped = stabilized && homePrices - 1 > cap;
+  // A caller can supply a recorded clause for arithmetic fixtures. Production
+  // renewals are restricted by the shared price-cost writer after recording
+  // their requested terms; a yes/no answer supplies no numeric ceiling.
+  const cap = recordedCapRatio ?? Infinity;
+  const capped = stabilized && Number.isFinite(cap) && homePrices - 1 > cap;
   const uncappedMinor = Math.round((oldMinor * homePrices) / 100) * 100;
   return {
     amountMinor: capped
@@ -2009,7 +2002,7 @@ function actOnArrears(
         },
       );
       // A filing cannot produce a judgment without an actual seated judge.
-      if (!facts.judicialAuthority) continue;
+      if (!facts?.judicialAuthority) continue;
       const filing = next.history.events.find(
         (event) =>
           event.stableKey ===
@@ -2088,7 +2081,7 @@ export interface EvictionCaseFacts extends LawEffectStampedRecord {
   readonly planCarried: boolean | null;
   /** The judge's lean: -1 conciliatory, 0 neither, 1 strict; null unseated. */
   readonly judgeLean: -1 | 0 | 1 | null;
-  /** How the summary names the court: "Judge Ana Ruiz" or "the court". */
+  /** How the summary names the actual seated judge: "Judge Ana Ruiz". */
   readonly court: string;
 }
 
@@ -2119,7 +2112,7 @@ function evictionCaseFacts(
     readonly played: EntityId | null;
     readonly pay: ReadonlyMap<EntityId, number>;
   },
-): EvictionCaseFacts {
+): EvictionCaseFacts | null {
   const monthsBehind = owed.rent > 0 ? owed.owed / owed.rent : 0;
   const landlord = lease.flow.recipient;
   const landlordPursues = !(
@@ -2157,11 +2150,10 @@ function evictionCaseFacts(
     planCarried = tenantAnswers && carried ? true : null;
   }
   const judge = trialJudge(world, lease.town, hearingOn);
-  const conflict = judge
-    ? personTrait(world, judge.personId, "conflict").value
-    : null;
+  if (!judge) return null;
+  const conflict = personTrait(world, judge.personId, "conflict").value;
   return {
-    ...(judge ? { judicialAuthority: judge } : {}),
+    judicialAuthority: judge,
     monthsBehind,
     landlordPursues,
     tenantAnswers,
@@ -2169,11 +2161,8 @@ function evictionCaseFacts(
     // No saved civil counsel admission is available at this boundary yet.
     lawyer: null,
     planCarried,
-    judgeLean:
-      conflict === null ? null : conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
-    court: judge
-      ? `Judge ${personName(world.people[judge.personId]!)}`
-      : "the court",
+    judgeLean: conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
+    court: `Judge ${personName(world.people[judge.personId]!)}`,
   };
 }
 

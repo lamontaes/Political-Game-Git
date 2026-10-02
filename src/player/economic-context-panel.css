@@ -145,6 +145,18 @@
   fill: #3c7c47;
 }
 
+.economic-graph-latest {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  color: var(--run-a-ink);
+  font-size: 1.1rem;
+}
+
+.economic-graph-latest strong {
+  font-size: 1.5rem;
+}
+
 .economic-legend {
   display: flex;
   flex-wrap: wrap;

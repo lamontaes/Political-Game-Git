@@ -20,8 +20,15 @@ const STATE_PACK_LOADERS = import.meta.glob<{ default: unknown }>(
   "./geometry/states/*.generated.json",
 );
 
+// The national pack loads through the same Vite glob as the state packs. A
+// dynamic import with a JSON attribute fails in the browser: Vite serves the
+// file as a JavaScript module, and the attribute demands a JSON MIME type.
+const NATIONAL_PACK_LOADERS = import.meta.glob<{ default: unknown }>(
+  "./geometry/national.generated.json",
+);
+
 const NATIONAL_LOADER: PackLoader = () =>
-  import("./geometry/national.generated.json", { with: { type: "json" } });
+  NATIONAL_PACK_LOADERS["./geometry/national.generated.json"]!();
 
 export function validateGeometryPack(
   value: unknown,

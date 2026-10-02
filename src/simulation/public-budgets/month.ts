@@ -26,16 +26,14 @@ import {
   propositionIdFor,
   lawSpendingPerResident,
 } from "./fiscal";
-import { ADOPT_STATE_INCOME_TAX_QUESTION } from "../state-income-tax-law";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
-import { CANNABIS_SALES_QUESTION } from "./cannabis-sales-tax";
+import { CANNABIS_TAX_EFFECT } from "./rules";
 import {
   lawEffectStamp,
   isLawEffectStamp,
   type LawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { adoptedIncomeTaxPerYear } from "./income-tax-adoption";
 import { actuarialContribution } from "./opening";
 import { pensionFlows, pensionPayment } from "./pension-share";
 import { reserveRule } from "./reserve-rule";
@@ -203,6 +201,14 @@ export function readMonthFlows(
       publicOrganizationKey(government.lawJurisdictionId),
       government.key,
     );
+    const account = publicTaxAccountForIdentity(
+      world,
+      publicGovernmentIdentityForRecord(government),
+    );
+    const saved = account
+      ? history.organizations.find((row) => row.id === account.organizationId)
+      : null;
+    if (saved) byStableKey.set(saved.stableKey, government.key);
   }
   for (const organization of history.organizations) {
     let key = byStableKey.get(organization.stableKey);
@@ -240,7 +246,7 @@ export function readMonthFlows(
     }
     if (key) {
       const government = governmentByKey.get(key)!;
-      if (government.level === "county" || government.level === "city") {
+      {
         const account = publicTaxAccountForIdentity(
           world,
           identity ?? publicGovernmentIdentityForRecord(government),
@@ -615,27 +621,20 @@ export function taxLawFactor(
   erodedOn: IsoDate = date,
   includeCannabis = true,
 ): number {
-  const onDate =
-    source === "individualIncomeTax"
-      ? (`${date.slice(0, 4)}-01-01` as IsoDate)
-      : date;
+  const onDate = date;
   let factor =
-    source === "individualIncomeTax"
-      ? adoptedIncomeTaxFactor(world, government, onDate)
-      : source === "selectiveSalesTaxes"
-        ? // Cannabis adds its own level; the fuel tax's erosion comes off
-          // its own share. Each is measured against the opening level.
-          (includeCannabis
-            ? cannabisSalesFactor(world, government, onDate)
-            : 1) +
-          roadChargeFactor(world, government, onDate, erodedOn) -
-          1
-        : source === "chargesAndFees"
-          ? tuitionFreezeFactor(world, government, onDate)
-          : source === "federalAid"
-            ? federalAidFactor(world, onDate) *
-              statehoodFederalAidFactor(government, onDate)
-            : 1;
+    source === "selectiveSalesTaxes"
+      ? // Cannabis adds its own level; the fuel tax's erosion comes off
+        // its own share. Each is measured against the opening level.
+        (includeCannabis ? cannabisSalesFactor(world, government, onDate) : 1) +
+        roadChargeFactor(world, government, onDate, erodedOn) -
+        1
+      : source === "chargesAndFees"
+        ? tuitionFreezeFactor(world, government, onDate)
+        : source === "federalAid"
+          ? federalAidFactor(world, onDate) *
+            statehoodFederalAidFactor(government, onDate)
+          : 1;
   for (const effect of TAX_QUESTION_EFFECTS) {
     if (effect.source !== source) continue;
     if (!(effect.levels ?? ["state"]).includes(government.level)) continue;
@@ -692,52 +691,8 @@ export function lawSpendingForMonth(
 }
 
 /**
- * How a law adopting a wage income tax moves the income tax of a state that
- * began with none (`income-tax-adoption.ts`): 1 for any other state. A state
- * whose income tax collected nothing at the opening reads 0 until a law
- * adopts one and 1 after, against the adopted tax's level
- * (`openingMonthLevel`); a state that collected some, such as a tax on
- * interest and dividends, collects the adopted tax on top of it.
- */
-function adoptedIncomeTaxFactor(
-  world: World,
-  government: PublicBudgetGovernment,
-  taxYearStart: IsoDate,
-): number {
-  const adopted = adoptedIncomeTaxPerYear(
-    government.stateKey,
-    government.population,
-  );
-  if (adopted === null) return 1;
-  const opening = government.years[0]!.expectedRevenue[INCOME_TAX] ?? 0;
-  const propositionId = propositionIdFor(
-    world,
-    ADOPT_STATE_INCOME_TAX_QUESTION,
-  );
-  const now = propositionId
-    ? lawInForce(
-        world,
-        government.lawJurisdictionId,
-        propositionId,
-        taxYearStart,
-      )?.answer
-    : undefined;
-  const began = propositionId
-    ? lawInForceAtStart(
-        world,
-        government.lawJurisdictionId,
-        propositionId,
-        taxYearStart,
-      )
-    : undefined;
-  const inForce = now === "yes" && began !== "yes";
-  if (opening <= 0) return inForce ? 1 : 0;
-  return inForce ? (opening + adopted) / opening : 1;
-}
-
-/**
  * How a law on legal cannabis sales moves a state's selective sales taxes
- * against the law it began with (`cannabis-sales-tax.ts`): a law making sales
+ * against the law it began with (the existing cannabis tax row): a law making sales
  * legal adds the cannabis tax a resident pays from the first store opening,
  * and a law ending them takes it away the day it takes effect. 1 for any
  * other state or date.
@@ -757,8 +712,9 @@ function cannabisSalesFactor(
  * One month of a source at the level the government opened with, under the
  * law it began with, carried to the economy on `economyIndex`. A tax a law
  * ended collected nothing to scale from, so a law that restores it starts
- * again from this level. A state that opened with no income tax at all
- * reads the level of the tax a law adopting one would collect.
+ * again from this level. A newly adopted income tax has no collection
+ * forecast here: only the existing recorded withholding/payment path can
+ * supply its receipts.
  */
 function openingMonthLevel(
   government: PublicBudgetGovernment,
@@ -771,11 +727,7 @@ function openingMonthLevel(
     economyIndex !== null && first.economyAtAdoption
       ? economyIndex / first.economyAtAdoption
       : 1;
-  const opened =
-    source === "individualIncomeTax" && first.expectedRevenue[at]! <= 0
-      ? (adoptedIncomeTaxPerYear(government.stateKey, government.population) ??
-        0)
-      : first.expectedRevenue[at]!;
+  const opened = first.expectedRevenue[at]!;
   return (
     (opened / 12) * Math.max(0, 1 + ECONOMY_ELASTICITY[source] * (since - 1))
   );
@@ -1010,7 +962,10 @@ export function settleGovernmentMonth(
       Math.round(beforeLaw * withoutCannabis) - revenue[SELECTIVE_TAX]!,
     );
   }
-  const cannabisProposition = propositionIdFor(world, CANNABIS_SALES_QUESTION);
+  const cannabisProposition = propositionIdFor(
+    world,
+    CANNABIS_TAX_EFFECT.questionKey,
+  );
   const cannabisStamp =
     zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0) &&
@@ -1024,7 +979,7 @@ export function settleGovernmentMonth(
           ),
           {
             effectKind: "cannabis-selective-tax-revenue",
-            questionKey: CANNABIS_SALES_QUESTION,
+            questionKey: CANNABIS_TAX_EFFECT.questionKey,
             jurisdictionId: government.lawJurisdictionId,
             appliedAt: month,
           },
@@ -1041,15 +996,16 @@ export function settleGovernmentMonth(
           ),
           {
             effectKind: "state-revenue-loss",
-            questionKey: CANNABIS_SALES_QUESTION,
+            questionKey: CANNABIS_TAX_EFFECT.questionKey,
             jurisdictionId: government.lawJurisdictionId,
             appliedAt: month,
           },
         )
       : null;
-  const cannabisStamps = (
-    cashSettled ? [] : [cannabisStamp, cannabisCostStamp]
-  ).filter((stamp): stamp is NonNullable<typeof stamp> => stamp !== null);
+  // Law-effect metadata survives cash settlement; it does not add paid receipts or outlays.
+  const cannabisStamps = [cannabisStamp, cannabisCostStamp].filter(
+    (stamp): stamp is NonNullable<typeof stamp> => stamp !== null,
+  );
   if (government.population > 0)
     revenue[INCOME_TAX] = Math.round(
       (revenue[INCOME_TAX]! *
@@ -1238,12 +1194,11 @@ export function settleGovernmentMonth(
           },
         }
       : {}),
-    ...(!cashSettled &&
-    zeroOpeningSelectiveTax &&
+    ...(zeroOpeningSelectiveTax &&
     (cannabisRevenue > 0 || previousCannabisRevenue > 0)
       ? { cannabisRevenue }
       : {}),
-    ...(!cashSettled && cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
+    ...(cannabisRevenueLoss > 0 ? { cannabisRevenueLoss } : {}),
     ...(cannabisStamps.length ||
     paidLeaveStamps.length ||
     recorded?.lawEffectStamps.length
@@ -1664,9 +1619,11 @@ function adoptNextYear(
       // Restate the other taxes through the existing economy/law calculation,
       // then forecast the current cannabis amount exactly once.
       const otherTaxes = rows.map((row) => {
-        const cannabis =
-          (row as BudgetMonthRow & { readonly cannabisRevenue?: number })
-            .cannabisRevenue ?? 0;
+        // Cash rows carry modeled law attribution separately from their paid receipts.
+        const cannabis = row.cashSettlement
+          ? 0
+          : ((row as BudgetMonthRow & { readonly cannabisRevenue?: number })
+              .cannabisRevenue ?? 0);
         const other = Math.max(0, row.revenue[at]! - cannabis);
         const then = Math.max(
           0,

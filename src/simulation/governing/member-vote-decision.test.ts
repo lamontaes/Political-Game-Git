@@ -1,3 +1,9 @@
+import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../../presentation/opening-life";
+import { drawRandomPlace } from "../../../tests/support/random-place";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
@@ -266,4 +272,21 @@ describe("one extracted member chooser preserves its callers", () => {
       expect(serializeWorld(world)).toBe(before);
     },
   );
+});
+
+it("opens a real new game in an all56 drawn place for the received A79 chooser", () => {
+  const seed = "overflow8-a79-received-chooser-opening";
+  const place = drawRandomPlace(seed);
+  console.log("A79 opening", seed, place.key);
+  const opened = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+    }),
+  );
+  expect(opened.game).not.toBeNull();
+  expect(
+    opened.game!.world.people[opened.game!.playerPersonId]!.homeJurisdictionId,
+  ).toBe(place.context.jurisdiction.id);
 });

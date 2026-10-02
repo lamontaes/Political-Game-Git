@@ -4,11 +4,15 @@ import { addDays } from "./dates";
 import { createOrganization, createWorkRelationship } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
 import {
+  stateMedianAnnualWage,
+  townMinimumHourly,
   townJobRate,
   townMinimumHourlyAt,
   townPayPercentile,
 } from "./living-world/town-pay";
 import { initializeOfficeSalaryFlows } from "./office-salary";
+import { createWorkCompensation, money } from "./resources";
+import { localBusinessWageMinor } from "./recorded-employer";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { pickDistinct, SeededRng } from "./rng";
@@ -189,6 +193,96 @@ describe("A41 recorded staff pay uses existing occupational data", () => {
     );
     expect(initializeOfficeSalaryFlows(world, personId)).toBe(world);
     expect(agreement(world, work.id)).toBeNull();
+  });
+
+  it("uses comparable saved pay for a new office and business worker, normalized to hours", () => {
+    const { world, personId, work, jurisdictionId } = fixture("NE");
+    let recorded = createWorkCompensation(world, {
+      stableKey: "a41:recorded-pay",
+      workRelationshipId: work.id,
+      startsAt: world.currentDate,
+      amount: money(120_000, "USD"),
+      cadenceKind: "schedule:weekly",
+      restrictionKind: null,
+      jurisdictionId,
+      provenance,
+    });
+    recorded = createWorkRelationship(recorded, {
+      stableKey: "a41:new-staff",
+      personId,
+      organizationId: work.organizationId,
+      startedAt: recorded.currentDate,
+      kind: work.kind,
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "New part-time staff",
+        occupationClassification: "occupation:office-clerk",
+        locationJurisdictionId: jurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 20, maximumHours: 20 },
+          attention: "high",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "rigid",
+          interruptibility: "limited",
+          locationJurisdictionId: jurisdictionId,
+        },
+      },
+    });
+    const newWork = recorded.history.workRelationships.at(-1)!;
+    const opened = initializeOfficeSalaryFlows(recorded, personId);
+    expect(agreement(opened, newWork.id)!.amount.minorUnits).toBe(60_000);
+    expect(agreement(opened, work.id)!.amount.minorUnits).toBe(120_000);
+    expect(
+      localBusinessWageMinor(
+        { workerOccupation: "occupation:office-clerk" },
+        jurisdictionId,
+        recorded,
+      ).monthlyMinor,
+    ).toBe(390_000);
+    expect(
+      localBusinessWageMinor(
+        { workerOccupation: "occupation:office-clerk" },
+        jurisdictionId,
+        recorded,
+        work.id,
+      ).monthlyMinor,
+    ).toBe(520_000);
+    expect(
+      localBusinessWageMinor(
+        { workerOccupation: "occupation:office-clerk" },
+        jurisdictionId,
+        recorded,
+        newWork.id,
+      ).monthlyMinor,
+    ).toBe(260_000);
+    expect(serializeWorld(deserializeWorld(serializeWorld(opened)))).toBe(
+      serializeWorld(opened),
+    );
+  });
+
+  it("uses recorded hours for the minimum-wage floor when only published occupation pay is available", () => {
+    const { world, jurisdictionId, work, hours } = fixture(
+      "NE",
+      "employment:civil-service",
+      "occupation:office-clerk",
+      80,
+    );
+    const annualFloor = townMinimumHourly(jurisdictionId)! * hours * 52;
+    expect(
+      stateMedianAnnualWage("occupation:office-clerk", jurisdictionId)!,
+    ).toBeLessThan(annualFloor);
+    const wage = localBusinessWageMinor(
+      { workerOccupation: "occupation:office-clerk" },
+      jurisdictionId,
+      world,
+      work.id,
+    );
+    expect(wage.monthlyMinor).toBe(Math.round((annualFloor * 100) / 12));
+    expect(wage.sourced).toBe(true);
   });
 
   it.todo(

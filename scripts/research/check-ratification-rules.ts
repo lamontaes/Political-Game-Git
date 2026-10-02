@@ -97,18 +97,27 @@ interface Chamber {
     readonly strictlyGreater?: unknown;
     readonly presentMeans?: unknown;
     readonly alsoRequires?: { readonly minYesFractionOfElected?: unknown };
+    readonly minimumVotes?: unknown;
   };
   readonly quorum?: {
     readonly basis?: unknown;
     readonly fraction?: unknown;
     readonly strictlyGreater?: unknown;
     readonly text?: unknown;
+    readonly citationIndex?: unknown;
   };
   readonly rounding?: unknown;
   readonly ruleKind?: unknown;
   readonly onTheBooks?: unknown;
   readonly citations?: readonly Citation[];
   readonly notes?: unknown;
+  readonly ratificationBridge?: {
+    readonly kind?: unknown;
+    readonly formCitationIndex?: unknown;
+    readonly procedureCitationIndex?: unknown;
+    readonly thresholdCitationIndex?: unknown;
+    readonly quorumCitationIndex?: unknown;
+  };
 }
 interface Row {
   readonly stateKey?: unknown;
@@ -192,6 +201,14 @@ export function checkRatificationRules(data: RatificationRules): string[] {
       } else if (threshold.presentMeans !== undefined)
         problems.push(`${where}: presentMeans only goes with a present basis`);
       const floor = threshold.alsoRequires?.minYesFractionOfElected;
+      const minimumVotes = threshold.minimumVotes;
+      if (
+        minimumVotes !== undefined &&
+        (typeof minimumVotes !== "number" ||
+          !Number.isSafeInteger(minimumVotes) ||
+          minimumVotes < 1)
+      )
+        problems.push(`${where}: minimumVotes must be a positive whole number`);
       if (floor !== undefined && floor !== "2/5")
         problems.push(
           `${where}: minYesFractionOfElected ${String(floor)} is not 2/5`,
@@ -225,6 +242,42 @@ export function checkRatificationRules(data: RatificationRules): string[] {
       if (kind === "ratification-specific-unenforced" && !chamber.onTheBooks)
         problems.push(`${where}: an unenforced rule needs onTheBooks`);
       const citations = chamber.citations ?? [];
+      const quorumIndex = chamber.quorum?.citationIndex;
+      if (
+        quorumIndex !== undefined &&
+        (typeof quorumIndex !== "number" ||
+          !Number.isSafeInteger(quorumIndex) ||
+          quorumIndex < 0 ||
+          quorumIndex >= citations.length)
+      )
+        problems.push(
+          `${where}: quorum citationIndex needs an existing citation`,
+        );
+      const bridge = chamber.ratificationBridge;
+      if (bridge) {
+        if (
+          bridge.kind !== "sourced-form-and-vote-rule" ||
+          (kind !== "bill-rule-by-reference" && kind !== "resolution-rule")
+        )
+          problems.push(
+            `${where}: a sourced bridge needs a bill-reference or resolution rule`,
+          );
+        for (const role of [
+          "formCitationIndex",
+          "procedureCitationIndex",
+          "thresholdCitationIndex",
+          "quorumCitationIndex",
+        ] as const) {
+          const index = bridge[role];
+          if (
+            typeof index !== "number" ||
+            !Number.isSafeInteger(index) ||
+            index < 0 ||
+            index >= citations.length
+          )
+            problems.push(`${where}: ${role} needs an existing citation index`);
+        }
+      }
       if (citations.length === 0) problems.push(`${where}: no citation`);
       for (const citation of citations) {
         if (

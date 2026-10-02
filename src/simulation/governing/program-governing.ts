@@ -1,3 +1,9 @@
+import { finalTermProvisions } from "./final-law-term-query";
+import { measureAnswersAt } from "../vote-bundle";
+import {
+  PASSENGER_RAIL_PROGRAM_KEY,
+  EXPAND_PASSENGER_RAIL_QUESTION,
+} from "../federal-passenger-rail";
 import { addDays } from "../dates";
 import {
   draftLineageComponents,
@@ -39,6 +45,7 @@ import {
   programVariant,
   legalInstrumentRule,
   standingAuthority,
+  npcEligibleProgramConfigurationsFor,
   type ProgramVariant,
 } from "../legislation-program-families";
 import {
@@ -260,6 +267,68 @@ export function appropriationFromEnactedMeasure(
   const existingComponents = draftLineageComponents(world, measureId).filter(
     (lineage) => lineage.componentKey !== undefined,
   );
+  // A catalog bill can carry final numeric terms without a drafted-family
+  // lineage. Admit that exact annual rail amount into the same appropriation
+  // writer; a spending decision still needs a real recipient and cash.
+  if (
+    governmentScope.kind === "federal" &&
+    !draftLineageForMeasure(world, measureId)
+  ) {
+    const terms = finalTermProvisions(world, measureId, enactment.sequence)
+      .filter(
+        (provision) =>
+          provision.applicationScope.jurisdictionId ===
+            measure.jurisdictionId &&
+          provision.applicationScope.segmentKey === null,
+      )
+      .flatMap((provision) =>
+        (provision.lawTerms ?? []).filter(
+          (term) =>
+            term.questionKey === EXPAND_PASSENGER_RAIL_QUESTION &&
+            term.key === "appropriation",
+        ),
+      );
+    const term = terms.length === 1 ? terms[0] : null;
+    const operativeAt = operativeDateInWorld(world, enactment)?.date;
+    const answersYes = measureAnswersAt(
+      world,
+      measureId,
+      enactment.sequence,
+    ).some(
+      (answer) =>
+        answer.answer === "yes" &&
+        world.policyCatalog.propositions[answer.propositionId]?.stableKey ===
+          EXPAND_PASSENGER_RAIL_QUESTION,
+    );
+    const configurations = npcEligibleProgramConfigurationsFor(
+      EXPAND_PASSENGER_RAIL_QUESTION,
+      "yes",
+      "federal",
+    );
+    if (
+      answersYes &&
+      operativeAt &&
+      term?.unit === "dollars/year" &&
+      Number.isFinite(term.value) &&
+      term.value > 0 &&
+      configurations.length === 1
+    ) {
+      const configuration = configurations[0]!;
+      const written = recordAdoptedAppropriation(world, {
+        familyKey: configuration.familyKey,
+        programKey: PASSENGER_RAIL_PROGRAM_KEY,
+        jurisdictionId: measure.jurisdictionId,
+        publicGovernmentIdentity: governmentScope.identity,
+        amountMinorUnits: term.value * 100,
+        adoptedOn: operativeAt,
+        availableThrough: addDays(addYears(operativeAt, 1), -1),
+        edition: `final-annual-term-${measure.id}`,
+        basisNote: `${PROGRAM_GOVERNING_VERSION}: final adopted annual rail appropriation from ${measure.designation}; authority is not cash or delivered service.`,
+        sourceMeasureId: measureId,
+      });
+      return written?.world ?? world;
+    }
+  }
   if (
     governmentScope.kind === "federal" &&
     (existingComponents.length > 0 ||

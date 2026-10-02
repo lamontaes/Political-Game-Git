@@ -587,6 +587,15 @@ export interface LegislativeRulePack {
   readonly jurisdictionKey: string;
   readonly displayName: string;
   /**
+   * The saved roster this institution reads, and how far that roster supplies
+   * party cues. Older packs use candidacy openings and the current chamber.
+   * This selects a data reader; it grants no seats or legislative authority.
+   */
+  readonly seatRollSource?: {
+    readonly kind: "national-election-seats" | "candidacy-opening";
+    readonly partyCueScope: "chamber" | "institution";
+  };
+  /**
    * Whether this pack states read law or the game's own rule.
    *
    * `researched` is the only kind that describes a real legislature. It is
@@ -619,6 +628,22 @@ export interface LegislativeRulePack {
   readonly origination: OriginationRule;
   readonly interChamber: InterChamberRule;
   readonly executive: ExecutiveRule;
+  readonly councilActions?: {
+    readonly financialGeneralThresholdUsd?: RuleValue<number>;
+    readonly financialLocalRule?: RuleValue<{
+      readonly operativeOn: string;
+      readonly fullMembershipAboveUsd: number;
+      readonly delayedAboveUsd: number;
+      readonly minimumInterveningDays: number;
+      readonly ordinaryCitations: readonly string[];
+      readonly ordinaryUnresolved: readonly string[];
+      readonly quorumCitation: string;
+    }>;
+    readonly managerElectionThreshold?: VoteThresholdRule;
+    readonly overrideWindowDays?: RuleValue<number>;
+    readonly congressionalReviewDays?: RuleValue<number>;
+    readonly criminalCodeReviewDays?: RuleValue<number>;
+  };
   readonly enactment: EnactmentRule;
   readonly session: SessionRule;
   readonly sources: readonly RuleSourceRef[];
@@ -881,6 +906,18 @@ function assertOriginationChambers(
  */
 export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   if (pack.titleTemplate) assertMeasureTitleTemplate(pack.titleTemplate);
+  if (pack.seatRollSource !== undefined) {
+    const source = pack.seatRollSource;
+    if (
+      !source ||
+      !["national-election-seats", "candidacy-opening"].includes(source.kind) ||
+      !["chamber", "institution"].includes(source.partyCueScope)
+    ) {
+      throw new Error(
+        `Rule pack '${pack.packId}' declares an invalid seat roll source.`,
+      );
+    }
+  }
   if (pack.packId.trim().length === 0) {
     throw new Error("A rule pack must have an identifier.");
   }
@@ -1133,6 +1170,38 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
     );
   }
 
+  for (const field of [
+    "overrideWindowDays",
+    "congressionalReviewDays",
+    "criminalCodeReviewDays",
+    "financialGeneralThresholdUsd",
+  ] as const) {
+    const rule = pack.councilActions?.[field];
+    if (rule)
+      assertRuleValue(rule, `council action ${field}`, (value) => {
+        if (!Number.isSafeInteger(value) || value < 1)
+          throw new Error(
+            `Rule pack '${pack.packId}' has an invalid ${field}.`,
+          );
+      });
+  }
+  const localFinancial = pack.councilActions?.financialLocalRule;
+  if (localFinancial)
+    assertRuleValue(localFinancial, "local financial action", (rule) => {
+      if (
+        !/^\d{4}-\d{2}-\d{2}$/.test(rule.operativeOn) ||
+        [
+          rule.fullMembershipAboveUsd,
+          rule.delayedAboveUsd,
+          rule.minimumInterveningDays,
+        ].some((n) => !Number.isSafeInteger(n) || n < 0)
+      )
+        throw new Error(
+          `Rule pack '${pack.packId}' has invalid local financial action terms.`,
+        );
+    });
+  if (pack.councilActions?.managerElectionThreshold)
+    assertThresholdRule(pack.councilActions.managerElectionThreshold);
   const executive = pack.executive;
   assertSourceRef(executive.source, `executive rule in '${pack.packId}'`);
   assertRuleValue(executive.presentmentRequired, "presentment requirement");

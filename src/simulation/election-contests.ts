@@ -1,13 +1,5 @@
-import { nationalMoodDemocraticShift } from "./national-mood";
-import { CONGRESS_INCUMBENCY_SHARE_BONUS } from "./living-world/congress-aggregate-outcome";
-import { STATE_LEGISLATURE_TURNOVER_PROFILE } from "./nationwide-world/state-legislature-turnover";
-import {
-  congressSeatElectorate,
-  stateSeatElectorate,
-  majorPartyOf,
-  statewideElectorate,
-  type StatewideElectorate,
-} from "./statewide-electorate";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
+import { isEligibleVoterIn } from "./issue-record";
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
@@ -16,9 +8,10 @@ import {
 } from "./future-transitions";
 import { createStableId } from "./ids";
 import { personName } from "./people";
-import { SeededRng } from "./rng";
 import type {
   CandidateTally,
+  DecisionContext,
+  PrivateBeliefRecord,
   CancelElectionContestInput,
   ElectionContestProvenance,
   ElectionContestRecord,
@@ -145,10 +138,8 @@ export function scheduleElectionContest(
 }
 
 /**
- * Explicit deterministic placeholder outcome evaluator for the election contest substrate.
- * Generates candidate tallies and determines a winner using a seeded RNG forked from the world seed,
- * contest stable identity, and candidate list. This provides reproducible results without masquerading
- * as a complete voter behavior model.
+ * Count from the existing applicable electorate. Missing recorded/calibrated
+ * inputs leave a contest unresolved; candidate presence never invents ballots.
  */
 export function evaluateDeterministicContestOutcome(
   world: World,
@@ -156,233 +147,188 @@ export function evaluateDeterministicContestOutcome(
 ): {
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
-} {
+} | null {
   assertNotPresidentialOffice(contest.office.officeKey);
   if (contest.candidatePersonIds.length === 0) {
     throw new Error(
       `Cannot evaluate contest with no candidates: ${contest.id}`,
     );
   }
+  return countRecordedVoterBallots(world, {
+    stableKey: contest.stableKey,
+    jurisdictionId: contest.jurisdictionId,
+    electionDate: contest.electionDate,
+    candidatePersonIds: contest.candidatePersonIds,
+  });
+}
 
-  // A seat in Congress is counted from its own voters even with one name on
-  // the ballot, so an unopposed member's count is the seat's, not a token.
-  const seat =
-    congressSeatContestOutcome(world, contest) ??
-    stateSeatContestOutcome(world, contest);
-  if (seat) return seat;
+export interface RecordedVoterCountInput {
+  readonly stableKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly electionDate: IsoDate;
+  readonly candidatePersonIds: readonly EntityId[];
+  /** Additional legal admission, e.g. a primary party ballot. Null is unread. */
+  readonly admitVoter?: (personId: EntityId) => boolean | null;
+}
 
-  if (contest.candidatePersonIds.length === 1) {
-    const winnerPersonId = contest.candidatePersonIds[0]!;
-    return {
-      winnerPersonId,
-      tallies: [
+/** Evaluate actual saved candidate views through the one decision function.
+ * A missing consideration is omitted, never estimated from party shares.
+ */
+export function countRecordedVoterBallots(
+  world: World,
+  input: RecordedVoterCountInput,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  const candidates = new Set<string>(input.candidatePersonIds);
+  if (
+    candidates.size === 0 ||
+    candidates.size !== input.candidatePersonIds.length
+  )
+    throw new Error("A voter count requires distinct candidate records.");
+  // Index saved candidate views once for this election, never once per voter.
+  const views = new Map<EntityId, Map<EntityId, PrivateBeliefRecord>>();
+  for (const belief of world.history.privateBeliefs) {
+    if (
+      belief.subject?.kind !== "official" ||
+      !candidates.has(belief.subject.personId) ||
+      belief.formedAt > input.electionDate
+    )
+      continue;
+    const byCandidate =
+      views.get(belief.personId) ?? new Map<EntityId, PrivateBeliefRecord>();
+    const previous = byCandidate.get(belief.subject.personId);
+    if (
+      !previous ||
+      belief.formedAt > previous.formedAt ||
+      (belief.formedAt === previous.formedAt &&
+        belief.sequence > previous.sequence)
+    ) {
+      byCandidate.set(belief.subject.personId, belief);
+      views.set(belief.personId, byCandidate);
+    }
+  }
+  const contexts = new Map<EntityId, DecisionContext>();
+  for (const voterId of world.personOrder) {
+    if (
+      !isEligibleVoterIn(
+        world,
+        voterId,
+        input.jurisdictionId,
+        input.electionDate,
+      )
+    )
+      continue;
+    const considerations: DecisionContext["considerations"][number][] = [];
+    for (const [candidateId, belief] of views.get(voterId) ?? []) {
+      if (belief.position !== "support" && belief.position !== "oppose")
+        continue;
+      // These categories feed the existing evaluator's single weight table.
+      // No election-specific numerical multiplier is introduced.
+      considerations.push({
+        stableKey: `${input.stableKey}:${voterId}:${belief.id}`,
+        optionKey: candidateId,
+        sourceType: "belief:official",
+        direction: belief.position === "support" ? "supports" : "opposes",
+        importance:
+          belief.salience === "central"
+            ? "decisive"
+            : belief.salience === "high"
+              ? "strong"
+              : belief.salience === "moderate"
+                ? "moderate"
+                : "slight",
+        confidence:
+          belief.conviction === "tentative"
+            ? "low"
+            : belief.conviction === "moderate"
+              ? "medium"
+              : "high",
+        explanation:
+          belief.rationale ??
+          "The voter has a recorded view of this candidate.",
+        sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
+      });
+    }
+    contexts.set(voterId, {
+      stableKey: `${input.stableKey}:voter:${voterId}`,
+      decisionType: "election.vote",
+      actorPersonId: voterId,
+      cutoff: {
+        asOfDate: input.electionDate,
+        historySequenceExclusive: world.history.nextSequence,
+      },
+      subject: {
+        kind: "context:election",
+        key: input.stableKey,
+        entityId: null,
+      },
+      options: [
+        ...input.candidatePersonIds.map((key) => ({
+          key,
+          label: personName(world.people[key]!),
+          description: "Vote for this candidate.",
+        })),
         {
-          candidatePersonId: winnerPersonId,
-          votes: 1000,
-          voteShare: 1.0,
+          key: "abstain",
+          label: "Do not choose a candidate",
+          description:
+            "No candidate is preferred on the recorded considerations.",
         },
       ],
-    };
+      constraints: [],
+      considerations,
+      perceptionIds: [],
+      randomness: "none",
+      retention: "ephemeral",
+    });
   }
-
-  const statewide = statewideContestOutcome(world, contest);
-  if (statewide) return statewide;
-
-  const rng = new SeededRng(world.seed).fork(
-    `election-contest:${contest.id}:${contest.stableKey}:${contest.electionDate}`,
-  );
-
-  const rawVotes: { candidatePersonId: EntityId; votes: number }[] = [];
-  let totalVotes = 0;
-
-  for (const candidatePersonId of contest.candidatePersonIds) {
-    const votes = rng.integer(1000, 10000);
-    rawVotes.push({ candidatePersonId, votes });
-    totalVotes += votes;
+  if (contexts.size === 0) return null;
+  const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
+  for (const [voterId, context] of contexts) {
+    if (
+      !isEligibleVoterIn(
+        world,
+        voterId,
+        input.jurisdictionId,
+        input.electionDate,
+      )
+    )
+      continue;
+    const admission =
+      input.admitVoter?.(voterId) ?? (input.admitVoter ? null : true);
+    if (admission === null) return null;
+    if (!admission) continue;
+    if (
+      context.options.length < 2 ||
+      context.randomness !== "none" ||
+      context.options.some(
+        (option) => !candidates.has(option.key) && option.key !== "abstain",
+      )
+    )
+      return null;
+    const evaluation = evaluateDecision(world, context);
+    if (isSelectedDecision(evaluation)) {
+      if (evaluation.selectedOptionKey === "abstain") continue;
+      const id = input.candidatePersonIds.find(
+        (candidateId) => candidateId === evaluation.selectedOptionKey,
+      );
+      if (!id) return null;
+      votes.set(id, votes.get(id)! + 1);
+    }
   }
-
-  rawVotes.sort((a, b) => {
-    if (b.votes !== a.votes) return b.votes - a.votes;
-    return a.candidatePersonId.localeCompare(b.candidatePersonId);
-  });
-
-  const tallies: CandidateTally[] = rawVotes.map((entry) => ({
-    candidatePersonId: entry.candidatePersonId,
-    votes: entry.votes,
-    voteShare: Number((entry.votes / totalVotes).toFixed(4)),
-  }));
-
-  const winnerPersonId = tallies[0]!.candidatePersonId;
-  return {
-    winnerPersonId,
-    tallies,
-  };
-}
-
-/**
- * A statewide race decided by the state's voters rather than by a draw: each
- * major party's nominees split that party's share of the state's two-party
- * vote, a candidate on neither line shares the state's vote for neither,
- * and the ballots are the state's (see `statewide-electorate.ts`). Null for a
- * contest that is not statewide, such as a territory's.
- */
-function statewideContestOutcome(
-  world: World,
-  contest: ElectionContestRecord,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
-  const electorate = statewideElectorate(world, contest.jurisdictionId);
-  if (!electorate) return null;
-  return countedByParty(world, contest, electorate, electorate.democraticShare);
-}
-
-/**
- * A seat in Congress decided by the seat's own voters (see
- * `congressSeatElectorate`). A sitting member on the ballot carries the same
- * incumbency lift the unobserved seats use
- * (`CONGRESS_INCUMBENCY_SHARE_BONUS`), so a watched seat and an unwatched one
- * follow one rule. Null for anything that is not such a seat, or a seat whose
- * printed result gives no two-party share.
- */
-function congressSeatContestOutcome(
-  world: World,
-  contest: ElectionContestRecord,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
-  const seatKey = contest.office.seatKey ?? contest.office.officeKey;
-  const electorate = congressSeatElectorate(
-    world,
-    seatKey,
-    contest.electionDate,
-  );
-  if (!electorate) return null;
-  const holder = electorate.holderPersonId;
-  const holderParty =
-    holder && contest.candidatePersonIds.includes(holder)
-      ? majorPartyOf(world, holder, contest.electionDate)
-      : null;
-  const lifted = Math.min(
-    1,
-    Math.max(
-      0,
-      electorate.democraticShare +
-        nationalMoodDemocraticShift(world, contest.electionDate) +
-        (holderParty === "democratic"
-          ? CONGRESS_INCUMBENCY_SHARE_BONUS
-          : holderParty === "republican"
-            ? -CONGRESS_INCUMBENCY_SHARE_BONUS
-            : 0),
-    ),
-  );
-  return countedByParty(world, contest, electorate, lifted);
-}
-
-/**
- * A state legislative seat is counted from its own voters the same way
- * (`stateSeatElectorate`): the seat's lean, the sitting member's usual edge in
- * the same logit terms the legislature's turnover uses, and each candidate
- * under the party they filed with.
- */
-function stateSeatContestOutcome(
-  world: World,
-  contest: ElectionContestRecord,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
-  if (!contest.office.seatKey || contest.office.districtBinding) return null;
-  const electorate = stateSeatElectorate(
-    world,
-    contest.office.seatKey,
-    Number(contest.electionDate.slice(0, 4)),
-  );
-  if (!electorate) return null;
-  const holderRuns =
-    electorate.holderPersonId !== null &&
-    contest.candidatePersonIds.includes(electorate.holderPersonId);
-  const bonus = holderRuns
-    ? electorate.holderParty === "democratic"
-      ? STATE_LEGISLATURE_TURNOVER_PROFILE.incumbencyBonusLogit
-      : electorate.holderParty === "republican"
-        ? -STATE_LEGISLATURE_TURNOVER_PROFILE.incumbencyBonusLogit
-        : 0
-    : 0;
-  const share = Math.min(
-    1 - 1e-6,
-    Math.max(
-      1e-6,
-      electorate.democraticShare +
-        nationalMoodDemocraticShift(world, contest.electionDate),
-    ),
-  );
-  const lifted = 1 / (1 + Math.exp(-(Math.log(share / (1 - share)) + bonus)));
-  return countedByParty(world, contest, electorate, lifted, electorate.parties);
-}
-
-/**
- * The count itself: each major party's nominees split that party's share of
- * the two-party vote, a candidate on neither line shares the vote for
- * neither, and the ballots are the electorate's.
- */
-function countedByParty(
-  world: World,
-  contest: ElectionContestRecord,
-  electorate: StatewideElectorate,
-  democraticShare: number,
-  /** The parties candidates filed under, where the record holds them. */
-  filed?: ReadonlyMap<EntityId, "democratic" | "republican" | null>,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
-  const parties = new Map(
-    contest.candidatePersonIds.map((personId) => [
-      personId,
-      filed?.has(personId)
-        ? filed.get(personId)!
-        : majorPartyOf(world, personId, contest.electionDate),
-    ]),
-  );
-  // The state's lean splits the major-party vote; a candidate on neither
-  // line shares the part of the state's ballots that went to neither major
-  // party in the same count, so a sitting executive with no party on record
-  // is still judged by the place's own voters.
-  const count = (party: string | null) =>
-    [...parties.values()].filter((value) => value === party).length;
-  // A field of major-party nominees alone keeps its old arithmetic exactly.
-  const major = count(null) > 0 ? 1 - electorate.neitherMajorShare : 1;
-  const weightOf = (personId: EntityId): number => {
-    const party = parties.get(personId) ?? null;
-    if (party === "democratic")
-      return (major * democraticShare) / count("democratic");
-    if (party === "republican")
-      return (major * (1 - democraticShare)) / count("republican");
-    return electorate.neitherMajorShare / count(null);
-  };
-  const weights = contest.candidatePersonIds.map((personId) => ({
-    candidatePersonId: personId,
-    weight: weightOf(personId),
-  }));
-  const total = weights.reduce((sum, entry) => sum + entry.weight, 0);
-  if (!(total > 0)) return null;
-  const tallies: CandidateTally[] = weights
-    .map((entry) => {
-      const share = entry.weight / total;
-      return {
-        candidatePersonId: entry.candidatePersonId,
-        votes: Math.round(electorate.ballots * share),
-        voteShare: Number(share.toFixed(4)),
-      };
-    })
-    .sort(
-      (a, b) =>
-        b.votes - a.votes ||
-        a.candidatePersonId.localeCompare(b.candidatePersonId),
-    );
+  const total = [...votes.values()].reduce((sum, value) => sum + value, 0);
+  if (total === 0) return null;
+  const tallies = input.candidatePersonIds
+    .map((candidatePersonId) => ({
+      candidatePersonId,
+      votes: votes.get(candidatePersonId)!,
+      voteShare: votes.get(candidatePersonId)! / total,
+    }))
+    .sort((a, b) => b.votes - a.votes);
+  if (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
+    return null;
   return { winnerPersonId: tallies[0]!.candidatePersonId, tallies };
 }
 
@@ -457,6 +403,7 @@ export function resolveElectionContest(
     }));
   } else {
     const outcome = evaluateDeterministicContestOutcome(world, contest);
+    if (!outcome) return world;
     winnerPersonId = outcome.winnerPersonId;
     tallies = outcome.tallies;
   }
@@ -640,9 +587,14 @@ export function electionContestTransitionHandler(
 
   const result = electionContestResult(resolvedWorld, contest.id);
   if (!result) {
-    throw new Error(
-      "Election contest transition failed to produce a result record.",
-    );
+    return {
+      world: resolvedWorld,
+      status: "blocked",
+      reasonKey: "election:count-unavailable",
+      context:
+        "No supported electorate count is available; the contest remains pending.",
+      outcomeEventId: null,
+    };
   }
 
   return {
