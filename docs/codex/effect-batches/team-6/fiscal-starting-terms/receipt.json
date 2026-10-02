@@ -27,8 +27,10 @@
     "scopedTypes": "5 fiscal PR roots,1055 dependencies,0 diagnostics",
     "guard": "2 validation cases PASS; global required-term case FAIL:764 missing/unsupported requirements, down from832 before the53-row overlay",
     "lint": "PASS five fiscal PR TS files",
-    "format": "PASS changed JSON/TS files; declaration/receipt renewal pending",
-    "staticAudit": "A15 pinned main8/8 \u2192 branch8/8, PARTLY both; no static rule flip"
+    "format": "PASS eight fiscal PR files",
+    "staticAudit": "A15 pinned main8/8 \u2192 branch8/8, PARTLY both; no static rule flip",
+    "release": "parse + PR transition PASS at76fe6b7ea, no problems",
+    "mergeTree": "PASS against origin/main d9c960b1b; merged tree3999ba56cd0c6db9a6047d136a345ffc14df8f41, no checkout/index mutation"
   },
   "notRun": [
     "full suite",
@@ -46,5 +48,6 @@
   "historicalFailures": [
     "First fiscal test run2FAIL: stableHash returns hex text; repaired index conversion to parse first8hex digits. Final fiscal test2/2PASS.",
     "First guard run832 missing/unsupported requirements; second run764 after53-row data fill. Strict global case still FAIL."
-  ]
+  ],
+  "testedSourceHead": "76fe6b7ea49769decb0fdfd5abd6a376de3f7653"
 }
