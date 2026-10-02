@@ -2111,10 +2111,8 @@ export function publicTaxAccountEvidenceForIdentity(
   }
   const candidates = publicAccountCandidates(world, identity, cutoff);
   if (candidates.length !== 1) return null;
-  const organization = organizationsAt(world, cutoff).find(
-    (row) => row.id === candidates[0]!.id,
-  );
-  if (!organization) return null;
+  // Candidates already passed the same dated organization-availability read.
+  const organization = candidates[0]!;
   const profile = organizationProfileAt(world, organization.id, cutoff);
   return profile?.classification === "sector:government" &&
     profile.locationJurisdictionId !== null &&
