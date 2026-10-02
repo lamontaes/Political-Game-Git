@@ -154,7 +154,7 @@ function caseFixture(
   )!;
   expect(term.until).not.toBeNull();
   if (term.until === null)
-    throw new Error("Finite-sentence clemency fixture received a life term");
+    throw new Error("The fixture's recorded sentence has no end date.");
   // Authored older-save fixture: the real sentence has already reached
   // the existing body's service gate. No outcome or new wait is invented.
   const sentenceDate = addDays(
@@ -369,7 +369,7 @@ it("the actual sentence-end due item lapses a waiting body petition without vote
   )!.until;
   expect(until).not.toBeNull();
   if (until === null)
-    throw new Error("Sentence-expiry fixture received a life term");
+    throw new Error("The fixture's recorded sentence has no end date.");
   const actualDue = pending.history.futureDueItems.find(
     (item) =>
       item.transitionKey === CLEMENCY_PETITION_TRANSITION_KEY &&

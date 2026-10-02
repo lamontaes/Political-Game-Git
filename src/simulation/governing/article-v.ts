@@ -2,12 +2,12 @@ import {
   ARTICLE_V_CONVENTION_BODY,
   ARTICLE_V_STATE_KEYS,
   constitutionalPosition,
-  proposeConstitutionalMeasure,
   recordArticleVRatification,
   constitutionalActions,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
+import { proposeAmendment } from "../living-world/constitutional-reform";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateCandidacyPack } from "../candidacy-packs";
@@ -451,36 +451,29 @@ function propose(
   const name =
     world.policyCatalog.propositions[input.propositionId]?.name ?? "";
   const year = world.currentDate.slice(0, 4);
-  const next = proposeConstitutionalMeasure(
-    ensureNationalElectionJurisdiction(world),
-    {
-      stableKey: input.measureKey,
-      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      jurisdictionKey: "US",
-      processKind: "federal-amendment",
-      designation: `Proposed Amendment to the Constitution (${year}): ${name}`,
-      shortTitle: name,
-      text: proposalText(world, input.propositionId),
-      textVersion: "v1",
-      sponsoringAuthority: input.byConvention
-        ? "A convention called on the applications of two-thirds of the states"
-        : "The Congress of the United States",
-      sponsorPersonId: null,
-      ratificationMode: "state-legislatures",
-      deadlineAt: yearsLater(
-        world.currentDate,
-        ARTICLE_V_PROFILE.ratificationYears,
-      ),
-      delayedOperativeAt: null,
-      ruleDelta: {
-        kind: "policy-provision",
-        propositionId: input.propositionId,
-        stance: "adopt",
-      },
-      ordinaryMeasureId: null,
-      ...(input.byConvention ? { proposedBy: "convention" as const } : {}),
+  const next = proposeAmendment(ensureNationalElectionJurisdiction(world), {
+    stableKey: input.measureKey,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    jurisdictionKey: "US",
+    processKind: "federal-amendment",
+    designation: `Proposed Amendment to the Constitution (${year}): ${name}`,
+    shortTitle: name,
+    text: proposalText(world, input.propositionId),
+    sponsoringAuthority: input.byConvention
+      ? "A convention called on the applications of two-thirds of the states"
+      : "The Congress of the United States",
+    ratificationMode: "state-legislatures",
+    deadlineAt: yearsLater(
+      world.currentDate,
+      ARTICLE_V_PROFILE.ratificationYears,
+    ),
+    ruleDelta: {
+      kind: "policy-provision",
+      propositionId: input.propositionId,
+      stance: "adopt",
     },
-  );
+    ...(input.byConvention ? { proposedBy: "convention" as const } : {}),
+  });
   return {
     world: next,
     measureId: next.history.constitutionalMeasures!.at(-1)!.id,
