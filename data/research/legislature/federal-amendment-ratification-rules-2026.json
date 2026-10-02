@@ -1906,7 +1906,7 @@
               "accessed": "2026-10-02"
             }
           ],
-          "notes": "Joint Rules Article II identifies federal-ratification joint resolutions. House Rule 4.02 and Senate Rule 6.1 apply bill procedure; the elected-member bill threshold applies instead of the ordinary-question definition.",
+          "notes": "INFERRED: the elected-member threshold follows House Rule 4.02 (same course as a bill), Senate Rule 6.1 (same procedure as bills), and Constitution article IV, section 22 (majority of members elected). Joint Rules Article II identifies the federal-ratification joint resolution. These sources do not directly state its ratification threshold; the CTO-approved bill-procedure bridge applies the state's own law.",
           "ratificationBridge": {
             "kind": "sourced-form-and-vote-rule",
             "procedureCitationIndex": 1,
@@ -1953,7 +1953,7 @@
               "accessed": "2026-10-02"
             }
           ],
-          "notes": "Joint Rules Article II identifies federal-ratification joint resolutions. House Rule 4.02 and Senate Rule 6.1 apply bill procedure; the elected-member bill threshold applies instead of the ordinary-question definition.",
+          "notes": "INFERRED: the elected-member threshold follows House Rule 4.02 (same course as a bill), Senate Rule 6.1 (same procedure as bills), and Constitution article IV, section 22 (majority of members elected). Joint Rules Article II identifies the federal-ratification joint resolution. These sources do not directly state its ratification threshold; the CTO-approved bill-procedure bridge applies the state's own law.",
           "ratificationBridge": {
             "kind": "sourced-form-and-vote-rule",
             "procedureCitationIndex": 1,

@@ -431,5 +431,439 @@
       "path": "/tmp/team1-ratification-candidate-audit.json",
       "sha256": "a9f55750868adb58eb193d8f22f191835cd3e7fdd99725e622c904d61e491ad2"
     }
-  ]
+  ],
+  "consumerAdmissionValidation": {
+    "previousPublishedHead": "a1b703192dcf53ac6fda1b9009b9719c60661531",
+    "scope": "Direct and bridged sourced rules require valid quote, HTTPS URL, real retrieval date, finite positive vote fraction and explicit denominator. Independent quorum citations are validated. No new law, research row or modal fallback.",
+    "tests": {
+      "pass": 54,
+      "todo": 38,
+      "fail": 0,
+      "changedFiles": 2,
+      "seconds": 16.15
+    },
+    "firstScopedTypes": {
+      "changedRoots": 4,
+      "changedFileDiagnostics": 2,
+      "result": "Corrected test-only unknown-field narrowing; preserved original log."
+    },
+    "finalScopedTypes": {
+      "changedRoots": 4,
+      "changedFileDiagnostics": 0
+    },
+    "audit": {
+      "item": "A86",
+      "mainRef": "6ad1064aa280441713da222ea4054410e0360343",
+      "before": 4,
+      "after": 4,
+      "total": 4,
+      "flipped": []
+    },
+    "nextDependency": "CTO08:28 central Claude legal-rules-2026-10-02.md; no independent lookup or legal-mode estimate authorized.",
+    "officialGate": "NOT RUN; Claude owns gates",
+    "sourceHashes": [
+      {
+        "path": "src/simulation/constitutional-ratification-rules.ts",
+        "sha256": "29f7afc9ea2cec16454ef4cef6d0f21fe5ff9929f8c30de28cc7d7eacaf9b40f"
+      },
+      {
+        "path": "src/simulation/constitutional-ratification-rules.test.ts",
+        "sha256": "8112655298d582750ab9de89944ad68f08b998e915fd7ba633904faa649cc123"
+      }
+    ],
+    "logs": [
+      {
+        "path": "/tmp/team1-ratification-admission-tests.log",
+        "sha256": "109a28b47f318ce1ba43731047d6513e01084844b43e65dfd01012b890816103"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-types.log",
+        "sha256": "4e31ea0ad9ba1d56860412f9c9c6b2d9a8cedd359f19230abd6055f7d746dd1f"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-final-tests.log",
+        "sha256": "4a627c3b48f7f3db43afac0541ee7ec0c157e4a7f7d0e51d5ba15bb237680893"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-final-types.log",
+        "sha256": "13097e22435adf4c747581384ee0ff329a46425bd88fdf756b3859ad9165cc07"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-final-lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/tmp/team1-ratification-admission-candidate-audit.json",
+        "sha256": "a9f55750868adb58eb193d8f22f191835cd3e7fdd99725e622c904d61e491ad2"
+      }
+    ]
+  },
+  "ctoSourceCheckpoint": {
+    "previousPublishedHead": "a1b703192dcf53ac6fda1b9009b9719c60661531",
+    "ruling": "CTO08:28 central legal-file research; CTO5952152127 Minnesota inference label and sourced-data admission expectation remain required.",
+    "scope": "Existing Minnesota bill-procedure inference labeled INFERRED/partial; vote fields and source quotes unchanged. Stale fixed-six assertion replaced with sourced data identity check. Original receipt loop split per sourced state; every original assertion and timeout retained.",
+    "failedRuns": [
+      {
+        "log": "/tmp/team1-ratification-ctorepair-tests.log",
+        "pass": 17,
+        "fail": 1,
+        "failedSuites": 1,
+        "reason": "Unimplemented optional-note narrowing; original rows can omit notes. Corrected."
+      },
+      {
+        "log": "/tmp/team1-ratification-ctorepair-final-tests.log",
+        "pass": 59,
+        "fail": 1,
+        "todo": 38,
+        "reason": "Expanded twelve-state receipt case exceeded existing 30000ms. Only that case split; no timeout increased."
+      }
+    ],
+    "passingEvidence": [
+      {
+        "files": [
+          "src/simulation/constitutional-ratification-rules.test.ts",
+          "scripts/research/check-ratification-rules.test.ts"
+        ],
+        "pass": 54,
+        "todo": 38,
+        "fail": 0,
+        "log": "/tmp/team1-ratification-ctorepair-final-tests.log",
+        "qualification": "Two passing files retained from the run whose original combined chamber case timed out; these files and their production inputs unchanged afterward."
+      },
+      {
+        "files": [
+          "src/simulation/living-world/federal-term-limit-chamber-vote.test.ts"
+        ],
+        "pass": 19,
+        "todo": 0,
+        "fail": 0,
+        "seconds": 86.56,
+        "log": "/tmp/team1-ratification-split-receipts-tests.log"
+      }
+    ],
+    "currentFileEvidenceTotals": {
+      "changedTestFiles": 3,
+      "pass": 73,
+      "todo": 38,
+      "qualification": "Results combined from two terminal commands; no single all-green three-file command claimed."
+    },
+    "scopedTypes": {
+      "changedRoots": 5,
+      "changedFileDiagnostics": 0
+    },
+    "actualStateReceiptCases": {
+      "seed": "A79-recorded-term-limit-chamber",
+      "admitted": [
+        "US-AK",
+        "US-AR",
+        "US-CA",
+        "US-CO",
+        "US-DE",
+        "US-ME",
+        "US-MD",
+        "US-MN",
+        "US-MT",
+        "US-NE",
+        "US-NJ",
+        "US-ND"
+      ],
+      "refused": 38,
+      "chamberCount": 23,
+      "examples": [
+        {
+          "stateKey": "US-AK",
+          "body": "house",
+          "person": "Miriam Payne",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 21,
+          "denominator": 40,
+          "approved": false
+        },
+        {
+          "stateKey": "US-AK",
+          "body": "senate",
+          "person": "Ryan Donovan",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 11,
+          "denominator": 20,
+          "approved": false
+        },
+        {
+          "stateKey": "US-AR",
+          "body": "house",
+          "person": "Anna Mejia",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 51,
+          "denominator": 100,
+          "approved": false
+        },
+        {
+          "stateKey": "US-AR",
+          "body": "senate",
+          "person": "Jasper Newton",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 18,
+          "denominator": 35,
+          "approved": false
+        },
+        {
+          "stateKey": "US-CA",
+          "body": "house",
+          "person": "Morgan Fletcher",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 41,
+          "denominator": 80,
+          "approved": true
+        },
+        {
+          "stateKey": "US-CA",
+          "body": "senate",
+          "person": "Sage Walker",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 21,
+          "denominator": 40,
+          "approved": true
+        },
+        {
+          "stateKey": "US-CO",
+          "body": "house",
+          "person": "Maria Fisher",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 44,
+          "denominator": 65,
+          "approved": true
+        },
+        {
+          "stateKey": "US-CO",
+          "body": "senate",
+          "person": "Holly Hester",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 18,
+          "denominator": 35,
+          "approved": true
+        },
+        {
+          "stateKey": "US-DE",
+          "body": "house",
+          "person": "Douglas Hudson",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 21,
+          "denominator": 41,
+          "approved": true
+        },
+        {
+          "stateKey": "US-DE",
+          "body": "senate",
+          "person": "Derek Fisher",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 11,
+          "denominator": 21,
+          "approved": true
+        },
+        {
+          "stateKey": "US-ME",
+          "body": "house",
+          "person": "Morgan Rios",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 76,
+          "denominator": 151,
+          "approved": true
+        },
+        {
+          "stateKey": "US-ME",
+          "body": "senate",
+          "person": "Keanu Collins",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 18,
+          "denominator": 35,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MD",
+          "body": "house",
+          "person": "Paul Peters",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 71,
+          "denominator": 141,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MD",
+          "body": "senate",
+          "person": "Alexis O'Connor",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 24,
+          "denominator": 47,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MN",
+          "body": "house",
+          "person": "Dawn Webb",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 68,
+          "denominator": 134,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MN",
+          "body": "senate",
+          "person": "Nadia O'Neill",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 34,
+          "denominator": 67,
+          "approved": true
+        },
+        {
+          "stateKey": "US-MT",
+          "body": "house",
+          "person": "Megan Wilcox",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 51,
+          "denominator": 100,
+          "approved": false
+        },
+        {
+          "stateKey": "US-MT",
+          "body": "senate",
+          "person": "Levi Ray",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 26,
+          "denominator": 50,
+          "approved": false
+        },
+        {
+          "stateKey": "US-NE",
+          "body": "legislature",
+          "person": "Jessica Shields",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 25,
+          "denominator": 49,
+          "approved": false
+        },
+        {
+          "stateKey": "US-NJ",
+          "body": "house",
+          "person": "Alexis Fleming",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 41,
+          "denominator": 80,
+          "approved": true
+        },
+        {
+          "stateKey": "US-NJ",
+          "body": "senate",
+          "person": "Paul Zimmerman",
+          "ballot": "yea",
+          "reason": "member:presidents-party",
+          "required": 21,
+          "denominator": 40,
+          "approved": true
+        },
+        {
+          "stateKey": "US-ND",
+          "body": "house",
+          "person": "Sofia Stewart",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 48,
+          "denominator": 94,
+          "approved": false
+        },
+        {
+          "stateKey": "US-ND",
+          "body": "senate",
+          "person": "Emmanuel Howell",
+          "ballot": "nay",
+          "reason": "member:other-party",
+          "required": 24,
+          "denominator": 47,
+          "approved": false
+        }
+      ]
+    },
+    "stateCaseQualification": "Each state case starts from the same existing supplied supportedWorld proposal fixture and records one independent state action. Seven independent state cases approve; this is not seven cumulative approvals in one World or completed ratification. Existing party-based member reasons are unchanged.",
+    "status": "SOURCE CHECKPOINT; NOT READY for full fifty-state coverage; central legal-rules file required.",
+    "officialGate": "NOT RUN at this new checkpoint; prior a1b Claude FAIL receipt remains historical.",
+    "audit": {
+      "item": "A86",
+      "before": 4,
+      "after": 4,
+      "total": 4,
+      "mainRef": "6ad1064aa280441713da222ea4054410e0360343",
+      "flipped": []
+    },
+    "sourceHashes": [
+      {
+        "path": "src/simulation/constitutional-ratification-rules.ts",
+        "sha256": "3e8bc3710eaa1142f99b6903966dae9d55211c0d75ae880181cd3cc247d9bf32"
+      },
+      {
+        "path": "src/simulation/constitutional-ratification-rules.test.ts",
+        "sha256": "28b72f1f058ad122fa52c0398af453988356b141bc279c6788a051e588c43105"
+      },
+      {
+        "path": "src/simulation/living-world/federal-term-limit-chamber-vote.test.ts",
+        "sha256": "8a6d82640af7ec4eca7b0eae20549d5b5c9f48d17d3cfefa5a728adbb8585d22"
+      },
+      {
+        "path": "data/research/legislature/federal-amendment-ratification-rules-2026.json",
+        "sha256": "4b89582526632adbb6d1766e9526612d9c488559cd364f5edec6a046918980cb"
+      }
+    ],
+    "logs": [
+      {
+        "path": "/tmp/team1-ratification-ctorepair-tests.log",
+        "sha256": "d61451c8589d182c70b171c0a17c4602610988278f69b648af18849d697c9df2"
+      },
+      {
+        "path": "/tmp/team1-ratification-ctorepair-types.log",
+        "sha256": "ff1ecba554a93e252d18a9d787bec51a6b016aa7c1ed39ce35011ed9b8ae8cb7"
+      },
+      {
+        "path": "/tmp/team1-ratification-ctorepair-final-tests.log",
+        "sha256": "81302f36eb7ed19eac644a704c9799ce0d908584f58370104f7c1ebc34d32b2a"
+      },
+      {
+        "path": "/tmp/team1-ratification-ctorepair-final-types.log",
+        "sha256": "85fb91dabd28ee04e4e83408084edd1bba48c221beb8f5cb641f45e252ab6918"
+      },
+      {
+        "path": "/tmp/team1-ratification-split-receipts-tests.log",
+        "sha256": "fd936303dad5c892bc4a4f6c9f0ff03bac96f559f6d37a1be1c624c6109df474"
+      },
+      {
+        "path": "/tmp/team1-ratification-split-receipts-types.log",
+        "sha256": "85fb91dabd28ee04e4e83408084edd1bba48c221beb8f5cb641f45e252ab6918"
+      },
+      {
+        "path": "/tmp/team1-ratification-split-receipts-lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/tmp/team1-ratification-ctorepair-candidate-audit.json",
+        "sha256": "a9f55750868adb58eb193d8f22f191835cd3e7fdd99725e622c904d61e491ad2"
+      }
+    ]
+  }
 }

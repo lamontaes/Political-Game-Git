@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import research from "../../data/research/legislature/federal-amendment-ratification-rules-2026.json" with { type: "json" };
 import { smallWorld } from "../../tests/fixtures/small-world";
 import {
@@ -72,7 +72,13 @@ describe("sourced state ratification rules", () => {
     );
     for (const body of row.chambers) {
       const rule = stateRatificationRule(row.stateKey, body.chamber)!;
-      expect(rule.threshold.source?.verification).toBe("verified");
+      expect(rule.threshold.source?.verification).toBe(
+        "notes" in body &&
+          typeof body.notes === "string" &&
+          body.notes.startsWith("INFERRED:")
+          ? "partial"
+          : "verified",
+      );
       expect(rule.quorum.countedAgainst).toBe("members-elected");
       expect(rule.threshold.source?.sourceUrl).toMatch(/^https:\/\//);
       if (row.stateKey === "US-NJ")
@@ -90,6 +96,8 @@ describe("sourced state ratification rules", () => {
       const elected = stateRatificationRule("US-MN", body)!.threshold;
       const voting = stateRatificationRule("US-MT", body)!.threshold;
       expect(elected.countedAgainst).toBe("members-elected");
+      expect(elected.source.verification).toBe("partial");
+      expect(elected.source.note).toContain("INFERRED:");
       expect(voting.countedAgainst).toBe("members-voting");
       expect(resolveRequiredVotes(elected, 80).requiredVotes).toBe(41);
       expect(resolveRequiredVotes(voting, 40).requiredVotes).toBe(21);
@@ -101,6 +109,108 @@ describe("sourced state ratification rules", () => {
     expect(rule.minimumVotes).toBe(21);
     expect(resolveRequiredVotes(rule, 38).requiredVotes).toBe(21);
     expect(resolveRequiredVotes(rule, 40).requiredVotes).toBe(21);
+  });
+
+  for (const kind of ["ratification-specific", "bill-rule-by-reference"]) {
+    const sourceRow = admitted.find((row) =>
+      row.chambers.some((body) => body.ruleKind === kind),
+    )!;
+    const sourceBody = sourceRow.chambers.find(
+      (body) => body.ruleKind === kind,
+    )!;
+
+    it.each([
+      { field: "text" as const, value: "  ", reason: "blank quote" },
+      {
+        field: "url" as const,
+        value: "http://example.org",
+        reason: "insecure URL",
+      },
+      {
+        field: "url" as const,
+        value: "https://",
+        reason: "missing source host",
+      },
+      {
+        field: "accessed" as const,
+        value: "2026-02-30",
+        reason: "invalid source date",
+      },
+    ])(`refuses a ${kind} with a $reason`, ({ field, value }) => {
+      const row = structuredClone(sourceRow);
+      const body = row.chambers.find(
+        (chamber) => chamber.chamber === sourceBody.chamber,
+      )!;
+      let index = 0;
+      if ("ratificationBridge" in body) {
+        const bridge = body.ratificationBridge;
+        if (
+          !bridge ||
+          typeof bridge !== "object" ||
+          !("thresholdCitationIndex" in bridge) ||
+          typeof bridge.thresholdCitationIndex !== "number"
+        )
+          throw Error("Expected the source bridge's threshold citation.");
+        index = bridge.thresholdCitationIndex;
+      }
+      body.citations[index]![field] = value;
+      const lookup = vi.spyOn(research.rows, "find").mockReturnValue(row);
+      try {
+        expect(stateRatificationRule(row.stateKey, body.chamber)).toBeNull();
+        expect(stateRatificationChambers(row.stateKey)).toBeNull();
+      } finally {
+        lookup.mockRestore();
+      }
+      expect(
+        stateRatificationRule(sourceRow.stateKey, sourceBody.chamber),
+      ).not.toBeNull();
+    });
+
+    it.each(["0/0", "1/0", "-1/2", "3/2", "1.5/2", "1/9007199254740992"])(
+      `refuses a ${kind} with malformed threshold or quorum %s`,
+      (fraction) => {
+        for (const field of ["threshold", "quorum"] as const) {
+          const row = structuredClone(sourceRow);
+          const body = row.chambers.find(
+            (chamber) => chamber.chamber === sourceBody.chamber,
+          )!;
+          body[field].fraction = fraction;
+          const lookup = vi.spyOn(research.rows, "find").mockReturnValue(row);
+          try {
+            expect(
+              stateRatificationRule(row.stateKey, body.chamber),
+            ).toBeNull();
+          } finally {
+            lookup.mockRestore();
+          }
+        }
+      },
+    );
+  }
+
+  it("validates the independent quorum citation without weakening the vote source", () => {
+    const sourceRow = admitted.find((row) =>
+      row.chambers.some((body) => "citationIndex" in body.quorum),
+    )!;
+    const row = structuredClone(sourceRow);
+    const body = row.chambers.find(
+      (chamber) => "citationIndex" in chamber.quorum,
+    )!;
+    if (
+      !("citationIndex" in body.quorum) ||
+      typeof body.quorum.citationIndex !== "number"
+    )
+      throw Error("Expected sourced quorum.");
+    body.citations[body.quorum.citationIndex]!.text = "";
+    const lookup = vi.spyOn(research.rows, "find").mockReturnValue(row);
+    try {
+      expect(stateRatificationRule(row.stateKey, body.chamber)).toBeNull();
+    } finally {
+      lookup.mockRestore();
+    }
+    expect(
+      stateRatificationRule(sourceRow.stateKey, body.chamber),
+    ).not.toBeNull();
   });
 });
 

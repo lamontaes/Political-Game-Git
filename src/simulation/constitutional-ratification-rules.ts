@@ -1,10 +1,34 @@
 import research from "../../data/research/legislature/federal-amendment-ratification-rules-2026.json" with { type: "json" };
+import { makeIsoDate } from "./dates";
 import type { VoteThresholdRule } from "./legislature-rules";
 
 interface Citation {
   readonly text: string;
   readonly url: string;
   readonly accessed: string;
+}
+
+function validCitation(citation: Citation | undefined): citation is Citation {
+  if (!citation?.text.trim()) return false;
+  try {
+    if (new URL(citation.url).protocol !== "https:") return false;
+    makeIsoDate(citation.accessed);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function fractionParts(fraction: string): readonly [number, number] | null {
+  const match = /^([1-9]\d*)\/([1-9]\d*)$/.exec(fraction);
+  if (!match) return null;
+  const numerator = Number(match[1]);
+  const denominator = Number(match[2]);
+  return Number.isSafeInteger(numerator) &&
+    Number.isSafeInteger(denominator) &&
+    numerator <= denominator
+    ? [numerator, denominator]
+    : null;
 }
 
 /** A cited instrument/procedure bridge is distinct from assuming that the
@@ -39,12 +63,7 @@ function sourcedBridgeCitations(chamber: {
     if (typeof index !== "number" || !Number.isSafeInteger(index) || index < 0)
       return null;
     const citation = chamber.citations[index];
-    if (
-      !citation?.text.trim() ||
-      !citation.url.startsWith("https://") ||
-      !/^\d{4}-\d{2}-\d{2}$/.test(citation.accessed)
-    )
-      return null;
+    if (!validCitation(citation)) return null;
     if (role === "thresholdCitationIndex") thresholdCitation = citation;
     if (role === "quorumCitationIndex") quorumCitation = citation;
   }
@@ -71,7 +90,7 @@ export function stateRatificationRule(
   const direct = chamber.ruleKind === "ratification-specific";
   const bridge = direct ? null : sourcedBridgeCitations(chamber);
   const citation = direct ? chamber.citations[0] : bridge?.threshold;
-  if (!citation) return null;
+  if (!validCitation(citation)) return null;
   const quorumIndex =
     "citationIndex" in chamber.quorum
       ? chamber.quorum.citationIndex
@@ -88,21 +107,43 @@ export function stateRatificationRule(
     typeof quorumIndex === "number"
       ? chamber.citations[quorumIndex]!
       : (bridge?.quorum ?? citation);
+  if (!validCitation(quorumCitation)) return null;
+  const notes =
+    "notes" in chamber && typeof chamber.notes === "string"
+      ? chamber.notes
+      : "";
   const source = {
     authority: "research-reference" as const,
     citation: citation.text,
     sourceTitle: `${state.state}: ${chamber.name} federal amendment ratification`,
     sourceUrl: citation.url,
     retrievedAt: citation.accessed,
-    verification: "verified" as const,
+    verification: notes.startsWith("INFERRED:")
+      ? ("partial" as const)
+      : ("verified" as const),
     note: direct
       ? "Explicit ratification requirement in the approved 2026 research corpus."
-      : "The cited ratification instrument and procedure apply this sourced vote rule; no ordinary-question inference is admitted.",
+      : `The cited ratification instrument and procedure apply this sourced vote rule; no ordinary-question inference is admitted. ${notes}`.trim(),
   };
   const threshold = chamber.threshold;
   // Additional requirements need their own explicit admission, not a prose
   // interpretation or a silently dropped floor.
   if ("alsoRequires" in threshold) return null;
+  const thresholdParts = fractionParts(threshold.fraction);
+  const quorumParts = fractionParts(chamber.quorum.fraction);
+  if (
+    !thresholdParts ||
+    !quorumParts ||
+    typeof threshold.strictlyGreater !== "boolean" ||
+    typeof chamber.quorum.strictlyGreater !== "boolean" ||
+    (threshold.basis !== "elected" && threshold.basis !== "present") ||
+    (threshold.basis === "present" &&
+      (!("presentMeans" in threshold) ||
+        (threshold.presentMeans !== "members-present" &&
+          threshold.presentMeans !== "present-and-voting"))) ||
+    chamber.quorum.basis !== "elected"
+  )
+    return null;
   const minimumVotes =
     "minimumVotes" in threshold ? threshold.minimumVotes : undefined;
   if (
@@ -112,16 +153,12 @@ export function stateRatificationRule(
       minimumVotes < 1)
   )
     return null;
-  const [numerator, denominatorParts] = threshold.fraction
-    .split("/")
-    .map(Number);
-  const [quorumNumerator, quorumDenominator] = chamber.quorum.fraction
-    .split("/")
-    .map(Number);
+  const [numerator, denominatorParts] = thresholdParts;
+  const [quorumNumerator, quorumDenominator] = quorumParts;
   return {
     threshold: {
-      numerator: numerator!,
-      denominatorParts: denominatorParts!,
+      numerator,
+      denominatorParts,
       countedAgainst:
         threshold.basis === "elected"
           ? "members-elected"
@@ -137,8 +174,8 @@ export function stateRatificationRule(
       ...(typeof minimumVotes === "number" ? { minimumVotes } : {}),
     },
     quorum: {
-      numerator: quorumNumerator!,
-      denominatorParts: quorumDenominator!,
+      numerator: quorumNumerator,
+      denominatorParts: quorumDenominator,
       countedAgainst: "members-elected",
       rounding: chamber.quorum.strictlyGreater
         ? "strictly-greater-than-fraction"
