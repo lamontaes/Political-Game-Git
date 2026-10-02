@@ -10,8 +10,6 @@ import {
 } from "./vitality-integrity";
 import { assertWorldIntegrity } from "./world";
 
-export const CIVIC_NEWSROOM_ORGANIZATION_NAME = "Civic Desk Cooperative";
-
 export interface PressReachGap {
   readonly code:
     | "no-controlled-source"
