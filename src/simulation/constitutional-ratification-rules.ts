@@ -25,7 +25,6 @@ export function stateRatificationRule(
     "conditions" in state ? (state.conditions ?? []) : [];
   const exact =
     chamber.ruleKind === "ratification-specific" &&
-    conditions.length === 0 &&
     !("alsoRequires" in threshold) &&
     citation !== undefined;
   const summary = research.surveyNote.citations[0];
@@ -40,11 +39,13 @@ export function stateRatificationRule(
     ? {
         authority: "research-reference" as const,
         citation: citation!.text,
-        sourceTitle: `${state.state}: ${chamber.name} federal amendment ratification`,
+        sourceTitle: `${conditions.length ? "ESTIMATE admission — " : ""}${state.state}: ${chamber.name} federal amendment ratification`,
         sourceUrl: citation!.url,
         retrievedAt: citation!.accessed,
-        verification: "verified" as const,
-        note: "Explicit ratification requirement in the approved 2026 research corpus.",
+        verification: conditions.length ? ("partial" as const) : ("verified" as const),
+        note: conditions.length
+          ? `Exact cited voting fraction; ESTIMATE admission because conditions are not implemented. ${gap}`
+          : "Explicit ratification requirement in the approved 2026 research corpus.",
       }
     : {
         authority: "research-reference" as const,
@@ -73,7 +74,7 @@ export function stateRatificationRule(
       }
     : source;
   return {
-    basis: exact ? "sourced" : "estimate",
+    basis: exact && conditions.length === 0 ? "sourced" : "estimate",
     threshold: {
       numerator: numerator!,
       denominatorParts: denominatorParts!,
