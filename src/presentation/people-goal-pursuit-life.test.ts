@@ -93,7 +93,8 @@ function residentWithJob(world: World, playerId: EntityId): EntityId {
     (relationship) =>
       relationship.personId !== playerId &&
       relationship.compensation === "paid" &&
-      relationship.kind === "employment:local-business" &&
+      relationship.kind.startsWith("employment:") &&
+      relationship.organizationId !== null &&
       workStatusAt(world, relationship.id)?.status === "active",
   )!.personId;
 }
@@ -332,7 +333,10 @@ describe("generated people pursue their own goals", () => {
         pursuitCandidates(start.world).includes(record.personId),
     )!.personId;
     const employer = start.world.history.workRelationships.find(
-      (relationship) => relationship.kind === "employment:local-business",
+      (relationship) =>
+        relationship.kind.startsWith("employment:") &&
+        relationship.compensation === "paid" &&
+        workStatusAt(start.world, relationship.id)?.status === "active",
     )!;
     // The housemate held a job, and it ended.
     let world = createWorkRelationship(start.world, {
@@ -341,7 +345,7 @@ describe("generated people pursue their own goals", () => {
       organizationId: employer.organizationId,
       startedAt: start.world.currentDate,
       initialStatus: "active",
-      kind: "employment:local-business",
+      kind: employer.kind,
       compensation: "paid",
       authority: "directed",
       dependency: "partly-dependent",
