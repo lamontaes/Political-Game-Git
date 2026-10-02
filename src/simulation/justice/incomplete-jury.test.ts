@@ -3,7 +3,11 @@ import { writeFileSync } from "node:fs";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays } from "../dates";
 import { currentLifeCutoff } from "../life-queries";
-import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import {
+  lifePlaceStateIdentities,
+  searchLifePlaces,
+  type LifePlaceStateIdentity,
+} from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { juryCountyForPlace } from "./jury-catchment";
 import { courtFor } from "../judiciary/court-for";
@@ -50,11 +54,15 @@ const states = pickDistinct(
 describe("incomplete actual-person panels leave trials pending", () => {
   it("covers all 56 jurisdiction keys with the seeded rule", () => {
     expect(states).toHaveLength(56);
-    expect(new Set(states.map((state) => state.jurisdictionKey)).size).toBe(56);
+    expect(
+      new Set(
+        states.map((state: LifePlaceStateIdentity) => state.jurisdictionKey),
+      ).size,
+    ).toBe(56);
   });
   it.each(states)(
     "keeps the original case pending in $jurisdictionKey",
-    (state) => {
+    (state: LifePlaceStateIdentity) => {
       const opening = smallWorld({
         place: state.jurisdictionKey,
         people: 40,
@@ -136,7 +144,7 @@ describe("incomplete actual-person panels leave trials pending", () => {
       let selected: readonly string[] = [];
       const spy = vi
         .spyOn(reasoning, "empanelJury")
-        .mockImplementation((w, c, n) => {
+        .mockImplementation((w: World, c: reasoning.CourtCase, n: number) => {
           const eligible = original(w, c, n);
           expect(eligible).toHaveLength(reasoning.UNRESEARCHED_JURY_PANEL.size);
           selected = eligible.slice(0, panelSize);
@@ -206,7 +214,7 @@ describe("incomplete actual-person panels leave trials pending", () => {
 describe("small towns summon a complete estimated county jury", () => {
   it.each(states)(
     "tries the smallest sourced town in $jurisdictionKey",
-    (state) => {
+    (state: LifePlaceStateIdentity) => {
       const smallest = searchLifePlaces("", 50000, {
         stateJurisdictionKey: state.jurisdictionKey,
         scope: "locality",

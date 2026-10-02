@@ -26,7 +26,7 @@ Each controlled world has 40 generated residents and its actual catalog court/se
 
 Executed source `c8c472d34f956f67eda5fd5f54b56e4b843a7d77` is stacked on unchanged #1627 head 6150c2280b3c0e5699af9be47b8e51ab72f9552b. The complete two changed files passed 116 of 116 cases in 57.52 seconds with one worker and stock budgets. Receipts contain 56 distinct jury places and 56 distinct saved-sentence places, plus the life-sentence record. Earlier five-place and failed gate receipts remain preserved. Two changed strict roots compiled 1009 dependency files with zero diagnostics. Changed-source lint, formatting, whitespace and the scoped release declaration passed. No unrelated behavioral file, full suite, unchanged LOAD or repository sweep ran under the latest direct owner changed-file rule.
 
-Raw logs and record receipts remain local under `/tmp/team9-a105-all56-*`, not committed. This is not whole-slice acceptance or CTO browser approval.
+The historical committed raw logs and record receipts are preserved at `e572c5ccc23ccb44e14d51bf678b5cc5b0798d9f` and local archive branch `codex/team9-a105-all56-proof-archive`. The lean current-main PR removes these generated artifacts from its diff while retaining this summary and both changed tests. Fresh proof logs remain outside the repository. This is not whole-slice acceptance or CTO browser approval.
 
 ## 7. Worked example
 
@@ -34,4 +34,10 @@ Vanessa Vargas in North Dakota has actual referral event_4b3498f5ccf04f4c. Her J
 
 ## Next bounded action
 
-Publish this narrow A105 extension, then build the ordered Crime & Courts play-script test. Missing player steps must be explicit TODO rather than counted as completed. A103 Rulings 25/26 and Team2's A104 office producer follow that script. A25 draft #1694 and its coordinator-only data payload remain preserved separately.
+Renew only these two changed files against current main, then publish the lean A105 extension for Claude review. All play-script/UI work remains parked under the later owner order. A104's actual prosecutor office and the separate regulatory clemency fixture still require their admitted contracts; no unsupported court facts are invented. A25's existing mixed stack and source packet remain preserved, with its juvenile-only reader delivered separately in #1903.
+
+## Current-main renewal
+
+The additive composition on main `b64e1c2fad3c36a67db62e05505b2851ce1ccca3` ran both complete changed files: **166 PASS / 6 FAIL, 51.06 seconds**. Expanding the existing sample also expands the newly merged smallest-town cases. MP/GU/AS/VI have no sourced locality population returned at the smallest-town assertion; PR/VA produce zero juror decision traces where the unchanged assertion requires the existing panel target. These failures are retained, not replaced with chosen passing places, invented population or a new catchment. This PR remains DRAFT until the existing source/admission contract resolves those boundaries. All 56 controlled short-panel cases and all 56 saved-sentence cases passed; that does not close the six smallest-town failures.
+
+The two changed strict roots report 1045 dependencies and zero diagnostics. The owned jury callbacks now carry explicit types to keep receiving-root inference independent; this annotation changes no assertion or runtime behavior. Main and branch static A105 scans both report 2/2, with no flip. The scan does not prove these behavioral cases. No unchanged clemency/composer test was rerun or edited.
