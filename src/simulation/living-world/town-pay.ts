@@ -1,3 +1,4 @@
+import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { lawEffectStamp } from "../law-effect-stamp";
@@ -15,7 +16,7 @@ import { createStableId } from "../ids";
  * What each job pays. Its occupation's wage in its area, from the BLS May
  * 2025 OEWS tables: the metro or nonmetro area the town's county is in, else
  * the state, else the nation. Each worker sits inside that distribution by
- * tenure (`townPayPercentile`), between the 10th and 90th percentile, never
+ * tenure (`townPayPercentile`), between the 25th and 75th percentile, never
  * everyone at the median. The hourly rate is the annual wage over a
  * 2,080-hour year, never below the minimum wage where the job is: the higher
  * of the federal rate ($7.25 until an Act raises it) and the state's basic
@@ -214,15 +215,22 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
     place.sourceGeoid && /^\d{7}$/.test(place.sourceGeoid)
       ? place.sourceGeoid
       : null;
+  const countyGeoid =
+    place.scope === "county" &&
+    place.sourceGeoid &&
+    /^\d{5}$/.test(place.sourceGeoid)
+      ? place.sourceGeoid
+      : null;
   const stateFips =
-    geoid?.slice(0, 2) ??
+    (geoid ?? countyGeoid)?.slice(0, 2) ??
     TERRITORY_FIPS[place.stateJurisdictionKey ?? ""] ??
     null;
   // BLS publishes no wages for American Samoa or the Northern Mariana
   // Islands: pay there is UNKNOWN, not the nation's.
   if (!stateFips || NOT_IN_OEWS.has(stateFips)) return [];
   const areas: string[] = [];
-  const county = geoid ? countyGeoidsForPlace(geoid)[0] : undefined;
+  const county =
+    countyGeoid ?? (geoid ? countyGeoidsForPlace(geoid)[0] : undefined);
   const area = county ? countyArea(county) : undefined;
   if (area) areas.push(area);
   areas.push(`S${stateFips}`, "US");
@@ -231,13 +239,17 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
 
 /**
  * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
- * distribution. A new hire starts near the 25th percentile and moves toward
- * the 75th over 20 years at the employer; a seeded draw for the person moves
- * that 15 points either way, and the result stays between the 10th and 90th.
+ * distribution. Preserve the existing tenure calibration: a new hire starts
+ * at the 25th percentile and moves toward the 75th over 20 years at the
+ * employer. The retired person draw does not change pay. Recorded credential
+ * sizing remains an unfinished A40 contract, not an inferred degree premium.
  */
-export function townPayPercentile(tenureYears: number, draw: number): number {
-  const byTenure = 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
-  return Math.min(90, Math.max(10, byTenure + (draw * 2 - 1) * 15));
+export function townPayPercentile(
+  tenureYears: number,
+  _legacyDraw?: number,
+): number {
+  void _legacyDraw;
+  return 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
 }
 
 /** The annual wage at `percentile` in the cells, or null when BLS withheld it. */
@@ -295,6 +307,19 @@ export function stateMedianAnnualWage(
     if (median !== null && median !== undefined) return median;
   }
   return null;
+}
+
+/**
+ * The national median annual wage for `occupation` (BLS OEWS, May 2025), or
+ * null where BLS publishes none: the average an estimate starts from where a
+ * place has no published wage.
+ */
+export function nationalMedianAnnualWage(occupation: string): number | null {
+  const soc = TOWN_JOB_SOC[occupation];
+  const median = soc
+    ? wageTable().get(soc)?.get("US")?.[PERCENTILE_POINTS.indexOf(50)]
+    : undefined;
+  return median ?? null;
 }
 
 export interface TownJobRate {
@@ -541,9 +566,9 @@ export function paydayHandler(
   };
 }
 
-export const PAYDAY_HANDLERS = [
-  [PAYDAY_TRANSITION_KEY, paydayHandler],
-] as const;
+export function paydayHandlers() {
+  return [[PAYDAY_TRANSITION_KEY, paydayHandler]] as const;
+}
 
 // ─── Pay on record ──────────────────────────────────────────────────────
 
@@ -586,7 +611,7 @@ function latestRoles(world: World): ReadonlyMap<EntityId, WorkRoleRecord> {
 }
 
 /** The hours a week a town job is paid for. */
-function weeklyHoursOf(role: WorkRoleRecord): number {
+export function weeklyHoursOf(role: WorkRoleRecord): number {
   const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
   return (minimumHours + maximumHours) / 2;
 }
@@ -716,9 +741,6 @@ export function startTownJobPay(
       a > b ? a : b,
     );
     const tenure = daysBetween(work.startedAt, startsAt) / 365.25;
-    const draw = new SeededRng(world.seed)
-      .fork(`${TOWN_PAY_VERSION}:place:${work.personId}`)
-      .next();
     // The floor on the first day paid; a later rise is recorded as a raise.
     const minimum = townMinimumHourlyAt(
       world,
@@ -728,7 +750,7 @@ export function startTownJobPay(
     const offered = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
-      townPayPercentile(tenure, draw),
+      townPayPercentile(tenure),
       minimum,
     );
     if (!offered) continue;
@@ -1575,6 +1597,7 @@ export function settleTownCompensations(
     .slice(first)
     .map((outcome) => outcome.id);
   next = assessPaychecksTaxes(next, ids);
+  next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.
   return payPaidLeaveClaims(next, claims);

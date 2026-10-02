@@ -154,10 +154,7 @@ export function createTimeCommandCore(options: {
             target: null,
             stoppedEarly: false,
           };
-        const result = run(
-          target.world,
-          interruptionHandlers(target.interruptions),
-        );
+        const result = run(target.world, interruptionHandlers());
         if (result.world !== target.world) target.onWorldChange(result.world);
         return {
           status: "accepted",

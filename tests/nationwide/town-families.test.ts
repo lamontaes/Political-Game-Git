@@ -19,7 +19,7 @@ import {
   YOUNGEST_AGE_AT_BIRTH,
 } from "../../src/simulation/birth-rates";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
-import { SeededRng } from "../../src/simulation/rng";
+import { SeededRng, pickDistinct } from "../../src/simulation/rng";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import {
   MINIMUM_PARENT_AGE_AT_BIRTH,
@@ -33,12 +33,18 @@ import {
   familyPlans,
 } from "../../src/simulation/people-family-plan";
 import {
+  SAME_GENDER_SHARE_PPM,
   TOWN_FAMILIES_VERSION,
   TOWN_FAMILY_EVENTS,
   describeTownFamilies,
   isTownBirth,
   reviewTownFamilies,
+  sameGenderSeekers,
 } from "../../src/simulation/living-world/town-families";
+import { SAME_SEX_COUPLE_SHARE } from "../../src/simulation/living-world/town-residents";
+import { largestRemainderAllocation } from "../../src/simulation/largest-remainder";
+import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
+import { firstLocality } from "../fixtures/state-executive-entry";
 import {
   createPartnership,
   recordHouseholdMembershipState,
@@ -620,3 +626,95 @@ describe.each(PLAN_SEEDS)(
     });
   },
 );
+
+const SEEKER_SEED = "a136-same-gender-share";
+const [seekerState] = pickDistinct(
+  new SeededRng(SEEKER_SEED),
+  lifePlaceStateIdentities(),
+  1,
+);
+const SEEKER_USPS = seekerState!.jurisdictionKey.slice(3);
+
+describe(`A136: the same-gender share is allocated, not drawn (US-${SEEKER_USPS}, seed ${SEEKER_SEED})`, () => {
+  const opened = openAt(firstLocality(SEEKER_USPS).key, SEEKER_SEED);
+  const { world, town, personId } = opened;
+  const residents = world.personOrder
+    .map((id) => world.people[id]!)
+    .filter((person) => person.homeJurisdictionId === town);
+
+  it("each gender's count is the share's largest-remainder whole number, the same every time", () => {
+    expect(lifePlaceStateIdentities()).toHaveLength(56);
+    expect(SAME_GENDER_SHARE_PPM).toBe(Math.round(SAME_SEX_COUPLE_SHARE * 1e6));
+    const seekers = sameGenderSeekers(world, residents);
+    console.log(
+      `US-${SEEKER_USPS}, seed ${SEEKER_SEED}: ${seekers.size} of ${residents.length} residents look for a partner of their own gender`,
+    );
+    for (const gender of ["female", "male"] as const) {
+      const group = residents.filter(
+        (person) => person.identity?.gender === gender,
+      );
+      expect(group.length, gender).toBeGreaterThan(0);
+      const [owed] = largestRemainderAllocation(
+        [SAME_GENDER_SHARE_PPM, 1_000_000 - SAME_GENDER_SHARE_PPM],
+        group.length,
+      );
+      expect(
+        group.filter((person) => seekers.has(person.id)).length,
+        gender,
+      ).toBe(owed);
+    }
+    // No draw: the same people, in any order, give the same answer.
+    expect(
+      [...sameGenderSeekers(world, [...residents].reverse())].sort(),
+    ).toEqual([...seekers].sort());
+  });
+
+  it("a resident leaving changes nobody but that resident and at most one at the edge", () => {
+    const seekers = sameGenderSeekers(world, residents);
+    for (const leaving of residents) {
+      const after = sameGenderSeekers(
+        world,
+        residents.filter((person) => person.id !== leaving.id),
+      );
+      const changed = residents.filter(
+        (person) =>
+          person.id !== leaving.id &&
+          seekers.has(person.id) !== after.has(person.id),
+      );
+      expect(changed.length, leaving.id).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("a quarter's new couples follow who each partner looks for", () => {
+    const date = addDays(world.currentDate, 91);
+    let next: World = world;
+    withWorldIntegrityDeferred(() => {
+      next = reviewTownFamilies(
+        {
+          ...world,
+          currentDate: date,
+          currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
+        },
+        town,
+        personId,
+        "a136-seekers",
+      );
+    });
+    const people = next.personOrder
+      .map((id) => next.people[id]!)
+      .filter((person) => person.homeJurisdictionId === town);
+    const seekers = sameGenderSeekers(next, people);
+    const dating = familyEvents(next, town).filter(
+      (event) => event.type === TOWN_FAMILY_EVENTS.startedDating,
+    );
+    expect(dating.length).toBeGreaterThan(0);
+    for (const event of dating) {
+      const [a, b] = event.involvedEntityIds.map((id) => next.people[id]!);
+      const genders = [a!.identity?.gender, b!.identity?.gender];
+      if (!genders.every((g) => g === "female" || g === "male")) continue;
+      const same = genders[0] === genders[1];
+      expect(seekers.has(a!.id), event.summary).toBe(same);
+      expect(seekers.has(b!.id), event.summary).toBe(same);
+    }
+  });
+});

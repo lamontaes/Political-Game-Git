@@ -1,8 +1,8 @@
 import { ageOnDate, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
-import { appendedList } from "./history-index";
+import { appendedList, recordsByStringField } from "./history-index";
 import { createStableId } from "./ids";
-import type { ChildhoodRecordEntry, World } from "./types";
+import type { ChildhoodRecordEntry, EntityId, World } from "./types";
 
 /**
  * A person's childhood record (Fable Part 5 Social, gap 5).
@@ -15,7 +15,9 @@ import type { ChildhoodRecordEntry, World } from "./types";
  *   and the date;
  * - `school-year-move`: the migration move (`migration/relocate.ts`) when it
  *   lands while school is in session on the shared calendar
- *   (`school-stages.ts`), with the grade.
+ *   (`school-calendar.ts`), with the grade;
+ * - `no-school-on-record`: the same move when the destination holds no
+ *   school for the pupil's grade, so nobody enrolled them there.
  *
  * Nothing here draws or estimates. A measure the World does not record yet
  * (years in poverty, school funding per pupil, preschool years, particulates
@@ -34,6 +36,27 @@ export function childhoodRecordEntries(
   return world.history.childhoodRecords ?? EMPTY;
 }
 
+/**
+ * The moves that took `personId` out of school in the middle of a school
+ * year, oldest first: the one reader of that entry, for the school they
+ * leave and for the view their parents form of who answers for it.
+ */
+export function schoolYearMovesOf(
+  world: World,
+  personId: EntityId,
+  through = world.currentDate,
+): readonly Extract<ChildhoodRecordEntry, { kind: "school-year-move" }>[] {
+  return recordsByStringField(
+    childhoodRecordEntries(world),
+    "personId",
+    personId,
+  ).flatMap((entry) =>
+    entry.kind === "school-year-move" && entry.effectiveAt <= through
+      ? [entry]
+      : [],
+  );
+}
+
 type EntryInput =
   | Omit<
       Extract<ChildhoodRecordEntry, { kind: "birth" }>,
@@ -41,6 +64,10 @@ type EntryInput =
     >
   | Omit<
       Extract<ChildhoodRecordEntry, { kind: "school-year-move" }>,
+      "id" | "sequence" | "recordedAt"
+    >
+  | Omit<
+      Extract<ChildhoodRecordEntry, { kind: "no-school-on-record" }>,
       "id" | "sequence" | "recordedAt"
     >;
 
@@ -98,7 +125,7 @@ export function assertChildhoodRecordIntegrity(world: World): void {
       source.sequence >= entry.sequence ||
       !source.involvedEntityIds.includes(entry.personId) ||
       (entry.kind === "birth" && entry.birthDate !== person.birthDate) ||
-      (entry.kind === "school-year-move" &&
+      (entry.kind !== "birth" &&
         (!Number.isInteger(entry.grade) || entry.grade < 0 || entry.grade > 12))
     )
       throw new Error(`Invalid childhood entry: ${entry.stableKey}`);

@@ -16,6 +16,7 @@ import {
   currentMeasureProvisions,
   currentProvisionByKey,
   legislativeQuestionAnswers,
+  reachInSummary,
 } from "./legislative-politics";
 import { currentHistoricalCutoff, latestPrivateBelief } from "./queries";
 import { measureAnswersAt } from "./vote-bundle";
@@ -455,7 +456,7 @@ function memberConsiderations(
       direction: "supports",
       importance: "strong",
       confidence: "high",
-      explanation: `${capitalize(billLabel)} carries language written for ${local.join(" and ")}.`,
+      explanation: `${capitalize(billLabel)} carries ${reachInSummary({ relation: "written-for", who: local.join(" and ") })}.`,
       sourceRefs: [],
     });
   } else if ((input.localBeneficiaryLabels ?? []).length > 0) {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { assertWorldIntegrity } from "./world";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { addSimulationMinutes } from "./dates";
 import { stableHash } from "./ids";
@@ -6,7 +7,6 @@ import { lifePlaceStateIdentities } from "./life-places";
 import { activeOrganizationParticipationsAt } from "./life-queries";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { performScheduledActivity, scheduledActivityState } from "./time-work";
-import { assertWorldIntegrity } from "./world";
 import { SERVICE_RECIPIENT_KIND } from "./law-consequences/service-delivered-data";
 import { requestPublicService } from "./public-service-requests";
 import {
@@ -261,7 +261,7 @@ describe("the same producer serves a crisis-response call", () => {
     });
   }
 
-  it(`a funded service law with no request producer stays unsupported (${drawPlace("team5-no-form")}, seed team5-no-form)`, () => {
+  it(`a funded preschool service refuses an adult without a recorded child (${drawPlace("team5-no-form")}, seed team5-no-form)`, () => {
     const preschool = "us-policy-positions:education.universal-preschool";
     const f = setup("team5-no-form", preschool);
     const result = requestPublicService(f.world, {
@@ -271,6 +271,8 @@ describe("the same producer serves a crisis-response call", () => {
       end: addSimulationMinutes(f.world.currentMoment, 60),
     });
     expect(result).toMatchObject({ kind: "unsupported" });
+    if (result.kind === "unsupported")
+      expect(result.reason).toContain("recorded child");
     expect(result.world).toBe(f.world);
   });
 });
