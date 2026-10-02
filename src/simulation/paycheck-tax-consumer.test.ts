@@ -275,8 +275,25 @@ describe("A33 saved paycheck and existing withholding lineage", () => {
     expect(
       liabilities.some((row) => row.taxKey === "test:unadmitted-levy"),
     ).toBe(false);
+    const unresolvedLocalAuthority = liabilities.filter(
+      (row) =>
+        row.researchQuestionId === "local-income-tax-authority-56-places",
+    );
+    expect(unresolvedLocalAuthority).toHaveLength(1);
     for (const row of liabilities) {
       const source = taxBaseOccurrenceSource(paid, row.id);
+      if (unresolvedLocalAuthority.includes(row)) {
+        expect(row.status).toBe("rule-unknown");
+        expect(row.taxableAmount).toBeNull();
+        expect(row.liability).toBeNull();
+        expect(source).toBeNull();
+        expect(
+          paid.history.statutoryTaxPayments?.some(
+            (payment) => payment.liabilityId === row.id,
+          ) ?? false,
+        ).toBe(false);
+        continue;
+      }
       expect(source).toMatchObject({
         kind: "statutory-liability",
         liabilityRecord: row,
