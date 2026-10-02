@@ -100,44 +100,12 @@ export const ECONOMY_ELASTICITY: Readonly<Record<BudgetSource, number>> = {
  * the base the budget opens from; one note each, so ESTIMATED FROM AVERAGE
  * until more are read. research: tax-question-revenue-effects.
  */
-/**
- * What legal adult cannabis sales pay a state in taxes, per resident a year.
- *
- * The plain average of the ten states whose adult-use stores had been open
- * at least three full years by 2025, each state's 2025 cannabis excise and
- * state sales tax on cannabis over its population (Marijuana Policy Project,
- * "Cannabis Tax Revenue in States that Regulate Cannabis for Adult Use",
- * read September 29, 2026): Colorado $36.8, Washington $62.0, Oregon $34.2,
- * Nevada $49.3, California $26.7, Massachusetts $40.9, Michigan $50.2,
- * Illinois $43.5, Maine $31.0 and Arizona $32.5. Medical cannabis, license
- * fees and local cannabis taxes are left out, as the source leaves them out.
- */
-/**
- * Months from a legalization law taking effect to its first store opening:
- * the average of Colorado 13, Washington 19, Michigan 12, Illinois 0, New
- * York 21 and Missouri 2 (Build 22's reading of each state's first sale). A
- * law that ends legal sales closes the stores the day it takes effect.
- */
-export const CANNABIS_TAX_EFFECT = {
-  questionKey: "us-policy-positions:business-commerce.legalize-cannabis-sales",
-  source: "selectiveSalesTaxes",
-  toYes: null,
-  toNo: null,
-  perResidentRevenue: { annualAmount: 40.7, firstSaleLagMonths: 11 },
-  basis:
-    "Legal adult cannabis sales pay the state $40.7 a resident a year in cannabis excise and sales tax, the 2025 average of the ten states with stores open three years or more (Marijuana Policy Project), from the first store opening 11 months after the law takes effect; a law ending legal sales ends it the day it takes effect.",
-} as const;
-
 export const TAX_QUESTION_EFFECTS: readonly {
   readonly questionKey: string;
   readonly source: BudgetSource;
   readonly toYes: number | null;
   readonly toNo: number | null;
   readonly levels?: readonly BudgetLevel[];
-  readonly perResidentRevenue?: {
-    readonly annualAmount: number;
-    readonly firstSaleLagMonths: number;
-  };
   readonly basis: string;
 }[] = [
   {
@@ -150,7 +118,6 @@ export const TAX_QUESTION_EFFECTS: readonly {
     basis:
       "A repeal ends the tax, so the state collects none. An adopted tax collects through recorded paycheck withholding using its operative terms; no population-based revenue level is inferred.",
   },
-  CANNABIS_TAX_EFFECT,
   {
     questionKey: MILEAGE_FEE_QUESTION,
     source: "selectiveSalesTaxes",
