@@ -24,8 +24,7 @@ import {
   TUITION_FREEZE_QUESTION,
   TUITION_GROWTH_PER_YEAR,
   tuitionShareOfCharges,
-  tuitionFreezeFactor,
-} from "./tuition-freeze";
+} from "../../education/tuition-prices";
 
 /* Saved tuition policy alone cannot determine every state fee receipt. */
 
@@ -130,7 +129,7 @@ describe("tuition freeze aggregate compatibility while the school route is compl
       personId: game.playerPersonId,
     });
     process.stdout.write(
-      `A21 ordinary opening place=${place.displayName} key=${place.key} head=38c6b6385 seed=${seed}\n`,
+      `A21 ordinary opening place=${place.displayName} key=${place.key} seed=${seed}\n`,
     );
   });
   it("preserves researched aggregate coverage without treating it as a school charge", () => {
@@ -144,7 +143,7 @@ describe("tuition freeze aggregate compatibility while the school route is compl
       expect(tuitionShareOfCharges(key), key).toBeNull();
   });
   it.each(samples)(
-    "retains main's tuition factor without inventing cash receipts in $place.displayName ($seed)",
+    "keeps aggregate fee receipts unchanged while tuition settles in actual school books in $place.displayName ($seed)",
     ({ seed, place }) => {
       const stateKey = place.stateJurisdictionKey;
       if (!stateKey)
@@ -191,7 +190,14 @@ describe("tuition freeze aggregate compatibility while the school route is compl
             "chargesAndFees",
             makeIsoDate(month),
           ),
-        ).toBe(tuitionFreezeFactor(frozenWorld, frozen, makeIsoDate(month)));
+        ).toBe(
+          taxLawFactor(
+            baselineWorld,
+            baseline,
+            "chargesAndFees",
+            makeIsoDate(month),
+          ),
+        );
       }
       // These sparse fixtures have no recorded cash: settlement must not invent receipts.
       expect(frozen.months).toEqual([]);

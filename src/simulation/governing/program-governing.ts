@@ -1,3 +1,7 @@
+import {
+  federalStateProgramProviderClasses,
+  recordedStateProgramProviders,
+} from "../federal-state-program-payments";
 import { finalTermProvisions } from "./final-law-term-query";
 import { measureAnswersAt } from "../vote-bundle";
 import {
@@ -1201,6 +1205,23 @@ export function programOperatorOrganization(
   if (identity && identity.jurisdictionId !== jurisdictionId)
     throw new Error("A program operator must match the program jurisdiction.");
   if (identity) assertPublicGovernmentIdentity(world, identity);
+  const providerClasses = federalStateProgramProviderClasses(
+    world,
+    programKey,
+    jurisdictionId,
+  );
+  if (providerClasses.length) {
+    const provider = recordedStateProgramProviders(
+      world,
+      jurisdictionId,
+      providerClasses,
+    )[0];
+    if (!provider)
+      throw new Error(
+        "No admitted recorded provider is available for this state program.",
+      );
+    return { world, organizationId: provider };
+  }
   const operatorScope =
     identity?.kind === "local-government"
       ? `local:${encodeURIComponent(identity.governmentKey)}:`

@@ -1,10 +1,14 @@
+import { resourcePositionAt } from "../simulation/resource-queries";
 import { describe, expect, it } from "vitest";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
 import { addDays } from "../simulation/dates";
-import { LIVING_COSTS_BASIS } from "../simulation/cost-of-living";
+import {
+  HOUSEHOLD_CONTRIBUTION_BASIS,
+  LIVING_COSTS_BASIS,
+} from "../simulation/cost-of-living";
 import { refreshLifeOpportunities } from "../simulation/life-opportunities";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 
@@ -53,6 +57,57 @@ describe("ordinary opening household bills belong to the clock", () => {
       const refreshed = refreshLifeOpportunities(world, game.playerPersonId);
       expect(refreshed.history.resourceTransferOutcomes).toEqual(before);
       world = refreshed;
+    }
+    const contributionFlows = world.history.resourceFlows.filter(
+      (flow) => flow.basisKind === HOUSEHOLD_CONTRIBUTION_BASIS,
+    );
+    expect(contributionFlows.length).toBeGreaterThan(0);
+    const contributions = world.history.resourceTransferOutcomes.filter((row) =>
+      contributionFlows.some((flow) => flow.id === row.resourceFlowId),
+    );
+    expect(
+      contributions.some((row) => row.transferredAmount.minorUnits > 0),
+    ).toBe(true);
+    for (const row of contributions) {
+      const flow = contributionFlows.find(
+        (flow) => flow.id === row.resourceFlowId,
+      )!;
+      const before = {
+        asOfDate: row.occurredAt,
+        historySequenceExclusive: row.sequence,
+      };
+      const after = { ...before, historySequenceExclusive: row.sequence + 1 };
+      const personalBefore = resourcePositionAt(
+        world,
+        flow.source,
+        row.transferredAmount.currency,
+        before,
+      )?.liquidBalance.minorUnits;
+      const personalAfter = resourcePositionAt(
+        world,
+        flow.source,
+        row.transferredAmount.currency,
+        after,
+      )?.liquidBalance.minorUnits;
+      const householdBefore = resourcePositionAt(
+        world,
+        flow.recipient,
+        row.transferredAmount.currency,
+        before,
+      )!.liquidBalance.minorUnits;
+      const householdAfter = resourcePositionAt(
+        world,
+        flow.recipient,
+        row.transferredAmount.currency,
+        after,
+      )!.liquidBalance.minorUnits;
+      if (personalBefore !== undefined && personalAfter !== undefined)
+        expect(personalBefore - personalAfter).toBe(
+          row.transferredAmount.minorUnits,
+        );
+      expect(householdAfter - householdBefore).toBe(
+        row.transferredAmount.minorUnits,
+      );
     }
     const officeRows = world.history.resourceTransferOutcomes.filter((row) =>
       officeFlowIds.has(row.resourceFlowId),

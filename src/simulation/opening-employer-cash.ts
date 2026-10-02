@@ -3,7 +3,7 @@ import {
   workRoleAt,
   workStatusAt,
 } from "./life-queries";
-import { lifePathDefinition } from "./life-paths2-catalog";
+import { LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
 import {
   resourceFlowTermsAt,
   resourcePositionAt,
@@ -162,7 +162,9 @@ export function ensureEmployerCashPositions(
     if (terms.cadenceKind === "work:completed-shift") {
       const pathId = /^employment:life-paths2-(.+)$/.exec(work.kind)?.[1];
       const role = workRoleAt(world, work.id);
-      const path = pathId ? lifePathDefinition(pathId) : null;
+      const path = pathId
+        ? LIFE_PATHS2_CATALOG.find((entry) => entry.id === pathId)
+        : null;
       if (role && path?.kind === "work" && path.sessionMinutes > 0) {
         const hours = role.timeDemand.expectedWeekly;
         const weeklyHours = (hours.minimumHours + hours.maximumHours) / 2;
@@ -170,16 +172,21 @@ export function ensureEmployerCashPositions(
           periods = (weeklyHours / (path.sessionMinutes / 60)) * 52;
       }
     }
-    if (periods === null)
-      throw new Error(
-        `No recorded calendar conversion for employer payroll cadence ${terms.cadenceKind}.`,
-      );
+    if (periods === null) {
+      if (terms.cadenceKind !== "work:completed-shift")
+        throw new Error(
+          `No recorded calendar conversion for employer payroll cadence ${terms.cadenceKind}.`,
+        );
+      // Missing shift figures cannot fund an opening payroll-based buffer.
+      // Later employers still qualify for the separate recorded-cash reader.
+      if (phase === "opening") continue;
+    }
     const row = payroll.get(flow.source.organizationId) ?? {
       annualMinor: 0,
       flowIds: [],
       termsIds: [],
     };
-    row.annualMinor += terms.amount.minorUnits * periods;
+    if (periods !== null) row.annualMinor += terms.amount.minorUnits * periods;
     row.flowIds.push(flow.id);
     row.termsIds.push(terms.id);
     payroll.set(flow.source.organizationId, row);

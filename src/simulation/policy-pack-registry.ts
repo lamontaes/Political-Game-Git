@@ -5,6 +5,10 @@ import {
   RENT_COVERAGE_VALUES,
 } from "./law-consequences/rent-stabilization-row";
 import { STATUTORY_WAGE_TAX_ROWS } from "./law-consequences/statutory-wage-tax-rows";
+import {
+  TUITION_FREEZE_QUESTION,
+  TUITION_FREEZE_ROW,
+} from "./law-consequences/tuition-freeze-row";
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
@@ -51,7 +55,8 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
-      if (!coverage && !pay && service.length === 0 && !rent) return row;
+      const tuition = key === TUITION_FREEZE_QUESTION;
+      if (!coverage && !pay && service.length === 0 && !rent && !tuition) return row;
       return {
         ...row,
         ...(rent
@@ -66,6 +71,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         consequences: [
           ...(row.consequences ?? []),
           ...(rent ? [RENT_STABILIZATION_ROW] : []),
+          ...(tuition ? [TUITION_FREEZE_ROW] : []),
           ...(coverage ? [coverage] : []),
           ...(pay ? [pay] : []),
           ...service,

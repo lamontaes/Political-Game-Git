@@ -1,3 +1,5 @@
+import { householdBillContributionsArranged } from "../simulation/cost-of-living";
+import { ageOnDate } from "../simulation/dates";
 import { projectLivesRecord } from "../presentation/lives-record";
 import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
@@ -1563,11 +1565,13 @@ function formatMoney(amount: MoneyAmount): string {
 }
 
 export function PersonalWorkspace({
+  onArrangeHouseholdBills,
   world,
   personId,
   section,
   onOpenPerson,
 }: {
+  readonly onArrangeHouseholdBills?: () => void;
   readonly world: World;
   readonly personId: EntityId;
   /** Which half of this record the player asked for, when they said. */
@@ -1793,6 +1797,25 @@ export function PersonalWorkspace({
         data-landed={section === "finances" ? "true" : undefined}
       >
         <h3>Money and property</h3>
+        {householdBillContributionsArranged(world, personId) ? (
+          <p>
+            Your household bills are funded from your available personal cash
+            when due. Your other savings remain yours.
+          </p>
+        ) : onArrangeHouseholdBills &&
+          ageOnDate(world.people[personId]!.birthDate, world.currentDate) >=
+            18 ? (
+          <div>
+            <p>
+              You can fund recorded household bills from your available personal
+              cash when they fall due. This opens an empty shared bill account;
+              it does not move your savings now.
+            </p>
+            <button type="button" onClick={onArrangeHouseholdBills}>
+              Set up household bill contributions
+            </button>
+          </div>
+        ) : null}
         <ul className="pg-purses" data-testid="personal-purses">
           {record.purses.map((purse) => (
             <li key={purse.kind} data-purse={purse.kind}>

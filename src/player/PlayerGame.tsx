@@ -1,3 +1,5 @@
+import { arrangeHouseholdBillContributions } from "../simulation/cost-of-living";
+import { ensurePlayerLivingCostSchedule } from "../simulation/player-living-cost-clock";
 import {
   NATIVE_SAVE_EVENT,
   NATIVE_SESSION_QUERY_EVENT,
@@ -3700,6 +3702,17 @@ function renderWorkspace({
             />
           )}
           <PersonalWorkspace
+            onArrangeHouseholdBills={() =>
+              onWorldChange(
+                ensurePlayerLivingCostSchedule(
+                  arrangeHouseholdBillContributions(
+                    session.world,
+                    session.personId,
+                  ),
+                  session.personId,
+                ),
+              )
+            }
             world={session.world}
             personId={session.personId}
             {...(view.section ? { section: view.section } : {})}
