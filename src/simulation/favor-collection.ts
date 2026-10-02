@@ -1,6 +1,6 @@
 import { activeCampaignForCandidate, campaignState } from "./campaign-queries";
 import { addDays, ageOnDate } from "./dates";
-import { evaluateDecision } from "./decisions";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
 import {
   electionContestStatus,
   requireElectionContest,
@@ -305,6 +305,7 @@ export function produceFavorCollection(
       randomness: "close-choices",
       retention: "ephemeral",
     });
+    if (!isSelectedDecision(evaluation)) continue;
     if (evaluation.selectedOptionKey !== "ask") continue;
     const asker = withTraits.people[helperId]!;
     const asked = withTraits.people[personId]!;
@@ -590,6 +591,7 @@ function tellOfRefusal(start: World, input: RefusalToTell): World {
     randomness: "close-choices",
     retention: "ephemeral",
   });
+  if (!isSelectedDecision(evaluation)) return start;
   if (evaluation.selectedOptionKey !== "tell") return start;
   const asker = withTraits.people[askerId]!;
   const refuser = withTraits.people[refuserId]!;
