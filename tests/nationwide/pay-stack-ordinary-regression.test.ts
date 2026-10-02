@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { Session } from "node:inspector";
 import { expect, it } from "vitest";
 import { drawRandomPlace } from "../support/random-place";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
@@ -20,7 +21,7 @@ it("pays ordinary town work through thirty days without a payer crash", () => {
   }).finishTransition().game!;
   expect(game).toBeDefined();
   const opened = openOrdinaryLife(game.world, game.playerPersonId);
-  const later = passOrdinaryDays(opened, 30);
+  const later = profileThirtyDays(() => passOrdinaryDays(opened, 30));
   expect(daysBetween(opened.currentDate, later.currentDate)).toBe(30);
   const flows = new Set(
     later.history.resourceFlows
@@ -68,3 +69,22 @@ it("pays ordinary town work through thirty days without a payer crash", () => {
     expect(receipt.paidMinor).toBe(baseline.paidMinor);
   }
 }, 120_000);
+
+/** Optional diagnostic capture; the same complete thirty-day proof still runs. */
+function profileThirtyDays<T>(run: () => T): T {
+  const path = process.env.O2_PAY_CPU_PROFILE_PATH;
+  if (!path) return run();
+  const session = new Session();
+  session.connect();
+  session.post("Profiler.enable");
+  session.post("Profiler.start");
+  try {
+    return run();
+  } finally {
+    session.post("Profiler.stop", (error, result) => {
+      if (error) throw error;
+      writeFileSync(path, JSON.stringify(result.profile));
+      session.disconnect();
+    });
+  }
+}
