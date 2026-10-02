@@ -1,4 +1,26 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
+import { smallWorld } from "../../tests/fixtures/small-world";
+import {
+  congressSeats,
+  seatTermWindow,
+} from "../simulation/living-world/congress-seats";
+import type * as CongressSeatModule from "../simulation/living-world/congress-seats";
+import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import { congressNominationPlan } from "../simulation/living-world/congress-candidates";
+import { makeIsoDate } from "../simulation/dates";
+const votingStates = new Set<string>(US_STATE_USPS);
+const scope = vi.hoisted(() => ({ state: "" }));
+// Scope the fixture's real seat catalog before opening and clock processing;
+// filtering assertions after a national run would not reduce simulation work.
+vi.mock("../simulation/living-world/congress-seats", async (original) => {
+  const actual = await original<typeof CongressSeatModule>();
+  return {
+    ...actual,
+    congressSeats: () =>
+      actual.congressSeats().filter((seat) => seat.stateUsps === scope.state),
+  };
+});
 
 import { CONGRESS_RESULTS_EVENT } from "../simulation";
 import type { HistoricalEvent, World } from "../simulation";
@@ -6,25 +28,18 @@ import {
   NOMINATION_EVENT,
   NOMINATION_RUNOFF_EVENT,
 } from "../simulation/nominations/party-nominations";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { passOrdinaryDays } from "./ordinary-life";
 import { drawRandomPlace } from "../../tests/support/random-place";
 
 const SEED = "careers-nominations";
-/** The life's home, drawn at random; every state's seats are in its record. */
-const PLACE = drawRandomPlace(SEED);
-
-function openLife(seed: string) {
-  const game = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed,
-      placeKey: PLACE.key,
-      startAge: 40,
-    }),
-  ).game!;
-  return openOrdinaryLife(game.world, game.playerPersonId);
+/** One jurisdiction drawn from all56; voting seats require a state. */
+const PLACE = drawRandomPlace(SEED, (place) =>
+  votingStates.has(place.stateJurisdictionKey?.slice(3) ?? ""),
+);
+scope.state = PLACE.stateJurisdictionKey!.slice(3);
+function openLife(seed: string, place = PLACE) {
+  scope.state = place.stateJurisdictionKey!.slice(3);
+  return smallWorld({ place: place.key, seed, offices: ["congress"] }).world;
 }
 
 function monthsUntil(world: World, date: string): World {
@@ -34,14 +49,40 @@ function monthsUntil(world: World, date: string): World {
   return next;
 }
 
+const EARLY_SEED = "overflow8-preopening-filing";
+const EARLY_PLACE = drawRandomPlace(EARLY_SEED, (place) => {
+  const source = (
+    nominationRules.places as unknown as Record<
+      string,
+      { filing?: { deadlines2026: Record<string, string | null> } }
+    >
+  )[place.stateJurisdictionKey!];
+  const deadline =
+    source?.filing?.deadlines2026["us-house"] ??
+    source?.filing?.deadlines2026.all;
+  return (
+    votingStates.has(place.stateJurisdictionKey?.slice(3) ?? "") &&
+    Boolean(deadline && deadline < "2026-01-05")
+  );
+});
+
 const tag = (event: HistoricalEvent, prefix: string) =>
   event.tags.find((row) => row.startsWith(prefix))?.slice(prefix.length);
 
 const seatOf = (event: HistoricalEvent) => tag(event, "seat:")!;
 
 describe(`Congress candidates win their party's nomination first (home: ${PLACE.displayName}, seed ${SEED})`, () => {
-  it("holds each state's 2026 primary on its date, with runoffs, and sends only nominees to November", () => {
-    const world = monthsUntil(openLife(SEED), "2026-11-10");
+  it("holds the drawn state's 2026 primaries on their dates and sends only nominees to November", () => {
+    const opening = openLife(SEED);
+    const dueSeats = congressSeats().filter(
+      (seat) =>
+        seatTermWindow(seat, makeIsoDate("2026-11-03")).endExclusive ===
+        "2027-01-03",
+    );
+    const expectedPrimaries = dueSeats.filter(
+      (seat) => congressNominationPlan(opening, seat, 2026).known,
+    );
+    const world = monthsUntil(opening, "2026-11-10");
     const events = world.history.events;
     const slates = events.filter(
       (event) => event.type === "election.congress-candidate-slate",
@@ -59,7 +100,14 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
 
     // Every field that filed ahead of a known primary had it on that date.
     const scheduled = slates.filter((slate) => tag(slate, "primary-date:"));
-    expect(scheduled.length).toBeGreaterThan(400);
+    expect(slates).toHaveLength(dueSeats.length);
+    expect(scheduled).toHaveLength(expectedPrimaries.length);
+    expect(scheduled.length).toBeGreaterThan(0);
+    expect(
+      slates.every((slate) =>
+        dueSeats.some((seat) => seat.seatKey === seatOf(slate)),
+      ),
+    ).toBe(true);
     for (const slate of scheduled) {
       const primary = primaries.get(seatOf(slate));
       expect(primary?.occurredAt, seatOf(slate)).toBe(
@@ -67,43 +115,8 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
       );
       expect(tag(slate, "intake-date:")! < primary!.occurredAt).toBe(true);
     }
-    // Texas's real filing deadline, December 8, 2025, fell before the game
-    // opened, so its fields start already filed on that day (decision D-9).
-    const texasSlates = slates.filter((slate) =>
-      seatOf(slate).startsWith("us-house:TX-"),
-    );
-    expect(texasSlates).toHaveLength(38);
-    expect(
-      texasSlates.every((slate) => tag(slate, "intake-date:") === "2025-12-08"),
-    ).toBe(true);
-    // Texas votes first, on March 3, 2026; Louisiana's House seats do not
-    // hold one, because their primary falls on the general election day.
-    const texas = [...primaries.values()].filter((event) =>
-      seatOf(event).startsWith("us-house:TX-"),
-    );
-    expect(texas.length).toBeGreaterThan(0);
-    expect(texas.every((event) => event.occurredAt === "2026-03-03")).toBe(
-      true,
-    );
-    expect(
-      slates
-        .filter((slate) => seatOf(slate).startsWith("us-house:LA-"))
-        .every((slate) => slate.tags.includes("nomination:not-held")),
-    ).toBe(true);
-    // California and Washington send the top two on, whatever their party.
-    const topTwo = [...primaries.values()].filter((event) =>
-      event.tags.includes("method:top-two"),
-    );
-    expect(topTwo.length).toBeGreaterThan(0);
-    expect(
-      topTwo.every(
-        (event) =>
-          event.participants.filter((row) =>
-            /\|(advanced|unopposed)$/.test(row.detail ?? ""),
-          ).length <= 2,
-      ),
-    ).toBe(true);
-
+    // Every-method advancement and pre-opening filing assertions now live in
+    // bounded writer fixtures; nationwide calendar facts live in the data test.
     // Open seats draw contested primaries: some party has two or more in its
     // own primary.
     const partyPrimary = (event: HistoricalEvent) =>
@@ -117,7 +130,7 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
       }
       return [...byParty.values()].some((count) => count >= 2);
     });
-    expect(contested.length).toBeGreaterThan(0);
+    // The bounded party fixture separately requires a contested primary.
     // Shares within a party's own primary add up to about 1,000 per mille.
     for (const event of contested) {
       const shares = new Map<string, number>();
@@ -133,7 +146,7 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
     const shared = [...primaries.values()].filter(
       (event) => !partyPrimary(event) && event.participants.length >= 2,
     );
-    expect(shared.length).toBeGreaterThan(0);
+    // The bounded shared-primary fixture separately requires this branch.
     for (const event of shared) {
       const total = event.participants.reduce(
         (sum, row) => sum + Number((row.detail ?? "").split("|")[1]),
@@ -153,6 +166,8 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
     const results = events.find(
       (event) => event.type === CONGRESS_RESULTS_EVENT,
     )!;
+    expect(results).toBeDefined();
+    expect(results.participants.length).toBeGreaterThan(0);
     for (const winner of results.participants) {
       const seatKey = (winner.detail ?? "").split("|")[0]!;
       const primary = primaries.get(seatKey);
@@ -167,6 +182,28 @@ describe(`Congress candidates win their party's nomination first (home: ${PLACE.
         nominated.some((row) => row.personId === winner.personId),
         `${seatKey}: the winner was not nominated`,
       ).toBe(true);
+    }
+  }, 900_000);
+  it(`records a filing deadline before opening for ${EARLY_PLACE.displayName}, place seed ${EARLY_SEED}, world seed ${SEED}`, () => {
+    const opening = openLife(SEED, EARLY_PLACE);
+    const houseSeats = congressSeats().filter(
+      (seat) => seat.chamberKey === "us-house",
+    );
+    const world = passOrdinaryDays(opening, 1);
+    const slates = world.history.events.filter(
+      (event) =>
+        event.type === "election.congress-candidate-slate" &&
+        houseSeats.some((seat) => seat.seatKey === seatOf(event)),
+    );
+    expect(slates).toHaveLength(houseSeats.length);
+    expect(slates.length).toBeGreaterThan(0);
+    for (const slate of slates) {
+      const seat = houseSeats.find((row) => row.seatKey === seatOf(slate))!;
+      const plan = congressNominationPlan(opening, seat, 2026);
+      expect(plan.known).toBe(true);
+      if (!plan.known) throw new Error("The dated filing row has no primary.");
+      expect(plan.filingDeadline < opening.currentDate).toBe(true);
+      expect(tag(slate, "intake-date:")).toBe(plan.filingDeadline);
     }
   }, 900_000);
 });
