@@ -433,8 +433,7 @@ describe("A145 newsroom cuts read recorded cash and payroll", () => {
     (scenario) => {
       const f = fixture(places[0]!, 0);
       const store = f.world.townFinances!;
-      const organizationId = Object.keys(store.businesses)[0]!;
-      const old = store.businesses[organizationId]!;
+      const [organizationId, old] = Object.entries(store.businesses)[0]!;
       const world = {
         ...f.world,
         townFinances: {
