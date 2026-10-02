@@ -3,14 +3,7 @@ import { addDays, daysBetween } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stableHash } from "../ids";
 import type { EntityId, IsoDate, World } from "../types";
-import { FIXED_LN2 } from "./fixed-point";
-import {
-  firstThresholdDay,
-  MULTIPLIER_ONE,
-  thresholdUnits,
-  type HazardMultiplierChange,
-} from "./hazard";
-import { annualPovertyLineMinor } from "../household-pay";
+import { MULTIPLIER_ONE } from "./hazard";
 import type { MortalityCalibrationCategory } from "./mortality-table";
 import { appendCrisisRecords, crisisRecordId } from "./records";
 import type {
@@ -23,7 +16,8 @@ import type {
  * The installed condition pack (Ruling 38): chronic conditions a person's
  * health record can hold, how common each is by age, and each one's weight on
  * mortality strain (./mortality.ts). One sourced data file holds every
- * number: data/research/health/chronic-condition-pack-2026.json.
+ * input: data/research/health/chronic-condition-pack-2026.json. Its labels
+ * distinguish sourced figures from placeholders and authored assumptions.
  *
  * A person's starting conditions are written once, on the day the mortality
  * model first exposes them, from the real prevalence for their age (and sex
@@ -31,8 +25,10 @@ import type {
  * category). Which people of an age hold a condition is a seeded selection
  * made once at creation, like a job or schooling, so the share matches the
  * source; nothing is rolled while the world runs. A condition that begins
- * during life begins on the day its own strain crosses the same fixed
- * threshold as mortality strain, from recorded causes only.
+ * during life begins on the day its own strain reaches the person's
+ * threshold from that same place: the strain rises with the pack's own rise
+ * in prevalence between age bands (conditionOnsetDay). The onset scale in
+ * the data file only marks which conditions can begin during life.
  */
 
 interface PrevalenceBand {
@@ -59,7 +55,6 @@ interface PackCondition {
 export const CONDITION_PACK_KEY = pack.packKey;
 export const CONDITION_PACK: readonly PackCondition[] =
   pack.conditions as readonly PackCondition[];
-const ONSET_CAUSES = pack.onsetCauses;
 
 /** The due item for the day a condition's own strain crosses the threshold. */
 export const CONDITION_ONSET_KEY = "crisis:condition-onset" as const;
@@ -73,11 +68,18 @@ export function conditionLabel(key: string): string | null {
   return packCondition(key)?.label ?? null;
 }
 
+/** No age's share reaches everyone, so every onset strain stays finite. */
+const MAX_SHARE = 0.999;
+
 /**
  * The share (0 to 1) of people of this exact age holding the condition. Each
  * band's figure sits at the band's middle; between middles it slides in a
  * straight line, below the first it slides to zero at the band's start, and
- * past the last it holds. The infant row covers the first year of life only.
+ * past the last it extends the nonnegative rise between the last two
+ * middles. These exact-age placements and extrapolation are authored
+ * assumptions; survey age-group prevalence does not determine them.
+ * It never reaches one. The infant row covers the first
+ * year of life only.
  */
 export function conditionPrevalence(
   condition: PackCondition,
@@ -107,8 +109,14 @@ export function conditionPrevalence(
     share =
       (points[0]!.share * (age - first.fromAge)) /
       (points[0]!.age - first.fromAge);
-  else if (age >= points.at(-1)!.age) share = points.at(-1)!.share;
-  else {
+  else if (age >= points.at(-1)!.age) {
+    const last = points.at(-1)!;
+    const before = points.at(-2);
+    const rise = before
+      ? Math.max(0, (last.share - before.share) / (last.age - before.age))
+      : 0;
+    share = Math.min(MAX_SHARE, last.share + rise * (age - last.age));
+  } else {
     const upper = points.findIndex((point) => point.age >= age);
     const low = points[upper - 1]!;
     const high = points[upper]!;
@@ -116,7 +124,7 @@ export function conditionPrevalence(
       low.share +
       ((high.share - low.share) * (age - low.age)) / (high.age - low.age);
   }
-  return share * sex;
+  return Math.min(MAX_SHARE, share * sex);
 }
 
 /** The seeded place, from 0 to 1, of this person among people of their age for a condition. */
@@ -297,80 +305,82 @@ export function recordStartingConditions(
   return appendCrisisRecords(world, inputs);
 }
 
-const INCOME_KNOWN = new Set([
-  "covered",
-  "lost:work-requirement",
-  "outside:income",
-]);
-
 /**
- * How strongly the recorded causes push a condition's strain, from one
- * coverage record: household income under the poverty line, and coverage
- * lost. A record that does not establish a fact leaves it unread (1), never
- * counted as present.
+ * A condition's onset strain at `age`: minus the log of the share of people
+ * that age who do not hold it, taking the highest share at any age up to
+ * this one (conditionPrevalence). Per year of age it rises by the pack's own
+ * rise in prevalence from one band to the next, over the years between their
+ * middles, among those who do not yet hold the condition: dP/da / (1 - P).
  */
-export function onsetCauseFactor(record: HealthCoverageRecord): number {
-  const incomeKnown = INCOME_KNOWN.has(record.reasonKey) && !!record.stateKey;
-  const poor =
-    incomeKnown &&
-    record.monthlyIncomeMinor * 12 <
-      annualPovertyLineMinor(
-        record.stateKey!,
-        record.householdSize,
-        record.effectiveAt,
-      );
-  const uncovered = record.reasonKey === "lost:work-requirement";
-  return (
-    (poor ? ONSET_CAUSES.belowPovertyLine.value : 1) *
-    (uncovered ? ONSET_CAUSES.uncovered.value : 1)
-  );
+function onsetStrainAt(
+  condition: PackCondition,
+  age: number,
+  category: MortalityCalibrationCategory,
+): number {
+  let share = conditionPrevalence(condition, age, category);
+  // A band lower than an earlier one adds nothing: the strain never falls.
+  for (const band of condition.prevalence) {
+    const middle = (band.fromAge + band.toAge + 1) / 2;
+    if (middle < age)
+      share = Math.max(share, conditionPrevalence(condition, middle, category));
+  }
+  return -Math.log(1 - share);
+}
+
+/** What one person's onset day for one condition reads. */
+export interface ConditionOnsetInput {
+  readonly key: string;
+  readonly seed: string;
+  readonly personId: EntityId;
+  readonly birthDate: IsoDate;
+  readonly category: MortalityCalibrationCategory;
+  readonly exposureStart: IsoDate;
+  readonly coverage: readonly HealthCoverageRecord[];
 }
 
 /**
- * The day in [from, to) on which a condition's strain reaches the one
- * threshold, or null. Its strain is the life table's age hazard times the
- * condition's onset scale times the recorded causes, from the person's first
- * exposure.
+ * The day in [from, to) on which a person begins a condition they do not
+ * hold, or null. Their threshold is minus the log of one less their seeded
+ * place, the same place that decided whether they started with it. Their
+ * strain follows the pack's prevalence-derived rise with age. Poverty and
+ * coverage records do not change onset without sourced multipliers.
+ * The day is the one on which the share of people their age holding
+ * the condition passes their place. This authored threshold does not
+ * establish an individual medical onset date from survey prevalence.
+ * Nothing is rolled; the place is chosen once.
  */
 export function conditionOnsetDay(
-  input: {
-    readonly key: string;
-    readonly birthDate: IsoDate;
-    readonly category: MortalityCalibrationCategory;
-    readonly exposureStart: IsoDate;
-    readonly coverage: readonly HealthCoverageRecord[];
-  },
+  input: ConditionOnsetInput,
   from: IsoDate,
   to: IsoDate,
 ): IsoDate | null {
   const condition = packCondition(input.key);
-  if (!condition?.onsetScale) return null;
-  const scale = condition.onsetScale.value;
-  const multipliers: HazardMultiplierChange[] = [
-    {
-      effectiveAt: input.exposureStart,
-      micros: Math.round(scale * MULTIPLIER_ONE),
-    },
-  ];
-  for (const record of input.coverage)
-    multipliers.push({
-      effectiveAt:
-        record.effectiveAt < input.exposureStart
-          ? input.exposureStart
-          : record.effectiveAt,
-      micros: Math.round(scale * onsetCauseFactor(record) * MULTIPLIER_ONE),
-    });
-  return firstThresholdDay(
-    {
-      birthDate: input.birthDate,
-      category: input.category,
-      exposureStart: input.exposureStart,
-      multipliers,
-    },
-    thresholdUnits(FIXED_LN2),
-    from,
-    to,
+  // Only the conditions the pack gives an onset begin during life.
+  if (!condition?.onsetScale || from >= to) return null;
+  const threshold = -Math.log(
+    1 - selectionPlace(input.seed, input.personId, input.key),
   );
+  const strainAt = (date: IsoDate) =>
+    onsetStrainAt(
+      condition,
+      daysBetween(input.birthDate, date) / 365.25,
+      input.category,
+    );
+  // No sourced poverty or coverage multiplier is installed.
+  const strainOn = strainAt;
+  // The strain never falls, so the first day at or past the threshold is
+  // found by halving the span.
+  if (strainOn(from) >= threshold) return from;
+  const last = addDays(to, -1);
+  if (strainOn(last) < threshold) return null;
+  let below = 0;
+  let reached = daysBetween(from, last);
+  while (reached - below > 1) {
+    const middle = Math.floor((below + reached) / 2);
+    if (strainOn(addDays(from, middle)) >= threshold) reached = middle;
+    else below = middle;
+  }
+  return addDays(from, reached);
 }
 
 export function conditionOnsetStableKey(
@@ -410,7 +420,7 @@ export function scheduleConditionOnsets(
   for (const condition of CONDITION_PACK) {
     if (!condition.onsetScale || input.held.has(condition.key)) continue;
     const day = conditionOnsetDay(
-      { ...input, key: condition.key },
+      { ...input, key: condition.key, seed: world.seed, personId },
       from,
       windowEnd,
     );

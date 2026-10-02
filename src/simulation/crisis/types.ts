@@ -41,7 +41,11 @@ export interface MortalityWindowRecord extends CrisisRecordBase {
   readonly windowEnd: IsoDate;
   /** People first exposed in this window, in canonical order. */
   readonly newlyTrackedPersonIds: readonly EntityId[];
-  readonly dueItemId: EntityId;
+  /**
+   * The due item that opened this window, or null for the one window a new
+   * life's opening starts on its own Begin day (beginCrisisMortality).
+   */
+  readonly dueItemId: EntityId | null;
 }
 
 /** An explicitly represented actuarial calibration category. */

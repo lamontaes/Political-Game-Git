@@ -33,7 +33,7 @@
       "note": "England, not the United States; used only as the order of size for the childhood row."
     }
   },
-  "prevalenceNote": "Each row gives the share of people of an age band who already have the condition, at the band's middle age. Between middles the share slides in a straight line; below the first middle it slides to zero at the band's start, and above the last it holds. A band's share is the source's figure, not a modeled one.",
+  "prevalenceNote": "The cited surveys report prevalence across age groups, not exact-age incidence or onset dates. Sourced rows retain those group estimates; rows labeled PLACEHOLDER are not sourced estimates. Placing each figure at the encoded band's middle, interpolating between middles, and ramping from zero at the first band's start are authored modeling assumptions. The encoded upper age 90 for open-ended survey groups is a modeling boundary, not a source cutoff. The runtime extends the nonnegative last midpoint slope beyond the final midpoint, caps the share at 0.999, and uses a running maximum for onset strain. The CTO approved the cap and running maximum on October 2, 2026; the sources do not determine an exact-age extrapolation or individual onset threshold.",
   "conditions": [
     {
       "key": "heart-disease",
@@ -67,7 +67,7 @@
       "onsetScale": {
         "value": 0.4,
         "status": "PLACEHOLDER",
-        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
+        "note": "Historical Ruling 39 life-table-hazard scale. The current prevalence-derived onset runtime uses only the presence of this entry to identify conditions that can begin during life; its numeric value is not consumed as a multiplier. This PLACEHOLDER value does not establish sourced incidence or an individual onset date."
       }
     },
     {
@@ -102,7 +102,7 @@
       "onsetScale": {
         "value": 0.4,
         "status": "PLACEHOLDER",
-        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
+        "note": "Historical Ruling 39 life-table-hazard scale. The current prevalence-derived onset runtime uses only the presence of this entry to identify conditions that can begin during life; its numeric value is not consumed as a multiplier. This PLACEHOLDER value does not establish sourced incidence or an individual onset date."
       }
     },
     {
@@ -160,7 +160,7 @@
       "onsetScale": {
         "value": 0.4,
         "status": "PLACEHOLDER",
-        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
+        "note": "Historical Ruling 39 life-table-hazard scale. The current prevalence-derived onset runtime uses only the presence of this entry to identify conditions that can begin during life; its numeric value is not consumed as a multiplier. This PLACEHOLDER value does not establish sourced incidence or an individual onset date."
       }
     },
     {
@@ -195,7 +195,7 @@
       "onsetScale": {
         "value": 0.4,
         "status": "PLACEHOLDER",
-        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
+        "note": "Historical Ruling 39 life-table-hazard scale. The current prevalence-derived onset runtime uses only the presence of this entry to identify conditions that can begin during life; its numeric value is not consumed as a multiplier. This PLACEHOLDER value does not establish sourced incidence or an individual onset date."
       }
     },
     {
@@ -229,7 +229,7 @@
       "onsetScale": {
         "value": 0.4,
         "status": "PLACEHOLDER",
-        "note": "Calibrated (Ruling 39). Multiplies the life table age hazard for this condition's own strain; at 0.4 an ordinary person begins the condition later than the table's median remaining life of their age."
+        "note": "Historical Ruling 39 life-table-hazard scale. The current prevalence-derived onset runtime uses only the presence of this entry to identify conditions that can begin during life; its numeric value is not consumed as a multiplier. This PLACEHOLDER value does not establish sourced incidence or an individual onset date."
       }
     },
     {
@@ -274,7 +274,7 @@
     }
   ],
   "onsetCauses": {
-    "note": "Conditions that begin during life (Ruling 38, step 2): each condition's strain grows from the life table's age hazard times the condition's onset scale, times these recorded causes, and the condition begins when it crosses the same fixed threshold as mortality strain. Only causes the world records today are read; smoking and occupation are not recorded and are missing links. An infant row has no onset scale: it is a condition of birth, not one that begins later.",
+    "note": "Historical onset-cause metadata from the former life-table-hazard model. The current onset runtime does not consume the PLACEHOLDER poverty or uncovered multipliers, per the CTO's October 2, 2026 ruling. No sourced replacement factor is installed. Recorded coverage remains available to other health consumers; it does not accelerate this onset model.",
     "missingLinks": [
       "smoking: no person record says whether someone smokes; it drives heart disease, cancer, COPD and stroke",
       "occupation exposure: employment records name the job, but no record says what the work exposes a person to"
