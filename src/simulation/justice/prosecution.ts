@@ -1,3 +1,4 @@
+import { juryCountyForPlace, summonJuryResidents } from "./jury-catchment";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { addDays } from "../dates";
 import {
@@ -49,6 +50,7 @@ import {
 import {
   chosenReasons,
   empanelJury,
+  juryPool,
   evaluateJurorVote,
   evaluateDetention,
   evaluatePlea,
@@ -600,7 +602,12 @@ function holdTrial(
   readonly firstBallot: JuryRoom | null;
   readonly finalBallot: JuryRoom | null;
 } {
-  let next = world;
+  let next = summonJuryResidents(
+    world,
+    courtCase.venueJurisdictionId,
+    UNRESEARCHED_JURY_PANEL.size,
+    (candidate) => juryPool(candidate, courtCase),
+  );
   const jurors = empanelJury(next, courtCase, trialNumber);
   if (jurors.length < UNRESEARCHED_JURY_PANEL.size)
     return {
@@ -813,6 +820,19 @@ export function advanceProsecutions(
       next = trial.world;
       // An incomplete panel has not deliberated and cannot count as a mistrial.
       if (trial.verdict === "pending") continue;
+      const juryCounty = courtCase.venueJurisdictionId
+        ? juryCountyForPlace(courtCase.venueJurisdictionId)
+        : null;
+      const juryTags = [
+        `justice.jury-panel-size:${trial.jurors}`,
+        `justice.jury-panel-basis:${UNRESEARCHED_JURY_PANEL.provenance}`,
+        ...(juryCounty
+          ? [
+              `justice.jury-catchment:${juryCounty}`,
+              "justice.jury-catchment-basis:estimated-county-default",
+            ]
+          : ["justice.jury-catchment-basis:unread-county"]),
+      ];
       if (trial.verdict === "hung") {
         if (trialNumber < rule.hungJuriesBeforeDismissal) {
           next = followUp(next, last, referral, PROSECUTION_MISTRIAL_EVENT, {
@@ -821,6 +841,7 @@ export function advanceProsecutions(
                 ? `The trial of ${name} for ${offense} could not go ahead: nobody was eligible to sit on the jury.`
                 : `The jury in the trial of ${name} for ${offense} could not agree, ${ballotLine(trial.finalBallot)} to convict. The judge declared a mistrial.`,
             ordinal: trialNumber,
+            extraTags: juryTags,
           });
           next = ensureProsecutionStageSchedule(
             next,
@@ -832,7 +853,7 @@ export function advanceProsecutions(
         }
         next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
           summary: outcomeLine("dismissed", name, offense),
-          extraTags: [`${OUTCOME_TAG}dismissed`],
+          extraTags: [`${OUTCOME_TAG}dismissed`, ...juryTags],
         });
         continue;
       }
@@ -840,7 +861,7 @@ export function advanceProsecutions(
         trial.verdict === CONVICT ? "convicted" : "acquitted";
       next = followUp(next, last, referral, PROSECUTION_ENDED_EVENT, {
         summary: `${outcomeLine(outcome, name, offense)} The jury's first vote was ${ballotLine(trial.firstBallot)} to convict.`,
-        extraTags: [`${OUTCOME_TAG}${outcome}`],
+        extraTags: [`${OUTCOME_TAG}${outcome}`, ...juryTags],
       });
       if (outcome === "acquitted") continue;
     }
