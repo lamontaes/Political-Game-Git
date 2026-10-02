@@ -201,11 +201,6 @@ function outcomeLines(
       `${hostName} ${SUPPORT_DECISION_TEXT[outcome.supportDecision]}. Nothing about the ballot or your filing changed.`,
     );
   }
-  if (outcome.attendance === "condensed") {
-    lines.push(
-      "You went briefly: the same outcome, less of the evening shown.",
-    );
-  }
   return lines;
 }
 
@@ -217,9 +212,7 @@ function actionsFor(
   if (view.state === "offered")
     return acceptRefusal === null ? ["accept", "decline"] : ["decline"];
   if (view.state === "accepted") {
-    return view.presence === "remote"
-      ? ["take-shift"]
-      : ["attend", "attend-condensed"];
+    return view.presence === "remote" ? ["take-shift"] : ["attend"];
   }
   // Time already passed through it: only what happened is left to record.
   if (awaitingRecord) return ["attend-condensed"];
@@ -305,10 +298,7 @@ export function projectPartyAndCommunityWork(
       when: readableMoment(view.start),
       placeLabel: hold?.location.label ?? "",
       presence: view.presence,
-      travelNote:
-        view.journeyMinutes === null
-          ? null
-          : `A ${view.journeyMinutes}-minute local journey there is included when you go. ${view.travelCostDisclosure ?? ""}`.trim(),
+      travelNote: null,
       actions: actionsFor(view, awaitingRecord, acceptRefusal),
       awaitingRecord,
       attendNote: acceptRefusal

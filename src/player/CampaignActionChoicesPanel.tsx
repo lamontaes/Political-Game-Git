@@ -89,13 +89,6 @@ export function CampaignActionChoicesPanel({
               <p>
                 {readableMoment(choice.start)} to {readableMoment(choice.end)}
               </p>
-              {/* PLACEHOLDER(wave2): unknown cash cost has no player cost line. */}
-              {choice.outboundTravelMinutes > 0 ? (
-                <p>
-                  A {choice.outboundTravelMinutes}-minute journey there is
-                  included when you go.
-                </p>
-              ) : null}
               <button
                 type="button"
                 className="ui-action ui-action--primary"
