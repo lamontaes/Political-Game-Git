@@ -3,4 +3,4 @@ id: team7-a9-monthly-retelling
 impact: none
 ---
 
-Prepares a first-use monthly speech-retelling handler and regression for review. Activation remains pending the shared clock registration handoff.
+Moves monthly speech retelling onto the saved world clock. New worlds schedule the first monthly retelling at opening; later months retain the existing recorded-contact rules.
