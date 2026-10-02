@@ -154,13 +154,18 @@ export const TAX_QUESTION_EFFECTS: readonly {
     basis: CANNABIS_TAX_BASIS,
   },
   {
-    questionKey: MILEAGE_FEE_QUESTION,
+    get questionKey() {
+      return MILEAGE_FEE_QUESTION;
+    },
     source: "selectiveSalesTaxes",
+    levels: ["state"],
     // A share that grows each year the fuel tax erodes, not one size:
     // `road-usage-charge.ts`.
     toYes: null,
     toNo: null,
-    basis: ROAD_CHARGE_BASIS,
+    get basis() {
+      return ROAD_CHARGE_BASIS;
+    },
   },
   {
     questionKey: "us-policy-positions:fiscal.cap-property-tax-growth",

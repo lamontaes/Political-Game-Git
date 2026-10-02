@@ -3,6 +3,7 @@ import { addDays, daysBetween } from "../dates";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import type { IsoDate, World } from "../types";
 import { propositionIdFor } from "./fiscal";
+import { TAX_QUESTION_EFFECTS } from "./rules";
 import type { PublicBudgetGovernment } from "./store";
 
 /** Should a per-mile road charge replace the fuel tax? */
@@ -47,8 +48,9 @@ function yearsBetween(start: IsoDate, end: IsoDate): number {
  * whose enacted charge is billing, keeps the share it had on the charge's
  * first bill: a revenue-neutral charge starts at what the fuel tax then
  * raised, and it bills miles, which the fleet's fuel economy does not
- * change. A county or city collects the state's fuel tax as aid, not as its
- * own tax, so its budget reads 1. The law is read on `date` and the fleet's
+ * change. Only the tax row's declared government levels read this effect.
+ * The state fuel-tax estimate is not a county or city's own tax, so those
+ * budgets read 1. The law is read on `date` and the fleet's
  * erosion on `erodedOn` (the same date unless given), so a comparison of the
  * laws in force on two dates can hold the fleet at one date and count only
  * what the laws changed.
@@ -59,7 +61,11 @@ export function roadChargeFactor(
   date: IsoDate,
   erodedOn: IsoDate = date,
 ): number {
-  if (government.level !== "state") return 1;
+  const effect = TAX_QUESTION_EFFECTS.find(
+    (row) => row.questionKey === MILEAGE_FEE_QUESTION,
+  );
+  if (!effect || !(effect.levels ?? ["state"]).includes(government.level))
+    return 1;
   const opened = government.years[0]!.adoptedOn;
   const share = motorFuelShare(government.stateKey);
   const kept = (on: IsoDate) =>
