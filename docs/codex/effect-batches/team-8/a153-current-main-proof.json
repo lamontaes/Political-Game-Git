@@ -60,7 +60,20 @@
   ],
   "limits": [
     "Controlled recorded staff fixtures, not production hiring",
-    "No current browser or official Claude gate",
-    "Shared caller/test release pending at initial source proof"
-  ]
+    "No browser or official Claude gate",
+    "Presentation three failures retained, no inherited attribution inferred",
+    "Release check blocked by unchanged app-typecheck-skips-tsx-tests.md missing id"
+  ],
+  "presentation": {
+    "files": 2,
+    "passed": 10,
+    "failed": 3,
+    "durationSeconds": 112.64,
+    "failures": [
+      "contextual-scene-variants.test.ts:195 expected filed, got undefined",
+      "contextual-scenes-public.test.ts:81 win view null",
+      "contextual-scenes-public.test.ts:109 loss view null"
+    ],
+    "attribution": "Current baseline cause not executed; routed to Audit"
+  }
 }
