@@ -1,10 +1,12 @@
 import type { LawConsequenceRow } from "../law-consequence-types";
+import type { EducationContextKind, EducationProgramKind } from "../types";
 
 export const SERVICE_SELECTOR = "service.completed-activity-participants";
 export const SERVICE_ACTION = "record-delivered-service";
 export const SERVICE_HOURS = "service.completed-activity-hours";
 export const FUNDED_SERVICE = "service.funded-by-governing-law";
 export const SERVICE_RECIPIENT_KIND = "activity:public-service";
+export const PUBLIC_SERVICE_ATTENDANCE = "public-service:attendance";
 
 /** Catalog data for completed, funded service; fare pricing is a separate consequence. */
 export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
@@ -85,7 +87,17 @@ export interface ServiceRequestForm {
    * for from the person's own health record, an acute or serious episode,
    * against a saved care record naming someone at home who looks after them.
    */
-  readonly need: "travel" | "outdoors" | "reading" | "on-call";
+  readonly need:
+    "travel" | "outdoors" | "reading" | "on-call" | "child-in-household";
+  /** Recorded-family eligibility and enrollment, supplied only by this row. */
+  readonly forChild?: {
+    readonly minimumAge: number;
+    readonly maximumAge: number;
+    readonly programKind: EducationProgramKind;
+    readonly contextKind: EducationContextKind;
+    /** An active enrollment at another provider in these programs blocks a duplicate spot. */
+    readonly notAlreadyEnrolled: readonly EducationProgramKind[];
+  };
   /**
    * Authored game profile, not research: the local start time and length of
    * the visit a resident asks for on the day the service is paid.
@@ -108,6 +120,41 @@ const TRANSIT_TRIP: ServiceRequestForm = {
 export const SERVICE_REQUEST_FORMS: Readonly<
   Record<string, ServiceRequestForm>
 > = {
+  "us-policy-positions:education.universal-preschool": {
+    asked: "a pre-K spot",
+    activityTitle: "Pre-K at {operator}",
+    membership: "Enrolled for pre-K with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "child-in-household",
+    // NIEER State of Preschool 2023: preschool covers ages 3 and 4.
+    forChild: {
+      minimumAge: 3,
+      maximumAge: 4,
+      programKind: "schooling:pre-k",
+      contextKind: "program:public-pre-k",
+      notAlreadyEnrolled: ["schooling:pre-k"],
+    },
+    // An authored service-day profile, not a statutory hours requirement.
+    visit: { startMinuteOfDay: 8 * 60, minutes: 360 },
+  },
+  "us-policy-positions:education.equalize-school-funding": {
+    asked: "an after-school program spot",
+    activityTitle: "After-school program at {operator}",
+    membership:
+      "Enrolled in the after-school program with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "child-in-household",
+    // Authored admission and session profile for a funded school-age program;
+    // this does not infer a spot from funding or substitute for attendance.
+    forChild: {
+      minimumAge: 6,
+      maximumAge: 12,
+      programKind: "schooling:after-school",
+      contextKind: "program:public-after-school",
+      notAlreadyEnrolled: ["schooling:after-school"],
+    },
+    visit: { startMinuteOfDay: 15 * 60, minutes: 90 },
+  },
   "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours":
     TRANSIT_TRIP,
   "us-policy-positions:transportation-infrastructure.fare-free-transit":

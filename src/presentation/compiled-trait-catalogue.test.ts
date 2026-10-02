@@ -36,7 +36,13 @@ const CATALOGUE: TraitPack = {
         balancedDescription: "No marked lean either way.",
         steps: [{ magnitude: 1, strength: "moderate" }],
       },
-      seed: { spread: [-1, 1] },
+      seed: {
+        spread: [-1, 1],
+        follows: [
+          "personality-v1:voluntary-effort",
+          "personality-v1:facet-practical",
+        ],
+      },
       movability: {
         settledByStrength: {
           subtle: 1.5,

@@ -1674,9 +1674,11 @@ export function localGovernmentYearHandler(
   );
 }
 
-export const LOCAL_ELECTION_HANDLERS = [
-  [LOCAL_ELECTION_TERM_START, localElectionTermStartHandler],
-  [LOCAL_ELECTION_FILING, localElectionFilingHandler],
-  [LOCAL_ELECTION_COUNT, localElectionCountHandler],
-  [LOCAL_GOVERNMENT_YEAR, localGovernmentYearHandler],
-] as const;
+export function localElectionHandlers() {
+  return [
+    [LOCAL_ELECTION_TERM_START, localElectionTermStartHandler],
+    [LOCAL_ELECTION_FILING, localElectionFilingHandler],
+    [LOCAL_ELECTION_COUNT, localElectionCountHandler],
+    [LOCAL_GOVERNMENT_YEAR, localGovernmentYearHandler],
+  ] as const;
+}

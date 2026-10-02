@@ -19,30 +19,31 @@
  * - a profession, whose work is hired across the country;
  * - their taste for risk.
  *
- * Somebody who looks applies where the record names an employer: the state
- * government seated in the state where their closest relative outside town
- * lives (work found through family), and otherwise their own state's. They
- * apply there: a professional for their own field at that state's going rate
- * (their own pay scaled by the two states' median household incomes, Census
- * CPS ASEC table H-8, 2023), anyone else for the job market's entry-level
- * public office role, scaled the same way and never below the minimum wage
- * there. The employer answers the same day through the job market
- * (`offerWorkElsewhere`): an offer when they have done the work before or the
- * role is entry-level.
+ * Somebody who looks applies to a private employer the place really has
+ * (`employers-elsewhere.ts`, CTO ruling 23(b)): in the town where their
+ * closest relative outside town lives (work found through family), and
+ * otherwise their state's largest town; the kind of business there that fits
+ * them best, at the place's published wage for the work. The employer is
+ * written when the offer needs it and answers the same day through the job
+ * market (`offerWorkElsewhere`): an offer when they have done the work before
+ * or it needs no credential or experience.
  *
  * The offer is a recorded cause (`causes.ts`, `work:job-offer`) and names its
  * place. Whoever leaves for it accepts it and starts there on arrival;
  * whoever stays turns it down.
  *
  * Every weight below is a PLACEHOLDER (research:
- * why-americans-move-causes-and-strengths).
+ * why-americans-move-causes-and-strengths), calibrated as a whole against one
+ * total (CTO ruling 23): about 1.5 to 2 percent of adults a year move for a
+ * job offer. A new job or job transfer is 13.2 percent of movers' reasons in
+ * the Census Bureau's CPS ASEC 2023 ("Why People Move"), about a fifth of
+ * moves with the other work reasons, at a mover rate near 8 to 10 percent.
+ * The total checks the drawn places together; it decides nobody.
  */
 
-import householdIncome from "../../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
 import { ageOnDate, daysBetween } from "../dates";
 import { evaluateDecision, isSelectedDecision } from "../decisions";
 import {
-  PUBLIC_BODY_ROLE_PLACEHOLDER,
   answerJobOfferAsResident,
   applicationsFor,
   jobOpening,
@@ -53,15 +54,10 @@ import {
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
-  organizationProfileAt,
   workRelationshipHistoryForPerson,
   workRoleAt,
   workStatusAt,
 } from "../life-queries";
-import {
-  lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
-} from "../life-places";
 import { TOWN_JOB_ENDS_NOT_LOST } from "../living-world/town-labor-market";
 import { monthlyPayByPerson } from "../living-world/town-rent";
 import { personTrait } from "../people-traits";
@@ -73,7 +69,15 @@ import type {
   OccupationClassification,
   World,
 } from "../types";
+import { FULL_TIME } from "../local-economy";
 import type { CauseReader } from "./causes";
+import {
+  bestEmployerFor,
+  ensureEmployerElsewhere,
+  NO_CREDENTIAL_OCCUPATIONS,
+  PAY_ESTIMATE_SPREAD,
+  placeToLookFor,
+} from "./employers-elsewhere";
 
 /** PLACEHOLDER weights, each a strength from 0 to 1 at its fullest. */
 export const UNRESEARCHED_JOB_SEARCH = {
@@ -84,12 +88,18 @@ export const UNRESEARCHED_JOB_SEARCH = {
   outOfWorkFullDays: 180,
   /** Part-time hours only, below this many a week. */
   partTimeHours: 30,
+  /** The hours a week a full-time wage is read at. */
+  fullTimeHours: 40,
   partTime: 0.5,
   /** Steady full-time work holds them this much, more as it pays more. */
   steadyWork: 0.5,
-  /** Age: looking weighs fully at `youngest`, nothing from `lookUntil`. */
+  /**
+   * Age: looking weighs fully at `youngest`, nothing from `lookUntil`. Moved
+   * from 35 to 37 when offers came to pay the place's own wage for the work
+   * rather than the clerk placeholder (CTO ruling 23(b)), to hold the total.
+   */
   youngest: 20,
-  lookUntil: 35,
+  lookUntil: 37,
   /** Staying weighs from `stayFrom`, fully `staySpan` years later. */
   stayFrom: 45,
   staySpan: 20,
@@ -97,10 +107,15 @@ export const UNRESEARCHED_JOB_SEARCH = {
   profession: 0.25,
   /** Each step of their taste for risk, from -2 to 2. */
   riskPerStep: 0.25,
-  /** The offer as a cause to leave: its strength with no raise in pay. */
-  offerBase: 0.5,
+  /**
+   * The offer as a cause to leave: its strength with no raise in pay. Lowered
+   * from 0.5 with `settledConfidence` (CTO ruling 23) so that about 1.5 to 2
+   * percent of adults move for an offer in a year.
+   */
+  offerBase: 0.25,
   /** What holds everyone to the place they live, before anything else. */
   settled: 0.75,
+  settledConfidence: "high",
 } as const;
 
 const S = UNRESEARCHED_JOB_SEARCH;
@@ -110,10 +125,6 @@ const SEARCH_OPTIONS = {
   home: "home-only",
   elsewhere: "search-elsewhere",
 } as const;
-
-const INCOME = householdIncome.medianHouseholdIncomeDollarsByState as Readonly<
-  Record<string, number>
->;
 
 function clamp01(value: number): number {
   return value <= 0 ? 0 : value >= 1 ? 1 : value;
@@ -128,65 +139,16 @@ function importance(strength: number) {
   return null;
 }
 
-/**
- * How a state's pay compares with another's: the ratio of their median
- * household incomes (Census CPS ASEC H-8, 2023). A territory the table does
- * not cover is taken at the same pay: ESTIMATED FROM AVERAGE.
- */
-export function statePayRatio(
-  toStateKey: string | null | undefined,
-  fromStateKey: string | null | undefined,
-): number {
-  const to = toStateKey ? INCOME[toStateKey] : undefined;
-  const from = fromStateKey ? INCOME[fromStateKey] : undefined;
-  return to && from ? to / from : 1;
-}
-
-/**
- * The state government seated in a state-level place: the government's own
- * organization, else the governor's office, else the legislature. Null when
- * the world records none there.
- */
-function stateEmployers(world: World): ReadonlyMap<EntityId, EntityId> {
-  const rank = new Map<EntityId, [number, EntityId]>();
-  for (const organization of world.history.organizations) {
-    const key = organization.stableKey;
-    const order = key.startsWith("public-government:")
-      ? 0
-      : key.startsWith("executive-office:")
-        ? 1
-        : key.startsWith("legislature:")
-          ? 2
-          : -1;
-    if (order < 0) continue;
-    const place = organizationProfileAt(
-      world,
-      organization.id,
-    )?.locationJurisdictionId;
-    if (!place || world.jurisdictions[place]?.kind !== "state-placeholder")
-      continue;
-    const held = rank.get(place);
-    if (!held || held[0] > order) rank.set(place, [order, organization.id]);
-  }
-  return new Map([...rank].map(([place, [, id]]) => [place, id]));
-}
-
-/** The state-level place a jurisdiction belongs to, and its state key. */
-function stateOf(
-  jurisdictionId: EntityId,
-): { readonly id: EntityId; readonly key: string } | null {
-  const key = lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
-  const state = key ? stateJurisdictionForKey(key) : null;
-  return key && state ? { id: state.id, key } : null;
-}
-
 interface WorkFacts {
   /** The line of work they do or last did, with its hours. */
   readonly title: string | null;
   readonly occupation: OccupationClassification | null;
   readonly hours: { minimumHours: number; maximumHours: number } | null;
-  /** Their recorded pay a month, in cents; 0 with none. */
-  readonly monthlyPay: number;
+  /**
+   * Their recorded pay a month, in cents: 0 out of work, null when they work
+   * but their pay is not on record (unknown is not zero).
+   */
+  readonly monthlyPay: number | null;
   readonly working: boolean;
   /** The day a lost job ended, when they have lost one and found none. */
   readonly lostOn: IsoDate | null;
@@ -211,7 +173,7 @@ function workFacts(
       title: main.role.title,
       occupation: main.role.occupationClassification,
       hours: main.role.timeDemand.expectedWeekly,
-      monthlyPay: pay.get(personId) ?? 0,
+      monthlyPay: pay.get(personId) ?? null,
       working: true,
       lostOn: null,
     };
@@ -273,6 +235,7 @@ export function decideToSearchElsewhere(
     option: string,
     strength: number,
     explanation: string,
+    confidence: "medium" | "high" = "medium",
   ) => {
     const size = importance(strength);
     if (!size) return;
@@ -282,7 +245,7 @@ export function decideToSearchElsewhere(
       sourceType: `context:${key}`,
       direction: "supports",
       importance: size,
-      confidence: "medium",
+      confidence,
       explanation,
       sourceRefs: [],
     });
@@ -308,8 +271,13 @@ export function decideToSearchElsewhere(
       S.partTime,
       "They want more hours than their work gives them.",
     );
-  if (facts.working && townMedianPay) {
-    const share = facts.monthlyPay / townMedianPay;
+  if (facts.working && townMedianPay && facts.monthlyPay !== null) {
+    // Their pay at full-time hours, so short hours are read once, above,
+    // and not again as low pay.
+    const hours = facts.hours?.maximumHours ?? S.fullTimeHours;
+    const share =
+      (facts.monthlyPay * Math.max(1, S.fullTimeHours / Math.max(1, hours))) /
+      townMedianPay;
     add(
       "low-pay",
       SEARCH_OPTIONS.elsewhere,
@@ -325,7 +293,16 @@ export function decideToSearchElsewhere(
       );
   }
   // Most people never look beyond where they live: the life they have here.
-  add("settled", SEARCH_OPTIONS.home, S.settled, "Their life is here.");
+  // The life they have is a fact, not a guess about somewhere else, so it is
+  // weighed with more certainty than anything pulling them away (CTO ruling
+  // 23 calibration; see the check in `job-offers.test.ts`).
+  add(
+    "settled",
+    SEARCH_OPTIONS.home,
+    S.settled,
+    "Their life is here.",
+    S.settledConfidence,
+  );
   const age = ageOnDate(world.people[personId]!.birthDate, today);
   add(
     "early-career",
@@ -400,8 +377,6 @@ export function reviewJobSearchElsewhere(
   reviewed: readonly EntityId[],
   reader: () => CauseReader,
 ): World {
-  const home = stateOf(town);
-  if (!home) return world;
   const pay = monthlyPayByPerson(world, world.currentDate);
   const residents = new Set(
     world.personOrder.filter(
@@ -409,7 +384,6 @@ export function reviewJobSearchElsewhere(
     ),
   );
   const townMedian = medianPay(pay, residents);
-  let employers: ReadonlyMap<EntityId, EntityId> | null = null;
   let next = world;
   for (const personId of reviewed) {
     if (next.control.kind === "person" && next.control.personId === personId)
@@ -430,53 +404,32 @@ export function reviewJobSearchElsewhere(
       )
     )
       continue;
-    employers ??= stateEmployers(next);
-    // Where family lives, else their own state.
+    // Where family lives, else the largest town in their state; there, the
+    // employer that fits them best (`employers-elsewhere.ts`).
     const kin = reader().closestKinElsewhere(personId, town);
-    const kinState = kin ? stateOf(kin.placeId) : null;
-    const target =
-      kinState && employers.has(kinState.id)
-        ? kinState
-        : employers.has(home.id)
-          ? home
-          : null;
-    if (!target) continue;
-    const ratio = statePayRatio(target.key, home.key);
-    // A state government hires a professional in their own field; anyone
-    // else for its entry-level office work (HARDWIRED: the world records no
-    // other employers outside town).
-    const role =
-      facts.title && facts.occupation?.startsWith("profession:")
-        ? {
-            title: facts.title,
-            occupation: facts.occupation,
-            hours: facts.hours ?? { minimumHours: 37, maximumHours: 40 },
-            annualMinor: Math.round(facts.monthlyPay * 12 * ratio),
-          }
-        : null;
-    const known = role && role.annualMinor > 0;
-    const clerk = PUBLIC_BODY_ROLE_PLACEHOLDER;
-    const hours = known ? role.hours : clerk.weeklyHours;
-    const salaried = !!known;
+    const place = placeToLookFor(town, kin?.placeId ?? null);
+    if (!place) continue;
+    const offer = bestEmployerFor(next, personId, facts.occupation, place);
+    if (!offer) continue;
+    const employer = ensureEmployerElsewhere(next, place, offer);
+    next = employer.world;
     const offered = offerWorkElsewhere(next, {
       personId,
-      organizationId: employers.get(target.id)!,
-      jurisdictionId: target.id,
-      title: known ? role.title : clerk.title,
-      occupationClassification: known
-        ? role.occupation
-        : clerk.occupationClassification,
-      pay: salaried
-        ? { basis: "annual-salary", amount: money(role.annualMinor, "USD") }
-        : {
-            basis: "hourly",
-            amount: money(Math.round(clerk.hourlyMinor * ratio), "USD"),
-          },
-      weeklyHours: hours,
-      note: known
-        ? "Their own line of work, at their own pay scaled by the two states' median household incomes (Census CPS ASEC table H-8, 2023)."
-        : `The placeholder public-body role (research: ${clerk.researchQuestionId}), scaled by the two states' median household incomes.`,
+      organizationId: employer.organizationId,
+      jurisdictionId: offer.placeId,
+      title: offer.kind.workerTitle,
+      occupationClassification: offer.kind.workerOccupation,
+      pay: { basis: "hourly", amount: money(offer.hourlyMinor, "USD") },
+      // The full-time hours the place's businesses hire for.
+      weeklyHours: FULL_TIME.expectedWeekly,
+      note:
+        offer.payBasis === "published"
+          ? "The place's published wage for the occupation (BLS OEWS, May 2025) at their years in the line of work."
+          : `ESTIMATED FROM AVERAGE: BLS publishes no wage there, so the national median for the occupation (BLS OEWS, May 2025), with ${Math.round(100 * PAY_ESTIMATE_SPREAD)} percent spread for each world.`,
       round,
+      needsNoExperience: NO_CREDENTIAL_OCCUPATIONS.has(
+        offer.kind.workerOccupation,
+      ),
     });
     if (offered.ok) next = offered.world;
   }

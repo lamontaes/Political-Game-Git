@@ -7,7 +7,6 @@ import {
   recordedHouseholdHousingBillsAt,
   livingCostsFlowFor,
   settleLivingCosts,
-  LIVING_COSTS_PLACEHOLDER,
   initializeLivingCostsFlow,
 } from "./cost-of-living";
 import { PLACE_POPULATION_ROWS } from "./nationwide-world/place-population.generated";
@@ -27,6 +26,10 @@ import {
   townLeases,
 } from "./living-world/town-rent";
 import { lifePlaceByKey } from "./life-places";
+import {
+  livingCostsRegionForState,
+  representativeMonthlyLivingCostsMinor,
+} from "./living-costs-data";
 
 const seed = "team4-m12-recorded-bills-20260930";
 const largest = new Map<string, [string, number]>();
@@ -102,8 +105,11 @@ describe("prospective nonhousing bills preserve actual housing contracts", () =>
       expect(flow).toBeDefined();
       expect(flow.startsAt).toBe(world.currentDate);
       expect(resourceFlowTermsAt(changed, flow.id)!.amount.minorUnits).toBe(
-        LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-          LIVING_COSTS_PLACEHOLDER.housingShareMinor,
+        representativeMonthlyLivingCostsMinor(
+          livingCostsRegionForState(
+            lifePlaceByKey(placeKey)!.stateJurisdictionKey,
+          ),
+        ),
       );
       expect(
         changed.history.resourceFlows.slice(0, originalFlows.length),
