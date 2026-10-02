@@ -1,9 +1,10 @@
-import type {
-  AmendmentInvitation,
-  ClauseRendering,
-  ClauseTemplate,
-  ProgramVariant,
-  ResolvedParameters,
+import {
+  formatStatutoryDate,
+  type AmendmentInvitation,
+  type ClauseRendering,
+  type ClauseTemplate,
+  type ProgramVariant,
+  type ResolvedParameters,
 } from "./legislation-content-contracts";
 
 interface StoredClause extends Omit<ClauseTemplate, "render"> {
@@ -16,6 +17,8 @@ interface StoredClause extends Omit<ClauseTemplate, "render"> {
     readonly message: string;
   };
   readonly moneyParameter?: { readonly key: string; readonly message: string };
+  readonly fiscalMoneyParameter?: string;
+  readonly textWhenNoEndDate?: string;
   readonly positiveAmountEffect?: ClauseRendering["operativeEffect"];
 }
 
@@ -33,10 +36,17 @@ export interface ProgramVariantData extends Omit<
  * No expression evaluation, legal-rule inference, or per-law/level dispatch. */
 function renderText(text: string, resolved: ResolvedParameters): string {
   return text.replace(
-    /\{\{(authority|money|choice):([^{}]+)\}\}/g,
+    /\{\{(authority|money|choice|integer-locale|date):([^{}]+)\}\}/g,
     (_match, kind: string, key: string) => {
       if (kind === "money") return resolved.money(key);
       if (kind === "choice") return resolved.choice(key).clausePhrase;
+      if (kind === "integer-locale")
+        return resolved.integer(key).toLocaleString("en-US");
+      if (kind === "date") {
+        if (key !== "endsOn" || resolved.endsOn === null)
+          throw new Error(`Missing statutory date wording field '${key}'.`);
+        return formatStatutoryDate(resolved.endsOn);
+      }
       if (key !== "programLabel" && key !== "citationLabel")
         throw new Error(`Unknown authority wording field '${key}'.`);
       if (!resolved.authority)
@@ -63,6 +73,8 @@ export function programVariantFromData(
           rendering,
           requiredAuthority,
           moneyParameter,
+          fiscalMoneyParameter,
+          textWhenNoEndDate,
           positiveAmountEffect,
           ...clause
         }) => ({
@@ -73,14 +85,28 @@ export function programVariantFromData(
               resolved.authority?.authorityKey !== requiredAuthority.key
             )
               throw new Error(requiredAuthority.message);
-            const amount = moneyParameter
-              ? resolved.values[moneyParameter.key]
-              : undefined;
+            const moneyKey = moneyParameter?.key ?? fiscalMoneyParameter;
+            const amount = moneyKey ? resolved.values[moneyKey] : undefined;
             if (moneyParameter && amount?.kind !== "money")
               throw new Error(moneyParameter.message);
             return {
               ...rendering,
-              text: renderText(rendering.text, resolved),
+              text: renderText(
+                resolved.endsOn === null && textWhenNoEndDate !== undefined
+                  ? textWhenNoEndDate
+                  : rendering.text,
+                resolved,
+              ),
+              beneficiary:
+                rendering.beneficiary.kind === "general-application"
+                  ? {
+                      ...rendering.beneficiary,
+                      appliesToLabel: renderText(
+                        rendering.beneficiary.appliesToLabel,
+                        resolved,
+                      ),
+                    }
+                  : rendering.beneficiary,
               fiscalExposureLabel:
                 rendering.fiscalExposureLabel === null
                   ? null
@@ -99,7 +125,8 @@ export function programVariantFromData(
     },
     amendmentInvitation: {
       ...invitation,
-      render: () => invitationText,
+      render: (amountLabel) =>
+        invitationText.replaceAll("{{amount-label}}", () => amountLabel),
     },
   };
 }
