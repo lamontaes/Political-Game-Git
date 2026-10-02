@@ -4,6 +4,7 @@ import {
   currentGoverningOffices,
 } from "./state-governing";
 import { describe, expect, it } from "vitest";
+import { writeFileSync } from "node:fs";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import { explicitNewGameSetup } from "../../presentation/new-game-geography";
@@ -255,6 +256,45 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     const congress = projectCongress(world)!;
     const nextRegularYear = Number(world.currentDate.slice(0, 4)) + 2;
     // A state whose law requires an appointee of the departed senator's party.
+    writeFileSync(
+      "/tmp/team2-a120-same-party-fixture-inventory.json",
+      JSON.stringify(
+        {
+          date: world.currentDate,
+          nextRegularYear,
+          states: congress.senate.seats
+            .filter(
+              (row) =>
+                senateVacancyLaw(row.stateUsps)?.appointment ===
+                "governor-same-party",
+            )
+            .map((row) => ({
+              state: row.stateUsps,
+              occupant: row.occupant,
+              eligible:
+                row.occupant.kind === "member"
+                  ? hasActualSamePartyCandidate(
+                      world,
+                      congress.house.seats,
+                      row.stateUsps,
+                      row.occupant.member.termId,
+                    )
+                  : false,
+              house: congress.house.seats
+                .filter((h) => h.stateUsps === row.stateUsps)
+                .map((h) => ({
+                  occupant: h.occupant,
+                  publicParty:
+                    h.occupant.kind === "member"
+                      ? publicPartyOf(world, h.occupant.member.personId)
+                      : null,
+                })),
+            })),
+        },
+        null,
+        2,
+      ),
+    );
     const seat = congress.senate.seats.find(
       (s) =>
         s.occupant.kind === "member" &&
