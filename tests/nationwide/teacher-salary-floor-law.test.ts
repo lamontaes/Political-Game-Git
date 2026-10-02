@@ -62,9 +62,15 @@ const FLOOR_QUESTION = POLICY.propositionOrder.find(
 )!;
 // A hypothetical enacted test law adopts an amount from the sourced records;
 // this does not assert that every jurisdiction has this starting law.
-const SOURCED_FLOOR_TERM = startingLaw.questions[
+const sourcedFloorTerm = startingLaw.questions[
   TEACHER_SALARY_FLOOR_QUESTION
 ].answers["US-AR"].lawTerms.find((term) => term.key === "floor")!;
+if (sourcedFloorTerm.unit !== "minor")
+  throw new Error("The sourced teacher floor must be annual USD minor units.");
+const SOURCED_FLOOR_TERM = {
+  ...sourcedFloorTerm,
+  unit: sourcedFloorTerm.unit,
+};
 const FLOOR_DOLLARS = SOURCED_FLOOR_TERM.value / 100;
 
 /**
@@ -287,11 +293,12 @@ describe("the state's minimum teacher salary", { timeout: 900_000 }, () => {
           ...world,
           history: {
             ...world.history,
-            legislativeProvisions: world.history.legislativeProvisions.map(
-              (provision) =>
-                provision.measureId === floor!.measureId
-                  ? { ...provision, lawTerms }
-                  : provision,
+            legislativeProvisions: (
+              world.history.legislativeProvisions ?? []
+            ).map((provision) =>
+              provision.measureId === floor!.measureId
+                ? { ...provision, lawTerms }
+                : provision,
             ),
           },
         };
