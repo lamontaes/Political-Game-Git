@@ -10,6 +10,8 @@ import {
   simulationMomentAtLocalTime,
 } from "../simulation";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   careerOfferAccepted,
   careerReplyBy,
@@ -386,6 +388,56 @@ describe("the canonical time command", () => {
     expect(refused.receipt.status).toBe("refused");
     expect(refused.world).toBe(world);
   });
+
+  for (const sample of [0, 1, 2]) {
+    it(`names the due calendar choice without calling it work (${sample})`, () => {
+      const seed = `quiet-stretch-calendar-choice:${sample}`;
+      const { world, personId } = smallWorld({
+        seed,
+        place: drawRandomPlace(seed).key,
+      });
+      const booked = createScheduledActivity(world, {
+        stableKey: `${seed}:meeting`,
+        title: "Resident meeting",
+        summary: "A recorded calendar choice.",
+        kind: "confirmed",
+        start: world.currentMoment,
+        end: simulationMomentAtLocalTime({
+          ...world.currentMoment,
+          minuteOfDay: world.currentMoment.minuteOfDay + 30,
+        }),
+        participantPersonIds: [personId],
+        responsiblePersonId: personId,
+        location: {
+          locationKey: `${seed}:room`,
+          label: "Meeting room",
+          jurisdictionId: world.people[personId]!.homeJurisdictionId,
+        },
+        sourceEntityIds: [personId],
+        flexibility: { kind: "fixed" },
+        access: { kind: "private", personIds: [personId] },
+      });
+      const reloaded = deserializeWorld(serializeWorld(booked));
+      expect(
+        previewTimeCommand(reloaded, personId, { kind: "quiet-stretch" }),
+      ).toBeNull();
+      const refused = submitTimeCommand(
+        reloaded,
+        request(reloaded, personId, { kind: "quiet-stretch" }),
+        fixedClock,
+      );
+      expect(refused.world).toBe(reloaded);
+      expect(refused.receipt.reached).toEqual(reloaded.currentMoment);
+      expect(refused.receipt.status).toBe("refused");
+      expect(refused.receipt.outcome).toBe(
+        "Resident meeting is waiting on your calendar. Decide whether to attend or decline before another quiet stretch.",
+      );
+      expect(refused.receipt.outcome).not.toContain("under Work");
+      expect(refused.world.history.scheduledActivityStates).toEqual(
+        reloaded.history.scheduledActivityStates,
+      );
+    });
+  }
 
   it("survives save and reload with the same source moment", () => {
     const { world, personId } = adultLife();

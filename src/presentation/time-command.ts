@@ -155,6 +155,22 @@ function unresolvedWorkNow(
   return null;
 }
 
+function quietStretchRefusal(world: World, personId: EntityId): string | null {
+  const work = unresolvedWorkNow(world, personId);
+  if (work === "offer")
+    return "The work offer needs an answer under Work before another quiet stretch.";
+  if (work === "start")
+    return "Your accepted work can begin under Work before another quiet stretch.";
+  const next = nextKnownCalendarItem(world, personId, { dueItems: false });
+  if (
+    next?.moment &&
+    next.date === world.currentDate &&
+    compareSimulationMoments(next.moment, world.currentMoment) <= 0
+  )
+    return `${next.title} is waiting on your calendar. Decide whether to attend or decline before another quiet stretch.`;
+  return null;
+}
+
 export function previewTimeCommand(
   world: World,
   personId: EntityId,
@@ -162,7 +178,7 @@ export function previewTimeCommand(
 ): TimeCommandPreview | null {
   // "Until something needs me" has already arrived. A further quiet stretch
   // must hand the choice back; explicit Day/Week can still pass it knowingly.
-  if (command.kind === "quiet-stretch" && unresolvedWorkNow(world, personId))
+  if (command.kind === "quiet-stretch" && quietStretchRefusal(world, personId))
     return null;
   if (command.kind === "quiet-stretch") {
     const next = nextKnownCalendarItem(world, personId, { dueItems: false });
@@ -429,7 +445,7 @@ export function submitTimeCommand(
   if (!preview) {
     const waiting =
       request.command.kind === "quiet-stretch"
-        ? unresolvedWorkNow(world, request.personId)
+        ? quietStretchRefusal(world, request.personId)
         : null;
     return {
       world,
@@ -440,12 +456,7 @@ export function submitTimeCommand(
         reached: world.currentMoment,
         stoppedEarly: false,
         elapsedMs: now() - started,
-        outcome:
-          waiting === "offer"
-            ? "The work offer needs an answer under Work before another quiet stretch."
-            : waiting === "start"
-              ? "Your accepted work can begin under Work before another quiet stretch."
-              : "That event does not start later than now.",
+        outcome: waiting ?? "That event does not start later than now.",
       }),
     };
   }
