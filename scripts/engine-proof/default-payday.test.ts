@@ -126,6 +126,10 @@ describe("A4 activity entries carry actual due payday", () => {
     (route: "join" | "remaining" | "perform") => {
       const { world, person, due, flow } = completedShift();
       expect(paid(world, flow.id)).toHaveLength(0);
+      const completedWork = world.history.events.find((event) =>
+        due.entityIds.includes(event.id),
+      );
+      expect(completedWork).toBeDefined();
       const scheduled = createScheduledActivity(world, {
         stableKey: "a4-activity-payday:" + route,
         title: "A recorded personal appointment",
@@ -141,7 +145,7 @@ describe("A4 activity entries carry actual due payday", () => {
           label: "Recorded appointment",
           jurisdictionId: null,
         },
-        sourceEntityIds: [due.id],
+        sourceEntityIds: [completedWork!.id],
         flexibility: { kind: "fixed" },
         access: { kind: "private", personIds: [person.id] },
       });

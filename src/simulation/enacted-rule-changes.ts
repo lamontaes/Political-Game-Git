@@ -34,10 +34,9 @@ import { isLawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
 import type { LawAmountUnit } from "./law-consequence-types";
 import { organizationProfileAt } from "./life-queries";
 import { measureAnswersAt } from "./vote-bundle";
-import { addDays } from "./dates";
+import { operativeDateForEnactment } from "./legislative-effective-date";
 import { createStableId } from "./ids";
 import {
-  stateStatuteOperativeAt,
   statuteEffectiveDateEstimated,
   type StatuteDateContext,
 } from "./governing/statute-effective-date";
@@ -381,7 +380,7 @@ export function stateRuleBasis(
  * common default among the states the game has read (Alaska, Missouri, Ohio);
  * it is a game profile, not a claim about any other state's law.
  */
-export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
+export { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "./legislative-effective-date";
 
 /**
  * The dates an act's record carries that a state's effective-date rule may
@@ -1080,22 +1079,15 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       (row) => row.measureId === provision.measureId,
     );
     if (!enactment || enactment.outcome !== "enacted") continue;
-    // No caller in play passes an effective date, so an enactment's own date
-    // is usually null, and a null date is not "effective now". The state's
-    // own effective-date rule dates it where that rule is researched
-    // (`statute-effective-date.ts`). Blanket rule elsewhere: the change
-    // operates STATUTE_EFFECTIVE_DEFAULT_DAYS after the act was recorded, and
-    // says so.
-    const explicit = enactment.effectiveAt;
     const federal = provision.stateUsps === FEDERAL_JURISDICTION_KEY;
-    const stateRuleAt =
-      explicit || federal
-        ? null
-        : stateStatuteOperativeAt(
-            `US-${provision.stateUsps}`,
-            enactment.resolvedAt,
-            enactmentStatuteDateContext(world, enactment),
-          );
+    const stateKey = federal ? null : `US-${provision.stateUsps}`;
+    const dateContext = enactmentStatuteDateContext(world, enactment);
+    const operative = operativeDateForEnactment(
+      enactment,
+      stateKey,
+      dateContext,
+    );
+    if (!operative) continue;
     changes.push({
       stateUsps: provision.stateUsps,
       jurisdictionKey: federal
@@ -1105,19 +1097,11 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       field: provision.field,
       value: structuredClone(provision.value),
       applicability: { ...(provision.applicability ?? SILENT) },
-      operativeAt:
-        explicit ??
-        stateRuleAt ??
-        addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
-      operativeBasis: explicit
-        ? "enacted-date"
-        : stateRuleAt
-          ? stateRuleBasis(
-              `US-${provision.stateUsps}`,
-              enactment.resolvedAt,
-              enactmentStatuteDateContext(world, enactment),
-            )
-          : "game-default",
+      operativeAt: operative.date,
+      operativeBasis:
+        operative.basis === "state-rule"
+          ? stateRuleBasis(stateKey!, enactment.resolvedAt, dateContext)
+          : operative.basis,
       instrument: "statute",
       level: federal ? "federal-statute" : "state-statute",
       measureId: provision.measureId,
