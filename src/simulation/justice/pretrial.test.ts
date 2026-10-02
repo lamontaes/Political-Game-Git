@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
-import { SeededRng } from "../rng";
+import { SeededRng, pickDistinct } from "../rng";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -138,13 +138,35 @@ describe("cash bail, as the law in force answers it", () => {
     );
   });
 
-  it("sets bail at the 2009 median for the charge, in 2025 dollars, and a tenth of it sends the defendant home", () => {
+  it("reads the historical offense calibration without treating a commercial premium as a court deposit", () => {
     // $50,000 x 321.943 / 214.537 = $75,032.46, rounded to whole dollars.
     expect(bailMinorUnits("crime:robbery")).toBe(7_503_200);
-    expect(bailDueMinorUnits("crime:robbery")).toBe(750_320);
+    expect(bailDueMinorUnits("crime:robbery")).toBe(7_503_200);
     expect(bailMinorUnits("crime:assault")).toBe(2_251_000);
     expect(bailMinorUnits("crime:vandalism")).toBe(750_300);
     expect(bailMinorUnits("something-unread")).toBe(1_500_600);
+  });
+});
+
+describe("court cash bail follows the actual place law, not a universal premium", () => {
+  const places = pickDistinct(
+    new SeededRng("team9-a25-court-cash-rule-20261001"),
+    Object.keys(questions[CASH_BAIL]!.answers).sort(),
+    5,
+  );
+  it.each(places)("reads the actual law and full-cash route in %s", (place) => {
+    const jurisdictionId = stateJurisdictionForKey(place)!.id;
+    const world = worldWith("2026-06-01", []);
+    const answer = questions[CASH_BAIL]!.answers[place]!.answer;
+    expect(pretrialLawAt(world, jurisdictionId)).toBe(
+      answer === "yes" ? "no-money-bail" : "money-bail",
+    );
+    // No saved court order here admits a state percentage-deposit option.
+    // The existing supported route posts the amount in full, never a premium.
+    if (answer === "no")
+      expect(bailDueMinorUnits("crime:robbery")).toBe(
+        bailMinorUnits("crime:robbery"),
+      );
   });
 });
 
