@@ -2,11 +2,11 @@
 
 Before: a scheduled policy-amendment state action used a pooled majority and could borrow congressional people when the state's own body was absent.
 
-After: it records the state's actual separate chamber roll calls, member reasons and sourced ratification requirements. Missing bodies or unsupported rules leave ratification pending, while the attempted due item resolves without scheduling a retry. The existing presidential term-limit caller uses the same recorder and retains its ballots and reasons.
+After: it records the state's actual separate chamber roll calls, member reasons and explicitly classified ratification requirements. Under CTO12:12, all50state chambers have a binding: exact cited rules where admitted, or a disclosed ESTIMATE of a strict majority of elected members. Missing actual bodies still leave ratification pending, while the attempted due item resolves without scheduling a retry. The existing presidential term-limit caller uses the same recorder and retains its ballots and reasons.
 
 ## 1. Why-chain
 
-A state approves only when every required chamber's recorded vote passes. Each chamber passes only when its actual member ballots meet its sourced threshold and quorum. Each ballot comes from the shared chamber decider and that person's existing considerations. Those considerations read the person's recorded principles or party relationship. The chain ends at a person's recorded reasons and a legal rule.
+A state approves only when every required chamber's recorded vote passes. Each chamber passes only when its actual member ballots meet its declared threshold and quorum; the saved provenance distinguishes sourced admission from ESTIMATE. Each ballot comes from the shared chamber decider and that person's existing considerations. Those considerations read the person's recorded principles or party relationship. The chain ends at a person's recorded reasons and a legal rule.
 
 The old policy state-action branch ended at a pooled majority. Its fallback could count congressional people instead of the absent state body. This branch is removed. Separate application and convention callers still use `stateVoice` and `mostLeanYes`; this change does not claim to replace them.
 
@@ -14,7 +14,9 @@ The old policy state-action branch ended at a pooled majority. Its fallback coul
 
 The recorder retains the existing October 1, 2026 federal-amendment ratification corpus and admission reader. That corpus cites state constitutions, chamber rules, statutes and legal opinions. It distinguishes elected members, present members and members voting, and records quorum, rounding and additional conditions.
 
-Admission still requires explicit ratification rules whose conditions the existing reader supports. An ordinary-question inference is not permission. The six admitted states are Alaska, Arkansas, Colorado, Delaware, Maine and North Dakota. No threshold, fraction, quorum, condition or citation changes here.
+CTO12:12 supersedes the original six-state admission limit. The existing corpus already contains50states and99chambers, including Nebraska's one legislature. Its single summary reference is CRS Report97-922, September30,1997: https://www.everycrsreport.com/reports/97-922.html. The historical survey is context, not proof that every chamber uses an elected-member denominator; no new web verification was performed.
+
+Explicit ratification fractions retain their primary citations, including Alabama House3/5, Colorado House2/3 and Illinois3/5. Where the corpus does not establish an admitted ratification rule, the owner authorizes a strict majority of elected members as ESTIMATE. SourceTitle/citation/note disclose the estimate and verification is partial. Existing research quorum values remain separate and cited. For an explicit fraction with unimplemented conditions, the fraction stays intact but admission is marked ESTIMATE/partial; this does not claim the condition was enforced. Original research bytes and all conditions/extra floors remain unchanged in the corpus.
 
 ## 3. Revisions
 
@@ -36,11 +38,17 @@ SIMULATED: actual state members decide through `decideChamberVote`, using the ca
 
 RECORDS: existing constitutional action and chamber vote writers save the actual measure, jurisdiction, organization, member identities, reasons, thresholds and source IDs. A repeated action returns the same world. Canonical serialization preserves those records.
 
-WORLD PIECES: the actual state body and current roster must exist. The existing researched ratification admission must support every required chamber. Congress's presence does not substitute for a missing state institution.
+WORLD PIECES: the actual state body and current roster must exist. The disclosed ratification binding must cover every required chamber; source gaps do not fabricate people or a missing institution. Congress's presence does not substitute for a missing state institution.
 
-CHECKS: each recorded state's approval equals every required chamber passing. The 44 other states remain unsupported by this narrow admission reader; D.C. and the five territories are ineligible Article V states. No unsupported jurisdiction receives a fabricated state action. This is not a completed 38-state ratification or browser-play proof.
+CHECKS: each recorded state's approval equals every required chamber passing. All50states are now declared; D.C. and the five territories remain ineligible Article V states. Missing bodies still receive no fabricated action. New all-state binding and38-state actual-member proofs are published but NOT RUN; this is not a completed38-state ratification or browser-play proof.
 
-## 6. Proof run
+## 6. Historical proof run and new NOT RUN limits
+
+The receipts below apply to the original six-state head65a0f8b7d7cab347ef4cbc8f131b670f7f378fb6. They are not renewed results for the expanded binding.
+
+The new38-state fixture supplies supportive political affiliations through the existing writer on actual President, Congress and state members; Congress and state ballots are never supplied. It requires37ratifications to remain pending and the38th to become operative, matches every saved member/body ID, checks sourced supermajorities and Nebraska's one chamber, and verifies Continue/repeat. It fails if the actual shared decisions do not pass. New native tests, scoped types, requested LOAD/app types, lint/format are NOT RUN: the builder environment failed to start. Claude checkers own official validation.
+
+
 
 The complete changed scheduled-callback file passed 8 of 8 cases at stock limits. Its seed is `A79 policy amendment scheduled state action`. Five sampled admitted states were Maine, Arkansas, Delaware, Colorado and North Dakota. The fixture draws its home from all 56 starting jurisdictions; the home was not printed in the retained output. Congress's admission and the next-day calendar are explicitly authored to isolate the real state callback. State ballots remain unsupplied. The canonical due-item dispatcher performs the actual state action.
 
