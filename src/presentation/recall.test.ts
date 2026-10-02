@@ -393,19 +393,7 @@ describe("recalling a town official", () => {
       const due = started.history.futureDueItems.find(
         (row) => row.transitionKey === RECALL_PETITION_CLOSES,
       )!;
-      const result = recallPetitionClosesHandler(
-        {
-          ...started,
-          currentDate: due.dueAt,
-          currentMoment: simulationMomentAtLocalTime({
-            date: due.dueAt,
-            minuteOfDay: started.currentMoment.minuteOfDay,
-            timeZone: started.currentMoment.timeZone,
-          }),
-        },
-        due,
-      );
-      expect(result.status).toBe("resolved");
+      const result = { world: resolveDueThrough(started, due.dueAt) };
       expect(recallPetitions(result.world)[0]!.phase).toBe(
         signatures === required ? "awaiting-election" : "failed-to-qualify",
       );
