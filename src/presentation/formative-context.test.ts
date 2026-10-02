@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { stableHash } from "../simulation/ids";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { addDays } from "../simulation/dates";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 
 import {
+  cancelScheduledActivity,
+  createCharacterHistoryContextPerson,
+  createScheduledActivity,
+  scheduleFutureDueItem,
+  cancelFutureDueItem,
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
   ageOnDate,
@@ -397,30 +407,24 @@ describe("How fast the years go by", () => {
     }
   });
 
-  it("is deterministic for one world and different across worlds", () => {
+  it("paces identical saved records identically across seeds", () => {
     const first = child(9, "pace-a");
     const second = child(9, "pace-b");
     const firstInterval = formativeIntervalAt(
       first.world,
       first.playerPersonId,
     )!;
-    const secondInterval = formativeIntervalAt(
-      second.world,
-      second.playerPersonId,
-    )!;
 
     expect(
       formativeStepDays(first.world, first.playerPersonId, firstInterval),
     ).toBe(formativeStepDays(first.world, first.playerPersonId, firstInterval));
-    // Not a claim that they must differ every time — only that pacing is a
-    // property of the world rather than a global constant.
     expect(
-      typeof formativeStepDays(
-        second.world,
-        second.playerPersonId,
-        secondInterval,
+      formativeStepDays(
+        { ...first.world, seed: second.world.seed },
+        first.playerPersonId,
+        firstInterval,
       ),
-    ).toBe("number");
+    ).toBe(formativeStepDays(first.world, first.playerPersonId, firstInterval));
   });
 });
 
@@ -587,95 +591,119 @@ describe("A companion holds the part they are given", () => {
   });
 });
 
-describe("Spending each band's budget inside that band", () => {
-  /**
-   * Plays a whole childhood and counts the anchors that landed in each band.
-   *
-   * The pacing test this replaces measured one step against the ratio it was
-   * derived from, which a step that overshoots the band boundary still
-   * satisfies. Only walking the years finds the defect: a step that began near
-   * the end of a band used to carry the character past it, so the next band
-   * lost days it never got to spend an anchor on.
-   */
-  function playThrough(seed: string) {
-    const { world, playerPersonId } = child(5, seed);
-    let current: World = world;
-    const anchors: Record<string, number> = {};
-    let guard = 0;
-    while (formativeIntervalAt(current, playerPersonId) !== null) {
-      if ((guard += 1) > 400) throw new Error("The years never ended.");
-      const interval = formativeIntervalAt(current, playerPersonId)!;
-      const projection = projectFormativeYears(current, playerPersonId);
-      const scene = projection.scene;
-      // An anchor is a moment of the life, whether the game had a situation
-      // ready for it or the years simply went by. Counting only situations
-      // would measure the size of the writing, not the pacing.
-      anchors[interval.band] = (anchors[interval.band] ?? 0) + 1;
-      current = scene
-        ? chooseFormativeOption(current, {
-            personId: playerPersonId,
-            situationKey: scene.situationKey,
-            optionKey: scene.options[0]!.key,
-            withPersonId: scene.withPersonId,
-          })
-        : letTimePass(current, playerPersonId);
-      // Each counted childhood anchor includes an explicitly chosen wait.
-      if (scene) current = letTimePass(current, playerPersonId);
-    }
-    return anchors;
+describe("A147 waits for saved causes", () => {
+  function recordedChild() {
+    const seed = "a147-saved-child-calendar";
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    const place =
+      places[parseInt(stableHash(seed).slice(0, 8), 16) % places.length]!;
+    const f = smallWorld({ place: place.jurisdictionKey, seed });
+    const stableKey = "a147:child";
+    const world = createCharacterHistoryContextPerson(f.world, {
+      stableKey,
+      givenName: "Taylor",
+      familyName: "Lane",
+      birthDate: makeIsoDate(
+        `${Number(f.world.currentDate.slice(0, 4)) - 9}${f.world.currentDate.slice(4)}`,
+      ),
+      homeJurisdictionId: f.jurisdictionId,
+    });
+    const personId = characterHistoryContextPersonId(world, stableKey);
+    const interval = formativeIntervalAt(world, personId)!;
+    return { world, personId, interval, place: place.jurisdictionKey, seed };
   }
 
-  // The accepted budgets, which are the contract this is measured against.
-  const MINIMUM: Readonly<Record<string, number>> = {
-    "middle-childhood": 6,
-    adolescence: 8,
-  };
+  function commitment(
+    world: World,
+    personId: World["personOrder"][number],
+    offset: number,
+    key: string,
+  ) {
+    const date = addDays(world.currentDate, offset);
+    return createScheduledActivity(world, {
+      stableKey: key,
+      title: "Saved childhood appointment",
+      summary: "A fixture commitment on the child's saved calendar.",
+      kind: "confirmed",
+      start: { ...world.currentMoment, date, minuteOfDay: 600 },
+      end: { ...world.currentMoment, date, minuteOfDay: 660 },
+      participantPersonIds: [personId],
+      responsiblePersonId: personId,
+      location: {
+        locationKey: "a147:calendar-place",
+        label: "Appointment place",
+        jurisdictionId: null,
+      },
+      sourceEntityIds: [personId],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [personId] },
+    });
+  }
 
-  it.each(["pace-a", "pace-b", "pace-c", "pace-d", "pace-e"])(
-    "gives every fully lived band its budgeted anchors in %s",
-    (seed) => {
-      const anchors = playThrough(seed);
-      // Early childhood is entered part-way through by a character who starts
-      // at five, so its budget is not owed in full; the two bands lived from
-      // their first day are.
-      for (const [band, minimum] of Object.entries(MINIMUM)) {
-        expect({ seed, band, anchors: anchors[band] ?? 0 }).toEqual({
-          seed,
-          band,
-          anchors: expect.any(Number),
-        });
-        expect({
-          seed,
-          band,
-          atLeast: (anchors[band] ?? 0) >= minimum,
-        }).toEqual({ seed, band, atLeast: true });
-      }
-    },
-  );
+  it("stops at the birth-based band boundary when no earlier cause is recorded", () => {
+    const { world, personId, interval } = recordedChild();
+    expect(formativeStepDays(world, personId, interval)).toBe(
+      days(world.currentDate, interval.endsAt),
+    );
+  });
 
-  it("never lets a step cross out of the band that sized it", () => {
-    const { world, playerPersonId } = child(5, "boundary");
-    let current: World = world;
-    let guard = 0;
-    while (true) {
-      const interval = formativeIntervalAt(current, playerPersonId);
-      if (!interval) break;
-      if ((guard += 1) > 400) throw new Error("The years never ended.");
-      const projection = projectFormativeYears(current, playerPersonId);
-      const scene = projection.scene;
-      const answered = scene
-        ? chooseFormativeOption(current, {
-            personId: playerPersonId,
-            situationKey: scene.situationKey,
-            optionKey: scene.options[0]!.key,
-            withPersonId: scene.withPersonId,
-          })
-        : current;
-      const next = letTimePass(answered, playerPersonId);
-      // Landing exactly on the boundary is right; landing past it is the
-      // defect, because those days belonged to the next band's budget.
-      expect(next.currentDate <= interval.endsAt).toBe(true);
-      current = next;
-    }
+  it("uses the earliest confirmed personal appointment, ignores another person's, and restores after Continue", () => {
+    const f = recordedChild();
+    let world = commitment(f.world, f.personId, 12, "a147:later");
+    world = commitment(world, f.personId, 5, "a147:earlier");
+    world = commitment(world, f.world.personOrder[0]!, 2, "a147:other");
+    const before = serializeWorld(world);
+    expect(formativeStepDays(world, f.personId, f.interval)).toBe(5);
+    expect(
+      formativeStepDays(
+        { ...world, seed: "a147:other-seed" },
+        f.personId,
+        f.interval,
+      ),
+    ).toBe(5);
+    const continued = deserializeWorld(JSON.parse(before));
+    expect(formativeStepDays(continued, f.personId, f.interval)).toBe(5);
+    expect(serializeWorld(world)).toBe(before);
+    const earlier = world.history.scheduledActivities.find(
+      (a) => a.stableKey === "a147:earlier",
+    )!;
+    world = cancelScheduledActivity(world, earlier.id);
+    expect(formativeStepDays(world, f.personId, f.interval)).toBe(12);
+  });
+
+  it("uses a personal scheduled cause until canceled, and caps appointments beyond the band", () => {
+    const f = recordedChild();
+    let world = commitment(
+      f.world,
+      f.personId,
+      days(f.world.currentDate, f.interval.endsAt) + 2,
+      "a147:beyond",
+    );
+    world = scheduleFutureDueItem(world, {
+      stableKey: "a147:recorded-cause",
+      dueAt: addDays(world.currentDate, 7),
+      transitionKey: "fixture:a147-cause",
+      entityIds: [f.personId],
+      jurisdictionId: null,
+      provenance: {
+        kind: "authored",
+        note: "Saved-cause reader fixture only; not an event frequency.",
+      },
+    });
+    const due = world.history.futureDueItems.find(
+      (item) => item.stableKey === "a147:recorded-cause",
+    )!;
+    expect(formativeStepDays(world, f.personId, f.interval)).toBe(7);
+    world = cancelFutureDueItem(world, {
+      stableKey: "a147:cancel-recorded-cause",
+      dueItemId: due.id,
+      effectiveAt: world.currentDate,
+      reasonKey: "fixture:canceled",
+      context: "The fixture cause was canceled.",
+    });
+    expect(formativeStepDays(world, f.personId, f.interval)).toBe(
+      days(world.currentDate, f.interval.endsAt),
+    );
   });
 });

@@ -1,11 +1,13 @@
 import {
-  SeededRng,
+  compareSimulationMoments,
+  scheduledActivityState,
   activeChildAuthoritiesAt,
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
   ageOnDate,
   householdMembershipsAt,
 } from "../simulation";
+import { scheduledFutureDueItemsThrough } from "../simulation/future-transitions";
 import type {
   EntityId,
   IsoDate,
@@ -375,14 +377,9 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
 /* -------------------------------------------------------------------------- */
 
 /**
- * How far the clock moves between moments worth remembering.
- *
- * This is authored game-design pacing spending the accepted anchor budget
- * across the band it belongs to — *not* a claim about how often anything
- * happens to real children. The research classifies most of these kernels'
- * arrival frequencies as unresolved, so nothing here samples one; the previous
- * fixed 200-to-420-day cadence was an invented rate wearing a constant's
- * clothes, and it ignored the budget the contract actually specifies.
+ * Wait for the next recorded cause in this person's calendar. The birth-based
+ * developmental boundary caps the request when no earlier cause is saved.
+ * Reading pacing neither draws an anchor count nor schedules a new event.
  */
 export function formativeStepDays(
   world: World,
@@ -394,34 +391,32 @@ export function formativeStepDays(
     readonly anchorBudget: readonly [number, number];
   },
 ): number {
-  const rng = new SeededRng(world.seed).fork(
-    `formative-pacing-v2:${personId}:${interval.band}`,
-  );
-  const [minimum, maximum] = interval.anchorBudget;
-  const anchors = Math.max(1, rng.integer(minimum, maximum + 1));
-  const bandDays = Math.max(1, daysBetween(interval.beginsAt, interval.endsAt));
-
-  // The band's anchors are marks laid evenly across the band, and a step is the
-  // distance from here to the next mark — not one fixed length repeated.
-  //
-  // A fixed length is what let the budget go unspent. Divide the band by its
-  // anchors, repeat that length from wherever the character happens to be, and
-  // the last step of the band lands somewhere in the next one; the days it ate
-  // there are days that band never gets to put an anchor on. Counting from the
-  // band's own start instead means a band lived from its first day gets exactly
-  // the anchors it was budgeted, and one entered part-way through gets the
-  // marks that are left — which is the honest answer for a character who was
-  // not there for the rest.
-  const elapsed = Math.min(
-    Math.max(daysBetween(interval.beginsAt, world.currentDate), 0),
-    bandDays,
-  );
-  const nextMark = Math.floor((elapsed * anchors) / bandDays) + 1;
-  const nextAt = Math.min(
-    Math.round((nextMark * bandDays) / anchors),
-    bandDays,
-  );
-  return Math.max(1, nextAt - elapsed);
+  let nextDate = interval.endsAt;
+  for (const item of scheduledFutureDueItemsThrough(
+    world,
+    world.currentDate,
+    interval.endsAt,
+  )) {
+    if (item.entityIds.includes(personId) && item.dueAt < nextDate)
+      nextDate = item.dueAt;
+  }
+  for (const activity of world.history.scheduledActivities) {
+    if (
+      activity.kind === "tentative" ||
+      !activity.participantPersonIds.includes(personId)
+    )
+      continue;
+    const state = scheduledActivityState(world, activity.id);
+    if (
+      state.status === "scheduled" &&
+      compareSimulationMoments(state.start, world.currentMoment) >= 0 &&
+      state.start.date < nextDate
+    )
+      nextDate = state.start.date;
+  }
+  // The existing routine clock handles same-day interruptions before consuming
+  // this one-day request; this remains a positive day-count API.
+  return Math.max(1, daysBetween(world.currentDate, nextDate));
 }
 
 function daysBetween(from: string, to: string): number {
