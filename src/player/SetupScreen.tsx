@@ -304,7 +304,7 @@ export function SetupScreen({
     const completed = resolveCreatorBirthday(setup, ageChosen);
     if (!completed) {
       setBirthdayCompletionProblem(
-        "These date fields do not form a supported birthday. Check the day, month and year.",
+        "Choose both a birthday month and day, or leave both blank. Check that the date exists in your chosen year.",
       );
       return;
     }
@@ -949,6 +949,34 @@ export function SetupScreen({
             </small>
           </button>
           <h3>At home</h3>
+          {setup.startAge < 18 ? (
+            <>
+              <h3>Who raises you?</h3>
+              <div className="game-choices" data-testid="family-shape-choices">
+                {(
+                  [
+                    ["one-parent", "One parent"],
+                    ["two-parents", "Two parents"],
+                    ["guardian", "A guardian"],
+                  ] as const
+                ).map(([shape, label]) => (
+                  <button
+                    type="button"
+                    key={shape}
+                    data-testid={`family-shape-${shape}`}
+                    className={
+                      setup.familyShape === shape ? "is-chosen" : undefined
+                    }
+                    onClick={() =>
+                      setSetup((now) => ({ ...now, familyShape: shape }))
+                    }
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : null}
           <div className="game-choices" data-testid="household-choices">
             <button
               type="button"
@@ -963,7 +991,7 @@ export function SetupScreen({
               Nobody else
               <small>
                 {setup.startAge < 18
-                  ? "One adult raising you, and no other children."
+                  ? "No other children in the household."
                   : "You live on your own."}
               </small>
             </button>

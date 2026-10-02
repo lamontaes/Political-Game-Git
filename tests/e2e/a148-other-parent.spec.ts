@@ -27,30 +27,24 @@ const town = sampledProofLocalityForState(state.jurisdictionKey);
 
 test(`asks about the other parent and records the answer (${town.displayName}, ${state.name}, ${town.key}, one of ${STATES.length}, seed ${SEED})`, async ({
   page,
-}) => {
+}, testInfo) => {
   test.setTimeout(300_000);
-  // Whether one parent raises the child comes from the world's identity, so
-  // walk fixed session seeds until a life that has one comes up.
-  let asked = false;
-  for (let attempt = 0; attempt < 16 && !asked; attempt += 1) {
-    await page.goto(`/?seed=${SEED}-${attempt}`);
-    await openCreator(page);
-    await page.getByTestId("start-custom").click();
-    await completeCharacterStep(page, 10, {
-      givenName: "Avery",
-      familyName: "Morgan",
-    });
-    await page.getByTestId("creator-continue-character").click();
-    await chooseCreatorLocation(
-      page,
-      { age: 10, place: town.displayName, state: state.name },
-      true,
-    );
-    await expect(page.getByTestId("creator-stage-background")).toBeVisible();
-    await page.getByTestId("lives-alone").click();
-    asked = (await page.getByTestId("other-parent-choices").count()) > 0;
-  }
-  expect(asked, "no session seed opened a one-parent family").toBe(true);
+  await page.goto(`/?seed=${SEED}`);
+  await openCreator(page);
+  await page.getByTestId("start-custom").click();
+  await completeCharacterStep(page, 10, {
+    givenName: "Avery",
+    familyName: "Morgan",
+  });
+  await page.getByTestId("creator-continue-character").click();
+  await chooseCreatorLocation(
+    page,
+    { age: 10, place: town.displayName, state: state.name },
+    true,
+  );
+  await expect(page.getByTestId("creator-stage-background")).toBeVisible();
+  await page.getByTestId("lives-alone").click();
+  await page.getByTestId("family-shape-one-parent").click();
 
   const choices = page.getByTestId("other-parent-choices");
   await expect(choices.getByRole("button")).toHaveCount(3);
@@ -60,6 +54,10 @@ test(`asks about the other parent and records the answer (${town.displayName}, $
   await expect(page.getByTestId("other-parent-deceased")).toHaveClass(
     /is-chosen/,
   );
+  await page.screenshot({
+    path: testInfo.outputPath("stated-family.png"),
+    fullPage: true,
+  });
   await page.getByTestId("creator-continue-background").click();
   await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
@@ -73,4 +71,8 @@ test(`asks about the other parent and records the answer (${town.displayName}, $
   await page.getByTestId("nav-personal").click();
   await page.getByTestId("life-introduction").locator("summary").click();
   await expect(page.getByTestId("life-grounding")).toContainText("has died");
+  await page.screenshot({
+    path: testInfo.outputPath("recorded-family.png"),
+    fullPage: true,
+  });
 });
