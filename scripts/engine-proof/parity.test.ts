@@ -1,14 +1,23 @@
-import { describe, expect, it } from "vitest";
+import * as nationalTerms from "../../src/simulation/national-election-consumer";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
+import { describe, expect, it, vi } from "vitest";
 import { createHash } from "node:crypto";
 import { runNationalParity } from "./national";
 import { readFileSync } from "node:fs";
 import {
   createWorkItem,
+  createScheduledActivity,
+  performScheduledActivity,
+  scheduledActivityState,
+  advanceWorldMinutes,
   applyDateBoundary,
 } from "../../src/simulation/time-work";
 import { baselineAdvanceWorld } from "./baseline-date-route";
 import { advanceWorld, createWorldId } from "../../src/simulation/world";
-import { makeIsoDate } from "../../src/simulation/dates";
+import { addSimulationMinutes, makeIsoDate } from "../../src/simulation/dates";
 import { createLightweightPerson } from "../../src/simulation/people";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import {
@@ -308,5 +317,63 @@ describe("C5 independent route proof", () => {
     expect(steps).toHaveLength(96);
     expect(steps.reduce((sum, s) => sum + s.amount, 0)).toBe(1440);
     expect(() => schedule("days", 0, 400)).toThrow();
+  });
+});
+
+describe("A2 actual same-date activities", () => {
+  it("two activities in one day run the daily chain zero extra times, including reload", () => {
+    const chosen = nationalPlacePlan("a2-two-activities", 1).watched[0]!;
+    let world = open({
+      seed: chosen.seed,
+      placeKey: chosen.placeKey,
+      steps: schedule("days", 1, 1),
+    });
+    const personId = world.personOrder[0]!;
+    world = { ...world, control: { kind: "person", personId } };
+    const initialMoment = world.currentMoment;
+    const initialDate = world.currentDate;
+    const ids = [];
+    for (let index = 0; index < 2; index += 1) {
+      world = createScheduledActivity(world, {
+        stableKey: `a2:activity:${index}`,
+        title: "Recorded activity",
+        summary: "Authored same-date clock regression.",
+        kind: "confirmed",
+        start: addSimulationMinutes(initialMoment, index * 10),
+        end: addSimulationMinutes(initialMoment, (index + 1) * 10),
+        participantPersonIds: [personId],
+        responsiblePersonId: personId,
+        location: {
+          locationKey: "a2:fixture",
+          label: "Clock fixture",
+          jurisdictionId: world.people[personId]!.homeJurisdictionId,
+        },
+        sourceEntityIds: [personId],
+        flexibility: { kind: "fixed" },
+        access: { kind: "private", personIds: [personId] },
+      });
+      ids.push(world.history.scheduledActivities.at(-1)!.id);
+    }
+    // Observe the real date-boundary consumer; do not replace its implementation.
+    const boundary = vi.spyOn(nationalTerms, "applyNationalTermTransitions");
+    try {
+      world = performScheduledActivity(world, ids[0]!, new Map());
+      expect(scheduledActivityState(world, ids[0]!).status).toBe("completed");
+      world = deserializeWorld(serializeWorld(world));
+      world = performScheduledActivity(world, ids[1]!, new Map());
+      expect(ids.map((id) => scheduledActivityState(world, id).status)).toEqual(
+        ["completed", "completed"],
+      );
+      expect(world.currentMoment).toEqual(
+        addSimulationMinutes(initialMoment, 20),
+      );
+      expect(world.currentDate).toBe(initialDate);
+      expect(boundary).not.toHaveBeenCalled();
+      const tomorrow = advanceWorldMinutes(world, 1440, new Map());
+      expect(tomorrow.currentDate > initialDate).toBe(true);
+      expect(boundary).toHaveBeenCalledTimes(1);
+    } finally {
+      boundary.mockRestore();
+    }
   });
 });

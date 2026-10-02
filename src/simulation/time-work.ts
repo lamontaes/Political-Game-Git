@@ -2011,11 +2011,14 @@ function setCurrentMoment(
   moment: SimulationMoment,
   crossedFrom: World["currentDate"] = world.currentDate,
 ): World {
-  return applyDateBoundary(crossedFrom, {
+  const next = {
     ...world,
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
-  });
+  };
+  return moment.date === crossedFrom
+    ? next
+    : applyDateBoundary(crossedFrom, next);
 }
 
 /** The canonical consequences of moving between dates. Callers pass the date
