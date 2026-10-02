@@ -1,3 +1,8 @@
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { advanceWorldMinutes } from "../simulation/time-work";
+import { proseWeekdayDate } from "../presentation/prose-dates";
+import type { World } from "../simulation";
 import type { ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
@@ -9,7 +14,10 @@ import {
   describeTimeCommandPreview,
   previewTimeCommand,
 } from "../presentation/time-command";
-import { skipToLabel } from "../presentation/time-target-label";
+import {
+  describeTimeTarget,
+  skipToLabel,
+} from "../presentation/time-target-label";
 
 import {
   INITIAL_SHELL_STATE,
@@ -256,4 +264,107 @@ describe("ShellNav interrupt checklist", () => {
     );
     expect(html).toContain("Resolve the decision under Work");
   });
+});
+
+// Append independently of the original cases and render helper.
+function renderReceivedClockWorld(
+  world: World,
+  targets: { day: string; week: string; untilNeeded: string | null },
+) {
+  return renderToStaticMarkup(
+    <ShellNav
+      state={INITIAL_SHELL_STATE}
+      dispatch={() => {}}
+      playerName={
+        world.people[
+          world.control.kind === "person"
+            ? world.control.personId
+            : world.personOrder[0]!
+        ]!.givenName
+      }
+      dateLabel={proseWeekdayDate(world.currentDate)}
+      currentMoment={world.currentMoment}
+      placeName={null}
+      destinations={DESTINATIONS}
+      canSave
+      unsaved={false}
+      onSave={() => {}}
+      onLeave={() => {}}
+      onPassDays={() => {}}
+      onPassUntilNeeded={() => {}}
+      passTargets={targets}
+    />,
+  );
+}
+
+function receivedClockLabel(html: string) {
+  const found = html.match(/data-testid="shell-current-clock"[^>]*>([^<]*)</);
+  expect(found).not.toBeNull();
+  return found![1]!;
+}
+
+describe("the shell bar displays the received world's actual clock", () => {
+  const places = lifePlaceStateIdentities();
+  it("uses all 56 canonical state and territory identities", () => {
+    expect(places).toHaveLength(56);
+    expect(new Set(places.map((place) => place.jurisdictionKey)).size).toBe(56);
+  });
+  it.each(places)(
+    "updates the current clock independently of skip targets in $name",
+    (place: (typeof places)[number]) => {
+      const initial = smallWorld({
+        place: place.jurisdictionKey,
+        people: 4,
+        seed: `team7-current-clock:${place.jurisdictionKey}`,
+      }).world;
+      const personId =
+        initial.control.kind === "person"
+          ? initial.control.personId
+          : initial.personOrder[0]!;
+      const day = previewTimeCommand(initial, personId, {
+        kind: "days",
+        days: 1,
+      });
+      const week = previewTimeCommand(initial, personId, {
+        kind: "days",
+        days: 7,
+      });
+      expect(day).not.toBeNull();
+      expect(week).not.toBeNull();
+      const targets = {
+        day: skipToLabel(day!.target),
+        week: skipToLabel(week!.target),
+        untilNeeded: null,
+      };
+      const beforeHistory = initial.history;
+      const first = renderReceivedClockWorld(initial, targets);
+      expect(receivedClockLabel(first)).toContain(
+        describeTimeTarget(initial.currentMoment),
+      );
+      expect(initial.history).toBe(beforeHistory);
+      const later = advanceWorldMinutes(initial, 37);
+      expect(later.currentMoment).not.toEqual(initial.currentMoment);
+      const second = renderReceivedClockWorld(later, targets);
+      expect(receivedClockLabel(second)).toContain(
+        describeTimeTarget(later.currentMoment),
+      );
+      expect(receivedClockLabel(second)).not.toContain(
+        describeTimeTarget(initial.currentMoment),
+      );
+      for (const html of [first, second]) {
+        expect(html).toContain(targets.day);
+        expect(html).toContain(targets.week);
+        expect(receivedClockLabel(html)).not.toContain(targets.day);
+        expect(receivedClockLabel(html)).not.toContain(targets.week);
+      }
+      // Re-rendering the received world keeps the clock and creates no time.
+      const laterMoment = later.currentMoment;
+      const laterHistory = later.history;
+      expect(receivedClockLabel(renderReceivedClockWorld(later, targets))).toBe(
+        receivedClockLabel(second),
+      );
+      expect(later.currentMoment).toBe(laterMoment);
+      expect(later.history).toBe(laterHistory);
+    },
+  );
 });
