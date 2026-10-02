@@ -42,3 +42,14 @@ Final saved-record examples (IDs printed by the passing changed file):
 {"place":"US-SC","person":"Zara Carey","personId":"person_2e5e3dcbd93c2fe0","payId":"resource-transfer-outcome_c8e038b5514029ff","liabilityId":"statutory-tax-liability_cff2d8edb51cd678","paymentId":"statutory-tax-payment_9ea3ecce5be8f396","transferId":"resource-transfer-outcome_bfd818a5145128b5","incomeMinor":3680769,"accountId":"organization_552be60ea0d55460"}
 {"place":"US-RI","person":"Rosa Merritt","personId":"person_e47699ae45f14c9b","payId":"resource-transfer-outcome_0fd903a1b960176c","liabilityId":"statutory-tax-liability_9f104391a7bec374","paymentId":"statutory-tax-payment_701fff930a42887a","transferId":"resource-transfer-outcome_06cb8a563d85ba55","incomeMinor":3680769,"accountId":"organization_6c2c3c0fb15b3693"}
 {"place":"US-UT","person":"Christian Cook","personId":"person_911d98b7e38c4d24","payId":"resource-transfer-outcome_7820468dd540d70b","liabilityId":"statutory-tax-liability_14c3db9b45328630","paymentId":"statutory-tax-payment_478f6651b719433e","transferId":"resource-transfer-outcome_a0dfc60d397a6c49","incomeMinor":3680769,"accountId":"organization_cb32328a7c44daec"}
+
+Additive current-main receiving result:
+Main ee0cf0076 received without conflicts as 77a266333c211d92fa14d54893b1c24c3950d30c.
+Own two source blobs unchanged. Complete changed federal-treasury.test.ts
+9/9 PASS, 16.81 seconds total / 630 ms bodies; session76233 exit0.
+Strict two-root receiving types: 1045 imported files, 0 diagnostics;
+session91336 exit0. Earlier 9/9 proof remains separately pinned.
+Release transition on original source0d26e23db41e6a71f78af06d1c01a45490c7b0f1
+reported problems:[] against main5079. Final receiving transition requested
+against ee0cf0076. Civic report mechanical0errors0warnings and reviewerPASS.
+Audit values remain original pinned main/branch results; no fresh flip claim.
