@@ -52,7 +52,8 @@ function budget(government: PublicBudgetGovernment): PublicBudgetStore {
 
 function fixture(stateKey: string) {
   const jurisdiction = stateJurisdictionForKey(stateKey);
-  if (!jurisdiction) throw new Error(`Missing fixture jurisdiction: ${stateKey}`);
+  if (!jurisdiction)
+    throw new Error(`Missing fixture jurisdiction: ${stateKey}`);
   const world = createWorld({
     seed: `${seed}:${stateKey}`,
     currentDate: date,
@@ -175,7 +176,10 @@ describe("A33 state settlement requires saved cash and recorded flows", () => {
       let world = createResourceFlow(payer.world, {
         stableKey: "a33:state-cash:receipt",
         source: { kind: "organization", organizationId: payer.organizationId },
-        recipient: { kind: "organization", organizationId: saved.organizationId },
+        recipient: {
+          kind: "organization",
+          organizationId: saved.organizationId,
+        },
         startsAt: date,
         amount: money(125, "USD"),
         cadenceKind: "schedule:one-time",
