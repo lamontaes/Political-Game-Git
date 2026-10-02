@@ -515,7 +515,52 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
   world,
   item,
 ) => {
-  const start = item.dueAt;
+  const opened = openMortalityWindow(world, item.dueAt, item.id);
+  return {
+    world: opened.world,
+    status: "resolved",
+    reasonKey: "crisis:mortality-window",
+    context: `Exposed ${opened.newly} newly tracked people.`,
+    outcomeEventId: null,
+  };
+};
+
+/**
+ * Starts the model on a new life's own Begin day rather than at the next
+ * quarter boundary: the first window opens at once, so everyone's existing
+ * conditions are on record from Begin, and their strain and any new
+ * condition count from then. An existing save keeps ensureCrisisMortality's
+ * start at its next boundary; earlier history is not reinterpreted.
+ */
+export function beginCrisisMortality(world: World): World {
+  if (
+    windowRecords(world).length > 0 ||
+    world.history.futureDueItems.some(
+      (item) => item.transitionKey === MORTALITY_WINDOW_KEY,
+    )
+  )
+    return world;
+  const next = openMortalityWindow(
+    world,
+    makeIsoDate(world.currentDate),
+    null,
+  ).world;
+  assertWorldIntegrity(next);
+  return next;
+}
+
+/**
+ * One exposure window from `start` to the next quarter boundary: the people
+ * first tracked today and their starting conditions, then each living
+ * person's strain and condition days inside the window, and the next
+ * window's due item. `dueItemId` is null only for the window a new life's
+ * opening starts on Begin.
+ */
+function openMortalityWindow(
+  world: World,
+  start: IsoDate,
+  dueItemId: EntityId | null,
+): { readonly world: World; readonly newly: number } {
   const end = firstOfNextQuarter(start);
   const tracked = new Set(mortalityExposureStarts(world).keys());
   const newly = world.personOrder.filter(
@@ -525,14 +570,14 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
     kind: "mortality-window",
     stableKey: windowStableKey(start),
     effectiveAt: start,
-    causalParentIds: [item.id],
+    causalParentIds: dueItemId === null ? [] : [dueItemId],
     visibility: "private",
     eventId: null,
     model: CRISIS_MORTALITY_MODEL,
     tableId: SSA_2023_TABLE_ID,
     windowEnd: end,
     newlyTrackedPersonIds: newly,
-    dueItemId: item.id,
+    dueItemId,
   });
   const windowId = crisisRecordId(next, windowStableKey(start));
   // People the model first exposes today start with the chronic conditions
@@ -573,14 +618,8 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
     jurisdictionId: null,
     provenance: { kind: "simulated", sourceEntityIds: [windowId] },
   });
-  return {
-    world: next,
-    status: "resolved",
-    reasonKey: "crisis:mortality-window",
-    context: `Exposed ${newly.length} newly tracked people.`,
-    outcomeEventId: null,
-  };
-};
+  return { world: next, newly: newly.length };
+}
 
 /**
  * Writes the death a serious episode ends in, on the day the episode carried,

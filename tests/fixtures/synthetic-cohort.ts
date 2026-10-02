@@ -165,6 +165,8 @@ export function runSyntheticCohort(
       if (!condition.onsetScale || held.has(condition.key)) return [];
       const day = conditionOnsetDay(
         {
+          seed,
+          personId: person.id,
           key: condition.key,
           birthDate: person.birthDate,
           category: person.sex,

@@ -49,7 +49,7 @@ import { ensureEpidemicProduction } from "../simulation/crisis/epidemic";
 import { ensurePlaceOutcomes } from "../simulation/outcome-web/place-outcomes";
 import { ensurePublicBudgets } from "../simulation/public-budgets";
 import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
-import { ensureCrisisMortality } from "../simulation/crisis/mortality";
+import { beginCrisisMortality } from "../simulation/crisis/mortality";
 import {
   ensureMacroEconomyStarted,
   macroStartForHistory,
@@ -364,15 +364,16 @@ function completeOpeningLife(
   const withEpidemics = ensureEpidemicProduction(withCrime);
   const withOutcomes = ensurePlaceOutcomes(withEpidemics);
   const withBudgets = ensurePublicBudgets(withOutcomes);
-  const withMortality = ensureOpeningMortality(
-    withBudgets,
+  // Health starts last, so the town's residents, the press and the seated
+  // local government the opening adds are on record from Begin too.
+  const world = ensureOpeningMortality(
+    openedWorld(
+      withBudgets,
+      game.playerPersonId,
+      session.setup.openingDataVersion,
+      session.setup.livingWorldMemberNameVersion,
+    ),
     session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
-  );
-  const world = openedWorld(
-    withMortality,
-    game.playerPersonId,
-    session.setup.openingDataVersion,
-    session.setup.livingWorldMemberNameVersion,
   );
   return {
     ...session,
@@ -476,10 +477,13 @@ export function pressOpeningApplies(world: World): boolean {
   return worldOpeningVersionOf(world) === CRUNCH46_WORLD_OPENING_VERSION;
 }
 
-/** Only a current opening; a legacy descriptor must rebuild its exact bytes. */
+/**
+ * Only a current opening; a legacy descriptor must rebuild its exact bytes.
+ * A new life's health record starts on Begin, not at the next quarter.
+ */
 function ensureOpeningMortality(world: World, openingVersion: string): World {
   if (openingVersion !== CRUNCH46_WORLD_OPENING_VERSION) return world;
-  return ensureCrisisMortality(world);
+  return beginCrisisMortality(world);
 }
 
 export function moveOpeningLife(

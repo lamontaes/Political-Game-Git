@@ -12,8 +12,9 @@ import { beginHealthEpisode } from "./health";
 import { conditionStrainInput } from "./mortality";
 
 /**
- * Begins a chronic condition on the day its own strain crossed the threshold
- * (Ruling 38, step 2), through the ordinary health-episode writer. The
+ * Begins a chronic condition on the day its own strain reached the person's
+ * threshold (Ruling 38, step 2; conditionOnsetDay), through the ordinary
+ * health-episode writer. The
  * crossing is re-read from the records as they stand; an item a later record
  * change moved begins nothing. The episode cites the coverage record whose
  * causes pushed the strain, when one did.
@@ -44,7 +45,7 @@ export const conditionOnsetHandler: FutureTransitionHandler = (world, item) => {
   if (strain.held.has(key)) return cancelled("The condition is already held.");
   if (
     conditionOnsetDay(
-      { ...strain, key },
+      { ...strain, key, seed: world.seed, personId },
       strain.exposureStart,
       addDays(today, 1),
     ) === null

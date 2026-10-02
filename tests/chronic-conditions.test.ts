@@ -30,7 +30,7 @@ import {
   startHouseholdMembership,
 } from "../src/simulation/life";
 import { lifePlaceStateIdentities } from "../src/simulation/life-places";
-import type { EntityId, World } from "../src/simulation/types";
+import type { EntityId, IsoDate, World } from "../src/simulation/types";
 import { smallWorld } from "./fixtures/small-world";
 
 /*
@@ -238,41 +238,39 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
   it(
     "begins a condition during life on the day its own strain crosses",
     () => {
-      // The oldest age the life table carries crosses within months. The
-      // first such person in seed order who starts with no pack condition.
-      const date = small.world.currentDate;
-      let world = small.world;
+      // Two hundred people of 75 at their first tracked day. Of those without
+      // heart disease, the one whose day, read from the pack's rise in its
+      // prevalence past 75, comes first within five years.
+      const { world, ids } = cohort(small.world, 75, 200);
+      const open = exposed(world);
+      const horizon = addDays(open.currentDate, Math.round(5 * 365.25));
       let personId: EntityId | null = null;
-      for (let index = 0; index < 20 && !personId; index += 1) {
-        world = createCharacterHistoryContextPerson(world, {
-          stableKey: `ruling-38:oldest:${index}`,
-          givenName: "Oldest",
-          familyName: `Resident-${index}`,
-          birthDate: addDays(date, -Math.round(119.2 * 365.25) - index),
-          homeJurisdictionId: small.jurisdictionId,
-        });
-        const id = world.personOrder.at(-1)!;
-        if (
-          startingConditionKeys(world.seed, id, 119.2, "equal-mixture")
-            .length === 0
-        )
+      let onset: IsoDate | null = null;
+      for (const id of ids) {
+        const strain = conditionStrainInput(open, id)!;
+        if (strain.held.has("heart-disease")) continue;
+        const day = conditionOnsetDay(
+          { ...strain, key: "heart-disease", seed: open.seed, personId: id },
+          open.currentDate,
+          horizon,
+        );
+        if (day !== null && (onset === null || day < onset)) {
+          onset = day;
           personId = id;
+        }
       }
       expect(personId).not.toBeNull();
-      const open = exposed(world);
-      expect(conditionEpisodes(open, personId!)).toEqual([]);
-      const strain = conditionStrainInput(open, personId!)!;
-      const onset = conditionOnsetDay(
-        { ...strain, key: "heart-disease" },
-        open.currentDate,
-        addDays(open.currentDate, 365),
-      )!;
-      expect(onset).not.toBeNull();
+      const due = onset!;
+      expect(
+        conditionEpisodes(open, personId!).some(
+          (episode) => episode.conditionKey === "heart-disease",
+        ),
+      ).toBe(false);
       // Nothing is begun before its day; the quarter it falls in puts it on
       // the clock as a due item.
       const before = resolveFutureDueItemsThrough(
         open,
-        addDays(onset, -1),
+        addDays(due, -1),
         HANDLERS,
       );
       expect(
@@ -285,14 +283,14 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
           (item) =>
             item.transitionKey === CONDITION_ONSET_KEY &&
             item.entityIds.includes(personId!) &&
-            item.dueAt === onset,
+            item.dueAt === due,
         ),
       ).toBe(true);
-      const after = resolveFutureDueItemsThrough(before, onset, HANDLERS);
+      const after = resolveFutureDueItemsThrough(before, due, HANDLERS);
       const begun = conditionEpisodes(after, personId!).find(
         (episode) => episode.conditionKey === "heart-disease",
       )!;
-      expect(begun.effectiveAt).toBe(onset);
+      expect(begun.effectiveAt).toBe(due);
       expect(begun.severity).toBe("chronic");
       expect(begun.causalParentIds.length).toBeGreaterThan(0);
     },
@@ -333,20 +331,27 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
       // the poverty line on the coverage record.
       expect(strain.coverage.at(-1)!.monthlyIncomeMinor).toBe(0);
       const horizon = addDays(read.currentDate, 365 * 80);
+      let sooner = 0;
       for (const key of ["heart-disease", "diabetes"]) {
         if (strain.held.has(key)) continue;
+        const own = { seed: read.seed, personId };
         const withRecord = conditionOnsetDay(
-          { ...strain, key },
+          { ...strain, ...own, key },
           read.currentDate,
           horizon,
-        )!;
+        );
         const without = conditionOnsetDay(
-          { ...strain, key, coverage: [] },
+          { ...strain, ...own, key, coverage: [] },
           read.currentDate,
           horizon,
-        )!;
-        expect(withRecord < without, key).toBe(true);
+        );
+        // The recorded cause never delays a condition: it begins sooner, or
+        // begins where it otherwise would not within the span.
+        if (without !== null)
+          expect(withRecord !== null && withRecord < without, key).toBe(true);
+        if (withRecord !== null) sooner += 1;
       }
+      expect(sooner).toBeGreaterThan(0);
     },
     CASE_LIMIT,
   );
