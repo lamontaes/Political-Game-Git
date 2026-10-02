@@ -22,7 +22,6 @@ import {
   RECALL_PETITION_CLOSED,
   RECALL_VERSION,
   recallElectionHandler,
-  recallPetitionClosesHandler,
   recallResidentViews,
   canStartRecallPetition,
   municipalRecallRule,
