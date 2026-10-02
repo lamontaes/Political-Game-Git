@@ -166,20 +166,6 @@ export function townQuestions(
     );
 }
 
-/** "Short-term rental rules" becomes "Short-Term Rental Rules Ordinance". */
-function ordinanceTitle(questionName: string): string {
-  const words = questionName
-    .replace(/\s+(law|act|ordinance)$/i, "")
-    .split(/\s+/)
-    .map((word, index) =>
-      index > 0 &&
-      /^(a|an|and|as|at|by|for|in|of|on|or|the|to|with)$/i.test(word)
-        ? word.toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1),
-    );
-  return `${words.join(" ")} Ordinance`;
-}
-
 function introduce(
   world: World,
   unit: GovernmentUnitIdentity,
@@ -250,7 +236,6 @@ function fileOrdinances(
       ),
       measures: councilMeasures(law.world, rules, law.jurisdictionId),
       playerPersonId: player,
-      title: ordinanceTitle,
       measureKey: (numbering) =>
         `${V}:${unit.id}:${numbering.numberingSession.key}:${numbering.designation}`,
     },

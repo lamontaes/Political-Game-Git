@@ -1,11 +1,22 @@
 import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import { smallWorld } from "../fixtures/small-world";
+import { scheduleFutureDueItem } from "../../src/simulation/future-transitions";
+import { enactThroughDesk } from "../fixtures/enact-through-desk";
+import { introduceMeasure } from "../../src/simulation/legislation";
+import { legislativePackForJurisdiction } from "../../src/simulation/legislative-institutions";
 import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../src/presentation/opening-life";
-import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
+  authoredScenarioSeatCount,
+  seatBodyForPack,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+} from "../../src/simulation/legislation-scenarios";
+import { governorOfficeForJurisdiction } from "../../src/simulation/governing/state-governing";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import { stableHash } from "../../src/simulation/ids";
 import {
@@ -29,7 +40,7 @@ import {
 } from "../../src/simulation/public-budgets";
 import { firstOfNextMonth } from "../../src/simulation/public-budgets/fiscal";
 import { lawSpendingForMonth } from "../../src/simulation/public-budgets/month";
-import { parksSpendingPerResident } from "../../src/simulation/public-budgets/parks-dedication";
+import { spendingPerResident } from "../../src/simulation/public-budgets/fiscal";
 import { SPENDING_QUESTION_EFFECTS } from "../../src/simulation/public-budgets/rules";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import {
@@ -38,10 +49,9 @@ import {
 } from "../../src/simulation/world";
 import type {
   EntityId,
-  FutureDueItem,
-  IsoDate,
-  LegislativeEnactmentRecord,
   LegislativeMeasureRecord,
+  LegislativeEnactmentRecord,
+  IsoDate,
   World,
 } from "../../src/simulation";
 
@@ -86,23 +96,86 @@ function scenario(seed: string, pool: readonly string[]) {
   }).find((place) => place.scope !== "state")!;
 
   function openedWorld(): { world: World; player: EntityId } {
-    const game = generateOpeningLife(
-      prepareOpeningLife({
-        ...DEFAULT_NEW_GAME_SETUP,
-        seed,
-        placeKey: TOWN.key,
-        startAge: 30,
-        questionnaire: "skipped",
-      }),
-    ).game!;
+    const game = smallWorld({ place: TOWN.key, seed, offices: ["governor"] });
     return {
       world: { ...game.world, policyCatalog: POLICY },
-      player: game.playerPersonId,
+      player: game.personId,
     };
   }
 
   /** The state's legislature reverses its starting answer on the opening day. */
   function withLaw(world: World, player: EntityId): World {
+    const state = stateJurisdictionForKey(STATE_KEY)!;
+    const pack = legislativePackForJurisdiction(state.id)!;
+    // Preserve the existing authored row-input proof where no institutional pack is admitted.
+    if (!pack) return withAuthoredRecordedLaw(world, player);
+    const filed = introduceMeasure(world, {
+      stableKey: "test:parks-dedication",
+      jurisdictionId: state.id,
+      rulePackId: pack.packId,
+      designation: "Parks fixture bill",
+      shortTitle: "Parks Funding Act",
+      summary: "Explicit authored downstream spending fixture.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      sponsorPersonId: player,
+      propositionIds: [QUESTION],
+      propositionAnswers: [{ propositionId: QUESTION, answer: ANSWER }],
+    });
+    const measureId = filed.history.legislativeMeasures!.at(-1)!.id;
+    const bodies = pack.chambers.map((chamber) =>
+      seatBodyForPack(
+        chamber.chamberKey,
+        chamber.name,
+        authoredScenarioSeatCount(pack, chamber.chamberKey),
+        [],
+        false,
+      ),
+    );
+    const votePlan: Record<string, { yea: number }> = {};
+    for (const body of bodies) {
+      const chamber = pack.chambers.find(
+        (row) => row.chamberKey === body.chamberKey,
+      )!;
+      for (const committee of chamber.committees)
+        votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+          yea: committee.appointedMembers ?? 7,
+        };
+      for (const stage of chamber.floorStages)
+        votePlan[votePlanKeyForFloor(body.chamberKey, stage.stageKey)] = {
+          yea: body.members.length,
+        };
+    }
+    const governor = governorOfficeForJurisdiction(
+      filed,
+      pack.jurisdictionKey,
+    )!;
+    if (!governor)
+      throw new Error("The parks fixture requires its actual governor.");
+    return enactThroughDesk(
+      {
+        ...filed,
+        control: { kind: "person", personId: governor.holderPersonId },
+      },
+      measureId,
+      {
+        context: {
+          pack,
+          measureId,
+          bodies,
+          votePlan,
+          committeeMemberCount:
+            pack.chambers[0]?.committees[0]?.appointedMembers ?? 7,
+          governorAction: "signed",
+          governorRationale:
+            "Explicit authored signature for downstream spending parity.",
+        },
+      },
+    );
+  }
+
+  // Historical authored law fixture: input parity only, never production passage proof.
+  function withAuthoredRecordedLaw(world: World, player: EntityId): World {
     const opened = world.currentDate;
     const state = stateJurisdictionForKey(STATE_KEY)!;
     const recorded = recordWorldEvent(world, {
@@ -182,15 +255,20 @@ function scenario(seed: string, pool: readonly string[]) {
   function runMonths(start: World, months: number): World {
     let world = start;
     let due = makeIsoDate(`${start.currentDate.slice(0, 7)}-01`);
-    // The law's records are written directly, as the paycheck test writes
-    // its federal raise, so the integrity check waits until the passes finish.
+    // The explicit monthly handler fixture does not advance the global clock.
     withWorldIntegrityDeferred(() => {
       for (let index = 0; index < months; index += 1) {
         due = makeIsoDate(`${addDays(due, 32).slice(0, 7)}-01`);
-        world = placeOutcomesHandler(world, {
+        world = scheduleFutureDueItem(world, {
+          stableKey: `test:parks:monthly:${due}`,
           dueAt: due,
           transitionKey: PLACE_OUTCOMES_TRANSITION_KEY,
-        } as FutureDueItem).world;
+          entityIds: [world.id],
+          jurisdictionId: null,
+          provenance: { kind: "simulated", sourceEntityIds: [world.id] },
+        });
+        const item = world.history.futureDueItems.at(-1)!;
+        world = placeOutcomesHandler(world, item).world;
       }
     });
     return world;
@@ -205,10 +283,14 @@ function scenario(seed: string, pool: readonly string[]) {
   const PARKS = BUDGET_PROGRAMS.indexOf("parks");
   const PERCENT_ADDED =
     ((ANSWER === "yes" ? effect.toYes! : effect.toNo!) /
-      parksSpendingPerResident(STATE_KEY)) *
+      spendingPerResident(STATE_KEY, "parksAndRecreation")) *
     100;
 
   describe(`dedicated parks funding in ${TOWN.displayName} (${STATE_KEY}, seed ${seed})`, () => {
+    if (!legislativePackForJurisdiction(stateJurisdictionForKey(STATE_KEY)!.id))
+      it.todo(
+        "production passage awaits an admitted legislative pack; the retained authored cases prove row-input parity only",
+      );
     it(`puts the parks dollars on ${STATE_KEY}'s budget line the month after its legislature answers ${ANSWER}`, () => {
       const { world: opened, player } = openedWorld();
       const withIt = withLaw(opened, player);
@@ -229,6 +311,12 @@ function scenario(seed: string, pool: readonly string[]) {
       )!;
       const month = firstOfNextMonth(opened.currentDate);
       expect(lawSpendingForMonth(opened, government, month)[PARKS]).toBe(0);
+      if (
+        legislativePackForJurisdiction(stateJurisdictionForKey(STATE_KEY)!.id)
+      ) {
+        const saved = serializeWorld(withIt);
+        expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
+      }
       expect(lawSpendingForMonth(withIt, government, month)[PARKS]).toBeCloseTo(
         ((ANSWER === "yes" ? effect.toYes! : effect.toNo!) *
           government.population) /
@@ -276,3 +364,5 @@ scenario(
   "dedicated-parks-funding-repeal",
   PLACES.filter((key) => began[key]?.answer === "yes"),
 );
+
+scenario("dedicated-parks-funding-desk", PLACES);

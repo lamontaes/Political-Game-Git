@@ -35,7 +35,6 @@ import { createWorkItem, workItemState } from "../time-work";
 import type {
   EntityId,
   FutureDueItem,
-  FutureTransitionHandler,
   FutureTransitionHandlerResult,
   HistoricalEvent,
   IsoDate,
@@ -2955,48 +2954,6 @@ export const executiveDesk: ExecutiveDeskHandler = (
     : governorDesk(world, measure, blueprint);
 
 /**
- * Puts money a step enacted in front of its executive the same day.
- *
- * Every route that can enact an appropriation needs this, not only the state
- * legislature's: before it was shared, a law passed by Congress or a city or
- * county council became spending authority that no office was ever asked to
- * commit, so its money never moved.
- */
-export function withProgramMatters(
-  handler: FutureTransitionHandler,
-): FutureTransitionHandler {
-  return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
-    const result = handler(world, due);
-    // Appropriation records are only appended, so an unchanged count means
-    // the step enacted no money.
-    if (
-      (result.world.history.publicProgramRecords ?? []).length ===
-      (world.history.publicProgramRecords ?? []).length
-    )
-      return result;
-    // A step opens only the new money it enacted. The explicit opener and
-    // dated availability dues handle money already on record.
-    const prior = new Set(
-      (world.history.publicProgramRecords ?? [])
-        .filter((record) => record.kind === "appropriation")
-        .map((record) => record.id),
-    );
-    const added = new Set(
-      (result.world.history.publicProgramRecords ?? [])
-        .filter(
-          (record) => record.kind === "appropriation" && !prior.has(record.id),
-        )
-        .map((record) => record.id),
-    );
-    if (added.size === 0) return result;
-    return {
-      ...result,
-      world: openProgramMattersForAllOffices(result.world, added),
-    };
-  };
-}
-
-/**
  * The governing handlers, built when a registry asks for them rather than when
  * this module loads: several of the keys belong to modules that import this
  * one, and are not defined yet while it is loading.
@@ -3004,23 +2961,18 @@ export function withProgramMatters(
 export function stateGoverningHandlers() {
   // Any of these can enact money: the legislative step, Congress's sittings,
   // and a governor's or President's signature on the desk.
-  return (
-    [
-      [STATE_LEGISLATURE_OPENING_TRANSITION, stateLegislatureOpeningHandler],
-      [
-        LEGISLATIVE_INSTITUTION_STEP,
-        createInstitutionStepHandler(executiveDesk),
-      ],
-      ...congressLawmakingHandlers(),
-      [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-      [GOVERNING_SEASON, governingSeasonHandler],
-      [GOVERNING_TRANSITION, governingTransitionHandler],
-      [GOVERNING_DEADLINE, governingDeadlineHandler],
-      [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
-      [GOVERNING_PROGRAM_AVAILABLE, governingProgramAvailableHandler],
-      [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
-    ] as const
-  ).map(([key, handler]) => [key, withProgramMatters(handler)] as const);
+  return [
+    [STATE_LEGISLATURE_OPENING_TRANSITION, stateLegislatureOpeningHandler],
+    [LEGISLATIVE_INSTITUTION_STEP, createInstitutionStepHandler(executiveDesk)],
+    ...congressLawmakingHandlers(),
+    [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
+    [GOVERNING_SEASON, governingSeasonHandler],
+    [GOVERNING_TRANSITION, governingTransitionHandler],
+    [GOVERNING_DEADLINE, governingDeadlineHandler],
+    [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
+    [GOVERNING_PROGRAM_AVAILABLE, governingProgramAvailableHandler],
+    [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+  ] as const;
 }
 
 /** Recorded decisions and outcomes for an office, newest first. */
