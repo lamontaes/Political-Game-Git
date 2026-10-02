@@ -872,6 +872,16 @@ export function startTownJobPay(
     candidates.push(work);
   }
   const inputs: CreateResourceFlowInput[] = [];
+  const firstOffers: {
+    work: WorkRelationship;
+    role: WorkRoleRecord;
+    baseline: TownJobRate;
+    minimum: number | null;
+    floorHourlyMinor: number;
+    weeklyHours: number;
+    period: TownPayPeriod;
+    stableKey: string;
+  }[] = [];
   const floorLaws = anyTeacherFloorLawEnacted(world);
   let coveredMen: ReadonlySet<EntityId> | null = null;
   // An employer keeps the payday its workers already have.
@@ -928,7 +938,12 @@ export function startTownJobPay(
       minimum,
     );
     if (!baseline) continue;
-    const credentialPay = recordedCredentialHourlyPay(world, work.id, startsAt);
+    // The offer uses evidence recorded now; pay-start can precede that evidence.
+    const credentialPay = recordedCredentialHourlyPay(
+      world,
+      work.id,
+      world.currentDate,
+    );
     const offered = credentialPay
       ? {
           ...baseline,
@@ -1002,8 +1017,77 @@ export function startTownJobPay(
         note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; ${credentialPay ? `ESTIMATED FROM AVERAGE of ${credentialPay.peerCount} paid same-occupation/workplace credential peers; source records ${credentialPay.sourceRecordIds.join(", ")}` : `the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages})`}.`,
       },
     });
+    if (!credentialPay)
+      firstOffers.push({
+        work,
+        role,
+        baseline,
+        minimum,
+        floorHourlyMinor,
+        weeklyHours,
+        period,
+        stableKey: inputs.at(-1)!.stableKey,
+      });
   }
-  return createResourceFlows(next, inputs);
+  const recorded = createResourceFlows(next, inputs);
+  let finalized = recorded;
+  // First-payday agreements are real saved evidence for their peers. Freeze
+  // that batch before any credential offer revisions, avoiding order feedback.
+  const flows = new Map(
+    recorded.history.resourceFlows.map((flow) => [flow.stableKey, flow]),
+  );
+  for (const offer of firstOffers) {
+    const quote = recordedCredentialHourlyPay(
+      recorded,
+      offer.work.id,
+      recorded.currentDate,
+    );
+    if (!quote) continue;
+    const flow = flows.get(offer.stableKey)!;
+    const prior = resourceFlowTermsAt(recorded, flow.id)!;
+    const offeredHourly = Math.max(
+      quote.hourlyMinor,
+      offer.baseline.hourlyMinor,
+      Math.round((offer.minimum ?? 0) * 100),
+    );
+    const fair = coveredMen?.has(offer.work.personId)
+      ? payAtHire(recorded, {
+          personId: offer.work.personId,
+          jobJurisdictionId: offer.role.locationJurisdictionId,
+          date: flow.startsAt,
+          amountMinor: offeredHourly,
+          floorMinor: (offer.minimum ?? 0) * 100,
+        })
+      : null;
+    const hourly = Math.max(
+      fair?.amountMinor ?? offeredHourly,
+      offer.floorHourlyMinor,
+    );
+    finalized = recordResourceFlowTerms(finalized, {
+      stableKey: `${offer.stableKey}:credential-first-offer`,
+      resourceFlowId: flow.id,
+      effectiveAt: prior.effectiveAt,
+      status: "active",
+      amount: money(
+        Math.round(
+          (hourly * offer.weeklyHours * 52) / PERIODS_PER_YEAR[offer.period],
+        ),
+        "USD",
+      ),
+      cadenceKind: prior.cadenceKind,
+      supersedesTermsId: prior.id,
+      reason:
+        "First offer uses recorded credential peer agreements without reducing the tenure offer or legal floor.",
+      provenance: {
+        kind: "authored",
+        note: `${TOWN_PAY_VERSION}: $${(hourly / 100).toFixed(2)} an hour for ${offer.weeklyHours} hours a week, paid ${offer.period}; ESTIMATED FROM AVERAGE of ${quote.peerCount} paid same-occupation/workplace credential peers; source records ${quote.sourceRecordIds.join(", ")}.`,
+      },
+      ...(prior.lawEffectStamps
+        ? { lawEffectStamps: prior.lawEffectStamps }
+        : {}),
+    });
+  }
+  return finalized;
 }
 
 /** Resolve the saved legal employer's government account, never its geography. */

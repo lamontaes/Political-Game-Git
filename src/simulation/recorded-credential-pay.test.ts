@@ -35,6 +35,9 @@ function fixture(
     peerComplete?: boolean;
     paid?: boolean;
     otherPlace?: boolean;
+    backdatedTarget?: boolean;
+    noAgreements?: boolean;
+    reverseWorkOrder?: boolean;
   } = {},
 ) {
   const game = smallWorld({
@@ -56,12 +59,16 @@ function fixture(
   const organizationId = world.history.organizations.at(-1)!.id;
   const workIds: EntityId[] = [];
   const amounts: number[] = [];
-  for (const [i, personId] of world.personOrder.slice(0, 3).entries()) {
+  for (const i of options.reverseWorkOrder ? [2, 1, 0] : [0, 1, 2]) {
+    const personId = world.personOrder[i]!;
     world = createWorkRelationship(world, {
       stableKey: `${TOWN_EMPLOYMENT_VERSION}:a40:cohort:${i}`,
       personId,
       organizationId,
-      startedAt: i < 2 ? addDays(world.currentDate, -13) : world.currentDate,
+      startedAt:
+        i < 2 || options.backdatedTarget
+          ? addDays(world.currentDate, -13)
+          : world.currentDate,
       kind: "employment:wage-labor",
       compensation: "paid",
       authority: "directed",
@@ -85,7 +92,7 @@ function fixture(
         },
       },
     });
-    workIds.push(world.history.workRelationships.at(-1)!.id);
+    workIds[i] = world.history.workRelationships.at(-1)!.id;
     world = createEducationEnrollment(world, {
       stableKey: `a40:education:${i}`,
       personId,
@@ -118,16 +125,17 @@ function fixture(
       expect(rate).not.toBeNull();
       const amount = (rate.hourlyMinor * 40 * 52) / 26;
       amounts.push(amount);
-      world = createWorkCompensation(world, {
-        stableKey: `a40:compensation:${i}`,
-        workRelationshipId: workIds[i]!,
-        startsAt: addDays(world.currentDate, -13),
-        amount: money(amount, "USD"),
-        cadenceKind: "schedule:town-biweekly-0",
-        restrictionKind: null,
-        jurisdictionId: null,
-        provenance,
-      });
+      if (!options.noAgreements)
+        world = createWorkCompensation(world, {
+          stableKey: `a40:compensation:${i}`,
+          workRelationshipId: workIds[i]!,
+          startsAt: addDays(world.currentDate, -13),
+          amount: money(amount, "USD"),
+          cadenceKind: "schedule:town-biweekly-0",
+          restrictionKind: null,
+          jurisdictionId: null,
+          provenance,
+        });
     }
   }
   world = createResourcePosition(world, {
@@ -397,4 +405,74 @@ it("newer active terms replace older payments without lowering the tenure offer"
   expect(targetAmount(withCredential, target)).toBe(
     targetAmount(withoutCredential, baseline.target),
   );
+});
+
+it("a backdated first pay period reads credential peers recorded on the actual offer date", () => {
+  const { world, target } = fixture({ paid: false, backdatedTarget: true });
+  const quote = recordedCredentialHourlyPay(world, target, world.currentDate)!;
+  const started = startTownJobPay(world, null, world.currentDate);
+  const flow = started.history.resourceFlows.find(
+    (row) =>
+      row.basisReference.kind === "work" &&
+      row.basisReference.workRelationshipId === target,
+  )!;
+  expect(flow.startsAt).toBe(addDays(world.currentDate, -13));
+  expect(flow.recordedAt).toBe(world.currentDate);
+  expect(flow.provenance.kind).toBe("authored");
+  if (flow.provenance.kind === "authored") {
+    expect(flow.provenance.note).toContain(
+      `ESTIMATED FROM AVERAGE of ${quote.peerCount} paid same-occupation/workplace credential peers`,
+    );
+    for (const id of quote.sourceRecordIds)
+      expect(flow.provenance.note).toContain(id);
+  }
+});
+
+it("first-payday offers retain actual baseline peer terms and avoid batch order feedback", () => {
+  const { world } = fixture({ paid: false, noAgreements: true });
+  expect(world.history.resourceFlows).toHaveLength(0);
+  const started = startTownJobPay(world, null, world.currentDate);
+  const reverseFixture = fixture({
+    paid: false,
+    noAgreements: true,
+    reverseWorkOrder: true,
+  });
+  const reversed = startTownJobPay(
+    reverseFixture.world,
+    null,
+    reverseFixture.world.currentDate,
+  );
+  expect(started.history.resourceFlows).toHaveLength(3);
+  const offers = started.history.resourceFlowTerms.filter((row) =>
+    row.stableKey.endsWith(":credential-first-offer"),
+  );
+  expect(offers).toHaveLength(3);
+  for (const offer of offers) {
+    expect(
+      started.history.resourceFlowTerms.some(
+        (row) => row.id === offer.supersedesTermsId,
+      ),
+    ).toBe(true);
+    expect(offer.provenance.kind).toBe("authored");
+    if (offer.provenance.kind === "authored") {
+      expect(offer.provenance.note).toContain(
+        "ESTIMATED FROM AVERAGE of 2 paid same-occupation/workplace credential peers",
+      );
+      const peers = offer.provenance.note
+        .split("source records ")[1]!
+        .replace(/\.$/, "")
+        .split(", ");
+      const baselineTerms = started.history.resourceFlowTerms.filter(
+        (row) => row.supersedesTermsId === null,
+      );
+      expect(
+        baselineTerms.filter((row) => peers.includes(row.id)),
+      ).toHaveLength(2);
+    }
+    expect(
+      reversed.history.resourceFlowTerms.find(
+        (row) => row.stableKey === offer.stableKey,
+      )!.amount,
+    ).toEqual(offer.amount);
+  }
 });
