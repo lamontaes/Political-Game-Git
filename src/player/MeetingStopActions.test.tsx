@@ -1,3 +1,6 @@
+import { ageOnDate } from "../simulation/dates";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { sittingLocalOfficers } from "../simulation/living-world/local-government-seats";
 import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
 import type { ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -46,9 +49,24 @@ beforeAll(() => {
   });
   personId = fixture.personId;
   const seated = ensureLocalGovernmentSeats(fixture.world, personId);
-  expect(seated.history.officeTerms.length).toBeGreaterThan(
-    fixture.world.history.officeTerms.length,
-  );
+  const units = homeLocalGovernmentUnits(seated, personId);
+  expect(
+    [...units.municipal, ...units.townships, ...units.counties]
+      .flatMap((unit) => sittingLocalOfficers(seated, unit))
+      .some(
+        (seat) =>
+          seat.personId !== personId &&
+          ageOnDate(
+            seated.people[seat.personId]!.birthDate,
+            seated.currentDate,
+          ) >= 18 &&
+          !seated.history.personDeaths.some(
+            (death) =>
+              death.personId === seat.personId &&
+              death.diedAt <= seated.currentDate,
+          ),
+      ),
+  ).toBe(true);
   beforeJourney = openOrdinaryLife(seated, personId);
   const meeting = beforeJourney.history.scheduledActivities.find(
     (a) => a.stableKey === PUBLIC_MEETING_KEY + ":activity",
