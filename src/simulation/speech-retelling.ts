@@ -302,8 +302,22 @@ function scheduleSpeechRetelling(world: World, dueAt: IsoDate): World {
   });
 }
 
-/** Seeds the monthly clock without retelling early or changing existing records. */
+function hasRecordedSpeechReceptions(world: World): boolean {
+  return recordsByStringField(
+    world.history.events,
+    "type",
+    SPEECH_RECEPTION_EVENT,
+  ).some((reception) => {
+    const speechId = reception.tags
+      .find((tag) => tag.startsWith(SPEECH_OF_TAG))
+      ?.slice(SPEECH_OF_TAG.length) as EntityId | undefined;
+    return speechId !== undefined && eventById(world, speechId) !== undefined;
+  });
+}
+
+/** Schedule from a recorded reception, with at most one pending month start. */
 export function ensureSpeechRetellingSchedule(world: World): World {
+  if (!hasRecordedSpeechReceptions(world)) return world;
   const cutoff = {
     asOfDate: world.currentDate,
     historySequenceExclusive: world.history.nextSequence,
@@ -329,10 +343,13 @@ export function speechRetellingHandler(
 ): FutureTransitionHandlerResult {
   if (item.transitionKey !== SPEECH_RETELLING_TRANSITION_KEY)
     throw new Error("Speech retelling received another transition.");
-  const next = scheduleSpeechRetelling(
-    retellSpeeches(world),
-    monthStart(nextMonthKey(monthKeyOf(item.dueAt))),
-  );
+  const retold = retellSpeeches(world);
+  const next = hasRecordedSpeechReceptions(retold)
+    ? scheduleSpeechRetelling(
+        retold,
+        monthStart(nextMonthKey(monthKeyOf(item.dueAt))),
+      )
+    : retold;
   return {
     world: next,
     status: "resolved",

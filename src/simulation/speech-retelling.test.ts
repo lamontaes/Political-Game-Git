@@ -15,13 +15,13 @@ import {
   composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
   resolveFutureDueItemsThrough,
+  scheduleFutureDueItem,
 } from "./future-transitions";
 import { recordKinship } from "./life";
 import { recordTraitChange } from "./people-traits";
-import { recordEventKnowledge, recordMemory } from "./records";
+import { recordMemory } from "./records";
 import {
-  SPEECH_OF_TAG,
-  SPEECH_RECEPTION_EVENT,
+  recordSpeechReception,
   householdmatesOf,
   familyAndFriendsNearby,
 } from "./speech-reception";
@@ -106,12 +106,6 @@ function fixture(openedWorld?: World) {
     return world.history.events.at(-1)!;
   };
   const speech = event("a9:speech", "speech.given", [], [speaker]);
-  event(
-    "a9:reception",
-    SPEECH_RECEPTION_EVENT,
-    [`${SPEECH_OF_TAG}${speech.id}`],
-    [speaker, first],
-  );
   for (const [a, b] of [
     [first, second],
     [second, third],
@@ -147,18 +141,8 @@ function fixture(openedWorld?: World) {
       reason: "Authored outgoing fixture; no new production trait rule.",
     });
   }
-  // The recorded reception says the first listener heard the speaker. Record
-  // that access before authoring their memory through the guarded writer.
-  world = recordEventKnowledge(world, {
-    stableKey: "a9:original-knowledge",
-    personId: first,
-    eventId: speech.id,
-    learnedAt: world.currentDate,
-    believedSummary: speech.summary,
-    accuracy: "accurate",
-    confidence: "medium",
-    source: { kind: "told-by", sourcePersonId: speaker, claimId: null },
-  });
+  // The actual reception writer records access and schedules this world's clock.
+  world = recordSpeechReception(world, speech, speaker, [first], "victory");
   world = recordMemory(world, {
     stableKey: "a9:original-memory",
     personId: first,
@@ -171,7 +155,7 @@ function fixture(openedWorld?: World) {
     supersedesMemoryId: null,
   });
   return {
-    world: openedWorld ? world : ensureSpeechRetellingSchedule(world),
+    world,
     speech,
     second,
     third,
@@ -191,6 +175,43 @@ function advance(world: World, date: string): World {
 }
 
 describe("A9 monthly speech retelling on the due clock", () => {
+  it("leaves a world without recorded receptions unscheduled", () => {
+    const world = smallWorld({
+      place: "NH",
+      people: 8,
+      seed: "a9-no-reception",
+    }).world;
+    expect(ensureSpeechRetellingSchedule(world)).toBe(world);
+    expect(
+      world.history.futureDueItems.filter(
+        (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
+      ),
+    ).toEqual([]);
+  });
+  it("resolves an existing due item without rescheduling when there are no receptions", () => {
+    const empty = smallWorld({
+      place: "NH",
+      people: 8,
+      date: "2026-12-15",
+      seed: "a9-empty-due",
+    }).world;
+    const scheduled = scheduleFutureDueItem(empty, {
+      stableKey: "a9:empty-retelling-due",
+      dueAt: makeIsoDate("2027-01-01"),
+      transitionKey: SPEECH_RETELLING_TRANSITION_KEY,
+      entityIds: [empty.id],
+      jurisdictionId: null,
+      provenance: { kind: "simulated", sourceEntityIds: [empty.id] },
+    });
+    const resolved = advance(scheduled, "2027-01-01");
+    expect(
+      resolved.history.futureDueItems.filter(
+        (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
+      ),
+    ).toHaveLength(1);
+    expect(resolved.history.knowledge).toEqual(empty.history.knowledge);
+    expect(resolved.history.memories).toEqual(empty.history.memories);
+  });
   it("crosses three month starts in one advance, recording each link on its own due date", () => {
     const { world, speech, second, third, fourth } = fixture();
     const reached = advance(world, "2027-03-01");
@@ -236,7 +257,14 @@ describe("A9 monthly speech retelling on the due clock", () => {
     expect(opening.game).not.toBeNull();
     if (!opening.game) throw new Error("Public Begin did not create a game.");
     const game = opening.game;
-    const openedDue = game.world.history.futureDueItems.filter(
+    // Begin alone schedules no retelling: the recorded reception is the cause.
+    expect(
+      game.world.history.futureDueItems.filter(
+        (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
+      ),
+    ).toHaveLength(0);
+    const { world, speech, second, third, fourth } = fixture(game.world);
+    const openedDue = world.history.futureDueItems.filter(
       (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
     );
     expect(openedDue).toHaveLength(1);
@@ -244,9 +272,6 @@ describe("A9 monthly speech retelling on the due clock", () => {
     const secondMonth = monthStart(nextMonthKey(monthKeyOf(firstMonth)));
     const thirdMonth = monthStart(nextMonthKey(monthKeyOf(secondMonth)));
     const fourthMonth = monthStart(nextMonthKey(monthKeyOf(thirdMonth)));
-    // The authored chain writes only speech, kinship, traits and memory. It
-    // neither seeds the scheduler nor supplies a speech handler to this route.
-    const { world, speech, second, third, fourth } = fixture(game.world);
     const firstPass = advanceWorld(
       world,
       daysBetween(world.currentDate, firstMonth),
