@@ -14,6 +14,7 @@ import {
 import { chamberByKey } from "../legislature-rules";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { lawEffectStamp } from "../law-effect-stamp";
 import { seatHolderAt, seatsForCourt } from "./courts";
 import {
   observerPlace,
@@ -38,6 +39,7 @@ import type {
 } from "../types";
 import {
   applyJudicialReview,
+  fileJudicialChallenge,
   justiceVotes,
   LAW_STRUCK,
   REVIEWED_QUESTIONS,
@@ -173,6 +175,84 @@ function withLaw(
   };
 }
 
+/** Authored unit-test harm input; neither a native gas bill nor measured loss. */
+function withRecordedChallenge(world: World, questionKey: string): World {
+  return withWorldIntegrityDeferred(() => {
+    const measure = world.history.legislativeMeasures!.at(-1)!;
+    const pid = propositionId(world, questionKey);
+    const date = addDays(measure.introducedAt, 90);
+    let next = on(world, date);
+    const law = lawInForce(
+      next,
+      measure.jurisdictionId,
+      pid,
+      date,
+      "enacted-only",
+    )!;
+    const claimant = next.personOrder[0]!;
+    next = recordWorldEvent(next, {
+      stableKey: `test:review:${measure.id}:harm`,
+      type: "fixture.recorded-law-burden",
+      occurredAt: date,
+      recordedAt: date,
+      jurisdictionId: measure.jurisdictionId,
+      involvedEntityIds: [claimant],
+      participants: [
+        {
+          personId: claimant,
+          role: "focus:affected",
+          detail: "Authored recorded compliance burden; no amount is inferred.",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "Authored fixture records this resident's compliance burden.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const harm = next.history.events.at(-1)!;
+    // This is explicitly an authored stamped input for the filing reader.
+    // The production filing writer never manufactures a consequence or stamp.
+    next = {
+      ...next,
+      history: {
+        ...next.history,
+        events: [
+          ...next.history.events.slice(0, -1),
+          {
+            ...harm,
+            lawEffectStamps: [
+              lawEffectStamp(law, {
+                effectKind: "legal-outcome",
+                questionKey,
+                jurisdictionId: measure.jurisdictionId,
+                appliedAt: date,
+                sourceRecordIds: [harm.id],
+              })!,
+            ],
+          },
+        ],
+      },
+    };
+    return fileJudicialChallenge(next, {
+      stableKey: `test:review:${measure.id}:filing`,
+      measureId: measure.id,
+      propositionId: pid,
+      claimantPersonId: claimant,
+      harmRecordId: harm.id,
+      complaint:
+        "The recorded rule burdens me; I challenge its constitutionality.",
+    });
+  });
+}
+
 describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law in US-${lawState})`, () => {
   // Opening a world with every court seated takes seconds on a slow
   // machine; it is opened once, outside any one test's time limit.
@@ -195,20 +275,23 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
   it("binds an actually enacted national law to the saved federal court and its judges", () => {
     const base = openedWorld();
     const pid = propositionId(base, RAISE_TOP_FEDERAL_RATE_QUESTION);
-    let world = introduceMeasure(base, {
-      stableKey: "a100:national-court:measure",
-      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-      rulePackId: US_CONGRESS_PACK_ID,
-      designation: "H.R. Court Fixture",
-      shortTitle: "Authored national court-binding fixture",
-      summary: "Authored congressional passage; no tax collection is inferred.",
-      origin: "member-introduction",
-      subjectClass: "general-policy",
-      originChamberKey: "house",
-      sponsorPersonId: null,
-      propositionIds: [pid],
-      propositionAnswers: [{ propositionId: pid, answer: "yes" }],
-    });
+    let world = withWorldIntegrityDeferred(() =>
+      introduceMeasure(base, {
+        stableKey: "a100:national-court:measure",
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        rulePackId: US_CONGRESS_PACK_ID,
+        designation: "H.R. Court Fixture",
+        shortTitle: "Authored national court-binding fixture",
+        summary:
+          "Authored congressional passage; no tax collection is inferred.",
+        origin: "member-introduction",
+        subjectClass: "general-policy",
+        originChamberKey: "house",
+        sponsorPersonId: null,
+        propositionIds: [pid],
+        propositionAnswers: [{ propositionId: pid, answer: "yes" }],
+      }),
+    );
     const measure = world.history.legislativeMeasures!.at(-1)!;
     const bodies = US_CONGRESS_RULE_PACK.chamberOrder.map((key) => {
       const seated = seatedCongressChamber(world, key);
@@ -227,19 +310,23 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
           yea: bodies.find((body) => body.chamberKey === key)!.members.length,
         };
     }
-    world = enactThroughDesk(world, measure.id, {
-      context: {
-        pack: US_CONGRESS_RULE_PACK,
-        measureId: measure.id,
-        bodies,
-        committeeMemberCount: null,
-        votePlan,
-        governorAction: "signed",
-        governorRationale:
-          "Authored fixture approval through the actual President's desk.",
-      },
-      effectiveAt: addDays(world.currentDate, 90),
-    });
+    // Batch the existing procedure writers, as the canonical clock does.
+    // serializeWorld below still performs the full final integrity check.
+    world = withWorldIntegrityDeferred(() =>
+      enactThroughDesk(world, measure.id, {
+        context: {
+          pack: US_CONGRESS_RULE_PACK,
+          measureId: measure.id,
+          bodies,
+          committeeMemberCount: null,
+          votePlan,
+          governorAction: "signed",
+          governorRationale:
+            "Authored fixture approval through the actual President's desk.",
+        },
+        effectiveAt: addDays(world.currentDate, 90),
+      }),
+    );
     const enactment = world.history.legislativeEnactments!.find(
       (entry) => entry.measureId === measure.id,
     )!;
@@ -284,14 +371,14 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
     ).toHaveLength(0);
   }, 30_000);
 
-  it("rules the day before the law takes effect, each justice for their own reasons", () => {
+  it("rules after the affected resident actually files, each justice for their own reasons", () => {
     const base = openedWorld();
     const {
       world,
       enactmentId,
       propositionId: pid,
     } = withLaw(base, lawState, GAS);
-    const eve = addDays(base.currentDate, 89);
+    const eve = addDays(base.currentDate, 90);
     // Nothing is decided before the day comes.
     const early = review(base.currentDate, {
       ...world,
@@ -303,7 +390,8 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
         judicialRulingKey(enactmentId, pid),
       ),
     ).toBeUndefined();
-    const ruled = review(addDays(eve, -1), on(world, eve));
+    const challenged = withRecordedChallenge(world, GAS);
+    const ruled = review(addDays(eve, -1), challenged);
     const ruling = recordByStableKey(
       ruled.history.events,
       judicialRulingKey(enactmentId, pid),
@@ -329,7 +417,7 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
         : "outcome:upheld",
     );
     // The same world rules the same way: no roll.
-    const again = review(addDays(eve, -1), on(world, eve));
+    const again = withRecordedChallenge(world, GAS);
     expect(
       recordByStableKey(again.history.events, ruling.stableKey)!.tags,
     ).toEqual(ruling.tags);
@@ -341,6 +429,7 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
     const read = lawInForce(ruled, state, pid, addDays(eve, 2), "enacted-only");
     if (ruling.tags.includes("outcome:struck")) expect(read).toBeNull();
     else expect(read?.answer).toBe("yes");
+    expect(ruling.tags.some((tag) => tag.startsWith("challenge:"))).toBe(true);
   });
 
   it("strikes a law when the justices' own principles and the rulings run against it, and upholds it when they run for it", () => {
@@ -407,8 +496,8 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
       enactmentId,
       propositionId: pid,
     } = withLaw(base, lawState, PERMIT);
-    const eve = addDays(base.currentDate, 89);
-    const ruled = review(addDays(eve, -1), on(world, eve));
+    const eve = addDays(base.currentDate, 90);
+    const ruled = withRecordedChallenge(world, PERMIT);
     const ruling = recordByStableKey(
       ruled.history.events,
       judicialRulingKey(enactmentId, pid),
@@ -417,5 +506,38 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
     // justice's principles short of decisive.
     expect(ruling?.tags).toContain("outcome:upheld");
     expect(makeIsoDate(ruling!.occurredAt)).toBe(eve);
+  });
+
+  it("a law with no claimant or recorded harm is never reviewed", () => {
+    const base = openedWorld();
+    const {
+      world,
+      enactmentId,
+      propositionId: pid,
+    } = withLaw(base, lawState, GAS);
+    const later = on(world, addDays(base.currentDate, 120));
+    expect(review(base.currentDate, later)).toBe(later);
+    expect(
+      recordByStableKey(
+        later.history.events,
+        judicialRulingKey(enactmentId, pid),
+      ),
+    ).toBeUndefined();
+    const measure = later.history.legislativeMeasures!.at(-1)!;
+    expect(
+      fileJudicialChallenge(later, {
+        stableKey: "a101:missing-harm",
+        measureId: measure.id,
+        propositionId: pid,
+        claimantPersonId: later.personOrder[0]!,
+        harmRecordId: "event_missing_harm" as EntityId,
+        complaint: "An unsupported claim.",
+      }),
+    ).toBe(later);
+    // withLaw is the existing authored unit fixture without chamber votes.
+    // Round-trip its data to invalidate identity caches; canonical full-save
+    // integrity is proved separately by the actual national enactment above.
+    const restored = JSON.parse(JSON.stringify(later)) as World;
+    expect(review(base.currentDate, restored)).toBe(restored);
   });
 });
