@@ -1,4 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
 
 import {
   generateOpeningLife,
@@ -51,6 +55,7 @@ import {
   startHouseholdMembership,
 } from "../../src/simulation/life";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import { resolveDueThrough } from "../fixtures/due-item-clock";
 import type { EntityId, World } from "../../src/simulation";
 
 const LEXINGTON = "2146027";
@@ -81,29 +86,43 @@ describe(
   "the town's families change over five years",
   { timeout: 300_000 },
   () => {
-    const opened = openAt(LEXINGTON, "families-lexington");
-    const { personId, town } = opened;
-    const snapshots: World[] = [];
-    let world = opened.world;
-    // Only the calendar moves, and only the review writes. The whole-world
-    // check is deferred because the world's other due items are not run here;
-    // the watched-world report runs this review on the real clock.
-    let expectedBirths = 0;
-    withWorldIntegrityDeferred(() => {
-      for (let round = 0; round < QUARTERS; round += 1) {
-        const date = addDays(world.currentDate, 91);
-        // The family plans' own days in the quarter: answers, then births.
-        world = runPlanItemsThrough(world, date);
-        world = {
-          ...world,
-          currentDate: date,
-          currentMoment: simulationMomentOnLocalDate(world.currentMoment, date),
-        };
-        expectedBirths += expectedQuarterBirths(world, town, personId);
-        world = reviewTownFamilies(world, town, personId, `test-${round}`);
-        snapshots.push(world);
-      }
-    });
+    let personId: ReturnType<typeof buildFixture>["personId"];
+    let town: ReturnType<typeof buildFixture>["town"];
+    let snapshots: ReturnType<typeof buildFixture>["snapshots"];
+    let world: ReturnType<typeof buildFixture>["world"];
+    let expectedBirths: ReturnType<typeof buildFixture>["expectedBirths"];
+    function buildFixture() {
+      const opened = openAt(LEXINGTON, "families-lexington");
+      const { personId, town } = opened;
+      const snapshots: World[] = [];
+      let world = opened.world;
+      // Only the calendar moves, and only the review writes. The whole-world
+      // check is deferred because the world's other due items are not run here;
+      // the watched-world report runs this review on the real clock.
+      let expectedBirths = 0;
+      withWorldIntegrityDeferred(() => {
+        for (let round = 0; round < QUARTERS; round += 1) {
+          const date = addDays(world.currentDate, 91);
+          // The family plans' own days in the quarter: answers, then births.
+          world = runPlanItemsThrough(world, date);
+          world = {
+            ...world,
+            currentDate: date,
+            currentMoment: simulationMomentOnLocalDate(
+              world.currentMoment,
+              date,
+            ),
+          };
+          expectedBirths += expectedQuarterBirths(world, town, personId);
+          world = reviewTownFamilies(world, town, personId, `test-${round}`);
+          snapshots.push(world);
+        }
+      });
+      return { personId, town, snapshots, world, expectedBirths };
+    }
+    beforeAll(() => {
+      ({ personId, town, snapshots, world, expectedBirths } = buildFixture());
+    }, 300_000);
 
     it("couples date, move in, marry and part, and children are born from their plans", () => {
       const counts = describeTownFamilies(world, town);
@@ -284,34 +303,11 @@ function onDate(world: World, date: string): World {
 }
 
 /**
- * Family-plan due items already run, by item. The clock runs each item once;
- * the handler tells an answer from a birth by what is already recorded, so a
- * second run of an answer's item would be a birth.
- */
-const ranPlanItems = new Set<EntityId>();
-
-/**
- * Every family-plan day up to `through`, in date order, run the way the
- * clock runs it: an answer two days after a plan is raised, a birth on the
- * plan's date.
+ * Resolve the real dated queue, including each family-plan answer and birth.
+ * Keep its canonical terminal states so this fixture is a valid saved world.
  */
 function runPlanItemsThrough(world: World, through: string): World {
-  let next = world;
-  for (;;) {
-    const item = next.history.futureDueItems
-      .filter(
-        (entry) =>
-          entry.transitionKey === FAMILY_RESOLUTION_TRANSITION_KEY &&
-          !ranPlanItems.has(entry.id) &&
-          entry.dueAt >= world.currentDate &&
-          entry.dueAt <= through,
-      )
-      .sort((a, b) => a.dueAt.localeCompare(b.dueAt))[0];
-    if (!item) return next;
-    ranPlanItems.add(item.id);
-    next = onDate(next, item.dueAt);
-    next = familyPlanTransitionHandler(next, item).world;
-  }
+  return resolveDueThrough(world, through);
 }
 
 /** Births per 1,000 women a year at `age`, from the birth table. */
@@ -468,95 +464,144 @@ describe.each(PLAN_SEEDS)(
     const places = onePlaceEach();
     const placeKey = new SeededRng(`a136:${seed}`).pick(places);
     const label = `place ${placeKey}, seed ${seed}`;
-    const opened = openAt(placeKey, seed);
-    const { personId, town } = opened;
-    const start = opened.world.currentDate;
-    const firstReview = addDays(start, 91);
-    const couples = townCouples(opened.world, town, personId);
-    const before = (couple: [EntityId, EntityId]) =>
-      childrenTogether(opened.world, couple[0], couple[1]).length;
+    let town: ReturnType<typeof buildFixture>["town"];
+    let start: ReturnType<typeof buildFixture>["start"];
+    let couples: ReturnType<typeof buildFixture>["couples"];
+    let before: ReturnType<typeof buildFixture>["before"];
+    let opening: ReturnType<typeof buildFixture>["opening"];
+    let seated: [EntityId, EntityId] | null;
+    let planEventId: ReturnType<typeof buildFixture>["planEventId"];
+    let raisedOn: ReturnType<typeof buildFixture>["raisedOn"];
+    let resolvesOn: ReturnType<typeof buildFixture>["resolvesOn"];
+    let childrenBeforeTheDay: ReturnType<
+      typeof buildFixture
+    >["childrenBeforeTheDay"];
+    let world: ReturnType<typeof buildFixture>["world"];
+    function buildFixture() {
+      const opened = openAt(placeKey, seed);
+      const { personId, town } = opened;
+      const start = opened.world.currentDate;
+      const firstReview = addDays(start, 91);
+      const couples = townCouples(opened.world, town, personId);
+      const before = (couple: [EntityId, EntityId]) =>
+        childrenTogether(opened.world, couple[0], couple[1]).length;
 
-    // The opening quarter: the town's own couples, as the world opened.
-    const opening = { raised: 0, agreed: 0, births: 0, expected: 0 };
-    withWorldIntegrityDeferred(() => {
-      let w = onDate(opened.world, firstReview);
-      opening.expected = expectedQuarterBirths(w, town, personId);
-      w = reviewTownFamilies(w, town, personId, "opening-review");
-      const raised = w.history.events.filter(
-        (event) =>
-          event.type === "life.family-intended" &&
-          event.occurredAt === firstReview,
-      );
-      opening.raised = raised.length;
-      w = runPlanItemsThrough(w, addDays(firstReview, 300));
-      opening.agreed = w.history.events.filter(
-        (event) =>
-          event.type === "life.family-intent-answered" &&
-          event.tags.includes("family-plan.agreed") &&
-          raised.some((plan) => event.tags.includes(`family-plan:${plan.id}`)),
-      ).length;
-      opening.births = describeTownFamilies(w, town).births;
-    });
+      // The opening quarter: the town's own couples, as the world opened.
+      const opening = { raised: 0, agreed: 0, births: 0, expected: 0 };
+      withWorldIntegrityDeferred(() => {
+        let w = onDate(
+          runPlanItemsThrough(opened.world, firstReview),
+          firstReview,
+        );
+        opening.expected = expectedQuarterBirths(w, town, personId);
+        w = reviewTownFamilies(w, town, personId, "opening-review");
+        const raised = w.history.events.filter(
+          (event) =>
+            event.type === "life.family-intended" &&
+            event.occurredAt === firstReview,
+        );
+        opening.raised = raised.length;
+        w = runPlanItemsThrough(w, addDays(firstReview, 300));
+        opening.agreed = w.history.events.filter(
+          (event) =>
+            event.type === "life.family-intent-answered" &&
+            event.tags.includes("family-plan.agreed") &&
+            raised.some((plan) =>
+              event.tags.includes(`family-plan:${plan.id}`),
+            ),
+        ).length;
+        opening.births = describeTownFamilies(w, town).births;
+      });
 
-    // The proof: a couple seated with the life writers on the opening day
-    // weighs it on each quarterly review until their own circumstances turn
-    // them toward it; the partner answers; the child comes on the plan's day.
-    let seated: [EntityId, EntityId] | null = null;
-    let planEventId: EntityId | null = null;
-    let raisedOn: string | null = null;
-    let resolvesOn: string | null = null;
-    let childrenBeforeTheDay = -1;
-    let world = opened.world;
-    withWorldIntegrityDeferred(() => {
-      const women = single(opened.world, town, personId, "female", 26, 32);
-      const men = single(opened.world, town, personId, "male", 27, 36);
-      const pairs: [EntityId, EntityId][] = [];
-      for (const woman of women)
-        for (const man of men)
-          if (
-            !opened.world.history.kinshipRelationships.some(
-              (row) =>
-                row.personIds.includes(woman) && row.personIds.includes(man),
+      // The proof: a couple seated with the life writers on the opening day
+      // weighs it on each quarterly review until their own circumstances turn
+      // them toward it; the partner answers; the child comes on the plan's day.
+      let seated: [EntityId, EntityId] | null = null;
+      let planEventId: EntityId | null = null;
+      let raisedOn: string | null = null;
+      let resolvesOn: string | null = null;
+      let childrenBeforeTheDay = -1;
+      let world = opened.world;
+      withWorldIntegrityDeferred(() => {
+        const women = single(opened.world, town, personId, "female", 26, 32);
+        const men = single(opened.world, town, personId, "male", 27, 36);
+        const pairs: [EntityId, EntityId][] = [];
+        for (const woman of women)
+          for (const man of men)
+            if (
+              !opened.world.history.kinshipRelationships.some(
+                (row) =>
+                  row.personIds.includes(woman) && row.personIds.includes(man),
+              )
             )
-          )
-            pairs.push([woman, man]);
-      for (const [woman, man] of pairs.slice(0, 6)) {
-        let trial = seatCouple(opened.world, woman, man);
-        let plan = null;
-        for (let round = 1; round <= 8 && !plan; round += 1) {
-          const date = addDays(start, 91 * round);
-          trial = runPlanItemsThrough(trial, date);
-          trial = onDate(trial, date);
-          trial = reviewTownFamilies(trial, town, personId, `seat-${round}`);
-          plan =
-            familyPlans(trial, woman).find((row) =>
-              row.personIds.includes(man),
-            ) ?? null;
+              pairs.push([woman, man]);
+        for (const [woman, man] of pairs.slice(0, 6)) {
+          let trial = seatCouple(opened.world, woman, man);
+          let plan = null;
+          for (let round = 1; round <= 8 && !plan; round += 1) {
+            const date = addDays(start, 91 * round);
+            trial = runPlanItemsThrough(trial, date);
+            trial = onDate(trial, date);
+            trial = reviewTownFamilies(trial, town, personId, `seat-${round}`);
+            plan =
+              familyPlans(trial, woman).find((row) =>
+                row.personIds.includes(man),
+              ) ?? null;
+          }
+          if (!plan) continue;
+          const raised = trial.history.events.find(
+            (event) => event.id === plan.eventId,
+          )!.occurredAt;
+          trial = runPlanItemsThrough(trial, addDays(raised, 2));
+          const settled = familyPlans(trial, woman).find(
+            (row) => row.eventId === plan.eventId,
+          )!;
+          if (settled.answer !== "agreed" || !settled.resolvesOn) continue;
+          seated = [woman, man];
+          planEventId = plan.eventId;
+          raisedOn = raised;
+          resolvesOn = settled.resolvesOn;
+          world = trial;
+          break;
         }
-        if (!plan) continue;
-        const raised = trial.history.events.find(
-          (event) => event.id === plan.eventId,
-        )!.occurredAt;
-        trial = runPlanItemsThrough(trial, addDays(raised, 2));
-        const settled = familyPlans(trial, woman).find(
-          (row) => row.eventId === plan.eventId,
-        )!;
-        if (settled.answer !== "agreed" || !settled.resolvesOn) continue;
-        seated = [woman, man];
-        planEventId = plan.eventId;
-        raisedOn = raised;
-        resolvesOn = settled.resolvesOn;
-        world = trial;
-        break;
-      }
-      if (!seated || !resolvesOn) return;
-      world = runPlanItemsThrough(
+        if (!seated || !resolvesOn) return;
+        world = runPlanItemsThrough(
+          world,
+          addDays(resolvesOn as World["currentDate"], -1),
+        );
+        childrenBeforeTheDay = childrenTogether(world, ...seated).length;
+        world = runPlanItemsThrough(world, resolvesOn);
+      });
+      return {
+        personId,
+        town,
+        start,
+        couples,
+        before,
+        opening,
+        seated,
+        planEventId,
+        raisedOn,
+        resolvesOn,
+        childrenBeforeTheDay,
         world,
-        addDays(resolvesOn as World["currentDate"], -1),
-      );
-      childrenBeforeTheDay = childrenTogether(world, ...seated).length;
-      world = runPlanItemsThrough(world, resolvesOn);
-    });
+      };
+    }
+    beforeAll(() => {
+      ({
+        town,
+        start,
+        couples,
+        before,
+        opening,
+        seated,
+        planEventId,
+        raisedOn,
+        resolvesOn,
+        childrenBeforeTheDay,
+        world,
+      } = buildFixture());
+    }, 60_000);
 
     it("the opening quarter's plans that agree check against the real birth rates", () => {
       console.log(
@@ -595,6 +640,36 @@ describe.each(PLAN_SEEDS)(
         label,
       ).toBe(child.id);
       expect(parentsOf(world, child.id).sort(), label).toEqual([a, b].sort());
+    });
+
+    it("the recorded child and plan survive Continue and replaying their resolution adds no child", () => {
+      expect(seated, label).not.toBeNull();
+      expect(planEventId, label).not.toBeNull();
+      const [a, b] = seated!;
+      const saved = serializeWorld(world);
+      const continued = deserializeWorld(saved);
+      const plan = familyPlans(continued, a).find(
+        (row) => row.eventId === planEventId,
+      )!;
+      expect(plan.answer, label).toBe("agreed");
+      expect(plan.resolvesOn, label).toBe(resolvesOn);
+      expect(childrenTogether(continued, a, b), label).toHaveLength(1);
+      expect(plan.childPersonId, label).toBe(
+        childrenTogether(continued, a, b)[0],
+      );
+      const resolution = continued.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === FAMILY_RESOLUTION_TRANSITION_KEY &&
+          item.stableKey === `family-plan:${planEventId}:resolution`,
+      );
+      expect(resolution, label).toBeDefined();
+      const replayed = familyPlanTransitionHandler(continued, resolution!);
+      expect(replayed.reasonKey, label).toBe(
+        "people:family-plan-already-resolved",
+      );
+      expect(replayed.world, label).toBe(continued);
+      expect(serializeWorld(replayed.world), label).toBe(saved);
+      expect(serializeWorld(world), label).toBe(saved);
     });
 
     it("a couple without a plan never has a child", () => {
@@ -636,11 +711,21 @@ const [seekerState] = pickDistinct(
 const SEEKER_USPS = seekerState!.jurisdictionKey.slice(3);
 
 describe(`A136: the same-gender share is allocated, not drawn (US-${SEEKER_USPS}, seed ${SEEKER_SEED})`, () => {
-  const opened = openAt(firstLocality(SEEKER_USPS).key, SEEKER_SEED);
-  const { world, town, personId } = opened;
-  const residents = world.personOrder
-    .map((id) => world.people[id]!)
-    .filter((person) => person.homeJurisdictionId === town);
+  let world: ReturnType<typeof buildFixture>["world"];
+  let town: ReturnType<typeof buildFixture>["town"];
+  let personId: ReturnType<typeof buildFixture>["personId"];
+  let residents: ReturnType<typeof buildFixture>["residents"];
+  function buildFixture() {
+    const opened = openAt(firstLocality(SEEKER_USPS).key, SEEKER_SEED);
+    const { world, town, personId } = opened;
+    const residents = world.personOrder
+      .map((id) => world.people[id]!)
+      .filter((person) => person.homeJurisdictionId === town);
+    return { world, town, personId, residents };
+  }
+  beforeAll(() => {
+    ({ world, town, personId, residents } = buildFixture());
+  }, 60_000);
 
   it("each gender's count is the share's largest-remainder whole number, the same every time", () => {
     expect(lifePlaceStateIdentities()).toHaveLength(56);
