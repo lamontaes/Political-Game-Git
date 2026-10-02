@@ -1,0 +1,1972 @@
+{
+  "status": "SOURCE INPUT ONLY; no schema/query or starting-law row admission",
+  "sourceBase": "af5f7487b0fab504a708cc8277b8be4d74026543",
+  "fiscalScalarParent": "f86d6f03fbecc3697eb7d290abcf93f32486259d",
+  "sourceArtifactSha256": "84e68fa078754f0426b73250315cc23b9227d972a205e7c66ad79bb11337c824",
+  "rowProtocol": "T6 fiscal subtrees only; preserve original row preconditions, operativeAt/before/phases and per-row citations; Audit solely implements schema/query. Do not apply this input as a guessed lawTables schema.",
+  "rows": [
+    {
+      "placeKey": "US-AL",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.0,
+          "overSingle": 500
+        },
+        {
+          "ratePercent": 5.0,
+          "overSingle": 3000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 200
+        },
+        {
+          "overMinor": 50000,
+          "rateBasisPoints": 400
+        },
+        {
+          "overMinor": 300000,
+          "rateBasisPoints": 500
+        }
+      ],
+      "standardDeductionSingleDollars": 3000,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-AR",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.9,
+          "overSingle": 4600
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 200
+        },
+        {
+          "overMinor": 460000,
+          "rateBasisPoints": 390
+        }
+      ],
+      "standardDeductionSingleDollars": 2470,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-CA",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "51c3f5bd631d35205cbe573738ebd446202be557c0bfd7675ed598e138940f08",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 1.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 2.0,
+          "overSingle": 11079
+        },
+        {
+          "ratePercent": 4.0,
+          "overSingle": 26264
+        },
+        {
+          "ratePercent": 6.0,
+          "overSingle": 41452
+        },
+        {
+          "ratePercent": 8.0,
+          "overSingle": 57542
+        },
+        {
+          "ratePercent": 9.3,
+          "overSingle": 72724
+        },
+        {
+          "ratePercent": 10.3,
+          "overSingle": 371479
+        },
+        {
+          "ratePercent": 11.3,
+          "overSingle": 445771
+        },
+        {
+          "ratePercent": 12.3,
+          "overSingle": 742953
+        },
+        {
+          "ratePercent": 13.3,
+          "overSingle": 1000000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 100
+        },
+        {
+          "overMinor": 1107900,
+          "rateBasisPoints": 200
+        },
+        {
+          "overMinor": 2626400,
+          "rateBasisPoints": 400
+        },
+        {
+          "overMinor": 4145200,
+          "rateBasisPoints": 600
+        },
+        {
+          "overMinor": 5754200,
+          "rateBasisPoints": 800
+        },
+        {
+          "overMinor": 7272400,
+          "rateBasisPoints": 930
+        },
+        {
+          "overMinor": 37147900,
+          "rateBasisPoints": 1030
+        },
+        {
+          "overMinor": 44577100,
+          "rateBasisPoints": 1130
+        },
+        {
+          "overMinor": 74295300,
+          "rateBasisPoints": 1230
+        },
+        {
+          "overMinor": 100000000,
+          "rateBasisPoints": 1330
+        }
+      ],
+      "standardDeductionSingleDollars": 5540,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "Cal. Rev. & Tax. Code § 17041",
+        "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=RTC&sectionNum=17041"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-CT",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.5,
+          "overSingle": 10000
+        },
+        {
+          "ratePercent": 5.5,
+          "overSingle": 50000
+        },
+        {
+          "ratePercent": 6.0,
+          "overSingle": 100000
+        },
+        {
+          "ratePercent": 6.5,
+          "overSingle": 200000
+        },
+        {
+          "ratePercent": 6.9,
+          "overSingle": 250000
+        },
+        {
+          "ratePercent": 6.99,
+          "overSingle": 500000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 200
+        },
+        {
+          "overMinor": 1000000,
+          "rateBasisPoints": 450
+        },
+        {
+          "overMinor": 5000000,
+          "rateBasisPoints": 550
+        },
+        {
+          "overMinor": 10000000,
+          "rateBasisPoints": 600
+        },
+        {
+          "overMinor": 20000000,
+          "rateBasisPoints": 650
+        },
+        {
+          "overMinor": 25000000,
+          "rateBasisPoints": 690
+        },
+        {
+          "overMinor": 50000000,
+          "rateBasisPoints": 699
+        }
+      ],
+      "standardDeductionSingleDollars": null,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-DE",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.2,
+          "overSingle": 2000
+        },
+        {
+          "ratePercent": 3.9,
+          "overSingle": 5000
+        },
+        {
+          "ratePercent": 4.8,
+          "overSingle": 10000
+        },
+        {
+          "ratePercent": 5.2,
+          "overSingle": 20000
+        },
+        {
+          "ratePercent": 5.55,
+          "overSingle": 25000
+        },
+        {
+          "ratePercent": 6.6,
+          "overSingle": 60000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 200000,
+          "rateBasisPoints": 220
+        },
+        {
+          "overMinor": 500000,
+          "rateBasisPoints": 390
+        },
+        {
+          "overMinor": 1000000,
+          "rateBasisPoints": 480
+        },
+        {
+          "overMinor": 2000000,
+          "rateBasisPoints": 520
+        },
+        {
+          "overMinor": 2500000,
+          "rateBasisPoints": 555
+        },
+        {
+          "overMinor": 6000000,
+          "rateBasisPoints": 660
+        }
+      ],
+      "standardDeductionSingleDollars": 3250,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-HI",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 1.4,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.2,
+          "overSingle": 9600
+        },
+        {
+          "ratePercent": 5.5,
+          "overSingle": 14400
+        },
+        {
+          "ratePercent": 6.4,
+          "overSingle": 19200
+        },
+        {
+          "ratePercent": 6.8,
+          "overSingle": 24000
+        },
+        {
+          "ratePercent": 7.2,
+          "overSingle": 36000
+        },
+        {
+          "ratePercent": 7.6,
+          "overSingle": 48000
+        },
+        {
+          "ratePercent": 7.9,
+          "overSingle": 125000
+        },
+        {
+          "ratePercent": 8.25,
+          "overSingle": 175000
+        },
+        {
+          "ratePercent": 9.0,
+          "overSingle": 225000
+        },
+        {
+          "ratePercent": 10.0,
+          "overSingle": 275000
+        },
+        {
+          "ratePercent": 11.0,
+          "overSingle": 325000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 140
+        },
+        {
+          "overMinor": 960000,
+          "rateBasisPoints": 320
+        },
+        {
+          "overMinor": 1440000,
+          "rateBasisPoints": 550
+        },
+        {
+          "overMinor": 1920000,
+          "rateBasisPoints": 640
+        },
+        {
+          "overMinor": 2400000,
+          "rateBasisPoints": 680
+        },
+        {
+          "overMinor": 3600000,
+          "rateBasisPoints": 720
+        },
+        {
+          "overMinor": 4800000,
+          "rateBasisPoints": 760
+        },
+        {
+          "overMinor": 12500000,
+          "rateBasisPoints": 790
+        },
+        {
+          "overMinor": 17500000,
+          "rateBasisPoints": 825
+        },
+        {
+          "overMinor": 22500000,
+          "rateBasisPoints": 900
+        },
+        {
+          "overMinor": 27500000,
+          "rateBasisPoints": 1000
+        },
+        {
+          "overMinor": 32500000,
+          "rateBasisPoints": 1100
+        }
+      ],
+      "standardDeductionSingleDollars": 4400,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-KS",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 5.2,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 5.58,
+          "overSingle": 23000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 520
+        },
+        {
+          "overMinor": 2300000,
+          "rateBasisPoints": 558
+        }
+      ],
+      "standardDeductionSingleDollars": 3605,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-ME",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 5.8,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.75,
+          "overSingle": 27399
+        },
+        {
+          "ratePercent": 7.15,
+          "overSingle": 64849
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 580
+        },
+        {
+          "overMinor": 2739900,
+          "rateBasisPoints": 675
+        },
+        {
+          "overMinor": 6484900,
+          "rateBasisPoints": 715
+        }
+      ],
+      "standardDeductionSingleDollars": 8350,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-MD",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.0,
+          "overSingle": 1000
+        },
+        {
+          "ratePercent": 4.0,
+          "overSingle": 2000
+        },
+        {
+          "ratePercent": 4.75,
+          "overSingle": 3000
+        },
+        {
+          "ratePercent": 5.0,
+          "overSingle": 100000
+        },
+        {
+          "ratePercent": 5.25,
+          "overSingle": 125000
+        },
+        {
+          "ratePercent": 5.5,
+          "overSingle": 150000
+        },
+        {
+          "ratePercent": 5.75,
+          "overSingle": 250000
+        },
+        {
+          "ratePercent": 6.25,
+          "overSingle": 500000
+        },
+        {
+          "ratePercent": 6.5,
+          "overSingle": 1000000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 200
+        },
+        {
+          "overMinor": 100000,
+          "rateBasisPoints": 300
+        },
+        {
+          "overMinor": 200000,
+          "rateBasisPoints": 400
+        },
+        {
+          "overMinor": 300000,
+          "rateBasisPoints": 475
+        },
+        {
+          "overMinor": 10000000,
+          "rateBasisPoints": 500
+        },
+        {
+          "overMinor": 12500000,
+          "rateBasisPoints": 525
+        },
+        {
+          "overMinor": 15000000,
+          "rateBasisPoints": 550
+        },
+        {
+          "overMinor": 25000000,
+          "rateBasisPoints": 575
+        },
+        {
+          "overMinor": 50000000,
+          "rateBasisPoints": 625
+        },
+        {
+          "overMinor": 100000000,
+          "rateBasisPoints": 650
+        }
+      ],
+      "standardDeductionSingleDollars": 3350,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-MA",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "538b89b944341bafcfc7a375ca681ee1086c4ddc5e2e06e148de0ed8e9c9b70a",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 5.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 9.0,
+          "overSingle": 1083150
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 500
+        },
+        {
+          "overMinor": 108315000,
+          "rateBasisPoints": 900
+        }
+      ],
+      "standardDeductionSingleDollars": null,
+      "originalStartingRow": {
+        "answer": "yes",
+        "operativeAt": "2023-01-01",
+        "preempts": true,
+        "cite": "Mass. Const. amend. art. 44, as amended by art. 121",
+        "source": "https://malegislature.gov/Laws/Constitution",
+        "note": "The base rate is a flat 5 percent, but Article CXXI adds a 4 percent surtax on income over an inflation-adjusted $1,000,000 for tax years beginning on or after 01/01/2023.",
+        "constitution": {
+          "cite": "Mass. Const. amend. art. 44, as amended by art. 121",
+          "source": "https://malegislature.gov/Laws/Constitution",
+          "note": "Article 44 requires a uniform rate; Article 121 (2022) writes the surtax on high incomes into the constitution."
+        }
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-MN",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 5.35,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.8,
+          "overSingle": 33310
+        },
+        {
+          "ratePercent": 7.85,
+          "overSingle": 109430
+        },
+        {
+          "ratePercent": 9.85,
+          "overSingle": 203150
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 535
+        },
+        {
+          "overMinor": 3331000,
+          "rateBasisPoints": 680
+        },
+        {
+          "overMinor": 10943000,
+          "rateBasisPoints": 785
+        },
+        {
+          "overMinor": 20315000,
+          "rateBasisPoints": 985
+        }
+      ],
+      "standardDeductionSingleDollars": 15300,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-MO",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 1348
+        },
+        {
+          "ratePercent": 2.5,
+          "overSingle": 2696
+        },
+        {
+          "ratePercent": 3.0,
+          "overSingle": 4044
+        },
+        {
+          "ratePercent": 3.5,
+          "overSingle": 5392
+        },
+        {
+          "ratePercent": 4.0,
+          "overSingle": 6740
+        },
+        {
+          "ratePercent": 4.5,
+          "overSingle": 8088
+        },
+        {
+          "ratePercent": 4.7,
+          "overSingle": 9436
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 134800,
+          "rateBasisPoints": 200
+        },
+        {
+          "overMinor": 269600,
+          "rateBasisPoints": 250
+        },
+        {
+          "overMinor": 404400,
+          "rateBasisPoints": 300
+        },
+        {
+          "overMinor": 539200,
+          "rateBasisPoints": 350
+        },
+        {
+          "overMinor": 674000,
+          "rateBasisPoints": 400
+        },
+        {
+          "overMinor": 808800,
+          "rateBasisPoints": 450
+        },
+        {
+          "overMinor": 943600,
+          "rateBasisPoints": 470
+        }
+      ],
+      "standardDeductionSingleDollars": 16100,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-MT",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "2f337ecdf78fe515f15a43a79e53fcb66c44fa3ca854acab2d79658418340441",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 4.7,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 5.65,
+          "overSingle": 47500
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 470
+        },
+        {
+          "overMinor": 4750000,
+          "rateBasisPoints": 565
+        }
+      ],
+      "standardDeductionSingleDollars": 16100,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "note": "Two brackets remain for tax year 2026; the top rate fell to 5.65 percent."
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-NE",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.46,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.51,
+          "overSingle": 4130
+        },
+        {
+          "ratePercent": 4.55,
+          "overSingle": 24760
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 246
+        },
+        {
+          "overMinor": 413000,
+          "rateBasisPoints": 351
+        },
+        {
+          "overMinor": 2476000,
+          "rateBasisPoints": 455
+        }
+      ],
+      "standardDeductionSingleDollars": 8850,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-NJ",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 1.4,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 1.75,
+          "overSingle": 20000
+        },
+        {
+          "ratePercent": 3.5,
+          "overSingle": 35000
+        },
+        {
+          "ratePercent": 5.53,
+          "overSingle": 40000
+        },
+        {
+          "ratePercent": 6.37,
+          "overSingle": 75000
+        },
+        {
+          "ratePercent": 8.97,
+          "overSingle": 500000
+        },
+        {
+          "ratePercent": 10.75,
+          "overSingle": 1000000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 140
+        },
+        {
+          "overMinor": 2000000,
+          "rateBasisPoints": 175
+        },
+        {
+          "overMinor": 3500000,
+          "rateBasisPoints": 350
+        },
+        {
+          "overMinor": 4000000,
+          "rateBasisPoints": 553
+        },
+        {
+          "overMinor": 7500000,
+          "rateBasisPoints": 637
+        },
+        {
+          "overMinor": 50000000,
+          "rateBasisPoints": 897
+        },
+        {
+          "overMinor": 100000000,
+          "rateBasisPoints": 1075
+        }
+      ],
+      "standardDeductionSingleDollars": null,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-NM",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 1.5,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.2,
+          "overSingle": 5500
+        },
+        {
+          "ratePercent": 4.3,
+          "overSingle": 16500
+        },
+        {
+          "ratePercent": 4.7,
+          "overSingle": 33500
+        },
+        {
+          "ratePercent": 4.9,
+          "overSingle": 66500
+        },
+        {
+          "ratePercent": 5.9,
+          "overSingle": 210000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 150
+        },
+        {
+          "overMinor": 550000,
+          "rateBasisPoints": 320
+        },
+        {
+          "overMinor": 1650000,
+          "rateBasisPoints": 430
+        },
+        {
+          "overMinor": 3350000,
+          "rateBasisPoints": 470
+        },
+        {
+          "overMinor": 6650000,
+          "rateBasisPoints": 490
+        },
+        {
+          "overMinor": 21000000,
+          "rateBasisPoints": 590
+        }
+      ],
+      "standardDeductionSingleDollars": 16100,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-NY",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 3.9,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.4,
+          "overSingle": 8500
+        },
+        {
+          "ratePercent": 5.15,
+          "overSingle": 11700
+        },
+        {
+          "ratePercent": 5.4,
+          "overSingle": 13900
+        },
+        {
+          "ratePercent": 5.9,
+          "overSingle": 80650
+        },
+        {
+          "ratePercent": 6.85,
+          "overSingle": 215400
+        },
+        {
+          "ratePercent": 9.65,
+          "overSingle": 1077550
+        },
+        {
+          "ratePercent": 10.3,
+          "overSingle": 5000000
+        },
+        {
+          "ratePercent": 10.9,
+          "overSingle": 25000000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 390
+        },
+        {
+          "overMinor": 850000,
+          "rateBasisPoints": 440
+        },
+        {
+          "overMinor": 1170000,
+          "rateBasisPoints": 515
+        },
+        {
+          "overMinor": 1390000,
+          "rateBasisPoints": 540
+        },
+        {
+          "overMinor": 8065000,
+          "rateBasisPoints": 590
+        },
+        {
+          "overMinor": 21540000,
+          "rateBasisPoints": 685
+        },
+        {
+          "overMinor": 107755000,
+          "rateBasisPoints": 965
+        },
+        {
+          "overMinor": 500000000,
+          "rateBasisPoints": 1030
+        },
+        {
+          "overMinor": 2500000000,
+          "rateBasisPoints": 1090
+        }
+      ],
+      "standardDeductionSingleDollars": 8000,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-ND",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "40e9964b912c475271f164bdcece395c8762a628e2c5ef3c17fd555dd83f92fe",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 1.95,
+          "overSingle": 48475
+        },
+        {
+          "ratePercent": 2.5,
+          "overSingle": 244825
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 4847500,
+          "rateBasisPoints": 195
+        },
+        {
+          "overMinor": 24482500,
+          "rateBasisPoints": 250
+        }
+      ],
+      "standardDeductionSingleDollars": 16100,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "note": "A zero-rate band sits below two positive rates, so the tax is graduated."
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-OK",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "dfb2c5136a1bcd0a02ea635b5e803d3d3aa894341c3d2b917fe2b79e10afd397",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.5,
+          "overSingle": 3750
+        },
+        {
+          "ratePercent": 3.5,
+          "overSingle": 4900
+        },
+        {
+          "ratePercent": 4.5,
+          "overSingle": 7200
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 375000,
+          "rateBasisPoints": 250
+        },
+        {
+          "overMinor": 490000,
+          "rateBasisPoints": 350
+        },
+        {
+          "overMinor": 720000,
+          "rateBasisPoints": 450
+        }
+      ],
+      "standardDeductionSingleDollars": 6350,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+        "note": "HB 2764 collapsed six brackets into three (2.5, 3.5 and 4.5 percent) on 01/01/2026; the tax stays graduated."
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-OR",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 4.75,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.75,
+          "overSingle": 4550
+        },
+        {
+          "ratePercent": 8.75,
+          "overSingle": 11400
+        },
+        {
+          "ratePercent": 9.9,
+          "overSingle": 125000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 475
+        },
+        {
+          "overMinor": 455000,
+          "rateBasisPoints": 675
+        },
+        {
+          "overMinor": 1140000,
+          "rateBasisPoints": 875
+        },
+        {
+          "overMinor": 12500000,
+          "rateBasisPoints": 990
+        }
+      ],
+      "standardDeductionSingleDollars": 2910,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-RI",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 3.75,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.75,
+          "overSingle": 82050
+        },
+        {
+          "ratePercent": 5.99,
+          "overSingle": 186450
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 375
+        },
+        {
+          "overMinor": 8205000,
+          "rateBasisPoints": 475
+        },
+        {
+          "overMinor": 18645000,
+          "rateBasisPoints": 599
+        }
+      ],
+      "standardDeductionSingleDollars": 11200,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-SC",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 0.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.0,
+          "overSingle": 3640
+        },
+        {
+          "ratePercent": 6.0,
+          "overSingle": 18230
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 0
+        },
+        {
+          "overMinor": 364000,
+          "rateBasisPoints": 300
+        },
+        {
+          "overMinor": 1823000,
+          "rateBasisPoints": 600
+        }
+      ],
+      "standardDeductionSingleDollars": 8350,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-VT",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 3.35,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.6,
+          "overSingle": 49400
+        },
+        {
+          "ratePercent": 7.6,
+          "overSingle": 119700
+        },
+        {
+          "ratePercent": 8.75,
+          "overSingle": 249700
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 335
+        },
+        {
+          "overMinor": 4940000,
+          "rateBasisPoints": 660
+        },
+        {
+          "overMinor": 11970000,
+          "rateBasisPoints": 760
+        },
+        {
+          "overMinor": 24970000,
+          "rateBasisPoints": 875
+        }
+      ],
+      "standardDeductionSingleDollars": 7650,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-VA",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 3.0,
+          "overSingle": 3000
+        },
+        {
+          "ratePercent": 5.0,
+          "overSingle": 5000
+        },
+        {
+          "ratePercent": 5.75,
+          "overSingle": 17000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 200
+        },
+        {
+          "overMinor": 300000,
+          "rateBasisPoints": 300
+        },
+        {
+          "overMinor": 500000,
+          "rateBasisPoints": 500
+        },
+        {
+          "overMinor": 1700000,
+          "rateBasisPoints": 575
+        }
+      ],
+      "standardDeductionSingleDollars": 8750,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-WV",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 2.22,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 2.96,
+          "overSingle": 10000
+        },
+        {
+          "ratePercent": 3.33,
+          "overSingle": 25000
+        },
+        {
+          "ratePercent": 4.44,
+          "overSingle": 40000
+        },
+        {
+          "ratePercent": 4.82,
+          "overSingle": 60000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 222
+        },
+        {
+          "overMinor": 1000000,
+          "rateBasisPoints": 296
+        },
+        {
+          "overMinor": 2500000,
+          "rateBasisPoints": 333
+        },
+        {
+          "overMinor": 4000000,
+          "rateBasisPoints": 444
+        },
+        {
+          "overMinor": 6000000,
+          "rateBasisPoints": 482
+        }
+      ],
+      "standardDeductionSingleDollars": null,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-WI",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 3.5,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 4.4,
+          "overSingle": 15110
+        },
+        {
+          "ratePercent": 5.3,
+          "overSingle": 51950
+        },
+        {
+          "ratePercent": 7.65,
+          "overSingle": 332720
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 350
+        },
+        {
+          "overMinor": 1511000,
+          "rateBasisPoints": 440
+        },
+        {
+          "overMinor": 5195000,
+          "rateBasisPoints": 530
+        },
+        {
+          "overMinor": 33272000,
+          "rateBasisPoints": 765
+        }
+      ],
+      "standardDeductionSingleDollars": 13960,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    },
+    {
+      "placeKey": "US-DC",
+      "questionKey": "us-policy-positions:fiscal.graduated-income-tax",
+      "requiredParameterKey": "brackets",
+      "originalRowSha256": "eb09f45ec1f7b12fa66577e92af3c7469c45a5c0057a15c45c60c275d512fe8e",
+      "hashEncoding": "UTF8 compact sorted-key JSON of original row",
+      "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "sourcePath": "data/research/money/state-income-tax-2026.json",
+      "sourceAsOf": "2026-09-28",
+      "sourceSingleFilerBrackets": [
+        {
+          "ratePercent": 4.0,
+          "overSingle": 0
+        },
+        {
+          "ratePercent": 6.0,
+          "overSingle": 10000
+        },
+        {
+          "ratePercent": 6.5,
+          "overSingle": 40000
+        },
+        {
+          "ratePercent": 8.5,
+          "overSingle": 60000
+        },
+        {
+          "ratePercent": 9.25,
+          "overSingle": 250000
+        },
+        {
+          "ratePercent": 9.75,
+          "overSingle": 500000
+        },
+        {
+          "ratePercent": 10.75,
+          "overSingle": 1000000
+        }
+      ],
+      "existingIncomeTaxBracketUnits": {
+        "overMinor": "annual taxable-income cents",
+        "rateBasisPoints": "marginal rate basis points"
+      },
+      "existingIncomeTaxBrackets": [
+        {
+          "overMinor": 0,
+          "rateBasisPoints": 400
+        },
+        {
+          "overMinor": 1000000,
+          "rateBasisPoints": 600
+        },
+        {
+          "overMinor": 4000000,
+          "rateBasisPoints": 650
+        },
+        {
+          "overMinor": 6000000,
+          "rateBasisPoints": 850
+        },
+        {
+          "overMinor": 25000000,
+          "rateBasisPoints": 925
+        },
+        {
+          "overMinor": 50000000,
+          "rateBasisPoints": 975
+        },
+        {
+          "overMinor": 100000000,
+          "rateBasisPoints": 1075
+        }
+      ],
+      "standardDeductionSingleDollars": 16100,
+      "originalStartingRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      },
+      "adoptionRequiredTerms": {
+        "questionKey": "us-policy-positions:fiscal.adopt-income-tax",
+        "rate": "progressive schedule, not one universal flat rate",
+        "threshold": "each source bracket has its own taxable-income threshold; Audit must expose the admitted table representation"
+      }
+    }
+  ],
+  "unsupportedTerritorySchedules": [
+    {
+      "placeKey": "US-AS",
+      "originalAdoptionRow": {
+        "answer": "yes",
+        "cite": "A.S.C.A. § 11.0403",
+        "source": "https://asbar.org/code-annotated/11-0403-imposition-of-tax-citation/",
+        "note": "American Samoa adopts the federal income-tax rules as the separate Samoan Income Tax, a territorial income tax with withholding on wages."
+      },
+      "originalGraduatedRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://www.americansamoa.gov/tax-office",
+        "note": "The American Samoa Government Tax Office publishes the IRS 2000 Tax Table and Instructions for use with Form 390, with graduated rates (15 percent and up); IRS Publication 570 (2025) says its tax laws are modeled on the Internal Revenue Code with certain differences."
+      },
+      "gap": "Not covered by the existing2026 single-filer schedule source; no territorial statute/rate or current-game peer estimate is supplied by this packet."
+    },
+    {
+      "placeKey": "US-GU",
+      "originalAdoptionRow": {
+        "answer": "yes",
+        "cite": "48 U.S.C. § 1421i",
+        "source": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1421i&num=0&edition=prelim",
+        "note": "The Guam Organic Act applies the federal income-tax laws in Guam as a separate Guam Territorial income tax payable to the government of Guam, so wages are taxed."
+      },
+      "originalGraduatedRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://www.irs.gov/publications/p570",
+        "note": "IRS Publication 570 (2025) says Guam has its own tax system based on the same tax laws and tax rates that apply in the United States (seven graduated federal brackets); the Guam Department of Revenue and Taxation administers it as the Guam Territorial Income Tax."
+      },
+      "gap": "Not covered by the existing2026 single-filer schedule source; no territorial statute/rate or current-game peer estimate is supplied by this packet."
+    },
+    {
+      "placeKey": "US-MP",
+      "originalAdoptionRow": {
+        "answer": "yes",
+        "cite": "4 CMC § 1701",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/1701.pdf",
+        "note": "The Commonwealth adopts the Internal Revenue Code as the Northern Marianas Territorial Income Tax, a broad income tax on wages."
+      },
+      "originalGraduatedRow": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "4 CMC § 1204; 4 CMC § 1701",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/1204.pdf",
+        "note": "The CNMI wage and salary tax (4 CMC 1204, from PL 9-22) applies rates from 2 to 9 percent by wage level, and 4 CMC 1701 adopts the Internal Revenue Code as the Northern Marianas Territorial Income Tax."
+      },
+      "gap": "Not covered by the existing2026 single-filer schedule source; no territorial statute/rate or current-game peer estimate is supplied by this packet."
+    },
+    {
+      "placeKey": "US-PR",
+      "originalAdoptionRow": {
+        "answer": "yes",
+        "cite": "Ley 1-2011 (Internal Revenue Code for a New Puerto Rico)",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2011/lexl2011001.htm",
+        "note": "Puerto Rico taxes individual income under its own Internal Revenue Code of 2011, with a graduated schedule reaching 33 percent."
+      },
+      "originalGraduatedRow": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "P.R. Internal Revenue Code of 2011 § 1021.01",
+        "source": "https://hacienda.pr.gov/sites/default/files/inst_individuals_2025.pdf",
+        "note": "Hacienda 2025 individual return instructions give graduated normal-tax brackets of 0, 7, 14, 25 and 33 percent under section 1021.01; no 2026 change to a single rate was found."
+      },
+      "gap": "Not covered by the existing2026 single-filer schedule source; no territorial statute/rate or current-game peer estimate is supplied by this packet."
+    },
+    {
+      "placeKey": "US-VI",
+      "originalAdoptionRow": {
+        "answer": "yes",
+        "cite": "48 U.S.C. § 1397",
+        "source": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1397&num=0&edition=prelim",
+        "note": "The federal income tax laws are in force in the Virgin Islands as its own income tax on wages, with the proceeds paid to the territory."
+      },
+      "originalGraduatedRow": {
+        "answer": "yes",
+        "preempts": true,
+        "source": "https://www.irs.gov/publications/p570",
+        "note": "IRS Publication 570 (2025) says the USVI has its own tax system based on the same tax laws and tax rates that apply in the United States, so wages face the graduated federal schedule; residents file Form 1040 with the Virgin Islands Bureau of Internal Revenue."
+      },
+      "gap": "Not covered by the existing2026 single-filer schedule source; no territorial statute/rate or current-game peer estimate is supplied by this packet."
+    }
+  ],
+  "otherFiscalBindings": {
+    "grocery": "exempt is boolean, coverage is categorical; no dedicated automatic grocery base-to-exemption consumer located in current production source. Need actual recorded sale category and statutory covered-food categories.",
+    "balanced": "required is boolean; existing budgetLawReadings/shortfall/adoption consumers apply it. Starting covered-operating-funds category needs admitted vocabulary.",
+    "reserve": "floor/share-of-annual-spending required by production pack. Existing reserveRule mixes minimum targets with maximum fund sizes and oldNASBO2021 values. Actual reserve stock is not a statutory floor. No saved peer-floor observations found; do not relabel maximum or cash ratio as required floor.",
+    "pension": "38 full-actuarial contribution/ratio1 rows published in2067; original plan cap/smoothing/scope notes retained."
+  },
+  "sourceLimits": [
+    "Single-filer schedules only; no joint/head-of-household legal rules inferred.",
+    "No new numeric rates, default law, territorial proxy, starting enactment or assessment/payment is authored.",
+    "Canonical numeric transformations reproduce the existing bracketsOf conversion only; no second calculator.",
+    "This source packet has no runtime activation proof; fiscal2067 proof remains the separate scalar slice."
+  ]
+}
