@@ -1288,6 +1288,7 @@ export function councilActExecutiveDeadlineHandler(
   const holder = municipalExecutiveHolder(world, governmentKey);
   const player =
     world.control.kind === "person" ? world.control.personId : null;
+  let next = world;
   if (holder && holder !== player && world.currentDate <= lastDay) {
     const prepared = ensureOfficeholderPrinciples(world, [holder]);
     const evaluation = evaluateGovernorBill(prepared, {
@@ -1298,39 +1299,41 @@ export function councilActExecutiveDeadlineHandler(
       measure,
       staff: null,
     });
-    const traced = recordDurableDecisionTrace(prepared, evaluation);
+    next = recordDurableDecisionTrace(prepared, evaluation);
     if (
-      evaluation.outcomeKind !== "selected" ||
-      (evaluation.selectedOptionKey !== BILL_SIGN &&
-        evaluation.selectedOptionKey !== BILL_RETURN)
-    )
-      return resolved(traced, "The executive decision remains pending.");
-    const action =
-      evaluation.selectedOptionKey === BILL_SIGN ? "signed" : "vetoed";
-    const rationale = evaluation.context.considerations
-      .filter((reason) => reason.optionKey === evaluation.selectedOptionKey)
-      .map((reason) => reason.explanation)
-      .join(" ");
-    return resolved(
-      recordCouncilExecutiveDecision(
-        traced,
-        governmentKey,
-        measure,
-        action,
-        rationale,
-        holder,
-      ),
-      action === "signed" ? "Signed." : "Returned with recorded reasons.",
-    );
+      evaluation.outcomeKind === "selected" &&
+      (evaluation.selectedOptionKey === BILL_SIGN ||
+        evaluation.selectedOptionKey === BILL_RETURN)
+    ) {
+      const action =
+        evaluation.selectedOptionKey === BILL_SIGN ? "signed" : "vetoed";
+      const rationale = evaluation.context.considerations
+        .filter((reason) => reason.optionKey === evaluation.selectedOptionKey)
+        .map((reason) => reason.explanation)
+        .join(" ");
+      return resolved(
+        recordCouncilExecutiveDecision(
+          next,
+          governmentKey,
+          measure,
+          action,
+          rationale,
+          holder,
+        ),
+        action === "signed" ? "Signed." : "Returned with recorded reasons.",
+      );
+    }
+    // An undecided executive has not acted. Keep the trace and let the
+    // recorded presentment window reach its existing silence rule below.
   }
   if (actionWindow.inactionOutcome !== "BECOMES_LAW_WITHOUT_SIGNATURE")
     return resolved(
-      world,
+      next,
       "No rule says what the executive's silence does here.",
     );
   if (world.currentDate <= lastDay) {
     return resolved(
-      scheduleFutureDueItem(world, {
+      scheduleFutureDueItem(next, {
         stableKey: `${measure.stableKey}:executive-silence-due`,
         dueAt: addDays(lastDay, 1),
         transitionKey: COUNCIL_ACT_EXECUTIVE_DEADLINE,
@@ -1344,7 +1347,7 @@ export function councilActExecutiveDeadlineHandler(
       "The executive still has today to act.",
     );
   }
-  const next = recordExecutiveInaction(world, {
+  next = recordExecutiveInaction(next, {
     stableKey: `${measure.stableKey}:executive-silence`,
     measureId: measure.id,
     rationale: `Not returned within ${actionWindow.daysToAct} days of presentment, so deemed approved.`,
