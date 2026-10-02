@@ -1,3 +1,8 @@
+import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../presentation/opening-life";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { daysBetween } from "./dates";
 import { advanceWorld } from "./world";
@@ -199,4 +204,25 @@ it("holds a sourced all-party primary from saved voter views and retains its tal
   const reopened = deserializeWorld(serializeWorld(held));
   expect(nominationPrimaryRecord(reopened, input.stableKey)).toEqual(event);
   expect(holdNominationPrimary(reopened, input)).toBe(reopened);
+});
+
+const openingSeed = "overflow8-a114-continuation-opening";
+const openingPlace = drawRandomPlace(openingSeed);
+it(`opens a new game in ${openingPlace.displayName}, ${openingPlace.stateJurisdictionKey}, seed ${openingSeed}`, () => {
+  const opened = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: openingSeed,
+      placeKey: openingPlace.key,
+    }),
+  );
+  expect(opened.game).not.toBeNull();
+  const game = opened.game!;
+  expect(game.world.people[game.playerPersonId]!.homeJurisdictionId).toBe(
+    openingPlace.context.jurisdiction.id,
+  );
+  expect(game.world.control).toEqual({
+    kind: "person",
+    personId: game.playerPersonId,
+  });
 });

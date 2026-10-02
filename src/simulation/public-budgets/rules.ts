@@ -112,12 +112,12 @@ export const TAX_QUESTION_EFFECTS: readonly {
   {
     questionKey: "us-policy-positions:fiscal.adopt-income-tax",
     source: "individualIncomeTax",
-    // Adopting one needs a level, not a share: `income-tax-adoption.ts`.
+    // Adoption collections come from actual wage-base assessments/payments.
     toYes: null,
     // A repeal ends the tax: a state with no income tax collects none.
     toNo: -1,
     basis:
-      "A repeal ends the tax, so the state collects none. An adopted tax collects the per-resident average of the states that tax wages, moved by the state's median earnings (income-tax-adoption.ts, ESTIMATED FROM AVERAGE).",
+      "A repeal ends the tax, so the state collects none. An adopted tax collects through recorded paycheck withholding using its operative terms; no population-based revenue level is inferred.",
   },
   {
     questionKey: "us-policy-positions:fiscal.graduated-income-tax",
