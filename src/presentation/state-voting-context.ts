@@ -221,8 +221,7 @@ export function projectStateVotingContext(
       row.universe === "civilian-noninstitutionalized-age-18-and-over",
   );
   const total = rows.filter((r) => r.table === "4a" && r.dimension === "total");
-  if (total.length !== 1)
-    return empty("No unique compatible state survey total is available.");
+  if (total.length !== 1) return empty(NO_SURVEY_TOTAL_REASON);
   return {
     ...empty(""),
     totals: total[0]!,
@@ -237,6 +236,13 @@ export function projectStateVotingContext(
     unavailableReason: null,
   };
 }
+
+/**
+ * Why a state has no survey total to show: the shard did not load, or held no
+ * single total. The state card shows an estimate in its place.
+ */
+export const NO_SURVEY_TOTAL_REASON =
+  "No unique compatible state survey total is available.";
 
 /** Lazy browser loading of the exported survey delivery. */
 export async function queryStateVotingContext(

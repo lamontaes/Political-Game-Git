@@ -6,6 +6,8 @@ import {
   type EnginePersonImage,
 } from "../presentation/appearance-engine/runtime";
 
+const PORTRAIT_RETRIES = 3;
+
 /** The composed picture for a recipe, once it is ready. */
 export function useEnginePersonImage(
   recipe: EngineRecipe | null,
@@ -18,12 +20,21 @@ export function useEnginePersonImage(
   useEffect(() => {
     if (!recipe || !key) return;
     let live = true;
-    enginePersonImage(recipe).then(
-      (image) => live && setReady({ key, image }),
-      () => {},
-    );
+    let retry: ReturnType<typeof setTimeout> | undefined;
+    // A face that fails to draw is asked for again a few times rather than
+    // left as initials until the page is reloaded.
+    const draw = (attempt: number) =>
+      enginePersonImage(recipe).then(
+        (image) => live && setReady({ key, image }),
+        () => {
+          if (live && attempt < PORTRAIT_RETRIES)
+            retry = setTimeout(() => draw(attempt + 1), 500 * 2 ** attempt);
+        },
+      );
+    void draw(0);
     return () => {
       live = false;
+      if (retry) clearTimeout(retry);
     };
     // The key names the recipe completely.
   }, [key]);
