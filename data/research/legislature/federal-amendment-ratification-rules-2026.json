@@ -8,9 +8,10 @@
       "fraction": "'1/2', '3/5' or '2/3'.",
       "strictlyGreater": "true: yes votes must be MORE than fraction x basis (a majority). false: yes votes must be AT LEAST fraction x basis, rounded up to a whole member (a supermajority).",
       "presentMeans": "only with basis 'present'. 'present-and-voting' = members who vote count; 'members-present' = everyone in attendance counts, so an abstention counts against.",
-      "alsoRequires": "extra floor. minYesFractionOfElected: yes votes must also be at least that fraction of members elected (Kentucky, Virginia: two-fifths)."
+      "alsoRequires": "extra floor. minYesFractionOfElected: yes votes must also be at least that fraction of members elected (Kentucky, Virginia: two-fifths).",
+      "minimumVotes": "An explicit fixed affirmative-vote floor stated by the ratification instrument. It stays required even when the fractional denominator is smaller."
     },
-    "quorum": "The number of members that must be present for the chamber to act: fraction of members elected or entitled; strictlyGreater true means more than that fraction.",
+    "quorum": "The number of members that must be present for the chamber to act: fraction of members elected or entitled; strictlyGreater true means more than that fraction. Optional citationIndex identifies the quorum citation separately from the affirmative-vote source.",
     "rounding": "Plain-words statement of how to count, and any count the rule itself states.",
     "ruleKind": {
       "ratification-specific": "A rule, statute or constitutional clause names ratifying a federal amendment and states the vote.",
@@ -24,7 +25,8 @@
     "onTheBooks": "A stated rule that is not applied (see ruleKind ratification-specific-unenforced).",
     "conditions": "Extra conditions apart from the vote: intervening-election clauses, an advisory-election statute, and New Hampshire's thin-attendance two-thirds rule.",
     "sameResolutionBothChambers": "true for every state: the legislature acts by one resolution, in the same text, adopted by each chamber separately; no state lets one chamber ratify alone. Governor involvement is recorded in governorRole where a rule or constitution says something.",
-    "citations": "text is the rule's own words with its location; url is where it was read; accessed is the date read. Where the official text could not be fetched, the 50 Constitutions compilation (University of Wisconsin Law School State Democracy Research Initiative) is cited and says so."
+    "citations": "text is the rule's own words with its location; url is where it was read; accessed is the date read. Where the official text could not be fetched, the 50 Constitutions compilation (University of Wisconsin Law School State Democracy Research Initiative) is cited and says so.",
+    "ratificationBridge": "Only for bill-rule-by-reference or resolution-rule: kind sourced-form-and-vote-rule plus formCitationIndex, procedureCitationIndex, thresholdCitationIndex and quorumCitationIndex into this chamber's citations. Each role must cite the ratification instrument/procedure, vote or quorum source; a general bill or parliamentary inference never supplies this bridge."
   },
   "article": {
     "text": "U.S. Constitution, Article V: \"when ratified by the Legislatures of three fourths of the several States, or by Conventions in three fourths thereof, as the one or the other Mode of Ratification may be proposed by the Congress;\"",
@@ -386,20 +388,32 @@
             {
               "text": "California Joint Rules of the Senate and Assembly, 2025-26 (SCR 1), Joint Rule 4: \"4. Whenever the word “bill” is used in these rules, it includes any resolution ratifying a proposed amendment to the United States Constitution and any resolution calling for a constitutional convention.\"",
               "url": "https://clerk.assembly.ca.gov/sites/clerk.assembly.ca.gov/files/2025-08/20250scr1_97.pdf",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "California Constitution, art. IV, §8(b)(3): \"(3) No bill may be passed unless, by rollcall vote entered in the journal, a majority of the membership of each house concurs.\"",
               "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=IV",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "California Constitution, art. IV, §7(a): \"A majority of the membership constitutes a quorum, but a smaller number may recess from day to day and compel the attendance of absent members.\"",
               "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=IV",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "5. Concurrent resolutions relate to matters to be treated by both houses of the Legislature. Joint resolutions relate to matters connected with the federal government. Resolutions Treated as Bills 6. Concurrent and joint resolutions, other than resolutions ratifying proposed amendments to the United States Constitution and resolutions calling for constitutional conventions, shall be treated in all respects as bills except as follows: (a) They shall be given only one formal reading in each house. (b) They may not be deemed bills within the meaning of subdivisions (a) and (b) of Section 8 of Article IV of the California Constitution. (c) They may not be deemed bills for the purposes of Rules 10.8, 53, 55, 56, and 61, subdivisions (a) and (c) of Rule 54, and subdivisions (a) and (b) of Rule 62. (d) They may not, except for those relating to voting procedures on the floor or in committee, be deemed bills for the purposes of subdivision (c) of Rule 62. PREPARATION AND INTRODUCTION OF BILLS Title of Bill 97 —3— Res. Ch. 35",
+              "url": "https://clerk.assembly.ca.gov/sites/clerk.assembly.ca.gov/files/2025-08/20250scr1_97.pdf",
+              "accessed": "2026-10-02"
             }
           ],
-          "notes": "Joint Rule 4 makes the word 'bill' in the joint rules include a resolution ratifying a proposed U.S. amendment, so the constitutional vote on bills (majority of the membership, 41 of 80) applies."
+          "notes": "Joint Rule 4 makes the word 'bill' in the joint rules include a resolution ratifying a proposed U.S. amendment, so the constitutional vote on bills (majority of the membership, 41 of 80) applies.",
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 0,
+            "thresholdCitationIndex": 1,
+            "quorumCitationIndex": 2,
+            "formCitationIndex": 0
+          }
         },
         {
           "chamber": "senate",
@@ -421,20 +435,32 @@
             {
               "text": "California Joint Rules of the Senate and Assembly, 2025-26 (SCR 1), Joint Rule 4: \"4. Whenever the word “bill” is used in these rules, it includes any resolution ratifying a proposed amendment to the United States Constitution and any resolution calling for a constitutional convention.\"",
               "url": "https://clerk.assembly.ca.gov/sites/clerk.assembly.ca.gov/files/2025-08/20250scr1_97.pdf",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "California Constitution, art. IV, §8(b)(3): \"(3) No bill may be passed unless, by rollcall vote entered in the journal, a majority of the membership of each house concurs.\"",
               "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=IV",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "California Constitution, art. IV, §7(a): \"A majority of the membership constitutes a quorum, but a smaller number may recess from day to day and compel the attendance of absent members.\"",
               "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=IV",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "5. Concurrent resolutions relate to matters to be treated by both houses of the Legislature. Joint resolutions relate to matters connected with the federal government. Resolutions Treated as Bills 6. Concurrent and joint resolutions, other than resolutions ratifying proposed amendments to the United States Constitution and resolutions calling for constitutional conventions, shall be treated in all respects as bills except as follows: (a) They shall be given only one formal reading in each house. (b) They may not be deemed bills within the meaning of subdivisions (a) and (b) of Section 8 of Article IV of the California Constitution. (c) They may not be deemed bills for the purposes of Rules 10.8, 53, 55, 56, and 61, subdivisions (a) and (c) of Rule 54, and subdivisions (a) and (b) of Rule 62. (d) They may not, except for those relating to voting procedures on the floor or in committee, be deemed bills for the purposes of subdivision (c) of Rule 62. PREPARATION AND INTRODUCTION OF BILLS Title of Bill 97 —3— Res. Ch. 35",
+              "url": "https://clerk.assembly.ca.gov/sites/clerk.assembly.ca.gov/files/2025-08/20250scr1_97.pdf",
+              "accessed": "2026-10-02"
             }
           ],
-          "notes": "Same constitutional rule, 21 of 40."
+          "notes": "Same constitutional rule, 21 of 40.",
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 0,
+            "thresholdCitationIndex": 1,
+            "quorumCitationIndex": 2,
+            "formCitationIndex": 0
+          }
         }
       ],
       "sameResolutionBothChambers": true
@@ -1613,20 +1639,27 @@
             {
               "text": "Maryland Constitution, art. III, §28: \"Section 28. No bill, nor single group of bills placed on the “consent calendar,” shall become a Law unless it be passed in each House by a majority of the whole number of members elected, and on its final passage, the yeas and nays be recorded, and on final passage of the bills placed on the “consent calendar” the yeas and nays on the entire group of bills be recorded. A resolution requiring the action of both Houses shall be passed in the same manner.\"",
               "url": "https://mgaleg.maryland.gov/Pubs/LegisLegal/2025-constitution-maryland-us.pdf",
-              "accessed": "2026-10-01"
-            },
-            {
-              "text": "Maryland Constitution, art. III, §20: \"A majority of the whole number of members elected to each House shall constitute a quorum for the transaction of business;\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/md/constitution",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "Maryland Senate Joint Resolution 1 (2025 session), the form Maryland uses to ratify: \"FOR the purpose of ratifying the federal Child Labor Amendment to the U.S. Constitution, as proposed by U.S. House Joint Resolution 184 of 1924, to provide the U.S. Congress with the power to limit, regulate, and prohibit the labor of minors;\"",
               "url": "https://mgaleg.maryland.gov/2025RS/bills/sj/sj0001F.pdf",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "A majority of the whole number of members elected to each House shall constitute a quorum for the transaction of business; but a smaller number may adjourn from day to day, and compel the attendance of absent members, in such manner, and under such penalties, as each House may prescribe.",
+              "url": "https://mgaleg.maryland.gov/Pubs/LegisLegal/2025-constitution-maryland-us.pdf",
+              "accessed": "2026-10-02"
             }
           ],
-          "notes": "Section 28 passes 'a resolution requiring the action of both Houses' in the same manner as a bill. Maryland ratifies by joint resolution (for example 2025 SJ 1 and HJ 3 on the Child Labor Amendment)."
+          "notes": "Section 28 passes 'a resolution requiring the action of both Houses' in the same manner as a bill. Maryland ratifies by joint resolution (for example 2025 SJ 1 and HJ 3 on the Child Labor Amendment).",
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 0,
+            "thresholdCitationIndex": 0,
+            "quorumCitationIndex": 2,
+            "formCitationIndex": 1
+          }
         },
         {
           "chamber": "senate",
@@ -1648,19 +1681,26 @@
             {
               "text": "Maryland Constitution, art. III, §28: \"Section 28. No bill, nor single group of bills placed on the “consent calendar,” shall become a Law unless it be passed in each House by a majority of the whole number of members elected, and on its final passage, the yeas and nays be recorded, and on final passage of the bills placed on the “consent calendar” the yeas and nays on the entire group of bills be recorded. A resolution requiring the action of both Houses shall be passed in the same manner.\"",
               "url": "https://mgaleg.maryland.gov/Pubs/LegisLegal/2025-constitution-maryland-us.pdf",
-              "accessed": "2026-10-01"
-            },
-            {
-              "text": "Maryland Constitution, art. III, §20: \"A majority of the whole number of members elected to each House shall constitute a quorum for the transaction of business;\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/md/constitution",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "Maryland Senate Joint Resolution 1 (2025 session), the form Maryland uses to ratify: \"FOR the purpose of ratifying the federal Child Labor Amendment to the U.S. Constitution, as proposed by U.S. House Joint Resolution 184 of 1924, to provide the U.S. Congress with the power to limit, regulate, and prohibit the labor of minors;\"",
               "url": "https://mgaleg.maryland.gov/2025RS/bills/sj/sj0001F.pdf",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "A majority of the whole number of members elected to each House shall constitute a quorum for the transaction of business; but a smaller number may adjourn from day to day, and compel the attendance of absent members, in such manner, and under such penalties, as each House may prescribe.",
+              "url": "https://mgaleg.maryland.gov/Pubs/LegisLegal/2025-constitution-maryland-us.pdf",
+              "accessed": "2026-10-02"
             }
-          ]
+          ],
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 0,
+            "thresholdCitationIndex": 0,
+            "quorumCitationIndex": 2,
+            "formCitationIndex": 1
+          }
         }
       ],
       "sameResolutionBothChambers": true
@@ -1832,10 +1872,9 @@
           "chamber": "house",
           "name": "House of Representatives",
           "threshold": {
-            "basis": "present",
+            "basis": "elected",
             "fraction": "1/2",
-            "strictlyGreater": true,
-            "presentMeans": "members-present"
+            "strictlyGreater": true
           },
           "quorum": {
             "basis": "elected",
@@ -1843,35 +1882,46 @@
             "strictlyGreater": true,
             "text": "A majority of each house constitutes a quorum (Const. art. IV, §13)."
           },
-          "rounding": "More than half of the members present for the vote ('majority vote' in the House Rules); 'vote of the whole House' (a majority of all members elected) applies only where a rule says so.",
-          "ruleKind": "default",
+          "rounding": "More than half of all members elected, under the chamber rule that joint resolutions follow bill procedure and Constitution article IV, section 22.",
+          "ruleKind": "bill-rule-by-reference",
           "citations": [
             {
-              "text": "Minnesota House Permanent Rules (2025-2026), Rule 5.03: \"5.03 DEFINITIONS. In these Rules the terms \"majority vote\" and \"vote of the House\" mean a majority of members present for the vote. The term \"vote of the whole House\" means a majority of all the members elected to the House.\"",
-              "url": "https://www.house.mn.gov/cco/rules/permrule/hrule.asp",
-              "accessed": "2026-10-01"
-            },
-            {
-              "text": "Minnesota Joint Rules, art. II (enrollment): \"A joint resolution applying to the Congress of the United States to call a convention for proposing amendments to the Constitution of the United States, ratifying an amendment to the Constitution of the United States, proposing an amendment to the Minnesota Constitution, or prescribing the compensation of judges shall not be presented to the Governor for approval but shall be deposited by the Revisor of Statutes with the Secretary of State.\"",
+              "text": "A joint resolution applying to the Congress of the United States to call a convention for proposing amendments to the Constitution of the United States, ratifying an amendment to the Constitution of the United States, proposing an amendment to the Minnesota Constitution, or prescribing the compensation of judges shall not be presented to the Governor for approval but shall be deposited by the Revisor of Statutes with the Secretary of State. All other enrollments shall be presented to the Governor for approval.",
               "url": "https://www.house.mn.gov/cco/rules/jtrule/jtfull.asp",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
-              "text": "Minnesota Constitution, art. IV, §13: \"Sec. 13. Quorum. A majority of each house constitutes a quorum to transact business, but a smaller number may adjourn from day to day and compel the attendance of absent members in the manner and under the penalties it may provide.\"",
+              "text": "4.02 RESOLUTIONS. A statement of facts being forwarded for action to a governmental official, agency, or body or other similar proposal is a memorial and must be introduced in the same form and take the same course as a bill. A joint resolution and any resolution requiring the signature of the governor must be introduced in the same form and take the same course as a bill. A resolution must not authorize expenditure from any source other than the money appropriated by the Legislature to the House. Congratulatory resolutions do not require consideration or adoption by the House. A resolution must not be changed to a bill, and a bill must not be changed to a resolution.",
+              "url": "https://www.house.mn.gov/cco/rules/permrule/hrule.asp",
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "No law shall be passed unless voted for by a majority of all the members elected to each house of the legislature, and the vote entered in the journal of each house.",
               "url": "https://www.revisor.mn.gov/constitution/",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "Sec. 13. Quorum. A majority of each house constitutes a quorum to transact business, but a smaller number may adjourn from day to day and compel the attendance of absent members in the manner and under the penalties it may provide.",
+              "url": "https://www.revisor.mn.gov/constitution/",
+              "accessed": "2026-10-02"
             }
           ],
-          "notes": "The Joint Rules treat a ratifying resolution as a joint resolution that skips the Governor; no Minnesota rule gives it a special vote."
+          "notes": "Joint Rules Article II identifies federal-ratification joint resolutions. House Rule 4.02 and Senate Rule 6.1 apply bill procedure; the elected-member bill threshold applies instead of the ordinary-question definition.",
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 1,
+            "thresholdCitationIndex": 2,
+            "quorumCitationIndex": 3,
+            "formCitationIndex": 0
+          }
         },
         {
           "chamber": "senate",
           "name": "Senate",
           "threshold": {
-            "basis": "present",
+            "basis": "elected",
             "fraction": "1/2",
-            "strictlyGreater": true,
-            "presentMeans": "members-present"
+            "strictlyGreater": true
           },
           "quorum": {
             "basis": "elected",
@@ -1879,20 +1929,38 @@
             "strictlyGreater": true,
             "text": "A majority of each house constitutes a quorum (Const. art. IV, §13)."
           },
-          "rounding": "Applied as in the House (Senate Rules not fetched).",
-          "ruleKind": "default",
+          "rounding": "More than half of all members elected, under the chamber rule that joint resolutions follow bill procedure and Constitution article IV, section 22.",
+          "ruleKind": "bill-rule-by-reference",
           "citations": [
             {
-              "text": "Minnesota Joint Rules, art. II (enrollment): \"A joint resolution applying to the Congress of the United States to call a convention for proposing amendments to the Constitution of the United States, ratifying an amendment to the Constitution of the United States, proposing an amendment to the Minnesota Constitution, or prescribing the compensation of judges shall not be presented to the Governor for approval but shall be deposited by the Revisor of Statutes with the Secretary of State.\"",
+              "text": "A joint resolution applying to the Congress of the United States to call a convention for proposing amendments to the Constitution of the United States, ratifying an amendment to the Constitution of the United States, proposing an amendment to the Minnesota Constitution, or prescribing the compensation of judges shall not be presented to the Governor for approval but shall be deposited by the Revisor of Statutes with the Secretary of State. All other enrollments shall be presented to the Governor for approval.",
               "url": "https://www.house.mn.gov/cco/rules/jtrule/jtfull.asp",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
-              "text": "Minnesota Constitution, art. IV, §13: \"Sec. 13. Quorum. A majority of each house constitutes a quorum to transact business, but a smaller number may adjourn from day to day and compel the attendance of absent members in the manner and under the penalties it may provide.\"",
+              "text": "6.1 Memorial resolutions addressed to the President or the Congress of the United States, or a house or member of Congress, or a department or officer of the United States, or a state or foreign government, joint resolutions, and resolutions requiring the signature of the Governor must follow the same procedure as bills before being adopted. ",
+              "url": "https://www.senate.mn/rules/2025/tempsenaterules2025.pdf",
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "No law shall be passed unless voted for by a majority of all the members elected to each house of the legislature, and the vote entered in the journal of each house.",
               "url": "https://www.revisor.mn.gov/constitution/",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "Sec. 13. Quorum. A majority of each house constitutes a quorum to transact business, but a smaller number may adjourn from day to day and compel the attendance of absent members in the manner and under the penalties it may provide.",
+              "url": "https://www.revisor.mn.gov/constitution/",
+              "accessed": "2026-10-02"
             }
-          ]
+          ],
+          "notes": "Joint Rules Article II identifies federal-ratification joint resolutions. House Rule 4.02 and Senate Rule 6.1 apply bill procedure; the elected-member bill threshold applies instead of the ordinary-question definition.",
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 1,
+            "thresholdCitationIndex": 2,
+            "quorumCitationIndex": 3,
+            "formCitationIndex": 0
+          }
         }
       ],
       "sameResolutionBothChambers": true,
@@ -2068,22 +2136,29 @@
           "ruleKind": "bill-rule-by-reference",
           "citations": [
             {
-              "text": "Montana Constitution (1972), art. V, §11(1): \"No bill shall become law except by a vote of the majority of all members present and voting.\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/mt/constitution",
-              "accessed": "2026-10-01"
+              "text": "(1) Each bill passed by the legislature, except bills proposing amendments to the Montana constitution, bills ratifying proposed amendments to the United States constitution, resolutions, and initiative and referendum measures, shall be submitted to the governor for his signature. If he does not sign or veto the bill within 10 days after its delivery to him, it shall become law. The governor shall return a vetoed bill to the legislature with a statement of his reasons therefor. (2) The governor may return any bill to the legislature with his recommendation for amendment. If the legislature passes the bill in accordance with the governor's recommendation, it shall again return the bill to the governor for his reconsideration. The governor shall not return a bill for amendment a second time. (3) If after receipt of a veto message, two-thirds of the members of each house present approve the bill, it shall become law. (4) (a) If the legislature is not in session when the governor vetoes a bill approved by two-thirds of the members present, he shall return the bill with his reasons therefor to the secretary of state. The secretary of state shall poll the members of the legislature by mail and shall send each member a copy of the governor's veto message. If two-thirds or more of the members of each house vote to override the veto, the bill shall become law. (b) The legislature may reconvene as provided by law to reconsider any bill vetoed by the governor when the legislature is not in session. (5) The governor may veto items in appropriation bills, and in such instances the procedure shall be the same as upon veto of an entire bill.",
+              "url": "https://archive.legmt.gov/bills/mca/title_0000/article_0060/part_0010/section_0100/0000-0060-0010-0100.html",
+              "accessed": "2026-10-02"
             },
             {
-              "text": "Montana Constitution (1972), art. VI, §10(1): \"bills ratifying proposed amendments to the United States constitution, resolutions, and initiative and referendum measures, shall be submitted to the governor\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/mt/constitution",
-              "accessed": "2026-10-01"
+              "text": "No bill shall become law except by a vote of the majority of all members present and voting. (2) Every vote of each member of the legislature on each substantive question in the legislature, in any committee, or in committee of the whole shall be recorded and made public. On final passage, the vote shall be taken by ayes and noes and the names entered on the journal.",
+              "url": "https://archive.legmt.gov/bills/mca/title_0000/article_0050/part_0010/section_0110/0000-0050-0010-0110.html",
+              "accessed": "2026-10-02"
             },
             {
-              "text": "Montana Constitution (1972), art. V, §10(2): \"A majority of each house constitutes a quorum. A smaller number may adjourn from day to day and compel attendance of absent members. (3) The sessions of the legislature and of the committee of the whole, all committee meetings, and all hearings shall be open to the public. (4) The legislature may establish a legislative council and other interim committees. The legislature shall establish a legislative post-audit com\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/mt/constitution",
-              "accessed": "2026-10-01"
+              "text": "A majority of each house constitutes a quorum. A smaller number may adjourn from day to day and compel attendance of absent members.",
+              "url": "https://archive.legmt.gov/bills/mca/title_0000/article_0050/part_0010/section_0100/0000-0050-0010-0100.html",
+              "accessed": "2026-10-02"
             }
           ],
-          "notes": "Montana ratifies by bill: the constitution exempts 'bills ratifying proposed amendments to the United States constitution' from the Governor, and a bill needs a majority of all members present and voting."
+          "notes": "Montana ratifies by bill: the constitution exempts 'bills ratifying proposed amendments to the United States constitution' from the Governor, and a bill needs a majority of all members present and voting.",
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 0,
+            "thresholdCitationIndex": 1,
+            "quorumCitationIndex": 2,
+            "formCitationIndex": 0
+          }
         },
         {
           "chamber": "senate",
@@ -2104,21 +2179,28 @@
           "ruleKind": "bill-rule-by-reference",
           "citations": [
             {
-              "text": "Montana Constitution (1972), art. V, §11(1): \"No bill shall become law except by a vote of the majority of all members present and voting.\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/mt/constitution",
-              "accessed": "2026-10-01"
+              "text": "(1) Each bill passed by the legislature, except bills proposing amendments to the Montana constitution, bills ratifying proposed amendments to the United States constitution, resolutions, and initiative and referendum measures, shall be submitted to the governor for his signature. If he does not sign or veto the bill within 10 days after its delivery to him, it shall become law. The governor shall return a vetoed bill to the legislature with a statement of his reasons therefor. (2) The governor may return any bill to the legislature with his recommendation for amendment. If the legislature passes the bill in accordance with the governor's recommendation, it shall again return the bill to the governor for his reconsideration. The governor shall not return a bill for amendment a second time. (3) If after receipt of a veto message, two-thirds of the members of each house present approve the bill, it shall become law. (4) (a) If the legislature is not in session when the governor vetoes a bill approved by two-thirds of the members present, he shall return the bill with his reasons therefor to the secretary of state. The secretary of state shall poll the members of the legislature by mail and shall send each member a copy of the governor's veto message. If two-thirds or more of the members of each house vote to override the veto, the bill shall become law. (b) The legislature may reconvene as provided by law to reconsider any bill vetoed by the governor when the legislature is not in session. (5) The governor may veto items in appropriation bills, and in such instances the procedure shall be the same as upon veto of an entire bill.",
+              "url": "https://archive.legmt.gov/bills/mca/title_0000/article_0060/part_0010/section_0100/0000-0060-0010-0100.html",
+              "accessed": "2026-10-02"
             },
             {
-              "text": "Montana Constitution (1972), art. VI, §10(1): \"bills ratifying proposed amendments to the United States constitution, resolutions, and initiative and referendum measures, shall be submitted to the governor\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/mt/constitution",
-              "accessed": "2026-10-01"
+              "text": "No bill shall become law except by a vote of the majority of all members present and voting. (2) Every vote of each member of the legislature on each substantive question in the legislature, in any committee, or in committee of the whole shall be recorded and made public. On final passage, the vote shall be taken by ayes and noes and the names entered on the journal.",
+              "url": "https://archive.legmt.gov/bills/mca/title_0000/article_0050/part_0010/section_0110/0000-0050-0010-0110.html",
+              "accessed": "2026-10-02"
             },
             {
-              "text": "Montana Constitution (1972), art. V, §10(2): \"A majority of each house constitutes a quorum. A smaller number may adjourn from day to day and compel attendance of absent members. (3) The sessions of the legislature and of the committee of the whole, all committee meetings, and all hearings shall be open to the public. (4) The legislature may establish a legislative council and other interim committees. The legislature shall establish a legislative post-audit com\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/mt/constitution",
-              "accessed": "2026-10-01"
+              "text": "A majority of each house constitutes a quorum. A smaller number may adjourn from day to day and compel attendance of absent members.",
+              "url": "https://archive.legmt.gov/bills/mca/title_0000/article_0050/part_0010/section_0100/0000-0050-0010-0100.html",
+              "accessed": "2026-10-02"
             }
-          ]
+          ],
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 0,
+            "thresholdCitationIndex": 1,
+            "quorumCitationIndex": 2,
+            "formCitationIndex": 0
+          }
         }
       ],
       "sameResolutionBothChambers": true,
@@ -2290,21 +2372,34 @@
           "ruleKind": "bill-rule-by-reference",
           "citations": [
             {
-              "text": "Nebraska Legislature Rules (109th Legislature, adopted Jan. 24, 2025), Rule 5, §2: \"Sec. 2. When Considered as a Bill. Resolutions which propose amendments to the state constitution, propose the ratification or rejection of amendments to the federal Constitution, or memorialize the Congress with regard to amendments to the U.S. Constitution, shall be considered and adopted in the same manner as bills. Const. Art. III, Sec. 14; Art. XVI, Sec. 1.\"",
-              "url": "https://nebraskalegislature.gov/FloorDocs/Current/PDF/Rules/RuleBook.pdf",
-              "accessed": "2026-10-01"
-            },
-            {
               "text": "Nebraska Constitution, art. III, §13: \"No bill shall be passed by the Legislature unless by the assent of a majority of all members elected and the yeas and nays on the question of final passage of any bill shall be entered upon the journal.\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
               "url": "https://50constitutions.org/ne/constitution",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
-              "text": "Nebraska Constitution, art. III, §10: \"A majority of the members elected to the Legislature shall constitute a quorum; the Legislature shall determine the rules of its proceedings and be the judge of the election, returns, and qualifications of its members, shall choose its own officers, including a Speaker to preside when the Lieutenant Governor shall be absent, incapacitated, or shall act as Governor. No member shall be expelled except by a vote of two-\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
-              "url": "https://50constitutions.org/ne/constitution",
-              "accessed": "2026-10-01"
+              "text": "A majority of the members elected to the Legislature shall constitute a quorum.",
+              "url": "https://nebraskalegislature.gov/FloorDocs/Current/PDF/Rules/RuleBook.pdf",
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "Sec. 2. When Considered as a Bill. Resolutions which propose amendments to the state constitution, propose the ratification or rejection of amendments to the federal Constitution, or memorialize the Congress with regard to amendments to the U.S. Constitution, shall be considered and adopted in the same manner as bills. Const. Art. III, Sec. 14; Art. XVI, Sec. 1. Cannot appropriate funds by resolution. Const. Art. III, Sec. 25.",
+              "url": "https://nebraskalegislature.gov/FloorDocs/Current/PDF/Rules/RuleBook.pdf",
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "Sec. 5. Vote Required for Adoption. (a) All resolutions shall be adopted, individually or in groups as determined by the Speaker, by an affirmative vote of a majority of the members present and voting except for those specified in Section 2; provided, upon the request by any member prior to the commencement of the vote, a resolution shall require an affirmative vote of a majority of the elected members. Resolutions specified in Section 2 shall be considered and adopted in the same manner as bills. (b) Any resolution which is congratulatory or ceremonial in nature or which expresses the condolences of the Legislature shall be presumed adopted if, after five calendar days, following its being listed once on the daily agenda with a notation that such resolution is eligible for adoption pursuant to this rule, no member has requested that the resolution be scheduled for debate on the Speaker's agenda.",
+              "url": "https://nebraskalegislature.gov/FloorDocs/Current/PDF/Rules/RuleBook.pdf",
+              "accessed": "2026-10-02"
             }
-          ]
+          ],
+          "ratificationBridge": {
+            "kind": "sourced-form-and-vote-rule",
+            "procedureCitationIndex": 2,
+            "thresholdCitationIndex": 0,
+            "quorumCitationIndex": 1,
+            "formCitationIndex": 2
+          },
+          "notes": "Current Rule 4, section 2 expressly treats federal ratification or rejection resolutions as bills; the constitutional elected-member vote and quorum apply."
         }
       ],
       "sameResolutionBothChambers": true,
@@ -2419,28 +2514,29 @@
             "basis": "elected",
             "fraction": "1/2",
             "strictlyGreater": true,
-            "text": "A majority of all members (41 of 80) is a quorum (Const. art. IV, §IV, ¶2; Assembly Rules)."
+            "text": "A majority of all members (41 of 80) is a quorum (Const. art. IV, §IV, ¶2; Assembly Rules).",
+            "citationIndex": 2
           },
           "rounding": "Passes only with more than half of all members elected (floor(members/2)+1 yes votes); absent members count in the denominator. (80 members: 41; the Senate rule names the equivalent count for the Senate.)",
-          "ruleKind": "bill-rule-by-reference",
+          "ruleKind": "ratification-specific",
           "citations": [
+            {
+              "text": "8B. a. A concurrent resolution is the form of legislation to be used to ratify an amendment to the Constitution of the United States proposed by the Congress of the United States, to petition the Congress to propose an amendment or to call a constitutional convention to propose an amendment, to the Constitution of the United States; such a concurrent resolution may be proposed in the Senate or the General Assembly. b. At least 20 calendar days prior to a vote on such a concurrent resolution in the House in which it was introduced, the same shall be printed and placed on the desks of the members of each House. Thereafter and prior to such vote, a public hearing shall be held thereon on a date and at a time and place to be publicly announced. Adoption of an amendment to the resolution shall not require the holding of a further public hearing unless the same be ordered by the House which adopted the amendment. c. Passage of such a concurrent resolution shall require the affirmative vote of a majority of all the members of each House and the yeas and the nays of the members voting thereon shall be entered upon the Journal of the Senate and the Minutes of the General Assembly.",
+              "url": "https://pub.njleg.gov/publications/pdf/AsmRules.pdf",
+              "accessed": "2026-10-02"
+            },
             {
               "text": "New Jersey Constitution, art. IV, §IV, ¶6: \"No bill or joint resolution shall pass, unless there shall be a majority of all the members of each body personally present and agreeing thereto, and the yeas and nays of the members voting on such final passage shall be entered on the journal.\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
               "url": "https://50constitutions.org/nj/constitution",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "New Jersey Constitution, art. IV, §IV, ¶2: \"a majority of all its members shall constitute a quorum to do business\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
               "url": "https://50constitutions.org/nj/constitution",
-              "accessed": "2026-10-01"
-            },
-            {
-              "text": "New Jersey Joint Rules of the Senate and General Assembly, Rule 8B(a): \"8B. a. A concurrent resolution is the form of legislation to be used to ratify an amendment to the Constitution of the United States proposed by the Congress of the United States, to petition the Congress to propose an amendment or to call a constitutional convention to propose an amendment, to the Constitution of the United States; such a concurrent resolution may be proposed in the Senate or the General Assembly.\"",
-              "url": "https://pub.njleg.gov/publications/pdf/AsmRules.pdf",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             }
           ],
-          "notes": "The Assembly's rules say nothing about the ratifying vote; the constitution's 'bill or joint resolution' clause and the Senate's explicit 21-vote rule are applied by parallel."
+          "notes": "Joint Rule 8B(a) identifies the concurrent ratification resolution; 8B(c) expressly requires a majority of all members of each House. No joint-versus-concurrent inference is used."
         },
         {
           "chamber": "senate",
@@ -2448,13 +2544,15 @@
           "threshold": {
             "basis": "elected",
             "fraction": "1/2",
-            "strictlyGreater": true
+            "strictlyGreater": true,
+            "minimumVotes": 21
           },
           "quorum": {
             "basis": "elected",
             "fraction": "1/2",
             "strictlyGreater": true,
-            "text": "A majority of all members (21 of 40) is a quorum (Const. art. IV, §IV, ¶2)."
+            "text": "A majority of all members (21 of 40) is a quorum (Const. art. IV, §IV, ¶2).",
+            "citationIndex": 2
           },
           "rounding": "At least 21 of the 40 Senators, which is a majority of all members.",
           "ruleKind": "ratification-specific",
@@ -2462,24 +2560,25 @@
             {
               "text": "New Jersey Senate Rules (222nd Legislature, 2026-2027), Rule 17:6: \"17:6. Amendments to U.S. Constitution. A concurrent resolution ratifying an amendment to the Constitution of the United States proposed by the Congress, or applying for a constitutional convention for proposing amendments to the Constitution of the United States shall require the affirmative vote of at least 21 Senators.\"",
               "url": "https://pub.njleg.gov/publications/pdf/SenRules.pdf",
-              "accessed": "2026-10-01"
-            },
-            {
-              "text": "New Jersey Joint Rules of the Senate and General Assembly, Rule 8B(a): \"8B. a. A concurrent resolution is the form of legislation to be used to ratify an amendment to the Constitution of the United States proposed by the Congress of the United States, to petition the Congress to propose an amendment or to call a constitutional convention to propose an amendment, to the Constitution of the United States; such a concurrent resolution may be proposed in the Senate or the General Assembly.\"",
-              "url": "https://pub.njleg.gov/publications/pdf/AsmRules.pdf",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "New Jersey Constitution, art. IV, §IV, ¶6: \"No bill or joint resolution shall pass, unless there shall be a majority of all the members of each body personally present and agreeing thereto, and the yeas and nays of the members voting on such final passage shall be entered on the journal.\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
               "url": "https://50constitutions.org/nj/constitution",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
             },
             {
               "text": "New Jersey Constitution, art. IV, §IV, ¶2: \"a majority of all its members shall constitute a quorum to do business\" (text as compiled by 50 Constitutions, University of Wisconsin Law School State Democracy Research Initiative; the official state text controls)",
               "url": "https://50constitutions.org/nj/constitution",
-              "accessed": "2026-10-01"
+              "accessed": "2026-10-02"
+            },
+            {
+              "text": "8B. a. A concurrent resolution is the form of legislation to be used to ratify an amendment to the Constitution of the United States proposed by the Congress of the United States, to petition the Congress to propose an amendment or to call a constitutional convention to propose an amendment, to the Constitution of the United States; such a concurrent resolution may be proposed in the Senate or the General Assembly. b. At least 20 calendar days prior to a vote on such a concurrent resolution in the House in which it was introduced, the same shall be printed and placed on the desks of the members of each House. Thereafter and prior to such vote, a public hearing shall be held thereon on a date and at a time and place to be publicly announced. Adoption of an amendment to the resolution shall not require the holding of a further public hearing unless the same be ordered by the House which adopted the amendment. c. Passage of such a concurrent resolution shall require the affirmative vote of a majority of all the members of each House and the yeas and the nays of the members voting thereon shall be entered upon the Journal of the Senate and the Minutes of the General Assembly.",
+              "url": "https://pub.njleg.gov/publications/pdf/AsmRules.pdf",
+              "accessed": "2026-10-02"
             }
-          ]
+          ],
+          "notes": "Senate Rule 17:6 expressly requires at least 21 Senators; Joint Rule 8B(c) independently requires a majority of all members of each House."
         }
       ],
       "sameResolutionBothChambers": true,
@@ -3949,5 +4048,10 @@
         }
       ]
     }
-  ]
+  ],
+  "sourceRoleReview": {
+    "reviewedAt": "2026-10-02",
+    "addedPairedStates": ["US-CA", "US-MD", "US-MN", "US-MT", "US-NE", "US-NJ"],
+    "note": "Adds explicit admission bridges for California, Maryland, Nebraska, Minnesota and Montana and corrects New Jersey Joint Rule 8B(c). Georgia and Nevada remain pending instrument evidence; all unimplemented conditions and unsupported ordinary-rule inferences remain pending."
+  }
 }
