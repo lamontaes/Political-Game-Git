@@ -118,7 +118,9 @@ function healthLine(
   sourceRecordIds: readonly EntityId[],
   momentKey: string,
   surface: "menu" | "journal",
+  viewerId: EntityId,
 ): string | null {
+  if (!world.people[viewerId]) return null;
   const result = renderGroundedEnglish(
     {
       surface,
@@ -128,7 +130,12 @@ function healthLine(
       stage: "recorded",
       sourceRecordIds: [episode.id, ...sourceRecordIds],
       facts,
-      knowledge: [],
+      viewer: { personId: viewerId, traits: {} },
+      knowledge: Object.entries(facts).map(([factKey, fact]) => ({
+        personId: viewerId,
+        factKey,
+        sourceRecordIds: fact.sourceRecordIds,
+      })),
     },
     {
       key: `health:${surface}`,
@@ -197,6 +204,7 @@ export function healthKnowledgeLine(
     [knowledge.id, knowledge.eventId],
     `health-known:${knowledge.id}`,
     "journal",
+    knowledge.personId,
   );
 }
 
@@ -226,6 +234,7 @@ function healthDisclosureQuestion(
     [],
     decisionKey,
     "menu",
+    episode.personId,
   );
 }
 
