@@ -9,7 +9,12 @@ import {
 import { lifePlaceStateIdentities, lifePlaceByKey } from "../life-places";
 import { publicGovernmentOrganizationKey } from "../public-government-identity";
 import { createOrganization, recordOrganizationProfile } from "../life";
-import { createResourcePosition, money } from "../resources";
+import {
+  createResourcePosition,
+  createResourceFlow,
+  recordResourceTransferOutcome,
+  money,
+} from "../resources";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import {
@@ -33,6 +38,7 @@ import { readMonthFlows } from "./month";
 import {
   ensureOpeningGovernmentAccounts,
   selectLocalOpeningAccount,
+  estimateLocalOpeningCash,
 } from "./opening-government-accounts";
 import { budgetCandidates, type BudgetCandidate } from "./opening";
 
@@ -712,5 +718,176 @@ describe("A33 sourced opening cash uses the existing government account", () => 
       }),
     ).toThrow("opening estimate");
     expect(serializeWorld(world)).toBe(bytes);
+  });
+});
+
+describe("current-game local cash estimates", () => {
+  function withoutCashProfile(): World {
+    const world = localFixture();
+    return {
+      ...world,
+      history: {
+        ...world.history,
+        worldConditions: world.history.worldConditions!.map((record) => {
+          if (record.kind !== "world-opening") return record;
+          const legacy = { ...record };
+          delete legacy.publicCashOpening;
+          return legacy;
+        }),
+      },
+    };
+  }
+
+  it("opens five local accounts without an opening profile from identified current-game cash peers", () => {
+    const before = withoutCashProfile();
+    const statesOnly = ensureOpeningGovernmentAccounts(before);
+    const world = ensurePublicBudgets(before);
+    const peerWorld: World = {
+      ...statesOnly,
+      publicBudgets: world.publicBudgets,
+    };
+    for (const unit of localUnits) {
+      const candidate = budgetCandidates(world).candidates.find(
+        (row) => row.key === `place:${unit.placeGeoid}`,
+      )!;
+      const expected = estimateLocalOpeningCash(peerWorld, candidate)!;
+      expect(expected.peerGovernmentKeys.length).toBeGreaterThan(0);
+      expect(expected.peerRecordIds.length).toBe(
+        expected.peerGovernmentKeys.length * 2,
+      );
+      const selection = selectLocalOpeningAccount(world, candidate);
+      expect(selection.status).toBe("saved");
+      if (selection.status !== "saved")
+        throw new Error("Missing saved peer-estimated account.");
+      const saved = accountPosition(world, selection.identity)!;
+      expect(saved.openingBalance.minorUnits).toBe(expected.amountMinorUnits);
+      expect(saved.openingBalance.minorUnits).toBeGreaterThan(0);
+      expect(saved.provenance.kind).toBe("authored");
+      if (saved.provenance.kind !== "authored")
+        throw new Error("Expected saved opening estimate provenance.");
+      expect(saved.provenance.note).toContain(
+        "averaged from this game's similar government accounts now",
+      );
+      for (const id of expected.peerRecordIds)
+        expect(saved.provenance.note).toContain(id);
+      const cash = readMonthFlows(world, world.publicBudgets!).flows.cash!.get(
+        candidate.key,
+      )!;
+      expect(cash.positionId).toBe(saved.id);
+    }
+    expect(world.history.resourceFlows).toEqual(before.history.resourceFlows);
+    expect(world.history.resourceTransferOutcomes).toEqual(
+      before.history.resourceTransferOutcomes,
+    );
+    const bytes = serializeWorld(world);
+    expect(
+      serializeWorld(ensureOpeningGovernmentAccounts(deserializeWorld(bytes))),
+    ).toBe(bytes);
+  });
+
+  it("uses current paid cash rather than static openings, and reports the donors' current spread", () => {
+    let world = ensurePublicBudgets(localFixture());
+    const candidate = localCandidate(world);
+    const before = estimateLocalOpeningCash(world, candidate)!;
+    expect(before.peerGovernmentKeys.length).toBeGreaterThan(0);
+    const donorKey = before.peerGovernmentKeys[0]!;
+    const cash = readMonthFlows(world, world.publicBudgets!).flows.cash!.get(
+      donorKey,
+    )!;
+    world = createOrganization(world, {
+      stableKey: "fixture:cash-estimate-recipient",
+      formedAt: world.currentDate,
+      provenance: {
+        kind: "authored",
+        note: "Actual test payment recipient, not a government donor.",
+      },
+      initialProfile: {
+        name: "Test payee",
+        classification: "sector:business",
+        locationJurisdictionId: candidate.jurisdictionId,
+      },
+    });
+    const recipientId = world.history.organizations.at(-1)!.id;
+    world = createResourcePosition(world, {
+      stableKey: "fixture:cash-estimate-recipient:USD",
+      owner: { kind: "organization", organizationId: recipientId },
+      openedAt: world.currentDate,
+      openingBalance: money(0, "USD"),
+      provenance: { kind: "authored", note: "Test recipient cash." },
+    });
+    const amount = Math.min(100, cash.balanceMinorUnits);
+    expect(amount).toBeGreaterThan(0);
+    world = createResourceFlow(world, {
+      stableKey: "fixture:cash-estimate-paid",
+      source: { kind: "organization", organizationId: cash.organizationId },
+      recipient: { kind: "organization", organizationId: recipientId },
+      startsAt: world.currentDate,
+      amount: money(amount, "USD"),
+      cadenceKind: "custom:fixture-cash",
+      basisKind: "custom:fixture-cash",
+      basisReference: { kind: "general" },
+      restrictionKind: "purpose:public-general-receipts",
+      jurisdictionId: candidate.jurisdictionId,
+      provenance: {
+        kind: "authored",
+        note: "Actual saved payment for peer cash test.",
+      },
+    });
+    world = recordResourceTransferOutcome(world, {
+      stableKey: "fixture:cash-estimate-outcome",
+      resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      attemptedAmount: money(amount, "USD"),
+      transferredAmount: money(amount, "USD"),
+      status: "completed",
+      reasonKind: null,
+      note: "Actual completed test payment.",
+      provenance: {
+        kind: "authored",
+        note: "Saved payment, not a cash forecast.",
+      },
+    });
+    const after = estimateLocalOpeningCash(world, candidate)!;
+    expect(after.peerRecordIds).toEqual(before.peerRecordIds);
+    const donor = world.publicBudgets!.governments.find(
+      (row) => row.key === donorKey,
+    )!;
+    const target = world.publicBudgets!.governments.find(
+      (row) => row.key === candidate.key,
+    )!;
+    const expectedDecrease =
+      ((amount / donor.population) * target.population) /
+      before.peerGovernmentKeys.length;
+    expect(after.amountMinorUnits).toBe(
+      Math.round(before.amountMinorUnits - expectedDecrease),
+    );
+    expect(after.sourceNote).toContain(
+      `spendableCash=${cash.balanceMinorUnits - amount}`,
+    );
+    const actualCash = readMonthFlows(world, world.publicBudgets!).flows.cash!;
+    const scaled = after.peerGovernmentKeys.map((key) => {
+      const g = world.publicBudgets!.governments.find(
+        (row) => row.key === key,
+      )!;
+      return (
+        (actualCash.get(key)!.balanceMinorUnits / g.population) *
+        target.population
+      );
+    });
+    const mean = scaled.reduce((sum, value) => sum + value, 0) / scaled.length;
+    const spread = Math.sqrt(
+      scaled.reduce((sum, value) => sum + (value - mean) ** 2, 0) /
+        scaled.length,
+    );
+    expect(after.amountMinorUnits).toBe(Math.round(mean));
+    expect(after.spreadMinorUnits).toBe(spread);
+    expect(
+      estimateLocalOpeningCash(
+        deserializeWorld(serializeWorld(world)),
+        candidate,
+      ),
+    ).toEqual(after);
   });
 });
