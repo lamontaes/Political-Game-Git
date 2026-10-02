@@ -110,6 +110,7 @@ function tally(
     jurisdictionId,
     electionDate,
     candidatePersonIds: entrants.map((entrant) => entrant.personId),
+    includeRecordedRelationships: true,
     admitVoter,
   });
   if (!counted) return null;

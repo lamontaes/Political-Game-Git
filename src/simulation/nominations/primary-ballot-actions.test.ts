@@ -1,3 +1,4 @@
+import { recordRelationshipInteraction } from "../records";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../../tests/support/random-place";
@@ -137,6 +138,74 @@ describe("ordinary primary ballot actions", () => {
         personId: f.voter,
       }),
     ).toBe("party-a");
+  });
+
+  it("the ordinary caller produces ballot selection and nomination from saved personal conduct without injected candidate beliefs", () => {
+    const f = setup("Open", "a114-recorded-conduct-producer");
+    let world = f.world;
+    for (const key of ["first", "second"]) {
+      world = recordRelationshipInteraction(world, {
+        stableKey: `actual-conduct:${key}`,
+        personIds: [f.voter, f.field.entrants[0]!.personId],
+        eventId: null,
+        occurredAt: world.currentDate,
+        kind: "work:collaboration",
+        change: "strengthened",
+        significance: "major",
+        summary:
+          "The candidate kept a recorded work commitment to the elector.",
+        tags: [],
+      });
+    }
+    expect(world.history.privateBeliefs).toHaveLength(0);
+    const held = holdNominationPrimary(world, {
+      ...f.field,
+      plan: f.plan,
+      seatKey: "conduct-seat",
+      title: "Recorded conduct primary",
+      involvedEntityIds: f.field.entrants.map((row) => row.personId),
+      partyShare: () => null,
+    });
+    const trace = held.history.decisionTraces.find(
+      (row) => row.context.decisionType === "election.primary-ballot-choice",
+    )!;
+    expect(trace.context.actorPersonId).toBe(f.voter);
+    expect(
+      trace.context.considerations.some((row) =>
+        row.sourceRefs.some((ref) => ref.kind === "relationship-interaction"),
+      ),
+    ).toBe(true);
+    expect(nominationNominees(held, f.field.stableKey)).toEqual([
+      { personId: f.field.entrants[0]!.personId, party: "party-a" },
+    ]);
+    const reopened = deserializeWorld(serializeWorld(held));
+    expect(
+      recordedPrimaryBallotSelectionAt(reopened, {
+        ...f.field,
+        personId: f.voter,
+        electionStableKey: f.field.stableKey,
+      }),
+    ).toBe("party-a");
+    expect(considerPrimaryPartyBallots(reopened, f.field)).toBe(reopened);
+    expect(reopened.history.privateBeliefs).toHaveLength(0);
+  });
+
+  it("conduct after primary day cannot supply a retrospective candidate preference", () => {
+    const f = setup("Open", "a114-no-future-conduct");
+    let world = advanceWorld(f.world, 1);
+    for (const key of ["first", "second"])
+      world = recordRelationshipInteraction(world, {
+        stableKey: `future-conduct:${key}`,
+        personIds: [f.voter, f.field.entrants[0]!.personId],
+        eventId: null,
+        occurredAt: world.currentDate,
+        kind: "work:collaboration",
+        change: "strengthened",
+        significance: "major",
+        summary: "This work conduct occurred after the primary.",
+        tags: [],
+      });
+    expect(considerPrimaryPartyBallots(world, f.field)).toBe(world);
   });
 
   it("a clock step crossing primary day records the dated NPC decision without allowing a late player choice", () => {

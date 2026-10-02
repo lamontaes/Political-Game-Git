@@ -84,6 +84,7 @@ export function considerPrimaryPartyBallots(
     jurisdictionId: input.jurisdictionId,
     electionDate: input.electionDate,
     candidatePersonIds: [...candidateParties.keys()],
+    includeRecordedRelationships: true,
   });
   let next = world;
   for (const [personId, context] of contexts) {
