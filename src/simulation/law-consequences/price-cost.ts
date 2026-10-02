@@ -1,3 +1,11 @@
+import { rentConstructionCovered } from "./rent-construction-coverage";
+import {
+  RENT_COVERAGE_PREDICATE,
+  RENT_CAP_TERM,
+  RENT_STABILIZATION_ROW,
+} from "./rent-stabilization-row";
+import { townLeases, rentPriceLevel } from "../living-world/town-rent";
+import { addDays } from "../dates";
 import { evaluateLawAmount } from "../law-consequence-amount";
 import type {
   LawAmountExpression,
@@ -8,7 +16,10 @@ import type {
   ResolvedLawConsequence,
 } from "../law-consequence-types";
 import { lawInForce } from "../governing/law-in-force";
-import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
+import {
+  readFinalEnactedLawCategories,
+  readFinalEnactedLawTerm,
+} from "../governing/automatic-legislation";
 import { recordById, recordByStableKey } from "../history-index";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { resourceFlowTermsAt } from "../resource-queries";
@@ -95,6 +106,7 @@ export function resolvePriceCostConsequences(
       "Price-cost requires an explicit flow-basis coverage predicate",
     );
   for (const condition of conditions) {
+    if (condition.capability === RENT_COVERAGE_PREDICATE) continue;
     if (condition.capability !== BASIS)
       throw new Error(`Missing price-cost predicate: ${condition.capability}`);
     if (
@@ -129,6 +141,66 @@ export function resolvePriceCostConsequences(
   if (!law || law.answer !== "yes") return [];
   if (context.governingLawId && context.governingLawId !== law.measureId)
     return [];
+  let coverageSourceIds: (typeof flow.id)[] = [];
+  if (
+    conditions.some(
+      (condition) => condition.capability === RENT_COVERAGE_PREDICATE,
+    )
+  ) {
+    const categories = readFinalEnactedLawCategories(world, law, {
+      questionKey: proposition.stableKey,
+      termKey: "coverage",
+    });
+    const lease = townLeases(world, context.onDate).find(
+      (candidate) => candidate.flow.id === flow.id && !candidate.ended,
+    );
+    const dwelling = lease
+      ? recordById(world.history.dwellings, lease.dwellingId)
+      : null;
+    const cap = readFinalEnactedLawTerm(world, law, {
+      questionKey: proposition.stableKey,
+      termKey: RENT_CAP_TERM,
+      unit: "ratio",
+    });
+    if (
+      (!categories && law.origin !== "in-force-at-start") ||
+      !lease ||
+      !dwelling ||
+      !cap ||
+      !Number.isFinite(cap.value) ||
+      cap.value < 0 ||
+      (categories
+        ? !categories.values.includes(
+            `${lease.regime}:${dwelling.classification}`,
+          )
+        : lease.regime !== "market")
+    )
+      return [];
+    if (law.origin === "in-force-at-start") {
+      const window = readFinalEnactedLawTerm(world, law, {
+        questionKey: proposition.stableKey,
+        termKey: "new-construction-exemption-years",
+        unit: "years",
+      });
+      if (
+        !rentConstructionCovered(
+          world,
+          dwelling,
+          context.onDate,
+          window?.value ?? null,
+        )
+      )
+        return [];
+      coverageSourceIds.push(...(window?.sourceRecordIds ?? []));
+    }
+    coverageSourceIds = [
+      ...coverageSourceIds,
+      ...(categories?.sourceRecordIds ?? [law.measureId]),
+      lease.tenureId,
+      dwelling.id,
+    ];
+  }
+
   const terms =
     activity ??
     resourceFlowTermsAt(world, flow.id, {
@@ -145,20 +217,47 @@ export function resolvePriceCostConsequences(
   if (!terms || terms.status !== "active" || flow.startsAt > context.onDate)
     return [];
   const requestedTerms = requiredTermUnits(row.amount);
-  const legalTerms = [...requestedTerms].map(([termKey, unit]) => {
-    const term = readFinalEnactedLawTerm(world, law, {
+  const legalTerms = [];
+  for (const [termKey, unit] of requestedTerms) {
+    let term = readFinalEnactedLawTerm(world, law, {
       questionKey: proposition.stableKey,
       termKey,
       unit,
     });
+    if (!term && row.id === RENT_STABILIZATION_ROW.id) return [];
     if (!term)
       throw new Error(`Missing law amount capability: term:${termKey}`);
     if (term.measureId !== law.measureId || term.unit !== unit)
       throw new Error(
         `Price-cost term '${termKey}' differs from its governing law`,
       );
-    return { termKey, term };
-  });
+    if (
+      row.id === RENT_STABILIZATION_ROW.id &&
+      termKey === RENT_CAP_TERM &&
+      law.origin === "in-force-at-start"
+    ) {
+      const offset = readFinalEnactedLawTerm(world, law, {
+        questionKey: proposition.stableKey,
+        termKey: "cap-inflation-offset",
+        unit: "ratio",
+      });
+      if (!offset) return [];
+      const inflation =
+        rentPriceLevel(world, flow.jurisdictionId!, context.onDate) /
+          rentPriceLevel(
+            world,
+            flow.jurisdictionId!,
+            addDays(context.onDate, -365),
+          ) -
+        1;
+      term = {
+        ...term,
+        value: Math.min(term.value, offset.value + inflation),
+        sourceRecordIds: [...term.sourceRecordIds, ...offset.sourceRecordIds],
+      };
+    }
+    legalTerms.push({ termKey, term });
+  }
   // No catalog parameter declaration is mistaken for an operative numeric value.
   // Unsupported term, capacity or exposure keys fail in the shared evaluator.
   const amount = evaluateLawAmount(row.amount, {
@@ -182,6 +281,9 @@ export function resolvePriceCostConsequences(
     capacity: {},
     exposure: {},
   });
+  // Whole cents must stay at or below the adopted ceiling.
+  if (row.id === RENT_STABILIZATION_ROW.id && amount.unit === "minor")
+    amount.value = Math.floor(amount.value);
   if (
     amount.unit !== "minor" ||
     !Number.isSafeInteger(amount.value) ||
@@ -203,6 +305,7 @@ export function resolvePriceCostConsequences(
         flow.id,
         terms.id,
         flow.source.personId,
+        ...coverageSourceIds,
         ...(prior ? [prior.id] : []),
         ...new Set(legalTerms.flatMap(({ term }) => term.sourceRecordIds)),
       ],
@@ -317,7 +420,7 @@ export const TEAM_4_PRICE_COST_REGISTRATION: LawConsequenceKindRegistration = {
   owner: "Team4",
   selectors: [SELECTOR],
   actions: [ACTION],
-  predicates: [BASIS],
+  predicates: [BASIS, RENT_COVERAGE_PREDICATE],
   units: ["minor"],
   resolve: resolvePriceCostConsequences,
   apply: applyPriceCostConsequence,
