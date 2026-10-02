@@ -490,6 +490,12 @@ export interface ExecutiveRule {
   readonly actionWindowDayBasisAfterAdjournment?: RuleValue<
     "CALENDAR" | "BUSINESS" | "SUNDAYS_EXCEPTED"
   >;
+  /** A sourced override period; an absent field establishes no deadline. */
+  readonly vetoOverrideWindow?: RuleValue<{
+    readonly days: number;
+    readonly dayBasis: "CALENDAR" | "BUSINESS";
+    readonly anchor: "executive-return" | "clerk-receipt";
+  }>;
   readonly inactionOutcomeInSession: RuleValue<ExecutiveInactionOutcome>;
   readonly lineItemVeto: RuleValue<boolean>;
   readonly override: OverrideForum;
@@ -1146,6 +1152,26 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
     "executive inaction outcome",
   );
   assertRuleValue(executive.lineItemVeto, "line-item veto");
+  if (executive.vetoOverrideWindow !== undefined) {
+    assertRuleValue(
+      executive.vetoOverrideWindow,
+      "veto override window",
+      (value) => {
+        if (
+          !value ||
+          !Number.isSafeInteger(value.days) ||
+          value.days < 0 ||
+          (value.dayBasis !== "CALENDAR" && value.dayBasis !== "BUSINESS") ||
+          (value.anchor !== "executive-return" &&
+            value.anchor !== "clerk-receipt")
+        ) {
+          throw new Error(
+            "Veto override window must state nonnegative whole days, a supported day basis and a recorded-event anchor.",
+          );
+        }
+      },
+    );
+  }
 
   if (executive.override.kind === "not-applicable") {
     if (executive.override.note.trim().length === 0) {
