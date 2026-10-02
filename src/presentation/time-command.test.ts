@@ -3,13 +3,17 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   campaignForCandidate,
+  compareSimulationMoments,
   createScheduledActivity,
   deserializeWorld,
   electionContestResult,
   serializeWorld,
+  scheduledActivityState,
   simulationMomentAtLocalTime,
 } from "../simulation";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import {
   careerOfferAccepted,
   careerReplyBy,
@@ -26,6 +30,7 @@ import { createExplicitGeographyLife } from "./new-game-geography";
 import { acceptedOfferStarts } from "./offer-deadlines";
 import { openOrdinaryLife } from "./ordinary-life";
 import { declineVenueActivity } from "./venue-activity";
+import { declineCalendarActivity } from "./calendar-time-control";
 import {
   describeTimeCommandPreview,
   nextKnownCalendarItem,
@@ -234,6 +239,39 @@ describe("the canonical time command", () => {
     // Ordinary quiet stretches still reach election day and resolve it once.
     for (let step = 0; step < 12; step += 1) {
       if (electionContestResult(current, campaign.contestId)) break;
+      // Choose Stay home for an incoming meeting through its saved travel join.
+      // Repeating a quiet stretch is not an answer to that calendar choice.
+      const journey = current.history.scheduledActivities.find(
+        (activity) =>
+          activity.kind === "travel" &&
+          activity.location.locationKey === "ordinary-life:to-meeting-room" &&
+          activity.responsiblePersonId === built.personId &&
+          scheduledActivityState(current, activity.id).status === "scheduled" &&
+          compareSimulationMoments(
+            current.currentMoment,
+            scheduledActivityState(current, activity.id).start,
+          ) === 0,
+      );
+      const meeting = journey
+        ? current.history.scheduledActivities.find(
+            (activity) =>
+              journey.sourceEntityIds.includes(activity.id) &&
+              activity.location.locationKey === "ordinary-life:meeting-room" &&
+              activity.participantPersonIds.includes(built.personId) &&
+              scheduledActivityState(current, activity.id).status ===
+                "scheduled",
+          )
+        : null;
+      if (meeting) {
+        const stayHome = declineCalendarActivity(
+          current,
+          built.personId,
+          meeting.id,
+        );
+        expect(stayHome.world).not.toBe(current);
+        expect(stayHome.reached).toEqual(current.currentMoment);
+        current = stayHome.world;
+      }
       current = submitTimeCommand(
         current,
         request(current, built.personId, { kind: "quiet-stretch" }),
@@ -386,6 +424,56 @@ describe("the canonical time command", () => {
     expect(refused.receipt.status).toBe("refused");
     expect(refused.world).toBe(world);
   });
+
+  for (const sample of [0, 1, 2]) {
+    it(`names the due calendar choice without calling it work (${sample})`, () => {
+      const seed = `quiet-stretch-calendar-choice:${sample}`;
+      const { world, personId } = smallWorld({
+        seed,
+        place: drawRandomPlace(seed).key,
+      });
+      const booked = createScheduledActivity(world, {
+        stableKey: `${seed}:meeting`,
+        title: "Resident meeting",
+        summary: "A recorded calendar choice.",
+        kind: "confirmed",
+        start: world.currentMoment,
+        end: simulationMomentAtLocalTime({
+          ...world.currentMoment,
+          minuteOfDay: world.currentMoment.minuteOfDay + 30,
+        }),
+        participantPersonIds: [personId],
+        responsiblePersonId: personId,
+        location: {
+          locationKey: `${seed}:room`,
+          label: "Meeting room",
+          jurisdictionId: world.people[personId]!.homeJurisdictionId,
+        },
+        sourceEntityIds: [personId],
+        flexibility: { kind: "fixed" },
+        access: { kind: "private", personIds: [personId] },
+      });
+      const reloaded = deserializeWorld(serializeWorld(booked));
+      expect(
+        previewTimeCommand(reloaded, personId, { kind: "quiet-stretch" }),
+      ).toBeNull();
+      const refused = submitTimeCommand(
+        reloaded,
+        request(reloaded, personId, { kind: "quiet-stretch" }),
+        fixedClock,
+      );
+      expect(refused.world).toBe(reloaded);
+      expect(refused.receipt.reached).toEqual(reloaded.currentMoment);
+      expect(refused.receipt.status).toBe("refused");
+      expect(refused.receipt.outcome).toBe(
+        "Resident meeting is waiting on your calendar. Decide whether to attend or decline before another quiet stretch.",
+      );
+      expect(refused.receipt.outcome).not.toContain("under Work");
+      expect(refused.world.history.scheduledActivityStates).toEqual(
+        reloaded.history.scheduledActivityStates,
+      );
+    });
+  }
 
   it("survives save and reload with the same source moment", () => {
     const { world, personId } = adultLife();

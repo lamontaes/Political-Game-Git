@@ -48,6 +48,7 @@ import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
 import {
   describeTimeCommandPreview,
+  quietStretchRefusal,
   previewTimeCommand,
 } from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
@@ -1498,6 +1499,10 @@ function PlayingScreen({
       ? {
           day: skipToLabel(day.target),
           week: skipToLabel(week.target),
+          untilNeededReason: quietStretchRefusal(
+            session.world,
+            session.personId,
+          ),
           untilNeeded: untilNeeded
             ? describeTimeCommandPreview(untilNeeded)
             : null,
@@ -3017,6 +3022,7 @@ function PlayingScreen({
                   ) : null
                 }
                 dateLabel={moment.dateLabel}
+                currentMoment={session.world.currentMoment}
                 placeName={moment.placeName}
                 destinations={destinations}
                 canSave={!savesUnavailable}
