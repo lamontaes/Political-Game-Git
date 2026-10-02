@@ -1,4 +1,3 @@
-import { lawInForce } from "./law-in-force";
 import { personName } from "../people";
 import type { EntityId, LegislativeVoteDisposition, World } from "../types";
 import { decideChamberVote, publicPartyOf } from "./chamber-votes";
@@ -30,29 +29,11 @@ import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 
 export const COUNCIL_LAWMAKING_VERSION = "council-lawmaking/v1";
 
-/**
- * The reason a member with no view and no cue on an ordinance votes for it.
- * Councils vote together far more than legislatures: 87 percent of recorded
- * votes in California city councils were unanimous, against 10 percent of
- * votes in Congress (Participation and Representation in Local Government
- * Speech, arXiv 2604.21202, 2026); Austin's council agreed more than 95
- * percent of the time in 2025 (Austin American-Statesman), Boulder's more
- * than 70 percent (Boulder Reporting Lab, 2026). The most common real rule
- * for a member who has nothing at stake is to go along with the item before
- * the body. Only a member with no view, no record and no cue defers; one who
- * has any of those decides from them.
- */
+/** Historical reason keys retained for reading older recorded ballots. */
 export const COUNCIL_DEFERENCE_REASON = "member:council-deference";
-
-/**
- * The reason a member with no view votes against undoing a law their own
- * body enacted: going along with the body means keeping what it decided.
- * Councils rarely reverse their own recent ordinances, and a member with no
- * stake of their own has no reason to.
- */
 export const COUNCIL_PRECEDENT_REASON = "member:council-precedent";
 
-export const COUNCIL_VOTE_NOTE = `${COUNCIL_LAWMAKING_VERSION}: each member decided their own ballot from their principles, their record, the ordinance's sponsor and the town's voters.`;
+export const COUNCIL_VOTE_NOTE = `${COUNCIL_LAWMAKING_VERSION}: each member decided their own ballot from their principles, their record, the ordinance's sponsor, the town's voters and shared institutional considerations.`;
 
 export interface CouncilMember {
   readonly personId: EntityId;
@@ -89,7 +70,7 @@ export function decideCouncilVote(
     readonly nonpartisan: boolean;
   },
 ): readonly LegislativeVoteDisposition[] {
-  const decided = decideChamberVote(world, {
+  return decideChamberVote(world, {
     stableKey: input.stableKey,
     question: {
       question: {
@@ -113,43 +94,5 @@ export function decideCouncilVote(
     constituencyId: input.jurisdictionId,
     executivePersonId: input.executivePersonId,
     nonpartisan: input.nonpartisan,
-  });
-  // A member with nothing of their own to weigh on the question goes along
-  // with the ordinance that reached the floor, the way councils do.
-  // A member with nothing of their own to weigh goes along with the body:
-  // for the ordinance before it, unless the ordinance would undo a law this
-  // same body enacted, in which case they keep the body's standing law.
-  const undoes = undoesOwnLaw(world, input.measureId);
-  return decided.map((row) =>
-    row.disposition === "present-not-voting" &&
-    row.reason === "member:no-reason" &&
-    row.personId !== input.playerPersonId
-      ? undoes
-        ? { ...row, disposition: "nay", reason: COUNCIL_PRECEDENT_REASON }
-        : { ...row, disposition: "yea", reason: COUNCIL_DEFERENCE_REASON }
-      : row,
-  );
-}
-
-/**
- * Whether the ordinance answers a question otherwise than a law the same
- * body enacted and that is in force today.
- */
-function undoesOwnLaw(world: World, measureId: EntityId): boolean {
-  const measure = world.history.legislativeMeasures?.find(
-    (row) => row.id === measureId,
-  );
-  if (!measure) return false;
-  return (measure.propositionAnswers ?? []).some((row) => {
-    const law = lawInForce(world, measure.jurisdictionId, row.propositionId);
-    if (!law || law.origin !== "enacted" || law.answer === row.answer)
-      return false;
-    const enacted = world.history.legislativeMeasures?.find(
-      (other) => other.id === law.measureId,
-    );
-    return (
-      enacted?.jurisdictionId === measure.jurisdictionId &&
-      enacted.rulePackId === measure.rulePackId
-    );
   });
 }
