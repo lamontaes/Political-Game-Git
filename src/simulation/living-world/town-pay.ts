@@ -1,3 +1,4 @@
+import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { FEDERAL_MINIMUM_WAGE_QUESTION_KEY } from "../minimum-wage";
 import { lawEffectStamp } from "../law-effect-stamp";
@@ -1589,6 +1590,7 @@ export function settleTownCompensations(
     .slice(first)
     .map((outcome) => outcome.id);
   next = assessPaychecksTaxes(next, ids);
+  next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.
   return payPaidLeaveClaims(next, claims);
