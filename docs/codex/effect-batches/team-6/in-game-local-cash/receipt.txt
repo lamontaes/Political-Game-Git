@@ -34,3 +34,5 @@ New exports: estimateLocalOpeningCash, InGameOpeningCashEstimate. Existing sprea
 LIMITS: township/ambiguous ownership shared validator+lookup join remains missing; strict saved account/evidence/duplicate guards retained. Draft jurisdiction-only alias removed and preserved at /tmp/team6-local-opening-cash-pre-primary-join-review.patch. Not full item1 acceptance or service delivery proof.
 Legal research/modal fallback STOPPED per CTO08:28; batch08 acquired source bytes preserved/unpublished. Tax source chain1943 stays9c2b unchanged.
 NOT RUN: Audit query tests9 (source not supplied), full suite, unrelated LOAD/browser, repository-wide types, official Claude gate. No merges.
+
+Receiving release failure retained: donor a124-shared-sample-spread.md had id shared-sample-spread, mismatching filename. Repaired only declaration header to a124-shared-sample-spread; shared source leaf/reexport bytes unchanged. Final release transition renewed; no behavior rerun for metadata-only repair.
