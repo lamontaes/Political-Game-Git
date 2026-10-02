@@ -1,5 +1,5 @@
 import { makeIsoDate } from "./dates";
-import { householdMembershipsAt } from "./life-queries";
+import { householdMembershipsAt, peopleInHouseholdAt } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
 import {
@@ -19,9 +19,11 @@ import {
   REPRESENTATIVE_LIVING_COSTS,
   representativeMonthlyLivingCostsMinor,
   livingCostsRegionForState,
+  estimatedMonthlyHouseholdLivingCosts,
 } from "./living-costs-data";
 import { townLeases } from "./living-world/town-rent";
 import { recordWorldEvent } from "./world";
+import { drawnLinkSize } from "./outcome-web";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
 
 /**
@@ -88,6 +90,61 @@ function primaryHouseholdId(
     historySequenceExclusive: world.history.nextSequence,
   }).filter((entry) => entry.state.residenceRole === "primary");
   return homes.length === 1 ? homes[0]!.household.id : null;
+}
+
+/** Dated membership supplies the actual count, including resident children. */
+export function estimatedHouseholdLivingCostsAt(
+  world: World,
+  personId: EntityId,
+  asOfDate = world.currentDate,
+) {
+  const householdId = primaryHouseholdId(world, personId, asOfDate);
+  if (!householdId) return null;
+  const cutoff = {
+    asOfDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const residents = new Set(
+    peopleInHouseholdAt(world, householdId, cutoff).filter(
+      (id) =>
+        householdMembershipsAt(world, id, cutoff).some(
+          (entry) =>
+            entry.household.id === householdId &&
+            entry.state.residenceRole === "primary",
+        ) &&
+        !world.history.personDeaths.some(
+          (death) => death.personId === id && death.diedAt <= asOfDate,
+        ),
+    ),
+  );
+  if (!residents.size) return null;
+  const place = lifePlaceByJurisdictionId(
+    world.people[personId]!.homeJurisdictionId,
+  );
+  const estimate = estimatedMonthlyHouseholdLivingCosts(
+    livingCostsRegionForState(place?.stateJurisdictionKey ?? null),
+    residents.size,
+  );
+  const jurisdictionId =
+    place?.context.jurisdiction.id ??
+    world.people[personId]!.homeJurisdictionId;
+  return {
+    householdId,
+    ...estimate,
+    averageMonthlyMinor: estimate.monthlyMinor,
+    // Reuse the world's established estimate spread, never a payment/outcome roll.
+    monthlyMinor: Math.round(
+      drawnLinkSize(
+        world,
+        {
+          key: `living-costs:household:${householdId}:size:${estimate.sizeColumn}`,
+          size: estimate.monthlyMinor,
+          evidence: "researched",
+        },
+        jurisdictionId,
+      ),
+    ),
+  };
 }
 
 /**
@@ -319,7 +376,9 @@ function settleMonth(
   const periodTerms = resourceFlowTermsAt(world, flow.id, {
     asOfDate: dueOn,
     historySequenceExclusive: world.history.nextSequence,
-  })!;
+  });
+  // A current reader cannot revive an ended or suspended bill for an old due day.
+  if (!periodTerms || periodTerms.status !== "active") return world;
   const monthly = periodTerms.amount;
   // The old authored $1,500+ basket included housing. A sourced nonhousing
   // basket is never labeled rent merely because its dollar amount is higher.

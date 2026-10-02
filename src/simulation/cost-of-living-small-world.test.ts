@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { createStartingPerson } from "./people";
+import type { World } from "./types";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { createHousehold, startHouseholdMembership } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
@@ -13,11 +15,13 @@ import { SeededRng, pickDistinct } from "./rng";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import {
   initializeLivingCostsFlow,
+  estimatedHouseholdLivingCostsAt,
   livingCostsFlowFor,
   settleLivingCosts,
 } from "./cost-of-living";
 import {
   livingCostsRegionForState,
+  estimatedMonthlyHouseholdLivingCosts,
   representativeMonthlyLivingCostsMinor,
 } from "./living-costs-data";
 
@@ -156,6 +160,94 @@ describe.each(places)(
       expect(settleLivingCosts(migrated, fixture.small.personId)).toBe(
         migrated,
       );
+    });
+
+    it(`honors ended due-day terms without reviving a saved bill (seed ${seed})`, () => {
+      const fixture = household(place.jurisdictionKey);
+      let world = createResourcePosition(fixture.world, {
+        stableKey: "a52-small:funds",
+        owner: fixture.owner,
+        openedAt: fixture.world.currentDate,
+        openingBalance: money(fixture.amount * 3, "USD"),
+        provenance,
+      });
+      world = initializeLivingCostsFlow(world, fixture.small.personId);
+      const flow = livingCostsFlowFor(world, fixture.small.personId)!;
+      const terms = resourceFlowTermsAt(world, flow.id)!;
+      const dueOn = makeIsoDate("2026-02-01");
+      world = {
+        ...world,
+        currentDate: dueOn,
+        currentMoment: simulationMomentOnLocalDate(world.currentMoment, dueOn),
+      };
+      world = recordResourceFlowTerms(world, {
+        stableKey: "a52-small:ended",
+        resourceFlowId: flow.id,
+        effectiveAt: dueOn,
+        status: "ended",
+        amount: terms.amount,
+        cadenceKind: terms.cadenceKind,
+        reason: "Recorded contract ended on its due date",
+        provenance,
+        supersedesTermsId: terms.id,
+      });
+      expect(settleLivingCosts(world, fixture.small.personId)).toBe(world);
+      expect(world.history.resourceTransferOutcomes).toHaveLength(0);
+      expect(
+        resourcePositionAt(world, fixture.owner, terms.amount.currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(fixture.amount * 3);
+    });
+
+    it(`reads household size from actual primary residents, including a child (seed ${seed})`, () => {
+      const fixture = household(place.jurisdictionKey);
+      const child = createStartingPerson({
+        worldId: fixture.world.id,
+        worldSeed: `${seed}:child`,
+        currentDate: fixture.world.currentDate,
+        homeJurisdictionId: fixture.small.jurisdictionId,
+        age: 8,
+      });
+      const childId = child.id;
+      let world: World = {
+        ...fixture.world,
+        people: { ...fixture.world.people, [childId]: child },
+        personOrder: [...fixture.world.personOrder, childId],
+      };
+      world = startHouseholdMembership(world, {
+        stableKey: "a52-small:child",
+        householdId: fixture.householdId,
+        personId: childId,
+        startedAt: world.currentDate,
+        residenceRole: "primary",
+        kind: "resident:member",
+        provenance,
+      });
+      const estimate = estimatedHouseholdLivingCostsAt(
+        world,
+        fixture.small.personId,
+      )!;
+      expect(estimate.householdSize).toBe(2);
+      expect(estimate.averageMonthlyMinor).toBe(
+        estimatedMonthlyHouseholdLivingCosts(
+          livingCostsRegionForState(fixture.small.place.stateJurisdictionKey),
+          2,
+        ).monthlyMinor,
+      );
+      expect(
+        estimatedHouseholdLivingCostsAt(world, childId)!.monthlyMinor,
+      ).toBe(estimate.monthlyMinor);
+      expect(estimate.monthlyMinor).toBeGreaterThanOrEqual(
+        estimate.averageMonthlyMinor * 0.75 - 1,
+      );
+      expect(estimate.monthlyMinor).toBeLessThanOrEqual(
+        estimate.averageMonthlyMinor * 1.25 + 1,
+      );
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(
+        estimatedHouseholdLivingCostsAt(reopened, childId)!.monthlyMinor,
+      ).toBe(estimate.monthlyMinor);
+      expect(world.history.resourceTransferOutcomes).toHaveLength(0);
     });
 
     it(`refuses untracked money and a source not available yet (seed ${seed})`, () => {
