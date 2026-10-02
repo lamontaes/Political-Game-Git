@@ -13,11 +13,12 @@ import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { PRETRIAL_HELD_EVENT, PRETRIAL_RELEASED_EVENT } from "./jail-terms";
-import { pretrialGoverningLawAt } from "./pretrial";
+import { pretrialGoverningLawAt, bailMinorUnits } from "./pretrial";
 import {
   advanceProsecutions,
   referForProsecution,
   UNRESEARCHED_PROSECUTION,
+  PROSECUTION_CHARGED_EVENT,
 } from "./prosecution";
 
 describe("saved pretrial law attribution", () => {
@@ -88,6 +89,53 @@ describe("saved pretrial law attribution", () => {
             event.type === PRETRIAL_RELEASED_EVENT) &&
           event.involvedEntityIds.includes(subjectId),
       );
+      const amount = bailMinorUnits(world, {
+        venueJurisdictionId: jurisdictionId,
+        offenseKey: "crime:robbery",
+      });
+      if (law!.answer === "no" && amount === null) {
+        // Real starting authority answers money bail but supplies no amount.
+        // Pending is observable: no invented charge amount, deposit or hold.
+        expect(events).toHaveLength(0);
+        const charged = after.history.events.find(
+          (event) =>
+            event.type === PROSECUTION_CHARGED_EVENT &&
+            event.involvedEntityIds.includes(subjectId),
+        );
+        expect(charged).toBeDefined();
+        expect(
+          charged!.tags.some((tag) =>
+            tag.startsWith("justice.cash-bail-amount:"),
+          ),
+        ).toBe(false);
+        expect(
+          after.history.resourceFlows.filter(
+            (flow) => flow.basisKind === "custom:refundable-cash-bail",
+          ),
+        ).toEqual(
+          world.history.resourceFlows.filter(
+            (flow) => flow.basisKind === "custom:refundable-cash-bail",
+          ),
+        );
+        const restored = deserializeWorld(serializeWorld(after));
+        expect(advanceProsecutions(restored).history.events).toEqual(
+          after.history.events,
+        );
+        const receipt = JSON.stringify({
+          seed,
+          place: place.key,
+          population: after.personOrder.length,
+          chargedEventId: charged!.id,
+          legalCashAmount: null,
+          newDeposits: 0,
+          newDetentionEvents: 0,
+          reloadIdempotent: true,
+          sourceGap: "No operative offense-specific numeric bail term",
+        });
+        if (process.env.TEAM9_PRETRIAL_RECEIPT)
+          appendFileSync(process.env.TEAM9_PRETRIAL_RECEIPT, `${receipt}\n`);
+        return;
+      }
       expect(events).toHaveLength(1);
       const reloaded = deserializeWorld(serializeWorld(after));
       const saved = reloaded.history.events.find(
