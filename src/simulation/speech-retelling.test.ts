@@ -190,8 +190,8 @@ describe("A9 monthly speech retelling on the due clock", () => {
       reached.history.futureDueItems,
     );
   }, 30_000);
-  // Existing saves without the new due item are a separate CTO compatibility
-  // decision. This case proves current Begin and continuation of its saved clock.
+  // CTO Oct 2 04:37 R2 admits fresh worlds only, without legacy-save migration.
+  // Prove public Begin, three months, then Save/Continue on the ordinary clock.
   it("current Begin registers the ordinary clock and Save/Continue keeps each month's retelling", () => {
     const seed = "a9-ordinary-begin-retelling";
     const place = drawRandomPlace(seed);
@@ -270,5 +270,45 @@ describe("A9 monthly speech retelling on the due clock", () => {
     expect(repeated.history.futureDueItems).toEqual(
       continued.history.futureDueItems,
     );
+    const savedAfterThree = deserializeWorld(serializeWorld(continued));
+    expect(savedAfterThree.currentDate).toBe(thirdMonth);
+    expect(savedAfterThree.history.futureDueItems).toEqual(
+      continued.history.futureDueItems,
+    );
+    expect(savedAfterThree.history.knowledge).toEqual(
+      continued.history.knowledge,
+    );
+    expect(savedAfterThree.history.memories).toEqual(
+      continued.history.memories,
+    );
+    const afterContinue = advanceWorld(
+      savedAfterThree,
+      daysBetween(savedAfterThree.currentDate, fourthMonth),
+    );
+    expect(afterContinue.currentDate).toBe(fourthMonth);
+    for (const [personId, learnedAt] of [
+      [second, firstMonth],
+      [third, secondMonth],
+      [fourth, thirdMonth],
+    ] as const) {
+      const heard = afterContinue.history.knowledge.filter(
+        (row) => row.personId === personId && row.eventId === speech.id,
+      );
+      expect(heard).toHaveLength(1);
+      expect(heard[0]!.learnedAt).toBe(learnedAt);
+    }
+    expect(
+      afterContinue.history.futureDueItems
+        .filter(
+          (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
+        )
+        .map((item) => item.dueAt),
+    ).toEqual([
+      firstMonth,
+      secondMonth,
+      thirdMonth,
+      fourthMonth,
+      monthStart(nextMonthKey(monthKeyOf(fourthMonth))),
+    ]);
   }, 30_000);
 });
