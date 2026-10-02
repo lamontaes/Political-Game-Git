@@ -191,6 +191,13 @@ import {
   localElectionCountHandler,
 } from "../simulation/living-world/local-elections";
 import { simulationMomentOnLocalDate } from "../simulation/dates";
+import { placeOutcomesForMonth } from "../simulation/outcome-web/place-outcomes";
+import { placeOutcomeAt } from "../simulation/outcome-web/place-outcome-store";
+import {
+  createFormationContext,
+  recordPrivateBelief,
+} from "../simulation/politics";
+import { officialOpinionSubject } from "../simulation/political-opinion-subjects";
 
 describe("A112 town counts use saved support without a seed draw", () => {
   it("counts equivalent saved three-candidate Columbus support under two seeds", () => {
@@ -226,6 +233,45 @@ describe("A112 town counts use saved support without a seed draw", () => {
           jurisdictions: [state, place.context.jurisdiction],
           people,
         });
+        const month = makeIsoDate(`${date.slice(0, 7)}-01`);
+        world = {
+          ...world,
+          placeOutcomes: {
+            months: [
+              {
+                month,
+                records: placeOutcomesForMonth(world, month, [
+                  "voting.turnout-pct",
+                ]),
+              },
+            ],
+          },
+        };
+        for (const [candidateIndex, voterIndexes] of [
+          [0, [1, 2, 3]],
+          [1, [3]],
+        ] as const) {
+          const candidateId = world.personOrder[candidateIndex]!;
+          for (const voterIndex of voterIndexes) {
+            const voterId = world.personOrder[voterIndex]!;
+            world = recordPrivateBelief(world, {
+              stableKey: `controlled-election:support:${voterIndex}:${candidateIndex}`,
+              personId: voterId,
+              propositionId: null,
+              subject: officialOpinionSubject(candidateId),
+              formedAt: date,
+              position: "support",
+              conviction: "strong",
+              salience: "high",
+              flexibility: "firm",
+              rationale: "Authored controlled election fixture.",
+              formation: createFormationContext("reflection:fixture", {
+                note: "Authored support for the controlled candidate.",
+              }),
+              supersedesBeliefId: null,
+            });
+          }
+        }
         world = scheduleFutureDueItem(world, {
           stableKey: contestKey + ":count",
           dueAt: voteDate,
@@ -264,6 +310,56 @@ describe("A112 town counts use saved support without a seed draw", () => {
             voteDate,
           ),
         };
+        const unavailable = localElectionCountHandler(
+          { ...atVote, placeOutcomes: undefined },
+          due,
+        );
+        expect(unavailable.status).toBe("blocked");
+        expect(
+          unavailable.world.history.electionContestResults ?? [],
+        ).toHaveLength(0);
+        expect(electionContestResult(unavailable.world, contest.id)).toBeNull();
+        const neutral = {
+          ...atVote,
+          history: { ...atVote.history, privateBeliefs: [] },
+        };
+        const tied = localElectionCountHandler(neutral, due);
+        expect(tied.status).toBe("blocked");
+        expect(tied.world).toBe(neutral);
+        expect(electionContestResult(tied.world, contest.id)).toBeNull();
+        const reversed = {
+          ...neutral,
+          history: {
+            ...neutral.history,
+            electionContests: neutral.history.electionContests!.map((row) =>
+              row.id === contest.id
+                ? {
+                    ...row,
+                    candidatePersonIds: [...row.candidatePersonIds].reverse(),
+                  }
+                : row,
+            ),
+          },
+        };
+        const reversedTie = localElectionCountHandler(reversed, due);
+        expect(reversedTie.status).toBe("blocked");
+        expect(reversedTie.world).toBe(reversed);
+        const zeroTurnout = {
+          ...atVote,
+          placeOutcomes: {
+            months: atVote.placeOutcomes!.months.map((row) => ({
+              ...row,
+              records: row.records.map((record) => ({
+                ...record,
+                value: 0,
+              })),
+            })),
+          },
+        };
+        const empty = localElectionCountHandler(zeroTurnout, due);
+        expect(empty.status).toBe("blocked");
+        expect(empty.world).toBe(zeroTurnout);
+        expect(electionContestResult(empty.world, contest.id)).toBeNull();
         const counted = localElectionCountHandler(atVote, due);
         expect(counted.status).toBe("resolved");
         const result = electionContestResult(counted.world, contest.id)!;
@@ -275,7 +371,12 @@ describe("A112 town counts use saved support without a seed draw", () => {
             a112Count: {
               place: place.displayName,
               seed,
-              profileTurnoutShare: 0.22,
+              recordedTurnoutPercent: placeOutcomeAt(
+                world,
+                "voting.turnout-pct",
+                town,
+                voteDate,
+              )!.value,
               candidates: result.tallies.map((row) => ({
                 name: personName(counted.world.people[row.candidatePersonId]!),
                 votes: row.votes,

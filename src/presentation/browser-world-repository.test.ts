@@ -1936,8 +1936,12 @@ describe("Read-only developer snapshots", () => {
 
 describe("MORNING23 durable appearance migration", () => {
   it("migrates two old lives separately and persists pins on save without corrupting original reads", async () => {
-    const unpinned = await import("./fixtures/morning23-old-unpinned.json", { with: { type: "json" } });
-    const pinned = await import("./fixtures/morning23-old-gen2.json", { with: { type: "json" } });
+    const unpinned = await import("./fixtures/morning23-old-unpinned.json", {
+      with: { type: "json" },
+    });
+    const pinned = await import("./fixtures/morning23-old-gen2.json", {
+      with: { type: "json" },
+    });
     const { store, factory } = storeWith();
     const originals = [unpinned.default, pinned.default].map((f) =>
       deserializeWorld(f.payload),

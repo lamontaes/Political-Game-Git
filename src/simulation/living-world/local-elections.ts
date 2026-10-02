@@ -11,6 +11,7 @@ import {
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
 import { townSupportFromViews } from "../official-view-reads";
+import { placeOutcomeAt } from "../outcome-web/place-outcome-store";
 import { townSupportFromFavors } from "../patronage/following";
 import { campaigns } from "../campaign-queries";
 import {
@@ -1068,7 +1069,20 @@ function countVotes(
   candidates: readonly EntityId[],
   incumbent: EntityId | null,
   electionDate: IsoDate,
-): CandidateTally[] {
+): CandidateTally[] | null {
+  const turnout = placeOutcomeAt(
+    world,
+    "voting.turnout-pct",
+    town,
+    electionDate,
+  );
+  if (
+    !turnout ||
+    !Number.isFinite(turnout.value) ||
+    turnout.value < 0 ||
+    turnout.value > 100
+  )
+    return null;
   // A ward seat's voters are its ward's residents (`town-wards.ts`).
   const plan = councilWardPlan(unit);
   const map = townWardMap(world, unit);
@@ -1079,13 +1093,8 @@ function countVotes(
       : [0, roster.households];
   const share = roster.households > 0 ? (to - from) / roster.households : 1;
   const adults = roster.population * P.adultShare;
-  // No saved turnout-rate/eligible-denominator record exists yet. Use the
-  // owner-approved profile midpoint explicitly, never infer a rate from tallies.
-  const turnout = (P.turnout.low + P.turnout.high) / 2;
-  const ballots = Math.max(
-    candidates.length * 20,
-    Math.round(adults * turnout * share),
-  );
+  const ballots = Math.round(adults * (turnout.value / 100) * share);
+  if (ballots === 0) return [];
   const support = candidates.map((id) => {
     const base = 1;
     // Spec 5: what residents think of what the candidate did in office.
@@ -1095,13 +1104,10 @@ function countVotes(
     return (id === incumbent ? base * P.incumbentEdge : base) * views * debts;
   });
   const total = support.reduce((sum, value) => sum + value, 0);
-  const votes = support.map((value) =>
-    Math.max(1, Math.round((ballots * value) / total)),
-  );
-  // No two candidates finish level: how a real tie is broken is not modeled.
-  for (let i = 0; i < votes.length; i += 1)
-    for (let j = 0; j < i; j += 1) if (votes[j] === votes[i]) votes[i]! += 1;
+  if (!Number.isFinite(total) || total <= 0) return null;
+  const votes = support.map((value) => Math.round((ballots * value) / total));
   const counted = votes.reduce((sum, value) => sum + value, 0);
+  if (counted === 0) return [];
   return candidates
     .map((candidatePersonId, index) => ({
       candidatePersonId,
@@ -1147,6 +1153,27 @@ export function localElectionCountHandler(
     incumbent,
     electionDate,
   );
+  if (!counted || counted.length === 0)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: counted
+        ? "local-election:no-ballots"
+        : "local-election:missing-turnout",
+      context: counted
+        ? "The recorded turnout produced no ballots; this race has no winner."
+        : "The recorded turnout or support needed to count this race is unavailable.",
+      outcomeEventId: null,
+    };
+  if (counted.length > 1 && counted[0]!.votes === counted[1]!.votes)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "local-election:tied-count",
+      context:
+        "The leading candidates have equal vote totals; no winner has been recorded.",
+      outcomeEventId: null,
+    };
   // Candidates who died before the vote are on the ballot with no votes.
   const tallies: CandidateTally[] = [
     ...counted,
@@ -1184,6 +1211,15 @@ export function localElectionCountHandler(
     if (outcome?.kind === "decided") {
       ruleNote = ` and won outright under ${unit.stateUsps}'s ${rule.rule} rule (${rule.basis})`;
     } else {
+      if (counted.length > 2 && counted[1]!.votes === counted[2]!.votes)
+        return {
+          world,
+          status: "blocked",
+          reasonKey: "local-election:tied-advancement",
+          context:
+            "Candidates are tied for the last advancing position; no advancing field has been recorded.",
+          outcomeEventId: null,
+        };
       advancing = counted.slice(0, 2).map((row) => row.candidatePersonId);
       winner = counted[0]!.candidatePersonId;
     }
@@ -1198,7 +1234,7 @@ export function localElectionCountHandler(
     provenance: {
       method: "simulated",
       sourceEntityIds: [due.id, contest.id],
-      note: `${P.id}: a placeholder count of a town ${stage}.`,
+      note: `${P.id}: the recorded place turnout and saved candidate support at ${electionDate} determine this town ${stage} count.`,
     },
   });
 
