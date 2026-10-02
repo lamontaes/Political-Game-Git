@@ -100,7 +100,6 @@ import {
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { ensureEmployerCashPositions } from "../opening-employer-cash";
-import { settleBusinessReceipts } from "../local-economy";
 import {
   resourceFlowTermsAt,
   resourceTransferOutcomesForFlow,
