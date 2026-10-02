@@ -25,6 +25,8 @@ import {
   measureFullDesignation,
   nextMeasureNumbering,
   openingBillNumber,
+  measureNumberingRule,
+  type MeasureDesignationInput,
 } from "./measure-numbering";
 import { STATES } from "./state-reference";
 import type { IsoDate, Jurisdiction, World } from "./types";
@@ -67,12 +69,14 @@ function file(
   world: World,
   pack: LegislativeRulePack,
   chamber: ChamberRule,
+  options: Partial<MeasureDesignationInput> = {},
 ): { world: World; designation: string; full: string; session: string } {
   const jurisdictionId = world.jurisdictionOrder[0]!;
   const numbering = nextMeasureNumbering(world, {
     jurisdictionId,
     originChamber: chamber,
     rulePackId: pack.packId,
+    ...options,
   });
   filed += 1;
   const next = introduceMeasure(world, {
@@ -230,31 +234,24 @@ describe("bill numbers restart every session, in every state", () => {
         let world = worldIn(key.toLowerCase());
         const chamberStyle = stateChamberStyle(style, chamber.chamberKey);
         const expectedPrefix = templatePrefix(chamberStyle.template);
-        // OCD-LEG-NUM-002: a regular session starts at the chamber's recorded
-        // first number, or at 1 where none is recorded.
-        const startOf = (openingYear: number) =>
-          openingYear % 2 === 0
-            ? (chamberStyle.evenYearFirstNumber ?? chamberStyle.firstNumber)
-            : chamberStyle.firstNumber;
-        const openingOf = (year: number) =>
-          style.period === "biennial" &&
-          (year % 2 === 0) !== (style.biennialOpensIn === "even")
-            ? year - 1
-            : year;
+        const rule = measureNumberingRule({
+          jurisdictionId: world.jurisdictionOrder[0]!,
+          originChamber: chamber,
+          rulePackId: pack.packId,
+        });
+        const startOf = () => rule.first;
         // The pack names its chambers the way the numbering does.
         expect(chamber.billDesignationPrefix, key).toBe(expectedPrefix);
 
-        // The opening session starts partway up and counts on from there.
+        // Only actual canonical introductions consume numbers.
         const first = file(world, pack, chamber);
         world = first.world;
         const second = file(world, pack, chamber);
         world = second.world;
         expect(first.designation.startsWith(expectedPrefix), key).toBe(true);
-        expect(numberOf(first.designation)).toBeGreaterThanOrEqual(
-          startOf(openingOf(2026)) + 11,
-        );
+        expect(numberOf(first.designation)).toBe(startOf());
         expect(numberOf(second.designation)).toBe(
-          numberOf(first.designation) + 1,
+          numberOf(first.designation) + rule.step,
         );
         expect(first.full).toContain(first.session);
 
@@ -265,21 +262,23 @@ describe("bill numbers restart every session, in every state", () => {
           style.period === "biennial" && style.biennialOpensIn === "even";
         if (opening) {
           expect(numberOf(nextYear.designation), key).toBe(
-            numberOf(second.designation) + 1,
+            numberOf(second.designation) + rule.step,
           );
         } else {
-          expect(numberOf(nextYear.designation), key).toBe(startOf(2027));
+          expect(numberOf(nextYear.designation), key).toBe(startOf());
           expect(nextYear.session, key).not.toBe(first.session);
         }
 
         // Every later session starts at its first number, and the new
         // session is in the name.
         const later = file(on(nextYear.world, "2029-01-15"), pack, chamber);
-        const laterStart = startOf(openingOf(2029));
+        const laterStart = startOf();
         expect(numberOf(later.designation), key).toBe(laterStart);
         expect(later.full).toMatch(/\(20\d\d(-20\d\d)? Regular Session\)$/);
         const followed = file(later.world, pack, chamber);
-        expect(numberOf(followed.designation), key).toBe(laterStart + 1);
+        expect(numberOf(followed.designation), key).toBe(
+          laterStart + rule.step,
+        );
 
         // A filed bill keeps its designation.
         expect(
@@ -315,25 +314,25 @@ describe("bill numbers restart every session, in every state", () => {
     expect(later.designation).toBe("HB27-1001");
   });
 
-  it("starts where the state's rules say and keeps counting through a stated biennium", () => {
+  it("flags common starts and keeps counting through the modeled biennium", () => {
     const wa = legislatureForState("US-WA")!;
     const senate = wa.chambers.find(
       (chamber) => chamber.chamberKey === "senate",
     )!;
     const opened = file(on(worldIn("us-wa"), "2027-01-11"), wa, senate);
-    expect(opened.designation).toBe("SB 5000");
+    expect(opened.designation).toBe("SB 1");
     // Washington numbers by the biennium, so 2028 continues 2027's run.
     const secondYear = file(on(opened.world, "2028-01-12"), wa, senate);
-    expect(secondYear.designation).toBe("SB 5001");
+    expect(secondYear.designation).toBe("SB 2");
 
     const ks = legislatureForState("US-KS")!;
     const house = ks.chambers.find(
       (chamber) => chamber.chamberKey === "house",
     )!;
     const kansas = file(on(worldIn("us-ks"), "2027-01-11"), ks, house);
-    expect(kansas.designation).toBe("HB 2001");
+    expect(kansas.designation).toBe("HB 1");
     const kansasNext = file(on(kansas.world, "2028-01-08"), ks, house);
-    expect(kansasNext.designation).toBe("HB 2002");
+    expect(kansasNext.designation).toBe("HB 2");
 
     // A start that was only inferred stays at 1.
     const ri = legislatureForState("US-RI")!;
@@ -347,13 +346,15 @@ describe("bill numbers restart every session, in every state", () => {
     ).toBe(1);
   });
 
-  it("opens where the legislature's own filing pace has reached, whatever the seed", () => {
+  it("allocates from filed history instead of the legacy opening estimate", () => {
     const pack = legislatureForState("US-OH")!;
     const house = pack.chambers[0]!;
-    // The seed plays no part: the count is Ohio's, not a draw.
+    // A legal counter does not draw a number or consume an estimated filing.
     expect(file(worldIn("us-oh", "a"), pack, house).designation).toBe(
       file(worldIn("us-oh", "b"), pack, house).designation,
     );
+    expect(file(worldIn("us-oh"), pack, house).designation).toBe("HB 1");
+    // The retained estimate helper is not used by the allocator.
     // Ohio introduced 317 bills in its 2022 session (The Book of the
     // States 2023, Table 3.19), half to each chamber.
     expect(openingBillNumber("US-OH", 2, "2026-01-01")).toBe(1);
@@ -429,5 +430,195 @@ describe("Congress and the District number within their own terms", () => {
     expect(later.full).toBe("B27-0001");
     const opening = file(worldIn("district-of-columbia"), pack, council);
     expect(opening.designation).toMatch(/^B26-0\d{3}$/);
+  });
+});
+
+describe("researched counter differences and explicit evidence limits", () => {
+  it("shares Florida Senate's even counter across types and isolates specials", () => {
+    const pack = legislatureForState("US-FL")!;
+    const senate = pack.chambers.find((c) => c.chamberKey === "senate")!;
+    const house = pack.chambers.find((c) => c.chamberKey === "house")!;
+    const bill = file(worldIn("us-fl"), pack, senate);
+    const resolution = file(bill.world, pack, senate, {
+      measureType: "resolution",
+    });
+    expect([
+      bill.designation,
+      resolution.designation,
+      file(resolution.world, pack, senate).designation,
+    ]).toEqual(["SB 2", "SR 4", "SB 6"]);
+    const hb = file(resolution.world, pack, house);
+    expect([hb.designation, file(hb.world, pack, house).designation]).toEqual([
+      "HB 1",
+      "HB 3",
+    ]);
+    const special = file(resolution.world, pack, senate, {
+      specialSession: "A",
+    });
+    expect(special.designation).toBe("SB 2A");
+    expect(
+      file(special.world, pack, senate, {
+        specialSession: "A",
+        measureType: "resolution",
+      }).designation,
+    ).toBe("SR 4A");
+    expect(
+      file(special.world, pack, senate, { specialSession: "B" }).designation,
+    ).toBe("SB 2B");
+    expect(file(special.world, pack, senate).designation).toBe("SB 6");
+  });
+
+  it("keeps Michigan lettered joint resolutions separate from bills", () => {
+    const pack = legislatureForState("US-MI")!;
+    const house = pack.chambers.find((c) => c.chamberKey === "house")!;
+    const senate = pack.chambers.find((c) => c.chamberKey === "senate")!;
+    const bill = file(worldIn("us-mi"), pack, house);
+    const joint = file(bill.world, pack, house, {
+      measureType: "joint-resolution",
+    });
+    expect([
+      bill.designation,
+      joint.designation,
+      file(joint.world, pack, house).designation,
+    ]).toEqual(["HB 4001", "HJR A", "HB 4002"]);
+    expect(
+      file(joint.world, pack, house, { measureType: "joint-resolution" })
+        .designation,
+    ).toBe("HJR B");
+    expect(file(joint.world, pack, senate).designation).toBe("SB 1");
+    const last = joint.world.history.legislativeMeasures!.at(-1)!;
+    const atZ = {
+      ...joint.world,
+      history: {
+        ...joint.world.history,
+        legislativeMeasures: [{ ...last, designation: "HJR Z" }],
+      },
+    };
+    expect(
+      file(atZ, pack, house, { measureType: "joint-resolution" }).designation,
+    ).toBe("HJR AA");
+    expect(
+      file(on(joint.world, "2027-01-05"), pack, house, {
+        measureType: "joint-resolution",
+      }).designation,
+    ).toBe("HJR A");
+  });
+
+  it("uses the verified North Dakota bill bands", () => {
+    const pack = legislatureForState("US-ND")!;
+    expect(
+      pack.chambers.map((c) => file(worldIn("us-nd"), pack, c).designation),
+    ).toEqual(["HB 1001", "SB 2001"]);
+  });
+
+  it("uses Colorado's supported widths and caller-supplied extraordinary code", () => {
+    const pack = legislatureForState("US-CO")!;
+    const house = pack.chambers.find((c) => c.chamberKey === "house")!;
+    const senate = pack.chambers.find((c) => c.chamberKey === "senate")!;
+    expect(file(worldIn("us-co"), pack, house).designation).toBe("HB26-1001");
+    expect(file(worldIn("us-co"), pack, senate).designation).toBe("SB26-001");
+    expect(
+      file(worldIn("us-co"), pack, house, { specialSession: "B" }).designation,
+    ).toBe("HB26B-1001");
+    expect(
+      measureNumberingRule({
+        jurisdictionId: worldIn("us-co").jurisdictionOrder[0]!,
+        originChamber: senate,
+        rulePackId: pack.packId,
+      }).verifiedFields,
+    ).not.toContain("step");
+  });
+
+  it("separates all federal measure types and turns over on January 3", () => {
+    const pack = federalRulePackById(US_CONGRESS_PACK_ID)!;
+    const types = [
+      "bill",
+      "joint-resolution",
+      "concurrent-resolution",
+      "resolution",
+    ] as const;
+    const prefixes = [
+      ["H.R.", "H.J.Res.", "H.Con.Res.", "H.Res."],
+      ["S.", "S.J.Res.", "S.Con.Res.", "S.Res."],
+    ];
+    for (const [i, chamber] of pack.chambers.entries()) {
+      let world = worldIn("united-states");
+      for (const [t, measureType] of types.entries()) {
+        const first = file(world, pack, chamber, { measureType });
+        expect(first.designation).toBe(`${prefixes[i]![t]} 1`);
+        world = first.world;
+      }
+      expect(file(on(world, "2027-01-02"), pack, chamber).full).toBe(
+        `${prefixes[i]![0]} 2, 119th Congress`,
+      );
+      const renewed = file(on(world, "2027-01-03"), pack, chamber);
+      expect(renewed.full).toBe(`${prefixes[i]![0]} 1, 120th Congress`);
+      expect(
+        new Set(renewed.world.history.legislativeMeasures!.map((r) => r.id))
+          .size,
+      ).toBe(5);
+      expect(
+        file(world, pack, chamber, { specialSession: "A" }).designation,
+      ).toBe(`${prefixes[i]![0]} 2`);
+    }
+  });
+
+  it("supports observed Guam suffixes without creating an uncompiled legislature", () => {
+    expect(legislatureForState("US-GU")).toBeNull();
+    const world = worldIn("us-gu");
+    const chamber = {
+      ...federalRulePackById(US_CONGRESS_PACK_ID)!.chambers[0]!,
+      chamberKey: "assembly",
+      billDesignationPrefix: "Bill",
+    };
+    const input = {
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      jurisdictionKey: "US-GU",
+      originChamber: chamber,
+    };
+    const first = nextMeasureNumbering(world, input);
+    expect(first.designation).toBe("1-38(COR)");
+    // This is a reader-contract fixture. No Guam producer pack exists.
+    const template = file(
+      world,
+      federalRulePackById(US_CONGRESS_PACK_ID)!,
+      federalRulePackById(US_CONGRESS_PACK_ID)!.chambers[0]!,
+    ).world.history.legislativeMeasures![0]!;
+    const introduced = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeMeasures: [
+          {
+            ...template,
+            designation: first.designation,
+            numberingSession: first.numberingSession,
+            originChamberKey: "assembly",
+          },
+        ],
+      },
+    };
+    expect(
+      nextMeasureNumbering(introduced, { ...input, suffix: "LS" }).designation,
+    ).toBe("2-38(LS)");
+    expect(() =>
+      nextMeasureNumbering(introduced, { ...input, suffix: "UNKNOWN" }),
+    ).toThrow();
+    expect(measureNumberingRule(input).developerUnverified).toBe(true);
+  });
+
+  it("does not turn an Arkansas observed bill into a verified first-number rule", () => {
+    const pack = legislatureForState("US-AR")!;
+    const house = pack.chambers.find((c) => c.chamberKey === "house")!;
+    const world = worldIn("us-ar");
+    const rule = measureNumberingRule({
+      jurisdictionId: world.jurisdictionOrder[0]!,
+      originChamber: house,
+      rulePackId: pack.packId,
+    });
+    expect(rule.first).toBe(1);
+    expect(rule.developerUnverified).toBe(true);
+    expect(rule.verifiedFields).toEqual([]);
+    expect(numberOf(file(world, pack, house).designation)).toBe(1);
   });
 });

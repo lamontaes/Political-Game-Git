@@ -1,11 +1,10 @@
+import ruleData from "../../data/measure-numbering-rules.json" with { type: "json" };
 import {
   stateBillNumberingStyle,
   stateChamberStyle,
 } from "./bill-numbering-styles";
-import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
 import billIntroductionTable from "../../data/research/laws/bill-introductions-2022.json" with { type: "json" };
 import { rulePackById } from "./legislature-rule-packs";
-import { isFederalDistrictUsps } from "./state-reference";
 import type { ChamberRule, LegislativeRulePack } from "./legislature-rules";
 import type {
   EntityId,
@@ -16,30 +15,11 @@ import type {
 } from "./types";
 
 /**
- * What number a bill gets, decided by the world rather than by an author.
- *
- * Decision OCD-LEG-NUM-001: bills are numbered the way they are in real life.
- *
- *   - Numbers restart every session. A chamber's numbering returns to its
- *     first number (1, or where the state's recorded numbers begin, decision
- *     OCD-LEG-NUM-002) when a new regular session opens, every year or every two years as that state's
- *     recorded session labels show; Congress restarts with each two-year
- *     Congress. Only the session the world opens in starts partway up, because
- *     bills were already filed before the player arrived. Where that opening
- *     session stands follows the legislature's own yearly filing count and the
- *     date the world opens (`openingBillNumber`).
- *   - The session is part of the name: "HB 1 (2027 Regular Session)",
- *     "H.R. 1, 120th Congress". The designation itself stays the short form a
- *     person says out loud ("HB 1"); the session travels with it on the record.
- *   - Each state uses its own recorded prefixes ("AB", "HF", "A", "LB",
- *     "H."). The generated style table says which were read and which are a
- *     labeled game default.
- *   - Deterministic and saved. The same seed and the same filed history give
- *     the same numbers, and a filed bill keeps its designation forever: this
- *     is consulted only when a new measure is actually being filed.
- *
- * A measure saved before sessions were recorded is placed in the session its
- * introduction date falls in, so an old save's next bill continues its count.
+ * Displayed measure designations follow jurisdiction/chamber/type data.
+ * Canonical introductions consume a counter within the actual numbering
+ * session; estimates of bills filed before world opening consume nothing.
+ * Legal constants do not draw an effect size. Unverified common rules remain
+ * flagged in developer data. Internal measure IDs are independent.
  */
 
 interface BillIntroductionRow {
@@ -74,6 +54,7 @@ const MIDDLE_BILLS_INTRODUCED: number = (() => {
  * GAME ASSUMPTION: bills are filed evenly across the calendar year. Real
  * sessions file most of theirs in their first weeks.
  */
+/** Legacy estimate API; the allocator below does not use it. */
 export function openingBillNumber(
   jurisdictionKey: string | null,
   chambers: number,
@@ -96,331 +77,321 @@ export function openingBillNumber(
  * week of January meets ORD 1. PLACEHOLDER, pending
  * `local-council-legislative-volume`: no town's volume has been read.
  */
+/** Legacy estimate API; the allocator below does not use it. */
 export function councilOpeningNumber(startedAt: string): number {
   const date = new Date(`${startedAt.slice(0, 10)}T00:00:00Z`);
   const january = Date.UTC(date.getUTCFullYear(), 0, 1);
   return 1 + Math.floor((date.getTime() - january) / (7 * 86_400_000));
 }
 
+export type NumberingMeasureType =
+  "bill" | "joint-resolution" | "concurrent-resolution" | "resolution";
 export interface MeasureDesignationInput {
   readonly jurisdictionId: EntityId;
-  /** The chamber receiving the introduction, from its own rule pack. */
   readonly originChamber: ChamberRule;
-  /**
-   * The rule pack the measure is filed under. It says whose numbering this
-   * is: a state's, Congress's, or a council's. Without it the chamber's own
-   * prefix numbers by the calendar year.
-   */
   readonly rulePackId?: string;
+  readonly jurisdictionKey?: string;
+  readonly measureType?: NumberingMeasureType;
+  /** Session identifier supplied by the actual special-session caller. */
+  readonly specialSession?: string;
+  /** Observed assembly suffix, independent of regular/special session. */
+  readonly suffix?: string;
 }
-
-/** Spread straight into `introduceMeasure`'s input. */
 export interface MeasureNumbering {
   readonly designation: string;
   readonly numberingSession: LegislativeMeasureNumberingSession;
 }
-
-type NumberingKind = "state" | "congress" | "dc-council" | "council" | "plain";
-
-interface NumberingScheme {
-  readonly kind: NumberingKind;
-  readonly template: string;
-  readonly sessionOf: (year: number) => SessionIdentity;
-  /** The number a session's first bill carries (OCD-LEG-NUM-002). */
-  readonly firstNumberOf: (session: SessionIdentity) => number;
+interface NumberingRule {
+  readonly jurisdictionKey?: string;
+  readonly chamberKey?: string;
+  readonly measureType?: NumberingMeasureType;
+  readonly template?: string;
+  readonly first: number;
+  readonly step: number;
+  readonly sequence: "integer" | "letters";
+  readonly reset:
+    | "regular-session"
+    | "annual"
+    | "biennial"
+    | "congress"
+    | "legislature"
+    | "council-period";
+  readonly series: "type" | "all-types";
+  readonly specialSessionSuffix: string;
+  readonly separateSpecialSeries?: boolean;
+  readonly periodAnchorYear?: number;
+  readonly periodStartMonthDay?: string;
+  readonly defaultSuffix?: string;
+  readonly allowedSuffixes?: readonly string[];
+  readonly developerUnverified: boolean;
+  readonly verifiedFields: readonly string[];
 }
-
-const FROM_ONE = (): number => 1;
-
-interface SessionIdentity {
-  readonly key: string;
-  readonly label: string;
-  readonly openingYear: number;
-  /** For "{period}" templates: the numbered legislature or council period. */
-  readonly period: number;
-}
-
-function ordinal(n: number): string {
-  const mod100 = n % 100;
-  if (mod100 >= 11 && mod100 <= 13) return `${n}th`;
-  switch (n % 10) {
-    case 1:
-      return `${n}st`;
-    case 2:
-      return `${n}nd`;
-    case 3:
-      return `${n}rd`;
-    default:
-      return `${n}th`;
-  }
-}
-
-function annualSession(year: number, label: string): SessionIdentity {
-  return { key: `${year}`, label, openingYear: year, period: year };
-}
-
-/**
- * The Congress a year belongs to. The First Congress met in 1789, and each
- * Congress sits for two years.
- */
-export function congressNumberForYear(year: number): number {
-  return Math.floor((year - 1789) / 2) + 1;
-}
-
-/**
- * The District of Columbia Council period a year belongs to. Recorded in
- * data/research/bill-samples/dc/district-of-columbia.json: bills B26-0260 and
- * B26-0265 of Council Period 26, which sits 2025–2026.
- */
-export function dcCouncilPeriodForYear(year: number): number {
-  return Math.floor((year - 1975) / 2) + 1;
-}
-
-/** "B{period}-{n4}": the District numbers bills within its council period. */
-const DC_COUNCIL_TEMPLATE = "B{period}-{n4}";
-
-function schemeFor(
-  pack: LegislativeRulePack | null,
-  chamber: ChamberRule,
-): NumberingScheme {
-  const plainTemplate = `${chamber.billDesignationPrefix} {n}`;
-  if (pack === null) {
-    return {
-      kind: "plain",
-      template: plainTemplate,
-      sessionOf: (year) => annualSession(year, `${year} Regular Session`),
-      firstNumberOf: FROM_ONE,
-    };
-  }
-  if (pack.packId === US_CONGRESS_PACK_ID) {
-    return {
-      kind: "congress",
-      template: plainTemplate,
-      firstNumberOf: FROM_ONE,
-      sessionOf: (year) => {
-        const congress = congressNumberForYear(year);
-        return {
-          key: `congress-${congress}`,
-          label: `${ordinal(congress)} Congress`,
-          openingYear: 1789 + (congress - 1) * 2,
-          period: congress,
-        };
-      },
-    };
-  }
-  if (chamber.chamberKey === "council") {
-    if (isFederalDistrictUsps(pack.jurisdictionKey.replace(/^US-/, ""))) {
-      return {
-        kind: "dc-council",
-        template: DC_COUNCIL_TEMPLATE,
-        firstNumberOf: FROM_ONE,
-        sessionOf: (year) => {
-          const period = dcCouncilPeriodForYear(year);
-          return {
-            key: `council-period-${period}`,
-            label: `Council Period ${period}`,
-            openingYear: 1975 + (period - 1) * 2,
-            period,
-          };
-        },
-      };
-    }
-    // No city's own ordinance numbering has been compiled into its pack, so a
-    // council numbers by the calendar year under the game's labeled "ORD".
-    return {
-      kind: "council",
-      template: plainTemplate,
-      sessionOf: (year) => annualSession(year, `${year}`),
-      firstNumberOf: FROM_ONE,
-    };
-  }
-  const style = stateBillNumberingStyle(pack.jurisdictionKey);
-  const chamberStyle = stateChamberStyle(style, chamber.chamberKey);
-  const template = chamberStyle.template;
-  const firstNumberOf = (session: SessionIdentity): number =>
-    chamberStyle.evenYearFirstNumber !== null && session.openingYear % 2 === 0
-      ? chamberStyle.evenYearFirstNumber
-      : chamberStyle.firstNumber;
-  if (style.period === "biennial") {
-    const opensOdd = style.biennialOpensIn === "odd";
-    return {
-      kind: "state",
-      template,
-      firstNumberOf,
-      sessionOf: (year) => {
-        const opening = (year % 2 === 1) === opensOdd ? year : year - 1;
-        return {
-          key: `${opening}-${opening + 1}`,
-          label: `${opening}-${opening + 1} Regular Session`,
-          openingYear: opening,
-          period: opening,
-        };
-      },
-    };
-  }
-  return {
-    kind: "state",
-    template,
-    sessionOf: (year) => annualSession(year, `${year} Regular Session`),
-    firstNumberOf,
-  };
-}
-
-function formatDesignation(
-  template: string,
-  number: number,
-  session: SessionIdentity,
-): string {
-  return template
-    .replace("{yy}", String(session.openingYear % 100).padStart(2, "0"))
-    .replace("{period}", String(session.period))
-    .replace("{n4}", String(number).padStart(4, "0"))
-    .replace("{n}", String(number));
-}
-
-function fullDesignationOf(
-  kind: NumberingKind,
-  designation: string,
-  label: string,
-): string {
-  if (kind === "congress") return `${designation}, ${label}`;
-  // The District's number already carries its council period.
-  if (kind === "dc-council") return designation;
-  return `${designation} (${label})`;
-}
-
-/** The bill's own number: 1090 from "HB25-1090", 5001 from "SB 5001". */
-function numberOf(designation: string): number | null {
-  const digits = /(\d+)[A-Z]?$/.exec(designation.trim())?.[1];
-  return digits === undefined ? null : Number(digits);
-}
-
-function yearOf(date: IsoDate): number {
-  return Number(date.slice(0, 4));
-}
-
+const DATA = ruleData as unknown as {
+  readonly default: NumberingRule;
+  readonly defaultTemplates: Readonly<
+    Record<string, Readonly<Record<NumberingMeasureType, string>>>
+  >;
+  readonly rules: readonly NumberingRule[];
+};
 function packOrNull(
   rulePackId: string | undefined,
 ): LegislativeRulePack | null {
-  if (rulePackId === undefined) return null;
+  if (!rulePackId) return null;
   try {
     return rulePackById(rulePackId);
   } catch {
     return null;
   }
 }
-
-/** The session a filed measure belongs to, recorded or read off its date. */
-function sessionKeyOf(
-  record: LegislativeMeasureRecord,
-  scheme: NumberingScheme,
-): string {
-  return (
-    record.numberingSession?.key ??
-    scheme.sessionOf(yearOf(record.introducedAt)).key
+/** Developer-only evidence flags are data, never player-facing provenance. */
+export function measureNumberingRule(
+  input: MeasureDesignationInput,
+  world?: World,
+): NumberingRule {
+  const pack = packOrNull(input.rulePackId);
+  const type = input.measureType ?? "bill";
+  const jurisdictionKey =
+    input.jurisdictionKey ??
+    pack?.jurisdictionKey ??
+    world?.jurisdictions[input.jurisdictionId]?.slug.toUpperCase();
+  const row = DATA.rules.find(
+    (rule) =>
+      rule.jurisdictionKey === jurisdictionKey &&
+      (rule.chamberKey === input.originChamber.chamberKey ||
+        rule.chamberKey === "*") &&
+      rule.measureType === type,
   );
+  return { ...DATA.default, ...row };
 }
-
-/**
- * The designation and session the next measure filed in this chamber would
- * carry.
- *
- * Pure: it reads the world and returns them, and the caller hands both to
- * `introduceMeasure`, which is what actually writes.
- */
+function ordinal(n: number): string {
+  const hundred = n % 100;
+  return `${n}${hundred >= 11 && hundred <= 13 ? "th" : n % 10 === 1 ? "st" : n % 10 === 2 ? "nd" : n % 10 === 3 ? "rd" : "th"}`;
+}
+export function congressNumberForYear(year: number): number {
+  return Math.floor((year - 1789) / 2) + 1;
+}
+export function dcCouncilPeriodForYear(year: number): number {
+  return Math.floor((year - 1975) / 2) + 1;
+}
+interface SessionIdentity {
+  readonly key: string;
+  readonly label: string;
+  readonly openingYear: number;
+  readonly period: number;
+}
+function sessionOf(
+  date: IsoDate,
+  rule: NumberingRule,
+  pack: LegislativeRulePack | null,
+  special?: string,
+): SessionIdentity {
+  let year = Number(date.slice(0, 4));
+  if (rule.periodStartMonthDay && date.slice(5) < rule.periodStartMonthDay)
+    year -= 1;
+  let reset = rule.reset;
+  const style = pack ? stateBillNumberingStyle(pack.jurisdictionKey) : null;
+  if (reset === "regular-session")
+    reset = style?.period === "biennial" ? "biennial" : "annual";
+  const anchor =
+    rule.periodAnchorYear ?? (style?.biennialOpensIn === "even" ? 0 : 1);
+  const openingYear =
+    reset === "annual" ? year : year - ((((year - anchor) % 2) + 2) % 2);
+  const period =
+    rule.periodAnchorYear === undefined
+      ? openingYear
+      : Math.floor((openingYear - rule.periodAnchorYear) / 2) + 1;
+  const key =
+    reset === "congress"
+      ? `congress-${period}`
+      : reset === "council-period"
+        ? `council-period-${period}`
+        : reset === "legislature"
+          ? `legislature-${period}`
+          : reset === "annual"
+            ? `${openingYear}`
+            : `${openingYear}-${openingYear + 1}`;
+  const label =
+    reset === "congress"
+      ? `${ordinal(period)} Congress`
+      : reset === "council-period"
+        ? `Council Period ${period}`
+        : reset === "legislature"
+          ? `${ordinal(period)} Legislature`
+          : `${openingYear}${reset === "annual" ? "" : `-${openingYear + 1}`} Regular Session`;
+  return special && rule.separateSpecialSeries !== false
+    ? {
+        key: `${key}:special:${special}`,
+        label: `${openingYear} ${special} Special Session`,
+        openingYear,
+        period,
+      }
+    : { key, label, openingYear, period };
+}
+function letters(number: number): string {
+  let value = number,
+    text = "";
+  while (value > 0) {
+    value -= 1;
+    text = String.fromCharCode(65 + (value % 26)) + text;
+    value = Math.floor(value / 26);
+  }
+  return text;
+}
+function letterNumber(text: string): number {
+  return [...text].reduce((n, c) => n * 26 + c.charCodeAt(0) - 64, 0);
+}
+function templateFor(
+  input: MeasureDesignationInput,
+  rule: NumberingRule,
+  session: SessionIdentity,
+): string {
+  const pack = packOrNull(input.rulePackId);
+  const chamber = input.originChamber;
+  const style = pack
+    ? stateChamberStyle(
+        stateBillNumberingStyle(pack.jurisdictionKey),
+        chamber.chamberKey,
+      )
+    : null;
+  const billTemplate =
+    chamber.chamberKey === "council" || !style
+      ? `${chamber.billDesignationPrefix} {n}`
+      : style.template;
+  const defaults =
+    DATA.defaultTemplates[chamber.chamberKey] ?? DATA.defaultTemplates.house!;
+  const template = rule.template ?? defaults[input.measureType ?? "bill"];
+  const suffix = input.suffix ?? rule.defaultSuffix ?? "";
+  if (rule.allowedSuffixes && !rule.allowedSuffixes.includes(suffix))
+    throw new Error("Suffix is not admitted by this numbering rule.");
+  const special = input.specialSession
+    ? rule.specialSessionSuffix.replace("{special}", input.specialSession)
+    : "";
+  return template
+    .replace("{billTemplate}", billTemplate)
+    .replace("{period}", String(session.period))
+    .replace("{yy}", String(session.openingYear % 100).padStart(2, "0"))
+    .replace("{special}", special)
+    .replace("{suffix}", suffix);
+}
+function format(template: string, number: number): string {
+  return template
+    .replace("{n4}", String(number).padStart(4, "0"))
+    .replace("{n3}", String(number).padStart(3, "0"))
+    .replace("{n}", String(number))
+    .replace("{alpha}", letters(number));
+}
+function serialOf(
+  template: string,
+  designation: string,
+  rule: NumberingRule,
+): number | null {
+  const marker = "SERIALTOKEN";
+  const skeleton = template.replace(/\{n4\}|\{n3\}|\{n\}|\{alpha\}/, marker);
+  const escaped = skeleton.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const capture = rule.sequence === "letters" ? "([A-Z]+)" : "([0-9]+)";
+  const match = new RegExp(`^${escaped.replace(marker, capture)}$`).exec(
+    designation,
+  )?.[1];
+  return match === undefined
+    ? null
+    : rule.sequence === "letters"
+      ? letterNumber(match)
+      : Number(match);
+}
+/** One legal/data allocator used by every existing actual-introduction caller. */
 export function nextMeasureNumbering(
   world: World,
   input: MeasureDesignationInput,
 ): MeasureNumbering {
+  if (input.specialSession && !/^[A-Z][A-Z0-9-]*$/.test(input.specialSession))
+    throw new Error(
+      "A special-session identifier is required in its admitted letter/code form.",
+    );
   const pack = packOrNull(input.rulePackId);
-  const scheme = schemeFor(pack, input.originChamber);
-  const originChamberKey = input.originChamber.chamberKey;
-  const session = scheme.sessionOf(yearOf(world.currentDate));
-  const openingSession = scheme.sessionOf(yearOf(world.startedAt));
-
-  // Only the session the world opened in starts partway up; a chamber that
-  // has already filed in it continues from its own highest number below.
-  const inThisSession = (world.history.legislativeMeasures ?? []).filter(
-    (record) =>
-      record.jurisdictionId === input.jurisdictionId &&
-      sessionKeyOf(record, scheme) === session.key,
+  const rule = measureNumberingRule(input, world);
+  const session = sessionOf(
+    world.currentDate,
+    rule,
+    pack,
+    input.specialSession,
   );
-  const inThisChamber = inThisSession.filter(
-    (record) => record.originChamberKey === originChamberKey,
-  );
-  const alreadyInThisChamber = inThisChamber.length;
-
-  // A chamber whose numbers begin above 1 opens its band that far up. A save
-  // whose opening session was already numbered from 1 keeps counting there,
-  // so its bills never jump mid-session.
-  const recordedStart = scheme.firstNumberOf(session);
-  const sessionStart = inThisChamber.some(
-    (record) => (numberOf(record.designation) ?? recordedStart) < recordedStart,
-  )
-    ? 1
-    : recordedStart;
-  const firstNumber =
-    session.key !== openingSession.key
-      ? sessionStart
-      : scheme.kind === "council"
-        ? councilOpeningNumber(world.startedAt)
-        : sessionStart -
-          1 +
-          openingBillNumber(
-            pack?.jurisdictionKey ?? null,
-            pack?.chambers.length ?? 1,
-            world.startedAt,
-          );
-
-  // Two bills in one session never share a number. The count is the ordinary
-  // increment; the loop is what keeps that true when a world already holds a
-  // measure numbered by some other route, such as a save filed before this
-  // existed or a bill the player drafted themselves.
-  // A chamber that has already filed this session continues from its
-  // highest number, so a save made under an earlier opening rule keeps its
-  // count.
-  const taken = new Set(inThisSession.map((record) => record.designation));
-  const highest = Math.max(
-    0,
-    ...inThisChamber.map((record) => numberOf(record.designation) ?? 0),
-  );
-  let number =
-    session.key === openingSession.key && highest > 0
-      ? highest + 1
-      : firstNumber + alreadyInThisChamber;
-  let designation = formatDesignation(scheme.template, number, session);
-  while (taken.has(designation)) {
-    number += 1;
-    designation = formatDesignation(scheme.template, number, session);
+  const template = templateFor(input, rule, session);
+  const typeInputs =
+    rule.series === "all-types"
+      ? (
+          [
+            "bill",
+            "joint-resolution",
+            "concurrent-resolution",
+            "resolution",
+          ] as const
+        ).map((measureType) => ({ ...input, measureType }))
+      : [input];
+  const formats = typeInputs.map((value) => ({
+    rule: measureNumberingRule(value, world),
+    template: templateFor(value, measureNumberingRule(value, world), session),
+  }));
+  let highest = rule.first - rule.step;
+  const taken = new Set<string>();
+  for (const record of world.history.legislativeMeasures ?? []) {
+    if (
+      record.jurisdictionId !== input.jurisdictionId ||
+      record.originChamberKey !== input.originChamber.chamberKey
+    )
+      continue;
+    const recordSession =
+      record.numberingSession?.key ??
+      sessionOf(record.introducedAt, rule, pack).key;
+    if (recordSession !== session.key) continue;
+    taken.add(record.designation);
+    for (const candidate of formats) {
+      const serial = serialOf(
+        candidate.template,
+        record.designation,
+        candidate.rule,
+      );
+      if (serial !== null) highest = Math.max(highest, serial);
+    }
+    // Suffix metadata does not open a different numeric series.
+    if (rule.allowedSuffixes)
+      for (const suffix of rule.allowedSuffixes) {
+        const serial = serialOf(
+          templateFor({ ...input, suffix }, rule, session),
+          record.designation,
+          rule,
+        );
+        if (serial !== null) highest = Math.max(highest, serial);
+      }
   }
+  let number =
+    rule.first +
+    Math.max(0, Math.floor((highest - rule.first) / rule.step) + 1) * rule.step;
+  let designation = format(template, number);
+  while (taken.has(designation)) {
+    number += rule.step;
+    designation = format(template, number);
+  }
+  const fullDesignation =
+    rule.reset === "congress"
+      ? `${designation}, ${session.label}`
+      : rule.reset === "council-period"
+        ? designation
+        : `${designation} (${session.label})`;
   return {
     designation,
     numberingSession: {
       key: session.key,
       label: session.label,
-      fullDesignation: fullDesignationOf(
-        scheme.kind,
-        designation,
-        session.label,
-      ),
+      fullDesignation,
     },
   };
 }
-
-/** The designation alone; see `nextMeasureNumbering`. */
 export function nextMeasureDesignation(
   world: World,
   input: MeasureDesignationInput,
 ): string {
   return nextMeasureNumbering(world, input).designation;
 }
-
-/**
- * A measure's name with its session, for anywhere two sessions' bills could be
- * told apart: "HB 1 (2027 Regular Session)". A measure saved before sessions
- * were recorded, or filed under an authored designation, shows its designation
- * as it was saved.
- */
 export function measureFullDesignation(
   measure: Pick<LegislativeMeasureRecord, "designation" | "numberingSession">,
 ): string {
