@@ -2,9 +2,9 @@ import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   drawGeneratedPersonName,
-  makeIsoDate,
   SeededRng,
 } from "../simulation";
+import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import type { EntityId, IsoDate, World } from "../simulation";
 
 /** Whether these two people have any recorded history with each other. */
@@ -42,7 +42,10 @@ export function ensureContextPerson(
 
 /** An adult old enough to be seated. No other claim is made about them. */
 function colleagueBirthDate(currentDate: IsoDate): IsoDate {
-  return makeIsoDate(
-    `${Number(currentDate.slice(0, 4)) - 51}${currentDate.slice(4)}`,
-  );
+  return inventedPersonBirthDate(null, {
+    role: "seated-colleague",
+    referenceDate: currentDate,
+    age: 51,
+    placement: { monthDay: currentDate.slice(5) as `${number}-${number}` },
+  });
 }

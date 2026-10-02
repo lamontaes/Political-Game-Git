@@ -577,10 +577,13 @@ export function lifeCallbackTransitionHandler(
  * already committed to. Every surface that moves an adult life forward passes
  * this.
  */
-export const LIFE_TRANSITION_HANDLERS: FutureTransitionHandlerRegistry =
-  createFutureTransitionHandlerRegistry([
-    [LIFE_CALLBACK_TRANSITION_KEY, lifeCallbackTransitionHandler],
-  ]);
+let lifeTransitionHandlersCache: FutureTransitionHandlerRegistry | undefined;
+
+export function lifeTransitionHandlers(): FutureTransitionHandlerRegistry {
+  return (lifeTransitionHandlersCache ??= createFutureTransitionHandlerRegistry(
+    [[LIFE_CALLBACK_TRANSITION_KEY, lifeCallbackTransitionHandler]],
+  ));
+}
 
 /**
  * The other person's own decision about whether to bring it up.

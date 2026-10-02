@@ -4,8 +4,7 @@ import { makeIsoDate } from "./dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   NATIONAL_DATA_PRIVACY_QUESTION,
-  dataPrivacyCostOn,
-  drawnDataPrivacyCostShare,
+  dataPrivacyInitialCostOn,
 } from "./federal-data-privacy-law";
 import type {
   EntityId,
@@ -68,52 +67,65 @@ function fixture(answer: "yes" | "no" = "yes") {
   };
 }
 
-describe("federal privacy compliance cost attribution", () => {
-  it("keeps a read-only cost stable across repeated reads and reloading", () => {
+// These retained legacy worlds supply no saved firm books or employees.
+// They prove absence-of-applicability refusal, not a zero cost or payment.
+// The positive one-time writer is covered in privacy-initial-compliance-writer.test.ts.
+describe("the sole federal privacy cost reader refuses missing firm facts", () => {
+  it("keeps the absent-firm refusal read-only across repeat and reloading", () => {
     const { world } = fixture();
     const before = JSON.stringify(world);
-    const places = ["place_one", "place_two", "place_three"] as EntityId[];
-    const shares = places.map((place) =>
-      drawnDataPrivacyCostShare(world, place),
+    const firms = [
+      "organization_unread_one",
+      "organization_unread_two",
+      "organization_unread_three",
+    ] as EntityId[];
+    const costs = firms.map((firm) =>
+      dataPrivacyInitialCostOn(world, world.currentDate, firm),
     );
-    for (const [index, share] of shares.entries()) {
-      expect(share).toBe(0);
+    for (const [index, cost] of costs.entries()) {
+      expect(cost).toBeNull();
       expect(
-        drawnDataPrivacyCostShare(
+        dataPrivacyInitialCostOn(
           JSON.parse(JSON.stringify(world)) as World,
-          places[index]!,
+          world.currentDate,
+          firms[index]!,
         ),
-      ).toBe(share);
+      ).toBe(cost);
     }
     expect(JSON.stringify(world)).toBe(before);
   });
-  it("does not change a recorded law's compliance cost when only the seed changes", () => {
+  it("does not infer firm applicability when only the seed changes", () => {
     const { world } = fixture();
-    const place = NATIONAL_ELECTION_JURISDICTION.id;
-    const expected = dataPrivacyCostOn(world, world.currentDate, place);
+    const firm = "organization_unread_one" as EntityId;
+    const expected = dataPrivacyInitialCostOn(world, world.currentDate, firm);
     for (const seed of ["privacy-comparison-a", "privacy-comparison-b", ""]) {
       const comparison = { ...world, seed };
       expect(
-        dataPrivacyCostOn(comparison, comparison.currentDate, place),
+        dataPrivacyInitialCostOn(comparison, comparison.currentDate, firm),
       ).toEqual(expected);
     }
   });
-  it("retains the controlling measure without inventing a recurring expense or stamp", () => {
+  it("retains saved law records without treating unread firm facts as zero cost", () => {
     const { world, measure } = fixture();
-    const cost = dataPrivacyCostOn(world, world.currentDate);
-    expect(cost.share).toBe(0);
-    expect(cost.lawMeasureIds).toEqual([measure.id]);
-    expect(cost.lawEffectStamps).toEqual([]);
-  });
-  it("does not stamp an absent, future or repealed compliance duty", () => {
-    const { world } = fixture();
-    expect(dataPrivacyCostOn(world, makeIsoDate("2026-03-31"))).toEqual({
-      share: 0,
-      lawMeasureIds: [],
-      lawEffectStamps: [],
-    });
+    const before = JSON.stringify(world);
     expect(
-      dataPrivacyCostOn(
+      dataPrivacyInitialCostOn(
+        world,
+        world.currentDate,
+        "organization_unread_one" as EntityId,
+      ),
+    ).toBeNull();
+    expect(world.history.legislativeMeasures).toContainEqual(measure);
+    expect(JSON.stringify(world)).toBe(before);
+  });
+  it("does not infer a charge with missing firm facts under absent, future or repealed law", () => {
+    const { world } = fixture();
+    const firm = "organization_unread_one" as EntityId;
+    expect(
+      dataPrivacyInitialCostOn(world, makeIsoDate("2026-03-31"), firm),
+    ).toBeNull();
+    expect(
+      dataPrivacyInitialCostOn(
         createWorld({
           seed: "no-privacy-law",
           currentDate: makeIsoDate("2026-07-01"),
@@ -122,10 +134,11 @@ describe("federal privacy compliance cost attribution", () => {
           lineage: "production",
         }),
         world.currentDate,
-      ).lawEffectStamps,
-    ).toEqual([]);
+        firm,
+      ),
+    ).toBeNull();
     expect(
-      dataPrivacyCostOn(fixture("no").world, world.currentDate).share,
-    ).toBe(0);
+      dataPrivacyInitialCostOn(fixture("no").world, world.currentDate, firm),
+    ).toBeNull();
   });
 });

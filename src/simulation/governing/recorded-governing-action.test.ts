@@ -29,7 +29,7 @@ import { workItemState } from "../time-work";
 import type { EntityId, World } from "../types";
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import {
-  PUBLIC_PROGRAM_HANDLERS,
+  publicProgramHandlers,
   PUBLIC_PROGRAM_DELIVERY,
   declareProgramCapacity,
   programInstallments,
@@ -62,7 +62,7 @@ let matterId: EntityId;
 let managerId: EntityId;
 let workId: EntityId;
 const handlers = createFutureTransitionHandlerRegistry([
-  ...PUBLIC_PROGRAM_HANDLERS,
+  ...publicProgramHandlers(),
   [GOVERNING_DEADLINE, governingDeadlineHandler],
 ]);
 const reports = createFutureTransitionHandlerRegistry([
@@ -409,7 +409,7 @@ describe("governing work and delivery require their own saved actions", () => {
       continued,
       daysBetween(continued.currentDate, delivery.dueAt),
       createFutureTransitionHandlerRegistry([
-        ...PUBLIC_PROGRAM_HANDLERS,
+        ...publicProgramHandlers(),
         [GOVERNING_DEADLINE, governingDeadlineHandler],
         [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
       ]),
@@ -587,7 +587,7 @@ describe("governing work and delivery require their own saved actions", () => {
       continued,
       1,
       createFutureTransitionHandlerRegistry([
-        ...PUBLIC_PROGRAM_HANDLERS,
+        ...publicProgramHandlers(),
         [GOVERNING_DEADLINE, governingDeadlineHandler],
         [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
       ]),

@@ -74,6 +74,8 @@ export function studyDefinition(
     periodsPerYear: 1,
     daysPerPeriod: 49,
     periodCostMinor: 20000,
+    // Noncredit study earns no credits and requires none.
+    creditsRequired: 0,
     tuitionGraceDays: DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
     volunteerSupported: false,
     timeDemand: {
@@ -129,6 +131,7 @@ export function degreeStudyDefinition(
     periodsPerYear,
     daysPerPeriod,
     periodCostMinor: template.periodCostMinor!,
+    creditsRequired: template.creditsRequired,
     tuitionGraceDays: DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
     volunteerSupported: false,
     timeDemand: template.timeDemand,

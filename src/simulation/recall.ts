@@ -634,7 +634,9 @@ export function recallElectionHandler(
   return done(next, "The official was removed by recall.");
 }
 
-export const RECALL_HANDLERS = [
-  [RECALL_PETITION_CLOSES, recallPetitionClosesHandler],
-  [RECALL_ELECTION, recallElectionHandler],
-] as const;
+export function recallHandlers() {
+  return [
+    [RECALL_PETITION_CLOSES, recallPetitionClosesHandler],
+    [RECALL_ELECTION, recallElectionHandler],
+  ] as const;
+}

@@ -146,10 +146,53 @@ export function cumulativeHazardUnits(
 }
 
 /**
+ * The day a profile's whole accumulation first reaches a threshold, found
+ * once per profile and threshold, up to this age. The quarterly pass asks the
+ * same unchanged profile about each new quarter; the answer is the same day
+ * every time until a record changes the profile, and a changed profile is a
+ * different key.
+ */
+const CROSSING_HORIZON_AGE = 125;
+const CROSSING_LIMIT = 200_000;
+const CROSSINGS = new Map<string, IsoDate | null>();
+
+/**
  * The first day in [from, to) on which accumulated hazard reaches the
  * threshold, or null. `from` must not precede the exposure start.
  */
 export function firstThresholdDay(
+  profile: HazardProfile,
+  thresholdHazardUnits: bigint,
+  from: IsoDate,
+  to: IsoDate,
+): IsoDate | null {
+  // A `to` in an earlier calendar year than the horizon's is inside it.
+  const inside =
+    Number(to.slice(0, 4)) <
+      Number(profile.birthDate.slice(0, 4)) + CROSSING_HORIZON_AGE ||
+    to <= dateAtAge(profile.birthDate, CROSSING_HORIZON_AGE);
+  if (from < profile.exposureStart || !inside)
+    return scanThresholdDay(profile, thresholdHazardUnits, from, to);
+  const key = `${thresholdHazardUnits}|${profileKey(profile)}`;
+  let crossing = CROSSINGS.get(key);
+  if (crossing === undefined) {
+    crossing = scanThresholdDay(
+      profile,
+      thresholdHazardUnits,
+      profile.exposureStart,
+      dateAtAge(profile.birthDate, CROSSING_HORIZON_AGE),
+    );
+    if (CROSSINGS.size >= CROSSING_LIMIT) CROSSINGS.clear();
+    CROSSINGS.set(key, crossing);
+  }
+  // The accumulation never falls, so a day crossed before `from` reads as
+  // `from`, exactly as a scan starting there finds it.
+  if (crossing === null) return null;
+  if (crossing <= from) return from;
+  return crossing < to ? crossing : null;
+}
+
+function scanThresholdDay(
   profile: HazardProfile,
   thresholdHazardUnits: bigint,
   from: IsoDate,

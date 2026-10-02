@@ -44,7 +44,7 @@ export {
   slicePath,
 } from "./acquisition";
 
-export const PLACE_COUNTY_COMPILER_VERSION = "1.0.0";
+export const PLACE_COUNTY_COMPILER_VERSION = "1.1.0";
 export const PLACE_COUNTY_PARSER_VERSION = "1.0.0";
 /** Census Day, the reference date of 2020 Census geography. */
 export const PLACE_COUNTY_CORPUS_AS_OF = "2020-04-01";
@@ -110,7 +110,7 @@ export function compilePlaceCountyRelations(
       coverage: {
         isCompleteUniverse: true,
         universeDescription:
-          "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land and water area. Puerto Rico is not included.",
+          "Every part of a 2020 Census place (incorporated place or census designated place) lying in one county or county equivalent, as the 2020 Census Redistricting Data (P.L. 94-171) geographic headers publish at summary level 155 for the 50 states and the District of Columbia, with each part's land area, water area and POP100 population count. Puerto Rico is not included.",
         boundedSampleReason: null,
       },
     },
