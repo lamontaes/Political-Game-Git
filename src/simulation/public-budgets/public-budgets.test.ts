@@ -4,7 +4,10 @@ import type { StateExecutiveHolderRecord } from "../nationwide-world/state-execu
 import { makeIsoDate } from "../dates";
 import { createWorld } from "../world";
 import { createOrganization } from "../life";
-import { publicGovernmentOrganizationKey } from "../public-government-identity";
+import {
+  publicGovernmentOrganizationKey,
+  publicGovernmentIdentityForRecord,
+} from "../public-government-identity";
 import {
   createResourceFlow,
   createResourcePosition,
@@ -44,7 +47,7 @@ import {
   MEDIAN_NORMAL_COST_SHARE,
   MEDIAN_PAID_SHARE,
   openingLiabilityToSpending,
-} from "./pension-share";
+} from "./opening";
 import { SeededRng } from "../rng";
 import {
   MEDIAN_RESERVE_DEPOSIT,
@@ -169,6 +172,72 @@ function opened(world: World): World {
   };
 }
 
+/** Explicit controlled accounts with no cash activity; absence is not converted to zero. */
+function withSavedIdleAccounts(world: World): World {
+  const jurisdictions = Object.keys(STATES)
+    .map((usps) => stateJurisdictionForKey(`US-${usps}`)!)
+    .filter(Boolean);
+  const district = lifePlaceByKey("1150000")!.context.jurisdiction;
+  let next: World = {
+    ...world,
+    jurisdictionOrder: [
+      ...new Set([
+        ...world.jurisdictionOrder,
+        ...jurisdictions.map((row) => row.id),
+        district.id,
+      ]),
+    ],
+    jurisdictions: {
+      ...world.jurisdictions,
+      ...Object.fromEntries(
+        [...jurisdictions, district].map((row) => [row.id, row]),
+      ),
+    },
+  };
+  // The old isolated fixture replaced propositions without their canonical
+  // catalog order. Saved resource writers require the actual complete catalog.
+  next = {
+    ...next,
+    policyCatalog: createWorld({
+      seed: "saved-idle-budget-fixture",
+      currentDate: world.currentDate,
+      jurisdictions: Object.values(next.jurisdictions),
+      people: [],
+      lineage: "production",
+    }).policyCatalog,
+  };
+  for (const government of world.publicBudgets!.governments) {
+    const stableKey = publicGovernmentOrganizationKey(
+      publicGovernmentIdentityForRecord(government),
+    );
+    next = createOrganization(next, {
+      stableKey,
+      formedAt: world.currentDate,
+      initialProfile: {
+        name: `Controlled ${government.key} account`,
+        classification: "sector:government",
+        locationJurisdictionId: government.jurisdictionId,
+      },
+      provenance: {
+        kind: "authored",
+        note: "Explicit idle-account fixture for settlement/adoption; no forecast receipts or outlays.",
+      },
+    });
+    const organizationId = next.history.organizations.at(-1)!.id;
+    next = createResourcePosition(next, {
+      stableKey: `${stableKey}:idle-fixture-cash`,
+      owner: { kind: "organization", organizationId },
+      openedAt: world.currentDate,
+      openingBalance: money(0, "USD"),
+      provenance: {
+        kind: "authored",
+        note: "Controlled actual zero opening cash, with no transfers; not a missing-data default.",
+      },
+    });
+  }
+  return next;
+}
+
 /** Settles every month from the opening month through `lastMonth`. */
 function runThrough(world: World, lastMonth: string): World {
   let next = world;
@@ -232,7 +301,10 @@ function settleAlone(
 
 describe("public budgets", () => {
   it("every state, D.C. and territory keeps a budget for a full year, none left unknown", () => {
-    const world = runThrough(opened(worldAt("2026-01-05")), "2026-12-01");
+    const world = runThrough(
+      withSavedIdleAccounts(opened(worldAt("2026-01-05"))),
+      "2026-12-01",
+    );
     const store = world.publicBudgets!;
     const keys = Object.keys(STATES).map((usps) => `US-${usps}`);
     const kept = new Set(store.governments.map((row) => row.key));
@@ -277,7 +349,7 @@ describe("public budgets", () => {
     const start = opened(worldAt("2026-01-05"));
     // The opening reserve, before Illinois' own reserve law moves a surplus.
     expect(publicBudgetFor(start, illinois)!.reserve).toBe(2_518_000_000);
-    const world = runThrough(start, "2026-06-01");
+    const world = runThrough(withSavedIdleAccounts(start), "2026-06-01");
     const state = publicBudgetFor(world, illinois)!;
     expect(state.population).toBe(12_710_158);
     expect(state.fiscalYearStart).toBe("07-01");

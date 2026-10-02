@@ -306,7 +306,7 @@ export interface PensionRecord {
   /**
    * The share of the required contribution this government pays when no law
    * requires the full amount: ESTIMATED FROM AVERAGE, measured spread and
-   * drift (`pension-share.ts`).
+   * drift (`opening.ts`).
    */
   readonly paidShare: number;
 }
