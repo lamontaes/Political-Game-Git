@@ -154,7 +154,7 @@ describe("sourced annual family-leave terms", () => {
     ).toEqual([]);
   });
 
-  it("does not extend calendar-2026 amounts into an unread year", () => {
+  it("does not treat a research coverage boundary as a legal expiry", () => {
     expect(
       startingLawTerms(
         law("2026-01-01"),
@@ -164,10 +164,16 @@ describe("sourced annual family-leave terms", () => {
     ).toHaveLength(3);
     expect(
       startingLawTerms(
-        law("2027-01-01"),
+        law("2026-01-01"),
         questionKey,
         makeIsoDate("2027-01-01"),
       ),
-    ).toEqual([]);
+    ).toEqual(
+      startingLawTerms(
+        law("2026-01-01"),
+        questionKey,
+        makeIsoDate("2026-12-31"),
+      ),
+    );
   });
 });

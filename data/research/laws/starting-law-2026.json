@@ -1454,13 +1454,13 @@
                 }
               ],
               "note": "Joint employee SDI contribution funds disability and family leave; not a separate additional family-leave deduction. Uncapped wages cannot be represented by a finite dollars/year scalar. Income-dependent replacement is not a universal scalar. Duration compound-unit admission remains unsupported."
-            },
-            {
-              "answer": "yes",
-              "operativeAt": "2027-01-01",
-              "note": "Research boundary: no monetary terms for unread calendar 2027 are admitted; this does not end the program."
             }
-          ]
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-CO": {
           "answer": "yes"
@@ -1489,13 +1489,13 @@
               ],
               "note": "Annual covered-wage cap joins the CT source-stated Social Security contribution limit to the SSA 2026 OASDI base; each employer applies that limit as described by CT. Tiered replacement and duration are not admitted as universal scalars.",
               "capSource": "https://www.ssa.gov/news/en/cola/factsheets/2026.html"
-            },
-            {
-              "answer": "yes",
-              "operativeAt": "2027-01-01",
-              "note": "Research boundary: no monetary terms for unread calendar 2027 are admitted; this does not end the program."
             }
-          ]
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-DC": {
           "answer": "yes",
@@ -1531,13 +1531,11 @@
             }
           ],
           "note": "Optional employee contribution share is not a universal 0.4% rate. Coverage-specific premiums and FICA wage base require their exact bindings; no inferred cap. Replacement is subject to the source weekly benefit maximum. Duration compound-unit admission remains unsupported.",
-          "phases": [
-            {
-              "answer": "yes",
-              "operativeAt": "2027-01-01",
-              "note": "Research boundary: no monetary terms for unread calendar 2027 are admitted; this does not end the program."
-            }
-          ]
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-FL": {
           "answer": "no"
@@ -1654,13 +1652,13 @@
                 }
               ],
               "note": "Family Leave Insurance employee share only; distinct from Temporary Disability Insurance. Replacement is subject to the sourced weekly benefit maximum; duration is not admitted as a scalar. This 2026 monetary phase does not assert a 2000 enactment date."
-            },
-            {
-              "answer": "yes",
-              "operativeAt": "2027-01-01",
-              "note": "Research boundary: the cited annual contribution figures cover calendar 2026 only. No 2027 monetary terms are admitted here; this does not end the Family Leave Insurance program."
             }
-          ]
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-NM": {
           "answer": "no"
@@ -1691,13 +1689,13 @@
                 }
               ],
               "note": "The $411.91 annual contribution maximum is not an annual covered-wage cap. No derived wage-cap scalar admitted. Replacement is subject to the source weekly benefit cap. Duration compound-unit admission remains unsupported."
-            },
-            {
-              "answer": "yes",
-              "operativeAt": "2027-01-01",
-              "note": "Research boundary: no monetary terms for unread calendar 2027 are admitted; this does not end the program."
             }
-          ]
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-OH": {
           "answer": "no"
@@ -1728,13 +1726,13 @@
                 }
               ],
               "note": "Employee share is 60% of the stated 1% total contribution, not the total or employer share. Employer coverage/exemptions remain separate. Tiered replacement not collapsed to a scalar. Duration compound-unit admission remains unsupported."
-            },
-            {
-              "answer": "yes",
-              "operativeAt": "2027-01-01",
-              "note": "Research boundary: no monetary terms for unread calendar 2027 are admitted; this does not end the program."
             }
-          ]
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-PA": {
           "answer": "no"
