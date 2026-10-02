@@ -1,3 +1,7 @@
+import { createOrganization } from "../life";
+import { appendPressRecord } from "./store";
+import { recordMediaPurchasePayment } from "./media-purchase-payment";
+import { recordWorldEvent } from "../world";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
@@ -197,6 +201,132 @@ describe("media purchase payment preserves the existing financial writer", () =>
         ).toThrow();
         expect(serializeWorld(world)).toBe(payload);
       }
+    },
+  );
+});
+
+describe("recorded organization purchase funding", () => {
+  it.each(places)(
+    "uses actual organization cash and saved principal in %s",
+    (placeKey) => {
+      const f = market(placeKey, null);
+      let world = createOrganization(f.world, {
+        stableKey: "fixture:buyer-organization",
+        formedAt: f.world.currentDate,
+        provenance: {
+          kind: "authored",
+          note: "Explicit test buyer organization",
+        },
+        initialProfile: {
+          name: "Recorded buyer",
+          classification: "enterprise:media-ownership",
+          locationJurisdictionId: f.person.homeJurisdictionId,
+        },
+      });
+      const organization = world.history.organizations.at(-1)!;
+      world = appendPressRecord(world, "media-owner", {
+        stableKey: "fixture:buyer-owner",
+        organizationId: organization.id,
+        packId: "person",
+        rowKey: "owner.person",
+        name: "Recorded buyer",
+        ownerKind: "individual",
+        establishedAt: world.currentDate,
+        principalPersonId: f.person.id,
+      }).world;
+      const pending = recordMediaPurchasePayment(world, {
+        stableKey: "fixture:unfunded-organization-payment",
+        buyerOrganizationId: organization.id,
+        decisionMakerPersonId: f.person.id,
+        sellerOrganizationId: f.seller.organizationId,
+        sellerName: f.seller.name,
+        outletName: f.outlet.name,
+        jurisdictionId: f.person.homeJurisdictionId,
+        eventId: world.history.events.at(-1)!.id,
+        priceMinorUnits: 10000,
+      });
+      expect(pending).toBe(world);
+      world = createResourcePosition(world, {
+        stableKey: "fixture:organization-cash",
+        owner: { kind: "organization", organizationId: organization.id },
+        openedAt: world.currentDate,
+        openingBalance: money(20000, USD),
+        provenance: {
+          kind: "authored",
+          note: "Explicit test funds, no credit inferred",
+        },
+      });
+      world = recordWorldEvent(world, {
+        stableKey: "fixture:reviewed-purchase",
+        type: "fixture.purchase-reviewed",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: f.person.homeJurisdictionId,
+        involvedEntityIds: [
+          f.person.id,
+          organization.id,
+          f.seller.organizationId,
+        ],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["fixture:authored-purchase"],
+        summary: "Explicit fixture purchase event.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const input = {
+        stableKey: "fixture:organization-payment",
+        buyerOrganizationId: organization.id,
+        decisionMakerPersonId: f.person.id,
+        sellerOrganizationId: f.seller.organizationId,
+        sellerName: f.seller.name,
+        outletName: f.outlet.name,
+        jurisdictionId: f.person.homeJurisdictionId,
+        eventId: world.history.events.at(-1)!.id,
+        priceMinorUnits: 10000,
+      };
+      expect(
+        recordMediaPurchasePayment(world, {
+          ...input,
+          buyerOrganizationId: f.outlet.organizationId,
+        }),
+      ).toBe(world);
+      expect(
+        recordMediaPurchasePayment(world, { ...input, priceMinorUnits: 20001 }),
+      ).toBe(world);
+      const after = recordMediaPurchasePayment(world, input);
+      expect(
+        resourcePositionAt(
+          after,
+          { kind: "organization", organizationId: organization.id },
+          USD,
+        )?.liquidBalance.minorUnits,
+      ).toBe(10000);
+      expect(
+        resourcePositionAt(
+          after,
+          { kind: "organization", organizationId: f.seller.organizationId },
+          USD,
+        )?.liquidBalance.minorUnits,
+      ).toBe(10000);
+      expect(after.history.resourceFlows.at(-1)!.source).toEqual({
+        kind: "organization",
+        organizationId: organization.id,
+      });
+      expect(after.history.resourceTransferOutcomes.at(-1)!.provenance).toEqual(
+        { kind: "simulated-event", eventId: input.eventId },
+      );
+      expect(serializeWorld(deserializeWorld(serializeWorld(after)))).toBe(
+        serializeWorld(after),
+      );
+      assertWorldIntegrity(after);
     },
   );
 });
