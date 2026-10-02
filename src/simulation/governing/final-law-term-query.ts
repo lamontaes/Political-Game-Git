@@ -1,5 +1,6 @@
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "../types";
 import type { LawAmountUnit } from "../law-consequence-types";
+import type { RentalPriceRule } from "../law-consequence-types";
 import { startingLawTerms, type LawInForce } from "./law-in-force";
 import { measureAnswersAt } from "../vote-bundle";
 
@@ -9,6 +10,7 @@ export interface FinalEnactedLawTerm {
   readonly measureId: EntityId;
   readonly provisionId: EntityId | null;
   readonly sourceRecordIds: readonly EntityId[];
+  readonly rentalPriceRule?: RentalPriceRule;
 }
 
 export function finalTermEnactment(
@@ -85,6 +87,9 @@ export function readFinalEnactedLawTerm(
       measureId: law.measureId,
       provisionId: null,
       sourceRecordIds: [law.measureId],
+      ...(term.rentalPriceRule
+        ? { rentalPriceRule: term.rentalPriceRule }
+        : {}),
     };
   }
   const enactment = finalTermEnactment(
@@ -120,5 +125,6 @@ export function readFinalEnactedLawTerm(
     measureId: law.measureId,
     provisionId: provision.id,
     sourceRecordIds: [law.measureId, enactment.id, provision.id],
+    ...(term.rentalPriceRule ? { rentalPriceRule: term.rentalPriceRule } : {}),
   };
 }

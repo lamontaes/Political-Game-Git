@@ -5,6 +5,7 @@ import type {
 } from "./permit-types";
 import type {
   LawAmountUnit,
+  RentalPriceRule,
   LawConsequenceRow,
   ResolvedHourlyLawPayConsequence,
   ResolvedSavedHourlyPayConsequence,
@@ -5230,6 +5231,7 @@ export interface LegislativeProvisionRecord {
     readonly key: string;
     readonly value: number;
     readonly unit: LawAmountUnit;
+    readonly rentalPriceRule?: RentalPriceRule;
   }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
