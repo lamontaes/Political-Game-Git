@@ -3,7 +3,6 @@ import {
   ARTICLE_V_STATE_KEYS,
   constitutionalPosition,
   proposeConstitutionalMeasure,
-  recordArticleVRatification,
   constitutionalActions,
   recordConstitutionalProposalVote,
 } from "../constitutional-process";
@@ -32,6 +31,7 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { seatedCongressChamber } from "./congress-chambers";
+import { recordArticleVStateMemberVote } from "./constitutional-state-votes";
 import {
   decideChamberVote,
   type ChamberConstitutionalVoteInput,
@@ -845,21 +845,26 @@ export function articleVStateActionHandler(
   if (constitutionalPosition(world, measure.id).phase !== "ratification")
     return done(world, "The amendment is no longer before the states.");
   const stateKey = match[2]!;
-  const voice = stateVoice(world, stateKey.slice(3));
-  let next = ensureOfficeholderPrinciples(world, voice.personIds);
-  const approved = mostLeanYes(
-    next,
-    voice.personIds,
-    measure.ruleDelta.propositionId,
-  );
-  next = recordArticleVRatification(next, measure.id, {
-    kind: "state-ratification",
+  const delta = measure.ruleDelta;
+  const next = recordArticleVStateMemberVote(
+    world,
+    measure.id,
     stateKey,
-    body: "state-legislature",
-    approved,
-    authenticationKey: `${measure.stableKey}:${stateKey}:${next.currentDate}`,
-  });
+    (current, member) =>
+      constitutionalMemberConsiderations(
+        current,
+        member.personId,
+        delta.propositionId,
+        delta.stance === "adopt" ? "yes" : "no",
+      ),
+  );
+  if (!next)
+    return done(
+      world,
+      "The state action remains pending: its actual chambers, quorum or sourced ratification admission are unavailable.",
+    );
   const after = constitutionalPosition(next, measure.id);
+  const approved = after.ratifiedStates.includes(stateKey);
   return done(
     next,
     after.phase === "operative" || after.phase === "ratified"
