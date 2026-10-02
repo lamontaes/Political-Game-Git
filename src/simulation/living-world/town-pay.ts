@@ -67,6 +67,7 @@ import {
 } from "../history-index";
 import {
   currentLifeCutoff,
+  educationEnrollmentStateAt,
   organizationProfileAt,
   workStatusAt,
   workRoleAt,
@@ -87,7 +88,11 @@ import {
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
-import { resourceFlowTermsAt } from "../resource-queries";
+import {
+  resourceFlowTermsAt,
+  resourceTransferOutcomesForFlow,
+} from "../resource-queries";
+import { hasLifePathCredential } from "../life-paths2";
 import { SeededRng } from "../rng";
 import {
   createResourceFlows,
@@ -247,8 +252,8 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
  * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
  * distribution. Preserve the existing tenure calibration: a new hire starts
  * at the 25th percentile and moves toward the 75th over 20 years at the
- * employer. The retired person draw does not change pay. Recorded credential
- * sizing remains an unfinished A40 contract, not an inferred degree premium.
+ * employer. The retired person draw does not change pay. Recorded credentials
+ * select actual paid peers for an observed hourly mean, never a fixed degree premium.
  */
 export function townPayPercentile(
   tenureYears: number,
@@ -691,6 +696,150 @@ function payNoteOf(cadenceKind: string): PayNote | null {
  * day it started, whichever is later: nobody is paid years of back wages for
  * a job the game wrote before pay existed.
  */
+/** ESTIMATED FROM AVERAGE: recorded paid-work peers at the same workplace and occupation,
+ * sharing the worker's recorded completed credentials. No observed peers means
+ * no adjustment to the existing tenure offer. The input world is frozen before
+ * this initializer writes any offers, so actor order cannot seed its own cohort.
+ */
+export function recordedCredentialHourlyPay(
+  world: World,
+  workId: EntityId,
+  onDate: IsoDate,
+) {
+  if (onDate > world.currentDate) return null;
+  const snapshot = { ...world, currentDate: onDate };
+  const target = recordById(world.history.workRelationships, workId);
+  const targetRole = target ? workRoleAt(snapshot, workId) : undefined;
+  if (
+    !target ||
+    target.recordedAt > onDate ||
+    target.startedAt > onDate ||
+    target.compensation !== "paid" ||
+    workStatusAt(snapshot, workId)?.status !== "active" ||
+    !targetRole?.occupationClassification ||
+    !targetRole.locationJurisdictionId
+  )
+    return null;
+  const credentials = world.history.educationEnrollments.filter(
+    (row) =>
+      row.personId === target.personId &&
+      row.startedAt <= onDate &&
+      row.recordedAt <= onDate &&
+      hasLifePathCredential(snapshot, target.personId, row.programKind),
+  );
+  if (!credentials.length) return null;
+  const sources: EntityId[] = credentials.flatMap((row) => {
+    const state = educationEnrollmentStateAt(snapshot, row.id);
+    return state ? [row.id, state.id] : [];
+  });
+  const rates: number[] = [];
+  const countedWork = new Set<EntityId>();
+  for (const flow of world.history.resourceFlows) {
+    if (
+      flow.basisKind !== "compensation:work" ||
+      flow.basisReference.kind !== "work" ||
+      flow.recordedAt > onDate ||
+      flow.startsAt > onDate ||
+      flow.recipient.kind !== "person"
+    )
+      continue;
+    const work = recordById(
+      world.history.workRelationships,
+      flow.basisReference.workRelationshipId,
+    );
+    if (
+      !work ||
+      countedWork.has(work.id) ||
+      work.personId === target.personId ||
+      work.personId !== flow.recipient.personId ||
+      work.startedAt > onDate ||
+      work.recordedAt > onDate ||
+      work.compensation !== "paid"
+    )
+      continue;
+    const status = workStatusAt(snapshot, work.id);
+    const role = workRoleAt(snapshot, work.id);
+    if (
+      status?.status !== "active" ||
+      role?.occupationClassification !== targetRole.occupationClassification ||
+      role.locationJurisdictionId !== targetRole.locationJurisdictionId ||
+      !credentials.every((row) =>
+        hasLifePathCredential(snapshot, work.personId, row.programKind),
+      )
+    )
+      continue;
+    const current = resourceFlowTermsAt(snapshot, flow.id);
+    if (current?.status !== "active" || current.amount.currency !== "USD")
+      continue;
+    const payment = resourceTransferOutcomesForFlow(snapshot, flow.id)
+      .filter(
+        (row) =>
+          row.status === "completed" &&
+          row.transferredAmount.currency === "USD" &&
+          row.transferredAmount.minorUnits > 0,
+      )
+      .at(-1);
+    // Active agreements are already recorded pay, including before the first payday.
+    let rateSnapshot = snapshot;
+    let rateRole = role;
+    let terms = current;
+    let amount = current.amount.minorUnits;
+    let paymentId: EntityId | null = null;
+    if (
+      payment &&
+      payment.sequence > current.sequence &&
+      payment.occurredAt >= current.effectiveAt
+    ) {
+      const paidSnapshot = {
+        ...snapshot,
+        currentDate: payment.occurredAt,
+        history: { ...snapshot.history, nextSequence: payment.sequence + 1 },
+      };
+      const paidRole = workRoleAt(paidSnapshot, work.id);
+      const paidTerms = resourceFlowTermsAt(snapshot, flow.id, {
+        asOfDate: payment.occurredAt,
+        historySequenceExclusive: payment.sequence + 1,
+      });
+      if (
+        paidRole?.occupationClassification === role.occupationClassification &&
+        paidRole.locationJurisdictionId === role.locationJurisdictionId &&
+        paidTerms?.status === "active" &&
+        credentials.every((row) =>
+          hasLifePathCredential(paidSnapshot, work.personId, row.programKind),
+        )
+      ) {
+        rateSnapshot = paidSnapshot;
+        rateRole = paidRole;
+        terms = paidTerms;
+        amount = payment.transferredAmount.minorUnits;
+        paymentId = payment.id;
+      }
+    }
+    const note = payNoteOf(terms.cadenceKind);
+    const hours = weeklyHoursOf(rateRole);
+    if (!note || hours <= 0 || amount <= 0) continue;
+    rates.push((amount * PERIODS_PER_YEAR[note.period]) / (52 * hours));
+    countedWork.add(work.id);
+    sources.push(work.id, status.id, role.id, rateRole.id, flow.id, terms.id);
+    if (paymentId) sources.push(paymentId);
+    for (const enrollment of world.history.educationEnrollments.filter(
+      (row) =>
+        row.personId === work.personId &&
+        row.recordedAt <= onDate &&
+        row.startedAt <= onDate,
+    )) {
+      const state = educationEnrollmentStateAt(rateSnapshot, enrollment.id);
+      if (state?.status === "completed") sources.push(enrollment.id, state.id);
+    }
+  }
+  if (!rates.length) return null;
+  return {
+    hourlyMinor: Math.round(rates.reduce((a, b) => a + b, 0) / rates.length),
+    peerCount: rates.length,
+    sourceRecordIds: [...new Set(sources)],
+  };
+}
+
 export function startTownJobPay(
   world: World,
   exceptPersonId: EntityId | null,
@@ -724,6 +873,16 @@ export function startTownJobPay(
     candidates.push(work);
   }
   const inputs: CreateResourceFlowInput[] = [];
+  const firstOffers: {
+    work: WorkRelationship;
+    role: WorkRoleRecord;
+    baseline: TownJobRate;
+    minimum: number | null;
+    floorHourlyMinor: number;
+    weeklyHours: number;
+    period: TownPayPeriod;
+    stableKey: string;
+  }[] = [];
   const floorLaws = anyTeacherFloorLawEnacted(world);
   let coveredMen: ReadonlySet<EntityId> | null = null;
   // An employer keeps the payday its workers already have.
@@ -773,13 +932,30 @@ export function startTownJobPay(
       role.locationJurisdictionId,
       startsAt,
     );
-    const offered = townJobRate(
+    const baseline = townJobRate(
       role.occupationClassification,
       role.locationJurisdictionId,
       townPayPercentile(tenure),
       minimum,
     );
-    if (!offered) continue;
+    if (!baseline) continue;
+    // The offer uses evidence recorded now; pay-start can precede that evidence.
+    const credentialPay = recordedCredentialHourlyPay(
+      world,
+      work.id,
+      world.currentDate,
+    );
+    const offered = credentialPay
+      ? {
+          ...baseline,
+          hourlyMinor: Math.max(
+            credentialPay.hourlyMinor,
+            baseline.hourlyMinor,
+            Math.round((minimum ?? 0) * 100),
+          ),
+          floored: credentialPay.hourlyMinor < Math.round((minimum ?? 0) * 100),
+        }
+      : baseline;
     // A man partnered with a man is hired below the job's rate where no
     // fairness law covers him (`fairness-pay-law.ts`), never below the floor.
     coveredMen ??= menPartneredWithMen(world, world.currentDate);
@@ -839,11 +1015,80 @@ export function startTownJobPay(
       jurisdictionId: null,
       provenance: {
         kind: "authored",
-        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages}).`,
+        note: `${TOWN_PAY_VERSION}: $${(hourlyMinor / 100).toFixed(2)} an hour${hourlyMinor > rate.hourlyMinor ? " (the state's minimum teacher salary)" : rate.floored ? " (the minimum wage)" : ""}${gap && hourlyMinor === rate.hourlyMinor ? `, ${UNCOVERED_PAY_NOTE}` : ""} for ${weeklyHours} hours a week, paid ${period}; ${credentialPay ? `ESTIMATED FROM AVERAGE of ${credentialPay.peerCount} paid same-occupation/workplace credential peers; source records ${credentialPay.sourceRecordIds.join(", ")}` : `the ${Math.round(rate.percentile)}th percentile for SOC ${rate.soc} in OEWS area ${rate.area} (${TOWN_PAY_META.wages})`}.`,
       },
     });
+    if (!credentialPay)
+      firstOffers.push({
+        work,
+        role,
+        baseline,
+        minimum,
+        floorHourlyMinor,
+        weeklyHours,
+        period,
+        stableKey: inputs.at(-1)!.stableKey,
+      });
   }
-  return createResourceFlows(next, inputs);
+  const recorded = createResourceFlows(next, inputs);
+  let finalized = recorded;
+  // First-payday agreements are real saved evidence for their peers. Freeze
+  // that batch before any credential offer revisions, avoiding order feedback.
+  const flows = new Map(
+    recorded.history.resourceFlows.map((flow) => [flow.stableKey, flow]),
+  );
+  for (const offer of firstOffers) {
+    const quote = recordedCredentialHourlyPay(
+      recorded,
+      offer.work.id,
+      recorded.currentDate,
+    );
+    if (!quote) continue;
+    const flow = flows.get(offer.stableKey)!;
+    const prior = resourceFlowTermsAt(recorded, flow.id)!;
+    const offeredHourly = Math.max(
+      quote.hourlyMinor,
+      offer.baseline.hourlyMinor,
+      Math.round((offer.minimum ?? 0) * 100),
+    );
+    const fair = coveredMen?.has(offer.work.personId)
+      ? payAtHire(recorded, {
+          personId: offer.work.personId,
+          jobJurisdictionId: offer.role.locationJurisdictionId,
+          date: flow.startsAt,
+          amountMinor: offeredHourly,
+          floorMinor: (offer.minimum ?? 0) * 100,
+        })
+      : null;
+    const hourly = Math.max(
+      fair?.amountMinor ?? offeredHourly,
+      offer.floorHourlyMinor,
+    );
+    finalized = recordResourceFlowTerms(finalized, {
+      stableKey: `${offer.stableKey}:credential-first-offer`,
+      resourceFlowId: flow.id,
+      effectiveAt: prior.effectiveAt,
+      status: "active",
+      amount: money(
+        Math.round(
+          (hourly * offer.weeklyHours * 52) / PERIODS_PER_YEAR[offer.period],
+        ),
+        "USD",
+      ),
+      cadenceKind: prior.cadenceKind,
+      supersedesTermsId: prior.id,
+      reason:
+        "First offer uses recorded credential peer agreements without reducing the tenure offer or legal floor.",
+      provenance: {
+        kind: "authored",
+        note: `${TOWN_PAY_VERSION}: $${(hourly / 100).toFixed(2)} an hour for ${offer.weeklyHours} hours a week, paid ${offer.period}; ESTIMATED FROM AVERAGE of ${quote.peerCount} paid same-occupation/workplace credential peers; source records ${quote.sourceRecordIds.join(", ")}.`,
+      },
+      ...(prior.lawEffectStamps
+        ? { lawEffectStamps: prior.lawEffectStamps }
+        : {}),
+    });
+  }
+  return finalized;
 }
 
 /** Resolve the saved legal employer's government account, never its geography. */
