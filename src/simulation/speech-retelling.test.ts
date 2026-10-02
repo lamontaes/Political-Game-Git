@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
-import { createNewGameWorld } from "../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../presentation/opening-life";
 import { freshNewGameSetup } from "../presentation/new-game-geography";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
 import { deserializeWorld, serializeWorld } from "./serialization";
@@ -15,7 +18,7 @@ import {
 } from "./future-transitions";
 import { recordKinship } from "./life";
 import { recordTraitChange } from "./people-traits";
-import { recordMemory } from "./records";
+import { recordEventKnowledge, recordMemory } from "./records";
 import {
   SPEECH_OF_TAG,
   SPEECH_RECEPTION_EVENT,
@@ -118,6 +121,18 @@ function fixture(openedWorld?: World) {
       reason: "Authored outgoing fixture; no new production trait rule.",
     });
   }
+  // The recorded reception says the first listener heard the speaker. Record
+  // that access before authoring their memory through the guarded writer.
+  world = recordEventKnowledge(world, {
+    stableKey: "a9:original-knowledge",
+    personId: first,
+    eventId: speech.id,
+    learnedAt: world.currentDate,
+    believedSummary: speech.summary,
+    accuracy: "accurate",
+    confidence: "medium",
+    source: { kind: "told-by", sourcePersonId: speaker, claimId: null },
+  });
   world = recordMemory(world, {
     stableKey: "a9:original-memory",
     personId: first,
@@ -180,16 +195,21 @@ describe("A9 monthly speech retelling on the due clock", () => {
   it("current Begin registers the ordinary clock and Save/Continue keeps each month's retelling", () => {
     const seed = "a9-ordinary-begin-retelling";
     const place = drawRandomPlace(seed);
-    const game = createNewGameWorld({
-      ...freshNewGameSetup(seed),
-      placeKey: place.key,
-      seed: `${seed}:${place.key}`,
-      startKind: "custom",
-      startAge: 10,
-      depth: "play-formative-years",
-      startingLife: "ordinary-life",
-      worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
-    });
+    const opening = generateOpeningLife(
+      prepareOpeningLife({
+        ...freshNewGameSetup(seed),
+        placeKey: place.key,
+        seed: `${seed}:${place.key}`,
+        startKind: "custom",
+        startAge: 10,
+        depth: "play-formative-years",
+        startingLife: "ordinary-life",
+        worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      }),
+    );
+    expect(opening.game).not.toBeNull();
+    if (!opening.game) throw new Error("Public Begin did not create a game.");
+    const game = opening.game;
     const openedDue = game.world.history.futureDueItems.filter(
       (item) => item.transitionKey === SPEECH_RETELLING_TRANSITION_KEY,
     );
