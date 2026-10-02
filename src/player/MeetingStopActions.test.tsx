@@ -1,3 +1,4 @@
+import { ensureLocalGovernmentSeats } from "../simulation/living-world/local-government-seats";
 import type { ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it, vi } from "vitest";
@@ -44,7 +45,11 @@ beforeAll(() => {
     seed,
   });
   personId = fixture.personId;
-  beforeJourney = openOrdinaryLife(fixture.world, personId);
+  const seated = ensureLocalGovernmentSeats(fixture.world, personId);
+  expect(seated.history.officeTerms.length).toBeGreaterThan(
+    fixture.world.history.officeTerms.length,
+  );
+  beforeJourney = openOrdinaryLife(seated, personId);
   const meeting = beforeJourney.history.scheduledActivities.find(
     (a) => a.stableKey === PUBLIC_MEETING_KEY + ":activity",
   );
