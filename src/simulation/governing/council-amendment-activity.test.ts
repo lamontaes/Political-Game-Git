@@ -33,6 +33,7 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import type { FutureDueItem, World } from "../types";
 import { advanceWorld } from "../world";
 import * as amendmentAuthors from "./amendment-authors";
+import { floorStageTakesAmendments } from "./chamber-procedure";
 
 const seed = "team9-a85-council-amendment-activity-20261001";
 const place =
@@ -52,7 +53,7 @@ function meet(world: World, due: FutureDueItem): World {
 afterEach(() => vi.restoreAllMocks());
 
 describe(`A85 existing council meeting activity (${place}, ${seed})`, () => {
-  it("asks the existing amendment writer before voting on a saved NPC ordinance", () => {
+  it("does not infer amendment permission at an unread council reading", () => {
     expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
     const small = smallWorld({ place, people: 4, seed });
     let world = ensureLocalCouncilMeetings(
@@ -143,26 +144,20 @@ describe(`A85 existing council meeting activity (${place}, ${seed})`, () => {
       ),
       "the existing meeting must actually vote on that ordinance",
     ).toBe(true);
-    // The spy passes through: it supplies neither an amendment nor a member's choice.
-    expect(offered.mock.calls.length).toBeGreaterThan(0);
-    for (const [before, input] of offered.mock.calls) {
-      const measure = before.history.legislativeMeasures?.find(
-        (row) => row.id === input.measureId,
-      );
-      expect(measure).toBeDefined();
-      expect(measure!.sponsorPersonId).not.toBe(small.personId);
-      expect(measurePosition(before, input.measureId).phase).toBe("on-floor");
-      expect(input.members.length).toBeGreaterThan(0);
-      for (const member of input.members) {
-        expect(member.personId).toBeTruthy();
-        expect(before.people[member.personId!]).toBeDefined();
-      }
-      expect(input.chamber.chamberKey).toBe("council");
-      expect(input.stage.stageKey).toBeTruthy();
-    }
+    const chamber = chamberByKey(pack, "council");
+    expect(
+      chamber.floorStages.every(
+        (stage) => !floorStageTakesAmendments(chamber, stage),
+      ),
+    ).toBe(true);
+    // The spy passes through; an unread rule cannot supply permission.
+    expect(offered).not.toHaveBeenCalled();
     const restored = deserializeWorld(serializeWorld(world));
     expect(restored.history.legislativeAmendments).toEqual(
       world.history.legislativeAmendments,
     );
   });
+  it.todo(
+    "a council with sourced amendment permission records an actual NPC amendment before its second-reading vote, then preserves it through Continue/repeat",
+  );
 });
