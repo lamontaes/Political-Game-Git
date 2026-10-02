@@ -155,7 +155,7 @@ function councilQuestionClosed(
     ) ||
     (world.history.legislativeEnactments ?? []).some((enactment) => {
       if (!ids.has(enactment.measureId)) return false;
-      // A saved fictional profile is an admitted date, even without its cache.
+      // Read an admitted saved fictional profile through the shared date reader.
       if (
         enactment.effectiveDateBasis === "game-default" &&
         enactment.effectiveDateGameProfile

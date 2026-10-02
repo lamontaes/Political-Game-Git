@@ -199,9 +199,9 @@ describe("council filing follows the saved effective-date game profile", () => {
       const operativeAt = addDays(enactment.resolvedAt, days);
       expect(enactment.effectiveAt).toBe(operativeAt);
       expect(enactment.effectiveDateBasis).toBe("game-default");
-      // An authored older-save control drops only the cached date. The actual
-      // law, named vote, profile version and supplied interval remain saved.
-      world = {
+      // Integrity refuses a missing cache paired with a saved profile. This
+      // negative control must not be presented as an admissible older save.
+      const invalidCache = {
         ...world,
         history: {
           ...world.history,
@@ -211,6 +211,9 @@ describe("council filing follows the saved effective-date game profile", () => {
           ),
         },
       };
+      expect(() => serializeWorld(invalidCache)).toThrow(
+        /Enactment game effective date does not match its profile/,
+      );
       world = deserializeWorld(serializeWorld(world));
       expect(
         operativeDateForEnactment(world.history.legislativeEnactments![0]!),
