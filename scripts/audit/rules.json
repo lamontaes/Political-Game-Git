@@ -1585,7 +1585,7 @@
       "note": "Not started: drawMoney (people-upbringing.ts:75) and every percent roll in upbringingFor (:132-196, including parent death 4%, illness 9%/12%, law trouble 5%/3%) are still live. The no-signal core-trait pick at :603 belongs to A138 and is checked there."
     },
     "A138": {
-      "covers": "part",
+      "covers": "whole",
       "checks": [
         {
           "kind": "absent",
@@ -1616,9 +1616,33 @@
           "file": "src/simulation/people-upbringing.ts",
           "pattern": "rng\\.pick\\(\\[-1,\\s*0,\\s*0,\\s*0,\\s*1\\]",
           "why": "a core trait with no upbringing signal is picked from a weighted lottery instead of taking the middle value (people-upbringing.ts:603)"
+        },
+        {
+          "kind": "present",
+          "file": "src/simulation/people-traits.ts",
+          "pattern": "registeredTraitLean\\(",
+          "why": "a registered pack's seeded trait starts from the upbringing lean on its own key and the keys it follows, the middle otherwise"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/legislature-manner.ts",
+          "pattern": "SeededRng|\\brng\\.",
+          "why": "the other trait writer outside people-traits.ts draws nothing"
+        },
+        {
+          "kind": "absent",
+          "file": "src/simulation/people-trait-change.ts",
+          "pattern": "SeededRng|\\brng\\.",
+          "why": "trait changes are written from events, never drawn"
+        },
+        {
+          "kind": "test",
+          "file": "src/simulation/people-traits.test.ts",
+          "pattern": "A138: traits come from upbringing, not a lottery",
+          "why": "the small-world proof, place drawn from all 56 by seed, with an installed pack's trait included"
         }
       ],
-      "note": "Not started: SeededRng and rng.integer/rng.pick are still how traits (people-traits.ts:313, :438-479) and life tendencies (life-personality.ts:41, :59, :67) are chosen; all five absent checks fail (including the no-signal core-trait pick at people-upbringing.ts:603). Marked part because other trait writers may exist."
+      "note": "Done: every trait writer (people-traits.ts core five, the catalog's notable qualities and registered pack traits; life-personality.ts; people-trait-change.ts; legislature-manner.ts) reads the person's upbringing or a recorded event, and a trait with no lean starts at the middle. The upbringing's own percent rolls belong to A137."
     },
     "A139": {
       "covers": "whole",
