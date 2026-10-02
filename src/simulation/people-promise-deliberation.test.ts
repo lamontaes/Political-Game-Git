@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import * as decisions from "./decisions";
+import { deserializeWorld, serializeWorld } from "./serialization";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
@@ -80,7 +82,7 @@ describe("a promise renegotiation reads deliberation the way its own words read"
   function answerIn(
     seed: (typeof seeds)[number],
     values: Partial<Record<PeopleTrait, TraitValue>>,
-  ): string {
+  ): string | null {
     const world = temperament(
       seed.world,
       seed.counterpart,
@@ -110,4 +112,75 @@ describe("a promise renegotiation reads deliberation the way its own words read"
       seeds.map((seed) => answerIn(seed, { deliberation: 2, reliability: 2 })),
     ).toEqual(seeds.map(() => "holds-boundary"));
   });
+  afterEach(() => vi.restoreAllMocks());
+
+  it("does not turn an undecided renegotiation into a request for an answer, including Continue", () => {
+    const seed = seeds[0]!;
+    const original = decisions.evaluateDecision;
+    const spy = vi
+      .spyOn(decisions, "evaluateDecision")
+      .mockImplementation(
+        (
+          world: Parameters<typeof original>[0],
+          input: Parameters<typeof original>[1],
+        ): ReturnType<typeof original> => {
+          const actual = original(world, input);
+          return input.decisionType === "people.promise-renegotiation"
+            ? { ...actual, outcomeKind: "undecided", selectedOptionKey: null }
+            : actual;
+        },
+      );
+    const input = {
+      personId: seed.player,
+      counterpartPersonId: seed.counterpart,
+      requestEventId: seed.requestEventId,
+      revisionId: "more-time",
+    };
+    const pending = decidePromiseRenegotiation(seed.world, input);
+    expect(
+      spy.mock.calls.some(
+        ([, packet]: Parameters<typeof original>) =>
+          packet.decisionType === "people.promise-renegotiation",
+      ),
+    ).toBe(true);
+    expect(pending.outcome).toBeNull();
+    expect(pending.world.history.events).toEqual(seed.world.history.events);
+    expect(pending.world.history.knowledge).toEqual(
+      seed.world.history.knowledge,
+    );
+    const continued = deserializeWorld(serializeWorld(pending.world));
+    const repeated = decidePromiseRenegotiation(continued, input);
+    expect(repeated.outcome).toBeNull();
+    expect(repeated.world.history.events).toEqual(continued.history.events);
+    expect(repeated.world.history.knowledge).toEqual(
+      continued.history.knowledge,
+    );
+  });
+
+  it.each(["accepts-change", "needs-answer", "holds-boundary"] as const)(
+    "preserves the actual selected %s outcome",
+    (outcome: "accepts-change" | "needs-answer" | "holds-boundary") => {
+      const seed = seeds[0]!;
+      const original = decisions.evaluateDecision;
+      vi.spyOn(decisions, "evaluateDecision").mockImplementation(
+        (
+          world: Parameters<typeof original>[0],
+          input: Parameters<typeof original>[1],
+        ): ReturnType<typeof original> => {
+          const actual = original(world, input);
+          return input.decisionType === "people.promise-renegotiation"
+            ? { ...actual, outcomeKind: "selected", selectedOptionKey: outcome }
+            : actual;
+        },
+      );
+      expect(
+        decidePromiseRenegotiation(seed.world, {
+          personId: seed.player,
+          counterpartPersonId: seed.counterpart,
+          requestEventId: seed.requestEventId,
+          revisionId: "more-time",
+        }).outcome,
+      ).toBe(outcome);
+    },
+  );
 });
