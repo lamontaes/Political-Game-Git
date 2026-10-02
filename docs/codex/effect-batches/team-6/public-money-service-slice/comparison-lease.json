@@ -1,0 +1,8 @@
+{
+  "task": "Public Money & Services initial main comparison",
+  "path": "/workspace/team6-public-money-service",
+  "baseline": "a010a4ce9405baa04cdaf944aecc6bd79b4a44e4",
+  "role": "temporary read-only comparison; no install or runtime outputs",
+  "activeBuildWorkspace": "/workspace/Political-Game-Git",
+  "retirementCondition": "After the main-load comparison and published source receipt, retire only through the storage manifest/check workflow; no deletion authorized by this file."
+}

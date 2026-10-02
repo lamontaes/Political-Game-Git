@@ -10,6 +10,7 @@ import {
   type SimulationMoment,
   type World,
 } from "../simulation";
+import { recordById } from "../simulation/history-index";
 
 /**
  * The player's calendar, and the chamber's, kept apart.
@@ -97,10 +98,27 @@ function isPlayerVisibleCalendarActivity(
   world: World,
   activity: ScheduledActivityRecord,
 ): boolean {
-  // The destination's Attend control includes its journey. A commute has no
-  // scene during the trip and is not a separate calendar event.
+  // A destination's Attend control includes its commute. A requested public
+  // ride is itself the commitment, so its saved request admits that same
+  // activity to Calendar; booking alone still records no delivery.
+  const requestedRide =
+    activity.kind === "travel" &&
+    activity.sourceEntityIds.some((id) => {
+      const request = recordById(world.history.events, id);
+      return (
+        request?.type === "service.requested" &&
+        request.sequence < activity.sequence &&
+        request.participants.some(
+          ({ personId, role }) =>
+            role === "agency:service-request" &&
+            personId === activity.responsiblePersonId &&
+            activity.participantPersonIds.includes(personId),
+        )
+      );
+    });
   return (
-    activity.kind !== "travel" && !isRoutineLifePathWorkSession(world, activity)
+    (activity.kind !== "travel" || requestedRide) &&
+    !isRoutineLifePathWorkSession(world, activity)
   );
 }
 

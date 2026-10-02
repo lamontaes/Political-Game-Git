@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./TransitWorkspace.css";
 import { TransitCashSummary } from "./TransitCashSummary";
+import { PublicServiceRequestPanel } from "./PublicServiceRequestPanel";
 import {
   projectTransitWork,
   fileTransitAppropriation,
@@ -66,6 +67,7 @@ export function TransitWorkspace({
   }
   return (
     <section className="transit-workspace">
+      <PublicServiceRequestPanel world={world} onWorldChange={onWorldChange} />
       <p className="game-note">
         A service appropriation is a proposed fictional law for an explicitly
         authored standing program. It supplies spending authority after

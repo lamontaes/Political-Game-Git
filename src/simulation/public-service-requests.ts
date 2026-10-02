@@ -212,7 +212,7 @@ export function livesInServiceArea(
   return !!servedState && residenceStateKey(world, personId) === servedState;
 }
 
-function operatingPaymentPosted(
+export function operatingPaymentPosted(
   world: World,
   commitment: PublicProgramCommitmentRecord,
 ): boolean {
