@@ -10,9 +10,7 @@
     "previousGuardRun": "2 PASS / 1 FAIL;832requirements before53-row overlay;492ms"
   },
   "types": {
-    "roots": [
-      "src/simulation/governing/starting-law-required-terms.test.ts"
-    ],
+    "roots": ["src/simulation/governing/starting-law-required-terms.test.ts"],
     "dependencies": 1010,
     "diagnostics": 0,
     "result": "PASS"
@@ -26,9 +24,5 @@
     "result": "clean"
   },
   "status": "DRAFT: global testFAIL, no official Claude gate or merge",
-  "notRun": [
-    "full suite",
-    "browser",
-    "nationwide simulation activation"
-  ]
+  "notRun": ["full suite", "browser", "nationwide simulation activation"]
 }
