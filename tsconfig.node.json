@@ -40,6 +40,7 @@
     "src/source/**/*.ts",
     "tests/e2e/**/*.ts",
     "tests/support/random-place.ts",
+    "tests/support/recorded-civic-journalist.ts",
     "tests/fixtures/**/*.ts",
     "tests/release/**/*.ts",
     "tests/source/**/*.ts",

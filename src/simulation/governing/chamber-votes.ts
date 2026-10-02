@@ -1,4 +1,5 @@
-import { considerationScore, evaluateDecision } from "../decisions";
+import { considerationScore } from "../decisions";
+import { decideMemberVote } from "./member-vote-decision";
 import {
   ARTICLE_V_STATE_KEYS,
   constitutionalEntityAvailableAt,
@@ -206,17 +207,28 @@ export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
   readonly nonpartisan?: boolean;
 }
 
-export interface ChamberNominationVoteInput extends ChamberVoteCommonInput {
+interface ChamberNominationVoteCommonInput extends ChamberVoteCommonInput {
   readonly kind: "nomination";
   readonly nominationEventId: EntityId;
   readonly nomineeId: EntityId;
-  readonly presidentId: EntityId;
   readonly officeKey: string;
   readonly considerationsByMember: ReadonlyMap<
     string,
     readonly DecisionConsideration[]
   >;
 }
+
+export type ChamberNominationVoteInput = ChamberNominationVoteCommonInput &
+  (
+    | { readonly nominationKind?: "judicial"; readonly presidentId: EntityId }
+    | {
+        readonly nominationKind: "clemency-board";
+        readonly appointerId: EntityId;
+        readonly jurisdictionId: EntityId;
+        readonly boardKey: string;
+        readonly seatOrdinal: number;
+      }
+  );
 
 interface ChamberConstitutionalVoteCommonInput extends ChamberVoteCommonInput {
   readonly kind: "constitutional";
@@ -542,6 +554,58 @@ function nominationVoteContext(
   const event = world.history.events.find(
     (row) => row.id === input.nominationEventId,
   );
+  if (input.nominationKind === "clemency-board") {
+    const traceTag = event?.tags.find((tag) =>
+      tag.startsWith("appointment-decision:"),
+    );
+    const traceId = traceTag?.slice("appointment-decision:".length);
+    const trace = world.history.decisionTraces.find(
+      (row) => row.id === traceId,
+    );
+    if (
+      !event ||
+      event.recordedAt > world.currentDate ||
+      event.occurredAt > world.currentDate ||
+      event.type !== "justice.clemency-board-nominated" ||
+      event.jurisdictionId !== input.jurisdictionId ||
+      !world.jurisdictions[input.jurisdictionId] ||
+      !world.people[input.appointerId] ||
+      !world.people[input.nomineeId] ||
+      !Number.isInteger(input.seatOrdinal) ||
+      input.seatOrdinal < 1 ||
+      input.officeKey !== `${input.boardKey}:seat:${input.seatOrdinal}` ||
+      !event.tags.includes(`board-key:${input.boardKey}`) ||
+      !event.tags.includes(`seat:${input.seatOrdinal}`) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:appointer" && row.personId === input.appointerId,
+      ) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:nominee" && row.personId === input.nomineeId,
+      ) ||
+      !trace ||
+      trace.sequence >= event.sequence ||
+      trace.recordedAt > event.recordedAt ||
+      trace.context.actorPersonId !== input.appointerId ||
+      trace.selectedOptionKey !== `person:${input.nomineeId}`
+    )
+      throw new Error(
+        "A board confirmation requires its actual dated nomination, appointer decision, nominee, jurisdiction and seat.",
+      );
+    return {
+      subject: {
+        kind: "context:clemency-board-nomination",
+        key: event.stableKey,
+        entityId: event.id,
+      },
+      committee: null,
+      memberInputs: (member) => ({
+        views: input.considerationsByMember.get(member.memberKey) ?? [],
+        cues: [],
+      }),
+    };
+  }
   const chief = input.officeKey === "us-chief-justice";
   if (
     !event ||
@@ -889,7 +953,7 @@ export function decideChamberVote(
         disposition: "present-not-voting",
         reason: "member:no-reason",
       };
-    const evaluation = evaluateDecision(world, {
+    const { evaluation, disposition } = decideMemberVote(world, {
       stableKey: `${input.stableKey}:${member.memberKey}:decision`,
       decisionType: "legislation.member-vote",
       actorPersonId: member.personId!,
@@ -912,12 +976,7 @@ export function decideChamberVote(
     return {
       memberKey: member.memberKey,
       personId: member.personId,
-      disposition:
-        selected === "vote-yea"
-          ? "yea"
-          : selected === "vote-nay"
-            ? "nay"
-            : "present-not-voting",
+      disposition,
       reason: decisive
         ? decisive.sourceType === "belief:formed-position" &&
           decisive.sourceRefs[0]?.kind === "private-belief"

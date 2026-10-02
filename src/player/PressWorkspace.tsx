@@ -22,7 +22,6 @@ import {
   publishPressInterview,
   projectPitchablePressBases,
   projectPressReachSnapshot,
-  seekCivicPressContact,
   type EntityId,
   type World,
 } from "../simulation";
@@ -279,16 +278,7 @@ export function PressWorkspace({
             is optional unless you ask one to prepare you.
           </p>
           {reach.journalistCount === 0 ? (
-            <p>
-              No current journalism role is recorded in this life.
-              <button
-                type="button"
-                data-testid="press-seek-reporter"
-                onClick={() => change(() => seekCivicPressContact(world).world)}
-              >
-                Look for a reporter covering public affairs
-              </button>
-            </p>
+            <p>No current journalism role is recorded in this life.</p>
           ) : null}
           <form
             onSubmit={(event) => {
