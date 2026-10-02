@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { authoredWageTerm } from "../fixtures/authored-wage-term";
 
 import {
   generateOpeningLife,
@@ -22,10 +23,9 @@ import {
   payTownPaydays,
   type TownPayPeriod,
 } from "../../src/simulation/living-world/town-pay";
-import { TOWN_MINIMUM_WAGES } from "../../src/simulation/living-world/town-pay.generated";
 import {
   FEDERAL_MINIMUM_HOURLY_MINOR,
-  FEDERAL_RAISE_PLACEHOLDER,
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   federalMinimumSchedule,
   minimumHourlyAt,
 } from "../../src/simulation/minimum-wage";
@@ -33,32 +33,14 @@ import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-el
 import { recordWorkStatus } from "../../src/simulation/life";
 import { workStatusAt } from "../../src/simulation/life-queries";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
-import {
-  recordWorldEvent,
-  withWorldIntegrityDeferred,
-} from "../../src/simulation/world";
-import type {
-  EntityId,
-  IsoDate,
-  LegislativeEnactmentRecord,
-  LegislativeMeasureRecord,
-  World,
-} from "../../src/simulation";
+import { withWorldIntegrityDeferred } from "../../src/simulation/world";
+import type { EntityId, IsoDate, World } from "../../src/simulation";
 
 const NASHVILLE = "4752006";
 const POLICY = createProductionPolicyCatalog();
-const RAISE_QUESTION = POLICY.propositionOrder.find(
-  (id) =>
-    POLICY.propositions[id]!.stableKey ===
-    "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
-)!;
+const ADOPTED_FLOOR_MINOR = 1500;
 
-/**
- * A Nashville game in which Congress has answered "should the federal minimum
- * wage go up?" yes, in force `effectiveInDays` after the game opens. The Act
- * is recorded the way the legislative route records one; it carries no
- * dollar figure, so the raise is the marked placeholder rate.
- */
+/** Authored adopted-text control, not a proof of passage through Congress. */
 function nashvilleWithFederalRaise(effectiveInDays: number) {
   const game = generateOpeningLife(
     prepareOpeningLife({
@@ -70,80 +52,27 @@ function nashvilleWithFederalRaise(effectiveInDays: number) {
     }),
   ).game!;
   const opened = game.world.currentDate;
-  const nashville = lifePlaceByKey(NASHVILLE)!.context.jurisdiction;
-  const recorded = recordWorldEvent(game.world, {
-    stableKey: "event:test:federal-wage:enacted",
-    type: "legislation.measure-enacted",
-    occurredAt: opened,
-    recordedAt: opened,
-    jurisdictionId: nashville.id,
-    involvedEntityIds: [game.playerPersonId],
-    participants: [],
-    personFactConstraints: [],
-    visibility: "public",
-    tags: ["legislation", "legislation.enacted"],
-    summary: "H.R. 1 became law.",
-    context: {
-      location: {
-        jurisdictionId: nashville.id,
-        label: nashville.name,
-        setting: null,
-      },
-      socialContext: "The measure completed every required step.",
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
+  const effectiveAt = addDays(opened, effectiveInDays);
+  const world = authoredWageTerm(
+    { ...game.world, policyCatalog: POLICY },
+    {
+      key: "test:federal-wage",
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+      answer: "yes",
+      effectiveAt,
+      designation: "H.R. 1",
+      termKey: "floor",
+      amountMinor: ADOPTED_FLOOR_MINOR,
     },
-  });
-  const measure: LegislativeMeasureRecord = {
-    id: "measure_federal_wage" as EntityId,
-    stableKey: "test:federal-wage",
-    sequence: 1,
-    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-    rulePackId: "us-congress-v1",
-    designation: "H.R. 1",
-    shortTitle: "Raise the federal minimum wage",
-    summary: "A test Act.",
-    origin: "member-introduction",
-    subjectClass: "general-policy",
-    originChamberKey: "house",
-    sponsorPersonId: null,
-    introducedAt: opened,
-    sourceDocumentKey: null,
-    policyAlternativeIds: [],
-    propositionIds: [RAISE_QUESTION],
-    propositionAnswers: [{ propositionId: RAISE_QUESTION, answer: "yes" }],
+  );
+  return {
+    world,
+    baseline: { ...game.world, policyCatalog: POLICY },
+    opened,
+    effectiveAt,
+    measureId: world.history.legislativeMeasures!.at(-1)!.id,
   };
-  const enactment: LegislativeEnactmentRecord = {
-    id: "enactment_federal_wage" as EntityId,
-    stableKey: "test:federal-wage:enactment",
-    sequence: 1_000_001,
-    measureId: measure.id,
-    resolvedAt: opened,
-    outcome: "enacted",
-    actDesignation: null,
-    effectiveAt: addDays(opened, effectiveInDays),
-    outcomeEventId: recorded.history.events.find(
-      (event) => event.stableKey === "event:test:federal-wage:enacted",
-    )!.id,
-  };
-  const world = {
-    ...recorded,
-    policyCatalog: POLICY,
-    history: {
-      ...recorded.history,
-      legislativeMeasures: [
-        ...(recorded.history.legislativeMeasures ?? []),
-        measure,
-      ],
-      legislativeEnactments: [
-        ...(recorded.history.legislativeEnactments ?? []),
-        enactment,
-      ],
-    },
-  } as World;
-  return { world, opened, effectiveAt: enactment.effectiveAt! };
 }
 
 /** Runs the payday transition on every payday from the game's opening. */
@@ -197,17 +126,25 @@ function firstPeriodStart(cadenceKind: string, date: IsoDate): IsoDate {
 
 describe("the federal minimum wage is the floor everywhere", () => {
   it("is $7.25 until an Act raises it, then the raise, and never below a state's own rate", () => {
-    const { world, opened, effectiveAt } = nashvilleWithFederalRaise(45);
-    expect(federalMinimumSchedule(world).map((step) => step.from)).toEqual([
+    const { world, baseline, opened, effectiveAt } =
+      nashvilleWithFederalRaise(45);
+    expect(federalMinimumSchedule(world)).toEqual([]);
+    const operative = { ...world, currentDate: effectiveAt };
+    expect(federalMinimumSchedule(operative).map((step) => step.from)).toEqual([
       effectiveAt,
     ]);
     const nashville = lifePlaceByKey(NASHVILLE)!.context.jurisdiction.id;
     expect(minimumHourlyAt(world, nashville, opened)).toBe(7.25);
-    expect(minimumHourlyAt(world, nashville, addDays(effectiveAt, -1))).toBe(
-      7.25,
-    );
-    expect(minimumHourlyAt(world, nashville, effectiveAt)).toBe(
-      FEDERAL_RAISE_PLACEHOLDER.hourlyMinor / 100,
+    const lastDayBeforeLaw = addDays(effectiveAt, -1);
+    expect(
+      minimumHourlyAt(
+        { ...world, currentDate: lastDayBeforeLaw },
+        nashville,
+        lastDayBeforeLaw,
+      ),
+    ).toBe(7.25);
+    expect(minimumHourlyAt(operative, nashville, effectiveAt)).toBe(
+      ADOPTED_FLOOR_MINOR / 100,
     );
     // All 56 places: the higher of the raise and the state's own rate; a
     // state whose rate is unknown stays unknown (never zero, never the raise).
@@ -217,12 +154,16 @@ describe("the federal minimum wage is the floor everywhere", () => {
         stateJurisdictionKey: state.jurisdictionKey,
       }).find((place) => place.scope !== "state")!;
       const jurisdiction = town.context.jurisdiction.id;
-      const own = TOWN_MINIMUM_WAGES[state.jurisdictionKey];
-      const floor = minimumHourlyAt(world, jurisdiction, effectiveAt);
+      const own = minimumHourlyAt(
+        { ...baseline, currentDate: effectiveAt },
+        jurisdiction,
+        effectiveAt,
+      );
+      const floor = minimumHourlyAt(operative, jurisdiction, effectiveAt);
       if (own === null) expect(floor, state.jurisdictionKey).toBeNull();
       else
         expect(floor, state.jurisdictionKey).toBe(
-          Math.max(15, own ?? FEDERAL_MINIMUM_HOURLY_MINOR / 100),
+          Math.max(ADOPTED_FLOOR_MINOR / 100, own!),
         );
       places += 1;
     }
@@ -232,33 +173,19 @@ describe("the federal minimum wage is the floor everywhere", () => {
   it("a law that repeals the raise ends the floor and cuts nobody's pay", () => {
     const { world, effectiveAt } = nashvilleWithFederalRaise(45);
     const repeal = addDays(effectiveAt, 200);
-    const measure = {
-      ...world.history.legislativeMeasures!.at(-1)!,
-      id: "measure_repeal" as EntityId,
-      stableKey: "test:repeal",
-      sequence: 2,
-      designation: "H.R. 2",
-      propositionAnswers: [{ propositionId: RAISE_QUESTION, answer: "no" }],
-    } as LegislativeMeasureRecord;
-    const later = {
-      ...world,
-      history: {
-        ...world.history,
-        legislativeMeasures: [...world.history.legislativeMeasures!, measure],
-        legislativeEnactments: [
-          ...world.history.legislativeEnactments!,
-          {
-            ...world.history.legislativeEnactments!.at(-1)!,
-            id: "enactment_repeal" as EntityId,
-            stableKey: "test:repeal:enactment",
-            sequence: 1_000_002,
-            measureId: measure.id,
-            resolvedAt: effectiveAt,
-            effectiveAt: repeal,
-          },
-        ],
+    const later = authoredWageTerm(
+      { ...world, currentDate: repeal },
+      {
+        key: "test:federal-wage-repeal",
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+        answer: "no",
+        effectiveAt: repeal,
+        designation: "H.R. 2",
+        termKey: "floor",
+        amountMinor: FEDERAL_MINIMUM_HOURLY_MINOR,
       },
-    } as World;
+    );
     const nashville = lifePlaceByKey(NASHVILLE)!.context.jurisdiction.id;
     expect(minimumHourlyAt(later, nashville, addDays(repeal, -1))).toBe(15);
     expect(minimumHourlyAt(later, nashville, repeal)).toBe(7.25);
@@ -274,6 +201,7 @@ describe(
         world: enacted,
         opened,
         effectiveAt,
+        measureId,
       } = nashvilleWithFederalRaise(45);
       const world = runPaydays(enacted, opened, 100);
       const payFlows = world.history.resourceFlows.filter((flow) =>
@@ -304,7 +232,7 @@ describe(
           expect.arrayContaining([
             expect.objectContaining({
               effectKind: "pay",
-              governingLawKey: "measure_federal_wage",
+              governingLawKey: measureId,
               source: "enacted",
             }),
           ]),
