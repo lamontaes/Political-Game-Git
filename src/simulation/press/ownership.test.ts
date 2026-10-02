@@ -12,11 +12,11 @@ import {
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import type { EntityId, World } from "../types";
 import { resourcePositionAt } from "../resource-queries";
+import { reporterWorkBudget } from "./story-work";
 import { createResourcePosition, makeCurrencyCode, money } from "../resources";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
   DEFAULT_MEDIA_OWNERSHIP_PACK,
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
   assignStory,
   latestDisposition,
@@ -314,7 +314,13 @@ describe("media owners", () => {
       ),
     ).toEqual([]);
     for (const outlet of held) {
-      const full = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
+      const full = reporterRoles(owned, outlet.id)
+        .filter((role) => reporterIsCurrent(owned, role))
+        .reduce(
+          (minutes, role) =>
+            minutes + reporterWorkBudget(owned, role)!.availableMinutes.minimum,
+          0,
+        );
       expect(outletAssignmentCapacity(after, outlet)).toBe(full);
       expect(outletAssignmentCapacity(owned, outlet)).toBe(full);
     }
