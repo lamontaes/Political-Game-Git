@@ -45,13 +45,6 @@ import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
  * Housing keeps its existing separate contract writers. Old payments are immutable.
  */
 
-/**
- * Interpret the rent-included label on old authored charge records only.
- * This is not an amount used to open or migrate a charge. New terms use the
- * representative BLS basket; actual lease/mortgage writers settle housing.
- */
-const LEGACY_RENT_INCLUDED_MINIMUM_MINOR = 150_000;
-
 export const LIVING_COSTS_BASIS = "custom:living-costs" as const;
 export const HOUSEHOLD_SHORTFALL_TAG = "life.opportunity:household-shortfall";
 const SHORTFALL_ANSWER = "adult.household-money-shortfall";
@@ -503,12 +496,6 @@ function settleMonth(
   // A current reader cannot revive an ended or suspended bill for an old due day.
   if (!periodTerms || periodTerms.status !== "active") return world;
   const monthly = periodTerms.amount;
-  // The old authored $1,500+ basket included housing. A sourced nonhousing
-  // basket is never labeled rent merely because its dollar amount is higher.
-  const renting =
-    flow.source.kind === "person" &&
-    periodTerms.provenance.kind === "authored" &&
-    monthly.minorUnits >= LEGACY_RENT_INCLUDED_MINIMUM_MINOR;
   // The lowest balance from the day the month fell due to today. A long quiet
   // stretch is settled late, and a charge backdated to its due day must not
   // take money that something dated after it (tuition, say) already spent.
@@ -546,21 +533,12 @@ function settleMonth(
     attemptedAmount: monthly,
     transferredAmount: money(paid, monthly.currency),
     reasonKind: status === "completed" ? null : "capacity:insufficient-funds",
-    note: renting
-      ? `Rent, food and bills for ${monthName(dueOn)}.`
-      : `Food and bills for ${monthName(dueOn)}.`,
+    note: `Food and bills for ${monthName(dueOn)}.`,
     provenance: periodTerms.provenance,
   });
   return status === "completed"
     ? next
-    : recordFirstShortfall(
-        next,
-        personId,
-        monthly.minorUnits,
-        paid,
-        dueOn,
-        renting,
-      );
+    : recordFirstShortfall(next, personId, monthly.minorUnits, paid, dueOn);
 }
 
 /**
@@ -577,9 +555,8 @@ function recordFirstShortfall(
   owedMinor: number,
   paidMinor: number,
   dueOn: IsoDate,
-  renting: boolean,
 ): World {
-  const costs = renting ? "rent, food and bills" : "food and bills";
+  const costs = "food and bills";
   const already = world.history.events.some(
     (event) =>
       event.involvedEntityIds.includes(personId) &&
