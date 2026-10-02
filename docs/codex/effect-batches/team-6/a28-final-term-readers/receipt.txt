@@ -1,0 +1,33 @@
+A28 final adopted federal terms — receiving checkpoint
+Donor95a51d183bc5ca2225655ef907ec4a2cc3e08c43 from health owner.
+Four source readers + existing changedtest + release preserved exactly.
+Current-mainf65aabb351062163088f78784d436642ce1af0b9 received without
+conflict as9604bd7ed782573ae0e1fba0224dbef2de4af5fd. No original source
+semantics changed during receiving. Root archived treasury/A15 untouched.
+
+Complete changed federal-final-bill-terms.test.ts15/15PASS15.12seconds,
+13ms bodies,28317exit0; one worker/stocklimits. Owner cloudstorage override
+used. Health original15/15PASS12.23s remains separate reported evidence.
+Strict5changedroots1006importedfiles0diagnostics,9158exit0.
+Five-file ESLintPASS, six-filePrettierPASS, parent-range whitespacePASS.
+Exact release transition recorded in PR publication.
+
+AUDIT A28 currentmain5/11 -> branch10/11 (coverage part).
+Five flipped checks: adopted debt offset and foreign-aid amount replace
+historical deal amounts; defense removes research growth ramp and reads
+final adopted terms; rail removes the old ridership projection.
+One remaining check: farmData.typicalCut.share compatibility export.
+Root owns archived treasury consumer/A15, and has NOT released that seam.
+Do not remove/rename the export or count this as full A28 completion.
+No audit rules changed. Current-main/branch scans performed once for
+receiving; no fullsuite/unchangedLOAD/globaltypes or officialClaudeGATE.
+
+Survivor: federalLawAmountAt -> existing dated lawInForce and final adopted
+numeric term query, including starting terms. Catalog annual dollars:
+debt offset; foreignaid/defense/rail appropriation; farm per-recipient cap.
+Defense requires actual complete contiguous12month saved spending base.
+Missing recipients/payments, dollarGDP, state allocation or rail delivery
+conversion remain unsupported. Funding is not delivered riders or service
+hours. No new account/payment writer, research rates or forecast outcome.
+Root A15 financial producer receives capDollarsPerRecipient and lawMeasureId;
+cutShare remains null with no actual aggregate recipient-payment basis.
