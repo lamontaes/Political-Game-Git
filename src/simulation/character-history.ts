@@ -901,10 +901,9 @@ function drawnAdultFamily(
     jurisdictionId,
     corpusVersion,
     taken,
-    generated,
   }: AdultFamilyInput,
 ): AdultFamily {
-  const shape = drawFamilyShape(world.seed, key);
+  const shape = drawFamilyShape(world, key);
   const first = world.people[firstParent]!;
   const firstGender = first.identity?.gender;
   const secondParentKey = `${key}:second-parent`;
@@ -984,6 +983,8 @@ function drawnAdultFamily(
     let sideFamilyName: string | null =
       side === namingSide ? player.familyName : null;
     for (const [slot, gender] of (["female", "male"] as const).entries()) {
+      const grandparentAge = shape.grandparentAgesAtBirth[side]![slot];
+      if (grandparentAge === null || grandparentAge === undefined) continue;
       const stableKey = `${key}:grandparent:${side + 1}:${slot + 1}`;
       grandparentKeys.push({ stableKey, side });
       const drawn = drawCloseRelativeName(
@@ -999,10 +1000,7 @@ function drawnAdultFamily(
         ...drawn,
         familyName: sideFamilyName,
         identity: { gender, pronouns: defaultPronounsForGender(gender) },
-        birthDate: yearsBefore(
-          parentBirth,
-          shape.grandparentAgesAtBirth[side]![slot]!,
-        ),
+        birthDate: yearsBefore(parentBirth, grandparentAge),
         homeJurisdictionId: jurisdictionId,
       });
     }
@@ -1033,7 +1031,10 @@ function drawnAdultFamily(
       personIds,
       establishedAt,
       kind,
-      provenance: generated,
+      provenance: {
+        kind: "authored",
+        note: `${shape.estimate.note} Comparable people: ${shape.estimate.samples.map((row) => row.personId).join(", ")}; kinships: ${shape.estimate.samples.flatMap((row) => row.kinshipIds).join(", ")}.`,
+      },
     });
   };
   if (secondParentId !== null)
