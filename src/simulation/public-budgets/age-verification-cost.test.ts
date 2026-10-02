@@ -168,7 +168,7 @@ describe("age-verification without an appropriation or actual hires produces no 
           propositionIds: [cannabis.id],
           propositionAnswers: [{ propositionId: cannabis.id, answer: "no" }],
         };
-        const together = enactCostLawFixture(world, ban, {
+        const together = enactCostLawFixture(base, [measure, ban], {
           effectiveAt: date,
         }).world;
         const onlyBanFixture = enactCostLawFixture(base, ban, {

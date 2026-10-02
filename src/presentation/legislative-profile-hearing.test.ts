@@ -22,6 +22,7 @@ import {
   measureActions,
   measurePosition,
   referMeasure,
+  replayMeasure,
 } from "../simulation/legislation";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
 import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
@@ -420,4 +421,76 @@ describe("cost fixture filing and operative dates", () => {
     ).toThrow(/no filing opportunity before/);
     expect(serializeWorld(second.world)).toBe(before);
   });
+});
+
+describe("cost fixture shared filing clock", () => {
+  it.each([...new Set([...sampled, "US-WA"])])(
+    "%s files both laws together and keeps the age-only baseline independent",
+    (stateKey) => {
+      const { base, input, effectiveAt } = costChronologyFixture(stateKey);
+      const bytes = serializeWorld(base);
+      const privacy = Object.values(base.policyCatalog.propositions).find(
+        (row) =>
+          row.stableKey ===
+          "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      )!;
+      const second: LegislativeMeasureRecord = {
+        ...input,
+        stableKey: `${input.stableKey}:privacy`,
+        designation: "HB privacy chronology",
+        propositionIds: [privacy.id],
+        propositionAnswers: [{ propositionId: privacy.id, answer: "yes" }],
+      };
+      const ageOnly = enactCostLawFixture(base, input, { effectiveAt });
+      const combined = enactCostLawFixture(base, [input, second], {
+        effectiveAt,
+      });
+      expect(combined.measures).toHaveLength(2);
+      expect(new Set(combined.measures.map((measure) => measure.id)).size).toBe(
+        2,
+      );
+      expect(combined.measures.map((measure) => measure.introducedAt)).toEqual([
+        ageOnly.measure.introducedAt,
+        ageOnly.measure.introducedAt,
+      ]);
+      expect(ageOnly.world.history.legislativeMeasures).toHaveLength(1);
+      expect(combined.world.history.legislativeMeasures).toHaveLength(2);
+      expect(combined.world.currentDate).toBe(ageOnly.world.currentDate);
+      expect(combined.world.control).toEqual(base.control);
+      const pack = legislativeRulePackForWorld(base, input.rulePackId);
+      const close = sessionClosesOn(
+        base,
+        pack,
+        Number(input.introducedAt.slice(0, 4)),
+      );
+      const hearingDates = combined.measures.map((measure) => {
+        expect(measurePosition(combined.world, measure.id).phase).toBe(
+          "enacted",
+        );
+        expect(replayMeasure(combined.world, measure.id).violations).toEqual(
+          [],
+        );
+        expect(
+          combined.world.history.legislativeEnactments!.find(
+            (row) => row.measureId === measure.id,
+          )?.effectiveAt,
+        ).toBe(effectiveAt);
+        const actions = measureActions(combined.world, measure.id).filter(
+          (row) => row.kind === "committee-hearing-held",
+        );
+        expect(actions).toHaveLength(pack.chambers.length);
+        if (close !== null)
+          for (const action of actions)
+            expect(action.occurredAt <= close).toBe(true);
+        return actions.map((action) => action.occurredAt);
+      });
+      expect(hearingDates[1]).toEqual(hearingDates[0]);
+      const continued = deserializeWorld(serializeWorld(combined.world));
+      for (const measure of combined.measures)
+        expect(measurePosition(continued, measure.id)).toEqual(
+          measurePosition(combined.world, measure.id),
+        );
+      expect(serializeWorld(base)).toBe(bytes);
+    },
+  );
 });
