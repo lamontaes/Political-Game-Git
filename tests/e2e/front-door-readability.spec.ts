@@ -259,7 +259,6 @@ test.describe("The front door stays compact and readable over the room", () => {
       givenName: "Alexandrina-Therese",
       familyName: "Montgomery-Westmoreland",
       place: place.displayName,
-      state: place.withinName,
     });
     await enterLife(page);
     await goTo(page, "keep-world");
