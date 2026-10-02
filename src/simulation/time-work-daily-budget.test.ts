@@ -10,6 +10,7 @@ import {
   advanceWorldMinutes,
   createScheduledActivity,
   createWorkItem,
+  savedStaffDayUsage,
   workItemState,
 } from "./time-work";
 import {
@@ -128,6 +129,88 @@ describe.each(places)(
         workItemState(advanceWorldMinutes(finished, 60), created.id)
           .completedEffortMinutes,
       ).toBe(120);
+    });
+
+    it("does not leak later saved labor into an earlier snapshot sharing the arrays", () => {
+      const f = fixture();
+      const created = task(
+        f.world,
+        f.reporter.personId,
+        f.reporter.workRelationshipId,
+        "cutoff-cache",
+      );
+      const later = advanceWorldMinutes(created.world, 75);
+      const total = (world: World) =>
+        [...savedStaffDayUsage(world).values()].reduce(
+          (sum, minutes) => sum + minutes,
+          0,
+        );
+      expect(total(later)).toBe(75);
+      // Read-only historical view, not a world offered to a mutation writer.
+      const earlier = {
+        ...later,
+        currentDate: created.world.currentDate,
+        currentMoment: created.world.currentMoment,
+      };
+      expect(earlier.history.workItemStates).toBe(later.history.workItemStates);
+      expect(earlier.history.workItems).toBe(later.history.workItems);
+      expect(total(earlier)).toBe(0);
+      expect(total(later)).toBe(75);
+    });
+
+    it("keeps the saved sequence frontier in the cache identity", () => {
+      const f = fixture();
+      const created = task(
+        f.world,
+        f.reporter.personId,
+        f.reporter.workRelationshipId,
+        "sequence-cache",
+      );
+      const later = advanceWorldMinutes(created.world, 75);
+      const progress = workItemState(later, created.id);
+      const total = (world: World) =>
+        [...savedStaffDayUsage(world).values()].reduce(
+          (sum, minutes) => sum + minutes,
+          0,
+        );
+      expect(total(later)).toBe(75);
+      const earlier = {
+        ...later,
+        history: { ...later.history, nextSequence: progress.sequence },
+      };
+      expect(earlier.history.workItemStates).toBe(later.history.workItemStates);
+      expect(total(earlier)).toBe(0);
+      expect(total(later)).toBe(75);
+    });
+
+    it("does not reuse a labor binding from another relationship snapshot", () => {
+      const f = fixture();
+      const created = task(
+        f.world,
+        f.reporter.personId,
+        f.reporter.workRelationshipId,
+        "relationship-cache",
+      );
+      const later = advanceWorldMinutes(created.world, 75);
+      const total = (world: World) =>
+        [...savedStaffDayUsage(world).values()].reduce(
+          (sum, minutes) => sum + minutes,
+          0,
+        );
+      expect(total(later)).toBe(75);
+      const missing = {
+        ...later,
+        history: {
+          ...later.history,
+          workRelationships: later.history.workRelationships.filter(
+            (work) => work.id !== f.reporter.workRelationshipId,
+          ),
+        },
+      };
+      expect(missing.history.workItemStates).toBe(later.history.workItemStates);
+      expect(missing.history.workItems).toBe(later.history.workItems);
+      expect(total(missing)).toBe(0);
+      expect(total(later)).toBe(75);
     });
 
     it("checkpoints each date and matches short-advance effort after reload", () => {

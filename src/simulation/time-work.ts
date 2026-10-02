@@ -1694,6 +1694,9 @@ const STAFF_DAY_USAGE = new WeakMap<
   readonly WorkItemStateRecord[],
   {
     readonly items: readonly WorkItemRecord[];
+    readonly relationships: World["history"]["workRelationships"];
+    readonly momentEpochMinute: number;
+    readonly historySequenceExclusive: number;
     readonly minutes: Map<string, number>;
   }
 >();
@@ -1706,10 +1709,18 @@ function staffDayKey(
   return `${personId}:${engagementId}:${date}`;
 }
 
-function savedStaffDayUsage(world: World): Map<string, number> {
+/** Read-only saved labor ledger; callers receive a defensive copy. */
+export function savedStaffDayUsage(world: World): Map<string, number> {
   const states = world.history.workItemStates;
   const cached = STAFF_DAY_USAGE.get(states);
-  if (cached?.items === world.history.workItems) return new Map(cached.minutes);
+  const momentEpochMinute = simulationMomentEpochMinute(world.currentMoment);
+  if (
+    cached?.items === world.history.workItems &&
+    cached.relationships === world.history.workRelationships &&
+    cached.momentEpochMinute === momentEpochMinute &&
+    cached.historySequenceExclusive === world.history.nextSequence
+  )
+    return new Map(cached.minutes);
   const items = new Map(world.history.workItems.map((item) => [item.id, item]));
   const engagements = new Map(
     world.history.workRelationships.map((work) => [work.id, work]),
@@ -1747,7 +1758,13 @@ function savedStaffDayUsage(world: World): Map<string, number> {
       minutes.set(key, (minutes.get(key) ?? 0) + delta);
     }
   }
-  STAFF_DAY_USAGE.set(states, { items: world.history.workItems, minutes });
+  STAFF_DAY_USAGE.set(states, {
+    items: world.history.workItems,
+    relationships: world.history.workRelationships,
+    momentEpochMinute,
+    historySequenceExclusive: world.history.nextSequence,
+    minutes,
+  });
   return new Map(minutes);
 }
 
