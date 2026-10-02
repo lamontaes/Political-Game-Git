@@ -61,7 +61,7 @@ function eligibility(
 
 describe("one recorded office-age route across all places", () => {
   it("includes every newly sourced missing office in the date-bound proof", () => {
-    expect(datedAgeOffices).toHaveLength(12);
+    expect(datedAgeOffices).toHaveLength(16);
   });
   it.each(datedAgeOffices)(
     "enforces $office.officeKey from its own sourced age and refuses unproved history",
@@ -153,11 +153,19 @@ function profileFixture() {
     const pack = candidacyPackForJurisdiction(
       small.world.people[small.personId]!.homeJurisdictionId,
     );
-    const office = pack?.offices.find(
-      (row) =>
+    const office = pack?.offices.find((row) => {
+      const family = officeFamilyForChamberKey(
+        row.officeKey.split(":").at(-1)!,
+      );
+      // Synthetic rule tests need an office without an overriding settled row.
+      return (
         row.qualification.minimumAge.kind === "known" &&
-        row.qualification.minimumAge.source.verification === "game-profile",
-    );
+        row.qualification.minimumAge.source.verification === "game-profile" &&
+        (family === null ||
+          settledQualification(place.jurisdictionKey, "MINIMUM_AGE", family) ===
+            null)
+      );
+    });
     if (pack && office) return { ...small, pack, office };
   }
   throw new Error("No existing profile office with a recorded age.");
