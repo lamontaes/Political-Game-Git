@@ -1,0 +1,80 @@
+[
+  {
+    "artifactId": "nm-constitution",
+    "requestedUrl": "https://www.nmlegis.gov/Publications/New_Mexico_State_Government/Constitution_of_New_Mexico.pdf",
+    "retrievedAt": "2026-10-02T11:42:53.683413+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "ny-article-xvi",
+    "requestedUrl": "https://www.nysenate.gov/legislation/laws/CNS/A16",
+    "retrievedAt": "2026-10-02T11:42:53.684131+00:00",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "artifactId": "ri-constitution",
+    "requestedUrl": "https://www.rilegislature.gov/riconstitution/Constitution/ConstFull.aspx",
+    "retrievedAt": "2026-10-02T11:42:53.684623+00:00",
+    "url": "https://www.rilegislature.gov/riconstitution/Constitution/ConstFull.aspx",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 536585,
+    "sha256": "19b5883dd5bfcb874d596591d5bf4948166627125ea88128be58b2fc91ee2203",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/ri-constitution.html"
+  },
+  {
+    "artifactId": "sc-constitution",
+    "requestedUrl": "https://www.scstatehouse.gov/scconstitution/SCConstitution.pdf",
+    "retrievedAt": "2026-10-02T11:42:54.020839+00:00",
+    "url": "https://www.scstatehouse.gov/scconstitution/SCConstitution.pdf",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 456950,
+    "sha256": "45eb1157cc86e916c0e5c2f0bca016e54b393aeba7c926f9be78f4cd95fbe8b2",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/sc-constitution.pdf"
+  },
+  {
+    "artifactId": "sd-article-xi-14",
+    "requestedUrl": "https://sdlegislature.gov/Constitution/11-14",
+    "retrievedAt": "2026-10-02T11:42:54.082927+00:00",
+    "url": "https://sdlegislature.gov/Constitution/11-14",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 5982,
+    "sha256": "a9edbc1b498215e9d958352287600be7468872c72971c59469ff30e80999506d",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/sd-article-xi-14.html"
+  },
+  {
+    "artifactId": "tn-constitution",
+    "requestedUrl": "https://www.capitol.tn.gov/about/docs/tn-constitution.pdf",
+    "retrievedAt": "2026-10-02T11:42:54.270261+00:00",
+    "url": "https://www.capitol.tn.gov/about/docs/tn-constitution.pdf",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 39985,
+    "sha256": "c5a8208e05a5b5093956993edcd2c2dc91edb6756fee0e61573d8b93d0a51f3d",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/tn-constitution.html"
+  },
+  {
+    "artifactId": "ut-article-xiii",
+    "requestedUrl": "https://le.utah.gov/xcode/ArticleXIII/Article_XIII.html",
+    "retrievedAt": "2026-10-02T11:42:54.376662+00:00",
+    "url": "https://le.utah.gov/xcode/ArticleXIII/Article_XIII.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 26633,
+    "sha256": "221bc0fa3d13c435494d4f4b9cc07813affe6b9536b37a8bf1e10f543229c41e",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/ut-article-xiii.html"
+  },
+  {
+    "artifactId": "vt-constitution",
+    "requestedUrl": "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont/",
+    "retrievedAt": "2026-10-02T11:42:54.491173+00:00",
+    "url": "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 103341,
+    "sha256": "8a2d3d15bd447093e7519f1cd6856580fb1cdda793cf42e1b1b759c71c8890c2",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/vt-constitution.html"
+  }
+]

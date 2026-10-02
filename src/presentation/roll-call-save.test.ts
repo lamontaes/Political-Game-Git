@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import {
   PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
   PACKED_WORLD_SNAPSHOT_FORMAT_VERSION,
-  PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
-  PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
+  TENDENCY_PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
+  TENDENCY_PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
   WORLD_SNAPSHOT_FORMAT_VERSION,
   createWorldSnapshot,
   deserializeWorld,
@@ -86,10 +86,11 @@ describe("roll calls in a save", () => {
   it("writes each vote as a code against a shared roster", () => {
     const stored = JSON.parse(serializeWorld(world));
     expect(stored.formatVersion).toBe(
-      PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
+      TENDENCY_PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
     );
     expect(stored.rollCalls.rosters.length).toBeGreaterThan(0);
     expect(stored.principlesPacking.persons.length).toBeGreaterThan(0);
+    expect(stored.tendenciesPacking.strings.length).toBeGreaterThan(0);
     for (const vote of stored.world.history.legislativeVotes)
       expect(Array.isArray(vote.dispositions)).toBe(false);
     expect(serializeWorld(world).length).toBeLessThan(legacy.length);
@@ -134,7 +135,7 @@ describe("roll calls in a save", () => {
   it("keeps an older browser save healthy, and its next write packs it", () => {
     const current = createBrowserWorldRecord(world, "2026-09-23T12:00:00.000Z");
     expect(current.metadata.snapshotFormatVersion).toBe(
-      PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
+      TENDENCY_PRINCIPLE_ROLL_CALL_WORLD_SNAPSHOT_FORMAT_VERSION,
     );
     const older = {
       ...current,
@@ -160,7 +161,7 @@ describe("roll calls in a save", () => {
     };
     const payload = serializeWorld(withContentPacks);
     expect(JSON.parse(payload).formatVersion).toBe(
-      PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
+      TENDENCY_PRINCIPLE_ROLL_CALL_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
     );
     const restored = readWorldSnapshot(payload);
     expect(JSON.stringify(restored.world)).toBe(
