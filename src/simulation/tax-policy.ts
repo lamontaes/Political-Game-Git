@@ -1210,6 +1210,29 @@ export function taxCollectionTransition(
         status === "collected" ? null : "capacity:tax-settlement-unavailable",
       note: reason,
       provenance: { kind: "simulated-event", eventId: payerEventId },
+      // The budget consumes the actual paid outcome, not an assessment forecast.
+      // Carry its already-saved governing law through that cash boundary.
+      ...(status === "collected" && assessment.lawEffectStamps?.length
+        ? {
+            lawEffectStamps: assessment.lawEffectStamps
+              .map((stamp) => ({
+                ...stamp,
+                effectKind: "tax-collection",
+                appliedAt: world.currentDate,
+                sourceRecordIds: [
+                  ...new Set([
+                    ...(stamp.sourceRecordIds ?? []),
+                    assessment.id,
+                    base.id,
+                    policy.id,
+                    proposal.id,
+                    flow.id,
+                  ]),
+                ],
+              }))
+              .filter(isLawEffectStamp),
+          }
+        : {}),
     });
     resourceOutcomeId = next.history.resourceTransferOutcomes.at(-1)!.id;
   }
