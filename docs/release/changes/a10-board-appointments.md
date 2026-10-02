@@ -1,6 +1,8 @@
 ---
 id: a10-board-appointments
 impact: minor
+section: Added
+title: Recorded governor choices nominate qualified clemency board members
 ---
 
 A10 / R16 first appointment stage: the opening calls the existing governor appointer decision over people the governor actually knows. A selected qualified person gets a saved public nomination pointing to the actual durable decision. A nomination does not seat anyone or supply a board vote. The shared Senate-confirmation binding is not yet available; all Senate-required nominations remain pending.
