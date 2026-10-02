@@ -10,8 +10,11 @@ import { personName } from "./people";
 
 import {
   mortgageFinancingQuote,
+  openingMortgageFinancingQuote,
   openMortgageFinancing,
 } from "./mortgage-financing";
+import { homePurchaseTerms } from "./home-purchase";
+import { homeDownPaymentShare } from "./home-down-payment";
 import {
   householdLoansOf,
   householdLoanMonthHandler,
@@ -156,6 +159,75 @@ function loanInput() {
 }
 
 describe("A53 mortgage rates are saved macro inputs", () => {
+  it("amortizes the opening home's cited principal without restarting its term", () => {
+    const terms = homePurchaseTerms(opening, home, borrowerId);
+    const down = homeDownPaymentShare(opening, "first-time");
+    expect(down.basis).toBe("sourced-opening-median");
+    const input = {
+      homePrice: money(terms.priceMinor, "USD"),
+      downPaymentShare: down.share,
+      paidMonths: 0,
+      jurisdictionId: home,
+      rateCap: null,
+    };
+    const newlyPaid = openingMortgageFinancingQuote(opening, input)!;
+    expect(newlyPaid.originalPrincipalMinor).toBe(
+      Math.round(terms.priceMinor * (1 - down.share)),
+    );
+    expect(newlyPaid.remainingPrincipalMinor).toBe(
+      newlyPaid.originalPrincipalMinor,
+    );
+    const aged = openingMortgageFinancingQuote(opening, {
+      ...input,
+      paidMonths: 120,
+    })!;
+    expect(aged.remainingTermMonths).toBe(240);
+    expect(aged.remainingPrincipalMinor).toBeGreaterThan(0);
+    expect(aged.remainingPrincipalMinor).toBeLessThan(
+      newlyPaid.originalPrincipalMinor,
+    );
+    expect(aged.monthlyPaymentMinor).toBe(
+      amortizedMonthlyPaymentMinor(
+        aged.remainingPrincipalMinor,
+        aged.annualRateBasisPoints,
+        aged.remainingTermMonths,
+      ),
+    );
+    const paidOff = openingMortgageFinancingQuote(opening, {
+      ...input,
+      paidMonths: 360,
+    })!;
+    expect(paidOff.remainingPrincipalMinor).toBe(0);
+    expect(paidOff.remainingTermMonths).toBe(0);
+    expect(paidOff.monthlyPaymentMinor).toBe(0);
+    expect(
+      openingMortgageFinancingQuote(opening, {
+        ...input,
+        paidMonths: 480,
+      }),
+    ).toEqual(paidOff);
+  });
+
+  it("refuses invalid opening age, price and share rather than inventing debt", () => {
+    const input = {
+      homePrice: principal,
+      downPaymentShare: 0.1,
+      paidMonths: 0,
+      jurisdictionId: home,
+      rateCap: null,
+    };
+    for (const changed of [
+      { paidMonths: -1 },
+      { paidMonths: 1.5 },
+      { downPaymentShare: Number.NaN },
+      { downPaymentShare: 1.01 },
+      { homePrice: money(0, "USD") },
+    ])
+      expect(
+        openingMortgageFinancingQuote(opening, { ...input, ...changed }),
+      ).toBeNull();
+  });
+
   it("adds the cited spread to the local policy midpoint before caps and shared payment", () => {
     const local = macroScopeForJurisdiction(home);
     const world = withMonths([
@@ -329,6 +401,19 @@ describe("A53 mortgage rates are saved macro inputs", () => {
       monthlyInterestMinor(principal.minorUnits, quoted.annualRateBasisPoints),
     );
     expect(charge.loanTermsId).toBe(reading.terms.id);
+    const aged = openingMortgageFinancingQuote(world, {
+      homePrice: principal,
+      downPaymentShare: 0,
+      paidMonths: 1,
+      jurisdictionId: home,
+      rateCap: null,
+    })!;
+    const afterPayment = householdLoansOf(serviced, {
+      kind: "person",
+      personId: borrowerId,
+    }).find((loan) => loan.obligation.id === reading.obligation.id)!;
+    expect(aged.remainingPrincipalMinor).toBe(afterPayment.balance!.minorUnits);
+    expect(aged.remainingTermMonths).toBe(359);
     const saved = serializeWorld(serviced);
     expect(serializeWorld(deserializeWorld(saved))).toBe(saved);
     const reopenedInput = deserializeWorld(serializeWorld(opened!));
