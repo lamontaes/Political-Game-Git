@@ -1,3 +1,4 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import {
   COUNCIL_ACT_MEASURE_TITLE,
   ORDINANCE_MEASURE_TITLE,
@@ -1031,6 +1032,7 @@ export function municipalRulePackFor(
       source: municipalRuleSourceRef(reading, "effective date"),
     },
     session: {
+      sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${reading.displayName} legislative year`,
       adjournmentRule: unknownRule(
         "No instrument read establishes an adjournment rule for this body.",

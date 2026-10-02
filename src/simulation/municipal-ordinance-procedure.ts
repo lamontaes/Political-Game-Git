@@ -1,3 +1,5 @@
+import { nextSessionCalendarDate } from "./legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 /**
  * A municipal ordinance from introduction to a recorded effective outcome.
  *
@@ -374,17 +376,29 @@ export function scheduleOrdinaryCouncilReading(
     governmentKey,
     measureId,
   )?.earliestPassageOn;
-  const tomorrow = addDays(world.currentDate, 1);
-  const dueAt = earliest && earliest > tomorrow ? earliest : tomorrow;
+  const calendar =
+    legislativeRulePackForWorld(world, measure.rulePackId).session
+      .sittingCalendar ?? LEGISLATIVE_SESSION_CALENDARS.council;
+  const dueAt = nextSessionCalendarDate(
+    calendar,
+    world.currentDate,
+    "reading",
+    {
+      notBefore: earliest ?? undefined,
+    },
+  );
+  const stableKey = `${measure.stableKey}:reading:${question.floorStageKey}:due`;
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
   return scheduleFutureDueItem(world, {
-    stableKey: `${measure.stableKey}:reading:${question.floorStageKey}:due`,
+    stableKey,
     dueAt,
     transitionKey: COUNCIL_READING_DUE,
     entityIds: [measureId],
     jurisdictionId: measure.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `The game's next ${measure.designation} council reading is set for ${dueAt}, respecting the compiled minimum interval.`,
+      note: `${calendar.id}: ${calendar.note} The game's next ${measure.designation} council reading is set for ${dueAt}, respecting the compiled minimum interval.`,
     },
   });
 }

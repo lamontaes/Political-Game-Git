@@ -1,3 +1,5 @@
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
   CONGRESS_COMMITTEE_BY_DOMAIN,
   US_CONGRESS_PACK_ID,
@@ -12,7 +14,6 @@ import {
 import { projectCongress } from "../living-world/congress";
 import type { ChamberKey } from "../living-world/contract";
 import { activePartyUnitsAt } from "../living-world/party-registry";
-import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   ensureNationalElectionJurisdiction,
@@ -257,23 +258,13 @@ const COSPONSORS_BY_MEASURE: GrowingIndexKind<Map<EntityId, EntityId[]>> = {
 export const CONGRESS_SITTING_TRANSITION = "congress:sitting" as const;
 const CONGRESS_SITTING_VERSION = "congress-sitting/v1";
 
-/**
- * PLACEHOLDER (the game's calendar, not Congress's): Congress takes up its
- * bills on Tuesdays and Thursdays. Every open bill takes its next step at a
- * sitting, together, rather than each bill keeping a date of its own; with a
- * few dozen bills open at once that is the difference between a handful of
- * clock stops a month and several dozen.
- */
-const SITTING_WEEKDAYS: readonly number[] = [2, 4];
-
-function weekday(date: IsoDate): number {
-  return new Date(`${date}T00:00:00Z`).getUTCDay();
-}
-
+/** Next sitting from Congress's shared timetable, not a private date rule. */
 export function nextCongressSitting(after: IsoDate): IsoDate {
-  let date = addDays(after, 1);
-  while (!SITTING_WEEKDAYS.includes(weekday(date))) date = addDays(date, 1);
-  return date;
+  return nextSessionCalendarDate(
+    US_CONGRESS_RULE_PACK.session.sittingCalendar ??
+      LEGISLATIVE_SESSION_CALENDARS.congress,
+    after,
+  );
 }
 
 /** Puts Congress's next sitting on the calendar, once. */
@@ -289,7 +280,10 @@ export function scheduleCongressSitting(world: World): World {
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     provenance: {
       kind: "authored",
-      note: "congress-sitting/v1: Congress takes up its open bills on Tuesdays and Thursdays. The game's calendar, not Congress's.",
+      note: (
+        US_CONGRESS_RULE_PACK.session.sittingCalendar ??
+        LEGISLATIVE_SESSION_CALENDARS.congress
+      ).note,
     },
   });
 }

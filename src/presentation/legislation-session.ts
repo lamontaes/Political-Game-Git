@@ -35,7 +35,10 @@ import { chamberByKey, floorStageByKey } from "../simulation/legislature-rules";
 import { futureDueItemStateAt } from "../simulation/future-transitions";
 import { passOrdinaryDays } from "./ordinary-life";
 import { COMMITTEE_HEARING_TRANSITION_KEY } from "../simulation/legislation";
-import { addDays, daysBetween } from "../simulation/dates";
+import { daysBetween } from "../simulation/dates";
+import { enactingGovernmentForPack } from "../simulation/legislation-drafting";
+import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
 import { typedTaxEnactmentDate } from "../simulation/tax-policy-activation";
 import type {
   LegislativeQuestionIdentity,
@@ -199,7 +202,17 @@ export function applyLegislativeStep(
             historySequenceExclusive: world.history.nextSequence,
           })?.status === "scheduled",
       );
-      const hearingDate = pending?.dueAt ?? addDays(world.currentDate, 7);
+      const government = enactingGovernmentForPack(pack)?.government;
+      const calendar =
+        pack.session.sittingCalendar ??
+        (government === "state" || government === "federal"
+          ? LEGISLATIVE_SESSION_CALENDARS.state
+          : undefined);
+      if (!pending && !calendar)
+        throw new Error("This legislature has no committee-hearing calendar.");
+      const hearingDate =
+        pending?.dueAt ??
+        nextSessionCalendarDate(calendar!, world.currentDate, "hearing");
       const scheduled = pending
         ? world
         : scheduleCommitteeHearing(world, {

@@ -1411,6 +1411,8 @@ export interface OrganizationProfileRecord {
   readonly name: string;
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
+  /** Source-backed legal employer identity; not a funder or public account. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
   /**
