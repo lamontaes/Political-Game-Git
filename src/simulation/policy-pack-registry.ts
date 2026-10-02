@@ -1,3 +1,7 @@
+import {
+  TYPED_TAX_QUESTION_KEYS,
+  typedTaxQuestionRow,
+} from "./law-consequences/typed-tax-question-data";
 import { STATUTORY_WAGE_TAX_ROWS } from "./law-consequences/statutory-wage-tax-rows";
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
 import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
@@ -42,6 +46,9 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
         ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
+        ...(TYPED_TAX_QUESTION_KEYS.includes(key)
+          ? [typedTaxQuestionRow(key)]
+          : []),
       ];
       if (!coverage && service.length === 0) return row;
       return {
