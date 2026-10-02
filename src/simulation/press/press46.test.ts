@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 import { recordPersonDeath } from "../vitality";
+import { ensurePublicGovernmentAccount } from "../tax-policy";
 
 import {
   GAME_ADULT_CANDIDACY_AGE,
@@ -574,7 +575,12 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     expect(publication.body).toContain("That is not true.");
   });
 
-  const withComplaint = fileComplaint(published, {
+  // Restitution requires the real saved receiving government, not an invented payee.
+  const receivingGovernment = ensurePublicGovernmentAccount(published, {
+    kind: "jurisdiction",
+    jurisdictionId: KY,
+  });
+  const withComplaint = fileComplaint(receivingGovernment, {
     stableKey: "press46-test:finding-complaint",
     matterId: opened.matter.id,
     complainantPersonId: fixture.rivalId,
