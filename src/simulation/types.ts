@@ -3612,6 +3612,28 @@ export interface DecisionConsideration {
   readonly sourceRefs: readonly MindSourceReference[];
 }
 
+/** One actual saved donor for a current-game decision estimate. */
+export interface DecisionPeerSample {
+  readonly personId: EntityId;
+  readonly decisionTraceId: EntityId;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly value: number;
+}
+
+/** Exact numeric estimates are provenance, not rounded importance weights. */
+export interface DecisionPeerEstimate {
+  readonly label: "ESTIMATED: averaged from this game's similar decision makers";
+  readonly decisionType: string;
+  readonly subjectKind: DecisionSubject["kind"];
+  readonly optionKey: string;
+  readonly cutoff: HistoricalCutoff;
+  readonly mean: number;
+  readonly standardDeviation: number;
+  readonly count: number;
+  readonly samples: readonly DecisionPeerSample[];
+}
+
 export interface DecisionContext {
   readonly stableKey: string;
   readonly decisionType: string;
@@ -3621,6 +3643,9 @@ export interface DecisionContext {
   readonly options: readonly DecisionOption[];
   readonly constraints: readonly DecisionConstraint[];
   readonly considerations: readonly DecisionConsideration[];
+  /** Canonical current-game peer scores used only when the actor has no
+   * separated choice. Donor traces are not actor-owned mind references. */
+  readonly peerEstimates?: readonly DecisionPeerEstimate[];
   readonly perceptionIds: readonly EntityId[];
   readonly randomness: DecisionRandomnessPolicy;
   readonly retention: DecisionTraceRetention;
