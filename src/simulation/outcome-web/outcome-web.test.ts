@@ -11,6 +11,7 @@ import type {
 } from "../types";
 import {
   drawnLinkSize,
+  type OutcomeEvidence,
   LAW_QUESTION_MEASURES,
   OUTCOME_LINKS,
   OUTCOME_WEB_CALIBRATED_AT,
@@ -32,7 +33,7 @@ const SHAPES = new Set([
   "exposure-years",
   "acute-decay",
 ]);
-const EVIDENCE = new Set([
+const EVIDENCE = new Set<OutcomeEvidence>([
   "researched",
   "provisional",
   "contested",
@@ -354,22 +355,23 @@ describe("sizes are a baseline, not literal numbers", () => {
     );
   });
 
-  it("a link without a researched range spreads by its evidence, and an about-zero link stays zero", () => {
-    const researched = {
-      key: "x",
-      size: 0.1,
-      evidence: "researched" as const,
-    };
-    for (let index = 0; index < 20; index += 1) {
-      const size = drawnLinkSize(seeded(`s${index}`), researched, place);
-      expect(size).toBeGreaterThanOrEqual(0.075);
-      expect(size).toBeLessThanOrEqual(0.125);
+  it("a link without a researched range uses exactly its central size for every evidence label", () => {
+    for (const evidence of EVIDENCE) {
+      for (const size of [-0.1, 0, 0.1]) {
+        const central = {
+          key: "fixture:central-only",
+          size,
+          evidence,
+        } as const;
+        for (let index = 0; index < 20; index += 1) {
+          expect(drawnLinkSize(seeded(`s${index}`), central, place)).toBe(size);
+        }
+      }
     }
     for (const zero of OUTCOME_LINKS.filter(
       (candidate) => candidate.evidence === "about-zero",
     ))
       expect(drawnLinkSize(seeded("w"), zero, place)).toBe(0);
-    // A fixture world with no seed uses the central size.
     expect(drawnLinkSize({} as World, link, place)).toBe(link.size);
   });
 });
