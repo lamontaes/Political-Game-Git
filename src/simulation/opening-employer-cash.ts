@@ -15,8 +15,6 @@ import { writeWithWorldIntegrityOnce } from "./world";
 import cashBuffers from "../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
 
-const USD = makeCurrencyCode("USD");
-
 export type OpeningEmployerCashEstimate =
   | {
       readonly status: "blocked";
@@ -120,6 +118,7 @@ export function ensureEmployerCashPositions(
   world: World,
   phase: "opening" | "later",
 ): World {
+  const USD = makeCurrencyCode("USD");
   const payroll = new Map<
     EntityId,
     { annualMinor: number; flowIds: EntityId[]; termsIds: EntityId[] }
