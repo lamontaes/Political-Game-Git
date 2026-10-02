@@ -5,6 +5,7 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import {
   createHousehold,
   createOrganization,
+  recordHouseholdLocation,
   startHouseholdMembership,
 } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
@@ -13,6 +14,7 @@ import {
   createResourceFlow,
   money,
   recordResourceFlowTerms,
+  recordResourceTransferOutcome,
 } from "./resources";
 import {
   resourceFlowTermsAt,
@@ -211,6 +213,99 @@ describe.each(places)(
         resourcePositionAt(world, fixture.owner, terms.amount.currency)!
           .liquidBalance.minorUnits,
       ).toBe(fixture.amount * 3);
+    });
+
+    it(`preserves a saved same-day spending trough when settling an overdue household bill (seed ${seed})`, () => {
+      const fixture = household(place.jurisdictionKey);
+      const opening = fixture.amount * 3;
+      const remaining = 12345;
+      expect(fixture.amount).toBeGreaterThan(remaining);
+      let world = createResourcePosition(fixture.world, {
+        stableKey: "a52-small:trough-funds",
+        owner: fixture.owner,
+        openedAt: fixture.world.currentDate,
+        openingBalance: money(opening, "USD"),
+        provenance,
+      });
+      world = initializeLivingCostsFlow(world, fixture.small.personId);
+      const bill = livingCostsFlowFor(world, fixture.small.personId)!;
+      const later = makeIsoDate("2026-02-10");
+      const current = makeIsoDate("2026-02-15");
+      world = {
+        ...world,
+        currentDate: current,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          current,
+        ),
+      };
+      for (const [key, source, recipient] of [
+        ["spending", fixture.owner, bill.recipient],
+        ["replenishment", bill.recipient, fixture.owner],
+      ] as const) {
+        world = createResourceFlow(world, {
+          stableKey: `a52-small:trough:${key}`,
+          source,
+          recipient,
+          startsAt: later,
+          amount: money(opening - remaining, "USD"),
+          cadenceKind: "schedule:once",
+          basisKind: "custom:trough-fixture",
+          basisReference: { kind: "general" },
+          restrictionKind: null,
+          jurisdictionId: fixture.small.jurisdictionId,
+          provenance,
+        });
+        world = recordResourceTransferOutcome(world, {
+          stableKey: `a52-small:trough:${key}:paid`,
+          resourceFlowId: world.history.resourceFlows.at(-1)!.id,
+          periodStartsAt: later,
+          periodEndsAt: later,
+          occurredAt: later,
+          status: "completed",
+          attemptedAmount: money(opening - remaining, "USD"),
+          transferredAmount: money(opening - remaining, "USD"),
+          reasonKind: null,
+          note: "Saved spending then replenishment on the same day.",
+          provenance,
+        });
+      }
+      const spending = world.history.resourceTransferOutcomes.at(-2)!;
+      const originalReceipts = world.history.resourceTransferOutcomes;
+      world = settleLivingCosts(
+        deserializeWorld(serializeWorld(world)),
+        fixture.small.personId,
+      );
+      const payment = world.history.resourceTransferOutcomes.at(-1)!;
+      expect(payment.resourceFlowId).toBe(bill.id);
+      expect(payment.status).toBe("partial");
+      expect(payment.transferredAmount.minorUnits).toBe(remaining);
+      expect(world.history.resourceTransferOutcomes.slice(0, -1)).toEqual(
+        originalReceipts,
+      );
+      expect(
+        resourcePositionAt(world, fixture.owner, money(0, "USD").currency, {
+          asOfDate: later,
+          historySequenceExclusive: spending.sequence + 1,
+        })!.liquidBalance.minorUnits,
+      ).toBe(remaining);
+      const cash = resourcePositionAt(
+        world,
+        fixture.owner,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      const sellers = resourcePositionAt(
+        world,
+        bill.recipient,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      expect(cash).toBe(opening - remaining);
+      expect(sellers).toBe(remaining);
+      expect(cash + sellers).toBe(opening);
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(settleLivingCosts(reopened, fixture.small.personId)).toBe(
+        reopened,
+      );
     });
 
     it(`reads household size from actual primary residents, including a child (seed ${seed})`, () => {
@@ -450,6 +545,216 @@ describe.each(places)(
       const reopened = deserializeWorld(serializeWorld(world));
       expect(initializeLivingCostsFlow(reopened, secondPerson.id)).toBe(
         reopened,
+      );
+    });
+
+    it(`keeps outside-seller accounts separate across a recorded household move (seed ${seed})`, () => {
+      const fixture = household(place.jurisdictionKey);
+      const target = places[(places.indexOf(place) + 1) % places.length]!;
+      const destination = smallWorld({
+        place: target.jurisdictionKey,
+        seed,
+        date: "2026-02-01",
+      });
+      const opening = fixture.amount * 10;
+      let world = createResourcePosition(fixture.world, {
+        stableKey: "a52-small:move-funds",
+        owner: fixture.owner,
+        openedAt: fixture.world.currentDate,
+        openingBalance: money(opening, "USD"),
+        provenance,
+      });
+      world = initializeLivingCostsFlow(world, fixture.small.personId);
+      const first = livingCostsFlowFor(world, fixture.small.personId)!;
+      const receipts = world.history.resourceTransferOutcomes;
+      const movedOn = makeIsoDate("2026-02-01");
+      // Compose the destination's existing canonical geography into this
+      // controlled multi-place fixture; no fictional jurisdiction is created.
+      world = {
+        ...world,
+        jurisdictions: {
+          ...world.jurisdictions,
+          ...destination.world.jurisdictions,
+        },
+        jurisdictionOrder: [
+          ...new Set([
+            ...world.jurisdictionOrder,
+            ...destination.world.jurisdictionOrder,
+          ]),
+        ],
+        currentDate: movedOn,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          movedOn,
+        ),
+      };
+      world = recordHouseholdLocation(world, {
+        stableKey: "a52-small:move-location",
+        householdId: fixture.householdId,
+        effectiveAt: movedOn,
+        jurisdictionId: destination.jurisdictionId,
+        label: destination.place.context.jurisdiction.name,
+        kind: "residence:ordinary",
+        provenance,
+        supersedesLocationId: null,
+      });
+      world = initializeLivingCostsFlow(world, fixture.small.personId);
+      const second = livingCostsFlowFor(world, fixture.small.personId)!;
+      expect(second.recipient).not.toEqual(first.recipient);
+      expect(second.jurisdictionId).toBe(destination.jurisdictionId);
+      expect(resourceFlowTermsAt(world, first.id)!.status).toBe("ended");
+      const sellers = world.history.organizations.filter((row) =>
+        row.stableKey.startsWith("living-costs:outside-sellers:"),
+      );
+      expect(sellers).toHaveLength(2);
+      for (const seller of sellers) {
+        expect(
+          world.history.organizationProfiles.find(
+            (row) => row.organizationId === seller.id,
+          )!.name,
+        ).toBe("Sellers outside this town's simulated businesses");
+        expect(
+          world.history.resourcePositions.filter(
+            (row) =>
+              row.owner.kind === "organization" &&
+              row.owner.organizationId === seller.id,
+          ),
+        ).toHaveLength(1);
+      }
+      expect(world.history.resourceTransferOutcomes).toEqual(receipts);
+      expect(
+        resourcePositionAt(world, first.recipient, money(0, "USD").currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(0);
+      expect(
+        resourcePositionAt(world, second.recipient, money(0, "USD").currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(0);
+      const dueOn = makeIsoDate("2026-03-01");
+      world = {
+        ...world,
+        currentDate: dueOn,
+        currentMoment: simulationMomentOnLocalDate(world.currentMoment, dueOn),
+      };
+      world = settleLivingCosts(
+        deserializeWorld(serializeWorld(world)),
+        fixture.small.personId,
+      );
+      const payment = world.history.resourceTransferOutcomes.at(-1)!;
+      expect(payment.resourceFlowId).toBe(second.id);
+      expect(payment.status).toBe("completed");
+      expect(
+        world.history.resourceTransferOutcomes.filter(
+          (row) => row.resourceFlowId === first.id,
+        ),
+      ).toHaveLength(0);
+      const cash = resourcePositionAt(
+        world,
+        fixture.owner,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      const paid = resourcePositionAt(
+        world,
+        second.recipient,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      expect(
+        resourcePositionAt(world, first.recipient, money(0, "USD").currency)!
+          .liquidBalance.minorUnits,
+      ).toBe(0);
+      expect(paid).toBe(payment.transferredAmount.minorUnits);
+      expect(cash + paid).toBe(opening);
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(initializeLivingCostsFlow(reopened, fixture.small.personId)).toBe(
+        reopened,
+      );
+      expect(settleLivingCosts(reopened, fixture.small.personId)).toBe(
+        reopened,
+      );
+      const returnedOn = makeIsoDate("2026-03-02");
+      world = {
+        ...reopened,
+        currentDate: returnedOn,
+        currentMoment: simulationMomentOnLocalDate(
+          reopened.currentMoment,
+          returnedOn,
+        ),
+      };
+      world = recordHouseholdLocation(world, {
+        stableKey: "a52-small:return-location",
+        householdId: fixture.householdId,
+        effectiveAt: returnedOn,
+        jurisdictionId: fixture.small.jurisdictionId,
+        label: fixture.small.place.context.jurisdiction.name,
+        kind: "residence:ordinary",
+        provenance,
+        supersedesLocationId: world.history.householdLocations.at(-1)!.id,
+      });
+      const earlierReceipts = world.history.resourceTransferOutcomes;
+      world = initializeLivingCostsFlow(world, fixture.small.personId);
+      const returned = livingCostsFlowFor(world, fixture.small.personId)!;
+      expect(returned.id).not.toBe(first.id);
+      expect(returned.recipient).toEqual(first.recipient);
+      expect(resourceFlowTermsAt(world, first.id)!.status).toBe("ended");
+      expect(resourceFlowTermsAt(world, second.id)!.status).toBe("ended");
+      expect(resourceFlowTermsAt(world, returned.id)!.status).toBe("active");
+      expect(
+        world.history.organizations.filter((row) =>
+          row.stableKey.startsWith("living-costs:outside-sellers:"),
+        ),
+      ).toHaveLength(2);
+      expect(
+        world.history.resourcePositions.filter((row) =>
+          sameEndpoint(row.owner, first.recipient),
+        ),
+      ).toHaveLength(1);
+      expect(world.history.resourceTransferOutcomes).toEqual(earlierReceipts);
+      const returnedDue = makeIsoDate("2026-04-01");
+      world = {
+        ...world,
+        currentDate: returnedDue,
+        currentMoment: simulationMomentOnLocalDate(
+          world.currentMoment,
+          returnedDue,
+        ),
+      };
+      world = settleLivingCosts(
+        deserializeWorld(serializeWorld(world)),
+        fixture.small.personId,
+      );
+      expect(
+        world.history.resourceTransferOutcomes.at(-1)!.resourceFlowId,
+      ).toBe(returned.id);
+      expect(world.history.resourceTransferOutcomes.at(-1)!.status).toBe(
+        "completed",
+      );
+      expect(world.history.resourceTransferOutcomes.slice(0, -1)).toEqual(
+        earlierReceipts,
+      );
+      const householdCash = resourcePositionAt(
+        world,
+        fixture.owner,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      const originalSellerCash = resourcePositionAt(
+        world,
+        first.recipient,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      const destinationSellerCash = resourcePositionAt(
+        world,
+        second.recipient,
+        money(0, "USD").currency,
+      )!.liquidBalance.minorUnits;
+      expect(householdCash + originalSellerCash + destinationSellerCash).toBe(
+        opening,
+      );
+      const returnedReload = deserializeWorld(serializeWorld(world));
+      expect(
+        initializeLivingCostsFlow(returnedReload, fixture.small.personId),
+      ).toBe(returnedReload);
+      expect(settleLivingCosts(returnedReload, fixture.small.personId)).toBe(
+        returnedReload,
       );
     });
 
