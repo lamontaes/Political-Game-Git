@@ -248,12 +248,16 @@ describe("ordinary local crime", () => {
         expect(later.people[participant.personId]).toBeDefined();
       const place = lifePlaceByJurisdictionId(recordedReport.jurisdictionId!);
       expect(place).toBeDefined();
+      const stateKey = place!.stateJurisdictionKey;
+      expect(stateKey).not.toBeNull();
+      if (stateKey === null)
+        throw new Error("Recorded crime place has no governing state");
       const dayContributions =
         causesInPeriod(
           later,
           recordedReport.occurredAt,
           recordedReport.occurredAt,
-        ).get(place!.stateJurisdictionKey) ?? [];
+        ).get(stateKey) ?? [];
       const fear = dayContributions.find(
         (row) => row.sourceId === recordedReport.id,
       );
