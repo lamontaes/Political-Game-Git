@@ -12,7 +12,17 @@ import {
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
 } from "./life-queries";
-import { SeededRng } from "./rng";
+import { factsForPerson } from "./people";
+import { STATES } from "./state-reference";
+import { stateKeyForJurisdiction } from "./state-jurisdiction-id";
+import {
+  CHILD_INCOME_CENTILES,
+  NATIONAL_CHILD_POVERTY,
+  STATE_CHILD_POVERTY,
+  NATIONAL_RANK_CORRELATION,
+  INCOME_TABLE_POVERTY_DOLLARS,
+  LOW_INCOME_TO_POVERTY,
+} from "./upbringing-income-data";
 import type { EntityId, IsoDate, World } from "./types";
 import type { PeopleTrait, TraitValue } from "./people-trait-definitions";
 import type { TraitLifePart } from "./personality-trait-registry";
@@ -65,13 +75,15 @@ export interface PersonUpbringing {
    * "childhood-record": a person born in play, read from their childhood
    * record, the household pay and the family records with no draw.
    * "game-profile": an opening-world person whose childhood predates the
-   * world, so named game profiles stand in for what was never recorded.
+   * world, so marked public-data estimates stand in for unrecorded money.
    */
   readonly basis: "childhood-record" | "game-profile";
   readonly money: readonly {
     readonly period: UpbringingPeriod;
     readonly level: FamilyMoney;
     readonly source: UpbringingSource;
+    /** A marked backcast, never a recorded parent income or an actor draw. */
+    readonly estimatedParentIncomeRank?: number;
   }[];
   /** 0 to 1: moves / (moves + K). The number readers weigh by. */
   readonly disruption: number;
@@ -245,17 +257,118 @@ function homeStabilityLabel(disruption: number): HomeStability {
       : "disrupted";
 }
 
-/** What the old profile label stands for, in school-year moves (PLACEHOLDER). */
-const PROFILE_MOVES: Readonly<Record<HomeStability, number>> = {
-  stable: 0,
-  "some-moves": 1,
-  disrupted: 4,
-};
+function nearestYear(
+  rows: readonly (readonly [number, number])[],
+  year: number,
+): readonly [number, number] {
+  return rows.reduce((best, row) =>
+    Math.abs(row[0] - year) < Math.abs(best[0] - year) ? row : best,
+  );
+}
+
+/** Linear interpolation through the published adult-family-income centiles. */
+function adultIncomeRank(income: number): number {
+  const first = CHILD_INCOME_CENTILES[0]!;
+  if (income <= first[0]) return first[1];
+  for (let i = 1; i < CHILD_INCOME_CENTILES.length; i += 1) {
+    const right = CHILD_INCOME_CENTILES[i]!;
+    if (income <= right[0]) {
+      const left = CHILD_INCOME_CENTILES[i - 1]!;
+      return (
+        left[1] +
+        ((income - left[0]) / (right[0] - left[0])) * (right[1] - left[1])
+      );
+    }
+  }
+  return CHILD_INCOME_CENTILES.at(-1)![1];
+}
+
+/** Opening-only estimate: recorded adult household pay, recorded birthplace and birth cohort. */
+function openingFamilyMoney(
+  world: World,
+  personId: EntityId,
+  period: UpbringingPeriod,
+) {
+  const person = world.people[personId]!;
+  const birth = factsForPerson(person).find(
+    (fact) => fact.kind === "birthplace",
+  );
+  const jurisdiction = birth?.jurisdictionId
+    ? world.jurisdictions[birth.jurisdictionId]
+    : undefined;
+  const stateKey =
+    jurisdiction &&
+    (stateKeyForJurisdiction(jurisdiction) ??
+      Object.entries(STATES).find(
+        ([, row]) => row.name === jurisdiction.parentName,
+      )?.[0]);
+  const usps = stateKey?.replace(/^US-/, "");
+  const year =
+    Number(person.birthDate.slice(0, 4)) + MONEY_PERIODS[period].readAt;
+  const cohort = nearestYear(NATIONAL_CHILD_POVERTY, year);
+  const placeRows = usps ? STATE_CHILD_POVERTY[usps] : undefined;
+  const place = nearestYear(placeRows ?? STATE_CHILD_POVERTY.US!, year);
+  const nationalAtPlaceYear = nearestYear(NATIONAL_CHILD_POVERTY, place[0]);
+  // National cohort change scales the nearest published state observation.
+  // This is a disclosed estimate, not a claim of an observed state/cohort rate.
+  const povertyShare = Math.min(
+    100,
+    (place[1] * cohort[1]) / nationalAtPlaceYear[1],
+  );
+  const cutoff = {
+    asOfDate: world.startedAt,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const household = householdMembershipsAt(world, personId, cutoff)[0];
+  const home = homeStateKey(world, personId);
+  const members = household
+    ? peopleInHouseholdAt(world, household.household.id, cutoff).filter((id) =>
+        isPersonAliveAt(world, id, cutoff),
+      )
+    : [];
+  const pay = recordedMonthlyPayByPerson(world, world.startedAt);
+  const working = members.filter(
+    (id) => activeWorkRelationshipsAt(world, id, cutoff).length > 0,
+  );
+  const hasPay =
+    ageOnDate(person.birthDate, world.startedAt) >= 18 &&
+    home !== null &&
+    working.length > 0 &&
+    working.every((id) => pay.has(id));
+  const adultRank = hasPay
+    ? adultIncomeRank(
+        ((members.reduce((sum, id) => sum + (pay.get(id) ?? 0), 0) * 12) /
+          annualPovertyLineMinor(home!, members.length, world.startedAt)) *
+          INCOME_TABLE_POVERTY_DOLLARS,
+      )
+    : 50;
+  // National ranks have equal variance: the best linear reverse predictor
+  // shrinks toward 50 with the correlation. Dividing by the forward slope
+  // would incorrectly assert that childhood income determines adult income.
+  const estimatedParentIncomeRank =
+    50 + NATIONAL_RANK_CORRELATION * (adultRank - 50);
+  const level: FamilyMoney =
+    estimatedParentIncomeRank <= povertyShare
+      ? "severe-scarcity"
+      : estimatedParentIncomeRank <=
+          Math.min(100, povertyShare * LOW_INCOME_TO_POVERTY[period])
+        ? "strained"
+        : "secure";
+  return {
+    level,
+    estimatedParentIncomeRank,
+    source: {
+      kind: "public-data" as const,
+      key: "chetty-2014-rank-backcast-census-child-poverty-v1",
+      note: `ESTIMATED FROM AVERAGE: national rank correlation 0.341 gives parent rank ${estimatedParentIncomeRank.toFixed(2)} from ${hasPay ? "recorded opening adult household job/pay" : "median adult rank (adult job/pay not recorded)"}. Birthplace ${placeRows ? usps : "national proxy (birthplace has no SAIPE coverage)"}, nearest SAIPE ${place[0]} child poverty ${place[1]}%, scaled by national CPS ${cohort[0]} childhood-year poverty ${cohort[1]}%; estimated local share ${povertyShare.toFixed(2)}%. ACS age-band low-income/poverty ratio supplies the 200% band. This is a linear estimate, not a recorded childhood; national 1980–82 mobility applies outside that cohort and no verified birthplace-to-CZ crosswalk is present.`,
+    },
+  };
+}
 
 /**
  * The same person in the same world always receives the same upbringing.
- * Existing parent and life records win over profile draws; missing history is
- * filled from named game profiles rather than disguised as sourced fact.
+ * Recorded childhood wins. Opening money is a marked sourced backcast;
+ * missing individual adversity is never manufactured.
  */
 // The World is immutable. Repeated trait reads of this exact snapshot may
 // share one upbringing, but another snapshot or date always reads afresh.
@@ -283,10 +396,8 @@ export function upbringingFor(
 function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
   const person = world.people[personId];
   if (!person) throw new Error(`No person ${personId} exists.`);
-  const rng = new SeededRng(world.seed).fork(`upbringing-v1:${personId}`);
   const parents = recordedParents(world, personId);
   const parentDied = recordedChildhoodParentDeath(world, personId, parents);
-  const age = ageOnDate(person.birthDate, world.currentDate);
   const earlyMoney = familyMoneyFor(world, personId, "early-childhood");
   const laterMoney = familyMoneyFor(world, personId, "adolescence");
   const money = [
@@ -315,86 +426,27 @@ function readUpbringing(world: World, personId: EntityId): PersonUpbringing {
       firstJob: "none",
     };
   }
-  const homeRoll = rng.fork("home").integer(0, 100);
-  const homeStability: HomeStability =
-    homeRoll < 63 ? "stable" : homeRoll < 86 ? "some-moves" : "disrupted";
-  const careRoll = rng.fork("care").integer(0, 100);
-  const caregiving: CaregivingClimate =
-    careRoll < 45
-      ? "protective-reliable"
-      : careRoll < 67
-        ? "consistent-firm"
-        : careRoll < 82
-          ? "inconsistent"
-          : careRoll < 95
-            ? "high-conflict"
-            : "harsh";
-  const protectiveCaregiver =
-    caregiving === "protective-reliable" ||
-    (caregiving !== "harsh" && rng.fork("protective").integer(0, 4) === 0);
-
-  const events: UpbringingEvent[] = [];
-  if (parentDied) events.push("parent-death");
-  // When parents exist, their records are authoritative: absence of a recorded
-  // death or separation is not replaced with a contradictory random event.
-  if (parents.length === 0) {
-    const familyRoll = rng.fork("family-event").integer(0, 100);
-    if (familyRoll < 4) events.push("parent-death");
-    else if (familyRoll < 28) events.push("parent-separation");
-  }
-  if (rng.fork("illness:self").integer(0, 100) < 9)
-    events.push("serious-illness");
-  if (rng.fork("illness:family").integer(0, 100) < 12)
-    events.push("family-illness-care");
-  if (rng.fork("law:allegation").integer(0, 100) < 5)
-    events.push("law-allegation");
-  if (rng.fork("law:conduct").integer(0, 100) < 3)
-    events.push("adjudicated-law-trouble");
-  if (
-    events.includes("law-allegation") &&
-    rng.fork("law:treatment").integer(0, 3) === 0
-  )
-    events.push("harsh-authority-treatment");
-
-  const schoolRoll = rng.fork("school").integer(0, 100);
-  const schooling: SchoolExperience[] = [
-    schoolRoll < 40
-      ? "reliable-support"
-      : schoolRoll < 58
-        ? "earned-success"
-        : schoolRoll < 76
-          ? "supported-setbacks"
-          : schoolRoll < 89
-            ? "peer-belonging"
-            : schoolRoll < 96
-              ? "ridicule-or-exclusion"
-              : "bullying",
-  ];
-  const firstJob: FirstJobExperience =
-    age < 16
-      ? "none"
-      : rng.fork("first-job:has-one").integer(0, 100) < 68
-        ? rng
-            .fork("first-job:kind")
-            .pick([
-              "reliable-supervision",
-              "autonomy",
-              "public-contact",
-              "precarious",
-            ] as const)
-        : "none";
-
+  const disruption = disruptionFromMoves(
+    entries.filter(({ kind }) => kind === "school-year-move").length,
+  );
   return {
     personId,
     basis: "game-profile",
-    money,
-    disruption: disruptionFromMoves(PROFILE_MOVES[homeStability]),
-    homeStability,
-    caregiving,
-    protectiveCaregiver,
-    events,
-    schooling,
-    firstJob,
+    money: money.map((row) =>
+      row.source.kind === "world-record"
+        ? row
+        : {
+            period: row.period,
+            ...openingFamilyMoney(world, personId, row.period),
+          },
+    ),
+    disruption,
+    homeStability: homeStabilityLabel(disruption),
+    caregiving: "not-recorded",
+    protectiveCaregiver: false,
+    events: parentDied ? ["parent-death"] : [],
+    schooling: [],
+    firstJob: "none",
   };
 }
 
