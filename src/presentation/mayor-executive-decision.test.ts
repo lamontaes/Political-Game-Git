@@ -628,9 +628,12 @@ describe("test-controlled unavailable municipal executive actions", () => {
             (action) => action.kind === "signed" || action.kind === "vetoed",
           ),
         ).toHaveLength(0);
+        const repeatDay = addDays(silence[0]!.dueAt, 1);
+        // This is an executive fixture, not a run of unrelated due families.
+        // Keep their explicit saved cancellations on the repeat boundary too.
         const repeated = resolveFutureDueItemsThrough(
-          enacted,
-          addDays(silence[0]!.dueAt, 1),
+          isolateAt(enacted, repeatDay),
+          repeatDay,
           handlers,
         );
         expect(measureActions(repeated, measureId)).toEqual(
