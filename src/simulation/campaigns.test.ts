@@ -1,3 +1,5 @@
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { createExplicitGeographyLife } from "../presentation/new-game-geography";
 import { describe, expect, it } from "vitest";
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { recordWorldEvent } from "./world";
@@ -1288,4 +1290,18 @@ describe("determinism and persistence", () => {
     expect(raisedPlain).toBeNull();
     expect(raisedBusier).toBeNull();
   });
+});
+
+it("opens a new game in the recorded random-place draw before A66 READY", () => {
+  const seed = "a66-1990-random-opening-2026-10-02";
+  const place = drawRandomPlace(seed);
+  console.info("A66 random-place opening", {
+    seed,
+    placeKey: place.key,
+    placeName: place.displayName,
+  });
+  const opened = createExplicitGeographyLife({ placeKey: place.key, seed });
+  expect(opened.game.place.key).toBe(place.key);
+  expect(opened.game.world.people[opened.game.playerPersonId]).toBeDefined();
+  expect(opened.serialized.length).toBeGreaterThan(0);
 });
