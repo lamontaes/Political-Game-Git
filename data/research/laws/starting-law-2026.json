@@ -12410,8 +12410,17 @@
         },
         "US-AS": {
           "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+          "note": "Ordinary delinquency jurisdiction covers children under 18, so its inclusive upper age is 17. Section 45.0103(9) excludes specified violent and repeat felony cases; section 45.0115(c) permits adult certification and specified direct felony charges. This age term does not authorize those exceptions. The saved default operative date is retained; no new enactment date is inferred.",
+          "cite": "A.S.C.A. §§ 45.0103(2), (3), (9); 45.0115(a), (c)",
+          "source": "https://asbar.org/code-annotated/45-0103-definitions/",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "key": "age",
+              "value": 17,
+              "unit": "years"
+            }
+          ]
         },
         "US-AZ": {
           "answer": "yes",
