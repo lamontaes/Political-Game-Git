@@ -1,3 +1,4 @@
+import type { PublicGovernmentIdentityCarrier } from "../public-government-identity";
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
 import acsTowns from "../../../data/research/money/place-towns-acs-2024.json" with { type: "json" };
@@ -5,6 +6,7 @@ import {
   allGovernmentUnits,
   countyGeoidsForPlace,
   countyGovernmentUnit,
+  governmentUnitJurisdictionId,
   governmentUnitsForPlace,
   governmentUnitsForState,
   type GovernmentUnitIdentity,
@@ -262,7 +264,7 @@ const ACS_TOWN_POPULATION = acsTowns.townPopulation as Readonly<
   Record<string, number>
 >;
 
-export interface BudgetCandidate {
+export interface BudgetCandidate extends PublicGovernmentIdentityCarrier {
   readonly key: string;
   readonly jurisdictionId: EntityId;
   readonly lawJurisdictionId: EntityId;
@@ -361,7 +363,10 @@ export function budgetCandidates(world: World): {
     candidates.push({
       key: serving.key,
       jurisdictionId: serving.jurisdictionId,
-      lawJurisdictionId: serving.jurisdictionId,
+      lawJurisdictionId: serving.lawJurisdictionId ?? serving.jurisdictionId,
+      ...(serving.publicGovernmentIdentity
+        ? { publicGovernmentIdentity: serving.publicGovernmentIdentity }
+        : {}),
       level: serving.level,
       name: serving.name,
       stateKey,
@@ -379,7 +384,8 @@ export function budgetCandidates(world: World): {
   };
 }
 
-export interface ServingGovernment {
+export interface ServingGovernment extends PublicGovernmentIdentityCarrier {
+  readonly lawJurisdictionId?: EntityId;
   /** The budget's key: `county:<GEOID>`, `town:<county subdivision GEOID>` or the state's. */
   readonly key: string;
   readonly level: BudgetLevel;
@@ -454,7 +460,13 @@ export function servingGovernment(
       key: `town:${townGeoid}`,
       level: "city",
       geoid: townGeoid,
-      jurisdictionId: placeJurisdictionId,
+      jurisdictionId: governmentUnitJurisdictionId(town),
+      lawJurisdictionId: placeJurisdictionId,
+      publicGovernmentIdentity: {
+        kind: "local-government",
+        governmentKey: town.id,
+        jurisdictionId: governmentUnitJurisdictionId(town),
+      },
       name: `${titleCase(town.name)}, ${STATES[usps]?.name ?? usps}`,
     };
   if (!area?.townships.length) {
@@ -898,6 +910,9 @@ export function openGovernmentBudget(
     key: candidate.key,
     jurisdictionId: candidate.jurisdictionId,
     lawJurisdictionId: candidate.lawJurisdictionId,
+    ...(candidate.publicGovernmentIdentity
+      ? { publicGovernmentIdentity: candidate.publicGovernmentIdentity }
+      : {}),
     level: candidate.level,
     name: candidate.name,
     stateKey: candidate.stateKey,
