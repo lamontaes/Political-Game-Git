@@ -1,4 +1,11 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
+import { crisisRecords } from "../crisis/records";
+import { crisisOfficeContinuityNotices } from "../crisis/notices";
+import { applyStateLegislatureTurnover } from "../nationwide-world/state-legislature-turnover";
+import { applyCongressTurnover } from "../living-world/congress-turnover";
+import { applyGovernorTurnover } from "../nationwide-world/state-executive-turnover-calendar";
+import { applyPresidentialTurnover } from "../nationwide-world/presidential-turnover";
+import { applyConstitutionalReform } from "../living-world/constitutional-reform";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -1858,6 +1865,65 @@ export function applyOfficeContinuityNotices(
     });
   }
   return next;
+}
+
+const LAST_APPLIED_NOTICE = new WeakMap<readonly unknown[], number>();
+
+function lastAppliedNoticeSequence(world: World): number {
+  const events = world.history.events;
+  const cached = LAST_APPLIED_NOTICE.get(events);
+  if (cached !== undefined) return cached;
+  let sequence = -1;
+  for (let i = events.length - 1; i >= 0; i -= 1) {
+    const event = events[i]!;
+    if (event.type !== OFFICE_CONTINUITY_EVENT) continue;
+    const key = event.tags
+      .find((tag) => tag.startsWith("crisis-notice:"))
+      ?.slice("crisis-notice:".length);
+    const record = key
+      ? crisisRecords(world).find((candidate) => candidate.stableKey === key)
+      : undefined;
+    if (record) {
+      sequence = record.sequence;
+      break;
+    }
+  }
+  LAST_APPLIED_NOTICE.set(events, sequence);
+  return sequence;
+}
+
+/** Consume recorded office changes through the existing exactly-once writer. */
+export function applyRecordedOfficeContinuity(world: World): World {
+  if (
+    !crisisRecords(world).some(
+      (record) => record.kind === "official-continuity",
+    )
+  )
+    return world;
+  const notices = crisisOfficeContinuityNotices(world, {
+    afterSequence: lastAppliedNoticeSequence(world),
+  });
+  return notices.length ? applyOfficeContinuityNotices(world, notices) : world;
+}
+
+/**
+ * One clock entry for office terms and recorded vacancies. The office-specific
+ * election and seating writers keep their existing legal rules. The intervening
+ * legislative work runs before crisis notices, as it did in the date boundary.
+ * No outer date guard: presidential entry can fall at noon on the same date,
+ * and an already recorded death must reach its office without another day.
+ */
+export function applyOfficeLifecycle(
+  before: IsoDate,
+  world: World,
+  afterTermTurnover: (world: World) => World,
+): World {
+  let next = applyStateLegislatureTurnover(before, world);
+  next = applyCongressTurnover(before, next);
+  next = applyGovernorTurnover(before, next);
+  next = applyPresidentialTurnover(before, next);
+  next = applyConstitutionalReform(before, next);
+  return applyRecordedOfficeContinuity(afterTermTurnover(next));
 }
 
 /** What the record says followed for one office, newest first. */
