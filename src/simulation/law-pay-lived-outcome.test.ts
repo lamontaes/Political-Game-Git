@@ -527,6 +527,9 @@ describe(`law-paid change and recorded voters in ${state.name} (seed ${SEED})`, 
     expect(changes).toHaveLength(1);
     expect(changes[0]!.amount.minorUnits).toBe(80_000);
     expect(changes[0]!.previousOutcomeId).toBe(f.beforeId);
+    expect(
+      recordedLawPayChanges(f.world, f.since, addDays(changes[0]!.at, -1)),
+    ).toEqual([]);
     const reached = noticeLawPayChanges(f.world, f.since);
     const exposure = reached.history.lawExposures!.find(
       (row) => row.personId === f.worker && row.relation === "own",
@@ -567,6 +570,7 @@ describe(`law-paid change and recorded voters in ${state.name} (seed ${SEED})`, 
     expect(livedOutcomesOf(saved, f.worker)).toEqual(
       livedOutcomesOf(after, f.worker),
     );
+    expect(noticeLawPayChanges(saved, f.since)).toBe(saved);
     assertWorldIntegrityFully(saved);
     const due = saved.history.futureDueItems.find(
       (row) => row.stableKey === officialViewReflectionKey(exposure),
