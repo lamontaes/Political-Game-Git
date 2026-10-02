@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import * as decisions from "./decisions";
+import { simulationMomentAtLocalTime } from "./dates";
 import {
   claimContradictionTransitionHandler,
   scheduleContradictionCheck,
@@ -106,7 +107,12 @@ function fixture() {
   world = {
     ...world,
     currentDate: due.dueAt,
-    currentMoment: { ...world.currentMoment, date: due.dueAt },
+    currentMoment: simulationMomentAtLocalTime({
+      date: due.dueAt,
+      minuteOfDay: world.currentMoment.minuteOfDay,
+      timeZone: world.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    }),
   };
   return { world, due, source: source!, reporter: reporter!, accepted };
 }
