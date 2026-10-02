@@ -1,5 +1,4 @@
 import { applyLawConsequences } from "./enacted-law-effects";
-import { applySpeechRetelling } from "./speech-retelling";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
@@ -2033,30 +2032,26 @@ export function applyDateBoundary(
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
-  // D-3 step 7: a remembered speech is retold at each first of the month.
   return applyJudicialReview(
     crossedFrom,
-    applySpeechRetelling(
-      crossedFrom,
-      applyCrisisRepairFunding(
-        applyEnactedCourtSizes(
-          applyCrisisOfficeContinuity(
-            applyCongressLawmaking(
+    applyCrisisRepairFunding(
+      applyEnactedCourtSizes(
+        applyCrisisOfficeContinuity(
+          applyCongressLawmaking(
+            crossedFrom,
+            applyFederalReform(
               crossedFrom,
-              applyFederalReform(
+              applyArticleV(
                 crossedFrom,
-                applyArticleV(
+                applyConstitutionalReform(
                   crossedFrom,
-                  applyConstitutionalReform(
+                  applyPresidentialTurnover(
                     crossedFrom,
-                    applyPresidentialTurnover(
+                    applyGovernorTurnover(
                       crossedFrom,
-                      applyGovernorTurnover(
+                      applyCongressTurnover(
                         crossedFrom,
-                        applyCongressTurnover(
-                          crossedFrom,
-                          applyStateLegislatureTurnover(crossedFrom, moved),
-                        ),
+                        applyStateLegislatureTurnover(crossedFrom, moved),
                       ),
                     ),
                   ),

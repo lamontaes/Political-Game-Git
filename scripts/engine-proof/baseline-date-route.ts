@@ -1,10 +1,9 @@
 /** Frozen original date chain from git ab4ac1b8839456a8d662b0e3c2da84288798bb47:src/simulation/world.ts.
  * Original source SHA-256: a1a496d9fa54b0df885f6130de82663e96d2090e2b3e0ac40a1c63e1ab2496d1.
- * Original wrapper/chain logic is retained; the chain is extracted below for
+ * Original wrapper/chain logic is retained except migrated due-item work; the chain is extracted below for
  * explicit candidate injection before production deletion. Dependencies
  * remain shared current modules: this isolates date-chain composition, not all
  * historical production semantics. */
-import { applySpeechRetelling } from "../../src/simulation/speech-retelling";
 import { applyEnactedCourtSizes } from "../../src/simulation/governing/court-size-law";
 import { applyJudicialReview } from "../../src/simulation/judiciary/judicial-review";
 import { applyCrisisOfficeContinuity } from "../../src/simulation/crisis-office-continuity";
@@ -111,37 +110,34 @@ function advanceWorldUnchecked(
 }
 
 export type DateBoundaryChain = (previousDate: IsoDate, world: World) => World;
-/** Original fourteen-step expression from the pinned source, with its old
- * date argument and already advanced world supplied explicitly. */
+/** Pinned date chain with migrated speech work resolved by the shared due route
+ * in baselineAdvanceWorld, matching the production clock. */
 export function baselineApplyDateBoundary(
   previousDate: IsoDate,
   advanced: World,
 ): World {
   return applyJudicialReview(
     previousDate,
-    applySpeechRetelling(
-      previousDate,
-      applyCrisisRepairFunding(
-        applyEnactedCourtSizes(
-          applyCrisisOfficeContinuity(
-            applyCongressLawmaking(
+    applyCrisisRepairFunding(
+      applyEnactedCourtSizes(
+        applyCrisisOfficeContinuity(
+          applyCongressLawmaking(
+            previousDate,
+            applyFederalReform(
               previousDate,
-              applyFederalReform(
+              applyArticleV(
                 previousDate,
-                applyArticleV(
+                applyConstitutionalReform(
                   previousDate,
-                  applyConstitutionalReform(
+                  applyPresidentialTurnover(
                     previousDate,
-                    applyPresidentialTurnover(
+                    applyGovernorTurnover(
                       previousDate,
-                      applyGovernorTurnover(
+                      applyCongressTurnover(
                         previousDate,
-                        applyCongressTurnover(
+                        applyStateLegislatureTurnover(
                           previousDate,
-                          applyStateLegislatureTurnover(
-                            previousDate,
-                            applyNationalTermTransitions(advanced),
-                          ),
+                          applyNationalTermTransitions(advanced),
                         ),
                       ),
                     ),

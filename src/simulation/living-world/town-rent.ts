@@ -2009,7 +2009,7 @@ function actOnArrears(
         },
       );
       // A filing cannot produce a judgment without an actual seated judge.
-      if (!facts.judicialAuthority) continue;
+      if (!facts?.judicialAuthority) continue;
       const filing = next.history.events.find(
         (event) =>
           event.stableKey ===
@@ -2088,7 +2088,7 @@ export interface EvictionCaseFacts extends LawEffectStampedRecord {
   readonly planCarried: boolean | null;
   /** The judge's lean: -1 conciliatory, 0 neither, 1 strict; null unseated. */
   readonly judgeLean: -1 | 0 | 1 | null;
-  /** How the summary names the court: "Judge Ana Ruiz" or "the court". */
+  /** How the summary names the actual seated judge: "Judge Ana Ruiz". */
   readonly court: string;
 }
 
@@ -2119,7 +2119,7 @@ function evictionCaseFacts(
     readonly played: EntityId | null;
     readonly pay: ReadonlyMap<EntityId, number>;
   },
-): EvictionCaseFacts {
+): EvictionCaseFacts | null {
   const monthsBehind = owed.rent > 0 ? owed.owed / owed.rent : 0;
   const landlord = lease.flow.recipient;
   const landlordPursues = !(
@@ -2157,11 +2157,10 @@ function evictionCaseFacts(
     planCarried = tenantAnswers && carried ? true : null;
   }
   const judge = trialJudge(world, lease.town, hearingOn);
-  const conflict = judge
-    ? personTrait(world, judge.personId, "conflict").value
-    : null;
+  if (!judge) return null;
+  const conflict = personTrait(world, judge.personId, "conflict").value;
   return {
-    ...(judge ? { judicialAuthority: judge } : {}),
+    judicialAuthority: judge,
     monthsBehind,
     landlordPursues,
     tenantAnswers,
@@ -2169,11 +2168,8 @@ function evictionCaseFacts(
     // No saved civil counsel admission is available at this boundary yet.
     lawyer: null,
     planCarried,
-    judgeLean:
-      conflict === null ? null : conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
-    court: judge
-      ? `Judge ${personName(world.people[judge.personId]!)}`
-      : "the court",
+    judgeLean: conflict < 0 ? -1 : conflict > 0 ? 1 : 0,
+    court: `Judge ${personName(world.people[judge.personId]!)}`,
   };
 }
 

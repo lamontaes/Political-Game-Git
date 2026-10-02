@@ -5,11 +5,12 @@ import {
 } from "../living-world/town-finance-types";
 import { addDays, makeIsoDate } from "../dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
+import type { MacroShockKind } from "./policy";
 import {
-  UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS,
-  type MacroShockKind,
-} from "./policy";
-import { monthKeyOf } from "./store";
+  worldMetricDefinitionByStableKey,
+  worldMetricStateForPeriodAt,
+} from "../world-metrics";
+import { monthEnd, monthKeyOf, monthStart } from "./store";
 import type { MacroScopeKey } from "./types";
 import { MACRO_ECONOMY_CONTRACT_VERSION } from "./types";
 
@@ -228,9 +229,11 @@ const TAX_COLLECTION_BASES: ReadonlySet<string> = new Set([
  * collected, and an appropriation moves nothing until a payment is made, so
  * this reads completed transfers, never enactment. Each jurisdiction's
  * payments and collections in one month become at most one shock per
- * channel, on that jurisdiction's own layer; a state's budget is not a share
- * of the national economy. Intensity is the month's total against an
- * UNRESEARCHED full-intensity amount; below one millionth of it, nothing.
+ * channel, on that jurisdiction's own layer. Intensity is the payment total
+ * over its recorded aggregate personal income for that exact scope and month.
+ * No labor-income proxy, annual apportionment, or fixed-dollar fallback is used.
+ * Ordinary month-end income production/coverage remains a producer contract;
+ * absent compatible recorded income is not an invented denominator or shock.
  */
 export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
   key: "realized-public-money",
@@ -244,6 +247,7 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
         readonly kind: MacroShockKind;
         readonly jurisdictionId: EntityId;
         minorUnits: number;
+        readonly month: string;
         beginsAt: IsoDate;
         originEventId: EntityId;
         readonly eventIds: Set<EntityId>;
@@ -276,6 +280,7 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
           kind,
           jurisdictionId: flow.jurisdictionId,
           minorUnits: outcome.transferredAmount.minorUnits,
+          month: monthKeyOf(outcome.occurredAt),
           beginsAt: outcome.occurredAt,
           originEventId: eventId,
           eventIds: new Set([eventId]),
@@ -292,11 +297,32 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
     return [...groups.entries()]
       .sort(([left], [right]) => left.localeCompare(right))
       .flatMap(([key, group]): readonly MacroShockOrigin[] => {
+        const income = worldMetricStateForPeriodAt(
+          world,
+          worldMetricDefinitionByStableKey(world, "income.aggregate-personal")
+            .id,
+          { jurisdictionId: group.jurisdictionId, segmentKey: null },
+          {
+            kind: "interval",
+            startsAt: monthStart(group.month),
+            endsAt: monthEnd(group.month),
+          },
+          {
+            asOfDate: throughDate,
+            historySequenceExclusive: world.history.nextSequence,
+          },
+        );
+        if (
+          income?.value.kind !== "money" ||
+          income.value.money.currency !== "USD" ||
+          income.value.money.minorUnits <= 0
+        )
+          return [];
         const intensity = Math.min(
           1,
-          group.minorUnits / UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS,
+          group.minorUnits / income.value.money.minorUnits,
         );
-        if (intensity < 1e-6) return [];
+        if (intensity <= 0) return [];
         return [
           {
             dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:public-money:${key}`,

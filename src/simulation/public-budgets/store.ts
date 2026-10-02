@@ -1,3 +1,4 @@
+import type { PublicGovernmentIdentityCarrier } from "../public-government-identity";
 import type {
   LawEffectStamp,
   LawEffectStampedRecord,
@@ -303,7 +304,7 @@ export interface PensionRecord {
   readonly paidShare: number;
 }
 
-export interface PublicBudgetGovernment {
+export interface PublicBudgetGovernment extends PublicGovernmentIdentityCarrier {
   /** `US-IL`, `county:17031` or `place:1714000`. */
   readonly key: string;
   readonly jurisdictionId: EntityId;

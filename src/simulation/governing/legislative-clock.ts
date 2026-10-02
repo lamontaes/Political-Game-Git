@@ -108,7 +108,7 @@ import {
   scheduleCongressSitting,
 } from "./congress-chambers";
 import { chamberByKey, floorStageByKey } from "../legislature-rules";
-import type { LegislativeRulePack } from "../legislature-rules";
+import type { CommitteeRule, LegislativeRulePack } from "../legislature-rules";
 import { personName } from "../people";
 import type {
   EntityId,
@@ -253,11 +253,23 @@ export function measureSessionIsClosed(
   world: World,
   measureId: EntityId,
 ): { readonly closed: boolean; readonly closedOn: IsoDate | null } {
-  if (!adjournmentStopsPhase(measurePosition(world, measureId).phase)) {
+  const measure = requireMeasure(world, measureId);
+  const position = measurePosition(world, measureId);
+  if (!adjournmentStopsPhase(position.phase))
+    return { closed: false, closedOn: null };
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  return sessionStatus(world, measure, pack, position.phase);
+}
+
+function sessionStatus(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  pack: LegislativeRulePack,
+  phase: string,
+): { readonly closed: boolean; readonly closedOn: IsoDate | null } {
+  if (!adjournmentStopsPhase(phase)) {
     return { closed: false, closedOn: null };
   }
-  const measure = requireMeasure(world, measureId);
-  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const closedOn = measureSessionClosedOn(world, measure, pack);
   return {
     closed: closedOn !== null && world.currentDate > closedOn,
@@ -561,9 +573,10 @@ export function applyInstitutionSessionEnd(
   const position = measurePosition(world, measureId);
   if (position.terminal) return { kind: "idle" };
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
-  const owner = measureStepOwner(world, measureId, measure.originChamberKey);
-  const session = measureSessionIsClosed(world, measureId);
   const phase = position.phase;
+  const session = sessionStatus(world, measure, pack, phase);
+  if (!session.closed) return null;
+  const owner = measureStepOwner(world, measureId, measure.originChamberKey);
   const reconsidersVetoLater =
     session.closed && vetoWaitsForNextSitting(world, measure, phase);
   if (
@@ -607,6 +620,23 @@ export function applyInstitutionSessionEnd(
         : `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
     };
   return null;
+}
+
+/** The same compiled referral choice for an automatic step or a player command. */
+export function referralCommittee(
+  world: World,
+  measureId: EntityId,
+  chamberKey: string,
+): CommitteeRule | null {
+  const measure = requireMeasure(world, measureId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const chamber = chamberByKey(pack, chamberKey);
+  const referredKey = congressReferralCommittee(world, measure, chamberKey);
+  return (
+    chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
+    chamber.committees[0] ??
+    null
+  );
 }
 
 /** Applies the institution's next step to one measure, if it has one. */
@@ -656,6 +686,17 @@ export function applyInstitutionStep(
       reason:
         "The local council's rule pack has no admitted institution work binding.",
     };
+  // Supplied decisions already name the actual seated body. They need the
+  // same session guard, not another story blueprint or borrowed roster.
+  if (input.recordedFloorVote) {
+    const sessionEnd = applyInstitutionSessionEnd(before, measureId);
+    if (sessionEnd) return sessionEnd;
+    return applyInstitutionFloorVote(
+      before,
+      input.recordedFloorVote,
+      input.recordedFloorVote.seatedMemberPersonIds,
+    );
+  }
   const blueprint = legislativeBlueprintForMeasure(before, measure);
   const officers = unit ? sittingLocalOfficers(before, unit) : [];
   const councilMembers = officers.filter((seat) => !seat.mayor);
@@ -690,44 +731,30 @@ export function applyInstitutionStep(
   // Every seated member who may vote on the bill holds principles of their
   // own before any question is put, Congress's members included: without
   // them a member had only a party cue, and every roll call was unanimous.
-  const world = input.recordedFloorVote
-    ? before
-    : closeLapsedVoteNotices(
-        local
-          ? ensureCouncilPrinciples(before, [
-              ...councilMembers,
-              ...(mayorPersonId ? [{ personId: mayorPersonId }] : []),
-            ])
-          : ensureOfficeholderPrinciples(
-              before,
-              bodies.flatMap((body) =>
-                body.members.flatMap((member) =>
-                  member.personId ? [member.personId] : [],
-                ),
-              ),
+  const world = closeLapsedVoteNotices(
+    local
+      ? ensureCouncilPrinciples(before, [
+          ...councilMembers,
+          ...(mayorPersonId ? [{ personId: mayorPersonId }] : []),
+        ])
+      : ensureOfficeholderPrinciples(
+          before,
+          bodies.flatMap((body) =>
+            body.members.flatMap((member) =>
+              member.personId ? [member.personId] : [],
             ),
-        measureId,
-      );
+          ),
+        ),
+    measureId,
+  );
   // Drawing principles and closing notices change neither the rule pack nor
   // the seated roster. Reuse the roster already read for this same step.
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
-  if (
-    !input.recordedFloorVote &&
-    (owner === null || owner === "sponsor-office")
-  )
-    return { kind: "idle" };
+  if (owner === null || owner === "sponsor-office") return { kind: "idle" };
   const position = measurePosition(world, measureId);
   const sessionEnd = applyInstitutionSessionEnd(world, measureId);
   if (sessionEnd) return sessionEnd;
-  // A caller may supply its actual members' decisions, including the
-  // controlled sponsor's ballot, but cannot bypass the session's end.
-  if (input.recordedFloorVote)
-    return applyInstitutionFloorVote(
-      world,
-      input.recordedFloorVote,
-      input.recordedFloorVote.seatedMemberPersonIds,
-    );
   if (owner === "executive")
     return {
       kind: "executive",
@@ -792,12 +819,7 @@ export function applyInstitutionStep(
     };
   }
   if (steps.includes("request-referral")) {
-    // A Congress bill goes to the committee for its policy field; any other
-    // bill to the chamber's first compiled committee.
-    const referredKey = congressReferralCommittee(world, measure, chamberKey);
-    const committee =
-      chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
-      chamber.committees[0];
+    const committee = referralCommittee(world, measureId, chamberKey);
     if (!committee)
       return {
         kind: "blocked",
