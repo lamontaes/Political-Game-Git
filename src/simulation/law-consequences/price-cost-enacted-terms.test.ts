@@ -1,3 +1,23 @@
+import { randomInt } from "node:crypto";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../../presentation/new-game";
+import {
+  allGovernmentUnits,
+  governmentUnitJurisdictionId,
+} from "../government-units";
+import { lifePlaceByKey } from "../life-places";
+import { createHousehold } from "../life";
+import {
+  createDwelling,
+  createHousingTenure,
+  createResourceObligation,
+} from "../resources";
+import {
+  RENT_STABILIZATION_ROW,
+  RENT_COVERAGE_VALUES,
+} from "./rent-stabilization-row";
 import { describe, expect, it } from "vitest";
 import { createWorld } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
@@ -11,6 +31,7 @@ import {
   availableMeasureSteps,
   measurePosition,
   recordEnactment,
+  recordExecutiveAction,
   offerFloorAmendment,
   measureAmendments,
 } from "../legislation";
@@ -79,7 +100,10 @@ const row: LawConsequenceRow = {
   },
 };
 
-function setup(revision: "replace" | "omit" | "wrong-unit") {
+function setup(
+  revision: "replace" | "omit" | "wrong-unit",
+  production = false,
+) {
   const scenario = createLegislativeScenario("kentucky");
   const state = stateJurisdictionForKey("US-KY")!;
   const baseCatalog = createProductionPolicyCatalog();
@@ -90,7 +114,17 @@ function setup(revision: "replace" | "omit" | "wrong-unit") {
     ...baseCatalog,
     propositions: {
       ...baseCatalog.propositions,
-      [proposition.id]: { ...proposition, consequences: [row] },
+      [proposition.id]: {
+        ...proposition,
+        parameters: production
+          ? proposition.parameters.map((parameter) =>
+              parameter.key === "coverage"
+                ? { ...parameter, allowedValues: RENT_COVERAGE_VALUES }
+                : parameter,
+            )
+          : proposition.parameters,
+        consequences: [production ? RENT_STABILIZATION_ROW : row],
+      },
     },
   };
   const jurisdictions = new Map(
@@ -187,6 +221,17 @@ function setup(revision: "replace" | "omit" | "wrong-unit") {
     ...(revision === "omit"
       ? {}
       : {
+          ...(production
+            ? {
+                lawCategories: [
+                  {
+                    questionKey: QUESTION,
+                    key: "coverage",
+                    values: ["market:residential:house"],
+                  },
+                ],
+              }
+            : {}),
           lawTerms: [
             {
               questionKey: QUESTION,
@@ -211,9 +256,9 @@ function setup(revision: "replace" | "omit" | "wrong-unit") {
       personId: world.personOrder.find((id) => id !== personId)!,
     },
     startsAt: world.currentDate,
-    amount: money(200_000, "USD"),
+    amount: money(production ? 200_001 : 200_000, "USD"),
     cadenceKind: "schedule:monthly",
-    basisKind: "custom:final-term-fixture",
+    basisKind: production ? "housing:rent" : "custom:final-term-fixture",
     basisReference: { kind: "general" },
     restrictionKind: null,
     jurisdictionId: state.id,
@@ -223,6 +268,45 @@ function setup(revision: "replace" | "omit" | "wrong-unit") {
     },
   });
   const flow = world.history.resourceFlows.at(-1)!;
+  if (production) {
+    const provenance = flow.provenance;
+    world = createHousehold(world, {
+      stableKey: "price-term-fixture:tenant",
+      formedAt: world.currentDate,
+      label: "Controlled recorded tenant",
+      provenance,
+    });
+    const householdId = world.history.households.at(-1)!.id;
+    world = createDwelling(world, {
+      stableKey: "price-term-fixture:home",
+      establishedAt: world.currentDate,
+      jurisdictionId: state.id,
+      locationLabel: "Controlled recorded rental home",
+      classification: "residential:house",
+      provenance,
+    });
+    const dwellingId = world.history.dwellings.at(-1)!.id;
+    world = createHousingTenure(world, {
+      stableKey: "price-term-fixture:tenure",
+      holder: { kind: "household", householdId },
+      dwellingId,
+      startedAt: world.currentDate,
+      kind: "lease:rented",
+      context: null,
+      provenance,
+    });
+    world = createResourceObligation(world, {
+      stableKey: "price-term-fixture:obligation",
+      resourceFlowId: flow.id,
+      establishedAt: world.currentDate,
+      basisKind: "housing:lease-1-bedroom-market",
+      principal: null,
+      careResponsibilityId: null,
+      housingTenureId: world.history.housingTenures.at(-1)!.id,
+      provenance,
+    });
+  }
+
   world = recordResourceFlowTerms(world, {
     stableKey: "price-term-fixture:renewal",
     resourceFlowId: flow.id,
@@ -264,12 +348,24 @@ function enact(
         measureId,
         effectiveAt: world.currentDate,
       });
+    if (measurePosition(world, measureId).phase === "awaiting-executive") {
+      world = recordExecutiveAction(world, {
+        stableKey: `${measureId}:fixture-signature`,
+        measureId,
+        action: "signed",
+        rationale: context.governorRationale,
+      });
+      continue;
+    }
     const step = availableMeasureSteps(world, measureId).find(
       (key) => key !== "offer-amendment",
     );
     if (!step)
       throw new Error("No canonical next step for controlled price-term bill");
-    world = applyLegislativeStep(context, world, step).world;
+    const result = applyLegislativeStep(context, world, step);
+    if (result.world === world)
+      throw new Error(`Fixture blocked at ${step}: ${result.message}`);
+    world = result.world;
   }
   throw new Error("Controlled price-term bill did not reach enactment");
 }
@@ -314,4 +410,70 @@ describe("price-cost reads final enacted terms through G2", () => {
       expect(serializeWorld(world)).toBe(before);
     },
   );
+});
+
+describe("production rent stabilization row", () => {
+  it("caps an explicitly covered recorded lease with the adopted ratio and preserves payments", () => {
+    const fixture = setup("replace", true);
+    const resolved = resolvePriceCostConsequences(
+      fixture.world,
+      RENT_STABILIZATION_ROW,
+      fixture.context,
+    )[0]!;
+    expect(resolved.value).toMatchObject({ value: 210_001, unit: "minor" });
+    expect(resolved.sourceRecordIds).toContain(fixture.adopted.id);
+    const changed = applyPriceCostConsequence(fixture.world, resolved);
+    expect(
+      resourceFlowTermsAt(changed, fixture.flow.id)!.amount.minorUnits,
+    ).toBe(210_001);
+    expect(changed.history.resourceTransferOutcomes).toBe(
+      fixture.world.history.resourceTransferOutcomes,
+    );
+    const loaded = deserializeWorld(serializeWorld(changed));
+    expect(applyPriceCostConsequence(loaded, resolved)).toBe(loaded);
+  });
+  it.each(["omit", "wrong-unit"] as const)(
+    "leaves a %s cap pending without inventing a ceiling",
+    (revision) => {
+      const fixture = setup(revision, true);
+      expect(
+        resolvePriceCostConsequences(
+          fixture.world,
+          RENT_STABILIZATION_ROW,
+          fixture.context,
+        ),
+      ).toEqual([]);
+    },
+  );
+  it("opens a new game in an actual random canonical municipality", () => {
+    const places = allGovernmentUnits().flatMap((unit) => {
+      if (
+        unit.unitType !== "municipality" ||
+        !unit.functionalActive ||
+        !unit.placeGeoid
+      )
+        return [];
+      const place = lifePlaceByKey(unit.placeGeoid);
+      return place?.context.jurisdiction.id ===
+        governmentUnitJurisdictionId(unit)
+        ? [place]
+        : [];
+    });
+    const place = places[randomInt(places.length)]!;
+    process.stdout.write(
+      `A57 random opening: ${place.key} ${place.context.jurisdiction.name}; state=${place.stateJurisdictionKey}; pool=${places.length}; seed=a57-recorded-rent-cap\n`,
+    );
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed: "a57-recorded-rent-cap",
+      questionnaire: "skipped",
+    });
+    expect(game.world.people[game.playerPersonId]).toBeDefined();
+    expect(
+      Object.values(game.world.policyCatalog.propositions).find(
+        (proposition) => proposition.stableKey === QUESTION,
+      )!.consequences,
+    ).toContainEqual(RENT_STABILIZATION_ROW);
+  });
 });

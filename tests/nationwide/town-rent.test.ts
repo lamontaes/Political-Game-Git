@@ -145,9 +145,9 @@ describe("rent arithmetic", () => {
     expect(inclusionarySetAsideOpen(1, 6)).toBe(false);
   });
 
-  it("caps a stabilized renewal at the price rise plus five points, at most ten", () => {
+  it("caps a stabilized renewal only with an explicit recorded ratio", () => {
     // Home prices up 9% while prices in general rose 3%.
-    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true);
+    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true, 0.08);
     expect(steep.capped).toBe(true);
     expect(steep.cap).toBeCloseTo(0.08);
     expect(steep.amountMinor).toBe(2160_00);
@@ -156,10 +156,15 @@ describe("rent arithmetic", () => {
     const free = renewedMarketRent(2000_00, 1.09, 1.03, false);
     expect(free.capped).toBe(false);
     expect(free.amountMinor).toBe(steep.uncappedMinor);
-    // High inflation: never more than ten percent.
-    expect(renewedMarketRent(2000_00, 1.12, 1.08, true).cap).toBeCloseTo(0.1);
+    expect(renewedMarketRent(2000_00, 1.09, 1.03, true).amountMinor).toBe(
+      2180_00,
+    );
+    // Another explicitly recorded cap.
+    expect(renewedMarketRent(2000_00, 1.12, 1.08, true, 0.1).cap).toBeCloseTo(
+      0.1,
+    );
     // An ordinary renewal is under the cap and untouched.
-    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true);
+    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true, 0.08);
     expect(ordinary.capped).toBe(false);
     expect(ordinary.amountMinor).toBe(2080_00);
   });
