@@ -2,7 +2,14 @@ import { describe, expect, it } from "vitest";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { makeIsoDate } from "./dates";
 import { homePurchaseTerms } from "./home-purchase";
-import { lifePlaces } from "./life-places";
+import { amortizedMonthlyPaymentMinor } from "./public-benefit-formulas";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../presentation/opening-life";
+import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import { withWorldIntegrityDeferred } from "./world";
+import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { startValuesFromLatents } from "./macro-economy/kernel";
 import {
@@ -23,12 +30,15 @@ import { deserializeWorld, serializeWorld } from "./serialization";
 import { createWorld } from "./world";
 
 const SEED = "team4-a54-home-price-level-all56-20261001";
-const available = [...lifePlaces()];
+const available = [...lifePlaceStateIdentities()];
 const rng = new SeededRng(SEED);
-const places = Array.from(
-  { length: 5 },
-  () => available.splice(rng.integer(0, available.length), 1)[0]!,
-);
+const places = Array.from({ length: 5 }, () => {
+  const state = available.splice(rng.integer(0, available.length), 1)[0]!;
+  return searchLifePlaces("", 1, {
+    stateJurisdictionKey: state.jurisdictionKey,
+    scope: "locality",
+  })[0]!;
+});
 
 /** Controlled saved macro inputs, not a forecast or production price calibration. */
 function month(
@@ -80,6 +90,34 @@ function month(
 }
 
 describe("A54 purchase prices follow the housing market", () => {
+  it("samples distinct states from the complete 56-state catalog", () => {
+    expect(lifePlaceStateIdentities()).toHaveLength(56);
+    expect(
+      new Set(places.map((place) => place.stateJurisdictionKey)).size,
+    ).toBe(5);
+  });
+  it("opens one ordinary new game in its seeded random place before READY", () => {
+    const place = places[0]!;
+    const game = withWorldIntegrityDeferred(
+      () =>
+        generateOpeningLife(
+          prepareOpeningLife({
+            ...DEFAULT_NEW_GAME_SETUP,
+            placeKey: place.key,
+            seed: `${SEED}:ordinary`,
+            questionnaire: "skipped",
+          }),
+        ).game,
+    );
+    expect(game).toBeDefined();
+    expect(game!.world.control.kind).toBe("person");
+    const quote = homePurchaseTerms(game!.world, place.context.jurisdiction.id);
+    expect(quote.downPaymentMinor).toBeGreaterThan(0);
+    expect(quote.monthlyPaymentMinor).not.toBeNull();
+    expect(
+      game!.world.jurisdictions[place.context.jurisdiction.id],
+    ).toBeDefined();
+  });
   it.each(places)(
     "reads the dated housing level in $displayName ($key), seed " + SEED,
     (place) => {
@@ -141,6 +179,27 @@ describe("A54 purchase prices follow the housing market", () => {
           ) * 100_000,
         ),
       );
+      expect(terms.downPaymentMinor).toBe(Math.round(terms.priceMinor * 0.1));
+      expect(terms.monthlyPaymentMinor).toBe(
+        amortizedMonthlyPaymentMinor(
+          terms.priceMinor - terms.downPaymentMinor,
+          400,
+          360,
+        ),
+      );
+      expect(terms.downPaymentBasis).toBe("sourced-opening-median");
+      const consumerPriceChanged = {
+        ...world,
+        macroEconomy: {
+          ...world.macroEconomy,
+          months: world.macroEconomy.months.map((row) =>
+            row.scope === local.scope
+              ? { ...row, priceIndex: row.priceIndex * 2 }
+              : row,
+          ),
+        },
+      };
+      expect(homePurchaseTerms(consumerPriceChanged, town)).toEqual(terms);
       expect(serializeWorld(world)).toBe(before);
       const reopened = deserializeWorld(before);
       expect(homePurchaseTerms(reopened, town)).toEqual(terms);

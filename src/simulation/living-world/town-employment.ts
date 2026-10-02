@@ -1,3 +1,8 @@
+import {
+  ensureLocalGovernmentOrganization,
+  localGovernmentOrganizationKey,
+  placeLocalGovernmentUnits,
+} from "../nationwide-world/local-governments";
 /**
  * The jobs of the player's town.
  *
@@ -398,6 +403,8 @@ export interface Workplace {
   readonly roles: readonly Role[];
   /** Hire into the town's existing organizations of this kind instead. */
   readonly existing?: OrganizationClassification;
+  /** A job in the recorded government itself, not a separately owned firm. */
+  readonly governmentOffice?: "municipal" | "county";
 }
 
 const role = (
@@ -776,6 +783,7 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
   },
   {
     key: "city-hall",
+    governmentOffice: "municipal",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
     name: ({ town }) => `${town} City Hall`,
@@ -791,6 +799,7 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     // The clerk who keeps the county's records and takes filings. Only a
     // town inside a county with a county government has one.
     key: "county-clerk",
+    governmentOffice: "county",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
     name: ({ county }) => `${county} Clerk's Office`,
@@ -1412,8 +1421,8 @@ export function fillTownJobs(
         kindOf.set(organization.id, match[1]!);
     }
     for (const workplace of TOWN_WORKPLACES)
-      if (workplace.existing)
-        for (const id of townOrganizationsOf(next, town, workplace.existing))
+      if (workplace.existing || workplace.governmentOffice)
+        for (const id of existingOf(workplace))
           if (!kindOf.has(id)) kindOf.set(id, workplace.key);
     const orgOf = new Map<EntityId, EntityId>();
     const pastKinds = new Map<EntityId, Set<string>>();
@@ -1511,13 +1520,37 @@ export function fillTownJobs(
   };
   const existing = new Map<string, readonly EntityId[]>();
   const existingOf = (workplace: Workplace) => {
-    if (!workplace.existing) return [];
+    if (!workplace.existing && !workplace.governmentOffice) return [];
     let found = existing.get(workplace.key);
     if (!found) {
       // A closed congregation or school hires nobody.
-      found = townOrganizationsOf(next, town, workplace.existing).filter(
-        (id) => !organizationClosingAt(next, id),
-      );
+      if (workplace.governmentOffice) {
+        const governments = placeLocalGovernmentUnits(
+          lifePlaceByJurisdictionId(town),
+        );
+        const units =
+          workplace.governmentOffice === "county"
+            ? governments.counties
+            : governments.municipal.length > 0
+              ? governments.municipal
+              : governments.townships;
+        // A place spanning governments does not silently assign a worker to
+        // the first county or invent a municipality where none is recorded.
+        if (units.length !== 1) return [];
+        const unit = units[0]!;
+        next = ensureLocalGovernmentOrganization(next, unit);
+        const organization = next.history.organizations.find(
+          (row) => row.stableKey === localGovernmentOrganizationKey(unit),
+        );
+        found =
+          organization && !organizationClosingAt(next, organization.id)
+            ? [organization.id]
+            : [];
+      } else {
+        found = townOrganizationsOf(next, town, workplace.existing!).filter(
+          (id) => !organizationClosingAt(next, id),
+        );
+      }
       existing.set(workplace.key, found);
     }
     return found;
@@ -1530,7 +1563,7 @@ export function fillTownJobs(
    */
   const employer = (workplace: Workplace): EntityId | null => {
     const already = existingOf(workplace);
-    if (workplace.existing)
+    if (workplace.existing || workplace.governmentOffice)
       return already.length > 0
         ? [...already].sort(
             (a, b) => staffAt(a) - staffAt(b) || a.localeCompare(b),

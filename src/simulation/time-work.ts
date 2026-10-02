@@ -1,17 +1,13 @@
 import { applyLawConsequences } from "./enacted-law-effects";
+import { settleJobPay } from "./job-market";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
-import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
+import { applyOfficeLifecycle } from "./governing/office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
-import { applyCongressTurnover } from "./living-world/congress-turnover";
-import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
-import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
-import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
 import { applyArticleV } from "./governing/article-v";
-import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
 import {
@@ -27,6 +23,7 @@ import {
 } from "./dates";
 import { createStableId } from "./ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
+import { pressEntityAvailableAt, pressEntityExists } from "./press/integrity";
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
@@ -2027,7 +2024,11 @@ export function applyDateBoundary(
   crossedFrom: World["currentDate"],
   world: World,
 ): World {
-  const moved = applyNationalTermTransitions(world);
+  const transitioned = applyNationalTermTransitions(world);
+  const moved =
+    crossedFrom !== world.currentDate && transitioned.control.kind === "person"
+      ? settleJobPay(transitioned, transitioned.control.personId)
+      : transitioned;
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
@@ -2035,27 +2036,12 @@ export function applyDateBoundary(
     crossedFrom,
     applyCrisisRepairFunding(
       applyEnactedCourtSizes(
-        applyCrisisOfficeContinuity(
+        applyOfficeLifecycle(crossedFrom, moved, (afterTerms) =>
           applyCongressLawmaking(
             crossedFrom,
             applyFederalReform(
               crossedFrom,
-              applyArticleV(
-                crossedFrom,
-                applyConstitutionalReform(
-                  crossedFrom,
-                  applyPresidentialTurnover(
-                    crossedFrom,
-                    applyGovernorTurnover(
-                      crossedFrom,
-                      applyCongressTurnover(
-                        crossedFrom,
-                        applyStateLegislatureTurnover(crossedFrom, moved),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              applyArticleV(crossedFrom, afterTerms),
             ),
           ),
         ),
@@ -2169,6 +2155,7 @@ function canonicalSourceExists(world: World, id: EntityId): boolean {
     // kind already existed; nothing legislative could satisfy it, so a docket
     // of bills had no way to appear in Work at all.
     legislationEntityExists(world, id) ||
+    pressEntityExists(world, id) ||
     timeWorkEntityExists(world, id)
   );
 }
@@ -2203,6 +2190,9 @@ function canonicalSourceAvailable(
     return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
   if (legislationEntityExists(world, id)) {
     return legislationEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  }
+  if (pressEntityExists(world, id)) {
+    return pressEntityAvailableAt(world, id, at.date, sequenceExclusive);
   }
   const record = timeWorkRecordById(world, id);
   return !!record && record.sequence < sequenceExclusive;

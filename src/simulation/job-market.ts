@@ -1810,6 +1810,8 @@ export function hireAtAdultStart(
   const monthly = localBusinessWageMinor(
     employer.kind,
     input.jurisdictionId,
+    next,
+    work.id,
   ).monthlyMinor;
   const weekly = weeklyPayAtHire(
     next,
