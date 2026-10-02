@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import { authoredWageTerm } from "../../tests/fixtures/authored-wage-term";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { makeIsoDate } from "./dates";
-import { lifePlaceStateIdentities } from "./life-places";
+import {
+  lifePlaceStateIdentities,
+  type LifePlaceStateIdentity,
+} from "./life-places";
 import {
   CITY_MINIMUM_WAGE_QUESTION_KEY,
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
@@ -29,7 +32,7 @@ const effectiveAt = makeIsoDate("2026-02-01");
 describe("A38 adopted federal floor through one reader", () => {
   it.each(places)(
     "reads $17.37 rather than a yes-answer placeholder in $jurisdictionKey",
-    (place) => {
+    (place: LifePlaceStateIdentity) => {
       const { world } = smallWorld({
         place: place.jurisdictionKey,
         date: enactedAt,
