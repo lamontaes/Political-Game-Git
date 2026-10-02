@@ -1,0 +1,33 @@
+A22/A16 fixture-only receiving handoff — NOT READY / source dependency
+Base currentmain f6704f51f received additively after A22 #1968 independently
+verified merged as fc26cdb6887980f5aeace24f45683dffaf832bbe.
+Received ONLY O4 donor5e07b4b91b9f9a60cb150da8bc0db2f5a7c7a491 tax-laws
+negative legalization/repeal control semantics. No source retirement or
+binding files copied. Donor obsolete import removals already superseded by
+merged1968; all existing5 tests and their collection/reload assertions kept.
+
+Complete changed src/simulation/public-budgets/tax-laws.test.ts receiving
+6PASS2FAIL/8,22.64s/1.23s bodies,14318exit1,oneworker/stocklimits.
+Actual production NEW GAME seedteam6-a22-cannabis-fixture-new-game-20261002,
+place4015050,playerperson_a8a42a224bbdc914,date2026-01-05, PASS.
+Five original income/no-account and declared-sale/exemption/zero-payment
+cases still PASS. New negative controls fail on actual current-main legacy
+forecast dependency:
+US-HI legalization: expected0.9994316009276072,actual1.0363806983830455.
+US-MI repeal: expected0.9971676385206183,actual0.9230619905470703.
+All no-base/no-payment/empty-month guards pass before exact factor assertion.
+month.ts cannabisSalesFactor reads cannabisSalesRevenueChange and opening
+expectedRevenue rather than actual recorded sales; O4 owns that retirement.
+Do not weaken assertion or restore estimated cash. Receiver must compose
+its actual source retirement then run this same complete changed file.
+
+Initial own-fixture wrong question key yielded6PASS2FAIL/candidate count0;
+corrected to canonical business-commerce.legalize-cannabis-sales before
+receiving result above. Not relabeled as production failure.
+No fullsuite,unchangedLOAD/globaltypes/officialClaudeGATE/storage cleanup.
+No added game amount,rate,event or jurisdiction authority.
+
+Final scoped1changedroot1222importedfiles0diagnostics,83019exit0.
+Single-file ESLint/Prettier/whitespacePASS,4628exit0. Test-only handoff
+flips no production audit rule; A22 merged4/4 preserved, prerequisite for
+O4 A16/A17 no-forecast checks. No new standalone PR or READY claim.
