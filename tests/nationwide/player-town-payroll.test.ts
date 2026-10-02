@@ -17,12 +17,8 @@ import {
   nextPaydayDate,
   payPeriodEndingOn,
   paydayHandler,
-  startTownJobPay,
-  raiseTownPayToMinimum,
-  raiseTeacherPayToFloor,
   payTownPaydays,
 } from "../../src/simulation/living-world/town-pay";
-import { noticeLawPayChanges } from "../../src/simulation/law-effects-noticed";
 import {
   createResourcePosition,
   createWorkCompensation,
@@ -30,17 +26,13 @@ import {
 } from "../../src/simulation/resources";
 import { ensureLifePathPersonalPosition } from "../../src/simulation/life-paths2-resources";
 import { FEDERAL_INCOME_TAX_KEY } from "../../src/simulation/statutory-tax";
-import {
-  scheduleFutureDueItem,
-  cancelFutureDueItem,
-} from "../../src/simulation/future-transitions";
+import { cancelFutureDueItem } from "../../src/simulation/future-transitions";
 import { resourcePositionAt } from "../../src/simulation/resource-queries";
 import {
   serializeWorld,
   deserializeWorld,
 } from "../../src/simulation/serialization";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
-import type { FutureDueItem, World } from "../../src/simulation/types";
 
 function allPlaces() {
   const largest = new Map<string, [string, number]>();
@@ -61,28 +53,6 @@ function allPlaces() {
     key,
     seed: `player-town-payroll:${key}`,
   }));
-}
-
-/** Exact pre-change payday caller, from main ab4ac1b8. */
-function previousPayday(world: World, due: FutureDueItem): World {
-  const since = due.stableKey.slice(
-    `${TOWN_PAY_VERSION}:payday:`.length,
-  ) as World["currentDate"];
-  const played =
-    world.control.kind === "person" ? world.control.personId : null;
-  let next = startTownJobPay(world, played, since);
-  next = raiseTownPayToMinimum(next, played);
-  next = raiseTeacherPayToFloor(next, played);
-  next = noticeLawPayChanges(next, since);
-  next = payTownPaydays(next, since, played);
-  return scheduleFutureDueItem(next, {
-    stableKey: `${TOWN_PAY_VERSION}:payday:${next.currentDate}`,
-    dueAt: nextPaydayDate(next.currentDate),
-    transitionKey: PAYDAY_TRANSITION_KEY,
-    entityIds: [next.id],
-    jurisdictionId: null,
-    provenance: { kind: "simulated", sourceEntityIds: [next.id] },
-  });
 }
 
 describe.each(allPlaces())(
@@ -177,8 +147,9 @@ describe.each(allPlaces())(
         (item) => item.transitionKey === PAYDAY_TRANSITION_KEY,
       )!;
       expect(due).toBeDefined();
-      const npc = withWorldIntegrityDeferred(() =>
-        previousPayday({ ...base, control: { kind: "observer" } }, due),
+      const npc = withWorldIntegrityDeferred(
+        () =>
+          paydayHandler({ ...base, control: { kind: "observer" } }, due).world,
       );
       const player = withWorldIntegrityDeferred(
         () =>
@@ -187,8 +158,8 @@ describe.each(allPlaces())(
             due,
           ).world,
       );
-      // Every saved history record matches the existing NPC route. Only control
-      // identity differs; the former played-person exclusion is the intended fix.
+      // Both control identities use the same saved payday and common writer.
+      // Every saved record, withholding payment and cash movement must match.
       expect(player.history).toEqual(npc.history);
       const flow = player.history.resourceFlows.find(
         (item) =>
