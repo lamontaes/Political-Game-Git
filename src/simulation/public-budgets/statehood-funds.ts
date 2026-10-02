@@ -68,7 +68,6 @@ export function decideStatehoodCertification(
   government: PublicBudgetGovernment,
   startsOn: IsoDate,
 ): StatehoodCertification | null {
-  if (government.level !== "state") return null;
   if (government.key !== `US-${statehoodPlace()}`) return null;
   if (!statehoodAdmittedOn(world, startsOn)) return null;
   if (government.years.some((year) => year.statehoodCertification?.certified))

@@ -153,6 +153,20 @@ export interface MunicipalProcedure {
     readonly inactionOutcome: string;
   } | null;
   readonly override: string | null;
+  readonly financialGeneralThresholdUsd?: number | null;
+  readonly financialLocalRule?: {
+    readonly operativeOn: string;
+    readonly fullMembershipAboveUsd: number;
+    readonly delayedAboveUsd: number;
+    readonly minimumInterveningDays: number;
+    readonly ordinaryCitations: readonly string[];
+    readonly ordinaryUnresolved: readonly string[];
+    readonly quorumCitation: string;
+  } | null;
+  readonly managerElectionThreshold?: MunicipalVoteThreshold | null;
+  readonly overrideWindowDays?: number | null;
+  readonly congressionalReviewDays?: number | null;
+  readonly criminalCodeReviewDays?: number | null;
   readonly overrideState: string;
   readonly overrideAbsence: string | null;
   readonly effectivePublication: string | null;
@@ -612,7 +626,9 @@ export function municipalRuleSourceRef(
   };
   const fact =
     reading.facts.find((candidate) => candidate.value === citation) ??
-    reading.facts.find((candidate) => candidate.path === paths[citation]);
+    reading.facts.find(
+      (candidate) => candidate.path === (paths[citation] ?? citation),
+    );
   const evidence = fact?.evidence?.[0];
   const source = reading.sources.find(
     (candidate) => candidate.key === evidence?.artifactId,
@@ -957,6 +973,84 @@ export function municipalRulePackFor(
       },
     ],
     chamberOrder: ["council"],
+    ...(reading.procedure.financialGeneralThresholdUsd != null ||
+    reading.procedure.financialLocalRule != null ||
+    reading.procedure.managerElectionThreshold != null ||
+    reading.procedure.overrideWindowDays != null ||
+    reading.procedure.congressionalReviewDays != null ||
+    reading.procedure.criminalCodeReviewDays != null
+      ? {
+          councilActions: {
+            ...(reading.procedure.financialGeneralThresholdUsd != null
+              ? {
+                  financialGeneralThresholdUsd: knownRule(
+                    reading.procedure.financialGeneralThresholdUsd,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.financialGeneralThresholdUsd",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.financialLocalRule != null
+              ? {
+                  financialLocalRule: knownRule(
+                    reading.procedure.financialLocalRule,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.financialLocalRule",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.managerElectionThreshold != null
+              ? {
+                  managerElectionThreshold: municipalVoteThresholdRule(
+                    reading.procedure.managerElectionThreshold,
+                    "Majority of members voting on the question",
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.managerElectionThreshold",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.overrideWindowDays != null
+              ? {
+                  overrideWindowDays: knownRule(
+                    reading.procedure.overrideWindowDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.overrideWindowDays",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.congressionalReviewDays != null
+              ? {
+                  congressionalReviewDays: knownRule(
+                    reading.procedure.congressionalReviewDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.congressionalReviewDays",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.criminalCodeReviewDays != null
+              ? {
+                  criminalCodeReviewDays: knownRule(
+                    reading.procedure.criminalCodeReviewDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.criminalCodeReviewDays",
+                    ),
+                  ),
+                }
+              : {}),
+          },
+        }
+      : {}),
     origination: {
       generalOrigination: knownRule(
         ["council"],
