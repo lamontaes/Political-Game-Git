@@ -5,24 +5,27 @@ import { JobListingsPanel } from "../../src/player/JobListingsPanel";
 import { nashvilleWithFederalRaise, onDate } from "./federal-raise-fixture";
 
 /*
- * The Jobs screen shows the pay floor line, and the line changes when the
- * enacted raise takes effect. Markup proof; clicking is not claimed here.
+ * The owner removed the legal-pay paragraph from Jobs. The underlying law
+ * still governs pay; this verifies only the requested read-only UI removal.
  */
 
-describe("the Jobs panel shows the pay floor", () => {
-  it("shows the federal rate before the raise and the Act's rate after it", () => {
+describe("the Jobs panel keeps legal-pay narration out of the listings", () => {
+  it("omits the paragraph before and after the enacted raise", () => {
     const { world, effectiveAt } = nashvilleWithFederalRaise(45);
     const before = renderToStaticMarkup(
       <JobListingsPanel world={world} onWorldChange={() => {}} />,
     );
-    expect(before).toContain('data-testid="job-pay-floor"');
-    expect(before).toContain("$7.25 an hour, set by federal law");
+    expect(before).toContain('data-testid="job-listings"');
+    expect(before).not.toContain('data-testid="job-pay-floor"');
+    expect(before).not.toContain("The lowest legal pay here");
     const after = renderToStaticMarkup(
       <JobListingsPanel
         world={onDate(world, effectiveAt)}
         onWorldChange={() => {}}
       />,
     );
-    expect(after).toContain("$15.00 an hour. Federal law set it from $7.25");
+    expect(after).toContain('data-testid="job-listings"');
+    expect(after).not.toContain("The lowest legal pay here");
+    expect(after).not.toContain("About this kind of work");
   });
 });
