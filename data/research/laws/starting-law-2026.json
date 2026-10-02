@@ -17376,7 +17376,15 @@
           "preempts": true,
           "cite": "Ark. Code § 6-17-2403",
           "source": "https://arkleg.state.ar.us/Home/FTPDocument?path=%2FACTS%2F2023R%2FPublic%2FACT237.pdf",
-          "note": "$50,000 minimum base salary for a starting teacher since the 2023-24 school year, under the LEARNS Act (Act 237 of 2023)."
+          "note": "$50,000 minimum base salary for a starting teacher since the 2023-24 school year, under the LEARNS Act (Act 237 of 2023).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-AS": {
           "answer": "yes",
@@ -17453,7 +17461,15 @@
           "preempts": true,
           "cite": "Iowa Code § 284.15(2)(a)",
           "source": "https://www.legis.iowa.gov/docs/code/284.15.pdf",
-          "note": "$50,000 for a starting teacher from the 2025-26 school year ($47,500 in 2024-25)."
+          "note": "$50,000 for a starting teacher from the 2025-26 school year ($47,500 in 2024-25).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 5000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-ID": {
           "answer": "yes",
