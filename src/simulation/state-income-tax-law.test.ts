@@ -122,11 +122,11 @@ function lawWorld(
   const graduated = Object.values(catalog.propositions).find(
     (row) => row.stableKey === GRADUATED_STATE_INCOME_TAX_QUESTION,
   )!;
-  const {
-    [adopted.id]: _adopt,
-    [graduated.id]: _graduated,
-    ...otherPropositions
-  } = catalog.propositions;
+  const otherPropositions = Object.fromEntries(
+    Object.entries(catalog.propositions).filter(
+      ([id]) => id !== adopted.id && id !== graduated.id,
+    ),
+  );
   return {
     seed,
     currentDate: makeIsoDate("2027-06-01"),

@@ -142,15 +142,22 @@ export function stateIncomeTaxUnderLaw(
     : (begunShape ?? "graduated");
   // Keep a starting table only while its sourced shape still governs. An
   // enacted reshape uses its own terms or the existing labeled fallback.
-  let tableLaw = graduated?.answer === "yes" ? graduated : adopt;
+  let tableLaw =
+    graduated?.answer === "yes"
+      ? graduated
+      : shapeLaw?.answer === "yes" &&
+          shape === "graduated" &&
+          adopt?.origin !== "enacted"
+        ? shapeLaw
+        : adopt;
   let table =
     tableLaw && (tableLaw.origin === "enacted" || shape === begunShape)
       ? readFinalEnactedLawSchedule(world, tableLaw, {
           questionKey:
-            tableLaw === graduated
+            tableLaw === shapeLaw
               ? GRADUATED_STATE_INCOME_TAX_QUESTION
               : ADOPT_STATE_INCOME_TAX_QUESTION,
-          termKey: tableLaw === graduated ? "brackets" : "rate",
+          termKey: tableLaw === shapeLaw ? "brackets" : "rate",
           onDate: taxYearStart,
         })
       : null;
@@ -166,7 +173,12 @@ export function stateIncomeTaxUnderLaw(
     return {
       kind: "enacted",
       shape,
-      lawMeasureIds: [tableLaw!.measureId],
+      lawMeasureIds: [
+        tableLaw!.measureId,
+        ...(adopt?.answer === "yes" && adopt.measureId !== tableLaw!.measureId
+          ? [adopt.measureId]
+          : []),
+      ],
       schedule: stateScheduleForFilingStatus(table.term.schedule, status),
     };
   const flatRate =
