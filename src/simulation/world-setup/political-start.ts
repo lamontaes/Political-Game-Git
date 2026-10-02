@@ -1,3 +1,5 @@
+import houseCohortJson from "./house-opening-cohort.generated.json" with { type: "json" };
+import { worldSetupRng } from "./conditions";
 import { canonicalJson } from "../canonical-json";
 import { ELECTORAL_ALLOCATION } from "../national-election-rules";
 import { sha256Hex } from "../sha256";
@@ -9,15 +11,7 @@ import {
   censusRegionStates,
 } from "./census-regions";
 import type { CensusRegion } from "./census-regions";
-import {
-  clampShare,
-  logistic,
-  logit,
-  openUniform,
-  roundTo,
-  standardNormal,
-} from "./deterministic-math";
-import { worldSetupRng } from "./conditions";
+import { clampShare, logistic, logit, roundTo } from "./deterministic-math";
 import { CRUNCH46_POLICY } from "./policy";
 import type {
   GeneratedPresidency,
@@ -104,14 +98,16 @@ const RETAINED_CAUCUS: Readonly<Record<string, string>> = {
 };
 
 export interface PoliticalLatents {
-  readonly regime: StartingRegime;
+  readonly regime: StartingRegime | null;
   readonly nationalSwingPp: number;
   readonly regionSwingPp: Readonly<Record<CensusRegion, number>>;
   readonly stateSwingPp: Readonly<Record<string, number>>;
 }
 
 /** Every effect zero: the diagnostic that must reconstruct the input rows. */
-export function zeroPoliticalLatents(regime: StartingRegime): PoliticalLatents {
+export function zeroPoliticalLatents(
+  regime: StartingRegime | null,
+): PoliticalLatents {
   return {
     regime,
     nationalSwingPp: 0,
@@ -121,41 +117,6 @@ export function zeroPoliticalLatents(regime: StartingRegime): PoliticalLatents {
     stateSwingPp: Object.fromEntries(
       censusRegionStates().map((usps) => [usps, 0]),
     ),
-  };
-}
-
-/** Shared national, Census-region and state effects: never independent flips. */
-export function drawPoliticalLatents(
-  world: World,
-  regime: StartingRegime,
-): PoliticalLatents {
-  const policy = CRUNCH46_POLICY.political;
-  const national =
-    policy.nationalSwingSd[regime] *
-    standardNormal(worldSetupRng(world, "politics:national"));
-  const regionSwingPp = Object.fromEntries(
-    CENSUS_REGION_ORDER.map((region) => [
-      region,
-      roundTo(
-        policy.censusRegionResidualSd[regime] *
-          standardNormal(worldSetupRng(world, `politics:region:${region}`)),
-      ),
-    ]),
-  ) as Record<CensusRegion, number>;
-  const stateSwingPp = Object.fromEntries(
-    censusRegionStates().map((usps) => [
-      usps,
-      roundTo(
-        policy.stateResidualSd[regime] *
-          standardNormal(worldSetupRng(world, `politics:state:${usps}`)),
-      ),
-    ]),
-  );
-  return {
-    regime,
-    nationalSwingPp: roundTo(national),
-    regionSwingPp,
-    stateSwingPp,
   };
 }
 
@@ -170,16 +131,6 @@ export function sharedSwing(
   );
 }
 
-function zeroed(latents: PoliticalLatents): boolean {
-  return (
-    latents.nationalSwingPp === 0 &&
-    CENSUS_REGION_ORDER.every(
-      (region) => latents.regionSwingPp[region] === 0,
-    ) &&
-    Object.values(latents.stateSwingPp).every((value) => value === 0)
-  );
-}
-
 /** Section 13: logit of the baseline, plus swing / 25, then back to a share. */
 export function applySwing(baselineShare: number, swingPp: number): number {
   const policy = CRUNCH46_POLICY.political;
@@ -189,34 +140,12 @@ export function applySwing(baselineShare: number, swingPp: number): number {
   );
 }
 
-function decide(
-  world: World,
-  key: string,
-  share: number,
-): "democratic" | "republican" {
-  if (share > 0.5) return "democratic";
-  if (share < 0.5) return "republican";
-  // An exact tie is a mathematical boundary, resolved by an authored even draw.
-  return openUniform(worldSetupRng(world, `tie:${key}`)) < 0.5
-    ? "democratic"
-    : "republican";
-}
-
-/**
- * One contest's starting affiliation.
- *
- * With a certified two-major-party margin the shared swings and this contest's
- * own residual move the share. Without one the office's recorded affiliation
- * is preserved exactly, with the compiler's reason for the missing margin: a
- * bounded calibration limitation, never a substituted number from another
- * office and never an invented neutral share.
- */
+/** Copies this office's certified share and recorded affiliation without draws. */
 export function generateContest(
-  world: World,
-  latents: PoliticalLatents,
+  _world: World,
+  _latents: PoliticalLatents,
   row: CalibrationRow,
 ): GeneratedSeatCondition {
-  const policy = CRUNCH46_POLICY.political;
   const reference = row.referenceAffiliation;
   const caucus = (affiliation: string) =>
     MAJOR.has(affiliation)
@@ -250,41 +179,24 @@ export function generateContest(
     };
   }
   const baselineShare = row.democraticTwoPartyShare;
-  // Rounded before use, so a later reader recomputing from the saved record
-  // lands on exactly the saved share.
-  const residual = zeroed(latents)
-    ? 0
-    : roundTo(
-        policy.seatResidualSd[latents.regime] *
-          standardNormal(
-            worldSetupRng(world, `politics:seat:${row.contestKey}`),
-          ),
-      );
-  const generated = applySwing(
-    baselineShare,
-    sharedSwing(latents, row.stateUsps) + residual,
-  );
-  const affiliation = decide(world, row.contestKey, generated);
+  const affiliation = reference ?? "unrecorded";
   return {
     seatKey: row.contestKey,
     baselineKind: "certified-two-party",
     baselineShare: roundTo(baselineShare),
-    seatResidualPp: residual,
-    generatedShare: roundTo(generated),
+    seatResidualPp: 0,
+    generatedShare: roundTo(baselineShare),
     affiliation,
-    caucus: affiliation,
+    caucus: reference === null ? null : caucus(reference),
     referenceWinner: reference,
-    uncertaintyReason: null,
+    uncertaintyReason: row.uncertaintyReason,
   };
 }
 
 const UNIT_RULE_NOTE =
-  "Statewide electors follow the generated statewide presidential share. Maine and Nebraska award district electors separately, but this compiled source has no certified presidential result by congressional district, so those electors follow their state's generated result and are recorded as an unmet unit-rule input. A House district's vote share is not a presidential vote share and is not used here.";
+  "Statewide electors follow the recorded statewide presidential winner. Maine and Nebraska award district electors separately, but this compiled source has no certified presidential result by congressional district, so those electors follow their state's recorded result and are recorded as an unmet unit-rule input. A House district's vote share is not a presidential vote share and is not used here.";
 
-export function generatePresidency(
-  world: World,
-  latents: PoliticalLatents,
-): GeneratedPresidency {
+export function generatePresidency(): GeneratedPresidency {
   const electoralVotes: Record<string, number> = {};
   const stateWinners: Record<string, string> = {};
   const add = (party: string, votes: number) => {
@@ -292,15 +204,7 @@ export function generatePresidency(
   };
   for (const usps of Object.keys(ELECTORAL_ALLOCATION).sort()) {
     const row = calibrationRow(`us-president:${usps}`);
-    const baseline = row?.democraticTwoPartyShare ?? null;
-    const winner =
-      baseline === null
-        ? (row?.referenceAffiliation ?? decide(world, `president:${usps}`, 0.5))
-        : decide(
-            world,
-            `president:${usps}`,
-            applySwing(baseline, sharedSwing(latents, usps)),
-          );
+    const winner = row?.referenceAffiliation ?? "unrecorded";
     stateWinners[usps] = winner;
     add(winner, ELECTORAL_ALLOCATION[usps]!);
   }
@@ -388,7 +292,7 @@ type Draft = Omit<
 
 function conditionsFor(
   world: World,
-  regime: StartingRegime,
+  regime: StartingRegime | null,
   latents: PoliticalLatents,
 ): Draft {
   const seats = [
@@ -409,25 +313,67 @@ function conditionsFor(
     regionSwingPp: latents.regionSwingPp,
     stateSwingPp: latents.stateSwingPp,
     seats,
-    presidency: generatePresidency(world, latents),
+    presidency: generatePresidency(),
   };
 }
 
 export function generatePoliticalStartingConditions(
   world: World,
-  regime: StartingRegime,
+  regime: StartingRegime | null,
 ): Draft {
-  return conditionsFor(world, regime, drawPoliticalLatents(world, regime));
+  const reference = referenceReconstruction(world, regime);
+  // One whole observed House roster is a starting circumstance, selected
+  // among retained real options. No seat is independently flipped and no
+  // authored swing or probability decides an election or affiliation.
+  const cohort = worldSetupRng(world, "politics:observed-house-cohort").pick([
+    "current-reference",
+    "historical-reference",
+  ] as const);
+  if (cohort === "current-reference") {
+    return {
+      ...reference,
+      houseOpeningReference: {
+        basis: "estimated-from-recorded-cohort",
+        electionDate: calibrationRows("us-house")[0]!.referenceDate,
+        sourceSha256: electoralCalibrationSha256(),
+      },
+    };
+  }
+  const historical = new Map(
+    houseCohortJson.seats.map((seat) => [seat.seatKey, seat]),
+  );
+  return {
+    ...reference,
+    houseOpeningReference: {
+      basis: "estimated-from-recorded-cohort",
+      electionDate: houseCohortJson.electionDate,
+      sourceSha256: sha256Hex(canonicalJson(houseCohortJson)),
+    },
+    seats: reference.seats.map((seat) => {
+      const recorded = historical.get(seat.seatKey);
+      if (!recorded) return seat;
+      return {
+        ...seat,
+        baselineKind: "reference-affiliation-preserved" as const,
+        baselineShare: null,
+        seatResidualPp: null,
+        generatedShare: null,
+        affiliation: recorded.affiliation,
+        caucus: MAJOR.has(recorded.affiliation) ? recorded.affiliation : null,
+        referenceWinner: recorded.affiliation,
+        uncertaintyReason: `${houseCohortJson.limitation} Recorded affiliation: ${recorded.sourceRef}; ${recorded.winnerBasis}.`,
+      };
+    }),
+  };
 }
 
 /**
- * The zero-perturbation diagnostic: with every effect zero the generated
- * world must reconstruct the compiled input identities and affiliations.
- * Normal saves are not required to copy them.
+ * Reconstructs the compiled input identities, shares and affiliations.
+ * The diagnostic always uses the current compiled certified-record projection.
  */
 export function referenceReconstruction(
   world: World,
-  regime: StartingRegime = "near-reference",
+  regime: StartingRegime | null = "near-reference",
 ): Draft {
   return conditionsFor(world, regime, zeroPoliticalLatents(regime));
 }

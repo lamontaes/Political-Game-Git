@@ -1,13 +1,13 @@
+import houseCohortJson from "./house-opening-cohort.generated.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { ELECTORAL_ALLOCATION } from "../national-election-rules";
 import { SeededRng } from "../rng";
 import type { World } from "../types";
-import { drawMacroStartingConditions, drawStartingRegime } from "./conditions";
+import { macroStartingConditions, drawStartingRegime } from "./conditions";
 import {
   detExp,
   detLog,
   inverseStandardNormal,
-  logistic,
   standardNormal,
 } from "./deterministic-math";
 import { CRUNCH46_POLICY } from "./policy";
@@ -16,14 +16,12 @@ import {
   applySwing,
   calibrationRow,
   calibrationRows,
-  drawPoliticalLatents,
   generateContest,
   generatePoliticalStartingConditions,
   generateStateExecutiveAffiliation,
   referenceReconstruction,
   zeroPoliticalLatents,
 } from "./political-start";
-import type { StartingRegime } from "./types";
 
 /** Only the seed feeds these generators; no other World field is read. */
 const seedWorld = (seed: string) => ({ seed }) as unknown as World;
@@ -52,67 +50,16 @@ describe("deterministic math", () => {
   });
 });
 
-describe("starting regime and macro kernel (crunch46-provisional-v1)", () => {
-  it("draws regimes at the authored frequencies", () => {
-    const counts: Record<StartingRegime, number> = {
-      "near-reference": 0,
-      modest: 0,
-      major: 0,
-    };
-    const n = 6000;
-    for (let i = 0; i < n; i += 1) {
-      counts[drawStartingRegime(seedWorld(`regime-${i}`))] += 1;
+describe("starting regime and macro evidence", () => {
+  it("leaves unrecorded regime and macro levels unavailable instead of drawing them", () => {
+    for (const seed of ["macro-a", "macro-b"]) {
+      const world = {
+        ...seedWorld(seed),
+        history: { worldConditions: [] },
+      } as unknown as World;
+      expect(drawStartingRegime(world)).toBeNull();
+      expect(macroStartingConditions(world)).toBeNull();
     }
-    for (const regime of CRUNCH46_POLICY.regimes.order) {
-      const expected = CRUNCH46_POLICY.regimes.frequency[regime];
-      expect(Math.abs(counts[regime] / n - expected)).toBeLessThan(0.02);
-    }
-  });
-
-  it("applies the section 13 startup equations exactly", () => {
-    for (const regime of CRUNCH46_POLICY.regimes.order) {
-      const macro = drawMacroStartingConditions(seedWorld("macro-a"), regime);
-      const scale = CRUNCH46_POLICY.macro.volatilityScale[regime];
-      const { cycle, cost, housing, credit } = macro.latents;
-      expect(macro.volatilityScale).toBe(scale);
-      expect(macro.initial.realGrowthAnnualPct).toBeCloseTo(
-        2 + scale * cycle,
-        5,
-      );
-      expect(macro.initial.unemploymentPct).toBeCloseTo(
-        logistic(Math.log(0.046 / 0.954) - 0.2 * scale * cycle) * 100,
-        5,
-      );
-      expect(macro.initial.inflation12mPct).toBeCloseTo(
-        2.7 + 0.6 * scale * cost,
-        5,
-      );
-      expect(macro.initial.housingSupplyDemandRatio).toBeCloseTo(
-        Math.exp(0.06 * scale * housing),
-        5,
-      );
-      expect(macro.initial.creditTightness).toBeCloseTo(
-        logistic(0.4 * scale * credit),
-        5,
-      );
-    }
-  });
-
-  it("an adequate-housing draw is recorded as adequate, not as a shortage", () => {
-    let found = false;
-    for (let i = 0; i < 50 && !found; i += 1) {
-      const macro = drawMacroStartingConditions(
-        seedWorld(`housing-${i}`),
-        "near-reference",
-      );
-      if (macro.latents.housing >= 0) {
-        expect(macro.initial.housingSupplyDemandRatio).toBeGreaterThanOrEqual(
-          1,
-        );
-        found = true;
-      }
-    }
-    expect(found).toBe(true);
   });
 });
 
@@ -210,7 +157,7 @@ describe("political starting conditions", () => {
     for (const regime of CRUNCH46_POLICY.regimes.order) {
       for (let i = 0; i < 12; i += 1) {
         const world = seedWorld(`missing-margin-${regime}-${i}`);
-        const latents = drawPoliticalLatents(world, regime);
+        const latents = zeroPoliticalLatents(regime);
         for (const row of withoutMargin) {
           const seat = generateContest(world, latents, row);
           expect(seat.affiliation, row.contestKey).toBe(
@@ -237,7 +184,7 @@ describe("political starting conditions", () => {
     for (const regime of CRUNCH46_POLICY.regimes.order) {
       for (let i = 0; i < 8; i += 1) {
         const world = seedWorld(`governor-${regime}-${i}`);
-        const latents = drawPoliticalLatents(world, regime);
+        const latents = zeroPoliticalLatents(regime);
         for (const row of crossParty) {
           const generated = generateStateExecutiveAffiliation(
             world,
@@ -266,90 +213,109 @@ describe("political starting conditions", () => {
     expect(flipsAt(-7.5)).toBeGreaterThan(0);
   });
 
-  it("uses shared effects: a whole region moves together, not independent coin flips", () => {
-    const seats = generatePoliticalStartingConditions(
-      seedWorld("shared-effects"),
-      "major",
-    ).seats.filter((seat) => seat.baselineKind === "certified-two-party");
-    // Within each state, generated shift in logit space shares one component.
-    const byState = new Map<string, number[]>();
-    for (const seat of seats) {
-      const state = seat.seatKey.replace(/^us-(house|senate):/, "").slice(0, 2);
-      const shift =
-        Math.log(seat.generatedShare! / (1 - seat.generatedShare!)) -
-        Math.log(seat.baselineShare! / (1 - seat.baselineShare!)) -
-        seat.seatResidualPp! / 25;
-      byState.set(state, [...(byState.get(state) ?? []), shift]);
-    }
-    for (const shifts of byState.values()) {
-      for (const shift of shifts) expect(shift).toBeCloseTo(shifts[0]!, 2);
+  it("every seed and regime preserves its selected whole recorded House cohort", () => {
+    for (const regime of CRUNCH46_POLICY.regimes.order) {
+      for (const seed of ["certified-opening-a", "certified-opening-b"]) {
+        const record = generatePoliticalStartingConditions(
+          seedWorld(seed),
+          regime,
+        );
+        expect(record.nationalSwingPp).toBe(0);
+        expect(
+          Object.values(record.regionSwingPp).every((value) => value === 0),
+        ).toBe(true);
+        expect(
+          Object.values(record.stateSwingPp).every((value) => value === 0),
+        ).toBe(true);
+        expect(record.seats).toHaveLength(535);
+        for (const seat of record.seats) {
+          const row = calibrationRow(seat.seatKey)!;
+          const historical =
+            record.houseOpeningReference!.electionDate ===
+            houseCohortJson.electionDate
+              ? houseCohortJson.seats.find(
+                  (item) => item.seatKey === seat.seatKey,
+                )
+              : undefined;
+          expect(seat.affiliation, seat.seatKey).toBe(
+            historical?.affiliation ?? row.referenceAffiliation,
+          );
+          if (historical) {
+            expect(seat.referenceWinner).toBe(historical.affiliation);
+            expect(seat.baselineShare).toBeNull();
+            expect(seat.uncertaintyReason).toContain(historical.sourceRef);
+          }
+          if (seat.baselineKind === "certified-two-party") {
+            expect(seat.generatedShare, seat.seatKey).toBeCloseTo(
+              row.democraticTwoPartyShare!,
+              6,
+            );
+            expect(seat.seatResidualPp).toBe(0);
+          } else expect(seat.generatedShare).toBeNull();
+        }
+        for (const row of calibrationRows("us-president")) {
+          expect(record.presidency.stateWinners[row.stateUsps]).toBe(
+            row.referenceAffiliation,
+          );
+        }
+        expect(
+          Object.values(record.presidency.electoralVotes).reduce(
+            (a, b) => a + b,
+            0,
+          ),
+        ).toBe(Object.values(ELECTORAL_ALLOCATION).reduce((a, b) => a + b, 0));
+      }
     }
   });
 
-  it("across many seeds: recognizable starts are common, departures possible, nothing capped", () => {
-    const summary: Record<
-      string,
-      { houseD: number[]; flips: number[]; presidents: Record<string, number> }
-    > = {};
-    const referenceHouseD = houseRows.filter(
-      (row) => row.referenceAffiliation === "democratic",
-    ).length;
-    for (let i = 0; i < 240; i += 1) {
-      const world = seedWorld(`distribution-${i}`);
-      const regime = drawStartingRegime(world);
-      const record = generatePoliticalStartingConditions(world, regime);
+  it("varies whole observed House rosters without seat flips and replays the source choice", () => {
+    const dates = new Set<string>();
+    const totals = new Set<number>();
+    for (const suffix of ["a", "b", "c", "d", "e", "f"]) {
+      const world = seedWorld(`alive43-w1-${suffix}`);
+      const record = generatePoliticalStartingConditions(world, null);
+      expect(generatePoliticalStartingConditions(world, null)).toEqual(record);
+      dates.add(record.houseOpeningReference!.electionDate);
       const house = record.seats.filter((seat) =>
         seat.seatKey.startsWith("us-house:"),
       );
-      const bucket = (summary[regime] ??= {
-        houseD: [],
-        flips: [],
-        presidents: {},
-      });
-      bucket.houseD.push(
+      expect(new Set(house.map((seat) => seat.seatKey)).size).toBe(435);
+      totals.add(
         house.filter((seat) => seat.affiliation === "democratic").length,
       );
-      bucket.flips.push(
-        house.filter((seat) => seat.referenceWinner !== seat.affiliation)
-          .length,
-      );
-      bucket.presidents[record.presidency.winner] =
-        (bucket.presidents[record.presidency.winner] ?? 0) + 1;
-      const electors = Object.values(record.presidency.electoralVotes).reduce(
-        (a, b) => a + b,
-        0,
-      );
-      expect(electors).toBe(
-        Object.values(ELECTORAL_ALLOCATION).reduce((a, b) => a + b, 0),
-      );
-      expect(house).toHaveLength(435);
     }
-    const median = (values: number[]) =>
-      [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)]!;
-    const near = summary["near-reference"]!;
-    // Evidence for the receiving review (distribution, not a preferred winner).
-    console.info(
-      JSON.stringify(
-        Object.fromEntries(
-          Object.entries(summary).map(([regime, bucket]) => [
-            regime,
-            {
-              worlds: bucket.houseD.length,
-              referenceHouseD,
-              houseDMin: Math.min(...bucket.houseD),
-              houseDMedian: median(bucket.houseD),
-              houseDMax: Math.max(...bucket.houseD),
-              flipsMedian: median(bucket.flips),
-              flipsMax: Math.max(...bucket.flips),
-              presidents: bucket.presidents,
-            },
-          ]),
-        ),
-      ),
+    expect(dates.size).toBeGreaterThan(1);
+    expect(totals.size).toBeGreaterThan(1);
+  });
+
+  it("a tied or conflicting share preserves the office's recorded winner", () => {
+    const row = certified[0]!;
+    for (const share of [0.5, 0.1, 0.9]) {
+      const source = {
+        ...row,
+        democraticTwoPartyShare: share,
+        referenceAffiliation: "republican",
+      };
+      const seat = generateContest(
+        seedWorld("tie-record"),
+        zeroPoliticalLatents("major"),
+        source,
+      );
+      expect(seat.generatedShare).toBe(share);
+      expect(seat.affiliation).toBe("republican");
+      expect(seat.referenceWinner).toBe("republican");
+    }
+    const seat = generateContest(
+      seedWorld("missing-winner"),
+      zeroPoliticalLatents("major"),
+      {
+        ...row,
+        democraticTwoPartyShare: 0.5,
+        referenceAffiliation: null,
+      },
     );
-    expect(Math.abs(median(near.houseD) - referenceHouseD)).toBeLessThan(30);
-    const all = Object.values(summary).flatMap((bucket) => bucket.flips);
-    expect(Math.max(...all)).toBeGreaterThan(median(near.flips));
+    expect(seat.affiliation).toBe("unrecorded");
+    expect(seat.caucus).toBeNull();
   });
 
   it("replays exactly from the same seed", () => {

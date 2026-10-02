@@ -1,3 +1,9 @@
+import { ensureLivingWorldOpening } from "../simulation/living-world/opening";
+import {
+  ensureWorldStartingConditions,
+  politicalStartingConditions,
+} from "../simulation/world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import {
@@ -11,7 +17,6 @@ import {
   ensureStateLegislatureOpening,
   planStateChambers,
   scheduleNationwideStateLegislatureOpenings,
-  recordedChamberParties,
   stateLegislators,
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
@@ -129,6 +134,61 @@ describe("nationwide state legislature opening preparation", () => {
     ).toHaveLength(25);
   });
 
+  it("uses a recorded own-seat result without assigning its neighbors a party", () => {
+    const base = createNewGameWorld(SETUP);
+    const pack = stateCandidacyPack("US-NE")!;
+    const chamber = planStateChambers(pack).chambers[0]!;
+    const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, 1);
+    const reference = politicalStartingConditions(opened!.world)!;
+    const seeded = ensureWorldStartingConditions(base.world, {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      political: () => ({
+        ...reference,
+        seats: [
+          ...reference.seats,
+          {
+            seatKey,
+            baselineKind: "certified-two-party",
+            baselineShare: 0.625,
+            generatedShare: 0.625,
+            seatResidualPp: 0,
+            affiliation: "democratic",
+            caucus: "democratic",
+            referenceWinner: "democratic",
+            uncertaintyReason: null,
+          },
+        ],
+      }),
+    });
+    const world = ensureStateLegislatureOpening(
+      ensureLivingWorldOpening(seeded, base.playerPersonId),
+      base.playerPersonId,
+      "NE",
+    );
+    const members = stateLegislators(world, pack.packId);
+    expect(
+      members.find(
+        (member) =>
+          member.officeKey === chamber.officeKey && member.ordinal === 1,
+      )?.party,
+    ).toBe("democratic");
+    expect(
+      members
+        .filter(
+          (member) =>
+            member.officeKey !== chamber.officeKey || member.ordinal !== 1,
+        )
+        .every((member) => member.party === null),
+    ).toBe(true);
+    const event = world.history.events.find(
+      (event) =>
+        event.stableKey === STATE_LEGISLATURE_KEYS.opening(pack.packId),
+    )!;
+    expect(event.tags.filter((tag) => tag.startsWith("seat-share:"))).toEqual([
+      `seat-share:${chamber.officeKey}|1|0.625000`,
+    ]);
+  });
+
   it("schedules unprepared rosters for the existing clock fallback", () => {
     const incomplete = US_STATE_USPS.reduce(
       (world, usps) => ensureStateJurisdictionForKey(world, `US-${usps}`),
@@ -243,48 +303,17 @@ describe.each(SEATED)("a fictional roster in %s, %s", (_name, _state, usps) => {
     }
   });
 
-  it("seats party affiliations from this save's generated conditions", () => {
-    const { members } = openingFor(usps);
-    expect(
-      members.every(
-        (member) =>
-          member.party === "democratic" || member.party === "republican",
-      ),
-    ).toBe(true);
-  });
-
-  it("holds each chamber's recorded party balance", () => {
-    const { plan, members } = openingFor(usps);
-    for (const chamber of plan.chambers) {
-      const recorded = recordedChamberParties(usps, chamber.chamberKey);
-      if (!recorded) continue;
-      const inChamber = members.filter(
-        (member) => member.officeKey === chamber.officeKey,
-      );
-      const total =
-        recorded.democrats +
-        recorded.republicans +
-        recorded.other +
-        recorded.vacancies;
-      const count = (party: string) =>
-        inChamber.filter((member) => member.party === party).length;
-      const democrats = Math.round(
-        (inChamber.length * recorded.democrats) / total,
-      );
-      const republicans = Math.min(
-        inChamber.length - democrats,
-        Math.round((inChamber.length * recorded.republicans) / total),
-      );
-      // Seats the record gives to neither party keep their own lean, so each
-      // party holds at least its recorded share and exactly that when the
-      // record lists no one else.
-      expect(count("democratic")).toBeGreaterThanOrEqual(democrats);
-      expect(count("republican")).toBeGreaterThanOrEqual(republicans);
-      if (recorded.other + recorded.vacancies === 0) {
-        expect(count("democratic")).toBe(democrats);
-        expect(count("republican")).toBe(inChamber.length - democrats);
-      }
-    }
+  it("keeps each seat without its own certified result honestly unrecorded", () => {
+    const { world, members, pack } = openingFor(usps);
+    expect(members.length).toBeGreaterThan(0);
+    expect(members.every((member) => member.party === null)).toBe(true);
+    const opening = world.history.events.find(
+      (event) =>
+        event.stableKey === STATE_LEGISLATURE_KEYS.opening(pack.packId),
+    )!;
+    expect(opening.tags.some((tag) => tag.startsWith("seat-share:"))).toBe(
+      false,
+    );
   });
 
   it("uses the body a campaign winner joins", () => {

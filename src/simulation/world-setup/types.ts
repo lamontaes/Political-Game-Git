@@ -36,7 +36,7 @@ interface ConditionRecordBase {
 export interface WorldOpeningRecord extends ConditionRecordBase {
   readonly kind: "world-opening";
   readonly openingVersion: WorldOpeningVersion;
-  readonly regime: StartingRegime;
+  readonly regime: StartingRegime | null;
   /** Absent on saves opened before this fictional cash profile was introduced. */
   readonly publicCashOpening?: PublicCashOpeningProfile;
 }
@@ -96,9 +96,15 @@ export interface GeneratedPresidency {
 export interface PoliticalStartingConditionsRecord extends ConditionRecordBase {
   readonly kind: "political-starting-conditions";
   readonly contractVersion: "crunch46-political-start/v1";
-  readonly regime: StartingRegime;
+  readonly regime: StartingRegime | null;
   readonly calibrationSchema: string;
   readonly calibrationSha256: string;
+  /** Whole observed House roster used as an estimated opening circumstance. */
+  readonly houseOpeningReference?: {
+    readonly basis: "estimated-from-recorded-cohort";
+    readonly electionDate: string;
+    readonly sourceSha256: string;
+  };
   readonly nationalSwingPp: number;
   readonly regionSwingPp: Readonly<Record<CensusRegion, number>>;
   readonly stateSwingPp: Readonly<Record<string, number>>;
@@ -106,16 +112,44 @@ export interface PoliticalStartingConditionsRecord extends ConditionRecordBase {
   readonly presidency: GeneratedPresidency;
 }
 
+/** Source vintage is calibration evidence, separate from the save's clock. */
+export interface MacroOpeningReference {
+  readonly basis: "estimated-from-observed-reference";
+  readonly asOfDate: string;
+  readonly sourceSha256: string;
+  readonly housingBasis: "total-stock-per-occupied-household";
+  readonly creditBasis: "nfci-through-existing-credit-logit";
+  readonly observations: readonly {
+    readonly field: string;
+    readonly value: number;
+    readonly unit: string;
+    readonly period: string;
+    readonly releasedAt: string;
+    readonly sourceId: string;
+    readonly locator: string;
+  }[];
+}
+
 export interface MacroStartingConditionsRecord extends ConditionRecordBase {
   readonly kind: "macro-starting-conditions";
-  readonly contractVersion: "crunch46-macro-start/v1";
-  readonly regime: StartingRegime;
-  readonly volatilityScale: number;
+  readonly contractVersion:
+    "crunch46-macro-start/v1" | "observed-macro-start/v2";
+  readonly regime: StartingRegime | null;
+  readonly volatilityScale: number | null;
   readonly latents: {
     readonly cycle: number;
     readonly cost: number;
     readonly housing: number;
     readonly credit: number;
+  } | null;
+  readonly reference?: MacroOpeningReference;
+  readonly initialHousingCounts?: {
+    readonly supplyUnits: number;
+    readonly demandHouseholds: number;
+  };
+  readonly initialPolicyRate?: {
+    readonly lowerPct: number;
+    readonly upperPct: number;
   };
   readonly initial: {
     /** Continuously compounded modeled annual rate; not a published figure. */

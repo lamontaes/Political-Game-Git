@@ -25,7 +25,6 @@ import {
   PARTY_AFFILIATION_KIND,
   livingWorldOrganizationId,
 } from "../living-world/opening";
-import { congressSeats } from "../living-world/congress-seats";
 import {
   drawCanonicalNameForGender,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
@@ -62,12 +61,7 @@ import {
 import { isPersonAliveAt } from "../vitality-integrity";
 import { politicalStartingConditions } from "../world-setup/conditions";
 import { US_STATE_USPS } from "./state-executive-candidacy-packs";
-import {
-  clampShare,
-  logistic,
-  logit,
-  standardNormal,
-} from "../world-setup/deterministic-math";
+
 import legislatorsTable from "../../../data/research/laws/legislators-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../../districts/catalog";
 import {
@@ -110,15 +104,9 @@ import {
  * a state has no districts on record either, no chamber is seated and the
  * opening says so, rather than inventing a size.
  *
- * **Party.** Each seat's lean is drawn from the save's own generated political
- * conditions: centered on this state's House seats as the save generated them,
- * and spread by how far House districts inside one state differ from each
- * other across the whole save. A state whose House seats carry no two-party
- * share is centered on its own statewide Senate contests; one with neither
- * seats its members without a party rather than guessing one. Each chamber
- * then holds the party balance the state recorded (The Book of the States
- * 2023, Table 3.3): the seats leaning furthest toward each party take that
- * party's count, and seats the record gives to neither party keep their lean.
+ * **Party.** An opening seat uses its own recorded certified affiliation and
+ * share where present. Federal contests and chamber-wide totals do not name
+ * this seat's party. Without an own-seat record, party and share remain null.
  *
  * The player's home state remains first in the opening history; other states
  * follow in the deterministic jurisdiction order.
@@ -536,67 +524,6 @@ export function ensureStateLegislatureOpening(
   );
   const { chambers, unseated } = planStateChambers(pack);
 
-  // PLACEHOLDER until research question
-  // state-legislator-age-tenure-and-district-lean is answered: the spread,
-  // the age range and the years served below are the game's own rules, not
-  // measurements. Puerto Rico's members get no party until
-  // puerto-rico-legislative-parties is answered.
-  //
-  // A seat's lean: this state's own center, as the save generated its House
-  // seats, spread by how much House districts inside one state actually
-  // differ from each other across the whole save. Both numbers are read from
-  // this save's own generated conditions; neither is another state's.
-  const houseShares = new Map<string, number[]>();
-  for (const seat of congressSeats()) {
-    if (seat.chamberKey !== "us-house") continue;
-    const share = political.seats.find(
-      (row) => row.seatKey === seat.seatKey,
-    )?.generatedShare;
-    if (share === null || share === undefined) continue;
-    const list = houseShares.get(seat.stateUsps) ?? [];
-    list.push(logit(clampShare(share, 1e-6)));
-    houseShares.set(seat.stateUsps, list);
-  }
-  const mean = (values: readonly number[]) =>
-    values.reduce((sum, value) => sum + value, 0) / values.length;
-  const home = houseShares.get(stateUsps) ?? [];
-  // A state whose House seats carry no two-party margin (an at-large seat
-  // decided another way) is centered on its own statewide Senate contests
-  // instead, generated from the same conditions. Never a neighbor's.
-  const statewide = congressSeats()
-    .filter(
-      (seat) => seat.chamberKey === "us-senate" && seat.stateUsps === stateUsps,
-    )
-    .map(
-      (seat) =>
-        political.seats.find((row) => row.seatKey === seat.seatKey)
-          ?.generatedShare ?? null,
-    )
-    .filter((share): share is number => share !== null)
-    .map((share) => logit(clampShare(share, 1e-6)));
-  const center =
-    home.length > 0
-      ? mean(home)
-      : statewide.length > 0
-        ? mean(statewide)
-        : null;
-  let squares = 0;
-  let freedom = 0;
-  for (const values of houseShares.values()) {
-    if (values.length < 2) continue;
-    const m = mean(values);
-    for (const value of values) squares += (value - m) ** 2;
-    freedom += values.length - 1;
-  }
-  const spread = freedom > 0 ? Math.sqrt(squares / freedom) : 0;
-  const parties = ["democratic", "republican"].filter(
-    (party) =>
-      recordById(
-        next.history.organizations,
-        livingWorldOrganizationId(next, LIVING_WORLD_KEYS.nationalParty(party)),
-      ) !== undefined,
-  );
-
   const generated: LifeRecordProvenance = {
     kind: "generated",
     generatorKey: V,
@@ -666,13 +593,9 @@ export function ensureStateLegislatureOpening(
     for (let ordinal = 1; ordinal <= chamber.size; ordinal += 1) {
       const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, ordinal);
       const seatRng = rng.fork(`seat:${chamber.officeKey}:${ordinal}`);
-      let party: string | null = null;
-      let democraticShare: number | null = null;
-      if (center !== null && parties.length === 2) {
-        const lean = center + spread * standardNormal(seatRng.fork("lean"));
-        democraticShare = logistic(lean);
-        party = democraticShare >= 0.5 ? "democratic" : "republican";
-      }
+      const ownSeat = political.seats.find((seat) => seat.seatKey === seatKey);
+      const party = ownSeat?.referenceWinner ?? null;
+      const democraticShare = ownSeat?.baselineShare ?? null;
       const age = inventedPersonAge(seatRng, "sitting-legislator-at-opening", {
         legalMinimumAge: minimumAge,
       });
@@ -717,46 +640,6 @@ export function ensureStateLegislatureOpening(
         },
       });
     }
-  }
-  // Each chamber's party balance is the state's own recorded one: the seats
-  // leaning furthest toward each party take that party's recorded count, and
-  // the seats the record gives to neither keep their own lean.
-  for (const chamber of chambers) {
-    const recorded = recordedChamberParties(stateUsps, chamber.chamberKey);
-    if (!recorded) continue;
-    const indices = members
-      .map((member, index) => ({ member, index }))
-      .filter(
-        ({ member }) =>
-          member.chamber === chamber && member.democraticShare !== null,
-      )
-      .sort(
-        (left, right) =>
-          right.member.democraticShare! - left.member.democraticShare! ||
-          left.member.ordinal - right.member.ordinal,
-      )
-      .map(({ index }) => index);
-    if (indices.length === 0) continue;
-    const total =
-      recorded.democrats +
-      recorded.republicans +
-      recorded.other +
-      recorded.vacancies;
-    if (total === 0) continue;
-    const democrats = Math.round((indices.length * recorded.democrats) / total);
-    const republicans = Math.min(
-      indices.length - democrats,
-      Math.round((indices.length * recorded.republicans) / total),
-    );
-    indices.forEach((index, rank) => {
-      const party =
-        rank < democrats
-          ? "democratic"
-          : rank >= indices.length - republicans
-            ? "republican"
-            : members[index]!.party;
-      members[index] = { ...members[index]!, party };
-    });
   }
   if (members.length === 0) return world;
 

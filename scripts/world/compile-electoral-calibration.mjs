@@ -2008,17 +2008,17 @@ function ordinal(n) {
   return `${n}${{ 1: "st", 2: "d", 3: "d" }[n % 10] ?? "th"}`;
 }
 
-/** The 119th Congress row of the Clerk's "Political Divisions" table. */
-function readPoliticalDivisions(items) {
+/** The requested Congress row of the Clerk's "Political Divisions" table. */
+function readPoliticalDivisions(items, congress = 119) {
   const lines = buildLines(items);
-  const row = lines.find((l) => /^119th\b/.test(l.text));
+  const row = lines.find((l) => l.text.startsWith(`${congress}th `));
   if (!row) return null;
   // Columns: Senate total, D, R, Other, Vacant, House total, D, R, Other, Vacant.
   // Empty cells print as dot leaders, so cells are read by x position.
   const cells = readDivisionCells(items, row.y);
   return {
-    congress: 119,
-    years: "2025-2027",
+    congress,
+    years: `${2 * congress + 1787}-${2 * congress + 1789}`,
     senateTotal: cells[0],
     senateDemocrats: cells[1],
     senateRepublicans: cells[2],
@@ -2057,7 +2057,20 @@ function readDivisionCells(items, y) {
   });
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+export {
+  extractPdf,
+  parseStatistics,
+  summarizeContest,
+  footnoteLookup,
+  readPoliticalDivisions,
+};
+
+if (
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

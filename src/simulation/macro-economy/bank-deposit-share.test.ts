@@ -14,7 +14,7 @@ import {
   BANK_FAILED_EVENT,
   type TownBankBooks,
 } from "../living-world/town-finance-types";
-import { drawMacroStartingConditions } from "../world-setup/conditions";
+import { startValuesFromLatents } from "./kernel";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { MACRO_POLICY_VERSION } from "./policy";
 import { ensureMacroEconomyStarted } from "./producer";
@@ -29,7 +29,15 @@ const place = drawRandomPlace(seed);
 function bankFailure() {
   const small = smallWorld({ place: place.key, seed, date: "2026-12-01" });
   const town = small.place.context.jurisdiction.id;
-  const draft = drawMacroStartingConditions(small.world, "near-reference");
+  // Explicit macro fixture; an ordinary opening invents no missing levels.
+  const latents = { cycle: 0, cost: 0, housing: 0, credit: 0 };
+  const draft = {
+    contractVersion: "crunch46-macro-start/v1" as const,
+    regime: "near-reference" as const,
+    volatilityScale: 0.5,
+    latents,
+    initial: startValuesFromLatents("near-reference", latents),
+  };
   let world = ensureMacroEconomyStarted(small.world, {
     contractVersion: draft.contractVersion,
     policyVersion: MACRO_POLICY_VERSION,

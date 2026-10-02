@@ -827,20 +827,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "if (point < 0) return value;"
-    },
-    {
-      "file": "src/simulation/world-setup/conditions.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (u < cumulative) return regime;"
-    },
-    {
-      "file": "src/simulation/world-setup/political-start.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "return openUniform(worldSetupRng(world, `tie:${key}`)) < 0.5"
     }
   ]
 }

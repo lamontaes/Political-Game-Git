@@ -338,19 +338,12 @@ describe("CHANGE canonical macro history", { timeout: 1_800_000 }, () => {
     ).toBe(false);
   });
 
-  it("starts from WORLD's persisted draw in an ordinary seeded opening", () => {
+  it("starts ordinary opening macro history from the admitted primary reference", () => {
     const seeded = life("change-macro-world", true);
     const record = macroStartingConditions(seeded)!;
-    expect(record).not.toBeNull();
-    const store = seeded.macroEconomy!;
-    expect(store.start.regime).toBe(record.regime);
-    expect(store.start.latents).toEqual(record.latents);
-    expect(store.start.initial).toEqual(record.initial);
-    expect(store.months).toEqual([]);
-    const recomputed = startValuesFromLatents(record.regime, record.latents);
-    for (const key of Object.keys(recomputed) as (keyof typeof recomputed)[]) {
-      expect(recomputed[key]).toBeCloseTo(record.initial[key], 5);
-    }
+    expect(record.contractVersion).toBe("observed-macro-start/v2");
+    expect(seeded.macroEconomy!.start.initial).toEqual(record.initial);
+    expect(seeded.macroEconomy!.start.reference).toEqual(record.reference);
     expect(
       seeded.history.futureDueItems.filter(
         (item) => item.transitionKey === MACRO_MONTHLY_STEP_KEY,
