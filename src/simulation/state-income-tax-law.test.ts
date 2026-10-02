@@ -653,14 +653,29 @@ describe("a state's income tax law, as enacted in play", () => {
     ).toEqual(
       stateIncomeTaxUnderLaw(lawWorld("s", []), "US-CO", "single", paid),
     );
-    // A "yes" on the shape of a state that is already graduated changes
-    // nothing.
+    // A new "yes" keeps the existing graduated amounts and records the
+    // operative shape law, rather than carrying its superseded starting ID.
     const oregon = enacted(stateId("US-OR"), GRADUATED, "yes", "2027-01-01");
-    expect(
-      stateIncomeTaxUnderLaw(lawWorld("s", [oregon]), "US-OR", "single", paid),
-    ).toEqual(
-      stateIncomeTaxUnderLaw(lawWorld("s", []), "US-OR", "single", paid),
+    const continued = stateIncomeTaxUnderLaw(
+      lawWorld("s", [oregon]),
+      "US-OR",
+      "single",
+      paid,
     );
+    const begun = stateIncomeTaxUnderLaw(
+      lawWorld("s", []),
+      "US-OR",
+      "single",
+      paid,
+    );
+    if (continued.kind !== "enacted" || begun.kind !== "enacted")
+      throw new Error("Recorded Oregon schedule missing");
+    expect(continued.shape).toBe(begun.shape);
+    expect(continued.schedule).toEqual(begun.schedule);
+    expect(continued.lawMeasureIds).toEqual([
+      `starting-law:US-OR:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+      oregon.measure.id,
+    ]);
   });
 
   it("doubles a joint return's brackets and deduction, and says so", () => {

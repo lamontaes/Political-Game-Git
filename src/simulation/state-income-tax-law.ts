@@ -174,10 +174,11 @@ export function stateIncomeTaxUnderLaw(
       kind: "enacted",
       shape,
       lawMeasureIds: [
-        tableLaw!.measureId,
-        ...(adopt?.answer === "yes" && adopt.measureId !== tableLaw!.measureId
-          ? [adopt.measureId]
-          : []),
+        ...new Set([
+          tableLaw!.measureId,
+          ...(adopt?.answer === "yes" ? [adopt.measureId] : []),
+          ...(graduated?.answer === "yes" ? [graduated.measureId] : []),
+        ]),
       ],
       schedule: stateScheduleForFilingStatus(table.term.schedule, status),
     };
