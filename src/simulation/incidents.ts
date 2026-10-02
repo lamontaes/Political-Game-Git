@@ -1,4 +1,4 @@
-import { activateEffect, recordCausalProcess } from "./causal-effects";
+import { activateEffect, recordCausalProcess } from "./effect-records";
 import { makeIsoDate } from "./dates";
 import { cloneIncidentDefinition } from "./incident-catalog";
 import { createStableId } from "./ids";
