@@ -1,7 +1,7 @@
 import { nextSessionCalendarDate } from "./legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
-import { COUNCIL_ACT_MEASURE_TITLE, renderMeasureTitle } from "./measure-title";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
+import { applyInstitutionSessionEnd } from "./governing/legislative-clock";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
 import {
@@ -147,16 +147,6 @@ function fileActs(world: World): World {
   });
 }
 
-/** "Consumer data privacy law" becomes "Consumer Data Privacy Act of 2026". */
-export function dcCouncilActTitle(questionName: string, year: string): string {
-  return renderMeasureTitle(
-    COUNCIL_ACT_MEASURE_TITLE,
-    questionName,
-    year,
-    false,
-  );
-}
-
 /** Every act a non-player sponsor carries takes its next lawful step. */
 function moveActs(world: World): World {
   const player =
@@ -164,6 +154,11 @@ function moveActs(world: World): World {
   let next = world;
   for (const measure of municipalMeasures(world, DC_GOVERNMENT_KEY)) {
     if (player && measure.sponsorPersonId === player) continue;
+    const sessionEnd = applyInstitutionSessionEnd(next, measure.id);
+    if (sessionEnd) {
+      if ("world" in sessionEnd && sessionEnd.world) next = sessionEnd.world;
+      continue;
+    }
     const phase = measurePosition(next, measure.id).phase;
     if (phase === "awaiting-referral") {
       next = placeMeasureOnCalendar(next, {

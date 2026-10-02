@@ -183,11 +183,12 @@ export function evaluateDecision(
     (consideration) =>
       available.some((option) => option.key === consideration.optionKey),
   );
-  // Availability is not an answer. Equal reasons cannot acquire a preference
-  // from an option key or a random contribution. Reuse only this actor's last
-  // visible trace of this decision type, including an unanswered last trace.
+  // Constraints select the sole available option. With two or more available
+  // options, equal reasons cannot acquire a preference from an option key or
+  // a random contribution. Reuse only this actor's last visible trace of this
+  // decision type, including an unanswered last trace.
   const unresolvedBaseChoice =
-    available.length > 0 && (!hasAvailableConsideration || leaders.length > 1);
+    available.length > 1 && (!hasAvailableConsideration || leaders.length > 1);
   const lastTrace = unresolvedBaseChoice
     ? [...world.history.decisionTraces]
         .reverse()

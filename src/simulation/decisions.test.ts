@@ -346,6 +346,14 @@ describe("sourced motives, exact ties, and last recorded choices", () => {
       ...fixture.context,
       stableKey: "exact-choice:latest-undecided",
       cutoff: currentHistoricalCutoff(world),
+      options: [
+        ...CHOICE_OPTIONS,
+        {
+          key: "reconsider",
+          label: "Reconsider",
+          description: "Reconsider the opportunity before answering.",
+        },
+      ],
       constraints: [
         {
           stableKey: "exact-choice:last-wait-unavailable",
@@ -545,7 +553,7 @@ describe("A124 A126 recorded choices in all 56 seeded small worlds", () => {
   });
 
   it.each(Object.keys(STATES))(
-    "keeps empty and tied motives unanswered and honors a saved eligible choice after reload in %s",
+    "selects a sole constrained option, keeps two empty or tied alternatives pending and honors a saved eligible choice after reload in %s",
     (usps) => {
       const fixture = sourcedChoice(0, smallDecisionWorld(usps));
       const untouched = serializeWorld(fixture.world);
@@ -561,6 +569,73 @@ describe("A124 A126 recorded choices in all 56 seeded small worlds", () => {
         expectUndecided(
           evaluateDecision(fixture.world, { ...fixture.context, randomness }),
         );
+      }
+      for (const option of CHOICE_OPTIONS) {
+        const forced = evaluateDecision(fixture.world, {
+          ...fixture.context,
+          stableKey: `a124:one-available:${option.key}`,
+          considerations: [],
+          perceptionIds: [],
+          constraints: CHOICE_OPTIONS.filter(
+            (other) => other.key !== option.key,
+          ).map((other) => ({
+            stableKey: `a124:blocked:${other.key}`,
+            optionKey: other.key,
+            kind: "context:unavailable",
+            explanation: "The saved constraint rules out this alternative.",
+            sourceRefs: [
+              {
+                kind: "perception" as const,
+                perceptionId: fixture.perceptions.get(other.key)!,
+              },
+            ],
+          })),
+          retention: "durable",
+        });
+        expect(forced.outcomeKind).toBe("selected");
+        expect(forced.selectedOptionKey).toBe(option.key);
+        expect(
+          forced.optionEvaluations.filter((row) => row.available),
+        ).toHaveLength(1);
+        expect(
+          forced.optionEvaluations.find((row) => row.optionKey === option.key)
+            ?.finalRank,
+        ).toBe(1);
+        expect(
+          forced.optionEvaluations.map((row) => row.randomContribution),
+        ).toEqual(["none", "none"]);
+        const recordedForced = recordDurableDecisionTrace(
+          fixture.world,
+          forced,
+        );
+        assertWorldIntegrityFully(recordedForced);
+        const forcedTrace = recordedForced.history.decisionTraces.at(-1)!;
+        const forgedUndecided = {
+          ...recordedForced,
+          history: {
+            ...recordedForced.history,
+            decisionTraces: recordedForced.history.decisionTraces.map(
+              (trace) =>
+                trace.id === forcedTrace.id
+                  ? {
+                      ...trace,
+                      outcomeKind: "undecided" as const,
+                      selectedOptionKey: null,
+                    }
+                  : trace,
+            ),
+          },
+        };
+        expect(() => assertWorldIntegrityFully(forgedUndecided)).toThrow(
+          "Decision trace outcome is inconsistent",
+        );
+        const reloadedForced = deserializeWorld(serializeWorld(recordedForced));
+        expect(reloadedForced.history.decisionTraces.at(-1)?.outcomeKind).toBe(
+          "selected",
+        );
+        expect(
+          reloadedForced.history.decisionTraces.at(-1)?.selectedOptionKey,
+        ).toBe(option.key);
       }
       const prior = saveSelectedWait(fixture);
       const recorded = recordDurableDecisionTrace(

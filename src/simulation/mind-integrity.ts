@@ -945,7 +945,7 @@ function validateDecisionContext(
     (trace.outcomeKind === "no-available-option" &&
       (winners.length > 0 || trace.selectedOptionKey !== null)) ||
     (trace.outcomeKind === "undecided" &&
-      (winners.length === 0 || trace.selectedOptionKey !== null)) ||
+      (winners.length < 2 || trace.selectedOptionKey !== null)) ||
     (trace.outcomeKind !== "selected" &&
       trace.outcomeKind !== "no-available-option" &&
       trace.outcomeKind !== "undecided")
