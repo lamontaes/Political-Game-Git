@@ -117,7 +117,7 @@ function upbringingLines(world: World, personId: EntityId): readonly string[] {
       ? world.jurisdictions[context.placeId]?.name
       : null;
     lines.push(
-      `ESTIMATED childhood context from recorded family circumstances: ${names.length ? `parents ${names.join(" and ")}` : context.estimatedParentCount !== null ? `comparable families average ${context.estimatedParentCount} recorded parents` : `household circumstances in ${place}`}${home ? `; household ${home}` : ""}${place ? ` in ${place}` : ""}; ${context.householdMemberIds.length} recorded household members.`,
+      `ESTIMATED childhood context from recorded family circumstances: ${names.length ? `parents ${names.join(" and ")}` : context.estimatedParentCount !== null ? `a saved family pattern has ${context.estimatedParentCount} recorded parents` : `household circumstances in ${place}`}${home ? `; household ${home}` : ""}${place ? ` in ${place}` : ""}; ${context.householdMemberIds.length} recorded household members.`,
     );
     if (context.caregiverCapacity !== null)
       lines.push(
