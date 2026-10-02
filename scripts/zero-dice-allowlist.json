@@ -654,20 +654,6 @@
       "code": "since: drawn < window.startsAt ? window.startsAt : drawn,"
     },
     {
-      "file": "src/simulation/living-world/town-businesses.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;"
-    },
-    {
-      "file": "src/simulation/living-world/town-businesses.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"found\").next() >= expected) return next;"
-    },
-    {
       "file": "src/simulation/living-world/town-employment.ts",
       "kind": "fixed-share",
       "build": "Build 19",
