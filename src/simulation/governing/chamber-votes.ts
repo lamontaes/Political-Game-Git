@@ -1,4 +1,5 @@
 import { considerationScore, evaluateDecision } from "../decisions";
+import { lawInForce } from "./law-in-force";
 import {
   ARTICLE_V_STATE_KEYS,
   constitutionalEntityAvailableAt,
@@ -73,8 +74,10 @@ import type {
  * party cue, the weights and the rule that only an override divides by party
  * are the game's own, not measured voting behavior.
  *
- * Nothing else is invented to fill the list. A member with no reason at all
- * answers present. A seat with nobody in it is a vacancy, not a voter, and
+ * With no view of their own, a member also weighs going along with the
+ * question before the body and keeping a law that same body enacted. These
+ * institutional considerations use the shared table, rather than rewriting
+ * a ballot afterward. A seat with nobody in it is a vacancy, not a voter, and
  * lowers the count of members. The player is never voted for: a player who
  * holds a seat and has not cast a ballot is recorded absent.
  *
@@ -822,9 +825,11 @@ export function decideChamberVote(
 
   // Second pass: a member with no view of their own also takes the cues
   // real members use: the committee's report, and how the colleagues they
-  // trust voted from views of their own. Nobody leans yes by default; a
-  // member with no reason at all answers present.
+  // trust voted from views of their own. Institutional considerations also
+  // enter this shared pass for every body; members' own views retain the
+  // first pass and its existing outcomes.
   const committee = context.committee;
+  const institutional = institutionalConsiderations(world, input);
   const hasViews = (row: (typeof first)[number]): boolean =>
     !row.settled && row.views !== undefined && row.views.length > 0;
   const rowsOf = new Map<EntityId, (typeof first)[number][]>();
@@ -860,6 +865,7 @@ export function decideChamberVote(
     if (settled) return settled;
     const personId = row.member.personId!;
     return decideMember(row.member, [
+      ...institutional,
       ...(row.cues ?? []),
       ...(committee ? [committee] : []),
       ...trustedColleagueCues(trusted.get(personId), decidedByView),
@@ -918,6 +924,57 @@ export function decideChamberVote(
         : "member:no-reason",
     };
   }
+}
+
+/**
+ * Authored institutional cues, using the same importance/confidence table as
+ * every other member reason. A member's own view is resolved first; otherwise
+ * going along is weaker than keeping a law the same body actually enacted.
+ * These are design choices, not estimates of council unanimity.
+ */
+function institutionalConsiderations(
+  world: World,
+  input: ChamberVoteInput,
+): readonly DecisionConsideration[] {
+  const cues: DecisionConsideration[] = [
+    {
+      stableKey: "member:institutional-deference",
+      optionKey: "vote-yea",
+      sourceType: "context:institutional-deference",
+      direction: "supports",
+      importance: "slight",
+      confidence: "low",
+      explanation: "The member goes along with the question reaching the body.",
+      sourceRefs: [],
+    },
+  ];
+  if (input.kind === "nomination" || input.kind === "constitutional")
+    return cues;
+  const measure = requireMeasure(world, input.question.question.measureId);
+  const undoesOwnLaw = (measure.propositionAnswers ?? []).some((answer) => {
+    const law = lawInForce(world, measure.jurisdictionId, answer.propositionId);
+    if (!law || law.origin !== "enacted" || law.answer === answer.answer)
+      return false;
+    const enacted = world.history.legislativeMeasures?.find(
+      (row) => row.id === law.measureId,
+    );
+    return (
+      enacted?.jurisdictionId === measure.jurisdictionId &&
+      enacted.rulePackId === measure.rulePackId
+    );
+  });
+  if (undoesOwnLaw)
+    cues.push({
+      stableKey: "member:institutional-precedent",
+      optionKey: "vote-nay",
+      sourceType: "context:institutional-precedent",
+      direction: "supports",
+      importance: "slight",
+      confidence: "medium",
+      explanation: "The member keeps the standing law enacted by this body.",
+      sourceRefs: [],
+    });
+  return cues;
 }
 
 /** A member's own bill, or one they put their name on: a view, not a cue. */
