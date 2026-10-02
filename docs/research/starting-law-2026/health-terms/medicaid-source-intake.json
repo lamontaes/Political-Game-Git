@@ -1,0 +1,767 @@
+{
+  "status": "source-intake-only; not admitted runtime terms",
+  "startingLawBlob": "23ee2e4d256a9e020c5680a65ed0056e21072d78",
+  "sourceHead": "b219621a71dd3ae70e2377bfcd536b589e125a45",
+  "liveSourceIntakeHead": "d9c960b1b548f74e916593d619593ce488f7b627",
+  "ownership": {
+    "schemaAndQuery": "Audit/Systems",
+    "requiredTermsGuard": "Team6",
+    "federalPayments": "Overflow1",
+    "rowsAndExistingHealthConsumer": "replacement Health"
+  },
+  "canonicalization": "sha256 of UTF-8 json.dumps(originalRow, sort_keys=True, separators=(comma,colon), ensure_ascii=False)",
+  "requirements": {
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": [
+      {
+        "key": "income-limit",
+        "catalogUnit": "share-of-federal-poverty-level",
+        "canonicalUnit": "ratio"
+      },
+      {
+        "key": "eligibility",
+        "catalogUnit": "covered-person-categories",
+        "canonicalUnit": "categories; Audit validation required"
+      }
+    ],
+    "us-policy-positions:health-human-services.medicaid-work-requirement": [
+      {
+        "key": "hours",
+        "catalogUnit": "qualifying-hours-per-month",
+        "canonicalUnit": "hours"
+      },
+      {
+        "key": "exemptions",
+        "catalogUnit": "exempt-person-categories",
+        "canonicalUnit": "categories; Audit validation required"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-AK",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-AR",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-AZ",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-CA",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-CO",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-CT",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-DC",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-DE",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-GU",
+      "originalRow": {
+        "answer": "yes",
+        "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+        "note": "Guam covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+      },
+      "originalRowSha256": "3c50abb868e2d89d387a5d3b0b8939246678c20dbf325f33991208055c251a29",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-HI",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-IA",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-ID",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-IL",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-IN",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-KY",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-LA",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-MA",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-MD",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-ME",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-MI",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-MN",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-MO",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-MT",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-NC",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-ND",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-NE",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-NH",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-NJ",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-NM",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-NV",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-NY",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-OH",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-OK",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-OR",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-PA",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-PR",
+      "originalRow": {
+        "answer": "yes",
+        "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+        "note": "Puerto Rico covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+      },
+      "originalRowSha256": "27b2b3475dbf7e7ae08eeff791cdbfa6af98e3c275b378048b4a0c9b54d5171a",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-RI",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-SD",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-UT",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-VA",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-VI",
+      "originalRow": {
+        "answer": "yes",
+        "source": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+        "note": "The U.S. Virgin Islands covers the ACA new adult group up to 133 percent of the local poverty level, per MACPAC's February 2021 territories fact sheet (no later change was found)."
+      },
+      "originalRowSha256": "bb38dce0aca3fc4ef455d57efdf2b6eac1a5deb32f72bc6643e6e9ec16686427",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-VT",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-WA",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "placeKey": "US-WV",
+      "originalRow": {
+        "answer": "yes"
+      },
+      "originalRowSha256": "9b1a28b6f26068461f8c2db4515572f2859dc0103a7b6859a6ca92cf307da208",
+      "inheritedSource": "KFF, Status of State Medicaid Expansion Decisions (2026): 41 including D.C. adopted, 10 have not.",
+      "inheritedNote": "Places first left out were read on 9/29/2026; any still unread take the most common answer among similar places, marked ESTIMATED FROM AVERAGE.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "placeKey": "US",
+      "originalRow": {
+        "answer": "yes",
+        "operativeAt": "2027-01-01"
+      },
+      "originalRowSha256": "480246aecb802a43656279bf7e70cbaa0355008adb6f1564e917ea62f5e013a2",
+      "inheritedSource": "Public Law 119-21: Medicaid community engagement (80 hours a month of work, training or study) for expansion adults 19 to 64, by Jan. 1, 2027 unless a state starts sooner (KFF, CHCS). Georgia Pathways since July 1, 2023.",
+      "inheritedNote": "Every place without a requirement on 1/1/2026 answers no (KFF, 9/24/2026); Nebraska, Montana and Iowa start early.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "placeKey": "US-GA",
+      "originalRow": {
+        "answer": "yes",
+        "operativeAt": "2023-07-01"
+      },
+      "originalRowSha256": "934c696e7d77af2726e5dd344998260c0e007ec0735ec82c921523d848229e2c",
+      "inheritedSource": "Public Law 119-21: Medicaid community engagement (80 hours a month of work, training or study) for expansion adults 19 to 64, by Jan. 1, 2027 unless a state starts sooner (KFF, CHCS). Georgia Pathways since July 1, 2023.",
+      "inheritedNote": "Every place without a requirement on 1/1/2026 answers no (KFF, 9/24/2026); Nebraska, Montana and Iowa start early.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "placeKey": "US-IA",
+      "originalRow": {
+        "answer": "yes",
+        "operativeAt": "2026-12-01",
+        "before": {
+          "answer": "no"
+        },
+        "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+        "note": "Starts the federal work requirement early, on 12/1/2026, by state plan amendment; none was in force on 1/1/2026."
+      },
+      "originalRowSha256": "89f054c560aed227badf23e603bf30d661f533c4213e657954c894f32314fa2a",
+      "inheritedSource": "Public Law 119-21: Medicaid community engagement (80 hours a month of work, training or study) for expansion adults 19 to 64, by Jan. 1, 2027 unless a state starts sooner (KFF, CHCS). Georgia Pathways since July 1, 2023.",
+      "inheritedNote": "Every place without a requirement on 1/1/2026 answers no (KFF, 9/24/2026); Nebraska, Montana and Iowa start early.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "placeKey": "US-MT",
+      "originalRow": {
+        "answer": "yes",
+        "operativeAt": "2026-07-01",
+        "before": {
+          "answer": "no"
+        },
+        "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+        "note": "Starts the federal work requirement early, on 7/1/2026, by state plan amendment; none was in force on 1/1/2026."
+      },
+      "originalRowSha256": "800e22f2a918c99d2c54be3561372ec64881cb65986944ccfea6a8337564409e",
+      "inheritedSource": "Public Law 119-21: Medicaid community engagement (80 hours a month of work, training or study) for expansion adults 19 to 64, by Jan. 1, 2027 unless a state starts sooner (KFF, CHCS). Georgia Pathways since July 1, 2023.",
+      "inheritedNote": "Every place without a requirement on 1/1/2026 answers no (KFF, 9/24/2026); Nebraska, Montana and Iowa start early.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    },
+    {
+      "questionKey": "us-policy-positions:health-human-services.medicaid-work-requirement",
+      "placeKey": "US-NE",
+      "originalRow": {
+        "answer": "yes",
+        "operativeAt": "2026-05-01",
+        "before": {
+          "answer": "no"
+        },
+        "source": "https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/",
+        "note": "Starts the federal work requirement early, on 5/1/2026, by state plan amendment; none was in force on 1/1/2026."
+      },
+      "originalRowSha256": "0d1180e1a846fc872050718a68d8a716f69d7a8b907f4efd56ba1bf1f517112c",
+      "inheritedSource": "Public Law 119-21: Medicaid community engagement (80 hours a month of work, training or study) for expansion adults 19 to 64, by Jan. 1, 2027 unless a state starts sooner (KFF, CHCS). Georgia Pathways since July 1, 2023.",
+      "inheritedNote": "Every place without a requirement on 1/1/2026 answers no (KFF, 9/24/2026); Nebraska, Montana and Iowa start early.",
+      "phase": "initial row; original before/phases preserved",
+      "proposedTerms": [],
+      "status": "requires dated primary-source verification and closed-category validation"
+    }
+  ],
+  "limitations": [
+    "Primary URLs below are transferred evidence, not freshly retrieved on this executor: configured proxy connection fails.",
+    "No universal territory ratio; no new numeric value, category schema, monthly coverage-loss rule or paid Medicaid expenditure inferred.",
+    "Application, renewal, grace, qualifying activities and exemption exceptions need dated source verification before runtime use.",
+    "CTO 3:21 admits schema; Audit publication remains required before categories are applied."
+  ],
+  "transferredPrimarySources": [
+    {
+      "placeKey": "US",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/medicaid-community-engagement-requirement-certain-individuals-interim-final-rule-comment-period-cms",
+      "caveat": "80 qualifying hours; federal scope excludes territories; verify full exemptions and application/renewal/grace."
+    },
+    {
+      "placeKey": "US-GA",
+      "url": "https://pathways.georgia.gov/eligibility",
+      "caveat": "Pathways is not ACA expansion. Verify qualifying activities and exemptions separately."
+    },
+    {
+      "placeKey": "US-IA",
+      "url": "https://hhs.iowa.gov/medicaid/plans-programs/iowa-health-wellness-plan/ihawp-community-engagement-requirements",
+      "caveat": "Preserve 12/1/2026 operativeAt and before:no."
+    },
+    {
+      "placeKey": "US-MT",
+      "url": "https://dphhs.mt.gov/News/2026/June/MT-Medicaid-Community-Engagement-July-1",
+      "caveat": "Preserve 7/1/2026 operativeAt and before:no."
+    },
+    {
+      "placeKey": "US-NE",
+      "url": "https://dhhs.ne.gov/Pages/WorkRequirements.aspx",
+      "caveat": "Preserve 5/1/2026 operativeAt and before:no."
+    },
+    {
+      "placeKey": "US-DC",
+      "url": "https://dhcf.dc.gov/service/adults-without-dependent-children-childless-adults",
+      "caveat": "Transferred 2026 childless category age21–64 at138%FPL; older childless215%/parent221% differ."
+    },
+    {
+      "placeKey": "US-GU",
+      "url": "https://www.medicaid.gov/medicaid-spa/2021-05-13/108316",
+      "caveat": "GU-21-0002 effective1/1/2021:138%local=150%federal; verify 2026 continuation."
+    },
+    {
+      "placeKey": "US-PR",
+      "url": "https://www.medicaid.gov/medicaid/spa/downloads/PR-23-0003.pdf",
+      "caveat": "PR117.3% estimate withdrawn; effective7/1/2023 election of federal poverty level. Verify approved dated adult table."
+    },
+    {
+      "placeKey": "US-PR",
+      "url": "https://www.medicaid.gov/medicaid-spa/2024-02-06/159091",
+      "caveat": "Approval2/1/2024 for PR-23-0003."
+    },
+    {
+      "placeKey": "US-PR",
+      "url": "https://www.medicaid.gov/state-overviews/puerto-rico.html",
+      "caveat": "Transferred2026 table suggests138% adult framework; PDF extraction previously garbled, do not infer completed verification."
+    },
+    {
+      "placeKey": "US-VI",
+      "url": "https://dhs.vi.gov/office-of-medicaid/",
+      "caveat": "Local household thresholds remain unresolved; cannot collapse to one federal ratio."
+    }
+  ]
+}
