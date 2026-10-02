@@ -1,8 +1,11 @@
+import { randomInt, randomUUID } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
   deserializeWorld,
+  lifePlaceStateIdentities,
+  searchLifePlaces,
   serializeWorld,
 } from "../simulation";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
@@ -26,7 +29,7 @@ import {
 } from "../simulation/recall";
 import type { EntityId, World } from "../simulation/types";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
 import { addDays, ageOnDate } from "../simulation/dates";
@@ -234,6 +237,39 @@ function adultResidents(town: OrdinaryStart) {
 }
 
 describe("recalling a town official", () => {
+  it("opens one new game at a randomly selected sourced locality before recall reads", () => {
+    const states = lifePlaceStateIdentities();
+    const state = states[randomInt(states.length)]!;
+    const localities = searchLifePlaces("", Number.MAX_SAFE_INTEGER, {
+      stateJurisdictionKey: state.jurisdictionKey,
+      scope: "locality",
+    });
+    expect(localities.length).toBeGreaterThan(0);
+    const place = localities[randomInt(localities.length)]!;
+    const seed = randomUUID();
+    console.info(
+      `A88 RANDOM OPENING place=${place.displayName} key=${place.key} state=${state.jurisdictionKey} seed=${seed}`,
+    );
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: place.key,
+      seed,
+      depth: "summarize-earlier-life",
+      questionnaire: "skipped",
+    });
+    expect(resolvePlayerCapabilities(game.world).homePlace?.key).toBe(
+      place.key,
+    );
+    expect(game.world.control).toMatchObject({
+      kind: "person",
+      personId: game.playerPersonId,
+    });
+    const before = serializeWorld(game.world);
+    expect(recallPetitions(game.world)).toEqual([]);
+    expect(serializeWorld(game.world)).toBe(before);
+    assertWorldIntegrity(game.world);
+  });
+
   it(
     "circulates on the ordinary clock and blocks when the signature evidence is missing",
     { timeout: 300_000 },

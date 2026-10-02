@@ -1151,27 +1151,6 @@
       "code": "if (rng.next() >= practice.likelihoodPerReview) continue;"
     },
     {
-      "file": "src/simulation/recall.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "qualifyPermille: 350,"
-    },
-    {
-      "file": "src/simulation/recall.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "removeYesShare: [3_000, 6_500],"
-    },
-    {
-      "file": "src/simulation/recall.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "new SeededRng(seed).fork(`${petitionKey}:qualify`).integer(0, 1000) <"
-    },
-    {
       "file": "src/simulation/relationship-absence.ts",
       "kind": "fixed-share",
       "build": "Build 22",
