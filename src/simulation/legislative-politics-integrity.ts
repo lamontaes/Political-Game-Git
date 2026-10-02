@@ -1,3 +1,4 @@
+import { assertLawSchedules } from "./law-structured-terms";
 import { makeIsoDate } from "./dates";
 import {
   assertProvisionLawCategories,
@@ -65,6 +66,7 @@ export function assertLegislativePoliticsIntegrity(
   for (const provision of provisions) {
     assertProvisionLawCategories(world, provision.lawCategories);
     assertProvisionLawTerms(world, provision.lawTerms);
+    assertLawSchedules(world, provision.lawSchedules);
     assertIdentity(ids, provision, RECORD_KINDS.provision);
     provisionById.set(provision.id, provision);
     const measure = measureById.get(provision.measureId);
