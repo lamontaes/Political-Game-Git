@@ -21,7 +21,6 @@ import { advanceWorld } from "../world";
 import { operativeDateForEnactment } from "../legislative-effective-date";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import { createFormationContext, recordPrinciples } from "../politics";
-import { personName } from "../people";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import type { PolicyPropositionDefinition, World } from "../types";
 import { fileMemberAgendaBills } from "./member-agenda";
