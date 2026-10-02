@@ -4,6 +4,11 @@ import { stableHash } from "../ids";
 import { lifePlaceStateIdentities } from "../life-places";
 import { addDays } from "../dates";
 import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "../life";
+import {
   createDwelling,
   createHousingTenure,
   money,
@@ -26,7 +31,36 @@ const provenance = {
 describe(`saved rent renewal records (${place.jurisdictionKey}, seed ${seed})`, () => {
   it("reads the saved raised renewal, excludes other terms, and retains the loss after the obligation ends and records are restored", () => {
     expect(places).toHaveLength(56);
-    const fixture = smallWorld({ place: place.jurisdictionKey, seed });
+    const bare = smallWorld({ place: place.jurisdictionKey, seed });
+    const householdWorld = withWorldIntegrityDeferred(() => {
+      let world = createHousehold(bare.world, {
+        stableKey: "rent-source-fixture:household",
+        formedAt: bare.world.currentDate,
+        label: "Rent source-reader fixture household",
+        provenance,
+      });
+      const householdId = world.history.households.at(-1)!.id;
+      world = recordHouseholdLocation(world, {
+        stableKey: "rent-source-fixture:household-location",
+        householdId,
+        effectiveAt: world.currentDate,
+        jurisdictionId: bare.jurisdictionId,
+        label: "Rent source-reader fixture home",
+        kind: "residence:community-base",
+        provenance,
+        supersedesLocationId: null,
+      });
+      return startHouseholdMembership(world, {
+        stableKey: "rent-source-fixture:membership",
+        personId: bare.personId,
+        householdId,
+        startedAt: world.currentDate,
+        residenceRole: "primary",
+        kind: "resident:member",
+        provenance,
+      });
+    });
+    const fixture = { ...bare, world: householdWorld };
     const membership = fixture.world.history.householdMemberships.find(
       (row) => row.personId === fixture.personId,
     )!;
