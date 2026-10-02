@@ -195,6 +195,14 @@ function rollEventsByPerson(
   return growingIndex(ROLL_EVENTS_BY_PERSON, events);
 }
 
+/** This person's seat-roll records, in history order, from the shared index. */
+export function seatRollEventsOf(
+  world: World,
+  personId: EntityId,
+): readonly HistoricalEvent[] {
+  return rollEventsByPerson(world.history.events).get(personId) ?? [];
+}
+
 function currentRollEvent(
   world: World,
   personId: EntityId,
