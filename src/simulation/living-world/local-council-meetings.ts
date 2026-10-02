@@ -1,3 +1,5 @@
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { applyInstitutionStep } from "../governing/legislative-clock";
 import {
   councilRules,
@@ -70,20 +72,13 @@ import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
  * the one enacted-law effects step.
  *
  * PLACEHOLDER, pending `local-council-legislative-volume`: the council meets
- * every `daysBetweenMeetings` days, which is not any town's schedule.
+ * on the shared game timetable, which is not any town's sourced schedule.
  */
 
 export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
 const V = LOCAL_COUNCIL_MEETINGS_VERSION;
 
 export const LOCAL_COUNCIL_MEETING = "civic:local-council-meeting" as const;
-
-export const LOCAL_COUNCIL_MEETING_PROFILE = {
-  id: "ocd-local-council-meeting-placeholder/v1",
-  daysBetweenMeetings: 14,
-} as const;
-
-const P = LOCAL_COUNCIL_MEETING_PROFILE;
 
 /** The ordinance the posted public meeting takes up, for one town. */
 export function postedMeetingOrdinanceKey(town: EntityId): string {
@@ -127,6 +122,11 @@ function scheduleMeeting(
   player: EntityId,
   dueAt: string,
 ): World {
+  const rules = councilRules(unit);
+  const calendar = rules
+    ? (rulePackById(rules.packId).session.sittingCalendar ??
+      LEGISLATIVE_SESSION_CALENDARS.council)
+    : LEGISLATIVE_SESSION_CALENDARS.council;
   const stableKey = meetingKey(unit.id, dueAt);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -138,7 +138,7 @@ function scheduleMeeting(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: `${P.id}: ${unit.name}'s council meets every ${P.daysBetweenMeetings} days, pending local-council-legislative-volume.`,
+      note: calendar.note,
     },
   });
 }
@@ -347,7 +347,7 @@ function seatedCouncil(
 
 /**
  * Put the town council's regular meetings on the calendar, the first
- * `daysBetweenMeetings` after the opening. Unchanged where the town
+ * after the opening on its shared timetable. Unchanged where the town
  * government is not seated.
  */
 export function ensureLocalCouncilMeetings(
@@ -361,7 +361,11 @@ export function ensureLocalCouncilMeetings(
     council.unit,
     council.town,
     playerPersonId,
-    addDays(world.currentDate, P.daysBetweenMeetings),
+    nextSessionCalendarDate(
+      rulePackById(council.rules.packId).session.sittingCalendar ??
+        LEGISLATIVE_SESSION_CALENDARS.council,
+      world.currentDate,
+    ),
   );
 }
 
@@ -535,7 +539,11 @@ export function localCouncilMeetingHandler(
         unit,
         town,
         player,
-        addDays(due.dueAt, P.daysBetweenMeetings),
+        nextSessionCalendarDate(
+          rulePackById(rules.packId).session.sittingCalendar ??
+            LEGISLATIVE_SESSION_CALENDARS.council,
+          due.dueAt,
+        ),
       );
     return done(next, `The ${identity.bodyName} did not meet.`);
   }
@@ -586,7 +594,11 @@ export function localCouncilMeetingHandler(
       unit,
       town,
       player,
-      addDays(due.dueAt, P.daysBetweenMeetings),
+      nextSessionCalendarDate(
+        rulePackById(rules.packId).session.sittingCalendar ??
+          LEGISLATIVE_SESSION_CALENDARS.council,
+        due.dueAt,
+      ),
     );
   return done(next, `The ${identity.bodyName} met.`);
 }

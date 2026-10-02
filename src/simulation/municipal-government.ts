@@ -1,3 +1,4 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 /**
  * The municipal government a life actually lives under.
  *
@@ -1024,6 +1025,7 @@ export function municipalRulePackFor(
       source: municipalRuleSourceRef(reading, "effective date"),
     },
     session: {
+      sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${reading.displayName} legislative year`,
       adjournmentRule: unknownRule(
         "No instrument read establishes an adjournment rule for this body.",
