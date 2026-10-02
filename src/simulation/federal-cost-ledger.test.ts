@@ -30,11 +30,10 @@ import {
 } from "./public-budgets/federal-treasury";
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../presentation/opening-life";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { createProductionWorldMetricCatalog } from "./production-catalog";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { decideAtDesk } from "../../tests/fixtures/enact-through-desk";
 import { addDays } from "./dates";
 import { currentPresidentOf } from "./crisis/offices";
 import {
@@ -67,17 +66,25 @@ const PAYMENT = money(100_000_00, "USD");
 
 describe("actual federal program costs on the Treasury", () => {
   it("charges only the actual paid installment, preserving cash, cost and law provenance", () => {
-    const game = generateOpeningLife(
-      prepareOpeningLife({
-        ...DEFAULT_NEW_GAME_SETUP,
-        seed: "federal-public-program-outlay-metric",
-        startAge: 34,
-        depth: "summarize-earlier-life",
-      }),
-    ).game;
-    if (!game) throw new Error("Expected an ordinary opening life.");
-
-    let world = ensureNationalElectionJurisdiction(game.world);
+    const started = performance.now();
+    const seed = "federal-public-program-outlay-metric";
+    const place = drawRandomPlace(seed);
+    const fixture = smallWorld({
+      seed,
+      place: place.key,
+      people: 3,
+      offices: ["congress"],
+      laws: [EXPAND_PASSENGER_RAIL_QUESTION],
+    });
+    let world = ensureNationalElectionJurisdiction({
+      ...fixture.world,
+      metricCatalog: createProductionWorldMetricCatalog(),
+    });
+    const stage = (label: string) =>
+      process.stdout.write(
+        `A28 FIXTURE ${label} elapsed=${(performance.now() - started).toFixed(1)}ms people=${world.personOrder.length} place=${place.key}\n`,
+      );
+    stage("opening");
     const proposition = Object.values(world.policyCatalog.propositions).find(
       (p) => p.stableKey === EXPAND_PASSENGER_RAIL_QUESTION,
     )!;
@@ -158,13 +165,17 @@ describe("actual federal program costs on the Treasury", () => {
         (s) => s !== "offer-amendment",
       );
       if (!step) throw new Error("No legal controlled enactment step remains.");
-      world = applyLegislativeStep(procedure, world, step).world;
+      world =
+        step === "await-executive-decision"
+          ? decideAtDesk(world, measure.id)
+          : applyLegislativeStep(procedure, world, step).world;
     }
     world = recordEnactment(world, {
       stableKey: "test:rail-cost:enactment",
       measureId: measure.id,
       effectiveAt: world.currentDate,
     });
+    stage("enactment");
     const president = currentPresidentOf(world);
     if (!president) throw new Error("Expected a sitting President.");
     const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
@@ -249,6 +260,7 @@ describe("actual federal program costs on the Treasury", () => {
     expect(committed.ok).toBe(true);
     if (!committed.ok) throw new Error(committed.reason);
 
+    stage("commitment");
     const beforePayment = committed.world;
     const month = makeIsoDate(`${dueAt.slice(0, 7)}-01`);
     const opened = openFederalTreasury(month);
@@ -263,6 +275,7 @@ describe("actual federal program costs on the Treasury", () => {
       1,
       createCampaignElectionTransitionRegistry(),
     );
+    stage("advance-one-day");
     const installment = programInstallments(world, PROGRAM_KEY).find(
       (record) => record.commitmentId === committed.recordId,
     );
@@ -313,11 +326,13 @@ describe("actual federal program costs on the Treasury", () => {
       PAYMENT.minorUnits / 100,
     );
     expect(paid.programCosts).toEqual(costs);
+    stage("payment-assertions");
     const reloaded = JSON.parse(JSON.stringify(world)) as World;
     expect(federalProgramCostsForMonth(reloaded, month)).toEqual(costs);
     expect(
       federalProgramCostsForMonth(world, makeIsoDate("2030-01-01")),
     ).toEqual([]);
+    stage("reload");
     expect(
       settleProgramInstallment(world, committed.recordId, 0).world.history
         .resourceTransferOutcomes,

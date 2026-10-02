@@ -226,7 +226,7 @@ describe("federal outlay laws use final adopted annual dollar terms", () => {
       expect(
         federalAidFactor(world, world.currentDate),
         place.jurisdictionKey,
-      ).toBeCloseTo(aid.amount / (12 * 100), 12);
+      ).toBe(1);
     }
     expect(federalAidFactor(world, makeIsoDate("2026-12-01"))).toBe(1);
     expect(

@@ -273,7 +273,8 @@ describe("federal adopted amounts replace historical policy examples", () => {
     expect(federalDeficitChangePctOfGdp(aid, NOW)).toBe(
       (100 * 1200) / outlayTerms.nationalGdp2025,
     );
-    expect(federalAidFactor(aid, NOW)).toBe(2);
+    // Foreign aid changes International Affairs, never domestic aid receipts.
+    expect(federalAidFactor(aid, NOW)).toBe(1);
     const cut = books(fixture(DEBT_LIMIT_CUTS_QUESTION, "offset", 700));
     expect(federalAidFactor(cut, NOW)).toBeCloseTo(
       1 - 700 / (12 * 13 * 100),

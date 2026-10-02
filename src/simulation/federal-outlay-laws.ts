@@ -152,25 +152,7 @@ export function federalAidFactor(world: World, onDate: IsoDate): number {
   const base = cut.law
     ? recordedFederalAnnualSpendingBefore(world, null, cut.law.operativeAt)
     : null;
-  const offsetFactor =
-    cut.amount === null || base === null
-      ? 1
-      : Math.max(0, 1 - cut.amount / base);
-  const aid = federalLawAmountAt(
-    world,
-    INCREASE_FOREIGN_AID_QUESTION,
-    "appropriation",
-    onDate,
-  );
-  const aidBase = aid.law
-    ? recordedFederalAnnualSpendingBefore(
-        world,
-        FEDERAL_OUTLAYS.indexOf("internationalAffairs"),
-        aid.law.operativeAt,
-      )
-    : null;
-  return (
-    offsetFactor *
-    (aid.amount === null || aidBase === null ? 1 : aid.amount / aidBase)
-  );
+  return cut.amount === null || base === null
+    ? 1
+    : Math.max(0, 1 - cut.amount / base);
 }
