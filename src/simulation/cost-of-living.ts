@@ -20,6 +20,8 @@ import {
 } from "./resources";
 import {
   resourceFlowTermsAt,
+  resourceFlowsTouching,
+  resourceTransferOutcomesOfFlows,
   resourcePositionAt,
   sameEndpoint,
 } from "./resource-queries";
@@ -77,7 +79,7 @@ export function livingCostsFlowFor(
       (flow) => resourceFlowTermsAt(world, flow.id)?.status === "active",
     ) ??
     bills[0] ??
-    world.history.resourceFlows.find(
+    resourceFlowsTouching(world, { kind: "person", personId }).find(
       (flow) => flow.stableKey === flowKey(personId),
     ) ??
     null
@@ -229,7 +231,10 @@ function householdBills(
       (key) => `${LIVING_COSTS_BASIS}.${key.toLowerCase()}`,
     ),
   );
-  return world.history.resourceFlows.filter(
+  return resourceFlowsTouching(world, {
+    kind: "household",
+    householdId,
+  }).filter(
     (flow) =>
       flow.source.kind === "household" &&
       flow.source.householdId === householdId &&
@@ -281,9 +286,10 @@ function prepareHouseholdCosts(
   // End all replaced personal estimates for this household, retaining old receipts.
   for (const id of peopleInHouseholdAt(world, estimate.householdId)) {
     if (primaryHouseholdId(world, id) !== estimate.householdId) continue;
-    const legacy = world.history.resourceFlows.find(
-      (flow) => flow.stableKey === flowKey(id),
-    );
+    const legacy = resourceFlowsTouching(world, {
+      kind: "person",
+      personId: id,
+    }).find((flow) => flow.stableKey === flowKey(id));
     if (legacy)
       next = endFlow(
         next,
@@ -304,9 +310,10 @@ function prepareHouseholdCosts(
         flow,
         "Household moved; outside-seller spending follows its current place prospectively.",
       );
-  const existing = next.history.resourceFlows.find(
-    (flow) => flow.stableKey === fallbackKey,
-  );
+  const existing = resourceFlowsTouching(next, {
+    kind: "household",
+    householdId: estimate.householdId,
+  }).find((flow) => flow.stableKey === fallbackKey);
   const providers = householdBills(next, personId).filter(
     (flow) =>
       !flow.stableKey.startsWith(fallbackPrefix) &&
@@ -440,7 +447,7 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
   const bills = householdBills(next, personId);
   const latest = new Map<EntityId, IsoDate>();
   const ids = new Set(bills.map((flow) => flow.id));
-  for (const outcome of next.history.resourceTransferOutcomes)
+  for (const outcome of resourceTransferOutcomesOfFlows(next, ids))
     if (
       ids.has(outcome.resourceFlowId) &&
       (!latest.has(outcome.resourceFlowId) ||
@@ -519,7 +526,10 @@ function settleMonth(
       historySequenceExclusive: world.history.nextSequence,
     })?.liquidBalance.minorUnits ?? 0;
   const checkpoints = new Set<IsoDate>([dueOn, world.currentDate]);
-  for (const outcome of world.history.resourceTransferOutcomes)
+  for (const outcome of resourceTransferOutcomesOfFlows(
+    world,
+    resourceFlowsTouching(world, owner).map((row) => row.id),
+  ))
     if (outcome.occurredAt > dueOn && outcome.occurredAt < world.currentDate)
       checkpoints.add(outcome.occurredAt);
   const available = Math.max(0, Math.min(...[...checkpoints].map(balanceOn)));
