@@ -36,6 +36,7 @@
 
 import townBusinessResearch from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
 import { privacyInitialOccurrence } from "../federal-data-privacy-law";
+import { recordTownSalesReceipts } from "./town-sales-receipts";
 import { addDays } from "../dates";
 import { acuteWeight } from "../outcome-web";
 import { recordOrganizationProfile } from "../life";
@@ -1336,6 +1337,14 @@ export function stepTownFinances(
   };
   for (const { bankId, cause } of failing)
     next = failTownBank(next, town, bankId, cause);
+  next = recordTownSalesReceipts(
+    next,
+    town,
+    since,
+    world.currentDate,
+    round,
+    priceLevel,
+  );
   return { world: next, closing };
 }
 

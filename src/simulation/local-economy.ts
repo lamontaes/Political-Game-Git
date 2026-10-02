@@ -322,9 +322,10 @@ function later(a: IsoDate, b: IsoDate): IsoDate {
   return a > b ? a : b;
 }
 
-function aggregateCustomers(
+export function aggregateCustomers(
   world: World,
   jurisdictionId: EntityId,
+  formedAt: string = world.currentDate,
 ): { world: World; organizationId: EntityId } {
   const stableKey = `local-customers:${jurisdictionId}`;
   const existing = world.history.organizations.find(
@@ -333,7 +334,7 @@ function aggregateCustomers(
   if (existing) return { world, organizationId: existing.id };
   const next = createOrganization(world, {
     stableKey,
-    formedAt: world.currentDate,
+    formedAt,
     detailLevel: "lightweight",
     provenance: {
       kind: "authored",
