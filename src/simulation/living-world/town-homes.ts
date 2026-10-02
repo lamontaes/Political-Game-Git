@@ -168,7 +168,7 @@ export function homeForNewHousehold(
   household: { readonly members: readonly { readonly age: number }[] },
   working: boolean,
   payMinor: number | null,
-  paymentMinor: number,
+  paymentMinor: number | null,
   mayBorrow = true,
   farm = false,
 ): { readonly kind: TownHomeKind; readonly tenure: HousingTenureKind } {
@@ -176,6 +176,7 @@ export function homeForNewHousehold(
   const carries = (kind: TownHomeKind) =>
     mayBorrow &&
     working &&
+    paymentMinor !== null &&
     payMinor !== null &&
     payMinor >=
       paymentMinor *
@@ -490,7 +491,7 @@ export function ensureTownHomes(world: World, town: EntityId): World {
   const priced = startTownJobPay(world, null, world.currentDate);
   const view = readHomes(world, town);
   const factsNow = householdHousingFacts(priced, world.currentDate);
-  const paymentMinor = homePurchaseTerms(world, town).monthlyPaymentMinor;
+  const paymentMinor = homePurchaseTerms(world, town, null).monthlyPaymentMinor;
   const writer: Writer = {
     world,
     town,
@@ -553,7 +554,7 @@ export function reviewTownHomes(
     world,
     addDays(today, -REVIEW_INTERVAL_DAYS),
   );
-  const paymentMinor = homePurchaseTerms(world, town).monthlyPaymentMinor;
+  const paymentMinor = homePurchaseTerms(world, town, null).monthlyPaymentMinor;
   const player = playerHouseholdId(world, view);
   const writer: Writer = {
     world,
@@ -717,6 +718,7 @@ export function reviewTownHomes(
     const canBuy = (row: HouseholdHousingFacts) =>
       anyWork &&
       row.payMinor !== null &&
+      paymentMinor !== null &&
       row.payMinor >= paymentMinor * TOWN_HOME_DECISIONS.buyAtPayOfPayment;
     // Unknown pay is not zero: a household whose pay is not on record is
     // never read as burdened.
