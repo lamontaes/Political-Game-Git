@@ -23,6 +23,11 @@ import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
 import { homeJurisdictionResidenceSince } from "./nationwide-world/residence-duration";
+import {
+  appendedList,
+  hasStableKey,
+  recordsWithFieldValue,
+} from "./history-index";
 import { createStableId } from "./ids";
 import { SeededRng } from "./rng";
 import { lifePlaceByJurisdictionId } from "./life-places";
@@ -109,6 +114,18 @@ export function districtResidenceIntervals(
   return world.history.districtResidenceIntervals ?? [];
 }
 
+/** One person's intervals in list order, read from the growing index. */
+function districtResidenceIntervalsOf(
+  world: World,
+  personId: EntityId,
+): readonly DistrictResidenceInterval[] {
+  return recordsWithFieldValue(
+    districtResidenceIntervals(world),
+    "personId",
+    personId,
+  );
+}
+
 export function districtSeatIntents(
   world: World,
 ): readonly DistrictSeatIntent[] {
@@ -187,11 +204,10 @@ export function districtResidenceSince(
 ): IsoDate | null {
   const resolved = resolveDistrictBinding(districtIdentityCatalog(), binding);
   if (resolved.kind === "refused") return null;
-  const covering = districtResidenceIntervals(world)
+  const covering = districtResidenceIntervalsOf(world, personId)
     .filter(
       (interval) =>
         isSupportedDistrictMembership(interval) &&
-        interval.personId === personId &&
         interval.binding.recordId === resolved.binding.recordId &&
         interval.binding.vintage === resolved.binding.vintage &&
         interval.binding.compilerVersion === resolved.binding.compilerVersion &&
@@ -305,11 +321,10 @@ export function recordedDistrictMembership(
   onDate: IsoDate,
 ): DistrictResidenceInterval | null {
   return (
-    districtResidenceIntervals(world)
+    districtResidenceIntervalsOf(world, personId)
       .filter(
         (interval) =>
           isSupportedDistrictMembership(interval) &&
-          interval.personId === personId &&
           interval.binding.chamber === chamber &&
           interval.startedOn <= onDate &&
           (interval.endedOn === null || interval.endedOn > onDate),
@@ -437,13 +452,16 @@ export function establishDistrictResidence(
       return { kind: "refused", reason: confirmed.reason, world };
     }
   }
-  const openSameChamber = districtResidenceIntervals(world).filter(
+  const recorded = districtResidenceIntervals(world);
+  const openSameChamber = districtResidenceIntervalsOf(
+    world,
+    input.personId,
+  ).filter(
     (interval) =>
-      interval.personId === input.personId &&
-      interval.binding.chamber === binding.chamber &&
-      interval.endedOn === null,
+      interval.binding.chamber === binding.chamber && interval.endedOn === null,
   );
-  let nextIntervals = [...districtResidenceIntervals(world)];
+  // Closing an open interval rewrites the list; a first interval appends.
+  let nextIntervals: readonly DistrictResidenceInterval[] = recorded;
   for (const open of openSameChamber) {
     if (
       open.binding.recordId === binding.recordId &&
@@ -486,9 +504,7 @@ export function establishDistrictResidence(
       note: input.provenance.note,
     },
   };
-  if (
-    nextIntervals.some((existing) => existing.stableKey === interval.stableKey)
-  ) {
+  if (hasStableKey(nextIntervals, interval.stableKey)) {
     return {
       kind: "refused",
       reason: "That district-residence interval is already recorded.",
@@ -500,7 +516,7 @@ export function establishDistrictResidence(
     history: {
       ...world.history,
       nextSequence: world.history.nextSequence + 1,
-      districtResidenceIntervals: [...nextIntervals, interval],
+      districtResidenceIntervals: appendedList(nextIntervals, [interval]),
     },
   };
   assertWorldIntegrity(next);
@@ -865,11 +881,9 @@ export function chooseSplitHomeDistrict(
   binding: DistrictSeatBinding,
 ): DistrictResidenceWriteResult {
   const residenceId = currentResidenceFactId(world, personId);
-  const open = districtResidenceIntervals(world).find(
+  const open = districtResidenceIntervalsOf(world, personId).find(
     (interval) =>
-      interval.personId === personId &&
-      interval.binding.chamber === binding.chamber &&
-      interval.endedOn === null,
+      interval.binding.chamber === binding.chamber && interval.endedOn === null,
   );
   if (open && open.binding.recordId === binding.recordId) {
     return { kind: "recorded", world, interval: open };

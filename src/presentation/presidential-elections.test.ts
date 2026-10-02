@@ -78,7 +78,7 @@ describe("PRESIDENTIAL CONTINUITY: the presidency is elected on the clock", () =
       "election.presidential-nomination",
       "election.presidential-popular-vote",
       "election.presidential-electoral-count",
-    ])
+    ] as const)
       expect(types.has(type)).toBe(true);
 
     // Noon on January 20 is crossed within one day: one minute before, the

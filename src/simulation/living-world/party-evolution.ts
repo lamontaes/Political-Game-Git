@@ -26,6 +26,7 @@ import {
 import { organizationParticipationStateAt } from "../life-queries";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
+import { recordsByStringField } from "../history-index";
 import { SeededRng } from "../rng";
 import type {
   DecisionConsideration,
@@ -373,9 +374,14 @@ export function affiliationAt(
 ): AffiliationAtView {
   const options: LivingWorldReadOptions = { asOf: date };
   const partyOrganizationId = publicPartyAffiliation(world, personId, options);
-  const hasParticipation = world.history.organizationParticipations.some(
+  // Only this person's participations, through the history index, not every
+  // participation in the world on every call.
+  const hasParticipation = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).some(
     (participation) =>
-      participation.personId === personId &&
       participation.kind === PARTY_AFFILIATION_KIND &&
       participation.startedAt <= date,
   );

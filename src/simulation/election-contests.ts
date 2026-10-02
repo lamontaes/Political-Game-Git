@@ -1,4 +1,5 @@
 import { nationalMoodDemocraticShift } from "./national-mood";
+import { stateExecutiveIdentity } from "./nationwide-world/state-executive-candidacy-packs";
 import { CONGRESS_INCUMBENCY_SHARE_BONUS } from "./living-world/congress-aggregate-outcome";
 import { STATE_LEGISLATURE_TURNOVER_PROFILE } from "./nationwide-world/state-legislature-turnover";
 import {
@@ -16,7 +17,6 @@ import {
 } from "./future-transitions";
 import { createStableId } from "./ids";
 import { personName } from "./people";
-import { SeededRng } from "./rng";
 import type {
   CandidateTally,
   CancelElectionContestInput,
@@ -145,10 +145,8 @@ export function scheduleElectionContest(
 }
 
 /**
- * Explicit deterministic placeholder outcome evaluator for the election contest substrate.
- * Generates candidate tallies and determines a winner using a seeded RNG forked from the world seed,
- * contest stable identity, and candidate list. This provides reproducible results without masquerading
- * as a complete voter behavior model.
+ * Count from the existing applicable electorate. Missing recorded/calibrated
+ * inputs leave a contest unresolved; candidate presence never invents ballots.
  */
 export function evaluateDeterministicContestOutcome(
   world: World,
@@ -156,67 +154,18 @@ export function evaluateDeterministicContestOutcome(
 ): {
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
-} {
+} | null {
   assertNotPresidentialOffice(contest.office.officeKey);
   if (contest.candidatePersonIds.length === 0) {
     throw new Error(
       `Cannot evaluate contest with no candidates: ${contest.id}`,
     );
   }
-
-  // A seat in Congress is counted from its own voters even with one name on
-  // the ballot, so an unopposed member's count is the seat's, not a token.
-  const seat =
+  return (
     congressSeatContestOutcome(world, contest) ??
-    stateSeatContestOutcome(world, contest);
-  if (seat) return seat;
-
-  if (contest.candidatePersonIds.length === 1) {
-    const winnerPersonId = contest.candidatePersonIds[0]!;
-    return {
-      winnerPersonId,
-      tallies: [
-        {
-          candidatePersonId: winnerPersonId,
-          votes: 1000,
-          voteShare: 1.0,
-        },
-      ],
-    };
-  }
-
-  const statewide = statewideContestOutcome(world, contest);
-  if (statewide) return statewide;
-
-  const rng = new SeededRng(world.seed).fork(
-    `election-contest:${contest.id}:${contest.stableKey}:${contest.electionDate}`,
+    stateSeatContestOutcome(world, contest) ??
+    statewideContestOutcome(world, contest)
   );
-
-  const rawVotes: { candidatePersonId: EntityId; votes: number }[] = [];
-  let totalVotes = 0;
-
-  for (const candidatePersonId of contest.candidatePersonIds) {
-    const votes = rng.integer(1000, 10000);
-    rawVotes.push({ candidatePersonId, votes });
-    totalVotes += votes;
-  }
-
-  rawVotes.sort((a, b) => {
-    if (b.votes !== a.votes) return b.votes - a.votes;
-    return a.candidatePersonId.localeCompare(b.candidatePersonId);
-  });
-
-  const tallies: CandidateTally[] = rawVotes.map((entry) => ({
-    candidatePersonId: entry.candidatePersonId,
-    votes: entry.votes,
-    voteShare: Number((entry.votes / totalVotes).toFixed(4)),
-  }));
-
-  const winnerPersonId = tallies[0]!.candidatePersonId;
-  return {
-    winnerPersonId,
-    tallies,
-  };
 }
 
 /**
@@ -234,7 +183,14 @@ function statewideContestOutcome(
   readonly tallies: readonly CandidateTally[];
 } | null {
   const electorate = statewideElectorate(world, contest.jurisdictionId);
-  if (!electorate) return null;
+  if (
+    !electorate ||
+    contest.office.seatKey ||
+    contest.office.districtBinding ||
+    stateExecutiveIdentity(electorate.stateUsps)?.officeKey !==
+      contest.office.officeKey
+  )
+    return null;
   return countedByParty(world, contest, electorate, electorate.democraticShare);
 }
 
@@ -457,6 +413,7 @@ export function resolveElectionContest(
     }));
   } else {
     const outcome = evaluateDeterministicContestOutcome(world, contest);
+    if (!outcome) return world;
     winnerPersonId = outcome.winnerPersonId;
     tallies = outcome.tallies;
   }
@@ -640,9 +597,14 @@ export function electionContestTransitionHandler(
 
   const result = electionContestResult(resolvedWorld, contest.id);
   if (!result) {
-    throw new Error(
-      "Election contest transition failed to produce a result record.",
-    );
+    return {
+      world: resolvedWorld,
+      status: "blocked",
+      reasonKey: "election:count-unavailable",
+      context:
+        "No supported electorate count is available; the contest remains pending.",
+      outcomeEventId: null,
+    };
   }
 
   return {

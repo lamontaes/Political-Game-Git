@@ -406,12 +406,30 @@ export function stateChamberName(
   return `${state} ${chamberName}`;
 }
 
+const CANDIDACY_PACKS_FROM_RULE_PACKS = new WeakMap<
+  LegislativeRulePack,
+  CandidacyPack
+>();
+
 /**
  * Turns an accepted legislative pack into the offices it demonstrably
  * establishes. One office per chamber, carrying that chamber's own citation.
  * Nothing is added that the pack does not already assert.
  */
 export function candidacyPackFromRulePack(
+  pack: LegislativeRulePack,
+): CandidacyPack {
+  // A rule pack is fixed data, so its candidacy pack is built once and the
+  // same object answers every lookup.
+  let built = CANDIDACY_PACKS_FROM_RULE_PACKS.get(pack);
+  if (!built) {
+    built = buildCandidacyPackFromRulePack(pack);
+    CANDIDACY_PACKS_FROM_RULE_PACKS.set(pack, built);
+  }
+  return built;
+}
+
+function buildCandidacyPackFromRulePack(
   pack: LegislativeRulePack,
 ): CandidacyPack {
   const offices = pack.chambers.map((chamber): ElectiveOfficeOption => {
