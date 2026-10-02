@@ -1,33 +1,32 @@
-import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 /**
  * The minimum wage in force where a job is, on a date.
  *
  * The floor is the highest of the federal, state and local minimum where the
  * job is (U.S. Department of Labor: the higher rate applies to covered work).
  *
- * - Federal: the canonical starting law or operative Act supplies its hourly
- *   floor. A yes/no answer never supplies a substitute dollar amount.
- * - State: the canonical starting law's dated hourly target, or the
- *   adopted rate an operative state law sets.
+ * - Federal: $7.25 an hour since July 24, 2009, until an Act of Congress that
+ *   answers "should the federal minimum wage go up?" with yes takes effect;
+ *   then `FEDERAL_RAISE_PLACEHOLDER`. A later Act answering no ends the raise
+ *   for new work, and cuts nobody's pay (callers only ever raise).
+ * - State: the state's basic rate on file (`minimum-wage-2026.json`), or the
+ *   rate a state law the game enacted set, from the day it takes effect.
  *   Unknown stays unknown, never zero.
- * - Local: an operative, authorized city ordinance supplies its adopted
- *   hourly target. Missing numeric text supplies no local floor.
+ * - Local: NOT MODELED. No city or county minimum is on file, so none is
+ *   claimed and none is read as zero.
  *
  * Nothing is stored as "the current minimum": it is derived from the laws each
  * time it is read.
  */
 
-import { addDays } from "./dates";
+import localPremium from "../../data/research/labor/local-minimum-wage-premium.json" with { type: "json" };
+import raiseTerm from "../../data/research/labor/state-minimum-wage-raise-term.json" with { type: "json" };
+import { addDays, daysBetween } from "./dates";
 import {
   laborLawOfficeKey,
   ruleValueInWorld,
   STATUTE_EFFECTIVE_DEFAULT_DAYS,
 } from "./enacted-rule-changes";
-import {
-  lawInForce,
-  startingLawInForce,
-  startingLawScope,
-} from "./governing/law-in-force";
+import { lawInForce } from "./governing/law-in-force";
 import { measurePropositionAnswer } from "./issue-record";
 import { measureAnswersAt } from "./vote-bundle";
 import {
@@ -37,10 +36,9 @@ import {
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
-  stateKeyForJurisdiction,
 } from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
 /** The policy question a federal minimum wage raise answers. */
 export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
@@ -49,6 +47,18 @@ export const FEDERAL_MINIMUM_WAGE_QUESTION_KEY =
 /** The policy question a state minimum wage raise answers. */
 export const STATE_MINIMUM_WAGE_QUESTION_KEY =
   "us-policy-positions:labor-workforce.raise-minimum-wage";
+
+/**
+ * ESTIMATED FROM AVERAGE (`state-minimum-wage-raise-term.json`, Department of
+ * Labor table of state rates, 2013 to 2024): what a state law that answers
+ * "raise the minimum wage" with yes adds when its bill names no dollar figure.
+ * The total is the median raise of a stretch of increases; the yearly step is
+ * the median single-year raise. A bill that files its own wage term wins.
+ */
+export const STATE_RAISE_TERM = {
+  totalMinor: raiseTerm.totalMinor,
+  yearlyStepMinor: raiseTerm.yearlyStepMinor,
+} as const;
 
 /**
  * The state question that decides whether a city's minimum wage counts: a
@@ -61,10 +71,31 @@ export const LOCAL_MINIMUM_WAGE_AUTHORITY_QUESTION_KEY =
 export const CITY_MINIMUM_WAGE_QUESTION_KEY =
   "us-policy-positions:labor-workforce.city-minimum-wage";
 
+/**
+ * ESTIMATED FROM AVERAGE (`local-minimum-wage-premium.json`, UC Berkeley Labor
+ * Center inventory, 40 California localities in July 2026): how far above the
+ * higher of the federal and state rate a city ordinance that answers yes sets
+ * its wage, as a share of that rate, when it names no figure. The research
+ * question `local-minimum-wages-by-place` replaces it with the real rates.
+ */
+export const CITY_PREMIUM_RATIO = localPremium.premiumRatio;
+
 /** The federal minimum wage an hour, in cents (Fair Labor Standards Act). */
 export const FEDERAL_MINIMUM_HOURLY_MINOR = Math.round(
   FEDERAL_MINIMUM_HOURLY * 100,
 );
+
+/**
+ * PLACEHOLDER(research: federal-minimum-wage-raise-level). The federal rate an
+ * Act that answers yes to raising the minimum wage sets, until ChatGPT says
+ * what level the game's Congress bills carry. $15.00 an hour is the level the
+ * outcome web's minimum-wage links are calibrated for (CBO 2019, "a raise to
+ * about $15"); it is not a claim about any bill.
+ */
+export const FEDERAL_RAISE_PLACEHOLDER = {
+  researchQuestionId: "federal-minimum-wage-raise-level",
+  hourlyMinor: 1500,
+} as const;
 
 /** One step of the federal minimum: the rate from a date until the next step. */
 export interface FederalMinimumStep {
@@ -86,7 +117,7 @@ export function federalMinimumSchedule(
 ): readonly FederalMinimumStep[] {
   const enactments = world.history.legislativeEnactments;
   if (!enactments?.length) return NO_ENACTMENTS;
-  const cached = schedules.get(world);
+  const cached = schedules.get(enactments);
   if (cached) return cached;
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
@@ -109,7 +140,6 @@ export function federalMinimumSchedule(
       );
     }
     for (const from of [...dates].sort()) {
-      if (from > world.currentDate) continue;
       const law = lawInForce(
         world,
         NATIONAL_ELECTION_JURISDICTION.id,
@@ -117,28 +147,21 @@ export function federalMinimumSchedule(
         from,
       );
       if (!law || law.origin !== "enacted") continue;
-      const term = readFinalEnactedLawTerm(world, law, {
-        questionKey: FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-        termKey: "floor",
-        unit: "minor/hour",
-        onDate: from,
-      });
-      if (!term)
-        throw new Error(
-          "Federal minimum wage requires its adopted floor in minor/hour",
-        );
       const measure = world.history.legislativeMeasures?.find(
         (entry) => entry.id === law.measureId,
       );
       steps.push({
         from,
-        hourlyMinor: term.value,
+        hourlyMinor:
+          law.answer === "yes"
+            ? FEDERAL_RAISE_PLACEHOLDER.hourlyMinor
+            : FEDERAL_MINIMUM_HOURLY_MINOR,
         measureId: law.measureId,
         designation: measure?.designation ?? "A federal law",
       });
     }
   }
-  schedules.set(world, steps);
+  schedules.set(enactments, steps);
   return steps;
 }
 
@@ -159,48 +182,11 @@ export function federalMinimumStepAt(
 export function federalMinimumHourlyMinorAt(
   world: World,
   onDate: IsoDate,
-): number | null {
+): number {
   return (
-    canonicalMinimumTerm(
-      world,
-      NATIONAL_ELECTION_JURISDICTION.id,
-      FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-      "floor",
-      onDate,
-    )?.term?.value ?? null
+    federalMinimumStepAt(world, onDate)?.hourlyMinor ??
+    FEDERAL_MINIMUM_HOURLY_MINOR
   );
-}
-
-/** Read the actual canonical law and final hourly text on the activity date. */
-function canonicalMinimumTerm(
-  world: World,
-  jurisdictionId: EntityId,
-  questionKey: string,
-  termKey: string,
-  onDate: IsoDate,
-  cutoff?: HistoricalCutoff,
-) {
-  const proposition = Object.values(world.policyCatalog.propositions).find(
-    (entry) => entry.stableKey === questionKey,
-  );
-  if (!proposition) return null;
-  const law = lawInForce(
-    world,
-    jurisdictionId,
-    proposition.id,
-    onDate,
-    "all",
-    cutoff,
-  );
-  if (!law) return null;
-  const term = readFinalEnactedLawTerm(world, law, {
-    questionKey,
-    termKey,
-    unit: "minor/hour",
-    onDate,
-    cutoff,
-  });
-  return { law, term };
 }
 
 /**
@@ -225,6 +211,20 @@ export function startingStateMinimumHourly(
   const state = TOWN_MINIMUM_WAGES[stateKey];
   if (state === null || state === undefined) return null;
   return Math.max(FEDERAL_MINIMUM_HOURLY, state);
+}
+
+/**
+ * What a state law that answered yes to "raise the minimum wage" adds to the
+ * rate before it, `daysSince` days after it took effect: the yearly step at the
+ * start and again each year, up to the total.
+ */
+export function stateRaiseAfterDays(daysSince: number): number {
+  if (daysSince < 0) return 0;
+  const steps = Math.floor(daysSince / 365) + 1;
+  return Math.min(
+    STATE_RAISE_TERM.totalMinor,
+    steps * STATE_RAISE_TERM.yearlyStepMinor,
+  );
 }
 
 const minimumWageQuestionLaws = new WeakMap<object, boolean>();
@@ -264,7 +264,7 @@ export function anyMinimumWageQuestionEnacted(world: World): boolean {
 export interface StateMinimumSetting {
   readonly hourlyMinor: number;
   /** What the state's rate was before any law enacted in play changed it. */
-  readonly beforeMinor: number | null;
+  readonly beforeMinor: number;
   /** The enacted measure that set it; null for a rate on file at the start. */
   readonly measureId: EntityId | null;
   readonly designation: string | null;
@@ -278,19 +278,18 @@ const stateSettings = new WeakMap<
 >();
 
 /**
- * The state's own hourly floor on the earning date, from an operative saved
- * hourly rule or the canonical law's adopted target. Starting-law phases use
- * the same dated final-term reader. The change baseline comes from the saved
- * world opening; an unavailable baseline stays null without hiding a valid
- * current floor. Historical reads honor their sequence cutoff. Federal and
- * local floors are compared separately by minimumWageSettingAt.
+ * A state's own minimum wage on `onDate`, in cents an hour. Reads, in order:
+ * a wage term an enacted bill filed (`labor.minimumWage.hourlyCents`); else
+ * the term a state law that answered yes to raising the minimum wage carries
+ * (`STATE_RAISE_TERM`, added to the rate on file, in yearly steps from the
+ * law's own effective date) for as long as that law governs, so a later law
+ * that answers no ends it; else the rate on file. Null when the state's rate
+ * on file is unknown and no law sets one. Local minimums are NOT MODELED.
  */
 export function stateMinimumSettingAt(
   world: World,
   stateKey: string,
   onDate: IsoDate,
-  cutoff?: HistoricalCutoff,
-  workplaceKey?: string,
 ): StateMinimumSetting | null {
   const enactments = world.history.legislativeEnactments;
   let cache: Map<string, StateMinimumSetting | null> | null = null;
@@ -301,16 +300,10 @@ export function stateMinimumSettingAt(
       stateSettings.set(enactments, cache);
     }
   }
-  const cacheKey = `${stateKey}:${onDate}:${world.startedAt}:${workplaceKey ?? ""}`;
-  if (!cutoff && cache?.has(cacheKey)) return cache.get(cacheKey)!;
-  const setting = computeStateMinimumSetting(
-    world,
-    stateKey,
-    onDate,
-    cutoff,
-    workplaceKey,
-  );
-  if (!cutoff) cache?.set(cacheKey, setting);
+  const cacheKey = `${stateKey}:${onDate}`;
+  if (cache?.has(cacheKey)) return cache.get(cacheKey)!;
+  const setting = computeStateMinimumSetting(world, stateKey, onDate);
+  cache?.set(cacheKey, setting);
   return setting;
 }
 
@@ -318,50 +311,10 @@ function computeStateMinimumSetting(
   world: World,
   stateKey: string,
   onDate: IsoDate,
-  cutoff?: HistoricalCutoff,
-  workplaceKey?: string,
 ): StateMinimumSetting | null {
   const stateId = stateJurisdictionForKey(stateKey)?.id ?? null;
-  const stateQuestion = Object.values(world.policyCatalog.propositions).find(
-    (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
-  );
-  const startingLaw =
-    stateId && stateQuestion
-      ? startingLawInForce(world, stateId, stateQuestion.id, onDate, cutoff)
-      : null;
-  const startingTerm = startingLaw
-    ? readFinalEnactedLawTerm(world, startingLaw, {
-        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
-        termKey: "target",
-        unit: "minor/hour",
-        onDate,
-        cutoff,
-        workplaceKey,
-      })
-    : null;
-  // The effect baseline is the saved world opening, not a later statutory phase.
-  // Current scheduled floors above still use the actual earning date.
-  const baselineLaw =
-    stateId && stateQuestion
-      ? startingLawInForce(
-          world,
-          stateId,
-          stateQuestion.id,
-          world.startedAt,
-          cutoff,
-        )
-      : null;
-  const baselineTerm = baselineLaw
-    ? readFinalEnactedLawTerm(world, baselineLaw, {
-        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
-        termKey: "target",
-        unit: "minor/hour",
-        onDate: world.startedAt,
-        cutoff,
-        workplaceKey,
-      })
-    : null;
-  const beforeMinor = baselineTerm?.value ?? null;
+  const starting = startingStateMinimumHourly(stateKey);
+  const beforeMinor = starting === null ? null : Math.round(starting * 100);
   const filed = /^US-[A-Z]{2}$/.test(stateKey)
     ? ruleValueInWorld(
         world,
@@ -370,7 +323,6 @@ function computeStateMinimumSetting(
           officeKey: laborLawOfficeKey(stateKey.slice(3)),
           field: "labor.minimumWage.hourlyCents",
           onDate,
-          cutoff,
         },
         null,
       )
@@ -378,36 +330,32 @@ function computeStateMinimumSetting(
   if (filed?.source === "enacted" && typeof filed.value === "number")
     return {
       hourlyMinor: filed.value,
-      beforeMinor,
+      beforeMinor: beforeMinor ?? filed.value,
       measureId: filed.measureId,
       designation: filed.designation,
       effectiveAt: filed.effectiveAt,
     };
-  const proposition = stateQuestion;
-  if (proposition && stateId) {
+  const proposition = Object.values(
+    world.policyCatalog?.propositions ?? {},
+  ).find(
+    (definition) => definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY,
+  );
+  if (proposition && stateId && beforeMinor !== null) {
     const law = lawInForce(
       world,
       stateId,
       proposition.id,
       onDate,
       "enacted-only",
-      cutoff,
     );
     if (law?.origin === "enacted" && law.answer === "yes") {
-      const term = readFinalEnactedLawTerm(world, law, {
-        questionKey: STATE_MINIMUM_WAGE_QUESTION_KEY,
-        termKey: "target",
-        unit: "minor/hour",
-        onDate,
-        cutoff,
-        workplaceKey,
-      });
-      if (!term) return null;
       const measure = world.history.legislativeMeasures?.find(
         (entry) => entry.id === law.measureId,
       );
       return {
-        hourlyMinor: term.value,
+        hourlyMinor:
+          beforeMinor +
+          stateRaiseAfterDays(daysBetween(law.operativeAt, onDate)),
         beforeMinor,
         measureId: law.measureId,
         designation: measure?.designation ?? "A state law",
@@ -415,10 +363,10 @@ function computeStateMinimumSetting(
       };
     }
   }
-  return startingTerm === null
+  return beforeMinor === null
     ? null
     : {
-        hourlyMinor: startingTerm.value,
+        hourlyMinor: beforeMinor,
         beforeMinor,
         measureId: null,
         designation: null,
@@ -447,7 +395,8 @@ const localSettings = new WeakMap<
  * city law in force does: an ordinance enacted in play that answered yes to
  * "should the city set its own minimum wage above the state's?", counted only
  * where the state's law lets cities set one (`question-authority.ts`), sets
- * its adopted hourly target from its effective date. A later ordinance that answers no, or a state law that
+ * the higher of the federal and state rate plus `CITY_PREMIUM_RATIO`, from its
+ * effective date. A later ordinance that answers no, or a state law that
  * takes the authority away, ends it. Counties are NOT MODELED.
  */
 export function localMinimumSettingAt(
@@ -458,10 +407,10 @@ export function localMinimumSettingAt(
 ): MinimumWageSetting | null {
   const enactments = world.history.legislativeEnactments;
   if (!jurisdictionId || !enactments?.length) return null;
-  let cache = localSettings.get(world);
+  let cache = localSettings.get(enactments);
   if (!cache) {
     cache = new Map();
-    localSettings.set(world, cache);
+    localSettings.set(enactments, cache);
   }
   const cacheKey = `${jurisdictionId}:${baseMinor}:${onDate}`;
   if (cache.has(cacheKey)) return cache.get(cacheKey)!;
@@ -479,21 +428,11 @@ export function localMinimumSettingAt(
     law.answer === "yes" &&
     law.level === "local-ordinance"
   ) {
-    const term = readFinalEnactedLawTerm(world, law, {
-      questionKey: CITY_MINIMUM_WAGE_QUESTION_KEY,
-      termKey: "target",
-      unit: "minor/hour",
-      onDate,
-    });
-    if (!term) {
-      cache.set(cacheKey, null);
-      return null;
-    }
     const measure = world.history.legislativeMeasures?.find(
       (entry) => entry.id === law.measureId,
     );
     setting = {
-      hourlyMinor: term.value,
+      hourlyMinor: Math.round(baseMinor * (1 + CITY_PREMIUM_RATIO)),
       level: "local",
       measureId: law.measureId,
       designation: measure?.designation ?? "A city ordinance",
@@ -517,43 +456,21 @@ export function minimumWageSettingAt(
   jurisdictionId: EntityId | null,
   onDate: IsoDate,
 ): MinimumWageSetting | null {
-  const federalRead = canonicalMinimumTerm(
-    world,
-    NATIONAL_ELECTION_JURISDICTION.id,
-    FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
-    "floor",
-    onDate,
-  );
-  if (!federalRead?.term) return null;
+  const step = federalMinimumStepAt(world, onDate);
   const federal: MinimumWageSetting = {
-    hourlyMinor: federalRead.term.value,
+    hourlyMinor: step?.hourlyMinor ?? FEDERAL_MINIMUM_HOURLY_MINOR,
     level: "federal",
-    measureId: federalRead.term.measureId,
-    designation:
-      world.history.legislativeMeasures?.find(
-        (row) => row.id === federalRead.term!.measureId,
-      )?.designation ?? null,
-    effectiveAt: federalRead.law.operativeAt,
+    measureId: step?.measureId ?? null,
+    designation: step?.designation ?? null,
+    effectiveAt: step?.from ?? null,
   };
   const place = jurisdictionId
     ? lifePlaceByJurisdictionId(jurisdictionId)
     : null;
-  const jurisdiction = jurisdictionId
-    ? world.jurisdictions[jurisdictionId]
-    : null;
-  const key =
-    place?.stateJurisdictionKey ??
-    (jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null);
-  // No recorded workplace jurisdiction can support only the national floor.
-  // A supplied but unrecognized jurisdiction cannot establish state coverage.
-  if (!key)
-    return jurisdictionId === null ||
-      jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
-      ? federal
-      : null;
+  const key = place?.stateJurisdictionKey ?? null;
   const stateSetting =
     key && /^US-[A-Z]{2}$/.test(key)
-      ? stateMinimumSettingAt(world, key, onDate, undefined, place?.key)
+      ? stateMinimumSettingAt(world, key, onDate)
       : null;
   let state: MinimumWageSetting | null = stateSetting && {
     hourlyMinor: stateSetting.hourlyMinor,
@@ -563,25 +480,15 @@ export function minimumWageSettingAt(
     effectiveAt: stateSetting.effectiveAt,
   };
   if (!state) {
-    const stateId = key ? stateJurisdictionForKey(key)?.id : null;
-    const stateRead = stateId
-      ? canonicalMinimumTerm(
-          world,
-          stateId,
-          STATE_MINIMUM_WAGE_QUESTION_KEY,
-          "target",
-          onDate,
-        )
-      : null;
-    const scope = stateRead
-      ? startingLawScope(stateRead.law, STATE_MINIMUM_WAGE_QUESTION_KEY, onDate)
-      : null;
-    if (scope?.kind === "federal-standard") {
-      state = federal;
-    } else {
-      // Missing dated text and unresolved scope never borrow an opening rate.
-      return null;
-    }
+    const starting = startingMinimumHourly(jurisdictionId);
+    if (starting === null) return null;
+    state = {
+      hourlyMinor: Math.round(starting * 100),
+      level: "state",
+      measureId: null,
+      designation: null,
+      effectiveAt: null,
+    };
   }
   const base = federal.hourlyMinor > state.hourlyMinor ? federal : state;
   const local = localMinimumSettingAt(
