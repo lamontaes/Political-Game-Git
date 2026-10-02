@@ -14,6 +14,13 @@ interface Chamber {
     readonly strictlyGreater: boolean;
   };
   readonly ruleKind: string;
+  readonly ratificationBridge?: {
+    readonly kind: string;
+    readonly formCitationIndex: number;
+    readonly procedureCitationIndex: number;
+    readonly thresholdCitationIndex: number;
+    readonly quorumCitationIndex: number;
+  };
 }
 interface Row {
   readonly stateKey: string;
@@ -80,5 +87,48 @@ describe("federal amendment ratification rules", () => {
     expect(
       checkRatificationRules({ rows: data.rows.slice(1), nonRatifying: [] }),
     ).toContain("US-AK: no row");
+  });
+
+  it.each([
+    "formCitationIndex",
+    "procedureCitationIndex",
+    "thresholdCitationIndex",
+    "quorumCitationIndex",
+  ] as const)("refuses a sourced bridge missing its %s", (role) => {
+    const broken = structuredClone(data);
+    const state = broken.rows.find((entry) =>
+      entry.chambers.some((body) => body.ratificationBridge),
+    )!;
+    expect(state).toBeDefined();
+    const body = state.chambers.find((entry) => entry.ratificationBridge)!;
+    Object.assign(body.ratificationBridge!, { [role]: -1 });
+    expect(checkRatificationRules(broken)).toContain(
+      `${state.stateKey} ${body.chamber}: ${role} needs an existing citation index`,
+    );
+  });
+
+  it("does not let a sourced-bridge label admit an inferred bill rule", () => {
+    const broken = structuredClone(data);
+    const state = broken.rows.find((entry) =>
+      entry.chambers.some((body) => body.ratificationBridge),
+    )!;
+    const body = state.chambers.find((entry) => entry.ratificationBridge)!;
+    Object.assign(body, {
+      ruleKind: "bill-rule-assumed",
+      notes: "INFERRED control: no ratification bridge is established.",
+    });
+    expect(checkRatificationRules(broken)).toContain(
+      `${state.stateKey} ${body.chamber}: a sourced bridge needs a bill-reference or resolution rule`,
+    );
+  });
+
+  it("rejects an invalid affirmative-vote floor without lowering it", () => {
+    const broken = structuredClone(data);
+    const state = broken.rows.find((entry) => entry.stateKey === "US-NJ")!;
+    const body = state.chambers.find((entry) => entry.chamber === "senate")!;
+    Object.assign(body.threshold, { minimumVotes: 0 });
+    expect(checkRatificationRules(broken)).toContain(
+      "US-NJ senate: minimumVotes must be a positive whole number",
+    );
   });
 });
