@@ -87,11 +87,7 @@ import {
 } from "../fairness-pay-law";
 import { noticeLawPayChanges } from "../law-effects-noticed";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
-import { ensureEmployerCashPositions } from "../opening-employer-cash";
-import { settleBusinessReceipts } from "../local-economy";
-import { resourceFlowTermsAt, resourcePositionAt } from "../resource-queries";
-import { paymentFromDatedCash } from "../resource-payments";
-import { writeWithWorldIntegrityOnce } from "../world";
+import { resourceFlowTermsAt } from "../resource-queries";
 import { SeededRng } from "../rng";
 import {
   createResourceFlows,
@@ -1669,18 +1665,6 @@ export function settleTownCompensations(
     pending.add(stableKey);
   }
   if (inputs.length === 0) return next;
-  next = ensureEmployerCashPositions(next, "later");
-  // Existing business contracts settle actual customer payments into the same
-  // canonical payer position before payroll. Saved sales estimates alone
-  // cannot fund a receipt: settlement debits the customer's dated cash.
-  const employers = new Set<EntityId>();
-  for (const input of inputs) {
-    const flow = recordById(next.history.resourceFlows, input.resourceFlowId);
-    if (flow?.source.kind === "organization")
-      employers.add(flow.source.organizationId);
-  }
-  for (const organizationId of employers)
-    next = settleBusinessReceipts(next, organizationId);
   for (const personId of recipients)
     next = ensureLifePathPersonalPosition(
       next,
@@ -1688,55 +1672,7 @@ export function settleTownCompensations(
       money(0, "USD").currency,
     );
   const first = next.history.resourceTransferOutcomes.length;
-  next = writeWithWorldIntegrityOnce(next, () => {
-    let settled = next;
-    // Settle in payday order, reading each prior payment before the next worker.
-    // The shared dated-cash reader also preserves cash spent after an overdue day.
-    for (const input of inputs.sort((a, b) =>
-      a.occurredAt.localeCompare(b.occurredAt),
-    )) {
-      const flow = recordById(
-        settled.history.resourceFlows,
-        input.resourceFlowId,
-      )!;
-      const cash = resourcePositionAt(
-        settled,
-        flow.source,
-        input.transferredAmount.currency,
-        {
-          asOfDate: makeIsoDate(input.occurredAt),
-          historySequenceExclusive: settled.history.nextSequence,
-        },
-      );
-      const payment = cash
-        ? paymentFromDatedCash(
-            settled,
-            flow.source,
-            input.transferredAmount,
-            makeIsoDate(input.occurredAt),
-          )
-        : null;
-      settled = recordResourceTransferOutcomes(settled, [
-        {
-          ...input,
-          status: !payment
-            ? "blocked"
-            : payment.status === "completed"
-              ? input.status
-              : payment.status,
-          transferredAmount:
-            payment?.transferredAmount ??
-            money(0, input.transferredAmount.currency),
-          reasonKind: !payment
-            ? "capacity:unrecorded-employer-cash"
-            : payment.status === "completed"
-              ? input.reasonKind
-              : "capacity:insufficient-employer-cash",
-        },
-      ]);
-    }
-    return settled;
-  });
+  next = recordResourceTransferOutcomes(next, inputs);
   const ids = next.history.resourceTransferOutcomes
     .slice(first)
     .map((outcome) => outcome.id);
