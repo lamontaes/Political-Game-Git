@@ -1,6 +1,7 @@
 import { addDays, makeIsoDate } from "../dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
+import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
 import finances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import type { SPENDING_QUESTION_EFFECTS } from "./rules";
 import { mayAnswerQuestion } from "../governing/question-authority";
@@ -138,7 +139,23 @@ export function budgetLawReading(
   }
   const law = lawInForce(world, jurisdictionId, propositionId, onDate);
   if (!law || (law.answer !== "yes" && law.answer !== "no")) return UNKNOWN_LAW;
-  return { answer: law.answer, measureId: law.measureId, level: law.level };
+  const contribution =
+    name === "pensions" && law.answer === "yes"
+      ? readFinalEnactedLawTerm(world, law, {
+          questionKey: BUDGET_LAW_KEYS.pensions,
+          termKey: "contribution",
+          unit: "ratio",
+          onDate,
+        })
+      : null;
+  return {
+    answer: law.answer,
+    measureId: law.measureId,
+    level: law.level,
+    ...(contribution && contribution.value >= 0
+      ? { requiredContributionShare: contribution.value }
+      : {}),
+  };
 }
 
 /**

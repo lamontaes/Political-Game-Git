@@ -94,7 +94,7 @@ import {
   causalEffectHistoryRecords,
   cloneCausalMechanismCatalog,
   createSyntheticCausalMechanismCatalog,
-} from "./causal-effects";
+} from "./effect-records";
 import { assertCampaignIntegrity } from "./campaign-integrity";
 import {
   campaignEntityAvailableAt,
