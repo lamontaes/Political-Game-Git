@@ -1,9 +1,6 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
-import {
-  observerSetup,
-  openObserverWorld,
-} from "../../presentation/observer-world";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { addDays } from "../dates";
 import { currentLifeCutoff } from "../life-queries";
 import {
@@ -16,7 +13,12 @@ import {
   stateJurisdictionForKey,
 } from "../life-places";
 import { courtFor } from "../judiciary/court-for";
-import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
+import {
+  buildOpeningCourtCatalog,
+  seatJudge,
+  seatHolderAt,
+  seatsForCourt,
+} from "../judiciary/courts";
 import { pickDistinct, SeededRng } from "../rng";
 import { personName } from "../people";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -43,7 +45,39 @@ import { advanceProsecutions } from "./prosecution";
 const SEED = "team9-a100-saved-court-finder-20261001";
 let opened: World | null = null;
 function world(): World {
-  return (opened ??= openObserverWorld(observerSetup(SEED)).world);
+  return (opened ??= trialWorld("US-MA"));
+}
+function trialWorld(stateKey: string): World {
+  const opening = smallWorld({
+    place: stateKey,
+    people: 40,
+    seed: SEED,
+    date: "2026-01-01",
+  });
+  const base = buildOpeningCourtCatalog(opening.world);
+  const court = courtFor(
+    base,
+    opening.jurisdictionId,
+    "local-general-trial",
+    "criminal",
+  )!;
+  expect(court).toBeDefined();
+  const seat = seatsForCourt(base, court.courtId)[0]!;
+  return seatJudge(base, {
+    seatId: seat.seatId,
+    personId: base.personOrder.at(-1)!,
+    startedAt: base.currentDate,
+    selection: {
+      path: "initial-world",
+      selectionRecordId: null,
+      decisionRecordId: null,
+      selectingPersonId: null,
+      contestId: null,
+      note: "Authored small-world court fixture; actual generated resident seated through seatJudge.",
+    },
+    termEndsAt: null,
+    retentionDueAt: null,
+  });
 }
 const receipts: unknown[] = [];
 let lifeCaseBase: { world: World; personId: EntityId; venue: EntityId } | null =
@@ -78,6 +112,7 @@ function caseFor(stateKey: string): CourtCase {
 
 describe("recorded applicability and sourced sentencing options", () => {
   it("reads all 56 base robbery rows without turning missing facts into a grade", () => {
+    expect(lifePlaceStateIdentities()).toHaveLength(56);
     for (const state of lifePlaceStateIdentities()) {
       const input = caseFor(state.jurisdictionKey);
       const range = sentencingRangeForCase(input);
@@ -136,11 +171,11 @@ describe("recorded applicability and sourced sentencing options", () => {
   const states = pickDistinct(
     new SeededRng(SEED),
     lifePlaceStateIdentities(),
-    5,
+    56,
   );
   for (const state of states)
     it(`saves an actual bounded term for the named defendant in ${state.jurisdictionKey}`, () => {
-      let base = world();
+      let base = trialWorld(state.jurisdictionKey);
       for (const item of base.history.futureDueItems)
         if (
           futureDueItemStateAt(base, item.id, currentLifeCutoff(base))
