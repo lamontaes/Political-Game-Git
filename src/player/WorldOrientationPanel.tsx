@@ -2,6 +2,7 @@ import "./world-orientation.css";
 import "./opening-legislature.css";
 import "./opening-family.css";
 import "./opening-official-figures.css";
+import "./opening-state-figures.css";
 import { projectLifeSoFarEnglish } from "../presentation/life-so-far-english";
 
 import {
@@ -183,7 +184,15 @@ export function WorldOrientationPanel({
                   .find((chapter) => chapter.key === step.key)
                   ?.actors.map((actor) => actor.person) ?? officials,
             }
-          : withLocal(step),
+          : step.key === "state" && world && personId
+            ? {
+                ...step,
+                people: [
+                  ...step.people,
+                  ...openingLegislaturePeople(world, personId),
+                ],
+              }
+            : withLocal(step),
       );
     const stateIndex = national.findIndex((step) => step.key === "state");
     const legislatureStep =
@@ -316,7 +325,7 @@ export function WorldOrientationPanel({
   const backdrop = backdropFor(step.key);
   const nextStep = steps[index + 1];
   const nextPlateUrl = nextStep ? backdropUrl(backdropFor(nextStep.key)) : null;
-  const cast =
+  const chapterCast =
     step.key === "parents" && world
       ? step.people.map((person) => ({
           slotKey: `parent:${person.personId}`,
@@ -325,6 +334,23 @@ export function WorldOrientationPanel({
       : step.key !== "executive" && step.key !== "your-life" && world
         ? (chapter?.actors ?? [])
         : [];
+  const cast =
+    step.key === "state" && world
+      ? [
+          ...chapterCast,
+          ...step.people
+            .filter(
+              (person) =>
+                !chapterCast.some(
+                  (actor) => actor.person.personId === person.personId,
+                ),
+            )
+            .map((person) => ({
+              slotKey: `state-member:${person.personId}:${person.title}`,
+              person,
+            })),
+        ]
+      : chapterCast;
   const executiveWithoutPlate = step.key === "executive" && !plate;
   // In the painted Oval Office the President and Vice President stand in
   // front of the desk on the room's measured spots, facing each other, at
@@ -499,20 +525,24 @@ export function WorldOrientationPanel({
 
           {cast.length > 0 && world ? (
             <div
-              className="pg-orientation-cast"
+              className={`pg-orientation-cast${step.key === "state" ? " pg-orientation-state-cast" : ""}`}
               data-testid={
                 step.key === "congress"
                   ? "orientation-congress-cast"
                   : step.key === "parents"
                     ? "orientation-family-cast"
-                    : undefined
+                    : step.key === "state"
+                      ? "orientation-state-cast"
+                      : undefined
               }
               aria-label={
                 step.key === "congress"
                   ? "Members from your home state"
                   : step.key === "parents"
                     ? "Illustration of your recorded parents and guardians"
-                    : undefined
+                    : step.key === "state"
+                      ? "Recorded public officials for your home"
+                      : undefined
               }
             >
               {cast.map((actor) => (
