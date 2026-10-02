@@ -111,6 +111,9 @@ export function JobListingsPanel({
         <article key={listing.openingId} data-testid="job-listing">
           <h5>{listing.title}</h5>
           <p>{listing.employerLine}</p>
+          {listing.occupationDescription ? (
+            <p>{listing.occupationDescription}</p>
+          ) : null}
           <p>{listing.termsLine}</p>
           {listing.details.map((line) => (
             <p key={line}>{line}</p>
