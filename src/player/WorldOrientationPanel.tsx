@@ -1,6 +1,7 @@
 import "./world-orientation.css";
 import "./opening-legislature.css";
 import "./opening-family.css";
+import "./opening-official-figures.css";
 import { projectLifeSoFarEnglish } from "../presentation/life-so-far-english";
 
 import {
@@ -703,6 +704,7 @@ export function WorldOrientationPanel({
                   key={chamber.chamberKey}
                   chamber={chamber}
                   homeStateUsps={homeStateUsps}
+                  world={world}
                   onOpenPerson={onOpenPerson}
                 />
               ))}
@@ -1043,10 +1045,12 @@ function PersonButton({
 function ChamberBlock({
   chamber,
   homeStateUsps,
+  world,
   onOpenPerson,
 }: {
   readonly chamber: OrientationChamber;
   readonly homeStateUsps: string | null;
+  readonly world?: World;
   readonly onOpenPerson: (personId: EntityId) => void;
 }) {
   const stateOptions = useMemo(() => {
@@ -1136,10 +1140,23 @@ function ChamberBlock({
         </p>
         <ul>
           {rows.map((row) => (
-            <li key={row.seatKey}>
+            <li key={row.seatKey} className="pg-opening-roster-member">
               <span className="pg-orientation-seat">{row.seatLabel}</span>
               {row.person ? (
-                <PersonButton person={row.person} onOpenPerson={onOpenPerson} />
+                <div className="pg-opening-roster-person">
+                  {world ? (
+                    <SavedPersonFigure
+                      world={world}
+                      personId={row.person.personId}
+                      className="pg-opening-roster-figure"
+                      wear="formal"
+                    />
+                  ) : null}
+                  <PersonButton
+                    person={row.person}
+                    onOpenPerson={onOpenPerson}
+                  />
+                </div>
               ) : (
                 <span className="pg-orientation-open">
                   {row.status === "vacancy" ? "Vacant" : "No recorded holder"}
